@@ -33,7 +33,7 @@ Outstanding coverage and inherited failures:
 - Full structural Juku HDL cannot elaborate the pinned source: unresolved `pit_hchain`, `pit_vchain`, `hor_rtr`, and `d94_d1_d99_a2n` in `hdl/juku_top.v`. The extracted C does not modify that RTL. Full bus/INTA comparison remains unqualified.
 - The VJUGA tv80 boot run was stopped to keep intermediate work fast. The optional script has not completed qualification.
 
-Full Verilog runs are opt-in, not intermediate checks. Existing consumers remain on their original code. Switching `8080-cosim` to this library is the next migration step after reviewing these qualification gaps; the duplicate source is a temporary migration state.
+Full Verilog runs are opt-in, not intermediate checks. The subsequent consumer migration in `8080-cosim` commit `aeb657b6` pins this library and replaces duplicate implementations with forwarding files. Ten bounded baseline comparisons and both CP/M sibling-checkout builds pass through those files. Known PTY/HDL qualification gaps above remain unchanged; see [migration](migration.md).
 
 ## Reproduce bounded native comparison
 

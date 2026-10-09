@@ -6,7 +6,7 @@ Create this public MIT-licensed scaffold, document ownership and the intended in
 
 ## 2. Extract Juku incrementally
 
-Implementation is present; bounded native comparisons pass. Full HDL qualification is deferred, and inherited structural-HDL/automatic-PTY failures remain documented in [the extraction report](juku-extraction.md). Consumers have not switched.
+Implementation is present; bounded native comparisons pass. Full HDL qualification is deferred, and inherited structural-HDL/automatic-PTY failures remain documented in [the extraction report](juku-extraction.md). The first consumer has switched through compatibility forwarding files; known upstream qualification gaps remain unchanged.
 
 Before moving code, record source commits, relevant licenses, and the current regression results. Preserve authorship and source lineage. Extract shared tracing and parameterized media storage in small changes, then separate machine state and execution from the native harness.
 
@@ -15,6 +15,8 @@ Keep a compatibility runner for existing command-line options, environment varia
 Acceptance requires the relevant existing Juku boot, framebuffer, typed bus-event, disk, serial, and operating-system integration checks to pass against the extracted implementation. Compare bounded scenarios with the recorded baseline. Run required checks on the native platforms supported by the existing workflows.
 
 ## 3. Switch the Juku consumer
+
+Implemented in [`8080-cosim` commit aeb657b6](https://github.com/ddanila/8080-cosim/commit/aeb657b6): pinned dependency, forwarding C/header files, CI initialization, and smoke-kit packaging. Both CP/M sibling-checkout build paths remain operational. Native checks and ten bounded baseline comparisons pass; full HDL runs were deferred.
 
 Once extraction passes, make `8080-cosim` pin the canonical core here. Retain board models, HDL, physical evidence, and co-simulation harnesses in `8080-cosim`. Keep the existing sibling-checkout and smoke-kit workflows working through the compatibility runner before migrating consumers to explicit executable or artifact selection.
 

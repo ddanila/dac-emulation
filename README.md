@@ -6,7 +6,7 @@ The goal is to run the same machine implementation in native verification tools 
 
 ## Status
 
-Juku now builds as an instance-based C library and a native compatibility runner. Shared tracing and callback-backed media are implemented. Original consumers still use `8080-cosim`; switching them is a separate migration step. There is no browser bundle or portable Z80 machine core yet.
+Juku now builds as an instance-based C library and a native compatibility runner. Shared tracing and callback-backed media are implemented. `8080-cosim` now pins this core and preserves its legacy build paths through forwarding files. There is no browser bundle or portable Z80 machine core yet.
 
 ```sh
 make -j4
@@ -34,7 +34,7 @@ make test
 
 - **dac:** museum UI, exhibits, 3D interactions, and asset references.
 - **dac-emulation:** portable cores, shared utilities, runners, and behavioral tests.
-- **8080-cosim:** Juku hardware reconstruction, HDL, physical evidence, and co-simulation harnesses. It will eventually pin the extracted core here.
+- **8080-cosim:** Juku hardware reconstruction, HDL, physical evidence, and co-simulation harnesses. It pins this core and retains legacy compilation paths for existing consumers.
 - **juku-common:** shared guest software that runs on Juku, including assembly diagnostics, console, and boot/transport routines.
 - **cpmish / cpm-plus-juku:** their operating-system implementations and integration tests.
 
