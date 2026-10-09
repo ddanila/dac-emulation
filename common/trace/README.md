@@ -1,3 +1,3 @@
 # Shared tracing
 
-Reserved for typed bus events, trace sinks, and bounded diagnostic capture extracted from Juku. No implementation yet. See [architecture](../../docs/architecture.md).
+`trace.h` defines typed events (kind, address, data, cycle, source) and callback sinks with an optional event limit. The core performs no trace-file I/O. Native formatting remains in the compatibility runner so existing comparison artifacts stay identical.

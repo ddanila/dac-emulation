@@ -1,6 +1,6 @@
 # Architecture and interface proposal
 
-Status: design outline. Final C/C++ signatures and build tooling will be chosen during the first extraction, using the existing Juku implementation as the first consumer.
+Status: Juku instances, shared trace/media interfaces, a C build, and the native runner are implemented. The complete museum interface below remains a design outline; current experimental signatures are in `machines/juku/juku.h`.
 
 ## Core and host boundary
 
@@ -38,7 +38,7 @@ Pause/resume belongs to the runner: pausing stops advancement without resetting 
 
 Memory maps, ROM overlays, keyboard protocols, interrupt wiring, video generation, and device behavior belong to each machine. The Juku 8080 and WD1772/VG93 models are not Robotron Z80 and 8272-family replacements. Reuse device implementations only where their actual behavior and tested scope fit.
 
-No general-purpose plugin loader, universal bus framework, or stable external ABI is required for the first two machines. Evolve interfaces using both concrete consumers before freezing them.
+No general-purpose plugin loader, universal bus framework, or stable external ABI is required for Juku, VJUGA, and Robotron. Evolve interfaces using concrete consumers before freezing them.
 
 ## Dependencies and reproducibility
 

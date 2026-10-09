@@ -2,7 +2,7 @@
 #define JUK_DISK_H
 
 #include <stdint.h>
-#include <stdio.h>
+#include "media.h"
 
 #define JUK_TRACKS 80
 #define JUK_SECTORS_PER_TRACK 10
@@ -13,8 +13,10 @@
 #define JUK_DOUBLE_SIDED_SIZE (JUK_TRACKS * 2 * JUK_SECTORS_PER_TRACK * JUK_SECTOR_SIZE)
 
 typedef struct {
-  FILE* fp;
-  FILE* deleted_marks_fp;
+  void* fp; /* native adapter ownership only; NULL for borrowed storage */
+  dac_media media;
+  void* deleted_marks_fp; /* native adapter ownership only */
+  dac_storage marks;
   int heads;
   long size;
   int writable;
@@ -24,6 +26,7 @@ typedef struct {
   uint8_t deleted_data[JUK_DELETED_MARK_COUNT];
 } juk_disk;
 
+int juk_disk_bind(juk_disk*, dac_storage, int heads, int writable);
 int juk_disk_open(juk_disk* disk, const char* path);
 int juk_disk_open_writable(juk_disk* disk, const char* path);
 int juk_disk_attach_deleted_marks(juk_disk* disk, const char* path);

@@ -6,6 +6,8 @@ Create this public MIT-licensed scaffold, document ownership and the intended in
 
 ## 2. Extract Juku incrementally
 
+Implementation is present; bounded native comparisons pass. Full HDL qualification is deferred, and inherited structural-HDL/automatic-PTY failures remain documented in [the extraction report](juku-extraction.md). Consumers have not switched.
+
 Before moving code, record source commits, relevant licenses, and the current regression results. Preserve authorship and source lineage. Extract shared tracing and parameterized media storage in small changes, then separate machine state and execution from the native harness.
 
 Keep a compatibility runner for existing command-line options, environment variables, output artifacts, and PTY behavior. Avoid changing hardware behavior in the same change as moving code. Do not keep two independently maintained copies after the transition.
@@ -18,7 +20,9 @@ Once extraction passes, make `8080-cosim` pin the canonical core here. Retain bo
 
 `juku-common` remains the shared guest-software repository. No repository rename is required.
 
-## 4. Implement Robotron 1715M
+## 4. Implement VJUGA and Robotron 1715M
+
+VJUGA already exists in the source hardware repository, with Z80 and adapted BIOS. Select one shared software Z80 dependency for VJUGA and Robotron; retain distinct board models.
 
 Build up CPU/reset/ROM/banked memory, timers and interrupts, serial keyboard, DMA and floppy control, then video. Reuse a tested Z80 core with a compatible license. Use pinned MAME runs for differential evidence and physical-machine observations to resolve discrepancies.
 

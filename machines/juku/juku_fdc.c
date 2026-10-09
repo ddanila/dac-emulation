@@ -30,7 +30,7 @@ enum {
 
 
 static int controller_ready(const juku_fdc* fdc) {
-  return fdc->ready_line && fdc->motor_on && fdc->disk && fdc->disk->fp &&
+  return fdc->ready_line && fdc->motor_on && fdc->disk && fdc->disk->media.storage.read &&
          fdc->head >= 0 && fdc->head < fdc->disk->heads;
 }
 
@@ -173,7 +173,7 @@ static void begin_read_sector(juku_fdc* fdc, uint8_t command) {
   fdc->head_loaded = 1;
   fdc->status &= (uint8_t)~(
       ST_TRACK0_LOST | ST_CRC | ST_RNF | ST_WRITE_FAULT | ST_WRITE_PROTECT | ST_NOT_READY);
-  if (!fdc->ready_line || !fdc->disk || !fdc->disk->fp || !fdc->motor_on) {
+  if (!fdc->ready_line || !fdc->disk || !fdc->disk->media.storage.read || !fdc->motor_on) {
     fdc->status |= ST_NOT_READY;
     complete_transfer(fdc);
     return;
@@ -287,7 +287,7 @@ static void begin_type_i(juku_fdc* fdc, uint8_t command) {
   fdc->status_type_i = 1;
   fdc->head_loaded = (command & 0x08) != 0;
   fdc->status &= (uint8_t)~(ST_CRC | ST_RNF | ST_NOT_READY);
-  if (!fdc->disk || !fdc->disk->fp || !fdc->motor_on) {
+  if (!fdc->disk || !fdc->disk->media.storage.read || !fdc->motor_on) {
     fdc->status |= ST_NOT_READY;
     complete_transfer(fdc);
     return;
@@ -337,7 +337,7 @@ static void begin_write_sector(juku_fdc* fdc, uint8_t command) {
   fdc->head_loaded = 1;
   fdc->status &= (uint8_t)~(
       ST_TRACK0_LOST | ST_CRC | ST_RNF | ST_WRITE_FAULT | ST_WRITE_PROTECT | ST_NOT_READY);
-  if (!fdc->ready_line || !fdc->disk || !fdc->disk->fp || !fdc->motor_on) {
+  if (!fdc->ready_line || !fdc->disk || !fdc->disk->media.storage.read || !fdc->motor_on) {
     fdc->status |= ST_NOT_READY;
     complete_transfer(fdc);
     return;
@@ -369,7 +369,7 @@ static void begin_read_address(juku_fdc* fdc) {
   fdc->head_loaded = 1;
   fdc->status &= (uint8_t)~(
       ST_TRACK0_LOST | ST_CRC | ST_RNF | ST_WRITE_FAULT | ST_WRITE_PROTECT | ST_NOT_READY);
-  if (!fdc->ready_line || !fdc->disk || !fdc->disk->fp || !fdc->motor_on) {
+  if (!fdc->ready_line || !fdc->disk || !fdc->disk->media.storage.read || !fdc->motor_on) {
     fdc->status |= ST_NOT_READY;
     complete_transfer(fdc);
     return;
@@ -416,7 +416,7 @@ static void begin_read_track(juku_fdc* fdc) {
   fdc->head_loaded = 1;
   fdc->status &= (uint8_t)~(
       ST_TRACK0_LOST | ST_CRC | ST_RNF | ST_WRITE_FAULT | ST_WRITE_PROTECT | ST_NOT_READY);
-  if (!fdc->ready_line || !fdc->disk || !fdc->disk->fp || !fdc->motor_on) {
+  if (!fdc->ready_line || !fdc->disk || !fdc->disk->media.storage.read || !fdc->motor_on) {
     fdc->status |= ST_NOT_READY;
     complete_transfer(fdc);
     return;
@@ -668,7 +668,7 @@ static void begin_write_track(juku_fdc* fdc) {
   fdc->head_loaded = 1;
   fdc->status &= (uint8_t)~(
       ST_TRACK0_LOST | ST_CRC | ST_RNF | ST_WRITE_FAULT | ST_WRITE_PROTECT | ST_NOT_READY);
-  if (!fdc->ready_line || !fdc->disk || !fdc->disk->fp || !fdc->motor_on) {
+  if (!fdc->ready_line || !fdc->disk || !fdc->disk->media.storage.read || !fdc->motor_on) {
     fdc->status |= ST_NOT_READY;
     complete_transfer(fdc);
     return;
@@ -706,7 +706,7 @@ static void execute_type_ii_iii(juku_fdc* fdc, uint8_t command) {
 static void start_type_ii_iii(juku_fdc* fdc, uint8_t command) {
   const int write_command = is_write_sector(command) || is_write_track(command);
   const int immediate_rejection =
-      !fdc->ready_line || !fdc->disk || !fdc->disk->fp || !fdc->motor_on ||
+      !fdc->ready_line || !fdc->disk || !fdc->disk->media.storage.read || !fdc->motor_on ||
       (write_command && !fdc->disk->writable);
   if (immediate_rejection || fdc->hlt_line) {
     execute_type_ii_iii(fdc, command);
@@ -725,7 +725,7 @@ static void start_type_ii_iii(juku_fdc* fdc, uint8_t command) {
 
 static void begin_type_ii_iii(juku_fdc* fdc, uint8_t command) {
   const int write_command = is_write_sector(command) || is_write_track(command);
-  if (!(command & 0x04) || !fdc->ready_line || !fdc->disk || !fdc->disk->fp ||
+  if (!(command & 0x04) || !fdc->ready_line || !fdc->disk || !fdc->disk->media.storage.read ||
       !fdc->motor_on ||
       (write_command && !fdc->disk->writable)) {
     start_type_ii_iii(fdc, command);
@@ -858,7 +858,7 @@ void juku_fdc_tick(juku_fdc* fdc, unsigned ticks) {
 void juku_fdc_init(juku_fdc* fdc, juk_disk* disk) {
   memset(fdc, 0, sizeof(*fdc));
   fdc->disk = disk;
-  fdc->enabled = disk && disk->fp;
+  fdc->enabled = disk && disk->media.storage.read;
   fdc->clock_2mhz = 1;
   fdc->step_dir_in = 1;
   fdc->sector = 1;
@@ -969,7 +969,7 @@ uint8_t juku_fdc_read(juku_fdc* fdc, uint8_t reg) {
       uint8_t status = fdc->status;
       if (fdc->status_type_i) {
         status &= (uint8_t)~(ST_WRITE_PROTECT | ST_WRITE_FAULT | ST_TRACK0_LOST | ST_DRQ);
-        if (fdc->disk && fdc->disk->fp && !fdc->disk->writable) status |= ST_WRITE_PROTECT;
+        if (fdc->disk && fdc->disk->media.storage.read && !fdc->disk->writable) status |= ST_WRITE_PROTECT;
         if (fdc->head_loaded && fdc->hlt_line) status |= ST_WRITE_FAULT;
         if (!fdc->tr00_line) status |= ST_TRACK0_LOST;
         if (fdc->index_line) status |= ST_DRQ;
