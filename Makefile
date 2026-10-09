@@ -1,5 +1,6 @@
 CC ?= cc
 AR ?= ar
+NODE ?= node
 CFLAGS ?= -O2 -g
 CPPFLAGS += -Imachines/juku -Ithird_party/cpu/i8080 -Icommon/media -Icommon/trace
 WARN = -std=c11 -Wall -Wextra -Werror
@@ -56,4 +57,4 @@ wasm:
 	python3 tools/build_demo.py
 
 test-wasm: wasm
-	node tests/integration/browser_smoke.mjs
+	"$(NODE)" tests/integration/browser_smoke.mjs

@@ -1,5 +1,9 @@
 name: Native and browser cores
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -32,4 +36,4 @@ jobs:
       - name: Build and test WASM
         run: |
           source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
-          make test-wasm
+          make NODE="$EMSDK_NODE" test-wasm
