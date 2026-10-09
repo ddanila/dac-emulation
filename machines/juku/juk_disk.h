@@ -2,7 +2,7 @@
 #define JUK_DISK_H
 
 #include <stdint.h>
-#include "media.h"
+#include "../../common/media/media.h"
 
 #define JUK_TRACKS 80
 #define JUK_SECTORS_PER_TRACK 10

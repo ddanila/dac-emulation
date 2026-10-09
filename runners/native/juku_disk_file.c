@@ -1,4 +1,4 @@
-#include "juk_disk.h"
+#include "../../machines/juku/juk_disk.h"
 
 #include <errno.h>
 #include <stdio.h>

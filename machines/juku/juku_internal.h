@@ -2,10 +2,10 @@
 #define DAC_JUKU_INTERNAL_H
 /* Internal compatibility state; not a stable public ABI. */
 #include "juku.h"
-#include "i8080.h"
+#include "../../third_party/cpu/i8080/i8080.h"
 #include "juk_disk.h"
 #include "juku_fdc.h"
-#include "trace.h"
+#include "../../common/trace/trace.h"
 #define MEM_SIZE 0x10000u
 #define ROM_SIZE 0x4000u
 #define CART_SIZE 0x8000u

@@ -93,7 +93,7 @@
 //        binding is C027h/C02Ah with drive/track/sector/DMA at C93Ah; use this
 //        only with the documented C000h network-ROM adapter layout.
 
-#include "juku_internal.h"
+#include "../../machines/juku/juku_internal.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
