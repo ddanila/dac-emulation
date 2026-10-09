@@ -221,6 +221,8 @@ struct juku {
   const char * kbd_str;
   int kbd_pos;
   int kbd_phase;
+  int live_keyboard;
+  uint8_t live_key;
   int kbd_enabled;
   uint8_t kbd_col;
   unsigned long kbd_start_vram;

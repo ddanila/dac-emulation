@@ -1,0 +1,51 @@
+{
+  "chips": {
+    "repository": "https://github.com/floooh/chips",
+    "commit": "9e88298ce56319953ac7a43213a1120359f7a3a6",
+    "path": "chips/z80.h",
+    "sha256": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3",
+    "license": "Zlib",
+    "modifications": "none"
+  },
+  "chips_tests": {
+    "repository": "https://github.com/floooh/chips-test",
+    "commit": "3785836e76c43922f78a50e1f8adfed259ab9672",
+    "cases": [
+      "tests/z80-test.c",
+      "tests/z80-int.c"
+    ]
+  },
+  "robotron_reference": {
+    "repository": "https://github.com/usovmv/robotron-1715m-fpga",
+    "commit": "fae83df3d5bd85bbe0b35ab3c2384ee04e446fff",
+    "paths": [
+      "sw/tests/scp3_boot_sim.py",
+      "fpga/rtl/kbd1715.v",
+      "sw/tests/r1715_term.py"
+    ],
+    "license": "MIT"
+  },
+  "mame_reference": {
+    "repository": "https://github.com/mamedev/mame",
+    "commit": "6ddd258abe0b8b810322e29eb32dc605ac5583fc",
+    "path": "src/mame/robotron/rt1715.cpp",
+    "license": "BSD-3-Clause",
+    "execution": "not run"
+  },
+  "validation_media": {
+    "url": "https://github.com/usovmv/robotron-1715m-fpga/releases/download/v0.1/Release-v0.1.zip",
+    "archive_sha256": "d3b072a98a90fe80e3d12acab61221ec6a02a31cfbd8ca620096165bb243cb49",
+    "redistributed": false,
+    "sha256": {
+      "rom/s550.bin": "37e58472a049e1785c3521ec6b23c2d269d93fa5fede696dc7bd72eabb4af031",
+      "fpga/rtl/287.hex": "8460ba6091f669323333d57f678d03204ade4fe3b662da02efc9b3d76300bf54",
+      "sw/images/tosm10_x/robotron.img": "0301438c4b4ceadf2061e802d18249125220aebed932d3c214d714846ebe5126"
+    },
+    "cas_binary_sha256": "8a085e4b8988c47de9ca05bdd65cfa7657d45b87efb72e3ee6a0bbcbf6bab23b"
+  },
+  "emsdk": {
+    "repository": "https://github.com/emscripten-core/emsdk",
+    "commit": "35ff8a6d150541276abbc6bae512ca90bcfbe220",
+    "version": "6.0.12"
+  }
+}

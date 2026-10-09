@@ -2,11 +2,11 @@
 
 Portable emulation cores for [Danila’s Archive of Computing](https://github.com/ddanila/dac).
 
-The goal is to run the same machine implementation in native verification tools and in browser museum exhibits. The first extracted core is the Juku E5104 from [8080-cosim](https://github.com/ddanila/8080-cosim). VJUGA and Robotron 1715M are planned consumers of a shared Z80 CPU dependency, with separate machine implementations.
+The goal is to run the same machine implementation in native verification tools and in browser museum exhibits. The first extracted core is the Juku E5104 from [8080-cosim](https://github.com/ddanila/8080-cosim). VJUGA and Robotron 1715M share a Z80 CPU dependency with separate machine implementations.
 
 ## Status
 
-Juku now builds as an instance-based C library and a native compatibility runner. Shared tracing and callback-backed media are implemented. `8080-cosim` now pins this core and preserves its legacy build paths through forwarding files. There is no browser bundle or portable Z80 machine core yet.
+Juku now builds as an instance-based C library and a native compatibility runner. Shared tracing and callback-backed media are implemented. `8080-cosim` now pins this core and preserves its legacy build paths through forwarding files. VJUGA now has a bounded-boot Z80 profile; the experimental Robotron profile boots TOS/M with keyboard and disk operations. All three cores build for WebAssembly and connect to the DAC prototype. See [validation and limitations](docs/z80-browser-validation.md).
 
 ```sh
 make -j4
@@ -22,8 +22,8 @@ make test
 | `common/trace/` | Shared trace events and diagnostic output interfaces |
 | `common/media/` | Disk-image storage and sector metadata, independent of controllers |
 | `machines/juku/` | Juku machine core and machine-specific devices |
-| `machines/vjuga/` | Existing HDL reference and future portable Z80 machine |
-| `machines/robotron1715m/` | Future Robotron 1715M machine core and machine-specific devices |
+| `machines/vjuga/` | Functional Z80 bounded-boot profile and HDL reference |
+| `machines/robotron1715m/` | Experimental Robotron banked Z80 machine and devices |
 | `third_party/cpu/` | Pinned CPU dependencies with their original notices |
 | `runners/native/` | Native CLI, files, terminal transport, and host pacing |
 | `runners/browser/` | WebAssembly integration, browser input, scheduling, and output |

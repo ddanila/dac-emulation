@@ -13,6 +13,8 @@ int juku_load_rom(juku *, const void *, size_t);
 /* Borrowed packed monochrome framebuffer, valid until destroy; contents and
  * dimensions may change on subsequent steps. */
 const uint8_t *juku_video(juku *, unsigned *stride, unsigned *lines);
+/* Interactive single-contact keyboard; key=0, down=0 releases all. */
+void juku_key(juku *, uint8_t key, int down);
 void juku_step(juku *);
 /* Stops at instruction boundaries: may exceed budget by the last instruction
  * and interrupt entry effects. Returns actual CPU cycles advanced. A halted

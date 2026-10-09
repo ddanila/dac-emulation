@@ -24,6 +24,8 @@ Once extraction passes, make `8080-cosim` pin the canonical core here. Retain bo
 
 ## 4. Implement VJUGA and Robotron 1715M
 
+Initial functional milestone implemented: shared pinned Z80, VJUGA bounded-boot comparison, and Robotron original TOS/M boot with keyboard, directory/text reads and a tested deletion on a session disk. Full peripheral fidelity, PIP compatibility and physical-variant qualification remain open. See [validation](z80-browser-validation.md).
+
 VJUGA already exists in the source hardware repository, with Z80 and adapted BIOS. Select one shared software Z80 dependency for VJUGA and Robotron; retain distinct board models.
 
 Build up CPU/reset/ROM/banked memory, timers and interrupts, serial keyboard, DMA and floppy control, then video. Reuse a tested Z80 core with a compatible license. Use pinned MAME runs for differential evidence and physical-machine observations to resolve discrepancies.
@@ -31,6 +33,8 @@ Build up CPU/reset/ROM/banked memory, timers and interrupts, serial keyboard, DM
 The first end-to-end milestone is a reproducible original-system boot to an interactive prompt with working keyboard and disk operations. Record known approximations explicitly.
 
 ## 5. Connect browser exhibits
+
+Prototype implemented: WebAssembly C API and worker integration, original diagnostic media, live-screen 3D viewer, power/reset, local media loading and session disk export. Detailed measured assets and documented interiors remain dependent on physical references.
 
 Build the same cores for WebAssembly and implement the browser runner. Verify that bounded execution keeps the UI responsive, video buffers have explicit ownership, and losing focus releases keys. Connect the machine interface to DAC's power controls, keyboard, monitor surface, and available indicators.
 

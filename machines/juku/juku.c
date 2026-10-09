@@ -601,6 +601,7 @@ uint8_t juku_rb(juku *ctx, void* u, uint16_t a) {
 
 char juku_kbd_current_char(juku *ctx) {
   (void)ctx;
+  if (ctx->live_keyboard) return (char)ctx->live_key;
   if (ctx->kbd_pc_trigger_active) return ctx->kbd_pc_trigger_char;
   if (!ctx->kbd_str) return 0;
   if (ctx->kbd_str == ctx->console_queue && ctx->kbd_pos >= ctx->console_visible_len) return 0;
@@ -674,7 +675,7 @@ uint8_t juku_kbd_portb(juku *ctx, const i8080* cpu) {
   char current = juku_kbd_current_char(ctx);
   int hold_frames = ctx->kbd_pc_trigger_active && ctx->kbd_pc_trigger_hold_frames > 0
                     ? ctx->kbd_pc_trigger_hold_frames : ctx->kbd_hold_frames;
-  char c = (current && ctx->kbd_phase < hold_frames) ? current : 0;
+  char c = (current && (ctx->live_keyboard || ctx->kbd_phase < hold_frames)) ? current : 0;
   if (c == '|') return idle;                           // prompt wait marker, not a typed key
   int shift = 0, ctrl = 0, col = -1, bit = -1;
   if (c) {
@@ -1126,7 +1127,7 @@ void juku_step_devices(juku *ctx) {
       // Scripted key contacts follow physical frame time. They may be sampled
       // either by the monitor's frame ISR or by a RAM-resident polling BIOS;
       // PIC masking must not freeze a real key contact in time.
-      if (frame_key && ctx->g_vw >= ctx->kbd_start_vram) {
+      if (!ctx->live_keyboard && frame_key && ctx->g_vw >= ctx->kbd_start_vram) {
         int hold_frames = ctx->kbd_pc_trigger_active
                           ? ctx->kbd_pc_trigger_hold_frames : ctx->kbd_hold_frames;
         if (frame_key == '|') {
@@ -1158,4 +1159,12 @@ unsigned long juku_run(juku *ctx, unsigned long budget) {
     if (ctx->cpu.cyc == before) break;
   }
   return ctx->cpu.cyc - start;
+}
+
+void juku_key(juku *ctx, uint8_t key, int down) {
+  if (!ctx) return;
+  ctx->live_keyboard = ctx->kbd_enabled = 1;
+  ctx->kbd_start_vram = 0;
+  if (down) ctx->live_key = key;
+  else if (!key || key == ctx->live_key) ctx->live_key = 0;
 }

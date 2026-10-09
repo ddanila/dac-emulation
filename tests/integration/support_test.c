@@ -41,6 +41,10 @@ static void instances(void) {
   unsigned stride, lines;
   assert(juku_video(a, &stride, &lines) == a->ram + VRAM_BASE);
   assert(stride == 40 && lines == 241);
+  juku_key(b, 'a', 1); b->kbd_col = 5;
+  assert(!(juku_kbd_portb(b, &b->cpu) & 1));
+  juku_key(b, 0, 0);
+  assert(juku_kbd_portb(b, &b->cpu) & 1);
   juku_destroy(a);
   juku_step(b); /* destruction of another instance cannot invalidate callbacks */
   juku_destroy(b);

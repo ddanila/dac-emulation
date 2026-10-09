@@ -1,0 +1,35 @@
+name: Native and browser cores
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  native:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - run: make -j4 test
+      - name: Memory and undefined-behavior checks
+        run: >-
+          cc -std=c11 -O1 -g -fsanitize=address,undefined
+          tests/integration/machines_test.c machines/robotron1715m/robotron.c
+          machines/vjuga/vjuga.c common/cpu/z80.c common/media/media.c common/trace/trace.c
+          -o /tmp/machines-test && /tmp/machines-test
+  wasm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install pinned Emscripten
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
+          git -C "$RUNNER_TEMP/emsdk" checkout 35ff8a6d150541276abbc6bae512ca90bcfbe220
+          "$RUNNER_TEMP/emsdk/emsdk" install 6.0.12
+          "$RUNNER_TEMP/emsdk/emsdk" activate 6.0.12
+      - name: Build and test WASM
+        run: |
+          source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
+          make test-wasm
