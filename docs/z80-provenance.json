@@ -30,7 +30,14 @@
     "commit": "6ddd258abe0b8b810322e29eb32dc605ac5583fc",
     "path": "src/mame/robotron/rt1715.cpp",
     "license": "BSD-3-Clause",
-    "execution": "not run"
+    "execution": "not run",
+    "peripheral_paths": {
+      "src/devices/machine/z80dma.cpp": "2b87bb5f51c2aff391efdb131138cbffe278ace6dbdc5ed54959538219953325",
+      "src/devices/machine/z80ctc.cpp": "f93bfda98c1c31eb4dc84dd8be6a4b465ffec68d466283eaed27bfebb449a0ca",
+      "src/devices/machine/upd765.cpp": "82b97c387668854a8419c5a32a86b5dfaa71455dcc0de338a3ec2f2bae25422f",
+      "src/devices/video/i8275.cpp": "a6b85a9eec2035ec2a6882cb6301ac3d6b69d9f28b215b99fe15009b5d6e3c1b",
+      "src/devices/video/i8275.h": "8e0cd277d0414fe96f663ad3c37ea872a8be37c582175aadcc6f90f7bc8470d2"
+    }
   },
   "validation_media": {
     "url": "https://github.com/usovmv/robotron-1715m-fpga/releases/download/v0.1/Release-v0.1.zip",
@@ -39,9 +46,16 @@
     "sha256": {
       "rom/s550.bin": "37e58472a049e1785c3521ec6b23c2d269d93fa5fede696dc7bd72eabb4af031",
       "fpga/rtl/287.hex": "8460ba6091f669323333d57f678d03204ade4fe3b662da02efc9b3d76300bf54",
-      "sw/images/tosm10_x/robotron.img": "0301438c4b4ceadf2061e802d18249125220aebed932d3c214d714846ebe5126"
+      "sw/images/tosm10_x/robotron.img": "0301438c4b4ceadf2061e802d18249125220aebed932d3c214d714846ebe5126",
+      "sw/images/tosm10_orig/A92V010A.TD0": "26b6342ce9e05cb3c94bba28287cb6c7f030a6c3b17ae1db2d9ecec661e0ad9e"
     },
-    "cas_binary_sha256": "8a085e4b8988c47de9ca05bdd65cfa7657d45b87efb72e3ee6a0bbcbf6bab23b"
+    "cas_binary_sha256": "8a085e4b8988c47de9ca05bdd65cfa7657d45b87efb72e3ee6a0bbcbf6bab23b",
+    "decoded_tosm_raw_sha256": "f724763d5e48c0f15341e95d7b85f645533dd7dfa270cbce4e44d3025e62b23b",
+    "pip_com_sha256": {
+      "supplied_raw_damaged": "ff8229084e8f774d73483ba7db1e3ec00a0a332e0b566f72bf3902fb78e00bcf",
+      "decoded_original": "339155d6918910b2e7a3a00f66274c77228ad9e9474aa7b37c9d61082339d15d"
+    },
+    "conversion": "tools/robotron_td0_to_raw.c with libdsk; 80 cylinders, 2 heads, sectors 1..5, 1024 bytes; all 800 reads succeeded"
   },
   "emsdk": {
     "repository": "https://github.com/emscripten-core/emsdk",

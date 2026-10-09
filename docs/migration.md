@@ -24,7 +24,7 @@ Once extraction passes, make `8080-cosim` pin the canonical core here. Retain bo
 
 ## 4. Implement VJUGA and Robotron 1715M
 
-Initial functional milestone implemented: shared pinned Z80, VJUGA bounded-boot comparison, and Robotron original TOS/M boot with keyboard, directory/text reads and a tested deletion on a session disk. Full peripheral fidelity, PIP compatibility and physical-variant qualification remain open. See [validation](z80-browser-validation.md).
+Initial functional milestone implemented: shared pinned Z80, VJUGA bounded-boot comparison, and Robotron original TOS/M boot with keyboard, directory/text reads and a tested deletion on a session disk. PIP create/read/copy/delete is now qualified with a fresh decode of the original TeleDisk image; the supplied raw image contains a damaged PIP. DMA/FDC completion, interrupt priority and display behavior have focused tests. Full peripheral fidelity and physical-variant qualification remain open. See [validation](z80-browser-validation.md).
 
 VJUGA already exists in the source hardware repository, with Z80 and adapted BIOS. Select one shared software Z80 dependency for VJUGA and Robotron; retain distinct board models.
 

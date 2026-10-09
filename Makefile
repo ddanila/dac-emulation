@@ -58,3 +58,11 @@ wasm:
 
 test-wasm: wasm
 	"$(NODE)" tests/integration/browser_smoke.mjs
+
+build/robotron-devices-test: tests/integration/robotron_devices_test.c build/machines/robotron1715m/robotron.o build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
+test: test-robotron-devices
+.PHONY: test-robotron-devices
+test-robotron-devices: build/robotron-devices-test
+	./build/robotron-devices-test

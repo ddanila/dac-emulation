@@ -42,8 +42,8 @@ static void floppy(void) {
   for (unsigned i = 0; i < 1024; i++)
     assert(robotron_input(m, 0x1d) == (uint8_t)i);
   assert(m->disk_reads == 1);
-  assert(robotron_input(m, 0x1d) == 0);
-  assert(robotron_input(m, 0x1d) == 0);
+  assert(robotron_input(m, 0x1d) == 0x40);
+  assert(robotron_input(m, 0x1d) == 0x80); /* EOT without TC */
   for (unsigned i = 0; i < 5; i++)
     robotron_input(m, 0x1d);
   const uint8_t write[] = {0x45, 0, 0, 0, 1, 3, 1, 0x1b, 0xff};

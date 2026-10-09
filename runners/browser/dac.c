@@ -181,19 +181,7 @@ const uint32_t *dac_video(dac_session *s) {
     return s->pixels;
   }
   if (s->r) {
-    /* Fixed 80x24 character raster. Full 8275 attributes/cursor remain pending.
-     */
-    for (unsigned row = 0; row < 24; row++)
-      for (unsigned col = 0; col < 80; col++) {
-        uint8_t ch = s->r->vram[row * 80 + col];
-        for (unsigned y = 0; y < 16; y++) {
-          uint8_t bits =
-              s->r->chargen[((ch & 128) ? 2048 : 0) + y * 128 + (ch & 127)];
-          for (unsigned x = 0; x < 8; x++)
-            s->pixels[(row * 16 + y) * 640 + col * 8 + x] =
-                (bits & (128 >> x)) ? 0xff83e7a0 : 0xff101812;
-        }
-      }
+    robotron_video(s->r, s->pixels, &s->width, &s->height);
   } else {
     unsigned stride = 40, lines = 241;
     const uint8_t *p =

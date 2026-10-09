@@ -18,7 +18,9 @@ static void trace(void *p, const dac_trace_event *e) {
 }
 int main(int argc, char **argv) {
   if (argc < 4) {
-    fprintf(stderr, "usage: %s ROM CAS-PROM DISK [ticks] [keys] [--writable]\n",
+    fprintf(stderr,
+            "usage: %s ROM CAS-PROM DISK [ticks] [keys] [--writable] [--export "
+            "PATH]\n",
             argv[0]);
     return 2;
   }
@@ -32,7 +34,16 @@ int main(int argc, char **argv) {
   if (!load(argv[1], m->rom, 2048) || !load(argv[2], m->prom, 256) ||
       !load(argv[3], disk, 819200))
     return 2;
-  int writable = argc > 6 && !strcmp(argv[6], "--writable");
+  int writable = 0;
+  const char *export_path = NULL;
+  for (int i = 6; i < argc; i++) {
+    if (!strcmp(argv[i], "--writable"))
+      writable = 1;
+    else if (!strcmp(argv[i], "--export") && i + 1 < argc)
+      export_path = argv[++i];
+    else
+      return 2;
+  }
   robotron_disk(m, dac_memory_storage(disk, 819200, writable), writable);
   unsigned long ticks = argc > 4 ? strtoul(argv[4], 0, 0) : 20000000;
   for (unsigned long i = 0; i < ticks; i += 1000)
@@ -40,7 +51,7 @@ int main(int argc, char **argv) {
   if (argc > 5) {
     for (char *p = argv[5]; *p; p++) {
       robotron_key(m, (uint8_t)*p);
-      robotron_run(m, 1000000);
+      robotron_run(m, *p == 13 || *p == 10 || *p == 26 ? 8000000 : 1000000);
     }
     robotron_run(m, 8000000);
   }
@@ -58,6 +69,16 @@ int main(int argc, char **argv) {
           (unsigned long long)m->disk_reads, (unsigned long long)m->disk_writes,
           (unsigned long long)m->video_writes, m->fdc.phase, m->dma.enabled,
           m->dma.remaining);
+  if (export_path) {
+    FILE *f = fopen(export_path, "wbx");
+    if (!f) {
+      perror(export_path);
+      return 2;
+    }
+    int ok = fwrite(disk, 1, 819200, f) == 819200;
+    if (fclose(f) || !ok)
+      return 2;
+  }
   free(disk);
   free(m);
   return 0;

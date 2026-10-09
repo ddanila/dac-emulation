@@ -7,7 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import create from '../../dist/dac.js';
-const [rom,prom,disk]=process.argv.slice(2).map(p=>resolve(p));
+const [rom,prom,disk]=process.argv.slice(2,5).map(p=>resolve(p));
 if(!disk)throw Error('usage: node wasm_parity.mjs ROM PROM DISK');
 const root=new URL('../../',import.meta.url),work=await mkdtemp(join(tmpdir(),'dac-parity-'));
 try{
@@ -18,7 +18,21 @@ try{
   assert.equal(slot===3?wasm._dac_mount(s,p,b.length,1):wasm._dac_load(s,slot,p,b.length),0);wasm._free(p);
  }
  assert.equal(wasm._dac_power(s,1),0);for(let i=0;i<400;i++)assert.equal(wasm._dac_run(s,100000),100000);
- const p=wasm._dac_video(s),pixels=wasm.HEAPU8.slice(p,p+640*384*4);
- assert.deepEqual(Buffer.from(pixels),await readFile(expected));assert(wasm._dac_disk_activity(s)>0);wasm._dac_destroy(s);
+ const p=wasm._dac_video(s),pixels=wasm.HEAPU8.slice(p,p+wasm._dac_width(s)*wasm._dac_height(s)*4);
+ assert.deepEqual(Buffer.from(pixels),await readFile(expected));assert(wasm._dac_disk_activity(s)>0);
  console.log('PASS native/WASM original Robotron boot pixels:',createHash('sha256').update(pixels).digest('hex'));
+ if(process.argv.includes('--file-operations')) {
+  const keys='PIP DAC.TXT=CON:\rDAC REGRESSION\r\x1aTYPE DAC.TXT\rPIP DAC2.TXT=DAC.TXT\rPIP DAC.COM=PIP.COM\r';
+  const exported=join(work,'session.img');
+  execFileSync(fileURLToPath(new URL('build/robotron-boot',root)),[rom,prom,disk,'40000000',keys,'--writable','--export',exported],{timeout:10000,stdio:'pipe'});
+  function run(ticks) { while(ticks) {const n=Math.min(ticks,100000);assert.equal(wasm._dac_run(s,n),n);ticks-=n;} }
+  for(const ch of keys) {const key=ch.charCodeAt(0);assert.equal(wasm._dac_key(s,key,1),0);run([10,13,26].includes(key)?8000000:1000000);}
+  run(8000000);
+  const ptr=wasm._dac_disk_data(s),size=wasm._dac_disk_size(s);
+  const actual=wasm.HEAPU8.slice(ptr,ptr+size),expectedDisk=await readFile(exported);
+  assert.deepEqual(Buffer.from(actual),expectedDisk);
+  assert.notDeepEqual(Buffer.from(actual),await readFile(disk));
+  console.log('PASS native/WASM create/read/copy disk bytes:',createHash('sha256').update(actual).digest('hex'));
+ }
+ wasm._dac_destroy(s);
 }finally{await rm(work,{recursive:true,force:true});}
