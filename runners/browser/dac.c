@@ -9,7 +9,9 @@ struct dac_session {
   unsigned kind, on, width, height;
   uint8_t firmware[16384], prom[256], glyphs[4096], keyboard[2048];
   size_t firmware_size, prom_size, glyph_size, disk_size, keyboard_size;
-  int writable;
+  int writable, writable_b;
+  size_t disk_b_size;
+  uint8_t *disk_b;
   uint8_t *disk;
   juku *j;
   vjuga *v;
@@ -44,6 +46,7 @@ void dac_destroy(dac_session *s) {
   free(s->v);
   free(s->r);
   free(s->disk);
+  free(s->disk_b);
   free(s);
 }
 int dac_load(dac_session *s, unsigned slot, const void *p, size_t n) {
@@ -68,21 +71,44 @@ int dac_load(dac_session *s, unsigned slot, const void *p, size_t n) {
     return -EINVAL;
   return 0;
 }
-int dac_mount(dac_session *s, const void *p, size_t n, int writable) {
-  if (!s || s->on || !p || s->kind == 1)
+int dac_mount_unit(dac_session *s, unsigned unit, const void *p, size_t n,
+                   int writable) {
+  if (!s || unit > (s->kind == 2 ? 1u : 0u) || s->kind == 1 || (n && !p))
     return -EINVAL;
-  if (s->kind == 2 ? n != 819200
-                   : (n != JUK_SINGLE_SIDED_SIZE && n != JUK_DOUBLE_SIDED_SIZE))
+  if (s->on &&
+      (!s->r || s->r->fdc.phase || s->r->fdc.cmd_pos || s->r->fdc.seeking))
+    return -EBUSY;
+  if (n && (s->kind == 2
+                ? n != 819200
+                : (n != JUK_SINGLE_SIDED_SIZE && n != JUK_DOUBLE_SIDED_SIZE)))
     return -EINVAL;
-  uint8_t *copy = malloc(n);
-  if (!copy)
+  uint8_t *copy = n ? malloc(n) : NULL;
+  if (n && !copy)
     return -ENOMEM;
-  memcpy(copy, p, n);
-  free(s->disk);
-  s->disk = copy;
-  s->disk_size = n;
-  s->writable = writable;
+  if (n)
+    memcpy(copy, p, n);
+  if (unit) {
+    free(s->disk_b);
+    s->disk_b = copy;
+    s->disk_b_size = n;
+    s->writable_b = !!writable;
+  } else {
+    free(s->disk);
+    s->disk = copy;
+    s->disk_size = n;
+    s->writable = !!writable;
+  }
+  if (s->on)
+    robotron_disk_unit(s->r, unit,
+                       n ? dac_memory_storage(copy, n, !!writable)
+                         : (dac_storage){0},
+                       !!writable);
   return 0;
+}
+int dac_mount(dac_session *s, const void *p, size_t n, int writable) {
+  if (!s || s->on)
+    return -EINVAL;
+  return dac_mount_unit(s, 0, p, n, writable);
 }
 int dac_power(dac_session *s, int on) {
   if (!s)
@@ -128,6 +154,10 @@ int dac_power(dac_session *s, int on) {
       robotron_disk(s->r,
                     dac_memory_storage(s->disk, s->disk_size, s->writable),
                     s->writable);
+    if (s->disk_b)
+      robotron_disk_unit(
+          s->r, 1, dac_memory_storage(s->disk_b, s->disk_b_size, s->writable_b),
+          s->writable_b);
   }
   s->on = 1;
   return 0;
@@ -241,12 +271,43 @@ unsigned dac_drive_status(dac_session *s) {
          (r->disk.writable << 5) | ((r->fdc.cylinder[0] & 255) << 8);
 }
 
+const uint8_t *dac_disk_data_unit(dac_session *s, unsigned u) {
+  return s && u < 2 ? (u ? s->disk_b : s->disk) : NULL;
+}
+unsigned dac_disk_size_unit(dac_session *s, unsigned u) {
+  return s && u < 2 ? (unsigned)(u ? s->disk_b_size : s->disk_size) : 0;
+}
+unsigned dac_drive_status_unit(dac_session *s, unsigned u) {
+  if (!s || !s->r || !s->on || u > 1)
+    return 0;
+  robotron *r = s->r;
+  dac_media *d = u ? &r->disk_b : &r->disk;
+  return (!(r->motor & (u ? 8 : 128))) |
+         ((r->fdc.phase == 2 && r->fdc.unit == u) << 1) | (d->writable << 2) |
+         (!!d->storage.read << 3) | (((r->fdc.seeking >> u) & 1) << 4) |
+         ((r->fdc.cylinder[u] & 255) << 8);
+}
+const uint8_t *dac_printer_data(dac_session *s) {
+  return s && s->r ? s->r->printer : NULL;
+}
+unsigned dac_printer_size(dac_session *s) {
+  return s && s->r ? s->r->printer_size : 0;
+}
+unsigned dac_printer_overflow(dac_session *s) {
+  return s && s->r ? s->r->printer_overflow : 0;
+}
+void dac_printer_clear(dac_session *s) {
+  if (s && s->r)
+    s->r->printer_size = s->r->printer_overflow = 0;
+}
+
 /* Internal, same-build snapshots. The browser keys these by the WASM hash.
  * No pointers are persisted; CRC detects corruption, bounds reject bad state.
  * Restore is atomic and requires the same firmware, disk size and write mode.
  */
 typedef struct {
-  uint32_t magic, version, size, disk_size, writable, crc;
+  uint32_t magic, version, size, disk_size, writable, disk_b_size, writable_b,
+      crc;
 } state_header;
 static uint32_t state_crc(const uint8_t *p, size_t n) {
   uint32_t crc = ~0u;
@@ -257,12 +318,20 @@ static uint32_t state_crc(const uint8_t *p, size_t n) {
   }
   return ~crc;
 }
+static unsigned other_state_size(dac_session *s);
+static int other_state_save(dac_session *s, void *p, size_t n);
+static int other_state_load(dac_session *s, const void *p, size_t n);
 unsigned dac_state_size(dac_session *s) {
-  return s && s->r && s->on ? (unsigned)(sizeof(state_header) +
-                                         sizeof(robotron) + s->disk_size)
-                            : 0;
+  if (s && !s->r)
+    return other_state_size(s);
+  return s && s->r && s->on
+             ? (unsigned)(sizeof(state_header) + sizeof(robotron) +
+                          s->disk_size + s->disk_b_size)
+             : 0;
 }
 int dac_state_save(dac_session *s, void *p, size_t n) {
+  if (s && !s->r)
+    return other_state_save(s, p, n);
   if (!p || !dac_state_size(s) || n != dac_state_size(s))
     return -EINVAL;
   robotron *copy = malloc(sizeof(*copy));
@@ -275,16 +344,22 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
   copy->keyboard.serial_user = NULL;
   memset(&copy->trace, 0, sizeof(copy->trace));
   memset(&copy->disk, 0, sizeof(copy->disk));
+  memset(&copy->disk_b, 0, sizeof(copy->disk_b));
   uint8_t *payload = (uint8_t *)p + sizeof(state_header);
   memcpy(payload, copy, sizeof(*copy));
   free(copy);
   if (s->disk_size)
     memcpy(payload + sizeof(robotron), s->disk, s->disk_size);
+  if (s->disk_b_size)
+    memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
+           s->disk_b_size);
   state_header h = {0x44414353,
-                    1,
+                    2,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
+                    (uint32_t)s->disk_b_size,
+                    (uint32_t)s->writable_b,
                     state_crc(payload, n - sizeof(h))};
   memcpy(p, &h, sizeof(h));
   return 0;
@@ -293,13 +368,17 @@ static int valid_cpu(const dac_z80 *c) {
   return c->cpu.step <= 1708 && c->cpu.hlx_idx < 3 && c->cpu.im < 3;
 }
 int dac_state_load(dac_session *s, const void *p, size_t n) {
+  if (s && !s->r)
+    return other_state_load(s, p, n);
   if (!s || !s->r || !p || n < sizeof(state_header) + sizeof(robotron))
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 1 || h.size != n ||
-      h.disk_size != s->disk_size || h.writable != (unsigned)s->writable ||
-      n != sizeof(h) + sizeof(robotron) + s->disk_size)
+  if (h.magic != 0x44414353 || h.version != 2 || h.size != n ||
+      h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
+      h.writable_b != (unsigned)s->writable_b ||
+      h.writable != (unsigned)s->writable ||
+      n != sizeof(h) + sizeof(robotron) + s->disk_size + s->disk_b_size)
     return -EINVAL;
   const uint8_t *payload = (const uint8_t *)p + sizeof(h);
   if (state_crc(payload, n - sizeof(h)) != h.crc)
@@ -315,7 +394,10 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       r->keyboard_enabled != !!s->keyboard_size ||
       (s->keyboard_size && memcmp(k->rom, s->keyboard, 2048)) ||
       !valid_cpu(&r->cpu) || !valid_cpu(&k->cpu) || f->unit >= 4 ||
-      f->phase > 2 || f->cmd_len > 9 || f->cmd_pos >= 9 || f->result_len > 7 ||
+      f->phase > 2 || f->write > 2 || f->formatting > 1 ||
+      (f->phase == 2 &&
+       (f->unit > 1 || !(f->unit ? s->disk_b_size : s->disk_size))) ||
+      f->cmd_len > 9 || f->cmd_pos >= 9 || f->result_len > 7 ||
       f->result_pos > f->result_len ||
       (f->phase == 1 && f->result_pos >= f->result_len) ||
       f->data_len > sizeof(f->data) || f->data_pos > f->data_len ||
@@ -325,7 +407,9 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       r->dma.read_pos >= 7 || r->sio_pointer[0] > 7 || r->sio_pointer[1] > 7 ||
       r->rx.read >= 3 || r->rx.count > 3 || r->rx.phase > 4 || r->rx.bits > 8 ||
       k->tap_read >= 64 || k->tap_count > 64 || k->tap_phase > 2 ||
-      k->clock_fraction >= 3993600 || r->key_write - r->key_read > 256;
+      k->clock_fraction >= 3993600 || r->key_write - r->key_read > 256 ||
+      r->printer_size > sizeof(r->printer) ||
+      (f->formatting && (f->data_len != 20 || f->write != 1)) || f->head > 1;
   for (unsigned i = 0; i < 64; i++)
     invalid |= k->taps[i] >= 104 || k->tap_mods[i] > 3;
   if (invalid) {
@@ -340,8 +424,158 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
                   s->writable);
   } else
     memset(&r->disk, 0, sizeof(r->disk));
+  if (s->disk_b_size) {
+    memcpy(s->disk_b, payload + sizeof(*r) + s->disk_size, s->disk_b_size);
+    robotron_disk_unit(
+        r, 1, dac_memory_storage(s->disk_b, s->disk_b_size, s->writable_b),
+        s->writable_b);
+  } else
+    memset(&r->disk_b, 0, sizeof(r->disk_b));
   free(s->r);
   s->r = r;
+  s->on = 1;
+  return 0;
+}
+
+/* Juku/VJUGA snapshots have the same outer integrity contract. A fresh core
+ * supplies callbacks; serialized host pointers are always cleared/replaced. */
+static unsigned other_state_size(dac_session *s) {
+  return s && s->on
+             ? (unsigned)(sizeof(state_header) +
+                          (s->j ? sizeof(juku) : sizeof(vjuga)) + s->disk_size)
+             : 0;
+}
+static int other_state_save(dac_session *s, void *p, size_t n) {
+  if (!p || !other_state_size(s) || n != other_state_size(s))
+    return -EINVAL;
+  size_t size = s->j ? sizeof(juku) : sizeof(vjuga);
+  void *copy = malloc(size);
+  if (!copy)
+    return -ENOMEM;
+  memcpy(copy, s->j ? (void *)s->j : (void *)s->v, size);
+  if (s->j) {
+    juku *j = copy;
+    j->cpu.read_byte = NULL;
+    j->cpu.write_byte = NULL;
+    j->cpu.port_in = NULL;
+    j->cpu.port_out = NULL;
+    j->cpu.userdata = NULL;
+    memset(&j->hooks, 0, sizeof(j->hooks));
+    memset(&j->bus_trace, 0, sizeof(j->bus_trace));
+    j->kbd_str = NULL;
+    j->fdc.disk = NULL;
+    j->disk.fp = j->disk.deleted_marks_fp = NULL;
+    memset(&j->disk.media.storage, 0, sizeof(j->disk.media.storage));
+    memset(&j->disk.marks, 0, sizeof(j->disk.marks));
+  } else
+    memset(&((vjuga *)copy)->cpu.bus, 0, sizeof(dac_z80_bus));
+  uint8_t *payload = (uint8_t *)p + sizeof(state_header);
+  memcpy(payload, copy, size);
+  free(copy);
+  if (s->disk_size)
+    memcpy(payload + size, s->disk, s->disk_size);
+  state_header h = {0x44414353,
+                    10 + s->kind,
+                    (uint32_t)n,
+                    (uint32_t)s->disk_size,
+                    (uint32_t)s->writable,
+                    0,
+                    0,
+                    state_crc(payload, n - sizeof(h))};
+  memcpy(p, &h, sizeof(h));
+  return 0;
+}
+static int other_state_load(dac_session *s, const void *p, size_t n) {
+  size_t size = s->j ? sizeof(juku) : sizeof(vjuga);
+  if (!p || n != sizeof(state_header) + size + s->disk_size)
+    return -EINVAL;
+  state_header h;
+  memcpy(&h, p, sizeof(h));
+  const uint8_t *payload = (const uint8_t *)p + sizeof(h);
+  if (h.magic != 0x44414353 || h.version != 10 + s->kind || h.size != n ||
+      h.disk_size != s->disk_size || h.writable != (unsigned)s->writable ||
+      h.disk_b_size || h.writable_b ||
+      h.crc != state_crc(payload, n - sizeof(h)))
+    return -EINVAL;
+  if (s->v) {
+    vjuga *v = malloc(sizeof(*v));
+    if (!v)
+      return -ENOMEM;
+    memcpy(v, payload, sizeof(*v));
+    if (!valid_cpu(&v->cpu) || v->decode_mode > 1 ||
+        memcmp(v->rom, s->firmware, 16384)) {
+      free(v);
+      return -EINVAL;
+    }
+    vjuga *fresh = malloc(sizeof(*fresh));
+    if (!fresh) {
+      free(v);
+      return -ENOMEM;
+    }
+    vjuga_init(fresh, v->decode_mode);
+    v->cpu.bus = fresh->cpu.bus;
+    v->cpu.bus.user = v;
+    free(fresh);
+    free(s->v);
+    s->v = v;
+  } else {
+    juku *j = malloc(sizeof(*j));
+    if (!j)
+      return -ENOMEM;
+    memcpy(j, payload, sizeof(*j));
+    juku_fdc *f = &j->fdc;
+    int bad =
+        !j->frame_cyc || memcmp(j->rom, s->firmware, 16384) ||
+        j->video_modx_sequence >= 6 || j->video_stock_sequence >= 5 ||
+        j->video_64_sequence >= 5 || !j->video_stride || j->video_stride > 80 ||
+        !j->video_lines || j->video_lines > 384 ||
+        j->video_stride * j->video_lines > 10240 || j->mode < 0 ||
+        j->mode > 3 || j->console_len < 0 || j->console_len >= CONSOLE_QUEUE ||
+        j->console_visible_len < 0 || j->console_visible_len > CONSOLE_QUEUE ||
+        f->buffer_len > sizeof(f->buffer) || f->buffer_pos > f->buffer_len ||
+        f->write_track_field_pos > sizeof(f->buffer) ||
+        (f->write_track_state == 1 && f->write_track_field_pos >= 4) ||
+        (f->write_track_state == 3 &&
+         f->write_track_field_pos >= JUK_SECTOR_SIZE) ||
+        f->write_track_pending_sector < 0 ||
+        f->write_track_pending_sector > 10 || f->write_track_state < 0 ||
+        f->write_track_state > 4;
+    if (bad) {
+      free(j);
+      return -EINVAL;
+    }
+    juku *fresh = juku_create();
+    if (!fresh) {
+      free(j);
+      return -ENOMEM;
+    }
+    j->cpu.read_byte = fresh->cpu.read_byte;
+    j->cpu.write_byte = fresh->cpu.write_byte;
+    j->cpu.port_in = fresh->cpu.port_in;
+    j->cpu.port_out = fresh->cpu.port_out;
+    j->cpu.userdata = j;
+    free(fresh);
+    memset(&j->hooks, 0, sizeof(j->hooks));
+    memset(&j->bus_trace, 0, sizeof(j->bus_trace));
+    j->kbd_str = NULL;
+    j->fdc.disk = &j->disk;
+    j->disk.fp = j->disk.deleted_marks_fp = NULL;
+    memset(&j->disk.marks, 0, sizeof(j->disk.marks));
+    memset(&j->disk.media, 0, sizeof(j->disk.media));
+    if (s->disk_size) {
+      unsigned heads = s->disk_size == JUK_DOUBLE_SIDED_SIZE ? 2 : 1;
+      dac_media_init(&j->disk.media,
+                     dac_memory_storage(s->disk, s->disk_size, s->writable),
+                     (dac_geometry){80, heads, 10, 512, 1}, s->writable);
+      j->disk.heads = heads;
+      j->disk.size = s->disk_size;
+      j->disk.writable = s->writable;
+    }
+    free(s->j);
+    s->j = j;
+  }
+  if (s->disk_size)
+    memcpy(s->disk, payload + size, s->disk_size);
   s->on = 1;
   return 0;
 }

@@ -11,7 +11,7 @@ typedef struct {
   unsigned cmd_len, cmd_pos, result_len, result_pos, phase, data_pos, data_len;
   unsigned cylinder[4], unit, head, sector, n, eot, pending, st0, write;
   int scan_compare;
-  unsigned scan_mode, tc, reset;
+  unsigned scan_mode, tc, reset, reset_queue, formatting;
   uint64_t ready_at, seek_at[4];
   unsigned seek_target[4], seeking, seek_done, step_ticks;
 } robotron_fdc;
@@ -44,7 +44,11 @@ typedef struct {
   robotron_dma dma;
   robotron_timer ctc[8];
   uint8_t ctc_vector[2];
-  dac_media disk;
+  dac_media disk, disk_b;
+  uint8_t printer[65536];
+  unsigned printer_size, printer_overflow;
+  uint8_t tx_holding, tx_shift, tx_full;
+  unsigned tx_clocks;
   uint8_t sio_pointer[2], sio_regs[2][8];
   uint8_t keys[256];
   unsigned key_read, key_write;
@@ -56,9 +60,11 @@ int robotron_keyboard_load(robotron *, const void *, size_t);
 void robotron_serial_clock(void *, unsigned);
 uint8_t robotron_sio_read(robotron *, unsigned);
 void robotron_sio_control(robotron *, unsigned, uint8_t);
+void robotron_printer_clock(robotron *);
 int robotron_load(robotron *, const void *rom, size_t, const void *prom,
                   size_t);
 int robotron_disk(robotron *, dac_storage, int writable);
+int robotron_disk_unit(robotron *, unsigned, dac_storage, int writable);
 void robotron_run(robotron *, unsigned);
 /* pixels must hold 640*384 entries; dimensions are returned after rendering. */
 void robotron_video(robotron *, uint32_t *pixels, unsigned *width,

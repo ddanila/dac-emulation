@@ -35,14 +35,35 @@ int main(int argc, char **argv) {
       !load(argv[3], disk, 819200))
     return 2;
   int writable = 0;
-  const char *export_path = NULL;
+  const char *export_path = NULL, *b_path = NULL, *export_b = NULL,
+             *printer_path = NULL;
+  int writable_b = 0;
+  unsigned settle = 32000000;
+  uint8_t *disk_b = NULL;
   for (int i = 6; i < argc; i++) {
     if (!strcmp(argv[i], "--writable"))
       writable = 1;
     else if (!strcmp(argv[i], "--export") && i + 1 < argc)
       export_path = argv[++i];
+    else if (!strcmp(argv[i], "--disk-b") && i + 1 < argc)
+      b_path = argv[++i];
+    else if (!strcmp(argv[i], "--export-b") && i + 1 < argc)
+      export_b = argv[++i];
+    else if (!strcmp(argv[i], "--printer") && i + 1 < argc)
+      printer_path = argv[++i];
+    else if (!strcmp(argv[i], "--settle") && i + 1 < argc)
+      settle = (unsigned)strtoul(argv[++i], 0, 0);
+    else if (!strcmp(argv[i], "--writable-b"))
+      writable_b = 1;
     else
       return 2;
+  }
+  if (b_path) {
+    disk_b = malloc(819200);
+    if (!disk_b || !load(b_path, disk_b, 819200))
+      return 2;
+    robotron_disk_unit(m, 1, dac_memory_storage(disk_b, 819200, writable_b),
+                       writable_b);
   }
   robotron_disk(m, dac_memory_storage(disk, 819200, writable), writable);
   unsigned long ticks = argc > 4 ? strtoul(argv[4], 0, 0) : 20000000;
@@ -51,9 +72,9 @@ int main(int argc, char **argv) {
   if (argc > 5) {
     for (char *p = argv[5]; *p; p++) {
       robotron_key(m, (uint8_t)*p);
-      robotron_run(m, *p == 13 || *p == 10 || *p == 26 ? 32000000 : 1000000);
+      robotron_run(m, *p == 13 || *p == 10 || *p == 26 ? settle : 1000000);
     }
-    robotron_run(m, 32000000);
+    robotron_run(m, settle);
   }
   for (unsigned row = 0; row < 24; row++) {
     for (unsigned col = 0; col < 80; col++) {
@@ -79,6 +100,23 @@ int main(int argc, char **argv) {
     if (fclose(f) || !ok)
       return 2;
   }
+  if (export_b) {
+    FILE *f = fopen(export_b, "wbx");
+    if (!f || !disk_b)
+      return 2;
+    int ok = fwrite(disk_b, 1, 819200, f) == 819200;
+    if (fclose(f) || !ok)
+      return 2;
+  }
+  if (printer_path) {
+    FILE *f = fopen(printer_path, "wbx");
+    if (!f)
+      return 2;
+    int ok = fwrite(m->printer, 1, m->printer_size, f) == m->printer_size;
+    if (fclose(f) || !ok)
+      return 2;
+  }
+  free(disk_b);
   free(disk);
   free(m);
   return 0;

@@ -180,6 +180,15 @@ static void display(void) {
     assert(pixels[w + x] == 0xff83e7a0);
   assert(m.crtc[0] == 3 &&
          m.crtc[2] == 0x12); /* cursor cannot overwrite geometry */
+  // Character-attribute code suppresses the upper glyph region via VSP,
+  // without leaking the preceding field's reverse/highlight state.
+  m.cursor[0] = 255;
+  m.vram[0] = 0xc0;
+  for (unsigned y = 0; y < 3; y++)
+    m.chargen[y * 128 + 0x40] = 0x80;
+  robotron_video(&m, pixels, &w, &h);
+  assert(pixels[0] == 0xff101812 && pixels[w] == 0xff83e7a0 &&
+         pixels[2 * w] == 0xff83e7a0);
   robotron_output(&m, 0x19, 0x40);
   robotron_video(&m, pixels, &w, &h);
   assert(robotron_input(&m, 0x19) == 0x40);
@@ -263,7 +272,78 @@ static void floppy_seek(void) {
   assert(robotron_input(&m, 0x1d) & 0x40);
   assert(robotron_input(&m, 0x1d) == 4);
 }
+
+static void two_drives_format(void) {
+  static uint8_t b[819200];
+  init();
+  memset(b, 0xe5, sizeof(b));
+  assert(!robotron_disk_unit(&m, 1, dac_memory_storage(b, sizeof(b), 1), 1));
+  const uint8_t sense[] = {4, 1};
+  send(0x1d, sense, 2);
+  assert(robotron_input(&m, 0x1d) & 32);
+  const uint8_t fmt[] = {0x4d, 1, 3, 5, 0x1b, 0xa6};
+  send(0x1d, fmt, 6);
+  for (unsigned i = 0; i < 20; i++) {
+    m.cpu.cycles = m.fdc.ready_at;
+    const uint8_t id[] = {0, 0, (uint8_t)(i / 4 + 1), 3};
+    robotron_output(&m, 0x1d, id[i % 4]);
+  }
+  assert(m.fdc.phase == 1 && m.disk_writes == 5);
+  for (unsigned i = 0; i < 5120; i++)
+    assert(b[i] == 0xa6);
+  assert(b[5120] == 0xe5 && disk[0] == 0x5a);
+  for (unsigned i = 0; i < 7; i++)
+    robotron_input(&m, 0x1d);
+  // Multi-track read crosses side 0 EOT to side 1 without seeking.
+  memset(b + 5120, 0x39, 1024);
+  const uint8_t read[] = {0xc6, 1, 0, 0, 5, 3, 5, 0x1b, 1};
+  send(0x1d, read, 9);
+  for (unsigned i = 0; i < 2048; i++) {
+    m.cpu.cycles = m.fdc.ready_at;
+    if (i == 2047)
+      m.fdc.tc = 1;
+    assert(robotron_input(&m, 0x1d) == (i < 1024 ? 0xa6 : 0x39));
+  }
+  assert(m.fdc.phase == 1 && m.fdc.cylinder[1] == 0 && m.fdc.result[4] == 1);
+  robotron_output(&m, 0x20, 0);
+  robotron_output(&m, 0x20, 0x40);
+  for (unsigned u = 0; u < 4; u++) {
+    robotron_output(&m, 0x1d, 8);
+    assert(robotron_input(&m, 0x1d) == (0xc0 | u));
+    robotron_input(&m, 0x1d);
+  }
+  robotron_output(&m, 0x1d, 8);
+  assert(robotron_input(&m, 0x1d) == 0x80);
+  assert(!robotron_disk_unit(&m, 1, dac_memory_storage(b, sizeof(b), 0), 0));
+  send(0x1d, fmt, 6);
+  robotron_input(&m, 0x1d);
+  assert(robotron_input(&m, 0x1d) == 2);
+}
+static void printer(void) {
+  init();
+  uint8_t rom[2048] = {0x76};
+  assert(!robotron_keyboard_load(&m, rom, sizeof(rom)));
+  robotron_output(&m, 0x0e, 4);
+  robotron_output(&m, 0x0e, 4); // x1, 1 stop
+  robotron_output(&m, 0x0e, 5);
+  robotron_output(&m, 0x0e, 0x68); // 8-bit TX
+  robotron_output(&m, 0x0c, 'A');
+  assert(!(robotron_input(&m, 0x0e) & 4));
+  for (unsigned i = 0; i < 9; i++)
+    robotron_printer_clock(&m);
+  assert(!m.printer_size);
+  robotron_printer_clock(&m);
+  assert(m.printer_size == 1 && m.printer[0] == 'A');
+  // CTC0 channel 0, 16 CPU clocks per serial clock.
+  robotron_output(&m, 8, 7);
+  robotron_output(&m, 8, 1);
+  robotron_output(&m, 0x0c, 'B');
+  robotron_run(&m, 160);
+  assert(m.printer_size == 2 && m.printer[1] == 'B');
+}
 int main(void) {
+  two_drives_format();
+  printer();
   keyboard_serial();
   floppy_seek();
   dma_memory();

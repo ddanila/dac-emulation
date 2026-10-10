@@ -21,7 +21,7 @@ make build/browser-reference
 node tests/integration/wasm_parity.mjs s550.bin cas.bin robotron.img --file-operations
 ```
 
-No full HDL run, MAME runtime differential, exact physical-variant validation, detailed model qualification, Safari/Firefox test, or full application suite is claimed. Current machine-specific limitations are listed with each core. Firmware rights and physical evidence remain separate from the MIT software implementation.
+No full HDL run, MAME runtime differential, exact physical-variant validation, detailed model qualification, retail Safari qualification, or exhaustive application suite is claimed. Current machine-specific limitations are listed with each core. Firmware rights and physical evidence remain separate from the MIT software implementation.
 
 Additional validation on 2026-10-10:
 
@@ -32,3 +32,15 @@ Additional validation on 2026-10-10:
 - Museum: firmware-driven 3D DIR, physical keyboard disk edit, disk survival across reload, saved-disk discard, and saved machine state across reload.
 
 Fast default checks still need no external firmware or HDL. External S600 and TOS/M checks are optional. This pass does not rerun the earlier Juku/VJUGA/upstream CPU qualification or assert their results against additional hardware.
+
+
+### 0.3.0 extension
+
+Fast device checks now cover two-drive isolation, multi-track side switching,
+format fill, protected formats, four reset responses, clocked printer capture
+and character-attribute video suppression. WASM smoke includes Juku/VJUGA
+snapshot continuation and Robotron snapshots containing both disks.
+`robotron_applications.py` supplies optional bounded WordStar, Turbo Pascal,
+two-drive PIP and printer regressions, using externally supplied reference media.
+No full HDL is required. Raster/DMA scheduling, unusual media formats and exact
+specimen measurements still require separate validation.

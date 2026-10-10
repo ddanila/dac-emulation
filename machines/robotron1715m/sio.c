@@ -1,6 +1,7 @@
 /* Bounded asynchronous receive path for the keyboard-connected SIO A.
  * WR3/WR4 select enable, width, parity and clock divisor; FIFO is three bytes.
- * Other serial channels, synchronous modes and TX remain unimplemented. */
+ * Channel A TX clocks drive a bounded printer capture; other channels and
+ * synchronous modes remain unimplemented. */
 #include "robotron.h"
 #include <string.h>
 void robotron_serial_clock(void *p, unsigned level) {
@@ -71,10 +72,10 @@ uint8_t robotron_sio_read(robotron *m, unsigned control) {
   unsigned reg = m->sio_pointer[0];
   m->sio_pointer[0] = 0;
   if (reg == 1)
-    return 1 | s->errors;
+    return (!m->tx_full && !m->tx_clocks) | s->errors;
   if (reg == 2)
     return m->sio_regs[1][2];
-  return 0x7c | !!s->count;
+  return (0x78 | (!m->tx_full << 2)) | !!s->count;
 }
 void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
   unsigned reg = m->sio_pointer[ch];
@@ -93,6 +94,7 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
     memset(&m->rx, 0, sizeof(m->rx));
     memset(m->sio_regs[0], 0, 8);
     m->rx.first = 1;
+    m->tx_full = m->tx_clocks = 0;
     break;
   case 4:
     m->rx.first = 1;
@@ -105,5 +107,31 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
     break;
   default:
     break;
+  }
+}
+
+/* One holding register plus a shift register. CTC0 channel 0 clocks TX A.
+ * Capture bytes after the programmed asynchronous frame has been clocked.
+ * This virtual printer is always ready; no physical waveform/handshake claim.
+ */
+void robotron_printer_clock(robotron *m) {
+  const uint8_t *r = m->sio_regs[0];
+  const unsigned div[] = {1, 16, 32, 64}, widths[] = {5, 7, 6, 8};
+  if (!(r[5] & 8) || !(r[4] & 12))
+    return;
+  if (!m->tx_clocks && m->tx_full) {
+    unsigned bits = widths[(r[5] >> 5) & 3];
+    m->tx_shift = m->tx_holding & ((1u << bits) - 1);
+    m->tx_full = 0;
+    unsigned half = 2 * (1 + bits + (r[4] & 1)) + ((r[4] & 12) == 4   ? 2
+                                                   : (r[4] & 12) == 8 ? 3
+                                                                      : 4);
+    m->tx_clocks = (half * div[r[4] >> 6] + 1) / 2;
+  }
+  if (m->tx_clocks && !--m->tx_clocks) {
+    if (m->printer_size < sizeof(m->printer))
+      m->printer[m->printer_size++] = m->tx_shift;
+    else
+      m->printer_overflow = 1;
   }
 }

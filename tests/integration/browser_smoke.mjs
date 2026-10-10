@@ -19,7 +19,13 @@ assert(pixels(a).every((v,i)=>v===(i%4===3?255:0)));wasm._dac_destroy(a);wasm._d
 for(const [kind,name] of [[0,'juku.bin'],[1,'vjuga.bin']]){
  const s=wasm._dac_create(kind);assert.equal(load(s,0,await read(name)),0);assert.equal(wasm._dac_power(s,1),0);
  for(let i=0;i<5;i++)wasm._dac_run(s,100000);
- assert(pixels(s).some((v,i)=>i%4===0&&v===0xa0));wasm._dac_destroy(s);
+ assert(pixels(s).some((v,i)=>i%4===0&&v===0xa0));
+ const n=wasm._dac_state_size(s),p=wasm._malloc(n),before=pixels(s);
+ assert(n>65536);assert.equal(wasm._dac_state_save(s,p,n),0);
+ wasm._dac_run(s,100000);const after=pixels(s);wasm._dac_power(s,0);
+ assert.equal(wasm._dac_state_load(s,p,n),0);assert.deepEqual(pixels(s),before);
+ wasm._dac_run(s,100000);assert.deepEqual(pixels(s),after);
+ wasm._free(p);wasm._dac_destroy(s);
 }
 console.log('PASS WASM: independent instances, bounded slices, power/reset, keyboard, all three machine profiles');
 // Snapshot restores CPU/device state as well as pixels, and rejects corruption
@@ -39,3 +45,27 @@ assert.equal(wasm._dac_state_load(s,snapshot,n),0);assert.deepEqual(pixels(s),sa
 wasm._dac_key(s,65,1);wasm._dac_run(s,50000);assert.deepEqual(pixels(s),changedPixels);
 wasm._free(snapshot);wasm._dac_destroy(s);
 console.log('PASS WASM snapshot round trip, deterministic continuation and corrupt-state rejection');
+// Both drive payloads and write modes participate in a Robotron snapshot.
+const dual=wasm._dac_create(2);
+for(const [slot,file] of [[0,'robotron.bin'],[1,'cas.bin'],[2,'glyphs.bin']])assert.equal(load(dual,slot,await read(file)),0);
+const diskbuf=wasm._malloc(819200);
+for(const unit of [0,1]) {
+ wasm.HEAPU8.fill(0x41+unit,diskbuf,diskbuf+819200);
+ assert.equal(wasm._dac_mount_unit(dual,unit,diskbuf,819200,unit),0);
+}
+wasm._dac_power(dual,1);wasm._dac_run(dual,100000);
+const dualsize=wasm._dac_state_size(dual),dualstate=wasm._malloc(dualsize);
+assert.equal(wasm._dac_state_save(dual,dualstate,dualsize),0);
+assert(wasm._dac_drive_status_unit(dual,1)&8);
+wasm._dac_power(dual,0);
+assert.equal(wasm._dac_mount_unit(dual,1,0,0,0),0);
+assert(wasm._dac_state_load(dual,dualstate,dualsize)<0);
+assert.equal(wasm._dac_mount_unit(dual,1,diskbuf,819200,1),0);
+assert.equal(wasm._dac_state_load(dual,dualstate,dualsize),0);
+for(const unit of [0,1]) {
+ const ptr=wasm._dac_disk_data_unit(dual,unit);
+ assert.equal(wasm._dac_disk_size_unit(dual,unit),819200);
+ assert(wasm.HEAPU8.subarray(ptr,ptr+819200).every(b=>b===0x41+unit));
+}
+wasm._free(diskbuf);wasm._free(dualstate);wasm._dac_destroy(dual);
+console.log('PASS two-drive snapshot payloads, mount/eject and media mismatch rejection');

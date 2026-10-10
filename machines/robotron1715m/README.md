@@ -38,9 +38,9 @@ The native regression creates text via `PIP ...=CON:`, reads it, copies text and
 ## Known limits
 
 - Functional, not cycle-accurate: DMA byte/burst timing, search/match/ready interrupts, auto-restart, pulse output and six-command reset sequencing remain incomplete. End-of-block interrupt/TC, ready polarity and DMA/CTC in-service priority have focused tests; this does not qualify all peripheral modes.
-- Only one drive and one explicit raw geometry. Reset interrupt queues, multi-track head switching, format commands, deleted-sector/error metadata and detailed scan semantics remain incomplete. Whole/partial write completion, write protection, busy/data/result transitions and reset cancellation have focused checks.
-- CTC external trigger timing, SIO synchronous modes, TX, other serial channels, printer and V.24 are pending. The keyboard receiver implements asynchronous width/parity/clock division, three-byte FIFO, error status and receive interrupts; it is not a complete SIO.
-- The 8275 stream renderer does not implement scan timing, real display DMA/FIFO limits, raster interrupts, double-spaced rows, light pen or character-attribute line graphics. Blink uses a nominal 50 Hz clock; unusual geometries are bounded to the supported framebuffer. Field attributes and cursor are not a claim of complete 8275 emulation.
+- Two drives share one explicit raw geometry. Format accepts exactly five unique 1024-byte sector IDs on the current cylinder/head; arbitrary layouts, deleted-sector/error metadata and detailed scan semantics remain incomplete. Whole/partial write completion, write protection, busy/data/result transitions and reset cancellation have focused checks.
+- CTC external trigger timing, SIO synchronous modes, TX interrupts, other serial channels and V.24 are pending. Printer TX A supports an always-ready byte-capture device clocked by CTC0 channel 0. The keyboard receiver implements asynchronous width/parity/clock division, three-byte FIFO, error status and receive interrupts; it is not a complete SIO.
+- The 8275 stream renderer does not implement scan timing, real display DMA/FIFO limits, raster interrupts, double-spaced rows, light pen or external LA0/LA1 graphics wiring. Character attributes now decode VSP/LTEN and highlight/blink, retaining the reference Robotron glyph wiring. Blink uses a nominal 50 Hz clock; unusual geometries are bounded to the supported framebuffer. Field attributes and cursor are not a claim of complete 8275 emulation.
 - No MAME runtime differential or physical-machine comparison has been performed. Source comparisons and passing applications do not prove hardware accuracy.
 
 See [source identities](../../docs/z80-provenance.json), [validation](../../docs/z80-browser-validation.md) and `REFERENCE_LICENSE`. Original DAC code is MIT; reference attributions are preserved in `NOTICE`. ROMs and disks are neither bundled nor licensed by this repository.
@@ -58,4 +58,44 @@ build/robotron-keyboard-rom-test /path/s600.bin
 
 The FDC now schedules seek completion from SPECIFY’s step-rate field, exposes seek-busy bits and senses completed seeks. Read/write execution uses ideal 300 RPM rotation with five evenly spaced sector positions and 250 kbit/s byte pacing. Sense/Read-ID reject absent drive B. Wrong-cylinder reads require a seek. Terminal-count next-ID reporting no longer moves the physical head. Drive motor register bits, selected unit, transfer state, write protection and cylinder are exposed to the browser. Spin-up, head-load delay, flux/gap layout, index pulse and realistic mechanical sounds are still unmodeled; the timing is a bounded approximation, not a drive qualification.
 
-The additive browser ABI exposes internal Robotron state save/load. It includes both CPUs, keyboard contacts/tap queue/LEDs, RAM/video/glyph memory, SIO, timers, DMA, floppy state and disk bytes. Pointers are removed and rebound on restore. The header, CRC, sizes, firmware, write mode and internal bounds are checked before mutation. These are **same-build internal snapshots**, not a portable save-file format; the museum additionally keys them by the WASM hash. Juku/VJUGA machine snapshots are not implemented. Browser disk persistence is managed by DAC, outside the portable core.
+The additive browser ABI exposes internal Robotron state save/load. It includes both CPUs, keyboard contacts/tap queue/LEDs, RAM/video/glyph memory, SIO, timers, DMA, floppy state and disk bytes. Pointers are removed and rebound on restore. The header, CRC, sizes, firmware, write mode and internal bounds are checked before mutation. These are **same-build internal snapshots**, not a portable save-file format; the museum additionally keys them by the WASM hash. Juku/VJUGA snapshots are also implemented; see the extension below. Browser disk persistence is managed by DAC, outside the portable core.
+
+
+## Two drives, printer and application coverage (0.3.0)
+
+Both drive units have independent media, write protection and physical cylinders.
+`robotron_disk_unit` / `dac_mount_unit` mount units 0/1; a zero-length browser
+mount ejects. The native API rejects replacement during a transfer, result phase
+or seek. The museum requires power-off for media changes. Existing single-drive
+APIs remain aliases for unit 0. Motor/transfer/presence/protection/seek/cylinder
+status is available per unit through `dac_drive_status_unit`.
+
+FDC reset release queues four Sense Interrupt responses. Multi-track reads/writes
+cross side 0 EOT to side 1 without moving the physical cylinder. Format Track
+validates the complete C/H/R/N list before writing fill bytes. Unsupported geometry
+and protected media fail explicitly; the raw format does not retain gaps or custom
+ID order. Motor spin-up and head-load delays remain unmodeled.
+
+SIO A transmission has a holding register, a shift register, programmed character
+width/stop/parity length and clock division, and TX-empty/all-sent polling status.
+CTC0 channel 0 clocks it; completed bytes go to a bounded 64 KB virtual-printer
+capture. This is an always-ready sink, without cable waveforms, printer rendering
+or TX interrupts. Overflow is explicit; export preserves original control bytes.
+
+Snapshot headers changed with the core build. Both disk payloads and protection
+modes participate in Robotron state. Juku snapshots preserve CPU/RAM/devices,
+keyboard and disk metadata; VJUGA snapshots preserve its current CPU/memory/ports
+profile. Host callbacks are removed and rebound from fresh core code. CRC, sizes,
+firmware and indexing bounds are checked before replacing the current session.
+These remain same-build snapshots, not a cross-version archival file format.
+
+Run the optional real-application checks against the already documented TOS/M disk:
+
+```sh
+python3 tests/integration/robotron_applications.py s550.bin cas.bin tosm10.img
+```
+
+The bounded cases copy PIP.COM between drives and independently compare bytes,
+capture `PIP LST:=AUTOEXC.SUB`, create/save a WordStar document, and compile/run a
+small Turbo Pascal program. Input images remain untouched. This is functional
+coverage of these paths, not qualification of every application feature.

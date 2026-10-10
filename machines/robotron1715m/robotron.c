@@ -69,22 +69,26 @@ static void finish(robotron *m, uint8_t st1) {
   memcpy(f->result, r, 7);
   result(m, 7);
 }
+static dac_media *media(robotron *m) {
+  return m->fdc.unit == 0 ? &m->disk : m->fdc.unit == 1 ? &m->disk_b : NULL;
+}
 static void sector(robotron *m) {
   robotron_fdc *f = &m->fdc;
   f->data_pos = 0;
-  if (f->unit || f->n != 3 || !m->disk.storage.read) {
+  if (!media(m) || f->n != 3 || !media(m)->storage.read) {
     finish(m, 4);
     return;
   }
   f->data_len = 1024;
   f->scan_compare = 0;
   if (f->write != 1) {
-    if (dac_media_read(&m->disk, f->cylinder[0], f->head, f->sector, f->data)) {
+    if (dac_media_read(media(m), f->cylinder[f->unit], f->head, f->sector,
+                       f->data)) {
       finish(m, 4);
       return;
     }
     m->disk_reads++;
-  } else if (!m->disk.writable) {
+  } else if (!media(m)->writable) {
     finish(m, 2);
     return;
   }
@@ -99,8 +103,35 @@ static void sector(robotron *m) {
 }
 static void transfer_done(robotron *m) {
   robotron_fdc *f = &m->fdc;
+  if (f->formatting) {
+    /* Raw geometry cannot preserve arbitrary ID layouts. Validate the complete
+     * tuple list before changing any sector, so invalid formats are atomic. */
+    unsigned seen = 0;
+    for (unsigned i = 0; i < f->data_len; i += 4) {
+      uint8_t *id = f->data + i;
+      if (id[0] != f->cylinder[f->unit] || id[1] != f->head || id[2] < 1 ||
+          id[2] > 5 || id[3] != 3 || (seen & (1u << id[2]))) {
+        finish(m, 4);
+        return;
+      }
+      seen |= 1u << id[2];
+    }
+    uint8_t fill[1024];
+    memset(fill, f->command[5], sizeof(fill));
+    for (unsigned i = 0; i < f->data_len; i += 4) {
+      f->sector = f->data[i + 2];
+      if (dac_media_write(media(m), f->cylinder[f->unit], f->head, f->sector,
+                          fill)) {
+        finish(m, 2);
+        return;
+      }
+      m->disk_writes++;
+    }
+    finish(m, 0);
+    return;
+  }
   if (f->write == 1) {
-    if (dac_media_write(&m->disk, f->cylinder[0], f->head, f->sector,
+    if (dac_media_write(media(m), f->cylinder[f->unit], f->head, f->sector,
                         f->data)) {
       finish(m, 2);
       return;
@@ -119,6 +150,11 @@ static void transfer_done(robotron *m) {
       f->sector++;
     else {
       f->sector = 1;
+      if ((f->command[0] & 128) && !f->head) {
+        f->head = 1;
+        finish(m, 0);
+        return;
+      }
       finish(m, 0);
       f->result[3]++; /* next CHRN is not a physical seek */
       return;
@@ -126,6 +162,10 @@ static void transfer_done(robotron *m) {
     finish(m, 0);
   } else if (f->sector < f->eot) {
     f->sector++;
+    sector(m);
+  } else if ((f->command[0] & 128) && !f->head) {
+    f->head = 1;
+    f->sector = 1;
     sector(m);
   } else {
     finish(m, 0x80); /* EOT without terminal count. */
@@ -141,6 +181,8 @@ static unsigned command_length(uint8_t c) {
     return 2;
   case 15:
     return 3;
+  case 13:
+    return 6;
   case 5:
   case 6:
   case 17:
@@ -165,11 +207,23 @@ static void command(robotron *m, uint8_t v) {
   unsigned op = c[0] & 31;
   f->tc = 0;
   f->scan_mode = 0;
+  f->formatting = 0;
   if (op == 3) {
     f->step_ticks = (16 - (c[1] >> 4)) * 3994;
     return;
   }
   if (op == 8) {
+    if (f->reset_queue) {
+      unsigned u = 0;
+      while (!(f->reset_queue & (1u << u)))
+        u++;
+      f->reset_queue &= ~(1u << u);
+      f->result[0] = 0xc0 | u;
+      f->result[1] = f->cylinder[u];
+      result(m, 2);
+      f->pending = !!(f->reset_queue | f->seek_done);
+      return;
+    }
     unsigned u = 0;
     while (u < 4 && !(f->seek_done & (1u << u)))
       u++;
@@ -186,9 +240,9 @@ static void command(robotron *m, uint8_t v) {
   f->head = (c[1] >> 2) & 1;
   if (op == 4) {
     f->result[0] = (c[1] & 7) | 8 |
-                   (!f->unit && m->disk.storage.read ? 32 : 0) |
+                   (media(m) && media(m)->storage.read ? 32 : 0) |
                    (f->cylinder[f->unit] ? 0 : 16) |
-                   (!f->unit && m->disk.writable ? 0 : 64);
+                   (media(m) && media(m)->writable ? 0 : 64);
     result(m, 1);
   } else if (op == 7 || op == 15) {
     unsigned target = op == 7 ? 0 : c[2];
@@ -202,9 +256,25 @@ static void command(robotron *m, uint8_t v) {
   } else if (op == 10) {
     f->sector = f->sector % 5 + 1;
     f->n = 3;
-    finish(m, !f->unit && m->disk.storage.read ? 0 : 4);
+    finish(m, media(m) && media(m)->storage.read ? 0 : 4);
+  } else if (op == 13) {
+    f->n = c[2];
+    f->sector = 1;
+    if (!media(m) || !media(m)->storage.read || c[2] != 3 || c[3] != 5) {
+      finish(m, 4);
+      return;
+    }
+    if (!media(m)->writable) {
+      finish(m, 2);
+      return;
+    }
+    f->formatting = f->write = 1;
+    f->data_pos = 0;
+    f->data_len = c[3] * 4;
+    f->phase = 2;
+    f->ready_at = m->cpu.cycles + 4000;
   } else if (op == 5 || op == 6 || op == 17 || op == 25 || op == 29) {
-    if (f->unit || f->cylinder[f->unit] != c[2]) {
+    if (!media(m) || f->cylinder[f->unit] != c[2]) {
       f->sector = c[4];
       f->n = c[5];
       finish(m, 4);
@@ -453,7 +523,9 @@ static uint8_t input_value(void *p, uint16_t a) {
   if (a == 0x0e) {
     unsigned reg = m->sio_pointer[0];
     m->sio_pointer[0] = 0;
-    return reg == 1 ? 0 : (0x7c | (m->key_read != m->key_write));
+    return reg == 1
+               ? (!m->tx_full && !m->tx_clocks)
+               : (0x78 | (!m->tx_full << 2) | (m->key_read != m->key_write));
   }
   if (a == 0x0c) {
     if (m->key_read == m->key_write)
@@ -480,7 +552,12 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
   a &= 255;
   if (a == 0)
     dma_write(m, v);
-  else if (a == 0x0e || a == 0x0f) {
+  else if (a == 0x0c) {
+    if (!m->tx_full && (m->sio_regs[0][5] & 8)) {
+      m->tx_holding = v;
+      m->tx_full = 1;
+    }
+  } else if (a == 0x0e || a == 0x0f) {
     robotron_sio_control(m, a & 1, v);
   } else if (a >= 4 && a <= 11)
     ctc_write(m, a - 4, v);
@@ -495,6 +572,10 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
       memset(&m->fdc, 0, sizeof(m->fdc));
       memcpy(m->fdc.cylinder, cylinders, sizeof(cylinders));
       m->fdc.reset = !(v & 64);
+      if (!m->fdc.reset) {
+        m->fdc.reset_queue = 15;
+        m->fdc.pending = 1;
+      }
     }
     m->krfd = v;
   } else if (a >= 0x28 && a <= 0x2b)
@@ -608,9 +689,19 @@ int robotron_load(robotron *m, const void *r, size_t nr, const void *p,
   memcpy(m->prom, p, np);
   return 0;
 }
+int robotron_disk_unit(robotron *m, unsigned unit, dac_storage s,
+                       int writable) {
+  if (unit > 1)
+    return -EINVAL;
+  dac_media *d = unit ? &m->disk_b : &m->disk;
+  if (!s.read) {
+    memset(d, 0, sizeof(*d));
+    return 0;
+  }
+  return dac_media_init(d, s, (dac_geometry){80, 2, 5, 1024, 1}, writable);
+}
 int robotron_disk(robotron *m, dac_storage s, int writable) {
-  return dac_media_init(&m->disk, s, (dac_geometry){80, 2, 5, 1024, 1},
-                        writable);
+  return robotron_disk_unit(m, 0, s, writable);
 }
 int robotron_key(robotron *m, uint8_t key) {
   if (m->key_write - m->key_read > 254)
@@ -661,6 +752,8 @@ void robotron_run(robotron *m, unsigned ticks) {
           t->pending = (t->control >> 7) & 1;
           if (i == 1)
             cascade = 1;
+          if (i == 4)
+            robotron_printer_clock(m);
         }
       }
     }
@@ -686,7 +779,9 @@ void robotron_run(robotron *m, unsigned ticks) {
       if (!--d->remaining) {
         if (terminal && m->fdc.phase == 2) {
           /* Short writes finish the physical sector with zero padding. */
-          if (m->fdc.write == 1) {
+          if (m->fdc.formatting) {
+            finish(m, 4); /* Incomplete ID tuple list: do not format. */
+          } else if (m->fdc.write == 1) {
             memset(m->fdc.data + m->fdc.data_pos, 0,
                    m->fdc.data_len - m->fdc.data_pos);
             transfer_done(m);
@@ -747,14 +842,28 @@ void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
           end_row = 1;
         if (ch == 0xf2 || ch == 0xf3)
           end_screen = 1;
-      } else if (ch >= 0xc0) {
-        /* Line-drawing attribute characters require a separate decoder. */
-        blank = 1;
       }
+      unsigned character_attr = ch >= 0xc0 && ch < 0xf0;
+      if (character_attr)
+        attr = ch & 3;
       for (unsigned y = 0; y < lines; y++) {
         unsigned gy = (m->crtc[3] & 128) ? (y + lines - 1) % lines : y;
         uint8_t bits =
             m->chargen[((attr & 4) ? 2048 : 0) + gy * 128 + (ch & 127)];
+        if (character_attr) {
+          /* Intel 8275 CA truth table, cross-checked against MAME i8275
+           * (Curt Coder/AJR, BSD-3-Clause; see NOTICE). Robotron does not
+           * wire LA0/LA1 to the glyph decoder; retain its glyph bits. */
+          static const uint8_t ca[3][16] = {
+              {2, 2, 4, 4, 2, 4, 4, 4, 2, 4, 4, 0, 2, 0, 0, 0},
+              {8, 12, 8, 12, 1, 12, 8, 1, 1, 4, 1, 0, 2, 0, 0, 0},
+              {4, 4, 2, 2, 4, 4, 4, 2, 2, 4, 4, 0, 2, 0, 0, 0}};
+          unsigned flags = ca[y < underline    ? 0
+                              : y == underline ? 1
+                                               : 2][(ch >> 2) & 15];
+          if (flags & 2)
+            bits = (flags & 1) ? 255 : 0;
+        }
         if ((attr & 2) && (frame % 64 < 32))
           bits = 0;
         if ((attr & 32) && y == underline)

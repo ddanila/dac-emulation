@@ -11,6 +11,15 @@ dac_session *dac_create(unsigned kind);
 void dac_destroy(dac_session *);
 int dac_load(dac_session *, unsigned slot, const void *, size_t);
 int dac_mount(dac_session *, const void *, size_t, int writable);
+/* Robotron units 0/1, Juku unit 0. Empty bytes eject. No active transfers. */
+int dac_mount_unit(dac_session *, unsigned, const void *, size_t, int);
+const uint8_t *dac_disk_data_unit(dac_session *, unsigned);
+unsigned dac_disk_size_unit(dac_session *, unsigned);
+unsigned dac_drive_status_unit(dac_session *, unsigned);
+const uint8_t *dac_printer_data(dac_session *);
+unsigned dac_printer_size(dac_session *);
+unsigned dac_printer_overflow(dac_session *);
+void dac_printer_clear(dac_session *);
 int dac_power(dac_session *, int on);
 int dac_reset(dac_session *);
 unsigned dac_run(dac_session *, unsigned ticks);
