@@ -20,12 +20,14 @@ jobs:
         run: >-
           cc -std=c11 -O1 -g -fsanitize=address,undefined
           tests/integration/machines_test.c machines/robotron1715m/robotron.c
+          machines/robotron1715m/keyboard.c machines/robotron1715m/sio.c
           machines/vjuga/vjuga.c common/cpu/z80.c common/media/media.c common/trace/trace.c
           -o /tmp/machines-test && /tmp/machines-test
       - name: Robotron peripheral memory and undefined-behavior checks
         run: >-
           cc -std=c11 -O1 -g -fsanitize=address,undefined
           tests/integration/robotron_devices_test.c machines/robotron1715m/robotron.c
+          machines/robotron1715m/keyboard.c machines/robotron1715m/sio.c
           common/cpu/z80.c common/media/media.c common/trace/trace.c
           -o /tmp/robotron-devices-test && /tmp/robotron-devices-test
   wasm:

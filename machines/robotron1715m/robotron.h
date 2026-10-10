@@ -3,6 +3,7 @@
 #include "../../common/cpu/z80.h"
 #include "../../common/media/media.h"
 #include "../../common/trace/trace.h"
+#include "keyboard.h"
 #include <stddef.h>
 /* Experimental functional PC-1715W/1715M profile. See README for fidelity. */
 typedef struct {
@@ -11,7 +12,8 @@ typedef struct {
   unsigned cylinder[4], unit, head, sector, n, eot, pending, st0, write;
   int scan_compare;
   unsigned scan_mode, tc, reset;
-  uint64_t ready_at;
+  uint64_t ready_at, seek_at[4];
+  unsigned seek_target[4], seeking, seek_done, step_ticks;
 } robotron_fdc;
 typedef struct {
   uint16_t a, b, count, run_a, run_b;
@@ -26,8 +28,16 @@ typedef struct {
   unsigned counter, prescaler;
 } robotron_timer;
 typedef struct {
+  uint8_t fifo[3], read, count, errors, phase, bits, byte, parity;
+  unsigned wait;
+  uint8_t pending, in_service, first;
+} robotron_sio_rx;
+typedef struct {
   dac_z80 cpu;
   dac_trace_sink trace;
+  robotron_keyboard keyboard;
+  robotron_sio_rx rx;
+  unsigned keyboard_enabled;
   uint8_t rom[2048], chargen[4096], vram[4096], ram[262144], prom[256], bank,
       krfd, motor;
   robotron_fdc fdc;
@@ -42,6 +52,10 @@ typedef struct {
   uint8_t crtc[4], crtc_pos, crtc_end, display_on, crtc_status, cursor[2];
 } robotron;
 void robotron_init(robotron *);
+int robotron_keyboard_load(robotron *, const void *, size_t);
+void robotron_serial_clock(void *, unsigned);
+uint8_t robotron_sio_read(robotron *, unsigned);
+void robotron_sio_control(robotron *, unsigned, uint8_t);
 int robotron_load(robotron *, const void *rom, size_t, const void *prom,
                   size_t);
 int robotron_disk(robotron *, dac_storage, int writable);
@@ -54,4 +68,5 @@ uint8_t robotron_read(void *, uint16_t);
 void robotron_write(void *, uint16_t, uint8_t);
 uint8_t robotron_input(void *, uint16_t);
 void robotron_output(void *, uint16_t, uint8_t);
+void robotron_rebind(robotron *);
 #endif

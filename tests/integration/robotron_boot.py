@@ -54,12 +54,12 @@ def main():
     report = {'inputs': identities, 'cases': []}
 
     def run(name, keys, expected, disk=None, writable=False, export=None):
-        cmd = [root/'build/robotron-boot', *inputs[:2], disk or inputs[2], '40000000', keys]
+        cmd = [root/'build/robotron-boot', *inputs[:2], disk or inputs[2], '100000000', keys]
         if writable:
             cmd += ['--writable']
         if export:
             cmd += ['--export', export]
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True, timeout=10)
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True, timeout=30)
         for text in expected:
             assert text in result.stdout, (name, text, result.stdout, result.stderr)
         assert result.stdout.rstrip().endswith('A>'), (name, result.stdout)

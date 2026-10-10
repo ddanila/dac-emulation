@@ -37,10 +37,12 @@ static void floppy(void) {
   const uint8_t read[] = {0x46, 0, 0, 0, 1, 3, 1, 0x1b, 0xff};
   for (unsigned i = 0; i < sizeof(read); i++)
     robotron_output(m, 0x1d, read[i]);
-  m->cpu.cycles += 4000;
+  m->cpu.cycles = m->fdc.ready_at;
   assert((robotron_input(m, 0x1c) & 0xc0) == 0xc0);
-  for (unsigned i = 0; i < 1024; i++)
+  for (unsigned i = 0; i < 1024; i++) {
+    m->cpu.cycles = m->fdc.ready_at;
     assert(robotron_input(m, 0x1d) == (uint8_t)i);
+  }
   assert(m->disk_reads == 1);
   assert(robotron_input(m, 0x1d) == 0x40);
   assert(robotron_input(m, 0x1d) == 0x80); /* EOT without TC */
@@ -49,9 +51,11 @@ static void floppy(void) {
   const uint8_t write[] = {0x45, 0, 0, 0, 1, 3, 1, 0x1b, 0xff};
   for (unsigned i = 0; i < sizeof(write); i++)
     robotron_output(m, 0x1d, write[i]);
-  m->cpu.cycles += 4000;
-  for (unsigned i = 0; i < 1024; i++)
+  m->cpu.cycles = m->fdc.ready_at;
+  for (unsigned i = 0; i < 1024; i++) {
+    m->cpu.cycles = m->fdc.ready_at;
     robotron_output(m, 0x1d, 0xa5);
+  }
   assert(m->disk_writes == 1);
   for (unsigned i = 0; i < 1024; i++)
     assert(data[i] == 0xa5);
@@ -62,9 +66,11 @@ static void floppy(void) {
   scan[0] = 0x51;
   for (unsigned i = 0; i < 9; i++)
     robotron_output(m, 0x1d, scan[i]);
-  m->cpu.cycles += 4000;
-  for (unsigned i = 0; i < 1024; i++)
+  m->cpu.cycles = m->fdc.ready_at;
+  for (unsigned i = 0; i < 1024; i++) {
+    m->cpu.cycles = m->fdc.ready_at;
     robotron_output(m, 0x1d, 0xa5);
+  }
   assert(robotron_input(m, 0x1d) == 0);
   assert(robotron_input(m, 0x1d) == 0);
   assert(robotron_input(m, 0x1d) == 8);

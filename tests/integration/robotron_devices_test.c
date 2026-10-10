@@ -68,7 +68,7 @@ static void floppy_completion(void) {
   memset(m.ram + 0x4000, 0xa5, 1024);
   robotron_output(&m, 0x20, 0xc0); /* reset released, TC gated on */
   robotron_output(&m, 0, 0x87);
-  robotron_run(&m, 5024);
+  robotron_run(&m, 4000 + 1024 * 128);
   assert(m.disk_writes == 1 && m.fdc.phase == 1 && m.dma.irq);
   for (unsigned i = 0; i < 1024; i++)
     assert(disk[i] == 0xa5);
@@ -85,7 +85,7 @@ static void floppy_completion(void) {
   memset(m.ram + 0x4000, 0x31, 128);
   robotron_output(&m, 0x20, 0xc0);
   robotron_output(&m, 0, 0x87);
-  robotron_run(&m, 4128);
+  robotron_run(&m, 4000 + 128 * 128);
   assert(m.disk_writes == 1);
   for (unsigned i = 0; i < 1024; i++)
     assert(disk[i] == (i < 128 ? 0x31 : 0));
@@ -98,7 +98,7 @@ static void floppy_completion(void) {
   dma(0x4000, 0x41, 128, 0x28, 0x10);
   robotron_output(&m, 0x20, 0xc0);
   robotron_output(&m, 0, 0x87);
-  robotron_run(&m, 4128);
+  robotron_run(&m, 4000 + 128 * 128);
   assert(m.fdc.phase == 2 && !m.disk_writes && !m.dma.irq);
   robotron_output(&m, 0x20, 0x80); /* assert FDC reset */
   assert(!m.fdc.phase && robotron_input(&m, 0x1c) == 0);
@@ -186,7 +186,86 @@ static void display(void) {
   for (unsigned i = 0; i < w * h; i++)
     assert(pixels[i] == 0xff101812);
 }
+static void serial_byte(unsigned value, unsigned stop) {
+  robotron_serial_clock(&m, 0);
+  for (unsigned i = 0; i < 8; i++)
+    robotron_serial_clock(&m, (value >> i) & 1);
+  robotron_serial_clock(&m, stop);
+}
+static void keyboard_serial(void) {
+  init();
+  m.keyboard_enabled = 1;
+  robotron_output(&m, 0x0e, 3);
+  robotron_output(&m, 0x0e, 0xc1);
+  robotron_output(&m, 0x0e, 4);
+  robotron_output(&m, 0x0e, 4);
+  robotron_output(&m, 0x0e, 1);
+  robotron_output(&m, 0x0e, 0x10);
+  serial_byte(0xe0, 1);
+  serial_byte(0x61, 1);
+  assert(robotron_input(&m, 0x0e) & 1);
+  assert(m.rx.pending);
+  m.sio_regs[1][2] = 0x80;
+  m.sio_regs[1][1] = 4;
+  assert(m.cpu.bus.ack(&m) == 0x8c && m.rx.in_service);
+  assert(robotron_input(&m, 0x0c) == 0xe0);
+  assert(m.rx.pending && m.cpu.bus.ack(&m) == 0xff);
+  robotron_output(&m, 0x0e, 0x38);
+  assert(m.cpu.bus.ack(&m) == 0x8c);
+  robotron_output(&m, 0x0e, 0x38);
+  assert(robotron_input(&m, 0x0c) == 0x61);
+  assert(!(robotron_input(&m, 0x0e) & 1));
+  for (unsigned i = 0; i < 4; i++)
+    serial_byte(i, 1);
+  assert(m.rx.count == 3 && (m.rx.errors & 0x20));
+  for (unsigned i = 0; i < 3; i++)
+    assert(robotron_input(&m, 0x0c) == i);
+  robotron_output(&m, 0x0e, 0x30);
+  assert(!m.rx.errors);
+  serial_byte(0x55, 0);
+  assert(m.rx.errors & 0x40);
+  robotron_output(&m, 0x0e, 0x18);
+  assert(!m.rx.count && !m.rx.errors);
+  serial_byte(1, 1);
+  assert(!m.rx.count); /* receiver disabled after reset */
+  /* A tiny original ROM exercises the matrix/LED strobes through the CPU. */
+  uint8_t rom[2048] = {0x01, 0x00, 0xc0,
+                       0xed, 0x78, 0x76}; /* LD BC,C000; IN A,(C); HALT */
+  robotron_keyboard k;
+  robotron_keyboard_init(&k, rom, NULL, NULL);
+  for (unsigned i = 0; i < 1000; i++)
+    robotron_keyboard_tick(&k);
+  assert(k.leds == 2); /* one toggle, despite a multi-cycle I/O read */
+  assert(!robotron_keyboard_key(&k, 7, 5, 1) && k.matrix[7] == 32);
+  assert(robotron_keyboard_key(&k, 13, 0, 1) < 0);
+  assert(!robotron_keyboard_tap(&k, 61, 1));
+  robotron_keyboard_tick(&k);
+  assert(k.synthetic[7] == 32 && k.synthetic[8] == 2);
+  robotron_keyboard_release(&k);
+  assert(!k.matrix[7] && !k.synthetic[7] && !k.tap_count);
+}
+static void floppy_seek(void) {
+  init();
+  const uint8_t specify[] = {3, 0xf0, 0}, seek[] = {15, 0, 3};
+  send(0x1d, specify, 3);
+  send(0x1d, seek, 3);
+  assert((robotron_input(&m, 0x1c) & 1) && m.fdc.cylinder[0] == 0);
+  robotron_output(&m, 0x1d, 8);
+  assert(robotron_input(&m, 0x1d) == 0x80);
+  robotron_run(&m, 3 * 3994 + 1);
+  robotron_output(&m, 0x1d, 8);
+  assert(robotron_input(&m, 0x1d) == 0x20 && robotron_input(&m, 0x1d) == 3);
+  assert(!(robotron_input(&m, 0x1c) & 1));
+  const uint8_t absent[] = {4, 1};
+  send(0x1d, absent, 2);
+  assert(!(robotron_input(&m, 0x1d) & 32));
+  fdc(0x46); /* read cylinder 0 without seeking back */
+  assert(robotron_input(&m, 0x1d) & 0x40);
+  assert(robotron_input(&m, 0x1d) == 4);
+}
 int main(void) {
+  keyboard_serial();
+  floppy_seek();
   dma_memory();
   floppy_completion();
   interrupt_chain();

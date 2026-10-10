@@ -51,9 +51,9 @@ int main(int argc, char **argv) {
   if (argc > 5) {
     for (char *p = argv[5]; *p; p++) {
       robotron_key(m, (uint8_t)*p);
-      robotron_run(m, *p == 13 || *p == 10 || *p == 26 ? 8000000 : 1000000);
+      robotron_run(m, *p == 13 || *p == 10 || *p == 26 ? 32000000 : 1000000);
     }
-    robotron_run(m, 8000000);
+    robotron_run(m, 32000000);
   }
   for (unsigned row = 0; row < 24; row++) {
     for (unsigned col = 0; col < 80; col++) {

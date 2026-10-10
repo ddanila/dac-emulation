@@ -1,3 +1,4 @@
+ROBOTRON_OBJECTS = build/machines/robotron1715m/robotron.o build/machines/robotron1715m/keyboard.o build/machines/robotron1715m/sio.o
 CC ?= cc
 AR ?= ar
 NODE ?= node
@@ -41,14 +42,14 @@ build/vjuga-boot: build/runners/native/vjuga_boot.o $(Z80_OBJECTS)
 -include $(Z80_OBJECTS:.o=.d) build/runners/native/vjuga_boot.d
 
 all: build/robotron-boot
-build/robotron-boot: build/runners/native/robotron_boot.o build/machines/robotron1715m/robotron.o build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+build/robotron-boot: build/runners/native/robotron_boot.o $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CFLAGS) $^ -o $@
 -include build/runners/native/robotron_boot.d build/machines/robotron1715m/robotron.d
 
-build/machines-test: tests/integration/machines_test.c build/machines/robotron1715m/robotron.o $(Z80_OBJECTS) build/common/media/media.o build/common/trace/trace.o
+build/machines-test: tests/integration/machines_test.c $(ROBOTRON_OBJECTS) $(Z80_OBJECTS) build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
 
-build/browser-reference: tests/integration/wasm_reference.c runners/browser/dac.c build/libdac-juku.a $(Z80_OBJECTS) build/machines/robotron1715m/robotron.o
+build/browser-reference: tests/integration/wasm_reference.c runners/browser/dac.c build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
 
 .PHONY: wasm test-wasm
@@ -59,10 +60,15 @@ wasm:
 test-wasm: wasm
 	"$(NODE)" tests/integration/browser_smoke.mjs
 
-build/robotron-devices-test: tests/integration/robotron_devices_test.c build/machines/robotron1715m/robotron.o build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+build/robotron-devices-test: tests/integration/robotron_devices_test.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
 
 test: test-robotron-devices
 .PHONY: test-robotron-devices
 test-robotron-devices: build/robotron-devices-test
 	./build/robotron-devices-test
+
+-include $(ROBOTRON_OBJECTS:.o=.d)
+
+build/robotron-keyboard-rom-test: tests/integration/robotron_keyboard_rom.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@

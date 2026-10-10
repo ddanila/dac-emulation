@@ -22,3 +22,20 @@ for(const [kind,name] of [[0,'juku.bin'],[1,'vjuga.bin']]){
  assert(pixels(s).some((v,i)=>i%4===0&&v===0xa0));wasm._dac_destroy(s);
 }
 console.log('PASS WASM: independent instances, bounded slices, power/reset, keyboard, all three machine profiles');
+// Snapshot restores CPU/device state as well as pixels, and rejects corruption
+// without changing the running instance. This original ROM needs no downloads.
+const s=wasm._dac_create(2);
+for(const [slot,file] of [[0,'robotron.bin'],[1,'cas.bin'],[2,'glyphs.bin']]) assert.equal(load(s,slot,await read(file)),0);
+wasm._dac_power(s,1);wasm._dac_run(s,50000);
+const n=wasm._dac_state_size(s), snapshot=wasm._malloc(n);
+assert(n>262144);assert.equal(wasm._dac_state_save(s,snapshot,n),0);
+const savedPixels=pixels(s);
+wasm._dac_key(s,65,1);wasm._dac_run(s,50000);
+const changedPixels=pixels(s);assert.notDeepEqual(changedPixels,savedPixels);
+wasm.HEAPU8[snapshot+n-1]^=1;
+assert(wasm._dac_state_load(s,snapshot,n)<0);assert.deepEqual(pixels(s),changedPixels);
+wasm.HEAPU8[snapshot+n-1]^=1;
+assert.equal(wasm._dac_state_load(s,snapshot,n),0);assert.deepEqual(pixels(s),savedPixels);
+wasm._dac_key(s,65,1);wasm._dac_run(s,50000);assert.deepEqual(pixels(s),changedPixels);
+wasm._free(snapshot);wasm._dac_destroy(s);
+console.log('PASS WASM snapshot round trip, deterministic continuation and corrupt-state rejection');
