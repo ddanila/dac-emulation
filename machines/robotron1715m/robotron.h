@@ -47,7 +47,7 @@ typedef struct {
   dac_media disk, disk_b;
   uint8_t printer[65536];
   unsigned printer_size, printer_overflow;
-  uint8_t tx_holding, tx_shift, tx_full;
+  uint8_t tx_holding, tx_shift, tx_full, tx_pending, tx_in_service;
   unsigned tx_clocks;
   uint8_t sio_pointer[2], sio_regs[2][8];
   uint8_t keys[256];

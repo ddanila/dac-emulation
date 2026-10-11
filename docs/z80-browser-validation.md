@@ -44,3 +44,19 @@ snapshot continuation and Robotron snapshots containing both disks.
 two-drive PIP and printer regressions, using externally supplied reference media.
 No full HDL is required. Raster/DMA scheduling, unusual media formats and exact
 specimen measurements still require separate validation.
+
+## Session reliability and replay (2026-10-11)
+
+Juku frame, FDC and USART deadlines use modular clock comparisons. A focused
+native and WASM test moves the clock across `ULONG_MAX` and checks that devices
+do not fire early or stall after rollover; it does not run hours of emulation.
+Intervals must remain below half the clock range. The browser bounds accumulated
+clock debt, pauses on hidden tabs and releases input on focus loss.
+
+`make build/dac-replay` builds a native consumer of the museum's versioned
+recording transport. `dac/scripts/replay-native.mjs` validates an exported
+`.dacrecord`, feeds initial ROM/disk images and ordered execution/input events
+to that runner, and compares SHA-256 of video, both disks and printer output.
+Snapshots still use internal layouts; the museum preserves selected historical
+WASM builds to restore old files rather than interpreting them as new layouts.
+No Verilog run is involved.

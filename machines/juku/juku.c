@@ -1,3 +1,4 @@
+#include <limits.h>
 #include "juku_internal.h"
 #include <stdlib.h>
 #include <string.h>
@@ -348,11 +349,17 @@ void juku_usart_reset(juku *ctx) {
   ctx->usart_tx_irq_pending = ctx->usart_rx_irq_pending = 0;
 }
 
+/* Modular deadlines: all device intervals are below half the clock range.
+ * unsigned long is 32 bits in WASM and 64 bits on our native hosts. */
+static int clock_due(unsigned long now, unsigned long deadline) {
+  return now - deadline <= ULONG_MAX / 2;
+}
+
 void juku_usart_poll(juku *ctx, unsigned long cyc) {
   (void)ctx;
   if (!ctx->usart.enabled) return;
   if (ctx->usart_pit_clock && !ctx->usart_pit_clock_valid) return;
-  if (ctx->usart.tx_busy && cyc >= ctx->usart.tx_complete_cyc) {
+  if (ctx->usart.tx_busy && clock_due(cyc, ctx->usart.tx_complete_cyc)) {
     int written = ctx->hooks.serial_write ? ctx->hooks.serial_write(ctx->hooks.user, ctx->usart.tx_shift_data) : 0;
     if (written == 1) {
       ctx->usart.tx_busy = 0;
@@ -366,7 +373,7 @@ void juku_usart_poll(juku *ctx, unsigned long cyc) {
     }
   }
   if (!ctx->usart.fault_tx_stuck && ctx->usart.tx_holding_full && !ctx->usart.tx_busy &&
-      cyc >= ctx->usart.tx_transfer_cyc) {
+      clock_due(cyc, ctx->usart.tx_transfer_cyc)) {
     ctx->usart.tx_shift_data = ctx->usart.tx_data;
     ctx->usart.tx_holding_full = 0;
     ctx->usart.tx_busy = 1;
@@ -378,6 +385,7 @@ void juku_usart_poll(juku *ctx, unsigned long cyc) {
      host probes continuously while a ROM command is still initializing D11.
      Once enabled, preserve byte timing and overrun behavior below. */
   if (!(ctx->usart.command & 0x04)) {
+    ctx->usart.rx_next_cyc = cyc;
     uint8_t discarded[256];
     for (;;) {
       int received = ctx->hooks.serial_read ? ctx->hooks.serial_read(ctx->hooks.user, discarded, sizeof(discarded)) : 0;
@@ -393,7 +401,7 @@ void juku_usart_poll(juku *ctx, unsigned long cyc) {
      Do not let the host PTY become an impossible extra FIFO: at each complete
      character time, consume the next wire byte.  If firmware has not read the
      previous byte, latch OE and discard the newcomer. */
-  while ((ctx->usart.command & 0x04) && cyc >= ctx->usart.rx_next_cyc) {
+  while ((ctx->usart.command & 0x04) && clock_due(cyc, ctx->usart.rx_next_cyc)) {
     uint8_t value;
     int received = ctx->hooks.serial_read ? ctx->hooks.serial_read(ctx->hooks.user, &value, 1) : 0;
     if (received == 1) {
@@ -796,7 +804,7 @@ int juku_take_pic_irq(juku *ctx, i8080* cpu, unsigned irq, const char* source,
 
 void juku_sync_fdc_time(juku *ctx, i8080* cpu) {
   (void)ctx;
-  if (!ctx->fdc_enabled || !cpu || cpu->cyc <= ctx->fdc_last_cyc) return;
+  if (!ctx->fdc_enabled || !cpu || cpu->cyc == ctx->fdc_last_cyc) return;
   juku_fdc_tick(&ctx->fdc, (unsigned)(cpu->cyc - ctx->fdc_last_cyc));
   ctx->fdc_last_cyc = cpu->cyc;
 }
@@ -1103,14 +1111,14 @@ void juku_step_devices(juku *ctx) {
     }
     if (ctx->usart_rx_irq_pending &&
         (!ctx->usart.fault_rx_irq_delay_once_fired ||
-         ctx->cpu.cyc >= ctx->usart.fault_rx_irq_delay_until) &&
+         clock_due(ctx->cpu.cyc, ctx->usart.fault_rx_irq_delay_until)) &&
         juku_take_pic_irq(ctx, &ctx->cpu, 2, "USART RxRDY", &ctx->usart_rx_irq_count))
       ctx->usart_rx_irq_pending = 0;
     if (ctx->usart_tx_irq_pending &&
         juku_take_pic_irq(ctx, &ctx->cpu, 3, "USART TxRDY", &ctx->usart_tx_irq_count))
       ctx->usart_tx_irq_pending = 0;
     // --- frame interrupt: 8253 VER-RTR -> 8259 IR5 -> CPU (MCS-80 CALL to the ICW vector) ---
-    if (ctx->frame_cyc && ctx->cpu.cyc >= ctx->next_frame) {
+    if (ctx->frame_cyc && clock_due(ctx->cpu.cyc, ctx->next_frame)) {
       ctx->next_frame += ctx->frame_cyc;
       // A host PTY byte represents a physical contact. Publish newly queued
       // contacts only at a frame boundary so they cannot appear halfway

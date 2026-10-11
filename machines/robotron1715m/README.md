@@ -39,7 +39,7 @@ The native regression creates text via `PIP ...=CON:`, reads it, copies text and
 
 - Functional, not cycle-accurate: DMA byte/burst timing, search/match/ready interrupts, auto-restart, pulse output and six-command reset sequencing remain incomplete. End-of-block interrupt/TC, ready polarity and DMA/CTC in-service priority have focused tests; this does not qualify all peripheral modes.
 - Two drives share one explicit raw geometry. Format accepts exactly five unique 1024-byte sector IDs on the current cylinder/head; arbitrary layouts, deleted-sector/error metadata and detailed scan semantics remain incomplete. Whole/partial write completion, write protection, busy/data/result transitions and reset cancellation have focused checks.
-- CTC external trigger timing, SIO synchronous modes, TX interrupts, other serial channels and V.24 are pending. Printer TX A supports an always-ready byte-capture device clocked by CTC0 channel 0. The keyboard receiver implements asynchronous width/parity/clock division, three-byte FIFO, error status and receive interrupts; it is not a complete SIO.
+- CTC external trigger timing, SIO synchronous modes, other serial channels and V.24 are pending. Printer TX A supports an always-ready byte-capture device clocked by CTC0 channel 0. The keyboard receiver implements asynchronous width/parity/clock division, three-byte FIFO, error status and receive interrupts; it is not a complete SIO.
 - The 8275 stream renderer does not implement scan timing, real display DMA/FIFO limits, raster interrupts, double-spaced rows, light pen or external LA0/LA1 graphics wiring. Character attributes now decode VSP/LTEN and highlight/blink, retaining the reference Robotron glyph wiring. Blink uses a nominal 50 Hz clock; unusual geometries are bounded to the supported framebuffer. Field attributes and cursor are not a claim of complete 8275 emulation.
 - No MAME runtime differential or physical-machine comparison has been performed. Source comparisons and passing applications do not prove hardware accuracy.
 
@@ -99,3 +99,14 @@ The bounded cases copy PIP.COM between drives and independently compare bytes,
 capture `PIP LST:=AUTOEXC.SUB`, create/save a WordStar document, and compile/run a
 small Turbo Pascal program. Input images remain untouched. This is functional
 coverage of these paths, not qualification of every application feature.
+
+## Serial transmitter interrupts (2026-10-11)
+
+Channel A now latches a transmit interrupt when its holding register empties,
+respects WR1 enable, supplies the channel-A TX vector, and acknowledges WR0
+reset-TX-pending and return-from-interrupt commands. RX has priority over TX;
+DMA/CTC retain priority over the SIO. Loading another byte clears TX pending.
+Focused tests cover nesting, vectors, servicing, reset and printing.
+This is the asynchronous printer channel, not a full SIO implementation.
+Reference: [Zilog Z80-SIO Technical Manual](https://www.hartetechnologies.com/manuals/Zilog/Zilog%20Z80-SIO%20Technical%20Manual.pdf),
+transmit interrupts and WR0/WR1. Robotron internal state version is now 3.

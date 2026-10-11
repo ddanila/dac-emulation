@@ -341,7 +341,35 @@ static void printer(void) {
   robotron_run(&m, 160);
   assert(m.printer_size == 2 && m.printer[1] == 'B');
 }
+static void transmitter_interrupt(void) {
+  init();
+  m.sio_regs[0][1] = 2;
+  m.sio_regs[0][4] = 4;
+  m.sio_regs[0][5] = 0x68;
+  m.sio_regs[1][1] = 4;
+  m.sio_regs[1][2] = 0x80;
+  assert(m.cpu.bus.ack(&m) == 0xff);
+  robotron_output(&m, 0x0c, 'A');
+  robotron_printer_clock(&m);
+  assert(m.tx_pending && !m.tx_full);
+  assert(m.cpu.bus.ack(&m) == 0x88 && m.tx_in_service);
+  assert(m.cpu.bus.ack(&m) == 0xff);
+  m.rx.pending = 1;
+  assert(m.cpu.bus.ack(&m) == 0x8c); /* RX can interrupt TX */
+  robotron_sio_control(&m, 0, 0x38);
+  assert(!m.rx.in_service && m.tx_in_service);
+  robotron_output(&m, 0x0c, 'B');
+  assert(!m.tx_pending);
+  robotron_sio_control(&m, 0, 0x38);
+  assert(!m.tx_in_service);
+  for (unsigned i = 0; i < 10; i++)
+    robotron_printer_clock(&m);
+  assert(m.tx_pending);
+  robotron_sio_control(&m, 0, 0x28);
+  assert(!m.tx_pending && m.cpu.bus.ack(&m) == 0xff);
+}
 int main(void) {
+  transmitter_interrupt();
   two_drives_format();
   printer();
   keyboard_serial();

@@ -525,7 +525,8 @@ static uint8_t input_value(void *p, uint16_t a) {
     m->sio_pointer[0] = 0;
     return reg == 1
                ? (!m->tx_full && !m->tx_clocks)
-               : (0x78 | (!m->tx_full << 2) | (m->key_read != m->key_write));
+               : (0x78 | (!m->tx_full << 2) | (m->key_read != m->key_write) |
+                  ((m->tx_pending && (m->sio_regs[0][1] & 2)) << 1));
   }
   if (a == 0x0c) {
     if (m->key_read == m->key_write)
@@ -556,6 +557,7 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
     if (!m->tx_full && (m->sio_regs[0][5] & 8)) {
       m->tx_holding = v;
       m->tx_full = 1;
+      m->tx_pending = 0;
     }
   } else if (a == 0x0e || a == 0x0f) {
     robotron_sio_control(m, a & 1, v);
@@ -616,7 +618,7 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
       m->cursor[pos - 4] = v;
   }
 }
-/* Daisy chain: DMA, then CTC2 channels 0..3. CTC0 is not wired to INT. */
+/* Daisy chain: DMA, CTC2 channels 0..3, SIO A RX then TX. CTC0 has no INT. */
 static int interrupt_source(robotron *m) {
   if (m->dma.in_service)
     return -1;
@@ -628,8 +630,14 @@ static int interrupt_source(robotron *m) {
     if (m->ctc[i].pending)
       return (int)i + 1;
   }
-  if (m->rx.pending && !m->rx.in_service)
+  if (m->rx.in_service)
+    return -1;
+  if (m->rx.pending)
     return 5;
+  if (m->tx_in_service)
+    return -1;
+  if (m->tx_pending && (m->sio_regs[0][1] & 2))
+    return 6;
   return -1;
 }
 static uint8_t ack(void *p) {
@@ -639,6 +647,11 @@ static uint8_t ack(void *p) {
     m->dma.irq = 0;
     m->dma.in_service = 1;
     return m->dma.irq_vector;
+  }
+  if (source == 6) {
+    m->tx_in_service = 1;
+    return (m->sio_regs[1][1] & 4) ? (m->sio_regs[1][2] & 0xf1) | 8
+                                   : m->sio_regs[1][2];
   }
   if (source == 5) {
     m->rx.pending = 0;
@@ -663,7 +676,10 @@ static void reti(robotron *m) {
       m->ctc[i].in_service = 0;
       return;
     }
-  m->rx.in_service = 0;
+  if (m->rx.in_service)
+    m->rx.in_service = 0;
+  else
+    m->tx_in_service = 0;
 }
 
 void robotron_init(robotron *m) {

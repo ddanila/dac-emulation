@@ -354,7 +354,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    2,
+                    3,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -374,7 +374,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 2 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 3 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||
@@ -407,6 +407,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       r->dma.read_pos >= 7 || r->sio_pointer[0] > 7 || r->sio_pointer[1] > 7 ||
       r->rx.read >= 3 || r->rx.count > 3 || r->rx.phase > 4 || r->rx.bits > 8 ||
       k->tap_read >= 64 || k->tap_count > 64 || k->tap_phase > 2 ||
+      r->tx_pending > 1 || r->tx_in_service > 1 ||
       k->clock_fraction >= 3993600 || r->key_write - r->key_read > 256 ||
       r->printer_size > sizeof(r->printer) ||
       (f->formatting && (f->data_len != 20 || f->write != 1)) || f->head > 1;

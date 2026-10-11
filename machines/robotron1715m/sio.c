@@ -75,7 +75,8 @@ uint8_t robotron_sio_read(robotron *m, unsigned control) {
     return (!m->tx_full && !m->tx_clocks) | s->errors;
   if (reg == 2)
     return m->sio_regs[1][2];
-  return (0x78 | (!m->tx_full << 2)) | !!s->count;
+  return (0x78 | (!m->tx_full << 2)) | !!s->count |
+         ((s->pending || (m->tx_pending && (m->sio_regs[0][1] & 2))) << 1);
 }
 void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
   unsigned reg = m->sio_pointer[ch];
@@ -94,16 +95,22 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
     memset(&m->rx, 0, sizeof(m->rx));
     memset(m->sio_regs[0], 0, 8);
     m->rx.first = 1;
-    m->tx_full = m->tx_clocks = 0;
+    m->tx_full = m->tx_clocks = m->tx_pending = m->tx_in_service = 0;
     break;
   case 4:
     m->rx.first = 1;
+    break;
+  case 5:
+    m->tx_pending = 0;
     break;
   case 6:
     m->rx.errors = 0;
     break;
   case 7:
-    m->rx.in_service = 0;
+    if (m->rx.in_service)
+      m->rx.in_service = 0;
+    else
+      m->tx_in_service = 0;
     break;
   default:
     break;
@@ -123,6 +130,8 @@ void robotron_printer_clock(robotron *m) {
     unsigned bits = widths[(r[5] >> 5) & 3];
     m->tx_shift = m->tx_holding & ((1u << bits) - 1);
     m->tx_full = 0;
+    if (r[1] & 2)
+      m->tx_pending = 1;
     unsigned half = 2 * (1 + bits + (r[4] & 1)) + ((r[4] & 12) == 4   ? 2
                                                    : (r[4] & 12) == 8 ? 3
                                                                       : 4);

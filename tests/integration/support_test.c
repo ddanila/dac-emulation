@@ -2,6 +2,7 @@
 #include "media.h"
 #include "trace.h"
 #include <assert.h>
+#include <limits.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -91,7 +92,38 @@ static void media(void) {
   free(image);
 }
 
+static unsigned frames, transmitted;
+static void frame_count(void *p, unsigned long cyc) { (void)p; (void)cyc; frames++; }
+static int write_count(void *p, uint8_t v) { (void)p; assert(v == 65); transmitted++; return 1; }
+static void clock_wrap(void) {
+  juku *j = juku_create();
+  assert(j);
+  j->hooks.frame = frame_count;
+  j->hooks.serial_write = write_count;
+  j->cpu.cyc = ULONG_MAX - 7;
+  j->frame_cyc = 16;
+  j->next_frame = 8;
+  j->fdc_enabled = 1;
+  j->fdc_last_cyc = j->cpu.cyc;
+  j->usart.enabled = 1;
+  j->usart.tx_busy = 1;
+  j->usart.tx_shift_data = 65;
+  j->usart.tx_complete_cyc = 4;
+  juku_step_devices(j);
+  assert(!frames && !transmitted);
+  j->cpu.cyc = 4;
+  juku_step_devices(j);
+  assert(!frames && transmitted == 1 && j->fdc_last_cyc == 4);
+  j->cpu.cyc = 8;
+  juku_step_devices(j);
+  assert(frames == 1 && j->next_frame == 24);
+  juku_step_devices(j);
+  assert(frames == 1 && transmitted == 1);
+  juku_destroy(j);
+}
+
 int main(void) {
+  clock_wrap();
   instances();
   media();
   puts("PASS: independent Juku instances, bounded stepping, trace limits, parameterized media and memory-backed Juku disk");

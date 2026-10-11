@@ -72,3 +72,15 @@ test-robotron-devices: build/robotron-devices-test
 
 build/robotron-keyboard-rom-test: tests/integration/robotron_keyboard_rom.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
+build/dac-replay: runners/native/replay.c runners/browser/dac.c build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
+.PHONY: test-clock-wasm
+test-clock-wasm:
+	@mkdir -p build
+	emcc -O2 -std=c11 $(CPPFLAGS) tests/integration/support_test.c $(CORE) -sENVIRONMENT=node -o build/support-test.cjs
+	"$(NODE)" build/support-test.cjs
+
+test: build/dac-replay
+test-wasm: test-clock-wasm
