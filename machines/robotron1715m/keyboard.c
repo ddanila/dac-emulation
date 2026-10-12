@@ -13,16 +13,15 @@ static void no_write(void *p, uint16_t a, uint8_t v) {
 }
 static uint8_t input(void *p, uint16_t a) {
   robotron_keyboard *k = p;
-  /* The shared CPU presents a bus access over multiple clock ticks. The
-   * external flip-flops toggle once per I/O strobe, not once per tick. */
+  /* The shared CPU presents a bus access over multiple clock ticks. Read
+   * the input latch once per I/O strobe. A6A/A6B are D latches, not toggles:
+   * the schematic connects D to A14/A13 and clocks them on IORQ with A15 low. */
   if ((k->cpu.pins & (Z80_IORQ | Z80_RD)) == (Z80_IORQ | Z80_RD))
     return k->last_read;
   uint8_t v = 0xff;
-  if ((a & 0x7fff) == 0x2000)
-    k->leds ^= 1;
-  else if ((a & 0x7fff) == 0x4000)
-    k->leds ^= 2;
-  else if ((a & 0xe000) == 0x8000)
+  if (!(a & 0x8000))
+    k->leds = (a >> 13) & 3;
+  if ((a & 0xe000) == 0x8000)
     for (unsigned i = 0; i < 13; i++)
       if (a & (1u << i))
         v &= k->matrix[i] | k->synthetic[i];
@@ -30,7 +29,11 @@ static uint8_t input(void *p, uint16_t a) {
 }
 static void output(void *p, uint16_t a, uint8_t v) {
   robotron_keyboard *k = p;
-  if (a >= 0x2000 || (k->cpu.pins & (Z80_IORQ | Z80_WR)) == (Z80_IORQ | Z80_WR))
+  if ((k->cpu.pins & (Z80_IORQ | Z80_WR)) == (Z80_IORQ | Z80_WR))
+    return;
+  if (!(a & 0x8000))
+    k->leds = (a >> 13) & 3;
+  if (a >= 0x2000)
     return;
   k->strobes++;
   if (k->serial)

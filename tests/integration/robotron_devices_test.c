@@ -247,13 +247,23 @@ static void keyboard_serial(void) {
   serial_byte(1, 1);
   assert(!m.rx.count); /* receiver disabled after reset */
   /* A tiny original ROM exercises the matrix/LED strobes through the CPU. */
-  uint8_t rom[2048] = {0x01, 0x00, 0xc0,
-                       0xed, 0x78, 0x76}; /* LD BC,C000; IN A,(C); HALT */
+  uint8_t rom[2048] = {0x01, 0x00, 0x40,
+                       0xed, 0x78, 0x76}; /* LD BC,4000; IN A,(C); HALT */
   robotron_keyboard k;
   robotron_keyboard_init(&k, rom, NULL, NULL);
   for (unsigned i = 0; i < 1000; i++)
     robotron_keyboard_tick(&k);
-  assert(k.leds == 2); /* one toggle, despite a multi-cycle I/O read */
+  assert(k.leds == 2);
+  /* Same address preserves a D latch; both address bits can be set together.
+   * A15-high matrix reads must leave the lamps alone. */
+  k.cpu.pins = 0;
+  k.cpu.bus.input(&k, 0x4000); assert(k.leds == 2);
+  k.cpu.bus.input(&k, 0x6000); assert(k.leds == 3);
+  k.cpu.bus.input(&k, 0x8100); assert(k.leds == 3);
+  k.cpu.bus.input(&k, 0x2000); assert(k.leds == 1);
+  k.cpu.bus.input(&k, 0x0000); assert(k.leds == 0);
+  k.cpu.bus.output(&k, 0x6000, 0); assert(k.leds == 3);
+  k.cpu.bus.output(&k, 0x0000, 0); assert(k.leds == 0);
   assert(!robotron_keyboard_key(&k, 7, 5, 1) && k.matrix[7] == 32);
   assert(robotron_keyboard_key(&k, 13, 0, 1) < 0);
   assert(!robotron_keyboard_tap(&k, 61, 1));

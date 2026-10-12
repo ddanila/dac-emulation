@@ -110,3 +110,16 @@ Focused tests cover nesting, vectors, servicing, reset and printing.
 This is the asynchronous printer channel, not a full SIO implementation.
 Reference: [Zilog Z80-SIO Technical Manual](https://www.hartetechnologies.com/manuals/Zilog/Zilog%20Z80-SIO%20Technical%20Manual.pdf),
 transmit interrupts and WR0/WR1. Robotron internal state version is now 3.
+
+
+### Keyboard indicator latch correction
+
+The Zander 56-330-4103-7 drawing connects A6A/A6B (DL074) D inputs to A14/A13,
+with an IORQ-derived clock enabled when A15 is low. An I/O cycle latches those
+address bits: 0000 turns both off, 2000 selects SI/SO, 4000 Caps, and 6000 both.
+Repeated reads preserve the state. Matrix reads with A15 high do not change it.
+This corrects the previous MAME-derived toggle interpretation, which made S600
+scan cycles produce continuous LED chatter and failed to represent both lamps.
+The original ROM remains unmodified. Tiny original-ROM/device checks cover the
+address combinations; the optional S600 test checks stable states across idle
+scans and sequential Caps/SI/SO key presses. No state-structure or ABI change.

@@ -59,8 +59,16 @@ int main(int argc, char **argv) {
   assert(count == 2 && received[1] == 0x9e);
   count = 0;
   press(8, 7);
-  assert(m.keyboard.leds & 1);
+  assert(m.keyboard.leds == 1);
+  for (unsigned i = 0; i < 100; i++) { run(4000); assert(m.keyboard.leds == 1); }
+  press(8, 5);
+  assert(m.keyboard.leds == 3);
+  for (unsigned i = 0; i < 100; i++) { run(4000); assert(m.keyboard.leds == 3); }
+  press(8, 7);
+  assert(m.keyboard.leds == 2);
+  press(8, 5);
+  assert(m.keyboard.leds == 0);
   assert(!m.rx.errors);
-  puts("PASS S600: matrix A, Shift+A, Ctrl+A, ET, SI/SO LED and clocked 8N1 "
+  puts("PASS S600: matrix A, Shift+A, Ctrl+A, ET, stable Caps/SI/SO LEDs and clocked 8N1 "
        "receiver");
 }
