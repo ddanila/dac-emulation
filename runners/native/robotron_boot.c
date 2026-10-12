@@ -10,6 +10,29 @@ static int load(const char *path, void *p, size_t n) {
   fclose(f);
   return ok;
 }
+static uint8_t *load_disk(const char *path, size_t *size) {
+  FILE *f = fopen(path, "rb");
+  if (!f)
+    return NULL;
+  if (fseek(f, 0, SEEK_END)) {
+    fclose(f);
+    return NULL;
+  }
+  long n = ftell(f);
+  if (n < 256 || n > 1048576 || fseek(f, 0, SEEK_SET)) {
+    fclose(f);
+    return NULL;
+  }
+  uint8_t *data = malloc((size_t)n);
+  if (!data || fread(data, 1, (size_t)n, f) != (size_t)n) {
+    free(data);
+    fclose(f);
+    return NULL;
+  }
+  fclose(f);
+  *size = (size_t)n;
+  return data;
+}
 static void trace(void *p, const dac_trace_event *e) {
   (void)p;
   if (!strcmp(e->kind, "IW"))
@@ -25,14 +48,14 @@ int main(int argc, char **argv) {
     return 2;
   }
   robotron *m = malloc(sizeof(*m));
-  uint8_t *disk = malloc(819200);
+  size_t disk_size = 0, disk_b_size = 0;
+  uint8_t *disk = load_disk(argv[3], &disk_size);
   if (!m || !disk)
     return 2;
   robotron_init(m);
   if (getenv("DAC_TRACE_IO"))
     m->trace = (dac_trace_sink){trace, 0, 0, 0};
-  if (!load(argv[1], m->rom, 2048) || !load(argv[2], m->prom, 256) ||
-      !load(argv[3], disk, 819200))
+  if (!load(argv[1], m->rom, 2048) || !load(argv[2], m->prom, 256))
     return 2;
   int writable = 0;
   const char *export_path = NULL, *b_path = NULL, *export_b = NULL,
@@ -59,13 +82,16 @@ int main(int argc, char **argv) {
       return 2;
   }
   if (b_path) {
-    disk_b = malloc(819200);
-    if (!disk_b || !load(b_path, disk_b, 819200))
+    disk_b = load_disk(b_path, &disk_b_size);
+    if (!disk_b)
       return 2;
-    robotron_disk_unit(m, 1, dac_memory_storage(disk_b, 819200, writable_b),
-                       writable_b);
+    if (robotron_disk_unit(m, 1,
+                           dac_memory_storage(disk_b, disk_b_size, writable_b),
+                           writable_b))
+      return 2;
   }
-  robotron_disk(m, dac_memory_storage(disk, 819200, writable), writable);
+  if (robotron_disk(m, dac_memory_storage(disk, disk_size, writable), writable))
+    return 2;
   unsigned long ticks = argc > 4 ? strtoul(argv[4], 0, 0) : 20000000;
   for (unsigned long i = 0; i < ticks; i += 1000)
     robotron_run(m, (unsigned)(ticks - i < 1000 ? ticks - i : 1000));
@@ -96,7 +122,7 @@ int main(int argc, char **argv) {
       perror(export_path);
       return 2;
     }
-    int ok = fwrite(disk, 1, 819200, f) == 819200;
+    int ok = fwrite(disk, 1, disk_size, f) == disk_size;
     if (fclose(f) || !ok)
       return 2;
   }
@@ -104,7 +130,7 @@ int main(int argc, char **argv) {
     FILE *f = fopen(export_b, "wbx");
     if (!f || !disk_b)
       return 2;
-    int ok = fwrite(disk_b, 1, 819200, f) == 819200;
+    int ok = fwrite(disk_b, 1, disk_b_size, f) == disk_b_size;
     if (fclose(f) || !ok)
       return 2;
   }

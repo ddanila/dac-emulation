@@ -1,4 +1,4 @@
-ROBOTRON_OBJECTS = build/machines/robotron1715m/robotron.o build/machines/robotron1715m/keyboard.o build/machines/robotron1715m/sio.o
+ROBOTRON_OBJECTS = build/machines/robotron1715m/disk.o build/machines/robotron1715m/robotron.o build/machines/robotron1715m/keyboard.o build/machines/robotron1715m/sio.o
 CC ?= cc
 AR ?= ar
 NODE ?= node

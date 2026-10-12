@@ -73,3 +73,19 @@ for(const unit of [0,1]) {
 }
 wasm._free(diskbuf);wasm._free(dualstate);wasm._dac_destroy(dual);
 console.log('PASS two-drive snapshot payloads, mount/eject and media mismatch rejection');
+// A snapshot taken between STEP and settling restores fractional pose, motor
+// acceleration and the timestamped event ring, not just the final cylinder.
+const mechanical=wasm._dac_create(2),seekRom=new Uint8Array(2048);
+seekRom.set([0x3e,15,0xd3,0x1d,0x3e,0,0xd3,0x1d,0x3e,3,0xd3,0x1d,0x76]);
+assert.equal(load(mechanical,0,seekRom),0);
+assert.equal(load(mechanical,1,await read('cas.bin')),0);
+wasm._dac_power(mechanical,1);wasm._dac_run(mechanical,30000);
+const pose=()=>[wasm._dac_drive_position_unit(mechanical,0),wasm._dac_drive_phase_unit(mechanical,0),wasm._dac_drive_steps_unit(mechanical,0),wasm._dac_drive_step_age(mechanical,0,0),wasm._dac_drive_mechanics_unit(mechanical,0)];
+const beforePose=pose();assert(beforePose[0]>0&&beforePose[0]<65536);assert.equal(beforePose[2],1);
+const sn=wasm._dac_state_size(mechanical),sp=wasm._malloc(sn);
+assert.equal(wasm._dac_state_save(mechanical,sp,sn),0);
+wasm._dac_run(mechanical,30000);const afterPose=pose();
+assert.equal(wasm._dac_state_load(mechanical,sp,sn),0);assert.deepEqual(pose(),beforePose);
+wasm._dac_run(mechanical,30000);assert.deepEqual(pose(),afterPose);
+wasm._free(sp);wasm._dac_destroy(mechanical);
+console.log('PASS WASM snapshot mid-seek: fractional head, ramp speed, phase and STEP timestamps');

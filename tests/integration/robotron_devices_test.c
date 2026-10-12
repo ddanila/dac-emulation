@@ -15,6 +15,14 @@ static void init(void) {
   m.rom[0] = 0x76; /* HALT */
   memset(disk, 0x5a, sizeof(disk));
   assert(!robotron_disk(&m, dac_memory_storage(disk, sizeof(disk), 1), 1));
+  /* Peripheral fixtures start with pre-spun, loaded drives. Startup is tested
+   * separately. */
+  for (unsigned u = 0; u < 2; u++) {
+    m.drive[u].speed = ROBOTRON_SPINUP_TICKS;
+    m.drive[u].ready = m.drive[u].loaded = 1;
+    m.drive[u].ready_indexes = 2;
+    m.drive[u].unload_at = UINT64_MAX;
+  }
 }
 static void dma(unsigned a, unsigned b, unsigned n, unsigned bmode,
                 unsigned ctrl) {
@@ -26,6 +34,7 @@ static void dma(unsigned a, unsigned b, unsigned n, unsigned bmode,
 static void fdc(unsigned op) {
   const uint8_t p[] = {op, 0, 0, 0, 1, 3, 5, 0x1b, 1};
   send(0x1d, p, sizeof(p));
+  robotron_run(&m, 1);
 }
 static void dma_memory(void) {
   init();
@@ -68,7 +77,7 @@ static void floppy_completion(void) {
   memset(m.ram + 0x4000, 0xa5, 1024);
   robotron_output(&m, 0x20, 0xc0); /* reset released, TC gated on */
   robotron_output(&m, 0, 0x87);
-  robotron_run(&m, 4000 + 1024 * 128);
+  robotron_run(&m, (unsigned)(m.fdc.ready_at - m.cpu.cycles) + 1024 * 128);
   assert(m.disk_writes == 1 && m.fdc.phase == 1 && m.dma.irq);
   for (unsigned i = 0; i < 1024; i++)
     assert(disk[i] == 0xa5);
@@ -85,7 +94,7 @@ static void floppy_completion(void) {
   memset(m.ram + 0x4000, 0x31, 128);
   robotron_output(&m, 0x20, 0xc0);
   robotron_output(&m, 0, 0x87);
-  robotron_run(&m, 4000 + 128 * 128);
+  robotron_run(&m, (unsigned)(m.fdc.ready_at - m.cpu.cycles) + 128 * 128);
   assert(m.disk_writes == 1);
   for (unsigned i = 0; i < 1024; i++)
     assert(disk[i] == (i < 128 ? 0x31 : 0));
@@ -98,7 +107,7 @@ static void floppy_completion(void) {
   dma(0x4000, 0x41, 128, 0x28, 0x10);
   robotron_output(&m, 0x20, 0xc0);
   robotron_output(&m, 0, 0x87);
-  robotron_run(&m, 4000 + 128 * 128);
+  robotron_run(&m, (unsigned)(m.fdc.ready_at - m.cpu.cycles) + 128 * 128);
   assert(m.fdc.phase == 2 && !m.disk_writes && !m.dma.irq);
   robotron_output(&m, 0x20, 0x80); /* assert FDC reset */
   assert(!m.fdc.phase && robotron_input(&m, 0x1c) == 0);
@@ -276,38 +285,34 @@ static void floppy_seek(void) {
   send(0x1d, absent, 2);
   assert(!(robotron_input(&m, 0x1d) & 32));
   fdc(0x46); /* read cylinder 0 without seeking back */
+  robotron_run(&m, 3 * ROBOTRON_REVOLUTION_TICKS);
   assert(robotron_input(&m, 0x1d) & 0x40);
   assert(robotron_input(&m, 0x1d) == 4);
 }
 
 static void floppy_rotation(void) {
   init();
-  m.motor = 8; /* A on, B off. */
   robotron_run(&m, ROBOTRON_REVOLUTION_TICKS + 123);
-  assert(m.rotation[0] == 123 && m.rotation[1] == 0);
-  m.motor = 128; /* Independent phase; B starts where it stopped. */
-  robotron_run(&m, 456);
-  assert(m.rotation[0] == 123 && m.rotation[1] == 456);
-  m.motor = 0;
+  assert(m.rotation[0] == 123 && m.rotation[1] == 123);
   fdc(0x46);
-  uint64_t expected = m.cpu.cycles + ROBOTRON_REVOLUTION_TICKS - 123 + 4000;
-  assert(m.fdc.ready_at == expected); /* Uses A phase, not global CPU time. */
+  uint64_t expected = m.fdc.ready_at;
+  assert(expected >
+         m.cpu.cycles); /* Physical ID/data positions, not global CPU modulo. */
   m.motor = 128;
-  robotron_run(&m, 500);
-  assert(m.rotation[0] == 123 && m.fdc.ready_at == expected + 500);
-  m.fdc.ready_at = m.cpu.cycles; /* Already-ready byte still cannot transfer with motor off. */
-  assert(robotron_input(&m, 0x1d) == 0xff && m.fdc.data_pos == 0);
-  m.fdc.ready_at = expected + 500;
-  m.motor = 0;
-  robotron_run(&m, 100);
-  assert(m.rotation[0] == 223 && m.fdc.ready_at == expected + 500);
-  /* Backward seeks also expose every step, not just the destination. */
-  init(); m.fdc.cylinder[0] = 3;
+  robotron_run(&m, 1);
+  assert(m.fdc.phase == 1 && (m.fdc.result[0] & 0x48) == 0x48);
+  assert(m.drive[0].speed < ROBOTRON_SPINUP_TICKS); /* coast-down */
+  init();
+  m.fdc.cylinder[0] = m.fdc.physical[0] = 3;
   const uint8_t specify[] = {3, 0xf0, 0}, recal[] = {7, 0};
-  send(0x1d, specify, 3); send(0x1d, recal, 2);
-  robotron_run(&m, 3995); assert(m.fdc.cylinder[0] == 2);
-  robotron_run(&m, 3994); assert(m.fdc.cylinder[0] == 1);
-  robotron_run(&m, 3994); assert(m.fdc.cylinder[0] == 0 && !m.fdc.seeking);
+  send(0x1d, specify, 3);
+  send(0x1d, recal, 2);
+  robotron_run(&m, 3995);
+  assert(m.fdc.physical[0] == 2);
+  robotron_run(&m, 3994);
+  assert(m.fdc.physical[0] == 1);
+  robotron_run(&m, 3994);
+  assert(m.fdc.physical[0] == 0 && !m.fdc.seeking);
 }
 
 static void two_drives_format(void) {
@@ -321,6 +326,8 @@ static void two_drives_format(void) {
   const uint8_t fmt[] = {0x4d, 1, 3, 5, 0x1b, 0xa6};
   send(0x1d, fmt, 6);
   for (unsigned i = 0; i < 20; i++) {
+    if (m.fdc.search)
+      robotron_run(&m, 1);
     m.cpu.cycles = m.fdc.ready_at;
     const uint8_t id[] = {0, 0, (uint8_t)(i / 4 + 1), 3};
     robotron_output(&m, 0x1d, id[i % 4]);
@@ -336,6 +343,8 @@ static void two_drives_format(void) {
   const uint8_t read[] = {0xc6, 1, 0, 0, 5, 3, 5, 0x1b, 1};
   send(0x1d, read, 9);
   for (unsigned i = 0; i < 2048; i++) {
+    if (m.fdc.search)
+      robotron_run(&m, 1);
     m.cpu.cycles = m.fdc.ready_at;
     if (i == 2047)
       m.fdc.tc = 1;
@@ -405,7 +414,184 @@ static void transmitter_interrupt(void) {
   robotron_sio_control(&m, 0, 0x28);
   assert(!m.tx_pending && m.cpu.bus.ack(&m) == 0xff);
 }
+static void floppy_mechanics_and_deadlines(void) {
+  robotron_init(&m);
+  m.rom[0] = 0x76;
+  assert(!robotron_disk(&m, dac_memory_storage(disk, sizeof(disk), 1), 1));
+  fdc(0x46);
+  assert(m.fdc.phase == 1 &&
+         (m.fdc.result[0] & 0x48) == 0x48); /* NR during startup */
+  robotron_run(&m, ROBOTRON_SPINUP_TICKS - 1);
+  assert(m.drive[0].speed == ROBOTRON_SPINUP_TICKS &&
+         !robotron_drive_ready(&m, 0));
+  robotron_run(&m, ROBOTRON_REVOLUTION_TICKS + 2);
+  assert(robotron_drive_ready(&m, 0) && m.drive[0].index_count >= 2);
+  unsigned phase = m.rotation[0];
+  m.motor = 128;
+  robotron_run(&m, 100);
+  assert(!robotron_drive_ready(&m, 0) && m.rotation[0] != phase);
+  robotron_run(&m, ROBOTRON_SPINUP_TICKS);
+  phase = m.rotation[0];
+  robotron_run(&m, 1000);
+  assert(!m.drive[0].speed && m.rotation[0] == phase);
+
+  init();
+  m.rotation[0] = m.tracks[0][0].sector[2].id_phase - 20;
+  const uint8_t rid[] = {0x4a, 0};
+  send(0x1d, rid, 2);
+  robotron_run(&m, 1);
+  assert(m.fdc.phase == 2 && m.fdc.read_id &&
+         !(robotron_input(&m, 0x1c) & 128));
+  robotron_run(&m, 20);
+  assert(m.fdc.phase == 1 && m.fdc.result[5] == 3 && m.fdc.result[1] == 0);
+  init();
+  m.drive[0].loaded = 0;
+  fdc(0x46);
+  assert(m.fdc.search == 1 && m.drive[0].load_at == ROBOTRON_HEAD_LOAD_TICKS);
+  robotron_run(&m, ROBOTRON_HEAD_LOAD_TICKS - 2);
+  assert(m.fdc.search == 1);
+  robotron_run(&m, 2);
+  assert(!m.fdc.search);
+
+  init();
+  fdc(0x46);
+  uint64_t origin = m.fdc.byte_origin;
+  for (unsigned i = 0; i < 1024; i++) {
+    uint64_t due = origin + ((uint64_t)i * 79872 + 624) / 625;
+    assert(m.fdc.ready_at == due);
+    robotron_run(&m, (unsigned)(due - m.cpu.cycles));
+    if (!i)
+      assert(m.rotation[0] == m.tracks[0][0].sector[0].data_phase);
+    assert(robotron_input(&m, 0x1c) & 128);
+    if (i == 1023)
+      m.fdc.tc = 1;
+    assert(robotron_input(&m, 0x1d) == 0x5a);
+  }
+  assert(m.fdc.phase == 1 && m.fdc.result[1] == 0);
+  init();
+  fdc(0x45);
+  robotron_run(&m, (unsigned)(m.fdc.ready_at - m.cpu.cycles) + 105);
+  assert(m.fdc.phase == 1 && m.fdc.result[1] == 0x10 && !m.disk_writes);
+  assert(disk[0] == 0x5a); /* no falsely successful partial sector */
+
+  init();
+  const uint8_t absent[] = {0x46, 0, 0, 0, 9, 3, 9, 27, 1};
+  send(0x1d, absent, 9);
+  robotron_run(&m, ROBOTRON_REVOLUTION_TICKS);
+  assert(m.fdc.phase == 2 && m.fdc.search == 2);
+  robotron_run(&m, ROBOTRON_REVOLUTION_TICKS + 2);
+  assert(m.fdc.phase == 1 && m.fdc.result[1] == 4);
+
+  init();
+  m.fdc.cylinder[0] = m.fdc.physical[0] = 79;
+  const uint8_t spec[] = {3, 0xf1, 2}, recal[] = {7, 0};
+  send(0x1d, spec, 3);
+  send(0x1d, recal, 2);
+  robotron_run(&m, 77 * 3994 + 1);
+  assert(m.fdc.physical[0] == 2 && m.fdc.seek_status[0] == 0x70 &&
+         !m.fdc.seeking);
+  send(0x1d, recal, 2);
+  robotron_run(&m, 2 * 3994 + 1);
+  assert(!m.fdc.physical[0] && m.fdc.seek_status[0] == 0x20);
+  init();
+  const uint8_t seek[] = {15, 0, 1};
+  send(0x1d, seek, 3);
+  robotron_run(&m, 23963);
+  assert(m.fdc.physical[0] == 1 && robotron_head_position(&m, 0) < 65536);
+  robotron_run(&m, ROBOTRON_STEP_TICKS / 2);
+  unsigned halfway = robotron_head_position(&m, 0);
+  assert(halfway > 32000 && halfway < 33500);
+  robotron_run(&m, ROBOTRON_STEP_TICKS);
+  assert(robotron_head_position(&m, 0) == 65536);
+}
+static void floppy_dsk(void) {
+  const unsigned length = 256 + 160 * 5376;
+  uint8_t *dsk = calloc(1, length);
+  assert(dsk);
+  memcpy(dsk, "MV - CPCEMU Disk-File\r\nDisk-Info\r\n", 34);
+  dsk[0x30] = 80;
+  dsk[0x31] = 2;
+  dsk[0x33] = 21;
+  const uint8_t order[] = {3, 1, 5, 2, 4};
+  for (unsigned t = 0; t < 160; t++) {
+    uint8_t *h = dsk + 256 + t * 5376;
+    memcpy(h, "Track-Info\r\n", 12);
+    h[0x10] = t / 2;
+    h[0x11] = t % 2;
+    h[0x14] = 3;
+    h[0x15] = 5;
+    h[0x16] = 27;
+    for (unsigned i = 0; i < 5; i++) {
+      uint8_t *id = h + 0x18 + 8 * i;
+      id[0] = t / 2;
+      id[1] = t % 2;
+      id[2] = order[i];
+      id[3] = 3;
+      id[7] = 4;
+      memset(h + 256 + 1024 * i, order[i], 1024);
+    }
+  }
+  init();
+  assert(!robotron_disk(&m, dac_memory_storage(dsk, length, 1), 1));
+  assert(m.disk_format[0] == 1 && m.tracks[0][0].sector[0].r == 3);
+  fdc(0x46); /* R=1 resides in physical slot one, not slot zero. */
+  assert(m.fdc.slot == 1);
+  robotron_run(&m, (unsigned)(m.fdc.ready_at - m.cpu.cycles));
+  assert(robotron_input(&m, 0x1d) == 1);
+  robotron_run(&m, 300); /* intentionally overrun and drain result */
+  for (unsigned i = 0; i < 7; i++)
+    robotron_input(&m, 0x1d);
+  const uint8_t ids[] = {0, 0, 5, 3, 0, 0, 4, 3, 0, 0,
+                         3, 3, 0, 0, 2, 3, 0, 0, 1, 3};
+  assert(!robotron_format_track(&m, 0, 0, 0, ids, 54, 0xa6));
+  assert(dsk[256 + 0x1a] == 5 && dsk[256 + 0x16] == 54 && dsk[512] == 0xa6);
+  assert(!robotron_disk(&m, dac_memory_storage(dsk, length, 1), 1));
+  assert(m.tracks[0][0].sector[0].r == 5 && m.tracks[0][0].gap == 54);
+  assert(robotron_disk(&m, dac_memory_storage(dsk, length - 1, 1), 1) < 0);
+  assert(m.tracks[0][0].sector[0].r == 5); /* rejected mount is atomic */
+  memcpy(dsk, "EXTENDED CPC DSK File\r\nDisk-Info\r\n", 34);
+  memset(dsk + 0x34, 21, 160);
+  assert(!robotron_disk(&m, dac_memory_storage(dsk, length, 1), 1));
+  assert(m.disk_format[0] == 2);
+  /* ID CRC fails before data transfer; a data CRC does not invalidate Read-ID.
+   */
+  dsk[256 + 0x1c] = 0x20;
+  dsk[256 + 0x1d] = 0;
+  init();
+  assert(!robotron_disk(&m, dac_memory_storage(dsk, length, 1), 1));
+  m.rotation[0] = m.tracks[0][0].sector[0].id_phase - 20;
+  const uint8_t rid[] = {0x4a, 0};
+  send(0x1d, rid, 2);
+  robotron_run(&m, 21);
+  assert(m.fdc.phase == 1 && m.fdc.result[1] == 0x20 && !m.disk_reads);
+  dsk[256 + 0x1d] = 0x20;
+  init();
+  assert(!robotron_disk(&m, dac_memory_storage(dsk, length, 1), 1));
+  m.rotation[0] = m.tracks[0][0].sector[0].id_phase - 20;
+  send(0x1d, rid, 2);
+  robotron_run(&m, 21);
+  assert(m.fdc.phase == 1 && !m.fdc.result[1]);
+  /* Physical side 0 may carry a logical H=7, C=12 in a DSK header. */
+  dsk[256 + 0x18] = 12;
+  dsk[256 + 0x19] = 7;
+  dsk[256 + 0x1c] = dsk[256 + 0x1d] = 0;
+  init();
+  assert(!robotron_disk(&m, dac_memory_storage(dsk, length, 1), 1));
+  const uint8_t logical[] = {0x46, 0, 12, 7, 5, 3, 5, 27, 1};
+  send(0x1d, logical, 9);
+  robotron_run(&m, 1);
+  assert(!m.fdc.search && m.fdc.slot == 0);
+  robotron_run(&m, (unsigned)(m.fdc.ready_at - m.cpu.cycles));
+  assert(robotron_input(&m, 0x1d) == 0xa6);
+  dsk[256 + 0x1f] =
+      8; /* oversized/weak sector payload is rejected, never flattened */
+  assert(robotron_disk_validate(dac_memory_storage(dsk, length, 0)) < 0);
+  free(dsk);
+}
+
 int main(void) {
+  floppy_mechanics_and_deadlines();
+  floppy_dsk();
   transmitter_interrupt();
   two_drives_format();
   printer();

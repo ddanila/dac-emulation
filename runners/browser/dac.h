@@ -22,6 +22,11 @@ unsigned dac_drive_status_unit(dac_session *, unsigned);
 unsigned dac_drive_phase_unit(dac_session *, unsigned);
 unsigned dac_drive_steps_unit(dac_session *, unsigned);
 unsigned dac_drive_detail_unit(dac_session *, unsigned);
+unsigned dac_drive_position_unit(dac_session *, unsigned); /* cylinder Q16 */
+/* ready, loaded, settling, index in bits 0..3; speed per mille in bits 8..17 */
+unsigned dac_drive_mechanics_unit(dac_session *, unsigned);
+/* Most recent STEP ages in CPU clocks, newest first; UINT32_MAX if absent. */
+unsigned dac_drive_step_age(dac_session *, unsigned, unsigned);
 const uint8_t *dac_printer_data(dac_session *);
 unsigned dac_printer_size(dac_session *);
 unsigned dac_printer_overflow(dac_session *);

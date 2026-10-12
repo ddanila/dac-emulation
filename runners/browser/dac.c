@@ -78,15 +78,27 @@ int dac_mount_unit(dac_session *s, unsigned unit, const void *p, size_t n,
   if (s->on &&
       (!s->r || s->r->fdc.phase || s->r->fdc.cmd_pos || s->r->fdc.seeking))
     return -EBUSY;
-  if (n && (s->kind == 2
-                ? n != 819200
-                : (n != JUK_SINGLE_SIDED_SIZE && n != JUK_DOUBLE_SIDED_SIZE)))
+  if (n &&
+      (s->kind == 2
+           ? robotron_disk_validate(dac_memory_storage((void *)p, n, 0)) != 0
+           : (n != JUK_SINGLE_SIDED_SIZE && n != JUK_DOUBLE_SIDED_SIZE)))
     return -EINVAL;
   uint8_t *copy = n ? malloc(n) : NULL;
   if (n && !copy)
     return -ENOMEM;
   if (n)
     memcpy(copy, p, n);
+  if (s->on) {
+    int r = robotron_disk_unit(s->r, unit,
+                               n ? dac_memory_storage(copy, n, !!writable)
+                                 : (dac_storage){0},
+                               !!writable);
+    if (r) {
+      free(copy);
+      return r;
+    }
+    s->r->drive[unit].ready = s->r->drive[unit].ready_indexes = 0;
+  }
   if (unit) {
     free(s->disk_b);
     s->disk_b = copy;
@@ -98,11 +110,6 @@ int dac_mount_unit(dac_session *s, unsigned unit, const void *p, size_t n,
     s->disk_size = n;
     s->writable = !!writable;
   }
-  if (s->on)
-    robotron_disk_unit(s->r, unit,
-                       n ? dac_memory_storage(copy, n, !!writable)
-                         : (dac_storage){0},
-                       !!writable);
   return 0;
 }
 int dac_mount(dac_session *s, const void *p, size_t n, int writable) {
@@ -285,7 +292,7 @@ unsigned dac_drive_status_unit(dac_session *s, unsigned u) {
   return (!(r->motor & (u ? 8 : 128))) |
          ((r->fdc.phase == 2 && r->fdc.unit == u) << 1) | (d->writable << 2) |
          (!!d->storage.read << 3) | (((r->fdc.seeking >> u) & 1) << 4) |
-         ((r->fdc.cylinder[u] & 255) << 8);
+         ((r->fdc.physical[u] & 255) << 8);
 }
 unsigned dac_drive_phase_unit(dac_session *s, unsigned u) {
   return s && s->r && u < 2 ? s->r->rotation[u] : 0;
@@ -294,13 +301,39 @@ unsigned dac_drive_steps_unit(dac_session *s, unsigned u) {
   return s && s->r && u < 2 ? s->r->fdc.steps[u] : 0;
 }
 unsigned dac_drive_detail_unit(dac_session *s, unsigned u) {
-  if (!s || !s->r || !s->on || u > 1) return 0;
+  if (!s || !s->r || !s->on || u > 1)
+    return 0;
   robotron_fdc *f = &s->r->fdc;
   unsigned selected = f->unit == u;
   return selected | ((selected && f->phase == 2) << 1) |
-      ((selected && f->phase == 2 && f->write == 1) << 2) |
-      (((f->seeking >> u) & 1) << 3) |
-      (selected ? (f->head << 4) | (f->sector << 8) : 0);
+         ((selected && f->phase == 2 && f->write == 1) << 2) |
+         (((f->seeking >> u) & 1) << 3) |
+         (selected ? (f->head << 4) | (f->sector << 8) : 0);
+}
+unsigned dac_drive_position_unit(dac_session *s, unsigned u) {
+  return s && s->r ? robotron_head_position(s->r, u) : 0;
+}
+unsigned dac_drive_mechanics_unit(dac_session *s, unsigned u) {
+  if (!s || !s->r || u > 1 || !s->on)
+    return 0;
+  robotron *r = s->r;
+  robotron_drive *d = &r->drive[u];
+  return robotron_drive_ready(r, u) |
+         ((d->loaded && r->cpu.cycles >= d->load_at) << 1) |
+         ((r->cpu.cycles < d->settle_at) << 2) |
+         ((d->speed && r->rotation[u] < 9984 &&
+           (u ? r->disk_b.storage.read : r->disk.storage.read))
+          << 3) |
+         ((d->speed * 1000u / ROBOTRON_SPINUP_TICKS) << 8);
+}
+unsigned dac_drive_step_age(dac_session *s, unsigned u, unsigned index) {
+  if (!s || !s->r || u > 1 || index >= ROBOTRON_STEP_EVENTS ||
+      index >= s->r->fdc.steps[u])
+    return UINT32_MAX;
+  unsigned n = s->r->fdc.steps[u];
+  uint64_t age = s->r->cpu.cycles -
+                 s->r->drive[u].events[(n - 1 - index) % ROBOTRON_STEP_EVENTS];
+  return age < UINT32_MAX ? (unsigned)age : UINT32_MAX;
 }
 const uint8_t *dac_printer_data(dac_session *s) {
   return s && s->r ? s->r->printer : NULL;
@@ -409,7 +442,9 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       r->keyboard_enabled != !!s->keyboard_size ||
       (s->keyboard_size && memcmp(k->rom, s->keyboard, 2048)) ||
       !valid_cpu(&r->cpu) || !valid_cpu(&k->cpu) || f->unit >= 4 ||
-      f->phase > 2 || f->write > 2 || f->formatting > 1 ||
+      f->phase > 2 || f->write > 2 || f->formatting > 1 || f->search > 3 ||
+      f->read_id > 1 || f->slot >= 5 || f->id_head > 255 || f->error2 > 255 ||
+      f->head_load_ticks > 1022362 || f->head_unload_ticks > 1022362 ||
       (f->phase == 2 &&
        (f->unit > 1 || !(f->unit ? s->disk_b_size : s->disk_size))) ||
       f->cmd_len > 9 || f->cmd_pos >= 9 || f->result_len > 7 ||
@@ -427,13 +462,36 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       r->printer_size > sizeof(r->printer) ||
       (f->formatting && (f->data_len != 20 || f->write != 1)) || f->head > 1;
   for (unsigned u = 0; u < 2; u++)
-    invalid |= r->rotation[u] >= ROBOTRON_REVOLUTION_TICKS;
+    invalid |= r->rotation[u] >= ROBOTRON_REVOLUTION_TICKS ||
+               r->drive[u].speed > ROBOTRON_SPINUP_TICKS ||
+               r->drive[u].fraction >= ROBOTRON_SPINUP_TICKS ||
+               r->drive[u].ready_indexes > 2 || r->drive[u].ready > 1 ||
+               r->drive[u].loaded > 1 || r->drive[u].from_q16 > 79 * 65536u;
   for (unsigned u = 0; u < 4; u++)
     invalid |= f->cylinder[u] > 255 || f->seek_target[u] > 255 ||
-        ((f->seeking & (1u << u)) &&
-         (!f->seek_interval[u] || f->seek_interval[u] > 16 * 3994));
+               f->physical[u] > 79 || f->recalibrate[u] > 1 ||
+               f->pulses[u] > 255 ||
+               ((f->seeking & (1u << u)) &&
+                (!f->seek_interval[u] || f->seek_interval[u] > 16 * 3994));
   for (unsigned i = 0; i < 64; i++)
     invalid |= k->taps[i] >= 104 || k->tap_mods[i] > 3;
+  if (s->disk_size)
+    invalid |=
+        robotron_disk_unit(r, 0,
+                           dac_memory_storage((void *)(payload + sizeof(*r)),
+                                              s->disk_size, s->writable),
+                           s->writable) != 0;
+  if (s->disk_b_size)
+    invalid |=
+        robotron_disk_unit(
+            r, 1,
+            dac_memory_storage((void *)(payload + sizeof(*r) + s->disk_size),
+                               s->disk_b_size, s->writable_b),
+            s->writable_b) != 0;
+  if (f->phase == 2 && (f->search == 0 || f->search == 3) && !f->formatting &&
+      f->unit < 2 && f->head < 2 && f->physical[f->unit] < 80)
+    invalid |=
+        f->slot >= r->tracks[f->unit][f->physical[f->unit] * 2 + f->head].count;
   if (invalid) {
     free(r);
     return -EINVAL;
@@ -442,15 +500,13 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
   robotron_rebind(r);
   if (s->disk_size) {
     memcpy(s->disk, payload + sizeof(*r), s->disk_size);
-    robotron_disk(r, dac_memory_storage(s->disk, s->disk_size, s->writable),
-                  s->writable);
+    r->disk.storage = dac_memory_storage(s->disk, s->disk_size, s->writable);
   } else
     memset(&r->disk, 0, sizeof(r->disk));
   if (s->disk_b_size) {
     memcpy(s->disk_b, payload + sizeof(*r) + s->disk_size, s->disk_b_size);
-    robotron_disk_unit(
-        r, 1, dac_memory_storage(s->disk_b, s->disk_b_size, s->writable_b),
-        s->writable_b);
+    r->disk_b.storage =
+        dac_memory_storage(s->disk_b, s->disk_b_size, s->writable_b);
   } else
     memset(&r->disk_b, 0, sizeof(r->disk_b));
   free(s->r);

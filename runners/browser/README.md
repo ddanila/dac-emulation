@@ -18,10 +18,18 @@ Juku input is currently one contact at a time; key zero/up clears it on focus lo
 
 The bundled demonstration ROMs and glyphs are original MIT DAC diagnostics built by `tools/build_demo.py`. They are clearly distinct from historical firmware.
 
-Additive drive telemetry: `dac_drive_phase_unit` returns motor-gated phase in
+Additive drive telemetry: `dac_drive_phase_unit` returns rotational phase in
 CPU ticks (0–798719); divide by 798720 for a revolution. `dac_drive_steps_unit`
 returns the wrapping uint32 seek-step count since controller reset.
 `dac_drive_detail_unit` packs selected/execution/write/seeking in bits 0–3,
 side in bit 4 and sector in bits 8–15. Phase and steps are serialized with the
 machine; querying them has no side effects. See `dac.h` and the Robotron drive
 fidelity document. UI code must feature-detect these exports for archived cores.
+
+`dac_drive_position_unit` returns a fractional physical cylinder in Q16.
+`dac_drive_mechanics_unit` exposes READY, loaded, settling and index flags plus
+speed per mille (see `dac.h`). `dac_drive_step_age` returns up to 64 recent STEP
+ages in CPU clocks, newest first, or UINT32_MAX when unavailable. These queries
+are pure; snapshots include the underlying ramp, pose and timestamp state.
+Robotron mounts validate raw or supported standard/extended DSK before replacing
+existing media. Exports preserve the mounted container and its byte length.

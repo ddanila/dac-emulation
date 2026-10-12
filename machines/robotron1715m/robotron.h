@@ -6,6 +6,29 @@
 #include "keyboard.h"
 #include <stddef.h>
 #define ROBOTRON_REVOLUTION_TICKS 798720u /* 3.9936 MHz / 5 Hz */
+#define ROBOTRON_SPINUP_TICKS                                                  \
+  1597440u                           /* Reference profile: 400 ms linear ramp */
+#define ROBOTRON_SETTLE_TICKS 59904u /* Reference upper bound: 15 ms */
+#define ROBOTRON_STEP_TICKS 11981u   /* Reference travel duration: 3 ms */
+#define ROBOTRON_HEAD_LOAD_TICKS 199680u /* Reference upper bound: 50 ms */
+#define ROBOTRON_STEP_EVENTS 64u
+/* Supported DSK subset: 80 cylinders, two sides, <=5 normal 1024-byte sectors.
+ */
+typedef struct {
+  uint32_t offset, id_phase, data_phase;
+  uint8_t c, h, r, n, st1, st2;
+} robotron_sector;
+typedef struct {
+  uint32_t header; /* Zero for raw images/unallocated tracks. */
+  unsigned count, gap;
+  robotron_sector sector[5];
+} robotron_track;
+typedef struct {
+  unsigned speed, fraction, index_count, ready_indexes, ready;
+  uint64_t last_index, load_at, unload_at, settle_at, step_at;
+  unsigned loaded, from_q16;
+  uint64_t events[ROBOTRON_STEP_EVENTS];
+} robotron_drive;
 /* Experimental functional PC-1715W/1715M profile. See README for fidelity. */
 typedef struct {
   uint8_t command[9], result[7], data[16384];
@@ -15,7 +38,11 @@ typedef struct {
   unsigned scan_mode, tc, reset, reset_queue, formatting;
   uint64_t ready_at, seek_at[4];
   unsigned seek_target[4], seeking, seek_done, step_ticks;
-  unsigned seek_interval[4], steps[4];
+  unsigned seek_interval[4], steps[4], physical[4], recalibrate[4], pulses[4],
+      seek_status[4];
+  unsigned head_load_ticks, head_unload_ticks;
+  unsigned search, search_index, read_id, slot, result_c, id_head, error2;
+  uint64_t byte_origin;
 } robotron_fdc;
 typedef struct {
   uint16_t a, b, count, run_a, run_b;
@@ -43,7 +70,10 @@ typedef struct {
   uint8_t rom[2048], chargen[4096], vram[4096], ram[262144], prom[256], bank,
       krfd, motor;
   robotron_fdc fdc;
-  unsigned rotation[2]; /* Motor-gated phase in CPU ticks; serialized with machine. */
+  unsigned rotation[2]; /* Phase in CPU ticks at nominal speed. */
+  robotron_drive drive[2];
+  robotron_track tracks[2][160];
+  unsigned disk_format[2]; /* 0 raw, 1 standard DSK, 2 extended DSK */
   robotron_dma dma;
   robotron_timer ctc[8];
   uint8_t ctc_vector[2];
@@ -69,6 +99,11 @@ int robotron_load(robotron *, const void *rom, size_t, const void *prom,
 int robotron_disk(robotron *, dac_storage, int writable);
 int robotron_disk_unit(robotron *, unsigned, dac_storage, int writable);
 void robotron_run(robotron *, unsigned);
+unsigned robotron_drive_ready(const robotron *, unsigned);
+unsigned robotron_head_position(const robotron *, unsigned); /* cylinder Q16 */
+int robotron_disk_validate(dac_storage);
+int robotron_format_track(robotron *, unsigned, unsigned, unsigned,
+                          const uint8_t *, unsigned, unsigned);
 /* pixels must hold 640*384 entries; dimensions are returned after rendering. */
 void robotron_video(robotron *, uint32_t *pixels, unsigned *width,
                     unsigned *height);

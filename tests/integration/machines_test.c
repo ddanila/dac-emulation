@@ -31,15 +31,23 @@ static void floppy(void) {
   uint8_t *data = calloc(1, 819200);
   assert(m && data);
   robotron_init(m);
+  m->drive[0].speed = ROBOTRON_SPINUP_TICKS;
+  m->drive[0].ready = m->drive[0].loaded = 1;
+  m->drive[0].ready_indexes = 2;
+  m->drive[0].unload_at = UINT64_MAX;
   for (unsigned i = 0; i < 1024; i++)
     data[i] = (uint8_t)i;
   assert(robotron_disk(m, dac_memory_storage(data, 819200, 1), 1) == 0);
   const uint8_t read[] = {0x46, 0, 0, 0, 1, 3, 1, 0x1b, 0xff};
   for (unsigned i = 0; i < sizeof(read); i++)
     robotron_output(m, 0x1d, read[i]);
+  if (m->fdc.search)
+    robotron_run(m, 1);
   m->cpu.cycles = m->fdc.ready_at;
   assert((robotron_input(m, 0x1c) & 0xc0) == 0xc0);
   for (unsigned i = 0; i < 1024; i++) {
+    if (m->fdc.search)
+      robotron_run(m, 1);
     m->cpu.cycles = m->fdc.ready_at;
     assert(robotron_input(m, 0x1d) == (uint8_t)i);
   }
@@ -51,8 +59,12 @@ static void floppy(void) {
   const uint8_t write[] = {0x45, 0, 0, 0, 1, 3, 1, 0x1b, 0xff};
   for (unsigned i = 0; i < sizeof(write); i++)
     robotron_output(m, 0x1d, write[i]);
+  if (m->fdc.search)
+    robotron_run(m, 1);
   m->cpu.cycles = m->fdc.ready_at;
   for (unsigned i = 0; i < 1024; i++) {
+    if (m->fdc.search)
+      robotron_run(m, 1);
     m->cpu.cycles = m->fdc.ready_at;
     robotron_output(m, 0x1d, 0xa5);
   }
@@ -66,8 +78,12 @@ static void floppy(void) {
   scan[0] = 0x51;
   for (unsigned i = 0; i < 9; i++)
     robotron_output(m, 0x1d, scan[i]);
+  if (m->fdc.search)
+    robotron_run(m, 1);
   m->cpu.cycles = m->fdc.ready_at;
   for (unsigned i = 0; i < 1024; i++) {
+    if (m->fdc.search)
+      robotron_run(m, 1);
     m->cpu.cycles = m->fdc.ready_at;
     robotron_output(m, 0x1d, 0xa5);
   }
