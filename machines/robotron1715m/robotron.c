@@ -79,9 +79,12 @@ static void mechanics_tick(robotron *m) {
       d->fraction -= ROBOTRON_SPINUP_TICKS;
       if (++m->rotation[u] == ROBOTRON_REVOLUTION_TICKS) {
         m->rotation[u] = 0;
-        d->index_count++;
+        unsigned inserted =
+            !!(u ? m->disk_b.storage.read : m->disk.storage.read);
+        if (inserted)
+          d->index_count++;
         uint64_t interval = m->cpu.cycles - d->last_index;
-        if (on && d->speed >= ROBOTRON_SPINUP_TICKS / 2) {
+        if (on && inserted && d->speed >= ROBOTRON_SPINUP_TICKS / 2) {
           if (d->ready_indexes < 2)
             d->ready_indexes++;
           d->ready = d->ready_indexes >= 2 &&

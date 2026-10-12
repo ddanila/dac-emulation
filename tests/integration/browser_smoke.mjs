@@ -62,6 +62,7 @@ const dualsize=wasm._dac_state_size(dual),dualstate=wasm._malloc(dualsize);
 assert.equal(wasm._dac_state_save(dual,dualstate,dualsize),0);
 assert(wasm._dac_drive_status_unit(dual,1)&8);
 wasm._dac_power(dual,0);
+assert(wasm._dac_drive_status_unit(dual,1)&8); // inserted medium remains visible with power off
 assert.equal(wasm._dac_mount_unit(dual,1,0,0,0),0);
 assert(wasm._dac_state_load(dual,dualstate,dualsize)<0);
 assert.equal(wasm._dac_mount_unit(dual,1,diskbuf,819200,1),0);

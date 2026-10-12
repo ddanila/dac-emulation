@@ -12,7 +12,8 @@ owner's unmeasured drives have identical mechanical dynamics.
   head IDs are separate from physical head position/side. Missing IDs terminate
   after two index crossings; missing marks, wrong-cylinder and DSK CRC/control-mark
   flags are distinguished. SK skips the opposite address-mark type for Read Data and Read Deleted Data.
-- Each drive has independent phase and an index pulse (nominal 2.5 ms width).
+- Each drive has independent phase and a media-gated index pulse (nominal 2.5 ms width).
+  Empty-drive rotation does not increment the optical index counter.
   At full speed a revolution is 798720 CPU clocks at 3.9936 MHz (300 RPM).
 - Byte cadence uses the rational 250 kbit/s rate: event k occurs at
   `origin + ceil(k * 79872 / 625)` clocks. Servicing a byte late does not shift

@@ -418,6 +418,11 @@ static void transmitter_interrupt(void) {
   assert(!m.tx_pending && m.cpu.bus.ack(&m) == 0xff);
 }
 static void floppy_mechanics_and_deadlines(void) {
+  init();
+  robotron_run(&m, ROBOTRON_REVOLUTION_TICKS + 1);
+  assert(m.drive[0].index_count == 1 && !m.drive[1].index_count);
+  assert(m.rotation[0] ==
+         m.rotation[1]); /* empty motor turns without optical index */
   robotron_init(&m);
   m.rom[0] = 0x76;
   assert(!robotron_disk(&m, dac_memory_storage(disk, sizeof(disk), 1), 1));

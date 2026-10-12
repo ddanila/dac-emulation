@@ -287,14 +287,18 @@ unsigned dac_disk_size_unit(dac_session *s, unsigned u) {
   return s && u < 2 ? (unsigned)(u ? s->disk_b_size : s->disk_size) : 0;
 }
 unsigned dac_drive_status_unit(dac_session *s, unsigned u) {
-  if (!s || !s->r || !s->on || u > 1)
+  if (!s || !s->r || u > 1)
     return 0;
   robotron *r = s->r;
-  dac_media *d = u ? &r->disk_b : &r->disk;
-  return (!(r->motor & (u ? 8 : 128))) |
-         ((r->fdc.phase == 2 && r->fdc.unit == u) << 1) | (d->writable << 2) |
-         (!!d->storage.read << 3) | (((r->fdc.seeking >> u) & 1) << 4) |
-         ((r->fdc.physical[u] & 255) << 8);
+  unsigned present = !!(u ? s->disk_b_size : s->disk_size);
+  unsigned writable = u ? s->writable_b : s->writable;
+  unsigned base =
+      (writable << 2) | (present << 3) | ((r->fdc.physical[u] & 255) << 8);
+  if (!s->on)
+    return base;
+  return base | (!(r->motor & (u ? 8 : 128))) |
+         ((r->fdc.phase == 2 && r->fdc.unit == u) << 1) |
+         (((r->fdc.seeking >> u) & 1) << 4);
 }
 unsigned dac_drive_phase_unit(dac_session *s, unsigned u) {
   return s && s->r && u < 2 ? s->r->rotation[u] : 0;
