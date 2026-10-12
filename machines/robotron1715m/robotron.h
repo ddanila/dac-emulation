@@ -5,6 +5,7 @@
 #include "../../common/trace/trace.h"
 #include "keyboard.h"
 #include <stddef.h>
+#define ROBOTRON_REVOLUTION_TICKS 798720u /* 3.9936 MHz / 5 Hz */
 /* Experimental functional PC-1715W/1715M profile. See README for fidelity. */
 typedef struct {
   uint8_t command[9], result[7], data[16384];
@@ -14,6 +15,7 @@ typedef struct {
   unsigned scan_mode, tc, reset, reset_queue, formatting;
   uint64_t ready_at, seek_at[4];
   unsigned seek_target[4], seeking, seek_done, step_ticks;
+  unsigned seek_interval[4], steps[4];
 } robotron_fdc;
 typedef struct {
   uint16_t a, b, count, run_a, run_b;
@@ -41,6 +43,7 @@ typedef struct {
   uint8_t rom[2048], chargen[4096], vram[4096], ram[262144], prom[256], bank,
       krfd, motor;
   robotron_fdc fdc;
+  unsigned rotation[2]; /* Motor-gated phase in CPU ticks; serialized with machine. */
   robotron_dma dma;
   robotron_timer ctc[8];
   uint8_t ctc_vector[2];

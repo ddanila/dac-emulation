@@ -261,7 +261,14 @@ static void floppy_seek(void) {
   assert((robotron_input(&m, 0x1c) & 1) && m.fdc.cylinder[0] == 0);
   robotron_output(&m, 0x1d, 8);
   assert(robotron_input(&m, 0x1d) == 0x80);
-  robotron_run(&m, 3 * 3994 + 1);
+  robotron_run(&m, 3994);
+  assert(m.fdc.cylinder[0] == 0);
+  robotron_run(&m, 1);
+  assert(m.fdc.cylinder[0] == 1 && m.fdc.steps[0] == 1 && m.fdc.seeking);
+  robotron_run(&m, 3994);
+  assert(m.fdc.cylinder[0] == 2 && m.fdc.steps[0] == 2 && m.fdc.seeking);
+  robotron_run(&m, 3994);
+  assert(m.fdc.steps[0] == 3);
   robotron_output(&m, 0x1d, 8);
   assert(robotron_input(&m, 0x1d) == 0x20 && robotron_input(&m, 0x1d) == 3);
   assert(!(robotron_input(&m, 0x1c) & 1));
@@ -271,6 +278,36 @@ static void floppy_seek(void) {
   fdc(0x46); /* read cylinder 0 without seeking back */
   assert(robotron_input(&m, 0x1d) & 0x40);
   assert(robotron_input(&m, 0x1d) == 4);
+}
+
+static void floppy_rotation(void) {
+  init();
+  m.motor = 8; /* A on, B off. */
+  robotron_run(&m, ROBOTRON_REVOLUTION_TICKS + 123);
+  assert(m.rotation[0] == 123 && m.rotation[1] == 0);
+  m.motor = 128; /* Independent phase; B starts where it stopped. */
+  robotron_run(&m, 456);
+  assert(m.rotation[0] == 123 && m.rotation[1] == 456);
+  m.motor = 0;
+  fdc(0x46);
+  uint64_t expected = m.cpu.cycles + ROBOTRON_REVOLUTION_TICKS - 123 + 4000;
+  assert(m.fdc.ready_at == expected); /* Uses A phase, not global CPU time. */
+  m.motor = 128;
+  robotron_run(&m, 500);
+  assert(m.rotation[0] == 123 && m.fdc.ready_at == expected + 500);
+  m.fdc.ready_at = m.cpu.cycles; /* Already-ready byte still cannot transfer with motor off. */
+  assert(robotron_input(&m, 0x1d) == 0xff && m.fdc.data_pos == 0);
+  m.fdc.ready_at = expected + 500;
+  m.motor = 0;
+  robotron_run(&m, 100);
+  assert(m.rotation[0] == 223 && m.fdc.ready_at == expected + 500);
+  /* Backward seeks also expose every step, not just the destination. */
+  init(); m.fdc.cylinder[0] = 3;
+  const uint8_t specify[] = {3, 0xf0, 0}, recal[] = {7, 0};
+  send(0x1d, specify, 3); send(0x1d, recal, 2);
+  robotron_run(&m, 3995); assert(m.fdc.cylinder[0] == 2);
+  robotron_run(&m, 3994); assert(m.fdc.cylinder[0] == 1);
+  robotron_run(&m, 3994); assert(m.fdc.cylinder[0] == 0 && !m.fdc.seeking);
 }
 
 static void two_drives_format(void) {
@@ -374,6 +411,7 @@ int main(void) {
   printer();
   keyboard_serial();
   floppy_seek();
+  floppy_rotation();
   dma_memory();
   floppy_completion();
   interrupt_chain();

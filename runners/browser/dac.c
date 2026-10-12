@@ -287,6 +287,21 @@ unsigned dac_drive_status_unit(dac_session *s, unsigned u) {
          (!!d->storage.read << 3) | (((r->fdc.seeking >> u) & 1) << 4) |
          ((r->fdc.cylinder[u] & 255) << 8);
 }
+unsigned dac_drive_phase_unit(dac_session *s, unsigned u) {
+  return s && s->r && u < 2 ? s->r->rotation[u] : 0;
+}
+unsigned dac_drive_steps_unit(dac_session *s, unsigned u) {
+  return s && s->r && u < 2 ? s->r->fdc.steps[u] : 0;
+}
+unsigned dac_drive_detail_unit(dac_session *s, unsigned u) {
+  if (!s || !s->r || !s->on || u > 1) return 0;
+  robotron_fdc *f = &s->r->fdc;
+  unsigned selected = f->unit == u;
+  return selected | ((selected && f->phase == 2) << 1) |
+      ((selected && f->phase == 2 && f->write == 1) << 2) |
+      (((f->seeking >> u) & 1) << 3) |
+      (selected ? (f->head << 4) | (f->sector << 8) : 0);
+}
 const uint8_t *dac_printer_data(dac_session *s) {
   return s && s->r ? s->r->printer : NULL;
 }
@@ -411,6 +426,12 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       k->clock_fraction >= 3993600 || r->key_write - r->key_read > 256 ||
       r->printer_size > sizeof(r->printer) ||
       (f->formatting && (f->data_len != 20 || f->write != 1)) || f->head > 1;
+  for (unsigned u = 0; u < 2; u++)
+    invalid |= r->rotation[u] >= ROBOTRON_REVOLUTION_TICKS;
+  for (unsigned u = 0; u < 4; u++)
+    invalid |= f->cylinder[u] > 255 || f->seek_target[u] > 255 ||
+        ((f->seeking & (1u << u)) &&
+         (!f->seek_interval[u] || f->seek_interval[u] > 16 * 3994));
   for (unsigned i = 0; i < 64; i++)
     invalid |= k->taps[i] >= 104 || k->tap_mods[i] > 3;
   if (invalid) {

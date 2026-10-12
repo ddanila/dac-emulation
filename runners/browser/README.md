@@ -17,3 +17,11 @@ Pointers returned by video/disk getters are borrowed until destroy or a relevant
 Juku input is currently one contact at a time; key zero/up clears it on focus loss. Its browser adapter advances halted time in four-clock increments so frame IRQs can resume the CPU. The legacy native runner is unchanged. Long-running Juku sessions across the WASM32 cycle-counter wrap are not qualified. VJUGA's bounded profile has no keyboard/disk. Robotron keys enqueue character packets; release-all clears queued packets.
 
 The bundled demonstration ROMs and glyphs are original MIT DAC diagnostics built by `tools/build_demo.py`. They are clearly distinct from historical firmware.
+
+Additive drive telemetry: `dac_drive_phase_unit` returns motor-gated phase in
+CPU ticks (0–798719); divide by 798720 for a revolution. `dac_drive_steps_unit`
+returns the wrapping uint32 seek-step count since controller reset.
+`dac_drive_detail_unit` packs selected/execution/write/seeking in bits 0–3,
+side in bit 4 and sector in bits 8–15. Phase and steps are serialized with the
+machine; querying them has no side effects. See `dac.h` and the Robotron drive
+fidelity document. UI code must feature-detect these exports for archived cores.

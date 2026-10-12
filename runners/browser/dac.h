@@ -16,6 +16,12 @@ int dac_mount_unit(dac_session *, unsigned, const void *, size_t, int);
 const uint8_t *dac_disk_data_unit(dac_session *, unsigned);
 unsigned dac_disk_size_unit(dac_session *, unsigned);
 unsigned dac_drive_status_unit(dac_session *, unsigned);
+/* Phase [0,798720), monotonically wrapping step count, active CHRN metadata.
+ * Detail: bit 0 selected, 1 execution, 2 write, 3 seek; side bit 4;
+ * sector bits 8..15. Returns zero for unavailable units/machines. */
+unsigned dac_drive_phase_unit(dac_session *, unsigned);
+unsigned dac_drive_steps_unit(dac_session *, unsigned);
+unsigned dac_drive_detail_unit(dac_session *, unsigned);
 const uint8_t *dac_printer_data(dac_session *);
 unsigned dac_printer_size(dac_session *);
 unsigned dac_printer_overflow(dac_session *);

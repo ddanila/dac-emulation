@@ -95,8 +95,8 @@ static void sector(robotron *m) {
   f->phase = 2;
   /* Ideal 300 RPM rotation, five evenly spaced IDs. Data rate 250 kbit/s.
    * No flux-level encoding, head-load time or drive spin-up model yet. */
-  const unsigned revolution = 798720, slot = revolution / 5;
-  unsigned phase = (unsigned)(m->cpu.cycles % revolution);
+  const unsigned revolution = ROBOTRON_REVOLUTION_TICKS, slot = revolution / 5;
+  unsigned phase = m->rotation[f->unit];
   unsigned target = ((f->sector - 1) % 5) * slot;
   f->ready_at =
       m->cpu.cycles + (target + revolution - phase) % revolution + 4000;
@@ -246,12 +246,9 @@ static void command(robotron *m, uint8_t v) {
     result(m, 1);
   } else if (op == 7 || op == 15) {
     unsigned target = op == 7 ? 0 : c[2];
-    unsigned here = f->cylinder[f->unit];
-    unsigned steps = target > here ? target - here : here - target;
     f->seek_target[f->unit] = target;
-    f->seek_at[f->unit] =
-        m->cpu.cycles +
-        (steps ? steps : 1) * (f->step_ticks ? f->step_ticks : 23962);
+    f->seek_interval[f->unit] = f->step_ticks ? f->step_ticks : 23962;
+    f->seek_at[f->unit] = m->cpu.cycles + f->seek_interval[f->unit];
     f->seeking |= 1u << f->unit;
   } else if (op == 10) {
     f->sector = f->sector % 5 + 1;
@@ -293,7 +290,9 @@ static void command(robotron *m, uint8_t v) {
   }
 }
 static int ready(robotron *m) {
-  return !m->fdc.reset && m->fdc.phase == 2 && m->cpu.cycles >= m->fdc.ready_at;
+  return !m->fdc.reset && m->fdc.phase == 2 && m->fdc.unit < 2 &&
+         !(m->motor & (m->fdc.unit ? 8 : 128)) &&
+         m->cpu.cycles >= m->fdc.ready_at;
 }
 static uint8_t fdc_read(robotron *m) {
   robotron_fdc *f = &m->fdc;
@@ -743,14 +742,30 @@ int robotron_keyboard_load(robotron *m, const void *rom, size_t n) {
 }
 void robotron_run(robotron *m, unsigned ticks) {
   while (ticks--) {
+    /* The same motor-gated phase drives sector latency and browser telemetry.
+     * Stopping a motor also freezes the pending transfer deadline. No guessed
+     * acceleration curve: nominal-speed start/stop remains a documented model. */
+    if (m->fdc.phase == 2 && m->fdc.unit < 2 &&
+        (m->motor & (m->fdc.unit ? 8 : 128)))
+      m->fdc.ready_at++;
     if (m->keyboard_enabled)
       robotron_keyboard_tick(&m->keyboard);
     for (unsigned u = 0; u < 4; u++)
       if ((m->fdc.seeking & (1u << u)) && m->cpu.cycles >= m->fdc.seek_at[u]) {
-        m->fdc.cylinder[u] = m->fdc.seek_target[u];
-        m->fdc.seeking &= ~(1u << u);
-        m->fdc.seek_done |= 1u << u;
-        m->fdc.pending = 1;
+        robotron_fdc *f = &m->fdc;
+        if (f->cylinder[u] != f->seek_target[u]) {
+          if (f->cylinder[u] < f->seek_target[u])
+            f->cylinder[u]++;
+          else
+            f->cylinder[u]--;
+          f->steps[u]++;
+        }
+        if (f->cylinder[u] == f->seek_target[u]) {
+          f->seeking &= ~(1u << u);
+          f->seek_done |= 1u << u;
+          f->pending = 1;
+        } else
+          f->seek_at[u] += f->seek_interval[u];
       }
     unsigned cascade = 0;
     for (unsigned i = 0; i < 8; i++) {
@@ -820,6 +835,9 @@ void robotron_run(robotron *m, unsigned ticks) {
       if (m->cpu.pins & Z80_RETI)
         reti(m);
     }
+    for (unsigned u = 0; u < 2; u++)
+      if (!(m->motor & (u ? 8 : 128)))
+        m->rotation[u] = (m->rotation[u] + 1) % ROBOTRON_REVOLUTION_TICKS;
   }
 }
 
