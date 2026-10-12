@@ -121,6 +121,8 @@ int dac_power(dac_session *s, int on) {
   if (!s)
     return -EINVAL;
   if (!on) {
+    if (s->on && s->r)
+      robotron_flush_interrupted_write(s->r);
     s->on = 0;
     if (s->j)
       juku_key(s->j, 0, 0);
@@ -304,11 +306,17 @@ unsigned dac_drive_detail_unit(dac_session *s, unsigned u) {
   if (!s || !s->r || !s->on || u > 1)
     return 0;
   robotron_fdc *f = &s->r->fdc;
-  unsigned selected = f->unit == u;
+  unsigned selected = f->unit == u, sector = f->sector;
+  if (selected && f->phase == 2 && f->read_track && !f->search &&
+      f->physical[u] < 80 && f->head < 2) {
+    robotron_track *tr = &s->r->tracks[u][f->physical[u] * 2 + f->head];
+    if (f->slot < tr->count)
+      sector = tr->sector[f->slot].r;
+  }
   return selected | ((selected && f->phase == 2) << 1) |
          ((selected && f->phase == 2 && f->write == 1) << 2) |
          (((f->seeking >> u) & 1) << 3) |
-         (selected ? (f->head << 4) | (f->sector << 8) : 0);
+         (selected ? (f->head << 4) | (sector << 8) : 0);
 }
 unsigned dac_drive_position_unit(dac_session *s, unsigned u) {
   return s && s->r ? robotron_head_position(s->r, u) : 0;
@@ -334,6 +342,39 @@ unsigned dac_drive_step_age(dac_session *s, unsigned u, unsigned index) {
   uint64_t age = s->r->cpu.cycles -
                  s->r->drive[u].events[(n - 1 - index) % ROBOTRON_STEP_EVENTS];
   return age < UINT32_MAX ? (unsigned)age : UINT32_MAX;
+}
+unsigned dac_drive_diagnostic(dac_session *s, unsigned u, unsigned field) {
+  if (!s || !s->r || !s->on || u > 1)
+    return 0;
+  robotron *r = s->r;
+  robotron_fdc *f = &r->fdc;
+  robotron_drive *d = &r->drive[u];
+  switch (field) {
+  case 0:
+    return d->index_count;
+  case 1: {
+    if (!d->loaded)
+      return 0;
+    unsigned duration = f->head_load_ticks;
+    if (duration < ROBOTRON_HEAD_LOAD_TICKS)
+      duration = ROBOTRON_HEAD_LOAD_TICKS;
+    uint64_t left = d->load_at > r->cpu.cycles ? d->load_at - r->cpu.cycles : 0;
+    return left >= duration ? 0
+                            : (unsigned)((duration - left) * 65536 / duration);
+  }
+  case 2:
+    return f->unit == u ? f->phase | (f->search << 4) | (f->command[0] << 8)
+                        : 0;
+  case 3:
+    return f->unit == u ? f->data_pos | (f->data_len << 16) : 0;
+  case 4:
+    return f->unit == u && f->phase == 1 && f->result_len == 7
+               ? f->result[0] | (f->result[1] << 8) | (f->result[2] << 16) |
+                     0x1000000
+               : 0;
+  default:
+    return 0;
+  }
 }
 const uint8_t *dac_printer_data(dac_session *s) {
   return s && s->r ? s->r->printer : NULL;
@@ -442,17 +483,25 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       r->keyboard_enabled != !!s->keyboard_size ||
       (s->keyboard_size && memcmp(k->rom, s->keyboard, 2048)) ||
       !valid_cpu(&r->cpu) || !valid_cpu(&k->cpu) || f->unit >= 4 ||
-      f->phase > 2 || f->write > 2 || f->formatting > 1 || f->search > 3 ||
-      f->read_id > 1 || f->slot >= 5 || f->id_head > 255 || f->error2 > 255 ||
-      f->head_load_ticks > 1022362 || f->head_unload_ticks > 1022362 ||
+      f->phase > 2 || f->write > 2 || f->formatting > 1 || f->search > 6 ||
+      f->read_track > 1 || f->track_count > 256 || f->track_match > 1 ||
+      f->track_st1 > 255 || f->track_st2 > 255 ||
+      (f->write_fault && f->write_fault != 0x10) ||
+      (f->phase == 2 && f->n > 5) ||
+      (f->search == 6 && (!f->formatting || !f->data_pos || f->data_pos % 4)) ||
+      (f->search == 4 && !f->read_track) || f->read_id > 1 ||
+      f->slot >= ROBOTRON_TRACK_SECTORS || f->id_head > 255 ||
+      f->error2 > 255 || f->head_load_ticks > 1022362 ||
+      f->head_unload_ticks > 1022362 ||
       (f->phase == 2 &&
        (f->unit > 1 || !(f->unit ? s->disk_b_size : s->disk_size))) ||
       f->cmd_len > 9 || f->cmd_pos >= 9 || f->result_len > 7 ||
       f->result_pos > f->result_len ||
       (f->phase == 1 && f->result_pos >= f->result_len) ||
       f->data_len > sizeof(f->data) || f->data_pos > f->data_len ||
-      (f->phase == 2 && f->data_pos >= f->data_len) || r->dma.tag_count > 10 ||
-      r->dma.tag_pos > r->dma.tag_count ||
+      (f->phase == 2 && f->data_pos >= f->data_len &&
+       !(f->formatting && f->search == 6)) ||
+      r->dma.tag_count > 10 || r->dma.tag_pos > r->dma.tag_count ||
       (r->dma.tag_count && r->dma.tag_pos >= r->dma.tag_count) ||
       r->dma.read_pos >= 7 || r->sio_pointer[0] > 7 || r->sio_pointer[1] > 7 ||
       r->rx.read >= 3 || r->rx.count > 3 || r->rx.phase > 4 || r->rx.bits > 8 ||
@@ -460,7 +509,10 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       r->tx_pending > 1 || r->tx_in_service > 1 ||
       k->clock_fraction >= 3993600 || r->key_write - r->key_read > 256 ||
       r->printer_size > sizeof(r->printer) ||
-      (f->formatting && (f->data_len != 20 || f->write != 1)) || f->head > 1;
+      (f->formatting &&
+       (f->data_len != f->command[3] * 4 || !f->command[3] ||
+        f->command[3] > ROBOTRON_TRACK_SECTORS || f->write != 1)) ||
+      f->head > 1;
   for (unsigned u = 0; u < 2; u++)
     invalid |= r->rotation[u] >= ROBOTRON_REVOLUTION_TICKS ||
                r->drive[u].speed > ROBOTRON_SPINUP_TICKS ||
@@ -488,8 +540,8 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
             dac_memory_storage((void *)(payload + sizeof(*r) + s->disk_size),
                                s->disk_b_size, s->writable_b),
             s->writable_b) != 0;
-  if (f->phase == 2 && (f->search == 0 || f->search == 3) && !f->formatting &&
-      f->unit < 2 && f->head < 2 && f->physical[f->unit] < 80)
+  if (f->phase == 2 && (f->search == 0 || f->search == 3 || f->search == 5) &&
+      !f->formatting && f->unit < 2 && f->head < 2 && f->physical[f->unit] < 80)
     invalid |=
         f->slot >= r->tracks[f->unit][f->physical[f->unit] * 2 + f->head].count;
   if (invalid) {

@@ -9,10 +9,11 @@ static unsigned ticks(unsigned bytes) {
   return (unsigned)(((uint64_t)bytes * 79872 + 624) / 625);
 }
 static void positions(robotron_track *t) {
+  unsigned id = 162;
   for (unsigned i = 0; i < t->count; i++) {
-    unsigned id = 162 + i * (1086 + t->gap);
     t->sector[i].id_phase = ticks(id);
     t->sector[i].data_phase = ticks(id + 44);
+    id += (128u << t->sector[i].n) + 62 + t->gap;
   }
 }
 static int parse(dac_storage s, robotron_track *tracks, unsigned *format) {
@@ -39,11 +40,12 @@ static int parse(dac_storage s, robotron_track *tracks, unsigned *format) {
     }
     return 0;
   }
-  if (h[0x30] != 80 || h[0x31] != 2)
+  if (!h[0x30] || h[0x30] > 80 || !h[0x31] || h[0x31] > 2)
     return -EINVAL;
   *format = extended ? 2 : 1;
   unsigned offset = 256;
-  for (unsigned t = 0; t < 160; t++) {
+  for (unsigned t = 0; t < h[0x30] * h[0x31]; t++) {
+    unsigned cylinder = t / h[0x31], side = t % h[0x31];
     unsigned length = extended ? h[0x34 + t] * 256u : h[0x32] + h[0x33] * 256u;
     if (!length && extended)
       continue;
@@ -51,19 +53,21 @@ static int parse(dac_storage s, robotron_track *tracks, unsigned *format) {
       return -EINVAL;
     uint8_t b[256];
     if (s.read(s.user, offset, b, 256) || memcmp(b, "Track-Info\r\n", 12) ||
-        b[0x10] != t / 2 || b[0x11] != t % 2 || b[0x15] > 5 || b[0x14] != 3 ||
-        b[0x12] > 1 || b[0x13] == 1 || b[0x13] > 2 ||
-        146 + b[0x15] * (1086u + b[0x16]) > 6250)
+        b[0x10] != cylinder || b[0x11] != side ||
+        b[0x15] > ROBOTRON_TRACK_SECTORS || b[0x14] > 5 || b[0x12] > 1 ||
+        b[0x13] == 1 || b[0x13] > 2)
       return -EINVAL;
-    robotron_track *tr = &tracks[t];
+    robotron_track *tr = &tracks[cylinder * 2 + side];
     tr->header = offset;
     tr->count = b[0x15];
     tr->gap = b[0x16];
-    unsigned data = offset + 256;
+    unsigned data = offset + 256, capacity = 146;
     for (unsigned i = 0; i < tr->count; i++) {
       const uint8_t *id = b + 0x18 + 8 * i;
-      if (id[3] != 3 || (extended && (id[6] + 256u * id[7]) != 1024) ||
-          data + 1024 > offset + length || (id[4] & ~0x25) || (id[5] & ~0x61))
+      unsigned bytes = id[3] <= 5 ? 128u << id[3] : 0;
+      if (!bytes || (!extended && id[3] != b[0x14]) ||
+          (extended && (id[6] + 256u * id[7]) != bytes) ||
+          data + bytes > offset + length || (id[4] & ~0x25) || (id[5] & ~0x61))
         return -EINVAL;
       tr->sector[i] = (robotron_sector){.offset = data,
                                         .c = id[0],
@@ -72,8 +76,11 @@ static int parse(dac_storage s, robotron_track *tracks, unsigned *format) {
                                         .n = id[3],
                                         .st1 = id[4],
                                         .st2 = id[5]};
-      data += 1024;
+      data += bytes;
+      capacity += bytes + 62 + tr->gap;
     }
+    if (capacity > 6250)
+      return -EINVAL;
     positions(tr);
     offset += length;
   }
@@ -114,57 +121,79 @@ int robotron_disk_unit(robotron *m, unsigned u, dac_storage s, int writable) {
 int robotron_disk(robotron *m, dac_storage s, int writable) {
   return robotron_disk_unit(m, 0, s, writable);
 }
-int robotron_format_track(robotron *m, unsigned u, unsigned cylinder,
-                          unsigned head, const uint8_t *ids, unsigned gap,
-                          unsigned fill) {
-  if (u > 1 || cylinder >= 80 || head > 1 || gap > 255 ||
-      146 + 5 * (1086 + gap) > 6250)
+/* Formatting is bounded by the allocated track: never shift another track's
+ * backing bytes. Each completed sector can persist independently. */
+static int format_valid(robotron *m, unsigned u, unsigned cylinder,
+                        unsigned head, const uint8_t *id, unsigned gap,
+                        unsigned slot) {
+  if (u > 1 || cylinder >= 80 || head > 1 || gap > 255)
     return -EINVAL;
+  robotron_track *tr = &m->tracks[u][cylinder * 2 + head];
+  if (slot >= tr->count || id[3] != tr->sector[slot].n)
+    return -EINVAL;
+  unsigned capacity = 146;
+  for (unsigned i = 0; i < tr->count; i++)
+    capacity += (128u << tr->sector[i].n) + 62 + gap;
+  if (capacity > 6250)
+    return -EINVAL;
+  if (!m->disk_format[u] &&
+      (id[0] != cylinder || id[1] != head || id[2] != slot + 1))
+    return -EINVAL;
+  return 0;
+}
+int robotron_format_sector(robotron *m, unsigned u, unsigned cylinder,
+                           unsigned head, const uint8_t *id, unsigned gap,
+                           unsigned fill, unsigned slot) {
+  int err = format_valid(m, u, cylinder, head, id, gap, slot);
+  if (err)
+    return err;
   dac_media *d = u ? &m->disk_b : &m->disk;
   if (!d->writable || !d->storage.write)
     return -EROFS;
   robotron_track *tr = &m->tracks[u][cylinder * 2 + head];
-  /* Fixed-size backing storage: refuse formats needing track reallocation. */
-  if (tr->count != 5)
-    return -EINVAL;
-  unsigned seen = 0;
-  for (unsigned i = 0; i < 5; i++) {
-    const uint8_t *id = ids + i * 4;
-    if (id[3] != 3)
-      return -EINVAL;
-    if (!m->disk_format[u]) {
-      if (id[0] != cylinder || id[1] != head || id[2] != i + 1 ||
-          (seen & (1u << id[2])))
-        return -EINVAL;
-      seen |= 1u << id[2];
-    }
-  }
-  uint8_t b[1024];
+  robotron_sector *s = &tr->sector[slot];
+  uint8_t b[4096];
   memset(b, fill, sizeof(b));
-  for (unsigned i = 0; i < 5; i++)
-    if (d->storage.write(d->storage.user, tr->sector[i].offset, b, sizeof(b)))
-      return -EIO;
+  if (d->storage.write(d->storage.user, s->offset, b, 128u << s->n))
+    return -EIO;
   if (m->disk_format[u]) {
     uint8_t h[256];
     if (d->storage.read(d->storage.user, tr->header, h, 256))
       return -EIO;
     h[0x16] = gap;
     h[0x17] = fill;
-    for (unsigned i = 0; i < 5; i++) {
-      memcpy(h + 0x18 + 8 * i, ids + 4 * i, 4);
-      h[0x1c + 8 * i] = h[0x1d + 8 * i] = 0;
-      robotron_sector *s = &tr->sector[i];
-      s->c = ids[i * 4];
-      s->h = ids[i * 4 + 1];
-      s->r = ids[i * 4 + 2];
-      s->n = 3;
-      s->st1 = s->st2 = 0;
-    }
+    memcpy(h + 0x18 + 8 * slot, id, 4);
+    h[0x1c + 8 * slot] = h[0x1d + 8 * slot] = 0;
     if (d->storage.write(d->storage.user, tr->header, h, 256))
       return -EIO;
+    s->c = id[0];
+    s->h = id[1];
+    s->r = id[2];
+    s->n = id[3];
     tr->gap = gap;
     positions(tr);
-  } /* Raw exports have no place to persist order/GAP3; retain canonical layout.
-     */
+  }
+  s->st1 = s->st2 = 0;
+  return 0;
+}
+int robotron_format_track(robotron *m, unsigned u, unsigned cylinder,
+                          unsigned head, const uint8_t *ids, unsigned gap,
+                          unsigned fill) {
+  if (u > 1 || cylinder >= 80 || head > 1)
+    return -EINVAL;
+  unsigned count = m->tracks[u][cylinder * 2 + head].count;
+  if (!count)
+    return -EINVAL;
+  for (unsigned i = 0; i < count; i++) {
+    int err = format_valid(m, u, cylinder, head, ids + 4 * i, gap, i);
+    if (err)
+      return err;
+  }
+  for (unsigned i = 0; i < count; i++) {
+    int err =
+        robotron_format_sector(m, u, cylinder, head, ids + 4 * i, gap, fill, i);
+    if (err)
+      return err;
+  }
   return 0;
 }

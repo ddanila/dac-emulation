@@ -135,7 +135,31 @@ static robotron_track *track(robotron *m) {
              ? &m->tracks[f->unit][f->physical[f->unit] * 2 + f->head]
              : NULL;
 }
+/* Preserve bytes already written when power/motor interrupts a data field.
+ * DSK can retain the resulting bad CRC; raw images cannot store that metadata.
+ */
+void robotron_flush_interrupted_write(robotron *m) {
+  robotron_fdc *f = &m->fdc;
+  robotron_track *tr = track(m);
+  if (f->phase != 2 || f->write != 1 || f->formatting ||
+      (f->search && f->search != 5) || !f->data_pos || !tr ||
+      f->slot >= tr->count || !media(m)->writable)
+    return;
+  robotron_sector *id = &tr->sector[f->slot];
+  if (!media(m)->storage.write(media(m)->storage.user, id->offset, f->data,
+                               f->data_pos)) {
+    m->disk_writes++;
+    id->st1 = 0x20;
+    id->st2 = 0x20 | (((f->command[0] & 31) == 9) ? 0x40 : 0);
+    if (m->disk_format[f->unit]) {
+      uint8_t flags[] = {id->st1, id->st2};
+      media(m)->storage.write(media(m)->storage.user,
+                              tr->header + 0x1c + 8 * f->slot, flags, 2);
+    }
+  }
+}
 static void not_ready(robotron *m) {
+  robotron_flush_interrupted_write(m);
   finish(m, 0);
   m->fdc.result[0] |= 0x48; /* Abnormal termination + NR. */
 }
@@ -166,7 +190,7 @@ static void sector(robotron *m) {
   f->scan_compare = 0;
   f->read_id = 0;
   f->error2 = 0;
-  if (!media(m) || f->n != 3 || !media(m)->storage.read) {
+  if (!media(m) || f->n > 5 || !media(m)->storage.read) {
     finish(m, 4);
     return;
   }
@@ -174,13 +198,16 @@ static void sector(robotron *m) {
     finish(m, 2);
     return;
   }
-  f->data_len = 1024;
+  f->data_len = f->n ? 128u << f->n : (f->command[8] ? f->command[8] : 128);
+  if (f->data_len > (128u << f->n))
+    f->data_len = 128u << f->n;
   begin_execution(m);
 }
 /* Exact 250 kbit/s byte cadence, rounded only at each event boundary. */
 static uint64_t byte_at(const robotron_fdc *f, unsigned index) {
   return f->byte_origin + ((uint64_t)index * 79872 + 624) / 625;
 }
+static void transfer_done(robotron *m);
 static void floppy_tick(robotron *m) {
   robotron_fdc *f = &m->fdc;
   if (f->phase != 2)
@@ -190,6 +217,39 @@ static void floppy_tick(robotron *m) {
     return;
   }
   robotron_drive *d = &m->drive[f->unit];
+  if (f->search == 4) { /* Read Track starts at the next index. */
+    if (m->cpu.cycles < f->ready_at)
+      return;
+    f->search = 1;
+    f->track_count = 1;
+  }
+  if (f->search == 6) { /* Format clocks the data/filler between ID tuples. */
+    if (m->cpu.cycles < f->ready_at)
+      return;
+    unsigned slot = f->data_pos / 4 - 1;
+    const uint8_t *id = f->data + 4 * slot;
+    if (id[3] != f->n ||
+        robotron_format_sector(m, f->unit, f->physical[f->unit], f->head, id,
+                               f->command[4], f->command[5], slot)) {
+      finish(m, 4);
+      return;
+    }
+    m->disk_writes++;
+    f->sector = id[2];
+    if (f->data_pos == f->data_len) {
+      finish(m, 0);
+      return;
+    }
+    f->search = 0;
+    f->ready_at =
+        byte_at(f, 162 + (slot + 1) * ((128u << f->n) + 62 + f->command[4]));
+    return;
+  }
+  if (f->search == 5) { /* Finish clocking zero padding after host underrun. */
+    if (m->cpu.cycles >= f->ready_at)
+      transfer_done(m);
+    return;
+  }
   if (f->search == 1) {
     if ((f->seeking & (1u << f->unit)) || m->cpu.cycles < d->load_at ||
         m->cpu.cycles < d->settle_at)
@@ -198,9 +258,15 @@ static void floppy_tick(robotron *m) {
     unsigned phase = m->rotation[f->unit], wait = ROBOTRON_REVOLUTION_TICKS;
     int found = -1;
     f->search_index = d->index_count;
+    if (f->read_track && !f->track_count) {
+      f->ready_at = m->cpu.cycles + ROBOTRON_REVOLUTION_TICKS - phase;
+      f->search = 4;
+      return;
+    }
     if (f->formatting) {
       f->ready_at = m->cpu.cycles + ROBOTRON_REVOLUTION_TICKS - phase;
       f->byte_origin = f->ready_at;
+      f->ready_at = byte_at(f, 162);
       f->search = 0;
       return;
     }
@@ -208,8 +274,9 @@ static void floppy_tick(robotron *m) {
       robotron_sector *id = &tr->sector[i];
       if (id->st1 & 1)
         continue; /* No ID address mark to find. */
-      if (!f->read_id && (id->c != f->command[2] || id->h != f->id_head ||
-                          id->r != f->sector || id->n != f->n))
+      if (!f->read_id && !f->read_track &&
+          (id->c != f->command[2] || id->h != f->id_head ||
+           id->r != f->sector || id->n != f->n))
         continue;
       unsigned delta = (id->id_phase + ROBOTRON_REVOLUTION_TICKS - phase) %
                        ROBOTRON_REVOLUTION_TICKS;
@@ -225,17 +292,29 @@ static void floppy_tick(robotron *m) {
     f->slot = (unsigned)found;
     robotron_sector *id = &tr->sector[f->slot];
     f->result_c = id->c;
-    if ((id->st1 & 0x20) && !(id->st2 & 0x20)) {
+    if (f->read_track) {
+      if (id->n != f->n) {
+        finish(m, 4);
+        return;
+      }
+      f->track_match |= id->c == f->command[2] && id->h == f->command[3] &&
+                        id->r == f->command[4] && id->n == f->command[5];
+      f->track_st1 |= id->st1;
+      f->track_st2 |= id->st2 & ~0x40u;
+    }
+    if (!f->read_track && (id->st1 & 0x20) && !(id->st2 & 0x20)) {
       f->search = 3;
       f->ready_at = m->cpu.cycles + wait;
       return;
     }
-    if (!f->read_id && ((id->st1 & 4) || (id->st2 & 1))) {
+    if (!f->read_id && f->write != 1 && ((id->st1 & 4) || (id->st2 & 1))) {
       f->search = 3;
       f->ready_at = m->cpu.cycles + wait;
       return;
     }
-    if (!f->read_id && !f->write && (f->command[0] & 32) && (id->st2 & 64)) {
+    if (!f->read_id && !f->read_track && f->write != 1 &&
+        (f->command[0] & 32) &&
+        (!!(id->st2 & 64) != ((f->command[0] & 31) == 12))) {
       if (f->sector < f->eot)
         f->sector++;
       else if ((f->command[0] & 128) && !f->head) {
@@ -258,7 +337,7 @@ static void floppy_tick(robotron *m) {
     f->search = 0;
     if (!f->read_id && f->write != 1) {
       if (media(m)->storage.read(media(m)->storage.user, id->offset, f->data,
-                                 1024)) {
+                                 f->data_len)) {
         finish(m, 4);
         return;
       }
@@ -290,46 +369,67 @@ static void floppy_tick(robotron *m) {
     finish(m, (id->st2 & 0x20) ? 0 : (id->st1 & 0x20));
     f->result[4] = id->h;
   } else if (!f->read_id && m->cpu.cycles > f->ready_at + 103) {
-    /* 26 us DMA service window at 250 kbit/s. No successful partial write. */
-    finish(m, 0x10);
+    /* Keep the media clock running on write underrun, filling the tail with
+     * zeros as the controller does, and still report OR to the host. */
+    if (f->write == 1 && !f->formatting) {
+      memset(f->data + f->data_pos, 0, f->data_len - f->data_pos);
+      f->write_fault = 0x10;
+      f->search = 5;
+      f->ready_at = byte_at(f, f->data_len);
+    } else
+      finish(m, 0x10);
   }
 }
 static void transfer_done(robotron *m) {
   robotron_fdc *f = &m->fdc;
-  if (f->formatting) {
-    if (robotron_format_track(m, f->unit, f->physical[f->unit], f->head,
-                              f->data, f->command[4], f->command[5])) {
-      finish(m, 4);
-      return;
-    }
-    m->disk_writes += 5;
-    f->sector = f->data[18];
-    finish(m, 0);
-    return;
-  }
   if (f->write == 1) {
     robotron_track *tr = track(m);
     if (!tr || f->slot >= tr->count ||
         media(m)->storage.write(media(m)->storage.user,
-                                tr->sector[f->slot].offset, f->data, 1024)) {
+                                tr->sector[f->slot].offset, f->data,
+                                f->data_len)) {
       finish(m, 2);
       return;
     }
     if (m->disk_format[f->unit]) {
-      uint8_t zero[2] = {0, 0};
+      uint8_t zero[2] = {0, (f->command[0] & 31) == 9 ? 0x40 : 0};
       if (media(m)->storage.write(media(m)->storage.user,
                                   tr->header + 0x1c + 8 * f->slot, zero, 2)) {
         finish(m, 2);
         return;
       }
-      tr->sector[f->slot].st1 = tr->sector[f->slot].st2 = 0;
+      tr->sector[f->slot].st1 = 0;
+      tr->sector[f->slot].st2 = zero[1];
     }
     m->disk_writes++;
+    if (!m->disk_format[f->unit]) {
+      tr->sector[f->slot].st1 = 0;
+      tr->sector[f->slot].st2 = (f->command[0] & 31) == 9 ? 0x40 : 0;
+    }
+    if (f->write_fault) {
+      finish(m, f->write_fault);
+      return;
+    }
+  }
+  if (f->read_track) {
+    if (f->tc || f->track_count >= f->eot) {
+      f->error2 = f->track_st2;
+      finish(m, f->track_st1 | (f->track_match ? 0 : 4) | (f->tc ? 0 : 0x80));
+    } else {
+      f->track_count++;
+      f->data_pos = 0;
+      f->search = 1;
+      f->ready_at = UINT64_MAX;
+    }
+    return;
   }
   if (f->write != 1) {
     robotron_sector *id = &track(m)->sector[f->slot];
-    if (id->st1 || id->st2) {
-      f->error2 = id->st2;
+    unsigned flags =
+        (id->st2 & ~0x40u) |
+        ((!!(id->st2 & 64) != ((f->command[0] & 31) == 12)) ? 64 : 0);
+    if (id->st1 || flags) {
+      f->error2 = flags;
       finish(m, id->st1);
       return;
     }
@@ -379,6 +479,9 @@ static unsigned command_length(uint8_t c) {
     return 3;
   case 13:
     return 6;
+  case 2:
+  case 9:
+  case 12:
   case 5:
   case 6:
   case 17:
@@ -402,6 +505,8 @@ static void command(robotron *m, uint8_t v) {
   uint8_t *c = f->command;
   unsigned op = c[0] & 31;
   f->tc = 0;
+  f->read_track = f->track_count = f->track_match = 0;
+  f->track_st1 = f->track_st2 = f->write_fault = 0;
   f->scan_mode = 0;
   f->formatting = f->read_id = f->search = f->error2 = 0;
   if (op == 3) {
@@ -466,7 +571,8 @@ static void command(robotron *m, uint8_t v) {
   } else if (op == 13) {
     f->n = c[2];
     f->sector = 1;
-    if (!media(m) || !media(m)->storage.read || c[2] != 3 || c[3] != 5) {
+    if (!media(m) || !media(m)->storage.read || c[2] > 5 || !c[3] ||
+        c[3] > ROBOTRON_TRACK_SECTORS || !track(m) || c[3] != track(m)->count) {
       finish(m, 4);
       return;
     }
@@ -478,7 +584,8 @@ static void command(robotron *m, uint8_t v) {
     f->data_pos = 0;
     f->data_len = c[3] * 4;
     begin_execution(m);
-  } else if (op == 5 || op == 6 || op == 17 || op == 25 || op == 29) {
+  } else if (op == 2 || op == 5 || op == 6 || op == 9 || op == 12 || op == 17 ||
+             op == 25 || op == 29) {
     if (!media(m)) {
       f->sector = c[4];
       f->n = c[5];
@@ -490,7 +597,12 @@ static void command(robotron *m, uint8_t v) {
     f->n = c[5];
     f->eot = c[6];
     f->scan_mode = op >= 17 ? op : 0;
-    f->write = op >= 17 ? 2 : (op == 5);
+    f->write = op >= 17 ? 2 : (op == 5 || op == 9);
+    f->read_track = op == 2;
+    if (op == 9 && !m->disk_format[f->unit]) {
+      finish(m, 2); /* Raw export cannot preserve a deleted address mark. */
+      return;
+    }
     sector(m);
   } else {
     f->result[0] = 0x80;
@@ -529,9 +641,27 @@ static void fdc_write(robotron *m, uint8_t v) {
     } else
       f->data[f->data_pos] = v;
     f->data_pos++;
+    if (f->formatting) {
+      unsigned slot = (f->data_pos - 1) / 4, within = f->data_pos % 4;
+      unsigned id = 162 + slot * ((128u << f->n) + 62 + f->command[4]);
+      if (within)
+        f->ready_at = byte_at(f, id + within);
+      else {
+        f->search = 6;
+        f->ready_at = byte_at(f, id + 44 + (128u << f->n) + 2);
+      }
+      return;
+    }
     f->ready_at = byte_at(f, f->data_pos);
-    if (f->data_pos == f->data_len)
-      transfer_done(m);
+    if (f->data_pos == f->data_len) {
+      if (f->write == 1 && f->n == 0 && f->data_len < 128) {
+        memset(f->data + f->data_len, 0, 128 - f->data_len);
+        f->data_len = 128;
+        f->search = 5;
+        f->ready_at = byte_at(f, 128);
+      } else
+        transfer_done(m);
+    }
   } else
     command(m, v);
 }
@@ -780,6 +910,7 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
       unsigned cylinders[4], physical[4];
       memcpy(cylinders, m->fdc.cylinder, sizeof(cylinders));
       memcpy(physical, m->fdc.physical, sizeof(physical));
+      robotron_flush_interrupted_write(m);
       memset(&m->fdc, 0, sizeof(m->fdc));
       memcpy(m->fdc.cylinder, cylinders, sizeof(cylinders));
       memcpy(m->fdc.physical, physical, sizeof(physical));
@@ -1028,11 +1159,13 @@ void robotron_run(robotron *m, unsigned ticks) {
         if (terminal && m->fdc.phase == 2) {
           /* Short writes finish the physical sector with zero padding. */
           if (m->fdc.formatting) {
-            finish(m, 4); /* Incomplete ID tuple list: do not format. */
+            if (m->fdc.data_pos != m->fdc.data_len)
+              finish(m, 4); /* Earlier completed sectors remain formatted. */
           } else if (m->fdc.write == 1) {
             memset(m->fdc.data + m->fdc.data_pos, 0,
                    m->fdc.data_len - m->fdc.data_pos);
-            transfer_done(m);
+            m->fdc.search = 5;
+            m->fdc.ready_at = byte_at(&m->fdc, m->fdc.data_len);
           } else
             transfer_done(m);
         }

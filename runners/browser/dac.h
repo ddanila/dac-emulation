@@ -27,6 +27,11 @@ unsigned dac_drive_position_unit(dac_session *, unsigned); /* cylinder Q16 */
 unsigned dac_drive_mechanics_unit(dac_session *, unsigned);
 /* Most recent STEP ages in CPU clocks, newest first; UINT32_MAX if absent. */
 unsigned dac_drive_step_age(dac_session *, unsigned, unsigned);
+/* Diagnostics: 0 cumulative indexes; 1 head load Q16; 2 controller phase
+ * bits0..1, search bits4..6, command bits8..15; 3 byte position/length uint16;
+ * 4 seven-byte result valid bit24 and ST0/ST1/ST2 bytes (only in result phase).
+ * Returns zero when unavailable. */
+unsigned dac_drive_diagnostic(dac_session *, unsigned unit, unsigned field);
 const uint8_t *dac_printer_data(dac_session *);
 unsigned dac_printer_size(dac_session *);
 unsigned dac_printer_overflow(dac_session *);

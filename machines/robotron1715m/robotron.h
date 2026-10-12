@@ -12,8 +12,8 @@
 #define ROBOTRON_STEP_TICKS 11981u   /* Reference travel duration: 3 ms */
 #define ROBOTRON_HEAD_LOAD_TICKS 199680u /* Reference upper bound: 50 ms */
 #define ROBOTRON_STEP_EVENTS 64u
-/* Supported DSK subset: 80 cylinders, two sides, <=5 normal 1024-byte sectors.
- */
+/* Bounded 250 kbit/s MFM DSK tracks; no flux or weak-sector synthesis. */
+#define ROBOTRON_TRACK_SECTORS 29u
 typedef struct {
   uint32_t offset, id_phase, data_phase;
   uint8_t c, h, r, n, st1, st2;
@@ -21,7 +21,7 @@ typedef struct {
 typedef struct {
   uint32_t header; /* Zero for raw images/unallocated tracks. */
   unsigned count, gap;
-  robotron_sector sector[5];
+  robotron_sector sector[ROBOTRON_TRACK_SECTORS];
 } robotron_track;
 typedef struct {
   unsigned speed, fraction, index_count, ready_indexes, ready;
@@ -43,6 +43,8 @@ typedef struct {
   unsigned head_load_ticks, head_unload_ticks;
   unsigned search, search_index, read_id, slot, result_c, id_head, error2;
   uint64_t byte_origin;
+  unsigned read_track, track_count, track_match, track_st1, track_st2;
+  unsigned write_fault;
 } robotron_fdc;
 typedef struct {
   uint16_t a, b, count, run_a, run_b;
@@ -99,9 +101,12 @@ int robotron_load(robotron *, const void *rom, size_t, const void *prom,
 int robotron_disk(robotron *, dac_storage, int writable);
 int robotron_disk_unit(robotron *, unsigned, dac_storage, int writable);
 void robotron_run(robotron *, unsigned);
+void robotron_flush_interrupted_write(robotron *);
 unsigned robotron_drive_ready(const robotron *, unsigned);
 unsigned robotron_head_position(const robotron *, unsigned); /* cylinder Q16 */
 int robotron_disk_validate(dac_storage);
+int robotron_format_sector(robotron *, unsigned, unsigned, unsigned,
+                           const uint8_t *, unsigned, unsigned, unsigned);
 int robotron_format_track(robotron *, unsigned, unsigned, unsigned,
                           const uint8_t *, unsigned, unsigned);
 /* pixels must hold 640*384 entries; dimensions are returned after rendering. */

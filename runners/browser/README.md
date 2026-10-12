@@ -33,3 +33,10 @@ ages in CPU clocks, newest first, or UINT32_MAX when unavailable. These queries
 are pure; snapshots include the underlying ramp, pose and timestamp state.
 Robotron mounts validate raw or supported standard/extended DSK before replacing
 existing media. Exports preserve the mounted container and its byte length.
+
+`dac_drive_diagnostic(session, unit, field)` adds cumulative index counts,
+head-load progress, controller command/phase/search, byte position/length and
+sampled result registers. Its packed fields are documented in `dac.h`. These
+queries are read-only; older modules can be feature-detected. Current snapshots
+include pending Read Track searches, delayed write padding and in-progress format
+sectors. They require a matching core build; DAC retains earlier runtimes.

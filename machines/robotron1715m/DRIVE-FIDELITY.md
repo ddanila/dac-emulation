@@ -11,12 +11,12 @@ owner's unmeasured drives have identical mechanical dynamics.
 - Data commands search physical tracks for matching C/H/R/N. Logical cylinder and
   head IDs are separate from physical head position/side. Missing IDs terminate
   after two index crossings; missing marks, wrong-cylinder and DSK CRC/control-mark
-  flags are distinguished. SK skips deleted sectors during normal reads.
+  flags are distinguished. SK skips the opposite address-mark type for Read Data and Read Deleted Data.
 - Each drive has independent phase and an index pulse (nominal 2.5 ms width).
   At full speed a revolution is 798720 CPU clocks at 3.9936 MHz (300 RPM).
 - Byte cadence uses the rational 250 kbit/s rate: event k occurs at
   `origin + ceil(k * 79872 / 625)` clocks. Servicing a byte late does not shift
-  subsequent byte times. Missing its 26 μs service window reports ST1 overrun.
+  subsequent byte times. Missing its 26 μs service window reports ST1 overrun. Writes clock zero padding to the end of the field before reporting the error; short terminal-count writes also finish padding on the emulated clock.
 - Motor off removes READY and aborts active execution with ST0 Not Ready. Commands
   issued before READY also report Not Ready; they no longer wait forever.
 - SPECIFY programs step interval and head load/unload timers. Seek pulses update
@@ -28,6 +28,27 @@ owner's unmeasured drives have identical mechanical dynamics.
 Reference: [NEC μPD765 datasheet](https://hxc2001.com/download/datasheet/floppy/thirdparty/FDC/NEC/765.pdf).
 The [Wang PC technical reference, floppy controller chapter](https://www.bitsavers.org/pdf/wang/professional_computer/TechRefMan-1985.pdf)
 also describes the need for two recalibrations on an 80-track drive.
+
+Read/Write Deleted Data preserve the deleted address mark in DSK. A matching
+Read Deleted succeeds; a mismatched mark reports CM unless skipped. Write Deleted
+on raw media is rejected with NW because raw export cannot retain the mark.
+Read Track starts after index and reads data fields in physical order until the
+EOT sector count or terminal count, accumulating CRC errors. It reports ND if no
+command CHRN matched. This bounded implementation requires the requested N to match
+each encountered sector; differing-size Read Track recovery is not implemented.
+Normal sector commands can access mixed-size EDSK tracks.
+
+Formatting accepts the allocated track's sector count and sizes, requests each
+ID tuple at reference MFM positions, and clocks the filler/data interval before
+committing that sector. Completed sectors survive a later underrun or interruption.
+The sector currently being formatted remains unchanged if interrupted: this is a
+sector-level approximation. Motor-off, controller reset and browser power-off
+during a data write preserve the host-written prefix; DSK retains a bad data CRC
+while raw cannot retain this metadata.
+
+Compatible command behavior is also described in the manufacturer's
+[Intel 82078 controller datasheet](https://bitsavers.computerhistory.org/components/intel/_dataSheets/82078_CHMOS_Single-Chip_Floppy_Disk_Controller_Jan94.pdf).
+Reference layout positions determine request timing, not a recovered flux stream.
 
 ## Mechanical reference profile
 
@@ -56,7 +77,10 @@ A 64-event ring per drive records STEP timestamps. Optional synthesized clicks
 use those events, including multiple steps between frames, scaled to the selected
 emulation speed. Reset, hidden-tab and stale batches are discarded rather than
 played in a burst. Motor tone follows the modeled speed. Timbre is not a recording
-of the specimen.
+of the specimen. Muting, powering off or hiding the page cancels queued seek clicks.
+The separate upper arm follows head-load progress; its 0.08-radian lift and pivot
+are illustrative. A translucent exposed medium rotates with the hub; its stationary
+jacket is omitted to keep mechanisms visible.
 
 ## Disk layout
 
@@ -68,17 +92,20 @@ numbers. These are reference positions, not recovered flux measurements.
 
 [Standard DSK](https://cpctech.cpcwiki.de/docs/dsk.html) and
 [extended DSK](https://cpctech.cpcwiki.de/docs/extdsk.html) are accepted directly by
-both browser drives and the native runner. Supported images have 80 cylinders,
-two sides, at most five 1024-byte sectors per track, and a 250 kbit/s MFM-compatible
-layout. ID order, CHRN, GAP3 and supported error flags are preserved. Extended DSK
+both browser drives and the native runner. Supported images have 1–80 cylinders,
+1–2 sides, at most 29 sectors per track, N=0–5 (128–4096 bytes), and a
+250 kbit/s MFM layout within 6250 bytes per revolution including gaps. Standard DSK
+uses uniform track sector sizes; extended DSK permits mixed sizes. Unrepresented
+physical cylinders/sides are unformatted, not mirrored. ID order, CHRN, GAP3 and supported error flags are preserved. Extended DSK
 may contain unallocated tracks. Oversized, truncated, unsupported-density,
 variable/weak-sector and out-of-capacity layouts are rejected, not flattened.
 The limit is 1 MiB per image.
 
 DSK reads/writes address the original sector payloads. Formatting an allocated
-five-sector DSK track retains the submitted ID order and GAP3 in its header, so
+DSK track retains the submitted ID order and GAP3 in its header, so
 export, remount, library copies and snapshots preserve them. Track reallocation
-and other sector sizes are not supported. Raw formatting accepts canonical order
+and changing the existing count/size allocation are not supported. N=0 commands
+use DTL up to the 128-byte physical size. Raw formatting accepts canonical order
 only: use DSK when interleave must survive export. Disk exports keep `.dsk` for a
 DSK container; raw exports remain `.img`. The default historical image stays raw
 so existing media identities and saved sessions remain usable.
@@ -102,11 +129,13 @@ There is no flux/PLL model, spindle jitter, measured angular alignment, mechanic
 backlash, calibrated motor acoustics, or simulated failure from an excessively
 fast STEP rate. Linear trajectories and conservative delays are approximations.
 Index gating uses the reference profile, not measured specimen straps. Formatting
-collects its ID tuples at byte cadence after index and updates an existing track;
-it does not reproduce every write-gap interval or interrupted-format damage.
-Partial writes on overrun are discarded rather than reproducing magnetic damage.
-Read Track and Read/Write Deleted Data commands and other densities are not
-implemented; supported DSK metadata does not imply general copy-protection support.
+is progressive at whole-sector boundaries; it cannot represent a partially written
+ID/gap. Interrupted data writes persist their prefix and a DSK CRC flag, without
+reproducing every magnetic bit cell. Raw exports cannot retain error flags.
+Read Track requires uniform command-matching sizes. Weak/random multiple-copy
+payloads, FM/other densities and over-capacity tracks are explicitly rejected;
+supported DSK metadata does not imply general copy-protection support. Measured
+acoustic timbre and specimen trajectories still need recordings or captures.
 
 ## Validation
 
@@ -118,3 +147,11 @@ mid-seek with identical continuation. Browser checks cover event spacing, stale
 sound suppression, fractional geometry, DSK insertion/snapshot/export, and
 preserved older runtimes. Bounded historical OS checks cover directory/type,
 create/copy/delete, reboot and write protection. No full Verilog run is required.
+
+Additional fixtures cover every supported N, mixed-size offsets, smaller single-side
+images, deleted-mark round trips, Read Track order/index/CRC accumulation, timed
+write underruns and interrupted formatting. The museum's bounded TOS/M regression
+copies PIP.COM, restores a snapshot after DMA has written part of a sector, compares
+8192 controller/mechanical samples at 64-clock intervals plus media bytes, then
+independently decodes the final file. The diagnostic panel shows sampled controller
+results only when valid; cumulative index counts expose pulses between frames.
