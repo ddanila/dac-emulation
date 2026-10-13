@@ -302,6 +302,18 @@ int dac_drive_inserted(dac_session *s, unsigned u, unsigned inserted) {
 /* Transfer an ejected image to an open, physically empty drive. If the target
  * retains another ejected image, that image takes the vacated parking slot.
  * Storage, layout and protection travel together; drive mechanics do not. */
+int dac_drive_protect(dac_session *s, unsigned unit, unsigned protect) {
+  if (!s || !s->r || unit > 1 || protect > 1) return -EINVAL;
+  if (!dac_disk_size_unit(s, unit)) return -ENOENT;
+  if (!s->r->drive[unit].ejected) return -EBUSY;
+  int writable = !protect;
+  if (unit) s->writable_b = writable; else s->writable = writable;
+  dac_media *media = unit ? &s->r->disk_b : &s->r->disk;
+  media->writable = writable;
+  media->storage = dac_memory_storage(unit ? s->disk_b : s->disk,
+                                     dac_disk_size_unit(s, unit), writable);
+  return 0;
+}
 int dac_drive_transfer(dac_session *s, unsigned from, unsigned to) {
   if (!s || !s->r || from > 1 || to > 1) return -EINVAL;
   if (from == to) return dac_drive_inserted(s, to, 1);

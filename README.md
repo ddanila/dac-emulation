@@ -53,3 +53,9 @@ The operation swaps existing byte buffers, parsed track layouts and protection
 atomically, without moving the physical drive's head or spindle state. Active
 FDC commands reject transfer. Recording opcode 11 applies the same operation in
 browser and native replay. The snapshot memory layout is unchanged.
+
+Browser 0.8.2 adds `dac_drive_protect(session, unit, protected)`: a removed
+Robotron disk can have its notch covered/uncovered without remounting, resetting
+mechanics, or replacing bytes. Inserted/absent disks reject the operation.
+Native/browser recording opcode 12 preserves these transitions. TEAC FD-55
+maintenance documentation describes a covered notch as write protected.

@@ -85,6 +85,8 @@ int main(void) {
       r = dac_tap(s, a, b);
     else if (op == 7 && a < 2 && b < media_count)
       r = dac_mount_unit(s, a, media[b], media_size[b], protection[b]);
+    else if (op == 12 && a < 2 && b < 2)
+      r = dac_drive_protect(s, a, b);
     else if (op == 11 && a < 2 && b < 2)
       r = dac_drive_transfer(s, a, b);
     else if (op == 10 && a < 2 && b < 2)
