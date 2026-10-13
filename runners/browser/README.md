@@ -40,3 +40,17 @@ sampled result registers. Its packed fields are documented in `dac.h`. These
 queries are read-only; older modules can be feature-detected. Current snapshots
 include pending Read Track searches, delayed write padding and in-progress format
 sectors. They require a matching core build; DAC retains earlier runtimes.
+
+## Drive levers (0.8.0)
+
+`dac_drive_door(session, unit, open)` controls each Robotron drive independently.
+Opening clears READY and head loading, interrupts an active transfer with NR
+(preserving an already-written prefix), and suppresses media index pulses.
+Closing requires fresh qualifying index pulses. Disk bytes remain mounted.
+Status bit 5 reports the open lever even with power off. Mechanical lever state
+survives power/reset and snapshots. Recording opcode 9 is `(unit, open)`.
+Older snapshots require their preserved core because the device layout changed.
+
+`dac_drive_inserted(session, unit, inserted)` requires an open lever. Ejection
+retains the session image and its writes for reinsertion/export; READY and index
+are suppressed. Opcode 10 records insertion state. A fresh mount resets ejection.

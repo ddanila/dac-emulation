@@ -47,7 +47,7 @@ void robotron_write(void *p, uint16_t a, uint8_t v) {
   }
 }
 unsigned robotron_drive_ready(const robotron *m, unsigned u) {
-  return u < 2 && !(m->motor & (u ? 8 : 128)) && m->drive[u].ready &&
+  return u < 2 && !m->drive[u].door_open && !m->drive[u].ejected && !(m->motor & (u ? 8 : 128)) && m->drive[u].ready &&
          (u ? m->disk_b.storage.read != NULL : m->disk.storage.read != NULL);
 }
 unsigned robotron_head_position(const robotron *m, unsigned u) {
@@ -70,7 +70,7 @@ static void mechanics_tick(robotron *m) {
       d->speed++;
     if (!on && d->speed)
       d->speed--; /* Explicit reference coast profile. */
-    if (!on) {
+    if (!on || d->door_open || d->ejected) {
       d->ready = d->ready_indexes = 0;
       d->loaded = 0;
     }
@@ -80,7 +80,7 @@ static void mechanics_tick(robotron *m) {
       if (++m->rotation[u] == ROBOTRON_REVOLUTION_TICKS) {
         m->rotation[u] = 0;
         unsigned inserted =
-            !!(u ? m->disk_b.storage.read : m->disk.storage.read);
+            !d->door_open && !d->ejected && !!(u ? m->disk_b.storage.read : m->disk.storage.read);
         if (inserted)
           d->index_count++;
         uint64_t interval = m->cpu.cycles - d->last_index;
@@ -165,6 +165,13 @@ static void not_ready(robotron *m) {
   robotron_flush_interrupted_write(m);
   finish(m, 0);
   m->fdc.result[0] |= 0x48; /* Abnormal termination + NR. */
+}
+void robotron_drive_door(robotron *m, unsigned u, unsigned open) {
+  if (u > 1 || m->drive[u].door_open == !!open) return;
+  m->drive[u].door_open = !!open;
+  m->drive[u].ready = m->drive[u].ready_indexes = 0;
+  m->drive[u].loaded = 0;
+  if (open && m->fdc.unit == u && m->fdc.phase == 2) not_ready(m);
 }
 static void begin_execution(robotron *m) {
   robotron_fdc *f = &m->fdc;

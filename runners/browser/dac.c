@@ -99,6 +99,7 @@ int dac_mount_unit(dac_session *s, unsigned unit, const void *p, size_t n,
     }
     s->r->drive[unit].ready = s->r->drive[unit].ready_indexes = 0;
   }
+  if (s->r) s->r->drive[unit].ejected = 0;
   if (unit) {
     free(s->disk_b);
     s->disk_b = copy;
@@ -154,7 +155,10 @@ int dac_power(dac_session *s, int on) {
     vjuga_init(s->v, 0);
     vjuga_load_rom(s->v, s->firmware, s->firmware_size);
   } else {
+    unsigned ejected[2] = {s->r->drive[0].ejected, s->r->drive[1].ejected};
+    unsigned doors[2] = {s->r->drive[0].door_open, s->r->drive[1].door_open};
     robotron_init(s->r);
+    for (unsigned u = 0; u < 2; u++) { s->r->drive[u].door_open = doors[u]; s->r->drive[u].ejected = ejected[u]; }
     robotron_load(s->r, s->firmware, s->firmware_size, s->prom, s->prom_size);
     memcpy(s->r->chargen, s->glyphs, s->glyph_size);
     if (s->keyboard_size)
@@ -286,14 +290,28 @@ const uint8_t *dac_disk_data_unit(dac_session *s, unsigned u) {
 unsigned dac_disk_size_unit(dac_session *s, unsigned u) {
   return s && u < 2 ? (unsigned)(u ? s->disk_b_size : s->disk_size) : 0;
 }
+int dac_drive_inserted(dac_session *s, unsigned u, unsigned inserted) {
+  if (!s || !s->r || u > 1 || inserted > 1) return -EINVAL;
+  if (!s->r->drive[u].door_open) return -EBUSY;
+  if (inserted && !dac_disk_size_unit(s, u)) return -ENOENT;
+  s->r->drive[u].ejected = !inserted;
+  s->r->drive[u].ready = s->r->drive[u].ready_indexes = 0;
+  s->r->drive[u].loaded = 0;
+  return 0;
+}
+int dac_drive_door(dac_session *s, unsigned u, unsigned open) {
+  if (!s || !s->r || u > 1 || open > 1) return -EINVAL;
+  robotron_drive_door(s->r, u, open);
+  return 0;
+}
 unsigned dac_drive_status_unit(dac_session *s, unsigned u) {
   if (!s || !s->r || u > 1)
     return 0;
   robotron *r = s->r;
-  unsigned present = !!(u ? s->disk_b_size : s->disk_size);
+  unsigned present = !r->drive[u].ejected && !!(u ? s->disk_b_size : s->disk_size);
   unsigned writable = u ? s->writable_b : s->writable;
   unsigned base =
-      (writable << 2) | (present << 3) | ((r->fdc.physical[u] & 255) << 8);
+      (writable << 2) | (present << 3) | (r->drive[u].door_open << 5) | ((r->fdc.physical[u] & 255) << 8);
   if (!s->on)
     return base;
   return base | (!(r->motor & (u ? 8 : 128))) |
@@ -333,7 +351,7 @@ unsigned dac_drive_mechanics_unit(dac_session *s, unsigned u) {
   return robotron_drive_ready(r, u) |
          ((d->loaded && r->cpu.cycles >= d->load_at) << 1) |
          ((r->cpu.cycles < d->settle_at) << 2) |
-         ((d->speed && r->rotation[u] < 9984 &&
+         ((!d->door_open && !d->ejected && d->speed && r->rotation[u] < 9984 &&
            (u ? r->disk_b.storage.read : r->disk.storage.read))
           << 3) |
          ((d->speed * 1000u / ROBOTRON_SPINUP_TICKS) << 8);
@@ -522,7 +540,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
                r->drive[u].speed > ROBOTRON_SPINUP_TICKS ||
                r->drive[u].fraction >= ROBOTRON_SPINUP_TICKS ||
                r->drive[u].ready_indexes > 2 || r->drive[u].ready > 1 ||
-               r->drive[u].loaded > 1 || r->drive[u].from_q16 > 79 * 65536u;
+               r->drive[u].ejected > 1 || r->drive[u].door_open > 1 || r->drive[u].loaded > 1 || r->drive[u].from_q16 > 79 * 65536u;
   for (unsigned u = 0; u < 4; u++)
     invalid |= f->cylinder[u] > 255 || f->seek_target[u] > 255 ||
                f->physical[u] > 79 || f->recalibrate[u] > 1 ||

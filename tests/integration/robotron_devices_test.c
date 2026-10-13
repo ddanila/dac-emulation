@@ -806,7 +806,27 @@ static void floppy_layout_commands(void) {
   free(b);
 }
 
+static void drive_door(void) {
+  robotron_init(&m);
+  uint8_t *bytes = calloc(1, 819200);
+  assert(bytes);
+  assert(!robotron_disk(&m, dac_memory_storage(bytes, 819200, 1), 1));
+  m.motor = 0;
+  m.drive[0].ready = m.drive[0].loaded = 1;
+  assert(robotron_drive_ready(&m, 0));
+  robotron_drive_door(&m, 0, 1);
+  assert(!robotron_drive_ready(&m, 0) && !m.drive[0].loaded);
+  assert(m.disk.storage.read && !m.drive[1].door_open);
+  robotron_run(&m, 2000000);
+  assert(!robotron_drive_ready(&m, 0) && !m.drive[0].index_count);
+  robotron_drive_door(&m, 0, 0);
+  assert(!robotron_drive_ready(&m, 0));
+  robotron_run(&m, 2000000);
+  assert(robotron_drive_ready(&m, 0));
+  free(bytes);
+}
 int main(void) {
+  drive_door();
   floppy_mechanics_and_deadlines();
   floppy_dsk();
   floppy_layout_commands();

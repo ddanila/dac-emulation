@@ -26,7 +26,7 @@ typedef struct {
 typedef struct {
   unsigned speed, fraction, index_count, ready_indexes, ready;
   uint64_t last_index, load_at, unload_at, settle_at, step_at;
-  unsigned loaded, from_q16;
+  unsigned loaded, from_q16, door_open, ejected;
   uint64_t events[ROBOTRON_STEP_EVENTS];
 } robotron_drive;
 /* Experimental functional PC-1715W/1715M profile. See README for fidelity. */
@@ -102,6 +102,7 @@ int robotron_disk(robotron *, dac_storage, int writable);
 int robotron_disk_unit(robotron *, unsigned, dac_storage, int writable);
 void robotron_run(robotron *, unsigned);
 void robotron_flush_interrupted_write(robotron *);
+void robotron_drive_door(robotron *, unsigned, unsigned);
 unsigned robotron_drive_ready(const robotron *, unsigned);
 unsigned robotron_head_position(const robotron *, unsigned); /* cylinder Q16 */
 int robotron_disk_validate(dac_storage);
