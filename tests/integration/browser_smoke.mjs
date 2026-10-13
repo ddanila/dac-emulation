@@ -117,3 +117,26 @@ assert(wasm._dac_drive_status_unit(doorSession,0)&32);
 assert(wasm._dac_drive_door(doorSession,2,1)<0);
 wasm._free(dp);wasm._dac_destroy(doorSession);
 console.log('PASS independent drive doors survive power/reset and snapshots');
+
+const transfer=wasm._dac_create(2);
+for(const [slot,file] of [[0,'robotron.bin'],[1,'cas.bin']]) load(transfer,slot,await read(file));
+const tp=wasm._malloc(819200);
+for(const u of [0,1]){wasm.HEAPU8.fill(u?0xb2:0xa1,tp,tp+819200);assert.equal(wasm._dac_mount_unit(transfer,u,tp,819200,1-u),0);}
+wasm._free(tp);wasm._dac_power(transfer,1);
+const first=u=>wasm.HEAPU8[wasm._dac_disk_data_unit(transfer,u)];
+assert(wasm._dac_drive_transfer(transfer,0,1)<0);assert.equal(first(0),0xa1);
+wasm._dac_drive_door(transfer,0,1);wasm._dac_drive_inserted(transfer,0,0);
+wasm._dac_drive_door(transfer,1,1);
+assert(wasm._dac_drive_transfer(transfer,0,1)<0); // target occupied
+wasm._dac_drive_inserted(transfer,1,0);
+wasm.HEAPU8[wasm._dac_disk_data_unit(transfer,0)+100]=0x37;
+assert.equal(wasm._dac_drive_transfer(transfer,0,1),0);
+assert.equal(first(1),0xa1);assert.equal(first(0),0xb2);
+assert.equal(wasm.HEAPU8[wasm._dac_disk_data_unit(transfer,1)+100],0x37);
+assert.equal(wasm._dac_drive_status_unit(transfer,1)&12,12);
+assert.equal(wasm._dac_drive_status_unit(transfer,0)&12,0);
+wasm._dac_drive_inserted(transfer,1,0);
+assert.equal(wasm._dac_drive_transfer(transfer,1,0),0);
+assert.equal(first(0),0xa1);assert.equal(first(1),0xb2);
+wasm._dac_destroy(transfer);
+console.log('PASS atomic cross-drive transfer preserves bytes, protection and retained target disk');

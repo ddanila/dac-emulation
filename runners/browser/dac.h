@@ -16,6 +16,7 @@ int dac_mount_unit(dac_session *, unsigned, const void *, size_t, int);
 const uint8_t *dac_disk_data_unit(dac_session *, unsigned);
 unsigned dac_disk_size_unit(dac_session *, unsigned);
 int dac_drive_inserted(dac_session *, unsigned unit, unsigned inserted);
+int dac_drive_transfer(dac_session *, unsigned from, unsigned to);
 int dac_drive_door(dac_session *, unsigned unit, unsigned open);
 unsigned dac_drive_status_unit(dac_session *, unsigned);
 /* Phase [0,798720), monotonically wrapping step count, active CHRN metadata.

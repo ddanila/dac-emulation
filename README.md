@@ -45,3 +45,11 @@ See the [architecture and interface proposal](docs/architecture.md) and [migrati
 Original project code and documentation are licensed under the [MIT License](LICENSE).
 
 Imported dependencies and adapted code retain their original licenses and notices. Do not relabel third-party code as MIT. Firmware, disk images, and other historical media are separate from the emulator code; none are included here.
+
+Browser API 0.8.1 adds `dac_drive_transfer(session, from, to)`. Both levers
+must be open, the source disk removed, and the destination physically empty.
+A retained ejected destination image moves into the vacated parking slot.
+The operation swaps existing byte buffers, parsed track layouts and protection
+atomically, without moving the physical drive's head or spindle state. Active
+FDC commands reject transfer. Recording opcode 11 applies the same operation in
+browser and native replay. The snapshot memory layout is unchanged.

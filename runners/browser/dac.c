@@ -299,6 +299,32 @@ int dac_drive_inserted(dac_session *s, unsigned u, unsigned inserted) {
   s->r->drive[u].loaded = 0;
   return 0;
 }
+/* Transfer an ejected image to an open, physically empty drive. If the target
+ * retains another ejected image, that image takes the vacated parking slot.
+ * Storage, layout and protection travel together; drive mechanics do not. */
+int dac_drive_transfer(dac_session *s, unsigned from, unsigned to) {
+  if (!s || !s->r || from > 1 || to > 1) return -EINVAL;
+  if (from == to) return dac_drive_inserted(s, to, 1);
+  robotron *r = s->r;
+  if (!dac_disk_size_unit(s, from)) return -ENOENT;
+  if (!r->drive[from].ejected || !r->drive[from].door_open ||
+      !r->drive[to].door_open ||
+      (dac_disk_size_unit(s, to) && !r->drive[to].ejected) ||
+      (s->on && (r->fdc.phase || r->fdc.cmd_pos))) return -EBUSY;
+  uint8_t *bytes = s->disk; s->disk = s->disk_b; s->disk_b = bytes;
+  size_t size = s->disk_size; s->disk_size = s->disk_b_size; s->disk_b_size = size;
+  int writable = s->writable; s->writable = s->writable_b; s->writable_b = writable;
+  dac_media media = r->disk; r->disk = r->disk_b; r->disk_b = media;
+  unsigned format = r->disk_format[0]; r->disk_format[0] = r->disk_format[1]; r->disk_format[1] = format;
+  for (unsigned i = 0; i < 160; i++) {
+    robotron_track track = r->tracks[0][i]; r->tracks[0][i] = r->tracks[1][i]; r->tracks[1][i] = track;
+  }
+  for (unsigned u = 0; u < 2; u++) {
+    r->drive[u].ready = r->drive[u].ready_indexes = r->drive[u].loaded = 0;
+    r->drive[u].ejected = u != to;
+  }
+  return 0;
+}
 int dac_drive_door(dac_session *s, unsigned u, unsigned open) {
   if (!s || !s->r || u > 1 || open > 1) return -EINVAL;
   robotron_drive_door(s->r, u, open);
