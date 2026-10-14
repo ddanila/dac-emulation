@@ -169,7 +169,7 @@ The shared FIFO decoder follows Intel 8275 pp. 8-236–8-237; FIFO width/wrappin
 was also cross-checked against MAME's BSD-3-Clause i8275 implementation (Curt
 Coder/AJR, already credited in NOTICE). No persistent state layout was changed.
 
-### Functional display scheduler — 0.8.5 (current)
+### Functional display scheduler — 0.8.5
 
 The 8275 now advances on a rational character clock (45/104 of the existing
 3.9936 MHz CPU clock). The nominal 13.824 MHz / 8 display clock comes from the
@@ -187,9 +187,8 @@ is enabled, including read-clear behavior. Preset counters holds the scheduler
 until another command; Stop Display stops fetching but retains raster timing.
 
 This remains a functional approximation: bytes are sampled at row-fetch start,
-one local DACK per character clock is assumed, and output is rendered from the
-current stream rather than historical scanout buffers. Thus per-byte FO latency,
-contention, mid-frame tearing and exact board delays are not reproduced. IR is
+one local DACK per character clock is assumed. Per-byte FO latency,
+contention, scanline-accurate tearing and exact board delays are not reproduced. IR is
 exposed as controller status; no unverified CPU interrupt connection is added.
 Spaced-row timing is supported; doubled blank pixel rows and light pen are not.
 The display controller never uses the system UA858 floppy DMA.
@@ -202,3 +201,19 @@ read-clear, preset, host-render independence and run-slice equivalence.
 The raw Robotron snapshot layout is version 4 because it now contains scheduler
 phase and pending fetch state. DAC preserves the 0.8.4 core for its older saved
 sessions; old snapshots are not silently interpreted using the new layout.
+
+### Latched scanout — 0.8.6 (current)
+
+Completed pending fetches are latched at visible-row boundaries. Host drawing
+uses those historical rows and their starting field/end-screen state, never
+current VRAM. A write after fetch start becomes visible on a subsequent fetch;
+rows that have not yet been scanned are blank after Start Display. Missed
+fetch deadlines latch blank rows. This is row-level sampling, not a claim of
+per-byte DMA or measured board timing. Cursor and character-generator output
+remain evaluated at host drawing time.
+
+Tests exercise writes between fetch and scanout, blank initial rows, unchanged
+host-render state, attribute FIFO behavior, deadlines and subsequent refresh.
+Native and WASM historical TOS/M boot pixels remain identical. Snapshot layout
+is now **5**, retaining pending and displayed rows plus attribute state; DAC
+archives core 0.8.5 for saved sessions using its previous layout.

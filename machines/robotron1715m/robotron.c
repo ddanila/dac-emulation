@@ -1103,10 +1103,6 @@ int robotron_keyboard_load(robotron *m, const void *rom, size_t n) {
  * Fill the complete row before reading it out: a 17th FIFO byte overwrites
  * entry zero (including the character displayed by the first attribute).
  * This is bounded stream decoding, not the board's cycle-level DMA circuit. */
-typedef struct {
-  uint8_t code[80], fifo[16];
-  unsigned overflow, bytes, stop_screen, ignore_screen;
-} robotron_video_row;
 static unsigned video_columns(const robotron *m) {
   unsigned n = (m->crtc[0] & 127) + 1;
   return n > 80 ? 80 : n;
@@ -1153,6 +1149,8 @@ static void video_schedule_row(robotron *m, unsigned row) {
   if (row == 0) r->stream = r->ignored = 0;
   robotron_video_row buffer;
   video_fetch_row(m, &r->stream, &buffer, r->ignored ? 2 : 0);
+  r->pending_row = buffer;
+  r->pending_valid = 1;
   if (buffer.ignore_screen) r->ignored = 1;
   r->stream %= 1920;
   unsigned burst = 1u << (r->dma & 3), spacing = (r->dma >> 2) * 8;
@@ -1167,7 +1165,29 @@ static void video_restart(robotron *m) {
   r->fraction = r->character = r->underrun = r->stopped = 0;
   r->row = video_total_rows(m) - 1;
   r->blank_from = 24;
+  r->pending_valid = r->valid_rows = r->field = r->end_screen = 0;
+  memset(r->scanout, 0, sizeof(r->scanout));
   video_schedule_row(m, 0);
+}
+/* Latch only completed fetches at the scanout row boundary. Carry field
+ * attributes here, not across a mixture of rows in the host renderer. */
+static void video_latch_row(robotron *m) {
+  robotron_raster *r = &m->raster;
+  robotron_video_row *out = &r->scanout[r->row];
+  if (r->row == 0) r->field = r->end_screen = 0;
+  memset(out, 0, sizeof(*out));
+  memset(out->code, 0xf0, sizeof(out->code));
+  if (r->pending_valid && !r->underrun) *out = r->pending_row;
+  out->field = r->field; out->end_screen = r->end_screen;
+  r->pending_valid = 0;
+  r->valid_rows |= 1u << r->row;
+  for (unsigned col = 0; col < video_columns(m); col++) {
+    uint8_t code = out->code[col];
+    if (r->end_screen) break;
+    if ((code & 0xc0) == 0x80) r->field = code & 63;
+    if (code == 0xf2 || code == 0xf3) r->end_screen = 1;
+    if (code >= 0xf0) break;
+  }
 }
 static void video_clock(robotron *m) {
   robotron_raster *r = &m->raster;
@@ -1188,11 +1208,12 @@ static void video_clock(robotron *m) {
       r->underrun = 1; r->blank_from = r->row;
       r->remaining = 0;
     }
+    video_latch_row(m);
     if (r->row == video_rows(m) - 1 && (m->crtc_status & 64))
       m->crtc_status |= 32; // IR flag only: CPU interrupt wiring unverified.
     if (r->row + 1 < video_rows(m)) video_schedule_row(m, r->row + 1);
   } else if (r->row == video_total_rows(m) - 1) {
-    r->underrun = r->stopped = r->remaining = 0;
+    r->underrun = r->stopped = r->remaining = r->pending_valid = 0;
     video_schedule_row(m, 0); // Prefill during final vertical-retrace row.
   }
 }
@@ -1319,26 +1340,23 @@ void robotron_run(robotron *m, unsigned ticks) {
   }
 }
 
-/* Bounded 8275 character-stream renderer, without raster/DMA scheduling.
- * Field attributes carry between rows. Non-display attributes consume the
- * following stream byte. The physical video address wraps at 80*24. */
+/* Pure host drawing from latched controller rows. VRAM is sampled by the
+ * scheduler only. Row-level sampling is not per-byte bus contention. */
 void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
                     unsigned *height) {
   unsigned cols = video_columns(m), rows = video_rows(m);
   unsigned lines = (m->crtc[2] & 15) + 1, underline = m->crtc[2] >> 4;
   *width = cols * 8;
   *height = rows * lines;
-  unsigned pos = 0, field = 0, end_screen = 0;
   unsigned frame = m->raster.frames;
   for (unsigned row = 0; row < rows; row++) {
-    robotron_video_row buffer;
-    if (end_screen == 2) { memset(&buffer, 0, sizeof(buffer)); memset(buffer.code, 0xf0, sizeof(buffer.code)); }
-    else video_fetch_row(m, &pos, &buffer, end_screen ? 2 : 0);
+    const robotron_video_row buffer = m->raster.scanout[row];
+    unsigned field = buffer.field, end_screen = buffer.end_screen;
     unsigned end_row = 0, fifo_read = 0;
     for (unsigned col = 0; col < cols; col++) {
       uint8_t ch = buffer.code[col];
       unsigned attr = field, blank = end_row || end_screen || !m->display_on ||
-                                    row >= m->raster.blank_from;
+                                    !(m->raster.valid_rows & (1u << row));
       if ((ch & 0xc0) == 0x80) {
         if (!end_row && !end_screen)
           field = ch & 63;

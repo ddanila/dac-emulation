@@ -29,11 +29,18 @@ typedef struct {
   unsigned loaded, from_q16, door_open, ejected;
   uint64_t events[ROBOTRON_STEP_EVENTS];
 } robotron_drive;
+typedef struct {
+  uint8_t code[80], fifo[16];
+  unsigned overflow, bytes, stop_screen, ignore_screen;
+  unsigned field, end_screen;
+} robotron_video_row;
 /* Functional display-board scheduler. Nominal 13.824 MHz dot clock / 8;
  * local memory response is idealized, not the system floppy DMA. */
 typedef struct {
   unsigned fraction, character, row, frames, stream, remaining;
   unsigned overflow, stopped, underrun, blank_from, dma, ignored;
+  robotron_video_row pending_row, scanout[24];
+  unsigned pending_valid, valid_rows, field, end_screen;
 } robotron_raster;
 /* Experimental functional PC-1715W/1715M profile. See README for fidelity. */
 typedef struct {

@@ -159,6 +159,10 @@ static void timer_cascade(void) {
   robotron_run(&m, 200);
   assert(!m.ctc[2].pending);
 }
+static void scan_display(void) {
+  robotron_output(&m, 0x19, 0x20 | m.raster.dma);
+  robotron_run(&m, 80000);
+}
 static void display(void) {
   init();
   unsigned w, h;
@@ -171,12 +175,14 @@ static void display(void) {
   m.vram[3] = 'A';
   m.chargen['A'] = 0x80;
   m.chargen[2048 + 'B'] = 0x40;
+  if (m.display_on) scan_display();
   robotron_video(&m, pixels, &w, &h);
   assert(w == 32 && h == 3);
   for (unsigned i = 0; i < w * h; i++)
     assert(pixels[i] == 0xff101812);
   robotron_output(&m, 0x19, 0x20);
   assert(robotron_input(&m, 0x19) == 0x44);
+  if (m.display_on) scan_display();
   robotron_video(&m, pixels, &w, &h);
   assert(pixels[0] == 0xff83e7a0 && pixels[1] == 0xff101812);
   assert(pixels[8] == 0xff101812); /* visible attribute is blank */
@@ -184,6 +190,7 @@ static void display(void) {
   robotron_output(&m, 0x19, 0x80);
   const uint8_t cursor[] = {0, 0};
   send(0x18, cursor, 2);
+  if (m.display_on) scan_display();
   robotron_video(&m, pixels, &w, &h);
   for (unsigned x = 0; x < 8; x++)
     assert(pixels[w + x] == 0xff83e7a0);
@@ -195,6 +202,7 @@ static void display(void) {
   m.vram[0] = 0xc0;
   for (unsigned y = 0; y < 3; y++)
     m.chargen[y * 128 + 0x40] = 0x80;
+  if (m.display_on) scan_display();
   robotron_video(&m, pixels, &w, &h);
   assert(pixels[0] == 0xff101812 && pixels[w] == 0xff83e7a0 &&
          pixels[2 * w] == 0xff83e7a0);
@@ -202,12 +210,14 @@ static void display(void) {
   m.crtc[3] &= ~64;
   m.vram[0] = 0x80; m.vram[1] = 0xf2; m.vram[2] = 'A';
   m.chargen[0x72] = 0x80;
+  if (m.display_on) scan_display();
   robotron_video(&m, pixels, &w, &h);
   assert(pixels[0] == 0xff83e7a0 && pixels[8] == 0xff83e7a0);
   /* A CA inherits reverse/GPA but not field highlight. */
   m.crtc[3] |= 64;
   m.vram[0] = 0x95; m.vram[1] = 0xc0;
   m.chargen[2048 + 128 + 0x40] = 0x80;
+  if (m.display_on) scan_display();
   robotron_video(&m, pixels, &w, &h);
   assert(pixels[8] == 0xff83e7a0); /* VSP then field reverse */
   assert(pixels[w + 8] == 0xff101812 && pixels[w + 9] == 0xff83e7a0);
@@ -223,6 +233,7 @@ static void display(void) {
   assert(robotron_input(&m, 0x19) == 0x4c);
   assert(robotron_input(&m, 0x19) == 0x44);
   robotron_output(&m, 0x19, 0x40);
+  if (m.display_on) scan_display();
   robotron_video(&m, pixels, &w, &h);
   assert(robotron_input(&m, 0x19) == 0x40);
   for (unsigned i = 0; i < w * h; i++)
@@ -244,16 +255,6 @@ static void display_fifo(void) {
     m.chargen[0x41] = 0xa5;
     robotron_output(&m, 0x19, 0x20);
     robotron_output(&m, 0x19, 0xc0); /* isolate FO from raster IR */
-    robotron_video(&m, pixels, &w, &h);
-    assert(w == count*8 && h == 8);
-    for (unsigned col = 0; col < count; col++) {
-      unsigned last = col % 16;
-      while (last + 16 < count) last += 16;
-      for (unsigned x = 0; x < 8; x++)
-        assert(pixels[col*8+x] == (((last+1) & (128>>x)) ? 0xff83e7a0 : 0xff101812));
-    }
-    for (unsigned x = 0; x < 8; x++)
-      assert(pixels[4*w+x] == ((0xa5 & (128>>x)) ? 0xff83e7a0 : 0xff101812));
     /* Rendering alone cannot set/clear FO or alter emulation state. */
     assert(robotron_input(&m, 0x19) == 4);
     // Row fill completes after 2*count character clocks, before frame end.
@@ -265,6 +266,16 @@ static void display_fifo(void) {
     assert(robotron_input(&m, 0x19) == 4);
     robotron_run(&m, 80000);
     assert(robotron_input(&m, 0x19) == (count > 16 ? 5 : 4));
+    robotron_video(&m, pixels, &w, &h);
+    assert(w == count*8 && h == 8);
+    for (unsigned col = 0; col < count; col++) {
+      unsigned last = col % 16;
+      while (last + 16 < count) last += 16;
+      for (unsigned x = 0; x < 8; x++)
+        assert(pixels[col*8+x] == (((last+1) & (128>>x)) ? 0xff83e7a0 : 0xff101812));
+    }
+    for (unsigned x = 0; x < 8; x++)
+      assert(pixels[4*w+x] == ((0xa5 & (128>>x)) ? 0xff83e7a0 : 0xff101812));
     m.crtc[3] |= 64;
     robotron_output(&m, 0x19, 0x20); robotron_output(&m, 0x19, 0xc0);
     robotron_run(&m, 80000);
@@ -283,12 +294,14 @@ static void display_schedule(void) {
   m.vram[0]='A'; m.vram[1]=0xf1; m.vram[2]='B';
   robotron_output(&m,0x19,0x20); // Single-byte burst: no dummy byte.
   assert(m.raster.stream==2 && m.raster.remaining==2);
+  robotron_run(&m,clocks_to_ticks(48));
   robotron_video(&m,pixels,&w,&h);
   assert(pixels[0]==0xff83e7a0 && pixels[4*w+1]==0xff83e7a0);
   // Four-byte burst requires dummy following mid-burst stop.
   m.vram[2]=0xff; m.vram[3]='B';
   robotron_output(&m,0x19,0x22);
   assert(m.raster.stream==3 && m.raster.remaining==3);
+  robotron_run(&m,clocks_to_ticks(48));
   robotron_video(&m,pixels,&w,&h);
   assert(pixels[4*w+1]==0xff83e7a0);
   m.vram[0]=0xf3; robotron_output(&m,0x19,0x22);
@@ -330,6 +343,23 @@ static void display_schedule(void) {
   robotron_output(&m,0x19,0x20); // Fast restart releases suppression.
   assert(m.raster.blank_from==24);
   robotron_output(&m,0x19,0x40); assert(!m.raster.remaining);
+}
+
+static void display_latched_rows(void) {
+  unsigned w,h;
+  init(); m.crtc[0]=3; m.crtc[1]=1; m.crtc[2]=3; m.crtc[3]=0x70;
+  m.cursor[0]=255; m.chargen['A']=0x80; m.chargen['B']=0x40;
+  m.vram[0]='A'; robotron_output(&m,0x19,0x20);
+  m.vram[0]='B'; // Write after row fetch began: pending row retains A.
+  robotron_video(&m,pixels,&w,&h); assert(pixels[0]==0xff101812);
+  robotron_run(&m,clocks_to_ticks(24));
+  robotron_video(&m,pixels,&w,&h);
+  assert(pixels[0]==0xff83e7a0 && pixels[1]==0xff101812);
+  robotron_raster saved=m.raster;
+  robotron_video(&m,pixels,&w,&h); assert(!memcmp(&saved,&m.raster,sizeof(saved)));
+  robotron_run(&m,clocks_to_ticks(72));
+  robotron_video(&m,pixels,&w,&h);
+  assert(pixels[0]==0xff101812 && pixels[1]==0xff83e7a0);
 }
 
 static void serial_byte(unsigned value, unsigned stop) {
@@ -971,6 +1001,7 @@ int main(void) {
   display();
   display_fifo();
   display_schedule();
+  display_latched_rows();
   puts("PASS Robotron DMA/RDY/TC, FDC reset/status, daisy-chain/RETI, "
        "CRTC/attributes/cursor");
 }
