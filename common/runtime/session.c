@@ -557,7 +557,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    5,
+                    6,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -577,7 +577,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 5 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 6 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||
@@ -598,9 +598,14 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       (s->keyboard_size && memcmp(k->rom, s->keyboard, 2048)) ||
       r->raster.fraction >= 104 || r->raster.character > 3584 ||
       r->raster.row >= 28 || r->raster.stream >= 1920 ||
-      r->raster.remaining > 10000 || r->raster.overflow > 1 ||
+      r->raster.remaining > 1 || r->raster.overflow > 1 ||
       r->raster.stopped > 2 || r->raster.underrun > 1 ||
-      r->raster.pending_valid > 1 || r->raster.valid_rows >= (1u << 24) ||
+      r->raster.fetch_col > 80 || r->raster.fetch_columns > 80 ||
+      (r->raster.remaining && (!r->raster.fetch_columns ||
+        r->raster.fetch_col >= r->raster.fetch_columns)) ||
+      r->raster.fetch_fifo > 80 || r->raster.fetch_phase > 2 ||
+      r->raster.fetch_ignored > 2 || r->raster.fetch_invisible > 1 ||
+      r->raster.fetch_wait > 55 || r->raster.pending_valid > 1 || r->raster.valid_rows >= (1u << 24) ||
       r->raster.field > 63 || r->raster.end_screen > 1 ||
       r->raster.blank_from > 24 || r->raster.dma > 31 || r->raster.ignored > 1 ||
       !valid_cpu(&r->cpu) || !valid_cpu(&k->cpu) || f->unit >= 4 ||

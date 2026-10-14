@@ -258,7 +258,7 @@ static void display_fifo(void) {
     /* Rendering alone cannot set/clear FO or alter emulation state. */
     assert(robotron_input(&m, 0x19) == 4);
     // Row fill completes after 2*count character clocks, before frame end.
-    unsigned fill_ticks = (2*count*104 + 44)/45;
+    unsigned fill_ticks = (2*(count > 16 ? 17 : count)*104 + 44)/45;
     robotron_run(&m, fill_ticks-1);
     assert(robotron_input(&m, 0x19) == 4);
     robotron_run(&m, 1);
@@ -293,18 +293,21 @@ static void display_schedule(void) {
   m.cursor[0]=255; m.chargen['A']=0x80; m.chargen['B']=0x40;
   m.vram[0]='A'; m.vram[1]=0xf1; m.vram[2]='B';
   robotron_output(&m,0x19,0x20); // Single-byte burst: no dummy byte.
-  assert(m.raster.stream==2 && m.raster.remaining==2);
+  robotron_run(&m,clocks_to_ticks(2));
+  assert(m.raster.stream==2 && !m.raster.remaining);
   robotron_run(&m,clocks_to_ticks(48));
   robotron_video(&m,pixels,&w,&h);
   assert(pixels[0]==0xff83e7a0 && pixels[4*w+1]==0xff83e7a0);
   // Four-byte burst requires dummy following mid-burst stop.
   m.vram[2]=0xff; m.vram[3]='B';
   robotron_output(&m,0x19,0x22);
-  assert(m.raster.stream==3 && m.raster.remaining==3);
+  robotron_run(&m,clocks_to_ticks(3));
+  assert(m.raster.stream==3 && !m.raster.remaining);
   robotron_run(&m,clocks_to_ticks(48));
   robotron_video(&m,pixels,&w,&h);
   assert(pixels[4*w+1]==0xff83e7a0);
   m.vram[0]=0xf3; robotron_output(&m,0x19,0x22);
+  robotron_run(&m,clocks_to_ticks(2));
   assert(m.raster.stream==2 && m.raster.stopped==1);
   robotron_run(&m,clocks_to_ticks(24));
   assert(m.raster.stream==2); // No next-row DMA after stop-screen.
@@ -350,7 +353,8 @@ static void display_latched_rows(void) {
   init(); m.crtc[0]=3; m.crtc[1]=1; m.crtc[2]=3; m.crtc[3]=0x70;
   m.cursor[0]=255; m.chargen['A']=0x80; m.chargen['B']=0x40;
   m.vram[0]='A'; robotron_output(&m,0x19,0x20);
-  m.vram[0]='B'; // Write after row fetch began: pending row retains A.
+  robotron_run(&m,clocks_to_ticks(1));
+  m.vram[0]='B'; // Write after first DACK: that byte retains A.
   robotron_video(&m,pixels,&w,&h); assert(pixels[0]==0xff101812);
   robotron_run(&m,clocks_to_ticks(24));
   robotron_video(&m,pixels,&w,&h);
@@ -371,6 +375,39 @@ static void display_latched_rows(void) {
   robotron_run(&m,clocks_to_ticks(24));
   robotron_video(&m,pixels,&w,&h);
   assert(m.raster.scanout[1].field==0 && pixels[4*w]==0xff83e7a0);
+}
+
+static void display_byte_fetch(void) {
+  unsigned w,h;
+  init(); m.crtc[0]=3; m.crtc[1]=1; m.crtc[2]=3; m.crtc[3]=0x70;
+  m.cursor[0]=255; m.chargen['A']=0x80; m.chargen['B']=0x40;
+  memset(m.vram,'A',8); robotron_output(&m,0x19,0x20);
+  assert(m.raster.stream==0); // Start command itself never reads VRAM.
+  robotron_run(&m,clocks_to_ticks(1));
+  assert(m.raster.stream==1);
+  m.vram[0]='B'; m.vram[1]='B';
+  robotron_run(&m,clocks_to_ticks(23));
+  robotron_video(&m,pixels,&w,&h);
+  assert(pixels[0]==0xff83e7a0 && pixels[1]==0xff101812);
+  assert(pixels[8]==0xff101812 && pixels[9]==0xff83e7a0);
+  // A later glyph/cursor/attribute change cannot repaint an already scanned row.
+  m.chargen['A']=0xff; m.cursor[0]=0; m.cursor[1]=0; m.crtc[3]=0x40;
+  robotron_video(&m,pixels,&w,&h);
+  assert(pixels[0]==0xff83e7a0 && pixels[1]==0xff101812);
+
+  init(); m.crtc[0]=3; m.crtc[1]=1; m.crtc[2]=15; m.crtc[3]=0x70;
+  memset(m.vram,'A',8); robotron_output(&m,0x19,0x24); // one byte, seven-clock gap
+  robotron_run(&m,clocks_to_ticks(1)); assert(m.raster.stream==1);
+  robotron_run(&m,clocks_to_ticks(7)); assert(m.raster.stream==1);
+  m.vram[1]='B'; robotron_run(&m,clocks_to_ticks(1));
+  assert(m.raster.stream==2 && m.raster.pending_row.code[1]=='B');
+
+  // The byte following an invisible attribute is independently fetched.
+  init(); m.crtc[0]=1; m.crtc[1]=1; m.crtc[2]=15; m.crtc[3]=0x30;
+  m.vram[0]=0x80; m.vram[1]='A'; robotron_output(&m,0x19,0x24);
+  robotron_run(&m,clocks_to_ticks(1)); assert(m.raster.fetch_phase==1);
+  m.vram[1]=0xc2; robotron_run(&m,clocks_to_ticks(8));
+  assert(m.raster.pending_row.fifo[0]==0x42 && m.raster.fetch_fifo==1);
 }
 
 static void serial_byte(unsigned value, unsigned stop) {
@@ -1013,6 +1050,7 @@ int main(void) {
   display_fifo();
   display_schedule();
   display_latched_rows();
+  display_byte_fetch();
   puts("PASS Robotron DMA/RDY/TC, FDC reset/status, daisy-chain/RETI, "
        "CRTC/attributes/cursor");
 }

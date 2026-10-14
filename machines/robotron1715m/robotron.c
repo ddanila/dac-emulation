@@ -1138,48 +1138,67 @@ static unsigned video_row_clocks(const robotron *m) {
 static unsigned video_total_rows(const robotron *m) {
   return video_rows(m) + (m->crtc[1] >> 6) + 1;
 }
-static void video_fetch_row(const robotron *m, unsigned *position,
-                            robotron_video_row *row, unsigned ignored) {
-  unsigned written = 0, burst = 1u << (m->raster.dma & 3);
-  memset(row, 0, sizeof(*row));
-  memset(row->code, 0xf0, sizeof(row->code));
-  for (unsigned col = 0; col < video_columns(m); col++) {
-    uint8_t code = m->vram[(*position)++ % 1920];
-    row->bytes++;
-    row->code[col] = code;
-    if (!ignored && !(m->crtc[3] & 64) && (code & 0xc0) == 0x80) {
-      row->fifo[written++ & 15] = m->vram[(*position)++ % 1920] & 127;
-      row->bytes++;
-      if (written > 16) row->overflow = 1;
-    } else if ((!ignored && code == 0xf1) || (ignored < 2 && code == 0xf3)) {
-      // Intel: one extra dummy read unless last byte of burst or row.
-      if (col + 1 < video_columns(m) && row->bytes % burst) {
-        (*position)++; row->bytes++;
-      }
-      row->stop_screen = code == 0xf3;
-      break;
+static void video_finish_fetch(robotron *m) {
+  robotron_raster *r = &m->raster;
+  r->remaining = 0; r->pending_valid = 1;
+  r->ignored = r->fetch_ignored == 2;
+  if (r->pending_row.stop_screen) r->stopped = 1;
+}
+/* One idealized local DACK per character clock, separated by the programmed
+ * burst gaps. VRAM is read here only when that byte is actually requested. */
+static void video_fetch_byte(robotron *m) {
+  robotron_raster *r = &m->raster;
+  robotron_video_row *out = &r->pending_row;
+  if (!r->remaining) return;
+  if (r->fetch_wait) { r->fetch_wait--; return; }
+  uint8_t code = m->vram[r->stream];
+  r->stream = (r->stream + 1) % 1920;
+  out->bytes++;
+  unsigned burst = 1u << (r->dma & 3);
+  if (r->fetch_phase == 2) { video_finish_fetch(m); return; }
+  if (r->fetch_phase == 1) {
+    out->fifo[r->fetch_fifo++ & 15] = code & 127;
+    if (r->fetch_fifo > 16) {
+      out->overflow = r->overflow = 1;
+      m->crtc_status |= 1; // FO at the overflowing FIFO write, not row end.
     }
-    if (!ignored && code == 0xf0) ignored = 1;
-    if (code == 0xf2) { ignored = 2; row->ignore_screen = 1; }
+    r->fetch_phase = 0; r->fetch_col++;
+  } else {
+    out->code[r->fetch_col] = code;
+    if (!r->fetch_ignored && r->fetch_invisible && (code & 0xc0) == 0x80) {
+      r->fetch_phase = 1;
+    } else if ((!r->fetch_ignored && code == 0xf1) ||
+               (r->fetch_ignored < 2 && code == 0xf3)) {
+      out->stop_screen = code == 0xf3;
+      if (r->fetch_col + 1 < r->fetch_columns && out->bytes % burst)
+        r->fetch_phase = 2; // One documented dummy DACK.
+      else { video_finish_fetch(m); return; }
+    } else {
+      if (!r->fetch_ignored && code == 0xf0) r->fetch_ignored = 1;
+      if (code == 0xf2) { r->fetch_ignored = 2; out->ignore_screen = 1; }
+      r->fetch_col++;
+    }
+  }
+  if (r->fetch_col == r->fetch_columns) { video_finish_fetch(m); return; }
+  if (!(out->bytes % burst)) {
+    r->fetch_wait = (r->dma >> 2) * 8;
+    if (r->fetch_wait) r->fetch_wait--;
   }
 }
 static void video_schedule_row(robotron *m, unsigned row) {
   robotron_raster *r = &m->raster;
   if (!m->display_on || r->stopped || r->underrun) return;
   if (row == 0) r->stream = r->ignored = 0;
-  robotron_video_row buffer;
-  video_fetch_row(m, &r->stream, &buffer, r->ignored ? 2 : 0);
-  r->pending_row = buffer;
-  r->pending_valid = 1;
-  if (buffer.ignore_screen) r->ignored = 1;
-  r->stream %= 1920;
-  unsigned burst = 1u << (r->dma & 3), spacing = (r->dma >> 2) * 8;
-  if (spacing) spacing--;
-  // Idealized local DACK: one byte per character clock, programmed burst gaps.
-  r->remaining = buffer.bytes + ((buffer.bytes - 1) / burst) * spacing;
-  r->overflow = buffer.overflow;
-  if (buffer.stop_screen) r->stopped = 1;
+  memset(&r->pending_row, 0, sizeof(r->pending_row));
+  memset(r->pending_row.code, 0xf0, sizeof(r->pending_row.code));
+  r->pending_valid = r->fetch_col = r->fetch_fifo = r->fetch_phase = 0;
+  r->fetch_wait = r->overflow = 0;
+  r->fetch_ignored = r->ignored ? 2 : 0;
+  r->fetch_columns = video_columns(m);
+  r->fetch_invisible = !(m->crtc[3] & 64);
+  r->remaining = 1;
 }
+static void video_decode_scanout(const robotron *, unsigned, robotron_video_row *);
 static void video_restart(robotron *m) {
   robotron_raster *r = &m->raster;
   r->fraction = r->character = r->underrun = r->stopped = 0;
@@ -1199,6 +1218,7 @@ static void video_latch_row(robotron *m) {
   memset(out->code, 0xf0, sizeof(out->code));
   if (r->pending_valid && !r->underrun) *out = r->pending_row;
   out->field = r->field; out->end_screen = r->end_screen;
+  video_decode_scanout(m, r->row, out);
   r->pending_valid = 0;
   r->valid_rows |= 1u << r->row;
   for (unsigned col = 0; col < video_columns(m); col++) {
@@ -1216,8 +1236,7 @@ static void video_clock(robotron *m) {
   r->fraction += 45; /* 1.728 MHz / 3.9936 MHz = 45 / 104 */
   if (r->fraction < 104) return;
   r->fraction -= 104;
-  if (r->remaining && !--r->remaining && r->overflow && m->display_on)
-    m->crtc_status |= 1;
+  if (m->display_on) video_fetch_byte(m);
   if (++r->character < video_row_clocks(m)) return;
   r->character = 0;
   r->row = (r->row + 1) % video_total_rows(m);
@@ -1362,23 +1381,18 @@ void robotron_run(robotron *m, unsigned ticks) {
   }
 }
 
-/* Pure host drawing from latched controller rows. VRAM is sampled by the
- * scheduler only. Row-level sampling is not per-byte bus contention. */
-void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
-                    unsigned *height) {
-  unsigned cols = video_columns(m), rows = video_rows(m);
-  unsigned lines = (m->crtc[2] & 15) + 1, underline = m->crtc[2] >> 4;
-  *width = cols * 8;
-  *height = rows * lines;
-  unsigned frame = m->raster.frames;
-  for (unsigned row = 0; row < rows; row++) {
-    const robotron_video_row buffer = m->raster.scanout[row];
-    unsigned field = buffer.field, end_screen = buffer.end_screen;
+/* Snapshot character-generator, cursor, blink and field output at row scanout.
+ * The host renderer never reinterprets old rows using new controller state. */
+static void video_decode_scanout(const robotron *m, unsigned row,
+                                  robotron_video_row *out) {
+  unsigned cols = video_columns(m), lines = (m->crtc[2] & 15) + 1;
+  unsigned underline = m->crtc[2] >> 4, frame = m->raster.frames;
+  out->columns = cols; out->lines = lines;
+    unsigned field = out->field, end_screen = out->end_screen;
     unsigned end_row = 0, fifo_read = 0;
     for (unsigned col = 0; col < cols; col++) {
-      uint8_t ch = buffer.code[col];
-      unsigned attr = field, blank = end_row || end_screen || !m->display_on ||
-                                    !(m->raster.valid_rows & (1u << row));
+      uint8_t ch = out->code[col];
+      unsigned attr = field, blank = end_row || end_screen || !m->display_on;
       if ((ch & 0xc0) == 0x80) {
         if (!end_row && !end_screen)
           field = ch & 63;
@@ -1388,7 +1402,7 @@ void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
           /* The invisible-attribute FIFO is seven bits wide: its next
            * byte is always glyph data, even when bit 7 was set. Intel
            * 8275 datasheet p.8-237, not another FA/CA/control command. */
-          ch = buffer.fifo[fifo_read++ & 15];
+          ch = out->fifo[fifo_read++ & 15];
           attr = field;
         }
       }
@@ -1438,12 +1452,28 @@ void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
         }
         if (blank)
           bits = 0;
-        for (unsigned x = 0; x < 8; x++)
-          pixels[(row * lines + y) * *width + col * 8 + x] =
-              (bits & (128 >> x)) ? ((attr & 1) ? 0xffb0ffcb : 0xff83e7a0)
-                                  : 0xff101812;
+        out->pixels[col][y] = bits;
+        out->highlight[col] = attr & 1;
       }
     }
+}
+void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
+                    unsigned *height) {
+  unsigned cols = video_columns(m), rows = video_rows(m);
+  unsigned lines = (m->crtc[2] & 15) + 1;
+  *width = cols * 8; *height = rows * lines;
+  for (unsigned row = 0; row < rows; row++) {
+    const robotron_video_row *out = &m->raster.scanout[row];
+    for (unsigned col = 0; col < cols; col++)
+      for (unsigned y = 0; y < lines; y++) {
+        unsigned visible = m->display_on && (m->raster.valid_rows & (1u << row)) &&
+                           col < out->columns && y < out->lines;
+        uint8_t bits = visible ? out->pixels[col][y] : 0;
+        for (unsigned x = 0; x < 8; x++)
+          pixels[(row * lines + y) * *width + col * 8 + x] =
+            (bits & (128 >> x)) ? (out->highlight[col] ? 0xffb0ffcb : 0xff83e7a0)
+                               : 0xff101812;
+      }
   }
 }
 

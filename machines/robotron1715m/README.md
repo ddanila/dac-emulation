@@ -202,7 +202,7 @@ The raw Robotron snapshot layout is version 4 because it now contains scheduler
 phase and pending fetch state. DAC preserves the 0.8.4 core for its older saved
 sessions; old snapshots are not silently interpreted using the new layout.
 
-### Latched scanout — 0.8.6 (current)
+### Latched scanout — 0.8.6
 
 Completed pending fetches are latched at visible-row boundaries. Host drawing
 uses those historical rows and their starting field/end-screen state, never
@@ -217,3 +217,25 @@ host-render state, attribute FIFO behavior, deadlines and subsequent refresh.
 Native and WASM historical TOS/M boot pixels remain identical. Snapshot layout
 is now **5**, retaining pending and displayed rows plus attribute state; DAC
 archives core 0.8.5 for saved sessions using its previous layout.
+
+### Scheduled byte fetches and retained output — 0.8.7 (current)
+
+The display now reads one byte at each idealized local DACK, with the programmed
+burst lengths and 0/7/15/…/55 character-clock gaps. Start Display itself does not
+read VRAM. Invisible-attribute data and stop-DMA dummy reads each consume their
+own fetch. FO appears on the seventeenth FIFO write. Writes between fetches can
+therefore affect unfetched bytes without changing bytes already in the buffer.
+
+At each visible-row boundary the completed row retains its decoded glyph bits,
+highlight, cursor, blink, and controller attributes. Host drawing no longer
+re-evaluates old rows with changed character ROM, cursor or attribute registers.
+Snapshot layout **6** retains partial fetch phase, FIFO index, burst wait, pending
+bytes and decoded rows. Active fetch state is bounded during snapshot validation.
+DAC preserves core 0.8.6 for previous saved sessions.
+
+This still assumes one local acknowledgement per character clock and samples
+scanout state per row. It does not claim measured W/M DACK latency, CPU bus
+contention, individual scanline output, light-pen behavior or verified IRQ wiring.
+Tests cover writes between DACKs, burst gaps, independent FIFO bytes, retained
+glyph/cursor output, dummy reads, underruns, snapshots, and native/WASM TOS/M boot.
+The burst/stop/FIFO rules use the existing Intel 8275 source, pp. 8-236–8-240.

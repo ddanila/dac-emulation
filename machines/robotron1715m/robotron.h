@@ -32,7 +32,8 @@ typedef struct {
 typedef struct {
   uint8_t code[80], fifo[16];
   unsigned overflow, bytes, stop_screen, ignore_screen;
-  unsigned field, end_screen;
+  unsigned field, end_screen, columns, lines;
+  uint8_t pixels[80][16], highlight[80];
 } robotron_video_row;
 /* Functional display-board scheduler. Nominal 13.824 MHz dot clock / 8;
  * local memory response is idealized, not the system floppy DMA. */
@@ -41,6 +42,8 @@ typedef struct {
   unsigned overflow, stopped, underrun, blank_from, dma, ignored;
   robotron_video_row pending_row, scanout[24];
   unsigned pending_valid, valid_rows, field, end_screen;
+  unsigned fetch_col, fetch_columns, fetch_fifo, fetch_phase, fetch_ignored;
+  unsigned fetch_invisible, fetch_wait;
 } robotron_raster;
 /* Experimental functional PC-1715W/1715M profile. See README for fidelity. */
 typedef struct {
