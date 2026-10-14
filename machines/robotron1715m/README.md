@@ -40,7 +40,7 @@ The native regression creates text via `PIP ...=CON:`, reads it, copies text and
 - Functional, not cycle-accurate: DMA byte/burst timing, search/match/ready interrupts, auto-restart, pulse output and six-command reset sequencing remain incomplete. End-of-block interrupt/TC, ready polarity and DMA/CTC in-service priority have focused tests; this does not qualify all peripheral modes.
 - Two drives share one explicit raw geometry. Format accepts exactly five unique 1024-byte sector IDs on the current cylinder/head; arbitrary layouts, deleted-sector/flux-level behavior and detailed scan semantics remain incomplete. Whole/partial write completion, write protection, busy/data/result transitions and reset cancellation have focused checks.
 - CTC external trigger timing, SIO synchronous modes, other serial channels and V.24 are pending. Printer TX A supports an always-ready byte-capture device clocked by CTC0 channel 0. The keyboard receiver implements asynchronous width/parity/clock division, three-byte FIFO, error status and receive interrupts; it is not a complete SIO.
-- The 8275 stream renderer does not implement scan timing, real display DMA/FIFO limits, raster interrupts, double-spaced rows, light pen or external LA0/LA1 graphics wiring. Character attributes now decode VSP/LTEN and highlight/blink, retaining the reference Robotron glyph wiring. Blink uses a nominal 50 Hz clock; unusual geometries are bounded to the supported framebuffer. Field attributes and cursor are not a claim of complete 8275 emulation.
+- The 8275 stream renderer does not implement scan timing, real display DMA scheduling, raster interrupts, double-spaced rows, light pen or external LA0/LA1 graphics wiring. Character attributes now decode VSP/LTEN and highlight/blink, retaining the reference Robotron glyph wiring. Blink uses a nominal 50 Hz clock; unusual geometries are bounded to the supported framebuffer. Field attributes and cursor are not a claim of complete 8275 emulation.
 - No MAME runtime differential or physical-machine comparison has been performed. Source comparisons and passing applications do not prove hardware accuracy.
 
 See [source identities](../../docs/z80-provenance.json), [validation](../../docs/z80-browser-validation.md) and `REFERENCE_LICENSE`. Original DAC code is MIT; reference attributions are preserved in `NOTICE`. ROMs and disks are neither bundled nor licensed by this repository.
@@ -141,7 +141,7 @@ printed pp. 8-237 and 8-241, establishes the fixes in this release:
 - Reading status clears IR/LP/IC/DU/FO while preserving IE/VE. Excess or
   interrupted parameter strings set IC.
 
-Focused pixel/register tests cover these cases. This does not implement the
+Focused pixel/register tests cover these cases. At this release the renderer did not yet implement the
 16-byte FIFO's overflow/overwrite behavior, row-fetch scheduling, underruns,
 light pen or exact raster/interrupt timing. The renderer still reads the bounded
 video stream directly; status-bit clearing does not imply every flag producer
@@ -149,3 +149,22 @@ is implemented. Keyboard S600 testing additionally checks normal output after
 releasing Shift and Ctrl; its existing address-clocked LED latches agree with
 the keyboard drawing. The transplanted specimen keyboard ROM is not identified
 by this reference-firmware test. No Verilog run is needed for these C changes.
+
+
+### Attribute FIFO — 0.8.4
+
+Each decoded row now has an 80-byte bounded row buffer and a 16 × 7-bit
+attribute FIFO. The entire row is filled before display: the 17th following
+character overwrites slot zero, the 33rd overwrites it again, and output wraps
+through the same 16 slots. FIFO indices reset for each row. Visible attributes
+do not use the FIFO. Tests cover counts 16 through 33, seven-bit data, row
+boundaries, pixel output and status read-clear behavior.
+
+FO is latched by emulation on the existing nominal 80000-tick display-frame
+cadence, even when no host renderer is called. Rendering never mutates status;
+small and large run slices produce the same flag. This is a functional FIFO
+model, not cycle-accurate row DMA: exact FO latency, burst/stop-DMA consumption,
+underruns, light pen, spaced rows and raster IRQ timing remain separate work.
+The shared FIFO decoder follows Intel 8275 pp. 8-236–8-237; FIFO width/wrapping
+was also cross-checked against MAME's BSD-3-Clause i8275 implementation (Curt
+Coder/AJR, already credited in NOTICE). No persistent state layout was changed.

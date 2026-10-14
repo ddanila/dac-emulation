@@ -1086,6 +1086,48 @@ int robotron_keyboard_load(robotron *m, const void *rom, size_t n) {
   m->rx.first = 1;
   return 0;
 }
+/* Intel 8275 row buffer and 16 x 7-bit invisible-attribute FIFO.
+ * Fill the complete row before reading it out: a 17th FIFO byte overwrites
+ * entry zero (including the character displayed by the first attribute).
+ * This is bounded stream decoding, not the board's cycle-level DMA circuit. */
+typedef struct {
+  uint8_t code[80], fifo[16];
+  unsigned overflow;
+} robotron_video_row;
+static unsigned video_columns(const robotron *m) {
+  unsigned n = (m->crtc[0] & 127) + 1;
+  return n > 80 ? 80 : n;
+}
+static unsigned video_rows(const robotron *m) {
+  unsigned n = (m->crtc[1] & 63) + 1;
+  return n > 24 ? 24 : n;
+}
+static void video_fetch_row(const robotron *m, unsigned *position,
+                            robotron_video_row *row) {
+  unsigned written = 0;
+  memset(row, 0, sizeof(*row));
+  for (unsigned col = 0; col < video_columns(m); col++) {
+    uint8_t code = m->vram[(*position)++ % 1920];
+    row->code[col] = code;
+    if (!(m->crtc[3] & 64) && (code & 0xc0) == 0x80) {
+      row->fifo[written++ & 15] = m->vram[(*position)++ % 1920] & 127;
+      if (written > 16)
+        row->overflow = 1;
+    }
+  }
+}
+static void video_fifo_frame(robotron *m) {
+  unsigned pos = 0;
+  for (unsigned row = 0; row < video_rows(m); row++) {
+    robotron_video_row buffer;
+    video_fetch_row(m, &pos, &buffer);
+    if (buffer.overflow) {
+      m->crtc_status |= 1;
+      break;
+    }
+  }
+}
+
 void robotron_run(robotron *m, unsigned ticks) {
   while (ticks--) {
     if (m->keyboard_enabled)
@@ -1204,6 +1246,11 @@ void robotron_run(robotron *m, unsigned ticks) {
         reti(m);
     }
     mechanics_tick(m);
+    /* Keep FO independent of host drawing/polling frequency. Until the
+     * local display DMA is timed, sample on the existing nominal 50 Hz
+     * display cadence. This does not claim exact row-fetch/FO latency. */
+    if (m->display_on && m->cpu.cycles % 80000 == 0)
+      video_fifo_frame(m);
   }
 }
 
@@ -1212,30 +1259,29 @@ void robotron_run(robotron *m, unsigned ticks) {
  * following stream byte. The physical video address wraps at 80*24. */
 void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
                     unsigned *height) {
-  unsigned cols = (m->crtc[0] & 127) + 1, rows = (m->crtc[1] & 63) + 1;
+  unsigned cols = video_columns(m), rows = video_rows(m);
   unsigned lines = (m->crtc[2] & 15) + 1, underline = m->crtc[2] >> 4;
-  if (cols > 80)
-    cols = 80;
-  if (rows > 24)
-    rows = 24;
   *width = cols * 8;
   *height = rows * lines;
   unsigned pos = 0, field = 0, end_screen = 0;
   unsigned frame = (unsigned)(m->cpu.cycles / 80000); /* 4 MHz, nominal 50 Hz */
   for (unsigned row = 0; row < rows; row++) {
-    unsigned end_row = 0;
+    robotron_video_row buffer;
+    video_fetch_row(m, &pos, &buffer);
+    unsigned end_row = 0, fifo_read = 0;
     for (unsigned col = 0; col < cols; col++) {
-      uint8_t ch = m->vram[pos++ % 1920];
+      uint8_t ch = buffer.code[col];
       unsigned attr = field, blank = end_row || end_screen || !m->display_on;
       if ((ch & 0xc0) == 0x80) {
-        field = ch & 63;
+        if (!end_row && !end_screen)
+          field = ch & 63;
         if (m->crtc[3] & 64)
           blank = 1;
         else {
           /* The invisible-attribute FIFO is seven bits wide: its next
            * byte is always glyph data, even when bit 7 was set. Intel
            * 8275 datasheet p.8-237, not another FA/CA/control command. */
-          ch = m->vram[pos++ % 1920] & 127;
+          ch = buffer.fifo[fifo_read++ & 15];
           attr = field;
         }
       }

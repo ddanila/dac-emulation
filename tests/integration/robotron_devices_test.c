@@ -228,6 +228,50 @@ static void display(void) {
   for (unsigned i = 0; i < w * h; i++)
     assert(pixels[i] == 0xff101812);
 }
+static void display_fifo(void) {
+  unsigned w, h;
+  for (unsigned count = 16; count <= 33; count++) {
+    init();
+    m.crtc[0] = count - 1; m.crtc[1] = 1; m.crtc[2] = 0;
+    m.crtc[3] = 0x30; m.cursor[0] = 255;
+    robotron_output(&m, 0x19, 0x20);
+    for (unsigned i = 0; i < count; i++) {
+      m.vram[2*i] = 0x80;
+      m.vram[2*i+1] = 0x80 | (i + 1); /* top bit discarded */
+      m.chargen[i+1] = i+1;
+    }
+    /* A second row starts with a fresh FIFO read/write index. */
+    m.vram[2*count] = 0x80; m.vram[2*count+1] = 0x41;
+    m.chargen[0x41] = 0xa5;
+    robotron_video(&m, pixels, &w, &h);
+    assert(w == count*8 && h == 2);
+    for (unsigned col = 0; col < count; col++) {
+      unsigned last = col % 16;
+      while (last + 16 < count) last += 16;
+      for (unsigned x = 0; x < 8; x++)
+        assert(pixels[col*8+x] == (((last+1) & (128>>x)) ? 0xff83e7a0 : 0xff101812));
+    }
+    for (unsigned x = 0; x < 8; x++)
+      assert(pixels[w+x] == ((0xa5 & (128>>x)) ? 0xff83e7a0 : 0xff101812));
+    /* Rendering alone cannot set/clear FO or alter emulation state. */
+    assert(robotron_input(&m, 0x19) == 0x44);
+    robotron_run(&m, 79999);
+    assert(robotron_input(&m, 0x19) == 0x44);
+    robotron_run(&m, 1);
+    assert(robotron_input(&m, 0x19) == (count > 16 ? 0x45 : 0x44));
+    assert(robotron_input(&m, 0x19) == 0x44);
+    robotron_run(&m, 80000); /* same result for a single large run slice */
+    assert(robotron_input(&m, 0x19) == (count > 16 ? 0x45 : 0x44));
+    m.crtc[3] |= 64; /* visible attributes never consume the FIFO */
+    robotron_run(&m, 80000);
+    assert(robotron_input(&m, 0x19) == 0x44);
+    m.crtc[3] &= ~64;
+    robotron_output(&m, 0x19, 0x40);
+    robotron_run(&m, 80000);
+    assert(robotron_input(&m, 0x19) == 0x40);
+  }
+}
+
 static void serial_byte(unsigned value, unsigned stop) {
   robotron_serial_clock(&m, 0);
   for (unsigned i = 0; i < 8; i++)
@@ -865,6 +909,7 @@ int main(void) {
   interrupt_chain();
   timer_cascade();
   display();
+  display_fifo();
   puts("PASS Robotron DMA/RDY/TC, FDC reset/status, daisy-chain/RETI, "
        "CRTC/attributes/cursor");
 }
