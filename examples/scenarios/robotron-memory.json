@@ -1,0 +1,17 @@
+{
+  "schema": "dac-scenario-1",
+  "machine": "robotron1715m",
+  "firmware": {
+    "0": {"hex": "3e4232008076", "size": 2048},
+    "1": {"hex": "", "size": 256}
+  },
+  "trace_limit": 1000,
+  "steps": [
+    {"until": {"space": "ram", "address": 32768, "hex": "42", "limit": 100}},
+    {"expect": {"space": "ram", "address": 32768, "hex": "42"}},
+    {"run": 100},
+    {"reset": true},
+    {"expect": {"space": "ram", "address": 32768, "hex": "00"}},
+    {"until": {"space": "ram", "address": 32768, "hex": "42", "limit": 100}}
+  ]
+}

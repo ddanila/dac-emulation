@@ -15,10 +15,20 @@ make test
 
 `make test` is the fast intermediate check: no Verilog, firmware downloads, PTYs, or full-system boot. Extended comparisons are explicitly opt-in. See [extraction and validation](docs/juku-extraction.md) for results and outstanding upstream failures.
 
+## Shared verification
+
+Juku and Robotron 1715M share the session runtime and a bounded, data-driven
+scenario runner with memory assertions, reproducible evidence and trace
+comparison. Native replay and the browser use the same runtime; existing build
+paths remain compatible. See [verification and target boundaries](docs/verification.md).
+The original-ROM-free example scenarios are included in `make test`.
+
 ## Layout
 
 | Path | Responsibility |
 | --- | --- |
+| `common/runtime/` | Shared native/browser session and read-only observation API |
+| `verification/` | Bounded scenarios, provenance reports and first-divergence comparison |
 | `common/trace/` | Shared trace events and diagnostic output interfaces |
 | `common/media/` | Disk-image storage and sector metadata, independent of controllers |
 | `machines/juku/` | Juku machine core and machine-specific devices |

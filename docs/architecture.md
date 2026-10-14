@@ -2,6 +2,16 @@
 
 Status: Juku instances, shared trace/media interfaces, a C build, and the native runner are implemented. The complete museum interface below remains a design outline; current experimental signatures are in `machines/juku/juku.h`.
 
+## Implemented verification layer
+
+The session implementation now lives in `common/runtime`, shared by native
+replay, the browser and the verification runner. `observe.h` defines a separate
+read-only observation contract; `verification/` implements bounded scenarios
+for Juku and Robotron 1715M. See [the implemented contracts](verification.md)
+for stepping precision, backing-memory spaces, trace coverage, evidence and
+remaining limits. Earlier proposals below are not claims of an arbitrary-machine
+ABI or complete physical fidelity.
+
 ## Core and host boundary
 
 A machine instance owns its CPU, memory, devices, pending events, and emulated clock. Avoid process-global mutable machine state so tests and museum exhibits can create independent instances.

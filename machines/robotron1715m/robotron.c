@@ -21,7 +21,7 @@ static int bank(robotron *m, unsigned b, uint16_t a) {
     return 5;
   }
 }
-uint8_t robotron_read(void *p, uint16_t a) {
+static uint8_t peek(void *p, uint16_t a) {
   robotron *m = p;
   int b = bank(m, m->bank & 7, a);
   if (b < 4)
@@ -34,9 +34,23 @@ uint8_t robotron_read(void *p, uint16_t a) {
     return m->vram[a & 4095];
   return 0;
 }
+static void memory_trace(robotron *m, const char *kind, uint16_t a, uint8_t v, int b) {
+  if (!m->trace.emit) return;
+  unsigned space = b < 4 ? DAC_SPACE_RAM : b == 4 ? DAC_SPACE_ROM :
+                   b == 6 ? DAC_SPACE_GLYPHS : b == 7 ? DAC_SPACE_VIDEO : DAC_SPACE_UNKNOWN;
+  uint32_t offset = b < 4 ? (uint32_t)b * 65536 + a : b == 4 ? a & 2047 : a & 4095;
+  dac_trace_access(&m->trace, kind, a, v, m->cpu.cycles, 2, m->trace_master, space, offset);
+}
+uint8_t robotron_read(void *p, uint16_t a) {
+  robotron *m = p;
+  uint8_t v = peek(m, a);
+  if (m->trace.emit) memory_trace(m, "MR", a, v, bank(m, m->bank & 7, a));
+  return v;
+}
 void robotron_write(void *p, uint16_t a, uint8_t v) {
   robotron *m = p;
   int b = bank(m, (m->bank >> 4) & 7, a);
+  memory_trace(m, "MW", a, v, b);
   if (b < 4)
     m->ram[b * 65536 + a] = v;
   else if (b == 6)
@@ -896,13 +910,13 @@ static uint8_t input_value(void *p, uint16_t a) {
 uint8_t robotron_input(void *p, uint16_t a) {
   robotron *m = p;
   uint8_t v = input_value(p, a);
-  dac_trace_emit(&m->trace, "IR", a, v, m->cpu.cycles, 2);
+  dac_trace_access(&m->trace, "IR", a, v, m->cpu.cycles, 2, m->trace_master, DAC_SPACE_IO, a & 255);
   return v;
 }
 static void video_restart(robotron *m);
 void robotron_output(void *p, uint16_t a, uint8_t v) {
   robotron *m = p;
-  dac_trace_emit(&m->trace, "IW", a, v, m->cpu.cycles, 2);
+  dac_trace_access(&m->trace, "IW", a, v, m->cpu.cycles, 2, m->trace_master, DAC_SPACE_IO, a & 255);
   a &= 255;
   if (a == 0)
     dma_write(m, v);
@@ -1011,7 +1025,7 @@ static int interrupt_source(robotron *m) {
     return 6;
   return -1;
 }
-static uint8_t ack(void *p) {
+static uint8_t ack_value(void *p) {
   robotron *m = p;
   int source = interrupt_source(m);
   if (source == 0) {
@@ -1036,6 +1050,12 @@ static uint8_t ack(void *p) {
     return m->ctc_vector[0] + 2 * (source - 1);
   }
   return 0xff;
+}
+static uint8_t ack(void *p) {
+  robotron *m = p;
+  uint8_t v = ack_value(p);
+  dac_trace_access(&m->trace, "IA", 0, v, m->cpu.cycles, 2, DAC_MASTER_CPU, DAC_SPACE_UNKNOWN, 0);
+  return v;
 }
 static void reti(robotron *m) {
   if (m->dma.in_service) {
@@ -1297,11 +1317,13 @@ void robotron_run(robotron *m, unsigned ticks) {
                      (d->irq_control & 2) && !d->in_service && (m->krfd & 128);
       if (terminal && m->fdc.phase == 2)
         m->fdc.tc = 1;
+      m->trace_master = DAC_MASTER_DMA;
       uint8_t v = si ? robotron_input(m, src) : robotron_read(m, src);
       if (di)
         robotron_output(m, dst, v);
       else
         robotron_write(m, dst, v);
+      m->trace_master = DAC_MASTER_CPU;
       advance(&d->run_a, d->a_mode);
       advance(&d->run_b, d->b_mode);
       d->transferred++;

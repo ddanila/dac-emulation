@@ -2,7 +2,7 @@
  * The museum's replay-native.mjs validates its JSON envelope and converts it.
  * Output is four length-prefixed byte strings: video, disk A, disk B, printer.
  */
-#include "../browser/dac.h"
+#include "../../common/runtime/session.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

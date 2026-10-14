@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 EMCC=${EMCC:-emcc}
 mkdir -p dist
-"$EMCC" -O2 -std=c11 runners/browser/dac.c common/cpu/z80.c \
+"$EMCC" -O2 -std=c11 common/runtime/session.c common/cpu/z80.c \
  machines/vjuga/vjuga.c machines/robotron1715m/robotron.c machines/robotron1715m/disk.c machines/robotron1715m/keyboard.c machines/robotron1715m/sio.c \
  machines/juku/juku.c machines/juku/juk_disk.c machines/juku/juku_fdc.c \
  third_party/cpu/i8080/i8080.c common/media/media.c common/trace/trace.c \

@@ -1,5 +1,9 @@
 # Browser runner / C ABI v0.1
 
+The implementation is shared in `common/runtime/session.[ch]`. The historical
+`dac.[ch]` paths forward there; compile one source path, not both. Native replay
+and the [verification runner](../../docs/verification.md) use the same runtime.
+
 `dac.h` exposes independent sessions, copied firmware/media, cold power-on/off, reset, bounded execution, key input, RGBA video and disk export. Machine kinds: Juku (0), VJUGA Rev-A Mode B (1), Robotron functional profile (2). Reset recreates machine state but preserves the session's disk copy. Destroy releases all session allocations. Firmware must be loaded while off.
 
 Build using Emscripten 6.0.12:

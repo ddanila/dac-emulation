@@ -9,3 +9,8 @@ For example, run in a disposable output directory with absolute paths:
 ```
 
 The positional values are cycle limit, video-write limit, and frame-cycle period. Firmware and disks remain external inputs. See the source runner for the complete inherited environment interface, and [validation limitations](../../docs/juku-extraction.md) before relying on automatic PTY transport.
+
+The shared scenario CLI is `python3 -m verification.scenario`; build its native
+library with `make build/libdac-runtime.so`. It supports Juku and Robotron 1715M
+and uses the same session implementation as `dac-replay` and WASM. See
+[verification](../../docs/verification.md) for examples and limits.

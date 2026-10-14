@@ -16,6 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - run: make -j4 test
+      - name: Shared runtime memory and undefined-behavior checks
+        run: make test-runtime-sanitize
       - name: Memory and undefined-behavior checks
         run: >-
           cc -std=c11 -O1 -g -fsanitize=address,undefined
