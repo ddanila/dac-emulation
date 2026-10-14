@@ -1186,7 +1186,7 @@ static void video_latch_row(robotron *m) {
     if (r->end_screen) break;
     if ((code & 0xc0) == 0x80) r->field = code & 63;
     if (code == 0xf2 || code == 0xf3) r->end_screen = 1;
-    if (code >= 0xf0) break;
+    if (code >= 0xf0 && code <= 0xf3) break;
   }
 }
 static void video_clock(robotron *m) {

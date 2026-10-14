@@ -360,6 +360,17 @@ static void display_latched_rows(void) {
   robotron_run(&m,clocks_to_ticks(72));
   robotron_video(&m,pixels,&w,&h);
   assert(pixels[0]==0xff101812 && pixels[1]==0xff83e7a0);
+  // A newly latched first row cannot change the old second row's field state.
+  m.vram[0]=0x90; m.vram[4]='A';
+  robotron_output(&m,0x19,0x20); robotron_run(&m,clocks_to_ticks(48));
+  assert(m.raster.scanout[1].field==16);
+  m.vram[0]=0x80; robotron_run(&m,clocks_to_ticks(48));
+  assert(m.raster.scanout[1].field==16);
+  robotron_video(&m,pixels,&w,&h);
+  assert(pixels[4*w]==0xff101812 && pixels[4*w+1]==0xff83e7a0);
+  robotron_run(&m,clocks_to_ticks(24));
+  robotron_video(&m,pixels,&w,&h);
+  assert(m.raster.scanout[1].field==0 && pixels[4*w]==0xff83e7a0);
 }
 
 static void serial_byte(unsigned value, unsigned stop) {
