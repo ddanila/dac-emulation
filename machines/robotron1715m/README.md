@@ -123,3 +123,29 @@ scan cycles produce continuous LED chatter and failed to represent both lamps.
 The original ROM remains unmodified. Tiny original-ROM/device checks cover the
 address combinations; the optional S600 test checks stable states across idle
 scans and sequential Caps/SI/SO key presses. No state-structure or ABI change.
+
+### Drawing audit, 2026-10-14
+
+The original [W drawings](https://xepb.org/robotron/docs/1715w.zip)
+(1.93.310411.8/09 and CRT 1.93.310412.6/04) distinguish the motherboard
+UA858/floppy DMA from the display board's local counter/RAM/multiplexer fetch
+circuitry. No system-DMA shortcut has been introduced for video.
+
+The [Intel 8275 datasheet](https://www.emuverse.ru/downloads/datasheets/peripherals/display/8275/8275.pdf),
+printed pp. 8-237 and 8-241, establishes the fixes in this release:
+
+- The byte following an invisible field attribute is seven-bit glyph data,
+  even if its original high bit would have denoted another attribute or command.
+- Character attributes inherit field reverse-video and GPA, but supply their
+  own highlight/blink state.
+- Reading status clears IR/LP/IC/DU/FO while preserving IE/VE. Excess or
+  interrupted parameter strings set IC.
+
+Focused pixel/register tests cover these cases. This does not implement the
+16-byte FIFO's overflow/overwrite behavior, row-fetch scheduling, underruns,
+light pen or exact raster/interrupt timing. The renderer still reads the bounded
+video stream directly; status-bit clearing does not imply every flag producer
+is implemented. Keyboard S600 testing additionally checks normal output after
+releasing Shift and Ctrl; its existing address-clocked LED latches agree with
+the keyboard drawing. The transplanted specimen keyboard ROM is not identified
+by this reference-firmware test. No Verilog run is needed for these C changes.

@@ -48,12 +48,18 @@ int main(int argc, char **argv) {
   robotron_keyboard_release(&m.keyboard);
   run(400000);
   count = 0;
+  press(7, 5); /* released Shift must not leave the firmware shifted */
+  assert(count == 2 && received[1] == 'a');
+  count = 0;
   robotron_keyboard_key(&m.keyboard, 8, 0, 1);
   run(400000);
   press(7, 5);
   assert(count == 2 && received[0] == 0xe1 && received[1] == 'a');
   robotron_keyboard_release(&m.keyboard);
   run(400000);
+  count = 0;
+  press(7, 5); /* released Ctrl must restore the normal serial prefix */
+  assert(count == 2 && received[0] == 0xe0 && received[1] == 'a');
   count = 0;
   press(3, 4);
   assert(count == 2 && received[1] == 0x9e);

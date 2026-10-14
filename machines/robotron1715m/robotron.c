@@ -881,8 +881,12 @@ static uint8_t input_value(void *p, uint16_t a) {
       return 0;
     return m->keys[m->key_read++ & 255];
   }
-  if (a == 0x19)
-    return m->crtc_status;
+  if (a == 0x19) {
+    /* Intel 8275 status: reading clears IR/LP/IC/DU/FO, not IE or VE. */
+    uint8_t status = m->crtc_status;
+    m->crtc_status &= 0x44;
+    return status;
+  }
   if (a == 0x0f || a == 0x14 || a == 0x15)
     return 0x64;
   if (a == 0x0d || a == 0x16 || a == 0x17 || a == 0x18 || a == 0x19)
@@ -934,6 +938,7 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
   } else if (a >= 0x28 && a <= 0x2b)
     m->motor = v;
   else if (a == 0x19) {
+    unsigned incomplete = m->crtc_pos < m->crtc_end;
     m->crtc_pos = m->crtc_end = 0;
     switch (v >> 5) {
     case 0:
@@ -961,13 +966,16 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
     default:
       break;
     }
+    if (incomplete)
+      m->crtc_status |= 8; /* interrupted parameter string */
   } else if (a == 0x18 && m->crtc_pos < m->crtc_end) {
     unsigned pos = m->crtc_pos++;
     if (pos < 4)
       m->crtc[pos] = v;
     else
       m->cursor[pos - 4] = v;
-  }
+  } else if (a == 0x18)
+    m->crtc_status |= 8; /* excess parameter */
 }
 /* Daisy chain: DMA, CTC2 channels 0..3, SIO A RX then TX. CTC0 has no INT. */
 static int interrupt_source(robotron *m) {
@@ -1224,7 +1232,10 @@ void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
         if (m->crtc[3] & 64)
           blank = 1;
         else {
-          ch = m->vram[pos++ % 1920];
+          /* The invisible-attribute FIFO is seven bits wide: its next
+           * byte is always glyph data, even when bit 7 was set. Intel
+           * 8275 datasheet p.8-237, not another FA/CA/control command. */
+          ch = m->vram[pos++ % 1920] & 127;
           attr = field;
         }
       }
@@ -1237,7 +1248,8 @@ void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
       }
       unsigned character_attr = ch >= 0xc0 && ch < 0xf0;
       if (character_attr)
-        attr = ch & 3;
+        /* CA inherits field reverse and GPA; highlight/blink are its own. */
+        attr = (field & 0x1c) | (ch & 3);
       for (unsigned y = 0; y < lines; y++) {
         unsigned gy = (m->crtc[3] & 128) ? (y + lines - 1) % lines : y;
         uint8_t bits =

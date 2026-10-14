@@ -190,7 +190,7 @@ static void display(void) {
   assert(m.crtc[0] == 3 &&
          m.crtc[2] == 0x12); /* cursor cannot overwrite geometry */
   // Character-attribute code suppresses the upper glyph region via VSP,
-  // without leaking the preceding field's reverse/highlight state.
+  // with no preceding field attributes in this row.
   m.cursor[0] = 255;
   m.vram[0] = 0xc0;
   for (unsigned y = 0; y < 3; y++)
@@ -198,6 +198,30 @@ static void display(void) {
   robotron_video(&m, pixels, &w, &h);
   assert(pixels[0] == 0xff101812 && pixels[w] == 0xff83e7a0 &&
          pixels[2 * w] == 0xff83e7a0);
+  /* Invisible FA's next byte is seven-bit glyph data, not end-screen. */
+  m.crtc[3] &= ~64;
+  m.vram[0] = 0x80; m.vram[1] = 0xf2; m.vram[2] = 'A';
+  m.chargen[0x72] = 0x80;
+  robotron_video(&m, pixels, &w, &h);
+  assert(pixels[0] == 0xff83e7a0 && pixels[8] == 0xff83e7a0);
+  /* A CA inherits reverse/GPA but not field highlight. */
+  m.crtc[3] |= 64;
+  m.vram[0] = 0x95; m.vram[1] = 0xc0;
+  m.chargen[2048 + 128 + 0x40] = 0x80;
+  robotron_video(&m, pixels, &w, &h);
+  assert(pixels[8] == 0xff83e7a0); /* VSP then field reverse */
+  assert(pixels[w + 8] == 0xff101812 && pixels[w + 9] == 0xff83e7a0);
+  /* Error flags clear on read; IE/VE survive repeated reads. */
+  m.crtc_status = 0x7f;
+  assert(robotron_input(&m, 0x19) == 0x7f);
+  assert(robotron_input(&m, 0x19) == 0x44);
+  robotron_output(&m, 0x18, 0); /* too many parameters */
+  assert(robotron_input(&m, 0x19) == 0x4c);
+  robotron_output(&m, 0x19, 0x80); /* cursor needs two bytes */
+  robotron_output(&m, 0x18, 0);
+  robotron_output(&m, 0x19, 0x20); /* interrupted after one */
+  assert(robotron_input(&m, 0x19) == 0x4c);
+  assert(robotron_input(&m, 0x19) == 0x44);
   robotron_output(&m, 0x19, 0x40);
   robotron_video(&m, pixels, &w, &h);
   assert(robotron_input(&m, 0x19) == 0x40);
