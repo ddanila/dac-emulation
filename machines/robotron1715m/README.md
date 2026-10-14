@@ -4,7 +4,7 @@ An experimental portable C machine using the shared Z80 adapter. The tested prof
 
 Implemented: 256 KB RAM with independent read/write banks selected through the supplied CAS PROM; boot ROM/gap/character/video windows; CTC timer cascade and DMA/CTC interrupt priority with in-service/RETI handling; optional S600 keyboard CPU/matrix with clocked SIO reception, or a legacy byte adapter; DMA addressing, ready polarity, end-of-block interrupt control and board-gated terminal count; raw 80×2×5×1024 media; floppy specify/sense/recalibrate/seek/read-ID/read/write/deleted-data/read-track/format/scan commands. Storage uses `common/media`. Native I/O events use `common/trace`.
 
-The bounded 8275 renderer honors display start/stop, programmed geometry (up to 80×24 cells and 16 scanlines), cursor position/style, field attributes, alternate glyph page, and end-of-row/screen controls. TOS/M programs 80×24×12, producing 640×288 pixels. Rendering remains separate from raster/DMA timing.
+The bounded 8275 renderer honors display start/stop, programmed geometry (up to 80×24 cells and 16 scanlines), cursor position/style, field attributes, alternate glyph page, and end-of-row/screen controls. TOS/M programs 80×24×12, producing 640×288 pixels. The row scheduler produces status independently of rendering; local fetch response remains idealized.
 
 Build `make`, then:
 
@@ -40,7 +40,7 @@ The native regression creates text via `PIP ...=CON:`, reads it, copies text and
 - Functional, not cycle-accurate: DMA byte/burst timing, search/match/ready interrupts, auto-restart, pulse output and six-command reset sequencing remain incomplete. End-of-block interrupt/TC, ready polarity and DMA/CTC in-service priority have focused tests; this does not qualify all peripheral modes.
 - Two drives share one explicit raw geometry. Format accepts exactly five unique 1024-byte sector IDs on the current cylinder/head; arbitrary layouts, deleted-sector/flux-level behavior and detailed scan semantics remain incomplete. Whole/partial write completion, write protection, busy/data/result transitions and reset cancellation have focused checks.
 - CTC external trigger timing, SIO synchronous modes, other serial channels and V.24 are pending. Printer TX A supports an always-ready byte-capture device clocked by CTC0 channel 0. The keyboard receiver implements asynchronous width/parity/clock division, three-byte FIFO, error status and receive interrupts; it is not a complete SIO.
-- The 8275 stream renderer does not implement scan timing, real display DMA scheduling, raster interrupts, double-spaced rows, light pen or external LA0/LA1 graphics wiring. Character attributes now decode VSP/LTEN and highlight/blink, retaining the reference Robotron glyph wiring. Blink uses a nominal 50 Hz clock; unusual geometries are bounded to the supported framebuffer. Field attributes and cursor are not a claim of complete 8275 emulation.
+- The 8275 has a functional character-clock/row scheduler, burst spacing, stop-DMA consumption, underrun and raster IR status. It does not reproduce per-byte board response, CPU interrupt wiring, double-spaced pixel rows, light pen or external LA0/LA1 graphics wiring. Character attributes now decode VSP/LTEN and highlight/blink, retaining the reference Robotron glyph wiring. Blink follows the scheduled frame counter; unusual geometries are bounded to the supported framebuffer. Field attributes and cursor are not a claim of complete 8275 emulation.
 - No MAME runtime differential or physical-machine comparison has been performed. Source comparisons and passing applications do not prove hardware accuracy.
 
 See [source identities](../../docs/z80-provenance.json), [validation](../../docs/z80-browser-validation.md) and `REFERENCE_LICENSE`. Original DAC code is MIT; reference attributions are preserved in `NOTICE`. ROMs and disks are neither bundled nor licensed by this repository.
@@ -141,7 +141,7 @@ printed pp. 8-237 and 8-241, establishes the fixes in this release:
 - Reading status clears IR/LP/IC/DU/FO while preserving IE/VE. Excess or
   interrupted parameter strings set IC.
 
-Focused pixel/register tests cover these cases. At this release the renderer did not yet implement the
+Focused pixel/register tests cover these cases. Historically, 0.8.3 did not yet implement the
 16-byte FIFO's overflow/overwrite behavior, row-fetch scheduling, underruns,
 light pen or exact raster/interrupt timing. The renderer still reads the bounded
 video stream directly; status-bit clearing does not imply every flag producer
@@ -160,7 +160,7 @@ through the same 16 slots. FIFO indices reset for each row. Visible attributes
 do not use the FIFO. Tests cover counts 16 through 33, seven-bit data, row
 boundaries, pixel output and status read-clear behavior.
 
-FO is latched by emulation on the existing nominal 80000-tick display-frame
+In 0.8.4, FO was latched by emulation on the nominal 80000-tick display-frame
 cadence, even when no host renderer is called. Rendering never mutates status;
 small and large run slices produce the same flag. This is a functional FIFO
 model, not cycle-accurate row DMA: exact FO latency, burst/stop-DMA consumption,
@@ -168,3 +168,37 @@ underruns, light pen, spaced rows and raster IRQ timing remain separate work.
 The shared FIFO decoder follows Intel 8275 pp. 8-236–8-237; FIFO width/wrapping
 was also cross-checked against MAME's BSD-3-Clause i8275 implementation (Curt
 Coder/AJR, already credited in NOTICE). No persistent state layout was changed.
+
+### Functional display scheduler — 0.8.5 (current)
+
+The 8275 now advances on a rational character clock (45/104 of the existing
+3.9936 MHz CPU clock). The nominal 13.824 MHz / 8 display clock comes from the
+PC1715 family reference; it is **not a measured W/M specimen clock**. Programmed
+characters, horizontal retrace, scanlines, spaced-row timing and vertical
+retrace determine row/frame boundaries. Host drawing never advances counters.
+
+Rows prefill during the preceding row, with the first row prefilling during
+final vertical retrace. Burst lengths and gaps control completion time. End-row
+and end-screen stop-DMA codes stop consumption, including the documented dummy
+byte when a stop lands inside a burst. A missed deadline sets DU and blanks the
+remaining frame; status reads clear DU without prematurely unblanking it.
+FO is latched on row-fill completion. IR is set at the last visible row when IE
+is enabled, including read-clear behavior. Preset counters holds the scheduler
+until another command; Stop Display stops fetching but retains raster timing.
+
+This remains a functional approximation: bytes are sampled at row-fetch start,
+one local DACK per character clock is assumed, and output is rendered from the
+current stream rather than historical scanout buffers. Thus per-byte FO latency,
+contention, mid-frame tearing and exact board delays are not reproduced. IR is
+exposed as controller status; no unverified CPU interrupt connection is added.
+Spaced-row timing is supported; doubled blank pixel rows and light pen are not.
+The display controller never uses the system UA858 floppy DMA.
+
+Sources: [Intel 8275](https://www.emuverse.ru/downloads/datasheets/peripherals/display/8275/8275.pdf),
+printed pp. 8-236, 8-239–8-241, and the [family service manual](https://xepb.org/robotron/docs/pc_serv.pdf).
+Tests cover row deadlines, burst/dummy consumption, FO, DU recovery, IR masking,
+read-clear, preset, host-render independence and run-slice equivalence.
+
+The raw Robotron snapshot layout is version 4 because it now contains scheduler
+phase and pending fetch state. DAC preserves the 0.8.4 core for its older saved
+sessions; old snapshots are not silently interpreted using the new layout.

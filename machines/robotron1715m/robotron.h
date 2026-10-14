@@ -29,6 +29,12 @@ typedef struct {
   unsigned loaded, from_q16, door_open, ejected;
   uint64_t events[ROBOTRON_STEP_EVENTS];
 } robotron_drive;
+/* Functional display-board scheduler. Nominal 13.824 MHz dot clock / 8;
+ * local memory response is idealized, not the system floppy DMA. */
+typedef struct {
+  unsigned fraction, character, row, frames, stream, remaining;
+  unsigned overflow, stopped, underrun, blank_from, dma, ignored;
+} robotron_raster;
 /* Experimental functional PC-1715W/1715M profile. See README for fidelity. */
 typedef struct {
   uint8_t command[9], result[7], data[16384];
@@ -88,6 +94,7 @@ typedef struct {
   uint8_t keys[256];
   unsigned key_read, key_write;
   uint64_t disk_reads, disk_writes, video_writes;
+  robotron_raster raster;
   uint8_t crtc[4], crtc_pos, crtc_end, display_on, crtc_status, cursor[2];
 } robotron;
 void robotron_init(robotron *);

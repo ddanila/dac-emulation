@@ -899,6 +899,7 @@ uint8_t robotron_input(void *p, uint16_t a) {
   dac_trace_emit(&m->trace, "IR", a, v, m->cpu.cycles, 2);
   return v;
 }
+static void video_restart(robotron *m);
 void robotron_output(void *p, uint16_t a, uint8_t v) {
   robotron *m = p;
   dac_trace_emit(&m->trace, "IW", a, v, m->cpu.cycles, 2);
@@ -939,19 +940,26 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
     m->motor = v;
   else if (a == 0x19) {
     unsigned incomplete = m->crtc_pos < m->crtc_end;
+    if (m->raster.stopped == 2) m->raster.stopped = 0;
     m->crtc_pos = m->crtc_end = 0;
     switch (v >> 5) {
     case 0:
       m->display_on = m->crtc_status = 0;
+      memset(&m->raster, 0, sizeof(m->raster));
+      m->raster.blank_from = 24;
       m->crtc_end = 4;
       break;
     case 1:
+      m->raster.dma = v & 31;
+      m->raster.stopped = 0;
       m->display_on = 1;
       m->crtc_status |= 0x44;
+      video_restart(m);
       break;
     case 2:
       m->display_on = 0;
       m->crtc_status &= ~4;
+      m->raster.remaining = 0;
       break;
     case 4:
       m->crtc_pos = 4;
@@ -962,6 +970,10 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
       break;
     case 6:
       m->crtc_status &= ~0x40;
+      break;
+    case 7: /* Preset holds counters until another command. */
+      m->raster.character = m->raster.row = m->raster.fraction = 0;
+      m->raster.stopped = 2;
       break;
     default:
       break;
@@ -1046,6 +1058,7 @@ void robotron_init(robotron *m) {
   memset(m->prom, 15, 256);
   m->dma.vector = 0x14;
   m->krfd = 0x40;
+  m->raster.blank_from = 24;
   m->crtc[0] = 79;
   m->crtc[1] = 23;
   m->crtc[2] = 0x6f;
@@ -1092,7 +1105,7 @@ int robotron_keyboard_load(robotron *m, const void *rom, size_t n) {
  * This is bounded stream decoding, not the board's cycle-level DMA circuit. */
 typedef struct {
   uint8_t code[80], fifo[16];
-  unsigned overflow;
+  unsigned overflow, bytes, stop_screen, ignore_screen;
 } robotron_video_row;
 static unsigned video_columns(const robotron *m) {
   unsigned n = (m->crtc[0] & 127) + 1;
@@ -1102,29 +1115,85 @@ static unsigned video_rows(const robotron *m) {
   unsigned n = (m->crtc[1] & 63) + 1;
   return n > 24 ? 24 : n;
 }
+static unsigned video_row_clocks(const robotron *m) {
+  return (video_columns(m) + 2 * ((m->crtc[3] & 15) + 1)) *
+         ((m->crtc[2] & 15) + 1) * ((m->crtc[0] & 128) ? 2 : 1);
+}
+static unsigned video_total_rows(const robotron *m) {
+  return video_rows(m) + (m->crtc[1] >> 6) + 1;
+}
 static void video_fetch_row(const robotron *m, unsigned *position,
-                            robotron_video_row *row) {
-  unsigned written = 0;
+                            robotron_video_row *row, unsigned ignored) {
+  unsigned written = 0, burst = 1u << (m->raster.dma & 3);
   memset(row, 0, sizeof(*row));
+  memset(row->code, 0xf0, sizeof(row->code));
   for (unsigned col = 0; col < video_columns(m); col++) {
     uint8_t code = m->vram[(*position)++ % 1920];
+    row->bytes++;
     row->code[col] = code;
-    if (!(m->crtc[3] & 64) && (code & 0xc0) == 0x80) {
+    if (!ignored && !(m->crtc[3] & 64) && (code & 0xc0) == 0x80) {
       row->fifo[written++ & 15] = m->vram[(*position)++ % 1920] & 127;
-      if (written > 16)
-        row->overflow = 1;
-    }
-  }
-}
-static void video_fifo_frame(robotron *m) {
-  unsigned pos = 0;
-  for (unsigned row = 0; row < video_rows(m); row++) {
-    robotron_video_row buffer;
-    video_fetch_row(m, &pos, &buffer);
-    if (buffer.overflow) {
-      m->crtc_status |= 1;
+      row->bytes++;
+      if (written > 16) row->overflow = 1;
+    } else if ((!ignored && code == 0xf1) || (ignored < 2 && code == 0xf3)) {
+      // Intel: one extra dummy read unless last byte of burst or row.
+      if (col + 1 < video_columns(m) && row->bytes % burst) {
+        (*position)++; row->bytes++;
+      }
+      row->stop_screen = code == 0xf3;
       break;
     }
+    if (!ignored && code == 0xf0) ignored = 1;
+    if (code == 0xf2) { ignored = 2; row->ignore_screen = 1; }
+  }
+}
+static void video_schedule_row(robotron *m, unsigned row) {
+  robotron_raster *r = &m->raster;
+  if (!m->display_on || r->stopped || r->underrun) return;
+  if (row == 0) r->stream = r->ignored = 0;
+  robotron_video_row buffer;
+  video_fetch_row(m, &r->stream, &buffer, r->ignored ? 2 : 0);
+  if (buffer.ignore_screen) r->ignored = 1;
+  r->stream %= 1920;
+  unsigned burst = 1u << (r->dma & 3), spacing = (r->dma >> 2) * 8;
+  if (spacing) spacing--;
+  // Idealized local DACK: one byte per character clock, programmed burst gaps.
+  r->remaining = buffer.bytes + ((buffer.bytes - 1) / burst) * spacing;
+  r->overflow = buffer.overflow;
+  if (buffer.stop_screen) r->stopped = 1;
+}
+static void video_restart(robotron *m) {
+  robotron_raster *r = &m->raster;
+  r->fraction = r->character = r->underrun = r->stopped = 0;
+  r->row = video_total_rows(m) - 1;
+  r->blank_from = 24;
+  video_schedule_row(m, 0);
+}
+static void video_clock(robotron *m) {
+  robotron_raster *r = &m->raster;
+  if (r->stopped == 2) return;
+  // Rational accumulator avoids rounding drift and depends only on CPU ticks.
+  r->fraction += 45; /* 1.728 MHz / 3.9936 MHz = 45 / 104 */
+  if (r->fraction < 104) return;
+  r->fraction -= 104;
+  if (r->remaining && !--r->remaining && r->overflow && m->display_on)
+    m->crtc_status |= 1;
+  if (++r->character < video_row_clocks(m)) return;
+  r->character = 0;
+  r->row = (r->row + 1) % video_total_rows(m);
+  if (r->row == 0) { r->frames++; r->blank_from = 24; }
+  if (r->row < video_rows(m)) {
+    if (m->display_on && r->remaining) {
+      m->crtc_status |= 2;
+      r->underrun = 1; r->blank_from = r->row;
+      r->remaining = 0;
+    }
+    if (r->row == video_rows(m) - 1 && (m->crtc_status & 64))
+      m->crtc_status |= 32; // IR flag only: CPU interrupt wiring unverified.
+    if (r->row + 1 < video_rows(m)) video_schedule_row(m, r->row + 1);
+  } else if (r->row == video_total_rows(m) - 1) {
+    r->underrun = r->stopped = r->remaining = 0;
+    video_schedule_row(m, 0); // Prefill during final vertical-retrace row.
   }
 }
 
@@ -1246,11 +1315,7 @@ void robotron_run(robotron *m, unsigned ticks) {
         reti(m);
     }
     mechanics_tick(m);
-    /* Keep FO independent of host drawing/polling frequency. Until the
-     * local display DMA is timed, sample on the existing nominal 50 Hz
-     * display cadence. This does not claim exact row-fetch/FO latency. */
-    if (m->display_on && m->cpu.cycles % 80000 == 0)
-      video_fifo_frame(m);
+    video_clock(m);
   }
 }
 
@@ -1264,14 +1329,16 @@ void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
   *width = cols * 8;
   *height = rows * lines;
   unsigned pos = 0, field = 0, end_screen = 0;
-  unsigned frame = (unsigned)(m->cpu.cycles / 80000); /* 4 MHz, nominal 50 Hz */
+  unsigned frame = m->raster.frames;
   for (unsigned row = 0; row < rows; row++) {
     robotron_video_row buffer;
-    video_fetch_row(m, &pos, &buffer);
+    if (end_screen == 2) { memset(&buffer, 0, sizeof(buffer)); memset(buffer.code, 0xf0, sizeof(buffer.code)); }
+    else video_fetch_row(m, &pos, &buffer, end_screen ? 2 : 0);
     unsigned end_row = 0, fifo_read = 0;
     for (unsigned col = 0; col < cols; col++) {
       uint8_t ch = buffer.code[col];
-      unsigned attr = field, blank = end_row || end_screen || !m->display_on;
+      unsigned attr = field, blank = end_row || end_screen || !m->display_on ||
+                                    row >= m->raster.blank_from;
       if ((ch & 0xc0) == 0x80) {
         if (!end_row && !end_screen)
           field = ch & 63;
@@ -1290,7 +1357,7 @@ void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
         if (ch == 0xf0 || ch == 0xf1)
           end_row = 1;
         if (ch == 0xf2 || ch == 0xf3)
-          end_screen = 1;
+          end_screen = ch == 0xf3 ? 2 : 1;
       }
       unsigned character_attr = ch >= 0xc0 && ch < 0xf0;
       if (character_attr)
