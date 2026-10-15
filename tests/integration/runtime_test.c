@@ -77,7 +77,7 @@ static void robotron_bus(void) {
                         0x24,0x82,0xcf,0xab,0x87,0x8a};
   for (unsigned i = 0; i < sizeof(dma); i++) robotron_output(m, 0, dma[i]);
   count = 0;
-  robotron_run(m, 1);
+  robotron_run(m, 6);
   assert(count == 2 && !strcmp(events[0].kind, "MR") && !strcmp(events[1].kind, "MW"));
   assert(events[0].master == DAC_MASTER_DMA && events[1].master == DAC_MASTER_DMA);
   assert(events[0].offset == 0x4000 && events[1].offset == 0x5000);
@@ -133,8 +133,37 @@ static void robotron_scanline_snapshots(void) {
   free(before);free(after);dac_destroy(s);dac_destroy(resumed);
 }
 
+static void robotron_dma_snapshot(void) {
+  dac_session *s=dac_create(2), *copy=dac_create(2);
+  uint8_t rom[2048]={0},prom[256]={0}; unsigned pos=0;
+  const uint8_t setup[]={0xc3,0x7d,0,0x40,0,0,0x14,0x10,0x9d,0,0x50,0x12,0x24,0x82,0xcf,0xab,0x87,0x8a};
+  for(unsigned i=0;i<sizeof(setup);i++) {
+    rom[pos++]=0x3e;rom[pos++]=setup[i];rom[pos++]=0xd3;rom[pos++]=0;
+  }
+  rom[pos]=0x76;
+  dac_session *both[]={s,copy};
+  for(unsigned i=0;i<2;i++) {
+    assert(!dac_load(both[i],0,rom,sizeof(rom)) && !dac_load(both[i],1,prom,sizeof(prom)));
+    assert(!dac_power(both[i],1));
+  }
+  count=0; dac_trace_sink sink={record,&count,0,0}; assert(!dac_set_trace(s,&sink));
+  unsigned found=0;
+  for(unsigned i=0;i<1000 && !found;i++) {
+    count=0;assert(dac_run(s,1)==1);
+    for(unsigned j=0;j<count;j++)if(events[j].master==DAC_MASTER_DMA && !strcmp(events[j].kind,"MR"))found=1;
+  }
+  assert(found); /* Save with a byte latched but its destination not written. */
+  unsigned n=dac_state_size(s);void *a=malloc(n),*b=malloc(n);assert(a && b);
+  assert(!dac_state_save(s,a,n) && !dac_state_load(copy,a,n));
+  for(unsigned i=0;i<8;i++) {
+    assert(dac_run(s,1)==1 && dac_run(copy,1)==1);
+    assert(!dac_state_save(s,a,n) && !dac_state_save(copy,b,n));assert(!memcmp(a,b,n));
+  }
+  free(a);free(b);dac_destroy(s);dac_destroy(copy);
+}
+
 int main(void) {
   assert(dac_verification_abi() == 1);
-  sessions(0); sessions(2); robotron_bus(); robotron_scanline_snapshots();
+  sessions(0); sessions(2); robotron_bus(); robotron_scanline_snapshots(); robotron_dma_snapshot();
   puts("PASS shared runtime observation, isolation, lifecycle and Robotron mapped CPU/DMA/IA traces");
 }

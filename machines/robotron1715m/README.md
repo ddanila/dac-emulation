@@ -35,7 +35,13 @@ node tests/integration/wasm_parity.mjs s550.bin cas.bin new-robotron.img --file-
 
 The native regression creates text via `PIP ...=CON:`, reads it, copies text and the 10 KB PIP executable, compares file bytes independently, reboots the exported disk, deletes the new files and checks every original file is intact. Read-only media must remain byte-identical. The optional WASM check compares both boot pixels and the complete disk after create/read/copy with native execution.
 
-## Known limits
+## Historical limitations at initial bring-up
+
+This list predates the updates below. For the current display implementation see
+“Scanline output — 0.8.8”; for storage see DRIVE-FIDELITY.md. The museum maintains
+a current [capability matrix](https://github.com/ddanila/dac/blob/main/docs/robotron/capabilities.md).
+
+### Initial limitations
 
 - Functional, not cycle-accurate: DMA byte/burst timing, search/match/ready interrupts, auto-restart, pulse output and six-command reset sequencing remain incomplete. End-of-block interrupt/TC, ready polarity and DMA/CTC in-service priority have focused tests; this does not qualify all peripheral modes.
 - Two drives share one explicit raw geometry. Format accepts exactly five unique 1024-byte sector IDs on the current cylinder/head; arbitrary layouts, deleted-sector/flux-level behavior and detailed scan semantics remain incomplete. Whole/partial write completion, write protection, busy/data/result transitions and reset cancellation have focused checks.
@@ -257,3 +263,30 @@ boundary, resume mid-line deterministically and verify restart blanking. Existin
 FIFO, underrun, row-buffer and native/WASM parity tests remain in place.
 Timing basis: Intel 8275 horizontal/vertical formats, the same datasheet linked
 above; nominal family clock is unchanged and is not a specimen measurement.
+
+## DMA bus phases and matrix audit (0.8.9)
+
+Sequential transfers now latch a byte at the end of a read cycle and commit it
+at the end of a distinct write cycle. Default memory cycles take three clocks;
+I/O cycles take four. WR1/WR2 timing bytes select four, three or two clocks per
+port. RDY gates the start of a byte, so deasserting DRQ after a source read does
+not discard the pending write. CPU execution pauses across both phases.
+
+Timing basis: [Zilog Z80 CPU Peripherals User Manual, UM008101-0601](https://www.zilog.com/docs/z80/um0081.pdf),
+printed pp.96–98 and 153 (PDF pp.114–116 and 171). Reserved cycle encoding 11
+uses four clocks defensively. Half-clock pin edges, external WAIT, exact
+BUSREQ/BUSACK arbitration, simultaneous/search modes and unimplemented reset
+commands remain limitations. This is improved sequential timing, not a claim of
+complete pin-level DMA fidelity.
+
+Snapshot layout **8** includes phase, countdown and latched data. A public-runtime
+test saves after a DMA read and compares every subsequent snapshot through the
+write. Preserve 0.8.8 for older portable sessions. Focused tests cover all three
+programmable lengths, RDY dropping after a read, CPU pause, FDC completion and
+terminal count. Bounded TOS/M PIP, WordStar and Turbo Pascal checks pass, as does
+native/WASM historical framebuffer parity.
+
+`build/robotron-keyboard-rom-test s600.bin --audit` emits all 104 matrix positions
+under four modifier states (416 cases). Normal mode also checks overlapping-key
+release and observes held A for two seconds. The emitted report is a ROM behavior
+record, not an independent oracle or identification of the specimen EPROM.

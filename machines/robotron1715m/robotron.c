@@ -720,6 +720,8 @@ static void dma_parameter(robotron_dma *d, uint8_t v) {
   case 8:
     d->vector = v;
     break;
+  case 10: d->a_timing = v | 0x10; break; /* bit 4 is reserved; presence marker */
+  case 11: d->b_timing = v | 0x10; break;
   default:
     break;
   }
@@ -774,12 +776,14 @@ static void dma_write(robotron *m, uint8_t v) {
     d->force_ready = 1;
     return;
   case 0x83:
+    d->phase = d->ticks = 0;
     d->enabled = 0;
     return;
   case 0x87:
     d->enabled = 1;
     return;
   case 0xcf:
+    d->phase = d->ticks = 0;
     d->run_a = d->a;
     d->run_b = d->b;
     d->force_ready = 0; /* fall through */
@@ -794,13 +798,15 @@ static void dma_write(robotron *m, uint8_t v) {
   if ((v & 0x87) == 0) {
     d->b_mode = (v >> 4) & 3;
     d->b_io = (v >> 3) & 1;
+    d->b_timing = 0;
     if (v & 0x40)
-      d->tags[d->tag_count++] = 9;
+      d->tags[d->tag_count++] = 11;
   } else if ((v & 0x87) == 4) {
     d->a_mode = (v >> 4) & 3;
     d->a_io = (v >> 3) & 1;
+    d->a_timing = 0;
     if (v & 0x40)
-      d->tags[d->tag_count++] = 9;
+      d->tags[d->tag_count++] = 10;
   } else if (!(v & 128)) {
     d->direction = (v >> 2) & 1;
     for (unsigned i = 0; i < 4; i++)
@@ -820,6 +826,12 @@ static void dma_write(robotron *m, uint8_t v) {
       if (v & (1 << i))
         d->tags[d->tag_count++] = 9;
   }
+}
+/* Zilog UM008101-0601 pp.96-98,153: default memory=3, I/O=4;
+ * timing byte low bits 00/01/10 select 4/3/2. Reserved 11 uses 4.
+ * Half-clock signal edges and external WAIT are not represented here. */
+static unsigned dma_cycles(uint8_t timing, unsigned io) {
+  return timing & 0x10 ? ((timing & 3) < 3 ? 4 - (timing & 3) : 4) : 3 + io;
 }
 static int dma_ready(robotron *m) {
   /* PC-1715W inverts FDC DRQ before the Z80 DMA RDY input. */
@@ -1339,50 +1351,64 @@ void robotron_run(robotron *m, unsigned ticks) {
       }
     }
     robotron_dma *d = &m->dma;
-    if (d->enabled && d->remaining && dma_ready(m)) {
+    if (d->enabled && d->remaining && (d->phase || dma_ready(m))) {
       uint16_t src = d->direction ? d->run_a : d->run_b,
                dst = d->direction ? d->run_b : d->run_a;
       unsigned si = d->direction ? d->a_io : d->b_io,
                di = d->direction ? d->b_io : d->a_io;
-      /* Board TC is DMA INT gated by KRFD. Set before the last byte. */
-      int terminal = d->remaining == 1 && d->irq_enabled &&
-                     (d->irq_control & 2) && !d->in_service && (m->krfd & 128);
-      if (terminal && m->fdc.phase == 2)
-        m->fdc.tc = 1;
-      m->trace_master = DAC_MASTER_DMA;
-      uint8_t v = si ? robotron_input(m, src) : robotron_read(m, src);
-      if (di)
-        robotron_output(m, dst, v);
-      else
-        robotron_write(m, dst, v);
-      m->trace_master = DAC_MASTER_CPU;
-      advance(&d->run_a, d->a_mode);
-      advance(&d->run_b, d->b_mode);
-      d->transferred++;
-      if (!--d->remaining) {
-        if (terminal && m->fdc.phase == 2) {
-          /* Short writes finish the physical sector with zero padding. */
-          if (m->fdc.formatting) {
-            if (m->fdc.data_pos != m->fdc.data_len)
-              finish(m, 4); /* Earlier completed sectors remain formatted. */
-          } else if (m->fdc.write == 1) {
-            memset(m->fdc.data + m->fdc.data_pos, 0,
-                   m->fdc.data_len - m->fdc.data_pos);
-            m->fdc.search = 5;
-            m->fdc.ready_at = byte_at(&m->fdc, m->fdc.data_len);
-          } else
-            transfer_done(m);
-        }
-        d->enabled = 0;
-        d->status = 0x19;
-        if (d->irq_enabled && (d->irq_control & 2) && !d->in_service) {
-          d->irq = 1;
-          d->irq_vector =
-              (d->irq_control & 32) ? (d->vector & 0xf9) | 4 : d->vector;
-          d->status &= ~8;
-        }
+      if (!d->phase) {
+        d->phase = 1;
+        d->ticks = dma_cycles(d->direction ? d->a_timing : d->b_timing, si);
       }
-      /* CPU bus ownership is paused while DMA transfers. */
+      /* Read and write own distinct bus cycles; RDY starts a byte and cannot
+       * discard a latched byte when the source drops DRQ after its read. */
+      if (--d->ticks == 0) {
+        /* Board TC is DMA INT gated by KRFD. Set before the last byte. */
+        int terminal = d->remaining == 1 && d->irq_enabled &&
+                       (d->irq_control & 2) && !d->in_service && (m->krfd & 128);
+        if (terminal && m->fdc.phase == 2)
+          m->fdc.tc = 1;
+        m->trace_master = DAC_MASTER_DMA;
+        if (d->phase == 1) {
+          d->latch = si ? robotron_input(m, src) : robotron_read(m, src);
+          d->phase = 2;
+          d->ticks = dma_cycles(d->direction ? d->b_timing : d->a_timing, di);
+        } else {
+          if (di)
+            robotron_output(m, dst, d->latch);
+          else
+            robotron_write(m, dst, d->latch);
+          d->phase = 0;
+          advance(&d->run_a, d->a_mode);
+          advance(&d->run_b, d->b_mode);
+          d->transferred++;
+          if (!--d->remaining) {
+            if (terminal && m->fdc.phase == 2) {
+              /* Short writes finish the physical sector with zero padding. */
+              if (m->fdc.formatting) {
+                if (m->fdc.data_pos != m->fdc.data_len)
+                  finish(m, 4); /* Earlier completed sectors remain formatted. */
+              } else if (m->fdc.write == 1) {
+                memset(m->fdc.data + m->fdc.data_pos, 0,
+                       m->fdc.data_len - m->fdc.data_pos);
+                m->fdc.search = 5;
+                m->fdc.ready_at = byte_at(&m->fdc, m->fdc.data_len);
+              } else
+                transfer_done(m);
+            }
+            d->enabled = 0;
+            d->status = 0x19;
+            if (d->irq_enabled && (d->irq_control & 2) && !d->in_service) {
+              d->irq = 1;
+              d->irq_vector =
+                  (d->irq_control & 32) ? (d->vector & 0xf9) | 4 : d->vector;
+              d->status &= ~8;
+            }
+          }
+        }
+        m->trace_master = DAC_MASTER_CPU;
+      }
+      /* CPU bus ownership is paused throughout both DMA bus cycles. */
       m->cpu.cycles++;
     } else {
       dac_z80_tick(&m->cpu, interrupt_source(m) >= 0, 0);

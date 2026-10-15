@@ -45,7 +45,7 @@ static void dma_memory(void) {
   robotron_run(&m, 40);
   assert(m.dma.remaining == 8); /* inactive RDY */
   robotron_output(&m, 0, 0x8a); /* WR5 active high: inverted DRQ is high */
-  robotron_run(&m, 8);
+  robotron_run(&m, 8 * 6);
   assert(!memcmp(m.ram + 0x4000, m.ram + 0x5000, 8));
   assert(m.dma.irq && !m.dma.enabled && !m.dma.remaining);
   assert(m.cpu.bus.ack(&m) == 0x24);
@@ -66,8 +66,24 @@ static void dma_memory(void) {
   dma(0x4000, 0x5000, 8, 0x10, 0x10);
   robotron_output(&m, 0, 0xb3);
   robotron_output(&m, 0, 0x87);
-  robotron_run(&m, 8);
+  robotron_run(&m, 8 * 6);
   assert(!m.dma.irq && !m.dma.remaining);
+}
+static void dma_phases(void) {
+  for (unsigned timing = 0; timing < 3; timing++) {
+    init(); m.ram[0x4000] = 0x31; m.ram[0x5000] = 0;
+    dma(0x4000, 0x5000, 1, 0x10, 0x10);
+    robotron_output(&m,0,0x54); robotron_output(&m,0,timing);
+    robotron_output(&m,0,0x50); robotron_output(&m,0,2);
+    robotron_output(&m,0,0xb3); robotron_output(&m,0,0x87);
+    uint64_t cycles=m.cpu.cycles; unsigned pc=m.cpu.cpu.pc;
+    robotron_run(&m,4-timing);
+    assert(m.dma.phase==2 && m.dma.latch==0x31 && !m.ram[0x5000]);
+    m.ram[0x4000]=0x72; m.dma.force_ready=0; /* RDY falls after the read. */
+    robotron_run(&m,1); assert(!m.ram[0x5000]);
+    robotron_run(&m,1); assert(m.ram[0x5000]==0x31 && !m.dma.remaining);
+    assert(m.cpu.cycles==cycles+6-timing && m.cpu.cpu.pc==pc);
+  }
 }
 static void floppy_completion(void) {
   init();
@@ -1133,6 +1149,7 @@ int main(void) {
   floppy_seek();
   floppy_rotation();
   dma_memory();
+  dma_phases();
   floppy_completion();
   interrupt_chain();
   timer_cascade();

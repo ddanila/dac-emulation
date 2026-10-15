@@ -557,7 +557,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    7,
+                    8,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -577,7 +577,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 7 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 8 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||
@@ -627,6 +627,9 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       f->data_len > sizeof(f->data) || f->data_pos > f->data_len ||
       (f->phase == 2 && f->data_pos >= f->data_len &&
        !(f->formatting && f->search == 6)) ||
+      r->dma.phase > 2 || r->dma.ticks > 4 ||
+      (r->dma.phase && !r->dma.ticks) ||
+      (!r->dma.phase && r->dma.ticks) ||
       r->dma.tag_count > 10 || r->dma.tag_pos > r->dma.tag_count ||
       (r->dma.tag_count && r->dma.tag_pos >= r->dma.tag_count) ||
       r->dma.read_pos >= 7 || r->sio_pointer[0] > 7 || r->sio_pointer[1] > 7 ||

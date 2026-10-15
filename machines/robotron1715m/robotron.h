@@ -69,6 +69,7 @@ typedef struct {
   uint8_t enabled, irq_enabled, irq, vector, status, mask, read_pos,
       mask_pending, force_ready, ready_high, irq_control, irq_vector,
       in_service;
+  uint8_t a_timing, b_timing, phase, ticks, latch;
 } robotron_dma;
 typedef struct {
   uint8_t control, constant, waiting, pending, in_service;
