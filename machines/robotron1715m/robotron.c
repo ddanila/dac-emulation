@@ -1247,7 +1247,7 @@ static void video_clock(robotron *m) {
     unsigned line_clocks = video_columns(m) + 2 * ((m->crtc[3] & 15) + 1);
     unsigned line = r->character / line_clocks;
     if (r->row < video_rows(m) && !(r->character % line_clocks) &&
-        line < ((m->crtc[2] & 15) + 1))
+        line < ((m->crtc[2] & 15u) + 1u))
       video_decode_scanout(m, r->row, &r->scanout[r->row], line);
     return;
   }
