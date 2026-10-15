@@ -86,8 +86,55 @@ static void robotron_bus(void) {
   assert(!strcmp(events[2].kind, "IA") && events[2].data == 0x24);
   free(m);
 }
+/* An original tiny ROM programs a 4x2, four-scanline display. Save before
+ * and after the first visible scanline; resume through a complete frame.
+ * Use the public snapshot API, not a memcpy of the machine structure. */
+static void robotron_scanline_snapshots(void) {
+  dac_session *s=dac_create(2),*resumed=dac_create(2);
+  uint8_t rom[2048]={0x3e,0,0xd3,0x19,
+    0x3e,3,0xd3,0x18,0x3e,1,0xd3,0x18,
+    0x3e,3,0xd3,0x18,0x3e,0x70,0xd3,0x18,
+    0x3e,0x80,0xd3,0x19,0x3e,255,0xd3,0x18,0x3e,0,0xd3,0x18,
+    0x3e,0x20,0xd3,0x19,0x76};
+  uint8_t prom[256]={0},glyphs[4096]={0};
+  for(unsigned y=0;y<4;y++)glyphs[y*128]=0x80>>y;
+  assert(s && resumed);
+  dac_session *sessions[]={s,resumed};
+  for(unsigned i=0;i<2;i++){
+    assert(!dac_load(sessions[i],0,rom,sizeof(rom)));
+    assert(!dac_load(sessions[i],1,prom,sizeof(prom)));
+    assert(!dac_load(sessions[i],2,glyphs,sizeof(glyphs)));
+    assert(!dac_power(sessions[i],1));
+  }
+  unsigned n=dac_state_size(s),boundary=0;
+  void *before=malloc(n),*after=malloc(n);assert(before && after);
+  for(unsigned t=0;t<1000;t++){
+    assert(!dac_state_save(s,before,n));assert(dac_run(s,1)==1);
+    if(dac_video(s)[0]==0xff83e7a0){boundary=t+1;break;}
+  }
+  assert(boundary && !dac_state_save(s,after,n));
+  for(unsigned side=0;side<2;side++){
+    assert(!dac_reset(s));
+    assert(dac_run(s,boundary-1+side)==boundary-1+side);
+    assert(!dac_state_save(s,before,n));
+    assert(!dac_state_load(resumed,before,n));
+    assert(dac_video(resumed)[0]==(side?0xff83e7a0:0xff101812));
+    /* Batch sizes cross different CPU/character fractions, including the
+     * next scanline and retrace. Observation/rendering must not advance it. */
+    for(unsigned batch=1;batch<=29;batch++){
+      assert(dac_run(s,batch)==batch);
+      for(unsigned tick=0;tick<batch;tick++)assert(dac_run(resumed,1)==1);
+      assert(dac_width(s)==dac_width(resumed) && dac_height(s)==dac_height(resumed));
+      assert(!memcmp(dac_video(s),dac_video(resumed),dac_width(s)*dac_height(s)*sizeof(uint32_t)));
+      assert(!dac_state_save(s,before,n) && !dac_state_save(resumed,after,n));
+      assert(!memcmp(before,after,n));
+    }
+  }
+  free(before);free(after);dac_destroy(s);dac_destroy(resumed);
+}
+
 int main(void) {
   assert(dac_verification_abi() == 1);
-  sessions(0); sessions(2); robotron_bus();
+  sessions(0); sessions(2); robotron_bus(); robotron_scanline_snapshots();
   puts("PASS shared runtime observation, isolation, lifecycle and Robotron mapped CPU/DMA/IA traces");
 }

@@ -442,6 +442,64 @@ static void display_scanlines(void) {
   for(unsigned i=0;i<w*h;i++)assert(pixels[i]==0xff101812);
 }
 
+/* Exercise the port-programmed geometry and the rational-clock boundaries.
+ * Spaced rows double the row period, not the number of glyph-ROM lines. */
+static void display_boundary_cases(void) {
+  unsigned w,h;
+  init(); m.crtc[0]=0x83; m.crtc[1]=1; m.crtc[2]=3; m.crtc[3]=0x70;
+  m.cursor[0]=255; memset(m.vram,'A',8);
+  for(unsigned y=0;y<4;y++)m.chargen[y*128+'A']=0x80;
+  robotron_output(&m,0x19,0x20);
+  robotron_run(&m,clocks_to_ticks(48));
+  assert(m.raster.row==0 && m.raster.character==0);
+  robotron_run(&m,clocks_to_ticks(24));
+  assert(m.raster.row==0 && m.raster.character==24);
+  robotron_video(&m,pixels,&w,&h);
+  assert(w==32 && h==8);
+  for(unsigned y=0;y<4;y++)assert(pixels[y*w]==0xff83e7a0);
+  memset(m.chargen,0,sizeof(m.chargen));
+  robotron_run(&m,clocks_to_ticks(23));
+  assert(m.raster.row==0);
+  robotron_video(&m,pixels,&w,&h);
+  for(unsigned y=0;y<4;y++)assert(pixels[y*w]==0xff83e7a0);
+  robotron_run(&m,clocks_to_ticks(1));assert(m.raster.row==1);
+
+  /* Reset/program/start in the middle of scanout: new dimensions must never
+   * expose old retained pixels, even before the first new row is available. */
+  robotron_output(&m,0x19,0);
+  const uint8_t geometry[]={1,0,1,0x70};send(0x18,geometry,4);
+  robotron_output(&m,0x19,0x20);
+  robotron_video(&m,pixels,&w,&h);assert(w==16 && h==2);
+  for(unsigned i=0;i<w*h;i++)assert(pixels[i]==0xff101812);
+  m.chargen['A']=0x40; m.chargen[128+'A']=0x20;
+  robotron_run(&m,clocks_to_ticks(8));
+  robotron_video(&m,pixels,&w,&h);
+  assert(pixels[1]==0xff83e7a0 && pixels[w+2]==0xff101812);
+  robotron_run(&m,clocks_to_ticks(4));
+  robotron_video(&m,pixels,&w,&h);assert(pixels[w+2]==0xff83e7a0);
+
+  /* Attribute blink changes at frame 32; the next line still samples its
+   * glyph at its own boundary. Cursor blink switches at frame 16. */
+  for(unsigned cursor=0;cursor<2;cursor++){
+    init();m.crtc[0]=3;m.crtc[1]=1;m.crtc[2]=1;m.crtc[3]=cursor?0x40:0x70;
+    m.cursor[0]=cursor?1:255;m.cursor[1]=0;
+    memset(m.vram,'A',8);if(!cursor)m.vram[0]=0x82;
+    m.chargen['A']=m.chargen[128+'A']=0x80;
+    m.raster.frames=cursor?14:30;
+    robotron_output(&m,0x19,0x20);
+    robotron_run(&m,clocks_to_ticks(18)); // frame15/31, row0 line1
+    assert(m.raster.frames==(cursor?15u:31u));
+    assert(m.raster.scanout[0].pixels[1][0]==(cursor?0x7f:0));
+    assert(m.raster.scanout[0].pixels[1][1]==(cursor?0x7f:0));
+    robotron_run(&m,clocks_to_ticks(30)); // next frame row0 line0
+    assert(m.raster.frames==(cursor?16u:32u));
+    assert(m.raster.scanout[0].pixels[1][0]==0x80);
+    assert(m.raster.scanout[0].pixels[1][1]==(cursor?0x7f:0));
+    robotron_run(&m,clocks_to_ticks(6));
+    assert(m.raster.scanout[0].pixels[1][1]==0x80);
+  }
+}
+
 static void serial_byte(unsigned value, unsigned stop) {
   robotron_serial_clock(&m, 0);
   for (unsigned i = 0; i < 8; i++)
@@ -1084,6 +1142,7 @@ int main(void) {
   display_latched_rows();
   display_byte_fetch();
   display_scanlines();
+  display_boundary_cases();
   puts("PASS Robotron DMA/RDY/TC, FDC reset/status, daisy-chain/RETI, "
        "CRTC/attributes/cursor");
 }

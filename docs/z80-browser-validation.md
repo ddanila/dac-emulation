@@ -60,3 +60,14 @@ to that runner, and compares SHA-256 of video, both disks and printer output.
 Snapshots still use internal layouts; the museum preserves selected historical
 WASM builds to restore old files rather than interpreting them as new layouts.
 No Verilog run is involved.
+
+### Scanline boundary regression expansion (2026-10-15)
+
+The native device fixtures now cover spaced rows, port-programmed geometry
+changes during scanout, attribute blink at frame 32 and cursor blink at frame
+16. Retained earlier lines are checked separately from lines newly emitted by
+the beam. The public runtime snapshot test saves immediately before and after
+the first visible line, compares restored execution against an uninterrupted
+session, and varies batch size across subsequent lines and retrace.
+These tests exercise the existing 0.8.8 implementation and layout 7; no new
+core binary, firmware, snapshot format or hardware-accuracy claim is introduced.
