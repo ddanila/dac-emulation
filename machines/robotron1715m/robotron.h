@@ -33,7 +33,7 @@ typedef struct {
   uint8_t code[80], fifo[16];
   unsigned overflow, bytes, stop_screen, ignore_screen;
   unsigned field, end_screen, columns, lines;
-  uint8_t pixels[80][16], highlight[80];
+  uint8_t pixels[80][16], highlight[80][16];
 } robotron_video_row;
 /* Functional display-board scheduler. Nominal 13.824 MHz dot clock / 8;
  * local memory response is idealized, not the system floppy DMA. */

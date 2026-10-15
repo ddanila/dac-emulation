@@ -218,7 +218,7 @@ Native and WASM historical TOS/M boot pixels remain identical. Snapshot layout
 is now **5**, retaining pending and displayed rows plus attribute state; DAC
 archives core 0.8.5 for saved sessions using its previous layout.
 
-### Scheduled byte fetches and retained output — 0.8.7 (current)
+### Scheduled byte fetches and retained output — 0.8.7
 
 The display now reads one byte at each idealized local DACK, with the programmed
 burst lengths and 0/7/15/…/55 character-clock gaps. Start Display itself does not
@@ -239,3 +239,21 @@ contention, individual scanline output, light-pen behavior or verified IRQ wirin
 Tests cover writes between DACKs, burst gaps, independent FIFO bytes, retained
 glyph/cursor output, dummy reads, underruns, snapshots, and native/WASM TOS/M boot.
 The burst/stop/FIFO rules use the existing Intel 8275 source, pp. 8-236–8-240.
+
+### Scanline output — 0.8.8 (current)
+
+Fetched character rows remain buffered, but glyph-ROM, cursor and attribute
+output is now sampled at each scanline boundary. Lines already emitted retain
+their pixels and intensity while later lines can reflect a register change.
+A new frame replaces old output progressively; Start Display clears retained
+output. Spaced rows do not emit extra glyph lines during the spacing interval.
+Host rendering remains read-only. Horizontal dot timing, measured DACK latency,
+CPU contention and unverified board IRQ wiring remain outside this model.
+
+Snapshot layout **7** preserves per-line intensity and partially refreshed rows;
+restore validates row dimensions and intensity values. DAC archives 0.8.7.
+Focused tests change glyphs and cursor between scanlines, check the exact line
+boundary, resume mid-line deterministically and verify restart blanking. Existing
+FIFO, underrun, row-buffer and native/WASM parity tests remain in place.
+Timing basis: Intel 8275 horizontal/vertical formats, the same datasheet linked
+above; nominal family clock is unchanged and is not a specimen measurement.

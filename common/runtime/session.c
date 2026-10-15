@@ -557,7 +557,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    6,
+                    7,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -577,7 +577,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 6 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 7 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||
@@ -670,6 +670,13 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       !f->formatting && f->unit < 2 && f->head < 2 && f->physical[f->unit] < 80)
     invalid |=
         f->slot >= r->tracks[f->unit][f->physical[f->unit] * 2 + f->head].count;
+  for (unsigned row = 0; row < 24; row++) {
+    const robotron_video_row *out = &r->raster.scanout[row];
+    invalid |= out->columns > 80 || out->lines > 16;
+    for (unsigned col = 0; col < 80; col++)
+      for (unsigned line = 0; line < 16; line++)
+        invalid |= out->highlight[col][line] > 1;
+  }
   if (invalid) {
     free(r);
     return -EINVAL;

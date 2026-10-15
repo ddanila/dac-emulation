@@ -1198,7 +1198,7 @@ static void video_schedule_row(robotron *m, unsigned row) {
   r->fetch_invisible = !(m->crtc[3] & 64);
   r->remaining = 1;
 }
-static void video_decode_scanout(const robotron *, unsigned, robotron_video_row *);
+static void video_decode_scanout(const robotron *, unsigned, robotron_video_row *, unsigned);
 static void video_restart(robotron *m) {
   robotron_raster *r = &m->raster;
   r->fraction = r->character = r->underrun = r->stopped = 0;
@@ -1214,11 +1214,17 @@ static void video_latch_row(robotron *m) {
   robotron_raster *r = &m->raster;
   robotron_video_row *out = &r->scanout[r->row];
   if (r->row == 0) r->field = r->end_screen = 0;
+  // Keep previously emitted lines until the beam reaches them again.
+  uint8_t retained[80][16], highlights[80][16];
+  memcpy(retained, out->pixels, sizeof(retained));
+  memcpy(highlights, out->highlight, sizeof(highlights));
   memset(out, 0, sizeof(*out));
   memset(out->code, 0xf0, sizeof(out->code));
   if (r->pending_valid && !r->underrun) *out = r->pending_row;
+  memcpy(out->pixels, retained, sizeof(retained));
+  memcpy(out->highlight, highlights, sizeof(highlights));
   out->field = r->field; out->end_screen = r->end_screen;
-  video_decode_scanout(m, r->row, out);
+  video_decode_scanout(m, r->row, out, 0);
   r->pending_valid = 0;
   r->valid_rows |= 1u << r->row;
   for (unsigned col = 0; col < video_columns(m); col++) {
@@ -1237,7 +1243,14 @@ static void video_clock(robotron *m) {
   if (r->fraction < 104) return;
   r->fraction -= 104;
   if (m->display_on) video_fetch_byte(m);
-  if (++r->character < video_row_clocks(m)) return;
+  if (++r->character < video_row_clocks(m)) {
+    unsigned line_clocks = video_columns(m) + 2 * ((m->crtc[3] & 15) + 1);
+    unsigned line = r->character / line_clocks;
+    if (r->row < video_rows(m) && !(r->character % line_clocks) &&
+        line < ((m->crtc[2] & 15) + 1))
+      video_decode_scanout(m, r->row, &r->scanout[r->row], line);
+    return;
+  }
   r->character = 0;
   r->row = (r->row + 1) % video_total_rows(m);
   if (r->row == 0) { r->frames++; r->blank_from = 24; }
@@ -1381,10 +1394,11 @@ void robotron_run(robotron *m, unsigned ticks) {
   }
 }
 
-/* Snapshot character-generator, cursor, blink and field output at row scanout.
- * The host renderer never reinterprets old rows using new controller state. */
+/* Sample glyph ROM, cursor and attributes at each scanline boundary.
+ * Fetched characters remain row-buffered; host rendering never reinterprets
+ * lines already emitted. This models scanlines, not individual dot clocks. */
 static void video_decode_scanout(const robotron *m, unsigned row,
-                                  robotron_video_row *out) {
+                                  robotron_video_row *out, unsigned y) {
   unsigned cols = video_columns(m), lines = (m->crtc[2] & 15) + 1;
   unsigned underline = m->crtc[2] >> 4, frame = m->raster.frames;
   out->columns = cols; out->lines = lines;
@@ -1417,7 +1431,7 @@ static void video_decode_scanout(const robotron *m, unsigned row,
       if (character_attr)
         /* CA inherits field reverse and GPA; highlight/blink are its own. */
         attr = (field & 0x1c) | (ch & 3);
-      for (unsigned y = 0; y < lines; y++) {
+      {
         unsigned gy = (m->crtc[3] & 128) ? (y + lines - 1) % lines : y;
         uint8_t bits =
             m->chargen[((attr & 4) ? 2048 : 0) + gy * 128 + (ch & 127)];
@@ -1453,7 +1467,7 @@ static void video_decode_scanout(const robotron *m, unsigned row,
         if (blank)
           bits = 0;
         out->pixels[col][y] = bits;
-        out->highlight[col] = attr & 1;
+        out->highlight[col][y] = attr & 1;
       }
     }
 }
@@ -1471,7 +1485,7 @@ void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
         uint8_t bits = visible ? out->pixels[col][y] : 0;
         for (unsigned x = 0; x < 8; x++)
           pixels[(row * lines + y) * *width + col * 8 + x] =
-            (bits & (128 >> x)) ? (out->highlight[col] ? 0xffb0ffcb : 0xff83e7a0)
+            (bits & (128 >> x)) ? (out->highlight[col][y] ? 0xffb0ffcb : 0xff83e7a0)
                                : 0xff101812;
       }
   }

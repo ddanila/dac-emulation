@@ -410,6 +410,38 @@ static void display_byte_fetch(void) {
   assert(m.raster.pending_row.fifo[0]==0x42 && m.raster.fetch_fifo==1);
 }
 
+/* A scanline must retain its emitted glyph/cursor state while future lines
+ * sample changes. Test the boundary itself, plus deterministic mid-line resume. */
+static void display_scanlines(void) {
+  unsigned w,h;
+  init(); m.crtc[0]=3; m.crtc[1]=1; m.crtc[2]=3; m.crtc[3]=0x70;
+  m.cursor[0]=255; memset(m.vram,'A',8);
+  for(unsigned y=0;y<4;y++)m.chargen[y*128+'A']=0x80;
+  robotron_output(&m,0x19,0x20);
+  robotron_run(&m,clocks_to_ticks(24)); // row 0, line 0 emitted
+  robotron_video(&m,pixels,&w,&h);
+  assert(pixels[0]==0xff83e7a0 && pixels[w]==0xff101812);
+  m.chargen[128+'A']=0x40;
+  while(m.raster.character<5)robotron_run(&m,1);
+  robotron_video(&m,pixels,&w,&h);assert(pixels[w+1]==0xff101812);
+  while(m.raster.character<6)robotron_run(&m,1);
+  robotron_video(&m,pixels,&w,&h);
+  assert(pixels[0]==0xff83e7a0 && pixels[w]==0xff101812 && pixels[w+1]==0xff83e7a0);
+  m.cursor[0]=0; m.cursor[1]=0; m.crtc[3]=0x60; // steady block cursor
+  while(m.raster.character<12)robotron_run(&m,1);
+  robotron_video(&m,pixels,&w,&h);
+  assert(pixels[2*w]==0xff101812 && pixels[2*w+1]==0xff83e7a0);
+  assert(pixels[0]==0xff83e7a0 && pixels[w+1]==0xff83e7a0);
+  robotron *saved=malloc(sizeof(m));assert(saved);*saved=m;
+  robotron_run(&m,clocks_to_ticks(11));robotron_raster expected=m.raster;
+  m=*saved;robotron_rebind(&m);robotron_run(&m,clocks_to_ticks(11));
+  assert(!memcmp(&expected,&m.raster,sizeof(expected)));free(saved);
+  // Stop display and a fresh Start must not expose retained previous-frame lines.
+  robotron_output(&m,0x19,0x40);robotron_output(&m,0x19,0x20);
+  robotron_video(&m,pixels,&w,&h);
+  for(unsigned i=0;i<w*h;i++)assert(pixels[i]==0xff101812);
+}
+
 static void serial_byte(unsigned value, unsigned stop) {
   robotron_serial_clock(&m, 0);
   for (unsigned i = 0; i < 8; i++)
@@ -1051,6 +1083,7 @@ int main(void) {
   display_schedule();
   display_latched_rows();
   display_byte_fetch();
+  display_scanlines();
   puts("PASS Robotron DMA/RDY/TC, FDC reset/status, daisy-chain/RETI, "
        "CRTC/attributes/cursor");
 }
