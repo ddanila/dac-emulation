@@ -831,7 +831,7 @@ static void dma_write(robotron *m, uint8_t v) {
  * timing byte low bits 00/01/10 select 4/3/2. Reserved 11 uses 4.
  * Half-clock signal edges and external WAIT are not represented here. */
 static unsigned dma_cycles(uint8_t timing, unsigned io) {
-  return timing & 0x10 ? ((timing & 3) < 3 ? 4 - (timing & 3) : 4) : 3 + io;
+  return timing & 0x10 ? ((timing & 3) < 3 ? 4u - (timing & 3) : 4u) : 3u + io;
 }
 static int dma_ready(robotron *m) {
   /* PC-1715W inverts FDC DRQ before the Z80 DMA RDY input. */
