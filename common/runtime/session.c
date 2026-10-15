@@ -1,8 +1,8 @@
 #include "session.h"
-#include "observe.h"
 #include "../../machines/juku/juku_internal.h"
 #include "../../machines/robotron1715m/robotron.h"
 #include "../../machines/vjuga/vjuga.h"
+#include "observe.h"
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,30 +31,38 @@ static void forward_trace(void *user, const dac_trace_event *event) {
 }
 static void bind_observer(dac_session *s) {
   dac_trace_sink sink = {s->observer.emit ? forward_trace : NULL, s, 0, 0};
-  if (s->j) s->j->bus_trace = sink;
-  if (s->r) s->r->trace = sink;
+  if (s->j)
+    s->j->bus_trace = sink;
+  if (s->r)
+    s->r->trace = sink;
 }
 int dac_set_trace(dac_session *s, const dac_trace_sink *sink) {
-  if (!s) return -EINVAL;
-  if (s->v && sink) return -ENOTSUP;
+  if (!s)
+    return -EINVAL;
+  if (s->v && sink)
+    return -ENOTSUP;
   s->observer = sink ? *sink : (dac_trace_sink){0};
   bind_observer(s);
   return 0;
 }
 int dac_observe(dac_session *s, dac_observation *out) {
-  if (!s || !s->on || !out) return -EINVAL;
+  if (!s || !s->on || !out)
+    return -EINVAL;
   if (s->j) {
     *out = (dac_observation){s->j->cpu.cyc, s->j->cpu.pc, s->j->cpu.sp,
-                            s->j->cpu.halted, (unsigned)s->j->mode};
+                             s->j->cpu.halted, (unsigned)s->j->mode};
   } else {
     dac_z80 *cpu = s->r ? &s->r->cpu : &s->v->cpu;
     *out = (dac_observation){cpu->cycles, cpu->cpu.pc, cpu->cpu.sp,
-                            !!(cpu->pins & Z80_HALT), s->r ? s->r->bank : s->v->portc};
+                             !!(cpu->pins & Z80_HALT),
+                             s->r ? s->r->bank : s->v->portc};
   }
   return 0;
 }
-int dac_peek(dac_session *s, unsigned space, uint32_t offset, void *out, size_t n) {
-  if (!s || !s->on || (!out && n)) return -EINVAL;
+int dac_peek(dac_session *s, unsigned space, uint32_t offset, void *out,
+             size_t n) {
+  if (!s || !s->on || (!out && n))
+    return -EINVAL;
   const uint8_t *p = NULL;
   size_t length = 0;
   if (space == DAC_MEMORY_RAM) {
@@ -66,9 +74,12 @@ int dac_peek(dac_session *s, unsigned space, uint32_t offset, void *out, size_t 
   } else if (space == DAC_MEMORY_VIDEO) {
     p = s->j ? s->j->ram + VRAM_BASE : s->r ? s->r->vram : s->v->ram + 0xd800;
     length = s->r ? sizeof(s->r->vram) : 65536 - 0xd800;
-  } else return -ENOTSUP;
-  if (offset > length || n > length - offset) return -EINVAL;
-  if (n) memcpy(out, p + offset, n);
+  } else
+    return -ENOTSUP;
+  if (offset > length || n > length - offset)
+    return -EINVAL;
+  if (n)
+    memcpy(out, p + offset, n);
   return 0;
 }
 dac_session *dac_create(unsigned kind) {
@@ -152,7 +163,8 @@ int dac_mount_unit(dac_session *s, unsigned unit, const void *p, size_t n,
     }
     s->r->drive[unit].ready = s->r->drive[unit].ready_indexes = 0;
   }
-  if (s->r) s->r->drive[unit].ejected = 0;
+  if (s->r)
+    s->r->drive[unit].ejected = 0;
   if (unit) {
     free(s->disk_b);
     s->disk_b = copy;
@@ -211,10 +223,16 @@ int dac_power(dac_session *s, int on) {
     unsigned ejected[2] = {s->r->drive[0].ejected, s->r->drive[1].ejected};
     unsigned doors[2] = {s->r->drive[0].door_open, s->r->drive[1].door_open};
     unsigned signals = s->r->v24.signals, disconnected = s->r->disconnected;
+    unsigned baud = s->r->v24.peer_baud, format = s->r->v24.peer_format;
     robotron_init(s->r);
     s->r->v24.signals = signals;
+    s->r->v24.peer_baud = baud;
+    s->r->v24.peer_format = format;
     s->r->disconnected = disconnected;
-    for (unsigned u = 0; u < 2; u++) { s->r->drive[u].door_open = doors[u]; s->r->drive[u].ejected = ejected[u]; }
+    for (unsigned u = 0; u < 2; u++) {
+      s->r->drive[u].door_open = doors[u];
+      s->r->drive[u].ejected = ejected[u];
+    }
     robotron_load(s->r, s->firmware, s->firmware_size, s->prom, s->prom_size);
     memcpy(s->r->chargen, s->glyphs, s->glyph_size);
     if (s->keyboard_size)
@@ -357,9 +375,12 @@ unsigned dac_disk_size_unit(dac_session *s, unsigned u) {
   return s && u < 2 ? (unsigned)(u ? s->disk_b_size : s->disk_size) : 0;
 }
 int dac_drive_inserted(dac_session *s, unsigned u, unsigned inserted) {
-  if (!s || !s->r || u > 1 || inserted > 1) return -EINVAL;
-  if (!s->r->drive[u].door_open) return -EBUSY;
-  if (inserted && !dac_disk_size_unit(s, u)) return -ENOENT;
+  if (!s || !s->r || u > 1 || inserted > 1)
+    return -EINVAL;
+  if (!s->r->drive[u].door_open)
+    return -EBUSY;
+  if (inserted && !dac_disk_size_unit(s, u))
+    return -ENOENT;
   s->r->drive[u].ejected = !inserted;
   s->r->drive[u].ready = s->r->drive[u].ready_indexes = 0;
   s->r->drive[u].loaded = 0;
@@ -369,33 +390,55 @@ int dac_drive_inserted(dac_session *s, unsigned u, unsigned inserted) {
  * retains another ejected image, that image takes the vacated parking slot.
  * Storage, layout and protection travel together; drive mechanics do not. */
 int dac_drive_protect(dac_session *s, unsigned unit, unsigned protect) {
-  if (!s || !s->r || unit > 1 || protect > 1) return -EINVAL;
-  if (!dac_disk_size_unit(s, unit)) return -ENOENT;
-  if (!s->r->drive[unit].ejected) return -EBUSY;
+  if (!s || !s->r || unit > 1 || protect > 1)
+    return -EINVAL;
+  if (!dac_disk_size_unit(s, unit))
+    return -ENOENT;
+  if (!s->r->drive[unit].ejected)
+    return -EBUSY;
   int writable = !protect;
-  if (unit) s->writable_b = writable; else s->writable = writable;
+  if (unit)
+    s->writable_b = writable;
+  else
+    s->writable = writable;
   dac_media *media = unit ? &s->r->disk_b : &s->r->disk;
   media->writable = writable;
   media->storage = dac_memory_storage(unit ? s->disk_b : s->disk,
-                                     dac_disk_size_unit(s, unit), writable);
+                                      dac_disk_size_unit(s, unit), writable);
   return 0;
 }
 int dac_drive_transfer(dac_session *s, unsigned from, unsigned to) {
-  if (!s || !s->r || from > 1 || to > 1) return -EINVAL;
-  if (from == to) return dac_drive_inserted(s, to, 1);
+  if (!s || !s->r || from > 1 || to > 1)
+    return -EINVAL;
+  if (from == to)
+    return dac_drive_inserted(s, to, 1);
   robotron *r = s->r;
-  if (!dac_disk_size_unit(s, from)) return -ENOENT;
+  if (!dac_disk_size_unit(s, from))
+    return -ENOENT;
   if (!r->drive[from].ejected || !r->drive[from].door_open ||
       !r->drive[to].door_open ||
       (dac_disk_size_unit(s, to) && !r->drive[to].ejected) ||
-      (s->on && (r->fdc.phase || r->fdc.cmd_pos))) return -EBUSY;
-  uint8_t *bytes = s->disk; s->disk = s->disk_b; s->disk_b = bytes;
-  size_t size = s->disk_size; s->disk_size = s->disk_b_size; s->disk_b_size = size;
-  int writable = s->writable; s->writable = s->writable_b; s->writable_b = writable;
-  dac_media media = r->disk; r->disk = r->disk_b; r->disk_b = media;
-  unsigned format = r->disk_format[0]; r->disk_format[0] = r->disk_format[1]; r->disk_format[1] = format;
+      (s->on && (r->fdc.phase || r->fdc.cmd_pos)))
+    return -EBUSY;
+  uint8_t *bytes = s->disk;
+  s->disk = s->disk_b;
+  s->disk_b = bytes;
+  size_t size = s->disk_size;
+  s->disk_size = s->disk_b_size;
+  s->disk_b_size = size;
+  int writable = s->writable;
+  s->writable = s->writable_b;
+  s->writable_b = writable;
+  dac_media media = r->disk;
+  r->disk = r->disk_b;
+  r->disk_b = media;
+  unsigned format = r->disk_format[0];
+  r->disk_format[0] = r->disk_format[1];
+  r->disk_format[1] = format;
   for (unsigned i = 0; i < 160; i++) {
-    robotron_track track = r->tracks[0][i]; r->tracks[0][i] = r->tracks[1][i]; r->tracks[1][i] = track;
+    robotron_track track = r->tracks[0][i];
+    r->tracks[0][i] = r->tracks[1][i];
+    r->tracks[1][i] = track;
   }
   for (unsigned u = 0; u < 2; u++) {
     r->drive[u].ready = r->drive[u].ready_indexes = r->drive[u].loaded = 0;
@@ -404,7 +447,8 @@ int dac_drive_transfer(dac_session *s, unsigned from, unsigned to) {
   return 0;
 }
 int dac_drive_door(dac_session *s, unsigned u, unsigned open) {
-  if (!s || !s->r || u > 1 || open > 1) return -EINVAL;
+  if (!s || !s->r || u > 1 || open > 1)
+    return -EINVAL;
   robotron_drive_door(s->r, u, open);
   return 0;
 }
@@ -412,10 +456,12 @@ unsigned dac_drive_status_unit(dac_session *s, unsigned u) {
   if (!s || !s->r || u > 1)
     return 0;
   robotron *r = s->r;
-  unsigned present = !r->drive[u].ejected && !!(u ? s->disk_b_size : s->disk_size);
+  unsigned present =
+      !r->drive[u].ejected && !!(u ? s->disk_b_size : s->disk_size);
   unsigned writable = u ? s->writable_b : s->writable;
-  unsigned base =
-      (writable << 2) | (present << 3) | (r->drive[u].door_open << 5) | ((r->fdc.physical[u] & 255) << 8);
+  unsigned base = (writable << 2) | (present << 3) |
+                  (r->drive[u].door_open << 5) |
+                  ((r->fdc.physical[u] & 255) << 8);
   if (!s->on)
     return base;
   return base | (!(r->motor & (u ? 8 : 128))) |
@@ -515,8 +561,56 @@ int dac_serial_send(dac_session *s, unsigned byte) {
 int dac_serial_signals(dac_session *s, unsigned signals) {
   if (!s || !s->r || signals > 7)
     return -EINVAL;
-  s->r->v24.signals = signals;
+  robotron_v24_signals(s->r, signals);
   return 0;
+}
+static int valid_peer(unsigned baud, unsigned format) {
+  return baud <= 115200 &&
+         (!baud || (baud >= 50 && (format & 15) >= 5 && (format & 15) <= 8 &&
+                    ((format >> 4) & 3) <= 2 && ((format >> 8) & 7) >= 2 &&
+                    ((format >> 8) & 7) <= 4 && !(format & ~0x73f)));
+}
+int dac_serial_peer(dac_session *s, unsigned baud, unsigned format) {
+  if (!s || !s->r || !valid_peer(baud, format))
+    return -EINVAL;
+  s->r->v24.peer_baud = baud;
+  s->r->v24.peer_format = format;
+  s->r->v24.bits = s->r->v24.peer_phase = 0;
+  return 0;
+}
+unsigned dac_serial_peer_baud(dac_session *s) {
+  return s && s->r ? s->r->v24.peer_baud : 0;
+}
+unsigned dac_serial_peer_format(dac_session *s) {
+  return s && s->r ? s->r->v24.peer_format : 0;
+}
+unsigned dac_serial_errors(dac_session *s) {
+  return s && s->r
+             ? s->r->rx_b.errors |
+                   (s->r->rx_b.count ? s->r->v24.fifo_errors[s->r->rx_b.read]
+                                     : 0)
+             : 0;
+}
+void dac_serial_cancel(dac_session *s) {
+  if (s && s->r)
+    s->r->v24.count = 0;
+}
+unsigned dac_circuit_activity(dac_session *s, unsigned field) {
+  if (!s || !s->r)
+    return 0;
+  robotron *r = s->r;
+  switch (field) {
+  case 0:
+    return (unsigned)r->cpu.cycles;
+  case 1:
+    return r->dma.transferred;
+  case 2:
+    return r->serial_events;
+  case 3:
+    return r->fdc.data_pos;
+  default:
+    return 0;
+  }
 }
 unsigned dac_serial_status(dac_session *s) {
   return s && s->r ? s->r->v24.signals | (s->r->v24.count << 8) : 0;
@@ -619,7 +713,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    9,
+                    10,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -639,7 +733,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 9 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 10 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||
@@ -690,22 +784,30 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       f->data_len > sizeof(f->data) || f->data_pos > f->data_len ||
       (f->phase == 2 && f->data_pos >= f->data_len &&
        !(f->formatting && f->search == 6)) ||
-      r->dma.phase > 2 || r->dma.ticks > 4 || (r->dma.phase && !r->dma.ticks) ||
+      r->dma.operation > 3 || r->dma.stop_match > 1 ||
+      r->dma.wait_enabled > 1 || r->dma.wait > 1 || r->dma.phase > 2 ||
+      r->dma.ticks > 4 || (r->dma.phase && !r->dma.ticks) ||
       (!r->dma.phase && r->dma.ticks) || r->dma.tag_count > 10 ||
       r->dma.tag_pos > r->dma.tag_count ||
       (r->dma.tag_count && r->dma.tag_pos >= r->dma.tag_count) ||
       r->dma.read_pos >= 7 || r->sio_pointer[0] > 7 || r->sio_pointer[1] > 7 ||
       r->v24.read >= 65536 || r->v24.count > 65536 || r->v24.size > 65536 ||
       r->v24.full > 1 || r->v24.pending > 1 || r->v24.in_service > 1 ||
-      r->v24.overflow > 1 || (r->v24.bits && !r->v24.clocks) ||
-      r->rx_b.wait > 64 || r->v24.frame >= 4096 || r->v24.signals > 7 ||
-      r->v24.bits > 12 || r->v24.clocks > 64 || r->v24.tx_clocks > 768 ||
-      r->rx_b.read >= 3 || r->rx_b.count > 3 || r->rx_b.phase > 4 ||
-      r->rx_b.bits > 8 || r->disconnected > 3 || r->rx.read >= 3 ||
-      r->rx.count > 3 || r->rx.phase > 4 || r->rx.bits > 8 ||
-      k->tap_read >= 64 || k->tap_count > 64 || k->tap_phase > 2 ||
-      r->tx_pending > 1 || r->tx_in_service > 1 ||
-      k->clock_fraction >= 3993600 || r->key_write - r->key_read > 256 ||
+      r->v24.overflow > 1 ||
+      !valid_peer(r->v24.peer_baud, r->v24.peer_format) ||
+      r->v24.peer_phase >= 3993600 || r->v24.ext_pending > 1 ||
+      r->v24.ext_service > 1 || r->v24.ext_latched > 1 ||
+      r->v24.ext_signals > 7 || (r->v24.frame_errors & ~0x40) ||
+      (r->v24.fifo_errors[0] & ~0x40) || (r->v24.fifo_errors[1] & ~0x40) ||
+      (r->v24.fifo_errors[2] & ~0x40) || r->rx_b.wait > 64 ||
+      r->v24.frame >= (1u << 24) || r->v24.signals > 7 || r->v24.bits > 24 ||
+      r->v24.clocks > 64 || r->v24.tx_clocks > 768 || r->rx_b.read >= 3 ||
+      r->rx_b.count > 3 || r->rx_b.phase > 4 || r->rx_b.bits > 8 ||
+      r->disconnected > 3 || r->rx.read >= 3 || r->rx.count > 3 ||
+      r->rx.phase > 4 || r->rx.bits > 8 || k->tap_read >= 64 ||
+      k->tap_count > 64 || k->tap_phase > 2 || r->tx_pending > 1 ||
+      r->tx_in_service > 1 || k->clock_fraction >= 3993600 ||
+      r->key_write - r->key_read > 256 ||
       r->printer_size > sizeof(r->printer) ||
       (f->formatting &&
        (f->data_len != f->command[3] * 4 || !f->command[3] ||
@@ -716,7 +818,8 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
                r->drive[u].speed > ROBOTRON_SPINUP_TICKS ||
                r->drive[u].fraction >= ROBOTRON_SPINUP_TICKS ||
                r->drive[u].ready_indexes > 2 || r->drive[u].ready > 1 ||
-               r->drive[u].ejected > 1 || r->drive[u].door_open > 1 || r->drive[u].loaded > 1 || r->drive[u].from_q16 > 79 * 65536u;
+               r->drive[u].ejected > 1 || r->drive[u].door_open > 1 ||
+               r->drive[u].loaded > 1 || r->drive[u].from_q16 > 79 * 65536u;
   for (unsigned u = 0; u < 4; u++)
     invalid |= f->cylinder[u] > 255 || f->seek_target[u] > 255 ||
                f->physical[u] > 79 || f->recalibrate[u] > 1 ||

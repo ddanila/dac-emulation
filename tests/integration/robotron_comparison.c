@@ -33,10 +33,24 @@ int main(int argc, char **argv) {
   robotron_keyboard_load(m, keyboard, sizeof(keyboard));
   m->trace = (dac_trace_sink){trace, 0, 0, 0};
   robotron_run(m, 400000);
-  const unsigned addresses[] = {0x4000, 0x4001, 0x5000, 0x5001,
-                                0x6000, 0x3000, 0x3001};
+  const unsigned addresses[] = {0x4000, 0x4001, 0x5000, 0x5001, 0x6000,
+                                0x3000, 0x3001, 0x3002, 0x6003};
   for (unsigned i = 0; i < sizeof(addresses) / sizeof(*addresses); i++)
     printf("%04x %02x\n", addresses[i], robotron_read(m, addresses[i]));
+  for (unsigned b = 1; b < 8; b++) {
+    robotron_output(m, 0x24, b * 17);
+    robotron_write(m, 0x7000, 0xa0 + b);
+  }
+  for (unsigned b = 0; b < 8; b++) {
+    robotron_output(m, 0x24, b);
+    printf("BANK %u %02x\n", b, robotron_read(m, 0x7000));
+  }
+  robotron_output(m, 0x24, 0);
+  robotron_output(m, 0x1d, 0xff);
+  printf("FDC %02x\n", robotron_input(m, 0x1d));
+  robotron_output(m, 0x0f, 0x18);
+  robotron_output(m, 0x0f, 1);
+  printf("SIO-RR1 %02x\n", robotron_input(m, 0x0f));
   for (unsigned i = 0; i < count; i++)
     printf("IO %02x %02x\n", ports[i], values[i]);
   free(m);

@@ -13,7 +13,8 @@ static void record(void *user, const dac_trace_event *event) {
 }
 static void sessions(unsigned kind) {
   dac_session *s = dac_create(kind), *other = dac_create(kind);
-  uint8_t rom[16384] = {0x3e, 0x42, 0x32, 0x00, 0x80, 0xc3, 0x00, 0x00}, prom[256] = {0};
+  uint8_t rom[16384] = {0x3e, 0x42, 0x32, 0x00, 0x80, 0xc3, 0x00, 0x00},
+          prom[256] = {0};
   assert(s && other);
   assert(dac_observe(s, NULL) == -EINVAL);
   size_t size = kind == 2 ? 2048 : 16384;
@@ -63,7 +64,7 @@ static void robotron_bus(void) {
   count = 0;
   m->trace = (dac_trace_sink){record, &count, 0, 0};
   m->prom[128 + 16 + 4] = 13; /* read bank 1 maps to physical bank 1 */
-  m->bank = 1; /* write bank remains 0 */
+  m->bank = 1;                /* write bank remains 0 */
   m->ram[65536 + 0x4000] = 0xa5;
   assert(robotron_read(m, 0x4000) == 0xa5);
   robotron_write(m, 0x4000, 0x5a);
@@ -73,13 +74,16 @@ static void robotron_bus(void) {
   m->bank = 0;
   m->rom[0] = 0x76;
   /* Program DMA through its real registers: one RAM-to-RAM byte. */
-  const uint8_t dma[] = {0xc3,0x7d,0,0x40,0,0,0x14,0x10,0x9d,0,0x50,0x12,
-                        0x24,0x82,0xcf,0xab,0x87,0x8a};
-  for (unsigned i = 0; i < sizeof(dma); i++) robotron_output(m, 0, dma[i]);
+  const uint8_t dma[] = {0xc3, 0x7d, 0,    0x40, 0,    0,    0x14, 0x10, 0x9d,
+                         0,    0x50, 0x12, 0x24, 0x82, 0xcf, 0xab, 0x87, 0x8a};
+  for (unsigned i = 0; i < sizeof(dma); i++)
+    robotron_output(m, 0, dma[i]);
   count = 0;
   robotron_run(m, 6);
-  assert(count == 2 && !strcmp(events[0].kind, "MR") && !strcmp(events[1].kind, "MW"));
-  assert(events[0].master == DAC_MASTER_DMA && events[1].master == DAC_MASTER_DMA);
+  assert(count == 2 && !strcmp(events[0].kind, "MR") &&
+         !strcmp(events[1].kind, "MW"));
+  assert(events[0].master == DAC_MASTER_DMA &&
+         events[1].master == DAC_MASTER_DMA);
   assert(events[0].offset == 0x4000 && events[1].offset == 0x5000);
   assert(m->ram[0x5000] == 0x5a && m->trace_master == DAC_MASTER_CPU);
   assert(m->cpu.bus.ack(m) == 0x24);
@@ -90,76 +94,107 @@ static void robotron_bus(void) {
  * and after the first visible scanline; resume through a complete frame.
  * Use the public snapshot API, not a memcpy of the machine structure. */
 static void robotron_scanline_snapshots(void) {
-  dac_session *s=dac_create(2),*resumed=dac_create(2);
-  uint8_t rom[2048]={0x3e,0,0xd3,0x19,
-    0x3e,3,0xd3,0x18,0x3e,1,0xd3,0x18,
-    0x3e,3,0xd3,0x18,0x3e,0x70,0xd3,0x18,
-    0x3e,0x80,0xd3,0x19,0x3e,255,0xd3,0x18,0x3e,0,0xd3,0x18,
-    0x3e,0x20,0xd3,0x19,0x76};
-  uint8_t prom[256]={0},glyphs[4096]={0};
-  for(unsigned y=0;y<4;y++)glyphs[y*128]=0x80>>y;
+  dac_session *s = dac_create(2), *resumed = dac_create(2);
+  uint8_t rom[2048] = {0x3e, 0,    0xd3, 0x19, 0x3e, 3,    0xd3, 0x18,
+                       0x3e, 1,    0xd3, 0x18, 0x3e, 3,    0xd3, 0x18,
+                       0x3e, 0x70, 0xd3, 0x18, 0x3e, 0x80, 0xd3, 0x19,
+                       0x3e, 255,  0xd3, 0x18, 0x3e, 0,    0xd3, 0x18,
+                       0x3e, 0x20, 0xd3, 0x19, 0x76};
+  uint8_t prom[256] = {0}, glyphs[4096] = {0};
+  for (unsigned y = 0; y < 4; y++)
+    glyphs[y * 128] = 0x80 >> y;
   assert(s && resumed);
-  dac_session *sessions[]={s,resumed};
-  for(unsigned i=0;i<2;i++){
-    assert(!dac_load(sessions[i],0,rom,sizeof(rom)));
-    assert(!dac_load(sessions[i],1,prom,sizeof(prom)));
-    assert(!dac_load(sessions[i],2,glyphs,sizeof(glyphs)));
-    assert(!dac_power(sessions[i],1));
+  dac_session *sessions[] = {s, resumed};
+  for (unsigned i = 0; i < 2; i++) {
+    assert(!dac_load(sessions[i], 0, rom, sizeof(rom)));
+    assert(!dac_load(sessions[i], 1, prom, sizeof(prom)));
+    assert(!dac_load(sessions[i], 2, glyphs, sizeof(glyphs)));
+    assert(!dac_power(sessions[i], 1));
   }
-  unsigned n=dac_state_size(s),boundary=0;
-  void *before=malloc(n),*after=malloc(n);assert(before && after);
-  for(unsigned t=0;t<1000;t++){
-    assert(!dac_state_save(s,before,n));assert(dac_run(s,1)==1);
-    if(dac_video(s)[0]==0xff83e7a0){boundary=t+1;break;}
-  }
-  assert(boundary && !dac_state_save(s,after,n));
-  for(unsigned side=0;side<2;side++){
-    assert(!dac_reset(s));
-    assert(dac_run(s,boundary-1+side)==boundary-1+side);
-    assert(!dac_state_save(s,before,n));
-    assert(!dac_state_load(resumed,before,n));
-    assert(dac_video(resumed)[0]==(side?0xff83e7a0:0xff101812));
-    /* Batch sizes cross different CPU/character fractions, including the
-     * next scanline and retrace. Observation/rendering must not advance it. */
-    for(unsigned batch=1;batch<=29;batch++){
-      assert(dac_run(s,batch)==batch);
-      for(unsigned tick=0;tick<batch;tick++)assert(dac_run(resumed,1)==1);
-      assert(dac_width(s)==dac_width(resumed) && dac_height(s)==dac_height(resumed));
-      assert(!memcmp(dac_video(s),dac_video(resumed),dac_width(s)*dac_height(s)*sizeof(uint32_t)));
-      assert(!dac_state_save(s,before,n) && !dac_state_save(resumed,after,n));
-      assert(!memcmp(before,after,n));
+  unsigned n = dac_state_size(s), boundary = 0;
+  void *before = malloc(n), *after = malloc(n);
+  assert(before && after);
+  for (unsigned t = 0; t < 1000; t++) {
+    assert(!dac_state_save(s, before, n));
+    assert(dac_run(s, 1) == 1);
+    if (dac_video(s)[0] == 0xff83e7a0) {
+      boundary = t + 1;
+      break;
     }
   }
-  free(before);free(after);dac_destroy(s);dac_destroy(resumed);
+  assert(boundary && !dac_state_save(s, after, n));
+  for (unsigned side = 0; side < 2; side++) {
+    assert(!dac_reset(s));
+    assert(dac_run(s, boundary - 1 + side) == boundary - 1 + side);
+    assert(!dac_state_save(s, before, n));
+    assert(!dac_state_load(resumed, before, n));
+    assert(dac_video(resumed)[0] == (side ? 0xff83e7a0 : 0xff101812));
+    /* Batch sizes cross different CPU/character fractions, including the
+     * next scanline and retrace. Observation/rendering must not advance it. */
+    for (unsigned batch = 1; batch <= 29; batch++) {
+      assert(dac_run(s, batch) == batch);
+      for (unsigned tick = 0; tick < batch; tick++)
+        assert(dac_run(resumed, 1) == 1);
+      assert(dac_width(s) == dac_width(resumed) &&
+             dac_height(s) == dac_height(resumed));
+      assert(!memcmp(dac_video(s), dac_video(resumed),
+                     dac_width(s) * dac_height(s) * sizeof(uint32_t)));
+      assert(!dac_state_save(s, before, n) &&
+             !dac_state_save(resumed, after, n));
+      assert(!memcmp(before, after, n));
+    }
+  }
+  free(before);
+  free(after);
+  dac_destroy(s);
+  dac_destroy(resumed);
 }
 
 static void robotron_dma_snapshot(void) {
-  dac_session *s=dac_create(2), *copy=dac_create(2);
-  uint8_t rom[2048]={0},prom[256]={0}; unsigned pos=0;
-  const uint8_t setup[]={0xc3,0x7d,0,0x40,0,0,0x14,0x10,0x9d,0,0x50,0x12,0x24,0x82,0xcf,0xab,0x87,0x8a};
-  for(unsigned i=0;i<sizeof(setup);i++) {
-    rom[pos++]=0x3e;rom[pos++]=setup[i];rom[pos++]=0xd3;rom[pos++]=0;
+  dac_session *s = dac_create(2), *copy = dac_create(2);
+  uint8_t rom[2048] = {0}, prom[256] = {0};
+  unsigned pos = 0;
+  const uint8_t setup[] = {0xc3, 0x7d, 0,    0x40, 0,    0,
+                           0x14, 0x10, 0x9d, 0,    0x50, 0x12,
+                           0x24, 0x82, 0xcf, 0xab, 0x87, 0x8a};
+  for (unsigned i = 0; i < sizeof(setup); i++) {
+    rom[pos++] = 0x3e;
+    rom[pos++] = setup[i];
+    rom[pos++] = 0xd3;
+    rom[pos++] = 0;
   }
-  rom[pos]=0x76;
-  dac_session *both[]={s,copy};
-  for(unsigned i=0;i<2;i++) {
-    assert(!dac_load(both[i],0,rom,sizeof(rom)) && !dac_load(both[i],1,prom,sizeof(prom)));
-    assert(!dac_power(both[i],1));
+  rom[pos] = 0x76;
+  dac_session *both[] = {s, copy};
+  for (unsigned i = 0; i < 2; i++) {
+    assert(!dac_load(both[i], 0, rom, sizeof(rom)) &&
+           !dac_load(both[i], 1, prom, sizeof(prom)));
+    assert(!dac_power(both[i], 1));
   }
-  count=0; dac_trace_sink sink={record,&count,0,0}; assert(!dac_set_trace(s,&sink));
-  unsigned found=0;
-  for(unsigned i=0;i<1000 && !found;i++) {
-    count=0;assert(dac_run(s,1)==1);
-    for(unsigned j=0;j<count;j++)if(events[j].master==DAC_MASTER_DMA && !strcmp(events[j].kind,"MR"))found=1;
+  count = 0;
+  dac_trace_sink sink = {record, &count, 0, 0};
+  assert(!dac_set_trace(s, &sink));
+  unsigned found = 0;
+  for (unsigned i = 0; i < 1000 && !found; i++) {
+    count = 0;
+    assert(dac_run(s, 1) == 1);
+    for (unsigned j = 0; j < count; j++)
+      if (events[j].master == DAC_MASTER_DMA && !strcmp(events[j].kind, "MR"))
+        found = 1;
   }
   assert(found); /* Save with a byte latched but its destination not written. */
-  unsigned n=dac_state_size(s);void *a=malloc(n),*b=malloc(n);assert(a && b);
-  assert(!dac_state_save(s,a,n) && !dac_state_load(copy,a,n));
-  for(unsigned i=0;i<8;i++) {
-    assert(dac_run(s,1)==1 && dac_run(copy,1)==1);
-    assert(!dac_state_save(s,a,n) && !dac_state_save(copy,b,n));assert(!memcmp(a,b,n));
+  unsigned n = dac_state_size(s);
+  void *a = malloc(n), *b = malloc(n);
+  assert(a && b);
+  assert(!dac_state_save(s, a, n) && !dac_state_load(copy, a, n));
+  for (unsigned i = 0; i < 8; i++) {
+    assert(dac_run(s, 1) == 1 && dac_run(copy, 1) == 1);
+    assert(!dac_state_save(s, a, n) && !dac_state_save(copy, b, n));
+    assert(!memcmp(a, b, n));
   }
-  free(a);free(b);dac_destroy(s);dac_destroy(copy);
+  free(a);
+  free(b);
+  dac_destroy(s);
+  dac_destroy(copy);
 }
 
 static void serial_snapshots(void) {
@@ -197,10 +232,17 @@ static void serial_snapshots(void) {
       0; /* Queues, bit phase and RX FIFO survive exact continuation. */
   assert(dac_serial_status(s) == 3 &&
          !dac_peek(s, DAC_MEMORY_RAM, 0, &byte, 1));
+  assert(!dac_serial_peer(s, 1200, 0x318));
+  assert(dac_serial_peer(s, 49, 0x208) < 0 &&
+         dac_serial_peer(s, 1200, 0x108) < 0);
+  assert(!dac_serial_send(s, 0x42));
+  dac_serial_cancel(s);
+  assert(!(dac_serial_status(s) >> 8));
   assert(!dac_cables(s, 3));
   assert(dac_cable_status(s) == 3);
   assert(!dac_reset(s));
   assert(dac_cable_status(s) == 3 && dac_serial_status(s) == 3);
+  assert(dac_serial_peer_baud(s) == 1200 && dac_serial_peer_format(s) == 0x318);
   assert(dac_video(s)[0] == 0xff101812);
   assert(!dac_cables(s, 0));
   free(a);

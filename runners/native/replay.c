@@ -86,7 +86,12 @@ int main(void) {
       r = dac_tap(s, a, b);
     else if (op == 7 && a < 2 && b < media_count)
       r = dac_mount_unit(s, a, media[b], media_size[b], protection[b]);
-    else if (op == 13 && a < 256)
+    else if (op == 17)
+      r = dac_serial_peer(s, a, b);
+    else if (op == 18) {
+      dac_serial_cancel(s);
+      r = 0;
+    } else if (op == 13 && a < 256)
       r = dac_serial_send(s, a);
     else if (op == 14 && a < 8)
       r = dac_serial_signals(s, a);

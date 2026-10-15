@@ -70,6 +70,7 @@ typedef struct {
       mask_pending, force_ready, ready_high, irq_control, irq_vector,
       in_service;
   uint8_t a_timing, b_timing, phase, ticks, latch;
+  uint8_t operation, search_mask, match, stop_match, wait_enabled, wait;
 } robotron_dma;
 typedef struct {
   uint8_t control, constant, waiting, pending, in_service;
@@ -83,15 +84,20 @@ typedef struct {
 typedef struct {
   dac_z80 cpu;
   dac_trace_sink trace;
-  unsigned trace_master; /* transient CPU/DMA attribution, zero outside run DMA */
+  unsigned
+      trace_master; /* transient CPU/DMA attribution, zero outside run DMA */
   robotron_keyboard keyboard;
   robotron_sio_rx rx, rx_b;
+  unsigned serial_events;
   struct {
     uint8_t input[65536], output[65536];
     unsigned read, count, size, overflow, signals;
     unsigned frame, bits, clocks;
     uint8_t holding, shift, full, pending, in_service;
     unsigned tx_clocks;
+    unsigned peer_baud, peer_format, peer_phase;
+    unsigned ext_pending, ext_service, ext_latched, ext_signals;
+    uint8_t fifo_errors[3], frame_errors;
   } v24;
   unsigned disconnected; /* bit0 keyboard power/data; bit1 monitor video */
   unsigned keyboard_enabled;
@@ -120,6 +126,8 @@ typedef struct {
 void robotron_init(robotron *);
 int robotron_keyboard_load(robotron *, const void *, size_t);
 void robotron_serial_clock(void *, unsigned);
+void robotron_v24_peer_tick(robotron *);
+void robotron_v24_signals(robotron *, unsigned);
 void robotron_v24_receive_clock(robotron *, unsigned);
 void robotron_v24_clock(robotron *);
 uint8_t robotron_v24_read(robotron *, unsigned);

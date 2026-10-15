@@ -34,17 +34,26 @@ static uint8_t peek(void *p, uint16_t a) {
     return m->vram[a & 4095];
   return 0;
 }
-static void memory_trace(robotron *m, const char *kind, uint16_t a, uint8_t v, int b) {
-  if (!m->trace.emit) return;
-  unsigned space = b < 4 ? DAC_SPACE_RAM : b == 4 ? DAC_SPACE_ROM :
-                   b == 6 ? DAC_SPACE_GLYPHS : b == 7 ? DAC_SPACE_VIDEO : DAC_SPACE_UNKNOWN;
-  uint32_t offset = b < 4 ? (uint32_t)b * 65536 + a : b == 4 ? a & 2047 : a & 4095;
-  dac_trace_access(&m->trace, kind, a, v, m->cpu.cycles, 2, m->trace_master, space, offset);
+static void memory_trace(robotron *m, const char *kind, uint16_t a, uint8_t v,
+                         int b) {
+  if (!m->trace.emit)
+    return;
+  unsigned space = b < 4    ? DAC_SPACE_RAM
+                   : b == 4 ? DAC_SPACE_ROM
+                   : b == 6 ? DAC_SPACE_GLYPHS
+                   : b == 7 ? DAC_SPACE_VIDEO
+                            : DAC_SPACE_UNKNOWN;
+  uint32_t offset = b < 4    ? (uint32_t)b * 65536 + a
+                    : b == 4 ? a & 2047
+                             : a & 4095;
+  dac_trace_access(&m->trace, kind, a, v, m->cpu.cycles, 2, m->trace_master,
+                   space, offset);
 }
 uint8_t robotron_read(void *p, uint16_t a) {
   robotron *m = p;
   uint8_t v = peek(m, a);
-  if (m->trace.emit) memory_trace(m, "MR", a, v, bank(m, m->bank & 7, a));
+  if (m->trace.emit)
+    memory_trace(m, "MR", a, v, bank(m, m->bank & 7, a));
   return v;
 }
 void robotron_write(void *p, uint16_t a, uint8_t v) {
@@ -61,7 +70,8 @@ void robotron_write(void *p, uint16_t a, uint8_t v) {
   }
 }
 unsigned robotron_drive_ready(const robotron *m, unsigned u) {
-  return u < 2 && !m->drive[u].door_open && !m->drive[u].ejected && !(m->motor & (u ? 8 : 128)) && m->drive[u].ready &&
+  return u < 2 && !m->drive[u].door_open && !m->drive[u].ejected &&
+         !(m->motor & (u ? 8 : 128)) && m->drive[u].ready &&
          (u ? m->disk_b.storage.read != NULL : m->disk.storage.read != NULL);
 }
 unsigned robotron_head_position(const robotron *m, unsigned u) {
@@ -94,7 +104,8 @@ static void mechanics_tick(robotron *m) {
       if (++m->rotation[u] == ROBOTRON_REVOLUTION_TICKS) {
         m->rotation[u] = 0;
         unsigned inserted =
-            !d->door_open && !d->ejected && !!(u ? m->disk_b.storage.read : m->disk.storage.read);
+            !d->door_open && !d->ejected &&
+            !!(u ? m->disk_b.storage.read : m->disk.storage.read);
         if (inserted)
           d->index_count++;
         uint64_t interval = m->cpu.cycles - d->last_index;
@@ -181,11 +192,13 @@ static void not_ready(robotron *m) {
   m->fdc.result[0] |= 0x48; /* Abnormal termination + NR. */
 }
 void robotron_drive_door(robotron *m, unsigned u, unsigned open) {
-  if (u > 1 || m->drive[u].door_open == !!open) return;
+  if (u > 1 || m->drive[u].door_open == !!open)
+    return;
   m->drive[u].door_open = !!open;
   m->drive[u].ready = m->drive[u].ready_indexes = 0;
   m->drive[u].loaded = 0;
-  if (open && m->fdc.unit == u && m->fdc.phase == 2) not_ready(m);
+  if (open && m->fdc.unit == u && m->fdc.phase == 2)
+    not_ready(m);
 }
 static void begin_execution(robotron *m) {
   robotron_fdc *f = &m->fdc;
@@ -720,8 +733,18 @@ static void dma_parameter(robotron_dma *d, uint8_t v) {
   case 8:
     d->vector = v;
     break;
-  case 10: d->a_timing = v | 0x10; break; /* bit 4 is reserved; presence marker */
-  case 11: d->b_timing = v | 0x10; break;
+  case 12:
+    d->search_mask = v;
+    break;
+  case 13:
+    d->match = v;
+    break;
+  case 10:
+    d->a_timing = v | 0x10;
+    break; /* bit 4 is reserved; presence marker */
+  case 11:
+    d->b_timing = v | 0x10;
+    break;
   default:
     break;
   }
@@ -740,13 +763,23 @@ static void dma_write(robotron *m, uint8_t v) {
     d->read_pos = 0;
     return;
   }
-  if (v != 0xa7)
+  if (v != 0xa7 && v != 0xc3)
     d->mask = 0;
   switch (v) {
   case 0xc3:
-    memset(d, 0, sizeof(*d));
+    /* Reset aborts bus/interrupt logic; programmed addresses and the read
+     * sequence survive (UM008101 pp.107-108). Six writes escape parameters. */
+    d->enabled = d->irq_enabled = d->irq = d->in_service = d->force_ready = 0;
+    d->wait_enabled = d->a_timing = d->b_timing = d->phase = d->ticks = 0;
     d->status = 0x38;
-    d->vector = 0x14;
+    return;
+  case 0xc7:
+    d->a_timing = 0;
+    d->enabled = 0;
+    return;
+  case 0xcb:
+    d->b_timing = 0;
+    d->enabled = 0;
     return;
   case 0xbb:
     d->mask_pending = 1;
@@ -808,28 +841,31 @@ static void dma_write(robotron *m, uint8_t v) {
     if (v & 0x40)
       d->tags[d->tag_count++] = 10;
   } else if (!(v & 128)) {
+    d->operation = v & 3;
     d->direction = (v >> 2) & 1;
     for (unsigned i = 0; i < 4; i++)
       if (v & (8 << i))
         d->tags[d->tag_count++] = i + 1;
   } else if ((v & 0xc7) == 0x82) {
     d->ready_high = (v >> 3) & 1;
+    d->wait_enabled = !(v & 16);
   } else if ((v & 0x83) == 0x81) {
     for (unsigned i = 0; i < 3; i++)
       if (v & (4 << i))
         d->tags[d->tag_count++] = 5 + i;
   } else if ((v & 0x83) == 0x80) {
+    d->stop_match = (v >> 2) & 1;
     d->irq_enabled = (v >> 5) & 1;
     if (v & 64)
       d->enabled = 1;
     for (unsigned i = 3; i <= 4; i++)
       if (v & (1 << i))
-        d->tags[d->tag_count++] = 9;
+        d->tags[d->tag_count++] = i + 9;
   }
 }
 /* Zilog UM008101-0601 pp.96-98,153: default memory=3, I/O=4;
  * timing byte low bits 00/01/10 select 4/3/2. Reserved 11 uses 4.
- * Half-clock signal edges and external WAIT are not represented here. */
+ * External WAIT extends completion; half-clock signal edges are not modeled. */
 static unsigned dma_cycles(uint8_t timing, unsigned io) {
   return timing & 0x10 ? ((timing & 3) < 3 ? 4u - (timing & 3) : 4u) : 3u + io;
 }
@@ -924,13 +960,15 @@ static uint8_t input_value(void *p, uint16_t a) {
 uint8_t robotron_input(void *p, uint16_t a) {
   robotron *m = p;
   uint8_t v = input_value(p, a);
-  dac_trace_access(&m->trace, "IR", a, v, m->cpu.cycles, 2, m->trace_master, DAC_SPACE_IO, a & 255);
+  dac_trace_access(&m->trace, "IR", a, v, m->cpu.cycles, 2, m->trace_master,
+                   DAC_SPACE_IO, a & 255);
   return v;
 }
 static void video_restart(robotron *m);
 void robotron_output(void *p, uint16_t a, uint8_t v) {
   robotron *m = p;
-  dac_trace_access(&m->trace, "IW", a, v, m->cpu.cycles, 2, m->trace_master, DAC_SPACE_IO, a & 255);
+  dac_trace_access(&m->trace, "IW", a, v, m->cpu.cycles, 2, m->trace_master,
+                   DAC_SPACE_IO, a & 255);
   a &= 255;
   if (a == 0)
     dma_write(m, v);
@@ -974,7 +1012,8 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
     m->motor = v;
   else if (a == 0x19) {
     unsigned incomplete = m->crtc_pos < m->crtc_end;
-    if (m->raster.stopped == 2) m->raster.stopped = 0;
+    if (m->raster.stopped == 2)
+      m->raster.stopped = 0;
     m->crtc_pos = m->crtc_end = 0;
     switch (v >> 5) {
     case 0:
@@ -1051,6 +1090,10 @@ static int interrupt_source(robotron *m) {
     return -1;
   if (m->v24.pending && (m->sio_regs[1][1] & 2))
     return 8;
+  if (m->v24.ext_service)
+    return -1;
+  if (m->v24.ext_pending && (m->sio_regs[1][1] & 1))
+    return 9;
   return -1;
 }
 static uint8_t ack_value(void *p) {
@@ -1061,6 +1104,11 @@ static uint8_t ack_value(void *p) {
     m->dma.in_service = 1;
     return m->dma.irq_vector;
   }
+  if (source == 9) {
+    m->v24.ext_service = 1;
+    return (m->sio_regs[1][1] & 4) ? (m->sio_regs[1][2] & 0xf1) | 2
+                                   : m->sio_regs[1][2];
+  }
   if (source == 7 || source == 8) {
     if (source == 7) {
       m->rx_b.pending = 0;
@@ -1068,7 +1116,15 @@ static uint8_t ack_value(void *p) {
     } else
       m->v24.in_service = 1;
     return (m->sio_regs[1][1] & 4)
-               ? (m->sio_regs[1][2] & 0xf1) | (source == 7 ? 4 : 0)
+               ? (m->sio_regs[1][2] & 0xf1) |
+                     (source == 7
+                          ? ((m->rx_b.errors |
+                              (m->rx_b.count ? m->v24.fifo_errors[m->rx_b.read]
+                                             : 0)) &
+                                     0x70
+                                 ? 6
+                                 : 4)
+                          : 0)
                : m->sio_regs[1][2];
   }
   if (source == 6) {
@@ -1092,7 +1148,8 @@ static uint8_t ack_value(void *p) {
 static uint8_t ack(void *p) {
   robotron *m = p;
   uint8_t v = ack_value(p);
-  dac_trace_access(&m->trace, "IA", 0, v, m->cpu.cycles, 2, DAC_MASTER_CPU, DAC_SPACE_UNKNOWN, 0);
+  dac_trace_access(&m->trace, "IA", 0, v, m->cpu.cycles, 2, DAC_MASTER_CPU,
+                   DAC_SPACE_UNKNOWN, 0);
   return v;
 }
 static void reti(robotron *m) {
@@ -1111,8 +1168,10 @@ static void reti(robotron *m) {
     m->tx_in_service = 0;
   else if (m->rx_b.in_service)
     m->rx_b.in_service = 0;
-  else
+  else if (m->v24.in_service)
     m->v24.in_service = 0;
+  else
+    m->v24.ext_service = 0;
 }
 
 void robotron_init(robotron *m) {
@@ -1182,29 +1241,39 @@ static unsigned video_total_rows(const robotron *m) {
 }
 static void video_finish_fetch(robotron *m) {
   robotron_raster *r = &m->raster;
-  r->remaining = 0; r->pending_valid = 1;
+  r->remaining = 0;
+  r->pending_valid = 1;
   r->ignored = r->fetch_ignored == 2;
-  if (r->pending_row.stop_screen) r->stopped = 1;
+  if (r->pending_row.stop_screen)
+    r->stopped = 1;
 }
 /* One idealized local DACK per character clock, separated by the programmed
  * burst gaps. VRAM is read here only when that byte is actually requested. */
 static void video_fetch_byte(robotron *m) {
   robotron_raster *r = &m->raster;
   robotron_video_row *out = &r->pending_row;
-  if (!r->remaining) return;
-  if (r->fetch_wait) { r->fetch_wait--; return; }
+  if (!r->remaining)
+    return;
+  if (r->fetch_wait) {
+    r->fetch_wait--;
+    return;
+  }
   uint8_t code = m->vram[r->stream];
   r->stream = (r->stream + 1) % 1920;
   out->bytes++;
   unsigned burst = 1u << (r->dma & 3);
-  if (r->fetch_phase == 2) { video_finish_fetch(m); return; }
+  if (r->fetch_phase == 2) {
+    video_finish_fetch(m);
+    return;
+  }
   if (r->fetch_phase == 1) {
     out->fifo[r->fetch_fifo++ & 15] = code & 127;
     if (r->fetch_fifo > 16) {
       out->overflow = r->overflow = 1;
       m->crtc_status |= 1; // FO at the overflowing FIFO write, not row end.
     }
-    r->fetch_phase = 0; r->fetch_col++;
+    r->fetch_phase = 0;
+    r->fetch_col++;
   } else {
     out->code[r->fetch_col] = code;
     if (!r->fetch_ignored && r->fetch_invisible && (code & 0xc0) == 0x80) {
@@ -1214,23 +1283,36 @@ static void video_fetch_byte(robotron *m) {
       out->stop_screen = code == 0xf3;
       if (r->fetch_col + 1 < r->fetch_columns && out->bytes % burst)
         r->fetch_phase = 2; // One documented dummy DACK.
-      else { video_finish_fetch(m); return; }
+      else {
+        video_finish_fetch(m);
+        return;
+      }
     } else {
-      if (!r->fetch_ignored && code == 0xf0) r->fetch_ignored = 1;
-      if (code == 0xf2) { r->fetch_ignored = 2; out->ignore_screen = 1; }
+      if (!r->fetch_ignored && code == 0xf0)
+        r->fetch_ignored = 1;
+      if (code == 0xf2) {
+        r->fetch_ignored = 2;
+        out->ignore_screen = 1;
+      }
       r->fetch_col++;
     }
   }
-  if (r->fetch_col == r->fetch_columns) { video_finish_fetch(m); return; }
+  if (r->fetch_col == r->fetch_columns) {
+    video_finish_fetch(m);
+    return;
+  }
   if (!(out->bytes % burst)) {
     r->fetch_wait = (r->dma >> 2) * 8;
-    if (r->fetch_wait) r->fetch_wait--;
+    if (r->fetch_wait)
+      r->fetch_wait--;
   }
 }
 static void video_schedule_row(robotron *m, unsigned row) {
   robotron_raster *r = &m->raster;
-  if (!m->display_on || r->stopped || r->underrun) return;
-  if (row == 0) r->stream = r->ignored = 0;
+  if (!m->display_on || r->stopped || r->underrun)
+    return;
+  if (row == 0)
+    r->stream = r->ignored = 0;
   memset(&r->pending_row, 0, sizeof(r->pending_row));
   memset(r->pending_row.code, 0xf0, sizeof(r->pending_row.code));
   r->pending_valid = r->fetch_col = r->fetch_fifo = r->fetch_phase = 0;
@@ -1240,7 +1322,8 @@ static void video_schedule_row(robotron *m, unsigned row) {
   r->fetch_invisible = !(m->crtc[3] & 64);
   r->remaining = 1;
 }
-static void video_decode_scanout(const robotron *, unsigned, robotron_video_row *, unsigned);
+static void video_decode_scanout(const robotron *, unsigned,
+                                 robotron_video_row *, unsigned);
 static void video_restart(robotron *m) {
   robotron_raster *r = &m->raster;
   r->fraction = r->character = r->underrun = r->stopped = 0;
@@ -1255,36 +1338,46 @@ static void video_restart(robotron *m) {
 static void video_latch_row(robotron *m) {
   robotron_raster *r = &m->raster;
   robotron_video_row *out = &r->scanout[r->row];
-  if (r->row == 0) r->field = r->end_screen = 0;
+  if (r->row == 0)
+    r->field = r->end_screen = 0;
   // Keep previously emitted lines until the beam reaches them again.
   uint8_t retained[80][16], highlights[80][16];
   memcpy(retained, out->pixels, sizeof(retained));
   memcpy(highlights, out->highlight, sizeof(highlights));
   memset(out, 0, sizeof(*out));
   memset(out->code, 0xf0, sizeof(out->code));
-  if (r->pending_valid && !r->underrun) *out = r->pending_row;
+  if (r->pending_valid && !r->underrun)
+    *out = r->pending_row;
   memcpy(out->pixels, retained, sizeof(retained));
   memcpy(out->highlight, highlights, sizeof(highlights));
-  out->field = r->field; out->end_screen = r->end_screen;
+  out->field = r->field;
+  out->end_screen = r->end_screen;
   video_decode_scanout(m, r->row, out, 0);
   r->pending_valid = 0;
   r->valid_rows |= 1u << r->row;
   for (unsigned col = 0; col < video_columns(m); col++) {
     uint8_t code = out->code[col];
-    if (r->end_screen) break;
-    if ((code & 0xc0) == 0x80) r->field = code & 63;
-    if (code == 0xf2 || code == 0xf3) r->end_screen = 1;
-    if (code >= 0xf0 && code <= 0xf3) break;
+    if (r->end_screen)
+      break;
+    if ((code & 0xc0) == 0x80)
+      r->field = code & 63;
+    if (code == 0xf2 || code == 0xf3)
+      r->end_screen = 1;
+    if (code >= 0xf0 && code <= 0xf3)
+      break;
   }
 }
 static void video_clock(robotron *m) {
   robotron_raster *r = &m->raster;
-  if (r->stopped == 2) return;
+  if (r->stopped == 2)
+    return;
   // Rational accumulator avoids rounding drift and depends only on CPU ticks.
   r->fraction += 45; /* 1.728 MHz / 3.9936 MHz = 45 / 104 */
-  if (r->fraction < 104) return;
+  if (r->fraction < 104)
+    return;
   r->fraction -= 104;
-  if (m->display_on) video_fetch_byte(m);
+  if (m->display_on)
+    video_fetch_byte(m);
   if (++r->character < video_row_clocks(m)) {
     unsigned line_clocks = video_columns(m) + 2 * ((m->crtc[3] & 15) + 1);
     unsigned line = r->character / line_clocks;
@@ -1295,17 +1388,22 @@ static void video_clock(robotron *m) {
   }
   r->character = 0;
   r->row = (r->row + 1) % video_total_rows(m);
-  if (r->row == 0) { r->frames++; r->blank_from = 24; }
+  if (r->row == 0) {
+    r->frames++;
+    r->blank_from = 24;
+  }
   if (r->row < video_rows(m)) {
     if (m->display_on && r->remaining) {
       m->crtc_status |= 2;
-      r->underrun = 1; r->blank_from = r->row;
+      r->underrun = 1;
+      r->blank_from = r->row;
       r->remaining = 0;
     }
     video_latch_row(m);
     if (r->row == video_rows(m) - 1 && (m->crtc_status & 64))
       m->crtc_status |= 32; // IR flag only: CPU interrupt wiring unverified.
-    if (r->row + 1 < video_rows(m)) video_schedule_row(m, r->row + 1);
+    if (r->row + 1 < video_rows(m))
+      video_schedule_row(m, r->row + 1);
   } else if (r->row == video_total_rows(m) - 1) {
     r->underrun = r->stopped = r->remaining = r->pending_valid = 0;
     video_schedule_row(m, 0); // Prefill during final vertical-retrace row.
@@ -1359,6 +1457,7 @@ void robotron_run(robotron *m, unsigned ticks) {
           f->seek_at[u] += f->seek_interval[u];
       }
     floppy_tick(m);
+    robotron_v24_peer_tick(m);
     unsigned cascade = 0;
     for (unsigned i = 0; i < 8; i++) {
       robotron_timer *t = &m->ctc[i];
@@ -1383,7 +1482,9 @@ void robotron_run(robotron *m, unsigned ticks) {
       }
     }
     robotron_dma *d = &m->dma;
-    if (d->enabled && d->remaining && (d->phase || dma_ready(m))) {
+    if (d->enabled && d->remaining &&
+        (d->phase ||
+         (dma_ready(m) && !(m->cpu.pins & (Z80_RD | Z80_WR | Z80_IORQ))))) {
       uint16_t src = d->direction ? d->run_a : d->run_b,
                dst = d->direction ? d->run_b : d->run_a;
       unsigned si = d->direction ? d->a_io : d->b_io,
@@ -1394,32 +1495,53 @@ void robotron_run(robotron *m, unsigned ticks) {
       }
       /* Read and write own distinct bus cycles; RDY starts a byte and cannot
        * discard a latched byte when the source drops DRQ after its read. */
-      if (--d->ticks == 0) {
+      if (!(d->wait_enabled && d->wait && d->ticks == 1) && --d->ticks == 0) {
         /* Board TC is DMA INT gated by KRFD. Set before the last byte. */
         int terminal = d->remaining == 1 && d->irq_enabled &&
-                       (d->irq_control & 2) && !d->in_service && (m->krfd & 128);
+                       (d->irq_control & 2) && !d->in_service &&
+                       (m->krfd & 128);
         if (terminal && m->fdc.phase == 2)
           m->fdc.tc = 1;
         m->trace_master = DAC_MASTER_DMA;
         if (d->phase == 1) {
           d->latch = si ? robotron_input(m, src) : robotron_read(m, src);
-          d->phase = 2;
-          d->ticks = dma_cycles(d->direction ? d->b_timing : d->a_timing, di);
-        } else {
-          if (di)
+          if (d->operation != 2) {
+            d->phase = 2;
+            d->ticks = dma_cycles(d->direction ? d->b_timing : d->a_timing, di);
+          }
+        }
+        if (d->phase == 1 || !d->ticks) {
+          int matched =
+              (d->operation & 2) && !((d->latch ^ d->match) & ~d->search_mask);
+          if (matched)
+            d->status &= ~0x10;
+          if (d->operation != 2 && di)
             robotron_output(m, dst, d->latch);
-          else
+          else if (d->operation != 2)
             robotron_write(m, dst, d->latch);
           d->phase = 0;
-          advance(&d->run_a, d->a_mode);
-          advance(&d->run_b, d->b_mode);
+          if (d->operation != 2 || d->direction)
+            advance(&d->run_a, d->a_mode);
+          if (d->operation != 2 || !d->direction)
+            advance(&d->run_b, d->b_mode);
           d->transferred++;
-          if (!--d->remaining) {
+          --d->remaining;
+          if (matched && d->stop_match)
+            d->enabled = 0;
+          if (matched && d->irq_enabled && (d->irq_control & 1) &&
+              !d->in_service) {
+            d->irq = 1;
+            d->irq_vector =
+                (d->irq_control & 32) ? (d->vector & 0xf9) | 2 : d->vector;
+            d->status &= ~8;
+          }
+          if (!d->remaining) {
             if (terminal && m->fdc.phase == 2) {
               /* Short writes finish the physical sector with zero padding. */
               if (m->fdc.formatting) {
                 if (m->fdc.data_pos != m->fdc.data_len)
-                  finish(m, 4); /* Earlier completed sectors remain formatted. */
+                  finish(m,
+                         4); /* Earlier completed sectors remain formatted. */
               } else if (m->fdc.write == 1) {
                 memset(m->fdc.data + m->fdc.data_pos, 0,
                        m->fdc.data_len - m->fdc.data_pos);
@@ -1429,11 +1551,12 @@ void robotron_run(robotron *m, unsigned ticks) {
                 transfer_done(m);
             }
             d->enabled = 0;
-            d->status = 0x19;
+            d->status = (d->status & 0x18) | 1;
             if (d->irq_enabled && (d->irq_control & 2) && !d->in_service) {
               d->irq = 1;
-              d->irq_vector =
-                  (d->irq_control & 32) ? (d->vector & 0xf9) | 4 : d->vector;
+              d->irq_vector = (d->irq_control & 32)
+                                  ? (d->vector & 0xf9) | 4 | (matched ? 2 : 0)
+                                  : d->vector;
               d->status &= ~8;
             }
           }
@@ -1456,95 +1579,99 @@ void robotron_run(robotron *m, unsigned ticks) {
  * Fetched characters remain row-buffered; host rendering never reinterprets
  * lines already emitted. This models scanlines, not individual dot clocks. */
 static void video_decode_scanout(const robotron *m, unsigned row,
-                                  robotron_video_row *out, unsigned y) {
+                                 robotron_video_row *out, unsigned y) {
   unsigned cols = video_columns(m), lines = (m->crtc[2] & 15) + 1;
   unsigned underline = m->crtc[2] >> 4, frame = m->raster.frames;
-  out->columns = cols; out->lines = lines;
-    unsigned field = out->field, end_screen = out->end_screen;
-    unsigned end_row = 0, fifo_read = 0;
-    for (unsigned col = 0; col < cols; col++) {
-      uint8_t ch = out->code[col];
-      unsigned attr = field, blank = end_row || end_screen || !m->display_on;
-      if ((ch & 0xc0) == 0x80) {
-        if (!end_row && !end_screen)
-          field = ch & 63;
-        if (m->crtc[3] & 64)
-          blank = 1;
-        else {
-          /* The invisible-attribute FIFO is seven bits wide: its next
-           * byte is always glyph data, even when bit 7 was set. Intel
-           * 8275 datasheet p.8-237, not another FA/CA/control command. */
-          ch = out->fifo[fifo_read++ & 15];
-          attr = field;
-        }
-      }
-      if (ch >= 0xf0) {
+  out->columns = cols;
+  out->lines = lines;
+  unsigned field = out->field, end_screen = out->end_screen;
+  unsigned end_row = 0, fifo_read = 0;
+  for (unsigned col = 0; col < cols; col++) {
+    uint8_t ch = out->code[col];
+    unsigned attr = field, blank = end_row || end_screen || !m->display_on;
+    if ((ch & 0xc0) == 0x80) {
+      if (!end_row && !end_screen)
+        field = ch & 63;
+      if (m->crtc[3] & 64)
         blank = 1;
-        if (ch == 0xf0 || ch == 0xf1)
-          end_row = 1;
-        if (ch == 0xf2 || ch == 0xf3)
-          end_screen = ch == 0xf3 ? 2 : 1;
-      }
-      unsigned character_attr = ch >= 0xc0 && ch < 0xf0;
-      if (character_attr)
-        /* CA inherits field reverse and GPA; highlight/blink are its own. */
-        attr = (field & 0x1c) | (ch & 3);
-      {
-        unsigned gy = (m->crtc[3] & 128) ? (y + lines - 1) % lines : y;
-        uint8_t bits =
-            m->chargen[((attr & 4) ? 2048 : 0) + gy * 128 + (ch & 127)];
-        if (character_attr) {
-          /* Intel 8275 CA truth table, cross-checked against MAME i8275
-           * (Curt Coder/AJR, BSD-3-Clause; see NOTICE). Robotron does not
-           * wire LA0/LA1 to the glyph decoder; retain its glyph bits. */
-          static const uint8_t ca[3][16] = {
-              {2, 2, 4, 4, 2, 4, 4, 4, 2, 4, 4, 0, 2, 0, 0, 0},
-              {8, 12, 8, 12, 1, 12, 8, 1, 1, 4, 1, 0, 2, 0, 0, 0},
-              {4, 4, 2, 2, 4, 4, 4, 2, 2, 4, 4, 0, 2, 0, 0, 0}};
-          unsigned flags = ca[y < underline    ? 0
-                              : y == underline ? 1
-                                               : 2][(ch >> 2) & 15];
-          if (flags & 2)
-            bits = (flags & 1) ? 255 : 0;
-        }
-        if ((attr & 2) && (frame % 64 < 32))
-          bits = 0;
-        if ((attr & 32) && y == underline)
-          bits = 255;
-        if (attr & 16)
-          bits ^= 255;
-        unsigned format = (m->crtc[3] >> 4) & 3;
-        if (row == m->cursor[1] && col == m->cursor[0] &&
-            ((format & 2) || frame % 32 < 16)) {
-          if (format & 1) {
-            if (y == underline)
-              bits = 255;
-          } else
-            bits ^= 255;
-        }
-        if (blank)
-          bits = 0;
-        out->pixels[col][y] = bits;
-        out->highlight[col][y] = attr & 1;
+      else {
+        /* The invisible-attribute FIFO is seven bits wide: its next
+         * byte is always glyph data, even when bit 7 was set. Intel
+         * 8275 datasheet p.8-237, not another FA/CA/control command. */
+        ch = out->fifo[fifo_read++ & 15];
+        attr = field;
       }
     }
+    if (ch >= 0xf0) {
+      blank = 1;
+      if (ch == 0xf0 || ch == 0xf1)
+        end_row = 1;
+      if (ch == 0xf2 || ch == 0xf3)
+        end_screen = ch == 0xf3 ? 2 : 1;
+    }
+    unsigned character_attr = ch >= 0xc0 && ch < 0xf0;
+    if (character_attr)
+      /* CA inherits field reverse and GPA; highlight/blink are its own. */
+      attr = (field & 0x1c) | (ch & 3);
+    {
+      unsigned gy = (m->crtc[3] & 128) ? (y + lines - 1) % lines : y;
+      uint8_t bits =
+          m->chargen[((attr & 4) ? 2048 : 0) + gy * 128 + (ch & 127)];
+      if (character_attr) {
+        /* Intel 8275 CA truth table, cross-checked against MAME i8275
+         * (Curt Coder/AJR, BSD-3-Clause; see NOTICE). Robotron does not
+         * wire LA0/LA1 to the glyph decoder; retain its glyph bits. */
+        static const uint8_t ca[3][16] = {
+            {2, 2, 4, 4, 2, 4, 4, 4, 2, 4, 4, 0, 2, 0, 0, 0},
+            {8, 12, 8, 12, 1, 12, 8, 1, 1, 4, 1, 0, 2, 0, 0, 0},
+            {4, 4, 2, 2, 4, 4, 4, 2, 2, 4, 4, 0, 2, 0, 0, 0}};
+        unsigned flags = ca[y < underline    ? 0
+                            : y == underline ? 1
+                                             : 2][(ch >> 2) & 15];
+        if (flags & 2)
+          bits = (flags & 1) ? 255 : 0;
+      }
+      if ((attr & 2) && (frame % 64 < 32))
+        bits = 0;
+      if ((attr & 32) && y == underline)
+        bits = 255;
+      if (attr & 16)
+        bits ^= 255;
+      unsigned format = (m->crtc[3] >> 4) & 3;
+      if (row == m->cursor[1] && col == m->cursor[0] &&
+          ((format & 2) || frame % 32 < 16)) {
+        if (format & 1) {
+          if (y == underline)
+            bits = 255;
+        } else
+          bits ^= 255;
+      }
+      if (blank)
+        bits = 0;
+      out->pixels[col][y] = bits;
+      out->highlight[col][y] = attr & 1;
+    }
+  }
 }
 void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
                     unsigned *height) {
   unsigned cols = video_columns(m), rows = video_rows(m);
   unsigned lines = (m->crtc[2] & 15) + 1;
-  *width = cols * 8; *height = rows * lines;
+  *width = cols * 8;
+  *height = rows * lines;
   for (unsigned row = 0; row < rows; row++) {
     const robotron_video_row *out = &m->raster.scanout[row];
     for (unsigned col = 0; col < cols; col++)
       for (unsigned y = 0; y < lines; y++) {
-        unsigned visible = m->display_on && (m->raster.valid_rows & (1u << row)) &&
+        unsigned visible = m->display_on &&
+                           (m->raster.valid_rows & (1u << row)) &&
                            col < out->columns && y < out->lines;
         uint8_t bits = visible ? out->pixels[col][y] : 0;
         for (unsigned x = 0; x < 8; x++)
           pixels[(row * lines + y) * *width + col * 8 + x] =
-            (bits & (128 >> x)) ? (out->highlight[col][y] ? 0xffb0ffcb : 0xff83e7a0)
-                               : 0xff101812;
+              (bits & (128 >> x))
+                  ? (out->highlight[col][y] ? 0xffb0ffcb : 0xff83e7a0)
+                  : 0xff101812;
       }
   }
 }

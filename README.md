@@ -113,3 +113,43 @@ from S550, so MAME's ROM checksum warning is expected. The comparison covers
 memory, DMA, ordered I/O, an IM2 CTC interrupt and display character RAM. It does
 not certify raster timing or physical hardware. No MAME implementation is copied
 into this harness. The museum keeps the previous core for older snapshots.
+
+### 0.10.0: independent serial peer and bounded DMA search
+
+Robotron snapshot layout 10 preserves independent incoming peer baud/framing,
+per-character framing errors, CTS/DCD interrupt latches and DMA search/WAIT state.
+The browser preserves the 0.9.0 core for older sessions. New recording events 17
+(peer settings) and 18 (cancel queued input) replay through the shared runtime.
+
+Incoming peer half-bit timing supports exact 1.5-stop-bit duration; baud zero
+follows the guest. Fixed peer settings allow parity/baud mismatch experiments.
+Outgoing capture remains guest-transmitted bytes, not a second UART decoder.
+Synchronous modes, break interrupts and first-character special-error FIFO locking
+remain outside this implementation. TX x1 half-stop timing rounds to the CTC edge.
+
+DMA now supports masked search, transfer/search, stop-on-match, match interrupts,
+port timing resets and six-command reset recovery while preserving programmed
+registers/read sequence. External WAIT can extend bus-cycle completion; DMA waits
+for active CPU read/write/I/O strobes to clear before taking ownership. This is
+bounded bus-cycle modeling, not half-clock BUSRQ/BUSAK pin simulation; pulse mode,
+auto-repeat and all operating-mode distinctions still need qualification.
+
+`examples/robotron-v24/build.py` builds our original MIT `DACRX.COM` without an
+assembler dependency. It receives XMODEM-128/checksum into a new CP/M file using
+BDOS, at 1200 8N1 on SIO B. It refuses existing files; cancellation closes a partial
+file. Qualify against local historical media with:
+
+```
+make build/libdac-runtime.so
+python3 tools/verify_robotron_transfer.py --media ../dac/public/media/robotron --output /tmp/transfer.json
+```
+
+The bounded test boots TOS/M, loads the COM through its filesystem, checks checksum
+retry and duplicate-block handling, then verifies the guest-created file. It is
+optional, local-only, and adds no historical binaries or Verilog run to core CI.
+The optional MAME comparison also checks PROM banking, two ordered CTC handlers,
+attribute RAM, FDC invalid-command response and SIO reset status, reporting the
+first differing observation. External UART error injection uses native tests.
+
+References: [Zilog peripherals manual](https://www.zilog.com/docs/z80/um0081.pdf),
+[Ward Christensen's protocol](https://www.menie.org/georges/embedded/xmodem_specification.html).
