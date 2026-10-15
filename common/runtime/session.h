@@ -41,6 +41,17 @@ const uint8_t *dac_printer_data(dac_session *);
 unsigned dac_printer_size(dac_session *);
 unsigned dac_printer_overflow(dac_session *);
 void dac_printer_clear(dac_session *);
+/* V.24 adaptive peer, shared CTC0 channel1 clock. Signals: CTS=1,DCD=2,
+ * peer obeys guest RTS=4. Byte enqueue returns 0 or negative errno. */
+int dac_serial_send(dac_session *,unsigned byte);
+int dac_serial_signals(dac_session *,unsigned signals);
+unsigned dac_serial_status(dac_session *); /* flags0..2, queue count bits8..24 */
+const uint8_t *dac_serial_data(dac_session *);
+unsigned dac_serial_size(dac_session *);
+unsigned dac_serial_overflow(dac_session *);
+void dac_serial_clear(dac_session *);
+int dac_cables(dac_session *,unsigned disconnected);
+unsigned dac_cable_status(dac_session *);
 int dac_power(dac_session *, int on);
 int dac_reset(dac_session *);
 unsigned dac_run(dac_session *, unsigned ticks);

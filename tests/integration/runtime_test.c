@@ -162,8 +162,61 @@ static void robotron_dma_snapshot(void) {
   free(a);free(b);dac_destroy(s);dac_destroy(copy);
 }
 
+static void serial_snapshots(void) {
+  dac_session *s = dac_create(2), *copy = dac_create(2);
+  uint8_t rom[2048] = {0}, prom[256] = {0};
+  unsigned n = 0;
+  const uint8_t sio[] = {3, 0xc1, 4, 0x44, 5, 0xea};
+  for (unsigned i = 0; i < sizeof(sio); i++) {
+    rom[n++] = 0x3e;
+    rom[n++] = sio[i];
+    rom[n++] = 0xd3;
+    rom[n++] = 0x0f;
+  }
+  const uint8_t timer[] = {0x3e, 7, 0xd3, 9, 0x3e, 1, 0xd3, 9, 0x76};
+  memcpy(rom + n, timer, sizeof(timer));
+  dac_session *both[] = {s, copy};
+  for (unsigned i = 0; i < 2; i++) {
+    assert(!dac_load(both[i], 0, rom, sizeof(rom)) &&
+           !dac_load(both[i], 1, prom, sizeof(prom)) && !dac_power(both[i], 1));
+  }
+  assert(!dac_serial_signals(s, 3));
+  assert(dac_run(s, 500) == 500);
+  assert(!dac_serial_send(s, 0xa5));
+  assert(dac_run(s, 1000) == 1000);
+  unsigned size = dac_state_size(s);
+  void *a = malloc(size), *b = malloc(size);
+  assert(a && b);
+  assert(!dac_state_save(s, a, size) && !dac_state_load(copy, a, size));
+  for (unsigned i = 0; i < 20; i++) {
+    assert(dac_run(s, 100) == 100 && dac_run(copy, 100) == 100);
+    assert(!dac_state_save(s, a, size) && !dac_state_save(copy, b, size));
+    assert(!memcmp(a, b, size));
+  }
+  uint8_t byte =
+      0; /* Queues, bit phase and RX FIFO survive exact continuation. */
+  assert(dac_serial_status(s) == 3 &&
+         !dac_peek(s, DAC_MEMORY_RAM, 0, &byte, 1));
+  assert(!dac_cables(s, 3));
+  assert(dac_cable_status(s) == 3);
+  assert(!dac_reset(s));
+  assert(dac_cable_status(s) == 3 && dac_serial_status(s) == 3);
+  assert(dac_video(s)[0] == 0xff101812);
+  assert(!dac_cables(s, 0));
+  free(a);
+  free(b);
+  dac_destroy(s);
+  dac_destroy(copy);
+}
+
 int main(void) {
+  serial_snapshots();
   assert(dac_verification_abi() == 1);
-  sessions(0); sessions(2); robotron_bus(); robotron_scanline_snapshots(); robotron_dma_snapshot();
-  puts("PASS shared runtime observation, isolation, lifecycle and Robotron mapped CPU/DMA/IA traces");
+  sessions(0);
+  sessions(2);
+  robotron_bus();
+  robotron_scanline_snapshots();
+  robotron_dma_snapshot();
+  puts("PASS shared runtime observation, isolation, lifecycle and Robotron "
+       "mapped CPU/DMA/IA traces");
 }

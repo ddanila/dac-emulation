@@ -1,6 +1,6 @@
-/* DACR1 is a bounded, little-endian transport for DAC-recording-1.
+/* DACR1/2 are bounded, little-endian transports for DAC-recording-1/2.
  * The museum's replay-native.mjs validates its JSON envelope and converts it.
- * Output is four length-prefixed byte strings: video, disk A, disk B, printer.
+ * Output: length-prefixed video, disk A, disk B, printer; DACR2 adds V.24.
  */
 #include "../../common/runtime/session.h"
 #include <stdint.h>
@@ -33,7 +33,8 @@ static void output(const void *p, uint32_t n) {
 }
 int main(void) {
   char magic[5];
-  if (fread(magic, 1, 5, stdin) != 5 || memcmp(magic, "DACR1", 5))
+  if (fread(magic, 1, 5, stdin) != 5 ||
+      (memcmp(magic, "DACR1", 5) && memcmp(magic, "DACR2", 5)))
     fail();
   dac_session *s = dac_create(number());
   if (!s)
@@ -85,6 +86,15 @@ int main(void) {
       r = dac_tap(s, a, b);
     else if (op == 7 && a < 2 && b < media_count)
       r = dac_mount_unit(s, a, media[b], media_size[b], protection[b]);
+    else if (op == 13 && a < 256)
+      r = dac_serial_send(s, a);
+    else if (op == 14 && a < 8)
+      r = dac_serial_signals(s, a);
+    else if (op == 15) {
+      dac_serial_clear(s);
+      r = 0;
+    } else if (op == 16 && a < 4)
+      r = dac_cables(s, a);
     else if (op == 12 && a < 2 && b < 2)
       r = dac_drive_protect(s, a, b);
     else if (op == 11 && a < 2 && b < 2)
@@ -110,6 +120,8 @@ int main(void) {
   for (unsigned u = 0; u < 2; u++)
     output(dac_disk_data_unit(s, u), dac_disk_size_unit(s, u));
   output(dac_printer_data(s), dac_printer_size(s));
+  if (magic[4] == '2')
+    output(dac_serial_data(s), dac_serial_size(s));
   for (unsigned i = 0; i < media_count; i++)
     free(media[i]);
   dac_destroy(s);

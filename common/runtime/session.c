@@ -210,7 +210,10 @@ int dac_power(dac_session *s, int on) {
   } else {
     unsigned ejected[2] = {s->r->drive[0].ejected, s->r->drive[1].ejected};
     unsigned doors[2] = {s->r->drive[0].door_open, s->r->drive[1].door_open};
+    unsigned signals = s->r->v24.signals, disconnected = s->r->disconnected;
     robotron_init(s->r);
+    s->r->v24.signals = signals;
+    s->r->disconnected = disconnected;
     for (unsigned u = 0; u < 2; u++) { s->r->drive[u].door_open = doors[u]; s->r->drive[u].ejected = ejected[u]; }
     robotron_load(s->r, s->firmware, s->firmware_size, s->prom, s->prom_size);
     memcpy(s->r->chargen, s->glyphs, s->glyph_size);
@@ -263,6 +266,8 @@ int dac_key(dac_session *s, unsigned key, int down) {
     return 0;
   }
   if (s->r) {
+    if (s->r->disconnected & 1)
+      return 0;
     if (!down) {
       if (!key) {
         s->r->key_read = s->r->key_write;
@@ -288,6 +293,9 @@ const uint32_t *dac_video(dac_session *s) {
   }
   if (s->r) {
     robotron_video(s->r, s->pixels, &s->width, &s->height);
+    if (s->r->disconnected & 2)
+      for (unsigned i = 0; i < s->width * s->height; i++)
+        s->pixels[i] = 0xff101812;
   } else {
     unsigned stride = 40, lines = 241;
     const uint8_t *p =
@@ -319,11 +327,15 @@ unsigned dac_disk_activity(dac_session *s) {
 int dac_matrix(dac_session *s, unsigned key, int down) {
   if (!s || !s->on || !s->r || !s->r->keyboard_enabled)
     return -EINVAL;
+  if (s->r->disconnected & 1)
+    return 0;
   return robotron_keyboard_key(&s->r->keyboard, key / 8, key % 8, down);
 }
 int dac_tap(dac_session *s, unsigned key, unsigned modifiers) {
   if (!s || !s->on || !s->r || !s->r->keyboard_enabled)
     return -EINVAL;
+  if (s->r->disconnected & 1)
+    return 0;
   return robotron_keyboard_tap(&s->r->keyboard, key, modifiers);
 }
 unsigned dac_keyboard_leds(dac_session *s) {
@@ -490,6 +502,56 @@ unsigned dac_drive_diagnostic(dac_session *s, unsigned u, unsigned field) {
     return 0;
   }
 }
+int dac_serial_send(dac_session *s, unsigned byte) {
+  if (!s || !s->r || !s->on || byte > 255)
+    return -EINVAL;
+  robotron *r = s->r;
+  if (r->v24.count >= 65536)
+    return -ENOSPC;
+  r->v24.input[(r->v24.read + r->v24.count) % 65536] = (uint8_t)byte;
+  r->v24.count++;
+  return 0;
+}
+int dac_serial_signals(dac_session *s, unsigned signals) {
+  if (!s || !s->r || signals > 7)
+    return -EINVAL;
+  s->r->v24.signals = signals;
+  return 0;
+}
+unsigned dac_serial_status(dac_session *s) {
+  return s && s->r ? s->r->v24.signals | (s->r->v24.count << 8) : 0;
+}
+const uint8_t *dac_serial_data(dac_session *s) {
+  return s && s->r ? s->r->v24.output : NULL;
+}
+unsigned dac_serial_size(dac_session *s) {
+  return s && s->r ? s->r->v24.size : 0;
+}
+unsigned dac_serial_overflow(dac_session *s) {
+  return s && s->r ? s->r->v24.overflow : 0;
+}
+void dac_serial_clear(dac_session *s) {
+  if (s && s->r)
+    s->r->v24.size = s->r->v24.overflow = 0;
+}
+int dac_cables(dac_session *s, unsigned value) {
+  if (!s || !s->r || value > 3)
+    return -EINVAL;
+  robotron *r = s->r;
+  if ((value ^ r->disconnected) & 1) {
+    if (r->keyboard_enabled) {
+      uint8_t rom[2048];
+      memcpy(rom, r->keyboard.rom, sizeof(rom));
+      robotron_keyboard_init(&r->keyboard, rom, r, robotron_serial_clock);
+    }
+    r->key_read = r->key_write = 0;
+  }
+  r->disconnected = value;
+  return 0;
+}
+unsigned dac_cable_status(dac_session *s) {
+  return s && s->r ? s->r->disconnected : 0;
+}
 const uint8_t *dac_printer_data(dac_session *s) {
   return s && s->r ? s->r->printer : NULL;
 }
@@ -557,7 +619,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    8,
+                    9,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -577,7 +639,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 8 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 9 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||
@@ -601,18 +663,19 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       r->raster.remaining > 1 || r->raster.overflow > 1 ||
       r->raster.stopped > 2 || r->raster.underrun > 1 ||
       r->raster.fetch_col > 80 || r->raster.fetch_columns > 80 ||
-      (r->raster.remaining && (!r->raster.fetch_columns ||
+      (r->raster.remaining &&
+       (!r->raster.fetch_columns ||
         r->raster.fetch_col >= r->raster.fetch_columns)) ||
       r->raster.fetch_fifo > 80 || r->raster.fetch_phase > 2 ||
       r->raster.fetch_ignored > 2 || r->raster.fetch_invisible > 1 ||
-      r->raster.fetch_wait > 55 || r->raster.pending_valid > 1 || r->raster.valid_rows >= (1u << 24) ||
-      r->raster.field > 63 || r->raster.end_screen > 1 ||
-      r->raster.blank_from > 24 || r->raster.dma > 31 || r->raster.ignored > 1 ||
-      !valid_cpu(&r->cpu) || !valid_cpu(&k->cpu) || f->unit >= 4 ||
-      f->phase > 2 || f->write > 2 || f->formatting > 1 || f->search > 6 ||
-      f->read_track > 1 || f->track_count > 256 || f->track_match > 1 ||
-      f->track_st1 > 255 || f->track_st2 > 255 ||
-      (f->write_fault && f->write_fault != 0x10) ||
+      r->raster.fetch_wait > 55 || r->raster.pending_valid > 1 ||
+      r->raster.valid_rows >= (1u << 24) || r->raster.field > 63 ||
+      r->raster.end_screen > 1 || r->raster.blank_from > 24 ||
+      r->raster.dma > 31 || r->raster.ignored > 1 || !valid_cpu(&r->cpu) ||
+      !valid_cpu(&k->cpu) || f->unit >= 4 || f->phase > 2 || f->write > 2 ||
+      f->formatting > 1 || f->search > 6 || f->read_track > 1 ||
+      f->track_count > 256 || f->track_match > 1 || f->track_st1 > 255 ||
+      f->track_st2 > 255 || (f->write_fault && f->write_fault != 0x10) ||
       (f->phase == 2 && f->n > 5) ||
       (f->search == 6 && (!f->formatting || !f->data_pos || f->data_pos % 4)) ||
       (f->search == 4 && !f->read_track) || f->read_id > 1 ||
@@ -627,13 +690,19 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       f->data_len > sizeof(f->data) || f->data_pos > f->data_len ||
       (f->phase == 2 && f->data_pos >= f->data_len &&
        !(f->formatting && f->search == 6)) ||
-      r->dma.phase > 2 || r->dma.ticks > 4 ||
-      (r->dma.phase && !r->dma.ticks) ||
-      (!r->dma.phase && r->dma.ticks) ||
-      r->dma.tag_count > 10 || r->dma.tag_pos > r->dma.tag_count ||
+      r->dma.phase > 2 || r->dma.ticks > 4 || (r->dma.phase && !r->dma.ticks) ||
+      (!r->dma.phase && r->dma.ticks) || r->dma.tag_count > 10 ||
+      r->dma.tag_pos > r->dma.tag_count ||
       (r->dma.tag_count && r->dma.tag_pos >= r->dma.tag_count) ||
       r->dma.read_pos >= 7 || r->sio_pointer[0] > 7 || r->sio_pointer[1] > 7 ||
-      r->rx.read >= 3 || r->rx.count > 3 || r->rx.phase > 4 || r->rx.bits > 8 ||
+      r->v24.read >= 65536 || r->v24.count > 65536 || r->v24.size > 65536 ||
+      r->v24.full > 1 || r->v24.pending > 1 || r->v24.in_service > 1 ||
+      r->v24.overflow > 1 || (r->v24.bits && !r->v24.clocks) ||
+      r->rx_b.wait > 64 || r->v24.frame >= 4096 || r->v24.signals > 7 ||
+      r->v24.bits > 12 || r->v24.clocks > 64 || r->v24.tx_clocks > 768 ||
+      r->rx_b.read >= 3 || r->rx_b.count > 3 || r->rx_b.phase > 4 ||
+      r->rx_b.bits > 8 || r->disconnected > 3 || r->rx.read >= 3 ||
+      r->rx.count > 3 || r->rx.phase > 4 || r->rx.bits > 8 ||
       k->tap_read >= 64 || k->tap_count > 64 || k->tap_phase > 2 ||
       r->tx_pending > 1 || r->tx_in_service > 1 ||
       k->clock_fraction >= 3993600 || r->key_write - r->key_read > 256 ||

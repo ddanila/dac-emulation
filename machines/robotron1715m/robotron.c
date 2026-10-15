@@ -913,7 +913,9 @@ static uint8_t input_value(void *p, uint16_t a) {
     m->crtc_status &= 0x44;
     return status;
   }
-  if (a == 0x0f || a == 0x14 || a == 0x15)
+  if (a == 0x0d || a == 0x0f)
+    return robotron_v24_read(m, a == 0x0f);
+  if (a == 0x14 || a == 0x15)
     return 0x64;
   if (a == 0x0d || a == 0x16 || a == 0x17 || a == 0x18 || a == 0x19)
     return 0;
@@ -937,6 +939,12 @@ void robotron_output(void *p, uint16_t a, uint8_t v) {
       m->tx_holding = v;
       m->tx_full = 1;
       m->tx_pending = 0;
+    }
+  } else if (a == 0x0d) {
+    if (!m->v24.full && (m->sio_regs[1][5] & 8)) {
+      m->v24.holding = v;
+      m->v24.full = 1;
+      m->v24.pending = 0;
     }
   } else if (a == 0x0e || a == 0x0f) {
     robotron_sio_control(m, a & 1, v);
@@ -1035,6 +1043,14 @@ static int interrupt_source(robotron *m) {
     return -1;
   if (m->tx_pending && (m->sio_regs[0][1] & 2))
     return 6;
+  if (m->rx_b.in_service)
+    return -1;
+  if (m->rx_b.pending)
+    return 7;
+  if (m->v24.in_service)
+    return -1;
+  if (m->v24.pending && (m->sio_regs[1][1] & 2))
+    return 8;
   return -1;
 }
 static uint8_t ack_value(void *p) {
@@ -1044,6 +1060,16 @@ static uint8_t ack_value(void *p) {
     m->dma.irq = 0;
     m->dma.in_service = 1;
     return m->dma.irq_vector;
+  }
+  if (source == 7 || source == 8) {
+    if (source == 7) {
+      m->rx_b.pending = 0;
+      m->rx_b.in_service = 1;
+    } else
+      m->v24.in_service = 1;
+    return (m->sio_regs[1][1] & 4)
+               ? (m->sio_regs[1][2] & 0xf1) | (source == 7 ? 4 : 0)
+               : m->sio_regs[1][2];
   }
   if (source == 6) {
     m->tx_in_service = 1;
@@ -1081,8 +1107,12 @@ static void reti(robotron *m) {
     }
   if (m->rx.in_service)
     m->rx.in_service = 0;
-  else
+  else if (m->tx_in_service)
     m->tx_in_service = 0;
+  else if (m->rx_b.in_service)
+    m->rx_b.in_service = 0;
+  else
+    m->v24.in_service = 0;
 }
 
 void robotron_init(robotron *m) {
@@ -1128,7 +1158,7 @@ int robotron_keyboard_load(robotron *m, const void *rom, size_t n) {
     return -EINVAL;
   robotron_keyboard_init(&m->keyboard, rom, m, robotron_serial_clock);
   m->keyboard_enabled = 1;
-  m->rx.first = 1;
+  m->rx.first = m->rx_b.first = 1;
   return 0;
 }
 /* Intel 8275 row buffer and 16 x 7-bit invisible-attribute FIFO.
@@ -1284,7 +1314,7 @@ static void video_clock(robotron *m) {
 
 void robotron_run(robotron *m, unsigned ticks) {
   while (ticks--) {
-    if (m->keyboard_enabled)
+    if (m->keyboard_enabled && !(m->disconnected & 1))
       robotron_keyboard_tick(&m->keyboard);
     for (unsigned u = 0; u < 4; u++)
       if ((m->fdc.seeking & (1u << u)) && m->cpu.cycles >= m->fdc.seek_at[u]) {
@@ -1347,6 +1377,8 @@ void robotron_run(robotron *m, unsigned ticks) {
             cascade = 1;
           if (i == 4)
             robotron_printer_clock(m);
+          if (i == 5)
+            robotron_v24_clock(m);
         }
       }
     }

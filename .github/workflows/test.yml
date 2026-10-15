@@ -6,19 +6,30 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: cores-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  native:
+  checks:
+    name: ${{ matrix.target }} (${{ matrix.os }})
     strategy:
+      fail-fast: true
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        include:
+          - {target: native, os: ubuntu-latest}
+          - {target: native, os: macos-latest}
+          - {target: wasm, os: ubuntu-latest}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
-      - run: make -j4 test
+      - if: matrix.target == 'native'
+        run: make -j4 test
       - name: Shared runtime memory and undefined-behavior checks
+        if: matrix.target == 'native'
         run: make test-runtime-sanitize
       - name: Memory and undefined-behavior checks
+        if: matrix.target == 'native'
         run: >-
           cc -std=c11 -O1 -g -fsanitize=address,undefined
           tests/integration/machines_test.c machines/robotron1715m/robotron.c machines/robotron1715m/disk.c
@@ -26,24 +37,22 @@ jobs:
           machines/vjuga/vjuga.c common/cpu/z80.c common/media/media.c common/trace/trace.c
           -o /tmp/machines-test && /tmp/machines-test
       - name: Robotron peripheral memory and undefined-behavior checks
+        if: matrix.target == 'native'
         run: >-
           cc -std=c11 -O1 -g -fsanitize=address,undefined
           tests/integration/robotron_devices_test.c machines/robotron1715m/robotron.c machines/robotron1715m/disk.c
           machines/robotron1715m/keyboard.c machines/robotron1715m/sio.c
           common/cpu/z80.c common/media/media.c common/trace/trace.c
           -o /tmp/robotron-devices-test && /tmp/robotron-devices-test
-  wasm:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v7
       - name: Install pinned Emscripten
+        if: matrix.target == 'wasm'
         run: |
           git clone https://github.com/emscripten-core/emsdk.git "$RUNNER_TEMP/emsdk"
           git -C "$RUNNER_TEMP/emsdk" checkout 35ff8a6d150541276abbc6bae512ca90bcfbe220
           "$RUNNER_TEMP/emsdk/emsdk" install 6.0.12
           "$RUNNER_TEMP/emsdk/emsdk" activate 6.0.12
       - name: Build and test WASM
+        if: matrix.target == 'wasm'
         run: |
           source "$RUNNER_TEMP/emsdk/emsdk_env.sh"
           make NODE="$EMSDK_NODE" test-wasm

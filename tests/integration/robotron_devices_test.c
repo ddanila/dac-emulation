@@ -1137,7 +1137,70 @@ static void drive_door(void) {
   assert(robotron_drive_ready(&m, 0));
   free(bytes);
 }
+static void v24(void) {
+  init();
+  m.v24.signals = 3;
+  const uint8_t setup[] = {3, 0xc1, 4, 0x44, 5, 0xea, 1, 0x10, 2, 0x60};
+  send(0x0f, setup, sizeof(setup));
+  m.v24.input[0] = 0xa5;
+  m.v24.count = 1;
+  for (unsigned i = 0; i < 160; i++)
+    robotron_v24_clock(&m);
+  assert(m.rx_b.count == 1 && !m.rx.count && !m.rx_b.errors);
+  assert(robotron_input(&m, 0x0d) == 0xa5 && !m.rx_b.count);
+  robotron_output(&m, 0x0d, 0x5a);
+  for (unsigned i = 0; i < 159; i++)
+    robotron_v24_clock(&m);
+  assert(!m.v24.size);
+  robotron_v24_clock(&m);
+  assert(m.v24.size == 1 && m.v24.output[0] == 0x5a);
+  /* CTC0 channel 1, not frame/render callbacks, drives the internal route. */
+  robotron_output(&m, 9, 7);
+  robotron_output(&m, 9, 1);
+  robotron_output(&m, 0x0d, 0x33);
+  robotron_run(&m, 2560);
+  assert(m.v24.size == 2 && m.v24.output[1] == 0x33);
+  m.v24.signals = 7;
+  m.sio_regs[1][5] &= ~2;
+  m.v24.input[m.v24.read] = 0x44;
+  m.v24.count = 1;
+  for (unsigned i = 0; i < 200; i++)
+    robotron_v24_clock(&m);
+  assert(m.v24.count == 1);
+  m.sio_regs[1][5] |= 2;
+  for (unsigned i = 0; i < 160; i++)
+    robotron_v24_clock(&m);
+  assert(robotron_input(&m, 0x0d) == 0x44);
+  m.sio_regs[1][3] |= 32;
+  m.v24.signals = 2;
+  robotron_output(&m, 0x0d, 0x77);
+  for (unsigned i = 0; i < 200; i++)
+    robotron_v24_clock(&m);
+  assert(m.v24.full && m.v24.size == 2);
+  m.v24.signals = 3;
+  for (unsigned i = 0; i < 160; i++)
+    robotron_v24_clock(&m);
+  assert(m.v24.output[2] == 0x77);
+  /* FIFO overrun is visible; reading B does not consume keyboard A. */
+  for (unsigned i = 0; i < 4; i++)
+    m.v24.input[(m.v24.read + i) % 65536] = (uint8_t)i;
+  m.v24.count = 4;
+  for (unsigned i = 0; i < 640; i++)
+    robotron_v24_clock(&m);
+  assert(m.rx_b.count == 3 && (m.rx_b.errors & 32));
+  robotron_output(&m, 0x0f, 1);
+  assert(robotron_input(&m, 0x0f) & 32);
+  robotron_output(&m, 0x0f, 0x30);
+  assert(!m.rx_b.errors);
+  m.sio_regs[1][1] = 0x14;
+  m.rx_b.pending = 1;
+  assert(m.cpu.bus.ack(&m) == 0x64);
+  robotron_output(&m, 0x0f, 0x38);
+  assert(!m.rx_b.in_service);
+}
+
 int main(void) {
+  v24();
   drive_door();
   floppy_mechanics_and_deadlines();
   floppy_dsk();

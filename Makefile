@@ -111,3 +111,7 @@ build/runtime-sanitize: tests/integration/runtime_test.c $(RUNTIME_SOURCES) $(RU
 .PHONY: test-runtime-sanitize
 test-runtime-sanitize: build/runtime-sanitize
 	./build/runtime-sanitize
+
+# Optional independent-reference check; MAME is never a normal CI dependency.
+build/robotron-comparison: tests/integration/robotron_comparison.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@

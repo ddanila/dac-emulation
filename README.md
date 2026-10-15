@@ -69,3 +69,47 @@ Robotron disk can have its notch covered/uncovered without remounting, resetting
 mechanics, or replacing bytes. Inserted/absent disks reject the operation.
 Native/browser recording opcode 12 preserves these transitions. TEAC FD-55
 maintenance documentation describes a covered notch as write protected.
+
+### 0.9.0: V.24 and explicit connection experiments
+
+Robotron SIO channel B now provides a bounded asynchronous virtual peer. The
+reference internal clock is CTC0 ZC/TO1 through the S1 selection path in
+`1715W/teil_b/Stromlaufplan D.jpg` ([W/M archive](https://xepb.org/robotron/docs/1715w.zip)).
+Guest code must initialize WR3/WR4/WR5 and CTC channel 1. Framing follows guest
+word width/parity/divisor; the adaptive receiver sends two stop bits for the
+1.5-stop setting. No external-clock, synchronous-mode or external/status interrupt
+latching implementation is claimed. Register behavior follows the
+[Zilog peripherals manual](https://www.zilog.com/docs/z80/um0081.pdf).
+
+Runtime APIs: `dac_serial_send` queues one byte (powered Robotron only),
+`dac_serial_signals` sets CTS=1, DCD=2, optional peer-honors-RTS=4. Status returns
+these bits plus pending input count shifted by 8. Input and output each hold up
+to 65536 bytes; output overflow latches until `dac_serial_clear`. Data/size expose
+raw capture. The guest sees a separate three-byte RX FIFO, overrun, receive and
+transmit interrupts, and CTS auto-enable gating. CTS prevents a new TX frame,
+not completion of one already in flight. DCD indicates a connected peer.
+Reset clears serial buffers but retains connection flags.
+
+`dac_cables(mask)` explicitly disconnects keyboard power/data (1) and monitor
+video (2). Keyboard CPU execution/input stops; reconnecting cold-starts the
+keyboard with the same ROM. Monitor disconnection blanks output without stopping
+the guest or modifying video RAM. These are opt-in functional experiments, not
+an analogue power model. Reset/power retain the mask. Snapshot layout **9** stores
+serial queues/phase and connection state. DACR2 replay adds serial/connection
+events and serial capture; DACR1 remains accepted.
+
+Focused checks cover FIFO/overrun, CTS/RTS, CTC clocking, vectors/RETI, exact
+snapshot continuation, and S600 REP/modifier transitions. An optional independent
+MAME comparison runs an original bounded diagnostic, with the supplied CAS and
+S600 ROMs, in both implementations:
+
+```sh
+python3 tools/compare_robotron_mame.py --media ../dac/public/media/robotron \
+  --mame /path/to/mame --output /tmp/robotron-comparison.json
+```
+
+MAME is not required by normal CI. The original diagnostic intentionally differs
+from S550, so MAME's ROM checksum warning is expected. The comparison covers
+memory, DMA, ordered I/O, an IM2 CTC interrupt and display character RAM. It does
+not certify raster timing or physical hardware. No MAME implementation is copied
+into this harness. The museum keeps the previous core for older snapshots.

@@ -85,7 +85,15 @@ typedef struct {
   dac_trace_sink trace;
   unsigned trace_master; /* transient CPU/DMA attribution, zero outside run DMA */
   robotron_keyboard keyboard;
-  robotron_sio_rx rx;
+  robotron_sio_rx rx, rx_b;
+  struct {
+    uint8_t input[65536], output[65536];
+    unsigned read, count, size, overflow, signals;
+    unsigned frame, bits, clocks;
+    uint8_t holding, shift, full, pending, in_service;
+    unsigned tx_clocks;
+  } v24;
+  unsigned disconnected; /* bit0 keyboard power/data; bit1 monitor video */
   unsigned keyboard_enabled;
   uint8_t rom[2048], chargen[4096], vram[4096], ram[262144], prom[256], bank,
       krfd, motor;
@@ -112,6 +120,9 @@ typedef struct {
 void robotron_init(robotron *);
 int robotron_keyboard_load(robotron *, const void *, size_t);
 void robotron_serial_clock(void *, unsigned);
+void robotron_v24_receive_clock(robotron *, unsigned);
+void robotron_v24_clock(robotron *);
+uint8_t robotron_v24_read(robotron *, unsigned);
 uint8_t robotron_sio_read(robotron *, unsigned);
 void robotron_sio_control(robotron *, unsigned, uint8_t);
 void robotron_printer_clock(robotron *);
