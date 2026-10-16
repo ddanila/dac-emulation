@@ -91,3 +91,13 @@ six subsequent boundaries using batched versus single-clock execution. Full
 snapshots and bus transcript hashes agree; assertions prove that each workload
 ran, rather than merely comparing two idle machines. It uses fewer than 64,000
 emulated clocks per instance, blank media, no historical OS and no Verilog.
+
+The mixed runtime fixture now runs twice: once with the character adapter and
+once with an original 2 KiB keyboard test ROM. The latter scans a matrix switch
+through the keyboard Z80, emits `K` through serial strobes, exercises LED latches,
+and waits for release before clearing them. The main CPU concurrently executes
+DMA, seek, printer/V24 and interrupt work. Six snapshot continuation boundaries
+compare complete serialized state and trace hashes for batched versus one-clock
+execution, followed by a release/LED state comparison. Each instance stays below
+66,000 clocks. No historical ROM, OS boot or HDL is required; this does not claim
+full S600 qualification or identify the specimen's replacement EPROM.

@@ -225,7 +225,24 @@ static void emit_out(uint8_t *rom, unsigned *p, unsigned port, unsigned value) {
  * while seek, serial input/output, keyboard polling and interrupt service run.
  * Snapshots compare both complete state and bus transcripts across slice sizes.
  */
-static void mixed_workload_snapshots(void) {
+static void mixed_workload_snapshots(int firmware_keyboard) {
+  uint8_t keyboard[2048]={0};
+  if(firmware_keyboard){
+    /* Original ROM: scan column 0, light both LEDs, clock K into SIO A,
+     * then wait for physical release and extinguish both LEDs. No RAM needed. */
+    const uint8_t scan[]={0x01,0x01,0x80,0xed,0x78,0xe6,1,0x28,0xfa,
+                          0x06,100,0x10,0xfe, /* allow host SIO setup */
+                          0x01,0x00,0x60,0xed,0x78};
+    memcpy(keyboard,scan,sizeof(scan));unsigned k=sizeof(scan);
+    emit_out(keyboard,&k,0,0);
+    for(unsigned bit=0;bit<8;bit++)emit_out(keyboard,&k,0,('K'>>bit)&1);
+    emit_out(keyboard,&k,0,1);
+    const uint8_t lamps[]={0x01,0,0x60,0xed,0x78};
+    memcpy(keyboard+k,lamps,sizeof(lamps));k+=sizeof(lamps);
+    const uint8_t release[]={0x01,0x01,0x80,0xed,0x78,0xe6,1,0x20,0xfa,
+                             0x01,0,0,0xed,0x78,0x76};
+    memcpy(keyboard+k,release,sizeof(release));
+  }
   uint8_t rom[2048] = {0xc3, 0, 1}, prom[256] = {0}, disk[819200] = {0};
   const uint8_t handler[] = {0xf5, 0xdb, 12, 0xdb, 13,   0x3e, 0x28, 0xd3,
                              14,   0xd3, 15, 0xf1, 0xfb, 0xed, 0x4d};
@@ -246,7 +263,7 @@ static void mixed_workload_snapshots(void) {
   const uint8_t sio[] = {3, 0xc1, 4, 0x44, 5, 0x68, 1, 0x12};
   for (unsigned ch = 0; ch < 2; ch++)
     for (unsigned i = 0; i < sizeof(sio); i++)
-      emit_out(rom, &p, 14 + ch, sio[i]);
+      emit_out(rom, &p, 14 + ch, firmware_keyboard && ch==0 && i==3 ? 4 : sio[i]);
   for (unsigned port = 8; port < 10; port++) {
     emit_out(rom, &p, port, 7);
     emit_out(rom, &p, port, 1);
@@ -274,6 +291,7 @@ static void mixed_workload_snapshots(void) {
   for (unsigned i = 0; i < 2; i++) {
     assert(!dac_load(both[i], 0, rom, sizeof(rom)) &&
            !dac_load(both[i], 1, prom, sizeof(prom)));
+    if(firmware_keyboard)assert(!dac_load(both[i],3,keyboard,sizeof(keyboard)));
     assert(!dac_mount(both[i], disk, sizeof(disk), 1) &&
            !dac_power(both[i], 1));
   }
@@ -281,7 +299,7 @@ static void mixed_workload_snapshots(void) {
   dac_trace_sink sa = {mixed_record, &ta, 0, 0}, sb = {mixed_record, &tb, 0, 0};
   assert(!dac_set_trace(s, &sa) && !dac_set_trace(copy, &sb));
   assert(!dac_serial_signals(s, 3) && !dac_serial_send(s, 0xa5) &&
-         !dac_key(s, 'K', 1));
+         !(firmware_keyboard ? dac_matrix(s,0,1) : dac_key(s, 'K', 1)));
   for (unsigned i = 0; i < 10000 && !ta.dma_read; i++)
     assert(dac_run(s, 1) == 1);
   assert(ta.dma_read == 1 && !ta.dma_write); /* latched source, pending write */
@@ -313,6 +331,15 @@ static void mixed_workload_snapshots(void) {
   assert(dac_drive_steps_unit(s, 0) == 2);
   assert(dac_printer_size(s) == 1 && dac_printer_data(s)[0] == 'P');
   assert(dac_serial_size(s) == 1 && dac_serial_data(s)[0] == 'S');
+  if(firmware_keyboard){
+    assert(dac_keyboard_leds(s)==3 && dac_keyboard_leds(copy)==3);
+    assert(!dac_matrix(s,0,0) && !dac_matrix(copy,0,0));
+    assert(dac_run(s,2000)==2000);
+    for(unsigned i=0;i<2000;i++)assert(dac_run(copy,1)==1);
+    assert(!dac_keyboard_leds(s) && !dac_keyboard_leds(copy));
+    assert(!dac_state_save(s,a,size) && !dac_state_save(copy,b,size));
+    assert(!memcmp(a,b,size));
+  }
   free(a);
   free(b);
   dac_destroy(s);
@@ -447,7 +474,8 @@ static void debugger(void) {
   dac_destroy(s);
 }
 int main(void) {
-  mixed_workload_snapshots();
+  mixed_workload_snapshots(0);
+  mixed_workload_snapshots(1);
   debugger();
   bounded_timeline();
   serial_snapshots();
