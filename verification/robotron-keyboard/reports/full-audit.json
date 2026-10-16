@@ -3,16 +3,22 @@
   "scope": "reference digital boundary; not specimen timing or complete analog simulation",
   "connectivitySha256": "2f72140842b1b8ebab498c22bb36112720f8c210d4457c0ee9fc3c459e3febc6",
   "sources": {
-    "verification/robotron-keyboard/bus_probe.c": "b46f3a7ebd25b515b110bbc7c915bc437091911d5ee631273b2a8deb2d3b7213",
+    "verification/robotron-keyboard/bus_probe.c": "d20462e79d0ccd84783b6ef7f322b8b7dde78760435aa101f15c022b650933bf",
     "verification/robotron-keyboard/bus_tb.v": "ce466a2a804810bb8079c5d36a5aa0d318660fc87b3eecaadf7e6bdebb5b392d",
     "verification/robotron-keyboard/chips.v": "fb2dc06ff607c85594ef1fef33c8ae0d75e4f6ab5865bd2ff7e67f259617f3be",
-    "verification/robotron-keyboard/firmware_probe.c": "f5d62961ad2e7d9e1fd25bd7d3cf620d0d309435750d46a864a83dea147842ce",
-    "verification/robotron-keyboard/firmware_tb.v": "f3f7f95c33011c83c9e62e982fbbd64be2091b45ab2c51a73e20fc6c0ec154cc",
-    "verification/robotron-keyboard/generate.py": "b1e0bca115566b41ab36a38e8bc0a5e48a8a69f8b69daf44816ca6de5edc19f4",
+    "verification/robotron-keyboard/firmware_probe.c": "08ce0bae8ddd72c6e4ecebcb4ed3f6bfbceeff1ab9620bc9a0acf6338fdbd442",
+    "verification/robotron-keyboard/firmware_tb.v": "00360a31d8b76fe7dbe79aa603ba548422027b861e03047b643d10f91d2cfa30",
+    "verification/robotron-keyboard/generate.py": "71614ca0331b6629fc42e6544eafb4959082a475287025df1ed0ec6167bfccf6",
     "verification/robotron-keyboard/generated/controller.v": "f379f333026b372280ae5b09fee030ae3c4e8730e8102108e9f85683f4f5c7a6",
-    "verification/robotron-keyboard/run.py": "0e92352f885471187c6a88eb1d02bb68485951de127ee335b5536d9537f25ca0"
+    "verification/robotron-keyboard/run.py": "25090daa087490fe52c60262b09786c146bb1bc525723ecc9cb5d3a0ac0bef15",
+    "verification/robotron-keyboard/sync_reference.py": "ef669e1c3975cf2d65dc9d0206409eb4844ba5708890b8372119919baf68f5ba"
   },
   "productionKeyboardSha256": "ba36fae1ad072147f37c23bfc19bd80cdc5a547c049cd0d795d8d510e017d0cb",
+  "cpuSources": {
+    "common/cpu/z80.c": "d7329a9a116f49441b9ed4f23c0c2fdbb8cb338f74e327cc3344442a355461cf",
+    "common/cpu/z80.h": "a998bd23598a0076b26adf94ab895710378d4f19a0a58a1168c1edd23504ad46",
+    "third_party/cpu/chips/z80.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3"
+  },
   "bus": {
     "mode": "full-address-audit",
     "vectors": 98304,
@@ -47,14 +53,44 @@
         "tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
       }
     },
-    "cycles": 3200000,
-    "cBits": 130,
-    "hdlBits": 130,
+    "cycles": 4600000,
+    "stimulusCoverage": {
+      "normal": 26,
+      "shift": 26,
+      "ctrl": 26,
+      "repeat": 260,
+      "afterRepeatRelease": 0,
+      "afterReset": 26
+    },
+    "stimulusCoveragePassed": true,
+    "cBits": 390,
+    "hdlBits": 390,
     "serialSequenceEquivalent": true,
     "firstSerialDifference": null,
-    "ledDifferences": [],
-    "cLedEdges": 5,
-    "hdlLedEdges": 6783,
+    "ledDifferences": [
+      {
+        "cycle": 1599999,
+        "c": "3",
+        "hdl": "0"
+      },
+      {
+        "cycle": 2199999,
+        "c": "3",
+        "hdl": "0"
+      },
+      {
+        "cycle": 2799999,
+        "c": "3",
+        "hdl": "0"
+      },
+      {
+        "cycle": 3799999,
+        "c": "3",
+        "hdl": "0"
+      }
+    ],
+    "cLedEdges": 28,
+    "hdlLedEdges": 11971,
     "ledTransitionsEquivalent": false,
     "serialCycleOffsets": [
       2
@@ -90,38 +126,66 @@
       ],
       [
         1599999,
-        "1"
+        "3"
       ],
       [
         1799999,
-        "1"
+        "3"
       ],
       [
         1999999,
-        "1"
+        "3"
       ],
       [
         2199999,
-        "1"
+        "3"
       ],
       [
         2399999,
-        "1"
+        "3"
       ],
       [
         2599999,
-        "1"
+        "3"
       ],
       [
         2799999,
-        "1"
+        "3"
       ],
       [
         2999999,
-        "0"
+        "3"
       ],
       [
         3199999,
+        "3"
+      ],
+      [
+        3399999,
+        "3"
+      ],
+      [
+        3599999,
+        "3"
+      ],
+      [
+        3799999,
+        "3"
+      ],
+      [
+        3999999,
+        "3"
+      ],
+      [
+        4199999,
+        "3"
+      ],
+      [
+        4399999,
+        "0"
+      ],
+      [
+        4599999,
         "0"
       ]
     ],
@@ -156,38 +220,66 @@
       ],
       [
         1599999,
-        "1"
-      ],
-      [
-        1799999,
-        "1"
-      ],
-      [
-        1999999,
-        "1"
-      ],
-      [
-        2199999,
-        "1"
-      ],
-      [
-        2399999,
-        "1"
-      ],
-      [
-        2599999,
-        "1"
-      ],
-      [
-        2799999,
-        "1"
-      ],
-      [
-        2999999,
         "0"
       ],
       [
+        1799999,
+        "3"
+      ],
+      [
+        1999999,
+        "3"
+      ],
+      [
+        2199999,
+        "0"
+      ],
+      [
+        2399999,
+        "3"
+      ],
+      [
+        2599999,
+        "3"
+      ],
+      [
+        2799999,
+        "0"
+      ],
+      [
+        2999999,
+        "3"
+      ],
+      [
         3199999,
+        "3"
+      ],
+      [
+        3399999,
+        "3"
+      ],
+      [
+        3599999,
+        "3"
+      ],
+      [
+        3799999,
+        "0"
+      ],
+      [
+        3999999,
+        "3"
+      ],
+      [
+        4199999,
+        "3"
+      ],
+      [
+        4399999,
+        "0"
+      ],
+      [
+        4599999,
         "0"
       ]
     ],

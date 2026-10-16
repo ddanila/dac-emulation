@@ -22,8 +22,8 @@ make audit-keyboard-controller
 make qualify-keyboard-controller S600_ROM=/path/to/s600.bin
 ```
 
-The first target checks 8,205 supported transactions: each individual matrix
-column plus every address in the low serial-output range. It passes with zero
+The first target checks 8,210 supported transactions: LED latch addresses, each individual matrix
+column and every address in the low serial-output range. It passes with zero
 differences. It does not claim equivalence outside that subset.
 
 The audit exercises all 65,536 read addresses and the 32,768 writes that do not
@@ -34,7 +34,7 @@ differences. Writes with A15 high are excluded because they can contend with the
 hashes; comparison failures return nonzero rather than becoming accepted tests.
 
 The firmware target adds the separately implemented TV80 Z80, pinned and licensed
-in `third_party/cpu/tv80`. It runs 3.2 million CPU clocks with A, Shift, Caps,
+in `third_party/cpu/tv80`. It runs 4.6 million CPU clocks with A, Shift, Caps,
 Ctrl, REP, release and reset stimuli. It consumes an external 2 KB ROM without
 modifying or redistributing it. Neither CPU comes from the other implementation.
 Memory reads use the reference ROM, and the same scheduled contacts drive both.
@@ -46,13 +46,15 @@ See `reports/common-subset.json` and `reports/full-audit.json`.
 
 With reference S600 SHA-256
 `4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273`,
-both CPU implementations emit the same 130 serial bits. Every corresponding
+both CPU implementations emit the same 390 serial bits. Every corresponding
 bit has a constant two-CPU-clock timestamp offset in this run. This supports
 relative serial timing for this workload, not measured specimen timing.
 
-Coarse LED samples agree, but transitions do not: C records 5 changes and HDL
-records 6,783 (including its initial resolution from unknown). The HDL shows
-scan-time LED pulses hidden by coarse samples. The whole comparison is therefore
+Both coarse LED samples and transition sequences disagree. The HDL shows
+scan-time LED pulses; the report retains sample differences and transition counts.
+Initial C LED state and reset-induced changes are recorded explicitly.
+The workload requires emitted bits for normal, Shift, Ctrl, repeated and post-reset
+input, and silence after REP release; these coverage checks pass. The whole comparison is therefore
 **not equivalent**, despite matching serial data.
 
 | Area | Reference transcription | Production emulator | Status |
@@ -66,6 +68,20 @@ An experimental production change to follow the transcription broke the
 existing stable-LED firmware test and was reverted. Do not change the schematic
 or expected results simply to obtain a pass. The production core and browser
 distribution retain their previous behavior while these differences are resolved.
+
+## Synchronization
+
+After committing CAD changes, run:
+
+```sh
+python3 verification/robotron-keyboard/sync_reference.py ../3d-models
+```
+
+This rejects dirty CAD sources and stale exports, pins connectivity and its source
+revision, and regenerates HDL. Rerun both qualifications and save their reports
+before publishing. Reports hash the harness, production keyboard, both CPU
+implementations and generated wiring. Museum synchronization rejects stale reports.
+Unsupported digital components and colliding HDL net names fail generation.
 
 ## Sources and independence
 

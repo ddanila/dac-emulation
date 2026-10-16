@@ -4,9 +4,13 @@ import hashlib,json,re,sys
 from pathlib import Path
 R=Path(__file__).resolve().parent
 source=R/'reference/connectivity.json';cs=json.loads(source.read_text())['components']
+pin=json.loads((R/'reference/source.json').read_text())
+if hashlib.sha256(source.read_bytes()).hexdigest()!=pin['sha256']:raise SystemExit('Connectivity does not match pinned CAD source; use sync_reference.py')
 for c in cs.values():c['pins']={p:n.lstrip('/') if n else None for p,n in c['pins'].items()}
 def net(s):return 'n_'+re.sub('[^a-zA-Z0-9_]','_',s)
 used=['A1','A2.1','A2.2','A2.3','A4','A6'];names=sorted({n for c in cs.values() for n in c['pins'].values() if n})
+if len({net(n) for n in names})!=len(names):raise SystemExit('Net names collide after HDL identifier conversion')
+if {r for r in cs if r.startswith('A')}-set(used)-{'A5','A7','A8'}:raise SystemExit('Unclassified digital component: extend the model or explicit boundaries')
 lines=['// Generated from reference/connectivity.json SHA256 '+hashlib.sha256(source.read_bytes()).hexdigest(),'''module controller(input [15:0] address, input [7:0] cpu_data,
  input iorq_n, wr_n, input [103:0] contacts,
  output [7:0] read_data, output [1:0] leds,

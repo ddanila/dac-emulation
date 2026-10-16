@@ -22,18 +22,20 @@ module firmware_tb;
    1000000:contacts=0;
    1200000:contacts[71]=1;
    1400000:contacts=0;
+   1450000:contacts[69]=1;
+   1550000:contacts=0;
    1600000:contacts[64]=1;
    1800000:contacts[61]=1;
    2000000:contacts=0;
    2200000:contacts[61]=1;
    2400000:contacts[70]=1;
-   2600000:contacts=0;
-   2800000:begin reset_n=0;contacts=0;end
-   2800016:reset_n=1;
-   3000000:contacts[61]=1;
+   3800000:contacts[70]=0;
+   4200000:begin reset_n=0;contacts=0;end
+   4200016:reset_n=1;
+   4400000:contacts[61]=1;
   endcase
   if(cycle>=0&&cycle%200000==199999)$display("LED %0d %0d",cycle,leds);
-  if(cycle==3200000)$finish;
+  if(cycle==4600000)$finish;
  end
  always @(leds) if(reset_n && cycle>=0)$display("EDGE %0d %0d",cycle,leds);
  always @(posedge ta_takt) if(reset_n)begin #1;$display("BIT %0d %0d",cycle,~ta_daten);end
