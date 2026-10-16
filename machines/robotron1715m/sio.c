@@ -162,7 +162,9 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
       m->v24.break_active = m->v24.break_latched = m->v24.rx_locked = 0;
       m->v24.ext_pending = m->v24.ext_service = m->v24.ext_latched = 0;
       memset(m->v24.fifo_errors, 0, 3);
-      m->v24.full = m->v24.tx_clocks = m->v24.pending = m->v24.in_service = 0;
+      m->v24.full = m->v24.tx_clocks = m->v24.tx_halves = m->v24.tx_subclock =
+          m->v24.pending = m->v24.in_service = 0;
+      m->serial_levels[2] = m->serial_levels[3] = 0;
       break;
     case 4:
       m->rx_b.first = 1;
@@ -202,7 +204,9 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
     memset(&m->rx, 0, sizeof(m->rx));
     memset(m->sio_regs[0], 0, 8);
     m->rx.first = 1;
-    m->tx_full = m->tx_clocks = m->tx_pending = m->tx_in_service = 0;
+    m->tx_full = m->tx_clocks = m->tx_halves = m->tx_pending =
+        m->tx_in_service = 0;
+    m->serial_levels[0] = m->serial_levels[1] = 0;
     break;
   case 4:
     m->rx.first = 1;
@@ -237,12 +241,12 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
  * CTS gates new characters when WR3 Auto Enables is set; in-flight frames
  * finish.
  */
-void robotron_printer_clock(robotron *m) {
+static void printer_step(robotron *m, unsigned halves, unsigned start) {
   const uint8_t *r = m->sio_regs[0];
   const unsigned div[] = {1, 16, 32, 64}, widths[] = {5, 7, 6, 8};
-  if (!(r[5] & 8) || !(r[4] & 12))
+  if ((!m->tx_clocks && !(r[5] & 8)) || !(r[4] & 12))
     return;
-  if (!m->tx_clocks && m->tx_full) {
+  if (!m->tx_clocks && m->tx_full && start) {
     if ((r[3] & 32) && m->printer_state)
       return;
     m->printer_accept = !m->printer_state;
@@ -254,9 +258,13 @@ void robotron_printer_clock(robotron *m) {
     unsigned half = 2 * (1 + bits + (r[4] & 1)) + ((r[4] & 12) == 4   ? 2
                                                    : (r[4] & 12) == 8 ? 3
                                                                       : 4);
-    m->tx_clocks = (half * div[r[4] >> 6] + 1) / 2;
+    m->tx_halves = half * div[r[4] >> 6];
+    m->tx_clocks = (m->tx_halves + 1) / 2;
   }
-  if (m->tx_clocks && !--m->tx_clocks) {
+  unsigned active = m->tx_halves;
+  m->tx_halves -= halves < active ? halves : active;
+  m->tx_clocks = (m->tx_halves + 1) / 2;
+  if (active && !m->tx_halves) {
     if (!m->printer_accept) {
       m->printer_dropped++;
       return;
@@ -267,6 +275,8 @@ void robotron_printer_clock(robotron *m) {
       m->printer_overflow = 1;
   }
 }
+
+void robotron_printer_clock(robotron *m) { printer_step(m, 2, 1); }
 
 /* Peer waveform is advanced on the CPU clock, independently of guest RX
  * sampling. Half-bit cells preserve 1.5 stop bits even with SIO x1 clocking.
@@ -392,7 +402,7 @@ void robotron_v24_peer_tick(robotron *m) {
   }
 }
 /* One falling TX clock edge; independent from RX clock sampling. */
-void robotron_v24_transmit_clock(robotron *m) {
+static void v24_step(robotron *m, unsigned halves, unsigned start) {
   const uint8_t *r = m->sio_regs[1];
   const unsigned divisors[] = {1, 16, 32, 64}, widths[] = {5, 7, 6, 8};
   unsigned div = divisors[r[4] >> 6];
@@ -401,7 +411,7 @@ void robotron_v24_transmit_clock(robotron *m) {
   if (!m->v24.tx_clocks &&
       (!(r[5] & 8) || ((r[3] & 32) && !(m->v24.signals & 1))))
     return;
-  if (!m->v24.tx_clocks && m->v24.full) {
+  if (!m->v24.tx_clocks && m->v24.full && start) {
     unsigned width = widths[(r[5] >> 5) & 3];
     m->v24.shift = m->v24.holding & ((1u << width) - 1);
     m->v24.full = 0;
@@ -410,7 +420,8 @@ void robotron_v24_transmit_clock(robotron *m) {
     unsigned half = 2 * (1 + width + (r[4] & 1)) + ((r[4] & 12) == 4   ? 2
                                                     : (r[4] & 12) == 8 ? 3
                                                                        : 4);
-    m->v24.tx_clocks = (half * div + 1) / 2;
+    m->v24.tx_halves = half * div;
+    m->v24.tx_clocks = (m->v24.tx_halves + 1) / 2;
     unsigned p = 0;
     for (unsigned i = 0; i < width; i++)
       p ^= (m->v24.shift >> i) & 1;
@@ -419,19 +430,61 @@ void robotron_v24_transmit_clock(robotron *m) {
     if (r[4] & 1)
       m->v24.tx_frame |= (p ^ !(r[4] & 2)) << end++;
     m->v24.tx_frame |= 3u << end;
-    m->v24.tx_elapsed = 0;
+    m->v24.tx_elapsed = m->v24.tx_subclock = 0;
     m->v24.tx_div = div;
   }
-  if (!m->v24.peer_baud)
+  if (halves == 2 && !m->v24.peer_baud)
     peer_receive(m, div);
-  if (m->v24.tx_clocks)
-    m->v24.tx_elapsed++;
-  if (m->v24.tx_clocks && !--m->v24.tx_clocks && (m->v24.signals & 2)) {
+  unsigned active = m->v24.tx_halves;
+  unsigned elapsed = halves < active ? halves : active;
+  m->v24.tx_elapsed += (m->v24.tx_subclock + elapsed) / 2;
+  m->v24.tx_subclock = (m->v24.tx_subclock + elapsed) % 2;
+  m->v24.tx_halves -= elapsed;
+  m->v24.tx_clocks = (m->v24.tx_halves + 1) / 2;
+  if (active && !m->v24.tx_halves && (m->v24.signals & 2)) {
     m->serial_events++;
     if (m->v24.size < sizeof(m->v24.output))
       m->v24.output[m->v24.size++] = m->v24.shift;
     else
       m->v24.overflow = 1;
+  }
+}
+void robotron_v24_transmit_clock(robotron *m) { v24_step(m, 2, 1); }
+
+/* Native diagnostic clock pins. Consecutive opposite levels describe equal
+ * half-periods of an ideal clock, not the duty cycle of a physical CTC pulse.
+ * Start/next character is allowed only on falling TX edges. Rising RX edges
+ * sample their independent input. Do not mix this and aggregate clock calls.
+ * x1 1.5-stop completion is a frame-accounting model, not measured SIO silicon.
+ */
+void robotron_serial_edge(robotron *m, unsigned channel, unsigned transmit,
+                          unsigned level, unsigned input) {
+  if (channel > 1 || transmit > 1 || level > 1 || input > 1)
+    return;
+  unsigned pin = channel * 2 + transmit;
+  if (m->serial_levels[pin] == level)
+    return;
+  m->serial_levels[pin] = level;
+  if (!transmit) {
+    if (level) {
+      if (channel)
+        robotron_v24_receive_clock(m, input);
+      else
+        robotron_serial_clock(m, input);
+    }
+    return;
+  }
+  if (channel) {
+    v24_step(m, 1, 0);
+    if (!level) {
+      v24_step(m, 0, 1);
+      if (!m->v24.peer_baud)
+        peer_receive(m, m->v24.tx_div ? m->v24.tx_div : 1);
+    }
+  } else {
+    printer_step(m, 1, 0);
+    if (!level)
+      printer_step(m, 0, 1);
   }
 }
 /* The museum board route supplies both clocks from CTC0 channel 1.

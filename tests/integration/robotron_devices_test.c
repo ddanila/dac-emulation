@@ -1668,7 +1668,57 @@ static void serial_clock_domains(void) {
   assert(m.rx_b.count == 1 && robotron_v24_read(&m, 0) == 0xa5);
   assert(m.v24.full && !m.v24.size); /* No TX edges supplied. */
 }
+static void serial_explicit_edges(void) {
+  const unsigned divisors[] = {1, 16, 32, 64};
+  for (unsigned channel = 0; channel < 2; channel++)
+    for (unsigned selector = 0; selector < 4; selector++)
+      for (unsigned stop = 1; stop <= 3; stop++) {
+        init();
+        m.sio_regs[channel][4] = (selector << 6) | (stop << 2);
+        m.sio_regs[channel][5] = 0x68;
+        m.v24.signals = 3;
+        robotron_output(&m, 12 + channel, 0xa5);
+        robotron_serial_edge(&m, channel, 1, 1, 1);
+        assert(channel ? m.v24.full : m.tx_full);   /* rising cannot start */
+        robotron_serial_edge(&m, channel, 1, 0, 1); /* frame starts */
+        unsigned halves = (18 + stop + 1) * divisors[selector];
+        for (unsigned i = 1; i < halves; i++) {
+          robotron_serial_edge(&m, channel, 1, i & 1, 1);
+          robotron_serial_edge(&m, channel, 1, i & 1,
+                               1); /* no duplicate edge */
+          assert(!(channel ? m.v24.size : m.printer_size));
+        }
+        assert((channel ? m.v24.tx_halves : m.tx_halves) == 1);
+        robotron_serial_edge(&m, channel, 1, halves & 1, 1);
+        assert((channel ? m.v24.size : m.printer_size) == 1);
+        assert((channel ? m.v24.output[0] : m.printer[0]) == 0xa5);
+        assert(!m.rx_b.count && !m.rx.count);
+      }
+  init();
+  m.sio_regs[1][3] = 0xc1;
+  m.sio_regs[1][4] = 4;
+  /* x1 external RX synchronization: falling edges cannot sample. */
+  const unsigned frame = (0xa5u << 1) | (1u << 9);
+  for (unsigned i = 0; i < 10; i++) {
+    robotron_serial_edge(&m, 1, 0, 0, !(frame >> i & 1));
+    robotron_serial_edge(&m, 1, 0, 1, frame >> i & 1);
+  }
+  assert(m.rx_b.count == 1 && robotron_v24_read(&m, 0) == 0xa5);
+  /* WR5 disabling transmission must not strand an active printer frame. */
+  m.sio_regs[0][4] = 8;
+  m.sio_regs[0][5] = 0x68;
+  robotron_output(&m, 12, 0x5a);
+  robotron_serial_edge(&m, 0, 1, 1, 1);
+  robotron_serial_edge(&m, 0, 1, 0, 1);
+  m.sio_regs[0][5] &= ~8;
+  for (unsigned i = 1; i <= 21; i++)
+    robotron_serial_edge(&m, 0, 1, i & 1, 1);
+  assert(m.printer_size == 1 && m.printer[0] == 0x5a);
+  robotron_sio_control(&m, 0, 0x18);
+  assert(!m.tx_halves && !m.serial_levels[1]);
+}
 int main(void) {
+  serial_explicit_edges();
   serial_clock_domains();
   dma_modes_restart();
   serial_break_lock();

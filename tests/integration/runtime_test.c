@@ -197,6 +197,128 @@ static void robotron_dma_snapshot(void) {
   dac_destroy(copy);
 }
 
+typedef struct {
+  uint64_t hash;
+  unsigned dma_read, dma_write, ack, key, serial;
+} mixed_trace;
+static void mixed_record(void *user, const dac_trace_event *e) {
+  mixed_trace *t = user;
+  t->hash = t->hash * 1099511628211ull ^ e->cycle ^
+            ((uint64_t)e->address << 32) ^ ((uint64_t)e->data << 20) ^
+            ((uint64_t)e->master << 16) ^ ((unsigned char)e->kind[0] << 8) ^
+            (unsigned char)e->kind[1];
+  t->dma_read += e->master == DAC_MASTER_DMA && !strcmp(e->kind, "MR");
+  t->dma_write += e->master == DAC_MASTER_DMA && !strcmp(e->kind, "MW");
+  t->ack += !strcmp(e->kind, "IA");
+  t->key +=
+      !strcmp(e->kind, "IR") && (e->address & 255) == 12 && e->data == 'K';
+  t->serial +=
+      !strcmp(e->kind, "IR") && (e->address & 255) == 13 && e->data == 0xa5;
+}
+static void emit_out(uint8_t *rom, unsigned *p, unsigned port, unsigned value) {
+  rom[(*p)++] = 0x3e;
+  rom[(*p)++] = value;
+  rom[(*p)++] = 0xd3;
+  rom[(*p)++] = port;
+}
+/* Original bounded workload, no historical ROM/OS or HDL. DMA steals cycles
+ * while seek, serial input/output, keyboard polling and interrupt service run.
+ * Snapshots compare both complete state and bus transcripts across slice sizes.
+ */
+static void mixed_workload_snapshots(void) {
+  uint8_t rom[2048] = {0xc3, 0, 1}, prom[256] = {0}, disk[819200] = {0};
+  const uint8_t handler[] = {0xf5, 0xdb, 12, 0xdb, 13,   0x3e, 0x28, 0xd3,
+                             14,   0xd3, 15, 0xf1, 0xfb, 0xed, 0x4d};
+  memcpy(rom + 0x38, handler, sizeof(handler));
+  unsigned p = 256;
+  rom[p++] = 0x31;
+  rom[p++] = 0;
+  rom[p++] = 0xc0; /* SP */
+  rom[p++] = 0xed;
+  rom[p++] = 0x56; /* IM 1 */
+  for (unsigned i = 0; i < 32; i++) {
+    rom[p++] = 0x3e;
+    rom[p++] = i + 1;
+    rom[p++] = 0x32;
+    rom[p++] = i;
+    rom[p++] = 0x40;
+  }
+  const uint8_t sio[] = {3, 0xc1, 4, 0x44, 5, 0x68, 1, 0x12};
+  for (unsigned ch = 0; ch < 2; ch++)
+    for (unsigned i = 0; i < sizeof(sio); i++)
+      emit_out(rom, &p, 14 + ch, sio[i]);
+  for (unsigned port = 8; port < 10; port++) {
+    emit_out(rom, &p, port, 7);
+    emit_out(rom, &p, port, 1);
+  }
+  emit_out(rom, &p, 12, 'P');
+  emit_out(rom, &p, 13, 'S');
+  const uint8_t seek[] = {15, 0, 2};
+  for (unsigned i = 0; i < sizeof(seek); i++)
+    emit_out(rom, &p, 0x1d, seek[i]);
+  const uint8_t dma[] = {0xc3, 0x7d, 0,    0x40, 31,   0,    0x14, 0x10, 0x9d,
+                         0,    0x50, 0x12, 0x24, 0x82, 0xcf, 0xab, 0x87, 0x8a};
+  for (unsigned i = 0; i < sizeof(dma); i++)
+    emit_out(rom, &p, 0, dma[i]);
+  rom[p++] = 0xfb;
+  unsigned loop = p;
+  rom[p++] = 0xdb;
+  rom[p++] = 12;
+  rom[p++] = 0xdb;
+  rom[p++] = 13;
+  rom[p++] = 0xc3;
+  rom[p++] = loop;
+  rom[p++] = loop >> 8;
+  assert(p < sizeof(rom));
+  dac_session *s = dac_create(2), *copy = dac_create(2), *both[] = {s, copy};
+  for (unsigned i = 0; i < 2; i++) {
+    assert(!dac_load(both[i], 0, rom, sizeof(rom)) &&
+           !dac_load(both[i], 1, prom, sizeof(prom)));
+    assert(!dac_mount(both[i], disk, sizeof(disk), 1) &&
+           !dac_power(both[i], 1));
+  }
+  mixed_trace ta = {0}, tb = {0};
+  dac_trace_sink sa = {mixed_record, &ta, 0, 0}, sb = {mixed_record, &tb, 0, 0};
+  assert(!dac_set_trace(s, &sa) && !dac_set_trace(copy, &sb));
+  assert(!dac_serial_signals(s, 3) && !dac_serial_send(s, 0xa5) &&
+         !dac_key(s, 'K', 1));
+  for (unsigned i = 0; i < 10000 && !ta.dma_read; i++)
+    assert(dac_run(s, 1) == 1);
+  assert(ta.dma_read == 1 && !ta.dma_write); /* latched source, pending write */
+  unsigned size = dac_state_size(s);
+  void *a = malloc(size), *b = malloc(size);
+  assert(a && b);
+  assert(!dac_state_save(s, a, size) && !dac_state_load(copy, a, size));
+  unsigned seen_key = ta.key, seen_serial = ta.serial, seen_ack = ta.ack;
+  const unsigned slices[] = {1, 2, 7, 128, 3000, 50000};
+  for (unsigned n = 0; n < sizeof(slices) / sizeof(*slices); n++) {
+    ta = (mixed_trace){0};
+    tb = (mixed_trace){0};
+    assert(dac_run(s, slices[n]) == slices[n]);
+    for (unsigned i = 0; i < slices[n]; i++)
+      assert(dac_run(copy, 1) == 1);
+    assert(!memcmp(&ta, &tb, sizeof(ta)));
+    seen_key += ta.key;
+    seen_serial += ta.serial;
+    seen_ack += ta.ack;
+    assert(!dac_state_save(s, a, size) && !dac_state_save(copy, b, size));
+    assert(!memcmp(a, b, size));
+    assert(!dac_state_load(copy, a, size)); /* rebind at each mixed boundary */
+  }
+  uint8_t bytes[32];
+  assert(!dac_peek(s, DAC_MEMORY_RAM, 0x5000, bytes, sizeof(bytes)));
+  for (unsigned i = 0; i < 32; i++)
+    assert(bytes[i] == i + 1);
+  assert(seen_key && seen_serial && seen_ack);
+  assert(dac_drive_steps_unit(s, 0) == 2);
+  assert(dac_printer_size(s) == 1 && dac_printer_data(s)[0] == 'P');
+  assert(dac_serial_size(s) == 1 && dac_serial_data(s)[0] == 'S');
+  free(a);
+  free(b);
+  dac_destroy(s);
+  dac_destroy(copy);
+}
+
 static void serial_snapshots(void) {
   dac_session *s = dac_create(2), *copy = dac_create(2);
   uint8_t rom[2048] = {0}, prom[256] = {0};
@@ -325,6 +447,7 @@ static void debugger(void) {
   dac_destroy(s);
 }
 int main(void) {
+  mixed_workload_snapshots();
   debugger();
   bounded_timeline();
   serial_snapshots();

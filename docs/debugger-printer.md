@@ -56,3 +56,38 @@ capture still rounds 10.5 clocks up to 11 for 8N1.5. The independently timed pee
 waveform already preserves 21 half-cells. An inferred midpoint capture would not
 establish exact SIO pin-edge behavior: sub-edge scheduling and a qualified clock
 waveform are still needed. Synchronous SIO modes remain outside this model.
+
+## Explicit clock pins and mixed continuation (0.15.0)
+
+`robotron_serial_edge(machine, channel, transmit, level, input)` adds a native
+fixture interface for both channels: RX samples only rising edges; TX starts a
+character only on a falling edge. Repeating a level is not an edge. Alternating
+TX edges represent equal half-periods of an **ideal diagnostic clock**. Remaining
+frame time is stored in half-clock units, so the ideal x1 8N1.5 fixture completes
+21 half-periods after its starting edge, without rounding to 11 periods. Fixtures
+cover both transmitters, all four divisors and all three stop-bit choices, stalled
+RX/TX independence, duplicate levels and reset. Do not mix edge and aggregate
+clock APIs within a frame.
+
+This does **not** turn CTC ZC/TO pulses into a measured square wave. The museum
+board still uses the existing aggregate CTC route; its x1 half-stop capture is
+still quantized to a whole callback. The Zilog manual establishes the programmed
+format and edge polarity, but not a specimen-qualified x1 half-stop completion
+phase under arbitrary clock duty cycles. SIO/CTC propagation, physical duty cycle,
+and this machine's exact routing need separate qualification before changing that
+route. The explicit fixture is a tool for that work, not a new hardware claim.
+See [Zilog UM008101](https://www.zilog.com/docs/z80/um0081.pdf), printed pp.232,
+285–288; in particular WR5 says an already-started character finishes after TX is
+disabled. The printer now obeys that rule instead of stranding the frame.
+
+Robotron snapshot layout **13** stores half-clock remainder and diagnostic pin
+levels. Bounds reject inconsistent remaining-time fields. Cross-build migration
+is not implied: the museum retains 0.14.0 by hash for old states/recordings.
+
+The mixed runtime fixture uses a newly written test ROM concurrently exercises a 32-byte DMA
+copy, a two-track seek, printer and V.24 TX, queued serial RX, keyboard character-adapter input,
+and IM1 interrupt service. It saves between a DMA read and write, then compares
+six subsequent boundaries using batched versus single-clock execution. Full
+snapshots and bus transcript hashes agree; assertions prove that each workload
+ran, rather than merely comparing two idle machines. It uses fewer than 64,000
+emulated clocks per instance, blank media, no historical OS and no Verilog.

@@ -90,16 +90,18 @@ typedef struct {
   robotron_keyboard keyboard;
   robotron_sio_rx rx, rx_b;
   unsigned serial_events;
+  uint8_t serial_levels[4];
   struct {
     uint8_t input[65536], output[65536];
     unsigned read, count, size, overflow, signals;
     unsigned frame, bits, clocks;
     uint8_t holding, shift, full, pending, in_service;
-    unsigned tx_clocks;
+    unsigned tx_clocks, tx_halves;
     unsigned peer_baud, peer_format, peer_phase;
     unsigned ext_pending, ext_service, ext_latched, ext_signals;
     uint8_t fifo_errors[3], frame_errors;
     unsigned break_active, break_latched, rx_locked;
+    unsigned tx_subclock;
     unsigned tx_frame, tx_elapsed, tx_div, decode_phase, decoded_size,
         decoded_overflow;
     uint8_t decoded[65536];
@@ -123,7 +125,7 @@ typedef struct {
   unsigned printer_accept, printer_ext_pending, printer_ext_service,
       printer_ext_latched, printer_cts_latched;
   uint8_t tx_holding, tx_shift, tx_full, tx_pending, tx_in_service;
-  unsigned tx_clocks;
+  unsigned tx_clocks, tx_halves;
   uint8_t sio_pointer[2], sio_regs[2][8];
   uint8_t keys[256];
   unsigned key_read, key_write;
@@ -138,6 +140,9 @@ void robotron_v24_peer_tick(robotron *);
 void robotron_v24_signals(robotron *, unsigned);
 void robotron_v24_receive_clock(robotron *, unsigned);
 void robotron_v24_clock(robotron *);
+/* Native ideal-clock fixture: channel A/B, RX/TX, clock level, RX data. */
+void robotron_serial_edge(robotron *, unsigned channel, unsigned transmit,
+                          unsigned level, unsigned input);
 void robotron_v24_transmit_clock(robotron *);
 uint8_t robotron_v24_read(robotron *, unsigned);
 uint8_t robotron_sio_read(robotron *, unsigned);

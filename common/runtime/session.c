@@ -967,7 +967,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    12,
+                    13,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -987,7 +987,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 12 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 13 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||
@@ -1061,7 +1061,11 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       (r->v24.fifo_errors[0] & ~0x40) || (r->v24.fifo_errors[1] & ~0x40) ||
       (r->v24.fifo_errors[2] & ~0x40) || r->rx_b.wait > 64 ||
       r->v24.frame >= (1u << 24) || r->v24.signals > 7 || r->v24.bits > 24 ||
-      r->v24.clocks > 64 || r->v24.tx_clocks > 768 || r->rx_b.read >= 3 ||
+      r->v24.clocks > 64 || r->v24.tx_clocks > 768 || r->v24.tx_halves > 1536 ||
+      r->tx_halves > 1536 || r->v24.tx_clocks != (r->v24.tx_halves + 1) / 2 ||
+      r->tx_clocks != (r->tx_halves + 1) / 2 || r->v24.tx_subclock > 1 ||
+      r->serial_levels[0] > 1 || r->serial_levels[1] > 1 ||
+      r->serial_levels[2] > 1 || r->serial_levels[3] > 1 || r->rx_b.read >= 3 ||
       r->rx_b.count > 3 || r->rx_b.phase > 4 || r->rx_b.bits > 8 ||
       r->disconnected > 3 || r->rx.read >= 3 || r->rx.count > 3 ||
       r->rx.phase > 4 || r->rx.bits > 8 || k->tap_read >= 64 ||
