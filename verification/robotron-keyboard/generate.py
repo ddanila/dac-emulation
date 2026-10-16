@@ -38,7 +38,24 @@ for ref in used:
   ports+=[f'.p{p}({net(n) if n else ""})']
  lines+=[f'chip_{c["type"]} '+ref.replace('.','_')+'('+','.join(ports)+');']
 lines+=['assign leds={~'+net(cs['A6']['pins']['6'])+',~'+net(cs['A6']['pins']['8'])+'};','assign ta_daten='+net(cs['A1']['pins']['4'])+';','assign ta_takt='+net(cs['A1']['pins']['2'])+';','endmodule\n']
-out=R/'generated/controller.v';text='\n'.join(lines)
+# Bridge topology comes from the same numbered schematic pins. Analog sources
+# remain boundary inputs; opening a bridge enables independent CPU-side stimulus.
+service=['module controller_service(input oscillator, reset_source_n, br1_closed, br2_closed,',
+ ' input external_clk, external_reset_n, output cpu_clk, cpu_reset_n);']
+service_nets={cs[r]['pins'][p] for r,p in [('BR1','1'),('BR1','2'),('BR2','1'),('BR2','2'),('A5','6'),('A5','26'),('A7','8'),('V4.9','C')]}
+service+=['wire '+net(n)+';'for n in sorted(service_nets)]
+for ref,pin,value in [('A7','8','oscillator'),('V4.9','C','reset_source_n')]:service+=['assign '+net(cs[ref]['pins'][pin])+'='+value+';']
+for ref,control in [('BR1','br1_closed'),('BR2','br2_closed')]:
+ service+=['tranif1 '+ref+'('+','.join(net(cs[ref]['pins'][p])for p in ['1','2'])+','+control+');']
+for pin,external,output in [('6','external_clk','cpu_clk'),('26','external_reset_n','cpu_reset_n')]:
+ n=net(cs['A5']['pins'][pin]);service+=[f'assign {n}={external};',f'assign {output}={n};']
+for ref,c in cs.items():
+ pins=list(c['pins'].values())
+ if ref.startswith('R') and len(pins)==2 and '+5V'in pins:
+  other=next(n for n in pins if n!='+5V')
+  if other in service_nets:service+=['pullup('+net(other)+');']
+service+=['endmodule\n']
+out=R/'generated/controller.v';text='\n'.join(lines+service)
 if '--check' in sys.argv:
  if not out.exists() or out.read_text()!=text:raise SystemExit('Stale controller.v; run generate.py')
  print('HDL wiring matches pinned schematic connectivity')

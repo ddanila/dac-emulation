@@ -1,10 +1,15 @@
 `timescale 1ns/1ps
 module firmware_tb;
  reg clk=0,reset_n=0;always #5 clk=~clk;
+ wire cpu_clk,cpu_reset_n;
+ // Reproducible bench stimulus enters the CPU sides of open BR1/BR2.
+ controller_service service_boundary(.oscillator(1'b0),.reset_source_n(1'b1),
+  .br1_closed(1'b0),.br2_closed(1'b0),.external_clk(clk),
+  .external_reset_n(reset_n),.cpu_clk(cpu_clk),.cpu_reset_n(cpu_reset_n));
  wire [15:0] address;wire [7:0] dout,di,read_data;wire m1_n,mreq_n,iorq_n,rd_n,wr_n,rfsh_n,halt_n,busak_n;
  reg [103:0] contacts=0;wire [1:0] leds;wire ta_daten,ta_takt;
  reg [7:0] rom[0:2047];reg [1023:0] file,wave;integer cycle=-16;
- tv80n cpu(.reset_n(reset_n),.clk(clk),.wait_n(1'b1),.int_n(1'b1),.nmi_n(1'b1),.busrq_n(1'b1),.di(di),.A(address),.dout(dout),.m1_n(m1_n),.mreq_n(mreq_n),.iorq_n(iorq_n),.rd_n(rd_n),.wr_n(wr_n),.rfsh_n(rfsh_n),.halt_n(halt_n),.busak_n(busak_n));
+ tv80n cpu(.reset_n(cpu_reset_n),.clk(cpu_clk),.wait_n(1'b1),.int_n(1'b1),.nmi_n(1'b1),.busrq_n(1'b1),.di(di),.A(address),.dout(dout),.m1_n(m1_n),.mreq_n(mreq_n),.iorq_n(iorq_n),.rd_n(rd_n),.wr_n(wr_n),.rfsh_n(rfsh_n),.halt_n(halt_n),.busak_n(busak_n));
  controller board(address,dout,iorq_n,wr_n,contacts,read_data,leds,ta_daten,ta_takt);
  assign di=!mreq_n?rom[address[10:0]]:read_data;
  initial begin

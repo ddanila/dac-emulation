@@ -1,16 +1,17 @@
 {
   "schema": 1,
   "scope": "reference digital boundary; not specimen timing or complete analog simulation",
-  "connectivitySha256": "2f72140842b1b8ebab498c22bb36112720f8c210d4457c0ee9fc3c459e3febc6",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
   "sources": {
     "verification/robotron-keyboard/bus_probe.c": "48cd27cbd6b0e796bb34abb12dd4a518425e7b3b826f375ac508bd262b8fa3de",
     "verification/robotron-keyboard/bus_tb.v": "2fff207b63168572bfd1b21cfb399d2f85df6691990327b294484ab43d1b1fc9",
     "verification/robotron-keyboard/chips.v": "fb2dc06ff607c85594ef1fef33c8ae0d75e4f6ab5865bd2ff7e67f259617f3be",
     "verification/robotron-keyboard/firmware_probe.c": "08ce0bae8ddd72c6e4ecebcb4ed3f6bfbceeff1ab9620bc9a0acf6338fdbd442",
-    "verification/robotron-keyboard/firmware_tb.v": "00360a31d8b76fe7dbe79aa603ba548422027b861e03047b643d10f91d2cfa30",
-    "verification/robotron-keyboard/generate.py": "71614ca0331b6629fc42e6544eafb4959082a475287025df1ed0ec6167bfccf6",
-    "verification/robotron-keyboard/generated/controller.v": "f379f333026b372280ae5b09fee030ae3c4e8730e8102108e9f85683f4f5c7a6",
-    "verification/robotron-keyboard/run.py": "d789c540b372c8370ccf51505ae4249075a0086d77208a096fe9e93f6c842e70",
+    "verification/robotron-keyboard/firmware_tb.v": "d28fda3b57ac1a73d08dffdd2f041001dc2372a545684e49fc1646791f6b4b5d",
+    "verification/robotron-keyboard/generate.py": "832a2005b2738881a3cc8e6f030c6e43f5ea09b869639a4b2f637f56f065a092",
+    "verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "verification/robotron-keyboard/run.py": "055b059944dd5ee87bc07b4f2c273804b683e32943779f75abc8ce6d64e3447a",
+    "verification/robotron-keyboard/service_tb.v": "bc504778331f8ca5071e8511402c3cd0e394e4ec997d62a83369d802a5bb6d9f",
     "verification/robotron-keyboard/sync_reference.py": "ef669e1c3975cf2d65dc9d0206409eb4844ba5708890b8372119919baf68f5ba"
   },
   "productionKeyboardSha256": "d611b8dd61a6ecc75dc922fc40d0c1901722aec0de988516157af2a26c89922b",
@@ -19,6 +20,12 @@
     "common/cpu/z80.c": "d7329a9a116f49441b9ed4f23c0c2fdbb8cb338f74e327cc3344442a355461cf",
     "common/cpu/z80.h": "a998bd23598a0076b26adf94ab895710378d4f19a0a58a1168c1edd23504ad46",
     "third_party/cpu/chips/z80.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3"
+  },
+  "service": {
+    "checks": 13,
+    "mismatches": 0,
+    "equivalent": true,
+    "scope": "BR1/BR2 digital isolation, external injection, floating reset, clock pullup and conflicting drivers; analog sources are boundaries."
   },
   "bus": {
     "mode": "one-column-and-low-output-range",

@@ -121,7 +121,7 @@
         "22": "/WR_N",
         "23": null,
         "24": "/CPU_PULLUP",
-        "25": "/CPU_PULLUP",
+        "25": "/BUSRQ_N",
         "26": "/RESET_N",
         "27": null,
         "28": null,
@@ -180,7 +180,7 @@
         "5": "/OSC1",
         "6": "/OSC2",
         "7": "/GND",
-        "8": "/CLK",
+        "8": "/OSC_OUT",
         "9": "/OSC2"
       },
       "type": "DL000"
@@ -214,17 +214,31 @@
       },
       "type": "U556_2716"
     },
+    "BR1": {
+      "pins": {
+        "1": "/OSC_OUT",
+        "2": "/CLK"
+      },
+      "type": "BRIDGE"
+    },
+    "BR2": {
+      "pins": {
+        "1": "/RESET_OUT",
+        "2": "/RESET_N"
+      },
+      "type": "BRIDGE"
+    },
     "C1": {
       "pins": {
         "1": "/RESET_BASE",
-        "2": "/RESET_RC"
+        "2": "/RESET_OUT"
       },
       "type": "220p"
     },
     "C2": {
       "pins": {
         "1": "/RESET_BIAS_LOW",
-        "2": "/RESET_N"
+        "2": "/RESET_OUT"
       },
       "type": "10u"
     },
@@ -293,29 +307,29 @@
     },
     "L1.1": {
       "pins": {
-        "1": "/TA_DATEN",
-        "2": "/CABLE_DATEN"
-      },
-      "type": "CHOKE"
-    },
-    "L1.2": {
-      "pins": {
         "1": "/TA_TAKT",
         "2": "/CABLE_TAKT"
       },
       "type": "CHOKE"
     },
-    "L1.3": {
+    "L1.2": {
       "pins": {
         "1": "/GND",
         "2": "/CABLE_GND"
       },
       "type": "CHOKE"
     },
-    "L1.4": {
+    "L1.3": {
       "pins": {
         "1": "/+5V",
         "2": "/CABLE_5V"
+      },
+      "type": "CHOKE"
+    },
+    "L1.4": {
+      "pins": {
+        "1": "/TA_DATEN",
+        "2": "/CABLE_DATEN"
       },
       "type": "CHOKE"
     },
@@ -398,7 +412,7 @@
     },
     "R4.2": {
       "pins": {
-        "1": "/RESET_N",
+        "1": "/RESET_OUT",
         "2": "/GND"
       },
       "type": "220"
@@ -413,7 +427,7 @@
     "R5": {
       "pins": {
         "1": "/+5V",
-        "2": "/RESET_RC"
+        "2": "/RESET_BIAS"
       },
       "type": "10k"
     },
@@ -441,7 +455,7 @@
     "R6.5": {
       "pins": {
         "1": "/+5V",
-        "2": "/CLK"
+        "2": "/BUSRQ_N"
       },
       "type": "1k"
     },
@@ -538,7 +552,7 @@
     },
     "V1.2": {
       "pins": {
-        "A": "/RESET_BIAS",
+        "A": "/RESET_BIAS_LOW",
         "K": "/RESET_DIODE_TOP"
       },
       "type": "DIODE"
@@ -553,7 +567,7 @@
     "V3.1": {
       "pins": {
         "B": "/RESET_RC",
-        "C": "/RESET_BASE",
+        "C": "/+5V",
         "E": "/RESET_EMITTERS"
       },
       "type": "SC236D"
@@ -561,7 +575,7 @@
     "V3.2": {
       "pins": {
         "B": "/RESET_BIAS",
-        "C": "/RESET_RC",
+        "C": "/RESET_BASE",
         "E": "/RESET_EMITTERS"
       },
       "type": "SC236D"
@@ -633,7 +647,7 @@
     "V4.9": {
       "pins": {
         "B": "/RESET_BASE",
-        "C": "/RESET_N",
+        "C": "/RESET_OUT",
         "E": "/+5V"
       },
       "type": "SC308C"
@@ -651,7 +665,7 @@
         "A5": "/LED_SISO",
         "A6": "/LED_CAPS",
         "A7": "/+5V",
-        "A9": "/CLK",
+        "A9": "/BUSRQ_N",
         "B1": "/COL4",
         "B10": "/COL2",
         "B11": "/ROW6",
@@ -671,9 +685,9 @@
     "XT1": {
       "pins": {
         "A1": "/CABLE_DATEN",
-        "A3": "/CABLE_TAKT",
+        "A3": "/CABLE_GND",
         "A5": "/SHIELD",
-        "B2": "/CABLE_GND",
+        "B2": "/CABLE_TAKT",
         "B4": "/CABLE_5V"
       },
       "type": "KEYBOARD_CABLE"

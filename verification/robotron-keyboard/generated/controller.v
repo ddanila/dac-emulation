@@ -1,4 +1,4 @@
-// Generated from reference/connectivity.json SHA256 2f72140842b1b8ebab498c22bb36112720f8c210d4457c0ee9fc3c459e3febc6
+// Generated from reference/connectivity.json SHA256 68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25
 module controller(input [15:0] address, input [7:0] cpu_data,
  input iorq_n, wr_n, input [103:0] contacts,
  output [7:0] read_data, output [1:0] leds,
@@ -29,6 +29,7 @@ wire n_BASE4;
 wire n_BASE5;
 wire n_BASE6;
 wire n_BASE7;
+wire n_BUSRQ_N;
 wire n_CABLE_5V;
 wire n_CABLE_DATEN;
 wire n_CABLE_GND;
@@ -68,6 +69,7 @@ wire n_LED_SISO_N;
 wire n_MREQ_N;
 wire n_OSC1;
 wire n_OSC2;
+wire n_OSC_OUT;
 wire n_OSC_RC;
 wire n_RD_N;
 wire n_RESET_BASE;
@@ -76,6 +78,7 @@ wire n_RESET_BIAS_LOW;
 wire n_RESET_DIODE_TOP;
 wire n_RESET_EMITTERS;
 wire n_RESET_N;
+wire n_RESET_OUT;
 wire n_RESET_RC;
 wire n_ROW0;
 wire n_ROW1;
@@ -146,11 +149,11 @@ pullup(n_TA_DATEN);
 pullup(n_CLK);
 pullup(n_RESET_BIAS_LOW);
 pullup(n_RESET_DIODE_TOP);
-pullup(n_RESET_RC);
+pullup(n_RESET_BIAS);
 pullup(n_RESET_BASE);
 pullup(n_LATCH_OE_N);
 pullup(n_CPU_PULLUP);
-pullup(n_CLK);
+pullup(n_BUSRQ_N);
 pullup(n_FF_PULLUP);
 pullup(n_IO_ACTIVE);
 pullup(n_COL0);
@@ -183,4 +186,21 @@ chip_DL074 A6(.p1(n_FF_PULLUP),.p2(n_A14),.p3(n_IO_ACTIVE),.p4(n_FF_PULLUP),.p5(
 assign leds={~n_LED_CAPS_N,~n_LED_SISO_N};
 assign ta_daten=n_TA_DATEN;
 assign ta_takt=n_TA_TAKT;
+endmodule
+
+module controller_service(input oscillator, reset_source_n, br1_closed, br2_closed,
+ input external_clk, external_reset_n, output cpu_clk, cpu_reset_n);
+wire n_CLK;
+wire n_OSC_OUT;
+wire n_RESET_N;
+wire n_RESET_OUT;
+assign n_OSC_OUT=oscillator;
+assign n_RESET_OUT=reset_source_n;
+tranif1 BR1(n_OSC_OUT,n_CLK,br1_closed);
+tranif1 BR2(n_RESET_OUT,n_RESET_N,br2_closed);
+assign n_CLK=external_clk;
+assign cpu_clk=n_CLK;
+assign n_RESET_N=external_reset_n;
+assign cpu_reset_n=n_RESET_N;
+pullup(n_CLK);
 endmodule

@@ -38,7 +38,8 @@ in `third_party/cpu/tv80`. It runs 4.6 million CPU clocks with A, Shift, Caps,
 Ctrl, REP, release and reset stimuli. It consumes an external 2 KB ROM without
 modifying or redistributing it. Neither CPU comes from the other implementation.
 Memory reads use the reference ROM, and the same scheduled contacts drive both.
-The HDL CPU uses external digital clock/reset boundaries, not an analog oscillator.
+The HDL CPU receives external digital clock/reset through the CPU sides of open
+BR1/BR2 in generated wiring. The analog oscillator/reset sources are boundaries.
 
 ## Recorded results and discrepancy ledger
 
@@ -95,3 +96,30 @@ Generated interconnect establishes consistency with the transcription, not an
 independent proof that it is correct. Chip models, the C emulator, TV80 and the
 firmware exercise provide separate checks with the boundaries above. Physical
 trace geometry and specimen identity are separate qualification tasks.
+
+
+## Bridge isolation and source review
+
+Every comparison first runs `service_tb.v`: 13 checks cover closed bridges,
+independent reset injection with the onboard clock, external clock/reset with both
+bridges open, the clock pullup, floating reset and opposing drivers resolving to X.
+`build/keyboard-controller/service.vcd` and `service.log` retain the waveform and
+check result. The `service` section of each report records this scope.
+
+`controller_service` is generated from BR1/BR2 and CPU pin connections in KiCad;
+it does not duplicate their wiring in the testbench. BR1 isolates A7:8 from A5:6;
+BR2 isolates V4.9:C from A5:26. Separate source/CPU nets preserve those boundaries.
+The virtual tests establish digital isolation behavior, not measured reset delay,
+physical bridge locations, or a manufacturer-approved hardware procedure.
+
+The source review also corrected the reset transistor/capacitor network, separated
+BUSRQ from the other CPU pullups, and corrected the cable filter windings and
+clock/ground terminal assignments. These were outside the earlier peripheral
+comparison. Passing that comparison did not validate those schematic sections.
+
+The [Robotron service handbook](https://www.tiffe.de/Robotron/PC1715/PC-1715-Servicemanual.pdf#page=91)
+(1985, printed pp. 89–92) independently supports WR-based serial synchronization,
+active-high matrix sensing and IORQ-clocked LED state. Its 700 kHz ±10% nominal
+clock encompasses the emulator's 683 kHz setting. Its approximately 100 ms reset
+is a reference expectation, not currently an analog model. Oscillator gate pins
+and capacitor values differ from Zander's drawing; do not merge the two revisions.

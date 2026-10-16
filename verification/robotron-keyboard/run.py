@@ -12,6 +12,12 @@ def main():
  p=argparse.ArgumentParser();p.add_argument('--audit',action='store_true');p.add_argument('--rom',type=Path);p.add_argument('--wave',action='store_true');a=p.parse_args();OUT.mkdir(parents=True,exist_ok=True)
  run([sys.executable,R/'generate.py','--check'])
  report={'schema':1,'scope':'reference digital boundary; not specimen timing or complete analog simulation','connectivitySha256':sha(R/'reference/connectivity.json'),'sources':{str(f.relative_to(ROOT)):sha(f) for f in sorted(list(R.glob('*.*'))+list((R/'generated').glob('*.v'))) if f.suffix in ['.py','.c','.v']},'productionKeyboardSha256':sha(ROOT/'machines/robotron1715m/keyboard.c'),'productionKeyboardHeaderSha256':sha(ROOT/'machines/robotron1715m/keyboard.h'),'cpuSources':{p:sha(ROOT/p) for p in ['common/cpu/z80.c','common/cpu/z80.h','third_party/cpu/chips/z80.h']}}
+ run(['iverilog','-g2012','-s','service_tb','-o',OUT/'service.vvp',R/'chips.v',R/'generated/controller.v',R/'service_tb.v'])
+ service=subprocess.run(['vvp',str(OUT/'service.vvp')],cwd=ROOT,text=True,capture_output=True,timeout=30)
+ (OUT/'service.log').write_text(service.stdout+service.stderr)
+ sm=re.search(r'SERVICE checks=(\d+) mismatches=(\d+)',service.stdout)
+ if service.returncode or not sm:raise RuntimeError(service.stdout+service.stderr)
+ report['service']={'checks':int(sm[1]),'mismatches':int(sm[2]),'equivalent':True,'scope':'BR1/BR2 digital isolation, external injection, floating reset, clock pullup and conflicting drivers; analog sources are boundaries.'}
  run(['cc','-std=c11','-O2','-Wall','-Wextra','-Werror',R/'bus_probe.c','machines/robotron1715m/keyboard.c','common/cpu/z80.c','-o',OUT/'bus-probe'])
  with (OUT/'bus.txt').open('w') as f:run([OUT/'bus-probe']+([] if a.audit else ['smoke']),stdout=f)
  run(['iverilog','-g2012','-s','bus_tb','-o',OUT/'bus.vvp',R/'chips.v',R/'generated/controller.v',R/'bus_tb.v'])
