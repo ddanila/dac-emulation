@@ -37,6 +37,9 @@ unsigned dac_drive_step_age(dac_session *, unsigned, unsigned);
  * 4 seven-byte result valid bit24 and ST0/ST1/ST2 bytes (only in result phase).
  * Returns zero when unavailable. */
 unsigned dac_drive_diagnostic(dac_session *, unsigned unit, unsigned field);
+int dac_printer_state(dac_session *, unsigned);
+unsigned dac_printer_status(dac_session *);
+unsigned dac_printer_dropped(dac_session *);
 const uint8_t *dac_printer_data(dac_session *);
 unsigned dac_printer_size(dac_session *);
 unsigned dac_printer_overflow(dac_session *);
@@ -88,6 +91,15 @@ unsigned dac_timeline_trigger(dac_session *);
 void dac_timeline_capture(dac_session *, unsigned);
 unsigned dac_timeline_count(dac_session *);
 const uint32_t *dac_timeline_data(dac_session *);
+unsigned dac_debug_reg(dac_session *, unsigned);
+int dac_debug_byte(dac_session *, unsigned);
+unsigned dac_debug_map(dac_session *, unsigned, unsigned);
+unsigned dac_debug_disassemble(dac_session *, unsigned);
+const char *dac_debug_text(dac_session *);
+unsigned dac_debug_step(dac_session *);
+int dac_debug_break(dac_session *, unsigned);
+unsigned dac_debug_hit(dac_session *);
+unsigned dac_debug_run(dac_session *, unsigned);
 unsigned dac_circuit_activity(dac_session *, unsigned field);
 
 #endif

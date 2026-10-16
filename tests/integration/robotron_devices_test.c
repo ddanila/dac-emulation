@@ -911,6 +911,45 @@ static void printer(void) {
   robotron_run(&m, 160);
   assert(m.printer_size == 2 && m.printer[1] == 'B');
 }
+static void printer_readiness(void) {
+  init();
+  m.sio_regs[0][4] = 4;
+  m.sio_regs[0][5] = 0x68;
+  m.sio_regs[0][3] = 32;
+  for (unsigned state = 1; state <= 3; state++) {
+    robotron_printer_state(&m, state);
+    assert(!(robotron_input(&m, 0x0e) & 32));
+    robotron_output(&m, 0x0c, 'A');
+    for (unsigned i = 0; i < 20; i++)
+      robotron_printer_clock(&m);
+    assert(m.tx_full && !m.tx_clocks);
+    robotron_printer_state(&m, 0);
+    for (unsigned i = 0; i < 10; i++)
+      robotron_printer_clock(&m);
+    assert(m.printer_size == state);
+  }
+  robotron_output(&m, 0x0c, 'B');
+  robotron_printer_clock(&m);
+  robotron_printer_state(&m, 2);
+  for (unsigned i = 0; i < 9; i++)
+    robotron_printer_clock(&m);
+  assert(m.printer_size == 4 && m.printer[3] == 'B');
+  m.sio_regs[0][3] = 0;
+  robotron_output(&m, 0x0c, 'C');
+  for (unsigned i = 0; i < 10; i++)
+    robotron_printer_clock(&m);
+  assert(m.printer_size == 4 && m.printer_dropped == 1);
+  m.sio_regs[0][1] = 1;
+  m.sio_regs[1][1] = 4;
+  m.sio_regs[1][2] = 0x80;
+  robotron_printer_state(&m, 0);
+  assert(m.printer_ext_pending);
+  assert(m.cpu.bus.ack(&m) == 0x8a);
+  assert(m.cpu.bus.ack(&m) == 0xff);
+  robotron_sio_control(&m, 0, 0x10);
+  robotron_sio_control(&m, 0, 0x38);
+  assert(!m.printer_ext_service && !m.printer_ext_pending);
+}
 static void transmitter_interrupt(void) {
   init();
   m.sio_regs[0][1] = 2;
@@ -1317,6 +1356,65 @@ static void floppy_layout_commands(void) {
   free(b);
 }
 
+/* Abort formatting before/after the first complete data field. Preserve the
+ * allocated EDSK and unrelated drive; never manufacture a partly written ID. */
+static void format_interruptions(void) {
+  const unsigned sizes[] = {1, 1, 1};
+  const uint8_t fmt[] = {0x4d, 0, 1, 3, 27, 0xe9};
+  const uint8_t id[] = {0, 0, 2, 1};
+  static uint8_t other[819200];
+  for (unsigned completed = 0; completed < 2; completed++)
+    for (unsigned action = 0; action < 3; action++) {
+      unsigned length;
+      uint8_t *b = layout(sizes, 3, &length);
+      init();
+      memset(other, 0x68, sizeof(other));
+      assert(!robotron_disk(&m, dac_memory_storage(b, length, 1), 1));
+      assert(!robotron_disk_unit(
+          &m, 1, dac_memory_storage(other, sizeof(other), 1), 1));
+      send(0x1d, fmt, sizeof(fmt));
+      wait_data();
+      for (unsigned i = 0; i < 4; i++) {
+        if (m.fdc.ready_at > m.cpu.cycles)
+          robotron_run(&m, (unsigned)(m.fdc.ready_at - m.cpu.cycles));
+        robotron_output(&m, 0x1d, id[i]);
+      }
+      assert(m.fdc.search == 6);
+      if (completed)
+        wait_data();
+      if (action == 0)
+        m.motor |= 128;
+      else if (action == 1)
+        robotron_output(&m, 0x20, 0);
+      else
+        robotron_drive_door(&m, 0, 1);
+      robotron_run(&m, 1);
+      assert(m.fdc.phase != 2);
+      assert(m.disk_writes == completed);
+      for (unsigned i = 0; i < 256; i++) {
+        assert(b[512 + i] == (completed ? 0xe9 : 0x31));
+        assert(b[768 + i] == 0x32 && b[1024 + i] == 0x33);
+      }
+      for (unsigned i = 0; i < sizeof(other); i++)
+        assert(other[i] == 0x68);
+      assert(!robotron_disk_validate(dac_memory_storage(b, length, 0)));
+      free(b);
+    }
+  /* Unsupported Read Track size mismatch is explicit and bounded. Ordinary
+   * sector reads on mixed-size tracks remain covered separately. */
+  unsigned length;
+  const unsigned mixed[] = {0, 1};
+  uint8_t *b = layout(mixed, 2, &length);
+  init();
+  assert(!robotron_disk(&m, dac_memory_storage(b, length, 1), 1));
+  data_command(0x42, 7, 1, 2);
+  for (unsigned t = 0; t < 3 * ROBOTRON_REVOLUTION_TICKS && m.fdc.phase == 2;
+       t++)
+    robotron_run(&m, 1);
+  assert(m.fdc.phase == 1 && m.fdc.result[1] == 4 && !m.disk_reads);
+  free(b);
+}
+
 static void drive_door(void) {
   robotron_init(&m);
   uint8_t *bytes = calloc(1, 819200);
@@ -1537,7 +1635,9 @@ int main(void) {
   floppy_layout_commands();
   transmitter_interrupt();
   two_drives_format();
+  format_interruptions();
   printer();
+  printer_readiness();
   keyboard_serial();
   floppy_seek();
   floppy_rotation();

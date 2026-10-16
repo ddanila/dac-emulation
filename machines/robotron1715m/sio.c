@@ -4,6 +4,20 @@
  * Synchronous modes remain unimplemented. */
 #include "robotron.h"
 #include <string.h>
+unsigned robotron_printer_cts(robotron *m) {
+  return m->printer_ext_latched ? m->printer_cts_latched : !m->printer_state;
+}
+void robotron_printer_state(robotron *m, unsigned state) {
+  if (state > 3)
+    return;
+  unsigned previous = !m->printer_state;
+  m->printer_state = state;
+  if (previous != !state && (m->sio_regs[0][1] & 1) &&
+      !m->printer_ext_latched) {
+    m->printer_ext_pending = m->printer_ext_latched = 1;
+    m->printer_cts_latched = !state;
+  }
+}
 static void break_status(robotron *m, unsigned active) {
   if (m->v24.break_active == active)
     return;
@@ -118,8 +132,11 @@ uint8_t robotron_sio_read(robotron *m, unsigned control) {
     return (!m->tx_full && !m->tx_clocks) | s->errors;
   if (reg == 2)
     return m->sio_regs[1][2];
-  return (0x78 | (!m->tx_full << 2)) | !!s->count |
-         ((s->pending || (m->tx_pending && (m->sio_regs[0][1] & 2))) << 1);
+  return (0x58 | (robotron_printer_cts(m) << 5) | (!m->tx_full << 2)) |
+         !!s->count |
+         ((s->pending || (m->tx_pending && (m->sio_regs[0][1] & 2)) ||
+           (m->printer_ext_pending && (m->sio_regs[0][1] & 1)))
+          << 1);
 }
 void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
   unsigned reg = m->sio_pointer[ch];
@@ -176,7 +193,12 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
     return;
   }
   switch ((v >> 3) & 7) {
+  case 2:
+    m->printer_ext_pending = m->printer_ext_latched = 0;
+    break;
   case 3:
+    m->printer_ext_pending = m->printer_ext_service = m->printer_ext_latched =
+        0;
     memset(&m->rx, 0, sizeof(m->rx));
     memset(m->sio_regs[0], 0, 8);
     m->rx.first = 1;
@@ -196,6 +218,8 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
       m->rx.in_service = 0;
     else if (m->tx_in_service)
       m->tx_in_service = 0;
+    else if (m->printer_ext_service)
+      m->printer_ext_service = 0;
     else if (m->rx_b.in_service)
       m->rx_b.in_service = 0;
     else if (m->v24.in_service)
@@ -210,7 +234,8 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
 
 /* One holding register plus a shift register. CTC0 channel 0 clocks TX A.
  * Capture bytes after the programmed asynchronous frame has been clocked.
- * This virtual printer is always ready; no physical waveform/handshake claim.
+ * CTS gates new characters when WR3 Auto Enables is set; in-flight frames
+ * finish.
  */
 void robotron_printer_clock(robotron *m) {
   const uint8_t *r = m->sio_regs[0];
@@ -218,6 +243,9 @@ void robotron_printer_clock(robotron *m) {
   if (!(r[5] & 8) || !(r[4] & 12))
     return;
   if (!m->tx_clocks && m->tx_full) {
+    if ((r[3] & 32) && m->printer_state)
+      return;
+    m->printer_accept = !m->printer_state;
     unsigned bits = widths[(r[5] >> 5) & 3];
     m->tx_shift = m->tx_holding & ((1u << bits) - 1);
     m->tx_full = 0;
@@ -229,6 +257,10 @@ void robotron_printer_clock(robotron *m) {
     m->tx_clocks = (half * div[r[4] >> 6] + 1) / 2;
   }
   if (m->tx_clocks && !--m->tx_clocks) {
+    if (!m->printer_accept) {
+      m->printer_dropped++;
+      return;
+    }
     if (m->printer_size < sizeof(m->printer))
       m->printer[m->printer_size++] = m->tx_shift;
     else
@@ -430,8 +462,9 @@ uint8_t robotron_v24_read(robotron *m, unsigned control) {
            (s->count ? m->v24.fifo_errors[s->read] : 0);
   if (reg == 2) {
     unsigned code =
-        m->rx.pending   ? 12
-        : m->tx_pending ? 8
+        m->rx.pending            ? 12
+        : m->tx_pending          ? 8
+        : m->printer_ext_pending ? 10
         : s->pending
             ? ((s->errors | (s->count ? m->v24.fifo_errors[s->read] : 0)) & 0x70
                    ? 6

@@ -156,3 +156,21 @@ copies PIP.COM, restores a snapshot after DMA has written part of a sector, comp
 8192 controller/mechanical samples at 64-clock intervals plus media bytes, then
 independently decodes the final file. The diagnostic panel shows sampled controller
 results only when valid; cumulative index counts expose pulses between frames.
+
+## Read Track investigation and interruption coverage (0.13)
+
+The [December 1978 NEC datasheet](https://bitsavers.trailing-edge.com/components/nec/_dataSheets/uPD765_Data_Sheet_Dec78.pdf),
+printed p.14, specifies starting at index, continuing after CRC errors, CHRN
+comparison and an EOT sector count. Its continuous-stream description does not
+settle mixed-size transfer length/recovery for the sector-level DSK data available
+here. No flux, gap payload or weak-bit data is present. Mixed-size Read Track
+therefore remains explicitly unsupported; a size mismatch reports ND before any
+out-of-sector read. This is an implementation limit, not a claim that the physical
+controller rejects such media. Resolving it needs a more specific controller
+reference or hardware trace and an explicit representation for missing bytes.
+
+Bounded fixtures now abort formatting both before the first payload commits and
+after one full sector, using motor-off, controller reset and drive-door opening.
+They check every retained payload byte, the unrelated drive, write count and EDSK
+validity. Existing underrun tests cover loss of the next ID tuple. Partial-ID and
+partial-gap formatting remain outside the sector-image representation.

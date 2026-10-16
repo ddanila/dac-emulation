@@ -86,6 +86,8 @@ int main(void) {
       r = dac_tap(s, a, b);
     else if (op == 7 && a < 2 && b < media_count)
       r = dac_mount_unit(s, a, media[b], media_size[b], protection[b]);
+    else if (op == 19 && a <= 3)
+      r = dac_printer_state(s, a);
     else if (op == 17)
       r = dac_serial_peer(s, a, b);
     else if (op == 18) {

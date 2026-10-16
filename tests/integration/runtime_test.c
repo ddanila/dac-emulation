@@ -215,6 +215,8 @@ static void serial_snapshots(void) {
     assert(!dac_load(both[i], 0, rom, sizeof(rom)) &&
            !dac_load(both[i], 1, prom, sizeof(prom)) && !dac_power(both[i], 1));
   }
+  assert(!dac_printer_state(s, 3));
+  assert(dac_printer_state(s, 4) < 0);
   assert(!dac_serial_signals(s, 3));
   assert(dac_run(s, 500) == 500);
   assert(!dac_serial_send(s, 0xa5));
@@ -223,6 +225,7 @@ static void serial_snapshots(void) {
   void *a = malloc(size), *b = malloc(size);
   assert(a && b);
   assert(!dac_state_save(s, a, size) && !dac_state_load(copy, a, size));
+  assert(dac_printer_status(copy) == 3);
   for (unsigned i = 0; i < 20; i++) {
     assert(dac_run(s, 100) == 100 && dac_run(copy, 100) == 100);
     assert(!dac_state_save(s, a, size) && !dac_state_save(copy, b, size));
@@ -242,6 +245,7 @@ static void serial_snapshots(void) {
   assert(dac_cable_status(s) == 3);
   assert(!dac_reset(s));
   assert(dac_cable_status(s) == 3 && dac_serial_status(s) == 3);
+  assert(dac_printer_status(s) == 3);
   assert(dac_serial_peer_baud(s) == 1200 && dac_serial_peer_format(s) == 0x318);
   assert(dac_video(s)[0] == 0xff101812);
   assert(!dac_cables(s, 0));
@@ -289,7 +293,32 @@ static void bounded_timeline(void) {
   assert(!dac_timeline_status(s));
   dac_destroy(s);
 }
+static void debugger(void) {
+  dac_session *s = dac_create(2);
+  uint8_t rom[2048] = {0x3e, 0x44, 0xd3, 0x15, 0xc3, 0, 0}, prom[256] = {0};
+  assert(!dac_load(s, 0, rom, sizeof(rom)) &&
+         !dac_load(s, 1, prom, sizeof(prom)) && !dac_power(s, 1));
+  unsigned cycles = dac_debug_reg(s, 17);
+  assert(dac_debug_byte(s, 0) == 0x3e);
+  assert((dac_debug_map(s, 0, 0) >> 24) == DAC_SPACE_ROM);
+  assert(dac_debug_disassemble(s, 0) == 2);
+  assert(strstr(dac_debug_text(s), "LD A"));
+  assert(dac_debug_reg(s, 17) == cycles);
+  for (unsigned i = 0; i < 3; i++) {
+    assert(dac_debug_step(s) > 0);
+    assert(dac_debug_reg(s, 21));
+  }
+  assert((dac_debug_reg(s, 2) >> 8) == 0x44);
+  assert(!dac_timeline_arm(s, 1, 0x15, 8, 28, 0) && !dac_debug_break(s, 1));
+  unsigned used = dac_debug_run(s, 10000);
+  assert(used > 0 && used < 10000 && dac_debug_hit(s));
+  assert(dac_timeline_trigger(s) > 0);
+  assert(dac_debug_run(s, 100) == 0);
+  assert(!dac_debug_break(s, 0) && dac_debug_run(s, 100) == 100);
+  dac_destroy(s);
+}
 int main(void) {
+  debugger();
   bounded_timeline();
   serial_snapshots();
   assert(dac_verification_abi() == 1);

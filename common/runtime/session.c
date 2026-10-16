@@ -3,6 +3,8 @@
 #include "../../machines/robotron1715m/robotron.h"
 #include "../../machines/vjuga/vjuga.h"
 #include "observe.h"
+#define CHIPS_UTIL_IMPL
+#include "../../third_party/cpu/chips/z80dasm.h"
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +15,8 @@ struct dac_session {
       timeline_triggered, timeline_index, timeline_filter, timeline_master,
       timeline_address;
   uint32_t timeline[512][13];
+  unsigned debug_break, debug_hit;
+  char debug_text[128];
   uint8_t firmware[16384], prom[256], glyphs[4096], keyboard[2048];
   size_t firmware_size, prom_size, glyph_size, disk_size, keyboard_size;
   int writable, writable_b;
@@ -54,6 +58,8 @@ static void forward_trace(void *user, const dac_trace_event *event) {
       (selected || (!s->timeline_triggered && match))) {
     if (!s->timeline_triggered && match) {
       s->timeline_triggered = 1;
+      if (s->debug_break)
+        s->debug_hit = 1;
       s->timeline_index = s->timeline_count + 1;
     }
     if (!s->timeline_triggered) {
@@ -65,6 +71,8 @@ static void forward_trace(void *user, const dac_trace_event *event) {
         s->timeline_count--;
       }
     }
+    if (s->debug_break && s->timeline_mode == 0)
+      s->debug_hit = 1;
     uint32_t *row = s->timeline[s->timeline_count++];
     row[0] = (uint32_t)event->cycle;
     row[1] = (uint32_t)(event->cycle >> 32);
@@ -333,7 +341,9 @@ int dac_power(dac_session *s, int on) {
     unsigned doors[2] = {s->r->drive[0].door_open, s->r->drive[1].door_open};
     unsigned signals = s->r->v24.signals, disconnected = s->r->disconnected;
     unsigned baud = s->r->v24.peer_baud, format = s->r->v24.peer_format;
+    unsigned printer_state = s->r->printer_state;
     robotron_init(s->r);
+    s->r->printer_state = printer_state;
     s->r->v24.signals = signals;
     s->r->v24.peer_baud = baud;
     s->r->v24.peer_format = format;
@@ -384,6 +394,101 @@ unsigned dac_run(dac_session *s, unsigned ticks) {
   else
     robotron_run(s->r, ticks);
   return ticks;
+}
+unsigned dac_debug_reg(dac_session *s, unsigned field) {
+  if (!s || !s->r || !s->on)
+    return 0;
+  dac_z80 *c = &s->r->cpu;
+  z80_t *r = &c->cpu;
+  const uint32_t values[] = {r->pc,
+                             r->sp,
+                             r->af,
+                             r->bc,
+                             r->de,
+                             r->hl,
+                             r->ix,
+                             r->iy,
+                             r->af2,
+                             r->bc2,
+                             r->de2,
+                             r->hl2,
+                             r->im,
+                             r->iff1,
+                             r->iff2,
+                             r->i,
+                             r->r,
+                             (uint32_t)c->cycles,
+                             (uint32_t)(c->cycles >> 32),
+                             s->r->bank,
+                             !!(c->pins & Z80_HALT),
+                             z80_opdone(r),
+                             Z80_GET_ADDR(c->pins)};
+  return field < sizeof(values) / sizeof(values[0]) ? values[field] : 0;
+}
+int dac_debug_byte(dac_session *s, unsigned address) {
+  return s && s->r && s->on && address < 65536
+             ? robotron_peek(s->r, (uint16_t)address)
+             : -EINVAL;
+}
+unsigned dac_debug_map(dac_session *s, unsigned address, unsigned write) {
+  return s && s->r && s->on && address < 65536
+             ? robotron_mapping(s->r, (uint16_t)address, write)
+             : 0;
+}
+typedef struct {
+  dac_session *s;
+  uint16_t pc;
+  unsigned length, read;
+} debug_dasm;
+static uint8_t debug_input(void *user) {
+  debug_dasm *d = user;
+  return d->read++ < 16 ? robotron_peek(d->s->r, d->pc++) : 0;
+}
+static void debug_output(char c, void *user) {
+  debug_dasm *d = user;
+  if (d->length < sizeof(d->s->debug_text) - 1)
+    d->s->debug_text[d->length++] = c;
+}
+unsigned dac_debug_disassemble(dac_session *s, unsigned address) {
+  if (!s || !s->r || !s->on || address > 65535)
+    return 0;
+  debug_dasm d = {s, (uint16_t)address, 0, 0};
+  unsigned next = z80dasm_op((uint16_t)address, debug_input, debug_output, &d);
+  s->debug_text[d.length] = 0;
+  return next;
+}
+const char *dac_debug_text(dac_session *s) { return s ? s->debug_text : NULL; }
+unsigned dac_debug_step(dac_session *s) {
+  if (!s || !s->r || !s->on)
+    return 0;
+  unsigned n = 0;
+  do {
+    robotron_run(s->r, 1);
+    n++;
+  } while (n < 100000 && !z80_opdone(&s->r->cpu.cpu));
+  return n;
+}
+int dac_debug_break(dac_session *s, unsigned enabled) {
+  if (!s || !s->r || !s->on || (enabled && !s->timeline_on))
+    return -EINVAL;
+  s->debug_break = !!enabled;
+  s->debug_hit = 0;
+  return 0;
+}
+unsigned dac_debug_hit(dac_session *s) { return s ? s->debug_hit : 0; }
+unsigned dac_debug_run(dac_session *s, unsigned ticks) {
+  if (!s || !s->r || !s->on)
+    return 0;
+  if (!s->debug_break)
+    return dac_run(s, ticks);
+  if (ticks > 100000)
+    ticks = 100000;
+  unsigned n = 0;
+  while (n < ticks && !s->debug_hit) {
+    robotron_run(s->r, 1);
+    n++;
+  }
+  return n;
 }
 int dac_key(dac_session *s, unsigned key, int down) {
   if (!s || !s->on || key > 255)
@@ -770,6 +875,18 @@ int dac_cables(dac_session *s, unsigned value) {
 unsigned dac_cable_status(dac_session *s) {
   return s && s->r ? s->r->disconnected : 0;
 }
+int dac_printer_state(dac_session *s, unsigned state) {
+  if (!s || !s->r || state > 3)
+    return -EINVAL;
+  robotron_printer_state(s->r, state);
+  return 0;
+}
+unsigned dac_printer_status(dac_session *s) {
+  return s && s->r ? s->r->printer_state : 0;
+}
+unsigned dac_printer_dropped(dac_session *s) {
+  return s && s->r ? s->r->printer_dropped : 0;
+}
 const uint8_t *dac_printer_data(dac_session *s) {
   return s && s->r ? s->r->printer : NULL;
 }
@@ -837,7 +954,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    11,
+                    12,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -857,7 +974,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 11 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 12 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||
@@ -938,7 +1055,10 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       k->tap_count > 64 || k->tap_phase > 2 || r->tx_pending > 1 ||
       r->tx_in_service > 1 || k->clock_fraction >= 3993600 ||
       r->key_write - r->key_read > 256 ||
-      r->printer_size > sizeof(r->printer) ||
+      r->printer_size > sizeof(r->printer) || r->printer_state > 3 ||
+      r->printer_accept > 1 || r->printer_ext_pending > 1 ||
+      r->printer_ext_service > 1 || r->printer_ext_latched > 1 ||
+      r->printer_cts_latched > 1 ||
       (f->formatting &&
        (f->data_len != f->command[3] * 4 || !f->command[3] ||
         f->command[3] > ROBOTRON_TRACK_SECTORS || f->write != 1)) ||

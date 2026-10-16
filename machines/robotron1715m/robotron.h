@@ -119,7 +119,9 @@ typedef struct {
   uint8_t ctc_vector[2];
   dac_media disk, disk_b;
   uint8_t printer[65536];
-  unsigned printer_size, printer_overflow;
+  unsigned printer_size, printer_overflow, printer_state, printer_dropped;
+  unsigned printer_accept, printer_ext_pending, printer_ext_service,
+      printer_ext_latched, printer_cts_latched;
   uint8_t tx_holding, tx_shift, tx_full, tx_pending, tx_in_service;
   unsigned tx_clocks;
   uint8_t sio_pointer[2], sio_regs[2][8];
@@ -139,6 +141,8 @@ void robotron_v24_clock(robotron *);
 uint8_t robotron_v24_read(robotron *, unsigned);
 uint8_t robotron_sio_read(robotron *, unsigned);
 void robotron_sio_control(robotron *, unsigned, uint8_t);
+void robotron_printer_state(robotron *, unsigned);
+unsigned robotron_printer_cts(robotron *);
 void robotron_printer_clock(robotron *);
 int robotron_load(robotron *, const void *rom, size_t, const void *prom,
                   size_t);
@@ -158,6 +162,8 @@ int robotron_format_track(robotron *, unsigned, unsigned, unsigned,
 void robotron_video(robotron *, uint32_t *pixels, unsigned *width,
                     unsigned *height);
 int robotron_key(robotron *, uint8_t);
+uint8_t robotron_peek(void *, uint16_t);
+unsigned robotron_mapping(robotron *, uint16_t, unsigned);
 uint8_t robotron_read(void *, uint16_t);
 void robotron_write(void *, uint16_t, uint8_t);
 uint8_t robotron_input(void *, uint16_t);

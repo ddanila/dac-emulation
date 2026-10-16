@@ -21,7 +21,7 @@ static int bank(robotron *m, unsigned b, uint16_t a) {
     return 5;
   }
 }
-static uint8_t peek(void *p, uint16_t a) {
+uint8_t robotron_peek(void *p, uint16_t a) {
   robotron *m = p;
   int b = bank(m, m->bank & 7, a);
   if (b < 4)
@@ -33,6 +33,18 @@ static uint8_t peek(void *p, uint16_t a) {
   if (b == 7)
     return m->vram[a & 4095];
   return 0;
+}
+unsigned robotron_mapping(robotron *m, uint16_t a, unsigned write) {
+  int b = bank(m, write ? ((m->bank >> 4) & 7) : (m->bank & 7), a);
+  unsigned space = b < 4    ? DAC_SPACE_RAM
+                   : b == 4 ? DAC_SPACE_ROM
+                   : b == 6 ? DAC_SPACE_GLYPHS
+                   : b == 7 ? DAC_SPACE_VIDEO
+                            : DAC_SPACE_UNKNOWN;
+  unsigned offset = b < 4    ? (unsigned)b * 65536 + a
+                    : b == 4 ? a & 2047
+                             : a & 4095;
+  return (space << 24) | offset;
 }
 static void memory_trace(robotron *m, const char *kind, uint16_t a, uint8_t v,
                          int b) {
@@ -51,7 +63,7 @@ static void memory_trace(robotron *m, const char *kind, uint16_t a, uint8_t v,
 }
 uint8_t robotron_read(void *p, uint16_t a) {
   robotron *m = p;
-  uint8_t v = peek(m, a);
+  uint8_t v = robotron_peek(m, a);
   if (m->trace.emit)
     memory_trace(m, "MR", a, v, bank(m, m->bank & 7, a));
   return v;
@@ -936,10 +948,12 @@ static uint8_t input_value(void *p, uint16_t a) {
   if (a == 0x0e) {
     unsigned reg = m->sio_pointer[0];
     m->sio_pointer[0] = 0;
-    return reg == 1
-               ? (!m->tx_full && !m->tx_clocks)
-               : (0x78 | (!m->tx_full << 2) | (m->key_read != m->key_write) |
-                  ((m->tx_pending && (m->sio_regs[0][1] & 2)) << 1));
+    return reg == 1 ? (!m->tx_full && !m->tx_clocks)
+                    : (0x58 | (robotron_printer_cts(m) << 5) |
+                       (!m->tx_full << 2) | (m->key_read != m->key_write) |
+                       (((m->tx_pending && (m->sio_regs[0][1] & 2)) ||
+                         (m->printer_ext_pending && (m->sio_regs[0][1] & 1)))
+                        << 1));
   }
   if (a == 0x0c) {
     if (m->key_read == m->key_write)
@@ -1085,6 +1099,10 @@ static int interrupt_source(robotron *m) {
     return -1;
   if (m->tx_pending && (m->sio_regs[0][1] & 2))
     return 6;
+  if (m->printer_ext_service)
+    return -1;
+  if (m->printer_ext_pending && (m->sio_regs[0][1] & 1))
+    return 10;
   if (m->rx_b.in_service)
     return -1;
   if (m->rx_b.pending)
@@ -1106,6 +1124,11 @@ static uint8_t ack_value(void *p) {
     m->dma.irq = 0;
     m->dma.in_service = 1;
     return m->dma.irq_vector;
+  }
+  if (source == 10) {
+    m->printer_ext_service = 1;
+    return (m->sio_regs[1][1] & 4) ? (m->sio_regs[1][2] & 0xf1) | 10
+                                   : m->sio_regs[1][2];
   }
   if (source == 9) {
     m->v24.ext_service = 1;
@@ -1169,6 +1192,8 @@ static void reti(robotron *m) {
     m->rx.in_service = 0;
   else if (m->tx_in_service)
     m->tx_in_service = 0;
+  else if (m->printer_ext_service)
+    m->printer_ext_service = 0;
   else if (m->rx_b.in_service)
     m->rx_b.in_service = 0;
   else if (m->v24.in_service)
