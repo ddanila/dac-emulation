@@ -1,6 +1,6 @@
 # Current Robotron emulation status
 
-Baseline: **0.16.0**, snapshot layout **14**, ABI **1**. This page supersedes
+Baseline: **0.17.0**, snapshot layout **15**, ABI **1**. This page supersedes
 present-tense summaries in dated bring-up notes. Hardware fidelity is bounded;
 the reference S550/CAS/S600/TOS-M configuration is not an identified owner dump.
 
@@ -10,6 +10,15 @@ keyboard CPU/matrix/serial input; two timed floppy drives and writable raw/DSK
 media; asynchronous SIO, printer readiness, serial transfers; deterministic
 snapshots, observation and replay. See the museum's
 [capability matrix](https://github.com/ddanila/dac/blob/main/docs/robotron/capabilities.md) for the browser tools.
+
+0.17.0 corrects keyboard decoding against the KiCad-derived reference HDL:
+all I/O cycles clock raw LED latches, A15 enables matrix input, selected contacts
+combine with OR, and WR clocks serial output for memory as well as I/O writes.
+The 131,072-vector audit and independent TV80/S600 logical comparison pass.
+Display indicators have an explicit 2 ms peak hold; raw latches are separately
+observable. Snapshot layout 15 includes this display state. CPU-clock offsets,
+analog timing, physical copper and specimen identity remain separately unqualified.
+See [board qualification](../verification/robotron-keyboard/README.md).
 
 0.16.0 gives both SIO receivers per-character error FIFOs. Framing errors follow
 characters; parity/overrun latch when the affected character reaches the FIFO

@@ -1,5 +1,6 @@
 #include "../../machines/robotron1715m/keyboard.h"
 #include <stdio.h>
+#include <assert.h>
 static unsigned serial_count,serial_bit;
 static void serial(void *u,unsigned bit){(void)u;serial_count++;serial_bit=bit;}
 int main(int argc,char **argv){
@@ -21,6 +22,17 @@ int main(int argc,char **argv){
   k.cpu.pins=0;unsigned before=serial_count;unsigned d=(a*37)^0xa5;
   k.cpu.bus.output(k.cpu.bus.user,(uint16_t)a,(uint8_t)d);
   printf("1 %04x %02x 00 %x %x %x\n",a,d&255,k.leds,serial_count-before,serial_bit);
+  unsigned count=serial_count;k.cpu.pins=Z80_IORQ|Z80_WR;
+  k.cpu.bus.output(k.cpu.bus.user,(uint16_t)a,(uint8_t)d);
+  assert(serial_count==count);
+ }
+ if(!smoke)for(unsigned a=0;a<32768;a++){
+  k.cpu.pins=0;unsigned before=serial_count;unsigned d=(a*19)^0x5a;
+  k.cpu.bus.write(k.cpu.bus.user,(uint16_t)a,(uint8_t)d);
+  printf("2 %04x %02x 00 %x %x %x\n",a,d&255,k.leds,serial_count-before,serial_bit);
+  unsigned count=serial_count;k.cpu.pins=Z80_MREQ|Z80_WR;
+  k.cpu.bus.write(k.cpu.bus.user,(uint16_t)a,(uint8_t)d);
+  assert(serial_count==count);
  }
  return 0;
 }

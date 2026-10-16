@@ -584,6 +584,9 @@ int dac_tap(dac_session *s, unsigned key, unsigned modifiers) {
   return robotron_keyboard_tap(&s->r->keyboard, key, modifiers);
 }
 unsigned dac_keyboard_leds(dac_session *s) {
+  return s && s->on && s->r ? robotron_keyboard_display_leds(&s->r->keyboard) : 0;
+}
+unsigned dac_keyboard_latches(dac_session *s) {
   return s && s->on && s->r ? s->r->keyboard.leds : 0;
 }
 unsigned dac_drive_status(dac_session *s) {
@@ -963,7 +966,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    14,
+                    15,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -983,7 +986,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 14 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 15 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||

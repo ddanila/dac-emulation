@@ -759,14 +759,14 @@ static void keyboard_serial(void) {
     robotron_keyboard_tick(&k);
   assert(k.leds == 2);
   /* Same address preserves a D latch; both address bits can be set together.
-   * A15-high matrix reads must leave the lamps alone. */
+   * A15-high matrix reads also clock the raw lamps via inverted IORQ. */
   k.cpu.pins = 0;
   k.cpu.bus.input(&k, 0x4000);
   assert(k.leds == 2);
   k.cpu.bus.input(&k, 0x6000);
   assert(k.leds == 3);
   k.cpu.bus.input(&k, 0x8100);
-  assert(k.leds == 3);
+  assert(k.leds == 0);
   k.cpu.bus.input(&k, 0x2000);
   assert(k.leds == 1);
   k.cpu.bus.input(&k, 0x0000);
@@ -775,6 +775,21 @@ static void keyboard_serial(void) {
   assert(k.leds == 3);
   k.cpu.bus.output(&k, 0x0000, 0);
   assert(k.leds == 0);
+  assert(robotron_keyboard_display_leds(&k) == 2); /* previous visible state */
+  for (unsigned i = 0; i < 8000; i++)
+    robotron_keyboard_tick(&k);
+  assert(!robotron_keyboard_display_leds(&k));
+  k.matrix[0] = 1; k.matrix[1] = 2; k.cpu.pins = 0;
+  assert(k.cpu.bus.input(&k, 0x8003) == 3);
+  assert(k.cpu.bus.input(&k, 0xe003) == 3 && k.leds == 3);
+  assert(k.cpu.bus.input(&k, 0x8000) == 0);
+  unsigned long long before = k.strobes;
+  k.cpu.bus.write(&k, 0x1234, 1);
+  assert(k.strobes == before + 1 && k.leds == 0);
+  k.cpu.pins = Z80_MREQ | Z80_WR;
+  k.cpu.bus.write(&k, 0x1234, 1);
+  assert(k.strobes == before + 1);
+  k.matrix[0] = k.matrix[1] = 0;
   assert(!robotron_keyboard_key(&k, 7, 5, 1) && k.matrix[7] == 32);
   assert(robotron_keyboard_key(&k, 13, 0, 1) < 0);
   assert(!robotron_keyboard_tap(&k, 61, 1));

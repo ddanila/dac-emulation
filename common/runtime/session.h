@@ -68,7 +68,9 @@ unsigned dac_disk_size(dac_session *);
 unsigned dac_disk_activity(dac_session *);
 int dac_matrix(dac_session *, unsigned key, int down);
 int dac_tap(dac_session *, unsigned key, unsigned modifiers);
+/* Display LEDs use a 2 ms peak hold; latches are instantaneous digital outputs. */
 unsigned dac_keyboard_leds(dac_session *);
+unsigned dac_keyboard_latches(dac_session *);
 unsigned dac_drive_status(dac_session *);
 unsigned dac_state_size(dac_session *);
 int dac_state_save(dac_session *, void *, size_t);

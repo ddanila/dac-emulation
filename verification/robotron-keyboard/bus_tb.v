@@ -12,7 +12,7 @@ module bus_tb;
   while(!$feof(f))begin
    n=$fscanf(f,"%d %h %h %h %h %h %h\n",kind,a,d,expected,el,ec,eb);
    if(n!=7)$fatal(1,"malformed vector");
-   address=a;cpu_data=d;#5;iorq_n=0;if(kind)wr_n=0;#5;
+   address=a;cpu_data=d;#5;if(kind!=2)iorq_n=0;if(kind)wr_n=0;#5;
    if(leds!==el[1:0] || (!kind && read_data!==expected[7:0]) || (kind && (ec!=1 || ta_takt!==1 || ta_daten!==!eb[0])))begin
     if(failures<12)$display("DIFF vector=%0d address=%h write=%0d read HDL=%h C=%h LEDs HDL=%h C=%h clock=%b count=%0d",count,address,kind,read_data,expected[7:0],leds,el[1:0],ta_takt,ec);
     failures=failures+1;

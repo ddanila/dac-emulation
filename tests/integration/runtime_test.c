@@ -243,7 +243,8 @@ static void mixed_workload_snapshots(int firmware_keyboard) {
     emit_out(keyboard,&k,0,1);
     const uint8_t lamps[]={0x01,0,0x60,0xed,0x78};
     memcpy(keyboard+k,lamps,sizeof(lamps));k+=sizeof(lamps);
-    const uint8_t release[]={0x01,0x01,0x80,0xed,0x78,0xe6,1,0x20,0xfa,
+    /* A15 enables matrix input; A14/A13 must remain high to keep lamps on. */
+    const uint8_t release[]={0x01,0x01,0xe0,0xed,0x78,0xe6,1,0x20,0xfa,
                              0x01,0,0,0xed,0x78,0x76};
     memcpy(keyboard+k,release,sizeof(release));
   }
@@ -340,6 +341,10 @@ static void mixed_workload_snapshots(int firmware_keyboard) {
     assert(!dac_matrix(s,0,0) && !dac_matrix(copy,0,0));
     assert(dac_run(s,2000)==2000);
     for(unsigned i=0;i<2000;i++)assert(dac_run(copy,1)==1);
+    assert(!dac_keyboard_latches(s) && !dac_keyboard_latches(copy));
+    assert(dac_keyboard_leds(s)==3 && dac_keyboard_leds(copy)==3);
+    assert(dac_run(s,8000)==8000);
+    for(unsigned i=0;i<8000;i++)assert(dac_run(copy,1)==1);
     assert(!dac_keyboard_leds(s) && !dac_keyboard_leds(copy));
     assert(!dac_state_save(s,a,size) && !dac_state_save(copy,b,size));
     assert(!memcmp(a,b,size));
@@ -505,11 +510,11 @@ static void s600_workload(const uint8_t *keyboard) {
   }
   assert(combined);
   /* Find an actual partially shifted keyboard byte, not an arbitrary delay.
-   * This optional native fixture deliberately inspects snapshot layout 14. */
+   * This optional native fixture deliberately inspects snapshot layout 15. */
   assert(!dac_matrix(a,61,1));unsigned found=0;
   for(unsigned n=0;n<1600;n++){
     assert(dac_run(a,256)==256);assert(!dac_state_save(a,left,size));
-    uint32_t header[8];memcpy(header,left,sizeof(header));assert(header[1]==14);
+    uint32_t header[8];memcpy(header,left,sizeof(header));assert(header[1]==15);
     robotron_sio_rx rx;memcpy(&rx,(uint8_t*)left+sizeof(header)+offsetof(robotron,rx),sizeof(rx));
     if(rx.phase&&rx.bits>0&&rx.bits<8){found=1;break;}
   }

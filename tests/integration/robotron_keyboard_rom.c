@@ -108,22 +108,24 @@ int main(int argc, char **argv) {
   press(3, 4);
   assert(count == 2 && received[1] == 0x9e);
   count = 0;
+  /* Visible indicators persist through the circuit's short scan-time pulses.
+   * Raw latch transitions are checked separately by the HDL qualification. */
   press(8, 7);
-  assert(m.keyboard.leds == 1);
+  assert(robotron_keyboard_display_leds(&m.keyboard) == 1);
   for (unsigned i = 0; i < 100; i++) {
     run(4000);
-    assert(m.keyboard.leds == 1);
+    assert(robotron_keyboard_display_leds(&m.keyboard) == 1);
   }
   press(8, 5);
-  assert(m.keyboard.leds == 3);
+  assert(robotron_keyboard_display_leds(&m.keyboard) == 3);
   for (unsigned i = 0; i < 100; i++) {
     run(4000);
-    assert(m.keyboard.leds == 3);
+    assert(robotron_keyboard_display_leds(&m.keyboard) == 3);
   }
   press(8, 7);
-  assert(m.keyboard.leds == 2);
+  assert(robotron_keyboard_display_leds(&m.keyboard) == 2);
   press(8, 5);
-  assert(m.keyboard.leds == 0);
+  assert(robotron_keyboard_display_leds(&m.keyboard) == 0);
   start(rom);
   robotron_keyboard_key(&m.keyboard, 7, 5, 1);
   run(8000000);

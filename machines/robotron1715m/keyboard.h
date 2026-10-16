@@ -7,6 +7,7 @@ typedef struct {
   dac_z80 cpu;
   uint8_t rom[2048], matrix[13], leds, last_read;
   unsigned clock_fraction;
+  unsigned led_hold[2]; /* Display-only persistence, master clocks; leds is raw. */
   uint64_t strobes;
   uint8_t taps[64], tap_mods[64], synthetic[13];
   unsigned tap_read, tap_count, tap_phase, tap_ticks;
@@ -16,6 +17,7 @@ typedef struct {
 void robotron_keyboard_init(robotron_keyboard *, const uint8_t *, void *,
                             void (*)(void *, unsigned));
 void robotron_keyboard_tick(robotron_keyboard *);
+unsigned robotron_keyboard_display_leds(const robotron_keyboard *);
 int robotron_keyboard_key(robotron_keyboard *, unsigned column, unsigned bit,
                           int down);
 int robotron_keyboard_tap(robotron_keyboard *, unsigned key,

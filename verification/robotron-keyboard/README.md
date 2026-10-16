@@ -26,12 +26,12 @@ The first target checks 8,210 supported transactions: LED latch addresses, each 
 column and every address in the low serial-output range. It passes with zero
 differences. It does not claim equivalence outside that subset.
 
-The audit exercises all 65,536 read addresses and the 32,768 writes that do not
-enable the 8282 against the CPU write driver. It currently **fails** with 57,101
-differences. Writes with A15 high are excluded because they can contend with the
-8282 on the physical bus. `run.py --wave` additionally writes a VCD in
-`build/keyboard-controller/`. Reports retain initial counterexamples and source
-hashes; comparison failures return nonzero rather than becoming accepted tests.
+The audit exercises all 65,536 I/O read addresses, 32,768 I/O writes and
+32,768 memory writes. It **passes 131,072 transactions with zero differences**.
+Writes with A15 high are excluded because they can contend with the 8282 on the
+physical bus. Repeated callback ticks must not emit duplicate serial clocks.
+`run.py --wave` writes VCD traces under `build/keyboard-controller/`.
+Failures return nonzero; reports retain counterexamples and source hashes.
 
 The firmware target adds the separately implemented TV80 Z80, pinned and licensed
 in `third_party/cpu/tv80`. It runs 4.6 million CPU clocks with A, Shift, Caps,
@@ -50,24 +50,26 @@ both CPU implementations emit the same 390 serial bits. Every corresponding
 bit has a constant two-CPU-clock timestamp offset in this run. This supports
 relative serial timing for this workload, not measured specimen timing.
 
-Both coarse LED samples and transition sequences disagree. The HDL shows
-scan-time LED pulses; the report retains sample differences and transition counts.
-Initial C LED state and reset-induced changes are recorded explicitly.
-The workload requires emitted bits for normal, Shift, Ctrl, repeated and post-reset
-input, and silence after REP release; these coverage checks pass. The whole comparison is therefore
-**not equivalent**, despite matching serial data.
+The 11,971 raw LED state records now agree, as do coarse samples. The original
+emulator incorrectly gated LED updates with A15, narrowed matrix decoding to
+8000–9FFF, ANDed selected columns, and restricted serial strobes to low I/O writes.
+The corrected reference implementation clocks LEDs on every I/O access, enables
+the matrix whenever A15 is high, ORs active contacts, and clocks serial output on
+memory writes as well as I/O writes. The unchanged KiCad-derived HDL independently
+checks these changes. The earlier failing reports remain available in git history.
 
-| Area | Reference transcription | Production emulator | Status |
-| --- | --- | --- | --- |
-| LED clock | Inverted IORQ via A2.2B | Updated only with A15 low | Unresolved drawing/firmware/specimen reconciliation |
-| Matrix output enable | Inverted A15 via A2.2C | Address range 8000–9FFF | Wider decoding differs |
-| Multiple selected columns | Digital sense boundary ORs active contacts | Selected bytes are ANDed | Requires front-end and specimen verification |
-| Serial clock | A1 inverts WR directly | Only low-range I/O writes emit callbacks | Wider decoding differs; memory-write clocking remains outside bus audit |
+This is **logical equivalence within the stated digital boundaries**, not exact
+CPU-clock equivalence: serial timestamps differ by two clocks; LED transitions
+usually differ by -1 clock, with +2 on write cycles and separate initialization/
+reset settling offsets. The report records the offset histogram and explicitly
+sets `cycleEquivalent` false. Analog settling and bus contention are outside scope.
 
-An experimental production change to follow the transcription broke the
-existing stable-LED firmware test and was reverted. Do not change the schematic
-or expected results simply to obtain a pass. The production core and browser
-distribution retain their previous behavior while these differences are resolved.
+The production `leds` field and `dac_keyboard_latches` expose raw electrical state.
+`dac_keyboard_leds` applies a display-only 2 ms peak hold to avoid frame-sampling
+flicker; it is not an analog LED model and never feeds the electrical simulation.
+The S600 visible-LED test checks this display state; co-simulation checks raw latches.
+A synthetic firmware fixture now sets A14/A13 during its matrix polling loop if
+it intends to leave both lamps on. Snapshot layout 15 preserves display persistence.
 
 ## Synchronization
 
