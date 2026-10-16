@@ -1668,6 +1668,44 @@ static void serial_clock_domains(void) {
   assert(m.rx_b.count == 1 && robotron_v24_read(&m, 0) == 0xa5);
   assert(m.v24.full && !m.v24.size); /* No TX edges supplied. */
 }
+static void serial_short_characters(void) {
+  const unsigned widths[] = {5, 7, 6, 8}, divisors[] = {1, 16, 32, 64};
+  for (unsigned channel = 0; channel < 2; channel++)
+    for (unsigned selector = 0; selector < 4; selector++)
+      for (unsigned width_code = 0; width_code < 4; width_code++)
+        for (unsigned parity_mode = 0; parity_mode < 3; parity_mode++)
+          for (unsigned sample = 0; sample < 2; sample++) {
+            init();
+            unsigned width = widths[width_code], div = divisors[selector];
+            unsigned value = (sample ? 0x15 : 0x02) & ((1u << width) - 1);
+            unsigned parity = 0;
+            for (unsigned bit = 0; bit < width; bit++) parity ^= value >> bit & 1;
+            if (parity_mode == 1) parity ^= 1; /* odd */
+            m.sio_regs[channel][3] = (width_code << 6) | 1;
+            m.sio_regs[channel][4] = (selector << 6) | 4 |
+                                    (parity_mode ? (parity_mode == 1 ? 1 : 3) : 0);
+            unsigned frame = value << 1, bits = width + 1;
+            if (parity_mode) frame |= parity << bits++;
+            frame |= 1u << bits++;
+            for (unsigned bit = 0; bit < bits; bit++)
+              for (unsigned clock = 0; clock < div; clock++) {
+                if (channel) robotron_v24_receive_clock(&m, frame >> bit & 1);
+                else robotron_serial_clock(&m, frame >> bit & 1);
+              }
+            unsigned expected = value | (0xffu << width);
+            if (parity_mode && width < 8)
+              expected = (expected & ~(1u << width)) | (parity << width);
+            robotron_sio_rx *rx = channel ? &m.rx_b : &m.rx;
+            assert(rx->count == 1 && !rx->errors);
+            assert((channel ? robotron_v24_read(&m, 0) : robotron_sio_read(&m, 0)) == (expected & 255));
+          }
+  /* Padding ones must not suppress BREAK detection for a short zero frame. */
+  init();
+  m.sio_regs[1][3] = 1;
+  m.sio_regs[1][4] = 4;
+  for (unsigned i = 0; i < 7; i++) robotron_v24_receive_clock(&m, 0);
+  assert(m.v24.break_active);
+}
 static void serial_explicit_edges(void) {
   const unsigned divisors[] = {1, 16, 32, 64};
   for (unsigned channel = 0; channel < 2; channel++)
@@ -1718,6 +1756,7 @@ static void serial_explicit_edges(void) {
   assert(!m.tx_halves && !m.serial_levels[1]);
 }
 int main(void) {
+  serial_short_characters();
   serial_explicit_edges();
   serial_clock_domains();
   dma_modes_restart();

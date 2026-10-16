@@ -52,7 +52,10 @@ static void receive_clock(robotron *m, unsigned ch, unsigned level) {
     if (!level) {
       s->phase = div == 1 ? 2 : 1;
       s->wait = div == 1 ? 1 : div / 2;
-      s->bits = s->byte = s->parity = 0;
+      s->bits = s->parity = 0;
+      /* UM008101 pp.235–236: short characters retain parity and fill unused
+       * high bits with ones. This is the SIO data register, not stripped ASCII. */
+      s->byte = 0xff;
       if (ch)
         m->v24.frame_errors = 0;
     }
@@ -66,11 +69,14 @@ static void receive_clock(robotron *m, unsigned ch, unsigned level) {
     return;
   }
   if (s->phase == 2) {
-    s->byte |= level << s->bits++;
+    s->byte = (s->byte & ~(1u << s->bits)) | (level << s->bits);
+    s->bits++;
     s->parity ^= level;
     if (s->bits == widths[r[3] >> 6])
       s->phase = (r[4] & 1) ? 3 : 4;
   } else if (s->phase == 3) {
+    if (s->bits < 8)
+      s->byte = (s->byte & ~(1u << s->bits)) | (level << s->bits);
     if ((s->parity ^ level) != !(r[4] & 2))
       s->errors |= 0x10;
     s->phase = 4;
@@ -81,7 +87,7 @@ static void receive_clock(robotron *m, unsigned ch, unsigned level) {
       else
         s->errors |= 0x40;
     }
-    if (ch && !level && !s->byte)
+    if (ch && !level && !(s->byte & ((1u << widths[r[3] >> 6]) - 1)))
       break_status(m, 1);
     if (s->count == 3) {
       s->errors |= 0x20;

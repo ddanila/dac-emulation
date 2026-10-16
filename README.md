@@ -1,5 +1,8 @@
 # DAC Emulation
 
+Current Robotron baseline: **0.15.1**, snapshot layout **13**. See [current behavior, qualification and remaining evidence](docs/robotron-status.md). Versioned sections below are development history.
+
+
 Portable emulation cores for [Danila’s Archive of Computing](https://github.com/ddanila/dac).
 
 The goal is to run the same machine implementation in native verification tools and in browser museum exhibits. The first extracted core is the Juku E5104 from [8080-cosim](https://github.com/ddanila/8080-cosim). VJUGA and Robotron 1715M share a Z80 CPU dependency with separate machine implementations.
@@ -156,7 +159,7 @@ References: [Zilog peripherals manual](https://www.zilog.com/docs/z80/um0081.pdf
 
 ### 0.11.0: observable bus events, serial decoding and DMA modes
 
-This is the current peripheral baseline; earlier version sections describe history.
+Historical 0.11.0 peripheral baseline; see the current status linked above.
 Robotron snapshot layout **11** includes the outgoing peer UART, BREAK/error-lock
 state and DMA mode/restart state. Juku/VJUGA layouts are unchanged. The museum
 preserves 0.10.0 for existing Robotron snapshots.

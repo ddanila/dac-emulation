@@ -116,6 +116,9 @@ test-runtime-sanitize: build/runtime-sanitize
 build/robotron-comparison: tests/integration/robotron_comparison.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
 
+build/robotron-serial-comparison: tests/integration/robotron_serial_comparison.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
 # Optional bounded historical keyboard qualification, never a dependency of test.
 .PHONY: test-s600-workload
 test-s600-workload: build/runtime-test build/robotron-keyboard-rom-test

@@ -21,7 +21,7 @@ make build/browser-reference
 node tests/integration/wasm_parity.mjs s550.bin cas.bin robotron.img --file-operations
 ```
 
-No full HDL run, MAME runtime differential, exact physical-variant validation, detailed model qualification, retail Safari qualification, or exhaustive application suite is claimed. Current machine-specific limitations are listed with each core. Firmware rights and physical evidence remain separate from the MIT software implementation.
+At this initial milestone, no full HDL run, MAME runtime differential, exact physical-variant validation, detailed model qualification, retail Safari qualification, or exhaustive application suite was claimed. The current optional MAME comparisons and qualification scope are described in [Robotron status](robotron-status.md). Current machine-specific limitations are listed with each core. Firmware rights and physical evidence remain separate from the MIT software implementation.
 
 Additional validation on 2026-10-10:
 

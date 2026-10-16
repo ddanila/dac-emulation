@@ -150,3 +150,27 @@ assert.equal(wasm._dac_drive_status_unit(transfer,0)&4,4);
 assert(wasm._dac_drive_protect(transfer,2,1)<0);
 wasm._dac_destroy(transfer);
 console.log('PASS atomic cross-drive transfer preserves bytes, protection and retained target disk');
+// Short-character SIO data includes parity/padding; snapshot mid-reception.
+// Original guest code polls channel B and stores its received register at 4000h.
+const shortSerial=wasm._dac_create(2),shortRom=new Uint8Array(2048);
+const shortCode=[0xf3,0x31,0xff,0x7f];
+for(const [port,values] of [[15,[3,0x41,4,0x47]],[9,[7,1]]])
+ for(const value of values)shortCode.push(0x3e,value,0xd3,port);
+shortCode.push(0xdb,15,0xe6,1,0x28,0xfa,0xdb,13,0x32,0,0x40,0x76);
+shortRom.set(shortCode);
+assert.equal(load(shortSerial,0,shortRom),0);
+assert.equal(load(shortSerial,1,await read('cas.bin')),0);
+assert.equal(wasm._dac_power(shortSerial,1),0);
+wasm._dac_run(shortSerial,1000);
+assert.equal(wasm._dac_serial_signals(shortSerial,3),0);
+assert.equal(wasm._dac_serial_send(shortSerial,0x61),0);
+wasm._dac_run(shortSerial,400);
+const shortSize=wasm._dac_state_size(shortSerial),shortState=wasm._malloc(shortSize);
+assert.equal(wasm._dac_state_save(shortSerial,shortState,shortSize),0);
+wasm._dac_run(shortSerial,10000);
+assert.equal(wasm._dac_debug_byte(shortSerial,0x4000),0xe1); // seven data bits + even parity bit
+assert.equal(wasm._dac_state_load(shortSerial,shortState,shortSize),0);
+for(let i=0;i<10000;i++)wasm._dac_run(shortSerial,1);
+assert.equal(wasm._dac_debug_byte(shortSerial,0x4000),0xe1);
+wasm._free(shortState);wasm._dac_destroy(shortSerial);
+console.log('PASS WASM short-character SIO register and mid-reception snapshot continuation');
