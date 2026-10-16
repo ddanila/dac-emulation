@@ -9,6 +9,8 @@
 struct dac_session {
   unsigned kind, on, width, height;
   dac_trace_sink observer;
+  unsigned timeline_on, timeline_count;
+  uint32_t timeline[512][13];
   uint8_t firmware[16384], prom[256], glyphs[4096], keyboard[2048];
   size_t firmware_size, prom_size, glyph_size, disk_size, keyboard_size;
   int writable, writable_b;
@@ -25,16 +27,55 @@ struct dac_session {
 #endif
 const char *dac_runtime_build_id(void) { return DAC_BUILD_ID; }
 unsigned dac_verification_abi(void) { return 1; }
+static void bind_observer(dac_session *s);
 static void forward_trace(void *user, const dac_trace_event *event) {
   dac_session *s = user;
   dac_trace_emit_event(&s->observer, event);
+  if (s->timeline_on && s->r && s->timeline_count < 512 &&
+      (event->master == DAC_MASTER_DMA || event->kind[0] == 'I')) {
+    uint32_t *row = s->timeline[s->timeline_count++];
+    row[0] = (uint32_t)event->cycle;
+    row[1] = (uint32_t)(event->cycle >> 32);
+    row[2] = event->kind[0] == 'M'   ? (event->kind[1] == 'R' ? 0 : 1)
+             : event->kind[1] == 'R' ? 2
+             : event->kind[1] == 'W' ? 3
+                                     : 4;
+    row[3] = event->address;
+    row[4] = event->data;
+    row[5] = event->master;
+    row[6] = event->space;
+    row[7] = event->offset;
+    row[8] = s->r->fdc.unit;
+    row[9] = s->r->fdc.cylinder[s->r->fdc.unit & 3];
+    row[10] = s->r->fdc.head;
+    row[11] = s->r->fdc.sector;
+    row[12] = s->r->fdc.phase;
+    if (s->timeline_count == 512) {
+      s->timeline_on = 0;
+      bind_observer(s);
+    }
+  }
 }
 static void bind_observer(dac_session *s) {
-  dac_trace_sink sink = {s->observer.emit ? forward_trace : NULL, s, 0, 0};
+  dac_trace_sink sink = {
+      (s->observer.emit || s->timeline_on) ? forward_trace : NULL, s, 0, 0};
   if (s->j)
     s->j->bus_trace = sink;
   if (s->r)
     s->r->trace = sink;
+}
+void dac_timeline_capture(dac_session *s, unsigned enabled) {
+  if (!s)
+    return;
+  s->timeline_count = 0;
+  s->timeline_on = !!enabled;
+  bind_observer(s);
+}
+unsigned dac_timeline_count(dac_session *s) {
+  return s ? s->timeline_count : 0;
+}
+const uint32_t *dac_timeline_data(dac_session *s) {
+  return s ? &s->timeline[0][0] : NULL;
 }
 int dac_set_trace(dac_session *s, const dac_trace_sink *sink) {
   if (!s)
@@ -575,7 +616,8 @@ int dac_serial_peer(dac_session *s, unsigned baud, unsigned format) {
     return -EINVAL;
   s->r->v24.peer_baud = baud;
   s->r->v24.peer_format = format;
-  s->r->v24.bits = s->r->v24.peer_phase = 0;
+  s->r->v24.bits = s->r->v24.peer_phase = s->r->v24.decode_phase = 0;
+  memset(&s->r->v24.decoder, 0, sizeof(s->r->v24.decoder));
   return 0;
 }
 unsigned dac_serial_peer_baud(dac_session *s) {
@@ -583,6 +625,17 @@ unsigned dac_serial_peer_baud(dac_session *s) {
 }
 unsigned dac_serial_peer_format(dac_session *s) {
   return s && s->r ? s->r->v24.peer_format : 0;
+}
+const uint8_t *dac_serial_decoded_data(dac_session *s) {
+  return s && s->r ? s->r->v24.decoded : NULL;
+}
+unsigned dac_serial_decoded_size(dac_session *s) {
+  return s && s->r ? s->r->v24.decoded_size : 0;
+}
+unsigned dac_serial_decoded_errors(dac_session *s) {
+  return s && s->r
+             ? s->r->v24.decoder.errors | (s->r->v24.decoded_overflow ? 32 : 0)
+             : 0;
 }
 unsigned dac_serial_errors(dac_session *s) {
   return s && s->r
@@ -625,8 +678,11 @@ unsigned dac_serial_overflow(dac_session *s) {
   return s && s->r ? s->r->v24.overflow : 0;
 }
 void dac_serial_clear(dac_session *s) {
-  if (s && s->r)
+  if (s && s->r) {
     s->r->v24.size = s->r->v24.overflow = 0;
+    s->r->v24.decoded_size = s->r->v24.decoded_overflow =
+        s->r->v24.decoder.errors = 0;
+  }
 }
 int dac_cables(dac_session *s, unsigned value) {
   if (!s || !s->r || value > 3)
@@ -713,7 +769,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    10,
+                    11,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -733,7 +789,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 10 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 11 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||
@@ -784,6 +840,12 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       f->data_len > sizeof(f->data) || f->data_pos > f->data_len ||
       (f->phase == 2 && f->data_pos >= f->data_len &&
        !(f->formatting && f->search == 6)) ||
+      r->dma.auto_restart > 1 || r->dma.mode > 3 || r->dma.bus_owned > 1 ||
+      r->dma.release > 2 || r->v24.tx_div > 64 || r->v24.tx_elapsed > 768 ||
+      r->v24.decode_phase >= 3993600 || r->v24.decoded_size > 65536 ||
+      r->v24.decoder.phase > 4 || r->v24.decoder.bits > 8 ||
+      r->v24.decoder.wait > 64 || r->v24.break_active > 1 ||
+      r->v24.break_latched > 1 || r->v24.rx_locked > 1 ||
       r->dma.operation > 3 || r->dma.stop_match > 1 ||
       r->dma.wait_enabled > 1 || r->dma.wait > 1 || r->dma.phase > 2 ||
       r->dma.ticks > 4 || (r->dma.phase && !r->dma.ticks) ||

@@ -71,6 +71,7 @@ typedef struct {
       in_service;
   uint8_t a_timing, b_timing, phase, ticks, latch;
   uint8_t operation, search_mask, match, stop_match, wait_enabled, wait;
+  uint8_t auto_restart, mode, bus_owned, release;
 } robotron_dma;
 typedef struct {
   uint8_t control, constant, waiting, pending, in_service;
@@ -98,6 +99,11 @@ typedef struct {
     unsigned peer_baud, peer_format, peer_phase;
     unsigned ext_pending, ext_service, ext_latched, ext_signals;
     uint8_t fifo_errors[3], frame_errors;
+    unsigned break_active, break_latched, rx_locked;
+    unsigned tx_frame, tx_elapsed, tx_div, decode_phase, decoded_size,
+        decoded_overflow;
+    uint8_t decoded[65536];
+    robotron_sio_rx decoder;
   } v24;
   unsigned disconnected; /* bit0 keyboard power/data; bit1 monitor video */
   unsigned keyboard_enabled;

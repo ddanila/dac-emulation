@@ -75,8 +75,14 @@ int dac_state_load(dac_session *, const void *, size_t);
 int dac_serial_peer(dac_session *, unsigned baud, unsigned format);
 unsigned dac_serial_peer_baud(dac_session *);
 unsigned dac_serial_peer_format(dac_session *);
+const uint8_t *dac_serial_decoded_data(dac_session *);
+unsigned dac_serial_decoded_size(dac_session *);
+unsigned dac_serial_decoded_errors(dac_session *);
 unsigned dac_serial_errors(dac_session *);
 void dac_serial_cancel(dac_session *);
+void dac_timeline_capture(dac_session *, unsigned);
+unsigned dac_timeline_count(dac_session *);
+const uint32_t *dac_timeline_data(dac_session *);
 unsigned dac_circuit_activity(dac_session *, unsigned field);
 
 #endif

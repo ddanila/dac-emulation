@@ -9,13 +9,15 @@ ptr=C.c_void_p;u=C.c_uint
 create=bind('dac_create',[u],ptr);load=bind('dac_load',[ptr,u,ptr,C.c_size_t]);mount=bind('dac_mount_unit',[ptr,u,ptr,C.c_size_t,C.c_int]);power=bind('dac_power',[ptr,C.c_int]);run=bind('dac_run',[ptr,u],u);key=bind('dac_key',[ptr,u,C.c_int]);send=bind('dac_serial_send',[ptr,u]);signals=bind('dac_serial_signals',[ptr,u]);size=bind('dac_serial_size',[ptr],u);data=bind('dac_serial_data',[ptr],ptr);diskdata=bind('dac_disk_data',[ptr],ptr)
 disk=bytearray((a.media/'tosm10.img').read_bytes());program=(root/'examples/robotron-v24/DACRX.COM').read_bytes()
 # Add an original COM to a temporary copy, preserving all original allocations.
-entries=[disk[20480+i*32:20480+(i+1)*32] for i in range(128)]
-used={0,1}
-for e in entries:
- if e[0]!=0xe5:used.update(int.from_bytes(e[j:j+2],'little') for j in range(16,32,2))
-block=next(i for i in range(2,390) if i not in used);index=next(i for i,e in enumerate(entries) if e[0]==0xe5)
-e=bytearray(32);e[1:12]=b'DACRX   COM';e[15]=(len(program)+127)//128;e[16:18]=block.to_bytes(2,'little')
-disk[20480+index*32:20480+(index+1)*32]=e;disk[20480+block*2048:20480+block*2048+len(program)]=program
+for filename in ['DACRX','DACTX']:
+ program=(root/f'examples/robotron-v24/{filename}.COM').read_bytes()
+ entries=[disk[20480+i*32:20480+(i+1)*32] for i in range(128)]
+ used={0,1}
+ for e in entries:
+  if e[0]!=0xe5:used.update(int.from_bytes(e[j:j+2],'little') for j in range(16,32,2))
+ block=next(i for i in range(2,390) if i not in used);index=next(i for i,e in enumerate(entries) if e[0]==0xe5)
+ e=bytearray(32);e[1:12]=(filename.ljust(8)+'COM').encode();e[15]=(len(program)+127)//128;e[16:18]=block.to_bytes(2,'little')
+ disk[20480+index*32:20480+(index+1)*32]=e;disk[20480+block*2048:20480+block*2048+len(program)]=program
 s=create(2)
 for slot,name in [(0,'s550.bin'),(1,'cas.bin')]:
  b=(a.media/name).read_bytes();assert load(s,slot,b,len(b))==0
@@ -51,5 +53,21 @@ for i in range(128):
 assert len(found)==1,found
 e=found[0];actual=b''.join(result[20480+int.from_bytes(e[j:j+2],'little')*2048:20480+int.from_bytes(e[j:j+2],'little')*2048+2048] for j in range(16,32,2) if int.from_bytes(e[j:j+2],'little'))[:e[15]*128]
 assert actual==payload,(len(actual),actual[:20])
-report={'passed':True,'guest':'TOS/M 1.0','protocol':'XMODEM-128 checksum','bytes':len(actual),'sha256':hashlib.sha256(actual).hexdigest(),'checks':['guest COM loaded through filesystem','bad checksum NAK and retry','duplicate block ACK without duplicate write','EOT ACK after BDOS close','guest-created file byte equality'],'limitations':['128-byte record length; final block padded','No physical UART qualification','Receiver timeout re-NAKs; explicit cancellation required to exit waiting receiver']}
+# Send the just-created binary back through the real guest program.
+for ch in b'DACTX RECEIVED.BIN\r':assert key(s,ch,1)==0;clocks(500_000)
+clocks(10_000_000);seen=len(output());assert send(s,21)==0
+returned=bytearray();packet=bytearray();finished=False
+for _ in range(4000):
+ clocks(100000);out=output();fresh=out[seen:];seen=len(out)
+ for b in fresh:
+  if not packet and b==4:assert send(s,6)==0;finished=True;break
+  if not packet:assert b==1,('header',b)
+  packet.append(b)
+  if len(packet)==132:
+   assert packet[1]^packet[2]==255
+   assert sum(packet[3:131])&255==packet[131]
+   returned.extend(packet[3:131]);packet.clear();assert send(s,6)==0
+ if finished:break
+assert finished and bytes(returned)==payload,('reverse transfer',len(returned),finished)
+report={'passed':True,'guest':'TOS/M 1.0','protocol':'XMODEM-128 checksum','bytes':len(actual),'sha256':hashlib.sha256(actual).hexdigest(),'checks':['guest COM loaded through filesystem','bad checksum NAK and retry','duplicate block ACK without duplicate write','EOT ACK after BDOS close','guest-created file byte equality','DACTX guest-to-host binary equality'],'limitations':['128-byte record length; final block padded','No physical UART qualification','Receiver timeout re-NAKs; explicit cancellation required to exit waiting receiver']}
 a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

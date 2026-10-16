@@ -27,7 +27,7 @@ static void init(void) {
 static void dma(unsigned a, unsigned b, unsigned n, unsigned bmode,
                 unsigned ctrl) {
   const uint8_t p[] = {0xc3, 0x7d,  a,    a >> 8, n - 1,  (n - 1) >> 8,
-                       0x14, bmode, 0x9d, b,      b >> 8, ctrl,
+                       0x14, bmode, 0xbd, b,      b >> 8, ctrl,
                        0x24, 0x82,  0xcf, 0xab};
   send(0, p, sizeof(p));
 }
@@ -1360,6 +1360,8 @@ static void v24(void) {
   assert(!m.v24.size);
   v24_test_clock();
   assert(m.v24.size == 1 && m.v24.output[0] == 0x5a);
+  assert(m.v24.decoded_size == 1 && m.v24.decoded[0] == 0x5a &&
+         !m.v24.decoder.errors);
   /* CTC0 channel 1, not frame/render callbacks, drives the internal route. */
   robotron_output(&m, 9, 7);
   robotron_output(&m, 9, 1);
@@ -1457,7 +1459,76 @@ static void v24_independent_peer(void) {
   assert(!m.v24.bits);
 }
 
+static void dma_modes_restart(void) {
+  init();
+  m.ram[0x4000] = 0x5a;
+  dma(0x4000, 0x5000, 2, 0x10, 0x10);
+  robotron_output(&m, 0, 0xa2); /* WR5 auto restart */
+  robotron_output(&m, 0, 0xb3);
+  robotron_output(&m, 0, 0x87);
+  robotron_run(&m, 12);
+  assert(m.dma.enabled && m.dma.remaining == 2 && m.dma.run_a == 0x4000 &&
+         !m.dma.transferred);
+  robotron_output(&m, 0, 0xc3);
+  assert(!m.dma.auto_restart);
+  for (unsigned mode = 0; mode < 3; mode++) {
+    init();
+    dma(0x4000, 0x5000, 4, 0x10, 0x10);
+    robotron_output(&m, 0, 0x81 | (mode << 5));
+    robotron_output(&m, 0, 0xb3);
+    robotron_output(&m, 0, 0x87);
+    robotron_run(&m, 6);
+    assert(m.dma.transferred == 1);
+    m.dma.force_ready = 0;
+    unsigned step = m.cpu.cpu.step;
+    robotron_run(&m, 20);
+    if (mode == 1)
+      assert(m.cpu.cpu.step == step && m.dma.bus_owned);
+    else
+      assert(!m.dma.bus_owned);
+  }
+}
+static void serial_peer_decoder(void) {
+  init();
+  robotron_output(&m, 9, 7);
+  robotron_output(&m, 9, 13);
+  m.sio_regs[1][4] = 0x47;
+  m.sio_regs[1][5] = 0xea;
+  m.v24.signals = 3;
+  m.v24.peer_baud = 1200;
+  m.v24.peer_format = 0x228;
+  robotron_output(&m, 13, 0xa5);
+  robotron_run(&m, 45000);
+  assert(m.v24.decoded_size == 1 && m.v24.decoded[0] == 0xa5 &&
+         !m.v24.decoder.errors);
+  m.v24.peer_format = 0x218;
+  robotron_output(&m, 13, 0x55);
+  robotron_run(&m, 45000);
+  assert(m.v24.decoded_size == 2 && (m.v24.decoder.errors & 16));
+}
+static void serial_break_lock(void) {
+  init();
+  m.sio_regs[1][3] = 0xc1;
+  m.sio_regs[1][4] = 4;
+  m.sio_regs[1][1] = 9;
+  for (unsigned i = 0; i < 10; i++)
+    robotron_v24_receive_clock(&m, 0);
+  assert(m.v24.break_active && m.v24.ext_pending &&
+         (robotron_v24_read(&m, 1) & 128));
+  assert(m.rx_b.count == 1);
+  robotron_v24_read(&m, 0);
+  assert(m.v24.rx_locked && m.rx_b.count == 1);
+  robotron_sio_control(&m, 1, 0x30);
+  assert(!m.v24.rx_locked && !m.rx_b.count);
+  robotron_sio_control(&m, 1, 0x10);
+  robotron_v24_receive_clock(&m, 1);
+  assert(!m.v24.break_active && m.v24.ext_pending &&
+         !(robotron_v24_read(&m, 1) & 128));
+}
 int main(void) {
+  dma_modes_restart();
+  serial_break_lock();
+  serial_peer_decoder();
   v24();
   v24_independent_peer();
   drive_door();

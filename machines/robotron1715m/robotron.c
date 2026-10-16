@@ -770,6 +770,7 @@ static void dma_write(robotron *m, uint8_t v) {
     /* Reset aborts bus/interrupt logic; programmed addresses and the read
      * sequence survive (UM008101 pp.107-108). Six writes escape parameters. */
     d->enabled = d->irq_enabled = d->irq = d->in_service = d->force_ready = 0;
+    d->auto_restart = d->bus_owned = d->release = 0;
     d->wait_enabled = d->a_timing = d->b_timing = d->phase = d->ticks = 0;
     d->status = 0x38;
     return;
@@ -847,9 +848,11 @@ static void dma_write(robotron *m, uint8_t v) {
       if (v & (8 << i))
         d->tags[d->tag_count++] = i + 1;
   } else if ((v & 0xc7) == 0x82) {
+    d->auto_restart = (v >> 5) & 1;
     d->ready_high = (v >> 3) & 1;
     d->wait_enabled = !(v & 16);
   } else if ((v & 0x83) == 0x81) {
+    d->mode = (v >> 5) & 3;
     for (unsigned i = 0; i < 3; i++)
       if (v & (4 << i))
         d->tags[d->tag_count++] = 5 + i;
@@ -1482,14 +1485,21 @@ void robotron_run(robotron *m, unsigned ticks) {
       }
     }
     robotron_dma *d = &m->dma;
-    if (d->enabled && d->remaining &&
-        (d->phase ||
-         (dma_ready(m) && !(m->cpu.pins & (Z80_RD | Z80_WR | Z80_IORQ))))) {
+    if (!d->enabled || !d->remaining || (d->mode != 1 && !dma_ready(m)))
+      d->bus_owned = 0;
+    if (d->enabled && d->remaining && d->mode == 1 && d->bus_owned &&
+        !d->phase && !dma_ready(m)) {
+      /* Continuous mode retains the bus while waiting for RDY. */
+      m->cpu.cycles++;
+    } else if (d->enabled && d->remaining && !d->release &&
+               (d->phase || (dma_ready(m) &&
+                             !(m->cpu.pins & (Z80_RD | Z80_WR | Z80_IORQ))))) {
       uint16_t src = d->direction ? d->run_a : d->run_b,
                dst = d->direction ? d->run_b : d->run_a;
       unsigned si = d->direction ? d->a_io : d->b_io,
                di = d->direction ? d->b_io : d->a_io;
       if (!d->phase) {
+        d->bus_owned = 1;
         d->phase = 1;
         d->ticks = dma_cycles(d->direction ? d->a_timing : d->b_timing, si);
       }
@@ -1524,6 +1534,10 @@ void robotron_run(robotron *m, unsigned ticks) {
             advance(&d->run_a, d->a_mode);
           if (d->operation != 2 || !d->direction)
             advance(&d->run_b, d->b_mode);
+          if (d->mode == 0) {
+            d->bus_owned = 0;
+            d->release = 1;
+          }
           d->transferred++;
           --d->remaining;
           if (matched && d->stop_match)
@@ -1551,6 +1565,7 @@ void robotron_run(robotron *m, unsigned ticks) {
                 transfer_done(m);
             }
             d->enabled = 0;
+            d->bus_owned = 0;
             d->status = (d->status & 0x18) | 1;
             if (d->irq_enabled && (d->irq_control & 2) && !d->in_service) {
               d->irq = 1;
@@ -1558,6 +1573,17 @@ void robotron_run(robotron *m, unsigned ticks) {
                                   ? (d->vector & 0xf9) | 4 | (matched ? 2 : 0)
                                   : d->vector;
               d->status &= ~8;
+            }
+            if (d->auto_restart && !(matched && d->stop_match)) {
+              d->run_a = d->a;
+              d->run_b = d->b;
+              d->remaining = (unsigned)d->count + 1;
+              d->transferred = 0;
+              d->status |= 0x30;
+              d->enabled = 1;
+              d->release = 1;
+              if (d->irq)
+                d->irq_vector = d->vector;
             }
           }
         }
@@ -1567,6 +1593,10 @@ void robotron_run(robotron *m, unsigned ticks) {
       m->cpu.cycles++;
     } else {
       dac_z80_tick(&m->cpu, interrupt_source(m) >= 0, 0);
+      if (d->release == 1 && (m->cpu.pins & (Z80_RD | Z80_WR | Z80_IORQ)))
+        d->release = 2;
+      else if (d->release == 2 && !(m->cpu.pins & (Z80_RD | Z80_WR | Z80_IORQ)))
+        d->release = 0;
       if (m->cpu.pins & Z80_RETI)
         reti(m);
     }

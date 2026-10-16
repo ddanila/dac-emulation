@@ -251,7 +251,25 @@ static void serial_snapshots(void) {
   dac_destroy(copy);
 }
 
+static void bounded_timeline(void) {
+  dac_session *s = dac_create(2);
+  uint8_t rom[2048] = {0x3e, 0x44, 0xd3, 0x15, 0xc3, 0, 0}, prom[256] = {0};
+  assert(!dac_load(s, 0, rom, sizeof(rom)) &&
+         !dac_load(s, 1, prom, sizeof(prom)) && !dac_power(s, 1));
+  dac_timeline_capture(s, 1);
+  assert(dac_run(s, 100000) == 100000);
+  assert(dac_timeline_count(s) == 512);
+  const uint32_t *rows = dac_timeline_data(s);
+  assert(rows[2] == 3 && (rows[3] & 255) == 0x15 && rows[4] == 0x44);
+  uint32_t first = rows[0];
+  assert(dac_run(s, 100000) == 100000 && rows[0] == first &&
+         dac_timeline_count(s) == 512);
+  dac_timeline_capture(s, 0);
+  assert(!dac_timeline_count(s));
+  dac_destroy(s);
+}
 int main(void) {
+  bounded_timeline();
   serial_snapshots();
   assert(dac_verification_abi() == 1);
   sessions(0);

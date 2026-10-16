@@ -153,3 +153,34 @@ first differing observation. External UART error injection uses native tests.
 
 References: [Zilog peripherals manual](https://www.zilog.com/docs/z80/um0081.pdf),
 [Ward Christensen's protocol](https://www.menie.org/georges/embedded/xmodem_specification.html).
+
+### 0.11.0: observable bus events, serial decoding and DMA modes
+
+This is the current peripheral baseline; earlier version sections describe history.
+Robotron snapshot layout **11** includes the outgoing peer UART, BREAK/error-lock
+state and DMA mode/restart state. Juku/VJUGA layouts are unchanged. The museum
+preserves 0.10.0 for existing Robotron snapshots.
+
+- Opt-in session timeline captures up to 512 I/O, interrupt-acknowledge and DMA
+  memory events, with CPU cycles, physical RAM offsets and FDC context. Capture
+  detaches when full. It is diagnostic host state, excluded from snapshots.
+- Channel B detects asynchronous BREAK and termination through external/status
+  latches. First-character framing/overrun errors hold a read FIFO entry until
+  Error Reset. Tests cover these transitions; synchronous protocols remain absent.
+- An independent outgoing UART decoder samples transmitted start/data/parity/stop
+  waveforms. Fixed peer framing uses a separate CPU-clock oscillator; adaptive
+  mode follows guest divisors. Raw TX capture remains available for comparison.
+  Tests include matching frames and mismatched parity. TX half-stop rounding at
+  x1 and physical line noise are still outside the model.
+- DMA implements auto-restart, byte-mode CPU release, burst release on inactive
+  RDY, and continuous-mode ownership while awaiting RDY. Tests distinguish the
+  modes and verify address/count reload. This remains a bus-cycle model: no
+  half-clock BUSRQ/BUSAK edges or pulse-output qualification.
+- `examples/robotron-v24/build-tx.py` builds original MIT `DACTX.COM`. The optional
+  TOS/M qualification now receives a binary with DACRX then transmits it back
+  through DACTX, checking byte equality. CP/M record padding is retained.
+
+References: Zilog UM008101-0601, DMA mode diagrams and WR5, SIO asynchronous
+receive/error handling and RR0 BREAK. The new behaviour is covered by bounded
+native tests and same-build snapshot/WASM checks; these are not physical-specimen
+measurements.

@@ -4,6 +4,16 @@
  * Synchronous modes remain unimplemented. */
 #include "robotron.h"
 #include <string.h>
+static void break_status(robotron *m, unsigned active) {
+  if (m->v24.break_active == active)
+    return;
+  m->v24.break_active = active;
+  if ((m->sio_regs[1][1] & 1) && !m->v24.ext_latched) {
+    m->v24.ext_latched = m->v24.ext_pending = 1;
+    m->v24.ext_signals = m->v24.signals;
+    m->v24.break_latched = active;
+  }
+}
 static void receive_clock(robotron *m, unsigned ch, unsigned level) {
   robotron_sio_rx *s = ch ? &m->rx_b : &m->rx;
   uint8_t *r = m->sio_regs[ch];
@@ -17,6 +27,13 @@ static void receive_clock(robotron *m, unsigned ch, unsigned level) {
   }
   const unsigned divisors[] = {1, 16, 32, 64}, widths[] = {5, 7, 6, 8};
   unsigned div = divisors[r[4] >> 6];
+  if (ch && m->v24.break_active) {
+    if (level) {
+      break_status(m, 0);
+      s->phase = 0;
+    } else
+      return;
+  }
   if (!s->phase) {
     if (!level) {
       s->phase = div == 1 ? 2 : 1;
@@ -50,6 +67,8 @@ static void receive_clock(robotron *m, unsigned ch, unsigned level) {
       else
         s->errors |= 0x40;
     }
+    if (ch && !level && !s->byte)
+      break_status(m, 1);
     if (s->count == 3) {
       s->errors |= 0x20;
       if (ch) {
@@ -66,7 +85,8 @@ static void receive_clock(robotron *m, unsigned ch, unsigned level) {
     s->phase = 0;
     m->serial_events++;
     if ((r[1] & 0x18) == 0x10 || (r[1] & 0x18) == 0x18 ||
-        ((r[1] & 0x18) == 8 && s->first)) {
+        ((r[1] & 0x18) == 8 &&
+         (s->first || (s->errors & 0x20) || (ch && m->v24.frame_errors)))) {
       s->pending = 1;
       s->first = 0;
     }
@@ -116,11 +136,13 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
     case 2:
       m->v24.ext_pending = m->v24.ext_latched = 0;
       m->v24.ext_signals = m->v24.signals;
+      m->v24.break_latched = m->v24.break_active;
       break;
     case 3:
       memset(&m->rx_b, 0, sizeof(m->rx_b));
       memset(m->sio_regs[1], 0, 8);
       m->rx_b.first = 1;
+      m->v24.break_active = m->v24.break_latched = m->v24.rx_locked = 0;
       m->v24.ext_pending = m->v24.ext_service = m->v24.ext_latched = 0;
       memset(m->v24.fifo_errors, 0, 3);
       m->v24.full = m->v24.tx_clocks = m->v24.pending = m->v24.in_service = 0;
@@ -133,6 +155,12 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
       break;
     case 6:
       m->rx_b.errors = 0;
+      if (m->v24.rx_locked && m->rx_b.count) {
+        m->rx_b.read = (m->rx_b.read + 1) % 3;
+        m->rx_b.count--;
+        m->rx_b.pending = 0;
+      }
+      m->v24.rx_locked = 0;
       break;
     case 7:
       if (m->rx_b.in_service)
@@ -217,15 +245,76 @@ void robotron_v24_signals(robotron *m, unsigned value) {
   m->v24.signals = value;
   if (changed && (m->sio_regs[1][1] & 1) && !m->v24.ext_latched) {
     m->v24.ext_signals = value;
+    m->v24.break_latched = m->v24.break_active;
     m->v24.ext_latched = 1;
     m->v24.ext_pending = 1;
   }
+}
+/* Independent peer samples the outgoing UART waveform. Adaptive mode uses
+ * guest divisors; fixed mode has its own 16x oscillator in CPU-clock time. */
+static void peer_receive(robotron *m, unsigned div) {
+  robotron_sio_rx *s = &m->v24.decoder;
+  unsigned format = m->v24.peer_format;
+  const uint8_t *r = m->sio_regs[1];
+  const unsigned widths[] = {5, 7, 6, 8};
+  unsigned width = m->v24.peer_baud ? (format & 15) : widths[(r[5] >> 5) & 3];
+  unsigned parity = m->v24.peer_baud ? ((format >> 4) & 3)
+                                     : ((r[4] & 1) ? ((r[4] & 2) ? 2 : 1) : 0);
+  unsigned level =
+      (r[5] & 16) ? 0
+      : m->v24.tx_clocks
+          ? ((m->v24.tx_frame >>
+              (m->v24.tx_elapsed / (m->v24.tx_div ? m->v24.tx_div : 1))) &
+             1)
+          : 1;
+  if (!s->phase) {
+    if (!level) {
+      s->phase = div == 1 ? 2 : 1;
+      s->wait = div == 1 ? 1 : div / 2;
+      s->byte = s->bits = s->parity = 0;
+    }
+    return;
+  }
+  if (--s->wait)
+    return;
+  s->wait = div;
+  if (s->phase == 1) {
+    s->phase = level ? 0 : 2;
+    return;
+  }
+  if (s->phase == 2) {
+    s->byte |= level << s->bits++;
+    s->parity ^= level;
+    if (s->bits == width)
+      s->phase = parity ? 3 : 4;
+    return;
+  }
+  if (s->phase == 3) {
+    if ((s->parity ^ level) != (parity == 1))
+      s->errors |= 16;
+    s->phase = 4;
+    return;
+  }
+  if (!level)
+    s->errors |= 64;
+  if (m->v24.decoded_size < 65536)
+    m->v24.decoded[m->v24.decoded_size++] = s->byte;
+  else
+    m->v24.decoded_overflow = 1;
+  s->phase = 0;
 }
 void robotron_v24_peer_tick(robotron *m) {
   const uint8_t *r = m->sio_regs[1];
   const unsigned widths[] = {5, 7, 6, 8}, divisors[] = {1, 16, 32, 64};
   robotron_timer *t = &m->ctc[5];
   unsigned baud = m->v24.peer_baud;
+  if (baud) {
+    m->v24.decode_phase += 16 * baud;
+    while (m->v24.decode_phase >= 3993600) {
+      m->v24.decode_phase -= 3993600;
+      peer_receive(m, 16);
+    }
+  }
   if (!baud &&
       (!(r[4] & 12) || (t->control & 0x42) || t->waiting || !t->counter))
     return;
@@ -291,7 +380,21 @@ void robotron_v24_clock(robotron *m) {
                                                     : (r[4] & 12) == 8 ? 3
                                                                        : 4);
     m->v24.tx_clocks = (half * div + 1) / 2;
+    unsigned p = 0;
+    for (unsigned i = 0; i < width; i++)
+      p ^= (m->v24.shift >> i) & 1;
+    m->v24.tx_frame = (unsigned)m->v24.shift << 1;
+    unsigned end = 1 + width;
+    if (r[4] & 1)
+      m->v24.tx_frame |= (p ^ !(r[4] & 2)) << end++;
+    m->v24.tx_frame |= 3u << end;
+    m->v24.tx_elapsed = 0;
+    m->v24.tx_div = div;
   }
+  if (!m->v24.peer_baud)
+    peer_receive(m, div);
+  if (m->v24.tx_clocks)
+    m->v24.tx_elapsed++;
   if (m->v24.tx_clocks && !--m->v24.tx_clocks && (m->v24.signals & 2)) {
     m->serial_events++;
     if (m->v24.size < sizeof(m->v24.output))
@@ -306,6 +409,12 @@ uint8_t robotron_v24_read(robotron *m, unsigned control) {
     if (!s->count)
       return 0;
     uint8_t v = s->fifo[s->read];
+    if ((m->sio_regs[1][1] & 0x18) == 8 &&
+        ((s->errors & 0x20) || m->v24.fifo_errors[s->read])) {
+      m->v24.rx_locked = 1;
+      s->pending = 1;
+      return v;
+    }
     s->read = (s->read + 1) % 3;
     s->count--;
     if (!s->count)
@@ -333,6 +442,9 @@ uint8_t robotron_v24_read(robotron *m, unsigned control) {
                                    : m->sio_regs[1][2];
   }
   unsigned signals = m->v24.ext_latched ? m->v24.ext_signals : m->v24.signals;
-  return 0x40 | ((signals & 1) ? 0x20 : 0) | ((signals & 2) ? 8 : 0) |
+  return ((m->v24.ext_latched ? m->v24.break_latched : m->v24.break_active)
+              ? 0x80
+              : 0) |
+         0x40 | ((signals & 1) ? 0x20 : 0) | ((signals & 2) ? 8 : 0) |
          (!m->v24.full << 2) | !!s->count;
 }
