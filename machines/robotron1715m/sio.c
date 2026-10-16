@@ -391,14 +391,13 @@ void robotron_v24_peer_tick(robotron *m) {
     m->v24.bits--;
   }
 }
-void robotron_v24_clock(robotron *m) {
+/* One falling TX clock edge; independent from RX clock sampling. */
+void robotron_v24_transmit_clock(robotron *m) {
   const uint8_t *r = m->sio_regs[1];
   const unsigned divisors[] = {1, 16, 32, 64}, widths[] = {5, 7, 6, 8};
   unsigned div = divisors[r[4] >> 6];
   if (!(r[4] & 12))
     return;
-  robotron_v24_receive_clock(
-      m, m->v24.bits && (m->v24.signals & 2) ? (m->v24.frame & 1) : 1);
   if (!m->v24.tx_clocks &&
       (!(r[5] & 8) || ((r[3] & 32) && !(m->v24.signals & 1))))
     return;
@@ -434,6 +433,15 @@ void robotron_v24_clock(robotron *m) {
     else
       m->v24.overflow = 1;
   }
+}
+/* The museum board route supplies both clocks from CTC0 channel 1.
+ * Native fixtures may supply RX samples and TX edges independently. */
+void robotron_v24_clock(robotron *m) {
+  if (!(m->sio_regs[1][4] & 12))
+    return;
+  robotron_v24_receive_clock(
+      m, m->v24.bits && (m->v24.signals & 2) ? (m->v24.frame & 1) : 1);
+  robotron_v24_transmit_clock(m);
 }
 uint8_t robotron_v24_read(robotron *m, unsigned control) {
   robotron_sio_rx *s = &m->rx_b;

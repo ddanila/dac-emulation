@@ -97,6 +97,7 @@ unsigned dac_debug_map(dac_session *, unsigned, unsigned);
 unsigned dac_debug_disassemble(dac_session *, unsigned);
 const char *dac_debug_text(dac_session *);
 unsigned dac_debug_step(dac_session *);
+int dac_debug_target(dac_session *, unsigned);
 int dac_debug_break(dac_session *, unsigned);
 unsigned dac_debug_hit(dac_session *);
 unsigned dac_debug_run(dac_session *, unsigned);

@@ -1623,7 +1623,53 @@ static void serial_break_lock(void) {
   assert(!m.v24.break_active && m.v24.ext_pending &&
          !(robotron_v24_read(&m, 1) & 128));
 }
+/* Bounded clock fixtures: no wall-clock waits, ROM boot or Verilog. */
+static void serial_clock_domains(void) {
+  for (unsigned selector = 0; selector < 4; selector++) {
+    const unsigned divisors[] = {1, 16, 32, 64};
+    unsigned clocks = (21 * divisors[selector] + 1) / 2;
+    init();
+    m.sio_regs[1][3] = 0xc1;
+    m.sio_regs[1][4] = (selector << 6) | 8; /* 8N1.5 */
+    m.sio_regs[1][5] = 0xea;
+    m.v24.signals = 3;
+    robotron_output(&m, 13, 0xa5);
+    /* RX edges cannot consume the TX holding register. */
+    for (unsigned i = 0; i < 128; i++)
+      robotron_v24_receive_clock(&m, 1);
+    assert(m.v24.full && !m.v24.size && !m.v24.tx_clocks);
+    for (unsigned i = 1; i < clocks; i++)
+      robotron_v24_transmit_clock(&m);
+    assert(!m.v24.size && m.v24.tx_clocks == 1);
+    robotron_v24_transmit_clock(&m);
+    assert(m.v24.size == 1 && m.v24.output[0] == 0xa5);
+    assert(!m.rx_b.count && !m.rx_b.phase);
+    /* Printer uses the same documented frame length/divisors. */
+    m.sio_regs[0][4] = (selector << 6) | 8;
+    m.sio_regs[0][5] = 0xea;
+    m.tx_holding = 0x5a;
+    m.tx_full = 1;
+    for (unsigned i = 1; i < clocks; i++)
+      robotron_printer_clock(&m);
+    assert(!m.printer_size && m.tx_clocks == 1);
+    robotron_printer_clock(&m);
+    assert(m.printer_size == 1 && m.printer[0] == 0x5a);
+  }
+  init();
+  m.sio_regs[1][3] = 0xc1;
+  m.sio_regs[1][4] = 4; /* Externally synchronized x1 samples. */
+  m.sio_regs[1][5] = 0xea;
+  m.v24.signals = 3;
+  robotron_output(&m, 13, 0x42);
+  robotron_v24_receive_clock(&m, 0);
+  for (unsigned i = 0; i < 8; i++)
+    robotron_v24_receive_clock(&m, (0xa5 >> i) & 1);
+  robotron_v24_receive_clock(&m, 1);
+  assert(m.rx_b.count == 1 && robotron_v24_read(&m, 0) == 0xa5);
+  assert(m.v24.full && !m.v24.size); /* No TX edges supplied. */
+}
 int main(void) {
+  serial_clock_domains();
   dma_modes_restart();
   serial_break_lock();
   serial_peer_decoder();

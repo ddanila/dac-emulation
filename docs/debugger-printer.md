@@ -32,3 +32,27 @@ Recording opcode 19 carries readiness 0..3 in DAC-recording-2 and native DACR2.
 Old recordings still run with their preserved cores; cross-build state migration
 is not claimed. Focused native tests cover readiness gating, loss, in-flight
 completion, vector priority, reset and snapshot continuation.
+
+## Execution targets and independent clock fixtures (0.14.0)
+
+`dac_debug_target` arms a logical 16-bit CPU address. Debug-run stops at the
+completed opcode-fetch boundary for that address (hit reason 2); it does not
+undo fetch bus activity. Clearing breakpoints clears execution and event stops.
+The target is host state and is deliberately excluded from snapshots.
+
+`robotron_v24_transmit_clock` now accepts TX clock edges independently of
+`robotron_v24_receive_clock` RX samples. The existing CTC wrapper still supplies
+both, preserving the museum board configuration. This is a native diagnostic
+interface, not a newly asserted external-clock connector or jumper route.
+No external clock generator is exposed in the browser.
+
+The Zilog manual, printed pages 232 and 285–287, specifies falling-edge TX,
+1/1.5/2 stop bits, divisors 1/16/32/64 and external synchronization for x1 RX.
+Focused fixtures cover independent/stalled RX and TX, received data with no TX
+edges, and 8N1.5 completion for all four divisors on both transmitters. Existing
+runtime fixtures verify snapshot continuation of queued serial input and phase.
+For x16/x32/x64, 1.5 stop bits are integral clock counts. At x1 the aggregate TX
+capture still rounds 10.5 clocks up to 11 for 8N1.5. The independently timed peer
+waveform already preserves 21 half-cells. An inferred midpoint capture would not
+establish exact SIO pin-edge behavior: sub-edge scheduling and a qualified clock
+waveform are still needed. Synchronous SIO modes remain outside this model.

@@ -15,7 +15,7 @@ struct dac_session {
       timeline_triggered, timeline_index, timeline_filter, timeline_master,
       timeline_address;
   uint32_t timeline[512][13];
-  unsigned debug_break, debug_hit;
+  unsigned debug_break, debug_hit, debug_exec, debug_address;
   char debug_text[128];
   uint8_t firmware[16384], prom[256], glyphs[4096], keyboard[2048];
   size_t firmware_size, prom_size, glyph_size, disk_size, keyboard_size;
@@ -472,6 +472,16 @@ int dac_debug_break(dac_session *s, unsigned enabled) {
   if (!s || !s->r || !s->on || (enabled && !s->timeline_on))
     return -EINVAL;
   s->debug_break = !!enabled;
+  if (!enabled)
+    s->debug_exec = 0;
+  s->debug_hit = 0;
+  return 0;
+}
+int dac_debug_target(dac_session *s, unsigned address) {
+  if (!s || !s->r || !s->on || address > 65535)
+    return -EINVAL;
+  s->debug_exec = 1;
+  s->debug_address = address;
   s->debug_hit = 0;
   return 0;
 }
@@ -479,7 +489,7 @@ unsigned dac_debug_hit(dac_session *s) { return s ? s->debug_hit : 0; }
 unsigned dac_debug_run(dac_session *s, unsigned ticks) {
   if (!s || !s->r || !s->on)
     return 0;
-  if (!s->debug_break)
+  if (!s->debug_break && !s->debug_exec)
     return dac_run(s, ticks);
   if (ticks > 100000)
     ticks = 100000;
@@ -487,6 +497,9 @@ unsigned dac_debug_run(dac_session *s, unsigned ticks) {
   while (n < ticks && !s->debug_hit) {
     robotron_run(s->r, 1);
     n++;
+    if (s->debug_exec && z80_opdone(&s->r->cpu.cpu) &&
+        Z80_GET_ADDR(s->r->cpu.pins) == s->debug_address)
+      s->debug_hit = 2;
   }
   return n;
 }

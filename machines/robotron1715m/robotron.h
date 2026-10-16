@@ -138,6 +138,7 @@ void robotron_v24_peer_tick(robotron *);
 void robotron_v24_signals(robotron *, unsigned);
 void robotron_v24_receive_clock(robotron *, unsigned);
 void robotron_v24_clock(robotron *);
+void robotron_v24_transmit_clock(robotron *);
 uint8_t robotron_v24_read(robotron *, unsigned);
 uint8_t robotron_sio_read(robotron *, unsigned);
 void robotron_sio_control(robotron *, unsigned, uint8_t);

@@ -315,6 +315,13 @@ static void debugger(void) {
   assert(dac_timeline_trigger(s) > 0);
   assert(dac_debug_run(s, 100) == 0);
   assert(!dac_debug_break(s, 0) && dac_debug_run(s, 100) == 100);
+  assert(!dac_debug_target(s, 2));
+  used = dac_debug_run(s, 10000);
+  assert(used && used < 10000 && dac_debug_hit(s) == 2);
+  assert(dac_debug_reg(s, 21) && dac_debug_reg(s, 22) == 2);
+  assert(dac_debug_run(s, 100) == 0);
+  assert(dac_debug_target(s, 65536) < 0);
+  assert(!dac_debug_break(s, 0) && dac_debug_run(s, 10) == 10);
   dac_destroy(s);
 }
 int main(void) {

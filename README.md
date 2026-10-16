@@ -201,3 +201,12 @@ It describes emulated bus events, not measured specimen pin waveforms.
 Validation: native runtime checks cover bounded history rollover, exact trigger
 placement, stable completed captures, filters, invalid settings and stop. Existing
 native device/session checks and the WASM lifecycle/snapshot smoke tests pass.
+
+### 0.14.0 diagnostic refinement
+
+Logical execution targets stop at completed opcode-fetch boundaries. V.24 RX
+and TX clock callbacks can be driven independently by bounded native fixtures;
+the museum's CTC wrapper remains unchanged. Tests qualify 1.5-stop-bit frame
+counts across all four divisors, including the explicitly retained x1 rounding
+limitation. See [debugger and serial notes](docs/debugger-printer.md). Guest
+snapshot layout remains 12.
