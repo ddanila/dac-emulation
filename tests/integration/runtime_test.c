@@ -266,6 +266,27 @@ static void bounded_timeline(void) {
          dac_timeline_count(s) == 512);
   dac_timeline_capture(s, 0);
   assert(!dac_timeline_count(s));
+  assert(!dac_timeline_arm(s, 1, 0x16, 4, 28, 0));
+  assert(dac_run(s, 10000) == 10000 && dac_timeline_status(s) == 1 &&
+         dac_timeline_count(s) == 4);
+  // Arm on a later port: the first four writes become the bounded pre-trigger
+  // history.
+  uint8_t trigger_rom[2048] = {0x3e, 0x44, 0xd3, 0x15, 0x3c, 0xfe, 0x49, 0xc2,
+                               2,    0,    0xd3, 0x16, 0xc3, 0,    0};
+  assert(!dac_power(s, 0) &&
+         !dac_load(s, 0, trigger_rom, sizeof(trigger_rom)) && !dac_power(s, 1));
+  assert(!dac_timeline_arm(s, 1, 0x16, 4, 28, 0));
+  assert(dac_run(s, 100000) == 100000 && dac_timeline_status(s) == 3 &&
+         dac_timeline_count(s) == 512);
+  rows = dac_timeline_data(s);
+  assert(dac_timeline_trigger(s) == 5);
+  assert((rows[3] & 255) == 0x15 && (rows[4 * 13 + 3] & 255) == 0x16);
+  assert(rows[4] == 0x45 && rows[3 * 13 + 4] == 0x48);
+  assert(dac_timeline_arm(s, 6, 0, 0, 28, 0) < 0);
+  assert(!dac_timeline_arm(s, 4, 0, 8, 28, 2));
+  assert(dac_run(s, 10000) == 10000 && !dac_timeline_count(s));
+  dac_timeline_stop(s);
+  assert(!dac_timeline_status(s));
   dac_destroy(s);
 }
 int main(void) {

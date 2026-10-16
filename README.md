@@ -184,3 +184,20 @@ References: Zilog UM008101-0601, DMA mode diagrams and WR5, SIO asynchronous
 receive/error handling and RR0 BREAK. The new behaviour is covered by bounded
 native tests and same-build snapshot/WASM checks; these are not physical-specimen
 measurements.
+
+## Triggered browser timeline (0.12.0)
+
+The optional runtime bus timeline can arm on an I/O read/write (low-byte port),
+CPU/DMA memory write (16-bit bus address), DMA access or interrupt acknowledge.
+A bounded history retains up to 128 selected events before the trigger and stops
+at 512 total events. Event-kind and CPU/DMA filters apply to history and subsequent
+capture; the triggering event is always retained, even when filtered out.
+`dac_timeline_trigger` returns its one-based index, or zero before a match.
+`dac_timeline_status` reports idle, armed, capturing or stopped. Stop preserves the
+buffer; rearming clears it. With capture off, no timeline trace sink is installed.
+This host-side instrumentation does not change Robotron snapshot layout 11.
+It describes emulated bus events, not measured specimen pin waveforms.
+
+Validation: native runtime checks cover bounded history rollover, exact trigger
+placement, stable completed captures, filters, invalid settings and stop. Existing
+native device/session checks and the WASM lifecycle/snapshot smoke tests pass.

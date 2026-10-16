@@ -80,6 +80,11 @@ unsigned dac_serial_decoded_size(dac_session *);
 unsigned dac_serial_decoded_errors(dac_session *);
 unsigned dac_serial_errors(dac_session *);
 void dac_serial_cancel(dac_session *);
+int dac_timeline_arm(dac_session *, unsigned mode, unsigned address,
+                     unsigned pre, unsigned filter, unsigned master);
+void dac_timeline_stop(dac_session *);
+unsigned dac_timeline_status(dac_session *);
+unsigned dac_timeline_trigger(dac_session *);
 void dac_timeline_capture(dac_session *, unsigned);
 unsigned dac_timeline_count(dac_session *);
 const uint32_t *dac_timeline_data(dac_session *);

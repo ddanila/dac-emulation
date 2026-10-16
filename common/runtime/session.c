@@ -9,7 +9,9 @@
 struct dac_session {
   unsigned kind, on, width, height;
   dac_trace_sink observer;
-  unsigned timeline_on, timeline_count;
+  unsigned timeline_on, timeline_count, timeline_mode, timeline_pre,
+      timeline_triggered, timeline_index, timeline_filter, timeline_master,
+      timeline_address;
   uint32_t timeline[512][13];
   uint8_t firmware[16384], prom[256], glyphs[4096], keyboard[2048];
   size_t firmware_size, prom_size, glyph_size, disk_size, keyboard_size;
@@ -31,8 +33,38 @@ static void bind_observer(dac_session *s);
 static void forward_trace(void *user, const dac_trace_event *event) {
   dac_session *s = user;
   dac_trace_emit_event(&s->observer, event);
+  unsigned kind = event->kind[0] == 'M'   ? (event->kind[1] == 'R' ? 0 : 1)
+                  : event->kind[1] == 'R' ? 2
+                  : event->kind[1] == 'W' ? 3
+                                          : 4;
+  int match = s->timeline_mode == 0 ||
+              (s->timeline_mode == 1 && kind == 3 &&
+               (event->address & 255) == s->timeline_address) ||
+              (s->timeline_mode == 2 && kind == 2 &&
+               (event->address & 255) == s->timeline_address) ||
+              (s->timeline_mode == 3 && kind == 1 &&
+               event->address == s->timeline_address) ||
+              (s->timeline_mode == 4 && event->master == DAC_MASTER_DMA) ||
+              (s->timeline_mode == 5 && kind == 4);
+  int selected =
+      (!s->timeline_master || event->master == s->timeline_master - 1) &&
+      ((s->timeline_filter & (1u << kind)) ||
+       (s->timeline_filter == 28 && event->master == DAC_MASTER_DMA));
   if (s->timeline_on && s->r && s->timeline_count < 512 &&
-      (event->master == DAC_MASTER_DMA || event->kind[0] == 'I')) {
+      (selected || (!s->timeline_triggered && match))) {
+    if (!s->timeline_triggered && match) {
+      s->timeline_triggered = 1;
+      s->timeline_index = s->timeline_count + 1;
+    }
+    if (!s->timeline_triggered) {
+      if (!s->timeline_pre)
+        return;
+      if (s->timeline_count == s->timeline_pre) {
+        memmove(s->timeline, s->timeline + 1,
+                (s->timeline_count - 1) * sizeof(s->timeline[0]));
+        s->timeline_count--;
+      }
+    }
     uint32_t *row = s->timeline[s->timeline_count++];
     row[0] = (uint32_t)event->cycle;
     row[1] = (uint32_t)(event->cycle >> 32);
@@ -68,8 +100,44 @@ void dac_timeline_capture(dac_session *s, unsigned enabled) {
   if (!s)
     return;
   s->timeline_count = 0;
+  s->timeline_mode = 0;
+  s->timeline_pre = 0;
+  s->timeline_triggered = 1;
+  s->timeline_index = 0;
+  s->timeline_filter = 28;
+  s->timeline_master = 0;
   s->timeline_on = !!enabled;
   bind_observer(s);
+}
+int dac_timeline_arm(dac_session *s, unsigned mode, unsigned address,
+                     unsigned pre, unsigned filter, unsigned master) {
+  if (!s || !s->r || mode > 5 || address > 65535 || pre > 128 || !filter ||
+      filter > 31 || master > 2)
+    return -EINVAL;
+  dac_timeline_capture(s, 0);
+  s->timeline_mode = mode;
+  s->timeline_address = address;
+  s->timeline_pre = pre;
+  s->timeline_filter = filter;
+  s->timeline_master = master;
+  s->timeline_triggered = mode == 0;
+  s->timeline_on = 1;
+  bind_observer(s);
+  return 0;
+}
+void dac_timeline_stop(dac_session *s) {
+  if (s) {
+    s->timeline_on = 0;
+    bind_observer(s);
+  }
+}
+unsigned dac_timeline_status(dac_session *s) {
+  return !s               ? 0
+         : s->timeline_on ? (s->timeline_triggered ? 2 : 1)
+                          : (s->timeline_count ? 3 : 0);
+}
+unsigned dac_timeline_trigger(dac_session *s) {
+  return s ? s->timeline_index : 0;
 }
 unsigned dac_timeline_count(dac_session *s) {
   return s ? s->timeline_count : 0;
