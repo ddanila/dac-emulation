@@ -824,11 +824,7 @@ unsigned dac_serial_decoded_errors(dac_session *s) {
              : 0;
 }
 unsigned dac_serial_errors(dac_session *s) {
-  return s && s->r
-             ? s->r->rx_b.errors |
-                   (s->r->rx_b.count ? s->r->v24.fifo_errors[s->r->rx_b.read]
-                                     : 0)
-             : 0;
+  return s && s->r ? s->r->rx_b.errors : 0;
 }
 void dac_serial_cancel(dac_session *s) {
   if (s && s->r)
@@ -967,7 +963,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     memcpy(payload + sizeof(robotron) + s->disk_size, s->disk_b,
            s->disk_b_size);
   state_header h = {0x44414353,
-                    13,
+                    14,
                     (uint32_t)n,
                     (uint32_t)s->disk_size,
                     (uint32_t)s->writable,
@@ -987,7 +983,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   state_header h;
   memcpy(&h, p, sizeof(h));
-  if (h.magic != 0x44414353 || h.version != 13 || h.size != n ||
+  if (h.magic != 0x44414353 || h.version != 14 || h.size != n ||
       h.disk_size != s->disk_size || h.disk_b_size != s->disk_b_size ||
       h.writable_b != (unsigned)s->writable_b ||
       h.writable != (unsigned)s->writable ||
@@ -1043,7 +1039,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       r->v24.decode_phase >= 3993600 || r->v24.decoded_size > 65536 ||
       r->v24.decoder.phase > 4 || r->v24.decoder.bits > 8 ||
       r->v24.decoder.wait > 64 || r->v24.break_active > 1 ||
-      r->v24.break_latched > 1 || r->v24.rx_locked > 1 ||
+      r->v24.break_latched > 1 || r->rx_b.rx_locked > 1 ||
       r->dma.operation > 3 || r->dma.stop_match > 1 ||
       r->dma.wait_enabled > 1 || r->dma.wait > 1 || r->dma.phase > 2 ||
       r->dma.ticks > 4 || (r->dma.phase && !r->dma.ticks) ||
@@ -1057,18 +1053,23 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
       !valid_peer(r->v24.peer_baud, r->v24.peer_format) ||
       r->v24.peer_phase >= 3993600 || r->v24.ext_pending > 1 ||
       r->v24.ext_service > 1 || r->v24.ext_latched > 1 ||
-      r->v24.ext_signals > 7 || (r->v24.frame_errors & ~0x40) ||
-      (r->v24.fifo_errors[0] & ~0x40) || (r->v24.fifo_errors[1] & ~0x40) ||
-      (r->v24.fifo_errors[2] & ~0x40) || r->rx_b.wait > 64 ||
+      r->v24.ext_signals > 7 || (r->rx_b.frame_errors & ~0x70) ||
+      (r->rx_b.fifo_errors[0] & ~0x70) || (r->rx_b.fifo_errors[1] & ~0x70) ||
+      (r->rx_b.fifo_errors[2] & ~0x70) || r->rx_b.wait > 64 ||
       r->v24.frame >= (1u << 24) || r->v24.signals > 7 || r->v24.bits > 24 ||
       r->v24.clocks > 64 || r->v24.tx_clocks > 768 || r->v24.tx_halves > 1536 ||
       r->tx_halves > 1536 || r->v24.tx_clocks != (r->v24.tx_halves + 1) / 2 ||
       r->tx_clocks != (r->tx_halves + 1) / 2 || r->v24.tx_subclock > 1 ||
       r->serial_levels[0] > 1 || r->serial_levels[1] > 1 ||
       r->serial_levels[2] > 1 || r->serial_levels[3] > 1 || r->rx_b.read >= 3 ||
-      r->rx_b.count > 3 || r->rx_b.phase > 4 || r->rx_b.bits > 8 ||
+      r->rx_b.count > 3 || r->rx_b.phase > 5 || r->rx_b.bits > 8 ||
       r->disconnected > 3 || r->rx.read >= 3 || r->rx.count > 3 ||
-      r->rx.phase > 4 || r->rx.bits > 8 || k->tap_read >= 64 ||
+      r->rx.wait > 64 || (r->rx.phase && !r->rx.wait) ||
+      (r->rx_b.phase && !r->rx_b.wait) || r->rx.rx_locked > 1 ||
+      r->rx.parity_level > 1 || r->rx_b.parity_level > 1 ||
+      (r->rx.frame_errors & ~0x70) || (r->rx.fifo_errors[0] & ~0x70) ||
+      (r->rx.fifo_errors[1] & ~0x70) || (r->rx.fifo_errors[2] & ~0x70) ||
+      r->rx.phase > 5 || r->rx.bits > 8 || k->tap_read >= 64 ||
       k->tap_count > 64 || k->tap_phase > 2 || r->tx_pending > 1 ||
       r->tx_in_service > 1 || k->clock_fraction >= 3993600 ||
       r->key_write - r->key_read > 256 ||

@@ -1,6 +1,6 @@
 # DAC Emulation
 
-Current Robotron baseline: **0.15.1**, snapshot layout **13**. See [current behavior, qualification and remaining evidence](docs/robotron-status.md). Versioned sections below are development history.
+Current Robotron baseline: **0.16.0**, snapshot layout **14**. See [current behavior, qualification and remaining evidence](docs/robotron-status.md). Versioned sections below are development history.
 
 
 Portable emulation cores for [Danila’s Archive of Computing](https://github.com/ddanila/dac).

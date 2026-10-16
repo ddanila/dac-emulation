@@ -9,6 +9,7 @@ import ctypes as C
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -18,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from verification.runtime import Runtime
 
-COMMANDS = ['DIR\r', 'TYPE AUTOEXC.SUB\r', 'PIP B:=A:PIP.COM\r', 'DIR B:\r']
+COMMANDS = ['DIR\r', 'TYPE AUTOEXC.SUB\r', 'PIP B:=A:PIP.COM\r', 'DIR B:\r', 'PIP LST:=AUTOEXC.SUB\r']
 
 
 def sha(data):
@@ -50,7 +51,21 @@ def main():
     parser.add_argument('--media', type=Path, required=True)
     parser.add_argument('--mame', default='mame')
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--suite', choices=['basic','wordstar','pascal'], default='basic')
     args = parser.parse_args()
+    commands = COMMANDS
+    patterns = [r'A>$'] * (len(COMMANDS)+1)
+    produced = None
+    if args.suite == 'wordstar':
+        commands = ['WS DAC.TXT\r', 'HELLO FROM DAC\r', '\x0bD', 'D', 'DAC.TXT\r']
+        patterns = [r'A>$', r'DAC\.TXT', 'HELLO FROM DAC', 'EDITING NO FILE', 'NAME OF FILE', 'HELLO FROM DAC']
+        produced = (b'DAC     TXT', b'HELLO FROM DAC\r\n')
+    elif args.suite == 'pascal':
+        commands = ['PIP\r', 'DAC.PAS=CON:\r', "program DAC;\rbegin writeln('HELLO FROM DAC') end.\r", '\x1a', '\r', 'TP\r', 'n', 'wDAC.PAS\r', 'r']
+        patterns = [r'A>$', r'\n\*', 'DAC.PAS=CON:', 'begin writeln', r'\n\*', r'A>$', 'TURBO', 'LOGGED DRIVE', 'DAC.PAS', 'HELLO FROM DAC']
+        produced = (b'DAC     PAS', b"program DAC;\rbegin writeln('HELLO FROM DAC') end.\r")
+    if args.output.resolve() in [(args.media / n).resolve() for n in ['s550.bin','cas.bin','s600.bin','tosm10.img']]:
+        parser.error('Output must not overwrite supplied media')
     media = {n: (args.media / n).read_bytes() for n in ['s550.bin', 'cas.bin', 's600.bin', 'tosm10.img']}
     if [len(media[n]) for n in media] != [2048, 256, 2048, 819200]:
         parser.error('Expected 2 KiB boot/keyboard ROMs, 256-byte CAS PROM and 800 KiB raw disk')
@@ -60,7 +75,7 @@ def main():
     report = {'passed': False, 'core': subprocess.check_output(['git', 'describe', '--always', '--dirty', '--abbrev=40', '--exclude=*'], cwd=ROOT, text=True).strip(),
               'reference': subprocess.check_output([args.mame, '-version'], text=True).strip(),
               'firmware': {n: sha(b) for n, b in media.items()},
-              'inputSha256': sha(keymap_path.read_bytes()), 'commands': COMMANDS,
+              'inputSha256': sha(keymap_path.read_bytes()), 'suite': args.suite, 'commands': commands,
               'checks': [], 'limitations': ['Stable checkpoints, not equal CPU clocks.',
                   'Raster comparison normalizes colours and excludes the final prompt cursor cell.',
                   'MAME agreement is not physical-specimen qualification.',
@@ -77,7 +92,7 @@ def main():
             events = []
             frame = 1500
             captures = [frame]
-            for command in COMMANDS:
+            for command in commands:
                 frame += 10
                 for char in command:
                     key, mods = keymap[char]
@@ -126,10 +141,10 @@ end)
 '''.replace('EVENTS', lua_events).replace('CAPTURES', lua_captures)
             (tmp / 'probe.lua').write_text(script)
             result = subprocess.run([args.mame, 'rt1715w', '-rompath', str(tmp), '-flop1', str(tmp / 'a.kdi'),
-                '-flop2', str(tmp / 'b.kdi'), '-video', 'none', '-sound', 'none', '-nothrottle',
-                '-skip_gameinfo', '-autoboot_script', str(tmp / 'probe.lua'), '-seconds_to_run', '150'],
-                cwd=tmp, env={**os.environ, 'SDL_VIDEODRIVER': 'dummy'}, capture_output=True, text=True, timeout=120)
-            if result.returncode or not (tmp / 'screen-5.bin').exists():
+                '-flop2', str(tmp / 'b.kdi'), '-printout', str(tmp / 'printer.prn'), '-video', 'none', '-sound', 'none', '-nothrottle',
+                '-skip_gameinfo', '-autoboot_script', str(tmp / 'probe.lua'), '-seconds_to_run', str((frame // 50) + 30)],
+                cwd=tmp, env={**os.environ, 'SDL_VIDEODRIVER': 'dummy'}, capture_output=True, text=True, timeout=240)
+            if result.returncode or not (tmp / f'screen-{len(commands)+1}.bin').exists():
                 raise RuntimeError('MAME did not finish all checkpoints: ' + result.stdout[-3000:] + result.stderr[-3000:])
 
             with Runtime(ROOT / 'build/libdac-runtime.so', 'robotron1715m') as runtime:
@@ -137,12 +152,14 @@ end)
                 for name, restype, argtypes in [
                     ('dac_tap', C.c_int, [C.c_void_p, C.c_uint, C.c_uint]),
                     ('dac_video', C.c_void_p, [C.c_void_p]),
+                    ('dac_printer_data', C.c_void_p, [C.c_void_p]),
+                    ('dac_printer_size', C.c_uint, [C.c_void_p]),
                     ('dac_width', C.c_uint, [C.c_void_p]), ('dac_height', C.c_uint, [C.c_void_p]),
                     ('dac_disk_data_unit', C.c_void_p, [C.c_void_p, C.c_uint])]:
                     fn = getattr(lib, name); fn.restype = restype; fn.argtypes = argtypes
                 for slot, name in [(0, 's550.bin'), (1, 'cas.bin'), (3, 's600.bin')]:
                     runtime.load(slot, media[name])
-                runtime.mount(0, media['tosm10.img'])
+                runtime.mount(0, media['tosm10.img'], args.suite != 'basic')
                 runtime.mount(1, bytes([0xe5]) * 819200, True)
                 runtime.power()
 
@@ -151,9 +168,9 @@ end)
                         clocks -= runtime.run(min(clocks, 100000))
 
                 run(100_000_000)
-                for index in range(5):
+                for index in range(len(commands)+1):
                     if index:
-                        for char in COMMANDS[index - 1]:
+                        for char in commands[index - 1]:
                             runtime.checked('dac_tap', *keymap[char])
                             run(480000)
                         run(64_000_000)
@@ -180,8 +197,8 @@ end)
                                     if len(differences) < 16:
                                         differences.append([x, y])
                                     raster_match = False
-                    check = {'checkpoint': 'boot' if not index else COMMANDS[index - 1].strip(),
-                             'textEqual': actual == expected, 'prompt': actual.endswith('\nA>'),
+                    check = {'checkpoint': 'boot' if not index else commands[index - 1].strip(),
+                             'textEqual': actual == expected, 'milestone': bool(re.search(patterns[index],actual,re.I)), 'prompt': actual.endswith('\nA>'),
                              'rasterEqualOutsideCursor': raster_match, 'firstPixelDifferences': differences,
                              'dacSize': [width, height], 'mameSize': reference_size,
                              'dacText': actual, 'mameText': expected}
@@ -192,7 +209,25 @@ end)
                 report['copy'] = {'bytes': len(expected_file), 'sha256': sha(expected_file),
                     'dacEqual': file_bytes(native_b, b'PIP     COM') == expected_file,
                     'mameEqual': file_bytes(reference_b, b'PIP     COM') == expected_file}
-                report['passed'] = all(c['textEqual'] and c['prompt'] and c['rasterEqualOutsideCursor'] for c in report['checks']) and len(expected_file) > 0 and report['copy']['dacEqual'] and report['copy']['mameEqual']
+                if produced:
+                    native_a = C.string_at(lib.dac_disk_data_unit(session, 0), 819200)
+                    reference_a = (tmp / 'a.kdi').read_bytes()
+                    filename, expected_content = produced
+                    native_content = file_bytes(native_a, filename).split(b'\x1a')[0]
+                    reference_content = file_bytes(reference_a, filename).split(b'\x1a')[0]
+                    report['savedFile'] = {'name': filename.decode(), 'expected': expected_content.decode(),
+                        'dacEqual': native_content == expected_content, 'mameEqual': reference_content == expected_content,
+                        'dacSha256': sha(native_content), 'mameSha256': sha(reference_content)}
+                    # Application cursor position/attributes differ from the final CCP prompt.
+                    # Preserve raster observations, but qualify text and saved bytes here.
+                    report['passed'] = all(c['textEqual'] and c['milestone'] for c in report['checks']) and report['savedFile']['dacEqual'] and report['savedFile']['mameEqual']
+                    report['limitations'].append('Application raster differences are recorded but not qualified; prompt cursor exclusion only applies to basic suite.')
+                else:
+                    printer_expected = file_bytes(media['tosm10.img'], b'AUTOEXC SUB').split(b'\x1a')[0]
+                    printer_actual = C.string_at(lib.dac_printer_data(session), lib.dac_printer_size(session))
+                    printer_reference = (tmp / 'printer.prn').read_bytes()
+                    report['printer'] = {'bytes': len(printer_expected), 'dacEqual': printer_actual == printer_expected, 'mameEqual': printer_reference == printer_expected, 'dacSha256': sha(printer_actual), 'mameSha256': sha(printer_reference)}
+                    report['passed'] = all(c['textEqual'] and c['milestone'] and c['rasterEqualOutsideCursor'] for c in report['checks']) and len(expected_file) > 0 and report['copy']['dacEqual'] and report['copy']['mameEqual'] and report['printer']['dacEqual'] and report['printer']['mameEqual']
     except Exception as error:
         report['error'] = str(error)
     args.output.parent.mkdir(parents=True, exist_ok=True)

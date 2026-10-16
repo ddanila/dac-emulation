@@ -81,6 +81,7 @@ typedef struct {
   uint8_t fifo[3], read, count, errors, phase, bits, byte, parity;
   unsigned wait;
   uint8_t pending, in_service, first;
+  uint8_t fifo_errors[3], frame_errors, rx_locked, parity_level;
 } robotron_sio_rx;
 typedef struct {
   dac_z80 cpu;
@@ -99,8 +100,7 @@ typedef struct {
     unsigned tx_clocks, tx_halves;
     unsigned peer_baud, peer_format, peer_phase;
     unsigned ext_pending, ext_service, ext_latched, ext_signals;
-    uint8_t fifo_errors[3], frame_errors;
-    unsigned break_active, break_latched, rx_locked;
+    unsigned break_active, break_latched;
     unsigned tx_subclock;
     unsigned tx_frame, tx_elapsed, tx_div, decode_phase, decoded_size,
         decoded_overflow;
@@ -146,6 +146,7 @@ void robotron_serial_edge(robotron *, unsigned channel, unsigned transmit,
 void robotron_v24_transmit_clock(robotron *);
 uint8_t robotron_v24_read(robotron *, unsigned);
 uint8_t robotron_sio_read(robotron *, unsigned);
+unsigned robotron_sio_special(const robotron *, unsigned);
 void robotron_sio_control(robotron *, unsigned, uint8_t);
 void robotron_printer_state(robotron *, unsigned);
 unsigned robotron_printer_cts(robotron *);

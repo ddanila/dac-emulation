@@ -1,6 +1,6 @@
 # Current Robotron emulation status
 
-Baseline: **0.15.1**, snapshot layout **13**, ABI **1**. This page supersedes
+Baseline: **0.16.0**, snapshot layout **14**, ABI **1**. This page supersedes
 present-tense summaries in dated bring-up notes. Hardware fidelity is bounded;
 the reference S550/CAS/S600/TOS-M configuration is not an identified owner dump.
 
@@ -11,14 +11,18 @@ media; asynchronous SIO, printer readiness, serial transfers; deterministic
 snapshots, observation and replay. See the museum's
 [capability matrix](https://github.com/ddanila/dac/blob/main/docs/robotron/capabilities.md) for the browser tools.
 
-0.15.1 fixes asynchronous SIO receive data for 5–7-bit characters on both
-channels. The data register retains the sampled parity bit when enabled and
-fills unused high bits with ones. For example, 7E1 reception of data `61h` with
-parity one produces `E1h`, not `61h`. BREAK detection still examines the actual
-data bits. No state fields, snapshot layout, clock route or oscillator changed.
+0.16.0 gives both SIO receivers per-character error FIFOs. Framing errors follow
+characters; parity/overrun latch when the affected character reaches the FIFO
+head. A fourth character replaces the third. First-character error lock/reset and
+special receive vectors now use the same rules on both channels. A sampled high
+parity bit prevents false V.24 BREAK; x16/x32/x64 framing errors add half-bit
+recovery. The x1 path still has no half-clock sampling resolution.
 Reference: [Zilog UM008101](https://www.zilog.com/docs/z80/um0081.pdf), printed
-pp.235–236. The previous implementation stripped these bits; an independent
-S600/MAME parity-mismatch probe exposed the difference.
+pp.235–237. Layout 14 includes the receive error buffers and sampled parity;
+layout 13 requires the preserved 0.15.1 core. ABI remains 1.
+
+0.15.1's short-character fix remains: 5–7-bit reception retains sampled parity
+and fills unused high bits with ones (7E1 data `61h`, parity one reads `E1h`).
 
 ## Reproduce qualification
 
@@ -40,18 +44,30 @@ Optional qualification uses local caller-supplied media:
 make test-s600-workload S600_ROM=/path/to/s600.bin
 python3 tools/compare_robotron_mame.py --media /path/to/media --output build/mame.json
 python3 tools/compare_robotron_historical.py --media /path/to/media --output build/historical.json
+python3 tools/compare_robotron_historical.py --suite wordstar --media /path/to/media --output build/wordstar.json
+python3 tools/compare_robotron_historical.py --suite pascal --media /path/to/media --output build/pascal.json
 python3 tools/compare_robotron_serial.py --media /path/to/media --output build/serial.json
 ```
 
-The historical comparison boots both implementations, drives the same S600
-switch coordinates, compares text and monochrome rasters at boot and four
-command checkpoints, and independently decodes a 10 KiB PIP.COM copied to B.
-Colours and the final blinking cursor cell are excluded from raster comparison.
-Fixed execution bounds allow settling; CPU clocks, interrupts and disk timing
-are not asserted equal. Input ROM/disk hashes and differences are retained in
-JSON. The serial probe compares 8N1 and deliberately mismatched 7E1 receiver
-data/status, without stripping unused bits to hide differences. MAME is an
-independent implementation, not a hardware oracle.
+The basic historical comparison boots both implementations, drives the same S600
+switch coordinates, compares text and monochrome rasters at boot and five command
+checkpoints, independently decodes a 10 KiB PIP.COM copied to B, and checks printer
+bytes from AUTOEXC.SUB. Application suites compare WordStar create/save/reopen and
+Turbo Pascal source creation/compile/run, including exact saved file contents.
+They compare full text screens; application raster differences are retained but
+not pass criteria. The basic raster check excludes only the final prompt cursor.
+Each tool uses temporary media copies; supplied historical files remain unchanged.
+
+The serial probe compares seven S600 observations: 8N1, deliberately mismatched
+7E1, and FIFO overrun data/status. MAME 0.289 agrees, including the delayed overrun
+flag on the third buffered character. MAME is an independent implementation, not
+a hardware oracle. Reports record input hashes, core identity and limits.
+
+Native fault tests additionally interrupt writes after 1, 128 and 255 bytes through
+motor loss, controller reset and drive-door opening. They assert the written
+prefix, bad CRC metadata, unchanged remainder and untouched other drive. Formatting
+interruptions and the S600/DMA/printer/V.24 snapshot workload also pass. These fault
+and overlap cases are native regression checks, not independent MAME comparisons.
 
 ## Evidence still needed
 

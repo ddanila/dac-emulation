@@ -1144,10 +1144,7 @@ static uint8_t ack_value(void *p) {
     return (m->sio_regs[1][1] & 4)
                ? (m->sio_regs[1][2] & 0xf1) |
                      (source == 7
-                          ? ((m->rx_b.errors |
-                              (m->rx_b.count ? m->v24.fifo_errors[m->rx_b.read]
-                                             : 0)) &
-                                     0x70
+                          ? (robotron_sio_special(m, 1)
                                  ? 6
                                  : 4)
                           : 0)
@@ -1161,7 +1158,8 @@ static uint8_t ack_value(void *p) {
   if (source == 5) {
     m->rx.pending = 0;
     m->rx.in_service = 1;
-    return (m->sio_regs[1][1] & 4) ? (m->sio_regs[1][2] & 0xf1) | 12
+    return (m->sio_regs[1][1] & 4) ? (m->sio_regs[1][2] & 0xf1) |
+          (robotron_sio_special(m, 0) ? 14 : 12)
                                    : m->sio_regs[1][2];
   }
   if (source > 0) {

@@ -739,13 +739,13 @@ static void keyboard_serial(void) {
   assert(!(robotron_input(&m, 0x0e) & 1));
   for (unsigned i = 0; i < 4; i++)
     serial_byte(i, 1);
-  assert(m.rx.count == 3 && (m.rx.errors & 0x20));
+  assert(m.rx.count == 3 && (m.rx.fifo_errors[(m.rx.read+2)%3] & 0x20));
   for (unsigned i = 0; i < 3; i++)
-    assert(robotron_input(&m, 0x0c) == i);
+    assert(robotron_input(&m, 0x0c) == (i == 2 ? 3 : i));
   robotron_output(&m, 0x0e, 0x30);
   assert(!m.rx.errors);
   serial_byte(0x55, 0);
-  assert(m.rx.errors & 0x40);
+  assert(m.rx.fifo_errors[m.rx.read] & 0x40);
   robotron_output(&m, 0x0e, 0x18);
   assert(!m.rx.count && !m.rx.errors);
   serial_byte(1, 1);
@@ -1358,6 +1358,34 @@ static void floppy_layout_commands(void) {
 
 /* Abort formatting before/after the first complete data field. Preserve the
  * allocated EDSK and unrelated drive; never manufacture a partly written ID. */
+static void write_interruptions(void) {
+  const unsigned sizes[] = {1, 1, 1}, prefixes[] = {1, 128, 255};
+  static uint8_t other[819200];
+  for (unsigned action = 0; action < 3; action++)
+    for (unsigned n = 0; n < 3; n++) {
+      unsigned length; uint8_t *b = layout(sizes, 3, &length);
+      init(); memset(other, 0x68, sizeof(other));
+      assert(!robotron_disk(&m, dac_memory_storage(b,length,1),1));
+      assert(!robotron_disk_unit(&m,1,dac_memory_storage(other,sizeof(other),1),1));
+      data_command(0x45,7,1,7);wait_data();
+      for (unsigned i=0;i<prefixes[n];i++) {
+        if(m.fdc.ready_at>m.cpu.cycles)robotron_run(&m,(unsigned)(m.fdc.ready_at-m.cpu.cycles));
+        robotron_output(&m,0x1d,0xa6);
+      }
+      if(action==0)m.motor|=128;
+      else if(action==1)robotron_output(&m,0x20,0);
+      else robotron_drive_door(&m,0,1);
+      robotron_run(&m,1);
+      assert(m.fdc.phase!=2);
+      for(unsigned i=0;i<256;i++)assert(b[512+i]==(i<prefixes[n]?0xa6:0x31));
+      assert(b[256+0x1c]==0x20 && b[256+0x1d]==0x20);
+      for(unsigned i=768;i<1280;i++)assert(b[i]==(i<1024?0x32:0x33));
+      for(unsigned i=0;i<sizeof(other);i++)assert(other[i]==0x68);
+      assert(!robotron_disk_validate(dac_memory_storage(b,length,0)));
+      free(b);
+    }
+}
+
 static void format_interruptions(void) {
   const unsigned sizes[] = {1, 1, 1};
   const uint8_t fmt[] = {0x4d, 0, 1, 3, 27, 0xe9};
@@ -1493,14 +1521,16 @@ static void v24(void) {
   m.v24.count = 4;
   for (unsigned i = 0; i < 640; i++)
     v24_test_clock();
-  assert(m.rx_b.count == 3 && (m.rx_b.errors & 32));
+  assert(m.rx_b.count == 3 && (m.rx_b.fifo_errors[(m.rx_b.read+2)%3] & 32));
   robotron_output(&m, 0x0f, 1);
-  assert(robotron_input(&m, 0x0f) & 32);
+  assert(!(robotron_input(&m, 0x0f) & 32));
   robotron_output(&m, 0x0f, 0x30);
   assert(!m.rx_b.errors);
   assert(robotron_input(&m, 0x0d) == 0);
   assert(robotron_input(&m, 0x0d) == 1);
   assert(robotron_input(&m, 0x0d) == 3);
+  assert(m.rx_b.errors & 32);
+  robotron_output(&m, 0x0f, 0x30);
   m.sio_regs[1][1] = 0x14;
   m.rx_b.pending = 1;
   assert(m.cpu.bus.ack(&m) == 0x64);
@@ -1615,9 +1645,9 @@ static void serial_break_lock(void) {
          (robotron_v24_read(&m, 1) & 128));
   assert(m.rx_b.count == 1);
   robotron_v24_read(&m, 0);
-  assert(m.v24.rx_locked && m.rx_b.count == 1);
+  assert(m.rx_b.rx_locked && m.rx_b.count == 1);
   robotron_sio_control(&m, 1, 0x30);
-  assert(!m.v24.rx_locked && !m.rx_b.count);
+  assert(!m.rx_b.rx_locked && !m.rx_b.count);
   robotron_sio_control(&m, 1, 0x10);
   robotron_v24_receive_clock(&m, 1);
   assert(!m.v24.break_active && m.v24.ext_pending &&
@@ -1706,6 +1736,72 @@ static void serial_short_characters(void) {
   for (unsigned i = 0; i < 7; i++) robotron_v24_receive_clock(&m, 0);
   assert(m.v24.break_active);
 }
+/* UM008101 pp.236–237: framing follows the FIFO; overflow replaces tail.
+ * Exercise both channels, including first-character error lock/reset. */
+static void serial_error_fifo(void) {
+  for (unsigned ch = 0; ch < 2; ch++) {
+    init();
+    m.sio_regs[ch][3] = 0xc1;
+    m.sio_regs[ch][4] = 4;
+    void (*clock)(robotron *, unsigned) = ch ? robotron_v24_receive_clock : NULL;
+    for (unsigned n = 0; n < 4; n++) {
+      unsigned value = 0x51 + n;
+      for (unsigned bit = 0; bit < 10; bit++) {
+        unsigned level = bit == 0 ? 0 : bit == 9 ? n != 1 : (value >> (bit-1)) & 1;
+        if (clock) clock(&m, level); else robotron_serial_clock(&m, level);
+      }
+    }
+    robotron_sio_rx *rx = ch ? &m.rx_b : &m.rx;
+    assert(rx->count == 3 && (rx->fifo_errors[(rx->read+2)%3] & 0x20));
+    robotron_sio_control(&m, ch, 0x30);
+    for (unsigned n = 0; n < 3; n++) {
+      robotron_sio_control(&m, ch, 1);
+      unsigned status = ch ? robotron_v24_read(&m, 1) : robotron_sio_read(&m, 1);
+      assert((status & 0x70) == (n == 1 ? 0x40 : n == 2 ? 0x20 : 0));
+      m.sio_regs[ch][1] = n == 1 ? 8 : 0;
+      unsigned value = ch ? robotron_v24_read(&m, 0) : robotron_sio_read(&m, 0);
+      assert(value == (n == 2 ? 0x54 : 0x51 + n));
+      if (n == 1) {
+        assert(rx->rx_locked && rx->count == 2);
+        robotron_sio_control(&m, ch, 0x30);
+        assert(!rx->rx_locked && rx->count == 1);
+      }
+    }
+    assert(!rx->count);
+  }
+  /* A high parity bit interrupts a low frame, including eight-bit words. */
+  for (unsigned width = 7; width <= 8; width++) {
+    init(); m.sio_regs[1][3] = width == 7 ? 0x41 : 0xc1;
+    m.sio_regs[1][4] = 5;
+    for (unsigned i = 0; i <= width; i++) robotron_v24_receive_clock(&m, 0);
+    robotron_v24_receive_clock(&m, 1);
+    robotron_v24_receive_clock(&m, 0);
+    assert(!m.v24.break_active && m.rx_b.count == 1);
+    assert(m.rx_b.fifo_errors[0] == 0x40);
+  }
+}
+static void serial_error_recovery(void) {
+  const unsigned divisors[] = {16,32,64};
+  for(unsigned ch=0;ch<2;ch++)for(unsigned n=0;n<3;n++){
+    init();unsigned div=divisors[n];
+    m.sio_regs[ch][3]=0xc1;m.sio_regs[ch][4]=((n+1)<<6)|4;
+    m.sio_regs[ch][1]=8;
+    // Nonzero data avoids BREAK; low stop incurs a half-bit recovery interval.
+    for(unsigned bit=0;bit<10;bit++)for(unsigned t=0;t<div;t++){
+      unsigned level=bit==1;
+      if(ch)robotron_v24_receive_clock(&m,level);else robotron_serial_clock(&m,level);
+    }
+    robotron_sio_rx *rx=ch?&m.rx_b:&m.rx;
+    assert(rx->phase==5&&rx->wait==1&&rx->count==1);
+    if(ch)robotron_v24_receive_clock(&m,1);else robotron_serial_clock(&m,1);
+    assert(!rx->phase&&rx->count==1&&rx->errors==0x40);
+    // Error reset advances the locked error even without a prior data read.
+    robotron_sio_control(&m,ch,0x30);assert(!rx->count&&!rx->errors);
+    rx->errors=0x10;
+    m.sio_regs[ch][1]=0x10;assert(robotron_sio_special(&m,ch)==0x10);
+    m.sio_regs[ch][1]=0x18;assert(!robotron_sio_special(&m,ch));
+  }
+}
 static void serial_explicit_edges(void) {
   const unsigned divisors[] = {1, 16, 32, 64};
   for (unsigned channel = 0; channel < 2; channel++)
@@ -1756,6 +1852,8 @@ static void serial_explicit_edges(void) {
   assert(!m.tx_halves && !m.serial_levels[1]);
 }
 int main(void) {
+  serial_error_recovery();
+  serial_error_fifo();
   serial_short_characters();
   serial_explicit_edges();
   serial_clock_domains();
@@ -1770,6 +1868,7 @@ int main(void) {
   floppy_layout_commands();
   transmitter_interrupt();
   two_drives_format();
+  write_interruptions();
   format_interruptions();
   printer();
   printer_readiness();

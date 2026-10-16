@@ -25,14 +25,20 @@ int main(int argc, char **argv) {
   m.rom[0] = 0x76;
   robotron_keyboard_load(&m, rom, sizeof(rom));
   robotron_run(&m, 4000000);
-  for (unsigned test = 0; test < 2; test++) {
+  for (unsigned test = 0; test < 3; test++) {
     robotron_output(&m, 14, 0x18);
-    reg(3, test ? 0x41 : 0xc1); /* 7 or 8 data bits. */
-    reg(4, test ? 7 : 4);       /* Deliberately mismatch 7E1 against S600 8N1. */
+    reg(3, test == 1 ? 0x41 : 0xc1); /* 7 or 8 data bits. */
+    reg(4, test == 1 ? 7 : 4);       /* Deliberately mismatch 7E1 against S600 8N1. */
     robotron_keyboard_key(&m.keyboard, 7, 5, 1); /* A */
     robotron_run(&m, 400000);
     robotron_keyboard_key(&m.keyboard, 7, 5, 0);
     robotron_run(&m, 400000);
+    if (test == 2) {
+      robotron_keyboard_key(&m.keyboard, 7, 5, 1);
+      robotron_run(&m, 400000);
+      robotron_keyboard_key(&m.keyboard, 7, 5, 0);
+      robotron_run(&m, 400000);
+    }
     drain(test);
   }
   return 0;

@@ -39,37 +39,39 @@ local function reg(n,v) ports:write_u8(14,n);ports:write_u8(14,v) end
 local frame=0
 emu.register_frame_done(function()
  frame=frame+1
- for test=0,1 do
-  local start=100+test*40
+ for test=0,2 do
+  local start=100+test*60
   if frame==start then
-   ports:write_u8(14,0x18);reg(3,test==0 and 0xc1 or 0x41);reg(4,test==0 and 4 or 7)
+   ports:write_u8(14,0x18);reg(3,test==1 and 0x41 or 0xc1);reg(4,test==1 and 7 or 4)
    key:set_value(1)
   end
   if frame==start+10 then key:set_value(0) end
-  if frame==start+20 then
+  if test==2 and frame==start+20 then key:set_value(1) end
+  if test==2 and frame==start+30 then key:set_value(0) end
+  if frame==start+(test==2 and 40 or 20) then
    local count=0
    while (ports:read_u8(14)&1)~=0 and count<8 do
     count=count+1;ports:write_u8(14,1)
     local status=ports:read_u8(14);local value=ports:read_u8(12)
     output:write(string.format('RX %d %02x %02x\n',test,value,status&0x70))
    end
-   if test==1 then output:close();m:exit() end
+   if test==2 then output:close();m:exit() end
   end
  end
 end)
 '''
         (tmp / 'probe.lua').write_text(script)
         run = subprocess.run([args.mame, 'rt1715w', '-rompath', str(tmp), '-video', 'none', '-sound', 'none',
-            '-nothrottle', '-skip_gameinfo', '-autoboot_script', str(tmp / 'probe.lua'), '-seconds_to_run', '6'],
+            '-nothrottle', '-skip_gameinfo', '-autoboot_script', str(tmp / 'probe.lua'), '-seconds_to_run', '8'],
             cwd=tmp, env={**os.environ, 'SDL_VIDEODRIVER': 'dummy'}, capture_output=True, text=True, timeout=30)
         if run.returncode or not (tmp / 'serial.txt').exists():
             raise RuntimeError(run.stdout + run.stderr)
         reference = (tmp / 'serial.txt').read_text().splitlines()
-    report = {'passed': actual == reference and len(actual) == 4,
+    report = {'passed': actual == reference and len(actual) == 7,
               'reference': subprocess.check_output([args.mame, '-version'], text=True).strip(),
               'core': subprocess.check_output(['git', 'describe', '--always', '--dirty', '--abbrev=40', '--exclude=*'], cwd=ROOT, text=True).strip(),
               'firmwareSha256': hashlib.sha256((args.media / 's600.bin').read_bytes()).hexdigest(),
-              'scope': ['S600 A packet through real keyboard CPU and SIO A', '8N1 reception',
+              'scope': ['S600 A packet through real keyboard CPU and SIO A', '8N1 reception', 'S600 FIFO overrun replaces third character',
                         'deliberate 7E1 receiver mismatch: per-character parity status'],
               'dac': actual, 'mame': reference,
               'limitations': ['Stable bytes/status, not bit-edge timing or physical hardware.',

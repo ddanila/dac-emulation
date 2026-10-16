@@ -1,4 +1,4 @@
-/* Bounded asynchronous receive path for the keyboard-connected SIO A.
+/* Bounded asynchronous receive path shared by SIO A and B.
  * WR3/WR4 select enable, width, parity and clock divisor; FIFO is three bytes.
  * Channel A TX drives printer capture; channel B is the V.24 terminal.
  * Synchronous modes remain unimplemented. */
@@ -17,6 +17,11 @@ void robotron_printer_state(robotron *m, unsigned state) {
     m->printer_ext_pending = m->printer_ext_latched = 1;
     m->printer_cts_latched = !state;
   }
+}
+unsigned robotron_sio_special(const robotron *m, unsigned ch) {
+  unsigned mode = m->sio_regs[ch][1] & 0x18;
+  const robotron_sio_rx *s = ch ? &m->rx_b : &m->rx;
+  return mode ? s->errors & (mode == 0x10 ? 0x70 : 0x60) : 0;
 }
 static void break_status(robotron *m, unsigned active) {
   if (m->v24.break_active == active)
@@ -56,13 +61,13 @@ static void receive_clock(robotron *m, unsigned ch, unsigned level) {
       /* UM008101 pp.235–236: short characters retain parity and fill unused
        * high bits with ones. This is the SIO data register, not stripped ASCII. */
       s->byte = 0xff;
-      if (ch)
-        m->v24.frame_errors = 0;
+      s->frame_errors = s->parity_level = 0;
     }
     return;
   }
   if (--s->wait)
     return;
+  if (s->phase == 5) { s->phase = 0; return; }
   s->wait = div;
   if (s->phase == 1) {
     s->phase = level ? 0 : 2;
@@ -75,38 +80,38 @@ static void receive_clock(robotron *m, unsigned ch, unsigned level) {
     if (s->bits == widths[r[3] >> 6])
       s->phase = (r[4] & 1) ? 3 : 4;
   } else if (s->phase == 3) {
+    s->parity_level = level;
     if (s->bits < 8)
       s->byte = (s->byte & ~(1u << s->bits)) | (level << s->bits);
     if ((s->parity ^ level) != !(r[4] & 2))
-      s->errors |= 0x10;
+      s->frame_errors |= 0x10;
     s->phase = 4;
   } else {
     if (!level) {
-      if (ch)
-        m->v24.frame_errors |= 0x40;
-      else
-        s->errors |= 0x40;
+      s->frame_errors |= 0x40;
     }
-    if (ch && !level && !(s->byte & ((1u << widths[r[3] >> 6]) - 1)))
+    if (ch && !level && !s->parity_level && !(s->byte & ((1u << widths[r[3] >> 6]) - 1)))
       break_status(m, 1);
+    /* Error FIFO advances with data; sticky parity/overrun enter RR1 at the head. */
     if (s->count == 3) {
-      s->errors |= 0x20;
-      if (ch) {
+      s->frame_errors |= 0x20;
+      {
         unsigned tail = (s->read + 2) % 3;
         s->fifo[tail] = s->byte;
-        m->v24.fifo_errors[tail] = m->v24.frame_errors;
+        s->fifo_errors[tail] = s->frame_errors;
       }
     } else {
       s->fifo[(s->read + s->count) % 3] = s->byte;
-      if (ch)
-        m->v24.fifo_errors[(s->read + s->count) % 3] = m->v24.frame_errors;
+      s->fifo_errors[(s->read + s->count) % 3] = s->frame_errors;
+      if (!s->count) s->errors = (s->errors & 0x30) | s->frame_errors;
       s->count++;
     }
-    s->phase = 0;
+    s->phase = !level && div > 1 ? 5 : 0;
+    if (s->phase == 5) s->wait = div / 2;
     m->serial_events++;
     if ((r[1] & 0x18) == 0x10 || (r[1] & 0x18) == 0x18 ||
         ((r[1] & 0x18) == 8 &&
-         (s->first || (s->errors & 0x20) || (ch && m->v24.frame_errors)))) {
+         (s->first || robotron_sio_special(m, ch)))) {
       s->pending = 1;
       s->first = 0;
     }
@@ -124,12 +129,18 @@ uint8_t robotron_sio_read(robotron *m, unsigned control) {
     if (!s->count)
       return 0;
     uint8_t v = s->fifo[s->read];
+    if ((m->sio_regs[0][1] & 0x18) == 8 &&
+        (s->errors & 0x60)) {
+      s->rx_locked = s->pending = 1;
+      return v;
+    }
     s->read = (s->read + 1) % 3;
     s->count--;
+    if (s->count) s->errors = (s->errors & 0x30) | s->fifo_errors[s->read];
     if (!s->count)
       s->pending = 0;
-    else if (m->sio_regs[0][1] & 0x10)
-      s->pending = 1;
+    else
+      s->pending = !!((m->sio_regs[0][1] & 0x10) || robotron_sio_special(m, 0));
     return v;
   }
   unsigned reg = m->sio_pointer[0];
@@ -165,9 +176,9 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
       memset(&m->rx_b, 0, sizeof(m->rx_b));
       memset(m->sio_regs[1], 0, 8);
       m->rx_b.first = 1;
-      m->v24.break_active = m->v24.break_latched = m->v24.rx_locked = 0;
+      m->v24.break_active = m->v24.break_latched = m->rx_b.rx_locked = 0;
       m->v24.ext_pending = m->v24.ext_service = m->v24.ext_latched = 0;
-      memset(m->v24.fifo_errors, 0, 3);
+      memset(m->rx_b.fifo_errors, 0, 3);
       m->v24.full = m->v24.tx_clocks = m->v24.tx_halves = m->v24.tx_subclock =
           m->v24.pending = m->v24.in_service = 0;
       m->serial_levels[2] = m->serial_levels[3] = 0;
@@ -178,15 +189,19 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
     case 5:
       m->v24.pending = 0;
       break;
-    case 6:
+    case 6: {
+      unsigned discard = (m->sio_regs[1][1] & 0x18) == 8 && (m->rx_b.errors & 0x60);
       m->rx_b.errors = 0;
-      if (m->v24.rx_locked && m->rx_b.count) {
+      if (discard && m->rx_b.count) {
         m->rx_b.read = (m->rx_b.read + 1) % 3;
         m->rx_b.count--;
+        if (m->rx_b.count) m->rx_b.errors = m->rx_b.fifo_errors[m->rx_b.read];
         m->rx_b.pending = 0;
       }
-      m->v24.rx_locked = 0;
+      m->rx_b.rx_locked = 0;
+      if ((m->sio_regs[1][1] & 0x18) == 8) m->rx_b.pending = m->rx_b.count && robotron_sio_special(m, 1);
       break;
+    }
     case 7:
       if (m->rx_b.in_service)
         m->rx_b.in_service = 0;
@@ -220,9 +235,19 @@ void robotron_sio_control(robotron *m, unsigned ch, uint8_t v) {
   case 5:
     m->tx_pending = 0;
     break;
-  case 6:
+  case 6: {
+    unsigned discard = (m->sio_regs[0][1] & 0x18) == 8 && (m->rx.errors & 0x60);
     m->rx.errors = 0;
+    if (discard && m->rx.count) {
+      m->rx.read = (m->rx.read + 1) % 3;
+      m->rx.count--;
+      if (m->rx.count) m->rx.errors = m->rx.fifo_errors[m->rx.read];
+      m->rx.pending = 0;
+    }
+    m->rx.rx_locked = 0;
+    if ((m->sio_regs[0][1] & 0x18) == 8) m->rx.pending = m->rx.count && robotron_sio_special(m, 0);
     break;
+  }
   case 7:
     if (m->rx.in_service)
       m->rx.in_service = 0;
@@ -509,31 +534,31 @@ uint8_t robotron_v24_read(robotron *m, unsigned control) {
       return 0;
     uint8_t v = s->fifo[s->read];
     if ((m->sio_regs[1][1] & 0x18) == 8 &&
-        ((s->errors & 0x20) || m->v24.fifo_errors[s->read])) {
-      m->v24.rx_locked = 1;
+        (s->errors & 0x60)) {
+      m->rx_b.rx_locked = 1;
       s->pending = 1;
       return v;
     }
     s->read = (s->read + 1) % 3;
     s->count--;
+    if (s->count) s->errors = (s->errors & 0x30) | s->fifo_errors[s->read];
     if (!s->count)
       s->pending = 0;
-    else if (m->sio_regs[1][1] & 16)
-      s->pending = 1;
+    else
+      s->pending = !!((m->sio_regs[1][1] & 16) || robotron_sio_special(m, 1));
     return v;
   }
   unsigned reg = m->sio_pointer[1];
   m->sio_pointer[1] = 0;
   if (reg == 1)
-    return (!m->v24.full && !m->v24.tx_clocks) | s->errors |
-           (s->count ? m->v24.fifo_errors[s->read] : 0);
+    return (!m->v24.full && !m->v24.tx_clocks) | s->errors;
   if (reg == 2) {
     unsigned code =
-        m->rx.pending            ? 12
+        m->rx.pending            ? (robotron_sio_special(m, 0) ? 14 : 12)
         : m->tx_pending          ? 8
         : m->printer_ext_pending ? 10
         : s->pending
-            ? ((s->errors | (s->count ? m->v24.fifo_errors[s->read] : 0)) & 0x70
+            ? (robotron_sio_special(m, 1)
                    ? 6
                    : 4)
         : m->v24.pending ? 0

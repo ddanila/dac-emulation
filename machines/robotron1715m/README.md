@@ -1,6 +1,6 @@
 # Robotron 1715M / PC-1715W functional profile
 
-For the current **0.15.1 / snapshot layout 13** baseline, see [Robotron status](../../docs/robotron-status.md). Versioned entries below retain their original historical scope.
+For the current **0.16.0 / snapshot layout 14** baseline, see [Robotron status](../../docs/robotron-status.md). Versioned entries below retain their original historical scope.
 
 
 An experimental portable C machine using the shared Z80 adapter. The tested profile is the S550 boot ROM, 287 CAS PROM and TOS/M 1.0 disk decoded from `A92V010A.TD0`. It cold-boots to `A>`, accepts keyboard packets, creates/reads/copies/deletes files and reboots from an exported session disk. No guest ROM patches or guest-PC traps are used. Matching Danila's exact physical machine is still pending.
