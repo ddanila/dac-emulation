@@ -199,7 +199,7 @@ static void robotron_dma_snapshot(void) {
 
 typedef struct {
   uint64_t hash;
-  unsigned dma_read, dma_write, ack, key, serial, lower_a, upper_a, ctrl_prefix;
+  unsigned dma_read, dma_write, ack, key, serial, lower_a, upper_a, ctrl_prefix, combined_prefix;
 } mixed_trace;
 static void mixed_record(void *user, const dac_trace_event *e) {
   mixed_trace *t = user;
@@ -214,6 +214,7 @@ static void mixed_record(void *user, const dac_trace_event *e) {
       !strcmp(e->kind, "IR") && (e->address & 255) == 12 && e->data == 'K';
   t->lower_a += !strcmp(e->kind,"IR") && (e->address&255)==12 && e->data=='a';
   t->upper_a += !strcmp(e->kind,"IR") && (e->address&255)==12 && e->data=='A';
+  t->combined_prefix += !strcmp(e->kind,"IR") && (e->address&255)==12 && e->data==0xe3;
   t->ctrl_prefix += !strcmp(e->kind,"IR") && (e->address&255)==12 && e->data==0xe1;
   t->serial +=
       !strcmp(e->kind, "IR") && (e->address & 255) == 13 && e->data == 0xa5;
@@ -448,6 +449,17 @@ static void bounded_timeline(void) {
 /* Optional production snapshot qualification using externally supplied S600.
  * Main CPU repeatedly copies DMA data while polling keyboard/V24 and printing.
  * Historical firmware is deliberately absent from ordinary CI. */
+/* Each window starts with a production snapshot and compares batched versus
+ * one-clock scheduling, including all peripheral queues and bus events. */
+static mixed_trace s600_window(dac_session *a,dac_session *b,void *left,void *right,unsigned size,mixed_trace *ta,mixed_trace *tb,unsigned clocks){
+  assert(!dac_state_save(a,left,size)&&!dac_state_load(b,left,size));
+  *ta=(mixed_trace){0};*tb=(mixed_trace){0};
+  for(unsigned remaining=clocks;remaining;){unsigned n=remaining>100000?100000:remaining;assert(dac_run(a,n)==n);remaining-=n;}
+  for(unsigned i=0;i<clocks;i++)assert(dac_run(b,1)==1);
+  assert(!memcmp(ta,tb,sizeof(*ta)));
+  assert(!dac_state_save(a,left,size)&&!dac_state_save(b,right,size)&&!memcmp(left,right,size));
+  return *ta;
+}
 static void s600_workload(const uint8_t *keyboard) {
   uint8_t rom[2048]={0xc3,0,1},prom[256]={0};unsigned p=256;
   const uint8_t sio[]={3,0xc1,4,4,5,0x68};
@@ -484,8 +496,40 @@ static void s600_workload(const uint8_t *keyboard) {
     assert(!dac_state_save(a,left,size)&&!dac_state_save(b,right,size)&&!memcmp(left,right,size));
   }
   assert(dma_reads&&serial_reads&&lower&&upper&&ctrl&&dac_printer_size(a)&&dac_serial_size(a));
+  /* Shift+Ctrl overlap; release Shift first while Ctrl remains held. */
+  const unsigned overlap[][2]={{65,1},{64,1},{61,1},{61,0},{65,0},{61,1},{61,0},{64,0}};
+  unsigned combined=0;
+  for(unsigned i=0;i<sizeof(overlap)/sizeof(*overlap);i++){
+    assert(!dac_matrix(a,overlap[i][0],overlap[i][1]));
+    mixed_trace t=s600_window(a,b,left,right,size,&ta,&tb,400000);combined+=t.combined_prefix;
+  }
+  assert(combined);
+  /* Find an actual partially shifted keyboard byte, not an arbitrary delay.
+   * This optional native fixture deliberately inspects snapshot layout 13. */
+  assert(!dac_matrix(a,61,1));unsigned found=0;
+  for(unsigned n=0;n<1600;n++){
+    assert(dac_run(a,256)==256);assert(!dac_state_save(a,left,size));
+    uint32_t header[8];memcpy(header,left,sizeof(header));assert(header[1]==13);
+    robotron_sio_rx rx;memcpy(&rx,(uint8_t*)left+sizeof(header)+offsetof(robotron,rx),sizeof(rx));
+    if(rx.phase&&rx.bits>0&&rx.bits<8){found=1;break;}
+  }
+  assert(found);
+  mixed_trace partial=s600_window(a,b,left,right,size,&ta,&tb,400000);assert(partial.lower_a);
+  /* REP acts on the held A contact. Verify repetition and its clean stop. */
+  assert(!dac_matrix(a,70,1));
+  mixed_trace repeat=s600_window(a,b,left,right,size,&ta,&tb,8000000);assert(repeat.lower_a>=2&&repeat.dma_read&&dac_printer_size(a)&&dac_serial_size(a));
+  assert(!dac_matrix(a,70,0));s600_window(a,b,left,right,size,&ta,&tb,400000);
+  mixed_trace stopped=s600_window(a,b,left,right,size,&ta,&tb,1000000);assert(!stopped.lower_a);
+  /* Runtime reset releases physical input state. Firmware restarts cleanly;
+   * a subsequent real press must still work with DMA and serial active. */
+  assert(!dac_reset(a)&&!dac_reset(b));
+  s600_window(a,b,left,right,size,&ta,&tb,1000000);
+  assert(!dac_matrix(a,61,0));s600_window(a,b,left,right,size,&ta,&tb,400000);
+  assert(!dac_matrix(a,61,1));assert(!dac_serial_send(a,0xa5));
+  mixed_trace fresh=s600_window(a,b,left,right,size,&ta,&tb,400000);assert(fresh.lower_a&&fresh.serial&&fresh.dma_read);
+  assert(!dac_matrix(a,61,0));s600_window(a,b,left,right,size,&ta,&tb,400000);
   free(left);free(right);dac_destroy(a);dac_destroy(b);
-  puts("PASS optional S600 mixed snapshots: 18 matrix/LED boundaries, DMA, printer and V24; 8.2M clocks per instance maximum");
+  puts("PASS optional S600 mixed snapshots: 18 matrix/LED boundaries, DMA, printer and V24; overlap, in-flight keyboard RX, REP stop and held-key reset; <24M clocks per instance");
 }
 
 static void debugger(void) {

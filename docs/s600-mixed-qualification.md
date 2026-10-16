@@ -16,10 +16,30 @@ bus trace hashes. Observed lowercase/uppercase characters and Ctrl prefixes,
 DMA reads, V24 reception and printer/serial output must all occur. LED latches
 are checked after release; held contacts may still be in the firmware's scan
 and debounce path. Both sessions must agree even at those intermediate points.
-The bound is 8.2 million emulated clocks per session, with no OS boot.
+The initial sequence uses 8.2 million emulated clocks per session, with no OS boot.
 
 The same optional target then runs the existing standalone S600 fixture for
 held keys, REP, overlapping modifiers, clean release and keyboard power gating.
 Both checks passed with the reference hash above. Default runtime tests also
 passed. This qualifies deterministic behavior through our production snapshot
 path; it is not independent hardware timing evidence or exhaustive S600 coverage.
+
+## Extended mixed-peripheral boundaries
+
+The optional workload also tests overlapping Shift/Ctrl, releasing Shift before
+Ctrl, a production snapshot during actual partial keyboard reception, held-A REP
+repetition and clean REP release, and reset with A held followed by a new press.
+DMA, printer and V24 remain configured in the original host fixture. Repeated
+characters, combined modifier prefixes and post-reset serial/DMA activity must
+occur, as well as full snapshot and bus-trace equality under batch versus
+single-clock scheduling.
+
+The mid-byte search examines snapshot layout 13 (asserted explicitly), stopping
+when keyboard RX has a nonzero phase and between one and seven received bits.
+It searches at most 1,600 intervals of 256 clocks. Every comparison window uses
+the public production snapshot save/load APIs. Runtime reset clears input matrix
+state; the test qualifies this API behavior, not specimen reset wiring.
+
+Maximum work is 23,809,600 clocks per session, including the search, with no OS.
+The unchanged reference S600 hash above passed the expanded workload and the
+standalone fixture. The test adds no ROM distribution or ordinary CI workload.
