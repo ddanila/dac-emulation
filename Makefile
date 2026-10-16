@@ -125,3 +125,15 @@ test-s600-workload: build/runtime-test build/robotron-keyboard-rom-test
 	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to an external 2048-byte S600 image'; exit 2)
 	./build/runtime-test --s600 "$(S600_ROM)"
 	./build/robotron-keyboard-rom-test "$(S600_ROM)"
+
+.PHONY: test-keyboard-controller audit-keyboard-controller qualify-keyboard-controller
+test-keyboard-controller:
+	python3 verification/robotron-keyboard/run.py
+
+audit-keyboard-controller:
+	python3 verification/robotron-keyboard/run.py --audit
+
+qualify-keyboard-controller:
+	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to an external 2 KB keyboard ROM'; exit 2)
+	python3 verification/robotron-keyboard/run.py --audit --rom "$(S600_ROM)"
+

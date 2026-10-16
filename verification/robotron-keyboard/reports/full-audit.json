@@ -1,0 +1,198 @@
+{
+  "schema": 1,
+  "scope": "reference digital boundary; not specimen timing or complete analog simulation",
+  "connectivitySha256": "2f72140842b1b8ebab498c22bb36112720f8c210d4457c0ee9fc3c459e3febc6",
+  "sources": {
+    "verification/robotron-keyboard/bus_probe.c": "b46f3a7ebd25b515b110bbc7c915bc437091911d5ee631273b2a8deb2d3b7213",
+    "verification/robotron-keyboard/bus_tb.v": "ce466a2a804810bb8079c5d36a5aa0d318660fc87b3eecaadf7e6bdebb5b392d",
+    "verification/robotron-keyboard/chips.v": "fb2dc06ff607c85594ef1fef33c8ae0d75e4f6ab5865bd2ff7e67f259617f3be",
+    "verification/robotron-keyboard/firmware_probe.c": "f5d62961ad2e7d9e1fd25bd7d3cf620d0d309435750d46a864a83dea147842ce",
+    "verification/robotron-keyboard/firmware_tb.v": "f3f7f95c33011c83c9e62e982fbbd64be2091b45ab2c51a73e20fc6c0ec154cc",
+    "verification/robotron-keyboard/generate.py": "b1e0bca115566b41ab36a38e8bc0a5e48a8a69f8b69daf44816ca6de5edc19f4",
+    "verification/robotron-keyboard/generated/controller.v": "f379f333026b372280ae5b09fee030ae3c4e8730e8102108e9f85683f4f5c7a6",
+    "verification/robotron-keyboard/run.py": "0e92352f885471187c6a88eb1d02bb68485951de127ee335b5536d9537f25ca0"
+  },
+  "productionKeyboardSha256": "ba36fae1ad072147f37c23bfc19bd80cdc5a547c049cd0d795d8d510e017d0cb",
+  "bus": {
+    "mode": "full-address-audit",
+    "vectors": 98304,
+    "mismatches": 57101,
+    "equivalent": false,
+    "firstDifferences": [
+      "DIFF vector=32768 address=8000 write=0 read HDL=00 C=ff LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32769 address=8001 write=0 read HDL=01 C=01 LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32770 address=8002 write=0 read HDL=02 C=02 LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32771 address=8003 write=0 read HDL=03 C=00 LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32772 address=8004 write=0 read HDL=04 C=04 LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32773 address=8005 write=0 read HDL=05 C=00 LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32774 address=8006 write=0 read HDL=06 C=00 LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32775 address=8007 write=0 read HDL=07 C=00 LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32776 address=8008 write=0 read HDL=08 C=08 LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32777 address=8009 write=0 read HDL=09 C=00 LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32778 address=800a write=0 read HDL=0a C=00 LEDs HDL=0 C=3 clock=0 count=0",
+      "DIFF vector=32779 address=800b write=0 read HDL=0b C=00 LEDs HDL=0 C=3 clock=0 count=0"
+    ]
+  },
+  "firmware": {
+    "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+    "cpu": {
+      "repository": "https://github.com/hutch31/tv80",
+      "revision": "66a131c38d05ef58b3d8c4f1507a72e6e4aa5d65",
+      "scope": "Unmodified rtl/core files; MIT license retained in each file. Qualification only, not production runtime.",
+      "files": {
+        "tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+        "tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+        "tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+        "tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+        "tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+      }
+    },
+    "cycles": 3200000,
+    "cBits": 130,
+    "hdlBits": 130,
+    "serialSequenceEquivalent": true,
+    "firstSerialDifference": null,
+    "ledDifferences": [],
+    "cLedEdges": 5,
+    "hdlLedEdges": 6783,
+    "ledTransitionsEquivalent": false,
+    "serialCycleOffsets": [
+      2
+    ],
+    "cLedSamples": [
+      [
+        199999,
+        "0"
+      ],
+      [
+        399999,
+        "0"
+      ],
+      [
+        599999,
+        "0"
+      ],
+      [
+        799999,
+        "0"
+      ],
+      [
+        999999,
+        "0"
+      ],
+      [
+        1199999,
+        "0"
+      ],
+      [
+        1399999,
+        "1"
+      ],
+      [
+        1599999,
+        "1"
+      ],
+      [
+        1799999,
+        "1"
+      ],
+      [
+        1999999,
+        "1"
+      ],
+      [
+        2199999,
+        "1"
+      ],
+      [
+        2399999,
+        "1"
+      ],
+      [
+        2599999,
+        "1"
+      ],
+      [
+        2799999,
+        "1"
+      ],
+      [
+        2999999,
+        "0"
+      ],
+      [
+        3199999,
+        "0"
+      ]
+    ],
+    "hdlLedSamples": [
+      [
+        199999,
+        "0"
+      ],
+      [
+        399999,
+        "0"
+      ],
+      [
+        599999,
+        "0"
+      ],
+      [
+        799999,
+        "0"
+      ],
+      [
+        999999,
+        "0"
+      ],
+      [
+        1199999,
+        "0"
+      ],
+      [
+        1399999,
+        "1"
+      ],
+      [
+        1599999,
+        "1"
+      ],
+      [
+        1799999,
+        "1"
+      ],
+      [
+        1999999,
+        "1"
+      ],
+      [
+        2199999,
+        "1"
+      ],
+      [
+        2399999,
+        "1"
+      ],
+      [
+        2599999,
+        "1"
+      ],
+      [
+        2799999,
+        "1"
+      ],
+      [
+        2999999,
+        "0"
+      ],
+      [
+        3199999,
+        "0"
+      ]
+    ],
+    "timing": "Cycles recorded; ordinal bit comparison allows CPU timing differences and is not cycle equivalence.",
+    "equivalent": false
+  },
+  "equivalent": false
+}

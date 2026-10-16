@@ -10,6 +10,14 @@ concurrency:
   group: cores-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  keyboard-controller:
+    name: Keyboard reference wiring and common bus subset
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo apt-get update && sudo apt-get install -y iverilog
+      - run: make test-keyboard-controller
   checks:
     name: ${{ matrix.target }} (${{ matrix.os }})
     strategy:

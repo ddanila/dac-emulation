@@ -123,6 +123,12 @@ transmit interrupts and WR0/WR1. Robotron internal state version is now 3.
 
 ### Keyboard indicator latch correction
 
+The later [keyboard board co-simulation](../../verification/robotron-keyboard/README.md)
+found that the following A15-gated interpretation disagrees with a direct
+transcription of the drawing. Existing production behavior remains while the
+reference circuit and specimen are reconciled; do not treat this paragraph as
+settled hardware evidence.
+
 The Zander 56-330-4103-7 drawing connects A6A/A6B (DL074) D inputs to A14/A13,
 with an IORQ-derived clock enabled when A15 is low. An I/O cycle latches those
 address bits: 0000 turns both off, 2000 selects SI/SO, 4000 Caps, and 6000 both.
