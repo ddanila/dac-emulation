@@ -199,7 +199,7 @@ static void robotron_dma_snapshot(void) {
 
 typedef struct {
   uint64_t hash;
-  unsigned dma_read, dma_write, ack, key, serial;
+  unsigned dma_read, dma_write, ack, key, serial, lower_a, upper_a, ctrl_prefix;
 } mixed_trace;
 static void mixed_record(void *user, const dac_trace_event *e) {
   mixed_trace *t = user;
@@ -212,6 +212,9 @@ static void mixed_record(void *user, const dac_trace_event *e) {
   t->ack += !strcmp(e->kind, "IA");
   t->key +=
       !strcmp(e->kind, "IR") && (e->address & 255) == 12 && e->data == 'K';
+  t->lower_a += !strcmp(e->kind,"IR") && (e->address&255)==12 && e->data=='a';
+  t->upper_a += !strcmp(e->kind,"IR") && (e->address&255)==12 && e->data=='A';
+  t->ctrl_prefix += !strcmp(e->kind,"IR") && (e->address&255)==12 && e->data==0xe1;
   t->serial +=
       !strcmp(e->kind, "IR") && (e->address & 255) == 13 && e->data == 0xa5;
 }
@@ -442,6 +445,49 @@ static void bounded_timeline(void) {
   assert(!dac_timeline_status(s));
   dac_destroy(s);
 }
+/* Optional production snapshot qualification using externally supplied S600.
+ * Main CPU repeatedly copies DMA data while polling keyboard/V24 and printing.
+ * Historical firmware is deliberately absent from ordinary CI. */
+static void s600_workload(const uint8_t *keyboard) {
+  uint8_t rom[2048]={0xc3,0,1},prom[256]={0};unsigned p=256;
+  const uint8_t sio[]={3,0xc1,4,4,5,0x68};
+  for(unsigned ch=0;ch<2;ch++)for(unsigned i=0;i<sizeof(sio);i++)
+    emit_out(rom,&p,14+ch,ch==1&&i==3?0x44:sio[i]);
+  for(unsigned port=8;port<10;port++){emit_out(rom,&p,port,7);emit_out(rom,&p,port,1);}
+  unsigned loop=p;
+  const uint8_t dma[]={0xc3,0x7d,0,0x40,31,0,0x14,0x10,0x9d,0,0x50,0x12,0x24,0x82,0xcf,0xab,0x87,0x8a};
+  for(unsigned i=0;i<sizeof(dma);i++)emit_out(rom,&p,0,dma[i]);
+  emit_out(rom,&p,12,'P');emit_out(rom,&p,13,'S');
+  rom[p++]=0xdb;rom[p++]=12;rom[p++]=0xdb;rom[p++]=13;
+  rom[p++]=0xc3;rom[p++]=loop;rom[p++]=loop>>8;
+  dac_session *a=dac_create(2),*b=dac_create(2),*both[]={a,b};
+  for(unsigned i=0;i<2;i++){assert(!dac_load(both[i],0,rom,sizeof(rom)));assert(!dac_load(both[i],1,prom,sizeof(prom)));assert(!dac_load(both[i],3,keyboard,2048));assert(!dac_power(both[i],1));}
+  for(unsigned i=0;i<10;i++)assert(dac_run(a,100000)==100000);
+  unsigned size=dac_state_size(a);void *left=malloc(size),*right=malloc(size);assert(left&&right);
+  assert(!dac_state_save(a,left,size)&&!dac_state_load(b,left,size));
+  mixed_trace ta={0},tb={0};dac_trace_sink sa={mixed_record,&ta,0,0},sb={mixed_record,&tb,0,0};assert(!dac_set_trace(a,&sa)&&!dac_set_trace(b,&sb));
+  /* Hold/release A; Shift+A; Ctrl; Caps then SI/SO latches. */
+  const unsigned inputs[][3]={{61,1,0},{61,0,0},{65,1,0},{61,1,0},{61,0,0},{65,0,0},{64,1,0},{61,1,0},{61,0,0},{64,0,0},{71,1,1},{71,0,1},{69,1,3},{69,0,3},{71,1,2},{71,0,2},{69,1,0},{69,0,0}};
+  unsigned dma_reads=0,serial_reads=0,lower=0,upper=0,ctrl=0;
+  for(unsigned n=0;n<sizeof(inputs)/sizeof(*inputs);n++){
+    assert(!dac_matrix(a,inputs[n][0],inputs[n][1])&&!dac_matrix(b,inputs[n][0],inputs[n][1]));
+    assert(!dac_serial_signals(a,3)&&!dac_serial_signals(b,3));assert(!dac_serial_send(a,0xa5)&&!dac_serial_send(b,0xa5));
+    /* Snapshot just after the edge, before the keyboard has scanned it. */
+    assert(!dac_state_save(a,left,size)&&!dac_state_load(b,left,size));
+    ta=(mixed_trace){0};tb=(mixed_trace){0};for(unsigned i=0;i<4;i++)assert(dac_run(a,100000)==100000);
+    for(unsigned i=0;i<400000;i++)assert(dac_run(b,1)==1);
+    assert(!memcmp(&ta,&tb,sizeof(ta)));dma_reads+=ta.dma_read;serial_reads+=ta.serial;lower+=ta.lower_a;upper+=ta.upper_a;ctrl+=ta.ctrl_prefix;
+    /* A held key can still be in the S600 scan/debounce path. Qualify mode
+     * latches after release, as the standalone historical-ROM fixture does. */
+    assert(dac_keyboard_leds(a)==dac_keyboard_leds(b));
+    if(!inputs[n][1])assert(dac_keyboard_leds(a)==inputs[n][2]);
+    assert(!dac_state_save(a,left,size)&&!dac_state_save(b,right,size)&&!memcmp(left,right,size));
+  }
+  assert(dma_reads&&serial_reads&&lower&&upper&&ctrl&&dac_printer_size(a)&&dac_serial_size(a));
+  free(left);free(right);dac_destroy(a);dac_destroy(b);
+  puts("PASS optional S600 mixed snapshots: 18 matrix/LED boundaries, DMA, printer and V24; 8.2M clocks per instance maximum");
+}
+
 static void debugger(void) {
   dac_session *s = dac_create(2);
   uint8_t rom[2048] = {0x3e, 0x44, 0xd3, 0x15, 0xc3, 0, 0}, prom[256] = {0};
@@ -473,7 +519,10 @@ static void debugger(void) {
   assert(!dac_debug_break(s, 0) && dac_debug_run(s, 10) == 10);
   dac_destroy(s);
 }
-int main(void) {
+int main(int argc,char **argv) {
+  if(argc==3&&!strcmp(argv[1],"--s600")){uint8_t rom[2048];FILE *f=fopen(argv[2],"rb");assert(f&&fread(rom,1,sizeof(rom),f)==sizeof(rom)&&fgetc(f)==EOF);fclose(f);s600_workload(rom);return 0;}
+  if(argc!=1){fprintf(stderr,"usage: runtime-test [--s600 path/to/S600.bin]\n");return 2;}
+
   mixed_workload_snapshots(0);
   mixed_workload_snapshots(1);
   debugger();

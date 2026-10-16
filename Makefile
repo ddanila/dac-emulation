@@ -115,3 +115,10 @@ test-runtime-sanitize: build/runtime-sanitize
 # Optional independent-reference check; MAME is never a normal CI dependency.
 build/robotron-comparison: tests/integration/robotron_comparison.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
+# Optional bounded historical keyboard qualification, never a dependency of test.
+.PHONY: test-s600-workload
+test-s600-workload: build/runtime-test build/robotron-keyboard-rom-test
+	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to an external 2048-byte S600 image'; exit 2)
+	./build/runtime-test --s600 "$(S600_ROM)"
+	./build/robotron-keyboard-rom-test "$(S600_ROM)"
