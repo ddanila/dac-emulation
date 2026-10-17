@@ -147,3 +147,15 @@ clocks; the report labels that limitation and full `--wave` remains available.
 so an aborted qualification cannot leave a previous passing report as its result.
 The ordinary test target includes fault injection for read-data, LED and serial
 mismatches, missing events, independent clocks and bounded firmware VCD replay.
+
+## Flip-flop logic boundary
+
+The DL074 logical model follows the LS74 function table in
+[TI SDLS119, page 1](https://www.ti.com/lit/ds/symlink/sn74ls74a.pdf).
+Preset and clear asserted together drive both outputs high; releasing both
+simultaneously leaves stored state unknown until a valid clock or asynchronous
+control resolves it. Unknown controls and ambiguous clock edges cannot fabricate
+a known state. Pin-level regressions run with the normal board checks.
+This is a functional-family model, not qualified DL074 propagation, metastability
+or supply behavior. A6's asynchronous controls are tied inactive in the reference
+schematic; the conflict tests exercise chip behavior outside ordinary firmware use.

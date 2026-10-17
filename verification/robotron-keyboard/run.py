@@ -15,6 +15,11 @@ def main():
   (OUT/name).unlink(missing_ok=True)
  run([sys.executable,R/'generate.py','--check'])
  report={'schema':1,'scope':'reference digital boundary; not specimen timing or complete analog simulation','connectivitySha256':sha(R/'reference/connectivity.json'),'sources':{str(f.relative_to(ROOT)):sha(f) for f in sorted(list(R.glob('*.*'))+list((R/'generated').glob('*.v'))) if f.suffix in ['.py','.c','.v']},'productionKeyboardSha256':sha(ROOT/'machines/robotron1715m/keyboard.c'),'productionKeyboardHeaderSha256':sha(ROOT/'machines/robotron1715m/keyboard.h'),'cpuSources':{p:sha(ROOT/p) for p in ['common/cpu/z80.c','common/cpu/z80.h','third_party/cpu/chips/z80.h']}}
+ run(['iverilog','-g2012','-s','chips_tb','-o',OUT/'chips.vvp',R/'chips.v',R/'chips_tb.v'])
+ chip=subprocess.run(['vvp',str(OUT/'chips.vvp')],cwd=ROOT,text=True,capture_output=True,timeout=30)
+ (OUT/'chips.log').write_text(chip.stdout+chip.stderr)
+ if chip.returncode or 'PASS DL074' not in chip.stdout:raise RuntimeError(chip.stdout+chip.stderr)
+ report['chipTruthTable']={'passed':True,'scope':'DL074 numbered pins: asynchronous controls, conflict/release, edge capture, hold and unknown inputs; no device timing calibration'}
  run(['iverilog','-g2012','-s','service_tb','-o',OUT/'service.vvp',R/'chips.v',R/'generated/controller.v',R/'service_tb.v'])
  service=subprocess.run(['vvp',str(OUT/'service.vvp')],cwd=ROOT,text=True,capture_output=True,timeout=30)
  (OUT/'service.log').write_text(service.stdout+service.stderr)
