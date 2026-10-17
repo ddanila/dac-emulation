@@ -2,7 +2,9 @@
 """The early probe must preserve board topology and compare identical inputs."""
 import copy
 import unittest
-from coupled_clock_probe import early_deck, matching_inputs
+import tempfile
+from pathlib import Path
+from coupled_clock_probe import early_deck, matching_inputs, summarize_diagnostics, DIAGNOSTIC_SIGNALS
 
 
 class CoupledClockProbeTests(unittest.TestCase):
@@ -12,6 +14,27 @@ class CoupledClockProbeTests(unittest.TestCase):
         for invalid in (deck.replace('2n', '5n'), deck.replace('124m', '123m'), deck + 'tran 2n 0.127 124m\n'):
             with self.assertRaises(ValueError):
                 early_deck(invalid, 2, 100)
+
+    def test_diagnostics_add_observation_without_changing_circuit(self):
+        deck = 'fixture\nRBR1 a b .001\n.save v(a)\n.control\ntran 2n 0.127 124m\nwrdata trace.txt v(a)\n.endc\n.end\n'
+        changed = early_deck(deck, 2, 100, ('v(b)',))
+        self.assertIn('.save v(a) v(b)\n', changed)
+        self.assertIn('wrdata trace.txt v(a)\nwrdata diagnostic-trace.txt v(b)', changed)
+        self.assertIn('RBR1 a b .001\n', changed)
+        with self.assertRaises(ValueError):
+            early_deck(deck.replace('.save v(a)\n', ''), 2, 100, ('v(b)',))
+
+    def test_diagnostic_endpoints_and_nonfinite_values(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'trace.txt'
+            values = ' '.join(['1'] * len(DIAGNOSTIC_SIGNALS))
+            valid = f'time signals\n0 {values}\n0.0001 {values}\n'
+            path.write_text(valid)
+            self.assertEqual(summarize_diagnostics(path, 100)['lastSeconds'], .0001)
+            for bad in (valid.replace('0.0001', '0.00005'), valid.replace('0.0001', '-0.0001'), valid.replace('0.0001', 'nan')):
+                path.write_text(bad)
+                with self.assertRaises(ValueError):
+                    summarize_diagnostics(path, 100)
 
     def test_model_and_solver_changes_rejected(self):
         coarse = {key: 'same' for key in ('romSha256', 'connectivitySha256', 'bridge', 'tv80', 'ngspice', 'iverilog', 'sources')}

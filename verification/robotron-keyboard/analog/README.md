@@ -164,13 +164,13 @@ a default-tolerance rejection and a tighter-tolerance pass over the probe window
 The default frequency test alone can pass while this phase gate fails.
 
 `coupled_clock_probe.py` prepares the full electrical matrix/output board with
-TV80 and the same HDL bridge, then changes only the transient/save window to
-observe early startup. It compares matched inputs and absolute clock phase;
+TV80 and the same HDL bridge, then changes the transient/save window and adds non-loading node observations
+to inspect early startup. It compares matched inputs and absolute clock phase;
 it cannot qualify boot, key handling or phase accumulated through power-on reset.
 Prepared full-board reports remain explicitly unqualified.
 
 ```sh
-python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path/to/s600.bin --out /tmp/coupled-clock
+python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path/to/s600.bin --steps-ns 1 .5 --duration-us 1000 --out /tmp/coupled-clock
 ```
 
 `reports/coupled-clock-startup/` retains a tight-tolerance startup rejection:
@@ -178,6 +178,14 @@ ngspice aborted at the unused NAND input clamp before useful clock activity.
 The retained partial waveform is failure evidence, not a completed simulation.
 Standalone oscillator phase convergence therefore does not yet transfer to the
 coupled board. The probe rejects solver diagnostics even when ngspice exits zero.
+
+The separate `diagnostic-trace.txt` records board supply, oscillator internal
+nodes, cable return and host-source current, with hashes and voltage/current
+ranges in each run report. `--rise-us` varies the host supply ramp without
+bypassing cable/filter charging. The retained `charging-window.json` shows that
+the board rail is still below 2 V at 100 µs with this nominal supply/filter model.
+Lack of clock activity in that window is not proof that the oscillator cannot
+start; inspect the supply trajectory and use a longer window before judging it.
 
 ## Output, cable and supply loads
 

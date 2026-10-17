@@ -14,13 +14,20 @@ from failure_evidence import capture
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
+DIAGNOSTIC_SIGNALS = ('v(n_p5V)', 'v(n_OSC_RC)', 'v(n_OSC1)', 'v(n_OSC2)',
+                      'v(n_OSC_OUT)', 'v(n_CABLE_GND)', 'i(Vhost)')
 
 
-def early_deck(deck, step_ns, duration_us):
+def early_deck(deck, step_ns, duration_us, diagnostics=()):
     """Keep the prepared circuit intact and save startup instead of the boot tail."""
     matches = re.findall(r'^tran ([0-9.eE+-]+)n ([0-9.eE+-]+) 124m$', deck, re.M)
     if len(matches) != 1 or float(matches[0][0]) != step_ns:
         raise ValueError('Unexpected prepared transient command')
+    if diagnostics:
+        if len(re.findall(r'^\.save .+$', deck, re.M)) != 1 or len(re.findall(r'^wrdata trace.txt .+$', deck, re.M)) != 1:
+            raise ValueError('Unexpected prepared waveform commands')
+        deck = re.sub(r'^(\.save .+)$', lambda m: m[0] + ' ' + ' '.join(diagnostics), deck, flags=re.M)
+        deck = re.sub(r'^(wrdata trace.txt .+)$', lambda m: m[0] + '\nwrdata diagnostic-trace.txt ' + ' '.join(diagnostics), deck, flags=re.M)
     return re.sub(r'^tran [0-9.eE+-]+n [0-9.eE+-]+ 124m$',
                   f'tran {step_ns}n {duration_us}u', deck, flags=re.M)
 
@@ -30,13 +37,14 @@ def run(args, step, directory):
     command = [sys.executable, str(HERE / 'boot_cosim.py'), '--rom', str(args.rom.resolve()),
                '--out', str(directory), '--prepare-only', '--electrical-matrix', '--electrical-outputs',
                '--step-ns', str(step), '--gate-profile', args.gate_profile,
-               '--reltol', str(args.reltol), '--vntol', str(args.vntol), '--abstol', str(args.abstol)]
+               '--rise-us', str(args.rise_us), '--reltol', str(args.reltol), '--vntol', str(args.vntol), '--abstol', str(args.abstol)]
     subprocess.run(command, check=True, capture_output=True, text=True, timeout=60)
     prepared = json.loads((directory / 'report.json').read_text())
     if prepared['passed'] or not prepared.get('preparedOnly') or sha(directory / 'boot.cir') != prepared['deckSha256']:
         raise ValueError('Invalid prepared board inputs')
-    deck = early_deck((directory / 'boot.cir').read_text(), step, args.duration_us)
+    deck = early_deck((directory / 'boot.cir').read_text(), step, args.duration_us, DIAGNOSTIC_SIGNALS)
     (directory / 'clock-probe.cir').write_text(deck)
+    (directory / 'diagnostic-trace.txt').unlink(missing_ok=True)
     result = {'stepNs': step, 'preparedBoard': prepared,
               'preparedReportSha256': sha(directory / 'report.json'),
               'probeDeckSha256': sha(directory / 'clock-probe.cir')}
@@ -51,14 +59,39 @@ def run(args, step, directory):
         if diagnostic:
             result['solverDiagnostic'] = diagnostic.group(0)
             raise ValueError('Coupled clock solver/HDL diagnostics: ' + diagnostic.group(0))
+        result['diagnosticTraceSha256'] = sha(directory / 'diagnostic-trace.txt')
+        result['diagnosticSignals'] = summarize_diagnostics(directory / 'diagnostic-trace.txt', args.duration_us)
         result['completed'] = True
     except Exception as error:
         result['error'] = str(error)
-        result['failureArtifacts'] = capture(directory, ('ngspice.log', 'trace.txt'))
+        result['failureArtifacts'] = capture(directory, ('ngspice.log', 'trace.txt', 'diagnostic-trace.txt'))
         raise
     finally:
         (directory / 'clock-probe.json').write_text(json.dumps(result, indent=2) + '\n')
     return result
+
+
+def summarize_diagnostics(path, duration_us):
+    ranges = {name: {'minimum': math.inf, 'maximum': -math.inf} for name in DIAGNOSTIC_SIGNALS}
+    first, last = None, None
+    with path.open() as stream:
+        next(stream)
+        for line in stream:
+            row = list(map(float, line.split()))
+            if len(row) != len(DIAGNOSTIC_SIGNALS) + 1 or not all(map(math.isfinite, row)):
+                raise ValueError('Invalid diagnostic waveform')
+            if last is not None and row[0] < last:
+                raise ValueError('Diagnostic waveform time reverses')
+            first = row[0] if first is None else first
+            last = row[0]
+            for name, value in zip(DIAGNOSTIC_SIGNALS, row[1:]):
+                ranges[name]['minimum'] = min(ranges[name]['minimum'], value)
+                ranges[name]['maximum'] = max(ranges[name]['maximum'], value)
+                ranges[name]['final'] = value
+    if first is None or first > 1e-9 or abs(last - duration_us * 1e-6) > 1e-12:
+        raise ValueError('Incomplete diagnostic waveform')
+    return {'firstSeconds': first, 'lastSeconds': last, 'ranges': ranges,
+            'units': 'Volts for v(...), amperes for i(...); source current uses SPICE sign convention'}
 
 
 def matching_inputs(coarse, fine):
@@ -86,12 +119,13 @@ def main():
     parser.add_argument('--duration-us', type=float, default=100)
     parser.add_argument('--timeout-seconds', type=float, default=600)
     parser.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
+    parser.add_argument('--rise-us', type=float, default=1)
     parser.add_argument('--reltol', type=float, default=1e-7)
     parser.add_argument('--vntol', type=float, default=1e-9)
     parser.add_argument('--abstol', type=float, default=1e-15)
     args = parser.parse_args()
     if any(not math.isfinite(v) or v <= 0 for v in (*args.steps_ns, args.duration_us, args.timeout_seconds,
-                                                  args.reltol, args.vntol, args.abstol)):
+                                                  args.rise_us, args.reltol, args.vntol, args.abstol)):
         parser.error('Timesteps, duration and solver tolerances must be positive and finite')
     if args.steps_ns[0] > 10 or args.steps_ns[1] > args.steps_ns[0] / 2:
         parser.error('Coarse step must be at most 10 ns and fine at most half coarse')
