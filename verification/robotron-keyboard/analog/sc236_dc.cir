@@ -1,0 +1,6 @@
+* SC236D exploratory DC candidate, not a manufacturer SPICE model.
+* Source conditions and DC gain limits: device_limits.json.
+* IS/BF/ISE/NE/IKF approximate the published forward current dependence.
+* VAF remains an assumption. Junction charge, reverse operation, saturation,
+* temperature dependence and specimen variation are not qualified.
+.model NPN_NOMINAL NPN(IS=6.8e-14 BF=240 ISE=2e-13 NE=1.5 IKF=.15 VAF=100 TNOM=25)

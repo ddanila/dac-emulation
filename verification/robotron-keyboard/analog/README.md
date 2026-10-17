@@ -71,6 +71,16 @@ also identifies its unqualified typical values as group D; they must not be
 silently treated as SC308C specifications. Device fitting, dynamics and
 temperature behavior remain open work.
 
+Select `--npn-profile sc236-dc` in `device_probe.py`, `reset_probe.py` or
+`boot_cosim.py` to use the exploratory current-dependent NPN candidate in
+`sc236_dc.cir`. It meets the selected DC gain ranges; the device report also
+shows deviations from typical base-emitter voltages without inventing acceptance
+bands for typical values. The parameters describe a candidate, not a unique fit
+or a manufacturer model. PNP and diode models remain generic. The original
+profile remains the default for comparisons; CI checks the candidate's DC limits
+and reset integration separately. Reports retain the selected profile and source
+hashes. Full-board transient qualification is still required for this profile.
+
 `reset_probe.py` generates the reset passives, diodes and transistors from the same
 pinned connectivity, with BR2 connected to the schematic CPU reset pin. It checks
 cold start, a power interruption, BR2 isolation and timestep refinement. The

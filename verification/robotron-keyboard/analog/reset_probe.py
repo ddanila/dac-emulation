@@ -30,7 +30,7 @@ def simulate(args, components, step_us, isolated):
     rise = args.rise_us * 1e-6
     lines = ['Robotron reference reset; nominal exploratory semiconductor models',
              f'Vcc n_p5V 0 PWL(0 0 {rise} 5 .3 5 {.3+rise} 0 1.3 0 {1.3+rise} 5 1.6 5)',
-             *nominal_models(args.beta), *lines,
+             *nominal_models(args.beta, args.npn_profile), *lines,
              f'RBR2 {source} {cpu} {"1t" if isolated else ".001"}',
              f'Rcpu {cpu} 0 1g', f'Ccpu {cpu} 0 10p']
     if isolated:
@@ -84,6 +84,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--ngspice', default='ngspice')
     p.add_argument('--beta', type=float, default=100)
+    p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
     p.add_argument('--rise-us', type=float, default=1)
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/reset')
     args = p.parse_args()
@@ -93,15 +94,15 @@ def main():
     report_path = args.out / 'report.json'
     report_path.unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'runs': [],
-              'assumptions': {'semiconductors': 'Generic SPICE BJTs and diode, not SC236/SC308 characterization',
-                              'beta': args.beta, 'riseUs': args.rise_us,
+              'assumptions': {'semiconductors': 'Selected exploratory NPN profile; generic PNP and diode; no full device qualification',
+                              'beta': args.beta, 'npnProfile': args.npn_profile, 'riseUs': args.rise_us,
                               'passives': 'Ideal nominal R/C values; no ESR, leakage or tolerance model',
                               'cpuLoad': '1 gigaohm and 10 pF; illustrative, not measured',
                               'supply': 'Ideal source with programmed ramps and a one-second power interruption',
                               'thresholdVolts': [.8, 2],
                               'timing': 'Observation windows test nominal behavior, not historical reset duration'},
               'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
-                          for name in ('reset_probe.py', 'circuit.py')}}
+                          for name in ('reset_probe.py', 'circuit.py', 'sc236_dc.cir')}}
     try:
         components, report['connectivitySha256'] = load()
         report['tool'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()

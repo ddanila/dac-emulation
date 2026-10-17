@@ -63,7 +63,11 @@ def elements(components, refs):
     return lines, models
 
 
-def nominal_models(beta):
+def nominal_models(beta, npn_profile='generic'):
+    if npn_profile not in ('generic', 'sc236-dc'):
+        raise ValueError('Unknown NPN profile: ' + npn_profile)
+    npn = (f'.model NPN_NOMINAL NPN(IS=1e-14 BF={beta} VAF=100)' if npn_profile == 'generic'
+           else (Path(__file__).resolve().parent / 'sc236_dc.cir').read_text().strip())
     return ['.model D_NOMINAL D(IS=1e-14 N=1)',
-            f'.model NPN_NOMINAL NPN(IS=1e-14 BF={beta} VAF=100)',
+            npn,
             f'.model PNP_NOMINAL PNP(IS=1e-14 BF={beta} VAF=100)']

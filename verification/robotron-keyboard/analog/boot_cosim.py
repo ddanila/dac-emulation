@@ -100,7 +100,7 @@ def prepare(args, report):
                                        args.electrical_matrix, args.electrical_outputs, not args.bypass_rom_bus)
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
              *power_lines, '.include ls_nand_nominal.cir',
-             *nominal_models(100), *osc, *reset, *matrix_lines, *output_lines,
+             *nominal_models(100, args.npn_profile), *osc, *reset, *matrix_lines, *output_lines,
              f'RBR2 {reset_source} {cpu_reset} .001',
              f'Rresetload {cpu_reset} 0 1g', f'Cresetload {cpu_reset} 0 10p',
              f'Ain [{cpu_clock} {cpu_reset}] [dclk drst] receiver',
@@ -190,6 +190,7 @@ def main():
     p.add_argument('--contacts', default='', help='Comma-separated fixture contact indices held closed from power-on')
     p.add_argument('--prepare-only', action='store_true', help='Generate inputs without claiming a simulation pass')
     p.add_argument('--rise-us', type=float, default=1)
+    p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
     p.add_argument('--step-ns', type=float, default=2)
     p.add_argument('--timeout-seconds', type=float, default=7200)
     p.add_argument('--ngspice', default='ngspice')
@@ -215,6 +216,7 @@ def main():
               'assumptions': {'receiverThresholdVolts': 1.4,
                               'receiver': 'Single nominal threshold avoids counting both edges of an X band as clock edges',
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
+                              'npnProfile': args.npn_profile,
                               'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses'] + ([] if args.electrical_outputs else ['LED and serial output loading']),
                               'romBus': 'Direct CPU input diagnostic' if args.bypass_rom_bus else 'Resolved CPU/ROM/latch bus from numbered schematic pins',
                               'cpuDataDrive': 'WR-only diagnostic' if args.wr_only_data else 'TV80 write-cycle intent gated by reset and bus ownership',
@@ -224,7 +226,7 @@ def main():
                               'maximumStepNs': args.step_ns, 'timeoutSeconds': args.timeout_seconds, 'supplyRiseUs': args.rise_us,
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
-                            'circuit.py', 'oscillator_probe.py', 'reset_probe.py', 'ls_nand_nominal.cir',
+                            'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py', 'ls_nand_nominal.cir',
                             'controller_interface.py', 'matrix.py', 'output_circuit.py', 'model_coverage.py')}}
     try:
         prepare(args, report)

@@ -28,6 +28,10 @@ jobs:
         run: python3 verification/robotron-keyboard/analog/matrix_probe.py
       - name: Reference reset, power cycling and BR2 isolation
         run: python3 verification/robotron-keyboard/analog/reset_probe.py
+      - name: SC236D candidate DC limits and reset integration
+        run: |
+          python3 verification/robotron-keyboard/analog/device_probe.py --npn-profile sc236-dc --require-qualified
+          python3 verification/robotron-keyboard/analog/reset_probe.py --npn-profile sc236-dc --out build/keyboard-controller-analog/reset-sc236
       - name: Reference oscillator topology and BR1 isolation
         run: python3 verification/robotron-keyboard/analog/oscillator_probe.py
       - name: Serial, cable and LED electrical loads

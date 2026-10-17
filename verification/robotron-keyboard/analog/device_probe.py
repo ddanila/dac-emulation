@@ -14,10 +14,20 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 
 
+def interpolate(samples, ic):
+    pair = next(((a, b) for a, b in zip(samples, samples[1:]) if a[1] <= ic < b[1]), None)
+    if pair is None:
+        raise ValueError('Sweep does not bracket specified collector current')
+    a, b = pair
+    fraction = (ic - a[1]) / (b[1] - a[1])
+    return a[0] + fraction * (b[0] - a[0]), a[2] + fraction * (b[2] - a[2])
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ngspice', default='ngspice')
     parser.add_argument('--beta', type=float, default=100)
+    parser.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
     parser.add_argument('--require-qualified', action='store_true')
     parser.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/devices')
     args = parser.parse_args()
@@ -29,13 +39,13 @@ def main():
     trace.unlink(missing_ok=True)
     limits = json.loads((HERE / 'device_limits.json').read_text())['SC236D']
     report = {'completed': False, 'qualified': False, 'scope': __doc__,
-              'device': 'SC236D', 'limits': limits, 'beta': args.beta,
+              'device': 'SC236D', 'limits': limits, 'beta': args.beta, 'npnProfile': args.npn_profile,
               'qualificationScope': 'Selected DC gain points only; not transient, saturation, temperature or full-device qualification',
-              'points': [], 'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
-                                      for name in ('device_probe.py', 'device_limits.json', 'circuit.py')}}
+              'points': [], 'vbeComparisons': [], 'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
+                                      for name in ('device_probe.py', 'device_limits.json', 'circuit.py', 'sc236_dc.cir')}}
     try:
         deck = '\n'.join([
-            'SC236D nominal model DC characterization', *nominal_models(args.beta),
+            'SC236D nominal model DC characterization', *nominal_models(args.beta, args.npn_profile),
             f'.temp {limits["temperatureC"]}', f'Vc c 0 {limits["vceVolts"]}',
             'Vb b 0 0', 'Qdut c b 0 NPN_NOMINAL',
             '.control', 'set wr_singlescale', 'set wr_vecnames',
@@ -60,18 +70,18 @@ def main():
             raise ValueError('Collector current sweep is not strictly increasing')
         for target in limits['dcGain']:
             ic = target['collectorAmps']
-            pair = next(((a, b) for a, b in zip(samples, samples[1:]) if a[1] <= ic < b[1]), None)
-            if pair is None:
-                raise ValueError('Sweep does not bracket specified collector current')
-            a, b = pair
-            fraction = (ic - a[1]) / (b[1] - a[1])
-            ib = a[2] + fraction * (b[2] - a[2])
+            vbe, ib = interpolate(samples, ic)
             if ib <= 0:
                 raise ValueError('Invalid base current')
             gain = ic / ib
             report['points'].append({**target, 'modelGain': gain,
-                                     'modelVbeVolts': a[0] + fraction * (b[0] - a[0]),
+                                     'modelVbeVolts': vbe,
                                      'withinLimits': target['minimum'] <= gain <= target['maximum']})
+        # Typical voltages have no published acceptance band; report residuals, not pass/fail.
+        for target in limits['vbeTypical']:
+            vbe, _ = interpolate(samples, target['collectorAmps'])
+            report['vbeComparisons'].append({**target, 'modelVolts': vbe,
+                                             'differenceVolts': vbe - target['volts']})
         report['qualified'] = all(p['withinLimits'] for p in report['points'])
         report['completed'] = True
         report['traceSha256'] = hashlib.sha256(trace.read_bytes()).hexdigest()
