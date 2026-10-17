@@ -155,6 +155,14 @@ step pair can hide changes exposed by smaller steps or tighter tolerances; compa
 both. Short standalone agreement does not qualify accumulated full-board clock
 phase, coupling to the HDL scheduler, or historical frequency.
 
+The probe also records absolute edge order/phase and sampling-bracket uncertainty
+from startup, using a 1.4 V threshold and 15 ns budget. `phaseQualified` reports
+this separately from the topology smoke result; add `--require-phase` to make it
+a required gate. This uses the same phase checker as full-board qualification,
+without aligning edges or discarding startup. `reports/oscillator-phase/` retains
+a default-tolerance rejection and a tighter-tolerance pass over the probe window.
+The default frequency test alone can pass while this phase gate fails.
+
 ## Output, cable and supply loads
 
 `output_probe.py` generates serial pullups, LED series resistors, cable-filter

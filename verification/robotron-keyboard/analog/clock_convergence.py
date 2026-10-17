@@ -4,7 +4,7 @@ import itertools
 import math
 
 
-def crossings(path, maximum_step_ns, stats):
+def crossings(path, maximum_step_ns, stats, columns=5):
     previous = None
     last_rise = None
     periods = 0
@@ -15,8 +15,8 @@ def crossings(path, maximum_step_ns, stats):
         next(stream)
         for line in stream:
             row = [float(value) for value in line.split()]
-            if len(row) != 5 or not all(map(math.isfinite, row)):
-                raise ValueError('Invalid full-board clock waveform')
+            if len(row) != columns or not all(map(math.isfinite, row)):
+                raise ValueError('Invalid clock waveform')
             time, voltage = row[:2]
             stats['samples'] += 1
             stats['minimumVolts'] = min(stats['minimumVolts'], voltage)
@@ -52,7 +52,7 @@ def crossings(path, maximum_step_ns, stats):
 
 
 def compare_clocks(coarse_trace, fine_trace, coarse_step_ns, fine_step_ns,
-                   tolerance_ns=15, voltage_tolerance=.05):
+                   tolerance_ns=15, voltage_tolerance=.05, columns=5):
     stats = {'coarse': {}, 'fine': {}}
     result = {'passed': True, 'thresholdVolts': 1.4, 'edgeBudgetNs': tolerance_ns,
               'sampledExtremaBudgetVolts': voltage_tolerance, 'waveforms': stats,
@@ -60,8 +60,8 @@ def compare_clocks(coarse_trace, fine_trace, coarse_step_ns, fine_step_ns,
               'firstDifference': None,
               'interpretation': 'Absolute edge order and phase over the saved window, with sample-bracket uncertainty; '
                                 'no phase realignment. Sampled voltage extrema are not a complete waveform or device calibration.'}
-    a = crossings(coarse_trace, coarse_step_ns, stats['coarse'])
-    b = crossings(fine_trace, fine_step_ns, stats['fine'])
+    a = crossings(coarse_trace, coarse_step_ns, stats['coarse'], columns)
+    b = crossings(fine_trace, fine_step_ns, stats['fine'], columns)
     for ordinal, (left, right) in enumerate(itertools.zip_longest(a, b)):
         failed = left is None or right is None or left['direction'] != right['direction']
         if not failed:
@@ -74,7 +74,7 @@ def compare_clocks(coarse_trace, fine_trace, coarse_step_ns, fine_step_ns,
         if failed:
             result['passed'] = False
             if result['firstDifference'] is None:
-                result['firstDifference'] = {'signal': 'CPU clock voltage', 'edgeOrdinal': ordinal,
+                result['firstDifference'] = {'signal': 'Clock voltage', 'edgeOrdinal': ordinal,
                                              'coarse': left, 'fine': right}
     result['sampledExtremaDifferencesVolts'] = {
         key: abs(stats['coarse'][key] - stats['fine'][key]) for key in ('minimumVolts', 'maximumVolts')}
@@ -82,7 +82,7 @@ def compare_clocks(coarse_trace, fine_trace, coarse_step_ns, fine_step_ns,
         if difference > voltage_tolerance:
             result['passed'] = False
             if result['firstDifference'] is None:
-                result['firstDifference'] = {'signal': 'CPU clock voltage', 'statistic': key,
+                result['firstDifference'] = {'signal': 'Clock voltage', 'statistic': key,
                                              'coarse': stats['coarse'][key], 'fine': stats['fine'][key]}
     for key in ('firstSampleSeconds', 'lastSampleSeconds'):
         if abs(stats['coarse'][key] - stats['fine'][key]) > 1e-9:

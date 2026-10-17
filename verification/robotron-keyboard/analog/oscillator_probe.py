@@ -10,6 +10,7 @@ import subprocess
 from pathlib import Path
 
 from circuit import elements, load, node
+from clock_convergence import compare_clocks
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -98,7 +99,9 @@ def simulate(args, components, step, isolated=False, scale=1):
             'frequencyHz': 1/period, 'relativePeriodSpread': (max(periods)-min(periods))/period,
             'sourceRangeVolts': [min(r[1] for r in steady), max(r[1] for r in steady)],
             'models': models, 'unconnectedA7Pins': unused, 'signals': signals,
-            'deckSha256': hashlib.sha256(deck.encode()).hexdigest()}
+            'deckSha256': hashlib.sha256(deck.encode()).hexdigest(),
+            'trace': str((out / 'trace.txt').relative_to(args.out.resolve())),
+            'traceSha256': hashlib.sha256((out / 'trace.txt').read_bytes()).hexdigest()}
 
 
 def main():
@@ -110,6 +113,7 @@ def main():
     p.add_argument('--reltol', type=float, default=.001)
     p.add_argument('--vntol', type=float, default=1e-6)
     p.add_argument('--abstol', type=float, default=1e-12)
+    p.add_argument('--require-phase', action='store_true', help='Require absolute edge/bracket agreement within 15 ns over the saved window')
     args = p.parse_args()
     if any(not math.isfinite(v) or v <= 0 for v in (*args.steps_ns, args.reltol, args.vntol, args.abstol)):
         p.error('Timesteps and solver tolerances must be positive and finite')
@@ -120,9 +124,10 @@ def main():
     path = args.out / 'report.json'
     path.unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'runs': [], 'refinements': [],
+              'phaseRequired': args.require_phase, 'phaseQualified': False,
               'solver': {'reltol': args.reltol, 'vntol': args.vntol, 'abstol': args.abstol},
               'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
-                          for name in ('oscillator_probe.py', 'circuit.py', args.gate_model.name)},
+                          for name in ('oscillator_probe.py', 'circuit.py', 'clock_convergence.py', 'trace_io.py', args.gate_model.name)},
               'assumptions': {'model': 'Continuous behavioral NAND, not transistor-level DL000 characterization',
                               'supply': 'Ideal 5 V ramp over 10 ns; gate output supply current omitted',
                               'thresholdVolts': 1.4, 'transitionWidthVolts': .1,
@@ -144,14 +149,20 @@ def main():
                 pair.append(result)
                 report['runs'].append(result)
             difference = abs(pair[0]['frequencyHz']/pair[1]['frequencyHz']-1)
+            phase = compare_clocks(args.out / pair[0]['trace'], args.out / pair[1]['trace'],
+                                   *args.steps_ns, columns=6)
             report['refinements'].append({'br1Closed': not isolated, 'capacitanceScale': scale,
-                                          'relativeFrequencyDifference': difference})
+                                          'relativeFrequencyDifference': difference,
+                                          'clockPhase': phase})
+            if args.require_phase and not phase['passed']:
+                raise ValueError('Absolute oscillator phase fails timestep refinement')
             if difference > .01:
                 raise ValueError('Frequency changes by more than 1% under timestep refinement')
         nominal = report['runs'][1]['frequencyHz']
         doubled = report['runs'][-1]['frequencyHz']
         if doubled >= .9*nominal:
             raise ValueError('Doubling the timing capacitor did not meaningfully lower oscillator frequency')
+        report['phaseQualified'] = all(r['clockPhase']['passed'] for r in report['refinements'])
         report['passed'] = True
     except Exception as error:
         report['error'] = str(error)
