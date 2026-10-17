@@ -192,40 +192,24 @@ The phase checker retains signed offsets separately for rising and falling edges
 without realignment. Solver diagnostics reject a run even if ngspice exits zero;
 a named failing node alone does not establish the root cause.
 
-Holding the HDL clock low avoids the observed abort but disconnects CPU feedback.
-The small fixtures in `reports/fractional-clock-boundary/` do not reproduce it.
-A minimal clock-triggered column release does reproduce the failure, even with
-only the clock connected to the HDL. Full-precision captured-output replay also
-reproduces it with the HDL bridge removed (`reports/coupled-clock-startup/precise-replay/`).
-Truncating only the replay stimulus timestamps to 1 fs avoids the abort
-(`rounded-replay/`); this sensitivity is not a convergence remedy. The earlier VCD
-replay therefore cannot isolate a bridge defect.
-Retain events from time zero with `set numdgt=17` and `eprint` when diagnosing
-this boundary; a late transient save window discards initialization events.
-These reduced/replay fixtures diagnose switching numerics, not firmware or board
-qualification. The explicit `--column-load-pf` option in the boot, coupled-clock
-and firmware-I/O harnesses adds an assumed capacitance from each column to ground.
-Zero retains the unloaded baseline. The load is recorded in model assumptions;
-different loads cannot be paired as timestep-refinement evidence. A successful
-loaded replay alone does not calibrate parasitics or qualify the live board; the
-retained 1 pF live-startup run still aborts at a column switch.
+Full-precision captured-output replay reproduces the abort without the HDL bridge;
+rounding stimulus timestamps can hide it. This does not isolate a bridge defect
+or justify rounding as a fix. Retain events from time zero with `set numdgt=17`
+and `eprint`: a late transient save window discards initialization events.
 
-`reports/coupled-clock-startup/integration-method/` compares trapezoidal and
-Gear integration with identical live circuit, HDL and timestep. The former aborts
-at the column switch; Gear times out near the same startup region. Neither
-qualifies startup or justifies changing the default integration method.
-
-Explicit released/asserted analog projections of unknown HDL outputs also abort
-in the oscillator (`reports/coupled-clock-startup/powerup-drive/`). Moving the
-undefined value away from the driver switching threshold is insufficient; neither
-fixture establishes a historical power-up state or changes the default model.
+`--column-load-pf` adds assumed column-to-ground capacitance in the boot,
+coupled-clock and firmware-I/O harnesses; zero retains the unloaded baseline.
+The load is an explicit fixture assumption, and differing loads cannot be paired
+for timestep refinement. Loading, integration-method and unknown-output power-up
+fixtures have not resolved live startup. Their scope, decks and failure evidence
+remain in `reports/coupled-clock-startup/`; none establishes specimen parasitics
+or historical power-up states.
 
 `engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
-boundary correction, not the default engine. `switch_boundary_probe.py` checks
-threshold plateaus against the candidate and unpatched engines. The candidate
-passes that regression and the exact captured-output replay, but the live board
-still aborts at the oscillator; see the pinned build and execution reports under
-`reports/switch-boundary/` and `reports/coupled-clock-startup/`.
+boundary correction, not the default engine. It passes the isolated plateau and
+captured-output replay checks but does not resolve live startup. Use
+`switch_boundary_probe.py` for its independent regression; engine provenance and
+results live in `reports/switch-boundary/` and `reports/coupled-clock-startup/`.
 
 ```sh
 python3 verification/robotron-keyboard/analog/switch_boundary_probe.py --ngspice /path/to/candidate/ngspice --out /tmp/switch-boundary
