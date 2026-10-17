@@ -1,0 +1,48 @@
+{
+  "scope": "Unchanged replay with candidate ngspice zero-hysteresis state-branch patch; same build configuration as local baseline; no firmware qualification",
+  "changedStatement": null,
+  "sourceDeckSha256": "01f786767d1f5d88c4b74d308c0c3fc71b5b7f06c44ae65738b99c0a6d66ec18",
+  "completed": true,
+  "exitCode": 0,
+  "solverDiagnostics": [],
+  "endpointText": "time[length(time)-1] = 1.03999999999999994e-04\n",
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "f70787e6c3c937c94abebde4d485238882e2bb6a8c5fae37dedb6615a376dc1b",
+      "bytes": 1026
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "probe.cir": {
+      "sha256": "01f786767d1f5d88c4b74d308c0c3fc71b5b7f06c44ae65738b99c0a6d66ec18",
+      "bytes": 14149
+    },
+    "precise-events.txt": {
+      "sha256": "98ebb86025dc4ed926d1e89afd7b4fc04c9fdc006134d3850d5bbd971a945204",
+      "bytes": 2809
+    },
+    "ngspice.log": {
+      "sha256": "014e874f780f25a8b1bbd8498d4c97e604cadf608fed37febcb1a18ff940677a",
+      "bytes": 24422
+    },
+    "stimulus.txt": {
+      "sha256": "a45c0f52a564050ed96bc11d7f60ef02ecbe298679b0c192528501a10b70c982",
+      "bytes": 338
+    },
+    "endpoint.txt": {
+      "sha256": "c03eb8b3e4e913a1226f6d77fae13814295fe149dd410ba82db4536bd5620fe5",
+      "bytes": 47
+    }
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/switch-patched-engine",
+  "enginePatch": {
+    "beforeSha256": "d8e671f4e149ce9bdf956e7aa3caa78e356baf7ad0e90d8e2ac6121f9a933aca",
+    "afterSha256": "2c9f7e877df38bf4760791e51a6514e300e45d1f94e3bec965ca6216c75a7e9d",
+    "patchSha256": "c7bb9cdd2b93becf23e30fa2790ea9e9df74beff47d7eada5e44382a1379dda3",
+    "candidateBinarySha256": "103db7f5932e165b96b30ee2cbb846b4156f63a18127e15c04a1d95bc249033c"
+  },
+  "baselineReport": "../local-engine/report.json",
+  "interpretation": "The original exact replay completes under the candidate switch boundary patch; the locally built unpatched engine fails. Executed circuit and stimulus are identical. This is solver regression evidence, not full-board qualification."
+}

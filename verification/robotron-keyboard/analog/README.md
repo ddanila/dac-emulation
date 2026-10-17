@@ -210,6 +210,17 @@ different loads cannot be paired as timestep-refinement evidence. A successful
 loaded replay alone does not calibrate parasitics or qualify the live board; the
 retained 1 pF live-startup run still aborts at a column switch.
 
+`engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
+boundary correction, not the default engine. `switch_boundary_probe.py` checks
+threshold plateaus against the candidate and unpatched engines. The candidate
+passes that regression and the exact captured-output replay, but the live board
+still aborts at the oscillator; see the pinned build and execution reports under
+`reports/switch-boundary/` and `reports/coupled-clock-startup/`.
+
+```sh
+python3 verification/robotron-keyboard/analog/switch_boundary_probe.py --ngspice /path/to/candidate/ngspice --out /tmp/switch-boundary
+```
+
 `reports/supply-startup-isolation/` contains a reduced linear supply/cable
 reproducer for the tight-tolerance startup failure. Copy it to a scratch location
 and run `ngspice -n -b linear.cir`. These deliberately reduced circuits are

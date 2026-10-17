@@ -1,0 +1,20 @@
+--- a/src/spicelib/devices/sw/swload.c
++++ b/src/spicelib/devices/sw/swload.c
+@@ -66,7 +66,7 @@
+             } else if (ckt->CKTmode & (MODEINITFLOAT)) {
+ 
+                 /* use state0 since INITTRAN or INITPRED already called */
+-                if (model->SWvHysteresis > 0) {
++                if (model->SWvHysteresis >= 0) {
+                     if (v_ctrl > (model->SWvThreshold + model->SWvHysteresis))
+                         current_state = REALLY_ON;
+                     else if (v_ctrl < (model->SWvThreshold - model->SWvHysteresis))
+@@ -98,7 +98,7 @@
+ 
+             } else if (ckt->CKTmode & (MODEINITTRAN | MODEINITPRED)) {
+ 
+-                if (model->SWvHysteresis > 0) {
++                if (model->SWvHysteresis >= 0) {
+                     if (v_ctrl > (model->SWvThreshold + model->SWvHysteresis))
+                         current_state = REALLY_ON;
+                     else if (v_ctrl < (model->SWvThreshold - model->SWvHysteresis))

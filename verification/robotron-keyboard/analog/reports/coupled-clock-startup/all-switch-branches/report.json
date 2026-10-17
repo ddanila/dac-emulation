@@ -1,0 +1,44 @@
+{
+  "scope": "Diagnostic selection of positive-hysteresis switch state branch with unchanged double-precision thresholds; no firmware or qualification",
+  "changedStatement": "Select positive-hysteresis state handling for all three switch models using VH=1e-20; rounded thresholds remain 2.5 V",
+  "sourceDeckSha256": "01f786767d1f5d88c4b74d308c0c3fc71b5b7f06c44ae65738b99c0a6d66ec18",
+  "completed": true,
+  "exitCode": 0,
+  "solverDiagnostics": [],
+  "endpointText": "time[length(time)-1] = 1.03999999999999994e-04\n",
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "7fd6ba2be1717b07b0f78b9e2d272e6aaa0cfb3aaeb622cffeedcbe4ab3c1214",
+      "bytes": 1026
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "probe.cir": {
+      "sha256": "367a4b945d03f90759c95702409791ff238c864616ed0d15992dcb82242b624c",
+      "bytes": 14161
+    },
+    "precise-events.txt": {
+      "sha256": "98ebb86025dc4ed926d1e89afd7b4fc04c9fdc006134d3850d5bbd971a945204",
+      "bytes": 2809
+    },
+    "ngspice.log": {
+      "sha256": "5c4a1aa945f22e4ed5d9bb4c492f8b7c8fae3f620cea8bb9fecca87408b63baa",
+      "bytes": 24911
+    },
+    "stimulus.txt": {
+      "sha256": "a45c0f52a564050ed96bc11d7f60ef02ecbe298679b0c192528501a10b70c982",
+      "bytes": 338
+    },
+    "endpoint.txt": {
+      "sha256": "c03eb8b3e4e913a1226f6d77fae13814295fe149dd410ba82db4536bd5620fe5",
+      "bytes": 47
+    }
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/switch-all-zero-hysteresis",
+  "commands": [
+    "ngspice -n -b probe.cir"
+  ],
+  "interpretation": "Selecting the positive-hysteresis state branch for all switch models completes the exact replay, unlike changing only the column model. Upper and lower threshold expressions still round to 2.5 V in double precision. This diagnostic motivates a zero-hysteresis engine boundary test; no nonzero hysteresis is adopted in the board model."
+}

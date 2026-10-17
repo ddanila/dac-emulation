@@ -1,0 +1,57 @@
+{
+  "completed": false,
+  "scope": "Original live TV80/S600 circuit with candidate ngspice zero-hysteresis patch; early 150 us window only, no boot or long-duration timing qualification",
+  "sourceDirectory": "build/keyboard-controller-analog/coupled-clock-sixteenth-ns/fine",
+  "sourceDeckSha256": "7ae32c50b3500c4f91c0c33ba96069044357c63ac5859eef17c4adbabf464812",
+  "executedDeckSha256": "86ebb4a3ded948de03f832d05626576ed5b58667071c6dabea042b673635bf08",
+  "sourceProbeReportSha256": "608cdb994bd7711d1f0ff4d3c6030045ff11c762f81361111ca29b300e7d2a17",
+  "engine": "/tmp/robotron-ngspice-switch/install/bin/ngspice",
+  "engineSha256": "103db7f5932e165b96b30ee2cbb846b4156f63a18127e15c04a1d95bc249033c",
+  "columnLoadPf": 0,
+  "exitCode": 0,
+  "solverDiagnostic": "Instance: ahdl   Message: XSPICE time is behind vtime:",
+  "error": "Instance: ahdl   Message: XSPICE time is behind vtime:",
+  "artifacts": {
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "diagnostic-trace.txt": {
+      "sha256": "592b082841b4570ee639d9434e35f1b2b0aa3cd905cc76145b5cf89b39aabda8",
+      "bytes": 211912041
+    },
+    "probe.cir": {
+      "sha256": "86ebb4a3ded948de03f832d05626576ed5b58667071c6dabea042b673635bf08",
+      "bytes": 14406
+    },
+    "ngspice.log": {
+      "sha256": "779467c30559f4beb2fa26f29e845dcd705d31a48992a6dc51dacde4bfab479c",
+      "bytes": 32981
+    },
+    "trace.txt": {
+      "sha256": "14ef7b6bca59b12a4911416895ffd09bfe990d9099859ceae702569deef66de6",
+      "bytes": 133061074
+    },
+    "boot.vvp": {
+      "sha256": "d890b7f8736f4e5fbdeb22671efb36f92900b419bccdf7084e502358d73f45f8",
+      "bytes": 629324
+    },
+    "s600.hex": {
+      "sha256": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+      "bytes": 6144
+    },
+    "endpoint.txt": {
+      "sha256": "f1eeea490db0559521a89d1c6ddb98de762cce719f4b40f794950eaf853f5df0",
+      "bytes": 47
+    }
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/coupled-patched-engine",
+  "enginePatch": {
+    "beforeSha256": "d8e671f4e149ce9bdf956e7aa3caa78e356baf7ad0e90d8e2ac6121f9a933aca",
+    "afterSha256": "2c9f7e877df38bf4760791e51a6514e300e45d1f94e3bec965ca6216c75a7e9d",
+    "patchSha256": "c7bb9cdd2b93becf23e30fa2790ea9e9df74beff47d7eada5e44382a1379dda3",
+    "candidateBinarySha256": "103db7f5932e165b96b30ee2cbb846b4156f63a18127e15c04a1d95bc249033c"
+  },
+  "abortDiagnostic": "InstancdoAnalyses: TRAN:  Timestep too small; time = 0.000102652, timestep = 3.73672e-22: trouble with node \"b.xa7_3.btarget#branch\"",
+  "interpretation": "The candidate switch patch does not qualify the live TV80/S600 startup. The unchanged zero-column-capacitance board aborts at the oscillator target source and emits a time-order diagnostic. Recorded-output replay success does not transfer to full-board execution."
+}
