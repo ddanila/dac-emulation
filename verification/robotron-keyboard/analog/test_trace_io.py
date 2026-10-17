@@ -58,6 +58,41 @@ class TraceStorageTests(unittest.TestCase):
                 self.assertEqual(trace.read_bytes(), b'evidence')
                 self.assertFalse((root / 'trace.txt.gz').exists())
 
+    def test_completed_clock_probe_compacts_both_traces(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            data = b'time voltage\n0 5\n' * 1000
+            digest = hashlib.sha256(data).hexdigest()
+            for name in ('trace.txt', 'diagnostic-trace.txt'):
+                (root / name).write_bytes(data)
+            # Prepared boot is not a completed run; early clock execution is.
+            (root / 'report.json').write_text(json.dumps({'passed': False, 'preparedOnly': True}))
+            report = {'completed': True, 'traceSha256': digest, 'diagnosticTraceSha256': digest}
+            (root / 'clock-probe.json').write_text(json.dumps(report))
+            subprocess.run([sys.executable, str(HERE / 'compress_trace.py'), '--clock-probe', str(root)],
+                           check=True, capture_output=True)
+            for name in ('trace.txt', 'diagnostic-trace.txt'):
+                self.assertFalse((root / name).exists())
+                self.assertEqual(sha(root / name), digest)
+                self.assertEqual(lzma.decompress((root / (name+'.xz')).read_bytes()), data)
+
+    def test_clock_probe_rejects_incomplete_or_failed_reports(self):
+        digest = hashlib.sha256(b'evidence').hexdigest()
+        valid = {'completed': True, 'traceSha256': digest, 'diagnosticTraceSha256': digest}
+        reports = [dict(valid, completed=False), dict(valid, error='timeout'),
+                   dict(valid, solverDiagnostic='aborted'),
+                   {'completed': True, 'traceSha256': digest}]
+        for report in reports:
+            with self.subTest(report=report), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                (root / 'trace.txt').write_bytes(b'evidence')
+                (root / 'clock-probe.json').write_text(json.dumps(report))
+                result = subprocess.run([sys.executable, str(HERE / 'compress_trace.py'),
+                                         '--clock-probe', str(root)], capture_output=True)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual((root / 'trace.txt').read_bytes(), b'evidence')
+                self.assertFalse((root / 'trace.txt.xz').exists())
+
     def test_corrupt_compressed_data_cannot_hash(self):
         for suffix, compress in (('.gz', gzip.compress), ('.xz', lzma.compress)):
             with self.subTest(suffix=suffix), tempfile.TemporaryDirectory() as directory:

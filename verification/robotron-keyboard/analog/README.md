@@ -609,6 +609,10 @@ to XZ without materializing an uncompressed copy:
 python3 verification/robotron-keyboard/analog/compress_trace.py /path/to/completed-run
 ```
 
+For an individually completed early clock run, use `compress_trace.py --clock-probe /path/to/coarse-or-fine`. This verifies `clock-probe.json` and compacts both the
+primary and diagnostic waveforms. A later paired phase rejection does not make
+these completed traces invalid evidence; the separate phase result is preserved.
+
 For large retained runs, `qualify_io_pair.py --timeout-seconds 1800` extends
 the wall-clock limit of each validation phase, including decompression; it does
 not change electrical acceptance budgets.

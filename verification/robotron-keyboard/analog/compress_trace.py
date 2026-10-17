@@ -16,12 +16,23 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('directories', nargs='+', type=Path)
     p.add_argument('--format', choices=('gzip', 'xz'), default='xz')
+    p.add_argument('--clock-probe', action='store_true',
+                   help='Use a completed clock-probe report, including its diagnostic trace')
     args = p.parse_args()
     for directory in args.directories:
-        report = json.loads((directory / 'report.json').read_text())
-        if report.get('passed') is not True or report.get('preparedOnly'):
-            raise ValueError('Only completed successful runs may be compressed')
-        for name, key in [('trace.txt', 'traceSha256'), ('led-trace.txt', 'ledTraceSha256')]:
+        report_name = 'clock-probe.json' if args.clock_probe else 'report.json'
+        report = json.loads((directory / report_name).read_text())
+        if args.clock_probe:
+            if report.get('completed') is not True or any(k in report for k in ('error', 'solverDiagnostic')):
+                raise ValueError('Only completed clock simulations without solver errors may be compressed')
+            entries = [('trace.txt', 'traceSha256'), ('diagnostic-trace.txt', 'diagnosticTraceSha256')]
+            if any(key not in report for _, key in entries):
+                raise ValueError('Clock report must pin both waveforms')
+        else:
+            if report.get('passed') is not True or report.get('preparedOnly'):
+                raise ValueError('Only completed successful runs may be compressed')
+            entries = [('trace.txt', 'traceSha256'), ('led-trace.txt', 'ledTraceSha256')]
+        for name, key in entries:
             source = directory / name
             if key not in report:
                 continue
