@@ -1,0 +1,122 @@
+{
+  "completed": true,
+  "qualified": false,
+  "case": "omit-release",
+  "scope": "Isolate startup event scheduling using the retained CPU-free circuit.\n\nThis diagnostic does not qualify firmware, device models or full-board startup.\nThe captured events came from the midpoint-unknown profile; the retained circuit\nmaps unknown DAC inputs to zero volts deliberately to isolate event effects.\n",
+  "sourceReportSha256": "ebff64c4feeb7050d2e4a2259f6ae894ef466e4484d10b1df922afa15fd7b668",
+  "sources": {
+    "dac_event_probe.py": "a5ab29af5107ca1046c643e9b4c1e0261f9ee211ca5ad7cb0f87de526c165ef2",
+    "compressed_output.py": "0e4e43808fd0398953aa6bc6b74a2e672dac78a0e28256b5ad5343daefceceb9",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "maximumStepNs": 0.0625,
+  "durationUs": 150,
+  "releaseEventSeconds": "0.000102862906246770178",
+  "retainedDirectory": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/dac-event-observed/omit-release",
+  "compressedWaveforms": {
+    "trace.txt": {
+      "sha256": "16929aeb7b6e497874a7af4d45401cc0fab2805e594cbe6945209cabad226a77",
+      "bytes": 123024138
+    }
+  },
+  "exitCode": 0,
+  "solverDiagnostic": null,
+  "endpointSeconds": 0.00015,
+  "controlAbsoluteMaximaV": {
+    "data_intent": 0.0,
+    "clock_intent": 0.0,
+    "led1_v": 0.0,
+    "led0_v": 0.0,
+    "sink0": 0.0,
+    "sink1": 0.0,
+    "sink2": 0.0,
+    "sink3": 0.0,
+    "sink4": 0.0,
+    "sink5": 0.0,
+    "sink6": 0.0,
+    "sink7": 0.0,
+    "sink8": 0.0,
+    "sink9": 0.0,
+    "sink10": 0.0,
+    "sink11": 0.0,
+    "sink12": 0.0
+  },
+  "artifacts": {
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "control-peaks.txt": {
+      "sha256": "ac6f182073db3a731b7ea0b69118b12e918ac4eb8ec253dc28aa93098a6e24ec",
+      "bytes": 862
+    },
+    "probe.cir": {
+      "sha256": "361e99acd40d7af9824fc96cb1eca5b68d6590b7eba79e054816f6d45b811e26",
+      "bytes": 14981
+    },
+    "ngspice.log": {
+      "sha256": "5f5b811adb305f2b820084ea2784c80572544fd66a8ea125bd8caa576791d7ac",
+      "bytes": 32390
+    },
+    "stimulus.txt": {
+      "sha256": "c5e1e002e18b01a678ff39141c617287fa34533a42befa7165da954403e87435",
+      "bytes": 225
+    },
+    "trace.txt.xz": {
+      "sha256": "eaddba6544ee6226c0a250ae8b709f28a6b7e8c2b63b99e7e4f861150a536945",
+      "bytes": 30897896
+    },
+    "endpoint.txt": {
+      "sha256": "b4ca152e3a2954ce18a47befd8cf1688143687a606b658984a55b1cf7ce5ac93",
+      "bytes": 47
+    }
+  }
+}

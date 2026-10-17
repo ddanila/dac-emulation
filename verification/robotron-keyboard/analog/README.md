@@ -210,6 +210,16 @@ CPU execution. The no-bridge clock has not reached the checked high level
 (`reports/coupled-clock-startup/analog-isolation/`). This narrows the reproducer
 without qualifying startup or establishing a simulator defect.
 
+`dac_event_probe.py` reproduces this CPU-free failure with retained inputs. Its
+`--case replay` run aborts while all observed DAC controls remain at zero volts;
+`omit-release` and `isolated-breakpoint` complete the same early window. The latter
+adds an electrically isolated PWL breakpoint, so a generic analog breakpoint
+alone does not reproduce the failure. Results and provenance are retained in
+`reports/coupled-clock-startup/analog-isolation/observed-events/`. Reproduce with
+`python3 verification/robotron-keyboard/analog/dac_event_probe.py --case replay
+--ngspice /path/to/ngspice --out /fresh/output/directory`; use the recorded runtime
+for comparison. These experiments do not qualify the oscillator or firmware.
+
 `engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
 boundary correction, not the default engine. It passes the isolated plateau and
 captured-output replay checks but does not resolve live startup. Use
