@@ -54,7 +54,8 @@ It checks bus reads, analog voltages and timing under timestep refinement, inclu
 released columns and shared-contact paths. The stimulus is a bus fixture, not CPU
 firmware. Source/library hashes and failure traces are retained with the report.
 
-Both matrix tools accept `--latch-load source-limit` and `--latch-load sink-limit`
+The matrix tools, `firmware_io_cosim.py` and `boot_cosim.py` accept
+`--latch-load source-limit` and `--latch-load sink-limit`
 (default: `ideal`, 1 GΩ and 10 pF). These stress fixtures add 12 pF and either
 inject 200 µA into each sense input or sink 50 µA from it. Values come from the
 [Intel 8282 DC characteristics](https://tvsat.com.pl/PDF/8/8282_intel.pdf),
@@ -63,7 +64,10 @@ are applied across the whole voltage swing as sensitivity stimuli; the sheet
 specifies them only at particular input voltages. They are not calibrated input
 I/V curves, guaranteed operating corners, or an IC supply-current model.
 Passing DC/HDL and transient feedback reports are retained in
-`reports/latch-loading/`.
+`reports/latch-loading/`. The full-board harness requires
+`--electrical-matrix` when selecting a stress load. Firmware and full-board
+qualification must be run separately; the retained fixture reports do not
+qualify those broader scopes.
 
 ```sh
 python3 verification/robotron-keyboard/analog/matrix_probe.py --latch-load source-limit --out /tmp/matrix-source-limit

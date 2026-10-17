@@ -11,7 +11,7 @@ from pathlib import Path
 from trace_io import open_binary, open_text
 
 from controller_interface import generate
-from matrix import matrix_circuit
+from matrix import LATCH_LOADS, matrix_circuit
 from output_circuit import output_circuit
 from model_coverage import classify
 from circuit import elements, load, node, nominal_models
@@ -84,7 +84,7 @@ def prepare(args, report):
     column_outputs = ' '.join(f'dcol{i}' for i in reversed(range(13)))
     column_nodes = ' '.join(f'sink{i}' for i in reversed(range(13)))
     if args.electrical_matrix:
-        matrix_lines, matrix_info = matrix_circuit(components, include_models=False)
+        matrix_lines, matrix_info = matrix_circuit(components, include_models=False, latch_load=args.latch_load)
         report['matrixCircuit'] = matrix_info
         report['electricalModels'].update(matrix_info['models'])
         matrix_lines += [f'Vcontact{i} contact{i} 0 ' +
@@ -222,6 +222,7 @@ def main():
     p.add_argument('--timeout-seconds', type=float, default=7200)
     p.add_argument('--ngspice', default='ngspice')
     p.add_argument('--iverilog', default='iverilog')
+    p.add_argument('--latch-load', choices=LATCH_LOADS, default='ideal')
     args = p.parse_args()
     if not math.isfinite(args.step_ns) or not 0 < args.step_ns <= 10:
         p.error('step-ns must be in (0, 10]')
@@ -240,6 +241,8 @@ def main():
     args.scenario_data = board_scenario.load_board_scenario(args.scenario) if args.scenario else None
     if args.scenario and (args.contacts or not args.electrical_matrix or not args.electrical_outputs):
         p.error('scenario requires electrical-matrix and electrical-outputs, without static contacts')
+    if args.latch_load != 'ideal' and not args.electrical_matrix:
+        p.error('latch-load stress requires electrical-matrix')
     stop = board_scenario.stop_seconds(args.scenario_data) if args.scenario_data else .127
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
@@ -249,7 +252,7 @@ def main():
               'assumptions': {'receiverThresholdVolts': 1.4,
                               'receiver': 'Single nominal threshold avoids counting both edges of an X band as clock edges',
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
-                              'npnProfile': args.npn_profile, 'gateProfile': args.gate_profile,
+                              'latchLoad': args.latch_load, 'npnProfile': args.npn_profile, 'gateProfile': args.gate_profile,
                               'serialReceiver': args.electrical_outputs,
                               'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses'] + ([] if args.electrical_outputs else ['LED and serial output loading']),
                               'romBus': 'Direct CPU input diagnostic' if args.bypass_rom_bus else 'Resolved CPU/ROM/latch bus from numbered schematic pins',
@@ -264,7 +267,7 @@ def main():
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
                             'ls_nand_dc.cir' if args.gate_profile == 'dl000-dc' else 'ls_nand_nominal.cir',
-                            'controller_interface.py', 'matrix.py', 'output_circuit.py', 'model_coverage.py',
+                            'controller_interface.py', 'matrix.py', 'latch_limits.json', 'output_circuit.py', 'model_coverage.py',
                             'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py')}}
     if args.scenario_data:
         report['scenario'] = args.scenario_data

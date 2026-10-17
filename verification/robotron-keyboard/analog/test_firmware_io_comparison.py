@@ -49,6 +49,18 @@ class ComparisonTests(unittest.TestCase):
             with self.subTest(report=changed), self.assertRaises(ValueError):
                 compare(self.coarse, changed, self.tx, self.tx, 15)
 
+    def test_latch_stress_requires_matching_limit_sources(self):
+        for r in (self.coarse, self.fine):
+            r['assumptions']['latchLoad'] = 'source-limit'
+        with self.assertRaisesRegex(ValueError, 'Latch load source'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15)
+        for r in (self.coarse, self.fine):
+            r['sources']['latch_limits.json'] = 'same'
+        self.assertTrue(compare(self.coarse, self.fine, self.tx, self.tx, 15)['withinTolerance'])
+        self.fine['sources']['latch_limits.json'] = 'changed'
+        with self.assertRaisesRegex(ValueError, 'Latch load source'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15)
+
     def test_corrupted_trace_and_misreported_timestep_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)

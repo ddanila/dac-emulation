@@ -10,7 +10,7 @@ from pathlib import Path
 from boot_cosim import ROM_SHA256, sha
 from circuit import load
 from controller_interface import generate
-from matrix import matrix_circuit
+from matrix import LATCH_LOADS, matrix_circuit
 from output_circuit import output_circuit
 from serial_observation import validate_transport, first_reference_difference, SerialMismatch
 from io_scenario import load as load_scenario, contact_source, reset_source, c_header, time_ns, observe
@@ -33,6 +33,7 @@ def main():
     p.add_argument('--step-ns', type=float, default=50)
     p.add_argument('--bridge-delay-ns', type=float, default=10)
     p.add_argument('--timeout-seconds', type=float, default=1800)
+    p.add_argument('--latch-load', choices=LATCH_LOADS, default='ideal')
     args = p.parse_args()
     if not 0 < args.step_ns <= 100 or not math.isfinite(args.timeout_seconds) or args.timeout_seconds <= 0:
         p.error('step-ns must be in (0, 100]; timeout-seconds must be positive and finite')
@@ -47,7 +48,7 @@ def main():
     report = {'passed': False, 'scope': __doc__, 'assumptions': {
         'clockPeriodNs': 1000, 'resetRampStartNs': 1000000, 'fixtureEdgeNs': 1,
         'fixtureThresholdVolts': 1.4, 'br1Closed': False, 'br2Closed': False,
-        'contactTransitionNs': 1,
+        'contactTransitionNs': 1, 'latchLoad': args.latch_load,
         'supply': '1 us host-supply ramp through cable paths; fixture holds CPU reset for 1 ms; no board power-on-reset qualification',
         'semiconductors': 'Generic matrix PNP and nominal output/load models',
         'coverage': 'TV80, resolved ROM/latch bus, electrical matrix and cable receiver; oscillator/reset generators excluded',
@@ -56,7 +57,7 @@ def main():
         'bridgeDelay': 'Numerical interface delay, not a calibrated device propagation delay'},
         'sources': {name: sha(HERE / name) for name in (
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
-            'circuit.py', 'matrix.py', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
+            'circuit.py', 'matrix.py', 'latch_limits.json', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
             'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py')}}
     try:
         scenario = load_scenario(args.scenario)
@@ -106,7 +107,7 @@ def main():
         report['hdlSha256'] = {str(path): sha(path) for path in hdl}
         subprocess.run(['iverilog', '-g2012', '-s', 'firmware_io_cosim', '-o', str(out / 'io.vvp'),
                         *map(str, hdl)], check=True)
-        matrix, report['matrixCircuit'] = matrix_circuit(components)
+        matrix, report['matrixCircuit'] = matrix_circuit(components, latch_load=args.latch_load)
         outputs, info = output_circuit(components)
         report['outputCircuit'] = info
         ground = info['hostGround']

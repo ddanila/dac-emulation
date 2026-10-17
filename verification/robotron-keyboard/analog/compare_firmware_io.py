@@ -70,6 +70,9 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
                  'boot_cosim.v', 'firmware_io_cosim.v'):
         if coarse['sources'][name] != fine['sources'][name]:
             raise ValueError('Model source differs: ' + name)
+    if coarse['assumptions'].get('latchLoad', 'ideal') != 'ideal':
+        if not coarse['sources'].get('latch_limits.json') or coarse['sources']['latch_limits.json'] != fine['sources'].get('latch_limits.json'):
+            raise ValueError('Latch load source differs or is missing')
     def hdl_by_name(report):
         hashes = {Path(path).name: digest for path, digest in report['hdlSha256'].items()}
         if len(hashes) != len(report['hdlSha256']):
