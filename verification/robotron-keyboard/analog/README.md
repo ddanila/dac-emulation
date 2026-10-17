@@ -200,8 +200,8 @@ and `eprint`: a late transient save window discards initialization events.
 `--column-load-pf` adds assumed column-to-ground capacitance in the boot,
 coupled-clock and firmware-I/O harnesses; zero retains the unloaded baseline.
 The load is an explicit fixture assumption, and differing loads cannot be paired
-for timestep refinement. Loading, integration-method and unknown-output power-up
-fixtures have not resolved live startup. Their scope, decks and failure evidence
+for timestep refinement. Loading, integration-method, minimum-breakpoint-spacing
+and unknown-output power-up fixtures have not resolved live startup. Their scope, decks and failure evidence
 remain in `reports/coupled-clock-startup/`; none establishes specimen parasitics
 or historical power-up states. Fixed-control analog isolation completes the early
 window with ADC observers and constant-input DACs as well as without bridges.
