@@ -8,7 +8,9 @@ from pathlib import Path
 from compare_firmware_io import load_run, sha
 
 
-def measure(trace, received, maximum_step_ns, required_ns=100):
+def measure(trace, received, maximum_step_ns, required_ns=100, *, columns=3, data_column=1):
+    if columns not in (3, 5) or not 0 < data_column < columns:
+        raise ValueError('Invalid receiver trace column layout')
     if not received:
         raise ValueError('No receiver activity to qualify')
     intervals, active = [], None
@@ -17,9 +19,9 @@ def measure(trace, received, maximum_step_ns, required_ns=100):
         next(stream)
         for line in stream:
             row = [float(x) for x in line.split()]
-            if len(row) != 3 or not all(map(math.isfinite, row)):
+            if len(row) != columns or not all(map(math.isfinite, row)):
                 raise ValueError('Invalid receiver waveform')
-            time, data, _ = row
+            time, data = row[0], row[data_column]
             if previous is not None:
                 if time < previous:
                     raise ValueError('Waveform time reversal')

@@ -353,6 +353,28 @@ agreement or timestep convergence. Service reset recipes are rejected because th
 would bypass the connected reset generator. Full-board scenario qualification is
 still pending.
 
+Run the paired full-board target with:
+
+```sh
+make qualify-keyboard-board-scenario S600_ROM=/path/to/s600.bin
+```
+
+It runs 10 ns and 5 ns timesteps, then checks reset/restart and serial edge
+agreement plus sampled cable-data margins. `KEYBOARD_BOARD_SCENARIO`,
+`KEYBOARD_BOARD_OUT` and `KEYBOARD_BOARD_TIMEOUT_SECONDS` select the recipe,
+output directory and per-run timeout. Existing runs can be checked without
+repeating simulation:
+
+```sh
+python3 verification/robotron-keyboard/analog/qualify_board_pair.py /path/to/coarse /path/to/fine --out /tmp/board-qualification.json
+```
+
+The qualifier verifies retained input/trace hashes and reruns observation checks;
+prepared-only or failed executions cannot qualify. Its default 15 ns edge and
+100 ns margin budgets are explicit numerical/fixture limits, not historical
+hardware specifications. It does not qualify oscillator waveform shape, brownout
+or semiconductor calibration.
+
 `--bridge-delay-ns` controls numerical synchronization (default 10 ns). The retained
 `reports/electrical-matrix-boot-1ns-failure.json` records solver/bridge diagnostics
 with the old 1 ns setting. A larger delay passed service fixtures but remains to

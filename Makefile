@@ -180,3 +180,13 @@ qualify-keyboard-firmware-io:
 	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --scenario "$(KEYBOARD_IO_SCENARIO)" --timeout-seconds "$(KEYBOARD_IO_TIMEOUT_SECONDS)" --step-ns 50 --out "$(KEYBOARD_IO_OUT)/coarse"
 	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --scenario "$(KEYBOARD_IO_SCENARIO)" --timeout-seconds "$(KEYBOARD_IO_TIMEOUT_SECONDS)" --step-ns 25 --out "$(KEYBOARD_IO_OUT)/fine"
 	python3 verification/robotron-keyboard/analog/qualify_io_pair.py "$(KEYBOARD_IO_OUT)/coarse" "$(KEYBOARD_IO_OUT)/fine" --scenario "$(KEYBOARD_IO_SCENARIO)" --out "$(KEYBOARD_IO_OUT)/qualification"
+
+.PHONY: qualify-keyboard-board-scenario
+KEYBOARD_BOARD_SCENARIO ?= verification/robotron-keyboard/analog/scenarios/single-press.json
+KEYBOARD_BOARD_OUT ?= build/keyboard-controller-analog/board-scenario
+KEYBOARD_BOARD_TIMEOUT_SECONDS ?= 14400
+qualify-keyboard-board-scenario:
+	@test -n "$(S600_ROM)" || (echo "Set S600_ROM to the standard S600 image"; exit 1)
+	python3 verification/robotron-keyboard/analog/boot_cosim.py --rom "$(S600_ROM)" --electrical-matrix --electrical-outputs --scenario "$(KEYBOARD_BOARD_SCENARIO)" --timeout-seconds "$(KEYBOARD_BOARD_TIMEOUT_SECONDS)" --step-ns 10 --bridge-delay-ns 10 --out "$(KEYBOARD_BOARD_OUT)/coarse"
+	python3 verification/robotron-keyboard/analog/boot_cosim.py --rom "$(S600_ROM)" --electrical-matrix --electrical-outputs --scenario "$(KEYBOARD_BOARD_SCENARIO)" --timeout-seconds "$(KEYBOARD_BOARD_TIMEOUT_SECONDS)" --step-ns 5 --bridge-delay-ns 10 --out "$(KEYBOARD_BOARD_OUT)/fine"
+	python3 verification/robotron-keyboard/analog/qualify_board_pair.py "$(KEYBOARD_BOARD_OUT)/coarse" "$(KEYBOARD_BOARD_OUT)/fine" --out "$(KEYBOARD_BOARD_OUT)/qualification.json"
