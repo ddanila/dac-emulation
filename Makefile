@@ -177,3 +177,5 @@ qualify-keyboard-firmware-io:
 	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --step-ns 50 --out build/keyboard-controller-analog/firmware-io/coarse
 	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --step-ns 25 --out build/keyboard-controller-analog/firmware-io/fine
 	python3 verification/robotron-keyboard/analog/compare_firmware_io.py build/keyboard-controller-analog/firmware-io/coarse build/keyboard-controller-analog/firmware-io/fine --out build/keyboard-controller-analog/firmware-io/comparison.json
+	python3 verification/robotron-keyboard/analog/receiver_margins.py build/keyboard-controller-analog/firmware-io/coarse --out build/keyboard-controller-analog/firmware-io/coarse-margins.json
+	python3 verification/robotron-keyboard/analog/receiver_margins.py build/keyboard-controller-analog/firmware-io/fine --out build/keyboard-controller-analog/firmware-io/fine-margins.json

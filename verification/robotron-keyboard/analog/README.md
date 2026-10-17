@@ -181,6 +181,15 @@ Archived `reports/firmware-io-*.json` retain the qualified service fixture's inp
 observation and comparison provenance; this does not qualify full-board startup
 or other contact/reset scenarios.
 
+`receiver_margins.py /path/to/run --out /path/to/margins.json` separately checks
+data stability around the receiver edges using the retained voltage trace. It
+rejects missing samples, wrong/indeterminate levels and insufficient sampled
+setup/hold. The default 100 ns budget is an explicit fixture assumption, not a
+historical receiver specification. Reports retain conservative sample-bounded
+intervals and identify intervals cut off by the trace boundaries. The Make target
+requires this margin check at both timesteps. Passing it does not establish a
+physical receiver's voltage thresholds or timing limits.
+
 ## HDL boundary
 
 Use ngspice 47/XSPICE and Icarus 13 with `--enable-libvvp`. The ordinary Icarus
