@@ -165,9 +165,21 @@ does not. It also compares the received bit sequence with the production C
 emulator under the same contact fixture, allowing CPU cycle offsets. Matching
 intent alone establishes bit transport, not S600 frame semantics,
 key identity, receiver setup/hold margins or full-board qualification. Refine the
-service timestep with `firmware_io_cosim.py --rom /path/to/s600.bin --step-ns 50 --out /tmp/firmware-io-fine`.
+service timestep with `firmware_io_cosim.py --rom /path/to/s600.bin --step-ns 25 --out /tmp/firmware-io-fine`.
 The run retains source/library hashes, logs and receiver waveforms, including on
 failure. It requires the bridge below and remains outside fast CI.
+
+Check refinement with
+`compare_firmware_io.py /path/to/coarse /path/to/fine --out /path/to/comparison.json`.
+It verifies retained artifact hashes, matching electrical/HDL inputs and a halved
+timestep before comparing bit sequences, transmit/receive edge times and cable
+transport delays. Its declared numerical tolerance is not a historical timing
+specification. A run that receives the right bits can still fail convergence;
+keep that distinction when reporting qualification.
+The Make qualification target runs the 50 ns / 25 ns pair and this comparison.
+Archived `reports/firmware-io-*.json` retain the qualified service fixture's input,
+observation and comparison provenance; this does not qualify full-board startup
+or other contact/reset scenarios.
 
 ## HDL boundary
 

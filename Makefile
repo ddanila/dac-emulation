@@ -174,4 +174,6 @@ characterize-keyboard-devices:
 .PHONY: qualify-keyboard-firmware-io
 qualify-keyboard-firmware-io:
 	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to the standard S600 image'; exit 2)
-	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)"
+	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --step-ns 50 --out build/keyboard-controller-analog/firmware-io/coarse
+	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --step-ns 25 --out build/keyboard-controller-analog/firmware-io/fine
+	python3 verification/robotron-keyboard/analog/compare_firmware_io.py build/keyboard-controller-analog/firmware-io/coarse build/keyboard-controller-analog/firmware-io/fine --out build/keyboard-controller-analog/firmware-io/comparison.json

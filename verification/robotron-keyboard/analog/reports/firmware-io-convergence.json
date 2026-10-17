@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "scope": "Check firmware I/O timestep refinement against retained inputs and observations.",
+  "toleranceNs": 15,
+  "interpretation": "Exploratory numerical comparison, not a historical receiver timing specification",
+  "validatorSha256": "e4c51394eb3cc1329f1c2074fcf7ba111eaa2cedea5821465c26db1867807da9",
+  "reports": {
+    "coarse": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-io-fine",
+      "sha256": "8a474fe0f669faf05bf96d5f7ed3ec0ee39d61b6617e3004dc391285de5e493a"
+    },
+    "fine": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-io-25ns",
+      "sha256": "745e20b54dee209de6581dec8219dcaebf4e7dbf85b71357e6435b26fec94330"
+    }
+  },
+  "comparison": {
+    "transmittedMaximumDifferenceNs": 0.0,
+    "receivedMaximumDifferenceNs": 4.0,
+    "transportMaximumDifferenceNs": 4.00000000000001,
+    "withinTolerance": true
+  }
+}

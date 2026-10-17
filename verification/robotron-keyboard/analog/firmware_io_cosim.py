@@ -23,7 +23,7 @@ def main():
     p.add_argument('--rom', type=Path, required=True)
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/firmware-io')
     p.add_argument('--bridge', type=Path, default=ROOT / 'build/keyboard-controller-analog/bridge/bridge.json')
-    p.add_argument('--step-ns', type=float, default=100)
+    p.add_argument('--step-ns', type=float, default=50)
     p.add_argument('--bridge-delay-ns', type=float, default=10)
     p.add_argument('--timeout-seconds', type=float, default=1800)
     args = p.parse_args()

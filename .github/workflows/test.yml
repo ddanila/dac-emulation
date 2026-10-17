@@ -23,7 +23,9 @@ jobs:
       - name: Resolved CPU ROM and latch bus
         run: python3 verification/robotron-keyboard/analog/resolved_bus_probe.py
       - name: Firmware serial observation failure controls
-        run: python3 verification/robotron-keyboard/analog/test_serial_observation.py
+        run: |
+          python3 verification/robotron-keyboard/analog/test_serial_observation.py
+          python3 verification/robotron-keyboard/analog/test_firmware_io_comparison.py
       - name: Reference analog sensing feasibility
         run: python3 verification/robotron-keyboard/analog/sense_probe.py
       - name: Electrical matrix and generated HDL interface
