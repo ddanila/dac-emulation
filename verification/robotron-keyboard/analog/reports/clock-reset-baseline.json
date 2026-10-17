@@ -1,0 +1,152 @@
+{
+  "passed": true,
+  "scope": "Boot TV80/S600 from coupled electrical clock/reset; sensing remains digital.",
+  "assumptions": {
+    "receiverThresholdVolts": 1.4,
+    "receiver": "Single nominal threshold avoids counting both edges of an X band as clock edges",
+    "analogModels": "Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim",
+    "remainingDigitalBoundaries": [
+      "matrix sensing",
+      "CPU/peripheral buses",
+      "LED and serial output loading"
+    ],
+    "contacts": "All open; this is a boot integration test, not firmware scenario qualification",
+    "traceWindowSeconds": [
+      0.124,
+      0.127
+    ],
+    "simulationStartSeconds": 0,
+    "maximumStepNs": 2,
+    "timeoutSeconds": 7200,
+    "supplyRiseUs": 1,
+    "knownLimit": "The nominal model failed to produce a reset pulse with a 10 ns supply ramp"
+  },
+  "sources": {
+    "boot_cosim.py": "19c6457f9520c2ab01cfd3bd79840eb0771cff73df8649dfb4792a358ef3f173",
+    "boot_cosim.v": "aa6bfc0790523c522852e73de4243c6d0e11058ec73e5c7610f3179351515a53",
+    "circuit.py": "56c3dbef32703cdb57ffe8c3817c2b7ef0aa90cbb83a0ef985a15bf8994f925a",
+    "oscillator_probe.py": "f417254a42f329a3eec9313f33d25fd9aaff3d7a3e3aa321faf9bfa36141e9c2",
+    "reset_probe.py": "63767eef3900b0c3085d1ef9353871f89c1953a119a39f0b7cc0c040768566c1",
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d"
+  },
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "tv80": {
+    "repository": "https://github.com/hutch31/tv80",
+    "revision": "66a131c38d05ef58b3d8c4f1507a72e6e4aa5d65",
+    "scope": "Unmodified rtl/core files; MIT license retained in each file. Qualification only, not production runtime.",
+    "files": {
+      "tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+      "tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+      "tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+      "tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+      "tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+    }
+  },
+  "hdlSha256": {
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+    "verification/robotron-keyboard/chips.v": "fb2dc06ff607c85594ef1fef33c8ae0d75e4f6ab5865bd2ff7e67f259617f3be",
+    "verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "verification/robotron-keyboard/analog/boot_cosim.v": "aa6bfc0790523c522852e73de4243c6d0e11058ec73e5c7610f3179351515a53"
+  },
+  "electricalModels": {
+    "R4.3": "resistor",
+    "C6": "capacitor",
+    "R10.3": "resistor",
+    "A7": "LS_NAND_NOMINAL",
+    "BR1": "1 milliohm closed / 1 teraohm open",
+    "C1": "capacitor",
+    "C2": "capacitor",
+    "C4": "capacitor",
+    "R3": "resistor",
+    "R4.1": "resistor",
+    "R4.2": "resistor",
+    "R5": "resistor",
+    "R6.1": "resistor",
+    "R7": "resistor",
+    "R8": "resistor",
+    "V1.1": "D_NOMINAL",
+    "V1.2": "D_NOMINAL",
+    "V2": "D_NOMINAL",
+    "V3.1": "NPN_NOMINAL",
+    "V3.2": "NPN_NOMINAL",
+    "V4.9": "PNP_NOMINAL",
+    "BR2": "1 milliohm closed"
+  },
+  "unconnectedA7Pins": [
+    "1",
+    "2",
+    "3"
+  ],
+  "cpuClockNet": "n_CLK",
+  "cpuResetNet": "n_RESET_N",
+  "deckSha256": "6e0827decad001aad6db49f7b44f81ae28d33257f16119b9d40bac1d60cd2392",
+  "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "resetEvents": [
+    [
+      9.05e-07,
+      "1"
+    ],
+    [
+      1.0469999999999999e-06,
+      "0"
+    ],
+    [
+      0.124856659,
+      "1"
+    ]
+  ],
+  "lastBootSample": {
+    "timePs": "126913380000",
+    "cycles": "6000",
+    "fetchSamples": "1975",
+    "ioReadSamples": "78",
+    "ioWriteSamples": "0",
+    "addressHex": "4023",
+    "ledBits": "00"
+  },
+  "revalidation": {
+    "reason": "Idle S600 scanning need not transmit without a key stimulus",
+    "originalReportSha256": "07bd590ddf5d33f631453770489c8c938ec8d18e55844504f3bb50d443a118e8",
+    "validatorSha256": "78784dbb4994d30546e0ba35932a21fd11f0a4632916753148f0580efc80e580",
+    "recheckSha256": "09373ce521004569fbf055934ae193913921494c793953aab3909bf82583f1d0",
+    "logSha256": "327965405dafc8656826e9621f74ac4e6de623bd168b1ecfc2efdd183fe30ae9",
+    "traceSha256": "1a0069e176b9dd74dc49b6d541b2de0cca83bf1b05fee10b2890614648f15bf0"
+  },
+  "idleBootPolicy": "No serial write is required without a key stimulus; transmit scenarios are separate",
+  "waveformRows": 1701087,
+  "firstFetchAfterRelease": [
+    0.124857256,
+    "0000",
+    "af"
+  ]
+}

@@ -113,7 +113,7 @@ timestep refinement and the frequency response to doubling C6. It reports freque
 without fitting it to the emulator's clock. Passing these checks establishes circuit
 integration behavior, not historical oscillator accuracy. Internal-node traces and
 model/source hashes remain in the output directory. Device-model qualification and
-coupling clock/reset to the firmware simulation remain required.
+firmware scenarios with coupled clock/reset remain required.
 
 ## Output, cable and supply loads
 
@@ -257,7 +257,12 @@ an X band that could create multiple Verilog clock edges during one voltage rise
 The supply rises over 1 microsecond by default. The nominal reset model fails to
 produce a useful pulse with a 10 ns supply ramp; this is reproducible with
 `reset_probe.py --rise-us .01 --out /tmp/reset-fast-ramp`. Treat that as an open
-model-qualification issue, not evidence about the specimen. `boot_cosim.py` also
+model-qualification issue, not evidence about the specimen. Adding
+`--source-ohms .1` to the reset probe restores the pulse with the `sc236-dc`
+profile, showing sensitivity to the ideal zero-impedance source. This is an
+exploratory external source resistance, not a board component or measured supply.
+The reset trace includes source current; finite impedance alone does not establish
+a realistic current limit or complete power-supply model. `boot_cosim.py` also
 accepts `--rise-us` and `--step-ns` for investigation.
 
 The full power-on delay is simulated, although only a tail window is saved to
@@ -266,9 +271,15 @@ probes. Set its wall-clock limit with `--timeout-seconds`. Reports pin ROM, TV80
 solver logs and voltage traces are retained when validation fails. Firmware
 scenarios and coupled timestep convergence remain separate qualification work.
 
-Next qualify device models and voltage-domain interfaces, and couple the
-electrical oscillator/reset into the feedback loop with TV80, ROM,
-matrix contacts and cable load. Keep the original Icarus reference comparison as
+The archived `reports/clock-reset-baseline.json` demonstrates S600 boot and idle
+scanning from electrical clock/reset. It preserves the original failed report
+alongside revalidation after correcting the idle-transmit assertion. This baseline
+uses digital sensing, direct ROM input and WR-only CPU data drive; it does not
+qualify the later resolved-bus, electrical-matrix or output-load integration.
+Waveforms remain in the local build directory with hashes recorded in the report.
+
+Next qualify device models, voltage-domain interfaces and firmware scenarios in
+the assembled full-board feedback loop. Keep the original Icarus reference comparison as
 an independent regression. CPU internals remain an HDL model unless a separately
 qualified transistor-level CPU model is explicitly introduced.
 

@@ -28,17 +28,21 @@ def simulate(args, components, step_us, isolated):
     if cpu != node(components['A5']['pins']['26']):
         raise ValueError('BR2 no longer feeds the CPU reset pin')
     rise = args.rise_us * 1e-6
+    supply = 'supply' if args.source_ohms else 'n_p5V'
     lines = ['Robotron reference reset; nominal exploratory semiconductor models',
-             f'Vcc n_p5V 0 PWL(0 0 {rise} 5 .3 5 {.3+rise} 0 1.3 0 {1.3+rise} 5 1.6 5)',
+             f'Vcc {supply} 0 PWL(0 0 {rise} 5 .3 5 {.3+rise} 0 1.3 0 {1.3+rise} 5 1.6 5)',
              *nominal_models(args.beta, args.npn_profile), *lines,
              f'RBR2 {source} {cpu} {"1t" if isolated else ".001"}',
              f'Rcpu {cpu} 0 1g', f'Ccpu {cpu} 0 10p']
+    if args.source_ohms:
+        lines += [f'Rsource supply n_p5V {args.source_ohms}']
     if isolated:
         lines += [f'Rfixture {cpu} 0 100']
     signals = ['n_p5V', source, cpu, 'n_RESET_RC', 'n_RESET_BIAS', 'n_RESET_BASE']
     lines += ['.control', 'set wr_singlescale', 'set wr_vecnames',
-              f'tran {step_us}u 1.6', 'wrdata trace.txt ' + ' '.join(f'v({n})' for n in signals),
+              f'tran {step_us}u 1.6', 'wrdata trace.txt ' + ' '.join(f'v({n})' for n in signals) + ' i(Vcc)',
               'quit', '.endc', '.end']
+    signals += ['supplyCurrentAmps']
     deck = '\n'.join(lines) + '\n'
     (out / 'reset.cir').write_text(deck)
     proc = subprocess.run([args.ngspice, '-b', 'reset.cir'], cwd=out,
@@ -76,6 +80,7 @@ def simulate(args, components, step_us, isolated):
     elif max(abs(r[2] - r[3]) for r in rows) > .01:
         raise ValueError('Closed BR2 failed to carry reset to CPU pin')
     return {'stepUs': step_us, 'br2Closed': not isolated, 'boots': boots,
+            'maximumAbsoluteSupplyCurrentAmps': max(abs(r[-1]) for r in rows),
             'models': {**models, 'BR2': '1 milliohm closed / 1 teraohm open'},
             'signals': signals, 'deckSha256': hashlib.sha256(deck.encode()).hexdigest()}
 
@@ -86,19 +91,24 @@ def main():
     p.add_argument('--beta', type=float, default=100)
     p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
     p.add_argument('--rise-us', type=float, default=1)
+    p.add_argument('--source-ohms', type=float, default=0,
+                   help='External source resistance; zero retains the ideal-source baseline')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/reset')
     args = p.parse_args()
     if not math.isfinite(args.beta) or args.beta <= 0 or not 0 < args.rise_us <= 10000:
         p.error('beta must be positive and finite; rise-us must be in (0, 10000]')
+    if not math.isfinite(args.source_ohms) or args.source_ohms < 0:
+        p.error('source-ohms must be nonnegative and finite')
     args.out.mkdir(parents=True, exist_ok=True)
     report_path = args.out / 'report.json'
     report_path.unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'runs': [],
               'assumptions': {'semiconductors': 'Selected exploratory NPN profile; generic PNP and diode; no full device qualification',
                               'beta': args.beta, 'npnProfile': args.npn_profile, 'riseUs': args.rise_us,
+                              'sourceOhms': args.source_ohms,
                               'passives': 'Ideal nominal R/C values; no ESR, leakage or tolerance model',
                               'cpuLoad': '1 gigaohm and 10 pF; illustrative, not measured',
-                              'supply': 'Ideal source with programmed ramps and a one-second power interruption',
+                              'supply': 'Programmed ramps and one-second interruption through selected external resistance; not a measured power supply',
                               'thresholdVolts': [.8, 2],
                               'timing': 'Observation windows test nominal behavior, not historical reset duration'},
               'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
