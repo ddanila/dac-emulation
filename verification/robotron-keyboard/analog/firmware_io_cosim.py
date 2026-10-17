@@ -69,7 +69,7 @@ def main():
         'bridgeDelay': 'Numerical interface delay, not a calibrated device propagation delay'},
         'sources': {name: sha(HERE / name) for name in (
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
-            'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
+            'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'logic_control.py', 'serial_observation.py',
             'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compressed_output.py')}}
     try:
         scenario = load_scenario(args.scenario)

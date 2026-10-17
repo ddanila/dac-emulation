@@ -80,6 +80,8 @@ def run(args, step, directory):
     command += ['--output-unknown-volts', str(getattr(args, 'output_unknown_volts', 2.5))]
     if getattr(args, 'electrical_cpu_pullups', False):
         command += ['--electrical-cpu-pullups']
+    if getattr(args, 'electrical_logic_pullups', False):
+        command += ['--electrical-logic-pullups', '--logic-load-pf', str(args.logic_load_pf)]
     subprocess.run(command, check=True, capture_output=True, text=True, timeout=60)
     prepared = json.loads((directory / 'report.json').read_text())
     if prepared['passed'] or not prepared.get('preparedOnly') or sha(directory / 'boot.cir') != prepared['deckSha256']:
@@ -185,6 +187,8 @@ def main():
     parser.add_argument('--bridge', type=Path, help='Prepared Icarus bridge manifest')
     parser.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal')
     parser.add_argument('--electrical-cpu-pullups', action='store_true')
+    parser.add_argument('--electrical-logic-pullups', action='store_true')
+    parser.add_argument('--logic-load-pf', type=float, default=0)
     parser.add_argument('--output-unknown-volts', type=float, choices=(0, 2.5, 5), default=2.5,
                         help='Diagnostic uniform DAC voltage for HDL X outputs')
     parser.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/coupled-clock-probe')
@@ -203,6 +207,8 @@ def main():
     parser.add_argument('--vntol', type=float, default=1e-9)
     parser.add_argument('--abstol', type=float, default=1e-15)
     args = parser.parse_args()
+    if not math.isfinite(args.logic_load_pf) or args.logic_load_pf < 0 or (args.logic_load_pf and not args.electrical_logic_pullups):
+        parser.error('logic-load-pf must be nonnegative and requires electrical-logic-pullups')
     if args.minimum_breakpoint_fs is not None and (not math.isfinite(args.minimum_breakpoint_fs) or args.minimum_breakpoint_fs <= 0):
         parser.error('minimum-breakpoint-fs must be positive and finite')
     if not math.isfinite(args.column_load_pf) or args.column_load_pf < 0:

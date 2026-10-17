@@ -148,6 +148,10 @@ test-keyboard-coupled-boot:
 test-keyboard-matrix-feedback:
 	python3 verification/robotron-keyboard/analog/matrix_cosim.py
 
+.PHONY: test-keyboard-logic-feedback
+test-keyboard-logic-feedback:
+	python3 verification/robotron-keyboard/analog/logic_cosim.py $(KEYBOARD_LOGIC_ARGS)
+
 .PHONY: test-keyboard-serial-feedback
 test-keyboard-serial-feedback:
 	python3 verification/robotron-keyboard/analog/serial_cosim.py

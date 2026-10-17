@@ -81,6 +81,8 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
     if coarse['assumptions'].get('latchLoad', 'ideal') != 'ideal':
         if not coarse['sources'].get('latch_limits.json') or coarse['sources']['latch_limits.json'] != fine['sources'].get('latch_limits.json'):
             raise ValueError('Latch load source differs or is missing')
+    if coarse['sources'].get('logic_control.py') != fine['sources'].get('logic_control.py'):
+        raise ValueError('Control interface source differs or is missing')
     def hdl_by_name(report):
         hashes = {Path(path).name: digest for path, digest in report['hdlSha256'].items()}
         if len(hashes) != len(report['hdlSha256']):

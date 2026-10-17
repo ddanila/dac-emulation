@@ -45,6 +45,8 @@ class BootPreparationTests(unittest.TestCase):
                     serial_driver=profile, minimum_breakpoint_fs=breakpoint_fs,
                     output_unknown_volts=unknown)
                 args.electrical_cpu_pullups = gate_profile == 'dl000-pullup'
+                args.electrical_logic_pullups = gate_profile == 'dl000-pullup'
+                args.logic_load_pf = 10 if args.electrical_logic_pullups else 0
                 report = {'assumptions': {'traceWindowSeconds': [.124, .127]}}
                 with patch('boot_cosim.ROM_SHA256', fixture_sha):
                     prepare(args, report)
@@ -57,11 +59,15 @@ class BootPreparationTests(unittest.TestCase):
                     self.assertIn('R6.4 n_p5V n_CPU_PULLUP 1k', deck)
                     self.assertIn('R6.5 n_p5V n_BUSRQ_N 1k', deck)
                     self.assertIn('Acontrol [n_CPU_PULLUP n_BUSRQ_N] [dcontrol dbusrq] sense_receiver', deck)
-                    self.assertIn('rx_clock dcontrol dbusrq]', deck)
+                    self.assertIn('rx_clock dcontrol dbusrq dlogic_io dlogic_ff dlogic_oe]', deck)
                     self.assertEqual(report['modelCoverage']['components']['R6.4']['domain'], 'electrical')
+                    for ref in ('R6.3', 'R6.6', 'R9.9'):
+                        self.assertEqual(report['modelCoverage']['components'][ref]['domain'], 'electrical')
+                    self.assertIn('Alogic_clock [n_IO_ACTIVE] [dlogic_io] receiver', deck)
+                    self.assertEqual(report['logicControlCircuit']['fixtureLoadPfPerNet'], 10)
                 else:
                     self.assertNotIn('Acontrol ', deck)
-                    self.assertIn('rx_clock drst drst]', deck)
+                    self.assertIn('rx_clock drst drst drst drst drst]', deck)
                 self.assertIn(f'out_undef={unknown:g} ', deck)
                 self.assertIn(f'to {unknown:g} V', report['outputControlUnknowns'])
                 self.assertTrue((out / 'boot.vvp').stat().st_size > 0)

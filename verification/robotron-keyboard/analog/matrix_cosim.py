@@ -110,7 +110,7 @@ def main():
                               'stimulus': 'HDL bus fixture, not CPU firmware; no bounce or changing contacts',
                               'latchLoad': args.latch_load, 'thresholdVolts': [.8, 2], 'bridgeDelaySeconds': 1e-9},
               'sources': {name: sha(HERE / name) for name in ('failure_evidence.py', 'matrix_cosim.py', 'matrix_cosim.v',
-                         'matrix.py', 'latch_limits.json', 'matrix_probe.py', 'controller_interface.py', 'circuit.py')},
+                         'matrix.py', 'latch_limits.json', 'matrix_probe.py', 'controller_interface.py', 'logic_control.py', 'circuit.py')},
               'chipsSha256': sha(HERE.parent / 'chips.v')}
     try:
         components, report['connectivitySha256'] = load()
