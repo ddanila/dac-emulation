@@ -149,6 +149,27 @@ electrical matrix and cable receiver with TV80/S600 and the resolved CPU/ROM/lat
 bus. Its service fixture opens BR1/BR2 and supplies clock/reset at the CPU sides;
 it excludes the oscillator and board reset generator. A fixture contact closes
 after reset. This isolates firmware-driven I/O from the longer power-on run.
+`--scenario` selects a JSON recipe from `scenarios/`: contact transitions,
+service reset pulses and observable acceptance windows share one cycle timeline.
+The generator emits both SPICE sources and the C reference header. Modifier
+windows must differ from ordinary-key windows; repeat needs repeated traffic
+and silence after release. These checks run against the C reference before
+starting SPICE, then against the cable receiver. They prevent an ineffective
+stimulus from qualifying a named case. C reset reinitializes its keyboard model
+and restores held contacts; this is a reference stimulus, not peripheral-pin
+reset equivalence.
+
+Use `--prepare-only` to compile and inspect a recipe without running SPICE; its
+report remains unpassed. For the Make target, set `KEYBOARD_IO_SCENARIO` and
+`KEYBOARD_IO_OUT` to keep each scenario's results separate. Long repeat runs can
+set `KEYBOARD_IO_TIMEOUT_SECONDS=14400`. Each scenario still needs completed
+electrical runs, timestep comparison and receiver-margin checks; a prepared
+recipe or a passing C precheck is not electrical qualification.
+`scenario_coverage.py /path/to/run --scenario /path/to/recipe.json --out /path/to/coverage.json`
+can apply observation windows to a completed run without overwriting its report.
+It verifies the retained stimulus/header and refuses contact, reset or duration
+changes. Timestep comparison likewise requires matching executed decks; observation
+requirements are evaluated separately from the physical stimulus.
 The clock/reset stimuli originate in SPICE so the HDL does not advance time past
 an analog solver retry. Initial reset observation likewise samples an external
 clock edge rather than scheduling an HDL startup timer.

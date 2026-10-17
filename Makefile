@@ -172,10 +172,13 @@ characterize-keyboard-devices:
 	python3 verification/robotron-keyboard/analog/device_probe.py
 
 .PHONY: qualify-keyboard-firmware-io
+KEYBOARD_IO_SCENARIO ?= verification/robotron-keyboard/analog/scenarios/single-press.json
+KEYBOARD_IO_OUT ?= build/keyboard-controller-analog/firmware-io
+KEYBOARD_IO_TIMEOUT_SECONDS ?= 1800
 qualify-keyboard-firmware-io:
 	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to the standard S600 image'; exit 2)
-	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --step-ns 50 --out build/keyboard-controller-analog/firmware-io/coarse
-	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --step-ns 25 --out build/keyboard-controller-analog/firmware-io/fine
-	python3 verification/robotron-keyboard/analog/compare_firmware_io.py build/keyboard-controller-analog/firmware-io/coarse build/keyboard-controller-analog/firmware-io/fine --out build/keyboard-controller-analog/firmware-io/comparison.json
-	python3 verification/robotron-keyboard/analog/receiver_margins.py build/keyboard-controller-analog/firmware-io/coarse --out build/keyboard-controller-analog/firmware-io/coarse-margins.json
-	python3 verification/robotron-keyboard/analog/receiver_margins.py build/keyboard-controller-analog/firmware-io/fine --out build/keyboard-controller-analog/firmware-io/fine-margins.json
+	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --scenario "$(KEYBOARD_IO_SCENARIO)" --timeout-seconds "$(KEYBOARD_IO_TIMEOUT_SECONDS)" --step-ns 50 --out "$(KEYBOARD_IO_OUT)/coarse"
+	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --scenario "$(KEYBOARD_IO_SCENARIO)" --timeout-seconds "$(KEYBOARD_IO_TIMEOUT_SECONDS)" --step-ns 25 --out "$(KEYBOARD_IO_OUT)/fine"
+	python3 verification/robotron-keyboard/analog/compare_firmware_io.py "$(KEYBOARD_IO_OUT)/coarse" "$(KEYBOARD_IO_OUT)/fine" --out "$(KEYBOARD_IO_OUT)/comparison.json"
+	python3 verification/robotron-keyboard/analog/receiver_margins.py "$(KEYBOARD_IO_OUT)/coarse" --out "$(KEYBOARD_IO_OUT)/coarse-margins.json"
+	python3 verification/robotron-keyboard/analog/receiver_margins.py "$(KEYBOARD_IO_OUT)/fine" --out "$(KEYBOARD_IO_OUT)/fine-margins.json"

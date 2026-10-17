@@ -71,6 +71,14 @@ class ComparisonTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'hash'):
                 load_run(path)
 
+    def test_new_acceptance_windows_cannot_change_stimulus(self):
+        self.coarse['assumptions']['scenario'] = {'cycles': 100, 'contacts': []}
+        self.fine['assumptions']['scenario'] = {'cycles': 100, 'contacts': [], 'observations': ['new check']}
+        self.assertTrue(compare(self.coarse, self.fine, self.tx, self.tx, 15)['withinTolerance'])
+        self.fine['assumptions']['scenario']['contacts'] = [1]
+        with self.assertRaisesRegex(ValueError, 'assumptions'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15)
+
 
 if __name__ == '__main__':
     unittest.main()

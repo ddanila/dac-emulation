@@ -1,5 +1,6 @@
 #include "../../../machines/robotron1715m/keyboard.h"
 #include <stdio.h>
+#include "io_scenario.h"
 
 static unsigned cycle;
 static void bit(void *user, unsigned value) {
@@ -18,11 +19,26 @@ int main(int argc, char **argv) {
     if (count != sizeof rom || extra != EOF) return 2;
     robotron_keyboard keyboard;
     robotron_keyboard_init(&keyboard, rom, NULL, bit);
-    /* Service reset releases at 1 ms; contact 61 closes at 5 ms.
-     * Compare ordinal bits, not cycle equivalence between CPU models. */
-    for (cycle = 0; cycle < 29000; cycle++) {
-        if (cycle == 4000) robotron_keyboard_key(&keyboard, 7, 5, 1);
-        dac_z80_tick(&keyboard.cpu, 0, 0);
+    unsigned contact = 0, reset = 0, reset_asserted = 0;
+    unsigned char closed[104] = {0};
+    /* Compare ordinal bits, not cycle equivalence between CPU models. */
+    for (cycle = 0; cycle < SCENARIO_CYCLES; cycle++) {
+        while (contact_events[contact].cycle == cycle) {
+            unsigned index = contact_events[contact].index;
+            closed[index] = (unsigned char)contact_events[contact].closed;
+            robotron_keyboard_key(&keyboard, index / 8, index % 8, closed[index]);
+            contact++;
+        }
+        while (reset_events[reset].cycle == cycle) {
+            reset_asserted = reset_events[reset++].asserted;
+            if (reset_asserted) {
+                robotron_keyboard_init(&keyboard, rom, NULL, bit);
+                /* Reset does not physically open held contacts. */
+                for (unsigned index = 0; index < 104; index++)
+                    if (closed[index]) robotron_keyboard_key(&keyboard, index / 8, index % 8, 1);
+            }
+        }
+        if (!reset_asserted) dac_z80_tick(&keyboard.cpu, 0, 0);
     }
     return 0;
 }

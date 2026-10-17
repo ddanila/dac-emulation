@@ -44,7 +44,14 @@ def load_run(directory):
 def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
     if not 0 < fine['assumptions']['stepNs'] <= coarse['assumptions']['stepNs'] / 2:
         raise ValueError('Expected the second timestep to be at most half the first')
-    assumptions = [{k: v for k, v in r['assumptions'].items() if k != 'stepNs'} for r in (coarse, fine)]
+    assumptions = []
+    for report in (coarse, fine):
+        values = {k: v for k, v in report['assumptions'].items() if k != 'stepNs'}
+        if 'scenario' in values:
+            # Acceptance windows do not change the electrical stimulus. Each
+            # run's coverage is qualified separately; the deck must still match.
+            values['scenario'] = {k: v for k, v in values['scenario'].items() if k != 'observations'}
+        assumptions.append(values)
     if assumptions[0] != assumptions[1]:
         raise ValueError('Runs use different fixture/model assumptions')
     for key in ('romSha256', 'connectivitySha256', 'bridge', 'tv80', 'ngspice', 'iverilog'):
@@ -61,6 +68,9 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
         return hashes
     if hdl_by_name(coarse) != hdl_by_name(fine):
         raise ValueError('Compiled HDL inputs differ')
+    for key in ('cReferenceSources', 'generatedScenarioHeaderSha256'):
+        if key in coarse and key in fine and coarse[key] != fine[key]:
+            raise ValueError('C reference inputs differ: ' + key)
     result = {}
     for kind in ('transmitted', 'received'):
         a, b = coarse_transport[kind], fine_transport[kind]
