@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "10 us execution of the prepared full-board deck to verify simultaneous compressed clock/supply capture only; no boot or firmware claim",
+  "preparedReportSha256": "9b10aa495fc76aec47cc3232dc28cd0de2f5fbb579bb030004ea5a1d0fa7f4b7",
+  "deckSha256": "301949c8367c2f23097cd9928c864334dc5faf62d06b290c3a0e048a66e8ae2b",
+  "logSha256": "88ad19e7effbe3e10c6096933620c94371f356ac6faae2403f8a775c78420b5d",
+  "compressedWaveforms": {
+    "trace.txt": {
+      "sha256": "68b6ce42efb1bcfc10c915df93d8676abd02d95f50b02796e03dbcef81e2b83d",
+      "bytes": 84265
+    },
+    "supply-trace.txt": {
+      "sha256": "a6d1c80e177fcc0750abad8fb9decb62f6dbcbffcec30729b0065c40395c44ac",
+      "bytes": 34320
+    }
+  },
+  "cpuClockVoltage": {
+    "qualified": false,
+    "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, every cycle, temperature, or CPU behavior below that range",
+    "samples": 1039,
+    "validSupplySamples": 0,
+    "belowSupplySamples": 1039,
+    "aboveSupplySamples": 0,
+    "lowExcursionObserved": false,
+    "highExcursionObserved": false,
+    "firstValidSupplySeconds": null,
+    "bestLowMarginVolts": null,
+    "bestHighMarginVolts": null,
+    "bothExcursionsObserved": false
+  }
+}
