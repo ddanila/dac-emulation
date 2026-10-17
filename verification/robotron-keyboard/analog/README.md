@@ -90,6 +90,23 @@ integration behavior, not historical oscillator accuracy. Internal-node traces a
 model/source hashes remain in the output directory. Device-model qualification and
 coupling clock/reset to the firmware simulation remain required.
 
+## Output, cable and supply loads
+
+`output_probe.py` generates serial pullups, LED series resistors, cable-filter
+connections and board decoupling from the reference schematic. Its external LED
+and receiver fixtures use explicit nominal models. Chokes are uncoupled series RL
+surrogates: their inductance, resistance, mutual coupling and ferrite losses remain
+uncharacterized. The shield is an open boundary, not an invented ground bond.
+
+```sh
+python3 verification/robotron-keyboard/analog/output_probe.py
+```
+
+The test checks serial drive/release at the cable receiver, LED current, cable-load
+sensitivity and timestep refinement. Reports retain internal rail/return voltages,
+receiver rise intervals and signal ranges. Driver intents are ideal test stimuli;
+this does not qualify firmware-driven output timing or EMI behavior.
+
 ## HDL boundary
 
 Use ngspice 47/XSPICE and Icarus 13 with `--enable-libvvp`. The ordinary Icarus
@@ -155,8 +172,12 @@ python3 verification/robotron-keyboard/analog/boot_cosim.py --rom /path/to/s600.
 
 `--contacts 0,8,9` holds fixture contacts closed from power-on in electrical mode;
 it does not identify specimen keys. `--prepare-only` generates inputs and explicitly
-leaves the report unpassed. CPU/peripheral buses and LED/serial output loads still
-retain digital boundaries, so neither mode is complete board qualification.
+leaves the report unpassed. Append `--electrical-outputs` to include serial/LED loads, cable filters and
+supply/return paths in the firmware run. The report then records receiver voltages
+instead of ideal serial intents. Each mode includes a component model/boundary
+inventory; an unknown schematic reference fails generation. This inventory is
+coverage evidence, not a claim of device accuracy. CPU/peripheral buses, control
+pullup loading, IC supply currents and brownout behavior remain unqualified.
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
 

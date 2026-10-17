@@ -11,6 +11,8 @@ from pathlib import Path
 
 from controller_interface import generate
 from matrix import matrix_circuit
+from output_circuit import output_circuit
+from model_coverage import classify
 from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
 from reset_probe import RESET_REFS
@@ -76,9 +78,27 @@ def prepare(args, report):
         matrix_lines += [f'Vcontact{i} contact{i} 0 {5 if i in args.contacts else 0}' for i in range(104)]
     else:
         matrix_lines = [f'Vunusedsense{i} n_SENSE{i} 0 0' for i in range(8)]
+    if args.electrical_outputs:
+        output_lines, output_info = output_circuit(components)
+        report['outputCircuit'] = output_info
+        report['outputControlUnknowns'] = 'DAC X maps to 2.5 V; nominal load response is not a physical prediction of unknown logic'
+        report['electricalModels'].update(output_info['models'])
+        power_lines = [f'Vhost {output_info["hostSupply"]} {output_info["hostGround"]} PWL(0 0 {args.rise_us}u 5)']
+        output_lines += ['Esiso_intent siso_intent 0 led0_v 0 1',
+                         'Ecaps_intent caps_intent 0 led1_v 0 1']
+        serial_trace = [f'v({output_info["serial"][label]["cable"]},{output_info["hostGround"]})'
+                        for label in ('data', 'clock')]
+    else:
+        output_lines = []
+        power_lines = [f'Vcc n_p5V 0 PWL(0 0 {args.rise_us}u 5)']
+        serial_trace = ['v(data_intent)', 'v(clock_intent)']
+    trace_signals = [f'v({cpu_clock})', f'v({cpu_reset})', *serial_trace]
+    report['traceSignals'] = trace_signals
+    report['modelCoverage'] = classify(components, report['electricalModels'],
+                                       args.electrical_matrix, args.electrical_outputs)
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
-             f'Vcc n_p5V 0 PWL(0 0 {args.rise_us}u 5)', '.include ls_nand_nominal.cir',
-             *nominal_models(100), *osc, *reset, *matrix_lines,
+             *power_lines, '.include ls_nand_nominal.cir',
+             *nominal_models(100), *osc, *reset, *matrix_lines, *output_lines,
              f'RBR2 {reset_source} {cpu_reset} .001',
              f'Rresetload {cpu_reset} 0 1g', f'Cresetload {cpu_reset} 0 10p',
              f'Ain [{cpu_clock} {cpu_reset}] [dclk drst] receiver',
@@ -93,10 +113,10 @@ def prepare(args, report):
              '.model observation dac_bridge(out_low=0 out_high=5 out_undef=2.5 t_rise=1n t_fall=1n)',
              # Save a tail window to avoid storing the entire power-on delay. Simulation
              # still begins at zero; no capacitor initial conditions or injected clock/reset.
-             f'.save v({cpu_clock}) v({cpu_reset}) v(data_intent) v(clock_intent)',
+             '.save ' + ' '.join(trace_signals),
              '.control', 'set wr_singlescale', 'set wr_vecnames',
              f'tran {args.step_ns}n 127m 124m',
-             f'wrdata trace.txt v({cpu_clock}) v({cpu_reset}) v(data_intent) v(clock_intent)',
+             'wrdata trace.txt ' + ' '.join(trace_signals),
              'quit', '.endc', '.end']
     (out / 'boot.cir').write_text('\n'.join(lines) + '\n')
     report['deckSha256'] = sha(out / 'boot.cir')
@@ -160,6 +180,7 @@ def main():
     p.add_argument('--rom', type=Path, required=True)
     p.add_argument('--bridge', type=Path, default=ROOT / 'build/keyboard-controller-analog/bridge/bridge.json')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/coupled-boot')
+    p.add_argument('--electrical-outputs', action='store_true')
     p.add_argument('--electrical-matrix', action='store_true')
     p.add_argument('--contacts', default='', help='Comma-separated fixture contact indices held closed from power-on')
     p.add_argument('--prepare-only', action='store_true', help='Generate inputs without claiming a simulation pass')
@@ -189,15 +210,15 @@ def main():
               'assumptions': {'receiverThresholdVolts': 1.4,
                               'receiver': 'Single nominal threshold avoids counting both edges of an X band as clock edges',
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
-                              'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses', 'LED and serial output loading'],
-                              'electricalMatrix': args.electrical_matrix, 'closedContacts': sorted(args.contacts),
+                              'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses'] + ([] if args.electrical_outputs else ['LED and serial output loading']),
+                              'electricalOutputs': args.electrical_outputs, 'electricalMatrix': args.electrical_matrix, 'closedContacts': sorted(args.contacts),
                               'contacts': 'Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification',
                               'traceWindowSeconds': [.124, .127], 'simulationStartSeconds': 0,
                               'maximumStepNs': args.step_ns, 'timeoutSeconds': args.timeout_seconds, 'supplyRiseUs': args.rise_us,
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'oscillator_probe.py', 'reset_probe.py', 'ls_nand_nominal.cir',
-                            'controller_interface.py', 'matrix.py')}}
+                            'controller_interface.py', 'matrix.py', 'output_circuit.py', 'model_coverage.py')}}
     try:
         prepare(args, report)
         report['ngspice'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()

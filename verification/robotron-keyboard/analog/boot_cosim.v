@@ -10,6 +10,8 @@ module boot_cosim #(parameter ELECTRICAL_MATRIX=0)(input clk, input reset_n,
  reg [7:0] rom[0:2047];
  integer cycles=0, fetches=0, reads=0, writes=0, clock_edges=0;
  initial $readmemh("s600.hex", rom);
+ // Observe the initial pin level even when VPI initialized it before callbacks.
+ initial begin #1; $display("RESET %0t %b",$time,reset_n); $fflush(); end
  tv80n cpu(.reset_n(reset_n), .clk(clk), .wait_n(1'b1), .int_n(1'b1),
   .nmi_n(1'b1), .busrq_n(1'b1), .di(di), .A(address), .dout(dout),
   .m1_n(m1_n), .mreq_n(mreq_n), .iorq_n(iorq_n), .rd_n(rd_n),
