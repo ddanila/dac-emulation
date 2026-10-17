@@ -18,8 +18,8 @@ def main():
  run(['iverilog','-g2012','-s','chips_tb','-o',OUT/'chips.vvp',R/'chips.v',R/'chips_tb.v'])
  chip=subprocess.run(['vvp',str(OUT/'chips.vvp')],cwd=ROOT,text=True,capture_output=True,timeout=30)
  (OUT/'chips.log').write_text(chip.stdout+chip.stderr)
- if chip.returncode or 'PASS DL074' not in chip.stdout:raise RuntimeError(chip.stdout+chip.stderr)
- report['chipTruthTable']={'passed':True,'scope':'DL074 numbered pins: asynchronous controls, conflict/release, edge capture, hold and unknown inputs; no device timing calibration'}
+ if chip.returncode or 'PASS DL074' not in chip.stdout or 'PASS 8282' not in chip.stdout:raise RuntimeError(chip.stdout+chip.stderr)
+ report['chipTruthTable']={'passed':True,'scope':'DL074 asynchronous controls and edge capture; 8282 transparency, hold and output enable; numbered pins and unknown inputs; no device timing calibration'}
  run(['iverilog','-g2012','-s','service_tb','-o',OUT/'service.vvp',R/'chips.v',R/'generated/controller.v',R/'service_tb.v'])
  service=subprocess.run(['vvp',str(OUT/'service.vvp')],cwd=ROOT,text=True,capture_output=True,timeout=30)
  (OUT/'service.log').write_text(service.stdout+service.stderr)

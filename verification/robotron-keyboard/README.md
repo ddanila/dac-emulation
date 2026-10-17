@@ -148,7 +148,7 @@ so an aborted qualification cannot leave a previous passing report as its result
 The ordinary test target includes fault injection for read-data, LED and serial
 mismatches, missing events, independent clocks and bounded firmware VCD replay.
 
-## Flip-flop logic boundary
+## Storage logic boundaries
 
 The DL074 logical model follows the LS74 function table in
 [TI SDLS119, page 1](https://www.ti.com/lit/ds/symlink/sn74ls74a.pdf).
@@ -159,3 +159,10 @@ a known state. Pin-level regressions run with the normal board checks.
 This is a functional-family model, not qualified DL074 propagation, metastability
 or supply behavior. A6's asynchronous controls are tied inactive in the reference
 schematic; the conflict tests exercise chip behavior outside ordinary firmware use.
+
+The 8282 uses the transparent-high strobe and independent active-low output enable
+in the [Intel 8282/8283 sheet](https://tvsat.com.pl/PDF/8/8282_intel.pdf).
+An unknown strobe conservatively merges stored and input values bitwise; differing
+bits become unknown. Floating input logic is represented as unknown stored data,
+not as a high-impedance latch output. These are four-state simulation semantics,
+not a model of analog floating-input bias or metastability.

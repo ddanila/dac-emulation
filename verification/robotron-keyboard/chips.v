@@ -45,6 +45,10 @@ endmodule
 module chip_I8282(input p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p20,
  output p12,p13,p14,p15,p16,p17,p18,p19);
  reg [7:0] latch;
- always @* if(p11) latch={p8,p7,p6,p5,p4,p3,p2,p1};
+ // Unresolved input voltage is not a high-impedance state of stored data.
+ wire [7:0] inputs_known={p8,p7,p6,p5,p4,p3,p2,p1} & 8'hff;
+ // Unknown STB may mean hold or transparency. Merge those possibilities
+ // bitwise instead of silently treating an unknown control as inactive.
+ always @* if(p11!==1'b0) latch=p11?inputs_known:latch;
  assign {p12,p13,p14,p15,p16,p17,p18,p19}=p9?8'bz:latch;
 endmodule

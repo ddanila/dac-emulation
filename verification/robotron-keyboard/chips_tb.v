@@ -5,6 +5,22 @@ module chips_tb;
  wire q1,nq1,q2,nq2;
  chip_DL074 dut(.p1(clr1),.p2(d1),.p3(clk1),.p4(pre1),.p5(q1),.p6(nq1),
   .p7(1'b0),.p8(nq2),.p9(q2),.p10(pre2),.p11(clk2),.p12(d2),.p13(clr2),.p14(1'b1));
+ reg [7:0] latch_data=0;
+ reg stb=0, oe_n=1;
+ wire [7:0] latch_out;
+ chip_I8282 latch_dut(.p1(latch_data[0]),.p2(latch_data[1]),.p3(latch_data[2]),.p4(latch_data[3]),
+  .p5(latch_data[4]),.p6(latch_data[5]),.p7(latch_data[6]),.p8(latch_data[7]),
+  .p9(oe_n),.p10(1'b0),.p11(stb),.p20(1'b1),
+  .p12(latch_out[7]),.p13(latch_out[6]),.p14(latch_out[5]),.p15(latch_out[4]),
+  .p16(latch_out[3]),.p17(latch_out[2]),.p18(latch_out[1]),.p19(latch_out[0]));
+ task check_latch;
+  input [7:0] expected;
+  begin
+   #1;
+   if(latch_out !== expected)
+    $fatal(1,"8282 pin truth table at %0t: actual %b expected %b",$time,latch_out,expected);
+  end
+ endtask
  task check;
   input [3:0] expected;
   begin
@@ -35,6 +51,24 @@ module chips_tb;
   clr1=1; pre2=1; clk1=0; clk2=0; d1=1'bx; d2=1'bz; check(4'b0110);
   clk1=1; clk2=1; check(4'bxxxx); // Driven outputs cannot become high impedance.
   $display("PASS DL074 numbered pins, asynchronous conflict/release, hold and unknown inputs");
+  check_latch(8'hzz);
+  stb=1; latch_data=8'ha5; check_latch(8'hzz);
+  stb=0; oe_n=0; check_latch(8'ha5);
+  latch_data=8'h3c; check_latch(8'ha5);
+  stb=1; check_latch(8'h3c);
+  latch_data=8'h96; check_latch(8'h96);
+  oe_n=1; latch_data=8'h0f; check_latch(8'hzz);
+  oe_n=0; check_latch(8'h0f);
+  stb=1'bx; check_latch(8'h0f);
+  latch_data=8'h0e; check_latch(8'b0000111x);
+  latch_data=8'hf0; check_latch(8'hxx);
+  stb=0; check_latch(8'hxx);
+  stb=1; check_latch(8'hf0);
+  latch_data=8'b1111zz00; check_latch(8'b1111xx00);
+  oe_n=1'bx; check_latch(8'hxx);
+  oe_n=1; check_latch(8'hzz);
+  oe_n=0; check_latch(8'b1111xx00);
+  $display("PASS 8282 numbered pins, transparency, hold, independent output enable and unknown inputs");
   $finish;
  end
 endmodule
