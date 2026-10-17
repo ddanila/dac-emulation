@@ -24,7 +24,7 @@ def main():
               'qualificationBoundary': 'Selected BR service fixture; not electrical oscillator/reset, brownout or specimen calibration',
               'sources': {name: sha(HERE / name) for name in (
                   'qualify_io_pair.py', 'compare_firmware_io.py', 'scenario_coverage.py',
-                  'receiver_margins.py', 'io_scenario.py', 'serial_observation.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py')}}
+                  'receiver_margins.py', 'io_scenario.py', 'serial_observation.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compare_led_reference.py', 'firmware_io_reference.c')}}
     try:
         inputs = {'coarse': args.coarse / 'report.json', 'fine': args.fine / 'report.json', 'scenario': args.scenario}
         report['inputs'] = {name: {'path': str(path.resolve()), 'sha256': sha(path)} for name, path in inputs.items()}
@@ -33,6 +33,9 @@ def main():
             phases.extend([
                 (name + '-coverage', 'scenario_coverage.py', [directory, '--scenario', args.scenario]),
                 (name + '-margins', 'receiver_margins.py', [directory, '--required-ns', '100'])])
+        for name, directory in [('coarse', args.coarse), ('fine', args.fine)]:
+            if json.loads((directory / 'report.json').read_text())['assumptions'].get('ledTrace'):
+                phases.append((name + '-led-reference', 'compare_led_reference.py', [directory]))
         for name, script, options in phases:
             output = args.out / (name + '.json')
             output.unlink(missing_ok=True)

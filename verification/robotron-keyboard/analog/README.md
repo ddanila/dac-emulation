@@ -325,9 +325,18 @@ make qualify-keyboard-firmware-io S600_ROM=/path/to/s600.bin KEYBOARD_IO_SCENARI
 ```
 
 The paired qualifier verifies the LED trace hash and recomputes these checks.
-This covers nominal firmware-driven load response, not C LED-state equivalence,
-LED waveform convergence or calibrated brightness. Indicator qualification is
-pending; the recipe's successful C serial precheck alone does not qualify LEDs.
+It also replays the retained scenario/ROM through a C driver with LED observation
+and compares ordinal LED intent states. Emulation source hashes and the original
+serial transcript must match; failures identify the first differing LED state
+with C-cycle and electrical-time coordinates kept separate.
+
+```sh
+python3 verification/robotron-keyboard/analog/compare_led_reference.py /path/to/run --out /tmp/led-comparison.json
+```
+
+This covers nominal load response and ordinal C LED-state agreement, not exact
+CPU-cycle timing, LED waveform convergence or calibrated brightness. Full paired
+indicator qualification including the C LED comparison is pending.
 
 ## NAND static characterization
 

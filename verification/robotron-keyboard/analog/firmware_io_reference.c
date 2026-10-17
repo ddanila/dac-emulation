@@ -21,6 +21,10 @@ int main(int argc, char **argv) {
     robotron_keyboard_init(&keyboard, rom, NULL, bit);
     unsigned contact = 0, reset = 0, reset_asserted = 0;
     unsigned char closed[104] = {0};
+#ifdef OBSERVE_LEDS
+    unsigned previous_leds = keyboard.leds;
+    printf("LED %u %u\n", 0u, previous_leds);
+#endif
     /* Compare ordinal bits, not cycle equivalence between CPU models. */
     for (cycle = 0; cycle < SCENARIO_CYCLES; cycle++) {
         while (contact_events[contact].cycle == cycle) {
@@ -39,6 +43,12 @@ int main(int argc, char **argv) {
             }
         }
         if (!reset_asserted) dac_z80_tick(&keyboard.cpu, 0, 0);
+#ifdef OBSERVE_LEDS
+        if (keyboard.leds != previous_leds) {
+            printf("LED %u %u\n", cycle, keyboard.leds);
+            previous_leds = keyboard.leds;
+        }
+#endif
     }
     return 0;
 }
