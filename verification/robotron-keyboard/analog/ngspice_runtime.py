@@ -30,7 +30,9 @@ def identify(executable, spinit=None):
         if words and words[0].lower() == 'codemodel':
             if len(words) != 2 or not Path(words[1]).is_absolute() or '$' in words[1]:
                 raise ValueError('Qualification requires literal absolute codemodel paths in spinit')
-            models.append(fingerprint(words[1]))
+            item = fingerprint(words[1])
+            item['loadPath'] = str(Path(words[1]).absolute())
+            models.append(item)
         if words and words[0].lower() in ('source', '.include'):
             raise ValueError('Nested initialization files require explicit runtime provenance')
     if not models:
@@ -43,5 +45,9 @@ def identify(executable, spinit=None):
 
 def verify(runtime):
     for item in [runtime['executable'], runtime['spinit'], *runtime['codeModels']]:
-        if fingerprint(item['path']) != item:
-            raise ValueError('ngspice runtime changed during execution: ' + item['path'])
+        # ngspice follows the literal codemodel path from spinit. Re-resolve it
+        # so a redirected symlink cannot silently load a different library.
+        path = item.get('loadPath', item['path'])
+        expected = {key: item[key] for key in ('path', 'sha256')}
+        if fingerprint(path) != expected:
+            raise ValueError('ngspice runtime changed during execution: ' + path)

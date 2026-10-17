@@ -38,6 +38,30 @@ class RuntimeTests(unittest.TestCase):
                 with self.subTest(text=text), self.assertRaises(ValueError):
                     identify(binary, spinit)
 
+    def test_redirected_model_symlink_is_detected_even_with_identical_bytes(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            binary, model, spinit = self.fixture(directory)
+            original = directory / 'original.cm'
+            model.rename(original)
+            model.symlink_to(original)
+            runtime, _ = identify(binary, spinit)
+            verify(runtime)
+            alternate = directory / 'alternate.cm'
+            alternate.write_bytes(original.read_bytes())
+            model.unlink()
+            model.symlink_to(alternate)
+            with self.assertRaisesRegex(ValueError, 'changed during execution'):
+                verify(runtime)
+
+    def test_legacy_runtime_records_can_still_verify_their_recorded_targets(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            binary, _, spinit = self.fixture(Path(temporary))
+            runtime, _ = identify(binary, spinit)
+            for item in runtime['codeModels']:
+                item.pop('loadPath')
+            verify(runtime)
+
 
 if __name__ == '__main__':
     unittest.main()

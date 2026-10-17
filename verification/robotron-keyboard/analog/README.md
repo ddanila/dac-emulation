@@ -360,7 +360,8 @@ It does not restore qualification without a complete scenario recheck.
 The firmware-I/O, boot and coupled-clock harnesses accept `--ngspice /path/to/engine` and an optional
 `--ngspice-spinit /path/to/spinit`. It fingerprints the executable, selected
 initialization and literal XSPICE code-model paths, forces that initialization
-for the child process and checks the files again after execution. Paired runs
+for the child process and re-resolves code-model load paths after execution to
+reject redirected symlinks as well as changed files. Paired runs
 must retain identical backend identities; a matching version string is insufficient.
 
 `receiver_margins.py /path/to/run --out /path/to/margins.json` separately checks
