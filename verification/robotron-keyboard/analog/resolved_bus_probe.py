@@ -21,7 +21,7 @@ def main():
     a=p.parse_args();out=a.out.resolve();out.mkdir(parents=True,exist_ok=True)
     report={'passed':False,'scope':__doc__,
             'limitation':'Resolved logic states only; no electrical bus currents, pin delays or drive-strength calibration',
-            'sources':{name:sha(HERE/name) for name in ('resolved_bus_probe.py','resolved_bus_tb.v','controller_interface.py','circuit.py')},
+            'sources':{name:sha(HERE/name) for name in ('resolved_bus_probe.py','resolved_bus_tb.v','controller_interface.py','logic_control.py','circuit.py')},
             'chipsSha256':sha(HERE.parent/'chips.v')}
     try:
         (out/'controller_analog.v').write_text(generate(explicit_cpu_drive=True,resolved_bus=True))

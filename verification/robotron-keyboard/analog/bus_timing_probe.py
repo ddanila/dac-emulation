@@ -33,7 +33,7 @@ def main():
                               'fixture': 'Synthetic alternating-zero/one memory and I/O writes, not S600 qualification',
                               'boundary': 'Digital drive-enable timing only; physical ROM/bus contention and pin delays remain unqualified'},
               'sources': {name: sha(HERE/name) for name in ('bus_timing_probe.py', 'bus_timing_tb.v',
-                           'boot_cosim.v', 'controller_interface.py')}}
+                           'boot_cosim.v', 'controller_interface.py', 'logic_control.py', 'circuit.py')}}
     try:
         tv80 = ROOT/'third_party/cpu/tv80'
         source = json.loads((tv80/'SOURCE.json').read_text())

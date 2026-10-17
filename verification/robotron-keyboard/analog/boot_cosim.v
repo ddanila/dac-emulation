@@ -1,11 +1,13 @@
 `timescale 1ns/1ps
 // Clock/reset are analog receiver outputs; electrical matrix mode closes sense feedback.
 module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVED_BUS=1,
-                             ELECTRICAL_OUTPUTS=0, ELECTRICAL_CPU_PULLUPS=0)(input clk, input reset_n,
+                             ELECTRICAL_OUTPUTS=0, ELECTRICAL_CPU_PULLUPS=0,
+                             ELECTRICAL_LOGIC_PULLUPS=0)(input clk, input reset_n,
                   input [7:0] sense, input receiver_data, input receiver_clock,
                   input cpu_pullup_n, input bus_request_n,
+                  input [2:0] logic_control,
                   output data_sink, output clock_sink,
-                  output [1:0] leds, output [12:0] column_sink);
+                  output [1:0] leds, output [12:0] column_sink, output [1:0] logic_sink);
  wire [15:0] address;
  wire [10:0] rom_address;
  wire [7:0] dout, di, read_data;
@@ -28,8 +30,11 @@ module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVE
  // TV80 exposes write intent for the machine cycle independently of WR.
  // Preserve its data setup/hold window; do not derive output-enable from WR alone.
  wire cpu_data_drive=reset_n && busak_n && (EXPLICIT_CPU_DRIVE ? cpu.write : !wr_n);
- generate if(ELECTRICAL_MATRIX || EXPLICIT_CPU_DRIVE || RESOLVED_BUS) begin: electrical
-  controller_analog board(.address(address),.cpu_data(dout),.iorq_n(iorq_n),.wr_n(wr_n),
+ always @(logic_control) if(ELECTRICAL_LOGIC_PULLUPS)
+  $display("LOGIC_CONTROL %0t %b", $time, logic_control);
+ generate if(ELECTRICAL_MATRIX || EXPLICIT_CPU_DRIVE || RESOLVED_BUS || ELECTRICAL_LOGIC_PULLUPS) begin: electrical
+  controller_analog #(.ELECTRICAL_LOGIC_PULLUPS(ELECTRICAL_LOGIC_PULLUPS)) board(.address(address),.cpu_data(dout),.iorq_n(iorq_n),.wr_n(wr_n),
+   .logic_control(logic_control),.logic_sink(logic_sink),
    .cpu_drive(cpu_data_drive),.mreq_n(RESOLVED_BUS ? mreq_n : 1'b1),
    .rom_data(rom[rom_address]),.rom_address(rom_address),.sense(sense),.column_sink(column_sink),.read_data(read_data),.leds(leds),
    .ta_daten(ta_daten),.ta_takt(ta_takt));
@@ -37,6 +42,7 @@ module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVE
   controller board(address,dout,iorq_n,wr_n,104'b0,read_data,leds,ta_daten,ta_takt);
   assign column_sink=13'b0;
   assign rom_address=address[10:0];
+  assign logic_sink=2'b00;
  end endgenerate
  assign di=RESOLVED_BUS ? read_data : (!mreq_n ? rom[address[10:0]] : read_data);
  assign data_sink=(ta_daten===1'bz || ta_daten===1'b1) ? 1'b0 : ta_daten===1'b0 ? 1'b1 : 1'bx;

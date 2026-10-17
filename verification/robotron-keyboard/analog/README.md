@@ -197,10 +197,14 @@ capacitance; voltage receivers feed INT/NMI/WAIT and BUSRQ into TV80 instead of
 constant highs. X1:A9 remains externally open. `CPU_CONTROL` records the received
 logic levels, including unknowns. Leakage, clamps and CPU brownout behavior remain
 unmodeled; this option is an exploratory circuit boundary, not device calibration.
-`logic_control_probe.py` separately exercises R6.3/R6.6/R9.9 with nominal
-open-collector sinks and explicit fixture capacitance. Its latch-enable and
-I/O-active stimuli are independent; these electrical paths are not yet coupled
-to the firmware harness.
+`--electrical-logic-pullups` couples R6.3/R6.6/R9.9 and nominal open-collector
+sinks to the generated latch/flip-flop pins in boot and coupled-clock runs.
+`--logic-load-pf` adds explicit per-net fixture capacitance; it is not a measured
+device load. I/O-active uses a nominal 1.4 V clock crossing; the other control
+receivers retain their 0.8/2 V unknown band. `logic_control_probe.py` checks the
+passive fixture; `logic_cosim.py` exercises live driver/voltage/receiver feedback,
+latch hold/transparency, output release and LED state at paired timesteps.
+That bus fixture does not qualify firmware or device propagation.
 
 ```sh
 python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path/to/s600.bin --steps-ns 1 .5 --duration-us 1000 --out /tmp/coupled-clock

@@ -25,6 +25,7 @@ from gate_models import GATE_MODELS
 from clock_voltage import inspect as inspect_clock_voltage
 from clock_timing import inspect as inspect_clock_timing
 from cpu_control import wiring as control_wiring
+from logic_control import wiring as logic_wiring
 from reset_probe import RESET_REFS
 from serial_observation import validate_transport, SerialMismatch
 import board_scenario
@@ -72,6 +73,7 @@ def prepare(args, report):
                     '-Pboot_cosim.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)),
                     '-Pboot_cosim.ELECTRICAL_OUTPUTS=' + str(int(args.electrical_outputs)),
                     '-Pboot_cosim.ELECTRICAL_CPU_PULLUPS=' + str(int(getattr(args, 'electrical_cpu_pullups', False))),
+                    '-Pboot_cosim.ELECTRICAL_LOGIC_PULLUPS=' + str(int(getattr(args, 'electrical_logic_pullups', False))),
                     '-Pboot_cosim.EXPLICIT_CPU_DRIVE=' + str(int(not args.wr_only_data)),
                     '-Pboot_cosim.RESOLVED_BUS=' + str(int(not args.bypass_rom_bus)), '-o', str(out / 'boot.vvp'),
                     *map(str, hdl)], check=True)
@@ -135,6 +137,17 @@ def prepare(args, report):
         report['cpuControlCircuit'] = control_info
         control_lines += [f'Acontrol [{control_info["interruptNmiWait"]} {control_info["busRequest"]}] [dcontrol dbusrq] sense_receiver']
         control_inputs = 'dcontrol dbusrq'
+    logic_inputs = 'drst drst drst'
+    if getattr(args, 'electrical_logic_pullups', False):
+        logic_lines, logic_models, logic_info = logic_wiring(components, getattr(args, 'logic_load_pf', 0))
+        report['electricalModels'].update(logic_models)
+        report['logicControlCircuit'] = logic_info
+        nets = logic_info['nets']
+        control_lines += [*logic_lines,
+            f'Alogic_levels [{nets["latchEnable"]} {nets["flipFlopRelease"]}] [dlogic_oe dlogic_ff] sense_receiver',
+            f'Alogic_clock [{nets["ioActive"]}] [dlogic_io] receiver',
+            'Alogic_drive [dlogic_sink0 dlogic_sink1] [control_latchEnable_sink control_ioActive_sink] observation']
+        logic_inputs = 'dlogic_io dlogic_ff dlogic_oe'
     supply_signal = f'v({node(components["A5"]["pins"]["11"])})'
     report['supplyTraceSignal'] = supply_signal
     report['modelCoverage'] = classify(components, report['electricalModels'],
@@ -147,6 +160,13 @@ def prepare(args, report):
         report['modelCoverage']['components']['A1']['model'] = (
             '7406 HDL logic; data/clock gates use the published-topology DC candidate; '
             'ideal DAC input drive, other gates remain digital; no package or switching qualification')
+    if getattr(args, 'electrical_logic_pullups', False):
+        for ref, description in {
+            'A2.2': 'DL003 HDL gates; latch-enable and I/O-active outputs use nominal electrical sinks; column outputs use the matrix boundary',
+            'A4': '8282 HDL latch/bus with electrical output-enable and strobe receivers; input leakage and pin timing unqualified',
+            'A6': 'DL074 HDL flip-flops with electrical async-control and clock receivers; no supply-current or propagation calibration',
+        }.items():
+            report['modelCoverage']['components'][ref]['model'] = description
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
              *power_lines, '.include ' + gate_file,
              f'.options reltol={args.reltol} vntol={args.vntol} abstol={args.abstol}',
@@ -159,7 +179,7 @@ def prepare(args, report):
              '.model sense_receiver adc_bridge(in_low=0.8 in_high=2)',
              'Arxdata [receiver_data] [rx_data] sense_receiver',
              'Arxclock [receiver_clock] [rx_clock] receiver',
-             f'Ahdl [dclk drst {sense_inputs} rx_data rx_clock {control_inputs}] [dsink csink led1 led0 {column_outputs}] hdl',
+             f'Ahdl [dclk drst {sense_inputs} rx_data rx_clock {control_inputs} {logic_inputs}] [dsink csink led1 led0 {column_outputs} dlogic_sink1 dlogic_sink0] hdl',
              f'.model hdl d_cosim simulation="{libs["shim"]}" sim_args=["boot.vvp"] delay={args.bridge_delay_ns}n',
              f'+ lib_args=["{libs["libvvp"]}" "{libs["vpi"]}"]',
              'Adac [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] observation',
@@ -254,6 +274,8 @@ def main():
     p.add_argument('--wr-only-data', action='store_true', help='Retain old WR-only data drive as a diagnostic control')
     p.add_argument('--electrical-outputs', action='store_true')
     p.add_argument('--electrical-cpu-pullups', action='store_true', help='Model R6.4/R6.5 and reference-maximum CPU input capacitance')
+    p.add_argument('--electrical-logic-pullups', action='store_true', help='Couple latch and flip-flop control pullups through nominal electrical sinks')
+    p.add_argument('--logic-load-pf', type=float, default=0, help='Illustrative added capacitance per logic-control net, not a device parameter')
     p.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal',
                    help='Optional unqualified transistor serial gates; requires electrical outputs')
     p.add_argument('--output-unknown-volts', type=float, choices=(0, 2.5, 5), default=2.5,
@@ -310,6 +332,8 @@ def main():
     if args.latch_load != 'ideal' and not args.electrical_matrix:
         p.error('latch-load stress requires electrical-matrix')
     stop = board_scenario.stop_seconds(args.scenario_data) if args.scenario_data else .127
+    if not math.isfinite(args.logic_load_pf) or args.logic_load_pf < 0 or (args.logic_load_pf and not args.electrical_logic_pullups):
+        p.error('logic-load-pf must be nonnegative and requires electrical-logic-pullups')
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
     if args.compress_traces and any(out.glob('*trace.txt*')):
@@ -332,6 +356,8 @@ def main():
                               'cpuDataDrive': 'WR-only diagnostic' if args.wr_only_data else 'TV80 write-cycle intent gated by reset and bus ownership',
                               'electricalOutputs': args.electrical_outputs, 'electricalMatrix': args.electrical_matrix, 'closedContacts': sorted(args.contacts),
                               'electricalCpuPullups': args.electrical_cpu_pullups,
+                              'electricalLogicPullups': args.electrical_logic_pullups, 'logicLoadPf': args.logic_load_pf,
+                              'logicControlReceivers': 'I/O-active clock uses nominal 1.4 V crossing; output-enable and async controls use 0.8/2 V unknown band',
                               'contacts': 'Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification',
                               'traceWindowSeconds': [.124, stop], 'simulationStartSeconds': 0,
                               'bridgeDelayNs': args.bridge_delay_ns,
@@ -340,7 +366,7 @@ def main():
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
-                            GATE_MODELS[args.gate_profile], 'gate_models.py', 'clock_voltage.py', 'clock_timing.py', 'clock_convergence.py', 'cpu_clock_limits.json', 'cpu_control.py',
+                            GATE_MODELS[args.gate_profile], 'gate_models.py', 'clock_voltage.py', 'clock_timing.py', 'clock_convergence.py', 'cpu_clock_limits.json', 'cpu_control.py', 'logic_control.py',
                             'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'output_circuit.py', 'model_coverage.py',
                             'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py',
                             'transient_analysis.py', 'ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'compressed_output.py')}}

@@ -103,7 +103,7 @@ def main():
     path.unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'cases': [], 'selectedColumns': [sorted(s) for s in SELECTIONS],
               'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
-                          for name in ('matrix_probe.py', 'matrix.py', 'latch_limits.json', 'circuit.py', 'controller_interface.py', 'matrix_interface_tb.v')},
+                          for name in ('matrix_probe.py', 'matrix.py', 'latch_limits.json', 'circuit.py', 'controller_interface.py', 'logic_control.py', 'matrix_interface_tb.v')},
               'assumptions': {'semiconductors': 'Generic SPICE models, not characterized SC308 devices',
                               'beta': args.beta, 'contactOhms': args.contact_ohms,
                               'sinkOhms': 20, 'openOhms': 1e12, 'latchLoad': args.latch_load,
