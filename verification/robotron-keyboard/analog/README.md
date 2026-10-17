@@ -206,6 +206,14 @@ Archived `reports/firmware-io-*.json` retain the qualified service fixture's inp
 observation and comparison provenance; this does not qualify full-board startup
 or other contact/reset scenarios.
 
+`qualify_io_pair.py /path/to/coarse /path/to/fine --scenario /path/to/recipe.json --out /path/to/qualification`
+applies convergence, scenario coverage and receiver margins to an existing pair.
+It marks the combined result passed only after every check passes, pins the input/check
+reports and preserves failure logs. The Make target uses this same final gate.
+`reports/release-repress/` retains a qualified release/repress pair; `coarse-run.json`
+and `fine-run.json` are the input reports referenced by its qualification hashes.
+This extends the BR service evidence, not full-board startup or calibration.
+
 `receiver_margins.py /path/to/run --out /path/to/margins.json` separately checks
 data stability around the receiver edges using the retained voltage trace. It
 rejects missing samples, wrong/indeterminate levels and insufficient sampled

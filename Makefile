@@ -179,6 +179,4 @@ qualify-keyboard-firmware-io:
 	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to the standard S600 image'; exit 2)
 	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --scenario "$(KEYBOARD_IO_SCENARIO)" --timeout-seconds "$(KEYBOARD_IO_TIMEOUT_SECONDS)" --step-ns 50 --out "$(KEYBOARD_IO_OUT)/coarse"
 	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --scenario "$(KEYBOARD_IO_SCENARIO)" --timeout-seconds "$(KEYBOARD_IO_TIMEOUT_SECONDS)" --step-ns 25 --out "$(KEYBOARD_IO_OUT)/fine"
-	python3 verification/robotron-keyboard/analog/compare_firmware_io.py "$(KEYBOARD_IO_OUT)/coarse" "$(KEYBOARD_IO_OUT)/fine" --out "$(KEYBOARD_IO_OUT)/comparison.json"
-	python3 verification/robotron-keyboard/analog/receiver_margins.py "$(KEYBOARD_IO_OUT)/coarse" --out "$(KEYBOARD_IO_OUT)/coarse-margins.json"
-	python3 verification/robotron-keyboard/analog/receiver_margins.py "$(KEYBOARD_IO_OUT)/fine" --out "$(KEYBOARD_IO_OUT)/fine-margins.json"
+	python3 verification/robotron-keyboard/analog/qualify_io_pair.py "$(KEYBOARD_IO_OUT)/coarse" "$(KEYBOARD_IO_OUT)/fine" --scenario "$(KEYBOARD_IO_SCENARIO)" --out "$(KEYBOARD_IO_OUT)/qualification"

@@ -1,0 +1,203 @@
+{
+  "passed": true,
+  "scope": "Check observable scenario requirements against a completed electrical run.",
+  "validationSources": {
+    "scenario_coverage.py": "82fda7b972b5386b40fa0f5aa8d39d6f091874856f4a202e09b96dc71c9db66b",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "compare_firmware_io.py": "830cf15189e8557b5c367b03b1753e236f33cccf6b7022cef8bbe04ead8c5d49",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136"
+  },
+  "originalReportSha256": "be99778a8963a32a6407583bbf4532b2cd5a6eaa8240d0fda89dbb0a9211d7c4",
+  "scenarioSha256": "94516d7ba8f438d97a740b42ab10e0e16f8f54f21abb0ec8ef8a0c7d0b5b89f2",
+  "scenario": {
+    "name": "release and repress",
+    "cycles": 120000,
+    "contacts": [
+      {
+        "cycle": 4000,
+        "index": 61,
+        "closed": true
+      },
+      {
+        "cycle": 30000,
+        "index": 61,
+        "closed": false
+      },
+      {
+        "cycle": 60000,
+        "index": 61,
+        "closed": true
+      },
+      {
+        "cycle": 90000,
+        "index": 61,
+        "closed": false
+      }
+    ],
+    "resets": [],
+    "observations": [
+      {
+        "name": "first press",
+        "startCycle": 4000,
+        "endCycle": 30000,
+        "minimumBits": 26
+      },
+      {
+        "name": "second press",
+        "startCycle": 60000,
+        "endCycle": 90000,
+        "minimumBits": 26
+      }
+    ]
+  },
+  "referenceCoverage": {
+    "passed": true,
+    "windows": [
+      {
+        "name": "first press",
+        "startCycle": 4000,
+        "endCycle": 30000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "name": "second press",
+        "startCycle": 60000,
+        "endCycle": 90000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "receiverCoverage": {
+    "passed": true,
+    "windows": [
+      {
+        "name": "first press",
+        "startCycle": 4000,
+        "endCycle": 30000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "name": "second press",
+        "startCycle": 60000,
+        "endCycle": 90000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ]
+  }
+}
