@@ -596,6 +596,13 @@ selected DC limits at 25 C. Both remain unqualified for switching, temperature,
 breakdown and specimen behavior, and neither is adopted in the board harness.
 The model, source conditions and retained results are in `ttl7406_nominal.cir`,
 `ttl7406_limits.json` and `reports/ttl7406/`.
+
+`ttl7406_output_probe.py` compares the DC candidate with the ideal serial sinks
+using the schematic-derived cable/filter network. It checks drive/release,
+receiver rise convergence and cable-load sensitivity, and records driver supply
+and input currents. Results live in `reports/ttl7406/outputs/`. These fixture
+checks do not qualify transistor switching delays or firmware integration.
+
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
 
