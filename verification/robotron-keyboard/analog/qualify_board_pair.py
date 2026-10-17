@@ -11,28 +11,10 @@ from pathlib import Path
 from boot_cosim import validate, sha
 from receiver_margins import measure
 from clock_convergence import compare_clocks
+from transient_analysis import normalized_analysis
 from gate_models import GATE_MODELS
 
 HERE = Path(__file__).resolve().parent
-
-
-def normalized_analysis(deck, assumptions):
-    steps = re.findall(r'^(\.?tran) ([0-9.eE+-]+)n ', deck, re.M)
-    if len(steps) != 1 or float(steps[0][1]) != assumptions['maximumStepNs']:
-        raise ValueError('Reported timestep differs from executed deck')
-    breakpoint_fs = assumptions.get('minimumBreakpointFs')
-    invocation = assumptions.get('analysisInvocation', 'control-tran')
-    options = re.findall(r'^\.options\b.*\bminbreak\s*=\s*(\S+)', deck, re.M | re.I)
-    runs = re.findall(r'^run\s*$', deck, re.M | re.I)
-    if breakpoint_fs is None:
-        if steps[0][0] != 'tran' or invocation != 'control-tran' or options or runs:
-            raise ValueError('Unexpected transient invocation or breakpoint setting')
-    else:
-        if (not math.isfinite(breakpoint_fs) or breakpoint_fs <= 0
-                or steps[0][0] != '.tran' or invocation != 'deck-tran/run'
-                or len(runs) != 1 or options != [f'{breakpoint_fs:.17g}f']):
-            raise ValueError('Reported breakpoint setting differs from executed deck')
-    return re.sub(r'^(\.?tran) \S+ ', r'\1 TIMESTEP ', deck, flags=re.M)
 
 
 def load_run(directory):
@@ -144,7 +126,7 @@ def main():
         parser.error('Timing budgets must be positive and finite')
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
               'boundary': 'Selected nominal board scenario; no device calibration, between-sample clock voltage/pulse-width, C equivalence, brownout or full waveform-shape claim',
-              'sources': {name: sha(HERE / name) for name in ('qualify_board_pair.py', 'boot_cosim.py', 'failure_evidence.py',
+              'sources': {name: sha(HERE / name) for name in ('qualify_board_pair.py', 'transient_analysis.py', 'boot_cosim.py', 'failure_evidence.py',
                           'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py', 'clock_voltage.py', 'clock_timing.py', 'cpu_clock_limits.json', 'trace_io.py', 'gate_models.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:

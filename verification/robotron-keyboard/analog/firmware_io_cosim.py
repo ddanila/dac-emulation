@@ -12,6 +12,7 @@ from compressed_output import capture as capture_compressed
 from boot_cosim import ROM_SHA256, sha
 from circuit import load
 from controller_interface import generate
+from transient_analysis import with_minimum_breakpoint
 from logic_control import wiring as logic_wiring
 from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
@@ -45,7 +46,10 @@ def main():
     p.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground; zero omits it')
     p.add_argument('--electrical-logic-pullups', action='store_true')
     p.add_argument('--logic-load-pf', type=float, default=0, help='Assumed capacitance per control net; requires electrical logic pullups')
+    p.add_argument('--minimum-breakpoint-fs', type=float, help='Explicit ngspice breakpoint spacing via deck tran/run')
     args = p.parse_args()
+    if args.minimum_breakpoint_fs is not None and (not math.isfinite(args.minimum_breakpoint_fs) or args.minimum_breakpoint_fs <= 0):
+        p.error('minimum-breakpoint-fs must be positive and finite')
     if not math.isfinite(args.logic_load_pf) or args.logic_load_pf < 0 or (args.logic_load_pf and not args.electrical_logic_pullups):
         p.error('logic-load-pf must be finite and nonnegative, and requires electrical-logic-pullups')
     if not math.isfinite(args.column_load_pf) or args.column_load_pf < 0:
@@ -65,6 +69,8 @@ def main():
     report = {'passed': False, 'scope': __doc__, 'assumptions': {
         'electricalLogicPullups': args.electrical_logic_pullups, 'logicLoadPf': args.logic_load_pf,
         'logicClockReceiver': 'Nominal 1.4 V threshold; not calibrated DL074 switching timing',
+        'minimumBreakpointFs': args.minimum_breakpoint_fs,
+        'analysisInvocation': 'deck-tran/run' if args.minimum_breakpoint_fs is not None else 'control-tran',
         'clockPeriodNs': 1000, 'resetRampStartNs': 1000000, 'fixtureEdgeNs': 1,
         'fixtureThresholdVolts': 1.4, 'br1Closed': False, 'br2Closed': False,
         'contactTransitionNs': 1, 'latchLoad': args.latch_load, 'columnLoadPf': args.column_load_pf,
@@ -77,7 +83,7 @@ def main():
         'sources': {name: sha(HERE / name) for name in (
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
             'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'logic_control.py', 'serial_observation.py',
-            'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compressed_output.py')}}
+            'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compressed_output.py', 'transient_analysis.py')}}
     try:
         scenario = load_scenario(args.scenario)
         report['assumptions']['scenario'] = scenario
@@ -173,7 +179,7 @@ def main():
             signals = 'v(siso_intent) v(caps_intent) @dsiso_led[id] @dcaps_led[id]'
             lines.insert(lines.index('.control'), '.save ' + signals)
             lines.insert(lines.index('quit'), 'wrdata led-trace.txt ' + signals)
-        (out / 'io.cir').write_text('\n'.join(lines) + '\n')
+        (out / 'io.cir').write_text(with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs))
         report['deckSha256'] = sha(out / 'io.cir')
         report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
         engine = report['ngspiceRuntime']['executable']['path']
