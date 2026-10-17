@@ -47,6 +47,7 @@ jobs:
         run: |
           python3 verification/robotron-keyboard/analog/test_ttl7406_probe.py
           python3 verification/robotron-keyboard/analog/test_ttl7406_output.py
+          python3 verification/robotron-keyboard/analog/test_transient_analysis.py
           python3 verification/robotron-keyboard/analog/ttl7406_output_probe.py
       - name: Reference analog sensing feasibility
         run: python3 verification/robotron-keyboard/analog/sense_probe.py

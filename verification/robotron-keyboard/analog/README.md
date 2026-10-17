@@ -603,6 +603,18 @@ receiver rise convergence and cable-load sensitivity, and records driver supply
 and input currents. Results live in `reports/ttl7406/outputs/`. These fixture
 checks do not qualify transistor switching delays or firmware integration.
 
+The boot harness accepts `--electrical-outputs --serial-driver 7406-dc` to use
+that candidate under live HDL control. Its inputs still come from ideal DAC
+drivers; CPU output loading and the remaining package gates are not represented
+electrically. The default serial model remains unchanged. The early coupled-clock
+probe accepts the same driver selection and an explicit `--bridge` manifest.
+
+`boot_cosim.py --minimum-breakpoint-fs 1` selects an explicit numerical breakpoint
+spacing using deck `.tran` and control `run`. This invocation matters: ngspice 47
+does not carry `minbreak` into the task created by a control `tran` command.
+The option preserves the full boot interval and saved tail window; it is not a
+device delay or a substitute for timestep refinement.
+
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
 
