@@ -36,6 +36,25 @@ Generated decks, solver logs and internal-node traces remain available with the
 report, including on failure. Sensitivity runs do not establish device tolerances.
 The ordinary CI job runs the default reset experiment alongside the sensing check.
 
+## Oscillator circuit
+
+`oscillator_probe.py` wires A7, its RC feedback, clock pullup and BR1 from the pinned
+schematic. The continuous NAND macromodel in `ls_nand_nominal.cir` has finite output
+impedance, input capacitance, bias and clamps. It contains no clock stimulus or
+Schmitt hysteresis. It is an exploratory LS-TTL approximation, not a calibrated
+DL000 transistor model, and does not account for gate output supply current.
+
+```sh
+python3 verification/robotron-keyboard/analog/oscillator_probe.py
+```
+
+The test checks sustained oscillation, CPU-side clock transport, BR1 isolation,
+timestep refinement and the frequency response to doubling C6. It reports frequency
+without fitting it to the emulator's clock. Passing these checks establishes circuit
+integration behavior, not historical oscillator accuracy. Internal-node traces and
+model/source hashes remain in the output directory. Device-model qualification and
+coupling clock/reset to the firmware simulation remain required.
+
 ## HDL boundary
 
 Use ngspice 47/XSPICE and Icarus 13 with `--enable-libvvp`. The ordinary Icarus
@@ -82,8 +101,8 @@ interface is qualified only for this unidirectional open-collector probe, not fo
 shared buses or the full feedback loop. Full-board CPU/ROM qualification remains
 separate from this test.
 
-Next implement the TTL oscillator, qualify device models and voltage-domain
-interfaces, and couple the electrical reset into the feedback loop with TV80, ROM,
+Next qualify device models and voltage-domain interfaces, and couple the
+electrical oscillator/reset into the feedback loop with TV80, ROM,
 matrix contacts and cable load. Keep the original Icarus reference comparison as
 an independent regression. CPU internals remain an HDL model unless a separately
 qualified transistor-level CPU model is explicitly introduced.
