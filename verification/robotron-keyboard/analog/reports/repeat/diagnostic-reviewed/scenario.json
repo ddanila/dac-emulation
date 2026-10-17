@@ -1,0 +1,48 @@
+{
+  "name": "held ordinary contact with repeat contact",
+  "cycles": 1600000,
+  "contacts": [
+    {
+      "cycle": 4000,
+      "index": 61,
+      "closed": true
+    },
+    {
+      "cycle": 30000,
+      "index": 70,
+      "closed": true
+    },
+    {
+      "cycle": 1500000,
+      "index": 70,
+      "closed": false
+    },
+    {
+      "cycle": 1510000,
+      "index": 61,
+      "closed": false
+    }
+  ],
+  "resets": [],
+  "observations": [
+    {
+      "name": "initial press",
+      "startCycle": 4000,
+      "endCycle": 30000,
+      "minimumBits": 26
+    },
+    {
+      "name": "repeat",
+      "startCycle": 30000,
+      "endCycle": 1500000,
+      "minimumBits": 52
+    },
+    {
+      "name": "released",
+      "startCycle": 1540000,
+      "endCycle": 1600000,
+      "minimumBits": 0,
+      "maximumBits": 0
+    }
+  ]
+}
