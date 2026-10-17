@@ -48,13 +48,14 @@ def prepare(args, report):
             raise ValueError('TV80 source differs: ' + name)
     report['tv80'] = source
     subprocess.run([sys.executable, str(HERE.parent / 'generate.py'), '--check'], check=True)
-    (out / 'controller_analog.v').write_text(generate(explicit_cpu_drive=True))
+    (out / 'controller_analog.v').write_text(generate(explicit_cpu_drive=True, resolved_bus=True))
     hdl = [*sorted(tv80.glob('*.v')), HERE.parent / 'chips.v',
            HERE.parent / 'generated/controller.v', HERE / 'boot_cosim.v', out / 'controller_analog.v']
     report['hdlSha256'] = {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path): sha(path) for path in hdl}
     subprocess.run([args.iverilog, '-g2012', '-s', 'boot_cosim',
                     '-Pboot_cosim.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)),
-                    '-Pboot_cosim.EXPLICIT_CPU_DRIVE=' + str(int(not args.wr_only_data)), '-o', str(out / 'boot.vvp'),
+                    '-Pboot_cosim.EXPLICIT_CPU_DRIVE=' + str(int(not args.wr_only_data)),
+                    '-Pboot_cosim.RESOLVED_BUS=' + str(int(not args.bypass_rom_bus)), '-o', str(out / 'boot.vvp'),
                     *map(str, hdl)], check=True)
     osc, osc_models, unused, clock_source, cpu_clock = wiring(components)
     reset, reset_models = elements(components, RESET_REFS)
@@ -96,7 +97,7 @@ def prepare(args, report):
     trace_signals = [f'v({cpu_clock})', f'v({cpu_reset})', *serial_trace]
     report['traceSignals'] = trace_signals
     report['modelCoverage'] = classify(components, report['electricalModels'],
-                                       args.electrical_matrix, args.electrical_outputs)
+                                       args.electrical_matrix, args.electrical_outputs, not args.bypass_rom_bus)
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
              *power_lines, '.include ls_nand_nominal.cir',
              *nominal_models(100), *osc, *reset, *matrix_lines, *output_lines,
@@ -147,8 +148,9 @@ def validate(out, report):
     last = settled[-1]
     report['lastBootSample'] = dict(zip(('timePs', 'cycles', 'fetchSamples', 'ioReadSamples',
                                        'ioWriteSamples', 'addressHex', 'ledBits'), last))
-    if int(last[1]) < 1000 or int(last[2]) < 100 or int(last[3]) == 0 or int(last[4]) == 0:
-        raise ValueError('Boot did not exercise instruction fetch and keyboard I/O')
+    if int(last[1]) < 1000 or int(last[2]) < 100 or int(last[3]) == 0:
+        raise ValueError('Boot did not exercise instruction fetch and keyboard scanning')
+    report['idleBootPolicy'] = 'No serial write is required without a key stimulus; transmit scenarios are separate'
     if 'x' in last[5] + last[6]:
         raise ValueError('Unknown CPU address or LED state after boot')
     # Stream traces: do not duplicate a long analog run in Python memory.
@@ -181,6 +183,7 @@ def main():
     p.add_argument('--rom', type=Path, required=True)
     p.add_argument('--bridge', type=Path, default=ROOT / 'build/keyboard-controller-analog/bridge/bridge.json')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/coupled-boot')
+    p.add_argument('--bypass-rom-bus', action='store_true', help='Diagnostic: feed ROM directly to CPU input')
     p.add_argument('--wr-only-data', action='store_true', help='Retain old WR-only data drive as a diagnostic control')
     p.add_argument('--electrical-outputs', action='store_true')
     p.add_argument('--electrical-matrix', action='store_true')
@@ -213,6 +216,7 @@ def main():
                               'receiver': 'Single nominal threshold avoids counting both edges of an X band as clock edges',
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
                               'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses'] + ([] if args.electrical_outputs else ['LED and serial output loading']),
+                              'romBus': 'Direct CPU input diagnostic' if args.bypass_rom_bus else 'Resolved CPU/ROM/latch bus from numbered schematic pins',
                               'cpuDataDrive': 'WR-only diagnostic' if args.wr_only_data else 'TV80 write-cycle intent gated by reset and bus ownership',
                               'electricalOutputs': args.electrical_outputs, 'electricalMatrix': args.electrical_matrix, 'closedContacts': sorted(args.contacts),
                               'contacts': 'Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification',

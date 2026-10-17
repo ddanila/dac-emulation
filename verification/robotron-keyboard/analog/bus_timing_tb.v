@@ -2,8 +2,8 @@
 module bus_timing_tb;
  reg clk=0,reset_n=0;
  always #5 clk=~clk;
- boot_cosim #(.EXPLICIT_CPU_DRIVE(1)) dut(.clk(clk),.reset_n(reset_n),.sense(8'b0));
- boot_cosim #(.EXPLICIT_CPU_DRIVE(0)) old(.clk(clk),.reset_n(reset_n),.sense(8'b0));
+ boot_cosim #(.EXPLICIT_CPU_DRIVE(1),.RESOLVED_BUS(0)) dut(.clk(clk),.reset_n(reset_n),.sense(8'b0));
+ boot_cosim #(.EXPLICIT_CPU_DRIVE(0),.RESOLVED_BUS(0)) old(.clk(clk),.reset_n(reset_n),.sense(8'b0));
  realtime last_new=0,last_old=0,edge_time;
  integer writes=0,mem_writes=0,io_writes=0,old_setup_failures=0;
  reg held_bit;

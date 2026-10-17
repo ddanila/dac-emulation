@@ -1,7 +1,7 @@
 """Account for every reference component without conflating coverage with fidelity."""
 
 
-def classify(components, electrical_models, electrical_matrix, electrical_outputs):
+def classify(components, electrical_models, electrical_matrix, electrical_outputs, resolved_bus=False):
     digital = {
         'A1': '7406 HDL logic; selected output pins use nominal electrical sink models',
         'A2.1': 'DL003 HDL logic; column pins use electrical sinks in matrix mode',
@@ -10,7 +10,8 @@ def classify(components, electrical_models, electrical_matrix, electrical_output
         'A4': '8282 HDL latch and bus; nominal input load in matrix mode',
         'A5': 'TV80 CPU; digital buses/control pins, nominal clock/reset input loads',
         'A6': 'DL074 HDL flip-flops; nominal electrical LED output drive in output mode',
-        'A8': 'S600 ROM array; mirrored address decode and digital data bus',
+        'A8': ('U556/2716 pin-mapped ROM on resolved CPU/latch bus' if resolved_bus
+               else 'S600 ROM array directly feeding CPU input; diagnostic bypass'),
         'R6.3': 'HDL pullup on latch output enable; no electrical loading',
         'R6.4': 'CPU interrupt/NMI/wait tie-high boundary; no electrical loading',
         'R6.5': 'CPU bus-request tie-high boundary; no electrical loading',
@@ -41,6 +42,6 @@ def classify(components, electrical_models, electrical_matrix, electrical_output
     return {'components': result,
             'meaning': 'Explicit implementation/boundary inventory, not device-model or full-board qualification',
             'remainingFidelityGaps': ['Uncharacterized semiconductor, gate, cable and filter parameters',
-                                     'Digital CPU/peripheral buses and control pullups',
+                                     'Electrical bus currents, pin delays and control-pullup loading',
                                      'Controller IC supply-current and brownout behavior',
                                      'Specimen key construction, firmware and physical routing']}

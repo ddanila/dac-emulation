@@ -1,9 +1,10 @@
 `timescale 1ns/1ps
 // Clock/reset are analog receiver outputs; electrical matrix mode closes sense feedback.
-module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1)(input clk, input reset_n,
+module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVED_BUS=1)(input clk, input reset_n,
                   input [7:0] sense, output data_sink, output clock_sink,
                   output [1:0] leds, output [12:0] column_sink);
  wire [15:0] address;
+ wire [10:0] rom_address;
  wire [7:0] dout, di, read_data;
  wire m1_n, mreq_n, iorq_n, rd_n, wr_n, rfsh_n, halt_n, busak_n;
  wire ta_daten, ta_takt;
@@ -19,15 +20,17 @@ module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1)(input c
  // TV80 exposes write intent for the machine cycle independently of WR.
  // Preserve its data setup/hold window; do not derive output-enable from WR alone.
  wire cpu_data_drive=reset_n && busak_n && (EXPLICIT_CPU_DRIVE ? cpu.write : !wr_n);
- generate if(ELECTRICAL_MATRIX || EXPLICIT_CPU_DRIVE) begin: electrical
+ generate if(ELECTRICAL_MATRIX || EXPLICIT_CPU_DRIVE || RESOLVED_BUS) begin: electrical
   controller_analog board(.address(address),.cpu_data(dout),.iorq_n(iorq_n),.wr_n(wr_n),
-   .cpu_drive(cpu_data_drive),.sense(sense),.column_sink(column_sink),.read_data(read_data),.leds(leds),
+   .cpu_drive(cpu_data_drive),.mreq_n(RESOLVED_BUS ? mreq_n : 1'b1),
+   .rom_data(rom[rom_address]),.rom_address(rom_address),.sense(sense),.column_sink(column_sink),.read_data(read_data),.leds(leds),
    .ta_daten(ta_daten),.ta_takt(ta_takt));
  end else begin: digital
   controller board(address,dout,iorq_n,wr_n,104'b0,read_data,leds,ta_daten,ta_takt);
   assign column_sink=13'b0;
+  assign rom_address=address[10:0];
  end endgenerate
- assign di=!mreq_n ? rom[address[10:0]] : read_data;
+ assign di=RESOLVED_BUS ? read_data : (!mreq_n ? rom[address[10:0]] : read_data);
  assign data_sink=(ta_daten===1'bz || ta_daten===1'b1) ? 1'b0 : ta_daten===1'b0 ? 1'b1 : 1'bx;
  assign clock_sink=(ta_takt===1'bz || ta_takt===1'b1) ? 1'b0 : ta_takt===1'b0 ? 1'b1 : 1'bx;
  always @(reset_n) begin

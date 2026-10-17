@@ -46,7 +46,7 @@ def main():
         rom = program + bytes(2048-len(program))
         (out/'s600.hex').write_text('\n'.join(f'{b:02x}' for b in rom)+'\n')
         report['syntheticRomSha256'] = hashlib.sha256(rom).hexdigest()
-        (out/'controller_analog.v').write_text(generate(explicit_cpu_drive=True))
+        (out/'controller_analog.v').write_text(generate(explicit_cpu_drive=True, resolved_bus=True))
         hdl = [*sorted(tv80.glob('*.v')), HERE.parent/'chips.v', HERE.parent/'generated/controller.v',
                out/'controller_analog.v', HERE/'boot_cosim.v', HERE/'bus_timing_tb.v']
         report['hdlSha256'] = {str(path):sha(path) for path in hdl}

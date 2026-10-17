@@ -184,6 +184,22 @@ scenarios and compares serial/LED observations with the old boundary. It preserv
 the digital matrix for this comparison; physical ROM/bus contention remains outside
 its scope. `boot_cosim.py --wr-only-data` retains the old behavior for diagnostics.
 
+The firmware harness also resolves CPU, ROM and latch outputs on the shared data
+nets. ROM address/data/CS/OE wiring comes from A8's numbered pins. In particular,
+ROM output enable follows the schematic's MREQ connection; it is not silently
+suppressed during a memory write. Conflicting digital drivers resolve to X.
+
+```sh
+make test-keyboard-resolved-bus
+make qualify-keyboard-resolved-bus S600_ROM=/path/to/s600.bin
+```
+
+These checks cover reads, address mirroring, release and deliberate contention,
+then compare the existing S600 scenarios. They establish digital bus behavior,
+not contention currents or calibrated pin timing. `--bypass-rom-bus` restores the
+old direct-ROM CPU input for diagnostics. The CPU setup/hold fixture deliberately
+uses that bypass to test CPU drive timing separately from board-level contention.
+
 ## Coupled firmware boot
 
 After building the bridge, run the longer electrical-clock/reset integration test:
@@ -194,7 +210,8 @@ make test-keyboard-coupled-boot S600_ROM=/path/to/s600.bin
 
 `boot_cosim.py` starts the electrical circuits at power-on with BR1/BR2 closed and
 runs TV80 with the standard S600 image. It checks reset delivery, the first ROM
-fetch, sustained execution and keyboard I/O. The default retains the digital matrix
+fetch, sustained execution and keyboard scanning. Idle S600 need not transmit
+without a key stimulus; serial scenarios are qualified separately. The default retains the digital matrix
 for comparison. To connect the electrical matrix and latch feedback instead:
 
 ```sh
@@ -234,3 +251,9 @@ For the oscillator, use the manufacturer's [DL000D data sheet](https://datenblat
 (printed pages 198–202): DL000D is LS-TTL, with SN74LS00 listed as the comparison
 type. A standard 7400 analog gate model must not be silently substituted. The
 published logic symbols and limits alone do not specify a transistor-level model.
+
+For a completed older boot run rejected only by its incorrect idle-transmit
+assertion, `recheck_boot.py /path/to/run` applies the corrected validator without
+rerunning the electrical simulation. It checks the original deck/ROM provenance
+and writes a separate `revalidation.json`, preserving the execution report and
+source hashes. It refuses prepared-only, interrupted and unrelated failed runs.

@@ -19,10 +19,12 @@ def sha(path):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--resolved-bus',action='store_true',help='Also route ROM data through the shared bus')
     p.add_argument('--rom',type=Path,required=True)
     p.add_argument('--out',type=Path,default=ROOT/'build/keyboard-controller-analog/firmware-drive')
     args=p.parse_args();out=args.out.resolve();out.mkdir(parents=True,exist_ok=True)
     report={'passed':False,'scope':__doc__,
+            'resolvedBus':args.resolved_bus,
             'boundary':'Original firmware scenarios and digital matrix; not analog or physical CPU timing qualification'}
     try:
         if sha(args.rom)!=ROM_SHA256:raise ValueError('Expected standard S600 image')
@@ -40,8 +42,17 @@ def main():
 '''
         for row in range(8):
             replacement+=f' assign sense[{row}]='+' | '.join(f'(contacts[{col*8+row}] && column_sink[{col}])' for col in range(13))+';\n'
-        (out/'new_tb.v').write_text(original.replace(old,replacement))
-        (out/'controller_analog.v').write_text(generate(explicit_cpu_drive=True))
+        if args.resolved_bus:
+            replacement = replacement.replace(' wire [7:0] sense;', ' wire [10:0] rom_address;wire [7:0] sense;')
+            replacement = replacement.replace('.cpu_drive(cpu_drive),',
+                '.cpu_drive(cpu_drive),.mreq_n(mreq_n),.rom_data(rom[rom_address]),.rom_address(rom_address),')
+        updated = original.replace(old,replacement)
+        if args.resolved_bus:
+            old_di='assign di=!mreq_n?rom[address[10:0]]:read_data;'
+            if updated.count(old_di)!=1:raise ValueError('Unexpected direct-ROM CPU boundary')
+            updated=updated.replace(old_di,'assign di=read_data;')
+        (out/'new_tb.v').write_text(updated)
+        (out/'controller_analog.v').write_text(generate(explicit_cpu_drive=True,resolved_bus=args.resolved_bus))
         tv80=ROOT/'third_party/cpu/tv80';pin=json.loads((tv80/'SOURCE.json').read_text())
         for name,digest in pin['files'].items():
             if sha(tv80/name)!=digest:raise ValueError('Changed TV80 source')
