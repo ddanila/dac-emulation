@@ -1,0 +1,82 @@
+{
+  "scope": "Unchanged replay with locally built ngspice 47, Sparse solver, XSPICE, no OpenMP; no firmware qualification",
+  "changedStatement": null,
+  "sourceDeckSha256": "01f786767d1f5d88c4b74d308c0c3fc71b5b7f06c44ae65738b99c0a6d66ec18",
+  "completed": false,
+  "exitCode": 0,
+  "solverDiagnostics": [
+    "doAnalyses: TRAN:  Timestep too small; time = 0.000102863, timestep = 4.34018e-24: trouble with sink_nominal-instance sdriver0",
+    "tran simulation(s) aborted"
+  ],
+  "endpointText": "time[length(time)-1] = 1.02862906246785655e-04\n",
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "45c3a1fab0de947e72c43b1b8dca85c0900ef9aaa0393858c1be3036ac5d9600",
+      "bytes": 805
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "probe.cir": {
+      "sha256": "01f786767d1f5d88c4b74d308c0c3fc71b5b7f06c44ae65738b99c0a6d66ec18",
+      "bytes": 14149
+    },
+    "precise-events.txt": {
+      "sha256": "f30728eb0b6376566a87e435f8191ddef300a52b2158fe7f8b65a51d9157bf42",
+      "bytes": 1094
+    },
+    "ngspice.log": {
+      "sha256": "9f4c0a19a1dfaee2c667d060bfd4800b424b974f0e1bbed1bb98972886e0c9e3",
+      "bytes": 24482
+    },
+    "stimulus.txt": {
+      "sha256": "a45c0f52a564050ed96bc11d7f60ef02ecbe298679b0c192528501a10b70c982",
+      "bytes": 338
+    },
+    "endpoint.txt": {
+      "sha256": "e17e605960012ffec03e0613f172b4b2ec9a697fda9e853684584d28c43881f9",
+      "bytes": 47
+    }
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/switch-local-engine",
+  "engine": {
+    "sourceArchive": "/tmp/robotron-ngspice-47.tar.gz",
+    "sourceArchiveSha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+    "sourceVersion": "47",
+    "binary": "/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+    "binarySha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+    "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with Sparse Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******\n",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "configureCommand": [
+      "/tmp/robotron-ngspice-switch/source/configure",
+      "--prefix=/tmp/robotron-ngspice-switch/install",
+      "--without-x",
+      "--with-readline=no",
+      "--disable-openmp",
+      "--disable-klu"
+    ],
+    "buildCommands": [
+      "make -j6",
+      "make install"
+    ],
+    "buildDirectory": "/tmp/robotron-ngspice-switch/build",
+    "buildPathPrefix": "/opt/homebrew/opt/bison/bin:/opt/homebrew/opt/flex/bin",
+    "portabilityPatch": "stdlib.patch",
+    "portabilityPatchSha256": "c155b550f3f7dd7fdd4633dff25a1ca2fc46f463758a063223c087638f5aea41",
+    "codeModels": {
+      "lib/ngspice/analog.cm": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+      "lib/ngspice/digital.cm": "160aebc511d4a80d958aac9412f11874232503f993ed893d0a28816dcb729cc3",
+      "lib/ngspice/spice2poly.cm": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+      "lib/ngspice/table.cm": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+      "lib/ngspice/tlines.cm": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+      "lib/ngspice/xtradev.cm": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+      "lib/ngspice/xtraevt.cm": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc"
+    },
+    "switchLoadSourceSha256": "d8e671f4e149ce9bdf956e7aa3caa78e356baf7ad0e90d8e2ac6121f9a933aca"
+  },
+  "commands": [
+    "/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched -n -b probe.cir"
+  ],
+  "interpretation": "A separate local Sparse-only ngspice 47 build reproduces the same switch abort and endpoint as the packaged baseline. No switch/solver changes were applied. The build needed only a standard-library include for an unrelated XSPICE single-event generator to compile with Clang."
+}

@@ -1,0 +1,53 @@
+{
+  "scope": "Diagnostic selection of positive-hysteresis switch state branch with unchanged double-precision thresholds; no firmware or qualification",
+  "changedStatement": ".model SINK_NOMINAL SW(RON=20 ROFF=1t VT=2.5 VH=1e-20)",
+  "sourceDeckSha256": "01f786767d1f5d88c4b74d308c0c3fc71b5b7f06c44ae65738b99c0a6d66ec18",
+  "completed": false,
+  "exitCode": 0,
+  "solverDiagnostics": [
+    "doAnalyses: TRAN:  Timestep too small; time = 0.000102863, timestep = 4.38872e-24: trouble with node \"b.xa7_3.btarget#branch\"",
+    "tran simulation(s) aborted"
+  ],
+  "endpointText": "time[length(time)-1] = 1.02862906248667017e-04\n",
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "c9ba6ff807e97ebbc090c4494dbe416e79c89edefd20a547a935c01c9005b1bd",
+      "bytes": 805
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "probe.cir": {
+      "sha256": "d35cc57cbf64184560ae50329ac1e608ccba8dd9321cc6396715d490aa66fa1e",
+      "bytes": 14153
+    },
+    "precise-events.txt": {
+      "sha256": "af8493237f1a0c082e44b3421f07fa0841046bab0a3de3467f31af0b4de54f6e",
+      "bytes": 1098
+    },
+    "ngspice.log": {
+      "sha256": "f341bb345ca444d7bf6824b25bd5447fd7801d4cb9b57154007a461ddca1da7b",
+      "bytes": 25194
+    },
+    "stimulus.txt": {
+      "sha256": "a45c0f52a564050ed96bc11d7f60ef02ecbe298679b0c192528501a10b70c982",
+      "bytes": 338
+    },
+    "endpoint.txt": {
+      "sha256": "5a6845f04559e87b006daa90628e92b459a74ba3c5954c4f44be6fc8a0a3d8c5",
+      "bytes": 47
+    }
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/switch-zero-hysteresis",
+  "commands": [
+    "ngspice -n -b probe.cir"
+  ],
+  "interpretation": "Selecting positive-hysteresis state handling without changing the rounded double thresholds moves the failure from Sdriver0 to the oscillator target source but does not complete the replay. This is not an adopted fix or proof of a unique switch defect.",
+  "switchSourceSha256": "d8e671f4e149ce9bdf956e7aa3caa78e356baf7ad0e90d8e2ac6121f9a933aca",
+  "thresholdArithmetic": {
+    "nominal": 2.5,
+    "positiveBranchUpper": 2.5,
+    "positiveBranchLower": 2.5
+  }
+}

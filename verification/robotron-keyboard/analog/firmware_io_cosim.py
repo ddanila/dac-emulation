@@ -35,7 +35,10 @@ def main():
     p.add_argument('--bridge-delay-ns', type=float, default=10)
     p.add_argument('--timeout-seconds', type=float, default=1800)
     p.add_argument('--latch-load', choices=LATCH_LOADS, default='ideal')
+    p.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground; zero omits it')
     args = p.parse_args()
+    if not math.isfinite(args.column_load_pf) or args.column_load_pf < 0:
+        p.error('column-load-pf must be finite and nonnegative')
     if not 0 < args.step_ns <= 100 or not math.isfinite(args.timeout_seconds) or args.timeout_seconds <= 0:
         p.error('step-ns must be in (0, 100]; timeout-seconds must be positive and finite')
     if not 0 < args.bridge_delay_ns <= 100:
@@ -49,7 +52,7 @@ def main():
     report = {'passed': False, 'scope': __doc__, 'assumptions': {
         'clockPeriodNs': 1000, 'resetRampStartNs': 1000000, 'fixtureEdgeNs': 1,
         'fixtureThresholdVolts': 1.4, 'br1Closed': False, 'br2Closed': False,
-        'contactTransitionNs': 1, 'latchLoad': args.latch_load,
+        'contactTransitionNs': 1, 'latchLoad': args.latch_load, 'columnLoadPf': args.column_load_pf,
         'supply': '1 us host-supply ramp through cable paths; fixture holds CPU reset for 1 ms; no board power-on-reset qualification',
         'semiconductors': 'Generic matrix PNP and nominal output/load models',
         'coverage': 'TV80, resolved ROM/latch bus, electrical matrix and cable receiver; oscillator/reset generators excluded',
@@ -108,7 +111,7 @@ def main():
         report['hdlSha256'] = {str(path): sha(path) for path in hdl}
         subprocess.run(['iverilog', '-g2012', '-s', 'firmware_io_cosim', '-o', str(out / 'io.vvp'),
                         *map(str, hdl)], check=True)
-        matrix, report['matrixCircuit'] = matrix_circuit(components, latch_load=args.latch_load)
+        matrix, report['matrixCircuit'] = matrix_circuit(components, latch_load=args.latch_load, column_load_pf=args.column_load_pf)
         outputs, info = output_circuit(components)
         report['outputCircuit'] = info
         ground = info['hostGround']

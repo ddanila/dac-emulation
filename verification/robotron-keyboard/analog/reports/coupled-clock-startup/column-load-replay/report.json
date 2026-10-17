@@ -1,0 +1,46 @@
+{
+  "scope": "Column loading sensitivity: 1 pF per column, explicitly assumed fixture load, not measured board capacitance or qualified model",
+  "changedStatement": "Add 1 pF column-to-ground fixture capacitance on each column",
+  "sourceDeckSha256": "01f786767d1f5d88c4b74d308c0c3fc71b5b7f06c44ae65738b99c0a6d66ec18",
+  "completed": true,
+  "exitCode": 0,
+  "solverDiagnostics": [],
+  "endpointText": "time[length(time)-1] = 1.03999999999999994e-04\n",
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "323772cf96f5e2efe917dce4b3a6042d10c62091fe162addfa609fd645c31c16",
+      "bytes": 992
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "probe.cir": {
+      "sha256": "de4560b1efd22d0b2cbc08bb8d33037f6fd1ffce4b553e125d256dc8619eb83c",
+      "bytes": 14506
+    },
+    "precise-events.txt": {
+      "sha256": "7148984302540cf0e75e64fb3aeab9e2e958f30da6d558eafa4d080d533b7e1a",
+      "bytes": 2546
+    },
+    "ngspice.log": {
+      "sha256": "bd9b1ec2ee4f8ef49894388bd96dcbe30a8d2d1c84f6cc5889fefb34b5db3590",
+      "bytes": 25039
+    },
+    "stimulus.txt": {
+      "sha256": "a45c0f52a564050ed96bc11d7f60ef02ecbe298679b0c192528501a10b70c982",
+      "bytes": 338
+    },
+    "endpoint.txt": {
+      "sha256": "c03eb8b3e4e913a1226f6d77fae13814295fe149dd410ba82db4536bd5620fe5",
+      "bytes": 47
+    }
+  },
+  "outputEventsMatchStimulus": true,
+  "retainedDirectory": "build/keyboard-controller-analog/switch-column-capacitance",
+  "commands": [
+    "ngspice -n -b probe.cir"
+  ],
+  "columnLoadPf": 1,
+  "interpretation": "The unchanged full-precision output stimulus completes at 104 us after adding 1 pF from each column to ground. This reveals load sensitivity of the formerly capacitance-free column boundary. The value is an explicit fixture assumption, not measured parasitics; replay success does not establish live-board execution, rail levels, timestep convergence or firmware qualification."
+}

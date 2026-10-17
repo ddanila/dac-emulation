@@ -1,5 +1,6 @@
 """Reference sensing front end and an explicit external contact-matrix fixture."""
 import json
+import math
 import re
 from pathlib import Path
 from circuit import elements, node, nominal_models
@@ -9,7 +10,9 @@ LATCH_LOADS = ('ideal', 'source-limit', 'sink-limit')
 
 
 def matrix_circuit(components, contact_ohms=100, beta=100, include_models=True,
-                   latch_load='ideal'):
+                   latch_load='ideal', column_load_pf=0):
+    if not math.isfinite(column_load_pf) or column_load_pf < 0:
+        raise ValueError('Column fixture capacitance must be finite and nonnegative')
     if latch_load not in LATCH_LOADS:
         raise ValueError('Unknown latch load profile: ' + latch_load)
     capacitance = '10p'
@@ -38,6 +41,8 @@ def matrix_circuit(components, contact_ohms=100, beta=100, include_models=True,
     for col, column in sorted(columns.items()):
         cn = node(column['net'])
         lines.append(f'Sdriver{col} {cn} 0 sink{col} 0 SINK_NOMINAL')
+        if column_load_pf:
+            lines.append(f'Ccolumn_load{col} {cn} 0 {column_load_pf:.17g}p')
         for row, row_info in sorted(rows.items()):
             index = col*8+row
             lines.append(f'Scontact{index} {cn} {node(row_info["net"])} contact{index} 0 CONTACT_NOMINAL')
@@ -55,7 +60,9 @@ def matrix_circuit(components, contact_ohms=100, beta=100, include_models=True,
             lines.append(f'Ilatch{row} n_p5V {sense} {limits["forwardInput"]["maximumMagnitudeAmps"]}')
         elif latch_load == 'sink-limit':
             lines.append(f'Ilatch{row} {sense} 0 {limits["reverseInput"]["maximumAmps"]}')
-    return lines, {'latchLoad': latch_load, 'models': models, 'contacts': contacts, 'outputs': outputs,
+    return lines, {'latchLoad': latch_load, 'columnLoadPf': column_load_pf,
+                   'columnLoadScope': 'Assumed per-column fixture capacitance to ground; zero omits it; not specimen calibration',
+                   'models': models, 'contacts': contacts, 'outputs': outputs,
                    'columnNets': [node(columns[i]['net']) for i in range(13)]}
 
 

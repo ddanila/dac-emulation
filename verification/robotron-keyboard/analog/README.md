@@ -203,7 +203,12 @@ replay therefore cannot isolate a bridge defect.
 Retain events from time zero with `set numdgt=17` and `eprint` when diagnosing
 this boundary; a late transient save window discards initialization events.
 These reduced/replay fixtures diagnose switching numerics, not firmware or board
-qualification.
+qualification. The explicit `--column-load-pf` option in the boot, coupled-clock
+and firmware-I/O harnesses adds an assumed capacitance from each column to ground.
+Zero retains the unloaded baseline. The load is recorded in model assumptions;
+different loads cannot be paired as timestep-refinement evidence. A successful
+loaded replay alone does not calibrate parasitics or qualify the live board; the
+retained 1 pF live-startup run still aborts at a column switch.
 
 `reports/supply-startup-isolation/` contains a reduced linear supply/cable
 reproducer for the tight-tolerance startup failure. Copy it to a scratch location

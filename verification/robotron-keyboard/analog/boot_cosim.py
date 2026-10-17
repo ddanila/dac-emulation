@@ -85,7 +85,7 @@ def prepare(args, report):
     column_outputs = ' '.join(f'dcol{i}' for i in reversed(range(13)))
     column_nodes = ' '.join(f'sink{i}' for i in reversed(range(13)))
     if args.electrical_matrix:
-        matrix_lines, matrix_info = matrix_circuit(components, include_models=False, latch_load=args.latch_load)
+        matrix_lines, matrix_info = matrix_circuit(components, include_models=False, latch_load=args.latch_load, column_load_pf=args.column_load_pf)
         report['matrixCircuit'] = matrix_info
         report['electricalModels'].update(matrix_info['models'])
         matrix_lines += [f'Vcontact{i} contact{i} 0 ' +
@@ -225,10 +225,13 @@ def main():
     p.add_argument('--ngspice', default='ngspice')
     p.add_argument('--iverilog', default='iverilog')
     p.add_argument('--latch-load', choices=LATCH_LOADS, default='ideal')
+    p.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground; zero omits it')
     p.add_argument('--reltol', type=float, default=.001)
     p.add_argument('--vntol', type=float, default=1e-6)
     p.add_argument('--abstol', type=float, default=1e-12)
     args = p.parse_args()
+    if not math.isfinite(args.column_load_pf) or args.column_load_pf < 0:
+        p.error('column-load-pf must be finite and nonnegative')
     if any(not math.isfinite(v) or v <= 0 for v in (args.reltol, args.vntol, args.abstol)):
         p.error('Solver tolerances must be positive and finite')
     if not math.isfinite(args.step_ns) or not 0 < args.step_ns <= 10:
@@ -248,6 +251,8 @@ def main():
     args.scenario_data = board_scenario.load_board_scenario(args.scenario) if args.scenario else None
     if args.scenario and (args.contacts or not args.electrical_matrix or not args.electrical_outputs):
         p.error('scenario requires electrical-matrix and electrical-outputs, without static contacts')
+    if args.column_load_pf and not args.electrical_matrix:
+        p.error('column-load-pf requires electrical-matrix')
     if args.latch_load != 'ideal' and not args.electrical_matrix:
         p.error('latch-load stress requires electrical-matrix')
     stop = board_scenario.stop_seconds(args.scenario_data) if args.scenario_data else .127
@@ -260,7 +265,7 @@ def main():
                               'solver': {'reltol': args.reltol, 'vntol': args.vntol, 'abstol': args.abstol},
                               'receiver': 'Single nominal threshold avoids counting both edges of an X band as clock edges',
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
-                              'latchLoad': args.latch_load, 'npnProfile': args.npn_profile, 'gateProfile': args.gate_profile,
+                              'latchLoad': args.latch_load, 'columnLoadPf': args.column_load_pf, 'npnProfile': args.npn_profile, 'gateProfile': args.gate_profile,
                               'serialReceiver': args.electrical_outputs,
                               'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses'] + ([] if args.electrical_outputs else ['LED and serial output loading']),
                               'romBus': 'Direct CPU input diagnostic' if args.bypass_rom_bus else 'Resolved CPU/ROM/latch bus from numbered schematic pins',

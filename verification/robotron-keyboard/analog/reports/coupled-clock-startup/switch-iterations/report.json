@@ -1,0 +1,47 @@
+{
+  "scope": "Diagnostic increased transient iteration allowance; same circuit, thresholds, tolerances and stimulus; no firmware qualification",
+  "changedStatement": ".options reltol=1e-07 vntol=1e-09 abstol=1e-15 itl4=100",
+  "sourceDeckSha256": "01f786767d1f5d88c4b74d308c0c3fc71b5b7f06c44ae65738b99c0a6d66ec18",
+  "completed": false,
+  "exitCode": 0,
+  "solverDiagnostics": [
+    "doAnalyses: TRAN:  Timestep too small; time = 0.000102863, timestep = 4.34018e-24: trouble with sink_nominal-instance sdriver0",
+    "tran simulation(s) aborted"
+  ],
+  "endpointText": "time[length(time)-1] = 1.02862906246785655e-04\n",
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "9b43a7ac4901661001dbae5d09c4317361f2b9295c85d46e27652ab7f1f3c0f3",
+      "bytes": 805
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "probe.cir": {
+      "sha256": "7ebf99608985ca6f787c68b207b1de3bc449d104128b1d761911546260cea171",
+      "bytes": 14158
+    },
+    "precise-events.txt": {
+      "sha256": "f30728eb0b6376566a87e435f8191ddef300a52b2158fe7f8b65a51d9157bf42",
+      "bytes": 1094
+    },
+    "ngspice.log": {
+      "sha256": "283311fc6145f0a13cea0803dedf144fdec4d42ce0fbaec983ceddcf5dea9c2e",
+      "bytes": 25163
+    },
+    "stimulus.txt": {
+      "sha256": "a45c0f52a564050ed96bc11d7f60ef02ecbe298679b0c192528501a10b70c982",
+      "bytes": 338
+    },
+    "endpoint.txt": {
+      "sha256": "e17e605960012ffec03e0613f172b4b2ec9a697fda9e853684584d28c43881f9",
+      "bytes": 47
+    }
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/switch-iteration-limit",
+  "commands": [
+    "ngspice -n -b probe.cir"
+  ],
+  "interpretation": "Increasing the transient iteration allowance to 100 reproduces the same switch failure. Circuit, thresholds, tolerances and source events remain unchanged; this setting is not adopted as a remedy."
+}

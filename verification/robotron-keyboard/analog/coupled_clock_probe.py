@@ -37,7 +37,8 @@ def run(args, step, directory):
     command = [sys.executable, str(HERE / 'boot_cosim.py'), '--rom', str(args.rom.resolve()),
                '--out', str(directory), '--prepare-only', '--electrical-matrix', '--electrical-outputs',
                '--step-ns', str(step), '--gate-profile', args.gate_profile,
-               '--rise-us', str(args.rise_us), '--reltol', str(args.reltol), '--vntol', str(args.vntol), '--abstol', str(args.abstol)]
+               '--column-load-pf', str(args.column_load_pf), '--rise-us', str(args.rise_us),
+               '--reltol', str(args.reltol), '--vntol', str(args.vntol), '--abstol', str(args.abstol)]
     subprocess.run(command, check=True, capture_output=True, text=True, timeout=60)
     prepared = json.loads((directory / 'report.json').read_text())
     if prepared['passed'] or not prepared.get('preparedOnly') or sha(directory / 'boot.cir') != prepared['deckSha256']:
@@ -119,11 +120,14 @@ def main():
     parser.add_argument('--duration-us', type=float, default=1000)
     parser.add_argument('--timeout-seconds', type=float, default=1200)
     parser.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
+    parser.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground')
     parser.add_argument('--rise-us', type=float, default=1)
     parser.add_argument('--reltol', type=float, default=1e-7)
     parser.add_argument('--vntol', type=float, default=1e-9)
     parser.add_argument('--abstol', type=float, default=1e-15)
     args = parser.parse_args()
+    if not math.isfinite(args.column_load_pf) or args.column_load_pf < 0:
+        parser.error('column-load-pf must be finite and nonnegative')
     if any(not math.isfinite(v) or v <= 0 for v in (*args.steps_ns, args.duration_us, args.timeout_seconds,
                                                   args.rise_us, args.reltol, args.vntol, args.abstol)):
         parser.error('Timesteps, duration and solver tolerances must be positive and finite')
