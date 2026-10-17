@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check early clock phase in the coupled board; does not qualify boot or firmware."""
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -13,6 +14,8 @@ from boot_cosim import sha
 from clock_convergence import compare_clocks
 from failure_evidence import capture, solver_diagnostic
 from ngspice_runtime import verify as verify_runtime
+from compressed_output import capture as capture_waveforms
+from trace_io import open_binary, open_text
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -20,7 +23,7 @@ DIAGNOSTIC_SIGNALS = ('v(n_p5V)', 'v(n_OSC_RC)', 'v(n_OSC1)', 'v(n_OSC2)',
                       'v(n_OSC_OUT)', 'v(n_CABLE_GND)', 'i(Vhost)')
 
 
-def early_deck(deck, step_ns, duration_us, diagnostics=()):
+def early_deck(deck, step_ns, duration_us, diagnostics=(), minimum_breakpoint_fs=None):
     """Keep the prepared circuit intact and save startup instead of the boot tail."""
     matches = re.findall(r'^tran ([0-9.eE+-]+)n ([0-9.eE+-]+) 124m$', deck, re.M)
     if len(matches) != 1 or float(matches[0][0]) != step_ns:
@@ -30,11 +33,34 @@ def early_deck(deck, step_ns, duration_us, diagnostics=()):
             raise ValueError('Unexpected prepared waveform commands')
         deck = re.sub(r'^(\.save .+)$', lambda m: m[0] + ' ' + ' '.join(diagnostics), deck, flags=re.M)
         deck = re.sub(r'^(wrdata trace.txt .+)$', lambda m: m[0] + '\nwrdata diagnostic-trace.txt ' + ' '.join(diagnostics), deck, flags=re.M)
-    return re.sub(r'^tran [0-9.eE+-]+n [0-9.eE+-]+ 124m$',
-                  f'tran {step_ns}n {duration_us}u', deck, flags=re.M)
+    command = f'tran {step_ns}n {duration_us}u'
+    deck = re.sub(r'^tran [0-9.eE+-]+n [0-9.eE+-]+ 124m$', command, deck, flags=re.M)
+    if minimum_breakpoint_fs is not None:
+        if not math.isfinite(minimum_breakpoint_fs) or minimum_breakpoint_fs <= 0:
+            raise ValueError('Minimum breakpoint spacing must be positive and finite')
+        if (len(re.findall(r'^\.control$', deck, re.M)) != 1
+                or re.search(r'^\.tran\b|^\.options\b.*\bminbreak\s*=', deck, re.M | re.I)):
+            raise ValueError('Conflicting prepared analysis or breakpoint option')
+        # Control-command tran drops TSKminBreak while cloning the default task.
+        # A deck analysis invoked by run retains the explicitly requested value.
+        deck = deck.replace('.control\n', f'.options minbreak={minimum_breakpoint_fs:.17g}f\n.{command}\n.control\n')
+        deck = re.sub(r'^' + re.escape(command) + r'$', 'run', deck, flags=re.M)
+    return deck
+
+
+def waveform_sha(path):
+    digest = hashlib.sha256()
+    with open_binary(path) as source:
+        for block in iter(lambda: source.read(1024 * 1024), b''):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def run(args, step, directory):
+    compressed_output = getattr(args, 'compress_traces', False)
+    minimum_breakpoint_fs = getattr(args, 'minimum_breakpoint_fs', None)
+    if compressed_output and directory.exists():
+        raise ValueError('Compressed clock capture requires a fresh output directory')
     directory.mkdir(parents=True, exist_ok=True)
     command = [sys.executable, str(HERE / 'boot_cosim.py'), '--rom', str(args.rom.resolve()),
                '--out', str(directory), '--prepare-only', '--electrical-matrix', '--electrical-outputs',
@@ -47,19 +73,23 @@ def run(args, step, directory):
     prepared = json.loads((directory / 'report.json').read_text())
     if prepared['passed'] or not prepared.get('preparedOnly') or sha(directory / 'boot.cir') != prepared['deckSha256']:
         raise ValueError('Invalid prepared board inputs')
-    deck = early_deck((directory / 'boot.cir').read_text(), step, args.duration_us, DIAGNOSTIC_SIGNALS)
+    deck = early_deck((directory / 'boot.cir').read_text(), step, args.duration_us,
+                      DIAGNOSTIC_SIGNALS, minimum_breakpoint_fs)
     (directory / 'clock-probe.cir').write_text(deck)
     (directory / 'diagnostic-trace.txt').unlink(missing_ok=True)
     result = {'completed': False, 'stepNs': step, 'preparedBoard': prepared,
+              'minimumBreakpointFs': minimum_breakpoint_fs,
+              'analysisInvocation': 'deck-tran/run' if minimum_breakpoint_fs is not None else 'control-tran',
               'preparedReportSha256': sha(directory / 'report.json'),
               'probeDeckSha256': sha(directory / 'clock-probe.cir')}
     try:
         runtime = prepared['ngspiceRuntime']
         verify_runtime(runtime)
         engine_env = dict(os.environ, SPICE_SCRIPTS=str(Path(runtime['spinit']['path']).parent))
-        with (directory / 'ngspice.log').open('w') as log:
-            subprocess.run([runtime['executable']['path'], '-n', '-b', 'clock-probe.cir'], cwd=directory, env=engine_env,
-                           stdout=log, stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
+        with capture_waveforms(directory, ['trace.txt', 'diagnostic-trace.txt'], enabled=compressed_output) as compressed:
+            with (directory / 'ngspice.log').open('w') as log:
+                subprocess.run([runtime['executable']['path'], '-n', '-b', 'clock-probe.cir'], cwd=directory, env=engine_env,
+                               stdout=log, stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
         verify_runtime(runtime)
         result['logSha256'] = sha(directory / 'ngspice.log')
         log = (directory / 'ngspice.log').read_text()
@@ -67,13 +97,20 @@ def run(args, step, directory):
         if diagnostic:
             result['solverDiagnostic'] = diagnostic
             raise ValueError('Coupled clock solver/HDL diagnostics: ' + diagnostic)
-        result['traceSha256'] = sha(directory / 'trace.txt')
-        result['diagnosticTraceSha256'] = sha(directory / 'diagnostic-trace.txt')
+        result['traceSha256'] = waveform_sha(directory / 'trace.txt')
+        result['diagnosticTraceSha256'] = waveform_sha(directory / 'diagnostic-trace.txt')
+        if compressed_output:
+            result['compressedWaveforms'] = compressed
+            for name, key in [('trace.txt', 'traceSha256'), ('diagnostic-trace.txt', 'diagnosticTraceSha256')]:
+                if compressed[name]['sha256'] != result[key]:
+                    raise ValueError('Compressed waveform differs from producer bytes: ' + name)
         result['diagnosticSignals'] = summarize_diagnostics(directory / 'diagnostic-trace.txt', args.duration_us)
         result['completed'] = True
     except Exception as error:
         result['error'] = str(error)
-        result['failureArtifacts'] = capture(directory, ('ngspice.log', 'trace.txt', 'diagnostic-trace.txt'))
+        result['failureArtifacts'] = capture(directory, ('ngspice.log', 'trace.txt', 'diagnostic-trace.txt',
+                                                        'trace.txt.xz', 'diagnostic-trace.txt.xz',
+                                                        'trace.txt.xz.partial', 'diagnostic-trace.txt.xz.partial'))
         raise
     finally:
         (directory / 'clock-probe.json').write_text(json.dumps(result, indent=2) + '\n')
@@ -83,7 +120,7 @@ def run(args, step, directory):
 def summarize_diagnostics(path, duration_us):
     ranges = {name: {'minimum': math.inf, 'maximum': -math.inf} for name in DIAGNOSTIC_SIGNALS}
     first, last = None, None
-    with path.open() as stream:
+    with open_text(path) as stream:
         next(stream)
         for line in stream:
             row = list(map(float, line.split()))
@@ -122,6 +159,13 @@ def matching_inputs(coarse, fine):
         raise ValueError('Prepared board HDL differs')
 
 
+def matching_runs(coarse, fine):
+    for key in ('minimumBreakpointFs', 'analysisInvocation'):
+        if coarse[key] != fine[key]:
+            raise ValueError('Clock probe solver settings differ: ' + key)
+    matching_inputs(coarse['preparedBoard'], fine['preparedBoard'])
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--rom', type=Path, required=True)
@@ -131,6 +175,9 @@ def main():
     parser.add_argument('--timeout-seconds', type=float, default=1200)
     parser.add_argument('--ngspice', default='ngspice')
     parser.add_argument('--ngspice-spinit', type=Path)
+    parser.add_argument('--minimum-breakpoint-fs', type=float,
+                        help='Explicit numerical breakpoint spacing; uses deck .tran/control run to retain it')
+    parser.add_argument('--compress-traces', action='store_true', help='Stream lossless XZ waveforms into fresh run directories')
     parser.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
     parser.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground')
     parser.add_argument('--rise-us', type=float, default=1)
@@ -138,6 +185,8 @@ def main():
     parser.add_argument('--vntol', type=float, default=1e-9)
     parser.add_argument('--abstol', type=float, default=1e-15)
     args = parser.parse_args()
+    if args.minimum_breakpoint_fs is not None and (not math.isfinite(args.minimum_breakpoint_fs) or args.minimum_breakpoint_fs <= 0):
+        parser.error('minimum-breakpoint-fs must be positive and finite')
     if not math.isfinite(args.column_load_pf) or args.column_load_pf < 0:
         parser.error('column-load-pf must be finite and nonnegative')
     if any(not math.isfinite(v) or v <= 0 for v in (*args.steps_ns, args.duration_us, args.timeout_seconds,
@@ -152,11 +201,11 @@ def main():
     report = {'passed': False, 'scope': __doc__, 'durationUs': args.duration_us, 'runs': [],
               'qualificationBoundary': 'Early startup only, before normal reset release; no full-boot, firmware or long-duration phase qualification',
               'sources': {name: sha(HERE / name) for name in (
-                  'coupled_clock_probe.py', 'boot_cosim.py', 'clock_convergence.py', 'failure_evidence.py', 'ngspice_runtime.py', 'trace_io.py')}}
+                  'coupled_clock_probe.py', 'boot_cosim.py', 'clock_convergence.py', 'failure_evidence.py', 'ngspice_runtime.py', 'trace_io.py', 'compressed_output.py')}}
     try:
         for label, step in zip(('coarse', 'fine'), args.steps_ns):
             report['runs'].append(run(args, step, args.out / label))
-        matching_inputs(*(r['preparedBoard'] for r in report['runs']))
+        matching_runs(*report['runs'])
         phase = compare_clocks(args.out / 'coarse/trace.txt', args.out / 'fine/trace.txt', *args.steps_ns)
         report['clockPhase'] = phase
         for waveform in phase['waveforms'].values():
