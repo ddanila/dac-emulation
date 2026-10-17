@@ -203,7 +203,10 @@ The load is an explicit fixture assumption, and differing loads cannot be paired
 for timestep refinement. Loading, integration-method and unknown-output power-up
 fixtures have not resolved live startup. Their scope, decks and failure evidence
 remain in `reports/coupled-clock-startup/`; none establishes specimen parasitics
-or historical power-up states.
+or historical power-up states. Fixed-control analog isolation completes the early
+window with or without ADC observers, but its clock has not reached the checked
+high level (`reports/coupled-clock-startup/analog-isolation/`). This narrows the
+reproducer without qualifying startup.
 
 `engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
 boundary correction, not the default engine. It passes the isolated plateau and
