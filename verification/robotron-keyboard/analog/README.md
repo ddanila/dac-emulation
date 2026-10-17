@@ -188,6 +188,10 @@ bypassing cable/filter charging. The retained `charging-window.json` shows that
 the board rail is still below 2 V at 100 µs with this nominal supply/filter model.
 Lack of clock activity in that window is not proof that the oscillator cannot
 start; inspect the supply trajectory and use a longer window before judging it.
+The retained `one-ms.json` confirms sustained oscillation over a longer window,
+but rejects timestep refinement on absolute clock phase. It preserves the
+executed source hashes; this is negative qualification evidence, not a passing
+full-board result.
 
 ## Output, cable and supply loads
 

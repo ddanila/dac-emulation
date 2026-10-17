@@ -1,0 +1,3259 @@
+{
+  "passed": false,
+  "scope": "Check early clock phase in the coupled board; does not qualify boot or firmware.",
+  "durationUs": 1000.0,
+  "runs": [
+    {
+      "stepNs": 1.0,
+      "preparedBoard": {
+        "passed": false,
+        "scope": "Boot TV80/S600 from electrical clock/reset, optionally with live matrix feedback.",
+        "assumptions": {
+          "receiverThresholdVolts": 1.4,
+          "solver": {
+            "reltol": 1e-07,
+            "vntol": 1e-09,
+            "abstol": 1e-15
+          },
+          "receiver": "Single nominal threshold avoids counting both edges of an X band as clock edges",
+          "analogModels": "Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim",
+          "latchLoad": "ideal",
+          "npnProfile": "generic",
+          "gateProfile": "nominal",
+          "serialReceiver": true,
+          "remainingDigitalBoundaries": [
+            "CPU/peripheral buses"
+          ],
+          "romBus": "Resolved CPU/ROM/latch bus from numbered schematic pins",
+          "cpuDataDrive": "TV80 write-cycle intent gated by reset and bus ownership",
+          "electricalOutputs": true,
+          "electricalMatrix": true,
+          "closedContacts": [],
+          "contacts": "Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification",
+          "traceWindowSeconds": [
+            0.124,
+            0.127
+          ],
+          "simulationStartSeconds": 0,
+          "bridgeDelayNs": 10,
+          "bridgeDelay": "Numerical synchronization only; not calibrated device propagation",
+          "maximumStepNs": 1.0,
+          "timeoutSeconds": 7200,
+          "supplyRiseUs": 1,
+          "knownLimit": "The nominal model failed to produce a reset pulse with a 10 ns supply ramp"
+        },
+        "sources": {
+          "boot_cosim.py": "29d75e7860b58588e61dee43cf3a0d60dc8bdf7a2bc8f680da4b31693c676df0",
+          "boot_cosim.v": "5676932d7c99054e0fb6bd3f5db2c8f38b0cdc8232de63c0fc5cacd2f50613a1",
+          "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+          "sc236_dc.cir": "c6fbd48612fdf503ea01a595542df99bfdc6d68ec27e27c799995c62505b63e1",
+          "oscillator_probe.py": "fd78a62d667792898998b5f085c3e78405604de2a2e18024ef3b1441359bb476",
+          "reset_probe.py": "7a9040fe0f13df9f415506cbb1dae77a348bc636bfed4b7afbe4a15218633081",
+          "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+          "controller_interface.py": "cb430c4342c9572a56f8edbd9a18f8b2ee21efe718062765381ac1e3cbe1c7d7",
+          "matrix.py": "e31b1da78c33dc04a593ab8873e20610bb4c351b3841acae76e1668d57551b91",
+          "latch_limits.json": "b3b1cee9f151e6aa43f45e680c7affe12d9b520b14f0a5f0fdfcfde3e8e57d85",
+          "failure_evidence.py": "5308dda71da0b65e2c3c95a00c5906bdf18e8bd1c3101e23ca4da3698dd452e6",
+          "output_circuit.py": "bfd14455600e28d73cd5417b30055cb08b85aedbf932b2a52bb1c4db984b0ed0",
+          "model_coverage.py": "9182c1618075ca6527ead6c157896f4fcd767ca49543a4ef13139d17a88b8c4a",
+          "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+          "board_scenario.py": "daf2c23d1e7b2c64f549243c730ef1ca4175214ecb23e2579de0bdf63b50ec32",
+          "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+          "trace_io.py": "173651ace4279b5a491b1442f60aeca375f312b4118eb58e01ec83e11559d443"
+        },
+        "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+        "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+        "bridge": {
+          "ngspiceSourceVersion": "47",
+          "upstreamSourceSha256": {
+            "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+            "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+          },
+          "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+          "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+          "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+          "libraries": {
+            "shim": {
+              "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+              "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+            },
+            "vpi": {
+              "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+              "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+            },
+            "libvvp": {
+              "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+              "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+            }
+          }
+        },
+        "tv80": {
+          "repository": "https://github.com/hutch31/tv80",
+          "revision": "66a131c38d05ef58b3d8c4f1507a72e6e4aa5d65",
+          "scope": "Unmodified rtl/core files; MIT license retained in each file. Qualification only, not production runtime.",
+          "files": {
+            "tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+            "tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+            "tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+            "tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+            "tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+          }
+        },
+        "hdlSha256": {
+          "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+          "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+          "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+          "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+          "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+          "verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+          "verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+          "verification/robotron-keyboard/analog/boot_cosim.v": "5676932d7c99054e0fb6bd3f5db2c8f38b0cdc8232de63c0fc5cacd2f50613a1",
+          "build/keyboard-controller-analog/coupled-clock-tight-1ms/coarse/controller_analog.v": "5eb3f4665cfb5a407136b488b1d94fedf1ddec6786c240e7df405df7141541c1"
+        },
+        "electricalModels": {
+          "R4.3": "resistor",
+          "C6": "capacitor",
+          "R10.3": "resistor",
+          "A7": "LS_NAND_NOMINAL",
+          "BR1": "1 milliohm closed / 1 teraohm open",
+          "C1": "capacitor",
+          "C2": "capacitor",
+          "C4": "capacitor",
+          "R3": "resistor",
+          "R4.1": "resistor",
+          "R4.2": "resistor",
+          "R5": "resistor",
+          "R6.1": "resistor",
+          "R7": "resistor",
+          "R8": "resistor",
+          "V1.1": "D_NOMINAL",
+          "V1.2": "D_NOMINAL",
+          "V2": "D_NOMINAL",
+          "V3.1": "NPN_NOMINAL",
+          "V3.2": "NPN_NOMINAL",
+          "V4.9": "PNP_NOMINAL",
+          "BR2": "1 milliohm closed",
+          "R1": "common-pin resistor network",
+          "R2": "common-pin resistor network",
+          "R9.1": "resistor",
+          "R9.2": "resistor",
+          "R9.3": "resistor",
+          "R9.4": "resistor",
+          "R9.5": "resistor",
+          "R9.6": "resistor",
+          "R9.7": "resistor",
+          "R9.8": "resistor",
+          "V4.1": "PNP_NOMINAL",
+          "V4.2": "PNP_NOMINAL",
+          "V4.3": "PNP_NOMINAL",
+          "V4.4": "PNP_NOMINAL",
+          "V4.5": "PNP_NOMINAL",
+          "V4.6": "PNP_NOMINAL",
+          "V4.7": "PNP_NOMINAL",
+          "V4.8": "PNP_NOMINAL",
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "unconnectedA7Pins": [
+          "1",
+          "2",
+          "3"
+        ],
+        "cpuClockNet": "n_CLK",
+        "cpuResetNet": "n_RESET_N",
+        "gateModel": {
+          "file": "ls_nand_nominal.cir",
+          "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d"
+        },
+        "matrixCircuit": {
+          "latchLoad": "ideal",
+          "models": {
+            "R1": "common-pin resistor network",
+            "R2": "common-pin resistor network",
+            "R9.1": "resistor",
+            "R9.2": "resistor",
+            "R9.3": "resistor",
+            "R9.4": "resistor",
+            "R9.5": "resistor",
+            "R9.6": "resistor",
+            "R9.7": "resistor",
+            "R9.8": "resistor",
+            "V4.1": "PNP_NOMINAL",
+            "V4.2": "PNP_NOMINAL",
+            "V4.3": "PNP_NOMINAL",
+            "V4.4": "PNP_NOMINAL",
+            "V4.5": "PNP_NOMINAL",
+            "V4.6": "PNP_NOMINAL",
+            "V4.7": "PNP_NOMINAL",
+            "V4.8": "PNP_NOMINAL"
+          },
+          "contacts": [
+            {
+              "index": 0,
+              "column": 0,
+              "row": 0,
+              "connectorPins": [
+                "A11",
+                "B6"
+              ]
+            },
+            {
+              "index": 1,
+              "column": 0,
+              "row": 1,
+              "connectorPins": [
+                "A11",
+                "B2"
+              ]
+            },
+            {
+              "index": 2,
+              "column": 0,
+              "row": 2,
+              "connectorPins": [
+                "A11",
+                "B7"
+              ]
+            },
+            {
+              "index": 3,
+              "column": 0,
+              "row": 3,
+              "connectorPins": [
+                "A11",
+                "A1"
+              ]
+            },
+            {
+              "index": 4,
+              "column": 0,
+              "row": 4,
+              "connectorPins": [
+                "A11",
+                "A4"
+              ]
+            },
+            {
+              "index": 5,
+              "column": 0,
+              "row": 5,
+              "connectorPins": [
+                "A11",
+                "B5"
+              ]
+            },
+            {
+              "index": 6,
+              "column": 0,
+              "row": 6,
+              "connectorPins": [
+                "A11",
+                "B11"
+              ]
+            },
+            {
+              "index": 7,
+              "column": 0,
+              "row": 7,
+              "connectorPins": [
+                "A11",
+                "B13"
+              ]
+            },
+            {
+              "index": 8,
+              "column": 1,
+              "row": 0,
+              "connectorPins": [
+                "A13",
+                "B6"
+              ]
+            },
+            {
+              "index": 9,
+              "column": 1,
+              "row": 1,
+              "connectorPins": [
+                "A13",
+                "B2"
+              ]
+            },
+            {
+              "index": 10,
+              "column": 1,
+              "row": 2,
+              "connectorPins": [
+                "A13",
+                "B7"
+              ]
+            },
+            {
+              "index": 11,
+              "column": 1,
+              "row": 3,
+              "connectorPins": [
+                "A13",
+                "A1"
+              ]
+            },
+            {
+              "index": 12,
+              "column": 1,
+              "row": 4,
+              "connectorPins": [
+                "A13",
+                "A4"
+              ]
+            },
+            {
+              "index": 13,
+              "column": 1,
+              "row": 5,
+              "connectorPins": [
+                "A13",
+                "B5"
+              ]
+            },
+            {
+              "index": 14,
+              "column": 1,
+              "row": 6,
+              "connectorPins": [
+                "A13",
+                "B11"
+              ]
+            },
+            {
+              "index": 15,
+              "column": 1,
+              "row": 7,
+              "connectorPins": [
+                "A13",
+                "B13"
+              ]
+            },
+            {
+              "index": 16,
+              "column": 2,
+              "row": 0,
+              "connectorPins": [
+                "B10",
+                "B6"
+              ]
+            },
+            {
+              "index": 17,
+              "column": 2,
+              "row": 1,
+              "connectorPins": [
+                "B10",
+                "B2"
+              ]
+            },
+            {
+              "index": 18,
+              "column": 2,
+              "row": 2,
+              "connectorPins": [
+                "B10",
+                "B7"
+              ]
+            },
+            {
+              "index": 19,
+              "column": 2,
+              "row": 3,
+              "connectorPins": [
+                "B10",
+                "A1"
+              ]
+            },
+            {
+              "index": 20,
+              "column": 2,
+              "row": 4,
+              "connectorPins": [
+                "B10",
+                "A4"
+              ]
+            },
+            {
+              "index": 21,
+              "column": 2,
+              "row": 5,
+              "connectorPins": [
+                "B10",
+                "B5"
+              ]
+            },
+            {
+              "index": 22,
+              "column": 2,
+              "row": 6,
+              "connectorPins": [
+                "B10",
+                "B11"
+              ]
+            },
+            {
+              "index": 23,
+              "column": 2,
+              "row": 7,
+              "connectorPins": [
+                "B10",
+                "B13"
+              ]
+            },
+            {
+              "index": 24,
+              "column": 3,
+              "row": 0,
+              "connectorPins": [
+                "B9",
+                "B6"
+              ]
+            },
+            {
+              "index": 25,
+              "column": 3,
+              "row": 1,
+              "connectorPins": [
+                "B9",
+                "B2"
+              ]
+            },
+            {
+              "index": 26,
+              "column": 3,
+              "row": 2,
+              "connectorPins": [
+                "B9",
+                "B7"
+              ]
+            },
+            {
+              "index": 27,
+              "column": 3,
+              "row": 3,
+              "connectorPins": [
+                "B9",
+                "A1"
+              ]
+            },
+            {
+              "index": 28,
+              "column": 3,
+              "row": 4,
+              "connectorPins": [
+                "B9",
+                "A4"
+              ]
+            },
+            {
+              "index": 29,
+              "column": 3,
+              "row": 5,
+              "connectorPins": [
+                "B9",
+                "B5"
+              ]
+            },
+            {
+              "index": 30,
+              "column": 3,
+              "row": 6,
+              "connectorPins": [
+                "B9",
+                "B11"
+              ]
+            },
+            {
+              "index": 31,
+              "column": 3,
+              "row": 7,
+              "connectorPins": [
+                "B9",
+                "B13"
+              ]
+            },
+            {
+              "index": 32,
+              "column": 4,
+              "row": 0,
+              "connectorPins": [
+                "B1",
+                "B6"
+              ]
+            },
+            {
+              "index": 33,
+              "column": 4,
+              "row": 1,
+              "connectorPins": [
+                "B1",
+                "B2"
+              ]
+            },
+            {
+              "index": 34,
+              "column": 4,
+              "row": 2,
+              "connectorPins": [
+                "B1",
+                "B7"
+              ]
+            },
+            {
+              "index": 35,
+              "column": 4,
+              "row": 3,
+              "connectorPins": [
+                "B1",
+                "A1"
+              ]
+            },
+            {
+              "index": 36,
+              "column": 4,
+              "row": 4,
+              "connectorPins": [
+                "B1",
+                "A4"
+              ]
+            },
+            {
+              "index": 37,
+              "column": 4,
+              "row": 5,
+              "connectorPins": [
+                "B1",
+                "B5"
+              ]
+            },
+            {
+              "index": 38,
+              "column": 4,
+              "row": 6,
+              "connectorPins": [
+                "B1",
+                "B11"
+              ]
+            },
+            {
+              "index": 39,
+              "column": 4,
+              "row": 7,
+              "connectorPins": [
+                "B1",
+                "B13"
+              ]
+            },
+            {
+              "index": 40,
+              "column": 5,
+              "row": 0,
+              "connectorPins": [
+                "A2",
+                "B6"
+              ]
+            },
+            {
+              "index": 41,
+              "column": 5,
+              "row": 1,
+              "connectorPins": [
+                "A2",
+                "B2"
+              ]
+            },
+            {
+              "index": 42,
+              "column": 5,
+              "row": 2,
+              "connectorPins": [
+                "A2",
+                "B7"
+              ]
+            },
+            {
+              "index": 43,
+              "column": 5,
+              "row": 3,
+              "connectorPins": [
+                "A2",
+                "A1"
+              ]
+            },
+            {
+              "index": 44,
+              "column": 5,
+              "row": 4,
+              "connectorPins": [
+                "A2",
+                "A4"
+              ]
+            },
+            {
+              "index": 45,
+              "column": 5,
+              "row": 5,
+              "connectorPins": [
+                "A2",
+                "B5"
+              ]
+            },
+            {
+              "index": 46,
+              "column": 5,
+              "row": 6,
+              "connectorPins": [
+                "A2",
+                "B11"
+              ]
+            },
+            {
+              "index": 47,
+              "column": 5,
+              "row": 7,
+              "connectorPins": [
+                "A2",
+                "B13"
+              ]
+            },
+            {
+              "index": 48,
+              "column": 6,
+              "row": 0,
+              "connectorPins": [
+                "B3",
+                "B6"
+              ]
+            },
+            {
+              "index": 49,
+              "column": 6,
+              "row": 1,
+              "connectorPins": [
+                "B3",
+                "B2"
+              ]
+            },
+            {
+              "index": 50,
+              "column": 6,
+              "row": 2,
+              "connectorPins": [
+                "B3",
+                "B7"
+              ]
+            },
+            {
+              "index": 51,
+              "column": 6,
+              "row": 3,
+              "connectorPins": [
+                "B3",
+                "A1"
+              ]
+            },
+            {
+              "index": 52,
+              "column": 6,
+              "row": 4,
+              "connectorPins": [
+                "B3",
+                "A4"
+              ]
+            },
+            {
+              "index": 53,
+              "column": 6,
+              "row": 5,
+              "connectorPins": [
+                "B3",
+                "B5"
+              ]
+            },
+            {
+              "index": 54,
+              "column": 6,
+              "row": 6,
+              "connectorPins": [
+                "B3",
+                "B11"
+              ]
+            },
+            {
+              "index": 55,
+              "column": 6,
+              "row": 7,
+              "connectorPins": [
+                "B3",
+                "B13"
+              ]
+            },
+            {
+              "index": 56,
+              "column": 7,
+              "row": 0,
+              "connectorPins": [
+                "B12",
+                "B6"
+              ]
+            },
+            {
+              "index": 57,
+              "column": 7,
+              "row": 1,
+              "connectorPins": [
+                "B12",
+                "B2"
+              ]
+            },
+            {
+              "index": 58,
+              "column": 7,
+              "row": 2,
+              "connectorPins": [
+                "B12",
+                "B7"
+              ]
+            },
+            {
+              "index": 59,
+              "column": 7,
+              "row": 3,
+              "connectorPins": [
+                "B12",
+                "A1"
+              ]
+            },
+            {
+              "index": 60,
+              "column": 7,
+              "row": 4,
+              "connectorPins": [
+                "B12",
+                "A4"
+              ]
+            },
+            {
+              "index": 61,
+              "column": 7,
+              "row": 5,
+              "connectorPins": [
+                "B12",
+                "B5"
+              ]
+            },
+            {
+              "index": 62,
+              "column": 7,
+              "row": 6,
+              "connectorPins": [
+                "B12",
+                "B11"
+              ]
+            },
+            {
+              "index": 63,
+              "column": 7,
+              "row": 7,
+              "connectorPins": [
+                "B12",
+                "B13"
+              ]
+            },
+            {
+              "index": 64,
+              "column": 8,
+              "row": 0,
+              "connectorPins": [
+                "A3",
+                "B6"
+              ]
+            },
+            {
+              "index": 65,
+              "column": 8,
+              "row": 1,
+              "connectorPins": [
+                "A3",
+                "B2"
+              ]
+            },
+            {
+              "index": 66,
+              "column": 8,
+              "row": 2,
+              "connectorPins": [
+                "A3",
+                "B7"
+              ]
+            },
+            {
+              "index": 67,
+              "column": 8,
+              "row": 3,
+              "connectorPins": [
+                "A3",
+                "A1"
+              ]
+            },
+            {
+              "index": 68,
+              "column": 8,
+              "row": 4,
+              "connectorPins": [
+                "A3",
+                "A4"
+              ]
+            },
+            {
+              "index": 69,
+              "column": 8,
+              "row": 5,
+              "connectorPins": [
+                "A3",
+                "B5"
+              ]
+            },
+            {
+              "index": 70,
+              "column": 8,
+              "row": 6,
+              "connectorPins": [
+                "A3",
+                "B11"
+              ]
+            },
+            {
+              "index": 71,
+              "column": 8,
+              "row": 7,
+              "connectorPins": [
+                "A3",
+                "B13"
+              ]
+            },
+            {
+              "index": 72,
+              "column": 9,
+              "row": 0,
+              "connectorPins": [
+                "A10",
+                "B6"
+              ]
+            },
+            {
+              "index": 73,
+              "column": 9,
+              "row": 1,
+              "connectorPins": [
+                "A10",
+                "B2"
+              ]
+            },
+            {
+              "index": 74,
+              "column": 9,
+              "row": 2,
+              "connectorPins": [
+                "A10",
+                "B7"
+              ]
+            },
+            {
+              "index": 75,
+              "column": 9,
+              "row": 3,
+              "connectorPins": [
+                "A10",
+                "A1"
+              ]
+            },
+            {
+              "index": 76,
+              "column": 9,
+              "row": 4,
+              "connectorPins": [
+                "A10",
+                "A4"
+              ]
+            },
+            {
+              "index": 77,
+              "column": 9,
+              "row": 5,
+              "connectorPins": [
+                "A10",
+                "B5"
+              ]
+            },
+            {
+              "index": 78,
+              "column": 9,
+              "row": 6,
+              "connectorPins": [
+                "A10",
+                "B11"
+              ]
+            },
+            {
+              "index": 79,
+              "column": 9,
+              "row": 7,
+              "connectorPins": [
+                "A10",
+                "B13"
+              ]
+            },
+            {
+              "index": 80,
+              "column": 10,
+              "row": 0,
+              "connectorPins": [
+                "A12",
+                "B6"
+              ]
+            },
+            {
+              "index": 81,
+              "column": 10,
+              "row": 1,
+              "connectorPins": [
+                "A12",
+                "B2"
+              ]
+            },
+            {
+              "index": 82,
+              "column": 10,
+              "row": 2,
+              "connectorPins": [
+                "A12",
+                "B7"
+              ]
+            },
+            {
+              "index": 83,
+              "column": 10,
+              "row": 3,
+              "connectorPins": [
+                "A12",
+                "A1"
+              ]
+            },
+            {
+              "index": 84,
+              "column": 10,
+              "row": 4,
+              "connectorPins": [
+                "A12",
+                "A4"
+              ]
+            },
+            {
+              "index": 85,
+              "column": 10,
+              "row": 5,
+              "connectorPins": [
+                "A12",
+                "B5"
+              ]
+            },
+            {
+              "index": 86,
+              "column": 10,
+              "row": 6,
+              "connectorPins": [
+                "A12",
+                "B11"
+              ]
+            },
+            {
+              "index": 87,
+              "column": 10,
+              "row": 7,
+              "connectorPins": [
+                "A12",
+                "B13"
+              ]
+            },
+            {
+              "index": 88,
+              "column": 11,
+              "row": 0,
+              "connectorPins": [
+                "B8",
+                "B6"
+              ]
+            },
+            {
+              "index": 89,
+              "column": 11,
+              "row": 1,
+              "connectorPins": [
+                "B8",
+                "B2"
+              ]
+            },
+            {
+              "index": 90,
+              "column": 11,
+              "row": 2,
+              "connectorPins": [
+                "B8",
+                "B7"
+              ]
+            },
+            {
+              "index": 91,
+              "column": 11,
+              "row": 3,
+              "connectorPins": [
+                "B8",
+                "A1"
+              ]
+            },
+            {
+              "index": 92,
+              "column": 11,
+              "row": 4,
+              "connectorPins": [
+                "B8",
+                "A4"
+              ]
+            },
+            {
+              "index": 93,
+              "column": 11,
+              "row": 5,
+              "connectorPins": [
+                "B8",
+                "B5"
+              ]
+            },
+            {
+              "index": 94,
+              "column": 11,
+              "row": 6,
+              "connectorPins": [
+                "B8",
+                "B11"
+              ]
+            },
+            {
+              "index": 95,
+              "column": 11,
+              "row": 7,
+              "connectorPins": [
+                "B8",
+                "B13"
+              ]
+            },
+            {
+              "index": 96,
+              "column": 12,
+              "row": 0,
+              "connectorPins": [
+                "B4",
+                "B6"
+              ]
+            },
+            {
+              "index": 97,
+              "column": 12,
+              "row": 1,
+              "connectorPins": [
+                "B4",
+                "B2"
+              ]
+            },
+            {
+              "index": 98,
+              "column": 12,
+              "row": 2,
+              "connectorPins": [
+                "B4",
+                "B7"
+              ]
+            },
+            {
+              "index": 99,
+              "column": 12,
+              "row": 3,
+              "connectorPins": [
+                "B4",
+                "A1"
+              ]
+            },
+            {
+              "index": 100,
+              "column": 12,
+              "row": 4,
+              "connectorPins": [
+                "B4",
+                "A4"
+              ]
+            },
+            {
+              "index": 101,
+              "column": 12,
+              "row": 5,
+              "connectorPins": [
+                "B4",
+                "B5"
+              ]
+            },
+            {
+              "index": 102,
+              "column": 12,
+              "row": 6,
+              "connectorPins": [
+                "B4",
+                "B11"
+              ]
+            },
+            {
+              "index": 103,
+              "column": 12,
+              "row": 7,
+              "connectorPins": [
+                "B4",
+                "B13"
+              ]
+            }
+          ],
+          "outputs": [
+            "n_SENSE0",
+            "n_SENSE1",
+            "n_SENSE2",
+            "n_SENSE3",
+            "n_SENSE4",
+            "n_SENSE5",
+            "n_SENSE6",
+            "n_SENSE7"
+          ],
+          "columnNets": [
+            "n_COL0",
+            "n_COL1",
+            "n_COL2",
+            "n_COL3",
+            "n_COL4",
+            "n_COL5",
+            "n_COL6",
+            "n_COL7",
+            "n_COL8",
+            "n_COL9",
+            "n_COL10",
+            "n_COL11",
+            "n_COL12"
+          ]
+        },
+        "outputCircuit": {
+          "models": {
+            "R10.1": "resistor",
+            "R10.2": "resistor",
+            "R11.1": "resistor",
+            "R11.2": "resistor",
+            "C3.1": "capacitor",
+            "C3.2": "capacitor",
+            "C5.1": "capacitor",
+            "C5.2": "capacitor",
+            "C5.3": "capacitor",
+            "C5.4": "capacitor",
+            "C5.5": "capacitor",
+            "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+            "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+            "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+            "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+          },
+          "hostGround": "n_CABLE_GND",
+          "hostSupply": "n_CABLE_5V",
+          "serial": {
+            "data": {
+              "board": "n_TA_DATEN",
+              "cable": "n_CABLE_DATEN",
+              "connectorPin": "A1"
+            },
+            "clock": {
+              "board": "n_TA_TAKT",
+              "cable": "n_CABLE_TAKT",
+              "connectorPin": "B2"
+            }
+          },
+          "leds": {
+            "siso": {
+              "output": "n_LED_SISO_N",
+              "cathode": "n_LED_SISO",
+              "anode": "n_p5V",
+              "connectorPin": "A5",
+              "diode": "Dsiso_led"
+            },
+            "caps": {
+              "output": "n_LED_CAPS_N",
+              "cathode": "n_LED_CAPS",
+              "anode": "n_p5V",
+              "connectorPin": "A6",
+              "diode": "Dcaps_led"
+            }
+          },
+          "shield": {
+            "net": "/SHIELD",
+            "model": "Unconnected external shield boundary; no invented ground bond"
+          }
+        },
+        "outputControlUnknowns": "DAC X maps to 2.5 V; nominal load response is not a physical prediction of unknown logic",
+        "traceSignals": [
+          "v(n_CLK)",
+          "v(n_RESET_N)",
+          "v(n_CABLE_DATEN,n_CABLE_GND)",
+          "v(n_CABLE_TAKT,n_CABLE_GND)"
+        ],
+        "modelCoverage": {
+          "components": {
+            "A1": {
+              "referenceType": "7406",
+              "domain": "digital-or-interface",
+              "model": "7406 HDL logic; selected output pins use nominal electrical sink models"
+            },
+            "A2.1": {
+              "referenceType": "DL003",
+              "domain": "digital-or-interface",
+              "model": "DL003 HDL logic; column pins use electrical sinks in matrix mode"
+            },
+            "A2.2": {
+              "referenceType": "DL003",
+              "domain": "digital-or-interface",
+              "model": "DL003 HDL logic; column pins use electrical sinks in matrix mode"
+            },
+            "A2.3": {
+              "referenceType": "DL003",
+              "domain": "digital-or-interface",
+              "model": "DL003 HDL logic; column pins use electrical sinks in matrix mode"
+            },
+            "A4": {
+              "referenceType": "I8282",
+              "domain": "digital-or-interface",
+              "model": "8282 HDL latch and bus; nominal input load in matrix mode"
+            },
+            "A5": {
+              "referenceType": "U880",
+              "domain": "digital-or-interface",
+              "model": "TV80 CPU; digital buses/control pins, nominal clock/reset input loads"
+            },
+            "A6": {
+              "referenceType": "DL074",
+              "domain": "digital-or-interface",
+              "model": "DL074 HDL flip-flops; nominal electrical LED output drive in output mode"
+            },
+            "A7": {
+              "referenceType": "DL000",
+              "domain": "electrical",
+              "model": "LS_NAND_NOMINAL"
+            },
+            "A8": {
+              "referenceType": "U556_2716",
+              "domain": "digital-or-interface",
+              "model": "U556/2716 pin-mapped ROM on resolved CPU/latch bus"
+            },
+            "BR1": {
+              "referenceType": "BRIDGE",
+              "domain": "electrical",
+              "model": "1 milliohm closed / 1 teraohm open"
+            },
+            "BR2": {
+              "referenceType": "BRIDGE",
+              "domain": "electrical",
+              "model": "1 milliohm closed"
+            },
+            "C1": {
+              "referenceType": "220p",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C2": {
+              "referenceType": "10u",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C3.1": {
+              "referenceType": "47u",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C3.2": {
+              "referenceType": "47u",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C4": {
+              "referenceType": "10u",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C5.1": {
+              "referenceType": "47n",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C5.2": {
+              "referenceType": "47n",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C5.3": {
+              "referenceType": "47n",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C5.4": {
+              "referenceType": "47n",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C5.5": {
+              "referenceType": "47n",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C6": {
+              "referenceType": "470p",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "L1.1": {
+              "referenceType": "CHOKE",
+              "domain": "electrical",
+              "model": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+            },
+            "L1.2": {
+              "referenceType": "CHOKE",
+              "domain": "electrical",
+              "model": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+            },
+            "L1.3": {
+              "referenceType": "CHOKE",
+              "domain": "electrical",
+              "model": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+            },
+            "L1.4": {
+              "referenceType": "CHOKE",
+              "domain": "electrical",
+              "model": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+            },
+            "R1": {
+              "referenceType": "8x910",
+              "domain": "electrical",
+              "model": "common-pin resistor network"
+            },
+            "R10.1": {
+              "referenceType": "560",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R10.2": {
+              "referenceType": "560",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R10.3": {
+              "referenceType": "560",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R11.1": {
+              "referenceType": "130",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R11.2": {
+              "referenceType": "130",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R2": {
+              "referenceType": "8x4k7",
+              "domain": "electrical",
+              "model": "common-pin resistor network"
+            },
+            "R3": {
+              "referenceType": "22k",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R4.1": {
+              "referenceType": "220",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R4.2": {
+              "referenceType": "220",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R4.3": {
+              "referenceType": "220",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R5": {
+              "referenceType": "10k",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R6.1": {
+              "referenceType": "1k",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R6.3": {
+              "referenceType": "1k",
+              "domain": "digital-or-interface",
+              "model": "HDL pullup on latch output enable; no electrical loading"
+            },
+            "R6.4": {
+              "referenceType": "1k",
+              "domain": "digital-or-interface",
+              "model": "CPU interrupt/NMI/wait tie-high boundary; no electrical loading"
+            },
+            "R6.5": {
+              "referenceType": "1k",
+              "domain": "digital-or-interface",
+              "model": "CPU bus-request tie-high boundary; no electrical loading"
+            },
+            "R6.6": {
+              "referenceType": "1k",
+              "domain": "digital-or-interface",
+              "model": "HDL pullup on flip-flop preset/clear; no electrical loading"
+            },
+            "R7": {
+              "referenceType": "3k3",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R8": {
+              "referenceType": "47k",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.1": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.2": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.3": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.4": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.5": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.6": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.7": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.8": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.9": {
+              "referenceType": "3k9",
+              "domain": "digital-or-interface",
+              "model": "HDL pullup on I/O active; no electrical loading"
+            },
+            "V1.1": {
+              "referenceType": "DIODE",
+              "domain": "electrical",
+              "model": "D_NOMINAL"
+            },
+            "V1.2": {
+              "referenceType": "DIODE",
+              "domain": "electrical",
+              "model": "D_NOMINAL"
+            },
+            "V2": {
+              "referenceType": "DIODE",
+              "domain": "electrical",
+              "model": "D_NOMINAL"
+            },
+            "V3.1": {
+              "referenceType": "SC236D",
+              "domain": "electrical",
+              "model": "NPN_NOMINAL"
+            },
+            "V3.2": {
+              "referenceType": "SC236D",
+              "domain": "electrical",
+              "model": "NPN_NOMINAL"
+            },
+            "V4.1": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.2": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.3": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.4": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.5": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.6": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.7": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.8": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.9": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "X1": {
+              "referenceType": "MATRIX_CONNECTOR",
+              "domain": "digital-or-interface",
+              "model": "Matrix/LED external fixture; bus-request contact remains open"
+            },
+            "XT1": {
+              "referenceType": "KEYBOARD_CABLE",
+              "domain": "digital-or-interface",
+              "model": "External cable/load boundary; shield remains unconnected"
+            }
+          },
+          "meaning": "Explicit implementation/boundary inventory, not device-model or full-board qualification",
+          "remainingFidelityGaps": [
+            "Uncharacterized semiconductor, gate, cable and filter parameters",
+            "Electrical bus currents, pin delays and control-pullup loading",
+            "Controller IC supply-current and brownout behavior",
+            "Specimen key construction, firmware and physical routing"
+          ]
+        },
+        "deckSha256": "28b2721394562bab7ab1f516a76092983e8e5a16efd76a2842addf2260463393",
+        "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
+        "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+        "preparedOnly": true
+      },
+      "preparedReportSha256": "c561263298cdf4ffdc398053a3ef17b57d1303ea67ca3e9df4c14b3e0c1d5a46",
+      "probeDeckSha256": "c7decebdb979c746977370c64a6edaa59dea65f09470b881c7d8a4ce92d8f470",
+      "logSha256": "8d71702378ff5abd678078a12dfce9bea6ecccb77445f96fd5cdf61c391a0d0c",
+      "traceSha256": "8f64f762d1581324d7da9707446cc6500be18ac734fec50a1905daf44fcc2771",
+      "completed": true
+    },
+    {
+      "stepNs": 0.5,
+      "preparedBoard": {
+        "passed": false,
+        "scope": "Boot TV80/S600 from electrical clock/reset, optionally with live matrix feedback.",
+        "assumptions": {
+          "receiverThresholdVolts": 1.4,
+          "solver": {
+            "reltol": 1e-07,
+            "vntol": 1e-09,
+            "abstol": 1e-15
+          },
+          "receiver": "Single nominal threshold avoids counting both edges of an X band as clock edges",
+          "analogModels": "Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim",
+          "latchLoad": "ideal",
+          "npnProfile": "generic",
+          "gateProfile": "nominal",
+          "serialReceiver": true,
+          "remainingDigitalBoundaries": [
+            "CPU/peripheral buses"
+          ],
+          "romBus": "Resolved CPU/ROM/latch bus from numbered schematic pins",
+          "cpuDataDrive": "TV80 write-cycle intent gated by reset and bus ownership",
+          "electricalOutputs": true,
+          "electricalMatrix": true,
+          "closedContacts": [],
+          "contacts": "Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification",
+          "traceWindowSeconds": [
+            0.124,
+            0.127
+          ],
+          "simulationStartSeconds": 0,
+          "bridgeDelayNs": 10,
+          "bridgeDelay": "Numerical synchronization only; not calibrated device propagation",
+          "maximumStepNs": 0.5,
+          "timeoutSeconds": 7200,
+          "supplyRiseUs": 1,
+          "knownLimit": "The nominal model failed to produce a reset pulse with a 10 ns supply ramp"
+        },
+        "sources": {
+          "boot_cosim.py": "29d75e7860b58588e61dee43cf3a0d60dc8bdf7a2bc8f680da4b31693c676df0",
+          "boot_cosim.v": "5676932d7c99054e0fb6bd3f5db2c8f38b0cdc8232de63c0fc5cacd2f50613a1",
+          "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+          "sc236_dc.cir": "c6fbd48612fdf503ea01a595542df99bfdc6d68ec27e27c799995c62505b63e1",
+          "oscillator_probe.py": "fd78a62d667792898998b5f085c3e78405604de2a2e18024ef3b1441359bb476",
+          "reset_probe.py": "7a9040fe0f13df9f415506cbb1dae77a348bc636bfed4b7afbe4a15218633081",
+          "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+          "controller_interface.py": "cb430c4342c9572a56f8edbd9a18f8b2ee21efe718062765381ac1e3cbe1c7d7",
+          "matrix.py": "e31b1da78c33dc04a593ab8873e20610bb4c351b3841acae76e1668d57551b91",
+          "latch_limits.json": "b3b1cee9f151e6aa43f45e680c7affe12d9b520b14f0a5f0fdfcfde3e8e57d85",
+          "failure_evidence.py": "5308dda71da0b65e2c3c95a00c5906bdf18e8bd1c3101e23ca4da3698dd452e6",
+          "output_circuit.py": "bfd14455600e28d73cd5417b30055cb08b85aedbf932b2a52bb1c4db984b0ed0",
+          "model_coverage.py": "9182c1618075ca6527ead6c157896f4fcd767ca49543a4ef13139d17a88b8c4a",
+          "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+          "board_scenario.py": "daf2c23d1e7b2c64f549243c730ef1ca4175214ecb23e2579de0bdf63b50ec32",
+          "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+          "trace_io.py": "173651ace4279b5a491b1442f60aeca375f312b4118eb58e01ec83e11559d443"
+        },
+        "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+        "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+        "bridge": {
+          "ngspiceSourceVersion": "47",
+          "upstreamSourceSha256": {
+            "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+            "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+          },
+          "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+          "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+          "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+          "libraries": {
+            "shim": {
+              "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+              "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+            },
+            "vpi": {
+              "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+              "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+            },
+            "libvvp": {
+              "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+              "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+            }
+          }
+        },
+        "tv80": {
+          "repository": "https://github.com/hutch31/tv80",
+          "revision": "66a131c38d05ef58b3d8c4f1507a72e6e4aa5d65",
+          "scope": "Unmodified rtl/core files; MIT license retained in each file. Qualification only, not production runtime.",
+          "files": {
+            "tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+            "tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+            "tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+            "tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+            "tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+          }
+        },
+        "hdlSha256": {
+          "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+          "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+          "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+          "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+          "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+          "verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+          "verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+          "verification/robotron-keyboard/analog/boot_cosim.v": "5676932d7c99054e0fb6bd3f5db2c8f38b0cdc8232de63c0fc5cacd2f50613a1",
+          "build/keyboard-controller-analog/coupled-clock-tight-1ms/fine/controller_analog.v": "5eb3f4665cfb5a407136b488b1d94fedf1ddec6786c240e7df405df7141541c1"
+        },
+        "electricalModels": {
+          "R4.3": "resistor",
+          "C6": "capacitor",
+          "R10.3": "resistor",
+          "A7": "LS_NAND_NOMINAL",
+          "BR1": "1 milliohm closed / 1 teraohm open",
+          "C1": "capacitor",
+          "C2": "capacitor",
+          "C4": "capacitor",
+          "R3": "resistor",
+          "R4.1": "resistor",
+          "R4.2": "resistor",
+          "R5": "resistor",
+          "R6.1": "resistor",
+          "R7": "resistor",
+          "R8": "resistor",
+          "V1.1": "D_NOMINAL",
+          "V1.2": "D_NOMINAL",
+          "V2": "D_NOMINAL",
+          "V3.1": "NPN_NOMINAL",
+          "V3.2": "NPN_NOMINAL",
+          "V4.9": "PNP_NOMINAL",
+          "BR2": "1 milliohm closed",
+          "R1": "common-pin resistor network",
+          "R2": "common-pin resistor network",
+          "R9.1": "resistor",
+          "R9.2": "resistor",
+          "R9.3": "resistor",
+          "R9.4": "resistor",
+          "R9.5": "resistor",
+          "R9.6": "resistor",
+          "R9.7": "resistor",
+          "R9.8": "resistor",
+          "V4.1": "PNP_NOMINAL",
+          "V4.2": "PNP_NOMINAL",
+          "V4.3": "PNP_NOMINAL",
+          "V4.4": "PNP_NOMINAL",
+          "V4.5": "PNP_NOMINAL",
+          "V4.6": "PNP_NOMINAL",
+          "V4.7": "PNP_NOMINAL",
+          "V4.8": "PNP_NOMINAL",
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "unconnectedA7Pins": [
+          "1",
+          "2",
+          "3"
+        ],
+        "cpuClockNet": "n_CLK",
+        "cpuResetNet": "n_RESET_N",
+        "gateModel": {
+          "file": "ls_nand_nominal.cir",
+          "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d"
+        },
+        "matrixCircuit": {
+          "latchLoad": "ideal",
+          "models": {
+            "R1": "common-pin resistor network",
+            "R2": "common-pin resistor network",
+            "R9.1": "resistor",
+            "R9.2": "resistor",
+            "R9.3": "resistor",
+            "R9.4": "resistor",
+            "R9.5": "resistor",
+            "R9.6": "resistor",
+            "R9.7": "resistor",
+            "R9.8": "resistor",
+            "V4.1": "PNP_NOMINAL",
+            "V4.2": "PNP_NOMINAL",
+            "V4.3": "PNP_NOMINAL",
+            "V4.4": "PNP_NOMINAL",
+            "V4.5": "PNP_NOMINAL",
+            "V4.6": "PNP_NOMINAL",
+            "V4.7": "PNP_NOMINAL",
+            "V4.8": "PNP_NOMINAL"
+          },
+          "contacts": [
+            {
+              "index": 0,
+              "column": 0,
+              "row": 0,
+              "connectorPins": [
+                "A11",
+                "B6"
+              ]
+            },
+            {
+              "index": 1,
+              "column": 0,
+              "row": 1,
+              "connectorPins": [
+                "A11",
+                "B2"
+              ]
+            },
+            {
+              "index": 2,
+              "column": 0,
+              "row": 2,
+              "connectorPins": [
+                "A11",
+                "B7"
+              ]
+            },
+            {
+              "index": 3,
+              "column": 0,
+              "row": 3,
+              "connectorPins": [
+                "A11",
+                "A1"
+              ]
+            },
+            {
+              "index": 4,
+              "column": 0,
+              "row": 4,
+              "connectorPins": [
+                "A11",
+                "A4"
+              ]
+            },
+            {
+              "index": 5,
+              "column": 0,
+              "row": 5,
+              "connectorPins": [
+                "A11",
+                "B5"
+              ]
+            },
+            {
+              "index": 6,
+              "column": 0,
+              "row": 6,
+              "connectorPins": [
+                "A11",
+                "B11"
+              ]
+            },
+            {
+              "index": 7,
+              "column": 0,
+              "row": 7,
+              "connectorPins": [
+                "A11",
+                "B13"
+              ]
+            },
+            {
+              "index": 8,
+              "column": 1,
+              "row": 0,
+              "connectorPins": [
+                "A13",
+                "B6"
+              ]
+            },
+            {
+              "index": 9,
+              "column": 1,
+              "row": 1,
+              "connectorPins": [
+                "A13",
+                "B2"
+              ]
+            },
+            {
+              "index": 10,
+              "column": 1,
+              "row": 2,
+              "connectorPins": [
+                "A13",
+                "B7"
+              ]
+            },
+            {
+              "index": 11,
+              "column": 1,
+              "row": 3,
+              "connectorPins": [
+                "A13",
+                "A1"
+              ]
+            },
+            {
+              "index": 12,
+              "column": 1,
+              "row": 4,
+              "connectorPins": [
+                "A13",
+                "A4"
+              ]
+            },
+            {
+              "index": 13,
+              "column": 1,
+              "row": 5,
+              "connectorPins": [
+                "A13",
+                "B5"
+              ]
+            },
+            {
+              "index": 14,
+              "column": 1,
+              "row": 6,
+              "connectorPins": [
+                "A13",
+                "B11"
+              ]
+            },
+            {
+              "index": 15,
+              "column": 1,
+              "row": 7,
+              "connectorPins": [
+                "A13",
+                "B13"
+              ]
+            },
+            {
+              "index": 16,
+              "column": 2,
+              "row": 0,
+              "connectorPins": [
+                "B10",
+                "B6"
+              ]
+            },
+            {
+              "index": 17,
+              "column": 2,
+              "row": 1,
+              "connectorPins": [
+                "B10",
+                "B2"
+              ]
+            },
+            {
+              "index": 18,
+              "column": 2,
+              "row": 2,
+              "connectorPins": [
+                "B10",
+                "B7"
+              ]
+            },
+            {
+              "index": 19,
+              "column": 2,
+              "row": 3,
+              "connectorPins": [
+                "B10",
+                "A1"
+              ]
+            },
+            {
+              "index": 20,
+              "column": 2,
+              "row": 4,
+              "connectorPins": [
+                "B10",
+                "A4"
+              ]
+            },
+            {
+              "index": 21,
+              "column": 2,
+              "row": 5,
+              "connectorPins": [
+                "B10",
+                "B5"
+              ]
+            },
+            {
+              "index": 22,
+              "column": 2,
+              "row": 6,
+              "connectorPins": [
+                "B10",
+                "B11"
+              ]
+            },
+            {
+              "index": 23,
+              "column": 2,
+              "row": 7,
+              "connectorPins": [
+                "B10",
+                "B13"
+              ]
+            },
+            {
+              "index": 24,
+              "column": 3,
+              "row": 0,
+              "connectorPins": [
+                "B9",
+                "B6"
+              ]
+            },
+            {
+              "index": 25,
+              "column": 3,
+              "row": 1,
+              "connectorPins": [
+                "B9",
+                "B2"
+              ]
+            },
+            {
+              "index": 26,
+              "column": 3,
+              "row": 2,
+              "connectorPins": [
+                "B9",
+                "B7"
+              ]
+            },
+            {
+              "index": 27,
+              "column": 3,
+              "row": 3,
+              "connectorPins": [
+                "B9",
+                "A1"
+              ]
+            },
+            {
+              "index": 28,
+              "column": 3,
+              "row": 4,
+              "connectorPins": [
+                "B9",
+                "A4"
+              ]
+            },
+            {
+              "index": 29,
+              "column": 3,
+              "row": 5,
+              "connectorPins": [
+                "B9",
+                "B5"
+              ]
+            },
+            {
+              "index": 30,
+              "column": 3,
+              "row": 6,
+              "connectorPins": [
+                "B9",
+                "B11"
+              ]
+            },
+            {
+              "index": 31,
+              "column": 3,
+              "row": 7,
+              "connectorPins": [
+                "B9",
+                "B13"
+              ]
+            },
+            {
+              "index": 32,
+              "column": 4,
+              "row": 0,
+              "connectorPins": [
+                "B1",
+                "B6"
+              ]
+            },
+            {
+              "index": 33,
+              "column": 4,
+              "row": 1,
+              "connectorPins": [
+                "B1",
+                "B2"
+              ]
+            },
+            {
+              "index": 34,
+              "column": 4,
+              "row": 2,
+              "connectorPins": [
+                "B1",
+                "B7"
+              ]
+            },
+            {
+              "index": 35,
+              "column": 4,
+              "row": 3,
+              "connectorPins": [
+                "B1",
+                "A1"
+              ]
+            },
+            {
+              "index": 36,
+              "column": 4,
+              "row": 4,
+              "connectorPins": [
+                "B1",
+                "A4"
+              ]
+            },
+            {
+              "index": 37,
+              "column": 4,
+              "row": 5,
+              "connectorPins": [
+                "B1",
+                "B5"
+              ]
+            },
+            {
+              "index": 38,
+              "column": 4,
+              "row": 6,
+              "connectorPins": [
+                "B1",
+                "B11"
+              ]
+            },
+            {
+              "index": 39,
+              "column": 4,
+              "row": 7,
+              "connectorPins": [
+                "B1",
+                "B13"
+              ]
+            },
+            {
+              "index": 40,
+              "column": 5,
+              "row": 0,
+              "connectorPins": [
+                "A2",
+                "B6"
+              ]
+            },
+            {
+              "index": 41,
+              "column": 5,
+              "row": 1,
+              "connectorPins": [
+                "A2",
+                "B2"
+              ]
+            },
+            {
+              "index": 42,
+              "column": 5,
+              "row": 2,
+              "connectorPins": [
+                "A2",
+                "B7"
+              ]
+            },
+            {
+              "index": 43,
+              "column": 5,
+              "row": 3,
+              "connectorPins": [
+                "A2",
+                "A1"
+              ]
+            },
+            {
+              "index": 44,
+              "column": 5,
+              "row": 4,
+              "connectorPins": [
+                "A2",
+                "A4"
+              ]
+            },
+            {
+              "index": 45,
+              "column": 5,
+              "row": 5,
+              "connectorPins": [
+                "A2",
+                "B5"
+              ]
+            },
+            {
+              "index": 46,
+              "column": 5,
+              "row": 6,
+              "connectorPins": [
+                "A2",
+                "B11"
+              ]
+            },
+            {
+              "index": 47,
+              "column": 5,
+              "row": 7,
+              "connectorPins": [
+                "A2",
+                "B13"
+              ]
+            },
+            {
+              "index": 48,
+              "column": 6,
+              "row": 0,
+              "connectorPins": [
+                "B3",
+                "B6"
+              ]
+            },
+            {
+              "index": 49,
+              "column": 6,
+              "row": 1,
+              "connectorPins": [
+                "B3",
+                "B2"
+              ]
+            },
+            {
+              "index": 50,
+              "column": 6,
+              "row": 2,
+              "connectorPins": [
+                "B3",
+                "B7"
+              ]
+            },
+            {
+              "index": 51,
+              "column": 6,
+              "row": 3,
+              "connectorPins": [
+                "B3",
+                "A1"
+              ]
+            },
+            {
+              "index": 52,
+              "column": 6,
+              "row": 4,
+              "connectorPins": [
+                "B3",
+                "A4"
+              ]
+            },
+            {
+              "index": 53,
+              "column": 6,
+              "row": 5,
+              "connectorPins": [
+                "B3",
+                "B5"
+              ]
+            },
+            {
+              "index": 54,
+              "column": 6,
+              "row": 6,
+              "connectorPins": [
+                "B3",
+                "B11"
+              ]
+            },
+            {
+              "index": 55,
+              "column": 6,
+              "row": 7,
+              "connectorPins": [
+                "B3",
+                "B13"
+              ]
+            },
+            {
+              "index": 56,
+              "column": 7,
+              "row": 0,
+              "connectorPins": [
+                "B12",
+                "B6"
+              ]
+            },
+            {
+              "index": 57,
+              "column": 7,
+              "row": 1,
+              "connectorPins": [
+                "B12",
+                "B2"
+              ]
+            },
+            {
+              "index": 58,
+              "column": 7,
+              "row": 2,
+              "connectorPins": [
+                "B12",
+                "B7"
+              ]
+            },
+            {
+              "index": 59,
+              "column": 7,
+              "row": 3,
+              "connectorPins": [
+                "B12",
+                "A1"
+              ]
+            },
+            {
+              "index": 60,
+              "column": 7,
+              "row": 4,
+              "connectorPins": [
+                "B12",
+                "A4"
+              ]
+            },
+            {
+              "index": 61,
+              "column": 7,
+              "row": 5,
+              "connectorPins": [
+                "B12",
+                "B5"
+              ]
+            },
+            {
+              "index": 62,
+              "column": 7,
+              "row": 6,
+              "connectorPins": [
+                "B12",
+                "B11"
+              ]
+            },
+            {
+              "index": 63,
+              "column": 7,
+              "row": 7,
+              "connectorPins": [
+                "B12",
+                "B13"
+              ]
+            },
+            {
+              "index": 64,
+              "column": 8,
+              "row": 0,
+              "connectorPins": [
+                "A3",
+                "B6"
+              ]
+            },
+            {
+              "index": 65,
+              "column": 8,
+              "row": 1,
+              "connectorPins": [
+                "A3",
+                "B2"
+              ]
+            },
+            {
+              "index": 66,
+              "column": 8,
+              "row": 2,
+              "connectorPins": [
+                "A3",
+                "B7"
+              ]
+            },
+            {
+              "index": 67,
+              "column": 8,
+              "row": 3,
+              "connectorPins": [
+                "A3",
+                "A1"
+              ]
+            },
+            {
+              "index": 68,
+              "column": 8,
+              "row": 4,
+              "connectorPins": [
+                "A3",
+                "A4"
+              ]
+            },
+            {
+              "index": 69,
+              "column": 8,
+              "row": 5,
+              "connectorPins": [
+                "A3",
+                "B5"
+              ]
+            },
+            {
+              "index": 70,
+              "column": 8,
+              "row": 6,
+              "connectorPins": [
+                "A3",
+                "B11"
+              ]
+            },
+            {
+              "index": 71,
+              "column": 8,
+              "row": 7,
+              "connectorPins": [
+                "A3",
+                "B13"
+              ]
+            },
+            {
+              "index": 72,
+              "column": 9,
+              "row": 0,
+              "connectorPins": [
+                "A10",
+                "B6"
+              ]
+            },
+            {
+              "index": 73,
+              "column": 9,
+              "row": 1,
+              "connectorPins": [
+                "A10",
+                "B2"
+              ]
+            },
+            {
+              "index": 74,
+              "column": 9,
+              "row": 2,
+              "connectorPins": [
+                "A10",
+                "B7"
+              ]
+            },
+            {
+              "index": 75,
+              "column": 9,
+              "row": 3,
+              "connectorPins": [
+                "A10",
+                "A1"
+              ]
+            },
+            {
+              "index": 76,
+              "column": 9,
+              "row": 4,
+              "connectorPins": [
+                "A10",
+                "A4"
+              ]
+            },
+            {
+              "index": 77,
+              "column": 9,
+              "row": 5,
+              "connectorPins": [
+                "A10",
+                "B5"
+              ]
+            },
+            {
+              "index": 78,
+              "column": 9,
+              "row": 6,
+              "connectorPins": [
+                "A10",
+                "B11"
+              ]
+            },
+            {
+              "index": 79,
+              "column": 9,
+              "row": 7,
+              "connectorPins": [
+                "A10",
+                "B13"
+              ]
+            },
+            {
+              "index": 80,
+              "column": 10,
+              "row": 0,
+              "connectorPins": [
+                "A12",
+                "B6"
+              ]
+            },
+            {
+              "index": 81,
+              "column": 10,
+              "row": 1,
+              "connectorPins": [
+                "A12",
+                "B2"
+              ]
+            },
+            {
+              "index": 82,
+              "column": 10,
+              "row": 2,
+              "connectorPins": [
+                "A12",
+                "B7"
+              ]
+            },
+            {
+              "index": 83,
+              "column": 10,
+              "row": 3,
+              "connectorPins": [
+                "A12",
+                "A1"
+              ]
+            },
+            {
+              "index": 84,
+              "column": 10,
+              "row": 4,
+              "connectorPins": [
+                "A12",
+                "A4"
+              ]
+            },
+            {
+              "index": 85,
+              "column": 10,
+              "row": 5,
+              "connectorPins": [
+                "A12",
+                "B5"
+              ]
+            },
+            {
+              "index": 86,
+              "column": 10,
+              "row": 6,
+              "connectorPins": [
+                "A12",
+                "B11"
+              ]
+            },
+            {
+              "index": 87,
+              "column": 10,
+              "row": 7,
+              "connectorPins": [
+                "A12",
+                "B13"
+              ]
+            },
+            {
+              "index": 88,
+              "column": 11,
+              "row": 0,
+              "connectorPins": [
+                "B8",
+                "B6"
+              ]
+            },
+            {
+              "index": 89,
+              "column": 11,
+              "row": 1,
+              "connectorPins": [
+                "B8",
+                "B2"
+              ]
+            },
+            {
+              "index": 90,
+              "column": 11,
+              "row": 2,
+              "connectorPins": [
+                "B8",
+                "B7"
+              ]
+            },
+            {
+              "index": 91,
+              "column": 11,
+              "row": 3,
+              "connectorPins": [
+                "B8",
+                "A1"
+              ]
+            },
+            {
+              "index": 92,
+              "column": 11,
+              "row": 4,
+              "connectorPins": [
+                "B8",
+                "A4"
+              ]
+            },
+            {
+              "index": 93,
+              "column": 11,
+              "row": 5,
+              "connectorPins": [
+                "B8",
+                "B5"
+              ]
+            },
+            {
+              "index": 94,
+              "column": 11,
+              "row": 6,
+              "connectorPins": [
+                "B8",
+                "B11"
+              ]
+            },
+            {
+              "index": 95,
+              "column": 11,
+              "row": 7,
+              "connectorPins": [
+                "B8",
+                "B13"
+              ]
+            },
+            {
+              "index": 96,
+              "column": 12,
+              "row": 0,
+              "connectorPins": [
+                "B4",
+                "B6"
+              ]
+            },
+            {
+              "index": 97,
+              "column": 12,
+              "row": 1,
+              "connectorPins": [
+                "B4",
+                "B2"
+              ]
+            },
+            {
+              "index": 98,
+              "column": 12,
+              "row": 2,
+              "connectorPins": [
+                "B4",
+                "B7"
+              ]
+            },
+            {
+              "index": 99,
+              "column": 12,
+              "row": 3,
+              "connectorPins": [
+                "B4",
+                "A1"
+              ]
+            },
+            {
+              "index": 100,
+              "column": 12,
+              "row": 4,
+              "connectorPins": [
+                "B4",
+                "A4"
+              ]
+            },
+            {
+              "index": 101,
+              "column": 12,
+              "row": 5,
+              "connectorPins": [
+                "B4",
+                "B5"
+              ]
+            },
+            {
+              "index": 102,
+              "column": 12,
+              "row": 6,
+              "connectorPins": [
+                "B4",
+                "B11"
+              ]
+            },
+            {
+              "index": 103,
+              "column": 12,
+              "row": 7,
+              "connectorPins": [
+                "B4",
+                "B13"
+              ]
+            }
+          ],
+          "outputs": [
+            "n_SENSE0",
+            "n_SENSE1",
+            "n_SENSE2",
+            "n_SENSE3",
+            "n_SENSE4",
+            "n_SENSE5",
+            "n_SENSE6",
+            "n_SENSE7"
+          ],
+          "columnNets": [
+            "n_COL0",
+            "n_COL1",
+            "n_COL2",
+            "n_COL3",
+            "n_COL4",
+            "n_COL5",
+            "n_COL6",
+            "n_COL7",
+            "n_COL8",
+            "n_COL9",
+            "n_COL10",
+            "n_COL11",
+            "n_COL12"
+          ]
+        },
+        "outputCircuit": {
+          "models": {
+            "R10.1": "resistor",
+            "R10.2": "resistor",
+            "R11.1": "resistor",
+            "R11.2": "resistor",
+            "C3.1": "capacitor",
+            "C3.2": "capacitor",
+            "C5.1": "capacitor",
+            "C5.2": "capacitor",
+            "C5.3": "capacitor",
+            "C5.4": "capacitor",
+            "C5.5": "capacitor",
+            "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+            "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+            "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+            "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+          },
+          "hostGround": "n_CABLE_GND",
+          "hostSupply": "n_CABLE_5V",
+          "serial": {
+            "data": {
+              "board": "n_TA_DATEN",
+              "cable": "n_CABLE_DATEN",
+              "connectorPin": "A1"
+            },
+            "clock": {
+              "board": "n_TA_TAKT",
+              "cable": "n_CABLE_TAKT",
+              "connectorPin": "B2"
+            }
+          },
+          "leds": {
+            "siso": {
+              "output": "n_LED_SISO_N",
+              "cathode": "n_LED_SISO",
+              "anode": "n_p5V",
+              "connectorPin": "A5",
+              "diode": "Dsiso_led"
+            },
+            "caps": {
+              "output": "n_LED_CAPS_N",
+              "cathode": "n_LED_CAPS",
+              "anode": "n_p5V",
+              "connectorPin": "A6",
+              "diode": "Dcaps_led"
+            }
+          },
+          "shield": {
+            "net": "/SHIELD",
+            "model": "Unconnected external shield boundary; no invented ground bond"
+          }
+        },
+        "outputControlUnknowns": "DAC X maps to 2.5 V; nominal load response is not a physical prediction of unknown logic",
+        "traceSignals": [
+          "v(n_CLK)",
+          "v(n_RESET_N)",
+          "v(n_CABLE_DATEN,n_CABLE_GND)",
+          "v(n_CABLE_TAKT,n_CABLE_GND)"
+        ],
+        "modelCoverage": {
+          "components": {
+            "A1": {
+              "referenceType": "7406",
+              "domain": "digital-or-interface",
+              "model": "7406 HDL logic; selected output pins use nominal electrical sink models"
+            },
+            "A2.1": {
+              "referenceType": "DL003",
+              "domain": "digital-or-interface",
+              "model": "DL003 HDL logic; column pins use electrical sinks in matrix mode"
+            },
+            "A2.2": {
+              "referenceType": "DL003",
+              "domain": "digital-or-interface",
+              "model": "DL003 HDL logic; column pins use electrical sinks in matrix mode"
+            },
+            "A2.3": {
+              "referenceType": "DL003",
+              "domain": "digital-or-interface",
+              "model": "DL003 HDL logic; column pins use electrical sinks in matrix mode"
+            },
+            "A4": {
+              "referenceType": "I8282",
+              "domain": "digital-or-interface",
+              "model": "8282 HDL latch and bus; nominal input load in matrix mode"
+            },
+            "A5": {
+              "referenceType": "U880",
+              "domain": "digital-or-interface",
+              "model": "TV80 CPU; digital buses/control pins, nominal clock/reset input loads"
+            },
+            "A6": {
+              "referenceType": "DL074",
+              "domain": "digital-or-interface",
+              "model": "DL074 HDL flip-flops; nominal electrical LED output drive in output mode"
+            },
+            "A7": {
+              "referenceType": "DL000",
+              "domain": "electrical",
+              "model": "LS_NAND_NOMINAL"
+            },
+            "A8": {
+              "referenceType": "U556_2716",
+              "domain": "digital-or-interface",
+              "model": "U556/2716 pin-mapped ROM on resolved CPU/latch bus"
+            },
+            "BR1": {
+              "referenceType": "BRIDGE",
+              "domain": "electrical",
+              "model": "1 milliohm closed / 1 teraohm open"
+            },
+            "BR2": {
+              "referenceType": "BRIDGE",
+              "domain": "electrical",
+              "model": "1 milliohm closed"
+            },
+            "C1": {
+              "referenceType": "220p",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C2": {
+              "referenceType": "10u",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C3.1": {
+              "referenceType": "47u",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C3.2": {
+              "referenceType": "47u",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C4": {
+              "referenceType": "10u",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C5.1": {
+              "referenceType": "47n",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C5.2": {
+              "referenceType": "47n",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C5.3": {
+              "referenceType": "47n",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C5.4": {
+              "referenceType": "47n",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C5.5": {
+              "referenceType": "47n",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "C6": {
+              "referenceType": "470p",
+              "domain": "electrical",
+              "model": "capacitor"
+            },
+            "L1.1": {
+              "referenceType": "CHOKE",
+              "domain": "electrical",
+              "model": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+            },
+            "L1.2": {
+              "referenceType": "CHOKE",
+              "domain": "electrical",
+              "model": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+            },
+            "L1.3": {
+              "referenceType": "CHOKE",
+              "domain": "electrical",
+              "model": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+            },
+            "L1.4": {
+              "referenceType": "CHOKE",
+              "domain": "electrical",
+              "model": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+            },
+            "R1": {
+              "referenceType": "8x910",
+              "domain": "electrical",
+              "model": "common-pin resistor network"
+            },
+            "R10.1": {
+              "referenceType": "560",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R10.2": {
+              "referenceType": "560",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R10.3": {
+              "referenceType": "560",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R11.1": {
+              "referenceType": "130",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R11.2": {
+              "referenceType": "130",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R2": {
+              "referenceType": "8x4k7",
+              "domain": "electrical",
+              "model": "common-pin resistor network"
+            },
+            "R3": {
+              "referenceType": "22k",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R4.1": {
+              "referenceType": "220",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R4.2": {
+              "referenceType": "220",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R4.3": {
+              "referenceType": "220",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R5": {
+              "referenceType": "10k",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R6.1": {
+              "referenceType": "1k",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R6.3": {
+              "referenceType": "1k",
+              "domain": "digital-or-interface",
+              "model": "HDL pullup on latch output enable; no electrical loading"
+            },
+            "R6.4": {
+              "referenceType": "1k",
+              "domain": "digital-or-interface",
+              "model": "CPU interrupt/NMI/wait tie-high boundary; no electrical loading"
+            },
+            "R6.5": {
+              "referenceType": "1k",
+              "domain": "digital-or-interface",
+              "model": "CPU bus-request tie-high boundary; no electrical loading"
+            },
+            "R6.6": {
+              "referenceType": "1k",
+              "domain": "digital-or-interface",
+              "model": "HDL pullup on flip-flop preset/clear; no electrical loading"
+            },
+            "R7": {
+              "referenceType": "3k3",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R8": {
+              "referenceType": "47k",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.1": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.2": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.3": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.4": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.5": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.6": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.7": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.8": {
+              "referenceType": "3k9",
+              "domain": "electrical",
+              "model": "resistor"
+            },
+            "R9.9": {
+              "referenceType": "3k9",
+              "domain": "digital-or-interface",
+              "model": "HDL pullup on I/O active; no electrical loading"
+            },
+            "V1.1": {
+              "referenceType": "DIODE",
+              "domain": "electrical",
+              "model": "D_NOMINAL"
+            },
+            "V1.2": {
+              "referenceType": "DIODE",
+              "domain": "electrical",
+              "model": "D_NOMINAL"
+            },
+            "V2": {
+              "referenceType": "DIODE",
+              "domain": "electrical",
+              "model": "D_NOMINAL"
+            },
+            "V3.1": {
+              "referenceType": "SC236D",
+              "domain": "electrical",
+              "model": "NPN_NOMINAL"
+            },
+            "V3.2": {
+              "referenceType": "SC236D",
+              "domain": "electrical",
+              "model": "NPN_NOMINAL"
+            },
+            "V4.1": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.2": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.3": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.4": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.5": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.6": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.7": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.8": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "V4.9": {
+              "referenceType": "SC308C",
+              "domain": "electrical",
+              "model": "PNP_NOMINAL"
+            },
+            "X1": {
+              "referenceType": "MATRIX_CONNECTOR",
+              "domain": "digital-or-interface",
+              "model": "Matrix/LED external fixture; bus-request contact remains open"
+            },
+            "XT1": {
+              "referenceType": "KEYBOARD_CABLE",
+              "domain": "digital-or-interface",
+              "model": "External cable/load boundary; shield remains unconnected"
+            }
+          },
+          "meaning": "Explicit implementation/boundary inventory, not device-model or full-board qualification",
+          "remainingFidelityGaps": [
+            "Uncharacterized semiconductor, gate, cable and filter parameters",
+            "Electrical bus currents, pin delays and control-pullup loading",
+            "Controller IC supply-current and brownout behavior",
+            "Specimen key construction, firmware and physical routing"
+          ]
+        },
+        "deckSha256": "08151ad9a40417aeea6dd9262f91e97db0fc42dee366bf273cf0f4800da4d097",
+        "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
+        "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+        "preparedOnly": true
+      },
+      "preparedReportSha256": "11c244f6a383cac09cfbe65bcfda968dacf095e2e118ef1c3dcb1092df7c1a87",
+      "probeDeckSha256": "149ee8eafa17b70b7b9cf26a2ee0b265d1bac6285d30c3522270fe66b57443fd",
+      "logSha256": "69da7f81d48e2a6475a115f66a1ff40103a825e69d933555dfe5f958267e09bc",
+      "traceSha256": "6be595a861de1cdffe211aed24ab1ec6937572079e06e3ba58ed26dab4ca5f4d",
+      "completed": true
+    }
+  ],
+  "qualificationBoundary": "Early startup only, before normal reset release; no full-boot, firmware or long-duration phase qualification",
+  "sources": {
+    "coupled_clock_probe.py": "8d94aebd53bcb909b88842c61c6ea111d2990552a8400e5da3af2131b4f17fe2",
+    "boot_cosim.py": "29d75e7860b58588e61dee43cf3a0d60dc8bdf7a2bc8f680da4b31693c676df0",
+    "clock_convergence.py": "379c3681377aced1939676a727b28111eade0751b6091840ec33c0c66a54bdd1",
+    "failure_evidence.py": "5308dda71da0b65e2c3c95a00c5906bdf18e8bd1c3101e23ca4da3698dd452e6",
+    "trace_io.py": "173651ace4279b5a491b1442f60aeca375f312b4118eb58e01ec83e11559d443"
+  },
+  "clockPhase": {
+    "passed": false,
+    "thresholdVolts": 1.4,
+    "edgeBudgetNs": 15,
+    "sampledExtremaBudgetVolts": 0.05,
+    "waveforms": {
+      "coarse": {
+        "samples": 4163938,
+        "edges": 5285,
+        "minimumVolts": -8.15269562e-69,
+        "maximumVolts": 3.51246094,
+        "maximumSampleGapNs": 1.0000100000003231,
+        "minimumPeriodNs": 180.76981615765297,
+        "maximumPeriodNs": 397.4177703260946,
+        "firstSampleSeconds": 0.0,
+        "lastSampleSeconds": 0.001,
+        "meanPeriodNs": 339.52582533148325,
+        "frequencyHz": 2945284.0561500373
+      },
+      "fine": {
+        "samples": 4599462,
+        "edges": 5285,
+        "minimumVolts": -8.15269562e-69,
+        "maximumVolts": 3.51246193,
+        "maximumSampleGapNs": 0.5000099999992268,
+        "minimumPeriodNs": 170.81088813198448,
+        "maximumPeriodNs": 397.4208235202667,
+        "firstSampleSeconds": 0.0,
+        "lastSampleSeconds": 0.001,
+        "meanPeriodNs": 339.51599913830427,
+        "frequencyHz": 2945369.2978770137
+      }
+    },
+    "maximumEstimatedPhaseDifferenceNs": 48.37931444886601,
+    "maximumBracketDifferenceNs": 48.61200000000441,
+    "firstDifference": {
+      "signal": "Clock voltage",
+      "edgeOrdinal": 1,
+      "coarse": {
+        "direction": "fall",
+        "beforeSeconds": 0.000102971223,
+        "afterSeconds": 0.000102971559,
+        "estimatedSeconds": 0.0001029713341316319
+      },
+      "fine": {
+        "direction": "fall",
+        "beforeSeconds": 0.00010294852,
+        "afterSeconds": 0.00010294885,
+        "estimatedSeconds": 0.00010294876987666069
+      }
+    },
+    "interpretation": "Absolute edge order and phase over the saved window, with sample-bracket uncertainty; no phase realignment. Sampled voltage extrema are not a complete waveform or device calibration.",
+    "sampledExtremaDifferencesVolts": {
+      "minimumVolts": 0.0,
+      "maximumVolts": 9.900000002005527e-07
+    }
+  },
+  "error": "Early coupled clock fails phase refinement"
+}
