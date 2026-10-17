@@ -230,6 +230,9 @@ establishing convergence. The phase checker also records signed first/last and
 extreme offsets separately for rising and falling edges, without realignment or
 changing acceptance. `quarter-ns-phase-evolution.json` retains a reanalysis of the
 same traces: an initial offset and subsequent drift both contribute to the failure.
+Further refinement at 0.0625 ns aborts near initial clock activity;
+`sixteenth-ns-abort.json` retains the failed run and its diagnostic provenance.
+It supplies no additional phase-convergence result.
 
 ## Output, cable and supply loads
 
@@ -331,8 +334,10 @@ with both timestamps; the detailed repeat diagnostic is retained with its report
 
 `reports/repeat/` retains successful individual repeat-scenario executions with
 C serial-bit agreement, but their paired receiver timing exceeds the refinement
-budget. Repeat remains unqualified; coverage and margin stages after that failed
-gate have not been certified by the combined qualifier.
+budget. Independent coverage reports verify the press, repeat and release
+observations and reset/ROM restart. These checks do not override the failed
+refinement gate: repeat remains unqualified, and receiver margins require their
+own retained evidence.
 Service coverage also checks CPU RESET_N transitions and a restart at ROM address
 0000 after every reset release. Matching later serial traffic alone cannot satisfy
 the reset check.
