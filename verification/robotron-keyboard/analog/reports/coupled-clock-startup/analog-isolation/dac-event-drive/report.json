@@ -1,0 +1,88 @@
+{
+  "completed": false,
+  "qualified": false,
+  "scope": "Startup isolation with ADC observers and original output DACs driven by captured digital events with unknown states mapped to zero volts; event times originate from the original midpoint-unknown profile; no CPU, firmware or full-board qualification",
+  "sourceDirectory": "build/keyboard-controller-analog/analog-adc-observers",
+  "sourceDeckSha256": "a9bdcc640c197760bbfa1895dc5615a56e0bd91c131f52a26854b7056e798785",
+  "sourceReportSha256": "0e5503174cce7664f3a3bcf741f4a4b4258be1a7da32b3518b1770b0d79b059a",
+  "observerSourceDeckSha256": "507add69a4bffcb4a1fa75647d7ee3490262f301511ed771d1ddccbaa72ff242",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "maximumStepNs": 0.0625,
+  "durationUs": 150,
+  "retainedDirectory": "build/keyboard-controller-analog/dac-event-drive",
+  "exitCode": 0,
+  "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.000102863, timestep = 3.44889e-24: trouble with node \"b.xa7_3.btarget#branch\"",
+  "endpointSeconds": 0.00010286290624677614,
+  "artifacts": {
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "probe.cir": {
+      "sha256": "ba94e3d62ae5b7bbf4d14ebaa0d494c42a7101fb1c339095f8fcb783184baf0e",
+      "bytes": 13900
+    },
+    "ngspice.log": {
+      "sha256": "cee214caf5483b5d8b77496557d9d9b50d898363750d80cf4410378bf7e42ef5",
+      "bytes": 26177
+    },
+    "stimulus.txt": {
+      "sha256": "a45c0f52a564050ed96bc11d7f60ef02ecbe298679b0c192528501a10b70c982",
+      "bytes": 338
+    },
+    "trace.txt": {
+      "sha256": "4dcaa129bd3ed36c3c602aab2fc54f8977e747f269e4b37db36bb5b21661e735",
+      "bytes": 83946102
+    },
+    "endpoint.txt": {
+      "sha256": "bc91b49141847048ff860cb2a407daf4a3564f43753aeb714a5820a67d3344e6",
+      "bytes": 47
+    }
+  }
+}

@@ -4,7 +4,8 @@
   "reports": {
     "fixed-drive": "63640977f55a51213e2310c5a8122f6ee43d68908b97d31344544a33e1125b39",
     "adc-observers": "0e5503174cce7664f3a3bcf741f4a4b4258be1a7da32b3518b1770b0d79b059a",
-    "dac-fixed-drive": "d93d4905852a6e8ae8778cdaa1e12fe5129f372c4541bb49e73450190d05e244"
+    "dac-fixed-drive": "d93d4905852a6e8ae8778cdaa1e12fe5129f372c4541bb49e73450190d05e244",
+    "dac-event-drive": "ebff64c4feeb7050d2e4a2259f6ae894ef466e4484d10b1df922afa15fd7b668"
   },
-  "interpretation": "Fixed analog driver controls complete 150 us without bridges, with ADC observers, and with ADC observers plus constant known-low DAC inputs. The no-bridge clock peak remains below the 2 V high-level requirement in this early window. Static ADC/DAC presence does not reproduce the live startup abort under these fixed controls; changing output events and feedback remain to be isolated."
+  "interpretation": "Fixed analog driver controls complete 150 us without bridges, with ADC observers, and with ADC observers plus constant known-low DAC inputs. Replaying captured digital events through the same DACs with out_undef=0 aborts at 102.86290624677614 us without CPU/firmware execution. The event timestamps originated from a different unknown-output mapping; this is an isolation experiment, not an exact replay of live zero-unknown startup. It narrows the failure to circuit/event behavior without establishing a simulator defect. The no-bridge clock peak remains below the 2 V high-level requirement in this early window."
 }

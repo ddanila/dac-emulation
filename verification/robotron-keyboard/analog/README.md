@@ -205,8 +205,10 @@ fixtures have not resolved live startup. Their scope, decks and failure evidence
 remain in `reports/coupled-clock-startup/`; none establishes specimen parasitics
 or historical power-up states. Fixed-control analog isolation completes the early
 window with ADC observers and constant-input DACs as well as without bridges.
-The no-bridge clock has not reached the checked high level (`reports/coupled-clock-startup/analog-isolation/`). This narrows the
-reproducer without qualifying startup.
+Captured digital-event replay through the zero-unknown DACs still aborts without
+CPU execution. The no-bridge clock has not reached the checked high level
+(`reports/coupled-clock-startup/analog-isolation/`). This narrows the reproducer
+without qualifying startup or establishing a simulator defect.
 
 `engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
 boundary correction, not the default engine. It passes the isolated plateau and
