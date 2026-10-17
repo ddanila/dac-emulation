@@ -1,0 +1,178 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Characterize a published-topology 7406 proxy; no automatic fitting or full-device qualification.",
+  "limits": {
+    "source": {
+      "url": "https://www.ti.com/lit/ds/symlink/sn7406.pdf",
+      "title": "TI SN7406, SDLS031A",
+      "page": "PDF page 3",
+      "sha256": "0795a70eb763f226a76d4067783d47690072ea861f13e5e0baf205f5f033950b"
+    },
+    "topologyPage": "PDF page 2; resistor values explicitly nominal",
+    "temperatureC": 25,
+    "qualificationBoundary": "Selected DC points at 25 C only; generic semiconductor parameters do not qualify SN7406 production corners or the museum part",
+    "cases": [
+      {
+        "name": "input-low",
+        "supplyVolts": 5.25,
+        "inputVolts": 0.4,
+        "pullupOhms": 1000000000.0,
+        "injectedOutputAmps": 0,
+        "metric": "inputAmps",
+        "minimum": -0.0016
+      },
+      {
+        "name": "input-high",
+        "supplyVolts": 5.25,
+        "inputVolts": 2.4,
+        "pullupOhms": 1000000000.0,
+        "injectedOutputAmps": 0,
+        "metric": "inputAmps",
+        "maximum": 4e-05
+      },
+      {
+        "name": "input-maximum",
+        "supplyVolts": 5.25,
+        "inputVolts": 5.5,
+        "pullupOhms": 1000000000.0,
+        "injectedOutputAmps": 0,
+        "metric": "inputAmps",
+        "maximum": 0.001
+      },
+      {
+        "name": "sink-16ma",
+        "supplyVolts": 4.75,
+        "inputVolts": 2,
+        "pullupOhms": 1000000000000.0,
+        "injectedOutputAmps": 0.016,
+        "metric": "outputVolts",
+        "minimum": 0,
+        "maximum": 0.4
+      },
+      {
+        "name": "sink-40ma",
+        "supplyVolts": 4.75,
+        "inputVolts": 2,
+        "pullupOhms": 1000000000000.0,
+        "injectedOutputAmps": 0.04,
+        "metric": "outputVolts",
+        "minimum": 0,
+        "maximum": 0.7
+      }
+    ]
+  },
+  "executable": {
+    "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+    "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+  },
+  "spinitSha256": "8cf9ecf7e57c2faecf6d37eb23f1587d0d9d6b407ba9d1156dee8ea0569ba6fe",
+  "sources": {
+    "ttl7406_probe.py": "8726f6dc39c717b65abccc85792859aad3d8537dc02ac7eb85d2bd72d3e8021b",
+    "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+    "ttl7406_limits.json": "9eff9a9d9ee2060cab81a3a9bedc6017770c1e7b115c7ff894ec02193c9839aa",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "modelAssumptions": "Generic NPN IS=1e-14, BF=100, BR=1, VAF=100; generic diode IS=1e-14, N=1. No transit/storage parameters or breakdown model.",
+  "inputReverseBetaOverride": 1,
+  "fixtureAssumptions": "Input-current points use a 1 Gohm output pullup. Sink points inject the specified current and use a 1 Tohm numerical pullup. Transfer sweep uses a 1 kohm pullup.",
+  "cases": {
+    "input-low": {
+      "sample": {
+        "inputVolts": 0.4,
+        "outputVolts": 5.239517319244136,
+        "supplyAmps": 0.005291152756978611,
+        "inputAmps": -0.0006972025612788861
+      },
+      "withinLimit": true,
+      "artifacts": {
+        "probe.cir": "5bb419b339daf8be0195b02246c467e10bac2648b9be9b60a5e1c9f64c2d0ac5",
+        "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+        "ngspice.log": "fed8fb5e4311cf07d100526b396bb0d974ef0d2e3526e77054e89c63f7305fa3",
+        "trace.txt": "329b235805e7d20712bc8b0c584a1d2ed53e865c34c643b5a595e630b9a0fb06"
+      }
+    },
+    "input-high": {
+      "sample": {
+        "inputVolts": 2.4000000000000004,
+        "outputVolts": 0.017897207120861767,
+        "supplyAmps": 0.00588580097061031,
+        "inputAmps": 0.00048827085653828205
+      },
+      "withinLimit": false,
+      "artifacts": {
+        "probe.cir": "87d906f9ee2b810734a8d282ceb6e6ad72221ca2a54fb84a609de22bbaeba898",
+        "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+        "ngspice.log": "fed8fb5e4311cf07d100526b396bb0d974ef0d2e3526e77054e89c63f7305fa3",
+        "trace.txt": "2eec840b43ce393689b1307ac55c2f8d68ae96682c6151c8d6ec8549279f3778"
+      }
+    },
+    "input-maximum": {
+      "sample": {
+        "inputVolts": 5.5,
+        "outputVolts": 0.017897207120861798,
+        "supplyAmps": 0.005885800970118127,
+        "inputAmps": 0.0004882708656821036
+      },
+      "withinLimit": true,
+      "artifacts": {
+        "probe.cir": "e7264b835eb313baf6d7988d48c975af218d98b40b6b4dc79650a2ad073451de",
+        "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+        "ngspice.log": "fed8fb5e4311cf07d100526b396bb0d974ef0d2e3526e77054e89c63f7305fa3",
+        "trace.txt": "3ac6ac2b09e61f8e8fb8577ceec2b655c180b50a12971b6e3bb99829fa2c3bdb"
+      }
+    },
+    "sink-16ma": {
+      "sample": {
+        "inputVolts": 2.0,
+        "outputVolts": 0.056473926596643416,
+        "supplyAmps": 0.0051599990814439325,
+        "inputAmps": 0.0004150356413899418
+      },
+      "withinLimit": true,
+      "artifacts": {
+        "probe.cir": "3e710ccb6fd53935e2756561d7e00ce6fb5456b081f45008df40de5d26dbd30b",
+        "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+        "ngspice.log": "fed8fb5e4311cf07d100526b396bb0d974ef0d2e3526e77054e89c63f7305fa3",
+        "trace.txt": "055f743a4b7864f80d534414fd79b7abbcd4953a90092a7a09c5d03e7042984b"
+      }
+    },
+    "sink-40ma": {
+      "sample": {
+        "inputVolts": 2.0,
+        "outputVolts": 0.07898147685968039,
+        "supplyAmps": 0.0051477697901794826,
+        "inputAmps": 0.00041503564138992664
+      },
+      "withinLimit": true,
+      "artifacts": {
+        "probe.cir": "941edbe3c89d076cea02b022c95cf5a12611b38aa2469c6198d932bc8e80976f",
+        "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+        "ngspice.log": "fed8fb5e4311cf07d100526b396bb0d974ef0d2e3526e77054e89c63f7305fa3",
+        "trace.txt": "c27a2a39b97f1d682de7e2de815b6ffbcc97ecc95c016d5c5baf5bb55a2a3713"
+      }
+    }
+  },
+  "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with Sparse Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
+  "transfer": {
+    "lowInput": {
+      "inputVolts": 0.8000000000000005,
+      "outputVolts": 4.9999999899960255,
+      "supplyAmps": 0.005061303077338363,
+      "inputAmps": -0.0005877945478592792
+    },
+    "highInput": {
+      "inputVolts": 2.0000000000000013,
+      "outputVolts": 0.03528517630668783,
+      "supplyAmps": 0.010488340868507057,
+      "inputAmps": 0.0004516093060820866
+    },
+    "artifacts": {
+      "probe.cir": "2952bb8eb80da443387bf0ef7a144f65d14dcdda52f74dd558f744883593b12b",
+      "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+      "ngspice.log": "daf40debec2abfe2b4518b63f6394c690fffabdaffd318c505fa36b5ff1ee59f",
+      "trace.txt": "1dd8a7217373ca29e110212118b1ef0963e1b1fae5d403d269d3fb969961f90d"
+    }
+  },
+  "dcPointsWithinPublishedLimits": false
+}

@@ -588,6 +588,14 @@ electrical reference limits. It rejects unclassified attachments and keeps absen
 output-capacitance data explicit. The schematic has no external data-bus pullups;
 the digital released-bus value does not qualify electrical voltage or retention.
 See `bus_limits.json` for test conditions and clone-applicability limits.
+
+`ttl7406_probe.py` characterizes the nominal resistor/transistor topology published
+in TI SDLS031A. Generic semiconductor parameters overstate high-input current;
+`--input-reverse-beta .01 --require-dc-points` checks an explicit candidate against
+selected DC limits at 25 C. Both remain unqualified for switching, temperature,
+breakdown and specimen behavior, and neither is adopted in the board harness.
+The model, source conditions and retained results are in `ttl7406_nominal.cir`,
+`ttl7406_limits.json` and `reports/ttl7406/`.
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
 
