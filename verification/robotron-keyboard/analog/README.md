@@ -210,8 +210,13 @@ or other contact/reset scenarios.
 applies convergence, scenario coverage and receiver margins to an existing pair.
 It marks the combined result passed only after every check passes, pins the input/check
 reports and preserves failure logs. The Make target uses this same final gate.
-`reports/release-repress/` retains a qualified release/repress pair; `coarse-run.json`
-and `fine-run.json` are the input reports referenced by its qualification hashes.
+Service coverage also checks CPU RESET_N transitions and a restart at ROM address
+0000 after every reset release. Matching later serial traffic alone cannot satisfy
+the reset check.
+
+`reports/release-repress/` and `reports/modifier/` retain qualified scenario pairs;
+`coarse-run.json` and `fine-run.json` are the input reports referenced by each
+qualification's hashes.
 This extends the BR service evidence, not full-board startup or calibration.
 
 `receiver_margins.py /path/to/run --out /path/to/margins.json` separately checks

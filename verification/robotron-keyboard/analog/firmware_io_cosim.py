@@ -14,6 +14,7 @@ from matrix import matrix_circuit
 from output_circuit import output_circuit
 from serial_observation import validate_transport, first_reference_difference, SerialMismatch
 from io_scenario import load as load_scenario, contact_source, reset_source, c_header, time_ns, observe
+from reset_observation import validate_service_reset, ResetMismatch
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -49,7 +50,8 @@ def main():
         'bridgeDelay': 'Numerical interface delay, not a calibrated device propagation delay'},
         'sources': {name: sha(HERE / name) for name in (
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
-            'circuit.py', 'matrix.py', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py', 'io_scenario.py')}}
+            'circuit.py', 'matrix.py', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
+            'io_scenario.py', 'reset_observation.py')}}
     try:
         scenario = load_scenario(args.scenario)
         report['assumptions']['scenario'] = scenario
@@ -144,6 +146,7 @@ def main():
         log = (out / 'ngspice.log').read_text()
         if re.search(r'warning|error|failed|fatal|singular|no vlog_startup_routines', log, re.I):
             raise ValueError('Solver/HDL diagnostics: inspect ngspice.log')
+        report['resetDelivery'] = validate_service_reset(log, scenario, args.rom.read_bytes()[0])
         report['serialTransport'] = validate_transport(log, require_activity=True)
         received_bits = [bit for _, bit in report['serialTransport']['received']]
         report['cReferenceBits'] = expected_bits
@@ -173,6 +176,8 @@ def main():
     except Exception as error:
         if isinstance(error, SerialMismatch):
             report['serialFailure'] = error.details
+        if isinstance(error, ResetMismatch):
+            report['resetFailure'] = error.details
         report['error'] = str(error)
         raise
     finally:
