@@ -473,7 +473,11 @@ accepts `--rise-us` and `--step-ns` for investigation.
 The full power-on delay is simulated, although only a tail window is saved to
 limit waveform storage. The run is kept outside fast CI and can take much longer than the standalone
 probes. Set its wall-clock limit with `--timeout-seconds`. Reports pin ROM, TV80, generated wiring, bridge libraries and analog sources;
-solver logs and voltage traces are retained when validation fails. Firmware
+solver logs and voltage traces are retained when validation fails. Failed runs
+record available raw-output hashes and byte lengths in `failureArtifacts`, with
+missing or unreadable outputs identified separately. This includes solver exits
+and timeouts; fingerprints do not certify waveform validity. Older compressed
+files are never substituted for missing outputs of a failed invocation. Firmware
 scenarios and coupled timestep convergence remain separate qualification work.
 
 The archived `reports/clock-reset-baseline.json` demonstrates S600 boot and idle

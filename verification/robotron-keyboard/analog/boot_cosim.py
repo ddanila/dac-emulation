@@ -12,6 +12,7 @@ from trace_io import open_binary, open_text
 
 from controller_interface import generate
 from matrix import LATCH_LOADS, matrix_circuit
+from failure_evidence import capture as capture_failure
 from output_circuit import output_circuit
 from model_coverage import classify
 from circuit import elements, load, node, nominal_models
@@ -267,7 +268,7 @@ def main():
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
                             'ls_nand_dc.cir' if args.gate_profile == 'dl000-dc' else 'ls_nand_nominal.cir',
-                            'controller_interface.py', 'matrix.py', 'latch_limits.json', 'output_circuit.py', 'model_coverage.py',
+                            'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'model_coverage.py',
                             'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py')}}
     if args.scenario_data:
         report['scenario'] = args.scenario_data
@@ -295,6 +296,7 @@ def main():
         if isinstance(error, SerialMismatch):
             report['serialFailure'] = error.details
         report['error'] = str(error)
+        report['failureArtifacts'] = capture_failure(out, ('ngspice.log', 'trace.txt'))
         raise
     finally:
         (out / 'report.json').write_text(json.dumps(report, indent=2) + '\n')

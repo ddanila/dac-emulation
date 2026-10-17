@@ -11,6 +11,7 @@ from boot_cosim import ROM_SHA256, sha
 from circuit import load
 from controller_interface import generate
 from matrix import LATCH_LOADS, matrix_circuit
+from failure_evidence import capture as capture_failure
 from output_circuit import output_circuit
 from serial_observation import validate_transport, first_reference_difference, SerialMismatch
 from io_scenario import load as load_scenario, contact_source, reset_source, c_header, time_ns, observe
@@ -57,7 +58,7 @@ def main():
         'bridgeDelay': 'Numerical interface delay, not a calibrated device propagation delay'},
         'sources': {name: sha(HERE / name) for name in (
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
-            'circuit.py', 'matrix.py', 'latch_limits.json', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
+            'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
             'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py')}}
     try:
         scenario = load_scenario(args.scenario)
@@ -197,6 +198,7 @@ def main():
         if isinstance(error, ResetMismatch):
             report['resetFailure'] = error.details
         report['error'] = str(error)
+        report['failureArtifacts'] = capture_failure(out, ('ngspice.log', 'trace.txt', 'led-trace.txt'))
         raise
     finally:
         (out / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
