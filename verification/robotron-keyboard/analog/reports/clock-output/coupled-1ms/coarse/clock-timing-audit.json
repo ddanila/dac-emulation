@@ -1,0 +1,102 @@
+{
+  "passed": false,
+  "qualified": false,
+  "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+  "samples": 8646222,
+  "validSupplySamples": 2502651,
+  "abortedExcursions": 0,
+  "measurements": {
+    "high": {
+      "observations": 777,
+      "passed": 0,
+      "failed": 777,
+      "indeterminate": 0,
+      "minimumLowerNs": 122.1219999996987,
+      "maximumUpperNs": 124.51400000022383,
+      "firstNonPass": {
+        "status": "failed",
+        "startBracketSeconds": [
+          0.0007157104634999999,
+          0.0007157105895000001
+        ],
+        "endBracketSeconds": [
+          0.0007158348034999999,
+          0.0007158348615000001
+        ],
+        "durationLowerNs": 124.21399999979627,
+        "durationUpperNs": 124.39800000014525
+      }
+    },
+    "low": {
+      "observations": 777,
+      "passed": 777,
+      "failed": 0,
+      "indeterminate": 0,
+      "minimumLowerNs": 192.38499999974997,
+      "maximumUpperNs": 194.90800000029375,
+      "firstNonPass": null
+    },
+    "rise": {
+      "observations": 777,
+      "passed": 0,
+      "failed": 777,
+      "indeterminate": 0,
+      "minimumLowerNs": 37.175999999770895,
+      "maximumUpperNs": 37.657000000451,
+      "firstNonPass": {
+        "status": "failed",
+        "startBracketSeconds": [
+          0.0007156731624999999,
+          0.0007156732055000002
+        ],
+        "endBracketSeconds": [
+          0.0007157104634999999,
+          0.0007157105895000001
+        ],
+        "durationLowerNs": 37.257999999768494,
+        "durationUpperNs": 37.42700000017741
+      }
+    },
+    "fall": {
+      "observations": 778,
+      "passed": 778,
+      "failed": 0,
+      "indeterminate": 0,
+      "minimumLowerNs": 11.450999999780553,
+      "maximumUpperNs": 12.011000000144989,
+      "firstNonPass": null
+    },
+    "period": {
+      "observations": 776,
+      "passed": 0,
+      "failed": 776,
+      "indeterminate": 0,
+      "minimumLowerNs": 365.6019999998721,
+      "maximumUpperNs": 366.5920000005783,
+      "firstNonPass": {
+        "status": "failed",
+        "startBracketSeconds": [
+          0.0007157104634999999,
+          0.0007157105895000001
+        ],
+        "endBracketSeconds": [
+          0.0007160762194999999,
+          0.0007160763455000001
+        ],
+        "durationLowerNs": 365.62999999986863,
+        "durationUpperNs": 365.88200000016275
+      }
+    }
+  },
+  "partialIntervalPolicy": "Intervals clipped by file endpoints or invalid supply are excluded; transitions with both observed brackets may still be assessed",
+  "inputs": {
+    "traceSha256": "ad90d1116bb480f809d588c75d5e8c446be6a402bb3d681578cfb8e1946e6d69",
+    "diagnosticTraceSha256": "f65c069a68c1651f8a755272ef082e1313afc36b00ffe8a633b84a0218aa7d6b"
+  },
+  "sources": {
+    "clock_timing.py": "46ac1f41182c56a20e2d8d57cb3a9b22ada27194381010636c09a22aea3766cb",
+    "clock_convergence.py": "e4a300be990cb1a717d41254a5d5386bfe89daba8b71e8772f0021f0a36db3f9",
+    "cpu_clock_limits.json": "bc4e28baf501a908124bbd33a642a46489c79ce4c490c156d534c339ffa4e21e",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  }
+}
