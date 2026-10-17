@@ -1,0 +1,10 @@
+{
+  "qualified": false,
+  "scope": "CPU-free event isolation with unknown DAC states mapped to zero; no full-board or clock qualification",
+  "reports": {
+    "replay": "f9e244e25c1096f5c36d12e46a0a293d0928c1a9f04fcabbff07a665e14b4557",
+    "omit-release": "b8c432d9fbd8b5e1dee94ddbc3c20356c7649d0cd8ee7f25cea2e0ecd35960aa",
+    "isolated-breakpoint": "b1b0465d0d7fcd96b6ca6839b236256df6aef7e45a1f222386bd2b393d921762"
+  },
+  "interpretation": "Captured release events reproduce the startup abort with every observed DAC control at zero volts. Omitting the release completes 150 us. A separate, electrically isolated PWL breakpoint at the release time also completes. Thus the release event matters, but an arbitrary analog breakpoint alone does not reproduce this failure; DAC/event scheduling remains to be isolated."
+}
