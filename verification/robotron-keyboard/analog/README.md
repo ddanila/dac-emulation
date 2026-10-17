@@ -180,6 +180,9 @@ per-cycle or device qualification.
 Full-boot runs retain a separate `supply-trace.txt` stream and the same diagnostic;
 both waveform streams are hashed and optionally compressed. Legacy boot traces
 without supply samples remain readable but provide no supply-aware clock evidence.
+The board-pair qualifier requires a valid supply throughout its saved observation
+window and both U880 clock-level excursions. These are necessary checks; they do
+not establish valid pulse widths or voltage levels on every cycle.
 
 ```sh
 python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path/to/s600.bin --steps-ns 1 .5 --duration-us 1000 --out /tmp/coupled-clock

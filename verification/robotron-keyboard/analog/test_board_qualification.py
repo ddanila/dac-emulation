@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from qualify_board_pair import compare, normalized_analysis
+from qualify_board_pair import compare, normalized_analysis, require_clock_voltage
 from receiver_margins import measure
 
 
@@ -19,6 +19,20 @@ def report(step):
 
 
 class BoardQualificationTests(unittest.TestCase):
+    def test_voltage_evidence_is_required_beyond_timing(self):
+        valid = {'supplyTraceSignal': 'v(n_p5V)', 'cpuClockVoltage': {
+            'samples': 10, 'validSupplySamples': 10,
+            'lowExcursionObserved': True, 'highExcursionObserved': True}}
+        require_clock_voltage(valid)
+        for field, value in [('samples', 0), ('validSupplySamples', 9),
+                             ('lowExcursionObserved', False), ('highExcursionObserved', False)]:
+            changed = copy.deepcopy(valid)
+            changed['cpuClockVoltage'][field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                require_clock_voltage(changed)
+        with self.assertRaises(ValueError):
+            require_clock_voltage({})
+
     def test_transient_invocation_and_breakpoint_are_verified(self):
         ordinary = 'fixture\n.control\ntran 2n .127 124m\n.endc\n.end\n'
         from transient_analysis import with_minimum_breakpoint
