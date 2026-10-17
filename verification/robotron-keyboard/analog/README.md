@@ -214,7 +214,8 @@ Service coverage also checks CPU RESET_N transitions and a restart at ROM addres
 0000 after every reset release. Matching later serial traffic alone cannot satisfy
 the reset check.
 
-`reports/release-repress/` and `reports/modifier/` retain qualified scenario pairs;
+`reports/release-repress/`, `reports/modifier/` and `reports/service-reset/`
+retain qualified scenario pairs;
 `coarse-run.json` and `fine-run.json` are the input reports referenced by each
 qualification's hashes.
 This extends the BR service evidence, not full-board startup or calibration.

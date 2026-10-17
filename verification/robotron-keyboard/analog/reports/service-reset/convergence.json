@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "scope": "Check firmware I/O timestep refinement against retained inputs and observations.",
+  "toleranceNs": 15.0,
+  "interpretation": "Exploratory numerical comparison, not a historical receiver timing specification",
+  "validationSources": {
+    "compare_firmware_io.py": "830cf15189e8557b5c367b03b1753e236f33cccf6b7022cef8bbe04ead8c5d49",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136"
+  },
+  "reports": {
+    "coarse": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-reset-coarse",
+      "sha256": "7daf1a4298be14badb60f7dbb7219bbfdf5847db5b8ea44bdb41de8abc885dcd"
+    },
+    "fine": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-reset",
+      "sha256": "f59a5aebab5bec8af0c266d1dfaa06b5f7b38201ded70349fa2306261d6ec910"
+    }
+  },
+  "comparison": {
+    "transmittedMaximumDifferenceNs": 0.0,
+    "receivedMaximumDifferenceNs": 4.0,
+    "transportMaximumDifferenceNs": 4.00000000000001,
+    "withinTolerance": true
+  }
+}

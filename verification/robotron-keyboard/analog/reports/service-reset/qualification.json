@@ -1,0 +1,64 @@
+{
+  "passed": true,
+  "scope": "Qualify an existing BR service scenario pair without rerunning its simulations.",
+  "checks": [
+    {
+      "name": "convergence",
+      "exitCode": 0,
+      "report": "convergence.json",
+      "reportSha256": "73ef2836058af6f4f6b3409dca95e217649a8dcdbcbad62aeb3f79513d68cdd4"
+    },
+    {
+      "name": "coarse-coverage",
+      "exitCode": 0,
+      "report": "coarse-coverage.json",
+      "reportSha256": "f371f27d8bc22211912fb8be805679b34579cc0ff4458dd052fe845a311ffa05"
+    },
+    {
+      "name": "coarse-margins",
+      "exitCode": 0,
+      "report": "coarse-margins.json",
+      "reportSha256": "7bcf86adec50c4e5ea19dc04cdc239d5e14e895a37c2ed6ab1215b4b0aa4c832"
+    },
+    {
+      "name": "fine-coverage",
+      "exitCode": 0,
+      "report": "fine-coverage.json",
+      "reportSha256": "d18d854697254daf4aa09088391b453441c46ccbde92a026e5e274f49f121df0"
+    },
+    {
+      "name": "fine-margins",
+      "exitCode": 0,
+      "report": "fine-margins.json",
+      "reportSha256": "2a6fbc6a23ee7623220cdf9118929411b4381c66934f9ff89bc588f109553471"
+    }
+  ],
+  "limits": {
+    "edgeConvergenceNs": 15,
+    "sampledSetupHoldNs": 100
+  },
+  "qualificationBoundary": "Selected BR service fixture; not electrical oscillator/reset, brownout or specimen calibration",
+  "sources": {
+    "qualify_io_pair.py": "8acdec89421bc08304d6253f91a055a52f1ba2ebce6638b792805b09519c4b07",
+    "compare_firmware_io.py": "830cf15189e8557b5c367b03b1753e236f33cccf6b7022cef8bbe04ead8c5d49",
+    "scenario_coverage.py": "31f55449228db83be1a4474ec295544673f560cf5669a5ec7a831b10be1f49e4",
+    "receiver_margins.py": "2cf7d4fcab09424def0f471fb5ade315f11790a4267b3b32041e1671e97b80ed",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "reset_observation.py": "35418feb9ac2f0a333873fd804b56e23f06640d10ff5c4d6df485226cbd07098"
+  },
+  "inputs": {
+    "coarse": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-reset-coarse/report.json",
+      "sha256": "7daf1a4298be14badb60f7dbb7219bbfdf5847db5b8ea44bdb41de8abc885dcd"
+    },
+    "fine": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-reset/report.json",
+      "sha256": "f59a5aebab5bec8af0c266d1dfaa06b5f7b38201ded70349fa2306261d6ec910"
+    },
+    "scenario": {
+      "path": "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/scenarios/reset.json",
+      "sha256": "5e18138a0d6911d72f31bd3ea0d981f35fc642071bc3939d6c680e6ef546f7e3"
+    }
+  }
+}
