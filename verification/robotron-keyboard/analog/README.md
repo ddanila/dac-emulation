@@ -235,6 +235,10 @@ the analysis task. The snapshot probe in `reports/coupled-clock-startup/minbreak
 verifies that deck `.tran` followed by `run` retains it. Earlier control-`tran`
 spacing runs are invalid as sensitivity evidence; their original failures remain
 retained. See `reports/coupled-clock-startup/breakpoint-audit/` for exact times.
+With deck `.tran`/`run`, both 1 fs and 0.1 fs settings complete the 150 us live
+S600 window using the installed engine and baseline DAC mapping
+(`reports/coupled-clock-startup/minbreak/effective/`). Longer execution and paired
+phase refinement remain required; these runs do not qualify full-board timing.
 
 `engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
 boundary correction, not the default engine. It passes the isolated plateau and
