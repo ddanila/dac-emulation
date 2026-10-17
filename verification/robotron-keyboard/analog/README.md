@@ -360,8 +360,11 @@ Run the paired full-board target with:
 make qualify-keyboard-board-scenario S600_ROM=/path/to/s600.bin
 ```
 
-It runs 10 ns and 5 ns timesteps, then checks reset/restart and serial edge
-agreement plus sampled cable-data margins. `KEYBOARD_BOARD_SCENARIO`,
+It runs 10 ns and 5 ns timesteps, then checks electrical clock edge order and
+absolute phase, reset/restart and serial edge agreement, and sampled cable-data
+margins. Clock crossings retain their sample brackets; the first differing edge
+is reported without phase realignment. Sampled clock extrema must agree within
+0.05 V. Period statistics remain separate from accumulated phase drift. `KEYBOARD_BOARD_SCENARIO`,
 `KEYBOARD_BOARD_OUT` and `KEYBOARD_BOARD_TIMEOUT_SECONDS` select the recipe,
 output directory and per-run timeout. Existing runs can be checked without
 repeating simulation:
@@ -373,7 +376,7 @@ python3 verification/robotron-keyboard/analog/qualify_board_pair.py /path/to/coa
 The qualifier verifies retained input/trace hashes and reruns observation checks;
 prepared-only or failed executions cannot qualify. Its default 15 ns edge and
 100 ns margin budgets are explicit numerical/fixture limits, not historical
-hardware specifications. It does not qualify oscillator waveform shape, brownout
+hardware specifications. It does not qualify the complete oscillator waveform shape, brownout
 or semiconductor calibration.
 
 `--bridge-delay-ns` controls numerical synchronization (default 10 ns). The retained

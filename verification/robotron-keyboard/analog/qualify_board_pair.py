@@ -10,6 +10,7 @@ from pathlib import Path
 
 from boot_cosim import validate, sha
 from receiver_margins import measure
+from clock_convergence import compare_clocks
 
 HERE = Path(__file__).resolve().parent
 
@@ -89,9 +90,9 @@ def main():
     if any(not math.isfinite(v) or v <= 0 for v in (args.tolerance_ns, args.required_margin_ns)):
         parser.error('Timing budgets must be positive and finite')
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
-              'boundary': 'Selected nominal board scenario; no device calibration, C equivalence, brownout or oscillator waveform convergence claim',
+              'boundary': 'Selected nominal board scenario; no device calibration, C equivalence, brownout or full waveform-shape claim',
               'sources': {name: sha(HERE / name) for name in ('qualify_board_pair.py', 'boot_cosim.py',
-                          'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py')}}
+                          'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         result['inputs'] = {name: {'path': str(path.resolve()), 'reportSha256': sha(path / 'report.json')}
@@ -100,6 +101,11 @@ def main():
         fine, fd = load_run(args.fine)
         if cd != fd:
             raise ValueError('Electrical decks differ beyond timestep')
+        result['clockConvergence'] = compare_clocks(
+            args.coarse / 'trace.txt', args.fine / 'trace.txt',
+            coarse['assumptions']['maximumStepNs'], fine['assumptions']['maximumStepNs'], args.tolerance_ns)
+        if not result['clockConvergence']['passed']:
+            raise ValueError('Electrical clock phase or sampled extrema do not converge within budget')
         result['comparison'] = compare(coarse, fine, args.tolerance_ns)
         if not result['comparison']['withinTolerance']:
             raise ValueError('Full-board timing differs beyond the declared budget')
