@@ -171,74 +171,51 @@ The default frequency test alone can pass while this phase gate fails.
 TV80 and the same HDL bridge, then changes the transient/save window and adds non-loading node observations
 to inspect early startup. It compares matched inputs and absolute clock phase;
 it cannot qualify boot, key handling or phase accumulated through power-on reset.
-Prepared full-board reports remain explicitly unqualified. The default probe uses
-a 1 ms window and 1 ns/0.5 ns timesteps; each simulation has a configurable
-1200-second wall-clock limit.
+Prepared full-board reports remain explicitly unqualified. Duration, timesteps
+and the simulation timeout are configurable.
 
 ```sh
 python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path/to/s600.bin --steps-ns 1 .5 --duration-us 1000 --out /tmp/coupled-clock
 ```
 
-`reports/coupled-clock-startup/` retains a tight-tolerance startup rejection:
-ngspice aborted at the unused NAND input clamp before useful clock activity.
-The retained partial waveform is failure evidence, not a completed simulation.
-Standalone oscillator phase convergence therefore does not yet transfer to the
-coupled board. The probe checks solver diagnostics before requiring waveform
-files, including when ngspice exits zero. The archived `smooth-bias-diagnostic.json`
-records an unsuccessful input-bias smoothing experiment; the named failing node
-is diagnostic context, not proof of the root cause. The archived
-`initialization-diagnostics.json` also rejects delayed-ramp, zero-initial-state
-and continuous-sink experiments on the coupled board; reduced-circuit success
-does not justify adopting those settings.
+The separate `diagnostic-trace.txt` records board supply, oscillator internal
+nodes, cable return and host-source current. `--rise-us` varies the host ramp
+without bypassing cable/filter charging. Inspect the rail trajectory before
+interpreting a short startup window: threshold crossings can occur before valid
+logic-high levels are reached.
 
-`reports/supply-startup-isolation/` contains runnable reduced decks that localize
-the tight-tolerance failure to a linear supply/serial-cable network, without HDL,
-gates or transistors. Both Sparse and KLU abort; the supply-only control completes.
-Copy that directory to a scratch location and run `ngspice -n -b linear.cir`
-to reproduce the rejection. These fixtures omit board sections deliberately and
-do not qualify the complete board. The diagnostic report pins inputs, logs and
-retained waveform windows.
+Coupled clock convergence remains unqualified. Retained traces show both startup
+offset and accumulated phase drift; finer steps can also abort around the first
+HDL clock and column-output transition. `reports/coupled-clock-startup/` pins the
+execution evidence, event captures and rejected model/initialization experiments.
+The phase checker retains signed offsets separately for rising and falling edges
+without realignment. Solver diagnostics reject a run even if ngspice exits zero;
+a named failing node alone does not establish the root cause.
 
-`linear_startup_reference.py` independently evaluates the frozen symmetric linear
-fixture with a Decimal matrix exponential. It rejects changed fixture inputs and
-checks precision refinement; tests also cover the short-time circuit limits.
-`reports/linear-startup-reference/` compares the reduced SPICE circuit, with a
-known 1 ns unpowered interval, against this reference. This is a startup numerical
-benchmark, not a full-board model or permission to shift measured clock phase.
+Holding the HDL clock low avoids the observed abort but disconnects CPU feedback.
+The small fixtures in `reports/fractional-clock-boundary/` exercise an output's
+unknown-to-low transition at integer and fractional clock timestamps without
+reproducing that abort. Neither result qualifies the coupled board or uniquely
+identifies a bridge defect. The captured-output replay under
+`reports/coupled-clock-startup/replay/` also completes past the abort while
+preserving the recorded output events. It excludes live feedback and has the
+VCD timestamp precision, so live coupling/event scheduling still needs qualification.
+
+`reports/supply-startup-isolation/` contains a reduced linear supply/cable
+reproducer for the tight-tolerance startup failure. Copy it to a scratch location
+and run `ngspice -n -b linear.cir`. These deliberately reduced circuits are
+numerical diagnostics, not alternative board models.
+
+`linear_startup_reference.py` independently evaluates that frozen symmetric
+fixture with a Decimal matrix exponential. It rejects changed inputs and checks
+precision refinement. `reports/linear-startup-reference/` retains the comparison
+with SPICE using a known source delay; this does not authorize shifting measured
+clock phase or adopting that initialization on the complete board.
 
 ```sh
 python3 verification/robotron-keyboard/analog/linear_startup_reference.py
-# For the retained delayed-ramp fixture waveform:
 python3 verification/robotron-keyboard/analog/linear_startup_reference.py --trace /path/to/delayed-ramp-trace.txt --source-start-ns 1
 ```
-
-
-The separate `diagnostic-trace.txt` records board supply, oscillator internal
-nodes, cable return and host-source current, with hashes and voltage/current
-ranges in each run report. `--rise-us` varies the host supply ramp without
-bypassing cable/filter charging. The retained `charging-window.json` shows that
-the board rail is still below 2 V at 100 µs with this nominal supply/filter model.
-Lack of clock activity in that window is not proof that the oscillator cannot
-start; inspect the supply trajectory and use a longer window before judging it.
-The retained `one-ms.json` confirms sustained oscillation over a longer window,
-but rejects timestep refinement on absolute clock phase. It preserves the
-executed source hashes; this is negative qualification evidence, not a passing
-full-board result. The retained `quarter-ns.json` tests the unchanged board at
-0.25 ns/0.125 ns steps: both simulations complete, but absolute phase still fails
-the same acceptance budget. Smaller steps improve agreement without yet
-establishing convergence. The phase checker also records signed first/last and
-extreme offsets separately for rising and falling edges, without realignment or
-changing acceptance. `quarter-ns-phase-evolution.json` retains a reanalysis of the
-same traces: an initial offset and subsequent drift both contribute to the failure.
-Further refinement at 0.0625 ns aborts near initial clock activity;
-`sixteenth-ns-abort.json` retains the failed run and its diagnostic provenance.
-It supplies no additional phase-convergence result. `continuous-sinks.json`
-retains a controlled attempt to smooth the sink transitions with other settings
-unchanged; that experiment also aborts and is not adopted. The
-`held-cpu-clock.json` diagnostic holds the HDL CPU clock input low while retaining
-the electrical circuit. It completes beyond the earlier abort with repeated
-threshold crossings, but does not reach the high-level clock qualification bound
-during the charging window. It does not qualify firmware or isolate a bridge defect.
 
 ## Output, cable and supply loads
 

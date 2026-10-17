@@ -1,0 +1,50 @@
+{
+  "completed": false,
+  "scope": "Unchanged coupled board with additional digital event observations; no model changes",
+  "sourceDeckSha256": "7ae32c50b3500c4f91c0c33ba96069044357c63ac5859eef17c4adbabf464812",
+  "deckSha256": "454ad71973e2f6abcd23f02b2f8fe5043f24f7864d78561b1e3ff1c5a857988f",
+  "exitCode": 0,
+  "solverDiagnostics": [
+    "Instance: ahdl   Message: XSPICE time is behind vtime:",
+    "doAnalyses: TRAN:  Timestep too small; time = 0.000102867, timestep = 5.89779e-24: trouble with sink_nominal-instance sdriver0",
+    "tran simulation(s) aborted"
+  ],
+  "retainedDirectory": "build/keyboard-controller-analog/coupled-clock-sixteenth-ns/fine",
+  "artifacts": {
+    "column-events.cir": {
+      "sha256": "454ad71973e2f6abcd23f02b2f8fe5043f24f7864d78561b1e3ff1c5a857988f",
+      "bytes": 14507
+    },
+    "column-events.log": {
+      "sha256": "7ca226439a3e63adffc26045587fc4ccfb632a16a8733d96797347306672e9aa",
+      "bytes": 206761
+    },
+    "column-events.vcd": {
+      "sha256": "6f1845e8bf07a2ccd24cd583c23f3e31b4cac969c518cdc6f22cb35ef29d8e59",
+      "bytes": 838
+    },
+    "column-events-trace.txt": {
+      "sha256": "0e0ac4ddf8a031e89cb09d6d9029bb3f6a52dd63ed5febd424001211157a6e4d",
+      "bytes": 133620217
+    },
+    "column-events-nodes.txt": {
+      "sha256": "d1daa5b477fb98d474611511e95e2a54179b575e11dada5a32732e37dacd12d7",
+      "bytes": 212802528
+    },
+    "boot.vvp": {
+      "sha256": "d890b7f8736f4e5fbdeb22671efb36f92900b419bccdf7084e502358d73f45f8",
+      "bytes": 629324
+    }
+  },
+  "observedTransition": {
+    "source": "column-events.vcd",
+    "timeUnitSeconds": 1e-15,
+    "firstClockRiseTicks": 102857031246,
+    "columnReleaseTicks": 102867031246,
+    "columns": "dcol0 through dcol12",
+    "before": "x",
+    "after": "0",
+    "otherOutputs": "reset, serial sink and LED controls do not change at this timestamp"
+  },
+  "interpretation": "The unchanged board abort is reproduced with event observation added. The column release is observed, not inferred from the component named in the solver error. Its replay remains diagnostic and does not qualify firmware."
+}

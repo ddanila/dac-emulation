@@ -1,0 +1,102 @@
+{
+  "scope": "Single unknown-to-low HDL output on a delayed clock edge; not full-board qualification",
+  "clockCrossingSeconds": "0.000102857",
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "completed": true,
+  "exitCode": 0,
+  "solverDiagnostics": [],
+  "artifacts": {
+    "probe.v": {
+      "sha256": "ead7177fba3ffc160b43c2c946bf42fd5cb25e464826757807dbbd9197835bb6",
+      "bytes": 154
+    },
+    "probe.cir": {
+      "sha256": "728053a7b4bbb1a555a4c45efc879f38a8ccb8175c0c6731849da797e9f6d676",
+      "bytes": 978
+    },
+    "probe.vvp": {
+      "sha256": "09f98b2ca32ea64cdf78be7f9b41ec3d9fb02e746109680aa71daee74a59a505",
+      "bytes": 1442
+    },
+    "ngspice.log": {
+      "sha256": "1cb22595608d9060f7ddb8cd0c749654d91483459f2605ee2bc00c6ae37ee332",
+      "bytes": 824
+    },
+    "trace.txt": {
+      "sha256": "8b53cb495a30dece5881a21377d9fdd0e6ecf8b1d89547f2bf2f8fce59724a61",
+      "bytes": 1042145
+    },
+    "events.vcd": {
+      "sha256": "8b6e5e1257f6c4e167ab4cb61382864b7f2a6daf1aad375a4e1c34247b441df2",
+      "bytes": 208
+    }
+  },
+  "observations": {
+    "firstSample": [
+      0.00010200001,
+      0.0,
+      2.5,
+      0.172413793
+    ],
+    "lastSample": [
+      0.000103,
+      2.8,
+      0.0,
+      4.99996315
+    ],
+    "digitalEvents": {
+      "din": [
+        [
+          0,
+          "0"
+        ],
+        [
+          0.00010285803124900001,
+          "1"
+        ]
+      ],
+      "dout": [
+        [
+          0,
+          "x"
+        ],
+        [
+          0.000102868031249,
+          "0"
+        ]
+      ]
+    },
+    "bridgeDelaySeconds": 9.999999999994822e-09,
+    "vcdTimeUnitSeconds": 1e-15
+  },
+  "interpretation": "Both the integer and fractional source-time fixtures transport an unknown-to-low output without solver diagnostics. This does not reproduce the board abort and does not qualify full-board feedback or calibrated sink characteristics.",
+  "compileCommand": "iverilog -g2012 -s probe -o probe.vvp ../probe.v",
+  "runCommand": "ngspice -n -b probe.cir",
+  "retainedDirectory": "build/keyboard-controller-analog/fractional-clock-boundary/integer",
+  "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "generatorSha256": "3ec099909deef2f88e9e2c09b6162169242bde5133a1cb9ccd152219ba6dcfbe"
+}

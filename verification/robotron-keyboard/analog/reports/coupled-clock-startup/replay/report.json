@@ -1,0 +1,137 @@
+{
+  "completed": true,
+  "scope": "Replay of captured digital outputs into the analog circuit; excludes CPU/HDL feedback and firmware qualification",
+  "vcdQuantumSeconds": 1e-15,
+  "ports": [
+    "dsink",
+    "csink",
+    "led1",
+    "led0",
+    "dcol12",
+    "dcol11",
+    "dcol10",
+    "dcol9",
+    "dcol8",
+    "dcol7",
+    "dcol6",
+    "dcol5",
+    "dcol4",
+    "dcol3",
+    "dcol2",
+    "dcol1",
+    "dcol0"
+  ],
+  "removedStatements": [
+    "Ahdl [dclk drst dsense7 dsense6 dsense5 dsense4 dsense3 dsense2 dsense1 dsense0 rx_data rx_clock] [dsink csink led1 led0 dcol12 dcol11 dcol10 dcol9 dcol8 dcol7 dcol6 dcol5 dcol4 dcol3 dcol2 dcol1 dcol0] hdl",
+    ".model hdl d_cosim simulation=\"/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so\" sim_args=[\"boot.vvp\"] delay=10n",
+    "+ lib_args=[\"/private/tmp/robotron-icarus-src/vvp/libvvp.so\" \"/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi\"]"
+  ],
+  "stateEncoding": {
+    "0": "0s",
+    "1": "1s",
+    "x": "Us",
+    "z": "0z"
+  },
+  "sourceVcdSha256": "6f1845e8bf07a2ccd24cd583c23f3e31b4cac969c518cdc6f22cb35ef29d8e59",
+  "stimulusSha256": "07fa33b96b0a334ad5b74eac383898bc72bef208411af1a7c11dadb81c0ecca7",
+  "deckSha256": "2460c890e8b5acbdc8b9d89c46cdf4bf3b4a612cf5d841a7e88da41cd84253df",
+  "exitCode": 0,
+  "solverDiagnostics": [],
+  "capturedOutputEventsMatch": true,
+  "clockRailQualified": false,
+  "clockQualificationError": "Clock waveform lacks sustained rail-crossing activity",
+  "clockObservation": {
+    "samples": 2412051,
+    "edges": 275,
+    "minimumVolts": -8.15269562e-69,
+    "maximumVolts": 1.85103014,
+    "maximumSampleGapNs": 0.06300000001931497,
+    "minimumPeriodNs": 160.93714953391748,
+    "maximumPeriodNs": 397.4145022406125,
+    "firstSampleSeconds": 0.0,
+    "lastSampleSeconds": 0.00015
+  },
+  "diagnosticSignals": {
+    "firstSeconds": 0.0,
+    "lastSeconds": 0.00015,
+    "ranges": {
+      "v(n_p5V)": {
+        "minimum": -1.13983112e-68,
+        "maximum": 2.58798819,
+        "final": 2.58798819
+      },
+      "v(n_OSC_RC)": {
+        "minimum": -7.79210496e-69,
+        "maximum": 2.45188707,
+        "final": 1.1434094
+      },
+      "v(n_OSC1)": {
+        "minimum": -7.9381922e-69,
+        "maximum": 1.74030177,
+        "final": 1.73125362
+      },
+      "v(n_OSC2)": {
+        "minimum": -7.9580069e-69,
+        "maximum": 1.78818489,
+        "final": 0.191543157
+      },
+      "v(n_OSC_OUT)": {
+        "minimum": -8.15268982e-69,
+        "maximum": 1.85102882,
+        "final": 1.85102882
+      },
+      "v(n_CABLE_GND)": {
+        "minimum": -2.53756726,
+        "maximum": -5.69921225e-69,
+        "final": -1.20599863
+      },
+      "i(Vhost)": {
+        "minimum": -2.44301187,
+        "maximum": -5.6990989e-69,
+        "final": -1.21179048
+      }
+    },
+    "units": "Volts for v(...), amperes for i(...); source current uses SPICE sign convention"
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/coupled-clock-sixteenth-ns/fine",
+  "validationSources": {
+    "clock_convergence.py": "15c3dbcde9b1f40ae3eec29cd7c398efa71d7d9491bf1ae474557567ad3c78e0",
+    "coupled_clock_probe.py": "26b08a76e9c115a3f079ffc75b3ced9189ac40cb7b3261df9a5ca84bd9cfbe9e",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "artifacts": {
+    "replay-columns.cir": {
+      "sha256": "2460c890e8b5acbdc8b9d89c46cdf4bf3b4a612cf5d841a7e88da41cd84253df",
+      "bytes": 14176
+    },
+    "replay-columns.txt": {
+      "sha256": "07fa33b96b0a334ad5b74eac383898bc72bef208411af1a7c11dadb81c0ecca7",
+      "bytes": 304
+    },
+    "replay-columns.log": {
+      "sha256": "622a49d7ee3ab2ed5870b931f6bd2fee4ad9ef33f3db36ac5904b5081eab23cd",
+      "bytes": 29967
+    },
+    "replay-columns.vcd": {
+      "sha256": "fbae61605178c3c908a35e80f5e6877efce5a24514f6b07abe01c39b197470d2",
+      "bytes": 767
+    },
+    "replay-columns-trace.txt": {
+      "sha256": "9f71c4557edade723267911c22a01e13b1a5f2f211f4143b86ced67ce92e7cc9",
+      "bytes": 195376237
+    },
+    "replay-columns-nodes.txt": {
+      "sha256": "0b673794c43a19a524fb6731ad2cdfedc5b615816dcedbf3ac39f75802f620d0",
+      "bytes": 311154708
+    },
+    "replay_columns.py": {
+      "sha256": "13b3b24010a564086f8f45032cae8d2c04788da4cf1b05550a056c9826a5911c",
+      "bytes": 2898
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    }
+  },
+  "interpretation": "The captured column release and other output states replay without the abort after replacing live d_cosim with d_source. This narrows investigation toward live coupling/event scheduling; it does not prove a unique cause because replay removes feedback and retains only VCD timestamp precision. Charging-window clock amplitude remains below the high-level qualification bound."
+}

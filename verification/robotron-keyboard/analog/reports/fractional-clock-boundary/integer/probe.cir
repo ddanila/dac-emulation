@@ -1,0 +1,25 @@
+Fractional clock transport diagnostic, not board qualification
+Vin input 0 PWL(0 0 0.0001028565 0 0.0001028575 2.8)
+Vcc supply 0 5
+Rpull supply output 560
+Cload output 0 20p
+Sdriver output 0 drive 0 sinkmodel
+.model sinkmodel SW(RON=20 ROFF=1t VT=2.5 VH=0)
+Ain [input] [din] adc
+.model adc adc_bridge(in_low=1.4 in_high=1.4)
+Ahdl [din] [dout] hdl
+.model hdl d_cosim simulation="/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so" sim_args=["probe.vvp"] delay=10n
++ lib_args=["/private/tmp/robotron-icarus-src/vvp/libvvp.so" "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi"]
+Adac [dout] [drive] dac
+.model dac dac_bridge(out_low=0 out_high=5 out_undef=2.5 t_rise=1n t_fall=1n)
+.options reltol=1e-7 vntol=1e-9 abstol=1e-15
+.save v(input) v(drive) v(output)
+.control
+set wr_singlescale
+set wr_vecnames
+tran .0625n 103u 102u
+wrdata trace.txt v(input) v(drive) v(output)
+eprvcd din dout > events.vcd
+quit
+.endc
+.end
