@@ -1,0 +1,22 @@
+--- a/src/xspice/icm/digital/dac_bridge/cfunc.mod
++++ b/src/xspice/icm/digital/dac_bridge/cfunc.mod
+@@ -291,6 +291,19 @@
+ 
+         for (i = 0; i < size_in; i++) {
+             if (in[i].i != in_old[i].i) { /* if there has been a change... */
++                /* Diagnostic: equivalent UNKNOWN and rail targets need no
++                 * analog breakpoint. Preserve the change timestamp for the
++                 * analog integration path; do not alter multi-bit DACs. */
++                if (!multi &&
++                    ((out_undef == out_low &&
++                      ((in[i].i == UNKNOWN && in_old[i].i == ZERO) ||
++                       (in[i].i == ZERO && in_old[i].i == UNKNOWN))) ||
++                     (out_undef == out_high &&
++                      ((in[i].i == UNKNOWN && in_old[i].i == ONE) ||
++                       (in[i].i == ONE && in_old[i].i == UNKNOWN))))) {
++                    in[i].i_changed = TIME;
++                    continue;
++                }
+                 /* post current time as a breakpoint */
+ 
+                 cm_analog_set_perm_bkpt(TIME);

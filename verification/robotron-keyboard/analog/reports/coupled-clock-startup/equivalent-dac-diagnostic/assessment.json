@@ -1,0 +1,13 @@
+{
+  "qualified": false,
+  "scope": "Experimental equivalent-target DAC breakpoint suppression; not adopted for service or full-board qualification",
+  "patchSha256": "3ba6b08d953e36aa0ec284e610c72bee7c4d5408130d324fad7dddd6f9604d8c",
+  "strictTimePatchSha256": "2ec5f1cdedeb136b3d09756d6674a1654d2f890d620a6cee703d3b39c00fb957",
+  "baselineDigitalModelSha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+  "candidateDigitalModelSha256": "1d6703a5112c5ad023896d0e62bd08ea57abed91c59872735c5b13d6eb754def",
+  "reports": {
+    "replay": "a5be1ce26d69e6ab5d4e2dcd36913d1c0bb018ed4d53bd13f7715b61570b3579",
+    "live-released": "e0135850fdb6e9c0e2c2b3fad48fa465d82b85c43c1e757677e7d02310c67dd4"
+  },
+  "interpretation": "Suppressing the analog breakpoint for equivalent unknown/rail targets completes the CPU-free captured replay with zero observed DAC voltages. Live TV80/S600 startup with out_undef=0 still aborts at 102.7558433429012 us. This patch does not resolve or qualify full-board startup. The installed runtime was not changed."
+}
