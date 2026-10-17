@@ -107,6 +107,18 @@ sensitivity and timestep refinement. Reports retain internal rail/return voltage
 receiver rise intervals and signal ranges. Driver intents are ideal test stimuli;
 this does not qualify firmware-driven output timing or EMI behavior.
 
+`serial_cosim.py` drives the schematic-mapped 7406 pins in HDL and returns the
+loaded cable voltages through receiver models. After building the bridge:
+
+```sh
+make test-keyboard-serial-feedback
+```
+
+It checks raw bit ordering, receiver data stability around clock edges, cable-load
+variation and timestep refinement. The fixture explicitly establishes data before
+the write strobe; it does not qualify S600 framing or the CPU data-bus output-enable
+timing. A passing transport test must not hide those remaining bus-timing questions.
+
 ## HDL boundary
 
 Use ngspice 47/XSPICE and Icarus 13 with `--enable-libvvp`. The ordinary Icarus
