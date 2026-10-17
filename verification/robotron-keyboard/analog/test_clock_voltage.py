@@ -23,6 +23,27 @@ class ClockVoltageTests(unittest.TestCase):
         self.assertTrue(result['lowExcursionObserved'])
         self.assertFalse(result['highExcursionObserved'])
 
+    def test_global_extrema_cannot_hide_one_bad_cycle(self):
+        result = self.check_samples([(v, 5) for v in (.2, 4.9, .2, 3.6, .2, 4.9)])
+        self.assertTrue(result['bothExcursionsObserved'])
+        self.assertEqual(result['cycles']['assessedWithinSupplyRange'], 2)
+        self.assertEqual(result['cycles']['missingHighExcursion'], 1)
+        self.assertEqual(result['cycles']['firstFailure']['cycleOrdinal'], 1)
+
+    def test_incomplete_and_unpowered_cycles_do_not_count(self):
+        result = self.check_samples([(v, 5) for v in (4.9, .2, 4.9)])
+        self.assertEqual(result['cycles']['assessedWithinSupplyRange'], 0)
+        result = self.check_samples([(.2, 5), (4.9, 5), (.2, 4), (4.9, 5)])
+        self.assertEqual(result['cycles']['assessedWithinSupplyRange'], 0)
+        self.assertEqual(result['cycles']['excludedForSupply'], 1)
+
+    def test_low_level_failure_and_valid_cycles(self):
+        result = self.check_samples([(v, 5) for v in (.2, 4.9, 1.0, 4.9)])
+        self.assertEqual(result['cycles']['missingLowExcursion'], 1)
+        result = self.check_samples([(v, 5) for v in (.2, 4.9, .2, 4.9, .2, 4.9)])
+        self.assertEqual(result['cycles']['assessedWithinSupplyRange'], 2)
+        self.assertIsNone(result['cycles']['firstFailure'])
+
     def test_pullup_excursions_are_not_qualification(self):
         result = self.check_samples([(0.2, 5), (4.9, 5)])
         self.assertTrue(result['bothExcursionsObserved'])

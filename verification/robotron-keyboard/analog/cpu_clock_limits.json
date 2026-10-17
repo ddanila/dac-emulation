@@ -28,6 +28,18 @@
     "leakageMaximumAmperes": 1e-5,
     "leakageCondition": "Input at 0 V and 5.25 V, temperature 0 C and 70 C; not a complete I/V curve"
   },
+  "clockTiming": {
+    "sourcePage": "Printed page 58; PDF page 59. Timing diagram: printed page 60, PDF page 61",
+    "periodMinimumNs": 400,
+    "highWidthMinimumNs": 180,
+    "highWidthMaximumNs": 2000,
+    "lowWidthMinimumNs": 180,
+    "lowWidthMaximumNs": 2000,
+    "riseTimeMaximumNs": 30,
+    "fallTimeMaximumNs": 30,
+    "periodFootnote": "tc = tw(CH) + tw(CL) + tr + tf",
+    "boundary": "Published U880D reference limits; specimen speed grade and waveform timing remain unqualified. Numerical 1.4 V crossings alone do not establish these pulse-width or slew limits."
+  },
   "pullupPrinciple": {
     "url": "https://www.ti.com/lit/an/scla011/scla011.pdf",
     "title": "TI SCLA011, SN54/74HCT CMOS Logic Family Applications and Restrictions",

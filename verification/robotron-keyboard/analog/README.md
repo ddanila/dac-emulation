@@ -176,13 +176,14 @@ and the simulation timeout are configurable.
 Its `cpuClockVoltage` diagnostic checks clock excursions only while the captured
 supply is within the U880 reference range. Samples outside that range cannot
 establish CPU clock compliance. Observing both voltage levels is not pulse-width,
-per-cycle or device qualification.
+slew-rate or device qualification.
 Full-boot runs retain a separate `supply-trace.txt` stream and the same diagnostic;
 both waveform streams are hashed and optionally compressed. Legacy boot traces
 without supply samples remain readable but provide no supply-aware clock evidence.
 The board-pair qualifier requires a valid supply throughout its saved observation
-window and both U880 clock-level excursions. These are necessary checks; they do
-not establish valid pulse widths or voltage levels on every cycle.
+window and both U880 clock-level excursions on each complete sampled cycle.
+Leading and trailing partial cycles are excluded. These are necessary checks;
+they do not establish valid pulse widths or levels between samples.
 
 `--electrical-cpu-pullups` enables schematic R6.4/R6.5 in boot and coupled-clock
 runs. Each attached U880 control input receives the published maximum input
