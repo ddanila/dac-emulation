@@ -1,5 +1,5 @@
 {
-  "scope": "Published U880D reference clock limits; no specimen or switching-threshold calibration",
+  "scope": "Published U880D reference input limits; no specimen or switching-threshold calibration",
   "source": {
     "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/U880D-CPU.pdf",
     "title": "VEB Funkwerk Erfurt, Technische Beschreibung CPU U880D",
@@ -19,6 +19,14 @@
     "highMinimumSupplyDropVolts": 0.2,
     "capacitanceMaximumFarads": 5e-11,
     "capacitanceCondition": "25 C, 0.5 to 2 MHz; reference maximum, not measured board capacitance"
+  },
+  "ordinaryInput": {
+    "lowMaximumVolts": 0.8,
+    "highMinimumVolts": 2,
+    "capacitanceMaximumFarads": 5e-12,
+    "capacitanceCondition": "25 C, 0.5 to 2 MHz; reference maximum, not measured board capacitance",
+    "leakageMaximumAmperes": 1e-5,
+    "leakageCondition": "Input at 0 V and 5.25 V, temperature 0 C and 70 C; not a complete I/V curve"
   },
   "pullupPrinciple": {
     "url": "https://www.ti.com/lit/an/scla011/scla011.pdf",
