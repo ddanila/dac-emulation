@@ -56,6 +56,21 @@ firmware. Source/library hashes and failure traces are retained with the report.
 
 ## Reset circuit
 
+`make characterize-keyboard-devices` compares the generic NPN model with SC236D
+DC gain limits at the data sheet's collector currents, voltage and temperature.
+`device_limits.json` pins the archival source and distinguishes DC gain from
+small-signal AC gain. The diagnostic records `completed` separately from
+`qualified`; append `--require-qualified` when calling `device_probe.py` to reject
+a model outside the selected limits. This is a device characterization check,
+not full transistor qualification, and does not fit parameters automatically.
+
+The nominal model fails the higher-current SC236D gain limits. A single constant
+gain cannot capture the published current dependence. The archived
+[SC307–SC309 manufacturer bulletin](https://hjs.lima-city.de/DDR/index.php?pdf=SC307)
+also identifies its unqualified typical values as group D; they must not be
+silently treated as SC308C specifications. Device fitting, dynamics and
+temperature behavior remain open work.
+
 `reset_probe.py` generates the reset passives, diodes and transistors from the same
 pinned connectivity, with BR2 connected to the schematic CPU reset pin. It checks
 cold start, a power interruption, BR2 isolation and timestep refinement. The

@@ -166,3 +166,7 @@ test-keyboard-resolved-bus:
 qualify-keyboard-resolved-bus: test-keyboard-resolved-bus
 	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to the standard S600 image'; exit 2)
 	python3 verification/robotron-keyboard/analog/firmware_drive_compare.py --rom "$(S600_ROM)" --resolved-bus --out build/keyboard-controller-analog/firmware-resolved-bus
+
+.PHONY: characterize-keyboard-devices
+characterize-keyboard-devices:
+	python3 verification/robotron-keyboard/analog/device_probe.py
