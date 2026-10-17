@@ -2,6 +2,7 @@
 import gzip
 import hashlib
 import json
+import lzma
 import subprocess
 import sys
 import tempfile
@@ -23,8 +24,24 @@ class TraceStorageTests(unittest.TestCase):
             trace.write_bytes(data)
             digest = hashlib.sha256(data).hexdigest()
             (root / 'report.json').write_text(json.dumps({'passed': True, 'traceSha256': digest}))
-            subprocess.run([sys.executable, str(HERE / 'compress_trace.py'), str(root)], check=True, capture_output=True)
+            subprocess.run([sys.executable, str(HERE / 'compress_trace.py'), '--format', 'gzip', str(root)], check=True, capture_output=True)
             self.assertFalse(trace.exists())
+            self.assertEqual(sha(trace), digest)
+            with open_text(trace) as stream:
+                self.assertEqual(stream.read(), data.decode())
+
+    def test_gzip_to_xz_keeps_logical_hash_without_raw_copy(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            trace = root / 'trace.txt'
+            data = b'time voltage\n0 5\n' * 1000
+            digest = hashlib.sha256(data).hexdigest()
+            (root / 'trace.txt.gz').write_bytes(gzip.compress(data))
+            (root / 'report.json').write_text(json.dumps({'passed': True, 'traceSha256': digest}))
+            subprocess.run([sys.executable, str(HERE / 'compress_trace.py'), '--format', 'xz', str(root)], check=True, capture_output=True)
+            self.assertFalse(trace.exists())
+            self.assertFalse((root / 'trace.txt.gz').exists())
+            self.assertEqual(lzma.decompress((root / 'trace.txt.xz').read_bytes()), data)
             self.assertEqual(sha(trace), digest)
             with open_text(trace) as stream:
                 self.assertEqual(stream.read(), data.decode())
@@ -42,11 +59,12 @@ class TraceStorageTests(unittest.TestCase):
                 self.assertFalse((root / 'trace.txt.gz').exists())
 
     def test_corrupt_compressed_data_cannot_hash(self):
-        with tempfile.TemporaryDirectory() as directory:
-            trace = Path(directory) / 'trace.txt'
-            (Path(str(trace) + '.gz')).write_bytes(gzip.compress(b'evidence')[:-5])
-            with self.assertRaises(EOFError):
-                sha(trace)
+        for suffix, compress in (('.gz', gzip.compress), ('.xz', lzma.compress)):
+            with self.subTest(suffix=suffix), tempfile.TemporaryDirectory() as directory:
+                trace = Path(directory) / 'trace.txt'
+                Path(str(trace) + suffix).write_bytes(compress(b'evidence')[:-5])
+                with self.assertRaises((EOFError, lzma.LZMAError)):
+                    sha(trace)
 
 
 if __name__ == '__main__':

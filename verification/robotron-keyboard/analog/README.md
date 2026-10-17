@@ -560,7 +560,9 @@ source hashes. It refuses prepared-only, interrupted and unrelated failed runs.
 ## Retained waveform storage
 
 Completed successful runs can be compacted without losing their original trace
-hashes or requiring a simulation rerun:
+hashes or requiring a simulation rerun. XZ is the default to reduce disk usage;
+`--format gzip` selects faster compression. Existing gzip traces can be migrated
+to XZ without materializing an uncompressed copy:
 
 ```sh
 python3 verification/robotron-keyboard/analog/compress_trace.py /path/to/completed-run
@@ -568,6 +570,6 @@ python3 verification/robotron-keyboard/analog/compress_trace.py /path/to/complet
 
 The tool verifies the report hash before compression and verifies decompressed
 bytes before removing the raw copy. It preserves failed/unfinished runs and
-refuses changed input. Qualification readers accept `trace.txt.gz` and
-`led-trace.txt.gz` transparently; report hashes continue to identify the original
+refuses changed input. Qualification readers accept `.gz` and `.xz` waveforms transparently;
+report hashes continue to identify the original
 uncompressed content. Do not compact files belonging to an active simulation.
