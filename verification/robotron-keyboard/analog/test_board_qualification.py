@@ -22,10 +22,11 @@ class BoardQualificationTests(unittest.TestCase):
     def test_voltage_evidence_is_required_beyond_timing(self):
         valid = {'supplyTraceSignal': 'v(n_p5V)', 'cpuClockVoltage': {
             'samples': 10, 'validSupplySamples': 10,
+            'inputRangeViolations': 0,
             'lowExcursionObserved': True, 'highExcursionObserved': True,
             'cycles': {'assessedWithinSupplyRange': 2, 'missingLowExcursion': 0, 'missingHighExcursion': 0}}}
         require_clock_voltage(valid)
-        for field, value in [('samples', 0), ('validSupplySamples', 9),
+        for field, value in [('samples', 0), ('validSupplySamples', 9), ('inputRangeViolations', 1),
                              ('lowExcursionObserved', False), ('highExcursionObserved', False)]:
             changed = copy.deepcopy(valid)
             changed['cpuClockVoltage'][field] = value

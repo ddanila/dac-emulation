@@ -21,6 +21,7 @@ def inspect(primary, supply_trace, maximum_step_ns, *, diagnostic_columns=8):
               'scope': 'Sample-bracket comparison using clock valid-input voltage limits; no interpolation, '
                        'between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration',
               'samples': 0, 'validSupplySamples': 0, 'abortedExcursions': 0,
+              'inputRangeViolations': 0,
               'measurements': {kind: {'observations': 0, 'passed': 0, 'failed': 0, 'indeterminate': 0,
                                      'minimumLowerNs': None, 'maximumUpperNs': None, 'firstNonPass': None}
                                for kind in bounds}}
@@ -60,6 +61,9 @@ def inspect(primary, supply_trace, maximum_step_ns, *, diagnostic_columns=8):
                      'high' if clk >= vcc - voltage['highMinimumSupplyDropVolts'] else None)
             result['samples'] += 1
             result['validSupplySamples'] += int(valid)
+            if valid and not voltage['minimumVolts'] <= clk <= vcc + voltage['maximumSupplyOffsetVolts']:
+                result['inputRangeViolations'] += 1
+                valid = False
             if not valid:
                 active = last_interval = last_high = None
             else:
@@ -85,7 +89,7 @@ def inspect(primary, supply_trace, maximum_step_ns, *, diagnostic_columns=8):
             previous = {'time': t, 'uncertainty': uncertainty, 'valid': valid}
     if not result['samples']:
         raise ValueError('Empty clock timing waveform')
-    result['partialIntervalPolicy'] = 'Intervals clipped by file endpoints or invalid supply are excluded; transitions with both observed brackets may still be assessed'
-    result['passed'] = not result['abortedExcursions'] and all(
+    result['partialIntervalPolicy'] = 'Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed'
+    result['passed'] = not result['abortedExcursions'] and not result['inputRangeViolations'] and all(
         s['observations'] and not s['failed'] and not s['indeterminate'] for s in result['measurements'].values())
     return result
