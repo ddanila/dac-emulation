@@ -363,6 +363,13 @@ for the child process and re-resolves code-model load paths after execution to
 reject redirected symlinks as well as changed files. Paired runs
 must retain identical backend identities; a matching version string is insufficient.
 
+`firmware_io_cosim.py --compress-traces` streams waveform output through POSIX
+FIFOs directly to lossless XZ in a fresh output directory. Producer-byte hashes
+are checked against decompressed data before the run passes. Failed captures
+retain partial streams as failure evidence; they cannot qualify. This avoids
+allocating the raw waveform for long scenarios. `reports/compressed-output/`
+retains a byte-for-byte ngspice storage comparison.
+
 `receiver_margins.py /path/to/run --out /path/to/margins.json` separately checks
 data stability around the receiver edges using the retained voltage trace. It
 rejects missing samples, wrong/indeterminate levels and insufficient sampled

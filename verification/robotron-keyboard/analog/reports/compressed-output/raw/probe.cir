@@ -1,0 +1,12 @@
+Lossless waveform capture probe
+Vsource source 0 PULSE(0 5 1u 1n 1n 2u 4u)
+R1 source output 1k
+C1 output 0 1n
+.control
+set wr_singlescale
+set wr_vecnames
+tran 10n 10u
+wrdata trace.txt v(output)
+quit
+.endc
+.end

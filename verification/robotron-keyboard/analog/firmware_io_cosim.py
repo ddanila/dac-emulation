@@ -6,6 +6,8 @@ import math
 import re
 import subprocess
 from pathlib import Path
+from trace_io import open_text
+from compressed_output import capture as capture_compressed
 
 from boot_cosim import ROM_SHA256, sha
 from circuit import load
@@ -30,6 +32,7 @@ def main():
     p.add_argument('--led-trace', action='store_true', help='Retain and check firmware-driven LED currents')
     p.add_argument('--require-led-activity', action='store_true', help='Require both indicators to exercise settled on and off states')
     p.add_argument('--prepare-only', action='store_true')
+    p.add_argument('--compress-traces', action='store_true', help='Stream waveforms through POSIX FIFOs to lossless XZ')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/firmware-io')
     p.add_argument('--bridge', type=Path, default=ROOT / 'build/keyboard-controller-analog/bridge/bridge.json')
     p.add_argument('--step-ns', type=float, default=50)
@@ -50,6 +53,8 @@ def main():
         args.led_trace = True
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
+    if args.compress_traces and any(out.glob('*trace.txt*')):
+        p.error('Compressed capture requires a fresh waveform output directory')
     for name in ('report.json', 'trace.txt', 'led-trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'assumptions': {
@@ -65,7 +70,7 @@ def main():
         'sources': {name: sha(HERE / name) for name in (
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
             'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
-            'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py')}}
+            'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compressed_output.py')}}
     try:
         scenario = load_scenario(args.scenario)
         report['assumptions']['scenario'] = scenario
@@ -160,9 +165,13 @@ def main():
             report['preparedOnly'] = True
             print(out / 'io.cir')
             return
-        with (out / 'ngspice.log').open('w') as log:
-            subprocess.run([engine, '-n', '-b', 'io.cir'], cwd=out, env=engine_env, stdout=log, stderr=subprocess.STDOUT,
-                           check=True, timeout=args.timeout_seconds)
+        trace_names = ['trace.txt'] + (['led-trace.txt'] if args.led_trace else [])
+        with capture_compressed(out, trace_names, args.compress_traces) as compressed:
+            with (out / 'ngspice.log').open('w') as log:
+                subprocess.run([engine, '-n', '-b', 'io.cir'], cwd=out, env=engine_env, stdout=log, stderr=subprocess.STDOUT,
+                               check=True, timeout=args.timeout_seconds)
+        if args.compress_traces:
+            report['compressedWaveforms'] = compressed
         verify_runtime(report['ngspiceRuntime'])
         log = (out / 'ngspice.log').read_text()
         if solver_diagnostic(log):
@@ -180,7 +189,7 @@ def main():
             report['firstFailedObservation'] = next(window for window in report['receiverCoverage']['windows'] if not window['passed'])
             raise ValueError('Cable receiver does not satisfy scenario observations')
         first, last, count = None, None, 0
-        with (out / 'trace.txt').open() as stream:
+        with open_text(out / 'trace.txt') as stream:
             next(stream)
             for line in stream:
                 row = [float(x) for x in line.split()]
@@ -200,6 +209,9 @@ def main():
                 raise ValueError('Incomplete LED waveform')
         report['waveformRows'] = count
         report['traceSha256'], report['logSha256'] = sha(out / 'trace.txt'), sha(out / 'ngspice.log')
+        for name, captured in compressed.items():
+            if sha(out / name) != captured['sha256']:
+                raise ValueError('Compressed waveform differs from producer bytes: ' + name)
         report['passed'] = True
     except Exception as error:
         if isinstance(error, SerialMismatch):
@@ -207,7 +219,10 @@ def main():
         if isinstance(error, ResetMismatch):
             report['resetFailure'] = error.details
         report['error'] = str(error)
-        report['failureArtifacts'] = capture_failure(out, ('ngspice.log', 'trace.txt', 'led-trace.txt'))
+        names = ['ngspice.log', 'trace.txt', 'led-trace.txt']
+        if args.compress_traces:
+            names += [name + suffix for name in ('trace.txt', 'led-trace.txt') for suffix in ('.xz', '.xz.partial')]
+        report['failureArtifacts'] = capture_failure(out, names)
         raise
     finally:
         (out / 'report.json').write_text(json.dumps(report, indent=2) + '\n')

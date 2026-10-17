@@ -1,0 +1,77 @@
+{
+  "passed": true,
+  "scope": "Same ngspice RC transient written normally and through a compression FIFO; storage equivalence only",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "sources": {
+    "compressed_output.py": "0e4e43808fd0398953aa6bc6b74a2e672dac78a0e28256b5ad5343daefceceb9",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9"
+  },
+  "deckSha256": "23ff1a9de977e73b66c40640b8eb310d26dc546880d15eff40a5aa346923a005",
+  "runs": {
+    "raw": {
+      "sha256": "07b95838e96e238852a386efa97694d5fce43bc12bb9ed2c1c2821cd51691b59",
+      "bytes": 34848,
+      "capture": {},
+      "logSha256": "53abfed551a6cd9adaf84b4f2cc00a6e0a4d394318d275197790a2b98f57dce5"
+    },
+    "compressed": {
+      "sha256": "07b95838e96e238852a386efa97694d5fce43bc12bb9ed2c1c2821cd51691b59",
+      "bytes": 34848,
+      "capture": {
+        "trace.txt": {
+          "sha256": "07b95838e96e238852a386efa97694d5fce43bc12bb9ed2c1c2821cd51691b59",
+          "bytes": 34848
+        }
+      },
+      "logSha256": "53abfed551a6cd9adaf84b4f2cc00a6e0a4d394318d275197790a2b98f57dce5"
+    }
+  },
+  "python": "3.9.6 (default, May 22 2026, 11:13:45) \n[Clang 21.0.0 (clang-2100.1.1.101)]"
+}
