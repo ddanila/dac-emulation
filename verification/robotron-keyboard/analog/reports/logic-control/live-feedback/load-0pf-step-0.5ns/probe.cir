@@ -1,0 +1,29 @@
+Live electrical logic-control feedback
+Vcc n_p5V 0 5
+R6.3 n_p5V n_LATCH_OE_N 1k
+R6.6 n_p5V n_FF_PULLUP 1k
+R9.9 n_p5V n_IO_ACTIVE 3.9k
+Scontrol_latchEnable n_LATCH_OE_N 0 control_latchEnable_sink 0 CONTROL_OC_NOMINAL
+Scontrol_ioActive n_IO_ACTIVE 0 control_ioActive_sink 0 CONTROL_OC_NOMINAL
+.model CONTROL_OC_NOMINAL SW(Ron=20 Roff=1e12 Vt=2.5 Vh=0)
+Vfixture fixture_clk 0 PULSE(0 5 100n 1n 1n 50n 200n)
+Afixture [fixture_clk] [dclk] clock_receiver
+Alevels [n_LATCH_OE_N n_FF_PULLUP] [d_oe d_ff] level_receiver
+Aclock [n_IO_ACTIVE] [d_io] clock_receiver
+.model level_receiver adc_bridge(in_low=.8 in_high=2)
+.model clock_receiver adc_bridge(in_low=1.4 in_high=1.4)
+Ahdl [dclk d_io d_ff d_oe] [d_sink1 d_sink0] hdl
+.model hdl d_cosim simulation="/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so" sim_args=["logic.vvp"] delay=10n
++ lib_args=["/private/tmp/robotron-icarus-src/vvp/libvvp.so" "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi"]
+Adrive [d_sink0 d_sink1] [control_latchEnable_sink control_ioActive_sink] drive
+.model drive dac_bridge(out_low=0 out_high=5 out_undef=2.5 t_rise=1n t_fall=1n)
+.save v(n_LATCH_OE_N) v(n_FF_PULLUP) v(n_IO_ACTIVE)
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+tran 0.5n 2u
+wrdata trace.txt v(n_LATCH_OE_N) v(n_FF_PULLUP) v(n_IO_ACTIVE)
+quit
+.endc
+.end
