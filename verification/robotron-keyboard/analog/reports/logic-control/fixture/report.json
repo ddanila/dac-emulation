@@ -1,0 +1,78 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Exercise canonical latch/flip-flop pullups with independent nominal sink stimuli.",
+  "cases": [
+    {
+      "fixture": {
+        "qualified": false,
+        "nets": {
+          "supply": "n_p5V",
+          "ground": "0",
+          "latchEnable": "n_LATCH_OE_N",
+          "flipFlopRelease": "n_FF_PULLUP",
+          "ioActive": "n_IO_ACTIVE"
+        },
+        "fixtureLoadPfPerNet": 0,
+        "drivers": {
+          "latchEnable": {
+            "reference": "A2.2",
+            "pin": "8"
+          },
+          "ioActive": {
+            "reference": "A2.2",
+            "pin": "6"
+          }
+        },
+        "boundary": "Canonical resistors and nominal open-collector sinks; 20-ohm on resistance and optional per-net fixture capacitance are assumptions. Input leakage, device capacitances, DL003 propagation and supply-current models remain unqualified."
+      },
+      "firstIoSampleAbove2VAfterReleaseSeconds": 8.005066686069967e-07,
+      "deckSha256": "37fa4d9c20278713b177c7ec11f973da5c09e8eef454ab60de65c1e9a8464065",
+      "traceSha256": "127ea1d8b11757d2a65c8d6368895730b003f7821eaf7a3327d8932046e5266b",
+      "logSha256": "2a13d687925398ec8da27d357eda079bc65bf853c0f2435e170ee69a70bec826"
+    },
+    {
+      "fixture": {
+        "qualified": false,
+        "nets": {
+          "supply": "n_p5V",
+          "ground": "0",
+          "latchEnable": "n_LATCH_OE_N",
+          "flipFlopRelease": "n_FF_PULLUP",
+          "ioActive": "n_IO_ACTIVE"
+        },
+        "fixtureLoadPfPerNet": 10,
+        "drivers": {
+          "latchEnable": {
+            "reference": "A2.2",
+            "pin": "8"
+          },
+          "ioActive": {
+            "reference": "A2.2",
+            "pin": "6"
+          }
+        },
+        "boundary": "Canonical resistors and nominal open-collector sinks; 20-ohm on resistance and optional per-net fixture capacitance are assumptions. Input leakage, device capacitances, DL003 propagation and supply-current models remain unqualified."
+      },
+      "firstIoSampleAbove2VAfterReleaseSeconds": 8.203750000000013e-07,
+      "deckSha256": "e1bb0182453e64ce98618163ac12a8214f8eaa488d158e656898c7fd9256d53e",
+      "traceSha256": "86ed4a92d4e2c193e291cfea6fe19d17891c21f93c60221dd6a10cc50c77eaf3",
+      "logSha256": "3679f4f834a0c02f6389ca56ddb427ddc085bb7a6af99c86813d04311e31be6d"
+    }
+  ],
+  "boundary": "Nominal sinks and illustrative loads; not a DL003/latch/flip-flop characterization or firmware co-simulation",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "executable": {
+    "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+    "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+  },
+  "spinitSha256": "312adc11b71ee87f803df82cb5bbe10f44c1b80af5cbf207d581e97c6f6ef2c8",
+  "sources": {
+    "logic_control_probe.py": "33c0b3a92a810867f916028e1c63695625575708b83fa3a26ee2c10efedd5c00",
+    "logic_control.py": "858d26b9ec425fce396b45332f147150f1b52d7f918aa0cf8ff514452d41ea2d",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "clock_output_probe.py": "05b92ebe9d9751d1edf5bd0667640794f9b482b83b1e8e8dc2c260908c0228d7",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "fixtureLoadAddedRecoveryNs": 19.868331393004667
+}
