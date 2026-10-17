@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from qualify_board_pair import compare
+from qualify_board_pair import compare, normalized_analysis
 from receiver_margins import measure
 
 
@@ -19,6 +19,22 @@ def report(step):
 
 
 class BoardQualificationTests(unittest.TestCase):
+    def test_transient_invocation_and_breakpoint_are_verified(self):
+        ordinary = 'fixture\n.control\ntran 2n .127 124m\n.endc\n.end\n'
+        from transient_analysis import with_minimum_breakpoint
+        explicit = with_minimum_breakpoint(ordinary, 1)
+        settings = {'maximumStepNs': 2, 'minimumBreakpointFs': 1, 'analysisInvocation': 'deck-tran/run'}
+        self.assertIn('tran TIMESTEP .127 124m', normalized_analysis(ordinary, {'maximumStepNs': 2}))
+        self.assertIn('.tran TIMESTEP .127 124m', normalized_analysis(explicit, settings))
+        for changed in (explicit.replace('1f', '2f'), explicit.replace('run\n', ''),
+                        explicit.replace('.tran 2n', '.tran 1n'), explicit + 'tran 2n 1u\n'):
+            with self.assertRaises(ValueError):
+                normalized_analysis(changed, settings)
+        with self.assertRaises(ValueError):
+            normalized_analysis(ordinary, settings)
+        with self.assertRaises(ValueError):
+            normalized_analysis(explicit, {'maximumStepNs': 2})
+
     def test_phase_shift_cannot_hide_behind_matching_bits(self):
         coarse, fine = report(10), report(5)
         self.assertTrue(compare(coarse, fine, 15)['withinTolerance'])

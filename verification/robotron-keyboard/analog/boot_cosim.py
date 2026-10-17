@@ -15,6 +15,8 @@ from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
 from ngspice_runtime import identify as identify_runtime, verify as verify_runtime
 from output_circuit import output_circuit
+from ttl7406_output_probe import driver_circuit, checked_dc_reference
+from transient_analysis import with_minimum_breakpoint
 from model_coverage import classify
 from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
@@ -95,7 +97,11 @@ def prepare(args, report):
     else:
         matrix_lines = [f'Vunusedsense{i} n_SENSE{i} 0 0' for i in range(8)]
     if args.electrical_outputs:
-        output_lines, output_info = output_circuit(components)
+        if args.serial_driver == '7406-dc':
+            report['serialDriverDCReferenceSha256'] = checked_dc_reference()
+            output_lines, output_info = driver_circuit(components, args.serial_driver, 1000)
+        else:
+            output_lines, output_info = output_circuit(components)
         report['outputCircuit'] = output_info
         report['outputControlUnknowns'] = 'DAC X maps to 2.5 V; nominal load response is not a physical prediction of unknown logic'
         report['electricalModels'].update(output_info['models'])
@@ -116,6 +122,10 @@ def prepare(args, report):
     report['traceSignals'] = trace_signals
     report['modelCoverage'] = classify(components, report['electricalModels'],
                                        args.electrical_matrix, args.electrical_outputs, not args.bypass_rom_bus)
+    if args.serial_driver == '7406-dc':
+        report['modelCoverage']['components']['A1']['model'] = (
+            '7406 HDL logic; data/clock gates use the published-topology DC candidate; '
+            'ideal DAC input drive, other gates remain digital; no package or switching qualification')
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
              *power_lines, '.include ' + gate_file,
              f'.options reltol={args.reltol} vntol={args.vntol} abstol={args.abstol}',
@@ -141,7 +151,8 @@ def prepare(args, report):
              f'tran {args.step_ns}n {report["assumptions"]["traceWindowSeconds"][1]:.12g} 124m',
              'wrdata trace.txt ' + ' '.join(trace_signals),
              'quit', '.endc', '.end']
-    (out / 'boot.cir').write_text('\n'.join(lines) + '\n')
+    deck = with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs)
+    (out / 'boot.cir').write_text(deck)
     report['deckSha256'] = sha(out / 'boot.cir')
 
 
@@ -213,6 +224,10 @@ def main():
     p.add_argument('--bypass-rom-bus', action='store_true', help='Diagnostic: feed ROM directly to CPU input')
     p.add_argument('--wr-only-data', action='store_true', help='Retain old WR-only data drive as a diagnostic control')
     p.add_argument('--electrical-outputs', action='store_true')
+    p.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal',
+                   help='Optional unqualified transistor serial gates; requires electrical outputs')
+    p.add_argument('--minimum-breakpoint-fs', type=float,
+                   help='Numerical breakpoint spacing retained using deck .tran/control run')
     p.add_argument('--electrical-matrix', action='store_true')
     p.add_argument('--contacts', default='', help='Comma-separated fixture contact indices held closed from power-on')
     p.add_argument('--scenario', type=Path, help='Contact recipe at 125 ms origin, 1 us wall-time ticks; requires electrical matrix and outputs')
@@ -232,6 +247,10 @@ def main():
     p.add_argument('--vntol', type=float, default=1e-6)
     p.add_argument('--abstol', type=float, default=1e-12)
     args = p.parse_args()
+    if args.serial_driver != 'nominal' and not args.electrical_outputs:
+        p.error('serial-driver requires electrical-outputs')
+    if args.minimum_breakpoint_fs is not None and (not math.isfinite(args.minimum_breakpoint_fs) or args.minimum_breakpoint_fs <= 0):
+        p.error('minimum-breakpoint-fs must be positive and finite')
     if not math.isfinite(args.column_load_pf) or args.column_load_pf < 0:
         p.error('column-load-pf must be finite and nonnegative')
     if any(not math.isfinite(v) or v <= 0 for v in (args.reltol, args.vntol, args.abstol)):
@@ -269,6 +288,9 @@ def main():
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
                               'latchLoad': args.latch_load, 'columnLoadPf': args.column_load_pf, 'npnProfile': args.npn_profile, 'gateProfile': args.gate_profile,
                               'serialReceiver': args.electrical_outputs,
+                              'serialDriver': args.serial_driver,
+                              'minimumBreakpointFs': args.minimum_breakpoint_fs,
+                              'analysisInvocation': 'deck-tran/run' if args.minimum_breakpoint_fs is not None else 'control-tran',
                               'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses'] + ([] if args.electrical_outputs else ['LED and serial output loading']),
                               'romBus': 'Direct CPU input diagnostic' if args.bypass_rom_bus else 'Resolved CPU/ROM/latch bus from numbered schematic pins',
                               'cpuDataDrive': 'WR-only diagnostic' if args.wr_only_data else 'TV80 write-cycle intent gated by reset and bus ownership',
@@ -283,7 +305,8 @@ def main():
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
                             'ls_nand_dc.cir' if args.gate_profile == 'dl000-dc' else 'ls_nand_nominal.cir',
                             'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'output_circuit.py', 'model_coverage.py',
-                            'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py')}}
+                            'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py',
+                            'transient_analysis.py', 'ttl7406_output_probe.py', 'ttl7406_nominal.cir')}}
     if args.scenario_data:
         report['scenario'] = args.scenario_data
         report['scenarioSha256'] = sha(args.scenario)
