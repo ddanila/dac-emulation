@@ -1,0 +1,106 @@
+{
+  "completed": true,
+  "scope": "Coupling diagnostic: electrical board intact, but HDL CPU clock input held low; no firmware or full-board qualification",
+  "changedStatement": {
+    "original": "Ain [n_CLK n_RESET_N] [dclk drst] receiver",
+    "replacement": "Ain [0 n_RESET_N] [dclk drst] receiver"
+  },
+  "sourceDeckSha256": "7ae32c50b3500c4f91c0c33ba96069044357c63ac5859eef17c4adbabf464812",
+  "deckSha256": "a5952ecab8964f03847636241761d3104a162b0ba46b1321a43c766bfe7cacd4",
+  "exitCode": 0,
+  "solverDiagnostics": [],
+  "clockRailQualified": false,
+  "clockQualificationError": "Clock waveform lacks sustained rail-crossing activity",
+  "electricalClockObservation": {
+    "stats": {
+      "samples": 2412025,
+      "edges": 274,
+      "minimumVolts": -8.15269562e-69,
+      "maximumVolts": 1.85009042,
+      "maximumSampleGapNs": 0.06300000001931497,
+      "minimumPeriodNs": 162.73930560874638,
+      "maximumPeriodNs": 397.42768672863264,
+      "firstSampleSeconds": 0.0,
+      "lastSampleSeconds": 0.00015
+    },
+    "firstCrossing": {
+      "direction": "rise",
+      "beforeSeconds": 0.000102855969,
+      "afterSeconds": 0.000102856031,
+      "estimatedSeconds": 0.00010285599001142595
+    },
+    "lastCrossing": {
+      "direction": "fall",
+      "beforeSeconds": 0.000149895423,
+      "afterSeconds": 0.000149895486,
+      "estimatedSeconds": 0.00014989543893346703
+    }
+  },
+  "diagnosticSignals": {
+    "firstSeconds": 0.0,
+    "lastSeconds": 0.00015,
+    "ranges": {
+      "v(n_p5V)": {
+        "minimum": -1.13983112e-68,
+        "maximum": 2.58798735,
+        "final": 2.58798735
+      },
+      "v(n_OSC_RC)": {
+        "minimum": -7.79210496e-69,
+        "maximum": 2.45312875,
+        "final": 1.42495351
+      },
+      "v(n_OSC1)": {
+        "minimum": -7.9381922e-69,
+        "maximum": 1.741493,
+        "final": 1.1191659
+      },
+      "v(n_OSC2)": {
+        "minimum": -7.9580069e-69,
+        "maximum": 1.78669397,
+        "final": 1.76971086
+      },
+      "v(n_OSC_OUT)": {
+        "minimum": -8.15268982e-69,
+        "maximum": 1.8500891,
+        "final": 0.232545565
+      },
+      "v(n_CABLE_GND)": {
+        "minimum": -2.53756726,
+        "maximum": -5.69921225e-69,
+        "final": -1.20599842
+      },
+      "i(Vhost)": {
+        "minimum": -2.44301187,
+        "maximum": -5.6990989e-69,
+        "final": -1.21179046
+      }
+    },
+    "units": "Volts for v(...), amperes for i(...); source current uses SPICE sign convention"
+  },
+  "validationSources": {
+    "clock_convergence.py": "15c3dbcde9b1f40ae3eec29cd7c398efa71d7d9491bf1ae474557567ad3c78e0",
+    "coupled_clock_probe.py": "26b08a76e9c115a3f079ffc75b3ced9189ac40cb7b3261df9a5ca84bd9cfbe9e",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/coupled-clock-sixteenth-ns/fine",
+  "artifacts": {
+    "held-cpu-clock.cir": {
+      "sha256": "a5952ecab8964f03847636241761d3104a162b0ba46b1321a43c766bfe7cacd4",
+      "bytes": 14365
+    },
+    "held-cpu-clock.log": {
+      "sha256": "a30088359e1205ac057e41acf4abd5b1cece646a967f6e1338020f3e4386dc00",
+      "bytes": 34735
+    },
+    "held-cpu-clock-trace.txt": {
+      "sha256": "9aa37486afa2c7256b5bf289f5fa3201c4d1fb73c708d0caaf5ec5e91c068886",
+      "bytes": 195374131
+    },
+    "held-cpu-clock-nodes.txt": {
+      "sha256": "2096b8c0173db28f888036fe0bd02ad09303cbcea9d183b5cf739aa50df5e0f5",
+      "bytes": 311151354
+    }
+  },
+  "interpretation": "Holding the HDL CPU clock low allows the electrical oscillator to cross the 1.4 V receiver threshold repeatedly past the earlier abort. The charging rail limits clock amplitude below the 2 V high-level qualification bound in this short window. This is not a valid-rail or full-board pass and does not distinguish bridge scheduling from changes in digital-output loading."
+}

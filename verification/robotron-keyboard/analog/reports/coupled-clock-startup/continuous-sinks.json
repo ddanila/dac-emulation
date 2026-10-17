@@ -1,0 +1,99 @@
+{
+  "completed": false,
+  "scope": "150 us full-topology diagnostic with continuous sink conductance; no calibrated device model or board qualification",
+  "changes": [
+    {
+      "original": "Sdriver0 n_COL0 0 sink0 0 SINK_NOMINAL",
+      "replacement": "Bdriver0 n_COL0 0 I=V(n_COL0,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink0,0)/5))*min(1,max(0,V(sink0,0)/5))*(3-2*min(1,max(0,V(sink0,0)/5))))"
+    },
+    {
+      "original": "Sdriver1 n_COL1 0 sink1 0 SINK_NOMINAL",
+      "replacement": "Bdriver1 n_COL1 0 I=V(n_COL1,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink1,0)/5))*min(1,max(0,V(sink1,0)/5))*(3-2*min(1,max(0,V(sink1,0)/5))))"
+    },
+    {
+      "original": "Sdriver2 n_COL2 0 sink2 0 SINK_NOMINAL",
+      "replacement": "Bdriver2 n_COL2 0 I=V(n_COL2,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink2,0)/5))*min(1,max(0,V(sink2,0)/5))*(3-2*min(1,max(0,V(sink2,0)/5))))"
+    },
+    {
+      "original": "Sdriver3 n_COL3 0 sink3 0 SINK_NOMINAL",
+      "replacement": "Bdriver3 n_COL3 0 I=V(n_COL3,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink3,0)/5))*min(1,max(0,V(sink3,0)/5))*(3-2*min(1,max(0,V(sink3,0)/5))))"
+    },
+    {
+      "original": "Sdriver4 n_COL4 0 sink4 0 SINK_NOMINAL",
+      "replacement": "Bdriver4 n_COL4 0 I=V(n_COL4,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink4,0)/5))*min(1,max(0,V(sink4,0)/5))*(3-2*min(1,max(0,V(sink4,0)/5))))"
+    },
+    {
+      "original": "Sdriver5 n_COL5 0 sink5 0 SINK_NOMINAL",
+      "replacement": "Bdriver5 n_COL5 0 I=V(n_COL5,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink5,0)/5))*min(1,max(0,V(sink5,0)/5))*(3-2*min(1,max(0,V(sink5,0)/5))))"
+    },
+    {
+      "original": "Sdriver6 n_COL6 0 sink6 0 SINK_NOMINAL",
+      "replacement": "Bdriver6 n_COL6 0 I=V(n_COL6,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink6,0)/5))*min(1,max(0,V(sink6,0)/5))*(3-2*min(1,max(0,V(sink6,0)/5))))"
+    },
+    {
+      "original": "Sdriver7 n_COL7 0 sink7 0 SINK_NOMINAL",
+      "replacement": "Bdriver7 n_COL7 0 I=V(n_COL7,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink7,0)/5))*min(1,max(0,V(sink7,0)/5))*(3-2*min(1,max(0,V(sink7,0)/5))))"
+    },
+    {
+      "original": "Sdriver8 n_COL8 0 sink8 0 SINK_NOMINAL",
+      "replacement": "Bdriver8 n_COL8 0 I=V(n_COL8,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink8,0)/5))*min(1,max(0,V(sink8,0)/5))*(3-2*min(1,max(0,V(sink8,0)/5))))"
+    },
+    {
+      "original": "Sdriver9 n_COL9 0 sink9 0 SINK_NOMINAL",
+      "replacement": "Bdriver9 n_COL9 0 I=V(n_COL9,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink9,0)/5))*min(1,max(0,V(sink9,0)/5))*(3-2*min(1,max(0,V(sink9,0)/5))))"
+    },
+    {
+      "original": "Sdriver10 n_COL10 0 sink10 0 SINK_NOMINAL",
+      "replacement": "Bdriver10 n_COL10 0 I=V(n_COL10,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink10,0)/5))*min(1,max(0,V(sink10,0)/5))*(3-2*min(1,max(0,V(sink10,0)/5))))"
+    },
+    {
+      "original": "Sdriver11 n_COL11 0 sink11 0 SINK_NOMINAL",
+      "replacement": "Bdriver11 n_COL11 0 I=V(n_COL11,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink11,0)/5))*min(1,max(0,V(sink11,0)/5))*(3-2*min(1,max(0,V(sink11,0)/5))))"
+    },
+    {
+      "original": "Sdriver12 n_COL12 0 sink12 0 SINK_NOMINAL",
+      "replacement": "Bdriver12 n_COL12 0 I=V(n_COL12,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink12,0)/5))*min(1,max(0,V(sink12,0)/5))*(3-2*min(1,max(0,V(sink12,0)/5))))"
+    },
+    {
+      "original": "Sdata n_TA_DATEN 0 data_intent 0 OUTPUT_SINK_NOMINAL",
+      "replacement": "Bdata n_TA_DATEN 0 I=V(n_TA_DATEN,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(data_intent,0)/5))*min(1,max(0,V(data_intent,0)/5))*(3-2*min(1,max(0,V(data_intent,0)/5))))"
+    },
+    {
+      "original": "Sclock n_TA_TAKT 0 clock_intent 0 OUTPUT_SINK_NOMINAL",
+      "replacement": "Bclock n_TA_TAKT 0 I=V(n_TA_TAKT,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(clock_intent,0)/5))*min(1,max(0,V(clock_intent,0)/5))*(3-2*min(1,max(0,V(clock_intent,0)/5))))"
+    }
+  ],
+  "sourceDeckSha256": "7ae32c50b3500c4f91c0c33ba96069044357c63ac5859eef17c4adbabf464812",
+  "deckSha256": "84209d14d859445c3b175dd8f4ba2277cc8b5bda7f8c307e9598992e77347908",
+  "exitCode": 0,
+  "solverDiagnostics": [
+    "Instance: ahdl   Message: XSPICE time is behind vtime:",
+    "InstancdoAnalyses: TRAN:  Timestep too small; time = 0.000102763, timestep = 1.4941e-23: trouble with node \"b.xa7_3.btarget#branch\"",
+    "tran simulation(s) aborted",
+    "e: ahdl   Message: XSPICE time is behind vtime:"
+  ],
+  "retainedDirectory": "build/keyboard-controller-analog/coupled-clock-sixteenth-ns/fine",
+  "artifacts": {
+    "continuous-sinks.json": {
+      "sha256": "d2cfff59a5099f2ab104bc94a4a37f9a6bd7743002ae0beddb5f3a5e43f86d49",
+      "bytes": 19272
+    },
+    "continuous-sinks.cir": {
+      "sha256": "84209d14d859445c3b175dd8f4ba2277cc8b5bda7f8c307e9598992e77347908",
+      "bytes": 15916
+    },
+    "continuous-sinks.log": {
+      "sha256": "89c2f0c62c5411a8753a04d5bcb1439b089000526303bcbe2e35e6b3a31d4d68",
+      "bytes": 67955
+    },
+    "continuous-sinks-trace.txt": {
+      "sha256": "c8810f0f7a62452c25a97317bcba679d9817df856ab57f46895b5b42afd03fe8",
+      "bytes": 133239112
+    },
+    "continuous-sinks-nodes.txt": {
+      "sha256": "57ddec0da41fc2fea08667ad13ce2eec85af3ebe5d2617c0fb5e6291122ef11e",
+      "bytes": 212195583
+    }
+  },
+  "interpretation": "With the original supply, initialization and tolerances, continuous sink conductance still aborts around first clock activity. This experiment does not justify replacing the production sink model or identify the root cause from the named failing node."
+}

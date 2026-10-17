@@ -232,7 +232,13 @@ changing acceptance. `quarter-ns-phase-evolution.json` retains a reanalysis of t
 same traces: an initial offset and subsequent drift both contribute to the failure.
 Further refinement at 0.0625 ns aborts near initial clock activity;
 `sixteenth-ns-abort.json` retains the failed run and its diagnostic provenance.
-It supplies no additional phase-convergence result.
+It supplies no additional phase-convergence result. `continuous-sinks.json`
+retains a controlled attempt to smooth the sink transitions with other settings
+unchanged; that experiment also aborts and is not adopted. The
+`held-cpu-clock.json` diagnostic holds the HDL CPU clock input low while retaining
+the electrical circuit. It completes beyond the earlier abort with repeated
+threshold crossings, but does not reach the high-level clock qualification bound
+during the charging window. It does not qualify firmware or isolate a bridge defect.
 
 ## Output, cable and supply loads
 
@@ -336,8 +342,9 @@ with both timestamps; the detailed repeat diagnostic is retained with its report
 C serial-bit agreement, but their paired receiver timing exceeds the refinement
 budget. Independent coverage reports verify the press, repeat and release
 observations and reset/ROM restart. These checks do not override the failed
-refinement gate: repeat remains unqualified, and receiver margins require their
-own retained evidence.
+refinement gate: repeat remains unqualified. Independent receiver-margin reports
+also pass, accounting conservatively for printed timestamp uncertainty; the
+remaining rejection is paired timing refinement.
 Service coverage also checks CPU RESET_N transitions and a restart at ROM address
 0000 after every reset release. Matching later serial traffic alone cannot satisfy
 the reset check.
