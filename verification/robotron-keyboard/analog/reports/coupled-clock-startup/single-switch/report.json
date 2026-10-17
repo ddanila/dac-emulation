@@ -1,0 +1,35 @@
+{
+  "exitCode": 0,
+  "scope": "Single switch diagnostic, constant supply and fixture load; not board qualification",
+  "artifacts": {
+    "probe.cir": {
+      "sha256": "d6197d41c455f1142b59bd6970b6e40ea29f53eec295c9fb448e87dfe61a457d",
+      "bytes": 653
+    },
+    "events.txt": {
+      "sha256": "a18b6e56f7eb8efc82bcedafb26a2bd1291ed48147a82c56b5ad0ac42d150f1d",
+      "bytes": 420
+    },
+    "ngspice.log": {
+      "sha256": "e772dbf4888d4a050765b2241b8b8ef7767dfd18285c47c3228f9b5971d204b4",
+      "bytes": 937
+    },
+    "stimulus.txt": {
+      "sha256": "2348baa83e2771349ca54ae809c5296dc3596d407617d0da5e48680e6aa76522",
+      "bytes": 59
+    },
+    "endpoint.txt": {
+      "sha256": "936c9022035feb0992c8871e5ecd03a90c75a1a58439ac5c2de4181e0732a9bd",
+      "bytes": 150
+    }
+  },
+  "endpoint": "time[length(time)-1] = 1.03999999999999994e-04\nv(drive)[length(time)-1] = 0.00000000000000000e+00\nv(output)[length(time)-1] = 4.99999999719987898e+00\n",
+  "solverDiagnostics": [],
+  "completed": true,
+  "retainedDirectory": "build/keyboard-controller-analog/single-switch-replay",
+  "commands": [
+    "ngspice -n -b probe.cir"
+  ],
+  "eventTimesMatchStimulus": true,
+  "interpretation": "The exact captured column-release timestamp alone does not reproduce the failure in a single DAC/switch with constant supply and fixture load. The full replay remains the failing reproducer; surrounding electrical dynamics or timestep history matter. This does not qualify the board or identify a unique faulty component."
+}
