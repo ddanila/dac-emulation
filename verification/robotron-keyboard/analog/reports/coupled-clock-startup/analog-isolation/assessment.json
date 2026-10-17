@@ -1,0 +1,9 @@
+{
+  "qualified": false,
+  "scope": "Early startup isolation only; no firmware, full-board or clock-phase qualification",
+  "reports": {
+    "fixed-drive": "63640977f55a51213e2310c5a8122f6ee43d68908b97d31344544a33e1125b39",
+    "adc-observers": "0e5503174cce7664f3a3bcf741f4a4b4258be1a7da32b3518b1770b0d79b059a"
+  },
+  "interpretation": "Fixed analog driver controls complete 150 us both without and with ADC observers. The no-bridge clock peak remains below the 2 V high-level requirement in this early window. ADC observation alone does not reproduce the live startup abort under these fixed controls; DAC/output event behavior remains to be isolated."
+}

@@ -1,0 +1,84 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Same fixed-zero analog startup fixture with unloaded ADC observers restored; no DAC or HDL, firmware or full-board qualification",
+  "sourceDirectory": "build/keyboard-controller-analog/analog-fixed-drive",
+  "sourceDeckSha256": "aedf7d725ee7ecc0d9dc6549d838e40247f2f6b725e2b177b4f6218b8e015af7",
+  "sourceReportSha256": "63640977f55a51213e2310c5a8122f6ee43d68908b97d31344544a33e1125b39",
+  "observerSourceDeckSha256": "507add69a4bffcb4a1fa75647d7ee3490262f301511ed771d1ddccbaa72ff242",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "maximumStepNs": 0.0625,
+  "durationUs": 150,
+  "retainedDirectory": "build/keyboard-controller-analog/analog-adc-observers",
+  "exitCode": 0,
+  "solverDiagnostic": null,
+  "endpointSeconds": 0.00015,
+  "artifacts": {
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "probe.cir": {
+      "sha256": "a9bdcc640c197760bbfa1895dc5615a56e0bd91c131f52a26854b7056e798785",
+      "bytes": 13804
+    },
+    "ngspice.log": {
+      "sha256": "118a650efca19634239591d68d908b300a850cbcc045a229c0e5cec01c002441",
+      "bytes": 31718
+    },
+    "trace.txt": {
+      "sha256": "2dc7a7f7b6b9e3cbf1cae5fe26ba4a2ef5628bd19cbaf1539749d9b5cd072e63",
+      "bytes": 123021384
+    },
+    "endpoint.txt": {
+      "sha256": "b4ca152e3a2954ce18a47befd8cf1688143687a606b658984a55b1cf7ce5ac93",
+      "bytes": 47
+    }
+  }
+}
