@@ -56,6 +56,7 @@ jobs:
         run: |
           python3 verification/robotron-keyboard/analog/test_clock_output.py
           python3 verification/robotron-keyboard/analog/test_clock_voltage.py
+          python3 verification/robotron-keyboard/analog/test_clock_timing.py
           python3 verification/robotron-keyboard/analog/test_cpu_control.py
           python3 verification/robotron-keyboard/analog/cpu_control_probe.py
           python3 verification/robotron-keyboard/analog/gate_probe.py --model verification/robotron-keyboard/analog/ls_nand_pullup.cir --require-qualified --out build/keyboard-controller-analog/gate-pullup-dc

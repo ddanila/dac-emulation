@@ -184,6 +184,11 @@ The board-pair qualifier requires a valid supply throughout its saved observatio
 window and both U880 clock-level excursions on each complete sampled cycle.
 Leading and trailing partial cycles are excluded. These are necessary checks;
 they do not establish valid pulse widths or levels between samples.
+`cpuClockTiming` separately brackets high/low valid-level durations, rise/fall
+transitions and periods against the published U880D reference limits. Printed
+timestamp precision and sample gaps contribute to the bounds; ambiguous results
+remain indeterminate. This diagnostic does not identify the specimen's CPU speed
+grade or prove tester-threshold equivalence or behavior between samples.
 
 `--electrical-cpu-pullups` enables schematic R6.4/R6.5 in boot and coupled-clock
 runs. Each attached U880 control input receives the published maximum input
