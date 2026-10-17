@@ -41,6 +41,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_failure_evidence.py
           python3 verification/robotron-keyboard/analog/test_led_reference.py
           python3 verification/robotron-keyboard/analog/test_led_pair.py
+          python3 verification/robotron-keyboard/analog/test_compressed_output.py
       - name: Reference analog sensing feasibility
         run: python3 verification/robotron-keyboard/analog/sense_probe.py
       - name: Electrical matrix and generated HDL interface
