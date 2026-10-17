@@ -12,6 +12,7 @@ from compressed_output import capture as capture_compressed
 from boot_cosim import ROM_SHA256, sha
 from circuit import load
 from controller_interface import generate
+from logic_control import wiring as logic_wiring
 from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
 from ngspice_runtime import identify as identify_runtime, verify as verify_runtime
@@ -42,7 +43,11 @@ def main():
     p.add_argument('--ngspice-spinit', type=Path, help='Explicit spinit with absolute code-model paths')
     p.add_argument('--latch-load', choices=LATCH_LOADS, default='ideal')
     p.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground; zero omits it')
+    p.add_argument('--electrical-logic-pullups', action='store_true')
+    p.add_argument('--logic-load-pf', type=float, default=0, help='Assumed capacitance per control net; requires electrical logic pullups')
     args = p.parse_args()
+    if not math.isfinite(args.logic_load_pf) or args.logic_load_pf < 0 or (args.logic_load_pf and not args.electrical_logic_pullups):
+        p.error('logic-load-pf must be finite and nonnegative, and requires electrical-logic-pullups')
     if not math.isfinite(args.column_load_pf) or args.column_load_pf < 0:
         p.error('column-load-pf must be finite and nonnegative')
     if not 0 < args.step_ns <= 100 or not math.isfinite(args.timeout_seconds) or args.timeout_seconds <= 0:
@@ -58,6 +63,8 @@ def main():
     for name in ('report.json', 'trace.txt', 'led-trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'assumptions': {
+        'electricalLogicPullups': args.electrical_logic_pullups, 'logicLoadPf': args.logic_load_pf,
+        'logicClockReceiver': 'Nominal 1.4 V threshold; not calibrated DL074 switching timing',
         'clockPeriodNs': 1000, 'resetRampStartNs': 1000000, 'fixtureEdgeNs': 1,
         'fixtureThresholdVolts': 1.4, 'br1Closed': False, 'br2Closed': False,
         'contactTransitionNs': 1, 'latchLoad': args.latch_load, 'columnLoadPf': args.column_load_pf,
@@ -118,10 +125,22 @@ def main():
                HERE / 'boot_cosim.v', HERE / 'firmware_io_cosim.v', out / 'controller_analog.v']
         report['hdlSha256'] = {str(path): sha(path) for path in hdl}
         subprocess.run(['iverilog', '-g2012', '-s', 'firmware_io_cosim', '-o', str(out / 'io.vvp'),
+                        '-Pfirmware_io_cosim.ELECTRICAL_LOGIC_PULLUPS=' + str(int(args.electrical_logic_pullups)),
                         *map(str, hdl)], check=True)
         matrix, report['matrixCircuit'] = matrix_circuit(components, latch_load=args.latch_load, column_load_pf=args.column_load_pf)
         outputs, info = output_circuit(components)
         report['outputCircuit'] = info
+        logic_lines, logic_inputs = [], 'fixture_reset_n fixture_reset_n fixture_reset_n'
+        if args.electrical_logic_pullups:
+            logic_lines, logic_models, logic_info = logic_wiring(components, args.logic_load_pf)
+            report['logicControlCircuit'] = logic_info
+            report['logicControlModels'] = logic_models
+            nets = logic_info['nets']
+            logic_lines += [
+                f'Alogic_levels [{nets["latchEnable"]} {nets["flipFlopRelease"]}] [dlogic_oe dlogic_ff] data_receiver',
+                f'Alogic_clock [{nets["ioActive"]}] [dlogic_io] clock_receiver',
+                'Alogic_drive [dlogic_sink0 dlogic_sink1] [control_latchEnable_sink control_ioActive_sink] drive']
+            logic_inputs = 'dlogic_io dlogic_ff dlogic_oe'
         ground = info['hostGround']
         sense = ' '.join(f'n_SENSE{i}' for i in reversed(range(8)))
         dsense = ' '.join(f'dsense{i}' for i in reversed(range(8)))
@@ -130,7 +149,7 @@ def main():
         lines = ['S600 firmware I/O service fixture', f'Vhost {info["hostSupply"]} {ground} PWL(0 0 1u 5)',
                  'Vfixture_clock fixture_clock 0 PULSE(0 5 500n 1n 1n 499n 1u)',
                  'Vfixture_reset fixture_reset 0 ' + reset_source(scenario),
-                 *matrix, *outputs,
+                 *matrix, *outputs, *logic_lines,
                  *[f'Vcontact{i} contact{i} 0 ' + contact_source(scenario, i) for i in range(104)],
                  'Esiso_intent siso_intent 0 led0_v 0 1', 'Ecaps_intent caps_intent 0 led1_v 0 1',
                  f'Edata receiver_data 0 {info["serial"]["data"]["cable"]} {ground} 1',
@@ -141,7 +160,7 @@ def main():
                  'Arxclock [receiver_clock] [rx_clock] clock_receiver',
                  '.model clock_receiver adc_bridge(in_low=1.4 in_high=1.4)',
                  'Afixture [fixture_clock fixture_reset] [fixture_clk fixture_reset_n] clock_receiver',
-                 f'Ahdl [fixture_clk fixture_reset_n {dsense} rx_data rx_clock] [dsink csink led1 led0 {columns}] hdl',
+                 f'Ahdl [fixture_clk fixture_reset_n {dsense} rx_data rx_clock {logic_inputs}] [dlogic_sink1 dlogic_sink0 dsink csink led1 led0 {columns}] hdl',
                  f'.model hdl d_cosim simulation="{libs["shim"]}" sim_args=["io.vvp"] delay={args.bridge_delay_ns}n',
                  f'+ lib_args=["{libs["libvvp"]}" "{libs["vpi"]}"]',
                  'Adrive [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] drive',

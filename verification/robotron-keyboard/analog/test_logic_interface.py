@@ -9,6 +9,45 @@ from controller_interface import generate, HERE
 
 
 class LogicInterfaceTests(unittest.TestCase):
+    def test_service_wrapper_preserves_control_feedback(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            out = Path(temporary)
+            (out / 'controller_analog.v').write_text(generate(explicit_cpu_drive=True, resolved_bus=True))
+            (out / 's600.hex').write_text('00\n' * 2048)
+            (out / 'tb.v').write_text("""`timescale 1ns/1ps
+module tb;
+ reg [2:0] levels=3'b011;
+ wire [1:0] sinks;
+ firmware_io_cosim #(.ELECTRICAL_LOGIC_PULLUPS(1)) dut(
+  .fixture_clk(1'b0),.fixture_reset_n(1'b0),.sense(8'ha5),
+  .receiver_data(1'b0),.receiver_clock(1'b0),.logic_control(levels),.logic_sink(sinks));
+ initial begin
+  force dut.board.address=16'hc000;
+  force dut.board.iorq_n=1'b1;
+  #1;
+  if(sinks!==2'b11 || dut.board.electrical.board.A4.p9!==1 ||
+     dut.board.electrical.board.A4.p11!==0 || dut.board.electrical.board.A6.p1!==1)
+   $fatal(1,"Service wrapper lost electrical control routing");
+  levels=3'b110; #1;
+  if(dut.board.electrical.board.A4.p9!==0 || dut.board.electrical.board.A4.p11!==1)
+   $fatal(1,"Service wrapper did not deliver returned control transition");
+  levels=3'bxxx; #1;
+  if(dut.board.electrical.board.A6.p1!==1'bx)
+   $fatal(1,"Service wrapper masked returned unknown state");
+  $display("SERVICE_LOGIC_OK"); $finish;
+ end
+endmodule
+""")
+            tv80 = HERE.parents[2] / 'third_party/cpu/tv80'
+            sources = [*sorted(tv80.glob('*.v')), HERE.parent / 'chips.v',
+                       HERE.parent / 'generated/controller.v', HERE / 'boot_cosim.v',
+                       HERE / 'firmware_io_cosim.v', out / 'controller_analog.v', out / 'tb.v']
+            subprocess.run(['iverilog', '-g2012', '-s', 'tb', '-o', str(out / 'tb.vvp'),
+                            *map(str, sources)], check=True, capture_output=True, text=True)
+            result = subprocess.run(['vvp', str(out / 'tb.vvp')], cwd=out,
+                                    check=True, capture_output=True, text=True)
+            self.assertIn('SERVICE_LOGIC_OK', result.stdout)
+
     def test_physical_receivers_drive_latch_and_flip_flops(self):
         with tempfile.TemporaryDirectory() as temporary:
             out = Path(temporary)

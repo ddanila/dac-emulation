@@ -198,7 +198,8 @@ constant highs. X1:A9 remains externally open. `CPU_CONTROL` records the receive
 logic levels, including unknowns. Leakage, clamps and CPU brownout behavior remain
 unmodeled; this option is an exploratory circuit boundary, not device calibration.
 `--electrical-logic-pullups` couples R6.3/R6.6/R9.9 and nominal open-collector
-sinks to the generated latch/flip-flop pins in boot and coupled-clock runs.
+sinks to the generated latch/flip-flop pins in boot, coupled-clock and S600
+service (`firmware_io_cosim.py`) runs.
 `--logic-load-pf` adds explicit per-net fixture capacitance; it is not a measured
 device load. I/O-active uses a nominal 1.4 V clock crossing; the other control
 receivers retain their 0.8/2 V unknown band. `logic_control_probe.py` checks the
