@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Exercise the CPU control pullups and an external X1:A9 service sink.",
+  "boundary": "5 V ideal supply and illustrative 100-ohm external sink; no CPU execution, leakage, clamps, brownout or switching calibration",
+  "circuit": {
+    "supply": "n_p5V",
+    "ground": "0",
+    "interruptNmiWait": "n_CPU_PULLUP",
+    "busRequest": "n_BUSRQ_N",
+    "inputCapacitanceFaradsPerPin": 5e-12,
+    "qualified": false,
+    "boundary": "Reference-maximum capacitance, not measured capacitance; leakage and input clamps omitted. X1:A9 is externally open. CPU brownout and power-off behavior remain unmodeled."
+  },
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "sources": {
+    "cpu_control_probe.py": "49dad88f3aec158f25d2c5ce70f0e1b65d1cfbb98fccd33b510e363bc58d3ea3",
+    "cpu_control.py": "e1007749e0e6c9cf5e28ceadb6992276b0b4ba3ebddebbc3a4967f9421eb7e06",
+    "cpu_clock_limits.json": "039b10526267d8b16fee888de9722bf0dbdbe69448a6d1000736224f3ae0e8fd",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "clock_output_probe.py": "05b92ebe9d9751d1edf5bd0667640794f9b482b83b1e8e8dc2c260908c0228d7",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "executable": {
+    "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+    "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+  },
+  "spinitSha256": "ce1f27263b32b19e029a1d2f1b5b65966be8ba22710cd84ce71f1b03e34f3168",
+  "deckSha256": "5705670d968f1baa78e388e82e5cb8a4032c1fe42c12750219fdd69c9f72285b",
+  "observations": {
+    "releasedBefore": {
+      "minimumVolts": 4.999999995000014,
+      "maximumVolts": 4.999999995000014
+    },
+    "asserted": {
+      "minimumVolts": 0.45454545454545436,
+      "maximumVolts": 0.4545454545454544
+    },
+    "releasedAfter": {
+      "minimumVolts": 4.999999994999997,
+      "maximumVolts": 4.999999994999997
+    }
+  },
+  "traceSha256": "5815dd12aea90451279401112530712295725306127989c9acbbb00657178ce9",
+  "logSha256": "1b99436cbdc39f024774e44f48a22d5fc7ed9aa80742148089968f161ec05fff"
+}
