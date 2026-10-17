@@ -1,0 +1,98 @@
+{
+  "completed": false,
+  "qualified": false,
+  "scope": "150 us live TV80/S600 startup with explicit unknown-output analog projection; sensitivity fixture, not historical power-up state or full-board qualification",
+  "dacPatchSha256": "3ba6b08d953e36aa0ec284e610c72bee7c4d5408130d324fad7dddd6f9604d8c",
+  "auditPatchSha256": "058ec6cbc75e397eec3bc835dcd54cdec900419ee5c7e8007c8589ce5d937a10",
+  "unknownOutputVolts": 0,
+  "maximumStepNs": 0.0625,
+  "durationUs": 150,
+  "sourceDirectory": "build/keyboard-controller-analog/coupled-clock-sixteenth-ns/fine",
+  "sourceDeckSha256": "7ae32c50b3500c4f91c0c33ba96069044357c63ac5859eef17c4adbabf464812",
+  "sourceReportSha256": "608cdb994bd7711d1f0ff4d3c6030045ff11c762f81361111ca29b300e7d2a17",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-breakpoint-audit/ngspice",
+      "sha256": "86c8f7f9701866fb3bb73eac94deb2ecc6bfbda846f163c9ea425842744a965d"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-dac-equivalent-runtime/spinit",
+      "sha256": "a9f972b8c32efc565083ea3294482296c105dfc4ea4c85c20f739b33eb90240f"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-dac-equivalent-runtime/digital.cm",
+        "sha256": "1d6703a5112c5ad023896d0e62bd08ea57abed91c59872735c5b13d6eb754def",
+        "loadPath": "/tmp/robotron-dac-equivalent-runtime/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "sources": {
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/breakpoint-audit-equivalent/released",
+  "exitCode": 0,
+  "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.000102756, timestep = 4.16985e-24: trouble with node \"xa7_2.target\"",
+  "endpointSeconds": 0.0001027558433429012,
+  "artifacts": {
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "probe.cir": {
+      "sha256": "507add69a4bffcb4a1fa75647d7ee3490262f301511ed771d1ddccbaa72ff242",
+      "bytes": 14230
+    },
+    "ngspice.log": {
+      "sha256": "732482dc99d5f17fab592f7aed635665c780745970189a4be40634f793d76b09",
+      "bytes": 79827
+    },
+    "trace.txt": {
+      "sha256": "0b1e10b3e5ccd6352c27c9083de55cf39cc503350e987dbe84e6fc78725b6ea7",
+      "bytes": 83869449
+    },
+    "boot.vvp": {
+      "sha256": "d890b7f8736f4e5fbdeb22671efb36f92900b419bccdf7084e502358d73f45f8",
+      "bytes": 629324
+    },
+    "s600.hex": {
+      "sha256": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+      "bytes": 6144
+    },
+    "endpoint.txt": {
+      "sha256": "f33fb22fe9df1d33ccf790e711a8069c501eadf698400d2cd1162000d633f0d8",
+      "bytes": 47
+    }
+  }
+}

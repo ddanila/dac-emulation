@@ -1,0 +1,49 @@
+{
+  "qualified": false,
+  "requestedMinimumBreakpointSeconds": 1e-15,
+  "circuitStructBytes": 952,
+  "minimumBreakpointOffsetBytes": 440,
+  "executableSha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+  "sourceTaskConstructorSha256": "09857e69b321b4f7cd6cc37dd4912788b80ef54fde90b04987b4e72cabd2a238",
+  "headerSha256": "6e180f74efdae65793a5b5baa316b8fcd4e59782ed8bda5165dd8cd19b692672",
+  "configSha256": "f600c0b2cf30b56a2c06c7167092b2c4bd59f5034e75b4f1bf92f60207b5fe01",
+  "cases": {
+    "control-tran": {
+      "observedMinimumBreakpointSeconds": 4.0000000000000004e-21,
+      "artifacts": {
+        "probe.cir": {
+          "sha256": "30c05e47f77f648c7f67103482e73c65617b237dab2bed4e136a897ea119187b",
+          "bytes": 124
+        },
+        "ngspice.log": {
+          "sha256": "ef72d043df0ba8b168ab1acb7fcf1b79b3678ed21222e9d0831fdc03c2093b90",
+          "bytes": 600
+        },
+        "state.bin": {
+          "sha256": "ec4fd9d841d21826d1a540fa83e04fafc2fe9aaa39be0a796e37125b62951e8c",
+          "bytes": 4539
+        }
+      }
+    },
+    "deck-tran": {
+      "observedMinimumBreakpointSeconds": 1e-15,
+      "artifacts": {
+        "probe.cir": {
+          "sha256": "3a3d830d35be9d4dcbe13746cc4389ec482b448aafe7a04d1531f04cd133b8f3",
+          "bytes": 129
+        },
+        "ngspice.log": {
+          "sha256": "ef72d043df0ba8b168ab1acb7fcf1b79b3678ed21222e9d0831fdc03c2093b90",
+          "bytes": 600
+        },
+        "state.bin": {
+          "sha256": "9362f4137992ae5ffb26fed981a46658003fb3df99aa060b7974494424f3540b",
+          "bytes": 4539
+        }
+      }
+    }
+  },
+  "interpretation": "Control tran creates a special task that omits TSKminBreak when copying deck defaults. Deck .tran with control run retains the request. The earlier minbreak startup reports therefore do not establish minimum-spacing sensitivity.",
+  "offsetCompileCommand": "cc -I<build>/src/include -I<source>/src/include snapshot-offset.c -o snapshot-offset",
+  "snapshotLayout": "Native int struct-size prefix, followed by the CKTcircuit struct. Offset executable must be built against the same source and configuration as ngspice; reject a struct-size mismatch before decoding."
+}

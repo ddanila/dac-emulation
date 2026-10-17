@@ -1,0 +1,11 @@
+Option inheritance
+V1 n 0 1
+R1 n 0 1k
+.options reltol=1e-7 minbreak=1f
+.tran 1n 2n
+.control
+run
+snsave state.bin
+quit
+.endc
+.end

@@ -1,0 +1,22 @@
+--- a/src/spicelib/analysis/dctran.c
++++ b/src/spicelib/analysis/dctran.c
+@@ -635,6 +635,8 @@
+                 if(g_mif_info.breakpoint.current >  ckt->CKTtime + ckt->CKTminBreak  &&
+                    g_mif_info.breakpoint.current >= g_mif_info.circuit.evt_step) {
+                     ckt->CKTsaveDelta = ckt->CKTdelta;
++                    if (ckt->CKTtime > 1e-4 && g_mif_info.breakpoint.current - ckt->CKTtime < 1e-14)
++                        fprintf(stderr, "BP_AUDIT event-cut time=%a delta=%a request=%a event=%a minbreak=%a\n", ckt->CKTtime, ckt->CKTdelta, g_mif_info.breakpoint.current, g_mif_info.circuit.evt_step, ckt->CKTminBreak);
+                     ckt->CKTdelta = g_mif_info.breakpoint.current - ckt->CKTtime;
+                     g_mif_info.breakpoint.last = ckt->CKTtime + ckt->CKTdelta;
+                 }
+@@ -707,6 +709,10 @@
+ #endif
+         /* Central solver step */
+         converged = NIiter(ckt,ckt->CKTtranMaxIter);
++#ifdef XSPICE
++        if (ckt->CKTtime > 1e-4 && ckt->CKTdelta < 1e-14)
++            fprintf(stderr, "BP_AUDIT solver time=%a delta=%a previous=%a breakpoint=%a result=%d order=%d\n", ckt->CKTtime, ckt->CKTdelta, ckt->CKTtime - ckt->CKTdelta, g_mif_info.breakpoint.current, converged, ckt->CKTorder);
++#endif
+ 
+         ckt->CKTstat->STATtimePts ++;
+         ckt->CKTmode = (ckt->CKTmode&MODEUIC)|MODETRAN | MODEINITPRED;
