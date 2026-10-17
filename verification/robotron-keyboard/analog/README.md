@@ -340,6 +340,25 @@ pullup loading, IC supply currents and brownout behavior remain unqualified.
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
 
+Timed contact recipes can also run with BR1/BR2 closed:
+
+```sh
+python3 verification/robotron-keyboard/analog/boot_cosim.py --rom /path/to/s600.bin --electrical-matrix --electrical-outputs --scenario verification/robotron-keyboard/analog/scenarios/single-press.json --step-ns 10 --out /tmp/board-single
+```
+
+Here recipe indices represent 1 us wall-time ticks starting at 125 ms, independent
+of the electrical oscillator. The trace extends to the recipe end; receiver
+traffic must satisfy its observation windows. This does not establish ordinal C
+agreement or timestep convergence. Service reset recipes are rejected because they
+would bypass the connected reset generator. Full-board scenario qualification is
+still pending.
+
+`--bridge-delay-ns` controls numerical synchronization (default 10 ns). The retained
+`reports/electrical-matrix-boot-1ns-failure.json` records solver/bridge diagnostics
+with the old 1 ns setting. A larger delay passed service fixtures but remains to
+be qualified with the electrical oscillator; warnings and time reversals still
+fail the run. The setting is not calibrated device propagation.
+
 The supply rises over 1 microsecond by default. The nominal reset model fails to
 produce a useful pulse with a 10 ns supply ramp; this is reproducible with
 `reset_probe.py --rise-us .01 --out /tmp/reset-fast-ramp`. Treat that as an open

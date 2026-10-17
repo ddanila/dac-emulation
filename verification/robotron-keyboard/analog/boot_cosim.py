@@ -17,6 +17,7 @@ from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
 from reset_probe import RESET_REFS
 from serial_observation import validate_transport, SerialMismatch
+import board_scenario
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -83,7 +84,9 @@ def prepare(args, report):
         matrix_lines, matrix_info = matrix_circuit(components, include_models=False)
         report['matrixCircuit'] = matrix_info
         report['electricalModels'].update(matrix_info['models'])
-        matrix_lines += [f'Vcontact{i} contact{i} 0 {5 if i in args.contacts else 0}' for i in range(104)]
+        matrix_lines += [f'Vcontact{i} contact{i} 0 ' +
+                         (board_scenario.contact_source(args.scenario_data, i) if args.scenario_data else
+                          str(5 if i in args.contacts else 0)) for i in range(104)]
     else:
         matrix_lines = [f'Vunusedsense{i} n_SENSE{i} 0 0' for i in range(8)]
     if args.electrical_outputs:
@@ -120,7 +123,7 @@ def prepare(args, report):
              'Arxdata [receiver_data] [rx_data] sense_receiver',
              'Arxclock [receiver_clock] [rx_clock] receiver',
              f'Ahdl [dclk drst {sense_inputs} rx_data rx_clock] [dsink csink led1 led0 {column_outputs}] hdl',
-             f'.model hdl d_cosim simulation="{libs["shim"]}" sim_args=["boot.vvp"] delay=1n',
+             f'.model hdl d_cosim simulation="{libs["shim"]}" sim_args=["boot.vvp"] delay={args.bridge_delay_ns}n',
              f'+ lib_args=["{libs["libvvp"]}" "{libs["vpi"]}"]',
              'Adac [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] observation',
              f'Acolumns [{column_outputs}] [{column_nodes}] observation',
@@ -129,7 +132,7 @@ def prepare(args, report):
              # still begins at zero; no capacitor initial conditions or injected clock/reset.
              '.save ' + ' '.join(trace_signals),
              '.control', 'set wr_singlescale', 'set wr_vecnames',
-             f'tran {args.step_ns}n 127m 124m',
+             f'tran {args.step_ns}n {report["assumptions"]["traceWindowSeconds"][1]:.12g} 124m',
              'wrdata trace.txt ' + ' '.join(trace_signals),
              'quit', '.endc', '.end']
     (out / 'boot.cir').write_text('\n'.join(lines) + '\n')
@@ -164,7 +167,11 @@ def validate(out, report):
         raise ValueError('Boot did not exercise instruction fetch and keyboard scanning')
     report['idleBootPolicy'] = 'No serial write is required without a key stimulus; transmit scenarios are separate'
     if report['assumptions'].get('serialReceiver'):
-        report['serialTransport'] = validate_transport(log)
+        report['serialTransport'] = validate_transport(log, require_activity=bool(report.get('scenario')))
+    if report.get('scenario'):
+        report['scenarioCoverage'] = board_scenario.coverage(report['scenario'], report['serialTransport']['received'])
+        if not report['scenarioCoverage']['passed']:
+            raise ValueError('Full-board contact scenario observations are not satisfied')
     if 'x' in last[5] + last[6]:
         raise ValueError('Unknown CPU address or LED state after boot')
     # Stream traces: do not duplicate a long analog run in Python memory.
@@ -186,7 +193,7 @@ def validate(out, report):
             high_reset |= rst > 2
             clock_low |= clk < .8
             clock_high |= clk > 2
-    if not all((count, low_reset, high_reset, clock_low, clock_high)) or first > .12401 or last_time < .127:
+    if not all((count, low_reset, high_reset, clock_low, clock_high)) or first > .12401 or last_time < report['assumptions']['traceWindowSeconds'][1] - 1e-12:
         raise ValueError('Coupled analog waveform lacks reset/clock activity or endpoints')
     report['waveformRows'] = count
     report['firstFetchAfterRelease'] = after[0]
@@ -202,16 +209,20 @@ def main():
     p.add_argument('--electrical-outputs', action='store_true')
     p.add_argument('--electrical-matrix', action='store_true')
     p.add_argument('--contacts', default='', help='Comma-separated fixture contact indices held closed from power-on')
+    p.add_argument('--scenario', type=Path, help='Contact recipe at 125 ms origin, 1 us wall-time ticks; requires electrical matrix and outputs')
     p.add_argument('--prepare-only', action='store_true', help='Generate inputs without claiming a simulation pass')
     p.add_argument('--rise-us', type=float, default=1)
     p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
     p.add_argument('--step-ns', type=float, default=2)
+    p.add_argument('--bridge-delay-ns', type=float, default=10, help='Numerical interface delay, not a calibrated pin delay')
     p.add_argument('--timeout-seconds', type=float, default=7200)
     p.add_argument('--ngspice', default='ngspice')
     p.add_argument('--iverilog', default='iverilog')
     args = p.parse_args()
     if not math.isfinite(args.step_ns) or not 0 < args.step_ns <= 10:
         p.error('step-ns must be in (0, 10]')
+    if not math.isfinite(args.bridge_delay_ns) or not 0 < args.bridge_delay_ns <= 100:
+        p.error('bridge-delay-ns must be in (0, 100]')
     if not math.isfinite(args.rise_us) or not 0 < args.rise_us <= 10000:
         p.error('rise-us must be in (0, 10000]')
     if not math.isfinite(args.timeout_seconds) or args.timeout_seconds <= 0:
@@ -222,6 +233,10 @@ def main():
         p.error('contacts must be comma-separated integers')
     if not args.contacts <= set(range(104)) or (args.contacts and not args.electrical_matrix):
         p.error('contacts require electrical-matrix and indices 0 through 103')
+    args.scenario_data = board_scenario.load_board_scenario(args.scenario) if args.scenario else None
+    if args.scenario and (args.contacts or not args.electrical_matrix or not args.electrical_outputs):
+        p.error('scenario requires electrical-matrix and electrical-outputs, without static contacts')
+    stop = board_scenario.stop_seconds(args.scenario_data) if args.scenario_data else .127
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
     for name in ('report.json', 'trace.txt', 'ngspice.log'):
@@ -237,13 +252,21 @@ def main():
                               'cpuDataDrive': 'WR-only diagnostic' if args.wr_only_data else 'TV80 write-cycle intent gated by reset and bus ownership',
                               'electricalOutputs': args.electrical_outputs, 'electricalMatrix': args.electrical_matrix, 'closedContacts': sorted(args.contacts),
                               'contacts': 'Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification',
-                              'traceWindowSeconds': [.124, .127], 'simulationStartSeconds': 0,
+                              'traceWindowSeconds': [.124, stop], 'simulationStartSeconds': 0,
+                              'bridgeDelayNs': args.bridge_delay_ns,
+                              'bridgeDelay': 'Numerical synchronization only; not calibrated device propagation',
                               'maximumStepNs': args.step_ns, 'timeoutSeconds': args.timeout_seconds, 'supplyRiseUs': args.rise_us,
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py', 'ls_nand_nominal.cir',
                             'controller_interface.py', 'matrix.py', 'output_circuit.py', 'model_coverage.py',
-                            'serial_observation.py')}}
+                            'serial_observation.py', 'board_scenario.py', 'io_scenario.py')}}
+    if args.scenario_data:
+        report['scenario'] = args.scenario_data
+        report['scenarioSha256'] = sha(args.scenario)
+        report['assumptions']['contacts'] = 'Timed diode-free fixture; recipe indices mean 1 us wall-time ticks from 125 ms, not CPU cycles'
+        report['assumptions']['scenarioComparison'] = 'Receiver observation windows only; no C ordinal or CPU cycle equivalence claim'
+        (out / 'scenario.json').write_text(json.dumps(args.scenario_data, indent=2) + '\n')
     try:
         prepare(args, report)
         report['ngspice'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()
@@ -256,6 +279,8 @@ def main():
         with (out / 'ngspice.log').open('w') as log:
             subprocess.run([args.ngspice, '-b', 'boot.cir'], cwd=out, stdout=log,
                            stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
+        report['logSha256'] = sha(out / 'ngspice.log')
+        report['traceSha256'] = sha(out / 'trace.txt')
         validate(out, report)
         report['passed'] = True
     except Exception as error:

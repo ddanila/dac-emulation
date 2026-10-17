@@ -1,0 +1,1127 @@
+{
+  "passed": false,
+  "scope": "Boot TV80/S600 from electrical clock/reset, optionally with live matrix feedback.",
+  "assumptions": {
+    "receiverThresholdVolts": 1.4,
+    "receiver": "Single nominal threshold avoids counting both edges of an X band as clock edges",
+    "analogModels": "Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim",
+    "remainingDigitalBoundaries": [
+      "CPU/peripheral buses",
+      "LED and serial output loading"
+    ],
+    "electricalMatrix": true,
+    "closedContacts": [],
+    "contacts": "Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification",
+    "traceWindowSeconds": [
+      0.124,
+      0.127
+    ],
+    "simulationStartSeconds": 0,
+    "maximumStepNs": 2,
+    "timeoutSeconds": 14400.0,
+    "supplyRiseUs": 1,
+    "knownLimit": "The nominal model failed to produce a reset pulse with a 10 ns supply ramp"
+  },
+  "sources": {
+    "boot_cosim.py": "2cd0961360945fe121a0fab5221e8c589326cab42c6d9f287fdc56a44c9856c2",
+    "boot_cosim.v": "6b1d8877c878a2837209a2366e4883caf8173136e3c824ea87dd92312bf8c7a4",
+    "circuit.py": "56c3dbef32703cdb57ffe8c3817c2b7ef0aa90cbb83a0ef985a15bf8994f925a",
+    "oscillator_probe.py": "f417254a42f329a3eec9313f33d25fd9aaff3d7a3e3aa321faf9bfa36141e9c2",
+    "reset_probe.py": "63767eef3900b0c3085d1ef9353871f89c1953a119a39f0b7cc0c040768566c1",
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+    "controller_interface.py": "05009321c2e6a8e04748a1133168c7b8e5a097007b9bc53ab6b336b8aecdf3cc",
+    "matrix.py": "880ededd5b9e7708f4c49c9852724265e4c8fe10632db2ebb51a00ba3a5988a6"
+  },
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "tv80": {
+    "repository": "https://github.com/hutch31/tv80",
+    "revision": "66a131c38d05ef58b3d8c4f1507a72e6e4aa5d65",
+    "scope": "Unmodified rtl/core files; MIT license retained in each file. Qualification only, not production runtime.",
+    "files": {
+      "tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+      "tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+      "tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+      "tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+      "tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+    }
+  },
+  "hdlSha256": {
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+    "verification/robotron-keyboard/chips.v": "fb2dc06ff607c85594ef1fef33c8ae0d75e4f6ab5865bd2ff7e67f259617f3be",
+    "verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "verification/robotron-keyboard/analog/boot_cosim.v": "6b1d8877c878a2837209a2366e4883caf8173136e3c824ea87dd92312bf8c7a4",
+    "build/keyboard-controller-analog/electrical-matrix-boot/controller_analog.v": "616a8ef9b4908f5841683f25e634d739df780ecf6dbcdca926c9a1a8bd964824"
+  },
+  "electricalModels": {
+    "R4.3": "resistor",
+    "C6": "capacitor",
+    "R10.3": "resistor",
+    "A7": "LS_NAND_NOMINAL",
+    "BR1": "1 milliohm closed / 1 teraohm open",
+    "C1": "capacitor",
+    "C2": "capacitor",
+    "C4": "capacitor",
+    "R3": "resistor",
+    "R4.1": "resistor",
+    "R4.2": "resistor",
+    "R5": "resistor",
+    "R6.1": "resistor",
+    "R7": "resistor",
+    "R8": "resistor",
+    "V1.1": "D_NOMINAL",
+    "V1.2": "D_NOMINAL",
+    "V2": "D_NOMINAL",
+    "V3.1": "NPN_NOMINAL",
+    "V3.2": "NPN_NOMINAL",
+    "V4.9": "PNP_NOMINAL",
+    "BR2": "1 milliohm closed",
+    "R1": "common-pin resistor network",
+    "R2": "common-pin resistor network",
+    "R9.1": "resistor",
+    "R9.2": "resistor",
+    "R9.3": "resistor",
+    "R9.4": "resistor",
+    "R9.5": "resistor",
+    "R9.6": "resistor",
+    "R9.7": "resistor",
+    "R9.8": "resistor",
+    "V4.1": "PNP_NOMINAL",
+    "V4.2": "PNP_NOMINAL",
+    "V4.3": "PNP_NOMINAL",
+    "V4.4": "PNP_NOMINAL",
+    "V4.5": "PNP_NOMINAL",
+    "V4.6": "PNP_NOMINAL",
+    "V4.7": "PNP_NOMINAL",
+    "V4.8": "PNP_NOMINAL"
+  },
+  "unconnectedA7Pins": [
+    "1",
+    "2",
+    "3"
+  ],
+  "cpuClockNet": "n_CLK",
+  "cpuResetNet": "n_RESET_N",
+  "matrixCircuit": {
+    "models": {
+      "R1": "common-pin resistor network",
+      "R2": "common-pin resistor network",
+      "R9.1": "resistor",
+      "R9.2": "resistor",
+      "R9.3": "resistor",
+      "R9.4": "resistor",
+      "R9.5": "resistor",
+      "R9.6": "resistor",
+      "R9.7": "resistor",
+      "R9.8": "resistor",
+      "V4.1": "PNP_NOMINAL",
+      "V4.2": "PNP_NOMINAL",
+      "V4.3": "PNP_NOMINAL",
+      "V4.4": "PNP_NOMINAL",
+      "V4.5": "PNP_NOMINAL",
+      "V4.6": "PNP_NOMINAL",
+      "V4.7": "PNP_NOMINAL",
+      "V4.8": "PNP_NOMINAL"
+    },
+    "contacts": [
+      {
+        "index": 0,
+        "column": 0,
+        "row": 0,
+        "connectorPins": [
+          "A11",
+          "B6"
+        ]
+      },
+      {
+        "index": 1,
+        "column": 0,
+        "row": 1,
+        "connectorPins": [
+          "A11",
+          "B2"
+        ]
+      },
+      {
+        "index": 2,
+        "column": 0,
+        "row": 2,
+        "connectorPins": [
+          "A11",
+          "B7"
+        ]
+      },
+      {
+        "index": 3,
+        "column": 0,
+        "row": 3,
+        "connectorPins": [
+          "A11",
+          "A1"
+        ]
+      },
+      {
+        "index": 4,
+        "column": 0,
+        "row": 4,
+        "connectorPins": [
+          "A11",
+          "A4"
+        ]
+      },
+      {
+        "index": 5,
+        "column": 0,
+        "row": 5,
+        "connectorPins": [
+          "A11",
+          "B5"
+        ]
+      },
+      {
+        "index": 6,
+        "column": 0,
+        "row": 6,
+        "connectorPins": [
+          "A11",
+          "B11"
+        ]
+      },
+      {
+        "index": 7,
+        "column": 0,
+        "row": 7,
+        "connectorPins": [
+          "A11",
+          "B13"
+        ]
+      },
+      {
+        "index": 8,
+        "column": 1,
+        "row": 0,
+        "connectorPins": [
+          "A13",
+          "B6"
+        ]
+      },
+      {
+        "index": 9,
+        "column": 1,
+        "row": 1,
+        "connectorPins": [
+          "A13",
+          "B2"
+        ]
+      },
+      {
+        "index": 10,
+        "column": 1,
+        "row": 2,
+        "connectorPins": [
+          "A13",
+          "B7"
+        ]
+      },
+      {
+        "index": 11,
+        "column": 1,
+        "row": 3,
+        "connectorPins": [
+          "A13",
+          "A1"
+        ]
+      },
+      {
+        "index": 12,
+        "column": 1,
+        "row": 4,
+        "connectorPins": [
+          "A13",
+          "A4"
+        ]
+      },
+      {
+        "index": 13,
+        "column": 1,
+        "row": 5,
+        "connectorPins": [
+          "A13",
+          "B5"
+        ]
+      },
+      {
+        "index": 14,
+        "column": 1,
+        "row": 6,
+        "connectorPins": [
+          "A13",
+          "B11"
+        ]
+      },
+      {
+        "index": 15,
+        "column": 1,
+        "row": 7,
+        "connectorPins": [
+          "A13",
+          "B13"
+        ]
+      },
+      {
+        "index": 16,
+        "column": 2,
+        "row": 0,
+        "connectorPins": [
+          "B10",
+          "B6"
+        ]
+      },
+      {
+        "index": 17,
+        "column": 2,
+        "row": 1,
+        "connectorPins": [
+          "B10",
+          "B2"
+        ]
+      },
+      {
+        "index": 18,
+        "column": 2,
+        "row": 2,
+        "connectorPins": [
+          "B10",
+          "B7"
+        ]
+      },
+      {
+        "index": 19,
+        "column": 2,
+        "row": 3,
+        "connectorPins": [
+          "B10",
+          "A1"
+        ]
+      },
+      {
+        "index": 20,
+        "column": 2,
+        "row": 4,
+        "connectorPins": [
+          "B10",
+          "A4"
+        ]
+      },
+      {
+        "index": 21,
+        "column": 2,
+        "row": 5,
+        "connectorPins": [
+          "B10",
+          "B5"
+        ]
+      },
+      {
+        "index": 22,
+        "column": 2,
+        "row": 6,
+        "connectorPins": [
+          "B10",
+          "B11"
+        ]
+      },
+      {
+        "index": 23,
+        "column": 2,
+        "row": 7,
+        "connectorPins": [
+          "B10",
+          "B13"
+        ]
+      },
+      {
+        "index": 24,
+        "column": 3,
+        "row": 0,
+        "connectorPins": [
+          "B9",
+          "B6"
+        ]
+      },
+      {
+        "index": 25,
+        "column": 3,
+        "row": 1,
+        "connectorPins": [
+          "B9",
+          "B2"
+        ]
+      },
+      {
+        "index": 26,
+        "column": 3,
+        "row": 2,
+        "connectorPins": [
+          "B9",
+          "B7"
+        ]
+      },
+      {
+        "index": 27,
+        "column": 3,
+        "row": 3,
+        "connectorPins": [
+          "B9",
+          "A1"
+        ]
+      },
+      {
+        "index": 28,
+        "column": 3,
+        "row": 4,
+        "connectorPins": [
+          "B9",
+          "A4"
+        ]
+      },
+      {
+        "index": 29,
+        "column": 3,
+        "row": 5,
+        "connectorPins": [
+          "B9",
+          "B5"
+        ]
+      },
+      {
+        "index": 30,
+        "column": 3,
+        "row": 6,
+        "connectorPins": [
+          "B9",
+          "B11"
+        ]
+      },
+      {
+        "index": 31,
+        "column": 3,
+        "row": 7,
+        "connectorPins": [
+          "B9",
+          "B13"
+        ]
+      },
+      {
+        "index": 32,
+        "column": 4,
+        "row": 0,
+        "connectorPins": [
+          "B1",
+          "B6"
+        ]
+      },
+      {
+        "index": 33,
+        "column": 4,
+        "row": 1,
+        "connectorPins": [
+          "B1",
+          "B2"
+        ]
+      },
+      {
+        "index": 34,
+        "column": 4,
+        "row": 2,
+        "connectorPins": [
+          "B1",
+          "B7"
+        ]
+      },
+      {
+        "index": 35,
+        "column": 4,
+        "row": 3,
+        "connectorPins": [
+          "B1",
+          "A1"
+        ]
+      },
+      {
+        "index": 36,
+        "column": 4,
+        "row": 4,
+        "connectorPins": [
+          "B1",
+          "A4"
+        ]
+      },
+      {
+        "index": 37,
+        "column": 4,
+        "row": 5,
+        "connectorPins": [
+          "B1",
+          "B5"
+        ]
+      },
+      {
+        "index": 38,
+        "column": 4,
+        "row": 6,
+        "connectorPins": [
+          "B1",
+          "B11"
+        ]
+      },
+      {
+        "index": 39,
+        "column": 4,
+        "row": 7,
+        "connectorPins": [
+          "B1",
+          "B13"
+        ]
+      },
+      {
+        "index": 40,
+        "column": 5,
+        "row": 0,
+        "connectorPins": [
+          "A2",
+          "B6"
+        ]
+      },
+      {
+        "index": 41,
+        "column": 5,
+        "row": 1,
+        "connectorPins": [
+          "A2",
+          "B2"
+        ]
+      },
+      {
+        "index": 42,
+        "column": 5,
+        "row": 2,
+        "connectorPins": [
+          "A2",
+          "B7"
+        ]
+      },
+      {
+        "index": 43,
+        "column": 5,
+        "row": 3,
+        "connectorPins": [
+          "A2",
+          "A1"
+        ]
+      },
+      {
+        "index": 44,
+        "column": 5,
+        "row": 4,
+        "connectorPins": [
+          "A2",
+          "A4"
+        ]
+      },
+      {
+        "index": 45,
+        "column": 5,
+        "row": 5,
+        "connectorPins": [
+          "A2",
+          "B5"
+        ]
+      },
+      {
+        "index": 46,
+        "column": 5,
+        "row": 6,
+        "connectorPins": [
+          "A2",
+          "B11"
+        ]
+      },
+      {
+        "index": 47,
+        "column": 5,
+        "row": 7,
+        "connectorPins": [
+          "A2",
+          "B13"
+        ]
+      },
+      {
+        "index": 48,
+        "column": 6,
+        "row": 0,
+        "connectorPins": [
+          "B3",
+          "B6"
+        ]
+      },
+      {
+        "index": 49,
+        "column": 6,
+        "row": 1,
+        "connectorPins": [
+          "B3",
+          "B2"
+        ]
+      },
+      {
+        "index": 50,
+        "column": 6,
+        "row": 2,
+        "connectorPins": [
+          "B3",
+          "B7"
+        ]
+      },
+      {
+        "index": 51,
+        "column": 6,
+        "row": 3,
+        "connectorPins": [
+          "B3",
+          "A1"
+        ]
+      },
+      {
+        "index": 52,
+        "column": 6,
+        "row": 4,
+        "connectorPins": [
+          "B3",
+          "A4"
+        ]
+      },
+      {
+        "index": 53,
+        "column": 6,
+        "row": 5,
+        "connectorPins": [
+          "B3",
+          "B5"
+        ]
+      },
+      {
+        "index": 54,
+        "column": 6,
+        "row": 6,
+        "connectorPins": [
+          "B3",
+          "B11"
+        ]
+      },
+      {
+        "index": 55,
+        "column": 6,
+        "row": 7,
+        "connectorPins": [
+          "B3",
+          "B13"
+        ]
+      },
+      {
+        "index": 56,
+        "column": 7,
+        "row": 0,
+        "connectorPins": [
+          "B12",
+          "B6"
+        ]
+      },
+      {
+        "index": 57,
+        "column": 7,
+        "row": 1,
+        "connectorPins": [
+          "B12",
+          "B2"
+        ]
+      },
+      {
+        "index": 58,
+        "column": 7,
+        "row": 2,
+        "connectorPins": [
+          "B12",
+          "B7"
+        ]
+      },
+      {
+        "index": 59,
+        "column": 7,
+        "row": 3,
+        "connectorPins": [
+          "B12",
+          "A1"
+        ]
+      },
+      {
+        "index": 60,
+        "column": 7,
+        "row": 4,
+        "connectorPins": [
+          "B12",
+          "A4"
+        ]
+      },
+      {
+        "index": 61,
+        "column": 7,
+        "row": 5,
+        "connectorPins": [
+          "B12",
+          "B5"
+        ]
+      },
+      {
+        "index": 62,
+        "column": 7,
+        "row": 6,
+        "connectorPins": [
+          "B12",
+          "B11"
+        ]
+      },
+      {
+        "index": 63,
+        "column": 7,
+        "row": 7,
+        "connectorPins": [
+          "B12",
+          "B13"
+        ]
+      },
+      {
+        "index": 64,
+        "column": 8,
+        "row": 0,
+        "connectorPins": [
+          "A3",
+          "B6"
+        ]
+      },
+      {
+        "index": 65,
+        "column": 8,
+        "row": 1,
+        "connectorPins": [
+          "A3",
+          "B2"
+        ]
+      },
+      {
+        "index": 66,
+        "column": 8,
+        "row": 2,
+        "connectorPins": [
+          "A3",
+          "B7"
+        ]
+      },
+      {
+        "index": 67,
+        "column": 8,
+        "row": 3,
+        "connectorPins": [
+          "A3",
+          "A1"
+        ]
+      },
+      {
+        "index": 68,
+        "column": 8,
+        "row": 4,
+        "connectorPins": [
+          "A3",
+          "A4"
+        ]
+      },
+      {
+        "index": 69,
+        "column": 8,
+        "row": 5,
+        "connectorPins": [
+          "A3",
+          "B5"
+        ]
+      },
+      {
+        "index": 70,
+        "column": 8,
+        "row": 6,
+        "connectorPins": [
+          "A3",
+          "B11"
+        ]
+      },
+      {
+        "index": 71,
+        "column": 8,
+        "row": 7,
+        "connectorPins": [
+          "A3",
+          "B13"
+        ]
+      },
+      {
+        "index": 72,
+        "column": 9,
+        "row": 0,
+        "connectorPins": [
+          "A10",
+          "B6"
+        ]
+      },
+      {
+        "index": 73,
+        "column": 9,
+        "row": 1,
+        "connectorPins": [
+          "A10",
+          "B2"
+        ]
+      },
+      {
+        "index": 74,
+        "column": 9,
+        "row": 2,
+        "connectorPins": [
+          "A10",
+          "B7"
+        ]
+      },
+      {
+        "index": 75,
+        "column": 9,
+        "row": 3,
+        "connectorPins": [
+          "A10",
+          "A1"
+        ]
+      },
+      {
+        "index": 76,
+        "column": 9,
+        "row": 4,
+        "connectorPins": [
+          "A10",
+          "A4"
+        ]
+      },
+      {
+        "index": 77,
+        "column": 9,
+        "row": 5,
+        "connectorPins": [
+          "A10",
+          "B5"
+        ]
+      },
+      {
+        "index": 78,
+        "column": 9,
+        "row": 6,
+        "connectorPins": [
+          "A10",
+          "B11"
+        ]
+      },
+      {
+        "index": 79,
+        "column": 9,
+        "row": 7,
+        "connectorPins": [
+          "A10",
+          "B13"
+        ]
+      },
+      {
+        "index": 80,
+        "column": 10,
+        "row": 0,
+        "connectorPins": [
+          "A12",
+          "B6"
+        ]
+      },
+      {
+        "index": 81,
+        "column": 10,
+        "row": 1,
+        "connectorPins": [
+          "A12",
+          "B2"
+        ]
+      },
+      {
+        "index": 82,
+        "column": 10,
+        "row": 2,
+        "connectorPins": [
+          "A12",
+          "B7"
+        ]
+      },
+      {
+        "index": 83,
+        "column": 10,
+        "row": 3,
+        "connectorPins": [
+          "A12",
+          "A1"
+        ]
+      },
+      {
+        "index": 84,
+        "column": 10,
+        "row": 4,
+        "connectorPins": [
+          "A12",
+          "A4"
+        ]
+      },
+      {
+        "index": 85,
+        "column": 10,
+        "row": 5,
+        "connectorPins": [
+          "A12",
+          "B5"
+        ]
+      },
+      {
+        "index": 86,
+        "column": 10,
+        "row": 6,
+        "connectorPins": [
+          "A12",
+          "B11"
+        ]
+      },
+      {
+        "index": 87,
+        "column": 10,
+        "row": 7,
+        "connectorPins": [
+          "A12",
+          "B13"
+        ]
+      },
+      {
+        "index": 88,
+        "column": 11,
+        "row": 0,
+        "connectorPins": [
+          "B8",
+          "B6"
+        ]
+      },
+      {
+        "index": 89,
+        "column": 11,
+        "row": 1,
+        "connectorPins": [
+          "B8",
+          "B2"
+        ]
+      },
+      {
+        "index": 90,
+        "column": 11,
+        "row": 2,
+        "connectorPins": [
+          "B8",
+          "B7"
+        ]
+      },
+      {
+        "index": 91,
+        "column": 11,
+        "row": 3,
+        "connectorPins": [
+          "B8",
+          "A1"
+        ]
+      },
+      {
+        "index": 92,
+        "column": 11,
+        "row": 4,
+        "connectorPins": [
+          "B8",
+          "A4"
+        ]
+      },
+      {
+        "index": 93,
+        "column": 11,
+        "row": 5,
+        "connectorPins": [
+          "B8",
+          "B5"
+        ]
+      },
+      {
+        "index": 94,
+        "column": 11,
+        "row": 6,
+        "connectorPins": [
+          "B8",
+          "B11"
+        ]
+      },
+      {
+        "index": 95,
+        "column": 11,
+        "row": 7,
+        "connectorPins": [
+          "B8",
+          "B13"
+        ]
+      },
+      {
+        "index": 96,
+        "column": 12,
+        "row": 0,
+        "connectorPins": [
+          "B4",
+          "B6"
+        ]
+      },
+      {
+        "index": 97,
+        "column": 12,
+        "row": 1,
+        "connectorPins": [
+          "B4",
+          "B2"
+        ]
+      },
+      {
+        "index": 98,
+        "column": 12,
+        "row": 2,
+        "connectorPins": [
+          "B4",
+          "B7"
+        ]
+      },
+      {
+        "index": 99,
+        "column": 12,
+        "row": 3,
+        "connectorPins": [
+          "B4",
+          "A1"
+        ]
+      },
+      {
+        "index": 100,
+        "column": 12,
+        "row": 4,
+        "connectorPins": [
+          "B4",
+          "A4"
+        ]
+      },
+      {
+        "index": 101,
+        "column": 12,
+        "row": 5,
+        "connectorPins": [
+          "B4",
+          "B5"
+        ]
+      },
+      {
+        "index": 102,
+        "column": 12,
+        "row": 6,
+        "connectorPins": [
+          "B4",
+          "B11"
+        ]
+      },
+      {
+        "index": 103,
+        "column": 12,
+        "row": 7,
+        "connectorPins": [
+          "B4",
+          "B13"
+        ]
+      }
+    ],
+    "outputs": [
+      "n_SENSE0",
+      "n_SENSE1",
+      "n_SENSE2",
+      "n_SENSE3",
+      "n_SENSE4",
+      "n_SENSE5",
+      "n_SENSE6",
+      "n_SENSE7"
+    ],
+    "columnNets": [
+      "n_COL0",
+      "n_COL1",
+      "n_COL2",
+      "n_COL3",
+      "n_COL4",
+      "n_COL5",
+      "n_COL6",
+      "n_COL7",
+      "n_COL8",
+      "n_COL9",
+      "n_COL10",
+      "n_COL11",
+      "n_COL12"
+    ]
+  },
+  "deckSha256": "4c147690b7fc079d258343ca1e1d8e7f372d4c88a8358bd796a5973b701f1c04",
+  "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "error": "Solver/bridge diagnostics: inspect ngspice.log",
+  "retainedExecution": {
+    "originalReportSha256": "ab228298fa5a208f6ebc5fc3b89e288c5b2032de3254c00b82cba72feebd5e98",
+    "ngspice.logSha256": "5046da256c216328838c6453b6c8c2a29e9afdc2cd8ea1ea3ef3ff409781254e",
+    "trace.txtSha256": "6f2f4d2fc1a22e120e5fadcc811455601af55b6680b87ffcd0c9e435d1e416cb"
+  }
+}
