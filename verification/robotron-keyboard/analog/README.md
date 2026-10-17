@@ -341,14 +341,13 @@ Service coverage also checks CPU RESET_N transitions and a restart at ROM addres
 the reset check.
 
 The qualification reports in `reports/release-repress/`, `reports/modifier/`,
-`reports/control/` and `reports/service-reset/` point to complete qualified rechecks
-under the diagnostic-only strict-time correction.
+`reports/control/`, `reports/service-reset/` and `reports/indicators/` point to
+complete qualified rechecks under the diagnostic-only strict-time correction.
 Their original functional event sequences and timestamps are preserved; this does
 not qualify full-board startup.
 
-`reports/indicators/` still requires a complete recheck for previously ignored
-ngspice time-order messages. `reports/solver-diagnostic-audit.json`
-pins the affected logs; equal printed timestamps do not establish backward
+`reports/solver-diagnostic-audit.json` preserves the earlier reassessment of
+previously ignored time-order messages and pins the affected logs; equal printed timestamps do not establish backward
 execution. The harnesses and retained-run loader now reject unresolved messages,
 including when ngspice exits zero. Original reports remain available alongside
 reassessed qualification results.
@@ -485,8 +484,8 @@ python3 verification/robotron-keyboard/analog/compare_led_reference.py /path/to/
 The checks cover nominal load response, ordinal C LED-state agreement and paired
 intent-edge timing. Exact CPU-cycle timing, full LED-current waveform convergence
 and calibrated brightness remain unqualified.
-`reports/indicators/` retains both C LED comparisons and replay logs; its overall
-qualification is pending the solver-diagnostic review described above.
+`reports/indicators/qualification.json` points to the qualified service recheck,
+including C LED-state agreement, paired intent-edge timing and retained replay logs.
 
 ## NAND static characterization
 

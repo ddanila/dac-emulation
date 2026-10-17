@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "scope": "Compare firmware LED intent transition timing across electrical timesteps.",
+  "edgeBudgetNs": 15.0,
+  "intentThresholdVolts": 2.5,
+  "checkStartSeconds": 0.001,
+  "interpretation": "DAC intent midpoint crossings with sample and printed timestamp uncertainty; no phase realignment, historical propagation or brightness qualification.",
+  "sources": {
+    "compare_led_pair.py": "a4a4530618b6c471dd3e483bfb7fcb36b4b8508710e22cd466440c88cd419faa",
+    "compare_firmware_io.py": "29a87d685978d5a5989ac0cf2ef11dd3c435d09676f8742d7a72f699409bea5d",
+    "clock_convergence.py": "e4a300be990cb1a717d41254a5d5386bfe89daba8b71e8772f0021f0a36db3f9",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "inputs": {
+    "coarse": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/indicators-time-reviewed/coarse",
+      "reportSha256": "e2c55f9084d7bb738b1c87a47470e004ef14a20128c8bd5bfd54680d70f8a2cb"
+    },
+    "fine": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/indicators-time-reviewed/fine",
+      "reportSha256": "196d2f2ccb3c1170269c8d8f616f78e8291cf1ab27a19f4c87dedf1706c0415a"
+    }
+  },
+  "channels": {
+    "siso": {
+      "passed": true,
+      "matchedEdges": 364,
+      "maximumBracketDifferenceNs": 1.0000000411070076,
+      "firstDifference": null
+    },
+    "caps": {
+      "passed": true,
+      "matchedEdges": 494,
+      "maximumBracketDifferenceNs": 5.000000080634948,
+      "firstDifference": null
+    }
+  }
+}
