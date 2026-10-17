@@ -292,6 +292,13 @@ or other contact/reset scenarios.
 applies convergence, scenario coverage and receiver margins to an existing pair.
 It marks the combined result passed only after every check passes, pins the input/check
 reports and preserves failure logs. The Make target uses this same final gate.
+Serial comparisons identify the first sequence or out-of-budget timing event
+with both timestamps; the detailed repeat diagnostic is retained with its reports.
+
+`reports/repeat/` retains successful individual repeat-scenario executions with
+C serial-bit agreement, but their paired receiver timing exceeds the refinement
+budget. Repeat remains unqualified; coverage and margin stages after that failed
+gate have not been certified by the combined qualifier.
 Service coverage also checks CPU RESET_N transitions and a restart at ROM address
 0000 after every reset release. Matching later serial traffic alone cannot satisfy
 the reset check.
@@ -583,8 +590,3 @@ bytes before removing the raw copy. It preserves failed/unfinished runs and
 refuses changed input. Qualification readers accept `.gz` and `.xz` waveforms transparently;
 report hashes continue to identify the original
 uncompressed content. Do not compact files belonging to an active simulation.
-
-`reports/repeat/` retains successful individual repeat-scenario executions with
-C serial-bit agreement, but their paired receiver timing exceeds the refinement
-budget. Repeat remains unqualified; coverage and margin stages after that failed
-gate have not been certified by the combined qualifier.

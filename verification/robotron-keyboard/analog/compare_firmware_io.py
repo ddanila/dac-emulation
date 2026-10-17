@@ -2,13 +2,14 @@
 """Check firmware I/O timestep refinement against retained inputs and observations."""
 import argparse
 import hashlib
+import itertools
 import json
 import math
 import re
 from pathlib import Path
 from trace_io import open_binary, open_text
 
-from serial_observation import validate_transport
+from serial_observation import SerialMismatch, validate_transport
 from led_observation import measure as measure_leds
 
 
@@ -84,14 +85,36 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
         if key in coarse and key in fine and coarse[key] != fine[key]:
             raise ValueError('C reference inputs differ: ' + key)
     result = {}
-    for kind in ('transmitted', 'received'):
+    violations = []
+
+    def timing(signal, ordinal, coarse_value, fine_value, coarse_time, fine_time):
+        difference = abs(coarse_value - fine_value) / 1000
+        if difference > tolerance_ns:
+            violations.append({'signal': signal, 'ordinal': ordinal,
+                               'coarseValuePs': coarse_value, 'fineValuePs': fine_value,
+                               'coarseEventTimePs': coarse_time, 'fineEventTimePs': fine_time,
+                               'differenceNs': difference, 'budgetNs': tolerance_ns})
+        return difference
+
+    for kind, signal in (('transmitted', 'serial_clock_TX'), ('received', 'serial_clock_RX')):
         a, b = coarse_transport[kind], fine_transport[kind]
-        if [v for _, v in a] != [v for _, v in b]:
-            raise ValueError('Serial sequence changes with timestep: ' + kind)
-        result[kind + 'MaximumDifferenceNs'] = max(abs(x[0] - y[0]) / 1000 for x, y in zip(a, b))
-    result['transportMaximumDifferenceNs'] = max(abs(a - b) * 1e9 for a, b in zip(
-        coarse_transport['clockTransportSeconds'], fine_transport['clockTransportSeconds']))
-    result['withinTolerance'] = all(value <= tolerance_ns for value in result.values())
+        for ordinal, (left, right) in enumerate(itertools.zip_longest(a, b)):
+            if left is None or right is None or left[1] != right[1]:
+                raise SerialMismatch('Serial sequence changes with timestep: ' + kind,
+                                     {'signal': kind + '_serial_data', 'ordinal': ordinal,
+                                      'coarse': {'timePs': left[0], 'bit': left[1]} if left else None,
+                                      'fine': {'timePs': right[0], 'bit': right[1]} if right else None})
+        result[kind + 'MaximumDifferenceNs'] = max(
+            timing(signal, i, x[0], y[0], x[0], y[0]) for i, (x, y) in enumerate(zip(a, b)))
+    # Derive transport delay from integer timestamps, avoiding float roundoff at the budget.
+    result['transportMaximumDifferenceNs'] = max(
+        timing('serial_clock_transport', i, cr[0] - ct[0], fr[0] - ft[0], cr[0], fr[0])
+        for i, (ct, cr, ft, fr) in enumerate(zip(
+            coarse_transport['transmitted'], coarse_transport['received'],
+            fine_transport['transmitted'], fine_transport['received'])))
+    result['withinTolerance'] = not violations
+    result['firstTimingDifference'] = min(
+        violations, key=lambda v: min(v['coarseEventTimePs'], v['fineEventTimePs'])) if violations else None
     return result
 
 
@@ -129,6 +152,8 @@ def main():
             raise ValueError('Serial timing does not converge within the declared tolerance')
         result['passed'] = True
     except Exception as error:
+        if isinstance(error, SerialMismatch):
+            result['firstDifference'] = error.details
         result['error'] = str(error)
         raise
     finally:

@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 
 from compare_firmware_io import compare, load_run, sha
-from serial_observation import validate_transport
+from serial_observation import SerialMismatch, validate_transport
 
 
 def report(step):
@@ -29,7 +29,37 @@ class ComparisonTests(unittest.TestCase):
         self.assertEqual(result['transmittedMaximumDifferenceNs'], 0)
         self.assertEqual(result['receivedMaximumDifferenceNs'], 20)
         self.assertFalse(result['withinTolerance'])
+        self.assertEqual(result['firstTimingDifference']['signal'], 'serial_clock_RX')
+        self.assertEqual(result['firstTimingDifference']['ordinal'], 0)
+        self.assertEqual(result['firstTimingDifference']['coarseEventTimePs'], 21000)
         self.assertTrue(compare(self.coarse, self.fine, self.tx, self.tx, 15)['withinTolerance'])
+
+    def test_transport_only_shift_and_exact_budget(self):
+        coarse = validate_transport('SERIAL_TX 30000 1\nSERIAL_RX 60000 1\n', True)
+        fine = validate_transport('SERIAL_TX 20000 1\nSERIAL_RX 70000 1\n', True)
+        result = compare(self.coarse, self.fine, coarse, fine, 15)
+        self.assertEqual(result['firstTimingDifference']['signal'], 'serial_clock_transport')
+        self.assertEqual(result['transportMaximumDifferenceNs'], 20)
+        result = compare(self.coarse, self.fine, coarse, fine, 20)
+        self.assertTrue(result['withinTolerance'])
+        self.assertIsNone(result['firstTimingDifference'])
+
+    def test_first_timing_failure_is_earliest_not_largest_or_channel_order(self):
+        coarse = validate_transport('SERIAL_TX 1000 1\nSERIAL_RX 21000 1\nSERIAL_TX 100000 0\nSERIAL_RX 120000 0\n', True)
+        fine = validate_transport('SERIAL_TX 1000 1\nSERIAL_RX 41000 1\nSERIAL_TX 130000 0\nSERIAL_RX 160000 0\n', True)
+        result = compare(self.coarse, self.fine, coarse, fine, 15)
+        self.assertEqual(result['receivedMaximumDifferenceNs'], 40)
+        self.assertEqual(result['firstTimingDifference']['signal'], 'serial_clock_RX')
+        self.assertEqual(result['firstTimingDifference']['ordinal'], 0)
+        self.assertEqual(result['firstTimingDifference']['differenceNs'], 20)
+
+    def test_first_sequence_difference_retains_both_events(self):
+        changed = validate_transport('SERIAL_TX 1000 0\nSERIAL_RX 21000 0\n', True)
+        with self.assertRaises(SerialMismatch) as caught:
+            compare(self.coarse, self.fine, self.tx, changed, 15)
+        self.assertEqual(caught.exception.details['ordinal'], 0)
+        self.assertEqual(caught.exception.details['coarse'], {'timePs': 1000, 'bit': 1})
+        self.assertEqual(caught.exception.details['fine'], {'timePs': 1000, 'bit': 0})
 
     def test_different_models_or_unrefined_step_rejected(self):
         cases = []
