@@ -101,6 +101,33 @@ interface is qualified only for this unidirectional open-collector probe, not fo
 shared buses or the full feedback loop. Full-board CPU/ROM qualification remains
 separate from this test.
 
+## Coupled firmware boot
+
+After building the bridge, run the longer electrical-clock/reset integration test:
+
+```sh
+make test-keyboard-coupled-boot S600_ROM=/path/to/s600.bin
+```
+
+`boot_cosim.py` starts the electrical circuits at power-on with BR1/BR2 closed and
+runs TV80 with the standard S600 image. It checks reset delivery, the first ROM
+fetch, sustained execution and keyboard I/O. This is still a partial board model:
+matrix sensing, buses and output loading retain the digital reference boundaries.
+The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
+an X band that could create multiple Verilog clock edges during one voltage rise.
+
+The supply rises over 1 microsecond by default. The nominal reset model fails to
+produce a useful pulse with a 10 ns supply ramp; this is reproducible with
+`reset_probe.py --rise-us .01 --out /tmp/reset-fast-ramp`. Treat that as an open
+model-qualification issue, not evidence about the specimen. `boot_cosim.py` also
+accepts `--rise-us` and `--step-ns` for investigation.
+
+The full power-on delay is simulated, although only a tail window is saved to
+limit waveform storage. The run can take several minutes and is kept outside fast
+CI. Reports pin ROM, TV80, generated wiring, bridge libraries and analog sources;
+solver logs and voltage traces are retained when validation fails. Firmware
+scenarios and coupled timestep convergence remain separate qualification work.
+
 Next qualify device models and voltage-domain interfaces, and couple the
 electrical oscillator/reset into the feedback loop with TV80, ROM,
 matrix contacts and cable load. Keep the original Icarus reference comparison as

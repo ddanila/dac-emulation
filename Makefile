@@ -137,3 +137,8 @@ audit-keyboard-controller:
 qualify-keyboard-controller:
 	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to an external 2 KB keyboard ROM'; exit 2)
 	python3 verification/robotron-keyboard/run.py --audit --rom "$(S600_ROM)"
+
+.PHONY: test-keyboard-coupled-boot
+test-keyboard-coupled-boot:
+	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to the standard 2 KB S600 image'; exit 2)
+	python3 verification/robotron-keyboard/analog/boot_cosim.py --rom "$(S600_ROM)"
