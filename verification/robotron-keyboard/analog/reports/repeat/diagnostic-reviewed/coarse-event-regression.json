@@ -6,5 +6,15 @@
     "transmitted": true,
     "received": false
   },
-  "sameRawWaveform": false
+  "sameRawWaveform": false,
+  "sameReceivedBits": true,
+  "receiverTimingChanges": [
+    {
+      "ordinal": 139,
+      "baselinePs": 998467186000,
+      "currentPs": 998467187000,
+      "differenceNs": 1.0
+    }
+  ],
+  "interpretation": "Transmitted events and received bits agree. One received timestamp differs by 1 ns; this is an observation, not paired timestep qualification."
 }
