@@ -21,6 +21,15 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def checked_dc_reference():
+    dc_reference_path = HERE / 'reports/ttl7406/dc-candidate/report.json'
+    dc_reference = json.loads(dc_reference_path.read_text())
+    if (not dc_reference['dcPointsWithinPublishedLimits'] or dc_reference['inputReverseBetaOverride'] != .01
+            or dc_reference['sources']['ttl7406_nominal.cir'] != sha(HERE / 'ttl7406_nominal.cir')):
+        raise ValueError('Serial driver differs from retained DC candidate')
+    return sha(dc_reference_path)
+
+
 def driver_circuit(components, profile, cable_pf):
     if profile not in ('nominal', '7406-dc'):
         raise ValueError('Unknown serial driver profile')
@@ -119,17 +128,13 @@ def main():
     if located is None:
         parser.error('ngspice executable not found')
     executable = Path(located).resolve()
-    dc_reference_path = HERE / 'reports/ttl7406/dc-candidate/report.json'
-    dc_reference = json.loads(dc_reference_path.read_text())
-    if (not dc_reference['dcPointsWithinPublishedLimits'] or dc_reference['inputReverseBetaOverride'] != .01
-            or dc_reference['sources']['ttl7406_nominal.cir'] != sha(HERE / 'ttl7406_nominal.cir')):
-        raise ValueError('Serial driver differs from retained DC candidate')
+    dc_reference_digest = checked_dc_reference()
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=False)
     (out / 'spinit').write_text('* Pure SPICE output fixture; no external initialization or code models.\n')
     env = dict(os.environ, SPICE_SCRIPTS=str(out))
     report = {'passed': False, 'qualified': False, 'scope': __doc__,
-              'dcCandidateReportSha256': sha(dc_reference_path),
+              'dcCandidateReportSha256': dc_reference_digest,
               'executableSha256': sha(executable), 'spinitSha256': sha(out / 'spinit'),
               'sources': {name: sha(HERE / name) for name in
                           ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'output_circuit.py', 'circuit.py', 'failure_evidence.py')},
