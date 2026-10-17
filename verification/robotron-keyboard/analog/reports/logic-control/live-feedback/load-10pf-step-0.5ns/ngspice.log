@@ -1,0 +1,41 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: live electrical logic-control feedback
+
+Reducing trtol to 1 for xspice 'A' devices
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+n_p5v                                        5
+n_latch_oe_n                                 5
+n_ff_pullup                                  5
+n_io_active                                  5
+control_latchenable_sink                     0
+control_ioactive_sink                        0
+fixture_clk                                  0
+vfixture#branch                              0
+vcc#branch                              -1e-11
+adrive#branch_1_0                            0
+adrive#branch_1_1                            0
+
+LOGIC_READ 101000 0 ff xx
+LOGIC_READ 301000 1 ff 00
+LOGIC_READ 501000 2 ff 00
+LOGIC_READ 701000 3 a5 00
+LOGIC_READ 901000 4 a5 00
+LOGIC_READ 1101000 5 3c 10
+LOGIC_READ 1301000 6 3c 10
+LOGIC_READ 1501000 7 ff 10
+LOGIC_READ 1701000 8 ff 10
+LOGIC_READ 1901000 9 ff 10
+LOGIC_FEEDBACK_PASS
+
+No. of Data Rows : 4286
+ngspice-47 done

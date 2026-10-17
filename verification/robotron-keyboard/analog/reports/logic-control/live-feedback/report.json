@@ -1,0 +1,720 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Close generated HDL control-driver/SPICE pullup/HDL latch and flip-flop feedback.",
+  "runs": [
+    {
+      "fixture": {
+        "qualified": false,
+        "nets": {
+          "supply": "n_p5V",
+          "ground": "0",
+          "latchEnable": "n_LATCH_OE_N",
+          "flipFlopRelease": "n_FF_PULLUP",
+          "ioActive": "n_IO_ACTIVE"
+        },
+        "fixtureLoadPfPerNet": 0,
+        "drivers": {
+          "latchEnable": {
+            "reference": "A2.2",
+            "pin": "8"
+          },
+          "ioActive": {
+            "reference": "A2.2",
+            "pin": "6"
+          }
+        },
+        "boundary": "Canonical resistors and nominal open-collector sinks; 20-ohm on resistance and optional per-net fixture capacitance are assumptions. Input leakage, device capacitances, DL003 propagation and supply-current models remain unqualified."
+      },
+      "stepNs": 1,
+      "reads": [
+        [
+          "101000",
+          "0",
+          "ff",
+          "xx"
+        ],
+        [
+          "301000",
+          "1",
+          "ff",
+          "00"
+        ],
+        [
+          "501000",
+          "2",
+          "ff",
+          "00"
+        ],
+        [
+          "701000",
+          "3",
+          "a5",
+          "00"
+        ],
+        [
+          "901000",
+          "4",
+          "a5",
+          "00"
+        ],
+        [
+          "1101000",
+          "5",
+          "3c",
+          "10"
+        ],
+        [
+          "1301000",
+          "6",
+          "3c",
+          "10"
+        ],
+        [
+          "1501000",
+          "7",
+          "ff",
+          "10"
+        ],
+        [
+          "1701000",
+          "8",
+          "ff",
+          "10"
+        ],
+        [
+          "1901000",
+          "9",
+          "ff",
+          "10"
+        ]
+      ],
+      "deckSha256": "d32d57bdccd1002453ee816bb12c3b7f3b183e29ec235dceea020a723ac63e29",
+      "controlVoltsAtReads": [
+        {
+          "phase": 3,
+          "sampleSeconds": 7.01e-07,
+          "volts": [
+            0.09803921568627451,
+            5.0,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 4,
+          "sampleSeconds": 9.01e-07,
+          "volts": [
+            0.09803921568627451,
+            5.0,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 5,
+          "sampleSeconds": 1.1010000000000003e-06,
+          "volts": [
+            0.09803921568627451,
+            5.0,
+            4.9999999805
+          ]
+        },
+        {
+          "phase": 6,
+          "sampleSeconds": 1.3010000000000003e-06,
+          "volts": [
+            0.09803921568627451,
+            5.0,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 7,
+          "sampleSeconds": 1.5010000000000003e-06,
+          "volts": [
+            4.9999999950000005,
+            5.0,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 8,
+          "sampleSeconds": 1.7010000000000003e-06,
+          "volts": [
+            4.9999999950000005,
+            5.0,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 9,
+          "sampleSeconds": 1.9010000000000003e-06,
+          "volts": [
+            4.9999999950000005,
+            5.0,
+            0.02551020408163265
+          ]
+        }
+      ],
+      "generatedHdlSha256": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+      "compiledHdlSha256": "8d872636c7b90691b8a5f627159622ae4c6612cf2f5f758c78598fc84b2485a7",
+      "traceSha256": "446d61b2d23c5dde2c5d7b6038b8fefeceb60736b8ce935d1d6ba41fe8f0bce7",
+      "logSha256": "78ca3952e718000668a87462642781f33f61e419cd51c0013ccb26cd4a4fa676"
+    },
+    {
+      "fixture": {
+        "qualified": false,
+        "nets": {
+          "supply": "n_p5V",
+          "ground": "0",
+          "latchEnable": "n_LATCH_OE_N",
+          "flipFlopRelease": "n_FF_PULLUP",
+          "ioActive": "n_IO_ACTIVE"
+        },
+        "fixtureLoadPfPerNet": 0,
+        "drivers": {
+          "latchEnable": {
+            "reference": "A2.2",
+            "pin": "8"
+          },
+          "ioActive": {
+            "reference": "A2.2",
+            "pin": "6"
+          }
+        },
+        "boundary": "Canonical resistors and nominal open-collector sinks; 20-ohm on resistance and optional per-net fixture capacitance are assumptions. Input leakage, device capacitances, DL003 propagation and supply-current models remain unqualified."
+      },
+      "stepNs": 0.5,
+      "reads": [
+        [
+          "101000",
+          "0",
+          "ff",
+          "xx"
+        ],
+        [
+          "301000",
+          "1",
+          "ff",
+          "00"
+        ],
+        [
+          "501000",
+          "2",
+          "ff",
+          "00"
+        ],
+        [
+          "701000",
+          "3",
+          "a5",
+          "00"
+        ],
+        [
+          "901000",
+          "4",
+          "a5",
+          "00"
+        ],
+        [
+          "1101000",
+          "5",
+          "3c",
+          "10"
+        ],
+        [
+          "1301000",
+          "6",
+          "3c",
+          "10"
+        ],
+        [
+          "1501000",
+          "7",
+          "ff",
+          "10"
+        ],
+        [
+          "1701000",
+          "8",
+          "ff",
+          "10"
+        ],
+        [
+          "1901000",
+          "9",
+          "ff",
+          "10"
+        ]
+      ],
+      "deckSha256": "66c14ea04bf63ddf4926a6f33a482613070209d89af10eef66898fb3b13cf0d4",
+      "controlVoltsAtReads": [
+        {
+          "phase": 3,
+          "sampleSeconds": 7.01e-07,
+          "volts": [
+            0.09803921568627451,
+            5.0,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 4,
+          "sampleSeconds": 9.01e-07,
+          "volts": [
+            0.09803921568627451,
+            5.0,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 5,
+          "sampleSeconds": 1.1010000000000003e-06,
+          "volts": [
+            0.09803921568627451,
+            5.0,
+            4.9999999805
+          ]
+        },
+        {
+          "phase": 6,
+          "sampleSeconds": 1.3010000000000003e-06,
+          "volts": [
+            0.09803921568627451,
+            5.0,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 7,
+          "sampleSeconds": 1.5010000000000003e-06,
+          "volts": [
+            4.9999999950000005,
+            5.0,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 8,
+          "sampleSeconds": 1.7010000000000003e-06,
+          "volts": [
+            4.9999999950000005,
+            5.0,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 9,
+          "sampleSeconds": 1.9010000000000003e-06,
+          "volts": [
+            4.9999999950000005,
+            5.0,
+            0.02551020408163265
+          ]
+        }
+      ],
+      "generatedHdlSha256": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+      "compiledHdlSha256": "074b2e003e2a12f7a40640baf6e36a31ec0d1a17aa85e7b8749eedaf58cacec2",
+      "traceSha256": "2df35af954269ba2ade2f4ff5803190a4ba8f7bdcbe82466f6d23b746937a15d",
+      "logSha256": "a58c22f14eefac176159447f77d3fcbf766f1f72a475bb7c10b8c2ee9bb69dbb"
+    },
+    {
+      "fixture": {
+        "qualified": false,
+        "nets": {
+          "supply": "n_p5V",
+          "ground": "0",
+          "latchEnable": "n_LATCH_OE_N",
+          "flipFlopRelease": "n_FF_PULLUP",
+          "ioActive": "n_IO_ACTIVE"
+        },
+        "fixtureLoadPfPerNet": 10,
+        "drivers": {
+          "latchEnable": {
+            "reference": "A2.2",
+            "pin": "8"
+          },
+          "ioActive": {
+            "reference": "A2.2",
+            "pin": "6"
+          }
+        },
+        "boundary": "Canonical resistors and nominal open-collector sinks; 20-ohm on resistance and optional per-net fixture capacitance are assumptions. Input leakage, device capacitances, DL003 propagation and supply-current models remain unqualified."
+      },
+      "stepNs": 1,
+      "reads": [
+        [
+          "101000",
+          "0",
+          "ff",
+          "xx"
+        ],
+        [
+          "301000",
+          "1",
+          "ff",
+          "00"
+        ],
+        [
+          "501000",
+          "2",
+          "ff",
+          "00"
+        ],
+        [
+          "701000",
+          "3",
+          "a5",
+          "00"
+        ],
+        [
+          "901000",
+          "4",
+          "a5",
+          "00"
+        ],
+        [
+          "1101000",
+          "5",
+          "3c",
+          "10"
+        ],
+        [
+          "1301000",
+          "6",
+          "3c",
+          "10"
+        ],
+        [
+          "1501000",
+          "7",
+          "ff",
+          "10"
+        ],
+        [
+          "1701000",
+          "8",
+          "ff",
+          "10"
+        ],
+        [
+          "1901000",
+          "9",
+          "ff",
+          "10"
+        ]
+      ],
+      "deckSha256": "afa943e06a7e91ee5f996a4f2bab2610fea7ce2d172b08af2a7c9d7de1349a3c",
+      "controlVoltsAtReads": [
+        {
+          "phase": 3,
+          "sampleSeconds": 7.01e-07,
+          "volts": [
+            0.09803921568627454,
+            5.000000000000002,
+            0.025510204081632654
+          ]
+        },
+        {
+          "phase": 4,
+          "sampleSeconds": 9.01e-07,
+          "volts": [
+            0.09803921568627451,
+            5.00000000000001,
+            0.025510204081632657
+          ]
+        },
+        {
+          "phase": 5,
+          "sampleSeconds": 1.1010000000000003e-06,
+          "volts": [
+            0.0980392156862745,
+            5.000000000000005,
+            4.96112211054938
+          ]
+        },
+        {
+          "phase": 6,
+          "sampleSeconds": 1.3010000000000003e-06,
+          "volts": [
+            0.0980392156862745,
+            5.000000000000002,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 7,
+          "sampleSeconds": 1.5010000000000003e-06,
+          "volts": [
+            4.999999965713044,
+            5.000000000000011,
+            0.025510204081632647
+          ]
+        },
+        {
+          "phase": 8,
+          "sampleSeconds": 1.7010000000000003e-06,
+          "volts": [
+            4.999999994999987,
+            5.000000000000002,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 9,
+          "sampleSeconds": 1.9010000000000003e-06,
+          "volts": [
+            4.999999994999987,
+            5.000000000000003,
+            0.025510204081632647
+          ]
+        }
+      ],
+      "generatedHdlSha256": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+      "compiledHdlSha256": "6c5252c2098a4975191491dc27dcf6a444ee5bd03085c7e09a5df08dea68f578",
+      "traceSha256": "79333ddf0cf3eb0aed3181adf6c1d1c6655c415475d677ca4b468b392ef712ec",
+      "logSha256": "9d13a5a689d92a7ac1c484157db577134cae8d35c3f5217e923b417bfd02d234"
+    },
+    {
+      "fixture": {
+        "qualified": false,
+        "nets": {
+          "supply": "n_p5V",
+          "ground": "0",
+          "latchEnable": "n_LATCH_OE_N",
+          "flipFlopRelease": "n_FF_PULLUP",
+          "ioActive": "n_IO_ACTIVE"
+        },
+        "fixtureLoadPfPerNet": 10,
+        "drivers": {
+          "latchEnable": {
+            "reference": "A2.2",
+            "pin": "8"
+          },
+          "ioActive": {
+            "reference": "A2.2",
+            "pin": "6"
+          }
+        },
+        "boundary": "Canonical resistors and nominal open-collector sinks; 20-ohm on resistance and optional per-net fixture capacitance are assumptions. Input leakage, device capacitances, DL003 propagation and supply-current models remain unqualified."
+      },
+      "stepNs": 0.5,
+      "reads": [
+        [
+          "101000",
+          "0",
+          "ff",
+          "xx"
+        ],
+        [
+          "301000",
+          "1",
+          "ff",
+          "00"
+        ],
+        [
+          "501000",
+          "2",
+          "ff",
+          "00"
+        ],
+        [
+          "701000",
+          "3",
+          "a5",
+          "00"
+        ],
+        [
+          "901000",
+          "4",
+          "a5",
+          "00"
+        ],
+        [
+          "1101000",
+          "5",
+          "3c",
+          "10"
+        ],
+        [
+          "1301000",
+          "6",
+          "3c",
+          "10"
+        ],
+        [
+          "1501000",
+          "7",
+          "ff",
+          "10"
+        ],
+        [
+          "1701000",
+          "8",
+          "ff",
+          "10"
+        ],
+        [
+          "1901000",
+          "9",
+          "ff",
+          "10"
+        ]
+      ],
+      "deckSha256": "44af593c1b5d8b89bfed36ead2798c3018752b71e4aad737e552715ed99a4914",
+      "controlVoltsAtReads": [
+        {
+          "phase": 3,
+          "sampleSeconds": 7.01e-07,
+          "volts": [
+            0.09803921568627454,
+            4.999999999999994,
+            0.025510204081632654
+          ]
+        },
+        {
+          "phase": 4,
+          "sampleSeconds": 9.01e-07,
+          "volts": [
+            0.09803921568627454,
+            4.999999999999994,
+            0.025510204081632654
+          ]
+        },
+        {
+          "phase": 5,
+          "sampleSeconds": 1.1010000000000003e-06,
+          "volts": [
+            0.09803921568627452,
+            4.999999999999981,
+            4.961064012122935
+          ]
+        },
+        {
+          "phase": 6,
+          "sampleSeconds": 1.3010000000000003e-06,
+          "volts": [
+            0.0980392156862745,
+            4.999999999999981,
+            0.025510204081632657
+          ]
+        },
+        {
+          "phase": 7,
+          "sampleSeconds": 1.5010000000000003e-06,
+          "volts": [
+            4.999999965224605,
+            4.999999999999993,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 8,
+          "sampleSeconds": 1.7010000000000003e-06,
+          "volts": [
+            4.999999994999974,
+            4.999999999999993,
+            0.02551020408163265
+          ]
+        },
+        {
+          "phase": 9,
+          "sampleSeconds": 1.9010000000000003e-06,
+          "volts": [
+            4.999999994999978,
+            4.999999999999993,
+            0.02551020408163265
+          ]
+        }
+      ],
+      "generatedHdlSha256": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+      "compiledHdlSha256": "2acac219f52cdf20cd6c226effeea0b782e1dc4513ccc155c0f502322a79674d",
+      "traceSha256": "d957937b4dfebd42cb5862445883586e6917ff69ffd61b4ad36f5555867c394f",
+      "logSha256": "4e6333fe61a33167da53d441b623e544cc790e2be939508a58e8a899ba3dc6bd"
+    }
+  ],
+  "boundary": "Bus fixture, not CPU firmware; nominal sinks and 1.4 V I/O-active clock crossing. No device, propagation or power-on calibration",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "sources": {
+    "logic_cosim.py": "feb5dc51c87690352ed4893bbb950db5660d8b4ad3a44ca891d8cc7292ee20da",
+    "logic_cosim.v": "f63801be370a350e6ceae78bb3edd7dfbb11970d81949482f8d3275813f2b7eb",
+    "logic_control.py": "858d26b9ec425fce396b45332f147150f1b52d7f918aa0cf8ff514452d41ea2d",
+    "controller_interface.py": "46f5c499306b32d3801976557de3b956846a81feb80fc035afd7606ae38d968a",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "clock_output_probe.py": "05b92ebe9d9751d1edf5bd0667640794f9b482b83b1e8e8dc2c260908c0228d7"
+  },
+  "chipsSha256": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)"
+}
