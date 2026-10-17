@@ -583,3 +583,8 @@ bytes before removing the raw copy. It preserves failed/unfinished runs and
 refuses changed input. Qualification readers accept `.gz` and `.xz` waveforms transparently;
 report hashes continue to identify the original
 uncompressed content. Do not compact files belonging to an active simulation.
+
+`reports/repeat/` retains successful individual repeat-scenario executions with
+C serial-bit agreement, but their paired receiver timing exceeds the refinement
+budget. Repeat remains unqualified; coverage and margin stages after that failed
+gate have not been certified by the combined qualifier.
