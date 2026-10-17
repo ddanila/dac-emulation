@@ -188,6 +188,14 @@ files, including when ngspice exits zero. The archived `smooth-bias-diagnostic.j
 records an unsuccessful input-bias smoothing experiment; the named failing node
 is diagnostic context, not proof of the root cause.
 
+`reports/supply-startup-isolation/` contains runnable reduced decks that localize
+the tight-tolerance failure to a linear supply/serial-cable network, without HDL,
+gates or transistors. Both Sparse and KLU abort; the supply-only control completes.
+Copy that directory to a scratch location and run `ngspice -n -b linear.cir`
+to reproduce the rejection. These fixtures omit board sections deliberately and
+do not qualify the complete board. The diagnostic report pins inputs, logs and
+retained waveform windows.
+
 The separate `diagnostic-trace.txt` records board supply, oscillator internal
 nodes, cable return and host-source current, with hashes and voltage/current
 ranges in each run report. `--rise-us` varies the host supply ramp without

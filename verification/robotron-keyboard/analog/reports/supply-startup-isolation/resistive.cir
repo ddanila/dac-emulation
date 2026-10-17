@@ -1,0 +1,23 @@
+Supply/filter startup isolation, not board qualification
+Vhost n_CABLE_5V n_CABLE_GND PWL(0 0 1.0u 5)
+C3.1 n_p5V 0 47u
+C3.2 n_p5V 0 47u
+C5.1 n_p5V 0 47n
+C5.2 n_p5V 0 47n
+C5.3 n_p5V 0 47n
+C5.4 n_p5V 0 47n
+C5.5 n_p5V 0 47n
+L1.2 0 L1_2_series 1u
+RL1.2 L1_2_series n_CABLE_GND 1
+L1.3 n_p5V L1_3_series 1u
+RL1.3 L1_3_series n_CABLE_5V 1
+Rfixture n_p5V 0 1k
+.options reltol=1e-9 vntol=1e-11 abstol=1e-17 trtol=1
+.control
+set wr_singlescale
+set wr_vecnames
+tran 1n 100n
+wrdata resistive-trace.txt v(n_p5V) v(n_CABLE_GND) i(Vhost)
+quit
+.endc
+.end

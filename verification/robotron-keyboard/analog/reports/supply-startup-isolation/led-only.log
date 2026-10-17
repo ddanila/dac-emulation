@@ -1,0 +1,83 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: supply/filter startup isolation, not board qualification
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+n_cable_5v                         1.17638e-30
+n_cable_gnd                        1.17638e-30
+n_p5v                              2.35275e-30
+l1_2_series                                  0
+l1_3_series                        2.35275e-30
+n_reset_base                       7.51256e-28
+n_reset_out                       -1.62787e-29
+n_reset_bias_low                  -6.17846e-28
+n_reset_rc                         4.10251e-27
+n_reset_diode_top                  2.46563e-30
+n_reset_bias                      -1.35054e-28
+n_reset_emitters                  -3.92985e-27
+n_reset_n                         -1.62787e-29
+n_osc1                             1.67445e-30
+n_osc_rc                           1.77537e-30
+n_osc2                             1.66069e-30
+n_clk                              1.68282e-30
+xa7_0.target                       1.64693e-30
+a7_unconnected_1                    7.5652e-23
+a7_unconnected_2                    7.5652e-23
+xa7_0.filtered                     1.64693e-30
+xa7_0.drive                        1.64693e-30
+a7_unconnected_3                   1.64693e-30
+xa7_1.target                       1.64693e-30
+xa7_1.filtered                     1.64693e-30
+xa7_1.drive                        1.64693e-30
+xa7_2.target                       1.64693e-30
+xa7_2.filtered                     1.64693e-30
+xa7_2.drive                        1.64693e-30
+n_osc_out                          1.68281e-30
+xa7_3.target                       1.64693e-30
+xa7_3.filtered                     1.64693e-30
+xa7_3.drive                        1.64693e-30
+n_led_siso_n                       1.64693e-30
+n_led_siso                         1.64693e-30
+n_led_caps_n                       1.64693e-30
+n_led_caps                         1.64693e-30
+siso_target                        1.64693e-30
+siso_intent                                  0
+caps_target                        1.64693e-30
+caps_intent                                  0
+led0_v                                       0
+led1_v                                       0
+data_intent                                  0
+clock_intent                                 0
+bcaps_target#branch               -4.84971e-41
+bsiso_target#branch               -4.84971e-41
+b.xa7_3.btarget#branch            -3.97573e-50
+b.xa7_2.btarget#branch            -3.97573e-50
+b.xa7_1.btarget#branch            -3.97573e-50
+b.xa7_0.btarget#branch            -3.97573e-50
+l1.3#branch                        1.17638e-30
+l1.2#branch                       -1.17638e-30
+ecaps_intent#branch                          0
+esiso_intent#branch                          0
+e.xa7_3.edrive#branch              9.17444e-34
+e.xa7_2.edrive#branch              1.19631e-33
+e.xa7_1.edrive#branch               4.5873e-34
+e.xa7_0.edrive#branch               1.4917e-48
+vfixtureclock_intent#branch                  0
+vfixturedata_intent#branch                   0
+vfixtureled1_v#branch                        0
+vfixtureled0_v#branch                        0
+vhost#branch                       1.17638e-30
+
+
+No. of Data Rows : 1900
+ngspice-47 done

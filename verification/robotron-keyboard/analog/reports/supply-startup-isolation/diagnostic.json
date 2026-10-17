@@ -1,0 +1,299 @@
+{
+  "scope": "Startup localization only. Removed circuit sections and fixed digital controls are diagnostic fixtures, not full-board qualification.",
+  "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******\n",
+  "sourceDeck": {
+    "sha256": "a03cfe9eda13412248f87aef76deb2082469b0e9e511d25cc169dcc0ac474f91",
+    "bytes": 14347
+  },
+  "interpretation": "A linear supply/serial-cable network reproduces the startup abort without HDL, gate or transistor models. This localizes a reproducible numerical failure; it does not prove it is the only cause of full-board convergence failure.",
+  "cases": {
+    "resistive": {
+      "scope": "Isolated supply and filter with diagnostic load; excludes reset, matrix and firmware",
+      "sourceDeckSha256": "a03cfe9eda13412248f87aef76deb2082469b0e9e511d25cc169dcc0ac474f91",
+      "selectedStatements": [
+        "Vhost n_CABLE_5V n_CABLE_GND PWL(0 0 1.0u 5)",
+        "C3.1 n_p5V 0 47u",
+        "C3.2 n_p5V 0 47u",
+        "C5.1 n_p5V 0 47n",
+        "C5.2 n_p5V 0 47n",
+        "C5.3 n_p5V 0 47n",
+        "C5.4 n_p5V 0 47n",
+        "C5.5 n_p5V 0 47n",
+        "L1.2 0 L1_2_series 1u",
+        "RL1.2 L1_2_series n_CABLE_GND 1",
+        "L1.3 n_p5V L1_3_series 1u",
+        "RL1.3 L1_3_series n_CABLE_5V 1"
+      ],
+      "load": "Rfixture n_p5V 0 1k",
+      "deckSha256": "8830a07f6966ad422790feb27fbab05ac0c091420bde7370072195fb58c52044",
+      "completed": true,
+      "exitCode": 0,
+      "solverDiagnostics": [],
+      "elapsedSeconds": 0.024523375000000004,
+      "artifacts": {
+        "resistive.cir": {
+          "sha256": "8830a07f6966ad422790feb27fbab05ac0c091420bde7370072195fb58c52044",
+          "bytes": 539
+        },
+        "resistive.log": {
+          "sha256": "c181f69a2e71759a54e64d48d76ea6fc5ee82a0bac7557f6a9e2f968197b94f6",
+          "bytes": 774
+        }
+      },
+      "retainedWaveform": {
+        "path": "build/keyboard-controller-analog/supply-startup-isolation/resistive-trace.txt",
+        "sha256": "205c5aa14fa2151d88e869e333f917ea0f51316187254f6fbbcc9272b286eac2",
+        "bytes": 123565
+      },
+      "waveformWindow": {
+        "firstSeconds": 0.0,
+        "lastSeconds": 1e-07,
+        "rows": 1900
+      }
+    },
+    "unused-nand": {
+      "scope": "Isolated supply and filter with diagnostic load; excludes reset, matrix and firmware",
+      "sourceDeckSha256": "a03cfe9eda13412248f87aef76deb2082469b0e9e511d25cc169dcc0ac474f91",
+      "selectedStatements": [
+        "Vhost n_CABLE_5V n_CABLE_GND PWL(0 0 1.0u 5)",
+        "C3.1 n_p5V 0 47u",
+        "C3.2 n_p5V 0 47u",
+        "C5.1 n_p5V 0 47n",
+        "C5.2 n_p5V 0 47n",
+        "C5.3 n_p5V 0 47n",
+        "C5.4 n_p5V 0 47n",
+        "C5.5 n_p5V 0 47n",
+        "L1.2 0 L1_2_series 1u",
+        "RL1.2 L1_2_series n_CABLE_GND 1",
+        "L1.3 n_p5V L1_3_series 1u",
+        "RL1.3 L1_3_series n_CABLE_5V 1"
+      ],
+      "load": ".include ls_nand_nominal.cir\nXA7_0 a b y n_p5V 0 LS_NAND_NOMINAL",
+      "deckSha256": "91fde6d70690ea2f681db57310b0a8047722b54e48b8b012a40f4ba4a02cab73",
+      "completed": true,
+      "exitCode": 0,
+      "solverDiagnostics": [],
+      "elapsedSeconds": 0.047398792,
+      "artifacts": {
+        "unused-nand.cir": {
+          "sha256": "91fde6d70690ea2f681db57310b0a8047722b54e48b8b012a40f4ba4a02cab73",
+          "bytes": 586
+        },
+        "unused-nand.log": {
+          "sha256": "273e63cab54754218d68c5f3a102f073b0f36ab23ae1fd2fc9d309fa39170326",
+          "bytes": 1150
+        }
+      },
+      "retainedWaveform": {
+        "path": "build/keyboard-controller-analog/supply-startup-isolation/unused-nand-trace.txt",
+        "sha256": "50ffe2d7b3e1eb9733c583d8de039f39143e00839d7b99843b6054788eb88870",
+        "bytes": 123565
+      },
+      "waveformWindow": {
+        "firstSeconds": 0.0,
+        "lastSeconds": 1e-07,
+        "rows": 1900
+      }
+    },
+    "reset-oscillator-exact": {
+      "completed": true,
+      "scope": "Supply/filter plus selected board section; not board qualification",
+      "exitCode": 0,
+      "solverDiagnostics": [],
+      "artifacts": {
+        "reset-oscillator-exact.cir": {
+          "sha256": "7005b7e9e0be7b860dd29e08bda000354c6106a262fa1cbd9d73fc26cc99048b",
+          "bytes": 1716
+        },
+        "reset-oscillator-exact.log": {
+          "sha256": "2eb27ae212e894da732c2131760ad8466dcff1f0906f691afc986b2ac5a11ea6",
+          "bytes": 2466
+        }
+      },
+      "retainedWaveform": {
+        "path": "build/keyboard-controller-analog/supply-startup-isolation/reset-oscillator-exact-trace.txt",
+        "sha256": "80c76062c6e8adb6ed5c178760aa7be39db9f5921fec1e1e30e33f626c8cf4b2",
+        "bytes": 123565
+      },
+      "waveformWindow": {
+        "firstSeconds": 0.0,
+        "lastSeconds": 1e-07,
+        "rows": 1900
+      }
+    },
+    "matrix": {
+      "completed": true,
+      "scope": "Supply, oscillator and reset plus selected section with digital outputs held low; not board qualification",
+      "exitCode": 0,
+      "solverDiagnostics": [],
+      "artifacts": {
+        "matrix.cir": {
+          "sha256": "78bbc61219e9dec85f603d47748f53c9d3f3eb27d4b0fc506f16a51f5ea55bb5",
+          "bytes": 11940
+        },
+        "matrix.log": {
+          "sha256": "05f31d3cafc92172204879d6e767e42c3e99009b8cdee7cb611ed7a52d7c04bd",
+          "bytes": 15203
+        }
+      },
+      "retainedWaveform": {
+        "path": "build/keyboard-controller-analog/supply-startup-isolation/matrix-trace.txt",
+        "sha256": "29aacf32859ef3f02d4d7fd96d176c3162648220d75d0d684dd832366a5fa3c7",
+        "bytes": 123565
+      },
+      "waveformWindow": {
+        "firstSeconds": 0.0,
+        "lastSeconds": 1e-07,
+        "rows": 1900
+      }
+    },
+    "led-only": {
+      "completed": true,
+      "scope": "Output section isolation, not full board qualification",
+      "omittedInstances": [
+        "Cclock_load",
+        "Cdata_load",
+        "Ereceiver_clock",
+        "Ereceiver_data",
+        "L1.1",
+        "L1.4",
+        "R10.1",
+        "R10.2",
+        "RL1.1",
+        "RL1.4",
+        "Rclock_load",
+        "Rdata_load",
+        "Sclock",
+        "Sdata"
+      ],
+      "exitCode": 0,
+      "solverDiagnostics": [],
+      "artifacts": {
+        "led-only.cir": {
+          "sha256": "ff73a2d61f3b3af8a32b0aa5974c62e0ef10b64c654111d9999e1396191b0989",
+          "bytes": 2362
+        },
+        "led-only.log": {
+          "sha256": "5a98a5d360f18748ac6e08a8b2b07a02fb4ed23b42892e27149840419d31b518",
+          "bytes": 3406
+        }
+      },
+      "retainedWaveform": {
+        "path": "build/keyboard-controller-analog/supply-startup-isolation/led-only-trace.txt",
+        "sha256": "9a9877404cc615a395d1c4cd3f3de12de7f2795466e25866db3bd5a079b9d7d1",
+        "bytes": 123565
+      },
+      "waveformWindow": {
+        "firstSeconds": 0.0,
+        "lastSeconds": 1e-07,
+        "rows": 1900
+      }
+    },
+    "outputs-exact": {
+      "completed": false,
+      "scope": "Supply, oscillator, reset and outputs with digital outputs held low; no matrix or firmware",
+      "error": "Command '['ngspice', '-n', '-b', 'outputs-exact.cir']' timed out after 29.999969292 seconds",
+      "artifacts": {
+        "outputs-exact.cir": {
+          "sha256": "3627787ec34fee31927b655a888027f8644b36c1bf97433f6e11af0f27a2a4cd",
+          "bytes": 2944
+        },
+        "outputs-exact.log": {
+          "sha256": "c878d51dafbbc729f7855bc3e2a82c3678cbd37f882e3ded63182508da66f3c6",
+          "bytes": 7737
+        }
+      }
+    },
+    "supply-serial": {
+      "completed": false,
+      "scope": "Supply/filter and serial cable only; no gates, transistors, reset, matrix or firmware",
+      "exitCode": 0,
+      "solverDiagnostics": [
+        "doAnalyses: TRAN:  Timestep too small; time = 1.0002e-11, timestep = 7.05316e-21: trouble with node \"n_cable_5v\"",
+        "tran simulation(s) aborted"
+      ],
+      "artifacts": {
+        "supply-serial.cir": {
+          "sha256": "8f85182f8aead09bbf292d0f0b4568529689ceb04854b814c1feb0201bbe01be",
+          "bytes": 1233
+        },
+        "supply-serial.log": {
+          "sha256": "03bd4ee6979b72a6bafc1ebc0572d8850933a6213f55124cedc0619cf513220b",
+          "bytes": 1669
+        }
+      },
+      "retainedWaveform": {
+        "path": "build/keyboard-controller-analog/supply-startup-isolation/supply-serial-trace.txt",
+        "sha256": "ae0284522a17a5d4292d69652d1834c5fb012cf041577aa26d658f8b9f009e16",
+        "bytes": 879710
+      },
+      "waveformWindow": {
+        "firstSeconds": 0.0,
+        "lastSeconds": 1.000204e-11,
+        "rows": 13533
+      }
+    },
+    "linear": {
+      "completed": false,
+      "scope": "Linear supply/cable diagnostic with switches replaced by their off resistance; not board qualification",
+      "exitCode": 0,
+      "solverDiagnostics": [
+        "doAnalyses: TRAN:  Timestep too small; time = 1.0002e-11, timestep = 7.05316e-21: trouble with node \"n_cable_5v\"",
+        "tran simulation(s) aborted"
+      ],
+      "artifacts": {
+        "linear.cir": {
+          "sha256": "f4bb958167fca8576d24c85e5631ae130c0c80a1127cf20317181a3fa7608321",
+          "bytes": 1171
+        },
+        "linear.log": {
+          "sha256": "4db67020aa7da2533a8a4b88396286857c93e04abf69c9330f5213a88b662a7f",
+          "bytes": 1669
+        }
+      },
+      "retainedWaveform": {
+        "path": "build/keyboard-controller-analog/supply-startup-isolation/linear-trace.txt",
+        "sha256": "ae0284522a17a5d4292d69652d1834c5fb012cf041577aa26d658f8b9f009e16",
+        "bytes": 879710
+      },
+      "waveformWindow": {
+        "firstSeconds": 0.0,
+        "lastSeconds": 1.000204e-11,
+        "rows": 13533
+      }
+    },
+    "linear-klu": {
+      "completed": false,
+      "scope": "Linear supply/cable startup diagnostic using KLU; not board qualification",
+      "exitCode": 0,
+      "solverDiagnostics": [
+        "doAnalyses: TRAN:  Timestep too small; time = 1.08264e-11, timestep = 7.47736e-21: trouble with node \"vhost#branch\"",
+        "tran simulation(s) aborted"
+      ],
+      "artifacts": {
+        "linear-klu.cir": {
+          "sha256": "86d07e13d58b55b9c745be41d03fbc6735e6df86ffeafce7bf29032f1f1f15f7",
+          "bytes": 1179
+        },
+        "linear-klu.log": {
+          "sha256": "9163c3b22d353f334e2555444e245b3b49e88e525e7cd283ed2b80e918f7dd01",
+          "bytes": 2211
+        }
+      },
+      "retainedWaveform": {
+        "path": "build/keyboard-controller-analog/supply-startup-isolation/linear-klu-trace.txt",
+        "sha256": "c810435774791197cc97053a702057db99e4f5b6070ae4ca8c2639e24e583d03",
+        "bytes": 71387550
+      },
+      "waveformWindow": {
+        "firstSeconds": 0.0,
+        "lastSeconds": 1.08263908e-11,
+        "rows": 1098269
+      }
+    }
+  },
+  "includedModel": {
+    "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+    "bytes": 907
+  }
+}

@@ -1,0 +1,56 @@
+Supply/filter startup isolation, not board qualification
+Vhost n_CABLE_5V n_CABLE_GND PWL(0 0 1.0u 5)
+C3.1 n_p5V 0 47u
+C3.2 n_p5V 0 47u
+C5.1 n_p5V 0 47n
+C5.2 n_p5V 0 47n
+C5.3 n_p5V 0 47n
+C5.4 n_p5V 0 47n
+C5.5 n_p5V 0 47n
+L1.2 0 L1_2_series 1u
+RL1.2 L1_2_series n_CABLE_GND 1
+L1.3 n_p5V L1_3_series 1u
+RL1.3 L1_3_series n_CABLE_5V 1
+
+.model D_NOMINAL D(IS=1e-14 N=1)
+.model NPN_NOMINAL NPN(IS=1e-14 BF=100 VAF=100)
+.model PNP_NOMINAL PNP(IS=1e-14 BF=100 VAF=100)
+C1 n_RESET_BASE n_RESET_OUT 220p
+C2 n_RESET_BIAS_LOW n_RESET_OUT 10u
+C4 n_RESET_RC 0 10u
+R3 n_p5V n_RESET_BIAS_LOW 22k
+R4.1 n_p5V n_RESET_DIODE_TOP 220
+R4.2 n_RESET_OUT 0 220
+R5 n_p5V n_RESET_BIAS 10k
+R6.1 n_p5V n_RESET_BASE 1k
+R7 n_RESET_EMITTERS 0 3.3k
+R8 n_RESET_RC 0 47k
+DV1.1 n_RESET_BIAS n_RESET_BIAS_LOW D_NOMINAL
+DV1.2 n_RESET_BIAS_LOW n_RESET_DIODE_TOP D_NOMINAL
+DV2 n_p5V n_RESET_RC D_NOMINAL
+QV3.1 n_p5V n_RESET_RC n_RESET_EMITTERS NPN_NOMINAL
+QV3.2 n_RESET_BASE n_RESET_BIAS n_RESET_EMITTERS NPN_NOMINAL
+QV4.9 n_RESET_OUT n_RESET_BASE n_p5V PNP_NOMINAL
+RBR2 n_RESET_OUT n_RESET_N .001
+Rresetload n_RESET_N 0 1g
+Cresetload n_RESET_N 0 10p
+.include ls_nand_nominal.cir
+R4.3 n_OSC1 n_OSC_RC 220
+C6 n_OSC_RC n_OSC2 {470p*1}
+R10.3 n_p5V n_CLK 560
+XA7_0 a7_unconnected_1 a7_unconnected_2 a7_unconnected_3 n_p5V 0 LS_NAND_NOMINAL
+XA7_1 n_OSC1 n_OSC1 n_OSC2 n_p5V 0 LS_NAND_NOMINAL
+XA7_2 n_OSC2 n_OSC2 n_OSC_OUT n_p5V 0 LS_NAND_NOMINAL
+XA7_3 n_OSC_RC n_OSC_RC n_OSC1 n_p5V 0 LS_NAND_NOMINAL
+RBR1 n_OSC_OUT n_CLK .001
+Rcpu n_CLK 0 1g
+Ccpu n_CLK 0 10p
+.options reltol=1e-9 vntol=1e-11 abstol=1e-17 trtol=1
+.control
+set wr_singlescale
+set wr_vecnames
+tran 1n 100n
+wrdata reset-oscillator-exact-trace.txt v(n_p5V) v(n_CABLE_GND) i(Vhost)
+quit
+.endc
+.end

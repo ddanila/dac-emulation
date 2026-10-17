@@ -1,0 +1,47 @@
+
+Note: No compatibility mode selected!
+
+
+Circuit: supply/filter startup isolation, not board qualification
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+Using SPARSE 1.3 as Direct Linear Solver
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+n_cable_5v                                   0
+n_cable_gnd                                  0
+n_p5v                                        0
+l1_2_series                                  0
+l1_3_series                                  0
+n_ta_takt                                    0
+n_ta_daten                                   0
+l1_1_series                                  0
+n_cable_takt                                 0
+l1_4_series                                  0
+n_cable_daten                                0
+receiver_data                                0
+receiver_clock                               0
+data_intent                                  0
+clock_intent                                 0
+l1.4#branch                                  0
+l1.1#branch                                  0
+l1.3#branch                                  0
+l1.2#branch                                  0
+ereceiver_clock#branch                       0
+ereceiver_data#branch                        0
+vfixtureclock_intent#branch                  0
+vfixturedata_intent#branch                   0
+vhost#branch                                 0
+
+doAnalyses: TRAN:  Timestep too small; time = 1.0002e-11, timestep = 7.05316e-21: trouble with node "n_cable_5v"
+
+
+tran simulation(s) aborted
+
+No. of Data Rows : 13533
+ngspice-47 done

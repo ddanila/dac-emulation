@@ -1,0 +1,40 @@
+Supply/filter startup isolation, not board qualification
+Vhost n_CABLE_5V n_CABLE_GND PWL(0 0 1.0u 5)
+C3.1 n_p5V 0 47u
+C3.2 n_p5V 0 47u
+C5.1 n_p5V 0 47n
+C5.2 n_p5V 0 47n
+C5.3 n_p5V 0 47n
+C5.4 n_p5V 0 47n
+C5.5 n_p5V 0 47n
+L1.2 0 L1_2_series 1u
+RL1.2 L1_2_series n_CABLE_GND 1
+L1.3 n_p5V L1_3_series 1u
+RL1.3 L1_3_series n_CABLE_5V 1
+
+R10.1 n_p5V n_TA_TAKT 560
+R10.2 n_p5V n_TA_DATEN 560
+L1.1 n_TA_TAKT L1_1_series 1u
+RL1.1 L1_1_series n_CABLE_TAKT 1
+L1.4 n_TA_DATEN L1_4_series 1u
+RL1.4 L1_4_series n_CABLE_DATEN 1
+Rdata_off n_TA_DATEN 0 1t
+Cdata_load n_CABLE_DATEN n_CABLE_GND 1000p
+Rdata_load n_CABLE_DATEN n_CABLE_GND 100k
+Rclock_off n_TA_TAKT 0 1t
+Cclock_load n_CABLE_TAKT n_CABLE_GND 1000p
+Rclock_load n_CABLE_TAKT n_CABLE_GND 100k
+Ereceiver_data receiver_data 0 n_CABLE_DATEN n_CABLE_GND 1
+Ereceiver_clock receiver_clock 0 n_CABLE_TAKT n_CABLE_GND 1
+Vfixturedata_intent data_intent 0 0
+Vfixtureclock_intent clock_intent 0 0
+.model OUTPUT_SINK_NOMINAL SW(RON=20 ROFF=1t VT=2.5 VH=0)
+.options reltol=1e-9 vntol=1e-11 abstol=1e-17 trtol=1
+.control
+set wr_singlescale
+set wr_vecnames
+tran 1n 100n
+wrdata linear-trace.txt v(n_p5V) v(n_CABLE_GND) i(Vhost)
+quit
+.endc
+.end
