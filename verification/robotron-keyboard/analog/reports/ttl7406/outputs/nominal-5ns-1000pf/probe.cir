@@ -1,0 +1,50 @@
+Serial driver topology fixture; no firmware or historical timing qualification
+Vhost n_CABLE_5V n_CABLE_GND 5
+R10.1 n_p5V n_TA_TAKT 560
+R10.2 n_p5V n_TA_DATEN 560
+R11.1 n_LED_SISO_N n_LED_SISO 130
+R11.2 n_LED_CAPS_N n_LED_CAPS 130
+C3.1 n_p5V 0 47u
+C3.2 n_p5V 0 47u
+C5.1 n_p5V 0 47n
+C5.2 n_p5V 0 47n
+C5.3 n_p5V 0 47n
+C5.4 n_p5V 0 47n
+C5.5 n_p5V 0 47n
+L1.1 n_TA_TAKT L1_1_series 1u
+RL1.1 L1_1_series n_CABLE_TAKT 1
+L1.2 0 L1_2_series 1u
+RL1.2 L1_2_series n_CABLE_GND 1
+L1.3 n_p5V L1_3_series 1u
+RL1.3 L1_3_series n_CABLE_5V 1
+L1.4 n_TA_DATEN L1_4_series 1u
+RL1.4 L1_4_series n_CABLE_DATEN 1
+.model OUTPUT_SINK_NOMINAL SW(RON=20 ROFF=1t VT=2.5 VH=0)
+.model LED_NOMINAL D(IS=1e-20 N=2 RS=2)
+Sdata n_TA_DATEN 0 data_intent 0 OUTPUT_SINK_NOMINAL
+Cdata_load n_CABLE_DATEN n_CABLE_GND 1000p
+Rdata_load n_CABLE_DATEN n_CABLE_GND 100k
+Sclock n_TA_TAKT 0 clock_intent 0 OUTPUT_SINK_NOMINAL
+Cclock_load n_CABLE_TAKT n_CABLE_GND 1000p
+Rclock_load n_CABLE_TAKT n_CABLE_GND 100k
+Bsiso_target siso_target 0 V=V(n_p5V)*(0.7-0.66*V(siso_intent)/5)
+Rsiso_output siso_target n_LED_SISO_N 30
+Dsiso_led n_p5V n_LED_SISO LED_NOMINAL
+Bcaps_target caps_target 0 V=V(n_p5V)*(0.7-0.66*V(caps_intent)/5)
+Rcaps_output caps_target n_LED_CAPS_N 30
+Dcaps_led n_p5V n_LED_CAPS LED_NOMINAL
+Vdriver_supply n_p5V driver_vp 0
+Vdata data_intent 0 PWL(0 0 10u 0 10.01u 5 20u 5 20.01u 0 40u 0)
+Vclock clock_intent 0 PWL(0 0 12u 0 12.01u 5 22u 5 22.01u 0 40u 0)
+Vsiso siso_intent 0 0
+Vcaps caps_intent 0 0
+.save v(n_CABLE_DATEN,n_CABLE_GND) v(n_CABLE_TAKT,n_CABLE_GND) v(n_p5V) i(Vhost) i(Vdriver_supply) i(Vdata) i(Vclock)
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+tran 5n 40u
+wrdata trace.txt v(n_CABLE_DATEN,n_CABLE_GND) v(n_CABLE_TAKT,n_CABLE_GND) v(n_p5V) i(Vhost) i(Vdriver_supply) i(Vdata) i(Vclock)
+quit
+.endc
+.end

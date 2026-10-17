@@ -1,0 +1,955 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Compare ideal and published-topology serial drivers in the reference output fixture.",
+  "dcCandidateReportSha256": "09605f7f96dfb57ca07e61938b39a38be6da258ad71c842829eab066956d3c00",
+  "executableSha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+  "spinitSha256": "08598f75c7762289502ee5915e3c68d74ebdf9f9ad7ab48585d71a2cd4ac8c48",
+  "sources": {
+    "ttl7406_output_probe.py": "17b0f868d2328f80c09fea7db834c0bd0632a5f20ef340280f322b853ebd1d30",
+    "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+    "output_circuit.py": "bfd14455600e28d73cd5417b30055cb08b85aedbf932b2a52bb1c4db984b0ed0",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "limitations": "Numerical fixture checks only. No transistor storage/capacitance, device-corner, full-package, firmware, or specimen qualification.",
+  "runs": [
+    {
+      "profile": "nominal",
+      "stepNs": 10,
+      "cablePf": 1000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "nominal",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Ideal 20-ohm sink"
+        }
+      },
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)"
+      ],
+      "samples": [
+        [
+          2.002799999999991e-06,
+          4.972007516563221,
+          4.972007516563496,
+          4.99990040318158,
+          -9.951848438543365e-05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.5997511179178833e-05,
+          0.17286304715079545,
+          0.17286304715079268,
+          4.99895200143517,
+          -0.00043690853218143234,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          3.599979843872682e-05,
+          4.97114120176938,
+          4.971141201714688,
+          4.998163230577056,
+          -0.0009727588769513506,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        1.8830314155814286e-07,
+        1.8850936578350543e-07
+      ],
+      "artifacts": {
+        "probe.cir": "1d2518ea44c912f7592051dcaace107dfe05cfa95398ab88e8242fbb839bb699",
+        "trace.txt": "567a66cfd76dc696f59a65bdecec60f435b7153eb254301de2940c41dd7c5654",
+        "ngspice.log": "5001aaf203587c3d8a20c18c4fd12572b904e457cc8121bb196bdea51e3f29c5"
+      }
+    },
+    {
+      "profile": "nominal",
+      "stepNs": 5,
+      "cablePf": 1000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "nominal",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Ideal 20-ohm sink"
+        }
+      },
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)"
+      ],
+      "samples": [
+        [
+          2.001399999999986e-06,
+          4.972007516563327,
+          4.972007516563051,
+          4.999900403181221,
+          -9.951848453220492e-05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.5998977174920206e-05,
+          0.17286316843462862,
+          0.17286316843462773,
+          4.998951741760709,
+          -0.0004370380287378047,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          3.600161098353815e-05,
+          4.97114121009624,
+          4.971141210041011,
+          4.998163247273463,
+          -0.000972750483900559,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        1.8831956279548843e-07,
+        1.8851503870152592e-07
+      ],
+      "artifacts": {
+        "probe.cir": "5fc4a1c05211f12d1a151dc45609aa59ec238b15d3b65af88204d8142d945b61",
+        "trace.txt": "82f64cc9cdfcfd2e13f0b470a673b8563bc9c41dc2e12bca8d6a3eac10cffe9b",
+        "ngspice.log": "05db427d4482549b7db2cfff5066d09d0eb1cec74dfb04ff3f5be0f0c597c6d0"
+      }
+    },
+    {
+      "profile": "nominal",
+      "stepNs": 10,
+      "cablePf": 2000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "nominal",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Ideal 20-ohm sink"
+        }
+      },
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)"
+      ],
+      "samples": [
+        [
+          2.002799999999991e-06,
+          4.972007516563375,
+          4.972007516563579,
+          4.999900403181466,
+          -9.951848443133695e-05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.599763546895847e-05,
+          0.17288289648062533,
+          0.17288289648062433,
+          4.99890556360723,
+          -0.00046006540898696225,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          3.600347707676975e-05,
+          4.97109122335351,
+          4.971077251857642,
+          4.998074142647998,
+          -0.0010175631682161938,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        3.7782987545182184e-07,
+        3.779591753682885e-07
+      ],
+      "artifacts": {
+        "probe.cir": "406e39ec641bf24d11fcff0c89432437ccc978a422c550d2f0f4ed61ae2ade55",
+        "trace.txt": "16231f97a6b1a3e502d1b71ecb46238a6e9c9f746250db01ca134e3aeb5594ab",
+        "ngspice.log": "d6e12af6895ee635e8648b209ce02a6f59adeb89e076b3c6bbea7a804f253126"
+      }
+    },
+    {
+      "profile": "nominal",
+      "stepNs": 5,
+      "cablePf": 2000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "nominal",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Ideal 20-ohm sink"
+        }
+      },
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)"
+      ],
+      "samples": [
+        [
+          2.001399999999986e-06,
+          4.972007516563245,
+          4.972007516563125,
+          4.999900403180966,
+          -9.951848462538013e-05,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.5999039262356177e-05,
+          0.17288301209302792,
+          0.17288301209302048,
+          4.998905315366919,
+          -0.00046018958275496506,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          3.599789438941813e-05,
+          4.971091181713997,
+          4.97107713903974,
+          4.9980740881585435,
+          -0.0010175906442189148,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        3.7782544747815485e-07,
+        3.7795542452826703e-07
+      ],
+      "artifacts": {
+        "probe.cir": "9e23d95ecde6a2e5c4f25a92ce33381c5caa5a14a0cebbdfab612765fe4823ba",
+        "trace.txt": "8b275b056cea7568e6a9932c611474429966e6df69d4ac2821c24919a3affd0a",
+        "ngspice.log": "05db427d4482549b7db2cfff5066d09d0eb1cec74dfb04ff3f5be0f0c597c6d0"
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 10,
+      "cablePf": 1000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "7406-dc",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration"
+        }
+      },
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)"
+      ],
+      "samples": [
+        [
+          2.002799999999991e-06,
+          4.9619269127913395,
+          4.961926912791213,
+          4.979625895195582,
+          -0.010236671671531018,
+          0.01013736344857788,
+          0.0007221327926947416,
+          0.0007221327926947416
+        ],
+        [
+          1.5998491119821157e-05,
+          0.06923776416654978,
+          0.06813929037055219,
+          4.978587563367046,
+          -0.010712588364952215,
+          0.011093625630350991,
+          -4.782385066569383e-06,
+          -4.782385066569361e-06
+        ],
+        [
+          3.600440417660873e-05,
+          4.960987186759995,
+          4.960987186703622,
+          4.9777415395578934,
+          -0.011183919940768658,
+          0.010133280289747379,
+          0.0007218205981880424,
+          0.0007218205981880424
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        1.8862310962967503e-07,
+        1.8906391321101145e-07
+      ],
+      "artifacts": {
+        "probe.cir": "1d9612803091465724a9f517e4d5459dbf348b3ecc9ad056839c250ab4f3f8b9",
+        "trace.txt": "ddd70c4dd6b1e6bda0b26792cdece2c808c7a35448980110422b1c0f1c35c9a7",
+        "ngspice.log": "ec7015248644f6df25c7fdc5140b913273a37e6d826b5cada9f3c0e9d1378574"
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 5,
+      "cablePf": 1000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "7406-dc",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration"
+        }
+      },
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)"
+      ],
+      "samples": [
+        [
+          2.001399999999986e-06,
+          4.961926912791182,
+          4.961926912791094,
+          4.979625895195085,
+          -0.010236671671670371,
+          0.01013736341000332,
+          0.0007221327923145904,
+          0.0007221327923145904
+        ],
+        [
+          1.599964076070006e-05,
+          0.06946319305837072,
+          0.0690135304216306,
+          4.9785876748472235,
+          -0.010618358283874129,
+          0.011093410585008324,
+          -4.7823852411010335e-06,
+          -4.782385241101146e-06
+        ],
+        [
+          3.599802490196639e-05,
+          4.960987285639276,
+          4.960987285582264,
+          4.977741737831731,
+          -0.011183820269330421,
+          0.01013328080716844,
+          0.0007218206309899471,
+          0.0007218206309899471
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        1.8863231072677362e-07,
+        1.8906124587222915e-07
+      ],
+      "artifacts": {
+        "probe.cir": "3375f3eb42dc331a92fbb0063b71632a35552e31946a7eb8e61908969d26cea5",
+        "trace.txt": "e3de0518631405ea7863c3da9d5019a84330200cb367cbe15c93c0fd61fcb1fc",
+        "ngspice.log": "78cb74d8d5cc60ec56b4eaf45b8751d37359a4efedd22f60a9a5c9cd58be1fcb"
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 10,
+      "cablePf": 2000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "7406-dc",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration"
+        }
+      },
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)"
+      ],
+      "samples": [
+        [
+          2.002799999999991e-06,
+          4.961926912791007,
+          4.961926912791066,
+          4.9796258951947925,
+          -0.010236671671748156,
+          0.01013736348704149,
+          0.0007221327927216487,
+          0.0007221327927216487
+        ],
+        [
+          1.5996626309255303e-05,
+          0.048703230187713685,
+          0.048190730503797616,
+          4.978525278490451,
+          -0.010981293081366045,
+          0.011093999464942437,
+          -4.7822924263841305e-06,
+          -4.7822924263840915e-06
+        ],
+        [
+          3.5996904800940516e-05,
+          4.96092926236128,
+          4.9609148756459,
+          4.97763721088798,
+          -0.01123638761563318,
+          0.010133054229427806,
+          0.0007218033133616739,
+          0.0007218033133616739
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        3.789348155283805e-07,
+        3.790530693688331e-07
+      ],
+      "artifacts": {
+        "probe.cir": "379021c92c1d2e1de3e33536e2ce9030030ec2a0e5f2a79679c6f4066ba8c547",
+        "trace.txt": "299f22aae12f5a713977a398e8900e7559c3907ce79376565cf545cdf562cc0e",
+        "ngspice.log": "662a113f28c301ba99c60336dfefcb2b8e6fcca65a4831b6c2bb7ac79d992042"
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 5,
+      "cablePf": 2000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "7406-dc",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration"
+        }
+      },
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)"
+      ],
+      "samples": [
+        [
+          2.001399999999986e-06,
+          4.961926912791691,
+          4.961926912791443,
+          4.979625895195703,
+          -0.010236671671492283,
+          0.01013736339168332,
+          0.0007221327926100722,
+          0.0007221327926100722
+        ],
+        [
+          1.5999079679820776e-05,
+          0.04986607105889638,
+          0.0493912732269735,
+          4.9785249993671625,
+          -0.010990631730882631,
+          0.01109402006644296,
+          -4.782292006047338e-06,
+          -4.782292006047434e-06
+        ],
+        [
+          3.5999463536163384e-05,
+          4.960929343895612,
+          4.960914986865206,
+          4.977637361578879,
+          -0.011236311828183238,
+          0.010133054594504353,
+          0.0007218033362917623,
+          0.0007218033362917623
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        3.7893297371842873e-07,
+        3.79055069655356e-07
+      ],
+      "artifacts": {
+        "probe.cir": "b3319bf340b134020571ab9968703d9d4236e31c08e911081eb05f8b357e6dc5",
+        "trace.txt": "723047ed66cff3b3c3e9f3c2029159aa530d999cb4834fc26dd954a392347618",
+        "ngspice.log": "78cb74d8d5cc60ec56b4eaf45b8751d37359a4efedd22f60a9a5c9cd58be1fcb"
+      }
+    }
+  ],
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25"
+}
