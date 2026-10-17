@@ -30,7 +30,8 @@ def digest(path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--case', choices=['replay', 'omit-release', 'isolated-breakpoint'], required=True)
+    parser.add_argument('--case', choices=['replay', 'omit-release', 'isolated-breakpoint',
+                                          'isolated-dac-event', 'isolated-dac-quiet'], required=True)
     parser.add_argument('--ngspice', required=True)
     parser.add_argument('--ngspice-spinit')
     parser.add_argument('--out', type=Path, required=True)
@@ -49,7 +50,21 @@ def main():
               if line.strip() and not line.startswith('*')]
     assert len(events) == 4
     release = Decimal(events[-1].split()[0])
-    if args.case != 'replay':
+    isolated_dac = args.case in ['isolated-dac-event', 'isolated-dac-quiet']
+    if isolated_dac:
+        # Keep the board outputs in their pre-release states. Only the new,
+        # electrically isolated DAC receives the captured column-release event.
+        rows = [line.split() for line in events]
+        dummy_states = [row[5] for row in rows]
+        rows[-1][1:] = rows[-2][1:]
+        if args.case == 'isolated-dac-quiet':
+            dummy_states[-1] = dummy_states[-2]
+        events = [' '.join(row + [state]) for row, state in zip(rows, dummy_states)]
+        deck = deck.replace('dcol0] replay', 'dcol0 isolated_digital] replay')
+        assert 'isolated_digital] replay' in deck
+        deck = deck.replace('.control', 'Aisolated [isolated_digital] [isolated_event] observation\n'
+                            'Risolated isolated_event 0 1k\n.control')
+    elif args.case != 'replay':
         events.pop()
     if args.case == 'isolated-breakpoint':
         # No electrical connection to any board node. Both PWL knots are
@@ -58,6 +73,8 @@ def main():
                  f'{release + Decimal("1e-9")} 1)\nRisolated isolated_event 0 1k\n')
         deck = deck.replace('.control', dummy + '.control')
     controls = ['data_intent', 'clock_intent', 'led1_v', 'led0_v'] + [f'sink{i}' for i in range(13)]
+    if isolated_dac:
+        controls.append('isolated_event')
     deck = deck.replace('.control', '.save ' + ' '.join(f'v({node})' for node in controls) + '\n.control')
     commands = ['echo DAC control absolute maxima > control-peaks.txt']
     commands += [f'print vecmax(abs(v({node}))) >> control-peaks.txt' for node in controls]

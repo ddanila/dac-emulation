@@ -4,7 +4,9 @@
   "reports": {
     "replay": "f9e244e25c1096f5c36d12e46a0a293d0928c1a9f04fcabbff07a665e14b4557",
     "omit-release": "b8c432d9fbd8b5e1dee94ddbc3c20356c7649d0cd8ee7f25cea2e0ecd35960aa",
-    "isolated-breakpoint": "b1b0465d0d7fcd96b6ca6839b236256df6aef7e45a1f222386bd2b393d921762"
+    "isolated-breakpoint": "b1b0465d0d7fcd96b6ca6839b236256df6aef7e45a1f222386bd2b393d921762",
+    "isolated-dac-event": "9458f09a9feaa693ec1ffede73d16dc83462cc849b7433c9809b7cda20edec56",
+    "isolated-dac-quiet": "5110f615bb028b701f289a71dc62e6099e6344907d02a5c766557faa5f875c21"
   },
-  "interpretation": "Captured release events reproduce the startup abort with every observed DAC control at zero volts. Omitting the release completes 150 us. A separate, electrically isolated PWL breakpoint at the release time also completes. Thus the release event matters, but an arbitrary analog breakpoint alone does not reproduce this failure; DAC/event scheduling remains to be isolated."
+  "interpretation": "The captured release aborts startup while all observed DAC outputs remain zero. Moving that release to an electrically isolated DAC reproduces the same abort; holding that isolated DAC state unchanged completes 150 us. Omitting the release or adding an isolated PWL breakpoint also completes. This isolates the reproducer from board column-drive loading and points to the digital/DAC event path, without establishing a simulator defect or qualifying startup."
 }
