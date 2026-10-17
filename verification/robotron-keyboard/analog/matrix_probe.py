@@ -33,7 +33,7 @@ def simulate(args, components, name, contacts):
               'quit', '.endc', '.end']
     deck = '\n'.join(lines) + '\n'
     (out / 'matrix.cir').write_text(deck)
-    proc = subprocess.run([args.ngspice, '-b', 'matrix.cir'], cwd=out,
+    proc = subprocess.run([args.ngspice, '-n', '-b', 'matrix.cir'], cwd=out,
                           capture_output=True, text=True, timeout=60)
     log = proc.stdout + proc.stderr
     (out / 'ngspice.log').write_text(log)

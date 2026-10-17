@@ -58,7 +58,7 @@ def run(args, components, libs, name, contacts, step_ns):
               'quit', '.endc', '.end']
     (out / 'matrix.cir').write_text('\n'.join(lines) + '\n')
     with (out / 'ngspice.log').open('w') as log:
-        subprocess.run([args.ngspice, '-b', 'matrix.cir'], cwd=out, stdout=log,
+        subprocess.run([args.ngspice, '-n', '-b', 'matrix.cir'], cwd=out, stdout=log,
                        stderr=subprocess.STDOUT, check=True, timeout=120)
     log = (out / 'ngspice.log').read_text()
     if re.search(r'warning|error|failed|fatal|singular|no vlog_startup_routines', log, re.I):

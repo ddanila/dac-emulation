@@ -45,7 +45,7 @@ def simulate(args, components, step_us, isolated):
     signals += ['supplyCurrentAmps']
     deck = '\n'.join(lines) + '\n'
     (out / 'reset.cir').write_text(deck)
-    proc = subprocess.run([args.ngspice, '-b', 'reset.cir'], cwd=out,
+    proc = subprocess.run([args.ngspice, '-n', '-b', 'reset.cir'], cwd=out,
                           capture_output=True, text=True, timeout=60)
     log = proc.stdout + proc.stderr
     (out / 'ngspice.log').write_text(log)

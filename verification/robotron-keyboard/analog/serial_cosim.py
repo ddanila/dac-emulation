@@ -78,7 +78,7 @@ def run(args, components, libs, step, cable_pf):
              'wrdata trace.txt v(receiver_data) v(receiver_clock)','quit','.endc','.end']
     (out/'serial.cir').write_text('\n'.join(lines)+'\n')
     with (out/'ngspice.log').open('w') as log:
-        subprocess.run([args.ngspice,'-b','serial.cir'],cwd=out,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=120)
+        subprocess.run([args.ngspice,'-n', '-b','serial.cir'],cwd=out,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=120)
     log = (out/'ngspice.log').read_text()
     if re.search(r'warning|error|failed|fatal|singular|no vlog_startup_routines',log,re.I):
         raise ValueError('Solver/HDL diagnostics: '+str(out/'ngspice.log'))

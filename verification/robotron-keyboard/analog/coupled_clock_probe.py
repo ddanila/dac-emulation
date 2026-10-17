@@ -50,7 +50,7 @@ def run(args, step, directory):
               'probeDeckSha256': sha(directory / 'clock-probe.cir')}
     try:
         with (directory / 'ngspice.log').open('w') as log:
-            subprocess.run(['ngspice', '-b', 'clock-probe.cir'], cwd=directory,
+            subprocess.run(['ngspice', '-n', '-b', 'clock-probe.cir'], cwd=directory,
                            stdout=log, stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
         result['logSha256'] = sha(directory / 'ngspice.log')
         result['traceSha256'] = sha(directory / 'trace.txt')

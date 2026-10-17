@@ -54,7 +54,7 @@ def main():
         (out / 'device.cir').write_text(deck)
         report['deckSha256'] = hashlib.sha256(deck.encode()).hexdigest()
         report['tool'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()
-        proc = subprocess.run([args.ngspice, '-b', 'device.cir'], cwd=out,
+        proc = subprocess.run([args.ngspice, '-n', '-b', 'device.cir'], cwd=out,
                               capture_output=True, text=True, timeout=60)
         log = proc.stdout + proc.stderr
         (out / 'ngspice.log').write_text(log)

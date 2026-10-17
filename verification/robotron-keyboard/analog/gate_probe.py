@@ -42,7 +42,7 @@ def main():
                       'wrdata trace.txt ' + signals, 'quit', '.endc', '.end']
             deck = '\n'.join(lines) + '\n'
             (out / 'gate.cir').write_text(deck)
-            proc = subprocess.run(['ngspice', '-b', 'gate.cir'], cwd=out, capture_output=True, text=True, timeout=60)
+            proc = subprocess.run(['ngspice', '-n', '-b', 'gate.cir'], cwd=out, capture_output=True, text=True, timeout=60)
             log = proc.stdout + proc.stderr
             (out / 'ngspice.log').write_text(log)
             proc.check_returncode()

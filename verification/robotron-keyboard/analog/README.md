@@ -4,6 +4,10 @@ Use the standard S600 ROM and published reference circuit independently of speci
 photographs, replacement firmware and measured timing. Those observations can
 calibrate the model later; they are not prerequisites for circuit-model development.
 
+Automated ngspice probes use `--no-spiceinit` (`-n`) to ignore local and user
+startup configuration. Solver options belong in the generated deck; system
+installation and code-model versions still need to match the recorded tools.
+
 `sense_probe.py` generates the sensing resistor networks and transistor connections
 from the pinned KiCad netlist and runs an ngspice DC sweep. It is a backend
 feasibility experiment, not a complete board model. The generic PNP parameters,

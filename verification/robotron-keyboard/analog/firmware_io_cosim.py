@@ -153,7 +153,7 @@ def main():
             print(out / 'io.cir')
             return
         with (out / 'ngspice.log').open('w') as log:
-            subprocess.run(['ngspice', '-b', 'io.cir'], cwd=out, stdout=log, stderr=subprocess.STDOUT,
+            subprocess.run(['ngspice', '-n', '-b', 'io.cir'], cwd=out, stdout=log, stderr=subprocess.STDOUT,
                            check=True, timeout=args.timeout_seconds)
         log = (out / 'ngspice.log').read_text()
         if re.search(r'warning|error|failed|fatal|singular|no vlog_startup_routines', log, re.I):

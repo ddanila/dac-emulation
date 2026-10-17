@@ -67,7 +67,7 @@ def main():
               'wrdata sweep.txt ' + ' '.join(outputs), 'quit', '.endc', '.end']
     deck = '\n'.join(lines) + '\n'
     (out / 'sense.cir').write_text(deck)
-    result = subprocess.run([args.ngspice, '-b', 'sense.cir'], cwd=out,
+    result = subprocess.run([args.ngspice, '-n', '-b', 'sense.cir'], cwd=out,
                             capture_output=True, text=True, timeout=60)
     (out / 'ngspice.log').write_text(result.stdout + result.stderr)
     result.check_returncode()

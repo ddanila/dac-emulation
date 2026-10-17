@@ -293,7 +293,7 @@ def main():
             print(out / 'boot.cir')
             return
         with (out / 'ngspice.log').open('w') as log:
-            subprocess.run([args.ngspice, '-b', 'boot.cir'], cwd=out, stdout=log,
+            subprocess.run([args.ngspice, '-n', '-b', 'boot.cir'], cwd=out, stdout=log,
                            stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
         report['logSha256'] = sha(out / 'ngspice.log')
         report['traceSha256'] = sha(out / 'trace.txt')

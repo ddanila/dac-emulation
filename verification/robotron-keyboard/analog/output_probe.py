@@ -33,7 +33,7 @@ def run(args, components, step_ns, cable_pf):
     lines += ['.save ' + ' '.join(signals), '.control', 'set wr_singlescale', 'set wr_vecnames',
               f'tran {step_ns}n 40u', 'wrdata trace.txt ' + ' '.join(signals), 'quit', '.endc', '.end']
     (out / 'outputs.cir').write_text('\n'.join(lines) + '\n')
-    proc = subprocess.run([args.ngspice, '-b', 'outputs.cir'], cwd=out, capture_output=True, text=True, timeout=60)
+    proc = subprocess.run([args.ngspice, '-n', '-b', 'outputs.cir'], cwd=out, capture_output=True, text=True, timeout=60)
     log = proc.stdout + proc.stderr
     (out / 'ngspice.log').write_text(log)
     proc.check_returncode()

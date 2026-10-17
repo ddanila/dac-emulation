@@ -68,7 +68,7 @@ quit
     subprocess.run([a.iverilog, '-g2012', '-s', 'bridge_probe',
                     '-Pbridge_probe.DIRECT_Z=' + str(int(a.direct_z)), '-o', str(out / 'probe.vvp'),
                     str(HERE / 'bridge_probe.v'), str(HERE.parent / 'chips.v')], check=True)
-    proc = subprocess.run([a.ngspice, '-b', 'probe.cir'], cwd=out, capture_output=True,
+    proc = subprocess.run([a.ngspice, '-n', '-b', 'probe.cir'], cwd=out, capture_output=True,
                           text=True, timeout=60)
     log = proc.stdout + proc.stderr
     (out / 'ngspice.log').write_text(log)
