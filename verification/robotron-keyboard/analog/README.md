@@ -354,7 +354,9 @@ data stability around the receiver edges using the retained voltage trace. It
 rejects missing samples, wrong/indeterminate levels and insufficient sampled
 setup/hold. The default 100 ns budget is an explicit fixture assumption, not a
 historical receiver specification. Reports retain conservative sample-bounded
-intervals and identify intervals cut off by the trace boundaries. The Make target
+intervals and identify intervals cut off by the trace boundaries. Gap checks use
+the precision of each printed timestamp; the same uncertainty contracts measured
+setup/hold intervals, so formatting cannot create an artificial margin pass. The Make target
 requires this margin check at both timesteps. Passing it does not establish a
 physical receiver's voltage thresholds or timing limits.
 
