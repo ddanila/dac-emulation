@@ -17,6 +17,7 @@ from ngspice_runtime import identify as identify_runtime, verify as verify_runti
 from output_circuit import output_circuit
 from ttl7406_output_probe import driver_circuit, checked_dc_reference
 from transient_analysis import with_minimum_breakpoint
+from compressed_output import capture as capture_compressed
 from model_coverage import classify
 from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
@@ -232,6 +233,7 @@ def main():
     p.add_argument('--contacts', default='', help='Comma-separated fixture contact indices held closed from power-on')
     p.add_argument('--scenario', type=Path, help='Contact recipe at 125 ms origin, 1 us wall-time ticks; requires electrical matrix and outputs')
     p.add_argument('--prepare-only', action='store_true', help='Generate inputs without claiming a simulation pass')
+    p.add_argument('--compress-traces', action='store_true', help='Stream the boot waveform to lossless XZ in a fresh waveform directory')
     p.add_argument('--rise-us', type=float, default=1)
     p.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
     p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
@@ -279,6 +281,8 @@ def main():
     stop = board_scenario.stop_seconds(args.scenario_data) if args.scenario_data else .127
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
+    if args.compress_traces and any(out.glob('*trace.txt*')):
+        p.error('Compressed capture requires a fresh waveform output directory')
     for name in ('report.json', 'trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__,
@@ -306,7 +310,7 @@ def main():
                             'ls_nand_dc.cir' if args.gate_profile == 'dl000-dc' else 'ls_nand_nominal.cir',
                             'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'output_circuit.py', 'model_coverage.py',
                             'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py',
-                            'transient_analysis.py', 'ttl7406_output_probe.py', 'ttl7406_nominal.cir')}}
+                            'transient_analysis.py', 'ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'compressed_output.py')}}
     if args.scenario_data:
         report['scenario'] = args.scenario_data
         report['scenarioSha256'] = sha(args.scenario)
@@ -324,19 +328,27 @@ def main():
             report['preparedOnly'] = True
             print(out / 'boot.cir')
             return
-        with (out / 'ngspice.log').open('w') as log:
-            subprocess.run([engine, '-n', '-b', 'boot.cir'], cwd=out, env=engine_env, stdout=log,
-                           stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
+        with capture_compressed(out, ['trace.txt'], args.compress_traces) as compressed:
+            with (out / 'ngspice.log').open('w') as log:
+                subprocess.run([engine, '-n', '-b', 'boot.cir'], cwd=out, env=engine_env, stdout=log,
+                               stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
+        if args.compress_traces:
+            report['compressedWaveforms'] = compressed
         verify_runtime(report['ngspiceRuntime'])
         report['logSha256'] = sha(out / 'ngspice.log')
         report['traceSha256'] = sha(out / 'trace.txt')
+        if args.compress_traces and report['traceSha256'] != compressed['trace.txt']['sha256']:
+            raise ValueError('Compressed boot waveform differs from producer bytes')
         validate(out, report)
         report['passed'] = True
     except Exception as error:
         if isinstance(error, SerialMismatch):
             report['serialFailure'] = error.details
         report['error'] = str(error)
-        report['failureArtifacts'] = capture_failure(out, ('ngspice.log', 'trace.txt'))
+        names = ['ngspice.log', 'trace.txt']
+        if args.compress_traces:
+            names += ['trace.txt.xz', 'trace.txt.xz.partial']
+        report['failureArtifacts'] = capture_failure(out, names)
         raise
     finally:
         (out / 'report.json').write_text(json.dumps(report, indent=2) + '\n')

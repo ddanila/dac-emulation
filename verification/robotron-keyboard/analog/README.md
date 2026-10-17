@@ -615,6 +615,11 @@ does not carry `minbreak` into the task created by a control `tran` command.
 The option preserves the full boot interval and saved tail window; it is not a
 device delay or a substitute for timestep refinement.
 
+Use `boot_cosim.py --compress-traces` for long full-board runs. It streams the
+saved boot/contact waveform to XZ, verifies its decompressed hash against the
+producer bytes, and retains partial output on failure. It requires a fresh
+waveform directory and does not change the simulation or validation window.
+
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
 
