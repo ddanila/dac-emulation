@@ -335,8 +335,9 @@ python3 verification/robotron-keyboard/analog/compare_led_reference.py /path/to/
 ```
 
 This covers nominal load response and ordinal C LED-state agreement, not exact
-CPU-cycle timing, LED waveform convergence or calibrated brightness. Full paired
-indicator qualification including the C LED comparison is pending.
+CPU-cycle timing, LED waveform convergence or calibrated brightness.
+`reports/indicators/` retains the qualified pair, including both C LED comparisons
+and their replay logs.
 
 ## NAND static characterization
 
