@@ -215,6 +215,11 @@ Gear integration with identical live circuit, HDL and timestep. The former abort
 at the column switch; Gear times out near the same startup region. Neither
 qualifies startup or justifies changing the default integration method.
 
+Explicit released/asserted analog projections of unknown HDL outputs also abort
+in the oscillator (`reports/coupled-clock-startup/powerup-drive/`). Moving the
+undefined value away from the driver switching threshold is insufficient; neither
+fixture establishes a historical power-up state or changes the default model.
+
 `engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
 boundary correction, not the default engine. `switch_boundary_probe.py` checks
 threshold plateaus against the candidate and unpatched engines. The candidate
