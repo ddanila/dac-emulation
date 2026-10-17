@@ -223,7 +223,10 @@ start; inspect the supply trajectory and use a longer window before judging it.
 The retained `one-ms.json` confirms sustained oscillation over a longer window,
 but rejects timestep refinement on absolute clock phase. It preserves the
 executed source hashes; this is negative qualification evidence, not a passing
-full-board result.
+full-board result. The retained `quarter-ns.json` tests the unchanged board at
+0.25 ns/0.125 ns steps: both simulations complete, but absolute phase still fails
+the same acceptance budget. Smaller steps improve agreement without yet
+establishing convergence.
 
 ## Output, cable and supply loads
 
