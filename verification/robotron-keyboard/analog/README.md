@@ -144,6 +144,31 @@ variation and timestep refinement. The fixture explicitly establishes data befor
 the write strobe; it does not qualify S600 framing or the CPU data-bus output-enable
 timing. A passing transport test must not hide those remaining bus-timing questions.
 
+`make qualify-keyboard-firmware-io S600_ROM=/path/to/s600.bin` exercises the
+electrical matrix and cable receiver with TV80/S600 and the resolved CPU/ROM/latch
+bus. Its service fixture opens BR1/BR2 and supplies clock/reset at the CPU sides;
+it excludes the oscillator and board reset generator. A fixture contact closes
+after reset. This isolates firmware-driven I/O from the longer power-on run.
+The clock/reset stimuli originate in SPICE so the HDL does not advance time past
+an analog solver retry. Initial reset observation likewise samples an external
+clock edge rather than scheduling an HDL startup timer.
+The service harness exposes `--bridge-delay-ns` and defaults to 10 ns. The 1 ns
+setting produces expired-output scheduling warnings during startup in the longer
+service transient; warnings fail qualification even when received bits match.
+This is a numerical interface allowance, not a historical gate delay. Check its
+sensitivity separately from analog timestep refinement.
+
+`serial_observation.py` compares transmitted intent with independently thresholded
+cable-receiver events. It rejects unknown bits, missing/extra edges, changed bits
+and invalid temporal ordering. The service test requires activity; an idle boot
+does not. It also compares the received bit sequence with the production C
+emulator under the same contact fixture, allowing CPU cycle offsets. Matching
+intent alone establishes bit transport, not S600 frame semantics,
+key identity, receiver setup/hold margins or full-board qualification. Refine the
+service timestep with `firmware_io_cosim.py --rom /path/to/s600.bin --step-ns 50 --out /tmp/firmware-io-fine`.
+The run retains source/library hashes, logs and receiver waveforms, including on
+failure. It requires the bridge below and remains outside fast CI.
+
 ## HDL boundary
 
 Use ngspice 47/XSPICE and Icarus 13 with `--enable-libvvp`. The ordinary Icarus
@@ -247,7 +272,8 @@ python3 verification/robotron-keyboard/analog/boot_cosim.py --rom /path/to/s600.
 it does not identify specimen keys. `--prepare-only` generates inputs and explicitly
 leaves the report unpassed. Append `--electrical-outputs` to include serial/LED loads, cable filters and
 supply/return paths in the firmware run. The report then records receiver voltages
-instead of ideal serial intents. Each mode includes a component model/boundary
+instead of ideal serial intents and compares any transmitted bits with the cable
+receiver. Each mode includes a component model/boundary
 inventory; an unknown schematic reference fails generation. This inventory is
 coverage evidence, not a claim of device accuracy. CPU/peripheral buses, control
 pullup loading, IC supply currents and brownout behavior remain unqualified.

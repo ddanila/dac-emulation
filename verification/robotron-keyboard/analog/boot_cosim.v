@@ -1,7 +1,9 @@
 `timescale 1ns/1ps
 // Clock/reset are analog receiver outputs; electrical matrix mode closes sense feedback.
-module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVED_BUS=1)(input clk, input reset_n,
-                  input [7:0] sense, output data_sink, output clock_sink,
+module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVED_BUS=1,
+                             ELECTRICAL_OUTPUTS=0)(input clk, input reset_n,
+                  input [7:0] sense, input receiver_data, input receiver_clock,
+                  output data_sink, output clock_sink,
                   output [1:0] leds, output [12:0] column_sink);
  wire [15:0] address;
  wire [10:0] rom_address;
@@ -11,8 +13,9 @@ module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVE
  reg [7:0] rom[0:2047];
  integer cycles=0, fetches=0, reads=0, writes=0, clock_edges=0;
  initial $readmemh("s600.hex", rom);
- // Observe the initial pin level even when VPI initialized it before callbacks.
- initial begin #1; $display("RESET %0t %b",$time,reset_n); $fflush(); end
+ // Sample reset at the first external clock edge if VPI initialized the pin
+ // before callbacks. Avoid an HDL timer that can advance past SPICE startup.
+ reg reset_sampled=0;
  tv80n cpu(.reset_n(reset_n), .clk(clk), .wait_n(1'b1), .int_n(1'b1),
   .nmi_n(1'b1), .busrq_n(1'b1), .di(di), .A(address), .dout(dout),
   .m1_n(m1_n), .mreq_n(mreq_n), .iorq_n(iorq_n), .rd_n(rd_n),
@@ -33,12 +36,21 @@ module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVE
  assign di=RESOLVED_BUS ? read_data : (!mreq_n ? rom[address[10:0]] : read_data);
  assign data_sink=(ta_daten===1'bz || ta_daten===1'b1) ? 1'b0 : ta_daten===1'b0 ? 1'b1 : 1'bx;
  assign clock_sink=(ta_takt===1'bz || ta_takt===1'b1) ? 1'b0 : ta_takt===1'b0 ? 1'b1 : 1'bx;
+ // Observe the board's transmitted intent independently of the cable receiver.
+ // Both records use logical bits: the wire carries inverted data.
+ always @(posedge ta_takt) if(ELECTRICAL_OUTPUTS && reset_n===1'b1)
+  $display("SERIAL_TX %0t %b", $time, data_sink);
+ always @(posedge receiver_clock) if(ELECTRICAL_OUTPUTS && reset_n===1'b1)
+  $display("SERIAL_RX %0t %b", $time, ~receiver_data);
  always @(reset_n) begin
   $display("RESET %0t %b", $time, reset_n);
   if(reset_n===1'b0) begin cycles=0;fetches=0;reads=0;writes=0;end
   $fflush();
  end
  always @(posedge clk) begin
+  if(!reset_sampled) begin
+   $display("RESET %0t %b", $time, reset_n); $fflush(); reset_sampled=1;
+  end
   clock_edges=clock_edges+1;
   if(clock_edges%100000==0) begin $display("CLOCK_PROGRESS %0t %0d",$time,clock_edges);$fflush();end
  end

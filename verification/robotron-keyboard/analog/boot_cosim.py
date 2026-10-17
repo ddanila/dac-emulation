@@ -16,6 +16,7 @@ from model_coverage import classify
 from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
 from reset_probe import RESET_REFS
+from serial_observation import validate_transport
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -54,6 +55,7 @@ def prepare(args, report):
     report['hdlSha256'] = {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path): sha(path) for path in hdl}
     subprocess.run([args.iverilog, '-g2012', '-s', 'boot_cosim',
                     '-Pboot_cosim.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)),
+                    '-Pboot_cosim.ELECTRICAL_OUTPUTS=' + str(int(args.electrical_outputs)),
                     '-Pboot_cosim.EXPLICIT_CPU_DRIVE=' + str(int(not args.wr_only_data)),
                     '-Pboot_cosim.RESOLVED_BUS=' + str(int(not args.bypass_rom_bus)), '-o', str(out / 'boot.vvp'),
                     *map(str, hdl)], check=True)
@@ -90,24 +92,30 @@ def prepare(args, report):
                          'Ecaps_intent caps_intent 0 led1_v 0 1']
         serial_trace = [f'v({output_info["serial"][label]["cable"]},{output_info["hostGround"]})'
                         for label in ('data', 'clock')]
+        receiver_lines = [
+            f'Ereceiver_data receiver_data 0 {output_info["serial"]["data"]["cable"]} {output_info["hostGround"]} 1',
+            f'Ereceiver_clock receiver_clock 0 {output_info["serial"]["clock"]["cable"]} {output_info["hostGround"]} 1']
     else:
         output_lines = []
         power_lines = [f'Vcc n_p5V 0 PWL(0 0 {args.rise_us}u 5)']
         serial_trace = ['v(data_intent)', 'v(clock_intent)']
+        receiver_lines = ['Vreceiver_data receiver_data 0 0', 'Vreceiver_clock receiver_clock 0 0']
     trace_signals = [f'v({cpu_clock})', f'v({cpu_reset})', *serial_trace]
     report['traceSignals'] = trace_signals
     report['modelCoverage'] = classify(components, report['electricalModels'],
                                        args.electrical_matrix, args.electrical_outputs, not args.bypass_rom_bus)
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
              *power_lines, '.include ls_nand_nominal.cir',
-             *nominal_models(100, args.npn_profile), *osc, *reset, *matrix_lines, *output_lines,
+             *nominal_models(100, args.npn_profile), *osc, *reset, *matrix_lines, *output_lines, *receiver_lines,
              f'RBR2 {reset_source} {cpu_reset} .001',
              f'Rresetload {cpu_reset} 0 1g', f'Cresetload {cpu_reset} 0 10p',
              f'Ain [{cpu_clock} {cpu_reset}] [dclk drst] receiver',
              '.model receiver adc_bridge(in_low=1.4 in_high=1.4)',
              f'Amatrix [{sense_nodes}] [{sense_inputs}] sense_receiver',
              '.model sense_receiver adc_bridge(in_low=0.8 in_high=2)',
-             f'Ahdl [dclk drst {sense_inputs}] [dsink csink led1 led0 {column_outputs}] hdl',
+             'Arxdata [receiver_data] [rx_data] sense_receiver',
+             'Arxclock [receiver_clock] [rx_clock] receiver',
+             f'Ahdl [dclk drst {sense_inputs} rx_data rx_clock] [dsink csink led1 led0 {column_outputs}] hdl',
              f'.model hdl d_cosim simulation="{libs["shim"]}" sim_args=["boot.vvp"] delay=1n',
              f'+ lib_args=["{libs["libvvp"]}" "{libs["vpi"]}"]',
              'Adac [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] observation',
@@ -151,6 +159,8 @@ def validate(out, report):
     if int(last[1]) < 1000 or int(last[2]) < 100 or int(last[3]) == 0:
         raise ValueError('Boot did not exercise instruction fetch and keyboard scanning')
     report['idleBootPolicy'] = 'No serial write is required without a key stimulus; transmit scenarios are separate'
+    if report['assumptions'].get('serialReceiver'):
+        report['serialTransport'] = validate_transport(log)
     if 'x' in last[5] + last[6]:
         raise ValueError('Unknown CPU address or LED state after boot')
     # Stream traces: do not duplicate a long analog run in Python memory.
@@ -217,6 +227,7 @@ def main():
                               'receiver': 'Single nominal threshold avoids counting both edges of an X band as clock edges',
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
                               'npnProfile': args.npn_profile,
+                              'serialReceiver': args.electrical_outputs,
                               'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses'] + ([] if args.electrical_outputs else ['LED and serial output loading']),
                               'romBus': 'Direct CPU input diagnostic' if args.bypass_rom_bus else 'Resolved CPU/ROM/latch bus from numbered schematic pins',
                               'cpuDataDrive': 'WR-only diagnostic' if args.wr_only_data else 'TV80 write-cycle intent gated by reset and bus ownership',
@@ -227,7 +238,8 @@ def main():
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py', 'ls_nand_nominal.cir',
-                            'controller_interface.py', 'matrix.py', 'output_circuit.py', 'model_coverage.py')}}
+                            'controller_interface.py', 'matrix.py', 'output_circuit.py', 'model_coverage.py',
+                            'serial_observation.py')}}
     try:
         prepare(args, report)
         report['ngspice'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()
