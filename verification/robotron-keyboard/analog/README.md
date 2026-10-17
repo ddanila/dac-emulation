@@ -196,6 +196,20 @@ to reproduce the rejection. These fixtures omit board sections deliberately and
 do not qualify the complete board. The diagnostic report pins inputs, logs and
 retained waveform windows.
 
+`linear_startup_reference.py` independently evaluates the frozen symmetric linear
+fixture with a Decimal matrix exponential. It rejects changed fixture inputs and
+checks precision refinement; tests also cover the short-time circuit limits.
+`reports/linear-startup-reference/` compares the reduced SPICE circuit, with a
+known 1 ns unpowered interval, against this reference. This is a startup numerical
+benchmark, not a full-board model or permission to shift measured clock phase.
+
+```sh
+python3 verification/robotron-keyboard/analog/linear_startup_reference.py
+# For the retained delayed-ramp fixture waveform:
+python3 verification/robotron-keyboard/analog/linear_startup_reference.py --trace /path/to/delayed-ramp-trace.txt --source-start-ns 1
+```
+
+
 The separate `diagnostic-trace.txt` records board supply, oscillator internal
 nodes, cable return and host-source current, with hashes and voltage/current
 ranges in each run report. `--rise-us` varies the host supply ramp without
