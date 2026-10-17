@@ -23,6 +23,7 @@ from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
 from gate_models import GATE_MODELS
 from clock_voltage import inspect as inspect_clock_voltage
+from clock_timing import inspect as inspect_clock_timing
 from cpu_control import wiring as control_wiring
 from reset_probe import RESET_REFS
 from serial_observation import validate_transport, SerialMismatch
@@ -237,6 +238,8 @@ def validate(out, report):
     if 'supplyTraceSignal' in report:
         report['cpuClockVoltage'] = inspect_clock_voltage(
             out / 'trace.txt', out / 'supply-trace.txt', diagnostic_columns=2)
+        report['cpuClockTiming'] = inspect_clock_timing(
+            out / 'trace.txt', out / 'supply-trace.txt', report['assumptions']['maximumStepNs'], diagnostic_columns=2)
     else:
         report['cpuClockVoltage'] = {'qualified': False, 'unavailable': 'Legacy trace has no simultaneous supply samples'}
     report['firstFetchAfterRelease'] = after[0]
@@ -337,7 +340,7 @@ def main():
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
-                            GATE_MODELS[args.gate_profile], 'gate_models.py', 'clock_voltage.py', 'cpu_clock_limits.json', 'cpu_control.py',
+                            GATE_MODELS[args.gate_profile], 'gate_models.py', 'clock_voltage.py', 'clock_timing.py', 'clock_convergence.py', 'cpu_clock_limits.json', 'cpu_control.py',
                             'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'output_circuit.py', 'model_coverage.py',
                             'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py',
                             'transient_analysis.py', 'ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'compressed_output.py')}}

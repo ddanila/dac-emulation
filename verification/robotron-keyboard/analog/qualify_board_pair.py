@@ -72,6 +72,8 @@ def load_run(directory):
             raise ValueError('Retained observations differ from report: ' + key)
     if 'supplyTraceSignal' in report and checked['cpuClockVoltage'] != report.get('cpuClockVoltage'):
         raise ValueError('Retained clock voltage observations differ from report')
+    if 'cpuClockTiming' in report and json.loads(json.dumps(checked.get('cpuClockTiming'))) != report['cpuClockTiming']:
+        raise ValueError('Retained clock timing observations differ from report')
     return report, normalized
 
 
@@ -141,7 +143,7 @@ def main():
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
               'boundary': 'Selected nominal board scenario; no device calibration, between-sample clock voltage/pulse-width, C equivalence, brownout or full waveform-shape claim',
               'sources': {name: sha(HERE / name) for name in ('qualify_board_pair.py', 'boot_cosim.py', 'failure_evidence.py',
-                          'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py', 'clock_voltage.py', 'cpu_clock_limits.json', 'trace_io.py', 'gate_models.py')}}
+                          'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py', 'clock_voltage.py', 'clock_timing.py', 'cpu_clock_limits.json', 'trace_io.py', 'gate_models.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         result['inputs'] = {name: {'path': str(path.resolve()), 'reportSha256': sha(path / 'report.json')}
@@ -150,6 +152,8 @@ def main():
         fine, fd = load_run(args.fine)
         result['clockVoltage'] = {name: report.get('cpuClockVoltage')
                                   for name, report in [('coarse', coarse), ('fine', fine)]}
+        result['clockTimingDiagnostic'] = {name: report.get('cpuClockTiming')
+                                          for name, report in [('coarse', coarse), ('fine', fine)]}
         for report in (coarse, fine):
             require_clock_voltage(report)
         if cd != fd:

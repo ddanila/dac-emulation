@@ -18,6 +18,7 @@ from compressed_output import capture as capture_waveforms
 from trace_io import open_binary, open_text
 from gate_models import GATE_MODELS
 from clock_voltage import inspect as inspect_clock_voltage
+from clock_timing import inspect as inspect_clock_timing
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -116,6 +117,7 @@ def run(args, step, directory):
                     raise ValueError('Compressed waveform differs from producer bytes: ' + name)
         result['diagnosticSignals'] = summarize_diagnostics(directory / 'diagnostic-trace.txt', args.duration_us)
         result['cpuClockVoltage'] = inspect_clock_voltage(directory / 'trace.txt', directory / 'diagnostic-trace.txt')
+        result['cpuClockTiming'] = inspect_clock_timing(directory / 'trace.txt', directory / 'diagnostic-trace.txt', step)
         result['completed'] = True
     except Exception as error:
         result['error'] = str(error)
@@ -217,7 +219,7 @@ def main():
     report = {'passed': False, 'scope': __doc__, 'durationUs': args.duration_us, 'runs': [],
               'qualificationBoundary': 'Early startup only, before normal reset release; no full-boot, firmware or long-duration phase qualification',
               'sources': {name: sha(HERE / name) for name in (
-                  'coupled_clock_probe.py', 'boot_cosim.py', 'clock_convergence.py', 'clock_voltage.py', 'cpu_clock_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'trace_io.py', 'compressed_output.py', 'gate_models.py')}}
+                  'coupled_clock_probe.py', 'boot_cosim.py', 'clock_convergence.py', 'clock_voltage.py', 'clock_timing.py', 'cpu_clock_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'trace_io.py', 'compressed_output.py', 'gate_models.py')}}
     try:
         for label, step in zip(('coarse', 'fine'), args.steps_ns):
             report['runs'].append(run(args, step, args.out / label))
