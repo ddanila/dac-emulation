@@ -44,8 +44,12 @@ jobs:
           python3 verification/robotron-keyboard/analog/device_probe.py --npn-profile sc236-dc --require-qualified
           python3 verification/robotron-keyboard/analog/reset_probe.py --npn-profile sc236-dc --out build/keyboard-controller-analog/reset-sc236
           python3 verification/robotron-keyboard/analog/reset_probe.py --npn-profile sc236-dc --rise-us .01 --source-ohms .1 --out build/keyboard-controller-analog/reset-fast-resistive
+      - name: DL000 candidate static output and input limits
+        run: python3 verification/robotron-keyboard/analog/gate_probe.py --model verification/robotron-keyboard/analog/ls_nand_dc.cir --require-qualified
       - name: Reference oscillator topology and BR1 isolation
-        run: python3 verification/robotron-keyboard/analog/oscillator_probe.py
+        run: |
+          python3 verification/robotron-keyboard/analog/oscillator_probe.py
+          python3 verification/robotron-keyboard/analog/oscillator_probe.py --gate-profile dl000-dc --out build/keyboard-controller-analog/oscillator-dl000-dc
       - name: Serial, cable and LED electrical loads
         run: python3 verification/robotron-keyboard/analog/output_probe.py
   checks:

@@ -55,7 +55,7 @@ def simulate(args, components, step, isolated=False, scale=1):
     out = args.out.resolve() / f'{"isolated" if isolated else "closed"}-{step}ns-c{scale}'
     out.mkdir(parents=True, exist_ok=True)
     (out / 'trace.txt').unlink(missing_ok=True)
-    model = (HERE / 'ls_nand_nominal.cir').read_text()
+    model = args.gate_model.read_text()
     (out / 'ls_nand_nominal.cir').write_text(model)
     lines, models, unused, source, cpu = wiring(components, isolated, scale)
     signals = [source, cpu, 'n_OSC_RC', 'n_OSC1', 'n_OSC2']
@@ -102,18 +102,21 @@ def simulate(args, components, step, isolated=False, scale=1):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--ngspice', default='ngspice')
+    p.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/oscillator')
     args = p.parse_args()
+    args.gate_model = HERE / ('ls_nand_nominal.cir' if args.gate_profile == 'nominal' else 'ls_nand_dc.cir')
     args.out.mkdir(parents=True, exist_ok=True)
     path = args.out / 'report.json'
     path.unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'runs': [],
               'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
-                          for name in ('oscillator_probe.py', 'circuit.py', 'ls_nand_nominal.cir')},
+                          for name in ('oscillator_probe.py', 'circuit.py', args.gate_model.name)},
               'assumptions': {'model': 'Continuous behavioral NAND, not transistor-level DL000 characterization',
                               'supply': 'Ideal 5 V ramp over 10 ns; gate output supply current omitted',
                               'thresholdVolts': 1.4, 'transitionWidthVolts': .1,
-                              'internalPoleSeconds': 5e-9, 'outputOhms': 30,
+                              'gateProfile': args.gate_profile,
+                              'internalPoleSeconds': 5e-9, 'outputOhms': {'low': 30, 'high': 50 if args.gate_profile == 'dl000-dc' else 30},
                               'outputTargetsAsSupplyFraction': {'low': .04, 'high': .70},
                               'inputFarads': 3e-12, 'cpuLoad': '1 gigaohm and 10 pF',
                               'inputBias': 'Supply-scaled 1.6 V through a one-way 10 kohm equivalent',

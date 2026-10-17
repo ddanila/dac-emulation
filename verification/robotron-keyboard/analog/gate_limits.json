@@ -1,0 +1,127 @@
+{
+  "source": {
+    "url": "https://datenblatt.weithclan.de/Daten/DL000-030D-ME_ocr.pdf",
+    "sha256": "6d4a14ff7e95bd7d6b642bbb623ed6257845a6f2c69fefd1fb458107d7ea338c",
+    "title": "VEB Halbleiterwerk Frankfurt/Oder DL000D\u2013DL030D preliminary technical data",
+    "pages": "PDF pages 5\u20136",
+    "scope": "Selected static limits; not internal transistor parameters"
+  },
+  "points": [
+    {
+      "name": "high-0.8-2",
+      "supplyVolts": 4.75,
+      "aVolts": 0.8,
+      "bVolts": 2,
+      "loadAmps": 0.0004,
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "minimum": 2.7
+        }
+      ]
+    },
+    {
+      "name": "high-2-0.8",
+      "supplyVolts": 4.75,
+      "aVolts": 2,
+      "bVolts": 0.8,
+      "loadAmps": 0.0004,
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "minimum": 2.7
+        }
+      ]
+    },
+    {
+      "name": "high-0.8-0.8",
+      "supplyVolts": 4.75,
+      "aVolts": 0.8,
+      "bVolts": 0.8,
+      "loadAmps": 0.0004,
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "minimum": 2.7
+        }
+      ]
+    },
+    {
+      "name": "low-0.004",
+      "supplyVolts": 4.75,
+      "aVolts": 2,
+      "bVolts": 2,
+      "loadAmps": -0.004,
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "maximum": 0.4
+        }
+      ]
+    },
+    {
+      "name": "low-0.008",
+      "supplyVolts": 4.75,
+      "aVolts": 2,
+      "bVolts": 2,
+      "loadAmps": -0.008,
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "maximum": 0.5
+        }
+      ]
+    },
+    {
+      "name": "input-low",
+      "supplyVolts": 5.25,
+      "aVolts": 0.4,
+      "bVolts": 0.4,
+      "checks": [
+        {
+          "signal": "inputAAmps",
+          "absolute": true,
+          "maximum": 0.0004
+        },
+        {
+          "signal": "inputBAmps",
+          "absolute": true,
+          "maximum": 0.0004
+        }
+      ]
+    },
+    {
+      "name": "input-high",
+      "supplyVolts": 5.25,
+      "aVolts": 2.7,
+      "bVolts": 2.7,
+      "checks": [
+        {
+          "signal": "inputAAmps",
+          "absolute": true,
+          "maximum": 2e-05
+        },
+        {
+          "signal": "inputBAmps",
+          "absolute": true,
+          "maximum": 2e-05
+        }
+      ]
+    },
+    {
+      "name": "output-short",
+      "supplyVolts": 5.25,
+      "aVolts": 0,
+      "bVolts": 0,
+      "shortOutput": true,
+      "checks": [
+        {
+          "signal": "shortAmps",
+          "absolute": true,
+          "minimum": 0.02,
+          "maximum": 0.1
+        }
+      ]
+    }
+  ]
+}

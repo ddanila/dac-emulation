@@ -329,6 +329,25 @@ This covers nominal firmware-driven load response, not C LED-state equivalence,
 LED waveform convergence or calibrated brightness. Indicator qualification is
 pending; the recipe's successful C serial precheck alone does not qualify LEDs.
 
+## NAND static characterization
+
+```sh
+python3 verification/robotron-keyboard/analog/gate_probe.py
+python3 verification/robotron-keyboard/analog/gate_probe.py --model verification/robotron-keyboard/analog/ls_nand_dc.cir --require-qualified
+```
+
+`gate_limits.json` pins the manufacturer source and selected DL000 static limits.
+The original nominal model exceeds the short-circuit output-current maximum.
+The separate `ls_nand_dc.cir` candidate uses different high/low output impedances
+and meets the selected loaded-output, input-current and short-current constraints.
+Reports are retained in `reports/gate-dc-*.json`. These are static checks at 25 °C;
+they do not qualify temperature, switching, supply current or oscillator timing.
+The running board simulations retain the original nominal model. The candidate
+passes the standalone oscillator transport, BR1 isolation, capacitor sensitivity
+and timestep checks (`oscillator_probe.py --gate-profile dl000-dc`), retained in
+`reports/oscillator-dl000-dc.json`. Coupled firmware qualification remains required
+before it becomes a board default. Its frequency is not fitted to the emulator.
+
 ## Coupled firmware boot
 
 After building the bridge, run the longer electrical-clock/reset integration test:
