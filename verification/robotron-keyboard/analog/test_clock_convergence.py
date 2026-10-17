@@ -17,7 +17,7 @@ class ClockConvergenceTests(unittest.TestCase):
                 for t in range(0, 1001, step):
                     if gap and path == paths[1] and t == 105:
                         continue
-                    voltage = high if (t - offset) % cycle >= cycle / 2 else 0
+                    voltage = high if t >= offset and (t - offset) % cycle >= cycle / 2 else 0
                     rows.append(f'{t * 1e-9} {voltage} 5 0 0' + (' 0' if columns == 6 else ''))
                 path.write_text('time clock reset data serial_clock\n' + '\n'.join(rows))
             return compare_clocks(paths[0], paths[1], 10, 5, tolerance, columns=columns)
@@ -50,6 +50,26 @@ class ClockConvergenceTests(unittest.TestCase):
         result = self.compare(amplitude=4)
         self.assertFalse(result['passed'])
         self.assertEqual(result['sampledExtremaDifferencesVolts']['maximumVolts'], 1)
+
+    def test_constant_offset_is_separate_from_phase_change(self):
+        result = self.compare(shift=20)
+        self.assertFalse(result['passed'])
+        for name, direction in result['phaseEvolution']['byDirection'].items():
+            self.assertEqual(direction['matchedEdges'], 10 if name == 'rise' else 9)
+            self.assertGreater(direction['first']['signedDifferenceNs'], 15)
+            self.assertAlmostEqual(direction['lastMinusFirstNs'], 0)
+            self.assertAlmostEqual(direction['rangeNs'], 0)
+
+    def test_phase_evolution_preserves_drift_and_edge_direction(self):
+        result = self.compare(period=102)
+        evolution = result['phaseEvolution']['byDirection']
+        self.assertEqual(set(evolution), {'rise', 'fall'})
+        for direction in evolution.values():
+            self.assertGreater(direction['lastMinusFirstNs'], 10)
+            self.assertGreater(direction['rangeNs'], 10)
+            self.assertGreater(direction['last']['edgeOrdinal'], direction['first']['edgeOrdinal'])
+            self.assertGreaterEqual(direction['maximum']['signedDifferenceNs'],
+                                    direction['last']['signedDifferenceNs'])
 
     def test_missing_samples_rejected(self):
         with self.assertRaisesRegex(ValueError, 'timestep'):

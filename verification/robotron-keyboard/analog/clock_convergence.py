@@ -58,6 +58,8 @@ def compare_clocks(coarse_trace, fine_trace, coarse_step_ns, fine_step_ns,
               'sampledExtremaBudgetVolts': voltage_tolerance, 'waveforms': stats,
               'maximumEstimatedPhaseDifferenceNs': 0, 'maximumBracketDifferenceNs': 0,
               'firstDifference': None,
+              'phaseEvolution': {'signConvention': 'fine minus coarse; positive means the fine edge is later',
+                                 'byDirection': {}},
               'interpretation': 'Absolute edge order and phase over the saved window, with sample-bracket uncertainty; '
                                 'no phase realignment. Sampled voltage extrema are not a complete waveform or device calibration.'}
     a = crossings(coarse_trace, coarse_step_ns, stats['coarse'], columns)
@@ -65,7 +67,20 @@ def compare_clocks(coarse_trace, fine_trace, coarse_step_ns, fine_step_ns,
     for ordinal, (left, right) in enumerate(itertools.zip_longest(a, b)):
         failed = left is None or right is None or left['direction'] != right['direction']
         if not failed:
-            phase = abs(left['estimatedSeconds'] - right['estimatedSeconds']) * 1e9
+            signed_phase = (right['estimatedSeconds'] - left['estimatedSeconds']) * 1e9
+            phase = abs(signed_phase)
+            event = {'edgeOrdinal': ordinal, 'coarseSeconds': left['estimatedSeconds'],
+                     'fineSeconds': right['estimatedSeconds'], 'signedDifferenceNs': signed_phase}
+            direction = result['phaseEvolution']['byDirection'].setdefault(
+                left['direction'], {'matchedEdges': 0, 'first': event, 'last': event,
+                                    'minimum': event, 'maximum': event})
+            direction['matchedEdges'] += 1
+            direction['last'] = event
+            for key, select in (('minimum', min), ('maximum', max)):
+                direction[key] = select(direction[key], event, key=lambda e: e['signedDifferenceNs'])
+            direction['lastMinusFirstNs'] = signed_phase - direction['first']['signedDifferenceNs']
+            direction['rangeNs'] = (direction['maximum']['signedDifferenceNs']
+                                    - direction['minimum']['signedDifferenceNs'])
             bound = max(abs(left['beforeSeconds'] - right['afterSeconds']),
                         abs(left['afterSeconds'] - right['beforeSeconds'])) * 1e9
             result['maximumEstimatedPhaseDifferenceNs'] = max(result['maximumEstimatedPhaseDifferenceNs'], phase)

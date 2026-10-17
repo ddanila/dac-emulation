@@ -226,7 +226,10 @@ executed source hashes; this is negative qualification evidence, not a passing
 full-board result. The retained `quarter-ns.json` tests the unchanged board at
 0.25 ns/0.125 ns steps: both simulations complete, but absolute phase still fails
 the same acceptance budget. Smaller steps improve agreement without yet
-establishing convergence.
+establishing convergence. The phase checker also records signed first/last and
+extreme offsets separately for rising and falling edges, without realignment or
+changing acceptance. `quarter-ns-phase-evolution.json` retains a reanalysis of the
+same traces: an initial offset and subsequent drift both contribute to the failure.
 
 ## Output, cable and supply loads
 

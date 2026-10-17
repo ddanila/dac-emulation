@@ -1,0 +1,132 @@
+{
+  "scope": "Reanalysis of retained coupled startup waveforms; original qualification remains unchanged",
+  "originalQualificationSha256": "3b63752539fbd441e9377733935c8cca086a60ba07757e2b8ba29719d8536b0d",
+  "sources": {
+    "clock_convergence.py": "15c3dbcde9b1f40ae3eec29cd7c398efa71d7d9491bf1ae474557567ad3c78e0",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "traceSha256": {
+    "coarse": "c9c7d1458e0c8edc6d32180c861a49aa2e405a26736110bdd64652ba7aaa7b32",
+    "fine": "512f0a45fb211aadaebf7f42679c4b06acf8695b1c0e54e07be028e83ba30750"
+  },
+  "clockPhase": {
+    "passed": false,
+    "thresholdVolts": 1.4,
+    "edgeBudgetNs": 15,
+    "sampledExtremaBudgetVolts": 0.05,
+    "waveforms": {
+      "coarse": {
+        "samples": 5889273,
+        "edges": 5286,
+        "minimumVolts": -8.15269562e-69,
+        "maximumVolts": 3.51244865,
+        "maximumSampleGapNs": 0.2505000000019384,
+        "minimumPeriodNs": 168.9992375181979,
+        "maximumPeriodNs": 397.4203381615788,
+        "firstSampleSeconds": 0.0,
+        "lastSampleSeconds": 0.001,
+        "meanPeriodNs": 339.4940743915348,
+        "frequencyHz": 2945559.511730125
+      },
+      "fine": {
+        "samples": 9247657,
+        "edges": 5286,
+        "minimumVolts": -8.15269562e-69,
+        "maximumVolts": 3.51245236,
+        "maximumSampleGapNs": 0.1251000000069896,
+        "minimumPeriodNs": 169.42620552707947,
+        "maximumPeriodNs": 397.42436053660896,
+        "firstSampleSeconds": 0.0,
+        "lastSampleSeconds": 0.001,
+        "meanPeriodNs": 339.50019151896424,
+        "frequencyHz": 2945506.438526238
+      }
+    },
+    "maximumEstimatedPhaseDifferenceNs": 28.13105322687151,
+    "maximumBracketDifferenceNs": 28.242999999903567,
+    "firstDifference": {
+      "signal": "Clock voltage",
+      "edgeOrdinal": 21,
+      "coarse": {
+        "direction": "fall",
+        "beforeSeconds": 0.000104885571,
+        "afterSeconds": 0.000104885799,
+        "estimatedSeconds": 0.00010488579770462417
+      },
+      "fine": {
+        "direction": "fall",
+        "beforeSeconds": 0.000104900826,
+        "afterSeconds": 0.000104900951,
+        "estimatedSeconds": 0.00010490083602499861
+      }
+    },
+    "phaseEvolution": {
+      "signConvention": "fine minus coarse; positive means the fine edge is later",
+      "byDirection": {
+        "rise": {
+          "matchedEdges": 2643,
+          "first": {
+            "edgeOrdinal": 0,
+            "coarseSeconds": 0.00010280694047799571,
+            "fineSeconds": 0.00010281890902176199,
+            "signedDifferenceNs": 11.968543766276802
+          },
+          "last": {
+            "edgeOrdinal": 5284,
+            "coarseSeconds": 0.0009997502850204313,
+            "fineSeconds": 0.0009997784150148651,
+            "signedDifferenceNs": 28.1299944338443
+          },
+          "minimum": {
+            "edgeOrdinal": 0,
+            "coarseSeconds": 0.00010280694047799571,
+            "fineSeconds": 0.00010281890902176199,
+            "signedDifferenceNs": 11.968543766276802
+          },
+          "maximum": {
+            "edgeOrdinal": 5284,
+            "coarseSeconds": 0.0009997502850204313,
+            "fineSeconds": 0.0009997784150148651,
+            "signedDifferenceNs": 28.1299944338443
+          },
+          "lastMinusFirstNs": 16.161450667567497,
+          "rangeNs": 16.161450667567497
+        },
+        "fall": {
+          "matchedEdges": 2643,
+          "first": {
+            "edgeOrdinal": 1,
+            "coarseSeconds": 0.00010287778867108112,
+            "fineSeconds": 0.00010289034174566065,
+            "signedDifferenceNs": 12.553074579528426
+          },
+          "last": {
+            "edgeOrdinal": 5285,
+            "coarseSeconds": 0.0009999026225052862,
+            "fineSeconds": 0.0009999307535585131,
+            "signedDifferenceNs": 28.13105322687151
+          },
+          "minimum": {
+            "edgeOrdinal": 1,
+            "coarseSeconds": 0.00010287778867108112,
+            "fineSeconds": 0.00010289034174566065,
+            "signedDifferenceNs": 12.553074579528426
+          },
+          "maximum": {
+            "edgeOrdinal": 5285,
+            "coarseSeconds": 0.0009999026225052862,
+            "fineSeconds": 0.0009999307535585131,
+            "signedDifferenceNs": 28.13105322687151
+          },
+          "lastMinusFirstNs": 15.577978647343086,
+          "rangeNs": 15.577978647343086
+        }
+      }
+    },
+    "interpretation": "Absolute edge order and phase over the saved window, with sample-bracket uncertainty; no phase realignment. Sampled voltage extrema are not a complete waveform or device calibration.",
+    "sampledExtremaDifferencesVolts": {
+      "minimumVolts": 0.0,
+      "maximumVolts": 3.7100000001011324e-06
+    }
+  }
+}
