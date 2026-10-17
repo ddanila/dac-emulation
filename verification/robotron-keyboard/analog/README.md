@@ -354,6 +354,16 @@ pins the affected logs; equal printed timestamps do not establish backward
 execution. The harnesses and retained-run loader now reject unresolved messages,
 including when ngspice exits zero. Original reports remain available alongside
 reassessed qualification results.
+`reports/service-time-audit/` records exact binary-time equality at the first
+release event. The experimental `ngspice-47-strict-time-diagnostic.patch` changes
+only the diagnostic comparison, retaining warnings for actual backward time.
+It does not restore qualification without a complete scenario recheck.
+
+The firmware-I/O harness accepts `--ngspice /path/to/engine` and an optional
+`--ngspice-spinit /path/to/spinit`. It fingerprints the executable, selected
+initialization and literal XSPICE code-model paths, forces that initialization
+for the child process and checks the files again after execution. Paired runs
+must retain identical backend identities; a matching version string is insufficient.
 
 `receiver_margins.py /path/to/run --out /path/to/margins.json` separately checks
 data stability around the receiver edges using the retained voltage trace. It

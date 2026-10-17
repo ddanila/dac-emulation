@@ -1,0 +1,84 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Shortened S600 service run with logging-only exact-time instrumentation; not scenario qualification",
+  "sourceDirectory": "build/keyboard-controller-analog/scenarios-release",
+  "sourceDeckSha256": "262c3ae5999574a7d7483f957476ba2e7ad1d1a290d192032afc3810e453acac",
+  "executedDeckSha256": "6c291d24ea6c6b075e7f0ae120aa677999922c5a9fa89511b0edbd54da27aae6",
+  "sourceReportSha256": "058f334aac01fe7ed3440fa1baf639ab20ef4a54341b17fd23146b04fb55e6fb",
+  "engineSha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+  "instrumentation": {
+    "beforeSourceSha256": "aa31bc8cf686914b3f667c9790aae4b79115a6f3b0e786732358a63df9340207",
+    "afterSourceSha256": "3e194bb28767d0c7bd6837e69007cdae55f9666d488b84893ae11ee87c5cff82",
+    "patchSha256": "c5b7947d6cd3d98195b1852e24610283e45c3134a686b092924a05a9f770b6d1",
+    "digitalModelSha256": "e3385633dfb2717ffe75dabecd03a38bcb16e423c52bf26e0e1d60918686fcef",
+    "scope": "Logging only; original switch source restored; original time comparison and run calls unchanged"
+  },
+  "exitCode": 0,
+  "auditEvents": [
+    {
+      "relation": "equal",
+      "spiceHex": "0x1.fbe76c8b43958p-6",
+      "cosimHex": "0x1.fbe76c8b43958p-6",
+      "lastHex": "0x1.fbe76c8b43958p-6",
+      "queue": "-1",
+      "pending": "0",
+      "method": "0"
+    },
+    {
+      "relation": "equal",
+      "spiceHex": "0x1.fbe76c8b43958p-6",
+      "cosimHex": "0x1.fbe76c8b43958p-6",
+      "lastHex": "0x1.fbe76c8b43958p-6",
+      "queue": "-1",
+      "pending": "0",
+      "method": "0"
+    },
+    {
+      "relation": "equal",
+      "spiceHex": "0x1.fbe76c8b43958p-6",
+      "cosimHex": "0x1.fbe76c8b43958p-6",
+      "lastHex": "0x1.fbe76c8b43958p-6",
+      "queue": "-1",
+      "pending": "0",
+      "method": "0"
+    }
+  ],
+  "timeOrderMessages": 3,
+  "solverDiagnostics": [],
+  "endpointText": "time[length(time)-1] = 3.10999999999999992e-02\n",
+  "referenceEventCount": 86,
+  "observedEventCount": 86,
+  "eventsMatchRetainedPrefix": true,
+  "artifacts": {
+    "probe.cir": {
+      "sha256": "6c291d24ea6c6b075e7f0ae120aa677999922c5a9fa89511b0edbd54da27aae6",
+      "bytes": 13268
+    },
+    "io.vvp": {
+      "sha256": "95936511c5cf5c104de3a183a3120d858d51250ddbd2a2677018fee4af6d3264",
+      "bytes": 625497
+    },
+    "ngspice.log": {
+      "sha256": "2441dd8accb5a15ba1b13c8e6bfdbabc6fdcf487c5725c69f088daad335deaab",
+      "bytes": 18906
+    },
+    "trace.txt": {
+      "sha256": "42b534527a3cd21c32954ca90f2a8f2ccc724f389acc346ed8db5e21031d9d38",
+      "bytes": 4909068
+    },
+    "s600.hex": {
+      "sha256": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+      "bytes": 6144
+    },
+    "endpoint.txt": {
+      "sha256": "3146d31ce506dfd5a7124c97f95e7855fc02f07d96e48c652d8618ebf73617d3",
+      "bytes": 47
+    }
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/service-time-audit",
+  "sourceLogSha256": "f48c5aa305590eef078fa25d3d6ea1b44d4da913d88f31eb84a57ab10a58ea93",
+  "interpretation": "At the first affected release event, all reported comparisons are exactly equal in binary, with an empty input queue, no pending output and last accepted co-simulation time equal to SPICE time. The instrumented prefix preserves the original reset/fetch/boot/serial events. This diagnoses these messages only; it does not restore full scenario qualification or prove every older message benign.",
+  "runtimeBaseline": "../coupled-clock-startup/local-engine/report.json",
+  "patchFile": "../../engine-patches/ngspice-47-time-audit.patch"
+}

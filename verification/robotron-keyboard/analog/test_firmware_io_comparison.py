@@ -24,6 +24,14 @@ class ComparisonTests(unittest.TestCase):
         self.tx = validate_transport('SERIAL_TX 1000 1\nSERIAL_RX 21000 1\n', True)
         self.rx = validate_transport('SERIAL_TX 1000 1\nSERIAL_RX 41000 1\n', True)
 
+    def test_code_model_change_rejected_with_same_version_string(self):
+        self.coarse['ngspiceRuntime'] = {'codeModels': [{'sha256': 'baseline'}]}
+        self.fine['ngspiceRuntime'] = copy.deepcopy(self.coarse['ngspiceRuntime'])
+        self.assertTrue(compare(self.coarse, self.fine, self.tx, self.tx, 15)['withinTolerance'])
+        self.fine['ngspiceRuntime']['codeModels'][0]['sha256'] = 'patched'
+        with self.assertRaisesRegex(ValueError, 'code models differ'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15)
+
     def test_receiver_shift_fails_even_with_same_bits(self):
         result = compare(self.coarse, self.fine, self.tx, self.rx, 15)
         self.assertEqual(result['transmittedMaximumDifferenceNs'], 0)

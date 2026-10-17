@@ -12,6 +12,7 @@ from circuit import load
 from controller_interface import generate
 from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
+from ngspice_runtime import identify as identify_runtime, verify as verify_runtime
 from output_circuit import output_circuit
 from serial_observation import validate_transport, first_reference_difference, SerialMismatch
 from io_scenario import load as load_scenario, contact_source, reset_source, c_header, time_ns, observe
@@ -34,6 +35,8 @@ def main():
     p.add_argument('--step-ns', type=float, default=50)
     p.add_argument('--bridge-delay-ns', type=float, default=10)
     p.add_argument('--timeout-seconds', type=float, default=1800)
+    p.add_argument('--ngspice', default='ngspice')
+    p.add_argument('--ngspice-spinit', type=Path, help='Explicit spinit with absolute code-model paths')
     p.add_argument('--latch-load', choices=LATCH_LOADS, default='ideal')
     p.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground; zero omits it')
     args = p.parse_args()
@@ -61,7 +64,7 @@ def main():
         'bridgeDelay': 'Numerical interface delay, not a calibrated device propagation delay'},
         'sources': {name: sha(HERE / name) for name in (
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
-            'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
+            'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
             'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py')}}
     try:
         scenario = load_scenario(args.scenario)
@@ -148,7 +151,9 @@ def main():
             lines.insert(lines.index('quit'), 'wrdata led-trace.txt ' + signals)
         (out / 'io.cir').write_text('\n'.join(lines) + '\n')
         report['deckSha256'] = sha(out / 'io.cir')
-        report['ngspice'] = subprocess.check_output(['ngspice', '--version'], text=True).strip()
+        report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
+        engine = report['ngspiceRuntime']['executable']['path']
+        report['ngspice'] = subprocess.check_output([engine, '--version'], text=True).strip()
         report['iverilog'] = subprocess.run(['iverilog', '-V'], capture_output=True, text=True, check=True).stdout.splitlines()[0]
         (out / 'run-inputs.json').write_text(json.dumps(report, indent=2) + '\n')
         if args.prepare_only:
@@ -156,8 +161,9 @@ def main():
             print(out / 'io.cir')
             return
         with (out / 'ngspice.log').open('w') as log:
-            subprocess.run(['ngspice', '-n', '-b', 'io.cir'], cwd=out, stdout=log, stderr=subprocess.STDOUT,
+            subprocess.run([engine, '-n', '-b', 'io.cir'], cwd=out, env=engine_env, stdout=log, stderr=subprocess.STDOUT,
                            check=True, timeout=args.timeout_seconds)
+        verify_runtime(report['ngspiceRuntime'])
         log = (out / 'ngspice.log').read_text()
         if solver_diagnostic(log):
             raise ValueError('Solver/HDL diagnostics: inspect ngspice.log')

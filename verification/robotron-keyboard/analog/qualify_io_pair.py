@@ -27,7 +27,7 @@ def main():
               'limits': {'edgeConvergenceNs': 15, 'sampledSetupHoldNs': 100, 'validationTimeoutSeconds': args.timeout_seconds},
               'qualificationBoundary': 'Selected BR service fixture; not electrical oscillator/reset, brownout or specimen calibration',
               'sources': {name: sha(HERE / name) for name in (
-                  'qualify_io_pair.py', 'compare_firmware_io.py', 'scenario_coverage.py',
+                  'qualify_io_pair.py', 'compare_firmware_io.py', 'failure_evidence.py', 'scenario_coverage.py',
                   'receiver_margins.py', 'io_scenario.py', 'serial_observation.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compare_led_reference.py', 'firmware_io_reference.c')}}
     try:
         inputs = {'coarse': args.coarse / 'report.json', 'fine': args.fine / 'report.json', 'scenario': args.scenario}

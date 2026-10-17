@@ -69,6 +69,8 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
         assumptions.append(values)
     if assumptions[0] != assumptions[1]:
         raise ValueError('Runs use different fixture/model assumptions')
+    if coarse.get('ngspiceRuntime') != fine.get('ngspiceRuntime'):
+        raise ValueError('ngspice executable, initialization or code models differ')
     for key in ('romSha256', 'connectivitySha256', 'bridge', 'tv80', 'ngspice', 'iverilog'):
         if coarse[key] != fine[key]:
             raise ValueError('Run provenance differs: ' + key)

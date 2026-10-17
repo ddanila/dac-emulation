@@ -1,0 +1,13 @@
+--- a/src/xspice/icm/digital/d_cosim/cfunc.mod
++++ b/src/xspice/icm/digital/d_cosim/cfunc.mod
+@@ -729,6 +729,10 @@
+                               "XSPICE %.16g\n"
+                               "Cosim  %.16g",
+                               TIME, ip->info.vtime);
++            cm_message_printf("COSIM_TIME_AUDIT relation=%s spice=%a cosim=%a last=%a queue=%d pending=%d method=%d",
++                              TIME < ip->info.vtime ? "backward" : "equal",
++                              TIME, ip->info.vtime, ip->last_step, ip->q_index,
++                              ip->op_pending, ip->info.method);
+         }
+         run(ip, XSPICE_ARG);
+     }

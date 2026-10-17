@@ -1,0 +1,11 @@
+--- a/src/xspice/icm/digital/d_cosim/cfunc.mod
++++ b/src/xspice/icm/digital/d_cosim/cfunc.mod
+@@ -724,7 +724,7 @@
+                 return;
+         }
+ 
+-        if (TIME <= ip->info.vtime) {
++        if (TIME < ip->info.vtime) {
+             cm_message_printf("XSPICE time is behind vtime:\n"
+                               "XSPICE %.16g\n"
+                               "Cosim  %.16g",
