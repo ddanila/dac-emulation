@@ -346,7 +346,10 @@ The running board simulations retain the original nominal model. The candidate
 passes the standalone oscillator transport, BR1 isolation, capacitor sensitivity
 and timestep checks (`oscillator_probe.py --gate-profile dl000-dc`), retained in
 `reports/oscillator-dl000-dc.json`. Coupled firmware qualification remains required
-before it becomes a board default. Its frequency is not fitted to the emulator.
+before it becomes a board default. Select it in `boot_cosim.py` with
+`--gate-profile dl000-dc`, or use `KEYBOARD_BOARD_GATE_PROFILE=dl000-dc` with the
+paired board target. Reports pin the selected model, and the qualifier verifies
+the actual include and retained file. Its frequency is not fitted to the emulator.
 
 ## Coupled firmware boot
 
@@ -461,3 +464,18 @@ assertion, `recheck_boot.py /path/to/run` applies the corrected validator withou
 rerunning the electrical simulation. It checks the original deck/ROM provenance
 and writes a separate `revalidation.json`, preserving the execution report and
 source hashes. It refuses prepared-only, interrupted and unrelated failed runs.
+
+## Retained waveform storage
+
+Completed successful runs can be compacted without losing their original trace
+hashes or requiring a simulation rerun:
+
+```sh
+python3 verification/robotron-keyboard/analog/compress_trace.py /path/to/completed-run
+```
+
+The tool verifies the report hash before compression and verifies decompressed
+bytes before removing the raw copy. It preserves failed/unfinished runs and
+refuses changed input. Qualification readers accept `trace.txt.gz` and
+`led-trace.txt.gz` transparently; report hashes continue to identify the original
+uncompressed content. Do not compact files belonging to an active simulation.

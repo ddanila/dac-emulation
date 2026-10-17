@@ -1,4 +1,5 @@
 """Stream electrical clock edges; compare phase without discarding accumulated drift."""
+from trace_io import open_text
 import itertools
 import math
 
@@ -10,7 +11,7 @@ def crossings(path, maximum_step_ns, stats):
     period_total = 0
     stats.update(samples=0, edges=0, minimumVolts=math.inf, maximumVolts=-math.inf,
                  maximumSampleGapNs=0, minimumPeriodNs=math.inf, maximumPeriodNs=0)
-    with path.open() as stream:
+    with open_text(path) as stream:
         next(stream)
         for line in stream:
             row = [float(value) for value in line.split()]

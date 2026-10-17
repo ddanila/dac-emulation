@@ -57,7 +57,7 @@ def main():
         'sources': {name: sha(HERE / name) for name in (
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
             'circuit.py', 'matrix.py', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
-            'io_scenario.py', 'reset_observation.py', 'led_observation.py')}}
+            'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py')}}
     try:
         scenario = load_scenario(args.scenario)
         report['assumptions']['scenario'] = scenario

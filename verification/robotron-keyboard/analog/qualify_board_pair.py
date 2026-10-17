@@ -25,9 +25,14 @@ def load_run(directory):
     for name, key in [('boot.cir', 'deckSha256'), ('ngspice.log', 'logSha256'), ('trace.txt', 'traceSha256')]:
         if sha(directory / name) != report[key]:
             raise ValueError('Retained artifact hash differs: ' + name)
-    if sha(directory / 'ls_nand_nominal.cir') != report['sources']['ls_nand_nominal.cir']:
+    gate = report.get('gateModel', {'file': 'ls_nand_nominal.cir',
+                                     'sha256': report['sources'].get('ls_nand_nominal.cir')})
+    expected_gate = 'ls_nand_dc.cir' if report['assumptions'].get('gateProfile') == 'dl000-dc' else 'ls_nand_nominal.cir'
+    if gate['file'] != expected_gate or gate['sha256'] != report['sources'][expected_gate] or sha(directory / expected_gate) != gate['sha256']:
         raise ValueError('Retained oscillator gate model differs')
     deck = (directory / 'boot.cir').read_text()
+    if re.findall(r'^\.include (\S+)$', deck, re.M) != [expected_gate]:
+        raise ValueError('Executed oscillator model include differs')
     steps = re.findall(r'^tran ([0-9.eE+-]+)n ', deck, re.M)
     if len(steps) != 1 or float(steps[0]) != report['assumptions']['maximumStepNs']:
         raise ValueError('Reported timestep differs from executed deck')
@@ -92,7 +97,7 @@ def main():
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
               'boundary': 'Selected nominal board scenario; no device calibration, C equivalence, brownout or full waveform-shape claim',
               'sources': {name: sha(HERE / name) for name in ('qualify_board_pair.py', 'boot_cosim.py',
-                          'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py')}}
+                          'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py', 'trace_io.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         result['inputs'] = {name: {'path': str(path.resolve()), 'reportSha256': sha(path / 'report.json')}

@@ -8,6 +8,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from trace_io import open_binary, open_text
 
 from controller_interface import generate
 from matrix import matrix_circuit
@@ -26,7 +27,7 @@ ROM_SHA256 = '4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273'
 
 def sha(path):
     digest = hashlib.sha256()
-    with path.open('rb') as stream:
+    with open_binary(path) as stream:
         for chunk in iter(lambda: stream.read(1024 * 1024), b''):
             digest.update(chunk)
     return digest.hexdigest()
@@ -75,7 +76,9 @@ def prepare(args, report):
     report['electricalModels'] = {**osc_models, **reset_models, 'BR2': '1 milliohm closed'}
     report['unconnectedA7Pins'] = unused
     report['cpuClockNet'], report['cpuResetNet'] = cpu_clock, cpu_reset
-    (out / 'ls_nand_nominal.cir').write_bytes((HERE / 'ls_nand_nominal.cir').read_bytes())
+    gate_file = 'ls_nand_dc.cir' if args.gate_profile == 'dl000-dc' else 'ls_nand_nominal.cir'
+    (out / gate_file).write_bytes((HERE / gate_file).read_bytes())
+    report['gateModel'] = {'file': gate_file, 'sha256': sha(out / gate_file)}
     sense_inputs = ' '.join(f'dsense{i}' for i in reversed(range(8)))
     sense_nodes = ' '.join(f'n_SENSE{i}' for i in reversed(range(8)))
     column_outputs = ' '.join(f'dcol{i}' for i in reversed(range(13)))
@@ -112,7 +115,7 @@ def prepare(args, report):
     report['modelCoverage'] = classify(components, report['electricalModels'],
                                        args.electrical_matrix, args.electrical_outputs, not args.bypass_rom_bus)
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
-             *power_lines, '.include ls_nand_nominal.cir',
+             *power_lines, '.include ' + gate_file,
              *nominal_models(100, args.npn_profile), *osc, *reset, *matrix_lines, *output_lines, *receiver_lines,
              f'RBR2 {reset_source} {cpu_reset} .001',
              f'Rresetload {cpu_reset} 0 1g', f'Cresetload {cpu_reset} 0 10p',
@@ -177,7 +180,7 @@ def validate(out, report):
     # Stream traces: do not duplicate a long analog run in Python memory.
     count, low_reset, high_reset, clock_low, clock_high = 0, False, False, False, False
     first, last_time = None, None
-    with (out / 'trace.txt').open() as stream:
+    with open_text(out / 'trace.txt') as stream:
         next(stream)
         for line in stream:
             row = [float(v) for v in line.split()]
@@ -212,6 +215,7 @@ def main():
     p.add_argument('--scenario', type=Path, help='Contact recipe at 125 ms origin, 1 us wall-time ticks; requires electrical matrix and outputs')
     p.add_argument('--prepare-only', action='store_true', help='Generate inputs without claiming a simulation pass')
     p.add_argument('--rise-us', type=float, default=1)
+    p.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
     p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
     p.add_argument('--step-ns', type=float, default=2)
     p.add_argument('--bridge-delay-ns', type=float, default=10, help='Numerical interface delay, not a calibrated pin delay')
@@ -245,7 +249,7 @@ def main():
               'assumptions': {'receiverThresholdVolts': 1.4,
                               'receiver': 'Single nominal threshold avoids counting both edges of an X band as clock edges',
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
-                              'npnProfile': args.npn_profile,
+                              'npnProfile': args.npn_profile, 'gateProfile': args.gate_profile,
                               'serialReceiver': args.electrical_outputs,
                               'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses'] + ([] if args.electrical_outputs else ['LED and serial output loading']),
                               'romBus': 'Direct CPU input diagnostic' if args.bypass_rom_bus else 'Resolved CPU/ROM/latch bus from numbered schematic pins',
@@ -258,9 +262,10 @@ def main():
                               'maximumStepNs': args.step_ns, 'timeoutSeconds': args.timeout_seconds, 'supplyRiseUs': args.rise_us,
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
-                            'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py', 'ls_nand_nominal.cir',
+                            'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
+                            'ls_nand_dc.cir' if args.gate_profile == 'dl000-dc' else 'ls_nand_nominal.cir',
                             'controller_interface.py', 'matrix.py', 'output_circuit.py', 'model_coverage.py',
-                            'serial_observation.py', 'board_scenario.py', 'io_scenario.py')}}
+                            'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py')}}
     if args.scenario_data:
         report['scenario'] = args.scenario_data
         report['scenarioSha256'] = sha(args.scenario)

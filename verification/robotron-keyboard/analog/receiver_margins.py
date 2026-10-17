@@ -4,6 +4,7 @@ import argparse
 import json
 import math
 from pathlib import Path
+from trace_io import open_text
 
 from compare_firmware_io import load_run, sha
 
@@ -15,7 +16,7 @@ def measure(trace, received, maximum_step_ns, required_ns=100, *, columns=3, dat
         raise ValueError('No receiver activity to qualify')
     intervals, active = [], None
     previous, first, count, maximum_gap = None, None, 0, 0
-    with trace.open() as stream:
+    with open_text(trace) as stream:
         next(stream)
         for line in stream:
             row = [float(x) for x in line.split()]
@@ -78,7 +79,7 @@ def main():
         p.error('required-ns must be positive and finite')
     result = {'passed': False, 'scope': __doc__,
               'validationSources': {name: sha(Path(__file__).resolve().parent / name) for name in
-                                    ('receiver_margins.py', 'compare_firmware_io.py', 'serial_observation.py', 'led_observation.py')}}
+                                    ('receiver_margins.py', 'compare_firmware_io.py', 'serial_observation.py', 'led_observation.py', 'trace_io.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         original, transport = load_run(args.directory)

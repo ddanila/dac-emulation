@@ -5,13 +5,9 @@ import hashlib
 import json
 from pathlib import Path
 
-from boot_cosim import validate
+from boot_cosim import validate, sha
 
 HERE=Path(__file__).resolve().parent
-
-
-def sha(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def main():

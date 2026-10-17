@@ -1,4 +1,5 @@
 """Check nominal LED currents against settled firmware-driven intent voltages."""
+from trace_io import open_text
 import math
 
 
@@ -11,7 +12,7 @@ def measure(path, step_ns, require_activity=False, settling_ns=100, start_second
     first = None
     count = 0
     failure = None
-    with path.open() as stream:
+    with open_text(path) as stream:
         next(stream)
         for line in stream:
             row = [float(value) for value in line.split()]

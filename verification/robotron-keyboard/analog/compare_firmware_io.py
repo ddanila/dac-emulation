@@ -6,6 +6,7 @@ import json
 import math
 import re
 from pathlib import Path
+from trace_io import open_binary, open_text
 
 from serial_observation import validate_transport
 from led_observation import measure as measure_leds
@@ -13,7 +14,7 @@ from led_observation import measure as measure_leds
 
 def sha(path):
     digest = hashlib.sha256()
-    with path.open('rb') as stream:
+    with open_binary(path) as stream:
         for chunk in iter(lambda: stream.read(1024 * 1024), b''):
             digest.update(chunk)
     return digest.hexdigest()
@@ -111,7 +112,7 @@ def main():
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
               'interpretation': 'Exploratory numerical comparison, not a historical receiver timing specification',
               'validationSources': {name: sha(Path(__file__).resolve().parent / name) for name in
-                                    ('compare_firmware_io.py', 'serial_observation.py', 'led_observation.py')}}
+                                    ('compare_firmware_io.py', 'serial_observation.py', 'led_observation.py', 'trace_io.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         coarse, ct = load_run(args.coarse)
