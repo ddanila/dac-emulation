@@ -483,14 +483,18 @@ The paired qualifier verifies the LED trace hash and recomputes these checks.
 It also replays the retained scenario/ROM through a C driver with LED observation
 and compares ordinal LED intent states. Emulation source hashes and the original
 serial transcript must match; failures identify the first differing LED state
-with C-cycle and electrical-time coordinates kept separate.
+with C-cycle and electrical-time coordinates kept separate. `compare_led_pair.py`
+also requires LED intent midpoint transitions to converge within the paired 15 ns
+budget, using sampling brackets and printed timestamp uncertainty without phase
+realignment. Matching ordinal states alone cannot satisfy this check.
 
 ```sh
 python3 verification/robotron-keyboard/analog/compare_led_reference.py /path/to/run --out /tmp/led-comparison.json
 ```
 
-This covers nominal load response and ordinal C LED-state agreement, not exact
-CPU-cycle timing, LED waveform convergence or calibrated brightness.
+The checks cover nominal load response, ordinal C LED-state agreement and paired
+intent-edge timing. Exact CPU-cycle timing, full LED-current waveform convergence
+and calibrated brightness remain unqualified.
 `reports/indicators/` retains both C LED comparisons and replay logs; its overall
 qualification is pending the solver-diagnostic review described above.
 

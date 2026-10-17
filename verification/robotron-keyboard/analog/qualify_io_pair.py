@@ -28,7 +28,7 @@ def main():
               'qualificationBoundary': 'Selected BR service fixture; not electrical oscillator/reset, brownout or specimen calibration',
               'sources': {name: sha(HERE / name) for name in (
                   'qualify_io_pair.py', 'compare_firmware_io.py', 'failure_evidence.py', 'scenario_coverage.py',
-                  'receiver_margins.py', 'io_scenario.py', 'serial_observation.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compare_led_reference.py', 'firmware_io_reference.c')}}
+                  'receiver_margins.py', 'io_scenario.py', 'serial_observation.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compare_led_reference.py', 'compare_led_pair.py', 'clock_convergence.py', 'firmware_io_reference.c')}}
     try:
         inputs = {'coarse': args.coarse / 'report.json', 'fine': args.fine / 'report.json', 'scenario': args.scenario}
         report['inputs'] = {name: {'path': str(path.resolve()), 'sha256': sha(path)} for name, path in inputs.items()}
@@ -40,6 +40,9 @@ def main():
         for name, directory in [('coarse', args.coarse), ('fine', args.fine)]:
             if json.loads((directory / 'report.json').read_text())['assumptions'].get('ledTrace'):
                 phases.append((name + '-led-reference', 'compare_led_reference.py', [directory]))
+        if all(json.loads((directory / 'report.json').read_text())['assumptions'].get('ledTrace')
+               for directory in (args.coarse, args.fine)):
+            phases.append(('led-convergence', 'compare_led_pair.py', [args.coarse, args.fine, '--tolerance-ns', '15']))
         for name, script, options in phases:
             output = args.out / (name + '.json')
             output.unlink(missing_ok=True)
