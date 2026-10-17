@@ -15,6 +15,25 @@ from clock_convergence import compare_clocks
 HERE = Path(__file__).resolve().parent
 
 
+def normalized_analysis(deck, assumptions):
+    steps = re.findall(r'^(\.?tran) ([0-9.eE+-]+)n ', deck, re.M)
+    if len(steps) != 1 or float(steps[0][1]) != assumptions['maximumStepNs']:
+        raise ValueError('Reported timestep differs from executed deck')
+    breakpoint_fs = assumptions.get('minimumBreakpointFs')
+    invocation = assumptions.get('analysisInvocation', 'control-tran')
+    options = re.findall(r'^\.options\b.*\bminbreak\s*=\s*(\S+)', deck, re.M | re.I)
+    runs = re.findall(r'^run\s*$', deck, re.M | re.I)
+    if breakpoint_fs is None:
+        if steps[0][0] != 'tran' or invocation != 'control-tran' or options or runs:
+            raise ValueError('Unexpected transient invocation or breakpoint setting')
+    else:
+        if (not math.isfinite(breakpoint_fs) or breakpoint_fs <= 0
+                or steps[0][0] != '.tran' or invocation != 'deck-tran/run'
+                or len(runs) != 1 or options != [f'{breakpoint_fs:.17g}f']):
+            raise ValueError('Reported breakpoint setting differs from executed deck')
+    return re.sub(r'^(\.?tran) \S+ ', r'\1 TIMESTEP ', deck, flags=re.M)
+
+
 def load_run(directory):
     report = json.loads((directory / 'report.json').read_text())
     if report.get('passed') is not True or report.get('preparedOnly'):
@@ -33,9 +52,7 @@ def load_run(directory):
     deck = (directory / 'boot.cir').read_text()
     if re.findall(r'^\.include (\S+)$', deck, re.M) != [expected_gate]:
         raise ValueError('Executed oscillator model include differs')
-    steps = re.findall(r'^tran ([0-9.eE+-]+)n ', deck, re.M)
-    if len(steps) != 1 or float(steps[0]) != report['assumptions']['maximumStepNs']:
-        raise ValueError('Reported timestep differs from executed deck')
+    normalized = normalized_analysis(deck, report['assumptions'])
     if json.loads((directory / 'scenario.json').read_text()) != report['scenario']:
         raise ValueError('Retained contact recipe differs')
     rom = bytes(int(value, 16) for value in (directory / 's600.hex').read_text().split())
@@ -46,7 +63,7 @@ def load_run(directory):
     for key in ('resetEvents', 'firstFetchAfterRelease', 'serialTransport', 'scenarioCoverage'):
         if json.loads(json.dumps(checked[key])) != report[key]:
             raise ValueError('Retained observations differ from report: ' + key)
-    return report, re.sub(r'^tran \S+ ', 'tran TIMESTEP ', deck, flags=re.M)
+    return report, normalized
 
 
 def compare(coarse, fine, tolerance_ns):

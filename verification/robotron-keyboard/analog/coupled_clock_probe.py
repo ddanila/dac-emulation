@@ -69,6 +69,9 @@ def run(args, step, directory):
                '--reltol', str(args.reltol), '--vntol', str(args.vntol), '--abstol', str(args.abstol)]
     if args.ngspice_spinit is not None:
         command += ['--ngspice-spinit', str(args.ngspice_spinit.resolve())]
+    if getattr(args, 'bridge', None) is not None:
+        command += ['--bridge', str(args.bridge.resolve())]
+    command += ['--serial-driver', getattr(args, 'serial_driver', 'nominal')]
     subprocess.run(command, check=True, capture_output=True, text=True, timeout=60)
     prepared = json.loads((directory / 'report.json').read_text())
     if prepared['passed'] or not prepared.get('preparedOnly') or sha(directory / 'boot.cir') != prepared['deckSha256']:
@@ -169,6 +172,8 @@ def matching_runs(coarse, fine):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--rom', type=Path, required=True)
+    parser.add_argument('--bridge', type=Path, help='Prepared Icarus bridge manifest')
+    parser.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal')
     parser.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/coupled-clock-probe')
     parser.add_argument('--steps-ns', type=float, nargs=2, default=(1, .5))
     parser.add_argument('--duration-us', type=float, default=1000)
