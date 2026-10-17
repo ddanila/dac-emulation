@@ -1,7 +1,8 @@
 {
   "qualified": false,
-  "pairPending": true,
+  "pairPending": false,
   "scope": "1 ms coupled startup with the pullup-compatible gate candidate",
-  "interpretation": "Coarse run reaches the U880 supply range and each complete sampled cycle within that range reaches both voltage levels. Valid-level high widths, rise durations and periods fail the U880D reference timing diagnostic. The fine run and phase comparison remain pending. Specimen speed grade, tester-threshold equivalence, full boot and physical timing remain unqualified.",
-  "coarseReferenceTimingPassed": false
+  "interpretation": "Both 1 ms runs completed, but their absolute clock phase fails timestep refinement. The coarse run reaches the U880 supply range and complete sampled cycles reach both voltage levels; its valid-level high widths, rise durations and periods fail the U880D reference timing diagnostic. Specimen speed grade, tester-threshold equivalence, full boot and physical timing remain unqualified.",
+  "coarseReferenceTimingPassed": false,
+  "phaseRefinementPassed": false
 }
