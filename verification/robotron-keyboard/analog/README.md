@@ -479,8 +479,10 @@ Here recipe indices represent 1 us wall-time ticks starting at 125 ms, independe
 of the electrical oscillator. The trace extends to the recipe end; receiver
 traffic must satisfy its observation windows. This does not establish ordinal C
 agreement or timestep convergence. Service reset recipes are rejected because they
-would bypass the connected reset generator. Full-board scenario qualification is
-still pending.
+would bypass the connected reset generator. `reports/full-board-single-press/`
+retains successful individual S600 executions with electrical clock/reset, matrix
+and cable feedback. Their paired qualification rejects clock-phase convergence;
+functional execution does not qualify timing or the remaining scenarios.
 
 Run the paired full-board target with:
 

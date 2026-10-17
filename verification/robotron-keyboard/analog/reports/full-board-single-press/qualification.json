@@ -1,0 +1,84 @@
+{
+  "passed": false,
+  "scope": "Qualify reset/restart, serial timing and receiver margins of full-board scenario pairs.",
+  "toleranceNs": 15,
+  "boundary": "Selected nominal board scenario; no device calibration, C equivalence, brownout or full waveform-shape claim",
+  "sources": {
+    "qualify_board_pair.py": "bbd7f05f576bc070f2bfd0ee54148a128ddfc408767a1d3e315129988ea50089",
+    "boot_cosim.py": "29d75e7860b58588e61dee43cf3a0d60dc8bdf7a2bc8f680da4b31693c676df0",
+    "board_scenario.py": "daf2c23d1e7b2c64f549243c730ef1ca4175214ecb23e2579de0bdf63b50ec32",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "receiver_margins.py": "7b61d3d99f7f7ef6c81566c9b39d509ffddc187c635b4a5e480559f13e1d1770",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "clock_convergence.py": "379c3681377aced1939676a727b28111eade0751b6091840ec33c0c66a54bdd1",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "inputs": {
+    "coarse": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/board-single-delay10",
+      "reportSha256": "5f33ecb1397dc5476930f7c542c49e562a66165bb2aa6fb50b9ae4cebda1dec1"
+    },
+    "fine": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/board-single-delay10-fine",
+      "reportSha256": "9f327c1a78b836508937bcdef0f764b19f61cef0ed5e9f826f6d31b642b95722"
+    }
+  },
+  "clockConvergence": {
+    "passed": false,
+    "thresholdVolts": 1.4,
+    "edgeBudgetNs": 15,
+    "sampledExtremaBudgetVolts": 0.05,
+    "waveforms": {
+      "coarse": {
+        "samples": 8768112,
+        "edges": 179292,
+        "minimumVolts": 0.43530289,
+        "maximumVolts": 3.5415129,
+        "maximumSampleGapNs": 10.000000022492017,
+        "minimumPeriodNs": 323.4503704874214,
+        "maximumPeriodNs": 342.68928894576334,
+        "firstSampleSeconds": 0.124000004,
+        "lastSampleSeconds": 0.154,
+        "meanPeriodNs": 334.64982441646436,
+        "frequencyHz": 2988198.1911800494
+      },
+      "fine": {
+        "samples": 10510472,
+        "edges": 177352,
+        "minimumVolts": 0.435296567,
+        "maximumVolts": 3.54147077,
+        "maximumSampleGapNs": 5.000000025123796,
+        "minimumPeriodNs": 333.2923590171344,
+        "maximumPeriodNs": 342.9781536279375,
+        "firstSampleSeconds": 0.124000003,
+        "lastSampleSeconds": 0.154,
+        "meanPeriodNs": 338.311496276897,
+        "frequencyHz": 2955855.804502524
+      }
+    },
+    "maximumEstimatedPhaseDifferenceNs": 324809.38275994407,
+    "maximumBracketDifferenceNs": 324811.00000000815,
+    "firstDifference": {
+      "signal": "Clock voltage",
+      "edgeOrdinal": 0,
+      "coarse": {
+        "direction": "rise",
+        "beforeSeconds": 0.124000051,
+        "afterSeconds": 0.124000052,
+        "estimatedSeconds": 0.12400005197354315
+      },
+      "fine": {
+        "direction": "rise",
+        "beforeSeconds": 0.124000018,
+        "afterSeconds": 0.124000019,
+        "estimatedSeconds": 0.12400001844750946
+      }
+    },
+    "interpretation": "Absolute edge order and phase over the saved window, with sample-bracket uncertainty; no phase realignment. Sampled voltage extrema are not a complete waveform or device calibration.",
+    "sampledExtremaDifferencesVolts": {
+      "minimumVolts": 6.3229999999747655e-06,
+      "maximumVolts": 4.212999999975153e-05
+    }
+  },
+  "error": "Electrical clock phase or sampled extrema do not converge within budget"
+}
