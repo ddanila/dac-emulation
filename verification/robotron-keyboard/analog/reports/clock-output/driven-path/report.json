@@ -1,0 +1,410 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Exercise the schematic clock pullup and BR1 against U880 reference input levels.",
+  "limits": {
+    "scope": "Published U880D reference clock limits; no specimen or switching-threshold calibration",
+    "source": {
+      "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/U880D-CPU.pdf",
+      "title": "VEB Funkwerk Erfurt, Technische Beschreibung CPU U880D",
+      "page": "Printed page 57; PDF page 58",
+      "sha256": "a3266f1cea4d24c0c91ca2941f6b40762f24a2934e6cf41dccd5fb52f80e75be"
+    },
+    "operatingConditions": {
+      "supplyMinimumVolts": 4.75,
+      "supplyMaximumVolts": 5.25,
+      "temperatureC": [
+        0,
+        70
+      ]
+    },
+    "clockInput": {
+      "lowMaximumVolts": 0.45,
+      "highMinimumSupplyDropVolts": 0.2,
+      "capacitanceMaximumFarads": 5e-11,
+      "capacitanceCondition": "25 C, 0.5 to 2 MHz; reference maximum, not measured board capacitance"
+    },
+    "pullupPrinciple": {
+      "url": "https://www.ti.com/lit/an/scla011/scla011.pdf",
+      "title": "TI SCLA011, SN54/74HCT CMOS Logic Family Applications and Restrictions",
+      "page": "Printed page 2; PDF page 6",
+      "sha256": "26616adce4281efe6ea8ed9e282753ba9c2a3886273ff63357cd9ee3651786ef",
+      "interpretation": "An external pullup can raise a totem-pole TTL high output above its internally driven VOH. This does not specify the DL000 output I/V curve."
+    }
+  },
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "executableSha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+  "spinitSha256": "874801b04bcfa9cb26bcd8811bd8ebdc1361354db1697b1c86831c9b1d32efab",
+  "cases": [
+    {
+      "model": "ls_nand_nominal.cir",
+      "supplyVolts": 4.75,
+      "temperatureC": 25,
+      "samples": [
+        [
+          1.0013999999999973e-07,
+          3.397459919560747,
+          3.3974575043106037,
+          -0.002719250143641523
+        ],
+        [
+          3.0024999999999895e-07,
+          0.42187175113895387,
+          0.421864022338424,
+          -0.007728800444394724
+        ],
+        [
+          9.000871845397968e-07,
+          3.3974599195607382,
+          3.397457504310595,
+          -0.002719250143641539
+        ]
+      ],
+      "sampleColumns": [
+        "timeSeconds",
+        "cpuClockVolts",
+        "gateOutputVolts",
+        "supplySourceAmps"
+      ],
+      "clockLevelsWithinReference": false,
+      "requiredHighMinimumVolts": 4.55,
+      "assumedCpuCapacitanceFarads": 5e-11,
+      "artifacts": {
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "probe.cir": "9ca0cd86046a8edfe9b60c87b72a517019cef8d7d1b4f834dc1536fa013abb98",
+        "trace.txt": "09a6a0254bb9d88b1721cf0fdb9862febb2b28e8af627688d825526bcad5da62",
+        "ngspice.log": "62823541ca64bdf31774902215363bba71264d2bcfd91c011027047d5023ed91"
+      }
+    },
+    {
+      "model": "ls_nand_nominal.cir",
+      "supplyVolts": 5,
+      "temperatureC": 25,
+      "samples": [
+        [
+          1.0013999999999973e-07,
+          3.576273599537638,
+          3.5762710571690657,
+          -0.002862368572254219
+        ],
+        [
+          3.0024999999999895e-07,
+          0.44407552751468776,
+          0.44406739193518263,
+          -0.008135579415152343
+        ],
+        [
+          9.000871845397968e-07,
+          3.5762735995376254,
+          3.5762710571690532,
+          -0.002862368572254241
+        ]
+      ],
+      "sampleColumns": [
+        "timeSeconds",
+        "cpuClockVolts",
+        "gateOutputVolts",
+        "supplySourceAmps"
+      ],
+      "clockLevelsWithinReference": false,
+      "requiredHighMinimumVolts": 4.8,
+      "assumedCpuCapacitanceFarads": 5e-11,
+      "artifacts": {
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "probe.cir": "742a809f7eb7df8887a61b1664e30463cce0ee3644e0e36806c04bdea9f85c6b",
+        "trace.txt": "1827d0e0b427fd2d6e6a360b59accedf172c299ea5fc713311ea5d4feee5d72a",
+        "ngspice.log": "828f8c40a261103962afa6946e18b473c55b668f7ba47a681e51e3cb82807a56"
+      }
+    },
+    {
+      "model": "ls_nand_nominal.cir",
+      "supplyVolts": 5.25,
+      "temperatureC": 25,
+      "samples": [
+        [
+          1.0013999999999973e-07,
+          3.7550872795145094,
+          3.7550846100275086,
+          -0.003005487000866947
+        ],
+        [
+          3.0024999999999895e-07,
+          0.4662793038904227,
+          0.4662707615319423,
+          -0.008542358385909958
+        ],
+        [
+          9.000871845397968e-07,
+          3.7550872795145027,
+          3.755084610027502,
+          -0.0030054870008669587
+        ]
+      ],
+      "sampleColumns": [
+        "timeSeconds",
+        "cpuClockVolts",
+        "gateOutputVolts",
+        "supplySourceAmps"
+      ],
+      "clockLevelsWithinReference": false,
+      "requiredHighMinimumVolts": 5.05,
+      "assumedCpuCapacitanceFarads": 5e-11,
+      "artifacts": {
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "probe.cir": "dce3c9fd23d7bfef998d354216b36355139d74090cb1f99a354826943f65392d",
+        "trace.txt": "29431fb1794cf840dd9d4c30c4874f58381401c41b7f031e0ae938be3bf745cb",
+        "ngspice.log": "fa44666056c04d3c447993031d599079d1583c5a1c5102a80dfe34db665694de"
+      }
+    },
+    {
+      "model": "ls_nand_dc.cir",
+      "supplyVolts": 4.75,
+      "temperatureC": 25,
+      "samples": [
+        [
+          1.0013999999999973e-07,
+          3.441805423269985,
+          3.441803087208241,
+          -0.0026400617441607412
+        ],
+        [
+          3.0024999999999895e-07,
+          0.4218717511434311,
+          0.42186402234290127,
+          -0.00772880044438673
+        ],
+        [
+          9.000871845397968e-07,
+          3.441805423269978,
+          3.441803087208234,
+          -0.0026400617441607534
+        ]
+      ],
+      "sampleColumns": [
+        "timeSeconds",
+        "cpuClockVolts",
+        "gateOutputVolts",
+        "supplySourceAmps"
+      ],
+      "clockLevelsWithinReference": false,
+      "requiredHighMinimumVolts": 4.55,
+      "assumedCpuCapacitanceFarads": 5e-11,
+      "artifacts": {
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "probe.cir": "9ca0cd86046a8edfe9b60c87b72a517019cef8d7d1b4f834dc1536fa013abb98",
+        "trace.txt": "df4474306a6a6a5cea537fdc8d0b01b06d9bceb2e27e17f827b12a69acf844b4",
+        "ngspice.log": "676d246c188ad6374d8ae7954ce74edf7261cee494acc1f7596c091f4971acde"
+      }
+    },
+    {
+      "model": "ls_nand_dc.cir",
+      "supplyVolts": 5,
+      "temperatureC": 25,
+      "samples": [
+        [
+          1.0013999999999973e-07,
+          3.622953077126308,
+          3.6229506181139457,
+          -0.002779012362274451
+        ],
+        [
+          3.0024999999999895e-07,
+          0.4440755275199726,
+          0.44406739194046746,
+          -0.008135579415142905
+        ],
+        [
+          9.000871845397968e-07,
+          3.622953077126296,
+          3.6229506181139337,
+          -0.002779012362274472
+        ]
+      ],
+      "sampleColumns": [
+        "timeSeconds",
+        "cpuClockVolts",
+        "gateOutputVolts",
+        "supplySourceAmps"
+      ],
+      "clockLevelsWithinReference": false,
+      "requiredHighMinimumVolts": 4.8,
+      "assumedCpuCapacitanceFarads": 5e-11,
+      "artifacts": {
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "probe.cir": "742a809f7eb7df8887a61b1664e30463cce0ee3644e0e36806c04bdea9f85c6b",
+        "trace.txt": "32ce9b66b6ba64c7c2d014c34612de3b9c3533807d1d9b9e8dda50188542e9a1",
+        "ngspice.log": "8ddd43aa031670b596f9b062a311859b864d45deb1646184394309803cf03c1c"
+      }
+    },
+    {
+      "model": "ls_nand_dc.cir",
+      "supplyVolts": 5.25,
+      "temperatureC": 25,
+      "samples": [
+        [
+          1.0013999999999973e-07,
+          3.804100730982619,
+          3.8040981490196386,
+          -0.00291796298038818
+        ],
+        [
+          3.0024999999999895e-07,
+          0.4662793038978799,
+          0.46627076153939956,
+          -0.008542358385896643
+        ],
+        [
+          9.000871845397968e-07,
+          3.8041007309826,
+          3.8040981490196195,
+          -0.002917962980388214
+        ]
+      ],
+      "sampleColumns": [
+        "timeSeconds",
+        "cpuClockVolts",
+        "gateOutputVolts",
+        "supplySourceAmps"
+      ],
+      "clockLevelsWithinReference": false,
+      "requiredHighMinimumVolts": 5.05,
+      "assumedCpuCapacitanceFarads": 5e-11,
+      "artifacts": {
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "probe.cir": "dce3c9fd23d7bfef998d354216b36355139d74090cb1f99a354826943f65392d",
+        "trace.txt": "ca4746a193b7e2d3a7c81b05865216655f070f5235c82db7062b017f1ff47ca7",
+        "ngspice.log": "7ad940f9b7f1e6748fb7997b3b6511184c5bb793c5fcdd99ff82589b4e86a055"
+      }
+    },
+    {
+      "model": "ls_nand_pullup.cir",
+      "supplyVolts": 4.75,
+      "temperatureC": 25,
+      "samples": [
+        [
+          1.0013999999999973e-07,
+          4.749999997231256,
+          4.749999997231251,
+          -0.0003040000049441864
+        ],
+        [
+          3.0024999999999895e-07,
+          0.24153307089450243,
+          0.24152502006064341,
+          -0.00805083392869398
+        ],
+        [
+          8.999085936532815e-07,
+          4.749999933846498,
+          4.749999933846493,
+          -0.00030400011813125404
+        ]
+      ],
+      "sampleColumns": [
+        "timeSeconds",
+        "cpuClockVolts",
+        "gateOutputVolts",
+        "supplySourceAmps"
+      ],
+      "clockLevelsWithinReference": true,
+      "requiredHighMinimumVolts": 4.55,
+      "assumedCpuCapacitanceFarads": 5e-11,
+      "artifacts": {
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "probe.cir": "9ca0cd86046a8edfe9b60c87b72a517019cef8d7d1b4f834dc1536fa013abb98",
+        "trace.txt": "9df4c9e2cce9cabfa58dae3d71a020c1cbae68dbfa727926ae0bea45a4d55401",
+        "ngspice.log": "c3dcded609ee98dd7f08d81ae1c901e85b0ef7d7e37da6f74440c2b74a3cee17"
+      }
+    },
+    {
+      "model": "ls_nand_pullup.cir",
+      "supplyVolts": 5,
+      "temperatureC": 25,
+      "samples": [
+        [
+          1.0013999999999973e-07,
+          4.999999997085609,
+          4.999999997085603,
+          -0.00032000000520427096
+        ],
+        [
+          3.0024999999999895e-07,
+          0.254245337783687,
+          0.25423686322173017,
+          -0.00847456203020419
+        ],
+        [
+          8.999085936532815e-07,
+          4.9999999303648055,
+          4.9999999303648,
+          -0.00032000012434856224
+        ]
+      ],
+      "sampleColumns": [
+        "timeSeconds",
+        "cpuClockVolts",
+        "gateOutputVolts",
+        "supplySourceAmps"
+      ],
+      "clockLevelsWithinReference": true,
+      "requiredHighMinimumVolts": 4.8,
+      "assumedCpuCapacitanceFarads": 5e-11,
+      "artifacts": {
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "probe.cir": "742a809f7eb7df8887a61b1664e30463cce0ee3644e0e36806c04bdea9f85c6b",
+        "trace.txt": "602e65e62d6f762c002bf3fe6224a30d9912134b8b68521f5a0849e613f2329b",
+        "ngspice.log": "d98cb9d2ebac0b5bfe1a6c0c1e2647b057a1023f3eec42770d0237c80a0ea828"
+      }
+    },
+    {
+      "model": "ls_nand_pullup.cir",
+      "supplyVolts": 5.25,
+      "temperatureC": 25,
+      "samples": [
+        [
+          1.0013999999999973e-07,
+          5.249999996939796,
+          5.249999996939791,
+          -0.0003360000054646488
+        ],
+        [
+          3.0024999999999895e-07,
+          0.266957604672871,
+          0.2669487063828163,
+          -0.008898290131714401
+        ],
+        [
+          8.999085936532815e-07,
+          5.249999926882969,
+          5.249999926882964,
+          -0.0003360001305661256
+        ]
+      ],
+      "sampleColumns": [
+        "timeSeconds",
+        "cpuClockVolts",
+        "gateOutputVolts",
+        "supplySourceAmps"
+      ],
+      "clockLevelsWithinReference": true,
+      "requiredHighMinimumVolts": 5.05,
+      "assumedCpuCapacitanceFarads": 5e-11,
+      "artifacts": {
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "probe.cir": "dce3c9fd23d7bfef998d354216b36355139d74090cb1f99a354826943f65392d",
+        "trace.txt": "8cbb8a36117ef71ea8bf50d38768ccdd70c2be7b828f8329acd507b1ad1a3f0a",
+        "ngspice.log": "3954395351a12353656bf046ac91faab2f239bf0cb15332c05c4acc4a5016e41"
+      }
+    }
+  ],
+  "sources": {
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+    "ls_nand_dc.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+    "ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "clock_output_probe.py": "05b92ebe9d9751d1edf5bd0667640794f9b482b83b1e8e8dc2c260908c0228d7",
+    "cpu_clock_limits.json": "1b9c0e752b315ce01432daff39bf6bc5d5520fd56c9c1dab4579fd1533a52724",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "limitations": "Driven final NAND stage only; not oscillator feedback or firmware. CPU capacitance is a reference maximum, leakage is omitted. Candidate output I/V and switching remain uncalibrated."
+}

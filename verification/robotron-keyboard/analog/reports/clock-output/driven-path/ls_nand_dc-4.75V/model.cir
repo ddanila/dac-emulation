@@ -1,0 +1,22 @@
+* DC-constrained candidate, NOT a calibrated DL000 model.
+* 50 ohm high-state output impedance meets the published short-current range;
+* 30 ohm low-state impedance retains the loaded VOL constraints.
+* Switching and oscillator behavior are not qualified by these static checks.
+* Nominal parameters below are assumptions, not extracted die/device data.
+* Validated only as a transport/topology experiment; supply current is not modeled.
+.subckt LS_NAND_NOMINAL a b y vp g params: threshold=1.4 width=0.1 pole=5n rout=30 rout_high=50 cin=3p
+* Continuous transfer; no artificial Schmitt hysteresis or clock source.
+Btarget target g V=V(vp,g)*(0.04+0.66*(1-(1+tanh((V(a,g)-threshold)/width))*(1+tanh((V(b,g)-threshold)/width))/4))
+Rpole target filtered 1k
+Cpole filtered g {pole/1000}
+Edrive drive g filtered g 1
+Rout drive y R={rout+(rout_high-rout)*(1+tanh((V(filtered,g)-threshold)/width))/2}
+Ca a g {cin}
+Cb b g {cin}
+* Illustrative low-input bias and negative-input clamps.
+Bia vp a I=max(0,(0.32*V(vp,g)-V(a,g))/10000)
+Bib vp b I=max(0,(0.32*V(vp,g)-V(b,g))/10000)
+Da g a INPUT_CLAMP_NOMINAL
+Db g b INPUT_CLAMP_NOMINAL
+.model INPUT_CLAMP_NOMINAL D(IS=1e-14 N=1 RS=20)
+.ends LS_NAND_NOMINAL

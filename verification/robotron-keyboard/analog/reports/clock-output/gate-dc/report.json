@@ -1,0 +1,306 @@
+{
+  "completed": true,
+  "qualified": true,
+  "scope": "Check selected DL000 DC limits; passing is not complete gate calibration.",
+  "limits": {
+    "source": {
+      "url": "https://datenblatt.weithclan.de/Daten/DL000-030D-ME_ocr.pdf",
+      "sha256": "6d4a14ff7e95bd7d6b642bbb623ed6257845a6f2c69fefd1fb458107d7ea338c",
+      "title": "VEB Halbleiterwerk Frankfurt/Oder DL000D\u2013DL030D preliminary technical data",
+      "pages": "PDF pages 5\u20136",
+      "scope": "Selected static limits; not internal transistor parameters"
+    },
+    "points": [
+      {
+        "name": "high-0.8-2",
+        "supplyVolts": 4.75,
+        "aVolts": 0.8,
+        "bVolts": 2,
+        "loadAmps": 0.0004,
+        "checks": [
+          {
+            "signal": "outputVolts",
+            "minimum": 2.7
+          }
+        ]
+      },
+      {
+        "name": "high-2-0.8",
+        "supplyVolts": 4.75,
+        "aVolts": 2,
+        "bVolts": 0.8,
+        "loadAmps": 0.0004,
+        "checks": [
+          {
+            "signal": "outputVolts",
+            "minimum": 2.7
+          }
+        ]
+      },
+      {
+        "name": "high-0.8-0.8",
+        "supplyVolts": 4.75,
+        "aVolts": 0.8,
+        "bVolts": 0.8,
+        "loadAmps": 0.0004,
+        "checks": [
+          {
+            "signal": "outputVolts",
+            "minimum": 2.7
+          }
+        ]
+      },
+      {
+        "name": "low-0.004",
+        "supplyVolts": 4.75,
+        "aVolts": 2,
+        "bVolts": 2,
+        "loadAmps": -0.004,
+        "checks": [
+          {
+            "signal": "outputVolts",
+            "maximum": 0.4
+          }
+        ]
+      },
+      {
+        "name": "low-0.008",
+        "supplyVolts": 4.75,
+        "aVolts": 2,
+        "bVolts": 2,
+        "loadAmps": -0.008,
+        "checks": [
+          {
+            "signal": "outputVolts",
+            "maximum": 0.5
+          }
+        ]
+      },
+      {
+        "name": "input-low",
+        "supplyVolts": 5.25,
+        "aVolts": 0.4,
+        "bVolts": 0.4,
+        "checks": [
+          {
+            "signal": "inputAAmps",
+            "absolute": true,
+            "maximum": 0.0004
+          },
+          {
+            "signal": "inputBAmps",
+            "absolute": true,
+            "maximum": 0.0004
+          }
+        ]
+      },
+      {
+        "name": "input-high",
+        "supplyVolts": 5.25,
+        "aVolts": 2.7,
+        "bVolts": 2.7,
+        "checks": [
+          {
+            "signal": "inputAAmps",
+            "absolute": true,
+            "maximum": 2e-05
+          },
+          {
+            "signal": "inputBAmps",
+            "absolute": true,
+            "maximum": 2e-05
+          }
+        ]
+      },
+      {
+        "name": "output-short",
+        "supplyVolts": 5.25,
+        "aVolts": 0,
+        "bVolts": 0,
+        "shortOutput": true,
+        "checks": [
+          {
+            "signal": "shortAmps",
+            "absolute": true,
+            "minimum": 0.02,
+            "maximum": 0.1
+          }
+        ]
+      }
+    ]
+  },
+  "qualificationScope": "Selected static points at 25 C only; no temperature, switching, supply-current or oscillator qualification",
+  "executableSha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+  "spinitSha256": "7b066ec3a29bd9ae0be00b6d3eafc26ed07e1f30cc4586c643e4d26cdbaf4d6c",
+  "sources": {
+    "gate_probe.py": "7991121c2baa5a5a79b028407eb2bffe564a2bb16cba6bf2f41c66ba106819d5",
+    "gate_limits.json": "c8d933e912dc7ba1f9f12c07a043aeb24f620a7c1d1e38ad823cf9bf55df495f",
+    "ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f"
+  },
+  "points": [
+    {
+      "name": "high-0.8-2",
+      "values": {
+        "outputVolts": 3.30496603,
+        "inputAAmps": 7.19999992e-05,
+        "inputBAmps": -2.00734962e-12
+      },
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "minimum": 2.7,
+          "observed": 3.30496603,
+          "withinLimits": true
+        }
+      ],
+      "deckSha256": "8e6f4ee3690203c7be44a66a0c66c542f61751c984b1b23e4bcf286c2ec4a572",
+      "traceSha256": "0aa26995fd61daf5c0ac5c8f1b9b83fba0abd0dc587ed63335408565f9a4b638"
+    },
+    {
+      "name": "high-2-0.8",
+      "values": {
+        "outputVolts": 3.30496603,
+        "inputAAmps": -2.00734962e-12,
+        "inputBAmps": 7.19999992e-05
+      },
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "minimum": 2.7,
+          "observed": 3.30496603,
+          "withinLimits": true
+        }
+      ],
+      "deckSha256": "903412ce28094fdebd9975078eb808305d639c16c16d7562540604763ac770a0",
+      "traceSha256": "454b28223a945685e95b9782b6e8b4ccce18637715c379cf228e3d2ad7e193cb"
+    },
+    {
+      "name": "high-0.8-0.8",
+      "values": {
+        "outputVolts": 3.305,
+        "inputAAmps": 7.19999992e-05,
+        "inputBAmps": 7.19999992e-05
+      },
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "minimum": 2.7,
+          "observed": 3.305,
+          "withinLimits": true
+        }
+      ],
+      "deckSha256": "43bb1fa72dbfa96a08675f804c08d355379daa110cb78efe8dd7a1a72709b6bf",
+      "traceSha256": "abe97764ff9d5d5dd647eae60ee8adf8b72e823775271c3636e51c34e9439d44"
+    },
+    {
+      "name": "low-0.004",
+      "values": {
+        "outputVolts": 0.120025105,
+        "inputAAmps": -2.00734962e-12,
+        "inputBAmps": -2.00734962e-12
+      },
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "maximum": 0.4,
+          "observed": 0.120025105,
+          "withinLimits": true
+        }
+      ],
+      "deckSha256": "3f0564eede2882bf45bd7d896ff0469c27a5223e84a0a1b1150bf0b0e4a5d374",
+      "traceSha256": "a9c78fff10a8af8a78da8f81fb5ebc0f0f01de67d79374255471011585c2f2ab"
+    },
+    {
+      "name": "low-0.008",
+      "values": {
+        "outputVolts": 0.240025695,
+        "inputAAmps": -2.00734962e-12,
+        "inputBAmps": -2.00734962e-12
+      },
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "maximum": 0.5,
+          "observed": 0.240025695,
+          "withinLimits": true
+        }
+      ],
+      "deckSha256": "6448e99f6055a8a930f677943bfcddfd23b8a7493ba4262b068d0d639688970e",
+      "traceSha256": "08e2bbb28f980d7778d657bd300058787ed08fa4643b4711ada7027ee3fdd0d8"
+    },
+    {
+      "name": "input-low",
+      "values": {
+        "outputVolts": 3.675,
+        "inputAAmps": 0.000128,
+        "inputBAmps": 0.000128
+      },
+      "checks": [
+        {
+          "signal": "inputAAmps",
+          "absolute": true,
+          "maximum": 0.0004,
+          "observed": 0.000128,
+          "withinLimits": true
+        },
+        {
+          "signal": "inputBAmps",
+          "absolute": true,
+          "maximum": 0.0004,
+          "observed": 0.000128,
+          "withinLimits": true
+        }
+      ],
+      "deckSha256": "b83582cac2ae8d4a73c09df0afdc018d073e2732b7b968f8a57d9753cf61ee69",
+      "traceSha256": "9eeec060fba0b8ef73143e458baeee83385e4655acd0b3f3b625aead8ea6ae4a"
+    },
+    {
+      "name": "input-high",
+      "values": {
+        "outputVolts": 2.25307972e-11,
+        "inputAAmps": -2.70734963e-12,
+        "inputBAmps": -2.70734963e-12
+      },
+      "checks": [
+        {
+          "signal": "inputAAmps",
+          "absolute": true,
+          "maximum": 2e-05,
+          "observed": 2.70734963e-12,
+          "withinLimits": true
+        },
+        {
+          "signal": "inputBAmps",
+          "absolute": true,
+          "maximum": 2e-05,
+          "observed": 2.70734963e-12,
+          "withinLimits": true
+        }
+      ],
+      "deckSha256": "5f2cd626dec187c2e04decf4a2397890f0d811c126d67635d43b9099152f26de",
+      "traceSha256": "0ab463158cfaabce466117ca04330d87207036c8ab2fa81291f02686aa359e4e"
+    },
+    {
+      "name": "output-short",
+      "values": {
+        "outputVolts": 0.0,
+        "inputAAmps": 0.000168,
+        "inputBAmps": 0.000168,
+        "shortAmps": 0.0735
+      },
+      "checks": [
+        {
+          "signal": "shortAmps",
+          "absolute": true,
+          "minimum": 0.02,
+          "maximum": 0.1,
+          "observed": 0.0735,
+          "withinLimits": true
+        }
+      ],
+      "deckSha256": "9388e403f996335e1dde77541cc8390ea99a7c54ad36ce6fbc9b91c7751800dd",
+      "traceSha256": "1524e35248290566e78ded770768914fc346e80fe5660644eb1fcaf6d699b7ba"
+    }
+  ],
+  "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with Sparse Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******"
+}

@@ -1,0 +1,30 @@
+{
+  "scope": "Published U880D reference clock limits; no specimen or switching-threshold calibration",
+  "source": {
+    "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/U880D-CPU.pdf",
+    "title": "VEB Funkwerk Erfurt, Technische Beschreibung CPU U880D",
+    "page": "Printed page 57; PDF page 58",
+    "sha256": "a3266f1cea4d24c0c91ca2941f6b40762f24a2934e6cf41dccd5fb52f80e75be"
+  },
+  "operatingConditions": {
+    "supplyMinimumVolts": 4.75,
+    "supplyMaximumVolts": 5.25,
+    "temperatureC": [
+      0,
+      70
+    ]
+  },
+  "clockInput": {
+    "lowMaximumVolts": 0.45,
+    "highMinimumSupplyDropVolts": 0.2,
+    "capacitanceMaximumFarads": 5e-11,
+    "capacitanceCondition": "25 C, 0.5 to 2 MHz; reference maximum, not measured board capacitance"
+  },
+  "pullupPrinciple": {
+    "url": "https://www.ti.com/lit/an/scla011/scla011.pdf",
+    "title": "TI SCLA011, SN54/74HCT CMOS Logic Family Applications and Restrictions",
+    "page": "Printed page 2; PDF page 6",
+    "sha256": "26616adce4281efe6ea8ed9e282753ba9c2a3886273ff63357cd9ee3651786ef",
+    "interpretation": "An external pullup can raise a totem-pole TTL high output above its internally driven VOH. This does not specify the DL000 output I/V curve."
+  }
+}
