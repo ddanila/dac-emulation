@@ -583,6 +583,11 @@ receiver. Each mode includes a component model/boundary
 inventory; an unknown schematic reference fails generation. This inventory is
 coverage evidence, not a claim of device accuracy. CPU/peripheral buses, control
 pullup loading, IC supply currents and brownout behavior remain unqualified.
+`bus_inventory.py` maps every physical data-bus attachment to source-pinned
+electrical reference limits. It rejects unclassified attachments and keeps absent
+output-capacitance data explicit. The schematic has no external data-bus pullups;
+the digital released-bus value does not qualify electrical voltage or retention.
+See `bus_limits.json` for test conditions and clone-applicability limits.
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
 
