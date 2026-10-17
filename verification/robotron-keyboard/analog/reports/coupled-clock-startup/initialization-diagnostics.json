@@ -1,0 +1,172 @@
+{
+  "scope": "Rejected full-topology startup experiments; not timing or firmware qualification",
+  "baseline": {
+    "deck": {
+      "sha256": "a03cfe9eda13412248f87aef76deb2082469b0e9e511d25cc169dcc0ac474f91",
+      "bytes": 14347
+    },
+    "preparedBoardReport": {
+      "sha256": "a3069e18afc4f98685077fd4d2269015661b0231fb5e72a551a1974dfc5f71ea",
+      "bytes": 36568
+    },
+    "retainedDirectory": "build/keyboard-controller-analog/coupled-clock-tighter-150us/coarse"
+  },
+  "interpretation": "The source delay that completes the reduced linear circuit does not resolve full coupled startup. UIC advances farther but times out; continuous sink conductance also aborts. None of these changes is adopted in the production harness.",
+  "cases": {
+    "delayed-ramp": {
+      "completed": false,
+      "scope": "Full coupled startup diagnostic with 1 ns unpowered interval; no firmware qualification",
+      "exitCode": 0,
+      "solverDiagnostics": [
+        "doAnalyses: TRAN:  Timestep too small; time = 1e-09, timestep = 3.42726e-21: trouble with node \"vhost#branch\"",
+        "tran simulation(s) aborted"
+      ],
+      "experimentSettings": {
+        "sourcePwl": "0 0 1n 0 1.001u 5",
+        "uic": false
+      },
+      "artifacts": {
+        "delayed-ramp.cir": {
+          "sha256": "32fa858ccc8313d686364354af3e3fc541e5ebd411fdb33df87d1d6a07e65796",
+          "bytes": 14369
+        },
+        "delayed-ramp.log": {
+          "sha256": "c2a3b791b4041db5757d5c209e7d32e4cf1827e2d02ed74a29a5c5e76f8a82ea",
+          "bytes": 16887
+        },
+        "delayed-ramp-trace.txt": {
+          "sha256": "b862c7a51089ced10e2cceeaa9bd9592ed9facbba017d4990d936b8c8a363205",
+          "bytes": 123631
+        },
+        "delayed-ramp-nodes.txt": {
+          "sha256": "bd28c37f5e3ec2fa40046ba2c65159a1fd755853179489d9eb33d12d65b7c6aa",
+          "bytes": 196854
+        }
+      }
+    },
+    "delayed-ramp-uic": {
+      "completed": false,
+      "scope": "Full coupled startup diagnostic with 1 ns unpowered interval and UIC zero initial state; not qualified boot",
+      "error": "Command '['ngspice', '-n', '-b', 'delayed-ramp-uic.cir']' timed out after 119.999964292 seconds",
+      "experimentSettings": {
+        "sourcePwl": "0 0 1n 0 1.001u 5",
+        "uic": true
+      },
+      "artifacts": {
+        "delayed-ramp-uic.cir": {
+          "sha256": "e130f68034f0a91e7abb5d19d3688086605dbe122c8b3d4ff4907012883dfb5f",
+          "bytes": 14381
+        },
+        "delayed-ramp-uic.log": {
+          "sha256": "f07d5784c10b6c1046a148eceffd7e8106fb63d81fd49bee6a512d3e8d2a0941",
+          "bytes": 15694
+        },
+        "delayed-ramp-uic-trace.txt": {
+          "status": "missing"
+        },
+        "delayed-ramp-uic-nodes.txt": {
+          "status": "missing"
+        }
+      },
+      "lastSolverProgressSeconds": 1.05002e-08
+    },
+    "smooth-sinks": {
+      "completed": false,
+      "scope": "100 ns full-topology startup diagnostic: continuous nominal sink conductance, delayed source and UIC; no calibrated transistor behavior or board qualification",
+      "changes": [
+        {
+          "original": "Sdriver0 n_COL0 0 sink0 0 SINK_NOMINAL",
+          "replacement": "Bdriver0 n_COL0 0 I=V(n_COL0,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink0,0)/5))*min(1,max(0,V(sink0,0)/5))*(3-2*min(1,max(0,V(sink0,0)/5))))"
+        },
+        {
+          "original": "Sdriver1 n_COL1 0 sink1 0 SINK_NOMINAL",
+          "replacement": "Bdriver1 n_COL1 0 I=V(n_COL1,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink1,0)/5))*min(1,max(0,V(sink1,0)/5))*(3-2*min(1,max(0,V(sink1,0)/5))))"
+        },
+        {
+          "original": "Sdriver2 n_COL2 0 sink2 0 SINK_NOMINAL",
+          "replacement": "Bdriver2 n_COL2 0 I=V(n_COL2,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink2,0)/5))*min(1,max(0,V(sink2,0)/5))*(3-2*min(1,max(0,V(sink2,0)/5))))"
+        },
+        {
+          "original": "Sdriver3 n_COL3 0 sink3 0 SINK_NOMINAL",
+          "replacement": "Bdriver3 n_COL3 0 I=V(n_COL3,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink3,0)/5))*min(1,max(0,V(sink3,0)/5))*(3-2*min(1,max(0,V(sink3,0)/5))))"
+        },
+        {
+          "original": "Sdriver4 n_COL4 0 sink4 0 SINK_NOMINAL",
+          "replacement": "Bdriver4 n_COL4 0 I=V(n_COL4,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink4,0)/5))*min(1,max(0,V(sink4,0)/5))*(3-2*min(1,max(0,V(sink4,0)/5))))"
+        },
+        {
+          "original": "Sdriver5 n_COL5 0 sink5 0 SINK_NOMINAL",
+          "replacement": "Bdriver5 n_COL5 0 I=V(n_COL5,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink5,0)/5))*min(1,max(0,V(sink5,0)/5))*(3-2*min(1,max(0,V(sink5,0)/5))))"
+        },
+        {
+          "original": "Sdriver6 n_COL6 0 sink6 0 SINK_NOMINAL",
+          "replacement": "Bdriver6 n_COL6 0 I=V(n_COL6,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink6,0)/5))*min(1,max(0,V(sink6,0)/5))*(3-2*min(1,max(0,V(sink6,0)/5))))"
+        },
+        {
+          "original": "Sdriver7 n_COL7 0 sink7 0 SINK_NOMINAL",
+          "replacement": "Bdriver7 n_COL7 0 I=V(n_COL7,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink7,0)/5))*min(1,max(0,V(sink7,0)/5))*(3-2*min(1,max(0,V(sink7,0)/5))))"
+        },
+        {
+          "original": "Sdriver8 n_COL8 0 sink8 0 SINK_NOMINAL",
+          "replacement": "Bdriver8 n_COL8 0 I=V(n_COL8,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink8,0)/5))*min(1,max(0,V(sink8,0)/5))*(3-2*min(1,max(0,V(sink8,0)/5))))"
+        },
+        {
+          "original": "Sdriver9 n_COL9 0 sink9 0 SINK_NOMINAL",
+          "replacement": "Bdriver9 n_COL9 0 I=V(n_COL9,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink9,0)/5))*min(1,max(0,V(sink9,0)/5))*(3-2*min(1,max(0,V(sink9,0)/5))))"
+        },
+        {
+          "original": "Sdriver10 n_COL10 0 sink10 0 SINK_NOMINAL",
+          "replacement": "Bdriver10 n_COL10 0 I=V(n_COL10,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink10,0)/5))*min(1,max(0,V(sink10,0)/5))*(3-2*min(1,max(0,V(sink10,0)/5))))"
+        },
+        {
+          "original": "Sdriver11 n_COL11 0 sink11 0 SINK_NOMINAL",
+          "replacement": "Bdriver11 n_COL11 0 I=V(n_COL11,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink11,0)/5))*min(1,max(0,V(sink11,0)/5))*(3-2*min(1,max(0,V(sink11,0)/5))))"
+        },
+        {
+          "original": "Sdriver12 n_COL12 0 sink12 0 SINK_NOMINAL",
+          "replacement": "Bdriver12 n_COL12 0 I=V(n_COL12,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(sink12,0)/5))*min(1,max(0,V(sink12,0)/5))*(3-2*min(1,max(0,V(sink12,0)/5))))"
+        },
+        {
+          "original": "Sdata n_TA_DATEN 0 data_intent 0 OUTPUT_SINK_NOMINAL",
+          "replacement": "Bdata n_TA_DATEN 0 I=V(n_TA_DATEN,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(data_intent,0)/5))*min(1,max(0,V(data_intent,0)/5))*(3-2*min(1,max(0,V(data_intent,0)/5))))"
+        },
+        {
+          "original": "Sclock n_TA_TAKT 0 clock_intent 0 OUTPUT_SINK_NOMINAL",
+          "replacement": "Bclock n_TA_TAKT 0 I=V(n_TA_TAKT,0)*(1e-12+(0.05-1e-12)*min(1,max(0,V(clock_intent,0)/5))*min(1,max(0,V(clock_intent,0)/5))*(3-2*min(1,max(0,V(clock_intent,0)/5))))"
+        }
+      ],
+      "sourceDeckSha256": "e130f68034f0a91e7abb5d19d3688086605dbe122c8b3d4ff4907012883dfb5f",
+      "deckSha256": "dc2733fe77a875425fd2c3a6b9e96d2de2f039f568feb73794db7113f1c9bb18",
+      "exitCode": 0,
+      "solverDiagnostics": [
+        "doAnalyses: TRAN:  Timestep too small; time = 1e-09, timestep = 3.68083e-21: trouble with node \"vhost#branch\"",
+        "tran simulation(s) aborted"
+      ],
+      "experimentSettings": {
+        "sourcePwl": "0 0 1n 0 1.001u 5",
+        "uic": true,
+        "durationNs": 100,
+        "sinkConductance": "1e-12+(0.05-1e-12)*x*x*(3-2*x), x=clip(Vcontrol/5,0,1)"
+      },
+      "artifacts": {
+        "smooth-sinks.cir": {
+          "sha256": "dc2733fe77a875425fd2c3a6b9e96d2de2f039f568feb73794db7113f1c9bb18",
+          "bytes": 15914
+        },
+        "smooth-sinks.log": {
+          "sha256": "2386afd1c82111bd3469001be32e8ad0f99e6afb6753b65bc2bc1229655be327",
+          "bytes": 899
+        },
+        "smooth-sinks-trace.txt": {
+          "sha256": "2bd5a3af22dc19149b177552320dac5f73c6bfe2e3cfd84f43af0b7793a1903d",
+          "bytes": 1162294
+        },
+        "smooth-sinks-nodes.txt": {
+          "sha256": "19d6c798d41489adf031c2a96a27bdc744a714310ca2255ac09cc630ca460715",
+          "bytes": 1851021
+        }
+      },
+      "lastSolverProgressSeconds": 1e-09
+    }
+  }
+}

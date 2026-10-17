@@ -186,7 +186,10 @@ Standalone oscillator phase convergence therefore does not yet transfer to the
 coupled board. The probe checks solver diagnostics before requiring waveform
 files, including when ngspice exits zero. The archived `smooth-bias-diagnostic.json`
 records an unsuccessful input-bias smoothing experiment; the named failing node
-is diagnostic context, not proof of the root cause.
+is diagnostic context, not proof of the root cause. The archived
+`initialization-diagnostics.json` also rejects delayed-ramp, zero-initial-state
+and continuous-sink experiments on the coupled board; reduced-circuit success
+does not justify adopting those settings.
 
 `reports/supply-startup-isolation/` contains runnable reduced decks that localize
 the tight-tolerance failure to a linear supply/serial-cable network, without HDL,
