@@ -239,6 +239,11 @@ With deck `.tran`/`run`, both 1 fs and 0.1 fs settings complete the 150 us live
 S600 window using the installed engine and baseline DAC mapping
 (`reports/coupled-clock-startup/minbreak/effective/`). Longer execution and paired
 phase refinement remain required; these runs do not qualify full-board timing.
+`coupled_clock_probe.py --minimum-breakpoint-fs 1 --compress-traces` exposes this
+numerical setting through deck `.tran`/`run`, retains it in each run report and
+rejects pairs with different settings. Compression preserves waveform bytes and
+requires fresh run directories. The default invocation and phase budget remain
+unchanged.
 
 `engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
 boundary correction, not the default engine. It passes the isolated plateau and

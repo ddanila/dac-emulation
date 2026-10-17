@@ -2,12 +2,14 @@
 """The early probe must preserve board topology and compare identical inputs."""
 import copy
 import json
+import hashlib
+import lzma
 from types import SimpleNamespace
 from unittest.mock import patch
 import unittest
 import tempfile
 from pathlib import Path
-from coupled_clock_probe import early_deck, matching_inputs, summarize_diagnostics, DIAGNOSTIC_SIGNALS, run, sha
+from coupled_clock_probe import early_deck, matching_inputs, matching_runs, summarize_diagnostics, DIAGNOSTIC_SIGNALS, run, sha, waveform_sha
 
 
 class CoupledClockProbeTests(unittest.TestCase):
@@ -27,6 +29,27 @@ class CoupledClockProbeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             early_deck(deck.replace('.save v(a)\n', ''), 2, 100, ('v(b)',))
 
+    def test_explicit_breakpoint_uses_default_task_and_preserves_wiring(self):
+        deck = 'fixture\nRBR1 a b .001\n.control\ntran 2n 0.127 124m\nwrdata trace.txt v(a)\n.endc\n.end\n'
+        changed = early_deck(deck, 2, 100, minimum_breakpoint_fs=1)
+        self.assertIn('RBR1 a b .001\n.options minbreak=1f\n.tran 2n 100u\n.control\nrun\n', changed)
+        self.assertNotIn('\ntran ', changed)
+        for bad in (0, -1, float('nan'), float('inf')):
+            with self.assertRaises(ValueError):
+                early_deck(deck, 2, 100, minimum_breakpoint_fs=bad)
+        for extra in ('.tran 1n 100u\n', '.options minbreak=2f\n'):
+            with self.assertRaises(ValueError):
+                early_deck(deck.replace('.control', extra + '.control'), 2, 100, minimum_breakpoint_fs=1)
+
+    def test_breakpoint_mismatch_rejected_before_comparing_board(self):
+        coarse = {'minimumBreakpointFs': 1, 'analysisInvocation': 'deck-tran/run', 'preparedBoard': {}}
+        for field, different in [('minimumBreakpointFs', .1), ('analysisInvocation', 'control-tran')]:
+            fine = dict(coarse, **{field: different})
+            with patch('coupled_clock_probe.matching_inputs') as compare:
+                with self.assertRaisesRegex(ValueError, 'solver settings differ'):
+                    matching_runs(coarse, fine)
+                compare.assert_not_called()
+
     def test_diagnostic_endpoints_and_nonfinite_values(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'trace.txt'
@@ -34,6 +57,10 @@ class CoupledClockProbeTests(unittest.TestCase):
             valid = f'time signals\n0 {values}\n0.0001 {values}\n'
             path.write_text(valid)
             self.assertEqual(summarize_diagnostics(path, 100)['lastSeconds'], .0001)
+            Path(str(path) + '.xz').write_bytes(lzma.compress(valid.encode()))
+            path.unlink()
+            self.assertEqual(summarize_diagnostics(path, 100)['lastSeconds'], .0001)
+            self.assertEqual(waveform_sha(path), hashlib.sha256(valid.encode()).hexdigest())
             for bad in (valid.replace('0.0001', '0.00005'), valid.replace('0.0001', '-0.0001'), valid.replace('0.0001', 'nan')):
                 path.write_text(bad)
                 with self.assertRaises(ValueError):
