@@ -22,7 +22,8 @@ class BoardQualificationTests(unittest.TestCase):
     def test_voltage_evidence_is_required_beyond_timing(self):
         valid = {'supplyTraceSignal': 'v(n_p5V)', 'cpuClockVoltage': {
             'samples': 10, 'validSupplySamples': 10,
-            'lowExcursionObserved': True, 'highExcursionObserved': True}}
+            'lowExcursionObserved': True, 'highExcursionObserved': True,
+            'cycles': {'assessedWithinSupplyRange': 2, 'missingLowExcursion': 0, 'missingHighExcursion': 0}}}
         require_clock_voltage(valid)
         for field, value in [('samples', 0), ('validSupplySamples', 9),
                              ('lowExcursionObserved', False), ('highExcursionObserved', False)]:
@@ -32,6 +33,11 @@ class BoardQualificationTests(unittest.TestCase):
                 require_clock_voltage(changed)
         with self.assertRaises(ValueError):
             require_clock_voltage({})
+        for field, value in [('assessedWithinSupplyRange', 0), ('missingLowExcursion', 1), ('missingHighExcursion', 1)]:
+            changed = copy.deepcopy(valid)
+            changed['cpuClockVoltage']['cycles'][field] = value
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                require_clock_voltage(changed)
 
     def test_transient_invocation_and_breakpoint_are_verified(self):
         ordinary = 'fixture\n.control\ntran 2n .127 124m\n.endc\n.end\n'

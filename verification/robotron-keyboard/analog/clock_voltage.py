@@ -19,13 +19,17 @@ def inspect(primary, diagnostic, *, diagnostic_columns=8):
     result = {
         'qualified': False,
         'scope': 'Sampled excursions within the published supply range only; '
-                 'does not qualify pulse widths, every cycle, temperature, or CPU behavior below that range',
+                 'does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range',
         'samples': 0, 'validSupplySamples': 0, 'belowSupplySamples': 0,
         'aboveSupplySamples': 0, 'lowExcursionObserved': False,
         'highExcursionObserved': False, 'firstValidSupplySeconds': None,
         'bestLowMarginVolts': None, 'bestHighMarginVolts': None,
+        'cycles': {'completed': 0, 'assessedWithinSupplyRange': 0, 'excludedForSupply': 0,
+                   'missingLowExcursion': 0, 'missingHighExcursion': 0, 'firstFailure': None,
+                   'boundary': 'Complete cycles delimited by rising 1.4 V numerical crossings; '
+                               'leading/trailing partial cycles are not assessed. No pulse-width or slew claim.'},
     }
-    previous = None
+    previous, previous_voltage, cycle = None, None, None
     with open_text(primary) as clocks, open_text(diagnostic) as rails:
         next(clocks, None)
         next(rails, None)
@@ -39,6 +43,29 @@ def inspect(primary, diagnostic, *, diagnostic_columns=8):
             if t != r[0] or (previous is not None and t < previous):
                 raise ValueError('Clock/supply samples are not time aligned')
             previous = t
+            valid_supply = supply['supplyMinimumVolts'] <= vcc <= supply['supplyMaximumVolts']
+            low = clock['lowMaximumVolts'] - voltage
+            high = voltage - (vcc - clock['highMinimumSupplyDropVolts'])
+            if previous_voltage is not None and previous_voltage < 1.4 <= voltage:
+                if cycle is not None:
+                    cycles = result['cycles']
+                    cycles['completed'] += 1
+                    if cycle['validSupply'] and valid_supply:
+                        cycles['assessedWithinSupplyRange'] += 1
+                        cycles['missingLowExcursion'] += int(not cycle['low'])
+                        cycles['missingHighExcursion'] += int(not cycle['high'])
+                        if not (cycle['low'] and cycle['high']) and cycles['firstFailure'] is None:
+                            cycles['firstFailure'] = {'cycleOrdinal': cycles['completed'] - 1,
+                                'startSeconds': cycle['start'], 'endSeconds': t,
+                                'lowExcursionObserved': cycle['low'], 'highExcursionObserved': cycle['high']}
+                    else:
+                        cycles['excludedForSupply'] += 1
+                cycle = {'start': t, 'validSupply': True, 'low': False, 'high': False}
+            if cycle is not None:
+                cycle['validSupply'] &= valid_supply
+                cycle['low'] |= low >= 0
+                cycle['high'] |= high >= 0
+            previous_voltage = voltage
             result['samples'] += 1
             if vcc < supply['supplyMinimumVolts']:
                 result['belowSupplySamples'] += 1
@@ -49,8 +76,6 @@ def inspect(primary, diagnostic, *, diagnostic_columns=8):
             result['validSupplySamples'] += 1
             if result['firstValidSupplySeconds'] is None:
                 result['firstValidSupplySeconds'] = t
-            low = clock['lowMaximumVolts'] - voltage
-            high = voltage - (vcc - clock['highMinimumSupplyDropVolts'])
             for key, margin in (('bestLowMarginVolts', low), ('bestHighMarginVolts', high)):
                 result[key] = margin if result[key] is None else max(result[key], margin)
             result['lowExcursionObserved'] |= low >= 0
