@@ -206,6 +206,9 @@ receivers retain their 0.8/2 V unknown band. `logic_control_probe.py` checks the
 passive fixture; `logic_cosim.py` exercises live driver/voltage/receiver feedback,
 latch hold/transparency, output release and LED state at paired timesteps.
 That bus fixture does not qualify firmware or device propagation.
+The S600 service harness also accepts `--minimum-breakpoint-fs`; an explicit
+value uses deck `.tran`/`run` so ngspice retains the breakpoint setting. Paired
+qualification checks the setting against each executed deck.
 
 ```sh
 python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path/to/s600.bin --steps-ns 1 .5 --duration-us 1000 --out /tmp/coupled-clock

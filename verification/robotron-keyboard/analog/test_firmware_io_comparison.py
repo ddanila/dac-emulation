@@ -24,6 +24,29 @@ class ComparisonTests(unittest.TestCase):
         self.tx = validate_transport('SERIAL_TX 1000 1\nSERIAL_RX 21000 1\n', True)
         self.rx = validate_transport('SERIAL_TX 1000 1\nSERIAL_RX 41000 1\n', True)
 
+    def test_retained_explicit_breakpoint_is_checked(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary)
+            log = 'SERIAL_TX 1000 1\nSERIAL_RX 21000 1\n'
+            deck = 'fixture\n.options minbreak=1f\n.tran 100n 30m\n.control\nrun\n.endc\n.end\n'
+            (path / 'ngspice.log').write_text(log)
+            (path / 'io.cir').write_text(deck)
+            (path / 'trace.txt').write_text('retained fixture trace')
+            r = {'passed': True, 'assumptions': {'stepNs': 100, 'minimumBreakpointFs': 1,
+                 'analysisInvocation': 'deck-tran/run'}, 'deckSha256': sha(path / 'io.cir'),
+                 'traceSha256': sha(path / 'trace.txt'), 'logSha256': sha(path / 'ngspice.log'),
+                 'serialTransport': validate_transport(log, True)}
+            (path / 'report.json').write_text(json.dumps(r))
+            load_run(path)
+            for invalid in (deck.replace('minbreak=1f', 'minbreak=2f'),
+                            deck.replace('.tran 100n 30m', '').replace('run', 'tran 100n 30m'),
+                            deck.replace('run', 'run\nrun')):
+                (path / 'io.cir').write_text(invalid)
+                r['deckSha256'] = sha(path / 'io.cir')
+                (path / 'report.json').write_text(json.dumps(r))
+                with self.assertRaisesRegex(ValueError, 'breakpoint'):
+                    load_run(path)
+
     def test_code_model_change_rejected_with_same_version_string(self):
         self.coarse['ngspiceRuntime'] = {'codeModels': [{'sha256': 'baseline'}]}
         self.fine['ngspiceRuntime'] = copy.deepcopy(self.coarse['ngspiceRuntime'])

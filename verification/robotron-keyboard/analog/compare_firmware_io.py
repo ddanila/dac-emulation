@@ -11,6 +11,7 @@ from trace_io import open_binary, open_text
 
 from serial_observation import SerialMismatch, validate_transport
 from led_observation import measure as measure_leds
+from transient_analysis import normalized_analysis
 from failure_evidence import solver_diagnostic
 
 
@@ -29,9 +30,7 @@ def load_run(directory):
     for filename, key in [('io.cir', 'deckSha256'), ('ngspice.log', 'logSha256'), ('trace.txt', 'traceSha256')]:
         if sha(directory / filename) != report[key]:
             raise ValueError('Retained artifact hash differs: ' + str(directory / filename))
-    steps = re.findall(r'^tran ([0-9.eE+-]+)n ', (directory / 'io.cir').read_text(), re.M)
-    if len(steps) != 1 or float(steps[0]) != report['assumptions']['stepNs']:
-        raise ValueError('Reported timestep differs from executed deck')
+    normalized_analysis((directory / 'io.cir').read_text(), report['assumptions'], 'stepNs')
     log = (directory / 'ngspice.log').read_text()
     diagnostic = solver_diagnostic(log)
     if diagnostic:
@@ -83,6 +82,8 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
             raise ValueError('Latch load source differs or is missing')
     if coarse['sources'].get('logic_control.py') != fine['sources'].get('logic_control.py'):
         raise ValueError('Control interface source differs or is missing')
+    if coarse['sources'].get('transient_analysis.py') != fine['sources'].get('transient_analysis.py'):
+        raise ValueError('Transient analysis source differs or is missing')
     def hdl_by_name(report):
         hashes = {Path(path).name: digest for path, digest in report['hdlSha256'].items()}
         if len(hashes) != len(report['hdlSha256']):
