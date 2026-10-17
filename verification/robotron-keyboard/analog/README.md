@@ -311,6 +311,24 @@ not contention currents or calibrated pin timing. `--bypass-rom-bus` restores th
 old direct-ROM CPU input for diagnostics. The CPU setup/hold fixture deliberately
 uses that bypass to test CPU drive timing separately from board-level contention.
 
+## Firmware-driven indicators
+
+`firmware_io_cosim.py --led-trace` retains `led-trace.txt` with SI/SO and Caps
+intent voltages and diode currents. It checks nominal on/off current after a
+100 ns settling allowance, starting at service-reset release so the supply ramp
+is not treated as a failed firmware response. Unknown intent levels fail once
+settled. `--require-led-activity` additionally requires both indicators to show
+on and off samples; matching serial traffic cannot satisfy that requirement.
+
+```sh
+make qualify-keyboard-firmware-io S600_ROM=/path/to/s600.bin KEYBOARD_IO_SCENARIO=verification/robotron-keyboard/analog/scenarios/indicators.json KEYBOARD_IO_LEDS=1 KEYBOARD_IO_TIMEOUT_SECONDS=7200
+```
+
+The paired qualifier verifies the LED trace hash and recomputes these checks.
+This covers nominal firmware-driven load response, not C LED-state equivalence,
+LED waveform convergence or calibrated brightness. Indicator qualification is
+pending; the recipe's successful C serial precheck alone does not qualify LEDs.
+
 ## Coupled firmware boot
 
 After building the bridge, run the longer electrical-clock/reset integration test:

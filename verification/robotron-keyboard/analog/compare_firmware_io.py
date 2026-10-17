@@ -8,6 +8,7 @@ import re
 from pathlib import Path
 
 from serial_observation import validate_transport
+from led_observation import measure as measure_leds
 
 
 def sha(path):
@@ -38,6 +39,13 @@ def load_run(directory):
         bits = [int(b) for b in re.findall(r'^BIT \d+ ([01])$', (directory / 'reference.log').read_text(), re.M)]
         if bits != [b for _, b in transport['received']]:
             raise ValueError('Retained C reference and receiver differ')
+    if report['assumptions'].get('ledTrace'):
+        if sha(directory / 'led-trace.txt') != report['ledTraceSha256']:
+            raise ValueError('Retained LED waveform hash differs')
+        observed = measure_leds(directory / 'led-trace.txt', report['assumptions']['stepNs'],
+                                report['assumptions'].get('requireLedActivity', False), start_seconds=.001)
+        if not observed['passed'] or observed != report['ledObservation']:
+            raise ValueError('LED observations fail or differ from retained trace')
     return report, transport
 
 
@@ -103,7 +111,7 @@ def main():
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
               'interpretation': 'Exploratory numerical comparison, not a historical receiver timing specification',
               'validationSources': {name: sha(Path(__file__).resolve().parent / name) for name in
-                                    ('compare_firmware_io.py', 'serial_observation.py')}}
+                                    ('compare_firmware_io.py', 'serial_observation.py', 'led_observation.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         coarse, ct = load_run(args.coarse)

@@ -78,7 +78,7 @@ def main():
         p.error('required-ns must be positive and finite')
     result = {'passed': False, 'scope': __doc__,
               'validationSources': {name: sha(Path(__file__).resolve().parent / name) for name in
-                                    ('receiver_margins.py', 'compare_firmware_io.py', 'serial_observation.py')}}
+                                    ('receiver_margins.py', 'compare_firmware_io.py', 'serial_observation.py', 'led_observation.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         original, transport = load_run(args.directory)

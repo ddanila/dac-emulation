@@ -24,7 +24,7 @@ def main():
               'qualificationBoundary': 'Selected BR service fixture; not electrical oscillator/reset, brownout or specimen calibration',
               'sources': {name: sha(HERE / name) for name in (
                   'qualify_io_pair.py', 'compare_firmware_io.py', 'scenario_coverage.py',
-                  'receiver_margins.py', 'io_scenario.py', 'serial_observation.py', 'reset_observation.py')}}
+                  'receiver_margins.py', 'io_scenario.py', 'serial_observation.py', 'reset_observation.py', 'led_observation.py')}}
     try:
         inputs = {'coarse': args.coarse / 'report.json', 'fine': args.fine / 'report.json', 'scenario': args.scenario}
         report['inputs'] = {name: {'path': str(path.resolve()), 'sha256': sha(path)} for name, path in inputs.items()}

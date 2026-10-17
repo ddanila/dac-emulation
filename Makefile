@@ -175,10 +175,12 @@ characterize-keyboard-devices:
 KEYBOARD_IO_SCENARIO ?= verification/robotron-keyboard/analog/scenarios/single-press.json
 KEYBOARD_IO_OUT ?= build/keyboard-controller-analog/firmware-io
 KEYBOARD_IO_TIMEOUT_SECONDS ?= 1800
+KEYBOARD_IO_LEDS ?= 0
+KEYBOARD_IO_LED_ARGS = $(if $(filter 1,$(KEYBOARD_IO_LEDS)),--require-led-activity,)
 qualify-keyboard-firmware-io:
 	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to the standard S600 image'; exit 2)
-	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --scenario "$(KEYBOARD_IO_SCENARIO)" --timeout-seconds "$(KEYBOARD_IO_TIMEOUT_SECONDS)" --step-ns 50 --out "$(KEYBOARD_IO_OUT)/coarse"
-	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --scenario "$(KEYBOARD_IO_SCENARIO)" --timeout-seconds "$(KEYBOARD_IO_TIMEOUT_SECONDS)" --step-ns 25 --out "$(KEYBOARD_IO_OUT)/fine"
+	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --scenario "$(KEYBOARD_IO_SCENARIO)" $(KEYBOARD_IO_LED_ARGS) --timeout-seconds "$(KEYBOARD_IO_TIMEOUT_SECONDS)" --step-ns 50 --out "$(KEYBOARD_IO_OUT)/coarse"
+	python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom "$(S600_ROM)" --scenario "$(KEYBOARD_IO_SCENARIO)" $(KEYBOARD_IO_LED_ARGS) --timeout-seconds "$(KEYBOARD_IO_TIMEOUT_SECONDS)" --step-ns 25 --out "$(KEYBOARD_IO_OUT)/fine"
 	python3 verification/robotron-keyboard/analog/qualify_io_pair.py "$(KEYBOARD_IO_OUT)/coarse" "$(KEYBOARD_IO_OUT)/fine" --scenario "$(KEYBOARD_IO_SCENARIO)" --out "$(KEYBOARD_IO_OUT)/qualification"
 
 .PHONY: qualify-keyboard-board-scenario

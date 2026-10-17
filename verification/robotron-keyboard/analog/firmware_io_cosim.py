@@ -15,6 +15,7 @@ from output_circuit import output_circuit
 from serial_observation import validate_transport, first_reference_difference, SerialMismatch
 from io_scenario import load as load_scenario, contact_source, reset_source, c_header, time_ns, observe
 from reset_observation import validate_service_reset, ResetMismatch
+from led_observation import measure as measure_leds
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -24,6 +25,8 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--rom', type=Path, required=True)
     p.add_argument('--scenario', type=Path, default=HERE / 'scenarios/single-press.json')
+    p.add_argument('--led-trace', action='store_true', help='Retain and check firmware-driven LED currents')
+    p.add_argument('--require-led-activity', action='store_true', help='Require both indicators to exercise settled on and off states')
     p.add_argument('--prepare-only', action='store_true')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/firmware-io')
     p.add_argument('--bridge', type=Path, default=ROOT / 'build/keyboard-controller-analog/bridge/bridge.json')
@@ -35,9 +38,11 @@ def main():
         p.error('step-ns must be in (0, 100]; timeout-seconds must be positive and finite')
     if not 0 < args.bridge_delay_ns <= 100:
         p.error('bridge-delay-ns must be in (0, 100]')
+    if args.require_led_activity:
+        args.led_trace = True
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
-    for name in ('report.json', 'trace.txt', 'ngspice.log'):
+    for name in ('report.json', 'trace.txt', 'led-trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'assumptions': {
         'clockPeriodNs': 1000, 'resetRampStartNs': 1000000, 'fixtureEdgeNs': 1,
@@ -46,12 +51,13 @@ def main():
         'supply': '1 us host-supply ramp through cable paths; fixture holds CPU reset for 1 ms; no board power-on-reset qualification',
         'semiconductors': 'Generic matrix PNP and nominal output/load models',
         'coverage': 'TV80, resolved ROM/latch bus, electrical matrix and cable receiver; oscillator/reset generators excluded',
+        'ledTrace': args.led_trace, 'requireLedActivity': args.require_led_activity,
         'stepNs': args.step_ns, 'bridgeDelayNs': args.bridge_delay_ns,
         'bridgeDelay': 'Numerical interface delay, not a calibrated device propagation delay'},
         'sources': {name: sha(HERE / name) for name in (
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
             'circuit.py', 'matrix.py', 'output_circuit.py', 'controller_interface.py', 'serial_observation.py',
-            'io_scenario.py', 'reset_observation.py')}}
+            'io_scenario.py', 'reset_observation.py', 'led_observation.py')}}
     try:
         scenario = load_scenario(args.scenario)
         report['assumptions']['scenario'] = scenario
@@ -131,6 +137,10 @@ def main():
                  '.save v(receiver_data) v(receiver_clock)', '.control', 'set wr_singlescale', 'set wr_vecnames',
                  f'tran {args.step_ns}n {time_ns(scenario["cycles"])}n', 'wrdata trace.txt v(receiver_data) v(receiver_clock)',
                  'quit', '.endc', '.end']
+        if args.led_trace:
+            signals = 'v(siso_intent) v(caps_intent) @dsiso_led[id] @dcaps_led[id]'
+            lines.insert(lines.index('.control'), '.save ' + signals)
+            lines.insert(lines.index('quit'), 'wrdata led-trace.txt ' + signals)
         (out / 'io.cir').write_text('\n'.join(lines) + '\n')
         report['deckSha256'] = sha(out / 'io.cir')
         report['ngspice'] = subprocess.check_output(['ngspice', '--version'], text=True).strip()
@@ -170,6 +180,13 @@ def main():
                 count += 1
         if not count or first > 1e-9 or last + 1e-12 < time_ns(scenario['cycles']) * 1e-9:
             raise ValueError('Incomplete receiver waveform')
+        if args.led_trace:
+            report['ledTraceSha256'] = sha(out / 'led-trace.txt')
+            report['ledObservation'] = measure_leds(out / 'led-trace.txt', args.step_ns, args.require_led_activity, start_seconds=.001)
+            if not report['ledObservation']['passed']:
+                raise ValueError('Firmware-driven LED load observations failed')
+            if report['ledObservation']['firstSampleSeconds'] > 1e-9 or report['ledObservation']['lastSampleSeconds'] + 1e-12 < time_ns(scenario['cycles']) * 1e-9:
+                raise ValueError('Incomplete LED waveform')
         report['waveformRows'] = count
         report['traceSha256'], report['logSha256'] = sha(out / 'trace.txt'), sha(out / 'ngspice.log')
         report['passed'] = True
