@@ -1,0 +1,1969 @@
+{
+  "passed": true,
+  "scope": "Exercise S600 matrix/cable feedback with CPU-side clock/reset service fixtures.",
+  "assumptions": {
+    "clockPeriodNs": 1000,
+    "resetRampStartNs": 1000000,
+    "fixtureEdgeNs": 1,
+    "fixtureThresholdVolts": 1.4,
+    "br1Closed": false,
+    "br2Closed": false,
+    "contactTransitionNs": 1,
+    "latchLoad": "ideal",
+    "columnLoadPf": 0,
+    "supply": "1 us host-supply ramp through cable paths; fixture holds CPU reset for 1 ms; no board power-on-reset qualification",
+    "semiconductors": "Generic matrix PNP and nominal output/load models",
+    "coverage": "TV80, resolved ROM/latch bus, electrical matrix and cable receiver; oscillator/reset generators excluded",
+    "ledTrace": false,
+    "requireLedActivity": false,
+    "stepNs": 25.0,
+    "bridgeDelayNs": 10,
+    "bridgeDelay": "Numerical interface delay, not a calibrated device propagation delay",
+    "scenario": {
+      "name": "service reset and press again",
+      "cycles": 100000,
+      "contacts": [
+        {
+          "cycle": 4000,
+          "index": 61,
+          "closed": true
+        },
+        {
+          "cycle": 30000,
+          "index": 61,
+          "closed": false
+        },
+        {
+          "cycle": 60000,
+          "index": 61,
+          "closed": true
+        }
+      ],
+      "resets": [
+        {
+          "cycle": 40000,
+          "asserted": true
+        },
+        {
+          "cycle": 40016,
+          "asserted": false
+        }
+      ],
+      "observations": [
+        {
+          "name": "before reset",
+          "startCycle": 4000,
+          "endCycle": 30000,
+          "minimumBits": 26
+        },
+        {
+          "name": "after reset",
+          "startCycle": 60000,
+          "endCycle": 100000,
+          "minimumBits": 26
+        }
+      ]
+    }
+  },
+  "sources": {
+    "firmware_io_cosim.py": "37d8d9a3ff6e945e4ec21c598c4a6dda64a0d07e2330eab7519c831ebfabd72f",
+    "firmware_io_cosim.v": "bf0d2c9edaed603dfb3b5283a35e64a91878128d105c2f88b5e787828ad00c6f",
+    "boot_cosim.py": "a9651be5597cd24fb99f2c19b815bd2fbd7b60578170f1ec913d24518c736332",
+    "boot_cosim.v": "5676932d7c99054e0fb6bd3f5db2c8f38b0cdc8232de63c0fc5cacd2f50613a1",
+    "ngspice_runtime.py": "d5d11df5bae50f63c838e9d78ef9ea4fdcff404fa3977ab65e61f612e26e8a51",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "matrix.py": "20c4660f5dcb675954ad3e5baa71529115615a12246300ff896657ed8dcbfdd5",
+    "latch_limits.json": "b3b1cee9f151e6aa43f45e680c7affe12d9b520b14f0a5f0fdfcfde3e8e57d85",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "output_circuit.py": "bfd14455600e28d73cd5417b30055cb08b85aedbf932b2a52bb1c4db984b0ed0",
+    "controller_interface.py": "cb430c4342c9572a56f8edbd9a18f8b2ee21efe718062765381ac1e3cbe1c7d7",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "reset_observation.py": "35418feb9ac2f0a333873fd804b56e23f06640d10ff5c4d6df485226cbd07098",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "scenarioSha256": "5e18138a0d6911d72f31bd3ea0d981f35fc642071bc3939d6c680e6ef546f7e3",
+  "generatedScenarioHeaderSha256": "bf5d1db5df22f513c5f27792f1400c13d4d074041b4b0c5f353bc70cc0fe497f",
+  "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+  "cReferenceSources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/firmware_io_reference.c": "f2afb530804d237b3c6ceb47ca39729d68c8f29545591cf3b7241e2aa6337e8f",
+    "/Users/ddanila/fun/dac-emulation/machines/robotron1715m/keyboard.c": "d611b8dd61a6ecc75dc922fc40d0c1901722aec0de988516157af2a26c89922b",
+    "/Users/ddanila/fun/dac-emulation/common/cpu/z80.c": "d7329a9a116f49441b9ed4f23c0c2fdbb8cb338f74e327cc3344442a355461cf",
+    "/Users/ddanila/fun/dac-emulation/machines/robotron1715m/keyboard.h": "49e4aaa2a5b8dc4bb4b2882c4fc24da194194581e6f133723dc37b8e3216979f",
+    "/Users/ddanila/fun/dac-emulation/common/cpu/z80.h": "a998bd23598a0076b26adf94ab895710378d4f19a0a58a1168c1edd23504ad46"
+  },
+  "referenceLogSha256": "af14c8d9e2586559f0730c4987dd2955bb6e5ff415c77da865f4501d7d0d2a98",
+  "referenceCoverage": {
+    "passed": true,
+    "windows": [
+      {
+        "name": "before reset",
+        "startCycle": 4000,
+        "endCycle": 30000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "name": "after reset",
+        "startCycle": 60000,
+        "endCycle": 100000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "tv80": {
+    "repository": "https://github.com/hutch31/tv80",
+    "revision": "66a131c38d05ef58b3d8c4f1507a72e6e4aa5d65",
+    "scope": "Unmodified rtl/core files; MIT license retained in each file. Qualification only, not production runtime.",
+    "files": {
+      "tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+      "tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+      "tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+      "tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+      "tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+    }
+  },
+  "hdlSha256": {
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/boot_cosim.v": "5676932d7c99054e0fb6bd3f5db2c8f38b0cdc8232de63c0fc5cacd2f50613a1",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/firmware_io_cosim.v": "bf0d2c9edaed603dfb3b5283a35e64a91878128d105c2f88b5e787828ad00c6f",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/service-reset-time-reviewed/fine/controller_analog.v": "5eb3f4665cfb5a407136b488b1d94fedf1ddec6786c240e7df405df7141541c1"
+  },
+  "matrixCircuit": {
+    "latchLoad": "ideal",
+    "columnLoadPf": 0,
+    "columnLoadScope": "Assumed per-column fixture capacitance to ground; zero omits it; not specimen calibration",
+    "models": {
+      "R1": "common-pin resistor network",
+      "R2": "common-pin resistor network",
+      "R9.1": "resistor",
+      "R9.2": "resistor",
+      "R9.3": "resistor",
+      "R9.4": "resistor",
+      "R9.5": "resistor",
+      "R9.6": "resistor",
+      "R9.7": "resistor",
+      "R9.8": "resistor",
+      "V4.1": "PNP_NOMINAL",
+      "V4.2": "PNP_NOMINAL",
+      "V4.3": "PNP_NOMINAL",
+      "V4.4": "PNP_NOMINAL",
+      "V4.5": "PNP_NOMINAL",
+      "V4.6": "PNP_NOMINAL",
+      "V4.7": "PNP_NOMINAL",
+      "V4.8": "PNP_NOMINAL"
+    },
+    "contacts": [
+      {
+        "index": 0,
+        "column": 0,
+        "row": 0,
+        "connectorPins": [
+          "A11",
+          "B6"
+        ]
+      },
+      {
+        "index": 1,
+        "column": 0,
+        "row": 1,
+        "connectorPins": [
+          "A11",
+          "B2"
+        ]
+      },
+      {
+        "index": 2,
+        "column": 0,
+        "row": 2,
+        "connectorPins": [
+          "A11",
+          "B7"
+        ]
+      },
+      {
+        "index": 3,
+        "column": 0,
+        "row": 3,
+        "connectorPins": [
+          "A11",
+          "A1"
+        ]
+      },
+      {
+        "index": 4,
+        "column": 0,
+        "row": 4,
+        "connectorPins": [
+          "A11",
+          "A4"
+        ]
+      },
+      {
+        "index": 5,
+        "column": 0,
+        "row": 5,
+        "connectorPins": [
+          "A11",
+          "B5"
+        ]
+      },
+      {
+        "index": 6,
+        "column": 0,
+        "row": 6,
+        "connectorPins": [
+          "A11",
+          "B11"
+        ]
+      },
+      {
+        "index": 7,
+        "column": 0,
+        "row": 7,
+        "connectorPins": [
+          "A11",
+          "B13"
+        ]
+      },
+      {
+        "index": 8,
+        "column": 1,
+        "row": 0,
+        "connectorPins": [
+          "A13",
+          "B6"
+        ]
+      },
+      {
+        "index": 9,
+        "column": 1,
+        "row": 1,
+        "connectorPins": [
+          "A13",
+          "B2"
+        ]
+      },
+      {
+        "index": 10,
+        "column": 1,
+        "row": 2,
+        "connectorPins": [
+          "A13",
+          "B7"
+        ]
+      },
+      {
+        "index": 11,
+        "column": 1,
+        "row": 3,
+        "connectorPins": [
+          "A13",
+          "A1"
+        ]
+      },
+      {
+        "index": 12,
+        "column": 1,
+        "row": 4,
+        "connectorPins": [
+          "A13",
+          "A4"
+        ]
+      },
+      {
+        "index": 13,
+        "column": 1,
+        "row": 5,
+        "connectorPins": [
+          "A13",
+          "B5"
+        ]
+      },
+      {
+        "index": 14,
+        "column": 1,
+        "row": 6,
+        "connectorPins": [
+          "A13",
+          "B11"
+        ]
+      },
+      {
+        "index": 15,
+        "column": 1,
+        "row": 7,
+        "connectorPins": [
+          "A13",
+          "B13"
+        ]
+      },
+      {
+        "index": 16,
+        "column": 2,
+        "row": 0,
+        "connectorPins": [
+          "B10",
+          "B6"
+        ]
+      },
+      {
+        "index": 17,
+        "column": 2,
+        "row": 1,
+        "connectorPins": [
+          "B10",
+          "B2"
+        ]
+      },
+      {
+        "index": 18,
+        "column": 2,
+        "row": 2,
+        "connectorPins": [
+          "B10",
+          "B7"
+        ]
+      },
+      {
+        "index": 19,
+        "column": 2,
+        "row": 3,
+        "connectorPins": [
+          "B10",
+          "A1"
+        ]
+      },
+      {
+        "index": 20,
+        "column": 2,
+        "row": 4,
+        "connectorPins": [
+          "B10",
+          "A4"
+        ]
+      },
+      {
+        "index": 21,
+        "column": 2,
+        "row": 5,
+        "connectorPins": [
+          "B10",
+          "B5"
+        ]
+      },
+      {
+        "index": 22,
+        "column": 2,
+        "row": 6,
+        "connectorPins": [
+          "B10",
+          "B11"
+        ]
+      },
+      {
+        "index": 23,
+        "column": 2,
+        "row": 7,
+        "connectorPins": [
+          "B10",
+          "B13"
+        ]
+      },
+      {
+        "index": 24,
+        "column": 3,
+        "row": 0,
+        "connectorPins": [
+          "B9",
+          "B6"
+        ]
+      },
+      {
+        "index": 25,
+        "column": 3,
+        "row": 1,
+        "connectorPins": [
+          "B9",
+          "B2"
+        ]
+      },
+      {
+        "index": 26,
+        "column": 3,
+        "row": 2,
+        "connectorPins": [
+          "B9",
+          "B7"
+        ]
+      },
+      {
+        "index": 27,
+        "column": 3,
+        "row": 3,
+        "connectorPins": [
+          "B9",
+          "A1"
+        ]
+      },
+      {
+        "index": 28,
+        "column": 3,
+        "row": 4,
+        "connectorPins": [
+          "B9",
+          "A4"
+        ]
+      },
+      {
+        "index": 29,
+        "column": 3,
+        "row": 5,
+        "connectorPins": [
+          "B9",
+          "B5"
+        ]
+      },
+      {
+        "index": 30,
+        "column": 3,
+        "row": 6,
+        "connectorPins": [
+          "B9",
+          "B11"
+        ]
+      },
+      {
+        "index": 31,
+        "column": 3,
+        "row": 7,
+        "connectorPins": [
+          "B9",
+          "B13"
+        ]
+      },
+      {
+        "index": 32,
+        "column": 4,
+        "row": 0,
+        "connectorPins": [
+          "B1",
+          "B6"
+        ]
+      },
+      {
+        "index": 33,
+        "column": 4,
+        "row": 1,
+        "connectorPins": [
+          "B1",
+          "B2"
+        ]
+      },
+      {
+        "index": 34,
+        "column": 4,
+        "row": 2,
+        "connectorPins": [
+          "B1",
+          "B7"
+        ]
+      },
+      {
+        "index": 35,
+        "column": 4,
+        "row": 3,
+        "connectorPins": [
+          "B1",
+          "A1"
+        ]
+      },
+      {
+        "index": 36,
+        "column": 4,
+        "row": 4,
+        "connectorPins": [
+          "B1",
+          "A4"
+        ]
+      },
+      {
+        "index": 37,
+        "column": 4,
+        "row": 5,
+        "connectorPins": [
+          "B1",
+          "B5"
+        ]
+      },
+      {
+        "index": 38,
+        "column": 4,
+        "row": 6,
+        "connectorPins": [
+          "B1",
+          "B11"
+        ]
+      },
+      {
+        "index": 39,
+        "column": 4,
+        "row": 7,
+        "connectorPins": [
+          "B1",
+          "B13"
+        ]
+      },
+      {
+        "index": 40,
+        "column": 5,
+        "row": 0,
+        "connectorPins": [
+          "A2",
+          "B6"
+        ]
+      },
+      {
+        "index": 41,
+        "column": 5,
+        "row": 1,
+        "connectorPins": [
+          "A2",
+          "B2"
+        ]
+      },
+      {
+        "index": 42,
+        "column": 5,
+        "row": 2,
+        "connectorPins": [
+          "A2",
+          "B7"
+        ]
+      },
+      {
+        "index": 43,
+        "column": 5,
+        "row": 3,
+        "connectorPins": [
+          "A2",
+          "A1"
+        ]
+      },
+      {
+        "index": 44,
+        "column": 5,
+        "row": 4,
+        "connectorPins": [
+          "A2",
+          "A4"
+        ]
+      },
+      {
+        "index": 45,
+        "column": 5,
+        "row": 5,
+        "connectorPins": [
+          "A2",
+          "B5"
+        ]
+      },
+      {
+        "index": 46,
+        "column": 5,
+        "row": 6,
+        "connectorPins": [
+          "A2",
+          "B11"
+        ]
+      },
+      {
+        "index": 47,
+        "column": 5,
+        "row": 7,
+        "connectorPins": [
+          "A2",
+          "B13"
+        ]
+      },
+      {
+        "index": 48,
+        "column": 6,
+        "row": 0,
+        "connectorPins": [
+          "B3",
+          "B6"
+        ]
+      },
+      {
+        "index": 49,
+        "column": 6,
+        "row": 1,
+        "connectorPins": [
+          "B3",
+          "B2"
+        ]
+      },
+      {
+        "index": 50,
+        "column": 6,
+        "row": 2,
+        "connectorPins": [
+          "B3",
+          "B7"
+        ]
+      },
+      {
+        "index": 51,
+        "column": 6,
+        "row": 3,
+        "connectorPins": [
+          "B3",
+          "A1"
+        ]
+      },
+      {
+        "index": 52,
+        "column": 6,
+        "row": 4,
+        "connectorPins": [
+          "B3",
+          "A4"
+        ]
+      },
+      {
+        "index": 53,
+        "column": 6,
+        "row": 5,
+        "connectorPins": [
+          "B3",
+          "B5"
+        ]
+      },
+      {
+        "index": 54,
+        "column": 6,
+        "row": 6,
+        "connectorPins": [
+          "B3",
+          "B11"
+        ]
+      },
+      {
+        "index": 55,
+        "column": 6,
+        "row": 7,
+        "connectorPins": [
+          "B3",
+          "B13"
+        ]
+      },
+      {
+        "index": 56,
+        "column": 7,
+        "row": 0,
+        "connectorPins": [
+          "B12",
+          "B6"
+        ]
+      },
+      {
+        "index": 57,
+        "column": 7,
+        "row": 1,
+        "connectorPins": [
+          "B12",
+          "B2"
+        ]
+      },
+      {
+        "index": 58,
+        "column": 7,
+        "row": 2,
+        "connectorPins": [
+          "B12",
+          "B7"
+        ]
+      },
+      {
+        "index": 59,
+        "column": 7,
+        "row": 3,
+        "connectorPins": [
+          "B12",
+          "A1"
+        ]
+      },
+      {
+        "index": 60,
+        "column": 7,
+        "row": 4,
+        "connectorPins": [
+          "B12",
+          "A4"
+        ]
+      },
+      {
+        "index": 61,
+        "column": 7,
+        "row": 5,
+        "connectorPins": [
+          "B12",
+          "B5"
+        ]
+      },
+      {
+        "index": 62,
+        "column": 7,
+        "row": 6,
+        "connectorPins": [
+          "B12",
+          "B11"
+        ]
+      },
+      {
+        "index": 63,
+        "column": 7,
+        "row": 7,
+        "connectorPins": [
+          "B12",
+          "B13"
+        ]
+      },
+      {
+        "index": 64,
+        "column": 8,
+        "row": 0,
+        "connectorPins": [
+          "A3",
+          "B6"
+        ]
+      },
+      {
+        "index": 65,
+        "column": 8,
+        "row": 1,
+        "connectorPins": [
+          "A3",
+          "B2"
+        ]
+      },
+      {
+        "index": 66,
+        "column": 8,
+        "row": 2,
+        "connectorPins": [
+          "A3",
+          "B7"
+        ]
+      },
+      {
+        "index": 67,
+        "column": 8,
+        "row": 3,
+        "connectorPins": [
+          "A3",
+          "A1"
+        ]
+      },
+      {
+        "index": 68,
+        "column": 8,
+        "row": 4,
+        "connectorPins": [
+          "A3",
+          "A4"
+        ]
+      },
+      {
+        "index": 69,
+        "column": 8,
+        "row": 5,
+        "connectorPins": [
+          "A3",
+          "B5"
+        ]
+      },
+      {
+        "index": 70,
+        "column": 8,
+        "row": 6,
+        "connectorPins": [
+          "A3",
+          "B11"
+        ]
+      },
+      {
+        "index": 71,
+        "column": 8,
+        "row": 7,
+        "connectorPins": [
+          "A3",
+          "B13"
+        ]
+      },
+      {
+        "index": 72,
+        "column": 9,
+        "row": 0,
+        "connectorPins": [
+          "A10",
+          "B6"
+        ]
+      },
+      {
+        "index": 73,
+        "column": 9,
+        "row": 1,
+        "connectorPins": [
+          "A10",
+          "B2"
+        ]
+      },
+      {
+        "index": 74,
+        "column": 9,
+        "row": 2,
+        "connectorPins": [
+          "A10",
+          "B7"
+        ]
+      },
+      {
+        "index": 75,
+        "column": 9,
+        "row": 3,
+        "connectorPins": [
+          "A10",
+          "A1"
+        ]
+      },
+      {
+        "index": 76,
+        "column": 9,
+        "row": 4,
+        "connectorPins": [
+          "A10",
+          "A4"
+        ]
+      },
+      {
+        "index": 77,
+        "column": 9,
+        "row": 5,
+        "connectorPins": [
+          "A10",
+          "B5"
+        ]
+      },
+      {
+        "index": 78,
+        "column": 9,
+        "row": 6,
+        "connectorPins": [
+          "A10",
+          "B11"
+        ]
+      },
+      {
+        "index": 79,
+        "column": 9,
+        "row": 7,
+        "connectorPins": [
+          "A10",
+          "B13"
+        ]
+      },
+      {
+        "index": 80,
+        "column": 10,
+        "row": 0,
+        "connectorPins": [
+          "A12",
+          "B6"
+        ]
+      },
+      {
+        "index": 81,
+        "column": 10,
+        "row": 1,
+        "connectorPins": [
+          "A12",
+          "B2"
+        ]
+      },
+      {
+        "index": 82,
+        "column": 10,
+        "row": 2,
+        "connectorPins": [
+          "A12",
+          "B7"
+        ]
+      },
+      {
+        "index": 83,
+        "column": 10,
+        "row": 3,
+        "connectorPins": [
+          "A12",
+          "A1"
+        ]
+      },
+      {
+        "index": 84,
+        "column": 10,
+        "row": 4,
+        "connectorPins": [
+          "A12",
+          "A4"
+        ]
+      },
+      {
+        "index": 85,
+        "column": 10,
+        "row": 5,
+        "connectorPins": [
+          "A12",
+          "B5"
+        ]
+      },
+      {
+        "index": 86,
+        "column": 10,
+        "row": 6,
+        "connectorPins": [
+          "A12",
+          "B11"
+        ]
+      },
+      {
+        "index": 87,
+        "column": 10,
+        "row": 7,
+        "connectorPins": [
+          "A12",
+          "B13"
+        ]
+      },
+      {
+        "index": 88,
+        "column": 11,
+        "row": 0,
+        "connectorPins": [
+          "B8",
+          "B6"
+        ]
+      },
+      {
+        "index": 89,
+        "column": 11,
+        "row": 1,
+        "connectorPins": [
+          "B8",
+          "B2"
+        ]
+      },
+      {
+        "index": 90,
+        "column": 11,
+        "row": 2,
+        "connectorPins": [
+          "B8",
+          "B7"
+        ]
+      },
+      {
+        "index": 91,
+        "column": 11,
+        "row": 3,
+        "connectorPins": [
+          "B8",
+          "A1"
+        ]
+      },
+      {
+        "index": 92,
+        "column": 11,
+        "row": 4,
+        "connectorPins": [
+          "B8",
+          "A4"
+        ]
+      },
+      {
+        "index": 93,
+        "column": 11,
+        "row": 5,
+        "connectorPins": [
+          "B8",
+          "B5"
+        ]
+      },
+      {
+        "index": 94,
+        "column": 11,
+        "row": 6,
+        "connectorPins": [
+          "B8",
+          "B11"
+        ]
+      },
+      {
+        "index": 95,
+        "column": 11,
+        "row": 7,
+        "connectorPins": [
+          "B8",
+          "B13"
+        ]
+      },
+      {
+        "index": 96,
+        "column": 12,
+        "row": 0,
+        "connectorPins": [
+          "B4",
+          "B6"
+        ]
+      },
+      {
+        "index": 97,
+        "column": 12,
+        "row": 1,
+        "connectorPins": [
+          "B4",
+          "B2"
+        ]
+      },
+      {
+        "index": 98,
+        "column": 12,
+        "row": 2,
+        "connectorPins": [
+          "B4",
+          "B7"
+        ]
+      },
+      {
+        "index": 99,
+        "column": 12,
+        "row": 3,
+        "connectorPins": [
+          "B4",
+          "A1"
+        ]
+      },
+      {
+        "index": 100,
+        "column": 12,
+        "row": 4,
+        "connectorPins": [
+          "B4",
+          "A4"
+        ]
+      },
+      {
+        "index": 101,
+        "column": 12,
+        "row": 5,
+        "connectorPins": [
+          "B4",
+          "B5"
+        ]
+      },
+      {
+        "index": 102,
+        "column": 12,
+        "row": 6,
+        "connectorPins": [
+          "B4",
+          "B11"
+        ]
+      },
+      {
+        "index": 103,
+        "column": 12,
+        "row": 7,
+        "connectorPins": [
+          "B4",
+          "B13"
+        ]
+      }
+    ],
+    "outputs": [
+      "n_SENSE0",
+      "n_SENSE1",
+      "n_SENSE2",
+      "n_SENSE3",
+      "n_SENSE4",
+      "n_SENSE5",
+      "n_SENSE6",
+      "n_SENSE7"
+    ],
+    "columnNets": [
+      "n_COL0",
+      "n_COL1",
+      "n_COL2",
+      "n_COL3",
+      "n_COL4",
+      "n_COL5",
+      "n_COL6",
+      "n_COL7",
+      "n_COL8",
+      "n_COL9",
+      "n_COL10",
+      "n_COL11",
+      "n_COL12"
+    ]
+  },
+  "outputCircuit": {
+    "models": {
+      "R10.1": "resistor",
+      "R10.2": "resistor",
+      "R11.1": "resistor",
+      "R11.2": "resistor",
+      "C3.1": "capacitor",
+      "C3.2": "capacitor",
+      "C5.1": "capacitor",
+      "C5.2": "capacitor",
+      "C5.3": "capacitor",
+      "C5.4": "capacitor",
+      "C5.5": "capacitor",
+      "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+      "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+      "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+      "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+    },
+    "hostGround": "n_CABLE_GND",
+    "hostSupply": "n_CABLE_5V",
+    "serial": {
+      "data": {
+        "board": "n_TA_DATEN",
+        "cable": "n_CABLE_DATEN",
+        "connectorPin": "A1"
+      },
+      "clock": {
+        "board": "n_TA_TAKT",
+        "cable": "n_CABLE_TAKT",
+        "connectorPin": "B2"
+      }
+    },
+    "leds": {
+      "siso": {
+        "output": "n_LED_SISO_N",
+        "cathode": "n_LED_SISO",
+        "anode": "n_p5V",
+        "connectorPin": "A5",
+        "diode": "Dsiso_led"
+      },
+      "caps": {
+        "output": "n_LED_CAPS_N",
+        "cathode": "n_LED_CAPS",
+        "anode": "n_p5V",
+        "connectorPin": "A6",
+        "diode": "Dcaps_led"
+      }
+    },
+    "shield": {
+      "net": "/SHIELD",
+      "model": "Unconnected external shield boundary; no invented ground bond"
+    }
+  },
+  "deckSha256": "f3f81ffb54bcc92c4f8a9921091391de67f3410e8824052a283b0d5091164b98",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746"
+      }
+    ]
+  },
+  "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with Sparse Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "resetDelivery": {
+    "signal": "RESET_N",
+    "events": [
+      [
+        0,
+        "0"
+      ],
+      [
+        501000,
+        "0"
+      ],
+      [
+        1000001000,
+        "1"
+      ],
+      [
+        41000002000,
+        "0"
+      ],
+      [
+        41016001000,
+        "1"
+      ]
+    ],
+    "expectedTransitions": [
+      [
+        1000000000,
+        "1"
+      ],
+      [
+        41000000000,
+        "0"
+      ],
+      [
+        41016000000,
+        "1"
+      ]
+    ],
+    "firstFetches": [
+      [
+        1001501000,
+        "0000",
+        "af"
+      ],
+      [
+        41017501000,
+        "0000",
+        "af"
+      ]
+    ],
+    "transitionToleranceNs": 3,
+    "timingScope": "SPICE fixture ramp/ADC and HDL timestamp rounding; not board reset propagation calibration"
+  },
+  "serialTransport": {
+    "activityObserved": true,
+    "transmitted": [
+      [
+        25103002000,
+        1
+      ],
+      [
+        25119002000,
+        1
+      ],
+      [
+        25135002000,
+        0
+      ],
+      [
+        25158002000,
+        0
+      ],
+      [
+        25190002000,
+        0
+      ],
+      [
+        25222002000,
+        0
+      ],
+      [
+        25254002000,
+        0
+      ],
+      [
+        25286002000,
+        0
+      ],
+      [
+        25318002000,
+        1
+      ],
+      [
+        25350002000,
+        1
+      ],
+      [
+        25382002000,
+        1
+      ],
+      [
+        25416002000,
+        1
+      ],
+      [
+        25432002000,
+        1
+      ],
+      [
+        25592002000,
+        1
+      ],
+      [
+        25608002000,
+        1
+      ],
+      [
+        25628002000,
+        0
+      ],
+      [
+        25651002000,
+        1
+      ],
+      [
+        25683002000,
+        0
+      ],
+      [
+        25715002000,
+        0
+      ],
+      [
+        25747002000,
+        0
+      ],
+      [
+        25779002000,
+        0
+      ],
+      [
+        25811002000,
+        1
+      ],
+      [
+        25843002000,
+        1
+      ],
+      [
+        25875002000,
+        0
+      ],
+      [
+        25909002000,
+        1
+      ],
+      [
+        25925002000,
+        1
+      ],
+      [
+        82714002000,
+        1
+      ],
+      [
+        82730002000,
+        1
+      ],
+      [
+        82746002000,
+        0
+      ],
+      [
+        82769002000,
+        0
+      ],
+      [
+        82801002000,
+        0
+      ],
+      [
+        82833002000,
+        0
+      ],
+      [
+        82865002000,
+        0
+      ],
+      [
+        82897002000,
+        0
+      ],
+      [
+        82929002000,
+        1
+      ],
+      [
+        82961002000,
+        1
+      ],
+      [
+        82993002000,
+        1
+      ],
+      [
+        83027002000,
+        1
+      ],
+      [
+        83043002000,
+        1
+      ],
+      [
+        83203002000,
+        1
+      ],
+      [
+        83219002000,
+        1
+      ],
+      [
+        83239002000,
+        0
+      ],
+      [
+        83262002000,
+        1
+      ],
+      [
+        83294002000,
+        0
+      ],
+      [
+        83326002000,
+        0
+      ],
+      [
+        83358002000,
+        0
+      ],
+      [
+        83390002000,
+        0
+      ],
+      [
+        83422002000,
+        1
+      ],
+      [
+        83454002000,
+        1
+      ],
+      [
+        83486002000,
+        0
+      ],
+      [
+        83520002000,
+        1
+      ],
+      [
+        83536002000,
+        1
+      ]
+    ],
+    "received": [
+      [
+        25103189000,
+        1
+      ],
+      [
+        25119189000,
+        1
+      ],
+      [
+        25135195000,
+        0
+      ],
+      [
+        25158195000,
+        0
+      ],
+      [
+        25190195000,
+        0
+      ],
+      [
+        25222195000,
+        0
+      ],
+      [
+        25254195000,
+        0
+      ],
+      [
+        25286195000,
+        0
+      ],
+      [
+        25318189000,
+        1
+      ],
+      [
+        25350189000,
+        1
+      ],
+      [
+        25382189000,
+        1
+      ],
+      [
+        25416189000,
+        1
+      ],
+      [
+        25432189000,
+        1
+      ],
+      [
+        25592189000,
+        1
+      ],
+      [
+        25608189000,
+        1
+      ],
+      [
+        25628195000,
+        0
+      ],
+      [
+        25651189000,
+        1
+      ],
+      [
+        25683195000,
+        0
+      ],
+      [
+        25715195000,
+        0
+      ],
+      [
+        25747195000,
+        0
+      ],
+      [
+        25779195000,
+        0
+      ],
+      [
+        25811189000,
+        1
+      ],
+      [
+        25843189000,
+        1
+      ],
+      [
+        25875195000,
+        0
+      ],
+      [
+        25909189000,
+        1
+      ],
+      [
+        25925189000,
+        1
+      ],
+      [
+        82714189000,
+        1
+      ],
+      [
+        82730189000,
+        1
+      ],
+      [
+        82746195000,
+        0
+      ],
+      [
+        82769195000,
+        0
+      ],
+      [
+        82801195000,
+        0
+      ],
+      [
+        82833195000,
+        0
+      ],
+      [
+        82865195000,
+        0
+      ],
+      [
+        82897195000,
+        0
+      ],
+      [
+        82929189000,
+        1
+      ],
+      [
+        82961189000,
+        1
+      ],
+      [
+        82993189000,
+        1
+      ],
+      [
+        83027189000,
+        1
+      ],
+      [
+        83043189000,
+        1
+      ],
+      [
+        83203189000,
+        1
+      ],
+      [
+        83219189000,
+        1
+      ],
+      [
+        83239195000,
+        0
+      ],
+      [
+        83262189000,
+        1
+      ],
+      [
+        83294195000,
+        0
+      ],
+      [
+        83326195000,
+        0
+      ],
+      [
+        83358195000,
+        0
+      ],
+      [
+        83390195000,
+        0
+      ],
+      [
+        83422189000,
+        1
+      ],
+      [
+        83454189000,
+        1
+      ],
+      [
+        83486195000,
+        0
+      ],
+      [
+        83520189000,
+        1
+      ],
+      [
+        83536189000,
+        1
+      ]
+    ],
+    "clockTransportSeconds": [
+      1.87e-07,
+      1.87e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.93e-07,
+      1.87e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.87e-07,
+      1.87e-07,
+      1.93e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.87e-07,
+      1.93e-07,
+      1.87e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.93e-07,
+      1.87e-07,
+      1.87e-07,
+      1.93e-07,
+      1.87e-07,
+      1.87e-07
+    ],
+    "scope": "Bit transport only; no S600 frame or key-semantics claim from matching intent"
+  },
+  "cReferenceBits": [
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    1
+  ],
+  "ordinalBitsMatchC": true,
+  "receiverCoverage": {
+    "passed": true,
+    "windows": [
+      {
+        "name": "before reset",
+        "startCycle": 4000,
+        "endCycle": 30000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "name": "after reset",
+        "startCycle": 60000,
+        "endCycle": 100000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "waveformRows": 9074176,
+  "traceSha256": "0c384df3df3046234287fc3c55d065baa9c9ef1b3be6ae6d85ca312a01fe5cde",
+  "logSha256": "b760e5361522555e0505c279e31f4f3392a9e38865ae76a8ee2d6082167abe8f"
+}

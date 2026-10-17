@@ -1,0 +1,26 @@
+{
+  "scope": "Complete service-reset runs under diagnostic-only strict-time comparison; functional event comparison is separate from analog refinement checks",
+  "runs": {
+    "coarse": {
+      "originalDirectory": "build/keyboard-controller-analog/scenarios-reset-coarse",
+      "originalLogSha256": "b096d08bee0b8aa19c58a8fd7057c7413fe1c9db0550c122fcd85af84ae1cd04",
+      "newLogSha256": "5628a2472c34994a567c6177fd8c90342d5896e12b156b9e98b799b925c19baf",
+      "eventCount": 210,
+      "exactEventMatch": true
+    },
+    "fine": {
+      "originalDirectory": "build/keyboard-controller-analog/scenarios-reset",
+      "originalLogSha256": "f44ea568b16f528e36b8004c647d25166bda11d76d2b2fa72967709ed3b8df27",
+      "newLogSha256": "b760e5361522555e0505c279e31f4f3392a9e38865ae76a8ee2d6082167abe8f",
+      "eventCount": 210,
+      "exactEventMatch": true
+    }
+  },
+  "engineEvidence": {
+    "baseline": "../../coupled-clock-startup/local-engine/report.json",
+    "diagnosticCorrection": "../../service-time-audit/diagnostic-candidate.json",
+    "patch": "../../../engine-patches/ngspice-47-strict-time-diagnostic.patch",
+    "otherCodeModelsUnchanged": true,
+    "switchPatchApplied": false
+  }
+}
