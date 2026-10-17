@@ -13,6 +13,7 @@ from trace_io import open_binary, open_text
 from controller_interface import generate
 from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
+from ngspice_runtime import identify as identify_runtime, verify as verify_runtime
 from output_circuit import output_circuit
 from model_coverage import classify
 from circuit import elements, load, node, nominal_models
@@ -223,6 +224,7 @@ def main():
     p.add_argument('--bridge-delay-ns', type=float, default=10, help='Numerical interface delay, not a calibrated pin delay')
     p.add_argument('--timeout-seconds', type=float, default=7200)
     p.add_argument('--ngspice', default='ngspice')
+    p.add_argument('--ngspice-spinit', type=Path, help='Explicit spinit with absolute code-model paths')
     p.add_argument('--iverilog', default='iverilog')
     p.add_argument('--latch-load', choices=LATCH_LOADS, default='ideal')
     p.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground; zero omits it')
@@ -280,7 +282,7 @@ def main():
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
                             'ls_nand_dc.cir' if args.gate_profile == 'dl000-dc' else 'ls_nand_nominal.cir',
-                            'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'model_coverage.py',
+                            'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'output_circuit.py', 'model_coverage.py',
                             'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py')}}
     if args.scenario_data:
         report['scenario'] = args.scenario_data
@@ -290,7 +292,9 @@ def main():
         (out / 'scenario.json').write_text(json.dumps(args.scenario_data, indent=2) + '\n')
     try:
         prepare(args, report)
-        report['ngspice'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()
+        report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
+        engine = report['ngspiceRuntime']['executable']['path']
+        report['ngspice'] = subprocess.check_output([engine, '--version'], text=True).strip()
         report['iverilog'] = subprocess.run([args.iverilog, '-V'], capture_output=True, text=True, check=True).stdout.splitlines()[0]
         (out / 'run-inputs.json').write_text(json.dumps(report, indent=2) + '\n')
         if args.prepare_only:
@@ -298,8 +302,9 @@ def main():
             print(out / 'boot.cir')
             return
         with (out / 'ngspice.log').open('w') as log:
-            subprocess.run([args.ngspice, '-n', '-b', 'boot.cir'], cwd=out, stdout=log,
+            subprocess.run([engine, '-n', '-b', 'boot.cir'], cwd=out, env=engine_env, stdout=log,
                            stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
+        verify_runtime(report['ngspiceRuntime'])
         report['logSha256'] = sha(out / 'ngspice.log')
         report['traceSha256'] = sha(out / 'trace.txt')
         validate(out, report)

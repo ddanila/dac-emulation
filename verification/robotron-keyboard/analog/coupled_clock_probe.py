@@ -3,6 +3,7 @@
 import argparse
 import json
 import math
+import os
 import re
 import subprocess
 import sys
@@ -11,6 +12,7 @@ from pathlib import Path
 from boot_cosim import sha
 from clock_convergence import compare_clocks
 from failure_evidence import capture, solver_diagnostic
+from ngspice_runtime import verify as verify_runtime
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -36,9 +38,11 @@ def run(args, step, directory):
     directory.mkdir(parents=True, exist_ok=True)
     command = [sys.executable, str(HERE / 'boot_cosim.py'), '--rom', str(args.rom.resolve()),
                '--out', str(directory), '--prepare-only', '--electrical-matrix', '--electrical-outputs',
-               '--step-ns', str(step), '--gate-profile', args.gate_profile,
+               '--ngspice', args.ngspice, '--step-ns', str(step), '--gate-profile', args.gate_profile,
                '--column-load-pf', str(args.column_load_pf), '--rise-us', str(args.rise_us),
                '--reltol', str(args.reltol), '--vntol', str(args.vntol), '--abstol', str(args.abstol)]
+    if args.ngspice_spinit is not None:
+        command += ['--ngspice-spinit', str(args.ngspice_spinit.resolve())]
     subprocess.run(command, check=True, capture_output=True, text=True, timeout=60)
     prepared = json.loads((directory / 'report.json').read_text())
     if prepared['passed'] or not prepared.get('preparedOnly') or sha(directory / 'boot.cir') != prepared['deckSha256']:
@@ -50,9 +54,13 @@ def run(args, step, directory):
               'preparedReportSha256': sha(directory / 'report.json'),
               'probeDeckSha256': sha(directory / 'clock-probe.cir')}
     try:
+        runtime = prepared['ngspiceRuntime']
+        verify_runtime(runtime)
+        engine_env = dict(os.environ, SPICE_SCRIPTS=str(Path(runtime['spinit']['path']).parent))
         with (directory / 'ngspice.log').open('w') as log:
-            subprocess.run(['ngspice', '-n', '-b', 'clock-probe.cir'], cwd=directory,
+            subprocess.run([runtime['executable']['path'], '-n', '-b', 'clock-probe.cir'], cwd=directory, env=engine_env,
                            stdout=log, stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
+        verify_runtime(runtime)
         result['logSha256'] = sha(directory / 'ngspice.log')
         log = (directory / 'ngspice.log').read_text()
         diagnostic = solver_diagnostic(log)
@@ -96,6 +104,8 @@ def summarize_diagnostics(path, duration_us):
 
 
 def matching_inputs(coarse, fine):
+    if coarse.get('ngspiceRuntime') != fine.get('ngspiceRuntime'):
+        raise ValueError('Prepared ngspice runtime inputs differ')
     for key in ('romSha256', 'connectivitySha256', 'bridge', 'tv80', 'ngspice', 'iverilog', 'sources'):
         if coarse[key] != fine[key]:
             raise ValueError('Prepared board inputs differ: ' + key)
@@ -119,6 +129,8 @@ def main():
     parser.add_argument('--steps-ns', type=float, nargs=2, default=(1, .5))
     parser.add_argument('--duration-us', type=float, default=1000)
     parser.add_argument('--timeout-seconds', type=float, default=1200)
+    parser.add_argument('--ngspice', default='ngspice')
+    parser.add_argument('--ngspice-spinit', type=Path)
     parser.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
     parser.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground')
     parser.add_argument('--rise-us', type=float, default=1)
@@ -140,7 +152,7 @@ def main():
     report = {'passed': False, 'scope': __doc__, 'durationUs': args.duration_us, 'runs': [],
               'qualificationBoundary': 'Early startup only, before normal reset release; no full-boot, firmware or long-duration phase qualification',
               'sources': {name: sha(HERE / name) for name in (
-                  'coupled_clock_probe.py', 'boot_cosim.py', 'clock_convergence.py', 'failure_evidence.py', 'trace_io.py')}}
+                  'coupled_clock_probe.py', 'boot_cosim.py', 'clock_convergence.py', 'failure_evidence.py', 'ngspice_runtime.py', 'trace_io.py')}}
     try:
         for label, step in zip(('coarse', 'fine'), args.steps_ns):
             report['runs'].append(run(args, step, args.out / label))

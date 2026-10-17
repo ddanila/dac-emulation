@@ -33,8 +33,9 @@ class BoardQualificationTests(unittest.TestCase):
             self.assertFalse(compare(coarse, changed, 15)['withinTolerance'])
 
     def test_model_changes_missing_edges_and_unrefined_steps_fail(self):
-        for kind in ('step', 'model', 'bits', 'reset'):
+        for kind in ('step', 'model', 'bits', 'reset', 'runtime'):
             fine = report(5)
+            if kind == 'runtime': fine['ngspiceRuntime'] = {'codeModels': ['different']}
             if kind == 'step': fine['assumptions']['maximumStepNs'] = 10
             if kind == 'model': fine['sources'] = 'changed'
             if kind == 'bits': fine['serialTransport']['received'] = []

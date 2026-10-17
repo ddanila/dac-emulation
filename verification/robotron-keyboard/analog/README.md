@@ -359,7 +359,7 @@ release event. The experimental `ngspice-47-strict-time-diagnostic.patch` change
 only the diagnostic comparison, retaining warnings for actual backward time.
 It does not restore qualification without a complete scenario recheck.
 
-The firmware-I/O harness accepts `--ngspice /path/to/engine` and an optional
+The firmware-I/O, boot and coupled-clock harnesses accept `--ngspice /path/to/engine` and an optional
 `--ngspice-spinit /path/to/spinit`. It fingerprints the executable, selected
 initialization and literal XSPICE code-model paths, forces that initialization
 for the child process and checks the files again after execution. Paired runs

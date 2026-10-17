@@ -50,6 +50,8 @@ def load_run(directory):
 
 
 def compare(coarse, fine, tolerance_ns):
+    if coarse.get('ngspiceRuntime') != fine.get('ngspiceRuntime'):
+        raise ValueError('Full-board simulator runtime inputs differ')
     if not 0 < fine['assumptions']['maximumStepNs'] <= coarse['assumptions']['maximumStepNs'] / 2:
         raise ValueError('Expected at least a halved timestep')
     assumptions = [{k: v for k, v in r['assumptions'].items() if k not in ('maximumStepNs', 'timeoutSeconds')}
@@ -96,7 +98,7 @@ def main():
         parser.error('Timing budgets must be positive and finite')
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
               'boundary': 'Selected nominal board scenario; no device calibration, C equivalence, brownout or full waveform-shape claim',
-              'sources': {name: sha(HERE / name) for name in ('qualify_board_pair.py', 'boot_cosim.py',
+              'sources': {name: sha(HERE / name) for name in ('qualify_board_pair.py', 'boot_cosim.py', 'failure_evidence.py',
                           'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py', 'trace_io.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:

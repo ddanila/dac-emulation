@@ -45,16 +45,26 @@ class CoupledClockProbeTests(unittest.TestCase):
             directory = Path(temporary)
             args = SimpleNamespace(rom=directory / 's600.bin', gate_profile='nominal',
                                    rise_us=1, reltol=1e-9, vntol=1e-11, abstol=1e-17,
-                                   duration_us=150, timeout_seconds=1, column_load_pf=0)
+                                   duration_us=150, timeout_seconds=1, column_load_pf=0, ngspice='ngspice', ngspice_spinit=None)
             deck = ('fixture\n.save v(a)\n.control\ntran 1n 0.127 124m\n'
                     'wrdata trace.txt v(a)\n.endc\n.end\n')
+
+            from ngspice_runtime import identify
+            executable = directory / 'fake-ngspice'
+            executable.write_text('#!/bin/sh\nexit 0\n')
+            executable.chmod(0o755)
+            model = directory / 'digital.cm'
+            model.write_text('fixture')
+            init = directory / 'spinit'
+            init.write_text(f'codemodel {model}\n')
+            runtime, _ = identify(executable, init)
 
             def execute(command, **kwargs):
                 if '--prepare-only' in command:
                     (directory / 'boot.cir').write_text(deck)
                     (directory / 'report.json').write_text(json.dumps({
                         'passed': False, 'preparedOnly': True,
-                        'deckSha256': sha(directory / 'boot.cir')}))
+                        'deckSha256': sha(directory / 'boot.cir'), 'ngspiceRuntime': runtime}))
                 else:
                     kwargs['stdout'].write('Instance: ahdl   Message: XSPICE time is behind vtime:\n'
                                            'XSPICE 0.043\nCosim 0.043\n')
@@ -76,8 +86,9 @@ class CoupledClockProbeTests(unittest.TestCase):
         fine['assumptions']['maximumStepNs'] = 1
         fine['hdlSha256'] = {'/fine/chips.v': 'same'}
         matching_inputs(coarse, fine)
-        for kind in ('sources', 'solver', 'hdl', 'duplicate', 'column_load'):
+        for kind in ('sources', 'solver', 'hdl', 'duplicate', 'column_load', 'runtime'):
             changed = copy.deepcopy(fine)
+            if kind == 'runtime': changed['ngspiceRuntime'] = {'codeModels': ['different']}
             if kind == 'column_load': changed['assumptions']['columnLoadPf'] = 1
             if kind == 'sources': changed['sources'] = 'changed'
             if kind == 'solver': changed['assumptions']['solver']['reltol'] = 1e-3
