@@ -16,6 +16,7 @@ from failure_evidence import capture, solver_diagnostic
 from ngspice_runtime import verify as verify_runtime
 from compressed_output import capture as capture_waveforms
 from trace_io import open_binary, open_text
+from gate_models import GATE_MODELS
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -186,7 +187,7 @@ def main():
     parser.add_argument('--minimum-breakpoint-fs', type=float,
                         help='Explicit numerical breakpoint spacing; uses deck .tran/control run to retain it')
     parser.add_argument('--compress-traces', action='store_true', help='Stream lossless XZ waveforms into fresh run directories')
-    parser.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
+    parser.add_argument('--gate-profile', choices=tuple(GATE_MODELS), default='nominal')
     parser.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground')
     parser.add_argument('--rise-us', type=float, default=1)
     parser.add_argument('--reltol', type=float, default=1e-7)
@@ -209,7 +210,7 @@ def main():
     report = {'passed': False, 'scope': __doc__, 'durationUs': args.duration_us, 'runs': [],
               'qualificationBoundary': 'Early startup only, before normal reset release; no full-boot, firmware or long-duration phase qualification',
               'sources': {name: sha(HERE / name) for name in (
-                  'coupled_clock_probe.py', 'boot_cosim.py', 'clock_convergence.py', 'failure_evidence.py', 'ngspice_runtime.py', 'trace_io.py', 'compressed_output.py')}}
+                  'coupled_clock_probe.py', 'boot_cosim.py', 'clock_convergence.py', 'failure_evidence.py', 'ngspice_runtime.py', 'trace_io.py', 'compressed_output.py', 'gate_models.py')}}
     try:
         for label, step in zip(('coarse', 'fine'), args.steps_ns):
             report['runs'].append(run(args, step, args.out / label))

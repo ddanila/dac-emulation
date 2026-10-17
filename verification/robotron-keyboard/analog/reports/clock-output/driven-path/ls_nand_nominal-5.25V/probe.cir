@@ -1,0 +1,19 @@
+Clock pullup fixture; generic gate parameters, not specimen qualification
+.include model.cir
+.temp 25
+Vcc n_p5V 0 5.25
+Vin n_OSC2 0 PWL(0 0 200n 0 201n 5 400n 5 401n 0 1u 0)
+R10.3 n_p5V n_CLK 560
+RBR1 n_OSC_OUT n_CLK .001
+Ccpu n_CLK 0 5.0000000000000002e-11
+Xgate n_OSC2 n_OSC2 n_OSC_OUT n_p5V 0 LS_NAND_NOMINAL
+.save v(n_CLK) v(n_OSC_OUT) i(Vcc)
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+tran .5n 1u
+wrdata trace.txt v(n_CLK) v(n_OSC_OUT) i(Vcc)
+quit
+.endc
+.end

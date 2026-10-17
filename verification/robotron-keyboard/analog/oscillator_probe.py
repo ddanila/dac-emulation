@@ -11,6 +11,7 @@ from pathlib import Path
 
 from circuit import elements, load, node
 from clock_convergence import compare_clocks
+from gate_models import GATE_MODELS
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -107,7 +108,7 @@ def simulate(args, components, step, isolated=False, scale=1):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--ngspice', default='ngspice')
-    p.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
+    p.add_argument('--gate-profile', choices=tuple(GATE_MODELS), default='nominal')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/oscillator')
     p.add_argument('--steps-ns', type=float, nargs=2, default=(2, 1), metavar=('COARSE', 'FINE'))
     p.add_argument('--reltol', type=float, default=.001)
@@ -119,7 +120,7 @@ def main():
         p.error('Timesteps and solver tolerances must be positive and finite')
     if args.steps_ns[1] > args.steps_ns[0] / 2:
         p.error('Fine timestep must be at most half the coarse timestep')
-    args.gate_model = HERE / ('ls_nand_nominal.cir' if args.gate_profile == 'nominal' else 'ls_nand_dc.cir')
+    args.gate_model = HERE / GATE_MODELS[args.gate_profile]
     args.out.mkdir(parents=True, exist_ok=True)
     path = args.out / 'report.json'
     path.unlink(missing_ok=True)
@@ -127,9 +128,11 @@ def main():
               'phaseRequired': args.require_phase, 'phaseQualified': False,
               'solver': {'reltol': args.reltol, 'vntol': args.vntol, 'abstol': args.abstol},
               'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
-                          for name in ('oscillator_probe.py', 'circuit.py', 'clock_convergence.py', 'trace_io.py', args.gate_model.name)},
+                          for name in ('oscillator_probe.py', 'circuit.py', 'clock_convergence.py', 'trace_io.py', 'gate_models.py', args.gate_model.name)},
               'assumptions': {'model': 'Continuous behavioral NAND, not transistor-level DL000 characterization',
-                              'supply': 'Ideal 5 V ramp over 10 ns; gate output supply current omitted',
+                              'supply': ('Ideal 5 V ramp over 10 ns; output load current included, package quiescent current omitted'
+                                         if args.gate_profile == 'dl000-pullup' else
+                                         'Ideal 5 V ramp over 10 ns; gate output supply current omitted'),
                               'thresholdVolts': 1.4, 'transitionWidthVolts': .1,
                               'gateProfile': args.gate_profile,
                               'internalPoleSeconds': 5e-9, 'outputOhms': {'low': 30, 'high': 50 if args.gate_profile == 'dl000-dc' else 30},

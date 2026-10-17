@@ -21,6 +21,7 @@ from compressed_output import capture as capture_compressed
 from model_coverage import classify
 from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
+from gate_models import GATE_MODELS
 from reset_probe import RESET_REFS
 from serial_observation import validate_transport, SerialMismatch
 import board_scenario
@@ -81,7 +82,7 @@ def prepare(args, report):
     report['electricalModels'] = {**osc_models, **reset_models, 'BR2': '1 milliohm closed'}
     report['unconnectedA7Pins'] = unused
     report['cpuClockNet'], report['cpuResetNet'] = cpu_clock, cpu_reset
-    gate_file = 'ls_nand_dc.cir' if args.gate_profile == 'dl000-dc' else 'ls_nand_nominal.cir'
+    gate_file = GATE_MODELS[args.gate_profile]
     (out / gate_file).write_bytes((HERE / gate_file).read_bytes())
     report['gateModel'] = {'file': gate_file, 'sha256': sha(out / gate_file)}
     sense_inputs = ' '.join(f'dsense{i}' for i in reversed(range(8)))
@@ -239,7 +240,7 @@ def main():
     p.add_argument('--prepare-only', action='store_true', help='Generate inputs without claiming a simulation pass')
     p.add_argument('--compress-traces', action='store_true', help='Stream the boot waveform to lossless XZ in a fresh waveform directory')
     p.add_argument('--rise-us', type=float, default=1)
-    p.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
+    p.add_argument('--gate-profile', choices=tuple(GATE_MODELS), default='nominal')
     p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
     p.add_argument('--step-ns', type=float, default=2)
     p.add_argument('--bridge-delay-ns', type=float, default=10, help='Numerical interface delay, not a calibrated pin delay')
@@ -312,7 +313,7 @@ def main():
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
-                            'ls_nand_dc.cir' if args.gate_profile == 'dl000-dc' else 'ls_nand_nominal.cir',
+                            GATE_MODELS[args.gate_profile], 'gate_models.py',
                             'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'output_circuit.py', 'model_coverage.py',
                             'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py',
                             'transient_analysis.py', 'ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'compressed_output.py')}}

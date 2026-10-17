@@ -28,14 +28,16 @@ class BootPreparationTests(unittest.TestCase):
             rom.write_bytes(bytes(2048))
             fixture_sha = hashlib.sha256(rom.read_bytes()).hexdigest()
             decks = {}
-            for profile, breakpoint_fs, unknown in (('nominal', None, 2.5), ('7406-dc', 1, 2.5),
-                                                    ('nominal', 1, 0), ('nominal', 1, 5)):
-                out = root / f'{profile}-{unknown}'
+            for profile, breakpoint_fs, unknown, gate_profile in (
+                    ('nominal', None, 2.5, 'nominal'), ('7406-dc', 1, 2.5, 'nominal'),
+                    ('nominal', 1, 0, 'nominal'), ('nominal', 1, 5, 'nominal'),
+                    ('7406-dc', 1, 2.5, 'dl000-pullup')):
+                out = root / f'{profile}-{unknown}-{gate_profile}'
                 out.mkdir()
                 args = SimpleNamespace(
                     out=out, rom=rom, bridge=bridge, iverilog='iverilog',
                     electrical_matrix=True, electrical_outputs=True,
-                    wr_only_data=False, bypass_rom_bus=False, gate_profile='nominal',
+                    wr_only_data=False, bypass_rom_bus=False, gate_profile=gate_profile,
                     npn_profile='generic', latch_load='ideal', column_load_pf=0,
                     scenario_data=None, contacts=set(), rise_us=1, reltol=.001,
                     vntol=1e-6, abstol=1e-12, bridge_delay_ns=10, step_ns=2,
@@ -45,8 +47,11 @@ class BootPreparationTests(unittest.TestCase):
                 with patch('boot_cosim.ROM_SHA256', fixture_sha):
                     prepare(args, report)
                 deck = (out / 'boot.cir').read_text()
-                if unknown == 2.5:
+                if unknown == 2.5 and gate_profile == 'nominal':
                     decks[profile] = deck
+                if gate_profile == 'dl000-pullup':
+                    self.assertEqual(report['gateModel']['file'], 'ls_nand_pullup.cir')
+                    self.assertIn('.include ls_nand_pullup.cir', deck)
                 self.assertIn(f'out_undef={unknown:g} ', deck)
                 self.assertIn(f'to {unknown:g} V', report['outputControlUnknowns'])
                 self.assertTrue((out / 'boot.vvp').stat().st_size > 0)

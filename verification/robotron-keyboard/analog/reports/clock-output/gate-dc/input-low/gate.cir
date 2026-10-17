@@ -1,0 +1,16 @@
+DL000 static fixture
+.include model.cir
+.temp 25
+Vcc vp 0 5.25
+Va a 0 0.4
+Vb b 0 0.4
+Xdut a b y vp 0 LS_NAND_NOMINAL
+Iload y 0 0
+.control
+set wr_singlescale
+set wr_vecnames
+op
+wrdata trace.txt v(y) i(Va) i(Vb)
+quit
+.endc
+.end

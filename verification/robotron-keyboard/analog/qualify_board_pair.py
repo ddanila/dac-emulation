@@ -11,6 +11,7 @@ from pathlib import Path
 from boot_cosim import validate, sha
 from receiver_margins import measure
 from clock_convergence import compare_clocks
+from gate_models import GATE_MODELS
 
 HERE = Path(__file__).resolve().parent
 
@@ -46,7 +47,7 @@ def load_run(directory):
             raise ValueError('Retained artifact hash differs: ' + name)
     gate = report.get('gateModel', {'file': 'ls_nand_nominal.cir',
                                      'sha256': report['sources'].get('ls_nand_nominal.cir')})
-    expected_gate = 'ls_nand_dc.cir' if report['assumptions'].get('gateProfile') == 'dl000-dc' else 'ls_nand_nominal.cir'
+    expected_gate = GATE_MODELS[report['assumptions'].get('gateProfile', 'nominal')]
     if gate['file'] != expected_gate or gate['sha256'] != report['sources'][expected_gate] or sha(directory / expected_gate) != gate['sha256']:
         raise ValueError('Retained oscillator gate model differs')
     deck = (directory / 'boot.cir').read_text()
@@ -116,7 +117,7 @@ def main():
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
               'boundary': 'Selected nominal board scenario; no device calibration, C equivalence, brownout or full waveform-shape claim',
               'sources': {name: sha(HERE / name) for name in ('qualify_board_pair.py', 'boot_cosim.py', 'failure_evidence.py',
-                          'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py', 'trace_io.py')}}
+                          'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py', 'trace_io.py', 'gate_models.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         result['inputs'] = {name: {'path': str(path.resolve()), 'reportSha256': sha(path / 'report.json')}

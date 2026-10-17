@@ -637,6 +637,20 @@ these controls do not select a qualified model or timestep automatically.
 
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
+That is a numerical crossing, not the U880's guaranteed clock-input level:
+the manufacturer manual specifies clock high within 0.2 V of the supply and
+clock low at or below 0.45 V. See `cpu_clock_limits.json` for the source and
+conditions. The existing 10 pF boot clock load is nominal; the reference maximum
+is 50 pF under the published capacitance test conditions.
+
+`--gate-profile dl000-pullup` selects a candidate whose high-state driver sources
+current without sinking current from an external pullup. This allows schematic
+R10.3 to raise the CPU clock toward the supply. `clock_output_probe.py` checks
+that path through BR1 with the reference maximum CPU capacitance; the older
+resistive-output models fail its U880 high-level check. Selected DL000 DC checks
+also pass, but neither test calibrates switching, package current or temperature
+behavior. The 560-ohm pullup can demand more than the published 8 mA output test
+current, so modeled clock levels do not establish guaranteed device corners.
 
 Timed contact recipes can also run with BR1/BR2 closed:
 
