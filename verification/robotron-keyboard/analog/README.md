@@ -199,7 +199,9 @@ reproducing that abort. Neither result qualifies the coupled board or uniquely
 identifies a bridge defect. The captured-output replay under
 `reports/coupled-clock-startup/replay/` also completes past the abort while
 preserving the recorded output events. It excludes live feedback and has the
-VCD timestamp precision, so live coupling/event scheduling still needs qualification.
+VCD timestamp precision, so live coupling/event scheduling still needs qualification. The minimal live HDL in `reports/coupled-clock-startup/live-release/`
+reproduces the column-release abort without CPU or ROM execution. Its simplified
+initial states limit direct timestamp comparison with the firmware run.
 
 `reports/supply-startup-isolation/` contains a reduced linear supply/cable
 reproducer for the tight-tolerance startup failure. Copy it to a scratch location

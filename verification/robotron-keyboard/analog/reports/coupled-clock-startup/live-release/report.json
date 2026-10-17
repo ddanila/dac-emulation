@@ -1,0 +1,336 @@
+{
+  "scope": "Full analog board with minimal live clock-triggered HDL column release; no CPU or firmware. Outputs start X, omitting original brief Z initialization.",
+  "completed": false,
+  "exitCode": 0,
+  "solverDiagnostics": [
+    "Instance: ahdl   Message: XSPICE time is behind vtime:",
+    "Cosim  0.000102862906246779doAnalyses: TRAN:  Timestep too small; time = 0.000102863, timestep = 4.34018e-24: trouble with sink_nominal-instance sdriver0",
+    "tran simulation(s) aborted"
+  ],
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "bbcd6e2f0982687e477be40d47ced2edf95f89e035bdf963fbf1538858d4a41c",
+      "bytes": 805
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "live-release-nodes.txt": {
+      "sha256": "927cdf554cda90f1f56e9471b7fc745c535b431392086b6f0ba94d3d8592f0db",
+      "bytes": 212370249
+    },
+    "live-release.log": {
+      "sha256": "849d2f379dd00b6027b5f8f638ec50957166250157116367c1f8b655c5dacbdd",
+      "bytes": 41943
+    },
+    "release.vvp": {
+      "sha256": "e81ec35a43f41c4b1dc45e4d1a8cfe8fd4696d7b81c77f586326184cf7497ac2",
+      "bytes": 2445
+    },
+    "live-release.cir": {
+      "sha256": "c672296f9d1f9c8fcb3fced8451b09f3f76562168777556adc928d5f33304c16",
+      "bytes": 14507
+    },
+    "release.v": {
+      "sha256": "10b1c434a7bd1e809f5dc5b904db5e5554d34904e772d1ae3146e10db3a7dafd",
+      "bytes": 306
+    },
+    "live-release-trace.txt": {
+      "sha256": "e5c067792f2c748cac62519fd2f7bfef726d536a2dcf711ecdfecea26eb2c5c6",
+      "bytes": 133348786
+    }
+  },
+  "observations": {
+    "vcdQuantumSeconds": 1e-15,
+    "firstClockRiseFs": 102852906246,
+    "columnReleaseFs": 102862906246,
+    "bridgeDelayFs": 10000000,
+    "digitalEvents": {
+      "dclk": [
+        [
+          0,
+          "0"
+        ],
+        [
+          102852906246,
+          "1"
+        ]
+      ],
+      "drst": [
+        [
+          0,
+          "0"
+        ]
+      ],
+      "dsink": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "z"
+        ],
+        [
+          10000841,
+          "x"
+        ]
+      ],
+      "csink": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "z"
+        ],
+        [
+          10000841,
+          "x"
+        ]
+      ],
+      "led1": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "z"
+        ],
+        [
+          10000841,
+          "x"
+        ]
+      ],
+      "led0": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "z"
+        ],
+        [
+          10000841,
+          "x"
+        ]
+      ],
+      "dcol0": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol1": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol2": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol3": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol4": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol5": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol6": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol7": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol8": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol9": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol10": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol11": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ],
+      "dcol12": [
+        [
+          0,
+          "0"
+        ],
+        [
+          10000000,
+          "x"
+        ],
+        [
+          102862906246,
+          "0"
+        ]
+      ]
+    }
+  },
+  "interpretation": "The first live clock-triggered column release reproduces the abort without TV80 or ROM execution. Together with captured-output replay, this narrows investigation to live mixed-signal coupling and driver transition; it does not uniquely establish the bridge or solver cause. Initial X states omit the original brief Z initialization, so timestamps need not match the firmware run.",
+  "retainedDirectory": "build/keyboard-controller-analog/live-column-release",
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "commands": [
+    "iverilog -g2012 -s release_probe -o release.vvp release.v",
+    "ngspice -n -b live-release.cir"
+  ]
+}
