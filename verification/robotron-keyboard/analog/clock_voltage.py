@@ -24,6 +24,7 @@ def inspect(primary, diagnostic, *, diagnostic_columns=8):
         'aboveSupplySamples': 0, 'lowExcursionObserved': False,
         'highExcursionObserved': False, 'firstValidSupplySeconds': None,
         'bestLowMarginVolts': None, 'bestHighMarginVolts': None,
+        'inputRangeViolations': 0, 'firstInputRangeViolation': None,
         'cycles': {'completed': 0, 'assessedWithinSupplyRange': 0, 'excludedForSupply': 0,
                    'missingLowExcursion': 0, 'missingHighExcursion': 0, 'firstFailure': None,
                    'boundary': 'Complete cycles delimited by rising 1.4 V numerical crossings; '
@@ -74,6 +75,10 @@ def inspect(primary, diagnostic, *, diagnostic_columns=8):
                 result['aboveSupplySamples'] += 1
                 continue
             result['validSupplySamples'] += 1
+            if not clock['minimumVolts'] <= voltage <= vcc + clock['maximumSupplyOffsetVolts']:
+                result['inputRangeViolations'] += 1
+                if result['firstInputRangeViolation'] is None:
+                    result['firstInputRangeViolation'] = {'timeSeconds': t, 'clockVolts': voltage, 'supplyVolts': vcc}
             if result['firstValidSupplySeconds'] is None:
                 result['firstValidSupplySeconds'] = t
             for key, margin in (('bestLowMarginVolts', low), ('bestHighMarginVolts', high)):

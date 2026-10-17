@@ -121,6 +121,8 @@ def require_clock_voltage(report):
         raise ValueError('Full-board clock lacks simultaneous supply evidence')
     if voltage.get('validSupplySamples') != voltage['samples']:
         raise ValueError('Full-board observation window leaves the U880 supply range')
+    if voltage.get('inputRangeViolations') != 0:
+        raise ValueError('Full-board clock input voltage range is violated or unchecked')
     if not all(voltage.get(key) for key in ('lowExcursionObserved', 'highExcursionObserved')):
         raise ValueError('Full-board clock does not reach both U880 voltage levels')
     cycles = voltage.get('cycles', {})

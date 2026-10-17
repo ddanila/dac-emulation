@@ -27,6 +27,12 @@ class ClockTimingTests(unittest.TestCase):
         self.assertFalse(result['qualified'])
         self.assertEqual(result['measurements']['high']['observations'], 2)
 
+    def test_input_range_violation_cannot_pass_timing(self):
+        samples = self.valid_samples() + [(900, 5.01)]
+        result = self.run_samples(samples)
+        self.assertEqual(result['inputRangeViolations'], 1)
+        self.assertFalse(result['passed'])
+
     def test_short_high_and_fast_period_fail(self):
         result = self.run_samples([(t / 2, v) for t, v in self.valid_samples()])
         self.assertGreater(result['measurements']['high']['failed'], 0)

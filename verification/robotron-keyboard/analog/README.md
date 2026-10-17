@@ -182,6 +182,7 @@ both waveform streams are hashed and optionally compressed. Legacy boot traces
 without supply samples remain readable but provide no supply-aware clock evidence.
 The board-pair qualifier requires a valid supply throughout its saved observation
 window and both U880 clock-level excursions on each complete sampled cycle.
+It also rejects clock samples outside the documented input-voltage range.
 Leading and trailing partial cycles are excluded. These are necessary checks;
 they do not establish valid pulse widths or levels between samples.
 `cpuClockTiming` separately brackets high/low valid-level durations, rise/fall

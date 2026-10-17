@@ -23,6 +23,15 @@ class ClockVoltageTests(unittest.TestCase):
         self.assertTrue(result['lowExcursionObserved'])
         self.assertFalse(result['highExcursionObserved'])
 
+    def test_overshoot_and_undershoot_are_not_valid_level_evidence(self):
+        for value in (-.51, 5.01):
+            result = self.check_samples([(.2, 5), (4.9, 5), (value, 5)])
+            self.assertTrue(result['bothExcursionsObserved'])
+            self.assertEqual(result['inputRangeViolations'], 1)
+            self.assertEqual(result['firstInputRangeViolation']['clockVolts'], value)
+        result = self.check_samples([(-.5, 5), (5, 5)])
+        self.assertEqual(result['inputRangeViolations'], 0)
+
     def test_global_extrema_cannot_hide_one_bad_cycle(self):
         result = self.check_samples([(v, 5) for v in (.2, 4.9, .2, 3.6, .2, 4.9)])
         self.assertTrue(result['bothExcursionsObserved'])
