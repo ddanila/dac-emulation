@@ -8,13 +8,19 @@ module firmware_tb;
   .external_reset_n(reset_n),.cpu_clk(cpu_clk),.cpu_reset_n(cpu_reset_n));
  wire [15:0] address;wire [7:0] dout,di,read_data;wire m1_n,mreq_n,iorq_n,rd_n,wr_n,rfsh_n,halt_n,busak_n;
  reg [103:0] contacts=0;wire [1:0] leds;wire ta_daten,ta_takt;
- reg [7:0] rom[0:2047];reg [1023:0] file,wave;integer cycle=-16;
+ reg [7:0] rom[0:2047];reg [1023:0] file,wave;integer cycle=-16,wave_start=0,wave_end=4600000;reg wave_enabled=0;
  tv80n cpu(.reset_n(cpu_reset_n),.clk(cpu_clk),.wait_n(1'b1),.int_n(1'b1),.nmi_n(1'b1),.busrq_n(1'b1),.di(di),.A(address),.dout(dout),.m1_n(m1_n),.mreq_n(mreq_n),.iorq_n(iorq_n),.rd_n(rd_n),.wr_n(wr_n),.rfsh_n(rfsh_n),.halt_n(halt_n),.busak_n(busak_n));
  controller board(address,dout,iorq_n,wr_n,contacts,read_data,leds,ta_daten,ta_takt);
  assign di=!mreq_n?rom[address[10:0]]:read_data;
  initial begin
   if(!$value$plusargs("rom=%s",file))$fatal(1,"rom missing");$readmemh(file,rom);
-  if($value$plusargs("wave=%s",wave))begin $dumpfile(wave);$dumpvars(0,firmware_tb);end
+  if($value$plusargs("wave=%s",wave))begin
+   wave_enabled=1;
+   if($value$plusargs("wave_start=%d",wave_start))begin end
+   if($value$plusargs("wave_end=%d",wave_end))begin end
+   $dumpfile(wave);$dumpvars(0,firmware_tb);
+   if(wave_start>0)$dumpoff;
+  end
  end
  always @(negedge clk)begin
   cycle=cycle+1;
@@ -40,6 +46,8 @@ module firmware_tb;
    4400000:contacts[61]=1;
   endcase
   if(cycle>=0&&cycle%200000==199999)$display("LED %0d %0d",cycle,leds);
+  if(wave_enabled && cycle==wave_start)$dumpon;
+  if(wave_enabled && cycle>=wave_end)begin $dumpflush;$finish;end
   if(cycle==4600000)$finish;
  end
  always @(leds) if(reset_n && cycle>=0)$display("EDGE %0d %0d",cycle,leds);

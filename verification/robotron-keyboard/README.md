@@ -123,3 +123,27 @@ active-high matrix sensing and IORQ-clocked LED state. Its 700 kHz ±10% nominal
 clock encompasses the emulator's 683 kHz setting. Its approximately 100 ms reset
 is a reference expectation, not currently an analog model. Oscillator gate pins
 and capacitor values differ from Zander's drawing; do not merge the two revisions.
+
+## Failure counterexamples and waveform replay
+
+A failing bus comparison now records `firstFailureSignals`: the first failing
+vector's signal, synthetic simulation time in ns and observed/expected values.
+`bus.txt` preserves the exact stimulus. Unless `--wave` already captured it, the
+runner automatically replays that stimulus into `bus.vcd`; `bus-wave.log` retains
+replay output. These transaction times are testbench time, not specimen clocks.
+
+Firmware comparisons retain the first serial, raw-LED and sampled-LED divergence,
+including ordinal index, values and **both** CPU clocks. Missing events are explicit
+rather than lost by pairing only the common prefix. Logical comparisons still
+allow CPU phase offsets; sampled-LED comparisons require the scheduled sample time.
+On a data mismatch, the runner replays the real HDL CPU with VCD enabled around
+the earliest divergent event (32 clocks of context on each side), then stops.
+`failureWaveWindow` records the captured interval without aligning the CPUs.
+A coverage-only failure without a differing event captures the initial 1024
+clocks; the report labels that limitation and full `--wave` remains available.
+
+`failure.json` indexes counterexamples, coverage and waveform hashes. Existing
+`report.json`, failure metadata and bus/firmware waveforms are removed at run start,
+so an aborted qualification cannot leave a previous passing report as its result.
+The ordinary test target includes fault injection for read-data, LED and serial
+mismatches, missing events, independent clocks and bounded firmware VCD replay.

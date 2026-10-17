@@ -128,6 +128,7 @@ test-s600-workload: build/runtime-test build/robotron-keyboard-rom-test
 
 .PHONY: test-keyboard-controller audit-keyboard-controller qualify-keyboard-controller
 test-keyboard-controller:
+	python3 verification/robotron-keyboard/test_diagnostics.py
 	python3 verification/robotron-keyboard/run.py
 
 audit-keyboard-controller:

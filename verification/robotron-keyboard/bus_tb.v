@@ -15,6 +15,11 @@ module bus_tb;
    address=a;cpu_data=d;#5;if(kind!=2)iorq_n=0;if(kind)wr_n=0;#5;
    if(leds!==el[1:0] || (!kind && read_data!==expected[7:0]) || (kind && (ec!=1 || ta_takt!==1 || ta_daten!==!eb[0])))begin
     if(failures<12)$display("DIFF vector=%0d address=%h write=%0d read HDL=%h C=%h LEDs HDL=%h C=%h clock=%b count=%0d",count,address,kind,read_data,expected[7:0],leds,el[1:0],ta_takt,ec);
+    if(failures==0)begin
+     if(leds!==el[1:0])$display("FAIL {\"signal\":\"raw-led-state\",\"vector\":%0d,\"simulationTimeNs\":%0d,\"hdlValue\":\"%h\",\"cValue\":\"%h\"}",count,$time,leds,el[1:0]);
+     if(!kind && read_data!==expected[7:0])$display("FAIL {\"signal\":\"read-data\",\"vector\":%0d,\"simulationTimeNs\":%0d,\"hdlValue\":\"%h\",\"cValue\":\"%h\"}",count,$time,read_data,expected[7:0]);
+     if(kind && (ec!=1 || ta_takt!==1 || ta_daten!==!eb[0]))$display("FAIL {\"signal\":\"serial-output\",\"vector\":%0d,\"simulationTimeNs\":%0d,\"hdlClock\":\"%b\",\"cEdgeCount\":%0d,\"hdlData\":\"%b\",\"expectedData\":\"%b\"}",count,$time,ta_takt,ec,ta_daten,!eb[0]);
+    end
     failures=failures+1;
    end
    iorq_n=1;wr_n=1;#5;count=count+1;

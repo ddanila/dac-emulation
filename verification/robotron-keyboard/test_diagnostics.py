@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+"""Fault injection checks for retained counterexamples and automatic VCD replay."""
+import json,subprocess,tempfile,unittest
+from pathlib import Path
+from diagnostics import first_difference,firmware_differences,waveform_window,run_bus,bus_differences
+R=Path(__file__).resolve().parent
+class DiagnosticsTests(unittest.TestCase):
+ def test_ordinal_values_keep_both_clocks(self):
+  self.assertIsNone(first_difference([(10,'0')],[(12,'0')],'serial-bit'))
+  d=first_difference([(10,'0'),(20,'1')],[(12,'0'),(22,'0')],'serial-bit')
+  self.assertEqual((d['index'],d['cCycle'],d['hdlCycle'],d['cValue'],d['hdlValue']),(1,20,22,'1','0'))
+  self.assertEqual(waveform_window([d],100),(0,54))
+ def test_missing_events_and_sample_times_are_not_lost_by_zip(self):
+  d=first_difference([(100,'1')],[],'raw-led-state')
+  self.assertEqual(d['reason'],'missing-event');self.assertIsNone(d['hdlValue'])
+  c={'BIT':[],'EDGE':[],'LED':[(100,'1')]};h={'BIT':[],'EDGE':[],'LED':[(101,'1')]}
+  self.assertEqual(firmware_differences(c,h)[0]['signal'],'led-sample')
+  self.assertEqual(waveform_window([],4600000),(0,1024))
+ def test_injected_bus_faults_retain_first_signal_time_and_waveform(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   out=Path(tmp);exe=out/'bus.vvp'
+   subprocess.run(['iverilog','-g2012','-s','bus_tb','-o',exe,R/'chips.v',R/'generated/controller.v',R/'bus_tb.v'],check=True)
+   vectors=out/'bus.txt'
+   for name,vector in [('raw-led-state','0 0000 00 ff 3 0 0\n'),('read-data','0 0000 00 00 0 0 0\n'),('serial-output','1 0000 00 00 0 0 0\n')]:
+    with self.subTest(signal=name):
+     vectors.write_text(vector);(out/'bus.vcd').unlink(missing_ok=True)
+     result=run_bus(['vvp',exe,'+vectors='+str(vectors)],out,R.parents[1])
+     self.assertNotEqual(result.returncode,0)
+     failures=bus_differences(result.stdout)
+     self.assertEqual(failures[0]['signal'],name);self.assertEqual(failures[0]['vector'],0)
+     self.assertEqual(failures[0]['simulationTimeNs'],10)
+     wave=(out/'bus.vcd').read_text();self.assertIn('$enddefinitions',wave);self.assertIn('#10000',wave)
+     self.assertIn('board/emulator mismatch',(out/'bus-wave.log').read_text())
+   vectors.write_text('0 0000 00 ff 0 0 0\n');(out/'bus.vcd').unlink()
+   self.assertEqual(run_bus(['vvp',exe,'+vectors='+str(vectors)],out,R.parents[1]).returncode,0)
+   self.assertFalse((out/'bus.vcd').exists())
+ def test_firmware_wave_replay_stops_at_requested_cycle(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   out=Path(tmp);exe=out/'firmware.vvp';rom=out/'rom.hex';wave=out/'firmware.vcd'
+   rom.write_text('00\n'*2048)
+   subprocess.run(['iverilog','-g2012','-s','firmware_tb','-o',exe,*sorted((R.parents[1]/'third_party/cpu/tv80').glob('*.v')),R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v'],check=True)
+   subprocess.run(['vvp',exe,'+rom='+str(rom),'+wave='+str(wave),'+wave_start=10','+wave_end=20'],check=True,capture_output=True,timeout=10)
+   times=[int(line[1:])for line in wave.read_text().splitlines()if line.startswith('#')]
+   self.assertIn(260000,times);self.assertEqual(max(times),360000)
+if __name__=='__main__':unittest.main()

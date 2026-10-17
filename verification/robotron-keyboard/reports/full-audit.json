@@ -4,15 +4,17 @@
   "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
   "sources": {
     "verification/robotron-keyboard/bus_probe.c": "48cd27cbd6b0e796bb34abb12dd4a518425e7b3b826f375ac508bd262b8fa3de",
-    "verification/robotron-keyboard/bus_tb.v": "2fff207b63168572bfd1b21cfb399d2f85df6691990327b294484ab43d1b1fc9",
+    "verification/robotron-keyboard/bus_tb.v": "263e2b2142b27382f6670040236be85f222e5e9d86e8c9e1a62393786e3760a9",
     "verification/robotron-keyboard/chips.v": "fb2dc06ff607c85594ef1fef33c8ae0d75e4f6ab5865bd2ff7e67f259617f3be",
+    "verification/robotron-keyboard/diagnostics.py": "5dc29959942fb9a80f8e3ac7ac6b5613500d177ed4334a6d0f4714a750c1a812",
     "verification/robotron-keyboard/firmware_probe.c": "08ce0bae8ddd72c6e4ecebcb4ed3f6bfbceeff1ab9620bc9a0acf6338fdbd442",
-    "verification/robotron-keyboard/firmware_tb.v": "d28fda3b57ac1a73d08dffdd2f041001dc2372a545684e49fc1646791f6b4b5d",
+    "verification/robotron-keyboard/firmware_tb.v": "2f15360f0cc299f3562b3b0f795253d59780dbd79195a74c1a488530750b354b",
     "verification/robotron-keyboard/generate.py": "832a2005b2738881a3cc8e6f030c6e43f5ea09b869639a4b2f637f56f065a092",
     "verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
-    "verification/robotron-keyboard/run.py": "055b059944dd5ee87bc07b4f2c273804b683e32943779f75abc8ce6d64e3447a",
+    "verification/robotron-keyboard/run.py": "b6c25e4d4ba227cfc1ce875199fa5b78c9a21e6230d422acb0c6d6dd1f1e9854",
     "verification/robotron-keyboard/service_tb.v": "bc504778331f8ca5071e8511402c3cd0e394e4ec997d62a83369d802a5bb6d9f",
-    "verification/robotron-keyboard/sync_reference.py": "ef669e1c3975cf2d65dc9d0206409eb4844ba5708890b8372119919baf68f5ba"
+    "verification/robotron-keyboard/sync_reference.py": "ef669e1c3975cf2d65dc9d0206409eb4844ba5708890b8372119919baf68f5ba",
+    "verification/robotron-keyboard/test_diagnostics.py": "9702694dc6da3ef8d3b67edd1d1e59bbfc72e6ce370bdf4319162134f3757d5a"
   },
   "productionKeyboardSha256": "d611b8dd61a6ecc75dc922fc40d0c1901722aec0de988516157af2a26c89922b",
   "productionKeyboardHeaderSha256": "49e4aaa2a5b8dc4bb4b2882c4fc24da194194581e6f133723dc37b8e3216979f",
@@ -32,7 +34,8 @@
     "vectors": 131072,
     "mismatches": 0,
     "equivalent": true,
-    "firstDifferences": []
+    "firstDifferences": [],
+    "firstFailureSignals": []
   },
   "firmware": {
     "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
@@ -265,7 +268,8 @@
       ]
     ],
     "timing": "Cycles recorded; ordinal bit comparison allows CPU timing differences and is not cycle equivalence.",
-    "equivalent": true
+    "equivalent": true,
+    "firstFailureSignals": []
   },
   "equivalent": true
 }
