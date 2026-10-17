@@ -1,0 +1,30 @@
+--- a/vpi.c
++++ b/vpi.c
+@@ -24,7 +24,7 @@
+ #include <math.h>
+ #include <stdint.h>
+ //#include <vpi_user.h>
+-#include "vpi_user_dummy.h"
++#include "vpi_user.h"
+ 
+ #include "ngspice/cmtypes.h" // For Digital_t
+ #include "ngspice/cosim.h"
+@@ -337,6 +337,18 @@
+         pp->ctx = ctx;
+     }
+ 
++    /* Constant-folded outputs may never emit cbValueChange. Seed the
++     * outgoing snapshot from VPI before the first simulation advance. */
++    for (int i = ctx->ins; i < ctx->ins + ctx->outs + ctx->inouts; ++i) {
++        struct ngvp_port *pp = ctx->ports + i;
++        struct t_vpi_value value = { .format = vpiVectorVal };
++        vpi_get_value(pp->handle, &value);
++        pp->new.aval = value.value.vector->aval;
++        pp->new.bval = value.value.vector->bval;
++        pp->flags |= OUT_PENDING;
++        ++ctx->out_pending;
++    }
++
+     /* Make a direct call to the "end-of-advance" callback to start running. */
+ 
+     cr_init(&ctx->cr_ctx);
