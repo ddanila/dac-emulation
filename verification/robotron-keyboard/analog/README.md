@@ -19,6 +19,30 @@ The output directory contains the generated deck, raw sweep, solver log and repo
 with input/tool provenance. Changing beta/contact resistance explores assumptions;
 it does not qualify a production tolerance range.
 
+## Matrix circuit and HDL interface
+
+`matrix_probe.py` generates the sensing network and an external contact fixture
+using X1's numbered row/column connections. Selected columns sink through an
+explicit nominal driver; released columns have no invented active high drive.
+The test scans individual and shared contacts with single, all and no columns
+selected. A graph-connectivity oracle checks thresholded voltages independently
+of the production emulator's OR approximation.
+
+```sh
+python3 verification/robotron-keyboard/analog/matrix_probe.py
+python3 verification/robotron-keyboard/analog/matrix_probe.py --beta 50 --contact-ohms 1000 --out /tmp/matrix-sensitivity
+```
+
+The measured DC samples also pass through a generated `controller_analog` HDL
+interface to check latch/data-bus mapping and column-drive intent. This interface
+reuses the checked structural wiring, replacing only the contact/sense boundary.
+It is preparation for live feedback, not a coupled transient firmware test.
+
+The fixture deliberately uses diode-free resistive contacts. Its three-corner
+rectangle conducts to a phantom row; that result must not be transferred to the
+museum specimen or production emulator without verifying the actual key wiring.
+Contact, driver and latch-load values are assumptions retained in the report.
+
 ## Reset circuit
 
 `reset_probe.py` generates the reset passives, diodes and transistors from the same
@@ -123,8 +147,8 @@ model-qualification issue, not evidence about the specimen. `boot_cosim.py` also
 accepts `--rise-us` and `--step-ns` for investigation.
 
 The full power-on delay is simulated, although only a tail window is saved to
-limit waveform storage. The run can take several minutes and is kept outside fast
-CI. Reports pin ROM, TV80, generated wiring, bridge libraries and analog sources;
+limit waveform storage. The run is kept outside fast CI and can take much longer than the standalone
+probes. Set its wall-clock limit with `--timeout-seconds`. Reports pin ROM, TV80, generated wiring, bridge libraries and analog sources;
 solver logs and voltage traces are retained when validation fails. Firmware
 scenarios and coupled timestep convergence remain separate qualification work.
 

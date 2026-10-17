@@ -144,6 +144,7 @@ def main():
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/coupled-boot')
     p.add_argument('--rise-us', type=float, default=1)
     p.add_argument('--step-ns', type=float, default=2)
+    p.add_argument('--timeout-seconds', type=float, default=7200)
     p.add_argument('--ngspice', default='ngspice')
     p.add_argument('--iverilog', default='iverilog')
     args = p.parse_args()
@@ -151,6 +152,8 @@ def main():
         p.error('step-ns must be in (0, 10]')
     if not math.isfinite(args.rise_us) or not 0 < args.rise_us <= 10000:
         p.error('rise-us must be in (0, 10000]')
+    if not math.isfinite(args.timeout_seconds) or args.timeout_seconds <= 0:
+        p.error('timeout-seconds must be positive and finite')
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
     for name in ('report.json', 'trace.txt', 'ngspice.log'):
@@ -162,7 +165,7 @@ def main():
                               'remainingDigitalBoundaries': ['matrix sensing', 'CPU/peripheral buses', 'LED and serial output loading'],
                               'contacts': 'All open; this is a boot integration test, not firmware scenario qualification',
                               'traceWindowSeconds': [.124, .127], 'simulationStartSeconds': 0,
-                              'maximumStepNs': args.step_ns, 'supplyRiseUs': args.rise_us,
+                              'maximumStepNs': args.step_ns, 'timeoutSeconds': args.timeout_seconds, 'supplyRiseUs': args.rise_us,
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'oscillator_probe.py', 'reset_probe.py', 'ls_nand_nominal.cir')}}
@@ -170,9 +173,10 @@ def main():
         prepare(args, report)
         report['ngspice'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()
         report['iverilog'] = subprocess.run([args.iverilog, '-V'], capture_output=True, text=True, check=True).stdout.splitlines()[0]
+        (out / 'run-inputs.json').write_text(json.dumps(report, indent=2) + '\n')
         with (out / 'ngspice.log').open('w') as log:
             subprocess.run([args.ngspice, '-b', 'boot.cir'], cwd=out, stdout=log,
-                           stderr=subprocess.STDOUT, check=True, timeout=1800)
+                           stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
         validate(out, report)
         report['passed'] = True
     except Exception as error:

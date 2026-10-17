@@ -41,6 +41,12 @@ def elements(components, refs):
     for ref in refs:
         c = components[ref]
         pins, kind = c['pins'], c['type']
+        network = re.fullmatch(r'8x(.+)', kind)
+        if ref.startswith('R') and network and set(pins) == {str(i) for i in range(1, 10)}:
+            for pin in range(2, 10):
+                lines.append(f'{ref}_{pin} {node(pins["1"])} {node(pins[str(pin)])} {value(network[1])}')
+            models[ref] = 'common-pin resistor network'
+            continue
         if ref[0] in 'RC' and set(pins) == {'1', '2'}:
             model = 'capacitor' if ref[0] == 'C' else 'resistor'
             line = f'{ref} {node(pins["1"])} {node(pins["2"])} {value(kind)}'
