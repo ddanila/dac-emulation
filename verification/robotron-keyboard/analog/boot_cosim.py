@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Boot TV80/S600 from coupled electrical clock/reset; sensing remains digital."""
+"""Boot TV80/S600 from electrical clock/reset, optionally with live matrix feedback."""
 import argparse
 import hashlib
 import json
@@ -9,6 +9,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from controller_interface import generate
+from matrix import matrix_circuit
 from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
 from reset_probe import RESET_REFS
@@ -44,10 +46,12 @@ def prepare(args, report):
             raise ValueError('TV80 source differs: ' + name)
     report['tv80'] = source
     subprocess.run([sys.executable, str(HERE.parent / 'generate.py'), '--check'], check=True)
+    (out / 'controller_analog.v').write_text(generate())
     hdl = [*sorted(tv80.glob('*.v')), HERE.parent / 'chips.v',
-           HERE.parent / 'generated/controller.v', HERE / 'boot_cosim.v']
-    report['hdlSha256'] = {str(path.relative_to(ROOT)): sha(path) for path in hdl}
-    subprocess.run([args.iverilog, '-g2012', '-s', 'boot_cosim', '-o', str(out / 'boot.vvp'),
+           HERE.parent / 'generated/controller.v', HERE / 'boot_cosim.v', out / 'controller_analog.v']
+    report['hdlSha256'] = {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path): sha(path) for path in hdl}
+    subprocess.run([args.iverilog, '-g2012', '-s', 'boot_cosim',
+                    '-Pboot_cosim.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)), '-o', str(out / 'boot.vvp'),
                     *map(str, hdl)], check=True)
     osc, osc_models, unused, clock_source, cpu_clock = wiring(components)
     reset, reset_models = elements(components, RESET_REFS)
@@ -61,17 +65,31 @@ def prepare(args, report):
     report['unconnectedA7Pins'] = unused
     report['cpuClockNet'], report['cpuResetNet'] = cpu_clock, cpu_reset
     (out / 'ls_nand_nominal.cir').write_bytes((HERE / 'ls_nand_nominal.cir').read_bytes())
+    sense_inputs = ' '.join(f'dsense{i}' for i in reversed(range(8)))
+    sense_nodes = ' '.join(f'n_SENSE{i}' for i in reversed(range(8)))
+    column_outputs = ' '.join(f'dcol{i}' for i in reversed(range(13)))
+    column_nodes = ' '.join(f'sink{i}' for i in reversed(range(13)))
+    if args.electrical_matrix:
+        matrix_lines, matrix_info = matrix_circuit(components, include_models=False)
+        report['matrixCircuit'] = matrix_info
+        report['electricalModels'].update(matrix_info['models'])
+        matrix_lines += [f'Vcontact{i} contact{i} 0 {5 if i in args.contacts else 0}' for i in range(104)]
+    else:
+        matrix_lines = [f'Vunusedsense{i} n_SENSE{i} 0 0' for i in range(8)]
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
              f'Vcc n_p5V 0 PWL(0 0 {args.rise_us}u 5)', '.include ls_nand_nominal.cir',
-             *nominal_models(100), *osc, *reset,
+             *nominal_models(100), *osc, *reset, *matrix_lines,
              f'RBR2 {reset_source} {cpu_reset} .001',
              f'Rresetload {cpu_reset} 0 1g', f'Cresetload {cpu_reset} 0 10p',
              f'Ain [{cpu_clock} {cpu_reset}] [dclk drst] receiver',
              '.model receiver adc_bridge(in_low=1.4 in_high=1.4)',
-             'Ahdl [dclk drst] [dsink csink led1 led0] hdl',
+             f'Amatrix [{sense_nodes}] [{sense_inputs}] sense_receiver',
+             '.model sense_receiver adc_bridge(in_low=0.8 in_high=2)',
+             f'Ahdl [dclk drst {sense_inputs}] [dsink csink led1 led0 {column_outputs}] hdl',
              f'.model hdl d_cosim simulation="{libs["shim"]}" sim_args=["boot.vvp"] delay=1n',
              f'+ lib_args=["{libs["libvvp"]}" "{libs["vpi"]}"]',
              'Adac [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] observation',
+             f'Acolumns [{column_outputs}] [{column_nodes}] observation',
              '.model observation dac_bridge(out_low=0 out_high=5 out_undef=2.5 t_rise=1n t_fall=1n)',
              # Save a tail window to avoid storing the entire power-on delay. Simulation
              # still begins at zero; no capacitor initial conditions or injected clock/reset.
@@ -142,6 +160,9 @@ def main():
     p.add_argument('--rom', type=Path, required=True)
     p.add_argument('--bridge', type=Path, default=ROOT / 'build/keyboard-controller-analog/bridge/bridge.json')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/coupled-boot')
+    p.add_argument('--electrical-matrix', action='store_true')
+    p.add_argument('--contacts', default='', help='Comma-separated fixture contact indices held closed from power-on')
+    p.add_argument('--prepare-only', action='store_true', help='Generate inputs without claiming a simulation pass')
     p.add_argument('--rise-us', type=float, default=1)
     p.add_argument('--step-ns', type=float, default=2)
     p.add_argument('--timeout-seconds', type=float, default=7200)
@@ -154,6 +175,12 @@ def main():
         p.error('rise-us must be in (0, 10000]')
     if not math.isfinite(args.timeout_seconds) or args.timeout_seconds <= 0:
         p.error('timeout-seconds must be positive and finite')
+    try:
+        args.contacts = {int(v) for v in args.contacts.split(',') if v.strip()}
+    except ValueError:
+        p.error('contacts must be comma-separated integers')
+    if not args.contacts <= set(range(104)) or (args.contacts and not args.electrical_matrix):
+        p.error('contacts require electrical-matrix and indices 0 through 103')
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=True)
     for name in ('report.json', 'trace.txt', 'ngspice.log'):
@@ -162,18 +189,24 @@ def main():
               'assumptions': {'receiverThresholdVolts': 1.4,
                               'receiver': 'Single nominal threshold avoids counting both edges of an X band as clock edges',
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
-                              'remainingDigitalBoundaries': ['matrix sensing', 'CPU/peripheral buses', 'LED and serial output loading'],
-                              'contacts': 'All open; this is a boot integration test, not firmware scenario qualification',
+                              'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses', 'LED and serial output loading'],
+                              'electricalMatrix': args.electrical_matrix, 'closedContacts': sorted(args.contacts),
+                              'contacts': 'Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification',
                               'traceWindowSeconds': [.124, .127], 'simulationStartSeconds': 0,
                               'maximumStepNs': args.step_ns, 'timeoutSeconds': args.timeout_seconds, 'supplyRiseUs': args.rise_us,
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
-                            'circuit.py', 'oscillator_probe.py', 'reset_probe.py', 'ls_nand_nominal.cir')}}
+                            'circuit.py', 'oscillator_probe.py', 'reset_probe.py', 'ls_nand_nominal.cir',
+                            'controller_interface.py', 'matrix.py')}}
     try:
         prepare(args, report)
         report['ngspice'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()
         report['iverilog'] = subprocess.run([args.iverilog, '-V'], capture_output=True, text=True, check=True).stdout.splitlines()[0]
         (out / 'run-inputs.json').write_text(json.dumps(report, indent=2) + '\n')
+        if args.prepare_only:
+            report['preparedOnly'] = True
+            print(out / 'boot.cir')
+            return
         with (out / 'ngspice.log').open('w') as log:
             subprocess.run([args.ngspice, '-b', 'boot.cir'], cwd=out, stdout=log,
                            stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)

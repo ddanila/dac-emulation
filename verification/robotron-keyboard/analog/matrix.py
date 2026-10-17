@@ -3,7 +3,7 @@ import re
 from circuit import elements, node, nominal_models
 
 
-def matrix_circuit(components, contact_ohms=100, beta=100):
+def matrix_circuit(components, contact_ohms=100, beta=100, include_models=True):
     pins = components['X1']['pins']
     rows, columns = {}, {}
     for pin, name in pins.items():
@@ -18,7 +18,8 @@ def matrix_circuit(components, contact_ohms=100, beta=100):
         raise ValueError('Unexpected matrix connector dimensions')
     refs = ['R1', 'R2', *[f'R9.{i}' for i in range(1, 9)], *[f'V4.{i}' for i in range(1, 9)]]
     lines, models = elements(components, refs)
-    lines += nominal_models(beta)
+    if include_models:
+        lines += nominal_models(beta)
     lines += [f'.model CONTACT_NOMINAL SW(RON={contact_ohms} ROFF=1t VT=2.5 VH=0)',
               '.model SINK_NOMINAL SW(RON=20 ROFF=1t VT=2.5 VH=0)']
     contacts = []

@@ -142,3 +142,7 @@ qualify-keyboard-controller:
 test-keyboard-coupled-boot:
 	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to the standard 2 KB S600 image'; exit 2)
 	python3 verification/robotron-keyboard/analog/boot_cosim.py --rom "$(S600_ROM)"
+
+.PHONY: test-keyboard-matrix-feedback
+test-keyboard-matrix-feedback:
+	python3 verification/robotron-keyboard/analog/matrix_cosim.py

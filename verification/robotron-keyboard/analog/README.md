@@ -36,12 +36,23 @@ python3 verification/robotron-keyboard/analog/matrix_probe.py --beta 50 --contac
 The measured DC samples also pass through a generated `controller_analog` HDL
 interface to check latch/data-bus mapping and column-drive intent. This interface
 reuses the checked structural wiring, replacing only the contact/sense boundary.
-It is preparation for live feedback, not a coupled transient firmware test.
+The DC comparison checks mapping separately from transient feedback.
 
 The fixture deliberately uses diode-free resistive contacts. Its three-corner
 rectangle conducts to a phantom row; that result must not be transferred to the
 museum specimen or production emulator without verifying the actual key wiring.
 Contact, driver and latch-load values are assumptions retained in the report.
+
+`matrix_cosim.py` closes the live HDL→column sink→contact/sense circuit→HDL latch
+loop with a bus stimulus fixture. After building the bridge described below:
+
+```sh
+make test-keyboard-matrix-feedback
+```
+
+It checks bus reads, analog voltages and timing under timestep refinement, including
+released columns and shared-contact paths. The stimulus is a bus fixture, not CPU
+firmware. Source/library hashes and failure traces are retained with the report.
 
 ## Reset circuit
 
@@ -135,8 +146,17 @@ make test-keyboard-coupled-boot S600_ROM=/path/to/s600.bin
 
 `boot_cosim.py` starts the electrical circuits at power-on with BR1/BR2 closed and
 runs TV80 with the standard S600 image. It checks reset delivery, the first ROM
-fetch, sustained execution and keyboard I/O. This is still a partial board model:
-matrix sensing, buses and output loading retain the digital reference boundaries.
+fetch, sustained execution and keyboard I/O. The default retains the digital matrix
+for comparison. To connect the electrical matrix and latch feedback instead:
+
+```sh
+python3 verification/robotron-keyboard/analog/boot_cosim.py --rom /path/to/s600.bin --electrical-matrix --out /tmp/electrical-matrix-boot
+```
+
+`--contacts 0,8,9` holds fixture contacts closed from power-on in electrical mode;
+it does not identify specimen keys. `--prepare-only` generates inputs and explicitly
+leaves the report unpassed. CPU/peripheral buses and LED/serial output loads still
+retain digital boundaries, so neither mode is complete board qualification.
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
 

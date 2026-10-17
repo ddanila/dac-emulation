@@ -1,7 +1,8 @@
 `timescale 1ns/1ps
-// Clock/reset are analog receiver outputs; matrix sense remains the digital model.
-module boot_cosim(input clk, input reset_n,
-                  output data_sink, output clock_sink, output [1:0] leds);
+// Clock/reset are analog receiver outputs; electrical matrix mode closes sense feedback.
+module boot_cosim #(parameter ELECTRICAL_MATRIX=0)(input clk, input reset_n,
+                  input [7:0] sense, output data_sink, output clock_sink,
+                  output [1:0] leds, output [12:0] column_sink);
  wire [15:0] address;
  wire [7:0] dout, di, read_data;
  wire m1_n, mreq_n, iorq_n, rd_n, wr_n, rfsh_n, halt_n, busak_n;
@@ -13,7 +14,14 @@ module boot_cosim(input clk, input reset_n,
   .nmi_n(1'b1), .busrq_n(1'b1), .di(di), .A(address), .dout(dout),
   .m1_n(m1_n), .mreq_n(mreq_n), .iorq_n(iorq_n), .rd_n(rd_n),
   .wr_n(wr_n), .rfsh_n(rfsh_n), .halt_n(halt_n), .busak_n(busak_n));
- controller board(address,dout,iorq_n,wr_n,104'b0,read_data,leds,ta_daten,ta_takt);
+ generate if(ELECTRICAL_MATRIX) begin: electrical
+  controller_analog board(.address(address),.cpu_data(dout),.iorq_n(iorq_n),.wr_n(wr_n),
+   .sense(sense),.column_sink(column_sink),.read_data(read_data),.leds(leds),
+   .ta_daten(ta_daten),.ta_takt(ta_takt));
+ end else begin: digital
+  controller board(address,dout,iorq_n,wr_n,104'b0,read_data,leds,ta_daten,ta_takt);
+  assign column_sink=13'b0;
+ end endgenerate
  assign di=!mreq_n ? rom[address[10:0]] : read_data;
  assign data_sink=(ta_daten===1'bz || ta_daten===1'b1) ? 1'b0 : ta_daten===1'b0 ? 1'b1 : 1'bx;
  assign clock_sink=(ta_takt===1'bz || ta_takt===1'b1) ? 1'b0 : ta_takt===1'b0 ? 1'b1 : 1'bx;
