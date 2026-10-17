@@ -214,7 +214,10 @@ without qualifying startup or establishing a simulator defect.
 `--case replay` run aborts while all observed DAC controls remain at zero volts;
 `omit-release` and `isolated-breakpoint` complete the same early window. The latter
 adds an electrically isolated PWL breakpoint, so a generic analog breakpoint
-alone does not reproduce the failure. Results and provenance are retained in
+alone does not reproduce the failure. `isolated-dac-event` moves the release to
+an electrically isolated DAC and still fails; `isolated-dac-quiet` holds that
+DAC state unchanged and completes. This isolates the reproducer from column-drive
+loading. Results and provenance are retained in
 `reports/coupled-clock-startup/analog-isolation/observed-events/`. Reproduce with
 `python3 verification/robotron-keyboard/analog/dac_event_probe.py --case replay
 --ngspice /path/to/ngspice --out /fresh/output/directory`; use the recorded runtime
