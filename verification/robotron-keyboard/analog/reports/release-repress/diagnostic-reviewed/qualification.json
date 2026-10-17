@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "scope": "Qualify an existing BR service scenario pair without rerunning its simulations.",
+  "checks": [
+    {
+      "name": "convergence",
+      "exitCode": 0,
+      "report": "convergence.json",
+      "reportSha256": "a13b572ca57e6f72c4e7b8458dee2c78a77198e9b896be1e29e3ce3bd0cb0062"
+    },
+    {
+      "name": "coarse-coverage",
+      "exitCode": 0,
+      "report": "coarse-coverage.json",
+      "reportSha256": "58f6186c26fcd29872e60cf597e28a2658b37caafd73bfd671033a54b50fd263"
+    },
+    {
+      "name": "coarse-margins",
+      "exitCode": 0,
+      "report": "coarse-margins.json",
+      "reportSha256": "0870f8f8cf3f38ff9a88edfb88d151a5aafa64168fd3736f66ed36be9517d3e0"
+    },
+    {
+      "name": "fine-coverage",
+      "exitCode": 0,
+      "report": "fine-coverage.json",
+      "reportSha256": "04bef5e64c072d5d94c9fe1434325f9fee5ef8e5cdfecc9da88b74650c72c639"
+    },
+    {
+      "name": "fine-margins",
+      "exitCode": 0,
+      "report": "fine-margins.json",
+      "reportSha256": "a67c1b4abf44e9a85837c324d8424ce35a983d7204ae21770fcf0838263d48ab"
+    }
+  ],
+  "limits": {
+    "edgeConvergenceNs": 15,
+    "sampledSetupHoldNs": 100,
+    "validationTimeoutSeconds": 300
+  },
+  "qualificationBoundary": "Selected BR service fixture; not electrical oscillator/reset, brownout or specimen calibration",
+  "sources": {
+    "qualify_io_pair.py": "a6bd0e62462fd592bcc6aaacd86cd93eb7432fd2b0260a84fe231df81d619657",
+    "compare_firmware_io.py": "29a87d685978d5a5989ac0cf2ef11dd3c435d09676f8742d7a72f699409bea5d",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "scenario_coverage.py": "43d87075708f34135747c29f190c63d7f47216b1edc1f28d076f21178db4dae4",
+    "receiver_margins.py": "289942bfff332d4bd63f0ab73b93b4c39bcf3676f2a6a6204d413e855d5280f7",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "reset_observation.py": "35418feb9ac2f0a333873fd804b56e23f06640d10ff5c4d6df485226cbd07098",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "compare_led_reference.py": "f49eea90d8b428cf3b71210029fb67d2c2fa63b22dc85fcc9b61f0e4f595d49f",
+    "firmware_io_reference.c": "f2afb530804d237b3c6ceb47ca39729d68c8f29545591cf3b7241e2aa6337e8f"
+  },
+  "inputs": {
+    "coarse": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/release-time-reviewed/coarse/report.json",
+      "sha256": "0c683a014e28176d59a7c0d3a766c3361a1ece79b8dc8c48a48a1e3b76974fa5"
+    },
+    "fine": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/release-time-reviewed/fine/report.json",
+      "sha256": "aa3d132a9fd2145d764a40e61ae4243a52482c3e8121c833d3dbe2bc5396fa32"
+    },
+    "scenario": {
+      "path": "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/scenarios/release-repress.json",
+      "sha256": "94516d7ba8f438d97a740b42ab10e0e16f8f54f21abb0ec8ef8a0c7d0b5b89f2"
+    }
+  }
+}

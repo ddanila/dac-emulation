@@ -1,0 +1,26 @@
+{
+  "scope": "Complete release/repress runs under diagnostic-only strict-time comparison; functional event comparison is separate from analog refinement checks",
+  "runs": {
+    "coarse": {
+      "originalDirectory": "build/keyboard-controller-analog/scenarios-release-coarse",
+      "originalLogSha256": "72625120e60fa65ac57a688c4fd3df641545af3aa9db855a74cf1a9c9d2cd459",
+      "newLogSha256": "f2ce86a2afe2a4966de2e9c9393576f3e15aae7b41e536005e43868567297b42",
+      "eventCount": 228,
+      "exactEventMatch": true
+    },
+    "fine": {
+      "originalDirectory": "build/keyboard-controller-analog/scenarios-release",
+      "originalLogSha256": "f48c5aa305590eef078fa25d3d6ea1b44d4da913d88f31eb84a57ab10a58ea93",
+      "newLogSha256": "f4b6e531a16ff28e807017f8ca2e914f0da35625b5ab8c1874c4e9a933c80dbe",
+      "eventCount": 228,
+      "exactEventMatch": true
+    }
+  },
+  "engineEvidence": {
+    "baseline": "../../coupled-clock-startup/local-engine/report.json",
+    "diagnosticCorrection": "../../service-time-audit/diagnostic-candidate.json",
+    "patch": "../../../engine-patches/ngspice-47-strict-time-diagnostic.patch",
+    "otherCodeModelsUnchanged": true,
+    "switchPatchApplied": false
+  }
+}

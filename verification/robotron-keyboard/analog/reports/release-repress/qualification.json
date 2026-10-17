@@ -1,71 +1,80 @@
 {
-  "passed": false,
+  "passed": true,
   "scope": "Qualify an existing BR service scenario pair without rerunning its simulations.",
   "checks": [
     {
       "name": "convergence",
       "exitCode": 0,
-      "report": "convergence.json",
-      "reportSha256": "ff34d17c4c72acc3300490736927e96973000e60bc16c68832c368d6adafd9df"
+      "report": "diagnostic-reviewed/convergence.json",
+      "reportSha256": "a13b572ca57e6f72c4e7b8458dee2c78a77198e9b896be1e29e3ce3bd0cb0062"
     },
     {
       "name": "coarse-coverage",
       "exitCode": 0,
-      "report": "coarse-coverage.json",
-      "reportSha256": "e02e30518921ead0ab103c7419298f3cc2e77c0c5910ebc3252d4e62ce3204fb"
+      "report": "diagnostic-reviewed/coarse-coverage.json",
+      "reportSha256": "58f6186c26fcd29872e60cf597e28a2658b37caafd73bfd671033a54b50fd263"
     },
     {
       "name": "coarse-margins",
       "exitCode": 0,
-      "report": "coarse-margins.json",
-      "reportSha256": "f135eed2bf497f1847892f605b242af6c45398b27bee6e9029f5eebf4ad879b7"
+      "report": "diagnostic-reviewed/coarse-margins.json",
+      "reportSha256": "0870f8f8cf3f38ff9a88edfb88d151a5aafa64168fd3736f66ed36be9517d3e0"
     },
     {
       "name": "fine-coverage",
       "exitCode": 0,
-      "report": "fine-coverage.json",
-      "reportSha256": "cd98868519492c57526776d83a7d1c3771a02f328cedfd5a8181f5dfca1089b4"
+      "report": "diagnostic-reviewed/fine-coverage.json",
+      "reportSha256": "04bef5e64c072d5d94c9fe1434325f9fee5ef8e5cdfecc9da88b74650c72c639"
     },
     {
       "name": "fine-margins",
       "exitCode": 0,
-      "report": "fine-margins.json",
-      "reportSha256": "438f69d3f448ac01fdf786299d2c9dd33ca58a7b61f804d45f1558fbfa08606c"
+      "report": "diagnostic-reviewed/fine-margins.json",
+      "reportSha256": "a67c1b4abf44e9a85837c324d8424ce35a983d7204ae21770fcf0838263d48ab"
     }
   ],
   "limits": {
     "edgeConvergenceNs": 15,
-    "sampledSetupHoldNs": 100
+    "sampledSetupHoldNs": 100,
+    "validationTimeoutSeconds": 300
   },
   "qualificationBoundary": "Selected BR service fixture; not electrical oscillator/reset, brownout or specimen calibration",
   "sources": {
-    "qualify_io_pair.py": "1b6a0efa3b223823a55ad81980f1efdbb8abd4fbbe9f4a1ea75224c9f3ad2ddc",
-    "compare_firmware_io.py": "830cf15189e8557b5c367b03b1753e236f33cccf6b7022cef8bbe04ead8c5d49",
-    "scenario_coverage.py": "82fda7b972b5386b40fa0f5aa8d39d6f091874856f4a202e09b96dc71c9db66b",
-    "receiver_margins.py": "2cf7d4fcab09424def0f471fb5ade315f11790a4267b3b32041e1671e97b80ed",
+    "qualify_io_pair.py": "a6bd0e62462fd592bcc6aaacd86cd93eb7432fd2b0260a84fe231df81d619657",
+    "compare_firmware_io.py": "29a87d685978d5a5989ac0cf2ef11dd3c435d09676f8742d7a72f699409bea5d",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "scenario_coverage.py": "43d87075708f34135747c29f190c63d7f47216b1edc1f28d076f21178db4dae4",
+    "receiver_margins.py": "289942bfff332d4bd63f0ab73b93b4c39bcf3676f2a6a6204d413e855d5280f7",
     "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
-    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136"
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "reset_observation.py": "35418feb9ac2f0a333873fd804b56e23f06640d10ff5c4d6df485226cbd07098",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "compare_led_reference.py": "f49eea90d8b428cf3b71210029fb67d2c2fa63b22dc85fcc9b61f0e4f595d49f",
+    "firmware_io_reference.c": "f2afb530804d237b3c6ceb47ca39729d68c8f29545591cf3b7241e2aa6337e8f"
   },
   "inputs": {
     "coarse": {
-      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-release-coarse/report.json",
-      "sha256": "be99778a8963a32a6407583bbf4532b2cd5a6eaa8240d0fda89dbb0a9211d7c4"
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/release-time-reviewed/coarse/report.json",
+      "sha256": "0c683a014e28176d59a7c0d3a766c3361a1ece79b8dc8c48a48a1e3b76974fa5"
     },
     "fine": {
-      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-release/report.json",
-      "sha256": "058f334aac01fe7ed3440fa1baf639ab20ef4a54341b17fd23146b04fb55e6fb"
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/release-time-reviewed/fine/report.json",
+      "sha256": "aa3d132a9fd2145d764a40e61ae4243a52482c3e8121c833d3dbe2bc5396fa32"
     },
     "scenario": {
       "path": "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/scenarios/release-repress.json",
       "sha256": "94516d7ba8f438d97a740b42ab10e0e16f8f54f21abb0ec8ef8a0c7d0b5b89f2"
     }
   },
-  "diagnosticReassessment": {
-    "status": "pending time-order diagnostic review",
-    "audit": "../solver-diagnostic-audit.json",
-    "auditSha256": "b3ae14f7d876b76fe5fa71396082a74b00c5101588c7fd9bf49226addbd1a7b0",
-    "previousReport": "qualification-before-diagnostic-audit.json",
-    "previousReportSha256": "fa5f449bbfef55666ead16a3783602e03a9a39cda1d7991163eebe8e289441e0",
-    "reason": "Previously ignored ngspice time-order messages in retained input logs; no claim of proven backward execution"
-  }
+  "generatedReport": {
+    "path": "diagnostic-reviewed/qualification.json",
+    "sha256": "84ce866f342c8b983726f23d938029c89c87560a9080d4f2ab4064cbaf784c81"
+  },
+  "retainedInputReports": {
+    "coarse": "diagnostic-reviewed/coarse-run.json",
+    "fine": "diagnostic-reviewed/fine-run.json"
+  },
+  "engineEvidence": "diagnostic-reviewed/event-regression.json",
+  "interpretation": "Restored only for this complete service scenario pair under the diagnostic-only engine correction. Old input/qualification artifacts are retained; other scenarios still require their own review."
 }

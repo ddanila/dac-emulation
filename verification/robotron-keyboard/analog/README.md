@@ -346,8 +346,11 @@ Service coverage also checks CPU RESET_N transitions and a restart at ROM addres
 0000 after every reset release. Matching later serial traffic alone cannot satisfy
 the reset check.
 
-`reports/release-repress/`, `reports/modifier/`, `reports/control/` and
-`reports/service-reset/`
+`reports/release-repress/qualification.json` points to a complete qualified recheck
+under the diagnostic-only strict-time correction. Its original functional event
+sequence and timestamps are preserved; this does not qualify full-board startup.
+
+`reports/modifier/`, `reports/control/` and `reports/service-reset/`
 retain scenario observations, but their qualification is pending review of
 previously ignored ngspice time-order messages. `reports/solver-diagnostic-audit.json`
 pins the affected logs; equal printed timestamps do not establish backward
