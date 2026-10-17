@@ -67,7 +67,11 @@ Passing DC/HDL and transient feedback reports are retained in
 `reports/latch-loading/`. The full-board harness requires
 `--electrical-matrix` when selecting a stress load. Firmware and full-board
 qualification must be run separately; the retained fixture reports do not
-qualify those broader scopes.
+qualify those broader scopes. `reports/latch-loading/firmware-source/` and
+`firmware-sink/` retain the qualified S600 single-press service scenario under
+each load stress,
+including C serial agreement, refinement and sampled receiver margins. This
+does not qualify electrical oscillator/reset or the internal latch I/V curve.
 
 ```sh
 python3 verification/robotron-keyboard/analog/matrix_probe.py --latch-load source-limit --out /tmp/matrix-source-limit
