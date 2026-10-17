@@ -1,0 +1,33 @@
+--- startup-fixed/vpi.c
++++ diagnostic/vpi.c
+@@ -119,6 +119,9 @@
+ 
+         cr_yield_to_spice(&ctx->cr_ctx);
+ 
++        if (ctx->cosim_context->vtime > .001394 && ctx->cosim_context->vtime < .001395)
++            fprintf(stderr, "VPI_DIAG resume vl=%.17g target=%.17g base=%.17g inputs=%u stop=%p\n",
++                    get_time(ctx), ctx->cosim_context->vtime, ctx->base_time, ctx->in_pending, (void *)ctx->stop_cb);
+         /* Check for input. */
+ 
+         val.format = vpiVectorVal;
+@@ -128,6 +131,9 @@
+                 ctx->ports[i].flags ^= IN_PENDING;
+                 val.value.vector =
+                     (struct t_vpi_vecval *)&ctx->ports[i].previous;
++                if (ctx->cosim_context->vtime > .001394 && ctx->cosim_context->vtime < .001395)
++                    fprintf(stderr, "VPI_DIAG input %s aval=%x bval=%x\n",
++                            vpi_get_str(vpiName, ctx->ports[i].handle), val.value.vector->aval, val.value.vector->bval);
+                 vpi_put_value(ctx->ports[i].handle, &val, NULL, vpiNoDelay);
+                 ctx->in_pending--;
+                 DBG("VPI input %d/%d on %s\n",
+@@ -180,6 +186,10 @@
+         cb->value->value.vector->aval,
+         get_time(ctx), ctx->cosim_context->vtime);
+ 
++    if (ctx->cosim_context->vtime > .001394 && ctx->cosim_context->vtime < .001395)
++        fprintf(stderr, "VPI_DIAG output %s vl=%.17g target=%.17g base=%.17g stop=%p\n",
++                vpi_get_str(vpiName, cb->obj), get_time(ctx), ctx->cosim_context->vtime,
++                ctx->base_time, (void *)ctx->stop_cb);
+     if (ctx->stop_cb) {
+         /* First call in the current VVP cycle: cancel the current
+          * stop CB and request a new one before the next VVP time point.

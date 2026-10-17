@@ -1,0 +1,44 @@
+{
+  "ngspiceSourceVersion": "47",
+  "upstreamSourceSha256": {
+    "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+    "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+  },
+  "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+  "libraries": {
+    "shim": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge-service-diagnostic/ivlng.so",
+      "sha256": "67a618d39af8ec73df2f5dee27a55279f76c2c12781bd2e9f0fbc1bd08df6dbb"
+    },
+    "vpi": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge-service-diagnostic/ivlng.vpi",
+      "sha256": "0ae4154bbe14664a8002464915781a536492bebc3ac55f899769fc6fb69c50a2"
+    },
+    "libvvp": {
+      "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+    }
+  },
+  "diagnostic": {
+    "scope": "Logging only between 1.394 and 1.395 ms; separate library, no time-order or model changes",
+    "patchSha256": "a9f5de0c15db316490625338565efdfdb89da61b042c8d1a33d5d9f67b4f6801",
+    "sourceSha256": "ee95ba66b790fbe6c6b2b60c31609a19bd1e839265a55b3e0f9844f9f0791f7c",
+    "compileCommand": [
+      "cc",
+      "-fPIC",
+      "-fvisibility=default",
+      "-I/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge-service-diagnostic/include",
+      "-I/tmp/robotron-ngspice-switch/source/src/include",
+      "-I/tmp/robotron-ngspice-switch/source/src/xspice/verilog",
+      "-I/tmp/robotron-icarus-src",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge-service-diagnostic/vpi.c",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge-service-diagnostic/ivlng.vpi"
+    ]
+  }
+}
