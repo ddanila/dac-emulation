@@ -1,0 +1,74 @@
+{
+  "scope": "Full analog board with only clock connected to minimal live HDL; no CPU, firmware or other digital feedback. Column registers start X, omitting the original brief column Z initialization; other outputs retain bridge initialization transients.",
+  "completed": false,
+  "exitCode": 0,
+  "solverDiagnostics": [
+    "Instance: ahdl   Message: XSPICE time is behind vtime:",
+    "Cosim  0.000102862906246779doAnalyses: TRAN:  Timestep too small; time = 0.000102863, timestep = 4.34018e-24: trouble with sink_nominal-instance sdriver0",
+    "tran simulation(s) aborted"
+  ],
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "8eaad16968da4846444485db35096ae0a13868d5597798e0a8e35fcc4d54bd62",
+      "bytes": 722
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "live-release-nodes.txt": {
+      "sha256": "9cc9c6a64373b54c93c75073968123172cc259e6385f6b4a4d07cf350c812fdd",
+      "bytes": 1822125
+    },
+    "live-release.log": {
+      "sha256": "1e61c853e8757709dec9cd0776980c0a8b0051e52e260913d70b785279ad0162",
+      "bytes": 32629
+    },
+    "release.vvp": {
+      "sha256": "306bdce1559cb468ce9716ea693d2bbfc44cc170eee37cef2f1f2f5db8f358e8",
+      "bytes": 1874
+    },
+    "live-release.cir": {
+      "sha256": "2439fe3142726ec8db13168079066bc913a32cb75486e3e0bdd91624c6b62846",
+      "bytes": 14426
+    },
+    "release.v": {
+      "sha256": "71da0860a5f6a58d7aaea325f3e267cff0ed3300878ae6d89a745d888a7f37a8",
+      "bytes": 244
+    },
+    "live-release-trace.txt": {
+      "sha256": "4e58863ff1710a22dbd31cc23d78bf7f9d2ee382912ba25c62498af5ff16c831",
+      "bytes": 1144150
+    }
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/clock-only-column-release",
+  "commands": [
+    "iverilog -g2012 -s release_probe -o release.vvp release.v",
+    "ngspice -n -b live-release.cir"
+  ],
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "interpretation": "Removing all HDL inputs except clock reproduces the same column-release abort. Sense, reset and cable-receiver inputs to the HDL are unnecessary for this failure. The analog circuit and its ADC observations remain present."
+}

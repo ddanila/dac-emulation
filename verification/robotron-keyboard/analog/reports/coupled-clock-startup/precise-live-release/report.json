@@ -1,0 +1,70 @@
+{
+  "scope": "Full analog board with minimal live clock-triggered HDL column release; no CPU or firmware. Column registers start X, omitting the original brief column Z initialization; other outputs retain bridge initialization transients.",
+  "completed": false,
+  "exitCode": 0,
+  "solverDiagnostics": [
+    "Instance: ahdl   Message: XSPICE time is behind vtime:",
+    "Cosim  0.000102862906246781doAnalyses: TRAN:  Timestep too small; time = 0.000102863, timestep = 4.34018e-24: trouble with sink_nominal-instance sdriver0",
+    "tran simulation(s) aborted"
+  ],
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "f198167b8320578a94f5b87c2116cf954be060258e475d4171047a8219543efe",
+      "bytes": 805
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "precise-events.txt": {
+      "sha256": "3f120517149eb84886a328a16baaf6a180eec8a5d787040bfe3b3185c85d6df9",
+      "bytes": 1095
+    },
+    "live-release.log": {
+      "sha256": "724dd27d819a324246d9741f71fb3811b83a072addf822c52413a56b6dca7f63",
+      "bytes": 42007
+    },
+    "release.vvp": {
+      "sha256": "77715e245681225177ba35ec88601ec69f6ab6fb03b33c2f7292b18dd198cc80",
+      "bytes": 2451
+    },
+    "live-release.cir": {
+      "sha256": "83f860429fbc627042f6d76a1b605aaee38537d8ad026ea176dcf41939e0cc54",
+      "bytes": 14440
+    },
+    "release.v": {
+      "sha256": "10b1c434a7bd1e809f5dc5b904db5e5554d34904e772d1ae3146e10db3a7dafd",
+      "bytes": 306
+    }
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/full-event-column-release",
+  "commands": [
+    "iverilog -g2012 -s release_probe -o release.vvp release.v",
+    "ngspice -n -b live-release.cir"
+  ],
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "interpretation": "Reproduces the minimal live column-release failure while retaining digital events from time zero with 17 digits after the decimal in scientific notation. Unlike VCD, eprint preserves round-trip double timestamps. Analog wrdata output is omitted; this is failure/event evidence, not waveform qualification."
+}

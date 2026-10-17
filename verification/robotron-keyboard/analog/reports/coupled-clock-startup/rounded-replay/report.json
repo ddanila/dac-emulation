@@ -1,0 +1,165 @@
+{
+  "scope": "Captured-output replay with timestamps truncated to 1 fs; no live HDL or firmware; unchanged analog circuit",
+  "completed": true,
+  "sourceDirectory": "build/keyboard-controller-analog/full-event-column-release",
+  "sourceEventSha256": "3f120517149eb84886a328a16baaf6a180eec8a5d787040bfe3b3185c85d6df9",
+  "removedStatements": [
+    "Ahdl [dclk drst dsense7 dsense6 dsense5 dsense4 dsense3 dsense2 dsense1 dsense0 rx_data rx_clock] [dsink csink led1 led0 dcol12 dcol11 dcol10 dcol9 dcol8 dcol7 dcol6 dcol5 dcol4 dcol3 dcol2 dcol1 dcol0] hdl",
+    ".model hdl d_cosim simulation=\"/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so\" sim_args=[\"release.vvp\"] delay=10n",
+    "+ lib_args=[\"/private/tmp/robotron-icarus-src/vvp/libvvp.so\" \"/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi\"]"
+  ],
+  "ports": [
+    "dsink",
+    "csink",
+    "led1",
+    "led0",
+    "dcol12",
+    "dcol11",
+    "dcol10",
+    "dcol9",
+    "dcol8",
+    "dcol7",
+    "dcol6",
+    "dcol5",
+    "dcol4",
+    "dcol3",
+    "dcol2",
+    "dcol1",
+    "dcol0"
+  ],
+  "outputRows": [
+    [
+      "0E-15",
+      [
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s"
+      ]
+    ],
+    [
+      "1.0000000E-8",
+      [
+        "0z",
+        "0z",
+        "0z",
+        "0z",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us"
+      ]
+    ],
+    [
+      "1.0000841E-8",
+      [
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us"
+      ]
+    ],
+    [
+      "0.000102862906246",
+      [
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s"
+      ]
+    ]
+  ],
+  "exitCode": 0,
+  "solverDiagnostics": [],
+  "endpointText": "time[length(time)-1] = 1.03999999999999994e-04\n",
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "f6eac3c949d51da1f1d7d13fb7e07ff00f8d2a6100581f619a48e7f01e5cabbc",
+      "bytes": 1009
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "precise-events.txt": {
+      "sha256": "a8fee92da4a100f85b7da8884fbc9772b8e7be6c3a8a1722e15332e8a02f8dda",
+      "bytes": 2678
+    },
+    "replay.cir": {
+      "sha256": "01f786767d1f5d88c4b74d308c0c3fc71b5b7f06c44ae65738b99c0a6d66ec18",
+      "bytes": 14149
+    },
+    "stimulus.txt": {
+      "sha256": "5a6f408d482223289b9495e350862b07c1127d1ddb5aec18e2774dfff1e21bba",
+      "bytes": 292
+    },
+    "replay.log": {
+      "sha256": "d502fa64a26eb2502cef7bafc5c6674cba681cba5a427675a8980530a948c1c0",
+      "bytes": 24879
+    },
+    "endpoint.txt": {
+      "sha256": "c03eb8b3e4e913a1226f6d77fae13814295fe149dd410ba82db4536bd5620fe5",
+      "bytes": 47
+    }
+  },
+  "outputEventsMatchStimulus": true,
+  "retainedDirectory": "build/keyboard-controller-analog/rounded-column-replay",
+  "commands": [
+    "ngspice -n -b replay.cir"
+  ],
+  "controlledComparison": {
+    "reference": "../precise-replay/report.json",
+    "identicalDeckAndNandModel": true,
+    "onlyChangedInput": "stimulus timestamp truncation to 1 fs",
+    "maximumTimestampChangeFs": 0.7722210736
+  },
+  "interpretation": "The full-precision replay aborts, whereas this replay with only stimulus timestamps truncated to 1 fs completes at 104 us. This demonstrates numerical sensitivity at the switching boundary; timestamp quantization is not adopted as a remedy. No firmware or full-board timing qualification is established."
+}

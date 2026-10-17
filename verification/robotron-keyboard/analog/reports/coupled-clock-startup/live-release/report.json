@@ -1,5 +1,5 @@
 {
-  "scope": "Full analog board with minimal live clock-triggered HDL column release; no CPU or firmware. Outputs start X, omitting original brief Z initialization.",
+  "scope": "Full analog board with minimal live clock-triggered HDL column release; no CPU or firmware. Column registers start X, omitting the original brief column Z initialization; other outputs retain bridge initialization transients.",
   "completed": false,
   "exitCode": 0,
   "solverDiagnostics": [
@@ -303,7 +303,7 @@
       ]
     }
   },
-  "interpretation": "The first live clock-triggered column release reproduces the abort without TV80 or ROM execution. Together with captured-output replay, this narrows investigation to live mixed-signal coupling and driver transition; it does not uniquely establish the bridge or solver cause. Initial X states omit the original brief Z initialization, so timestamps need not match the firmware run.",
+  "interpretation": "The first live clock-triggered column release reproduces the abort without TV80 or ROM execution. Together with captured-output replay, this narrows investigation to live mixed-signal coupling and driver transition; it does not uniquely establish the bridge or solver cause. Initial column X states omit the original brief column Z initialization, so timestamps need not match the firmware run.",
   "retainedDirectory": "build/keyboard-controller-analog/live-column-release",
   "bridge": {
     "ngspiceSourceVersion": "47",

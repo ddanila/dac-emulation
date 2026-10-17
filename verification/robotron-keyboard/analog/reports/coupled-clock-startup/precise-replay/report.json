@@ -1,0 +1,162 @@
+{
+  "scope": "Full-precision captured-output replay, no live HDL or firmware; unchanged analog circuit",
+  "completed": false,
+  "sourceDirectory": "build/keyboard-controller-analog/full-event-column-release",
+  "sourceEventSha256": "3f120517149eb84886a328a16baaf6a180eec8a5d787040bfe3b3185c85d6df9",
+  "removedStatements": [
+    "Ahdl [dclk drst dsense7 dsense6 dsense5 dsense4 dsense3 dsense2 dsense1 dsense0 rx_data rx_clock] [dsink csink led1 led0 dcol12 dcol11 dcol10 dcol9 dcol8 dcol7 dcol6 dcol5 dcol4 dcol3 dcol2 dcol1 dcol0] hdl",
+    ".model hdl d_cosim simulation=\"/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so\" sim_args=[\"release.vvp\"] delay=10n",
+    "+ lib_args=[\"/private/tmp/robotron-icarus-src/vvp/libvvp.so\" \"/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi\"]"
+  ],
+  "ports": [
+    "dsink",
+    "csink",
+    "led1",
+    "led0",
+    "dcol12",
+    "dcol11",
+    "dcol10",
+    "dcol9",
+    "dcol8",
+    "dcol7",
+    "dcol6",
+    "dcol5",
+    "dcol4",
+    "dcol3",
+    "dcol2",
+    "dcol1",
+    "dcol0"
+  ],
+  "outputRows": [
+    [
+      "0.00000000000000000e+00",
+      [
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s"
+      ]
+    ],
+    [
+      "1.00000000000000002e-08",
+      [
+        "0z",
+        "0z",
+        "0z",
+        "0z",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us"
+      ]
+    ],
+    [
+      "1.00008417722210736e-08",
+      [
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "Us"
+      ]
+    ],
+    [
+      "1.02862906246770178e-04",
+      [
+        "Us",
+        "Us",
+        "Us",
+        "Us",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s",
+        "0s"
+      ]
+    ]
+  ],
+  "exitCode": 0,
+  "solverDiagnostics": [
+    "doAnalyses: TRAN:  Timestep too small; time = 0.000102863, timestep = 4.34018e-24: trouble with sink_nominal-instance sdriver0",
+    "tran simulation(s) aborted"
+  ],
+  "endpointText": "time[length(time)-1] = 1.02862906246785655e-04\n",
+  "artifacts": {
+    "live-release.vcd": {
+      "sha256": "c3016a1ab38cf94f35af5137151c2893ad1b71fdb7a2174bc91ec77b317b3460",
+      "bytes": 805
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "precise-events.txt": {
+      "sha256": "f30728eb0b6376566a87e435f8191ddef300a52b2158fe7f8b65a51d9157bf42",
+      "bytes": 1094
+    },
+    "replay.cir": {
+      "sha256": "01f786767d1f5d88c4b74d308c0c3fc71b5b7f06c44ae65738b99c0a6d66ec18",
+      "bytes": 14149
+    },
+    "stimulus.txt": {
+      "sha256": "a45c0f52a564050ed96bc11d7f60ef02ecbe298679b0c192528501a10b70c982",
+      "bytes": 338
+    },
+    "replay.log": {
+      "sha256": "fe14b0440799f438306c4db2ba5358facf0ffe588ebba439e877b0219b50e3c4",
+      "bytes": 24907
+    },
+    "endpoint.txt": {
+      "sha256": "e17e605960012ffec03e0613f172b4b2ec9a697fda9e853684584d28c43881f9",
+      "bytes": 47
+    }
+  },
+  "eventRowsMatchSourceExactly": true,
+  "retainedDirectory": "build/keyboard-controller-analog/precise-column-replay",
+  "commands": [
+    "ngspice -n -b replay.cir"
+  ],
+  "interpretation": "The full-precision replay reproduces the same sink switch abort without any HDL bridge. All captured digital event rows, including initialization and clock, match the source exactly. Live co-simulation is unnecessary for this failure; investigate the electrical switching/event boundary rather than treating the earlier femtosecond-quantized replay as evidence of a bridge defect."
+}

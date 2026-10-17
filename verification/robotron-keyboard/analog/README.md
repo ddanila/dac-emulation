@@ -193,15 +193,17 @@ without realignment. Solver diagnostics reject a run even if ngspice exits zero;
 a named failing node alone does not establish the root cause.
 
 Holding the HDL clock low avoids the observed abort but disconnects CPU feedback.
-The small fixtures in `reports/fractional-clock-boundary/` exercise an output's
-unknown-to-low transition at integer and fractional clock timestamps without
-reproducing that abort. Neither result qualifies the coupled board or uniquely
-identifies a bridge defect. The captured-output replay under
-`reports/coupled-clock-startup/replay/` also completes past the abort while
-preserving the recorded output events. It excludes live feedback and has the
-VCD timestamp precision, so live coupling/event scheduling still needs qualification. The minimal live HDL in `reports/coupled-clock-startup/live-release/`
-reproduces the column-release abort without CPU or ROM execution. Its simplified
-initial states limit direct timestamp comparison with the firmware run.
+The small fixtures in `reports/fractional-clock-boundary/` do not reproduce it.
+A minimal clock-triggered column release does reproduce the failure, even with
+only the clock connected to the HDL. Full-precision captured-output replay also
+reproduces it with the HDL bridge removed (`reports/coupled-clock-startup/precise-replay/`).
+Truncating only the replay stimulus timestamps to 1 fs avoids the abort
+(`rounded-replay/`); this sensitivity is not a convergence remedy. The earlier VCD
+replay therefore cannot isolate a bridge defect.
+Retain events from time zero with `set numdgt=17` and `eprint` when diagnosing
+this boundary; a late transient save window discards initialization events.
+These reduced/replay fixtures diagnose switching numerics, not firmware or board
+qualification.
 
 `reports/supply-startup-isolation/` contains a reduced linear supply/cable
 reproducer for the tight-tolerance startup failure. Copy it to a scratch location

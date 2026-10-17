@@ -133,5 +133,9 @@
       "bytes": 907
     }
   },
-  "interpretation": "The captured column release and other output states replay without the abort after replacing live d_cosim with d_source. This narrows investigation toward live coupling/event scheduling; it does not prove a unique cause because replay removes feedback and retains only VCD timestamp precision. Charging-window clock amplitude remains below the high-level qualification bound."
+  "interpretation": "The captured column release and other output states replay without the abort after replacing live d_cosim with d_source. This narrows investigation toward live coupling/event scheduling; it does not prove a unique cause because replay removes feedback and retains only VCD timestamp precision. Charging-window clock amplitude remains below the high-level qualification bound.",
+  "followUp": {
+    "report": "../precise-replay/report.json",
+    "finding": "A full-precision replay of the reduced live-column fixture reproduces its switch abort without HDL. Live co-simulation is not required for the failure; the earlier VCD replay does not isolate a bridge defect."
+  }
 }
