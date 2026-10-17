@@ -112,6 +112,17 @@ def compare(coarse, fine, tolerance_ns):
     return {'differences': differences, 'withinTolerance': all(v <= tolerance_ns for v in differences.values())}
 
 
+def require_clock_voltage(report):
+    """Necessary voltage evidence only; not a per-cycle or pulse-width check."""
+    voltage = report.get('cpuClockVoltage', {})
+    if 'supplyTraceSignal' not in report or not voltage.get('samples'):
+        raise ValueError('Full-board clock lacks simultaneous supply evidence')
+    if voltage.get('validSupplySamples') != voltage['samples']:
+        raise ValueError('Full-board observation window leaves the U880 supply range')
+    if not all(voltage.get(key) for key in ('lowExcursionObserved', 'highExcursionObserved')):
+        raise ValueError('Full-board clock does not reach both U880 voltage levels')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('coarse', type=Path)
@@ -123,7 +134,7 @@ def main():
     if any(not math.isfinite(v) or v <= 0 for v in (args.tolerance_ns, args.required_margin_ns)):
         parser.error('Timing budgets must be positive and finite')
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
-              'boundary': 'Selected nominal board scenario; no device calibration, C equivalence, brownout or full waveform-shape claim',
+              'boundary': 'Selected nominal board scenario; no device calibration, per-cycle clock voltage/pulse-width, C equivalence, brownout or full waveform-shape claim',
               'sources': {name: sha(HERE / name) for name in ('qualify_board_pair.py', 'boot_cosim.py', 'failure_evidence.py',
                           'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py', 'clock_voltage.py', 'cpu_clock_limits.json', 'trace_io.py', 'gate_models.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
@@ -132,6 +143,10 @@ def main():
                            for name, path in [('coarse', args.coarse), ('fine', args.fine)]}
         coarse, cd = load_run(args.coarse)
         fine, fd = load_run(args.fine)
+        result['clockVoltage'] = {name: report.get('cpuClockVoltage')
+                                  for name, report in [('coarse', coarse), ('fine', fine)]}
+        for report in (coarse, fine):
+            require_clock_voltage(report)
         if cd != fd:
             raise ValueError('Electrical decks differ beyond timestep')
         result['clockConvergence'] = compare_clocks(
