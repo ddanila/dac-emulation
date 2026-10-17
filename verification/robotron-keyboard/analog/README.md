@@ -210,6 +210,11 @@ different loads cannot be paired as timestep-refinement evidence. A successful
 loaded replay alone does not calibrate parasitics or qualify the live board; the
 retained 1 pF live-startup run still aborts at a column switch.
 
+`reports/coupled-clock-startup/integration-method/` compares trapezoidal and
+Gear integration with identical live circuit, HDL and timestep. The former aborts
+at the column switch; Gear times out near the same startup region. Neither
+qualifies startup or justifies changing the default integration method.
+
 `engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
 boundary correction, not the default engine. `switch_boundary_probe.py` checks
 threshold plateaus against the candidate and unpatched engines. The candidate

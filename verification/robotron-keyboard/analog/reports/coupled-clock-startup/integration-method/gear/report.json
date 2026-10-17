@@ -1,0 +1,81 @@
+{
+  "completed": false,
+  "qualified": false,
+  "scope": "150 us live TV80/S600 startup, integration-method sensitivity only; no full boot or phase qualification",
+  "method": "gear",
+  "maximumStepNs": 0.0625,
+  "durationUs": 150,
+  "sourceDirectory": "build/keyboard-controller-analog/coupled-clock-sixteenth-ns/fine",
+  "sourceDeckSha256": "7ae32c50b3500c4f91c0c33ba96069044357c63ac5859eef17c4adbabf464812",
+  "sourceReportSha256": "608cdb994bd7711d1f0ff4d3c6030045ff11c762f81361111ca29b300e7d2a17",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746"
+      }
+    ]
+  },
+  "sources": {
+    "ngspice_runtime.py": "d5d11df5bae50f63c838e9d78ef9ea4fdcff404fa3977ab65e61f612e26e8a51",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "retainedDirectory": "build/keyboard-controller-analog/integration-method/gear",
+  "error": "Command '['/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched', '-n', '-b', 'probe.cir']' timed out after 239.99995891700001 seconds",
+  "artifacts": {
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "probe.cir": {
+      "sha256": "633d01c0df218727a9bb2b8f66c1950f940840faa0fe64de20175527baabdf84",
+      "bytes": 14253
+    },
+    "ngspice.log": {
+      "sha256": "559593f9e1cdbfcd9496586ed0ea1964c122b522575675181b94065ad8349134",
+      "bytes": 47404
+    },
+    "boot.vvp": {
+      "sha256": "d890b7f8736f4e5fbdeb22671efb36f92900b419bccdf7084e502358d73f45f8",
+      "bytes": 629324
+    },
+    "s600.hex": {
+      "sha256": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+      "bytes": 6144
+    }
+  },
+  "lastPrintedReferenceSeconds": 0.000102799,
+  "interpretation": "Neither completion nor phase qualification is established. Integration method is the only solver-setting difference between this pair; circuit, HDL, engine and timestep are identical."
+}
