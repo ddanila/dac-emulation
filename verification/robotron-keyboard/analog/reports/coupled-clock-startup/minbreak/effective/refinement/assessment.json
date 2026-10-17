@@ -1,6 +1,6 @@
 {
   "qualified": false,
-  "pairPending": true,
+  "pairPending": false,
   "scope": "1 ms early coupled-board clock refinement; no full-boot or firmware qualification",
   "minimumBreakpointFs": 1,
   "stepsNs": [
@@ -8,8 +8,11 @@
     0.0625
   ],
   "completedRuns": {
-    "coarse": "1c1d661a07e876499bfc736121f9594067690caf140bbf444db911caab159502"
+    "coarse": "1c1d661a07e876499bfc736121f9594067690caf140bbf444db911caab159502",
+    "fine": "1058e55a1d6d758235d0c5fcbfc20b5fa3ce00062d07275c4c3402e4984ff8be"
   },
   "probeSourceSha256": "1b75b8259ac942f1a414aa86a7990adfbd1e2280bb7d9e15bf9f53f65803711b",
-  "interpretation": "Coarse run completed without solver diagnostics; producer/decompressed waveform hashes and diagnostic endpoints were verified. Fine execution and the unchanged absolute-phase gate remain pending."
+  "interpretation": "Both runs completed without solver diagnostics and verified producer/decompressed waveform hashes. The unchanged absolute-phase gate rejects this pair; successful execution does not qualify timing.",
+  "maximumBracketDifferenceNs": 253.2070000004459,
+  "edgeBudgetNs": 15
 }
