@@ -44,6 +44,17 @@ class ClockVoltageTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.check_samples(samples)
 
+    def test_supply_only_capture_matches_diagnostic_capture(self):
+        import lzma
+        with tempfile.TemporaryDirectory() as directory:
+            p, d, s = (Path(directory) / name for name in ('clock', 'diagnostic', 'supply'))
+            p.write_text('time clock reset data serial\n0 .2 0 0 0\n1 4.9 0 0 0\n')
+            d.write_text('time supply rc osc1 osc2 out ground current\n0 5 0 0 0 0 0 0\n1 5 0 0 0 0 0 0\n')
+            Path(str(s) + '.xz').write_bytes(lzma.compress(b'time supply\n0 5\n1 5\n'))
+            self.assertEqual(inspect(p, d), inspect(p, s, diagnostic_columns=2))
+            with self.assertRaises(ValueError):
+                inspect(p, s)
+
 
 if __name__ == '__main__':
     unittest.main()

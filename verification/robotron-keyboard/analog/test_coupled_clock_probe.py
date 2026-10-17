@@ -26,6 +26,8 @@ class CoupledClockProbeTests(unittest.TestCase):
         self.assertIn('.save v(a) v(b)\n', changed)
         self.assertIn('wrdata trace.txt v(a)\nwrdata diagnostic-trace.txt v(b)', changed)
         self.assertIn('RBR1 a b .001\n', changed)
+        with_supply = deck.replace('.endc', 'wrdata supply-trace.txt v(n_p5V)\n.endc')
+        self.assertNotIn('wrdata supply-trace.txt', early_deck(with_supply, 2, 100, DIAGNOSTIC_SIGNALS))
         with self.assertRaises(ValueError):
             early_deck(deck.replace('.save v(a)\n', ''), 2, 100, ('v(b)',))
 

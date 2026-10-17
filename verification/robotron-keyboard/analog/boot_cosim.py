@@ -22,6 +22,7 @@ from model_coverage import classify
 from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
 from gate_models import GATE_MODELS
+from clock_voltage import inspect as inspect_clock_voltage
 from reset_probe import RESET_REFS
 from serial_observation import validate_transport, SerialMismatch
 import board_scenario
@@ -124,6 +125,8 @@ def prepare(args, report):
         receiver_lines = ['Vreceiver_data receiver_data 0 0', 'Vreceiver_clock receiver_clock 0 0']
     trace_signals = [f'v({cpu_clock})', f'v({cpu_reset})', *serial_trace]
     report['traceSignals'] = trace_signals
+    supply_signal = f'v({node(components["A5"]["pins"]["11"])})'
+    report['supplyTraceSignal'] = supply_signal
     report['modelCoverage'] = classify(components, report['electricalModels'],
                                        args.electrical_matrix, args.electrical_outputs, not args.bypass_rom_bus)
     if args.serial_driver == '7406-dc':
@@ -150,10 +153,11 @@ def prepare(args, report):
              f'.model observation dac_bridge(out_low=0 out_high=5 out_undef={args.output_unknown_volts:g} t_rise=1n t_fall=1n)',
              # Save a tail window to avoid storing the entire power-on delay. Simulation
              # still begins at zero; no capacitor initial conditions or injected clock/reset.
-             '.save ' + ' '.join(trace_signals),
+             '.save ' + ' '.join([*trace_signals, supply_signal]),
              '.control', 'set wr_singlescale', 'set wr_vecnames',
              f'tran {args.step_ns}n {report["assumptions"]["traceWindowSeconds"][1]:.12g} 124m',
              'wrdata trace.txt ' + ' '.join(trace_signals),
+             'wrdata supply-trace.txt ' + supply_signal,
              'quit', '.endc', '.end']
     deck = with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs)
     (out / 'boot.cir').write_text(deck)
@@ -217,6 +221,11 @@ def validate(out, report):
     if not all((count, low_reset, high_reset, clock_low, clock_high)) or first > .12401 or last_time < report['assumptions']['traceWindowSeconds'][1] - 1e-12:
         raise ValueError('Coupled analog waveform lacks reset/clock activity or endpoints')
     report['waveformRows'] = count
+    if 'supplyTraceSignal' in report:
+        report['cpuClockVoltage'] = inspect_clock_voltage(
+            out / 'trace.txt', out / 'supply-trace.txt', diagnostic_columns=2)
+    else:
+        report['cpuClockVoltage'] = {'qualified': False, 'unavailable': 'Legacy trace has no simultaneous supply samples'}
     report['firstFetchAfterRelease'] = after[0]
 
 
@@ -288,7 +297,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     if args.compress_traces and any(out.glob('*trace.txt*')):
         p.error('Compressed capture requires a fresh waveform output directory')
-    for name in ('report.json', 'trace.txt', 'ngspice.log'):
+    for name in ('report.json', 'trace.txt', 'supply-trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__,
               'assumptions': {'receiverThresholdVolts': 1.4,
@@ -313,7 +322,7 @@ def main():
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
-                            GATE_MODELS[args.gate_profile], 'gate_models.py',
+                            GATE_MODELS[args.gate_profile], 'gate_models.py', 'clock_voltage.py', 'cpu_clock_limits.json',
                             'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'output_circuit.py', 'model_coverage.py',
                             'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py',
                             'transient_analysis.py', 'ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'compressed_output.py')}}
@@ -334,7 +343,7 @@ def main():
             report['preparedOnly'] = True
             print(out / 'boot.cir')
             return
-        with capture_compressed(out, ['trace.txt'], args.compress_traces) as compressed:
+        with capture_compressed(out, ['trace.txt', 'supply-trace.txt'], args.compress_traces) as compressed:
             with (out / 'ngspice.log').open('w') as log:
                 subprocess.run([engine, '-n', '-b', 'boot.cir'], cwd=out, env=engine_env, stdout=log,
                                stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
@@ -342,18 +351,19 @@ def main():
             report['compressedWaveforms'] = compressed
         verify_runtime(report['ngspiceRuntime'])
         report['logSha256'] = sha(out / 'ngspice.log')
-        report['traceSha256'] = sha(out / 'trace.txt')
-        if args.compress_traces and report['traceSha256'] != compressed['trace.txt']['sha256']:
-            raise ValueError('Compressed boot waveform differs from producer bytes')
+        for name, key in [('trace.txt', 'traceSha256'), ('supply-trace.txt', 'supplyTraceSha256')]:
+            report[key] = sha(out / name)
+            if args.compress_traces and report[key] != compressed[name]['sha256']:
+                raise ValueError('Compressed boot waveform differs from producer bytes: ' + name)
         validate(out, report)
         report['passed'] = True
     except Exception as error:
         if isinstance(error, SerialMismatch):
             report['serialFailure'] = error.details
         report['error'] = str(error)
-        names = ['ngspice.log', 'trace.txt']
+        names = ['ngspice.log', 'trace.txt', 'supply-trace.txt']
         if args.compress_traces:
-            names += ['trace.txt.xz', 'trace.txt.xz.partial']
+            names += ['trace.txt.xz', 'trace.txt.xz.partial', 'supply-trace.txt.xz', 'supply-trace.txt.xz.partial']
         report['failureArtifacts'] = capture_failure(out, names)
         raise
     finally:

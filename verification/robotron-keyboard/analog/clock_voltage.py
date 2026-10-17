@@ -9,8 +9,10 @@ from trace_io import open_text
 LIMITS = Path(__file__).with_name('cpu_clock_limits.json')
 
 
-def inspect(primary, diagnostic):
+def inspect(primary, diagnostic, *, diagnostic_columns=8):
     """Join retained clock and supply samples exactly; never interpolate startup."""
+    if diagnostic_columns not in (2, 8):
+        raise ValueError('Unsupported supply waveform layout')
     limits = json.loads(LIMITS.read_text())
     supply = limits['operatingConditions']
     clock = limits['clockInput']
@@ -31,7 +33,7 @@ def inspect(primary, diagnostic):
             if a is None or b is None:
                 raise ValueError('Clock and supply waveform lengths differ')
             c, r = list(map(float, a.split())), list(map(float, b.split()))
-            if len(c) != 5 or len(r) != 8 or not all(map(math.isfinite, c + r)):
+            if len(c) != 5 or len(r) != diagnostic_columns or not all(map(math.isfinite, c + r)):
                 raise ValueError('Invalid clock/supply waveform')
             t, voltage, vcc = c[0], c[1], r[1]
             if t != r[0] or (previous is not None and t < previous):
