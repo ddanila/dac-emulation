@@ -568,6 +568,10 @@ to XZ without materializing an uncompressed copy:
 python3 verification/robotron-keyboard/analog/compress_trace.py /path/to/completed-run
 ```
 
+For large retained runs, `qualify_io_pair.py --timeout-seconds 1800` extends
+the wall-clock limit of each validation phase, including decompression; it does
+not change electrical acceptance budgets.
+
 The tool verifies the report hash before compression and verifies decompressed
 bytes before removing the raw copy. It preserves failed/unfinished runs and
 refuses changed input. Qualification readers accept `.gz` and `.xz` waveforms transparently;

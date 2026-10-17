@@ -2,6 +2,7 @@
 """Qualify an existing BR service scenario pair without rerunning its simulations."""
 import argparse
 import json
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -17,10 +18,13 @@ def main():
     p.add_argument('fine', type=Path)
     p.add_argument('--scenario', type=Path, required=True)
     p.add_argument('--out', type=Path, required=True)
+    p.add_argument('--timeout-seconds', type=float, default=300, help='Wall-clock limit for each validation phase, including waveform decoding')
     args = p.parse_args()
+    if not math.isfinite(args.timeout_seconds) or args.timeout_seconds <= 0:
+        p.error('timeout-seconds must be positive and finite')
     args.out.mkdir(parents=True, exist_ok=True)
     report = {'passed': False, 'scope': __doc__, 'checks': [],
-              'limits': {'edgeConvergenceNs': 15, 'sampledSetupHoldNs': 100},
+              'limits': {'edgeConvergenceNs': 15, 'sampledSetupHoldNs': 100, 'validationTimeoutSeconds': args.timeout_seconds},
               'qualificationBoundary': 'Selected BR service fixture; not electrical oscillator/reset, brownout or specimen calibration',
               'sources': {name: sha(HERE / name) for name in (
                   'qualify_io_pair.py', 'compare_firmware_io.py', 'scenario_coverage.py',
@@ -40,7 +44,7 @@ def main():
             output = args.out / (name + '.json')
             output.unlink(missing_ok=True)
             process = subprocess.run([sys.executable, str(HERE / script), *map(str, options), '--out', str(output)],
-                                     capture_output=True, text=True, timeout=300)
+                                     capture_output=True, text=True, timeout=args.timeout_seconds)
             (args.out / (name + '.log')).write_text(process.stdout + process.stderr)
             check = {'name': name, 'exitCode': process.returncode, 'report': output.name,
                      'reportSha256': sha(output) if output.exists() else None}
