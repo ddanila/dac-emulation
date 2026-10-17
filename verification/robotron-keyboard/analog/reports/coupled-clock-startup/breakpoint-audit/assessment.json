@@ -1,0 +1,62 @@
+{
+  "qualified": false,
+  "patchSha256": "058ec6cbc75e397eec3bc835dcd54cdec900419ee5c7e8007c8589ce5d937a10",
+  "scope": "Logging only: event-cut spacing and solver calls below 10 fs after 100 us",
+  "cases": {
+    "baseline": {
+      "reportSha256": "e8a7457fa947a27fa47d3fa18215408a76a2e5fc5492e47104a3c16ad946c0a3",
+      "firstEventCut": {
+        "time": "0x1.af74a23e1ea0dp-14",
+        "delta": "0x1.12e0be826d695p-34",
+        "request": "0x1.af74a23e1ea58p-14",
+        "event": "0x1.af74a23e1ea58p-14",
+        "minbreak": "0x1.d83c94fb6d2acp-68"
+      },
+      "firstEventGapSeconds": 1.0164395367051604e-18,
+      "firstEventGapUlps": 75.0,
+      "solverResults": {
+        "0": 4364
+      },
+      "nonAdvancingSolverCalls": 1948,
+      "clockTraceMatchesUninstrumented": true,
+      "uninstrumentedReport": "integration-method/trap/report.json"
+    },
+    "live-equivalent": {
+      "reportSha256": "7579e180234989eb6d781329c9df1a8e66345a78eb306d6e0fb0e00fd981f061",
+      "firstEventCut": {
+        "time": "0x1.aefd3f24f47cdp-14",
+        "delta": "0x1.12e0be826d695p-34",
+        "request": "0x1.aefd3f24f4818p-14",
+        "event": "0x1.aefd3f24f4818p-14",
+        "minbreak": "0x1.d83c94fb6d2acp-68"
+      },
+      "firstEventGapSeconds": 1.0164395367051604e-18,
+      "firstEventGapUlps": 75.0,
+      "solverResults": {
+        "0": 341
+      },
+      "nonAdvancingSolverCalls": 138,
+      "clockTraceMatchesUninstrumented": true,
+      "uninstrumentedReport": "equivalent-dac-diagnostic/live-released/report.json"
+    },
+    "isolated-dac-event": {
+      "reportSha256": "0856ab695ca5540db2ee6e5e78d45e52fad5fb2c0ab41c8e54606ea55bcf1a8f",
+      "firstEventCut": {
+        "time": "0x1.af70345f0cc89p-14",
+        "delta": "0x1.12e0be826d695p-34",
+        "request": "0x1.af70345f0ccd4p-14",
+        "event": "0x1.af70345f0ccd4p-14",
+        "minbreak": "0x1.d83c94fb6d2acp-68"
+      },
+      "firstEventGapSeconds": 1.0164395367051604e-18,
+      "firstEventGapUlps": 75.0,
+      "solverResults": {
+        "0": 78
+      },
+      "nonAdvancingSolverCalls": 27,
+      "clockTraceMatchesUninstrumented": true,
+      "uninstrumentedReport": "analog-isolation/observed-events/isolated-dac-event/report.json"
+    }
+  },
+  "interpretation": "All retained cases begin the recorded collapse with a 75-ULP event cut (about 1.016 attoseconds). Solver calls later use positive deltas too small to change the stored time. This exposes a numerical path; it does not by itself establish a safe breakpoint policy or qualify startup."
+}

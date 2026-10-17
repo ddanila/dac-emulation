@@ -200,8 +200,8 @@ and `eprint`: a late transient save window discards initialization events.
 `--column-load-pf` adds assumed column-to-ground capacitance in the boot,
 coupled-clock and firmware-I/O harnesses; zero retains the unloaded baseline.
 The load is an explicit fixture assumption, and differing loads cannot be paired
-for timestep refinement. Loading, integration-method, minimum-breakpoint-spacing
-and unknown-output power-up fixtures have not resolved live startup. Their scope, decks and failure evidence
+for timestep refinement. Loading, integration-method and unknown-output power-up
+fixtures have not resolved live startup. Their scope, decks and failure evidence
 remain in `reports/coupled-clock-startup/`; none establishes specimen parasitics
 or historical power-up states. Fixed-control analog isolation completes the early
 window with ADC observers and constant-input DACs as well as without bridges.
@@ -227,6 +227,14 @@ for comparison. These experiments do not qualify the oscillator or firmware.
 for equivalent unknown/rail DAC targets. It completes the captured zero-unknown
 replay, but live TV80/S600 startup still aborts. It is not adopted; retained runtime
 and results are in `reports/coupled-clock-startup/equivalent-dac-diagnostic/`.
+
+The logging-only breakpoint audit records attosecond event cuts followed by steps
+too small to advance the stored time. Do not infer that deck `minbreak` options
+were applied by control-command `tran`: ngspice 47 omits that option when copying
+the analysis task. The snapshot probe in `reports/coupled-clock-startup/minbreak/`
+verifies that deck `.tran` followed by `run` retains it. Earlier control-`tran`
+spacing runs are invalid as sensitivity evidence; their original failures remain
+retained. See `reports/coupled-clock-startup/breakpoint-audit/` for exact times.
 
 `engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
 boundary correction, not the default engine. It passes the isolated plateau and
