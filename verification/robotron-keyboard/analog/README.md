@@ -165,6 +165,25 @@ interface is qualified only for this unidirectional open-collector probe, not fo
 shared buses or the full feedback loop. Full-board CPU/ROM qualification remains
 separate from this test.
 
+## CPU data-drive boundary
+
+The mixed-signal adapter uses TV80's write-cycle intent, gated by reset and bus
+ownership, to drive CPU data. Gating it with WR alone discards data setup and hold.
+The [Z80 manual's memory-write timing](https://www.zilog.com/docs/z80/um0080.pdf#page=23)
+specifies stable data during WR and retention after it deasserts. This is a sequence
+check; it does not establish U880 pin delays or full CPU cycle equivalence.
+
+```sh
+make test-keyboard-data-drive
+make qualify-keyboard-data-drive S600_ROM=/path/to/s600.bin
+```
+
+The fast synthetic test exercises memory and I/O writes and retains WR-only drive
+as a failing setup-time control. The longer check reuses the existing S600 firmware
+scenarios and compares serial/LED observations with the old boundary. It preserves
+the digital matrix for this comparison; physical ROM/bus contention remains outside
+its scope. `boot_cosim.py --wr-only-data` retains the old behavior for diagnostics.
+
 ## Coupled firmware boot
 
 After building the bridge, run the longer electrical-clock/reset integration test:

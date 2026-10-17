@@ -7,7 +7,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 
 
-def generate():
+def generate(explicit_cpu_drive=False):
     # Consume the existing schematic-generated interconnect. Only its declared
     # analog boundary is replaced; numbered chip wiring/behavior stay untouched.
     subprocess.run([sys.executable, str(HERE.parent / 'generate.py'), '--check'], check=True,
@@ -21,6 +21,13 @@ def generate():
         raise ValueError('Unexpected contact boundary declaration')
     controller = controller.replace('module controller(', 'module controller_analog(')
     controller = controller.replace(old, 'input [7:0] sense, output [12:0] column_sink')
+    if explicit_cpu_drive:
+        controller = controller.replace('input [7:0] sense,', 'input cpu_drive, input [7:0] sense,')
+        for bit in range(8):
+            old_drive = f"assign n_D{bit}=!wr_n ? cpu_data[{bit}] : 1'bz;"
+            if controller.count(old_drive) != 1:
+                raise ValueError('Unexpected CPU data-drive boundary')
+            controller = controller.replace(old_drive, old_drive.replace('!wr_n', 'cpu_drive'))
     for row in range(8):
         pattern = rf'^assign n_SENSE{row}=([^;]*);$'
         found = re.findall(pattern, controller, re.M)

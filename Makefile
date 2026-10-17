@@ -150,3 +150,11 @@ test-keyboard-matrix-feedback:
 .PHONY: test-keyboard-serial-feedback
 test-keyboard-serial-feedback:
 	python3 verification/robotron-keyboard/analog/serial_cosim.py
+
+.PHONY: test-keyboard-data-drive qualify-keyboard-data-drive
+test-keyboard-data-drive:
+	python3 verification/robotron-keyboard/analog/bus_timing_probe.py
+
+qualify-keyboard-data-drive: test-keyboard-data-drive
+	@test -n "$(S600_ROM)" || (echo 'Set S600_ROM to the standard S600 image'; exit 2)
+	python3 verification/robotron-keyboard/analog/firmware_drive_compare.py --rom "$(S600_ROM)"

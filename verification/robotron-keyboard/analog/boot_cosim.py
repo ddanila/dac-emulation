@@ -48,12 +48,13 @@ def prepare(args, report):
             raise ValueError('TV80 source differs: ' + name)
     report['tv80'] = source
     subprocess.run([sys.executable, str(HERE.parent / 'generate.py'), '--check'], check=True)
-    (out / 'controller_analog.v').write_text(generate())
+    (out / 'controller_analog.v').write_text(generate(explicit_cpu_drive=True))
     hdl = [*sorted(tv80.glob('*.v')), HERE.parent / 'chips.v',
            HERE.parent / 'generated/controller.v', HERE / 'boot_cosim.v', out / 'controller_analog.v']
     report['hdlSha256'] = {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path): sha(path) for path in hdl}
     subprocess.run([args.iverilog, '-g2012', '-s', 'boot_cosim',
-                    '-Pboot_cosim.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)), '-o', str(out / 'boot.vvp'),
+                    '-Pboot_cosim.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)),
+                    '-Pboot_cosim.EXPLICIT_CPU_DRIVE=' + str(int(not args.wr_only_data)), '-o', str(out / 'boot.vvp'),
                     *map(str, hdl)], check=True)
     osc, osc_models, unused, clock_source, cpu_clock = wiring(components)
     reset, reset_models = elements(components, RESET_REFS)
@@ -180,6 +181,7 @@ def main():
     p.add_argument('--rom', type=Path, required=True)
     p.add_argument('--bridge', type=Path, default=ROOT / 'build/keyboard-controller-analog/bridge/bridge.json')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/coupled-boot')
+    p.add_argument('--wr-only-data', action='store_true', help='Retain old WR-only data drive as a diagnostic control')
     p.add_argument('--electrical-outputs', action='store_true')
     p.add_argument('--electrical-matrix', action='store_true')
     p.add_argument('--contacts', default='', help='Comma-separated fixture contact indices held closed from power-on')
@@ -211,6 +213,7 @@ def main():
                               'receiver': 'Single nominal threshold avoids counting both edges of an X band as clock edges',
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
                               'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses'] + ([] if args.electrical_outputs else ['LED and serial output loading']),
+                              'cpuDataDrive': 'WR-only diagnostic' if args.wr_only_data else 'TV80 write-cycle intent gated by reset and bus ownership',
                               'electricalOutputs': args.electrical_outputs, 'electricalMatrix': args.electrical_matrix, 'closedContacts': sorted(args.contacts),
                               'contacts': 'Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification',
                               'traceWindowSeconds': [.124, .127], 'simulationStartSeconds': 0,

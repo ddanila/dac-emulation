@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 // Clock/reset are analog receiver outputs; electrical matrix mode closes sense feedback.
-module boot_cosim #(parameter ELECTRICAL_MATRIX=0)(input clk, input reset_n,
+module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1)(input clk, input reset_n,
                   input [7:0] sense, output data_sink, output clock_sink,
                   output [1:0] leds, output [12:0] column_sink);
  wire [15:0] address;
@@ -16,9 +16,12 @@ module boot_cosim #(parameter ELECTRICAL_MATRIX=0)(input clk, input reset_n,
   .nmi_n(1'b1), .busrq_n(1'b1), .di(di), .A(address), .dout(dout),
   .m1_n(m1_n), .mreq_n(mreq_n), .iorq_n(iorq_n), .rd_n(rd_n),
   .wr_n(wr_n), .rfsh_n(rfsh_n), .halt_n(halt_n), .busak_n(busak_n));
- generate if(ELECTRICAL_MATRIX) begin: electrical
+ // TV80 exposes write intent for the machine cycle independently of WR.
+ // Preserve its data setup/hold window; do not derive output-enable from WR alone.
+ wire cpu_data_drive=reset_n && busak_n && (EXPLICIT_CPU_DRIVE ? cpu.write : !wr_n);
+ generate if(ELECTRICAL_MATRIX || EXPLICIT_CPU_DRIVE) begin: electrical
   controller_analog board(.address(address),.cpu_data(dout),.iorq_n(iorq_n),.wr_n(wr_n),
-   .sense(sense),.column_sink(column_sink),.read_data(read_data),.leds(leds),
+   .cpu_drive(cpu_data_drive),.sense(sense),.column_sink(column_sink),.read_data(read_data),.leds(leds),
    .ta_daten(ta_daten),.ta_takt(ta_takt));
  end else begin: digital
   controller board(address,dout,iorq_n,wr_n,104'b0,read_data,leds,ta_daten,ta_takt);
