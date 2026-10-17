@@ -223,6 +223,11 @@ loading. Results and provenance are retained in
 --ngspice /path/to/ngspice --out /fresh/output/directory`; use the recorded runtime
 for comparison. These experiments do not qualify the oscillator or firmware.
 
+`engine-patches/ngspice-47-equivalent-dac-diagnostic.patch` suppresses breakpoints
+for equivalent unknown/rail DAC targets. It completes the captured zero-unknown
+replay, but live TV80/S600 startup still aborts. It is not adopted; retained runtime
+and results are in `reports/coupled-clock-startup/equivalent-dac-diagnostic/`.
+
 `engine-patches/ngspice-47-zero-hysteresis.patch` is an experimental switch-state
 boundary correction, not the default engine. It passes the isolated plateau and
 captured-output replay checks but does not resolve live startup. Use
