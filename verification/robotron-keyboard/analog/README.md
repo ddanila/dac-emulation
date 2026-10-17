@@ -564,8 +564,10 @@ make qualify-keyboard-board-scenario S600_ROM=/path/to/s600.bin
 
 It runs 10 ns and 5 ns timesteps, then checks electrical clock edge order and
 absolute phase, reset/restart and serial edge agreement, and sampled cable-data
-margins. Clock crossings retain their sample brackets; the first differing edge
-is reported without phase realignment. Sampled clock extrema must agree within
+margins. Clock crossings retain sample brackets expanded by printed timestamp
+uncertainty. Sample gaps and window alignment use that precision instead of a fixed
+allowance; the first differing edge is reported without phase realignment.
+Sampled clock extrema must agree within
 0.05 V. Period statistics remain separate from accumulated phase drift. `KEYBOARD_BOARD_SCENARIO`,
 `KEYBOARD_BOARD_OUT` and `KEYBOARD_BOARD_TIMEOUT_SECONDS` select the recipe,
 output directory and per-run timeout. Existing runs can be checked without

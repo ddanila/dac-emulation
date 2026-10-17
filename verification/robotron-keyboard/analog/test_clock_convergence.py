@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from clock_convergence import compare_clocks
+from clock_convergence import compare_clocks, crossings
 
 
 class ClockConvergenceTests(unittest.TestCase):
@@ -18,7 +18,7 @@ class ClockConvergenceTests(unittest.TestCase):
                     if gap and path == paths[1] and t == 105:
                         continue
                     voltage = high if t >= offset and (t - offset) % cycle >= cycle / 2 else 0
-                    rows.append(f'{t * 1e-9} {voltage} 5 0 0' + (' 0' if columns == 6 else ''))
+                    rows.append(f'{t * 1e-9:.17e} {voltage} 5 0 0' + (' 0' if columns == 6 else ''))
                 path.write_text('time clock reset data serial_clock\n' + '\n'.join(rows))
             return compare_clocks(paths[0], paths[1], 10, 5, tolerance, columns=columns)
 
@@ -74,6 +74,28 @@ class ClockConvergenceTests(unittest.TestCase):
     def test_missing_samples_rejected(self):
         with self.assertRaisesRegex(ValueError, 'timestep'):
             self.compare(gap=True)
+
+
+    def test_subnanosecond_missing_sample_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'clock.txt'
+            path.write_text('time clock\n0 0\n1.25000000000000000e-10 5\n')
+            with self.assertRaisesRegex(ValueError, 'timestep'):
+                list(crossings(path, .0625, {}, columns=2))
+
+    def test_printed_rounding_expands_edge_brackets(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'clock.txt'
+            path.write_text('time clock\n1.00000e-3 0\n1.00001e-3 5\n'
+                            '1.00002e-3 0\n1.00003e-3 5\n')
+            stats = {}
+            edges = list(crossings(path, 10, stats, columns=2))
+            self.assertAlmostEqual(stats['maximumTimestampUncertaintyNs'], 5)
+            self.assertLess(edges[0]['earliestSeconds'], edges[0]['beforeSeconds'])
+            self.assertGreater(edges[0]['latestSeconds'], edges[0]['afterSeconds'])
+            result = compare_clocks(path, path, 10, 10, tolerance_ns=15, columns=2)
+            self.assertFalse(result['passed'])
+            self.assertAlmostEqual(result['maximumBracketDifferenceNs'], 20)
 
 
 if __name__ == '__main__':
