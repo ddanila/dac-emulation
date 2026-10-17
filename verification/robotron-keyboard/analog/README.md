@@ -627,6 +627,14 @@ fixtures, not measured power-on states or exhaustive coverage of mixed unknown
 outputs. The default midpoint coincides with the ideal sinks' switching threshold;
 changing it is a model assumption, not a timing correction.
 
+The Make targets accept `KEYBOARD_BOARD_ARGS` (boot/full-board runs) and
+`KEYBOARD_IO_ARGS` (BR service runs) for options such as the simulator path,
+explicit bridge manifest and compressed capture. Each pair uses the same extra
+arguments. Set `KEYBOARD_BOARD_COARSE_STEP_NS`/`KEYBOARD_BOARD_FINE_STEP_NS` or the
+corresponding `KEYBOARD_IO_...` variables to choose the refinement steps. The
+qualifiers still enforce matching inputs and their existing acceptance limits;
+these controls do not select a qualified model or timestep automatically.
+
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
 
