@@ -167,7 +167,9 @@ The default frequency test alone can pass while this phase gate fails.
 TV80 and the same HDL bridge, then changes the transient/save window and adds non-loading node observations
 to inspect early startup. It compares matched inputs and absolute clock phase;
 it cannot qualify boot, key handling or phase accumulated through power-on reset.
-Prepared full-board reports remain explicitly unqualified.
+Prepared full-board reports remain explicitly unqualified. The default probe uses
+a 1 ms window and 1 ns/0.5 ns timesteps; each simulation has a configurable
+1200-second wall-clock limit.
 
 ```sh
 python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path/to/s600.bin --steps-ns 1 .5 --duration-us 1000 --out /tmp/coupled-clock
