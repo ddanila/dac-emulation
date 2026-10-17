@@ -10,7 +10,7 @@ from pathlib import Path
 
 from circuit import load
 from controller_interface import generate
-from matrix import matrix_circuit, reached_rows
+from matrix import LATCH_LOADS, matrix_circuit, reached_rows
 from matrix_probe import SELECTIONS
 
 HERE = Path(__file__).resolve().parent
@@ -36,7 +36,7 @@ def run(args, components, libs, name, contacts, step_ns):
                     '-Pmatrix_cosim.COUNT=' + str(len(vectors)), '-o', str(out / 'matrix.vvp'),
                     str(out / 'controller_analog.v'), str(HERE.parent / 'chips.v'),
                     str(HERE / 'matrix_cosim.v')], check=True)
-    lines, metadata = matrix_circuit(components)
+    lines, metadata = matrix_circuit(components, latch_load=args.latch_load)
     lines = ['Robotron live HDL/electrical matrix feedback fixture', 'Vcc n_p5V 0 5', *lines]
     for index in range(104):
         lines.append(f'Vcontact{index} contact{index} 0 {5 if index in contacts else 0}')
@@ -97,6 +97,7 @@ def main():
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/matrix-feedback')
     p.add_argument('--ngspice', default='ngspice')
     p.add_argument('--iverilog', default='iverilog')
+    p.add_argument('--latch-load', choices=LATCH_LOADS, default='ideal')
     args = p.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
     path = args.out / 'report.json'
@@ -105,9 +106,9 @@ def main():
               'assumptions': {'contacts': 'Diode-free external switch fixture, not specimen key construction',
                               'models': 'Nominal matrix.py semiconductors, contacts, drivers and latch loading',
                               'stimulus': 'HDL bus fixture, not CPU firmware; no bounce or changing contacts',
-                              'thresholdVolts': [.8, 2], 'bridgeDelaySeconds': 1e-9},
+                              'latchLoad': args.latch_load, 'thresholdVolts': [.8, 2], 'bridgeDelaySeconds': 1e-9},
               'sources': {name: sha(HERE / name) for name in ('matrix_cosim.py', 'matrix_cosim.v',
-                         'matrix.py', 'matrix_probe.py', 'controller_interface.py', 'circuit.py')},
+                         'matrix.py', 'latch_limits.json', 'matrix_probe.py', 'controller_interface.py', 'circuit.py')},
               'chipsSha256': sha(HERE.parent / 'chips.v')}
     try:
         components, report['connectivitySha256'] = load()

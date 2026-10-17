@@ -1,9 +1,21 @@
 """Reference sensing front end and an explicit external contact-matrix fixture."""
+import json
 import re
+from pathlib import Path
 from circuit import elements, node, nominal_models
 
 
-def matrix_circuit(components, contact_ohms=100, beta=100, include_models=True):
+LATCH_LOADS = ('ideal', 'source-limit', 'sink-limit')
+
+
+def matrix_circuit(components, contact_ohms=100, beta=100, include_models=True,
+                   latch_load='ideal'):
+    if latch_load not in LATCH_LOADS:
+        raise ValueError('Unknown latch load profile: ' + latch_load)
+    capacitance = '10p'
+    if latch_load != 'ideal':
+        limits = json.loads(Path(__file__).with_name('latch_limits.json').read_text())
+        capacitance = limits['inputCapacitance']['maximumFarads']
     pins = components['X1']['pins']
     rows, columns = {}, {}
     for pin, name in pins.items():
@@ -37,8 +49,13 @@ def matrix_circuit(components, contact_ohms=100, beta=100, include_models=True):
         if sense != f'n_SENSE{row}':
             raise ValueError('Unexpected latch sense pin mapping')
         outputs.append(sense)
-        lines += [f'Rlatch{row} {sense} 0 1g', f'Clatch{row} {sense} 0 10p']
-    return lines, {'models': models, 'contacts': contacts, 'outputs': outputs,
+        lines += [f'Rlatch{row} {sense} 0 1g', f'Clatch{row} {sense} 0 {capacitance}']
+        # Constant-current sensitivity stimuli, not a calibrated input I/V curve.
+        if latch_load == 'source-limit':
+            lines.append(f'Ilatch{row} n_p5V {sense} {limits["forwardInput"]["maximumMagnitudeAmps"]}')
+        elif latch_load == 'sink-limit':
+            lines.append(f'Ilatch{row} {sense} 0 {limits["reverseInput"]["maximumAmps"]}')
+    return lines, {'latchLoad': latch_load, 'models': models, 'contacts': contacts, 'outputs': outputs,
                    'columnNets': [node(columns[i]['net']) for i in range(13)]}
 
 

@@ -54,6 +54,22 @@ It checks bus reads, analog voltages and timing under timestep refinement, inclu
 released columns and shared-contact paths. The stimulus is a bus fixture, not CPU
 firmware. Source/library hashes and failure traces are retained with the report.
 
+Both matrix tools accept `--latch-load source-limit` and `--latch-load sink-limit`
+(default: `ideal`, 1 GΩ and 10 pF). These stress fixtures add 12 pF and either
+inject 200 µA into each sense input or sink 50 µA from it. Values come from the
+[Intel 8282 DC characteristics](https://tvsat.com.pl/PDF/8/8282_intel.pdf),
+pinned with their test conditions in `latch_limits.json`. The constant currents
+are applied across the whole voltage swing as sensitivity stimuli; the sheet
+specifies them only at particular input voltages. They are not calibrated input
+I/V curves, guaranteed operating corners, or an IC supply-current model.
+Passing DC/HDL and transient feedback reports are retained in
+`reports/latch-loading/`.
+
+```sh
+python3 verification/robotron-keyboard/analog/matrix_probe.py --latch-load source-limit --out /tmp/matrix-source-limit
+python3 verification/robotron-keyboard/analog/matrix_cosim.py --latch-load sink-limit --out /tmp/matrix-feedback-sink-limit
+```
+
 ## Reset circuit
 
 `make characterize-keyboard-devices` compares the generic NPN model with SC236D
