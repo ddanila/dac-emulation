@@ -1,0 +1,18 @@
+Published-topology SN7406 nominal DC characterization
+.include ttl7406_nominal.cir
+.temp 25
+.options reltol=1e-8 vntol=1e-10 abstol=1e-15
+VCC vp 0 5.25
+VIN a 0 5.5
+RLOAD vp y 1000000000.0
+ILOAD 0 y 0
+Xdut a y vp 0 TTL7406_NOMINAL input_br=1
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+op
+wrdata trace.txt v(a) v(y) i(VCC) i(VIN)
+quit
+.endc
+.end

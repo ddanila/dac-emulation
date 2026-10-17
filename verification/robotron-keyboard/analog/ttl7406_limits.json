@@ -1,0 +1,60 @@
+{
+  "source": {
+    "url": "https://www.ti.com/lit/ds/symlink/sn7406.pdf",
+    "title": "TI SN7406, SDLS031A",
+    "page": "PDF page 3",
+    "sha256": "0795a70eb763f226a76d4067783d47690072ea861f13e5e0baf205f5f033950b"
+  },
+  "topologyPage": "PDF page 2; resistor values explicitly nominal",
+  "temperatureC": 25,
+  "qualificationBoundary": "Selected DC points at 25 C only; generic semiconductor parameters do not qualify SN7406 production corners or the museum part",
+  "cases": [
+    {
+      "name": "input-low",
+      "supplyVolts": 5.25,
+      "inputVolts": 0.4,
+      "pullupOhms": 1000000000.0,
+      "injectedOutputAmps": 0,
+      "metric": "inputAmps",
+      "minimum": -0.0016
+    },
+    {
+      "name": "input-high",
+      "supplyVolts": 5.25,
+      "inputVolts": 2.4,
+      "pullupOhms": 1000000000.0,
+      "injectedOutputAmps": 0,
+      "metric": "inputAmps",
+      "maximum": 4e-05
+    },
+    {
+      "name": "input-maximum",
+      "supplyVolts": 5.25,
+      "inputVolts": 5.5,
+      "pullupOhms": 1000000000.0,
+      "injectedOutputAmps": 0,
+      "metric": "inputAmps",
+      "maximum": 0.001
+    },
+    {
+      "name": "sink-16ma",
+      "supplyVolts": 4.75,
+      "inputVolts": 2,
+      "pullupOhms": 1000000000000.0,
+      "injectedOutputAmps": 0.016,
+      "metric": "outputVolts",
+      "minimum": 0,
+      "maximum": 0.4
+    },
+    {
+      "name": "sink-40ma",
+      "supplyVolts": 4.75,
+      "inputVolts": 2,
+      "pullupOhms": 1000000000000.0,
+      "injectedOutputAmps": 0.04,
+      "metric": "outputVolts",
+      "minimum": 0,
+      "maximum": 0.7
+    }
+  ]
+}
