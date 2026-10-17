@@ -189,6 +189,10 @@ key identity, receiver setup/hold margins or full-board qualification. Refine th
 service timestep with `firmware_io_cosim.py --rom /path/to/s600.bin --step-ns 25 --out /tmp/firmware-io-fine`.
 The run retains source/library hashes, logs and receiver waveforms, including on
 failure. It requires the bridge below and remains outside fast CI.
+Failure reports identify the differing serial signal, bit ordinal and available
+timestamps. C cycles and receiver picoseconds remain separate clock domains.
+For unequal edge counts, the first unpaired ordinal is reported without claiming
+it identifies where an edge was lost; complete logs and waveforms remain available.
 
 Check refinement with
 `compare_firmware_io.py /path/to/coarse /path/to/fine --out /path/to/comparison.json`.

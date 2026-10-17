@@ -12,7 +12,7 @@ from circuit import load
 from controller_interface import generate
 from matrix import matrix_circuit
 from output_circuit import output_circuit
-from serial_observation import validate_transport
+from serial_observation import validate_transport, first_reference_difference, SerialMismatch
 from io_scenario import load as load_scenario, contact_source, reset_source, c_header, time_ns, observe
 
 HERE = Path(__file__).resolve().parent
@@ -145,14 +145,16 @@ def main():
         if re.search(r'warning|error|failed|fatal|singular|no vlog_startup_routines', log, re.I):
             raise ValueError('Solver/HDL diagnostics: inspect ngspice.log')
         report['serialTransport'] = validate_transport(log, require_activity=True)
-        report['receiverCoverage'] = observe(scenario, report['serialTransport']['received'], electrical=True)
-        if not report['receiverCoverage']['passed']:
-            raise ValueError('Cable receiver does not satisfy scenario observations')
         received_bits = [bit for _, bit in report['serialTransport']['received']]
         report['cReferenceBits'] = expected_bits
         report['ordinalBitsMatchC'] = received_bits == expected_bits
         if not report['ordinalBitsMatchC']:
+            report['firstSerialDifference'] = first_reference_difference(reference_events, report['serialTransport']['received'])
             raise ValueError('Electrical receiver bits differ from C emulator under the contact fixture')
+        report['receiverCoverage'] = observe(scenario, report['serialTransport']['received'], electrical=True)
+        if not report['receiverCoverage']['passed']:
+            report['firstFailedObservation'] = next(window for window in report['receiverCoverage']['windows'] if not window['passed'])
+            raise ValueError('Cable receiver does not satisfy scenario observations')
         first, last, count = None, None, 0
         with (out / 'trace.txt').open() as stream:
             next(stream)
@@ -169,6 +171,8 @@ def main():
         report['traceSha256'], report['logSha256'] = sha(out / 'trace.txt'), sha(out / 'ngspice.log')
         report['passed'] = True
     except Exception as error:
+        if isinstance(error, SerialMismatch):
+            report['serialFailure'] = error.details
         report['error'] = str(error)
         raise
     finally:

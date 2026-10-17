@@ -58,7 +58,7 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
         if coarse[key] != fine[key]:
             raise ValueError('Run provenance differs: ' + key)
     for name in ('circuit.py', 'matrix.py', 'output_circuit.py', 'controller_interface.py',
-                 'boot_cosim.v', 'firmware_io_cosim.v', 'serial_observation.py'):
+                 'boot_cosim.v', 'firmware_io_cosim.v'):
         if coarse['sources'][name] != fine['sources'][name]:
             raise ValueError('Model source differs: ' + name)
     def hdl_by_name(report):
@@ -102,7 +102,8 @@ def main():
         p.error('tolerance-ns must be positive and finite')
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
               'interpretation': 'Exploratory numerical comparison, not a historical receiver timing specification',
-              'validatorSha256': sha(Path(__file__))}
+              'validationSources': {name: sha(Path(__file__).resolve().parent / name) for name in
+                                    ('compare_firmware_io.py', 'serial_observation.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         coarse, ct = load_run(args.coarse)

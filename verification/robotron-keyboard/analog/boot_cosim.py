@@ -16,7 +16,7 @@ from model_coverage import classify
 from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
 from reset_probe import RESET_REFS
-from serial_observation import validate_transport
+from serial_observation import validate_transport, SerialMismatch
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -24,7 +24,11 @@ ROM_SHA256 = '4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273'
 
 
 def sha(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    digest = hashlib.sha256()
+    with path.open('rb') as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def prepare(args, report):
@@ -255,6 +259,8 @@ def main():
         validate(out, report)
         report['passed'] = True
     except Exception as error:
+        if isinstance(error, SerialMismatch):
+            report['serialFailure'] = error.details
         report['error'] = str(error)
         raise
     finally:
