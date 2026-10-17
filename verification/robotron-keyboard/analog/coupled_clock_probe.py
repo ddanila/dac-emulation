@@ -45,7 +45,7 @@ def run(args, step, directory):
     deck = early_deck((directory / 'boot.cir').read_text(), step, args.duration_us, DIAGNOSTIC_SIGNALS)
     (directory / 'clock-probe.cir').write_text(deck)
     (directory / 'diagnostic-trace.txt').unlink(missing_ok=True)
-    result = {'stepNs': step, 'preparedBoard': prepared,
+    result = {'completed': False, 'stepNs': step, 'preparedBoard': prepared,
               'preparedReportSha256': sha(directory / 'report.json'),
               'probeDeckSha256': sha(directory / 'clock-probe.cir')}
     try:
@@ -53,12 +53,12 @@ def run(args, step, directory):
             subprocess.run(['ngspice', '-n', '-b', 'clock-probe.cir'], cwd=directory,
                            stdout=log, stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
         result['logSha256'] = sha(directory / 'ngspice.log')
-        result['traceSha256'] = sha(directory / 'trace.txt')
         log = (directory / 'ngspice.log').read_text()
         diagnostic = re.search(r'^.*(?:warning|error|failed|fatal|singular|no vlog_startup_routines|timestep too small|simulation\(s\) aborted).*$', log, re.I | re.M)
         if diagnostic:
             result['solverDiagnostic'] = diagnostic.group(0)
             raise ValueError('Coupled clock solver/HDL diagnostics: ' + diagnostic.group(0))
+        result['traceSha256'] = sha(directory / 'trace.txt')
         result['diagnosticTraceSha256'] = sha(directory / 'diagnostic-trace.txt')
         result['diagnosticSignals'] = summarize_diagnostics(directory / 'diagnostic-trace.txt', args.duration_us)
         result['completed'] = True

@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """The early probe must preserve board topology and compare identical inputs."""
 import copy
+import json
+from types import SimpleNamespace
+from unittest.mock import patch
 import unittest
 import tempfile
 from pathlib import Path
-from coupled_clock_probe import early_deck, matching_inputs, summarize_diagnostics, DIAGNOSTIC_SIGNALS
+from coupled_clock_probe import early_deck, matching_inputs, summarize_diagnostics, DIAGNOSTIC_SIGNALS, run, sha
 
 
 class CoupledClockProbeTests(unittest.TestCase):
@@ -35,6 +38,36 @@ class CoupledClockProbeTests(unittest.TestCase):
                 path.write_text(bad)
                 with self.assertRaises(ValueError):
                     summarize_diagnostics(path, 100)
+
+    def test_aborted_solver_without_waveform_keeps_solver_reason(self):
+        # ngspice can return zero after an aborted transient and write no trace.
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            args = SimpleNamespace(rom=directory / 's600.bin', gate_profile='nominal',
+                                   rise_us=1, reltol=1e-9, vntol=1e-11, abstol=1e-17,
+                                   duration_us=150, timeout_seconds=1)
+            deck = ('fixture\n.save v(a)\n.control\ntran 1n 0.127 124m\n'
+                    'wrdata trace.txt v(a)\n.endc\n.end\n')
+
+            def execute(command, **kwargs):
+                if '--prepare-only' in command:
+                    (directory / 'boot.cir').write_text(deck)
+                    (directory / 'report.json').write_text(json.dumps({
+                        'passed': False, 'preparedOnly': True,
+                        'deckSha256': sha(directory / 'boot.cir')}))
+                else:
+                    kwargs['stdout'].write('doAnalyses: TRAN: Timestep too small\n'
+                                           'tran simulation(s) aborted\n')
+
+            with patch('coupled_clock_probe.subprocess.run', side_effect=execute):
+                with self.assertRaisesRegex(ValueError, 'Timestep too small'):
+                    run(args, 1, directory)
+            report = json.loads((directory / 'clock-probe.json').read_text())
+            self.assertFalse(report['completed'])
+            self.assertIn('Timestep too small', report['solverDiagnostic'])
+            self.assertEqual(report['failureArtifacts']['trace.txt']['status'], 'missing')
+            self.assertEqual(report['failureArtifacts']['ngspice.log']['sha256'],
+                             sha(directory / 'ngspice.log'))
 
     def test_model_and_solver_changes_rejected(self):
         coarse = {key: 'same' for key in ('romSha256', 'connectivitySha256', 'bridge', 'tv80', 'ngspice', 'iverilog', 'sources')}

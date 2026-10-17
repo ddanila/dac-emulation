@@ -1,0 +1,51 @@
+{
+  "scope": "100 ns startup diagnostic only; smooths nominal input bias with 1 uV scale; not a calibrated model or board qualification",
+  "deckSha256": "0c4a7a4384871b71af8916dc9a9fb865c5bc28d597881fa80e9578bc8f77ba32",
+  "modelSha256": "ca8f4444605f5c4c8e5c3428a124217e8bdc9f9825961ca71e2f2f6d8052e5b0",
+  "exitCode": 0,
+  "completed": false,
+  "passed": false,
+  "solverDiagnostics": [
+    "doAnalyses: TRAN:  Timestep too small; time = 1.00445e-11, timestep = 2.79214e-21: trouble with node \"vhost#branch\"",
+    "tran simulation(s) aborted"
+  ],
+  "interpretation": "Smoothing the input-bias knee alone did not resolve startup. The solver named the host supply branch; this does not identify the root cause.",
+  "sourceDirectory": "build/keyboard-controller-analog/coupled-clock-tighter-150us/coarse",
+  "artifacts": {
+    "clock-probe.cir": {
+      "sha256": "a03cfe9eda13412248f87aef76deb2082469b0e9e511d25cc169dcc0ac474f91",
+      "bytes": 14347
+    },
+    "ls_nand_nominal.cir": {
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "bytes": 907
+    },
+    "smooth-bias-start.cir": {
+      "sha256": "0c4a7a4384871b71af8916dc9a9fb865c5bc28d597881fa80e9578bc8f77ba32",
+      "bytes": 14365
+    },
+    "smooth-bias-diagnostic.cir": {
+      "sha256": "ca8f4444605f5c4c8e5c3428a124217e8bdc9f9825961ca71e2f2f6d8052e5b0",
+      "bytes": 1009
+    },
+    "smooth-bias-start.log": {
+      "sha256": "0e042a7a810dfe9926af2f193cc85cd7c89f1075a686430d556fe06ce6e42e56",
+      "bytes": 22175
+    },
+    "smooth-bias-trace.txt": {
+      "sha256": "6453910dc628fb45edb2dec9bf7d7770429152270afbfa5c44fb247a3ff9b92a",
+      "bytes": 48416236
+    },
+    "smooth-bias-nodes.txt": {
+      "sha256": "5baf541987fa141744749f35de5b7cebb8b1fb35a0d28aaadcda262a4697cb88",
+      "bytes": 77107299
+    }
+  },
+  "diagnosticModel": "* Exploratory LS-TTL NAND macromodel, NOT a calibrated DL000 model.\n* Nominal parameters below are assumptions, not extracted die/device data.\n* Validated only as a transport/topology experiment; supply current is not modeled.\n.subckt LS_NAND_NOMINAL a b y vp g params: threshold=1.4 width=0.1 pole=5n rout=30 cin=3p\n* Continuous transfer; no artificial Schmitt hysteresis or clock source.\nBtarget target g V=V(vp,g)*(0.04+0.66*(1-(1+tanh((V(a,g)-threshold)/width))*(1+tanh((V(b,g)-threshold)/width))/4))\nRpole target filtered 1k\nCpole filtered g {pole/1000}\nEdrive drive g filtered g 1\nRout drive y {rout}\nCa a g {cin}\nCb b g {cin}\n* Illustrative low-input bias and negative-input clamps.\nBia vp a I=((0.32*V(vp,g)-V(a,g))+sqrt((0.32*V(vp,g)-V(a,g))*(0.32*V(vp,g)-V(a,g))+1e-12))/20000\nBib vp b I=((0.32*V(vp,g)-V(b,g))+sqrt((0.32*V(vp,g)-V(b,g))*(0.32*V(vp,g)-V(b,g))+1e-12))/20000\nDa g a INPUT_CLAMP_NOMINAL\nDb g b INPUT_CLAMP_NOMINAL\n.model INPUT_CLAMP_NOMINAL D(IS=1e-14 N=1 RS=20)\n.ends LS_NAND_NOMINAL\n",
+  "transient": "tran 1n 100n",
+  "solver": {
+    "reltol": 1e-09,
+    "vntol": 1e-11,
+    "abstol": 1e-17
+  }
+}

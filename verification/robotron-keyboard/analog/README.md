@@ -183,7 +183,10 @@ python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path
 ngspice aborted at the unused NAND input clamp before useful clock activity.
 The retained partial waveform is failure evidence, not a completed simulation.
 Standalone oscillator phase convergence therefore does not yet transfer to the
-coupled board. The probe rejects solver diagnostics even when ngspice exits zero.
+coupled board. The probe checks solver diagnostics before requiring waveform
+files, including when ngspice exits zero. The archived `smooth-bias-diagnostic.json`
+records an unsuccessful input-bias smoothing experiment; the named failing node
+is diagnostic context, not proof of the root cause.
 
 The separate `diagnostic-trace.txt` records board supply, oscillator internal
 nodes, cable return and host-source current, with hashes and voltage/current
