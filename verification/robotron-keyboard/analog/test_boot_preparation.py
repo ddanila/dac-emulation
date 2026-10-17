@@ -60,6 +60,9 @@ class BootPreparationTests(unittest.TestCase):
                 self.assertIn('RBR2 ', deck)
                 self.assertIn('Ahdl ', deck)
                 self.assertIn('0.127 124m', deck)
+                self.assertEqual(report['supplyTraceSignal'], 'v(n_p5V)')
+                self.assertIn('wrdata supply-trace.txt v(n_p5V)\n', deck)
+                self.assertIn('v(n_p5V)', next(line for line in deck.splitlines() if line.startswith('.save ')))
                 self.assertEqual(report['romSha256'], fixture_sha)
                 normalized_analysis(deck, {
                     'maximumStepNs': 2, 'minimumBreakpointFs': breakpoint_fs,

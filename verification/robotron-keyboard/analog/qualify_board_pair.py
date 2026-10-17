@@ -45,6 +45,9 @@ def load_run(directory):
     for name, key in [('boot.cir', 'deckSha256'), ('ngspice.log', 'logSha256'), ('trace.txt', 'traceSha256')]:
         if sha(directory / name) != report[key]:
             raise ValueError('Retained artifact hash differs: ' + name)
+    if 'supplyTraceSignal' in report:
+        if sha(directory / 'supply-trace.txt') != report.get('supplyTraceSha256'):
+            raise ValueError('Retained supply waveform hash differs')
     gate = report.get('gateModel', {'file': 'ls_nand_nominal.cir',
                                      'sha256': report['sources'].get('ls_nand_nominal.cir')})
     expected_gate = GATE_MODELS[report['assumptions'].get('gateProfile', 'nominal')]
@@ -54,6 +57,9 @@ def load_run(directory):
     if re.findall(r'^\.include (\S+)$', deck, re.M) != [expected_gate]:
         raise ValueError('Executed oscillator model include differs')
     normalized = normalized_analysis(deck, report['assumptions'])
+    supply_commands = re.findall(r'^wrdata supply-trace.txt (.+)$', deck, re.M)
+    if supply_commands != ([report['supplyTraceSignal']] if 'supplyTraceSignal' in report else []):
+        raise ValueError('Reported supply observation differs from executed deck')
     if json.loads((directory / 'scenario.json').read_text()) != report['scenario']:
         raise ValueError('Retained contact recipe differs')
     rom = bytes(int(value, 16) for value in (directory / 's600.hex').read_text().split())
@@ -64,6 +70,8 @@ def load_run(directory):
     for key in ('resetEvents', 'firstFetchAfterRelease', 'serialTransport', 'scenarioCoverage'):
         if json.loads(json.dumps(checked[key])) != report[key]:
             raise ValueError('Retained observations differ from report: ' + key)
+    if 'supplyTraceSignal' in report and checked['cpuClockVoltage'] != report.get('cpuClockVoltage'):
+        raise ValueError('Retained clock voltage observations differ from report')
     return report, normalized
 
 
@@ -117,7 +125,7 @@ def main():
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
               'boundary': 'Selected nominal board scenario; no device calibration, C equivalence, brownout or full waveform-shape claim',
               'sources': {name: sha(HERE / name) for name in ('qualify_board_pair.py', 'boot_cosim.py', 'failure_evidence.py',
-                          'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py', 'trace_io.py', 'gate_models.py')}}
+                          'board_scenario.py', 'io_scenario.py', 'receiver_margins.py', 'serial_observation.py', 'clock_convergence.py', 'clock_voltage.py', 'cpu_clock_limits.json', 'trace_io.py', 'gate_models.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         result['inputs'] = {name: {'path': str(path.resolve()), 'reportSha256': sha(path / 'report.json')}

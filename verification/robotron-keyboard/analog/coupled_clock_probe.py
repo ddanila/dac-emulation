@@ -35,6 +35,8 @@ def early_deck(deck, step_ns, duration_us, diagnostics=(), minimum_breakpoint_fs
             raise ValueError('Unexpected prepared waveform commands')
         deck = re.sub(r'^(\.save .+)$', lambda m: m[0] + ' ' + ' '.join(diagnostics), deck, flags=re.M)
         deck = re.sub(r'^(wrdata trace.txt .+)$', lambda m: m[0] + '\nwrdata diagnostic-trace.txt ' + ' '.join(diagnostics), deck, flags=re.M)
+        # The diagnostic stream already captures the same supply samples.
+        deck = re.sub(r'^wrdata supply-trace.txt v\(n_p5V\)\n', '', deck, flags=re.M)
     command = f'tran {step_ns}n {duration_us}u'
     deck = re.sub(r'^tran [0-9.eE+-]+n [0-9.eE+-]+ 124m$', command, deck, flags=re.M)
     if minimum_breakpoint_fs is not None:
