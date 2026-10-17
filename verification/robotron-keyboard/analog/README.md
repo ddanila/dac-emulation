@@ -19,6 +19,23 @@ The output directory contains the generated deck, raw sweep, solver log and repo
 with input/tool provenance. Changing beta/contact resistance explores assumptions;
 it does not qualify a production tolerance range.
 
+## Reset circuit
+
+`reset_probe.py` generates the reset passives, diodes and transistors from the same
+pinned connectivity, with BR2 connected to the schematic CPU reset pin. It checks
+cold start, a power interruption, BR2 isolation and timestep refinement. The
+semiconductor models and CPU input load are explicit nominal assumptions; release
+timing in the report is a model prediction, not a specimen measurement.
+
+```sh
+python3 verification/robotron-keyboard/analog/reset_probe.py
+python3 verification/robotron-keyboard/analog/reset_probe.py --beta 300 --rise-us 10000 --out /tmp/reset-sensitivity
+```
+
+Generated decks, solver logs and internal-node traces remain available with the
+report, including on failure. Sensitivity runs do not establish device tolerances.
+The ordinary CI job runs the default reset experiment alongside the sensing check.
+
 ## HDL boundary
 
 Use ngspice 47/XSPICE and Icarus 13 with `--enable-libvvp`. The ordinary Icarus
@@ -65,8 +82,13 @@ interface is qualified only for this unidirectional open-collector probe, not fo
 shared buses or the full feedback loop. Full-board CPU/ROM qualification remains
 separate from this test.
 
-Next implement the reset and TTL oscillator as electrical circuits, qualify device
-models and voltage-domain interfaces, and close the feedback loop with TV80, ROM,
+Next implement the TTL oscillator, qualify device models and voltage-domain
+interfaces, and couple the electrical reset into the feedback loop with TV80, ROM,
 matrix contacts and cable load. Keep the original Icarus reference comparison as
 an independent regression. CPU internals remain an HDL model unless a separately
 qualified transistor-level CPU model is explicitly introduced.
+
+For the oscillator, use the manufacturer's [DL000D data sheet](https://datenblatt.weithclan.de/Daten/DL000-030D-ME_ocr.pdf)
+(printed pages 198–202): DL000D is LS-TTL, with SN74LS00 listed as the comparison
+type. A standard 7400 analog gate model must not be silently substituted. The
+published logic symbols and limits alone do not specify a transistor-level model.

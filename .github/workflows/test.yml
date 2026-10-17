@@ -20,6 +20,8 @@ jobs:
       - run: make test-keyboard-controller audit-keyboard-controller
       - name: Reference analog sensing feasibility
         run: python3 verification/robotron-keyboard/analog/sense_probe.py
+      - name: Reference reset, power cycling and BR2 isolation
+        run: python3 verification/robotron-keyboard/analog/reset_probe.py
   checks:
     name: ${{ matrix.target }} (${{ matrix.os }})
     strategy:
