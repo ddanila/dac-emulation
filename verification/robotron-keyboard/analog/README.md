@@ -330,17 +330,19 @@ budget. Independent coverage reports verify the press, repeat and release
 observations and reset/ROM restart. These checks do not override the failed
 refinement gate: repeat remains unqualified. Independent receiver-margin reports
 also pass, accounting conservatively for printed timestamp uncertainty; the
-remaining rejection is paired timing refinement.
+paired timing refinement and unresolved solver time-order messages remain rejections.
 Service coverage also checks CPU RESET_N transitions and a restart at ROM address
 0000 after every reset release. Matching later serial traffic alone cannot satisfy
 the reset check.
 
 `reports/release-repress/`, `reports/modifier/`, `reports/control/` and
 `reports/service-reset/`
-retain qualified scenario pairs;
-`coarse-run.json` and `fine-run.json` are the input reports referenced by each
-qualification's hashes.
-This extends the BR service evidence, not full-board startup or calibration.
+retain scenario observations, but their qualification is pending review of
+previously ignored ngspice time-order messages. `reports/solver-diagnostic-audit.json`
+pins the affected logs; equal printed timestamps do not establish backward
+execution. The harnesses and retained-run loader now reject unresolved messages,
+including when ngspice exits zero. Original reports remain available alongside
+reassessed qualification results.
 
 `receiver_margins.py /path/to/run --out /path/to/margins.json` separately checks
 data stability around the receiver edges using the retained voltage trace. It
@@ -459,8 +461,8 @@ python3 verification/robotron-keyboard/analog/compare_led_reference.py /path/to/
 
 This covers nominal load response and ordinal C LED-state agreement, not exact
 CPU-cycle timing, LED waveform convergence or calibrated brightness.
-`reports/indicators/` retains the qualified pair, including both C LED comparisons
-and their replay logs.
+`reports/indicators/` retains both C LED comparisons and replay logs; its overall
+qualification is pending the solver-diagnostic review described above.
 
 ## NAND static characterization
 

@@ -39,7 +39,7 @@ class CoupledClockProbeTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     summarize_diagnostics(path, 100)
 
-    def test_aborted_solver_without_waveform_keeps_solver_reason(self):
+    def test_unlabelled_time_diagnostic_without_waveform_keeps_reason(self):
         # ngspice can return zero after an aborted transient and write no trace.
         with tempfile.TemporaryDirectory() as temporary:
             directory = Path(temporary)
@@ -56,15 +56,15 @@ class CoupledClockProbeTests(unittest.TestCase):
                         'passed': False, 'preparedOnly': True,
                         'deckSha256': sha(directory / 'boot.cir')}))
                 else:
-                    kwargs['stdout'].write('doAnalyses: TRAN: Timestep too small\n'
-                                           'tran simulation(s) aborted\n')
+                    kwargs['stdout'].write('Instance: ahdl   Message: XSPICE time is behind vtime:\n'
+                                           'XSPICE 0.043\nCosim 0.043\n')
 
             with patch('coupled_clock_probe.subprocess.run', side_effect=execute):
-                with self.assertRaisesRegex(ValueError, 'Timestep too small'):
+                with self.assertRaisesRegex(ValueError, 'behind vtime'):
                     run(args, 1, directory)
             report = json.loads((directory / 'clock-probe.json').read_text())
             self.assertFalse(report['completed'])
-            self.assertIn('Timestep too small', report['solverDiagnostic'])
+            self.assertIn('behind vtime', report['solverDiagnostic'])
             self.assertEqual(report['failureArtifacts']['trace.txt']['status'], 'missing')
             self.assertEqual(report['failureArtifacts']['ngspice.log']['sha256'],
                              sha(directory / 'ngspice.log'))

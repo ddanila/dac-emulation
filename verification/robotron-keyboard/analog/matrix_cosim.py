@@ -8,6 +8,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from failure_evidence import solver_diagnostic
+
 from circuit import load
 from controller_interface import generate
 from matrix import LATCH_LOADS, matrix_circuit, reached_rows
@@ -61,7 +63,7 @@ def run(args, components, libs, name, contacts, step_ns):
         subprocess.run([args.ngspice, '-n', '-b', 'matrix.cir'], cwd=out, stdout=log,
                        stderr=subprocess.STDOUT, check=True, timeout=120)
     log = (out / 'ngspice.log').read_text()
-    if re.search(r'warning|error|failed|fatal|singular|no vlog_startup_routines', log, re.I):
+    if solver_diagnostic(log):
         raise ValueError('Bridge/solver/HDL diagnostics: ' + str(out / 'ngspice.log'))
     reads = re.findall(r'^MATRIX_READ (\d+) (\d+) ([0-9a-f]+) ([0-9a-f]+)$', log, re.M)
     if len(reads) != len(vectors) or f'MATRIX_FEEDBACK_PASS {len(vectors)}' not in log:
@@ -107,7 +109,7 @@ def main():
                               'models': 'Nominal matrix.py semiconductors, contacts, drivers and latch loading',
                               'stimulus': 'HDL bus fixture, not CPU firmware; no bounce or changing contacts',
                               'latchLoad': args.latch_load, 'thresholdVolts': [.8, 2], 'bridgeDelaySeconds': 1e-9},
-              'sources': {name: sha(HERE / name) for name in ('matrix_cosim.py', 'matrix_cosim.v',
+              'sources': {name: sha(HERE / name) for name in ('failure_evidence.py', 'matrix_cosim.py', 'matrix_cosim.v',
                          'matrix.py', 'latch_limits.json', 'matrix_probe.py', 'controller_interface.py', 'circuit.py')},
               'chipsSha256': sha(HERE.parent / 'chips.v')}
     try:

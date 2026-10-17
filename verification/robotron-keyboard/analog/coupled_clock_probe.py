@@ -10,7 +10,7 @@ from pathlib import Path
 
 from boot_cosim import sha
 from clock_convergence import compare_clocks
-from failure_evidence import capture
+from failure_evidence import capture, solver_diagnostic
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -55,10 +55,10 @@ def run(args, step, directory):
                            stdout=log, stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
         result['logSha256'] = sha(directory / 'ngspice.log')
         log = (directory / 'ngspice.log').read_text()
-        diagnostic = re.search(r'^.*(?:warning|error|failed|fatal|singular|no vlog_startup_routines|timestep too small|simulation\(s\) aborted).*$', log, re.I | re.M)
+        diagnostic = solver_diagnostic(log)
         if diagnostic:
-            result['solverDiagnostic'] = diagnostic.group(0)
-            raise ValueError('Coupled clock solver/HDL diagnostics: ' + diagnostic.group(0))
+            result['solverDiagnostic'] = diagnostic
+            raise ValueError('Coupled clock solver/HDL diagnostics: ' + diagnostic)
         result['traceSha256'] = sha(directory / 'trace.txt')
         result['diagnosticTraceSha256'] = sha(directory / 'diagnostic-trace.txt')
         result['diagnosticSignals'] = summarize_diagnostics(directory / 'diagnostic-trace.txt', args.duration_us)

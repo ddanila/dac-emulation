@@ -11,7 +11,7 @@ from boot_cosim import ROM_SHA256, sha
 from circuit import load
 from controller_interface import generate
 from matrix import LATCH_LOADS, matrix_circuit
-from failure_evidence import capture as capture_failure
+from failure_evidence import capture as capture_failure, solver_diagnostic
 from output_circuit import output_circuit
 from serial_observation import validate_transport, first_reference_difference, SerialMismatch
 from io_scenario import load as load_scenario, contact_source, reset_source, c_header, time_ns, observe
@@ -159,7 +159,7 @@ def main():
             subprocess.run(['ngspice', '-n', '-b', 'io.cir'], cwd=out, stdout=log, stderr=subprocess.STDOUT,
                            check=True, timeout=args.timeout_seconds)
         log = (out / 'ngspice.log').read_text()
-        if re.search(r'warning|error|failed|fatal|singular|no vlog_startup_routines', log, re.I):
+        if solver_diagnostic(log):
             raise ValueError('Solver/HDL diagnostics: inspect ngspice.log')
         report['resetDelivery'] = validate_service_reset(log, scenario, args.rom.read_bytes()[0])
         report['serialTransport'] = validate_transport(log, require_activity=True)

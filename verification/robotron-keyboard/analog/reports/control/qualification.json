@@ -1,5 +1,5 @@
 {
-  "passed": true,
+  "passed": false,
   "scope": "Qualify an existing BR service scenario pair without rerunning its simulations.",
   "checks": [
     {
@@ -60,5 +60,13 @@
       "path": "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/scenarios/control.json",
       "sha256": "e841f3b4e34c5c52d3ed4e15d97668b9d7a7bc26d3c83743d1bf68a14ea3e4fd"
     }
+  },
+  "diagnosticReassessment": {
+    "status": "pending time-order diagnostic review",
+    "audit": "../solver-diagnostic-audit.json",
+    "auditSha256": "b3ae14f7d876b76fe5fa71396082a74b00c5101588c7fd9bf49226addbd1a7b0",
+    "previousReport": "qualification-before-diagnostic-audit.json",
+    "previousReportSha256": "de774d30197561da055fbaa7c0ca0f466cc9fd2985c554591fd91c3c683584bf",
+    "reason": "Previously ignored ngspice time-order messages in retained input logs; no claim of proven backward execution"
   }
 }

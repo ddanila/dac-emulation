@@ -103,6 +103,13 @@ class ComparisonTests(unittest.TestCase):
                  'logSha256': sha(path / 'ngspice.log'), 'serialTransport': validate_transport(log, True)}
             (path / 'report.json').write_text(json.dumps(r))
             load_run(path)
+            (path / 'ngspice.log').write_text(log + 'XSPICE time is behind vtime:\nXSPICE 0.043\nCosim 0.043\n')
+            r['logSha256'] = sha(path / 'ngspice.log')
+            (path / 'report.json').write_text(json.dumps(r))
+            with self.assertRaisesRegex(ValueError, 'Retained solver/HDL diagnostics'):
+                load_run(path)
+            (path / 'ngspice.log').write_text(log)
+            r['logSha256'] = sha(path / 'ngspice.log')
             r['assumptions']['stepNs'] = 50
             (path / 'report.json').write_text(json.dumps(r))
             with self.assertRaisesRegex(ValueError, 'timestep'):

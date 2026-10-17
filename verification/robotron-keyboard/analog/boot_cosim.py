@@ -12,7 +12,7 @@ from trace_io import open_binary, open_text
 
 from controller_interface import generate
 from matrix import LATCH_LOADS, matrix_circuit
-from failure_evidence import capture as capture_failure
+from failure_evidence import capture as capture_failure, solver_diagnostic
 from output_circuit import output_circuit
 from model_coverage import classify
 from circuit import elements, load, node, nominal_models
@@ -146,7 +146,7 @@ def prepare(args, report):
 
 def validate(out, report):
     log = (out / 'ngspice.log').read_text()
-    if re.search(r'warning|error|failed|no vlog_startup_routines|singular', log, re.I):
+    if solver_diagnostic(log):
         raise ValueError('Solver/bridge diagnostics: inspect ngspice.log')
     resets = [(int(t)*1e-12, value) for t, value in re.findall(r'^RESET (\d+) ([01xz])$', log, re.M)]
     boots = [tuple(line.split()) for line in re.findall(r'^BOOT (.+)$', log, re.M)]

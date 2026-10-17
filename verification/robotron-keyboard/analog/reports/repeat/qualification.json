@@ -42,5 +42,13 @@
       "sha256": "b2bdb5ab446a6946753f0afaff57e8e2a2dc034d5e24f02d5e65d391c7b03b53"
     }
   },
-  "error": "Qualification check failed: convergence"
+  "error": "Qualification check failed: convergence",
+  "diagnosticReassessment": {
+    "status": "pending time-order diagnostic review",
+    "audit": "../solver-diagnostic-audit.json",
+    "auditSha256": "b3ae14f7d876b76fe5fa71396082a74b00c5101588c7fd9bf49226addbd1a7b0",
+    "previousReport": "qualification-before-diagnostic-audit.json",
+    "previousReportSha256": "78752549189198b5b7254b5906d0e1023f25e26b760ad0b2f18dff3812944d66",
+    "reason": "Previously ignored ngspice time-order messages in retained input logs; no claim of proven backward execution"
+  }
 }

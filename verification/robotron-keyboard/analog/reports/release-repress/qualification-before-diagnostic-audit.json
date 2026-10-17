@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "scope": "Qualify an existing BR service scenario pair without rerunning its simulations.",
+  "checks": [
+    {
+      "name": "convergence",
+      "exitCode": 0,
+      "report": "convergence.json",
+      "reportSha256": "ff34d17c4c72acc3300490736927e96973000e60bc16c68832c368d6adafd9df"
+    },
+    {
+      "name": "coarse-coverage",
+      "exitCode": 0,
+      "report": "coarse-coverage.json",
+      "reportSha256": "e02e30518921ead0ab103c7419298f3cc2e77c0c5910ebc3252d4e62ce3204fb"
+    },
+    {
+      "name": "coarse-margins",
+      "exitCode": 0,
+      "report": "coarse-margins.json",
+      "reportSha256": "f135eed2bf497f1847892f605b242af6c45398b27bee6e9029f5eebf4ad879b7"
+    },
+    {
+      "name": "fine-coverage",
+      "exitCode": 0,
+      "report": "fine-coverage.json",
+      "reportSha256": "cd98868519492c57526776d83a7d1c3771a02f328cedfd5a8181f5dfca1089b4"
+    },
+    {
+      "name": "fine-margins",
+      "exitCode": 0,
+      "report": "fine-margins.json",
+      "reportSha256": "438f69d3f448ac01fdf786299d2c9dd33ca58a7b61f804d45f1558fbfa08606c"
+    }
+  ],
+  "limits": {
+    "edgeConvergenceNs": 15,
+    "sampledSetupHoldNs": 100
+  },
+  "qualificationBoundary": "Selected BR service fixture; not electrical oscillator/reset, brownout or specimen calibration",
+  "sources": {
+    "qualify_io_pair.py": "1b6a0efa3b223823a55ad81980f1efdbb8abd4fbbe9f4a1ea75224c9f3ad2ddc",
+    "compare_firmware_io.py": "830cf15189e8557b5c367b03b1753e236f33cccf6b7022cef8bbe04ead8c5d49",
+    "scenario_coverage.py": "82fda7b972b5386b40fa0f5aa8d39d6f091874856f4a202e09b96dc71c9db66b",
+    "receiver_margins.py": "2cf7d4fcab09424def0f471fb5ade315f11790a4267b3b32041e1671e97b80ed",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136"
+  },
+  "inputs": {
+    "coarse": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-release-coarse/report.json",
+      "sha256": "be99778a8963a32a6407583bbf4532b2cd5a6eaa8240d0fda89dbb0a9211d7c4"
+    },
+    "fine": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-release/report.json",
+      "sha256": "058f334aac01fe7ed3440fa1baf639ab20ef4a54341b17fd23146b04fb55e6fb"
+    },
+    "scenario": {
+      "path": "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/scenarios/release-repress.json",
+      "sha256": "94516d7ba8f438d97a740b42ab10e0e16f8f54f21abb0ec8ef8a0c7d0b5b89f2"
+    }
+  }
+}

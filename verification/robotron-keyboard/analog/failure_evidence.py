@@ -1,5 +1,6 @@
 """Fingerprint available failed-run outputs without interpreting them as valid traces."""
 import hashlib
+import re
 
 
 def capture(directory, names):
@@ -21,3 +22,15 @@ def capture(directory, names):
             # Preserve the original simulator/validation failure in the caller.
             result[name] = {'status': 'unreadable', 'error': str(error)}
     return result
+
+
+def solver_diagnostic(log):
+    """Retain unlabelled abort/time-order messages even when ngspice exits zero.
+
+    The time-order message also covers equal timestamps in ngspice 47. Reject it
+    as unresolved evidence; its text alone does not prove backward execution.
+    """
+    match = re.search(r'^.*(?:warning|error|failed|fatal|singular|no vlog_startup_routines|'
+                      r'timestep too small|simulation\(s\) aborted|XSPICE time is behind vtime).*$',
+                      log, re.I | re.M)
+    return match.group(0) if match else None

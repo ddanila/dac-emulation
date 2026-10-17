@@ -8,6 +8,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from failure_evidence import solver_diagnostic
+
 from circuit import load
 from output_circuit import output_circuit
 
@@ -80,7 +82,7 @@ def run(args, components, libs, step, cable_pf):
     with (out/'ngspice.log').open('w') as log:
         subprocess.run([args.ngspice,'-n', '-b','serial.cir'],cwd=out,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=120)
     log = (out/'ngspice.log').read_text()
-    if re.search(r'warning|error|failed|fatal|singular|no vlog_startup_routines',log,re.I):
+    if solver_diagnostic(log):
         raise ValueError('Solver/HDL diagnostics: '+str(out/'ngspice.log'))
     received = re.findall(r'^RECEIVED (\d+) (\d+) ([01])$',log,re.M)
     if len(received)!=32 or 'SERIAL_TRANSPORT_PASS a55a00ff' not in log:
@@ -126,7 +128,7 @@ def main():
                            'dataThresholdVolts':[.8,2],'clockThresholdVolts':1.4,
                            'loads':'output_circuit.py nominal parameters; no specimen calibration',
                            'scope':'Raw transport fixture, not S600 framing or CPU bus timing'},
-            'sources':{name:sha(HERE/name) for name in ('serial_cosim.py','serial_cosim.v','output_circuit.py','circuit.py')},
+            'sources':{name:sha(HERE/name) for name in ('failure_evidence.py', 'serial_cosim.py','serial_cosim.v','output_circuit.py','circuit.py')},
             'chipsSha256':sha(HERE.parent/'chips.v')}
     try:
         components,report['connectivitySha256']=load()

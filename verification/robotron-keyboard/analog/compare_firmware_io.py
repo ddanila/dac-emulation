@@ -11,6 +11,7 @@ from trace_io import open_binary, open_text
 
 from serial_observation import SerialMismatch, validate_transport
 from led_observation import measure as measure_leds
+from failure_evidence import solver_diagnostic
 
 
 def sha(path):
@@ -31,7 +32,11 @@ def load_run(directory):
     steps = re.findall(r'^tran ([0-9.eE+-]+)n ', (directory / 'io.cir').read_text(), re.M)
     if len(steps) != 1 or float(steps[0]) != report['assumptions']['stepNs']:
         raise ValueError('Reported timestep differs from executed deck')
-    transport = validate_transport((directory / 'ngspice.log').read_text(), require_activity=True)
+    log = (directory / 'ngspice.log').read_text()
+    diagnostic = solver_diagnostic(log)
+    if diagnostic:
+        raise ValueError('Retained solver/HDL diagnostics: ' + diagnostic)
+    transport = validate_transport(log, require_activity=True)
     # JSON represents tuples as arrays; normalize before comparison.
     if json.loads(json.dumps(transport)) != report['serialTransport']:
         raise ValueError('Serial report differs from retained log')

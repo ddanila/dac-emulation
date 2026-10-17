@@ -1,0 +1,1080 @@
+{
+  "scope": "Retained qualification input logs; unresolved ngspice time-order messages are not ignored",
+  "interpretation": "ngspice 47 emits this message for TIME <= vtime. Equal printed timestamps do not prove true backward execution, but the previous acceptance check omitted these diagnostics. Affected qualification remains pending review. Historical numerical/functional observations are retained.",
+  "pairs": [
+    {
+      "qualification": "control/qualification.json",
+      "originalPassed": true,
+      "runs": [
+        {
+          "kind": "coarse",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-control-coarse/report.json",
+            "sha256": "fe205e1e5fd9712728a08c7ad226a49cb4a0aba53b9f54c9e233ae40caf8456c"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-control-coarse/ngspice.log",
+          "logSha256": "9a2c8495d9c2592c28641cee2f0ffff464495097805086ad9dbd856c4d3d8d0a",
+          "eventCount": 15,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            }
+          ]
+        },
+        {
+          "kind": "fine",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-control/report.json",
+            "sha256": "5731b07867647151517f7615cc5ef705a1e87098fdf4c516235d428565e78dbf"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-control/ngspice.log",
+          "logSha256": "2888f0221670dd5fa2723b1710361b9c7389dbd2773bf07e3ce4358386d2299a",
+          "eventCount": 18,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.043000001",
+              "cosimPrintedSeconds": "0.043000001"
+            },
+            {
+              "spicePrintedSeconds": "0.043000001",
+              "cosimPrintedSeconds": "0.043000001"
+            },
+            {
+              "spicePrintedSeconds": "0.043000001",
+              "cosimPrintedSeconds": "0.043000001"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "qualification": "full-board-single-press/qualification.json",
+      "originalPassed": false,
+      "runs": [
+        {
+          "kind": "coarse",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/board-single-delay10",
+            "reportSha256": "5f33ecb1397dc5476930f7c542c49e562a66165bb2aa6fb50b9ae4cebda1dec1"
+          },
+          "status": "input report unavailable"
+        },
+        {
+          "kind": "fine",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/board-single-delay10-fine",
+            "reportSha256": "9f327c1a78b836508937bcdef0f764b19f61cef0ed5e9f826f6d31b642b95722"
+          },
+          "status": "input report unavailable"
+        }
+      ]
+    },
+    {
+      "qualification": "indicators/qualification.json",
+      "originalPassed": true,
+      "runs": [
+        {
+          "kind": "coarse",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-indicators-coarse/report.json",
+            "sha256": "86112914d58e8b03122b991fe23a05516d1c26f3375bfbb2ad67641667f8699c"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-indicators-coarse/ngspice.log",
+          "logSha256": "891ce1ec1b906e63bf3547b786596c2c81199ab743c62d4f93681da190c881ce",
+          "eventCount": 42,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.046",
+              "cosimPrintedSeconds": "0.046"
+            },
+            {
+              "spicePrintedSeconds": "0.046",
+              "cosimPrintedSeconds": "0.046"
+            },
+            {
+              "spicePrintedSeconds": "0.046",
+              "cosimPrintedSeconds": "0.046"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.091",
+              "cosimPrintedSeconds": "0.091"
+            },
+            {
+              "spicePrintedSeconds": "0.091",
+              "cosimPrintedSeconds": "0.091"
+            },
+            {
+              "spicePrintedSeconds": "0.091",
+              "cosimPrintedSeconds": "0.091"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            },
+            {
+              "spicePrintedSeconds": "0.116",
+              "cosimPrintedSeconds": "0.116"
+            },
+            {
+              "spicePrintedSeconds": "0.116",
+              "cosimPrintedSeconds": "0.116"
+            },
+            {
+              "spicePrintedSeconds": "0.116",
+              "cosimPrintedSeconds": "0.116"
+            },
+            {
+              "spicePrintedSeconds": "0.116000001",
+              "cosimPrintedSeconds": "0.116000001"
+            },
+            {
+              "spicePrintedSeconds": "0.116000001",
+              "cosimPrintedSeconds": "0.116000001"
+            },
+            {
+              "spicePrintedSeconds": "0.116000001",
+              "cosimPrintedSeconds": "0.116000001"
+            },
+            {
+              "spicePrintedSeconds": "0.136",
+              "cosimPrintedSeconds": "0.136"
+            },
+            {
+              "spicePrintedSeconds": "0.136",
+              "cosimPrintedSeconds": "0.136"
+            },
+            {
+              "spicePrintedSeconds": "0.136000001",
+              "cosimPrintedSeconds": "0.136000001"
+            },
+            {
+              "spicePrintedSeconds": "0.136000001",
+              "cosimPrintedSeconds": "0.136000001"
+            },
+            {
+              "spicePrintedSeconds": "0.136000001",
+              "cosimPrintedSeconds": "0.136000001"
+            },
+            {
+              "spicePrintedSeconds": "0.161",
+              "cosimPrintedSeconds": "0.161"
+            },
+            {
+              "spicePrintedSeconds": "0.161",
+              "cosimPrintedSeconds": "0.161"
+            },
+            {
+              "spicePrintedSeconds": "0.161",
+              "cosimPrintedSeconds": "0.161"
+            },
+            {
+              "spicePrintedSeconds": "0.161000001",
+              "cosimPrintedSeconds": "0.161000001"
+            },
+            {
+              "spicePrintedSeconds": "0.161000001",
+              "cosimPrintedSeconds": "0.161000001"
+            },
+            {
+              "spicePrintedSeconds": "0.161000001",
+              "cosimPrintedSeconds": "0.161000001"
+            },
+            {
+              "spicePrintedSeconds": "0.181",
+              "cosimPrintedSeconds": "0.181"
+            },
+            {
+              "spicePrintedSeconds": "0.181",
+              "cosimPrintedSeconds": "0.181"
+            },
+            {
+              "spicePrintedSeconds": "0.181000001",
+              "cosimPrintedSeconds": "0.181000001"
+            },
+            {
+              "spicePrintedSeconds": "0.181000001",
+              "cosimPrintedSeconds": "0.181000001"
+            },
+            {
+              "spicePrintedSeconds": "0.181000001",
+              "cosimPrintedSeconds": "0.181000001"
+            },
+            {
+              "spicePrintedSeconds": "0.206",
+              "cosimPrintedSeconds": "0.206"
+            },
+            {
+              "spicePrintedSeconds": "0.206",
+              "cosimPrintedSeconds": "0.206"
+            },
+            {
+              "spicePrintedSeconds": "0.206000001",
+              "cosimPrintedSeconds": "0.206000001"
+            },
+            {
+              "spicePrintedSeconds": "0.206000001",
+              "cosimPrintedSeconds": "0.206000001"
+            },
+            {
+              "spicePrintedSeconds": "0.206000001",
+              "cosimPrintedSeconds": "0.206000001"
+            }
+          ]
+        },
+        {
+          "kind": "fine",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-indicators-fine/report.json",
+            "sha256": "3b769e0bb6974896f4bf29564b200f7ce230b4bff7b7aa62d001b82528bf91ae"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-indicators-fine/ngspice.log",
+          "logSha256": "a7ad0072049d19c7a918bf18634039e286dc8c91ba4ec45f3df54bf0ac99ef6a",
+          "eventCount": 48,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.03",
+              "cosimPrintedSeconds": "0.03"
+            },
+            {
+              "spicePrintedSeconds": "0.03",
+              "cosimPrintedSeconds": "0.03"
+            },
+            {
+              "spicePrintedSeconds": "0.03",
+              "cosimPrintedSeconds": "0.03"
+            },
+            {
+              "spicePrintedSeconds": "0.046",
+              "cosimPrintedSeconds": "0.046"
+            },
+            {
+              "spicePrintedSeconds": "0.046",
+              "cosimPrintedSeconds": "0.046"
+            },
+            {
+              "spicePrintedSeconds": "0.046",
+              "cosimPrintedSeconds": "0.046"
+            },
+            {
+              "spicePrintedSeconds": "0.046000001",
+              "cosimPrintedSeconds": "0.046000001"
+            },
+            {
+              "spicePrintedSeconds": "0.046000001",
+              "cosimPrintedSeconds": "0.046000001"
+            },
+            {
+              "spicePrintedSeconds": "0.046000001",
+              "cosimPrintedSeconds": "0.046000001"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.091",
+              "cosimPrintedSeconds": "0.091"
+            },
+            {
+              "spicePrintedSeconds": "0.091",
+              "cosimPrintedSeconds": "0.091"
+            },
+            {
+              "spicePrintedSeconds": "0.091",
+              "cosimPrintedSeconds": "0.091"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            },
+            {
+              "spicePrintedSeconds": "0.116",
+              "cosimPrintedSeconds": "0.116"
+            },
+            {
+              "spicePrintedSeconds": "0.116",
+              "cosimPrintedSeconds": "0.116"
+            },
+            {
+              "spicePrintedSeconds": "0.116",
+              "cosimPrintedSeconds": "0.116"
+            },
+            {
+              "spicePrintedSeconds": "0.116000001",
+              "cosimPrintedSeconds": "0.116000001"
+            },
+            {
+              "spicePrintedSeconds": "0.116000001",
+              "cosimPrintedSeconds": "0.116000001"
+            },
+            {
+              "spicePrintedSeconds": "0.116000001",
+              "cosimPrintedSeconds": "0.116000001"
+            },
+            {
+              "spicePrintedSeconds": "0.136",
+              "cosimPrintedSeconds": "0.136"
+            },
+            {
+              "spicePrintedSeconds": "0.136",
+              "cosimPrintedSeconds": "0.136"
+            },
+            {
+              "spicePrintedSeconds": "0.136000001",
+              "cosimPrintedSeconds": "0.136000001"
+            },
+            {
+              "spicePrintedSeconds": "0.136000001",
+              "cosimPrintedSeconds": "0.136000001"
+            },
+            {
+              "spicePrintedSeconds": "0.136000001",
+              "cosimPrintedSeconds": "0.136000001"
+            },
+            {
+              "spicePrintedSeconds": "0.161",
+              "cosimPrintedSeconds": "0.161"
+            },
+            {
+              "spicePrintedSeconds": "0.161",
+              "cosimPrintedSeconds": "0.161"
+            },
+            {
+              "spicePrintedSeconds": "0.161",
+              "cosimPrintedSeconds": "0.161"
+            },
+            {
+              "spicePrintedSeconds": "0.161000001",
+              "cosimPrintedSeconds": "0.161000001"
+            },
+            {
+              "spicePrintedSeconds": "0.161000001",
+              "cosimPrintedSeconds": "0.161000001"
+            },
+            {
+              "spicePrintedSeconds": "0.161000001",
+              "cosimPrintedSeconds": "0.161000001"
+            },
+            {
+              "spicePrintedSeconds": "0.181",
+              "cosimPrintedSeconds": "0.181"
+            },
+            {
+              "spicePrintedSeconds": "0.181",
+              "cosimPrintedSeconds": "0.181"
+            },
+            {
+              "spicePrintedSeconds": "0.181000001",
+              "cosimPrintedSeconds": "0.181000001"
+            },
+            {
+              "spicePrintedSeconds": "0.181000001",
+              "cosimPrintedSeconds": "0.181000001"
+            },
+            {
+              "spicePrintedSeconds": "0.181000001",
+              "cosimPrintedSeconds": "0.181000001"
+            },
+            {
+              "spicePrintedSeconds": "0.206",
+              "cosimPrintedSeconds": "0.206"
+            },
+            {
+              "spicePrintedSeconds": "0.206",
+              "cosimPrintedSeconds": "0.206"
+            },
+            {
+              "spicePrintedSeconds": "0.206000001",
+              "cosimPrintedSeconds": "0.206000001"
+            },
+            {
+              "spicePrintedSeconds": "0.206000001",
+              "cosimPrintedSeconds": "0.206000001"
+            },
+            {
+              "spicePrintedSeconds": "0.206000001",
+              "cosimPrintedSeconds": "0.206000001"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "qualification": "latch-loading/firmware-sink/qualification.json",
+      "originalPassed": true,
+      "runs": [
+        {
+          "kind": "coarse",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-latch-sink-50ns/report.json",
+            "sha256": "6861f67cd0706a4af1b11f48e5e7f41d0ecd10b3f55cd0c3a05859ab4658a01c"
+          },
+          "status": "no time-order messages",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-latch-sink-50ns/ngspice.log",
+          "logSha256": "3237875f6862b7faa47bedfd61b0c7bb73445d316f17cd5eb5b4e75520af0c5c",
+          "eventCount": 0,
+          "events": []
+        },
+        {
+          "kind": "fine",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-latch-sink-25ns/report.json",
+            "sha256": "28c87690ebe2a04e83bbb2d739d01cc49790b26ad171e5885d12a6c708bfb167"
+          },
+          "status": "no time-order messages",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-latch-sink-25ns/ngspice.log",
+          "logSha256": "d21de14f4be601a17c3e4691449f2ab9c721fef572da61abda02f3e00c02a04e",
+          "eventCount": 0,
+          "events": []
+        }
+      ]
+    },
+    {
+      "qualification": "latch-loading/firmware-source/qualification.json",
+      "originalPassed": true,
+      "runs": [
+        {
+          "kind": "coarse",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-latch-source-50ns/report.json",
+            "sha256": "0325a96ec1bb5522e8cf89ab530e6d3c45e4aa59d41ec8883bf735f458bfe18f"
+          },
+          "status": "no time-order messages",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-latch-source-50ns/ngspice.log",
+          "logSha256": "35876c7797c5ae50b4668331de72007103a4ead7462a92fc26af37689560a5a4",
+          "eventCount": 0,
+          "events": []
+        },
+        {
+          "kind": "fine",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-latch-source-25ns/report.json",
+            "sha256": "cb132f38e08cc8174a9f3345904cd43f6bfd6e517a3f9b5aa325bfcbcaf50027"
+          },
+          "status": "no time-order messages",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-latch-source-25ns/ngspice.log",
+          "logSha256": "264911697d7b22054af55b99bee3c1af22620b0f478761153b5c03543728f0ac",
+          "eventCount": 0,
+          "events": []
+        }
+      ]
+    },
+    {
+      "qualification": "modifier/qualification.json",
+      "originalPassed": true,
+      "runs": [
+        {
+          "kind": "coarse",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-modifier-coarse/report.json",
+            "sha256": "9de37a0d84b15bb528283f8785936b9883d61ccec7c34cac7e1baad72d079e9d"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-modifier-coarse/ngspice.log",
+          "logSha256": "0b79a6c75e43a73b62f01f918526ad4aa90384aeba1870921afc61be4dff128d",
+          "eventCount": 15,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            }
+          ]
+        },
+        {
+          "kind": "fine",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-modifier/report.json",
+            "sha256": "7d08fa9f8b4997101a3b0ff71dffc74e70f013b0dd87d4e8ffbc17574ffbeda5"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-modifier/ngspice.log",
+          "logSha256": "04b325107fd9e31d0e5021031c73a3d2ab2d5a827d505e4cae3cbe3cb068f3cd",
+          "eventCount": 18,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.043",
+              "cosimPrintedSeconds": "0.043"
+            },
+            {
+              "spicePrintedSeconds": "0.043000001",
+              "cosimPrintedSeconds": "0.043000001"
+            },
+            {
+              "spicePrintedSeconds": "0.043000001",
+              "cosimPrintedSeconds": "0.043000001"
+            },
+            {
+              "spicePrintedSeconds": "0.043000001",
+              "cosimPrintedSeconds": "0.043000001"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07099999999999999",
+              "cosimPrintedSeconds": "0.07099999999999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.07100000099999999",
+              "cosimPrintedSeconds": "0.07100000099999999"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101",
+              "cosimPrintedSeconds": "0.101"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            },
+            {
+              "spicePrintedSeconds": "0.101000001",
+              "cosimPrintedSeconds": "0.101000001"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "qualification": "release-repress/qualification.json",
+      "originalPassed": true,
+      "runs": [
+        {
+          "kind": "coarse",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-release-coarse/report.json",
+            "sha256": "be99778a8963a32a6407583bbf4532b2cd5a6eaa8240d0fda89dbb0a9211d7c4"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-release-coarse/ngspice.log",
+          "logSha256": "72625120e60fa65ac57a688c4fd3df641545af3aa9db855a74cf1a9c9d2cd459",
+          "eventCount": 3,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            }
+          ]
+        },
+        {
+          "kind": "fine",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-release/report.json",
+            "sha256": "058f334aac01fe7ed3440fa1baf639ab20ef4a54341b17fd23146b04fb55e6fb"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-release/ngspice.log",
+          "logSha256": "f48c5aa305590eef078fa25d3d6ea1b44d4da913d88f31eb84a57ab10a58ea93",
+          "eventCount": 11,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.031",
+              "cosimPrintedSeconds": "0.031"
+            },
+            {
+              "spicePrintedSeconds": "0.031",
+              "cosimPrintedSeconds": "0.031"
+            },
+            {
+              "spicePrintedSeconds": "0.031",
+              "cosimPrintedSeconds": "0.031"
+            },
+            {
+              "spicePrintedSeconds": "0.061000001",
+              "cosimPrintedSeconds": "0.061000001"
+            },
+            {
+              "spicePrintedSeconds": "0.061000001",
+              "cosimPrintedSeconds": "0.061000001"
+            },
+            {
+              "spicePrintedSeconds": "0.061000001",
+              "cosimPrintedSeconds": "0.061000001"
+            },
+            {
+              "spicePrintedSeconds": "0.091",
+              "cosimPrintedSeconds": "0.091"
+            },
+            {
+              "spicePrintedSeconds": "0.091",
+              "cosimPrintedSeconds": "0.091"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            },
+            {
+              "spicePrintedSeconds": "0.091000001",
+              "cosimPrintedSeconds": "0.091000001"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "qualification": "repeat/qualification.json",
+      "originalPassed": false,
+      "runs": [
+        {
+          "kind": "coarse",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-repeat-coarse/report.json",
+            "sha256": "3b6406e5d695674ba94e2fe4bf667fbde8040c583a68dac131a27390272c1861"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-repeat-coarse/ngspice.log",
+          "logSha256": "37cc46e58afc6a98e38c06c325f2c24ae50b8039586445e08dac6dbadf334f31",
+          "eventCount": 6,
+          "events": [
+            {
+              "spicePrintedSeconds": "1.501000001",
+              "cosimPrintedSeconds": "1.501000001"
+            },
+            {
+              "spicePrintedSeconds": "1.501000001",
+              "cosimPrintedSeconds": "1.501000001"
+            },
+            {
+              "spicePrintedSeconds": "1.501000001",
+              "cosimPrintedSeconds": "1.501000001"
+            },
+            {
+              "spicePrintedSeconds": "1.511000001",
+              "cosimPrintedSeconds": "1.511000001"
+            },
+            {
+              "spicePrintedSeconds": "1.511000001",
+              "cosimPrintedSeconds": "1.511000001"
+            },
+            {
+              "spicePrintedSeconds": "1.511000001",
+              "cosimPrintedSeconds": "1.511000001"
+            }
+          ]
+        },
+        {
+          "kind": "fine",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-repeat-fine/report.json",
+            "sha256": "8b7825dddb3f45be25c7bdef7e57e59799d04434860e50665ac0ea4f03c6bee3"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-repeat-fine/ngspice.log",
+          "logSha256": "3caa66c2ed1f29e050e0e5ee3494dd6a01530818c9f61614e82e5aa7a17b9008",
+          "eventCount": 9,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.031",
+              "cosimPrintedSeconds": "0.031"
+            },
+            {
+              "spicePrintedSeconds": "0.031",
+              "cosimPrintedSeconds": "0.031"
+            },
+            {
+              "spicePrintedSeconds": "0.031",
+              "cosimPrintedSeconds": "0.031"
+            },
+            {
+              "spicePrintedSeconds": "1.501000001",
+              "cosimPrintedSeconds": "1.501000001"
+            },
+            {
+              "spicePrintedSeconds": "1.501000001",
+              "cosimPrintedSeconds": "1.501000001"
+            },
+            {
+              "spicePrintedSeconds": "1.501000001",
+              "cosimPrintedSeconds": "1.501000001"
+            },
+            {
+              "spicePrintedSeconds": "1.511000001",
+              "cosimPrintedSeconds": "1.511000001"
+            },
+            {
+              "spicePrintedSeconds": "1.511000001",
+              "cosimPrintedSeconds": "1.511000001"
+            },
+            {
+              "spicePrintedSeconds": "1.511000001",
+              "cosimPrintedSeconds": "1.511000001"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "qualification": "service-reset/qualification.json",
+      "originalPassed": true,
+      "runs": [
+        {
+          "kind": "coarse",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-reset-coarse/report.json",
+            "sha256": "7daf1a4298be14badb60f7dbb7219bbfdf5847db5b8ea44bdb41de8abc885dcd"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-reset-coarse/ngspice.log",
+          "logSha256": "b096d08bee0b8aa19c58a8fd7057c7413fe1c9db0550c122fcd85af84ae1cd04",
+          "eventCount": 3,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.041016",
+              "cosimPrintedSeconds": "0.041016"
+            },
+            {
+              "spicePrintedSeconds": "0.041016",
+              "cosimPrintedSeconds": "0.041016"
+            },
+            {
+              "spicePrintedSeconds": "0.041016",
+              "cosimPrintedSeconds": "0.041016"
+            }
+          ]
+        },
+        {
+          "kind": "fine",
+          "input": {
+            "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-reset/report.json",
+            "sha256": "f59a5aebab5bec8af0c266d1dfaa06b5f7b38201ded70349fa2306261d6ec910"
+          },
+          "status": "unresolved time-order diagnostics",
+          "log": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-reset/ngspice.log",
+          "logSha256": "f44ea568b16f528e36b8004c647d25166bda11d76d2b2fa72967709ed3b8df27",
+          "eventCount": 12,
+          "events": [
+            {
+              "spicePrintedSeconds": "0.031",
+              "cosimPrintedSeconds": "0.031"
+            },
+            {
+              "spicePrintedSeconds": "0.031",
+              "cosimPrintedSeconds": "0.031"
+            },
+            {
+              "spicePrintedSeconds": "0.031",
+              "cosimPrintedSeconds": "0.031"
+            },
+            {
+              "spicePrintedSeconds": "0.041016",
+              "cosimPrintedSeconds": "0.041016"
+            },
+            {
+              "spicePrintedSeconds": "0.041016",
+              "cosimPrintedSeconds": "0.041016"
+            },
+            {
+              "spicePrintedSeconds": "0.041016",
+              "cosimPrintedSeconds": "0.041016"
+            },
+            {
+              "spicePrintedSeconds": "0.041016001",
+              "cosimPrintedSeconds": "0.041016001"
+            },
+            {
+              "spicePrintedSeconds": "0.041016001",
+              "cosimPrintedSeconds": "0.041016001"
+            },
+            {
+              "spicePrintedSeconds": "0.041016001",
+              "cosimPrintedSeconds": "0.041016001"
+            },
+            {
+              "spicePrintedSeconds": "0.061000001",
+              "cosimPrintedSeconds": "0.061000001"
+            },
+            {
+              "spicePrintedSeconds": "0.061000001",
+              "cosimPrintedSeconds": "0.061000001"
+            },
+            {
+              "spicePrintedSeconds": "0.061000001",
+              "cosimPrintedSeconds": "0.061000001"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

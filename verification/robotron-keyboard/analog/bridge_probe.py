@@ -8,6 +8,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from failure_evidence import solver_diagnostic
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 
@@ -73,7 +75,7 @@ quit
     log = proc.stdout + proc.stderr
     (out / 'ngspice.log').write_text(log)
     proc.check_returncode()
-    if re.search(r'warning|error|no vlog_startup_routines|failed|cannot', log, re.I):
+    if solver_diagnostic(log) or re.search(r'cannot', log, re.I):
         raise ValueError('Bridge diagnostics: inspect ' + str(out / 'ngspice.log'))
     rows = [[float(v) for v in line.split()] for line in (out / 'trace.txt').read_text().splitlines()[1:]]
     if not rows or any(len(r) != 4 or not all(map(math.isfinite, r)) for r in rows):
@@ -123,7 +125,7 @@ def main():
         'driver': ('ngspice bidi_bridge defaults (unqualified)' if a.direct_z else
                    'explicit sink enable: 20 ohms on, open when off; X uses 40 ohms solely as an exploratory surrogate'),
         'electricalQualification': 'Transport probe only; not calibrated SN7406 characteristics'},
-        'sources': {path.name: sha(path) for path in (Path(__file__), HERE / 'bridge_probe.v', HERE.parent / 'chips.v')},
+        'sources': {path.name: sha(path) for path in (Path(__file__), HERE / 'failure_evidence.py', HERE / 'bridge_probe.v', HERE.parent / 'chips.v')},
         'runs': []}
     try:
         bridge = json.loads(a.bridge.read_text())
