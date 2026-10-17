@@ -620,6 +620,13 @@ saved boot/contact waveform to XZ, verifies its decompressed hash against the
 producer bytes, and retains partial output on failure. It requires a fresh
 waveform directory and does not change the simulation or validation window.
 
+Boot and early-clock probes accept `--output-unknown-volts 0`, `2.5` (default), or
+`5` to study the uniform DAC mapping of HDL unknown outputs. The setting is
+recorded and must match within a refinement pair. These are startup sensitivity
+fixtures, not measured power-on states or exhaustive coverage of mixed unknown
+outputs. The default midpoint coincides with the ideal sinks' switching threshold;
+changing it is a model assumption, not a timing correction.
+
 The CPU receives clock/reset through an explicit nominal 1.4 V threshold, without
 an X band that could create multiple Verilog clock edges during one voltage rise.
 

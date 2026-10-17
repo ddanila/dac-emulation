@@ -113,9 +113,10 @@ class CoupledClockProbeTests(unittest.TestCase):
         fine['assumptions']['maximumStepNs'] = 1
         fine['hdlSha256'] = {'/fine/chips.v': 'same'}
         matching_inputs(coarse, fine)
-        for kind in ('sources', 'solver', 'hdl', 'duplicate', 'column_load', 'runtime'):
+        for kind in ('sources', 'solver', 'hdl', 'duplicate', 'column_load', 'runtime', 'unknown_voltage'):
             changed = copy.deepcopy(fine)
             if kind == 'runtime': changed['ngspiceRuntime'] = {'codeModels': ['different']}
+            if kind == 'unknown_voltage': changed['assumptions']['outputUnknownVolts'] = 0
             if kind == 'column_load': changed['assumptions']['columnLoadPf'] = 1
             if kind == 'sources': changed['sources'] = 'changed'
             if kind == 'solver': changed['assumptions']['solver']['reltol'] = 1e-3

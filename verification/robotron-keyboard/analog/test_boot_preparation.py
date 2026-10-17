@@ -28,8 +28,9 @@ class BootPreparationTests(unittest.TestCase):
             rom.write_bytes(bytes(2048))
             fixture_sha = hashlib.sha256(rom.read_bytes()).hexdigest()
             decks = {}
-            for profile, breakpoint_fs in (('nominal', None), ('7406-dc', 1)):
-                out = root / profile
+            for profile, breakpoint_fs, unknown in (('nominal', None, 2.5), ('7406-dc', 1, 2.5),
+                                                    ('nominal', 1, 0), ('nominal', 1, 5)):
+                out = root / f'{profile}-{unknown}'
                 out.mkdir()
                 args = SimpleNamespace(
                     out=out, rom=rom, bridge=bridge, iverilog='iverilog',
@@ -38,12 +39,16 @@ class BootPreparationTests(unittest.TestCase):
                     npn_profile='generic', latch_load='ideal', column_load_pf=0,
                     scenario_data=None, contacts=set(), rise_us=1, reltol=.001,
                     vntol=1e-6, abstol=1e-12, bridge_delay_ns=10, step_ns=2,
-                    serial_driver=profile, minimum_breakpoint_fs=breakpoint_fs)
+                    serial_driver=profile, minimum_breakpoint_fs=breakpoint_fs,
+                    output_unknown_volts=unknown)
                 report = {'assumptions': {'traceWindowSeconds': [.124, .127]}}
                 with patch('boot_cosim.ROM_SHA256', fixture_sha):
                     prepare(args, report)
                 deck = (out / 'boot.cir').read_text()
-                decks[profile] = deck
+                if unknown == 2.5:
+                    decks[profile] = deck
+                self.assertIn(f'out_undef={unknown:g} ', deck)
+                self.assertIn(f'to {unknown:g} V', report['outputControlUnknowns'])
                 self.assertTrue((out / 'boot.vvp').stat().st_size > 0)
                 self.assertEqual(sha(out / 'boot.cir'), report['deckSha256'])
                 self.assertIn('RBR1 ', deck)

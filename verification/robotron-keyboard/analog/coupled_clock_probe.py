@@ -72,6 +72,7 @@ def run(args, step, directory):
     if getattr(args, 'bridge', None) is not None:
         command += ['--bridge', str(args.bridge.resolve())]
     command += ['--serial-driver', getattr(args, 'serial_driver', 'nominal')]
+    command += ['--output-unknown-volts', str(getattr(args, 'output_unknown_volts', 2.5))]
     subprocess.run(command, check=True, capture_output=True, text=True, timeout=60)
     prepared = json.loads((directory / 'report.json').read_text())
     if prepared['passed'] or not prepared.get('preparedOnly') or sha(directory / 'boot.cir') != prepared['deckSha256']:
@@ -174,6 +175,8 @@ def main():
     parser.add_argument('--rom', type=Path, required=True)
     parser.add_argument('--bridge', type=Path, help='Prepared Icarus bridge manifest')
     parser.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal')
+    parser.add_argument('--output-unknown-volts', type=float, choices=(0, 2.5, 5), default=2.5,
+                        help='Diagnostic uniform DAC voltage for HDL X outputs')
     parser.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/coupled-clock-probe')
     parser.add_argument('--steps-ns', type=float, nargs=2, default=(1, .5))
     parser.add_argument('--duration-us', type=float, default=1000)

@@ -104,7 +104,9 @@ def prepare(args, report):
         else:
             output_lines, output_info = output_circuit(components)
         report['outputCircuit'] = output_info
-        report['outputControlUnknowns'] = 'DAC X maps to 2.5 V; nominal load response is not a physical prediction of unknown logic'
+        report['outputControlUnknowns'] = (
+            f'DAC X maps uniformly to {args.output_unknown_volts:g} V; diagnostic assumption, '
+            'not a measured power-on state or exhaustive mixed-state coverage')
         report['electricalModels'].update(output_info['models'])
         power_lines = [f'Vhost {output_info["hostSupply"]} {output_info["hostGround"]} PWL(0 0 {args.rise_us}u 5)']
         output_lines += ['Esiso_intent siso_intent 0 led0_v 0 1',
@@ -144,7 +146,7 @@ def prepare(args, report):
              f'+ lib_args=["{libs["libvvp"]}" "{libs["vpi"]}"]',
              'Adac [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] observation',
              f'Acolumns [{column_outputs}] [{column_nodes}] observation',
-             '.model observation dac_bridge(out_low=0 out_high=5 out_undef=2.5 t_rise=1n t_fall=1n)',
+             f'.model observation dac_bridge(out_low=0 out_high=5 out_undef={args.output_unknown_volts:g} t_rise=1n t_fall=1n)',
              # Save a tail window to avoid storing the entire power-on delay. Simulation
              # still begins at zero; no capacitor initial conditions or injected clock/reset.
              '.save ' + ' '.join(trace_signals),
@@ -227,6 +229,8 @@ def main():
     p.add_argument('--electrical-outputs', action='store_true')
     p.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal',
                    help='Optional unqualified transistor serial gates; requires electrical outputs')
+    p.add_argument('--output-unknown-volts', type=float, choices=(0, 2.5, 5), default=2.5,
+                   help='Diagnostic uniform DAC voltage for HDL X outputs; not measured power-on behavior')
     p.add_argument('--minimum-breakpoint-fs', type=float,
                    help='Numerical breakpoint spacing retained using deck .tran/control run')
     p.add_argument('--electrical-matrix', action='store_true')
@@ -293,6 +297,7 @@ def main():
                               'latchLoad': args.latch_load, 'columnLoadPf': args.column_load_pf, 'npnProfile': args.npn_profile, 'gateProfile': args.gate_profile,
                               'serialReceiver': args.electrical_outputs,
                               'serialDriver': args.serial_driver,
+                              'outputUnknownVolts': args.output_unknown_volts,
                               'minimumBreakpointFs': args.minimum_breakpoint_fs,
                               'analysisInvocation': 'deck-tran/run' if args.minimum_breakpoint_fs is not None else 'control-tran',
                               'remainingDigitalBoundaries': ([] if args.electrical_matrix else ['matrix sensing']) + ['CPU/peripheral buses'] + ([] if args.electrical_outputs else ['LED and serial output loading']),
