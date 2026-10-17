@@ -1,8 +1,9 @@
 `timescale 1ns/1ps
 // Clock/reset are analog receiver outputs; electrical matrix mode closes sense feedback.
 module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVED_BUS=1,
-                             ELECTRICAL_OUTPUTS=0)(input clk, input reset_n,
+                             ELECTRICAL_OUTPUTS=0, ELECTRICAL_CPU_PULLUPS=0)(input clk, input reset_n,
                   input [7:0] sense, input receiver_data, input receiver_clock,
+                  input cpu_pullup_n, input bus_request_n,
                   output data_sink, output clock_sink,
                   output [1:0] leds, output [12:0] column_sink);
  wire [15:0] address;
@@ -16,8 +17,12 @@ module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVE
  // Sample reset at the first external clock edge if VPI initialized the pin
  // before callbacks. Avoid an HDL timer that can advance past SPICE startup.
  reg reset_sampled=0;
- tv80n cpu(.reset_n(reset_n), .clk(clk), .wait_n(1'b1), .int_n(1'b1),
-  .nmi_n(1'b1), .busrq_n(1'b1), .di(di), .A(address), .dout(dout),
+ wire tied_control_n=ELECTRICAL_CPU_PULLUPS ? cpu_pullup_n : 1'b1;
+ wire request_n=ELECTRICAL_CPU_PULLUPS ? bus_request_n : 1'b1;
+ always @(tied_control_n or request_n) if(ELECTRICAL_CPU_PULLUPS)
+  $display("CPU_CONTROL %0t %b %b", $time, tied_control_n, request_n);
+ tv80n cpu(.reset_n(reset_n), .clk(clk), .wait_n(tied_control_n), .int_n(tied_control_n),
+  .nmi_n(tied_control_n), .busrq_n(request_n), .di(di), .A(address), .dout(dout),
   .m1_n(m1_n), .mreq_n(mreq_n), .iorq_n(iorq_n), .rd_n(rd_n),
   .wr_n(wr_n), .rfsh_n(rfsh_n), .halt_n(halt_n), .busak_n(busak_n));
  // TV80 exposes write intent for the machine cycle independently of WR.

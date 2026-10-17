@@ -184,6 +184,13 @@ The board-pair qualifier requires a valid supply throughout its saved observatio
 window and both U880 clock-level excursions. These are necessary checks; they do
 not establish valid pulse widths or voltage levels on every cycle.
 
+`--electrical-cpu-pullups` enables schematic R6.4/R6.5 in boot and coupled-clock
+runs. Each attached U880 control input receives the published maximum input
+capacitance; voltage receivers feed INT/NMI/WAIT and BUSRQ into TV80 instead of
+constant highs. X1:A9 remains externally open. `CPU_CONTROL` records the received
+logic levels, including unknowns. Leakage, clamps and CPU brownout behavior remain
+unmodeled; this option is an exploratory circuit boundary, not device calibration.
+
 ```sh
 python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path/to/s600.bin --steps-ns 1 .5 --duration-us 1000 --out /tmp/coupled-clock
 ```

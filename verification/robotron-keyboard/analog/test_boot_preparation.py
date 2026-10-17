@@ -4,11 +4,12 @@ import hashlib
 import json
 from pathlib import Path
 import tempfile
+import subprocess
 from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
-from boot_cosim import prepare, sha
+from boot_cosim import prepare, sha, ROOT
 from qualify_board_pair import normalized_analysis
 
 
@@ -43,6 +44,7 @@ class BootPreparationTests(unittest.TestCase):
                     vntol=1e-6, abstol=1e-12, bridge_delay_ns=10, step_ns=2,
                     serial_driver=profile, minimum_breakpoint_fs=breakpoint_fs,
                     output_unknown_volts=unknown)
+                args.electrical_cpu_pullups = gate_profile == 'dl000-pullup'
                 report = {'assumptions': {'traceWindowSeconds': [.124, .127]}}
                 with patch('boot_cosim.ROM_SHA256', fixture_sha):
                     prepare(args, report)
@@ -52,6 +54,14 @@ class BootPreparationTests(unittest.TestCase):
                 if gate_profile == 'dl000-pullup':
                     self.assertEqual(report['gateModel']['file'], 'ls_nand_pullup.cir')
                     self.assertIn('.include ls_nand_pullup.cir', deck)
+                    self.assertIn('R6.4 n_p5V n_CPU_PULLUP 1k', deck)
+                    self.assertIn('R6.5 n_p5V n_BUSRQ_N 1k', deck)
+                    self.assertIn('Acontrol [n_CPU_PULLUP n_BUSRQ_N] [dcontrol dbusrq] sense_receiver', deck)
+                    self.assertIn('rx_clock dcontrol dbusrq]', deck)
+                    self.assertEqual(report['modelCoverage']['components']['R6.4']['domain'], 'electrical')
+                else:
+                    self.assertNotIn('Acontrol ', deck)
+                    self.assertIn('rx_clock drst drst]', deck)
                 self.assertIn(f'out_undef={unknown:g} ', deck)
                 self.assertIn(f'to {unknown:g} V', report['outputControlUnknowns'])
                 self.assertTrue((out / 'boot.vvp').stat().st_size > 0)
@@ -77,6 +87,40 @@ class BootPreparationTests(unittest.TestCase):
             self.assertIn('Xclock ', decks['7406-dc'])
             self.assertNotIn('OUTPUT_SINK_NOMINAL', decks['7406-dc'])
             self.assertIn('Vdriver_supply n_p5V driver_vp 0', decks['7406-dc'])
+            # Exercise the real TV80 input connections, including X propagation.
+            bench = out / 'control_check.v'
+            bench.write_text('''`timescale 1ns/1ps
+module control_check;
+ reg control_n=0, request_n=1;
+ boot_cosim #(.ELECTRICAL_CPU_PULLUPS(1)) dut(
+  .clk(1'b0), .reset_n(1'b0), .sense(8'b0),
+  .cpu_pullup_n(control_n), .bus_request_n(request_n));
+ boot_cosim legacy(.clk(1'b0), .reset_n(1'b0), .sense(8'b0),
+  .cpu_pullup_n(control_n), .bus_request_n(request_n));
+ task check;
+ begin
+  #1;
+  if(dut.cpu.wait_n !== control_n || dut.cpu.int_n !== control_n ||
+     dut.cpu.nmi_n !== control_n || dut.cpu.busrq_n !== request_n)
+    $fatal(1, "Electrical control input lost or swapped");
+  if(legacy.cpu.wait_n !== 1'b1 || legacy.cpu.int_n !== 1'b1 ||
+     legacy.cpu.nmi_n !== 1'b1 || legacy.cpu.busrq_n !== 1'b1)
+    $fatal(1, "Legacy input boundary changed");
+ end
+ endtask
+ initial begin
+  check;
+  control_n=1; request_n=0; check;
+  control_n=1'bx; request_n=1'bx; check;
+  $display("CONTROL_INPUTS_OK"); $finish;
+ end
+endmodule
+''')
+            hdl = [Path(name) if Path(name).is_absolute() else ROOT / name for name in report['hdlSha256']]
+            subprocess.run(['iverilog', '-g2012', '-s', 'control_check', '-o', str(out / 'control-check.vvp'),
+                            *map(str, hdl), str(bench)], check=True, capture_output=True, text=True)
+            result = subprocess.run(['vvp', 'control-check.vvp'], cwd=out, check=True, capture_output=True, text=True)
+            self.assertIn('CONTROL_INPUTS_OK', result.stdout)
 
 
 if __name__ == '__main__':

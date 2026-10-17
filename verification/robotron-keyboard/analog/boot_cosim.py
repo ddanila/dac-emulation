@@ -23,6 +23,7 @@ from circuit import elements, load, node, nominal_models
 from oscillator_probe import wiring
 from gate_models import GATE_MODELS
 from clock_voltage import inspect as inspect_clock_voltage
+from cpu_control import wiring as control_wiring
 from reset_probe import RESET_REFS
 from serial_observation import validate_transport, SerialMismatch
 import board_scenario
@@ -69,6 +70,7 @@ def prepare(args, report):
     subprocess.run([args.iverilog, '-g2012', '-s', 'boot_cosim',
                     '-Pboot_cosim.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)),
                     '-Pboot_cosim.ELECTRICAL_OUTPUTS=' + str(int(args.electrical_outputs)),
+                    '-Pboot_cosim.ELECTRICAL_CPU_PULLUPS=' + str(int(getattr(args, 'electrical_cpu_pullups', False))),
                     '-Pboot_cosim.EXPLICIT_CPU_DRIVE=' + str(int(not args.wr_only_data)),
                     '-Pboot_cosim.RESOLVED_BUS=' + str(int(not args.bypass_rom_bus)), '-o', str(out / 'boot.vvp'),
                     *map(str, hdl)], check=True)
@@ -125,10 +127,21 @@ def prepare(args, report):
         receiver_lines = ['Vreceiver_data receiver_data 0 0', 'Vreceiver_clock receiver_clock 0 0']
     trace_signals = [f'v({cpu_clock})', f'v({cpu_reset})', *serial_trace]
     report['traceSignals'] = trace_signals
+    control_lines, control_inputs = [], 'drst drst'
+    if getattr(args, 'electrical_cpu_pullups', False):
+        control_lines, control_models, control_info = control_wiring(components)
+        report['electricalModels'].update(control_models)
+        report['cpuControlCircuit'] = control_info
+        control_lines += [f'Acontrol [{control_info["interruptNmiWait"]} {control_info["busRequest"]}] [dcontrol dbusrq] sense_receiver']
+        control_inputs = 'dcontrol dbusrq'
     supply_signal = f'v({node(components["A5"]["pins"]["11"])})'
     report['supplyTraceSignal'] = supply_signal
     report['modelCoverage'] = classify(components, report['electricalModels'],
                                        args.electrical_matrix, args.electrical_outputs, not args.bypass_rom_bus)
+    if getattr(args, 'electrical_cpu_pullups', False):
+        report['modelCoverage']['components']['A5']['model'] = (
+            'TV80 CPU; electrical interrupt/NMI/wait and bus-request pullups with reference-maximum capacitance; '
+            'digital buses, nominal clock/reset input loads; no brownout or input leakage model')
     if args.serial_driver == '7406-dc':
         report['modelCoverage']['components']['A1']['model'] = (
             '7406 HDL logic; data/clock gates use the published-topology DC candidate; '
@@ -136,7 +149,7 @@ def prepare(args, report):
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
              *power_lines, '.include ' + gate_file,
              f'.options reltol={args.reltol} vntol={args.vntol} abstol={args.abstol}',
-             *nominal_models(100, args.npn_profile), *osc, *reset, *matrix_lines, *output_lines, *receiver_lines,
+             *nominal_models(100, args.npn_profile), *osc, *reset, *matrix_lines, *output_lines, *receiver_lines, *control_lines,
              f'RBR2 {reset_source} {cpu_reset} .001',
              f'Rresetload {cpu_reset} 0 1g', f'Cresetload {cpu_reset} 0 10p',
              f'Ain [{cpu_clock} {cpu_reset}] [dclk drst] receiver',
@@ -145,7 +158,7 @@ def prepare(args, report):
              '.model sense_receiver adc_bridge(in_low=0.8 in_high=2)',
              'Arxdata [receiver_data] [rx_data] sense_receiver',
              'Arxclock [receiver_clock] [rx_clock] receiver',
-             f'Ahdl [dclk drst {sense_inputs} rx_data rx_clock] [dsink csink led1 led0 {column_outputs}] hdl',
+             f'Ahdl [dclk drst {sense_inputs} rx_data rx_clock {control_inputs}] [dsink csink led1 led0 {column_outputs}] hdl',
              f'.model hdl d_cosim simulation="{libs["shim"]}" sim_args=["boot.vvp"] delay={args.bridge_delay_ns}n',
              f'+ lib_args=["{libs["libvvp"]}" "{libs["vpi"]}"]',
              'Adac [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] observation',
@@ -237,6 +250,7 @@ def main():
     p.add_argument('--bypass-rom-bus', action='store_true', help='Diagnostic: feed ROM directly to CPU input')
     p.add_argument('--wr-only-data', action='store_true', help='Retain old WR-only data drive as a diagnostic control')
     p.add_argument('--electrical-outputs', action='store_true')
+    p.add_argument('--electrical-cpu-pullups', action='store_true', help='Model R6.4/R6.5 and reference-maximum CPU input capacitance')
     p.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal',
                    help='Optional unqualified transistor serial gates; requires electrical outputs')
     p.add_argument('--output-unknown-volts', type=float, choices=(0, 2.5, 5), default=2.5,
@@ -314,6 +328,7 @@ def main():
                               'romBus': 'Direct CPU input diagnostic' if args.bypass_rom_bus else 'Resolved CPU/ROM/latch bus from numbered schematic pins',
                               'cpuDataDrive': 'WR-only diagnostic' if args.wr_only_data else 'TV80 write-cycle intent gated by reset and bus ownership',
                               'electricalOutputs': args.electrical_outputs, 'electricalMatrix': args.electrical_matrix, 'closedContacts': sorted(args.contacts),
+                              'electricalCpuPullups': args.electrical_cpu_pullups,
                               'contacts': 'Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification',
                               'traceWindowSeconds': [.124, stop], 'simulationStartSeconds': 0,
                               'bridgeDelayNs': args.bridge_delay_ns,
@@ -322,7 +337,7 @@ def main():
                               'knownLimit': 'The nominal model failed to produce a reset pulse with a 10 ns supply ramp'},
               'sources': {name: sha(HERE / name) for name in ('boot_cosim.py', 'boot_cosim.v',
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
-                            GATE_MODELS[args.gate_profile], 'gate_models.py', 'clock_voltage.py', 'cpu_clock_limits.json',
+                            GATE_MODELS[args.gate_profile], 'gate_models.py', 'clock_voltage.py', 'cpu_clock_limits.json', 'cpu_control.py',
                             'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'output_circuit.py', 'model_coverage.py',
                             'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py',
                             'transient_analysis.py', 'ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'compressed_output.py')}}
