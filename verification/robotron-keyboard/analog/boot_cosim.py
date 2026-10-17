@@ -117,6 +117,7 @@ def prepare(args, report):
                                        args.electrical_matrix, args.electrical_outputs, not args.bypass_rom_bus)
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
              *power_lines, '.include ' + gate_file,
+             f'.options reltol={args.reltol} vntol={args.vntol} abstol={args.abstol}',
              *nominal_models(100, args.npn_profile), *osc, *reset, *matrix_lines, *output_lines, *receiver_lines,
              f'RBR2 {reset_source} {cpu_reset} .001',
              f'Rresetload {cpu_reset} 0 1g', f'Cresetload {cpu_reset} 0 10p',
@@ -224,7 +225,12 @@ def main():
     p.add_argument('--ngspice', default='ngspice')
     p.add_argument('--iverilog', default='iverilog')
     p.add_argument('--latch-load', choices=LATCH_LOADS, default='ideal')
+    p.add_argument('--reltol', type=float, default=.001)
+    p.add_argument('--vntol', type=float, default=1e-6)
+    p.add_argument('--abstol', type=float, default=1e-12)
     args = p.parse_args()
+    if any(not math.isfinite(v) or v <= 0 for v in (args.reltol, args.vntol, args.abstol)):
+        p.error('Solver tolerances must be positive and finite')
     if not math.isfinite(args.step_ns) or not 0 < args.step_ns <= 10:
         p.error('step-ns must be in (0, 10]')
     if not math.isfinite(args.bridge_delay_ns) or not 0 < args.bridge_delay_ns <= 100:
@@ -251,6 +257,7 @@ def main():
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__,
               'assumptions': {'receiverThresholdVolts': 1.4,
+                              'solver': {'reltol': args.reltol, 'vntol': args.vntol, 'abstol': args.abstol},
                               'receiver': 'Single nominal threshold avoids counting both edges of an X band as clock edges',
                               'analogModels': 'Nominal reset semiconductors and exploratory LS NAND; no specimen timing claim',
                               'latchLoad': args.latch_load, 'npnProfile': args.npn_profile, 'gateProfile': args.gate_profile,

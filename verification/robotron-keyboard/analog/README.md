@@ -139,6 +139,22 @@ integration behavior, not historical oscillator accuracy. Internal-node traces a
 model/source hashes remain in the output directory. Device-model qualification and
 firmware scenarios with coupled clock/reset remain required.
 
+Use `--steps-ns COARSE FINE` to change the probe's timestep pair. Both the probe
+and `boot_cosim.py` accept `--reltol`, `--vntol` and `--abstol`, emit them in the
+SPICE deck and retain them in the report. The defaults are explicitly 0.001,
+1e-6 V and 1e-12 A. Full-board pair qualification rejects differing solver settings.
+
+```sh
+python3 verification/robotron-keyboard/analog/oscillator_probe.py --steps-ns 1 .5 --reltol 1e-9 --vntol 1e-11 --abstol 1e-17 --out /tmp/oscillator-tolerance-check
+```
+
+`reports/oscillator-solver/` retains the default-tolerance coarse-step failure
+and tighter-tolerance investigations. The probe's existing 1% frequency criterion
+is a topology smoke check, not long-duration phase qualification. Agreement at one
+step pair can hide changes exposed by smaller steps or tighter tolerances; compare
+both. Short standalone agreement does not qualify accumulated full-board clock
+phase, coupling to the HDL scheduler, or historical frequency.
+
 ## Output, cable and supply loads
 
 `output_probe.py` generates serial pullups, LED series resistors, cable-filter

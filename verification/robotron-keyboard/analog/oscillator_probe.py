@@ -60,7 +60,9 @@ def simulate(args, components, step, isolated=False, scale=1):
     lines, models, unused, source, cpu = wiring(components, isolated, scale)
     signals = [source, cpu, 'n_OSC_RC', 'n_OSC1', 'n_OSC2']
     lines = ['Robotron reference oscillator; nominal LS-TTL model',
-             'Vcc n_p5V 0 PWL(0 0 10n 5)', '.include ls_nand_nominal.cir', *lines,
+             'Vcc n_p5V 0 PWL(0 0 10n 5)',
+             f'.options reltol={args.reltol} vntol={args.vntol} abstol={args.abstol}',
+             '.include ls_nand_nominal.cir', *lines,
              '.control', 'set wr_singlescale', 'set wr_vecnames', f'tran {step}n 20u',
              'wrdata trace.txt ' + ' '.join(f'v({n})' for n in signals), 'quit', '.endc', '.end']
     deck = '\n'.join(lines) + '\n'
@@ -104,12 +106,21 @@ def main():
     p.add_argument('--ngspice', default='ngspice')
     p.add_argument('--gate-profile', choices=('nominal', 'dl000-dc'), default='nominal')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/oscillator')
+    p.add_argument('--steps-ns', type=float, nargs=2, default=(2, 1), metavar=('COARSE', 'FINE'))
+    p.add_argument('--reltol', type=float, default=.001)
+    p.add_argument('--vntol', type=float, default=1e-6)
+    p.add_argument('--abstol', type=float, default=1e-12)
     args = p.parse_args()
+    if any(not math.isfinite(v) or v <= 0 for v in (*args.steps_ns, args.reltol, args.vntol, args.abstol)):
+        p.error('Timesteps and solver tolerances must be positive and finite')
+    if args.steps_ns[1] > args.steps_ns[0] / 2:
+        p.error('Fine timestep must be at most half the coarse timestep')
     args.gate_model = HERE / ('ls_nand_nominal.cir' if args.gate_profile == 'nominal' else 'ls_nand_dc.cir')
     args.out.mkdir(parents=True, exist_ok=True)
     path = args.out / 'report.json'
     path.unlink(missing_ok=True)
-    report = {'passed': False, 'scope': __doc__, 'runs': [],
+    report = {'passed': False, 'scope': __doc__, 'runs': [], 'refinements': [],
+              'solver': {'reltol': args.reltol, 'vntol': args.vntol, 'abstol': args.abstol},
               'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
                           for name in ('oscillator_probe.py', 'circuit.py', args.gate_model.name)},
               'assumptions': {'model': 'Continuous behavioral NAND, not transistor-level DL000 characterization',
@@ -128,11 +139,14 @@ def main():
         report['tool'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()
         for isolated, scale in ((False, 1), (True, 1), (False, 2)):
             pair = []
-            for step in (2, 1):
+            for step in args.steps_ns:
                 result = simulate(args, components, step, isolated, scale)
                 pair.append(result)
                 report['runs'].append(result)
-            if abs(pair[0]['frequencyHz']/pair[1]['frequencyHz']-1) > .01:
+            difference = abs(pair[0]['frequencyHz']/pair[1]['frequencyHz']-1)
+            report['refinements'].append({'br1Closed': not isolated, 'capacitanceScale': scale,
+                                          'relativeFrequencyDifference': difference})
+            if difference > .01:
                 raise ValueError('Frequency changes by more than 1% under timestep refinement')
         nominal = report['runs'][1]['frequencyHz']
         doubled = report['runs'][-1]['frequencyHz']

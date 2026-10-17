@@ -1,0 +1,110 @@
+{
+  "passed": false,
+  "scope": "Exercise the schematic RC oscillator using an explicitly nominal LS NAND model.",
+  "runs": [
+    {
+      "stepNs": 10.0,
+      "br1Closed": true,
+      "capacitanceScale": 1,
+      "frequencyHz": 3065980.9463947937,
+      "relativePeriodSpread": 2.7065118382333033e-07,
+      "sourceRangeVolts": [
+        0.44241246,
+        3.5778627
+      ],
+      "models": {
+        "R4.3": "resistor",
+        "C6": "capacitor",
+        "R10.3": "resistor",
+        "A7": "LS_NAND_NOMINAL",
+        "BR1": "1 milliohm closed / 1 teraohm open"
+      },
+      "unconnectedA7Pins": [
+        "1",
+        "2",
+        "3"
+      ],
+      "signals": [
+        "n_OSC_OUT",
+        "n_CLK",
+        "n_OSC_RC",
+        "n_OSC1",
+        "n_OSC2"
+      ],
+      "deckSha256": "ba32ccf163da081412610dc346ea46eb9adfa2168a9e0841ee6e28f101d7a9c5"
+    },
+    {
+      "stepNs": 5.0,
+      "br1Closed": true,
+      "capacitanceScale": 1,
+      "frequencyHz": 2975837.0012710104,
+      "relativePeriodSpread": 2.488494079154781e-07,
+      "sourceRangeVolts": [
+        0.443083023,
+        3.57636759
+      ],
+      "models": {
+        "R4.3": "resistor",
+        "C6": "capacitor",
+        "R10.3": "resistor",
+        "A7": "LS_NAND_NOMINAL",
+        "BR1": "1 milliohm closed / 1 teraohm open"
+      },
+      "unconnectedA7Pins": [
+        "1",
+        "2",
+        "3"
+      ],
+      "signals": [
+        "n_OSC_OUT",
+        "n_CLK",
+        "n_OSC_RC",
+        "n_OSC1",
+        "n_OSC2"
+      ],
+      "deckSha256": "33ce7bd97e3043c0159e7563a57172c060841278fc605526a5160da137d438b1"
+    }
+  ],
+  "refinements": [
+    {
+      "br1Closed": true,
+      "capacitanceScale": 1,
+      "relativeFrequencyDifference": 0.03029196326454775
+    }
+  ],
+  "solver": {
+    "reltol": 0.001,
+    "vntol": 1e-06,
+    "abstol": 1e-12
+  },
+  "sources": {
+    "oscillator_probe.py": "617651993789f790ecd4e0cc16a68ec496f4226a94d323c1de738b85a5c0f348",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d"
+  },
+  "assumptions": {
+    "model": "Continuous behavioral NAND, not transistor-level DL000 characterization",
+    "supply": "Ideal 5 V ramp over 10 ns; gate output supply current omitted",
+    "thresholdVolts": 1.4,
+    "transitionWidthVolts": 0.1,
+    "gateProfile": "nominal",
+    "internalPoleSeconds": 5e-09,
+    "outputOhms": {
+      "low": 30,
+      "high": 30
+    },
+    "outputTargetsAsSupplyFraction": {
+      "low": 0.04,
+      "high": 0.7
+    },
+    "inputFarads": 3e-12,
+    "cpuLoad": "1 gigaohm and 10 pF",
+    "inputBias": "Supply-scaled 1.6 V through a one-way 10 kohm equivalent",
+    "clamp": "Generic diode IS=1e-14, N=1, RS=20",
+    "frequency": "Prediction of nominal model; not calibrated to emulator or measured specimen"
+  },
+  "reference": "https://datenblatt.weithclan.de/Daten/DL000-030D-ME_ocr.pdf",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "tool": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
+  "error": "Frequency changes by more than 1% under timestep refinement"
+}
