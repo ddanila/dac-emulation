@@ -163,6 +163,22 @@ without aligning edges or discarding startup. `reports/oscillator-phase/` retain
 a default-tolerance rejection and a tighter-tolerance pass over the probe window.
 The default frequency test alone can pass while this phase gate fails.
 
+`coupled_clock_probe.py` prepares the full electrical matrix/output board with
+TV80 and the same HDL bridge, then changes only the transient/save window to
+observe early startup. It compares matched inputs and absolute clock phase;
+it cannot qualify boot, key handling or phase accumulated through power-on reset.
+Prepared full-board reports remain explicitly unqualified.
+
+```sh
+python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path/to/s600.bin --out /tmp/coupled-clock
+```
+
+`reports/coupled-clock-startup/` retains a tight-tolerance startup rejection:
+ngspice aborted at the unused NAND input clamp before useful clock activity.
+The retained partial waveform is failure evidence, not a completed simulation.
+Standalone oscillator phase convergence therefore does not yet transfer to the
+coupled board. The probe rejects solver diagnostics even when ngspice exits zero.
+
 ## Output, cable and supply loads
 
 `output_probe.py` generates serial pullups, LED series resistors, cable-filter

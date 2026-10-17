@@ -1,0 +1,15 @@
+{
+  "passed": false,
+  "scope": "Check early clock phase in the coupled board; does not qualify boot or firmware.",
+  "durationUs": 100,
+  "runs": [],
+  "qualificationBoundary": "Early startup only, before normal reset release; no full-boot, firmware or long-duration phase qualification",
+  "sources": {
+    "coupled_clock_probe.py": "8d94aebd53bcb909b88842c61c6ea111d2990552a8400e5da3af2131b4f17fe2",
+    "boot_cosim.py": "29d75e7860b58588e61dee43cf3a0d60dc8bdf7a2bc8f680da4b31693c676df0",
+    "clock_convergence.py": "379c3681377aced1939676a727b28111eade0751b6091840ec33c0c66a54bdd1",
+    "failure_evidence.py": "5308dda71da0b65e2c3c95a00c5906bdf18e8bd1c3101e23ca4da3698dd452e6",
+    "trace_io.py": "173651ace4279b5a491b1442f60aeca375f312b4118eb58e01ec83e11559d443"
+  },
+  "error": "Coupled clock solver/HDL diagnostics: doAnalyses: TRAN:  Timestep too small; time = 2.00002e-11, timestep = 1.14415e-20: trouble with xa7_0:input_clamp_nominal-instance d.xa7_0.da"
+}
