@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+import json
+import hashlib
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -28,6 +32,22 @@ class LedReferenceTests(unittest.TestCase):
         for rows in [['.002 0 0 0 0', '.001 5 5 0 0'], ['.001 nan 0 0 0']]:
             with self.subTest(rows=rows), self.assertRaises(ValueError):
                 self.events(rows)
+
+    def test_standalone_comparison_rejects_old_pass_with_solver_diagnostic(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)
+            log = path / 'ngspice.log'
+            log.write_text('Instance: ahdl Message: XSPICE time is behind vtime:\n')
+            report = {'passed': True, 'ledObservation': {'passed': True},
+                      'logSha256': hashlib.sha256(log.read_bytes()).hexdigest()}
+            (path / 'report.json').write_text(json.dumps(report))
+            output = path / 'comparison.json'
+            result = subprocess.run([sys.executable, str(Path(__file__).with_name('compare_led_reference.py')),
+                                     str(path), '--out', str(output)], capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            observed = json.loads(output.read_text())
+            self.assertFalse(observed['passed'])
+            self.assertIn('Retained solver/HDL diagnostics', observed['error'])
 
 
 if __name__ == '__main__':

@@ -9,6 +9,7 @@ import subprocess
 from pathlib import Path
 
 from compare_firmware_io import sha
+from failure_evidence import solver_diagnostic
 from trace_io import open_text
 
 HERE = Path(__file__).resolve().parent
@@ -55,12 +56,17 @@ def main():
     result = {'passed': False, 'scope': __doc__,
               'timingScope': 'Ordinal LED states only; C cycles and electrical seconds are not phase-aligned',
               'sources': {name: sha(HERE / name) for name in
-                          ('compare_led_reference.py', 'firmware_io_reference.c', 'trace_io.py')}}
+                          ('compare_led_reference.py', 'firmware_io_reference.c', 'trace_io.py', 'failure_evidence.py')}}
     try:
         original = json.loads((args.directory / 'report.json').read_text())
         result['originalReportSha256'] = sha(args.directory / 'report.json')
         if original.get('passed') is not True or not original.get('ledObservation', {}).get('passed'):
             raise ValueError('Expected a completed run with passing electrical LED observations')
+        if sha(args.directory / 'ngspice.log') != original['logSha256']:
+            raise ValueError('Retained solver log differs')
+        diagnostic = solver_diagnostic((args.directory / 'ngspice.log').read_text())
+        if diagnostic:
+            raise ValueError('Retained solver/HDL diagnostics: ' + diagnostic)
         if sha(args.directory / 'led-trace.txt') != original['ledTraceSha256']:
             raise ValueError('Retained LED trace differs')
         header = args.directory / 'io_scenario.h'

@@ -1,0 +1,15 @@
+{
+  "passed": false,
+  "scope": "Compare retained electrical LED intent sequences with an instrumented C replay.",
+  "timingScope": "Ordinal LED states only; C cycles and electrical seconds are not phase-aligned",
+  "sources": {
+    "compare_led_reference.py": "18517f9a233a5895950a700ca8a42c720708c493c6c23e46b08f4f88a94044b7",
+    "firmware_io_reference.c": "f2afb530804d237b3c6ceb47ca39729d68c8f29545591cf3b7241e2aa6337e8f",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "originalReportSha256": "86112914d58e8b03122b991fe23a05516d1c26f3375bfbb2ad67641667f8699c",
+  "error": "Retained solver/HDL diagnostics: Instance: ahdl   Message: XSPICE time is behind vtime:",
+  "retainedInputReport": "coarse-run.json",
+  "interpretation": "Standalone LED reference comparison rejects this historical run because its pinned solver log contains an unresolved time-order diagnostic; fresh scenario requalification remains pending."
+}
