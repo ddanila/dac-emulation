@@ -1,0 +1,72 @@
+{
+  "passed": false,
+  "scope": "Qualify an existing BR service scenario pair without rerunning its simulations.",
+  "checks": [
+    {
+      "name": "convergence",
+      "exitCode": 0,
+      "report": "convergence.json",
+      "reportSha256": "e9aeb70c1b42b3822253422d6882a3482a6a19a6a068302dc120d80523cac4da"
+    },
+    {
+      "name": "coarse-coverage",
+      "exitCode": 0,
+      "report": "coarse-coverage.json",
+      "reportSha256": "a4ff377e396c4dc91dd3c2f4cf5cbb41887f9d2214f54b66c5dc40f3cbe80fa5"
+    },
+    {
+      "name": "coarse-margins",
+      "exitCode": 0,
+      "report": "coarse-margins.json",
+      "reportSha256": "9262ba0e9ae2b271215b4c31c8be3d59b1ee85fa3d48ca19e0ebe0b2586350a7"
+    },
+    {
+      "name": "fine-coverage",
+      "exitCode": 0,
+      "report": "fine-coverage.json",
+      "reportSha256": "bc59ddc6ab71bdaa5b87ad87bd6357ce3eec6339630d4228cf1c32273f99c0e8"
+    },
+    {
+      "name": "fine-margins",
+      "exitCode": 0,
+      "report": "fine-margins.json",
+      "reportSha256": "ef803a82b310e676a1f065fd18bcc4793c3409087949aa7a9b5c5527157d2173"
+    }
+  ],
+  "limits": {
+    "edgeConvergenceNs": 15,
+    "sampledSetupHoldNs": 100
+  },
+  "qualificationBoundary": "Selected BR service fixture; not electrical oscillator/reset, brownout or specimen calibration",
+  "sources": {
+    "qualify_io_pair.py": "8acdec89421bc08304d6253f91a055a52f1ba2ebce6638b792805b09519c4b07",
+    "compare_firmware_io.py": "830cf15189e8557b5c367b03b1753e236f33cccf6b7022cef8bbe04ead8c5d49",
+    "scenario_coverage.py": "31f55449228db83be1a4474ec295544673f560cf5669a5ec7a831b10be1f49e4",
+    "receiver_margins.py": "2cf7d4fcab09424def0f471fb5ade315f11790a4267b3b32041e1671e97b80ed",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "reset_observation.py": "35418feb9ac2f0a333873fd804b56e23f06640d10ff5c4d6df485226cbd07098"
+  },
+  "inputs": {
+    "coarse": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-modifier-coarse/report.json",
+      "sha256": "9de37a0d84b15bb528283f8785936b9883d61ccec7c34cac7e1baad72d079e9d"
+    },
+    "fine": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scenarios-modifier/report.json",
+      "sha256": "7d08fa9f8b4997101a3b0ff71dffc74e70f013b0dd87d4e8ffbc17574ffbeda5"
+    },
+    "scenario": {
+      "path": "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/scenarios/modifier.json",
+      "sha256": "b96bd3d3b3161a83cf14aefa2a7c4fd9f45c45a5d243084cab452dd58ebc9eb8"
+    }
+  },
+  "diagnosticReassessment": {
+    "status": "pending time-order diagnostic review",
+    "audit": "../solver-diagnostic-audit.json",
+    "auditSha256": "b3ae14f7d876b76fe5fa71396082a74b00c5101588c7fd9bf49226addbd1a7b0",
+    "previousReport": "qualification-before-diagnostic-audit.json",
+    "previousReportSha256": "00207167857e1e45283f4412e2def6632e38531bc7916285acbcc049ab8b0d02",
+    "reason": "Previously ignored ngspice time-order messages in retained input logs; no claim of proven backward execution"
+  }
+}

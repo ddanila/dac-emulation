@@ -1,0 +1,251 @@
+{
+  "passed": true,
+  "scope": "Check observable scenario requirements against a completed electrical run.",
+  "validationSources": {
+    "scenario_coverage.py": "43d87075708f34135747c29f190c63d7f47216b1edc1f28d076f21178db4dae4",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "compare_firmware_io.py": "29a87d685978d5a5989ac0cf2ef11dd3c435d09676f8742d7a72f699409bea5d",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "reset_observation.py": "35418feb9ac2f0a333873fd804b56e23f06640d10ff5c4d6df485226cbd07098",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "originalReportSha256": "18932a682877e0b43a319d5526a49e2d59b92609d2ccf071e26218944592d7e7",
+  "scenarioSha256": "b96bd3d3b3161a83cf14aefa2a7c4fd9f45c45a5d243084cab452dd58ebc9eb8",
+  "scenario": {
+    "name": "modifier with ordinary contact, then ordinary contact alone",
+    "cycles": 130000,
+    "contacts": [
+      {
+        "cycle": 4000,
+        "index": 65,
+        "closed": true
+      },
+      {
+        "cycle": 6000,
+        "index": 61,
+        "closed": true
+      },
+      {
+        "cycle": 40000,
+        "index": 61,
+        "closed": false
+      },
+      {
+        "cycle": 42000,
+        "index": 65,
+        "closed": false
+      },
+      {
+        "cycle": 70000,
+        "index": 61,
+        "closed": true
+      },
+      {
+        "cycle": 100000,
+        "index": 61,
+        "closed": false
+      }
+    ],
+    "resets": [],
+    "observations": [
+      {
+        "name": "modified",
+        "startCycle": 6000,
+        "endCycle": 40000,
+        "minimumBits": 26
+      },
+      {
+        "name": "ordinary",
+        "startCycle": 70000,
+        "endCycle": 100000,
+        "minimumBits": 26,
+        "differentFrom": "modified"
+      }
+    ]
+  },
+  "resetDelivery": {
+    "signal": "RESET_N",
+    "events": [
+      [
+        0,
+        "0"
+      ],
+      [
+        501000,
+        "0"
+      ],
+      [
+        1000001000,
+        "1"
+      ]
+    ],
+    "expectedTransitions": [
+      [
+        1000000000,
+        "1"
+      ]
+    ],
+    "firstFetches": [
+      [
+        1001501000,
+        "0000",
+        "af"
+      ]
+    ],
+    "transitionToleranceNs": 3,
+    "timingScope": "SPICE fixture ramp/ADC and HDL timestamp rounding; not board reset propagation calibration"
+  },
+  "referenceCoverage": {
+    "passed": true,
+    "windows": [
+      {
+        "name": "modified",
+        "startCycle": 6000,
+        "endCycle": 40000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "name": "ordinary",
+        "startCycle": 70000,
+        "endCycle": 100000,
+        "minimumBits": 26,
+        "differentFrom": "modified",
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "receiverCoverage": {
+    "passed": true,
+    "windows": [
+      {
+        "name": "modified",
+        "startCycle": 6000,
+        "endCycle": 40000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      },
+      {
+        "name": "ordinary",
+        "startCycle": 70000,
+        "endCycle": 100000,
+        "minimumBits": 26,
+        "differentFrom": "modified",
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ]
+  }
+}

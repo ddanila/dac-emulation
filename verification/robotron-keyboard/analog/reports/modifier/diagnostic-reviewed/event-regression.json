@@ -1,0 +1,26 @@
+{
+  "scope": "Complete modifier runs under diagnostic-only strict-time comparison; functional event comparison is separate from analog refinement checks",
+  "runs": {
+    "coarse": {
+      "originalDirectory": "build/keyboard-controller-analog/scenarios-modifier-coarse",
+      "originalLogSha256": "0b79a6c75e43a73b62f01f918526ad4aa90384aeba1870921afc61be4dff128d",
+      "newLogSha256": "a4eb60ab5bc1cb40f7866195649ce569e9204a992f056369094142a866db89ac",
+      "eventCount": 238,
+      "exactEventMatch": true
+    },
+    "fine": {
+      "originalDirectory": "build/keyboard-controller-analog/scenarios-modifier",
+      "originalLogSha256": "04b325107fd9e31d0e5021031c73a3d2ab2d5a827d505e4cae3cbe3cb068f3cd",
+      "newLogSha256": "d45cd9f7f30f9595b647d5a00d84c152ae528730700bcf9cf6fbd6d9d5bd1bfe",
+      "eventCount": 238,
+      "exactEventMatch": true
+    }
+  },
+  "engineEvidence": {
+    "baseline": "../../coupled-clock-startup/local-engine/report.json",
+    "diagnosticCorrection": "../../service-time-audit/diagnostic-candidate.json",
+    "patch": "../../../engine-patches/ngspice-47-strict-time-diagnostic.patch",
+    "otherCodeModelsUnchanged": true,
+    "switchPatchApplied": false
+  }
+}
