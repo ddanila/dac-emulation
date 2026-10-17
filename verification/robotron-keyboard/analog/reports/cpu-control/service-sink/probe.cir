@@ -1,0 +1,20 @@
+CPU control pullups with illustrative external service sink
+Vcc n_p5V 0 5
+R6.4 n_p5V n_CPU_PULLUP 1k
+R6.5 n_p5V n_BUSRQ_N 1k
+Ccpu_control_16 n_CPU_PULLUP 0 4.9999999999999997e-12
+Ccpu_control_17 n_CPU_PULLUP 0 4.9999999999999997e-12
+Ccpu_control_24 n_CPU_PULLUP 0 4.9999999999999997e-12
+Ccpu_control_25 n_BUSRQ_N 0 4.9999999999999997e-12
+Vservice service 0 PWL(0 0 500n 0 501n 5 1u 5 1001n 0 2u 0)
+Sservice n_BUSRQ_N 0 service 0 CONTACT
+.model CONTACT SW(Ron=100 Roff=1e12 Vt=2.5 Vh=.1)
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+tran .25n 2u
+wrdata trace.txt v(n_CPU_PULLUP) v(n_BUSRQ_N)
+quit
+.endc
+.end

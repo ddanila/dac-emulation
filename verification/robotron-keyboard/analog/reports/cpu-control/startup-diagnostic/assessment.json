@@ -1,0 +1,19 @@
+{
+  "qualified": false,
+  "scope": "CPU control-pullup startup isolation; no firmware or timing qualification",
+  "coarseRun": {
+    "terminatedByOperator": true,
+    "reason": "Continued computation with negligible simulated-time advance near 0.1 ns; stopped to preserve resources, not a solver-completion result",
+    "lastReportedSeconds": 1.00151e-10
+  },
+  "shortRuns": {
+    "durationSeconds": 1e-05,
+    "maximumStepNs": 0.125,
+    "completed": [
+      "smaller-step",
+      "bypass-inputs",
+      "passives-only"
+    ],
+    "interpretation": "Smaller timestep completes the short connected case and both isolation controls. This does not isolate a unique cause or establish the later control-pin transitions."
+  }
+}
