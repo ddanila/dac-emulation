@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "scope": "Check firmware I/O timestep refinement against retained inputs and observations.",
+  "toleranceNs": 15.0,
+  "interpretation": "Exploratory numerical comparison, not a historical receiver timing specification",
+  "validationSources": {
+    "compare_firmware_io.py": "81d8c1a7062c8a928b407aae0d3d6a8f4baaac344b96691889a6b7c027352cd9",
+    "transient_analysis.py": "dd0dd5ef7a34533cd75128fa3c90c52815d8b11364b938e32680310207d3310e",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "reports": {
+    "coarse": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/repeat-refined-strict-time/coarse",
+      "sha256": "31640942a8ce51b8cf67a20f915861c6f32a293e57521d50593785be3daca5aa"
+    },
+    "fine": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/repeat-refined-strict-time/fine",
+      "sha256": "6bdbb19946fde2de241d69055eda129ea50132fef9932b9cf58820e55fff3c5b"
+    }
+  },
+  "comparison": {
+    "transmittedMaximumDifferenceNs": 0.0,
+    "receivedMaximumDifferenceNs": 4.0,
+    "transportMaximumDifferenceNs": 4.0,
+    "withinTolerance": true,
+    "firstTimingDifference": null
+  }
+}
