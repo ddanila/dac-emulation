@@ -1,0 +1,29 @@
+{
+  "scope": "Isolated falling-edge input-register candidate; not a qualified U880 wrapper",
+  "candidateWrapperSha256": "fa3700e9efa8549f597b1eb0fb443373f846c871783f6a233244096ba0cf1733",
+  "benchSha256": "ff4263caa25c953fa7b3c547392eee69c10d59cbd5da9cad89753cb40196aba5",
+  "compiledSha256": "d394e8b72ce12b10f05e001439b6b43464089a6afcea42fe66916401a7bb053d",
+  "sources": {
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+  },
+  "tools": {
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/ivl": "25ea7935b7958244cf0f55336ce303690305a6bbd2302086dd6635253172fd5e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/ivlpp": "a06f39b9ca4187aba3121ca3d621f6fe3ca4f9477294accdd69e1e2e2e9e93b6",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vvp.tgt": "a2787f7f475df88c28d6b6164f6a3820b87b47cc6dad8c2ef6158c75d58cc1ef",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0"
+  },
+  "log": "OPERAND_RISE 8500000 12\nOPERAND_CHANGE 8600000\nOPERAND_FALL 9000000 34 3e\nOUTPUT 19000000 3480 34\nREAD_PHASE_DIAGNOSTIC_PASS\n/dev/stdin:215: $finish called at 19000000 (1ps)\n",
+  "qualified": false,
+  "passed": true,
+  "execution": "Compiler and runtime inputs supplied through pipes; no temporary filesystem artifacts",
+  "reference": {
+    "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/U880D-CPU.pdf",
+    "sha256": "a3266f1cea4d24c0c91ca2941f6b40762f24a2934e6cf41dccd5fb52f80e75be",
+    "page": "Printed 58, PDF 59",
+    "nonM1SetupNs": 60
+  }
+}

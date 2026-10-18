@@ -902,3 +902,9 @@ TV80 executes `LD A,n; OUT (n),A` using the operand present at the rising edge,
 even when a different value meets the U880D's documented non-M1 falling-edge
 setup interval. The fixture preserves the vendor core unchanged. Its diagnostic
 pass reproduces the discrepancy; it does not qualify U880 pin timing.
+
+The probe's `--profile falling-candidate` generates an isolated input-latch
+experiment; `--wait` repeats the read with an inserted WAIT interval. The
+candidate consumes the later operand in these cases. It is not selected by the
+board harness: interrupt, indexed-opcode and full-firmware behavior still need
+qualification. Vendored TV80 sources remain unchanged.

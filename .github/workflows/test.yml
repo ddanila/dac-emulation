@@ -21,7 +21,11 @@ jobs:
       - name: CPU write-data setup and hold
         run: python3 verification/robotron-keyboard/analog/bus_timing_probe.py
       - name: CPU read sampling phase diagnostic
-        run: python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py
+        run: |
+          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py
+          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py --wait --out build/keyboard-controller-analog/cpu-read-phase-wait
+          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py --profile falling-candidate --out build/keyboard-controller-analog/cpu-read-phase-candidate
+          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py --profile falling-candidate --wait --out build/keyboard-controller-analog/cpu-read-phase-candidate-wait
       - name: Resolved CPU ROM and latch bus
         run: python3 verification/robotron-keyboard/analog/resolved_bus_probe.py
       - name: Firmware serial observation failure controls
