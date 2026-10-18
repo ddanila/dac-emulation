@@ -27,15 +27,17 @@
     "interpretation": "Explicit breakpoint handling resolves the observed fine-step startup abort. Steps of 5 ns or less avoid the observed time reversal in this interval. Full firmware runs are still required; no bridge scheduling fix is claimed."
   },
   "refinedFirmware": {
-    "qualified": false,
-    "pairPending": true,
+    "qualified": true,
+    "pairPending": false,
     "coarseStepNs": 5,
     "fineStepNs": 2.5,
     "minimumBreakpointFs": 1,
     "coarsePassed": true,
     "coarseOrdinalBitsMatchC": true,
-    "scope": "Full single-key S600 service scenario with electrical logic-control pullups. Both runs pass individual checks; paired timing/margin qualification remains pending. Oscillator/reset and device calibration remain outside this fixture.",
+    "scope": "Qualified single-key BR service scenario with electrical logic-control pullups: retained inputs, ordinal C bits, paired serial timing, scenario coverage and sampled receiver margins pass. Electrical CPU-control pullups were disabled in this pair. Oscillator/reset, LED activity, device calibration and specimen timing remain outside this qualification.",
     "finePassed": true,
-    "fineOrdinalBitsMatchC": true
+    "fineOrdinalBitsMatchC": true,
+    "qualificationReport": "refined-qualification/qualification.json",
+    "qualificationReportSha256": "6f5e7790c6e6b5506c40c754620f689bdc93ee9e027b12572cd54e7fc8aff00d"
   }
 }
