@@ -1,9 +1,16 @@
 """Explicit numerical controls must not silently combine with unknown defaults."""
 import unittest
-from firmware_io_cosim import solver_tolerances
+import argparse
+from firmware_io_cosim import solver_tolerances, positive_iterations
 
 
 class ServiceSolverToleranceTests(unittest.TestCase):
+    def test_iteration_limit_is_a_positive_integer(self):
+        self.assertEqual(positive_iterations('100'), 100)
+        for value in ('0', '-1', '1.5', 'nan', 'inf'):
+            with self.assertRaises(argparse.ArgumentTypeError):
+                positive_iterations(value)
+
     def test_omitted_controls_preserve_engine_defaults(self):
         self.assertIsNone(solver_tolerances(None, None, None))
 

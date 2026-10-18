@@ -49,6 +49,16 @@ def solver_tolerances(reltol, vntol, abstol):
     return dict(zip(('reltol', 'vntol', 'abstol'), values))
 
 
+def positive_iterations(value):
+    try:
+        result = int(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError('Transient iteration limit must be a positive integer')
+    if result <= 0:
+        raise argparse.ArgumentTypeError('Transient iteration limit must be a positive integer')
+    return result
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--rom', type=Path, required=True)
@@ -82,6 +92,8 @@ def main():
     for name in ('reltol', 'vntol', 'abstol'):
         p.add_argument('--' + name, type=float,
                        help='Explicit solver tolerance; supply all three, otherwise retain engine defaults')
+    p.add_argument('--transient-iterations', type=positive_iterations,
+                   help='Explicit ngspice itl4 Newton iteration limit; omit to retain the engine default')
     p.add_argument('--electrical-wr', action='store_true', help='Finite CPU WR drive into transistor clock gate; requires electrical-bus and 7406-dc')
     p.add_argument('--sio-data-pf', type=float)
     p.add_argument('--sio-clock-pf', type=float)
@@ -137,6 +149,7 @@ def main():
         'logicClockReceiver': 'Nominal 1.4 V threshold; not calibrated DL074 switching timing',
         'minimumBreakpointFs': args.minimum_breakpoint_fs,
         'solverTolerances': solver,
+        'transientIterations': args.transient_iterations,
         'analysisInvocation': 'deck-tran/run' if args.minimum_breakpoint_fs is not None else 'control-tran',
         'clockPeriodNs': 1000, 'resetRampStartNs': 1000000, 'fixtureEdgeNs': 1,
         'fixtureThresholdVolts': 1.4, 'br1Closed': False, 'br2Closed': False,
@@ -375,6 +388,8 @@ def main():
             lines.insert(lines.index('quit'), 'wrdata wr-trace.txt ' + signals)
         if solver is not None:
             lines.insert(lines.index('.control'), '.options ' + ' '.join(f'{key}={value}' for key,value in solver.items()))
+        if args.transient_iterations is not None:
+            lines.insert(lines.index('.control'), f'.options itl4={args.transient_iterations}')
         (out / 'io.cir').write_text(with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs))
         report['deckSha256'] = sha(out / 'io.cir')
         report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
