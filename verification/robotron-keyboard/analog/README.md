@@ -229,10 +229,12 @@ remains explicit. `firmware_io_cosim.py --host-buffer --serial-driver 7406-dc` i
 this experimental network in the service firmware fixture. The observer samples
 the falling buffer-output clock and uses the output data without cable inversion;
 `host-trace.txt` retains cable, buffer-input and buffer-output voltages separately.
-Electrical-bus preparation supports the same option. The closed-board boot runner
-still uses its existing output boundary. Serial agreement cannot qualify this
-candidate: the paired firmware qualifier rejects host-buffer runs pending device,
-receiver-voltage and timing qualification.
+Electrical-bus preparation supports the same option. `boot_cosim.py --host-buffer`
+also includes this network with the onboard oscillator/reset and closed bridges;
+it requires `--electrical-outputs` and accepts the same explicit SIO load arguments.
+Both paired qualifiers reject experimental host-buffer runs pending device,
+receiver-voltage and timing qualification. Service-only review commands do not
+validate the closed-board capture window or startup.
 For numerical diagnosis only, run
 `compare_firmware_io.py COARSE FINE --experimental-host --out /tmp/host-convergence.json`.
 This checks matching model/runtime inputs and serial-edge refinement while retaining

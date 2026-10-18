@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Reject timing or model changes even when full-board serial bits agree."""
 import copy
+import json
 import tempfile
 import unittest
 from pathlib import Path
 
-from qualify_board_pair import compare, normalized_analysis, require_clock_voltage
+from qualify_board_pair import compare, load_run, normalized_analysis, require_clock_voltage
 from receiver_margins import measure
 
 
@@ -19,6 +20,17 @@ def report(step):
 
 
 class BoardQualificationTests(unittest.TestCase):
+    def test_experimental_host_cannot_reach_legacy_receiver_qualification(self):
+        r=report(10)
+        r['assumptions']['hostBuffer']='7404-candidate'
+        with self.assertRaisesRegex(ValueError,'Host-buffer full-board'):
+            compare(r,r,15)
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)
+            (path/'report.json').write_text(json.dumps(r))
+            with self.assertRaisesRegex(ValueError,'Host-buffer full-board'):
+                load_run(path)
+
     def test_voltage_evidence_is_required_beyond_timing(self):
         valid = {'supplyTraceSignal': 'v(n_p5V)', 'cpuClockVoltage': {
             'samples': 10, 'validSupplySamples': 10,

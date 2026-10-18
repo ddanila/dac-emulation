@@ -19,6 +19,8 @@ HERE = Path(__file__).resolve().parent
 
 def load_run(directory):
     report = json.loads((directory / 'report.json').read_text())
+    if report.get('assumptions', {}).get('hostBuffer'):
+        raise ValueError('Host-buffer full-board electrical qualification is not implemented')
     if report.get('passed') is not True or report.get('preparedOnly'):
         raise ValueError('Full-board run did not pass: ' + str(directory))
     if not report.get('scenario') or not all(report['assumptions'].get(key) for key in
@@ -60,6 +62,8 @@ def load_run(directory):
 
 
 def compare(coarse, fine, tolerance_ns):
+    if any(report['assumptions'].get('hostBuffer') for report in (coarse, fine)):
+        raise ValueError('Host-buffer full-board electrical qualification is not implemented')
     if any(report.get('supplyStimulus') or report['assumptions'].get('customSupplyStimulus') for report in (coarse, fine)):
         raise ValueError('Custom supply reset/restart qualification is not implemented')
     if any(report['assumptions'].get('electricalBus') for report in (coarse, fine)):

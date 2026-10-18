@@ -48,6 +48,31 @@ class BootPreparationTests(unittest.TestCase):
             self.assertIn('bus_observation.py', report['sources'])
             with self.assertRaisesRegex(ValueError, 'timing qualification'):
                 compare(report, report, 10)
+            args.host_buffer = True
+            args.sio_data_pf, args.sio_clock_pf, args.sio_leakage_ua = 5, 50, 10
+            for bus in (False, True):
+                args.electrical_bus = bus
+                args.bus_latch_pf, args.bus_7406_pf = (12,3) if bus else (None,None)
+                host = {'assumptions': {'traceWindowSeconds': [.124,.127]}}
+                with patch('boot_cosim.ROM_SHA256',sha(rom)):
+                    prepare(args,host)
+                deck=(out/'boot.cir').read_text()
+                self.assertIn('Vhost host_receiver_5v host_receiver_gnd ',deck)
+                self.assertIn('Ereceiver_data receiver_data 0 host_data_buffer_output host_receiver_gnd 1',deck)
+                self.assertIn('Ereceiver_clock receiver_clock 0 host_clock_buffer_output host_receiver_gnd 1',deck)
+                self.assertIn('RBR1 ',deck)
+                self.assertIn('RBR2 ',deck)
+                self.assertIn('Ain [n_CLK n_RESET_N] [dclk drst] receiver',deck)
+                self.assertIn('Chost_clock_sio host_clock_buffer_output host_receiver_gnd 50p',deck)
+                self.assertIn('Ihost_data_sio host_data_buffer_output host_receiver_gnd 10u',deck)
+                self.assertIn('wrdata host-trace.txt ',deck)
+                self.assertEqual(len(host['hostTraceSignals']),6)
+                self.assertEqual(host['traceSignals'][-2:],['v(receiver_data)','v(receiver_clock)'])
+                self.assertFalse(host['qualified'])
+                with self.assertRaisesRegex(ValueError,'Host-buffer full-board'):
+                    compare(host,host,10)
+            args.host_buffer = False
+            args.sio_data_pf = args.sio_clock_pf = args.sio_leakage_ua = None
             args.reset_load = 'reference-capacitance'
             args.supply_data = {'pointsSecondsVolts': [[0, 0], [1e-6, 5], [.125, 5], [.12501, 2], [.126, 2], [.12601, 5], [.127, 5]]}
             for outputs in (True, False):
