@@ -100,7 +100,10 @@ jobs:
           python3 verification/robotron-keyboard/analog/matrix_probe.py --latch-load source-limit --out build/keyboard-controller-analog/matrix-source-limit
           python3 verification/robotron-keyboard/analog/matrix_probe.py --latch-load sink-limit --out build/keyboard-controller-analog/matrix-sink-limit
       - name: Reference reset, power cycling and BR2 isolation
-        run: python3 verification/robotron-keyboard/analog/reset_probe.py
+        run: |
+          python3 verification/robotron-keyboard/analog/test_reset_supply_observation.py
+          python3 verification/robotron-keyboard/analog/reset_probe.py
+          python3 verification/robotron-keyboard/analog/reset_probe.py --npn-profile sc236-dc --supply-stimulus verification/robotron-keyboard/analog/supply-stimuli/brownout.json --stop-seconds .127 --out build/keyboard-controller-analog/reset-brownout
       - name: SC236D candidate DC limits and reset integration
         run: |
           python3 verification/robotron-keyboard/analog/device_probe.py --npn-profile sc236-dc --require-qualified

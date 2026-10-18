@@ -1161,7 +1161,7 @@ CI runs this fixture with `--require-limits`, which rejects delay-limit or times
 convergence failures while retaining the diagnostic report. This regression gate
 does not promote the model to device qualification.
 
-`boot_cosim.py --supply-stimulus scenarios/supply-brownout.json` replaces the
+`boot_cosim.py --supply-stimulus supply-stimuli/brownout.json` replaces the
 startup ramp with explicit `[seconds, volts]` points under `pointsSecondsVolts`.
 Use the path relative to this directory, or an absolute path. The stimulus must
 start at zero time/voltage and end at the simulation stop time; it is mutually
@@ -1172,3 +1172,12 @@ normalized stimulus and hash. Custom-supply runs are diagnostic: the existing
 normal-boot checker does not qualify brownout reset/restart, and paired board
 qualification rejects them. Use `--prepare-only` to inspect the generated circuit
 before a potentially long run.
+
+The same stimulus can be screened with `reset_probe.py --supply-stimulus
+supply-stimuli/brownout.json --stop-seconds .127 --npn-profile sc236-dc`.
+The [retained reset response](reports/reset-brownout/report.json) has no sampled
+low CPU-reset level at valid supply during recovery with BR2 closed, at either
+timestep. Voltages during undervoltage are reported without assigning logic
+states. This does not establish a reliable firmware restart; semiconductor
+parameters and CPU loading remain exploratory. The ordinary power-cycle check
+is separate and unchanged in scope.
