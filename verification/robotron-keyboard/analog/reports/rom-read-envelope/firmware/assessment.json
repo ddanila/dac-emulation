@@ -1,0 +1,14 @@
+{
+  "qualified": false,
+  "cComparisonPassed": true,
+  "recordedHdlEventsMatchUntimedBaseline": true,
+  "baselineSource": "https://github.com/ddanila/dac-emulation/actions/runs/39090855120",
+  "baselineHdlSha256": "2d71c4f07f29f9a88d0b77610bd6d97ff36a362d586e1247731caa3aa9b4e6c8",
+  "command": "python3 verification/robotron-keyboard/run.py --rom /path/to/s600.bin --cpu-profile falling-indexed-candidate --rom-read-envelope --out build/keyboard-controller-analog/rom-envelope-firmware",
+  "boundary": "Cycle-indexed digital workload with a 1 MHz clock and direct CPU ROM input. No analog bus, U556 calibration or physical output-release qualification.",
+  "rawSha256": {
+    "report.json": "3475a5c19d9985e372be9861f5c5969e3a923b5a5e18cbeb5837900e80a05c5f",
+    "firmware-c.txt": "3e1735d98cc3b1e069c7a9fcbaa0a64cb567815464dfe13f79450d32ce26f549",
+    "firmware-hdl.txt": "e6cbcc9651a5e3beb92c515a479bc524c3e435402af4093c1bb4f500e02b7002"
+  }
+}

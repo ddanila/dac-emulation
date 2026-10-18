@@ -650,6 +650,11 @@ is specific to this envelope and unknown-drive surrogate; it does not resolve
 the baseline driver-model failures or qualify a complete firmware scenario.
 The manual `keyboard-bus-diagnostic.yml` workflow accepts `rom_read_envelope`,
 `cpu_profile` and `electrical_wr` independently and retains paired traces.
+For the full digital C/HDL workload, use `../run.py --rom PATH --rom-read-envelope`
+with the selected `--cpu-profile`, or the manual `keyboard-cpu-phase.yml` workflow.
+This sets a 1 MHz fixture clock so nanosecond ROM limits have physical units while
+preserving the cycle-indexed contact recipe. That fixture retains direct memory
+input and therefore does not test electrical bus contention or output release.
 
 The service harness accepts `--electrical-bus --bus-latch-pf 12 --bus-7406-pf 3`
 to route S600/TV80 bus reads through this experimental model. The capacitances in
