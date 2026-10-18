@@ -146,17 +146,10 @@ guesses when the default DC solve selects another state. It still rejects a
 mismatched observed plateau. Loaded response ratios do not establish loop gain,
 stability or identical internal junction states.
 
-The [published transfer review](reports/clock-output/ls00-transfer500/assessment.json)
-records which fixture conditions are stated and which remain interpretations.
-Preserve sweep direction and step refinement; coarse agreement can miss branches.
-The [independent-solver replay](reports/clock-output/xyce-transfer500/assessment.json)
-retains branch comparisons and rejected temperature syntax; explicit runtime
-settings are required even when model files are byte-identical.
-
-The [diode-role review](reports/clock-output/diode-role-review/assessment.json)
-keeps TI and К555ЛА3 condition sets separate. A failure under one device's limits
-is not automatically a rejection under another's; selected DC passes alone do
-not establish dynamic applicability.
+Preserve sweep direction and step refinement when comparing transfer curves;
+coarse agreement can miss branches. Keep device condition sets separate: a failure
+under one device's limits does not automatically reject another device. Retained
+fixture interpretations and comparisons are indexed below.
 
 These probes never select a board default. A parameter grid is not a measured
 process range or a continuous robustness proof. DC source-current sign changes
@@ -220,6 +213,8 @@ settings, results and rejected alternatives; related captures remain in
 | Is startup numerically converged? | [Full-precision supply isolation](reports/clock-output/full-precision-supply-isolation/assessment.json) and [independent solver replay](reports/clock-output/xyce-recorded-supply/assessment.json); retain absolute phase and failing startup. |
 | Does the gate model apply to the device? | [A7 identity and passport checks](reports/clock-output/k555la3-device-review/assessment.json), [candidate admission](reports/clock-output/device-admission/assessment.json) and [output I/V review](reports/clock-output/ls00-output-iv/assessment.json); selected DC/switching passes do not qualify oscillator dynamics or historical process parameters. |
 | Why do admitted candidates settle? | [Complete-oscillator disturbance](reports/clock-output/oscillator-disturbance/assessment.json) and [matched-plateau AC response](reports/clock-output/oscillator-ac/assessment.json); the [internal-state capture](reports/clock-output/oscillator-internal/assessment.json) resolves candidate currents for the second gate's state and response investigation. Finite recovery and loaded ratios are not general stability proofs; the incomplete pole search is rejected. |
+| Do transfer branches depend on the solver? | [Published fixture review](reports/clock-output/ls00-transfer500/assessment.json) and [Xyce replay](reports/clock-output/xyce-transfer500/assessment.json); fixture alternatives and explicit runtime temperatures remain part of the comparison. Solver agreement is not calibration. |
+| Do device conditions or input-junction assumptions resolve startup? | [Device-condition and diode review](reports/clock-output/diode-role-review/assessment.json); selected TI/К555ЛА3 DC checks remain distinct from dynamic applicability. |
 | Are CPU reads electrically valid? | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json) and [floating-read analysis](reports/floating-io/static-analysis.json); functional agreement does not qualify released input voltage. |
 | Does reset recover after a supply dip? | [Reset dip response](reports/reset-brownout/report.json); startup reset and sampled recovery do not establish reliable firmware restart. |
 
