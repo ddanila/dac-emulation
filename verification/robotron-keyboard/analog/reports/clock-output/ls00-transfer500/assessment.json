@@ -1,0 +1,335 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Independent published transfer reference and diagnostic fixture alternatives; no curve fit, exact manufacturer reproduction, physical hysteresis or specimen calibration.",
+  "source": {
+    "url": "https://www.ti.com/lit/an/sdaa010/sdaa010.pdf",
+    "sha256": "33253a2f9b72d4d9c3d067940eb8e29b98710e49132591f737bf37d862653260",
+    "pdfPage": 14,
+    "printedPage": 8,
+    "figure": 14,
+    "deviceCurve": "LS00, distinct from ALS/AS curves",
+    "specifiedConditions": {
+      "supplyVolts": 5,
+      "ambientCelsius": 25,
+      "loadOhms": 500
+    },
+    "unresolvedConditions": [
+      "Load connection not explicitly drawn in Figure 14",
+      "Complementary NAND input setting",
+      "Sweep direction and history",
+      "Device selection and statistical bounds"
+    ]
+  },
+  "findings": [
+    "Both candidates retain large direction-dependent output differences with the ground-connected 500-ohm load at both step sizes and complementary-input choices.",
+    "Changing load connection changes branch selection; the supply-loaded sink-RE10 tied-input sweep appears direction-independent at 1 mV steps but exposes a branch difference at 0.5 mV. Coarse agreement alone is insufficient.",
+    "The published LS00 curve provides an independent transition-region reference. Its unspecified fixture details and absence of forward/reverse bounds do not justify exact fitting or a physical-hysteresis conclusion.",
+    "Review of the TI 1985 LS00 drawing found no supported topology correction; candidate changes require independent device evidence rather than removing a depicted feedback diode to force oscillation."
+  ],
+  "nextQuestion": "Resolve fixture applicability and compare transition-region behavior, including load and sweep dependence. Test clamp/input characteristics separately from output-current fitting; do not promote endpoint-admitted candidates to oscillator defaults.",
+  "runs": {
+    "baseline": {
+      "assessmentSha256": "7d9f7e3802bfd146df7bb5879f883d4c2132fe3bb065e948888aaf9c6f00a914",
+      "directionComparisons": [
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "tied",
+          "stepVolts": 0.001,
+          "maximumOutputDifferenceVolts": 2.2881682072025447,
+          "inputVolts": 1.0129999999999992,
+          "forwardOutputVolts": 2.486178639656208,
+          "reverseOutputVolts": 0.1980104324536631
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "tied",
+          "stepVolts": 0.0005,
+          "maximumOutputDifferenceVolts": 2.288168206838787,
+          "inputVolts": 1.012999999999944,
+          "forwardOutputVolts": 2.4861786392924694,
+          "reverseOutputVolts": 0.1980104324536824
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "high",
+          "stepVolts": 0.001,
+          "maximumOutputDifferenceVolts": 2.2868090812086006,
+          "inputVolts": 0.9950000000000008,
+          "forwardOutputVolts": 2.4831964956671913,
+          "reverseOutputVolts": 0.19638741445859087
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "high",
+          "stepVolts": 0.0005,
+          "maximumOutputDifferenceVolts": 2.2868090808242862,
+          "inputVolts": 0.9949999999999458,
+          "forwardOutputVolts": 2.483196495313928,
+          "reverseOutputVolts": 0.19638741448964175
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "tied",
+          "stepVolts": 0.001,
+          "maximumOutputDifferenceVolts": 0.5463581002893422,
+          "inputVolts": 1.123999999999987,
+          "forwardOutputVolts": 0.8942273979042534,
+          "reverseOutputVolts": 0.34786929761491125
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "tied",
+          "stepVolts": 0.0005,
+          "maximumOutputDifferenceVolts": 0.5463580958877894,
+          "inputVolts": 1.1239999999999317,
+          "forwardOutputVolts": 0.8942273934994983,
+          "reverseOutputVolts": 0.34786929761170887
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "high",
+          "stepVolts": 0.001,
+          "maximumOutputDifferenceVolts": 0.5369775242610384,
+          "inputVolts": 1.105999999999989,
+          "forwardOutputVolts": 0.8833839802919237,
+          "reverseOutputVolts": 0.3464064560308852
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "high",
+          "stepVolts": 0.0005,
+          "maximumOutputDifferenceVolts": 0.5369775201509346,
+          "inputVolts": 1.1059999999999337,
+          "forwardOutputVolts": 0.8833839761806251,
+          "reverseOutputVolts": 0.3464064560296905
+        }
+      ],
+      "refinementComparisons": [
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "tied",
+          "reverse": false,
+          "maximumOutputDifferenceVolts": 2.8155112463679188e-08,
+          "inputVolts": 0.9360000000000007,
+          "coarseOutputVolts": 3.093094375121443,
+          "fineOutputVolts": 3.0930944032765555
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "tied",
+          "reverse": true,
+          "maximumOutputDifferenceVolts": 2.8797335627217535e-08,
+          "inputVolts": 0.9350000000000661,
+          "coarseOutputVolts": 3.095108421248025,
+          "fineOutputVolts": 3.0951084500453607
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "high",
+          "reverse": false,
+          "maximumOutputDifferenceVolts": 2.839238222307472e-08,
+          "inputVolts": 0.9040000000000007,
+          "coarseOutputVolts": 3.1115026997690776,
+          "fineOutputVolts": 3.1115026713766953
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "high",
+          "reverse": true,
+          "maximumOutputDifferenceVolts": 2.8895019710262204e-08,
+          "inputVolts": 0.9020000000000661,
+          "coarseOutputVolts": 3.113192220296754,
+          "fineOutputVolts": 3.113192191401734
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "tied",
+          "reverse": false,
+          "maximumOutputDifferenceVolts": 1.1332480953640811e-08,
+          "inputVolts": 1.1079999999999888,
+          "coarseOutputVolts": 1.3654611525703502,
+          "fineOutputVolts": 1.3654611639028311
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "tied",
+          "reverse": true,
+          "maximumOutputDifferenceVolts": 1.0556464813404887e-08,
+          "inputVolts": 1.119000000000053,
+          "coarseOutputVolts": 1.05029080180746,
+          "fineOutputVolts": 1.0502907912509951
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "high",
+          "reverse": false,
+          "maximumOutputDifferenceVolts": 1.1389587051269245e-08,
+          "inputVolts": 1.0859999999999912,
+          "coarseOutputVolts": 1.4765396773376536,
+          "fineOutputVolts": 1.4765396887272406
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "high",
+          "reverse": true,
+          "maximumOutputDifferenceVolts": 9.729724359530678e-09,
+          "inputVolts": 1.101000000000055,
+          "coarseOutputVolts": 1.0401127763312952,
+          "fineOutputVolts": 1.0401127666015708
+        }
+      ]
+    },
+    "sink-re10": {
+      "assessmentSha256": "32830591acf391536599e38f5746a26b36926a0679132daf78b2e1796ae22fe7",
+      "directionComparisons": [
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "tied",
+          "stepVolts": 0.001,
+          "maximumOutputDifferenceVolts": 2.287158582882215,
+          "inputVolts": 1.0139999999999991,
+          "forwardOutputVolts": 2.483920153068467,
+          "reverseOutputVolts": 0.196761570186252
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "tied",
+          "stepVolts": 0.0005,
+          "maximumOutputDifferenceVolts": 2.289899049772288,
+          "inputVolts": 1.013499999999944,
+          "forwardOutputVolts": 2.487676540196746,
+          "reverseOutputVolts": 0.19777749042445775
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "high",
+          "stepVolts": 0.001,
+          "maximumOutputDifferenceVolts": 2.284442324217117,
+          "inputVolts": 0.9960000000000008,
+          "forwardOutputVolts": 2.4810486555593383,
+          "reverseOutputVolts": 0.19660633134222114
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "high",
+          "stepVolts": 0.0005,
+          "maximumOutputDifferenceVolts": 2.2879201078114124,
+          "inputVolts": 0.9954999999999458,
+          "forwardOutputVolts": 2.4848052466989436,
+          "reverseOutputVolts": 0.19688513888753112
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "tied",
+          "stepVolts": 0.001,
+          "maximumOutputDifferenceVolts": 6.792015838641419e-09,
+          "inputVolts": 1.0679999999999932,
+          "forwardOutputVolts": 4.207620072886344,
+          "reverseOutputVolts": 4.207620066094329
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "tied",
+          "stepVolts": 0.0005,
+          "maximumOutputDifferenceVolts": 0.057921833175000714,
+          "inputVolts": 1.2164999999999215,
+          "forwardOutputVolts": 0.5403092662367622,
+          "reverseOutputVolts": 0.4823874330617615
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "high",
+          "stepVolts": 0.001,
+          "maximumOutputDifferenceVolts": 0.060004441292491106,
+          "inputVolts": 1.1979999999999789,
+          "forwardOutputVolts": 0.546396415979465,
+          "reverseOutputVolts": 0.48639197468697387
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "high",
+          "stepVolts": 0.0005,
+          "maximumOutputDifferenceVolts": 0.06000444130274046,
+          "inputVolts": 1.1979999999999236,
+          "forwardOutputVolts": 0.5463964159812988,
+          "reverseOutputVolts": 0.4863919746785584
+        }
+      ],
+      "refinementComparisons": [
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "tied",
+          "reverse": false,
+          "maximumOutputDifferenceVolts": 2.8394206541548783e-08,
+          "inputVolts": 0.9360000000000007,
+          "coarseOutputVolts": 3.093367253159315,
+          "fineOutputVolts": 3.0933672815535216
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "tied",
+          "reverse": true,
+          "maximumOutputDifferenceVolts": 2.9045339466904352e-08,
+          "inputVolts": 0.9350000000000661,
+          "coarseOutputVolts": 3.0953794797053256,
+          "fineOutputVolts": 3.095379508750665
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "high",
+          "reverse": false,
+          "maximumOutputDifferenceVolts": 2.853247060841113e-08,
+          "inputVolts": 0.9040000000000007,
+          "coarseOutputVolts": 3.1117331830107062,
+          "fineOutputVolts": 3.1117331544782356
+        },
+        {
+          "loadConnection": "ground",
+          "complementaryInput": "high",
+          "reverse": true,
+          "maximumOutputDifferenceVolts": 2.9038874860276565e-08,
+          "inputVolts": 0.9020000000000661,
+          "coarseOutputVolts": 3.1134158577070825,
+          "fineOutputVolts": 3.1134158286682077
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "tied",
+          "reverse": false,
+          "maximumOutputDifferenceVolts": 6.470746272135841e-09,
+          "inputVolts": 1.2109999999999774,
+          "coarseOutputVolts": 0.6483231486692912,
+          "fineOutputVolts": 0.6483231551400375
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "tied",
+          "reverse": true,
+          "maximumOutputDifferenceVolts": 8.269199325283694e-09,
+          "inputVolts": 1.2030000000000438,
+          "coarseOutputVolts": 0.850331908506808,
+          "fineOutputVolts": 0.8503319002376086
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "high",
+          "reverse": false,
+          "maximumOutputDifferenceVolts": 6.470875391073605e-09,
+          "inputVolts": 1.0499999999999952,
+          "coarseOutputVolts": 4.202186311839264,
+          "fineOutputVolts": 4.2021863053683886
+        },
+        {
+          "loadConnection": "supply",
+          "complementaryInput": "high",
+          "reverse": true,
+          "maximumOutputDifferenceVolts": 8.605572476838574e-09,
+          "inputVolts": 1.183000000000046,
+          "coarseOutputVolts": 0.9010707159765703,
+          "fineOutputVolts": 0.9010707245821428
+        }
+      ]
+    }
+  }
+}
