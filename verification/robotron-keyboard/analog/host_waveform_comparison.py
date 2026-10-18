@@ -42,6 +42,9 @@ def compare_samples(coarse, fine):
         raise ValueError('Insufficient waveform samples')
     result = [{'maximumDifferenceV': abs(a-b), 'timeSeconds': first[0][0],
                'coarseV': a, 'fineV': b} for a,b in zip(first[0][1:],first[1][1:])]
+    differences = [a-b for a,b in zip(first[0][1:],first[1][1:])]
+    absolute_integrals = [0.0] * (width-1)
+    squared_integrals = [0.0] * (width-1)
     knots = 1
     last = first[0][0]
     while True:
@@ -53,6 +56,17 @@ def compare_samples(coarse, fine):
             fraction = (t-a[0])/(b[0]-a[0])
             values.append([x + fraction*(y-x) for x,y in zip(a[1:],b[1:])])
         for i,(a,b) in enumerate(zip(*values)):
+            old, new = differences[i], a-b
+            duration = t-last
+            # Integrate the piecewise-linear difference, splitting its absolute
+            # value at a zero crossing. Squaring a linear segment is quadratic.
+            if (old < 0 < new) or (new < 0 < old):
+                area = (old*old + new*new) / (abs(old) + abs(new))
+            else:
+                area = abs(old) + abs(new)
+            absolute_integrals[i] += duration * area / 2
+            squared_integrals[i] += duration * (old*old + old*new + new*new) / 3
+            differences[i] = new
             if abs(a-b) > result[i]['maximumDifferenceV']:
                 result[i] = {'maximumDifferenceV':abs(a-b),'timeSeconds':t,'coarseV':a,'fineV':b}
         knots += 1
@@ -65,6 +79,11 @@ def compare_samples(coarse, fine):
             if not all(r is None for r in following):
                 raise ValueError('Waveform extents differ')
             break
+    duration = last-first[0][0]
+    for i, entry in enumerate(result):
+        entry['integratedAbsoluteDifferenceVoltSeconds'] = absolute_integrals[i]
+        entry['meanAbsoluteDifferenceV'] = absolute_integrals[i] / duration
+        entry['rmsDifferenceV'] = math.sqrt(squared_integrals[i] / duration)
     return {'signals':result,'unionKnots':knots,'endSeconds':last}
 
 
@@ -75,7 +94,7 @@ def main():
     parser.add_argument('--out',type=Path,required=True)
     args = parser.parse_args()
     result = {'completed':False,'qualified':False,'scope':__doc__,
-              'boundary':'Piecewise-linear sampled voltages only; no phase alignment or intersample peak claim. No physical accuracy tolerance is inferred.',
+              'boundary':'Piecewise-linear sampled voltages only; no phase alignment or intersample peak claim. Integrated and RMS differences describe duration-weighted error, not acceptance of peak errors. No physical accuracy tolerance is inferred.',
               'sources':{name:sha(HERE/name) for name in ('host_waveform_comparison.py','compare_firmware_io.py','trace_io.py','transient_analysis.py','serial_observation.py','led_observation.py','failure_evidence.py')}}
     args.out.parent.mkdir(parents=True,exist_ok=True)
     try:
