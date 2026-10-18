@@ -1,0 +1,33 @@
+{
+  "qualified": false,
+  "scope": "Selected transitions in the loaded host timestep pair",
+  "evidence": {
+    "windows": "report.json",
+    "absoluteTimeComparison": "../firmware-host-load-fine/voltage-comparison-relocated.json",
+    "correctedObserverPair": "../firmware-host-rising-load-fine/assessment.json"
+  },
+  "reportSha256": "f9ae9b07368b1dd6f78a53aa35e1987e4db544a25fd2cffa0522ffe94e7d6544",
+  "observations": [
+    {
+      "signal": "data",
+      "maximumDifferenceV": 2.7030652357643477,
+      "centerSeconds": 0.01053963825902894,
+      "windows": {
+        "coarse": "coarse-2.txt",
+        "fine": "fine-2.txt"
+      },
+      "nominalCrossingShiftNs": -2.492391286412765
+    },
+    {
+      "signal": "clock",
+      "maximumDifferenceV": 0.686570051239773,
+      "centerSeconds": 0.025684137192489357,
+      "windows": {
+        "coarse": "coarse-4.txt",
+        "fine": "fine-4.txt"
+      },
+      "nominalCrossingShiftNs": 1.5618868628997085
+    }
+  ],
+  "interpretation": "The selected data/clock output windows each contain one rising nominal-threshold crossing in both captures. Small crossing-time shifts accompany the large instantaneous voltage differences. No extra crossing is observed inside these windows; nothing here proves whole-waveform convergence, absence of intersample pulses, device applicability or a calibrated Schmitt threshold. Corrected-observer captures reuse these exact waveform bytes as documented by their pair assessment."
+}
