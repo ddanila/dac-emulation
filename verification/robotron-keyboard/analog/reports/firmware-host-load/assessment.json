@@ -1,0 +1,38 @@
+{
+  "qualified": false,
+  "producerSourceRevision": "dc2d88f",
+  "scope": "S600 single-press service fixture with explicit SIO capacitance and leakage",
+  "load": {
+    "dataPf": 5.0,
+    "clockPf": 50.0,
+    "leakageUa": 10.0
+  },
+  "evidence": {
+    "firmware": "report.json",
+    "sampledStability": "margins.json",
+    "sampledInputStress": "input-review.json",
+    "loadSource": "../../u856_limits.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "9cb69b412b37aae46568fb4157891f5df4d28a48d2e70f01ce03eeabc1069d98",
+    "margins.json": "aab11993a4e328f9f28f885cca6ef8f6b839f66ff3616481e11708155225dd43",
+    "input-review.json": "11e132b8196013d893040024f5dda38d1488a497a9569905452682f70e033f5e",
+    "run-inputs.json": "bbd174a106d94ad10030b0cb1e4776d6eef82e53e975ec9974713ade8850d8b9",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "ddba6ec8d16992650fc00b1b206d9f1c86ec43c2652319e63fd51eb782f823d1",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "2f6ad2b361245ec166f7e379fc3022a02fd759cd352191c0edae960d4d0664b9",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591"
+  },
+  "waveforms": {
+    "retention": "Local captures only; producer hashes retained in report. Full waveforms are not included in git.",
+    "directory": "build/keyboard-controller-analog/firmware-host-load-50pf-sink",
+    "files": [
+      "driver-trace.txt.xz",
+      "host-trace.txt.xz",
+      "trace.txt.xz"
+    ]
+  },
+  "interpretation": "Logical comparison, sampled stability and D104 input envelopes pass for this explicit load. The load is a source-informed stress assumption, not calibrated SIO I/V behavior. Clock-capacitance applicability, dynamics, timestep convergence for this load, and closed-board qualification remain open."
+}
