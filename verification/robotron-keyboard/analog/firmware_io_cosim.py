@@ -15,6 +15,7 @@ from circuit import load, node
 from controller_interface import generate
 from electrical_bus_interface import generate_service
 from write_control import wiring as wr_wiring
+from write_control_observation import measure as measure_wr
 from bus_driver import wiring as bus_wiring
 from bus_observation import measure as measure_bus, BusMismatch
 from transient_analysis import with_minimum_breakpoint
@@ -121,7 +122,7 @@ def main():
             'electrical_bus_interface.py', 'bus_driver.py', 'bus_load.py', 'bus_inventory.py', 'bus_limits.json', 'bus_observation.py')})
     if args.electrical_wr:
         report['assumptions']['electricalWr'] = True
-        report['sources']['write_control.py'] = sha(HERE / 'write_control.py')
+        report['sources'].update({name: sha(HERE / name) for name in ('write_control.py', 'write_control_observation.py')})
     try:
         scenario = load_scenario(args.scenario)
         report['assumptions']['scenario'] = scenario
@@ -329,6 +330,8 @@ def main():
         if args.electrical_bus:
             report['busObservation'] = measure_bus(log, out / 'bus-trace.txt', args.step_ns, args.rom.read_bytes(),
                                                   trace_extent=(0, time_ns(scenario['cycles']) * 1e-9))
+        if args.electrical_wr:
+            report['wrObservation'] = measure_wr(log, out / 'wr-trace.txt', args.step_ns, time_ns(scenario['cycles']) * 1e-9)
         report['resetDelivery'] = validate_service_reset(log, scenario, args.rom.read_bytes()[0])
         report['serialTransport'] = validate_transport(log, require_activity=True)
         received_bits = [bit for _, bit in report['serialTransport']['received']]

@@ -700,7 +700,12 @@ WR inactive; BUSACK releases both driver branches, following U880D printed
 pages 9–10. Unknown ownership remains unknown. `wr-trace.txt` retains pin
 voltage, drive enables and branch currents. The retained service-startup capture
 checks ROM reads and inactive WR; it does not demonstrate firmware WR pulses.
-An extended capture failed storage and remains unqualified. These checks do not
+An extended capture failed storage and remains unqualified. Dispatch the
+`keyboard-bus-diagnostic.yml` workflow with `electrical_wr=true` for remote
+coarse/fine firmware runs. The WR observer requires both active and inactive
+states, checks settled voltage and ownership, and rejects incomplete captures;
+its settling window is a diagnostic allowance, not a propagation limit.
+These checks do not
 qualify U880 control timing or transistor switching parameters.
 
 The boot harness accepts `--electrical-outputs --serial-driver 7406-dc` to use
