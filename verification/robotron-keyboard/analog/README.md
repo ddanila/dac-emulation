@@ -133,11 +133,14 @@ shows why passing isolated device conditions is insufficient: those candidates
 do not sustain the reference oscillator. Its capture archive preserves the failures.
 
 `oscillator_transfer_probe.py --model /path/to/candidate.cir --out /path/to/fresh-run`
-clamps the RC node for a DC sweep while retaining schematic loading. Zero source
-current brackets an equilibrium; loaded stage slopes help diagnose why a candidate
-settles. They do not establish AC loop gain or stability. The
+clamps the RC node for forward and reverse DC sweeps with schematic loading.
+Source-current sign changes identify candidate equilibria; interpolation across a
+branch jump does not prove an operating point. Loaded stage slopes describe only
+their solution branch, not AC loop gain or stability. The
 [retained transfer comparison](reports/clock-output/ls00-transfer/assessment.json)
-includes refined sweeps and the failed input-junction experiments.
+includes refined sweeps and the failed input-junction experiments. The
+[bidirectional review](reports/clock-output/ls00-branches/assessment.json) tests
+branch dependence explicitly and retains independent operating-point diagnostics.
 
 ## Bus and CPU boundaries
 

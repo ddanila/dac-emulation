@@ -26,10 +26,30 @@ def equilibria(rows):
         if a[4]==0 or a[4]*b[4]<0 or (b is rows[-1] and b[4]==0):
             fraction=-a[4]/(b[4]-a[4]);point=[x+fraction*(y-x)for x,y in zip(a,b)]
             slopes=[(b[i]-a[i])/(b[0]-a[0])for i in [1,2]]
-            result.append({'inputBracketVolts':[a[0],b[0]],
+            result.append({'inputBracketVolts':sorted([a[0],b[0]]),
+                'inputSourceCurrentBracketAmps':[a[4],b[4]],
+                'outputBracketVolts':{key:[a[i],b[i]]for i,key in [(1,'osc1'),(2,'osc2'),(3,'clock')]},
+                'interpretation':'Sign-change candidate only. Interpolation across a branch jump need not be an operating point.',
                 'interpolatedVolts':dict(zip(['oscRc','osc1','osc2','clock'],point[:4])),
                 'localSlopes':{'osc1VsRc':slopes[0],'osc2VsRc':slopes[1],
                                'osc2VsOsc1':slopes[1]/slopes[0] if slopes[0] else None}})
+    return result
+
+
+def direction_difference(forward,reverse,step):
+    back={round(r[0]/step):r for r in reverse}
+    differences=[]
+    for row in forward:
+        other=back.get(round(row[0]/step))
+        if other is None:continue
+        if abs(row[0]-other[0])>1e-9:raise ValueError('Sweep grids do not align')
+        differences.append((row,other))
+    if len(differences)<int(3/step):raise ValueError('Insufficient common sweep extent')
+    result={}
+    for column,label in [(1,'osc1'),(2,'osc2'),(3,'clock')]:
+        a,b=max(differences,key=lambda pair:abs(pair[0][column]-pair[1][column]))
+        result[label]={'maximumDifferenceVolts':abs(a[column]-b[column]),
+                       'inputVolts':[a[0],b[0]],'forwardVolts':a[column],'reverseVolts':b[column]}
     return result
 
 
@@ -45,16 +65,18 @@ def main():
     env=dict(os.environ,SPICE_SCRIPTS=str(out))
     components,connectivity=load();lines,_,_,_,_=wiring(components)
     report={'completed':False,'qualified':False,'connectivitySha256':connectivity,
-        'scope':'DC sweep clamps OSC_RC while retaining schematic loading and feedback resistor. Input-source zero current identifies equilibrium candidates. Local DC slopes are diagnostic, not AC loop-gain or startup proof.',
+        'scope':'DC sweep clamps OSC_RC while retaining schematic loading and feedback resistor. Input-source zero current identifies equilibrium candidates. Both sweep directions are retained; local slopes describe only their solution branch, not uniqueness, AC loop gain or startup.',
         'engineSha256':sha(engine),'sources':{x.name:sha(x) for x in [Path(__file__),HERE/'oscillator_probe.py',HERE/'circuit.py',HERE/'failure_evidence.py',args.model]},
         'spinitSha256':sha(out/'spinit'),'cases':[]}
+    traces={}
     try:
-        for name,step in [('coarse',.0001),('fine',.00005)]:
+        for name,step,direction in [('coarse-forward',.0001,1),('coarse-reverse',.0001,-1),('fine-forward',.00005,1),('fine-reverse',.00005,-1)]:
+            start,stop=(0,3+step) if direction==1 else (3+step,0)
             deck=out/(name+'.cir')
             deck.write_text('\n'.join(['Reference oscillator DC transfer', '.include model.cir',
                 '.options reltol=1e-8 vntol=1e-10 abstol=1e-14','.temp 25','Vcc n_p5V 0 5',
                 'Vinput n_OSC_RC 0 0',*lines,'.control','set numdgt=17','set wr_singlescale','set wr_vecnames',
-                f'dc Vinput 0 {3+step} {step}',f'wrdata {name}.txt v(n_OSC1) v(n_OSC2) v(n_OSC_OUT) i(Vinput)',
+                f'dc Vinput {start} {stop} {direction*step}',f'wrdata {name}.txt v(n_OSC1) v(n_OSC2) v(n_OSC_OUT) i(Vinput)',
                 'quit','.endc','.end'])+'\n')
             log=out/(name+'.log')
             with log.open('w') as f:
@@ -65,11 +87,13 @@ def main():
             if raw[0].split()[1:]!=['v(n_OSC1)','v(n_OSC2)','v(n_OSC_OUT)','i(Vinput)']:raise ValueError('Unexpected sweep columns')
             rows=[list(map(float,l.split())) for l in raw[1:]]
             if not rows or any(len(r)!=5 or not all(map(math.isfinite,r))for r in rows):raise ValueError('Invalid sweep')
-            if abs(rows[0][0])>1e-12 or not 3-1e-9 <= rows[-1][0] <= 3+step+1e-9:raise ValueError('Incomplete DC sweep')
-            if any(b[0]<=a[0] or b[0]-a[0]>step+1e-9 for a,b in zip(rows,rows[1:])):raise ValueError('Nonmonotonic/incomplete sweep')
+            if abs(rows[0][0]-start)>1e-9 or abs(rows[-1][0]-stop)>step+1e-9:raise ValueError('Incomplete DC sweep')
+            if any((b[0]-a[0])*direction<=0 or abs(b[0]-a[0])>step+1e-9 for a,b in zip(rows,rows[1:])):raise ValueError('Nonmonotonic/incomplete sweep')
+            traces[name]=rows
             roots=equilibria(rows)
-            report['cases'].append({'name':name,'stepVolts':step,'equilibria':roots,
+            report['cases'].append({'name':name,'stepVolts':step,'direction':direction,'equilibria':roots,
                 'artifacts':{x.name:sha(x)for x in [deck,log,trace]}})
+        report['directionComparisons']={name:direction_difference(traces[name+'-forward'],traces[name+'-reverse'],step) for name,step in [('coarse',.0001),('fine',.00005)]}
         if sha(engine)!=report['engineSha256']:raise ValueError('Engine changed during probe')
         report['completed']=True
     finally:(out/'assessment.json').write_text(json.dumps(report,indent=2)+'\n')
