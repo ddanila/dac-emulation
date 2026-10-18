@@ -1,0 +1,21 @@
+{
+  "sourceCommit": "5b7b7b6",
+  "interpretation": "Live digital driver intent confirms release of CPU, ROM and latch at the same first failed read. Electrical voltage remains unknown; no voltage or timing acceptance gate changed.",
+  "waveformScope": "Complete 1.6 ms bus trace, not the full contact scenario. The prepared report is preparation-only; ownership-assessment.json records actual execution.",
+  "reproduce": "At sourceCommit, prepare firmware_io_cosim.py with standard ROM, single-press, electrical-bus, electrical-wr, serial-driver 7406-dc, falling-indexed-candidate, rom-read-envelope, electrical-cpu-pullups, electrical-logic-pullups, logic-load-pf 10, bus-latch-pf 12, bus-7406-pf 3, step-ns 5, minimum-breakpoint-fs 1 and the recorded runtime/bridge. Copy run-diagnostic.py into the fresh prepared directory and adapt its ROM path. The script changes only the transient stop and checks the complete short trace.",
+  "retainedFiles": {
+    "bus-trace.txt.xz": "f24abf3471eaaf3807cb19e39c59ed63c2ac5b9986593b6383b5d9ff32e641d0",
+    "candidate_tv80_core.v": "7b391e727276a0728cd5527fbd384da8646bd502d2d151b7c9b8545a8ac66292",
+    "candidate_tv80n.v": "fa3700e9efa8549f597b1eb0fb443373f846c871783f6a233244096ba0cf1733",
+    "controller_analog.v": "5f4e957c610586c68cd7e4202cb492b41e80e29bc111bd2d20bb7ab7e7331da0",
+    "io.cir": "e3aa0c74d7125ffda83c718894594bd97031564d67deb56ef7a3e7d64b225044",
+    "ngspice.log.xz": "8344c2c6c2b411e9c89680d8d8d328418258dceee145aae8e25d175d13872121",
+    "ownership-assessment.json": "2ae6c8772bdc1b477fe4d2344ebdc191fdc49d3105075a5c5347202563b75a85",
+    "prepared-io.cir": "f5ae5595b849f3b6bed2f4997639e97aa44142c0582ce75396007969e29cf36a",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "report.json": "20b19f6d17f34cf9e7105319e327111892530037aa040fb36624193a96cdb62e",
+    "run-diagnostic.py": "8181b03419078f6f4d0b9b65214cf49f83fba908963e3a0063b3c8f1a02ba384",
+    "run-inputs.json": "504b009728d3bbcda30ee4f17a5474bea198ec16e0f57316f916a03968ed49d6",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282"
+  }
+}
