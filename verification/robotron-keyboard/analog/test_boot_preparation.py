@@ -48,6 +48,7 @@ class BootPreparationTests(unittest.TestCase):
             self.assertIn('bus_observation.py', report['sources'])
             with self.assertRaisesRegex(ValueError, 'timing qualification'):
                 compare(report, report, 10)
+            args.reset_load = 'reference-capacitance'
             args.supply_data = {'pointsSecondsVolts': [[0, 0], [1e-6, 5], [.125, 5], [.12501, 2], [.126, 2], [.12601, 5], [.127, 5]]}
             for outputs in (True, False):
                 args.electrical_outputs = outputs
@@ -57,6 +58,8 @@ class BootPreparationTests(unittest.TestCase):
                 custom = {'assumptions': {'traceWindowSeconds': [.124, .127]}}
                 with patch('boot_cosim.ROM_SHA256', sha(rom)):
                     prepare(args, custom)
+                self.assertEqual(custom['cpuResetLoad']['capacitanceFarads'], 5e-12)
+                self.assertNotIn('Rcpu_reset ', (out/'boot.cir').read_text())
                 supply_line = next(line for line in (out/'boot.cir').read_text().splitlines()
                                    if line.startswith('Vhost ' if outputs else 'Vcc '))
                 self.assertEqual(list(map(float, supply_line.split('PWL(')[1][:-1].split())),
@@ -65,6 +68,7 @@ class BootPreparationTests(unittest.TestCase):
                 self.assertEqual(sha(out/'supply-stimulus.json'), custom['supplyStimulusSha256'])
                 with self.assertRaisesRegex(ValueError, 'Custom supply'):
                     compare(custom, custom, 10)
+            args.reset_load = 'illustrative'
             args.supply_data = None
             args.bus_latch_pf, args.bus_7406_pf = 12, 3
             args.electrical_outputs = args.electrical_bus = True

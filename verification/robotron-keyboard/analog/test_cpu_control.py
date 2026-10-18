@@ -3,10 +3,29 @@
 import copy
 import unittest
 from circuit import load
-from cpu_control import wiring
+from cpu_control import wiring, reset_load
 
 
 class CPUControlTests(unittest.TestCase):
+    def test_reset_load_uses_cpu_pin_and_preserves_profile_boundary(self):
+        components, _ = load()
+        components['A5']['pins']['26'] = '/TEST_RESET'
+        lines, info = reset_load(components, 'reference-capacitance')
+        self.assertEqual(len(lines), 1)
+        fields = lines[0].split()
+        self.assertEqual(fields[:3], ['Ccpu_reset', 'n_TEST_RESET', '0'])
+        self.assertEqual(float(fields[3]), 5e-12)
+        self.assertIsNone(info['resistanceOhms'])
+        self.assertFalse(info['qualified'])
+        lines, info = reset_load(components)
+        self.assertEqual(info['capacitanceFarads'], 10e-12)
+        self.assertIn('Rcpu_reset n_TEST_RESET 0 1g', lines)
+        with self.assertRaises(ValueError):
+            reset_load(components, 'measured')
+        components['A5']['pins']['26'] = components['A5']['pins']['29']
+        with self.assertRaises(ValueError):
+            reset_load(components)
+
     def test_resistors_and_each_input_load_are_present(self):
         components, _ = load()
         lines, models, info = wiring(components)
