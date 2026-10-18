@@ -1,0 +1,1304 @@
+{
+  "passed": false,
+  "scope": "Exercise S600 matrix/cable feedback with CPU-side clock/reset service fixtures.",
+  "assumptions": {
+    "electricalCpuPullups": true,
+    "electricalLogicPullups": true,
+    "logicLoadPf": 10.0,
+    "logicClockReceiver": "Nominal 1.4 V threshold; not calibrated DL074 switching timing",
+    "minimumBreakpointFs": 1.0,
+    "analysisInvocation": "deck-tran/run",
+    "clockPeriodNs": 1000,
+    "resetRampStartNs": 1000000,
+    "fixtureEdgeNs": 1,
+    "fixtureThresholdVolts": 1.4,
+    "br1Closed": false,
+    "br2Closed": false,
+    "contactTransitionNs": 1,
+    "latchLoad": "ideal",
+    "columnLoadPf": 0,
+    "supply": "1 us host-supply ramp through cable paths; fixture holds CPU reset for 1 ms; no board power-on-reset qualification",
+    "semiconductors": "Generic matrix PNP and nominal output/load models",
+    "coverage": "TV80, resolved ROM/latch bus, electrical matrix and cable receiver; oscillator/reset generators excluded",
+    "ledTrace": false,
+    "requireLedActivity": false,
+    "stepNs": 50,
+    "bridgeDelayNs": 10,
+    "bridgeDelay": "Numerical interface delay, not a calibrated device propagation delay",
+    "scenario": {
+      "name": "single press",
+      "cycles": 29000,
+      "contacts": [
+        {
+          "cycle": 4000,
+          "index": 61,
+          "closed": true
+        }
+      ],
+      "resets": [],
+      "observations": [
+        {
+          "name": "press",
+          "startCycle": 4000,
+          "endCycle": 29000,
+          "minimumBits": 26
+        }
+      ]
+    }
+  },
+  "sources": {
+    "firmware_io_cosim.py": "4f3957ed48245024a64b0ad8d513258f4d66f92cea83ce3ee2e7cbf2f5d75d59",
+    "firmware_io_cosim.v": "68263b4ed0fb9b7d749d197317d7da92762049f6828076faabdeaf01d5ed42db",
+    "boot_cosim.py": "415c00cb1a587ff920b546e3b292c6012cd54e181579ac635626a1ff23aa53d8",
+    "boot_cosim.v": "2617cf8845fdccf317aad1d87ba567a1e51f0948783755a6ffd4d61c2e4db5c2",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "matrix.py": "20c4660f5dcb675954ad3e5baa71529115615a12246300ff896657ed8dcbfdd5",
+    "latch_limits.json": "b3b1cee9f151e6aa43f45e680c7affe12d9b520b14f0a5f0fdfcfde3e8e57d85",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "output_circuit.py": "bfd14455600e28d73cd5417b30055cb08b85aedbf932b2a52bb1c4db984b0ed0",
+    "controller_interface.py": "46f5c499306b32d3801976557de3b956846a81feb80fc035afd7606ae38d968a",
+    "logic_control.py": "858d26b9ec425fce396b45332f147150f1b52d7f918aa0cf8ff514452d41ea2d",
+    "cpu_control.py": "e1007749e0e6c9cf5e28ceadb6992276b0b4ba3ebddebbc3a4967f9421eb7e06",
+    "cpu_clock_limits.json": "95abfe63df8e5f34f128a33f60f605d11673af89534fd28c00a055a4cca3b96e",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "reset_observation.py": "35418feb9ac2f0a333873fd804b56e23f06640d10ff5c4d6df485226cbd07098",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "compressed_output.py": "0e4e43808fd0398953aa6bc6b74a2e672dac78a0e28256b5ad5343daefceceb9",
+    "transient_analysis.py": "dd0dd5ef7a34533cd75128fa3c90c52815d8b11364b938e32680310207d3310e"
+  },
+  "scenarioSha256": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+  "generatedScenarioHeaderSha256": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+  "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+  "cReferenceSources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/firmware_io_reference.c": "f2afb530804d237b3c6ceb47ca39729d68c8f29545591cf3b7241e2aa6337e8f",
+    "/Users/ddanila/fun/dac-emulation/machines/robotron1715m/keyboard.c": "d611b8dd61a6ecc75dc922fc40d0c1901722aec0de988516157af2a26c89922b",
+    "/Users/ddanila/fun/dac-emulation/common/cpu/z80.c": "d7329a9a116f49441b9ed4f23c0c2fdbb8cb338f74e327cc3344442a355461cf",
+    "/Users/ddanila/fun/dac-emulation/machines/robotron1715m/keyboard.h": "49e4aaa2a5b8dc4bb4b2882c4fc24da194194581e6f133723dc37b8e3216979f",
+    "/Users/ddanila/fun/dac-emulation/common/cpu/z80.h": "a998bd23598a0076b26adf94ab895710378d4f19a0a58a1168c1edd23504ad46"
+  },
+  "referenceLogSha256": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+  "referenceCoverage": {
+    "passed": true,
+    "windows": [
+      {
+        "name": "press",
+        "startCycle": 4000,
+        "endCycle": 29000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "tv80": {
+    "repository": "https://github.com/hutch31/tv80",
+    "revision": "66a131c38d05ef58b3d8c4f1507a72e6e4aa5d65",
+    "scope": "Unmodified rtl/core files; MIT license retained in each file. Qualification only, not production runtime.",
+    "files": {
+      "tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+      "tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+      "tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+      "tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+      "tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+    }
+  },
+  "hdlSha256": {
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/boot_cosim.v": "2617cf8845fdccf317aad1d87ba567a1e51f0948783755a6ffd4d61c2e4db5c2",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/firmware_io_cosim.v": "68263b4ed0fb9b7d749d197317d7da92762049f6828076faabdeaf01d5ed42db",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/service-all-controls-preparation/controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece"
+  },
+  "matrixCircuit": {
+    "latchLoad": "ideal",
+    "columnLoadPf": 0,
+    "columnLoadScope": "Assumed per-column fixture capacitance to ground; zero omits it; not specimen calibration",
+    "models": {
+      "R1": "common-pin resistor network",
+      "R2": "common-pin resistor network",
+      "R9.1": "resistor",
+      "R9.2": "resistor",
+      "R9.3": "resistor",
+      "R9.4": "resistor",
+      "R9.5": "resistor",
+      "R9.6": "resistor",
+      "R9.7": "resistor",
+      "R9.8": "resistor",
+      "V4.1": "PNP_NOMINAL",
+      "V4.2": "PNP_NOMINAL",
+      "V4.3": "PNP_NOMINAL",
+      "V4.4": "PNP_NOMINAL",
+      "V4.5": "PNP_NOMINAL",
+      "V4.6": "PNP_NOMINAL",
+      "V4.7": "PNP_NOMINAL",
+      "V4.8": "PNP_NOMINAL"
+    },
+    "contacts": [
+      {
+        "index": 0,
+        "column": 0,
+        "row": 0,
+        "connectorPins": [
+          "A11",
+          "B6"
+        ]
+      },
+      {
+        "index": 1,
+        "column": 0,
+        "row": 1,
+        "connectorPins": [
+          "A11",
+          "B2"
+        ]
+      },
+      {
+        "index": 2,
+        "column": 0,
+        "row": 2,
+        "connectorPins": [
+          "A11",
+          "B7"
+        ]
+      },
+      {
+        "index": 3,
+        "column": 0,
+        "row": 3,
+        "connectorPins": [
+          "A11",
+          "A1"
+        ]
+      },
+      {
+        "index": 4,
+        "column": 0,
+        "row": 4,
+        "connectorPins": [
+          "A11",
+          "A4"
+        ]
+      },
+      {
+        "index": 5,
+        "column": 0,
+        "row": 5,
+        "connectorPins": [
+          "A11",
+          "B5"
+        ]
+      },
+      {
+        "index": 6,
+        "column": 0,
+        "row": 6,
+        "connectorPins": [
+          "A11",
+          "B11"
+        ]
+      },
+      {
+        "index": 7,
+        "column": 0,
+        "row": 7,
+        "connectorPins": [
+          "A11",
+          "B13"
+        ]
+      },
+      {
+        "index": 8,
+        "column": 1,
+        "row": 0,
+        "connectorPins": [
+          "A13",
+          "B6"
+        ]
+      },
+      {
+        "index": 9,
+        "column": 1,
+        "row": 1,
+        "connectorPins": [
+          "A13",
+          "B2"
+        ]
+      },
+      {
+        "index": 10,
+        "column": 1,
+        "row": 2,
+        "connectorPins": [
+          "A13",
+          "B7"
+        ]
+      },
+      {
+        "index": 11,
+        "column": 1,
+        "row": 3,
+        "connectorPins": [
+          "A13",
+          "A1"
+        ]
+      },
+      {
+        "index": 12,
+        "column": 1,
+        "row": 4,
+        "connectorPins": [
+          "A13",
+          "A4"
+        ]
+      },
+      {
+        "index": 13,
+        "column": 1,
+        "row": 5,
+        "connectorPins": [
+          "A13",
+          "B5"
+        ]
+      },
+      {
+        "index": 14,
+        "column": 1,
+        "row": 6,
+        "connectorPins": [
+          "A13",
+          "B11"
+        ]
+      },
+      {
+        "index": 15,
+        "column": 1,
+        "row": 7,
+        "connectorPins": [
+          "A13",
+          "B13"
+        ]
+      },
+      {
+        "index": 16,
+        "column": 2,
+        "row": 0,
+        "connectorPins": [
+          "B10",
+          "B6"
+        ]
+      },
+      {
+        "index": 17,
+        "column": 2,
+        "row": 1,
+        "connectorPins": [
+          "B10",
+          "B2"
+        ]
+      },
+      {
+        "index": 18,
+        "column": 2,
+        "row": 2,
+        "connectorPins": [
+          "B10",
+          "B7"
+        ]
+      },
+      {
+        "index": 19,
+        "column": 2,
+        "row": 3,
+        "connectorPins": [
+          "B10",
+          "A1"
+        ]
+      },
+      {
+        "index": 20,
+        "column": 2,
+        "row": 4,
+        "connectorPins": [
+          "B10",
+          "A4"
+        ]
+      },
+      {
+        "index": 21,
+        "column": 2,
+        "row": 5,
+        "connectorPins": [
+          "B10",
+          "B5"
+        ]
+      },
+      {
+        "index": 22,
+        "column": 2,
+        "row": 6,
+        "connectorPins": [
+          "B10",
+          "B11"
+        ]
+      },
+      {
+        "index": 23,
+        "column": 2,
+        "row": 7,
+        "connectorPins": [
+          "B10",
+          "B13"
+        ]
+      },
+      {
+        "index": 24,
+        "column": 3,
+        "row": 0,
+        "connectorPins": [
+          "B9",
+          "B6"
+        ]
+      },
+      {
+        "index": 25,
+        "column": 3,
+        "row": 1,
+        "connectorPins": [
+          "B9",
+          "B2"
+        ]
+      },
+      {
+        "index": 26,
+        "column": 3,
+        "row": 2,
+        "connectorPins": [
+          "B9",
+          "B7"
+        ]
+      },
+      {
+        "index": 27,
+        "column": 3,
+        "row": 3,
+        "connectorPins": [
+          "B9",
+          "A1"
+        ]
+      },
+      {
+        "index": 28,
+        "column": 3,
+        "row": 4,
+        "connectorPins": [
+          "B9",
+          "A4"
+        ]
+      },
+      {
+        "index": 29,
+        "column": 3,
+        "row": 5,
+        "connectorPins": [
+          "B9",
+          "B5"
+        ]
+      },
+      {
+        "index": 30,
+        "column": 3,
+        "row": 6,
+        "connectorPins": [
+          "B9",
+          "B11"
+        ]
+      },
+      {
+        "index": 31,
+        "column": 3,
+        "row": 7,
+        "connectorPins": [
+          "B9",
+          "B13"
+        ]
+      },
+      {
+        "index": 32,
+        "column": 4,
+        "row": 0,
+        "connectorPins": [
+          "B1",
+          "B6"
+        ]
+      },
+      {
+        "index": 33,
+        "column": 4,
+        "row": 1,
+        "connectorPins": [
+          "B1",
+          "B2"
+        ]
+      },
+      {
+        "index": 34,
+        "column": 4,
+        "row": 2,
+        "connectorPins": [
+          "B1",
+          "B7"
+        ]
+      },
+      {
+        "index": 35,
+        "column": 4,
+        "row": 3,
+        "connectorPins": [
+          "B1",
+          "A1"
+        ]
+      },
+      {
+        "index": 36,
+        "column": 4,
+        "row": 4,
+        "connectorPins": [
+          "B1",
+          "A4"
+        ]
+      },
+      {
+        "index": 37,
+        "column": 4,
+        "row": 5,
+        "connectorPins": [
+          "B1",
+          "B5"
+        ]
+      },
+      {
+        "index": 38,
+        "column": 4,
+        "row": 6,
+        "connectorPins": [
+          "B1",
+          "B11"
+        ]
+      },
+      {
+        "index": 39,
+        "column": 4,
+        "row": 7,
+        "connectorPins": [
+          "B1",
+          "B13"
+        ]
+      },
+      {
+        "index": 40,
+        "column": 5,
+        "row": 0,
+        "connectorPins": [
+          "A2",
+          "B6"
+        ]
+      },
+      {
+        "index": 41,
+        "column": 5,
+        "row": 1,
+        "connectorPins": [
+          "A2",
+          "B2"
+        ]
+      },
+      {
+        "index": 42,
+        "column": 5,
+        "row": 2,
+        "connectorPins": [
+          "A2",
+          "B7"
+        ]
+      },
+      {
+        "index": 43,
+        "column": 5,
+        "row": 3,
+        "connectorPins": [
+          "A2",
+          "A1"
+        ]
+      },
+      {
+        "index": 44,
+        "column": 5,
+        "row": 4,
+        "connectorPins": [
+          "A2",
+          "A4"
+        ]
+      },
+      {
+        "index": 45,
+        "column": 5,
+        "row": 5,
+        "connectorPins": [
+          "A2",
+          "B5"
+        ]
+      },
+      {
+        "index": 46,
+        "column": 5,
+        "row": 6,
+        "connectorPins": [
+          "A2",
+          "B11"
+        ]
+      },
+      {
+        "index": 47,
+        "column": 5,
+        "row": 7,
+        "connectorPins": [
+          "A2",
+          "B13"
+        ]
+      },
+      {
+        "index": 48,
+        "column": 6,
+        "row": 0,
+        "connectorPins": [
+          "B3",
+          "B6"
+        ]
+      },
+      {
+        "index": 49,
+        "column": 6,
+        "row": 1,
+        "connectorPins": [
+          "B3",
+          "B2"
+        ]
+      },
+      {
+        "index": 50,
+        "column": 6,
+        "row": 2,
+        "connectorPins": [
+          "B3",
+          "B7"
+        ]
+      },
+      {
+        "index": 51,
+        "column": 6,
+        "row": 3,
+        "connectorPins": [
+          "B3",
+          "A1"
+        ]
+      },
+      {
+        "index": 52,
+        "column": 6,
+        "row": 4,
+        "connectorPins": [
+          "B3",
+          "A4"
+        ]
+      },
+      {
+        "index": 53,
+        "column": 6,
+        "row": 5,
+        "connectorPins": [
+          "B3",
+          "B5"
+        ]
+      },
+      {
+        "index": 54,
+        "column": 6,
+        "row": 6,
+        "connectorPins": [
+          "B3",
+          "B11"
+        ]
+      },
+      {
+        "index": 55,
+        "column": 6,
+        "row": 7,
+        "connectorPins": [
+          "B3",
+          "B13"
+        ]
+      },
+      {
+        "index": 56,
+        "column": 7,
+        "row": 0,
+        "connectorPins": [
+          "B12",
+          "B6"
+        ]
+      },
+      {
+        "index": 57,
+        "column": 7,
+        "row": 1,
+        "connectorPins": [
+          "B12",
+          "B2"
+        ]
+      },
+      {
+        "index": 58,
+        "column": 7,
+        "row": 2,
+        "connectorPins": [
+          "B12",
+          "B7"
+        ]
+      },
+      {
+        "index": 59,
+        "column": 7,
+        "row": 3,
+        "connectorPins": [
+          "B12",
+          "A1"
+        ]
+      },
+      {
+        "index": 60,
+        "column": 7,
+        "row": 4,
+        "connectorPins": [
+          "B12",
+          "A4"
+        ]
+      },
+      {
+        "index": 61,
+        "column": 7,
+        "row": 5,
+        "connectorPins": [
+          "B12",
+          "B5"
+        ]
+      },
+      {
+        "index": 62,
+        "column": 7,
+        "row": 6,
+        "connectorPins": [
+          "B12",
+          "B11"
+        ]
+      },
+      {
+        "index": 63,
+        "column": 7,
+        "row": 7,
+        "connectorPins": [
+          "B12",
+          "B13"
+        ]
+      },
+      {
+        "index": 64,
+        "column": 8,
+        "row": 0,
+        "connectorPins": [
+          "A3",
+          "B6"
+        ]
+      },
+      {
+        "index": 65,
+        "column": 8,
+        "row": 1,
+        "connectorPins": [
+          "A3",
+          "B2"
+        ]
+      },
+      {
+        "index": 66,
+        "column": 8,
+        "row": 2,
+        "connectorPins": [
+          "A3",
+          "B7"
+        ]
+      },
+      {
+        "index": 67,
+        "column": 8,
+        "row": 3,
+        "connectorPins": [
+          "A3",
+          "A1"
+        ]
+      },
+      {
+        "index": 68,
+        "column": 8,
+        "row": 4,
+        "connectorPins": [
+          "A3",
+          "A4"
+        ]
+      },
+      {
+        "index": 69,
+        "column": 8,
+        "row": 5,
+        "connectorPins": [
+          "A3",
+          "B5"
+        ]
+      },
+      {
+        "index": 70,
+        "column": 8,
+        "row": 6,
+        "connectorPins": [
+          "A3",
+          "B11"
+        ]
+      },
+      {
+        "index": 71,
+        "column": 8,
+        "row": 7,
+        "connectorPins": [
+          "A3",
+          "B13"
+        ]
+      },
+      {
+        "index": 72,
+        "column": 9,
+        "row": 0,
+        "connectorPins": [
+          "A10",
+          "B6"
+        ]
+      },
+      {
+        "index": 73,
+        "column": 9,
+        "row": 1,
+        "connectorPins": [
+          "A10",
+          "B2"
+        ]
+      },
+      {
+        "index": 74,
+        "column": 9,
+        "row": 2,
+        "connectorPins": [
+          "A10",
+          "B7"
+        ]
+      },
+      {
+        "index": 75,
+        "column": 9,
+        "row": 3,
+        "connectorPins": [
+          "A10",
+          "A1"
+        ]
+      },
+      {
+        "index": 76,
+        "column": 9,
+        "row": 4,
+        "connectorPins": [
+          "A10",
+          "A4"
+        ]
+      },
+      {
+        "index": 77,
+        "column": 9,
+        "row": 5,
+        "connectorPins": [
+          "A10",
+          "B5"
+        ]
+      },
+      {
+        "index": 78,
+        "column": 9,
+        "row": 6,
+        "connectorPins": [
+          "A10",
+          "B11"
+        ]
+      },
+      {
+        "index": 79,
+        "column": 9,
+        "row": 7,
+        "connectorPins": [
+          "A10",
+          "B13"
+        ]
+      },
+      {
+        "index": 80,
+        "column": 10,
+        "row": 0,
+        "connectorPins": [
+          "A12",
+          "B6"
+        ]
+      },
+      {
+        "index": 81,
+        "column": 10,
+        "row": 1,
+        "connectorPins": [
+          "A12",
+          "B2"
+        ]
+      },
+      {
+        "index": 82,
+        "column": 10,
+        "row": 2,
+        "connectorPins": [
+          "A12",
+          "B7"
+        ]
+      },
+      {
+        "index": 83,
+        "column": 10,
+        "row": 3,
+        "connectorPins": [
+          "A12",
+          "A1"
+        ]
+      },
+      {
+        "index": 84,
+        "column": 10,
+        "row": 4,
+        "connectorPins": [
+          "A12",
+          "A4"
+        ]
+      },
+      {
+        "index": 85,
+        "column": 10,
+        "row": 5,
+        "connectorPins": [
+          "A12",
+          "B5"
+        ]
+      },
+      {
+        "index": 86,
+        "column": 10,
+        "row": 6,
+        "connectorPins": [
+          "A12",
+          "B11"
+        ]
+      },
+      {
+        "index": 87,
+        "column": 10,
+        "row": 7,
+        "connectorPins": [
+          "A12",
+          "B13"
+        ]
+      },
+      {
+        "index": 88,
+        "column": 11,
+        "row": 0,
+        "connectorPins": [
+          "B8",
+          "B6"
+        ]
+      },
+      {
+        "index": 89,
+        "column": 11,
+        "row": 1,
+        "connectorPins": [
+          "B8",
+          "B2"
+        ]
+      },
+      {
+        "index": 90,
+        "column": 11,
+        "row": 2,
+        "connectorPins": [
+          "B8",
+          "B7"
+        ]
+      },
+      {
+        "index": 91,
+        "column": 11,
+        "row": 3,
+        "connectorPins": [
+          "B8",
+          "A1"
+        ]
+      },
+      {
+        "index": 92,
+        "column": 11,
+        "row": 4,
+        "connectorPins": [
+          "B8",
+          "A4"
+        ]
+      },
+      {
+        "index": 93,
+        "column": 11,
+        "row": 5,
+        "connectorPins": [
+          "B8",
+          "B5"
+        ]
+      },
+      {
+        "index": 94,
+        "column": 11,
+        "row": 6,
+        "connectorPins": [
+          "B8",
+          "B11"
+        ]
+      },
+      {
+        "index": 95,
+        "column": 11,
+        "row": 7,
+        "connectorPins": [
+          "B8",
+          "B13"
+        ]
+      },
+      {
+        "index": 96,
+        "column": 12,
+        "row": 0,
+        "connectorPins": [
+          "B4",
+          "B6"
+        ]
+      },
+      {
+        "index": 97,
+        "column": 12,
+        "row": 1,
+        "connectorPins": [
+          "B4",
+          "B2"
+        ]
+      },
+      {
+        "index": 98,
+        "column": 12,
+        "row": 2,
+        "connectorPins": [
+          "B4",
+          "B7"
+        ]
+      },
+      {
+        "index": 99,
+        "column": 12,
+        "row": 3,
+        "connectorPins": [
+          "B4",
+          "A1"
+        ]
+      },
+      {
+        "index": 100,
+        "column": 12,
+        "row": 4,
+        "connectorPins": [
+          "B4",
+          "A4"
+        ]
+      },
+      {
+        "index": 101,
+        "column": 12,
+        "row": 5,
+        "connectorPins": [
+          "B4",
+          "B5"
+        ]
+      },
+      {
+        "index": 102,
+        "column": 12,
+        "row": 6,
+        "connectorPins": [
+          "B4",
+          "B11"
+        ]
+      },
+      {
+        "index": 103,
+        "column": 12,
+        "row": 7,
+        "connectorPins": [
+          "B4",
+          "B13"
+        ]
+      }
+    ],
+    "outputs": [
+      "n_SENSE0",
+      "n_SENSE1",
+      "n_SENSE2",
+      "n_SENSE3",
+      "n_SENSE4",
+      "n_SENSE5",
+      "n_SENSE6",
+      "n_SENSE7"
+    ],
+    "columnNets": [
+      "n_COL0",
+      "n_COL1",
+      "n_COL2",
+      "n_COL3",
+      "n_COL4",
+      "n_COL5",
+      "n_COL6",
+      "n_COL7",
+      "n_COL8",
+      "n_COL9",
+      "n_COL10",
+      "n_COL11",
+      "n_COL12"
+    ]
+  },
+  "outputCircuit": {
+    "models": {
+      "R10.1": "resistor",
+      "R10.2": "resistor",
+      "R11.1": "resistor",
+      "R11.2": "resistor",
+      "C3.1": "capacitor",
+      "C3.2": "capacitor",
+      "C5.1": "capacitor",
+      "C5.2": "capacitor",
+      "C5.3": "capacitor",
+      "C5.4": "capacitor",
+      "C5.5": "capacitor",
+      "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+      "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+      "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+      "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+    },
+    "hostGround": "n_CABLE_GND",
+    "hostSupply": "n_CABLE_5V",
+    "serial": {
+      "data": {
+        "board": "n_TA_DATEN",
+        "cable": "n_CABLE_DATEN",
+        "connectorPin": "A1"
+      },
+      "clock": {
+        "board": "n_TA_TAKT",
+        "cable": "n_CABLE_TAKT",
+        "connectorPin": "B2"
+      }
+    },
+    "leds": {
+      "siso": {
+        "output": "n_LED_SISO_N",
+        "cathode": "n_LED_SISO",
+        "anode": "n_p5V",
+        "connectorPin": "A5",
+        "diode": "Dsiso_led"
+      },
+      "caps": {
+        "output": "n_LED_CAPS_N",
+        "cathode": "n_LED_CAPS",
+        "anode": "n_p5V",
+        "connectorPin": "A6",
+        "diode": "Dcaps_led"
+      }
+    },
+    "shield": {
+      "net": "/SHIELD",
+      "model": "Unconnected external shield boundary; no invented ground bond"
+    }
+  },
+  "logicControlCircuit": {
+    "qualified": false,
+    "nets": {
+      "supply": "n_p5V",
+      "ground": "0",
+      "latchEnable": "n_LATCH_OE_N",
+      "flipFlopRelease": "n_FF_PULLUP",
+      "ioActive": "n_IO_ACTIVE"
+    },
+    "fixtureLoadPfPerNet": 10.0,
+    "drivers": {
+      "latchEnable": {
+        "reference": "A2.2",
+        "pin": "8"
+      },
+      "ioActive": {
+        "reference": "A2.2",
+        "pin": "6"
+      }
+    },
+    "boundary": "Canonical resistors and nominal open-collector sinks; 20-ohm on resistance and optional per-net fixture capacitance are assumptions. Input leakage, device capacitances, DL003 propagation and supply-current models remain unqualified."
+  },
+  "logicControlModels": {
+    "R6.3": "resistor",
+    "R6.6": "resistor",
+    "R9.9": "resistor"
+  },
+  "cpuControlCircuit": {
+    "supply": "n_p5V",
+    "ground": "0",
+    "interruptNmiWait": "n_CPU_PULLUP",
+    "busRequest": "n_BUSRQ_N",
+    "inputCapacitanceFaradsPerPin": 5e-12,
+    "qualified": false,
+    "boundary": "Reference-maximum capacitance, not measured capacitance; leakage and input clamps omitted. X1:A9 is externally open. CPU brownout and power-off behavior remain unmodeled."
+  },
+  "cpuControlModels": {
+    "R6.4": "resistor",
+    "R6.5": "resistor"
+  },
+  "deckSha256": "91c33beeb70db506f86391591673bcaaa815e4155aa468da9bec71129cdd45ab",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with Sparse Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "preparedOnly": true
+}
