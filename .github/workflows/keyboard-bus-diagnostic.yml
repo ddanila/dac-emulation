@@ -11,6 +11,10 @@ on:
         description: Use transistor data/clock gates and finite CPU WR drive
         type: boolean
         default: false
+      latch_timing_envelope:
+        description: Use conservative Intel 8282 storage and output timing
+        type: boolean
+        default: false
       rom_read_envelope:
         description: Use conservative Intel 2716 read timing
         type: boolean
@@ -23,7 +27,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: keyboard-bus-${{ github.ref }}-${{ inputs.scenario }}-${{ inputs.electrical_wr }}-${{ inputs.cpu_profile }}-${{ inputs.rom_read_envelope }}
+  group: keyboard-bus-${{ github.ref }}-${{ inputs.scenario }}-${{ inputs.electrical_wr }}-${{ inputs.cpu_profile }}-${{ inputs.rom_read_envelope }}-${{ inputs.latch_timing_envelope }}
   cancel-in-progress: false
 jobs:
   bus:
@@ -34,6 +38,7 @@ jobs:
       ELECTRICAL_WR: ${{ inputs.electrical_wr }}
       CPU_PROFILE: ${{ inputs.cpu_profile }}
       ROM_READ_ENVELOPE: ${{ inputs.rom_read_envelope }}
+      LATCH_TIMING_ENVELOPE: ${{ inputs.latch_timing_envelope }}
     steps:
       - uses: actions/checkout@v7
       - name: Build dependencies
@@ -93,6 +98,8 @@ jobs:
                   '--minimum-breakpoint-fs', '1', '--compress-traces', '--compression-preset', '6',
                   '--step-ns', step, '--timeout-seconds', '5400',
                   '--ngspice', str(runtime / 'install/bin/ngspice'), '--out', str(root / name)]
+              if os.environ['LATCH_TIMING_ENVELOPE'] == 'true':
+                  command += ['--latch-timing-envelope']
               if os.environ['ROM_READ_ENVELOPE'] == 'true':
                   command += ['--rom-read-envelope']
               if os.environ['ELECTRICAL_WR'] == 'true':
@@ -102,6 +109,7 @@ jobs:
                   'electricalWr': os.environ['ELECTRICAL_WR'] == 'true',
                   'cpuProfile': os.environ['CPU_PROFILE'],
                   'romReadEnvelope': os.environ['ROM_READ_ENVELOPE'] == 'true',
+                  'latchTimingEnvelope': os.environ['LATCH_TIMING_ENVELOPE'] == 'true',
                   'boundary': 'Experimental bus fixture; paired physical bus timing and device calibration remain unqualified.'}, indent=2) + '\n')
           raise SystemExit(0 if all(code == 0 for code in outcomes.values()) else 1)
           PY

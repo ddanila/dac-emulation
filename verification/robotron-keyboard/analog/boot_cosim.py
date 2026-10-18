@@ -53,6 +53,8 @@ def electrical_bus_options(args):
     enabled = getattr(args, 'electrical_bus', False)
     if getattr(args, 'cpu_profile', 'tv80') != 'tv80' and not enabled:
         raise ValueError('Experimental CPU profile requires electrical-bus observation')
+    if getattr(args, 'latch_timing_envelope', False) and not enabled:
+        raise ValueError('Latch timing envelope requires electrical-bus')
     if getattr(args, 'rom_read_envelope', False) and not enabled:
         raise ValueError('ROM read envelope requires electrical-bus')
     caps = [getattr(args, name, None) for name in ('bus_latch_pf', 'bus_7406_pf')]
@@ -93,6 +95,11 @@ def prepare(args, report):
     report['tv80'] = source
     cpu_profile = getattr(args, 'cpu_profile', 'tv80')
     report.setdefault('assumptions', {})['cpuProfile'] = cpu_profile
+    report['assumptions']['latchTimingEnvelope'] = bool(getattr(args, 'latch_timing_envelope', False))
+    if getattr(args, 'latch_timing_envelope', False):
+        report.setdefault('sources', {})['i8282_timing.v'] = sha(HERE / 'i8282_timing.v')
+        report['assumptions']['latchTimingBoundary'] = ('Intel I8282 reference output envelope and storage constraints; '
+            'X intervals and bridge unknown-drive voltages are not physical metastability or transition predictions.')
     report['assumptions']['romReadEnvelope'] = bool(getattr(args, 'rom_read_envelope', False))
     if getattr(args, 'rom_read_envelope', False):
         report.setdefault('sources', {})['eprom2716.v'] = sha(HERE / 'eprom2716.v')
@@ -101,7 +108,7 @@ def prepare(args, report):
             'the bridge unknown-drive voltage is a numerical surrogate, not a qualified pin voltage.')
     report.setdefault('sources', {})['cpu_read_phase_candidate.py'] = sha(HERE / 'cpu_read_phase_candidate.py')
     subprocess.run([sys.executable, str(HERE.parent / 'generate.py'), '--check'], check=True)
-    (out / 'controller_analog.v').write_text(generate_service(electrical_wr=electrical_wr, cpu_profile=cpu_profile, rom_timing=getattr(args, 'rom_read_envelope', False)) if electrical_bus else
+    (out / 'controller_analog.v').write_text(generate_service(electrical_wr=electrical_wr, cpu_profile=cpu_profile, rom_timing=getattr(args, 'rom_read_envelope', False), latch_timing=getattr(args, 'latch_timing_envelope', False)) if electrical_bus else
                                            generate(explicit_cpu_drive=True, resolved_bus=True))
     cpu_sources, report['cpuModel'] = circuit_sources(tv80, out, cpu_profile)
     hdl = [*cpu_sources, HERE.parent / 'chips.v',
@@ -208,6 +215,8 @@ def prepare(args, report):
             'A6': 'DL074 HDL flip-flops with electrical async-control and clock receivers; no supply-current or propagation calibration',
         }.items():
             report['modelCoverage']['components'][ref]['model'] = description
+    if getattr(args, 'latch_timing_envelope', False):
+        report['modelCoverage']['components']['A4']['model'] += '; conservative Intel 8282 timing envelope'
     bus_lines, bus_inputs, bus_outputs = [], '', ''
     if electrical_bus:
         limits = json.loads((HERE / 'bus_limits.json').read_text())
@@ -415,6 +424,7 @@ def main():
     p.add_argument('--abstol', type=float, default=1e-12)
     p.add_argument('--electrical-wr', action='store_true', help='Electrical WR output into transistor clock gate; requires electrical bus and transistor outputs')
     p.add_argument('--electrical-bus', action='store_true')
+    p.add_argument('--latch-timing-envelope', action='store_true', help='Conservative Intel 8282 timing; requires electrical-bus')
     p.add_argument('--rom-read-envelope', action='store_true', help='Conservative Intel 2716 read timing; requires electrical-bus')
     p.add_argument('--cpu-profile', choices=CIRCUIT_PROFILES, default='tv80')
     p.add_argument('--bus-latch-pf', type=float)

@@ -30,8 +30,8 @@ class EpromTimingTests(unittest.TestCase):
         for profile in ('tv80', 'falling-indexed-candidate'):
             with self.subTest(profile=profile), tempfile.TemporaryDirectory() as directory:
                 out = Path(directory)
-                (out / 'model.v').write_text(generate_service(cpu_profile=profile, rom_timing=True))
-                program = bytes([0x3e, 0x34, 0xd3, 0x80, 0x76]) + bytes([0x76]) * 2043
+                (out / 'model.v').write_text(generate_service(cpu_profile=profile, rom_timing=True, latch_timing=True))
+                program = bytes([0x3e, 0x80, 0xdb, 0x80, 0xd3, 0x80, 0x76]) + bytes([0x76]) * 2041
                 (out / 's600.hex').write_text(''.join(f'{b:02x}\n' for b in program))
                 (out / 'tb.v').write_text("""`timescale 1ns/1ps
 module tb;
@@ -50,7 +50,7 @@ module tb;
  always #500 clk=~clk;
  initial begin #2200;reset_n=1;#50000;$fatal(1,"Missing ROM program output");end
  always @(negedge dut.board.wr_n) if(reset_n && !dut.board.iorq_n) begin
-  if(dut.board.dout!==8'h34)$fatal(1,"Timed ROM operand lost");
+  if(dut.board.dout!==8'hff)$fatal(1,"Timed ROM/latch input lost");
   $display("ROM_TIMING_CPU_PASS");$finish;
  end
 endmodule

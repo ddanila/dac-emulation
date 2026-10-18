@@ -632,6 +632,19 @@ the fixture omits input bias, leakage, clamps and IC power behavior. It is not y
 calibrated. Run with `--bridge` and `--ngspice` as for the other live fixtures;
 results are retained in `reports/bus-feedback`.
 
+Both electrical-bus harnesses also accept `--latch-timing-envelope`. The optional
+`i8282_timing.v` model uses the [Intel I8282 timing table](https://tvsat.com.pl/PDF/8/8282_intel.pdf)
+(printed pages 9-92/93): a short strobe invalidates storage, and data changes inside
+the hold interval invalidate the affected bits until a valid capture. Output
+access/release windows propagate X. The model conservatively waits the strobe
+propagation maximum after either edge, rather than predicting an actual waveform.
+It assumes the published supply, temperature and test load; it does not model
+power-up, slew or physical metastability. Reports pin the model and option.
+Executed CPU tests cover ROM instruction fetch, latch input and output with both
+timing models enabled. The [live startup check](reports/latch-timing-envelope/startup/assessment.json)
+retains early I/O reads and bus voltages with both envelopes enabled. Full
+mixed-signal latch timing remains unqualified.
+
 Both electrical-bus firmware harnesses accept `--rom-read-envelope` to replace
 instantaneous ROM output with the conservative read envelope in `eprom2716.v`.
 The [Intel 2716 table](https://www.theoddys.com/acorn/semiconductor_datasheets/2716%20Intel.pdf)
@@ -649,7 +662,7 @@ the timers through ngspice and preserves its voltage trace. Its sampled-read pas
 is specific to this envelope and unknown-drive surrogate; it does not resolve
 the baseline driver-model failures or qualify a complete firmware scenario.
 The manual `keyboard-bus-diagnostic.yml` workflow accepts `rom_read_envelope`,
-`cpu_profile` and `electrical_wr` independently and retains paired traces.
+`latch_timing_envelope`, `cpu_profile` and `electrical_wr` independently and retains paired traces.
 For the full digital C/HDL workload, use `../run.py --rom PATH --rom-read-envelope`
 with the selected `--cpu-profile`, or the manual `keyboard-cpu-phase.yml` workflow.
 This sets a 1 MHz fixture clock so nanosecond ROM limits have physical units while

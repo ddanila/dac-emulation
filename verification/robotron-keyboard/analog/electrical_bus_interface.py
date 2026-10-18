@@ -9,7 +9,7 @@ from controller_interface import generate as generate_controller
 from cpu_read_phase_candidate import CIRCUIT_PROFILES
 
 
-def generate(rom_timing=False):
+def generate(rom_timing=False, latch_timing=False):
     components, _ = load()
     inventory(components, json.loads(Path(__file__).with_name('bus_limits.json').read_text()))
     source = generate_controller(explicit_cpu_drive=True, resolved_bus=True)
@@ -69,10 +69,15 @@ def generate(rom_timing=False):
             'eprom2716_read_envelope rom_access(.address(rom_address),.data(rom_data),'
             f'.ce_n({net("18")}),.oe_n({net("20")}),.q(rom_timed));\nendmodule')
         source += '\n' + Path(__file__).with_name('eprom2716.v').read_text()
+    if latch_timing:
+        if source.count('chip_I8282 A4(') != 1:
+            raise ValueError('Unexpected latch timing boundary')
+        source = source.replace('chip_I8282 A4(', 'chip_I8282_timed A4(')
+        source += '\n' + Path(__file__).with_name('i8282_timing.v').read_text()
     return source
 
 
-def generate_service(electrical_wr=False, cpu_profile='tv80', rom_timing=False):
+def generate_service(electrical_wr=False, cpu_profile='tv80', rom_timing=False, latch_timing=False):
     """Reuse TV80/ROM/service behavior while replacing only the bus boundary."""
     here = Path(__file__).resolve().parent
     if cpu_profile not in CIRCUIT_PROFILES:
@@ -142,4 +147,4 @@ endmodule""")
                                'output [23:0] bus_low, bus_high, output wr_low, wr_high,')
         service = replace_once(service, '.bus_sense(bus_sense),',
                                '.wr_low(wr_low),.wr_high(wr_high),.bus_sense(bus_sense),')
-    return generate(rom_timing=rom_timing) + '\n' + boot + '\n' + service
+    return generate(rom_timing=rom_timing, latch_timing=latch_timing) + '\n' + boot + '\n' + service
