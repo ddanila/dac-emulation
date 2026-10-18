@@ -1,0 +1,37 @@
+{
+  "qualified": false,
+  "sourceRevision": "42e74f51280398b544fcfa7b70e10a05a57d91c8",
+  "scope": "Experimental host-buffer observation in the single-press S600 service fixture; externally supplied CPU clock/reset.",
+  "findings": {
+    "logicalComparisonPassed": true,
+    "sampledStabilityPassed": true,
+    "interpretation": "Logical agreement and sampled output stability do not qualify device dynamics, SIO loading, timestep convergence or the closed board."
+  },
+  "retainedFilesSha256": {
+    "report.json": "5f2820e8eb5d65892fc9bf5dc7cac6786f1242f819038a2e1d701a99d5636770",
+    "margins.json": "1f290987e1307ae70c6a25ef98013f983bf1bfbdc4f4432ded7cad1065401adc",
+    "run-inputs.json": "440e5662d852f01cad677f36a55c9a535fa655202a186ea27aeb3dd686c6a58d",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "137db0a8dcc8b69aab181d49e0cc595796fb6fd8879f1b5ff31c076d5e120a47",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "d3acd8e89974ef6e0c65e2d859106c3bef47ac3568348571c2f74e6a2e445ddc",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591"
+  },
+  "waveforms": {
+    "retention": "Local build output only; full waveforms are not included in this repository receipt. Reports retain producer and compressed-container hashes. Reproduction or the original local captures are required for independent waveform review.",
+    "directory": "build/keyboard-controller-analog/firmware-host-buffer",
+    "files": [
+      "driver-trace.txt.xz",
+      "host-trace.txt.xz",
+      "trace.txt.xz"
+    ]
+  },
+  "reproduce": "python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom /path/to/s600.bin --host-buffer --serial-driver 7406-dc --step-ns 50 --compress-traces --ngspice /path/to/runtime/ngspice --out build/keyboard-controller-analog/firmware-host-buffer",
+  "remaining": [
+    "Independent host-device switching and clamp evidence",
+    "Supported SIO loads and receiver limits",
+    "Paired timestep convergence and electrical bus timing",
+    "Closed-board integration and remaining firmware scenarios"
+  ]
+}
