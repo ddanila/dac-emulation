@@ -1108,3 +1108,12 @@ selection and its latch observations. Its voltage checker still rejects a small
 supply excursion. This proves neither full-scenario completion nor calibrated
 U880 electrical timing; the existing paired electrical qualification gate remains
 closed for both profiles.
+
+### Recheck retained failed firmware runs
+
+Use `review_firmware_run.py --run /path/to/failed-run --rom /path/to/s600.bin
+--out /tmp/firmware-review` to diagnose an archived electrical-bus failure without
+rerunning SPICE. It verifies captured input hashes, reruns the current bus checker,
+and independently checks cable transport and ordinal C-reference bits. The
+original report stays unchanged; a serial pass does not qualify the bus. The
+review retains a small waveform window when the first failing read is known.
