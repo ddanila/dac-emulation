@@ -35,7 +35,9 @@ def early_deck(deck, step_ns, duration_us, diagnostics=(), minimum_breakpoint_fs
         if len(re.findall(r'^\.save .+$', deck, re.M)) != 1 or len(re.findall(r'^wrdata trace.txt .+$', deck, re.M)) != 1:
             raise ValueError('Unexpected prepared waveform commands')
         deck = re.sub(r'^(\.save .+)$', lambda m: m[0] + ' ' + ' '.join(diagnostics), deck, flags=re.M)
-        deck = re.sub(r'^(wrdata trace.txt .+)$', lambda m: m[0] + '\nwrdata diagnostic-trace.txt ' + ' '.join(diagnostics), deck, flags=re.M)
+        # Preserve double precision for later supply replay and small-signal diagnosis.
+        # This changes text output only, after the transient has completed.
+        deck = re.sub(r'^(wrdata trace.txt .+)$', lambda m: 'set numdgt=17\n' + m[0] + '\nwrdata diagnostic-trace.txt ' + ' '.join(diagnostics), deck, flags=re.M)
         # The diagnostic stream already captures the same supply samples.
         deck = re.sub(r'^wrdata supply-trace.txt v\(n_p5V\)\n', '', deck, flags=re.M)
     command = f'tran {step_ns}n {duration_us}u'
@@ -91,7 +93,7 @@ def run(args, step, directory):
     (directory / 'clock-probe.cir').write_text(deck)
     (directory / 'diagnostic-trace.txt').unlink(missing_ok=True)
     result = {'completed': False, 'stepNs': step, 'preparedBoard': prepared,
-              'minimumBreakpointFs': minimum_breakpoint_fs,
+              'minimumBreakpointFs': minimum_breakpoint_fs, 'waveformDigits': 17,
               'analysisInvocation': 'deck-tran/run' if minimum_breakpoint_fs is not None else 'control-tran',
               'preparedReportSha256': sha(directory / 'report.json'),
               'probeDeckSha256': sha(directory / 'clock-probe.cir')}
