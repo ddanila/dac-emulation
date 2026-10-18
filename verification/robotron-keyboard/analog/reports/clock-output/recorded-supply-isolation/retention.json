@@ -1,0 +1,34 @@
+{
+  "sourceCommit": "054636112b170e2a7fa7b198176578288c0ab584",
+  "interpretation": "The prescribed-supply oscillator passes the unchanged phase gate at both timesteps. The coupled startup failure is not reproduced after removing HDL and supply feedback and changing the supply source/event scheduling. This narrows the diagnosis but does not identify a root cause or qualify the board.",
+  "waveformScope": "Only startup and final-edge windows retained in git. Full waveform hashes are in assessment.json; full traces remain in the local build output. Windows cannot independently re-evaluate the whole phase gate.",
+  "windowsSeconds": [
+    [
+      9.9e-05,
+      0.000104
+    ],
+    [
+      0.000249,
+      0.00025
+    ]
+  ],
+  "replay": "Decompress supply.txt.xz in this directory, then run the recorded ngspice executable with -n -b oscillator.cir from each run directory using the recorded initialization/runtime. Original decks write complete trace.txt files.",
+  "retainedFiles": {
+    "assessment.json": "b5c8d5d428e95626d799350b854dbc46bee57782359c2f1f21696ab04db5d760",
+    "supply.txt.xz": "0b23e622b4bcb21a31b78a5c045fd2ce6ae07ebdbd9b377b09af47b9d9ce534e",
+    "pwl-timeout/run.py": "8374f6c032eb577ad6418c98d005240f2d27a65940a1b6d2c256ce045a55172f",
+    "pwl-timeout/assessment.json": "b9e2177ed50d55fea04d83278a6e7ae1fd1dfeef114959776f5ceabf7541087e",
+    "pwl-timeout/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "pwl-timeout/ngspice.log": "fb21b6db3d4a8c53cc06dcf2a51498e53c73989dcf49285f688f7f0f61eb49cc",
+    "pwl-timeout/oscillator.cir": "e4e5f66ab5e95b8d46fba09245d24347ed2c0d552da1c062638b556b2769f27c",
+    "coarse/trace-windows.txt.xz": "d018e829fdf7c083f4224afd67b9a5b04826c7a20302f70c16e52ac2e643d65b",
+    "coarse/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "coarse/ngspice.log": "fc3ea45c7c7d0c0dcd621c99e577cb09708e5a138c7a60cf5b330525bccc28d3",
+    "coarse/oscillator.cir": "585315d7542ae2a12390e19b4023f3c1b2fb45f1bcadb067a28791b5bfbb31dd",
+    "fine/trace-windows.txt.xz": "3b80ab9b3c987a6b6a20489bd251ef6893466b835ef283cb56d0a2924f5625cf",
+    "fine/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "fine/ngspice.log": "bc0e30dcf1d30fbb8c3ba2a554edde520a9d9336c51d808bd86045ea858d3756",
+    "fine/oscillator.cir": "21c7caf9a05a354d4a8296d494f13f57b12fc95e265359312c73ad252e97fc70"
+  },
+  "precedingPwlAttempt": "The ordinary PWL run reached its 600-second timeout before completing the coarse transient; no phase comparison is available. Its original script, deck, model, log and assessment are retained in pwl-timeout. supply.inc is not duplicated; it encodes the same points as supply.txt, without the final constant-extension sentinel."
+}

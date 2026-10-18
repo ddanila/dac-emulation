@@ -838,7 +838,10 @@ no live HDL or supply feedback. It retains the printed supply samples, uses the
 ngspice file source with linear interpolation, and checks every saved supply
 voltage against those samples before comparing clock phase. Its breakpoint
 scheduling differs from ordinary PWL, so this is a controlled isolation diagnostic,
-not an exact solver replay or physical supply model.
+not an exact solver replay or physical supply model. The retained
+[recorded-supply isolation](reports/clock-output/recorded-supply-isolation/assessment.json)
+passes the unchanged phase gate; the coupled failure is not reproduced in this
+configuration. That narrows the diagnosis without establishing its cause.
 
 ```sh
 python3 verification/robotron-keyboard/analog/oscillator_supply_replay.py --source /path/to/coarse/diagnostic-trace.txt --ngspice /path/to/ngspice --out /tmp/clock-supply-replay
