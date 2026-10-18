@@ -24,6 +24,7 @@ class CoupledClockProbeTests(unittest.TestCase):
         deck = 'fixture\nRBR1 a b .001\n.save v(a)\n.control\ntran 2n 0.127 124m\nwrdata trace.txt v(a)\n.endc\n.end\n'
         changed = early_deck(deck, 2, 100, ('v(b)',))
         self.assertIn('.save v(a) v(b)\n', changed)
+        self.assertIn('tran 2n 100u\nset numdgt=17\nwrdata', changed)
         self.assertIn('wrdata trace.txt v(a)\nwrdata diagnostic-trace.txt v(b)', changed)
         self.assertIn('RBR1 a b .001\n', changed)
         with_supply = deck.replace('.endc', 'wrdata supply-trace.txt v(n_p5V)\n.endc')
