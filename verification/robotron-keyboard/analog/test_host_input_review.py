@@ -96,6 +96,10 @@ class BoardInputReviewTests(unittest.TestCase):
             self.assertEqual(r['captureWindowSeconds'],[.124,.124000002])
             self.assertTrue(r['inputs']['data']['withinStaticVoltageEnvelope'])
             self.assertFalse(r['inputs']['data']['qualified'])
+            producer=json.loads((p/'report.json').read_text())
+            producer['assumptions']['traceWindowSeconds'][1] += 1e-17
+            (p/'report.json').write_text(json.dumps(producer))
+            board_review(p,{'input':LIMITS})
             with self.assertRaises(ValueError):
                 list(firmware_samples(p/'host-trace.txt',FirmwareInputReviewTests.signals,0,.124000002,1))
 

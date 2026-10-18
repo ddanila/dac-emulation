@@ -134,7 +134,8 @@ def board_review(directory, limits):
     normalized_analysis(deck,assumptions)
     analyses=re.findall(r'^\.?tran [0-9.eE+-]+n ([0-9.eE+-]+) 124m$',deck,re.M)
     start,end=assumptions['traceWindowSeconds']
-    if len(analyses)!=1 or start!=.124 or float(analyses[0])!=end:
+    if (len(analyses)!=1 or start!=.124 or not math.isfinite(end)
+            or abs(float(analyses[0])-end)>1e-12):
         raise ValueError('Board capture window differs from executed analysis')
     step=assumptions['maximumStepNs']
     return {'boundary':'Closed-board tail capture only; no voltage evidence before the declared window and no functional qualification',
