@@ -1,0 +1,852 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Exercise independent HDL bus drivers through SPICE loads and receiver feedback.",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "runs": [
+    {
+      "stepNs": 5,
+      "reads": [
+        [
+          "101000",
+          "0",
+          "00"
+        ],
+        [
+          "4101000",
+          "1",
+          "ff"
+        ],
+        [
+          "8101000",
+          "2",
+          "00"
+        ],
+        [
+          "12101000",
+          "3",
+          "a5"
+        ],
+        [
+          "16101000",
+          "4",
+          "5a"
+        ],
+        [
+          "20101000",
+          "5",
+          "00"
+        ],
+        [
+          "24101000",
+          "6",
+          "a5"
+        ],
+        [
+          "28101000",
+          "7",
+          "a5"
+        ]
+      ],
+      "samples": [
+        {
+          "phase": 0,
+          "timeSeconds": 1.01e-07,
+          "busVolts": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "supplyCurrentAmps": -0.0
+        },
+        {
+          "phase": 1,
+          "timeSeconds": 4.100999999999999e-06,
+          "busVolts": [
+            4.9998426930580315,
+            4.999936950388804,
+            4.999936950388804,
+            4.999936950388804,
+            4.999936950388804,
+            4.999936950388804,
+            4.999936950388804,
+            4.999936950388804
+          ],
+          "supplyCurrentAmps": 5.756290580218431e-08
+        },
+        {
+          "phase": 2,
+          "timeSeconds": 8.101000000000001e-06,
+          "busVolts": [
+            -2.17128681797164e-242,
+            3.7789686253573346e-62,
+            3.7789686253573346e-62,
+            3.7789686253573346e-62,
+            3.7789686253573346e-62,
+            3.7789686253573346e-62,
+            3.7789686253573346e-62,
+            3.7789686253573346e-62
+          ],
+          "supplyCurrentAmps": -0.0
+        },
+        {
+          "phase": 3,
+          "timeSeconds": 1.2101000000000002e-05,
+          "busVolts": [
+            4.999999654866918,
+            3.408496925748067e-123,
+            4.999999895165984,
+            3.408496925748067e-123,
+            3.408496925748067e-123,
+            4.999999895165984,
+            3.408496925748067e-123,
+            4.999999895165984
+          ],
+          "supplyCurrentAmps": 1.0148232785662161e-10
+        },
+        {
+          "phase": 4,
+          "timeSeconds": 1.6100999999999997e-05,
+          "busVolts": [
+            -2.3515858183790207e-62,
+            4.9999999973999945,
+            -8.175049392335524e-64,
+            4.9999999973999945,
+            4.9999999973999945,
+            -8.175049392335524e-64,
+            4.9999999973999945,
+            -8.175049392335524e-64
+          ],
+          "supplyCurrentAmps": 2.000004264765756e-11
+        },
+        {
+          "phase": 5,
+          "timeSeconds": 2.0100999999999996e-05,
+          "busVolts": [
+            0.16528925616123236,
+            0.1009421264949162,
+            0.16528925616123233,
+            0.1009421264949162,
+            0.1009421264949162,
+            0.16528925616123233,
+            0.1009421264949162,
+            0.16528925616123233
+          ],
+          "supplyCurrentAmps": 0.004859459639864276
+        },
+        {
+          "phase": 6,
+          "timeSeconds": 2.4101e-05,
+          "busVolts": [
+            4.999999979990466,
+            0.0,
+            4.99999997999911,
+            0.0,
+            0.0,
+            4.99999997999911,
+            0.0,
+            4.99999997999911
+          ],
+          "supplyCurrentAmps": 2.000305163868399e-11
+        },
+        {
+          "phase": 7,
+          "timeSeconds": 2.8100999999999997e-05,
+          "busVolts": [
+            4.99999944091021,
+            0.0,
+            4.999999393351341,
+            0.0,
+            0.0,
+            4.999999393351341,
+            0.0,
+            4.999999393351341
+          ],
+          "supplyCurrentAmps": -0.0
+        }
+      ],
+      "expectedContentionAmps": 0.004859459639834043,
+      "files": {
+        "probe.cir": "c64e41a5ca643fc266f6653dcc0168deb37d670b438e970fdc96602df4a8e6b1",
+        "controller.v": "25b13a6041bfbf9fb85cc1ebf891491d32bef99c9e5a3e1d65809597d00815e2",
+        "ngspice.log": "f3699c9b88a12c9c37911c80d61bdfa189803821cb7108585566fb750da5d121",
+        "trace.txt": "7701ca6576da8897637d3907a579863e974a1faac96587dce32b785a5ccdcd6b",
+        "bus.vvp": "10ea298f6bfce5f37b39bd98bc43c6fd812d1c7ede8219ab3fba9042811b9825"
+      }
+    },
+    {
+      "stepNs": 2.5,
+      "reads": [
+        [
+          "101000",
+          "0",
+          "00"
+        ],
+        [
+          "4101000",
+          "1",
+          "ff"
+        ],
+        [
+          "8101000",
+          "2",
+          "00"
+        ],
+        [
+          "12101000",
+          "3",
+          "a5"
+        ],
+        [
+          "16101000",
+          "4",
+          "5a"
+        ],
+        [
+          "20101000",
+          "5",
+          "00"
+        ],
+        [
+          "24101000",
+          "6",
+          "a5"
+        ],
+        [
+          "28101000",
+          "7",
+          "a5"
+        ]
+      ],
+      "samples": [
+        {
+          "phase": 0,
+          "timeSeconds": 1.01e-07,
+          "busVolts": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "supplyCurrentAmps": -0.0
+        },
+        {
+          "phase": 1,
+          "timeSeconds": 4.100999999999999e-06,
+          "busVolts": [
+            4.999842675077779,
+            4.999936941172704,
+            4.999936941172704,
+            4.999936941172704,
+            4.999936941172704,
+            4.999936941172704,
+            4.999936941172704,
+            4.999936941172704
+          ],
+          "supplyCurrentAmps": 5.757083781723576e-08
+        },
+        {
+          "phase": 2,
+          "timeSeconds": 8.101000000000001e-06,
+          "busVolts": [
+            -2.6864991023225495e-63,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "supplyCurrentAmps": -0.0
+        },
+        {
+          "phase": 3,
+          "timeSeconds": 1.2101000000000002e-05,
+          "busVolts": [
+            4.999999654726974,
+            0.0,
+            4.999999895124373,
+            0.0,
+            0.0,
+            4.999999895124373,
+            0.0,
+            4.999999895124373
+          ],
+          "supplyCurrentAmps": 1.0152306288548661e-10
+        },
+        {
+          "phase": 4,
+          "timeSeconds": 1.6100999999999997e-05,
+          "busVolts": [
+            0.0,
+            4.999999997399996,
+            0.0,
+            4.999999997399996,
+            4.999999997399996,
+            0.0,
+            4.999999997399996,
+            0.0
+          ],
+          "supplyCurrentAmps": 2.000002898337418e-11
+        },
+        {
+          "phase": 5,
+          "timeSeconds": 2.0100999999999996e-05,
+          "busVolts": [
+            0.16528925616123225,
+            0.1009421264949161,
+            0.1652892561612321,
+            0.1009421264949161,
+            0.1009421264949161,
+            0.1652892561612321,
+            0.1009421264949161,
+            0.1652892561612321
+          ],
+          "supplyCurrentAmps": 0.004859459639864275
+        },
+        {
+          "phase": 6,
+          "timeSeconds": 2.4101e-05,
+          "busVolts": [
+            4.999999979990511,
+            3.6180144374376035e-65,
+            4.999999979999156,
+            3.6180144374376035e-65,
+            3.6180144374376035e-65,
+            4.999999979999156,
+            3.6180144374376035e-65,
+            4.999999979999156
+          ],
+          "supplyCurrentAmps": 2.0003005030133636e-11
+        },
+        {
+          "phase": 7,
+          "timeSeconds": 2.8100999999999997e-05,
+          "busVolts": [
+            4.999999440918425,
+            1.8094799536484563e-66,
+            4.99999939336214,
+            1.8094799536484563e-66,
+            1.8094799536484563e-66,
+            4.99999939336214,
+            1.8094799536484563e-66,
+            4.99999939336214
+          ],
+          "supplyCurrentAmps": -0.0
+        }
+      ],
+      "expectedContentionAmps": 0.004859459639834043,
+      "files": {
+        "probe.cir": "13f830b953d699747c88cdcf31f41d8cb99c581526ff390a6842afe06c4162e9",
+        "controller.v": "25b13a6041bfbf9fb85cc1ebf891491d32bef99c9e5a3e1d65809597d00815e2",
+        "ngspice.log": "50bfe67396048247540d1bd60413307ae073ad492660378f4e10a226cb8441c1",
+        "trace.txt": "f6f714e21b7c17784a95e979f101d0fd92708efc4b507a2dab6f01791cc4da73",
+        "bus.vvp": "408a67ad969ccb80e926e1afbfc909b92f776aa0f05aea4e1ac51e8cd4af31b5"
+      }
+    }
+  ],
+  "sources": {
+    "bus_cosim.py": "d5d8eba9ab45ee0753c013c66f1f56882077d30c48074c113f3d4f99773baa23",
+    "bus_cosim.v": "ab4bf691c618431a181405418c02c76a1384460117760172832d938b01d3884c",
+    "bus_driver.py": "69eea0141b09cec9f7c1297dd9f9738323581964a2c3dea4f6341f25886781d6",
+    "bus_load.py": "0b5bb0f19ecf4ebac6ebf1502dcc4e8ea536a39a95426a640bc24078cb32f1de",
+    "bus_inventory.py": "14eb0dd1ba75a22af1b7183e02c46ec5fd4bec7b38a0046aeb08de7793ad5c4c",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "electrical_bus_interface.py": "95df9893eebdcff78b4db13fcdf14f9189ed4a2be6a65f93ff901baaa070582b",
+    "controller_interface.py": "46f5c499306b32d3801976557de3b956846a81feb80fc035afd7606ae38d968a",
+    "logic_control.py": "858d26b9ec425fce396b45332f147150f1b52d7f918aa0cf8ff514452d41ea2d",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "clock_output_probe.py": "05b92ebe9d9751d1edf5bd0667640794f9b482b83b1e8e8dc2c260908c0228d7",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9"
+  },
+  "chipsSha256": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "fixture": {
+    "qualified": false,
+    "loads": [
+      {
+        "reference": "A1",
+        "pin": "3",
+        "role": "input",
+        "profile": "7406",
+        "source": "7406",
+        "capacitanceReference": null,
+        "net": "/D0",
+        "ground": "/GND",
+        "capacitanceFarads": 3e-12,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A4",
+        "pin": "19",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D0",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "14",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D0",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "9",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D0",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "18",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D1",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "15",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D1",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "10",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D1",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "17",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D2",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "12",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D2",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "11",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D2",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "16",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D3",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "8",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D3",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "13",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D3",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "15",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D4",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "7",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D4",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "14",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D4",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "14",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D5",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "9",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D5",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "15",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D5",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "13",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D6",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "10",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D6",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "16",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D6",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "12",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D7",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "13",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D7",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "17",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D7",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      }
+    ],
+    "boundary": "Drive is a 5 V linear endpoint stress fixture, not a calibrated I/V curve. No leakage, 7406 input bias, IC power model, delay, clamps or brownout behavior. Enable voltages 0/5 V represent release/drive; intermediate enables are not qualified.",
+    "drivers": [
+      {
+        "reference": "A5",
+        "lowOhms": 222.22222222222223,
+        "highOhms": 10400.0,
+        "profile": "U880",
+        "source": "u880d"
+      },
+      {
+        "reference": "A8",
+        "lowOhms": 214.2857142857143,
+        "highOhms": 6500.0,
+        "profile": "U556_2716",
+        "source": "2716"
+      },
+      {
+        "reference": "A4",
+        "lowOhms": 22.5,
+        "highOhms": 520.0,
+        "profile": "I8282",
+        "source": "8282"
+      }
+    ],
+    "nominalSupplyVolts": 5,
+    "capacitanceBoundary": "Pin capacitance only. No driver I/V, leakage, clamps, trace capacitance, contention current or released voltage qualification. Zero fixture loads are explicit omissions, not measured zero capacitance."
+  },
+  "initialConditions": "All bus pins 0 V; 1 teraohm numerical shunts to ground; release retention is fixture-specific.",
+  "comparison": {
+    "maximumSampleVoltageDifference": 1.7980252842164646e-08,
+    "maximumSampleCurrentDifferenceAmps": 7.932015051451848e-12,
+    "maximumReadTimeDifferencePs": 0,
+    "budgets": {
+      "sampleVolts": 0.001,
+      "sampleAmps": 1e-06,
+      "readTimePs": 5000
+    },
+    "boundary": "Numerical fixture convergence only; not device calibration or transition timing qualification."
+  }
+}
