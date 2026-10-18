@@ -106,6 +106,8 @@ def main():
                    help='Explicit ngspice itl4 Newton iteration limit; omit to retain the engine default')
     p.add_argument('--truncation-tolerance', type=truncation_tolerance,
                    help='Explicit trtol in (0, 1]; smaller tightens the effective XSPICE default of 1')
+    p.add_argument('--linear-solver', choices=('sparse', 'klu'),
+                   help='Explicit linear solver; KLU requires a supporting ngspice build')
     p.add_argument('--integration-method', choices=('trap', 'gear'),
                    help='Explicit numerical integration method; omit to retain the engine default')
     p.add_argument('--maximum-order', type=int, choices=(1, 2),
@@ -167,6 +169,7 @@ def main():
         'solverTolerances': solver,
         'transientIterations': args.transient_iterations,
         'truncationTolerance': args.truncation_tolerance,
+        'linearSolver': args.linear_solver,
         'integrationMethod': args.integration_method,
         'maximumOrder': args.maximum_order,
         'analysisInvocation': 'deck-tran/run' if args.minimum_breakpoint_fs is not None else 'control-tran',
@@ -411,6 +414,8 @@ def main():
             lines.insert(lines.index('.control'), f'.options itl4={args.transient_iterations}')
         if args.truncation_tolerance is not None:
             lines.insert(lines.index('.control'), f'.options trtol={args.truncation_tolerance:g}')
+        if args.linear_solver is not None:
+            lines.insert(lines.index('.control'), f'.options {args.linear_solver}')
         if args.integration_method is not None:
             lines.insert(lines.index('.control'), f'.options method={args.integration_method}')
         if args.maximum_order is not None:
@@ -420,6 +425,8 @@ def main():
         report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
         engine = report['ngspiceRuntime']['executable']['path']
         report['ngspice'] = subprocess.check_output([engine, '--version'], text=True).strip()
+        if args.linear_solver == 'klu' and 'KLU' not in report['ngspice']:
+            raise ValueError('Selected ngspice does not advertise KLU support')
         report['iverilog'] = subprocess.run(['iverilog', '-V'], capture_output=True, text=True, check=True).stdout.splitlines()[0]
         (out / 'run-inputs.json').write_text(json.dumps(report, indent=2) + '\n')
         if args.prepare_only:
