@@ -1,0 +1,244 @@
+{
+  "qualified": false,
+  "scope": "Retain exact producer samples around the largest host voltage differences.",
+  "comparisonSha256": "93fcb94ef46ae060631f2c1ccd7aec454dbadc87d3aa5f61d2d0e2c1e9b1a72c",
+  "sources": {
+    "host_transition_windows.py": "a4fca4d55c349e10d8d6dfbc2b82dcfa151d34d25b3c9931aa7a30859441e4c7",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "compare_firmware_io.py": "e2754823ee4c2741d2ae591d68969558bad142f893a241158781abf1c2bfeef1"
+  },
+  "radiusNs": 100,
+  "crossingBoundary": "Linear interpolation at an illustrative 1.4 V threshold; not a measured switching threshold. Crossings include retained bracketing samples.",
+  "captures": [
+    {
+      "run": "coarse",
+      "file": "coarse-0.txt",
+      "sha256": "8d4f6eafce4e4d98f19216dcd2fb114708a4ee30562bc1672b250b3d1376c426",
+      "centerSeconds": 0.008697626769818499,
+      "requestedIntervalSeconds": [
+        0.0086975267698185,
+        0.008697726769818498
+      ],
+      "retainedIntervalSeconds": [
+        0.0086975249477286,
+        0.008697732898609884
+      ],
+      "rows": 58,
+      "bufferOutputCrossings": {
+        "data": [
+          {
+            "timeSeconds": 0.008697638613680067,
+            "direction": "rising"
+          }
+        ],
+        "clock": []
+      }
+    },
+    {
+      "run": "coarse",
+      "file": "coarse-1.txt",
+      "sha256": "63d80e2e12a7e3f01e78a13101d436a467365e871a6471aab94e1134f5060b8a",
+      "centerSeconds": 0.008697700694630698,
+      "requestedIntervalSeconds": [
+        0.008697600694630698,
+        0.008697800694630697
+      ],
+      "retainedIntervalSeconds": [
+        0.00869759649847301,
+        0.008697807147318003
+      ],
+      "rows": 55,
+      "bufferOutputCrossings": {
+        "data": [
+          {
+            "timeSeconds": 0.008697638613680067,
+            "direction": "rising"
+          }
+        ],
+        "clock": []
+      }
+    },
+    {
+      "run": "coarse",
+      "file": "coarse-2.txt",
+      "sha256": "cd2600d365eb6204376fb402641320005f4ea3adf6407769b6eaf284def652ca",
+      "centerSeconds": 0.01053963825902894,
+      "requestedIntervalSeconds": [
+        0.01053953825902894,
+        0.010539738259028939
+      ],
+      "retainedIntervalSeconds": [
+        0.01053953513172541,
+        0.010539740843019204
+      ],
+      "rows": 58,
+      "bufferOutputCrossings": {
+        "data": [
+          {
+            "timeSeconds": 0.010539638623125716,
+            "direction": "rising"
+          }
+        ],
+        "clock": []
+      }
+    },
+    {
+      "run": "coarse",
+      "file": "coarse-3.txt",
+      "sha256": "c4f90e00ccb904af2f9fefb9b5512a56cf425476380be05b6a8c4ecfe3e42435",
+      "centerSeconds": 0.013979514396753396,
+      "requestedIntervalSeconds": [
+        0.013979414396753397,
+        0.013979614396753395
+      ],
+      "retainedIntervalSeconds": [
+        0.013979413603674825,
+        0.013979619969253518
+      ],
+      "rows": 45,
+      "bufferOutputCrossings": {
+        "data": [],
+        "clock": []
+      }
+    },
+    {
+      "run": "coarse",
+      "file": "coarse-4.txt",
+      "sha256": "c1d9a1530b26c611159a946521f748995e639253b46eaddd2e0c0d67d600b708",
+      "centerSeconds": 0.025684137192489357,
+      "requestedIntervalSeconds": [
+        0.025684037192489358,
+        0.025684237192489356
+      ],
+      "retainedIntervalSeconds": [
+        0.025684035983800126,
+        0.025684240796828246
+      ],
+      "rows": 62,
+      "bufferOutputCrossings": {
+        "data": [],
+        "clock": [
+          {
+            "timeSeconds": 0.025684136997263712,
+            "direction": "rising"
+          }
+        ]
+      }
+    },
+    {
+      "run": "fine",
+      "file": "fine-0.txt",
+      "sha256": "b554acbaee9f50a5254aff58290ccaac75c44e1090a0e91160c71d33ac7a7967",
+      "centerSeconds": 0.008697626769818499,
+      "requestedIntervalSeconds": [
+        0.0086975267698185,
+        0.008697726769818498
+      ],
+      "retainedIntervalSeconds": [
+        0.008697526393648907,
+        0.008697731063128534
+      ],
+      "rows": 66,
+      "bufferOutputCrossings": {
+        "data": [
+          {
+            "timeSeconds": 0.008697636118181992,
+            "direction": "rising"
+          }
+        ],
+        "clock": []
+      }
+    },
+    {
+      "run": "fine",
+      "file": "fine-1.txt",
+      "sha256": "696fb00b5b47b26f415fa783732848ede7746577d116c59d33f028954bae1e46",
+      "centerSeconds": 0.008697700694630698,
+      "requestedIntervalSeconds": [
+        0.008697600694630698,
+        0.008697800694630697
+      ],
+      "retainedIntervalSeconds": [
+        0.008697593849870138,
+        0.008697806773295614
+      ],
+      "rows": 64,
+      "bufferOutputCrossings": {
+        "data": [
+          {
+            "timeSeconds": 0.008697636118181992,
+            "direction": "rising"
+          }
+        ],
+        "clock": []
+      }
+    },
+    {
+      "run": "fine",
+      "file": "fine-2.txt",
+      "sha256": "a3b16e04d63a4e2499daa1698ef8bd9a84abde4f72ae1dbf66b968db0eb8f8ce",
+      "centerSeconds": 0.01053963825902894,
+      "requestedIntervalSeconds": [
+        0.01053953825902894,
+        0.010539738259028939
+      ],
+      "retainedIntervalSeconds": [
+        0.010539536048204108,
+        0.010539745510467649
+      ],
+      "rows": 60,
+      "bufferOutputCrossings": {
+        "data": [
+          {
+            "timeSeconds": 0.01053963613073443,
+            "direction": "rising"
+          }
+        ],
+        "clock": []
+      }
+    },
+    {
+      "run": "fine",
+      "file": "fine-3.txt",
+      "sha256": "fc6cc4c48c0296f2eb43b1ba14cc696f442b1e14e0963d28d5cefeb2cadc9ac5",
+      "centerSeconds": 0.013979514396753396,
+      "requestedIntervalSeconds": [
+        0.013979414396753397,
+        0.013979614396753395
+      ],
+      "retainedIntervalSeconds": [
+        0.013979411770000045,
+        0.013979621307138123
+      ],
+      "rows": 47,
+      "bufferOutputCrossings": {
+        "data": [],
+        "clock": []
+      }
+    },
+    {
+      "run": "fine",
+      "file": "fine-4.txt",
+      "sha256": "9ea561540f36401f08bc106eb1f70a07d4cc74ae38e22a38428c10e3441456e5",
+      "centerSeconds": 0.025684137192489357,
+      "requestedIntervalSeconds": [
+        0.025684037192489358,
+        0.025684237192489356
+      ],
+      "retainedIntervalSeconds": [
+        0.025684036480879642,
+        0.025684237471485058
+      ],
+      "rows": 40,
+      "bufferOutputCrossings": {
+        "data": [],
+        "clock": [
+          {
+            "timeSeconds": 0.025684138559150575,
+            "direction": "rising"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -219,7 +219,9 @@ Host sampling follows rising RxC, paired with falling keyboard cable clock, as
 specified in [U856 receive-edge evidence](reports/host-receive-edge/assessment.json).
 The [rising-edge service pair](reports/firmware-host-rising-load-fine/assessment.json)
 passes logical, scenario, sampled-stability and serial-edge refinement checks for
-its declared load; absolute-time voltage differences remain unqualified. Earlier
+its declared load. [Loaded transition windows](reports/host-loaded-transition-windows/assessment.json)
+explain selected absolute-time voltage differences without establishing full-waveform
+convergence. Earlier
 falling-edge comparisons do not qualify that sampling point; source-bound
 waveforms remain available for review.
 
