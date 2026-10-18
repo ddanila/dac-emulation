@@ -1,0 +1,55 @@
+{
+  "qualified": false,
+  "completedTransients": true,
+  "phaseRefinementPassed": false,
+  "maximumBracketDifferenceNs": 428.38200000002195,
+  "firstDifference": {
+    "signal": "Clock voltage",
+    "edgeOrdinal": 2,
+    "coarse": {
+      "direction": "rise",
+      "beforeSeconds": 0.00010193306,
+      "afterSeconds": 0.00010193331,
+      "estimatedSeconds": 0.00010193328929650867,
+      "earliestSeconds": 0.0001019330595,
+      "latestSeconds": 0.00010193331050000001
+    },
+    "fine": {
+      "direction": "rise",
+      "beforeSeconds": 0.000101808188,
+      "afterSeconds": 0.000101808313,
+      "estimatedSeconds": 0.00010180823988628739,
+      "earliestSeconds": 0.0001018081875,
+      "latestSeconds": 0.0001018083135
+    }
+  },
+  "waveformWindows": {
+    "coarse/trace.txt": {
+      "firstSeconds": 9.9e-05,
+      "lastSeconds": 0.000103999803,
+      "rows": 20079,
+      "uncompressedWindowSha256": "27537ec345359c6631bfe8b2a6e2fd1a523c873f62a49feda8877c13e3a2d327"
+    },
+    "coarse/diagnostic-trace.txt": {
+      "firstSeconds": 9.9e-05,
+      "lastSeconds": 0.000103999803,
+      "rows": 20079,
+      "uncompressedWindowSha256": "54918c8228b381f7fd19007f79b11ce2546a0df741f8beb5d5c0ce87869649ca"
+    },
+    "fine/trace.txt": {
+      "firstSeconds": 9.9e-05,
+      "lastSeconds": 0.000103999972,
+      "rows": 40024,
+      "uncompressedWindowSha256": "684eb25afbc549a335796effaacba07df909990210d6a4b8dc2ed0cb10ea26ab"
+    },
+    "fine/diagnostic-trace.txt": {
+      "firstSeconds": 9.9e-05,
+      "lastSeconds": 0.000103999972,
+      "rows": 40024,
+      "uncompressedWindowSha256": "eb5c57121d4e419699f3a32ca1aad1cc1addc02c6150e5e4ae2b99d15bf94519"
+    }
+  },
+  "fullWaveforms": "Retained locally under build/keyboard-controller-analog/coupled-clock-tight-refinement; full producer hashes and compressed sizes are in qualification.json. Repository traces are diagnostic windows only.",
+  "command": "python3 verification/robotron-keyboard/analog/coupled_clock_probe.py --rom /path/to/s600.bin --gate-profile dl000-pullup --steps-ns 0.25 0.125 --duration-us 250 --timeout-seconds 600 --reltol 1e-6 --vntol 1e-8 --abstol 1e-14 --minimum-breakpoint-fs 1 --compress-traces --ngspice /path/to/ngspice --out /path/to/output",
+  "boundary": "Both transients completed without solver diagnostics. Initial edges agree, then clock onset diverges while supply remains below the U880 operating range. The isolated phase pass does not transfer to coupled startup. No CPU voltage/timing or full-board qualification."
+}
