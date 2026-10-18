@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from compare_firmware_io import compare, load_run, sha
+from compare_firmware_io import compare, load_run, normalized_deck, sha
 from serial_observation import SerialMismatch, validate_transport
 
 
@@ -38,6 +38,14 @@ class ComparisonTests(unittest.TestCase):
                  'serialTransport': validate_transport(log, True)}
             (path / 'report.json').write_text(json.dumps(r))
             load_run(path)
+            normalized = normalized_deck(path)
+            (path / 'io.cir').write_text(deck.replace('100n', '50n'))
+            r['assumptions']['stepNs'] = 50
+            (path / 'report.json').write_text(json.dumps(r))
+            self.assertEqual(normalized, normalized_deck(path))
+            (path / 'io.cir').write_text(deck.replace('100n', '50n').replace('30m', '31m'))
+            self.assertNotEqual(normalized, normalized_deck(path))
+            r['assumptions']['stepNs'] = 100
             for invalid in (deck.replace('minbreak=1f', 'minbreak=2f'),
                             deck.replace('.tran 100n 30m', '').replace('run', 'tran 100n 30m'),
                             deck.replace('run', 'run\nrun')):

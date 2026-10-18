@@ -130,10 +130,8 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
 
 def normalized_deck(directory):
     deck = (directory / 'io.cir').read_text()
-    matches = re.findall(r'^tran (\S+) (.+)$', deck, re.M)
-    if len(matches) != 1:
-        raise ValueError('Expected one transient analysis')
-    return re.sub(r'^tran \S+ ', 'tran TIMESTEP ', deck, flags=re.M)
+    assumptions = json.loads((directory / 'report.json').read_text())['assumptions']
+    return normalized_analysis(deck, assumptions, 'stepNs')
 
 
 def main():
@@ -148,7 +146,7 @@ def main():
     result = {'passed': False, 'scope': __doc__, 'toleranceNs': args.tolerance_ns,
               'interpretation': 'Exploratory numerical comparison, not a historical receiver timing specification',
               'validationSources': {name: sha(Path(__file__).resolve().parent / name) for name in
-                                    ('compare_firmware_io.py', 'serial_observation.py', 'led_observation.py', 'trace_io.py')}}
+                                    ('compare_firmware_io.py', 'transient_analysis.py', 'serial_observation.py', 'led_observation.py', 'trace_io.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         coarse, ct = load_run(args.coarse)
