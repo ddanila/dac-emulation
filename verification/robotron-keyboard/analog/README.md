@@ -217,8 +217,9 @@ not calibrated I/V curves or identified Schmitt thresholds.
 
 Host sampling follows rising RxC, paired with falling keyboard cable clock, as
 specified in [U856 receive-edge evidence](reports/host-receive-edge/assessment.json).
-The [rising-edge service capture](reports/firmware-host-rising-load/assessment.json)
-passes logical and sampled-stability checks for its declared load. Earlier
+The [rising-edge service pair](reports/firmware-host-rising-load-fine/assessment.json)
+passes logical, scenario, sampled-stability and serial-edge refinement checks for
+its declared load; absolute-time voltage differences remain unqualified. Earlier
 falling-edge comparisons do not qualify that sampling point; source-bound
 waveforms remain available for review.
 

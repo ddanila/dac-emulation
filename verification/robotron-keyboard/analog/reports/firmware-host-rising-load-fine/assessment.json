@@ -1,0 +1,53 @@
+{
+  "qualified": false,
+  "producerSourceRevision": "ede4d15",
+  "scope": "Corrected rising-RxC service timestep pair with explicit SIO loads",
+  "evidence": {
+    "coarse": "../firmware-host-rising-load/assessment.json",
+    "fine": "report.json",
+    "serialEdgeConvergence": "convergence.json",
+    "sampledStability": "margins.json",
+    "scenarioCoverage": "coverage.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "a5234c8e3266b1dad6f0495b614a599b801cb3be9b86a59288be4fea2a57b75e",
+    "run-inputs.json": "352857fd37d5622c854001b2cacf70c557807831591f08ee6f763d03bc793239",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "983c0ce76b03bccf8f03c18002a5ee06df85c02d5bf1ae3625c7b8c65914883c",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "3cdaa05a7f1d42a05b0461c1d469f3daf5eef31458d0fed820c310279bb8ace0",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "convergence.json": "7deadd4fe7148fa7e97aee66e587e71b6497c42ad636dfc61260788b70cf8e6a",
+    "margins.json": "5382d744a274f74a02233aa468c9df621c38b18e5d7172e987c09f99e84390a1",
+    "coverage.json": "a4a5b1c610e597a09ee9121861c1172e8f0c3577c37ac5ad83e393c35ce5d6c2"
+  },
+  "reusedVoltageComparison": {
+    "path": "../firmware-host-load-fine/voltage-comparison-relocated.json",
+    "sha256": "93fcb94ef46ae060631f2c1ccd7aec454dbadc87d3aa5f61d2d0e2c1e9b1a72c",
+    "waveformIdentities": {
+      "coarse": {
+        "originalProducerReportSha256": "9cb69b412b37aae46568fb4157891f5df4d28a48d2e70f01ce03eeabc1069d98",
+        "correctedProducerReportSha256": "6a72ce60bd9333cacef73fca784de0b248f7c6badebf93a4c6034f2919c2bc5b",
+        "hostTraceSha256": "298358a63d44022fdfaa82ffb1f03aa890b3e362294ccb06d2e67ac3ae1f0df0"
+      },
+      "fine": {
+        "originalProducerReportSha256": "e2d60c9abaa34ef561ca0192c1439d2ef619f906564e494c7e11fb69768a14f2",
+        "correctedProducerReportSha256": "a5234c8e3266b1dad6f0495b614a599b801cb3be9b86a59288be4fea2a57b75e",
+        "hostTraceSha256": "da6c8f61ff6b1a1a18b22e2b37f9a67867bda23abd014fd50a4e4a6755e1157a"
+      }
+    },
+    "basis": "Both complete host waveforms are byte-identical to the original pair. Reuse only the absolute-time voltage comparison, not the old falling-edge serial comparison."
+  },
+  "waveforms": {
+    "retention": "Full waveforms remain local; reports retain their uncompressed hashes. No ROM or compiled HDL included.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-load-fine",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "Corrected rising-edge logical comparison, scenario coverage, sampled data stability and serial-edge timestep refinement pass. Exact waveform identity preserves the earlier substantial absolute-time voltage differences; whole-waveform convergence and semiconductor applicability remain unqualified.",
+  "nextAction": "Complete remaining corrected firmware scenarios and investigate voltage transition differences without phase alignment; keep closed-board startup and device qualification independent."
+}
