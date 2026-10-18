@@ -1095,6 +1095,11 @@ levels. The separate nominal-output run rejects a small D7 excursion above the
 moving supply; reconstructed local charge balance is consistent with capacitor
 lag in the linear driver fixture. Both electrical rejections remain open; neither is waived by the
 digital floating-input sensitivity experiment.
+The [paired ROM-envelope service run](reports/rom-read-envelope/electrical-bus/assessment.json)
+with the falling-edge CPU candidate also rejects the same released I/O read at
+both timesteps: D0 remains in the receiver unknown band. Serial bits agree with C,
+but the bus gate remains failed. This combined configuration does not isolate the
+effect of ROM timing from CPU phase and does not qualify full-board startup.
 
 Both `firmware_io_cosim.py` and `boot_cosim.py` accept
 `--cpu-profile falling-indexed-candidate` with `--electrical-bus`. They generate
