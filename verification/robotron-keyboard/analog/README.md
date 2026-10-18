@@ -1117,3 +1117,5 @@ rerunning SPICE. It verifies captured input hashes, reruns the current bus check
 and independently checks cable transport and ordinal C-reference bits. The
 original report stays unchanged; a serial pass does not qualify the bus. The
 review retains a small waveform window when the first failing read is known.
+If only the final read lacks its latch confirmation, a separately labelled
+confirmed-prefix check exposes earlier failures without qualifying the full run.
