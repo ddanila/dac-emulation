@@ -43,6 +43,22 @@ class WriteObservationTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, message):
                     measure(log, trace, 50, 6e-6, start_seconds=1e-6)
 
+    def test_idle_tail_capture_has_explicit_scope(self):
+        with tempfile.TemporaryDirectory() as directory:
+            trace, rows, _ = self.fixture(directory)
+            rows = [[r[0], 4.9, 0, 5, 0, .00001, 5] for r in rows if r[0] >= 1e-6]
+            rows[0][0] += .15e-9
+            self.write(trace, rows)
+            options = dict(start_seconds=1e-6, capture_start_seconds=1e-6, start_tolerance_ns=50)
+            with self.assertRaisesRegex(ValueError, 'not both observed'):
+                measure('WR_DRIVE 0 01\n', trace, 50, 6e-6, **options)
+            result = measure('WR_DRIVE 0 01\n', trace, 50, 6e-6, require_activity=False, **options)
+            self.assertFalse(result['activityRequired'])
+            self.assertEqual(result['checkedSamples']['10'], 0)
+            self.write(trace, rows[2:])
+            with self.assertRaisesRegex(ValueError, 'extent'):
+                measure('WR_DRIVE 0 01\n', trace, 50, 6e-6, require_activity=False, **options)
+
     def test_short_unknown_interval_and_failure_details(self):
         with tempfile.TemporaryDirectory() as directory:
             trace, rows, log = self.fixture(directory)

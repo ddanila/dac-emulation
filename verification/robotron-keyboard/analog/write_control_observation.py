@@ -11,10 +11,15 @@ class WriteMismatch(ValueError):
         self.details = {'timeSeconds': time, 'signal': signal, 'expected': expected, 'actual': actual}
 
 
-def measure(log, trace, step_ns, end_seconds, start_seconds=.001, settling_ns=500):
+def measure(log, trace, step_ns, end_seconds, start_seconds=.001, settling_ns=500,
+            capture_start_seconds=0, start_tolerance_ns=0, require_activity=True):
     if (not all(math.isfinite(value) for value in (step_ns, end_seconds, start_seconds, settling_ns))
             or step_ns <= 0 or not 0 <= start_seconds < end_seconds or settling_ns < 0):
         raise ValueError('Invalid WR observation interval')
+    if (not all(math.isfinite(v) for v in (capture_start_seconds, start_tolerance_ns))
+            or not 0 <= capture_start_seconds <= start_seconds
+            or not 0 <= start_tolerance_ns <= step_ns):
+        raise ValueError('Invalid WR capture start')
     events = []
     for line in log.splitlines():
         match = re.fullmatch(r'WR_DRIVE (\d+) ([01xz]{2})', line)
@@ -83,16 +88,22 @@ def measure(log, trace, step_ns, end_seconds, start_seconds=.001, settling_ns=50
                                     {'maximumMagnitudeAmps': 1e-12}, ilow if state[0] == '0' and abs(ilow) > 1e-12 else ihigh)
             checked[state] += 1
             checked_intervals.add(index)
-    if not count or first > 1e-9 or abs(last - end_seconds) > 1e-12:
+    if (not count or first < capture_start_seconds - 1e-12
+            or first > capture_start_seconds + start_tolerance_ns * 1e-9 + 1e-12
+            or abs(last - end_seconds) > 1e-12):
         raise ValueError('Incomplete WR waveform extent')
-    if not checked['10'] or not checked['01']:
+    if require_activity and (not checked['10'] or not checked['01']):
         raise ValueError('WR firmware assertion and deassertion not both observed')
+    if not any(checked.values()):
+        raise ValueError('No settled WR observation')
     unobserved = [i for i, (time, state) in enumerate(events)
                   if start_seconds <= time < end_seconds and state in checked
                   and i not in checked_intervals]
     if unobserved:
         raise ValueError('WR transitions lack settled observations: ' + repr(unobserved[:8]))
     return {'passed': True, 'qualified': False, 'settlingNs': settling_ns,
+            'activityRequired': require_activity, 'captureStartSeconds': capture_start_seconds,
+            'captureStartToleranceNs': start_tolerance_ns,
             'checkedSamples': checked, 'checkedIntervals': len(checked_intervals),
             'firstSeconds': first, 'lastSeconds': last, 'rows': count,
             'boundary': 'Settled voltage and drive ownership checks only; no U880 edge timing, '

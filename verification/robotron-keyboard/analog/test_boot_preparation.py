@@ -55,6 +55,24 @@ class BootPreparationTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     electrical_bus_options(args)
                 setattr(args, name, original)
+            args.electrical_wr = True
+            wr_report = {'assumptions': {'traceWindowSeconds': [.124, .127]}}
+            with patch('boot_cosim.ROM_SHA256', sha(rom)):
+                prepare(args, wr_report)
+            deck = (out / 'boot.cir').read_text()
+            self.assertIn('dbus_high0 dwr_low dwr_high dsink csink', deck)
+            self.assertIn('Awr_drive [dwr_low dwr_high] [wr_low wr_high] observation', deck)
+            self.assertIn('Xclock n_WR_N ', deck)
+            self.assertNotIn('Xclock clock_intent ', deck)
+            self.assertIn('wrdata wr-trace.txt v(n_WR_N)', deck)
+            self.assertTrue(wr_report['assumptions']['electricalWr'])
+            for name, value in (('electrical_outputs', False), ('serial_driver', 'nominal'),
+                                ('electrical_bus', False)):
+                original = getattr(args, name)
+                setattr(args, name, value)
+                with self.assertRaises(ValueError):
+                    electrical_bus_options(args)
+                setattr(args, name, original)
 
     def test_driver_selection_preserves_boot_and_closed_bridges(self):
         with tempfile.TemporaryDirectory() as temporary:
