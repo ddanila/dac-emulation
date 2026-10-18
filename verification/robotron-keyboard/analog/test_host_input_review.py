@@ -4,7 +4,8 @@ import lzma
 import tempfile
 from pathlib import Path
 import unittest
-from host_input_review import review, firmware_samples
+from host_input_review import review, firmware_samples, board_review
+from compare_firmware_io import sha
 
 LIMITS=json.loads(Path(__file__).with_name('d104_limits.json').read_text())['input']
 
@@ -71,5 +72,46 @@ class FirmwareInputReviewTests(unittest.TestCase):
                 list(firmware_samples(path,self.signals,0,2e-9,1))
             with self.assertRaises(ValueError):
                 list(firmware_samples(path,list(reversed(self.signals)),0,2e-9,1))
+
+class BoardInputReviewTests(unittest.TestCase):
+    def fixture(self,p):
+        signals=FirmwareInputReviewTests.signals
+        (p/'boot.cir').write_text('Board fixture\n.control\ntran 1n 0.124000002 124m\n.endc\n.end\n')
+        (p/'ngspice.log').write_text('Completed numerical capture\n')
+        (p/'host-trace.txt').write_text(' '.join(['time',*signals])+'\n'+
+            '\n'.join(f'{t:.17g} 1 1 1 1 1 1' for t in (.12400000025,.124000001,.124000002))+'\n')
+        r={'passed':False,'qualified':False,'error':'CPU made no sustained post-reset progress',
+           'assumptions':{'hostBuffer':'7404-candidate','maximumStepNs':1,'traceWindowSeconds':[.124,.124000002]},
+           'hostTraceSignals':signals,'deckSha256':sha(p/'boot.cir'),
+           'logSha256':sha(p/'ngspice.log'),'hostTraceSha256':sha(p/'host-trace.txt')}
+        (p/'report.json').write_text(json.dumps(r))
+        return r
+
+    def test_failed_functional_run_can_retain_only_window_voltage_evidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            p=Path(directory);self.fixture(p)
+            r=board_review(p,{'input':LIMITS})
+            self.assertFalse(r['producerPassed'])
+            self.assertIn('CPU made no',r['producerError'])
+            self.assertEqual(r['captureWindowSeconds'],[.124,.124000002])
+            self.assertTrue(r['inputs']['data']['withinStaticVoltageEnvelope'])
+            self.assertFalse(r['inputs']['data']['qualified'])
+            with self.assertRaises(ValueError):
+                list(firmware_samples(p/'host-trace.txt',FirmwareInputReviewTests.signals,0,.124000002,1))
+
+    def test_changed_window_artifact_or_preparation_cannot_pass(self):
+        with tempfile.TemporaryDirectory() as directory:
+            p=Path(directory)
+            for change in ('window','trace','prepared','diagnostic','missing_hash'):
+                r=self.fixture(p)
+                if change=='window':r['assumptions']['traceWindowSeconds'][0]=.123
+                elif change=='trace':(p/'host-trace.txt').write_text('changed')
+                elif change=='prepared':r['preparedOnly']=True
+                elif change=='missing_hash':del r['hostTraceSha256']
+                else:
+                    (p/'ngspice.log').write_text('Error: timestep too small\n')
+                    r['logSha256']=sha(p/'ngspice.log')
+                (p/'report.json').write_text(json.dumps(r))
+                with self.assertRaises(ValueError):board_review(p,{'input':LIMITS})
 
 if __name__=='__main__':unittest.main()

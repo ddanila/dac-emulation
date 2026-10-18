@@ -234,7 +234,10 @@ also includes this network with the onboard oscillator/reset and closed bridges;
 it requires `--electrical-outputs` and accepts the same explicit SIO load arguments.
 Both paired qualifiers reject experimental host-buffer runs pending device,
 receiver-voltage and timing qualification. Service-only review commands do not
-validate the closed-board capture window or startup.
+validate the closed-board capture window or startup. Use
+`host_input_review.py --board --run /path/to/board-run --out /tmp/board-inputs.json`
+for source-hashed input stress within the recorded board window. A completed
+voltage review preserves any functional failure and makes no startup-voltage claim.
 For numerical diagnosis only, run
 `compare_firmware_io.py COARSE FINE --experimental-host --out /tmp/host-convergence.json`.
 This checks matching model/runtime inputs and serial-edge refinement while retaining
