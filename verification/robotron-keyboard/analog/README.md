@@ -1086,6 +1086,10 @@ Electrical-bus latch confirmations use Verilog's postponed observation region
 at the sampling time, after the input register's nonblocking update. They do
 not depend on a following falling edge beyond the capture stop. The validator
 still requires a matching register confirmation for every read.
+Electrical-bus logs also capture the CPU, ROM and latch low/high driver enables
+at each sampled read. Failure reports retain those states, including unknowns,
+to distinguish a released bus from active or conflicting drives. This records
+digital drive intent; analog pin voltages remain a separate check.
 
 `reports/electrical-bus-failure-review/` retains the first failed voltage windows
 from the paired S600 runs. With the transistor serial gate, D0 becomes uncertain

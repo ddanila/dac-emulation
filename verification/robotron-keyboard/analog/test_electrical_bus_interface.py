@@ -114,6 +114,7 @@ endmodule
             self.assertIn('SERVICE_BUS_PASS', result.stdout)
             self.assertIn('BUS_SAMPLE 4000 0000 00 0 1 1', result.stdout)
             self.assertIn('BUS_LATCH 4000 00 00', result.stdout)
+            self.assertIn('BUS_DRIVE 4000 000000000101101010100101 000000001010010101011010', result.stdout)
 
     def test_wr_reset_bus_handover_and_unknown_ownership(self):
         with tempfile.TemporaryDirectory() as directory:

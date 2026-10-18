@@ -19,6 +19,7 @@ class ReviewTests(unittest.TestCase):
         (root / 'reference.log').write_text('BIT 100 1\n')
         (root / 'ngspice.log').write_text(
             'BUS_SAMPLE 1000000 0000 XX 1 0 1\nBUS_LATCH 1001000 XX XX\n'
+            'BUS_DRIVE 1000000 000000000000000000000000 000000000000000000000000\n'
             'SERIAL_TX 2000000 1\nSERIAL_RX 2001000 1\n')
         with lzma.open(root / 'bus-trace.txt.xz', 'wt') as f:
             f.write('time ' + ' '.join(f'v(n_D{i})' for i in range(8)) + ' v(n_p5V)\n')
@@ -57,7 +58,8 @@ class ReviewTests(unittest.TestCase):
             root, out = Path(tmp) / 'input', Path(tmp) / 'review'
             self.fixture(root)
             with (root / 'ngspice.log').open('a') as f:
-                f.write('BUS_SAMPLE 3000000 0001 00 0 1 1\n')
+                f.write('BUS_SAMPLE 3000000 0001 00 0 1 1\n'
+                        'BUS_DRIVE 3000000 000000000000000000000000 000000000000000000000000\n')
             report = json.loads((root / 'report.json').read_text())
             report['failureArtifacts']['ngspice.log']['sha256'] = hashlib.sha256(
                 (root / 'ngspice.log').read_bytes()).hexdigest()

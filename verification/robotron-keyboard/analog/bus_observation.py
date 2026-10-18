@@ -28,7 +28,7 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
     if (not math.isfinite(start_tolerance_ns) or not 0 <= start_tolerance_ns <= step_ns
             or (start_tolerance_ns and trace_extent is None)):
         raise ValueError('Invalid bus capture start tolerance')
-    samples, latches = [], []
+    samples, latches, drives = [], [], []
     for line in log.splitlines():
         if line.startswith('BUS_SAMPLE '):
             match = re.fullmatch(r'BUS_SAMPLE (\d+) ([0-9a-fA-F]{4}) ([0-9a-fA-FxXzZ]{2}) ([01]) ([01]) ([01])', line)
@@ -41,6 +41,12 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
             if samples and sample[0] <= samples[-1][0]:
                 raise ValueError('Nonmonotonic bus read times')
             samples.append(sample)
+        elif line.startswith('BUS_DRIVE '):
+            match = re.fullmatch(r'BUS_DRIVE (\d+) ([01xXzZ]{24}) ([01xXzZ]{24})', line)
+            if not match:
+                raise ValueError('Malformed bus driver observation')
+            time, low, high = match.groups()
+            drives.append((int(time), low.lower(), high.lower()))
         elif line.startswith('BUS_LATCH '):
             match = re.fullmatch(r'BUS_LATCH (\d+) ([0-9a-fA-FxXzZ]{2}) ([0-9a-fA-FxXzZ]{2})', line)
             if not match:
@@ -49,6 +55,9 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
             latches.append((int(time), expected, actual))
     if not samples or len(samples) != len(latches):
         raise ValueError('Missing bus samples or CPU latch confirmations')
+    if drives and (len(drives) != len(samples) or
+                   any(drive[0] != sample[0] for drive, sample in zip(drives, samples))):
+        raise ValueError('Missing or misaligned bus driver observations')
     for index, (sample, latch) in enumerate(zip(samples, latches)):
         if (sample[0] > latch[0] or
             (index + 1 < len(samples) and latch[0] >= samples[index + 1][0])):
@@ -82,6 +91,12 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
             value = None if any(c in 'xXzZ' for c in raw_value) else int(raw_value, 16)
             context = {'ordinal': ordinal, 'readTimePs': time_ps, 'address': address,
                        'sampledByte': value}
+            if drives:
+                _, low, high = drives[ordinal]
+                context['drivers'] = {
+                    name: {'lowEnableBits7To0': low[16-8*i:24-8*i],
+                           'highEnableBits7To0': high[16-8*i:24-8*i]}
+                    for i, name in enumerate(('cpu', 'rom', 'latch'))}
             # Data uncertainty is a read failure, not a log syntax error. Defer
             # it until this read so it cannot hide an earlier voltage failure.
             if uncertain:
@@ -154,7 +169,7 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
         extent['requestedStartSeconds'] = trace_extent[0]
         extent['startToleranceNs'] = start_tolerance_ns
         extent['startOffsetSeconds'] = extent['firstSeconds'] - trace_extent[0]
-    return {'passed': True, 'qualified': False, 'sampleCount': len(samples),
+    return {'passed': True, 'qualified': False, 'sampleCount': len(samples), 'driverStatesCaptured': bool(drives),
             'waveform': extent,
             'memoryReads': sum(sample[3] == 0 for sample in samples),
             'ioReads': sum(sample[4] == 0 for sample in samples),
