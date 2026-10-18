@@ -8,7 +8,9 @@
     "baselineFailure": "../firmware-host-rising-reset/assessment.json",
     "scenarioCoverage": "coverage.json",
     "sampledStability": "margins.json",
-    "invocationControl": "../firmware-host-rising-reset-default-spacing/assessment.json"
+    "invocationControl": "../firmware-host-rising-reset-default-spacing/assessment.json",
+    "sampledInputStress": "input-review.json.xz",
+    "nominalThresholdClockWidths": "clock-widths.json"
   },
   "retainedFilesSha256": {
     "report.json": "6ca96a01bfbb29ee3f7e7172410bce8b2e92ed288ef86a12feb54329f55bd569",
@@ -20,7 +22,9 @@
     "ngspice.log": "20769c9fdb9e4672592ff0cdcc14a24508cd1611284103fbacf5c80e4f4c8df8",
     "reference.log": "af14c8d9e2586559f0730c4987dd2955bb6e5ff415c77da865f4501d7d0d2a98",
     "coverage.json": "6c39a532c24d1b8b3faf1e3bc11673964e48665525b143de858b09338d1dcfca",
-    "margins.json": "b123bc43c8d9a872fc92f391f854478581cde356286bdd1f27ab801a2f8ab39d"
+    "margins.json": "b123bc43c8d9a872fc92f391f854478581cde356286bdd1f27ab801a2f8ab39d",
+    "input-review.json.xz": "482eea411815d9ee48bd4f15e214d00fd58cc35b182ac3dbb6cf8cb1a1f7046f",
+    "clock-widths.json": "4f19886410b4b5864e44d69d39820da8b07844eaa7ac604945121728f5b5d6f0"
   },
   "inputComparison": {
     "sourceHashesEqual": true,
@@ -47,5 +51,32 @@
     ]
   },
   "interpretation": "Full service scenario completes without solver diagnostics; CPU restart, before/after-reset packet coverage, received-bit agreement and sampled stability pass. The invocation control reproduces the baseline failure when default-equivalent spacing is restored, isolating spacing as a consequential numerical parameter. This does not identify the exact internal failure path or qualify device behavior.",
-  "nextAction": "Complete fixed-spacing timestep refinement and modifier coverage; retain absolute-time voltage differences and separate device applicability."
+  "nextAction": "Complete fixed-spacing timestep refinement and modifier coverage; retain absolute-time voltage differences and separate device applicability.",
+  "inputReviewCompression": {
+    "format": "xz",
+    "uncompressedSha256": "55d7ba70c5bff33666914783cdd32fc1de1a6739ce62bc17fe5a6e9423eb999e",
+    "uncompressedBytes": 8265404
+  },
+  "electricalScreening": {
+    "inputs": {
+      "data": {
+        "minV": -0.6105329483383878,
+        "maxV": 5.185456185859322,
+        "withinStaticVoltageEnvelope": true,
+        "requiresNegativePulseException": false,
+        "requiresAboveMaxCurrentException": false,
+        "qualified": false
+      },
+      "clock": {
+        "minV": -0.7110680026689229,
+        "maxV": 4.382097786211277,
+        "withinStaticVoltageEnvelope": true,
+        "requiresNegativePulseException": false,
+        "requiresAboveMaxCurrentException": false,
+        "qualified": false
+      }
+    },
+    "clockWidthScreenPassed": true,
+    "boundary": "Sampled static input envelopes and complete clock intervals at the assumed threshold pass. Current, dynamic duty, intersample extrema, Schmitt thresholds, censored intervals and supply applicability remain unqualified."
+  }
 }
