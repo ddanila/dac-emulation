@@ -21,16 +21,16 @@ class ElectricalBusInterfaceTests(unittest.TestCase):
                 (out / 's600.hex').write_text('00\n' * 2048)
                 (out / 'probe.v').write_text(f"""`timescale 1ns/1ps
 module probe;
- reg rxclock={host},rxdata={host};
+ reg rxclock=0,rxdata={host};
  firmware_io_electrical_bus #(.HOST_BUFFER({host})) dut(
  .fixture_clk(1'b0),.fixture_reset_n(1'b1),.sense(8'hff),
  .receiver_data(rxdata),.receiver_clock(rxclock),.bus_sense(8'h00));
  initial begin
-  #10;rxclock={1-host};
-  #10;rxclock={host};rxdata={1-host};
-  #10;rxclock={1-host};
-  #10;rxclock={host};rxdata=1'bx;
-  #10;rxclock={1-host};
+  #10;rxclock=1;
+  #5;rxdata={1-host}; #5;rxclock=0;
+  #10;rxclock=1;
+  #5;rxdata=1'bx; #5;rxclock=0;
+  #10;rxclock=1;
   #1;$finish;
  end
 endmodule
@@ -42,6 +42,38 @@ endmodule
                 result = subprocess.run(['vvp','probe.vvp'],cwd=out,capture_output=True,text=True,check=True,timeout=30)
                 events = re.findall(r'^SERIAL_RX (\d+) ([01x])$',result.stdout,re.M)
                 self.assertEqual(events,[('10000','1'),('30000','0'),('50000','x')])
+
+    def test_host_transmit_intent_uses_clock_assertion(self):
+        for host, expected in ((0, [('30000','1'),('50000','0')]),
+                               (1, [('20000','1'),('40000','0')])):
+            with self.subTest(host=host), tempfile.TemporaryDirectory() as directory:
+                out=Path(directory)
+                (out/'controller.v').write_text(generate_service())
+                (out/'s600.hex').write_text('00\n'*2048)
+                (out/'probe.v').write_text(f"""`timescale 1ns/1ps
+module probe;
+ reg reset_n=0;
+ firmware_io_electrical_bus #(.HOST_BUFFER({host})) dut(
+ .fixture_clk(1'b0),.fixture_reset_n(reset_n),.sense(8'hff),
+ .receiver_data(1'b0),.receiver_clock(1'b0),.bus_sense(8'h00));
+ initial begin
+  force dut.board.ta_takt=1'b1; force dut.board.ta_daten=1'b0;
+  #10;reset_n=1;
+  #10;force dut.board.ta_takt=1'b0;
+  #10;force dut.board.ta_takt=1'b1;
+  #5;force dut.board.ta_daten=1'b1;
+  #5;force dut.board.ta_takt=1'b0;
+  #10;force dut.board.ta_takt=1'b1;
+  #1;$finish;
+ end
+endmodule
+""")
+                sources,_=circuit_sources(HERE.parents[2]/'third_party/cpu/tv80',out,'tv80')
+                subprocess.run(['iverilog','-g2012','-s','probe','-o',str(out/'probe.vvp'),
+                    *map(str,sources),str(out/'controller.v'),str(HERE.parent/'chips.v'),
+                    str(HERE.parent/'generated/controller.v'),str(out/'probe.v')],check=True)
+                result=subprocess.run(['vvp','probe.vvp'],cwd=out,capture_output=True,text=True,check=True,timeout=30)
+                self.assertEqual(re.findall(r'^SERIAL_TX (\d+) ([01x])$',result.stdout,re.M),expected)
 
     def test_observer_follows_selected_cpu_sampling_edge(self):
         for profile, expected, stamp in (('tv80', '12', '8500000'),

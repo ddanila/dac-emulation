@@ -1,0 +1,35 @@
+{
+  "qualified": false,
+  "scope": "U856 receive-edge correction for the experimental host-buffer observer",
+  "source": {
+    "url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/U856D-SIO.pdf",
+    "sha256": "0536a33182e3c459c0804dbaad727c09eb303302a173eb5ce554026b210b7401",
+    "publisher": "VEB Funkwerk Erfurt, VEB Kombinat Mikroelektronik",
+    "title": "Mikroprozessorsystem der II. Leistungsklasse: Technische Beschreibung, SIO U856 D",
+    "status": "Informational manual; preface reserves binding specifications to device standards",
+    "locators": {
+      "pinRoles": "PDF pages 6-8, printed pages 7-9",
+      "absoluteLimits": "PDF page 59, printed page 60",
+      "static": "PDF page 60, printed page 61",
+      "serialTiming": "PDF page 63, printed page 64",
+      "receiveSampling": "PDF page 19, printed page 20, section 4.2.2; synchronous confirmation PDF page 22, printed page 23"
+    }
+  },
+  "findings": [
+    "U856 manual section 4.2.2 specifies rising RxC sampling in asynchronous x1 mode; synchronous description also specifies rising RxC.",
+    "The motherboard D104 inverter makes rising RxC correspond to falling cable clock. The old host observer instead sampled falling RxC to preserve cable-release observation timing.",
+    "Host-buffer SERIAL_TX now observes falling keyboard cable clock and SERIAL_RX observes rising buffer-output clock. Cable-only legacy transport remains explicitly separate.",
+    "Previously retained host logical comparisons and sampled setup/hold results describe the opposite edge and do not qualify U856 receive sampling. Voltage captures and pulse-width measurements remain evidence for their original circuits."
+  ],
+  "supersededSamplingEvidence": [
+    "../firmware-host-buffer/assessment.json",
+    "../firmware-host-buffer-fine/assessment.json",
+    "../firmware-host-load/assessment.json"
+  ],
+  "openWork": [
+    "Run corrected host service scenarios and verify logical bits and stability at rising RxC.",
+    "Qualify corrected closed-board behavior; any older-source run retains the original sampling boundary.",
+    "Keep generic buffer thresholds, switching, SIO loading and specimen agreement unqualified."
+  ],
+  "validation": "HDL tests drive different data at rising and falling receive edges, retain unknown data, and distinguish host clock assertion from legacy cable release."
+}

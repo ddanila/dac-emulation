@@ -61,7 +61,7 @@ def main():
     p.add_argument('--latch-timing-envelope', action='store_true', help='Conservative Intel 8282 timing; requires electrical-bus')
     p.add_argument('--rom-read-envelope', action='store_true', help='Conservative Intel 2716 read timing; requires electrical-bus')
     p.add_argument('--cpu-profile', choices=CIRCUIT_PROFILES, default='tv80')
-    p.add_argument('--host-buffer', action='store_true', help='Experimental host passive network and 7404 buffer; observe inverted data and falling SIO-side clock')
+    p.add_argument('--host-buffer', action='store_true', help='Experimental host passive network and 7404 buffer; observe logical data and rising SIO-side clock')
     p.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal')
     p.add_argument('--bus-latch-pf', type=float, help='Explicit undocumented latch-output capacitance per pin')
     p.add_argument('--bus-7406-pf', type=float, help='Explicit undocumented 7406-input capacitance')
@@ -151,7 +151,7 @@ def main():
         report['assumptions']['hostBuffer'] = '7404-candidate'
         report['assumptions']['sioLoad'] = sio_load
         report['sources']['u856_limits.json'] = sha(HERE / 'u856_limits.json')
-        report['assumptions']['hostBoundary'] = 'Reference motherboard passives and generic 7404 candidate; falling buffer-output clock and non-inverted logical data. Input loading, switching and SIO loads unqualified.'
+        report['assumptions']['hostBoundary'] = 'Reference motherboard passives and generic 7404 candidate; rising buffer-output clock and non-inverted logical data. Input loading, switching and SIO loads unqualified.'
         report['sources'].update({name: sha(HERE / name) for name in ('host_receiver.py', 'host_receiver.json', 'ttl7404_nominal.cir', 'd104_limits.json')})
     if args.serial_driver != 'nominal':
         report['assumptions']['serialDriver'] = args.serial_driver

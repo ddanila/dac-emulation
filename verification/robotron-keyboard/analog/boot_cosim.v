@@ -49,10 +49,13 @@ module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVE
  assign clock_sink=(ta_takt===1'bz || ta_takt===1'b1) ? 1'b0 : ta_takt===1'b0 ? 1'b1 : 1'bx;
  // Observe the board's transmitted intent independently of the cable receiver.
  // Both records use logical bits: the wire carries inverted data.
- always @(posedge ta_takt) if(ELECTRICAL_OUTPUTS && reset_n===1'b1)
+ // Host RxC rises when the keyboard clock collector is pulled low.
+ wire transmit_event_clock = HOST_BUFFER ? ~ta_takt : ta_takt;
+ always @(posedge transmit_event_clock) if(ELECTRICAL_OUTPUTS && reset_n===1'b1)
   $display("SERIAL_TX %0t %b", $time, data_sink);
- // Cable release is a rising edge; the host inverter turns it into falling RXCA.
- wire receive_event_clock = HOST_BUFFER ? ~receiver_clock : receiver_clock;
+ // U856 samples rising RxC (manual section 4.2.2). The cable-only
+ // fixture retains its legacy release-edge transport observation.
+ wire receive_event_clock = receiver_clock;
  wire receive_bit = HOST_BUFFER ? receiver_data : ~receiver_data;
  always @(posedge receive_event_clock) if(ELECTRICAL_OUTPUTS && reset_n===1'b1)
   $display("SERIAL_RX %0t %b", $time, receive_bit);
