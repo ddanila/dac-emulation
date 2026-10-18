@@ -1,0 +1,45 @@
+{
+  "completed": false,
+  "qualified": false,
+  "producerSourceRevision": "19e48a1",
+  "scope": "Gear integration control for the tighter-tolerance host fixture",
+  "evidence": {
+    "producer": "report.json",
+    "baseline": "../firmware-host-rising-load-strict-iterations1000/assessment.json",
+    "truncationAudit": "../firmware-host-rising-load-truncation-audit/assessment.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "8161841df4b147c0e007c3d5e4dce5ffe57e651542e5040f79d2f853a3648281",
+    "run-inputs.json": "3382d37a628c21d3d93dba63ee8713cadeb4f83078904228ca0bb94bfbba8bbc",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "d66026bff72d33bee26b3eb049dd7ab37bfd459e0987a886d9021a17cc0bbbde",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "92dfbd48a9fbf38ed80040aa841ccfa8cba419f787d3f9e43b578480122e6b23",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591"
+  },
+  "inputComparison": {
+    "runtimeEqual": true,
+    "deckDifference": "Only .options method=gear; circuit, tolerances, iteration limit, spacing and stimulus unchanged",
+    "changedSources": [
+      "firmware_io_cosim.py"
+    ]
+  },
+  "diagnostic": {
+    "simulationTimeSeconds": 0.00109401,
+    "reportedTimestepSeconds": 2.57063e-19,
+    "node": "vhost#branch",
+    "message": "Timestep too small"
+  },
+  "interpretation": "Changing integration method alone does not complete the strict scenario. Both method controls abort before the key stimulus. The baseline truncation audit identifies its final rejection path, but its detailed trial-state findings must not be silently attributed to this separate Gear run.",
+  "nextAction": "Inspect onset of the baseline timestep collapse and its integration history before changing circuit parameters; preserve both integration-method failures.",
+  "waveforms": {
+    "retention": "Incomplete local captures; producer failureArtifacts retain hashes.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-load-strict-gear",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  }
+}
