@@ -833,6 +833,20 @@ still fails phase agreement during clock onset below the valid supply range;
 the first-divergence waveform windows are retained. The 560-ohm pullup can demand more than the published 8 mA output test
 current, so modeled clock levels do not establish guaranteed device corners.
 
+`oscillator_supply_replay.py` isolates startup using a recorded board supply and
+no live HDL or supply feedback. It retains the printed supply samples, uses the
+ngspice file source with linear interpolation, and checks every saved supply
+voltage against those samples before comparing clock phase. Its breakpoint
+scheduling differs from ordinary PWL, so this is a controlled isolation diagnostic,
+not an exact solver replay or physical supply model.
+
+```sh
+python3 verification/robotron-keyboard/analog/oscillator_supply_replay.py --source /path/to/coarse/diagnostic-trace.txt --ngspice /path/to/ngspice --out /tmp/clock-supply-replay
+```
+
+The source path may have a compressed `.xz` or `.gz` sibling. The output directory
+must be new; failed runs retain their logs and assessment.
+
 Timed contact recipes can also run with BR1/BR2 closed:
 
 ```sh
