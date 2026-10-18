@@ -1,0 +1,68 @@
+{
+  "scope": "Reference motherboard passive keyboard input network; not specimen continuity or a D104 transistor model",
+  "sources": [
+    {
+      "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+      "locator": "PDF page 7, drawing 56-330-0101-2, keyboard connector X3 through L1.1, R7/R2/C2 to A11.2 and A29",
+      "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+    },
+    {
+      "url": "https://www.sax.de/~zander/pc1715/pc_zres.pdf",
+      "locator": "PDF page 1, right side: TASTATUR, A11.2E/F, A29 U856D",
+      "sha256": "d96efdeeefcf214c7f5044c03ff5165203bc7781afd0852e8de94b623c5b5c63"
+    }
+  ],
+  "channels": {
+    "data": {
+      "connectorContacts": [
+        "X3:A4",
+        "X3:B4"
+      ],
+      "winding": "L1.14",
+      "pullup": "R7.2",
+      "pullupOhms": 560,
+      "series": "R2.2",
+      "seriesOhms": 100,
+      "capacitor": "C2.1",
+      "capacitancePf": 680,
+      "bufferInput": "A11.2:11",
+      "bufferOutput": "A11.2:10",
+      "sioInput": "A29:12"
+    },
+    "clock": {
+      "connectorContacts": [
+        "X3:A1",
+        "X3:B1"
+      ],
+      "winding": "L1.11",
+      "pullup": "R7.1",
+      "pullupOhms": 560,
+      "series": "R2.3",
+      "seriesOhms": 100,
+      "capacitor": "C2.2",
+      "capacitancePf": 680,
+      "bufferInput": "A11.2:13",
+      "bufferOutput": "A11.2:12",
+      "sioInput": "A29:13"
+    }
+  },
+  "supply": {
+    "connectorContacts": [
+      "X3:A2",
+      "X3:B2"
+    ],
+    "winding": "L1.12"
+  },
+  "ground": {
+    "connectorContacts": [
+      "X3:A3",
+      "X3:B3"
+    ],
+    "winding": "L1.13"
+  },
+  "limitations": [
+    "Winding inductance, resistance and mutual coupling are not specified by these drawings.",
+    "The passive network terminates at buffer inputs; D104/T104 input currents, clamps, propagation and inversion into the SIO are not yet modeled.",
+    "Published reference motherboard revisions are not proof of installed specimen wiring."
+  ]
+}
