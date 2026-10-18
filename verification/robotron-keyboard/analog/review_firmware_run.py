@@ -10,6 +10,22 @@ from trace_io import open_text
 from io_scenario import time_ns
 HERE = Path(__file__).resolve().parent
 
+def confirmed_prefix(log):
+    """Remove only a single final unconfirmed read for a separate diagnostic."""
+    lines = log.splitlines()
+    samples = [(i, line) for i, line in enumerate(lines) if line.startswith('BUS_SAMPLE ')]
+    latches = [(i, line) for i, line in enumerate(lines) if line.startswith('BUS_LATCH ')]
+    if not latches or len(samples) != len(latches) + 1:
+        return None
+    for sample, latch, following in zip(samples, latches, samples[1:]):
+        if not sample[0] < latch[0] < following[0]:
+            return None
+    index, excluded = samples[-1]
+    if not re.fullmatch(r'BUS_SAMPLE \d+ [0-9a-fA-F]{4} [0-9a-fA-FxXzZ]{2} [01] [01] [01]', excluded):
+        return None
+    return '\n'.join(lines[:index] + lines[index + 1:]) + '\n', excluded
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run', type=Path, required=True)
@@ -40,6 +56,18 @@ def main():
     except (ValueError, BusMismatch) as error:
         result['recheckedError'] = str(error)
         result['recheckedBusFailure'] = getattr(error, 'details', None)
+    prefix = confirmed_prefix(log)
+    if prefix is not None:
+        diagnostic = {'qualified': False, 'excludedFinalUnconfirmedSample': prefix[1],
+                      'boundary': 'Confirmed-read prefix only. The full capture remains rejected.'}
+        try:
+            diagnostic['busObservation'] = measure(
+                prefix[0], root / 'bus-trace.txt', report['assumptions']['stepNs'], rom,
+                trace_extent=(0, time_ns(scenario['cycles']) * 1e-9))
+        except ValueError as error:
+            diagnostic['error'] = str(error)
+            diagnostic['busFailure'] = getattr(error, 'details', None)
+        result['confirmedPrefix'] = diagnostic
     reference_events = [(int(c), int(b)) for (c, b) in re.findall('^BIT (\\d+) ([01])$', reference, re.M)]
     if not reference_events:
         raise ValueError('Reference has no serial bits')
@@ -53,7 +81,9 @@ def main():
     samples = [x for x in log.splitlines() if x.startswith('BUS_SAMPLE ')]
     unknown = [x for x in samples if len(x.split()) == 7 and re.search('[xXzZ]', x.split()[3])]
     result['unknownReads'] = {'count': len(unknown), 'firstExamples': unknown[:3]}
-    failure = result.get('recheckedBusFailure') or result.get('originalBusFailure')
+    failure = (result.get('recheckedBusFailure') or
+               result.get('confirmedPrefix', {}).get('busFailure') or
+               result.get('originalBusFailure'))
     if failure:
         stamp = failure['readTimePs'] * 1e-12
         window = [stamp - 1e-07, stamp + 1e-07]
@@ -72,6 +102,6 @@ def main():
     result['boundary'] = 'Post-run diagnosis only. Original failure is retained. Serial bit agreement does not qualify the electrical bus; waveform excerpt cannot reproduce a full-run gate.'
     result['reviewCompleted'] = True
     (out / 'assessment.json').write_text(json.dumps(result, indent=2) + '\n')
-    print(json.dumps({k: result.get(k) for k in ('recheckedError', 'recheckedBusFailure', 'serialBitsMatchC', 'unknownReads')}, indent=2))
+    print(json.dumps({k: result.get(k) for k in ('recheckedError', 'recheckedBusFailure', 'confirmedPrefix', 'serialBitsMatchC', 'unknownReads')}, indent=2))
 if __name__ == '__main__':
     main()

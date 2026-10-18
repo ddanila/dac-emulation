@@ -52,6 +52,24 @@ class ReviewTests(unittest.TestCase):
             self.assertTrue((out / 'first-read-window.txt').exists())
             self.assertEqual((root / 'report.json').read_bytes(), original)
 
+    def test_final_missing_latch_does_not_hide_earlier_unknown(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, out = Path(tmp) / 'input', Path(tmp) / 'review'
+            self.fixture(root)
+            with (root / 'ngspice.log').open('a') as f:
+                f.write('BUS_SAMPLE 3000000 0001 00 0 1 1\n')
+            report = json.loads((root / 'report.json').read_text())
+            report['failureArtifacts']['ngspice.log']['sha256'] = hashlib.sha256(
+                (root / 'ngspice.log').read_bytes()).hexdigest()
+            (root / 'report.json').write_text(json.dumps(report))
+            run = self.run_review(root, out)
+            self.assertEqual(run.returncode, 0, run.stderr)
+            result = json.loads((out / 'assessment.json').read_text())
+            self.assertEqual(result['recheckedError'], 'Missing bus samples or CPU latch confirmations')
+            self.assertEqual(result['confirmedPrefix']['busFailure']['signal'], 'CPU_DI_UNKNOWN')
+            self.assertFalse(result['qualified'])
+            self.assertFalse(result['confirmedPrefix']['qualified'])
+
     def test_modified_capture_is_rejected_before_review(self):
         with tempfile.TemporaryDirectory() as tmp:
             root, out = Path(tmp) / 'input', Path(tmp) / 'review'
