@@ -1,0 +1,245 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Exploratory switching check; generic fixture diodes are not verified 1N3064 equivalents. No DL000, startup, supply-current or specimen calibration.",
+  "limits": {
+    "source": {
+      "url": "https://www.ti.com/lit/ds/symlink/sn74ls00.pdf",
+      "sha256": "8bb872eaca7ed7249104b852775621ab5dc2e4f1cb57b7032849e7744d03d90b",
+      "document": "SDLS025D, May 2017",
+      "sections": [
+        "6.9",
+        "7.1, Figure 2"
+      ]
+    },
+    "conditions": {
+      "supplyVolts": 5,
+      "temperatureC": 25,
+      "loadPf": 15,
+      "loadOhms": 2000,
+      "inputSourceOhms": 50,
+      "inputLowVolts": 0,
+      "inputHighVolts": 3,
+      "crossingVolts": 1.5,
+      "oneInputAtATime": true
+    },
+    "maximumDelayNs": {
+      "tPHL": 15,
+      "tPLH": 15
+    },
+    "fixtureAssumptions": "Generic diode parameters are explicit in each deck; equivalence to the specified 1N3064 has not been established. Edge durations are selected stimuli within the published maximum, not measured board inputs.",
+    "refinementBudgetNs": 0.2
+  },
+  "sources": {
+    "gate_switching_probe.py": "39acd0b14cbeeef41471d16aa9cb730e265095d80e15ee7a39c0ab222116f822",
+    "gate_switching_limits.json": "825bd7b48061f7fb29977fd8d9575c70bff8828ea24a896ae6a62a0601dff64c",
+    "ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "executableSha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+  "cases": [
+    {
+      "pin": "a",
+      "inputEdgeNs": 1,
+      "runs": [
+        {
+          "stepNs": 0.1,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 3.467906627642538,
+              "maximumNs": 3.667906627642553,
+              "withinDelayLimit": true
+            },
+            "tPLH": {
+              "minimumNs": 4.600000000000346,
+              "maximumNs": 4.80000000000036,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+            "ngspice.log": "1c7b1bc92200f0e52f32be7eb9b120fa575af5a4c44aadd8433ee417130a184b",
+            "probe.cir": "796e980babc577ec55869b08c5a64b64e4358893dd3456d887e177ce60765f0e",
+            "trace.txt": "6d679e8fb60c2a329a1c814ed9ee052fcfa5276c1a06f35893ef41ff5ead372f"
+          }
+        },
+        {
+          "stepNs": 0.05,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 3.506427946485566,
+              "maximumNs": 3.6064279464855735,
+              "withinDelayLimit": true
+            },
+            "tPLH": {
+              "minimumNs": 4.550000000000342,
+              "maximumNs": 4.650000000000349,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+            "ngspice.log": "d51fa22b99232c1fa9af878a103ae0f0e07f7c49990241171c0732516128f0e0",
+            "probe.cir": "b8f7aa7752468cb7211f13c1dfc076e8582fbf18e2cdd51e8f1fb817ed91030e",
+            "trace.txt": "78670ebf5ae97414dafeebe34f18d104841bde00b60fe01398985486f2701882"
+          }
+        }
+      ],
+      "maximumBracketEndpointDifferenceNs": 0.150000000000011,
+      "converged": true
+    },
+    {
+      "pin": "a",
+      "inputEdgeNs": 7,
+      "runs": [
+        {
+          "stepNs": 0.1,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 3.2749999999999813,
+              "maximumNs": 3.4499999999997297,
+              "withinDelayLimit": true
+            },
+            "tPLH": {
+              "minimumNs": 4.699999999999823,
+              "maximumNs": 4.899999999999839,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+            "ngspice.log": "f1dc53b12f8c3fdf580ea20daf8e1c5679bc621f46bf4a997e43b9a4121f631d",
+            "probe.cir": "7b2379ad0dd70aefd0f876b7d3d57bdb0782010ce1d8edf60287193cb1019c89",
+            "trace.txt": "05f9e147fbd28d03075442feac7aab17ada3b60687c44b3c203b9bb0079784a2"
+          }
+        },
+        {
+          "stepNs": 0.05,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 3.2874999999999823,
+              "maximumNs": 3.374999999999724,
+              "withinDelayLimit": true
+            },
+            "tPLH": {
+              "minimumNs": 4.799999999999831,
+              "maximumNs": 4.899999999999839,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+            "ngspice.log": "d51fa22b99232c1fa9af878a103ae0f0e07f7c49990241171c0732516128f0e0",
+            "probe.cir": "7a482e18d480dcee324969afa75759555f7a9937b75120ac4eefb506419f3f8c",
+            "trace.txt": "c8524fe8b7ff93b003d26dbb9028b438a14e377509af32916006bca4f853245b"
+          }
+        }
+      ],
+      "maximumBracketEndpointDifferenceNs": 0.10000000000000764,
+      "converged": true
+    },
+    {
+      "pin": "b",
+      "inputEdgeNs": 1,
+      "runs": [
+        {
+          "stepNs": 0.1,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 3.467906627642538,
+              "maximumNs": 3.667906627642553,
+              "withinDelayLimit": true
+            },
+            "tPLH": {
+              "minimumNs": 4.600000000000346,
+              "maximumNs": 4.80000000000036,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+            "ngspice.log": "16a98074d123a752fdac84f82e72acfe35d60d5dcd9292ac65be5c73dcfdcf2f",
+            "probe.cir": "09dea7b9aa3a499b8ce88165f803609a9ffe64a249a7428333129846f32782d2",
+            "trace.txt": "e1098b8e044a6ebf5419426024cfb1156fbc55581fdda56495dd7ff4d303fe78"
+          }
+        },
+        {
+          "stepNs": 0.05,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 3.506427946485566,
+              "maximumNs": 3.6064279464855735,
+              "withinDelayLimit": true
+            },
+            "tPLH": {
+              "minimumNs": 4.550000000000342,
+              "maximumNs": 4.650000000000349,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+            "ngspice.log": "5914e280939dc7f78c709460809bc3da7af0f625a4e046d7dc43b2aa6216829c",
+            "probe.cir": "e444033f61b4def9594646850fdff03fe76214a1b4fa62e997cd54c4715881e3",
+            "trace.txt": "73e1ac2dfb16066156e26768183306099512a7d9f1cbc471c18fe043411cc875"
+          }
+        }
+      ],
+      "maximumBracketEndpointDifferenceNs": 0.150000000000011,
+      "converged": true
+    },
+    {
+      "pin": "b",
+      "inputEdgeNs": 7,
+      "runs": [
+        {
+          "stepNs": 0.1,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 3.2749999999999813,
+              "maximumNs": 3.4499999999997297,
+              "withinDelayLimit": true
+            },
+            "tPLH": {
+              "minimumNs": 4.699999999999823,
+              "maximumNs": 4.899999999999839,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+            "ngspice.log": "cb6792edd3b4fa88e97f243c7fcedb63f722cead5d4386423ae1ca39560decd5",
+            "probe.cir": "9914b63b7e475a4703b99fbe5f502442721fa853aad343dd2c6bf72ea96a86e5",
+            "trace.txt": "2ce83c8e544aa174935e2a218873b15b6907e99439c2f49b8536d63595a16a42"
+          }
+        },
+        {
+          "stepNs": 0.05,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 3.2874999999999823,
+              "maximumNs": 3.374999999999724,
+              "withinDelayLimit": true
+            },
+            "tPLH": {
+              "minimumNs": 4.799999999999831,
+              "maximumNs": 4.899999999999839,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+            "ngspice.log": "5914e280939dc7f78c709460809bc3da7af0f625a4e046d7dc43b2aa6216829c",
+            "probe.cir": "5887f503c396516fed4ab048ddc132026ed4672c9305b558f528d909d4ea8b9f",
+            "trace.txt": "6d8faffa09ba0154d0230895dab1f27f35a1bc1974a33ad2c1ec617a5f5bbc78"
+          }
+        }
+      ],
+      "maximumBracketEndpointDifferenceNs": 0.10000000000000764,
+      "converged": true
+    }
+  ],
+  "spinitSha256": "80697ff6413a1e03af6aeae113ca9d4d5015518a6800ae6b159ce1693b73a470",
+  "numericallyConverged": true,
+  "withinDelayLimits": true
+}

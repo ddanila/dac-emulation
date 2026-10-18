@@ -1,0 +1,24 @@
+NAND switching fixture (nominal load diodes)
+.include model.cir
+.temp 25
+Vcc vp 0 5
+Vinput generator 0 PULSE(0 3 200n 7n 7n 393n 1u)
+Rsource generator a 50
+Vother b 0 3
+Xdut a b y vp 0 LS_NAND_NOMINAL
+Rload vp load 2k
+Dload load y FIXTURE_DIODE
+D1 load d1 FIXTURE_DIODE
+D2 d1 d2 FIXTURE_DIODE
+D3 d2 0 FIXTURE_DIODE
+.model FIXTURE_DIODE D(IS=1e-14 N=1 RS=1 CJO=0 TT=0)
+Cload y 0 15p
+.control
+set numdgt=17
+set wr_singlescale
+set wr_vecnames
+tran 0.1n 800n 0 0.1n
+wrdata trace.txt v(a) v(y)
+quit
+.endc
+.end

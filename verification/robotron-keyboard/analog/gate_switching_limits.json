@@ -1,0 +1,28 @@
+{
+  "source": {
+    "url": "https://www.ti.com/lit/ds/symlink/sn74ls00.pdf",
+    "sha256": "8bb872eaca7ed7249104b852775621ab5dc2e4f1cb57b7032849e7744d03d90b",
+    "document": "SDLS025D, May 2017",
+    "sections": [
+      "6.9",
+      "7.1, Figure 2"
+    ]
+  },
+  "conditions": {
+    "supplyVolts": 5,
+    "temperatureC": 25,
+    "loadPf": 15,
+    "loadOhms": 2000,
+    "inputSourceOhms": 50,
+    "inputLowVolts": 0,
+    "inputHighVolts": 3,
+    "crossingVolts": 1.5,
+    "oneInputAtATime": true
+  },
+  "maximumDelayNs": {
+    "tPHL": 15,
+    "tPLH": 15
+  },
+  "fixtureAssumptions": "Generic diode parameters are explicit in each deck; equivalence to the specified 1N3064 has not been established. Edge durations are selected stimuli within the published maximum, not measured board inputs.",
+  "refinementBudgetNs": 0.2
+}

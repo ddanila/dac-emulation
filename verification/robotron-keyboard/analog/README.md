@@ -1150,3 +1150,10 @@ The archived repeat failure is localized in
 events follow the upper threshold-bracketing samples, while interpolated analog
 crossings are closer together. This supports testing finer timesteps, but does
 not replace recorded receiver events or resolve the original solver diagnostics.
+
+`gate_switching_probe.py --out /path/to/fresh-run` measures each NAND input's
+propagation with the TI totem-pole load topology and bracketed threshold crossings.
+The [retained pullup-model result](reports/clock-output/gate-switching-pullup/report.json)
+converges and meets the selected delay maxima. Its generic fixture diodes have not
+been established as 1N3064 equivalents; this is not DL000 switching calibration or
+oscillator-startup qualification. The existing gate model is unchanged.
