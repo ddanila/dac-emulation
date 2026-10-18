@@ -20,6 +20,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--all-drivers', action='store_true',
+                        help='Also record LED and column DAC outputs for analog-only replay')
     args = parser.parse_args()
     source, out = args.source.resolve(), args.out.resolve()
     original = json.loads((source / 'report.json').read_text())
@@ -76,6 +78,9 @@ def main():
         shutil.copyfile(source / 's600.hex', out / 's600.hex')
         signals = ['v(data_intent)', 'v(clock_intent)', 'v(n_TA_DATEN)',
                    'v(n_p5V)', 'i(L1.4)', 'v(xdata.output_base)']
+        if args.all_drivers:
+            signals += ['v(led0_v)', 'v(led1_v)', *[f'v(sink{i})' for i in range(13)]]
+        report['allDrivers'] = args.all_drivers
         deck = (source / 'io.cir').read_text()
         if deck.count('\n.control\n') != 1 or deck.count('\nquit\n') != 1:
             raise ValueError('Expected one control block and quit command')

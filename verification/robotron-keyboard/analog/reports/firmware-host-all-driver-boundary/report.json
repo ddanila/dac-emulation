@@ -1,0 +1,135 @@
+{
+  "qualified": false,
+  "scope": "Observe a failed service driver without changing its circuit or numerical controls.",
+  "reproducedFailure": true,
+  "sourceReportSha256": "ede6f5fceb3d74eaa6f59d6e4df7a8664ec741cdc8175becd907b4d702609f78",
+  "sourceDirectory": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-host-rising-load-strict-iterations1000",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "validationSources": {
+    "driver_boundary_replay.py": "4c98a5983e12e724dc6ad36a06a503a7f2dce1b0ca9fbd4e07e371a493f4429e",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9"
+  },
+  "boundary": "Diagnostic replay, not scenario acceptance. Trailing rows from an aborted solve may be rejected trial states.",
+  "compileCommand": [
+    "iverilog",
+    "-g2012",
+    "-s",
+    "firmware_io_cosim",
+    "-o",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-host-all-driver-boundary/io.vvp",
+    "-Pfirmware_io_cosim.HOST_BUFFER=1",
+    "-Pfirmware_io_cosim.ELECTRICAL_CPU_PULLUPS=0",
+    "-Pfirmware_io_cosim.ELECTRICAL_LOGIC_PULLUPS=0",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_alu.v",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_core.v",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_mcode.v",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_reg.v",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80n.v",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/chips.v",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/generated/controller.v",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/boot_cosim.v",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/firmware_io_cosim.v",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-host-rising-load-strict-iterations1000/controller_analog.v"
+  ],
+  "compiledHdlSha256": "e83224f91bb361a08696d6bfa398330e621837bdcd71dfe867f902e136bd046b",
+  "originalCompiledHdlSha256": "b0371f914ede539e1d7d6803988836de8a79ebe5915d0b228e4b5592cef7a877",
+  "hdlSources": {
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/boot_cosim.v": "305e3f4aa49bd60226fd5987e7563d9e364948a1362431b30b6778a712f1f134",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/firmware_io_cosim.v": "af9360a358028646e583eec39b783116c08860be9ec7e6406f1147e7e2914297",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-host-rising-load-strict-iterations1000/controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece"
+  },
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "allDrivers": true,
+  "signals": [
+    "v(data_intent)",
+    "v(clock_intent)",
+    "v(n_TA_DATEN)",
+    "v(n_p5V)",
+    "i(L1.4)",
+    "v(xdata.output_base)",
+    "v(led0_v)",
+    "v(led1_v)",
+    "v(sink0)",
+    "v(sink1)",
+    "v(sink2)",
+    "v(sink3)",
+    "v(sink4)",
+    "v(sink5)",
+    "v(sink6)",
+    "v(sink7)",
+    "v(sink8)",
+    "v(sink9)",
+    "v(sink10)",
+    "v(sink11)",
+    "v(sink12)"
+  ],
+  "deckSha256": "505f8da8900581d175dad3100bda1716dd484532286d51a1b2883474af7a8b67",
+  "exitCode": 0,
+  "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 2.98332e-20: trouble with node \"vhost#branch\"",
+  "originalWaveformIdentities": {
+    "trace.txt": "e22719a5fe7102eee1ce28fdd49831a0257c936777aaeae4b69b64e1e32ee4b7",
+    "host-trace.txt": "02e8454b0314d6a2dfe029b8a39c30f5621aa496e4059419ae9a2436e7e7d8e1",
+    "driver-trace.txt": "45e723545bb3b4ec1a55ebf02bbb15be37f00da8de3208f34ee752eb6b08d142"
+  },
+  "boundaryRows": 52947,
+  "lastSampleSeconds": 0.001098012248435295,
+  "artifacts": {
+    "io.cir": "505f8da8900581d175dad3100bda1716dd484532286d51a1b2883474af7a8b67",
+    "ngspice.log": "742dad7b301f9eaaa8e32e794e24879812329df635be4fafd89837ba2cb92ed9",
+    "boundary-trace.txt": "66a9e8a9019faa2d5a96985a752dd00011e549dc944ea7dbe0e52f9252336114"
+  }
+}

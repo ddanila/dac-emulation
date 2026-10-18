@@ -1,0 +1,16 @@
+{
+  "qualified": false,
+  "scope": "Replay recorded DAC voltages without HDL feedback; diagnostic stimulus only.",
+  "evidence": {
+    "replay": "report.json",
+    "localCapture": "build/keyboard-controller-analog/host-analog-driver-replay",
+    "stimulus": "../firmware-host-all-driver-boundary/report.json"
+  },
+  "interpretation": "The analog-only replay also aborts near the recorded data transition. HDL feedback is therefore not necessary for a failure in this diagnostic. PWL interpolation changes the breakpoint mesh and includes an explicit continuation beyond the capture; this does not prove the identical failure mechanism, exclude scheduling effects in the original run, or establish a physical fault.",
+  "retainedFilesSha256": {
+    "report.json": "d5160fe1d938b0e0fed9e102d101e7f6b6a3b3914c701ff7e24a5852a3a672a0",
+    "ngspice.log": "9732f593b69cd04deb8587332f1f3036f5b2e581e590bc30456674ef2c698e6f",
+    "io.cir": "ea8037e0bf2d165dac50bdbc72837c2800f65e066e38ac7b5cd1bc12298bed60"
+  },
+  "nextAction": "Compare absolute-time prefixes and isolate transition integration in the analog network before changing circuit parameters; preserve device-model uncertainty."
+}

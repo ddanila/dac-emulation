@@ -1,0 +1,15 @@
+{
+  "qualified": false,
+  "scope": "Observe a failed service driver without changing its circuit or numerical controls.",
+  "evidence": {
+    "replay": "report.json",
+    "localCapture": "build/keyboard-controller-analog/firmware-host-all-driver-boundary"
+  },
+  "interpretation": "Additional DAC observations reproduce the original failed waveforms and solver diagnostic. This is stimulus evidence for analog-only isolation, not a qualified electrical result.",
+  "retainedFilesSha256": {
+    "report.json": "46107d686342adbc3e95f8b1c7989c45da83da5bc5c400098a2d7660f8f971b7",
+    "ngspice.log": "742dad7b301f9eaaa8e32e794e24879812329df635be4fafd89837ba2cb92ed9",
+    "io.cir": "505f8da8900581d175dad3100bda1716dd484532286d51a1b2883474af7a8b67",
+    "boundary-trace.txt.xz": "c17ef7176ec29329db248c9b3981c2272c5003e4d8c0ba13982de58dcf48fd2a"
+  }
+}
