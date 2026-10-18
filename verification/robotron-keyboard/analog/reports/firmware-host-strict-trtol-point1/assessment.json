@@ -1,0 +1,27 @@
+{
+  "completed": false,
+  "qualified": false,
+  "sourceRevisionVerified": "14502f7",
+  "scope": "Coupled service with effective truncation control tightened from 1 to 0.1",
+  "evidence": {
+    "producer": "report.json",
+    "log": "ngspice.log.xz",
+    "baseline": "../firmware-host-rising-load-strict-iterations1000/assessment.json",
+    "refinement": "../firmware-host-strict-trtol-point1-fine/assessment.json"
+  },
+  "interpretation": "The coarse run passes the original failed edge but later aborts with a timestep-too-small diagnostic. Its finer counterpart also fails. Tightening truncation control alone does not resolve the scenario or establish convergence; neither prefix qualifies the fixture.",
+  "logCompression": {
+    "format": "xz",
+    "uncompressedSha256": "ee2e3a9ca40dac802f27e914e30f7db834e46f01671b3a554d0ad92f1aee1333"
+  },
+  "retainedFilesSha256": {
+    "report.json": "5d675f075d234a6b7744d1f1cb1e3b32f357f2fcad25cf31824cae2fc4a124ad",
+    "run-inputs.json": "1632907d59dd9f670a8605e53ba53f706ff90f608f6066bc1d08f2bbbc5074e0",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log.xz": "e4a731feb50bbb8139debf18ff61789751aba7b701f75ca80da257f224f61cf3",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "33c8c361297651f22dadb4875a10b083afd0f14f28bf05784222a4e5bb2319b4"
+  }
+}
