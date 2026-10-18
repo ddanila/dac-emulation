@@ -1,0 +1,19 @@
+Independent oscillator diagnostic
+.include model.cir
+Bsupply n_p5V 0 V={fasttable("../supply.txt")}
+R4.3 n_OSC1 n_OSC_RC 220
+C6 n_OSC_RC n_OSC2 {470p*1}
+R10.3 n_p5V n_CLK 560
+XA7_0 a7_unconnected_1 a7_unconnected_2 a7_unconnected_3 n_p5V 0 LS_NAND_NOMINAL
+XA7_1 n_OSC1 n_OSC1 n_OSC2 n_p5V 0 LS_NAND_NOMINAL
+XA7_2 n_OSC2 n_OSC2 n_OSC_OUT n_p5V 0 LS_NAND_NOMINAL
+XA7_3 n_OSC_RC n_OSC_RC n_OSC1 n_p5V 0 LS_NAND_NOMINAL
+RBR1 n_OSC_OUT n_CLK .001
+Rcpu n_CLK 0 1g
+Ccpu n_CLK 0 10p
+.options timeint method=trap reltol=1e-6 abstol=1e-8
+.options nonlin reltol=1e-6 abstol=1e-8
+.options nonlin-tran reltol=1e-6 abstol=1e-8
+.tran 0.125n 0.00025000000000000001 0 0.125n
+.print tran format=noindex file=xyce-trace.txt precision=17 V(n_CLK) V(n_p5V)
+.end

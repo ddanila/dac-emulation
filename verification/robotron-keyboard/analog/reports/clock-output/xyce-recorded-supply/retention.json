@@ -1,0 +1,34 @@
+{
+  "sourceCommit": "12b6822",
+  "interpretation": "The independent solver also fails absolute phase refinement under the full-precision recorded slow supply, without live HDL or supply feedback. Both runs reproduce the prescribed supply. This supports a numerical startup sensitivity in the isolated model, not a unique bridge defect or a physical-device conclusion.",
+  "sharedSupply": {
+    "path": "../full-precision-supply-isolation/supply.txt.xz",
+    "compressedSha256": "82bfca2429d6f6051bef58dd72aee53f372f55434e93b1e7ae379d2dcebd52cf"
+  },
+  "runtimeDownloadReceipt": "../xyce-isolated/retention.json",
+  "waveformScope": "Only normalized startup and final-edge windows retained here. Full producer/normalized hashes and all phase results are in assessment.json; full waveforms remain in the local build directory.",
+  "windowsSeconds": [
+    [
+      9.9e-05,
+      0.000104
+    ],
+    [
+      0.000249,
+      0.00025
+    ]
+  ],
+  "replay": "Decompress sharedSupply to supply.txt here; run the recorded Xyce runtime from each run directory with oscillator.cir. Regeneration via xyce_oscillator_probe.py --source requires the original full coupled diagnostic supply trace.",
+  "retainedFiles": {
+    "compare-solvers.py": "60787a2907d0b17640ac9273547866eb50f440b59ff5a48575ffd9030cc1d85b",
+    "assessment.json": "4573d73a88c043299faa181c8968a19de612defefb1f83c081e945c8e609594d",
+    "cross-solver.json": "fe9cbfffb1417d3aea937685b50bad59a5b2f96403fb1176e2ee1a31aa779f55",
+    "coarse/trace-windows.txt.xz": "e04655122eddf2a7dc716816344f78923aafec3fb03b3d5c5918702fa69a9467",
+    "coarse/oscillator.cir": "3f094aa01c792c1b99131d550d22bc270145de24a78e1480260fe57bb87a4f88",
+    "coarse/xyce.log": "25d712254dc87d6dfc734f4d71b48ce7d6299de539275fccb009c3364b9285be",
+    "coarse/model.cir": "c3eb400ee9d00ce2aca22a89114ad2806ad439eae7857dfc8b8f0466cea7aac5",
+    "fine/trace-windows.txt.xz": "6b9a407133c3d4c857b41f5b131a2cf24b4219476e813c8c8305ad7298cde09d",
+    "fine/oscillator.cir": "6db652eacb88c3b154ef25634325b52684f7ef73e00a2557c3d18865afd1929b",
+    "fine/xyce.log": "7722ae613421bcc34f6fa9e1653a24a157035935c15351bd2abba92e51840907",
+    "fine/model.cir": "c3eb400ee9d00ce2aca22a89114ad2806ad439eae7857dfc8b8f0466cea7aac5"
+  }
+}

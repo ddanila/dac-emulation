@@ -633,6 +633,10 @@ instead of the ideal ramp. This uses Xyce's linear `fasttable` source, preservin
 all printed points while limiting source breakpoints to its endpoints. Every saved
 supply value is checked against the source interpolation. It removes live supply
 feedback and does not claim identical scheduling to ngspice's file source.
+The [recorded-supply Xyce run](reports/clock-output/xyce-recorded-supply/assessment.json)
+also fails timestep phase refinement. Cross-engine agreement at the coarser step
+does not survive refinement, so agreement at a single timestep cannot establish
+startup convergence. The failure exists without live HDL or supply feedback.
 
 The [retained isolated comparison](reports/clock-output/xyce-isolated/cross-solver.json)
 passes paired and cross-solver phase checks, while retaining the short clock
