@@ -191,6 +191,8 @@ def prepare(args, report):
     report['supplyTraceSignal'] = supply_signal
     report['modelCoverage'] = classify(components, report['electricalModels'],
                                        args.electrical_matrix, args.electrical_outputs, not args.bypass_rom_bus)
+    if getattr(args, 'rom_read_envelope', False):
+        report['modelCoverage']['components']['A8']['model'] += '; conservative Intel 2716 read envelope; unspecified intervals propagate X'
     if getattr(args, 'electrical_cpu_pullups', False):
         report['modelCoverage']['components']['A5']['model'] = (
             'TV80 CPU; electrical interrupt/NMI/wait and bus-request pullups with reference-maximum capacitance; '
