@@ -1,0 +1,42 @@
+{
+  "completed": false,
+  "qualified": false,
+  "sourceRevisionVerified": "f4dcc18",
+  "scope": "Increased effective Newton iteration limit for tighter-tolerance host fixture",
+  "evidence": {
+    "producer": "report.json",
+    "defaultEquivalentControl": "../firmware-host-rising-load-strict-iterations/assessment.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "ede6f5fceb3d74eaa6f59d6e4df7a8664ec741cdc8175becd907b4d702609f78",
+    "run-inputs.json": "67d1c2d1d48629f15bce0470ab28678efb0ea72f5b095360d10c79a4ff259787",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "43e086856e1c03ba0986ea02bbd93a5c753129616ac3ebb03c221c49543cf440",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "b0a221263b20ca84e7f292c3e4d3974300a3f970b42d1c5b1ac89d0514dae1b5",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591"
+  },
+  "inputComparison": {
+    "sourceHashesEqual": true,
+    "runtimeEqual": true,
+    "deckDifference": "Only itl4 increases from 100 to 1000"
+  },
+  "diagnostic": {
+    "simulationTimeSeconds": 0.00109801,
+    "reportedTimestepSeconds": 2.98332e-20,
+    "node": "vhost#branch",
+    "message": "Timestep too small"
+  },
+  "interpretation": "Increasing the effective iteration limit changes the failure epoch and reported node but does not complete the scenario. The reported branch is a numerical diagnostic, not identification of a physical supply fault. Do not relax tolerances or add unsupported parasitics to obtain a pass.",
+  "nextAction": "Use logging-only solver instrumentation to inspect event cuts, rejected steps and convergence outcomes around the failure.",
+  "waveforms": {
+    "retention": "Incomplete local captures; producer failureArtifacts retain hashes.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-load-strict-iterations1000",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  }
+}
