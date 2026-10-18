@@ -10,7 +10,8 @@
       "pinRoles": "PDF pages 6-8, printed pages 7-9",
       "absoluteLimits": "PDF page 59, printed page 60",
       "static": "PDF page 60, printed page 61",
-      "serialTiming": "PDF page 63, printed page 64"
+      "serialTiming": "PDF page 63, printed page 64",
+      "receiveSampling": "PDF page 19, printed page 20, section 4.2.2; synchronous confirmation PDF page 22, printed page 23"
     }
   },
   "conditions": {
@@ -58,13 +59,15 @@
     "periodMinimumSeconds": 4e-07,
     "highWidthMinimumSeconds": 1.8e-07,
     "lowWidthMinimumSeconds": 1.8e-07,
-    "systemClockMinimumToMaximumDataRateRatio": 4.5
+    "systemClockMinimumToMaximumDataRateRatio": 4.5,
+    "samplingEdge": "rising"
   },
   "interpretation": {
     "qualified": false,
     "receiveData": "Ordinary serial input; published leakage and capacitance constrain load screening, not an exact I/V curve.",
     "receiveClock": "Manual identifies Schmitt input but does not give its hysteresis thresholds. Static table does not explicitly enumerate pins covered by clock capacitance; retain this ambiguity rather than silently applying system-clock thresholds or selecting a capacitance.",
     "timing": "Serial receive setup/hold labels appear in the diagram, but no corresponding numeric bounds were found in the reviewed tables. Existing fixture stability budget remains an assumption.",
-    "nextAction": "Screen explicit leakage/capacitance load assumptions and seek independent pin-specific receiver evidence; preserve nominal fixture captures separately."
+    "nextAction": "Screen explicit leakage/capacitance load assumptions and seek independent pin-specific receiver evidence; preserve nominal fixture captures separately.",
+    "receiveSampling": "In x1 asynchronous mode data is sampled on rising RxC. After the motherboard inverter this corresponds to falling keyboard cable clock, not cable release."
   }
 }

@@ -215,7 +215,7 @@ def prepare(args, report):
         report['qualified'] = False
         report['hostReceiver'] = host_info
         report['assumptions'].update(hostBuffer='7404-candidate',sioLoad=sio_load,
-            hostBoundary='Experimental host buffer and loads; physical falling receive-clock edge, non-inverted logical data. No device or closed-board qualification.')
+            hostBoundary='Experimental host buffer and loads; physical rising receive-clock edge, non-inverted logical data. No device or closed-board qualification.')
         report.setdefault('sources', {}).update({name:sha(HERE/name) for name in
             ('host_receiver.py','host_receiver.json','ttl7404_nominal.cir','d104_limits.json','u856_limits.json')})
         report['hostTraceSignals'] = [f'v({n},{ground})' for n in [

@@ -215,6 +215,11 @@ must be supplied together; use the runners' `--help` for arguments. Positive
 leakage draws current to ground. Source-informed loads are stress assumptions,
 not calibrated I/V curves or identified Schmitt thresholds.
 
+Host sampling follows rising RxC, paired with falling keyboard cable clock, as
+specified in [U856 receive-edge evidence](reports/host-receive-edge/assessment.json).
+Earlier falling-edge host comparisons and stability reports do not qualify that
+sampling point; their source-bound waveforms remain available for review.
+
 `host-trace.txt` separates cable, buffer-input and buffer-output voltages. Service
 reviews require the complete service interval. Board input reviews cover only the
 recorded window, preserve producer failures and make no startup-voltage claim.
