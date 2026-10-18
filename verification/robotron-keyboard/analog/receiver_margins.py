@@ -28,7 +28,7 @@ def timestamp_uncertainty(token, value):
     return .5 * _decimal_quantum((int(exponent) if separator else 0) - decimals) + math.ulp(value)
 
 
-def measure(trace, received, maximum_step_ns, required_ns=100, *, columns=3, data_column=1):
+def measure(trace, received, maximum_step_ns, required_ns=100, *, columns=3, data_column=1, inverted_data=True):
     if columns not in (3, 5) or not 0 < data_column < columns:
         raise ValueError('Invalid receiver trace column layout')
     if not received:
@@ -83,7 +83,7 @@ def measure(trace, received, maximum_step_ns, required_ns=100, *, columns=3, dat
     for stamp, bit in received:
         time = stamp * 1e-12
         candidates = [interval for interval in intervals
-                      if interval['wireLevel'] == 1 - bit
+                      if interval['wireLevel'] == (1 - bit if inverted_data else bit)
                       and interval['latestFirstValidSampleSeconds'] <= time <= interval['earliestLastValidSampleSeconds']]
         if len(candidates) != 1:
             raise ValueError('Receiver bit lacks a unique stable voltage interval')
@@ -93,7 +93,7 @@ def measure(trace, received, maximum_step_ns, required_ns=100, *, columns=3, dat
         events.append({'timePs': stamp, 'logicalBit': bit, **interval,
                        'sampledSetupNs': setup, 'sampledHoldNs': hold,
                        'withinBudget': min(setup, hold) >= required_ns})
-    return {'thresholdVolts': [.8, 2], 'requiredSetupHoldNs': required_ns,
+    return {'invertedData': inverted_data, 'thresholdVolts': [.8, 2], 'requiredSetupHoldNs': required_ns,
             'minimumSampledSetupNs': min(event['sampledSetupNs'] for event in events),
             'minimumSampledHoldNs': min(event['sampledHoldNs'] for event in events),
             'maximumSampleGapNs': maximum_gap * 1e9,
@@ -122,7 +122,11 @@ def main():
         result['originalReportSha256'] = sha(args.directory / 'report.json')
         result['traceSha256'] = original['traceSha256']
         result['observations'] = measure(args.directory / 'trace.txt', transport['received'],
-                                         original['assumptions']['stepNs'], args.required_ns)
+                                         original['assumptions']['stepNs'], args.required_ns,
+                                         inverted_data=not bool(original['assumptions'].get('hostBuffer')))
+        if original['assumptions'].get('hostBuffer'):
+            result['qualified'] = False
+            result['hostBufferBoundary'] = 'Sampled output stability only; generic buffer, SIO loads and threshold assumptions remain unqualified'
         if not result['observations']['withinBudget']:
             raise ValueError('Sampled receiver setup/hold does not meet the declared fixture budget')
         result['passed'] = True

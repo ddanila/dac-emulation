@@ -55,10 +55,17 @@ def load_run(directory):
     if report['assumptions'].get('serialDriver') == '7406-dc':
         if sha(directory / 'driver-trace.txt') != report.get('driverTraceSha256'):
             raise ValueError('Retained transistor driver current trace hash differs')
+    if report['assumptions'].get('hostBuffer'):
+        if report.get('qualified') is not False:
+            raise ValueError('Experimental host buffer cannot claim electrical qualification')
+        if sha(directory / 'host-trace.txt') != report.get('hostTraceSha256'):
+            raise ValueError('Retained host input/output trace hash differs')
     return report, transport
 
 
 def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
+    if any(report['assumptions'].get('hostBuffer') for report in (coarse, fine)):
+        raise ValueError('Host-buffer firmware qualification requires device, receiver voltage and timing qualification')
     if any(report['assumptions'].get('electricalBus') for report in (coarse, fine)):
         raise ValueError('Electrical-bus firmware qualification requires bus timing and voltage observation checks')
     if coarse['assumptions'].get('serialDriver') == '7406-dc':

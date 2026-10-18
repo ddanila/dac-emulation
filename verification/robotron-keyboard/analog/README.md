@@ -217,7 +217,14 @@ Host winding values remain assumptions. Add `--host-buffer` to exercise the
 experimental standard-7404 transistor topology with input reverse beta 0.01.
 `ttl7404_probe.py --out /tmp/7404-dc` screens selected D104 DC conditions; it
 does not calibrate input clamps or switching. Buffer outputs use illustrative SIO
-loads. Firmware runners do not yet include this host network.
+loads. `firmware_io_cosim.py --host-buffer --serial-driver 7406-dc` includes
+this experimental network in the service firmware fixture. The observer samples
+the falling buffer-output clock and uses the output data without cable inversion;
+`host-trace.txt` retains cable, buffer-input and buffer-output voltages separately.
+Electrical-bus preparation supports the same option. The closed-board boot runner
+still uses its existing output boundary. Serial agreement cannot qualify this
+candidate: the paired firmware qualifier rejects host-buffer runs pending device,
+receiver-voltage and timing qualification.
 `host_input_review.py --run /tmp/host-input-review --out /tmp/input-limits.json`
 checks retained buffer-input waveforms against [RFT D104D conditions](d104_limits.json).
 It distinguishes static bounds from the conditional negative-pulse allowance;

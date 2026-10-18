@@ -8,12 +8,12 @@ from receiver_margins import measure
 
 
 class ReceiverMarginTests(unittest.TestCase):
-    def run_trace(self, values, received=((250000, 1),), step=25, budget=100, time_format=None):
+    def run_trace(self, values, received=((250000, 1),), step=25, budget=100, time_format=None, inverted_data=True):
         with tempfile.TemporaryDirectory() as directory:
             trace = Path(directory) / 'trace.txt'
             stamp = lambda t: format(t * 1e-9, time_format) if time_format else str(t * 1e-9)
             trace.write_text('time data clock\n' + '\n'.join(f'{stamp(t)} {v} 0' for t, v in values) + '\n')
-            return measure(trace, received, step, budget)
+            return measure(trace, received, step, budget, inverted_data=inverted_data)
 
     def test_stable_interval_and_censored_ends(self):
         result = self.run_trace([(t, 0) for t in range(0, 501, 25)])
@@ -55,6 +55,12 @@ class ReceiverMarginTests(unittest.TestCase):
         self.assertFalse(result['withinBudget'])
         self.assertLess(result['minimumSampledSetupNs'], 96)
         self.assertLess(result['minimumSampledHoldNs'], 96)
+
+    def test_host_buffer_uses_noninverted_data(self):
+        values = [(t, 5) for t in range(0, 501, 25)]
+        self.assertTrue(self.run_trace(values, inverted_data=False)['withinBudget'])
+        with self.assertRaises(ValueError):
+            self.run_trace(values, inverted_data=True)
 
     def test_valid_high_wire_is_logical_zero(self):
         result = self.run_trace([(t, 5) for t in range(0, 501, 25)], ((250000, 0),))

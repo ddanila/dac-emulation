@@ -2,7 +2,7 @@
 // Clock/reset are analog receiver outputs; electrical matrix mode closes sense feedback.
 module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVED_BUS=1,
                              ELECTRICAL_OUTPUTS=0, ELECTRICAL_CPU_PULLUPS=0,
-                             ELECTRICAL_LOGIC_PULLUPS=0)(input clk, input reset_n,
+                             ELECTRICAL_LOGIC_PULLUPS=0, HOST_BUFFER=0)(input clk, input reset_n,
                   input [7:0] sense, input receiver_data, input receiver_clock,
                   input cpu_pullup_n, input bus_request_n,
                   input [2:0] logic_control,
@@ -51,8 +51,11 @@ module boot_cosim #(parameter ELECTRICAL_MATRIX=0, EXPLICIT_CPU_DRIVE=1, RESOLVE
  // Both records use logical bits: the wire carries inverted data.
  always @(posedge ta_takt) if(ELECTRICAL_OUTPUTS && reset_n===1'b1)
   $display("SERIAL_TX %0t %b", $time, data_sink);
- always @(posedge receiver_clock) if(ELECTRICAL_OUTPUTS && reset_n===1'b1)
-  $display("SERIAL_RX %0t %b", $time, ~receiver_data);
+ // Cable release is a rising edge; the host inverter turns it into falling RXCA.
+ wire receive_event_clock = HOST_BUFFER ? ~receiver_clock : receiver_clock;
+ wire receive_bit = HOST_BUFFER ? receiver_data : ~receiver_data;
+ always @(posedge receive_event_clock) if(ELECTRICAL_OUTPUTS && reset_n===1'b1)
+  $display("SERIAL_RX %0t %b", $time, receive_bit);
  always @(reset_n) begin
   $display("RESET %0t %b", $time, reset_n);
   if(reset_n===1'b0) begin cycles=0;fetches=0;reads=0;writes=0;end

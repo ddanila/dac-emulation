@@ -24,6 +24,12 @@ class ComparisonTests(unittest.TestCase):
         self.tx = validate_transport('SERIAL_TX 1000 1\nSERIAL_RX 21000 1\n', True)
         self.rx = validate_transport('SERIAL_TX 1000 1\nSERIAL_RX 41000 1\n', True)
 
+    def test_serial_agreement_cannot_qualify_experimental_host_buffer(self):
+        self.coarse['assumptions']['hostBuffer'] = '7404-candidate'
+        self.fine['assumptions']['hostBuffer'] = '7404-candidate'
+        with self.assertRaisesRegex(ValueError, 'Host-buffer firmware qualification'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15)
+
     def test_serial_agreement_cannot_qualify_experimental_electrical_bus(self):
         self.coarse['assumptions']['electricalBus'] = True
         self.fine['assumptions']['electricalBus'] = True
