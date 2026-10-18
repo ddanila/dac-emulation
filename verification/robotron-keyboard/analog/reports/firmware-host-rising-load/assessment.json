@@ -1,0 +1,46 @@
+{
+  "qualified": false,
+  "producerSourceRevision": "d24b529",
+  "scope": "S600 single-press service run observing rising U856 RxC with explicit loads",
+  "evidence": {
+    "firmware": "report.json",
+    "sampledStability": "margins.json",
+    "samplingSource": "../host-receive-edge/assessment.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "6a72ce60bd9333cacef73fca784de0b248f7c6badebf93a4c6034f2919c2bc5b",
+    "run-inputs.json": "b412fe0c038d68bb2b984e0ec0008bd74b40b9494277a3229712f46a82fef63f",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "ddba6ec8d16992650fc00b1b206d9f1c86ec43c2652319e63fd51eb782f823d1",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "34fed80363bdba43d3df2f8e6e6f6e15d393d056f6486274105391ff4c5a042f",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "margins.json": "3335971282ad2cca678146b1bc9417df0a2e6af666c96bb359694353e3336388"
+  },
+  "reusedWaveformEvidence": {
+    "input-review.json": {
+      "path": "../firmware-host-load/input-review.json",
+      "reviewSha256": "11e132b8196013d893040024f5dda38d1488a497a9569905452682f70e033f5e",
+      "traceSha256": "298358a63d44022fdfaa82ffb1f03aa890b3e362294ccb06d2e67ac3ae1f0df0",
+      "basis": "Exact producer waveform byte identity; prior review retains its original source/report provenance. This reuses voltage or width evidence only, not old falling-edge data stability."
+    },
+    "clock-widths.json": {
+      "path": "../firmware-host-load/clock-widths.json",
+      "reviewSha256": "c0a6ed00c4b3972d36e7f446a2595a5da83f7eade2bc6d19bfe69ebf1d81dd55",
+      "traceSha256": "c3eac7320f1eaf3c5921e912abf61f92783dac9838bafa186d66afa9f83f9290",
+      "basis": "Exact producer waveform byte identity; prior review retains its original source/report provenance. This reuses voltage or width evidence only, not old falling-edge data stability."
+    }
+  },
+  "waveforms": {
+    "retention": "Full captures remain local; producer hashes identify uncompressed bytes. No ROM or compiled HDL is included.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-load",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "Logical comparison and sampled data stability pass at rising RxC. Source-identical voltage captures retain the earlier input-envelope and nominal-threshold pulse-width evidence. This is service-fixture evidence, not device applicability, full-waveform convergence, closed-board startup or specimen calibration.",
+  "nextAction": "Complete the matched rising-edge timestep pair, then extend corrected scenarios and coupled-board qualification."
+}
