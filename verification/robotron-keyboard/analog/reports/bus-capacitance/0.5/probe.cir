@@ -1,0 +1,52 @@
+Bus capacitance charge fixture
+Cbus_A1_3 n_D0 0 3.0000000000000001e-12
+Cbus_A4_19 n_D0 0 1.2000000000000001e-11
+Cbus_A5_14 n_D0 0 9.9999999999999994e-12
+Cbus_A8_9 n_D0 0 1.2000000000000001e-11
+Cbus_A4_18 n_D1 0 1.2000000000000001e-11
+Cbus_A5_15 n_D1 0 9.9999999999999994e-12
+Cbus_A8_10 n_D1 0 1.2000000000000001e-11
+Cbus_A4_17 n_D2 0 1.2000000000000001e-11
+Cbus_A5_12 n_D2 0 9.9999999999999994e-12
+Cbus_A8_11 n_D2 0 1.2000000000000001e-11
+Cbus_A4_16 n_D3 0 1.2000000000000001e-11
+Cbus_A5_8 n_D3 0 9.9999999999999994e-12
+Cbus_A8_13 n_D3 0 1.2000000000000001e-11
+Cbus_A4_15 n_D4 0 1.2000000000000001e-11
+Cbus_A5_7 n_D4 0 9.9999999999999994e-12
+Cbus_A8_14 n_D4 0 1.2000000000000001e-11
+Cbus_A4_14 n_D5 0 1.2000000000000001e-11
+Cbus_A5_9 n_D5 0 9.9999999999999994e-12
+Cbus_A8_15 n_D5 0 1.2000000000000001e-11
+Cbus_A4_13 n_D6 0 1.2000000000000001e-11
+Cbus_A5_10 n_D6 0 9.9999999999999994e-12
+Cbus_A8_16 n_D6 0 1.2000000000000001e-11
+Cbus_A4_12 n_D7 0 1.2000000000000001e-11
+Cbus_A5_13 n_D7 0 9.9999999999999994e-12
+Cbus_A8_17 n_D7 0 1.2000000000000001e-11
+Itest0 0 n_D0 1u
+Rfixture0 n_D0 0 1e12
+Itest1 0 n_D1 1u
+Rfixture1 n_D1 0 1e12
+Itest2 0 n_D2 1u
+Rfixture2 n_D2 0 1e12
+Itest3 0 n_D3 1u
+Rfixture3 n_D3 0 1e12
+Itest4 0 n_D4 1u
+Rfixture4 n_D4 0 1e12
+Itest5 0 n_D5 1u
+Rfixture5 n_D5 0 1e12
+Itest6 0 n_D6 1u
+Rfixture6 n_D6 0 1e12
+Itest7 0 n_D7 1u
+Rfixture7 n_D7 0 1e12
+.ic v(n_D0)=0 v(n_D1)=0 v(n_D2)=0 v(n_D3)=0 v(n_D4)=0 v(n_D5)=0 v(n_D6)=0 v(n_D7)=0
+.control
+tran 0.5n 1u uic
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+wrdata trace.txt v(n_D0) v(n_D1) v(n_D2) v(n_D3) v(n_D4) v(n_D5) v(n_D6) v(n_D7)
+quit
+.endc
+.end

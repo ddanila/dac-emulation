@@ -6,6 +6,7 @@ from pathlib import Path
 import unittest
 
 from bus_inventory import inventory
+from bus_load import wiring
 from circuit import load
 
 
@@ -44,6 +45,28 @@ class BusInventoryTests(unittest.TestCase):
         changed['A5']['type'] = 'Z84C00'
         with self.assertRaisesRegex(ValueError, 'Unsupported bus device'):
             inventory(changed, self.limits)
+
+    def test_unknown_loads_cannot_be_silently_omitted(self):
+        for fixture in ({}, {'I8282': 12}, {'I8282': 12, '7406': 3, 'U880': 10}):
+            with self.assertRaisesRegex(ValueError, 'Explicit unknown-capacitance'):
+                wiring(self.components, self.limits, fixture)
+        for value in (-1, float('nan'), float('inf'), True, '3'):
+            with self.assertRaisesRegex(ValueError, 'finite nonnegative'):
+                wiring(self.components, self.limits, {'I8282': 12, '7406': value})
+
+    def test_loads_preserve_pin_identity_and_distinguish_assumptions(self):
+        _, report = wiring(self.components, self.limits, {'I8282': 12, '7406': 3})
+        for load in report['loads']:
+            self.assertEqual(load['net'], self.components[load['reference']]['pins'][load['pin']])
+            self.assertEqual(load['basis'], 'explicit fixture assumption' if
+                             load['profile'] in ('I8282', '7406') else 'published reference maximum')
+        lines, zero = wiring(self.components, self.limits, {'I8282': 0, '7406': 0})
+        self.assertTrue(any(load['capacitanceFarads'] == 0 for load in zero['loads']))
+        self.assertFalse(any('Cbus_A4_' in line for line in lines))
+        changed = copy.deepcopy(self.components)
+        changed['A4']['pins']['10'] = '/+5V'
+        with self.assertRaisesRegex(ValueError, 'reference ground'):
+            wiring(changed, self.limits, {'I8282': 12, '7406': 3})
 
 
 if __name__ == '__main__':

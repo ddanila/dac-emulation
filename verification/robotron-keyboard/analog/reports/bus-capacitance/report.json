@@ -1,0 +1,461 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Constant-current pin-capacitance fixture; no firmware or output drivers",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "fixture": {
+    "qualified": false,
+    "loads": [
+      {
+        "reference": "A1",
+        "pin": "3",
+        "role": "input",
+        "profile": "7406",
+        "source": "7406",
+        "capacitanceReference": null,
+        "net": "/D0",
+        "ground": "/GND",
+        "capacitanceFarads": 3e-12,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A4",
+        "pin": "19",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D0",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "14",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D0",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "9",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D0",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "18",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D1",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "15",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D1",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "10",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D1",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "17",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D2",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "12",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D2",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "11",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D2",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "16",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D3",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "8",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D3",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "13",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D3",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "15",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D4",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "7",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D4",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "14",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D4",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "14",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D5",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "9",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D5",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "15",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D5",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "13",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D6",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "10",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D6",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "16",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D6",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A4",
+        "pin": "12",
+        "role": "tristate_output",
+        "profile": "I8282",
+        "source": "8282",
+        "capacitanceReference": null,
+        "net": "/D7",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "explicit fixture assumption"
+      },
+      {
+        "reference": "A5",
+        "pin": "13",
+        "role": "bidirectional",
+        "profile": "U880",
+        "source": "u880d",
+        "capacitanceReference": {
+          "maximumFarads": 1e-11,
+          "condition": "25 C, 0.5 to 2 MHz",
+          "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
+        },
+        "net": "/D7",
+        "ground": "/GND",
+        "capacitanceFarads": 1e-11,
+        "basis": "published reference maximum"
+      },
+      {
+        "reference": "A8",
+        "pin": "17",
+        "role": "tristate_output",
+        "profile": "U556_2716",
+        "source": "2716",
+        "capacitanceReference": {
+          "typicalFarads": 8e-12,
+          "maximumFarads": 1.2e-11,
+          "condition": "25 C, 1 MHz, VOUT = 0 V; sampled, not 100% tested"
+        },
+        "net": "/D7",
+        "ground": "/GND",
+        "capacitanceFarads": 1.2e-11,
+        "basis": "published reference maximum"
+      }
+    ],
+    "boundary": "Pin capacitance only. No driver I/V, leakage, clamps, trace capacitance, contention current or released voltage qualification. Zero fixture loads are explicit omissions, not measured zero capacitance."
+  },
+  "ngspiceSha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+  "sources": {
+    "bus_load.py": "0b5bb0f19ecf4ebac6ebf1502dcc4e8ea536a39a95426a640bc24078cb32f1de",
+    "bus_inventory.py": "14eb0dd1ba75a22af1b7183e02c46ec5fd4bec7b38a0046aeb08de7793ad5c4c",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87"
+  },
+  "runs": [
+    {
+      "stepNs": 1,
+      "expectedFinalVolts": [
+        0.027027027027027025,
+        0.029411764705882353,
+        0.029411764705882353,
+        0.029411764705882353,
+        0.029411764705882353,
+        0.029411764705882353,
+        0.029411764705882353,
+        0.029411764705882353
+      ],
+      "actualFinalVolts": [
+        0.027027026661798386,
+        0.029411764273355546,
+        0.029411764273355546,
+        0.029411764273355546,
+        0.029411764273355546,
+        0.029411764273355546,
+        0.029411764273355546,
+        0.029411764273355546
+      ],
+      "relativeError": [
+        1.3513459642955363e-08,
+        1.4705911405288319e-08,
+        1.4705911405288319e-08,
+        1.4705911405288319e-08,
+        1.4705911405288319e-08,
+        1.4705911405288319e-08,
+        1.4705911405288319e-08,
+        1.4705911405288319e-08
+      ],
+      "files": {
+        "probe.cir": "5b50f5eabec3bd65c520bde8821a1307d66243781fa35c1a533049e61ca2ddb5",
+        "ngspice.log": "d4efea84f2b11326040cef3141b53152952ddeb6a31873298377ba3f632aeb3f",
+        "trace.txt": "4e8ea0da07ce98e74fce1462c1aae7e346d7436fd6497a9eed04aa3f9a940923"
+      }
+    },
+    {
+      "stepNs": 0.5,
+      "expectedFinalVolts": [
+        0.027027027027027025,
+        0.029411764705882353,
+        0.029411764705882353,
+        0.029411764705882353,
+        0.029411764705882353,
+        0.029411764705882353,
+        0.029411764705882353,
+        0.029411764705882353
+      ],
+      "actualFinalVolts": [
+        0.02702702666180469,
+        0.029411764273359394,
+        0.029411764273359394,
+        0.029411764273359394,
+        0.029411764273359394,
+        0.029411764273359394,
+        0.029411764273359394,
+        0.029411764273359394
+      ],
+      "relativeError": [
+        1.351322639550623e-08,
+        1.4705780586321548e-08,
+        1.4705780586321548e-08,
+        1.4705780586321548e-08,
+        1.4705780586321548e-08,
+        1.4705780586321548e-08,
+        1.4705780586321548e-08,
+        1.4705780586321548e-08
+      ],
+      "files": {
+        "probe.cir": "5c64bd63d00d7284f4a58a7b041df89d0189802360e8979e825da9b6c2addc1a",
+        "ngspice.log": "b984c57f9d226793616c9057a578a73914e38162874e54cf22e394ba76765ae9",
+        "trace.txt": "ce5828cc9906a15fd899396c30770e513e7973a391337e71fb5f660815dd9025"
+      }
+    }
+  ]
+}
