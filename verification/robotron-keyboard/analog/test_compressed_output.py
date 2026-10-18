@@ -21,6 +21,26 @@ class CompressedOutputTests(unittest.TestCase):
                 self.assertEqual(lzma.decompress((p / (name + '.xz')).read_bytes()), data)
                 self.assertEqual(records[name], {'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
 
+    def test_selected_presets_preserve_identical_producer_bytes(self):
+        data = b'time voltage\n' + bytes(range(256)) * 10000
+        for preset in (0, 6):
+            with self.subTest(preset=preset), tempfile.TemporaryDirectory() as directory:
+                p = Path(directory)
+                with capture(p, ['trace.txt'], preset=preset) as records:
+                    (p / 'trace.txt').write_bytes(data)
+                self.assertEqual(lzma.decompress((p / 'trace.txt.xz').read_bytes()), data)
+                self.assertEqual(records['trace.txt']['sha256'], hashlib.sha256(data).hexdigest())
+                self.assertEqual(records['trace.txt']['bytes'], len(data))
+
+    def test_invalid_preset_creates_no_outputs(self):
+        for preset in (-1, 10, 1.5, True, None):
+            with self.subTest(preset=preset), tempfile.TemporaryDirectory() as directory:
+                p = Path(directory)
+                with self.assertRaisesRegex(ValueError, 'XZ preset'):
+                    with capture(p, ['trace.txt'], preset=preset):
+                        self.fail('Invalid preset accepted')
+                self.assertEqual(list(p.iterdir()), [])
+
     def test_failed_producer_cleans_up_waiting_readers(self):
         with tempfile.TemporaryDirectory() as directory:
             p = Path(directory)

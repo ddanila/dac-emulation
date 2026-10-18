@@ -10,7 +10,7 @@ from pathlib import Path
 WORKER = '''
 import hashlib,json,lzma,sys
 h=hashlib.sha256();size=0
-with open(sys.argv[1], 'rb') as source, lzma.open(sys.argv[2], 'wb', preset=1) as target:
+with open(sys.argv[1], 'rb') as source, lzma.open(sys.argv[2], 'wb', preset=int(sys.argv[3])) as target:
     for data in iter(lambda: source.read(1024*1024), b''):
         h.update(data);size+=len(data);target.write(data)
 print(json.dumps({'sha256':h.hexdigest(),'bytes':size}))
@@ -18,8 +18,10 @@ print(json.dumps({'sha256':h.hexdigest(),'bytes':size}))
 
 
 @contextlib.contextmanager
-def capture(directory, names, enabled=True):
+def capture(directory, names, enabled=True, *, preset=1):
     """The producer must finish inside the context; failures retain partial XZ files."""
+    if type(preset) is not int or not 0 <= preset <= 9:
+        raise ValueError("XZ preset must be an integer from 0 through 9")
     records = {}
     if not enabled:
         yield records
@@ -34,7 +36,7 @@ def capture(directory, names, enabled=True):
                 raise ValueError('Compressed capture requires fresh output paths: ' + str(path))
             os.mkfifo(path)
             jobs.append((path, target, partial, None))
-            worker = subprocess.Popen([sys.executable, '-c', WORKER, str(path), str(partial)],
+            worker = subprocess.Popen([sys.executable, '-c', WORKER, str(path), str(partial), str(preset)],
                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             jobs[-1] = path, target, partial, worker
         yield records

@@ -37,6 +37,7 @@ def main():
     p.add_argument('--require-led-activity', action='store_true', help='Require both indicators to exercise settled on and off states')
     p.add_argument('--prepare-only', action='store_true')
     p.add_argument('--compress-traces', action='store_true', help='Stream waveforms through POSIX FIFOs to lossless XZ')
+    p.add_argument('--compression-preset', type=int, choices=range(10), default=1, help='Lossless XZ preset; higher values trade compression time and memory for storage')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/firmware-io')
     p.add_argument('--bridge', type=Path, default=ROOT / 'build/keyboard-controller-analog/bridge/bridge.json')
     p.add_argument('--step-ns', type=float, default=50)
@@ -88,6 +89,7 @@ def main():
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
             'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'logic_control.py', 'model_coverage.py', 'reset_probe.py', 'oscillator_probe.py', 'cpu_control.py', 'cpu_clock_limits.json', 'serial_observation.py',
             'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compressed_output.py', 'transient_analysis.py')}}
+    report['waveformCompression'] = {'format': 'xz', 'preset': args.compression_preset} if args.compress_traces else None
     try:
         scenario = load_scenario(args.scenario)
         report['assumptions']['scenario'] = scenario
@@ -207,7 +209,7 @@ def main():
             print(out / 'io.cir')
             return
         trace_names = ['trace.txt'] + (['led-trace.txt'] if args.led_trace else [])
-        with capture_compressed(out, trace_names, args.compress_traces) as compressed:
+        with capture_compressed(out, trace_names, args.compress_traces, preset=args.compression_preset) as compressed:
             with (out / 'ngspice.log').open('w') as log:
                 subprocess.run([engine, '-n', '-b', 'io.cir'], cwd=out, env=engine_env, stdout=log, stderr=subprocess.STDOUT,
                                check=True, timeout=args.timeout_seconds)

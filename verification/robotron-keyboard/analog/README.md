@@ -804,3 +804,7 @@ bytes before removing the raw copy. It preserves failed/unfinished runs and
 refuses changed input. Qualification readers accept `.gz` and `.xz` waveforms transparently;
 report hashes continue to identify the original
 uncompressed content. Do not compact files belonging to an active simulation.
+
+For long service or full-board captures, `--compress-traces --compression-preset 6`
+selects stronger lossless XZ compression. The default remains preset 1. This changes
+storage cost, CPU time and memory use; every producer byte and its hash are retained.
