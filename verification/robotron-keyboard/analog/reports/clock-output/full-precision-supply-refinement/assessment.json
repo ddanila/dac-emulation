@@ -1,0 +1,228 @@
+{
+  "qualified": false,
+  "completed": true,
+  "runs": [
+    {
+      "stepNs": 0.125,
+      "deckSha256": "21c7caf9a05a354d4a8296d494f13f57b12fc95e265359312c73ad252e97fc70",
+      "gateModelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "exitCode": 0,
+      "logSha256": "47c82a85eb964345689b7054ced71a97dacc0c8567e7175cab388fb52fb63b12",
+      "supplyCheck": {
+        "samplesChecked": 2067967,
+        "maximumInterpolationErrorVolts": 4.440892098500626e-16,
+        "interpolationBudgetVolts": 1e-12
+      },
+      "traceSha256": "68098588f3a68a0968c60e295ae6548182267082dbf43bb42a11fc02417a770b"
+    },
+    {
+      "stepNs": 0.0625,
+      "deckSha256": "06f2f9207658fc74851b2920cd543dd0a7770d63e730e1eade0690ac5fd45009",
+      "gateModelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "exitCode": 0,
+      "logSha256": "2d834a53b2c63eed0f69a2c3d637ff1639f0aac456d2ff7f4cbc62403656bc49",
+      "supplyCheck": {
+        "samplesChecked": 4038178,
+        "maximumInterpolationErrorVolts": 4.440892098500626e-16,
+        "interpolationBudgetVolts": 1e-12
+      },
+      "traceSha256": "2ecf68a2dad97d6041adc49d250044ead3b5377e576cf778b928eb2546c93a94"
+    }
+  ],
+  "scope": "Prescribed recorded supply; isolated schematic oscillator with nominal CPU load. No live HDL or supply feedback.",
+  "boundary": "All printed supply points retained with linear interpolation; duplicate identical points collapsed and final value extended. Filesource has different breakpoint scheduling and floating-point arithmetic from PWL. This is a separate diagnostic, not an exact solver replay or physical supply model.",
+  "scriptSha256": "1d8d106af8ed48ed170329dd4e9db9d787f04c1d093c73fe49abc3aee0b1cd63",
+  "helpers": {
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "oscillator_probe.py": "da0d2aa14c1c1bd87c033ae1e3fb2df3521f9af09a00bb9ad704211cc63ebf71",
+    "clock_convergence.py": "e4a300be990cb1a717d41254a5d5386bfe89daba8b71e8772f0021f0a36db3f9",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "supply": {
+    "sourceUncompressedSha256": "6e70c55549b288be59421d8a72a748da700ded332bac2947f38e23fdcf3186c5",
+    "identicalDuplicateSamples": 0,
+    "samples": 1122876,
+    "durationSeconds": 0.00025,
+    "fileSha256": "c8d84befb12b0ebfa861a7011ecd1659263fa5624397e8f34af9dabc93c9168b"
+  },
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "clockPhase": {
+    "passed": false,
+    "thresholdVolts": 1.4,
+    "edgeBudgetNs": 15,
+    "sampledExtremaBudgetVolts": 0.05,
+    "waveforms": {
+      "coarse": {
+        "samples": 2067967,
+        "edges": 780,
+        "minimumVolts": -8.200303442967037e-69,
+        "maximumVolts": 3.4879007012406307,
+        "maximumSampleGapNs": 0.12500000000196815,
+        "maximumTimestampUncertaintyNs": 5.4710108624275226e-11,
+        "minimumPeriodNs": 200.46980250420947,
+        "maximumPeriodNs": 35550.64360623558,
+        "firstSampleSeconds": 0.0,
+        "firstSampleUncertaintySeconds": 0.0,
+        "lastSampleSeconds": 0.00025,
+        "lastSampleUncertaintySeconds": 5.471010862427523e-20,
+        "meanPeriodNs": 471.37637836811786,
+        "frequencyHz": 2121446.9920235532
+      },
+      "fine": {
+        "samples": 4038178,
+        "edges": 781,
+        "minimumVolts": -8.200303442967037e-69,
+        "maximumVolts": 3.4888519690073276,
+        "maximumSampleGapNs": 0.06250000002131287,
+        "maximumTimestampUncertaintyNs": 5.4710108624275226e-11,
+        "minimumPeriodNs": 144.00815684690608,
+        "maximumPeriodNs": 35485.34030367824,
+        "firstSampleSeconds": 0.0,
+        "firstSampleUncertaintySeconds": 0.0,
+        "lastSampleSeconds": 0.00025,
+        "lastSampleUncertaintySeconds": 5.471010862427523e-20,
+        "meanPeriodNs": 470.53013947070474,
+        "frequencyHz": 2125262.3713432923
+      }
+    },
+    "maximumEstimatedPhaseDifferenceNs": 290.26082468393906,
+    "maximumBracketDifferenceNs": 290.3179504966049,
+    "firstDifference": {
+      "signal": "Clock voltage",
+      "edgeOrdinal": 2,
+      "coarse": {
+        "direction": "rise",
+        "beforeSeconds": 0.00010187053500097328,
+        "afterSeconds": 0.00010187066000097328,
+        "estimatedSeconds": 0.00010187062098268224,
+        "earliestSeconds": 0.00010187053500097326,
+        "latestSeconds": 0.00010187066000097329
+      },
+      "fine": {
+        "direction": "rise",
+        "beforeSeconds": 0.0001018052674968673,
+        "afterSeconds": 0.0001018053299968673,
+        "estimatedSeconds": 0.0001018053176772932,
+        "earliestSeconds": 0.00010180526749686729,
+        "latestSeconds": 0.00010180532999686731
+      }
+    },
+    "phaseEvolution": {
+      "signConvention": "fine minus coarse; positive means the fine edge is later",
+      "byDirection": {
+        "rise": {
+          "matchedEdges": 390,
+          "first": {
+            "edgeOrdinal": 0,
+            "coarseSeconds": 6.631997737644666e-05,
+            "fineSeconds": 6.631997737361496e-05,
+            "signedDifferenceNs": -2.8317056815704844e-06
+          },
+          "last": {
+            "edgeOrdinal": 778,
+            "coarseSeconds": 0.00024968538856164464,
+            "fineSeconds": 0.0002494626562517912,
+            "signedDifferenceNs": -222.73230985346257
+          },
+          "minimum": {
+            "edgeOrdinal": 102,
+            "coarseSeconds": 0.00011958922206802798,
+            "fineSeconds": 0.00011929896124334405,
+            "signedDifferenceNs": -290.26082468393906
+          },
+          "maximum": {
+            "edgeOrdinal": 0,
+            "coarseSeconds": 6.631997737644666e-05,
+            "fineSeconds": 6.631997737361496e-05,
+            "signedDifferenceNs": -2.8317056815704844e-06
+          },
+          "lastMinusFirstNs": -222.7323070217569,
+          "rangeNs": 290.2608218522334
+        },
+        "fall": {
+          "matchedEdges": 390,
+          "first": {
+            "edgeOrdinal": 1,
+            "coarseSeconds": 0.00010005990592524912,
+            "fineSeconds": 0.00010005990592616449,
+            "signedDifferenceNs": 9.153647891751993e-07
+          },
+          "last": {
+            "edgeOrdinal": 779,
+            "coarseSeconds": 0.00024987132398217375,
+            "fineSeconds": 0.00024964863667542787,
+            "signedDifferenceNs": -222.68730674588525
+          },
+          "minimum": {
+            "edgeOrdinal": 101,
+            "coarseSeconds": 0.00011949631854147337,
+            "fineSeconds": 0.00011920620919189586,
+            "signedDifferenceNs": -290.1093495775146
+          },
+          "maximum": {
+            "edgeOrdinal": 1,
+            "coarseSeconds": 0.00010005990592524912,
+            "fineSeconds": 0.00010005990592616449,
+            "signedDifferenceNs": 9.153647891751993e-07
+          },
+          "lastMinusFirstNs": -222.68730766125003,
+          "rangeNs": 290.1093504928794
+        }
+      }
+    },
+    "interpretation": "Absolute edge order and phase over the saved window, with sample-bracket and printed timestamp uncertainty; no phase realignment. Sampled voltage extrema are not a complete waveform or device calibration.",
+    "sampledExtremaDifferencesVolts": {
+      "minimumVolts": 0.0,
+      "maximumVolts": 0.0009512677666969616
+    }
+  }
+}

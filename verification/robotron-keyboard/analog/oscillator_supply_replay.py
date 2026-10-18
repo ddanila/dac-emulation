@@ -95,6 +95,8 @@ def main():
     parser.add_argument('--ngspice', required=True)
     parser.add_argument('--steps-ns', nargs=2, type=float, default=[.25, .125])
     parser.add_argument('--timeout-seconds', type=float, default=600)
+    parser.add_argument('--method', choices=('trap', 'gear'), default='trap',
+                        help='Integration-method diagnostic; not a device-model change')
     args = parser.parse_args()
     if not all(math.isfinite(x) and x > 0 for x in [*args.steps_ns, args.timeout_seconds]):
         parser.error('Steps and timeout must be positive finite numbers')
@@ -106,6 +108,8 @@ def main():
               'scope': 'Prescribed recorded supply; isolated schematic oscillator with nominal CPU load. No live HDL or supply feedback.',
               'boundary': 'All printed supply points retained with linear interpolation; duplicate identical points collapsed and final value extended. Filesource has different breakpoint scheduling and floating-point arithmetic from PWL. This is a separate diagnostic, not an exact solver replay or physical supply model.',
               'scriptSha256': sha(__file__),
+              'solver': {'method': args.method, 'reltol': 1e-6,
+                         'vntol': 1e-8, 'abstol': 1e-14},
               'helpers': {name: sha(HERE / name) for name in
                           ['circuit.py', 'oscillator_probe.py', 'clock_convergence.py',
                            'trace_io.py', 'ngspice_runtime.py', 'failure_evidence.py']}}
@@ -123,7 +127,7 @@ def main():
                     'Areplay [n_p5V] supply_replay\n'
                     '.model supply_replay filesource(file="../supply.txt" amplstep=false amploffset=[0] amplscale=[1])\n'
                     '.include ls_nand_pullup.cir\n'
-                    '.options reltol=1e-6 vntol=1e-8 abstol=1e-14\n' + '\n'.join(lines) +
+                    f'.options method={args.method} reltol=1e-6 vntol=1e-8 abstol=1e-14\n' + '\n'.join(lines) +
                     f'\n.control\nset wr_singlescale\nset wr_vecnames\nset numdgt=17\n'
                     f'tran {step:.17g}n {times[-1]:.17g}\n'
                     f'wrdata trace.txt v({cpu}) v(n_p5V)\nquit\n.endc\n.end\n')

@@ -1,0 +1,32 @@
+{
+  "sourceCommit": "988dbcdeae4292f00aa607565f712b30c70fe259",
+  "interpretation": "Further timestep refinement worsens the phase discrepancy for the same full-precision prescribed supply. The repeated 0.125 ns trace is byte-identical to the preceding run. This is reproducible nonconvergence, not evidence of live HDL as the unique cause.",
+  "repeatedTraceSha256": "68098588f3a68a0968c60e295ae6548182267082dbf43bb42a11fc02417a770b",
+  "sharedSupply": {
+    "path": "../full-precision-supply-isolation/supply.txt.xz",
+    "compressedSha256": "82bfca2429d6f6051bef58dd72aee53f372f55434e93b1e7ae379d2dcebd52cf"
+  },
+  "waveformScope": "Startup and final-edge windows only; full producer hashes are in assessment.json. Full waveforms remain in the local build output.",
+  "windowsSeconds": [
+    [
+      9.9e-05,
+      0.000104
+    ],
+    [
+      0.000249,
+      0.00025
+    ]
+  ],
+  "replay": "Decompress sharedSupply to supply.txt in this directory. Run the recorded ngspice executable with -n -b oscillator.cir from each run directory and the recorded runtime initialization.",
+  "retainedFiles": {
+    "assessment.json": "d7152523fadd51caef191e44e5ad3272ac2cb9fc3cd0a92094d706278c72709e",
+    "coarse/trace-windows.txt.xz": "5396396df00689cc022c90cef1f26b008797d50c792571fb47566eb807a4927d",
+    "coarse/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "coarse/ngspice.log": "47c82a85eb964345689b7054ced71a97dacc0c8567e7175cab388fb52fb63b12",
+    "coarse/oscillator.cir": "21c7caf9a05a354d4a8296d494f13f57b12fc95e265359312c73ad252e97fc70",
+    "fine/trace-windows.txt.xz": "f1883390336a5e8682fd91c83cef3c3d766c58cd3e36b7c5b087262d9ec98dbe",
+    "fine/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "fine/ngspice.log": "2d834a53b2c63eed0f69a2c3d637ff1639f0aac456d2ff7f4cbc62403656bc49",
+    "fine/oscillator.cir": "06f2f9207658fc74851b2920cd543dd0a7770d63e730e1eade0690ac5fd45009"
+  }
+}
