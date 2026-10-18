@@ -1,0 +1,34 @@
+{
+  "qualified": false,
+  "producerSourceRevision": "e422c5a",
+  "scope": "Additional refinement of corrected rising-RxC loaded service fixture",
+  "evidence": {
+    "previousPair": "../firmware-host-rising-load-fine/assessment.json",
+    "producer": "report.json",
+    "sampledStability": "margins.json",
+    "absoluteTimeComparison": "voltage-comparison.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "9f59d7f413422288cb5c5e07b424d31fd148686ad8bd9886b4928f36a33660ed",
+    "run-inputs.json": "1713c86dbd998f122936ab84291d9c3cbf51949d599bc12a8ce5fab55528b561",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "5269407d899a3fc1e223125f3da9f49a1d5649e9cc3f93537ffe458958e69332",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "b38e9d7f10d69502199c054d886c8a5d0418f6d4ac7ce1d806a187a9f05086f2",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "voltage-comparison.json": "febe9332e9046626462403d2cf245b654b961053ed6627c7fa659c9c50948e22",
+    "margins.json": "51365386869967a9a43e1b7772f6b8367c2a38d2bfeb2f5d1e006bd87f176a60"
+  },
+  "waveforms": {
+    "retention": "Full waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL included.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-load-refined",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "Reference bits and sampled stability pass. Serial-edge differences remain within the declared numerical budget, but maximum absolute-time voltage differences do not decrease consistently relative to the preceding pair: buffer data improves slightly while clock worsens. Maximum locations differ. This does not establish whole-waveform convergence or device accuracy.",
+  "nextAction": "Investigate event/transition scheduling and the separate release-boundary solver failures before treating finer timesteps alone as a solution. Retain absolute phase and existing acceptance criteria."
+}
