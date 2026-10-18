@@ -1,0 +1,463 @@
+{
+  "completed": true,
+  "qualified": false,
+  "producerReportSha256": "89df84ad994c9b46236fd42c742c025ae90d197e13f9973e37bc1d6b84d9e01c",
+  "sources": {
+    "host_input_review.py": "f03562b9ea3820d5db1707b1c6cadb201dc0d05580ef0ac58a0a651fdd8d1e81",
+    "d104_limits.json": "541eb612b620ec9b5b84d6991719acd3cb36b411950b0bf3d4aa1a2b50fa719f"
+  },
+  "deviceSource": {
+    "url": "https://www.datasheetarchive.com/datasheet/D104D/RFT?term=d104d&version=1",
+    "pdfUrl": "https://www.datasheetarchive.com/pdf/download/distributors/Datasheets-AE/DSA5GERT0000159.pdf",
+    "sha256": "47c849b87a495178bb41838282e10ecc2fab69001bac0de3b4943fe50bb205f6",
+    "publisher": "VEB Halbleiterwerk Frankfurt/Oder",
+    "locator": "Printed pages 2\u20134; dynamic measurement circuit on page 7",
+    "rights": "Manufacturer document linked, not redistributed"
+  },
+  "runs": [
+    {
+      "profile": "nominal",
+      "stepNs": 10,
+      "cablePf": 1000,
+      "traceSha256": "e00abca15cbae042063ad12a871c56db13779fcfbd6530faf222c1d1ac1a3f7b",
+      "inputs": {
+        "data": {
+          "minV": 0.04684388727316624,
+          "maxV": 4.985989905508268,
+          "negativePulses": [],
+          "withinStaticVoltageEnvelope": true,
+          "requiresNegativePulseException": false,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        },
+        "clock": {
+          "minV": 0.1789960371735077,
+          "maxV": 5.196558957342583,
+          "negativePulses": [],
+          "withinStaticVoltageEnvelope": true,
+          "requiresNegativePulseException": false,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        }
+      }
+    },
+    {
+      "profile": "nominal",
+      "stepNs": 5,
+      "cablePf": 1000,
+      "traceSha256": "3d63ab116906e2bf8a1626ce2c729fe9c4a3c1c5593678c3adee6c63884c3d12",
+      "inputs": {
+        "data": {
+          "minV": 0.0501086267450741,
+          "maxV": 4.985989905508089,
+          "negativePulses": [],
+          "withinStaticVoltageEnvelope": true,
+          "requiresNegativePulseException": false,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        },
+        "clock": {
+          "minV": 0.1819610589915468,
+          "maxV": 5.195582660974122,
+          "negativePulses": [],
+          "withinStaticVoltageEnvelope": true,
+          "requiresNegativePulseException": false,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        }
+      }
+    },
+    {
+      "profile": "nominal",
+      "stepNs": 10,
+      "cablePf": 2000,
+      "traceSha256": "be41a0f1464f7fcb62738ab18707e7c7c524214ffd31f91e4ab61bfa3bddf02c",
+      "inputs": {
+        "data": {
+          "minV": -0.010587417919383346,
+          "maxV": 4.9859899055083226,
+          "negativePulses": [
+            {
+              "start": 1.0299145897103768e-05,
+              "end": 1.0326106318051794e-05,
+              "durationSeconds": 2.6960420948026286e-08,
+              "minV": -0.010587417919383346,
+              "complete": true
+            }
+          ],
+          "withinStaticVoltageEnvelope": true,
+          "requiresNegativePulseException": false,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        },
+        "clock": {
+          "minV": 0.05229684371267293,
+          "maxV": 5.176398000851302,
+          "negativePulses": [],
+          "withinStaticVoltageEnvelope": true,
+          "requiresNegativePulseException": false,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        }
+      }
+    },
+    {
+      "profile": "nominal",
+      "stepNs": 5,
+      "cablePf": 2000,
+      "traceSha256": "f6c9830e7db88ce9c67ae665259a898bd9dc75a4a86d4f7646074e458bf32765",
+      "inputs": {
+        "data": {
+          "minV": -0.007394579580863196,
+          "maxV": 4.985989905508323,
+          "negativePulses": [
+            {
+              "start": 1.0300832025037051e-05,
+              "end": 1.0323383320802755e-05,
+              "durationSeconds": 2.2551295765703847e-08,
+              "minV": -0.007394579580863196,
+              "complete": true
+            }
+          ],
+          "withinStaticVoltageEnvelope": true,
+          "requiresNegativePulseException": false,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        },
+        "clock": {
+          "minV": 0.05370250485013507,
+          "maxV": 5.175827688951618,
+          "negativePulses": [],
+          "withinStaticVoltageEnvelope": true,
+          "requiresNegativePulseException": false,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        }
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 10,
+      "cablePf": 1000,
+      "traceSha256": "7494663b6e6e02fba5eef4bb21aae59cafea393ed52272a62c994aedce67cea3",
+      "inputs": {
+        "data": {
+          "minV": -1.2885042848236725,
+          "maxV": 4.976006420995523,
+          "negativePulses": [
+            {
+              "start": 1.015189565269716e-05,
+              "end": 1.0326897906828414e-05,
+              "durationSeconds": 1.7500225413125447e-07,
+              "minV": -1.2885042848236725,
+              "complete": true,
+              "amplitudeAndDurationWithinConditionalLimits": true
+            },
+            {
+              "start": 1.2184844700208586e-05,
+              "end": 1.2342950219873692e-05,
+              "durationSeconds": 1.5810551966510597e-07,
+              "minV": -0.9334878075455697,
+              "complete": true,
+              "amplitudeAndDurationWithinConditionalLimits": true
+            }
+          ],
+          "withinStaticVoltageEnvelope": false,
+          "requiresNegativePulseException": true,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        },
+        "clock": {
+          "minV": -0.7571699505632731,
+          "maxV": 5.279219894030313,
+          "negativePulses": [
+            {
+              "start": 1.2154859651898854e-05,
+              "end": 1.2324001671480926e-05,
+              "durationSeconds": 1.6914201958207157e-07,
+              "minV": -0.7571699505632731,
+              "complete": true
+            },
+            {
+              "start": 2.008785809853444e-05,
+              "end": 2.0155407802007924e-05,
+              "durationSeconds": 6.754970347348313e-08,
+              "minV": -0.031043637137844585,
+              "complete": true
+            }
+          ],
+          "withinStaticVoltageEnvelope": true,
+          "requiresNegativePulseException": false,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        }
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 5,
+      "cablePf": 1000,
+      "traceSha256": "ed265728f8500aea3e9850116016d8d36dfd362dd4e0fa7c7c27752c297eaa7f",
+      "inputs": {
+        "data": {
+          "minV": -1.2816952174504481,
+          "maxV": 4.976006420994475,
+          "negativePulses": [
+            {
+              "start": 1.0152525596490601e-05,
+              "end": 1.0327394209355137e-05,
+              "durationSeconds": 1.748686128645359e-07,
+              "minV": -1.2816952174504481,
+              "complete": true,
+              "amplitudeAndDurationWithinConditionalLimits": true
+            },
+            {
+              "start": 1.2185380425430435e-05,
+              "end": 1.2342826517181466e-05,
+              "durationSeconds": 1.5744609175103106e-07,
+              "minV": -0.928666140595178,
+              "complete": true,
+              "amplitudeAndDurationWithinConditionalLimits": true
+            }
+          ],
+          "withinStaticVoltageEnvelope": false,
+          "requiresNegativePulseException": true,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        },
+        "clock": {
+          "minV": -0.7457892442115173,
+          "maxV": 5.280315244908795,
+          "negativePulses": [
+            {
+              "start": 1.2155730479329597e-05,
+              "end": 1.2324832559909033e-05,
+              "durationSeconds": 1.6910208057943547e-07,
+              "minV": -0.7457892442115173,
+              "complete": true
+            },
+            {
+              "start": 2.0087507414135668e-05,
+              "end": 2.0155069977547685e-05,
+              "durationSeconds": 6.756256341201698e-08,
+              "minV": -0.031279516793678505,
+              "complete": true
+            }
+          ],
+          "withinStaticVoltageEnvelope": true,
+          "requiresNegativePulseException": false,
+          "conditionalAmplitudeAndDurationSatisfied": true,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        }
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 10,
+      "cablePf": 2000,
+      "traceSha256": "1ad909501d1eb2cacdf2d5a20c347b748f749477149410dd3e5142905a248120",
+      "inputs": {
+        "data": {
+          "minV": -2.0977115668304984,
+          "maxV": 4.976006420995747,
+          "negativePulses": [
+            {
+              "start": 1.0178141827788839e-05,
+              "end": 1.0477036899078384e-05,
+              "durationSeconds": 2.988950712895449e-07,
+              "minV": -2.0977115668304984,
+              "complete": true,
+              "amplitudeAndDurationWithinConditionalLimits": false
+            },
+            {
+              "start": 1.0731885515397644e-05,
+              "end": 1.0820563626331753e-05,
+              "durationSeconds": 8.867811093410888e-08,
+              "minV": -0.033945218269755495,
+              "complete": true
+            },
+            {
+              "start": 1.2237162257198713e-05,
+              "end": 1.249928662315106e-05,
+              "durationSeconds": 2.62124365952346e-07,
+              "minV": -1.2373248332986022,
+              "complete": true,
+              "amplitudeAndDurationWithinConditionalLimits": false
+            },
+            {
+              "start": 1.2770891747854719e-05,
+              "end": 1.2915004164718369e-05,
+              "durationSeconds": 1.441124168636502e-07,
+              "minV": -0.08706802074129114,
+              "complete": true
+            }
+          ],
+          "withinStaticVoltageEnvelope": false,
+          "requiresNegativePulseException": true,
+          "conditionalAmplitudeAndDurationSatisfied": false,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        },
+        "clock": {
+          "minV": -1.518497629962829,
+          "maxV": 5.3026950575419525,
+          "negativePulses": [
+            {
+              "start": 1.2176737622266655e-05,
+              "end": 1.2477056009742169e-05,
+              "durationSeconds": 3.003183874755135e-07,
+              "minV": -1.518497629962829,
+              "complete": true,
+              "amplitudeAndDurationWithinConditionalLimits": false
+            },
+            {
+              "start": 1.2785792568387524e-05,
+              "end": 1.292552034340896e-05,
+              "durationSeconds": 1.397277750214352e-07,
+              "minV": -0.0804364315153665,
+              "complete": true
+            },
+            {
+              "start": 2.0127980463411962e-05,
+              "end": 2.0183797709038137e-05,
+              "durationSeconds": 5.5817245626175186e-08,
+              "minV": -0.010780910637154088,
+              "complete": true
+            }
+          ],
+          "withinStaticVoltageEnvelope": false,
+          "requiresNegativePulseException": true,
+          "conditionalAmplitudeAndDurationSatisfied": false,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        }
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 5,
+      "cablePf": 2000,
+      "traceSha256": "df1c2139ecd3496d210dc41e00cde97b63cba2e9eb40f51b12cd9ae666e8a9e6",
+      "inputs": {
+        "data": {
+          "minV": -2.0895054814939256,
+          "maxV": 4.9760064209947545,
+          "negativePulses": [
+            {
+              "start": 1.0178942563205844e-05,
+              "end": 1.047706255328778e-05,
+              "durationSeconds": 2.981199900819365e-07,
+              "minV": -2.0895054814939256,
+              "complete": true,
+              "amplitudeAndDurationWithinConditionalLimits": false
+            },
+            {
+              "start": 1.0731500286556222e-05,
+              "end": 1.0820039914344182e-05,
+              "durationSeconds": 8.853962778795996e-08,
+              "minV": -0.033710750799543165,
+              "complete": true
+            },
+            {
+              "start": 1.2237750713642138e-05,
+              "end": 1.2499490057128829e-05,
+              "durationSeconds": 2.617393434866912e-07,
+              "minV": -1.234550623660095,
+              "complete": true,
+              "amplitudeAndDurationWithinConditionalLimits": false
+            },
+            {
+              "start": 1.2771279506633296e-05,
+              "end": 1.2915347292012969e-05,
+              "durationSeconds": 1.4406778537967273e-07,
+              "minV": -0.08692380418499712,
+              "complete": true
+            }
+          ],
+          "withinStaticVoltageEnvelope": false,
+          "requiresNegativePulseException": true,
+          "conditionalAmplitudeAndDurationSatisfied": false,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        },
+        "clock": {
+          "minV": -1.5138361796370885,
+          "maxV": 5.302617766230476,
+          "negativePulses": [
+            {
+              "start": 1.2177460707711352e-05,
+              "end": 1.247792889126736e-05,
+              "durationSeconds": 3.004681835560079e-07,
+              "minV": -1.5138361796370885,
+              "complete": true,
+              "amplitudeAndDurationWithinConditionalLimits": false
+            },
+            {
+              "start": 1.278562277433011e-05,
+              "end": 1.2925501560192924e-05,
+              "durationSeconds": 1.398787858628129e-07,
+              "minV": -0.08073598511888974,
+              "complete": true
+            },
+            {
+              "start": 2.0127678290631973e-05,
+              "end": 2.0183558155464877e-05,
+              "durationSeconds": 5.587986483290399e-08,
+              "minV": -0.010672665621111951,
+              "complete": true
+            }
+          ],
+          "withinStaticVoltageEnvelope": false,
+          "requiresNegativePulseException": true,
+          "conditionalAmplitudeAndDurationSatisfied": false,
+          "requiresAboveMaxCurrentException": false,
+          "dynamicDutyQualified": false,
+          "qualified": false,
+          "boundary": "Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate."
+        }
+      }
+    }
+  ]
+}

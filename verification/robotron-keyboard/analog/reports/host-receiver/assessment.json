@@ -238,7 +238,14 @@
     "Independent AC impedance checks verify the implemented host passive network against the documented values and declared winding assumptions.",
     "Both ideal and generic transistor driver fixtures pass existing release and load-refinement checks with the host passives. These checks do not qualify absolute buffer voltage limits.",
     "The host network materially changes input extrema. The generic 7406 candidate still produces negative excursions; input clamp behavior and its source-device limits require separate evidence.",
-    "Winding parameters, cable capacitance, driver dynamics and missing buffer input loading limit these results; no model calibration or full-board firmware claim follows."
+    "Winding parameters, cable capacitance, driver dynamics and missing buffer input loading limit these results; no model calibration or full-board firmware claim follows.",
+    "RFT preliminary D104D data permits -0.8 V statically and conditionally -1.5 V negative pulses at no more than 200 ns and 0.5 duty ratio. This differs from applying an SIO limit at the cable.",
+    "At the doubled cable load, the generic 7406 candidate violates both conditional negative-pulse amplitude and duration bounds at host buffer inputs despite passing the earlier fixture checks. At nominal load, data pulses satisfy amplitude/duration but duty and model applicability are not established."
   ],
-  "nextAction": "Constrain D104/T104 buffer input loading and clamp behavior using applicable device evidence, then integrate the qualified host boundary into coupled firmware checks."
+  "nextAction": "Model and constrain D104 input loading/clamps; retain the doubled-load rejection and integrate only an explicitly qualified receiver boundary into firmware checks.",
+  "deviceInputReview": {
+    "file": "d104-input-review.json",
+    "sha256": "8541422d40a7c6d0dff07f222352617049bbc1520075f0cd7c741906990c3a5e",
+    "limits": "../../d104_limits.json"
+  }
 }

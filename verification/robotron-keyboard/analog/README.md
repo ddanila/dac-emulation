@@ -215,6 +215,11 @@ buffer inputs, retaining cable-terminal voltages separately. The SIO is downstre
 of the buffers; its pin limits must not be applied directly to cable voltages.
 Host winding values remain assumptions, and buffer input currents, clamps and
 propagation are unmodeled. Firmware runners do not yet include this host network.
+`host_input_review.py --run /tmp/host-input-review --out /tmp/input-limits.json`
+checks retained buffer-input waveforms against [RFT D104D conditions](d104_limits.json).
+It distinguishes static bounds from the conditional negative-pulse allowance;
+duty and unknown input currents cannot be inferred from a voltage minimum.
+A completed review is not an electrical acceptance pass.
 
 ## Qualification and retained evidence
 
