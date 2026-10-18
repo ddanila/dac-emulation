@@ -915,3 +915,12 @@ edge; the fixture checks the resulting RAM write and output, including WAIT.
 These behavioral dual-edge experiments do not establish synthesis suitability,
 interrupt/reset/bus-grant correctness, full-firmware behavior or calibrated U880
 timing. Vendored TV80 sources remain unchanged.
+
+The read-phase probe's `--read-kind m1` changes the first opcode after the rising
+edge and checks that all profiles retain the earlier instruction, including an
+external WAIT. This checks edge selection, not a setup/hold-limit sweep.
+
+Electrical-bus latch confirmations use Verilog's postponed observation region
+at the sampling time, after the input register's nonblocking update. They do
+not depend on a following falling edge beyond the capture stop. The validator
+still requires a matching register confirmation for every read.

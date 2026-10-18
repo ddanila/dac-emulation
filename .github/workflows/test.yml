@@ -22,7 +22,7 @@ jobs:
         run: python3 verification/robotron-keyboard/analog/bus_timing_probe.py
       - name: CPU read sampling phase diagnostic
         run: |
-          for kind in memory io indexed-opcode; do
+          for kind in memory io indexed-opcode m1; do
             for profile in tv80 falling-candidate falling-indexed-candidate; do
               for wait_mode in plain wait; do
                 extra=()
