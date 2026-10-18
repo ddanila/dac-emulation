@@ -19,7 +19,8 @@
     "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
     "io_scenario.h": "bf5d1db5df22f513c5f27792f1400c13d4d074041b4b0c5f353bc70cc0fe497f",
     "ngspice.log": "5f7abc43072afd839550197b9c8e1fa8c9bd60e17543b23d226ab6994e30312b",
-    "reference.log": "af14c8d9e2586559f0730c4987dd2955bb6e5ff415c77da865f4501d7d0d2a98"
+    "reference.log": "af14c8d9e2586559f0730c4987dd2955bb6e5ff415c77da865f4501d7d0d2a98",
+    "failed-host-tail.txt": "b40b4fcf67dd93bb5e4b9d28c8af385ee3e8e478911811105263311d1cc1f7d7"
   },
   "relatedFailure": "../firmware-host-rising-modifier/assessment.json",
   "waveforms": {
@@ -32,5 +33,12 @@
     ]
   },
   "interpretation": "Both reset and modifier release fail in the same host-input transistor at scheduled stimulus boundaries. This motivates a breakpoint/solver investigation but does not identify the cause or a physical board fault. Startup success and the initial key packet cannot qualify post-reset behavior.",
-  "nextAction": "Compare an explicit 1 fs breakpoint-spacing diagnostic using unchanged circuit, scenario, electrical tolerances and maximum timestep. Preserve analysis-invocation differences and reject any solver diagnostic."
+  "nextAction": "Compare an explicit 1 fs breakpoint-spacing diagnostic using unchanged circuit, scenario, electrical tolerances and maximum timestep. Preserve analysis-invocation differences and reject any solver diagnostic.",
+  "failedTail": {
+    "file": "failed-host-tail.txt",
+    "producerHostTraceSha256": "446bbecb4a45d18590c8693d81128f478ea8e2eab39771120af44a3783253076",
+    "producerRows": 3180637,
+    "retainedFinalRows": 3,
+    "boundary": "Exact last producer rows from an aborted numerical capture, not accepted physical samples. Reset capture includes a duplicate final timestamp and an extreme cable value; no voltage qualification is inferred."
+  }
 }

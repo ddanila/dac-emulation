@@ -19,7 +19,8 @@
     "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
     "io_scenario.h": "b0e76022f954385a2c6064becf0089d1ee285a1fc9262addd341bc251032d01f",
     "ngspice.log": "abbee6fec7bd184b468ca37013e39aa820949d99269347eb536e4033baa3dca7",
-    "reference.log": "1f7f7b3a2b579d9e174ac6cd346d73e900c909c68fcd5003762be5b752e51fcd"
+    "reference.log": "1f7f7b3a2b579d9e174ac6cd346d73e900c909c68fcd5003762be5b752e51fcd",
+    "failed-host-tail.txt": "8a3606dd70401edc2492a290fc8d5548b8f4a004132effc64a37bc01463d9cd9"
   },
   "waveforms": {
     "retention": "Incomplete captures remain local; compressed-file hashes are retained in producer failureArtifacts. They are not full-scenario evidence.",
@@ -31,5 +32,12 @@
     ]
   },
   "interpretation": "The nominal single-press success does not extend across this release transition. This is a numerical/model failure, not an observed physical keyboard fault. Retain the solver diagnostic and incomplete extent; do not qualify a confirmed prefix as the full scenario.",
-  "nextAction": "Repeat the same circuit and stimulus at a finer maximum timestep before isolating the failing transition. Keep device assumptions and acceptance thresholds unchanged."
+  "nextAction": "Repeat the same circuit and stimulus at a finer maximum timestep before isolating the failing transition. Keep device assumptions and acceptance thresholds unchanged.",
+  "failedTail": {
+    "file": "failed-host-tail.txt",
+    "producerHostTraceSha256": "f4a632a590163ed82b48c6410f203fe367f33e8ab7fdab9e4fee7a3e237966ff",
+    "producerRows": 3338767,
+    "retainedFinalRows": 3,
+    "boundary": "Exact last producer rows from an aborted numerical capture, not accepted physical samples. Reset capture includes a duplicate final timestamp and an extreme cable value; no voltage qualification is inferred."
+  }
 }
