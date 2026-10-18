@@ -643,6 +643,11 @@ missing observations and waveform gaps. TV80's sampling
 edge is not a substitute for the U880's distinct M1 and M2–M5 pin timing.
 Electrical and data mismatches retain the first failing read's time, address,
 signal and expected/observed values in `busFailure`, alongside the failure traces.
+Four-state data is rejected in read order and retains its raw hexadecimal text;
+an uncertain later read cannot hide an earlier voltage failure.
+[Retained-trace revalidation](reports/electrical-bus-failure-review/read-ordered-revalidation.json)
+distinguishes full-log rejection from the paired-prefix diagnosis of the older
+transistor run, whose final latch confirmation is missing.
 Firmware runs require the complete bus capture interval, including its beginning
 and end, and retain high-precision waveform timestamps.
 Physical bus timing checks remain unfinished, so the paired firmware qualifier

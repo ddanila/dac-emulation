@@ -1,0 +1,116 @@
+{
+  "qualified": false,
+  "checkerSha256": "4859edcbcd1389e2a03aabf04db8b24ca9c40e792eae69ace9161624de4eb79e",
+  "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+  "boundary": "Revalidation of retained traces; original reports unchanged. Unknown data remains rejected. No electrical limits relaxed.",
+  "runs": {
+    "39086581088-coarse": {
+      "source": "https://github.com/ddanila/dac-emulation/actions/runs/39086581088",
+      "stepNs": 5.0,
+      "setupNs": 0,
+      "holdNs": 0,
+      "traceExtentSeconds": [
+        0,
+        0.03
+      ],
+      "logSha256": "8a85a7e6927f0a5e48cd6c5a9ffd175234d25bfafe155cf2a1128732e98b68f0",
+      "passed": false,
+      "error": "Bus D3 outside reference input voltage range",
+      "busFailure": {
+        "ordinal": 82,
+        "readTimePs": 1342501000,
+        "address": 40,
+        "sampledByte": 121,
+        "signal": "D3",
+        "traceTimeSeconds": 0.0013425009999999999,
+        "volts": 4.917306647150011,
+        "minimumVolts": -0.5,
+        "maximumVolts": 4.917305978832072
+      },
+      "fullLogRejection": "Missing bus samples or CPU latch confirmations",
+      "diagnosticPrefix": {
+        "sampleCount": 7108,
+        "excludedFinalUnconfirmedSample": "BUS_SAMPLE 29999501000 401c ca 0 1 0",
+        "boundary": "Only the paired prefix is checked to locate earlier failures; the full capture still lacks its final latch confirmation."
+      }
+    },
+    "39086581088-fine": {
+      "source": "https://github.com/ddanila/dac-emulation/actions/runs/39086581088",
+      "stepNs": 2.5,
+      "setupNs": 0,
+      "holdNs": 0,
+      "traceExtentSeconds": [
+        0,
+        0.03
+      ],
+      "logSha256": "dfc6760bf240423fe516c7e49dd02defc8a13b6d87f7fd1b3af3927f5f89bcb4",
+      "passed": false,
+      "error": "Bus D3 outside reference input voltage range",
+      "busFailure": {
+        "ordinal": 82,
+        "readTimePs": 1342501000,
+        "address": 40,
+        "sampledByte": 121,
+        "signal": "D3",
+        "traceTimeSeconds": 0.0013425009999999999,
+        "volts": 4.917307185992797,
+        "minimumVolts": -0.5,
+        "maximumVolts": 4.917306510168306
+      },
+      "fullLogRejection": "Missing bus samples or CPU latch confirmations",
+      "diagnosticPrefix": {
+        "sampleCount": 7108,
+        "excludedFinalUnconfirmedSample": "BUS_SAMPLE 29999501000 401c ca 0 1 0",
+        "boundary": "Only the paired prefix is checked to locate earlier failures; the full capture still lacks its final latch confirmation."
+      }
+    },
+    "39089855942-coarse": {
+      "source": "https://github.com/ddanila/dac-emulation/actions/runs/39089855942",
+      "stepNs": 5.0,
+      "setupNs": 0,
+      "holdNs": 0,
+      "traceExtentSeconds": [
+        0,
+        0.03
+      ],
+      "logSha256": "06ef7f45d20fc4adefde34d6ee49e947ef3ec3c09b2f8596b85738b4bc8f69be",
+      "passed": false,
+      "error": "Bus D7 outside reference input voltage range",
+      "busFailure": {
+        "ordinal": 34,
+        "readTimePs": 1131501000,
+        "address": 34,
+        "sampledByte": 203,
+        "signal": "D7",
+        "traceTimeSeconds": 0.0011315009999999998,
+        "volts": 4.939907058753426,
+        "minimumVolts": -0.5,
+        "maximumVolts": 4.939906639839908
+      }
+    },
+    "39089855942-fine": {
+      "source": "https://github.com/ddanila/dac-emulation/actions/runs/39089855942",
+      "stepNs": 2.5,
+      "setupNs": 0,
+      "holdNs": 0,
+      "traceExtentSeconds": [
+        0,
+        0.03
+      ],
+      "logSha256": "05fddf2363be1de0ed9e895df0da1365d946654775499b14b4b9d236d818ca6b",
+      "passed": false,
+      "error": "Bus D7 outside reference input voltage range",
+      "busFailure": {
+        "ordinal": 34,
+        "readTimePs": 1131501000,
+        "address": 34,
+        "sampledByte": 203,
+        "signal": "D7",
+        "traceTimeSeconds": 0.0011315009999999998,
+        "volts": 4.939907168577591,
+        "minimumVolts": -0.5,
+        "maximumVolts": 4.939906749730335
+      }
+    }
+  }
+}
