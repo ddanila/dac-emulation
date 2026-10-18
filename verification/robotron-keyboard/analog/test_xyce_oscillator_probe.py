@@ -22,6 +22,8 @@ class AdapterTests(unittest.TestCase):
         pwl = deck(components, .25, .00025, True, 'pwl')
         self.assertIn('Vcc n_p5V 0 PWL FILE "../supply.txt"', pwl)
         self.assertNotIn('fasttable', pwl)
+        table = deck(components, .25, .00025, True, 'table')
+        self.assertIn('Bsupply n_p5V 0 V={table("../supply.txt")}', table)
         self.assertIn('RBR1 n_OSC_OUT n_CLK .001', pwl)
         with self.assertRaises(ValueError):
             deck(components, .25, .00025, True, 'unknown')
