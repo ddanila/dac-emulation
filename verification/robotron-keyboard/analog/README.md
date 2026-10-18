@@ -220,7 +220,9 @@ does not calibrate input clamps or switching. Buffer outputs use illustrative SI
 loads. Both the output probe and service firmware runner accept explicit
 `--sio-data-pf`, `--sio-clock-pf` and `--sio-leakage-ua` together with `--host-buffer`;
 positive leakage draws current from the input to ground. The
-[load screening](reports/host-loads/assessment.json) retains the tested cases.
+[load screening](reports/host-loads/assessment.json) retains the tested cases;
+the [loaded firmware observation](reports/firmware-host-load/assessment.json)
+checks an explicit load through the service fixture.
 The [U856 source review](u856_limits.json) constrains leakage and capacitance
 without supplying exact I/V or Schmitt thresholds; clock-capacitance pin coverage
 remains explicit. `firmware_io_cosim.py --host-buffer --serial-driver 7406-dc` includes
@@ -238,6 +240,10 @@ This checks matching model/runtime inputs and serial-edge refinement while retai
 `host_waveform_comparison.py COARSE FINE --out /tmp/host-voltages.json` compares
 all retained host-voltage sample knots at absolute time using linear interpolation.
 It reports maximum differences without phase alignment or a physical-accuracy claim.
+`host_transition_windows.py COMPARISON COARSE FINE --out /tmp/host-windows`
+retains exact producer samples with bracketing points around the maximum differences.
+The [transition review](reports/host-transition-windows/assessment.json) distinguishes
+local edge shifts from whole-waveform or physical qualification.
 
 Use `host_input_review.py --firmware --run /path/to/service-run --out /tmp/input-limits.json`
 for a retained host-buffer firmware capture; it verifies artifact hashes, observed

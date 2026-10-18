@@ -1,0 +1,43 @@
+{
+  "qualified": false,
+  "scope": "Local investigation of largest sampled buffer-output differences",
+  "reportSha256": "db40e4eb02c1a2a5d0c215526d23fffb9255fed392e5a46b53531ea5f9c152cf",
+  "findings": [
+    {
+      "window": 2,
+      "output": "data",
+      "coarseCrossings": [
+        {
+          "timeSeconds": 0.011769638940397693,
+          "direction": "rising"
+        }
+      ],
+      "fineCrossings": [
+        {
+          "timeSeconds": 0.01176963644056091,
+          "direction": "rising"
+        }
+      ],
+      "shiftNs": -2.4998367820217027
+    },
+    {
+      "window": 4,
+      "output": "clock",
+      "coarseCrossings": [
+        {
+          "timeSeconds": 0.025629133747157428,
+          "direction": "rising"
+        }
+      ],
+      "fineCrossings": [
+        {
+          "timeSeconds": 0.025629134993402792,
+          "direction": "rising"
+        }
+      ],
+      "shiftNs": 1.246245363850651
+    }
+  ],
+  "interpretation": "The selected output windows each contain one rising crossing in both captures. Small time shifts on steep edges explain large instantaneous voltage differences in these windows. No phase alignment was applied; this does not establish whole-waveform convergence, exclude pulses elsewhere or calibrate the switching model.",
+  "nextAction": "Further refinement and device-dynamic evidence remain separate requirements; apply explicit SIO loads without silently reusing this nominal-load comparison."
+}
