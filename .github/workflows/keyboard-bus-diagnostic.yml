@@ -1,0 +1,101 @@
+name: Electrical bus firmware diagnostic
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: Standard S600 service scenario
+        type: choice
+        options: [single-press, reset]
+        default: single-press
+permissions:
+  contents: read
+concurrency:
+  group: keyboard-bus-${{ github.ref }}-${{ inputs.scenario }}
+  cancel-in-progress: false
+jobs:
+  bus:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      SCENARIO: ${{ inputs.scenario }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential autoconf automake libtool bison flex gperf
+      - name: Fetch pinned simulator and standard ROM sources
+        run: |
+          RUNTIME_ROOT="$RUNNER_TEMP/keyboard-runtime"
+          mkdir -p "$RUNTIME_ROOT"
+          echo "RUNTIME_ROOT=$RUNTIME_ROOT" >> "$GITHUB_ENV"
+          curl --fail --location --retry 3 https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz -o "$RUNTIME_ROOT/ngspice.tar.gz"
+          printf '%s  %s\n' 894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f "$RUNTIME_ROOT/ngspice.tar.gz" | sha256sum -c -
+          tar -xzf "$RUNTIME_ROOT/ngspice.tar.gz" -C "$RUNTIME_ROOT"
+          git init "$RUNTIME_ROOT/icarus"
+          git -C "$RUNTIME_ROOT/icarus" remote add origin https://github.com/steveicarus/iverilog.git
+          git -C "$RUNTIME_ROOT/icarus" fetch --depth 1 origin dfeee909ed9f20b4870dd93423156c0170c0e1ff
+          git -C "$RUNTIME_ROOT/icarus" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNTIME_ROOT/icarus" rev-parse HEAD)" = dfeee909ed9f20b4870dd93423156c0170c0e1ff
+          curl --fail --location --retry 3 https://raw.githubusercontent.com/ddanila/dac/e614abf62192e9222117b514a09fe30bc432131b/public/media/robotron/s600.bin -o "$RUNTIME_ROOT/s600.bin"
+          printf '%s  %s\n' 4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273 "$RUNTIME_ROOT/s600.bin" | sha256sum -c -
+      - name: Build Icarus and shared runtime
+        run: |
+          cd "$RUNTIME_ROOT/icarus"
+          sh autoconf.sh
+          ./configure --enable-libvvp --prefix="$RUNTIME_ROOT/install"
+          make -j2 2>&1 | tee "$RUNTIME_ROOT/icarus-build.log"
+          make install
+          echo "$RUNTIME_ROOT/install/bin" >> "$GITHUB_PATH"
+      - name: Build ngspice with reviewed diagnostic correction
+        run: |
+          patch -d "$RUNTIME_ROOT/ngspice-47" -p1 < verification/robotron-keyboard/analog/engine-patches/ngspice-47-strict-time-diagnostic.patch
+          patch -d "$RUNTIME_ROOT/ngspice-47" -p1 < verification/robotron-keyboard/analog/engine-patches/ngspice-47-seegenerator-stdlib.patch
+          mkdir "$RUNTIME_ROOT/ngspice-build"
+          cd "$RUNTIME_ROOT/ngspice-build"
+          "$RUNTIME_ROOT/ngspice-47/configure" --prefix="$RUNTIME_ROOT/install" --enable-xspice --without-x --with-readline=no --disable-openmp --disable-klu
+          make -j2 2>&1 | tee "$RUNTIME_ROOT/ngspice-build.log"
+          make install
+      - name: Build and check live bridge
+        run: |
+          python3 verification/robotron-keyboard/analog/build_bridge.py --ngspice-source "$RUNTIME_ROOT/ngspice-47" --icarus-source "$RUNTIME_ROOT/icarus" --libvvp "$RUNTIME_ROOT/icarus/vvp/libvvp.so"
+          python3 verification/robotron-keyboard/analog/bridge_probe.py --ngspice "$RUNTIME_ROOT/install/bin/ngspice" --out build/keyboard-controller-analog/ci-bus/bridge-probe
+          python3 verification/robotron-keyboard/analog/bus_cosim.py --ngspice "$RUNTIME_ROOT/install/bin/ngspice" --out build/keyboard-controller-analog/ci-bus/bus-fixture
+      - name: Paired S600 electrical bus diagnostics
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess, sys
+          from pathlib import Path
+          runtime = Path(os.environ['RUNTIME_ROOT'])
+          root = Path('build/keyboard-controller-analog/ci-bus')
+          outcomes = {}
+          for name, step in [('coarse', '5'), ('fine', '2.5')]:
+              command = [sys.executable, 'verification/robotron-keyboard/analog/firmware_io_cosim.py',
+                  '--rom', str(runtime / 's600.bin'), '--scenario',
+                  'verification/robotron-keyboard/analog/scenarios/' + os.environ['SCENARIO'] + '.json',
+                  '--electrical-bus', '--bus-latch-pf', '12', '--bus-7406-pf', '3',
+                  '--electrical-cpu-pullups', '--electrical-logic-pullups', '--logic-load-pf', '10',
+                  '--minimum-breakpoint-fs', '1', '--compress-traces', '--compression-preset', '6',
+                  '--step-ns', step, '--timeout-seconds', '5400',
+                  '--ngspice', str(runtime / 'install/bin/ngspice'), '--out', str(root / name)]
+              outcomes[name] = subprocess.run(command).returncode
+              (root / 'assessment.json').write_text(json.dumps({'qualified': False, 'exitCodes': outcomes,
+                  'boundary': 'Experimental bus fixture; paired physical bus timing and device calibration remain unqualified.'}, indent=2) + '\n')
+          raise SystemExit(0 if all(code == 0 for code in outcomes.values()) else 1)
+          PY
+      - name: Retain reports and waveforms, including failed runs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: keyboard-bus-${{ inputs.scenario }}-${{ github.run_id }}
+          retention-days: 90
+          compression-level: 0
+          path: |
+            build/keyboard-controller-analog/ci-bus/**/*.json
+            build/keyboard-controller-analog/ci-bus/**/*.log
+            build/keyboard-controller-analog/ci-bus/**/*.cir
+            build/keyboard-controller-analog/ci-bus/**/*.v
+            build/keyboard-controller-analog/ci-bus/**/*.xz
+            build/keyboard-controller-analog/ci-bus/**/*.partial
+            build/keyboard-controller-analog/ci-bus/**/events.vcd
+            build/keyboard-controller-analog/ci-bus/**/trace.txt
+            build/keyboard-controller-analog/bridge/bridge.json
+            ${{ runner.temp }}/keyboard-runtime/*build.log
