@@ -20,7 +20,7 @@ def main():
     here = Path(__file__).resolve().parent
     report = {'passed': False, 'scope': __doc__, 'validationSources': {
         name: sha(here / name) for name in ('scenario_coverage.py', 'io_scenario.py',
-                                          'compare_firmware_io.py', 'serial_observation.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py')}}
+                                          'compare_firmware_io.py', 'transient_analysis.py', 'serial_observation.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         original, transport = load_run(args.directory)

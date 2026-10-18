@@ -72,7 +72,7 @@ def main():
               'interpretation': 'DAC intent midpoint crossings with sample and printed timestamp uncertainty; '
                                 'no phase realignment, historical propagation or brightness qualification.',
               'sources': {n: sha(HERE / n) for n in (
-                  'compare_led_pair.py', 'compare_firmware_io.py', 'clock_convergence.py',
+                  'compare_led_pair.py', 'compare_firmware_io.py', 'transient_analysis.py', 'clock_convergence.py',
                   'led_observation.py', 'serial_observation.py', 'failure_evidence.py', 'trace_io.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
