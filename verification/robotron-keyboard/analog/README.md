@@ -98,6 +98,7 @@ remain independent. Missing events, unfinished runs and timeouts cannot pass.
 | Oscillator convergence and coupling | [oscillator_probe.py](oscillator_probe.py), [coupled_clock_probe.py](coupled_clock_probe.py) |
 | Independent solver and supply replay | [xyce_oscillator_probe.py](xyce_oscillator_probe.py), [oscillator_supply_replay.py](oscillator_supply_replay.py) |
 | Cable/output/indicator behavior | [output_probe.py](output_probe.py), [firmware_io_cosim.py](firmware_io_cosim.py) |
+| Failed driver transition | [driver_boundary_replay.py](driver_boundary_replay.py), [analog_driver_replay.py](analog_driver_replay.py); the latter replaces HDL feedback with sampled PWL stimulus and an explicit diagnostic continuation |
 | CPU read phase and firmware dependence | [cpu_read_phase_probe.py](cpu_read_phase_probe.py), [released_read_analysis.py](released_read_analysis.py) |
 
 Use these probes to constrain a model before expensive coupled runs. DC and
@@ -215,16 +216,11 @@ must be supplied together; use the runners' `--help` for arguments. Positive
 leakage draws current to ground. Source-informed loads are stress assumptions,
 not calibrated I/V curves or identified Schmitt thresholds.
 
-Host sampling follows rising RxC, paired with falling keyboard cable clock, as
-specified in [U856 receive-edge evidence](reports/host-receive-edge/assessment.json).
-The [rising-edge service pair](reports/firmware-host-rising-load-fine/assessment.json)
-passes logical, scenario, sampled-stability and serial-edge refinement checks for
-its declared load. [Loaded transition windows](reports/host-loaded-transition-windows/assessment.json)
-explain selected absolute-time voltage differences without establishing full-waveform
-convergence. The [additional refinement](reports/firmware-host-rising-load-refined/assessment.json)
-does not consistently reduce those differences. Earlier
-falling-edge comparisons do not qualify that sampling point; source-bound
-waveforms remain available for review.
+Host sampling follows rising RxC, paired with falling keyboard cable clock;
+see the [receive-edge review](reports/host-receive-edge/assessment.json).
+Earlier falling-edge comparisons do not qualify that sampling point. Retained
+waveform hashes identify which voltage reviews remain applicable. The evidence
+index below owns links to current coverage and convergence results.
 
 `host-trace.txt` separates cable, buffer-input and buffer-output voltages. Service
 reviews require the complete service interval. Board input reviews cover only the
@@ -268,7 +264,9 @@ settings, results and rejected alternatives; related captures remain in
 | Qualification question | Evidence and boundary |
 | --- | --- |
 | Does the host-loaded closed board complete? | [Closed-board execution review](reports/board-host-load/assessment.json); the bounded full run timed out, while an unchanged-circuit startup diagnostic completed. Neither establishes full-board acceptance. |
-| Does corrected host sampling cover release transitions? | Explicit-spacing [reset](reports/firmware-host-rising-reset-minbreak/assessment.json) and [modifier](reports/firmware-host-rising-modifier-minbreak/assessment.json) diagnostics complete with packet coverage and sampled stability. The [reset invocation control](reports/firmware-host-rising-reset-default-spacing/assessment.json) reproduces failure at default-equivalent spacing. Fixed-spacing refinement and device qualification remain open. |
+| Does corrected host sampling cover service scenarios? | [Single press](reports/firmware-host-rising-load-fine/assessment.json), fixed-spacing [reset](reports/firmware-host-rising-reset-minbreak-fine/assessment.json) and [modifier](reports/firmware-host-rising-modifier-minbreak-fine/assessment.json) pairs pass packet coverage, sampled stability and serial-edge refinement. Remaining scenarios and device qualification are open. |
+| Do loaded voltage waveforms converge? | [Further refinement](reports/firmware-host-rising-load-refined/assessment.json) does not consistently reduce absolute-time differences; the [spacing control](reports/firmware-host-rising-load-minbreak-25ns/assessment.json) leaves those waveforms unchanged. |
+| What constrains the strict-tolerance failure? | [Truncation audit](reports/firmware-host-rising-load-truncation-audit/assessment.json) and [analog-only replay](reports/host-analog-driver-replay/assessment.json) narrow the transition investigation. Failure with HDL feedback removed does not establish an identical mechanism or a physical fault. |
 | Does the service configuration work? | [Service repeat qualification](reports/repeat/refined-strict-time/qualification/qualification.json); externally supplied clock/reset do not qualify closed-board startup. |
 | Is startup numerically converged? | [Full-precision supply isolation](reports/clock-output/full-precision-supply-isolation/assessment.json) and [independent solver replay](reports/clock-output/xyce-recorded-supply/assessment.json); retain absolute phase and failing startup. |
 | Does the gate model apply to the device? | [A7 identity and passport checks](reports/clock-output/k555la3-device-review/assessment.json), [candidate admission](reports/clock-output/device-admission/assessment.json) and [output I/V review](reports/clock-output/ls00-output-iv/assessment.json); selected DC/switching passes do not qualify oscillator dynamics or historical process parameters. |
@@ -277,8 +275,6 @@ settings, results and rejected alternatives; related captures remain in
 | Do device conditions or input-junction assumptions resolve startup? | [Device-condition and diode review](reports/clock-output/diode-role-review/assessment.json); selected TI/К555ЛА3 DC checks remain distinct from dynamic applicability. |
 | Are CPU reads electrically valid? | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json) and [floating-read analysis](reports/floating-io/static-analysis.json); functional agreement does not qualify released input voltage. |
 | Are receive-clock pulses wide enough at the assumed threshold? | [Loaded service assessment](reports/firmware-host-load/assessment.json) and [clock widths](reports/firmware-host-load/clock-widths.json); complete sample-bracket intervals pass the reference screen. Schmitt thresholds, supply applicability and censored intervals remain unqualified. |
-| Does firmware traverse the experimental host receiver? | [Service firmware observation](reports/firmware-host-buffer/assessment.json) and [paired numerical review](reports/firmware-host-buffer-fine/assessment.json); logical comparison, serial-edge refinement, sampled stability and input stress pass, but absolute-time voltage comparison exposes substantial transition differences; [selected windows](reports/host-transition-windows/assessment.json) show local edge shifts. Full waveforms remain local; voltage convergence, device/loading and closed-board qualification remain open. |
-| Are explicit SIO loads exercised? | [Load screening](reports/host-loads/assessment.json) and [loaded timestep review](reports/firmware-host-load-fine/assessment.json); the original observer’s edges refine, but voltage differences remain and rising-RxC behavior needs requalification. Exact I/V and clock-capacitance applicability remain open. |
 | Is the host buffer switching model qualified? | [D104 switching fixture review](reports/host-buffer-switching/assessment.json); threshold timing converges under explicit generator assumptions, but incomplete fixture parameters and uncalibrated device dynamics prevent qualification. |
 | Does an active host buffer change the rejected input pulses? | [Buffer candidate review](reports/host-buffer/assessment.json); selected DC and nominal fixture checks pass for the explicit candidate, while clamp dynamics, device applicability and SIO loading remain unqualified. |
 | Where does the cable terminate electrically? | [Host input review](reports/host-receiver/assessment.json); factory and redrawn schematics place passive filters before D104 buffers. The passive boundary changes loading and undershoot but does not qualify the active receiver. |
