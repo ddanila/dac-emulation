@@ -48,6 +48,27 @@ class BootPreparationTests(unittest.TestCase):
             self.assertIn('bus_observation.py', report['sources'])
             with self.assertRaisesRegex(ValueError, 'timing qualification'):
                 compare(report, report, 10)
+            args.supply_data = {'pointsSecondsVolts': [[0, 0], [1e-6, 5], [.125, 5], [.12501, 2], [.126, 2], [.12601, 5], [.127, 5]]}
+            for outputs in (True, False):
+                args.electrical_outputs = outputs
+                args.electrical_bus = outputs
+                args.bus_latch_pf, args.bus_7406_pf = (12, 3) if outputs else (None, None)
+                args.serial_driver = '7406-dc' if outputs else 'nominal'
+                custom = {'assumptions': {'traceWindowSeconds': [.124, .127]}}
+                with patch('boot_cosim.ROM_SHA256', sha(rom)):
+                    prepare(args, custom)
+                supply_line = next(line for line in (out/'boot.cir').read_text().splitlines()
+                                   if line.startswith('Vhost ' if outputs else 'Vcc '))
+                self.assertEqual(list(map(float, supply_line.split('PWL(')[1][:-1].split())),
+                                 [v for point in args.supply_data['pointsSecondsVolts'] for v in point])
+                self.assertEqual(json.loads((out/'supply-stimulus.json').read_text()), args.supply_data)
+                self.assertEqual(sha(out/'supply-stimulus.json'), custom['supplyStimulusSha256'])
+                with self.assertRaisesRegex(ValueError, 'Custom supply'):
+                    compare(custom, custom, 10)
+            args.supply_data = None
+            args.bus_latch_pf, args.bus_7406_pf = 12, 3
+            args.electrical_outputs = args.electrical_bus = True
+            args.serial_driver = '7406-dc'
             for name, value in (('electrical_matrix', False), ('bypass_rom_bus', True),
                                 ('wr_only_data', True), ('bus_latch_pf', None), ('bus_7406_pf', float('nan'))):
                 original = getattr(args, name)
