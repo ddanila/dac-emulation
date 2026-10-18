@@ -7,7 +7,8 @@
     "producer": "report.json",
     "sampledStability": "margins.json",
     "absoluteTimeComparison": "voltage-comparison.json",
-    "scenarioCoverage": "coverage.json"
+    "scenarioCoverage": "coverage.json",
+    "durationWeightedVoltageComparison": "voltage-integrals.json"
   },
   "retainedFilesSha256": {
     "report.json": "9f59d7f413422288cb5c5e07b424d31fd148686ad8bd9886b4928f36a33660ed",
@@ -20,7 +21,8 @@
     "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
     "voltage-comparison.json": "febe9332e9046626462403d2cf245b654b961053ed6627c7fa659c9c50948e22",
     "margins.json": "51365386869967a9a43e1b7772f6b8367c2a38d2bfeb2f5d1e006bd87f176a60",
-    "coverage.json": "dd046795c33ded589be73fac7d6dfd94f8521a6739036b625c5c67d86d9e55d8"
+    "coverage.json": "dd046795c33ded589be73fac7d6dfd94f8521a6739036b625c5c67d86d9e55d8",
+    "voltage-integrals.json": "35e5f57e7dbfc62ed602b396e6ae3025082d09047861c836b252efb486c4512f"
   },
   "waveforms": {
     "retention": "Full waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL included.",
@@ -32,5 +34,10 @@
     ]
   },
   "interpretation": "Reference bits, explicit scenario coverage and sampled stability pass. Serial-edge differences remain within the declared numerical budget, but maximum absolute-time voltage differences do not decrease consistently relative to the preceding pair: buffer data improves slightly while clock worsens. Maximum locations differ. This does not establish whole-waveform convergence or device accuracy.",
-  "nextAction": "Investigate event/transition scheduling and the separate release-boundary solver failures before treating finer timesteps alone as a solution. Retain absolute phase and existing acceptance criteria."
+  "nextAction": "Investigate event/transition scheduling and the separate release-boundary solver failures before treating finer timesteps alone as a solution. Retain absolute phase and existing acceptance criteria.",
+  "durationWeightedComparison": {
+    "previousPair": "../firmware-host-rising-load-fine/voltage-integrals.json",
+    "currentPair": "voltage-integrals.json",
+    "interpretation": "Mean absolute differences increase on every observed node under additional refinement; RMS differences also do not consistently decrease. Small time-averaged values coexist with the retained large peaks. These diagnostics do not establish convergence or permit peak errors to be ignored."
+  }
 }
