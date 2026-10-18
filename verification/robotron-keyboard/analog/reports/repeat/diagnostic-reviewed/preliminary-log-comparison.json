@@ -1,0 +1,30 @@
+{
+  "qualified": false,
+  "scope": "Preliminary retained-log timing comparison; waveform integrity and full qualification remain pending",
+  "inputs": {
+    "coarse": {
+      "runInputsSha256": "d895c8278033f6247553bb857c8c964b9680b342935e079857a121155f04c456",
+      "logSha256": "cac031bb87def6ebbcb005be48ee769b845e3713b999f96fbe1d401519124f6a"
+    },
+    "fine": {
+      "runInputsSha256": "e8d8ed6c8c3ae6972013e769ba0032f0abae4528abfa041b17146a06b7c4022a",
+      "logSha256": "b9351682cea002be3d2ca9752051dd758390b139a2af1fbe4ce78da4ae96b9db"
+    }
+  },
+  "comparison": {
+    "transmittedMaximumDifferenceNs": 1.0,
+    "receivedMaximumDifferenceNs": 19.0,
+    "transportMaximumDifferenceNs": 18.0,
+    "withinTolerance": false,
+    "firstTimingDifference": {
+      "signal": "serial_clock_RX",
+      "ordinal": 28,
+      "coarseValuePs": 715380198000,
+      "fineValuePs": 715380181000,
+      "coarseEventTimePs": 715380198000,
+      "fineEventTimePs": 715380181000,
+      "differenceNs": 17.0,
+      "budgetNs": 15
+    }
+  }
+}
