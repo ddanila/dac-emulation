@@ -1,0 +1,268 @@
+{
+  "qualified": false,
+  "passed": false,
+  "workflow": "https://github.com/ddanila/dac-emulation/actions/runs/39108994292",
+  "sourceCommit": "8c5f13105a61385fdadc5bca008ad72127d3e19c",
+  "reviewCommit": "f34706b",
+  "runs": {
+    "coarse": {
+      "firstBusFailure": {
+        "ordinal": 118,
+        "readTimePs": 1485002000,
+        "address": 0,
+        "sampledByte": null,
+        "signal": "CPU_DI_UNKNOWN",
+        "sampledHex": "0X",
+        "recordedSampleHex": "0X",
+        "latchedHex": "0X",
+        "latchTimePs": 1485002000,
+        "memorySelectN": 1,
+        "ioSelectN": 0,
+        "m1N": 1
+      },
+      "serialBitsMatchC": true,
+      "received": [
+        [
+          25103200000,
+          1
+        ],
+        [
+          25119200000,
+          1
+        ],
+        [
+          25135200000,
+          0
+        ],
+        [
+          25158200000,
+          0
+        ],
+        [
+          25190200000,
+          0
+        ],
+        [
+          25222200000,
+          0
+        ],
+        [
+          25254200000,
+          0
+        ],
+        [
+          25286199000,
+          0
+        ],
+        [
+          25318200000,
+          1
+        ],
+        [
+          25350200000,
+          1
+        ],
+        [
+          25382200000,
+          1
+        ],
+        [
+          25416200000,
+          1
+        ],
+        [
+          25432200000,
+          1
+        ],
+        [
+          25592200000,
+          1
+        ],
+        [
+          25608200000,
+          1
+        ],
+        [
+          25628200000,
+          0
+        ],
+        [
+          25651200000,
+          1
+        ],
+        [
+          25683200000,
+          0
+        ],
+        [
+          25715200000,
+          0
+        ],
+        [
+          25747200000,
+          0
+        ],
+        [
+          25779204000,
+          0
+        ],
+        [
+          25811200000,
+          1
+        ],
+        [
+          25843200000,
+          1
+        ],
+        [
+          25875204000,
+          0
+        ],
+        [
+          25909200000,
+          1
+        ],
+        [
+          25925200000,
+          1
+        ]
+      ],
+      "windowD0RangeVolts": [
+        1.572092130812509,
+        1.5720936000702488
+      ],
+      "reviewSha256": "f2297813363edb7027fb5b749c01445149059c560099ba48696263e950dd6d1d"
+    },
+    "fine": {
+      "firstBusFailure": {
+        "ordinal": 118,
+        "readTimePs": 1485002000,
+        "address": 0,
+        "sampledByte": null,
+        "signal": "CPU_DI_UNKNOWN",
+        "sampledHex": "0X",
+        "recordedSampleHex": "0X",
+        "latchedHex": "0X",
+        "latchTimePs": 1485002000,
+        "memorySelectN": 1,
+        "ioSelectN": 0,
+        "m1N": 1
+      },
+      "serialBitsMatchC": true,
+      "received": [
+        [
+          25103199000,
+          1
+        ],
+        [
+          25119199000,
+          1
+        ],
+        [
+          25135200000,
+          0
+        ],
+        [
+          25158200000,
+          0
+        ],
+        [
+          25190200000,
+          0
+        ],
+        [
+          25222200000,
+          0
+        ],
+        [
+          25254200000,
+          0
+        ],
+        [
+          25286200000,
+          0
+        ],
+        [
+          25318199000,
+          1
+        ],
+        [
+          25350199000,
+          1
+        ],
+        [
+          25382199000,
+          1
+        ],
+        [
+          25416199000,
+          1
+        ],
+        [
+          25432199000,
+          1
+        ],
+        [
+          25592199000,
+          1
+        ],
+        [
+          25608199000,
+          1
+        ],
+        [
+          25628200000,
+          0
+        ],
+        [
+          25651199000,
+          1
+        ],
+        [
+          25683200000,
+          0
+        ],
+        [
+          25715200000,
+          0
+        ],
+        [
+          25747200000,
+          0
+        ],
+        [
+          25779200000,
+          0
+        ],
+        [
+          25811199000,
+          1
+        ],
+        [
+          25843199000,
+          1
+        ],
+        [
+          25875200000,
+          0
+        ],
+        [
+          25909199000,
+          1
+        ],
+        [
+          25925199000,
+          1
+        ]
+      ],
+      "windowD0RangeVolts": [
+        1.5720922022342485,
+        1.5720936842042308
+      ],
+      "reviewSha256": "0442433059b1a257b823295cb467c26be425775ccdd620445d23ff9b68e2ad46"
+    }
+  },
+  "maximumOrdinalReceiverDifferenceNs": 4.0,
+  "interpretation": "Both timestep runs reject the same released A15-low I/O read with D0 in the receiver unknown band. Their serial transport passes and ordinal bits agree with C. This combined ROM-envelope/CPU-phase configuration remains electrically unqualified; it does not isolate which change removed an earlier voltage-range failure.",
+  "scope": "Single-press S600 service fixture with external 1 MHz clock/reset, open BR1/BR2, falling-indexed candidate CPU, ROM read envelope, transistor serial gates, electrical bus and WR. No latch timing envelope, physical oscillator/reset, brownout or device calibration qualification."
+}
