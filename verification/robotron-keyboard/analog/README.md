@@ -1099,6 +1099,10 @@ levels. The separate nominal-output run rejects a small D7 excursion above the
 moving supply; reconstructed local charge balance is consistent with capacitor
 lag in the linear driver fixture. Both electrical rejections remain open; neither is waived by the
 digital floating-input sensitivity experiment.
+The digital runner also accepts `--floating-io-value sequence`: a repeatable
+byte permutation advances only after each released read and restarts on reset.
+This exercises changing input values; it is not an exhaustive proof of every
+possible read sequence or a physical input-voltage model.
 The [paired ROM-envelope service run](reports/rom-read-envelope/electrical-bus/assessment.json)
 with the falling-edge CPU candidate also rejects the same released I/O read at
 both timesteps: D0 remains in the receiver unknown band. Serial bits agree with C,

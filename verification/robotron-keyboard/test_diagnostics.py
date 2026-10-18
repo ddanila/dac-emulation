@@ -77,4 +77,38 @@ endmodule
    subprocess.run(['iverilog','-g2012','-s','probe','-o',exe,*sorted((R.parents[1]/'third_party/cpu/tv80').glob('*.v')),R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v',out/'probe.v'],check=True)
    result=subprocess.run(['vvp',exe,'+rom='+str(rom)],check=True,capture_output=True,text=True,timeout=10)
    self.assertIn('FLOATING_INPUT_BOUNDARY_PASS',result.stdout)
+ def test_released_read_sequence_covers_bytes_without_mid_read_changes(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   out=Path(tmp);exe=out/'sequence.vvp';rom=out/'rom.hex'
+   rom.write_text('00\n'*2048)
+   (out/'probe.v').write_text("""`timescale 1ns/1ps
+module probe;
+ firmware_tb #(.FLOATING_IO_OVERRIDE(1),.FLOATING_IO_SEQUENCE(1)) dut();
+ integer i;
+ initial begin
+  force dut.clk=0;force dut.reset_n=1;force dut.address=0;
+  force dut.mreq_n=1;force dut.iorq_n=1;force dut.rd_n=0;
+  force dut.read_data=8'ha5;
+  #1;
+  for(i=0;i<256;i=i+1)begin
+   force dut.iorq_n=0;
+   #1;if(dut.di!==((i*73+55)&255))$fatal(1,"Wrong sequence byte");
+   #3;if(dut.di!==((i*73+55)&255))$fatal(1,"Byte changed within read");
+   force dut.iorq_n=1;#1;
+  end
+  force dut.address=16'h8000;force dut.iorq_n=0;
+  #1;if(dut.di!==8'ha5)$fatal(1,"Driven latch overwritten");
+  force dut.iorq_n=1;#1;
+  if(dut.floating_index!==0)$fatal(1,"Driven read advanced sequence");
+  force dut.address=0;force dut.iorq_n=0;#1;
+  force dut.iorq_n=1;#1;force dut.reset_n=0;#1;
+  if(dut.floating_index!==0)$fatal(1,"Sequence did not restart on reset");
+  $display("FLOATING_SEQUENCE_PASS");$finish;
+ end
+endmodule
+""")
+   subprocess.run(['iverilog','-g2012','-s','probe','-o',exe,*sorted((R.parents[1]/'third_party/cpu/tv80').glob('*.v')),R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v',out/'probe.v'],check=True)
+   result=subprocess.run(['vvp',exe,'+rom='+str(rom)],capture_output=True,text=True,timeout=10)
+   self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+   self.assertIn('FLOATING_SEQUENCE_PASS',result.stdout)
 if __name__=='__main__':unittest.main()
