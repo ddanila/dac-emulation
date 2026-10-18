@@ -1,0 +1,14 @@
+{
+  "scope": "Lossless compression of inactive compiled HDL artifacts; source files, evidence traces and active job binaries retained",
+  "verification": "Every compressed artifact decompressed and compared byte-for-byte before removing the original",
+  "restore": "Decompress the .vvp.xz file to its original .vvp path when needed; hashes are in compiled-hdl.json",
+  "activeExclusions": [
+    "service-all-controls-reset/fine",
+    "board-transistor-single-press"
+  ],
+  "rebuildableLinkerOutputRemoved": {
+    "path": "/tmp/robotron-ngspice-switch/build/src/ngspice",
+    "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+    "installedRuntimeRetained": true
+  }
+}

@@ -629,8 +629,15 @@ SPICE pin loads, linear driver impedances and TTL receivers. It checks CPU/ROM/l
 reads, release, opposing drivers and supply current at paired timesteps. Driver
 resistances come from published DC load-test endpoints, not extracted I/V curves;
 the fixture omits input bias, leakage, clamps and IC power behavior. It is not yet
-connected to the firmware harness. Run with `--bridge` and `--ngspice` as for the
-other live fixtures; results are retained in `reports/bus-feedback`.
+calibrated. Run with `--bridge` and `--ngspice` as for the other live fixtures;
+results are retained in `reports/bus-feedback`.
+
+The service harness accepts `--electrical-bus --bus-latch-pf 12 --bus-7406-pf 3`
+to route S600/TV80 bus reads through this experimental model. The capacitances in
+this example are explicit fixture assumptions. This mode retains `bus-trace.txt`
+and source provenance; it does not change the default bus path. Firmware bus
+timing and voltage checks remain unfinished, so the paired firmware qualifier
+rejects this mode rather than treating serial agreement as bus qualification.
 
 `bus_load.wiring()` generates pin capacitances from the inventory, using published
 reference maxima and requiring explicit per-pin fixture values for undocumented

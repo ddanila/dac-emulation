@@ -53,3 +53,35 @@ def generate():
     if len(re.findall(r'^assign n_D[0-7]=bus_sense\[[0-7]\];$', source, re.M)) != 8:
         raise ValueError('Incomplete electrical bus receiver boundary')
     return source.replace('endmodule', '\n'.join(declarations) + '\nendmodule')
+
+
+def generate_service():
+    """Reuse TV80/ROM/service behavior while replacing only the bus boundary."""
+    here = Path(__file__).resolve().parent
+
+    def replace_once(source, old, new):
+        if source.count(old) != 1:
+            raise ValueError('Unexpected firmware bus boundary: ' + old)
+        return source.replace(old, new)
+
+    boot = (here / 'boot_cosim.v').read_text()
+    boot = replace_once(boot, 'module boot_cosim #(', 'module boot_electrical_bus #(')
+    boot = replace_once(boot, 'output data_sink,',
+                        'input [7:0] bus_sense, output [23:0] bus_low, bus_high, output data_sink,')
+    boot = replace_once(boot, 'controller_analog #(', 'controller_electrical_bus #(')
+    boot = replace_once(boot, '.logic_control(logic_control),.logic_sink(logic_sink),',
+                        '.bus_sense(bus_sense),.bus_low(bus_low),.bus_high(bus_high),\n'
+                        '   .logic_control(logic_control),.logic_sink(logic_sink),')
+    boot = replace_once(boot, 'initial $readmemh',
+                        'initial if(!RESOLVED_BUS || !EXPLICIT_CPU_DRIVE || !ELECTRICAL_MATRIX)\n'
+                        '  $fatal(1,"Electrical bus requires resolved ROM, CPU drive intent and matrix feedback");\n'
+                        ' initial $readmemh')
+    service = (here / 'firmware_io_cosim.v').read_text()
+    service = replace_once(service, 'module firmware_io_cosim #(', 'module firmware_io_electrical_bus #(')
+    service = replace_once(service, 'output [1:0] logic_sink,',
+                           'input [7:0] bus_sense, output [23:0] bus_low, bus_high, output [1:0] logic_sink,')
+    service = replace_once(service, 'boot_cosim #(', 'boot_electrical_bus #(')
+    service = replace_once(service, '.logic_control(logic_control),.logic_sink(logic_sink),',
+                           '.bus_sense(bus_sense),.bus_low(bus_low),.bus_high(bus_high),\n'
+                           '  .logic_control(logic_control),.logic_sink(logic_sink),')
+    return generate() + '\n' + boot + '\n' + service

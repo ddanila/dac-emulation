@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "10 us S600 execution after service reset with electrical bus and control pullups; first opcode and sampled bus voltage only",
+  "firstFetch": [
+    "1001501000",
+    "0000",
+    "af"
+  ],
+  "firstFetchBusSample": [
+    0.001001501,
+    4.29726531,
+    4.40168728,
+    4.40168728,
+    4.40168728,
+    4.99291411e-32,
+    4.40168728,
+    4.99291411e-32,
+    4.40168728
+  ],
+  "runtimeVerifiedAfterRun": true,
+  "preparedSources": {
+    "firmware_io_cosim.py": "e6c61ffd4fbb6753d1516f9a146cb7fc80cf5a6c3a748d4b6aa6985130676fac",
+    "firmware_io_cosim.v": "68263b4ed0fb9b7d749d197317d7da92762049f6828076faabdeaf01d5ed42db",
+    "boot_cosim.py": "1e1b56c45d0026546339f46bb6c8522268e19ce809f479a6d11a68cca9fee178",
+    "boot_cosim.v": "2617cf8845fdccf317aad1d87ba567a1e51f0948783755a6ffd4d61c2e4db5c2",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "matrix.py": "20c4660f5dcb675954ad3e5baa71529115615a12246300ff896657ed8dcbfdd5",
+    "latch_limits.json": "b3b1cee9f151e6aa43f45e680c7affe12d9b520b14f0a5f0fdfcfde3e8e57d85",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "output_circuit.py": "bfd14455600e28d73cd5417b30055cb08b85aedbf932b2a52bb1c4db984b0ed0",
+    "controller_interface.py": "46f5c499306b32d3801976557de3b956846a81feb80fc035afd7606ae38d968a",
+    "logic_control.py": "858d26b9ec425fce396b45332f147150f1b52d7f918aa0cf8ff514452d41ea2d",
+    "model_coverage.py": "4e0104305f96974a8f30f7b6afe05ac7e142ab60a37de204f75a5727a48d6b9c",
+    "reset_probe.py": "d6abdb68e2ddb52ef5ac752f8678b84d664406f142da717194ad3406a4fe4a39",
+    "oscillator_probe.py": "40b59d034c8535c2f93776523da9df8a3f4ea21525279552b7f8bf8be314ada2",
+    "cpu_control.py": "e1007749e0e6c9cf5e28ceadb6992276b0b4ba3ebddebbc3a4967f9421eb7e06",
+    "cpu_clock_limits.json": "95abfe63df8e5f34f128a33f60f605d11673af89534fd28c00a055a4cca3b96e",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "reset_observation.py": "35418feb9ac2f0a333873fd804b56e23f06640d10ff5c4d6df485226cbd07098",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "compressed_output.py": "0e7005c4322b99101788a19448172a9ed0ec88bc6dc64d9fde9c058862d89447",
+    "transient_analysis.py": "dd0dd5ef7a34533cd75128fa3c90c52815d8b11364b938e32680310207d3310e",
+    "electrical_bus_interface.py": "d2abaed09360b19dcfb386a900451bab5a1466642d1a9936a126bfda7addee7c",
+    "bus_driver.py": "69eea0141b09cec9f7c1297dd9f9738323581964a2c3dea4f6341f25886781d6",
+    "bus_load.py": "0b5bb0f19ecf4ebac6ebf1502dcc4e8ea536a39a95426a640bc24078cb32f1de",
+    "bus_inventory.py": "14eb0dd1ba75a22af1b7183e02c46ec5fd4bec7b38a0046aeb08de7793ad5c4c",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab"
+  },
+  "deckSha256": "7eb1942dbc5bef8c302499df21a8148d0582c01996aac599021a50e5362d9db6",
+  "files": {
+    "io.cir": {
+      "rawSha256": "7eb1942dbc5bef8c302499df21a8148d0582c01996aac599021a50e5362d9db6"
+    },
+    "controller_analog.v": {
+      "rawSha256": "b63c47bfcf3fc5da52a628807c0b16c22a9b7dcfdc973063cf8d5b4285bfcd74"
+    },
+    "run-inputs.json": {
+      "rawSha256": "626f4eb166c0886a02b37672c5138f757fdaafdea536315af6af70715373e707"
+    },
+    "scope.json": {
+      "rawSha256": "a45fa0cd7edac24aac97148748625672f9434c1af48d87b9965bd7f9bf6e604b"
+    },
+    "ngspice.log": {
+      "rawSha256": "b147aa4c2f274ac37902d29339da18bc440899718fd4d194993459573392d2d0"
+    },
+    "bus-trace.txt": {
+      "rawSha256": "cfdd16ea39683fa758b1111a342b3d9dc140259ae400209af7f347f4dbe938ee",
+      "compressedSha256": "22047c0159ba1315624658b16b94ca078f08f449b36d9a040998b21ac44e4215"
+    },
+    "trace.txt": {
+      "rawSha256": "cb1e1eff0260ec37e99195e8adcac5617d54bf8a97980d31f4405437584c05cd",
+      "compressedSha256": "cf87b48d78cbcc3fdde15ec17a9c1dfd89fbd170cd639c404a993fc7a60673e3"
+    }
+  }
+}

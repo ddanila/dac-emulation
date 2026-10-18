@@ -5,12 +5,52 @@ import subprocess
 import tempfile
 import unittest
 
-from electrical_bus_interface import generate
+from electrical_bus_interface import generate, generate_service
 
 HERE = Path(__file__).resolve().parent
 
 
 class ElectricalBusInterfaceTests(unittest.TestCase):
+    def test_service_cpu_reads_returned_voltage_logic(self):
+        with tempfile.TemporaryDirectory() as directory:
+            out = Path(directory)
+            (out / 'controller.v').write_text(generate_service())
+            (out / 's600.hex').write_text('a5\n' * 2048)
+            (out / 'tb.v').write_text('''`timescale 1ns/1ps
+module tb;
+ reg [7:0] sense=8'h3c;
+ wire [23:0] lo,hi;
+ firmware_io_electrical_bus dut(.fixture_clk(1'b0),.fixture_reset_n(1'b1),
+ .sense(8'hff),.receiver_data(1'b0),.receiver_clock(1'b0),
+ .bus_sense(sense),.bus_low(lo),.bus_high(hi));
+ initial begin
+  force dut.board.address=0;
+  force dut.board.mreq_n=0;
+  force dut.board.iorq_n=1;
+  force dut.board.cpu_data_drive=0;
+  #1;
+  if(dut.board.cpu.di!==8'h3c || hi[15:8]!==8'ha5 || lo[15:8]!==8'h5a)
+   $fatal(1,"CPU must read sensed bus independently of ROM drive");
+  sense=8'bxxxxxxxx; #1;
+  if(dut.board.cpu.di!==8'bxxxxxxxx)$fatal(1,"CPU unknown receiver masked");
+  force dut.board.cpu_data_drive=1;
+  force dut.board.dout=8'h5a;
+  sense=0; #1;
+  if(hi[7:0]!==8'h5a || lo[7:0]!==8'ha5 || hi[15:8]!==8'ha5 ||
+     dut.board.cpu.di!==0)$fatal(1,"CPU/ROM drive or sensed contention lost");
+  $display("SERVICE_BUS_PASS");$finish;
+ end
+endmodule
+''')
+            tv80 = HERE.parents[2] / 'third_party/cpu/tv80'
+            subprocess.run(['iverilog', '-g2012', '-s', 'tb', '-o', str(out / 'bus.vvp'),
+                            *map(str, sorted(tv80.glob('*.v'))), str(out / 'controller.v'),
+                            str(HERE.parent / 'chips.v'), str(HERE.parent / 'generated/controller.v'),
+                            str(out / 'tb.v')], check=True)
+            result = subprocess.run(['vvp', str(out / 'bus.vvp')], cwd=out,
+                                    capture_output=True, text=True, check=True, timeout=30)
+            self.assertIn('SERVICE_BUS_PASS', result.stdout)
+
     def test_independent_drivers_and_receiver_feedback(self):
         with tempfile.TemporaryDirectory() as directory:
             out = Path(directory)
