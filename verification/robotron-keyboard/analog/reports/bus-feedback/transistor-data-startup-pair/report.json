@@ -1,0 +1,92 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Timestep agreement of sampled S600 startup reads with transistor data-gate input loading; no complete contact scenario or physical switching qualification",
+  "coarseEvidence": "../transistor-data-startup",
+  "fineEvidence": "fine",
+  "stepsNs": [
+    5,
+    2.5
+  ],
+  "budgets": {
+    "readTimePs": 5000,
+    "sampleVolts": 0.001,
+    "sampleAmps": 1e-06
+  },
+  "comparison": {
+    "maximumReadTimePs": 1000,
+    "maximumSampleVoltageDifference": 3.0327148021314088e-05,
+    "maximumSampleCurrentDifferenceAmps": 8.327167905046451e-08
+  },
+  "observations": [
+    {
+      "passed": true,
+      "qualified": false,
+      "sampleCount": 25,
+      "waveform": {
+        "firstSeconds": 0.000999,
+        "lastSeconds": 0.00110025,
+        "rows": 23333
+      },
+      "memoryReads": 25,
+      "ioReads": 0,
+      "firstReadPs": 1002501000,
+      "lastReadPs": 1097501000,
+      "minimumLowMarginVolts": 0.6531073977959488,
+      "minimumHighMarginVolts": 2.8591245832434975,
+      "setupNs": 0,
+      "holdNs": 0,
+      "boundary": "Sampled-voltage agreement and TV80 input-register confirmation only. Windows include bracketing trace samples. No between-sample excursion proof, U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing."
+    },
+    {
+      "passed": true,
+      "qualified": false,
+      "sampleCount": 25,
+      "waveform": {
+        "firstSeconds": 0.000999,
+        "lastSeconds": 0.00110025,
+        "rows": 42941
+      },
+      "memoryReads": 25,
+      "ioReads": 0,
+      "firstReadPs": 1002502000,
+      "lastReadPs": 1097501000,
+      "minimumLowMarginVolts": 0.6531073953574699,
+      "minimumHighMarginVolts": 2.859138026813853,
+      "setupNs": 0,
+      "holdNs": 0,
+      "boundary": "Sampled-voltage agreement and TV80 input-register confirmation only. Windows include bracketing trace samples. No between-sample excursion proof, U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing."
+    }
+  ],
+  "fineFiles": {
+    "controller_analog.v": {
+      "rawSha256": "c8def1e9912498509c32c80a716aef39cdd2792fa38311ce0da4f47d1bf59217"
+    },
+    "io.cir": {
+      "rawSha256": "600fa57b329c21766ea2fbf7c850857ba8ae59567a73071c35cda30e6ff2670c"
+    },
+    "run-inputs.json": {
+      "rawSha256": "c57b8cd902281ffbf1fdfc88436d8a2263868e7dc049708daf1978150bf15289"
+    },
+    "scope.json": {
+      "rawSha256": "b629522434f806abc59cc8c59f94b885a8486ad801e25eb22c77b777b9c6ee04"
+    },
+    "ngspice.log": {
+      "rawSha256": "917d376b78ff6f6fd1a1345d11639630546d78a70fab15dada12bf6f640271a1"
+    },
+    "bus-trace.txt": {
+      "rawSha256": "01e04b0b40b8ee5adb1d792a0bdc2651686f4c3e25779bfaa91f933c21c92fcc",
+      "compressedSha256": "99fdb3d45f3422240447c581470fc94dccfe790b570cdec6e36f22f17dcc66e7"
+    },
+    "trace.txt": {
+      "rawSha256": "c8708c8f2d24867928167eaac1a11e192b121e0936b36373d9e3b9330289e540",
+      "compressedSha256": "877fa7f99e275bfb044bc949b3bbc64e76a191e689402184533842cfa2e82afb"
+    },
+    "driver-trace.txt": {
+      "rawSha256": "f76a10fd709746b46def6c4f2393d05d5c761dafa34043d3e20997590ab5a5cd",
+      "compressedSha256": "72d4fae66285c0fa7fdae31faeeb34b5feda783413e399a321db8a8206790b5e"
+    }
+  },
+  "provenanceChecks": "Identical model sources, ROM, runtime, circuit metadata, generated HDL and normalized deck; only maximum timestep differs",
+  "coarseReportSha256": "35d9aac4c264ce2d851de14c27c11a06bf683d85bdc3331ff79667489117156b"
+}
