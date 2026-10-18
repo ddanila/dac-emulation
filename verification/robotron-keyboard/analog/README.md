@@ -221,7 +221,8 @@ The [rising-edge service pair](reports/firmware-host-rising-load-fine/assessment
 passes logical, scenario, sampled-stability and serial-edge refinement checks for
 its declared load. [Loaded transition windows](reports/host-loaded-transition-windows/assessment.json)
 explain selected absolute-time voltage differences without establishing full-waveform
-convergence. Earlier
+convergence. The [additional refinement](reports/firmware-host-rising-load-refined/assessment.json)
+does not consistently reduce those differences. Earlier
 falling-edge comparisons do not qualify that sampling point; source-bound
 waveforms remain available for review.
 
