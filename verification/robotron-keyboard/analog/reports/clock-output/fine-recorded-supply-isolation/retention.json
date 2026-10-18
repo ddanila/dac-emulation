@@ -1,0 +1,30 @@
+{
+  "sourceCommit": "054636112b170e2a7fa7b198176578288c0ab584",
+  "interpretation": "The isolated oscillator also converges when both timestep runs use the supply from the fine coupled startup. See supply-recording-comparison.json for sensitivity to changing supply recordings at a fixed timestep.",
+  "waveformScope": "Only startup and final-edge windows retained in git. Full waveform hashes are in assessment.json; full traces remain in the local build output. Windows cannot independently re-evaluate the whole phase gate.",
+  "windowsSeconds": [
+    [
+      9.9e-05,
+      0.000104
+    ],
+    [
+      0.000249,
+      0.00025
+    ]
+  ],
+  "replay": "Decompress supply.txt.xz here, then run the recorded ngspice executable with -n -b oscillator.cir from each run directory using the recorded initialization/runtime. Decks write complete trace.txt files.",
+  "retainedFiles": {
+    "compare-supply-recordings.py": "ddb35afd6938c0e09b000c8baee957c4edae17104591ea77ebb9ab80f89eb29e",
+    "assessment.json": "c1959ca146d6ce853874c303b1291589401c6ca9af34b917588640072f2e193d",
+    "supply.txt.xz": "d7867a0c2a82e0529860ae3c64dc677b826067702108a4b700433fde52ae5ad6",
+    "supply-recording-comparison.json": "ddda285dd8f0ae40195b9dcfe7d2806350624c5ea7cee0cf9f75c49999d4ee8f",
+    "coarse/trace-windows.txt.xz": "c85f5dffe6bfe9291f447a15a69dc0a2937dd29cf6fc4e932427eb8ed7b7e14a",
+    "coarse/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "coarse/ngspice.log": "898e83c3a29bc287115f53fa322d44016e9c0988929e9126fb6e720c32160646",
+    "coarse/oscillator.cir": "585315d7542ae2a12390e19b4023f3c1b2fb45f1bcadb067a28791b5bfbb31dd",
+    "fine/trace-windows.txt.xz": "12af9c789b6864c9dfcdd9e865e50a5fbcbe5f2f8969b04cc27a010c774e376d",
+    "fine/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "fine/ngspice.log": "00cce4d01b101e9f4c9610969066362542853aee076e6dc7cf8e9a167278c6b8",
+    "fine/oscillator.cir": "21c7caf9a05a354d4a8296d494f13f57b12fc95e265359312c73ad252e97fc70"
+  }
+}
