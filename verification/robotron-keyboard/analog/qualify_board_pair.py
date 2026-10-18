@@ -60,6 +60,8 @@ def load_run(directory):
 
 
 def compare(coarse, fine, tolerance_ns):
+    if any(report['assumptions'].get('electricalBus') for report in (coarse, fine)):
+        raise ValueError('Electrical bus full-board timing qualification is not implemented')
     if coarse.get('ngspiceRuntime') != fine.get('ngspiceRuntime'):
         raise ValueError('Full-board simulator runtime inputs differ')
     if not 0 < fine['assumptions']['maximumStepNs'] <= coarse['assumptions']['maximumStepNs'] / 2:

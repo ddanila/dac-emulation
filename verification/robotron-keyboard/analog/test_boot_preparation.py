@@ -9,11 +9,53 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
-from boot_cosim import prepare, sha, ROOT
-from qualify_board_pair import normalized_analysis
+from boot_cosim import prepare, sha, ROOT, electrical_bus_options
+from qualify_board_pair import normalized_analysis, compare
 
 
 class BootPreparationTests(unittest.TestCase):
+    def test_electrical_bus_in_closed_board(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            out = Path(temporary)
+            library = out / 'preparation-only-library'
+            library.write_bytes(b'not executable')
+            bridge = out / 'bridge.json'
+            bridge.write_text(json.dumps({'libraries': {
+                key: {'path': str(library), 'sha256': sha(library)}
+                for key in ('shim', 'libvvp', 'vpi')}}))
+            rom = out / 'fixture.bin'
+            rom.write_bytes(bytes(2048))
+            args = SimpleNamespace(out=out, rom=rom, bridge=bridge, iverilog='iverilog',
+                electrical_matrix=True, electrical_outputs=True, electrical_bus=True,
+                bus_latch_pf=12, bus_7406_pf=3, wr_only_data=False, bypass_rom_bus=False,
+                gate_profile='nominal', npn_profile='generic', latch_load='ideal', column_load_pf=0,
+                scenario_data=None, contacts=set(), rise_us=1, reltol=.001, vntol=1e-6, abstol=1e-12,
+                bridge_delay_ns=10, step_ns=5, serial_driver='7406-dc', minimum_breakpoint_fs=1,
+                output_unknown_volts=2.5)
+            report = {'assumptions': {'traceWindowSeconds': [.124, .127]}}
+            with patch('boot_cosim.ROM_SHA256', sha(rom)):
+                prepare(args, report)
+            deck = (out / 'boot.cir').read_text()
+            self.assertIn('RBR1 ', deck)
+            self.assertIn('RBR2 ', deck)
+            self.assertIn('Ain [n_CLK n_RESET_N] [dclk drst] receiver', deck)
+            self.assertIn('drst drst drst dbus7 dbus6 dbus5 dbus4 dbus3 dbus2 dbus1 dbus0] [dbus_low23', deck)
+            self.assertIn('dbus_high0 dsink csink', deck)
+            self.assertIn('Xdata n_D0 ', deck)
+            self.assertIn('Xclock clock_intent ', deck)
+            self.assertIn('wrdata bus-trace.txt v(n_D0)', deck)
+            self.assertTrue(report['assumptions']['electricalBus'])
+            self.assertIn('bus_observation.py', report['sources'])
+            with self.assertRaisesRegex(ValueError, 'timing qualification'):
+                compare(report, report, 10)
+            for name, value in (('electrical_matrix', False), ('bypass_rom_bus', True),
+                                ('wr_only_data', True), ('bus_latch_pf', None), ('bus_7406_pf', float('nan'))):
+                original = getattr(args, name)
+                setattr(args, name, value)
+                with self.assertRaises(ValueError):
+                    electrical_bus_options(args)
+                setattr(args, name, original)
+
     def test_driver_selection_preserves_boot_and_closed_bridges(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

@@ -710,6 +710,15 @@ Failures retain signal, time and expected/observed values in `wrFailure`.
 These checks do not
 qualify U880 control timing or transistor switching parameters.
 
+The full-board `boot_cosim.py` also accepts `--electrical-bus`, `--bus-latch-pf 12`
+and `--bus-7406-pf 3` with `--electrical-matrix`, resolved ROM and explicit CPU drive.
+BR1/BR2 stay closed: the modeled oscillator and reset circuit drive the CPU.
+With the transistor serial driver, D0 loads its physical input stage; WR remains
+ideal intent in this harness. Bus waveforms share the boot capture window.
+Every logged read must have captured voltage, so reads before that window fail
+validation rather than being omitted. Preparation/HDL compilation is tested;
+full-board electrical-bus execution and paired timing remain unqualified.
+
 The boot harness accepts `--electrical-outputs --serial-driver 7406-dc` to use
 that candidate under live HDL control. Its inputs still come from ideal DAC
 drivers; CPU output loading and the remaining package gates are not represented
