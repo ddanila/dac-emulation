@@ -1,0 +1,61 @@
+{
+  "qualified": false,
+  "completed": true,
+  "cases": [
+    {
+      "state": "high",
+      "deckSha256": "e8fb2957184231fddac92d3e3ac68b1520d38311fe6e37e5c498409aae6b9a54",
+      "analytical": {
+        "outputVolts": 4.999980674401082,
+        "pullupAmps": 3.45099980671369e-08,
+        "kclResidualAmps": 3.0319147300273655e-19
+      },
+      "newtonInitialGuessVolts": 3.5,
+      "initialGuessBoundary": "Nodeset guides the DC solve; it is not a clamp or an initial condition for a transient.",
+      "exitCode": 0,
+      "logSha256": "7a42a7073e8c841e8a31415276d209e79ed17c6282bea66cafab1298de34502c",
+      "referenceVolts": 4.99998067443589,
+      "candidateVolts": 4.999999997199993,
+      "candidateMinusReferenceVolts": 1.9322764102547296e-05,
+      "analyticalErrorVolts": 3.480771226804791e-11,
+      "analyticalBudgetVolts": 1e-09,
+      "traceSha256": "60a7d7d73eae12ba21c38410d92c8d3842872f2d3415900414a73a8666bdfd9e"
+    },
+    {
+      "state": "low",
+      "deckSha256": "35493d25c805e4471f75ca954af98e2caf0aa5ff563bbb8371c07600335f5ed4",
+      "analytical": {
+        "outputVolts": 0.32332058331341146,
+        "pullupAmps": 0.008351213244083194,
+        "kclResidualAmps": 0.0
+      },
+      "newtonInitialGuessVolts": 0.4,
+      "initialGuessBoundary": "Nodeset guides the DC solve; it is not a clamp or an initial condition for a transient.",
+      "exitCode": 0,
+      "logSha256": "7a42a7073e8c841e8a31415276d209e79ed17c6282bea66cafab1298de34502c",
+      "referenceVolts": 0.32332058331339064,
+      "candidateVolts": 0.2542372881283539,
+      "candidateMinusReferenceVolts": -0.06908329518503675,
+      "analyticalErrorVolts": 2.0816681711721685e-14,
+      "analyticalBudgetVolts": 1e-09,
+      "traceSha256": "e503e6d347bddc1807384524ef6d24b95b24373ff97d09126d158b097555a782"
+    }
+  ],
+  "ibisSha256": "78985e8a49cd8aaf8679e31e9f2375c4144f298a54bfffcfb1da7b61d262854b",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "engine": {
+    "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+    "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+  },
+  "spinitSha256": "e0f29ae1d7ad272fa31eebb34a747799d2322eff59510b8f19a8f580bb31e3b7",
+  "gateModelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+  "scope": "5 V typical static output comparison, ideal closed bridge, no CPU leakage or package parasitics. Both output states are solved separately, not interpolated as switching behavior.",
+  "boundary": "SPICE agreement validates curve conversion only. TI output curves do not calibrate DL000, undervoltage startup or timing. Generated vendor-derived decks remain local.",
+  "sources": {
+    "ls00_ibis_spice.py": "47fb1bb9f01e8ee0300b181ae668d4dc9e22f34b80d1815c204188bc635cc289",
+    "ls00_ibis_loadline.py": "3bb653f0a4a535e2d18fab7298a07e431d0e9f31623408a3a1843c1b7fa1e630",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "clock_output_probe.py": "05b92ebe9d9751d1edf5bd0667640794f9b482b83b1e8e8dc2c260908c0228d7",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  }
+}

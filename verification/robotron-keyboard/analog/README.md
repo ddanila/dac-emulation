@@ -611,6 +611,14 @@ and ambiguous equilibria. The retained
 is a comparison at the model's nominal supply, not a DL000 switching or startup
 model. No vendor curves are redistributed or scaled into undervoltage operation.
 
+`ls00_ibis_spice.py` accepts the same local IBIS input plus `--ngspice` and a fresh
+`--out` directory. It cross-checks the analytic load line with SPICE and compares
+the existing gate candidate under the same pullup. The
+[retained comparison](reports/clock-output/ti-reference-review/spice-loadline/nodeset/assessment.json)
+records explicit Newton starting guesses and preserves the preceding solver
+warning separately. Only DC curve conversion is checked; this is not a switching
+model or a board-default change. Generated vendor-derived decks remain local.
+
 ## Coupled firmware boot
 
 After building the bridge, run the longer electrical-clock/reset integration test:
