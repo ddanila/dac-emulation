@@ -1,0 +1,76 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Compare host voltages at absolute time using the union of retained sample knots.",
+  "boundary": "Piecewise-linear sampled voltages only; no phase alignment or intersample peak claim. No physical accuracy tolerance is inferred.",
+  "sources": {
+    "host_waveform_comparison.py": "e8cbb624b9d0035935a3486f472ef9b0f20ccbfb83fc6109d8bec90844f42851",
+    "compare_firmware_io.py": "347913750e06adea13a0515ee69e6371f75a7d7d4ba30a71d0c56a969a699e20",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "transient_analysis.py": "dd0dd5ef7a34533cd75128fa3c90c52815d8b11364b938e32680310207d3310e",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "serialEdges": {
+    "transmittedMaximumDifferenceNs": 0.0,
+    "receivedMaximumDifferenceNs": 3.0,
+    "transportMaximumDifferenceNs": 3.0,
+    "qualified": false,
+    "boundary": "Experimental host serial-edge convergence only; device applicability, voltage margins and closed-board behavior remain separate",
+    "withinTolerance": true,
+    "firstTimingDifference": null
+  },
+  "reports": {
+    "coarse": "5f2820e8eb5d65892fc9bf5dc7cac6786f1242f819038a2e1d701a99d5636770",
+    "fine": "bcb48153bcbb5ca885a666b210d4d4b4f167d26eb604843e3ab3bed2dd10653f"
+  },
+  "observation": {
+    "signals": [
+      {
+        "maximumDifferenceV": 0.4151144122545697,
+        "timeSeconds": 0.01397951439675369,
+        "coarseV": 0.1547734663684838,
+        "fineV": 0.5698878786230535,
+        "signal": "v(n_CABLE_DATEN,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.41506664493771084,
+        "timeSeconds": 0.01397951439675369,
+        "coarseV": 0.1547221178107442,
+        "fineV": 0.569788762748455,
+        "signal": "v(n_CABLE_TAKT,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.12509563508411503,
+        "timeSeconds": 0.00869762676981879,
+        "coarseV": 1.8010001841428056,
+        "fineV": 1.6759045490586906,
+        "signal": "v(host_data_buffer_input,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.06151592176683915,
+        "timeSeconds": 0.01137970047341518,
+        "coarseV": 0.1263530938051972,
+        "fineV": 0.06483717203835804,
+        "signal": "v(host_clock_buffer_input,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 2.693857755872131,
+        "timeSeconds": 0.01176963826800303,
+        "coarseV": 0.018821182694796434,
+        "fineV": 2.7126789385669277,
+        "signal": "v(host_data_buffer_output,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 1.6938842755410413,
+        "timeSeconds": 0.025629134335118226,
+        "coarseV": 1.7164684426719643,
+        "fineV": 0.02258416713092315,
+        "signal": "v(host_clock_buffer_output,host_receiver_gnd)"
+      }
+    ],
+    "unionKnots": 4125133,
+    "endSeconds": 0.03
+  }
+}
