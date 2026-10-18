@@ -10,6 +10,9 @@ import sys
 from pathlib import Path
 from trace_io import open_binary, open_text
 
+from electrical_bus_interface import generate_service
+from bus_driver import wiring as bus_wiring
+from bus_observation import measure as measure_bus, BusMismatch
 from controller_interface import generate
 from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
@@ -43,7 +46,21 @@ def sha(path):
     return digest.hexdigest()
 
 
+def electrical_bus_options(args):
+    enabled = getattr(args, 'electrical_bus', False)
+    caps = [getattr(args, name, None) for name in ('bus_latch_pf', 'bus_7406_pf')]
+    if enabled:
+        if not args.electrical_matrix or args.bypass_rom_bus or args.wr_only_data:
+            raise ValueError('Electrical bus requires electrical matrix, resolved ROM and explicit CPU drive')
+        if any(value is None or not math.isfinite(value) or value < 0 for value in caps):
+            raise ValueError('Electrical bus requires explicit finite nonnegative latch and 7406 capacitances')
+    elif any(value is not None for value in caps):
+        raise ValueError('Bus capacitance fixtures require electrical-bus')
+    return enabled
+
+
 def prepare(args, report):
+    electrical_bus = electrical_bus_options(args)
     out = args.out.resolve()
     components, report['connectivitySha256'] = load()
     if sha(args.rom) != ROM_SHA256 or args.rom.stat().st_size != 2048:
@@ -65,17 +82,19 @@ def prepare(args, report):
             raise ValueError('TV80 source differs: ' + name)
     report['tv80'] = source
     subprocess.run([sys.executable, str(HERE.parent / 'generate.py'), '--check'], check=True)
-    (out / 'controller_analog.v').write_text(generate(explicit_cpu_drive=True, resolved_bus=True))
+    (out / 'controller_analog.v').write_text(generate_service() if electrical_bus else
+                                           generate(explicit_cpu_drive=True, resolved_bus=True))
     hdl = [*sorted(tv80.glob('*.v')), HERE.parent / 'chips.v',
            HERE.parent / 'generated/controller.v', HERE / 'boot_cosim.v', out / 'controller_analog.v']
     report['hdlSha256'] = {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path): sha(path) for path in hdl}
-    subprocess.run([args.iverilog, '-g2012', '-s', 'boot_cosim',
-                    '-Pboot_cosim.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)),
-                    '-Pboot_cosim.ELECTRICAL_OUTPUTS=' + str(int(args.electrical_outputs)),
-                    '-Pboot_cosim.ELECTRICAL_CPU_PULLUPS=' + str(int(getattr(args, 'electrical_cpu_pullups', False))),
-                    '-Pboot_cosim.ELECTRICAL_LOGIC_PULLUPS=' + str(int(getattr(args, 'electrical_logic_pullups', False))),
-                    '-Pboot_cosim.EXPLICIT_CPU_DRIVE=' + str(int(not args.wr_only_data)),
-                    '-Pboot_cosim.RESOLVED_BUS=' + str(int(not args.bypass_rom_bus)), '-o', str(out / 'boot.vvp'),
+    top = 'boot_electrical_bus' if electrical_bus else 'boot_cosim'
+    subprocess.run([args.iverilog, '-g2012', '-s', top,
+                    f'-P{top}.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)),
+                    f'-P{top}.ELECTRICAL_OUTPUTS=' + str(int(args.electrical_outputs)),
+                    f'-P{top}.ELECTRICAL_CPU_PULLUPS=' + str(int(getattr(args, 'electrical_cpu_pullups', False))),
+                    f'-P{top}.ELECTRICAL_LOGIC_PULLUPS=' + str(int(getattr(args, 'electrical_logic_pullups', False))),
+                    f'-P{top}.EXPLICIT_CPU_DRIVE=' + str(int(not args.wr_only_data)),
+                    f'-P{top}.RESOLVED_BUS=' + str(int(not args.bypass_rom_bus)), '-o', str(out / 'boot.vvp'),
                     *map(str, hdl)], check=True)
     osc, osc_models, unused, clock_source, cpu_clock = wiring(components)
     reset, reset_models = elements(components, RESET_REFS)
@@ -107,7 +126,7 @@ def prepare(args, report):
     if args.electrical_outputs:
         if args.serial_driver == '7406-dc':
             report['serialDriverDCReferenceSha256'] = checked_dc_reference()
-            output_lines, output_info = driver_circuit(components, args.serial_driver, 1000)
+            output_lines, output_info = driver_circuit(components, args.serial_driver, 1000, electrical_data_input=electrical_bus)
         else:
             output_lines, output_info = output_circuit(components)
         report['outputCircuit'] = output_info
@@ -167,10 +186,45 @@ def prepare(args, report):
             'A6': 'DL074 HDL flip-flops with electrical async-control and clock receivers; no supply-current or propagation calibration',
         }.items():
             report['modelCoverage']['components'][ref]['model'] = description
+    bus_lines, bus_inputs, bus_outputs = [], '', ''
+    if electrical_bus:
+        limits = json.loads((HERE / 'bus_limits.json').read_text())
+        bus_lines, report['busCircuit'] = bus_wiring(components, limits,
+            {'I8282': args.bus_latch_pf, '7406': args.bus_7406_pf})
+        def vector(prefix, count):
+            return ' '.join(f'{prefix}{i}' for i in reversed(range(count)))
+        bus_inputs = ' ' + vector('dbus', 8)
+        bus_outputs = vector('dbus_low', 24) + ' ' + vector('dbus_high', 24) + ' '
+        bus_lines += [f'Abus [{vector("n_D", 8)}] [{vector("dbus", 8)}] sense_receiver',
+                      f'Abus_low [{vector("dbus_low", 24)}] [{vector("bus_low_", 24)}] observation',
+                      f'Abus_high [{vector("dbus_high", 24)}] [{vector("bus_high_", 24)}] observation',
+                      *[f'Rbus_numerical{i} n_D{i} 0 1e12' for i in range(8)]]
+        report['busCircuit']['numericalShuntsOhms'] = 1e12
+        report['assumptions'].update(electricalBus=True, busLatchPf=args.bus_latch_pf,
+            bus7406Pf=args.bus_7406_pf, waveformNumdgt=17,
+            busBoundary='Electrical data pins only; address/control outputs remain digital. Clock and reset come from the board circuit.')
+        report['assumptions']['romBus'] = 'Electrical CPU/ROM/latch data-bus receiver feedback'
+        if 'remainingDigitalBoundaries' in report['assumptions']:
+            report['assumptions']['remainingDigitalBoundaries'] = [
+                'CPU/peripheral address and control buses' if item == 'CPU/peripheral buses' else item
+                for item in report['assumptions']['remainingDigitalBoundaries']]
+        report.setdefault('sources', {}).update({name: sha(HERE / name) for name in (
+            'electrical_bus_interface.py', 'firmware_io_cosim.v', 'bus_driver.py', 'bus_load.py',
+            'bus_inventory.py', 'bus_limits.json', 'bus_observation.py')})
+        for ref in ('A5', 'A8', 'A4'):
+            report['modelCoverage']['components'][ref]['model'] = report['modelCoverage']['components'][ref]['model'].replace(
+                'digital buses', 'digital address/control buses') + '; data pins use electrical endpoint drivers and capacitance fixtures'
+        if args.serial_driver == '7406-dc':
+            report['busCircuit']['externalInputLoad'] = output_info['serialDriver']['dataInput']
+            report['busCircuit']['boundary'] = report['busCircuit']['boundary'].replace(
+                'No leakage, 7406 input bias, IC power model', 'No driver leakage or whole-IC power model')
+            report['modelCoverage']['components']['A1']['model'] = (
+                'Data gate uses electrical D0 input and transistor topology; clock gate input is ideal HDL intent; '
+                'other gates remain digital. Generic device parameters; switching timing unqualified.')
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
              *power_lines, '.include ' + gate_file,
              f'.options reltol={args.reltol} vntol={args.vntol} abstol={args.abstol}',
-             *nominal_models(100, args.npn_profile), *osc, *reset, *matrix_lines, *output_lines, *receiver_lines, *control_lines,
+             *nominal_models(100, args.npn_profile), *osc, *reset, *matrix_lines, *output_lines, *receiver_lines, *control_lines, *bus_lines,
              f'RBR2 {reset_source} {cpu_reset} .001',
              f'Rresetload {cpu_reset} 0 1g', f'Cresetload {cpu_reset} 0 10p',
              f'Ain [{cpu_clock} {cpu_reset}] [dclk drst] receiver',
@@ -179,7 +233,7 @@ def prepare(args, report):
              '.model sense_receiver adc_bridge(in_low=0.8 in_high=2)',
              'Arxdata [receiver_data] [rx_data] sense_receiver',
              'Arxclock [receiver_clock] [rx_clock] receiver',
-             f'Ahdl [dclk drst {sense_inputs} rx_data rx_clock {control_inputs} {logic_inputs}] [dsink csink led1 led0 {column_outputs} dlogic_sink1 dlogic_sink0] hdl',
+             f'Ahdl [dclk drst {sense_inputs} rx_data rx_clock {control_inputs} {logic_inputs}{bus_inputs}] [{bus_outputs}dsink csink led1 led0 {column_outputs} dlogic_sink1 dlogic_sink0] hdl',
              f'.model hdl d_cosim simulation="{libs["shim"]}" sim_args=["boot.vvp"] delay={args.bridge_delay_ns}n',
              f'+ lib_args=["{libs["libvvp"]}" "{libs["vpi"]}"]',
              'Adac [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] observation',
@@ -193,6 +247,11 @@ def prepare(args, report):
              'wrdata trace.txt ' + ' '.join(trace_signals),
              'wrdata supply-trace.txt ' + supply_signal,
              'quit', '.endc', '.end']
+    if electrical_bus:
+        signals = ' '.join(f'v(n_D{i})' for i in range(8)) + ' v(n_p5V)'
+        lines.insert(lines.index('.control'), '.save ' + signals)
+        lines.insert(lines.index('.control') + 1, 'set numdgt=17')
+        lines.insert(lines.index('quit'), 'wrdata bus-trace.txt ' + signals)
     deck = with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs)
     (out / 'boot.cir').write_text(deck)
     report['deckSha256'] = sha(out / 'boot.cir')
@@ -202,6 +261,12 @@ def validate(out, report):
     log = (out / 'ngspice.log').read_text()
     if solver_diagnostic(log):
         raise ValueError('Solver/bridge diagnostics: inspect ngspice.log')
+    if report['assumptions'].get('electricalBus'):
+        rom = bytes(int(value, 16) for value in (out / 's600.hex').read_text().split())
+        report['busObservation'] = measure_bus(log, out / 'bus-trace.txt',
+            report['assumptions']['maximumStepNs'], rom,
+            trace_extent=tuple(report['assumptions']['traceWindowSeconds']))
+        report['busQualification'] = 'Every logged read must have captured voltage; reads before the capture window fail. U880 phase timing and electrical device calibration remain unqualified.'
     resets = [(int(t)*1e-12, value) for t, value in re.findall(r'^RESET (\d+) ([01xz])$', log, re.M)]
     boots = [tuple(line.split()) for line in re.findall(r'^BOOT (.+)$', log, re.M)]
     fetches = re.findall(r'^FIRST_FETCH (\d+) ([0-9a-fx]+) ([0-9a-fx]+)$', log, re.M)
@@ -302,7 +367,14 @@ def main():
     p.add_argument('--reltol', type=float, default=.001)
     p.add_argument('--vntol', type=float, default=1e-6)
     p.add_argument('--abstol', type=float, default=1e-12)
+    p.add_argument('--electrical-bus', action='store_true')
+    p.add_argument('--bus-latch-pf', type=float)
+    p.add_argument('--bus-7406-pf', type=float)
     args = p.parse_args()
+    try:
+        electrical_bus_options(args)
+    except ValueError as error:
+        p.error(str(error))
     if args.serial_driver != 'nominal' and not args.electrical_outputs:
         p.error('serial-driver requires electrical-outputs')
     if args.minimum_breakpoint_fs is not None and (not math.isfinite(args.minimum_breakpoint_fs) or args.minimum_breakpoint_fs <= 0):
@@ -339,7 +411,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     if args.compress_traces and any(out.glob('*trace.txt*')):
         p.error('Compressed capture requires a fresh waveform output directory')
-    for name in ('report.json', 'trace.txt', 'supply-trace.txt', 'ngspice.log'):
+    for name in ('report.json', 'trace.txt', 'supply-trace.txt', 'bus-trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__,
               'assumptions': {'receiverThresholdVolts': 1.4,
@@ -389,7 +461,8 @@ def main():
             report['preparedOnly'] = True
             print(out / 'boot.cir')
             return
-        with capture_compressed(out, ['trace.txt', 'supply-trace.txt'], args.compress_traces, preset=args.compression_preset) as compressed:
+        trace_names = ['trace.txt', 'supply-trace.txt'] + (['bus-trace.txt'] if args.electrical_bus else [])
+        with capture_compressed(out, trace_names, args.compress_traces, preset=args.compression_preset) as compressed:
             with (out / 'ngspice.log').open('w') as log:
                 subprocess.run([engine, '-n', '-b', 'boot.cir'], cwd=out, env=engine_env, stdout=log,
                                stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
@@ -401,15 +474,21 @@ def main():
             report[key] = sha(out / name)
             if args.compress_traces and report[key] != compressed[name]['sha256']:
                 raise ValueError('Compressed boot waveform differs from producer bytes: ' + name)
+        if args.electrical_bus:
+            report['busTraceSha256'] = sha(out / 'bus-trace.txt')
+            if args.compress_traces and report['busTraceSha256'] != compressed['bus-trace.txt']['sha256']:
+                raise ValueError('Compressed bus waveform differs from producer bytes')
         validate(out, report)
         report['passed'] = True
     except Exception as error:
+        if isinstance(error, BusMismatch):
+            report['busFailure'] = error.details
         if isinstance(error, SerialMismatch):
             report['serialFailure'] = error.details
         report['error'] = str(error)
-        names = ['ngspice.log', 'trace.txt', 'supply-trace.txt']
+        names = ['ngspice.log', 'trace.txt', 'supply-trace.txt'] + (['bus-trace.txt'] if args.electrical_bus else [])
         if args.compress_traces:
-            names += ['trace.txt.xz', 'trace.txt.xz.partial', 'supply-trace.txt.xz', 'supply-trace.txt.xz.partial']
+            names += [name + suffix for name in list(names) if name.endswith('trace.txt') for suffix in ('.xz', '.xz.partial')]
         report['failureArtifacts'] = capture_failure(out, names)
         raise
     finally:
