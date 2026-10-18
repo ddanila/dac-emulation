@@ -128,6 +128,12 @@ For candidate-model diagnosis, use fresh output directories and the probes' `--h
 | Capture forced-output I/V beyond the rated-load endpoints | `ls00_iv_probe.py --model /path/to/candidate.cir --out /path/to/run` |
 | Screen high-current gain rolloff with DC and switching holdouts | `ls00_rolloff_screen.py --model /path/to/candidate.cir --out /path/to/run` |
 
+`oscillator_family_probe.py --validate-screen-only` checks candidate admission
+without running oscillators. Admission requires explicit DC and switching passes,
+complete hash-matched reports and matching model identities. The retained
+[admission audit](reports/clock-output/device-admission/assessment.json) links
+those checks to the previously screened oscillator families.
+
 These probes never select a board default. A parameter grid is not a measured
 process range or a continuous robustness proof. DC source-current sign changes
 identify candidate equilibria; interpolation across a branch jump does not prove
