@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Short S600 startup sampled bus voltage and supply checks; no full scenario or U880 pin timing qualification",
+  "busObservation": {
+    "passed": true,
+    "qualified": false,
+    "sampleCount": 2,
+    "memoryReads": 2,
+    "ioReads": 0,
+    "firstReadPs": 1002501000,
+    "lastReadPs": 1006501000,
+    "minimumLowMarginVolts": 0.8,
+    "minimumHighMarginVolts": 2.92372485,
+    "setupNs": 0,
+    "holdNs": 0,
+    "boundary": "Sampled-voltage agreement and TV80 input-register confirmation only. Windows include bracketing trace samples. No between-sample excursion proof, U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing."
+  },
+  "capturedSupplyRangeVolts": [
+    4.93344955,
+    4.93391539
+  ],
+  "observerSha256": "5c7e0cfcdcf2222b2268b9e7a3675f6c87c154d9779fd5e6593ca75e3ce0ce81",
+  "limitsSha256": "2c9bcde027d0aa4e756e46bfa95c9da7daae6dec70631b9b8d2586d61f6400b1",
+  "files": {
+    "controller_analog.v": {
+      "rawSha256": "c8def1e9912498509c32c80a716aef39cdd2792fa38311ce0da4f47d1bf59217"
+    },
+    "io.cir": {
+      "rawSha256": "f905dc27897de0f083bb0c09cd08fd1ea895685eabc0246d65b6048da447e9bd"
+    },
+    "run-inputs.json": {
+      "rawSha256": "d5da138b4031af627bf238f057048b8498ff40105804c0ed4c854f6eb1482a2e"
+    },
+    "scope.json": {
+      "rawSha256": "b0e7936094c293c5d44fa09571f4f6c50feb91579cdcd7b05fe85f8df41fdf5d"
+    },
+    "ngspice.log": {
+      "rawSha256": "c06a54a7a343be0f8f1673e80efb8281de36ce4e098e3f0edba1a53ef2343d0f"
+    },
+    "bus-trace.txt": {
+      "rawSha256": "0b3bae10007674209165d78008fae435c36bd074d3f6fc0578c110fc38155324",
+      "compressedSha256": "e7fd479268fcc44924f52c653c211d4d9d6131966e1751f26830080c6cf586f1"
+    },
+    "trace.txt": {
+      "rawSha256": "b5833643e0a908106162afdc6d71d40bd854421898f91592923c2881e617c228",
+      "compressedSha256": "e1d9c53844629f937dc177e71d4107fd173a0bc7ce860c3433e670e68184ae93"
+    }
+  }
+}

@@ -1,11 +1,15 @@
 """Check voltage agreement at TV80 input-register reads; not U880 pin timing."""
 import math
 import re
+import json
+from pathlib import Path
 
 from trace_io import open_text
 
 
 def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
+    limits = json.loads(Path(__file__).with_name('cpu_clock_limits.json').read_text())
+    operating, inputs = limits['operatingConditions'], limits['ordinaryInput']
     if not all(math.isfinite(v) and v >= 0 for v in (step_ns, setup_ns, hold_ns)) or step_ns == 0:
         raise ValueError('Invalid bus observation interval')
     if rom is not None and len(rom) != 2048:
@@ -40,12 +44,12 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
 
     def rows(stream):
         header = next(stream, '').lower().split()
-        if header != ['time', *[f'v(n_d{i})' for i in range(8)]]:
+        if header != ['time', *[f'v(n_d{i})' for i in range(8)], 'v(n_p5v)']:
             raise ValueError('Unexpected bus trace columns')
         last = None
         for line in stream:
             row = list(map(float, line.split()))
-            if len(row) != 9 or not all(map(math.isfinite, row)) or (last is not None and row[0] < last):
+            if len(row) != 10 or not all(map(math.isfinite, row)) or (last is not None and row[0] < last):
                 raise ValueError('Invalid bus trace row or time order')
             last = row[0]
             yield row
@@ -71,9 +75,14 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
             if any(b[0] - a[0] > step_ns * 1.01e-9 + 1e-12 for a, b in zip(window, window[1:])):
                 raise ValueError('Bus read window contains a waveform gap')
             for row in window:
-                for bit, volts in enumerate(row[1:]):
+                supply = row[-1]
+                if not operating['supplyMinimumVolts'] <= supply <= operating['supplyMaximumVolts']:
+                    raise ValueError('CPU bus read outside reference supply range')
+                for bit, volts in enumerate(row[1:9]):
+                    if not inputs['minimumVolts'] <= volts <= supply + inputs['maximumSupplyOffsetVolts']:
+                        raise ValueError(f'Bus D{bit} outside reference input voltage range')
                     high = bool(value & (1 << bit))
-                    margin = volts - 2 if high else .8 - volts
+                    margin = volts - inputs['highMinimumVolts'] if high else inputs['lowMaximumVolts'] - volts
                     if margin < 0:
                         raise ValueError(f'Bus voltage disagrees with sampled D{bit} at {time_ps} ps')
                     if high:

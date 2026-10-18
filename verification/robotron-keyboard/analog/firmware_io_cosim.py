@@ -239,7 +239,7 @@ def main():
             lines.insert(lines.index('.control'), '.save ' + signals)
             lines.insert(lines.index('quit'), 'wrdata led-trace.txt ' + signals)
         if args.electrical_bus:
-            signals = ' '.join(f'v(n_D{i})' for i in range(8))
+            signals = ' '.join(f'v(n_D{i})' for i in range(8)) + ' v(n_p5V)'
             lines.insert(lines.index('.control'), '.save ' + signals)
             lines.insert(lines.index('quit'), 'wrdata bus-trace.txt ' + signals)
         (out / 'io.cir').write_text(with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs))
