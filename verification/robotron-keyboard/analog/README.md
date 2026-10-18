@@ -405,13 +405,13 @@ reports and preserves failure logs. The Make target uses this same final gate.
 Serial comparisons identify the first sequence or out-of-budget timing event
 with both timestamps; the detailed repeat diagnostic is retained with its reports.
 
-`reports/repeat/` retains successful individual repeat-scenario executions with
-C serial-bit agreement, but their paired receiver timing exceeds the refinement
-budget. Independent coverage reports verify the press, repeat and release
-observations and reset/ROM restart. These checks do not override the failed
-refinement gate: repeat remains unqualified. Independent receiver-margin reports
-also pass, accounting conservatively for printed timestamp uncertainty; the
-paired timing refinement and unresolved solver time-order messages remain rejections.
+The [refined repeat qualification](reports/repeat/refined-strict-time/qualification/qualification.json)
+passes with the diagnostic-only strict-time correction and finer timesteps.
+It covers reference-firmware press, repeat and release traffic, receiver-edge
+convergence and sampled setup/hold margins in the BR service fixture. It does not
+qualify the board oscillator, power-on reset, brownout or specimen timing.
+The earlier coarse-step failure and its diagnostic evidence remain in
+`reports/repeat/`; the new result does not waive their failed gates.
 Service coverage also checks CPU RESET_N transitions and a restart at ROM address
 0000 after every reset release. Matching later serial traffic alone cannot satisfy
 the reset check.
