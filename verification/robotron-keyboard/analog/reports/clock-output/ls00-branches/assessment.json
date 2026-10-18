@@ -1,0 +1,544 @@
+{
+  "qualified": false,
+  "scope": "Bidirectional clamped-input DC sweeps and independent operating-point diagnostics. Branch differences belong to the assumed model and solver, not a measurement of DL000 hysteresis. Sign changes across jumps are not verified equilibria.",
+  "transfer": {
+    "candidate": {
+      "completed": true,
+      "qualified": false,
+      "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+      "scope": "DC sweep clamps OSC_RC while retaining schematic loading and feedback resistor. Input-source zero current identifies equilibrium candidates. Both sweep directions are retained; local slopes describe only their solution branch, not uniqueness, AC loop gain or startup.",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "sources": {
+        "oscillator_transfer_probe.py": "9f6b878ea1e8c2ec4808d638f0c7251e4fdd2db023ffb714df85996f50c78b80",
+        "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+        "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "candidate.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f"
+      },
+      "spinitSha256": "7042a01f752969596180640914c53c91e4deb11ba2359d09ddca9aed7eb52b46",
+      "cases": [
+        {
+          "name": "coarse-forward",
+          "stepVolts": 0.0001,
+          "direction": 1,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.1156999999998936,
+                1.1157999999998935
+              ],
+              "inputSourceCurrentBracketAmps": [
+                9.743170198841694e-06,
+                -2.804176273926537e-06
+              ],
+              "outputBracketVolts": {
+                "osc1": [
+                  1.0945142655127817,
+                  1.0918561954263253
+                ],
+                "osc2": [
+                  0.24337135844586735,
+                  0.2434734997630753
+                ],
+                "clock": [
+                  4.996211788761389,
+                  4.996208137648994
+                ]
+              },
+              "interpretation": "Sign-change candidate only. Interpolation across a branch jump need not be an operating point.",
+              "interpolatedVolts": {
+                "oscRc": 1.1157776512404964,
+                "osc1": 1.0924502411145551,
+                "osc2": 0.24345067244584742,
+                "clock": 4.996208953627319
+              },
+              "localSlopes": {
+                "osc1VsRc": -26.580700864567582,
+                "osc2VsRc": 1.0214131720796564,
+                "osc2VsOsc1": -0.03842687133360029
+              }
+            }
+          ],
+          "artifacts": {
+            "coarse-forward.cir": "03fd252317f3cc2c7178698ff0e7a4dba4783f5aec2c5a7b87274d1acf76e5e8",
+            "coarse-forward.log": "d79994a2b82e7ef44997f25edde4707a35111b4b2d569be249659624f70f4a78",
+            "coarse-forward.txt": "c749303a70cc34ec3a88c755bb7d4dceb00bacb1b89f738982fd744cd0198ab1"
+          }
+        },
+        {
+          "name": "coarse-reverse",
+          "stepVolts": 0.0001,
+          "direction": -1,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.1026999999979887,
+                1.1027999999979887
+              ],
+              "inputSourceCurrentBracketAmps": [
+                -0.0034891928117889094,
+                0.0014787689454295672
+              ],
+              "outputBracketVolts": {
+                "osc1": [
+                  0.3121473656023431,
+                  1.4044082367286692
+                ],
+                "osc2": [
+                  4.292015484451697,
+                  0.24238648378542432
+                ],
+                "clock": [
+                  0.31841523184012455,
+                  4.996246947851849
+                ]
+              },
+              "interpretation": "Sign-change candidate only. Interpolation across a branch jump need not be an operating point.",
+              "interpolatedVolts": {
+                "oscRc": 1.102729766107667,
+                "osc1": 1.0792846678560706,
+                "osc2": 1.447803493687922,
+                "clock": 3.603838428697575
+              },
+              "localSlopes": {
+                "osc1VsRc": -10922.608711264465,
+                "osc2VsRc": 40496.29000666719,
+                "osc2VsOsc1": -3.707565754406586
+              }
+            }
+          ],
+          "artifacts": {
+            "coarse-reverse.cir": "8ff120e600f08fee120e0164ded2f2c141fe520044d887b4d8e818edcb1a465e",
+            "coarse-reverse.log": "831f39b04ee8e25faaa3fd15bdb56efcf8cdc891bd0e16566f3c339cfa87d433",
+            "coarse-reverse.txt": "8f3262d968cb4b5c98978d71cb53a290a7173a23d3082d3055affab4bbdcd176"
+          }
+        },
+        {
+          "name": "fine-forward",
+          "stepVolts": 5e-05,
+          "direction": 1,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.1157500000001424,
+                1.1158000000001425
+              ],
+              "inputSourceCurrentBracketAmps": [
+                3.471550221695235e-06,
+                -2.8041763063950253e-06
+              ],
+              "outputBracketVolts": {
+                "osc1": [
+                  1.0931856819777295,
+                  1.091856195419434
+                ],
+                "osc2": [
+                  0.24342118783646294,
+                  0.24347349976338642
+                ],
+                "clock": [
+                  4.996210007790454,
+                  4.996208137660858
+                ]
+              },
+              "interpretation": "Sign-change candidate only. Interpolation across a branch jump need not be an operating point.",
+              "interpolatedVolts": {
+                "oscRc": 1.1157776585525518,
+                "osc1": 1.0924502485047232,
+                "osc2": 0.24345012527991203,
+                "clock": 4.996208973288905
+              },
+              "localSlopes": {
+                "osc1VsRc": -26.589731165855234,
+                "osc2VsRc": 1.046238538467427,
+                "osc2VsOsc1": -0.03934746582962588
+              }
+            }
+          ],
+          "artifacts": {
+            "fine-forward.cir": "2d4864bd904f4abd98dfcc14f5a38436c012a55f1e653007d4d79f0a7c535396",
+            "fine-forward.log": "0671842d49314b40cef28277d2e46f910fdc43303a96be60fef6e9d5c9b5de97",
+            "fine-forward.txt": "2a882a7325bdfb6ff5d4232352e22240db1418fbbb9ea7746fa2baa5a9b7fead"
+          }
+        },
+        {
+          "name": "fine-reverse",
+          "stepVolts": 5e-05,
+          "direction": -1,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.1027000000004374,
+                1.1027500000004375
+              ],
+              "inputSourceCurrentBracketAmps": [
+                -0.003487838326734176,
+                0.0014787689451827692
+              ],
+              "outputBracketVolts": {
+                "osc1": [
+                  0.3123902294743919,
+                  1.4044082366768955
+                ],
+                "osc2": [
+                  4.291906691406446,
+                  0.2423864837854222
+                ],
+                "clock": [
+                  0.3184152318401231,
+                  4.996246947851849
+                ]
+              },
+              "interpretation": "Sign-change candidate only. Interpolation across a branch jump need not be an operating point.",
+              "interpolatedVolts": {
+                "oscRc": 1.1027148871141574,
+                "osc1": 1.0792683115287247,
+                "osc2": 1.4480998406236334,
+                "clock": 3.6034586934748796
+              },
+              "localSlopes": {
+                "osc1VsRc": -21840.360144003982,
+                "osc2VsRc": 80990.40415224955,
+                "osc2VsOsc1": -3.7082906883513336
+              }
+            }
+          ],
+          "artifacts": {
+            "fine-reverse.cir": "1f4c3edf365a7d2c6fb0496849133aa623e0c779b380b605eace8849c33e7839",
+            "fine-reverse.log": "89884cb5ff33b83e58eea803028bb233b3088c3a148d10e0b6ce0deb878ee49d",
+            "fine-reverse.txt": "a96c48dba0e23fa84e805b2ab9a688cfa55ec49be4c5aa6a2f617527933afae8"
+          }
+        }
+      ],
+      "directionComparisons": {
+        "coarse": {
+          "osc1": {
+            "maximumDifferenceVolts": 1.0901357756742338,
+            "inputVolts": [
+              1.102799999999895,
+              1.1027999999979887
+            ],
+            "forwardVolts": 1.4022831412765768,
+            "reverseVolts": 0.3121473656023431
+          },
+          "osc2": {
+            "maximumDifferenceVolts": 4.054061481663946,
+            "inputVolts": [
+              1.1134999999998938,
+              1.1134999999979875
+            ],
+            "forwardVolts": 0.24249676709946144,
+            "reverseVolts": 4.296558248763407
+          },
+          "clock": {
+            "maximumDifferenceVolts": 4.677831715994069,
+            "inputVolts": [
+              1.102799999999895,
+              1.1027999999979887
+            ],
+            "forwardVolts": 4.9962469478341935,
+            "reverseVolts": 0.31841523184012455
+          }
+        },
+        "fine": {
+          "osc1": {
+            "maximumDifferenceVolts": 1.0909559210758846,
+            "inputVolts": [
+              1.102750000000115,
+              1.1027500000004375
+            ],
+            "forwardVolts": 1.4033461505502764,
+            "reverseVolts": 0.3123902294743919
+          },
+          "osc2": {
+            "maximumDifferenceVolts": 4.054061481610231,
+            "inputVolts": [
+              1.1135000000001376,
+              1.1135000000004602
+            ],
+            "forwardVolts": 0.24249676714954954,
+            "reverseVolts": 4.29655824875978
+          },
+          "clock": {
+            "maximumDifferenceVolts": 4.677831716003101,
+            "inputVolts": [
+              1.102750000000115,
+              1.1027500000004375
+            ],
+            "forwardVolts": 4.996246947843224,
+            "reverseVolts": 0.3184152318401231
+          }
+        }
+      }
+    },
+    "nominal": {
+      "completed": true,
+      "qualified": false,
+      "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+      "scope": "DC sweep clamps OSC_RC while retaining schematic loading and feedback resistor. Input-source zero current identifies equilibrium candidates. Both sweep directions are retained; local slopes describe only their solution branch, not uniqueness, AC loop gain or startup.",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "sources": {
+        "oscillator_transfer_probe.py": "9f6b878ea1e8c2ec4808d638f0c7251e4fdd2db023ffb714df85996f50c78b80",
+        "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+        "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d"
+      },
+      "spinitSha256": "7042a01f752969596180640914c53c91e4deb11ba2359d09ddca9aed7eb52b46",
+      "cases": [
+        {
+          "name": "coarse-forward",
+          "stepVolts": 0.0001,
+          "direction": 1,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.465199999999855,
+                1.465299999999855
+              ],
+              "inputSourceCurrentBracketAmps": [
+                4.0765291383106395e-06,
+                -3.2776809369718393e-06
+              ],
+              "outputBracketVolts": {
+                "osc1": [
+                  1.460165637058199,
+                  1.4586521108416808
+                ],
+                "osc2": [
+                  1.5482427499318694,
+                  1.5754905508365522
+                ],
+                "clock": [
+                  0.7437358349730557,
+                  0.6233100128456096
+                ]
+              },
+              "interpretation": "Sign-change candidate only. Interpolation across a branch jump need not be an operating point.",
+              "interpolatedVolts": {
+                "oscRc": 1.4652554312303554,
+                "osc1": 1.4593266708524375,
+                "osc2": 1.5633465412576237,
+                "clock": 0.6769823199276357
+              },
+              "localSlopes": {
+                "osc1VsRc": -15.135262165184017,
+                "osc2VsRc": 272.4780090468582,
+                "osc2VsOsc1": -18.002860212996207
+              }
+            }
+          ],
+          "artifacts": {
+            "coarse-forward.cir": "03fd252317f3cc2c7178698ff0e7a4dba4783f5aec2c5a7b87274d1acf76e5e8",
+            "coarse-forward.log": "884a67cbf50eed0bc72cec4029a5ec646cfb16bd81ce240d07390af21e92cd33",
+            "coarse-forward.txt": "fee74fb83c301b752c7adfd25aa05b0714869e9f294e0ff5ccf0bb35f0611749"
+          }
+        },
+        {
+          "name": "coarse-reverse",
+          "stepVolts": 0.0001,
+          "direction": -1,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.4651999999979488,
+                1.4652999999979488
+              ],
+              "inputSourceCurrentBracketAmps": [
+                -3.2776807968360357e-06,
+                4.076529278556314e-06
+              ],
+              "outputBracketVolts": {
+                "osc1": [
+                  1.4586521108705206,
+                  1.4601656370870628
+                ],
+                "osc2": [
+                  1.5754905503150212,
+                  1.5482427494146056
+                ],
+                "clock": [
+                  0.6233100146341962,
+                  0.7437358378470771
+                ]
+              },
+              "interpretation": "Sign-change candidate only. Interpolation across a branch jump need not be an operating point.",
+              "interpolatedVolts": {
+                "oscRc": 1.4652554312303554,
+                "osc1": 1.4593266708524373,
+                "osc2": 1.5633465412573877,
+                "clock": 0.6769823199044496
+              },
+              "localSlopes": {
+                "osc1VsRc": -15.135262165423825,
+                "osc2VsRc": 272.47800900418565,
+                "osc2VsOsc1": -18.002860209891555
+              }
+            }
+          ],
+          "artifacts": {
+            "coarse-reverse.cir": "8ff120e600f08fee120e0164ded2f2c141fe520044d887b4d8e818edcb1a465e",
+            "coarse-reverse.log": "209a99e02dcfbd434b379c2d522c2905e8e9e1d5339c4711a08ff7be83a3af03",
+            "coarse-reverse.txt": "c9110a73d2236f11c0fc1667bc3714ea4f92290ab839fb4f6cd026427d207355"
+          }
+        },
+        {
+          "name": "fine-forward",
+          "stepVolts": 5e-05,
+          "direction": 1,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.46525000000088,
+                1.46530000000088
+              ],
+              "inputSourceCurrentBracketAmps": [
+                3.987999274849629e-07,
+                -3.277681012338194e-06
+              ],
+              "outputBracketVolts": {
+                "osc1": [
+                  1.4594087366329092,
+                  1.4586521108261703
+                ],
+                "osc2": [
+                  1.5618382711199292,
+                  1.5754905511170434
+                ],
+                "clock": [
+                  0.6764189489862555,
+                  0.6233100118836669
+                ]
+              },
+              "interpretation": "Sign-change candidate only. Interpolation across a branch jump need not be an operating point.",
+              "interpolatedVolts": {
+                "oscRc": 1.4652554236646227,
+                "osc1": 1.4593266629538124,
+                "osc2": 1.563319178640455,
+                "clock": 0.6706580486546644
+              },
+              "localSlopes": {
+                "osc1VsRc": -15.13251613474513,
+                "osc2VsRc": 273.04559994170694,
+                "osc2VsOsc1": -18.043635143714038
+              }
+            }
+          ],
+          "artifacts": {
+            "fine-forward.cir": "2d4864bd904f4abd98dfcc14f5a38436c012a55f1e653007d4d79f0a7c535396",
+            "fine-forward.log": "971e9ddb697f54077a60193a56c01295ce425e6849d97eed627fb48f815a287d",
+            "fine-forward.txt": "279fb7d24890d8b93efe8a7c3e18e087eafaa43d6c02227c6454b532b9f543e4"
+          }
+        },
+        {
+          "name": "fine-reverse",
+          "stepVolts": 5e-05,
+          "direction": -1,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.4652500000012025,
+                1.4653000000012026
+              ],
+              "inputSourceCurrentBracketAmps": [
+                -3.2776810360543713e-06,
+                3.987999037790204e-07
+              ],
+              "outputBracketVolts": {
+                "osc1": [
+                  1.4586521108212895,
+                  1.4594087366280308
+                ],
+                "osc2": [
+                  1.5754905512053046,
+                  1.5618382712077525
+                ],
+                "clock": [
+                  0.6233100115809757,
+                  0.6764189486011343
+                ]
+              },
+              "interpretation": "Sign-change candidate only. Interpolation across a branch jump need not be an operating point.",
+              "interpolatedVolts": {
+                "oscRc": 1.465255423664623,
+                "osc1": 1.4593266629538126,
+                "osc2": 1.5633191786402918,
+                "clock": 0.6706580486209469
+              },
+              "localSlopes": {
+                "osc1VsRc": -15.13251613479398,
+                "osc2VsRc": 273.0455999504644,
+                "osc2VsOsc1": -18.04363514423451
+              }
+            }
+          ],
+          "artifacts": {
+            "fine-reverse.cir": "1f4c3edf365a7d2c6fb0496849133aa623e0c779b380b605eace8849c33e7839",
+            "fine-reverse.log": "383dab838e163ca52683809da16955bc8146264e507b176fa771ed570b145b23",
+            "fine-reverse.txt": "8fd0cf06f197a2a88bc68d0535bd018ec2d9f74649e41f78488f6cdc2c6c0bfa"
+          }
+        }
+      ],
+      "directionComparisons": {
+        "coarse": {
+          "osc1": {
+            "maximumDifferenceVolts": 1.990918718774992e-08,
+            "inputVolts": [
+              1.2269999999998813,
+              1.226999999997975
+            ],
+            "forwardVolts": 3.2245435256065504,
+            "reverseVolts": 3.2245435056973633
+          },
+          "osc2": {
+            "maximumDifferenceVolts": 6.795008999915808e-10,
+            "inputVolts": [
+              1.456299999999856,
+              1.4562999999979498
+            ],
+            "forwardVolts": 0.3276557013684696,
+            "reverseVolts": 0.3276557020479705
+          },
+          "clock": {
+            "maximumDifferenceVolts": 9.181603921604164e-09,
+            "inputVolts": [
+              1.464799999999855,
+              1.4647999999979489
+            ],
+            "forwardVolts": 2.053940204337553,
+            "reverseVolts": 2.053940213519157
+          }
+        },
+        "fine": {
+          "osc1": {
+            "maximumDifferenceVolts": 1.9521178007408935e-08,
+            "inputVolts": [
+              1.2650000000004573,
+              1.26500000000078
+            ],
+            "forwardVolts": 3.2202837904142885,
+            "reverseVolts": 3.2202837708931105
+          },
+          "osc2": {
+            "maximumDifferenceVolts": 1.9677809381946076e-10,
+            "inputVolts": [
+              1.4562000000008608,
+              1.4562000000011834
+            ],
+            "forwardVolts": 0.3239870328609042,
+            "reverseVolts": 0.3239870326641261
+          },
+          "clock": {
+            "maximumDifferenceVolts": 2.3486603772937542e-09,
+            "inputVolts": [
+              1.4647500000008788,
+              1.4647500000012015
+            ],
+            "forwardVolts": 2.2952056130543386,
+            "reverseVolts": 2.295205610705678
+          }
+        }
+      }
+    }
+  }
+}
