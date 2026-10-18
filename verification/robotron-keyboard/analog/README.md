@@ -841,7 +841,10 @@ scheduling differs from ordinary PWL, so this is a controlled isolation diagnost
 not an exact solver replay or physical supply model. The retained
 [recorded-supply isolation](reports/clock-output/recorded-supply-isolation/assessment.json)
 passes the unchanged phase gate; the coupled failure is not reproduced in this
-configuration. That narrows the diagnosis without establishing its cause.
+configuration. Repeating with the fine coupled supply recording also converges;
+[changing recordings at a fixed timestep](reports/clock-output/fine-recorded-supply-isolation/supply-recording-comparison.json)
+shifts clock onset, but does not reproduce the full coupled discrepancy. These
+checks narrow the diagnosis without establishing its cause.
 
 ```sh
 python3 verification/robotron-keyboard/analog/oscillator_supply_replay.py --source /path/to/coarse/diagnostic-trace.txt --ngspice /path/to/ngspice --out /tmp/clock-supply-replay
