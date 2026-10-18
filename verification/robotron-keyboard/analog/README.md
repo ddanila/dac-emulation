@@ -619,7 +619,15 @@ receiver. Each mode includes a component model/boundary
 inventory; an unknown schematic reference fails generation. This inventory is
 coverage evidence, not a claim of device accuracy. CPU/peripheral buses, control
 pullup loading, IC supply currents and brownout behavior remain unqualified.
-`bus_load.wiring()` generates pin capacitances from that inventory, using published
+`electrical_bus_interface.generate()` exposes independent CPU, ROM and latch
+low/high drive enables, packed into bits 7:0, 15:8 and 23:16 respectively. Both
+enables low means release; unknown drive remains unknown. `bus_sense` supplies
+receiver logic to the CPU read path and serial-data gate, without digital pullups
+or driver resolution. The HDL regression exercises release, opposing drivers,
+latch pin order and unknown feedback. This interface is not yet connected to
+analog driver models or the firmware harness.
+
+`bus_load.wiring()` generates pin capacitances from the inventory, using published
 reference maxima and requiring explicit per-pin fixture values for undocumented
 8282-output and 7406-input capacitances. The U880 bus limits use the manufacturer's
 U880D table. The retained `reports/bus-capacitance` charge fixture checks generated
