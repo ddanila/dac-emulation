@@ -41,6 +41,14 @@ def reduce_linear(points, tolerance):
     return [points[i] for i in sorted(keep)]
 
 
+def recorded_trtol(log):
+    """Admit only the effective XSPICE control explicitly recorded by this fixture."""
+    notices = re.findall(r"^(?:Reducing|Override) trtol.*$", log, re.M)
+    if notices != ["Reducing trtol to 1 for xspice 'A' devices"]:
+        raise ValueError('Expected one recorded XSPICE trtol reduction to 1')
+    return 1.0
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path, help='Verified all-driver boundary replay directory')
@@ -52,9 +60,10 @@ def main():
     parent = json.loads((source/'report.json').read_text())
     if not parent.get('allDrivers') or not parent.get('reproducedFailure'):
         raise ValueError('Expected a verified failed replay with all driver observations')
-    for name in ('io.cir', 'boundary-trace.txt'):
+    for name in ('io.cir', 'boundary-trace.txt', 'ngspice.log'):
         if sha(source/name) != parent['artifacts'][name]:
             raise ValueError('Source artifact differs: ' + name)
+    effective_trtol = recorded_trtol((source/'ngspice.log').read_text())
     original_path = Path(parent['sourceDirectory'])/'report.json'
     if sha(original_path) != parent['sourceReportSha256']:
         raise ValueError('Original fixture report differs')
@@ -120,7 +129,9 @@ def main():
     if len(re.findall(r'^\.tran .+$', deck, re.M)) != 1:
         raise ValueError('Expected one deck transient analysis')
     deck = re.sub(r'^\.tran .+$', f'.tran {assumptions["stepNs"]}n {stop:.17g}', deck, flags=re.M)
-    deck = deck.replace('\n.control\n', '\n'+'\n'.join(sources)+'\n.control\n')
+    if re.search(r'^\.options .*\btrtol=', deck, re.M):
+        raise ValueError('Explicit trtol deck needs separate review')
+    deck = deck.replace('\n.control\n', f'\n.options trtol={effective_trtol:g}\n'+'\n'.join(sources)+'\n.control\n')
     out.mkdir(parents=True, exist_ok=False)
     (out/'io.cir').write_text(deck)
     report = {'qualified': False, 'scope': __doc__, 'completed': False,
@@ -129,6 +140,8 @@ def main():
               'sources': {name: sha(Path(__file__).parent/name) for name in
                           ('analog_driver_replay.py', 'ngspice_runtime.py', 'failure_evidence.py')},
               'recordedEndpointSeconds': endpoint, 'stopSeconds': stop,
+              'effectiveTruncationTolerance': effective_trtol,
+              'truncationToleranceEvidence': 'Verified parent log records XSPICE reduction to 1; made explicit after removing A devices.',
               'interpolationBudgetV': budget,
               'omitCaptureKnot': args.omit_capture_knot,
               'captureKnotOmissionBudgetV': 1e-9 if args.omit_capture_knot else None, 'drivers': drives, 'removedInterfaceLines': removed,

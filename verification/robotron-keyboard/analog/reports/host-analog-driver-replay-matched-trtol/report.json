@@ -1,0 +1,267 @@
+{
+  "qualified": false,
+  "scope": "Replay recorded DAC voltages without HDL feedback; diagnostic stimulus only.",
+  "completed": false,
+  "sourceReportSha256": "46107d686342adbc3e95f8b1c7989c45da83da5bc5c400098a2d7660f8f971b7",
+  "sourceDirectory": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-host-all-driver-boundary",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "deckSha256": "dc4a49dc9f3f0a685087d6846240174d9a0e434912ae5610a8384f31e536018d",
+  "sources": {
+    "analog_driver_replay.py": "f914538948c81c336334cc6b2de4370635aa7670c1bf3255823fe1e75bad6753",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "recordedEndpointSeconds": 0.001098012248435295,
+  "stopSeconds": 0.001098014248435295,
+  "effectiveTruncationTolerance": 1.0,
+  "truncationToleranceEvidence": "Verified parent log records XSPICE reduction to 1; made explicit after removing A devices.",
+  "interpolationBudgetV": 1e-12,
+  "omitCaptureKnot": true,
+  "captureKnotOmissionBudgetV": 1e-09,
+  "drivers": {
+    "data_intent": {
+      "retainedKnots": 45,
+      "continuation": [
+        [
+          0.0010980129999999997,
+          5.0
+        ],
+        [
+          0.001098014248435295,
+          5.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 1.1511902542338248e-10
+    },
+    "clock_intent": {
+      "retainedKnots": 5,
+      "continuation": [
+        [
+          0.001098014248435295,
+          5.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "led0_v": {
+      "retainedKnots": 2,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "led1_v": {
+      "retainedKnots": 2,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink0": {
+      "retainedKnots": 64,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink1": {
+      "retainedKnots": 35,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink2": {
+      "retainedKnots": 19,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink3": {
+      "retainedKnots": 10,
+      "continuation": [
+        [
+          0.001098014248435295,
+          5.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink4": {
+      "retainedKnots": 5,
+      "continuation": [
+        [
+          0.001098014248435295,
+          5.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink5": {
+      "retainedKnots": 2,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink6": {
+      "retainedKnots": 2,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink7": {
+      "retainedKnots": 2,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink8": {
+      "retainedKnots": 2,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink9": {
+      "retainedKnots": 2,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink10": {
+      "retainedKnots": 2,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink11": {
+      "retainedKnots": 2,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    },
+    "sink12": {
+      "retainedKnots": 2,
+      "continuation": [
+        [
+          0.001098014248435295,
+          0.0
+        ]
+      ],
+      "omittedCaptureKnotErrorV": 0.0
+    }
+  },
+  "removedInterfaceLines": [
+    "Amatrix [n_SENSE7 n_SENSE6 n_SENSE5 n_SENSE4 n_SENSE3 n_SENSE2 n_SENSE1 n_SENSE0] [dsense7 dsense6 dsense5 dsense4 dsense3 dsense2 dsense1 dsense0] data_receiver",
+    "Arxdata [receiver_data] [rx_data] data_receiver",
+    "Arxclock [receiver_clock] [rx_clock] clock_receiver",
+    "Afixture [fixture_clock fixture_reset] [fixture_clk fixture_reset_n] clock_receiver",
+    "Ahdl [fixture_clk fixture_reset_n dsense7 dsense6 dsense5 dsense4 dsense3 dsense2 dsense1 dsense0 rx_data rx_clock fixture_reset_n fixture_reset_n fixture_reset_n fixture_reset_n fixture_reset_n] [dlogic_sink1 dlogic_sink0 dsink csink led1 led0 dcol12 dcol11 dcol10 dcol9 dcol8 dcol7 dcol6 dcol5 dcol4 dcol3 dcol2 dcol1 dcol0] hdl",
+    ".model hdl d_cosim simulation=\"/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so\" sim_args=[\"io.vvp\"] delay=10n",
+    "+ lib_args=[\"/private/tmp/robotron-icarus-src/vvp/libvvp.so\" \"/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi\"]",
+    "Adrive [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] drive",
+    "Acolumns [dcol12 dcol11 dcol10 dcol9 dcol8 dcol7 dcol6 dcol5 dcol4 dcol3 dcol2 dcol1 dcol0] [sink12 sink11 sink10 sink9 sink8 sink7 sink6 sink5 sink4 sink3 sink2 sink1 sink0] drive"
+  ],
+  "boundary": "Recorded sampled DAC interpolation, followed by an explicit data-edge continuation to 5 V at 5 V/ns and held other drivers. Not an observed firmware continuation or full-board qualification.",
+  "exitCode": 0,
+  "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 4.77898e-21: trouble with xhost_data:ttl7404_input_npn-instance q.xhost_data.qinput",
+  "waveformRows": 53512,
+  "lastSampleSeconds": 0.001098012248407457,
+  "artifacts": {
+    "io.cir": "dc4a49dc9f3f0a685087d6846240174d9a0e434912ae5610a8384f31e536018d",
+    "ngspice.log": "e490fa4f78e657d95bfd5ab52bc16690fc18f1d5f3a05bfa19193e321fad767b",
+    "trace.txt": "b753345f88cab99b97b558b524f65c02d0698d6673cf2d1439a0c2cf5dac41d0",
+    "host-trace.txt": "c889ef1410326fd14b41fa87152f485172b54eee3b487a8cfa1dc0531dd2306f",
+    "driver-trace.txt": "afa8a448cfd36bb789784c22d6d904eb288f4929934171648da3ce5e71367c2f",
+    "boundary-trace.txt": "9f4b7bf111a5757816421277880e6ee3446ea70b4ec4c4dfb8ee013aa99b3051"
+  }
+}

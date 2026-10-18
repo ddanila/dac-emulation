@@ -1,0 +1,77 @@
+{
+  "qualified": false,
+  "scope": "Compare a declared host-voltage prefix of a failed replay; never qualification.",
+  "comparison": {
+    "signals": [
+      {
+        "maximumDifferenceV": 0.18108207822308042,
+        "timeSeconds": 0.0010910122485623935,
+        "coarseV": 4.619352805701274,
+        "fineV": 4.800434883924354,
+        "integratedAbsoluteDifferenceVoltSeconds": 3.930645081773981e-09,
+        "meanAbsoluteDifferenceV": 3.579785805815095e-06,
+        "rmsDifferenceV": 0.00017845648497256928,
+        "signal": "v(n_CABLE_DATEN,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.18108277564788722,
+        "timeSeconds": 0.0010910122485623935,
+        "coarseV": 0.07825509019041266,
+        "fineV": 0.2593378658382999,
+        "integratedAbsoluteDifferenceVoltSeconds": 4.141342966576783e-09,
+        "meanAbsoluteDifferenceV": 3.7716762669584156e-06,
+        "rmsDifferenceV": 0.00017880616289026353,
+        "signal": "v(n_CABLE_TAKT,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.0029685216422314156,
+        "timeSeconds": 0.0010761746837633795,
+        "coarseV": 0.005903820248823834,
+        "fineV": 0.002935298606592418,
+        "integratedAbsoluteDifferenceVoltSeconds": 8.43709577479751e-10,
+        "meanAbsoluteDifferenceV": 7.683979364346833e-07,
+        "rmsDifferenceV": 1.5852991778900735e-05,
+        "signal": "v(host_data_buffer_input,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.0019220546878800926,
+        "timeSeconds": 0.0010762742844523934,
+        "coarseV": -0.5153984755650405,
+        "fineV": -0.5134764208771604,
+        "integratedAbsoluteDifferenceVoltSeconds": 7.982471561924251e-10,
+        "meanAbsoluteDifferenceV": 7.269936053295953e-07,
+        "rmsDifferenceV": 1.6068733774146607e-05,
+        "signal": "v(host_clock_buffer_input,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.02436746840132175,
+        "timeSeconds": 0.0003212497116421894,
+        "coarseV": 0.05939486608722055,
+        "fineV": 0.0350273976858988,
+        "integratedAbsoluteDifferenceVoltSeconds": 1.0091023842005425e-09,
+        "meanAbsoluteDifferenceV": 9.19027364827591e-07,
+        "rmsDifferenceV": 4.768575353097482e-05,
+        "signal": "v(host_data_buffer_output,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.012242443329869235,
+        "timeSeconds": 0.00032125766027660637,
+        "coarseV": 0.047087399597378066,
+        "fineV": 0.03484495626750883,
+        "integratedAbsoluteDifferenceVoltSeconds": 8.225988518075349e-10,
+        "meanAbsoluteDifferenceV": 7.491716072852327e-07,
+        "rmsDifferenceV": 2.388391163937646e-05,
+        "signal": "v(host_clock_buffer_output,host_receiver_gnd)"
+      }
+    ],
+    "unionKnots": 57470,
+    "endSeconds": 0.001098011248435295
+  },
+  "boundary": "Absolute-time sampled linear interpolation only. Explicitly bounded diagnostic prefix of incomplete runs, not a convergence or physical accuracy pass. Aborted-capture states are not specimen observations.",
+  "sourceReportSha256": "46107d686342adbc3e95f8b1c7989c45da83da5bc5c400098a2d7660f8f971b7",
+  "replayReportSha256": "798474917e68a94379c768f229eedec5c557e5059c0626a4088a960a1b019552",
+  "sources": {
+    "compare_driver_replay.py": "b0aa070e9c3fa4643282756993696553c6db0573c44e75e82de825de9270e875",
+    "host_waveform_comparison.py": "b1f96a72148a1bebaa25cd2188fc11ee1e5fa7a17f36ce0ff6ab25d4fc53e3a8"
+  }
+}

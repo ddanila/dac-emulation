@@ -50,7 +50,9 @@ receipts fingerprint the executable, initialization and model libraries; a versi
 string alone is insufficient. Runs ignore user initialization. Experimental engine
 patches require their own checks; the strict-time diagnostic correction does not
 license ignoring actual backward-time warnings. Do not mix runtime provenance
-between the two halves of a qualification.
+between the two halves of a qualification. Removing XSPICE devices also changes
+implicit truncation control; analog-only replays must preserve the effective
+setting recorded by the source run.
 
 ## Firmware workflows
 
@@ -266,7 +268,7 @@ settings, results and rejected alternatives; related captures remain in
 | Does the host-loaded closed board complete? | [Closed-board execution review](reports/board-host-load/assessment.json); the bounded full run timed out, while an unchanged-circuit startup diagnostic completed. Neither establishes full-board acceptance. |
 | Does corrected host sampling cover service scenarios? | [Single press](reports/firmware-host-rising-load-fine/assessment.json), fixed-spacing [reset](reports/firmware-host-rising-reset-minbreak-fine/assessment.json) and [modifier](reports/firmware-host-rising-modifier-minbreak-fine/assessment.json) pairs pass packet coverage, sampled stability and serial-edge refinement. Remaining scenarios and device qualification are open. |
 | Do loaded voltage waveforms converge? | [Further refinement](reports/firmware-host-rising-load-refined/assessment.json) does not consistently reduce absolute-time differences; the [spacing control](reports/firmware-host-rising-load-minbreak-25ns/assessment.json) leaves those waveforms unchanged. |
-| What constrains the strict-tolerance failure? | [Transition audit](reports/firmware-host-rising-load-transition-audit/assessment.json) and [replay boundary control](reports/host-analog-driver-replay-no-capture-knot/assessment.json) narrow the transition investigation. Removing an artificial replay breakpoint completes the short diagnostic; the original coupled failure remains unresolved. |
+| What constrains the strict-tolerance failure? | [Transition audit](reports/firmware-host-rising-load-transition-audit/assessment.json) and [matched-control replay](reports/host-analog-driver-replay-matched-trtol/assessment.json) narrow the transition investigation. Preserving effective XSPICE truncation control also fails without HDL feedback; trajectory identity and the original cause remain unresolved. |
 | Does the independent solver resolve the loaded-driver transition? | [Mapped ngspice control](reports/host-driver-mapped-ngspice/assessment.json) changes transition voltages; [Xyce replay](reports/host-driver-mapped-xyce/assessment.json) aborts during startup before the target transition. Neither establishes waveform equivalence or a shared failure mechanism. |
 | Does the service configuration work? | [Service repeat qualification](reports/repeat/refined-strict-time/qualification/qualification.json); externally supplied clock/reset do not qualify closed-board startup. |
 | Is startup numerically converged? | [Full-precision supply isolation](reports/clock-output/full-precision-supply-isolation/assessment.json) and [independent solver replay](reports/clock-output/xyce-recorded-supply/assessment.json); retain absolute phase and failing startup. |

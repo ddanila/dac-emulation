@@ -15,5 +15,9 @@
     "io.cir": "ea8037e0bf2d165dac50bdbc72837c2800f65e066e38ac7b5cd1bc12298bed60",
     "prefix-before-transition-end.json": "e98a5231b20a4edf5dee25b4f9eacfcd817ef7abab77da614623f2f0783b4ddd"
   },
-  "nextAction": "Investigate with the boundary-free control while preserving the original coupled failure and device-model uncertainty."
+  "nextAction": "Investigate with the boundary-free control while preserving the original coupled failure and device-model uncertainty.",
+  "effectiveControlReview": {
+    "evidence": "../host-analog-driver-replay-matched-trtol/assessment.json",
+    "boundary": "The source analog-only replay had implicit ngspice trtol=7, unlike effective trtol=1 in the original coupled run. These retained results do not constitute a matched-control comparison against that run. Xyce tolerance semantics remain separate."
+  }
 }
