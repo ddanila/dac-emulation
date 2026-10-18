@@ -94,6 +94,8 @@ def main():
                        help='Explicit solver tolerance; supply all three, otherwise retain engine defaults')
     p.add_argument('--transient-iterations', type=positive_iterations,
                    help='Explicit ngspice itl4 Newton iteration limit; omit to retain the engine default')
+    p.add_argument('--integration-method', choices=('trap', 'gear'),
+                   help='Explicit numerical integration method; omit to retain the engine default')
     p.add_argument('--electrical-wr', action='store_true', help='Finite CPU WR drive into transistor clock gate; requires electrical-bus and 7406-dc')
     p.add_argument('--sio-data-pf', type=float)
     p.add_argument('--sio-clock-pf', type=float)
@@ -150,6 +152,7 @@ def main():
         'minimumBreakpointFs': args.minimum_breakpoint_fs,
         'solverTolerances': solver,
         'transientIterations': args.transient_iterations,
+        'integrationMethod': args.integration_method,
         'analysisInvocation': 'deck-tran/run' if args.minimum_breakpoint_fs is not None else 'control-tran',
         'clockPeriodNs': 1000, 'resetRampStartNs': 1000000, 'fixtureEdgeNs': 1,
         'fixtureThresholdVolts': 1.4, 'br1Closed': False, 'br2Closed': False,
@@ -390,6 +393,8 @@ def main():
             lines.insert(lines.index('.control'), '.options ' + ' '.join(f'{key}={value}' for key,value in solver.items()))
         if args.transient_iterations is not None:
             lines.insert(lines.index('.control'), f'.options itl4={args.transient_iterations}')
+        if args.integration_method is not None:
+            lines.insert(lines.index('.control'), f'.options method={args.integration_method}')
         (out / 'io.cir').write_text(with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs))
         report['deckSha256'] = sha(out / 'io.cir')
         report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
