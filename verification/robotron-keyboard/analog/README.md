@@ -115,25 +115,17 @@ pin-role and load-condition review; restricted model files stay local. A passing
 switching fixture with generic diodes does not establish equivalence to the
 manufacturer's fixture or historical DL000 behavior.
 
-For candidate-model diagnosis, use fresh output directories and the probes' `--help`:
+For candidate-model diagnosis, use fresh output directories. Entry points expose
+arguments and defaults through `--help`; retained assessments identify the exact
+fixtures and commands used.
 
-| Task | Entry point |
+| Question | Entry points |
 | --- | --- |
-| Screen generic junction parameters against isolated device conditions | `ls00_parameter_screen.py --out /path/to/screen` |
-| Test a standalone model in the oscillator | `oscillator_probe.py --gate-model /path/to/candidate.cir --require-phase --out /path/to/run` |
-| Test every surviving candidate after verifying its receipts | `oscillator_family_probe.py --screen /path/to/screen --out /path/to/run` |
-| Compare forward/reverse DC branches with schematic loading | `oscillator_transfer_probe.py --model /path/to/candidate.cir --out /path/to/run` |
-| Check isolated-gate internal currents and numerical-conductance sensitivity | `ls00_branch_probe.py --model /path/to/candidate.cir --gmin 1e-15 --out /path/to/run` |
-| Check finite input-disturbance recovery on both branches | `ls00_branch_transient.py --model /path/to/candidate.cir --out /path/to/run` |
-| Check complete-oscillator recovery after finite current disturbances | `oscillator_disturbance.py --model /path/to/candidate.cir --out /path/to/run` |
-| Check the photographed K555LA3 device’s selected DC passport conditions | `ls00_validation_probe.py --device k555la3 --model /path/to/candidate.cir --out /path/to/run` |
-| Compare small-signal response at an observed transient plateau | `oscillator_ac_probe.py --model /path/to/candidate.cir --transient /path/to/disturbance-capture --out /path/to/run` |
-| Inspect internal currents and transistor state at a retained AC plateau | `oscillator_internal_probe.py --ac /path/to/ac-capture --out /path/to/run` |
-| Compare transfer branches under alternative 500-ohm fixtures | `ls00_transfer_fixture.py --model /path/to/candidate.cir --out /path/to/run` |
-| Replay a completed transfer capture in Xyce | `xyce_transfer_fixture.py --source /path/to/transfer-capture --xyce /path/to/Xyce --out /path/to/run` |
-| Capture forced-output I/V beyond the rated-load endpoints | `ls00_iv_probe.py --model /path/to/candidate.cir --out /path/to/run` |
-| Screen high-current gain rolloff with DC and switching holdouts | `ls00_rolloff_screen.py --model /path/to/candidate.cir --out /path/to/run` |
-| Screen sink base/collector/emitter resistance assumptions with the same holdouts | `ls00_rolloff_screen.py --parameter RB` (or `RC`, `RE`) with the model/output arguments above |
+| Does a candidate meet independent device conditions? | [ls00_validation_probe.py](ls00_validation_probe.py), [ls00_parameter_screen.py](ls00_parameter_screen.py), [ls00_rolloff_screen.py](ls00_rolloff_screen.py) |
+| Do admitted models start and recover in the oscillator? | [oscillator_family_probe.py](oscillator_family_probe.py), [oscillator_disturbance.py](oscillator_disturbance.py) |
+| Which transfer branches and output currents occur? | [oscillator_transfer_probe.py](oscillator_transfer_probe.py), [ls00_transfer_fixture.py](ls00_transfer_fixture.py), [ls00_iv_probe.py](ls00_iv_probe.py) |
+| What explains a candidate's operating state? | [ls00_branch_probe.py](ls00_branch_probe.py), [ls00_branch_transient.py](ls00_branch_transient.py), [oscillator_ac_probe.py](oscillator_ac_probe.py), [oscillator_internal_probe.py](oscillator_internal_probe.py) |
+| Does an independent solver reproduce a transfer capture? | [xyce_transfer_fixture.py](xyce_transfer_fixture.py) |
 
 `oscillator_family_probe.py --validate-screen-only` checks candidate admission
 without running oscillators. Admission requires explicit DC and switching passes,
@@ -208,56 +200,43 @@ These checks do not identify inductance, coupling, ferrite losses, saturation or
 parasitics. Fixture passes cover steady levels and release behavior, not absolute
 receiver limits; inspect retained transient extrema as well.
 
-`ttl7406_output_probe.py --host-passives --out /tmp/host-input-review` includes
-the motherboard input chokes, pull-ups and RC filters documented in
-[host receiver evidence](host_receiver.json). It compares voltage at the D104
-buffer inputs, retaining cable-terminal voltages separately. The SIO is downstream
-of the buffers; its pin limits must not be applied directly to cable voltages.
-Host winding values remain assumptions. Add `--host-buffer` to exercise the
-experimental standard-7404 transistor topology with input reverse beta 0.01.
-`ttl7404_probe.py --out /tmp/7404-dc` screens selected D104 DC conditions; it
-does not calibrate input clamps or switching. Buffer outputs use illustrative SIO
-loads. Both the output probe and service firmware runner accept explicit
-`--sio-data-pf`, `--sio-clock-pf` and `--sio-leakage-ua` together with `--host-buffer`;
-positive leakage draws current from the input to ground. The
-[load screening](reports/host-loads/assessment.json) retains the tested cases;
-the [loaded firmware observation](reports/firmware-host-load/assessment.json)
-checks an explicit load through the service fixture.
-The [U856 source review](u856_limits.json) constrains leakage and capacitance
-without supplying exact I/V or Schmitt thresholds; clock-capacitance pin coverage
-remains explicit. `firmware_io_cosim.py --host-buffer --serial-driver 7406-dc` includes
-this experimental network in the service firmware fixture. The observer samples
-the falling buffer-output clock and uses the output data without cable inversion;
-`host-trace.txt` retains cable, buffer-input and buffer-output voltages separately.
-Electrical-bus preparation supports the same option. `boot_cosim.py --host-buffer`
-also includes this network with the onboard oscillator/reset and closed bridges;
-it requires `--electrical-outputs` and accepts the same explicit SIO load arguments.
-Both paired qualifiers reject experimental host-buffer runs pending device,
-receiver-voltage and timing qualification. Service-only review commands do not
-validate the closed-board capture window or startup. Use
-`host_input_review.py --board --run /path/to/board-run --out /tmp/board-inputs.json`
-for source-hashed input stress within the recorded board window. A completed
-voltage review preserves any functional failure and makes no startup-voltage claim.
-For numerical diagnosis only, run
-`compare_firmware_io.py COARSE FINE --experimental-host --out /tmp/host-convergence.json`.
-This checks matching model/runtime inputs and serial-edge refinement while retaining
-`qualified: false`; it does not bypass the paired electrical qualification gate.
-`host_waveform_comparison.py COARSE FINE --out /tmp/host-voltages.json` compares
-all retained host-voltage sample knots at absolute time using linear interpolation.
-It reports maximum differences without phase alignment or a physical-accuracy claim.
-`host_transition_windows.py COMPARISON COARSE FINE --out /tmp/host-windows`
-retains exact producer samples with bracketing points around the maximum differences.
-The [transition review](reports/host-transition-windows/assessment.json) distinguishes
-local edge shifts from whole-waveform or physical qualification.
+## Host receiver
 
-Use `host_input_review.py --firmware --run /path/to/service-run --out /tmp/input-limits.json`
-for a retained host-buffer firmware capture; it verifies artifact hashes, observed
-nodes and full capture extent before reviewing input stress. For standalone fixtures,
-`host_input_review.py --run /tmp/host-input-review --out /tmp/input-limits.json`
-checks retained buffer-input waveforms against [RFT D104D conditions](d104_limits.json).
-It distinguishes static bounds from the conditional negative-pulse allowance;
-duty and unknown input currents cannot be inferred from a voltage minimum.
-A completed review is not an electrical acceptance pass.
+[Host receiver evidence](host_receiver.json) identifies the motherboard passives
+and buffers between the cable and SIO. Review voltages at the appropriate node:
+SIO limits do not apply directly to the cable. Host winding values and generic
+buffer dynamics remain assumptions. [D104 conditions](d104_limits.json) and
+[U856 conditions](u856_limits.json) own the sourced limits and their applicability.
+
+The output probe, service firmware runner and closed-board runner support
+`--host-buffer`. The closed-board runner also requires `--electrical-outputs`
+and retains onboard oscillator/reset and closed bridges. Explicit SIO capacitance and leakage
+must be supplied together; use the runners' `--help` for arguments. Positive
+leakage draws current to ground. Source-informed loads are stress assumptions,
+not calibrated I/V curves or identified Schmitt thresholds.
+
+`host-trace.txt` separates cable, buffer-input and buffer-output voltages. Service
+reviews require the complete service interval. Board input reviews cover only the
+recorded window, preserve producer failures and make no startup-voltage claim.
+Both paired electrical qualifiers reject experimental host-buffer runs pending
+device, voltage and timing qualification.
+
+| Review | Command (scripts in this directory) |
+| --- | --- |
+| Passive or active standalone fixture | `ttl7406_output_probe.py --host-passives --out RUN`; add `--host-buffer` for the active candidate |
+| Selected buffer DC conditions | `ttl7404_probe.py --out RUN` |
+| Buffer-input stress | `host_input_review.py --run RUN --out REPORT`; add `--firmware` for service or `--board` for closed-board captures |
+| Service serial-edge refinement | `compare_firmware_io.py COARSE FINE --experimental-host --out REPORT` |
+| Absolute-time host-voltage differences | `host_waveform_comparison.py COARSE FINE --out REPORT` |
+| Exact samples around maximum differences | `host_transition_windows.py COMPARISON COARSE FINE --out DIRECTORY` |
+| Service clock-width screen | `host_clock_widths.py RUN --out REPORT` |
+
+The host capture reviews retain `qualified: false`. Input stress review distinguishes
+static bounds from conditional pulse allowances; a voltage minimum cannot
+establish duty or unknown input current. Voltage comparisons use retained sample
+knots without phase alignment; local transition windows do not prove whole-waveform
+convergence. Clock-width screens use an explicit nominal threshold, not measured
+Schmitt switching. The evidence index below links results and remaining limits.
 
 ## Qualification and retained evidence
 
@@ -283,8 +262,9 @@ settings, results and rejected alternatives; related captures remain in
 | Do transfer branches depend on the solver? | [Published fixture review](reports/clock-output/ls00-transfer500/assessment.json) and [Xyce replay](reports/clock-output/xyce-transfer500/assessment.json); fixture alternatives and explicit runtime temperatures remain part of the comparison. Solver agreement is not calibration. |
 | Do device conditions or input-junction assumptions resolve startup? | [Device-condition and diode review](reports/clock-output/diode-role-review/assessment.json); selected TI/К555ЛА3 DC checks remain distinct from dynamic applicability. |
 | Are CPU reads electrically valid? | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json) and [floating-read analysis](reports/floating-io/static-analysis.json); functional agreement does not qualify released input voltage. |
-| Are receive-clock pulses wide enough at the assumed threshold? | [Loaded service clock widths](reports/firmware-host-load/clock-widths.json), reproduced with `host_clock_widths.py RUN --out REPORT`; complete sample-bracket intervals pass the reference screen. Schmitt thresholds, supply applicability and censored intervals remain unqualified. |
-| Does firmware traverse the experimental host receiver? | [Service firmware observation](reports/firmware-host-buffer/assessment.json) and [paired numerical review](reports/firmware-host-buffer-fine/assessment.json); logical comparison, serial-edge refinement, sampled stability and input stress pass, but absolute-time voltage comparison exposes substantial transition differences. Full waveforms remain local; voltage convergence, device/loading and closed-board qualification remain open. |
+| Are receive-clock pulses wide enough at the assumed threshold? | [Loaded service assessment](reports/firmware-host-load/assessment.json) and [clock widths](reports/firmware-host-load/clock-widths.json); complete sample-bracket intervals pass the reference screen. Schmitt thresholds, supply applicability and censored intervals remain unqualified. |
+| Does firmware traverse the experimental host receiver? | [Service firmware observation](reports/firmware-host-buffer/assessment.json) and [paired numerical review](reports/firmware-host-buffer-fine/assessment.json); logical comparison, serial-edge refinement, sampled stability and input stress pass, but absolute-time voltage comparison exposes substantial transition differences; [selected windows](reports/host-transition-windows/assessment.json) show local edge shifts. Full waveforms remain local; voltage convergence, device/loading and closed-board qualification remain open. |
+| Are explicit SIO loads exercised? | [Load screening](reports/host-loads/assessment.json) and [loaded service assessment](reports/firmware-host-load/assessment.json); tested hypotheses pass their nominal checks, but exact I/V, clock-capacitance applicability and loaded timestep convergence remain open. |
 | Is the host buffer switching model qualified? | [D104 switching fixture review](reports/host-buffer-switching/assessment.json); threshold timing converges under explicit generator assumptions, but incomplete fixture parameters and uncalibrated device dynamics prevent qualification. |
 | Does an active host buffer change the rejected input pulses? | [Buffer candidate review](reports/host-buffer/assessment.json); selected DC and nominal fixture checks pass for the explicit candidate, while clamp dynamics, device applicability and SIO loading remain unqualified. |
 | Where does the cable terminate electrically? | [Host input review](reports/host-receiver/assessment.json); factory and redrawn schematics place passive filters before D104 buffers. The passive boundary changes loading and undershoot but does not qualify the active receiver. |
