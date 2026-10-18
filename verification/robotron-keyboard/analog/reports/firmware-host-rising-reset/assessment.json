@@ -40,5 +40,23 @@
     "producerRows": 3180637,
     "retainedFinalRows": 3,
     "boundary": "Exact last producer rows from an aborted numerical capture, not accepted physical samples. Reset capture includes a duplicate final timestamp and an extreme cable value; no voltage qualification is inferred."
+  },
+  "breakpointHypothesis": {
+    "status": "Source-derived hypothesis; active engine fields not instrumented in these runs",
+    "engineSource": "ngspice-47",
+    "sourceFiles": {
+      "src/spicelib/analysis/traninit.c": "b320e45cbad1d69d30b853ff5662af86f9e63df6a849b9265d193d9611bc50ee",
+      "src/spicelib/analysis/dctran.c": "382d523b08a843469d81b14e3c08c0cd2b11509ee3470b9e3b3bce6f27157a74",
+      "src/xspice/cm/cm.c": "b62c7b7d0051c5b73bdb520f302f52b3db2d6e392c1cd45f8dc62f631e247537"
+    },
+    "sourceBehavior": [
+      "TRANinit derives delmin as 1e-11 times maximum timestep.",
+      "XSPICE DCtran derives an unset minimum breakpoint separation as ten times delmin.",
+      "Temporary-breakpoint filtering compares times using that separation; this review does not prove which code path caused the abort."
+    ],
+    "requestedMaximumStepSeconds": 5e-08,
+    "inferredDefaultMinimumBreakpointSeconds": 4.9999999999999996e-18,
+    "floatingPointSpacingAtFailureSeconds": 6.938893903907228e-18,
+    "interpretation": "The inferred default separation is smaller than one binary64 time increment at the failing epoch. This is consistent with the duplicate final timestamp and motivates explicit spacing, but does not establish root cause or qualify the remedy."
   }
 }
