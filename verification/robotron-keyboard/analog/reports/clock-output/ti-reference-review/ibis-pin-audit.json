@@ -1,0 +1,72 @@
+{
+  "qualified": false,
+  "pinAssignmentPassed": false,
+  "components": {
+    "ls00_D": {
+      "pinAssignmentPassed": true,
+      "errors": []
+    },
+    "ls00_NS": {
+      "pinAssignmentPassed": true,
+      "errors": []
+    },
+    "ls00_DB": {
+      "pinAssignmentPassed": true,
+      "errors": []
+    },
+    "ls00_N": {
+      "pinAssignmentPassed": false,
+      "errors": [
+        {
+          "pin": 2,
+          "signal": "1B",
+          "assignedModel": "ls00_OUT",
+          "actualType": "output",
+          "expectedType": "input"
+        },
+        {
+          "pin": 3,
+          "signal": "1Y",
+          "assignedModel": "ls00_IN",
+          "actualType": "input",
+          "expectedType": "output"
+        },
+        {
+          "pin": 4,
+          "signal": "2A",
+          "assignedModel": "ls00_OUT",
+          "actualType": "output",
+          "expectedType": "input"
+        },
+        {
+          "pin": 10,
+          "signal": "3B",
+          "assignedModel": "ls00_OUT",
+          "actualType": "output",
+          "expectedType": "input"
+        },
+        {
+          "pin": 11,
+          "signal": "4Y",
+          "assignedModel": "ls00_IN",
+          "actualType": "input",
+          "expectedType": "output"
+        },
+        {
+          "pin": 12,
+          "signal": "4A",
+          "assignedModel": "ls00_OUT",
+          "actualType": "output",
+          "expectedType": "input"
+        }
+      ]
+    }
+  },
+  "scope": "Standard 14-pin LS00 input/output/supply roles only; not table syntax, numerical curves, timing, package parasitics, DL000 equivalence or device qualification.",
+  "nonAsciiBytes": 1,
+  "sourceSha256": "78985e8a49cd8aaf8679e31e9f2375c4144f298a54bfffcfb1da7b61d262854b",
+  "scriptSha256": "7211696c4ff868fd3430cfe2d43c2887ae72c8b5bbfa693c6c028012ceaad345",
+  "sourceUrl": "https://www.ti.com/lit/ibs/SDLM003",
+  "pinRoleReference": "https://www.ti.com/lit/gpn/SN74LS00",
+  "decision": "Do not import a failing package pin map. A passing pin map alone does not validate the electrical tables or authorize a DL000 substitution."
+}

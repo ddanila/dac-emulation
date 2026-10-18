@@ -1,0 +1,24 @@
+Recorded-supply oscillator isolation
+Areplay [n_p5V] supply_replay
+.model supply_replay filesource(file="../supply.txt" amplstep=false amploffset=[0] amplscale=[1])
+.include ls_nand_pullup.cir
+.options method=gear reltol=1e-6 vntol=1e-8 abstol=1e-14
+R4.3 n_OSC1 n_OSC_RC 220
+C6 n_OSC_RC n_OSC2 {470p*1}
+R10.3 n_p5V n_CLK 560
+XA7_0 a7_unconnected_1 a7_unconnected_2 a7_unconnected_3 n_p5V 0 LS_NAND_NOMINAL
+XA7_1 n_OSC1 n_OSC1 n_OSC2 n_p5V 0 LS_NAND_NOMINAL
+XA7_2 n_OSC2 n_OSC2 n_OSC_OUT n_p5V 0 LS_NAND_NOMINAL
+XA7_3 n_OSC_RC n_OSC_RC n_OSC1 n_p5V 0 LS_NAND_NOMINAL
+RBR1 n_OSC_OUT n_CLK .001
+Rcpu n_CLK 0 1g
+Ccpu n_CLK 0 10p
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+tran 0.125n 0.00025000000000000001
+wrdata trace.txt v(n_CLK) v(n_p5V)
+quit
+.endc
+.end
