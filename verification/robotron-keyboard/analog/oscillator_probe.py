@@ -136,8 +136,10 @@ def main():
                                          'Ideal 5 V ramp over 10 ns; gate output supply current omitted'),
                               'thresholdVolts': 1.4, 'transitionWidthVolts': .1,
                               'gateProfile': args.gate_profile,
-                              'internalPoleSeconds': 5e-9, 'outputOhms': {'low': 30, 'high': 50 if args.gate_profile == 'dl000-dc' else 30},
-                              'outputTargetsAsSupplyFraction': {'low': .04, 'high': .70},
+                              'internalPoleSeconds': 5e-9, 'outputOhms': {'low': 30, 'high': 30 if args.gate_profile == 'nominal' else 50},
+                              'outputTargetsAsSupplyFraction': (None if args.gate_profile == 'dl000-pullup' else {'low': .04, 'high': .70}),
+                              'outputTopology': ('Independent source-only high path toward 0.7*VCC and low path to ground; external pullup can exceed the high-source target'
+                                                 if args.gate_profile == 'dl000-pullup' else 'Bidirectional Thevenin output toward filtered voltage target'),
                               'inputFarads': 3e-12, 'cpuLoad': '1 gigaohm and 10 pF',
                               'inputBias': 'Supply-scaled 1.6 V through a one-way 10 kohm equivalent',
                               'clamp': 'Generic diode IS=1e-14, N=1, RS=20',
