@@ -31,22 +31,22 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
     samples, latches = [], []
     for line in log.splitlines():
         if line.startswith('BUS_SAMPLE '):
-            match = re.fullmatch(r'BUS_SAMPLE (\d+) ([0-9a-f]{4}) ([0-9a-f]{2}) ([01]) ([01]) ([01])', line)
+            match = re.fullmatch(r'BUS_SAMPLE (\d+) ([0-9a-fA-F]{4}) ([0-9a-fA-FxXzZ]{2}) ([01]) ([01]) ([01])', line)
             if not match:
                 raise ValueError('Unknown or malformed sampled bus value: ' + line)
             time, address, value, memory, io, m1 = match.groups()
-            sample = (int(time), int(address, 16), int(value, 16), int(memory), int(io), int(m1))
+            sample = (int(time), int(address, 16), value, int(memory), int(io), int(m1))
             if sample[3:5] not in ((0, 1), (1, 0)):
                 raise ValueError('Ambiguous bus read selects')
             if samples and sample[0] <= samples[-1][0]:
                 raise ValueError('Nonmonotonic bus read times')
             samples.append(sample)
         elif line.startswith('BUS_LATCH '):
-            match = re.fullmatch(r'BUS_LATCH (\d+) ([0-9a-f]{2}) ([0-9a-f]{2})', line)
+            match = re.fullmatch(r'BUS_LATCH (\d+) ([0-9a-fA-FxXzZ]{2}) ([0-9a-fA-FxXzZ]{2})', line)
             if not match:
                 raise ValueError('Unknown or malformed CPU latch value')
             time, expected, actual = match.groups()
-            latches.append((int(time), int(expected, 16), int(actual, 16)))
+            latches.append((int(time), expected, actual))
     if not samples or len(samples) != len(latches):
         raise ValueError('Missing bus samples or CPU latch confirmations')
     for index, (sample, latch) in enumerate(zip(samples, latches)):
@@ -76,13 +76,24 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
     with open_text(trace) as stream:
         iterator = iter(rows(stream))
         current, history = next(iterator, None), deque()
-        for ordinal, (time_ps, address, value, memory, _, _) in enumerate(samples):
+        for ordinal, (time_ps, address, raw_value, memory, io, m1) in enumerate(samples):
+            latch = latches[ordinal]
+            uncertain = any(c in 'xXzZ' for raw in (raw_value, *latch[1:]) for c in raw)
+            value = None if any(c in 'xXzZ' for c in raw_value) else int(raw_value, 16)
             context = {'ordinal': ordinal, 'readTimePs': time_ps, 'address': address,
                        'sampledByte': value}
+            # Data uncertainty is a read failure, not a log syntax error. Defer
+            # it until this read so it cannot hide an earlier voltage failure.
+            if uncertain:
+                raise BusMismatch('Unknown sampled bus or CPU latch data',
+                                  dict(context, signal='CPU_DI_UNKNOWN', sampledHex=raw_value,
+                                       recordedSampleHex=latch[1], latchedHex=latch[2],
+                                       latchTimePs=latch[0], memorySelectN=memory,
+                                       ioSelectN=io, m1N=m1))
+            latch = (latch[0], int(latch[1], 16), int(latch[2], 16))
             if rom is not None and memory == 0 and value != rom[address & 2047]:
                 raise BusMismatch('Sampled memory data differs from mapped ROM',
                                   dict(context, signal='ROM_DATA', expectedByte=rom[address & 2047]))
-            latch = latches[ordinal]
             if latch[1:] != (value, value):
                 raise BusMismatch('CPU input register differs from sampled bus',
                                   dict(context, signal='CPU_DI_REG', latchTimePs=latch[0],

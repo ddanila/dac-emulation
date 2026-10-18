@@ -97,6 +97,41 @@ class BusObservationTests(unittest.TestCase):
         self.assertEqual(details['expectedBit'], 1)
         self.assertEqual(details['volts'], 1.4)
 
+    def test_unknown_data_is_rejected_in_read_order_with_raw_context(self):
+        for field in ('sample', 'recorded', 'latched'):
+            for raw in ('4X', 'xz', 'Z5'):
+                log = LOG
+                if field == 'sample':
+                    log = log.replace('8000 a5', f'8000 {raw}')
+                elif field == 'recorded':
+                    log = log.replace('350000 a5 a5', f'350000 {raw} a5')
+                else:
+                    log = log.replace('350000 a5 a5', f'350000 a5 {raw}')
+                with self.subTest(field=field, raw=raw):
+                    with self.assertRaises(BusMismatch) as caught:
+                        self.check(log=log)
+                    details = caught.exception.details
+                    self.assertEqual(details['ordinal'], 1)
+                    self.assertEqual(details['signal'], 'CPU_DI_UNKNOWN')
+                    self.assertEqual(details['address'], 0x8000)
+                    self.assertEqual(details['readTimePs'], 300000)
+                    self.assertEqual(details['ioSelectN'], 0)
+                    self.assertEqual(details[{'sample': 'sampledHex',
+                                             'recorded': 'recordedSampleHex',
+                                             'latched': 'latchedHex'}[field]], raw)
+                    rows = [r[:] for r in self.rows]
+                    rows[10][1] = 1.4
+                    with self.assertRaises(BusMismatch) as earlier:
+                        self.check(log=log, rows=rows)
+                    self.assertEqual(earlier.exception.details['ordinal'], 0)
+                    self.assertEqual(earlier.exception.details['signal'], 'D0')
+
+    def test_four_state_parser_still_rejects_malformed_data(self):
+        for raw in ('gg', 'a', 'xxx', '??'):
+            with self.subTest(raw=raw), self.assertRaisesRegex(ValueError, 'malformed'):
+                self.check(log=LOG.replace('8000 a5', f'8000 {raw}'))
+        self.assertTrue(self.check(log=LOG.replace('a5', 'A5'))['passed'])
+
     def test_rom_and_cpu_register_failures_retain_expected_and_actual_data(self):
         with self.assertRaises(BusMismatch) as caught:
             self.check(rom=bytes(2048))
