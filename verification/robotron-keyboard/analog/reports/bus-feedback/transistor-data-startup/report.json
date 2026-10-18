@@ -1,0 +1,102 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "S600 startup through bus-driven 7406 transistor data gate; no full contact or switching calibration",
+  "busObservation": {
+    "passed": true,
+    "qualified": false,
+    "sampleCount": 25,
+    "waveform": {
+      "firstSeconds": 0.000999,
+      "lastSeconds": 0.00110025,
+      "rows": 23333
+    },
+    "memoryReads": 25,
+    "ioReads": 0,
+    "firstReadPs": 1002501000,
+    "lastReadPs": 1097501000,
+    "minimumLowMarginVolts": 0.6531073977959488,
+    "minimumHighMarginVolts": 2.8591245832434975,
+    "setupNs": 0,
+    "holdNs": 0,
+    "boundary": "Sampled-voltage agreement and TV80 input-register confirmation only. Windows include bracketing trace samples. No between-sample excursion proof, U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing."
+  },
+  "dataLowSamples": [
+    {
+      "timePs": 1067501000,
+      "address": 16,
+      "byte": 8,
+      "d0Volts": 0.14679190739933975
+    },
+    {
+      "timePs": 1075501000,
+      "address": 18,
+      "byte": 46,
+      "d0Volts": 0.1468172175037972
+    },
+    {
+      "timePs": 1079501000,
+      "address": 19,
+      "byte": 112,
+      "d0Volts": 0.14683198059894423
+    },
+    {
+      "timePs": 1086501000,
+      "address": 21,
+      "byte": 254,
+      "d0Volts": 0.14685339529532926
+    },
+    {
+      "timePs": 1090501000,
+      "address": 22,
+      "byte": 104,
+      "d0Volts": 0.14686749576059702
+    },
+    {
+      "timePs": 1093501000,
+      "address": 23,
+      "byte": 202,
+      "d0Volts": 0.1468790608663116
+    },
+    {
+      "timePs": 1097501000,
+      "address": 24,
+      "byte": 72,
+      "d0Volts": 0.14689260182884692
+    }
+  ],
+  "dataHighMinimumVolts": 4.8591245832434975,
+  "driverSupplyCurrentRangeAmps": [
+    0.010188344098166246,
+    0.012657949618759178
+  ],
+  "files": {
+    "controller_analog.v": {
+      "rawSha256": "c8def1e9912498509c32c80a716aef39cdd2792fa38311ce0da4f47d1bf59217"
+    },
+    "io.cir": {
+      "rawSha256": "18d0bb1fd0b7cb027a4ff6a0eef0a14ee2714205030300d56ced952654b610e2"
+    },
+    "run-inputs.json": {
+      "rawSha256": "1d8b4f42b8c46b9956e7db32f1b0b16e22170560ea2f41889722a01a873e0ce2"
+    },
+    "scope.json": {
+      "rawSha256": "e968d0efe2c874530e3bb5017b8305478fd6b711aa42afb9473ebf14a5b217fa"
+    },
+    "ngspice.log": {
+      "rawSha256": "29018a0dae2ff5795003f0c6eb68ba18484b76567a1cbc2e658a0254104528c5"
+    },
+    "bus-trace.txt": {
+      "rawSha256": "311be7bcdb235cd98bdb44eecddb3fbdb2abe7bf30a03338c8ca81194b9f3f8a",
+      "compressedSha256": "2967bed1cd9e1d743e245c75cc01c589493d495c382228b86b2759beb7fd2a09"
+    },
+    "trace.txt": {
+      "rawSha256": "976f0e9a6056f7f80570b9addf1b408db4bdedabf1501111b8876ae78a1c07f0",
+      "compressedSha256": "200452ce1a6c9dc908a6fe5c69ef267803afe61bd9cc6e786c03ee1ffb45ed86"
+    },
+    "driver-trace.txt": {
+      "rawSha256": "079ba8fad31b6993b9db38e0b9c4464ae69a1168ff7071d3cdfa2351b266661a",
+      "compressedSha256": "efe7ffb1c35f1f65697f353270dbbae3d6baa13f76def2bd4b71326282d0359f"
+    }
+  }
+}

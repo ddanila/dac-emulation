@@ -30,9 +30,11 @@ def checked_dc_reference():
     return sha(dc_reference_path)
 
 
-def driver_circuit(components, profile, cable_pf):
+def driver_circuit(components, profile, cable_pf, electrical_data_input=False):
     if profile not in ('nominal', '7406-dc'):
         raise ValueError('Unknown serial driver profile')
+    if electrical_data_input and profile != '7406-dc':
+        raise ValueError('Physical data input requires the transistor driver')
     lines, metadata = output_circuit(components, cable_pf=cable_pf)
     device = components['A1']
     if device['type'] != '7406' or node(device['pins']['7']) != '0':
@@ -45,7 +47,8 @@ def driver_circuit(components, profile, cable_pf):
             old = f'S{label} {output} 0 {label}_intent 0 OUTPUT_SINK_NOMINAL'
             if lines.count(old) != 1:
                 raise ValueError('Unexpected reference output switch: ' + label)
-            lines[lines.index(old)] = f'X{label} {label}_intent {output} driver_vp 0 TTL7406_NOMINAL input_br=.01'
+            input_node = node(device['pins']['3']) if label == 'data' and electrical_data_input else label + '_intent'
+            lines[lines.index(old)] = f'X{label} {input_node} {output} driver_vp 0 TTL7406_NOMINAL input_br=.01'
         model = '.model OUTPUT_SINK_NOMINAL SW(RON=20 ROFF=1t VT=2.5 VH=0)'
         if lines.count(model) != 1:
             raise ValueError('Unexpected reference sink model')
@@ -60,6 +63,9 @@ def driver_circuit(components, profile, cable_pf):
         'assumptions': 'Ideal 20-ohm sink' if profile == 'nominal' else
                        'Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration',
     }
+    if electrical_data_input:
+        metadata['serialDriver']['dataInput'] = {'pin': 'A1:3', 'net': device['pins']['3'],
+            'boundary': 'Physical data-bus voltage drives input transistor and serial output; clock input still uses an ideal HDL-intent source'}
     return lines, metadata
 
 

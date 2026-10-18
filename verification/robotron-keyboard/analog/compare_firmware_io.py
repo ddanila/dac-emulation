@@ -52,12 +52,21 @@ def load_run(directory):
                                 report['assumptions'].get('requireLedActivity', False), start_seconds=.001)
         if not observed['passed'] or observed != report['ledObservation']:
             raise ValueError('LED observations fail or differ from retained trace')
+    if report['assumptions'].get('serialDriver') == '7406-dc':
+        if sha(directory / 'driver-trace.txt') != report.get('driverTraceSha256'):
+            raise ValueError('Retained transistor driver current trace hash differs')
     return report, transport
 
 
 def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
     if any(report['assumptions'].get('electricalBus') for report in (coarse, fine)):
         raise ValueError('Electrical-bus firmware qualification requires bus timing and voltage observation checks')
+    if coarse['assumptions'].get('serialDriver') == '7406-dc':
+        for name in ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'ttl7406_limits.json'):
+            if not coarse['sources'].get(name) or coarse['sources'][name] != fine['sources'].get(name):
+                raise ValueError('Transistor serial driver source differs or is missing: ' + name)
+        if not coarse.get('serialDriverDcReferenceSha256') or coarse['serialDriverDcReferenceSha256'] != fine.get('serialDriverDcReferenceSha256'):
+            raise ValueError('Transistor serial driver DC reference differs or is missing')
     if not 0 < fine['assumptions']['stepNs'] <= coarse['assumptions']['stepNs'] / 2:
         raise ValueError('Expected the second timestep to be at most half the first')
     assumptions = []
