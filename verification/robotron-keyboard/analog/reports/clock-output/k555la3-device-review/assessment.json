@@ -1,0 +1,862 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Observed A7 device identities and selected passport DC checks; no automatic equivalence of internal junction topology or oscillator behavior.",
+  "reference": {
+    "source": "https://www.sax.de/~zander/pc1715/pc_tasts.pdf",
+    "sha256": "ddae459f60872a322202f29332346270cf9735eaa198a9795a5b7cbe68e8443f",
+    "device": "DL000",
+    "locator": "A7 gates, page 1"
+  },
+  "specimens": [
+    {
+      "specimen": "museum-primary",
+      "source": "PXL_20261012_123622947.jpg",
+      "sha256": "dce38a857c38475372e19cd98aae75f5e7596be67f45e6afc7488f6cf7c99240",
+      "ref": "A7",
+      "marking": "К555ЛА3",
+      "additionalMarking": "8607",
+      "pixelBox": [
+        1315,
+        3542,
+        1472,
+        3790
+      ]
+    },
+    {
+      "specimen": "comparison-20261017",
+      "source": "PXL_20261017_080431329.MP.jpg",
+      "sha256": "54d3cb6e3f5e2df6f53f06f78f1a45ca28d848315c96c0d4150416434db28536",
+      "ref": "A7",
+      "marking": "D100D",
+      "scope": "Separate specimen; no geometry or analog characteristics transferred."
+    }
+  ],
+  "familyReference": {
+    "url": "https://www.sax.de/~zander/pc1715/doku/pc_serv.pdf",
+    "locator": "printed page 116, comparison table; page 118, pinouts",
+    "finding": "D100D/K155LA3/SN7400 and DL000/SN74LS00 are separate entries. Shared NAND pin functions do not establish analog identity.",
+    "sha256": "8320672db3115e5ceaece9194eff4430b1e8fb57239890b5229c8761f1a63206"
+  },
+  "findings": [
+    "Primary marking is K555LA3, not K155LA3; comparison marking D100D must not replace it.",
+    "Both screened candidates pass the selected K555LA3 DC conditions under the declared fixture assumptions. Their retained oscillator failures therefore remain unresolved.",
+    "The passport lists switching limits but omits detailed stimulus, load topology and threshold definitions. The TI switching fixture is not silently reclassified as a K555LA3 qualification."
+  ],
+  "runs": {
+    "baseline": {
+      "completed": true,
+      "qualified": false,
+      "device": "k555la3",
+      "limits": {
+        "source": {
+          "url": "https://www.kontest.ru/datasheet/unkn0wn/k555la3.pdf",
+          "sha256": "34c4f456b0916f3156506d7d018a1b5e1742f22e2a5b063f06bea24bbbcb1814",
+          "document": "Scanned Soviet K555LA3 device passport; producer not identified on the scan",
+          "section": "PDF page 2, table 2, rows 1–6"
+        },
+        "temperatureC": 25,
+        "scope": "Selected K555LA3 DC passport endpoints applied to a generic TI-topology candidate. Ambient 25 C, complementary input settings and unloaded package outputs are explicit fixture assumptions where not specified in the table. No process equivalence, temperature-range, AC, startup or specimen qualification. Input-current bounds use conventional current into the pin. Package supply current is represented by four independent gates.",
+        "unimplementedPublishedConditions": {
+          "switching": {
+            "supplyVolts": 5,
+            "loadPf": 15,
+            "loadOhms": 2000,
+            "maximumDelayNs": {
+              "tPHL": 20,
+              "tPLH": 20
+            },
+            "reason": "Passport omits the detailed load topology, input pulse and timing threshold definitions; do not silently substitute the TI switching fixture."
+          }
+        },
+        "cases": [
+          {
+            "name": "high-a-low",
+            "supply": 4.75,
+            "a": 0.8,
+            "b": 2,
+            "checks": [
+              {
+                "signal": "outputVolts",
+                "minimum": 2.7,
+                "maximum": 4.75
+              }
+            ],
+            "load": 0.0004
+          },
+          {
+            "name": "high-b-low",
+            "supply": 4.75,
+            "a": 2,
+            "b": 0.8,
+            "checks": [
+              {
+                "signal": "outputVolts",
+                "minimum": 2.7,
+                "maximum": 4.75
+              }
+            ],
+            "load": 0.0004
+          },
+          {
+            "name": "high-both-low",
+            "supply": 4.75,
+            "a": 0.8,
+            "b": 0.8,
+            "checks": [
+              {
+                "signal": "outputVolts",
+                "minimum": 2.7,
+                "maximum": 4.75
+              }
+            ],
+            "load": 0.0004
+          },
+          {
+            "name": "low-8ma",
+            "supply": 4.75,
+            "a": 2,
+            "b": 2,
+            "checks": [
+              {
+                "signal": "outputVolts",
+                "minimum": 0,
+                "maximum": 0.5
+              }
+            ],
+            "load": -0.008
+          },
+          {
+            "name": "input-a-low",
+            "supply": 5.25,
+            "a": 0.4,
+            "b": 4.5,
+            "checks": [
+              {
+                "signal": "inputAAmps",
+                "minimum": -0.00036,
+                "maximum": 0
+              }
+            ]
+          },
+          {
+            "name": "input-a-high",
+            "supply": 5.25,
+            "a": 2.7,
+            "b": 0,
+            "checks": [
+              {
+                "signal": "inputAAmps",
+                "minimum": 0,
+                "maximum": 2e-05
+              }
+            ]
+          },
+          {
+            "name": "input-b-low",
+            "supply": 5.25,
+            "a": 4.5,
+            "b": 0.4,
+            "checks": [
+              {
+                "signal": "inputBAmps",
+                "minimum": -0.00036,
+                "maximum": 0
+              }
+            ]
+          },
+          {
+            "name": "input-b-high",
+            "supply": 5.25,
+            "a": 0,
+            "b": 2.7,
+            "checks": [
+              {
+                "signal": "inputBAmps",
+                "minimum": 0,
+                "maximum": 2e-05
+              }
+            ]
+          },
+          {
+            "name": "package-high",
+            "supply": 5.25,
+            "a": 0,
+            "b": 0,
+            "checks": [
+              {
+                "signal": "supplyAmps",
+                "minimum": 0,
+                "maximum": 0.0016
+              }
+            ],
+            "gates": 4
+          },
+          {
+            "name": "package-low",
+            "supply": 5.25,
+            "a": 4.5,
+            "b": 4.5,
+            "checks": [
+              {
+                "signal": "supplyAmps",
+                "minimum": 0,
+                "maximum": 0.0044
+              }
+            ],
+            "gates": 4
+          }
+        ]
+      },
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "sources": {
+        "ls00_validation_probe.py": "b391e7dfee24e871668f4a9c74aff8d591b4f128cb80f1ef2163839ee47b4112",
+        "k555la3_dc_limits.json": "1bd50e6b6f6131e75b64ce5de99cc961f2dbe01525dfc5567f925a51ec3b33cd",
+        "candidate.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+      },
+      "spinitSha256": "e85b2737901479f619fe7d83ca7ece779c234fff85bc5fc30e992b900284a77c",
+      "cases": [
+        {
+          "name": "high-a-low",
+          "observed": {
+            "outputVolts": 3.253484775709927,
+            "supplyAmps": 0.0006251840929614487,
+            "inputAAmps": -0.0001241042980535469,
+            "inputBAmps": 4.181903517541618e-12
+          },
+          "checks": [
+            {
+              "signal": "outputVolts",
+              "minimum": 2.7,
+              "maximum": 4.75,
+              "observed": 3.253484775709927,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "high-a-low.cir": "32a839044e1e4c00376247e5bb5543f88531a879433ceb208da1d97fb8aaf063",
+            "high-a-low.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "high-a-low.txt": "4a10af956407f60f13bf2dc097728c5712358c77cf267266f30e79b86cab46db"
+          }
+        },
+        {
+          "name": "high-b-low",
+          "observed": {
+            "outputVolts": 3.2534847757101057,
+            "supplyAmps": 0.0006251840929614847,
+            "inputAAmps": 4.181903517541615e-12,
+            "inputBAmps": -0.00012410429805356096
+          },
+          "checks": [
+            {
+              "signal": "outputVolts",
+              "minimum": 2.7,
+              "maximum": 4.75,
+              "observed": 3.2534847757101057,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "high-b-low.cir": "a50090d0befd882c3be3bf1822cbac12e29004ac4479d18efdab64d9bc80ad60",
+            "high-b-low.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "high-b-low.txt": "ce5f96d24d23503fed2f2af273c504b027fa04746af083192104583340f2d38a"
+          }
+        },
+        {
+          "name": "high-both-low",
+          "observed": {
+            "outputVolts": 3.256219484394021,
+            "supplyAmps": 0.0006239127856746097,
+            "inputAAmps": -6.321059083775894e-05,
+            "inputBAmps": -6.321059083775894e-05
+          },
+          "checks": [
+            {
+              "signal": "outputVolts",
+              "minimum": 2.7,
+              "maximum": 4.75,
+              "observed": 3.256219484394021,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "high-both-low.cir": "1a03122b91afacd7b3bdc001ec4c10078e70bf85935b26e1eb51060549066f44",
+            "high-both-low.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "high-both-low.txt": "30d28e890e171df6bbca56fc1ea722d35ad0dee537a525b17c8efe84f5749e05"
+          }
+        },
+        {
+          "name": "low-8ma",
+          "observed": {
+            "outputVolts": 0.32087380910698415,
+            "supplyAmps": 0.000639507745630129,
+            "inputAAmps": 3.876734535736846e-12,
+            "inputBAmps": 3.876734535736846e-12
+          },
+          "checks": [
+            {
+              "signal": "outputVolts",
+              "minimum": 0,
+              "maximum": 0.5,
+              "observed": 0.32087380910698415,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "low-8ma.cir": "2b55ca351e1a8194eceab144215507bdb765ba22803e7a97861a5f202fefb4df",
+            "low-8ma.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "low-8ma.txt": "284be08e9a310c35519bdfb7b89aae4f785dbd274089e29bebd3ee280597a5cc"
+          }
+        },
+        {
+          "name": "input-a-low",
+          "observed": {
+            "outputVolts": 4.495465020995159,
+            "supplyAmps": 0.00023685306466339574,
+            "inputAAmps": -0.00019861941879085736,
+            "inputBAmps": 9.569123936669092e-12
+          },
+          "checks": [
+            {
+              "signal": "inputAAmps",
+              "minimum": -0.00036,
+              "maximum": 0,
+              "observed": -0.00019861941879085736,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "input-a-low.cir": "79006910ceec0a054db9a581c29317f147c242d39b3644f5b96ccb0ce7cfbe6f",
+            "input-a-low.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "input-a-low.txt": "4a3438fbcb247fd3a8aa4f3027fc110ebeaa4dd3706b201880533519a495a4a0"
+          }
+        },
+        {
+          "name": "input-a-high",
+          "observed": {
+            "outputVolts": 4.743635942735566,
+            "supplyAmps": 0.00023723941628931786,
+            "inputAAmps": 6.364177076960612e-12,
+            "inputBAmps": -0.00023718640237884405
+          },
+          "checks": [
+            {
+              "signal": "inputAAmps",
+              "minimum": 0,
+              "maximum": 2e-05,
+              "observed": 6.364177076960612e-12,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "input-a-high.cir": "d52d9ffa5b84d45dde6b178870b9ef8279dbde038cd57d0a7f4da0d9e4bf3e23",
+            "input-a-high.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "input-a-high.txt": "bf0676837c08c0d06d75e2569a9ba131c7ec523f6077d87ce03e521e4286c0d6"
+          }
+        },
+        {
+          "name": "input-b-low",
+          "observed": {
+            "outputVolts": 4.495465020995384,
+            "supplyAmps": 0.0002368530646633616,
+            "inputAAmps": 9.569123936669093e-12,
+            "inputBAmps": -0.0001986194187908339
+          },
+          "checks": [
+            {
+              "signal": "inputBAmps",
+              "minimum": -0.00036,
+              "maximum": 0,
+              "observed": -0.0001986194187908339,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "input-b-low.cir": "298b6d9a8e840d510076ed0039088b75eed430e005b32830819b54bb2bacab60",
+            "input-b-low.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "input-b-low.txt": "f55dd44ed2b916259e1d4aaf81fb3d66bfa5e07826ecf8212f2d44216afe0b37"
+          }
+        },
+        {
+          "name": "input-b-high",
+          "observed": {
+            "outputVolts": 4.743635942747688,
+            "supplyAmps": 0.00023723941628932485,
+            "inputAAmps": -0.00023718640237885337,
+            "inputBAmps": 6.3641770769606115e-12
+          },
+          "checks": [
+            {
+              "signal": "inputBAmps",
+              "minimum": 0,
+              "maximum": 2e-05,
+              "observed": 6.3641770769606115e-12,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "input-b-high.cir": "6f82e3a6e4601bb77f1274f217390d6fda2e748fb793a603fb2158cbde0326e8",
+            "input-b-high.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "input-b-high.txt": "9c3f71e910857a656bb000248005190b335427177f4878bc3d5cebd6b991a0c8"
+          }
+        },
+        {
+          "name": "package-high",
+          "observed": {
+            "outputVolts": 4.762395712429978,
+            "supplyAmps": 0.0009526795049697576,
+            "inputAAmps": -0.00047628855799337834,
+            "inputBAmps": -0.00047628855799337834
+          },
+          "checks": [
+            {
+              "signal": "supplyAmps",
+              "minimum": 0,
+              "maximum": 0.0016,
+              "observed": 0.0009526795049697576,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "package-high.cir": "4acba604eacdd15e8b3358f9dad82557a2b732e9877b4bb5490dae552c7eac0d",
+            "package-high.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "package-high.txt": "d2d0b6df4f129331eef9906b9ba3e6645dd91afbde39518c2f36d0f7c382a69b"
+          }
+        },
+        {
+          "name": "package-low",
+          "observed": {
+            "outputVolts": 0.23292397723077693,
+            "supplyAmps": 0.0029700699726316125,
+            "inputAAmps": 3.576781955743913e-11,
+            "inputBAmps": 3.576781955743913e-11
+          },
+          "checks": [
+            {
+              "signal": "supplyAmps",
+              "minimum": 0,
+              "maximum": 0.0044,
+              "observed": 0.0029700699726316125,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "package-low.cir": "fd168a3a5c2521e7e6a392c13bf9add24258a825a1e1a7b33261e8c95a35a9e7",
+            "package-low.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "package-low.txt": "d0f5dfc21d0bab1b35f9519b7a704342f9faaf1e4dd81500c993e17b03181d2d"
+          }
+        }
+      ],
+      "limitsPassed": true
+    },
+    "sink-re10": {
+      "completed": true,
+      "qualified": false,
+      "device": "k555la3",
+      "limits": {
+        "source": {
+          "url": "https://www.kontest.ru/datasheet/unkn0wn/k555la3.pdf",
+          "sha256": "34c4f456b0916f3156506d7d018a1b5e1742f22e2a5b063f06bea24bbbcb1814",
+          "document": "Scanned Soviet K555LA3 device passport; producer not identified on the scan",
+          "section": "PDF page 2, table 2, rows 1–6"
+        },
+        "temperatureC": 25,
+        "scope": "Selected K555LA3 DC passport endpoints applied to a generic TI-topology candidate. Ambient 25 C, complementary input settings and unloaded package outputs are explicit fixture assumptions where not specified in the table. No process equivalence, temperature-range, AC, startup or specimen qualification. Input-current bounds use conventional current into the pin. Package supply current is represented by four independent gates.",
+        "unimplementedPublishedConditions": {
+          "switching": {
+            "supplyVolts": 5,
+            "loadPf": 15,
+            "loadOhms": 2000,
+            "maximumDelayNs": {
+              "tPHL": 20,
+              "tPLH": 20
+            },
+            "reason": "Passport omits the detailed load topology, input pulse and timing threshold definitions; do not silently substitute the TI switching fixture."
+          }
+        },
+        "cases": [
+          {
+            "name": "high-a-low",
+            "supply": 4.75,
+            "a": 0.8,
+            "b": 2,
+            "checks": [
+              {
+                "signal": "outputVolts",
+                "minimum": 2.7,
+                "maximum": 4.75
+              }
+            ],
+            "load": 0.0004
+          },
+          {
+            "name": "high-b-low",
+            "supply": 4.75,
+            "a": 2,
+            "b": 0.8,
+            "checks": [
+              {
+                "signal": "outputVolts",
+                "minimum": 2.7,
+                "maximum": 4.75
+              }
+            ],
+            "load": 0.0004
+          },
+          {
+            "name": "high-both-low",
+            "supply": 4.75,
+            "a": 0.8,
+            "b": 0.8,
+            "checks": [
+              {
+                "signal": "outputVolts",
+                "minimum": 2.7,
+                "maximum": 4.75
+              }
+            ],
+            "load": 0.0004
+          },
+          {
+            "name": "low-8ma",
+            "supply": 4.75,
+            "a": 2,
+            "b": 2,
+            "checks": [
+              {
+                "signal": "outputVolts",
+                "minimum": 0,
+                "maximum": 0.5
+              }
+            ],
+            "load": -0.008
+          },
+          {
+            "name": "input-a-low",
+            "supply": 5.25,
+            "a": 0.4,
+            "b": 4.5,
+            "checks": [
+              {
+                "signal": "inputAAmps",
+                "minimum": -0.00036,
+                "maximum": 0
+              }
+            ]
+          },
+          {
+            "name": "input-a-high",
+            "supply": 5.25,
+            "a": 2.7,
+            "b": 0,
+            "checks": [
+              {
+                "signal": "inputAAmps",
+                "minimum": 0,
+                "maximum": 2e-05
+              }
+            ]
+          },
+          {
+            "name": "input-b-low",
+            "supply": 5.25,
+            "a": 4.5,
+            "b": 0.4,
+            "checks": [
+              {
+                "signal": "inputBAmps",
+                "minimum": -0.00036,
+                "maximum": 0
+              }
+            ]
+          },
+          {
+            "name": "input-b-high",
+            "supply": 5.25,
+            "a": 0,
+            "b": 2.7,
+            "checks": [
+              {
+                "signal": "inputBAmps",
+                "minimum": 0,
+                "maximum": 2e-05
+              }
+            ]
+          },
+          {
+            "name": "package-high",
+            "supply": 5.25,
+            "a": 0,
+            "b": 0,
+            "checks": [
+              {
+                "signal": "supplyAmps",
+                "minimum": 0,
+                "maximum": 0.0016
+              }
+            ],
+            "gates": 4
+          },
+          {
+            "name": "package-low",
+            "supply": 5.25,
+            "a": 4.5,
+            "b": 4.5,
+            "checks": [
+              {
+                "signal": "supplyAmps",
+                "minimum": 0,
+                "maximum": 0.0044
+              }
+            ],
+            "gates": 4
+          }
+        ]
+      },
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "sources": {
+        "ls00_validation_probe.py": "b391e7dfee24e871668f4a9c74aff8d591b4f128cb80f1ef2163839ee47b4112",
+        "k555la3_dc_limits.json": "1bd50e6b6f6131e75b64ce5de99cc961f2dbe01525dfc5567f925a51ec3b33cd",
+        "candidate.cir": "f7de01e3966394524533c1f84bf17714a317d7b0747a0e916c3660c39a89f9f8",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+      },
+      "spinitSha256": "e85b2737901479f619fe7d83ca7ece779c234fff85bc5fc30e992b900284a77c",
+      "cases": [
+        {
+          "name": "high-a-low",
+          "observed": {
+            "outputVolts": 3.253587501866112,
+            "supplyAmps": 0.0006241846504038668,
+            "inputAAmps": -0.00012410470090014482,
+            "inputBAmps": 4.181903430097269e-12
+          },
+          "checks": [
+            {
+              "signal": "outputVolts",
+              "minimum": 2.7,
+              "maximum": 4.75,
+              "observed": 3.253587501866112,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "high-a-low.cir": "32a839044e1e4c00376247e5bb5543f88531a879433ceb208da1d97fb8aaf063",
+            "high-a-low.log": "dbef7318d773bea8b0fc63544985a8e63b144fee0cb60473dfd8ffa618622582",
+            "high-a-low.txt": "00bdc1539a8d1627e69c0a69c690e06ea36135f463dca79fd9a94fce82a719c8"
+          }
+        },
+        {
+          "name": "high-b-low",
+          "observed": {
+            "outputVolts": 3.2535875018659164,
+            "supplyAmps": 0.000624184650403939,
+            "inputAAmps": 4.18190343009726e-12,
+            "inputBAmps": -0.00012410470090018562
+          },
+          "checks": [
+            {
+              "signal": "outputVolts",
+              "minimum": 2.7,
+              "maximum": 4.75,
+              "observed": 3.2535875018659164,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "high-b-low.cir": "a50090d0befd882c3be3bf1822cbac12e29004ac4479d18efdab64d9bc80ad60",
+            "high-b-low.log": "dbef7318d773bea8b0fc63544985a8e63b144fee0cb60473dfd8ffa618622582",
+            "high-b-low.txt": "a2791e83b8cac609cb4e87569cc4a2a7fb470bee85c25cc0402e1d3eaca33bdc"
+          }
+        },
+        {
+          "name": "high-both-low",
+          "observed": {
+            "outputVolts": 3.2563152290118147,
+            "supplyAmps": 0.0006229830699802264,
+            "inputAAmps": -6.321078563536265e-05,
+            "inputBAmps": -6.321078563536265e-05
+          },
+          "checks": [
+            {
+              "signal": "outputVolts",
+              "minimum": 2.7,
+              "maximum": 4.75,
+              "observed": 3.2563152290118147,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "high-both-low.cir": "1a03122b91afacd7b3bdc001ec4c10078e70bf85935b26e1eb51060549066f44",
+            "high-both-low.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "high-both-low.txt": "c5670cf5c4f376631a5c69ca62f9b00f93413f37f59c4e6a2a8d5a9803522d18"
+          }
+        },
+        {
+          "name": "low-8ma",
+          "observed": {
+            "outputVolts": 0.4149259827124535,
+            "supplyAmps": 0.0006228424953009035,
+            "inputAAmps": 3.79452801024283e-12,
+            "inputBAmps": 3.79452801024283e-12
+          },
+          "checks": [
+            {
+              "signal": "outputVolts",
+              "minimum": 0,
+              "maximum": 0.5,
+              "observed": 0.4149259827124535,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "low-8ma.cir": "2b55ca351e1a8194eceab144215507bdb765ba22803e7a97861a5f202fefb4df",
+            "low-8ma.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "low-8ma.txt": "58e09d127d9530683c2cc84e2c90d717ae3a25b5f3dcd073060b465860ba6ac9"
+          }
+        },
+        {
+          "name": "input-a-low",
+          "observed": {
+            "outputVolts": 4.496247630870708,
+            "supplyAmps": 0.0002367083773261379,
+            "inputAAmps": -0.000198619561400823,
+            "inputBAmps": 9.569123916795568e-12
+          },
+          "checks": [
+            {
+              "signal": "inputAAmps",
+              "minimum": -0.00036,
+              "maximum": 0,
+              "observed": -0.000198619561400823,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "input-a-low.cir": "79006910ceec0a054db9a581c29317f147c242d39b3644f5b96ccb0ce7cfbe6f",
+            "input-a-low.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "input-a-low.txt": "2b76e2e99e661a6477a03219aed816267244e64cd387fc85f2806266535f3369"
+          }
+        },
+        {
+          "name": "input-a-high",
+          "observed": {
+            "outputVolts": 4.743636214112729,
+            "supplyAmps": 0.0002372394160075246,
+            "inputAAmps": 6.364177076960296e-12,
+            "inputBAmps": -0.0002371864023815203
+          },
+          "checks": [
+            {
+              "signal": "inputAAmps",
+              "minimum": 0,
+              "maximum": 2e-05,
+              "observed": 6.364177076960296e-12,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "input-a-high.cir": "d52d9ffa5b84d45dde6b178870b9ef8279dbde038cd57d0a7f4da0d9e4bf3e23",
+            "input-a-high.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "input-a-high.txt": "5720b9b68462601cc02d4478cf67e761305eb821fd193141b63eb63e6825dd42"
+          }
+        },
+        {
+          "name": "input-b-low",
+          "observed": {
+            "outputVolts": 4.496247630870477,
+            "supplyAmps": 0.00023670837732616564,
+            "inputAAmps": 9.569123916795568e-12,
+            "inputBAmps": -0.00019861956140082514
+          },
+          "checks": [
+            {
+              "signal": "inputBAmps",
+              "minimum": -0.00036,
+              "maximum": 0,
+              "observed": -0.00019861956140082514,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "input-b-low.cir": "298b6d9a8e840d510076ed0039088b75eed430e005b32830819b54bb2bacab60",
+            "input-b-low.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "input-b-low.txt": "f22318c13ddc0224f0d655e1d952d15f4c3971caf7cc091d57d326549030ad88"
+          }
+        },
+        {
+          "name": "input-b-high",
+          "observed": {
+            "outputVolts": 4.7436362141070205,
+            "supplyAmps": 0.00023723941600749037,
+            "inputAAmps": -0.00023718640238151135,
+            "inputBAmps": 6.3641770769602965e-12
+          },
+          "checks": [
+            {
+              "signal": "inputBAmps",
+              "minimum": 0,
+              "maximum": 2e-05,
+              "observed": 6.3641770769602965e-12,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "input-b-high.cir": "6f82e3a6e4601bb77f1274f217390d6fda2e748fb793a603fb2158cbde0326e8",
+            "input-b-high.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "input-b-high.txt": "19a19a9aa12c428937735e31b55d2b0c5ee08395e04108e3f5c3fb346f00c9b4"
+          }
+        },
+        {
+          "name": "package-high",
+          "observed": {
+            "outputVolts": 4.7623958430441204,
+            "supplyAmps": 0.0009526795047072139,
+            "inputAAmps": -0.00047628855799465233,
+            "inputBAmps": -0.00047628855799465233
+          },
+          "checks": [
+            {
+              "signal": "supplyAmps",
+              "minimum": 0,
+              "maximum": 0.0016,
+              "observed": 0.0009526795047072139,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "package-high.cir": "4acba604eacdd15e8b3358f9dad82557a2b732e9877b4bb5490dae552c7eac0d",
+            "package-high.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "package-high.txt": "19432cd229022944b5c75c9e61718d3e12fd15a0fae8604041e236c5dc8d9867"
+          }
+        },
+        {
+          "name": "package-low",
+          "observed": {
+            "outputVolts": 0.2386020386762712,
+            "supplyAmps": 0.0029660622743132464,
+            "inputAAmps": 3.574680519411358e-11,
+            "inputBAmps": 3.574680519411358e-11
+          },
+          "checks": [
+            {
+              "signal": "supplyAmps",
+              "minimum": 0,
+              "maximum": 0.0044,
+              "observed": 0.0029660622743132464,
+              "passed": true
+            }
+          ],
+          "artifacts": {
+            "package-low.cir": "fd168a3a5c2521e7e6a392c13bf9add24258a825a1e1a7b33261e8c95a35a9e7",
+            "package-low.log": "5b76b6e5d67bf464ce9481a67b7045a0c739412a0d5859c32cd6756d6c32be9a",
+            "package-low.txt": "a33fb866c887aa8641be7d9a0b5a7af833a1a94851ff24855971f97a632544d6"
+          }
+        }
+      ],
+      "limitsPassed": true
+    }
+  }
+}

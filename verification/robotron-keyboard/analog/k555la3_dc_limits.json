@@ -1,0 +1,160 @@
+{
+  "source": {
+    "url": "https://www.kontest.ru/datasheet/unkn0wn/k555la3.pdf",
+    "sha256": "34c4f456b0916f3156506d7d018a1b5e1742f22e2a5b063f06bea24bbbcb1814",
+    "document": "Scanned Soviet K555LA3 device passport; producer not identified on the scan",
+    "section": "PDF page 2, table 2, rows 1\u20136"
+  },
+  "temperatureC": 25,
+  "scope": "Selected K555LA3 DC passport endpoints applied to a generic TI-topology candidate. Ambient 25 C, complementary input settings and unloaded package outputs are explicit fixture assumptions where not specified in the table. No process equivalence, temperature-range, AC, startup or specimen qualification. Input-current bounds use conventional current into the pin. Package supply current is represented by four independent gates.",
+  "unimplementedPublishedConditions": {
+    "switching": {
+      "supplyVolts": 5,
+      "loadPf": 15,
+      "loadOhms": 2000,
+      "maximumDelayNs": {
+        "tPHL": 20,
+        "tPLH": 20
+      },
+      "reason": "Passport omits the detailed load topology, input pulse and timing threshold definitions; do not silently substitute the TI switching fixture."
+    }
+  },
+  "cases": [
+    {
+      "name": "high-a-low",
+      "supply": 4.75,
+      "a": 0.8,
+      "b": 2,
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "minimum": 2.7,
+          "maximum": 4.75
+        }
+      ],
+      "load": 0.0004
+    },
+    {
+      "name": "high-b-low",
+      "supply": 4.75,
+      "a": 2,
+      "b": 0.8,
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "minimum": 2.7,
+          "maximum": 4.75
+        }
+      ],
+      "load": 0.0004
+    },
+    {
+      "name": "high-both-low",
+      "supply": 4.75,
+      "a": 0.8,
+      "b": 0.8,
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "minimum": 2.7,
+          "maximum": 4.75
+        }
+      ],
+      "load": 0.0004
+    },
+    {
+      "name": "low-8ma",
+      "supply": 4.75,
+      "a": 2,
+      "b": 2,
+      "checks": [
+        {
+          "signal": "outputVolts",
+          "minimum": 0,
+          "maximum": 0.5
+        }
+      ],
+      "load": -0.008
+    },
+    {
+      "name": "input-a-low",
+      "supply": 5.25,
+      "a": 0.4,
+      "b": 4.5,
+      "checks": [
+        {
+          "signal": "inputAAmps",
+          "minimum": -0.00036,
+          "maximum": 0
+        }
+      ]
+    },
+    {
+      "name": "input-a-high",
+      "supply": 5.25,
+      "a": 2.7,
+      "b": 0,
+      "checks": [
+        {
+          "signal": "inputAAmps",
+          "minimum": 0,
+          "maximum": 2e-05
+        }
+      ]
+    },
+    {
+      "name": "input-b-low",
+      "supply": 5.25,
+      "a": 4.5,
+      "b": 0.4,
+      "checks": [
+        {
+          "signal": "inputBAmps",
+          "minimum": -0.00036,
+          "maximum": 0
+        }
+      ]
+    },
+    {
+      "name": "input-b-high",
+      "supply": 5.25,
+      "a": 0,
+      "b": 2.7,
+      "checks": [
+        {
+          "signal": "inputBAmps",
+          "minimum": 0,
+          "maximum": 2e-05
+        }
+      ]
+    },
+    {
+      "name": "package-high",
+      "supply": 5.25,
+      "a": 0,
+      "b": 0,
+      "checks": [
+        {
+          "signal": "supplyAmps",
+          "minimum": 0,
+          "maximum": 0.0016
+        }
+      ],
+      "gates": 4
+    },
+    {
+      "name": "package-low",
+      "supply": 5.25,
+      "a": 4.5,
+      "b": 4.5,
+      "checks": [
+        {
+          "signal": "supplyAmps",
+          "minimum": 0,
+          "maximum": 0.0044
+        }
+      ],
+      "gates": 4
+    }
+  ]
+}

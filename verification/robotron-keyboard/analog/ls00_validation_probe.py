@@ -17,22 +17,24 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--model', type=Path, required=True)
     p.add_argument('--ngspice', default='ngspice')
+    p.add_argument('--device', choices=['ti-ls00','k555la3'], default='ti-ls00',
+                   help='Selected published DC conditions; does not select a board model')
     p.add_argument('--out', type=Path, required=True)
     args = p.parse_args()
     executable = Path(shutil.which(args.ngspice) or args.ngspice).resolve(strict=True)
     out = args.out.resolve();out.mkdir(parents=True, exist_ok=False)
-    limits_path = HERE/'ls00_validation_limits.json'
+    limits_path = HERE/('k555la3_dc_limits.json' if args.device=='k555la3' else 'ls00_validation_limits.json')
     limits = json.loads(limits_path.read_text())
     shutil.copyfile(args.model, out/'model.cir')
     (out/'spinit').write_text('* Pure SPICE; explicit initialization.\n')
-    report = {'completed': False, 'qualified': False, 'limits': limits,
+    report = {'completed': False, 'qualified': False, 'device':args.device, 'limits': limits,
               'engineSha256': sha(executable), 'sources': {p.name: sha(p) for p in
               [Path(__file__), limits_path, args.model, HERE/'ls00_transistor_probe.py', HERE/'failure_evidence.py']},
               'spinitSha256': sha(out/'spinit'), 'cases': []}
     try:
         for case in limits['cases']:
             name = case['name']
-            lines = ['LS00 additional DC conditions', '.include model.cir',
+            lines = [args.device+' selected DC conditions', '.include model.cir',
                      '.options reltol=1e-8 vntol=1e-10 abstol=1e-14', f'.temp {limits["temperatureC"]}',
                      f'Vcc vp 0 {case["supply"]}', f'Va a 0 {case["a"]}', f'Vb b 0 {case["b"]}',
                      'Xgate a b y vp 0 LS00_TRANSISTOR_CANDIDATE']
