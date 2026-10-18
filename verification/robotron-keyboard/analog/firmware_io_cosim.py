@@ -11,9 +11,10 @@ from trace_io import open_text, open_binary
 from compressed_output import capture as capture_compressed
 
 from boot_cosim import ROM_SHA256, sha
-from circuit import load
+from circuit import load, node
 from controller_interface import generate
 from electrical_bus_interface import generate_service
+from write_control import wiring as wr_wiring
 from bus_driver import wiring as bus_wiring
 from bus_observation import measure as measure_bus, BusMismatch
 from transient_analysis import with_minimum_breakpoint
@@ -60,7 +61,10 @@ def main():
     p.add_argument('--electrical-logic-pullups', action='store_true')
     p.add_argument('--logic-load-pf', type=float, default=0, help='Assumed capacitance per control net; requires electrical logic pullups')
     p.add_argument('--minimum-breakpoint-fs', type=float, help='Explicit ngspice breakpoint spacing via deck tran/run')
+    p.add_argument('--electrical-wr', action='store_true', help='Finite CPU WR drive into transistor clock gate; requires electrical-bus and 7406-dc')
     args = p.parse_args()
+    if args.electrical_wr and (not args.electrical_bus or args.serial_driver != '7406-dc'):
+        p.error('electrical-wr requires electrical-bus and serial-driver 7406-dc')
     bus_caps = (args.bus_latch_pf, args.bus_7406_pf)
     if args.electrical_bus:
         if any(value is None or not math.isfinite(value) or value < 0 for value in bus_caps):
@@ -83,7 +87,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     if args.compress_traces and any(out.glob('*trace.txt*')):
         p.error('Compressed capture requires a fresh waveform output directory')
-    for name in ('report.json', 'trace.txt', 'led-trace.txt', 'bus-trace.txt', 'driver-trace.txt', 'ngspice.log'):
+    for name in ('report.json', 'trace.txt', 'led-trace.txt', 'bus-trace.txt', 'driver-trace.txt', 'wr-trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'assumptions': {
         'electricalCpuPullups': args.electrical_cpu_pullups,
@@ -115,6 +119,9 @@ def main():
                                      busDriver='Linear 5 V DC-endpoint stress fixture; no calibrated I/V or leakage')
         report['sources'].update({name: sha(HERE / name) for name in (
             'electrical_bus_interface.py', 'bus_driver.py', 'bus_load.py', 'bus_inventory.py', 'bus_limits.json', 'bus_observation.py')})
+    if args.electrical_wr:
+        report['assumptions']['electricalWr'] = True
+        report['sources']['write_control.py'] = sha(HERE / 'write_control.py')
     try:
         scenario = load_scenario(args.scenario)
         report['assumptions']['scenario'] = scenario
@@ -157,7 +164,7 @@ def main():
             if sha(tv80 / name) != digest:
                 raise ValueError('TV80 source differs: ' + name)
         subprocess.run(['python3', str(HERE.parent / 'generate.py'), '--check'], check=True)
-        (out / 'controller_analog.v').write_text(generate_service() if args.electrical_bus else
+        (out / 'controller_analog.v').write_text(generate_service(electrical_wr=args.electrical_wr) if args.electrical_bus else
                                                generate(explicit_cpu_drive=True, resolved_bus=True))
         hdl = [*sorted(tv80.glob('*.v')), HERE.parent / 'chips.v', HERE.parent / 'generated/controller.v',
                HERE / 'boot_cosim.v', HERE / 'firmware_io_cosim.v', out / 'controller_analog.v']
@@ -171,7 +178,7 @@ def main():
         if args.serial_driver == '7406-dc':
             report['serialDriverDcReferenceSha256'] = checked_dc_reference()
             outputs, info = driver_circuit(components, args.serial_driver, 1000,
-                                           electrical_data_input=args.electrical_bus)
+                                           electrical_data_input=args.electrical_bus, electrical_clock_input=args.electrical_wr)
         else:
             outputs, info = output_circuit(components)
         report['outputCircuit'] = info
@@ -225,6 +232,17 @@ def main():
                 report['modelCoverage']['components']['A1']['model'] = ('Data gate uses bus-driven transistor topology; '
                     'clock gate uses transistor topology with ideal input intent; other gates remain HDL. '
                     'Generic semiconductor parameters, uncalibrated capacitance and switching timing.')
+        if args.electrical_wr:
+            wr_lines, report['wrCircuit'] = wr_wiring(components, limits, args.bus_7406_pf)
+            bus_lines += wr_lines + ['Awr_drive [dwr_low dwr_high] [wr_low wr_high] drive']
+            bus_outputs += ' dwr_low dwr_high'
+            report['wrCircuit']['ownershipSource'] = {
+                **limits['sources']['u880d'], 'page': 'Printed pages 9-10; PDF pages 10-11',
+                'scope': 'Inactive WR during reset; high impedance while BUSACK active. TV80 event timing unqualified.'}
+            report['modelCoverage']['components']['A1']['model'] = (
+                'Data and clock gates use electrical D0/WR voltages and transistor topology; other gates remain HDL. '
+                'Generic semiconductor parameters, uncalibrated capacitance and switching timing.')
+            report['modelCoverage']['components']['A5']['model'] += '; WR uses explicit reset/BUSACK ownership and linear DC-endpoint driver'
         ground = info['hostGround']
         sense = ' '.join(f'n_SENSE{i}' for i in reversed(range(8)))
         dsense = ' '.join(f'dsense{i}' for i in reversed(range(8)))
@@ -267,6 +285,10 @@ def main():
         if args.serial_driver == '7406-dc':
             lines.insert(lines.index('.control'), '.save i(Vdriver_supply)')
             lines.insert(lines.index('quit'), 'wrdata driver-trace.txt i(Vdriver_supply)')
+        if args.electrical_wr:
+            signals = f'v({node(report["wrCircuit"]["net"])}) v(wr_low) v(wr_high) @bwr_low[i] @bwr_high[i] v(n_p5V)'
+            lines.insert(lines.index('.control'), '.save ' + signals)
+            lines.insert(lines.index('quit'), 'wrdata wr-trace.txt ' + signals)
         (out / 'io.cir').write_text(with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs))
         report['deckSha256'] = sha(out / 'io.cir')
         report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
@@ -281,6 +303,8 @@ def main():
         trace_names = ['trace.txt'] + (['led-trace.txt'] if args.led_trace else []) + (['bus-trace.txt'] if args.electrical_bus else [])
         if args.serial_driver == '7406-dc':
             trace_names.append('driver-trace.txt')
+        if args.electrical_wr:
+            trace_names.append('wr-trace.txt')
         with capture_compressed(out, trace_names, args.compress_traces, preset=args.compression_preset) as compressed:
             with (out / 'ngspice.log').open('w') as log:
                 subprocess.run([engine, '-n', '-b', 'io.cir'], cwd=out, env=engine_env, stdout=log, stderr=subprocess.STDOUT,
@@ -289,6 +313,8 @@ def main():
             report['compressedWaveforms'] = compressed
         if args.serial_driver == '7406-dc':
             report['driverTraceSha256'] = sha(out / 'driver-trace.txt')
+        if args.electrical_wr:
+            report['wrTraceSha256'] = sha(out / 'wr-trace.txt')
         if args.electrical_bus:
             digest = hashlib.sha256()
             with open_binary(out / 'bus-trace.txt') as stream:
@@ -353,6 +379,8 @@ def main():
             names.append('bus-trace.txt')
         if args.serial_driver == '7406-dc':
             names.append('driver-trace.txt')
+        if args.electrical_wr:
+            names.append('wr-trace.txt')
         if args.compress_traces:
             names += [name + suffix for name in list(names) if name.endswith('trace.txt') for suffix in ('.xz', '.xz.partial')]
         report['failureArtifacts'] = capture_failure(out, names)

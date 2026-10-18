@@ -694,8 +694,14 @@ checks CPU WR loading through the transistor clock gate and cable. The CPU
 uses explicit low/high/release enables and published DC-endpoint impedances;
 the gate contributes its modeled input bias. The input capacitance remains an
 explicit fixture assumption. Retained waveforms are in `reports/write-control/`.
-This isolated fixture is not yet connected to firmware WR ownership and does
-not qualify U880 control timing or transistor switching parameters.
+The service harness accepts `--electrical-wr` with `--electrical-bus` and
+`--serial-driver 7406-dc` to connect that path to TV80 WR intent. RESET drives
+WR inactive; BUSACK releases both driver branches, following U880D printed
+pages 9–10. Unknown ownership remains unknown. `wr-trace.txt` retains pin
+voltage, drive enables and branch currents. The retained service-startup capture
+checks ROM reads and inactive WR; it does not demonstrate firmware WR pulses.
+An extended capture failed storage and remains unqualified. These checks do not
+qualify U880 control timing or transistor switching parameters.
 
 The boot harness accepts `--electrical-outputs --serial-driver 7406-dc` to use
 that candidate under live HDL control. Its inputs still come from ideal DAC

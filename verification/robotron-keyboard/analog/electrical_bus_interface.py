@@ -55,7 +55,7 @@ def generate():
     return source.replace('endmodule', '\n'.join(declarations) + '\nendmodule')
 
 
-def generate_service():
+def generate_service(electrical_wr=False):
     """Reuse TV80/ROM/service behavior while replacing only the bus boundary."""
     here = Path(__file__).resolve().parent
 
@@ -101,4 +101,21 @@ endmodule''')
     service = replace_once(service, '.logic_control(logic_control),.logic_sink(logic_sink),',
                            '.bus_sense(bus_sense),.bus_low(bus_low),.bus_high(bus_high),\n'
                            '  .logic_control(logic_control),.logic_sink(logic_sink),')
+    if electrical_wr:
+        boot = replace_once(boot, 'output [23:0] bus_low, bus_high,',
+                            'output [23:0] bus_low, bus_high, output wr_low, wr_high,')
+        boot = replace_once(boot, 'endmodule', r"""// U880D printed pp. 9-10: reset makes controls inactive; BUSACK
+ // acknowledges high-impedance control outputs. TV80 provides intent only.
+ wire [1:0] wr_drive = reset_n===1'b0 ? 2'b01 :
+                      reset_n!==1'b1 ? 2'bxx :
+                      busak_n===1'b0 ? 2'b00 :
+                      busak_n!==1'b1 ? 2'bxx :
+                      wr_n===1'b0 ? 2'b10 : wr_n===1'b1 ? 2'b01 : 2'bxx;
+ assign {wr_low,wr_high}=wr_drive;
+ always @(wr_drive) $display("WR_DRIVE %0t %b",$time,wr_drive);
+endmodule""")
+        service = replace_once(service, 'output [23:0] bus_low, bus_high,',
+                               'output [23:0] bus_low, bus_high, output wr_low, wr_high,')
+        service = replace_once(service, '.bus_sense(bus_sense),',
+                               '.wr_low(wr_low),.wr_high(wr_high),.bus_sense(bus_sense),')
     return generate() + '\n' + boot + '\n' + service
