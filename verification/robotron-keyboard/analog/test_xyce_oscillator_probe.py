@@ -19,6 +19,12 @@ class AdapterTests(unittest.TestCase):
         self.assertIn('Bsupply n_p5V 0 V={fasttable("../supply.txt")}', recorded)
         self.assertNotIn('PWL(0 0 10n 5)', recorded)
         self.assertIn('V(n_CLK) V(n_p5V)', recorded)
+        pwl = deck(components, .25, .00025, True, 'pwl')
+        self.assertIn('Vcc n_p5V 0 PWL FILE "../supply.txt"', pwl)
+        self.assertNotIn('fasttable', pwl)
+        self.assertIn('RBR1 n_OSC_OUT n_CLK .001', pwl)
+        with self.assertRaises(ValueError):
+            deck(components, .25, .00025, True, 'unknown')
 
     def test_only_behavioral_expression_delimiters_change(self):
         source = (Path(__file__).parent / 'ls_nand_pullup.cir').read_text()

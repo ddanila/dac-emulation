@@ -633,6 +633,8 @@ instead of the ideal ramp. This uses Xyce's linear `fasttable` source, preservin
 all printed points while limiting source breakpoints to its endpoints. Every saved
 supply value is checked against the source interpolation. It removes live supply
 feedback and does not claim identical scheduling to ngspice's file source.
+`--source-mode pwl` selects the native PWL source to investigate scheduling at
+each recorded corner, without changing the input samples.
 The [recorded-supply Xyce run](reports/clock-output/xyce-recorded-supply/assessment.json)
 also fails timestep phase refinement. Cross-engine agreement at the coarser step
 does not survive refinement, so agreement at a single timestep cannot establish
