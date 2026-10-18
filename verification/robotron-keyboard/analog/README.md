@@ -153,6 +153,11 @@ The [independent-solver replay](reports/clock-output/xyce-transfer500/assessment
 retains branch comparisons and rejected temperature syntax; explicit runtime
 settings are required even when model files are byte-identical.
 
+The [diode-role review](reports/clock-output/diode-role-review/assessment.json)
+keeps TI and К555ЛА3 condition sets separate. A failure under one device's limits
+is not automatically a rejection under another's; selected DC passes alone do
+not establish dynamic applicability.
+
 These probes never select a board default. A parameter grid is not a measured
 process range or a continuous robustness proof. DC source-current sign changes
 identify candidate equilibria; interpolation across a branch jump does not prove
