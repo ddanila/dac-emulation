@@ -15,9 +15,11 @@ def main():
  p=argparse.ArgumentParser();p.add_argument('--audit',action='store_true');p.add_argument('--rom',type=Path);p.add_argument('--wave',action='store_true')
  p.add_argument('--out',type=Path,default=OUT)
  p.add_argument('--cpu-profile',choices=('tv80','falling-candidate','falling-indexed-candidate'),default='tv80')
+ p.add_argument('--latch-timing-envelope',action='store_true',help='Intel 8282 reference timing at a 1 MHz fixture clock; requires --rom')
  p.add_argument('--rom-read-envelope',action='store_true',help='Intel 2716 read timing at a 1 MHz fixture clock; requires --rom')
  p.add_argument('--floating-io-value',choices=('00','ff','xx'),help='Sensitivity fixture for released A15-low I/O reads; not a physical pullup')
  a=p.parse_args()
+ if a.latch_timing_envelope and not a.rom:p.error('--latch-timing-envelope requires --rom')
  if a.rom_read_envelope and not a.rom:p.error('--rom-read-envelope requires --rom')
  if a.cpu_profile!='tv80' and not a.rom:p.error('--cpu-profile requires --rom')
  if a.floating_io_value is not None and not a.rom:p.error('--floating-io-value requires --rom')
@@ -71,11 +73,21 @@ def main():
    floating_args=['-Pfirmware_tb.FLOATING_IO_OVERRIDE=1',"-Pfirmware_tb.FLOATING_IO_VALUE=8'h"+a.floating_io_value]
    report['floatingIoExperiment']={'value':a.floating_io_value,'scope':'Override CPU input only during I/O reads with A15 low; all board outputs released by the schematic decode','qualified':False,'boundary':'Sensitivity of this firmware fixture, not measured bus voltage, CPU metastability or exhaustive unknown-input proof'}
   rom_args=[];rom_sources=[]
+  board_source=R/'generated/controller.v'
+  if a.rom_read_envelope or a.latch_timing_envelope:
+   rom_args=['-Pfirmware_tb.CLOCK_HALF_NS=500']
   if a.rom_read_envelope:
    rom_sources=[R/'analog/eprom2716.v']
-   rom_args=['-Pfirmware_tb.ROM_READ_ENVELOPE=1','-Pfirmware_tb.CLOCK_HALF_NS=500']
+   rom_args+=['-Pfirmware_tb.ROM_READ_ENVELOPE=1']
    report['romTimingExperiment']={'profile':'intel-2716-read-envelope','clockPeriodNs':1000,'modelSha256':sha(rom_sources[0]),'qualified':False,'boundary':'Published reference read envelope with direct CPU memory input; no bus contention, analog voltage, U556 calibration or physical output-release proof'}
-  run(['iverilog','-g2012','-s','firmware_tb',*rom_args,*floating_args,'-o',OUT/'firmware.vvp',*cpu_sources,*rom_sources,R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v'])
+  if a.latch_timing_envelope:
+   board_text=board_source.read_text()
+   if board_text.count('chip_I8282 A4(')!=1:raise ValueError('Unexpected generated latch timing boundary')
+   board_source=OUT/'controller_timed.v'
+   board_source.write_text(board_text.replace('chip_I8282 A4(','chip_I8282_timed A4('))
+   rom_sources+=[R/'analog/i8282_timing.v']
+   report['latchTimingExperiment']={'profile':'intel-i8282-timing-envelope','clockPeriodNs':1000,'modelSha256':sha(R/'analog/i8282_timing.v'),'generatedBoardSha256':sha(board_source),'qualified':False,'boundary':'Reference latch storage and output envelope on the digital matrix/bus; no analog sensing, physical metastability or calibrated device timing'}
+  run(['iverilog','-g2012','-s','firmware_tb',*rom_args,*floating_args,'-o',OUT/'firmware.vvp',*cpu_sources,*rom_sources,R/'chips.v',board_source,R/'firmware_tb.v'])
   args=['vvp',OUT/'firmware.vvp','+rom='+str(OUT/'rom.hex')]
   if a.wave:args+=['+wave='+str(OUT/'firmware.vcd')]
   with (OUT/'firmware-hdl.txt').open('w') as f:run(args,stdout=f,timeout=300)
