@@ -124,6 +124,14 @@ includes a lossless capture archive with a hash receipt in the same directory.
 Passing candidates constrain further modeling; the grid is not a measured process
 range or a continuous robustness proof.
 
+Use `oscillator_probe.py --gate-model /path/to/candidate.cir --require-phase
+--out /path/to/fresh-run` to test a standalone candidate without changing board
+defaults. `oscillator_family_probe.py --screen /path/to/extracted-screen
+--out /path/to/fresh-family-run` verifies candidate receipts and tests each survivor
+at coarse and finer resolution. The [retained family run](reports/clock-output/ls00-family-oscillator/assessment.json)
+shows why passing isolated device conditions is insufficient: those candidates
+do not sustain the reference oscillator. Its capture archive preserves the failures.
+
 ## Bus and CPU boundaries
 
 Electrical-bus options require declared capacitance and loading assumptions.

@@ -4,6 +4,8 @@ import argparse
 import hashlib
 import json
 import math
+import os
+import shutil
 import re
 import statistics
 import subprocess
@@ -66,12 +68,12 @@ def simulate(args, components, step, isolated=False, scale=1):
              'Vcc n_p5V 0 PWL(0 0 10n 5)',
              f'.options reltol={args.reltol} vntol={args.vntol} abstol={args.abstol}',
              '.include ls_nand_nominal.cir', *lines,
-             '.control', 'set wr_singlescale', 'set wr_vecnames', f'tran {step}n 20u',
+             '.control', 'set numdgt=17', 'set wr_singlescale', 'set wr_vecnames', f'tran {step}n 20u',
              'wrdata trace.txt ' + ' '.join(f'v({n})' for n in signals), 'quit', '.endc', '.end']
     deck = '\n'.join(lines) + '\n'
     (out / 'oscillator.cir').write_text(deck)
     proc = subprocess.run([args.ngspice, '-n', '-b', 'oscillator.cir'], cwd=out,
-                          capture_output=True, text=True, timeout=60)
+                          env=args.engine_env, capture_output=True, text=True, timeout=60)
     log = proc.stdout + proc.stderr
     (out / 'ngspice.log').write_text(log)
     proc.check_returncode()
@@ -80,7 +82,7 @@ def simulate(args, components, step, isolated=False, scale=1):
     rows = [[float(x) for x in line.split()] for line in (out / 'trace.txt').read_text().splitlines()[1:]]
     if not rows or any(len(r) != len(signals) + 1 or not all(map(math.isfinite, r)) for r in rows):
         raise ValueError('Incomplete/invalid oscillator waveform')
-    if rows[0][0] > 1e-9 or rows[-1][0] < 20e-6:
+    if rows[0][0] > 1e-9 or rows[-1][0] + math.ulp(20e-6) < 20e-6:
         raise ValueError('Oscillator transient endpoints missing')
     edges = rising_edges(rows, 1)
     periods = [b-a for a, b in zip(edges, edges[1:])]
@@ -109,7 +111,9 @@ def simulate(args, components, step, isolated=False, scale=1):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--ngspice', default='ngspice')
-    p.add_argument('--gate-profile', choices=tuple(GATE_MODELS), default='nominal')
+    models = p.add_mutually_exclusive_group()
+    models.add_argument('--gate-profile', choices=tuple(GATE_MODELS), default='nominal')
+    models.add_argument('--gate-model', type=Path, help='Explicit standalone candidate implementing LS_NAND_NOMINAL; no change to defaults')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/oscillator')
     p.add_argument('--steps-ns', type=float, nargs=2, default=(2, 1), metavar=('COARSE', 'FINE'))
     p.add_argument('--reltol', type=float, default=.001)
@@ -121,15 +125,19 @@ def main():
         p.error('Timesteps and solver tolerances must be positive and finite')
     if args.steps_ns[1] > args.steps_ns[0] / 2:
         p.error('Fine timestep must be at most half the coarse timestep')
-    args.gate_model = HERE / GATE_MODELS[args.gate_profile]
+    custom_model = args.gate_model is not None
+    args.gate_model = (args.gate_model or HERE / GATE_MODELS[args.gate_profile]).resolve()
+    args.ngspice = str(Path(shutil.which(args.ngspice) or args.ngspice).resolve(strict=True))
     args.out.mkdir(parents=True, exist_ok=True)
+    (args.out/'spinit').write_text('* Pure SPICE oscillator; no external initialization.\n')
+    args.engine_env = dict(os.environ, SPICE_SCRIPTS=str(args.out.resolve()))
     path = args.out / 'report.json'
     path.unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'runs': [], 'refinements': [],
               'phaseRequired': args.require_phase, 'phaseQualified': False,
               'solver': {'reltol': args.reltol, 'vntol': args.vntol, 'abstol': args.abstol},
               'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
-                          for name in ('oscillator_probe.py', 'circuit.py', 'clock_convergence.py', 'trace_io.py', 'gate_models.py', args.gate_model.name)},
+                          for name in ('oscillator_probe.py', 'circuit.py', 'clock_convergence.py', 'trace_io.py', 'gate_models.py')},
               'assumptions': {'model': 'Continuous behavioral NAND, not transistor-level DL000 characterization',
                               'supply': ('Ideal 5 V ramp over 10 ns; output load current included, package quiescent current omitted'
                                          if args.gate_profile == 'dl000-pullup' else
@@ -145,6 +153,14 @@ def main():
                               'clamp': 'Generic diode IS=1e-14, N=1, RS=20',
                               'frequency': 'Prediction of nominal model; not calibrated to emulator or measured specimen'},
               'reference': 'https://datenblatt.weithclan.de/Daten/DL000-030D-ME_ocr.pdf'}
+    report['model'] = {'path': str(args.gate_model), 'sha256': hashlib.sha256(args.gate_model.read_bytes()).hexdigest(),
+                       'selection': 'explicit-candidate' if custom_model else args.gate_profile}
+    report['runtime'] = {'path': args.ngspice, 'sha256': hashlib.sha256(Path(args.ngspice).read_bytes()).hexdigest(),
+                         'spinitSha256': hashlib.sha256((args.out/'spinit').read_bytes()).hexdigest()}
+    if custom_model:
+        report['assumptions'] = {'model': 'Explicit candidate; inspect retained model and its separate device-limit evidence. No DL000 calibration is implied.',
+                                'supply': 'Ideal 5 V ramp over 10 ns', 'cpuLoad': '1 gigaohm and 10 pF',
+                                'frequency': 'Prediction only; no fitting to emulator or measured specimen frequency'}
     try:
         components, report['connectivitySha256'] = load()
         report['tool'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()
@@ -169,6 +185,10 @@ def main():
         if doubled >= .9*nominal:
             raise ValueError('Doubling the timing capacitor did not meaningfully lower oscillator frequency')
         report['phaseQualified'] = all(r['clockPhase']['passed'] for r in report['refinements'])
+        if hashlib.sha256(args.gate_model.read_bytes()).hexdigest()!=report['model']['sha256']:
+            raise ValueError('Gate model changed during execution')
+        if hashlib.sha256(Path(args.ngspice).read_bytes()).hexdigest()!=report['runtime']['sha256']:
+            raise ValueError('Simulator changed during execution')
         report['passed'] = True
     except Exception as error:
         report['error'] = str(error)
