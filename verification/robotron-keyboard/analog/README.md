@@ -1181,3 +1181,10 @@ timestep. Voltages during undervoltage are reported without assigning logic
 states. This does not establish a reliable firmware restart; semiconductor
 parameters and CPU loading remain exploratory. The ordinary power-cycle check
 is separate and unchanged in scope.
+
+Clock/supply inspection records `supplyEpochs`: separate contiguous intervals
+within the U880 supply range, with complete numerical clock cycles whose sampled
+reset voltage stays low. A supply excursion starts a new interval, so startup
+reset evidence cannot imply recovery after a later dip. Unknown/out-of-range
+reset samples break consecutive-cycle evidence. These counts do not establish
+CPU state retention, between-sample behavior or reset timing qualification.

@@ -8,15 +8,35 @@ from clock_voltage import inspect
 
 
 class ClockVoltageTests(unittest.TestCase):
-    def check_samples(self, samples, rail_times=None):
+    def check_samples(self, samples, rail_times=None, resets=None):
         with tempfile.TemporaryDirectory() as directory:
             p, d = Path(directory) / 'clock', Path(directory) / 'rail'
             p.write_text('time clock reset data serial\n' + ''.join(
-                f'{i} {clock} 0 0 0\n' for i, (clock, _) in enumerate(samples)))
+                f'{i} {clock} {resets[i] if resets is not None else 0} 0 0\n' for i, (clock, _) in enumerate(samples)))
             times = range(len(samples)) if rail_times is None else rail_times
             d.write_text('time supply rc osc1 osc2 out ground current\n' + ''.join(
                 f'{i} {supply} 0 0 0 0 0 0\n' for i, (_, supply) in zip(times, samples)))
             return inspect(p, d)
+
+    def test_supply_dip_cannot_reuse_startup_reset_cycles(self):
+        samples = [(v, 5) for v in (.2,4.9,.2,4.9,.2,4.9)]
+        samples += [(.2,2)] + [(v,5) for v in (4.9,.2,4.9,.2,4.9)]
+        result = self.check_samples(samples, resets=[0]*7+[4]*5)
+        self.assertEqual(len(result['supplyEpochs']), 2)
+        self.assertEqual(result['supplyEpochs'][0]['maximumConsecutiveResetLowCycles'], 2)
+        self.assertEqual(result['supplyEpochs'][1]['completeResetLowCycles'], 0)
+        self.assertFalse(result['qualified'])
+
+    def test_reset_glitch_and_release_boundary_break_cycle_evidence(self):
+        samples = [(v,5) for v in (.2,4.9,.2,4.9,.2,4.9,.2,4.9,.2,4.9)]
+        for bad in (1.4, 4, -.6):
+            resets = [0]*len(samples)
+            resets[4] = bad
+            result = self.check_samples(samples, resets=resets)
+            self.assertEqual(result['supplyEpochs'][0]['completeResetLowCycles'], 3)
+            self.assertEqual(result['supplyEpochs'][0]['maximumConsecutiveResetLowCycles'], 2)
+        result = self.check_samples(samples[:4], resets=[0,0,0,4])
+        self.assertEqual(result['supplyEpochs'][0]['completeResetLowCycles'], 0)
 
     def test_ttl_high_does_not_meet_cpu_clock_high(self):
         result = self.check_samples([(0.2, 5), (3.6, 5)])
