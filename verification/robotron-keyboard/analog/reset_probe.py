@@ -12,6 +12,7 @@ from pathlib import Path
 from circuit import elements, load, node, nominal_models
 import supply_stimulus
 from reset_supply_observation import observe
+from cpu_control import reset_load, RESET_LOADS
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -30,6 +31,7 @@ def simulate(args, components, step_us, isolated):
     source, cpu = [node(bridge['pins'][p]) for p in ('1', '2')]
     if cpu != node(components['A5']['pins']['26']):
         raise ValueError('BR2 no longer feeds the CPU reset pin')
+    load_lines, load_info = reset_load(components, args.reset_load)
     rise = args.rise_us * 1e-6
     stimulus = getattr(args, 'supply_data', None)
     stop = args.stop_seconds if stimulus else 1.6
@@ -40,7 +42,7 @@ def simulate(args, components, step_us, isolated):
              f'Vcc {supply} 0 {power}',
              *nominal_models(args.beta, args.npn_profile), *lines,
              f'RBR2 {source} {cpu} {"1t" if isolated else ".001"}',
-             f'Rcpu {cpu} 0 1g', f'Ccpu {cpu} 0 10p']
+             *load_lines]
     if args.source_ohms:
         lines += [f'Rsource supply n_p5V {args.source_ohms}']
     if isolated:
@@ -66,7 +68,7 @@ def simulate(args, components, step_us, isolated):
         raise ValueError('Reset transient endpoints missing')
     if stimulus:
         return {'stepUs': step_us, 'br2Closed': not isolated,
-                'observation': observe(rows, stimulus),
+                'observation': observe(rows, stimulus), 'cpuResetLoad': load_info,
                 'models': {**models, 'BR2': '1 milliohm closed / 1 teraohm open'},
                 'signals': signals,
                 'artifacts': {name: hashlib.sha256((out/name).read_bytes()).hexdigest()
@@ -93,7 +95,7 @@ def simulate(args, components, step_us, isolated):
             raise ValueError('Opened BR2 failed to isolate the grounded CPU reset fixture')
     elif max(abs(r[2] - r[3]) for r in rows) > .01:
         raise ValueError('Closed BR2 failed to carry reset to CPU pin')
-    return {'stepUs': step_us, 'br2Closed': not isolated, 'boots': boots,
+    return {'stepUs': step_us, 'br2Closed': not isolated, 'boots': boots, 'cpuResetLoad': load_info,
             'maximumAbsoluteSupplyCurrentAmps': max(abs(r[-1]) for r in rows),
             'models': {**models, 'BR2': '1 milliohm closed / 1 teraohm open'},
             'signals': signals, 'deckSha256': hashlib.sha256(deck.encode()).hexdigest()}
@@ -102,6 +104,7 @@ def simulate(args, components, step_us, isolated):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--ngspice', default='ngspice')
+    p.add_argument('--reset-load', choices=RESET_LOADS, default='illustrative')
     p.add_argument('--beta', type=float, default=100)
     p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
     power = p.add_mutually_exclusive_group()
@@ -138,12 +141,12 @@ def main():
                               'beta': args.beta, 'npnProfile': args.npn_profile, 'riseUs': args.rise_us,
                               'sourceOhms': args.source_ohms,
                               'passives': 'Ideal nominal R/C values; no ESR, leakage or tolerance model',
-                              'cpuLoad': '1 gigaohm and 10 pF; illustrative, not measured',
+                              'cpuLoad': args.reset_load,
                               'supply': 'Programmed ramps and one-second interruption through selected external resistance; not a measured power supply',
                               'thresholdVolts': [.8, 2],
                               'timing': 'Observation windows test nominal behavior, not historical reset duration'},
               'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
-                          for name in ('reset_probe.py', 'circuit.py', 'sc236_dc.cir', 'supply_stimulus.py', 'reset_supply_observation.py', 'cpu_clock_limits.json')}}
+                          for name in ('reset_probe.py', 'circuit.py', 'sc236_dc.cir', 'supply_stimulus.py', 'reset_supply_observation.py', 'cpu_clock_limits.json', 'cpu_control.py')}}
     if args.supply_data:
         report['qualified'] = False
         report['scope'] = 'Reset response to an explicit power waveform; diagnostic only, no brownout firmware qualification'

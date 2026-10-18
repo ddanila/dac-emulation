@@ -1180,7 +1180,11 @@ low CPU-reset level at valid supply during recovery with BR2 closed, at either
 timestep. Voltages during undervoltage are reported without assigning logic
 states. This does not establish a reliable firmware restart; semiconductor
 parameters and CPU loading remain exploratory. The ordinary power-cycle check
-is separate and unchanged in scope.
+is separate and unchanged in scope. Both `reset_probe.py` and `boot_cosim.py` accept
+`--reset-load reference-capacitance` for the sourced U880 maximum capacitance
+on pin 26, with its test conditions retained in the report. The default
+`illustrative` profile preserves the earlier fixture. Neither profile models
+input leakage, protection junctions or CPU state retention.
 
 Clock/supply inspection records `supplyEpochs`: separate contiguous intervals
 within the U880 supply range, with complete numerical clock cycles whose sampled

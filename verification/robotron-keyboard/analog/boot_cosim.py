@@ -30,7 +30,7 @@ from oscillator_probe import wiring
 from gate_models import GATE_MODELS
 from clock_voltage import inspect as inspect_clock_voltage
 from clock_timing import inspect as inspect_clock_timing
-from cpu_control import wiring as control_wiring
+from cpu_control import wiring as control_wiring, reset_load, RESET_LOADS
 from logic_control import wiring as logic_wiring
 from reset_probe import RESET_REFS
 from serial_observation import validate_transport, SerialMismatch
@@ -135,6 +135,8 @@ def prepare(args, report):
     report['electricalModels'] = {**osc_models, **reset_models, 'BR2': '1 milliohm closed'}
     report['unconnectedA7Pins'] = unused
     report['cpuClockNet'], report['cpuResetNet'] = cpu_clock, cpu_reset
+    reset_load_lines, report['cpuResetLoad'] = reset_load(components, getattr(args, 'reset_load', 'illustrative'))
+    report['assumptions']['resetLoad'] = report['cpuResetLoad']['profile']
     gate_file = GATE_MODELS[args.gate_profile]
     (out / gate_file).write_bytes((HERE / gate_file).read_bytes())
     report['gateModel'] = {'file': gate_file, 'sha256': sha(out / gate_file)}
@@ -280,7 +282,7 @@ def prepare(args, report):
              f'.options reltol={args.reltol} vntol={args.vntol} abstol={args.abstol}',
              *nominal_models(100, args.npn_profile), *osc, *reset, *matrix_lines, *output_lines, *receiver_lines, *control_lines, *bus_lines,
              f'RBR2 {reset_source} {cpu_reset} .001',
-             f'Rresetload {cpu_reset} 0 1g', f'Cresetload {cpu_reset} 0 10p',
+             *reset_load_lines,
              f'Ain [{cpu_clock} {cpu_reset}] [dclk drst] receiver',
              '.model receiver adc_bridge(in_low=1.4 in_high=1.4)',
              f'Amatrix [{sense_nodes}] [{sense_inputs}] sense_receiver',
@@ -422,6 +424,7 @@ def main():
     power.add_argument('--supply-stimulus', type=Path, help='JSON pointsSecondsVolts host supply waveform; diagnostic power-dip/recovery input')
     power.add_argument('--rise-us', type=float, default=1)
     p.add_argument('--gate-profile', choices=tuple(GATE_MODELS), default='nominal')
+    p.add_argument('--reset-load', choices=RESET_LOADS, default='illustrative')
     p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
     p.add_argument('--step-ns', type=float, default=2)
     p.add_argument('--bridge-delay-ns', type=float, default=10, help='Numerical interface delay, not a calibrated pin delay')

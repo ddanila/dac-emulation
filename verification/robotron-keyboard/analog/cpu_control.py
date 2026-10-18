@@ -38,3 +38,27 @@ def wiring(components):
         'boundary': 'Reference-maximum capacitance, not measured capacitance; leakage and input clamps omitted. '
                     'X1:A9 is externally open. CPU brownout and power-off behavior remain unmodeled.',
     }
+
+
+RESET_LOADS = ('illustrative', 'reference-capacitance')
+
+
+def reset_load(components, profile='illustrative'):
+    """Load CPU pin 26 from its numbered schematic pin, not the BR2 source."""
+    cpu = components['A5']
+    if cpu['type'] != 'U880' or profile not in RESET_LOADS:
+        raise ValueError('Unsupported CPU reset load')
+    reset, ground = node(cpu['pins']['26']), node(cpu['pins']['29'])
+    if not cpu['pins']['26'] or cpu['pins']['26'] == cpu['pins']['29']:
+        raise ValueError('CPU reset is missing or grounded')
+    limits = json.loads(Path(__file__).with_name('cpu_clock_limits.json').read_text())
+    capacitance = 10e-12 if profile == 'illustrative' else limits['ordinaryInput']['capacitanceMaximumFarads']
+    lines = [f'Ccpu_reset {reset} {ground} {capacitance:.17g}']
+    if profile == 'illustrative':
+        lines.append(f'Rcpu_reset {reset} {ground} 1g')
+    return lines, {'profile': profile, 'pin': 'A5:26', 'net': reset,
+                   'capacitanceFarads': capacitance, 'qualified': False,
+                   'resistanceOhms': 1e9 if profile == 'illustrative' else None,
+                   'capacitanceCondition': ('Illustrative fixture' if profile == 'illustrative' else
+                                             limits['ordinaryInput']['capacitanceCondition']),
+                   'boundary': 'Reference capacitance is a maximum at specified test conditions, not measured reset-pin capacitance. No leakage I/V, protection junction, undervoltage or state-retention model.'}
