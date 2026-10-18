@@ -195,27 +195,18 @@ errors, discard startup or ease budgets to pass. If startup uncertainty needs a
 different analysis, make it explicit and independently justified. Numerical
 threshold crossings do not replace guaranteed receiver levels.
 
-The following retained evidence anchors the unresolved questions; reports contain
-exact settings and results. Older experiments remain in [reports](reports/) and
-git history without a second chronological narrative here.
+Use this question-based index to find retained evidence. Assessments own exact
+settings, results and rejected alternatives; related captures remain in
+[reports](reports/). Use git history for the sequence of investigations.
 
-| Evidence | Interpretation boundary |
+| Qualification question | Evidence and boundary |
 | --- | --- |
-| [Service repeat qualification](reports/repeat/refined-strict-time/qualification/qualification.json) | Pass applies to its recorded service configuration, not closed-board startup |
-| [Full-precision supply isolation](reports/clock-output/full-precision-supply-isolation/assessment.json), [Xyce replay](reports/clock-output/xyce-recorded-supply/assessment.json) | Startup phase sensitivity remains a qualification problem across solvers |
-| [Vendor reference review](reports/clock-output/ti-reference-review/assessment.json), [transistor candidate](reports/clock-output/ti-transistor-candidate/assessment.json) | Available model files do not by themselves satisfy device limits |
-| [Device parameter screen](reports/clock-output/ls00-parameter-validation/assessment.json), [oscillator family](reports/clock-output/ls00-family-oscillator/assessment.json) | Passing isolated device checks does not establish sustained oscillation or DL000 applicability |
-| [Loaded transfer comparison](reports/clock-output/ls00-transfer/assessment.json), [bidirectional branches](reports/clock-output/ls00-branches/assessment.json) | Branch-dependent solutions require circuit and solver diagnosis; they are not measured device hysteresis |
-| [Isolated-gate current balance](reports/clock-output/ls00-internal-kcl/assessment.json) | Both branches persist with reduced numerical conductance and pass reported-current KCL; this does not prove stability or physical hysteresis |
-| [Branch perturbation recovery](reports/clock-output/ls00-branch-perturbation/assessment.json) | Both branches recover after the tested input disturbances; plateau refinement is not full transient convergence or a general stability proof |
-| [Output I/V and topology review](reports/clock-output/ls00-output-iv/assessment.json) | Large forced-output current discrepancy from TI typical curves; unspecified graph conditions preclude an exact fitting target |
-| [High-current rolloff screen](reports/clock-output/ls00-rolloff/assessment.json) | Reduced forced-output current does not establish oscillator applicability; surviving variants still fail to sustain oscillation |
-| [Sink-resistance screen](reports/clock-output/ls00-sink-resistance/assessment.json) | Reduced forced-output current with passing isolated checks still does not establish sustained oscillation or calibrated junction parameters |
-| [Complete-oscillator disturbance](reports/clock-output/oscillator-disturbance/assessment.json) | Tested current pulses return these candidates to nonoscillating plateaus; this does not rule out every startup path or establish physical stability |
-| [A7 identity and K555LA3 DC checks](reports/clock-output/k555la3-device-review/assessment.json) | Primary K555LA3 and comparison D100D remain separate; selected passport DC passes do not qualify oscillator behavior or the TI switching fixture |
-| [Matched-plateau AC response](reports/clock-output/oscillator-ac/assessment.json) | Second-stage attenuation narrows device diagnosis; a different default DC branch and an incomplete pole search remain rejected evidence |
-| [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json), [floating-read analysis](reports/floating-io/static-analysis.json) | Functional agreement does not qualify the released input voltage |
-| [Reset dip response](reports/reset-brownout/report.json) | No sampled low CPU reset at valid supply during recovery in this fixture; reliable restart remains unproved |
+| Does the service configuration work? | [Service repeat qualification](reports/repeat/refined-strict-time/qualification/qualification.json); externally supplied clock/reset do not qualify closed-board startup. |
+| Is startup numerically converged? | [Full-precision supply isolation](reports/clock-output/full-precision-supply-isolation/assessment.json) and [independent solver replay](reports/clock-output/xyce-recorded-supply/assessment.json); retain absolute phase and failing startup. |
+| Does the gate model apply to the device? | [A7 identity and passport checks](reports/clock-output/k555la3-device-review/assessment.json), [candidate admission](reports/clock-output/device-admission/assessment.json) and [output I/V review](reports/clock-output/ls00-output-iv/assessment.json); selected DC/switching passes do not qualify oscillator dynamics or historical process parameters. |
+| Why do admitted candidates settle? | [Complete-oscillator disturbance](reports/clock-output/oscillator-disturbance/assessment.json) and [matched-plateau AC response](reports/clock-output/oscillator-ac/assessment.json); investigate the second gate's state and response. Finite recovery and loaded ratios are not general stability proofs; the incomplete pole search is rejected. |
+| Are CPU reads electrically valid? | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json) and [floating-read analysis](reports/floating-io/static-analysis.json); functional agreement does not qualify released input voltage. |
+| Does reset recover after a supply dip? | [Reset dip response](reports/reset-brownout/report.json); startup reset and sampled recovery do not establish reliable firmware restart. |
 
 ## Review and store captures
 

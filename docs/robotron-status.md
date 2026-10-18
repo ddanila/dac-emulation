@@ -1,37 +1,17 @@
 # Current Robotron emulation status
 
-Baseline: **0.17.0**, snapshot layout **15**, ABI **1**. This page supersedes
-present-tense summaries in dated bring-up notes. Hardware fidelity is bounded;
-the reference S550/CAS/S600/TOS-M configuration is not an identified owner dump.
+The reference S550/CAS/S600/TOS-M configuration is not an identified specimen
+ROM set. The [machine guide](../machines/robotron1715m/README.md) describes the
+implementation; the museum's
+[capability matrix](https://github.com/ddanila/dac/blob/main/docs/robotron/capabilities.md)
+summarizes behavior and remaining fidelity limits. Runtime manifests own version,
+ABI and snapshot identities; release changes belong in git history.
 
-Implemented: banked 256 KiB memory; Z80 DMA with timed read/write phases and bus
-ownership; scanline display with scheduled byte fetches and attributes; S600
-keyboard CPU/matrix/serial input; two timed floppy drives and writable raw/DSK
-media; asynchronous SIO, printer readiness, serial transfers; deterministic
-snapshots, observation and replay. See the museum's
-[capability matrix](https://github.com/ddanila/dac/blob/main/docs/robotron/capabilities.md) for the browser tools.
-
-0.17.0 corrects keyboard decoding against the KiCad-derived reference HDL:
-all I/O cycles clock raw LED latches, A15 enables matrix input, selected contacts
-combine with OR, and WR clocks serial output for memory as well as I/O writes.
-The 131,072-vector audit and independent TV80/S600 logical comparison pass.
-Display indicators have an explicit 2 ms peak hold; raw latches are separately
-observable. Snapshot layout 15 includes this display state. CPU-clock offsets,
-analog timing, physical copper and specimen identity remain separately unqualified.
-See [board qualification](../verification/robotron-keyboard/README.md).
-
-0.16.0 gives both SIO receivers per-character error FIFOs. Framing errors follow
-characters; parity/overrun latch when the affected character reaches the FIFO
-head. A fourth character replaces the third. First-character error lock/reset and
-special receive vectors now use the same rules on both channels. A sampled high
-parity bit prevents false V.24 BREAK; x16/x32/x64 framing errors add half-bit
-recovery. The x1 path still has no half-clock sampling resolution.
-Reference: [Zilog UM008101](https://www.zilog.com/docs/z80/um0081.pdf), printed
-pp.235–237. Layout 14 includes the receive error buffers and sampled parity;
-layout 13 requires the preserved 0.15.1 core. ABI remains 1.
-
-0.15.1's short-character fix remains: 5–7-bit reception retains sampled parity
-and fills unused high bits with ones (7E1 data `61h`, parity one reads `E1h`).
+Keyboard logical comparisons and electrical qualification have distinct scopes.
+Use the [board guide](../verification/robotron-keyboard/README.md) for C/HDL
+comparisons and the [analog guide](../verification/robotron-keyboard/analog/README.md)
+for closed-board simulation. Logical agreement does not establish exact CPU cycles,
+applicable analog device behavior, physical copper or specimen firmware identity.
 
 ## Reproduce qualification
 
@@ -41,11 +21,6 @@ Fast checks require no historical firmware, MAME or HDL:
 make test test-runtime-sanitize
 make test-wasm  # requires the pinned Emscripten toolchain
 ```
-
-Native device tests cover both receive channels, all four clock divisors,
-5/6/7/8-bit words, no/odd/even parity, both parity bit values, and short-word
-BREAK. The WASM fixture saves during 7E1 reception, then compares its received
-register after batched and single-clock continuation.
 
 Optional qualification uses local caller-supplied media:
 
@@ -58,25 +33,12 @@ python3 tools/compare_robotron_historical.py --suite pascal --media /path/to/med
 python3 tools/compare_robotron_serial.py --media /path/to/media --output build/serial.json
 ```
 
-The basic historical comparison boots both implementations, drives the same S600
-switch coordinates, compares text and monochrome rasters at boot and five command
-checkpoints, independently decodes a 10 KiB PIP.COM copied to B, and checks printer
-bytes from AUTOEXC.SUB. Application suites compare WordStar create/save/reopen and
-Turbo Pascal source creation/compile/run, including exact saved file contents.
-They compare full text screens; application raster differences are retained but
-not pass criteria. The basic raster check excludes only the final prompt cursor.
-Each tool uses temporary media copies; supplied historical files remain unchanged.
-
-The serial probe compares seven S600 observations: 8N1, deliberately mismatched
-7E1, and FIFO overrun data/status. MAME 0.289 agrees, including the delayed overrun
-flag on the third buffered character. MAME is an independent implementation, not
-a hardware oracle. Reports record input hashes, core identity and limits.
-
-Native fault tests additionally interrupt writes after 1, 128 and 255 bytes through
-motor loss, controller reset and drive-door opening. They assert the written
-prefix, bad CRC metadata, unchanged remainder and untouched other drive. Formatting
-interruptions and the S600/DMA/printer/V.24 snapshot workload also pass. These fault
-and overlap cases are native regression checks, not independent MAME comparisons.
+The comparison tools retain inputs, core identity, observations and limits in
+their reports. They use temporary media copies. MAME is an independent
+implementation, not a hardware oracle; native fault and snapshot regressions
+remain separate from those comparisons. See the museum's
+[qualification guide](https://github.com/ddanila/dac/blob/main/docs/robotron/emulation-qualification.md#independent-reference-scope)
+for comparison scope and interpretation.
 
 ## Evidence still needed
 
