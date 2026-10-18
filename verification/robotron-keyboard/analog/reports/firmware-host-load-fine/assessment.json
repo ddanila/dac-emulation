@@ -1,0 +1,38 @@
+{
+  "qualified": false,
+  "completed": true,
+  "producerSourceRevision": "dc2d88f",
+  "reviewSourceRevision": "c8d3a87",
+  "scope": "Loaded service timestep comparison with the original falling-edge observer",
+  "evidence": {
+    "coarse": "../firmware-host-load/assessment.json",
+    "fine": "report.json",
+    "absoluteTimeVoltages": "voltage-comparison-relocated.json",
+    "rejectedPathComparison": "voltage-comparison.json",
+    "receiveEdgeCorrection": "../host-receive-edge/assessment.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "e2d60c9abaa34ef561ca0192c1439d2ef619f906564e494c7e11fb69768a14f2",
+    "run-inputs.json": "c64494756296c8c5ffe576ea7f9b8c0ebda7d7fca19af4c2d3549541a10e8e0f",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "983c0ce76b03bccf8f03c18002a5ee06df85c02d5bf1ae3625c7b8c65914883c",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "073114bceec4fe2c0ab9a2ea44a36657da7a645a2f6abd2104d84309d5e80ba1",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "voltage-comparison.json": "ed68200483ab2e9d5e7aff4b5ef323a8556d34c84504f88e43762bf0e6548d2d",
+    "voltage-comparison-relocated.json": "93fcb94ef46ae060631f2c1ccd7aec454dbadc87d3aa5f61d2d0e2c1e9b1a72c"
+  },
+  "waveforms": {
+    "retention": "Full waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL is included.",
+    "directory": "build/keyboard-controller-analog/firmware-host-load-50pf-sink-fine",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "The unchanged circuit, model sources and runtime differ only in timestep. Serial-edge refinement passes for the old observer, but absolute-time buffer voltages retain substantial transition differences. This is neither full-waveform convergence nor U856 receive qualification: the original observer samples the wrong edge.",
+  "comparisonProvenance": "The first review rejected identical C source hashes because checkout roots differed. The corrected reviewer compares complete source roles and digests under one consistent root, without editing producer reports.",
+  "nextAction": "Review corrected rising-RxC firmware behavior and its matched timestep pair; keep semiconductor applicability separate."
+}
