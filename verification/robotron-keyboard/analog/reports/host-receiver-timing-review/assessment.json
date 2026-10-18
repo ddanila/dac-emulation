@@ -48,6 +48,14 @@
     "fine": {
       "review": "fine-margins.json",
       "producer": "../firmware-host-rising-load-fine/report.json"
+    },
+    "resetFine": {
+      "review": "resetFine-margins.json",
+      "producer": "../firmware-host-rising-reset-minbreak-fine/report.json"
+    },
+    "modifierFine": {
+      "review": "modifierFine-margins.json",
+      "producer": "../firmware-host-rising-modifier-minbreak-fine/report.json"
     }
   },
   "observations": {
@@ -62,11 +70,25 @@
       "minimumSampledHoldNs": 493.4205465705055,
       "requiredSetupHoldNs": 140.0,
       "withinBudget": true
+    },
+    "resetFine": {
+      "minimumSampledSetupNs": 2467.785162038605,
+      "minimumSampledHoldNs": 493.4205465705055,
+      "requiredSetupHoldNs": 140.0,
+      "withinBudget": true
+    },
+    "modifierFine": {
+      "minimumSampledSetupNs": 2467.714385973041,
+      "minimumSampledHoldNs": 491.9341934465915,
+      "requiredSetupHoldNs": 140.0,
+      "withinBudget": true
     }
   },
-  "interpretation": "Both retained single-press timesteps pass the stronger sampled-stability screen. This constrains timing under the existing receiver-edge and voltage assumptions; it does not qualify U856 thresholds, full voltage convergence or the host device model.",
+  "interpretation": "The single-press timestep pair and retained fine reset/modifier captures pass the stronger sampled-stability screen. This constrains timing under the existing receiver-edge and voltage assumptions; it does not qualify U856 thresholds, full voltage convergence or the host device model.",
   "retainedFilesSha256": {
     "fine-margins.json": "18614ac259449c5bfed7e8123488295c9b3d4602ec90c1d289c8e297a296b15e",
-    "coarse-margins.json": "0c7589fff0256e591b39a560d3ecbe6110e3dda75f21675004f7085a386b6ec5"
+    "coarse-margins.json": "0c7589fff0256e591b39a560d3ecbe6110e3dda75f21675004f7085a386b6ec5",
+    "resetFine-margins.json": "55b6f1a2194f82a708a125b188c6be51139821e25fdc54061cc091d6747940d8",
+    "modifierFine-margins.json": "ecc36bc50fba2f8412020d1de6cdd467436c0f18d4d8ef0199c360791a672de6"
   }
 }
