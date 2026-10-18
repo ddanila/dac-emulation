@@ -68,6 +68,13 @@ class ComparisonTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Control interface source'):
             compare(self.coarse, self.fine, self.tx, self.tx, 15)
 
+    def test_cpu_control_source_change_is_rejected(self):
+        for name in ('cpu_control.py', 'cpu_clock_limits.json'):
+            coarse, fine = report(100), report(50)
+            fine['sources'][name] = 'changed'
+            with self.assertRaisesRegex(ValueError, 'CPU control source'):
+                compare(coarse, fine, self.tx, self.tx, 15)
+
     def test_receiver_shift_fails_even_with_same_bits(self):
         result = compare(self.coarse, self.fine, self.tx, self.rx, 15)
         self.assertEqual(result['transmittedMaximumDifferenceNs'], 0)

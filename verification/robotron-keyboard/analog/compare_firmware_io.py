@@ -84,6 +84,9 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
         raise ValueError('Control interface source differs or is missing')
     if coarse['sources'].get('transient_analysis.py') != fine['sources'].get('transient_analysis.py'):
         raise ValueError('Transient analysis source differs or is missing')
+    for name in ('cpu_control.py', 'cpu_clock_limits.json'):
+        if coarse['sources'].get(name) != fine['sources'].get(name):
+            raise ValueError('CPU control source differs or is missing: ' + name)
     def hdl_by_name(report):
         hashes = {Path(path).name: digest for path, digest in report['hdlSha256'].items()}
         if len(hashes) != len(report['hdlSha256']):

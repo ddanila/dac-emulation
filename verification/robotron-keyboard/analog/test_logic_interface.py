@@ -17,10 +17,15 @@ class LogicInterfaceTests(unittest.TestCase):
             (out / 'tb.v').write_text("""`timescale 1ns/1ps
 module tb;
  reg [2:0] levels=3'b011;
+ reg control_n=1, request_n=1;
  wire [1:0] sinks;
- firmware_io_cosim #(.ELECTRICAL_LOGIC_PULLUPS(1)) dut(
+ firmware_io_cosim #(.ELECTRICAL_LOGIC_PULLUPS(1),.ELECTRICAL_CPU_PULLUPS(1)) dut(
   .fixture_clk(1'b0),.fixture_reset_n(1'b0),.sense(8'ha5),
-  .receiver_data(1'b0),.receiver_clock(1'b0),.logic_control(levels),.logic_sink(sinks));
+  .receiver_data(1'b0),.receiver_clock(1'b0),.logic_control(levels),.logic_sink(sinks),
+  .cpu_pullup_n(control_n),.bus_request_n(request_n));
+ firmware_io_cosim legacy(.fixture_clk(1'b0),.fixture_reset_n(1'b0),
+  .sense(8'hff),.receiver_data(1'b0),.receiver_clock(1'b0),
+  .logic_control(3'bxxx),.cpu_pullup_n(1'bx),.bus_request_n(1'bx));
  initial begin
   force dut.board.address=16'hc000;
   force dut.board.iorq_n=1'b1;
@@ -34,6 +39,17 @@ module tb;
   levels=3'bxxx; #1;
   if(dut.board.electrical.board.A6.p1!==1'bx)
    $fatal(1,"Service wrapper masked returned unknown state");
+  control_n=0; request_n=1; #1;
+  if(dut.board.cpu.int_n!==0 || dut.board.cpu.nmi_n!==0 || dut.board.cpu.wait_n!==0 ||
+     dut.board.cpu.busrq_n!==1) $fatal(1,"CPU common pullup routing failed");
+  control_n=1; request_n=0; #1;
+  if(dut.board.cpu.wait_n!==1 || dut.board.cpu.busrq_n!==0)
+   $fatal(1,"CPU bus-request routing failed");
+  control_n=1'bx; request_n=1'bx; #1;
+  if(dut.board.cpu.wait_n!==1'bx || dut.board.cpu.busrq_n!==1'bx)
+   $fatal(1,"CPU returned unknown was masked");
+  if(legacy.board.cpu.wait_n!==1 || legacy.board.cpu.busrq_n!==1)
+   $fatal(1,"Default service CPU control behavior changed");
   $display("SERVICE_LOGIC_OK"); $finish;
  end
 endmodule
