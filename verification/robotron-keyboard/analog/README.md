@@ -132,6 +132,13 @@ at coarse and finer resolution. The [retained family run](reports/clock-output/l
 shows why passing isolated device conditions is insufficient: those candidates
 do not sustain the reference oscillator. Its capture archive preserves the failures.
 
+`oscillator_transfer_probe.py --model /path/to/candidate.cir --out /path/to/fresh-run`
+clamps the RC node for a DC sweep while retaining schematic loading. Zero source
+current brackets an equilibrium; loaded stage slopes help diagnose why a candidate
+settles. They do not establish AC loop gain or stability. The
+[retained transfer comparison](reports/clock-output/ls00-transfer/assessment.json)
+includes refined sweeps and the failed input-junction experiments.
+
 ## Bus and CPU boundaries
 
 Electrical-bus options require declared capacitance and loading assumptions.

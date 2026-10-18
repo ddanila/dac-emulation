@@ -1,0 +1,182 @@
+{
+  "qualified": false,
+  "scope": "Representative screened candidate versus nominal behavioral model, not a family-wide stability proof. DC slope ratios describe the loaded chain; they are not AC loop gain.",
+  "transfer": {
+    "candidate": {
+      "completed": true,
+      "qualified": false,
+      "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+      "scope": "DC sweep clamps OSC_RC while retaining schematic loading and feedback resistor. Input-source zero current identifies equilibrium candidates. Local DC slopes are diagnostic, not AC loop-gain or startup proof.",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "sources": {
+        "oscillator_transfer_probe.py": "73ec3caba5e19618b47da1631fb7ee580fd14fb02decafa72de296d8bbe3bde3",
+        "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+        "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "candidate.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f"
+      },
+      "spinitSha256": "7042a01f752969596180640914c53c91e4deb11ba2359d09ddca9aed7eb52b46",
+      "cases": [
+        {
+          "name": "coarse",
+          "stepVolts": 0.0001,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.1156999999998936,
+                1.1157999999998935
+              ],
+              "interpolatedVolts": {
+                "oscRc": 1.1157776512404964,
+                "osc1": 1.0924502411145551,
+                "osc2": 0.24345067244584742,
+                "clock": 4.996208953627319
+              },
+              "localSlopes": {
+                "osc1VsRc": -26.580700864567582,
+                "osc2VsRc": 1.0214131720796564,
+                "osc2VsOsc1": -0.03842687133360029
+              }
+            }
+          ],
+          "artifacts": {
+            "coarse.cir": "442cccfe26c47de1264d199c4d081f8e1e4334faa63e7a352c9cd222020ce537",
+            "coarse.log": "adf56f77e1126bf15161055798d7485b0979b2018f44e1ed941e14a799780645",
+            "coarse.txt": "c749303a70cc34ec3a88c755bb7d4dceb00bacb1b89f738982fd744cd0198ab1"
+          }
+        },
+        {
+          "name": "fine",
+          "stepVolts": 5e-05,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.1157500000001424,
+                1.1158000000001425
+              ],
+              "interpolatedVolts": {
+                "oscRc": 1.1157776585525518,
+                "osc1": 1.0924502485047232,
+                "osc2": 0.24345012527991203,
+                "clock": 4.996208973288905
+              },
+              "localSlopes": {
+                "osc1VsRc": -26.589731165855234,
+                "osc2VsRc": 1.046238538467427,
+                "osc2VsOsc1": -0.03934746582962588
+              }
+            }
+          ],
+          "artifacts": {
+            "fine.cir": "fb353b9b07a86655c5d364bd659a7ac2d3d695796abc7ba58c6764781a8376fe",
+            "fine.log": "146c1989ffc280f88e53a82e1f945c5146e990e096ba74458071113359d1cc0b",
+            "fine.txt": "2a882a7325bdfb6ff5d4232352e22240db1418fbbb9ea7746fa2baa5a9b7fead"
+          }
+        }
+      ]
+    },
+    "nominal": {
+      "completed": true,
+      "qualified": false,
+      "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+      "scope": "DC sweep clamps OSC_RC while retaining schematic loading and feedback resistor. Input-source zero current identifies equilibrium candidates. Local DC slopes are diagnostic, not AC loop-gain or startup proof.",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "sources": {
+        "oscillator_transfer_probe.py": "73ec3caba5e19618b47da1631fb7ee580fd14fb02decafa72de296d8bbe3bde3",
+        "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+        "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d"
+      },
+      "spinitSha256": "7042a01f752969596180640914c53c91e4deb11ba2359d09ddca9aed7eb52b46",
+      "cases": [
+        {
+          "name": "coarse",
+          "stepVolts": 0.0001,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.465199999999855,
+                1.465299999999855
+              ],
+              "interpolatedVolts": {
+                "oscRc": 1.4652554312303554,
+                "osc1": 1.4593266708524375,
+                "osc2": 1.5633465412576237,
+                "clock": 0.6769823199276357
+              },
+              "localSlopes": {
+                "osc1VsRc": -15.135262165184017,
+                "osc2VsRc": 272.4780090468582,
+                "osc2VsOsc1": -18.002860212996207
+              }
+            }
+          ],
+          "artifacts": {
+            "coarse.cir": "442cccfe26c47de1264d199c4d081f8e1e4334faa63e7a352c9cd222020ce537",
+            "coarse.log": "9a167fb0f1d98d2f5030f7d79a4de5c038e85190b6a5f3612cf18bf6ee2f2993",
+            "coarse.txt": "fee74fb83c301b752c7adfd25aa05b0714869e9f294e0ff5ccf0bb35f0611749"
+          }
+        },
+        {
+          "name": "fine",
+          "stepVolts": 5e-05,
+          "equilibria": [
+            {
+              "inputBracketVolts": [
+                1.46525000000088,
+                1.46530000000088
+              ],
+              "interpolatedVolts": {
+                "oscRc": 1.4652554236646227,
+                "osc1": 1.4593266629538124,
+                "osc2": 1.563319178640455,
+                "clock": 0.6706580486546644
+              },
+              "localSlopes": {
+                "osc1VsRc": -15.13251613474513,
+                "osc2VsRc": 273.04559994170694,
+                "osc2VsOsc1": -18.043635143714038
+              }
+            }
+          ],
+          "artifacts": {
+            "fine.cir": "fb353b9b07a86655c5d364bd659a7ac2d3d695796abc7ba58c6764781a8376fe",
+            "fine.log": "b15f6ae700cdbfe790d22f8f053bd612eb235a977198488ad855263aed61e797",
+            "fine.txt": "279fb7d24890d8b93efe8a7c3e18e087eafaa43d6c02227c6454b532b9f543e4"
+          }
+        }
+      ]
+    }
+  },
+  "diagnosticOscillators": {
+    "input-junction-diagnostic": [
+      {
+        "path": "1e-10/report.json",
+        "sha256": "8f6bfcb60ff55f136c49378d80116494f522b826ded114ca5b7c412268607321",
+        "passed": false,
+        "error": "Oscillator did not sustain transitions after startup"
+      },
+      {
+        "path": "1e-8/report.json",
+        "sha256": "0355286694ec7849f7f471317883774a99bca93e6d1997e84eb765d2790e0f19",
+        "passed": false,
+        "error": "Oscillator did not sustain transitions after startup"
+      },
+      {
+        "path": "1e-9/report.json",
+        "sha256": "3b095351e415fe6b59e111e8e749c5771fde6d3e57928e1557a12abceaa98ace",
+        "passed": false,
+        "error": "Oscillator did not sustain transitions after startup"
+      }
+    ],
+    "original-junction-oscillator": [
+      {
+        "path": "report.json",
+        "sha256": "84a06a69292f00fc09de264ca41879ace50ebcf36e14160f23cea19377785459",
+        "passed": false,
+        "error": "Oscillator did not sustain transitions after startup"
+      }
+    ]
+  }
+}
