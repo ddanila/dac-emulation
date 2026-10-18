@@ -1,20 +1,15 @@
 # Robotron keyboard board co-simulation
 
-This qualification harness compares a KiCad-derived reference circuit with the
-production keyboard emulator. It is not part of the browser runtime. The
-schematic and physical reconstruction are maintained in `3d-models`; the pinned
-revision and connectivity hash are in `reference/source.json`.
+This harness compares a KiCad-derived reference circuit with the production
+keyboard emulator. It is separate from the browser runtime. The canonical
+schematic and physical reconstruction live in `3d-models`; [reference/source.json](reference/source.json)
+pins the imported revision and connectivity. [generate.py](generate.py) emits
+numbered-pin wiring; [chips.v](chips.v) owns chip behavior.
 
-`generate.py` emits numbered-pin Verilog interconnect from the exported schematic.
-`chips.v` separately implements 7406 open-collector inverters, DL003 open-collector
-NAND gates, DL074 flip-flops and the 8282 transparent input latch. The sense
-transistors are a documented digital boundary; oscillator frequency, analog
-reset, contact resistance and propagation delay are not simulated. Supply
-pull-ups use Verilog pull strength. Unused pins remain explicit.
-
-## Run the comparisons
+## Run
 
 Requirements: Python 3, a C compiler and Icarus Verilog (`iverilog`, `vvp`).
+Run from the repository root:
 
 ```sh
 make test-keyboard-controller
@@ -22,173 +17,78 @@ make audit-keyboard-controller
 make qualify-keyboard-controller S600_ROM=/path/to/s600.bin
 ```
 
-The first target checks 8,210 supported transactions: LED latch addresses, each individual matrix
-column and every address in the low serial-output range. It passes with zero
-differences. It does not claim equivalence outside that subset.
+The ordinary test covers supported transactions; the audit broadens address
+coverage. A15-high writes are excluded because they can contend with the physical
+input latch. The firmware target uses an external ROM, without modifying or
+redistributing it, and the independently implemented TV80 CPU pinned under
+`third_party/cpu/tv80`. The same scheduled contacts drive both implementations.
+See [reports](reports/) for coverage, hashes, event comparisons and timing offsets.
 
-The audit exercises all 65,536 I/O read addresses, 32,768 I/O writes and
-32,768 memory writes. It **passes 131,072 transactions with zero differences**.
-Writes with A15 high are excluded because they can contend with the 8282 on the
-physical bus. Repeated callback ticks must not emit duplicate serial clocks.
-`run.py --wave` writes VCD traces under `build/keyboard-controller/`.
-Failures return nonzero; reports retain counterexamples and source hashes.
+Digital qualification injects clock/reset through open virtual BR1/BR2. Sense
+transistors and analog circuitry have explicit digital boundaries. Four-state
+chip semantics do not model propagation, metastability, floating-input bias or
+supply behavior. Raw LED latches are compared electrically; the emulator's
+separate display persistence is only a rendering aid.
 
-The firmware target adds the separately implemented TV80 Z80, pinned and licensed
-in `third_party/cpu/tv80`. It runs 4.6 million CPU clocks with A, Shift, Caps,
-Ctrl, REP, release and reset stimuli. It consumes an external 2 KB ROM without
-modifying or redistributing it. Neither CPU comes from the other implementation.
-Memory reads use the reference ROM, and the same scheduled contacts drive both.
-The HDL CPU receives external digital clock/reset through the CPU sides of open
-BR1/BR2 in generated wiring. The analog oscillator/reset sources are boundaries.
+Logical agreement does not establish exact CPU-cycle equivalence: retained
+reports explicitly distinguish them. For electrical circuits and closed-board
+firmware execution, use the [analog guide](analog/README.md).
 
-## Recorded results and discrepancy ledger
+## Synchronize
 
-See `reports/common-subset.json` and `reports/full-audit.json`.
-
-With reference S600 SHA-256
-`4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273`,
-both CPU implementations emit the same 390 serial bits. Every corresponding
-bit has a constant two-CPU-clock timestamp offset in this run. This supports
-relative serial timing for this workload, not measured specimen timing.
-
-The 11,971 raw LED state records now agree, as do coarse samples. The original
-emulator incorrectly gated LED updates with A15, narrowed matrix decoding to
-8000–9FFF, ANDed selected columns, and restricted serial strobes to low I/O writes.
-The corrected reference implementation clocks LEDs on every I/O access, enables
-the matrix whenever A15 is high, ORs active contacts, and clocks serial output on
-memory writes as well as I/O writes. The unchanged KiCad-derived HDL independently
-checks these changes. The earlier failing reports remain available in git history.
-
-This is **logical equivalence within the stated digital boundaries**, not exact
-CPU-clock equivalence: serial timestamps differ by two clocks; LED transitions
-usually differ by -1 clock, with +2 on write cycles and separate initialization/
-reset settling offsets. The report records the offset histogram and explicitly
-sets `cycleEquivalent` false. Analog settling and bus contention are outside scope.
-
-The production `leds` field and `dac_keyboard_latches` expose raw electrical state.
-`dac_keyboard_leds` applies a display-only 2 ms peak hold to avoid frame-sampling
-flicker; it is not an analog LED model and never feeds the electrical simulation.
-The S600 visible-LED test checks this display state; co-simulation checks raw latches.
-A synthetic firmware fixture now sets A14/A13 during its matrix polling loop if
-it intends to leave both lamps on. Snapshot layout 15 preserves display persistence.
-
-## Synchronization
-
-After committing CAD changes, run:
+After committing CAD changes:
 
 ```sh
 python3 verification/robotron-keyboard/sync_reference.py ../3d-models
 ```
 
-This rejects dirty CAD sources and stale exports, pins connectivity and its source
-revision, and regenerates HDL. Rerun both qualifications and save their reports
-before publishing. Reports hash the harness, production keyboard, both CPU
-implementations and generated wiring. Museum synchronization rejects stale reports.
-Unsupported digital components and colliding HDL net names fail generation.
+The importer rejects dirty sources and stale exports, pins connectivity and
+regenerates HDL. Rerun the digital qualifications and retain reports before
+publishing; museum synchronization verifies their implementation and source
+hashes. Generated interconnect checks consistency with the transcription, not
+its independent correctness. Keep physical interpretation in the CAD evidence
+ledger rather than editing generated wiring.
 
-## Sources and independence
+## Failures and replay
 
-- [Zander drawing 56-330-4103-7](https://www.sax.de/~zander/pc1715/pc_tasts.pdf)
-- [TI 7406 documentation](https://www.ti.com/product/SN7406)
-- [TV80 upstream](https://github.com/hutch31/tv80), revision recorded in its source manifest
+Failures return nonzero and retain stimulus, counterexamples and source hashes
+under `build/keyboard-controller/`. `failure.json` indexes failure evidence.
+Bus and firmware comparisons can replay a bounded first-divergence waveform;
+`run.py --wave` requests full capture. Missing events remain failures, and firmware
+diagnostics retain both CPU time coordinates without aligning them. Transaction
+bench timestamps are synthetic, not specimen measurements. Runs clear previous
+result metadata so an aborted run cannot leave an earlier pass as its result.
 
-Generated interconnect establishes consistency with the transcription, not an
-independent proof that it is correct. Chip models, the C emulator, TV80 and the
-firmware exercise provide separate checks with the boundaries above. Physical
-trace geometry and specimen identity are separate qualification tasks.
+## Service and experimental boundaries
 
+The generated service model separates clock/reset sources from the CPU at BR1/BR2.
+Service tests cover isolation, injection, release and contention. These are virtual
+circuit tests, not evidence of physical terminal order or a manufacturer procedure
+for opening specimen links.
 
-## Bridge isolation and source review
-
-Every comparison first runs `service_tb.v`: 13 checks cover closed bridges,
-independent reset injection with the onboard clock, external clock/reset with both
-bridges open, the clock pullup, floating reset and opposing drivers resolving to X.
-`build/keyboard-controller/service.vcd` and `service.log` retain the waveform and
-check result. The `service` section of each report records this scope.
-
-`controller_service` is generated from BR1/BR2 and CPU pin connections in KiCad;
-it does not duplicate their wiring in the testbench. BR1 isolates A7:8 from A5:6;
-BR2 isolates V4.9:C from A5:26. Separate source/CPU nets preserve those boundaries.
-The virtual tests establish digital isolation behavior, not measured reset delay,
-physical bridge locations, or a manufacturer-approved hardware procedure.
-
-The source review also corrected the reset transistor/capacitor network, separated
-BUSRQ from the other CPU pullups, and corrected the cable filter windings and
-clock/ground terminal assignments. These were outside the earlier peripheral
-comparison. Passing that comparison did not validate those schematic sections.
-
-The [Robotron service handbook](https://www.tiffe.de/Robotron/PC1715/PC-1715-Servicemanual.pdf#page=91)
-(1985, printed pp. 89–92) independently supports WR-based serial synchronization,
-active-high matrix sensing and IORQ-clocked LED state. Its 700 kHz ±10% nominal
-clock encompasses the emulator's 683 kHz setting. Its approximately 100 ms reset
-is a reference expectation, not currently an analog model. Oscillator gate pins
-and capacitor values differ from Zander's drawing; do not merge the two revisions.
-
-## Failure counterexamples and waveform replay
-
-A failing bus comparison now records `firstFailureSignals`: the first failing
-vector's signal, synthetic simulation time in ns and observed/expected values.
-`bus.txt` preserves the exact stimulus. Unless `--wave` already captured it, the
-runner automatically replays that stimulus into `bus.vcd`; `bus-wave.log` retains
-replay output. These transaction times are testbench time, not specimen clocks.
-
-Firmware comparisons retain the first serial, raw-LED and sampled-LED divergence,
-including ordinal index, values and **both** CPU clocks. Missing events are explicit
-rather than lost by pairing only the common prefix. Logical comparisons still
-allow CPU phase offsets; sampled-LED comparisons require the scheduled sample time.
-On a data mismatch, the runner replays the real HDL CPU with VCD enabled around
-the earliest divergent event (32 clocks of context on each side), then stops.
-`failureWaveWindow` records the captured interval without aligning the CPUs.
-A coverage-only failure without a differing event captures the initial 1024
-clocks; the report labels that limitation and full `--wave` remains available.
-
-`failure.json` indexes counterexamples, coverage and waveform hashes. Existing
-`report.json`, failure metadata and bus/firmware waveforms are removed at run start,
-so an aborted qualification cannot leave a previous passing report as its result.
-The ordinary test target includes fault injection for read-data, LED and serial
-mismatches, missing events, independent clocks and bounded firmware VCD replay.
-
-## Storage logic boundaries
-
-The DL074 logical model follows the LS74 function table in
-[TI SDLS119, page 1](https://www.ti.com/lit/ds/symlink/sn74ls74a.pdf).
-Preset and clear asserted together drive both outputs high; releasing both
-simultaneously leaves stored state unknown until a valid clock or asynchronous
-control resolves it. Unknown controls and ambiguous clock edges cannot fabricate
-a known state. Pin-level regressions run with the normal board checks.
-This is a functional-family model, not qualified DL074 propagation, metastability
-or supply behavior. A6's asynchronous controls are tied inactive in the reference
-schematic; the conflict tests exercise chip behavior outside ordinary firmware use.
-
-The 8282 uses the transparent-high strobe and independent active-low output enable
-in the [Intel 8282/8283 sheet](https://tvsat.com.pl/PDF/8/8282_intel.pdf).
-An unknown strobe conservatively merges stored and input values bitwise; differing
-bits become unknown. Floating input logic is represented as unknown stored data,
-not as a high-impedance latch output. These are four-state simulation semantics,
-not a model of analog floating-input bias or metastability.
-
-## Experimental CPU read phases
-
-Use an explicit profile and output directory to compare a generated CPU candidate
-against the C emulator with the existing complete S600 stimulus:
+Explicit CPU profiles generate isolated read-phase candidates without modifying
+vendored TV80 sources. For example:
 
 ```sh
 python3 verification/robotron-keyboard/run.py --audit --rom /path/to/s600.bin --cpu-profile falling-indexed-candidate --out build/keyboard-controller-indexed-candidate
 ```
 
-The default remains `tv80`; `falling-candidate` changes the non-M1 operand latch,
-and `falling-indexed-candidate` also changes the DD-CB opcode path. Generated
-CPU sources, their hashes, stimulus results and failure waveforms belong to the
-selected output directory. Vendor sources stay unchanged. Functional agreement
-does not qualify CPU pin timing or the analog board.
+The default remains `tv80`. Candidate functional agreement does not qualify U880
+pin timing or synthesis suitability. The manual `keyboard-cpu-phase.yml` workflow
+retains profile comparisons separately from fast CI. Consult `run.py --help` for
+profile and released-read substitution options. Floating-I/O experiments test
+firmware dependence on released reads; they neither add physical pullups nor
+waive electrical unknown-input failures. Retained analysis states its assumptions
+in [analog/reports/floating-io](analog/reports/floating-io/).
 
-The manual `keyboard-cpu-phase.yml` workflow checks each profile against C and
-compares all recorded HDL serial/LED values and cycles between profiles. It
-retains reports and failure evidence separately from fast CI.
+## Sources and independence
 
-`--floating-io-value 00`, `ff` or `xx` overrides only released I/O reads with
-A15 low. This tests firmware dependence on the digital board's usual FF
-convention; it does not add a physical pullup or change enabled-latch/ROM reads.
-The retained `analog/reports/floating-io/` comparison agrees with C and the
-baseline's recorded serial/LED events for these substitutions. Other input
-patterns, internal-state equivalence and electrical timing remain unqualified.
+- [Zander drawing 56-330-4103-7](https://www.sax.de/~zander/pc1715/pc_tasts.pdf)
+- [Robotron service handbook](https://www.tiffe.de/Robotron/PC1715/PC-1715-Servicemanual.pdf#page=91), printed pp. 89–92
+- [TI 7406](https://www.ti.com/product/SN7406), [LS74 function table](https://www.ti.com/lit/ds/symlink/sn74ls74a.pdf), [Intel 8282/8283](https://tvsat.com.pl/PDF/8/8282_intel.pdf)
+- [TV80 upstream](https://github.com/hutch31/tv80), pinned and licensed in the repository
+
+Published oscillator revisions differ; do not merge them to fit the emulator.
+Chip models, the C emulator, TV80 and firmware provide separate checks with shared
+inputs and explicit boundaries. Specimen firmware, physical copper and measured
+timing remain separate claims.
