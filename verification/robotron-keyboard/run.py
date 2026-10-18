@@ -17,7 +17,7 @@ def main():
  p.add_argument('--cpu-profile',choices=('tv80','falling-candidate','falling-indexed-candidate'),default='tv80')
  p.add_argument('--latch-timing-envelope',action='store_true',help='Intel 8282 reference timing at a 1 MHz fixture clock; requires --rom')
  p.add_argument('--rom-read-envelope',action='store_true',help='Intel 2716 read timing at a 1 MHz fixture clock; requires --rom')
- p.add_argument('--floating-io-value',choices=('00','ff','xx'),help='Sensitivity fixture for released A15-low I/O reads; not a physical pullup')
+ p.add_argument('--floating-io-value',choices=('00','ff','xx','sequence'),help='Sensitivity fixture for released A15-low I/O reads; not a physical pullup')
  a=p.parse_args()
  if a.latch_timing_envelope and not a.rom:p.error('--latch-timing-envelope requires --rom')
  if a.rom_read_envelope and not a.rom:p.error('--rom-read-envelope requires --rom')
@@ -70,8 +70,11 @@ def main():
   report['cpuExperiment']=cpu_experiment
   floating_args=[]
   if a.floating_io_value is not None:
-   floating_args=['-Pfirmware_tb.FLOATING_IO_OVERRIDE=1',"-Pfirmware_tb.FLOATING_IO_VALUE=8'h"+a.floating_io_value]
+   floating_args=['-Pfirmware_tb.FLOATING_IO_OVERRIDE=1']
+   floating_args+=['-Pfirmware_tb.FLOATING_IO_SEQUENCE=1'] if a.floating_io_value=='sequence' else ["-Pfirmware_tb.FLOATING_IO_VALUE=8'h"+a.floating_io_value]
    report['floatingIoExperiment']={'value':a.floating_io_value,'scope':'Override CPU input only during I/O reads with A15 low; all board outputs released by the schematic decode','qualified':False,'boundary':'Sensitivity of this firmware fixture, not measured bus voltage, CPU metastability or exhaustive unknown-input proof'}
+   if a.floating_io_value=='sequence':
+    report['floatingIoExperiment']['sequence']='(73 * readOrdinal + 55) modulo 256; stable during each released read; restart on CPU reset'
   rom_args=[];rom_sources=[]
   board_source=R/'generated/controller.v'
   if a.rom_read_envelope or a.latch_timing_envelope:
@@ -91,6 +94,10 @@ def main():
   args=['vvp',OUT/'firmware.vvp','+rom='+str(OUT/'rom.hex')]
   if a.wave:args+=['+wave='+str(OUT/'firmware.vcd')]
   with (OUT/'firmware-hdl.txt').open('w') as f:run(args,stdout=f,timeout=300)
+  if a.floating_io_value=='sequence':
+   injected=[int(value,16) for value in re.findall(r'^FLOATING_IO \d+ ([0-9a-f]{2})$',(OUT/'firmware-hdl.txt').read_text(),re.M)]
+   report['floatingIoExperiment'].update(reads=len(injected),distinctValues=sorted(set(injected)),completeByteCoverage=len(set(injected))==256)
+   if len(set(injected))!=256:raise ValueError('Released-read sequence did not cover every byte')
   parsed=[]
   for lang in ['c','hdl']:
    lines=(OUT/f'firmware-{lang}.txt').read_text().splitlines()

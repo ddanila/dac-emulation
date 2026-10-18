@@ -3,6 +3,7 @@ module firmware_tb #(
  parameter ROM_READ_ENVELOPE=0,
  parameter CLOCK_HALF_NS=5,
  parameter FLOATING_IO_OVERRIDE=0,
+ parameter FLOATING_IO_SEQUENCE=0,
  parameter [7:0] FLOATING_IO_VALUE=8'hff
 );
  reg clk=0,reset_n=0;always #(CLOCK_HALF_NS) clk=~clk;
@@ -28,9 +29,25 @@ module firmware_tb #(
  end endgenerate
  // Direct CPU input remains a digital fixture; this does not resolve bus
  // contention or output release in SPICE. Clock units must match the ns model.
+ // Advance only after a released read ends, keeping its input byte stable.
+ // The odd multiplier permutes all 256 byte values before repeating.
+ wire released_io_read=mreq_n && !iorq_n && !rd_n && !address[15];
+ reg [7:0] floating_index=0;
+ wire [7:0] floating_sequence_byte=8'd73*floating_index+8'h37;
+ reg floating_active=0;
+ always @(released_io_read or cpu_reset_n) begin
+  if(cpu_reset_n!==1'b1)begin floating_index<=0;floating_active<=0;end
+  else if(FLOATING_IO_OVERRIDE && FLOATING_IO_SEQUENCE) begin
+   if(released_io_read===1'b1)floating_active<=1;
+   else if(released_io_read===1'b0 && floating_active)begin
+    $display("FLOATING_IO %0t %02x",$time,floating_sequence_byte);
+    floating_index<=floating_index+1'b1;floating_active<=0;
+   end
+  end
+ end
  assign di=!mreq_n?rom_read:
            FLOATING_IO_OVERRIDE && !iorq_n && !rd_n && !address[15] ?
-           FLOATING_IO_VALUE:read_data;
+           (FLOATING_IO_SEQUENCE?floating_sequence_byte:FLOATING_IO_VALUE):read_data;
  initial begin
   if(!$value$plusargs("rom=%s",file))$fatal(1,"rom missing");$readmemh(file,rom);
   if($value$plusargs("wave=%s",wave))begin
