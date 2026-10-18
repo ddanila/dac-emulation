@@ -59,6 +59,16 @@ def positive_iterations(value):
     return result
 
 
+def truncation_tolerance(value):
+    try:
+        result = float(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError('Truncation tolerance must be finite and in (0, 1]')
+    if not math.isfinite(result) or not 0 < result <= 1:
+        raise argparse.ArgumentTypeError('Truncation tolerance must be finite and in (0, 1]')
+    return result
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--rom', type=Path, required=True)
@@ -94,6 +104,8 @@ def main():
                        help='Explicit solver tolerance; supply all three, otherwise retain engine defaults')
     p.add_argument('--transient-iterations', type=positive_iterations,
                    help='Explicit ngspice itl4 Newton iteration limit; omit to retain the engine default')
+    p.add_argument('--truncation-tolerance', type=truncation_tolerance,
+                   help='Explicit trtol in (0, 1]; smaller tightens the effective XSPICE default of 1')
     p.add_argument('--integration-method', choices=('trap', 'gear'),
                    help='Explicit numerical integration method; omit to retain the engine default')
     p.add_argument('--maximum-order', type=int, choices=(1, 2),
@@ -154,6 +166,7 @@ def main():
         'minimumBreakpointFs': args.minimum_breakpoint_fs,
         'solverTolerances': solver,
         'transientIterations': args.transient_iterations,
+        'truncationTolerance': args.truncation_tolerance,
         'integrationMethod': args.integration_method,
         'maximumOrder': args.maximum_order,
         'analysisInvocation': 'deck-tran/run' if args.minimum_breakpoint_fs is not None else 'control-tran',
@@ -396,6 +409,8 @@ def main():
             lines.insert(lines.index('.control'), '.options ' + ' '.join(f'{key}={value}' for key,value in solver.items()))
         if args.transient_iterations is not None:
             lines.insert(lines.index('.control'), f'.options itl4={args.transient_iterations}')
+        if args.truncation_tolerance is not None:
+            lines.insert(lines.index('.control'), f'.options trtol={args.truncation_tolerance:g}')
         if args.integration_method is not None:
             lines.insert(lines.index('.control'), f'.options method={args.integration_method}')
         if args.maximum_order is not None:

@@ -1,10 +1,17 @@
 """Explicit numerical controls must not silently combine with unknown defaults."""
 import unittest
 import argparse
-from firmware_io_cosim import solver_tolerances, positive_iterations
+from firmware_io_cosim import solver_tolerances, positive_iterations, truncation_tolerance
 
 
 class ServiceSolverToleranceTests(unittest.TestCase):
+    def test_truncation_control_cannot_loosen_xspice_default(self):
+        self.assertEqual(truncation_tolerance('0.1'), .1)
+        self.assertEqual(truncation_tolerance('1'), 1)
+        for value in ('0', '-1', '7', 'nan', 'inf', 'other'):
+            with self.assertRaises(argparse.ArgumentTypeError):
+                truncation_tolerance(value)
+
     def test_iteration_limit_is_a_positive_integer(self):
         self.assertEqual(positive_iterations('100'), 100)
         for value in ('0', '-1', '1.5', 'nan', 'inf'):
