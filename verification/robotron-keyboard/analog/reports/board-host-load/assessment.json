@@ -1,0 +1,33 @@
+{
+  "qualified": false,
+  "completed": false,
+  "producerSourceRevision": "36a6dbb",
+  "scope": "Closed-board S600 scenario with host network and explicit SIO loads",
+  "outcome": "Execution timed out; no completed waveform or full-board acceptance result",
+  "retainedFilesSha256": {
+    "report.json": "238478af40524133d44a50f3b477fecbffd5f8b5669879e67ab835c6aa7a93e1",
+    "run-inputs.json": "440ce08e3dc61a6d53f783b60bd4fe8c3e8c340af5d875820275785a7bf10abb",
+    "boot.cir": "39ca9e7a86e726bbdb4fc03c400dcf7e4b56f9223c482de6c5de5751e788c6e3",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+    "ngspice.log": "78d56203d77544b352ea5dce85031a27b83fe4b49807509503dc1fb665dc66ab",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282"
+  },
+  "interpretation": "The full scenario timed out without a waveform. An unchanged-circuit first-millisecond diagnostic completed in about 30 seconds, supporting ordinary execution cost as an explanation for the shorter wall-clock limit. It does not prove completion of later startup, reset release or firmware behavior.",
+  "nextAction": "Repeat the full scenario with the normal 7200-second execution allowance; retain the same circuit and timestep and preserve the failed shorter run.",
+  "startupDiagnostic": {
+    "report": "startup-report.json",
+    "reportSha256": "a6a0210380a2e2806cff847af95ed3fd593b571eaa0031087878d9e3a0f333f4",
+    "durationUs": 1000,
+    "elapsedSeconds": 29.751817374999998,
+    "completed": true,
+    "qualified": false,
+    "archive": {
+      "file": "startup-captures.tar.gz",
+      "sha256": "f5d61f000e34090f7addb1a4dac1cf22c2ad51e7e56af10d1c21ce44de17f201",
+      "bytes": 24078108,
+      "roundTripVerified": true,
+      "exclusions": "ROM bytes and compiled HDL executable; their producer hashes remain in the diagnostic report."
+    }
+  }
+}
