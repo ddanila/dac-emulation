@@ -1,0 +1,1483 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Finite-disturbance diagnostic for two generic transistor candidates; not a physical startup test, global stability proof or oscillator qualification.",
+  "finding": "All tested pulses return to the pre-disturbance plateau with no late clock edges. Timestep-paired plateau agreement does not qualify the intervening transient.",
+  "nextQuestion": "Review device dynamics and operating-point applicability; these disturbances provide no evidence for adopting either candidate as the oscillator model.",
+  "runs": {
+    "baseline": {
+      "completed": true,
+      "qualified": false,
+      "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+      "scope": "Reference oscillator with closed BR1, fixed schematic values and ideal 10 ns supply ramp. A 100 ns current pulse at OSC_RC after 10 us probes finite-disturbance recovery. These injected stimuli are not specimen noise or a manufacturer startup test. Late edges and plateau comparisons do not qualify startup, global stability or phase convergence.",
+      "currentConvention": "Positive current removes charge from OSC_RC; negative current injects charge.",
+      "comparisonBudgetVolts": 1e-06,
+      "modelSha256": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "spinitSha256": "93f7e97c38ff1a88a139ad4043a6533338cc4f650aab746d6a559c5c14178fdf",
+      "sources": {
+        "oscillator_disturbance.py": "79612fa3edf1629c34a0cf0eb36b509ab63654e82a583543128757689418cb63",
+        "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+        "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01"
+      },
+      "cases": [
+        {
+          "name": "pulse--0.005A-1e-09s",
+          "amplitudeAmps": -0.005,
+          "stepSeconds": 1e-09,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.996208995082571,
+              "afterVolts": 4.996208995082547,
+              "recoveryDifferenceVolts": 2.398081733190338e-14,
+              "beforeSpanVolts": 5.927702773078636e-12,
+              "afterSpanVolts": 1.4581225116216956e-11,
+              "fullRangeVolts": [
+                1.702902041907401e-26,
+                4.997730687037275
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.996209001847214,
+              "afterVolts": 4.996209001847191,
+              "recoveryDifferenceVolts": 2.3092638912203256e-14,
+              "beforeSpanVolts": 4.005684672847565e-13,
+              "afterSpanVolts": 1.4629186750880763e-11,
+              "fullRangeVolts": [
+                1.7028990010146248e-26,
+                4.997730690981024
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.115777664185613,
+              "afterVolts": 1.1157776641856143,
+              "recoveryDifferenceVolts": 1.3322676295501878e-15,
+              "beforeSpanVolts": 7.149836278586008e-14,
+              "afterSpanVolts": 1.716404796070492e-13,
+              "fullRangeVolts": [
+                -0.654125036098509,
+                3.5115135228360637
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.0924502540420906,
+              "afterVolts": 1.0924502540420902,
+              "recoveryDifferenceVolts": 4.440892098500626e-16,
+              "beforeSpanVolts": 3.7969627442180354e-13,
+              "afterSpanVolts": 3.68816088780477e-13,
+              "fullRangeVolts": [
+                2.517545249358109e-19,
+                2.842259353507694
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2434498143932169,
+              "afterVolts": 0.24344981439321842,
+              "recoveryDifferenceVolts": 1.5265566588595902e-15,
+              "beforeSpanVolts": 6.655787032627813e-14,
+              "afterSpanVolts": 1.7216783554374615e-13,
+              "fullRangeVolts": [
+                -6.619641609182748e-19,
+                3.575994636897802
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse--0.005A-1e-09s.cir": "b67a9c99be15b80f4dac7807cb328d617832c8be59c1d1492d8823a7afcf9562",
+            "pulse--0.005A-1e-09s.log": "b36584dabe8a20570267b7e675d48410185e4071752b631b74722a4abf7bc809",
+            "pulse--0.005A-1e-09s.txt": "dfa3f8f8bd05056be89a75781223b731ae9d6acebfffd9b8a72432172c5226d0"
+          }
+        },
+        {
+          "name": "pulse--0.005A-5e-10s",
+          "amplitudeAmps": -0.005,
+          "stepSeconds": 5e-10,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.996208995179108,
+              "afterVolts": 4.996208995179091,
+              "recoveryDifferenceVolts": 1.687538997430238e-14,
+              "beforeSpanVolts": 2.949640531824116e-12,
+              "afterSpanVolts": 3.533617842776948e-11,
+              "fullRangeVolts": [
+                1.702902041907401e-26,
+                4.997730679912981
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.996209001943753,
+              "afterVolts": 4.996209001943736,
+              "recoveryDifferenceVolts": 1.687538997430238e-14,
+              "beforeSpanVolts": 1.6697754290362354e-13,
+              "afterSpanVolts": 3.2174263253637037e-11,
+              "fullRangeVolts": [
+                1.7028990010146248e-26,
+                4.997730684134379
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1157776641856014,
+              "afterVolts": 1.115777664185601,
+              "recoveryDifferenceVolts": 4.440892098500626e-16,
+              "beforeSpanVolts": 1.0103029524088925e-13,
+              "afterSpanVolts": 3.9412917374193057e-13,
+              "fullRangeVolts": [
+                -0.6541250265576096,
+                3.511512653817884
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.0924502540421759,
+              "afterVolts": 1.0924502540421794,
+              "recoveryDifferenceVolts": 3.552713678800501e-15,
+              "beforeSpanVolts": 4.212186155427844e-13,
+              "afterSpanVolts": 4.4853010194856324e-13,
+              "fullRangeVolts": [
+                2.517545249358109e-19,
+                2.842258084410234
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2434498143932182,
+              "afterVolts": 0.24344981439321714,
+              "recoveryDifferenceVolts": 1.0547118733938987e-15,
+              "beforeSpanVolts": 9.961476088449217e-14,
+              "afterSpanVolts": 3.9274139496114913e-13,
+              "fullRangeVolts": [
+                -6.619641609182748e-19,
+                3.5759946507470364
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse--0.005A-5e-10s.cir": "0a29ac75c3eb95b30c2f43cfebf33aca80f243bd63c594ccfe1c36768fc720d6",
+            "pulse--0.005A-5e-10s.log": "16b7c3dbcb34ba9ed86e6ec77e08aaf313a0fcb9d1e24506c8d30dcd7a431c4d",
+            "pulse--0.005A-5e-10s.txt": "cf35d7b30661066f369f42857b630e78a8911d4841c1fd71c94e231ad5e2f218"
+          }
+        },
+        {
+          "name": "pulse--0.001A-1e-09s",
+          "amplitudeAmps": -0.001,
+          "stepSeconds": 1e-09,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.996208995082571,
+              "afterVolts": 4.99620899508249,
+              "recoveryDifferenceVolts": 8.08242361927114e-14,
+              "beforeSpanVolts": 5.927702773078636e-12,
+              "afterSpanVolts": 4.1872283418342704e-11,
+              "fullRangeVolts": [
+                1.702902041907401e-26,
+                4.99693992026412
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.996209001847214,
+              "afterVolts": 4.9962090018471335,
+              "recoveryDifferenceVolts": 8.08242361927114e-14,
+              "beforeSpanVolts": 4.005684672847565e-13,
+              "afterSpanVolts": 4.006484033425295e-11,
+              "fullRangeVolts": [
+                1.7028990010146248e-26,
+                4.996939925826113
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.115777664185613,
+              "afterVolts": 1.1157776641856145,
+              "recoveryDifferenceVolts": 1.5543122344752192e-15,
+              "beforeSpanVolts": 7.149836278586008e-14,
+              "afterSpanVolts": 1.7008616737257398e-13,
+              "fullRangeVolts": [
+                -0.654125036098509,
+                3.1904254433705517
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.0924502540420906,
+              "afterVolts": 1.0924502540420906,
+              "recoveryDifferenceVolts": 0.0,
+              "beforeSpanVolts": 3.7969627442180354e-13,
+              "afterSpanVolts": 8.055778266680136e-13,
+              "fullRangeVolts": [
+                2.517545249358109e-19,
+                2.842259353507694
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2434498143932169,
+              "afterVolts": 0.2434498143932177,
+              "recoveryDifferenceVolts": 8.049116928532385e-16,
+              "beforeSpanVolts": 6.655787032627813e-14,
+              "afterSpanVolts": 1.650068970349139e-13,
+              "fullRangeVolts": [
+                -6.619641609182748e-19,
+                3.575994607297108
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse--0.001A-1e-09s.cir": "c42d429c2b3274fcfcb4246729dd6180537ae709230773f33e0beb8c0bfee9e9",
+            "pulse--0.001A-1e-09s.log": "ffaa166be2efb07fdebb318bc7813eba0a7fe2e453b70425689638a2dda2d699",
+            "pulse--0.001A-1e-09s.txt": "490eb4f1fd597a1f1b7ec58613d7ca8d95153c02d29d7af4c14dc5bc0b75038a"
+          }
+        },
+        {
+          "name": "pulse--0.001A-5e-10s",
+          "amplitudeAmps": -0.001,
+          "stepSeconds": 5e-10,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.996208995179108,
+              "afterVolts": 4.996208995179248,
+              "recoveryDifferenceVolts": 1.3944401189291966e-13,
+              "beforeSpanVolts": 2.949640531824116e-12,
+              "afterSpanVolts": 1.98516758587175e-11,
+              "fullRangeVolts": [
+                1.702902041907401e-26,
+                4.996939898022487
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.996209001943753,
+              "afterVolts": 4.9962090019438925,
+              "recoveryDifferenceVolts": 1.3944401189291966e-13,
+              "beforeSpanVolts": 1.6697754290362354e-13,
+              "afterSpanVolts": 1.8034462812011043e-11,
+              "fullRangeVolts": [
+                1.7028990010146248e-26,
+                4.996939903236522
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1157776641856014,
+              "afterVolts": 1.1157776641856008,
+              "recoveryDifferenceVolts": 6.661338147750939e-16,
+              "beforeSpanVolts": 1.0103029524088925e-13,
+              "afterSpanVolts": 1.8895995879120164e-13,
+              "fullRangeVolts": [
+                -0.6541250430707508,
+                3.1904258129450813
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.0924502540421759,
+              "afterVolts": 1.0924502540421805,
+              "recoveryDifferenceVolts": 4.6629367034256575e-15,
+              "beforeSpanVolts": 4.212186155427844e-13,
+              "afterSpanVolts": 4.154454558147336e-13,
+              "fullRangeVolts": [
+                2.517545249358109e-19,
+                2.8422595413932856
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2434498143932182,
+              "afterVolts": 0.2434498143932164,
+              "recoveryDifferenceVolts": 1.8041124150158794e-15,
+              "beforeSpanVolts": 9.961476088449217e-14,
+              "afterSpanVolts": 1.9423351815817114e-13,
+              "fullRangeVolts": [
+                -6.619641609182748e-19,
+                3.5759946507470364
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse--0.001A-5e-10s.cir": "82193e447dc039f65cb4bb0144ce60b98b9a1189c792bbdaa40d29e925aa9fe1",
+            "pulse--0.001A-5e-10s.log": "27fd31cb512bab5b718e076ebba8ac6de814b9d9bab0f505a76272f31c229ff3",
+            "pulse--0.001A-5e-10s.txt": "1d73d9fc50999e240a83fbc8a088b3a2b921427ed7235d01c895affcc11b8e4e"
+          }
+        },
+        {
+          "name": "pulse-+0A-1e-09s",
+          "amplitudeAmps": 0,
+          "stepSeconds": 1e-09,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.996208995082571,
+              "afterVolts": 4.996208995082531,
+              "recoveryDifferenceVolts": 3.9968028886505635e-14,
+              "beforeSpanVolts": 5.927702773078636e-12,
+              "afterSpanVolts": 3.227729195032225e-11,
+              "fullRangeVolts": [
+                1.702902041907401e-26,
+                4.996208995114668
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.996209001847214,
+              "afterVolts": 4.996209001847174,
+              "recoveryDifferenceVolts": 3.9968028886505635e-14,
+              "beforeSpanVolts": 4.005684672847565e-13,
+              "afterSpanVolts": 3.227729195032225e-11,
+              "fullRangeVolts": [
+                1.7028990010146248e-26,
+                4.996209001879311
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.115777664185613,
+              "afterVolts": 1.115777664185615,
+              "recoveryDifferenceVolts": 1.9984014443252818e-15,
+              "beforeSpanVolts": 7.149836278586008e-14,
+              "afterSpanVolts": 2.702282841937631e-13,
+              "fullRangeVolts": [
+                -0.654125036098509,
+                2.55056476185215
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.0924502540420906,
+              "afterVolts": 1.0924502540420897,
+              "recoveryDifferenceVolts": 8.881784197001252e-16,
+              "beforeSpanVolts": 3.7969627442180354e-13,
+              "afterSpanVolts": 4.902744876744691e-13,
+              "fullRangeVolts": [
+                2.517545249358109e-19,
+                2.842259353507694
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2434498143932169,
+              "afterVolts": 0.2434498143932175,
+              "recoveryDifferenceVolts": 6.106226635438361e-16,
+              "beforeSpanVolts": 6.655787032627813e-14,
+              "afterSpanVolts": 2.6997848401322244e-13,
+              "fullRangeVolts": [
+                -6.619641609182748e-19,
+                3.575994607297108
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0A-1e-09s.cir": "747d8c37afef7e99afdfcd95e9e0fee60e94c916fb12d4c1450a4fe79ef2b8a1",
+            "pulse-+0A-1e-09s.log": "907223217ffcaf562f57effef1bb5ae4498599d190812ba7f134d514f4792c6b",
+            "pulse-+0A-1e-09s.txt": "4d45b4360f83b90f252bd92663d43fd2550b52f2ba960705f7c7eb5282c69191"
+          }
+        },
+        {
+          "name": "pulse-+0A-5e-10s",
+          "amplitudeAmps": 0,
+          "stepSeconds": 5e-10,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.996208995179108,
+              "afterVolts": 4.9962089951791135,
+              "recoveryDifferenceVolts": 5.329070518200751e-15,
+              "beforeSpanVolts": 2.949640531824116e-12,
+              "afterSpanVolts": 1.5191403690550942e-11,
+              "fullRangeVolts": [
+                1.702902041907401e-26,
+                4.996208995227523
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.996209001943753,
+              "afterVolts": 4.9962090019437575,
+              "recoveryDifferenceVolts": 4.440892098500626e-15,
+              "beforeSpanVolts": 1.6697754290362354e-13,
+              "afterSpanVolts": 1.5191403690550942e-11,
+              "fullRangeVolts": [
+                1.7028990010146248e-26,
+                4.996209001990736
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1157776641856014,
+              "afterVolts": 1.1157776641856012,
+              "recoveryDifferenceVolts": 2.220446049250313e-16,
+              "beforeSpanVolts": 1.0103029524088925e-13,
+              "afterSpanVolts": 1.8451906669270102e-13,
+              "fullRangeVolts": [
+                -0.6541247373722295,
+                2.550564292090288
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.0924502540421759,
+              "afterVolts": 1.0924502540421774,
+              "recoveryDifferenceVolts": 1.5543122344752192e-15,
+              "beforeSpanVolts": 4.212186155427844e-13,
+              "afterSpanVolts": 4.46753745109163e-13,
+              "fullRangeVolts": [
+                2.517545249358109e-19,
+                2.842256867000699
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2434498143932182,
+              "afterVolts": 0.24344981439321842,
+              "recoveryDifferenceVolts": 2.220446049250313e-16,
+              "beforeSpanVolts": 9.961476088449217e-14,
+              "afterSpanVolts": 1.823818873702976e-13,
+              "fullRangeVolts": [
+                -6.619641609182748e-19,
+                3.5759946507470364
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0A-5e-10s.cir": "ca28371b9fb425897c5978838910bd89d279519d04da30ccb56cf87cb47b64a9",
+            "pulse-+0A-5e-10s.log": "f65fe1862e61e25c8a0a9a636c01fa4cb987d625fd246065d7e19888914eaaf2",
+            "pulse-+0A-5e-10s.txt": "4a2c98c63ab576f3cd88b65c1c76e0df3259f07ade15379280b3aa808f58a38b"
+          }
+        },
+        {
+          "name": "pulse-+0.001A-1e-09s",
+          "amplitudeAmps": 0.001,
+          "stepSeconds": 1e-09,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.996208995082571,
+              "afterVolts": 4.996208995082538,
+              "recoveryDifferenceVolts": 3.2862601528904634e-14,
+              "beforeSpanVolts": 5.927702773078636e-12,
+              "afterSpanVolts": 1.9477752744023746e-11,
+              "fullRangeVolts": [
+                1.702902041907401e-26,
+                4.996473913809225
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.996209001847214,
+              "afterVolts": 4.996209001847181,
+              "recoveryDifferenceVolts": 3.2862601528904634e-14,
+              "beforeSpanVolts": 4.005684672847565e-13,
+              "afterSpanVolts": 1.9477752744023746e-11,
+              "fullRangeVolts": [
+                1.7028990010146248e-26,
+                4.99647392009605
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.115777664185613,
+              "afterVolts": 1.115777664185615,
+              "recoveryDifferenceVolts": 1.9984014443252818e-15,
+              "beforeSpanVolts": 7.149836278586008e-14,
+              "afterSpanVolts": 1.907363156306019e-13,
+              "fullRangeVolts": [
+                -0.654125036098509,
+                2.55056476185215
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.0924502540420906,
+              "afterVolts": 1.0924502540420924,
+              "recoveryDifferenceVolts": 1.7763568394002505e-15,
+              "beforeSpanVolts": 3.7969627442180354e-13,
+              "afterSpanVolts": 5.46451772720502e-13,
+              "fullRangeVolts": [
+                2.517545249358109e-19,
+                2.842259353507694
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2434498143932169,
+              "afterVolts": 0.24344981439321775,
+              "recoveryDifferenceVolts": 8.604228440844963e-16,
+              "beforeSpanVolts": 6.655787032627813e-14,
+              "afterSpanVolts": 1.900701818158268e-13,
+              "fullRangeVolts": [
+                -6.619641609182748e-19,
+                3.575994607297108
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0.001A-1e-09s.cir": "680e967aefe6f4bcf64d3b81267a2d39d2442b114988af100335301de2f8141f",
+            "pulse-+0.001A-1e-09s.log": "d3fa39832b967ab684abd9bb737f51de074d262f716a0521a78d37639cb987ab",
+            "pulse-+0.001A-1e-09s.txt": "ef4fc6abd7f816f5bdde47aeb04348df3ad96952e1ebbe00ea5d44ad271c39cc"
+          }
+        },
+        {
+          "name": "pulse-+0.001A-5e-10s",
+          "amplitudeAmps": 0.001,
+          "stepSeconds": 5e-10,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.996208995179108,
+              "afterVolts": 4.996208995179299,
+              "recoveryDifferenceVolts": 1.9095836023552692e-13,
+              "beforeSpanVolts": 2.949640531824116e-12,
+              "afterSpanVolts": 6.943778885215579e-12,
+              "fullRangeVolts": [
+                1.702902041907401e-26,
+                4.996473904749855
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.996209001943753,
+              "afterVolts": 4.996209001943944,
+              "recoveryDifferenceVolts": 1.9095836023552692e-13,
+              "beforeSpanVolts": 1.6697754290362354e-13,
+              "afterSpanVolts": 6.942890706795879e-12,
+              "fullRangeVolts": [
+                1.7028990010146248e-26,
+                4.996473911077614
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1157776641856014,
+              "afterVolts": 1.115777664185601,
+              "recoveryDifferenceVolts": 4.440892098500626e-16,
+              "beforeSpanVolts": 1.0103029524088925e-13,
+              "afterSpanVolts": 1.4099832412739488e-13,
+              "fullRangeVolts": [
+                -0.6541247373722295,
+                2.550564292090288
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.0924502540421759,
+              "afterVolts": 1.0924502540421805,
+              "recoveryDifferenceVolts": 4.6629367034256575e-15,
+              "beforeSpanVolts": 4.212186155427844e-13,
+              "afterSpanVolts": 4.816147480823929e-13,
+              "fullRangeVolts": [
+                2.517545249358109e-19,
+                2.842256867000699
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2434498143932182,
+              "afterVolts": 0.24344981439321475,
+              "recoveryDifferenceVolts": 3.4416913763379853e-15,
+              "beforeSpanVolts": 9.961476088449217e-14,
+              "afterSpanVolts": 1.364186541508161e-13,
+              "fullRangeVolts": [
+                -6.619641609182748e-19,
+                3.5759946507470364
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0.001A-5e-10s.cir": "8ec01d93a7465e5af2ca1463dc92e8da51ad8832488ffc4dba4a9f6f93d6fd24",
+            "pulse-+0.001A-5e-10s.log": "2aa70414f0be3c52cd675c9b2a232b7eb6b5787b3c610afd07979545d1934a7f",
+            "pulse-+0.001A-5e-10s.txt": "56f8fc9047d172856a2d3a99963883bb26bdb4de68ef45598dc168602bb3dedf"
+          }
+        },
+        {
+          "name": "pulse-+0.005A-1e-09s",
+          "amplitudeAmps": 0.005,
+          "stepSeconds": 1e-09,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.996208995082571,
+              "afterVolts": 4.99620899508256,
+              "recoveryDifferenceVolts": 1.1546319456101628e-14,
+              "beforeSpanVolts": 5.927702773078636e-12,
+              "afterSpanVolts": 1.1531220422966726e-11,
+              "fullRangeVolts": [
+                1.702902041907401e-26,
+                4.999404171603705
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.996209001847214,
+              "afterVolts": 4.996209001847204,
+              "recoveryDifferenceVolts": 1.0658141036401503e-14,
+              "beforeSpanVolts": 4.005684672847565e-13,
+              "afterSpanVolts": 1.1534773136645526e-11,
+              "fullRangeVolts": [
+                1.7028990010146248e-26,
+                4.999404172597148
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.115777664185613,
+              "afterVolts": 1.1157776641856134,
+              "recoveryDifferenceVolts": 4.440892098500626e-16,
+              "beforeSpanVolts": 7.149836278586008e-14,
+              "afterSpanVolts": 1.290079154614432e-13,
+              "fullRangeVolts": [
+                -0.654125036098509,
+                2.55056476185215
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.0924502540420906,
+              "afterVolts": 1.0924502540420868,
+              "recoveryDifferenceVolts": 3.774758283725532e-15,
+              "beforeSpanVolts": 3.7969627442180354e-13,
+              "afterSpanVolts": 4.150013666048835e-13,
+              "fullRangeVolts": [
+                2.517545249358109e-19,
+                2.842259353507694
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2434498143932169,
+              "afterVolts": 0.24344981439321686,
+              "recoveryDifferenceVolts": 2.7755575615628914e-17,
+              "beforeSpanVolts": 6.655787032627813e-14,
+              "afterSpanVolts": 1.295075158225245e-13,
+              "fullRangeVolts": [
+                -0.2279459678380367,
+                3.575994607297108
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0.005A-1e-09s.cir": "93b34a1289810b58ba765c6254afbbf425b17b38a291b116826ed2c97ae1182f",
+            "pulse-+0.005A-1e-09s.log": "5cba0d9bcd373162fedbeebba2fa381b9152d009a37adc145af2ba2d41341644",
+            "pulse-+0.005A-1e-09s.txt": "3f1354c2a37b08214e82165cfecace02604184509e8173ebef45b11d5e8559bd"
+          }
+        },
+        {
+          "name": "pulse-+0.005A-5e-10s",
+          "amplitudeAmps": 0.005,
+          "stepSeconds": 5e-10,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.996208995179108,
+              "afterVolts": 4.996208995179094,
+              "recoveryDifferenceVolts": 1.4210854715202004e-14,
+              "beforeSpanVolts": 2.949640531824116e-12,
+              "afterSpanVolts": 2.0512480602974392e-11,
+              "fullRangeVolts": [
+                1.702902041907401e-26,
+                4.99940416648356
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.996209001943753,
+              "afterVolts": 4.996209001943738,
+              "recoveryDifferenceVolts": 1.509903313490213e-14,
+              "beforeSpanVolts": 1.6697754290362354e-13,
+              "afterSpanVolts": 1.994049370068751e-11,
+              "fullRangeVolts": [
+                1.7028990010146248e-26,
+                4.999404167459531
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1157776641856014,
+              "afterVolts": 1.1157776641856008,
+              "recoveryDifferenceVolts": 6.661338147750939e-16,
+              "beforeSpanVolts": 1.0103029524088925e-13,
+              "afterSpanVolts": 1.3433698597964394e-13,
+              "fullRangeVolts": [
+                -0.6541247373722295,
+                2.550564292090288
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.0924502540421759,
+              "afterVolts": 1.0924502540421825,
+              "recoveryDifferenceVolts": 6.661338147750939e-15,
+              "beforeSpanVolts": 4.212186155427844e-13,
+              "afterSpanVolts": 4.4653170050423796e-13,
+              "fullRangeVolts": [
+                2.517545249358109e-19,
+                2.842256867000699
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2434498143932182,
+              "afterVolts": 0.24344981439321586,
+              "recoveryDifferenceVolts": 2.3314683517128287e-15,
+              "beforeSpanVolts": 9.961476088449217e-14,
+              "afterSpanVolts": 1.323663401109343e-13,
+              "fullRangeVolts": [
+                -0.227945205195399,
+                3.5759946507470364
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0.005A-5e-10s.cir": "343befd52ac72e0a408ffcec9871cb7a2867aa52d662ed788942e05d84302c7a",
+            "pulse-+0.005A-5e-10s.log": "cb6cfb6718be15e2f48761bca7949babb1a1b297a5c5677798e2d87d9f706e57",
+            "pulse-+0.005A-5e-10s.txt": "59cd5207daf2fdf48534d5decd4ad075d448760976f08a68b9bf06a774ead422"
+          }
+        }
+      ],
+      "pairs": [
+        {
+          "amplitudeAmps": -0.005,
+          "maximumPlateauDifferenceVolts": 9.654499422140361e-11,
+          "plateausWithinNumericalBudget": true
+        },
+        {
+          "amplitudeAmps": -0.001,
+          "maximumPlateauDifferenceVolts": 9.675904522055134e-11,
+          "plateausWithinNumericalBudget": true
+        },
+        {
+          "amplitudeAmps": 0,
+          "maximumPlateauDifferenceVolts": 9.658318589345072e-11,
+          "plateausWithinNumericalBudget": true
+        },
+        {
+          "amplitudeAmps": 0.001,
+          "maximumPlateauDifferenceVolts": 9.676259793423014e-11,
+          "plateausWithinNumericalBudget": true
+        },
+        {
+          "amplitudeAmps": 0.005,
+          "maximumPlateauDifferenceVolts": 9.653877697246571e-11,
+          "plateausWithinNumericalBudget": true
+        }
+      ]
+    },
+    "sink-re10": {
+      "completed": true,
+      "qualified": false,
+      "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+      "scope": "Reference oscillator with closed BR1, fixed schematic values and ideal 10 ns supply ramp. A 100 ns current pulse at OSC_RC after 10 us probes finite-disturbance recovery. These injected stimuli are not specimen noise or a manufacturer startup test. Late edges and plateau comparisons do not qualify startup, global stability or phase convergence.",
+      "currentConvention": "Positive current removes charge from OSC_RC; negative current injects charge.",
+      "comparisonBudgetVolts": 1e-06,
+      "modelSha256": "f7de01e3966394524533c1f84bf17714a317d7b0747a0e916c3660c39a89f9f8",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "spinitSha256": "93f7e97c38ff1a88a139ad4043a6533338cc4f650aab746d6a559c5c14178fdf",
+      "sources": {
+        "oscillator_disturbance.py": "79612fa3edf1629c34a0cf0eb36b509ab63654e82a583543128757689418cb63",
+        "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+        "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01"
+      },
+      "cases": [
+        {
+          "name": "pulse--0.005A-1e-09s",
+          "amplitudeAmps": -0.005,
+          "stepSeconds": 1e-09,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.9959883368552,
+              "afterVolts": 4.995988336855183,
+              "recoveryDifferenceVolts": 1.687538997430238e-14,
+              "beforeSpanVolts": 1.7763568394002505e-13,
+              "afterSpanVolts": 2.7555735471196385e-11,
+              "fullRangeVolts": [
+                -1.4005527606135116e-42,
+                4.997420849043223
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.995988344013876,
+              "afterVolts": 4.995988344013859,
+              "recoveryDifferenceVolts": 1.687538997430238e-14,
+              "beforeSpanVolts": 1.7763568394002505e-13,
+              "afterSpanVolts": 2.7555735471196385e-11,
+              "fullRangeVolts": [
+                -1.4005502596295047e-42,
+                4.9974208540335185
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1588743257310614,
+              "afterVolts": 1.1588743257310614,
+              "recoveryDifferenceVolts": 0.0,
+              "beforeSpanVolts": 6.994405055138486e-14,
+              "afterSpanVolts": 2.05613304160579e-13,
+              "fullRangeVolts": [
+                -0.5547313782593118,
+                3.6057741595867703
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.1360060026426184,
+              "afterVolts": 1.136006002642617,
+              "recoveryDifferenceVolts": 1.3322676295501878e-15,
+              "beforeSpanVolts": 3.5571545708990016e-13,
+              "afterSpanVolts": 3.89910326248355e-13,
+              "fullRangeVolts": [
+                1.581339095708069e-19,
+                2.842519843041428
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.24988854204422833,
+              "afterVolts": 0.2498885420442281,
+              "recoveryDifferenceVolts": 2.220446049250313e-16,
+              "beforeSpanVolts": 6.75848266240564e-14,
+              "afterSpanVolts": 1.9922952176898434e-13,
+              "fullRangeVolts": [
+                2.554418358460697e-19,
+                3.578547035857066
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse--0.005A-1e-09s.cir": "b67a9c99be15b80f4dac7807cb328d617832c8be59c1d1492d8823a7afcf9562",
+            "pulse--0.005A-1e-09s.log": "194a2a1a5a8559eae26dd800c1e6c91f4dd170969c3798599c16a864e19e5db6",
+            "pulse--0.005A-1e-09s.txt": "ab9a11089c407befb99ac542acb3f46bcff57311899a49c5265310a04bd761ad"
+          }
+        },
+        {
+          "name": "pulse--0.005A-5e-10s",
+          "amplitudeAmps": -0.005,
+          "stepSeconds": 5e-10,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.99598833717097,
+              "afterVolts": 4.995988337170902,
+              "recoveryDifferenceVolts": 6.750155989720952e-14,
+              "beforeSpanVolts": 4.60964599824365e-13,
+              "afterSpanVolts": 5.084999088467157e-11,
+              "fullRangeVolts": [
+                -1.4005527606135116e-42,
+                4.997420853781983
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.995988344329645,
+              "afterVolts": 4.995988344329578,
+              "recoveryDifferenceVolts": 6.750155989720952e-14,
+              "beforeSpanVolts": 4.60964599824365e-13,
+              "afterSpanVolts": 5.084999088467157e-11,
+              "fullRangeVolts": [
+                -1.4005502596295047e-42,
+                4.997420858002515
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1588743257310854,
+              "afterVolts": 1.158874325731085,
+              "recoveryDifferenceVolts": 4.440892098500626e-16,
+              "beforeSpanVolts": 1.2279066652354231e-13,
+              "afterSpanVolts": 5.688782778179302e-13,
+              "fullRangeVolts": [
+                -0.5547313793506167,
+                3.605773914668119
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.1360060026426078,
+              "afterVolts": 1.1360060026426104,
+              "recoveryDifferenceVolts": 2.6645352591003757e-15,
+              "beforeSpanVolts": 3.950173521616307e-13,
+              "afterSpanVolts": 5.468958619303521e-13,
+              "fullRangeVolts": [
+                1.581339095708069e-19,
+                2.842519947674265
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2498885420442466,
+              "afterVolts": 0.24988854204424615,
+              "recoveryDifferenceVolts": 4.440892098500626e-16,
+              "beforeSpanVolts": 1.2559397966072083e-13,
+              "afterSpanVolts": 5.735967256725871e-13,
+              "fullRangeVolts": [
+                2.554418358460697e-19,
+                3.5785468396613274
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse--0.005A-5e-10s.cir": "0a29ac75c3eb95b30c2f43cfebf33aca80f243bd63c594ccfe1c36768fc720d6",
+            "pulse--0.005A-5e-10s.log": "9f0f7c0fabda50758479332358aedbc529b7bb519fe80831436e9365a3f3c317",
+            "pulse--0.005A-5e-10s.txt": "beb9ec0410843688ae86f02ecea06f06fec6cdcab819afd05c0945802e17e183"
+          }
+        },
+        {
+          "name": "pulse--0.001A-1e-09s",
+          "amplitudeAmps": -0.001,
+          "stepSeconds": 1e-09,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.9959883368552,
+              "afterVolts": 4.995988336855203,
+              "recoveryDifferenceVolts": 2.6645352591003757e-15,
+              "beforeSpanVolts": 1.7763568394002505e-13,
+              "afterSpanVolts": 1.8634871423728327e-11,
+              "fullRangeVolts": [
+                -1.4005527606135116e-42,
+                4.996477645648724
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.995988344013876,
+              "afterVolts": 4.995988344013878,
+              "recoveryDifferenceVolts": 2.6645352591003757e-15,
+              "beforeSpanVolts": 1.7763568394002505e-13,
+              "afterSpanVolts": 1.8634871423728327e-11,
+              "fullRangeVolts": [
+                -1.4005502596295047e-42,
+                4.9964776517689735
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1588743257310614,
+              "afterVolts": 1.1588743257310614,
+              "recoveryDifferenceVolts": 0.0,
+              "beforeSpanVolts": 6.994405055138486e-14,
+              "afterSpanVolts": 3.3928415632544784e-13,
+              "fullRangeVolts": [
+                -0.5547313797787522,
+                3.278905460186885
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.1360060026426184,
+              "afterVolts": 1.1360060026426184,
+              "recoveryDifferenceVolts": 0.0,
+              "beforeSpanVolts": 3.5571545708990016e-13,
+              "afterSpanVolts": 3.9612757518625585e-13,
+              "fullRangeVolts": [
+                1.581339095708069e-19,
+                2.8425199966501657
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.24988854204422833,
+              "afterVolts": 0.24988854204422828,
+              "recoveryDifferenceVolts": 5.551115123125783e-17,
+              "beforeSpanVolts": 6.75848266240564e-14,
+              "afterSpanVolts": 3.3920088959860095e-13,
+              "fullRangeVolts": [
+                2.554418358460697e-19,
+                3.578547035857066
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse--0.001A-1e-09s.cir": "c42d429c2b3274fcfcb4246729dd6180537ae709230773f33e0beb8c0bfee9e9",
+            "pulse--0.001A-1e-09s.log": "b4b54d3cbc1d92ab13a18d8c9934e52fd08decf4c907c011e2df928fb6aa3054",
+            "pulse--0.001A-1e-09s.txt": "59e2171290e94788c661598c5312d5ed58f9c33c8bc818f2969f46ca8500c0f4"
+          }
+        },
+        {
+          "name": "pulse--0.001A-5e-10s",
+          "amplitudeAmps": -0.001,
+          "stepSeconds": 5e-10,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.99598833717097,
+              "afterVolts": 4.995988337170909,
+              "recoveryDifferenceVolts": 6.128431095930864e-14,
+              "beforeSpanVolts": 4.60964599824365e-13,
+              "afterSpanVolts": 2.603695037350917e-11,
+              "fullRangeVolts": [
+                -1.4005527606135116e-42,
+                4.996477619364572
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.995988344329645,
+              "afterVolts": 4.995988344329583,
+              "recoveryDifferenceVolts": 6.217248937900877e-14,
+              "beforeSpanVolts": 4.60964599824365e-13,
+              "afterSpanVolts": 2.603695037350917e-11,
+              "fullRangeVolts": [
+                -1.4005502596295047e-42,
+                4.996477625366594
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1588743257310854,
+              "afterVolts": 1.1588743257310847,
+              "recoveryDifferenceVolts": 6.661338147750939e-16,
+              "beforeSpanVolts": 1.2279066652354231e-13,
+              "afterSpanVolts": 2.560174294785611e-13,
+              "fullRangeVolts": [
+                -0.5547314036164445,
+                3.278905114687118
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.1360060026426078,
+              "afterVolts": 1.1360060026426093,
+              "recoveryDifferenceVolts": 1.5543122344752192e-15,
+              "beforeSpanVolts": 3.950173521616307e-13,
+              "afterSpanVolts": 3.6770586575585185e-13,
+              "fullRangeVolts": [
+                1.581339095708069e-19,
+                2.8425215310638876
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2498885420442466,
+              "afterVolts": 0.24988854204424643,
+              "recoveryDifferenceVolts": 1.6653345369377348e-16,
+              "beforeSpanVolts": 1.2559397966072083e-13,
+              "afterSpanVolts": 2.561284517810236e-13,
+              "fullRangeVolts": [
+                2.554418358460697e-19,
+                3.5785470118322475
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse--0.001A-5e-10s.cir": "82193e447dc039f65cb4bb0144ce60b98b9a1189c792bbdaa40d29e925aa9fe1",
+            "pulse--0.001A-5e-10s.log": "d15f76a947b23388a25522c256926ff066489c8f2c5ea4e70cb5f868c87b9e9a",
+            "pulse--0.001A-5e-10s.txt": "2e6f1c4daaf6c002805289a7482bc7417b5896798208e9de6a4aceebbd7c1da4"
+          }
+        },
+        {
+          "name": "pulse-+0A-1e-09s",
+          "amplitudeAmps": 0,
+          "stepSeconds": 1e-09,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.9959883368552,
+              "afterVolts": 4.995988336855221,
+              "recoveryDifferenceVolts": 2.042810365310288e-14,
+              "beforeSpanVolts": 1.7763568394002505e-13,
+              "afterSpanVolts": 3.445776997068606e-11,
+              "fullRangeVolts": [
+                -1.4005527606135116e-42,
+                4.995988336889579
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.995988344013876,
+              "afterVolts": 4.995988344013896,
+              "recoveryDifferenceVolts": 2.042810365310288e-14,
+              "beforeSpanVolts": 1.7763568394002505e-13,
+              "afterSpanVolts": 3.445776997068606e-11,
+              "fullRangeVolts": [
+                -1.4005502596295047e-42,
+                4.995988344048254
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1588743257310614,
+              "afterVolts": 1.1588743257310619,
+              "recoveryDifferenceVolts": 4.440892098500626e-16,
+              "beforeSpanVolts": 6.994405055138486e-14,
+              "afterSpanVolts": 3.3439917501709715e-13,
+              "fullRangeVolts": [
+                -0.5547313782593118,
+                2.5923415305997923
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.1360060026426184,
+              "afterVolts": 1.136006002642616,
+              "recoveryDifferenceVolts": 2.4424906541753444e-15,
+              "beforeSpanVolts": 3.5571545708990016e-13,
+              "afterSpanVolts": 4.709566070459914e-13,
+              "fullRangeVolts": [
+                1.581339095708069e-19,
+                2.842519843041428
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.24988854204422833,
+              "afterVolts": 0.24988854204422822,
+              "recoveryDifferenceVolts": 1.1102230246251565e-16,
+              "beforeSpanVolts": 6.75848266240564e-14,
+              "afterSpanVolts": 3.4100500201361683e-13,
+              "fullRangeVolts": [
+                2.554418358460697e-19,
+                3.578547035857066
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0A-1e-09s.cir": "747d8c37afef7e99afdfcd95e9e0fee60e94c916fb12d4c1450a4fe79ef2b8a1",
+            "pulse-+0A-1e-09s.log": "06e046daba5005db270f891a7e42620b0f333583b27a31be00633a984e93b97a",
+            "pulse-+0A-1e-09s.txt": "ae61fba001e17bf7411c9029f5acfb7882ca9bfa3defb7220e0afa3bafc73374"
+          }
+        },
+        {
+          "name": "pulse-+0A-5e-10s",
+          "amplitudeAmps": 0,
+          "stepSeconds": 5e-10,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.99598833717097,
+              "afterVolts": 4.995988337170986,
+              "recoveryDifferenceVolts": 1.5987211554602254e-14,
+              "beforeSpanVolts": 4.60964599824365e-13,
+              "afterSpanVolts": 1.708144736767281e-11,
+              "fullRangeVolts": [
+                -1.4005527606135116e-42,
+                4.995988337171628
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.995988344329645,
+              "afterVolts": 4.995988344329661,
+              "recoveryDifferenceVolts": 1.5987211554602254e-14,
+              "beforeSpanVolts": 4.60964599824365e-13,
+              "afterSpanVolts": 1.708144736767281e-11,
+              "fullRangeVolts": [
+                -1.4005502596295047e-42,
+                4.9959883443303035
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1588743257310854,
+              "afterVolts": 1.1588743257310847,
+              "recoveryDifferenceVolts": 6.661338147750939e-16,
+              "beforeSpanVolts": 1.2279066652354231e-13,
+              "afterSpanVolts": 2.2715163083830703e-13,
+              "fullRangeVolts": [
+                -0.5547313793506167,
+                2.5923420879682024
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.1360060026426078,
+              "afterVolts": 1.1360060026426129,
+              "recoveryDifferenceVolts": 5.10702591327572e-15,
+              "beforeSpanVolts": 3.950173521616307e-13,
+              "afterSpanVolts": 4.0745185003743245e-13,
+              "fullRangeVolts": [
+                1.581339095708069e-19,
+                2.842519947674265
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2498885420442466,
+              "afterVolts": 0.24988854204424749,
+              "recoveryDifferenceVolts": 8.881784197001252e-16,
+              "beforeSpanVolts": 1.2559397966072083e-13,
+              "afterSpanVolts": 2.3483992528383624e-13,
+              "fullRangeVolts": [
+                2.554418358460697e-19,
+                3.5785468143027828
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0A-5e-10s.cir": "ca28371b9fb425897c5978838910bd89d279519d04da30ccb56cf87cb47b64a9",
+            "pulse-+0A-5e-10s.log": "547b5e925a3ef700991a87870ac45c23bd910099de74dfc7bf224e89e269d646",
+            "pulse-+0A-5e-10s.txt": "ac4316a66bca8680a0fbbecf5bc3c0b21b7c873f82b6bb5ce22756511e0a53dd"
+          }
+        },
+        {
+          "name": "pulse-+0.001A-1e-09s",
+          "amplitudeAmps": 0.001,
+          "stepSeconds": 1e-09,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.9959883368552,
+              "afterVolts": 4.9959883368552305,
+              "recoveryDifferenceVolts": 3.019806626980426e-14,
+              "beforeSpanVolts": 1.7763568394002505e-13,
+              "afterSpanVolts": 4.958966570711709e-11,
+              "fullRangeVolts": [
+                -1.4005527606135116e-42,
+                4.9962823260402995
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.995988344013876,
+              "afterVolts": 4.995988344013905,
+              "recoveryDifferenceVolts": 2.930988785010413e-14,
+              "beforeSpanVolts": 1.7763568394002505e-13,
+              "afterSpanVolts": 4.958966570711709e-11,
+              "fullRangeVolts": [
+                -1.4005502596295047e-42,
+                4.996282332720449
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1588743257310614,
+              "afterVolts": 1.1588743257310603,
+              "recoveryDifferenceVolts": 1.1102230246251565e-15,
+              "beforeSpanVolts": 6.994405055138486e-14,
+              "afterSpanVolts": 2.2248869413488137e-13,
+              "fullRangeVolts": [
+                -0.5547313782593118,
+                2.5923415305997923
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.1360060026426184,
+              "afterVolts": 1.136006002642618,
+              "recoveryDifferenceVolts": 4.440892098500626e-16,
+              "beforeSpanVolts": 3.5571545708990016e-13,
+              "afterSpanVolts": 7.138734048339757e-13,
+              "fullRangeVolts": [
+                1.581339095708069e-19,
+                2.842519843041428
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.24988854204422833,
+              "afterVolts": 0.2498885420442285,
+              "recoveryDifferenceVolts": 1.6653345369377348e-16,
+              "beforeSpanVolts": 6.75848266240564e-14,
+              "afterSpanVolts": 2.237654506132003e-13,
+              "fullRangeVolts": [
+                2.554418358460697e-19,
+                3.578547035857066
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0.001A-1e-09s.cir": "680e967aefe6f4bcf64d3b81267a2d39d2442b114988af100335301de2f8141f",
+            "pulse-+0.001A-1e-09s.log": "033c98a8b7f200d81795d331ac098dadea11e9b2927bafa00c64f62fd21376ef",
+            "pulse-+0.001A-1e-09s.txt": "d97bc28d627338faad2fa1401a8e8ad3a96ba8a025599184aef8ec972f5e0c35"
+          }
+        },
+        {
+          "name": "pulse-+0.001A-5e-10s",
+          "amplitudeAmps": 0.001,
+          "stepSeconds": 5e-10,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.99598833717097,
+              "afterVolts": 4.995988337170891,
+              "recoveryDifferenceVolts": 7.904787935331115e-14,
+              "beforeSpanVolts": 4.60964599824365e-13,
+              "afterSpanVolts": 1.972644270153978e-12,
+              "fullRangeVolts": [
+                -1.4005527606135116e-42,
+                4.996282326469749
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.995988344329645,
+              "afterVolts": 4.995988344329566,
+              "recoveryDifferenceVolts": 7.904787935331115e-14,
+              "beforeSpanVolts": 4.60964599824365e-13,
+              "afterSpanVolts": 1.972644270153978e-12,
+              "fullRangeVolts": [
+                -1.4005502596295047e-42,
+                4.996282333154994
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1588743257310854,
+              "afterVolts": 1.1588743257310843,
+              "recoveryDifferenceVolts": 1.1102230246251565e-15,
+              "beforeSpanVolts": 1.2279066652354231e-13,
+              "afterSpanVolts": 1.2789769243681803e-13,
+              "fullRangeVolts": [
+                -0.5547313793506167,
+                2.5923420879682024
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.1360060026426078,
+              "afterVolts": 1.1360060026426106,
+              "recoveryDifferenceVolts": 2.886579864025407e-15,
+              "beforeSpanVolts": 3.950173521616307e-13,
+              "afterSpanVolts": 4.234390615920347e-13,
+              "fullRangeVolts": [
+                1.581339095708069e-19,
+                2.842519947674265
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2498885420442466,
+              "afterVolts": 0.24988854204424715,
+              "recoveryDifferenceVolts": 5.551115123125783e-16,
+              "beforeSpanVolts": 1.2559397966072083e-13,
+              "afterSpanVolts": 1.2742584765135234e-13,
+              "fullRangeVolts": [
+                2.554418358460697e-19,
+                3.5785468143027828
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0.001A-5e-10s.cir": "8ec01d93a7465e5af2ca1463dc92e8da51ad8832488ffc4dba4a9f6f93d6fd24",
+            "pulse-+0.001A-5e-10s.log": "640b358cf42d04209cc6807ff4a64165835f716c5ea64d1ad8676a0b2a0b7fe9",
+            "pulse-+0.001A-5e-10s.txt": "708cd633a1ca02e7b43bd13e9dd721e5706e4a29fd0140b9ec826ff12ab04f6b"
+          }
+        },
+        {
+          "name": "pulse-+0.005A-1e-09s",
+          "amplitudeAmps": 0.005,
+          "stepSeconds": 1e-09,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.9959883368552,
+              "afterVolts": 4.995988336855172,
+              "recoveryDifferenceVolts": 2.842170943040401e-14,
+              "beforeSpanVolts": 1.7763568394002505e-13,
+              "afterSpanVolts": 4.316902391110489e-11,
+              "fullRangeVolts": [
+                -1.4005527606135116e-42,
+                4.999426471842773
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.995988344013876,
+              "afterVolts": 4.995988344013847,
+              "recoveryDifferenceVolts": 2.842170943040401e-14,
+              "beforeSpanVolts": 1.7763568394002505e-13,
+              "afterSpanVolts": 4.316902391110489e-11,
+              "fullRangeVolts": [
+                -1.4005502596295047e-42,
+                4.999426472994619
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1588743257310614,
+              "afterVolts": 1.15887432573106,
+              "recoveryDifferenceVolts": 1.3322676295501878e-15,
+              "beforeSpanVolts": 6.994405055138486e-14,
+              "afterSpanVolts": 2.4291679778798425e-13,
+              "fullRangeVolts": [
+                -0.5547313782593118,
+                2.5923415305997923
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.1360060026426184,
+              "afterVolts": 1.1360060026426164,
+              "recoveryDifferenceVolts": 1.9984014443252818e-15,
+              "beforeSpanVolts": 3.5571545708990016e-13,
+              "afterSpanVolts": 7.007727731433988e-13,
+              "fullRangeVolts": [
+                1.581339095708069e-19,
+                2.842519843041428
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.24988854204422833,
+              "afterVolts": 0.24988854204422828,
+              "recoveryDifferenceVolts": 5.551115123125783e-17,
+              "beforeSpanVolts": 6.75848266240564e-14,
+              "afterSpanVolts": 2.4139024112912466e-13,
+              "fullRangeVolts": [
+                -0.24844675643462466,
+                3.578547035857066
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0.005A-1e-09s.cir": "93b34a1289810b58ba765c6254afbbf425b17b38a291b116826ed2c97ae1182f",
+            "pulse-+0.005A-1e-09s.log": "1dce1bca82773f210824f1cb390dfe6e5fadb25fc1a64700b52850ef97eeb5d1",
+            "pulse-+0.005A-1e-09s.txt": "ac5b57f59184e0d5218fec246ee1f1753d9c6a114b5e19071201fa804f0a0b89"
+          }
+        },
+        {
+          "name": "pulse-+0.005A-5e-10s",
+          "amplitudeAmps": 0.005,
+          "stepSeconds": 5e-10,
+          "nodes": {
+            "v(n_OSC_OUT)": {
+              "beforeVolts": 4.99598833717097,
+              "afterVolts": 4.995988337170915,
+              "recoveryDifferenceVolts": 5.5067062021407764e-14,
+              "beforeSpanVolts": 4.60964599824365e-13,
+              "afterSpanVolts": 1.9399593043090135e-11,
+              "fullRangeVolts": [
+                -1.4005527606135116e-42,
+                4.999426499605782
+              ]
+            },
+            "v(n_CLK)": {
+              "beforeVolts": 4.995988344329645,
+              "afterVolts": 4.99598834432959,
+              "recoveryDifferenceVolts": 5.5067062021407764e-14,
+              "beforeSpanVolts": 4.60964599824365e-13,
+              "afterSpanVolts": 1.9399593043090135e-11,
+              "fullRangeVolts": [
+                -1.4005502596295047e-42,
+                4.999426500664004
+              ]
+            },
+            "v(n_OSC_RC)": {
+              "beforeVolts": 1.1588743257310854,
+              "afterVolts": 1.158874325731085,
+              "recoveryDifferenceVolts": 4.440892098500626e-16,
+              "beforeSpanVolts": 1.2279066652354231e-13,
+              "afterSpanVolts": 3.1241675912951905e-13,
+              "fullRangeVolts": [
+                -0.5547313793506167,
+                2.5923420879682024
+              ]
+            },
+            "v(n_OSC1)": {
+              "beforeVolts": 1.1360060026426078,
+              "afterVolts": 1.1360060026426115,
+              "recoveryDifferenceVolts": 3.774758283725532e-15,
+              "beforeSpanVolts": 3.950173521616307e-13,
+              "afterSpanVolts": 3.9412917374193057e-13,
+              "fullRangeVolts": [
+                1.581339095708069e-19,
+                2.842519947674265
+              ]
+            },
+            "v(n_OSC2)": {
+              "beforeVolts": 0.2498885420442466,
+              "afterVolts": 0.24988854204424643,
+              "recoveryDifferenceVolts": 1.6653345369377348e-16,
+              "beforeSpanVolts": 1.2559397966072083e-13,
+              "afterSpanVolts": 3.169964291060978e-13,
+              "fullRangeVolts": [
+                -0.24844938142040118,
+                3.5785468143027828
+              ]
+            }
+          },
+          "lateClockRisingEdges": 0,
+          "returnedToPlateau": true,
+          "artifacts": {
+            "pulse-+0.005A-5e-10s.cir": "343befd52ac72e0a408ffcec9871cb7a2867aa52d662ed788942e05d84302c7a",
+            "pulse-+0.005A-5e-10s.log": "b9a46b34e704ab32a30fccab2778cf22176aac6f2c4b9a09e695a3160052145b",
+            "pulse-+0.005A-5e-10s.txt": "d4f907032586e5df249ad702df5919087a2333cdea4124c08efcbfa79ed7b6b9"
+          }
+        }
+      ],
+      "pairs": [
+        {
+          "amplitudeAmps": -0.005,
+          "maximumPlateauDifferenceVolts": 3.15769632663887e-10,
+          "plateausWithinNumericalBudget": true
+        },
+        {
+          "amplitudeAmps": -0.001,
+          "maximumPlateauDifferenceVolts": 3.15769632663887e-10,
+          "plateausWithinNumericalBudget": true
+        },
+        {
+          "amplitudeAmps": 0,
+          "maximumPlateauDifferenceVolts": 3.15769632663887e-10,
+          "plateausWithinNumericalBudget": true
+        },
+        {
+          "amplitudeAmps": 0.001,
+          "maximumPlateauDifferenceVolts": 3.15769632663887e-10,
+          "plateausWithinNumericalBudget": true
+        },
+        {
+          "amplitudeAmps": 0.005,
+          "maximumPlateauDifferenceVolts": 3.15769632663887e-10,
+          "plateausWithinNumericalBudget": true
+        }
+      ]
+    }
+  }
+}
