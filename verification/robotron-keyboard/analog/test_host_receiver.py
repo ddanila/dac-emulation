@@ -44,5 +44,40 @@ class HostReceiverTests(unittest.TestCase):
         for bad in (0,-1,float('nan')):
             with self.assertRaises(ValueError):host_receiver(outputs,inductance_uh=bad)
 
+    def test_explicit_load_current_against_charge_and_leakage(self):
+        outputs = {'hostGround': 'cable_gnd', 'hostSupply': 'cable_5v',
+                   'serial': {'data': {'cable': 'cable_data'}, 'clock': {'cable': 'cable_clock'}}}
+        observed = []
+        for load in (None, {'dataPf':5, 'clockPf':50, 'leakageUa':10},
+                     {'dataPf':5, 'clockPf':50, 'leakageUa':-10}):
+            lines, info = host_receiver(outputs, input_reverse_beta=.01, sio_load=load)
+            with tempfile.TemporaryDirectory() as directory:
+                p = Path(directory)
+                deck = ['SIO load charge and leakage check', *lines,
+                        f'Vg {info["ground"]} 0 0', f'Vp {info["supply"]} 0 5',
+                        'Vdata cable_data 0 5', 'Vclock cable_clock 0 5']
+                for label in ('data','clock'):
+                    deck.append(f'Vtest_{label} {info["bufferOutputs"][label]} 0 PWL(0 .5 1u .5 2u 1.5 3u 1.5)')
+                deck += ['.control','set wr_singlescale','set wr_vecnames','set numdgt=17',
+                         'tran 1n 3u','wrdata trace.txt i(Vtest_data) i(Vtest_clock)',
+                         'quit','.endc','.end']
+                (p/'probe.cir').write_text('\n'.join(deck)+'\n')
+                run = subprocess.run(['ngspice','-n','-b','probe.cir'],cwd=p,capture_output=True,text=True,timeout=30)
+                self.assertEqual(run.returncode,0,run.stdout+run.stderr)
+                rows=[list(map(float,line.split())) for line in (p/'trace.txt').read_text().splitlines()[1:]]
+                observed.append([min(rows,key=lambda r:abs(r[0]-t))[1:] for t in (1.5e-6,2.5e-6)])
+        for measured, leakage in zip(observed[1:],(10,-10)):
+            for phase,slope in enumerate((1e6,0)):
+                for channel,capacitance in enumerate((5,50)):
+                    delta = measured[phase][channel]-observed[0][phase][channel]
+                    expected = -((capacitance-10)*1e-12*slope + leakage*1e-6)
+                    self.assertAlmostEqual(delta,expected,delta=1e-9)
+        for load in ({'dataPf':5}, {'dataPf':0,'clockPf':50,'leakageUa':10},
+                     {'dataPf':5,'clockPf':50,'leakageUa':float('nan')}):
+            with self.assertRaises(ValueError):
+                host_receiver(outputs,input_reverse_beta=.01,sio_load=load)
+        with self.assertRaises(ValueError):
+            host_receiver(outputs,sio_load={'dataPf':5,'clockPf':50,'leakageUa':10})
+
 
 if __name__ == '__main__':unittest.main()

@@ -69,7 +69,18 @@ def main():
     p.add_argument('--logic-load-pf', type=float, default=0, help='Assumed capacitance per control net; requires electrical logic pullups')
     p.add_argument('--minimum-breakpoint-fs', type=float, help='Explicit ngspice breakpoint spacing via deck tran/run')
     p.add_argument('--electrical-wr', action='store_true', help='Finite CPU WR drive into transistor clock gate; requires electrical-bus and 7406-dc')
+    p.add_argument('--sio-data-pf', type=float)
+    p.add_argument('--sio-clock-pf', type=float)
+    p.add_argument('--sio-leakage-ua', type=float)
     args = p.parse_args()
+    sio_values = (args.sio_data_pf, args.sio_clock_pf, args.sio_leakage_ua)
+    sio_load = None
+    if any(v is not None for v in sio_values):
+        if not args.host_buffer or any(v is None for v in sio_values):
+            p.error('Explicit SIO loads require --host-buffer and all three load arguments')
+        if not all(map(math.isfinite, sio_values)) or min(sio_values[:2]) <= 0:
+            p.error('SIO capacitances must be positive and load values finite')
+        sio_load = dict(zip(('dataPf', 'clockPf', 'leakageUa'), sio_values))
     if args.latch_timing_envelope and not args.electrical_bus:
         p.error('Latch timing envelope requires electrical-bus')
     if args.rom_read_envelope and not args.electrical_bus:
@@ -138,6 +149,8 @@ def main():
     if args.host_buffer:
         report['qualified'] = False
         report['assumptions']['hostBuffer'] = '7404-candidate'
+        report['assumptions']['sioLoad'] = sio_load
+        report['sources']['u856_limits.json'] = sha(HERE / 'u856_limits.json')
         report['assumptions']['hostBoundary'] = 'Reference motherboard passives and generic 7404 candidate; falling buffer-output clock and non-inverted logical data. Input loading, switching and SIO loads unqualified.'
         report['sources'].update({name: sha(HERE / name) for name in ('host_receiver.py', 'host_receiver.json', 'ttl7404_nominal.cir', 'd104_limits.json')})
     if args.serial_driver != 'nominal':
@@ -215,7 +228,7 @@ def main():
         else:
             outputs, info = output_circuit(components)
         if args.host_buffer:
-            host_lines, host_info = host_receiver(info, input_reverse_beta=.01)
+            host_lines, host_info = host_receiver(info, input_reverse_beta=.01, sio_load=sio_load)
             outputs += host_lines
             report['hostReceiver'] = host_info
         report['outputCircuit'] = info
