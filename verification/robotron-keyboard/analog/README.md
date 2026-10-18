@@ -716,8 +716,12 @@ BR1/BR2 stay closed: the modeled oscillator and reset circuit drive the CPU.
 With the transistor serial driver, D0 loads its physical input stage; WR remains
 ideal intent in this harness. Bus waveforms share the boot capture window.
 Every logged read must have captured voltage, so reads before that window fail
-validation rather than being omitted. Preparation/HDL compilation is tested;
-full-board electrical-bus execution and paired timing remain unqualified.
+validation rather than being omitted. A tail capture may begin at the first
+accepted point within one maximum timestep after its requested start; read
+windows still require bracketing samples and the end time stays strict.
+The retained `reports/bus-feedback/closed-board-startup` checks live bridge
+initialization while reset is asserted and supply is still rising. Full-board
+firmware execution and paired electrical timing remain unqualified.
 
 The boot harness accepts `--electrical-outputs --serial-driver 7406-dc` to use
 that candidate under live HDL control. Its inputs still come from ideal DAC

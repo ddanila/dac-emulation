@@ -15,7 +15,7 @@ class BusMismatch(ValueError):
         self.details = details
 
 
-def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=None):
+def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=None, start_tolerance_ns=0):
     limits = json.loads(Path(__file__).with_name('cpu_clock_limits.json').read_text())
     operating, inputs = limits['operatingConditions'], limits['ordinaryInput']
     if not all(math.isfinite(v) and v >= 0 for v in (step_ns, setup_ns, hold_ns)) or step_ns == 0:
@@ -25,6 +25,9 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
     if trace_extent is not None and (len(trace_extent) != 2 or
         not all(math.isfinite(t) and t >= 0 for t in trace_extent) or trace_extent[0] >= trace_extent[1]):
         raise ValueError('Invalid expected bus capture extent')
+    if (not math.isfinite(start_tolerance_ns) or not 0 <= start_tolerance_ns <= step_ns
+            or (start_tolerance_ns and trace_extent is None)):
+        raise ValueError('Invalid bus capture start tolerance')
     samples, latches = [], []
     for line in log.splitlines():
         if line.startswith('BUS_SAMPLE '):
@@ -132,9 +135,14 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
         for _ in iterator:
             pass
     if trace_extent is not None and (extent['firstSeconds'] is None or
-        abs(extent['firstSeconds'] - trace_extent[0]) > 1e-12 or
+        extent['firstSeconds'] < trace_extent[0] - 1e-12 or
+        extent['firstSeconds'] > trace_extent[0] + start_tolerance_ns * 1e-9 + 1e-12 or
         abs(extent['lastSeconds'] - trace_extent[1]) > 1e-12):
         raise ValueError('Incomplete bus waveform capture extent')
+    if start_tolerance_ns:
+        extent['requestedStartSeconds'] = trace_extent[0]
+        extent['startToleranceNs'] = start_tolerance_ns
+        extent['startOffsetSeconds'] = extent['firstSeconds'] - trace_extent[0]
     return {'passed': True, 'qualified': False, 'sampleCount': len(samples),
             'waveform': extent,
             'memoryReads': sum(sample[3] == 0 for sample in samples),

@@ -16,12 +16,12 @@ class BusObservationTests(unittest.TestCase):
         self.rows = [[i * 1e-9, *[4.5 if 0xa5 & (1 << bit) else .2 for bit in range(8)], 5]
                      for i in range(0, 401, 10)]
 
-    def check(self, log=LOG, rows=None, header=HEADER, rom=bytes([0xa5]) * 2048, trace_extent=None):
+    def check(self, log=LOG, rows=None, header=HEADER, rom=bytes([0xa5]) * 2048, trace_extent=None, start_tolerance_ns=0):
         with tempfile.TemporaryDirectory() as temporary:
             trace = Path(temporary) / 'trace.txt'
             trace.write_text(header + ''.join(' '.join(map(str, row)) + '\n'
                                              for row in (self.rows if rows is None else rows)))
-            return measure(log, trace, 10, rom, setup_ns=20, hold_ns=10, trace_extent=trace_extent)
+            return measure(log, trace, 10, rom, setup_ns=20, hold_ns=10, trace_extent=trace_extent, start_tolerance_ns=start_tolerance_ns)
 
     def test_memory_io_and_latch_agree_with_bracketed_voltages(self):
         report = self.check()
@@ -100,6 +100,20 @@ class BusObservationTests(unittest.TestCase):
         self.assertEqual(caught.exception.details['signal'], 'CPU_DI_REG')
         self.assertEqual(caught.exception.details['latchedByte'], 0)
         self.assertEqual(caught.exception.details['latchTimePs'], 150000)
+
+    def test_explicit_tail_capture_start_allowance(self):
+        rows = [list(row) for row in self.rows]
+        rows[0][0] = .15e-9
+        with self.assertRaisesRegex(ValueError, 'capture extent'):
+            self.check(rows=rows, trace_extent=(0, 400e-9))
+        result = self.check(rows=rows, trace_extent=(0, 400e-9), start_tolerance_ns=10)
+        self.assertEqual(result['waveform']['startOffsetSeconds'], .15e-9)
+        for shortened in (rows[2:], rows[:-1]):
+            with self.assertRaisesRegex(ValueError, 'capture extent'):
+                self.check(rows=shortened, trace_extent=(0, 400e-9), start_tolerance_ns=10)
+        for tolerance in (-1, 11, float('nan')):
+            with self.assertRaisesRegex(ValueError, 'start tolerance'):
+                self.check(trace_extent=(0, 400e-9), start_tolerance_ns=tolerance)
 
     def test_reads_alone_do_not_prove_complete_capture(self):
         self.assertEqual(self.check(trace_extent=(0, 400e-9))['waveform']['rows'], 41)
