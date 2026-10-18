@@ -11,6 +11,7 @@ import subprocess
 
 from circuit import load, node
 from output_circuit import output_circuit
+from host_receiver import host_receiver
 from failure_evidence import solver_diagnostic
 
 HERE = Path(__file__).resolve().parent
@@ -73,16 +74,28 @@ def driver_circuit(components, profile, cable_pf, electrical_data_input=False, e
     return lines, metadata
 
 
-def simulate(root, profile, step, cable, components, executable, env):
+def simulate(root, profile, step, cable, components, executable, env, host_passives=False):
     out = root / f'{profile}-{step}ns-{cable}pf'
     out.mkdir()
     lines, metadata = driver_circuit(components, profile, cable)
     ground = metadata['hostGround']
+    supply = metadata['hostSupply']
+    cable_signals = [f'v({metadata["serial"][label]["cable"]},{ground})' for label in ('data', 'clock')]
+    if host_passives:
+        host_lines, host_info = host_receiver(metadata)
+        lines += host_lines
+        metadata['hostReceiver'] = host_info
+        ground, supply = host_info['ground'], host_info['supply']
     signals = [f'v({metadata["serial"][label]["cable"]},{ground})' for label in ('data', 'clock')]
+    if host_passives:
+        cable_signals = list(signals)
+        signals = [f'v({host_info["inputs"][label]},{ground})' for label in ('data', 'clock')]
     signals += ['v(n_p5V)', 'i(Vhost)', 'i(Vdriver_supply)', 'i(Vdata)', 'i(Vclock)']
+    if host_passives:
+        signals += cable_signals
     deck = '\n'.join([
         'Serial driver topology fixture; no firmware or historical timing qualification',
-        f'Vhost {metadata["hostSupply"]} {ground} 5', *lines,
+        f'Vhost {supply} {ground} 5', *lines,
         'Vdata data_intent 0 PWL(0 0 10u 0 10.01u 5 20u 5 20.01u 0 40u 0)',
         'Vclock clock_intent 0 PWL(0 0 12u 0 12.01u 5 22u 5 22.01u 0 40u 0)',
         'Vsiso siso_intent 0 0', 'Vcaps caps_intent 0 0',
@@ -99,7 +112,7 @@ def simulate(root, profile, step, cable, components, executable, env):
     if diagnostic:
         raise ValueError(diagnostic)
     rows = [list(map(float, line.split())) for line in (out / 'trace.txt').read_text().splitlines()[1:]]
-    if (not rows or any(len(row) != 8 or not all(map(math.isfinite, row)) for row in rows)
+    if (not rows or any(len(row) != len(signals) + 1 or not all(map(math.isfinite, row)) for row in rows)
             or rows[0][0] > 1e-9 or abs(rows[-1][0] - 40e-6) > 1e-12
             or any(b[0] < a[0] or b[0] - a[0] > step * 1e-9 + 1e-15 for a, b in zip(rows, rows[1:]))):
         raise ValueError('Invalid or incomplete output waveform')
@@ -124,6 +137,7 @@ def simulate(root, profile, step, cable, components, executable, env):
         rises.append(times[1] - times[0])
     return {'profile': profile, 'stepNs': step, 'cablePf': cable, 'circuit': metadata,
             'signals': signals, 'samples': samples,
+            'signalRanges': [[min(row[i] for row in rows), max(row[i] for row in rows)] for i in range(1, len(signals)+1)],
             'currentSignConvention': 'Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates',
             'receiverRiseSeconds08to2V': rises,
             'artifacts': {name: sha(out / name) for name in ('probe.cir', 'trace.txt', 'ngspice.log')}}
@@ -132,6 +146,7 @@ def simulate(root, profile, step, cable, components, executable, env):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ngspice', default='ngspice')
+    parser.add_argument('--host-passives', action='store_true', help='Include reference motherboard chokes, pullups and RC input filters; no buffer transistor model')
     parser.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/ttl7406-outputs')
     args = parser.parse_args()
     located = shutil.which(args.ngspice)
@@ -144,10 +159,10 @@ def main():
     (out / 'spinit').write_text('* Pure SPICE output fixture; no external initialization or code models.\n')
     env = dict(os.environ, SPICE_SCRIPTS=str(out))
     report = {'passed': False, 'qualified': False, 'scope': __doc__,
-              'dcCandidateReportSha256': dc_reference_digest,
+              'dcCandidateReportSha256': dc_reference_digest, 'hostPassives': args.host_passives,
               'executableSha256': sha(executable), 'spinitSha256': sha(out / 'spinit'),
               'sources': {name: sha(HERE / name) for name in
-                          ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'output_circuit.py', 'circuit.py', 'failure_evidence.py')},
+                          ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'output_circuit.py', 'circuit.py', 'failure_evidence.py', 'host_receiver.py', 'host_receiver.json')},
               'limitations': 'Numerical fixture checks only. No transistor storage/capacitance, device-corner, full-package, firmware, or specimen qualification.',
               'runs': []}
     try:
@@ -155,7 +170,7 @@ def main():
         for profile in ('nominal', '7406-dc'):
             profile_runs = []
             for cable in (1000, 2000):
-                pair = [simulate(out, profile, step, cable, components, executable, env) for step in (10, 5)]
+                pair = [simulate(out, profile, step, cable, components, executable, env, args.host_passives) for step in (10, 5)]
                 report['runs'] += pair
                 profile_runs += pair
                 for a, b in zip(*(run['receiverRiseSeconds08to2V'] for run in pair)):

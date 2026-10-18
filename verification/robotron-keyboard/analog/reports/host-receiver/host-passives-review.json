@@ -1,0 +1,2086 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Compare ideal and published-topology serial drivers in the reference output fixture.",
+  "dcCandidateReportSha256": "09605f7f96dfb57ca07e61938b39a38be6da258ad71c842829eab066956d3c00",
+  "hostPassives": true,
+  "executableSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "spinitSha256": "08598f75c7762289502ee5915e3c68d74ebdf9f9ad7ab48585d71a2cd4ac8c48",
+  "sources": {
+    "ttl7406_output_probe.py": "2219f6caedb7b5258af6c260d21a18876278a4caab2a5bcee7aae30a24f46951",
+    "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+    "output_circuit.py": "ab579833c72e96932e112a5739629c8825f1038fb5dfe2b6c97e7baa09ebfb39",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "host_receiver.py": "4b1a03c57f35fcc7f1932fb22ac550c7e300c19df897f0c6c181f2bccf3c7f34",
+    "host_receiver.json": "53a0ce5e712aaf7d629419f765973c85196aa1ecc3777488ce2f2ffe743ebc10"
+  },
+  "limitations": "Numerical fixture checks only. No transistor storage/capacitance, device-corner, full-package, firmware, or specimen qualification.",
+  "runs": [
+    {
+      "profile": "nominal",
+      "stepNs": 10,
+      "cablePf": 1000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "filter": {
+          "coupling": 0,
+          "dotPins": {
+            "L1.1": 1,
+            "L1.2": 1,
+            "L1.3": 1,
+            "L1.4": 1
+          },
+          "qualified": false,
+          "selfInductanceUh": 1,
+          "seriesOhms": 1,
+          "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "nominal",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Ideal 20-ohm sink"
+        },
+        "hostReceiver": {
+          "supply": "host_receiver_5v",
+          "ground": "host_receiver_gnd",
+          "inputs": {
+            "data": "host_data_buffer_input",
+            "clock": "host_clock_buffer_input"
+          },
+          "evidence": {
+            "scope": "Reference motherboard passive keyboard input network; not specimen continuity or a D104 transistor model",
+            "sources": [
+              {
+                "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+                "locator": "PDF page 7, drawing 56-330-0101-2, keyboard connector X3 through L1.1, R7/R2/C2 to A11.2 and A29",
+                "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+              },
+              {
+                "url": "https://www.sax.de/~zander/pc1715/pc_zres.pdf",
+                "locator": "PDF page 1, right side: TASTATUR, A11.2E/F, A29 U856D",
+                "sha256": "d96efdeeefcf214c7f5044c03ff5165203bc7781afd0852e8de94b623c5b5c63"
+              }
+            ],
+            "channels": {
+              "data": {
+                "connectorContacts": [
+                  "X3:A4",
+                  "X3:B4"
+                ],
+                "winding": "L1.14",
+                "pullup": "R7.2",
+                "pullupOhms": 560,
+                "series": "R2.2",
+                "seriesOhms": 100,
+                "capacitor": "C2.1",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:11",
+                "bufferOutput": "A11.2:10",
+                "sioInput": "A29:12"
+              },
+              "clock": {
+                "connectorContacts": [
+                  "X3:A1",
+                  "X3:B1"
+                ],
+                "winding": "L1.11",
+                "pullup": "R7.1",
+                "pullupOhms": 560,
+                "series": "R2.3",
+                "seriesOhms": 100,
+                "capacitor": "C2.2",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:13",
+                "bufferOutput": "A11.2:12",
+                "sioInput": "A29:13"
+              }
+            },
+            "supply": {
+              "connectorContacts": [
+                "X3:A2",
+                "X3:B2"
+              ],
+              "winding": "L1.12"
+            },
+            "ground": {
+              "connectorContacts": [
+                "X3:A3",
+                "X3:B3"
+              ],
+              "winding": "L1.13"
+            },
+            "limitations": [
+              "Winding inductance, resistance and mutual coupling are not specified by these drawings.",
+              "The passive network terminates at buffer inputs; D104/T104 input currents, clamps, propagation and inversion into the SIO are not yet modeled.",
+              "Published reference motherboard revisions are not proof of installed specimen wiring."
+            ]
+          },
+          "qualified": false,
+          "windingAssumptions": {
+            "selfInductanceUh": 1,
+            "seriesOhms": 1,
+            "coupling": 0
+          }
+        }
+      },
+      "signals": [
+        "v(host_data_buffer_input,host_receiver_gnd)",
+        "v(host_clock_buffer_input,host_receiver_gnd)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)",
+        "v(n_CABLE_DATEN,host_receiver_gnd)",
+        "v(n_CABLE_TAKT,host_receiver_gnd)"
+      ],
+      "samples": [
+        [
+          2.002799999999991e-06,
+          4.985989905508262,
+          4.985989905508101,
+          4.999800607042741,
+          -9.979559065199555e-05,
+          0.0,
+          0.0,
+          0.0,
+          4.98596488749918,
+          4.985964887499019
+        ],
+        [
+          1.59960920446908e-05,
+          0.3659488892069048,
+          0.3659488892069048,
+          4.998439799182033,
+          -0.008602062472678123,
+          0.0,
+          0.0,
+          0.0,
+          0.35768203888972566,
+          0.3576820388897252
+        ],
+        [
+          3.5999849874664607e-05,
+          4.985339353453262,
+          4.985339353449938,
+          4.997180150012948,
+          -0.0007578180791349858,
+          0.0,
+          0.0,
+          0.0,
+          4.985313296081501,
+          4.985313296078614
+        ]
+      ],
+      "signalRanges": [
+        [
+          0.04684388727316624,
+          4.985989905508268
+        ],
+        [
+          0.1789960371735077,
+          5.196558957342583
+        ],
+        [
+          4.99709232993505,
+          4.999800607042754
+        ],
+        [
+          -0.013139158049698079,
+          0.022272644501383016
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.4752517635971138,
+          5.291874904479827
+        ],
+        [
+          -0.15903162288078415,
+          5.401372010317401
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        1.6747125770095694e-07,
+        1.6635535675189596e-07
+      ],
+      "artifacts": {
+        "probe.cir": "207a3c342d559e0e419a15f538374193967c094833cd32b3de7554be24cd47bf",
+        "trace.txt": "e00abca15cbae042063ad12a871c56db13779fcfbd6530faf222c1d1ac1a3f7b",
+        "ngspice.log": "152529ee35d6fc2cf3938da1e1b4d7e657eb02bcf8cb254516f1adb7930aa5f9"
+      }
+    },
+    {
+      "profile": "nominal",
+      "stepNs": 5,
+      "cablePf": 1000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "filter": {
+          "coupling": 0,
+          "dotPins": {
+            "L1.1": 1,
+            "L1.2": 1,
+            "L1.3": 1,
+            "L1.4": 1
+          },
+          "qualified": false,
+          "selfInductanceUh": 1,
+          "seriesOhms": 1,
+          "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "nominal",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Ideal 20-ohm sink"
+        },
+        "hostReceiver": {
+          "supply": "host_receiver_5v",
+          "ground": "host_receiver_gnd",
+          "inputs": {
+            "data": "host_data_buffer_input",
+            "clock": "host_clock_buffer_input"
+          },
+          "evidence": {
+            "scope": "Reference motherboard passive keyboard input network; not specimen continuity or a D104 transistor model",
+            "sources": [
+              {
+                "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+                "locator": "PDF page 7, drawing 56-330-0101-2, keyboard connector X3 through L1.1, R7/R2/C2 to A11.2 and A29",
+                "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+              },
+              {
+                "url": "https://www.sax.de/~zander/pc1715/pc_zres.pdf",
+                "locator": "PDF page 1, right side: TASTATUR, A11.2E/F, A29 U856D",
+                "sha256": "d96efdeeefcf214c7f5044c03ff5165203bc7781afd0852e8de94b623c5b5c63"
+              }
+            ],
+            "channels": {
+              "data": {
+                "connectorContacts": [
+                  "X3:A4",
+                  "X3:B4"
+                ],
+                "winding": "L1.14",
+                "pullup": "R7.2",
+                "pullupOhms": 560,
+                "series": "R2.2",
+                "seriesOhms": 100,
+                "capacitor": "C2.1",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:11",
+                "bufferOutput": "A11.2:10",
+                "sioInput": "A29:12"
+              },
+              "clock": {
+                "connectorContacts": [
+                  "X3:A1",
+                  "X3:B1"
+                ],
+                "winding": "L1.11",
+                "pullup": "R7.1",
+                "pullupOhms": 560,
+                "series": "R2.3",
+                "seriesOhms": 100,
+                "capacitor": "C2.2",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:13",
+                "bufferOutput": "A11.2:12",
+                "sioInput": "A29:13"
+              }
+            },
+            "supply": {
+              "connectorContacts": [
+                "X3:A2",
+                "X3:B2"
+              ],
+              "winding": "L1.12"
+            },
+            "ground": {
+              "connectorContacts": [
+                "X3:A3",
+                "X3:B3"
+              ],
+              "winding": "L1.13"
+            },
+            "limitations": [
+              "Winding inductance, resistance and mutual coupling are not specified by these drawings.",
+              "The passive network terminates at buffer inputs; D104/T104 input currents, clamps, propagation and inversion into the SIO are not yet modeled.",
+              "Published reference motherboard revisions are not proof of installed specimen wiring."
+            ]
+          },
+          "qualified": false,
+          "windingAssumptions": {
+            "selfInductanceUh": 1,
+            "seriesOhms": 1,
+            "coupling": 0
+          }
+        }
+      },
+      "signals": [
+        "v(host_data_buffer_input,host_receiver_gnd)",
+        "v(host_clock_buffer_input,host_receiver_gnd)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)",
+        "v(n_CABLE_DATEN,host_receiver_gnd)",
+        "v(n_CABLE_TAKT,host_receiver_gnd)"
+      ],
+      "samples": [
+        [
+          2.001399999999986e-06,
+          4.985989905508068,
+          4.985989905508134,
+          4.9998006070427445,
+          -9.979559065174255e-05,
+          0.0,
+          0.0,
+          0.0,
+          4.98596488754071,
+          4.985964887540765
+        ],
+        [
+          1.599827378164743e-05,
+          0.3659491428179928,
+          0.3659491428179928,
+          4.998439231809762,
+          -0.008602203045637982,
+          0.0,
+          0.0,
+          0.0,
+          0.3576822929135873,
+          0.3576822929135879
+        ],
+        [
+          3.599839932998157e-05,
+          4.985339350940084,
+          4.985339350936935,
+          4.997180139890208,
+          -0.0007578206209509525,
+          0.0,
+          0.0,
+          0.0,
+          4.985313293511365,
+          4.985313293508658
+        ]
+      ],
+      "signalRanges": [
+        [
+          0.0501086267450741,
+          4.985989905508089
+        ],
+        [
+          0.1819610589915468,
+          5.195582660974122
+        ],
+        [
+          4.99709233018563,
+          4.999800607042754
+        ],
+        [
+          -0.01314245248755529,
+          0.022261658532936306
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.4654878300818974,
+          5.292190043430543
+        ],
+        [
+          -0.15633512752470208,
+          5.398348343592421
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        1.6748492937774403e-07,
+        1.6642199007236642e-07
+      ],
+      "artifacts": {
+        "probe.cir": "1872029f0cd830f87f97d14aa3c1d2f69266d2c979c13cb36aa4086c397bee87",
+        "trace.txt": "3d63ab116906e2bf8a1626ce2c729fe9c4a3c1c5593678c3adee6c63884c3d12",
+        "ngspice.log": "001ba7c26bd4398b8c3be6a3bbbec4985d42fd0ecf8d8cc5199e4fe2b219aa0e"
+      }
+    },
+    {
+      "profile": "nominal",
+      "stepNs": 10,
+      "cablePf": 2000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "filter": {
+          "coupling": 0,
+          "dotPins": {
+            "L1.1": 1,
+            "L1.2": 1,
+            "L1.3": 1,
+            "L1.4": 1
+          },
+          "qualified": false,
+          "selfInductanceUh": 1,
+          "seriesOhms": 1,
+          "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "nominal",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Ideal 20-ohm sink"
+        },
+        "hostReceiver": {
+          "supply": "host_receiver_5v",
+          "ground": "host_receiver_gnd",
+          "inputs": {
+            "data": "host_data_buffer_input",
+            "clock": "host_clock_buffer_input"
+          },
+          "evidence": {
+            "scope": "Reference motherboard passive keyboard input network; not specimen continuity or a D104 transistor model",
+            "sources": [
+              {
+                "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+                "locator": "PDF page 7, drawing 56-330-0101-2, keyboard connector X3 through L1.1, R7/R2/C2 to A11.2 and A29",
+                "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+              },
+              {
+                "url": "https://www.sax.de/~zander/pc1715/pc_zres.pdf",
+                "locator": "PDF page 1, right side: TASTATUR, A11.2E/F, A29 U856D",
+                "sha256": "d96efdeeefcf214c7f5044c03ff5165203bc7781afd0852e8de94b623c5b5c63"
+              }
+            ],
+            "channels": {
+              "data": {
+                "connectorContacts": [
+                  "X3:A4",
+                  "X3:B4"
+                ],
+                "winding": "L1.14",
+                "pullup": "R7.2",
+                "pullupOhms": 560,
+                "series": "R2.2",
+                "seriesOhms": 100,
+                "capacitor": "C2.1",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:11",
+                "bufferOutput": "A11.2:10",
+                "sioInput": "A29:12"
+              },
+              "clock": {
+                "connectorContacts": [
+                  "X3:A1",
+                  "X3:B1"
+                ],
+                "winding": "L1.11",
+                "pullup": "R7.1",
+                "pullupOhms": 560,
+                "series": "R2.3",
+                "seriesOhms": 100,
+                "capacitor": "C2.2",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:13",
+                "bufferOutput": "A11.2:12",
+                "sioInput": "A29:13"
+              }
+            },
+            "supply": {
+              "connectorContacts": [
+                "X3:A2",
+                "X3:B2"
+              ],
+              "winding": "L1.12"
+            },
+            "ground": {
+              "connectorContacts": [
+                "X3:A3",
+                "X3:B3"
+              ],
+              "winding": "L1.13"
+            },
+            "limitations": [
+              "Winding inductance, resistance and mutual coupling are not specified by these drawings.",
+              "The passive network terminates at buffer inputs; D104/T104 input currents, clamps, propagation and inversion into the SIO are not yet modeled.",
+              "Published reference motherboard revisions are not proof of installed specimen wiring."
+            ]
+          },
+          "qualified": false,
+          "windingAssumptions": {
+            "selfInductanceUh": 1,
+            "seriesOhms": 1,
+            "coupling": 0
+          }
+        }
+      },
+      "signals": [
+        "v(host_data_buffer_input,host_receiver_gnd)",
+        "v(host_clock_buffer_input,host_receiver_gnd)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)",
+        "v(n_CABLE_DATEN,host_receiver_gnd)",
+        "v(n_CABLE_TAKT,host_receiver_gnd)"
+      ],
+      "samples": [
+        [
+          2.002799999999991e-06,
+          4.9859899055083,
+          4.9859899055081724,
+          4.99980060704271,
+          -9.979559065855259e-05,
+          0.0,
+          0.0,
+          0.0,
+          4.9859648875026075,
+          4.985964887502474
+        ],
+        [
+          1.599609186045111e-05,
+          0.3659564794422128,
+          0.3659564794422128,
+          4.998420446193035,
+          -0.008606868203562767,
+          0.0,
+          0.0,
+          0.0,
+          0.3576896412384239,
+          0.357689641238423
+        ],
+        [
+          3.6004585361659314e-05,
+          4.985322030500838,
+          4.98532197665747,
+          4.9971144152738844,
+          -0.0007743283516421499,
+          0.0,
+          0.0,
+          0.0,
+          4.985295945818498,
+          4.985295896763733
+        ]
+      ],
+      "signalRanges": [
+        [
+          -0.010587417919383346,
+          4.9859899055083226
+        ],
+        [
+          0.05229684371267293,
+          5.176398000851302
+        ],
+        [
+          4.997031630919188,
+          4.999800607042754
+        ],
+        [
+          -0.013392207170864612,
+          0.02676905487748657
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.37103646247584554,
+          5.036566344571882
+        ],
+        [
+          -0.1550928343980131,
+          5.299002817357733
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        2.5980711150554113e-07,
+        2.5862327514496904e-07
+      ],
+      "artifacts": {
+        "probe.cir": "6c55b21ade7f9699753b01f93e0d77060ebb0f594395404850696f2b28226bc2",
+        "trace.txt": "be41a0f1464f7fcb62738ab18707e7c7c524214ffd31f91e4ab61bfa3bddf02c",
+        "ngspice.log": "2e3c13ec725e947bdec199349667661f7f18c74a383b5e4607b147e701ba6fd3"
+      }
+    },
+    {
+      "profile": "nominal",
+      "stepNs": 5,
+      "cablePf": 2000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "filter": {
+          "coupling": 0,
+          "dotPins": {
+            "L1.1": 1,
+            "L1.2": 1,
+            "L1.3": 1,
+            "L1.4": 1
+          },
+          "qualified": false,
+          "selfInductanceUh": 1,
+          "seriesOhms": 1,
+          "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "nominal",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Ideal 20-ohm sink"
+        },
+        "hostReceiver": {
+          "supply": "host_receiver_5v",
+          "ground": "host_receiver_gnd",
+          "inputs": {
+            "data": "host_data_buffer_input",
+            "clock": "host_clock_buffer_input"
+          },
+          "evidence": {
+            "scope": "Reference motherboard passive keyboard input network; not specimen continuity or a D104 transistor model",
+            "sources": [
+              {
+                "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+                "locator": "PDF page 7, drawing 56-330-0101-2, keyboard connector X3 through L1.1, R7/R2/C2 to A11.2 and A29",
+                "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+              },
+              {
+                "url": "https://www.sax.de/~zander/pc1715/pc_zres.pdf",
+                "locator": "PDF page 1, right side: TASTATUR, A11.2E/F, A29 U856D",
+                "sha256": "d96efdeeefcf214c7f5044c03ff5165203bc7781afd0852e8de94b623c5b5c63"
+              }
+            ],
+            "channels": {
+              "data": {
+                "connectorContacts": [
+                  "X3:A4",
+                  "X3:B4"
+                ],
+                "winding": "L1.14",
+                "pullup": "R7.2",
+                "pullupOhms": 560,
+                "series": "R2.2",
+                "seriesOhms": 100,
+                "capacitor": "C2.1",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:11",
+                "bufferOutput": "A11.2:10",
+                "sioInput": "A29:12"
+              },
+              "clock": {
+                "connectorContacts": [
+                  "X3:A1",
+                  "X3:B1"
+                ],
+                "winding": "L1.11",
+                "pullup": "R7.1",
+                "pullupOhms": 560,
+                "series": "R2.3",
+                "seriesOhms": 100,
+                "capacitor": "C2.2",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:13",
+                "bufferOutput": "A11.2:12",
+                "sioInput": "A29:13"
+              }
+            },
+            "supply": {
+              "connectorContacts": [
+                "X3:A2",
+                "X3:B2"
+              ],
+              "winding": "L1.12"
+            },
+            "ground": {
+              "connectorContacts": [
+                "X3:A3",
+                "X3:B3"
+              ],
+              "winding": "L1.13"
+            },
+            "limitations": [
+              "Winding inductance, resistance and mutual coupling are not specified by these drawings.",
+              "The passive network terminates at buffer inputs; D104/T104 input currents, clamps, propagation and inversion into the SIO are not yet modeled.",
+              "Published reference motherboard revisions are not proof of installed specimen wiring."
+            ]
+          },
+          "qualified": false,
+          "windingAssumptions": {
+            "selfInductanceUh": 1,
+            "seriesOhms": 1,
+            "coupling": 0
+          }
+        }
+      },
+      "signals": [
+        "v(host_data_buffer_input,host_receiver_gnd)",
+        "v(host_clock_buffer_input,host_receiver_gnd)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)",
+        "v(n_CABLE_DATEN,host_receiver_gnd)",
+        "v(n_CABLE_TAKT,host_receiver_gnd)"
+      ],
+      "samples": [
+        [
+          2.001399999999986e-06,
+          4.985989905508307,
+          4.98598990550827,
+          4.999800607042732,
+          -9.97955906542018e-05,
+          0.0,
+          0.0,
+          0.0,
+          4.985964887410559,
+          4.985964887410523
+        ],
+        [
+          1.599827371709474e-05,
+          0.36595673302346027,
+          0.3659567330234585,
+          4.998419878901178,
+          -0.008607008880199954,
+          0.0,
+          0.0,
+          0.0,
+          0.35768989522900285,
+          0.3576898952290025
+        ],
+        [
+          3.5999062768367976e-05,
+          4.985322020663422,
+          4.985321966419837,
+          4.9971143758286205,
+          -0.0007743382570618375,
+          0.0,
+          0.0,
+          0.0,
+          4.985295935990789,
+          4.9852958865714125
+        ]
+      ],
+      "signalRanges": [
+        [
+          -0.007394579580863196,
+          4.985989905508323
+        ],
+        [
+          0.05370250485013507,
+          5.175827688951618
+        ],
+        [
+          4.997031631207804,
+          4.999800607042754
+        ],
+        [
+          -0.01336681120412258,
+          0.026727769665705017
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          -0.36652742962465823,
+          5.036919195904741
+        ],
+        [
+          -0.15310175180291402,
+          5.2983929919199175
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        2.5982509055177144e-07,
+        2.5865677489724407e-07
+      ],
+      "artifacts": {
+        "probe.cir": "d3d571438e71bedfcf7f21807bc351d75d1d4a15094c83aaac34e02d5318643d",
+        "trace.txt": "f6c9830e7db88ce9c67ae665259a898bd9dc75a4a86d4f7646074e458bf32765",
+        "ngspice.log": "d8e9dd44ece0b5e0db63265f3a5d7c7cec1e5b14ed77c316283ed85fa5c648d8"
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 10,
+      "cablePf": 1000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "filter": {
+          "coupling": 0,
+          "dotPins": {
+            "L1.1": 1,
+            "L1.2": 1,
+            "L1.3": 1,
+            "L1.4": 1
+          },
+          "qualified": false,
+          "selfInductanceUh": 1,
+          "seriesOhms": 1,
+          "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "7406-dc",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration"
+        },
+        "hostReceiver": {
+          "supply": "host_receiver_5v",
+          "ground": "host_receiver_gnd",
+          "inputs": {
+            "data": "host_data_buffer_input",
+            "clock": "host_clock_buffer_input"
+          },
+          "evidence": {
+            "scope": "Reference motherboard passive keyboard input network; not specimen continuity or a D104 transistor model",
+            "sources": [
+              {
+                "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+                "locator": "PDF page 7, drawing 56-330-0101-2, keyboard connector X3 through L1.1, R7/R2/C2 to A11.2 and A29",
+                "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+              },
+              {
+                "url": "https://www.sax.de/~zander/pc1715/pc_zres.pdf",
+                "locator": "PDF page 1, right side: TASTATUR, A11.2E/F, A29 U856D",
+                "sha256": "d96efdeeefcf214c7f5044c03ff5165203bc7781afd0852e8de94b623c5b5c63"
+              }
+            ],
+            "channels": {
+              "data": {
+                "connectorContacts": [
+                  "X3:A4",
+                  "X3:B4"
+                ],
+                "winding": "L1.14",
+                "pullup": "R7.2",
+                "pullupOhms": 560,
+                "series": "R2.2",
+                "seriesOhms": 100,
+                "capacitor": "C2.1",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:11",
+                "bufferOutput": "A11.2:10",
+                "sioInput": "A29:12"
+              },
+              "clock": {
+                "connectorContacts": [
+                  "X3:A1",
+                  "X3:B1"
+                ],
+                "winding": "L1.11",
+                "pullup": "R7.1",
+                "pullupOhms": 560,
+                "series": "R2.3",
+                "seriesOhms": 100,
+                "capacitor": "C2.2",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:13",
+                "bufferOutput": "A11.2:12",
+                "sioInput": "A29:13"
+              }
+            },
+            "supply": {
+              "connectorContacts": [
+                "X3:A2",
+                "X3:B2"
+              ],
+              "winding": "L1.12"
+            },
+            "ground": {
+              "connectorContacts": [
+                "X3:A3",
+                "X3:B3"
+              ],
+              "winding": "L1.13"
+            },
+            "limitations": [
+              "Winding inductance, resistance and mutual coupling are not specified by these drawings.",
+              "The passive network terminates at buffer inputs; D104/T104 input currents, clamps, propagation and inversion into the SIO are not yet modeled.",
+              "Published reference motherboard revisions are not proof of installed specimen wiring."
+            ]
+          },
+          "qualified": false,
+          "windingAssumptions": {
+            "selfInductanceUh": 1,
+            "seriesOhms": 1,
+            "coupling": 0
+          }
+        }
+      },
+      "signals": [
+        "v(host_data_buffer_input,host_receiver_gnd)",
+        "v(host_clock_buffer_input,host_receiver_gnd)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)",
+        "v(n_CABLE_DATEN,host_receiver_gnd)",
+        "v(n_CABLE_TAKT,host_receiver_gnd)"
+      ],
+      "samples": [
+        [
+          2.002799999999991e-06,
+          4.976006420994601,
+          4.976006420994588,
+          4.959498189523375,
+          -0.010193127148312917,
+          0.010093749712372653,
+          0.0007187981328895975,
+          0.0007187981328895966,
+          4.975963575390211,
+          4.975963575390204
+        ],
+        [
+          1.600424279265867e-05,
+          0.11355045853863899,
+          0.11355045853867007,
+          4.958002070731305,
+          -0.019155070999665815,
+          0.011019508156838406,
+          -4.751767797673556e-06,
+          -4.751767797673691e-06,
+          0.10483466664439346,
+          0.10483466664437495
+        ],
+        [
+          3.600227926787378e-05,
+          4.975295568679216,
+          4.975295568675831,
+          4.956634894382119,
+          -0.010912145312687119,
+          0.01008754544342331,
+          0.0007183237633508911,
+          0.0007183237633508917,
+          4.975251588488914,
+          4.975251588485991
+        ]
+      ],
+      "signalRanges": [
+        [
+          -1.2885042848236725,
+          4.976006420995523
+        ],
+        [
+          -0.7571699505632731,
+          5.279219894030313
+        ],
+        [
+          4.956537915284828,
+          4.959498190143598
+        ],
+        [
+          -0.03175413410194003,
+          0.021347474704964012
+        ],
+        [
+          0.010035644541602851,
+          0.011635206926085878
+        ],
+        [
+          -4.759640316943976e-06,
+          0.0007187981564324442
+        ],
+        [
+          -4.753514009966718e-06,
+          0.0007187981564324442
+        ],
+        [
+          -2.5396734090515887,
+          5.205174977583482
+        ],
+        [
+          -1.8630166955041514,
+          5.531792292591647
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        1.6593807235963792e-07,
+        1.6600534569134574e-07
+      ],
+      "artifacts": {
+        "probe.cir": "62b03dac283689139c4a5bad808d8afc604a20c6b736d59b4116171aa80c2f27",
+        "trace.txt": "7494663b6e6e02fba5eef4bb21aae59cafea393ed52272a62c994aedce67cea3",
+        "ngspice.log": "2377d0011d109ab259303b8dd29dfcc905e426ce6ff4bbc94efdd294c73b7c96"
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 5,
+      "cablePf": 1000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "filter": {
+          "coupling": 0,
+          "dotPins": {
+            "L1.1": 1,
+            "L1.2": 1,
+            "L1.3": 1,
+            "L1.4": 1
+          },
+          "qualified": false,
+          "selfInductanceUh": 1,
+          "seriesOhms": 1,
+          "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "7406-dc",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration"
+        },
+        "hostReceiver": {
+          "supply": "host_receiver_5v",
+          "ground": "host_receiver_gnd",
+          "inputs": {
+            "data": "host_data_buffer_input",
+            "clock": "host_clock_buffer_input"
+          },
+          "evidence": {
+            "scope": "Reference motherboard passive keyboard input network; not specimen continuity or a D104 transistor model",
+            "sources": [
+              {
+                "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+                "locator": "PDF page 7, drawing 56-330-0101-2, keyboard connector X3 through L1.1, R7/R2/C2 to A11.2 and A29",
+                "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+              },
+              {
+                "url": "https://www.sax.de/~zander/pc1715/pc_zres.pdf",
+                "locator": "PDF page 1, right side: TASTATUR, A11.2E/F, A29 U856D",
+                "sha256": "d96efdeeefcf214c7f5044c03ff5165203bc7781afd0852e8de94b623c5b5c63"
+              }
+            ],
+            "channels": {
+              "data": {
+                "connectorContacts": [
+                  "X3:A4",
+                  "X3:B4"
+                ],
+                "winding": "L1.14",
+                "pullup": "R7.2",
+                "pullupOhms": 560,
+                "series": "R2.2",
+                "seriesOhms": 100,
+                "capacitor": "C2.1",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:11",
+                "bufferOutput": "A11.2:10",
+                "sioInput": "A29:12"
+              },
+              "clock": {
+                "connectorContacts": [
+                  "X3:A1",
+                  "X3:B1"
+                ],
+                "winding": "L1.11",
+                "pullup": "R7.1",
+                "pullupOhms": 560,
+                "series": "R2.3",
+                "seriesOhms": 100,
+                "capacitor": "C2.2",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:13",
+                "bufferOutput": "A11.2:12",
+                "sioInput": "A29:13"
+              }
+            },
+            "supply": {
+              "connectorContacts": [
+                "X3:A2",
+                "X3:B2"
+              ],
+              "winding": "L1.12"
+            },
+            "ground": {
+              "connectorContacts": [
+                "X3:A3",
+                "X3:B3"
+              ],
+              "winding": "L1.13"
+            },
+            "limitations": [
+              "Winding inductance, resistance and mutual coupling are not specified by these drawings.",
+              "The passive network terminates at buffer inputs; D104/T104 input currents, clamps, propagation and inversion into the SIO are not yet modeled.",
+              "Published reference motherboard revisions are not proof of installed specimen wiring."
+            ]
+          },
+          "qualified": false,
+          "windingAssumptions": {
+            "selfInductanceUh": 1,
+            "seriesOhms": 1,
+            "coupling": 0
+          }
+        }
+      },
+      "signals": [
+        "v(host_data_buffer_input,host_receiver_gnd)",
+        "v(host_clock_buffer_input,host_receiver_gnd)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)",
+        "v(n_CABLE_DATEN,host_receiver_gnd)",
+        "v(n_CABLE_TAKT,host_receiver_gnd)"
+      ],
+      "samples": [
+        [
+          2.001399999999986e-06,
+          4.976006420994469,
+          4.976006420994445,
+          4.9594981895214225,
+          -0.010193127148588683,
+          0.010093749750022031,
+          0.0007187981328468555,
+          0.0007187981328468557,
+          4.975963575061255,
+          4.975963575061225
+        ],
+        [
+          1.5999899731301836e-05,
+          0.11354967395226481,
+          0.11354967395227814,
+          4.958003645144745,
+          -0.019154681090425923,
+          0.01101951255028869,
+          -4.751770134921267e-06,
+          -4.751770134921321e-06,
+          0.10483388069197011,
+          0.1048338806919466
+        ],
+        [
+          3.599905782481197e-05,
+          4.97529563353669,
+          4.975295633533257,
+          4.956635155626138,
+          -0.01091207971012161,
+          0.010087545947790991,
+          0.0007183238065404992,
+          0.000718323806540497,
+          4.975251653449186,
+          4.9752516534462154
+        ]
+      ],
+      "signalRanges": [
+        [
+          -1.2816952174504481,
+          4.976006420994475
+        ],
+        [
+          -0.7457892442115173,
+          5.280315244908795
+        ],
+        [
+          4.956538212472858,
+          4.959498189909162
+        ],
+        [
+          -0.03168839240763779,
+          0.021434669653266788
+        ],
+        [
+          0.010052348359263748,
+          0.0116947796648804
+        ],
+        [
+          -4.756756827967288e-06,
+          0.0007187982018861338
+        ],
+        [
+          -4.7535144280954925e-06,
+          0.0007187982018861349
+        ],
+        [
+          -2.537943682697692,
+          5.210676578323883
+        ],
+        [
+          -1.852791013504901,
+          5.534707815699026
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        1.6596261806982887e-07,
+        1.660478150895967e-07
+      ],
+      "artifacts": {
+        "probe.cir": "fc4daa8584e4ec97f7d2829268064a484df6e0a6be8c0f39cfa46802d848f450",
+        "trace.txt": "ed265728f8500aea3e9850116016d8d36dfd362dd4e0fa7c7c27752c297eaa7f",
+        "ngspice.log": "c333507ff121a59adbe2ba2f5c67fb535c81298e93b33c4977dc757b24a59602"
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 10,
+      "cablePf": 2000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "filter": {
+          "coupling": 0,
+          "dotPins": {
+            "L1.1": 1,
+            "L1.2": 1,
+            "L1.3": 1,
+            "L1.4": 1
+          },
+          "qualified": false,
+          "selfInductanceUh": 1,
+          "seriesOhms": 1,
+          "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "7406-dc",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration"
+        },
+        "hostReceiver": {
+          "supply": "host_receiver_5v",
+          "ground": "host_receiver_gnd",
+          "inputs": {
+            "data": "host_data_buffer_input",
+            "clock": "host_clock_buffer_input"
+          },
+          "evidence": {
+            "scope": "Reference motherboard passive keyboard input network; not specimen continuity or a D104 transistor model",
+            "sources": [
+              {
+                "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+                "locator": "PDF page 7, drawing 56-330-0101-2, keyboard connector X3 through L1.1, R7/R2/C2 to A11.2 and A29",
+                "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+              },
+              {
+                "url": "https://www.sax.de/~zander/pc1715/pc_zres.pdf",
+                "locator": "PDF page 1, right side: TASTATUR, A11.2E/F, A29 U856D",
+                "sha256": "d96efdeeefcf214c7f5044c03ff5165203bc7781afd0852e8de94b623c5b5c63"
+              }
+            ],
+            "channels": {
+              "data": {
+                "connectorContacts": [
+                  "X3:A4",
+                  "X3:B4"
+                ],
+                "winding": "L1.14",
+                "pullup": "R7.2",
+                "pullupOhms": 560,
+                "series": "R2.2",
+                "seriesOhms": 100,
+                "capacitor": "C2.1",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:11",
+                "bufferOutput": "A11.2:10",
+                "sioInput": "A29:12"
+              },
+              "clock": {
+                "connectorContacts": [
+                  "X3:A1",
+                  "X3:B1"
+                ],
+                "winding": "L1.11",
+                "pullup": "R7.1",
+                "pullupOhms": 560,
+                "series": "R2.3",
+                "seriesOhms": 100,
+                "capacitor": "C2.2",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:13",
+                "bufferOutput": "A11.2:12",
+                "sioInput": "A29:13"
+              }
+            },
+            "supply": {
+              "connectorContacts": [
+                "X3:A2",
+                "X3:B2"
+              ],
+              "winding": "L1.12"
+            },
+            "ground": {
+              "connectorContacts": [
+                "X3:A3",
+                "X3:B3"
+              ],
+              "winding": "L1.13"
+            },
+            "limitations": [
+              "Winding inductance, resistance and mutual coupling are not specified by these drawings.",
+              "The passive network terminates at buffer inputs; D104/T104 input currents, clamps, propagation and inversion into the SIO are not yet modeled.",
+              "Published reference motherboard revisions are not proof of installed specimen wiring."
+            ]
+          },
+          "qualified": false,
+          "windingAssumptions": {
+            "selfInductanceUh": 1,
+            "seriesOhms": 1,
+            "coupling": 0
+          }
+        }
+      },
+      "signals": [
+        "v(host_data_buffer_input,host_receiver_gnd)",
+        "v(host_clock_buffer_input,host_receiver_gnd)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)",
+        "v(n_CABLE_DATEN,host_receiver_gnd)",
+        "v(n_CABLE_TAKT,host_receiver_gnd)"
+      ],
+      "samples": [
+        [
+          2.002799999999991e-06,
+          4.976006420994585,
+          4.97600642099463,
+          4.959498189523431,
+          -0.010193127148304138,
+          0.010093749705521932,
+          0.0007187981327079695,
+          0.0007187981327079695,
+          4.975963575239501,
+          4.975963575239552
+        ],
+        [
+          1.6002997703721167e-05,
+          0.11367217780321158,
+          0.11367228508276926,
+          4.957964006697811,
+          -0.01916016427374571,
+          0.011019390015474733,
+          -4.751711191692092e-06,
+          -4.751711191692098e-06,
+          0.10476770968894653,
+          0.1047678904176956
+        ],
+        [
+          3.59983391445519e-05,
+          4.975273023469073,
+          4.975272966084605,
+          4.95654856011681,
+          -0.010933829218225933,
+          0.010087358369904749,
+          0.0007183094603827154,
+          0.0007183094603827126,
+          4.9752290076822305,
+          4.97522895540132
+        ]
+      ],
+      "signalRanges": [
+        [
+          -2.0977115668304984,
+          4.976006420995747
+        ],
+        [
+          -1.518497629962829,
+          5.3026950575419525
+        ],
+        [
+          4.956456615451792,
+          4.959498190144746
+        ],
+        [
+          -0.03579792078815527,
+          0.03163276968276436
+        ],
+        [
+          0.010035644470573786,
+          0.012352900888401956
+        ],
+        [
+          -5.281301216584098e-06,
+          0.0007187981399348404
+        ],
+        [
+          -4.760147575403528e-06,
+          0.0007187981399348433
+        ],
+        [
+          -2.9358186117019294,
+          4.975963575400887
+        ],
+        [
+          -2.337937042053425,
+          5.463755665166633
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        2.5789723251181946e-07,
+        2.583509158148252e-07
+      ],
+      "artifacts": {
+        "probe.cir": "dd5ad64b416ef3dece6e00f7c56e28e8e35e45ac1c5c98e16f803c45c897c35c",
+        "trace.txt": "1ad909501d1eb2cacdf2d5a20c347b748f749477149410dd3e5142905a248120",
+        "ngspice.log": "f54d885a40686135e5fa984011a89f28810941a9360353832a68795d84c68a99"
+      }
+    },
+    {
+      "profile": "7406-dc",
+      "stepNs": 5,
+      "cablePf": 2000,
+      "circuit": {
+        "models": {
+          "R10.1": "resistor",
+          "R10.2": "resistor",
+          "R11.1": "resistor",
+          "R11.2": "resistor",
+          "C3.1": "capacitor",
+          "C3.2": "capacitor",
+          "C5.1": "capacitor",
+          "C5.2": "capacitor",
+          "C5.3": "capacitor",
+          "C5.4": "capacitor",
+          "C5.5": "capacitor",
+          "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+          "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+        },
+        "hostGround": "n_CABLE_GND",
+        "hostSupply": "n_CABLE_5V",
+        "serial": {
+          "data": {
+            "board": "n_TA_DATEN",
+            "cable": "n_CABLE_DATEN",
+            "connectorPin": "A1"
+          },
+          "clock": {
+            "board": "n_TA_TAKT",
+            "cable": "n_CABLE_TAKT",
+            "connectorPin": "B2"
+          }
+        },
+        "leds": {
+          "siso": {
+            "output": "n_LED_SISO_N",
+            "cathode": "n_LED_SISO",
+            "anode": "n_p5V",
+            "connectorPin": "A5",
+            "diode": "Dsiso_led"
+          },
+          "caps": {
+            "output": "n_LED_CAPS_N",
+            "cathode": "n_LED_CAPS",
+            "anode": "n_p5V",
+            "connectorPin": "A6",
+            "diode": "Dcaps_led"
+          }
+        },
+        "filter": {
+          "coupling": 0,
+          "dotPins": {
+            "L1.1": 1,
+            "L1.2": 1,
+            "L1.3": 1,
+            "L1.4": 1
+          },
+          "qualified": false,
+          "selfInductanceUh": 1,
+          "seriesOhms": 1,
+          "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+        },
+        "shield": {
+          "net": "/SHIELD",
+          "model": "Unconnected external shield boundary; no invented ground bond"
+        },
+        "serialDriver": {
+          "profile": "7406-dc",
+          "supplyPin": "A1:14",
+          "groundPin": "A1:7",
+          "modelQualified": false,
+          "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+          "assumptions": "Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration"
+        },
+        "hostReceiver": {
+          "supply": "host_receiver_5v",
+          "ground": "host_receiver_gnd",
+          "inputs": {
+            "data": "host_data_buffer_input",
+            "clock": "host_clock_buffer_input"
+          },
+          "evidence": {
+            "scope": "Reference motherboard passive keyboard input network; not specimen continuity or a D104 transistor model",
+            "sources": [
+              {
+                "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+                "locator": "PDF page 7, drawing 56-330-0101-2, keyboard connector X3 through L1.1, R7/R2/C2 to A11.2 and A29",
+                "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+              },
+              {
+                "url": "https://www.sax.de/~zander/pc1715/pc_zres.pdf",
+                "locator": "PDF page 1, right side: TASTATUR, A11.2E/F, A29 U856D",
+                "sha256": "d96efdeeefcf214c7f5044c03ff5165203bc7781afd0852e8de94b623c5b5c63"
+              }
+            ],
+            "channels": {
+              "data": {
+                "connectorContacts": [
+                  "X3:A4",
+                  "X3:B4"
+                ],
+                "winding": "L1.14",
+                "pullup": "R7.2",
+                "pullupOhms": 560,
+                "series": "R2.2",
+                "seriesOhms": 100,
+                "capacitor": "C2.1",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:11",
+                "bufferOutput": "A11.2:10",
+                "sioInput": "A29:12"
+              },
+              "clock": {
+                "connectorContacts": [
+                  "X3:A1",
+                  "X3:B1"
+                ],
+                "winding": "L1.11",
+                "pullup": "R7.1",
+                "pullupOhms": 560,
+                "series": "R2.3",
+                "seriesOhms": 100,
+                "capacitor": "C2.2",
+                "capacitancePf": 680,
+                "bufferInput": "A11.2:13",
+                "bufferOutput": "A11.2:12",
+                "sioInput": "A29:13"
+              }
+            },
+            "supply": {
+              "connectorContacts": [
+                "X3:A2",
+                "X3:B2"
+              ],
+              "winding": "L1.12"
+            },
+            "ground": {
+              "connectorContacts": [
+                "X3:A3",
+                "X3:B3"
+              ],
+              "winding": "L1.13"
+            },
+            "limitations": [
+              "Winding inductance, resistance and mutual coupling are not specified by these drawings.",
+              "The passive network terminates at buffer inputs; D104/T104 input currents, clamps, propagation and inversion into the SIO are not yet modeled.",
+              "Published reference motherboard revisions are not proof of installed specimen wiring."
+            ]
+          },
+          "qualified": false,
+          "windingAssumptions": {
+            "selfInductanceUh": 1,
+            "seriesOhms": 1,
+            "coupling": 0
+          }
+        }
+      },
+      "signals": [
+        "v(host_data_buffer_input,host_receiver_gnd)",
+        "v(host_clock_buffer_input,host_receiver_gnd)",
+        "v(n_p5V)",
+        "i(Vhost)",
+        "i(Vdriver_supply)",
+        "i(Vdata)",
+        "i(Vclock)",
+        "v(n_CABLE_DATEN,host_receiver_gnd)",
+        "v(n_CABLE_TAKT,host_receiver_gnd)"
+      ],
+      "samples": [
+        [
+          2.001399999999986e-06,
+          4.976006420994703,
+          4.9760064209946915,
+          4.959498189520434,
+          -0.01019312714872972,
+          0.01009374978835046,
+          0.0007187981340129609,
+          0.00071879813401296,
+          4.975963575114847,
+          4.97596357511484
+        ],
+        [
+          1.5999901040352296e-05,
+          0.11367019221600826,
+          0.11367029644968062,
+          4.957965248914594,
+          -0.01915991898412759,
+          0.011019393646156502,
+          -4.751713043451141e-06,
+          -4.7517130434510854e-06,
+          0.10476859157729419,
+          0.10476873854278286
+        ],
+        [
+          3.599754345123111e-05,
+          4.975273098242082,
+          4.975273040777285,
+          4.956548860868563,
+          -0.010933753694359371,
+          0.010087359005694097,
+          0.0007183095101818744,
+          0.0007183095101818718,
+          4.975229082577871,
+          4.975229030223772
+        ]
+      ],
+      "signalRanges": [
+        [
+          -2.0895054814939256,
+          4.9760064209947545
+        ],
+        [
+          -1.5138361796370885,
+          5.302617766230476
+        ],
+        [
+          4.956456933936037,
+          4.9594981899039645
+        ],
+        [
+          -0.03575236394503164,
+          0.031626133696749034
+        ],
+        [
+          0.010052348370791333,
+          0.012358097600186599
+        ],
+        [
+          -5.29333186348735e-06,
+          0.0007187981601166317
+        ],
+        [
+          -4.756749984463232e-06,
+          0.0007187981601166287
+        ],
+        [
+          -2.9327233409522497,
+          4.975963575525016
+        ],
+        [
+          -2.330604869296166,
+          5.463612894523535
+        ]
+      ],
+      "currentSignConvention": "Vhost/data/clock source currents are negative when supplying the circuit; Vdriver_supply is positive into the modeled gates",
+      "receiverRiseSeconds08to2V": [
+        2.578945692222917e-07,
+        2.5837870838645475e-07
+      ],
+      "artifacts": {
+        "probe.cir": "d0ddb5c3d8dc37e6e04d5fbf55b10902d7225424a99cdbeb3e98c2b3427f17a1",
+        "trace.txt": "df1c2139ecd3496d210dc41e00cde97b63cba2e9eb40f51b12cd9ae666e8a9e6",
+        "ngspice.log": "c333507ff121a59adbe2ba2f5c67fb535c81298e93b33c4977dc757b24a59602"
+      }
+    }
+  ],
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25"
+}

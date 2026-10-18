@@ -1,0 +1,244 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Reference host passive input network; active D104 buffers and installed board revision remain unqualified",
+  "evidence": "../../host_receiver.json",
+  "evidenceSha256": "53a0ce5e712aaf7d629419f765973c85196aa1ecc3777488ce2f2ffe743ebc10",
+  "cases": [
+    {
+      "name": "host-passives-control",
+      "report": "host-passives-control.json",
+      "reportSha256": "270a5dbc456db8eda778c78ec82f02c907888e04561d368f965ae177d894747b",
+      "fixturePassed": true,
+      "qualified": false,
+      "fineNominalLoad": [
+        {
+          "profile": "nominal",
+          "signals": [
+            "v(n_CABLE_DATEN,n_CABLE_GND)",
+            "v(n_CABLE_TAKT,n_CABLE_GND)",
+            "v(n_p5V)",
+            "i(Vhost)",
+            "i(Vdriver_supply)",
+            "i(Vdata)",
+            "i(Vclock)"
+          ],
+          "ranges": [
+            [
+              -1.803029888996736,
+              4.97200751656333
+            ],
+            [
+              -1.5143113270016355,
+              5.0466438697906515
+            ],
+            [
+              4.9980430718588815,
+              4.999900403181492
+            ],
+            [
+              -0.018040243384518914,
+              0.0428113555827261
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "riseSeconds08to2V": [
+            1.8831956279548843e-07,
+            1.8851503870152592e-07
+          ]
+        },
+        {
+          "profile": "7406-dc",
+          "signals": [
+            "v(n_CABLE_DATEN,n_CABLE_GND)",
+            "v(n_CABLE_TAKT,n_CABLE_GND)",
+            "v(n_p5V)",
+            "i(Vhost)",
+            "i(Vdriver_supply)",
+            "i(Vdata)",
+            "i(Vclock)"
+          ],
+          "ranges": [
+            [
+              -4.382974894737258,
+              4.961926912792162
+            ],
+            [
+              -3.907153955762908,
+              5.066535305326225
+            ],
+            [
+              4.977610514801862,
+              4.979625895586758
+            ],
+            [
+              -0.03764487957071299,
+              0.05006738624427208
+            ],
+            [
+              0.010095960843467306,
+              0.01328613130960494
+            ],
+            [
+              -6.654226166669197e-06,
+              0.000722132824573172
+            ],
+            [
+              -5.7878576115592795e-06,
+              0.0007221328245731685
+            ]
+          ],
+          "riseSeconds08to2V": [
+            1.8863231072677362e-07,
+            1.8906124587222915e-07
+          ]
+        }
+      ]
+    },
+    {
+      "name": "host-passives-review",
+      "report": "host-passives-review.json",
+      "reportSha256": "89df84ad994c9b46236fd42c742c025ae90d197e13f9973e37bc1d6b84d9e01c",
+      "fixturePassed": true,
+      "qualified": false,
+      "fineNominalLoad": [
+        {
+          "profile": "nominal",
+          "signals": [
+            "v(host_data_buffer_input,host_receiver_gnd)",
+            "v(host_clock_buffer_input,host_receiver_gnd)",
+            "v(n_p5V)",
+            "i(Vhost)",
+            "i(Vdriver_supply)",
+            "i(Vdata)",
+            "i(Vclock)",
+            "v(n_CABLE_DATEN,host_receiver_gnd)",
+            "v(n_CABLE_TAKT,host_receiver_gnd)"
+          ],
+          "ranges": [
+            [
+              0.0501086267450741,
+              4.985989905508089
+            ],
+            [
+              0.1819610589915468,
+              5.195582660974122
+            ],
+            [
+              4.99709233018563,
+              4.999800607042754
+            ],
+            [
+              -0.01314245248755529,
+              0.022261658532936306
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              -0.4654878300818974,
+              5.292190043430543
+            ],
+            [
+              -0.15633512752470208,
+              5.398348343592421
+            ]
+          ],
+          "riseSeconds08to2V": [
+            1.6748492937774403e-07,
+            1.6642199007236642e-07
+          ]
+        },
+        {
+          "profile": "7406-dc",
+          "signals": [
+            "v(host_data_buffer_input,host_receiver_gnd)",
+            "v(host_clock_buffer_input,host_receiver_gnd)",
+            "v(n_p5V)",
+            "i(Vhost)",
+            "i(Vdriver_supply)",
+            "i(Vdata)",
+            "i(Vclock)",
+            "v(n_CABLE_DATEN,host_receiver_gnd)",
+            "v(n_CABLE_TAKT,host_receiver_gnd)"
+          ],
+          "ranges": [
+            [
+              -1.2816952174504481,
+              4.976006420994475
+            ],
+            [
+              -0.7457892442115173,
+              5.280315244908795
+            ],
+            [
+              4.956538212472858,
+              4.959498189909162
+            ],
+            [
+              -0.03168839240763779,
+              0.021434669653266788
+            ],
+            [
+              0.010052348359263748,
+              0.0116947796648804
+            ],
+            [
+              -4.756756827967288e-06,
+              0.0007187982018861338
+            ],
+            [
+              -4.7535144280954925e-06,
+              0.0007187982018861349
+            ],
+            [
+              -2.537943682697692,
+              5.210676578323883
+            ],
+            [
+              -1.852791013504901,
+              5.534707815699026
+            ]
+          ],
+          "riseSeconds08to2V": [
+            1.6596261806982887e-07,
+            1.660478150895967e-07
+          ]
+        }
+      ]
+    }
+  ],
+  "archive": {
+    "file": "captures.tar.gz",
+    "sha256": "1351256319550933a7efacf00ca7a70c4f2bf02ef070e8576cc280a16a5c568d",
+    "bytes": 5207417
+  },
+  "findings": [
+    "Factory PDF page 7 and Zander PDF page 1 agree on host pullups, series resistors and capacitors ahead of D104/T104 input buffers; the cable does not directly drive SIO input pins.",
+    "Independent AC impedance checks verify the implemented host passive network against the documented values and declared winding assumptions.",
+    "Both ideal and generic transistor driver fixtures pass existing release and load-refinement checks with the host passives. These checks do not qualify absolute buffer voltage limits.",
+    "The host network materially changes input extrema. The generic 7406 candidate still produces negative excursions; input clamp behavior and its source-device limits require separate evidence.",
+    "Winding parameters, cable capacitance, driver dynamics and missing buffer input loading limit these results; no model calibration or full-board firmware claim follows."
+  ],
+  "nextAction": "Constrain D104/T104 buffer input loading and clamp behavior using applicable device evidence, then integrate the qualified host boundary into coupled firmware checks."
+}

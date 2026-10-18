@@ -208,6 +208,14 @@ These checks do not identify inductance, coupling, ferrite losses, saturation or
 parasitics. Fixture passes cover steady levels and release behavior, not absolute
 receiver limits; inspect retained transient extrema as well.
 
+`ttl7406_output_probe.py --host-passives --out /tmp/host-input-review` includes
+the motherboard input chokes, pull-ups and RC filters documented in
+[host receiver evidence](host_receiver.json). It compares voltage at the D104
+buffer inputs, retaining cable-terminal voltages separately. The SIO is downstream
+of the buffers; its pin limits must not be applied directly to cable voltages.
+Host winding values remain assumptions, and buffer input currents, clamps and
+propagation are unmodeled. Firmware runners do not yet include this host network.
+
 ## Qualification and retained evidence
 
 Keep numerical convergence, model applicability, firmware behavior and specimen
@@ -231,6 +239,7 @@ settings, results and rejected alternatives; related captures remain in
 | Do transfer branches depend on the solver? | [Published fixture review](reports/clock-output/ls00-transfer500/assessment.json) and [Xyce replay](reports/clock-output/xyce-transfer500/assessment.json); fixture alternatives and explicit runtime temperatures remain part of the comparison. Solver agreement is not calibration. |
 | Do device conditions or input-junction assumptions resolve startup? | [Device-condition and diode review](reports/clock-output/diode-role-review/assessment.json); selected TI/К555ЛА3 DC checks remain distinct from dynamic applicability. |
 | Are CPU reads electrically valid? | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json) and [floating-read analysis](reports/floating-io/static-analysis.json); functional agreement does not qualify released input voltage. |
+| Where does the cable terminate electrically? | [Host input review](reports/host-receiver/assessment.json); factory and redrawn schematics place passive filters before D104 buffers. The passive boundary changes loading and undershoot but does not qualify the active receiver. |
 | How does cable coupling affect the nominal output fixture? | [Filter hypotheses](reports/filter-coupling/assessment.json); similar release intervals can coexist with materially different transient undershoot. No historical winding parameters or receiver clamp behavior are qualified. |
 | Does reset recover after a supply dip? | [Reset dip response](reports/reset-brownout/report.json); startup reset and sampled recovery do not establish reliable firmware restart. |
 
