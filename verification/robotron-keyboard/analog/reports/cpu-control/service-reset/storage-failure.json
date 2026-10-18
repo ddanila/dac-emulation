@@ -1,6 +1,6 @@
 {
   "qualified": false,
-  "status": "coarse run terminated; fine run still live at observation",
+  "status": "Both coarse and fine runs terminated; neither qualifies",
   "coarseFailure": {
     "solver": "SIGPIPE (13)",
     "reportWrite": "ENOSPC (28)",
@@ -14,5 +14,19 @@
       "io.cir": "0de83b73622604d16a19e3e570c006a8a20405de5de0d6145285428887ed8e54"
     },
     "path": "build/keyboard-controller-analog/service-all-controls-reset/coarse"
+  },
+  "fineFailure": {
+    "solver": "SIGPIPE (13)",
+    "reportWrite": "ENOSPC (28)",
+    "interpretation": "Rejected: incomplete compressed trace and no final validation report.",
+    "retainedInputs": {
+      "trace.txt.xz.partial": "592dee547267233249c50726f9c7d4c1b95d8ee55e1d907d4e637faf75862760",
+      "run-inputs.json": "d4f5abffa713f535803ecd29dfb692adfe9bc68f691cc383c3e6bd7db6d9a243",
+      "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+      "ngspice.log": "6c1e36c1b4cae0d56cfa2274bb776f0dfe1d9052fb3bf27446647c5bd8653013",
+      "scenario.json": "5e18138a0d6911d72f31bd3ea0d981f35fc642071bc3939d6c680e6ef546f7e3",
+      "io.cir": "372ba93ce9deec3a6104dc5877e870b25151ceb9a2a9ebc42ca3bf39b7a92541"
+    },
+    "path": "build/keyboard-controller-analog/service-all-controls-reset/fine"
   }
 }

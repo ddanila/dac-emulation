@@ -642,6 +642,13 @@ edge is not a substitute for the U880's distinct M1 and M2–M5 pin timing.
 Physical bus timing checks remain unfinished, so the paired firmware qualifier
 rejects this mode rather than treating serial agreement as bus qualification.
 
+The manually triggered `keyboard-bus-diagnostic.yml` workflow runs a complete
+`single-press` or `reset` scenario at both timesteps on one CI runner. It builds
+the pinned ngspice/Icarus runtime, checks the bridge first, and retains reports
+and compressed traces even when a run fails. Artifacts expire after 90 days;
+archive reviewed results before expiry. It is separate from the fast push checks,
+and a green diagnostic run does not establish physical board qualification.
+
 `bus_load.wiring()` generates pin capacitances from the inventory, using published
 reference maxima and requiring explicit per-pin fixture values for undocumented
 8282-output and 7406-input capacitances. The U880 bus limits use the manufacturer's
