@@ -666,7 +666,10 @@ The manual `keyboard-bus-diagnostic.yml` workflow accepts `rom_read_envelope`,
 For the full digital C/HDL workload, use `../run.py --rom PATH --rom-read-envelope`
 with the selected `--cpu-profile`, or the manual `keyboard-cpu-phase.yml` workflow.
 This sets a 1 MHz fixture clock so nanosecond ROM limits have physical units while
-preserving the cycle-indexed contact recipe. That fixture retains direct memory
+preserving the cycle-indexed contact recipe. The retained
+[CPU-profile comparison](reports/rom-read-envelope/cpu-profiles/assessment.json)
+checks the complete digital workload against C and the untimed HDL baseline.
+That fixture retains direct memory
 input and therefore does not test electrical bus contention or output release.
 
 The service harness accepts `--electrical-bus --bus-latch-pf 12 --bus-7406-pf 3`
