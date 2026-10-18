@@ -56,6 +56,8 @@ def main():
     parser.add_argument('--model', type=Path, default=HERE/'ls_nand_pullup.cir')
     parser.add_argument('--ngspice', default='ngspice')
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--require-limits', action='store_true',
+                        help='Fail unless both timestep convergence and delay limits pass; not device qualification')
     args = parser.parse_args()
     executable = shutil.which(args.ngspice)
     if not executable:
@@ -132,6 +134,8 @@ quit
     finally:
         (args.out/'report.json').write_text(json.dumps(report, indent=2)+'\n')
     print(args.out/'report.json')
+    if args.require_limits and not (report['numericallyConverged'] and report['withinDelayLimits']):
+        raise SystemExit('Switching regression failed: inspect report.json for convergence and delay limits')
 
 
 if __name__ == '__main__':

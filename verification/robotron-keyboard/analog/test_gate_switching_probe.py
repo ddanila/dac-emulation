@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Reject misleading propagation measurements before comparing gate limits."""
 import unittest
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
 from gate_switching_probe import crossing, delays
 
 
@@ -11,6 +17,26 @@ def waveform():
 
 
 class MeasurementTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('ngspice'), 'ngspice required for CLI failure control')
+    def test_slow_gate_retains_failure_and_enforces_requested_limits(self):
+        here = Path(__file__).resolve().parent
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            model = root/'slow.cir'
+            model.write_text((here/'ls_nand_pullup.cir').read_text().replace('pole=5n', 'pole=50n'))
+            for strict in [False, True]:
+                out = root/str(strict)
+                command = [sys.executable, str(here/'gate_switching_probe.py'),
+                           '--model', str(model), '--out', str(out)]
+                if strict:
+                    command.append('--require-limits')
+                run = subprocess.run(command, capture_output=True, text=True, timeout=30)
+                report = json.loads((out/'report.json').read_text())
+                self.assertTrue(report['completed'], run.stderr)
+                self.assertFalse(report['withinDelayLimits'])
+                self.assertFalse(report['qualified'])
+                self.assertEqual(run.returncode, 1 if strict else 0, run.stderr)
+
     def test_delay_bracket_conservatively_includes_sampling(self):
         d = delays(waveform())
         for edge in d.values():
