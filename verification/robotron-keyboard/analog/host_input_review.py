@@ -67,7 +67,7 @@ def review(samples, limits):
             'boundary':'Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate.'}
 
 
-def firmware_samples(path, signals, channel, end_seconds, step_ns):
+def firmware_samples(path, signals, channel, end_seconds, step_ns, *, start_seconds=0, start_tolerance_ns=0):
     """Validate observation nodes and capture extent while streaming one input."""
     from trace_io import open_text
     expected = [f'v(host_{label}_buffer_input,host_receiver_gnd)' for label in ('data', 'clock')]
@@ -75,6 +75,9 @@ def firmware_samples(path, signals, channel, end_seconds, step_ns):
         raise ValueError('Wrong firmware host input observation nodes')
     if not math.isfinite(end_seconds) or end_seconds <= 0 or not math.isfinite(step_ns) or step_ns <= 0:
         raise ValueError('Invalid capture duration or timestep')
+    if (not math.isfinite(start_seconds) or not 0 <= start_seconds < end_seconds
+            or not math.isfinite(start_tolerance_ns) or start_tolerance_ns < 0):
+        raise ValueError('Invalid capture start')
     with open_text(path) as stream:
         if stream.readline().split() != ['time', *signals]:
             raise ValueError('Host waveform header differs from report')
@@ -84,7 +87,7 @@ def firmware_samples(path, signals, channel, end_seconds, step_ns):
             if len(row) != 7 or not all(map(math.isfinite, row)):
                 raise ValueError('Invalid host waveform row')
             if previous is None:
-                if abs(row[0]) > 1e-15:
+                if not start_seconds - 1e-15 <= row[0] <= start_seconds + start_tolerance_ns * 1e-9 + 1e-15:
                     raise ValueError('Missing host waveform start')
             elif not 0 < row[0] - previous <= step_ns * 1e-9 + 1e-15:
                 raise ValueError('Host waveform time order or gap')
@@ -113,28 +116,59 @@ def firmware_review(directory, limits):
                        for i, label in enumerate(('data', 'clock'))}}
 
 
+def board_review(directory, limits):
+    from compare_firmware_io import sha as trace_sha
+    from transient_analysis import normalized_analysis
+    from failure_evidence import solver_diagnostic
+    import re
+    report=json.loads((directory/'report.json').read_text())
+    assumptions=report['assumptions']
+    if not assumptions.get('hostBuffer') or report.get('qualified') is not False or report.get('preparedOnly'):
+        raise ValueError('Requires an executed experimental host-buffer board run')
+    for name,key in [('boot.cir','deckSha256'),('ngspice.log','logSha256'),('host-trace.txt','hostTraceSha256')]:
+        if trace_sha(directory/name) != report.get(key):
+            raise ValueError('Board producer artifact differs or is incomplete: '+name)
+    if solver_diagnostic((directory/'ngspice.log').read_text()):
+        raise ValueError('Board solver diagnostics prevent voltage review')
+    deck=(directory/'boot.cir').read_text()
+    normalized_analysis(deck,assumptions)
+    analyses=re.findall(r'^\.?tran [0-9.eE+-]+n ([0-9.eE+-]+) 124m$',deck,re.M)
+    start,end=assumptions['traceWindowSeconds']
+    if len(analyses)!=1 or start!=.124 or float(analyses[0])!=end:
+        raise ValueError('Board capture window differs from executed analysis')
+    step=assumptions['maximumStepNs']
+    return {'boundary':'Closed-board tail capture only; no voltage evidence before the declared window and no functional qualification',
+            'producerPassed':report.get('passed') is True,'producerError':report.get('error'),
+            'captureWindowSeconds':[start,end],'traceSha256':report['hostTraceSha256'],
+            'inputs':{label:review(firmware_samples(directory/'host-trace.txt',report['hostTraceSignals'],
+                     i,end,step,start_seconds=start,start_tolerance_ns=step),limits['input'])
+                     for i,label in enumerate(('data','clock'))}}
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run',type=Path,required=True)
     parser.add_argument('--out',type=Path,required=True)
-    parser.add_argument('--firmware',action='store_true',help='Review a retained host-buffer service firmware capture')
+    mode=parser.add_mutually_exclusive_group()
+    mode.add_argument('--firmware',action='store_true',help='Review a retained host-buffer service firmware capture')
+    mode.add_argument('--board',action='store_true',help='Review only the retained closed-board host capture window')
     args=parser.parse_args()
     args.out.unlink(missing_ok=True)
     producer=args.run/'report.json'
     report=json.loads(producer.read_text())
-    if not args.firmware and not report.get('hostPassives'):
+    if not (args.firmware or args.board) and not report.get('hostPassives'):
         raise ValueError('Requires voltages at host buffer inputs, not cable-only traces')
     limits_path=HERE/'d104_limits.json'
     limits=json.loads(limits_path.read_text())
     result={'completed':False,'qualified':False,'producerReportSha256':sha(producer),
             'sources':{name:sha(HERE/name)for name in ('host_input_review.py','d104_limits.json')},
             'deviceSource':limits['source'],'runs':[]}
-    if args.firmware:
-        result['runs'].append(firmware_review(args.run, limits))
+    if args.firmware or args.board:
+        result['runs'].append(board_review(args.run, limits) if args.board else firmware_review(args.run, limits))
         from compare_firmware_io import sha as trace_sha
         for name in ('trace_io.py', 'compare_firmware_io.py', 'transient_analysis.py', 'serial_observation.py', 'led_observation.py', 'failure_evidence.py'):
             result['sources'][name] = trace_sha(HERE / name)
-    for run in ([] if args.firmware else report['runs']):
+    for run in ([] if args.firmware or args.board else report['runs']):
         path=args.run/f"{run['profile']}-{run['stepNs']}ns-{run['cablePf']}pf"
         for name,digest in run['artifacts'].items():
             if sha(path/name)!=digest:raise ValueError('Changed producer artifact: '+name)
