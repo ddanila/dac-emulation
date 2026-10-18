@@ -849,12 +849,17 @@ checks narrow the diagnosis without establishing its cause. Crucially, the
 fails the same phase gate. Rounding that input changes the startup trajectory
 substantially, so the rounded-input passes do not establish full-precision
 convergence or isolate the failure to live HDL coupling.
+[Further timestep refinement](reports/clock-output/full-precision-supply-refinement/assessment.json)
+worsens the discrepancy while reproducing the repeated timestep byte-for-byte;
+smaller timesteps alone have not established convergence.
 
 ```sh
 python3 verification/robotron-keyboard/analog/oscillator_supply_replay.py --source /path/to/coarse/diagnostic-trace.txt --ngspice /path/to/ngspice --out /tmp/clock-supply-replay
 ```
 
-The source path may have a compressed `.xz` or `.gz` sibling. The output directory
+`--method trap|gear` selects an explicit integration-method diagnostic and records
+it in the assessment; changing methods does not qualify the model. The source
+path may have a compressed `.xz` or `.gz` sibling. The output directory
 must be new; failed runs retain their logs and assessment. New coupled-clock
 captures preserve double-precision waveform text for replay; older captures keep
 their original rounding and provenance. The
