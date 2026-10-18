@@ -1,0 +1,22 @@
+{
+  "scope": "First failing receiver edge from archived repeat qualification; diagnostic only. Original solver diagnostics and failed qualification remain in force.",
+  "reproduce": "Run analyze.py in this directory to review retained windows. Run extract.py from the dac-emulation repository root with the original build/keyboard-controller-analog/scenarios-repeat-{coarse,fine} artifacts present to reverify complete raw waveform hashes and reextract windows.",
+  "checkerSources": {
+    "compare_firmware_io.py": "81d8c1a7062c8a928b407aae0d3d6a8f4baaac344b96691889a6b7c027352cd9",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136"
+  },
+  "retainedFiles": {
+    "analyze.py": "3259879b95a1b1010794716e83ea19060b5c1a736c61d8c3f26f89a4b4b281ca",
+    "assessment.json": "c387a71dd826c083d204cf9d53b9baaaa8549f1f566902febdb3077100c63e4a",
+    "coarse-io.cir.xz": "d1346479de8fc723b516fa279753dc3c2d8df96bc63fe9fad1c0c76742893d79",
+    "coarse-ngspice.log.xz": "11ce15fdc664ed45e67e778b72c89464854495b19e7d4f41a472295fd978c320",
+    "coarse-report.json": "3b6406e5d695674ba94e2fe4bf667fbde8040c583a68dac131a27390272c1861",
+    "coarse-window.txt": "56eed19aaa56a2343739a8975bfca6d1105fcd1904eb16bdcabd20faaaeb792c",
+    "crossing-analysis.json": "5b1c65e6467bee122099a521daa4e21f78a8dc8d7039a960c7d2b617e56f2680",
+    "extract.py": "a2ea308f1be7c324f56c4e9a7d7d54b2140bdf726c70ee3b63db310c5373aa5a",
+    "fine-io.cir.xz": "2b243227795200907eda766510c8c027d6e4cc7c029ab298b374ec82b499a706",
+    "fine-ngspice.log.xz": "6abc52d4668f9c9adc3ea6b63a7fb7ee0853c50955a8be8412189beff5ae2a1d",
+    "fine-report.json": "8b7825dddb3f45be25c7bdef7e57e59799d04434860e50665ac0ea4f03c6bee3",
+    "fine-window.txt": "702c659d281db31d75c3dab88411d98c41e2d5f58c2bfa1ade43293c119a65b7"
+  }
+}

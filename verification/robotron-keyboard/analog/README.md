@@ -1136,3 +1136,9 @@ original report stays unchanged; a serial pass does not qualify the bus. The
 review retains a small waveform window when the first failing read is known.
 If only the final read lacks its latch confirmation, a separately labelled
 confirmed-prefix check exposes earlier failures without qualifying the full run.
+
+The archived repeat failure is localized in
+[`reports/repeat/first-divergence/`](reports/repeat/first-divergence/): its receiver
+events follow the upper threshold-bracketing samples, while interpolated analog
+crossings are closer together. This supports testing finer timesteps, but does
+not replace recorded receiver events or resolve the original solver diagnostics.
