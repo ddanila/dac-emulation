@@ -24,6 +24,7 @@ from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
 from ngspice_runtime import identify as identify_runtime, verify as verify_runtime
 from output_circuit import output_circuit
+from ttl7406_output_probe import driver_circuit, checked_dc_reference
 from serial_observation import validate_transport, first_reference_difference, SerialMismatch
 from io_scenario import load as load_scenario, contact_source, reset_source, c_header, time_ns, observe
 from reset_observation import validate_service_reset, ResetMismatch
@@ -53,6 +54,7 @@ def main():
     p.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground; zero omits it')
     p.add_argument('--electrical-cpu-pullups', action='store_true')
     p.add_argument('--electrical-bus', action='store_true', help='Experimental linear bus-driver stress fixture with electrical receiver feedback')
+    p.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal')
     p.add_argument('--bus-latch-pf', type=float, help='Explicit undocumented latch-output capacitance per pin')
     p.add_argument('--bus-7406-pf', type=float, help='Explicit undocumented 7406-input capacitance')
     p.add_argument('--electrical-logic-pullups', action='store_true')
@@ -81,7 +83,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     if args.compress_traces and any(out.glob('*trace.txt*')):
         p.error('Compressed capture requires a fresh waveform output directory')
-    for name in ('report.json', 'trace.txt', 'led-trace.txt', 'bus-trace.txt', 'ngspice.log'):
+    for name in ('report.json', 'trace.txt', 'led-trace.txt', 'bus-trace.txt', 'driver-trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'assumptions': {
         'electricalCpuPullups': args.electrical_cpu_pullups,
@@ -103,6 +105,9 @@ def main():
             'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'logic_control.py', 'model_coverage.py', 'reset_probe.py', 'oscillator_probe.py', 'cpu_control.py', 'cpu_clock_limits.json', 'serial_observation.py',
             'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compressed_output.py', 'transient_analysis.py')}}
     report['waveformCompression'] = {'format': 'xz', 'preset': args.compression_preset} if args.compress_traces else None
+    if args.serial_driver != 'nominal':
+        report['assumptions']['serialDriver'] = args.serial_driver
+        report['sources'].update({name: sha(HERE / name) for name in ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'ttl7406_limits.json')})
     if args.electrical_bus:
         report['assumptions'].update(electricalBus=True, busLatchPf=args.bus_latch_pf,
                                      bus7406Pf=args.bus_7406_pf,
@@ -163,7 +168,12 @@ def main():
                         f'-P{top}.ELECTRICAL_LOGIC_PULLUPS=' + str(int(args.electrical_logic_pullups)),
                         *map(str, hdl)], check=True)
         matrix, report['matrixCircuit'] = matrix_circuit(components, latch_load=args.latch_load, column_load_pf=args.column_load_pf)
-        outputs, info = output_circuit(components)
+        if args.serial_driver == '7406-dc':
+            report['serialDriverDcReferenceSha256'] = checked_dc_reference()
+            outputs, info = driver_circuit(components, args.serial_driver, 1000,
+                                           electrical_data_input=args.electrical_bus)
+        else:
+            outputs, info = output_circuit(components)
         report['outputCircuit'] = info
         logic_lines, logic_inputs = [], 'fixture_reset_n fixture_reset_n fixture_reset_n'
         if args.electrical_logic_pullups:
@@ -187,6 +197,9 @@ def main():
                           **report.get('logicControlModels', {}), **report.get('cpuControlModels', {})}
         report['modelCoverage'] = classify_service(components, service_models,
             args.electrical_cpu_pullups, args.electrical_logic_pullups)
+        if args.serial_driver == '7406-dc':
+            report['modelCoverage']['components']['A1']['model'] = ('Data and clock gates use published transistor topology with '
+                'generic semiconductor parameters and ideal input intent; other gates remain HDL.')
         bus_lines, bus_inputs, bus_outputs = [], '', ''
         if args.electrical_bus:
             limits = json.loads((HERE / 'bus_limits.json').read_text())
@@ -205,6 +218,13 @@ def main():
                 report['modelCoverage']['components'][ref]['model'] += '; data pins use linear electrical stress drivers and pin-capacitance fixtures'
             report['modelCoverage']['components']['A5']['model'] = report['modelCoverage']['components']['A5']['model'].replace('resolved digital data bus', 'electrical data-bus receiver feedback')
             report['modelCoverage']['components']['A1']['model'] += '; D0 uses electrical bus receiver and fixture input capacitance; input bias omitted'
+            if args.serial_driver == '7406-dc':
+                report['busCircuit']['externalInputLoad'] = info['serialDriver']['dataInput']
+                report['busCircuit']['boundary'] = report['busCircuit']['boundary'].replace(
+                    'No leakage, 7406 input bias, IC power model', 'No driver leakage or whole-IC power model')
+                report['modelCoverage']['components']['A1']['model'] = ('Data gate uses bus-driven transistor topology; '
+                    'clock gate uses transistor topology with ideal input intent; other gates remain HDL. '
+                    'Generic semiconductor parameters, uncalibrated capacitance and switching timing.')
         ground = info['hostGround']
         sense = ' '.join(f'n_SENSE{i}' for i in reversed(range(8)))
         dsense = ' '.join(f'dsense{i}' for i in reversed(range(8)))
@@ -244,6 +264,9 @@ def main():
             lines.insert(lines.index('.control'), '.save ' + signals)
             lines.insert(lines.index('.control') + 1, 'set numdgt=17')
             lines.insert(lines.index('quit'), 'wrdata bus-trace.txt ' + signals)
+        if args.serial_driver == '7406-dc':
+            lines.insert(lines.index('.control'), '.save i(Vdriver_supply)')
+            lines.insert(lines.index('quit'), 'wrdata driver-trace.txt i(Vdriver_supply)')
         (out / 'io.cir').write_text(with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs))
         report['deckSha256'] = sha(out / 'io.cir')
         report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
@@ -256,12 +279,16 @@ def main():
             print(out / 'io.cir')
             return
         trace_names = ['trace.txt'] + (['led-trace.txt'] if args.led_trace else []) + (['bus-trace.txt'] if args.electrical_bus else [])
+        if args.serial_driver == '7406-dc':
+            trace_names.append('driver-trace.txt')
         with capture_compressed(out, trace_names, args.compress_traces, preset=args.compression_preset) as compressed:
             with (out / 'ngspice.log').open('w') as log:
                 subprocess.run([engine, '-n', '-b', 'io.cir'], cwd=out, env=engine_env, stdout=log, stderr=subprocess.STDOUT,
                                check=True, timeout=args.timeout_seconds)
         if args.compress_traces:
             report['compressedWaveforms'] = compressed
+        if args.serial_driver == '7406-dc':
+            report['driverTraceSha256'] = sha(out / 'driver-trace.txt')
         if args.electrical_bus:
             digest = hashlib.sha256()
             with open_binary(out / 'bus-trace.txt') as stream:
@@ -324,6 +351,8 @@ def main():
         names = ['ngspice.log', 'trace.txt', 'led-trace.txt']
         if args.electrical_bus:
             names.append('bus-trace.txt')
+        if args.serial_driver == '7406-dc':
+            names.append('driver-trace.txt')
         if args.compress_traces:
             names += [name + suffix for name in list(names) if name.endswith('trace.txt') for suffix in ('.xz', '.xz.partial')]
         report['failureArtifacts'] = capture_failure(out, names)

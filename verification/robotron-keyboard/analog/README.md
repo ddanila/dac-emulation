@@ -648,6 +648,13 @@ and end, and retain high-precision waveform timestamps.
 Physical bus timing checks remain unfinished, so the paired firmware qualifier
 rejects this mode rather than treating serial agreement as bus qualification.
 
+Adding `--serial-driver 7406-dc` connects the data gate's published transistor
+topology directly to the electrical bus, so its input current and serial output
+share one circuit. The clock gate still uses ideal HDL input intent. This option
+retains `driver-trace.txt` for the modeled gates' supply current. Semiconductor
+parameters and switching behavior remain uncalibrated; the short startup evidence
+in `reports/bus-feedback/transistor-data-startup` is not a complete keyboard test.
+
 The manually triggered `keyboard-bus-diagnostic.yml` workflow runs a complete
 `single-press` or `reset` scenario at both timesteps on one CI runner. It builds
 the pinned ngspice/Icarus runtime, checks the bridge first, and retains reports

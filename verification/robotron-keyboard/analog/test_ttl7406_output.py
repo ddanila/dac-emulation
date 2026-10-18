@@ -10,6 +10,19 @@ from ttl7406_output_probe import driver_circuit
 
 
 class TTL7406OutputTests(unittest.TestCase):
+    def test_bus_input_drives_same_transistors_as_serial_output(self):
+        components, _ = load()
+        for net in ('/D0', '/D7'):
+            changed = copy.deepcopy(components)
+            changed['A1']['pins']['3'] = net
+            lines, metadata = driver_circuit(changed, '7406-dc', 1000, electrical_data_input=True)
+            self.assertIn(f'Xdata n_{net[1:]} n_TA_DATEN driver_vp 0 TTL7406_NOMINAL input_br=.01', lines)
+            self.assertIn('Xclock clock_intent n_TA_TAKT driver_vp 0 TTL7406_NOMINAL input_br=.01', lines)
+            self.assertFalse(any(line.startswith('Xdata data_intent') or line.startswith('Sdata ') for line in lines))
+            self.assertEqual(metadata['serialDriver']['dataInput']['net'], net)
+        with self.assertRaisesRegex(ValueError, 'transistor driver'):
+            driver_circuit(components, 'nominal', 1000, electrical_data_input=True)
+
     def test_passives_and_connector_mapping_preserved(self):
         components, _ = load()
         original, metadata = output_circuit(components, cable_pf=2000)

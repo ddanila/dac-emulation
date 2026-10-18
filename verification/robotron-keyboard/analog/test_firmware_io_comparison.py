@@ -30,6 +30,19 @@ class ComparisonTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'bus timing and voltage'):
             compare(self.coarse, self.fine, self.tx, self.tx, 15)
 
+    def test_transistor_serial_sources_and_dc_reference_are_required(self):
+        self.coarse['assumptions']['serialDriver'] = '7406-dc'
+        self.fine['assumptions']['serialDriver'] = '7406-dc'
+        with self.assertRaisesRegex(ValueError, 'driver source'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15)
+        for r in (self.coarse, self.fine):
+            r['sources'].update({name: 'same' for name in ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'ttl7406_limits.json')})
+        with self.assertRaisesRegex(ValueError, 'DC reference'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15)
+        for r in (self.coarse, self.fine):
+            r['serialDriverDcReferenceSha256'] = 'same'
+        self.assertTrue(compare(self.coarse, self.fine, self.tx, self.tx, 15)['withinTolerance'])
+
     def test_retained_explicit_breakpoint_is_checked(self):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary)
