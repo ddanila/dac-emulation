@@ -25,5 +25,15 @@
     "solverDiagnostics": false,
     "scope": "Focused 1.5 ms startup only; 5 ns and 2.5 ns reports verify the final time explicitly. No paired waveform or full firmware qualification.",
     "interpretation": "Explicit breakpoint handling resolves the observed fine-step startup abort. Steps of 5 ns or less avoid the observed time reversal in this interval. Full firmware runs are still required; no bridge scheduling fix is claimed."
+  },
+  "refinedFirmware": {
+    "qualified": false,
+    "pairPending": true,
+    "coarseStepNs": 5,
+    "fineStepNs": 2.5,
+    "minimumBreakpointFs": 1,
+    "coarsePassed": true,
+    "coarseOrdinalBitsMatchC": true,
+    "scope": "Full single-key S600 service scenario with electrical logic-control pullups. Fine run and paired timing/margin qualification remain pending; oscillator/reset and device calibration remain outside this fixture."
   }
 }
