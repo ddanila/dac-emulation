@@ -1,0 +1,26 @@
+{
+  "source": "ngspice-47",
+  "patchSha256": "9ccd448dec874dc8f2ae9233ba363926ee3d7c41b75504ea3da1119833f8e21d",
+  "baseFiles": {
+    "src/spicelib/analysis/dctran.c": "382d523b08a843469d81b14e3c08c0cd2b11509ee3470b9e3b3bce6f27157a74",
+    "src/spicelib/analysis/ckttrunc.c": "1ae5c196a7e4b672da62be20624f6bbafc3fca713b0ab12aa69ac22d6a1b4757",
+    "src/spicelib/devices/cap/captrunc.c": "aa17ffdb3cdef8c496fe2a8c3d3f3638a359ea6137a7e45d5a45a31c578235d2",
+    "src/spicelib/devices/ind/indtrunc.c": "2c5dee893df91380c84227242f30610d8aa72c3435c4e4365704f66c3c867bfb",
+    "src/spicelib/analysis/cktterr.c": "e8c55f9f07b12e501eaa5113d9470ccf8304b8b1196563b2f7d36a9d6527c132"
+  },
+  "scope": "Logging only; separate build, original installed code models retained",
+  "configureArguments": [
+    "--prefix=/private/tmp/robotron-truncation-audit/install",
+    "--without-x",
+    "--with-readline=no",
+    "--disable-openmp",
+    "--disable-klu"
+  ],
+  "buildCommand": "make -j4",
+  "compilerVersion": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin",
+  "executableSha256": "36d8cd4464c9c5e95fec70a9da8d083a0d757505df68b64647d984c5d99660af",
+  "buildLogsSha256": {
+    "configure.log": "2be46725175b38a7a762163e418c8073df40e3c7abe2ee26254259c799134bd9",
+    "make.log": "62a6115e82d2379228ddcbd4b13cfe2767dd84d04637988244428052f31de653"
+  }
+}

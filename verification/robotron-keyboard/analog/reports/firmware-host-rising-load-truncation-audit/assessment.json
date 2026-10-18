@@ -1,0 +1,53 @@
+{
+  "completed": false,
+  "qualified": false,
+  "sourceRevisionVerified": "f4dcc18",
+  "scope": "Logging-only truncation audit of the tighter-tolerance host failure",
+  "evidence": {
+    "producer": "report.json",
+    "uninstrumented": "../firmware-host-rising-load-strict-iterations1000/assessment.json",
+    "build": "build-provenance.json",
+    "patch": "../../engine-patches/ngspice-47-truncation-audit.patch"
+  },
+  "retainedFilesSha256": {
+    "report.json": "93ba7a9e9a9f4bf4ff161109588abc97cbb34175e3731f15653c93198dc0240d",
+    "run-inputs.json": "671417eeec2a80e5a66d0a2b49715ec1cfe6fdbcfd6a35bed853eefde10461a0",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "43e086856e1c03ba0986ea02bbd93a5c753129616ac3ebb03c221c49543cf440",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "010b0c67da3ffb7e6fcedaee821e8e06a8b08ec8a4c1999bb70cac91214f5262",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "build-provenance.json": "85835739d4f78c3830b0e408a8894d4ea289a553b9d42c55d4017935d720a8e7"
+  },
+  "inputComparison": {
+    "sourceHashesEqual": true,
+    "deckEqual": true,
+    "codeModelsEqual": true,
+    "initializationEqual": true,
+    "waveformIdentities": {
+      "trace.txt": "e22719a5fe7102eee1ce28fdd49831a0257c936777aaeae4b69b64e1e32ee4b7",
+      "driver-trace.txt": "45e723545bb3b4ec1a55ebf02bbb15be37f00da8de3208f34ee752eb6b08d142",
+      "host-trace.txt": "02e8454b0314d6a2dfe029b8a39c30f5621aa496e4059419ae9a2436e7e7d8e1"
+    }
+  },
+  "observations": {
+    "lastSolver": "TRUNC_AUDIT solver time=0x1.1fd65aca615bfp-10 delta=0x1.2725dd1d243acp-61 result=0 order=1",
+    "lastErrorEstimator": "TRUNC_AUDIT error time=0x1.1fd65aca615bfp-10 state=1132 delta=0x1.2725dd1d243acp-61 dt0=0x1.2725dd1d243acp-61 dt1=0x1.56cced91323bap-53 dt2=0x1.56cced91323bap-54 order=1 proposed=0x1.19c442b549b43p-65 tol=0x1.f68bf6aeb039cp+24 difference=-0x1.c89728f8b8da6p+90 q0=-0x1.0f8702aa471dfp-24 q1=0x1.b3be88298c87bp-24 q2=0x1.b3be88229cf21p-24 q3=0x1.b3be88241e7d2p-24",
+    "lastLimitingInstance": "TRUNC_AUDIT instance time=0x1.1fd65aca615bfp-10 name=l1.2 state=1132 before=0x1.19c442b54b002p-65 proposed=0x1.19c442b549b43p-65 q0=-0x1.0f8702aa471dfp-24 q1=0x1.b3be88298c87bp-24",
+    "lastLimitingDevice": "TRUNC_AUDIT device time=0x1.1fd65aca615bfp-10 type=Inductor before=0x1.fe9a3c1a6c179p-53 proposed=0x1.19c442b549b43p-65",
+    "lastTruncation": "TRUNC_AUDIT step time=0x1.1fd65aca615bfp-10 delta=0x1.2725dd1d243acp-61 proposed=0x1.19c442b549b43p-65 delmin=0x1.2725dd1d243acp-61 result=0 order=1 newtrunc=0",
+    "loggingScope": "Solver and truncation requests below 100 fs after 1 ms"
+  },
+  "interpretation": "The final Newton call returns success, but the inductor error estimator requests a step below delmin when the current step is already at delmin. L1.2 is the final limiting winding; other L1 windings also constrain that trial. Its charge/flux history contains a sharp trial-state jump at this extremely small step. These are rejected numerical states, not accepted physical voltages/currents or identification of a defective winding. The instrumentation leaves all partial waveform bytes unchanged.",
+  "nextAction": "Trace the onset of timestep collapse and distinguish integration-history sensitivity from circuit/model stiffness, retaining the sourced filter topology and explicit winding assumptions. Test numerical integration controls independently rather than replacing winding values to obtain a pass.",
+  "waveforms": {
+    "retention": "Incomplete local captures; producer hashes retained.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-load-truncation-audit",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  }
+}
