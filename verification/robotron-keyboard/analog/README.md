@@ -115,32 +115,19 @@ pin-role and load-condition review; restricted model files stay local. A passing
 switching fixture with generic diodes does not establish equivalence to the
 manufacturer's fixture or historical DL000 behavior.
 
-To reproduce the generic-junction family screen, run
-`python3 verification/robotron-keyboard/analog/ls00_parameter_screen.py --out /path/to/fresh-screen`.
-It retains every candidate, checks output limits before additional DC and switching
-conditions, and never selects a board default. The
-[retained assessment](reports/clock-output/ls00-parameter-validation/assessment.json)
-includes a lossless capture archive with a hash receipt in the same directory.
-Passing candidates constrain further modeling; the grid is not a measured process
-range or a continuous robustness proof.
+For candidate-model diagnosis, use fresh output directories and the probes' `--help`:
 
-Use `oscillator_probe.py --gate-model /path/to/candidate.cir --require-phase
---out /path/to/fresh-run` to test a standalone candidate without changing board
-defaults. `oscillator_family_probe.py --screen /path/to/extracted-screen
---out /path/to/fresh-family-run` verifies candidate receipts and tests each survivor
-at coarse and finer resolution. The [retained family run](reports/clock-output/ls00-family-oscillator/assessment.json)
-shows why passing isolated device conditions is insufficient: those candidates
-do not sustain the reference oscillator. Its capture archive preserves the failures.
+| Task | Entry point |
+| --- | --- |
+| Screen generic junction parameters against isolated device conditions | `ls00_parameter_screen.py --out /path/to/screen` |
+| Test a standalone model in the oscillator | `oscillator_probe.py --gate-model /path/to/candidate.cir --require-phase --out /path/to/run` |
+| Test every surviving candidate after verifying its receipts | `oscillator_family_probe.py --screen /path/to/screen --out /path/to/run` |
+| Compare forward/reverse DC branches with schematic loading | `oscillator_transfer_probe.py --model /path/to/candidate.cir --out /path/to/run` |
 
-`oscillator_transfer_probe.py --model /path/to/candidate.cir --out /path/to/fresh-run`
-clamps the RC node for forward and reverse DC sweeps with schematic loading.
-Source-current sign changes identify candidate equilibria; interpolation across a
-branch jump does not prove an operating point. Loaded stage slopes describe only
-their solution branch, not AC loop gain or stability. The
-[retained transfer comparison](reports/clock-output/ls00-transfer/assessment.json)
-includes refined sweeps and the failed input-junction experiments. The
-[bidirectional review](reports/clock-output/ls00-branches/assessment.json) tests
-branch dependence explicitly and retains independent operating-point diagnostics.
+These probes never select a board default. A parameter grid is not a measured
+process range or a continuous robustness proof. DC source-current sign changes
+identify candidate equilibria; interpolation across a branch jump does not prove
+an operating point. Loaded slopes describe that branch, not AC gain or stability.
 
 ## Bus and CPU boundaries
 
@@ -198,6 +185,8 @@ git history without a second chronological narrative here.
 | [Service repeat qualification](reports/repeat/refined-strict-time/qualification/qualification.json) | Pass applies to its recorded service configuration, not closed-board startup |
 | [Full-precision supply isolation](reports/clock-output/full-precision-supply-isolation/assessment.json), [Xyce replay](reports/clock-output/xyce-recorded-supply/assessment.json) | Startup phase sensitivity remains a qualification problem across solvers |
 | [Vendor reference review](reports/clock-output/ti-reference-review/assessment.json), [transistor candidate](reports/clock-output/ti-transistor-candidate/assessment.json) | Available model files do not by themselves satisfy device limits |
+| [Device parameter screen](reports/clock-output/ls00-parameter-validation/assessment.json), [oscillator family](reports/clock-output/ls00-family-oscillator/assessment.json) | Passing isolated device checks does not establish sustained oscillation or DL000 applicability |
+| [Loaded transfer comparison](reports/clock-output/ls00-transfer/assessment.json), [bidirectional branches](reports/clock-output/ls00-branches/assessment.json) | Branch-dependent solutions require circuit and solver diagnosis; they are not measured device hysteresis |
 | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json), [floating-read analysis](reports/floating-io/static-analysis.json) | Functional agreement does not qualify the released input voltage |
 | [Reset dip response](reports/reset-brownout/report.json) | No sampled low CPU reset at valid supply during recovery in this fixture; reliable restart remains unproved |
 
