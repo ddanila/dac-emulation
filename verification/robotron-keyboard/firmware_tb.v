@@ -1,9 +1,11 @@
 `timescale 1ns/1ps
 module firmware_tb #(
+ parameter ROM_READ_ENVELOPE=0,
+ parameter CLOCK_HALF_NS=5,
  parameter FLOATING_IO_OVERRIDE=0,
  parameter [7:0] FLOATING_IO_VALUE=8'hff
 );
- reg clk=0,reset_n=0;always #5 clk=~clk;
+ reg clk=0,reset_n=0;always #(CLOCK_HALF_NS) clk=~clk;
  wire cpu_clk,cpu_reset_n;
  // Reproducible bench stimulus enters the CPU sides of open BR1/BR2.
  controller_service service_boundary(.oscillator(1'b0),.reset_source_n(1'b1),
@@ -17,7 +19,16 @@ module firmware_tb #(
  // A15 low disables the 8282 outputs. The standard digital board's pullups
  // are a boundary convention, not evidence that the physical bus reads FF.
  // This fixture override explores firmware dependence on released I/O reads.
- assign di=!mreq_n?rom[address[10:0]]:
+ wire [7:0] rom_read;
+ generate if(ROM_READ_ENVELOPE) begin: timed_rom
+  eprom2716_read_envelope access(.address(address[10:0]),.data(rom[address[10:0]]),
+   .ce_n(1'b0),.oe_n(mreq_n),.q(rom_read));
+ end else begin: immediate_rom
+  assign rom_read=rom[address[10:0]];
+ end endgenerate
+ // Direct CPU input remains a digital fixture; this does not resolve bus
+ // contention or output release in SPICE. Clock units must match the ns model.
+ assign di=!mreq_n?rom_read:
            FLOATING_IO_OVERRIDE && !iorq_n && !rd_n && !address[15] ?
            FLOATING_IO_VALUE:read_data;
  initial begin

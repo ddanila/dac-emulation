@@ -44,13 +44,15 @@ class DiagnosticsTests(unittest.TestCase):
    self.assertEqual(run_bus(['vvp',exe,'+vectors='+str(vectors)],out,R.parents[1]).returncode,0)
    self.assertFalse((out/'bus.vcd').exists())
  def test_firmware_wave_replay_stops_at_requested_cycle(self):
-  with tempfile.TemporaryDirectory() as tmp:
-   out=Path(tmp);exe=out/'firmware.vvp';rom=out/'rom.hex';wave=out/'firmware.vcd'
-   rom.write_text('00\n'*2048)
-   subprocess.run(['iverilog','-g2012','-s','firmware_tb','-o',exe,*sorted((R.parents[1]/'third_party/cpu/tv80').glob('*.v')),R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v'],check=True)
-   subprocess.run(['vvp',exe,'+rom='+str(rom),'+wave='+str(wave),'+wave_start=10','+wave_end=20'],check=True,capture_output=True,timeout=10)
-   times=[int(line[1:])for line in wave.read_text().splitlines()if line.startswith('#')]
-   self.assertIn(260000,times);self.assertEqual(max(times),360000)
+  for timed,scale in ((False,1),(True,100)):
+   with self.subTest(timed=timed),tempfile.TemporaryDirectory() as tmp:
+    out=Path(tmp);exe=out/'firmware.vvp';rom=out/'rom.hex';wave=out/'firmware.vcd'
+    rom.write_text('00\n'*2048)
+    timing=['-Pfirmware_tb.ROM_READ_ENVELOPE=1','-Pfirmware_tb.CLOCK_HALF_NS=500',R/'analog/eprom2716.v'] if timed else []
+    subprocess.run(['iverilog','-g2012','-s','firmware_tb','-o',exe,*timing,*sorted((R.parents[1]/'third_party/cpu/tv80').glob('*.v')),R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v'],check=True)
+    subprocess.run(['vvp',exe,'+rom='+str(rom),'+wave='+str(wave),'+wave_start=10','+wave_end=20'],check=True,capture_output=True,timeout=10)
+    times=[int(line[1:])for line in wave.read_text().splitlines()if line.startswith('#')]
+    self.assertIn(260000*scale,times);self.assertEqual(max(times),360000*scale)
  def test_floating_input_fixture_preserves_driven_reads(self):
   with tempfile.TemporaryDirectory() as tmp:
    out=Path(tmp);exe=out/'probe.vvp';rom=out/'rom.hex'
