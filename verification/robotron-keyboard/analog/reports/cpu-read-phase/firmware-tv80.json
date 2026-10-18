@@ -1,0 +1,60 @@
+{
+  "scope": "Full S600 digital firmware fixture with generated read-phase candidate; not electrical qualification",
+  "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+  "benchSha256": "4f2d9a4cc0f120ebb5e7d5e344ce1c81fe7c6fbf6d50a7786781be66db4c81e0",
+  "compiledSha256": "b8d4245d5a57041128be8645d3ac9a48ccbf17372d83b6e90ddb691c7940c548",
+  "sources": {
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+  },
+  "tools": {
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/ivl": "25ea7935b7958244cf0f55336ce303690305a6bbd2302086dd6635253172fd5e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/ivlpp": "a06f39b9ca4187aba3121ca3d621f6fe3ca4f9477294accdd69e1e2e2e9e93b6",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vvp.tgt": "a2787f7f475df88c28d6b6164f6a3820b87b47cc6dad8c2ef6158c75d58cc1ef",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0"
+  },
+  "logSha256": "24095b730a21236080cfec96f6cea411ada1d1ee0814096991d3c601a7ea8e1d",
+  "events": {
+    "BIT": {
+      "count": 390,
+      "sha256": "14ffd10c756e898db1cccc4f733f14ef836565c015fea927a68f0b488c27328b",
+      "first": [
+        "BIT 223513 1",
+        "BIT 223529 1"
+      ],
+      "last": [
+        "BIT 4424335 1",
+        "BIT 4424351 1"
+      ]
+    },
+    "LED": {
+      "count": 23,
+      "sha256": "ffb68020c769878a74cd96a53343f9e04cc3ab0650df7c21cfdc4ca74637bf55",
+      "first": [
+        "LED 199999 0",
+        "LED 399999 0"
+      ],
+      "last": [
+        "LED 4399999 0",
+        "LED 4599999 0"
+      ]
+    },
+    "EDGE": {
+      "count": 11971,
+      "sha256": "155ebcb1d0f9412b42716cdc671f8aad21984c0e4225e9fd3a9e43c4e9b6a7d5",
+      "first": [
+        "EDGE 394 0",
+        "EDGE 1203502 1"
+      ],
+      "last": [
+        "EDGE 4199943 3",
+        "EDGE 4200410 0"
+      ]
+    }
+  },
+  "completed": true,
+  "qualified": false
+}
