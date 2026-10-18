@@ -1,0 +1,31 @@
+{
+  "qualified": false,
+  "scope": "Exact arithmetic audit of retained truncation records",
+  "evidence": {
+    "review": "review.json",
+    "sourceCapture": "../firmware-host-rising-load-transition-audit/assessment.json",
+    "reproduce": "python3 verification/robotron-keyboard/analog/truncation_arithmetic_review.py verification/robotron-keyboard/analog/reports/firmware-host-rising-load-transition-audit --out /tmp/truncation-arithmetic.json"
+  },
+  "observations": {
+    "maximumRelativeDifferenceRoundingError": 1.5555021203350584e-09,
+    "finalRecord": {
+      "timeSeconds": 0.0010980122484352953,
+      "state": 1132,
+      "order": 1,
+      "deltaSeconds": 5e-19,
+      "loggedProposalSeconds": 2.9833203745175864e-20,
+      "exactHistoryProposalSeconds": 2.983320374517586e-20,
+      "differenceRelativeRoundingError": 1.1136662743975552e-16,
+      "proposalRelativeRoundingError": 2.0173934813096738e-16,
+      "stateJumpInLargerEndpointUlps": 1.2442454443506266e+16,
+      "state0": -6.321989568344456e-08,
+      "state1": 1.0145461772843791e-07
+    },
+    "finalInstanceLog": "TRUNC_AUDIT instance time=0x1.1fd65aca615bfp-10 name=l1.2 state=1132 before=0x1.19c442b54b002p-65 proposed=0x1.19c442b549b43p-65 q0=-0x1.0f8702aa471dfp-24 q1=0x1.b3be88298c87bp-24"
+  },
+  "interpretation": "Binary64 replay reproduces the logged recurrence and proposal. Exact rational differences applied to the same logged state histories leave the final timestep request essentially unchanged. The final trial flux jump is far larger than endpoint rounding. This does not rule out rounding in the Newton solve, tolerance formation or earlier history; it does not establish that the trial state is physically valid. Changing only precision in this divided-difference calculation is not supported as a remedy.",
+  "nextAction": "Investigate integration companion equations and the solved semiconductor/inductor state near the transition while retaining the same circuit and accuracy criteria.",
+  "retainedFilesSha256": {
+    "review.json": "bab07cfb0fbd844a149a309c21435016c75a650c44da0750fc0ead651ddcfa74"
+  }
+}
