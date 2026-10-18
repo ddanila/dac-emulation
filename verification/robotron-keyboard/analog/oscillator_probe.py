@@ -15,6 +15,7 @@ from gate_models import GATE_MODELS
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
+OSCILLATOR_REFS = ('R4.3', 'C6', 'R10.3')
 GATES = (('1', '2', '3'), ('4', '5', '6'), ('9', '10', '8'), ('12', '13', '11'))
 
 
@@ -22,7 +23,7 @@ def wiring(components, isolated=False, capacitance_scale=1):
     gate = components['A7']
     if gate['type'] != 'DL000' or set(gate['pins']) != {str(n) for n in range(1, 15)}:
         raise ValueError('Unexpected oscillator gate package')
-    lines, models = elements(components, ('R4.3', 'C6', 'R10.3'))
+    lines, models = elements(components, OSCILLATOR_REFS)
     # Scaling is an explicit sensitivity stimulus, never a modification to the source.
     lines = [re.sub(r'^(C6 \S+ \S+) (\S+)', rf'\1 {{\2*{capacitance_scale}}}', line) for line in lines]
     unused = []
