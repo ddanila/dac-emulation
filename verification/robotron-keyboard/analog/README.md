@@ -129,6 +129,7 @@ For candidate-model diagnosis, use fresh output directories and the probes' `--h
 | Check the photographed K555LA3 device’s selected DC passport conditions | `ls00_validation_probe.py --device k555la3 --model /path/to/candidate.cir --out /path/to/run` |
 | Compare small-signal response at an observed transient plateau | `oscillator_ac_probe.py --model /path/to/candidate.cir --transient /path/to/disturbance-capture --out /path/to/run` |
 | Inspect internal currents and transistor state at a retained AC plateau | `oscillator_internal_probe.py --ac /path/to/ac-capture --out /path/to/run` |
+| Compare transfer branches under alternative 500-ohm fixtures | `ls00_transfer_fixture.py --model /path/to/candidate.cir --out /path/to/run` |
 | Capture forced-output I/V beyond the rated-load endpoints | `ls00_iv_probe.py --model /path/to/candidate.cir --out /path/to/run` |
 | Screen high-current gain rolloff with DC and switching holdouts | `ls00_rolloff_screen.py --model /path/to/candidate.cir --out /path/to/run` |
 | Screen sink base/collector/emitter resistance assumptions with the same holdouts | `ls00_rolloff_screen.py --parameter RB` (or `RC`, `RE`) with the model/output arguments above |
@@ -143,6 +144,10 @@ those checks to the previously screened oscillator families.
 guesses when the default DC solve selects another state. It still rejects a
 mismatched observed plateau. Loaded response ratios do not establish loop gain,
 stability or identical internal junction states.
+
+The [published transfer review](reports/clock-output/ls00-transfer500/assessment.json)
+records which fixture conditions are stated and which remain interpretations.
+Preserve sweep direction and step refinement; coarse agreement can miss branches.
 
 These probes never select a board default. A parameter grid is not a measured
 process range or a continuous robustness proof. DC source-current sign changes
