@@ -18,7 +18,7 @@ def main():
  a=p.parse_args()
  if a.cpu_profile!='tv80' and not a.rom:p.error('--cpu-profile requires --rom')
  OUT=a.out.resolve();OUT.mkdir(parents=True,exist_ok=True)
- for name in ['report.json','failure.json','bus.vcd','firmware.vcd']:
+ for name in ['report.json','failure.json','bus.vcd','firmware.vcd','service.vcd']:
   (OUT/name).unlink(missing_ok=True)
  run([sys.executable,R/'generate.py','--check'])
  report={'schema':1,'scope':'reference digital boundary; not specimen timing or complete analog simulation','connectivitySha256':sha(R/'reference/connectivity.json'),'sources':{str(f.relative_to(ROOT)):sha(f) for f in sorted(list(R.glob('*.*'))+list((R/'generated').glob('*.v'))) if f.suffix in ['.py','.c','.v']},'productionKeyboardSha256':sha(ROOT/'machines/robotron1715m/keyboard.c'),'productionKeyboardHeaderSha256':sha(ROOT/'machines/robotron1715m/keyboard.h'),'cpuSources':{p:sha(ROOT/p) for p in ['common/cpu/z80.c','common/cpu/z80.h','third_party/cpu/chips/z80.h']}}
@@ -28,7 +28,7 @@ def main():
  if chip.returncode or 'PASS DL074' not in chip.stdout or 'PASS 8282' not in chip.stdout:raise RuntimeError(chip.stdout+chip.stderr)
  report['chipTruthTable']={'passed':True,'scope':'DL074 asynchronous controls and edge capture; 8282 transparency, hold and output enable; numbered pins and unknown inputs; no device timing calibration'}
  run(['iverilog','-g2012','-s','service_tb','-o',OUT/'service.vvp',R/'chips.v',R/'generated/controller.v',R/'service_tb.v'])
- service=subprocess.run(['vvp',str(OUT/'service.vvp')],cwd=ROOT,text=True,capture_output=True,timeout=30)
+ service=subprocess.run(['vvp',str(OUT/'service.vvp'),'+wave='+str(OUT/'service.vcd')],cwd=ROOT,text=True,capture_output=True,timeout=30)
  (OUT/'service.log').write_text(service.stdout+service.stderr)
  sm=re.search(r'SERVICE checks=(\d+) mismatches=(\d+)',service.stdout)
  if service.returncode or not sm:raise RuntimeError(service.stdout+service.stderr)

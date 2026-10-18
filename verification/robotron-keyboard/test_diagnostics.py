@@ -1,10 +1,19 @@
 #!/usr/bin/env python3
 """Fault injection checks for retained counterexamples and automatic VCD replay."""
-import json,subprocess,tempfile,unittest
+import json,subprocess,tempfile,unittest,sys
 from pathlib import Path
 from diagnostics import first_difference,firmware_differences,waveform_window,run_bus,bus_differences
 R=Path(__file__).resolve().parent
 class DiagnosticsTests(unittest.TestCase):
+ def test_custom_output_retains_service_wave_and_report(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   out=Path(tmp)/'profile with spaces'
+   subprocess.run([sys.executable,R/'run.py','--out',out],cwd=R.parents[1],
+                  check=True,capture_output=True,text=True,timeout=60)
+   self.assertTrue(json.loads((out/'report.json').read_text())['equivalent'])
+   self.assertIn('$enddefinitions',(out/'service.vcd').read_text())
+   self.assertIn('mismatches=0',(out/'service.log').read_text())
+
  def test_ordinal_values_keep_both_clocks(self):
   self.assertIsNone(first_difference([(10,'0')],[(12,'0')],'serial-bit'))
   d=first_difference([(10,'0'),(20,'1')],[(12,'0'),(22,'0')],'serial-bit')

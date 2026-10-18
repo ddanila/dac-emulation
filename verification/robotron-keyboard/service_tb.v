@@ -5,6 +5,7 @@ module service_tb;
  reg external_clk=1'bz,external_reset_n=1'bz;
  wire cpu_clk,cpu_reset_n;
  integer checks=0;
+ reg [4095:0] wave;
  controller_service dut(oscillator,reset_source_n,br1_closed,br2_closed,
   external_clk,external_reset_n,cpu_clk,cpu_reset_n);
  task expect_pins(input expected_clk,expected_reset);
@@ -15,7 +16,8 @@ module service_tb;
  end
  endtask
  initial begin
-  $dumpfile("build/keyboard-controller/service.vcd");$dumpvars(0,service_tb);
+  if(!$value$plusargs("wave=%s",wave))wave="service.vcd";
+  $dumpfile(wave);$dumpvars(0,service_tb);
   expect_pins(0,0);
   oscillator=1;reset_source_n=1;expect_pins(1,1);
   // Reset can be held externally while the independent clock keeps running.
