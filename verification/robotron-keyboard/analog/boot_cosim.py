@@ -287,6 +287,7 @@ def main():
     p.add_argument('--scenario', type=Path, help='Contact recipe at 125 ms origin, 1 us wall-time ticks; requires electrical matrix and outputs')
     p.add_argument('--prepare-only', action='store_true', help='Generate inputs without claiming a simulation pass')
     p.add_argument('--compress-traces', action='store_true', help='Stream the boot waveform to lossless XZ in a fresh waveform directory')
+    p.add_argument('--compression-preset', type=int, choices=range(10), default=1, help='Lossless XZ preset; higher values trade compression time and memory for storage')
     p.add_argument('--rise-us', type=float, default=1)
     p.add_argument('--gate-profile', choices=tuple(GATE_MODELS), default='nominal')
     p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
@@ -370,6 +371,7 @@ def main():
                             'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'output_circuit.py', 'model_coverage.py',
                             'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py',
                             'transient_analysis.py', 'ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'compressed_output.py')}}
+    report['waveformCompression'] = {'format': 'xz', 'preset': args.compression_preset} if args.compress_traces else None
     if args.scenario_data:
         report['scenario'] = args.scenario_data
         report['scenarioSha256'] = sha(args.scenario)
@@ -387,7 +389,7 @@ def main():
             report['preparedOnly'] = True
             print(out / 'boot.cir')
             return
-        with capture_compressed(out, ['trace.txt', 'supply-trace.txt'], args.compress_traces) as compressed:
+        with capture_compressed(out, ['trace.txt', 'supply-trace.txt'], args.compress_traces, preset=args.compression_preset) as compressed:
             with (out / 'ngspice.log').open('w') as log:
                 subprocess.run([engine, '-n', '-b', 'boot.cir'], cwd=out, env=engine_env, stdout=log,
                                stderr=subprocess.STDOUT, check=True, timeout=args.timeout_seconds)
