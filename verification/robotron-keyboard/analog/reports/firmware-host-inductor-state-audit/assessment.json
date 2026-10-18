@@ -1,0 +1,38 @@
+{
+  "completed": false,
+  "qualified": false,
+  "sourceRevisionVerified": "417e606",
+  "scope": "Logging-only inductor state audit of the strict-tolerance transition",
+  "evidence": {
+    "producer": "report.json",
+    "log": "ngspice.log.xz",
+    "build": "build-provenance.json",
+    "companion": "companion-review.json",
+    "baseline": "../firmware-host-rising-load-transition-audit/assessment.json",
+    "patch": "../../engine-patches/ngspice-47-inductor-audit.patch"
+  },
+  "inputComparison": {
+    "deckEqual": true,
+    "codeModelsEqual": true,
+    "initializationEqual": true,
+    "waveformsEqual": true
+  },
+  "interpretation": "The original failure and all retained waveform identities are reproduced. The final ground-winding trial has enormous terminal voltage consistent, in relative terms, with its integration companion equation. It is rejected by truncation. A logging-only recurrence error is not supported; Newton conditioning, reference-node placement and uncalibrated device dynamics remain candidates. Trial voltage is not a physical board prediction.",
+  "nextAction": "Test numerical reference-node sensitivity on the matched analog-only replay without changing branch voltages, circuit elements or accuracy controls; retain the original coupled boundary.",
+  "logCompression": {
+    "format": "xz",
+    "uncompressedSha256": "f0d12f4e7ccb1de32e0c013b4389877699409ed842d52c17968f7c782475d851"
+  },
+  "retainedFilesSha256": {
+    "report.json": "fdb4ccaa0d44e4d9d89b4bcc3a5e66fca3ccc0c750453fcb166343f8f62aa109",
+    "run-inputs.json": "40b8a2ab7aa6f0f91bfb95d95dfea0030f4de9ddac09461ae6eb7e54f6414c39",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "build-provenance.json": "a4c7db122e61ff5d0f736c9eab2eb914bd48fcde54a82868c52cee7ffecebe56",
+    "companion-review.json": "6fa6e9f945fa8b85b0949106d86f6404f6a612995c7a59bdd8625591887b167c",
+    "ngspice.log.xz": "d8a23a6e068a614b21ded0f04f7f12c12277578bc9ea5c624d8b07fbd2539eb4",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "43e086856e1c03ba0986ea02bbd93a5c753129616ac3ebb03c221c49543cf440"
+  }
+}
