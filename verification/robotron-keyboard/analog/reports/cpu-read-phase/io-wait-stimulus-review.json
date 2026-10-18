@@ -1,0 +1,7 @@
+{
+  "qualified": false,
+  "scope": "Rejected I/O WAIT fixture assumptions",
+  "shortPulse": "The 2 us WAIT interval ended during the built-in I/O wait and did not delay the accepted read.",
+  "unfilteredExtendedLog": "Traceback (most recent call last):\n  File \"<string>\", line 16, in <module>\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py\", line 460, in check_returncode\n    raise CalledProcessError(self.returncode, self.args, self.stdout,\nsubprocess.CalledProcessError: Command '['vvp', '/dev/stdin']' returned non-zero exit status 1.\nWAIT_ASSERT 10000000\nWAIT_RELEASE 14000000\nOPERAND_RISE 14500000 12\nOPERAND_CHANGE 14600000\nOPERAND_FALL 15000000 34 12\nOPERAND_RISE 15500000 34\nOPERAND_CHANGE 15600000\nOPERAND_FALL 16000000 34 34\nOUTPUT 26000000 3480 34\nFATAL: /dev/stdin:29: Expected TV80 rising-edge operand\n       Time: 26000000  Scope: probe\n \n",
+  "decision": "Hold WAIT for 4 us and select the T3 iteration allowed to advance by Auto_Wait_t1; require an actual read delay. This changes fixture stimulus only."
+}
