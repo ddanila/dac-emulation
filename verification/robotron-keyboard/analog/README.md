@@ -904,7 +904,9 @@ setup interval. The fixture preserves the vendor core unchanged. Its diagnostic
 pass reproduces the discrepancy; it does not qualify U880 pin timing.
 
 The probe's `--profile falling-candidate` generates an isolated input-latch
-experiment; `--wait` repeats the read with an inserted WAIT interval. The
+experiment; `--read-kind io` exercises input-port reads. `--wait` requires an
+external WAIT interval that actually postpones the accepted read. The fixture
+selects the final T3 iteration after TV80's automatic I/O waits. The
 candidate consumes the later operand in these cases. It is not selected by the
 board harness: interrupt, indexed-opcode and full-firmware behavior still need
 qualification. Vendored TV80 sources remain unchanged.
