@@ -12,6 +12,8 @@ from trace_io import open_binary, open_text
 
 from electrical_bus_interface import generate_service
 from bus_driver import wiring as bus_wiring
+from write_control import wiring as wr_wiring
+from write_control_observation import measure as measure_wr, WriteMismatch
 from bus_observation import measure as measure_bus, BusMismatch
 from controller_interface import generate
 from matrix import LATCH_LOADS, matrix_circuit
@@ -56,11 +58,14 @@ def electrical_bus_options(args):
             raise ValueError('Electrical bus requires explicit finite nonnegative latch and 7406 capacitances')
     elif any(value is not None for value in caps):
         raise ValueError('Bus capacitance fixtures require electrical-bus')
+    if getattr(args, 'electrical_wr', False) and (not enabled or not args.electrical_outputs or args.serial_driver != '7406-dc'):
+        raise ValueError('Electrical WR requires electrical bus and transistor serial outputs')
     return enabled
 
 
 def prepare(args, report):
     electrical_bus = electrical_bus_options(args)
+    electrical_wr = getattr(args, 'electrical_wr', False)
     out = args.out.resolve()
     components, report['connectivitySha256'] = load()
     if sha(args.rom) != ROM_SHA256 or args.rom.stat().st_size != 2048:
@@ -82,7 +87,7 @@ def prepare(args, report):
             raise ValueError('TV80 source differs: ' + name)
     report['tv80'] = source
     subprocess.run([sys.executable, str(HERE.parent / 'generate.py'), '--check'], check=True)
-    (out / 'controller_analog.v').write_text(generate_service() if electrical_bus else
+    (out / 'controller_analog.v').write_text(generate_service(electrical_wr=electrical_wr) if electrical_bus else
                                            generate(explicit_cpu_drive=True, resolved_bus=True))
     hdl = [*sorted(tv80.glob('*.v')), HERE.parent / 'chips.v',
            HERE.parent / 'generated/controller.v', HERE / 'boot_cosim.v', out / 'controller_analog.v']
@@ -126,7 +131,7 @@ def prepare(args, report):
     if args.electrical_outputs:
         if args.serial_driver == '7406-dc':
             report['serialDriverDCReferenceSha256'] = checked_dc_reference()
-            output_lines, output_info = driver_circuit(components, args.serial_driver, 1000, electrical_data_input=electrical_bus)
+            output_lines, output_info = driver_circuit(components, args.serial_driver, 1000, electrical_data_input=electrical_bus, electrical_clock_input=electrical_wr)
         else:
             output_lines, output_info = output_circuit(components)
         report['outputCircuit'] = output_info
@@ -221,6 +226,19 @@ def prepare(args, report):
             report['modelCoverage']['components']['A1']['model'] = (
                 'Data gate uses electrical D0 input and transistor topology; clock gate input is ideal HDL intent; '
                 'other gates remain digital. Generic device parameters; switching timing unqualified.')
+    if electrical_wr:
+        wr_lines, report['wrCircuit'] = wr_wiring(components, limits, args.bus_7406_pf)
+        bus_lines += wr_lines + ['Awr_drive [dwr_low dwr_high] [wr_low wr_high] observation']
+        bus_outputs += 'dwr_low dwr_high '
+        report['assumptions']['electricalWr'] = True
+        report['wrCircuit']['ownershipSource'] = {
+            **limits['sources']['u880d'], 'page': 'Printed pages 9-10; PDF pages 10-11',
+            'scope': 'Inactive WR during reset; release during BUSACK. TV80 event timing unqualified.'}
+        report['sources'].update({name: sha(HERE / name) for name in ('write_control.py', 'write_control_observation.py')})
+        report['modelCoverage']['components']['A1']['model'] = (
+            'Electrical D0 and WR voltages drive transistor data/clock gates; other gates remain digital. '
+            'Generic device parameters; switching timing unqualified.')
+        report['modelCoverage']['components']['A5']['model'] += '; electrical WR output with reset/BUSACK ownership'
     lines = ['Coupled electrical oscillator/reset and TV80 S600 boot',
              *power_lines, '.include ' + gate_file,
              f'.options reltol={args.reltol} vntol={args.vntol} abstol={args.abstol}',
@@ -252,6 +270,10 @@ def prepare(args, report):
         lines.insert(lines.index('.control'), '.save ' + signals)
         lines.insert(lines.index('.control') + 1, 'set numdgt=17')
         lines.insert(lines.index('quit'), 'wrdata bus-trace.txt ' + signals)
+    if electrical_wr:
+        signals = f'v({node(report["wrCircuit"]["net"])}) v(wr_low) v(wr_high) @bwr_low[i] @bwr_high[i] v(n_p5V)'
+        lines.insert(lines.index('.control'), '.save ' + signals)
+        lines.insert(lines.index('quit'), 'wrdata wr-trace.txt ' + signals)
     deck = with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs)
     (out / 'boot.cir').write_text(deck)
     report['deckSha256'] = sha(out / 'boot.cir')
@@ -268,6 +290,12 @@ def validate(out, report):
             trace_extent=tuple(report['assumptions']['traceWindowSeconds']),
             start_tolerance_ns=report['assumptions']['maximumStepNs'])
         report['busQualification'] = 'Every logged read must have captured voltage; reads before the capture window fail. U880 phase timing and electrical device calibration remain unqualified.'
+    if report['assumptions'].get('electricalWr'):
+        first, last = report['assumptions']['traceWindowSeconds']
+        report['wrObservation'] = measure_wr(log, out / 'wr-trace.txt',
+            report['assumptions']['maximumStepNs'], last, start_seconds=first,
+            capture_start_seconds=first, start_tolerance_ns=report['assumptions']['maximumStepNs'],
+            require_activity=bool(report.get('scenario')))
     resets = [(int(t)*1e-12, value) for t, value in re.findall(r'^RESET (\d+) ([01xz])$', log, re.M)]
     boots = [tuple(line.split()) for line in re.findall(r'^BOOT (.+)$', log, re.M)]
     fetches = re.findall(r'^FIRST_FETCH (\d+) ([0-9a-fx]+) ([0-9a-fx]+)$', log, re.M)
@@ -368,6 +396,7 @@ def main():
     p.add_argument('--reltol', type=float, default=.001)
     p.add_argument('--vntol', type=float, default=1e-6)
     p.add_argument('--abstol', type=float, default=1e-12)
+    p.add_argument('--electrical-wr', action='store_true', help='Electrical WR output into transistor clock gate; requires electrical bus and transistor outputs')
     p.add_argument('--electrical-bus', action='store_true')
     p.add_argument('--bus-latch-pf', type=float)
     p.add_argument('--bus-7406-pf', type=float)
@@ -412,7 +441,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     if args.compress_traces and any(out.glob('*trace.txt*')):
         p.error('Compressed capture requires a fresh waveform output directory')
-    for name in ('report.json', 'trace.txt', 'supply-trace.txt', 'bus-trace.txt', 'ngspice.log'):
+    for name in ('report.json', 'trace.txt', 'supply-trace.txt', 'bus-trace.txt', 'wr-trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__,
               'assumptions': {'receiverThresholdVolts': 1.4,
@@ -463,6 +492,8 @@ def main():
             print(out / 'boot.cir')
             return
         trace_names = ['trace.txt', 'supply-trace.txt'] + (['bus-trace.txt'] if args.electrical_bus else [])
+        if args.electrical_wr:
+            trace_names.append('wr-trace.txt')
         with capture_compressed(out, trace_names, args.compress_traces, preset=args.compression_preset) as compressed:
             with (out / 'ngspice.log').open('w') as log:
                 subprocess.run([engine, '-n', '-b', 'boot.cir'], cwd=out, env=engine_env, stdout=log,
@@ -479,15 +510,23 @@ def main():
             report['busTraceSha256'] = sha(out / 'bus-trace.txt')
             if args.compress_traces and report['busTraceSha256'] != compressed['bus-trace.txt']['sha256']:
                 raise ValueError('Compressed bus waveform differs from producer bytes')
+        if args.electrical_wr:
+            report['wrTraceSha256'] = sha(out / 'wr-trace.txt')
+            if args.compress_traces and report['wrTraceSha256'] != compressed['wr-trace.txt']['sha256']:
+                raise ValueError('Compressed WR waveform differs from producer bytes')
         validate(out, report)
         report['passed'] = True
     except Exception as error:
+        if isinstance(error, WriteMismatch):
+            report['wrFailure'] = error.details
         if isinstance(error, BusMismatch):
             report['busFailure'] = error.details
         if isinstance(error, SerialMismatch):
             report['serialFailure'] = error.details
         report['error'] = str(error)
         names = ['ngspice.log', 'trace.txt', 'supply-trace.txt'] + (['bus-trace.txt'] if args.electrical_bus else [])
+        if args.electrical_wr:
+            names.append('wr-trace.txt')
         if args.compress_traces:
             names += [name + suffix for name in list(names) if name.endswith('trace.txt') for suffix in ('.xz', '.xz.partial')]
         report['failureArtifacts'] = capture_failure(out, names)

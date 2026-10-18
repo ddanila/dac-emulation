@@ -1,0 +1,138 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Live closed-board initialization with electrical D0 and WR transistor gates; reset held asserted, no firmware boot",
+  "resetEvents": [
+    [
+      "103347000",
+      "0"
+    ]
+  ],
+  "wrEvents": [
+    "0 01"
+  ],
+  "waveforms": {
+    "trace.txt": {
+      "rows": 6341,
+      "firstSeconds": 0.00018000323950781918,
+      "lastSeconds": 0.00019999999999999998,
+      "ranges": {
+        "v(n_CLK)": [
+          0.258091193417549,
+          2.2111422941596093
+        ],
+        "v(n_RESET_N)": [
+          0.07724778994621861,
+          0.08298629344006961
+        ],
+        "v(n_CABLE_DATEN,n_CABLE_GND)": [
+          0.9998476633273059,
+          1.0944305562217016
+        ],
+        "v(n_CABLE_TAKT,n_CABLE_GND)": [
+          0.9998476633272881,
+          1.094430556213427
+        ]
+      }
+    },
+    "bus-trace.txt": {
+      "rows": 6341,
+      "firstSeconds": 0.00018000323950781918,
+      "lastSeconds": 0.00019999999999999998,
+      "ranges": {
+        "v(n_D0)": [
+          1.3573376254483682,
+          1.3771235360682752
+        ],
+        "v(n_D1)": [
+          0.08296245333451785,
+          0.08296250212815534
+        ],
+        "v(n_D2)": [
+          0.08296245333451785,
+          0.08296250212815534
+        ],
+        "v(n_D3)": [
+          0.08296245333451785,
+          0.08296250212815534
+        ],
+        "v(n_D4)": [
+          0.08296245333451785,
+          0.08296250212815534
+        ],
+        "v(n_D5)": [
+          0.08296245333451785,
+          0.08296250212815534
+        ],
+        "v(n_D6)": [
+          0.08296245333451785,
+          0.08296250212815534
+        ],
+        "v(n_D7)": [
+          0.08296245333451785,
+          0.08296250212815534
+        ],
+        "v(n_p5V)": [
+          2.90353175911079,
+          3.092076898984943
+        ]
+      }
+    },
+    "supply-trace.txt": {
+      "rows": 6341,
+      "firstSeconds": 0.00018000323950781918,
+      "lastSeconds": 0.00019999999999999998,
+      "ranges": {
+        "v(n_p5V)": [
+          2.90353175911079,
+          3.092076898984943
+        ]
+      }
+    },
+    "wr-trace.txt": {
+      "rows": 6341,
+      "firstSeconds": 0.00018000323950781918,
+      "lastSeconds": 0.00019999999999999998,
+      "ranges": {
+        "v(n_WR_N)": [
+          2.8840173979649526,
+          3.0698472477128216
+        ],
+        "v(wr_low)": [
+          0.0,
+          0.0
+        ],
+        "v(wr_high)": [
+          5.0,
+          5.0
+        ],
+        "@bwr_low[i]": [
+          0.0,
+          0.0
+        ],
+        "@bwr_high[i]": [
+          1.8763808794074296e-06,
+          2.1374664684732112e-06
+        ],
+        "v(n_p5V)": [
+          2.90353175911079,
+          3.092076898984943
+        ]
+      }
+    }
+  },
+  "limitations": "Supply startup is below U880 operating limits. This checks complete capture and reset-inactive WR ownership, not CPU execution, valid clock voltage, firmware writes or calibrated transistor behavior.",
+  "files": {
+    "scope.json": "30fe1a034539b0554450657449563383646b990d03ed5abf9c11bedb690025f0",
+    "run-inputs.json": "b33d48d76cd7181180cb6596555dda72a3858b3b421c529a22264c66f9acb524",
+    "controller_analog.v": "8fa0d5a948eddd2d8a7c23dd528140043c3a2228e48ef42378bac066771bbacc",
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+    "boot.cir": "3eded6df732130ace3f935c5c6e10f52855c6476eff906db78355d0be14ebd3a",
+    "ngspice.log": "1916c05313a15001d457686ada58d26af93a658f1401d1415f3d6570af4dcc1f",
+    "waveform-storage.json": "207e5599040548a5559fec50c3d83540fc54dc49de98faa0099b89d4d95bae7b",
+    "trace.txt.xz": "648c5ddf41097eff3dda9eebd96708d450e40604ece74b1c3c9feb120f868bdd",
+    "bus-trace.txt.xz": "643f1a5e238b34b48634153fc8f13d0e2c8e7eca1a07cbe36d07fa55000c639b",
+    "supply-trace.txt.xz": "e599a4081cf636783bf242863a355229c07645ced7a25f08e228ed6c9e72849c",
+    "wr-trace.txt.xz": "3f284737242efd1c4d50cdee4d404db1b795c346dfed78ee0f09fda28b8d00a9"
+  }
+}
