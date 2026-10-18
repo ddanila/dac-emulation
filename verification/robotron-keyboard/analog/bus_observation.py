@@ -3,6 +3,7 @@ import math
 import re
 import json
 from pathlib import Path
+from collections import deque
 
 from trace_io import open_text
 
@@ -57,16 +58,21 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
     low_margin, high_margin = math.inf, math.inf
     with open_text(trace) as stream:
         iterator = iter(rows(stream))
-        current, previous = next(iterator, None), None
+        current, history = next(iterator, None), deque()
         for time_ps, _, value, _, _, _ in samples:
             start = time_ps * 1e-12 - setup_ns * 1e-9
             end = time_ps * 1e-12 + hold_ns * 1e-9
-            while current is not None and current[0] < start:
-                previous, current = current, next(iterator, None)
-            window = [] if previous is None else [previous]
+            # Retain shared samples when requested setup/hold windows overlap.
+            # Keep only one predecessor before the current window so long
+            # pre-reset traces do not accumulate in memory.
+            while len(history) > 1 and history[1][0] < start:
+                history.popleft()
             while current is not None and current[0] <= end:
-                window.append(current)
-                previous, current = current, next(iterator, None)
+                history.append(current)
+                while len(history) > 1 and history[1][0] < start:
+                    history.popleft()
+                current = next(iterator, None)
+            window = list(history)
             if not window or window[-1][0] < end:
                 if current is not None:
                     window.append(current)
