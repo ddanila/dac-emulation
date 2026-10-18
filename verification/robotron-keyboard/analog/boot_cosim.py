@@ -265,7 +265,8 @@ def validate(out, report):
         rom = bytes(int(value, 16) for value in (out / 's600.hex').read_text().split())
         report['busObservation'] = measure_bus(log, out / 'bus-trace.txt',
             report['assumptions']['maximumStepNs'], rom,
-            trace_extent=tuple(report['assumptions']['traceWindowSeconds']))
+            trace_extent=tuple(report['assumptions']['traceWindowSeconds']),
+            start_tolerance_ns=report['assumptions']['maximumStepNs'])
         report['busQualification'] = 'Every logged read must have captured voltage; reads before the capture window fail. U880 phase timing and electrical device calibration remain unqualified.'
     resets = [(int(t)*1e-12, value) for t, value in re.findall(r'^RESET (\d+) ([01xz])$', log, re.M)]
     boots = [tuple(line.split()) for line in re.findall(r'^BOOT (.+)$', log, re.M)]

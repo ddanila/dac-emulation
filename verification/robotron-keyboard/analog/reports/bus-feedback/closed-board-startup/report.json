@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Live closed-BR1/BR2 electrical-bus initialization check, not firmware boot",
+  "resetEvents": [
+    [
+      "103362000",
+      "0"
+    ]
+  ],
+  "nominalClockRisingCrossings": 59,
+  "waveforms": {
+    "trace.txt": {
+      "rows": 6333,
+      "firstSeconds": 0.00018000015125925952,
+      "lastSeconds": 0.00019999999999999998,
+      "ranges": {
+        "v(n_CLK)": [
+          0.25808941445843325,
+          2.211102330409695
+        ],
+        "v(n_RESET_N)": [
+          0.07724688881199235,
+          0.08298631370354516
+        ],
+        "v(n_CABLE_DATEN,n_CABLE_GND)": [
+          0.999847087602614,
+          1.0944454325637591
+        ],
+        "v(n_CABLE_TAKT,n_CABLE_GND)": [
+          0.9998470876025988,
+          1.0944454325554647
+        ]
+      }
+    },
+    "bus-trace.txt": {
+      "rows": 6333,
+      "firstSeconds": 0.00018000015125925952,
+      "lastSeconds": 0.00019999999999999998,
+      "ranges": {
+        "v(n_D0)": [
+          1.3573360102214083,
+          1.3771237122422917
+        ],
+        "v(n_D1)": [
+          0.08296234626181327,
+          0.0829623950629194
+        ],
+        "v(n_D2)": [
+          0.08296234626181327,
+          0.0829623950629194
+        ],
+        "v(n_D3)": [
+          0.08296234626181327,
+          0.0829623950629194
+        ],
+        "v(n_D4)": [
+          0.08296234626181327,
+          0.0829623950629194
+        ],
+        "v(n_D5)": [
+          0.08296234626181327,
+          0.0829623950629194
+        ],
+        "v(n_D6)": [
+          0.08296234626181327,
+          0.0829623950629194
+        ],
+        "v(n_D7)": [
+          0.08296234626181327,
+          0.0829623950629194
+        ],
+        "v(n_p5V)": [
+          2.903502200726282,
+          3.0920782065432184
+        ]
+      }
+    },
+    "supply-trace.txt": {
+      "rows": 6333,
+      "firstSeconds": 0.00018000015125925952,
+      "lastSeconds": 0.00019999999999999998,
+      "ranges": {
+        "v(n_p5V)": [
+          2.903502200726282,
+          3.0920782065432184
+        ]
+      }
+    }
+  },
+  "limitations": "Capture is during supply startup with reset asserted. Supply is below the U880 operating range. No instruction fetch, bus-read, clock-voltage or transistor-timing qualification.",
+  "captureStartSemantics": "ngspice47 dctran.c emits accepted points once CKTtime >= CKTinitTime; TSTART does not ensure a point at exactly the requested start. First point is bounded by one maximum timestep; end remains exact.",
+  "files": {
+    "scope.json": "4720b98cee2e3f6c026a51d12983a4300047c2d547255d3524c5b18f4f312c3c",
+    "run-inputs.json": "ea9aff930d6fcd847cf7b33b8ff4a34b1130dee47503f21253f505caf7c411cc",
+    "controller_analog.v": "c8def1e9912498509c32c80a716aef39cdd2792fa38311ce0da4f47d1bf59217",
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+    "boot.cir": "d8241fe8d27d23e4f13f8b87d06b9d0bebc84806abd65d656c755ab5c6b88528",
+    "ngspice.log": "6f99b6764c10a0fc18430570b05595cd1b239dd5a0037dc2a2a1db5c7eb60698",
+    "waveform-storage.json": "7ec72601a4d30f6ce5fad4e5ef61f155e50c2cc25270d39f20f4f5ccda2c1fc8",
+    "trace.txt.xz": "ef2dc6240c8997264a49e7204a53b73b2bc5c4c5834381c4d5c61296746d7149",
+    "bus-trace.txt.xz": "249ae1c4640f936e9996e314b3bab7df338c9d413ddf8af446082bede9ee0f60",
+    "supply-trace.txt.xz": "f740c1165cc8463ce559a8cd481567e754671fe43e3f35bce4b7807a9cec7326"
+  }
+}
