@@ -1,12 +1,6 @@
 {
   "scope": "Published reference limits for data-bus model development; not measured U880/U556 parameters or a complete I/V model",
   "sources": {
-    "z80": {
-      "url": "https://bitsavers.org/components/zilog/z80/03-0027-02_Z80_CPU_Product_Specification_Mar78.pdf",
-      "title": "Zilog Z80/Z80A Product Specification, March 1978",
-      "page": "PDF page 8",
-      "sha256": "98ef3a633edf3b1c9350c2b123e12608133b83c0ffb40233e0a2771f5293aee9"
-    },
     "2716": {
       "url": "https://www.theoddys.com/acorn/semiconductor_datasheets/2716%20Intel.pdf",
       "title": "Intel 2716 EPROM",
@@ -24,13 +18,19 @@
       "title": "TI SN7406, SDLS031A",
       "page": "PDF page 3",
       "sha256": "0795a70eb763f226a76d4067783d47690072ea861f13e5e0baf205f5f033950b"
+    },
+    "u880d": {
+      "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/U880D-CPU.pdf",
+      "title": "VEB Funkwerk Erfurt, Technische Beschreibung CPU U880D",
+      "page": "Printed page 57; PDF page 58",
+      "sha256": "a3266f1cea4d24c0c91ca2941f6b40762f24a2934e6cf41dccd5fb52f80e75be"
     }
   },
   "profiles": {
     "U880": {
-      "source": "z80",
-      "device": "Z80-CPU NMOS",
-      "applicability": "Reference family only; U880 electrical equivalence unqualified",
+      "source": "u880d",
+      "device": "VEB Funkwerk Erfurt U880D",
+      "applicability": "Published U880D reference limits; specimen grade and device curves unmeasured",
       "operatingConditions": "0 to 70 C, VCC 5 V \u00b15% unless specified",
       "outputLow": {
         "maximumVolts": 0.4,
@@ -41,18 +41,16 @@
         "sourceMagnitudeAmps": 0.00025
       },
       "dataInputLeakage": {
-        "maximumMagnitudeAmps": 1e-05,
-        "condition": "0 <= VIN <= VCC"
+        "maximumAmps": 1e-05,
+        "condition": "Input at 0 V and 5.25 V; temperature 0 C and 70 C; not an all-voltage leakage curve"
       },
       "floatLeakage": {
-        "highMaximumAmps": 1e-05,
-        "highCondition": "2.4 V <= VOUT <= VCC",
-        "lowMinimumAmps": -1e-05,
-        "lowCondition": "VOUT = 0.4 V"
+        "maximumAmps": 1e-05,
+        "condition": "Tri-state output at 0 V and 5.25 V; temperature 0 C and 70 C; not an all-voltage leakage curve"
       },
       "outputCapacitance": {
         "maximumFarads": 1e-11,
-        "condition": "25 C, 1 MHz, unmeasured pins grounded",
+        "condition": "25 C, 0.5 to 2 MHz",
         "applicability": "Published COUT, not a separately specified bidirectional-data capacitance curve"
       }
     },

@@ -619,6 +619,13 @@ receiver. Each mode includes a component model/boundary
 inventory; an unknown schematic reference fails generation. This inventory is
 coverage evidence, not a claim of device accuracy. CPU/peripheral buses, control
 pullup loading, IC supply currents and brownout behavior remain unqualified.
+`bus_load.wiring()` generates pin capacitances from that inventory, using published
+reference maxima and requiring explicit per-pin fixture values for undocumented
+8282-output and 7406-input capacitances. The U880 bus limits use the manufacturer's
+U880D table. The retained `reports/bus-capacitance` charge fixture checks generated
+loads with timestep refinement; it does not qualify analog bus drivers or firmware
+feedback. Zero fixture values are explicit omissions, not measured capacitances.
+
 `bus_inventory.py` maps every physical data-bus attachment to source-pinned
 electrical reference limits. It rejects unclassified attachments and keeps absent
 output-capacitance data explicit. The schematic has no external data-bus pullups;
