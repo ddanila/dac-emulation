@@ -1,0 +1,190 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Explore the D104 switching load with explicit unsourced generator/diode assumptions.",
+  "sources": {
+    "ttl7404_switching.py": "3c2bbca96ab2b3a3aabe4450aef7c88b8404e3565be6285d533780ecb7911431",
+    "ttl7404_nominal.cir": "897965264d1bd6061436805a260acd5ad32aacab08a121ebb82e900cd4501ed2",
+    "d104_limits.json": "541eb612b620ec9b5b84d6991719acd3cb36b411950b0bf3d4aa1a2b50fa719f",
+    "gate_switching_probe.py": "bb8a4f2d6dfa153684a4c05ba3d3696a20ffa33d9fafedf48aa655a589d3e719",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "executableSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "spinitSha256": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+  "publishedFixture": {
+    "temperatureC": 25,
+    "supplyV": 5,
+    "loadOhms": 400,
+    "loadPf": 15,
+    "fallDelayMaxSeconds": 1.5e-08,
+    "riseDelayMaxSeconds": 2.2e-08,
+    "locator": "Printed pages 4 and 7"
+  },
+  "deviceSource": {
+    "url": "https://www.datasheetarchive.com/datasheet/D104D/RFT?term=d104d&version=1",
+    "pdfUrl": "https://www.datasheetarchive.com/pdf/download/distributors/Datasheets-AE/DSA5GERT0000159.pdf",
+    "sha256": "47c849b87a495178bb41838282e10ecc2fab69001bac0de3b4943fe50bb205f6",
+    "publisher": "VEB Halbleiterwerk Frankfurt/Oder",
+    "locator": "Printed pages 2\u20134; dynamic measurement circuit on page 7",
+    "rights": "Manufacturer document linked, not redistributed"
+  },
+  "assumptions": {
+    "generatorLowV": 0,
+    "generatorHighV": 3,
+    "sourceOhms": 50,
+    "inputReverseBeta": 0.01,
+    "fixtureDiodes": "Generic IS=1e-14 N=1 RS=1 CJO=0 TT=0; type not specified on reviewed sheet",
+    "refinementBudgetNs": 0.2,
+    "minimumDelayScreenNs": 0
+  },
+  "limitations": [
+    "RFT generator levels, source impedance, edge times and load-diode characteristics are not fully specified in the reviewed sheet.",
+    "Generic transistor storage and capacitance remain uncalibrated. Passing maximum-delay checks would not establish dynamic applicability.",
+    "Nonnegative delay is a diagnostic screen, not an additional RFT minimum-delay specification."
+  ],
+  "cases": [
+    {
+      "inputEdgeNs": 1,
+      "runs": [
+        {
+          "stepNs": 0.1,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 0.0,
+              "maximumNs": 0.20000000000001503,
+              "withinDelayLimit": true
+            },
+            "tPLH": {
+              "minimumNs": 0.600000000000045,
+              "maximumNs": 0.8000000000000601,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "probe.cir": "ad4415db3c02559c42279822165e867ccf69b56cf61723ab3e951c44b74c72af",
+            "trace.txt": "bb9820bf7be668614017b207f7489ca2dea2159fd2c79d2f2e8dd9da343fd218",
+            "ngspice.log": "7fc826319cc245b93522596e98c645d31ddd61e87b61882638adea454c0ffafc"
+          }
+        },
+        {
+          "stepNs": 0.05,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 0.05000000000000376,
+              "maximumNs": 0.15000000000001126,
+              "withinDelayLimit": true
+            },
+            "tPLH": {
+              "minimumNs": 0.6500000000000489,
+              "maximumNs": 0.7500000000000564,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "probe.cir": "5ec943ba1a9870199e4779508a27ad736c669b0ac35d60236a83109441fbab76",
+            "trace.txt": "6c35dafc677502695c1a98745b81630c5b00230ba8da9821d9ca30e860aaeee2",
+            "ngspice.log": "3b4a5e64a4bd442bee8a035dba1de32b0c4b0778bcedd7a84557b675883a6f41"
+          }
+        }
+      ],
+      "maximumBracketEndpointDifferenceNs": 0.05000000000000382,
+      "converged": true
+    },
+    {
+      "inputEdgeNs": 7,
+      "runs": [
+        {
+          "stepNs": 0.1,
+          "delays": {
+            "tPHL": {
+              "minimumNs": -0.36928888258123327,
+              "maximumNs": -0.23972218593104244,
+              "withinDelayLimit": false
+            },
+            "tPLH": {
+              "minimumNs": 1.20000000000009,
+              "maximumNs": 1.4000000000001052,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "probe.cir": "0ef888f52b942f02ce23bdf14205d8b61cb9aaa0b39a16ae47cbb7bc3904a06d",
+            "trace.txt": "0dd3927d20a84bb0ef3cbae836d85a8642a1644cc0604a99610ec84b0044ab40",
+            "ngspice.log": "fe97562673ac745dba469f52b351b51dbb0d895807ba5225667db4738d6c5446"
+          }
+        },
+        {
+          "stepNs": 0.05,
+          "delays": {
+            "tPHL": {
+              "minimumNs": -0.33797360628547846,
+              "maximumNs": -0.23797360628547093,
+              "withinDelayLimit": false
+            },
+            "tPLH": {
+              "minimumNs": 1.20000000000009,
+              "maximumNs": 1.3000000000000977,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "probe.cir": "eac65f24e248a043714896a8381cc7dbfbbfda4b476fd7848219ee0064f0bb5f",
+            "trace.txt": "0d942c423aa28b8dcc9141551e37825a85b7476aa799638ef8eb154bdc952f94",
+            "ngspice.log": "3b4a5e64a4bd442bee8a035dba1de32b0c4b0778bcedd7a84557b675883a6f41"
+          }
+        }
+      ],
+      "maximumBracketEndpointDifferenceNs": 0.10000000000000742,
+      "converged": true
+    },
+    {
+      "inputEdgeNs": 50,
+      "runs": [
+        {
+          "stepNs": 0.1,
+          "delays": {
+            "tPHL": {
+              "minimumNs": -3.73414684303863,
+              "maximumNs": -3.534146843038615,
+              "withinDelayLimit": false
+            },
+            "tPLH": {
+              "minimumNs": 5.100000000000383,
+              "maximumNs": 5.300000000000399,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "probe.cir": "e0a82ebaa5b95c2bdaa783d848b468631dea85306d59bd62333aa2b037dd17de",
+            "trace.txt": "04009fc3788047d9cc7666573665faa1d6c8c960817b45391d951935d3e29038",
+            "ngspice.log": "7fc826319cc245b93522596e98c645d31ddd61e87b61882638adea454c0ffafc"
+          }
+        },
+        {
+          "stepNs": 0.05,
+          "delays": {
+            "tPHL": {
+              "minimumNs": -3.6439812432413796,
+              "maximumNs": -3.543981243241372,
+              "withinDelayLimit": false
+            },
+            "tPLH": {
+              "minimumNs": 5.150000000000387,
+              "maximumNs": 5.250000000000394,
+              "withinDelayLimit": true
+            }
+          },
+          "artifacts": {
+            "probe.cir": "6ef4f4d5022dee1dd0640bd46cea3751c43f27d034bc83ec207b17e7fc3ab72f",
+            "trace.txt": "55ceaf2609e3ff75dc613d3abac754b8f94a3803a1707a5650ebfa5cabda33f5",
+            "ngspice.log": "d56f208d3209cdcb08254c4db2710e478e6d74e3ef5424a99556fb74ecb80803"
+          }
+        }
+      ],
+      "maximumBracketEndpointDifferenceNs": 0.09016559979725036,
+      "converged": true
+    }
+  ],
+  "numericallyConverged": true,
+  "withinDelayScreen": false
+}

@@ -1,0 +1,23 @@
+{
+  "completed": true,
+  "qualified": false,
+  "reportSha256": "ef786516316d7e7fbc48867c582da1b84fbac9cb3caf1dd879593e3f3583d6f8",
+  "archive": {
+    "file": "captures.tar.gz",
+    "sha256": "5353aafc6ba12974bc0b6b98a955fe67f3e154179d316a9bffb5b3e37d8300ac",
+    "bytes": 870444
+  },
+  "additionalSource": {
+    "url": "https://www.datasheetarchive.com/datasheet/D104D/RFT?term=d104d&version=2",
+    "pdfUrl": "https://www.datasheetarchive.com/pdf/download/distributors/Datasheets-AE/DSA5GERT0000193.pdf",
+    "sha256": "ceb9ae5ad8690e0741742ea3231aef9b6ed835e5cf300eeaf841912943ea80e7",
+    "locator": "Printed pages 4 and 7 confirm switching limits and diode load; no additional generator or diode device parameters found"
+  },
+  "findings": [
+    "RFT fixture 126 places D1 from the resistor-fed load node toward the output; D2\u2013D4 form the forward series string from load node to ground. The output capacitance and load resistor use the published values.",
+    "The generic buffer reaches timestep-converged threshold brackets for the selected explicit generator assumptions.",
+    "At slower assumed input edges, output falling threshold crossings precede input 1.5 V crossings. The diagnostic nonnegative-delay screen therefore fails; this is not a violation of a published RFT minimum-delay bound.",
+    "Fast-edge delays below the published maxima do not establish physical switching accuracy: the model has uncalibrated storage/capacitance and the reviewed fixture lacks complete generator and diode specifications."
+  ],
+  "nextAction": "Keep switching unqualified; seek independent dynamic device evidence and preserve an explicit candidate boundary when integrating the host path into firmware observation."
+}
