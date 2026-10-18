@@ -1,0 +1,404 @@
+S600 firmware I/O service fixture
+Vhost host_receiver_5v host_receiver_gnd PWL(0 0 1u 5)
+Vfixture_clock fixture_clock 0 PULSE(0 5 500n 1n 1n 499n 1u)
+Vfixture_reset fixture_reset 0 PWL(0 0 1000000n 0 1000001n 5 41000000n 5 41000001n 0 41016000n 0 41016001n 5)
+R1_2 0 n_SENSE7 910
+R1_3 0 n_SENSE6 910
+R1_4 0 n_SENSE5 910
+R1_5 0 n_SENSE4 910
+R1_6 0 n_SENSE3 910
+R1_7 0 n_SENSE2 910
+R1_8 0 n_SENSE1 910
+R1_9 0 n_SENSE0 910
+R2_2 n_p5V n_BASE6 4.7k
+R2_3 n_p5V n_BASE0 4.7k
+R2_4 n_p5V n_BASE1 4.7k
+R2_5 n_p5V n_BASE4 4.7k
+R2_6 n_p5V n_BASE7 4.7k
+R2_7 n_p5V n_BASE5 4.7k
+R2_8 n_p5V n_BASE2 4.7k
+R2_9 n_p5V n_BASE3 4.7k
+R9.1 n_ROW7 n_BASE7 3.9k
+R9.2 n_ROW6 n_BASE6 3.9k
+R9.3 n_ROW0 n_BASE0 3.9k
+R9.4 n_ROW5 n_BASE5 3.9k
+R9.5 n_ROW1 n_BASE1 3.9k
+R9.6 n_ROW2 n_BASE2 3.9k
+R9.7 n_ROW3 n_BASE3 3.9k
+R9.8 n_ROW4 n_BASE4 3.9k
+QV4.1 n_SENSE4 n_BASE4 n_p5V PNP_NOMINAL
+QV4.2 n_SENSE6 n_BASE6 n_p5V PNP_NOMINAL
+QV4.3 n_SENSE0 n_BASE0 n_p5V PNP_NOMINAL
+QV4.4 n_SENSE1 n_BASE1 n_p5V PNP_NOMINAL
+QV4.5 n_SENSE7 n_BASE7 n_p5V PNP_NOMINAL
+QV4.6 n_SENSE5 n_BASE5 n_p5V PNP_NOMINAL
+QV4.7 n_SENSE3 n_BASE3 n_p5V PNP_NOMINAL
+QV4.8 n_SENSE2 n_BASE2 n_p5V PNP_NOMINAL
+.model D_NOMINAL D(IS=1e-14 N=1)
+.model NPN_NOMINAL NPN(IS=1e-14 BF=100 VAF=100)
+.model PNP_NOMINAL PNP(IS=1e-14 BF=100 VAF=100)
+.model CONTACT_NOMINAL SW(RON=100 ROFF=1t VT=2.5 VH=0)
+.model SINK_NOMINAL SW(RON=20 ROFF=1t VT=2.5 VH=0)
+Sdriver0 n_COL0 0 sink0 0 SINK_NOMINAL
+Scontact0 n_COL0 n_ROW0 contact0 0 CONTACT_NOMINAL
+Scontact1 n_COL0 n_ROW1 contact1 0 CONTACT_NOMINAL
+Scontact2 n_COL0 n_ROW2 contact2 0 CONTACT_NOMINAL
+Scontact3 n_COL0 n_ROW3 contact3 0 CONTACT_NOMINAL
+Scontact4 n_COL0 n_ROW4 contact4 0 CONTACT_NOMINAL
+Scontact5 n_COL0 n_ROW5 contact5 0 CONTACT_NOMINAL
+Scontact6 n_COL0 n_ROW6 contact6 0 CONTACT_NOMINAL
+Scontact7 n_COL0 n_ROW7 contact7 0 CONTACT_NOMINAL
+Sdriver1 n_COL1 0 sink1 0 SINK_NOMINAL
+Scontact8 n_COL1 n_ROW0 contact8 0 CONTACT_NOMINAL
+Scontact9 n_COL1 n_ROW1 contact9 0 CONTACT_NOMINAL
+Scontact10 n_COL1 n_ROW2 contact10 0 CONTACT_NOMINAL
+Scontact11 n_COL1 n_ROW3 contact11 0 CONTACT_NOMINAL
+Scontact12 n_COL1 n_ROW4 contact12 0 CONTACT_NOMINAL
+Scontact13 n_COL1 n_ROW5 contact13 0 CONTACT_NOMINAL
+Scontact14 n_COL1 n_ROW6 contact14 0 CONTACT_NOMINAL
+Scontact15 n_COL1 n_ROW7 contact15 0 CONTACT_NOMINAL
+Sdriver2 n_COL2 0 sink2 0 SINK_NOMINAL
+Scontact16 n_COL2 n_ROW0 contact16 0 CONTACT_NOMINAL
+Scontact17 n_COL2 n_ROW1 contact17 0 CONTACT_NOMINAL
+Scontact18 n_COL2 n_ROW2 contact18 0 CONTACT_NOMINAL
+Scontact19 n_COL2 n_ROW3 contact19 0 CONTACT_NOMINAL
+Scontact20 n_COL2 n_ROW4 contact20 0 CONTACT_NOMINAL
+Scontact21 n_COL2 n_ROW5 contact21 0 CONTACT_NOMINAL
+Scontact22 n_COL2 n_ROW6 contact22 0 CONTACT_NOMINAL
+Scontact23 n_COL2 n_ROW7 contact23 0 CONTACT_NOMINAL
+Sdriver3 n_COL3 0 sink3 0 SINK_NOMINAL
+Scontact24 n_COL3 n_ROW0 contact24 0 CONTACT_NOMINAL
+Scontact25 n_COL3 n_ROW1 contact25 0 CONTACT_NOMINAL
+Scontact26 n_COL3 n_ROW2 contact26 0 CONTACT_NOMINAL
+Scontact27 n_COL3 n_ROW3 contact27 0 CONTACT_NOMINAL
+Scontact28 n_COL3 n_ROW4 contact28 0 CONTACT_NOMINAL
+Scontact29 n_COL3 n_ROW5 contact29 0 CONTACT_NOMINAL
+Scontact30 n_COL3 n_ROW6 contact30 0 CONTACT_NOMINAL
+Scontact31 n_COL3 n_ROW7 contact31 0 CONTACT_NOMINAL
+Sdriver4 n_COL4 0 sink4 0 SINK_NOMINAL
+Scontact32 n_COL4 n_ROW0 contact32 0 CONTACT_NOMINAL
+Scontact33 n_COL4 n_ROW1 contact33 0 CONTACT_NOMINAL
+Scontact34 n_COL4 n_ROW2 contact34 0 CONTACT_NOMINAL
+Scontact35 n_COL4 n_ROW3 contact35 0 CONTACT_NOMINAL
+Scontact36 n_COL4 n_ROW4 contact36 0 CONTACT_NOMINAL
+Scontact37 n_COL4 n_ROW5 contact37 0 CONTACT_NOMINAL
+Scontact38 n_COL4 n_ROW6 contact38 0 CONTACT_NOMINAL
+Scontact39 n_COL4 n_ROW7 contact39 0 CONTACT_NOMINAL
+Sdriver5 n_COL5 0 sink5 0 SINK_NOMINAL
+Scontact40 n_COL5 n_ROW0 contact40 0 CONTACT_NOMINAL
+Scontact41 n_COL5 n_ROW1 contact41 0 CONTACT_NOMINAL
+Scontact42 n_COL5 n_ROW2 contact42 0 CONTACT_NOMINAL
+Scontact43 n_COL5 n_ROW3 contact43 0 CONTACT_NOMINAL
+Scontact44 n_COL5 n_ROW4 contact44 0 CONTACT_NOMINAL
+Scontact45 n_COL5 n_ROW5 contact45 0 CONTACT_NOMINAL
+Scontact46 n_COL5 n_ROW6 contact46 0 CONTACT_NOMINAL
+Scontact47 n_COL5 n_ROW7 contact47 0 CONTACT_NOMINAL
+Sdriver6 n_COL6 0 sink6 0 SINK_NOMINAL
+Scontact48 n_COL6 n_ROW0 contact48 0 CONTACT_NOMINAL
+Scontact49 n_COL6 n_ROW1 contact49 0 CONTACT_NOMINAL
+Scontact50 n_COL6 n_ROW2 contact50 0 CONTACT_NOMINAL
+Scontact51 n_COL6 n_ROW3 contact51 0 CONTACT_NOMINAL
+Scontact52 n_COL6 n_ROW4 contact52 0 CONTACT_NOMINAL
+Scontact53 n_COL6 n_ROW5 contact53 0 CONTACT_NOMINAL
+Scontact54 n_COL6 n_ROW6 contact54 0 CONTACT_NOMINAL
+Scontact55 n_COL6 n_ROW7 contact55 0 CONTACT_NOMINAL
+Sdriver7 n_COL7 0 sink7 0 SINK_NOMINAL
+Scontact56 n_COL7 n_ROW0 contact56 0 CONTACT_NOMINAL
+Scontact57 n_COL7 n_ROW1 contact57 0 CONTACT_NOMINAL
+Scontact58 n_COL7 n_ROW2 contact58 0 CONTACT_NOMINAL
+Scontact59 n_COL7 n_ROW3 contact59 0 CONTACT_NOMINAL
+Scontact60 n_COL7 n_ROW4 contact60 0 CONTACT_NOMINAL
+Scontact61 n_COL7 n_ROW5 contact61 0 CONTACT_NOMINAL
+Scontact62 n_COL7 n_ROW6 contact62 0 CONTACT_NOMINAL
+Scontact63 n_COL7 n_ROW7 contact63 0 CONTACT_NOMINAL
+Sdriver8 n_COL8 0 sink8 0 SINK_NOMINAL
+Scontact64 n_COL8 n_ROW0 contact64 0 CONTACT_NOMINAL
+Scontact65 n_COL8 n_ROW1 contact65 0 CONTACT_NOMINAL
+Scontact66 n_COL8 n_ROW2 contact66 0 CONTACT_NOMINAL
+Scontact67 n_COL8 n_ROW3 contact67 0 CONTACT_NOMINAL
+Scontact68 n_COL8 n_ROW4 contact68 0 CONTACT_NOMINAL
+Scontact69 n_COL8 n_ROW5 contact69 0 CONTACT_NOMINAL
+Scontact70 n_COL8 n_ROW6 contact70 0 CONTACT_NOMINAL
+Scontact71 n_COL8 n_ROW7 contact71 0 CONTACT_NOMINAL
+Sdriver9 n_COL9 0 sink9 0 SINK_NOMINAL
+Scontact72 n_COL9 n_ROW0 contact72 0 CONTACT_NOMINAL
+Scontact73 n_COL9 n_ROW1 contact73 0 CONTACT_NOMINAL
+Scontact74 n_COL9 n_ROW2 contact74 0 CONTACT_NOMINAL
+Scontact75 n_COL9 n_ROW3 contact75 0 CONTACT_NOMINAL
+Scontact76 n_COL9 n_ROW4 contact76 0 CONTACT_NOMINAL
+Scontact77 n_COL9 n_ROW5 contact77 0 CONTACT_NOMINAL
+Scontact78 n_COL9 n_ROW6 contact78 0 CONTACT_NOMINAL
+Scontact79 n_COL9 n_ROW7 contact79 0 CONTACT_NOMINAL
+Sdriver10 n_COL10 0 sink10 0 SINK_NOMINAL
+Scontact80 n_COL10 n_ROW0 contact80 0 CONTACT_NOMINAL
+Scontact81 n_COL10 n_ROW1 contact81 0 CONTACT_NOMINAL
+Scontact82 n_COL10 n_ROW2 contact82 0 CONTACT_NOMINAL
+Scontact83 n_COL10 n_ROW3 contact83 0 CONTACT_NOMINAL
+Scontact84 n_COL10 n_ROW4 contact84 0 CONTACT_NOMINAL
+Scontact85 n_COL10 n_ROW5 contact85 0 CONTACT_NOMINAL
+Scontact86 n_COL10 n_ROW6 contact86 0 CONTACT_NOMINAL
+Scontact87 n_COL10 n_ROW7 contact87 0 CONTACT_NOMINAL
+Sdriver11 n_COL11 0 sink11 0 SINK_NOMINAL
+Scontact88 n_COL11 n_ROW0 contact88 0 CONTACT_NOMINAL
+Scontact89 n_COL11 n_ROW1 contact89 0 CONTACT_NOMINAL
+Scontact90 n_COL11 n_ROW2 contact90 0 CONTACT_NOMINAL
+Scontact91 n_COL11 n_ROW3 contact91 0 CONTACT_NOMINAL
+Scontact92 n_COL11 n_ROW4 contact92 0 CONTACT_NOMINAL
+Scontact93 n_COL11 n_ROW5 contact93 0 CONTACT_NOMINAL
+Scontact94 n_COL11 n_ROW6 contact94 0 CONTACT_NOMINAL
+Scontact95 n_COL11 n_ROW7 contact95 0 CONTACT_NOMINAL
+Sdriver12 n_COL12 0 sink12 0 SINK_NOMINAL
+Scontact96 n_COL12 n_ROW0 contact96 0 CONTACT_NOMINAL
+Scontact97 n_COL12 n_ROW1 contact97 0 CONTACT_NOMINAL
+Scontact98 n_COL12 n_ROW2 contact98 0 CONTACT_NOMINAL
+Scontact99 n_COL12 n_ROW3 contact99 0 CONTACT_NOMINAL
+Scontact100 n_COL12 n_ROW4 contact100 0 CONTACT_NOMINAL
+Scontact101 n_COL12 n_ROW5 contact101 0 CONTACT_NOMINAL
+Scontact102 n_COL12 n_ROW6 contact102 0 CONTACT_NOMINAL
+Scontact103 n_COL12 n_ROW7 contact103 0 CONTACT_NOMINAL
+Rlatch0 n_SENSE0 0 1g
+Clatch0 n_SENSE0 0 10p
+Rlatch1 n_SENSE1 0 1g
+Clatch1 n_SENSE1 0 10p
+Rlatch2 n_SENSE2 0 1g
+Clatch2 n_SENSE2 0 10p
+Rlatch3 n_SENSE3 0 1g
+Clatch3 n_SENSE3 0 10p
+Rlatch4 n_SENSE4 0 1g
+Clatch4 n_SENSE4 0 10p
+Rlatch5 n_SENSE5 0 1g
+Clatch5 n_SENSE5 0 10p
+Rlatch6 n_SENSE6 0 1g
+Clatch6 n_SENSE6 0 10p
+Rlatch7 n_SENSE7 0 1g
+Clatch7 n_SENSE7 0 10p
+R10.1 n_p5V n_TA_TAKT 560
+R10.2 n_p5V n_TA_DATEN 560
+R11.1 n_LED_SISO_N n_LED_SISO 130
+R11.2 n_LED_CAPS_N n_LED_CAPS 130
+C3.1 n_p5V 0 47u
+C3.2 n_p5V 0 47u
+C5.1 n_p5V 0 47n
+C5.2 n_p5V 0 47n
+C5.3 n_p5V 0 47n
+C5.4 n_p5V 0 47n
+C5.5 n_p5V 0 47n
+L1.1 n_TA_TAKT L1_1_series 1u
+RL1.1 L1_1_series n_CABLE_TAKT 1
+L1.2 0 L1_2_series 1u
+RL1.2 L1_2_series n_CABLE_GND 1
+L1.3 n_p5V L1_3_series 1u
+RL1.3 L1_3_series n_CABLE_5V 1
+L1.4 n_TA_DATEN L1_4_series 1u
+RL1.4 L1_4_series n_CABLE_DATEN 1
+.model LED_NOMINAL D(IS=1e-20 N=2 RS=2)
+Xdata data_intent n_TA_DATEN driver_vp 0 TTL7406_NOMINAL input_br=.01
+Cdata_load n_CABLE_DATEN n_CABLE_GND 1000p
+Rdata_load n_CABLE_DATEN n_CABLE_GND 100k
+Xclock clock_intent n_TA_TAKT driver_vp 0 TTL7406_NOMINAL input_br=.01
+Cclock_load n_CABLE_TAKT n_CABLE_GND 1000p
+Rclock_load n_CABLE_TAKT n_CABLE_GND 100k
+Bsiso_target siso_target 0 V=V(n_p5V)*(0.7-0.66*V(siso_intent)/5)
+Rsiso_output siso_target n_LED_SISO_N 30
+Dsiso_led n_p5V n_LED_SISO LED_NOMINAL
+Bcaps_target caps_target 0 V=V(n_p5V)*(0.7-0.66*V(caps_intent)/5)
+Rcaps_output caps_target n_LED_CAPS_N 30
+Dcaps_led n_p5V n_LED_CAPS LED_NOMINAL
+Vdriver_supply n_p5V driver_vp 0
+* SN7406 topology from TI SDLS031A, page 2. Resistors are published nominal values.
+* Generic semiconductor parameters are assumptions, NOT a vendor transistor model.
+* No calibrated switching/storage, temperature, breakdown or package parasitics.
+.subckt TTL7406_NOMINAL a y vp g params: input_br=1
+Rinput vp input_base 6k
+Qinput phase_base input_base a TTL7406_INPUT_NPN
+Dinput g a TTL7406_DIODE
+Qphase phase_col phase_base phase_emit TTL7406_NPN
+Dfeed feed phase_col TTL7406_DIODE
+Rfeed vp feed 1.4k
+Rdivider feed inverter_base 2k
+Remitter phase_emit discharge_base 100
+Rdischarge discharge_base g 1k
+Qdischarge inverter_base discharge_base g TTL7406_NPN
+Qinverter output_base inverter_base g TTL7406_NPN
+Routput vp output_base 1.6k
+Qoutput y output_base g TTL7406_NPN
+.model TTL7406_NPN NPN(IS=1e-14 BF=100 BR=1 VAF=100)
+.model TTL7406_INPUT_NPN NPN(IS=1e-14 BF=100 BR={input_br} VAF=100)
+.model TTL7406_DIODE D(IS=1e-14 N=1)
+.ends TTL7406_NOMINAL
+Lhost_data n_CABLE_DATEN host_data_winding 1u
+Rhost_data_winding host_data_winding host_data_filtered 1
+Rhost_data_pullup host_receiver_5v host_data_filtered 560
+Rhost_data_series host_data_filtered host_data_buffer_input 100
+Chost_data host_data_buffer_input host_receiver_gnd 680p
+Lhost_clock n_CABLE_TAKT host_clock_winding 1u
+Rhost_clock_winding host_clock_winding host_clock_filtered 1
+Rhost_clock_pullup host_receiver_5v host_clock_filtered 560
+Rhost_clock_series host_clock_filtered host_clock_buffer_input 100
+Chost_clock host_clock_buffer_input host_receiver_gnd 680p
+Lhost_supply n_CABLE_5V host_supply_winding 1u
+Rhost_supply_winding host_supply_winding host_receiver_5v 1
+Lhost_ground n_CABLE_GND host_ground_winding 1u
+Rhost_ground_winding host_ground_winding host_receiver_gnd 1
+* TI SDLS029C page 4, standard '04 topology and nominal resistor values.
+* Generic semiconductor parameters are assumptions, not a D104 vendor model.
+* No calibrated storage, junction capacitance, breakdown, temperature or process corners.
+.subckt TTL7404_NOMINAL a y vp g params: input_br=1
+Rinput vp input_base 4k
+Qinput phase_base input_base a TTL7404_INPUT_NPN
+Dinput g a TTL7404_DIODE
+Qphase phase_col phase_base sink_base TTL7404_NPN
+Rphase vp phase_col 1.6k
+Rsink sink_base g 1k
+Rhigh vp high_col 130
+Qhigh high_col phase_col high_emit TTL7404_NPN
+Dhigh high_emit y TTL7404_DIODE
+Qsink y sink_base g TTL7404_NPN
+.model TTL7404_NPN NPN(IS=1e-14 BF=100 BR=1 VAF=100)
+.model TTL7404_INPUT_NPN NPN(IS=1e-14 BF=100 BR={input_br} VAF=100)
+.model TTL7404_DIODE D(IS=1e-14 N=1)
+.ends TTL7404_NOMINAL
+Xhost_data host_data_buffer_input host_data_buffer_output host_receiver_5v host_receiver_gnd TTL7404_NOMINAL input_br=0.01
+Rhost_data_sio host_data_buffer_output host_receiver_gnd 1g
+Chost_data_sio host_data_buffer_output host_receiver_gnd 5.0p
+Ihost_data_sio host_data_buffer_output host_receiver_gnd 10.0u
+Xhost_clock host_clock_buffer_input host_clock_buffer_output host_receiver_5v host_receiver_gnd TTL7404_NOMINAL input_br=0.01
+Rhost_clock_sio host_clock_buffer_output host_receiver_gnd 1g
+Chost_clock_sio host_clock_buffer_output host_receiver_gnd 50.0p
+Ihost_clock_sio host_clock_buffer_output host_receiver_gnd 10.0u
+Vcontact0 contact0 0 0
+Vcontact1 contact1 0 0
+Vcontact2 contact2 0 0
+Vcontact3 contact3 0 0
+Vcontact4 contact4 0 0
+Vcontact5 contact5 0 0
+Vcontact6 contact6 0 0
+Vcontact7 contact7 0 0
+Vcontact8 contact8 0 0
+Vcontact9 contact9 0 0
+Vcontact10 contact10 0 0
+Vcontact11 contact11 0 0
+Vcontact12 contact12 0 0
+Vcontact13 contact13 0 0
+Vcontact14 contact14 0 0
+Vcontact15 contact15 0 0
+Vcontact16 contact16 0 0
+Vcontact17 contact17 0 0
+Vcontact18 contact18 0 0
+Vcontact19 contact19 0 0
+Vcontact20 contact20 0 0
+Vcontact21 contact21 0 0
+Vcontact22 contact22 0 0
+Vcontact23 contact23 0 0
+Vcontact24 contact24 0 0
+Vcontact25 contact25 0 0
+Vcontact26 contact26 0 0
+Vcontact27 contact27 0 0
+Vcontact28 contact28 0 0
+Vcontact29 contact29 0 0
+Vcontact30 contact30 0 0
+Vcontact31 contact31 0 0
+Vcontact32 contact32 0 0
+Vcontact33 contact33 0 0
+Vcontact34 contact34 0 0
+Vcontact35 contact35 0 0
+Vcontact36 contact36 0 0
+Vcontact37 contact37 0 0
+Vcontact38 contact38 0 0
+Vcontact39 contact39 0 0
+Vcontact40 contact40 0 0
+Vcontact41 contact41 0 0
+Vcontact42 contact42 0 0
+Vcontact43 contact43 0 0
+Vcontact44 contact44 0 0
+Vcontact45 contact45 0 0
+Vcontact46 contact46 0 0
+Vcontact47 contact47 0 0
+Vcontact48 contact48 0 0
+Vcontact49 contact49 0 0
+Vcontact50 contact50 0 0
+Vcontact51 contact51 0 0
+Vcontact52 contact52 0 0
+Vcontact53 contact53 0 0
+Vcontact54 contact54 0 0
+Vcontact55 contact55 0 0
+Vcontact56 contact56 0 0
+Vcontact57 contact57 0 0
+Vcontact58 contact58 0 0
+Vcontact59 contact59 0 0
+Vcontact60 contact60 0 0
+Vcontact61 contact61 0 PWL(0 0 5000000n 0 5000001n 5 31000000n 5 31000001n 0 61000000n 0 61000001n 5)
+Vcontact62 contact62 0 0
+Vcontact63 contact63 0 0
+Vcontact64 contact64 0 0
+Vcontact65 contact65 0 0
+Vcontact66 contact66 0 0
+Vcontact67 contact67 0 0
+Vcontact68 contact68 0 0
+Vcontact69 contact69 0 0
+Vcontact70 contact70 0 0
+Vcontact71 contact71 0 0
+Vcontact72 contact72 0 0
+Vcontact73 contact73 0 0
+Vcontact74 contact74 0 0
+Vcontact75 contact75 0 0
+Vcontact76 contact76 0 0
+Vcontact77 contact77 0 0
+Vcontact78 contact78 0 0
+Vcontact79 contact79 0 0
+Vcontact80 contact80 0 0
+Vcontact81 contact81 0 0
+Vcontact82 contact82 0 0
+Vcontact83 contact83 0 0
+Vcontact84 contact84 0 0
+Vcontact85 contact85 0 0
+Vcontact86 contact86 0 0
+Vcontact87 contact87 0 0
+Vcontact88 contact88 0 0
+Vcontact89 contact89 0 0
+Vcontact90 contact90 0 0
+Vcontact91 contact91 0 0
+Vcontact92 contact92 0 0
+Vcontact93 contact93 0 0
+Vcontact94 contact94 0 0
+Vcontact95 contact95 0 0
+Vcontact96 contact96 0 0
+Vcontact97 contact97 0 0
+Vcontact98 contact98 0 0
+Vcontact99 contact99 0 0
+Vcontact100 contact100 0 0
+Vcontact101 contact101 0 0
+Vcontact102 contact102 0 0
+Vcontact103 contact103 0 0
+Esiso_intent siso_intent 0 led0_v 0 1
+Ecaps_intent caps_intent 0 led1_v 0 1
+Edata receiver_data 0 host_data_buffer_output host_receiver_gnd 1
+Eclock receiver_clock 0 host_clock_buffer_output host_receiver_gnd 1
+Amatrix [n_SENSE7 n_SENSE6 n_SENSE5 n_SENSE4 n_SENSE3 n_SENSE2 n_SENSE1 n_SENSE0] [dsense7 dsense6 dsense5 dsense4 dsense3 dsense2 dsense1 dsense0] data_receiver
+Arxdata [receiver_data] [rx_data] data_receiver
+.model data_receiver adc_bridge(in_low=.8 in_high=2)
+Arxclock [receiver_clock] [rx_clock] clock_receiver
+.model clock_receiver adc_bridge(in_low=1.4 in_high=1.4)
+Afixture [fixture_clock fixture_reset] [fixture_clk fixture_reset_n] clock_receiver
+Ahdl [fixture_clk fixture_reset_n dsense7 dsense6 dsense5 dsense4 dsense3 dsense2 dsense1 dsense0 rx_data rx_clock fixture_reset_n fixture_reset_n fixture_reset_n fixture_reset_n fixture_reset_n] [dlogic_sink1 dlogic_sink0 dsink csink led1 led0 dcol12 dcol11 dcol10 dcol9 dcol8 dcol7 dcol6 dcol5 dcol4 dcol3 dcol2 dcol1 dcol0] hdl
+.model hdl d_cosim simulation="/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so" sim_args=["io.vvp"] delay=10n
++ lib_args=["/private/tmp/robotron-icarus-src/vvp/libvvp.so" "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi"]
+Adrive [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] drive
+Acolumns [dcol12 dcol11 dcol10 dcol9 dcol8 dcol7 dcol6 dcol5 dcol4 dcol3 dcol2 dcol1 dcol0] [sink12 sink11 sink10 sink9 sink8 sink7 sink6 sink5 sink4 sink3 sink2 sink1 sink0] drive
+.model drive dac_bridge(out_low=0 out_high=5 out_undef=2.5 t_rise=1n t_fall=1n)
+.save v(receiver_data) v(receiver_clock)
+.save v(n_CABLE_DATEN,host_receiver_gnd) v(n_CABLE_TAKT,host_receiver_gnd) v(host_data_buffer_input,host_receiver_gnd) v(host_clock_buffer_input,host_receiver_gnd) v(host_data_buffer_output,host_receiver_gnd) v(host_clock_buffer_output,host_receiver_gnd)
+.save i(Vdriver_supply)
+.options minbreak=1f
+.tran 50.0n 101000000n
+.control
+set numdgt=17
+set wr_singlescale
+set wr_vecnames
+run
+wrdata trace.txt v(receiver_data) v(receiver_clock)
+wrdata host-trace.txt v(n_CABLE_DATEN,host_receiver_gnd) v(n_CABLE_TAKT,host_receiver_gnd) v(host_data_buffer_input,host_receiver_gnd) v(host_clock_buffer_input,host_receiver_gnd) v(host_data_buffer_output,host_receiver_gnd) v(host_clock_buffer_output,host_receiver_gnd)
+wrdata driver-trace.txt i(Vdriver_supply)
+quit
+.endc
+.end

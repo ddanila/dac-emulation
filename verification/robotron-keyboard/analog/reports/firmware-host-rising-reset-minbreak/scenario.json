@@ -1,0 +1,45 @@
+{
+  "name": "service reset and press again",
+  "cycles": 100000,
+  "contacts": [
+    {
+      "cycle": 4000,
+      "index": 61,
+      "closed": true
+    },
+    {
+      "cycle": 30000,
+      "index": 61,
+      "closed": false
+    },
+    {
+      "cycle": 60000,
+      "index": 61,
+      "closed": true
+    }
+  ],
+  "resets": [
+    {
+      "cycle": 40000,
+      "asserted": true
+    },
+    {
+      "cycle": 40016,
+      "asserted": false
+    }
+  ],
+  "observations": [
+    {
+      "name": "before reset",
+      "startCycle": 4000,
+      "endCycle": 30000,
+      "minimumBits": 26
+    },
+    {
+      "name": "after reset",
+      "startCycle": 60000,
+      "endCycle": 100000,
+      "minimumBits": 26
+    }
+  ]
+}
