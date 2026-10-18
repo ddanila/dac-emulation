@@ -6,6 +6,11 @@ from supply_stimulus import load, source
 
 
 class SupplyTests(unittest.TestCase):
+    def test_shipped_supply_stimuli(self):
+        for path in (Path(__file__).parent/'supply-stimuli').glob('*.json'):
+            with self.subTest(path=path):
+                load(path, .127)
+
     def test_brownout_roundtrip(self):
         data = {'pointsSecondsVolts': [[0, 0], [.001, 5], [.1, 5], [.11, 2], [.12, 5], [.127, 5]]}
         with tempfile.TemporaryDirectory() as directory:
