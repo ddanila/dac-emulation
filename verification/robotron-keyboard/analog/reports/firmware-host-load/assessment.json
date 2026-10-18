@@ -11,7 +11,8 @@
     "firmware": "report.json",
     "sampledStability": "margins.json",
     "sampledInputStress": "input-review.json",
-    "loadSource": "../../u856_limits.json"
+    "loadSource": "../../u856_limits.json",
+    "nominalThresholdClockWidths": "clock-widths.json"
   },
   "retainedFilesSha256": {
     "report.json": "9cb69b412b37aae46568fb4157891f5df4d28a48d2e70f01ce03eeabc1069d98",
@@ -23,7 +24,8 @@
     "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
     "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
     "ngspice.log": "2f6ad2b361245ec166f7e379fc3022a02fd759cd352191c0edae960d4d0664b9",
-    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591"
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "clock-widths.json": "c0a6ed00c4b3972d36e7f446a2595a5da83f7eade2bc6d19bfe69ebf1d81dd55"
   },
   "waveforms": {
     "retention": "Local captures only; producer hashes retained in report. Full waveforms are not included in git.",
@@ -34,5 +36,6 @@
       "trace.txt.xz"
     ]
   },
-  "interpretation": "Logical comparison, sampled stability and D104 input envelopes pass for this explicit load. The load is a source-informed stress assumption, not calibrated SIO I/V behavior. Clock-capacitance applicability, dynamics, timestep convergence for this load, and closed-board qualification remain open."
+  "interpretation": "Logical comparison, sampled stability and D104 input envelopes pass for this explicit load. The load is a source-informed stress assumption, not calibrated SIO I/V behavior. Clock-capacitance applicability, dynamics, timestep convergence for this load, and closed-board qualification remain open.",
+  "clockWidthBoundary": "Complete sampled intervals pass the published U856 minimum-width/period screen at the explicit nominal threshold. This does not qualify Schmitt thresholds, censored intervals, supply applicability or system-clock/data-rate ratio."
 }
