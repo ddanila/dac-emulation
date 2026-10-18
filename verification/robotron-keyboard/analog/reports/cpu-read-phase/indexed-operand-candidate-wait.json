@@ -1,0 +1,21 @@
+{
+  "scope": "Indexed DD-CB read phase diagnostic; not complete U880 timing qualification",
+  "candidateWrapperSha256": "fa3700e9efa8549f597b1eb0fb443373f846c871783f6a233244096ba0cf1733",
+  "benchSha256": "f4d6d70e68d40476b70d52100b489118e8f038b88b1264e415a465049cfa69cf",
+  "compiledSha256": "dc5020cb39782e8d081439630c086e37819e16ffe491e947eed6346af8775c41",
+  "sources": {
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+  },
+  "tools": {
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/ivl": "25ea7935b7958244cf0f55336ce303690305a6bbd2302086dd6635253172fd5e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/ivlpp": "a06f39b9ca4187aba3121ca3d621f6fe3ca4f9477294accdd69e1e2e2e9e93b6",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vvp.tgt": "a2787f7f475df88c28d6b6164f6a3820b87b47cc6dad8c2ef6158c75d58cc1ef",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0"
+  },
+  "log": "WAIT_ASSERT 28000000\nWAIT_RELEASE 30000000\nOPERAND_RISE 30500000 86\nOPERAND_CHANGE 30600000\nOPERAND_FALL 31000000 c6 86\nMEMORY_WRITE 39000000 0010 00\nOUTPUT 69000000 0080 00\nREAD_PHASE_DIAGNOSTIC_PASS\n/dev/stdin:232: $finish called at 69000000 (1ps)\n",
+  "qualified": false
+}
