@@ -9,7 +9,7 @@ from controller_interface import generate as generate_controller
 from cpu_read_phase_candidate import CIRCUIT_PROFILES
 
 
-def generate():
+def generate(rom_timing=False):
     components, _ = load()
     inventory(components, json.loads(Path(__file__).with_name('bus_limits.json').read_text()))
     source = generate_controller(explicit_cpu_drive=True, resolved_bus=True)
@@ -53,10 +53,26 @@ def generate():
                     f"({signal}===1'b{state}) ? 1'b1 : ({signal}===1'b{1-state}) ? 1'b0 : 1'bx;")
     if len(re.findall(r'^assign n_D[0-7]=bus_sense\[[0-7]\];$', source, re.M)) != 8:
         raise ValueError('Incomplete electrical bus receiver boundary')
-    return source.replace('endmodule', '\n'.join(declarations) + '\nendmodule')
+    source = source.replace('endmodule', '\n'.join(declarations) + '\nendmodule')
+    if rom_timing:
+        rom = components['A8']
+        def net(pin):
+            return 'n_' + re.sub('[^a-zA-Z0-9_]', '_', rom['pins'][pin].lstrip('/'))
+        for bit in range(8):
+            source, count = re.subn(rf'^assign rom_driver\[{bit}\]=[^;]+;$',
+                                   f'assign rom_driver[{bit}]=rom_timed[{bit}];', source, flags=re.M)
+            if count != 1:
+                raise ValueError('Unexpected ROM timing boundary')
+        source = source.replace('wire [7:0] cpu_driver, rom_driver, latch_driver;',
+                                'wire [7:0] cpu_driver, rom_driver, latch_driver, rom_timed;')
+        source = source.replace('endmodule',
+            'eprom2716_read_envelope rom_access(.address(rom_address),.data(rom_data),'
+            f'.ce_n({net("18")}),.oe_n({net("20")}),.q(rom_timed));\nendmodule')
+        source += '\n' + Path(__file__).with_name('eprom2716.v').read_text()
+    return source
 
 
-def generate_service(electrical_wr=False, cpu_profile='tv80'):
+def generate_service(electrical_wr=False, cpu_profile='tv80', rom_timing=False):
     """Reuse TV80/ROM/service behavior while replacing only the bus boundary."""
     here = Path(__file__).resolve().parent
     if cpu_profile not in CIRCUIT_PROFILES:
@@ -126,4 +142,4 @@ endmodule""")
                                'output [23:0] bus_low, bus_high, output wr_low, wr_high,')
         service = replace_once(service, '.bus_sense(bus_sense),',
                                '.wr_low(wr_low),.wr_high(wr_high),.bus_sense(bus_sense),')
-    return generate() + '\n' + boot + '\n' + service
+    return generate(rom_timing=rom_timing) + '\n' + boot + '\n' + service
