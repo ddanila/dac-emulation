@@ -1,0 +1,52 @@
+{
+  "qualified": false,
+  "scope": "Additional driver-boundary observations in a reproduced strict-tolerance failure",
+  "evidence": {
+    "replay": "report.json",
+    "trace": "boundary-trace.txt.xz",
+    "baseline": "../firmware-host-rising-load-strict-iterations1000/assessment.json",
+    "truncationAudit": "../firmware-host-rising-load-truncation-audit/assessment.json",
+    "runner": "../../driver_boundary_replay.py"
+  },
+  "retainedFilesSha256": {
+    "report.json": "682c310152164d862b0d42faf439817a49b54457f80319045966885e2fafabba",
+    "io.cir": "0f3d336bbe7f493444a609282af617134b4a2d0887b3cad27dd2aa00a2a6d764",
+    "ngspice.log": "9c129a5b974afa59ffe9485a142803929c610bddd27351a1bef27afec78c4d52",
+    "boundary-trace.txt.xz": "a982c4bbb1dd2dfe1541b6e0a5dbc24e1e5b8eb41a6afa5037f0257d37135866"
+  },
+  "traceCompression": {
+    "format": "xz",
+    "uncompressedSha256": "f72331c389b2615a4fc3a9b2cb311674509090adbfe42e7cc1b681fa6a1e955f"
+  },
+  "observations": {
+    "precedingSample": [
+      0.0010980098899999974,
+      0.0,
+      5.0,
+      4.613215982994849,
+      4.61357851883777,
+      6.473761886215636e-07,
+      0.039585134666762604
+    ],
+    "lastRecordedSample": [
+      0.001098012248435295,
+      1.242176475612158,
+      5.0,
+      4.248581448466009,
+      4.6135803761137115,
+      3.900349886486939e-09,
+      0.6431303310988694
+    ],
+    "signals": [
+      "time",
+      "v(data_intent)",
+      "v(clock_intent)",
+      "v(n_TA_DATEN)",
+      "v(n_p5V)",
+      "i(L1.4)",
+      "v(xdata.output_base)"
+    ]
+  },
+  "interpretation": "The original three waveforms and solver diagnostic are unchanged. Near the failure, recorded driver intent rises through approximately 1.24 V on an edge; it is not a steady 2.5 V unknown-state plateau at those samples. This locates a stimulus condition for further replay, not a physical switching threshold. Aborted-capture rows and internal error-estimator trial states must not be treated as accepted specimen behavior.",
+  "nextAction": "Correlate the early data-winding reductions with the recorded driver transition and isolate the analog response under that stimulus, preserving uncertainty in generic semiconductor dynamics."
+}
