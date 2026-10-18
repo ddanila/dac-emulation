@@ -45,6 +45,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path, help='Verified all-driver boundary replay directory')
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--omit-capture-knot', action='store_true',
+                        help='Diagnostic control: remove the capture-end PWL knot with at most 1 nV change')
     args = parser.parse_args()
     source, out = args.source.resolve(), args.out.resolve()
     parent = json.loads((source/'report.json').read_text())
@@ -90,9 +92,18 @@ def main():
                 raise ValueError('Another driver is moving at the capture boundary: ' + node)
             continuation = [(stop, points[-1][1])]
         points_out = reduced + continuation
+        omitted_error = None
+        if args.omit_capture_knot:
+            a, b = reduced[-2], continuation[0]
+            expected = a[1]+(endpoint-a[0])/(b[0]-a[0])*(b[1]-a[1])
+            omitted_error = abs(expected-reduced[-1][1])
+            if omitted_error > 1e-9:
+                raise ValueError('Capture-knot omission exceeds diagnostic budget: '+node)
+            points_out = reduced[:-1]+continuation
         sources.append(f'Vreplay_{node} {node} 0 PWL(' + ' '.join(
             f'{t:.17g} {v:.17g}' for t,v in points_out) + ')')
-        drives[node] = {'retainedKnots': len(reduced), 'continuation': continuation}
+        drives[node] = {'retainedKnots': len(reduced), 'continuation': continuation,
+                        'omittedCaptureKnotErrorV': omitted_error}
     deck = (source/'io.cir').read_text()
     removed = []
     kept = []
@@ -118,7 +129,9 @@ def main():
               'sources': {name: sha(Path(__file__).parent/name) for name in
                           ('analog_driver_replay.py', 'ngspice_runtime.py', 'failure_evidence.py')},
               'recordedEndpointSeconds': endpoint, 'stopSeconds': stop,
-              'interpolationBudgetV': budget, 'drivers': drives, 'removedInterfaceLines': removed,
+              'interpolationBudgetV': budget,
+              'omitCaptureKnot': args.omit_capture_knot,
+              'captureKnotOmissionBudgetV': 1e-9 if args.omit_capture_knot else None, 'drivers': drives, 'removedInterfaceLines': removed,
               'boundary': 'Recorded sampled DAC interpolation, followed by an explicit data-edge continuation to 5 V at 5 V/ns and held other drivers. Not an observed firmware continuation or full-board qualification.'}
     try:
         verify(runtime)

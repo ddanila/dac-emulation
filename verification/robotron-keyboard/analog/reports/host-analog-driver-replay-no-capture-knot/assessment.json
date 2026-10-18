@@ -1,0 +1,18 @@
+{
+  "qualified": false,
+  "completed": true,
+  "scope": "Remove artificial capture-end PWL knots from the analog-only transition diagnostic",
+  "evidence": {
+    "control": "report.json",
+    "baseline": "../host-analog-driver-replay/report.json",
+    "prefixComparison": "prefix-before-transition-end.json"
+  },
+  "interpretation": "The diagnostic completes after omitting the capture-end knots, with a bounded stimulus change below 1 nV and unchanged circuit and numerical settings. The earlier replay failure is sensitive to its artificial capture boundary; it is not independent confirmation of the original coupled failure mechanism. Prefix voltage differences also prevent assuming an identical trajectory. Completion covers only this short constructed stimulus, not the firmware scenario or device qualification.",
+  "nextAction": "Use the boundary-free analog replay to investigate transition integration and compare source/replay trajectories. Keep the original coupled failure separate.",
+  "retainedFilesSha256": {
+    "prefix-before-transition-end.json": "236d2167365bc5fd05312c270a6fe4b68f4d7fa508fd1976673ee2c0d83066d6",
+    "report.json": "6efa8070f9e93aeed4cf87195bbe45f4665b1864f2022a8dbb9a6a6a7c1cff31",
+    "ngspice.log": "6f6fed6ca538af828a6f0ae84659f7280388da15563ecc2679758eb67bcb1154",
+    "io.cir": "6e5552a89491424ce9977a28ac13ebac62f645198d5c860da44af9cf309048ce"
+  }
+}
