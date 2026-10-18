@@ -1,0 +1,548 @@
+{
+  "completed": true,
+  "qualified": false,
+  "engine": "ngspice",
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "scope": "Cross-solver diagnostic of a recorded-driver circuit with explicit switch mapping.",
+  "sourceReportSha256": "6efa8070f9e93aeed4cf87195bbe45f4665b1864f2022a8dbb9a6a6a7c1cff31",
+  "sources": {
+    "independent_driver_replay.py": "768cf3921804e26ca579f642372f449f45ae95735af048b6601551b3876de621",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "switchMapping": [
+    {
+      "original": "Sdriver0 n_COL0 0 sink0 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver0 n_COL0 0 I={V(n_COL0,0)/(V(sink0,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact0 n_COL0 n_ROW0 contact0 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact0 n_COL0 n_ROW0 I={V(n_COL0,n_ROW0)/(V(contact0,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact1 n_COL0 n_ROW1 contact1 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact1 n_COL0 n_ROW1 I={V(n_COL0,n_ROW1)/(V(contact1,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact2 n_COL0 n_ROW2 contact2 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact2 n_COL0 n_ROW2 I={V(n_COL0,n_ROW2)/(V(contact2,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact3 n_COL0 n_ROW3 contact3 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact3 n_COL0 n_ROW3 I={V(n_COL0,n_ROW3)/(V(contact3,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact4 n_COL0 n_ROW4 contact4 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact4 n_COL0 n_ROW4 I={V(n_COL0,n_ROW4)/(V(contact4,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact5 n_COL0 n_ROW5 contact5 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact5 n_COL0 n_ROW5 I={V(n_COL0,n_ROW5)/(V(contact5,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact6 n_COL0 n_ROW6 contact6 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact6 n_COL0 n_ROW6 I={V(n_COL0,n_ROW6)/(V(contact6,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact7 n_COL0 n_ROW7 contact7 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact7 n_COL0 n_ROW7 I={V(n_COL0,n_ROW7)/(V(contact7,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver1 n_COL1 0 sink1 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver1 n_COL1 0 I={V(n_COL1,0)/(V(sink1,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact8 n_COL1 n_ROW0 contact8 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact8 n_COL1 n_ROW0 I={V(n_COL1,n_ROW0)/(V(contact8,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact9 n_COL1 n_ROW1 contact9 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact9 n_COL1 n_ROW1 I={V(n_COL1,n_ROW1)/(V(contact9,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact10 n_COL1 n_ROW2 contact10 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact10 n_COL1 n_ROW2 I={V(n_COL1,n_ROW2)/(V(contact10,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact11 n_COL1 n_ROW3 contact11 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact11 n_COL1 n_ROW3 I={V(n_COL1,n_ROW3)/(V(contact11,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact12 n_COL1 n_ROW4 contact12 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact12 n_COL1 n_ROW4 I={V(n_COL1,n_ROW4)/(V(contact12,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact13 n_COL1 n_ROW5 contact13 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact13 n_COL1 n_ROW5 I={V(n_COL1,n_ROW5)/(V(contact13,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact14 n_COL1 n_ROW6 contact14 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact14 n_COL1 n_ROW6 I={V(n_COL1,n_ROW6)/(V(contact14,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact15 n_COL1 n_ROW7 contact15 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact15 n_COL1 n_ROW7 I={V(n_COL1,n_ROW7)/(V(contact15,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver2 n_COL2 0 sink2 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver2 n_COL2 0 I={V(n_COL2,0)/(V(sink2,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact16 n_COL2 n_ROW0 contact16 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact16 n_COL2 n_ROW0 I={V(n_COL2,n_ROW0)/(V(contact16,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact17 n_COL2 n_ROW1 contact17 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact17 n_COL2 n_ROW1 I={V(n_COL2,n_ROW1)/(V(contact17,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact18 n_COL2 n_ROW2 contact18 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact18 n_COL2 n_ROW2 I={V(n_COL2,n_ROW2)/(V(contact18,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact19 n_COL2 n_ROW3 contact19 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact19 n_COL2 n_ROW3 I={V(n_COL2,n_ROW3)/(V(contact19,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact20 n_COL2 n_ROW4 contact20 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact20 n_COL2 n_ROW4 I={V(n_COL2,n_ROW4)/(V(contact20,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact21 n_COL2 n_ROW5 contact21 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact21 n_COL2 n_ROW5 I={V(n_COL2,n_ROW5)/(V(contact21,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact22 n_COL2 n_ROW6 contact22 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact22 n_COL2 n_ROW6 I={V(n_COL2,n_ROW6)/(V(contact22,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact23 n_COL2 n_ROW7 contact23 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact23 n_COL2 n_ROW7 I={V(n_COL2,n_ROW7)/(V(contact23,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver3 n_COL3 0 sink3 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver3 n_COL3 0 I={V(n_COL3,0)/(V(sink3,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact24 n_COL3 n_ROW0 contact24 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact24 n_COL3 n_ROW0 I={V(n_COL3,n_ROW0)/(V(contact24,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact25 n_COL3 n_ROW1 contact25 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact25 n_COL3 n_ROW1 I={V(n_COL3,n_ROW1)/(V(contact25,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact26 n_COL3 n_ROW2 contact26 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact26 n_COL3 n_ROW2 I={V(n_COL3,n_ROW2)/(V(contact26,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact27 n_COL3 n_ROW3 contact27 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact27 n_COL3 n_ROW3 I={V(n_COL3,n_ROW3)/(V(contact27,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact28 n_COL3 n_ROW4 contact28 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact28 n_COL3 n_ROW4 I={V(n_COL3,n_ROW4)/(V(contact28,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact29 n_COL3 n_ROW5 contact29 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact29 n_COL3 n_ROW5 I={V(n_COL3,n_ROW5)/(V(contact29,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact30 n_COL3 n_ROW6 contact30 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact30 n_COL3 n_ROW6 I={V(n_COL3,n_ROW6)/(V(contact30,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact31 n_COL3 n_ROW7 contact31 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact31 n_COL3 n_ROW7 I={V(n_COL3,n_ROW7)/(V(contact31,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver4 n_COL4 0 sink4 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver4 n_COL4 0 I={V(n_COL4,0)/(V(sink4,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact32 n_COL4 n_ROW0 contact32 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact32 n_COL4 n_ROW0 I={V(n_COL4,n_ROW0)/(V(contact32,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact33 n_COL4 n_ROW1 contact33 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact33 n_COL4 n_ROW1 I={V(n_COL4,n_ROW1)/(V(contact33,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact34 n_COL4 n_ROW2 contact34 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact34 n_COL4 n_ROW2 I={V(n_COL4,n_ROW2)/(V(contact34,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact35 n_COL4 n_ROW3 contact35 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact35 n_COL4 n_ROW3 I={V(n_COL4,n_ROW3)/(V(contact35,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact36 n_COL4 n_ROW4 contact36 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact36 n_COL4 n_ROW4 I={V(n_COL4,n_ROW4)/(V(contact36,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact37 n_COL4 n_ROW5 contact37 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact37 n_COL4 n_ROW5 I={V(n_COL4,n_ROW5)/(V(contact37,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact38 n_COL4 n_ROW6 contact38 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact38 n_COL4 n_ROW6 I={V(n_COL4,n_ROW6)/(V(contact38,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact39 n_COL4 n_ROW7 contact39 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact39 n_COL4 n_ROW7 I={V(n_COL4,n_ROW7)/(V(contact39,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver5 n_COL5 0 sink5 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver5 n_COL5 0 I={V(n_COL5,0)/(V(sink5,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact40 n_COL5 n_ROW0 contact40 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact40 n_COL5 n_ROW0 I={V(n_COL5,n_ROW0)/(V(contact40,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact41 n_COL5 n_ROW1 contact41 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact41 n_COL5 n_ROW1 I={V(n_COL5,n_ROW1)/(V(contact41,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact42 n_COL5 n_ROW2 contact42 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact42 n_COL5 n_ROW2 I={V(n_COL5,n_ROW2)/(V(contact42,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact43 n_COL5 n_ROW3 contact43 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact43 n_COL5 n_ROW3 I={V(n_COL5,n_ROW3)/(V(contact43,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact44 n_COL5 n_ROW4 contact44 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact44 n_COL5 n_ROW4 I={V(n_COL5,n_ROW4)/(V(contact44,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact45 n_COL5 n_ROW5 contact45 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact45 n_COL5 n_ROW5 I={V(n_COL5,n_ROW5)/(V(contact45,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact46 n_COL5 n_ROW6 contact46 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact46 n_COL5 n_ROW6 I={V(n_COL5,n_ROW6)/(V(contact46,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact47 n_COL5 n_ROW7 contact47 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact47 n_COL5 n_ROW7 I={V(n_COL5,n_ROW7)/(V(contact47,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver6 n_COL6 0 sink6 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver6 n_COL6 0 I={V(n_COL6,0)/(V(sink6,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact48 n_COL6 n_ROW0 contact48 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact48 n_COL6 n_ROW0 I={V(n_COL6,n_ROW0)/(V(contact48,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact49 n_COL6 n_ROW1 contact49 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact49 n_COL6 n_ROW1 I={V(n_COL6,n_ROW1)/(V(contact49,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact50 n_COL6 n_ROW2 contact50 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact50 n_COL6 n_ROW2 I={V(n_COL6,n_ROW2)/(V(contact50,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact51 n_COL6 n_ROW3 contact51 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact51 n_COL6 n_ROW3 I={V(n_COL6,n_ROW3)/(V(contact51,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact52 n_COL6 n_ROW4 contact52 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact52 n_COL6 n_ROW4 I={V(n_COL6,n_ROW4)/(V(contact52,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact53 n_COL6 n_ROW5 contact53 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact53 n_COL6 n_ROW5 I={V(n_COL6,n_ROW5)/(V(contact53,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact54 n_COL6 n_ROW6 contact54 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact54 n_COL6 n_ROW6 I={V(n_COL6,n_ROW6)/(V(contact54,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact55 n_COL6 n_ROW7 contact55 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact55 n_COL6 n_ROW7 I={V(n_COL6,n_ROW7)/(V(contact55,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver7 n_COL7 0 sink7 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver7 n_COL7 0 I={V(n_COL7,0)/(V(sink7,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact56 n_COL7 n_ROW0 contact56 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact56 n_COL7 n_ROW0 I={V(n_COL7,n_ROW0)/(V(contact56,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact57 n_COL7 n_ROW1 contact57 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact57 n_COL7 n_ROW1 I={V(n_COL7,n_ROW1)/(V(contact57,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact58 n_COL7 n_ROW2 contact58 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact58 n_COL7 n_ROW2 I={V(n_COL7,n_ROW2)/(V(contact58,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact59 n_COL7 n_ROW3 contact59 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact59 n_COL7 n_ROW3 I={V(n_COL7,n_ROW3)/(V(contact59,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact60 n_COL7 n_ROW4 contact60 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact60 n_COL7 n_ROW4 I={V(n_COL7,n_ROW4)/(V(contact60,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact61 n_COL7 n_ROW5 contact61 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact61 n_COL7 n_ROW5 I={V(n_COL7,n_ROW5)/(V(contact61,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact62 n_COL7 n_ROW6 contact62 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact62 n_COL7 n_ROW6 I={V(n_COL7,n_ROW6)/(V(contact62,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact63 n_COL7 n_ROW7 contact63 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact63 n_COL7 n_ROW7 I={V(n_COL7,n_ROW7)/(V(contact63,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver8 n_COL8 0 sink8 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver8 n_COL8 0 I={V(n_COL8,0)/(V(sink8,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact64 n_COL8 n_ROW0 contact64 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact64 n_COL8 n_ROW0 I={V(n_COL8,n_ROW0)/(V(contact64,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact65 n_COL8 n_ROW1 contact65 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact65 n_COL8 n_ROW1 I={V(n_COL8,n_ROW1)/(V(contact65,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact66 n_COL8 n_ROW2 contact66 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact66 n_COL8 n_ROW2 I={V(n_COL8,n_ROW2)/(V(contact66,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact67 n_COL8 n_ROW3 contact67 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact67 n_COL8 n_ROW3 I={V(n_COL8,n_ROW3)/(V(contact67,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact68 n_COL8 n_ROW4 contact68 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact68 n_COL8 n_ROW4 I={V(n_COL8,n_ROW4)/(V(contact68,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact69 n_COL8 n_ROW5 contact69 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact69 n_COL8 n_ROW5 I={V(n_COL8,n_ROW5)/(V(contact69,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact70 n_COL8 n_ROW6 contact70 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact70 n_COL8 n_ROW6 I={V(n_COL8,n_ROW6)/(V(contact70,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact71 n_COL8 n_ROW7 contact71 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact71 n_COL8 n_ROW7 I={V(n_COL8,n_ROW7)/(V(contact71,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver9 n_COL9 0 sink9 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver9 n_COL9 0 I={V(n_COL9,0)/(V(sink9,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact72 n_COL9 n_ROW0 contact72 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact72 n_COL9 n_ROW0 I={V(n_COL9,n_ROW0)/(V(contact72,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact73 n_COL9 n_ROW1 contact73 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact73 n_COL9 n_ROW1 I={V(n_COL9,n_ROW1)/(V(contact73,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact74 n_COL9 n_ROW2 contact74 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact74 n_COL9 n_ROW2 I={V(n_COL9,n_ROW2)/(V(contact74,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact75 n_COL9 n_ROW3 contact75 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact75 n_COL9 n_ROW3 I={V(n_COL9,n_ROW3)/(V(contact75,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact76 n_COL9 n_ROW4 contact76 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact76 n_COL9 n_ROW4 I={V(n_COL9,n_ROW4)/(V(contact76,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact77 n_COL9 n_ROW5 contact77 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact77 n_COL9 n_ROW5 I={V(n_COL9,n_ROW5)/(V(contact77,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact78 n_COL9 n_ROW6 contact78 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact78 n_COL9 n_ROW6 I={V(n_COL9,n_ROW6)/(V(contact78,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact79 n_COL9 n_ROW7 contact79 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact79 n_COL9 n_ROW7 I={V(n_COL9,n_ROW7)/(V(contact79,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver10 n_COL10 0 sink10 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver10 n_COL10 0 I={V(n_COL10,0)/(V(sink10,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact80 n_COL10 n_ROW0 contact80 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact80 n_COL10 n_ROW0 I={V(n_COL10,n_ROW0)/(V(contact80,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact81 n_COL10 n_ROW1 contact81 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact81 n_COL10 n_ROW1 I={V(n_COL10,n_ROW1)/(V(contact81,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact82 n_COL10 n_ROW2 contact82 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact82 n_COL10 n_ROW2 I={V(n_COL10,n_ROW2)/(V(contact82,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact83 n_COL10 n_ROW3 contact83 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact83 n_COL10 n_ROW3 I={V(n_COL10,n_ROW3)/(V(contact83,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact84 n_COL10 n_ROW4 contact84 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact84 n_COL10 n_ROW4 I={V(n_COL10,n_ROW4)/(V(contact84,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact85 n_COL10 n_ROW5 contact85 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact85 n_COL10 n_ROW5 I={V(n_COL10,n_ROW5)/(V(contact85,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact86 n_COL10 n_ROW6 contact86 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact86 n_COL10 n_ROW6 I={V(n_COL10,n_ROW6)/(V(contact86,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact87 n_COL10 n_ROW7 contact87 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact87 n_COL10 n_ROW7 I={V(n_COL10,n_ROW7)/(V(contact87,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver11 n_COL11 0 sink11 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver11 n_COL11 0 I={V(n_COL11,0)/(V(sink11,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact88 n_COL11 n_ROW0 contact88 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact88 n_COL11 n_ROW0 I={V(n_COL11,n_ROW0)/(V(contact88,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact89 n_COL11 n_ROW1 contact89 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact89 n_COL11 n_ROW1 I={V(n_COL11,n_ROW1)/(V(contact89,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact90 n_COL11 n_ROW2 contact90 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact90 n_COL11 n_ROW2 I={V(n_COL11,n_ROW2)/(V(contact90,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact91 n_COL11 n_ROW3 contact91 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact91 n_COL11 n_ROW3 I={V(n_COL11,n_ROW3)/(V(contact91,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact92 n_COL11 n_ROW4 contact92 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact92 n_COL11 n_ROW4 I={V(n_COL11,n_ROW4)/(V(contact92,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact93 n_COL11 n_ROW5 contact93 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact93 n_COL11 n_ROW5 I={V(n_COL11,n_ROW5)/(V(contact93,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact94 n_COL11 n_ROW6 contact94 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact94 n_COL11 n_ROW6 I={V(n_COL11,n_ROW6)/(V(contact94,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact95 n_COL11 n_ROW7 contact95 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact95 n_COL11 n_ROW7 I={V(n_COL11,n_ROW7)/(V(contact95,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Sdriver12 n_COL12 0 sink12 0 SINK_NOMINAL",
+      "mapped": "Bmap_Sdriver12 n_COL12 0 I={V(n_COL12,0)/(V(sink12,0)>2.5 ? 20 : 1t)}"
+    },
+    {
+      "original": "Scontact96 n_COL12 n_ROW0 contact96 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact96 n_COL12 n_ROW0 I={V(n_COL12,n_ROW0)/(V(contact96,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact97 n_COL12 n_ROW1 contact97 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact97 n_COL12 n_ROW1 I={V(n_COL12,n_ROW1)/(V(contact97,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact98 n_COL12 n_ROW2 contact98 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact98 n_COL12 n_ROW2 I={V(n_COL12,n_ROW2)/(V(contact98,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact99 n_COL12 n_ROW3 contact99 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact99 n_COL12 n_ROW3 I={V(n_COL12,n_ROW3)/(V(contact99,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact100 n_COL12 n_ROW4 contact100 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact100 n_COL12 n_ROW4 I={V(n_COL12,n_ROW4)/(V(contact100,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact101 n_COL12 n_ROW5 contact101 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact101 n_COL12 n_ROW5 I={V(n_COL12,n_ROW5)/(V(contact101,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact102 n_COL12 n_ROW6 contact102 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact102 n_COL12 n_ROW6 I={V(n_COL12,n_ROW6)/(V(contact102,0)>2.5 ? 100 : 1t)}"
+    },
+    {
+      "original": "Scontact103 n_COL12 n_ROW7 contact103 0 CONTACT_NOMINAL",
+      "mapped": "Bmap_Scontact103 n_COL12 n_ROW7 I={V(n_COL12,n_ROW7)/(V(contact103,0)>2.5 ? 100 : 1t)}"
+    }
+  ],
+  "stopSeconds": 0.001098014248435295,
+  "signals": [
+    "v(n_CABLE_DATEN,host_receiver_gnd)",
+    "v(n_CABLE_TAKT,host_receiver_gnd)",
+    "v(host_data_buffer_input,host_receiver_gnd)",
+    "v(host_clock_buffer_input,host_receiver_gnd)",
+    "v(host_data_buffer_output,host_receiver_gnd)",
+    "v(host_clock_buffer_output,host_receiver_gnd)"
+  ],
+  "boundary": "Switch resistance and threshold are preserved away from equality. At exactly 2.5 V the mapped switch is off, whereas ngspice SW can retain state. This mapping requires its ngspice control; time-integration, nonlinear tolerances and device implementations differ across solvers. Short constructed stimulus only, not firmware or physical qualification.",
+  "exitCode": 0,
+  "solverDiagnostic": null,
+  "rows": 51455,
+  "lastSampleSeconds": 0.0010980142484352945,
+  "artifacts": {
+    "io.cir": "1c61339ebf660ddca58215cb03f6078f05bd39c12b369e26f9b86dfd0f8d3f78",
+    "solver.log": "e50984aeb243d08c914dc4f88b619cf664dcc32fc6ac01434ff5cea7f1caa0f5",
+    "host-trace.txt": "b869801e63f92db02e83b6fbd1d9f36a0fabd7dc10b717f36636ccd5bd020aaf"
+  }
+}
