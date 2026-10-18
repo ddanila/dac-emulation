@@ -5,7 +5,9 @@
   "findings": {
     "logicalComparisonPassed": true,
     "sampledStabilityPassed": true,
-    "interpretation": "Logical agreement and sampled output stability do not qualify device dynamics, SIO loading, timestep convergence or the closed board."
+    "interpretation": "Logical agreement and sampled output stability do not qualify device dynamics, SIO loading, timestep convergence or the closed board.",
+    "sampledHostInputsWithinStaticD104Envelope": true,
+    "inputReviewBoundary": "Full service waveform reviewed at D104 input nodes; sampled limits only, with no intersample, device-dynamic or supply applicability qualification."
   },
   "retainedFilesSha256": {
     "report.json": "5f2820e8eb5d65892fc9bf5dc7cac6786f1242f819038a2e1d701a99d5636770",
@@ -16,7 +18,8 @@
     "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
     "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
     "ngspice.log": "d3acd8e89974ef6e0c65e2d859106c3bef47ac3568348571c2f74e6a2e445ddc",
-    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591"
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "input-review.json": "b59a897b2e7ccf96c70a9c7681021ba30e11d6c98629bc33ec0c4ec42de16c68"
   },
   "waveforms": {
     "retention": "Local build output only; full waveforms are not included in this repository receipt. Reports retain producer and compressed-container hashes. Reproduction or the original local captures are required for independent waveform review.",
