@@ -4,7 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from bus_observation import measure
+from bus_observation import measure, BusMismatch
 
 LOG = ('BUS_SAMPLE 100000 0001 a5 0 1 0\nBUS_LATCH 150000 a5 a5\n'
        'BUS_SAMPLE 300000 8000 a5 1 0 1\nBUS_LATCH 350000 a5 a5\n')
@@ -74,6 +74,32 @@ class BusObservationTests(unittest.TestCase):
                 self.check(rows=rows)
         with self.assertRaisesRegex(ValueError, 'columns'):
             self.check(header=HEADER.replace(' v(n_p5V)', ''))
+
+    def test_first_read_electrical_failure_precedes_later_rom_mismatch(self):
+        log = LOG.replace('8000 a5 1 0 1', '0002 a4 0 1 0').replace('350000 a5 a5', '350000 a4 a4')
+        rows = [r[:] for r in self.rows]
+        rows[10][1] = 1.4
+        with self.assertRaises(BusMismatch) as caught:
+            self.check(log=log, rows=rows)
+        details = caught.exception.details
+        self.assertEqual(details['ordinal'], 0)
+        self.assertEqual(details['readTimePs'], 100000)
+        self.assertEqual(details['address'], 1)
+        self.assertEqual(details['signal'], 'D0')
+        self.assertEqual(details['expectedBit'], 1)
+        self.assertEqual(details['volts'], 1.4)
+
+    def test_rom_and_cpu_register_failures_retain_expected_and_actual_data(self):
+        with self.assertRaises(BusMismatch) as caught:
+            self.check(rom=bytes(2048))
+        self.assertEqual(caught.exception.details['signal'], 'ROM_DATA')
+        self.assertEqual(caught.exception.details['expectedByte'], 0)
+        self.assertEqual(caught.exception.details['sampledByte'], 0xa5)
+        with self.assertRaises(BusMismatch) as caught:
+            self.check(log=LOG.replace('150000 a5 a5', '150000 a5 00'))
+        self.assertEqual(caught.exception.details['signal'], 'CPU_DI_REG')
+        self.assertEqual(caught.exception.details['latchedByte'], 0)
+        self.assertEqual(caught.exception.details['latchTimePs'], 150000)
 
 
 if __name__ == '__main__':

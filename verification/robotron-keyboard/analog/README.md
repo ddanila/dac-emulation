@@ -641,6 +641,8 @@ The bus trace also retains the board supply; read windows must satisfy the U880
 reference supply and input-voltage ranges. The checker rejects unknown data,
 missing observations and waveform gaps. TV80's sampling
 edge is not a substitute for the U880's distinct M1 and M2–M5 pin timing.
+Electrical and data mismatches retain the first failing read's time, address,
+signal and expected/observed values in `busFailure`, alongside the failure traces.
 Physical bus timing checks remain unfinished, so the paired firmware qualifier
 rejects this mode rather than treating serial agreement as bus qualification.
 
