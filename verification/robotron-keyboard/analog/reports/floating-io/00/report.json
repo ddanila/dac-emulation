@@ -1,0 +1,294 @@
+{
+  "schema": 1,
+  "scope": "reference digital boundary; not specimen timing or complete analog simulation",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "sources": {
+    "verification/robotron-keyboard/bus_probe.c": "48cd27cbd6b0e796bb34abb12dd4a518425e7b3b826f375ac508bd262b8fa3de",
+    "verification/robotron-keyboard/bus_tb.v": "263e2b2142b27382f6670040236be85f222e5e9d86e8c9e1a62393786e3760a9",
+    "verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+    "verification/robotron-keyboard/chips_tb.v": "c92758a741f74fe16da002def93db2183c57b1fbeccd482902b24cabc4ae93a0",
+    "verification/robotron-keyboard/diagnostics.py": "5dc29959942fb9a80f8e3ac7ac6b5613500d177ed4334a6d0f4714a750c1a812",
+    "verification/robotron-keyboard/firmware_probe.c": "08ce0bae8ddd72c6e4ecebcb4ed3f6bfbceeff1ab9620bc9a0acf6338fdbd442",
+    "verification/robotron-keyboard/firmware_tb.v": "2374f0f19e4f12ad9d3b6580e23cafdbc0dbd6a7e7cf7dc551d2792825918b78",
+    "verification/robotron-keyboard/generate.py": "832a2005b2738881a3cc8e6f030c6e43f5ea09b869639a4b2f637f56f065a092",
+    "verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "verification/robotron-keyboard/run.py": "29042b467451c25fc94e48db38d30855351de37d3e3fe438ea4c39f5b83108d1",
+    "verification/robotron-keyboard/service_tb.v": "1565b89b56b55305cd8776e56104785eef169697d3611354a14ac5602eea0dcd",
+    "verification/robotron-keyboard/sync_reference.py": "ef669e1c3975cf2d65dc9d0206409eb4844ba5708890b8372119919baf68f5ba",
+    "verification/robotron-keyboard/test_diagnostics.py": "58e69c0d624643480a1f5a3cd256863bd475bd7820c77577d9a245cea38dea29"
+  },
+  "productionKeyboardSha256": "d611b8dd61a6ecc75dc922fc40d0c1901722aec0de988516157af2a26c89922b",
+  "productionKeyboardHeaderSha256": "49e4aaa2a5b8dc4bb4b2882c4fc24da194194581e6f133723dc37b8e3216979f",
+  "cpuSources": {
+    "common/cpu/z80.c": "d7329a9a116f49441b9ed4f23c0c2fdbb8cb338f74e327cc3344442a355461cf",
+    "common/cpu/z80.h": "a998bd23598a0076b26adf94ab895710378d4f19a0a58a1168c1edd23504ad46",
+    "third_party/cpu/chips/z80.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3"
+  },
+  "chipTruthTable": {
+    "passed": true,
+    "scope": "DL074 asynchronous controls and edge capture; 8282 transparency, hold and output enable; numbered pins and unknown inputs; no device timing calibration"
+  },
+  "service": {
+    "checks": 13,
+    "mismatches": 0,
+    "equivalent": true,
+    "scope": "BR1/BR2 digital isolation, external injection, floating reset, clock pullup and conflicting drivers; analog sources are boundaries."
+  },
+  "bus": {
+    "mode": "full-address-audit",
+    "vectors": 131072,
+    "mismatches": 0,
+    "equivalent": true,
+    "firstDifferences": [],
+    "firstFailureSignals": []
+  },
+  "cpuExperiment": {
+    "profile": "falling-indexed-candidate",
+    "qualified": false,
+    "boundary": "Reference firmware behavior only; CPU pin timing, analog feedback, interrupts and bus-grant behavior remain unqualified.",
+    "generatorSha256": "196ec576c19d4f893f2f3054cb7ffefb24e690a6e013e6627878a35e7954e6ce",
+    "wrapperSha256": "fa3700e9efa8549f597b1eb0fb443373f846c871783f6a233244096ba0cf1733",
+    "coreSha256": "7b391e727276a0728cd5527fbd384da8646bd502d2d151b7c9b8545a8ac66292"
+  },
+  "floatingIoExperiment": {
+    "value": "00",
+    "scope": "Override CPU input only during I/O reads with A15 low; all board outputs released by the schematic decode",
+    "qualified": false,
+    "boundary": "Sensitivity of this firmware fixture, not measured bus voltage, CPU metastability or exhaustive unknown-input proof"
+  },
+  "firmware": {
+    "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+    "cpu": {
+      "repository": "https://github.com/hutch31/tv80",
+      "revision": "66a131c38d05ef58b3d8c4f1507a72e6e4aa5d65",
+      "scope": "Unmodified rtl/core files; MIT license retained in each file. Qualification only, not production runtime.",
+      "files": {
+        "tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+        "tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+        "tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+        "tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+        "tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+      }
+    },
+    "cycles": 4600000,
+    "stimulusCoverage": {
+      "normal": 26,
+      "shift": 26,
+      "ctrl": 26,
+      "repeat": 260,
+      "afterRepeatRelease": 0,
+      "afterReset": 26
+    },
+    "stimulusCoveragePassed": true,
+    "cBits": 390,
+    "hdlBits": 390,
+    "serialSequenceEquivalent": true,
+    "firstSerialDifference": null,
+    "ledDifferences": [],
+    "cLedEdges": 11971,
+    "hdlLedEdges": 11971,
+    "ledTransitionsEquivalent": true,
+    "serialCycleOffsets": [
+      2
+    ],
+    "ledCycleOffsetCounts": {
+      "-1": 11957,
+      "2": 12,
+      "394": 1,
+      "410": 1
+    },
+    "cycleEquivalent": false,
+    "cLedSamples": [
+      [
+        199999,
+        "0"
+      ],
+      [
+        399999,
+        "0"
+      ],
+      [
+        599999,
+        "0"
+      ],
+      [
+        799999,
+        "0"
+      ],
+      [
+        999999,
+        "0"
+      ],
+      [
+        1199999,
+        "0"
+      ],
+      [
+        1399999,
+        "1"
+      ],
+      [
+        1599999,
+        "0"
+      ],
+      [
+        1799999,
+        "3"
+      ],
+      [
+        1999999,
+        "3"
+      ],
+      [
+        2199999,
+        "0"
+      ],
+      [
+        2399999,
+        "3"
+      ],
+      [
+        2599999,
+        "3"
+      ],
+      [
+        2799999,
+        "0"
+      ],
+      [
+        2999999,
+        "3"
+      ],
+      [
+        3199999,
+        "3"
+      ],
+      [
+        3399999,
+        "3"
+      ],
+      [
+        3599999,
+        "3"
+      ],
+      [
+        3799999,
+        "0"
+      ],
+      [
+        3999999,
+        "3"
+      ],
+      [
+        4199999,
+        "3"
+      ],
+      [
+        4399999,
+        "0"
+      ],
+      [
+        4599999,
+        "0"
+      ]
+    ],
+    "hdlLedSamples": [
+      [
+        199999,
+        "0"
+      ],
+      [
+        399999,
+        "0"
+      ],
+      [
+        599999,
+        "0"
+      ],
+      [
+        799999,
+        "0"
+      ],
+      [
+        999999,
+        "0"
+      ],
+      [
+        1199999,
+        "0"
+      ],
+      [
+        1399999,
+        "1"
+      ],
+      [
+        1599999,
+        "0"
+      ],
+      [
+        1799999,
+        "3"
+      ],
+      [
+        1999999,
+        "3"
+      ],
+      [
+        2199999,
+        "0"
+      ],
+      [
+        2399999,
+        "3"
+      ],
+      [
+        2599999,
+        "3"
+      ],
+      [
+        2799999,
+        "0"
+      ],
+      [
+        2999999,
+        "3"
+      ],
+      [
+        3199999,
+        "3"
+      ],
+      [
+        3399999,
+        "3"
+      ],
+      [
+        3599999,
+        "3"
+      ],
+      [
+        3799999,
+        "0"
+      ],
+      [
+        3999999,
+        "3"
+      ],
+      [
+        4199999,
+        "3"
+      ],
+      [
+        4399999,
+        "0"
+      ],
+      [
+        4599999,
+        "0"
+      ]
+    ],
+    "timing": "Cycles recorded; ordinal bit comparison allows CPU timing differences and is not cycle equivalence.",
+    "equivalent": true,
+    "firstFailureSignals": []
+  },
+  "equivalent": true
+}

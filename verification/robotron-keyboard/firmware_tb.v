@@ -1,5 +1,8 @@
 `timescale 1ns/1ps
-module firmware_tb;
+module firmware_tb #(
+ parameter FLOATING_IO_OVERRIDE=0,
+ parameter [7:0] FLOATING_IO_VALUE=8'hff
+);
  reg clk=0,reset_n=0;always #5 clk=~clk;
  wire cpu_clk,cpu_reset_n;
  // Reproducible bench stimulus enters the CPU sides of open BR1/BR2.
@@ -11,7 +14,12 @@ module firmware_tb;
  reg [7:0] rom[0:2047];reg [1023:0] file,wave;integer cycle=-16,wave_start=0,wave_end=4600000;reg wave_enabled=0;
  tv80n cpu(.reset_n(cpu_reset_n),.clk(cpu_clk),.wait_n(1'b1),.int_n(1'b1),.nmi_n(1'b1),.busrq_n(1'b1),.di(di),.A(address),.dout(dout),.m1_n(m1_n),.mreq_n(mreq_n),.iorq_n(iorq_n),.rd_n(rd_n),.wr_n(wr_n),.rfsh_n(rfsh_n),.halt_n(halt_n),.busak_n(busak_n));
  controller board(address,dout,iorq_n,wr_n,contacts,read_data,leds,ta_daten,ta_takt);
- assign di=!mreq_n?rom[address[10:0]]:read_data;
+ // A15 low disables the 8282 outputs. The standard digital board's pullups
+ // are a boundary convention, not evidence that the physical bus reads FF.
+ // This fixture override explores firmware dependence on released I/O reads.
+ assign di=!mreq_n?rom[address[10:0]]:
+           FLOATING_IO_OVERRIDE && !iorq_n && !rd_n && !address[15] ?
+           FLOATING_IO_VALUE:read_data;
  initial begin
   if(!$value$plusargs("rom=%s",file))$fatal(1,"rom missing");$readmemh(file,rom);
   if($value$plusargs("wave=%s",wave))begin

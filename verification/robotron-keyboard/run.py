@@ -15,8 +15,10 @@ def main():
  p=argparse.ArgumentParser();p.add_argument('--audit',action='store_true');p.add_argument('--rom',type=Path);p.add_argument('--wave',action='store_true')
  p.add_argument('--out',type=Path,default=OUT)
  p.add_argument('--cpu-profile',choices=('tv80','falling-candidate','falling-indexed-candidate'),default='tv80')
+ p.add_argument('--floating-io-value',choices=('00','ff','xx'),help='Sensitivity fixture for released A15-low I/O reads; not a physical pullup')
  a=p.parse_args()
  if a.cpu_profile!='tv80' and not a.rom:p.error('--cpu-profile requires --rom')
+ if a.floating_io_value is not None and not a.rom:p.error('--floating-io-value requires --rom')
  OUT=a.out.resolve();OUT.mkdir(parents=True,exist_ok=True)
  for name in ['report.json','failure.json','bus.vcd','firmware.vcd','service.vcd']:
   (OUT/name).unlink(missing_ok=True)
@@ -62,7 +64,11 @@ def main():
    cpu_sources=[f for f in cpu_sources if f.name!='tv80_core.v']+[core]
    cpu_experiment['coreSha256']=sha(core)
   report['cpuExperiment']=cpu_experiment
-  run(['iverilog','-g2012','-s','firmware_tb','-o',OUT/'firmware.vvp',*cpu_sources,R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v'])
+  floating_args=[]
+  if a.floating_io_value is not None:
+   floating_args=['-Pfirmware_tb.FLOATING_IO_OVERRIDE=1',"-Pfirmware_tb.FLOATING_IO_VALUE=8'h"+a.floating_io_value]
+   report['floatingIoExperiment']={'value':a.floating_io_value,'scope':'Override CPU input only during I/O reads with A15 low; all board outputs released by the schematic decode','qualified':False,'boundary':'Sensitivity of this firmware fixture, not measured bus voltage, CPU metastability or exhaustive unknown-input proof'}
+  run(['iverilog','-g2012','-s','firmware_tb',*floating_args,'-o',OUT/'firmware.vvp',*cpu_sources,R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v'])
   args=['vvp',OUT/'firmware.vvp','+rom='+str(OUT/'rom.hex')]
   if a.wave:args+=['+wave='+str(OUT/'firmware.vcd')]
   with (OUT/'firmware-hdl.txt').open('w') as f:run(args,stdout=f,timeout=300)

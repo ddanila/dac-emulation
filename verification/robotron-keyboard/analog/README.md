@@ -924,3 +924,12 @@ Electrical-bus latch confirmations use Verilog's postponed observation region
 at the sampling time, after the input register's nonblocking update. They do
 not depend on a following falling edge beyond the capture stop. The validator
 still requires a matching register confirmation for every read.
+
+`reports/electrical-bus-failure-review/` retains the first failed voltage windows
+from the paired S600 runs. With the transistor serial gate, D0 becomes uncertain
+on A15-low I/O reads, where the schematic disables the latch outputs and releases
+the bus. Serial values still match C; this does not establish valid CPU input
+levels. The separate nominal-output run rejects a small D7 excursion above the
+moving supply; reconstructed local charge balance is consistent with capacitor
+lag in the linear driver fixture. Both electrical rejections remain open; neither is waived by the
+digital floating-input sensitivity experiment.

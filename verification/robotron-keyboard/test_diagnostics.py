@@ -51,4 +51,28 @@ class DiagnosticsTests(unittest.TestCase):
    subprocess.run(['vvp',exe,'+rom='+str(rom),'+wave='+str(wave),'+wave_start=10','+wave_end=20'],check=True,capture_output=True,timeout=10)
    times=[int(line[1:])for line in wave.read_text().splitlines()if line.startswith('#')]
    self.assertIn(260000,times);self.assertEqual(max(times),360000)
+ def test_floating_input_fixture_preserves_driven_reads(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   out=Path(tmp);exe=out/'probe.vvp';rom=out/'rom.hex'
+   rom.write_text('00\n'*2048)
+   (out/'probe.v').write_text("""`timescale 1ns/1ps
+module probe;
+ firmware_tb #(.FLOATING_IO_OVERRIDE(1),.FLOATING_IO_VALUE(8'hxx)) dut();
+ initial begin
+  force dut.address=0; force dut.mreq_n=0;
+  force dut.iorq_n=1; force dut.rd_n=0; force dut.read_data=8'ha5;
+  #1; if(dut.di!==8'h00)$fatal(1,"ROM read overridden");
+  force dut.mreq_n=1; force dut.iorq_n=0; force dut.address=16'h8000;
+  #1; if(dut.di!==8'ha5)$fatal(1,"Enabled latch read overridden");
+  force dut.address=0;
+  #1; if(dut.di!==8'hxx)$fatal(1,"Released read did not preserve unknown");
+  force dut.rd_n=1;
+  #1; if(dut.di!==8'ha5)$fatal(1,"Non-read overridden");
+  $display("FLOATING_INPUT_BOUNDARY_PASS");$finish;
+ end
+endmodule
+""")
+   subprocess.run(['iverilog','-g2012','-s','probe','-o',exe,*sorted((R.parents[1]/'third_party/cpu/tv80').glob('*.v')),R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v',out/'probe.v'],check=True)
+   result=subprocess.run(['vvp',exe,'+rom='+str(rom)],check=True,capture_output=True,text=True,timeout=10)
+   self.assertIn('FLOATING_INPUT_BOUNDARY_PASS',result.stdout)
 if __name__=='__main__':unittest.main()
