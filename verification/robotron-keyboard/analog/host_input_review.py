@@ -116,7 +116,8 @@ def firmware_review(directory, limits):
                        for i, label in enumerate(('data', 'clock'))}}
 
 
-def board_review(directory, limits):
+def board_capture(directory):
+    """Validate a completed board capture boundary without qualifying behavior."""
     from compare_firmware_io import sha as trace_sha
     from transient_analysis import normalized_analysis
     from failure_evidence import solver_diagnostic
@@ -134,10 +135,17 @@ def board_review(directory, limits):
     normalized_analysis(deck,assumptions)
     analyses=re.findall(r'^\.?tran [0-9.eE+-]+n ([0-9.eE+-]+) 124m$',deck,re.M)
     start,end=assumptions['traceWindowSeconds']
-    if (len(analyses)!=1 or start!=.124 or not math.isfinite(end)
+    if (len(analyses)!=1 or start!=.124 or not math.isfinite(end) or end<=start
             or abs(float(analyses[0])-end)>1e-12):
         raise ValueError('Board capture window differs from executed analysis')
     step=assumptions['maximumStepNs']
+    if not math.isfinite(step) or step <= 0:
+        raise ValueError('Invalid board timestep')
+    return report, start, end, step
+
+
+def board_review(directory, limits):
+    report, start, end, step = board_capture(directory)
     return {'boundary':'Closed-board tail capture only; no voltage evidence before the declared window and no functional qualification',
             'producerPassed':report.get('passed') is True,'producerError':report.get('error'),
             'captureWindowSeconds':[start,end],'traceSha256':report['hostTraceSha256'],

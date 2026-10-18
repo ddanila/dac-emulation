@@ -229,14 +229,16 @@ device, voltage and timing qualification.
 | Service serial-edge refinement | `compare_firmware_io.py COARSE FINE --experimental-host --out REPORT` |
 | Absolute-time host-voltage differences | `host_waveform_comparison.py COARSE FINE --out REPORT` |
 | Exact samples around maximum differences | `host_transition_windows.py COMPARISON COARSE FINE --out DIRECTORY` |
-| Service clock-width screen | `host_clock_widths.py RUN --out REPORT` |
+| Clock-width screen | `host_clock_widths.py RUN --out REPORT`; add `--board` for the recorded closed-board window |
 
 The host capture reviews retain `qualified: false`. Input stress review distinguishes
 static bounds from conditional pulse allowances; a voltage minimum cannot
 establish duty or unknown input current. Voltage comparisons use retained sample
 knots without phase alignment; local transition windows do not prove whole-waveform
 convergence. Clock-width screens use an explicit nominal threshold, not measured
-Schmitt switching. The evidence index below links results and remaining limits.
+Schmitt switching. Board clock reviews preserve producer failures and censored
+window ends; they cannot establish pulse widths before the capture starts. The
+evidence index below links results and remaining limits.
 
 ## Qualification and retained evidence
 
