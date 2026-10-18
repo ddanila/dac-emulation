@@ -1,0 +1,939 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Isolated unloaded NAND with tied inputs, ideal 5 V supply, 25 C and gmin=1e-15 S. Slow ramps from either logic rail followed by finite input disturbances. Recovery in these cases is not a general stability proof or physical hysteresis measurement.",
+  "comparisonBudgetVolts": 1e-06,
+  "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "sources": {
+    "ls00_branch_transient.py": "93dcfa551577c1c2ad8c7e946b91a79dd5198b117c886b5f4220a4597748a018",
+    "candidate.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+    "ls00_branch_probe.py": "4a12c92da9f63f627b03f41c7193b222629908097100b1ca1c69b319f55b4f5b",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+    "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01"
+  },
+  "spinitSha256": "300e3a0b036db72112acce90e31fa6c0955a1d22937e948fbbef98366743ec07",
+  "cases": [
+    {
+      "name": "forward--0.001-2e-10",
+      "direction": "forward",
+      "inputPerturbationVolts": -0.001,
+      "stepSeconds": 2e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 3.780650887932456,
+          "afterVolts": 3.780650887945993,
+          "recoveryDifferenceVolts": 1.3536727294649609e-11,
+          "maximumWindowSpanVolts": 2.473110605194506e-10
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.741380295601264,
+          "afterVolts": 0.7413802956012346,
+          "recoveryDifferenceVolts": 2.930988785010413e-14,
+          "maximumWindowSpanVolts": 5.331290964250002e-13
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.2723259079340859,
+          "afterVolts": 0.2723259079341355,
+          "recoveryDifferenceVolts": 4.96269692007445e-14,
+          "maximumWindowSpanVolts": 8.423817199343375e-13
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 2.6725146416539314,
+          "afterVolts": 2.672514641629383,
+          "recoveryDifferenceVolts": 2.454836334209176e-11,
+          "maximumWindowSpanVolts": 1.802060722866372e-10
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 1.926524245675844,
+          "afterVolts": 1.926524245651066,
+          "recoveryDifferenceVolts": 2.4777957463584244e-11,
+          "maximumWindowSpanVolts": 1.818232231443062e-10
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.581212339000787,
+          "afterVolts": 1.5812123390007469,
+          "recoveryDifferenceVolts": 4.0190073491430667e-14,
+          "maximumWindowSpanVolts": 4.027000954920368e-12
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.8364954037183426,
+          "afterVolts": 0.8364954037180657,
+          "recoveryDifferenceVolts": 2.7688962234151404e-13,
+          "maximumWindowSpanVolts": 5.204392472535346e-12
+        },
+        "v(y)": {
+          "beforeVolts": 1.0912198652225822,
+          "afterVolts": 1.091219865198113,
+          "recoveryDifferenceVolts": 2.4469093418133525e-11,
+          "maximumWindowSpanVolts": 1.8527956946456925e-10
+        }
+      },
+      "artifacts": {
+        "forward--0.001-2e-10.cir": "178a30485e89c10f674bdf15aa4537ce9ab85210565378878e0422db2e72ac2d",
+        "forward--0.001-2e-10.log": "3373e39c665a429aee64517aa03302884b9cd82f653a84bff2bb31463cf51710",
+        "forward--0.001-2e-10.txt": "82e7c40ded07bc53a92c60eb0552cc1b9cfce8652bdb68de9d2479c6fcb5c6fb"
+      }
+    },
+    {
+      "name": "forward--0.001-1e-10",
+      "direction": "forward",
+      "inputPerturbationVolts": -0.001,
+      "stepSeconds": 1e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 3.780650887932224,
+          "afterVolts": 3.780650887946111,
+          "recoveryDifferenceVolts": 1.3887113681221308e-11,
+          "maximumWindowSpanVolts": 2.4868285208867746e-10
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.7413802956012645,
+          "afterVolts": 0.7413802956012343,
+          "recoveryDifferenceVolts": 3.019806626980426e-14,
+          "maximumWindowSpanVolts": 5.355715870791755e-13
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.272325907934085,
+          "afterVolts": 0.272325907934136,
+          "recoveryDifferenceVolts": 5.101474798152594e-14,
+          "maximumWindowSpanVolts": 8.471556789402257e-13
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 2.6725146416531818,
+          "afterVolts": 2.672514641628811,
+          "recoveryDifferenceVolts": 2.4370727658151736e-11,
+          "maximumWindowSpanVolts": 1.8638734999854023e-10
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 1.9265242456750644,
+          "afterVolts": 1.9265242456504494,
+          "recoveryDifferenceVolts": 2.461497672356927e-11,
+          "maximumWindowSpanVolts": 1.8803936185918246e-10
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.5812123390007957,
+          "afterVolts": 1.5812123390007495,
+          "recoveryDifferenceVolts": 4.618527782440651e-14,
+          "maximumWindowSpanVolts": 4.092504113373252e-12
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.8364954037183477,
+          "afterVolts": 0.8364954037180635,
+          "recoveryDifferenceVolts": 2.8421709430404007e-13,
+          "maximumWindowSpanVolts": 5.236477917947013e-12
+        },
+        "v(y)": {
+          "beforeVolts": 1.0912198652217986,
+          "afterVolts": 1.0912198651975005,
+          "recoveryDifferenceVolts": 2.429811907234125e-11,
+          "maximumWindowSpanVolts": 1.915294589593941e-10
+        }
+      },
+      "artifacts": {
+        "forward--0.001-1e-10.cir": "1036290f77c7b557b52aaa532e29aa546c2bd2b20ecbc196824ff1b9478fe5cf",
+        "forward--0.001-1e-10.log": "f33fba459c0ec1b20759db922cf7aa747d06243fd68fc21072578c53bbcde83b",
+        "forward--0.001-1e-10.txt": "2e008f2980562cbd549e356606dc2cede2350ad22c84009ed85a4a564125064b"
+      }
+    },
+    {
+      "name": "forward-+0.000-2e-10",
+      "direction": "forward",
+      "inputPerturbationVolts": 0,
+      "stepSeconds": 2e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 3.780650887932456,
+          "afterVolts": 3.7806508879460825,
+          "recoveryDifferenceVolts": 1.3626433315039321e-11,
+          "maximumWindowSpanVolts": 2.473110605194506e-10
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.741380295601264,
+          "afterVolts": 0.7413802956012344,
+          "recoveryDifferenceVolts": 2.9531932455029164e-14,
+          "maximumWindowSpanVolts": 5.331290964250002e-13
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.2723259079340859,
+          "afterVolts": 0.27232590793413597,
+          "recoveryDifferenceVolts": 5.007105841059456e-14,
+          "maximumWindowSpanVolts": 8.423817199343375e-13
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 2.6725146416539314,
+          "afterVolts": 2.672514641629297,
+          "recoveryDifferenceVolts": 2.4634516648802673e-11,
+          "maximumWindowSpanVolts": 1.802060722866372e-10
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 1.926524245675844,
+          "afterVolts": 1.9265242456509806,
+          "recoveryDifferenceVolts": 2.486344463648038e-11,
+          "maximumWindowSpanVolts": 1.818232231443062e-10
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.581212339000787,
+          "afterVolts": 1.5812123390007455,
+          "recoveryDifferenceVolts": 4.1522341120980855e-14,
+          "maximumWindowSpanVolts": 4.027000954920368e-12
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.8364954037183426,
+          "afterVolts": 0.8364954037180637,
+          "recoveryDifferenceVolts": 2.788880237858393e-13,
+          "maximumWindowSpanVolts": 5.204392472535346e-12
+        },
+        "v(y)": {
+          "beforeVolts": 1.0912198652225822,
+          "afterVolts": 1.0912198651980294,
+          "recoveryDifferenceVolts": 2.4552804234190262e-11,
+          "maximumWindowSpanVolts": 1.8527956946456925e-10
+        }
+      },
+      "artifacts": {
+        "forward-+0.000-2e-10.cir": "9ea9bf919344363e9b59c2d1fcf252c66d08dce0d23e68c765bd6e8f345fa38d",
+        "forward-+0.000-2e-10.log": "0fe0beb610eaf2c145d52e4fccf3af2cc77b0667d9916b6eac657a959fa67047",
+        "forward-+0.000-2e-10.txt": "5cadc9d92c5c009a9fbb7ba2f6e144fe81da36baa9e2b6b5b6e08760d38414d2"
+      }
+    },
+    {
+      "name": "forward-+0.000-1e-10",
+      "direction": "forward",
+      "inputPerturbationVolts": 0,
+      "stepSeconds": 1e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 3.780650887932224,
+          "afterVolts": 3.780650887946103,
+          "recoveryDifferenceVolts": 1.3879120075444007e-11,
+          "maximumWindowSpanVolts": 2.4868285208867746e-10
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.7413802956012645,
+          "afterVolts": 0.7413802956012343,
+          "recoveryDifferenceVolts": 3.019806626980426e-14,
+          "maximumWindowSpanVolts": 5.355715870791755e-13
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.272325907934085,
+          "afterVolts": 0.2723259079341359,
+          "recoveryDifferenceVolts": 5.090372567906343e-14,
+          "maximumWindowSpanVolts": 8.471556789402257e-13
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 2.6725146416531818,
+          "afterVolts": 2.6725146416289043,
+          "recoveryDifferenceVolts": 2.4277468924083223e-11,
+          "maximumWindowSpanVolts": 1.8638734999854023e-10
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 1.9265242456750644,
+          "afterVolts": 1.9265242456505403,
+          "recoveryDifferenceVolts": 2.4524160480154933e-11,
+          "maximumWindowSpanVolts": 1.8803936185918246e-10
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.5812123390007957,
+          "afterVolts": 1.5812123390007493,
+          "recoveryDifferenceVolts": 4.6407322429331543e-14,
+          "maximumWindowSpanVolts": 4.092504113373252e-12
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.8364954037183477,
+          "afterVolts": 0.8364954037180636,
+          "recoveryDifferenceVolts": 2.8410607200157756e-13,
+          "maximumWindowSpanVolts": 5.236477917947013e-12
+        },
+        "v(y)": {
+          "beforeVolts": 1.0912198652217986,
+          "afterVolts": 1.091219865197591,
+          "recoveryDifferenceVolts": 2.4207524873531838e-11,
+          "maximumWindowSpanVolts": 1.915294589593941e-10
+        }
+      },
+      "artifacts": {
+        "forward-+0.000-1e-10.cir": "2c19e13c2908e3e4c1ef4e6e03a6991843e6c7eff70d30ed22c0beb89798d85f",
+        "forward-+0.000-1e-10.log": "58b1ad369006022e1e445f281345e13ce071160f46b1ebd0c146e63448d08d2a",
+        "forward-+0.000-1e-10.txt": "5bbe83911e86c28fed16a3838aa1484837ac229fdadb64a026a9ef2526a1fb31"
+      }
+    },
+    {
+      "name": "forward-+0.001-2e-10",
+      "direction": "forward",
+      "inputPerturbationVolts": 0.001,
+      "stepSeconds": 2e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 3.780650887932456,
+          "afterVolts": 3.7806508879460456,
+          "recoveryDifferenceVolts": 1.3589573910621766e-11,
+          "maximumWindowSpanVolts": 2.473110605194506e-10
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.741380295601264,
+          "afterVolts": 0.7413802956012344,
+          "recoveryDifferenceVolts": 2.9531932455029164e-14,
+          "maximumWindowSpanVolts": 5.331290964250002e-13
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.2723259079340859,
+          "afterVolts": 0.27232590793413586,
+          "recoveryDifferenceVolts": 4.9960036108132044e-14,
+          "maximumWindowSpanVolts": 8.423817199343375e-13
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 2.6725146416539314,
+          "afterVolts": 2.6725146416292813,
+          "recoveryDifferenceVolts": 2.4650059771147426e-11,
+          "maximumWindowSpanVolts": 1.802060722866372e-10
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 1.926524245675844,
+          "afterVolts": 1.9265242456509653,
+          "recoveryDifferenceVolts": 2.4878765714220208e-11,
+          "maximumWindowSpanVolts": 1.818232231443062e-10
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.581212339000787,
+          "afterVolts": 1.5812123390007466,
+          "recoveryDifferenceVolts": 4.04121180963557e-14,
+          "maximumWindowSpanVolts": 4.027000954920368e-12
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.8364954037183426,
+          "afterVolts": 0.8364954037180646,
+          "recoveryDifferenceVolts": 2.779998453661392e-13,
+          "maximumWindowSpanVolts": 5.204392472535346e-12
+        },
+        "v(y)": {
+          "beforeVolts": 1.0912198652225822,
+          "afterVolts": 1.0912198651980132,
+          "recoveryDifferenceVolts": 2.456901349034979e-11,
+          "maximumWindowSpanVolts": 1.8527956946456925e-10
+        }
+      },
+      "artifacts": {
+        "forward-+0.001-2e-10.cir": "1f03f196cc885737aa31ddf725fdaacf1741a690950952a93d0cb7bd30e065f9",
+        "forward-+0.001-2e-10.log": "a741853a384fffd52ff3f1ef858fb5e4e877f9cbdf7678c523d6a21a6dbee1cb",
+        "forward-+0.001-2e-10.txt": "5c524466072f0a3de9edbc21dbd07ec2ed16138026af03158bab2c65896dbf68"
+      }
+    },
+    {
+      "name": "forward-+0.001-1e-10",
+      "direction": "forward",
+      "inputPerturbationVolts": 0.001,
+      "stepSeconds": 1e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 3.780650887932224,
+          "afterVolts": 3.7806508879460936,
+          "recoveryDifferenceVolts": 1.3869794202037156e-11,
+          "maximumWindowSpanVolts": 2.4868285208867746e-10
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.7413802956012645,
+          "afterVolts": 0.7413802956012344,
+          "recoveryDifferenceVolts": 3.008704396734174e-14,
+          "maximumWindowSpanVolts": 5.355715870791755e-13
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.272325907934085,
+          "afterVolts": 0.27232590793413586,
+          "recoveryDifferenceVolts": 5.084821452783217e-14,
+          "maximumWindowSpanVolts": 8.471556789402257e-13
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 2.6725146416531818,
+          "afterVolts": 2.6725146416288066,
+          "recoveryDifferenceVolts": 2.4375168550250237e-11,
+          "maximumWindowSpanVolts": 1.8638734999854023e-10
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 1.9265242456750644,
+          "afterVolts": 1.92652424565044,
+          "recoveryDifferenceVolts": 2.4624524641581047e-11,
+          "maximumWindowSpanVolts": 1.8803936185918246e-10
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.5812123390007957,
+          "afterVolts": 1.5812123390007498,
+          "recoveryDifferenceVolts": 4.596323321948148e-14,
+          "maximumWindowSpanVolts": 4.092504113373252e-12
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.8364954037183477,
+          "afterVolts": 0.8364954037180639,
+          "recoveryDifferenceVolts": 2.8388402739665253e-13,
+          "maximumWindowSpanVolts": 5.236477917947013e-12
+        },
+        "v(y)": {
+          "beforeVolts": 1.0912198652217986,
+          "afterVolts": 1.0912198651974907,
+          "recoveryDifferenceVolts": 2.4307889034957952e-11,
+          "maximumWindowSpanVolts": 1.915294589593941e-10
+        }
+      },
+      "artifacts": {
+        "forward-+0.001-1e-10.cir": "fd456ab66c15b457339fcc0b2226c214ea0be46a58fdac733889978a6486aa21",
+        "forward-+0.001-1e-10.log": "0ab89e17d21b54723b87b3158f1d317fd0e97140712d01dcbfde4940c474562d",
+        "forward-+0.001-1e-10.txt": "dc5984ec7a6d688ad44b45b511c53d3885aeed1be5a0083956cdaf75fe957619"
+      }
+    },
+    {
+      "name": "reverse--0.001-2e-10",
+      "direction": "reverse",
+      "inputPerturbationVolts": -0.001,
+      "stepSeconds": 2e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 4.996342961219849,
+          "afterVolts": 4.996342961219849,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 6.217248937900877e-15
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.7317964429822318,
+          "afterVolts": 0.7317964429822317,
+          "recoveryDifferenceVolts": 1.1102230246251565e-16,
+          "maximumWindowSpanVolts": 3.774758283725532e-15
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.29606534709850335,
+          "afterVolts": 0.2960653470985042,
+          "recoveryDifferenceVolts": 8.326672684688674e-16,
+          "maximumWindowSpanVolts": 1.6653345369377348e-14
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 1.0429674001424514,
+          "afterVolts": 1.0429674001424518,
+          "recoveryDifferenceVolts": 4.440892098500626e-16,
+          "maximumWindowSpanVolts": 2.398081733190338e-14
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 0.3566692618218478,
+          "afterVolts": 0.35666926182184816,
+          "recoveryDifferenceVolts": 3.3306690738754696e-16,
+          "maximumWindowSpanVolts": 1.787459069646502e-14
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.5232206188117905,
+          "afterVolts": 1.52322061881179,
+          "recoveryDifferenceVolts": 4.440892098500626e-16,
+          "maximumWindowSpanVolts": 1.4432899320127035e-14
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.7597854785920493,
+          "afterVolts": 0.759785478592049,
+          "recoveryDifferenceVolts": 2.220446049250313e-16,
+          "maximumWindowSpanVolts": 7.771561172376096e-15
+        },
+        "v(y)": {
+          "beforeVolts": 0.23359531575538264,
+          "afterVolts": 0.23359531575538267,
+          "recoveryDifferenceVolts": 2.7755575615628914e-17,
+          "maximumWindowSpanVolts": 4.3576253716537394e-15
+        }
+      },
+      "artifacts": {
+        "reverse--0.001-2e-10.cir": "c42826807531229a2338af1552e85a84bfecaa13840aa2753ac0a74aad69d367",
+        "reverse--0.001-2e-10.log": "4c20ae3ffed162f06f2b3705ea5a610fe12d2df8e71a3543c8c26549a004e02f",
+        "reverse--0.001-2e-10.txt": "559e6a96e6aba52a9988ada51e0caf3a6c713bf950c08680b61772673f94e3ff"
+      }
+    },
+    {
+      "name": "reverse--0.001-1e-10",
+      "direction": "reverse",
+      "inputPerturbationVolts": -0.001,
+      "stepSeconds": 1e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 4.996342961219847,
+          "afterVolts": 4.996342961219847,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 7.993605777301127e-15
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.731796442982231,
+          "afterVolts": 0.731796442982231,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 3.3306690738754696e-15
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.2960653470985084,
+          "afterVolts": 0.29606534709850857,
+          "recoveryDifferenceVolts": 1.6653345369377348e-16,
+          "maximumWindowSpanVolts": 1.2323475573339238e-14
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 1.0429674001424498,
+          "afterVolts": 1.0429674001424498,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 1.6209256159527285e-14
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 0.3566692618218467,
+          "afterVolts": 0.35666926182184655,
+          "recoveryDifferenceVolts": 1.6653345369377348e-16,
+          "maximumWindowSpanVolts": 1.3211653993039363e-14
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.523220618811792,
+          "afterVolts": 1.5232206188117918,
+          "recoveryDifferenceVolts": 2.220446049250313e-16,
+          "maximumWindowSpanVolts": 1.2878587085651816e-14
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.759785478592049,
+          "afterVolts": 0.7597854785920489,
+          "recoveryDifferenceVolts": 1.1102230246251565e-16,
+          "maximumWindowSpanVolts": 7.66053886991358e-15
+        },
+        "v(y)": {
+          "beforeVolts": 0.2335953157553827,
+          "afterVolts": 0.2335953157553827,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 4.052314039881821e-15
+        }
+      },
+      "artifacts": {
+        "reverse--0.001-1e-10.cir": "442d6c0e9adfdd20b31264b52d263afd8a80af324db7698bfbe027f5627e9683",
+        "reverse--0.001-1e-10.log": "89bb7b7ad1276dac875b988873fa2acd32e942098190d5554e8feca69761848d",
+        "reverse--0.001-1e-10.txt": "fda364ebd372255f6048d82b586a7f5b9545e7b2151c27b779adb1346cdc4153"
+      }
+    },
+    {
+      "name": "reverse-+0.000-2e-10",
+      "direction": "reverse",
+      "inputPerturbationVolts": 0,
+      "stepSeconds": 2e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 4.996342961219849,
+          "afterVolts": 4.996342961219849,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 5.329070518200751e-15
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.7317964429822318,
+          "afterVolts": 0.7317964429822319,
+          "recoveryDifferenceVolts": 1.1102230246251565e-16,
+          "maximumWindowSpanVolts": 3.885780586188048e-15
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.29606534709850335,
+          "afterVolts": 0.2960653470985032,
+          "recoveryDifferenceVolts": 1.6653345369377348e-16,
+          "maximumWindowSpanVolts": 1.7708057242771247e-14
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 1.0429674001424514,
+          "afterVolts": 1.0429674001424516,
+          "recoveryDifferenceVolts": 2.220446049250313e-16,
+          "maximumWindowSpanVolts": 2.2426505097428162e-14
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 0.3566692618218478,
+          "afterVolts": 0.356669261821848,
+          "recoveryDifferenceVolts": 1.6653345369377348e-16,
+          "maximumWindowSpanVolts": 1.787459069646502e-14
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.5232206188117905,
+          "afterVolts": 1.5232206188117903,
+          "recoveryDifferenceVolts": 2.220446049250313e-16,
+          "maximumWindowSpanVolts": 1.4432899320127035e-14
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.7597854785920493,
+          "afterVolts": 0.7597854785920491,
+          "recoveryDifferenceVolts": 1.1102230246251565e-16,
+          "maximumWindowSpanVolts": 7.771561172376096e-15
+        },
+        "v(y)": {
+          "beforeVolts": 0.23359531575538264,
+          "afterVolts": 0.23359531575538264,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 4.3576253716537394e-15
+        }
+      },
+      "artifacts": {
+        "reverse-+0.000-2e-10.cir": "e46ac0e2b8f42c2e896e88b7ff6c16c6b11b56ae728d2d0f81653123baa7b3b1",
+        "reverse-+0.000-2e-10.log": "a53850e55501d6ed6a576b427728386a7ef47cf6ad0f40bfaa1f80ec3a6fe2e9",
+        "reverse-+0.000-2e-10.txt": "db72c411db55dcb1c033578d35ed04f45d1780ddac67929598ab77553626a6a9"
+      }
+    },
+    {
+      "name": "reverse-+0.000-1e-10",
+      "direction": "reverse",
+      "inputPerturbationVolts": 0,
+      "stepSeconds": 1e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 4.996342961219847,
+          "afterVolts": 4.996342961219847,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 7.105427357601002e-15
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.731796442982231,
+          "afterVolts": 0.731796442982231,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 3.219646771412954e-15
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.2960653470985084,
+          "afterVolts": 0.29606534709850885,
+          "recoveryDifferenceVolts": 4.440892098500626e-16,
+          "maximumWindowSpanVolts": 1.1879386363489175e-14
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 1.0429674001424498,
+          "afterVolts": 1.0429674001424498,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 2.1316282072803006e-14
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 0.3566692618218467,
+          "afterVolts": 0.35666926182184655,
+          "recoveryDifferenceVolts": 1.6653345369377348e-16,
+          "maximumWindowSpanVolts": 1.4765966227514582e-14
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.523220618811792,
+          "afterVolts": 1.523220618811792,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 1.2878587085651816e-14
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.759785478592049,
+          "afterVolts": 0.759785478592049,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 8.104628079763643e-15
+        },
+        "v(y)": {
+          "beforeVolts": 0.2335953157553827,
+          "afterVolts": 0.2335953157553827,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 4.3298697960381105e-15
+        }
+      },
+      "artifacts": {
+        "reverse-+0.000-1e-10.cir": "64138bd14aa9ee98d883fb49d35949463308ea0a6c390e1eca1666c5c4a32b2b",
+        "reverse-+0.000-1e-10.log": "c2deed3cd03993792c988c65c4f8f47375aee2077f3e87ce6f4569560949613f",
+        "reverse-+0.000-1e-10.txt": "4f224c55113b61db292a6a84b825acc14ce5657a21d064a9f73d3f2eca4acdb3"
+      }
+    },
+    {
+      "name": "reverse-+0.001-2e-10",
+      "direction": "reverse",
+      "inputPerturbationVolts": 0.001,
+      "stepSeconds": 2e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 4.996342961219849,
+          "afterVolts": 4.996342961219849,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 5.329070518200751e-15
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.7317964429822318,
+          "afterVolts": 0.7317964429822317,
+          "recoveryDifferenceVolts": 1.1102230246251565e-16,
+          "maximumWindowSpanVolts": 3.885780586188048e-15
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.29606534709850335,
+          "afterVolts": 0.2960653470985044,
+          "recoveryDifferenceVolts": 1.0547118733938987e-15,
+          "maximumWindowSpanVolts": 1.6653345369377348e-14
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 1.0429674001424514,
+          "afterVolts": 1.0429674001424516,
+          "recoveryDifferenceVolts": 2.220446049250313e-16,
+          "maximumWindowSpanVolts": 2.2426505097428162e-14
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 0.3566692618218478,
+          "afterVolts": 0.35666926182184805,
+          "recoveryDifferenceVolts": 2.220446049250313e-16,
+          "maximumWindowSpanVolts": 1.787459069646502e-14
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.5232206188117905,
+          "afterVolts": 1.5232206188117903,
+          "recoveryDifferenceVolts": 2.220446049250313e-16,
+          "maximumWindowSpanVolts": 1.6431300764452317e-14
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.7597854785920493,
+          "afterVolts": 0.7597854785920491,
+          "recoveryDifferenceVolts": 1.1102230246251565e-16,
+          "maximumWindowSpanVolts": 8.659739592076221e-15
+        },
+        "v(y)": {
+          "beforeVolts": 0.23359531575538264,
+          "afterVolts": 0.23359531575538264,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 4.3576253716537394e-15
+        }
+      },
+      "artifacts": {
+        "reverse-+0.001-2e-10.cir": "e6efbe20cdd1c739c87d7a90116ab6a577ac078e1759d36e8505819f88e713c4",
+        "reverse-+0.001-2e-10.log": "4c20ae3ffed162f06f2b3705ea5a610fe12d2df8e71a3543c8c26549a004e02f",
+        "reverse-+0.001-2e-10.txt": "180f8807812e2b7d9de4716e89b2c759943017948723d56586465876cf83d33f"
+      }
+    },
+    {
+      "name": "reverse-+0.001-1e-10",
+      "direction": "reverse",
+      "inputPerturbationVolts": 0.001,
+      "stepSeconds": 1e-10,
+      "nodes": {
+        "v(a)": {
+          "beforeVolts": 1.1158000000000001,
+          "afterVolts": 1.1158000000000001,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(vp)": {
+          "beforeVolts": 5.0,
+          "afterVolts": 5.0,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 0.0
+        },
+        "v(xgate.collector)": {
+          "beforeVolts": 4.996342961219847,
+          "afterVolts": 4.996342961219847,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 7.993605777301127e-15
+        },
+        "v(xgate.dischargebase)": {
+          "beforeVolts": 0.731796442982231,
+          "afterVolts": 0.731796442982231,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 3.552713678800501e-15
+        },
+        "v(xgate.dischargecollector)": {
+          "beforeVolts": 0.2960653470985084,
+          "afterVolts": 0.2960653470985087,
+          "recoveryDifferenceVolts": 2.7755575615628914e-16,
+          "maximumWindowSpanVolts": 1.4988010832439613e-14
+        },
+        "v(xgate.drive)": {
+          "beforeVolts": 1.0429674001424498,
+          "afterVolts": 1.0429674001424498,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 1.865174681370263e-14
+        },
+        "v(xgate.highbase)": {
+          "beforeVolts": 0.3566692618218467,
+          "afterVolts": 0.35666926182184644,
+          "recoveryDifferenceVolts": 2.7755575615628914e-16,
+          "maximumWindowSpanVolts": 1.5709655798445965e-14
+        },
+        "v(xgate.input)": {
+          "beforeVolts": 1.523220618811792,
+          "afterVolts": 1.523220618811792,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 1.3988810110276972e-14
+        },
+        "v(xgate.sinkbase)": {
+          "beforeVolts": 0.759785478592049,
+          "afterVolts": 0.759785478592049,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 8.548717289613705e-15
+        },
+        "v(y)": {
+          "beforeVolts": 0.2335953157553827,
+          "afterVolts": 0.2335953157553827,
+          "recoveryDifferenceVolts": 0.0,
+          "maximumWindowSpanVolts": 4.107825191113079e-15
+        }
+      },
+      "artifacts": {
+        "reverse-+0.001-1e-10.cir": "1f08cf0116e278679f4034b96abc18104850036b75dc37ea56cdc57dac5bdf37",
+        "reverse-+0.001-1e-10.log": "89bb7b7ad1276dac875b988873fa2acd32e942098190d5554e8feca69761848d",
+        "reverse-+0.001-1e-10.txt": "cfe1764a6cd660646b0fb6caaaf5a5cb96f799b7b90954b7534a2a5690d2e1c3"
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "cases": [
+        "forward--0.001-2e-10",
+        "forward--0.001-1e-10"
+      ],
+      "maximumPlateauDifferenceVolts": 7.835954107804355e-13
+    },
+    {
+      "cases": [
+        "forward-+0.000-2e-10",
+        "forward-+0.000-1e-10"
+      ],
+      "maximumPlateauDifferenceVolts": 7.835954107804355e-13
+    },
+    {
+      "cases": [
+        "forward-+0.001-2e-10",
+        "forward-+0.001-1e-10"
+      ],
+      "maximumPlateauDifferenceVolts": 7.835954107804355e-13
+    },
+    {
+      "cases": [
+        "reverse--0.001-2e-10",
+        "reverse--0.001-1e-10"
+      ],
+      "maximumPlateauDifferenceVolts": 5.051514762044462e-15
+    },
+    {
+      "cases": [
+        "reverse-+0.000-2e-10",
+        "reverse-+0.000-1e-10"
+      ],
+      "maximumPlateauDifferenceVolts": 5.662137425588298e-15
+    },
+    {
+      "cases": [
+        "reverse-+0.001-2e-10",
+        "reverse-+0.001-1e-10"
+      ],
+      "maximumPlateauDifferenceVolts": 5.051514762044462e-15
+    }
+  ],
+  "finiteRecoveryPassed": true,
+  "plateauRefinementPassed": true
+}
