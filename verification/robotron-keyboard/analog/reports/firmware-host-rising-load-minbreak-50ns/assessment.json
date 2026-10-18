@@ -1,0 +1,53 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Loaded single-press control with explicit minimum breakpoint spacing",
+  "evidence": {
+    "producer": "report.json",
+    "sampledStability": "margins.json",
+    "baseline": "../firmware-host-rising-load/assessment.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "6398ceb42d42e024f53765ae3d6395851f74d7eef9ab598fd557502783337e35",
+    "run-inputs.json": "179682d121300107164847f6deb55b30a912303cf99f43e2dd514e2bc58bfb88",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "a48bd6e2aadcb28b9c0bb0cc7ab3de5742565129c63cc379e61fc916844abcb1",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "8f5eea190e95220d6b354ce6e929f27f2d3a14145be7eaac764b946099297b0c",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "margins.json": "d24c7ba328170d80f1e89b3d40b48cf725f5e0cd6c86f735505bd0fea222bcb1"
+  },
+  "baselineComparison": {
+    "baselineReportSha256": "6a72ce60bd9333cacef73fca784de0b248f7c6badebf93a4c6034f2919c2bc5b",
+    "sourceHashesEqual": true,
+    "runtimeEqual": true,
+    "deckEqualsBaselineWithExplicitBreakpointOption": true,
+    "waveformIdentities": {
+      "traceSha256": "c3eac7320f1eaf3c5921e912abf61f92783dac9838bafa186d66afa9f83f9290",
+      "hostTraceSha256": "298358a63d44022fdfaa82ffb1f03aa890b3e362294ccb06d2e67ac3ae1f0df0",
+      "driverTraceSha256": "22d47a243f373dbcd1636eaba7d59af9e4777ac3c1039132a9df0643797c961e"
+    },
+    "assumptionDifferences": {
+      "minimumBreakpointFs": [
+        null,
+        1.0
+      ],
+      "analysisInvocation": [
+        "control-tran",
+        "deck-tran/run"
+      ]
+    }
+  },
+  "waveforms": {
+    "retention": "Complete waveforms remain local; uncompressed producer hashes match the baseline exactly. No ROM or compiled HDL included.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-load-minbreak-50ns",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "Logical agreement and sampled stability pass. Every retained voltage waveform is byte-identical to the corresponding default-spacing baseline. Explicit spacing therefore does not alter the single-press voltage-refinement differences, despite resolving the separate release-boundary failure. This does not establish whole-waveform convergence or device accuracy.",
+  "nextAction": "Investigate transition integration and event scheduling independently of minimum breakpoint spacing; preserve absolute phase and peak differences."
+}
