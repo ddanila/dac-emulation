@@ -637,7 +637,9 @@ to route S600/TV80 bus reads through this experimental model. The capacitances i
 this example are explicit fixture assumptions. This mode retains `bus-trace.txt`
 and source provenance; it does not change the default bus path. `bus_observation.py`
 checks sampled voltages, mapped ROM bytes and TV80 input-register confirmations.
-It rejects unknown data, missing observations and waveform gaps. TV80's sampling
+The bus trace also retains the board supply; read windows must satisfy the U880
+reference supply and input-voltage ranges. The checker rejects unknown data,
+missing observations and waveform gaps. TV80's sampling
 edge is not a substitute for the U880's distinct M1 and M2–M5 pin timing.
 Physical bus timing checks remain unfinished, so the paired firmware qualifier
 rejects this mode rather than treating serial agreement as bus qualification.

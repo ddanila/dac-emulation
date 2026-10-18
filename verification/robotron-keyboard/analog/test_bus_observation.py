@@ -8,12 +8,12 @@ from bus_observation import measure
 
 LOG = ('BUS_SAMPLE 100000 0001 a5 0 1 0\nBUS_LATCH 150000 a5 a5\n'
        'BUS_SAMPLE 300000 8000 a5 1 0 1\nBUS_LATCH 350000 a5 a5\n')
-HEADER = 'time ' + ' '.join(f'v(n_D{i})' for i in range(8)) + '\n'
+HEADER = 'time ' + ' '.join(f'v(n_D{i})' for i in range(8)) + ' v(n_p5V)\n'
 
 
 class BusObservationTests(unittest.TestCase):
     def setUp(self):
-        self.rows = [[i * 1e-9, *[4.5 if 0xa5 & (1 << bit) else .2 for bit in range(8)]]
+        self.rows = [[i * 1e-9, *[4.5 if 0xa5 & (1 << bit) else .2 for bit in range(8)], 5]
                      for i in range(0, 401, 10)]
 
     def check(self, log=LOG, rows=None, header=HEADER, rom=bytes([0xa5]) * 2048):
@@ -51,12 +51,21 @@ class BusObservationTests(unittest.TestCase):
 
     def test_missing_windows_gaps_and_invalid_tail_are_rejected(self):
         for rows in (self.rows[10:], self.rows[:31], self.rows[:10] + self.rows[12:],
-                     self.rows + [[401e-9, *([float('nan')] * 8)]],
+                     self.rows + [[401e-9, *([float('nan')] * 9)]],
                      self.rows + [self.rows[0]]):
             with self.subTest(rows=len(rows)), self.assertRaises(ValueError):
                 self.check(rows=rows)
         with self.assertRaisesRegex(ValueError, 'columns'):
             self.check(header=HEADER.replace('n_D0', 'n_D7'))
+
+    def test_logic_agreement_does_not_hide_supply_or_input_range_failure(self):
+        for column, value in ((9, 4.6), (9, 5.3), (1, 5.1), (2, -.6)):
+            rows = [r[:] for r in self.rows]
+            rows[10][column] = value
+            with self.subTest(column=column, value=value), self.assertRaisesRegex(ValueError, 'range'):
+                self.check(rows=rows)
+        with self.assertRaisesRegex(ValueError, 'columns'):
+            self.check(header=HEADER.replace(' v(n_p5V)', ''))
 
 
 if __name__ == '__main__':
