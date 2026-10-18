@@ -624,8 +624,13 @@ low/high drive enables, packed into bits 7:0, 15:8 and 23:16 respectively. Both
 enables low means release; unknown drive remains unknown. `bus_sense` supplies
 receiver logic to the CPU read path and serial-data gate, without digital pullups
 or driver resolution. The HDL regression exercises release, opposing drivers,
-latch pin order and unknown feedback. This interface is not yet connected to
-analog driver models or the firmware harness.
+latch pin order and unknown feedback. `bus_cosim.py` closes the interface through
+SPICE pin loads, linear driver impedances and TTL receivers. It checks CPU/ROM/latch
+reads, release, opposing drivers and supply current at paired timesteps. Driver
+resistances come from published DC load-test endpoints, not extracted I/V curves;
+the fixture omits input bias, leakage, clamps and IC power behavior. It is not yet
+connected to the firmware harness. Run with `--bridge` and `--ngspice` as for the
+other live fixtures; results are retained in `reports/bus-feedback`.
 
 `bus_load.wiring()` generates pin capacitances from the inventory, using published
 reference maxima and requiring explicit per-pin fixture values for undocumented

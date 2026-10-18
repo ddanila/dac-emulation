@@ -1,0 +1,105 @@
+Live bus feedback with linear endpoint stress drivers
+Vcc n_p5V 0 5
+Cbus_A1_3 n_D0 0 3.0000000000000001e-12
+Cbus_A4_19 n_D0 0 1.2000000000000001e-11
+Cbus_A5_14 n_D0 0 9.9999999999999994e-12
+Cbus_A8_9 n_D0 0 1.2000000000000001e-11
+Cbus_A4_18 n_D1 0 1.2000000000000001e-11
+Cbus_A5_15 n_D1 0 9.9999999999999994e-12
+Cbus_A8_10 n_D1 0 1.2000000000000001e-11
+Cbus_A4_17 n_D2 0 1.2000000000000001e-11
+Cbus_A5_12 n_D2 0 9.9999999999999994e-12
+Cbus_A8_11 n_D2 0 1.2000000000000001e-11
+Cbus_A4_16 n_D3 0 1.2000000000000001e-11
+Cbus_A5_8 n_D3 0 9.9999999999999994e-12
+Cbus_A8_13 n_D3 0 1.2000000000000001e-11
+Cbus_A4_15 n_D4 0 1.2000000000000001e-11
+Cbus_A5_7 n_D4 0 9.9999999999999994e-12
+Cbus_A8_14 n_D4 0 1.2000000000000001e-11
+Cbus_A4_14 n_D5 0 1.2000000000000001e-11
+Cbus_A5_9 n_D5 0 9.9999999999999994e-12
+Cbus_A8_15 n_D5 0 1.2000000000000001e-11
+Cbus_A4_13 n_D6 0 1.2000000000000001e-11
+Cbus_A5_10 n_D6 0 9.9999999999999994e-12
+Cbus_A8_16 n_D6 0 1.2000000000000001e-11
+Cbus_A4_12 n_D7 0 1.2000000000000001e-11
+Cbus_A5_13 n_D7 0 9.9999999999999994e-12
+Cbus_A8_17 n_D7 0 1.2000000000000001e-11
+Bbus_low_0 n_D0 0 I=V(n_D0)*V(bus_low_0)/(5*222.22222222222223)
+Bbus_high_0 n_p5V n_D0 I=(V(n_p5V)-V(n_D0))*V(bus_high_0)/(5*10400)
+Bbus_low_1 n_D1 0 I=V(n_D1)*V(bus_low_1)/(5*222.22222222222223)
+Bbus_high_1 n_p5V n_D1 I=(V(n_p5V)-V(n_D1))*V(bus_high_1)/(5*10400)
+Bbus_low_2 n_D2 0 I=V(n_D2)*V(bus_low_2)/(5*222.22222222222223)
+Bbus_high_2 n_p5V n_D2 I=(V(n_p5V)-V(n_D2))*V(bus_high_2)/(5*10400)
+Bbus_low_3 n_D3 0 I=V(n_D3)*V(bus_low_3)/(5*222.22222222222223)
+Bbus_high_3 n_p5V n_D3 I=(V(n_p5V)-V(n_D3))*V(bus_high_3)/(5*10400)
+Bbus_low_4 n_D4 0 I=V(n_D4)*V(bus_low_4)/(5*222.22222222222223)
+Bbus_high_4 n_p5V n_D4 I=(V(n_p5V)-V(n_D4))*V(bus_high_4)/(5*10400)
+Bbus_low_5 n_D5 0 I=V(n_D5)*V(bus_low_5)/(5*222.22222222222223)
+Bbus_high_5 n_p5V n_D5 I=(V(n_p5V)-V(n_D5))*V(bus_high_5)/(5*10400)
+Bbus_low_6 n_D6 0 I=V(n_D6)*V(bus_low_6)/(5*222.22222222222223)
+Bbus_high_6 n_p5V n_D6 I=(V(n_p5V)-V(n_D6))*V(bus_high_6)/(5*10400)
+Bbus_low_7 n_D7 0 I=V(n_D7)*V(bus_low_7)/(5*222.22222222222223)
+Bbus_high_7 n_p5V n_D7 I=(V(n_p5V)-V(n_D7))*V(bus_high_7)/(5*10400)
+Bbus_low_8 n_D0 0 I=V(n_D0)*V(bus_low_8)/(5*214.28571428571431)
+Bbus_high_8 n_p5V n_D0 I=(V(n_p5V)-V(n_D0))*V(bus_high_8)/(5*6500)
+Bbus_low_9 n_D1 0 I=V(n_D1)*V(bus_low_9)/(5*214.28571428571431)
+Bbus_high_9 n_p5V n_D1 I=(V(n_p5V)-V(n_D1))*V(bus_high_9)/(5*6500)
+Bbus_low_10 n_D2 0 I=V(n_D2)*V(bus_low_10)/(5*214.28571428571431)
+Bbus_high_10 n_p5V n_D2 I=(V(n_p5V)-V(n_D2))*V(bus_high_10)/(5*6500)
+Bbus_low_11 n_D3 0 I=V(n_D3)*V(bus_low_11)/(5*214.28571428571431)
+Bbus_high_11 n_p5V n_D3 I=(V(n_p5V)-V(n_D3))*V(bus_high_11)/(5*6500)
+Bbus_low_12 n_D4 0 I=V(n_D4)*V(bus_low_12)/(5*214.28571428571431)
+Bbus_high_12 n_p5V n_D4 I=(V(n_p5V)-V(n_D4))*V(bus_high_12)/(5*6500)
+Bbus_low_13 n_D5 0 I=V(n_D5)*V(bus_low_13)/(5*214.28571428571431)
+Bbus_high_13 n_p5V n_D5 I=(V(n_p5V)-V(n_D5))*V(bus_high_13)/(5*6500)
+Bbus_low_14 n_D6 0 I=V(n_D6)*V(bus_low_14)/(5*214.28571428571431)
+Bbus_high_14 n_p5V n_D6 I=(V(n_p5V)-V(n_D6))*V(bus_high_14)/(5*6500)
+Bbus_low_15 n_D7 0 I=V(n_D7)*V(bus_low_15)/(5*214.28571428571431)
+Bbus_high_15 n_p5V n_D7 I=(V(n_p5V)-V(n_D7))*V(bus_high_15)/(5*6500)
+Bbus_low_16 n_D0 0 I=V(n_D0)*V(bus_low_16)/(5*22.5)
+Bbus_high_16 n_p5V n_D0 I=(V(n_p5V)-V(n_D0))*V(bus_high_16)/(5*520)
+Bbus_low_17 n_D1 0 I=V(n_D1)*V(bus_low_17)/(5*22.5)
+Bbus_high_17 n_p5V n_D1 I=(V(n_p5V)-V(n_D1))*V(bus_high_17)/(5*520)
+Bbus_low_18 n_D2 0 I=V(n_D2)*V(bus_low_18)/(5*22.5)
+Bbus_high_18 n_p5V n_D2 I=(V(n_p5V)-V(n_D2))*V(bus_high_18)/(5*520)
+Bbus_low_19 n_D3 0 I=V(n_D3)*V(bus_low_19)/(5*22.5)
+Bbus_high_19 n_p5V n_D3 I=(V(n_p5V)-V(n_D3))*V(bus_high_19)/(5*520)
+Bbus_low_20 n_D4 0 I=V(n_D4)*V(bus_low_20)/(5*22.5)
+Bbus_high_20 n_p5V n_D4 I=(V(n_p5V)-V(n_D4))*V(bus_high_20)/(5*520)
+Bbus_low_21 n_D5 0 I=V(n_D5)*V(bus_low_21)/(5*22.5)
+Bbus_high_21 n_p5V n_D5 I=(V(n_p5V)-V(n_D5))*V(bus_high_21)/(5*520)
+Bbus_low_22 n_D6 0 I=V(n_D6)*V(bus_low_22)/(5*22.5)
+Bbus_high_22 n_p5V n_D6 I=(V(n_p5V)-V(n_D6))*V(bus_high_22)/(5*520)
+Bbus_low_23 n_D7 0 I=V(n_D7)*V(bus_low_23)/(5*22.5)
+Bbus_high_23 n_p5V n_D7 I=(V(n_p5V)-V(n_D7))*V(bus_high_23)/(5*520)
+Rnumerical0 n_D0 0 1e12
+Rnumerical1 n_D1 0 1e12
+Rnumerical2 n_D2 0 1e12
+Rnumerical3 n_D3 0 1e12
+Rnumerical4 n_D4 0 1e12
+Rnumerical5 n_D5 0 1e12
+Rnumerical6 n_D6 0 1e12
+Rnumerical7 n_D7 0 1e12
+.ic v(n_D0)=0 v(n_D1)=0 v(n_D2)=0 v(n_D3)=0 v(n_D4)=0 v(n_D5)=0 v(n_D6)=0 v(n_D7)=0
+Vfixture fixture_clk 0 PULSE(0 5 100n 1n 1n 2u 4u)
+Afixture [fixture_clk] [dclk] clock_receiver
+Abus [n_D7 n_D6 n_D5 n_D4 n_D3 n_D2 n_D1 n_D0] [sense7 sense6 sense5 sense4 sense3 sense2 sense1 sense0] receiver
+.model receiver adc_bridge(in_low=.8 in_high=2)
+.model clock_receiver adc_bridge(in_low=1.4 in_high=1.4)
+Ahdl [dclk sense7 sense6 sense5 sense4 sense3 sense2 sense1 sense0] [low23 low22 low21 low20 low19 low18 low17 low16 low15 low14 low13 low12 low11 low10 low9 low8 low7 low6 low5 low4 low3 low2 low1 low0 high23 high22 high21 high20 high19 high18 high17 high16 high15 high14 high13 high12 high11 high10 high9 high8 high7 high6 high5 high4 high3 high2 high1 high0] hdl
+.model hdl d_cosim simulation="/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so" sim_args=["bus.vvp"] delay=10n
++ lib_args=["/private/tmp/robotron-icarus-src/vvp/libvvp.so" "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi"]
+Alow [low23 low22 low21 low20 low19 low18 low17 low16 low15 low14 low13 low12 low11 low10 low9 low8 low7 low6 low5 low4 low3 low2 low1 low0] [bus_low_23 bus_low_22 bus_low_21 bus_low_20 bus_low_19 bus_low_18 bus_low_17 bus_low_16 bus_low_15 bus_low_14 bus_low_13 bus_low_12 bus_low_11 bus_low_10 bus_low_9 bus_low_8 bus_low_7 bus_low_6 bus_low_5 bus_low_4 bus_low_3 bus_low_2 bus_low_1 bus_low_0] drive
+Ahigh [high23 high22 high21 high20 high19 high18 high17 high16 high15 high14 high13 high12 high11 high10 high9 high8 high7 high6 high5 high4 high3 high2 high1 high0] [bus_high_23 bus_high_22 bus_high_21 bus_high_20 bus_high_19 bus_high_18 bus_high_17 bus_high_16 bus_high_15 bus_high_14 bus_high_13 bus_high_12 bus_high_11 bus_high_10 bus_high_9 bus_high_8 bus_high_7 bus_high_6 bus_high_5 bus_high_4 bus_high_3 bus_high_2 bus_high_1 bus_high_0] drive
+.model drive dac_bridge(out_low=0 out_high=5 out_undef=2.5 t_rise=1n t_fall=1n)
+.save v(n_D0) v(n_D1) v(n_D2) v(n_D3) v(n_D4) v(n_D5) v(n_D6) v(n_D7) i(Vcc)
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+tran 5n 29u uic
+wrdata trace.txt v(n_D0) v(n_D1) v(n_D2) v(n_D3) v(n_D4) v(n_D5) v(n_D6) v(n_D7) i(Vcc)
+quit
+.endc
+.end
