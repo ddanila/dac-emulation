@@ -22,13 +22,15 @@ def sha(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ngspice', required=True)
+    parser.add_argument('--model', type=Path, default=HERE/'ls00_transistor_candidate.cir',
+                        help='Explicit candidate with the same subcircuit interface; never changes the board default')
     parser.add_argument('--out', type=Path, required=True)
     args = parser.parse_args()
     executable = Path(shutil.which(args.ngspice) or args.ngspice).resolve(strict=True)
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=False)
     model = 'ls00_transistor_candidate.cir'
-    shutil.copy2(HERE / model, out / model)
+    shutil.copy2(args.model, out / model)
     (out / 'spinit').write_text('* Pure SPICE; no external code models.\n')
     report = {'completed': False, 'qualified': False, 'source': SOURCE,
               'scope': 'DC truth table at TTL input limits, rated output loads, 25 C. No startup, delay, temperature sweep or DL000 equivalence.',

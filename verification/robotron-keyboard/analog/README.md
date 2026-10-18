@@ -115,6 +115,15 @@ pin-role and load-condition review; restricted model files stay local. A passing
 switching fixture with generic diodes does not establish equivalence to the
 manufacturer's fixture or historical DL000 behavior.
 
+To reproduce the generic-junction family screen, run
+`python3 verification/robotron-keyboard/analog/ls00_parameter_screen.py --out /path/to/fresh-screen`.
+It retains every candidate, checks output limits before additional DC and switching
+conditions, and never selects a board default. The
+[retained assessment](reports/clock-output/ls00-parameter-validation/assessment.json)
+includes a lossless capture archive with a hash receipt in the same directory.
+Passing candidates constrain further modeling; the grid is not a measured process
+range or a continuous robustness proof.
+
 ## Bus and CPU boundaries
 
 Electrical-bus options require declared capacitance and loading assumptions.

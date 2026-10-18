@@ -1,0 +1,20 @@
+{
+  "source": {
+    "url": "https://www.ti.com/lit/ds/symlink/sn74ls00.pdf",
+    "document": "SDLS025D, May 2017",
+    "section": "6.6",
+    "sha256": "8bb872eaca7ed7249104b852775621ab5dc2e4f1cb57b7032849e7744d03d90b"
+  },
+  "temperatureC": 25,
+  "scope": "Additional conditions not used by the output-limit parameter screen. Selected DC limits only; no temperature-range, input clamp, breakdown or process qualification. Package current is modeled by four independent identical gates with unloaded outputs.",
+  "cases": [
+    {"name": "low-4ma", "supply": 4.75, "a": 2, "b": 2, "load": -0.004, "checks": [{"signal": "outputVolts", "minimum": 0, "maximum": 0.4}]},
+    {"name": "input-a-high", "supply": 5.25, "a": 2.7, "b": 0, "checks": [{"signal": "inputAAmps", "minimum": 0, "maximum": 0.00002}]},
+    {"name": "input-b-high", "supply": 5.25, "a": 0, "b": 2.7, "checks": [{"signal": "inputBAmps", "minimum": 0, "maximum": 0.00002}]},
+    {"name": "input-a-low", "supply": 5.25, "a": 0.4, "b": 4.5, "checks": [{"signal": "inputAAmps", "minimum": -0.0004, "maximum": 0}]},
+    {"name": "input-b-low", "supply": 5.25, "a": 4.5, "b": 0.4, "checks": [{"signal": "inputBAmps", "minimum": -0.0004, "maximum": 0}]},
+    {"name": "short-output", "supply": 5.25, "a": 0, "b": 0, "shortOutput": true, "checks": [{"signal": "shortAmps", "minimum": 0.02, "maximum": 0.1}]},
+    {"name": "package-high", "supply": 5.25, "a": 0, "b": 0, "gates": 4, "checks": [{"signal": "supplyAmps", "minimum": 0, "maximum": 0.0016}]},
+    {"name": "package-low", "supply": 5.25, "a": 4.5, "b": 4.5, "gates": 4, "checks": [{"signal": "supplyAmps", "minimum": 0, "maximum": 0.0044}]}
+  ]
+}
