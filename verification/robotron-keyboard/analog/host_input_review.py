@@ -87,6 +87,8 @@ def firmware_samples(path, signals, channel, end_seconds, step_ns, *, start_seco
             if len(row) != 7 or not all(map(math.isfinite, row)):
                 raise ValueError('Invalid host waveform row')
             if previous is None:
+                if start_seconds == 0 and row[0] != 0:
+                    raise ValueError('Startup capture must include time zero')
                 if not start_seconds - 1e-15 <= row[0] <= start_seconds + start_tolerance_ns * 1e-9 + 1e-15:
                     raise ValueError('Missing host waveform start')
             elif not 0 < row[0] - previous <= step_ns * 1e-9 + 1e-15:
@@ -133,10 +135,11 @@ def board_capture(directory):
         raise ValueError('Board solver diagnostics prevent voltage review')
     deck=(directory/'boot.cir').read_text()
     normalized_analysis(deck,assumptions)
-    analyses=re.findall(r'^\.?tran [0-9.eE+-]+n ([0-9.eE+-]+) 124m$',deck,re.M)
+    analyses=re.findall(r'^\.?tran [0-9.eE+-]+n ([0-9.eE+-]+) (124m|0)$',deck,re.M)
     start,end=assumptions['traceWindowSeconds']
-    if (len(analyses)!=1 or start!=.124 or not math.isfinite(end) or end<=start
-            or abs(float(analyses[0])-end)>1e-12):
+    if (len(analyses)!=1 or not math.isfinite(end) or end<=start
+            or start != {'124m': .124, '0': 0}[analyses[0][1]]
+            or abs(float(analyses[0][0])-end)>1e-12):
         raise ValueError('Board capture window differs from executed analysis')
     step=assumptions['maximumStepNs']
     if not math.isfinite(step) or step <= 0:
@@ -146,7 +149,7 @@ def board_capture(directory):
 
 def board_review(directory, limits):
     report, start, end, step = board_capture(directory)
-    return {'boundary':'Closed-board tail capture only; no voltage evidence before the declared window and no functional qualification',
+    return {'boundary':'Closed-board declared capture window only; no voltage evidence before its start and no functional qualification',
             'producerPassed':report.get('passed') is True,'producerError':report.get('error'),
             'captureWindowSeconds':[start,end],'traceSha256':report['hostTraceSha256'],
             'inputs':{label:review(firmware_samples(directory/'host-trace.txt',report['hostTraceSignals'],

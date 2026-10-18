@@ -64,6 +64,8 @@ def clock_samples(path, step, end, *, start=0, board=False):
                 raise ValueError('Invalid receiver row')
             t=row[0];uncertainty=timestamp_uncertainty(tokens[0],t)
             if previous is None:
+                if start == 0 and t != 0:
+                    raise ValueError('Startup capture must include time zero')
                 if not start <= t <= start+(step*1e-9 if board else 0)+uncertainty:
                     raise ValueError('Missing capture start')
             elif not 0<t-previous[0]<=step*1e-9+uncertainty+previous[1]:

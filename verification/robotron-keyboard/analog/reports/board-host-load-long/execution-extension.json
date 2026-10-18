@@ -1,0 +1,12 @@
+{
+  "scope": "Allow already-integrated board capture to finish writing without restarting simulation",
+  "parentPid": 87290,
+  "childPid": 87305,
+  "parentCommand": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python verification/robotron-keyboard/analog/boot_cosim.py --rom ../dac/public/media/robotron/s600.bin --electrical-matrix --electrical-outputs --host-buffer --serial-driver 7406-dc --sio-data-pf 5 --sio-clock-pf 50 --sio-leakage-ua 10 --step-ns 10 --scenario verification/robotron-keyboard/analog/scenarios/single-press.json --compress-traces --timeout-seconds 7200 --ngspice /private/tmp/robotron-ngspice-switch/install/bin/ngspice --out build/keyboard-controller-analog/board-host-load-long",
+  "childCommand": "87290 /private/tmp/robotron-ngspice-switch/install/bin/ngspice -n -b boot.cir",
+  "parentStoppedUtcEpoch": 1792365880.588326,
+  "reason": "Trace output/compression is in progress near the wrapper timeout; child and compression workers remain running. Resume wrapper after ngspice terminates.",
+  "childTerminalObservedUtcEpoch": 1792366014.323775,
+  "childTerminalState": "Z",
+  "parentResumedUtcEpoch": 1792366014.3237839
+}
