@@ -933,3 +933,16 @@ levels. The separate nominal-output run rejects a small D7 excursion above the
 moving supply; reconstructed local charge balance is consistent with capacitor
 lag in the linear driver fixture. Both electrical rejections remain open; neither is waived by the
 digital floating-input sensitivity experiment.
+
+Both `firmware_io_cosim.py` and `boot_cosim.py` accept
+`--cpu-profile falling-indexed-candidate` with `--electrical-bus`. They generate
+the reviewed CPU candidate separately from the vendor files, record its hashes,
+and sample the electrical bus on the candidate's actual read edge. M1 stays on
+the rising edge; ordinary reads use the following falling edge. The manual bus
+workflow exposes the same selection. The default remains `tv80`.
+
+`reports/cpu-read-phase/live-startup/` retains a short live-bridge check of that
+selection and its latch observations. Its voltage checker still rejects a small
+supply excursion. This proves neither full-scenario completion nor calibrated
+U880 electrical timing; the existing paired electrical qualification gate remains
+closed for both profiles.

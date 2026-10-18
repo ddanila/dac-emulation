@@ -66,6 +66,16 @@ class BootPreparationTests(unittest.TestCase):
             self.assertNotIn('Xclock clock_intent ', deck)
             self.assertIn('wrdata wr-trace.txt v(n_WR_N)', deck)
             self.assertTrue(wr_report['assumptions']['electricalWr'])
+            args.cpu_profile = 'falling-indexed-candidate'
+            candidate_report = {'assumptions': {'traceWindowSeconds': [.124, .127]}}
+            with patch('boot_cosim.ROM_SHA256', sha(rom)):
+                prepare(args, candidate_report)
+            self.assertEqual(candidate_report['assumptions']['cpuProfile'], args.cpu_profile)
+            self.assertEqual(candidate_report['cpuModel']['profile'], args.cpu_profile)
+            self.assertIn('cpu_read_phase_candidate.py', candidate_report['sources'])
+            self.assertIn('cpu.delayed_read', (out / 'controller_analog.v').read_text())
+            self.assertIn('candidate_tv80_core.v', candidate_report['cpuModel']['generatedSha256'])
+            self.assertNotIn('third_party/cpu/tv80/tv80_core.v', candidate_report['hdlSha256'])
             for name, value in (('electrical_outputs', False), ('serial_driver', 'nominal'),
                                 ('electrical_bus', False)):
                 original = getattr(args, name)

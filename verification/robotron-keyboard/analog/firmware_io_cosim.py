@@ -14,6 +14,7 @@ from boot_cosim import ROM_SHA256, sha
 from circuit import load, node
 from controller_interface import generate
 from electrical_bus_interface import generate_service
+from cpu_read_phase_candidate import CIRCUIT_PROFILES, circuit_sources
 from write_control import wiring as wr_wiring
 from write_control_observation import measure as measure_wr, WriteMismatch
 from bus_driver import wiring as bus_wiring
@@ -56,6 +57,7 @@ def main():
     p.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground; zero omits it')
     p.add_argument('--electrical-cpu-pullups', action='store_true')
     p.add_argument('--electrical-bus', action='store_true', help='Experimental linear bus-driver stress fixture with electrical receiver feedback')
+    p.add_argument('--cpu-profile', choices=CIRCUIT_PROFILES, default='tv80')
     p.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal')
     p.add_argument('--bus-latch-pf', type=float, help='Explicit undocumented latch-output capacitance per pin')
     p.add_argument('--bus-7406-pf', type=float, help='Explicit undocumented 7406-input capacitance')
@@ -64,6 +66,8 @@ def main():
     p.add_argument('--minimum-breakpoint-fs', type=float, help='Explicit ngspice breakpoint spacing via deck tran/run')
     p.add_argument('--electrical-wr', action='store_true', help='Finite CPU WR drive into transistor clock gate; requires electrical-bus and 7406-dc')
     args = p.parse_args()
+    if args.cpu_profile != 'tv80' and not args.electrical_bus:
+        p.error('Experimental CPU profile requires electrical-bus observation')
     if args.electrical_wr and (not args.electrical_bus or args.serial_driver != '7406-dc'):
         p.error('electrical-wr requires electrical-bus and serial-driver 7406-dc')
     bus_caps = (args.bus_latch_pf, args.bus_7406_pf)
@@ -110,6 +114,8 @@ def main():
             'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'logic_control.py', 'model_coverage.py', 'reset_probe.py', 'oscillator_probe.py', 'cpu_control.py', 'cpu_clock_limits.json', 'serial_observation.py',
             'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compressed_output.py', 'transient_analysis.py')}}
     report['waveformCompression'] = {'format': 'xz', 'preset': args.compression_preset} if args.compress_traces else None
+    report['assumptions']['cpuProfile'] = args.cpu_profile
+    report['sources']['cpu_read_phase_candidate.py'] = sha(HERE / 'cpu_read_phase_candidate.py')
     if args.serial_driver != 'nominal':
         report['assumptions']['serialDriver'] = args.serial_driver
         report['sources'].update({name: sha(HERE / name) for name in ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'ttl7406_limits.json')})
@@ -165,9 +171,10 @@ def main():
             if sha(tv80 / name) != digest:
                 raise ValueError('TV80 source differs: ' + name)
         subprocess.run(['python3', str(HERE.parent / 'generate.py'), '--check'], check=True)
-        (out / 'controller_analog.v').write_text(generate_service(electrical_wr=args.electrical_wr) if args.electrical_bus else
+        (out / 'controller_analog.v').write_text(generate_service(electrical_wr=args.electrical_wr, cpu_profile=args.cpu_profile) if args.electrical_bus else
                                                generate(explicit_cpu_drive=True, resolved_bus=True))
-        hdl = [*sorted(tv80.glob('*.v')), HERE.parent / 'chips.v', HERE.parent / 'generated/controller.v',
+        cpu_sources, report['cpuModel'] = circuit_sources(tv80, out, args.cpu_profile)
+        hdl = [*cpu_sources, HERE.parent / 'chips.v', HERE.parent / 'generated/controller.v',
                HERE / 'boot_cosim.v', HERE / 'firmware_io_cosim.v', out / 'controller_analog.v']
         report['hdlSha256'] = {str(path): sha(path) for path in hdl}
         top = 'firmware_io_electrical_bus' if args.electrical_bus else 'firmware_io_cosim'

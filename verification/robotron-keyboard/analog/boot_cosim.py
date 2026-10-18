@@ -11,6 +11,7 @@ from pathlib import Path
 from trace_io import open_binary, open_text
 
 from electrical_bus_interface import generate_service
+from cpu_read_phase_candidate import CIRCUIT_PROFILES, circuit_sources
 from bus_driver import wiring as bus_wiring
 from write_control import wiring as wr_wiring
 from write_control_observation import measure as measure_wr, WriteMismatch
@@ -50,6 +51,8 @@ def sha(path):
 
 def electrical_bus_options(args):
     enabled = getattr(args, 'electrical_bus', False)
+    if getattr(args, 'cpu_profile', 'tv80') != 'tv80' and not enabled:
+        raise ValueError('Experimental CPU profile requires electrical-bus observation')
     caps = [getattr(args, name, None) for name in ('bus_latch_pf', 'bus_7406_pf')]
     if enabled:
         if not args.electrical_matrix or args.bypass_rom_bus or args.wr_only_data:
@@ -86,10 +89,14 @@ def prepare(args, report):
         if sha(tv80 / name) != digest:
             raise ValueError('TV80 source differs: ' + name)
     report['tv80'] = source
+    cpu_profile = getattr(args, 'cpu_profile', 'tv80')
+    report.setdefault('assumptions', {})['cpuProfile'] = cpu_profile
+    report.setdefault('sources', {})['cpu_read_phase_candidate.py'] = sha(HERE / 'cpu_read_phase_candidate.py')
     subprocess.run([sys.executable, str(HERE.parent / 'generate.py'), '--check'], check=True)
-    (out / 'controller_analog.v').write_text(generate_service(electrical_wr=electrical_wr) if electrical_bus else
+    (out / 'controller_analog.v').write_text(generate_service(electrical_wr=electrical_wr, cpu_profile=cpu_profile) if electrical_bus else
                                            generate(explicit_cpu_drive=True, resolved_bus=True))
-    hdl = [*sorted(tv80.glob('*.v')), HERE.parent / 'chips.v',
+    cpu_sources, report['cpuModel'] = circuit_sources(tv80, out, cpu_profile)
+    hdl = [*cpu_sources, HERE.parent / 'chips.v',
            HERE.parent / 'generated/controller.v', HERE / 'boot_cosim.v', out / 'controller_analog.v']
     report['hdlSha256'] = {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path): sha(path) for path in hdl}
     top = 'boot_electrical_bus' if electrical_bus else 'boot_cosim'
@@ -398,6 +405,7 @@ def main():
     p.add_argument('--abstol', type=float, default=1e-12)
     p.add_argument('--electrical-wr', action='store_true', help='Electrical WR output into transistor clock gate; requires electrical bus and transistor outputs')
     p.add_argument('--electrical-bus', action='store_true')
+    p.add_argument('--cpu-profile', choices=CIRCUIT_PROFILES, default='tv80')
     p.add_argument('--bus-latch-pf', type=float)
     p.add_argument('--bus-7406-pf', type=float)
     args = p.parse_args()
