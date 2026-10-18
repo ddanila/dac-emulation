@@ -30,6 +30,36 @@ class ComparisonTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Host-buffer firmware qualification'):
             compare(self.coarse, self.fine, self.tx, self.tx, 15)
 
+    def test_host_numerical_comparison_preserves_qualification_and_timing_gates(self):
+        for r in (self.coarse, self.fine):
+            r['assumptions']['hostBuffer'] = '7404-candidate'
+            r['qualified'] = False
+            r['sources'].update({name: 'same' for name in
+                ('host_receiver.py', 'host_receiver.json', 'ttl7404_nominal.cir', 'd104_limits.json')})
+        result = compare(self.coarse, self.fine, self.tx, self.tx, 15, experimental_host=True)
+        self.assertTrue(result['withinTolerance'])
+        self.assertFalse(result['qualified'])
+        self.assertFalse(compare(self.coarse, self.fine, self.tx, self.rx, 15,
+                                 experimental_host=True)['withinTolerance'])
+        with self.assertRaisesRegex(ValueError, 'Host-buffer firmware qualification'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15)
+        for name in ('host_receiver.py', 'host_receiver.json', 'ttl7404_nominal.cir', 'd104_limits.json'):
+            changed = copy.deepcopy(self.fine)
+            changed['sources'][name] = 'different'
+            with self.assertRaisesRegex(ValueError, 'Host receiver source'):
+                compare(self.coarse, changed, self.tx, self.tx, 15, experimental_host=True)
+        self.fine['qualified'] = True
+        with self.assertRaisesRegex(ValueError, 'explicitly remain unqualified'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15, experimental_host=True)
+
+    def test_experimental_host_mode_rejects_unrelated_or_mixed_boundaries(self):
+        with self.assertRaisesRegex(ValueError, 'requires host-buffer'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15, experimental_host=True)
+        self.coarse['assumptions']['hostBuffer'] = '7404-candidate'
+        self.coarse['qualified'] = False
+        with self.assertRaisesRegex(ValueError, 'explicitly remain unqualified'):
+            compare(self.coarse, self.fine, self.tx, self.tx, 15, experimental_host=True)
+
     def test_serial_agreement_cannot_qualify_experimental_electrical_bus(self):
         self.coarse['assumptions']['electricalBus'] = True
         self.fine['assumptions']['electricalBus'] = True
