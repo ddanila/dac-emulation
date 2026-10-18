@@ -38,6 +38,17 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 
 
+def solver_tolerances(reltol, vntol, abstol):
+    values = (reltol, vntol, abstol)
+    if all(value is None for value in values):
+        return None
+    if any(value is None for value in values):
+        raise ValueError('Explicit solver tolerances require reltol, vntol and abstol together')
+    if any(not math.isfinite(value) or value <= 0 for value in values):
+        raise ValueError('Solver tolerances must be positive and finite')
+    return dict(zip(('reltol', 'vntol', 'abstol'), values))
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--rom', type=Path, required=True)
@@ -68,11 +79,18 @@ def main():
     p.add_argument('--electrical-logic-pullups', action='store_true')
     p.add_argument('--logic-load-pf', type=float, default=0, help='Assumed capacitance per control net; requires electrical logic pullups')
     p.add_argument('--minimum-breakpoint-fs', type=float, help='Explicit ngspice breakpoint spacing via deck tran/run')
+    for name in ('reltol', 'vntol', 'abstol'):
+        p.add_argument('--' + name, type=float,
+                       help='Explicit solver tolerance; supply all three, otherwise retain engine defaults')
     p.add_argument('--electrical-wr', action='store_true', help='Finite CPU WR drive into transistor clock gate; requires electrical-bus and 7406-dc')
     p.add_argument('--sio-data-pf', type=float)
     p.add_argument('--sio-clock-pf', type=float)
     p.add_argument('--sio-leakage-ua', type=float)
     args = p.parse_args()
+    try:
+        solver = solver_tolerances(args.reltol, args.vntol, args.abstol)
+    except ValueError as error:
+        p.error(str(error))
     sio_values = (args.sio_data_pf, args.sio_clock_pf, args.sio_leakage_ua)
     sio_load = None
     if any(v is not None for v in sio_values):
@@ -118,6 +136,7 @@ def main():
         'electricalLogicPullups': args.electrical_logic_pullups, 'logicLoadPf': args.logic_load_pf,
         'logicClockReceiver': 'Nominal 1.4 V threshold; not calibrated DL074 switching timing',
         'minimumBreakpointFs': args.minimum_breakpoint_fs,
+        'solverTolerances': solver,
         'analysisInvocation': 'deck-tran/run' if args.minimum_breakpoint_fs is not None else 'control-tran',
         'clockPeriodNs': 1000, 'resetRampStartNs': 1000000, 'fixtureEdgeNs': 1,
         'fixtureThresholdVolts': 1.4, 'br1Closed': False, 'br2Closed': False,
@@ -354,6 +373,8 @@ def main():
             signals = f'v({node(report["wrCircuit"]["net"])}) v(wr_low) v(wr_high) @bwr_low[i] @bwr_high[i] v(n_p5V)'
             lines.insert(lines.index('.control'), '.save ' + signals)
             lines.insert(lines.index('quit'), 'wrdata wr-trace.txt ' + signals)
+        if solver is not None:
+            lines.insert(lines.index('.control'), '.options ' + ' '.join(f'{key}={value}' for key,value in solver.items()))
         (out / 'io.cir').write_text(with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs))
         report['deckSha256'] = sha(out / 'io.cir')
         report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
