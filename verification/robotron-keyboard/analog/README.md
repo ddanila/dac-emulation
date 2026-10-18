@@ -641,6 +641,11 @@ The [recorded-supply Xyce run](reports/clock-output/xyce-recorded-supply/assessm
 also fails timestep phase refinement. Cross-engine agreement at the coarser step
 does not survive refinement, so agreement at a single timestep cannot establish
 startup convergence. The failure exists without live HDL or supply feedback.
+The [table-source replay](reports/clock-output/xyce-recorded-supply-table/assessment.json)
+also fails refinement despite landing at the recorded supply corners and checking
+their interpolated voltages. Corner scheduling alone does not resolve startup
+sensitivity. The [native PWL attempt](reports/clock-output/xyce-recorded-supply-pwl/assessment.json)
+timed out before completing its coarse run; it supplies no paired phase result.
 
 The [retained isolated comparison](reports/clock-output/xyce-isolated/cross-solver.json)
 passes paired and cross-solver phase checks, while retaining the short clock
