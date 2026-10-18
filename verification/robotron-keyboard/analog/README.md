@@ -603,6 +603,14 @@ rejects the reviewed PDIP map because some input/output model assignments confli
 with the datasheet. Other package maps passing this check does not validate their
 curves, parasitics or DL000 equivalence. Vendor model tables remain local.
 
+`ls00_ibis_loadline.py --ibis /path/to/sn74ls00.ibs --out /tmp/ls00-loadline.json`
+uses the reviewed typical output tables directly, without importing a package
+map, to solve DC current balance with schematic R10.3. It rejects extrapolation
+and ambiguous equilibria. The retained
+[load-line result](reports/clock-output/ti-reference-review/ibis-loadline.json)
+is a comparison at the model's nominal supply, not a DL000 switching or startup
+model. No vendor curves are redistributed or scaled into undervoltage operation.
+
 ## Coupled firmware boot
 
 After building the bridge, run the longer electrical-clock/reset integration test:

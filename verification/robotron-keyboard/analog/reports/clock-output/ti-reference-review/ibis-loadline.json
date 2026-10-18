@@ -1,0 +1,30 @@
+{
+  "qualified": false,
+  "sourceSha256": "78985e8a49cd8aaf8679e31e9f2375c4144f298a54bfffcfb1da7b61d262854b",
+  "sourceUrl": "https://www.ti.com/lit/ibs/SDLM003",
+  "conventionReference": "https://www.ibis.org/ver6.1/ver6_1.pdf",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "pullupReference": "R10.3",
+  "pullupOhms": 560.0,
+  "supplyVolts": 5,
+  "column": "typical",
+  "cases": {
+    "high": {
+      "outputVolts": 4.999980674401082,
+      "pullupAmps": 3.45099980671369e-08,
+      "kclResidualAmps": 3.0319147300273655e-19
+    },
+    "low": {
+      "outputVolts": 0.32332058331341146,
+      "pullupAmps": 0.008351213244083194,
+      "kclResidualAmps": 0.0
+    }
+  },
+  "scope": "Static current balance using explicit ls00_OUT curves, ideal closed BR1 and no CPU leakage. Package pin maps are not imported. No added clamp currents: this reviewed non-tristate output model has no separate clamp tables.",
+  "boundary": "TI comparison device only. Not DL000 calibration, switching, oscillator startup, temperature or supply-corner qualification. No scaling of 5 V curves into undervoltage startup.",
+  "sources": {
+    "ls00_ibis_loadline.py": "3bb653f0a4a535e2d18fab7298a07e431d0e9f31623408a3a1843c1b7fa1e630",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "clock_output_probe.py": "05b92ebe9d9751d1edf5bd0667640794f9b482b83b1e8e8dc2c260908c0228d7"
+  }
+}
