@@ -33,13 +33,17 @@ def model_for_xyce(text):
     return result
 
 
-def deck(components, step, duration=20e-6, recorded=False):
+def deck(components, step, duration=20e-6, recorded=False, source_mode="fasttable"):
     lines, _, _, _, cpu = wiring(components)
     supply, ground = [node(components['A7']['pins'][pin]) for pin in ('14', '7')]
     if ground != '0' or supply == cpu:
         raise ValueError('Unexpected oscillator supply boundary')
     source = (f'Bsupply {supply} {ground} V={{fasttable("../supply.txt")}}\n' if recorded
               else f'Vcc {supply} {ground} PWL(0 0 10n 5)\n')
+    if source_mode not in ('fasttable', 'pwl'):
+        raise ValueError('Unknown recorded-supply source mode')
+    if recorded and source_mode == 'pwl':
+        source = f'Vcc {supply} {ground} PWL FILE "../supply.txt"\n'
     signals = f'V({cpu})' + (f' V({supply})' if recorded else '')
     return ('Independent oscillator diagnostic\n.include model.cir\n' + source + '\n'.join(lines) +
             '\n.options timeint method=trap reltol=1e-6 abstol=1e-8\n'
@@ -82,11 +86,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--xyce', required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--source-mode', choices=('fasttable', 'pwl'), default='fasttable')
     parser.add_argument('--source', type=Path, help='Logical uncompressed diagnostic supply trace path; compressed siblings supported')
     parser.add_argument('--steps-ns', nargs=2, type=float, default=[.25, .125])
     args = parser.parse_args()
     if not all(math.isfinite(x) and x > 0 for x in args.steps_ns) or args.steps_ns[0] <= args.steps_ns[1]:
         parser.error('Require positive coarse and smaller fine steps')
+    if args.source_mode != 'fasttable' and args.source is None:
+        parser.error('--source-mode pwl requires --source')
     executable = shutil.which(args.xyce)
     if not executable:
         raise ValueError('Xyce executable not found')
@@ -101,7 +108,7 @@ def main():
         runtime['library'] = {'path': str(library.resolve()), 'sha256': sha(library)}
     report = {'qualified': False, 'completed': False, 'runs': [], 'runtime': runtime,
               'scope': 'Isolated oscillator with nominal CPU load; no HDL or coupled power network.',
-              'supplyMode': 'recorded-fasttable' if args.source else 'ideal-5V-10ns',
+              'supplyMode': 'recorded-' + args.source_mode if args.source else 'ideal-5V-10ns',
               'boundary': 'Same gate equations and canonical connectivity, different solver. Xyce time-integration and nonlinear tolerances do not have identical semantics to ngspice tolerances. Numerical agreement is not device calibration.',
               'sources': {name: sha(HERE / name) for name in
                           ('xyce_oscillator_probe.py', 'ls_nand_pullup.cir', 'oscillator_probe.py', 'circuit.py', 'clock_convergence.py', 'oscillator_supply_replay.py', 'trace_io.py')}}
@@ -110,14 +117,17 @@ def main():
         if args.source:
             times, volts, report['supply'] = supply_samples(args.source, out / 'supply.txt')
             duration = times[-1]
-            report['supplyBoundary'] = 'Full printed samples, linear fasttable interpolation; only first/last table breakpoints. Each saved supply value is checked. No live supply loading feedback or physical supply model.'
+            report['supplyBoundary'] = ('Full printed samples and linear interpolation. ' +
+                ('Fasttable has only first/last table breakpoints. ' if args.source_mode == 'fasttable'
+                 else 'Native PWL schedules corner breakpoints. ') +
+                'Each saved supply value is checked. No live supply loading feedback or physical supply model.')
         components, report['connectivitySha256'] = load()
         model = model_for_xyce((HERE / 'ls_nand_pullup.cir').read_text())
         for label, step in zip(('coarse', 'fine'), args.steps_ns):
             run = out / label
             run.mkdir()
             (run / 'model.cir').write_text(model)
-            (run / 'oscillator.cir').write_text(deck(components, step, duration, bool(args.source)))
+            (run / 'oscillator.cir').write_text(deck(components, step, duration, bool(args.source), args.source_mode))
             record = {'stepNs': step, 'deckSha256': sha(run / 'oscillator.cir'), 'modelSha256': sha(run / 'model.cir')}
             report['runs'].append(record)
             with (run / 'xyce.log').open('w') as log:
