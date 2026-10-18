@@ -8,6 +8,13 @@ from collections import deque
 from trace_io import open_text
 
 
+class BusMismatch(ValueError):
+    """First read-ordered mismatch with enough context to find its waveform."""
+    def __init__(self, message, details):
+        super().__init__(message)
+        self.details = details
+
+
 def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
     limits = json.loads(Path(__file__).with_name('cpu_clock_limits.json').read_text())
     operating, inputs = limits['operatingConditions'], limits['ordinaryInput']
@@ -27,8 +34,6 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
                 raise ValueError('Ambiguous bus read selects')
             if samples and sample[0] <= samples[-1][0]:
                 raise ValueError('Nonmonotonic bus read times')
-            if rom is not None and sample[3] == 0 and sample[2] != rom[sample[1] & 2047]:
-                raise ValueError('Sampled memory data differs from mapped ROM')
             samples.append(sample)
         elif line.startswith('BUS_LATCH '):
             match = re.fullmatch(r'BUS_LATCH (\d+) ([0-9a-f]{2}) ([0-9a-f]{2})', line)
@@ -39,9 +44,9 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
     if not samples or len(samples) != len(latches):
         raise ValueError('Missing bus samples or CPU latch confirmations')
     for index, (sample, latch) in enumerate(zip(samples, latches)):
-        if (not sample[0] < latch[0] or latch[1:] != (sample[2], sample[2]) or
+        if (not sample[0] < latch[0] or
             (index + 1 < len(samples) and latch[0] >= samples[index + 1][0])):
-            raise ValueError('CPU input register differs from sampled bus or latch ordering')
+            raise ValueError('Invalid CPU latch ordering')
 
     def rows(stream):
         header = next(stream, '').lower().split()
@@ -59,7 +64,17 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
     with open_text(trace) as stream:
         iterator = iter(rows(stream))
         current, history = next(iterator, None), deque()
-        for time_ps, _, value, _, _, _ in samples:
+        for ordinal, (time_ps, address, value, memory, _, _) in enumerate(samples):
+            context = {'ordinal': ordinal, 'readTimePs': time_ps, 'address': address,
+                       'sampledByte': value}
+            if rom is not None and memory == 0 and value != rom[address & 2047]:
+                raise BusMismatch('Sampled memory data differs from mapped ROM',
+                                  dict(context, signal='ROM_DATA', expectedByte=rom[address & 2047]))
+            latch = latches[ordinal]
+            if latch[1:] != (value, value):
+                raise BusMismatch('CPU input register differs from sampled bus',
+                                  dict(context, signal='CPU_DI_REG', latchTimePs=latch[0],
+                                       recordedSampleByte=latch[1], latchedByte=latch[2]))
             start = time_ps * 1e-12 - setup_ns * 1e-9
             end = time_ps * 1e-12 + hold_ns * 1e-9
             # Retain shared samples when requested setup/hold windows overlap.
@@ -83,14 +98,23 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
             for row in window:
                 supply = row[-1]
                 if not operating['supplyMinimumVolts'] <= supply <= operating['supplyMaximumVolts']:
-                    raise ValueError('CPU bus read outside reference supply range')
+                    raise BusMismatch('CPU bus read outside reference supply range',
+                                      dict(context, signal='VCC', traceTimeSeconds=row[0], volts=supply,
+                                           minimumVolts=operating['supplyMinimumVolts'],
+                                           maximumVolts=operating['supplyMaximumVolts']))
                 for bit, volts in enumerate(row[1:9]):
                     if not inputs['minimumVolts'] <= volts <= supply + inputs['maximumSupplyOffsetVolts']:
-                        raise ValueError(f'Bus D{bit} outside reference input voltage range')
+                        raise BusMismatch(f'Bus D{bit} outside reference input voltage range',
+                                          dict(context, signal=f'D{bit}', traceTimeSeconds=row[0], volts=volts,
+                                               minimumVolts=inputs['minimumVolts'],
+                                               maximumVolts=supply + inputs['maximumSupplyOffsetVolts']))
                     high = bool(value & (1 << bit))
                     margin = volts - inputs['highMinimumVolts'] if high else inputs['lowMaximumVolts'] - volts
                     if margin < 0:
-                        raise ValueError(f'Bus voltage disagrees with sampled D{bit} at {time_ps} ps')
+                        raise BusMismatch(f'Bus voltage disagrees with sampled D{bit} at {time_ps} ps',
+                                          dict(context, signal=f'D{bit}', traceTimeSeconds=row[0], volts=volts,
+                                               expectedBit=int(high), thresholdVolts=inputs['highMinimumVolts']
+                                               if high else inputs['lowMaximumVolts']))
                     if high:
                         high_margin = min(high_margin, margin)
                     else:
