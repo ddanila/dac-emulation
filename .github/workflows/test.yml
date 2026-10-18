@@ -100,6 +100,8 @@ jobs:
           python3 verification/robotron-keyboard/analog/ttl7404_switching.py --out build/keyboard-controller-analog/ttl7404-switching
           python3 verification/robotron-keyboard/analog/ttl7406_output_probe.py --host-passives --host-buffer --out build/keyboard-controller-analog/host-buffer
           python3 verification/robotron-keyboard/analog/host_input_review.py --run build/keyboard-controller-analog/host-buffer --out build/keyboard-controller-analog/host-buffer-input-review.json
+          python3 verification/robotron-keyboard/analog/ttl7406_output_probe.py --host-passives --host-buffer --sio-data-pf 5 --sio-clock-pf 50 --sio-leakage-ua 10 --out build/keyboard-controller-analog/host-buffer-load
+          python3 verification/robotron-keyboard/analog/host_input_review.py --run build/keyboard-controller-analog/host-buffer-load --out build/keyboard-controller-analog/host-buffer-load-input-review.json
       - name: Reference analog sensing feasibility
         run: python3 verification/robotron-keyboard/analog/sense_probe.py
       - name: Clock pullup and U880 input-level regression

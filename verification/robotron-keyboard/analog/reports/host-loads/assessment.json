@@ -1,0 +1,67 @@
+{
+  "qualified": false,
+  "scope": "Standalone host-buffer load screening, not firmware or closed-board qualification",
+  "source": "../../u856_limits.json",
+  "cases": [
+    {
+      "name": "host-load-5pf-sink",
+      "load": {
+        "dataPf": 5.0,
+        "clockPf": 5.0,
+        "leakageUa": 10.0
+      },
+      "fixturePassed": true,
+      "allSampledInputsWithinStaticEnvelope": true,
+      "reportSha256": "3da420a6253bdd6fea45450051aa668bc6fc14e5b4c17eec60a850e63d3488cd",
+      "inputReviewSha256": "94c83b7e4ef390de4790da4e96b7e45a66768d35b3104234f271770e10569589"
+    },
+    {
+      "name": "host-load-5pf-source",
+      "load": {
+        "dataPf": 5.0,
+        "clockPf": 5.0,
+        "leakageUa": -10.0
+      },
+      "fixturePassed": true,
+      "allSampledInputsWithinStaticEnvelope": true,
+      "reportSha256": "cb772f5a814439566f96ce9a44d1ae98bb6503bb9ab952162ea0de32a47b7208",
+      "inputReviewSha256": "84998f2c3247334015950b3c52f0b63144f3cfbfa6cee9c73ea96f38fd1f3e07"
+    },
+    {
+      "name": "host-load-50pf-sink",
+      "load": {
+        "dataPf": 5.0,
+        "clockPf": 50.0,
+        "leakageUa": 10.0
+      },
+      "fixturePassed": true,
+      "allSampledInputsWithinStaticEnvelope": true,
+      "reportSha256": "8a1e62bc2014a29f8f217a92735e9b5900fb101e7ab0f835cde02d06c8899cfe",
+      "inputReviewSha256": "4ada5ce31c130c6bb00ef39efbb4c249f441ad05d5728224ce9bf66eeab4acff"
+    },
+    {
+      "name": "host-load-50pf-source",
+      "load": {
+        "dataPf": 5.0,
+        "clockPf": 50.0,
+        "leakageUa": -10.0
+      },
+      "fixturePassed": true,
+      "allSampledInputsWithinStaticEnvelope": true,
+      "reportSha256": "8977131abde48e7fcdcfad506a8a5fa7eed070ec657b867d3ea0b87a1ab4cf82",
+      "inputReviewSha256": "ee771677c9b57338edec289dfc3f7d870cc7461ca5a0e1fb69d02be73712a42e"
+    }
+  ],
+  "interpretation": [
+    "Data load uses the published ordinary-input capacitance maximum. Both signs of the published leakage magnitude are stress assumptions; constant leakage is not a calibrated input I/V curve.",
+    "Clock capacitance is screened at the ordinary and clock table values; the source does not explicitly identify clock-capacitance pin coverage. Neither case resolves that ambiguity.",
+    "Fixture pass covers settled inversion and input rise-interval checks. It does not qualify buffer dynamics, full waveform convergence, Schmitt thresholds or SIO timing."
+  ],
+  "archive": {
+    "file": "captures.tar.gz",
+    "bytes": 14481803,
+    "sha256": "14cc13ee4f51809946ff82aede42596265de3f4b0cdbe02db52230c2d6b52d9a",
+    "roundTripVerified": true
+  },
+  "nextAction": "Run the explicit load boundary through service firmware; preserve nominal captures and keep electrical qualification separate."
+}

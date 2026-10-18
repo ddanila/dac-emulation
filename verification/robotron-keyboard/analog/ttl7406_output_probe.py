@@ -74,7 +74,7 @@ def driver_circuit(components, profile, cable_pf, electrical_data_input=False, e
     return lines, metadata
 
 
-def simulate(root, profile, step, cable, components, executable, env, host_passives=False, host_buffer=False):
+def simulate(root, profile, step, cable, components, executable, env, host_passives=False, host_buffer=False, sio_load=None):
     out = root / f'{profile}-{step}ns-{cable}pf'
     out.mkdir()
     lines, metadata = driver_circuit(components, profile, cable)
@@ -82,7 +82,7 @@ def simulate(root, profile, step, cable, components, executable, env, host_passi
     supply = metadata['hostSupply']
     cable_signals = [f'v({metadata["serial"][label]["cable"]},{ground})' for label in ('data', 'clock')]
     if host_passives:
-        host_lines, host_info = host_receiver(metadata, input_reverse_beta=.01 if host_buffer else None)
+        host_lines, host_info = host_receiver(metadata, input_reverse_beta=.01 if host_buffer else None, sio_load=sio_load)
         lines += host_lines
         metadata['hostReceiver'] = host_info
         ground, supply = host_info['ground'], host_info['supply']
@@ -153,7 +153,18 @@ def main():
     parser.add_argument('--host-passives', action='store_true', help='Include reference motherboard chokes, pullups and RC input filters; no buffer transistor model')
     parser.add_argument('--host-buffer', action='store_true', help='Experimental 7404 transistor buffer with input BR=.01; requires --host-passives')
     parser.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/ttl7406-outputs')
+    parser.add_argument('--sio-data-pf', type=float)
+    parser.add_argument('--sio-clock-pf', type=float)
+    parser.add_argument('--sio-leakage-ua', type=float)
     args = parser.parse_args()
+    values = (args.sio_data_pf, args.sio_clock_pf, args.sio_leakage_ua)
+    sio_load = None
+    if any(v is not None for v in values):
+        if not args.host_buffer or any(v is None for v in values):
+            parser.error('Explicit SIO loads require --host-buffer and all three load arguments')
+        if not all(map(math.isfinite, values)) or min(values[:2]) <= 0:
+            parser.error('SIO capacitances must be positive and load values finite')
+        sio_load = dict(zip(('dataPf', 'clockPf', 'leakageUa'), values))
     if args.host_buffer and not args.host_passives:
         parser.error('--host-buffer requires --host-passives')
     located = shutil.which(args.ngspice)
@@ -166,10 +177,10 @@ def main():
     (out / 'spinit').write_text('* Pure SPICE output fixture; no external initialization or code models.\n')
     env = dict(os.environ, SPICE_SCRIPTS=str(out))
     report = {'passed': False, 'qualified': False, 'scope': __doc__,
-              'dcCandidateReportSha256': dc_reference_digest, 'hostPassives': args.host_passives, 'hostBufferCandidate': args.host_buffer,
+              'dcCandidateReportSha256': dc_reference_digest, 'hostPassives': args.host_passives, 'hostBufferCandidate': args.host_buffer, 'sioLoad': sio_load,
               'executableSha256': sha(executable), 'spinitSha256': sha(out / 'spinit'),
               'sources': {name: sha(HERE / name) for name in
-                          ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'output_circuit.py', 'circuit.py', 'failure_evidence.py', 'host_receiver.py', 'host_receiver.json', 'ttl7404_nominal.cir')},
+                          ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'output_circuit.py', 'circuit.py', 'failure_evidence.py', 'host_receiver.py', 'host_receiver.json', 'ttl7404_nominal.cir', 'u856_limits.json')},
               'limitations': 'Numerical fixture checks only. No transistor storage/capacitance, device-corner, full-package, firmware, or specimen qualification.',
               'runs': []}
     try:
@@ -177,7 +188,7 @@ def main():
         for profile in ('nominal', '7406-dc'):
             profile_runs = []
             for cable in (1000, 2000):
-                pair = [simulate(out, profile, step, cable, components, executable, env, args.host_passives, args.host_buffer) for step in (10, 5)]
+                pair = [simulate(out, profile, step, cable, components, executable, env, args.host_passives, args.host_buffer, sio_load) for step in (10, 5)]
                 report['runs'] += pair
                 profile_runs += pair
                 for a, b in zip(*(run['receiverRiseSeconds08to2V'] for run in pair)):
