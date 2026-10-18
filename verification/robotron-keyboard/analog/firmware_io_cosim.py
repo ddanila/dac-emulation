@@ -96,6 +96,8 @@ def main():
                    help='Explicit ngspice itl4 Newton iteration limit; omit to retain the engine default')
     p.add_argument('--integration-method', choices=('trap', 'gear'),
                    help='Explicit numerical integration method; omit to retain the engine default')
+    p.add_argument('--maximum-order', type=int, choices=(1, 2),
+                   help='Explicit integration order limit; omit to retain the engine default')
     p.add_argument('--electrical-wr', action='store_true', help='Finite CPU WR drive into transistor clock gate; requires electrical-bus and 7406-dc')
     p.add_argument('--sio-data-pf', type=float)
     p.add_argument('--sio-clock-pf', type=float)
@@ -153,6 +155,7 @@ def main():
         'solverTolerances': solver,
         'transientIterations': args.transient_iterations,
         'integrationMethod': args.integration_method,
+        'maximumOrder': args.maximum_order,
         'analysisInvocation': 'deck-tran/run' if args.minimum_breakpoint_fs is not None else 'control-tran',
         'clockPeriodNs': 1000, 'resetRampStartNs': 1000000, 'fixtureEdgeNs': 1,
         'fixtureThresholdVolts': 1.4, 'br1Closed': False, 'br2Closed': False,
@@ -395,6 +398,8 @@ def main():
             lines.insert(lines.index('.control'), f'.options itl4={args.transient_iterations}')
         if args.integration_method is not None:
             lines.insert(lines.index('.control'), f'.options method={args.integration_method}')
+        if args.maximum_order is not None:
+            lines.insert(lines.index('.control'), f'.options maxord={args.maximum_order}')
         (out / 'io.cir').write_text(with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs))
         report['deckSha256'] = sha(out / 'io.cir')
         report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
