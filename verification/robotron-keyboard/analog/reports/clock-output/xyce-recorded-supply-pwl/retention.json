@@ -1,0 +1,36 @@
+{
+  "sourceCommit": "71926cf",
+  "qualified": false,
+  "completed": false,
+  "sharedSupply": {
+    "path": "../full-precision-supply-isolation/supply.txt.xz",
+    "compressedSha256": "82bfca2429d6f6051bef58dd72aee53f372f55434e93b1e7ae379d2dcebd52cf"
+  },
+  "runtimeDownloadReceipt": "../xyce-isolated/retention.json",
+  "waveformScope": "Normalized startup and final windows only. Complete trace hashes are in assessment.json when normalization completed; full traces remain local.",
+  "windowsSeconds": [
+    [
+      9.9e-05,
+      0.000104
+    ],
+    [
+      0.000249,
+      0.00025
+    ]
+  ],
+  "replay": "Decompress sharedSupply to supply.txt in this directory; run the recorded Xyce executable from each run directory with oscillator.cir. Observe-source-knots requires full normalized local traces.",
+  "retainedFiles": {
+    "assessment.json": "f4304fec285161a92f266c6e3a72d3978ae52e8d2a2d43e5d40c836a5212a30a",
+    "coarse/model.cir": "c3eb400ee9d00ce2aca22a89114ad2806ad439eae7857dfc8b8f0466cea7aac5",
+    "coarse/oscillator.cir": "98cd8c39e847be907afd8e07f68bdcce4d17abcc60263f6d9b605db66018ee30",
+    "coarse/xyce.log": "3d498c2709ecf07e91a2ae8980adfca14335599eac0ca29ccad7ea6640f16b6c"
+  },
+  "incompleteProducerTrace": {
+    "sha256": "6a8e9745095527c49ec6df91eef953d2e5d8126b138b8cdf2d132605dd7a65b5",
+    "bytes": 223855002,
+    "lines": 2763642,
+    "lastLine": "1.29256597552721101e-04    2.22066188204497594e+00    2.33514378642858622e+00",
+    "retained": "Local build directory only; not a completed waveform."
+  },
+  "interpretation": "Native PWL replay exceeded its 600-second coarse-run timeout. No paired phase result exists; this is a performance limit, not a convergence result."
+}

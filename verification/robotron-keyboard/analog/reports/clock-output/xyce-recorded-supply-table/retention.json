@@ -1,0 +1,36 @@
+{
+  "sourceCommit": "8ed90b9",
+  "qualified": false,
+  "completed": true,
+  "sharedSupply": {
+    "path": "../full-precision-supply-isolation/supply.txt.xz",
+    "compressedSha256": "82bfca2429d6f6051bef58dd72aee53f372f55434e93b1e7ae379d2dcebd52cf"
+  },
+  "runtimeDownloadReceipt": "../xyce-isolated/retention.json",
+  "waveformScope": "Normalized startup and final windows only. Complete trace hashes are in assessment.json when normalization completed; full traces remain local.",
+  "windowsSeconds": [
+    [
+      9.9e-05,
+      0.000104
+    ],
+    [
+      0.000249,
+      0.00025
+    ]
+  ],
+  "replay": "Decompress sharedSupply to supply.txt in this directory; run the recorded Xyce executable from each run directory with oscillator.cir. Observe-source-knots requires full normalized local traces.",
+  "retainedFiles": {
+    "assessment.json": "cf4410660fea35868c103c06b1d767a9cb5e74ebf782543fcec76270b6e41d29",
+    "coarse/model.cir": "c3eb400ee9d00ce2aca22a89114ad2806ad439eae7857dfc8b8f0466cea7aac5",
+    "coarse/oscillator.cir": "6b87439f983dfca8400743a401a5b1459569346adaf708ce9c34e95de7eafe83",
+    "coarse/trace-windows.txt.xz": "1dd37c8762b67c04d6b0170543bd04538db345ae917744c1ef306aba1debb1a4",
+    "coarse/xyce.log": "2c03f2c42e6a3dcf1509163eb4ba1fbd0ed8ddcc75e2da515cd546e4f6302c02",
+    "fine/model.cir": "c3eb400ee9d00ce2aca22a89114ad2806ad439eae7857dfc8b8f0466cea7aac5",
+    "fine/oscillator.cir": "791fd8406bad08969f258f46dfdccf8bdb77df82c40c309b92b442d9eefb371f",
+    "fine/trace-windows.txt.xz": "f44828971a07dd6ce189a4e7f76118565777d8151021c60a5cfe98972079e49e",
+    "fine/xyce.log": "f4699cfdcdcd8fbfe11d4ec372ded0edf549fde846884e0186ce433450921f37",
+    "observe-source-knots.py": "e03d97a48fb961912b55d00a28bd0ca2292693f0bce4961daaff0b888a72c81e",
+    "source-knots.json": "12cfe668631bcda9bcc5b8392eced3e8e54ed52ee4264a60ea602c7a3ae2429e"
+  },
+  "interpretation": "Scheduling recorded supply corners does not restore the unchanged paired phase gate. Fine saved times include every source knot exactly; coarse misses one within the four-ULP observation threshold by less than 3e-19 seconds. Both runs reproduce prescribed supply values. This rules out absent source-corner sampling as a sufficient explanation, not all numerical effects or physical startup uncertainty."
+}
