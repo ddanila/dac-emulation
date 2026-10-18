@@ -628,6 +628,12 @@ comparison. Xyce's solver tolerances have different semantics from ngspice's.
 python3 verification/robotron-keyboard/analog/xyce_oscillator_probe.py --xyce /path/to/Xyce --out /tmp/xyce-oscillator
 ```
 
+Add `--source /path/to/diagnostic-trace.txt` to replay recorded supply samples
+instead of the ideal ramp. This uses Xyce's linear `fasttable` source, preserving
+all printed points while limiting source breakpoints to its endpoints. Every saved
+supply value is checked against the source interpolation. It removes live supply
+feedback and does not claim identical scheduling to ngspice's file source.
+
 The [retained isolated comparison](reports/clock-output/xyce-isolated/cross-solver.json)
 passes paired and cross-solver phase checks, while retaining the short clock
 period. It does not qualify slow-supply startup, the HDL bridge or the full board.
