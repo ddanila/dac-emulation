@@ -1,0 +1,26 @@
+{
+  "scope": "Correction of oscillator report metadata only; model and archived waveforms unchanged.",
+  "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+  "affectedReport": "oscillator-coarse/report.json",
+  "affectedReportSha256": "6b5c2a868f49ee87f0956fee044b0c62458c0349f2730ce984dbde96ffc2957f",
+  "incorrectAssumptions": {
+    "outputOhms": {
+      "low": 30,
+      "high": 30
+    },
+    "outputTargetsAsSupplyFraction": {
+      "low": 0.04,
+      "high": 0.7
+    }
+  },
+  "correctAssumptions": {
+    "outputOhms": {
+      "low": 30,
+      "high": 50
+    },
+    "outputTargetsAsSupplyFraction": null,
+    "outputTopology": "Independent source-only high path toward 0.7*VCC and low path to ground; external pullup can exceed the high-source target"
+  },
+  "verifiedBy": "Fresh oscillator probe with --gate-profile dl000-pullup --steps-ns 2 1; report parameters checked against the hashed model source.",
+  "boundary": "No change to circuit equations, device calibration, CPU voltage limits or failed phase qualification."
+}
