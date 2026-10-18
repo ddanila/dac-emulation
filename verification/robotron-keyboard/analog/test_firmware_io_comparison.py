@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from compare_firmware_io import compare, load_run, normalized_deck, sha
+from compare_firmware_io import compare, load_run, normalized_deck, sha, C_REFERENCE_PATHS
 from serial_observation import SerialMismatch, validate_transport
 
 
@@ -23,6 +23,22 @@ class ComparisonTests(unittest.TestCase):
         self.coarse, self.fine = report(100), report(50)
         self.tx = validate_transport('SERIAL_TX 1000 1\nSERIAL_RX 21000 1\n', True)
         self.rx = validate_transport('SERIAL_TX 1000 1\nSERIAL_RX 41000 1\n', True)
+
+    def test_reference_checkout_relocation_preserves_role_and_digest(self):
+        self.coarse['cReferenceSources']={f'/original/{name}':name for name in C_REFERENCE_PATHS}
+        self.fine['cReferenceSources']={f'/relocated/{name}':name for name in C_REFERENCE_PATHS}
+        compare(self.coarse,self.fine,self.tx,self.tx,15)
+        original=copy.deepcopy(self.fine['cReferenceSources'])
+        for change in ('digest','missing','mixed_root','duplicate','absent'):
+            self.fine['cReferenceSources']=copy.deepcopy(original)
+            key='/relocated/'+C_REFERENCE_PATHS[1]
+            if change=='digest':self.fine['cReferenceSources'][key]='different'
+            elif change=='missing':del self.fine['cReferenceSources'][key]
+            elif change=='mixed_root':self.fine['cReferenceSources']['/elsewhere/'+C_REFERENCE_PATHS[1]]=self.fine['cReferenceSources'].pop(key)
+            elif change=='duplicate':self.fine['cReferenceSources']['/other/'+C_REFERENCE_PATHS[0]]='same'
+            else:del self.fine['cReferenceSources']
+            with self.subTest(change=change),self.assertRaises(ValueError):
+                compare(self.coarse,self.fine,self.tx,self.tx,15)
 
     def test_serial_agreement_cannot_qualify_experimental_host_buffer(self):
         self.coarse['assumptions']['hostBuffer'] = '7404-candidate'
