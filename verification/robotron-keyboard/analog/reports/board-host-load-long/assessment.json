@@ -1,0 +1,75 @@
+{
+  "completed": true,
+  "producerPassed": false,
+  "qualified": false,
+  "sourceRevisionVerified": "88bd28b",
+  "scope": "Completed closed-board capture using the legacy falling-edge receiver observer",
+  "evidence": {
+    "producer": "report.json",
+    "inputReview": "input-review.json.xz",
+    "clockWidths": "clock-widths.json",
+    "executionAllowance": "execution-extension.json",
+    "earlierTimeout": "../board-host-load/assessment.json",
+    "receiverCorrection": "../host-receive-edge/assessment.json"
+  },
+  "observations": {
+    "captureWindowSeconds": [
+      0.124,
+      0.154
+    ],
+    "resetEvents": [
+      [
+        0.00020343,
+        "0"
+      ],
+      [
+        0.122851032,
+        "1"
+      ]
+    ],
+    "serialBits": 26,
+    "scenarioCoveragePassed": true,
+    "producerError": "Coupled analog waveform lacks reset/clock activity or endpoints"
+  },
+  "interpretation": "The circuit simulation and trace output complete with firmware serial transport and scenario coverage under the legacy observer. The producer waveform gate fails; reset release precedes the saved analog window, so that window cannot show the reset assertion/release pulse. Retained host-input stress and nominal-threshold clock-width screens apply only to the captured window. They do not establish rising-RxC sampling, startup voltage, convergence or device qualification.",
+  "nextAction": "Capture from time zero with corrected receiver sampling and sufficient execution/output allowance; preserve startup and producer failures in qualification.",
+  "waveforms": {
+    "storage": "Local lossless captures in build/keyboard-controller-analog/board-host-load-long",
+    "identities": {
+      "trace.txt": {
+        "sha256": "2702fa64b257add3a122351033ae5b854f78fab2ddaa447914a7ea1848bdfcf5",
+        "bytes": 1228616298
+      },
+      "supply-trace.txt": {
+        "sha256": "1d2f1f68e2f18f72221c00941b6b6a40fc5b251a9fceb315d608bf3497532fbd",
+        "bytes": 497297073
+      },
+      "host-trace.txt": {
+        "sha256": "8adac3182c6f845f729e6ec45ad705df18dc46464d823c7e98d4932323ac9715",
+        "bytes": 1716162547
+      }
+    }
+  },
+  "compression": {
+    "ngspice.log.xz": {
+      "format": "xz",
+      "uncompressedSha256": "b9f5867ea257d789267a1c3ae8337b41329a737a25d51bd8e62ae5dc6b8a8364"
+    },
+    "input-review.json.xz": {
+      "format": "xz",
+      "uncompressedSha256": "17d550cfa430f0170acdedfb0d68f26f02c8ba3e901f2a773774d3e3a430f07d"
+    }
+  },
+  "retainedFilesSha256": {
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+    "input-review.json.xz": "99dade30772cb7b07f57d1c42cf9209cc08cf28b787af6a7b2c439d546bb49c9",
+    "clock-widths.json": "e62286a30041b89edd7a28231774b249f65c87fe5d0153c44ed08fa8c0474cfe",
+    "report.json": "a49884742b09dc837e998e633323531166023a1c8f5ed5c5aa48062251b491a8",
+    "run-inputs.json": "75258e91e413ad905eabfb34b9d35a404ca5449b8484bb89065916e1c208d281",
+    "boot.cir": "39ca9e7a86e726bbdb4fc03c400dcf7e4b56f9223c482de6c5de5751e788c6e3",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "ngspice.log.xz": "b0aa9c0e2836c0895106808f2417c92a2f498deaf9523167c470adc0260bc6ef",
+    "execution-extension.json": "86e298d3c7f22b3f6261280fae00d116936db58a23deb58717e9e5af7cfabb91",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282"
+  }
+}

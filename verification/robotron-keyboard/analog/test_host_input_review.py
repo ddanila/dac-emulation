@@ -103,6 +103,24 @@ class BoardInputReviewTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 list(firmware_samples(p/'host-trace.txt',FirmwareInputReviewTests.signals,0,.124000002,1))
 
+    def test_full_startup_window_requires_time_zero(self):
+        with tempfile.TemporaryDirectory() as directory:
+            p=Path(directory);r=self.fixture(p)
+            (p/'boot.cir').write_text('fixture\n.control\ntran 1n 2e-9 0\n.endc\n.end\n')
+            r['assumptions']['traceWindowSeconds']=[0,2e-9]
+            r['deckSha256']=sha(p/'boot.cir')
+            header=' '.join(['time',*FirmwareInputReviewTests.signals])+'\n'
+            for first in (0,1e-10):
+                (p/'host-trace.txt').write_text(header+f'{first} 1 1 1 1 1 1\n1e-9 1 1 1 1 1 1\n2e-9 1 1 1 1 1 1\n')
+                r['hostTraceSha256']=sha(p/'host-trace.txt')
+                (p/'report.json').write_text(json.dumps(r))
+                if first == 0:
+                    result=board_review(p,{'input':LIMITS})
+                    self.assertEqual(result['captureWindowSeconds'],[0,2e-9])
+                    self.assertFalse(result['producerPassed'])
+                else:
+                    with self.assertRaises(ValueError):board_review(p,{'input':LIMITS})
+
     def test_changed_window_artifact_or_preparation_cannot_pass(self):
         with tempfile.TemporaryDirectory() as directory:
             p=Path(directory)

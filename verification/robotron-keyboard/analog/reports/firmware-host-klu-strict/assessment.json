@@ -1,0 +1,31 @@
+{
+  "completed": false,
+  "qualified": false,
+  "sourceRevisionVerified": "fffd351",
+  "scope": "KLU backend with matched Sparse control in the same runtime",
+  "evidence": {
+    "producer": "report.json",
+    "build": "build-provenance.json",
+    "control": "../firmware-host-klu-build-sparse-control/assessment.json",
+    "log": "ngspice.log.xz"
+  },
+  "inputComparison": {
+    "onlyDeckDifference": ".options klu replaces .options sparse"
+  },
+  "interpretation": "KLU also aborts with a timestep-too-small diagnostic before completing the scenario. Backend selection changes the failure location; it does not resolve the numerical problem or establish a physical circuit fault. Partial waveforms remain local and are identified by the producer report.",
+  "logCompression": {
+    "format": "xz",
+    "uncompressedSha256": "2371ebfb4abe54173c5970017628bd666cdd3467c2db45ad8209b2be997fe873"
+  },
+  "retainedFilesSha256": {
+    "report.json": "5fba29dff28ff469590c02b50f1fc04e3b5ac42bd8bb5ab8893e84adf7a1ef52",
+    "run-inputs.json": "5518e69d700b545bd271867442dc00dddd1844b06c9843af90304961d38a5f08",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "build-provenance.json": "b06c7066b1ea6f6e75923d96aa1e23b73fd978a26ef09f8d5c6291ca0ae5ff61",
+    "ngspice.log.xz": "89fc91677a6dd758674fce85b6a67cb4679dae5ed3f5aa9a6da08a63e7597364",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "01e52ec2c34cd4e5c98262e575bb745de20314f99df54b64a490d578437e936e"
+  }
+}

@@ -27,6 +27,17 @@ class WidthTests(unittest.TestCase):
             with self.assertRaises(ValueError):widths(samples,TIMING)
 
 class BoardClockTests(unittest.TestCase):
+    def test_startup_review_requires_zero_sample(self):
+        with tempfile.TemporaryDirectory() as directory:
+            p=Path(directory)/'trace.txt'
+            header='time v(cpu_clock) v(cpu_reset) v(receiver_data) v(receiver_clock)\n'
+            for first in (0,1e-10):
+                p.write_text(header+f'{first} 0 0 0 0\n1e-9 0 0 0 0\n2e-9 0 0 0 0\n')
+                if first == 0:
+                    self.assertEqual(len(list(clock_samples(p,1,2e-9,start=0,board=True))),3)
+                else:
+                    with self.assertRaises(ValueError):list(clock_samples(p,1,2e-9,start=0,board=True))
+
     def test_window_and_hash_checks_preserve_failed_producer(self):
         with tempfile.TemporaryDirectory() as directory:
             p=Path(directory)
