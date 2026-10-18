@@ -1,0 +1,51 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "f79ae39",
+  "scope": "Corrected rising-RxC modifier scenario with explicit SIO loads and minimum breakpoint spacing",
+  "evidence": {
+    "producer": "report.json",
+    "scenarioCoverage": "coverage.json",
+    "baselineFailure": "../firmware-host-rising-modifier/assessment.json",
+    "resetSpacingControl": "../firmware-host-rising-reset-default-spacing/assessment.json",
+    "sampledStability": "margins.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "d6d54518eaadbfc9ed220302a22d7884f9574fa7b297489cf8f2097a00cfbce0",
+    "run-inputs.json": "43d1258026af140b6783743886e0627ba933b96eee34c061d8037f137f4a33ef",
+    "scenario.json": "b96bd3d3b3161a83cf14aefa2a7c4fd9f45c45a5d243084cab452dd58ebc9eb8",
+    "io.cir": "6de7dcd02fff8d0b75a8608fe6e89370051fcd252d03d325293652a2c726a3db",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "b0e76022f954385a2c6064becf0089d1ee285a1fc9262addd341bc251032d01f",
+    "ngspice.log": "3e01ec34a035fe0682208ab659686bf2cc9702d72fb3b8a2ae407a219aaf8940",
+    "reference.log": "1f7f7b3a2b579d9e174ac6cd346d73e900c909c68fcd5003762be5b752e51fcd",
+    "coverage.json": "f73b953ff43b924db42d27e86e52c280ed279af58a8707ef3f13409a8708dbf4",
+    "margins.json": "e096a0bbc587540f22230aae228b61be7bda0509bbb8eb7e683ab64db14975c0"
+  },
+  "inputComparison": {
+    "sourceHashesEqual": true,
+    "runtimeEqual": true,
+    "deckEqualsBaselineWithExplicitBreakpointOption": true,
+    "assumptionDifferences": {
+      "minimumBreakpointFs": [
+        null,
+        1.0
+      ],
+      "analysisInvocation": [
+        "control-tran",
+        "deck-tran/run"
+      ]
+    }
+  },
+  "waveforms": {
+    "retention": "Complete waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL included.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-modifier-minbreak",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "The complete modifier/release/ordinary-key scenario passes received-bit agreement, sampled stability and independent coverage, including distinct modified and ordinary packets. Both spacing and invocation differ from the failed modifier baseline; the separate reset control isolates spacing for that reset fixture. No modifier-specific causality, timestep convergence or physical device qualification is inferred.",
+  "nextAction": "Compare the fixed-spacing timestep pair; retain absolute-time voltage differences and device-model limits."
+}
