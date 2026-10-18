@@ -1,0 +1,92 @@
+--- a/src/spicelib/analysis/dctran.c
++++ b/src/spicelib/analysis/dctran.c
+@@ -705,8 +705,12 @@
+             g_mif_info.circuit.evt_step = ckt->CKTtime;
+         }
+ #endif
++        if (ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014)
++            fprintf(stderr, "TRANSITION_AUDIT trial time=%a delta=%a permanent=%a next=%a last=%a\n", ckt->CKTtime, ckt->CKTdelta, ckt->CKTbreaks[0], ckt->CKTbreaks[1], g_mif_info.breakpoint.last);
+         /* Central solver step */
+         converged = NIiter(ckt,ckt->CKTtranMaxIter);
++        if (ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014)
++            fprintf(stderr, "TRUNC_AUDIT solver time=%a delta=%a result=%d order=%d\n", ckt->CKTtime, ckt->CKTdelta, converged, ckt->CKTorder);
+ 
+         ckt->CKTstat->STATtimePts ++;
+         ckt->CKTmode = (ckt->CKTmode&MODEUIC)|MODETRAN | MODEINITPRED;
+@@ -721,6 +725,8 @@
+                 return(converged);
+         }
+ 
++        if (ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014)
++            fprintf(stderr, "TRANSITION_AUDIT solved time=%a temporary=%a permanent=%a result=%d\n", ckt->CKTtime, g_mif_info.breakpoint.current, ckt->CKTbreaks[0], converged);
+         /* If no convergence in Central solver step */
+         if(converged != 0) {
+ 
+@@ -794,6 +800,8 @@
+             /* Scan through all devices, estimate the truncation error,
+                and reduce the time step, if necessary.*/
+             error = CKTtrunc(ckt,&newdelta);
++            if (ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014)
++                fprintf(stderr, "TRUNC_AUDIT step time=%a delta=%a proposed=%a delmin=%a result=%d order=%d newtrunc=%d\n", ckt->CKTtime, ckt->CKTdelta, newdelta, ckt->CKTdelmin, error, ckt->CKTorder, ckt->CKTnewtrunc);
+             if(error) {
+                 UPDATE_STATS(DOING_TRAN);
+                 return(error);
+@@ -823,6 +831,8 @@
+                     newdelta = ckt->CKTdelta;
+                     ckt->CKTorder = 2;
+                     error = CKTtrunc(ckt, &newdelta);
++                    if (ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014)
++                        fprintf(stderr, "TRUNC_AUDIT order-check time=%a delta=%a proposed=%a result=%d order=%d\n", ckt->CKTtime, ckt->CKTdelta, newdelta, error, ckt->CKTorder);
+                     if (error) {
+                         UPDATE_STATS(DOING_TRAN);
+                         return(error);
+--- a/src/spicelib/analysis/ckttrunc.c
++++ b/src/spicelib/analysis/ckttrunc.c
+@@ -36,7 +36,10 @@
+ #ifdef STEPDEBUG
+                 debugtemp = timetemp;
+ #endif /* STEPDEBUG */
++                double audit_previous = timetemp;
+                 error = DEVices[i]->DEVtrunc(ckt->CKThead[i], ckt, &timetemp);
++                if (ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014 && timetemp < audit_previous)
++                    fprintf(stderr, "TRUNC_AUDIT device time=%a type=%s before=%a proposed=%a\n", ckt->CKTtime, DEVices[i]->DEVpublic.name, audit_previous, timetemp);
+                 if (error) {
+                     ckt->CKTstat->STATtranTruncTime += SPfrontEnd->IFseconds()
+                         - startTime;
+--- a/src/spicelib/devices/cap/captrunc.c
++++ b/src/spicelib/devices/cap/captrunc.c
+@@ -23,7 +23,10 @@
+         for(here = CAPinstances(model); here != NULL ;
+                 here = CAPnextInstance(here)) {
+ 
++            double audit_previous = *timeStep;
+             CKTterr(here->CAPqcap,ckt,timeStep);
++            if (ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014 && *timeStep < audit_previous)
++                fprintf(stderr, "TRUNC_AUDIT instance time=%a name=%s state=%d before=%a proposed=%a q0=%a q1=%a\n", ckt->CKTtime, here->CAPname, here->CAPqcap, audit_previous, *timeStep, ckt->CKTstate0[here->CAPqcap], ckt->CKTstate1[here->CAPqcap]);
+         }
+     }
+     return(OK);
+--- a/src/spicelib/devices/ind/indtrunc.c
++++ b/src/spicelib/devices/ind/indtrunc.c
+@@ -21,7 +21,10 @@
+         for(here = INDinstances(model); here != NULL ;
+                 here = INDnextInstance(here)) {
+ 
++            double audit_previous = *timeStep;
+             CKTterr(here->INDflux,ckt,timeStep);
++            if (ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014 && *timeStep < audit_previous)
++                fprintf(stderr, "TRUNC_AUDIT instance time=%a name=%s state=%d before=%a proposed=%a q0=%a q1=%a\n", ckt->CKTtime, here->INDname, here->INDflux, audit_previous, *timeStep, ckt->CKTstate0[here->INDflux], ckt->CKTstate1[here->INDflux]);
+         }
+     }
+     return(OK);
+--- a/src/spicelib/analysis/cktterr.c
++++ b/src/spicelib/analysis/cktterr.c
+@@ -74,6 +74,8 @@
+     } else if (ckt->CKTorder > 3) {
+         del = exp(log(del)/ckt->CKTorder);
+     }
++    if (ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014 && del < *timeStep)
++        fprintf(stderr, "TRUNC_AUDIT error time=%a state=%d delta=%a dt0=%a dt1=%a dt2=%a order=%d proposed=%a tol=%a difference=%a q0=%a q1=%a q2=%a q3=%a\n", ckt->CKTtime, qcap, ckt->CKTdelta, ckt->CKTdeltaOld[0], ckt->CKTdeltaOld[1], ckt->CKTdeltaOld[2], ckt->CKTorder, del, tol, diff[0], ckt->CKTstates[0][qcap], ckt->CKTstates[1][qcap], ckt->CKTstates[2][qcap], ckt->CKTstates[3][qcap]);
+     *timeStep = MIN(*timeStep,del);
+     return;
+ }
