@@ -1,0 +1,45 @@
+{
+  "completed": false,
+  "qualified": false,
+  "scope": "Timestep refinement of the corrected host modifier-release failure",
+  "producerSourceRevision": "1efc9f7",
+  "coarse": "../firmware-host-rising-modifier/assessment.json",
+  "retainedFilesSha256": {
+    "report.json": "d34b1878cd1be0efa855773bc7fe3a66878c86ccc5279231e4b86026cbc1e501",
+    "run-inputs.json": "c8e339ffff70f0ba876a7eb844efd1b6a4681701074dfe7c09c6b660b01c6a2b",
+    "scenario.json": "b96bd3d3b3161a83cf14aefa2a7c4fd9f45c45a5d243084cab452dd58ebc9eb8",
+    "io.cir": "bec0552cd769630fd152008350af6ec0a30990f5676577f37e614300a18a1e28",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "b0e76022f954385a2c6064becf0089d1ee285a1fc9262addd341bc251032d01f",
+    "ngspice.log": "0372d8019a34d408c0ed5680588474cbff09a05a3f25f71668fc99976ca4fd77",
+    "reference.log": "1f7f7b3a2b579d9e174ac6cd346d73e900c909c68fcd5003762be5b752e51fcd"
+  },
+  "inputComparison": {
+    "sourceHashesEqual": true,
+    "runtimeEqual": true,
+    "normalizedElectricalDeckEqual": true,
+    "assumptionDifferences": {
+      "stepNs": [
+        50.0,
+        25.0
+      ]
+    }
+  },
+  "diagnostic": {
+    "simulationTimeSeconds": 0.043,
+    "reportedTimestepSeconds": 3.125e-20,
+    "instance": "q.xhost_data.qinput",
+    "message": "Timestep too small"
+  },
+  "waveforms": {
+    "retention": "Incomplete local captures; producer failureArtifacts retain compressed-file hashes. No full-scenario qualification.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-modifier-fine",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "Halving maximum timestep reproduces the same release-boundary solver failure. This does not establish a physical transistor fault, and timestep refinement alone does not resolve it.",
+  "nextAction": "Compare the explicit-breakpoint-spacing diagnostic while retaining unchanged circuit, stimulus and electrical tolerances."
+}
