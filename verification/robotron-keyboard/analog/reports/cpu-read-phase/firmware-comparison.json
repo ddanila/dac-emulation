@@ -1,0 +1,49 @@
+{
+  "qualified": false,
+  "passed": true,
+  "scope": "Exact recorded BIT, LED and EDGE values and cycle numbers across the full existing S600 digital firmware fixture",
+  "profiles": [
+    "tv80",
+    "falling-indexed-candidate"
+  ],
+  "events": {
+    "BIT": {
+      "count": 390,
+      "sha256": "14ffd10c756e898db1cccc4f733f14ef836565c015fea927a68f0b488c27328b",
+      "first": [
+        "BIT 223513 1",
+        "BIT 223529 1"
+      ],
+      "last": [
+        "BIT 4424335 1",
+        "BIT 4424351 1"
+      ]
+    },
+    "LED": {
+      "count": 23,
+      "sha256": "ffb68020c769878a74cd96a53343f9e04cc3ab0650df7c21cfdc4ca74637bf55",
+      "first": [
+        "LED 199999 0",
+        "LED 399999 0"
+      ],
+      "last": [
+        "LED 4399999 0",
+        "LED 4599999 0"
+      ]
+    },
+    "EDGE": {
+      "count": 11971,
+      "sha256": "155ebcb1d0f9412b42716cdc671f8aad21984c0e4225e9fd3a9e43c4e9b6a7d5",
+      "first": [
+        "EDGE 394 0",
+        "EDGE 1203502 1"
+      ],
+      "last": [
+        "EDGE 4199943 3",
+        "EDGE 4200410 0"
+      ]
+    }
+  },
+  "boundary": "Same board HDL, ROM and fixture. Not an independent CPU implementation comparison, analog timing qualification, interrupt test or proof of all internal states. Full logs were hashed in memory; compact per-event hashes retained.",
+  "replay": "Run the matching replay-firmware-*.py from repository root with the standard S600 ROM path as its argument. Requires the recorded Homebrew Icarus installation; uses pipes without temporary files."
+}

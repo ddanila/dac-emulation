@@ -1,0 +1,46 @@
+{
+  "qualified": false,
+  "completed": false,
+  "reason": "ngspice subprocess reached its configured 14400-second timeout; final report write then failed with ENOSPC",
+  "sourceRevision": "788f13e",
+  "lastLoggedClockProgressPs": 68702161000,
+  "observedClockEdges": 200000,
+  "requestedStopSeconds": 0.154,
+  "requestedCaptureStartSeconds": 0.124,
+  "firmwareExecutionEstablished": false,
+  "files": {
+    "ls_nand_nominal.cir": {
+      "bytes": 907,
+      "sha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d"
+    },
+    "run-inputs.json": {
+      "bytes": 40848,
+      "sha256": "c19a54c56803ace2fa943441ce357fc93befebfdfd453ca28e09c5d34f192560"
+    },
+    "boot.cir": {
+      "bytes": 15187,
+      "sha256": "2c755a94103f49a136ed05d58cad966e16cb4fd3c57fb0899a0077d5474e93e0"
+    },
+    "controller_analog.v": {
+      "bytes": 6925,
+      "sha256": "5eb3f4665cfb5a407136b488b1d94fedf1ddec6786c240e7df405df7141541c1"
+    },
+    "ngspice.log": {
+      "bytes": 17598,
+      "sha256": "8c2af95925e0499478be346020cdcc9deb0a108c8dcb237223408bcadc0b55f4"
+    },
+    "scenario.json": {
+      "bytes": 293,
+      "sha256": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282"
+    },
+    "boot.vvp": {
+      "bytes": 629378,
+      "sha256": "38e602b84b5b437d206fa77d35fbdbb012c3ab2fa4b18a3792845ae4a85145d2"
+    },
+    "s600.hex": {
+      "bytes": 6144,
+      "sha256": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966"
+    }
+  },
+  "boundary": "Clock-progress marker is a lower bound on reached simulation time, not the exact stop. No saved waveform was produced before timeout. run-inputs.json is preparation provenance, not a successful execution report."
+}
