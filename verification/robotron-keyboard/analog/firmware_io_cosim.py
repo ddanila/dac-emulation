@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 """Exercise S600 matrix/cable feedback with CPU-side clock/reset service fixtures."""
 import argparse
+import hashlib
 import json
 import math
 import re
 import subprocess
 from pathlib import Path
-from trace_io import open_text
+from trace_io import open_text, open_binary
 from compressed_output import capture as capture_compressed
 
 from boot_cosim import ROM_SHA256, sha
 from circuit import load
 from controller_interface import generate
+from electrical_bus_interface import generate_service
+from bus_driver import wiring as bus_wiring
 from transient_analysis import with_minimum_breakpoint
 from model_coverage import classify_service
 from cpu_control import wiring as cpu_wiring
@@ -48,10 +51,19 @@ def main():
     p.add_argument('--latch-load', choices=LATCH_LOADS, default='ideal')
     p.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground; zero omits it')
     p.add_argument('--electrical-cpu-pullups', action='store_true')
+    p.add_argument('--electrical-bus', action='store_true', help='Experimental linear bus-driver stress fixture with electrical receiver feedback')
+    p.add_argument('--bus-latch-pf', type=float, help='Explicit undocumented latch-output capacitance per pin')
+    p.add_argument('--bus-7406-pf', type=float, help='Explicit undocumented 7406-input capacitance')
     p.add_argument('--electrical-logic-pullups', action='store_true')
     p.add_argument('--logic-load-pf', type=float, default=0, help='Assumed capacitance per control net; requires electrical logic pullups')
     p.add_argument('--minimum-breakpoint-fs', type=float, help='Explicit ngspice breakpoint spacing via deck tran/run')
     args = p.parse_args()
+    bus_caps = (args.bus_latch_pf, args.bus_7406_pf)
+    if args.electrical_bus:
+        if any(value is None or not math.isfinite(value) or value < 0 for value in bus_caps):
+            p.error('electrical-bus requires finite nonnegative bus-latch-pf and bus-7406-pf')
+    elif any(value is not None for value in bus_caps):
+        p.error('Bus capacitance fixtures require electrical-bus')
     if args.minimum_breakpoint_fs is not None and (not math.isfinite(args.minimum_breakpoint_fs) or args.minimum_breakpoint_fs <= 0):
         p.error('minimum-breakpoint-fs must be positive and finite')
     if not math.isfinite(args.logic_load_pf) or args.logic_load_pf < 0 or (args.logic_load_pf and not args.electrical_logic_pullups):
@@ -68,7 +80,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     if args.compress_traces and any(out.glob('*trace.txt*')):
         p.error('Compressed capture requires a fresh waveform output directory')
-    for name in ('report.json', 'trace.txt', 'led-trace.txt', 'ngspice.log'):
+    for name in ('report.json', 'trace.txt', 'led-trace.txt', 'bus-trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'assumptions': {
         'electricalCpuPullups': args.electrical_cpu_pullups,
@@ -90,6 +102,12 @@ def main():
             'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'logic_control.py', 'model_coverage.py', 'reset_probe.py', 'oscillator_probe.py', 'cpu_control.py', 'cpu_clock_limits.json', 'serial_observation.py',
             'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compressed_output.py', 'transient_analysis.py')}}
     report['waveformCompression'] = {'format': 'xz', 'preset': args.compression_preset} if args.compress_traces else None
+    if args.electrical_bus:
+        report['assumptions'].update(electricalBus=True, busLatchPf=args.bus_latch_pf,
+                                     bus7406Pf=args.bus_7406_pf,
+                                     busDriver='Linear 5 V DC-endpoint stress fixture; no calibrated I/V or leakage')
+        report['sources'].update({name: sha(HERE / name) for name in (
+            'electrical_bus_interface.py', 'bus_driver.py', 'bus_load.py', 'bus_inventory.py', 'bus_limits.json')})
     try:
         scenario = load_scenario(args.scenario)
         report['assumptions']['scenario'] = scenario
@@ -132,13 +150,15 @@ def main():
             if sha(tv80 / name) != digest:
                 raise ValueError('TV80 source differs: ' + name)
         subprocess.run(['python3', str(HERE.parent / 'generate.py'), '--check'], check=True)
-        (out / 'controller_analog.v').write_text(generate(explicit_cpu_drive=True, resolved_bus=True))
+        (out / 'controller_analog.v').write_text(generate_service() if args.electrical_bus else
+                                               generate(explicit_cpu_drive=True, resolved_bus=True))
         hdl = [*sorted(tv80.glob('*.v')), HERE.parent / 'chips.v', HERE.parent / 'generated/controller.v',
                HERE / 'boot_cosim.v', HERE / 'firmware_io_cosim.v', out / 'controller_analog.v']
         report['hdlSha256'] = {str(path): sha(path) for path in hdl}
-        subprocess.run(['iverilog', '-g2012', '-s', 'firmware_io_cosim', '-o', str(out / 'io.vvp'),
-                        '-Pfirmware_io_cosim.ELECTRICAL_CPU_PULLUPS=' + str(int(args.electrical_cpu_pullups)),
-                        '-Pfirmware_io_cosim.ELECTRICAL_LOGIC_PULLUPS=' + str(int(args.electrical_logic_pullups)),
+        top = 'firmware_io_electrical_bus' if args.electrical_bus else 'firmware_io_cosim'
+        subprocess.run(['iverilog', '-g2012', '-s', top, '-o', str(out / 'io.vvp'),
+                        f'-P{top}.ELECTRICAL_CPU_PULLUPS=' + str(int(args.electrical_cpu_pullups)),
+                        f'-P{top}.ELECTRICAL_LOGIC_PULLUPS=' + str(int(args.electrical_logic_pullups)),
                         *map(str, hdl)], check=True)
         matrix, report['matrixCircuit'] = matrix_circuit(components, latch_load=args.latch_load, column_load_pf=args.column_load_pf)
         outputs, info = output_circuit(components)
@@ -165,6 +185,24 @@ def main():
                           **report.get('logicControlModels', {}), **report.get('cpuControlModels', {})}
         report['modelCoverage'] = classify_service(components, service_models,
             args.electrical_cpu_pullups, args.electrical_logic_pullups)
+        bus_lines, bus_inputs, bus_outputs = [], '', ''
+        if args.electrical_bus:
+            limits = json.loads((HERE / 'bus_limits.json').read_text())
+            bus_lines, report['busCircuit'] = bus_wiring(components, limits,
+                {'I8282': args.bus_latch_pf, '7406': args.bus_7406_pf})
+            def vector(prefix, count):
+                return ' '.join(f'{prefix}{i}' for i in reversed(range(count)))
+            bus_inputs = vector('dbus', 8)
+            bus_outputs = vector('dbus_low', 24) + ' ' + vector('dbus_high', 24)
+            bus_lines += [f'Abus [{vector("n_D", 8)}] [{bus_inputs}] data_receiver',
+                          f'Abus_low [{vector("dbus_low", 24)}] [{vector("bus_low_", 24)}] drive',
+                          f'Abus_high [{vector("dbus_high", 24)}] [{vector("bus_high_", 24)}] drive',
+                          *[f'Rbus_numerical{i} n_D{i} 0 1e12' for i in range(8)]]
+            report['busCircuit']['numericalShuntsOhms'] = 1e12
+            for ref in ('A5', 'A8', 'A4'):
+                report['modelCoverage']['components'][ref]['model'] += '; data pins use linear electrical stress drivers and pin-capacitance fixtures'
+            report['modelCoverage']['components']['A5']['model'] = report['modelCoverage']['components']['A5']['model'].replace('resolved digital data bus', 'electrical data-bus receiver feedback')
+            report['modelCoverage']['components']['A1']['model'] += '; D0 uses electrical bus receiver and fixture input capacitance; input bias omitted'
         ground = info['hostGround']
         sense = ' '.join(f'n_SENSE{i}' for i in reversed(range(8)))
         dsense = ' '.join(f'dsense{i}' for i in reversed(range(8)))
@@ -173,7 +211,7 @@ def main():
         lines = ['S600 firmware I/O service fixture', f'Vhost {info["hostSupply"]} {ground} PWL(0 0 1u 5)',
                  'Vfixture_clock fixture_clock 0 PULSE(0 5 500n 1n 1n 499n 1u)',
                  'Vfixture_reset fixture_reset 0 ' + reset_source(scenario),
-                 *matrix, *outputs, *logic_lines, *cpu_lines,
+                 *matrix, *outputs, *logic_lines, *cpu_lines, *bus_lines,
                  *[f'Vcontact{i} contact{i} 0 ' + contact_source(scenario, i) for i in range(104)],
                  'Esiso_intent siso_intent 0 led0_v 0 1', 'Ecaps_intent caps_intent 0 led1_v 0 1',
                  f'Edata receiver_data 0 {info["serial"]["data"]["cable"]} {ground} 1',
@@ -184,7 +222,9 @@ def main():
                  'Arxclock [receiver_clock] [rx_clock] clock_receiver',
                  '.model clock_receiver adc_bridge(in_low=1.4 in_high=1.4)',
                  'Afixture [fixture_clock fixture_reset] [fixture_clk fixture_reset_n] clock_receiver',
-                 f'Ahdl [fixture_clk fixture_reset_n {dsense} rx_data rx_clock {logic_inputs} {cpu_inputs}] [dlogic_sink1 dlogic_sink0 dsink csink led1 led0 {columns}] hdl',
+                 f'Ahdl [fixture_clk fixture_reset_n {dsense} rx_data rx_clock {logic_inputs} {cpu_inputs}' +
+                 (f' {bus_inputs}' if args.electrical_bus else '') + '] [' +
+                 (f'{bus_outputs} ' if args.electrical_bus else '') + f'dlogic_sink1 dlogic_sink0 dsink csink led1 led0 {columns}] hdl',
                  f'.model hdl d_cosim simulation="{libs["shim"]}" sim_args=["io.vvp"] delay={args.bridge_delay_ns}n',
                  f'+ lib_args=["{libs["libvvp"]}" "{libs["vpi"]}"]',
                  'Adrive [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] drive',
@@ -197,6 +237,10 @@ def main():
             signals = 'v(siso_intent) v(caps_intent) @dsiso_led[id] @dcaps_led[id]'
             lines.insert(lines.index('.control'), '.save ' + signals)
             lines.insert(lines.index('quit'), 'wrdata led-trace.txt ' + signals)
+        if args.electrical_bus:
+            signals = ' '.join(f'v(n_D{i})' for i in range(8))
+            lines.insert(lines.index('.control'), '.save ' + signals)
+            lines.insert(lines.index('quit'), 'wrdata bus-trace.txt ' + signals)
         (out / 'io.cir').write_text(with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs))
         report['deckSha256'] = sha(out / 'io.cir')
         report['ngspiceRuntime'], engine_env = identify_runtime(args.ngspice, args.ngspice_spinit)
@@ -208,13 +252,20 @@ def main():
             report['preparedOnly'] = True
             print(out / 'io.cir')
             return
-        trace_names = ['trace.txt'] + (['led-trace.txt'] if args.led_trace else [])
+        trace_names = ['trace.txt'] + (['led-trace.txt'] if args.led_trace else []) + (['bus-trace.txt'] if args.electrical_bus else [])
         with capture_compressed(out, trace_names, args.compress_traces, preset=args.compression_preset) as compressed:
             with (out / 'ngspice.log').open('w') as log:
                 subprocess.run([engine, '-n', '-b', 'io.cir'], cwd=out, env=engine_env, stdout=log, stderr=subprocess.STDOUT,
                                check=True, timeout=args.timeout_seconds)
         if args.compress_traces:
             report['compressedWaveforms'] = compressed
+        if args.electrical_bus:
+            digest = hashlib.sha256()
+            with open_binary(out / 'bus-trace.txt') as stream:
+                for data in iter(lambda: stream.read(1024 * 1024), b''):
+                    digest.update(data)
+            report['busTraceSha256'] = digest.hexdigest()
+            report['busQualification'] = 'Pending firmware bus timing and electrical observation checks; serial agreement alone is insufficient'
         verify_runtime(report['ngspiceRuntime'])
         log = (out / 'ngspice.log').read_text()
         if solver_diagnostic(log):

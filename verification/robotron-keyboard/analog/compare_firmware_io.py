@@ -56,6 +56,8 @@ def load_run(directory):
 
 
 def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
+    if any(report['assumptions'].get('electricalBus') for report in (coarse, fine)):
+        raise ValueError('Electrical-bus firmware qualification requires bus timing and voltage observation checks')
     if not 0 < fine['assumptions']['stepNs'] <= coarse['assumptions']['stepNs'] / 2:
         raise ValueError('Expected the second timestep to be at most half the first')
     assumptions = []
