@@ -185,3 +185,10 @@ does not qualify CPU pin timing or the analog board.
 The manual `keyboard-cpu-phase.yml` workflow checks each profile against C and
 compares all recorded HDL serial/LED values and cycles between profiles. It
 retains reports and failure evidence separately from fast CI.
+
+`--floating-io-value 00`, `ff` or `xx` overrides only released I/O reads with
+A15 low. This tests firmware dependence on the digital board's usual FF
+convention; it does not add a physical pullup or change enabled-latch/ROM reads.
+The retained `analog/reports/floating-io/` comparison agrees with C and the
+baseline's recorded serial/LED events for these substitutions. Other input
+patterns, internal-state equivalence and electrical timing remain unqualified.

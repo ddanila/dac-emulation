@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "qualified": false,
+  "baselineWorkflow": "https://github.com/ddanila/dac-emulation/actions/runs/39090855120",
+  "baselineHdlLogSha256": "2d71c4f07f29f9a88d0b77610bd6d97ff36a362d586e1247731caa3aa9b4e6c8",
+  "cpuProfile": "falling-indexed-candidate",
+  "cases": {
+    "00": {
+      "equivalentToC": true,
+      "eventsEqualBaselineValuesAndCycles": true,
+      "reportSha256": "1fb8e3a02c0ea7a07f4b7f95c0726bc5abbd738622402c0ea7492bd420a17e93",
+      "hdlLogSha256": "785a1229194152972cb151d0ffe509dd99d4c5654bdcceceeadff12157005d7c",
+      "cLogSha256": "3e1735d98cc3b1e069c7a9fcbaa0a64cb567815464dfe13f79450d32ce26f549",
+      "eventCount": 12384,
+      "eventSha256": "0da909a551d7ae4625cb20fa54c7bc928b91369a3ad18ace1478586c9c73816d"
+    },
+    "ff": {
+      "equivalentToC": true,
+      "eventsEqualBaselineValuesAndCycles": true,
+      "reportSha256": "71a7219fbb4dd9c71327e6dc02a9ab5a15875bec7c839a798ec7387c3877dd64",
+      "hdlLogSha256": "785a1229194152972cb151d0ffe509dd99d4c5654bdcceceeadff12157005d7c",
+      "cLogSha256": "3e1735d98cc3b1e069c7a9fcbaa0a64cb567815464dfe13f79450d32ce26f549",
+      "eventCount": 12384,
+      "eventSha256": "0da909a551d7ae4625cb20fa54c7bc928b91369a3ad18ace1478586c9c73816d"
+    },
+    "xx": {
+      "equivalentToC": true,
+      "eventsEqualBaselineValuesAndCycles": true,
+      "reportSha256": "97b4c562e6c5caab12a1ca8ab2c7bfd64ebf00b24d09cef09d20eb8c5989ac1a",
+      "hdlLogSha256": "785a1229194152972cb151d0ffe509dd99d4c5654bdcceceeadff12157005d7c",
+      "cLogSha256": "3e1735d98cc3b1e069c7a9fcbaa0a64cb567815464dfe13f79450d32ce26f549",
+      "eventCount": 12384,
+      "eventSha256": "0da909a551d7ae4625cb20fa54c7bc928b91369a3ad18ace1478586c9c73816d"
+    }
+  },
+  "boundary": "Full existing S600 digital fixture with uniform 00/FF/X substitutions only on released I/O reads. Not exhaustive arbitrary byte/timing injection, proof of internal-state equivalence, CPU metastability modeling, or electrical bus qualification."
+}

@@ -1,0 +1,35 @@
+{
+  "qualified": false,
+  "runs": {
+    "39089855942-coarse": {
+      "source": "https://github.com/ddanila/dac-emulation/actions/runs/39089855942",
+      "serialBitsMatchC": true,
+      "error": "Bus D7 outside reference input voltage range"
+    },
+    "39089855942-fine": {
+      "source": "https://github.com/ddanila/dac-emulation/actions/runs/39089855942",
+      "serialBitsMatchC": true,
+      "error": "Bus D7 outside reference input voltage range"
+    },
+    "39086581088-coarse": {
+      "source": "https://github.com/ddanila/dac-emulation/actions/runs/39086581088",
+      "serialBitsMatchC": true,
+      "error": "Unknown or malformed sampled bus value: BUS_SAMPLE 1484501000 0000 4X 1 0 1"
+    },
+    "39086581088-fine": {
+      "source": "https://github.com/ddanila/dac-emulation/actions/runs/39086581088",
+      "serialBitsMatchC": true,
+      "error": "Unknown or malformed sampled bus value: BUS_SAMPLE 1484501000 0000 4X 1 0 1"
+    }
+  },
+  "boundary": "Post-run diagnosis only. Original voltage and unknown-input rejections remain failures; serial agreement does not qualify the bus.",
+  "releasedReadInterpretation": {
+    "address": 0,
+    "memorySelectN": 1,
+    "ioSelectN": 0,
+    "latchEnable": "A2.2 inverts A15 into A4 OE_N; A15=0 releases the latch outputs",
+    "romEnable": "MREQ_N=1 releases ROM",
+    "cpuEnable": "Read cycle releases CPU output drivers",
+    "status": "Inferred from pinned schematic/decode and logged read; per-driver enables were not captured in this run. Firmware sensitivity requires a separate experiment."
+  }
+}

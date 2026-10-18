@@ -47,6 +47,15 @@ module tb;
   #1; force dut.board.clk=1;
   // End before any following falling edge: the completed latch still exists.
   #0.1;
+  force dut.board.cpu_data_drive=0;
+  force dut.board.mreq_n=1; force dut.board.iorq_n=0;
+  #1;
+  if(lo!==24'h000000 || hi!==24'h000000)
+   $fatal(1,"A15-low I/O read must release CPU, ROM and latch drivers");
+  force dut.board.address=16'h8000;
+  #1;
+  if(lo!==24'h000000 || hi!==24'hff0000)
+   $fatal(1,"A15-high I/O read must enable the sensed latch alone");
   $display("SERVICE_BUS_PASS");$finish;
  end
 endmodule
