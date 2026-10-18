@@ -634,7 +634,9 @@ all printed points while limiting source breakpoints to its endpoints. Every sav
 supply value is checked against the source interpolation. It removes live supply
 feedback and does not claim identical scheduling to ngspice's file source.
 `--source-mode pwl` selects the native PWL source to investigate scheduling at
-each recorded corner, without changing the input samples.
+each recorded corner, without changing the input samples. `--source-mode table`
+uses the expression-table path with corner breakpoints, for comparison with
+`fasttable` and the native source.
 The [recorded-supply Xyce run](reports/clock-output/xyce-recorded-supply/assessment.json)
 also fails timestep phase refinement. Cross-engine agreement at the coarser step
 does not survive refinement, so agreement at a single timestep cannot establish

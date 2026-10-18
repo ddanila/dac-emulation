@@ -40,8 +40,10 @@ def deck(components, step, duration=20e-6, recorded=False, source_mode="fasttabl
         raise ValueError('Unexpected oscillator supply boundary')
     source = (f'Bsupply {supply} {ground} V={{fasttable("../supply.txt")}}\n' if recorded
               else f'Vcc {supply} {ground} PWL(0 0 10n 5)\n')
-    if source_mode not in ('fasttable', 'pwl'):
+    if source_mode not in ('fasttable', 'pwl', 'table'):
         raise ValueError('Unknown recorded-supply source mode')
+    if recorded and source_mode == 'table':
+        source = f'Bsupply {supply} {ground} V={{table("../supply.txt")}}\n'
     if recorded and source_mode == 'pwl':
         source = f'Vcc {supply} {ground} PWL FILE "../supply.txt"\n'
     signals = f'V({cpu})' + (f' V({supply})' if recorded else '')
@@ -86,14 +88,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--xyce', required=True)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--source-mode', choices=('fasttable', 'pwl'), default='fasttable')
+    parser.add_argument('--source-mode', choices=('fasttable', 'pwl', 'table'), default='fasttable')
     parser.add_argument('--source', type=Path, help='Logical uncompressed diagnostic supply trace path; compressed siblings supported')
     parser.add_argument('--steps-ns', nargs=2, type=float, default=[.25, .125])
     args = parser.parse_args()
     if not all(math.isfinite(x) and x > 0 for x in args.steps_ns) or args.steps_ns[0] <= args.steps_ns[1]:
         parser.error('Require positive coarse and smaller fine steps')
     if args.source_mode != 'fasttable' and args.source is None:
-        parser.error('--source-mode pwl requires --source')
+        parser.error('A nondefault --source-mode requires --source')
     executable = shutil.which(args.xyce)
     if not executable:
         raise ValueError('Xyce executable not found')
@@ -119,7 +121,7 @@ def main():
             duration = times[-1]
             report['supplyBoundary'] = ('Full printed samples and linear interpolation. ' +
                 ('Fasttable has only first/last table breakpoints. ' if args.source_mode == 'fasttable'
-                 else 'Native PWL schedules corner breakpoints. ') +
+                 else 'The selected source schedules corner breakpoints. ') +
                 'Each saved supply value is checked. No live supply loading feedback or physical supply model.')
         components, report['connectivitySha256'] = load()
         model = model_for_xyce((HERE / 'ls_nand_pullup.cir').read_text())
