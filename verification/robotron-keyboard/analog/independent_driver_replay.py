@@ -16,6 +16,8 @@ def convert(text, engine):
     if text.count('\n.control\n') != 1:
         raise ValueError('Expected one ngspice control block')
     circuit, control = text.split('\n.control\n')
+    if '.options trtol=1\n' not in circuit+'\n':
+        raise ValueError('Expected explicit effective truncation tolerance')
     signals = re.findall(r'^wrdata host-trace.txt (.+)$',control,re.M)
     if len(signals) != 1:
         raise ValueError('Expected host voltage capture')
@@ -63,7 +65,7 @@ def convert(text, engine):
                   f'.tran {step} {stop} 0 {step}',
                   f'.print tran format=noindex file=host-raw.txt precision=17 {signals[0]}','.end']
     else:
-        lines += ['.temp 27','.options tnom=27 reltol=1e-4 vntol=1e-7 abstol=1e-13 itl4=1000 minbreak=1f',
+        lines += ['.temp 27','.options tnom=27 reltol=1e-4 vntol=1e-7 abstol=1e-13 itl4=1000 minbreak=1f trtol=1',
                   f'.tran {step} {stop}', '.control','set numdgt=17','set wr_singlescale','set wr_vecnames',
                   'run',f'wrdata host-trace.txt {signals[0]}','quit','.endc','.end']
     return '\n'.join(lines)+'\n', changes, signals[0].split(), float(stop)
@@ -77,8 +79,9 @@ def main():
     p.add_argument('--out',type=Path,required=True)
     args=p.parse_args(); source=args.source.resolve(); out=args.out.resolve()
     prior=json.loads((source/'report.json').read_text())
-    if prior.get('completed') is not True or prior.get('omitCaptureKnot') is not True:
-        raise ValueError('Expected completed replay without capture-end knot')
+    if (prior.get('completed') is not True or prior.get('omitCaptureKnot') is not True
+            or prior.get('effectiveTruncationTolerance') != 1):
+        raise ValueError('Expected completed replay with matched trtol and no capture-end knot')
     if sha(source/'io.cir')!=prior['deckSha256']:
         raise ValueError('Source deck changed')
     executable=Path(shutil.which(args.executable) or args.executable).resolve(strict=True)

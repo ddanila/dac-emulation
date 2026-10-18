@@ -1,9 +1,15 @@
 """Stimulus reduction must retain short transitions and bound interpolation error."""
 import unittest
-from analog_driver_replay import reduce_linear
+from analog_driver_replay import reduce_linear, recorded_trtol
 
 
 class AnalogDriverReplayTests(unittest.TestCase):
+    def test_effective_trtol_requires_recorded_evidence(self):
+        notice = "Reducing trtol to 1 for xspice 'A' devices"
+        self.assertEqual(recorded_trtol(notice+'\n'), 1)
+        for log in ('', "Override trtol to 7 for xspice 'A' devices", notice+'\n'+notice):
+            with self.assertRaises(ValueError): recorded_trtol(log)
+
     def test_straight_line_and_narrow_peak(self):
         self.assertEqual(reduce_linear([(0,0),(.3,.6),(1,2)], 1e-12), [(0,0),(1,2)])
         points = [(0,0),(.49,0),(.5,5),(.51,0),(1,0)]

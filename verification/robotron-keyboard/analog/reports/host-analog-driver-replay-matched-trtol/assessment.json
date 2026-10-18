@@ -1,0 +1,33 @@
+{
+  "completed": false,
+  "qualified": false,
+  "scope": "Analog-only transition replay preserving effective XSPICE truncation tolerance",
+  "evidence": {
+    "producer": "report.json",
+    "prefixComparison": "prefix-comparison.json",
+    "unmatchedControl": "../host-analog-driver-replay-no-capture-knot/assessment.json",
+    "source": "../firmware-host-all-driver-boundary/assessment.json"
+  },
+  "inputComparison": {
+    "onlyDeckDifference": ".options trtol=1",
+    "unchangedCircuitAndPwl": true
+  },
+  "engineSource": {
+    "path": "src/spicelib/analysis/cktdojob.c",
+    "sha256": "5007a84813eedf779a37a80d6f40010c1fa4c3ce2f709ef8e34d18339ac2faf8",
+    "finding": "When A devices are present and trtol exceeds 1, ngspice reduces it to 1 unless xtrtol overrides. The verified parent log explicitly records the reduction. Removing A devices without an explicit option restores the task default of 7.",
+    "defaultSourceSha256": "09857e69b321b4f7cd6cc37dd4912788b80ef54fde90b04987b4e72cabd2a238"
+  },
+  "interpretation": "Preserving effective trtol=1 produces a timestep-too-small failure near the original transition without the artificial capture-end knot. Earlier completion at implicit trtol=7 is not a matched numerical control. The earlier knot/no-knot pair remains a valid sensitivity experiment at its own trtol=7. Prefix voltage differences remain, so neither trajectory identity nor identical internal failure mechanism is established.",
+  "nextAction": "Use explicit effective controls for transition isolation; investigate tighter integration and the model response without relaxing accuracy budgets.",
+  "logCompression": {
+    "format": "xz",
+    "uncompressedSha256": "e490fa4f78e657d95bfd5ab52bc16690fc18f1d5f3a05bfa19193e321fad767b"
+  },
+  "retainedFilesSha256": {
+    "prefix-comparison.json": "8e05829cac9234f0afec2481365b26f1eee59fa8cec4cdac880f356bb9845c82",
+    "report.json": "798474917e68a94379c768f229eedec5c557e5059c0626a4088a960a1b019552",
+    "ngspice.log.xz": "561ddd5c6c795d84b46be5c3f3dac46bac6fba93e2a2c4204fcc63bffc38b84b",
+    "io.cir": "dc4a49dc9f3f0a685087d6846240174d9a0e434912ae5610a8384f31e536018d"
+  }
+}

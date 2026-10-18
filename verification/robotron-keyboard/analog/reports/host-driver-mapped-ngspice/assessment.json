@@ -24,5 +24,9 @@
     "report.json": "dc7fd7efb8f4fa4af4552fd26c0aa653b9787f874f6ca41fcd7a572022e19e34",
     "io.cir": "1c61339ebf660ddca58215cb03f6078f05bd39c12b369e26f9b86dfd0f8d3f78",
     "solver.log.xz": "1d5586f4a38ea881883ec37eddb460e6a6c90ba67ed0a18c303d41f8493cd9db"
+  },
+  "effectiveControlReview": {
+    "evidence": "../host-analog-driver-replay-matched-trtol/assessment.json",
+    "boundary": "The source analog-only replay had implicit ngspice trtol=7, unlike effective trtol=1 in the original coupled run. These retained results do not constitute a matched-control comparison against that run. Xyce tolerance semantics remain separate."
   }
 }
