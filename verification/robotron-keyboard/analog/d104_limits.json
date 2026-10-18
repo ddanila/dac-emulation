@@ -1,0 +1,76 @@
+{
+  "device": "RFT D104D",
+  "status": "Preliminary manufacturer data; applicability to installed host buffer not yet identified",
+  "source": {
+    "url": "https://www.datasheetarchive.com/datasheet/D104D/RFT?term=d104d&version=1",
+    "pdfUrl": "https://www.datasheetarchive.com/pdf/download/distributors/Datasheets-AE/DSA5GERT0000159.pdf",
+    "sha256": "47c849b87a495178bb41838282e10ecc2fab69001bac0de3b4943fe50bb205f6",
+    "publisher": "VEB Halbleiterwerk Frankfurt/Oder",
+    "locator": "Printed pages 2\u20134; dynamic measurement circuit on page 7",
+    "rights": "Manufacturer document linked, not redistributed"
+  },
+  "conditions": {
+    "supplyMinV": 4.75,
+    "supplyMaxV": 5.25,
+    "temperatureMinC": 0,
+    "temperatureMaxC": 70
+  },
+  "input": {
+    "staticMinV": -0.8,
+    "maxV": 5.5,
+    "highMinV": 2,
+    "lowMaxV": 0.8,
+    "negativePulse": {
+      "minV": -1.5,
+      "maxDurationSeconds": 2e-07,
+      "maxDutyRatio": 0.5,
+      "locator": "Printed page 4, footnote 2"
+    },
+    "aboveMaxException": {
+      "maxInputCurrentA": 0.001,
+      "locator": "Printed page 4, footnote 1"
+    }
+  },
+  "dcChecks": [
+    {
+      "parameter": "IIL",
+      "maxMagnitudeA": 0.0016,
+      "supplyV": 5.25,
+      "inputV": 0.4
+    },
+    {
+      "parameter": "IIH",
+      "maxA": 4e-05,
+      "supplyV": 5.25,
+      "inputV": 2.4
+    },
+    {
+      "parameter": "VOH",
+      "minV": 2.4,
+      "supplyV": 4.75,
+      "inputV": 0.8,
+      "outputCurrentA": -0.0008
+    },
+    {
+      "parameter": "VOL",
+      "maxV": 0.4,
+      "supplyV": 4.75,
+      "inputV": 2,
+      "outputCurrentA": 0.016
+    }
+  ],
+  "switching": {
+    "temperatureC": 25,
+    "supplyV": 5,
+    "loadOhms": 400,
+    "loadPf": 15,
+    "fallDelayMaxSeconds": 1.5e-08,
+    "riseDelayMaxSeconds": 2.2e-08,
+    "locator": "Printed pages 4 and 7"
+  },
+  "boundaries": [
+    "The negative pulse exception requires amplitude, duration and duty together; a static minimum alone cannot decide dynamic acceptability.",
+    "No diode equation or clamp I/V curve is supplied by these limits. Do not derive a unique clamp model from the absolute ratings.",
+    "Timing fixture includes the diode load shown on page 7; a bare resistor/capacitor fixture is not equivalent."
+  ]
+}
