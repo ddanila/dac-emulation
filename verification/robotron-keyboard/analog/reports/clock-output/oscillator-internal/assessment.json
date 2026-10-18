@@ -1,0 +1,45 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Internal observations of unchanged candidate oscillator circuits at their retained AC operating points. No historical-device calibration or global stability claim.",
+  "parameterReference": {
+    "url": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf",
+    "section": "27.5.1.1 BJT instance parameters"
+  },
+  "findings": [
+    "Both inspected circuits reproduce their retained external-node operating points and satisfy internal-node reported-current balance.",
+    "At the second gate, the modeled high-side output transistor carries negligible collector current while the sink and its base-collector Schottky clamp conduct. Phase and sink transistor intrinsic base-collector voltages are positive.",
+    "These are candidate-equation observations, not independent device evidence. Current balance excludes externally loaded output nodes; no unloaded-gate assumption is made for the circuit."
+  ],
+  "nextQuestion": "Constrain input/Schottky clamp transfer behavior around the switching region with independent device evidence; determine whether modeled branch selection and attenuation persist under applicable characteristics. Endpoint DC checks alone do not answer this.",
+  "runs": {
+    "baseline": {
+      "externalNodeDifferenceVolts": 0.0,
+      "internalNodeKclPassed": true,
+      "secondGate": {
+        "v(a)": 1.09245025404214,
+        "v(y)": 0.24344981439321034,
+        "@q.xgate.qhigh[ic]": 1.5385292789645077e-14,
+        "@q.xgate.xsink.qcore[ic]": 0.0006809001012762033,
+        "@d.xgate.xsink.dantisat[id]": 0.0004421217505293705,
+        "@q.xgate.xphase.qcore[vbc]": 0.47222706899150135,
+        "@q.xgate.xsink.qcore[vbc]": 0.5237972945164817
+      },
+      "captureAssessmentSha256": "3155c7aa3d2646bf0c39c78f85f3fb5800683456662ed90e1fc8bce4c74f2da3"
+    },
+    "sink-re10": {
+      "externalNodeDifferenceVolts": 0.0,
+      "internalNodeKclPassed": true,
+      "secondGate": {
+        "v(a)": 1.1360060026426317,
+        "v(y)": 0.24988854204423316,
+        "@q.xgate.qhigh[ic]": 1.3485424594822695e-14,
+        "@q.xgate.xsink.qcore[ic]": 0.0006966027572074246,
+        "@d.xgate.xsink.dantisat[id]": 0.0004597996578909546,
+        "@q.xgate.xphase.qcore[vbc]": 0.4806232537149633,
+        "@q.xgate.xsink.qcore[vbc]": 0.5249813654674942
+      },
+      "captureAssessmentSha256": "976fe44be9d36b0641f02013b9ba50aa408d9f08427252143e92498e66e6c584"
+    }
+  }
+}
