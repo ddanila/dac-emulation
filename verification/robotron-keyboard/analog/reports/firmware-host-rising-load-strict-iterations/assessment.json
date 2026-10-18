@@ -1,0 +1,48 @@
+{
+  "completed": false,
+  "qualified": false,
+  "producerSourceRevision": "f4dcc18",
+  "scope": "Explicit 100-iteration control for tighter-tolerance host fixture",
+  "evidence": {
+    "producer": "report.json",
+    "baseline": "../firmware-host-rising-load-strict-50ns/assessment.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "25d3156c1fe59ab2790a1d0e74d6ef5dd6a1066779afd867cf6f6be9e49c7606",
+    "run-inputs.json": "83430d3443d9bb7e510de3c35d7a4505ec13864bf979e9029d6dda53c6786aab",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "df9ef0e98760d66c6d5840d71a55e51100d379d2018e4979f3880c98a3f71bbb",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "5e2a2a7409262d92117a3713e94a2644532a4ef78b44ee65bc90047b61117368",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591"
+  },
+  "inputComparison": {
+    "runtimeEqual": true,
+    "deckDifference": "Only .options itl4=100",
+    "waveformIdentities": {
+      "trace.txt": "99c8494782064c86d5553aab9578ad09b689f07b875853fc6f3ebcfe10d214dd",
+      "driver-trace.txt": "2219dbc5504c02ae4ed7eeb677c54013ae7f983555c518e06b69ff03bc35e64c",
+      "host-trace.txt": "53b37c6552f315bf953fbe3d149ad538189458ce8ff4f331d6b671cb18729cd6"
+    }
+  },
+  "engineSourceReview": {
+    "source": "ngspice-47",
+    "path": "src/maths/ni/niiter.c",
+    "sha256": "85ed2001b0f4589e43a1e4d11f1fafc8a30f90d25d8ad361efe92c51a8e023a1",
+    "function": "NIiter",
+    "observation": "NIiter raises maxIter below 100 to 100. The task default of ten is not the effective solver limit. This diagnostic therefore does not increase the effective limit.",
+    "boundary": "Source review, not instrumented runtime iteration counts."
+  },
+  "interpretation": "The same failure and byte-identical partial waveforms are consistent with the source-defined iteration floor. This is a default-equivalent control, not evidence that additional effective iterations fail to help. No physical component fault is inferred.",
+  "nextAction": "Test an explicit limit above the NIiter floor with unchanged circuit, tolerances, timestep and stimulus.",
+  "waveforms": {
+    "retention": "Incomplete local captures; producer compressedWaveforms and failureArtifacts retain hashes.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-load-strict-iterations",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  }
+}
