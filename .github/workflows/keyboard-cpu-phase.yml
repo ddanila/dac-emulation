@@ -1,0 +1,70 @@
+name: Keyboard CPU read-phase firmware comparison
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: keyboard-cpu-phase-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  firmware:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - run: sudo apt-get update && sudo apt-get install -y iverilog
+      - name: Fetch standard S600 reference ROM
+        run: |
+          curl --fail --location --retry 3 https://raw.githubusercontent.com/ddanila/dac/e614abf62192e9222117b514a09fe30bc432131b/public/media/robotron/s600.bin -o "$RUNNER_TEMP/s600.bin"
+          printf '%s  %s\n' 4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273 "$RUNNER_TEMP/s600.bin" | sha256sum -c -
+      - name: Compare CPU profiles with C and each other
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,subprocess,sys
+          from pathlib import Path
+          root=Path('build/keyboard-cpu-phase')
+          root.mkdir(parents=True,exist_ok=False)
+          profiles=('tv80','falling-candidate','falling-indexed-candidate')
+          outcomes={}
+          events={}
+          for profile in profiles:
+              out=root/profile
+              command=[sys.executable,'verification/robotron-keyboard/run.py','--audit',
+                       '--rom',str(Path(os.environ['RUNNER_TEMP'])/'s600.bin'),
+                       '--cpu-profile',profile,'--out',str(out)]
+              outcomes[profile]=subprocess.run(command).returncode
+              log=out/'firmware-hdl.txt'
+              if log.exists():
+                  events[profile]=[line for line in log.read_text().splitlines()
+                                   if line.startswith(('BIT ','LED ','EDGE '))]
+          same=(all(outcomes[p]==0 for p in profiles) and
+                all(events.get(p) and events[p]==events.get('tv80') for p in profiles))
+          report={'passed':same,'qualified':False,'exitCodes':outcomes,
+                  'eventHashes':{p:hashlib.sha256(('\n'.join(lines)+'\n').encode()).hexdigest()
+                                 for p,lines in events.items()},
+                  'scope':'Exact recorded HDL serial/LED values and cycles; each profile also passes the C reference comparison',
+                  'boundary':'Digital fixture only; no calibrated CPU pin or analog timing qualification'}
+          (root/'comparison.json').write_text(json.dumps(report,indent=2)+'\n')
+          if not same:
+              baseline=events.get('tv80',[])
+              differences={}
+              for p in profiles[1:]:
+                  actual=events.get(p,[])
+                  differences[p]=next(({'ordinal':i,'expected':baseline[i] if i<len(baseline) else None,
+                                        'actual':actual[i] if i<len(actual) else None}
+                                       for i in range(max(len(baseline),len(actual)))
+                                       if i>=len(baseline) or i>=len(actual) or baseline[i]!=actual[i]),None)
+              (root/'first-differences.json').write_text(json.dumps(differences,indent=2)+'\n')
+          raise SystemExit(0 if same else 1)
+          PY
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: keyboard-cpu-phase-${{ github.run_id }}
+          retention-days: 90
+          path: |
+            build/keyboard-cpu-phase/**/*.json
+            build/keyboard-cpu-phase/**/*.txt
+            build/keyboard-cpu-phase/**/*.log
+            build/keyboard-cpu-phase/**/*.v
+            build/keyboard-cpu-phase/**/*.vcd

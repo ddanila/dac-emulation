@@ -5,12 +5,19 @@ Default tests the common supported subset. --audit compares the full bus range;
 """
 import argparse,hashlib,json,re,subprocess,sys
 from pathlib import Path
+from analog.cpu_read_phase_candidate import generate as generate_cpu_wrapper, generate_core as generate_cpu_core
 from diagnostics import first_difference,firmware_differences,waveform_window,run_bus,bus_differences
 R=Path(__file__).resolve().parent;ROOT=R.parents[1];OUT=ROOT/'build/keyboard-controller'
 def run(args,**kwargs):return subprocess.run([str(a) for a in args],cwd=ROOT,check=True,**kwargs)
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
- p=argparse.ArgumentParser();p.add_argument('--audit',action='store_true');p.add_argument('--rom',type=Path);p.add_argument('--wave',action='store_true');a=p.parse_args();OUT.mkdir(parents=True,exist_ok=True)
+ global OUT
+ p=argparse.ArgumentParser();p.add_argument('--audit',action='store_true');p.add_argument('--rom',type=Path);p.add_argument('--wave',action='store_true')
+ p.add_argument('--out',type=Path,default=OUT)
+ p.add_argument('--cpu-profile',choices=('tv80','falling-candidate','falling-indexed-candidate'),default='tv80')
+ a=p.parse_args()
+ if a.cpu_profile!='tv80' and not a.rom:p.error('--cpu-profile requires --rom')
+ OUT=a.out.resolve();OUT.mkdir(parents=True,exist_ok=True)
  for name in ['report.json','failure.json','bus.vcd','firmware.vcd']:
   (OUT/name).unlink(missing_ok=True)
  run([sys.executable,R/'generate.py','--check'])
@@ -44,7 +51,18 @@ def main():
   (OUT/'rom.hex').write_text('\n'.join(f'{v:02x}' for v in data)+'\n')
   run(['cc','-std=c11','-O2','-Wall','-Wextra','-Werror',R/'firmware_probe.c','machines/robotron1715m/keyboard.c','common/cpu/z80.c','-o',OUT/'firmware-probe'])
   with (OUT/'firmware-c.txt').open('w') as f:run([OUT/'firmware-probe',rom],stdout=f)
-  run(['iverilog','-g2012','-s','firmware_tb','-o',OUT/'firmware.vvp',*sorted((ROOT/'third_party/cpu/tv80').glob('*.v')),R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v'])
+  cpu_sources=sorted((ROOT/'third_party/cpu/tv80').glob('*.v'))
+  cpu_experiment={'profile':a.cpu_profile,'qualified':False,'boundary':'Reference firmware behavior only; CPU pin timing, analog feedback, interrupts and bus-grant behavior remain unqualified.'}
+  if a.cpu_profile!='tv80':
+   wrapper=OUT/'tv80n_candidate.v';wrapper.write_text(generate_cpu_wrapper((ROOT/'third_party/cpu/tv80/tv80n.v').read_text()))
+   cpu_sources=[f for f in cpu_sources if f.name!='tv80n.v']+[wrapper]
+   cpu_experiment.update(generatorSha256=sha(R/'analog/cpu_read_phase_candidate.py'),wrapperSha256=sha(wrapper))
+  if a.cpu_profile=='falling-indexed-candidate':
+   core=OUT/'tv80_core_candidate.v';core.write_text(generate_cpu_core((ROOT/'third_party/cpu/tv80/tv80_core.v').read_text()))
+   cpu_sources=[f for f in cpu_sources if f.name!='tv80_core.v']+[core]
+   cpu_experiment['coreSha256']=sha(core)
+  report['cpuExperiment']=cpu_experiment
+  run(['iverilog','-g2012','-s','firmware_tb','-o',OUT/'firmware.vvp',*cpu_sources,R/'chips.v',R/'generated/controller.v',R/'firmware_tb.v'])
   args=['vvp',OUT/'firmware.vvp','+rom='+str(OUT/'rom.hex')]
   if a.wave:args+=['+wave='+str(OUT/'firmware.vcd')]
   with (OUT/'firmware-hdl.txt').open('w') as f:run(args,stdout=f,timeout=300)

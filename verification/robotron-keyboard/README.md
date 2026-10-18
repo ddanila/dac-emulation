@@ -166,3 +166,22 @@ An unknown strobe conservatively merges stored and input values bitwise; differi
 bits become unknown. Floating input logic is represented as unknown stored data,
 not as a high-impedance latch output. These are four-state simulation semantics,
 not a model of analog floating-input bias or metastability.
+
+## Experimental CPU read phases
+
+Use an explicit profile and output directory to compare a generated CPU candidate
+against the C emulator with the existing complete S600 stimulus:
+
+```sh
+python3 verification/robotron-keyboard/run.py --audit --rom /path/to/s600.bin --cpu-profile falling-indexed-candidate --out build/keyboard-controller-indexed-candidate
+```
+
+The default remains `tv80`; `falling-candidate` changes the non-M1 operand latch,
+and `falling-indexed-candidate` also changes the DD-CB opcode path. Generated
+CPU sources, their hashes, stimulus results and failure waveforms belong to the
+selected output directory. Vendor sources stay unchanged. Functional agreement
+does not qualify CPU pin timing or the analog board.
+
+The manual `keyboard-cpu-phase.yml` workflow checks each profile against C and
+compares all recorded HDL serial/LED values and cycles between profiles. It
+retains reports and failure evidence separately from fast CI.
