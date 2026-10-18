@@ -1160,3 +1160,15 @@ oscillator-startup qualification. The existing gate model is unchanged.
 CI runs this fixture with `--require-limits`, which rejects delay-limit or timestep
 convergence failures while retaining the diagnostic report. This regression gate
 does not promote the model to device qualification.
+
+`boot_cosim.py --supply-stimulus scenarios/supply-brownout.json` replaces the
+startup ramp with explicit `[seconds, volts]` points under `pointsSecondsVolts`.
+Use the path relative to this directory, or an absolute path. The stimulus must
+start at zero time/voltage and end at the simulation stop time; it is mutually
+exclusive with `--rise-us`. With electrical outputs enabled it drives the host
+side of the cable/filter, otherwise the board supply directly. The sample is an
+illustrative power dip, not a measured specimen waveform. The run retains its
+normalized stimulus and hash. Custom-supply runs are diagnostic: the existing
+normal-boot checker does not qualify brownout reset/restart, and paired board
+qualification rejects them. Use `--prepare-only` to inspect the generated circuit
+before a potentially long run.

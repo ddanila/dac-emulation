@@ -35,6 +35,7 @@ from logic_control import wiring as logic_wiring
 from reset_probe import RESET_REFS
 from serial_observation import validate_transport, SerialMismatch
 import board_scenario
+import supply_stimulus
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -150,6 +151,15 @@ def prepare(args, report):
                           str(5 if i in args.contacts else 0)) for i in range(104)]
     else:
         matrix_lines = [f'Vunusedsense{i} n_SENSE{i} 0 0' for i in range(8)]
+    supply_data = getattr(args, 'supply_data', None)
+    supply_source = supply_stimulus.source(supply_data, args.rise_us)
+    if supply_data is not None:
+        report['supplyStimulus'] = supply_data
+        report['assumptions']['customSupplyStimulus'] = True
+        report['assumptions']['supplyRiseUs'] = None
+        report.setdefault('sources', {})['supply_stimulus.py'] = sha(HERE / 'supply_stimulus.py')
+        (out / 'supply-stimulus.json').write_text(json.dumps(supply_data, indent=2) + '\n')
+        report['supplyStimulusSha256'] = sha(out / 'supply-stimulus.json')
     if args.electrical_outputs:
         if args.serial_driver == '7406-dc':
             report['serialDriverDCReferenceSha256'] = checked_dc_reference()
@@ -161,7 +171,7 @@ def prepare(args, report):
             f'DAC X maps uniformly to {args.output_unknown_volts:g} V; diagnostic assumption, '
             'not a measured power-on state or exhaustive mixed-state coverage')
         report['electricalModels'].update(output_info['models'])
-        power_lines = [f'Vhost {output_info["hostSupply"]} {output_info["hostGround"]} PWL(0 0 {args.rise_us}u 5)']
+        power_lines = [f'Vhost {output_info["hostSupply"]} {output_info["hostGround"]} {supply_source}']
         output_lines += ['Esiso_intent siso_intent 0 led0_v 0 1',
                          'Ecaps_intent caps_intent 0 led1_v 0 1']
         serial_trace = [f'v({output_info["serial"][label]["cable"]},{output_info["hostGround"]})'
@@ -171,7 +181,7 @@ def prepare(args, report):
             f'Ereceiver_clock receiver_clock 0 {output_info["serial"]["clock"]["cable"]} {output_info["hostGround"]} 1']
     else:
         output_lines = []
-        power_lines = [f'Vcc n_p5V 0 PWL(0 0 {args.rise_us}u 5)']
+        power_lines = [f'Vcc n_p5V 0 {supply_source}']
         serial_trace = ['v(data_intent)', 'v(clock_intent)']
         receiver_lines = ['Vreceiver_data receiver_data 0 0', 'Vreceiver_clock receiver_clock 0 0']
     trace_signals = [f'v({cpu_clock})', f'v({cpu_reset})', *serial_trace]
@@ -408,7 +418,9 @@ def main():
     p.add_argument('--prepare-only', action='store_true', help='Generate inputs without claiming a simulation pass')
     p.add_argument('--compress-traces', action='store_true', help='Stream the boot waveform to lossless XZ in a fresh waveform directory')
     p.add_argument('--compression-preset', type=int, choices=range(10), default=1, help='Lossless XZ preset; higher values trade compression time and memory for storage')
-    p.add_argument('--rise-us', type=float, default=1)
+    power = p.add_mutually_exclusive_group()
+    power.add_argument('--supply-stimulus', type=Path, help='JSON pointsSecondsVolts host supply waveform; diagnostic power-dip/recovery input')
+    power.add_argument('--rise-us', type=float, default=1)
     p.add_argument('--gate-profile', choices=tuple(GATE_MODELS), default='nominal')
     p.add_argument('--npn-profile', choices=('generic', 'sc236-dc'), default='generic')
     p.add_argument('--step-ns', type=float, default=2)
@@ -464,6 +476,10 @@ def main():
     if args.latch_load != 'ideal' and not args.electrical_matrix:
         p.error('latch-load stress requires electrical-matrix')
     stop = board_scenario.stop_seconds(args.scenario_data) if args.scenario_data else .127
+    try:
+        args.supply_data = supply_stimulus.load(args.supply_stimulus, stop) if args.supply_stimulus else None
+    except (ValueError, OSError) as error:
+        p.error(str(error))
     if not math.isfinite(args.logic_load_pf) or args.logic_load_pf < 0 or (args.logic_load_pf and not args.electrical_logic_pullups):
         p.error('logic-load-pf must be nonnegative and requires electrical-logic-pullups')
     out = args.out.resolve()
@@ -500,7 +516,7 @@ def main():
                             'circuit.py', 'sc236_dc.cir', 'oscillator_probe.py', 'reset_probe.py',
                             GATE_MODELS[args.gate_profile], 'gate_models.py', 'clock_voltage.py', 'clock_timing.py', 'clock_convergence.py', 'cpu_clock_limits.json', 'cpu_control.py', 'logic_control.py',
                             'controller_interface.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'ngspice_runtime.py', 'output_circuit.py', 'model_coverage.py',
-                            'serial_observation.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py',
+                            'serial_observation.py', 'supply_stimulus.py', 'board_scenario.py', 'io_scenario.py', 'trace_io.py',
                             'transient_analysis.py', 'ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'compressed_output.py')}}
     report['waveformCompression'] = {'format': 'xz', 'preset': args.compression_preset} if args.compress_traces else None
     if args.scenario_data:

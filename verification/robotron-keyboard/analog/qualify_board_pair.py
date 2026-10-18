@@ -60,6 +60,8 @@ def load_run(directory):
 
 
 def compare(coarse, fine, tolerance_ns):
+    if any(report.get('supplyStimulus') or report['assumptions'].get('customSupplyStimulus') for report in (coarse, fine)):
+        raise ValueError('Custom supply reset/restart qualification is not implemented')
     if any(report['assumptions'].get('electricalBus') for report in (coarse, fine)):
         raise ValueError('Electrical bus full-board timing qualification is not implemented')
     if coarse.get('ngspiceRuntime') != fine.get('ngspiceRuntime'):
