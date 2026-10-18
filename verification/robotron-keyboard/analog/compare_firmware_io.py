@@ -63,9 +63,19 @@ def load_run(directory):
     return report, transport
 
 
-def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
-    if any(report['assumptions'].get('hostBuffer') for report in (coarse, fine)):
-        raise ValueError('Host-buffer firmware qualification requires device, receiver voltage and timing qualification')
+def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns, *, experimental_host=False):
+    host_pair = any(report['assumptions'].get('hostBuffer') for report in (coarse, fine))
+    if experimental_host and not host_pair:
+        raise ValueError('Experimental host comparison requires host-buffer captures')
+    if host_pair:
+        if not experimental_host:
+            raise ValueError('Host-buffer firmware qualification requires device, receiver voltage and timing qualification')
+        if any(not report['assumptions'].get('hostBuffer') or report.get('qualified') is not False
+               for report in (coarse, fine)):
+            raise ValueError('Both host captures must explicitly remain unqualified')
+        for name in ('host_receiver.py', 'host_receiver.json', 'ttl7404_nominal.cir', 'd104_limits.json'):
+            if not coarse['sources'].get(name) or coarse['sources'][name] != fine['sources'].get(name):
+                raise ValueError('Host receiver source differs or is missing: ' + name)
     if any(report['assumptions'].get('electricalBus') for report in (coarse, fine)):
         raise ValueError('Electrical-bus firmware qualification requires bus timing and voltage observation checks')
     if coarse['assumptions'].get('serialDriver') == '7406-dc':
@@ -143,6 +153,9 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns):
         for i, (ct, cr, ft, fr) in enumerate(zip(
             coarse_transport['transmitted'], coarse_transport['received'],
             fine_transport['transmitted'], fine_transport['received'])))
+    if host_pair:
+        result['qualified'] = False
+        result['boundary'] = 'Experimental host serial-edge convergence only; device applicability, voltage margins and closed-board behavior remain separate'
     result['withinTolerance'] = not violations
     result['firstTimingDifference'] = min(
         violations, key=lambda v: min(v['coarseEventTimePs'], v['fineEventTimePs'])) if violations else None
@@ -161,6 +174,8 @@ def main():
     p.add_argument('fine', type=Path)
     p.add_argument('--tolerance-ns', type=float, default=15)
     p.add_argument('--out', type=Path, required=True)
+    p.add_argument('--experimental-host', action='store_true',
+                   help='Compare host-buffer numerical timing without electrical qualification')
     args = p.parse_args()
     if not math.isfinite(args.tolerance_ns) or args.tolerance_ns <= 0:
         p.error('tolerance-ns must be positive and finite')
@@ -168,6 +183,9 @@ def main():
               'interpretation': 'Exploratory numerical comparison, not a historical receiver timing specification',
               'validationSources': {name: sha(Path(__file__).resolve().parent / name) for name in
                                     ('compare_firmware_io.py', 'transient_analysis.py', 'serial_observation.py', 'led_observation.py', 'trace_io.py')}}
+    if args.experimental_host:
+        result['qualified'] = False
+        result['scope'] = 'Experimental host-buffer serial-edge timestep comparison'
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         coarse, ct = load_run(args.coarse)
@@ -176,7 +194,7 @@ def main():
                              for name, path in [('coarse', args.coarse), ('fine', args.fine)]}
         if normalized_deck(args.coarse) != normalized_deck(args.fine):
             raise ValueError('Electrical decks differ beyond timestep')
-        result['comparison'] = compare(coarse, fine, ct, ft, args.tolerance_ns)
+        result['comparison'] = compare(coarse, fine, ct, ft, args.tolerance_ns, experimental_host=args.experimental_host)
         if not result['comparison']['withinTolerance']:
             raise ValueError('Serial timing does not converge within the declared tolerance')
         result['passed'] = True
