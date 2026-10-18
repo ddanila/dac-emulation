@@ -1,10 +1,10 @@
 {
   "qualified": false,
-  "pairPending": true,
+  "pairPending": false,
   "scope": "Full repeat contact recipe through the BR service fixture; oscillator/reset generators excluded",
   "coarsePassed": true,
   "coarseStepNs": 25,
   "fineStepNs": 12.5,
-  "interpretation": "Both runs pass individual firmware, receiver and retained-waveform checks. The preliminary retained-log comparison exceeds the 15 ns timing limit (maximum received-edge difference 19 ns). Formal paired qualification is running; repeat remains unqualified.",
+  "interpretation": "Both runs pass individual firmware, receiver and retained-waveform checks. Formal paired qualification rejects serial timing refinement: maximum received-edge difference 19 ns exceeds the unchanged 15 ns limit. The first-mismatch waveform diagnostic is consistent with ADC sample-time quantization. Repeat remains unqualified; no timing threshold was relaxed.",
   "finePassed": true
 }
