@@ -665,7 +665,11 @@ The manual `keyboard-bus-diagnostic.yml` workflow accepts `rom_read_envelope`,
 `latch_timing_envelope`, `cpu_profile` and `electrical_wr` independently and retains paired traces.
 For the full digital C/HDL workload, use `../run.py --rom PATH --rom-read-envelope`
 with the selected `--cpu-profile`, or the manual `keyboard-cpu-phase.yml` workflow.
-This sets a 1 MHz fixture clock so nanosecond ROM limits have physical units while
+Add `--latch-timing-envelope` (workflow input `latch_timing_envelope`) to replace
+the generated board's A4 model while preserving its numbered pin connections.
+The [combined firmware result](reports/latch-timing-envelope/firmware/assessment.json)
+retains the full workload and comparison with the ROM-only baseline.
+Either timing option sets a 1 MHz fixture clock so nanosecond ROM limits have physical units while
 preserving the cycle-indexed contact recipe. The retained
 [CPU-profile comparison](reports/rom-read-envelope/cpu-profiles/assessment.json)
 checks the complete digital workload against C and the untimed HDL baseline.

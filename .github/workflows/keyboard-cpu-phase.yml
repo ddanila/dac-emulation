@@ -2,6 +2,10 @@ name: Keyboard CPU read-phase firmware comparison
 on:
   workflow_dispatch:
     inputs:
+      latch_timing_envelope:
+        description: Intel 8282 reference timing at a 1 MHz fixture clock
+        type: boolean
+        default: false
       rom_read_envelope:
         description: Intel 2716 read timing at a 1 MHz fixture clock
         type: boolean
@@ -23,6 +27,7 @@ jobs:
     env:
       FLOATING_IO_VALUE: ${{ inputs.floating_io_value }}
       ROM_READ_ENVELOPE: ${{ inputs.rom_read_envelope }}
+      LATCH_TIMING_ENVELOPE: ${{ inputs.latch_timing_envelope }}
     steps:
       - uses: actions/checkout@v7
       - run: sudo apt-get update && sudo apt-get install -y iverilog
@@ -46,6 +51,8 @@ jobs:
               command=[sys.executable,'verification/robotron-keyboard/run.py','--audit',
                        '--rom',str(Path(os.environ['RUNNER_TEMP'])/'s600.bin'),
                        '--cpu-profile',profile,'--out',str(out)]
+              if os.environ['LATCH_TIMING_ENVELOPE']=='true':
+                  command+=['--latch-timing-envelope']
               if os.environ['ROM_READ_ENVELOPE']=='true':
                   command+=['--rom-read-envelope']
               if floating!='reference':
@@ -60,6 +67,7 @@ jobs:
           report={'passed':same,'qualified':False,'exitCodes':outcomes,
                   'floatingIoValue':floating,
                   'romReadEnvelope':os.environ['ROM_READ_ENVELOPE']=='true',
+                  'latchTimingEnvelope':os.environ['LATCH_TIMING_ENVELOPE']=='true',
                   'eventHashes':{p:hashlib.sha256(('\n'.join(lines)+'\n').encode()).hexdigest()
                                  for p,lines in events.items()},
                   'scope':'Exact recorded HDL serial/LED values and cycles; each profile also passes the C reference comparison',
