@@ -857,7 +857,9 @@ python3 verification/robotron-keyboard/analog/oscillator_supply_replay.py --sour
 The source path may have a compressed `.xz` or `.gz` sibling. The output directory
 must be new; failed runs retain their logs and assessment. New coupled-clock
 captures preserve double-precision waveform text for replay; older captures keep
-their original rounding and provenance.
+their original rounding and provenance. The
+[full-precision coupled rerun](reports/clock-output/coupled-full-precision/qualification.json)
+reproduces every earlier sample at the old precision and retains the phase failure.
 
 Timed contact recipes can also run with BR1/BR2 closed:
 
