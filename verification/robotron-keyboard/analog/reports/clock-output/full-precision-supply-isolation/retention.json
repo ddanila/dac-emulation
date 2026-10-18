@@ -1,0 +1,33 @@
+{
+  "sourceCommit": "988dbcdeae4292f00aa607565f712b30c70fe259",
+  "interpretation": "Full-precision prescribed supply fails the unchanged 15 ns timestep phase gate. Rounding the same supply had passed; that pass cannot establish convergence with full-precision input. This demonstrates sensitivity without live HDL, but does not identify a physical startup trajectory or qualify the board.",
+  "waveformScope": "Only startup and final-edge windows retained in git. Full waveform hashes are in assessment.json; full traces remain in local build output. Windows cannot independently re-evaluate the whole phase gate.",
+  "windowsSeconds": [
+    [
+      9.9e-05,
+      0.000104
+    ],
+    [
+      0.000249,
+      0.00025
+    ]
+  ],
+  "replay": "Decompress supply.txt.xz here, then run the recorded ngspice executable with -n -b oscillator.cir from each run directory using the recorded initialization/runtime. Decks write complete trace.txt files.",
+  "retainedFiles": {
+    "assessment.json": "c4fd0308c46137230b681954dabaff513b308065b61b62152fbb4a41b73fa75b",
+    "supply.txt.xz": "82bfca2429d6f6051bef58dd72aee53f372f55434e93b1e7ae379d2dcebd52cf",
+    "coupled-coarse-reproduction.json": "b6ff199e1034f87f091966e4084ecde47cf87789221953b0f7496cb2b4ac9660",
+    "coupled-source-probe.json": "7609a64db6a25a0f81b024dbcdffa603f0900f632b6b04ce8e9910b259f10e26",
+    "compare-precision.py": "a940d11ec0ba56f4d0d8edf2c578c19ab63c2c3344082302e22390f0c46e6b67",
+    "compare-coupled-precision.py": "19738a9ac7be074669b36aab2fce0e51c90ff9ba6e57edd1b91e8ffba14310d0",
+    "rounding-sensitivity.json": "503e698524e5a227a484d3e0d73bd5271170e9dde524a3eacaaf11298dd868d3",
+    "coarse/trace-windows.txt.xz": "518c9969a30c33ebfd00a9ff7e28b6188519cea4ca0d981130d12676d16e2b24",
+    "coarse/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "coarse/ngspice.log": "4465a2644b76f0a5194f74ab5335cb0b4bd688b2b6bcfc41a08142bfa1815352",
+    "coarse/oscillator.cir": "585315d7542ae2a12390e19b4023f3c1b2fb45f1bcadb067a28791b5bfbb31dd",
+    "fine/trace-windows.txt.xz": "5396396df00689cc022c90cef1f26b008797d50c792571fb47566eb807a4927d",
+    "fine/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "fine/ngspice.log": "77049f7b17070957b13004b9206e8465fa1732d305360e57bf434c61d9044bd8",
+    "fine/oscillator.cir": "21c7caf9a05a354d4a8296d494f13f57b12fc95e265359312c73ad252e97fc70"
+  }
+}
