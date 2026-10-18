@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "S600 startup with electrical D0/WR transistor gates; WR remains inactive throughout this capture, no firmware write or bus handover demonstrated",
+  "busObservation": {
+    "passed": true,
+    "qualified": false,
+    "sampleCount": 25,
+    "waveform": {
+      "firstSeconds": 0.000999,
+      "lastSeconds": 0.00110025,
+      "rows": 23333
+    },
+    "memoryReads": 25,
+    "ioReads": 0,
+    "firstReadPs": 1002501000,
+    "lastReadPs": 1097501000,
+    "minimumLowMarginVolts": 0.6531077031267488,
+    "minimumHighMarginVolts": 2.8591158994389883,
+    "setupNs": 0,
+    "holdNs": 0,
+    "boundary": "Sampled-voltage agreement and TV80 input-register confirmation only. Windows include bracketing trace samples. No between-sample excursion proof, U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing."
+  },
+  "wrVoltageRange": [
+    4.847335848820404,
+    4.856934271067953
+  ],
+  "wrHighBranchCurrentRangeAmps": [
+    4.660771747028682e-06,
+    4.6843908585823505e-06
+  ],
+  "files": {
+    "controller_analog.v": "8fa0d5a948eddd2d8a7c23dd528140043c3a2228e48ef42378bac066771bbacc",
+    "run-inputs.json": "2305abe68c036dcceb75a398167f5a39212c232ae464ab0cf2c2f8aa2e4edcfe",
+    "io.cir": "f441558d8077c4c2107d5073d2f01c29fd7c0aefef609aa770ea97615d073f36",
+    "scope.json": "c9b10c78cc3465a5080e0cb057f515cc84ee5e02a489b4e225585abcf8488779",
+    "ngspice.log": "52fdb01884ba03accaa51dd85b65ed6b626d80456f142571e52e354f694a59c9",
+    "waveform-storage.json": "7115ab0140b7ba2611588debda6d986d2aef7208100a1fee28c0787d464360f6",
+    "trace.txt.xz": "e042c1645066278591fc295e722ce6334e48b8dfce232a2770fdfe0c57d6102a",
+    "bus-trace.txt.xz": "17edbc5f8e3878fde551f749dbd4d66175483fe5e4d747e72d97c9dff82ea105",
+    "driver-trace.txt.xz": "16c415d9ec20c170cf8cefaa2a2160c41a7e0556cd5250222a85ff3381871a96",
+    "wr-trace.txt.xz": "bc1f344f8090483d8944cfe7d7e65e74c5ad89cdc8b9f8d3f2c437834d531a38"
+  }
+}

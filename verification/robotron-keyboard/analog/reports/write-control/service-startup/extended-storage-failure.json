@@ -1,0 +1,52 @@
+{
+  "passed": false,
+  "qualified": false,
+  "reason": "Waveform XZ compressor failed with OSError ENOSPC 28. Completed electrical WR activity is not established. Partial streams are retained locally, not treated as complete traces.",
+  "scope": {
+    "qualified": false,
+    "scope": "S600 startup and initial WR activity; not full contact scenario",
+    "captureStartNs": 999000,
+    "stopNs": 1600250,
+    "maximumStepNs": 5,
+    "preparedDeckSha256": "f5ae5595b849f3b6bed2f4997639e97aa44142c0582ce75396007969e29cf36a",
+    "executedDeckSha256": "1b9f7e0f82a98899bffe460e1dffbb1f39793643a4f2f2316cfa374b29c0c352"
+  },
+  "localArtifacts": {
+    "trace.txt.xz.partial": {
+      "bytes": 2377296,
+      "sha256": "a61d29f222537d7856c681fc11b015072a735d6d721a765863eb9f4285e4ec77"
+    },
+    "run-inputs.json": {
+      "bytes": 58861,
+      "sha256": "2305abe68c036dcceb75a398167f5a39212c232ae464ab0cf2c2f8aa2e4edcfe"
+    },
+    "driver-trace.txt.xz.partial": {
+      "bytes": 989832,
+      "sha256": "9546ad241d2dfea71f564a05c126f5e0140e5289678f1ffdd5395cdd9b1d128e"
+    },
+    "scope.json": {
+      "bytes": 358,
+      "sha256": "f22e27bd9429e4c40555f5976945792faeeef4293a1d98107491c79104a5c53a"
+    },
+    "bus-trace.txt.xz.partial": {
+      "bytes": 5790300,
+      "sha256": "29ebd1af69144064d2361e0badb30d5530c29f1e62cf50b84f2b85be3677b068"
+    },
+    "controller_analog.v": {
+      "bytes": 21554,
+      "sha256": "8fa0d5a948eddd2d8a7c23dd528140043c3a2228e48ef42378bac066771bbacc"
+    },
+    "ngspice.log": {
+      "bytes": 32407,
+      "sha256": "9c72ffe6ac237125681c0cd2df5d46fd38c53b67fa97ce877827c05f6db417d5"
+    },
+    "io.cir": {
+      "bytes": 21984,
+      "sha256": "1b9f7e0f82a98899bffe460e1dffbb1f39793643a4f2f2316cfa374b29c0c352"
+    },
+    "wr-trace.txt.xz.partial": {
+      "bytes": 309607,
+      "sha256": "899d40bc7212b28e15ffca560892e3a05420da4706554717f0031809bd3cbcfe"
+    }
+  }
+}
