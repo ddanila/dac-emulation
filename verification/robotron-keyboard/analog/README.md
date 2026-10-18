@@ -648,6 +648,8 @@ live mixed-signal timing remains unqualified. The retained
 the timers through ngspice and preserves its voltage trace. Its sampled-read pass
 is specific to this envelope and unknown-drive surrogate; it does not resolve
 the baseline driver-model failures or qualify a complete firmware scenario.
+The manual `keyboard-bus-diagnostic.yml` workflow accepts `rom_read_envelope`,
+`cpu_profile` and `electrical_wr` independently and retains paired traces.
 
 The service harness accepts `--electrical-bus --bus-latch-pf 12 --bus-7406-pf 3`
 to route S600/TV80 bus reads through this experimental model. The capacitances in

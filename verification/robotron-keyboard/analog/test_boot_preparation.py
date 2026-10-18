@@ -74,6 +74,7 @@ class BootPreparationTests(unittest.TestCase):
             self.assertEqual(candidate_report['assumptions']['cpuProfile'], args.cpu_profile)
             self.assertEqual(candidate_report['cpuModel']['profile'], args.cpu_profile)
             self.assertTrue(candidate_report['assumptions']['romReadEnvelope'])
+            self.assertIn('2716 read envelope', candidate_report['modelCoverage']['components']['A8']['model'])
             self.assertIn('eprom2716.v', candidate_report['sources'])
             self.assertIn('eprom2716_read_envelope rom_access', (out / 'controller_analog.v').read_text())
             self.assertIn('cpu_read_phase_candidate.py', candidate_report['sources'])

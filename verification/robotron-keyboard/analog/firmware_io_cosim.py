@@ -221,6 +221,8 @@ def main():
                           **report.get('logicControlModels', {}), **report.get('cpuControlModels', {})}
         report['modelCoverage'] = classify_service(components, service_models,
             args.electrical_cpu_pullups, args.electrical_logic_pullups)
+        if args.rom_read_envelope:
+            report['modelCoverage']['components']['A8']['model'] += '; conservative Intel 2716 read envelope; unspecified intervals propagate X'
         if args.serial_driver == '7406-dc':
             report['modelCoverage']['components']['A1']['model'] = ('Data and clock gates use published transistor topology with '
                 'generic semiconductor parameters and ideal input intent; other gates remain HDL.')
