@@ -193,6 +193,21 @@ CPU state retention.
 capacitance with its stated conditions; the default `illustrative` profile remains
 an assumption. Neither includes complete leakage, protection or retention behavior.
 
+## Cable filter hypotheses
+
+`output_probe.py --coupling 0.8 --dot-pins 1 2 1 1 --out /tmp/filter-review`
+exercises a uniform mutual-inductance hypothesis. Dot terminals are listed in
+L1.1 through L1.4 order; they are not identified specimen winding polarities.
+The default remains uncoupled. The shared circuit generator accepts the same
+options; firmware runners currently retain the default.
+
+The model uses positive coupling below unity and explicit winding reversal,
+following the [ngspice mutual-inductor convention](https://ngspice.sourceforge.io/docs/ngspice-manual.pdf).
+Analytical common/differential-mode checks verify the generated linear network.
+These checks do not identify inductance, coupling, ferrite losses, saturation or
+parasitics. Fixture passes cover steady levels and release behavior, not absolute
+receiver limits; inspect retained transient extrema as well.
+
 ## Qualification and retained evidence
 
 Keep numerical convergence, model applicability, firmware behavior and specimen
@@ -216,6 +231,7 @@ settings, results and rejected alternatives; related captures remain in
 | Do transfer branches depend on the solver? | [Published fixture review](reports/clock-output/ls00-transfer500/assessment.json) and [Xyce replay](reports/clock-output/xyce-transfer500/assessment.json); fixture alternatives and explicit runtime temperatures remain part of the comparison. Solver agreement is not calibration. |
 | Do device conditions or input-junction assumptions resolve startup? | [Device-condition and diode review](reports/clock-output/diode-role-review/assessment.json); selected TI/К555ЛА3 DC checks remain distinct from dynamic applicability. |
 | Are CPU reads electrically valid? | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json) and [floating-read analysis](reports/floating-io/static-analysis.json); functional agreement does not qualify released input voltage. |
+| How does cable coupling affect the nominal output fixture? | [Filter hypotheses](reports/filter-coupling/assessment.json); similar release intervals can coexist with materially different transient undershoot. No historical winding parameters or receiver clamp behavior are qualified. |
 | Does reset recover after a supply dip? | [Reset dip response](reports/reset-brownout/report.json); startup reset and sampled recovery do not establish reliable firmware restart. |
 
 ## Review and store captures

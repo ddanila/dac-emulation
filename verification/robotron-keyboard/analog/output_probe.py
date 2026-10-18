@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 import re
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -19,7 +20,8 @@ def run(args, components, step_ns, cable_pf):
     out = args.out.resolve() / f'{step_ns}ns-{cable_pf}pf'
     out.mkdir(parents=True, exist_ok=True)
     (out / 'trace.txt').unlink(missing_ok=True)
-    lines, metadata = output_circuit(components, cable_pf, args.choke_uh, args.choke_ohms)
+    lines, metadata = output_circuit(components, cable_pf, args.choke_uh, args.choke_ohms,
+                                     coupling=args.coupling, dots=args.dot_pins)
     gnd = metadata['hostGround']
     lines = ['Robotron electrical output fixture; nominal external loads',
              f'Vhost {metadata["hostSupply"]} {gnd} 5', *lines,
@@ -66,7 +68,9 @@ def run(args, components, step_ns, cable_pf):
     return {'stepNs': step_ns, 'cablePf': cable_pf, 'signals': signals,
             'samples': samples, 'receiverRiseSeconds08to2V': rises,
             'signalRanges': [[min(row[i] for row in rows), max(row[i] for row in rows)] for i in range(1, 7)],
-            'deckSha256': hashlib.sha256((out / 'outputs.cir').read_bytes()).hexdigest()}
+            'deckSha256': hashlib.sha256((out / 'outputs.cir').read_bytes()).hexdigest(),
+            'artifacts': {name: hashlib.sha256((out / name).read_bytes()).hexdigest()
+                          for name in ('outputs.cir', 'trace.txt', 'ngspice.log')}}
 
 
 def main():
@@ -75,14 +79,20 @@ def main():
     p.add_argument('--cable-pf', type=float, default=1000)
     p.add_argument('--choke-uh', type=float, default=1)
     p.add_argument('--choke-ohms', type=float, default=1)
+    p.add_argument('--coupling', type=float, default=0, help='Uniform winding coupling hypothesis, 0 <= k < 1')
+    p.add_argument('--dot-pins', type=int, nargs=4, choices=(1, 2), default=(1, 1, 1, 1),
+                   help='Assumed dot terminal for L1.1, L1.2, L1.3, L1.4')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/outputs')
     args = p.parse_args()
     if any(not math.isfinite(x) or x <= 0 for x in (args.cable_pf, args.choke_uh, args.choke_ohms)):
         p.error('load and choke parameters must be positive and finite')
+    if not math.isfinite(args.coupling) or not 0 <= args.coupling < 1:
+        p.error('coupling must be finite and in [0, 1)')
     args.out.mkdir(parents=True, exist_ok=True)
     path = args.out / 'report.json'
     path.unlink(missing_ok=True)
-    report = {'passed': False, 'scope': __doc__, 'runs': [],
+    report = {'passed': False, 'qualified': False, 'scope': __doc__, 'runs': [],
+              'acceptanceBoundary': 'Fixture steady-state levels, release crossings, timestep and load sensitivity only; not absolute voltage limits or calibrated full-board behavior',
               'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
                           for name in ('output_probe.py', 'output_circuit.py', 'circuit.py')},
               'assumptions': {'cablePf': args.cable_pf, 'chokeUh': args.choke_uh,
@@ -90,13 +100,17 @@ def main():
                               'serialSinkOhms': 20, 'releasedOhms': 1e12,
                               'led': 'Generic diode IS=1e-20 N=2 RS=2, not a characterized VQA33',
                               'ledOutput': '30 ohms, targets 0.04/0.70 of local supply; not characterized DL074',
-                              'filter': 'Uncoupled series RL surrogate; ferrite losses and mutual coupling unqualified',
+                              'filter': 'Linear equal-winding RL hypothesis; coupling and ferrite behavior unqualified',
+                              'coupling': args.coupling, 'dotPins': args.dot_pins,
                               'supply': 'Ideal host 5 V through supply/return chokes; controller IC quiescent currents omitted',
                               'decoupling': 'Ideal schematic capacitors; ESR/leakage omitted',
                               'stimulus': 'Ideal drive intents; separate from HDL/firmware qualification'}}
     try:
         components, report['connectivitySha256'] = load()
-        _, report['circuit'] = output_circuit(components, args.cable_pf, args.choke_uh, args.choke_ohms)
+        _, report['circuit'] = output_circuit(components, args.cable_pf, args.choke_uh, args.choke_ohms,
+                                     coupling=args.coupling, dots=args.dot_pins)
+        executable = Path(shutil.which(args.ngspice) or args.ngspice).resolve()
+        report['executableSha256'] = hashlib.sha256(executable.read_bytes()).hexdigest()
         report['tool'] = subprocess.check_output([args.ngspice, '--version'], text=True).strip()
         for cable_pf in (args.cable_pf, 2*args.cable_pf):
             pair = []
