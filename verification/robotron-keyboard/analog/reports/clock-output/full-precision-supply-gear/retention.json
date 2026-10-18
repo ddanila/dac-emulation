@@ -1,0 +1,31 @@
+{
+  "sourceCommit": "6d200954ed5fab55fe6fbdffc04a2383d9a3dff0",
+  "interpretation": "Gear integration fails the unchanged timestep phase gate for the same full-precision prescribed supply. This does not resolve numerical startup sensitivity or qualify the physical gate model.",
+  "sharedSupply": {
+    "path": "../full-precision-supply-isolation/supply.txt.xz",
+    "compressedSha256": "82bfca2429d6f6051bef58dd72aee53f372f55434e93b1e7ae379d2dcebd52cf"
+  },
+  "waveformScope": "Startup and final-edge windows only; full producer hashes are in assessment.json. Full waveforms remain in the local build output.",
+  "windowsSeconds": [
+    [
+      9.9e-05,
+      0.000104
+    ],
+    [
+      0.000249,
+      0.00025
+    ]
+  ],
+  "replay": "Decompress sharedSupply to supply.txt in this directory. Run the recorded ngspice executable with -n -b oscillator.cir from each run directory and the recorded runtime initialization.",
+  "retainedFiles": {
+    "assessment.json": "3e8c07e23e1a16b42f3f81f65403208d236e66ddd3bfb5a57e2b59ddb1e4dd8b",
+    "coarse/trace-windows.txt.xz": "f12c540e1c08e671b6dc113d8b80c1f5a4942acc21c94b6faf8ff3efcae7755e",
+    "coarse/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "coarse/ngspice.log": "2f9319ccfcdbc07f660556aa1a4a70d148f81072af3de7ecce5984d8b72be45a",
+    "coarse/oscillator.cir": "f6869db10ac3b8ee9b0b9dc902654cf7917c8b884b57d25e0886ae7e458f0683",
+    "fine/trace-windows.txt.xz": "c472a40aa5e2a89c5a2d05e9946490abd4f7407dcab265c2b749c3d5d99c2fde",
+    "fine/ls_nand_pullup.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+    "fine/ngspice.log": "cdd6fd03b0363340992e7bf5d82722c678db48b60fbb9d774cfee97da7090ef8",
+    "fine/oscillator.cir": "7f6f57fde6b78264b0f7adf45991e4295463bd421b646ad639cbe8cb1fe41bc6"
+  }
+}

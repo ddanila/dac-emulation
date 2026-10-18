@@ -592,6 +592,17 @@ before it becomes a board default. Select it in `boot_cosim.py` with
 paired board target. Reports pin the selected model, and the qualifier verifies
 the actual include and retained file. Its frequency is not fitted to the emulator.
 
+Screen a locally downloaded TI SN74LS00 IBIS file before using its package maps:
+
+```sh
+python3 verification/robotron-keyboard/analog/ls00_ibis_audit.py --ibis /path/to/sn74ls00.ibs --out /tmp/ls00-pin-review.json
+```
+
+The retained [pin-role audit](reports/clock-output/ti-reference-review/ibis-pin-audit.json)
+rejects the reviewed PDIP map because some input/output model assignments conflict
+with the datasheet. Other package maps passing this check does not validate their
+curves, parasitics or DL000 equivalence. Vendor model tables remain local.
+
 ## Coupled firmware boot
 
 After building the bridge, run the longer electrical-clock/reset integration test:
@@ -851,7 +862,9 @@ substantially, so the rounded-input passes do not establish full-precision
 convergence or isolate the failure to live HDL coupling.
 [Further timestep refinement](reports/clock-output/full-precision-supply-refinement/assessment.json)
 worsens the discrepancy while reproducing the repeated timestep byte-for-byte;
-smaller timesteps alone have not established convergence.
+smaller timesteps alone have not established convergence. The
+[Gear integration diagnostic](reports/clock-output/full-precision-supply-gear/assessment.json)
+also fails the unchanged gate.
 
 ```sh
 python3 verification/robotron-keyboard/analog/oscillator_supply_replay.py --source /path/to/coarse/diagnostic-trace.txt --ngspice /path/to/ngspice --out /tmp/clock-supply-replay
