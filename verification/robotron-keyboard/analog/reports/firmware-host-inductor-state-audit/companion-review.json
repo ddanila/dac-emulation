@@ -1,0 +1,33 @@
+{
+  "qualified": false,
+  "scope": "Final rejected ground-winding trial; rational recomputation from logged binary64 values",
+  "rawRecord": {
+    "time": "0x1.1fd65aca615bfp-10",
+    "delta": "0x1.2725dd1d243acp-61",
+    "order": "1",
+    "name": "l1.2",
+    "state": "1132",
+    "L": "0x1.0c6f7a0b5ed8dp-20",
+    "m": "0x1p+0",
+    "ag0": "0x1.bc16d674ec7ffp+60",
+    "ag1": "-0x1.bc16d674ec7ffp+60",
+    "flux0": "-0x1.0f8702aa471dfp-24",
+    "flux1": "0x1.b3be88298c87bp-24",
+    "volt0": "-0x1.32baed501f0f4p+38",
+    "volt1": "0x1.937a2595541f8p+0",
+    "current": "-0x1.02f2dd86a7ad1p-4",
+    "oldcurrent": "-0x1.02f2dd86abba9p-4",
+    "vp": "0x0p+0",
+    "vn": "0x1.32baed501d377p+38",
+    "oldvp": "0x0p+0",
+    "oldvn": "0x1.32baed501f0f4p+38"
+  },
+  "formula": "terminal = vp-vn; integrated = ag0*(L/m)*current + ag1*flux1 (recorded order 1)",
+  "observations": {
+    "terminalVolts": -329349026823.30414,
+    "integratedVolts": -329349026823.30414,
+    "residualVolts": 1.755700877907456e-05,
+    "relativeResidual": 5.3308215143122003e-17
+  },
+  "boundary": "A small relative equation residual at an enormous rejected trial voltage is not physical validity, acceptable absolute residual or proof of model correctness."
+}

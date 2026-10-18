@@ -1,0 +1,31 @@
+{
+  "source": "ngspice-47",
+  "baseFiles": {
+    "src/spicelib/analysis/dctran.c": "382d523b08a843469d81b14e3c08c0cd2b11509ee3470b9e3b3bce6f27157a74",
+    "src/spicelib/analysis/ckttrunc.c": "1ae5c196a7e4b672da62be20624f6bbafc3fca713b0ab12aa69ac22d6a1b4757",
+    "src/spicelib/devices/cap/captrunc.c": "aa17ffdb3cdef8c496fe2a8c3d3f3638a359ea6137a7e45d5a45a31c578235d2",
+    "src/spicelib/devices/ind/indtrunc.c": "2c5dee893df91380c84227242f30610d8aa72c3435c4e4365704f66c3c867bfb",
+    "src/spicelib/analysis/cktterr.c": "e8c55f9f07b12e501eaa5113d9470ccf8304b8b1196563b2f7d36a9d6527c132"
+  },
+  "patchSha256": "ddcc87c51055cc63577bedc983007e96f1ef5b8ac695ca4aaad50c4c02dbb811",
+  "scope": "Logging-only inductor solved-state and companion-history capture in the audited transition; original code models retained",
+  "configureArguments": [
+    "--prefix=/private/tmp/robotron-inductor-audit/install",
+    "--without-x",
+    "--with-readline=no",
+    "--disable-openmp",
+    "--disable-klu"
+  ],
+  "buildCommand": "make -j2",
+  "executableSha256": "cb8a69cac71939c0d8d1a9bf7c1eeb62bc1488b4bcaf02e7333e1d40b490e78f",
+  "compilerVersion": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin",
+  "buildLogsSha256": {
+    "configure.log": "b08bf72a6ab4b6ab2b5007af288c9e013b97e52f1202440e53b5724e48730911",
+    "make.log": "6344a6d0e5d6a4ef57ac0a632a9d825468e5c1b442f3d03dc8c48bb6c02ae4f8"
+  },
+  "equationSourceSha256": {
+    "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504",
+    "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+    "src/maths/ni/niiter.c": "85ed2001b0f4589e43a1e4d11f1fafc8a30f90d25d8ad361efe92c51a8e023a1"
+  }
+}
