@@ -13,5 +13,17 @@
     "qualified": false,
     "scope": "Logging-only separate VPI library, 1.394\u20131.395 ms window",
     "observation": "After logic_control=110 input and data/LED output callbacks at HDL time 0.001394028607 s, the next requested time is 0.0013940282079924105 s. The shortened run reproduces the original reversal and reaches 1.5 ms. This locates the bridge boundary failure but does not establish its root cause."
+  },
+  "startupRefinement": {
+    "qualified": false,
+    "minimumBreakpointFs": 1,
+    "stepsNs": [
+      5,
+      2.5,
+      0.25
+    ],
+    "solverDiagnostics": false,
+    "scope": "Focused 1.5 ms startup only; 5 ns and 2.5 ns reports verify the final time explicitly. No paired waveform or full firmware qualification.",
+    "interpretation": "Explicit breakpoint handling resolves the observed fine-step startup abort. Steps of 5 ns or less avoid the observed time reversal in this interval. Full firmware runs are still required; no bridge scheduling fix is claimed."
   }
 }
