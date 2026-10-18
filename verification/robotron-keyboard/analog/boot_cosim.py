@@ -21,6 +21,7 @@ from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
 from ngspice_runtime import identify as identify_runtime, verify as verify_runtime
 from output_circuit import output_circuit
+from host_receiver import host_receiver
 from ttl7406_output_probe import driver_circuit, checked_dc_reference
 from transient_analysis import with_minimum_breakpoint
 from compressed_output import capture as capture_compressed
@@ -71,8 +72,24 @@ def electrical_bus_options(args):
     return enabled
 
 
+def host_options(args):
+    enabled = getattr(args, 'host_buffer', False)
+    values = tuple(getattr(args, name, None) for name in ('sio_data_pf','sio_clock_pf','sio_leakage_ua'))
+    if enabled and not args.electrical_outputs:
+        raise ValueError('host-buffer requires electrical-outputs')
+    if not any(v is not None for v in values):
+        return None
+    if not enabled or any(v is None for v in values):
+        raise ValueError('Explicit SIO loads require host-buffer and all three load arguments')
+    if not all(map(math.isfinite, values)) or min(values[:2]) <= 0:
+        raise ValueError('SIO capacitances must be positive and load values finite')
+    return dict(zip(('dataPf','clockPf','leakageUa'), values))
+
+
 def prepare(args, report):
     electrical_bus = electrical_bus_options(args)
+    sio_load = host_options(args)
+    host_buffer = getattr(args, 'host_buffer', False)
     electrical_wr = getattr(args, 'electrical_wr', False)
     out = args.out.resolve()
     components, report['connectivitySha256'] = load()
@@ -119,6 +136,7 @@ def prepare(args, report):
     subprocess.run([args.iverilog, '-g2012', '-s', top,
                     f'-P{top}.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)),
                     f'-P{top}.ELECTRICAL_OUTPUTS=' + str(int(args.electrical_outputs)),
+                    f'-P{top}.HOST_BUFFER=' + str(int(host_buffer)),
                     f'-P{top}.ELECTRICAL_CPU_PULLUPS=' + str(int(getattr(args, 'electrical_cpu_pullups', False))),
                     f'-P{top}.ELECTRICAL_LOGIC_PULLUPS=' + str(int(getattr(args, 'electrical_logic_pullups', False))),
                     f'-P{top}.EXPLICIT_CPU_DRIVE=' + str(int(not args.wr_only_data)),
@@ -186,6 +204,24 @@ def prepare(args, report):
         power_lines = [f'Vcc n_p5V 0 {supply_source}']
         serial_trace = ['v(data_intent)', 'v(clock_intent)']
         receiver_lines = ['Vreceiver_data receiver_data 0 0', 'Vreceiver_clock receiver_clock 0 0']
+    if host_buffer:
+        host_lines, host_info = host_receiver(output_info, input_reverse_beta=.01, sio_load=sio_load)
+        output_lines += host_lines
+        ground = host_info['ground']
+        power_lines = [f'Vhost {host_info["supply"]} {ground} {supply_source}']
+        receiver_lines = [f'Ereceiver_{label} receiver_{label} 0 {host_info["bufferOutputs"][label]} {ground} 1'
+                          for label in ('data','clock')]
+        serial_trace = [f'v(receiver_{label})' for label in ('data','clock')]
+        report['qualified'] = False
+        report['hostReceiver'] = host_info
+        report['assumptions'].update(hostBuffer='7404-candidate',sioLoad=sio_load,
+            hostBoundary='Experimental host buffer and loads; physical falling receive-clock edge, non-inverted logical data. No device or closed-board qualification.')
+        report.setdefault('sources', {}).update({name:sha(HERE/name) for name in
+            ('host_receiver.py','host_receiver.json','ttl7404_nominal.cir','d104_limits.json','u856_limits.json')})
+        report['hostTraceSignals'] = [f'v({n},{ground})' for n in [
+            *[output_info['serial'][label]['cable'] for label in ('data','clock')],
+            *[host_info['inputs'][label] for label in ('data','clock')],
+            *[host_info['bufferOutputs'][label] for label in ('data','clock')]]]
     trace_signals = [f'v({cpu_clock})', f'v({cpu_reset})', *serial_trace]
     report['traceSignals'] = trace_signals
     control_lines, control_inputs = [], 'drst drst'
@@ -303,6 +339,11 @@ def prepare(args, report):
              'wrdata trace.txt ' + ' '.join(trace_signals),
              'wrdata supply-trace.txt ' + supply_signal,
              'quit', '.endc', '.end']
+    if host_buffer:
+        signals = ' '.join(report['hostTraceSignals'])
+        lines.insert(lines.index('.control'), '.save ' + signals)
+        lines.insert(lines.index('.control') + 1, 'set numdgt=17')
+        lines.insert(lines.index('quit'), 'wrdata host-trace.txt ' + signals)
     if electrical_bus:
         signals = ' '.join(f'v(n_D{i})' for i in range(8)) + ' v(n_p5V)'
         lines.insert(lines.index('.control'), '.save ' + signals)
@@ -405,6 +446,10 @@ def main():
     p.add_argument('--bypass-rom-bus', action='store_true', help='Diagnostic: feed ROM directly to CPU input')
     p.add_argument('--wr-only-data', action='store_true', help='Retain old WR-only data drive as a diagnostic control')
     p.add_argument('--electrical-outputs', action='store_true')
+    p.add_argument('--host-buffer', action='store_true', help='Experimental host network and buffer; requires electrical outputs')
+    p.add_argument('--sio-data-pf', type=float)
+    p.add_argument('--sio-clock-pf', type=float)
+    p.add_argument('--sio-leakage-ua', type=float)
     p.add_argument('--electrical-cpu-pullups', action='store_true', help='Model R6.4/R6.5 and reference-maximum CPU input capacitance')
     p.add_argument('--electrical-logic-pullups', action='store_true', help='Couple latch and flip-flop control pullups through nominal electrical sinks')
     p.add_argument('--logic-load-pf', type=float, default=0, help='Illustrative added capacitance per logic-control net, not a device parameter')
@@ -447,6 +492,7 @@ def main():
     args = p.parse_args()
     try:
         electrical_bus_options(args)
+        host_options(args)
     except ValueError as error:
         p.error(str(error))
     if args.serial_driver != 'nominal' and not args.electrical_outputs:
@@ -540,6 +586,8 @@ def main():
             print(out / 'boot.cir')
             return
         trace_names = ['trace.txt', 'supply-trace.txt'] + (['bus-trace.txt'] if args.electrical_bus else [])
+        if args.host_buffer:
+            trace_names.append('host-trace.txt')
         if args.electrical_wr:
             trace_names.append('wr-trace.txt')
         with capture_compressed(out, trace_names, args.compress_traces, preset=args.compression_preset) as compressed:
@@ -562,6 +610,10 @@ def main():
             report['wrTraceSha256'] = sha(out / 'wr-trace.txt')
             if args.compress_traces and report['wrTraceSha256'] != compressed['wr-trace.txt']['sha256']:
                 raise ValueError('Compressed WR waveform differs from producer bytes')
+        if args.host_buffer:
+            report['hostTraceSha256'] = sha(out / 'host-trace.txt')
+            if args.compress_traces and report['hostTraceSha256'] != compressed['host-trace.txt']['sha256']:
+                raise ValueError('Compressed host waveform differs from producer bytes')
         validate(out, report)
         report['passed'] = True
     except Exception as error:
@@ -573,6 +625,8 @@ def main():
             report['serialFailure'] = error.details
         report['error'] = str(error)
         names = ['ngspice.log', 'trace.txt', 'supply-trace.txt'] + (['bus-trace.txt'] if args.electrical_bus else [])
+        if args.host_buffer:
+            names.append('host-trace.txt')
         if args.electrical_wr:
             names.append('wr-trace.txt')
         if args.compress_traces:
