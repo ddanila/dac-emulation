@@ -1,0 +1,35 @@
+{
+  "completed": false,
+  "qualified": false,
+  "scope": "Corrected rising-RxC modifier service scenario with explicit SIO loads",
+  "producerSourceRevision": "68164a9",
+  "outcome": "Solver aborted at modifier release; full scenario incomplete",
+  "diagnostic": {
+    "simulationTimeSeconds": 0.043,
+    "reportedTimestepSeconds": 6.25e-20,
+    "instance": "q.xhost_data.qinput",
+    "message": "Timestep too small",
+    "stimulus": "Modifier contact 65 released at cycle 42000, after the 1 ms service reset offset"
+  },
+  "retainedFilesSha256": {
+    "report.json": "f470500eb7367950688a014a38ee6be49dbbe5e892bd0afbd000534775543bec",
+    "run-inputs.json": "1350d1d174dff641f8e7399b589fd270f9bab2b6d40ece8f6dca602c91c396b7",
+    "scenario.json": "b96bd3d3b3161a83cf14aefa2a7c4fd9f45c45a5d243084cab452dd58ebc9eb8",
+    "io.cir": "a71516d9d7bbcbdc8c27bc2e1495ae085389df60dd186e287186b63ef47bac0b",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "b0e76022f954385a2c6064becf0089d1ee285a1fc9262addd341bc251032d01f",
+    "ngspice.log": "abbee6fec7bd184b468ca37013e39aa820949d99269347eb536e4033baa3dca7",
+    "reference.log": "1f7f7b3a2b579d9e174ac6cd346d73e900c909c68fcd5003762be5b752e51fcd"
+  },
+  "waveforms": {
+    "retention": "Incomplete captures remain local; compressed-file hashes are retained in producer failureArtifacts. They are not full-scenario evidence.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-modifier",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "The nominal single-press success does not extend across this release transition. This is a numerical/model failure, not an observed physical keyboard fault. Retain the solver diagnostic and incomplete extent; do not qualify a confirmed prefix as the full scenario.",
+  "nextAction": "Repeat the same circuit and stimulus at a finer maximum timestep before isolating the failing transition. Keep device assumptions and acceptance thresholds unchanged."
+}
