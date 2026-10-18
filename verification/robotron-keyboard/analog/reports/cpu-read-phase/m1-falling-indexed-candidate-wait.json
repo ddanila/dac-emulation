@@ -1,0 +1,22 @@
+{
+  "scope": "M1 rising-edge opcode preservation with a changed falling-edge value; no U880 timing qualification",
+  "candidateCoreSha256": "7b391e727276a0728cd5527fbd384da8646bd502d2d151b7c9b8545a8ac66292",
+  "candidateWrapperSha256": "fa3700e9efa8549f597b1eb0fb443373f846c871783f6a233244096ba0cf1733",
+  "benchSha256": "967c8bbc7b0dc4db9b731d982fb24e1479f041988e4b0402603a468b3329c0e5",
+  "compiledSha256": "1bb301ea770b104a5f8ac4a1742bf59efcb8f0d8d46f7d357063ba031841fe4f",
+  "sources": {
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+  },
+  "tools": {
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/ivl": "25ea7935b7958244cf0f55336ce303690305a6bbd2302086dd6635253172fd5e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/ivlpp": "a06f39b9ca4187aba3121ca3d621f6fe3ca4f9477294accdd69e1e2e2e9e93b6",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vvp.tgt": "a2787f7f475df88c28d6b6164f6a3820b87b47cc6dad8c2ef6158c75d58cc1ef",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0"
+  },
+  "log": "WAIT_ASSERT 3000000\nWAIT_RELEASE 5000000\nOPERAND_RISE 5500000 3e\nOPERAND_CHANGE 5600000\nOPERAND_FALL 6000000 00 3e\nOUTPUT 20000000 3480 34\nREAD_PHASE_DIAGNOSTIC_PASS\n/dev/stdin:1623: $finish called at 20000000 (1ps)\n",
+  "qualified": false
+}
