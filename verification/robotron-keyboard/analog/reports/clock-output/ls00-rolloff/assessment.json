@@ -1,0 +1,492 @@
+{
+  "qualified": false,
+  "scope": "Exploratory IKF sensitivity with fixed transistor topology, BF, resistor values and Schottky parameters. No parameter is installed or claimed as process data.",
+  "currentPathFinding": "At forced output 2 V, the baseline low-IS candidate carries about 6.99 mA through the output-to-drive diode and 7.30 mA into the sink base; the sink collector carries about 737 mA. The retained operating point identifies the path; it is not specimen evidence.",
+  "interpretation": "Forward-beta rolloff reduces the excessive forced-output current. Four variants pass the existing DC/switching holdouts, but none sustains oscillator transitions at either independently attempted resolution. Rolloff alone does not close oscillator qualification. TI typical graph conditions remain insufficient for a unique fit.",
+  "screen": {
+    "completed": true,
+    "qualified": false,
+    "scope": "Exploratory forward-beta rolloff sensitivity at fixed BF and Schottky parameters. IKF is varied for all NPNs or the output sink alone. Values are hypotheses, not fitted or measured process bounds. No oscillator target or board-default change.",
+    "grid": {
+      "scope": [
+        "all",
+        "sink"
+      ],
+      "ikfAmps": [
+        0.0001,
+        0.001,
+        0.01,
+        0.1
+      ]
+    },
+    "sources": {
+      "ls00_rolloff_screen.py": "958405e6b8ae4325cdeed8834b2322d57732fc8ac2ee7b46453ccd16c50294b2",
+      "candidate.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+      "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01",
+      "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+      "ls00_validation_limits.json": "30af1c23dae1faecf3b8cd8fd64fbbee37a4b999d42693645f2fba93cddc9a7d",
+      "gate_switching_limits.json": "825bd7b48061f7fb29977fd8d9575c70bff8828ea24a896ae6a62a0601dff64c",
+      "ls00_validation_probe.py": "d878e64ad63b5d348f9d43133fff1dbf87b2ecf6d679db7b3d1d60e2e8acc970",
+      "ls00_iv_probe.py": "091fbbc67a1defebc18a68a774b8e5efb9bee3ef2d935399ab8bb43c10f016e8",
+      "gate_switching_probe.py": "bb8a4f2d6dfa153684a4c05ba3d3696a20ffa33d9fafedf48aa655a589d3e719"
+    },
+    "candidates": [
+      {
+        "name": "all-ikf-0.0001",
+        "scope": "all",
+        "ikfAmps": 0.0001,
+        "modelSha256": "ae335827f7411aace742cbb612a53d6b2da6a039c0056a769b63ae098c86712b",
+        "probes": {
+          "dc": {
+            "exitCode": 1,
+            "reportSha256": "5f47343740d30b6cd6714705b7d6aa0ecc15a561d365277606f1624d06f488c1"
+          },
+          "validation": {
+            "exitCode": 1,
+            "reportSha256": "93ee7293f6cbfb9ab6f91ded9de42d312c44a6420443b7e319f96e4aa99a9b62"
+          },
+          "iv": {
+            "exitCode": 0,
+            "reportSha256": "c17dd3eeada8a677c791a20e55c1d45227c9731c2e23ee67f8d60ea33941683b"
+          },
+          "switching": {
+            "exitCode": 0,
+            "reportSha256": "50cfbb956945e2539e7b2c1971e019d723930837953433555bc6e44001343982"
+          }
+        },
+        "dcOutputLimitsPassed": false,
+        "additionalDcLimitsPassed": false,
+        "switchingConverged": true,
+        "switchingLimitsPassed": false,
+        "dcReportSha256": "5f47343740d30b6cd6714705b7d6aa0ecc15a561d365277606f1624d06f488c1",
+        "validationReportSha256": "93ee7293f6cbfb9ab6f91ded9de42d312c44a6420443b7e319f96e4aa99a9b62",
+        "switchingReportSha256": "50cfbb956945e2539e7b2c1971e019d723930837953433555bc6e44001343982",
+        "deviceChecksPassed": false,
+        "lowOutputAt2VSourceAmps": -0.003310179547601106,
+        "failedAdditionalDcConditions": [
+          "low-4ma",
+          "short-output"
+        ]
+      },
+      {
+        "name": "all-ikf-0.001",
+        "scope": "all",
+        "ikfAmps": 0.001,
+        "modelSha256": "af38ec10846762d4ffbaba71e3f588c5d8c3d0441d21aaf65f0bd0ac39edb8d8",
+        "probes": {
+          "dc": {
+            "exitCode": 1,
+            "reportSha256": "6d0a0b61b880b10473e59841e8bcf0dc4cf82799326c46ea418bb1a763efe8ba"
+          },
+          "validation": {
+            "exitCode": 0,
+            "reportSha256": "3556e084b7e8e6aefbb1629b2e72d7aebe3899a31d45127c8f24ddc851da2b0d"
+          },
+          "iv": {
+            "exitCode": 0,
+            "reportSha256": "e2442f330675a861ffe376551eba19bd680ce4322ab2bae9ef7bd7abb062518e"
+          },
+          "switching": {
+            "exitCode": 0,
+            "reportSha256": "c35c5422ec6e4bbeee9ee23d1b8931ada98e4947f9cffba7d3a4256b7ac8d5f6"
+          }
+        },
+        "dcOutputLimitsPassed": false,
+        "additionalDcLimitsPassed": true,
+        "switchingConverged": true,
+        "switchingLimitsPassed": false,
+        "dcReportSha256": "6d0a0b61b880b10473e59841e8bcf0dc4cf82799326c46ea418bb1a763efe8ba",
+        "validationReportSha256": "3556e084b7e8e6aefbb1629b2e72d7aebe3899a31d45127c8f24ddc851da2b0d",
+        "switchingReportSha256": "c35c5422ec6e4bbeee9ee23d1b8931ada98e4947f9cffba7d3a4256b7ac8d5f6",
+        "deviceChecksPassed": false,
+        "lowOutputAt2VSourceAmps": -0.017331300537097284,
+        "failedAdditionalDcConditions": []
+      },
+      {
+        "name": "all-ikf-0.01",
+        "scope": "all",
+        "ikfAmps": 0.01,
+        "modelSha256": "cbaf009f8e5d6dc3be1ee2536b50e585ec6a672370db5283503ec4fe37486d20",
+        "probes": {
+          "dc": {
+            "exitCode": 0,
+            "reportSha256": "9efee20584fc7ebb7ae2ba6677e31cdf96ead74d51319686be04ed3acf3bd72e"
+          },
+          "validation": {
+            "exitCode": 0,
+            "reportSha256": "06ca8e085aa10e3ff1c31fc2d908d08646f2ca059c2006def7547ee93c6b18e1"
+          },
+          "iv": {
+            "exitCode": 0,
+            "reportSha256": "fe40b57277bab4e2b80378addea806c717ac4b1c2cb04e24255e488bc824e894"
+          },
+          "switching": {
+            "exitCode": 0,
+            "reportSha256": "e14caece7387360646b096e73acb0b5eb2069c46c304b4e2d20fa61c5b10e03c"
+          }
+        },
+        "dcOutputLimitsPassed": true,
+        "additionalDcLimitsPassed": true,
+        "switchingConverged": true,
+        "switchingLimitsPassed": true,
+        "dcReportSha256": "9efee20584fc7ebb7ae2ba6677e31cdf96ead74d51319686be04ed3acf3bd72e",
+        "validationReportSha256": "06ca8e085aa10e3ff1c31fc2d908d08646f2ca059c2006def7547ee93c6b18e1",
+        "switchingReportSha256": "e14caece7387360646b096e73acb0b5eb2069c46c304b4e2d20fa61c5b10e03c",
+        "deviceChecksPassed": true,
+        "lowOutputAt2VSourceAmps": -0.07431236911093718,
+        "failedAdditionalDcConditions": []
+      },
+      {
+        "name": "all-ikf-0.1",
+        "scope": "all",
+        "ikfAmps": 0.1,
+        "modelSha256": "c26e6cc5d531ba9b9dfe4feffcb836653b01eb5c2f73e159b3c47402c43953e8",
+        "probes": {
+          "dc": {
+            "exitCode": 0,
+            "reportSha256": "ef94b2d9e668becd223475e04436c856860e985711d57bc3ff3bed943ef1d431"
+          },
+          "validation": {
+            "exitCode": 0,
+            "reportSha256": "27e350f07fb2b6b9700275a939ef86724f8fb6150f64dc3a2459a6e69bd9ea32"
+          },
+          "iv": {
+            "exitCode": 0,
+            "reportSha256": "4c5013c52c4f0f5bae85528a9cf92d08670a1c81da12c4946aaa1f0e29bfc961"
+          },
+          "switching": {
+            "exitCode": 0,
+            "reportSha256": "0ad96761fd5ca550f1b4a7986d01bcc842f5779cb905ff32ea84edc083e15b21"
+          }
+        },
+        "dcOutputLimitsPassed": true,
+        "additionalDcLimitsPassed": true,
+        "switchingConverged": true,
+        "switchingLimitsPassed": true,
+        "dcReportSha256": "ef94b2d9e668becd223475e04436c856860e985711d57bc3ff3bed943ef1d431",
+        "validationReportSha256": "27e350f07fb2b6b9700275a939ef86724f8fb6150f64dc3a2459a6e69bd9ea32",
+        "switchingReportSha256": "0ad96761fd5ca550f1b4a7986d01bcc842f5779cb905ff32ea84edc083e15b21",
+        "deviceChecksPassed": true,
+        "lowOutputAt2VSourceAmps": -0.22858136566895296,
+        "failedAdditionalDcConditions": []
+      },
+      {
+        "name": "sink-ikf-0.0001",
+        "scope": "sink",
+        "ikfAmps": 0.0001,
+        "modelSha256": "43b5520cec46dcbee06445c895a799d6a8cdddbd59bc863d4e96251ebd87932a",
+        "probes": {
+          "dc": {
+            "exitCode": 1,
+            "reportSha256": "e8dcaa3f8e18880a5b3c4c09370eb9040db09c2757a6acb111948e6204468dfd"
+          },
+          "validation": {
+            "exitCode": 1,
+            "reportSha256": "4419d2a361fe86bd7c8c519a2430eaee4143a1e577610883e56fc68930af4589"
+          },
+          "iv": {
+            "exitCode": 0,
+            "reportSha256": "80453875a7704ff4ee5cecce969caad9bae43b985ebf93dac4dd1b47fe32ef02"
+          },
+          "switching": {
+            "exitCode": 0,
+            "reportSha256": "7d72202ac3fec10d67b2ceaf94b746123a658741bef5ae0296b7435832e24797"
+          }
+        },
+        "dcOutputLimitsPassed": false,
+        "additionalDcLimitsPassed": false,
+        "switchingConverged": true,
+        "switchingLimitsPassed": false,
+        "dcReportSha256": "e8dcaa3f8e18880a5b3c4c09370eb9040db09c2757a6acb111948e6204468dfd",
+        "validationReportSha256": "4419d2a361fe86bd7c8c519a2430eaee4143a1e577610883e56fc68930af4589",
+        "switchingReportSha256": "7d72202ac3fec10d67b2ceaf94b746123a658741bef5ae0296b7435832e24797",
+        "deviceChecksPassed": false,
+        "lowOutputAt2VSourceAmps": -0.015617099909898935,
+        "failedAdditionalDcConditions": [
+          "low-4ma"
+        ]
+      },
+      {
+        "name": "sink-ikf-0.001",
+        "scope": "sink",
+        "ikfAmps": 0.001,
+        "modelSha256": "04dfccac39c75043a67a5aa803fcd72dac6a5fd0292588016bce30037cee15a9",
+        "probes": {
+          "dc": {
+            "exitCode": 1,
+            "reportSha256": "5ec279d7fd2c4d2dfbdd736fbba554075ada0ed3e23dc19da2ee3f76db27b8b0"
+          },
+          "validation": {
+            "exitCode": 0,
+            "reportSha256": "39ca4f4a2518655a842f83d8976d4e86a93a375bbb86541688805a2af80c711d"
+          },
+          "iv": {
+            "exitCode": 0,
+            "reportSha256": "4695eee4df76e0b9b97846defb4600ffdc463dc08cbe0779f98c1aeb9b697543"
+          },
+          "switching": {
+            "exitCode": 0,
+            "reportSha256": "ce451ce589f0934badecf15dcab47b40b286c1f8a63e4a092a1bf9a92c40aea9"
+          }
+        },
+        "dcOutputLimitsPassed": false,
+        "additionalDcLimitsPassed": true,
+        "switchingConverged": true,
+        "switchingLimitsPassed": false,
+        "dcReportSha256": "5ec279d7fd2c4d2dfbdd736fbba554075ada0ed3e23dc19da2ee3f76db27b8b0",
+        "validationReportSha256": "39ca4f4a2518655a842f83d8976d4e86a93a375bbb86541688805a2af80c711d",
+        "switchingReportSha256": "ce451ce589f0934badecf15dcab47b40b286c1f8a63e4a092a1bf9a92c40aea9",
+        "deviceChecksPassed": false,
+        "lowOutputAt2VSourceAmps": -0.03383082302181971,
+        "failedAdditionalDcConditions": []
+      },
+      {
+        "name": "sink-ikf-0.01",
+        "scope": "sink",
+        "ikfAmps": 0.01,
+        "modelSha256": "e9edc03aa61d19f54b0268d4d6f399aeb554fa9ee49125b4258df1ef3e9f0aee",
+        "probes": {
+          "dc": {
+            "exitCode": 0,
+            "reportSha256": "81de86dc6bb24960eafc535ed4ce2f9beab8adb7daded57e0650e6410ddf86ca"
+          },
+          "validation": {
+            "exitCode": 0,
+            "reportSha256": "414ab8d528b8001cdb5b0998810c7226cf748bdaf6696a0ad34a97cfb1cf19c6"
+          },
+          "iv": {
+            "exitCode": 0,
+            "reportSha256": "d7ce79b2b49c40e1c8a3eb0c685c84199674739533b152a4b7094cf568d9dcc6"
+          },
+          "switching": {
+            "exitCode": 0,
+            "reportSha256": "02698cbd4b07a36a8d7cd97c479620b049b2f3601e8aef01cb7ee795b46d6735"
+          }
+        },
+        "dcOutputLimitsPassed": true,
+        "additionalDcLimitsPassed": true,
+        "switchingConverged": true,
+        "switchingLimitsPassed": true,
+        "dcReportSha256": "81de86dc6bb24960eafc535ed4ce2f9beab8adb7daded57e0650e6410ddf86ca",
+        "validationReportSha256": "414ab8d528b8001cdb5b0998810c7226cf748bdaf6696a0ad34a97cfb1cf19c6",
+        "switchingReportSha256": "02698cbd4b07a36a8d7cd97c479620b049b2f3601e8aef01cb7ee795b46d6735",
+        "deviceChecksPassed": true,
+        "lowOutputAt2VSourceAmps": -0.08844703968587703,
+        "failedAdditionalDcConditions": []
+      },
+      {
+        "name": "sink-ikf-0.1",
+        "scope": "sink",
+        "ikfAmps": 0.1,
+        "modelSha256": "949a22d69cbac26b7f9f9e718e881c427dbd97d60b5d50859abfde65155a7271",
+        "probes": {
+          "dc": {
+            "exitCode": 0,
+            "reportSha256": "f64176f98dafb1351e208020849760822fd9944548eb4325dae604a149e5df0d"
+          },
+          "validation": {
+            "exitCode": 0,
+            "reportSha256": "15ddcd49897863898fdf77bce1b7108f615539c1234eedc83d3f83838d6c7e1a"
+          },
+          "iv": {
+            "exitCode": 0,
+            "reportSha256": "033ab6ea6660aa3f7010b306b06d3c47874748373f94c07a434305bc020fe312"
+          },
+          "switching": {
+            "exitCode": 0,
+            "reportSha256": "d9d658ebc6fa54df1b1bd1b34dc2d20f90879b6962ac0dd974b86f0fac087e93"
+          }
+        },
+        "dcOutputLimitsPassed": true,
+        "additionalDcLimitsPassed": true,
+        "switchingConverged": true,
+        "switchingLimitsPassed": true,
+        "dcReportSha256": "f64176f98dafb1351e208020849760822fd9944548eb4325dae604a149e5df0d",
+        "validationReportSha256": "15ddcd49897863898fdf77bce1b7108f615539c1234eedc83d3f83838d6c7e1a",
+        "switchingReportSha256": "d9d658ebc6fa54df1b1bd1b34dc2d20f90879b6962ac0dd974b86f0fac087e93",
+        "deviceChecksPassed": true,
+        "lowOutputAt2VSourceAmps": -0.2341016307290389,
+        "failedAdditionalDcConditions": []
+      }
+    ]
+  },
+  "oscillator": {
+    "completed": true,
+    "qualified": false,
+    "screenSha256": "2a973fe55860c944e8a2ec2112a439fa1e347bfbb62c0247a6a0c43be7018546",
+    "sources": {
+      "oscillator_family_probe.py": "21a2fce8d094ea6b8918829db1e638673dabeea8cc8adc374bcc52b31020bb25",
+      "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee"
+    },
+    "scope": "Device-test survivors under the reference oscillator topology, fixed source component values and ideal supply ramp. No fitting to board frequency. Failure at coarse resolution is independently retried at finer resolution.",
+    "candidates": [
+      {
+        "name": "all-ikf-0.01",
+        "modelSha256": "cbaf009f8e5d6dc3be1ee2536b50e585ec6a672370db5283503ec4fe37486d20",
+        "runs": [
+          {
+            "coarseStepNs": 2,
+            "fineStepNs": 1,
+            "passed": false,
+            "phaseQualified": false,
+            "exitCode": 1,
+            "error": "Oscillator did not sustain transitions after startup",
+            "reportSha256": "4bf8043ec762843520464cec82c23b85515fb75521d84e9c9b8cfa729b819833",
+            "artifacts": {
+              "closed-2.0ns-c1/ls_nand_nominal.cir": "cbaf009f8e5d6dc3be1ee2536b50e585ec6a672370db5283503ec4fe37486d20",
+              "closed-2.0ns-c1/ngspice.log": "126b14b479f3d6d260860cdcebb89b68eac695fe2c2c3a5d77fcbc0a2630ce6d",
+              "closed-2.0ns-c1/oscillator.cir": "57b8f1741204b07767447049d15b083d8aa3ec8292def1da8daac64a0e3b6b96",
+              "closed-2.0ns-c1/trace.txt": "c78fd46acf215e3e9d412e69e8298be714740fcf276500c14b0ad2d8ea7fe22c",
+              "report.json": "4bf8043ec762843520464cec82c23b85515fb75521d84e9c9b8cfa729b819833",
+              "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+            }
+          },
+          {
+            "coarseStepNs": 1,
+            "fineStepNs": 0.5,
+            "passed": false,
+            "phaseQualified": false,
+            "exitCode": 1,
+            "error": "Oscillator did not sustain transitions after startup",
+            "reportSha256": "4bf8043ec762843520464cec82c23b85515fb75521d84e9c9b8cfa729b819833",
+            "artifacts": {
+              "closed-1.0ns-c1/ls_nand_nominal.cir": "cbaf009f8e5d6dc3be1ee2536b50e585ec6a672370db5283503ec4fe37486d20",
+              "closed-1.0ns-c1/ngspice.log": "198a49529a20ae166bc8239f65ce365f4ef17d9b3af0177726581fbf8d3d3aa6",
+              "closed-1.0ns-c1/oscillator.cir": "e6a8a990b1c89e33665259fa300d6cb7b45f5beacc5c77fff3758a81b8689d75",
+              "closed-1.0ns-c1/trace.txt": "164f3eaeb7a193c7972e4f860920fbec705960ea7bce65263502622ed622d6b8",
+              "report.json": "4bf8043ec762843520464cec82c23b85515fb75521d84e9c9b8cfa729b819833",
+              "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+            }
+          }
+        ]
+      },
+      {
+        "name": "all-ikf-0.1",
+        "modelSha256": "c26e6cc5d531ba9b9dfe4feffcb836653b01eb5c2f73e159b3c47402c43953e8",
+        "runs": [
+          {
+            "coarseStepNs": 2,
+            "fineStepNs": 1,
+            "passed": false,
+            "phaseQualified": false,
+            "exitCode": 1,
+            "error": "Oscillator did not sustain transitions after startup",
+            "reportSha256": "c3d58039843bf3b59336ac8a754f4ecdef2d619d8a0e306a6b804f91fbcb8ec5",
+            "artifacts": {
+              "closed-2.0ns-c1/ls_nand_nominal.cir": "c26e6cc5d531ba9b9dfe4feffcb836653b01eb5c2f73e159b3c47402c43953e8",
+              "closed-2.0ns-c1/ngspice.log": "11f70ad6b29fb2c2a5c3fc72992b51a9ad70d548742c2984905af5d6d8759459",
+              "closed-2.0ns-c1/oscillator.cir": "57b8f1741204b07767447049d15b083d8aa3ec8292def1da8daac64a0e3b6b96",
+              "closed-2.0ns-c1/trace.txt": "7fbe5bd3b66c1d69e1cc079dd7eca924404af0e51713de3cf1eb084ceebafb7d",
+              "report.json": "c3d58039843bf3b59336ac8a754f4ecdef2d619d8a0e306a6b804f91fbcb8ec5",
+              "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+            }
+          },
+          {
+            "coarseStepNs": 1,
+            "fineStepNs": 0.5,
+            "passed": false,
+            "phaseQualified": false,
+            "exitCode": 1,
+            "error": "Oscillator did not sustain transitions after startup",
+            "reportSha256": "c3d58039843bf3b59336ac8a754f4ecdef2d619d8a0e306a6b804f91fbcb8ec5",
+            "artifacts": {
+              "closed-1.0ns-c1/ls_nand_nominal.cir": "c26e6cc5d531ba9b9dfe4feffcb836653b01eb5c2f73e159b3c47402c43953e8",
+              "closed-1.0ns-c1/ngspice.log": "1e65492f0bee70ca6ce3a068533e9da5262d7e032c2a71f487562f343cc50605",
+              "closed-1.0ns-c1/oscillator.cir": "e6a8a990b1c89e33665259fa300d6cb7b45f5beacc5c77fff3758a81b8689d75",
+              "closed-1.0ns-c1/trace.txt": "6c0982803c493ed08ff394c6d106f573131db2ac608acac29c243ec4ff22d2c1",
+              "report.json": "c3d58039843bf3b59336ac8a754f4ecdef2d619d8a0e306a6b804f91fbcb8ec5",
+              "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+            }
+          }
+        ]
+      },
+      {
+        "name": "sink-ikf-0.01",
+        "modelSha256": "e9edc03aa61d19f54b0268d4d6f399aeb554fa9ee49125b4258df1ef3e9f0aee",
+        "runs": [
+          {
+            "coarseStepNs": 2,
+            "fineStepNs": 1,
+            "passed": false,
+            "phaseQualified": false,
+            "exitCode": 1,
+            "error": "Oscillator did not sustain transitions after startup",
+            "reportSha256": "2ddabdf8bee9b2be0822777a782cbd9e15856d1edaaeb8e2ce73b2d8d31e0530",
+            "artifacts": {
+              "closed-2.0ns-c1/ls_nand_nominal.cir": "e9edc03aa61d19f54b0268d4d6f399aeb554fa9ee49125b4258df1ef3e9f0aee",
+              "closed-2.0ns-c1/ngspice.log": "f9a59ff81cb632de1a5fccc06a040870b1302d23a3220979e448b96d0ee2b82e",
+              "closed-2.0ns-c1/oscillator.cir": "57b8f1741204b07767447049d15b083d8aa3ec8292def1da8daac64a0e3b6b96",
+              "closed-2.0ns-c1/trace.txt": "26093c10976d8fa086ebcf154192c026bf7e3d0153424b23710b73d84807857e",
+              "report.json": "2ddabdf8bee9b2be0822777a782cbd9e15856d1edaaeb8e2ce73b2d8d31e0530",
+              "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+            }
+          },
+          {
+            "coarseStepNs": 1,
+            "fineStepNs": 0.5,
+            "passed": false,
+            "phaseQualified": false,
+            "exitCode": 1,
+            "error": "Oscillator did not sustain transitions after startup",
+            "reportSha256": "2ddabdf8bee9b2be0822777a782cbd9e15856d1edaaeb8e2ce73b2d8d31e0530",
+            "artifacts": {
+              "closed-1.0ns-c1/ls_nand_nominal.cir": "e9edc03aa61d19f54b0268d4d6f399aeb554fa9ee49125b4258df1ef3e9f0aee",
+              "closed-1.0ns-c1/ngspice.log": "5369067085e42371c5d134cbc0525b6fb1439fdf870851aacc5a04039f91777f",
+              "closed-1.0ns-c1/oscillator.cir": "e6a8a990b1c89e33665259fa300d6cb7b45f5beacc5c77fff3758a81b8689d75",
+              "closed-1.0ns-c1/trace.txt": "5f6b3b66015c90db7b9f3392d764eaeb158c006023073081071f90a6023d5f0a",
+              "report.json": "2ddabdf8bee9b2be0822777a782cbd9e15856d1edaaeb8e2ce73b2d8d31e0530",
+              "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+            }
+          }
+        ]
+      },
+      {
+        "name": "sink-ikf-0.1",
+        "modelSha256": "949a22d69cbac26b7f9f9e718e881c427dbd97d60b5d50859abfde65155a7271",
+        "runs": [
+          {
+            "coarseStepNs": 2,
+            "fineStepNs": 1,
+            "passed": false,
+            "phaseQualified": false,
+            "exitCode": 1,
+            "error": "Oscillator did not sustain transitions after startup",
+            "reportSha256": "78a6f8721bb2e9a48de12e967bd69115397a06464a3fe23e5b911c454ebf8474",
+            "artifacts": {
+              "closed-2.0ns-c1/ls_nand_nominal.cir": "949a22d69cbac26b7f9f9e718e881c427dbd97d60b5d50859abfde65155a7271",
+              "closed-2.0ns-c1/ngspice.log": "43fb6a6dec508ca3862831428c3def39b31853a04da7d43a41193a7690c8cde4",
+              "closed-2.0ns-c1/oscillator.cir": "57b8f1741204b07767447049d15b083d8aa3ec8292def1da8daac64a0e3b6b96",
+              "closed-2.0ns-c1/trace.txt": "77e3370922d2a0663d9389dcce5c494d5110f058ca9931d977b361718c7dbf73",
+              "report.json": "78a6f8721bb2e9a48de12e967bd69115397a06464a3fe23e5b911c454ebf8474",
+              "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+            }
+          },
+          {
+            "coarseStepNs": 1,
+            "fineStepNs": 0.5,
+            "passed": false,
+            "phaseQualified": false,
+            "exitCode": 1,
+            "error": "Oscillator did not sustain transitions after startup",
+            "reportSha256": "78a6f8721bb2e9a48de12e967bd69115397a06464a3fe23e5b911c454ebf8474",
+            "artifacts": {
+              "closed-1.0ns-c1/ls_nand_nominal.cir": "949a22d69cbac26b7f9f9e718e881c427dbd97d60b5d50859abfde65155a7271",
+              "closed-1.0ns-c1/ngspice.log": "0e60d62d1428b574859da2140bbeec9de4adfd6cbea0e687765c0fbc760d504c",
+              "closed-1.0ns-c1/oscillator.cir": "e6a8a990b1c89e33665259fa300d6cb7b45f5beacc5c77fff3758a81b8689d75",
+              "closed-1.0ns-c1/trace.txt": "5fd63ed92ef23ad1a31b48c51d6f06af6ba16c5fdb87b8263a15c20111b5c29a",
+              "report.json": "78a6f8721bb2e9a48de12e967bd69115397a06464a3fe23e5b911c454ebf8474",
+              "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "currentPathArtifacts": {
+    "probe.cir": "4cc8f4b9ebe956f0561c9cfaab5c092554649245279d79c6ffafb09dbb21e84c",
+    "spinit": "d725186a07cd7a7aca654ff61c4b3e0b96a37f78fa50644d16f1db6b7ba7ff56",
+    "probe.log": "bc55f244f557ba7a53fe560ebf54902147451cf4f37ccce4930265844325f260",
+    "trace.txt": "c410635997975f43f5908d06c23b503071483dd05be29bec211cac92f1071d99",
+    "model.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f"
+  }
+}
