@@ -1,0 +1,16 @@
+TI LS00 reference input threshold probe
+.include SN74LS00.cir
+Vcc vcc 0 5
+Va a 0 0
+Vb b 0 5
+Xgate y a b vcc 0 SN74LS00
+Rload y 0 1meg
+.dc Va 0 5 .01
+.control
+run
+set wr_singlescale
+set wr_vecnames
+wrdata dc.txt v(a) v(y)
+quit
+.endc
+.end

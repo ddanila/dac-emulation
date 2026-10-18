@@ -1,0 +1,86 @@
+{
+  "qualified": false,
+  "scope": "External TI SN74LS00 reference screening, not DL000 calibration",
+  "spice": {
+    "url": "https://www.ti.com/lit/zip/sdlm060",
+    "archive": {
+      "bytes": 7309,
+      "sha256": "f5d1dba5bd1bd9995b5b715d3fc13171f224bbc8c06a1389675a512179635dd9"
+    },
+    "model": {
+      "bytes": 7186,
+      "sha256": "d123d035ef5a66f2ed72b789a566a9a604cde41571e25d13bace44488aeadb36"
+    },
+    "modelRevision": "2.0, 2019-11-13",
+    "engine": {
+      "bytes": 4595560,
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "compatibility": "ps",
+    "supplyV": 5,
+    "heldInputBV": 5,
+    "sweptInputA": [
+      0,
+      5,
+      0.01
+    ],
+    "loadOhm": 1000000,
+    "samples": [
+      {
+        "inputV": 0.0,
+        "outputV": 4.95109274
+      },
+      {
+        "inputV": 0.8,
+        "outputV": 4.95109274
+      },
+      {
+        "inputV": 2.0,
+        "outputV": 4.95109274
+      },
+      {
+        "inputV": 2.49,
+        "outputV": 4.95109274
+      },
+      {
+        "inputV": 2.5,
+        "outputV": 4.95109274
+      },
+      {
+        "inputV": 2.51,
+        "outputV": -5.31697575e-13
+      },
+      {
+        "inputV": 5.0,
+        "outputV": 0.0
+      }
+    ],
+    "decision": "Rejected as default gate model: output remains high at a guaranteed TTL high input of 2 V. Model uses a half-supply switching threshold. Execution success does not establish device fidelity."
+  },
+  "ibis": {
+    "url": "https://www.ti.com/lit/ibs/SDLM003",
+    "file": {
+      "bytes": 34015,
+      "sha256": "78985e8a49cd8aaf8679e31e9f2375c4144f298a54bfffcfb1da7b61d262854b"
+    },
+    "revision": "3.2",
+    "inputThresholdsV": {
+      "low": 0.8,
+      "high": 2
+    },
+    "inputCapacitancePf": {
+      "typical": 1.33,
+      "min": 1,
+      "max": 1.66
+    },
+    "outputCapacitancePf": {
+      "typical": 5.8,
+      "min": 4.35,
+      "max": 7.25
+    },
+    "sourceScope": "TI reports measurements using NS package; not DDR DL000 specimen measurements.",
+    "decision": "Candidate for local output-current and pin-load sensitivity studies; not yet integrated.",
+    "distribution": "Vendor files not committed; download from TI for local use. IBIS header restricts redistribution."
+  },
+  "reproduce": "Download and extract SDLM060, put SN74LS00.cir beside probe.cir and .spiceinit, then run ngspice -b probe.cir. Do not use -n: PSpice compatibility is required."
+}
