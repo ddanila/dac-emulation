@@ -896,3 +896,9 @@ uncompressed content. Do not compact files belonging to an active simulation.
 For long service or full-board captures, `--compress-traces --compression-preset 6`
 selects stronger lossless XZ compression. The default remains preset 1. This changes
 storage cost, CPU time and memory use; every producer byte and its hash are retained.
+
+`cpu_read_phase_probe.py` demonstrates the remaining CPU sampling-phase gap:
+TV80 executes `LD A,n; OUT (n),A` using the operand present at the rising edge,
+even when a different value meets the U880D's documented non-M1 falling-edge
+setup interval. The fixture preserves the vendor core unchanged. Its diagnostic
+pass reproduces the discrepancy; it does not qualify U880 pin timing.
