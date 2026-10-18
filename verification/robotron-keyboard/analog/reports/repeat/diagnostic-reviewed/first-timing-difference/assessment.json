@@ -1,0 +1,54 @@
+{
+  "qualified": false,
+  "scope": "First repeat receiver timing mismatch only",
+  "thresholdVolts": 1.4,
+  "adcDefaultRiseDelayNs": 1,
+  "interpretation": "Each logged RX edge occurs 1 ns after the first saved sample above threshold. This is consistent with adc_bridge scheduling at sampled TIME plus its default rise delay. Linear interpolation estimates differ much less, but are not substituted for actual receiver events and do not qualify the pair.",
+  "runs": {
+    "coarse": {
+      "bracketSeconds": [
+        0.715380172,
+        0.715380197
+      ],
+      "bracketClockVolts": [
+        1.35491901,
+        1.51295308
+      ],
+      "timestampUncertaintySeconds": [
+        5.000001110223025e-10,
+        5.000001110223025e-10
+      ],
+      "linearCrossingEstimateSeconds": 0.7153801791315303,
+      "loggedReceiverSeconds": 0.715380198,
+      "loggedMinusFirstHighSampleNs": 0.9999999717180685
+    },
+    "fine": {
+      "bracketSeconds": [
+        0.715380167,
+        0.71538018
+      ],
+      "bracketClockVolts": [
+        1.33312595,
+        1.41350664
+      ],
+      "timestampUncertaintySeconds": [
+        5.000001110223025e-10,
+        5.000001110223025e-10
+      ],
+      "linearCrossingEstimateSeconds": 0.715380177815566,
+      "loggedReceiverSeconds": 0.715380181,
+      "loggedMinusFirstHighSampleNs": 0.9999999717180685
+    }
+  },
+  "linearEstimateDifferenceNs": 1.3159643375004748,
+  "adcSource": {
+    "cfunc.mod": {
+      "path": "/tmp/robotron-ngspice-switch/source/src/xspice/icm/digital/adc_bridge/cfunc.mod",
+      "sha256": "60cc198f50fdf58e97dc6dee471bae518ebf6aa4eae02f8e1ee31687bb115229"
+    },
+    "ifspec.ifs": {
+      "path": "/tmp/robotron-ngspice-switch/source/src/xspice/icm/digital/adc_bridge/ifspec.ifs",
+      "sha256": "a96f5253a2e1858b46c0bbc812e3c7cc594d1c83766aa11c8deb6aa365acca05"
+    }
+  }
+}
