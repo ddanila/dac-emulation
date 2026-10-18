@@ -331,11 +331,10 @@ def prepare(args, report):
              'Adac [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] observation',
              f'Acolumns [{column_outputs}] [{column_nodes}] observation',
              f'.model observation dac_bridge(out_low=0 out_high=5 out_undef={args.output_unknown_volts:g} t_rise=1n t_fall=1n)',
-             # Save a tail window to avoid storing the entire power-on delay. Simulation
-             # still begins at zero; no capacitor initial conditions or injected clock/reset.
+             # Capture selection does not skip electrical startup or inject state.
              '.save ' + ' '.join([*trace_signals, supply_signal]),
              '.control', 'set wr_singlescale', 'set wr_vecnames',
-             f'tran {args.step_ns}n {report["assumptions"]["traceWindowSeconds"][1]:.12g} 124m',
+             capture_command(args.step_ns, report['assumptions']['traceWindowSeconds']),
              'wrdata trace.txt ' + ' '.join(trace_signals),
              'wrdata supply-trace.txt ' + supply_signal,
              'quit', '.endc', '.end']
@@ -356,6 +355,28 @@ def prepare(args, report):
     deck = with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs)
     (out / 'boot.cir').write_text(deck)
     report['deckSha256'] = sha(out / 'boot.cir')
+
+
+def capture_command(step_ns, window):
+    start, end = window
+    if start not in (0, .124) or not math.isfinite(end) or end <= start:
+        raise ValueError('Unsupported board capture window')
+    if not math.isfinite(step_ns) or step_ns <= 0:
+        raise ValueError('Invalid board capture timestep')
+    return f'tran {step_ns}n {end:.12g} ' + ('0' if start == 0 else '124m')
+
+
+def check_capture_extent(first, last, window, step_ns):
+    start, end = window
+    capture_command(step_ns, window)
+    if first is None or last is None or not all(map(math.isfinite, (first, last))):
+        raise ValueError('Missing board capture extent')
+    if start == 0:
+        valid_start = first == 0
+    else:
+        valid_start = start-1e-15 <= first <= start+step_ns*1e-9+1e-15
+    if not valid_start or abs(last-end) > 1e-12:
+        raise ValueError('Board waveform does not cover its declared capture window')
 
 
 def validate(out, report):
@@ -425,8 +446,10 @@ def validate(out, report):
             high_reset |= rst > 2
             clock_low |= clk < .8
             clock_high |= clk > 2
-    if not all((count, low_reset, high_reset, clock_low, clock_high)) or first > .12401 or last_time < report['assumptions']['traceWindowSeconds'][1] - 1e-12:
+    if not all((count, low_reset, high_reset, clock_low, clock_high)):
         raise ValueError('Coupled analog waveform lacks reset/clock activity or endpoints')
+    check_capture_extent(first, last_time, report['assumptions']['traceWindowSeconds'],
+                         report['assumptions']['maximumStepNs'])
     report['waveformRows'] = count
     if 'supplyTraceSignal' in report:
         report['cpuClockVoltage'] = inspect_clock_voltage(
@@ -463,6 +486,8 @@ def main():
     p.add_argument('--contacts', default='', help='Comma-separated fixture contact indices held closed from power-on')
     p.add_argument('--scenario', type=Path, help='Contact recipe at 125 ms origin, 1 us wall-time ticks; requires electrical matrix and outputs')
     p.add_argument('--prepare-only', action='store_true', help='Generate inputs without claiming a simulation pass')
+    p.add_argument('--capture-startup', action='store_true',
+                   help='Retain analog samples from time zero; default retains only the 124 ms tail')
     p.add_argument('--compress-traces', action='store_true', help='Stream the boot waveform to lossless XZ in a fresh waveform directory')
     p.add_argument('--compression-preset', type=int, choices=range(10), default=1, help='Lossless XZ preset; higher values trade compression time and memory for storage')
     power = p.add_mutually_exclusive_group()
@@ -556,7 +581,7 @@ def main():
                               'electricalLogicPullups': args.electrical_logic_pullups, 'logicLoadPf': args.logic_load_pf,
                               'logicControlReceivers': 'I/O-active clock uses nominal 1.4 V crossing; output-enable and async controls use 0.8/2 V unknown band',
                               'contacts': 'Static diode-free fixture in electrical mode; boot test, not firmware scenario qualification',
-                              'traceWindowSeconds': [.124, stop], 'simulationStartSeconds': 0,
+                              'traceWindowSeconds': [0 if args.capture_startup else .124, stop], 'simulationStartSeconds': 0,
                               'bridgeDelayNs': args.bridge_delay_ns,
                               'bridgeDelay': 'Numerical synchronization only; not calibrated device propagation',
                               'maximumStepNs': args.step_ns, 'timeoutSeconds': args.timeout_seconds, 'supplyRiseUs': args.rise_us,
