@@ -1,0 +1,468 @@
+{
+  "qualified": false,
+  "scope": "Reported terminal-current balance at internal/output nodes of an unloaded isolated generic-junction NAND candidate, tied inputs at 1.1158 V, supply 5 V, temperature 25 C. Not a device calibration or stability test.",
+  "interpretation": "The default-gmin reported-current check fails at two reverse-branch nodes. Reducing gmin from 1e-12 S to 1e-15 S reduces those residuals by approximately three orders of magnitude without removing the branch difference. Both branches pass the unchanged current-balance budget at low gmin. This does not independently validate transistor equations or establish physical hysteresis.",
+  "nextQuestion": "Determine why the assumed transistor circuit supports branch-dependent solutions, and whether those solutions are dynamically stable and consistent with published device behavior before changing board defaults.",
+  "runs": {
+    "default-gmin": {
+      "completed": true,
+      "qualified": false,
+      "scope": "Unloaded isolated gate, tied inputs, 5 V and 25 C. KCL at internal/output nodes at the comparison input only; not independent device equations, stability, physical hysteresis or DL000 accuracy.",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "gminSiemens": 1e-12,
+      "sources": {
+        "ls00_branch_probe.py": "4a12c92da9f63f627b03f41c7193b222629908097100b1ca1c69b319f55b4f5b",
+        "candidate.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01"
+      },
+      "spinitSha256": "300e3a0b036db72112acce90e31fa6c0955a1d22937e948fbbef98366743ec07",
+      "inputComparisonVolts": 1.1158,
+      "branches": [
+        {
+          "direction": "forward",
+          "inputVolts": 1.1157999999998935,
+          "outputVolts": 1.0912198195954164,
+          "nodes": {
+            "xgate.input": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rinput:1": -0.0001709393830435725,
+                "r.xgate.remitter:0": 6.205974460807081e-05,
+                "d.xgate.da:0": 5.301564936308654e-05,
+                "d.xgate.db:0": 5.301564936308654e-05,
+                "q.xgate.xphase.qcore:1": 2.8483415355536062e-06,
+                "d.xgate.xphase.dantisat:0": -1.826253209800251e-12
+              },
+              "residualAmps": -2.82068734594425e-17,
+              "numericalBudgetAmps": 4.4187876973962324e-12,
+              "balanced": true
+            },
+            "xgate.drive": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rphase:1": -0.0002909356755088926,
+                "q.xgate.xphase.qcore:0": 0.0002879425912368896,
+                "d.xgate.xphase.dantisat:1": 1.826253209800251e-12,
+                "q.xgate.xdarlington.qcore:1": 2.9930778192303437e-06,
+                "d.xgate.xdarlington.dantisat:0": -1.843087817857128e-12,
+                "d.xgate.dhigh:1": 1.4809138795112254e-12,
+                "d.xgate.doutput:1": 2.3162543840269595e-12
+              },
+              "residualAmps": -2.672439022060405e-12,
+              "numericalBudgetAmps": 6.818713520315218e-12,
+              "balanced": true
+            },
+            "xgate.collector": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rcollector:1": -0.010161242649084745,
+                "q.xgate.xdarlington.qcore:0": 0.000302624557793498,
+                "d.xgate.xdarlington.dantisat:1": 1.843087817857128e-12,
+                "q.xgate.qhigh:0": 0.009858618081892569
+              },
+              "residualAmps": -7.555590686448434e-12,
+              "numericalBudgetAmps": 2.0422485290613899e-10,
+              "balanced": true
+            },
+            "xgate.sinkbase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.remitter:1": -6.205974460807081e-05,
+                "r.xgate.rdischarge:0": 6.341007222275849e-05,
+                "r.xgate.rbleed:0": 0.00018805649844953054,
+                "q.xgate.xphase.qcore:2": -0.0002907909354449578,
+                "q.xgate.xsink.qcore:1": 0.00010138410769683343,
+                "d.xgate.xsink.dantisat:0": -9.886744496213052e-13
+              },
+              "residualAmps": -2.6725805972796686e-12,
+              "numericalBudgetAmps": 8.057013594108255e-12,
+              "balanced": true
+            },
+            "xgate.dischargebase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rdischarge:1": -6.341007222275849e-05,
+                "q.xgate.xdischarge.qcore:1": 2.5076839857464897e-06,
+                "d.xgate.xdischarge.dantisat:0": 6.090238823702136e-05
+              },
+              "residualAmps": 9.366490330738053e-18,
+              "numericalBudgetAmps": 2.2682014444552634e-12,
+              "balanced": true
+            },
+            "xgate.dischargecollector": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rbleed:1": -0.00018805649844953054,
+                "q.xgate.xdischarge.qcore:0": 0.0002489588864142178,
+                "d.xgate.xdischarge.dantisat:1": -6.090238823702136e-05
+              },
+              "residualAmps": -2.7233408263953665e-13,
+              "numericalBudgetAmps": 5.9791777310076976e-12,
+              "balanced": true
+            },
+            "xgate.highbase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rhigh:0": 0.0002088260951362349,
+                "q.xgate.xdarlington.qcore:2": -0.0003056176393933792,
+                "q.xgate.qhigh:1": 9.6791541957276e-05,
+                "d.xgate.dhigh:0": -1.4809138795112254e-12
+              },
+              "residualAmps": -3.780782210230063e-12,
+              "numericalBudgetAmps": 7.11235277967804e-12,
+              "balanced": true
+            },
+            "y": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rhigh:1": -0.0002088260951362349,
+                "q.xgate.qhigh:2": -0.009955409627630496,
+                "q.xgate.xsink.qcore:0": 0.010164235719221081,
+                "d.xgate.xsink.dantisat:1": 9.886744496213052e-13,
+                "d.xgate.doutput:0": -2.3162543840269595e-12
+              },
+              "residualAmps": -4.8732302528928465e-12,
+              "numericalBudgetAmps": 2.042847144529274e-10,
+              "balanced": true
+            }
+          },
+          "artifacts": {
+            "forward.cir": "45e39f7a9a6918a3860694814ef80fbba47a6b4d4b81ab78b6498e8bc8be7f98",
+            "forward.log": "84763217c7bbc7d3edf7affdb5b1f25903258324a015c635a8a8fd4f273171f8",
+            "forward.txt": "ebd664bc69e086fb0b9acac57be8b25616a2458f91c43255d72816675116b5e3"
+          }
+        },
+        {
+          "direction": "reverse",
+          "inputVolts": 1.1157999999979873,
+          "outputVolts": 0.233595315874392,
+          "nodes": {
+            "xgate.input": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rinput:1": -0.0001738389690409049,
+                "r.xgate.remitter:0": 6.361959502843682e-05,
+                "d.xgate.da:0": 5.651282212090267e-06,
+                "d.xgate.db:0": 5.651282212090267e-06,
+                "q.xgate.xphase.qcore:1": 5.9115926335518396e-06,
+                "d.xgate.xphase.dantisat:0": 9.300521695484899e-05
+              },
+              "residualAmps": 1.1329235076115718e-16,
+              "numericalBudgetAmps": 4.476779380819231e-12,
+              "balanced": true
+            },
+            "xgate.drive": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rphase:1": -0.0004946290748380251,
+                "q.xgate.xphase.qcore:0": 0.0005873411324092749,
+                "d.xgate.xphase.dantisat:1": -9.300521695484899e-05,
+                "q.xgate.xdarlington.qcore:1": 2.931600633161226e-07,
+                "d.xgate.xdarlington.dantisat:0": -4.688339131962895e-12,
+                "d.xgate.dhigh:1": 1.4212101439570068e-12,
+                "d.xgate.doutput:1": 1.5443043281173154e-12
+              },
+              "residualAmps": -1.0431077840078484e-12,
+              "numericalBudgetAmps": 1.2752685919193186e-11,
+              "balanced": true
+            },
+            "xgate.collector": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rcollector:1": -3.0475341075364426e-05,
+                "q.xgate.xdarlington.qcore:0": 3.0475321745334052e-05,
+                "d.xgate.xdarlington.dantisat:1": 4.688339131962895e-12,
+                "q.xgate.qhigh:0": 4.64900148589034e-12
+              },
+              "residualAmps": -9.992689756352213e-12,
+              "numericalBudgetAmps": 1.6095067215803911e-12,
+              "balanced": false
+            },
+            "xgate.sinkbase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.remitter:1": -6.361959502843682e-05,
+                "r.xgate.rdischarge:0": 1.8659357363075335e-05,
+                "r.xgate.rbleed:0": 0.00015457337664965293,
+                "q.xgate.xphase.qcore:2": -0.0005932527260857941,
+                "q.xgate.xsink.qcore:1": 5.1780344501401616e-06,
+                "d.xgate.xsink.dantisat:0": 0.000478461551608401
+              },
+              "residualAmps": -1.0429614774427822e-12,
+              "numericalBudgetAmps": 1.4137446411855002e-11,
+              "balanced": true
+            },
+            "xgate.dischargebase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rdischarge:1": -1.8659357363075335e-05,
+                "q.xgate.xdischarge.qcore:1": 1.7243299402591386e-06,
+                "d.xgate.xdischarge.dantisat:0": 1.6935027422822415e-05
+              },
+              "residualAmps": 6.218492382267446e-18,
+              "numericalBudgetAmps": 1.373187147261569e-12,
+              "balanced": true
+            },
+            "xgate.dischargecollector": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rbleed:1": -0.00015457337664965293,
+                "q.xgate.xdischarge.qcore:0": 0.0001715084037764097,
+                "d.xgate.xdischarge.dantisat:1": -1.6935027422822415e-05
+              },
+              "residualAmps": -2.960656418919856e-13,
+              "numericalBudgetAmps": 4.43016807848885e-12,
+              "balanced": true
+            },
+            "xgate.highbase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rhigh:0": 3.0768487746445453e-05,
+                "q.xgate.xdarlington.qcore:2": -3.0768486804993134e-05,
+                "q.xgate.qhigh:1": -4.5165855328950295e-12,
+                "d.xgate.dhigh:0": -1.4212101439570068e-12
+              },
+              "residualAmps": -4.996343357103577e-12,
+              "numericalBudgetAmps": 1.6153698048923427e-12,
+              "balanced": false
+            },
+            "y": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rhigh:1": -3.0768487746445453e-05,
+                "q.xgate.qhigh:2": -5.128758912066267e-12,
+                "q.xgate.xsink.qcore:0": 0.0005092300407979676,
+                "d.xgate.xsink.dantisat:1": -0.000478461551608401,
+                "d.xgate.doutput:0": -1.5443043281173154e-12
+              },
+              "residualAmps": -5.229942098120344e-12,
+              "numericalBudgetAmps": 1.1184600868258773e-11,
+              "balanced": true
+            }
+          },
+          "artifacts": {
+            "reverse.cir": "349214bb742b59cfb7e633b89bee57cad126de73f51d60d6eb58eb4daba29744",
+            "reverse.log": "9c2e3c660a1f7985828c6925c13827aa901679b4ceb103c3a4793318fb7e1e87",
+            "reverse.txt": "877e397f25b7cd7ee8cf76f3d89f568d588ac9bfc6e67c341e6250a74f1f77ad"
+          }
+        }
+      ],
+      "nodeKclPassed": false
+    },
+    "low-gmin": {
+      "completed": true,
+      "qualified": false,
+      "scope": "Unloaded isolated gate, tied inputs, 5 V and 25 C. KCL at internal/output nodes at the comparison input only; not independent device equations, stability, physical hysteresis or DL000 accuracy.",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "gminSiemens": 1e-15,
+      "sources": {
+        "ls00_branch_probe.py": "4a12c92da9f63f627b03f41c7193b222629908097100b1ca1c69b319f55b4f5b",
+        "candidate.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01"
+      },
+      "spinitSha256": "300e3a0b036db72112acce90e31fa6c0955a1d22937e948fbbef98366743ec07",
+      "inputComparisonVolts": 1.1158,
+      "branches": [
+        {
+          "direction": "forward",
+          "inputVolts": 1.1157999999998935,
+          "outputVolts": 1.091219865201868,
+          "nodes": {
+            "xgate.input": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rinput:1": -0.00017093938304996902,
+                "r.xgate.remitter:0": 6.205974460688674e-05,
+                "d.xgate.da:0": 5.30156486494144e-05,
+                "d.xgate.db:0": 5.30156486494144e-05,
+                "q.xgate.xphase.qcore:1": 2.8483418802171147e-06,
+                "d.xgate.xphase.dantisat:0": -7.360422553224544e-13
+              },
+              "residualAmps": -7.862255330824442e-17,
+              "numericalBudgetAmps": 4.418787675719439e-12,
+              "balanced": true
+            },
+            "xgate.drive": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rphase:1": -0.0002909356697958706,
+                "q.xgate.xphase.qcore:0": 0.00028794259011798233,
+                "d.xgate.xphase.dantisat:1": 7.360422553224544e-13,
+                "q.xgate.xdarlington.qcore:1": 2.99307820312445e-06,
+                "d.xgate.xdarlington.dantisat:0": -7.360596679395696e-13,
+                "d.xgate.dhigh:1": 7.356694741335345e-13,
+                "d.xgate.doutput:1": 7.365409024931039e-13
+              },
+              "residualAmps": -2.5708594385779475e-15,
+              "numericalBudgetAmps": 6.818713410612896e-12,
+              "balanced": true
+            },
+            "xgate.collector": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rcollector:1": -0.010161242600411886,
+                "q.xgate.xdarlington.qcore:0": 0.000302624558802693,
+                "d.xgate.xdarlington.dantisat:1": 7.360596679395696e-13,
+                "q.xgate.qhigh:0": 0.009858618040871217
+              },
+              "residualAmps": -1.9159306595191895e-15,
+              "numericalBudgetAmps": 2.0422485200821856e-10,
+              "balanced": true
+            },
+            "xgate.sinkbase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.remitter:1": -6.205974460688674e-05,
+                "r.xgate.rdischarge:0": 6.341007207783389e-05,
+                "r.xgate.rbleed:0": 0.0001880564985946124,
+                "q.xgate.xphase.qcore:2": -0.00029079093200087196,
+                "q.xgate.xsink.qcore:1": 0.00010138410666689086,
+                "d.xgate.xsink.dantisat:0": -7.342047588748861e-13
+              },
+              "residualAmps": -2.6263054591678242e-15,
+              "numericalBudgetAmps": 8.057013546813006e-12,
+              "balanced": true
+            },
+            "xgate.dischargebase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rdischarge:1": -6.341007207783389e-05,
+                "q.xgate.xdischarge.qcore:1": 2.5076827867735327e-06,
+                "d.xgate.xdischarge.dantisat:0": 6.0902389291077646e-05
+              },
+              "residualAmps": 1.729260113467017e-17,
+              "numericalBudgetAmps": 2.2682014415568508e-12,
+              "balanced": true
+            },
+            "xgate.dischargecollector": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rbleed:1": -0.0001880564985946124,
+                "q.xgate.xdischarge.qcore:0": 0.00024895888788540823,
+                "d.xgate.xdischarge.dantisat:1": -6.0902389291077646e-05
+              },
+              "residualAmps": -2.8181802594687277e-16,
+              "numericalBudgetAmps": 5.979177757710982e-12,
+              "balanced": true
+            },
+            "xgate.highbase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rhigh:0": 0.00020882609511321714,
+                "q.xgate.xdarlington.qcore:2": -0.0003056176370095981,
+                "q.xgate.qhigh:1": 9.679154262822065e-05,
+                "d.xgate.dhigh:0": -7.356694741335345e-13
+              },
+              "residualAmps": -3.829795756883021e-15,
+              "numericalBudgetAmps": 7.112352754867054e-12,
+              "balanced": true
+            },
+            "y": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rhigh:1": -0.00020882609511321714,
+                "q.xgate.qhigh:2": -0.009955409583503218,
+                "q.xgate.xsink.qcore:0": 0.01016423567861227,
+                "d.xgate.xsink.dantisat:1": 7.342047588748861e-13,
+                "d.xgate.doutput:0": -7.365409024931039e-13
+              },
+              "residualAmps": -6.501946520504575e-15,
+              "numericalBudgetAmps": 2.042847135869945e-10,
+              "balanced": true
+            }
+          },
+          "artifacts": {
+            "forward.cir": "d4d0e88993d0bcccdefdc4afc87dccc5cc83cba8e1a6fd317a92eef6e87b2137",
+            "forward.log": "84763217c7bbc7d3edf7affdb5b1f25903258324a015c635a8a8fd4f273171f8",
+            "forward.txt": "ebf16859c3d4edb51b6d9630d1277d06ffacb4e2f97c79cc72546cb76edd22b7"
+          }
+        },
+        {
+          "direction": "reverse",
+          "inputVolts": 1.1157999999979873,
+          "outputVolts": 0.2335953157553946,
+          "nodes": {
+            "xgate.input": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rinput:1": -0.00017383896905941434,
+                "r.xgate.remitter:0": 6.361959501830867e-05,
+                "d.xgate.da:0": 5.651281724779458e-06,
+                "d.xgate.db:0": 5.651281724779458e-06,
+                "q.xgate.xphase.qcore:1": 5.911591363482122e-06,
+                "d.xgate.xphase.dantisat:0": 9.300521922823227e-05
+              },
+              "residualAmps": 1.6764645498646563e-16,
+              "numericalBudgetAmps": 4.476779381189964e-12,
+              "balanced": true
+            },
+            "xgate.drive": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rphase:1": -0.0004946290749821778,
+                "q.xgate.xphase.qcore:0": 0.0005873411301053534,
+                "d.xgate.xphase.dantisat:1": -9.300521922823227e-05,
+                "q.xgate.xdarlington.qcore:1": 2.931633714559822e-07,
+                "d.xgate.xdarlington.dantisat:0": -7.389169497956922e-13,
+                "d.xgate.dhigh:1": 7.355983076747884e-13,
+                "d.xgate.doutput:1": 7.357416147956108e-13
+              },
+              "residualAmps": -1.1777562324715039e-15,
+              "numericalBudgetAmps": 1.2752685898974762e-11,
+              "balanced": true
+            },
+            "xgate.collector": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rcollector:1": -3.0475323167955536e-05,
+                "q.xgate.xdarlington.qcore:0": 3.047532240508251e-05,
+                "d.xgate.xdarlington.dantisat:1": 7.389169497956922e-13,
+                "q.xgate.qhigh:0": 1.396746560771944e-14
+              },
+              "residualAmps": -9.98861214925404e-15,
+              "numericalBudgetAmps": 1.6095064632592246e-12,
+              "balanced": true
+            },
+            "xgate.sinkbase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.remitter:1": -6.361959501830867e-05,
+                "r.xgate.rdischarge:0": 1.8659357073188555e-05,
+                "r.xgate.rbleed:0": 0.00015457337716449592,
+                "q.xgate.xphase.qcore:2": -0.0005932527214698785,
+                "q.xgate.xsink.qcore:1": 5.178033115604765e-06,
+                "d.xgate.xsink.dantisat:0": 0.0004784615491338518
+              },
+              "residualAmps": -1.046112794913373e-15,
+              "numericalBudgetAmps": 1.4137446329753281e-11,
+              "balanced": true
+            },
+            "xgate.dischargebase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rdischarge:1": -1.8659357073188555e-05,
+                "q.xgate.xdischarge.qcore:1": 1.7243287865133062e-06,
+                "d.xgate.xdischarge.dantisat:0": 1.6935028286679107e-05
+              },
+              "residualAmps": 3.858446832980152e-18,
+              "numericalBudgetAmps": 1.3731871414638096e-12,
+              "balanced": true
+            },
+            "xgate.dischargecollector": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rbleed:1": -0.00015457337716449592,
+                "q.xgate.xdischarge.qcore:0": 0.00017150840545087877,
+                "d.xgate.xdischarge.dantisat:1": -1.6935028286679107e-05
+              },
+              "residualAmps": -2.9625485549987507e-16,
+              "numericalBudgetAmps": 4.430168109020538e-12,
+              "balanced": true
+            },
+            "xgate.highbase": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rhigh:0": 3.076848651663973e-05,
+                "q.xgate.xdarlington.qcore:2": -3.076848578153483e-05,
+                "q.xgate.qhigh:1": -4.502391440293437e-15,
+                "d.xgate.dhigh:0": -7.355983076747884e-13
+              },
+              "residualAmps": -4.9958035944550815e-15,
+              "numericalBudgetAmps": 1.6153697303827525e-12,
+              "balanced": true
+            },
+            "y": {
+              "signedLeavingCurrentsAmps": {
+                "r.xgate.rhigh:1": -3.076848651663973e-05,
+                "q.xgate.qhigh:2": -1.446141712864585e-14,
+                "q.xgate.xsink.qcore:0": 0.000509230036395465,
+                "d.xgate.xsink.dantisat:1": -0.0004784615491338518,
+                "d.xgate.doutput:0": -7.357416147956108e-13
+              },
+              "residualAmps": -5.229511389232329e-15,
+              "numericalBudgetAmps": 1.1184600727961597e-11,
+              "balanced": true
+            }
+          },
+          "artifacts": {
+            "reverse.cir": "d01475e6334368f91598aea56e2ff70a71e648dc9ea26fabbeb5b68189f71e93",
+            "reverse.log": "9c2e3c660a1f7985828c6925c13827aa901679b4ceb103c3a4793318fb7e1e87",
+            "reverse.txt": "fcc422b790b408b97c197979e4401cb4a5c78f8e83d29d861821f4d020644428"
+          }
+        }
+      ],
+      "nodeKclPassed": true
+    }
+  }
+}
