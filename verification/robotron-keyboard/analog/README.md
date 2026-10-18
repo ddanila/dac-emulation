@@ -827,7 +827,10 @@ also pass, but neither test calibrates switching, package current or temperature
 behavior. A [tight numerical refinement](reports/clock-output/tight-refinement/assessment.json)
 passes the short isolated phase gate with unchanged device parameters, but its
 clock period still violates the pinned U880 reference limit. This does not qualify
-coupled startup or the full board. The 560-ohm pullup can demand more than the published 8 mA output test
+coupled startup or the full board. Applying those settings to
+[coupled startup](reports/clock-output/coupled-tight-refinement/assessment.json)
+still fails phase agreement during clock onset below the valid supply range;
+the first-divergence waveform windows are retained. The 560-ohm pullup can demand more than the published 8 mA output test
 current, so modeled clock levels do not establish guaranteed device corners.
 
 Timed contact recipes can also run with BR1/BR2 closed:
