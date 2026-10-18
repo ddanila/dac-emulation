@@ -1099,6 +1099,14 @@ levels. The separate nominal-output run rejects a small D7 excursion above the
 moving supply; reconstructed local charge balance is consistent with capacitor
 lag in the linear driver fixture. Both electrical rejections remain open; neither is waived by the
 digital floating-input sensitivity experiment.
+`released_read_analysis.py --rom /path/to/s600.bin --out /tmp/read-analysis.json`
+checks architectural data/control dependencies from the released read. It follows
+both flag banks and all conditional paths, including later arbitrary read bytes,
+and rejects unsupported instructions or use of affected flags. The retained
+`reports/floating-io/static-analysis.json` states its assumptions; different
+internal flag values and electrical/metastability behavior are outside its claim.
+The electrical unknown-read gate remains unchanged.
+
 The digital runner also accepts `--floating-io-value sequence`: a repeatable
 byte permutation advances only after each released read and restarts on reset.
 This exercises changing input values; it is not an exhaustive proof of every

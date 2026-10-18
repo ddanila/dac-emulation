@@ -37,6 +37,7 @@ jobs:
         run: python3 verification/robotron-keyboard/analog/resolved_bus_probe.py
       - name: Firmware serial observation failure controls
         run: |
+          python3 verification/robotron-keyboard/analog/test_released_read_analysis.py
           python3 verification/robotron-keyboard/analog/test_serial_observation.py
           python3 verification/robotron-keyboard/analog/test_firmware_io_comparison.py
           python3 verification/robotron-keyboard/analog/test_receiver_margins.py
