@@ -127,6 +127,7 @@ For candidate-model diagnosis, use fresh output directories and the probes' `--h
 | Check finite input-disturbance recovery on both branches | `ls00_branch_transient.py --model /path/to/candidate.cir --out /path/to/run` |
 | Capture forced-output I/V beyond the rated-load endpoints | `ls00_iv_probe.py --model /path/to/candidate.cir --out /path/to/run` |
 | Screen high-current gain rolloff with DC and switching holdouts | `ls00_rolloff_screen.py --model /path/to/candidate.cir --out /path/to/run` |
+| Screen sink base/collector/emitter resistance assumptions with the same holdouts | `ls00_rolloff_screen.py --parameter RB` (or `RC`, `RE`) with the model/output arguments above |
 
 `oscillator_family_probe.py --validate-screen-only` checks candidate admission
 without running oscillators. Admission requires explicit DC and switching passes,
@@ -201,6 +202,7 @@ git history without a second chronological narrative here.
 | [Branch perturbation recovery](reports/clock-output/ls00-branch-perturbation/assessment.json) | Both branches recover after the tested input disturbances; plateau refinement is not full transient convergence or a general stability proof |
 | [Output I/V and topology review](reports/clock-output/ls00-output-iv/assessment.json) | Large forced-output current discrepancy from TI typical curves; unspecified graph conditions preclude an exact fitting target |
 | [High-current rolloff screen](reports/clock-output/ls00-rolloff/assessment.json) | Reduced forced-output current does not establish oscillator applicability; surviving variants still fail to sustain oscillation |
+| [Sink-resistance screen](reports/clock-output/ls00-sink-resistance/assessment.json) | Reduced forced-output current with passing isolated checks still does not establish sustained oscillation or calibrated junction parameters |
 | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json), [floating-read analysis](reports/floating-io/static-analysis.json) | Functional agreement does not qualify the released input voltage |
 | [Reset dip response](reports/reset-brownout/report.json) | No sampled low CPU reset at valid supply during recovery in this fixture; reliable restart remains unproved |
 
