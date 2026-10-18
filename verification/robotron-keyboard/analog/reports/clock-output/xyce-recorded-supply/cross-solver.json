@@ -1,0 +1,253 @@
+{
+  "qualified": false,
+  "inputAssessments": {
+    "ngspice": "c4fd0308c46137230b681954dabaff513b308065b61b62152fbb4a41b73fa75b",
+    "xyce": "4573d73a88c043299faa181c8968a19de612defefb1f83c081e945c8e609594d"
+  },
+  "sourceScriptSha256": "60787a2907d0b17640ac9273547866eb50f440b59ff5a48575ffd9030cc1d85b",
+  "supplyFileSha256": "c8d84befb12b0ebfa861a7011ecd1659263fa5624397e8f34af9dabc93c9168b",
+  "comparisons": {
+    "coarse": {
+      "passed": true,
+      "thresholdVolts": 1.4,
+      "edgeBudgetNs": 15,
+      "sampledExtremaBudgetVolts": 0.05,
+      "waveforms": {
+        "coarse": {
+          "samples": 1122636,
+          "edges": 780,
+          "minimumVolts": -8.200303442967037e-69,
+          "maximumVolts": 3.48779783323223,
+          "maximumSampleGapNs": 0.2500000000039363,
+          "maximumTimestampUncertaintyNs": 5.4710108624275226e-11,
+          "minimumPeriodNs": 204.61040008244865,
+          "maximumPeriodNs": 35537.72941930875,
+          "firstSampleSeconds": 0.0,
+          "firstSampleUncertaintySeconds": 0.0,
+          "lastSampleSeconds": 0.00025,
+          "lastSampleUncertaintySeconds": 5.471010862427523e-20,
+          "meanPeriodNs": 471.33915780508875,
+          "frequencyHz": 2121614.517785358
+        },
+        "fine": {
+          "samples": 1898544,
+          "edges": 780,
+          "minimumVolts": -8.200303442937656e-69,
+          "maximumVolts": 3.4878142545340065,
+          "maximumSampleGapNs": 0.2500000000039363,
+          "maximumTimestampUncertaintyNs": 5.4710108624275226e-11,
+          "minimumPeriodNs": 204.4580237867854,
+          "maximumPeriodNs": 35539.738747029085,
+          "firstSampleSeconds": 0.0,
+          "firstSampleUncertaintySeconds": 0.0,
+          "lastSampleSeconds": 0.00025,
+          "lastSampleUncertaintySeconds": 5.471010862427523e-20,
+          "meanPeriodNs": 471.3449811709357,
+          "frequencyHz": 2121588.305694391
+        }
+      },
+      "maximumEstimatedPhaseDifferenceNs": 2.2660438428576297,
+      "maximumBracketDifferenceNs": 2.3745811085127375,
+      "firstDifference": null,
+      "phaseEvolution": {
+        "signConvention": "fine minus coarse; positive means the fine edge is later",
+        "byDirection": {
+          "rise": {
+            "matchedEdges": 390,
+            "first": {
+              "edgeOrdinal": 0,
+              "coarseSeconds": 6.631997737162578e-05,
+              "fineSeconds": 6.63199773742488e-05,
+              "signedDifferenceNs": 2.623010315894181e-06
+            },
+            "last": {
+              "edgeOrdinal": 778,
+              "coarseSeconds": 0.00024967090975780534,
+              "fineSeconds": 0.0002496731750497429,
+              "signedDifferenceNs": 2.265291937537939
+            },
+            "minimum": {
+              "edgeOrdinal": 42,
+              "coarseSeconds": 0.00010692800787914142,
+              "fineSeconds": 0.00010692783478557097,
+              "signedDifferenceNs": -0.17309357045565063
+            },
+            "maximum": {
+              "edgeOrdinal": 778,
+              "coarseSeconds": 0.00024967090975780534,
+              "fineSeconds": 0.0002496731750497429,
+              "signedDifferenceNs": 2.265291937537939
+            },
+            "lastMinusFirstNs": 2.2652893145276227,
+            "rangeNs": 2.438385507993589
+          },
+          "fall": {
+            "matchedEdges": 390,
+            "first": {
+              "edgeOrdinal": 1,
+              "coarseSeconds": 0.00010005990592643299,
+              "fineSeconds": 0.00010005990592594071,
+              "signedDifferenceNs": -4.922819964170433e-07
+            },
+            "last": {
+              "edgeOrdinal": 779,
+              "coarseSeconds": 0.00024985684696161425,
+              "fineSeconds": 0.0002498591130054571,
+              "signedDifferenceNs": 2.2660438428576297
+            },
+            "minimum": {
+              "edgeOrdinal": 3,
+              "coarseSeconds": 0.00010197838414837688,
+              "fineSeconds": 0.00010197747401993754,
+              "signedDifferenceNs": -0.9101284393421863
+            },
+            "maximum": {
+              "edgeOrdinal": 779,
+              "coarseSeconds": 0.00024985684696161425,
+              "fineSeconds": 0.0002498591130054571,
+              "signedDifferenceNs": 2.2660438428576297
+            },
+            "lastMinusFirstNs": 2.266044335139626,
+            "rangeNs": 3.176172282199816
+          }
+        }
+      },
+      "interpretation": "Absolute edge order and phase over the saved window, with sample-bracket and printed timestamp uncertainty; no phase realignment. Sampled voltage extrema are not a complete waveform or device calibration.",
+      "sampledExtremaDifferencesVolts": {
+        "minimumVolts": 2.9381229209165615e-80,
+        "maximumVolts": 1.64213017765924e-05
+      }
+    },
+    "fine": {
+      "passed": false,
+      "thresholdVolts": 1.4,
+      "edgeBudgetNs": 15,
+      "sampledExtremaBudgetVolts": 0.05,
+      "waveforms": {
+        "coarse": {
+          "samples": 2067967,
+          "edges": 780,
+          "minimumVolts": -8.200303442967037e-69,
+          "maximumVolts": 3.4879007012406307,
+          "maximumSampleGapNs": 0.12500000000196815,
+          "maximumTimestampUncertaintyNs": 5.4710108624275226e-11,
+          "minimumPeriodNs": 200.46980250420947,
+          "maximumPeriodNs": 35550.64360623558,
+          "firstSampleSeconds": 0.0,
+          "firstSampleUncertaintySeconds": 0.0,
+          "lastSampleSeconds": 0.00025,
+          "lastSampleUncertaintySeconds": 5.471010862427523e-20,
+          "meanPeriodNs": 471.37637836811786,
+          "frequencyHz": 2121446.9920235532
+        },
+        "fine": {
+          "samples": 2703496,
+          "edges": 779,
+          "minimumVolts": -8.200303442937656e-69,
+          "maximumVolts": 3.4888519452801865,
+          "maximumSampleGapNs": 0.12500000000196815,
+          "maximumTimestampUncertaintyNs": 5.4710108624275226e-11,
+          "minimumPeriodNs": 199.7977795066162,
+          "maximumPeriodNs": 35656.71318826776,
+          "firstSampleSeconds": 0.0,
+          "firstSampleUncertaintySeconds": 0.0,
+          "lastSampleSeconds": 0.00025,
+          "lastSampleUncertaintySeconds": 5.471010862427523e-20,
+          "meanPeriodNs": 471.8625503748299,
+          "frequencyHz": 2119261.21114218
+        }
+      },
+      "maximumEstimatedPhaseDifferenceNs": 244.80352595620082,
+      "maximumBracketDifferenceNs": 244.91182851531462,
+      "firstDifference": {
+        "signal": "Clock voltage",
+        "edgeOrdinal": 2,
+        "coarse": {
+          "direction": "rise",
+          "beforeSeconds": 0.00010187053500097328,
+          "afterSeconds": 0.00010187066000097328,
+          "estimatedSeconds": 0.00010187062098268224,
+          "earliestSeconds": 0.00010187053500097326,
+          "latestSeconds": 0.00010187066000097329
+        },
+        "fine": {
+          "direction": "rise",
+          "beforeSeconds": 0.0001019766682583712,
+          "afterSeconds": 0.00010197674990861776,
+          "estimatedSeconds": 0.00010197669056219833,
+          "earliestSeconds": 0.00010197666825837119,
+          "latestSeconds": 0.00010197674990861777
+        }
+      },
+      "phaseEvolution": {
+        "signConvention": "fine minus coarse; positive means the fine edge is later",
+        "byDirection": {
+          "rise": {
+            "matchedEdges": 390,
+            "first": {
+              "edgeOrdinal": 0,
+              "coarseSeconds": 6.631997737644666e-05,
+              "fineSeconds": 6.631997737393057e-05,
+              "signedDifferenceNs": -2.516094429159954e-06
+            },
+            "last": {
+              "edgeOrdinal": 778,
+              "coarseSeconds": 0.00024968538856164464,
+              "fineSeconds": 0.0002498745094697395,
+              "signedDifferenceNs": 189.12090809483684
+            },
+            "minimum": {
+              "edgeOrdinal": 0,
+              "coarseSeconds": 6.631997737644666e-05,
+              "fineSeconds": 6.631997737393057e-05,
+              "signedDifferenceNs": -2.516094429159954e-06
+            },
+            "maximum": {
+              "edgeOrdinal": 100,
+              "coarseSeconds": 0.00011911604823066,
+              "fineSeconds": 0.0001193608517566162,
+              "signedDifferenceNs": 244.80352595620082
+            },
+            "lastMinusFirstNs": 189.12091061093128,
+            "rangeNs": 244.80352847229526
+          },
+          "fall": {
+            "matchedEdges": 389,
+            "first": {
+              "edgeOrdinal": 1,
+              "coarseSeconds": 0.00010005990592524912,
+              "fineSeconds": 0.00010005990592602328,
+              "signedDifferenceNs": 7.741610087361184e-07
+            },
+            "last": {
+              "edgeOrdinal": 777,
+              "coarseSeconds": 0.00024950731691048217,
+              "fineSeconds": 0.0002496964062967945,
+              "signedDifferenceNs": 189.08938631231106
+            },
+            "minimum": {
+              "edgeOrdinal": 1,
+              "coarseSeconds": 0.00010005990592524912,
+              "fineSeconds": 0.00010005990592602328,
+              "signedDifferenceNs": 7.741610087361184e-07
+            },
+            "maximum": {
+              "edgeOrdinal": 99,
+              "coarseSeconds": 0.00011902339133080656,
+              "fineSeconds": 0.00011926806744533108,
+              "signedDifferenceNs": 244.6761145245217
+            },
+            "lastMinusFirstNs": 189.08938553815005,
+            "rangeNs": 244.67611375036068
+          }
+        }
+      },
+      "interpretation": "Absolute edge order and phase over the saved window, with sample-bracket and printed timestamp uncertainty; no phase realignment. Sampled voltage extrema are not a complete waveform or device calibration.",
+      "sampledExtremaDifferencesVolts": {
+        "minimumVolts": 2.9381229209165615e-80,
+        "maximumVolts": 0.0009512440395558208
+      }
+    }
+  },
+  "boundary": "Same canonical isolated oscillator, nominal CPU load, printed supply samples and gate equations. Source scheduling and solver tolerance semantics differ. No phase alignment, no physical startup or full-board qualification."
+}
