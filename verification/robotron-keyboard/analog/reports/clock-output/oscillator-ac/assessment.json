@@ -1,0 +1,1300 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Matched observed-plateau small-signal diagnostics. No loop-gain, pole completeness, global stability, physical bandwidth or model-calibration claim.",
+  "methodSource": {
+    "url": "https://ngspice.sourceforge.io/docs/ngspice-manual.pdf",
+    "sections": [
+      "1.2.2 AC Small-Signal Analysis",
+      "1.2.4 Pole-Zero Analysis",
+      "11.3.6 .PZ"
+    ]
+  },
+  "findings": [
+    "Default DC selection can differ from the observed transient plateau; the unseeded sink-RE10 run is rejected for that comparison.",
+    "External-node initial guesses permit a matching DC solution without adding voltage clamps. Internal junction-state identity is not independently observed.",
+    "At the matching plateau, the first gate amplifies and the second attenuates low-frequency disturbances. These are loaded closed-circuit response ratios, not open-loop stability margins.",
+    "The iterative pole search hit its limit. Its partial pole list cannot establish stability."
+  ],
+  "nextQuestion": "Review the second gate operating-state branch and small-signal response, beyond endpoint current fitting, against independently supported device behavior.",
+  "rejectedPoleSearch": {
+    "accepted": false,
+    "diagnostic": "Warning: Pole-zero iteration limit reached; giving up after 446 trials",
+    "files": {
+      "probe.cir": "d8428b40ca725209042868dd4eab449f6d7cb6da39f4fbe033d6d3d7c5f82b8d",
+      "spinit": "9056b4e039c089fc1e9505323cb03cd01dcef97bdde6df1dedddb29db72ea9e5",
+      "ngspice.log": "ab1eae934ac79ef087f9bd59cf051ed671190cf30c0f31d91b64ed7b9c084691",
+      "poles.raw": "e1ea1628425ff6c8ebf9bf3a25d2de145d0276de866ccc14b7ef7abab1d14c77",
+      "model.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f"
+    }
+  },
+  "runs": {
+    "baseline": {
+      "completed": true,
+      "qualified": false,
+      "modelSha256": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+      "transientAssessmentSha256": "1e077b7bd90fa589a364af19ef3879a876e3fa874f683e0fe80f19f271220e3e",
+      "scope": "Closed BR1 and complete reference oscillator including unused gate and reference CPU load. Unit AC current injects into OSC_RC; DC injection is zero. Ratios are loaded responses within the closed circuit, not open-loop gain, stability margins or a startup proof. Observed external-node plateau agreement does not prove identical internal junction states. Frequency coverage and generic device parameters do not establish physical bandwidth.",
+      "seedTransientOp": false,
+      "opComparisonBudgetVolts": 1e-06,
+      "spinitSha256": "160963e9842efb277fc82c6d9222c8b110ee40dce1bb09587875e8b20a925d78",
+      "sources": {
+        "oscillator_ac_probe.py": "7fd5f7e1b4074b3b01d2b1148699e3270cfcbab4398c42189c77a3833d1eab60",
+        "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+        "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+        "oscillator_disturbance.py": "79612fa3edf1629c34a0cf0eb36b509ab63654e82a583543128757689418cb63",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01"
+      },
+      "operatingPointInitialGuessesVolts": {},
+      "operatingPointVolts": {
+        "v(n_OSC_OUT)": 4.9962089951221085,
+        "v(n_CLK)": 4.996209001886752,
+        "v(n_OSC_RC)": 1.115777664185619,
+        "v(n_OSC1)": 1.09245025404214,
+        "v(n_OSC2)": 0.24344981439321034
+      },
+      "transientPlateauComparisons": [
+        {
+          "case": "pulse-+0A-1e-09s",
+          "maximumDifferenceVolts": 3.957811856025728e-11
+        },
+        {
+          "case": "pulse-+0A-5e-10s",
+          "maximumDifferenceVolts": 5.700506733319344e-11
+        }
+      ],
+      "decadeSamples": [
+        {
+          "frequencyHz": 1.0,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.29870611216701387,
+              "imaginary": 1.3451016529389804e-08,
+              "magnitude": 0.29870611216701415,
+              "phaseDegrees": 179.9999974199173
+            },
+            "v(n_CLK)": {
+              "real": -0.298705578763896,
+              "imaginary": 1.3451011277938394e-08,
+              "magnitude": 0.29870557876389625,
+              "phaseDegrees": 179.99999741991368
+            },
+            "v(n_OSC_RC)": {
+              "real": 7.966926362768959,
+              "imaginary": -2.947655220218926e-07,
+              "magnitude": 7.966926362768964,
+              "phaseDegrees": -2.119866506705748e-06
+            },
+            "v(n_OSC1)": {
+              "real": -211.84612181321793,
+              "imaginary": -4.391711987118668e-07,
+              "magnitude": 211.84612181321793,
+              "phaseDegrees": -179.999999881222
+            },
+            "v(n_OSC2)": {
+              "real": 8.356087119647704,
+              "imaginary": -1.3502566228084108e-08,
+              "magnitude": 8.356087119647704,
+              "phaseDegrees": -9.258401048093856e-08
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -26.590696608320236,
+              "imaginary": -1.0389441785316511e-06,
+              "magnitude": 26.590696608320258,
+              "phaseDegrees": -179.99999776135553
+            },
+            "second": {
+              "real": -0.03944413543248699,
+              "imaginary": 1.4550794795904223e-10,
+              "magnitude": 0.03944413543248699,
+              "phaseDegrees": 179.999999788638
+            },
+            "buffer": {
+              "real": -0.03574706372574171,
+              "imaginary": 1.551962539024937e-09,
+              "magnitude": 0.03574706372574175,
+              "phaseDegrees": 179.99999751249769
+            }
+          }
+        },
+        {
+          "frequencyHz": 10.000000000000004,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.2987061121670876,
+              "imaginary": 1.3451016529428764e-07,
+              "magnitude": 0.2987061121671179,
+              "phaseDegrees": 179.99997419917284
+            },
+            "v(n_CLK)": {
+              "real": -0.2987055787639697,
+              "imaginary": 1.3451011277977354e-07,
+              "magnitude": 0.298705578764,
+              "phaseDegrees": 179.99997419913683
+            },
+            "v(n_OSC_RC)": {
+              "real": 7.96692636276218,
+              "imaginary": -2.9476552202094123e-06,
+              "magnitude": 7.966926362762726,
+              "phaseDegrees": -2.119866506700614e-05
+            },
+            "v(n_OSC1)": {
+              "real": -211.84612181320676,
+              "imaginary": -4.391711987172096e-06,
+              "magnitude": 211.84612181320682,
+              "phaseDegrees": -179.99999881222013
+            },
+            "v(n_OSC2)": {
+              "real": 8.356087119650613,
+              "imaginary": -1.350256622902567e-07,
+              "magnitude": 8.356087119650613,
+              "phaseDegrees": -9.258401048736237e-07
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -26.59069660833765,
+              "imaginary": -1.0389441785306746e-05,
+              "magnitude": 26.59069660833968,
+              "phaseDegrees": -179.99997761355507
+            },
+            "second": {
+              "real": -0.03944413543250277,
+              "imaginary": 1.4550794796452198e-09,
+              "magnitude": 0.039444135432502796,
+              "phaseDegrees": 179.99999788638002
+            },
+            "buffer": {
+              "real": -0.03574706372573834,
+              "imaginary": 1.5519625390250365e-08,
+              "magnitude": 0.03574706372574171,
+              "phaseDegrees": 179.99997512497694
+            }
+          }
+        },
+        {
+          "frequencyHz": 100.00000000000004,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.2987061121744349,
+              "imaginary": 1.3451016533356031e-06,
+              "magnitude": 0.29870611217746346,
+              "phaseDegrees": 179.99974199172829
+            },
+            "v(n_CLK)": {
+              "real": -0.298705578771317,
+              "imaginary": 1.3451011281904616e-06,
+              "magnitude": 0.29870557877434556,
+              "phaseDegrees": 179.9997419913683
+            },
+            "v(n_OSC_RC)": {
+              "real": 7.966926362081381,
+              "imaginary": -2.9476552192450687e-05,
+              "magnitude": 7.9669263621359105,
+              "phaseDegrees": -0.00021198665061786595
+            },
+            "v(n_OSC1)": {
+              "real": -211.84612181209275,
+              "imaginary": -4.391711992509483e-05,
+              "magnitude": 211.8461218120973,
+              "phaseDegrees": -179.99998812220116
+            },
+            "v(n_OSC2)": {
+              "real": 8.356087119940549,
+              "imaginary": -1.3502566324102069e-06,
+              "magnitude": 8.356087119940657,
+              "phaseDegrees": -9.25840111360663e-06
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -26.59069661008953,
+              "imaginary": -0.00010389441784294046,
+              "magnitude": 26.590696610292497,
+              "phaseDegrees": -179.99977613555055
+            },
+            "second": {
+              "real": -0.039444135434075815,
+              "imaginary": 1.455079485167256e-08,
+              "magnitude": 0.039444135434078494,
+              "phaseDegrees": 179.99997886380004
+            },
+            "buffer": {
+              "real": -0.03574706372540211,
+              "imaginary": 1.5519625390349852e-07,
+              "magnitude": 0.035747063725739006,
+              "phaseDegrees": 179.9997512497694
+            }
+          }
+        },
+        {
+          "frequencyHz": 1000.0000000000005,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.2987061129092002,
+              "imaginary": 1.34510169260433e-05,
+              "magnitude": 0.29870611321205615,
+              "phaseDegrees": 179.99741991721564
+            },
+            "v(n_CLK)": {
+              "real": -0.2987055795060801,
+              "imaginary": 1.345101167459123e-05,
+              "magnitude": 0.2987055798089364,
+              "phaseDegrees": 179.99741991361566
+            },
+            "v(n_OSC_RC)": {
+              "real": 7.9669262940084735,
+              "imaginary": -0.0002947655122832113,
+              "magnitude": 7.966926299461437,
+              "phaseDegrees": -0.0021198664539967566
+            },
+            "v(n_OSC1)": {
+              "real": -211.8461217006855,
+              "imaginary": -0.00043917125262528265,
+              "magnitude": 211.8461217011407,
+              "phaseDegrees": -179.9998812219971
+            },
+            "v(n_OSC2)": {
+              "real": 8.356087148934963,
+              "imaginary": -1.3502575830565827e-05,
+              "magnitude": 8.356087148945873,
+              "phaseDegrees": -9.258407599838236e-05
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -26.590696785253236,
+              "imaginary": -0.001038944168307777,
+              "magnitude": 26.590696805549904,
+              "phaseDegrees": -179.9977613555431
+            },
+            "second": {
+              "real": -0.039444135591385814,
+              "imaginary": 1.4550800373163727e-07,
+              "magnitude": 0.039444135591654196,
+              "phaseDegrees": 179.9997886379211
+            },
+            "buffer": {
+              "real": -0.03574706369177918,
+              "imaginary": 1.5519625400299722e-06,
+              "magnitude": 0.035747063725468486,
+              "phaseDegrees": 179.99751249769164
+            }
+          }
+        },
+        {
+          "frequencyHz": 10000.000000000007,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.29870618638411583,
+              "imaginary": 0.00013451056194719644,
+              "magnitude": 0.29870621666988023,
+              "phaseDegrees": 179.97419910490683
+            },
+            "v(n_CLK)": {
+              "real": -0.2987056529807809,
+              "imaginary": 0.00013451050943202067,
+              "magnitude": 0.2987056832665757,
+              "phaseDegrees": 179.9741990689069
+            },
+            "v(n_OSC_RC)": {
+              "real": 7.966919486682542,
+              "imaginary": -0.0029476454814953423,
+              "magnitude": 7.966920031975714,
+              "phaseDegrees": -0.021198612357824935
+            },
+            "v(n_OSC1)": {
+              "real": -211.84611056013105,
+              "imaginary": -0.004391765900624493,
+              "magnitude": 211.84611060565373,
+              "phaseDegrees": -179.99881220547306
+            },
+            "v(n_OSC2)": {
+              "real": 8.356090048361441,
+              "imaginary": -0.00013503526478841898,
+              "magnitude": 8.356090049452533,
+              "phaseDegrees": -0.0009259056224090831
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -26.59071430179391,
+              "imaginary": -0.010389431561396057,
+              "magnitude": 26.590716331455145,
+              "phaseDegrees": -179.97761359311522
+            },
+            "second": {
+              "real": -0.03944415132228265,
+              "imaginary": 1.4551352523283337e-06,
+              "magnitude": 0.039444151349123366,
+              "phaseDegrees": 179.99788629985065
+            },
+            "buffer": {
+              "real": -0.03574706032937634,
+              "imaginary": 1.5519626395178157e-05,
+              "magnitude": 0.0357470636983078,
+              "phaseDegrees": 179.9751249745293
+            }
+          }
+        },
+        {
+          "frequencyHz": 100000.0000000001,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.2987135254648255,
+              "imaginary": 0.0013454981592020965,
+              "magnitude": 0.29871655571950034,
+              "phaseDegrees": 179.7419238235449
+            },
+            "v(n_CLK)": {
+              "real": -0.2987129920400156,
+              "imaginary": 0.0013454976333954884,
+              "magnitude": 0.2987160222977333,
+              "phaseDegrees": 179.74192346354556
+            },
+            "v(n_OSC_RC)": {
+              "real": 7.966238895861721,
+              "imaginary": -0.02946681562614417,
+              "magnitude": 7.9662933939921725,
+              "phaseDegrees": -0.21193394940042812
+            },
+            "v(n_OSC1)": {
+              "real": -211.84499760741772,
+              "imaginary": -0.043971014245007135,
+              "magnitude": 211.84500217077795,
+              "phaseDegrees": -179.98810756199381
+            },
+            "v(n_OSC2)": {
+              "real": 8.356379805647151,
+              "imaginary": -0.0013598559746379468,
+              "magnitude": 8.356379916293646,
+              "phaseDegrees": -0.009323894942158944
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -26.59246593534632,
+              "imaginary": -0.10388419376128405,
+              "magnitude": 26.592668847790883,
+              "phaseDegrees": -179.77617361259337
+            },
+            "second": {
+              "real": -0.039445723324881374,
+              "imaginary": 1.460654946686628e-05,
+              "magnitude": 0.039445726029246536,
+              "phaseDegrees": 179.97878366705166
+            },
+            "buffer": {
+              "real": -0.03574672406393828,
+              "imaginary": 0.00015519725853377147,
+              "magnitude": 0.03574706096299947,
+              "phaseDegrees": 179.75124735848772
+            }
+          }
+        },
+        {
+          "frequencyHz": 1000000.0000000014,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.29936566402936143,
+              "imaginary": 0.013833186468483057,
+              "magnitude": 0.29968509780703534,
+              "phaseDegrees": 177.35433983173107
+            },
+            "v(n_CLK)": {
+              "real": -0.2993651285793109,
+              "imaginary": 0.013833180576026826,
+              "magnitude": 0.29968456265573024,
+              "phaseDegrees": 177.3543362317375
+            },
+            "v(n_OSC_RC)": {
+              "real": 7.899565289131971,
+              "imaginary": -0.2852387583836915,
+              "magnitude": 7.904713334874513,
+              "phaseDegrees": -2.067946691876801
+            },
+            "v(n_OSC1)": {
+              "real": -211.74442524438578,
+              "imaginary": -0.49120049133779653,
+              "magnitude": 211.7449949821671,
+              "phaseDegrees": -179.8670866327079
+            },
+            "v(n_OSC2)": {
+              "real": 8.383551769408069,
+              "imaginary": -0.022794187385374087,
+              "magnitude": 8.383582757110691,
+              "phaseDegrees": -0.15578212579997694
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -26.767422197233593,
+              "imaginary": -1.0287030319489536,
+              "magnitude": 26.787182028218172,
+              "phaseDegrees": -177.79913994083105
+            },
+            "second": {
+              "real": -0.03959232347054983,
+              "imaginary": 0.0001994950095076146,
+              "magnitude": 0.039592826068057696,
+              "phaseDegrees": 179.7113045069079
+            },
+            "buffer": {
+              "real": -0.03571284996760696,
+              "imaginary": 0.0015529378883669342,
+              "magnitude": 0.03574659800448051,
+              "phaseDegrees": 177.5101183575375
+            }
+          }
+        },
+        {
+          "frequencyHz": 10000000.000000015,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.20051709083036065,
+              "imaginary": 0.14600616378311534,
+              "magnitude": 0.2480421407296208,
+              "phaseDegrees": 143.93983140188666
+            },
+            "v(n_CLK)": {
+              "real": -0.2005166410264361,
+              "imaginary": 0.14600602904623874,
+              "magnitude": 0.2480416977977206,
+              "phaseDegrees": 143.939795401951
+            },
+            "v(n_OSC_RC)": {
+              "real": 5.539849180606186,
+              "imaginary": 0.2647360360770463,
+              "magnitude": 5.546171121833586,
+              "phaseDegrees": 2.7359457819279713
+            },
+            "v(n_OSC1)": {
+              "real": -224.45425628854215,
+              "imaginary": -8.097600840778165,
+              "magnitude": 224.60027672605202,
+              "phaseDegrees": -177.93384527204842
+            },
+            "v(n_OSC2)": {
+              "real": 7.007716731148594,
+              "imaginary": -1.2842733429586302,
+              "magnitude": 7.1244264192602955,
+              "phaseDegrees": -10.385102592627856
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -40.493689306185644,
+              "imaginary": 0.4733951894318423,
+              "magnitude": 40.496456346590016,
+              "phaseDegrees": 179.33020894602362
+            },
+            "second": {
+              "real": -0.030974398019224688,
+              "imaginary": 0.006839218287882671,
+              "magnitude": 0.03172047035342728,
+              "phaseDegrees": 167.54874267942057
+            },
+            "buffer": {
+              "real": -0.03137816053842203,
+              "imaginary": 0.015084498699241935,
+              "magnitude": 0.034815672617119105,
+              "phaseDegrees": 154.32489799457883
+            }
+          }
+        },
+        {
+          "frequencyHz": 100000000.00000018,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.14283478670728428,
+              "imaginary": 0.36442109891010005,
+              "magnitude": 0.39141348165917883,
+              "phaseDegrees": 111.40268759128452
+            },
+            "v(n_CLK)": {
+              "real": -0.14283224192272231,
+              "imaginary": 0.36442134559877665,
+              "magnitude": 0.39141278269966356,
+              "phaseDegrees": 111.40232759192739
+            },
+            "v(n_OSC_RC)": {
+              "real": 15.795907658595501,
+              "imaginary": 20.38623017660964,
+              "magnitude": 25.78970879193066,
+              "phaseDegrees": 52.23032258813438
+            },
+            "v(n_OSC1)": {
+              "real": -162.43617593881726,
+              "imaginary": 173.19422755400015,
+              "magnitude": 237.44841905486163,
+              "phaseDegrees": 133.1641115312455
+            },
+            "v(n_OSC2)": {
+              "real": 13.640648911442543,
+              "imaginary": 20.973164670112112,
+              "magnitude": 25.01881170249454,
+              "phaseDegrees": 56.9605950196183
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": 1.4508154861622464,
+              "imaginary": 9.092074492544645,
+              "magnitude": 9.207099660200772,
+              "phaseDegrees": 80.93378894311114
+            },
+            "second": {
+              "real": 0.025126856915504255,
+              "imaginary": -0.10232534716916761,
+              "magnitude": 0.10536524859621839,
+              "phaseDegrees": -76.20351651162721
+            },
+            "buffer": {
+              "real": 0.009097894178799708,
+              "imaginary": 0.01272737931770404,
+              "magnitude": 0.01564473914085365,
+              "phaseDegrees": 54.44173257230908
+            }
+          }
+        },
+        {
+          "frequencyHz": 1000000000.0000021,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": 0.4215914123275477,
+              "imaginary": -0.20852972551692542,
+              "magnitude": 0.47034451774470654,
+              "phaseDegrees": -26.318158004760114
+            },
+            "v(n_CLK)": {
+              "real": 0.4215775555600664,
+              "imaginary": -0.2085558415946005,
+              "magnitude": 0.47034367691639367,
+              "phaseDegrees": -26.32175799832681
+            },
+            "v(n_OSC_RC)": {
+              "real": 34.57877749646998,
+              "imaginary": -16.83866852820043,
+              "magnitude": 38.460793165937005,
+              "phaseDegrees": -25.96448014032776
+            },
+            "v(n_OSC1)": {
+              "real": 18.524470606868302,
+              "imaginary": -2.1843983933500506,
+              "magnitude": 18.652817685422168,
+              "phaseDegrees": -6.725239298231637
+            },
+            "v(n_OSC2)": {
+              "real": 34.59655319182924,
+              "imaginary": -16.586533889921764,
+              "magnitude": 38.367103086323745,
+              "phaseDegrees": -25.614333494480086
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": 0.4578968194850591,
+              "imaginary": 0.15980826304921317,
+              "magnitude": 0.48498265766245635,
+              "phaseDegrees": 19.239240842096123
+            },
+            "second": {
+              "real": 1.9461359658729576,
+              "imaginary": -0.6658974431503885,
+              "magnitude": 2.0569065614311444,
+              "phaseDegrees": -18.889094196248447
+            },
+            "buffer": {
+              "real": 0.012258101045534594,
+              "imaginary": -0.00015135707732850796,
+              "magnitude": 0.012259035451755319,
+              "phaseDegrees": -0.7074245038467271
+            }
+          }
+        }
+      ],
+      "inputImpedanceMagnitudeRangeOhms": [
+        5.150801404592621,
+        43.61444750903795
+      ],
+      "artifacts": {
+        "probe.cir": "c93147c8fe9a320d1463d3667526fb336d809f020f22b219eb02909470c48024",
+        "ngspice.log": "8727cdf01fa7893f5a2d1dd8ce257dc6aa1206b800ae122e7df4c79540df4842",
+        "op.txt": "92fb4d5d058463a46979c3ba51cd6c68c645520bc6e95269a989aa9536212228",
+        "ac.txt": "584996347c84e9e5ae0d213aee63afd2858fc228c7be42637dfb4460fcd3b32d"
+      }
+    },
+    "sink-re10": {
+      "completed": true,
+      "qualified": false,
+      "modelSha256": "f7de01e3966394524533c1f84bf17714a317d7b0747a0e916c3660c39a89f9f8",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+      "transientAssessmentSha256": "a06060d7b7b18fc6cd956d4f61420ad70ca051a80de1bd9a37e3de88af786ec1",
+      "scope": "Closed BR1 and complete reference oscillator including unused gate and reference CPU load. Unit AC current injects into OSC_RC; DC injection is zero. Ratios are loaded responses within the closed circuit, not open-loop gain, stability margins or a startup proof. Observed external-node plateau agreement does not prove identical internal junction states. Frequency coverage and generic device parameters do not establish physical bandwidth.",
+      "seedTransientOp": true,
+      "opComparisonBudgetVolts": 1e-06,
+      "spinitSha256": "160963e9842efb277fc82c6d9222c8b110ee40dce1bb09587875e8b20a925d78",
+      "sources": {
+        "oscillator_ac_probe.py": "7fd5f7e1b4074b3b01d2b1148699e3270cfcbab4398c42189c77a3833d1eab60",
+        "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+        "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+        "oscillator_disturbance.py": "79612fa3edf1629c34a0cf0eb36b509ab63654e82a583543128757689418cb63",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01"
+      },
+      "operatingPointInitialGuessesVolts": {
+        "v(n_OSC_OUT)": 4.995988336855221,
+        "v(n_CLK)": 4.995988344013896,
+        "v(n_OSC_RC)": 1.1588743257310619,
+        "v(n_OSC1)": 1.136006002642616,
+        "v(n_OSC2)": 0.24988854204422822
+      },
+      "operatingPointVolts": {
+        "v(n_OSC_OUT)": 4.995988336953164,
+        "v(n_CLK)": 4.995988344111839,
+        "v(n_OSC_RC)": 1.1588743257310727,
+        "v(n_OSC1)": 1.1360060026426317,
+        "v(n_OSC2)": 0.24988854204423316
+      },
+      "transientPlateauComparisons": [
+        {
+          "case": "pulse-+0A-1e-09s",
+          "maximumDifferenceVolts": 9.794298705401161e-11
+        },
+        {
+          "case": "pulse-+0A-5e-10s",
+          "maximumDifferenceVolts": 2.178222047177769e-10
+        }
+      ],
+      "decadeSamples": [
+        {
+          "frequencyHz": 1.0,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.05002186439298188,
+              "imaginary": -8.164638239606167e-08,
+              "magnitude": 0.05002186439304852,
+              "phaseDegrees": -179.99990648103224
+            },
+            "v(n_CLK)": {
+              "real": -0.05002177506833353,
+              "imaginary": -8.164623345617375e-08,
+              "magnitude": 0.050021775068400165,
+              "phaseDegrees": -179.99990648103585
+            },
+            "v(n_OSC_RC)": {
+              "real": 18.09626883307766,
+              "imaginary": -1.2538989864187573e-06,
+              "magnitude": 18.0962688330777,
+              "phaseDegrees": -3.970051534944397e-06
+            },
+            "v(n_OSC1)": {
+              "real": -201.60943376075733,
+              "imaginary": 9.700581792978574e-06,
+              "magnitude": 201.60943376075755,
+              "phaseDegrees": 179.9999972431727
+            },
+            "v(n_OSC2)": {
+              "real": 1.3869181465711706,
+              "imaginary": 2.320600150830283e-06,
+              "magnitude": 1.386918146573112,
+              "phaseDegrees": 9.586765802191516e-05
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -11.140939362717738,
+              "imaginary": -2.3590668446982794e-07,
+              "magnitude": 11.14093936271774,
+              "phaseDegrees": -179.9999987867758
+            },
+            "second": {
+              "real": -0.006879232388583868,
+              "imaginary": -1.1841374000988517e-08,
+              "magnitude": 0.00687923238859406,
+              "phaseDegrees": -179.99990137551467
+            },
+            "buffer": {
+              "real": -0.03606685455230158,
+              "imaginary": 1.4784684034458713e-09,
+              "magnitude": 0.03606685455230161,
+              "phaseDegrees": 179.99999765130616
+            }
+          }
+        },
+        {
+          "frequencyHz": 10.000000000000004,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.05002186439508007,
+              "imaginary": -8.164638239561917e-07,
+              "magnitude": 0.05002186440174329,
+              "phaseDegrees": -179.99906481032247
+            },
+            "v(n_CLK)": {
+              "real": -0.050021775070431714,
+              "imaginary": -8.164623345573125e-07,
+              "magnitude": 0.05002177507709492,
+              "phaseDegrees": -179.99906481035848
+            },
+            "v(n_OSC_RC)": {
+              "real": 18.096268833053443,
+              "imaginary": -1.2538989864142348e-05,
+              "magnitude": 18.09626883305779,
+              "phaseDegrees": -3.970051534934761e-05
+            },
+            "v(n_OSC1)": {
+              "real": -201.6094337605515,
+              "imaginary": 9.700581792935571e-05,
+              "magnitude": 201.60943376057483,
+              "phaseDegrees": 179.99997243172677
+            },
+            "v(n_OSC2)": {
+              "real": 1.3869181466200338,
+              "imaginary": 2.3206001508201995e-05,
+              "magnitude": 1.386918146814176,
+              "phaseDegrees": 0.0009586765800926407
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -11.140939362719651,
+              "imaginary": -2.359066844698683e-06,
+              "magnitude": 11.140939362719902,
+              "phaseDegrees": -179.99998786775788
+            },
+            "second": {
+              "real": -0.006879232388776851,
+              "imaginary": -1.1841374000958409e-07,
+              "magnitude": 0.006879232389795991,
+              "phaseDegrees": -179.9990137551467
+            },
+            "buffer": {
+              "real": -0.03606685455229883,
+              "imaginary": 1.478468403446004e-08,
+              "magnitude": 0.03606685455230185,
+              "phaseDegrees": 179.99997651306145
+            }
+          }
+        },
+        {
+          "frequencyHz": 100.00000000000004,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.05002186460490666,
+              "imaginary": -8.164638235131459e-06,
+              "magnitude": 0.050021865271228455,
+              "phaseDegrees": -179.99064810335113
+            },
+            "v(n_CLK)": {
+              "real": -0.05002177528025798,
+              "imaginary": -8.164623341142675e-06,
+              "magnitude": 0.050021775946578535,
+              "phaseDegrees": -179.99064810371112
+            },
+            "v(n_OSC_RC)": {
+              "real": 18.096268830623444,
+              "imaginary": -0.00012538989859465187,
+              "magnitude": 18.09626883105786,
+              "phaseDegrees": -0.00039700515339240996
+            },
+            "v(n_OSC1)": {
+              "real": -201.60943373997256,
+              "imaginary": 0.0009700581788644871,
+              "magnitude": 201.60943374230632,
+              "phaseDegrees": 179.9997243172678
+            },
+            "v(n_OSC2)": {
+              "real": 1.3869181515065128,
+              "imaginary": 0.00023206001498102648,
+              "magnitude": 1.3869181709207263,
+              "phaseDegrees": 0.00958676567440783
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -11.140939362916658,
+              "imaginary": -2.3590668446435244e-05,
+              "magnitude": 11.140939362941635,
+              "phaseDegrees": -179.9998786775788
+            },
+            "second": {
+              "real": -0.006879232408075804,
+              "imaginary": -1.1841373997939912e-06,
+              "magnitude": 0.0068792325099898905,
+              "phaseDegrees": -179.9901375515934
+            },
+            "buffer": {
+              "real": -0.03606685455202491,
+              "imaginary": 1.4784684034598253e-07,
+              "magnitude": 0.036066854552327936,
+              "phaseDegrees": 179.9997651306145
+            }
+          }
+        },
+        {
+          "frequencyHz": 1000.0000000000005,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.05002188558752225,
+              "imaginary": -8.164637792082477e-05,
+              "magnitude": 0.05002195221962247,
+              "phaseDegrees": -179.90648116003203
+            },
+            "v(n_CLK)": {
+              "real": -0.05002179626284118,
+              "imaginary": -8.164622898094351e-05,
+              "magnitude": 0.05002186289481729,
+              "phaseDegrees": -179.906481163632
+            },
+            "v(n_OSC_RC)": {
+              "real": 18.09626858762806,
+              "imaginary": -0.001253898939182256,
+              "magnitude": 18.096268631069684,
+              "phaseDegrees": -0.00397005143288018
+            },
+            "v(n_OSC1)": {
+              "real": -201.60943168207714,
+              "imaginary": 0.009700581359570751,
+              "magnitude": 201.60943191545235,
+              "phaseDegrees": 179.99724317277392
+            },
+            "v(n_OSC2)": {
+              "real": 1.3869186401543978,
+              "imaginary": 0.002320600048817731,
+              "magnitude": 1.3869205815735488,
+              "phaseDegrees": 0.09586753022581057
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -11.140939382614436,
+              "imaginary": -0.00023590668391725424,
+              "magnitude": 11.14093938511207,
+              "phaseDegrees": -179.99878677579323
+            },
+            "second": {
+              "real": -0.0068792343379711265,
+              "imaginary": -1.1841373696094814e-05,
+              "magnitude": 0.006879244529368908,
+              "phaseDegrees": -179.9013756425481
+            },
+            "buffer": {
+              "real": -0.03606685452460188,
+              "imaginary": 1.4784684048383249e-06,
+              "magnitude": 0.036066854554904895,
+              "phaseDegrees": 179.9976513061422
+            }
+          }
+        },
+        {
+          "frequencyHz": 10000.000000000007,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.050023983840142706,
+              "imaginary": -0.0008164593487398034,
+              "magnitude": 0.05003064625913804,
+              "phaseDegrees": -179.06493809425692
+            },
+            "v(n_CLK)": {
+              "real": -0.050023894512222625,
+              "imaginary": -0.000816457859347584,
+              "magnitude": 0.050030556918807804,
+              "phaseDegrees": -179.06493813025685
+            },
+            "v(n_OSC_RC)": {
+              "real": 18.096244288238026,
+              "imaginary": -0.0125389426278662,
+              "magnitude": 18.096248632373218,
+              "phaseDegrees": -0.039700413285445754
+            },
+            "v(n_OSC1)": {
+              "real": -201.60922589336965,
+              "imaginary": 0.09700538452359814,
+              "magnitude": 201.60924923070465,
+              "phaseDegrees": 179.97243182364446
+            },
+            "v(n_OSC2)": {
+              "real": 1.38696750473814,
+              "imaginary": 0.023205899496128918,
+              "magnitude": 1.3871616246749932,
+              "phaseDegrees": 0.9585488109948065
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -11.140941352356313,
+              "imaginary": -0.0023590662921016727,
+              "magnitude": 11.140941602119485,
+              "phaseDegrees": -179.9878677630701
+            },
+            "second": {
+              "real": -0.0068794273270554075,
+              "imaginary": -0.0001184134351168956,
+              "magnitude": 0.006880446358329733,
+              "phaseDegrees": -179.01388301264964
+            },
+            "buffer": {
+              "real": -0.03606685178232996,
+              "imaginary": 1.478468542694139e-05,
+              "magnitude": 0.03606685481263207,
+              "phaseDegrees": 179.97651305874834
+            }
+          }
+        },
+        {
+          "frequencyHz": 100000.0000000001,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.050233719589108446,
+              "imaginary": -0.008160164812320481,
+              "magnitude": 0.050892188727951274,
+              "phaseDegrees": -170.77324150437505
+            },
+            "v(n_CLK)": {
+              "real": -0.05023362993741935,
+              "imaginary": -0.008160149924988822,
+              "magnitude": 0.05089209784915423,
+              "phaseDegrees": -170.77324186437443
+            },
+            "v(n_OSC_RC)": {
+              "real": 18.09381527742724,
+              "imaginary": -0.12534268089759326,
+              "magnitude": 18.094249420225033,
+              "phaseDegrees": -0.3969031198329381
+            },
+            "v(n_OSC1)": {
+              "real": -201.5886556998381,
+              "imaginary": 0.969624947503415,
+              "magnitude": 201.59098759470052,
+              "phaseDegrees": 179.72441411157308
+            },
+            "v(n_OSC2)": {
+              "real": 1.3918519247372594,
+              "imaginary": 0.23195804385822824,
+              "magnitude": 1.4110479490454424,
+              "phaseDegrees": 9.46163022115314
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -11.141138326031284,
+              "imaginary": -0.023590115848301195,
+              "magnitude": 11.14116330072084,
+              "phaseDegrees": -179.878682768594
+            },
+            "second": {
+              "real": -0.006898721787267908,
+              "imaginary": -0.0011838325712355063,
+              "magnitude": 0.00699955869000632,
+              "phaseDegrees": -170.26278389041994
+            },
+            "buffer": {
+              "real": -0.036066577527701406,
+              "imaginary": 0.00014784823251710232,
+              "magnitude": 0.036066880564606,
+              "phaseDegrees": 179.76512791447246
+            }
+          }
+        },
+        {
+          "frequencyHz": 1000000.0000000014,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.07034668480399733,
+              "imaginary": -0.07734539610528342,
+              "magnitude": 0.10455126188428401,
+              "phaseDegrees": -132.28694410076648
+            },
+            "v(n_CLK)": {
+              "real": -0.07034656404480823,
+              "imaginary": -0.07734525356867686,
+              "magnitude": 0.1045510751858307,
+              "phaseDegrees": -132.28694770076004
+            },
+            "v(n_OSC_RC)": {
+              "real": 17.85983775001769,
+              "imaginary": -1.208467174786584,
+              "magnitude": 17.900675891415208,
+              "phaseDegrees": -3.87095836396032
+            },
+            "v(n_OSC1)": {
+              "real": -199.61504537110577,
+              "imaginary": 9.284114475352135,
+              "magnitude": 199.83083125508952,
+              "phaseDegrees": 177.33708694455834
+            },
+            "v(n_OSC2)": {
+              "real": 1.860699916385688,
+              "imaginary": 2.2225654064486973,
+              "magnitude": 2.8986205624020833,
+              "phaseDegrees": 50.06441280826576
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -11.160830834347362,
+              "imaginary": -0.23535394274779747,
+              "magnitude": 11.163312070854499,
+              "phaseDegrees": -178.79195469148132
+            },
+            "second": {
+              "real": -0.008784583148336399,
+              "imaginary": -0.0115428297387729,
+              "magnitude": 0.01450537208996501,
+              "phaseDegrees": -127.27267413629261
+            },
+            "buffer": {
+              "real": -0.036038882265361054,
+              "imaginary": 0.0014798299377261454,
+              "magnitude": 0.0360692518855208,
+              "phaseDegrees": 177.6486394909742
+            }
+          }
+        },
+        {
+          "frequencyHz": 10000000.000000015,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.37174283764673277,
+              "imaginary": 0.03474691414627082,
+              "magnitude": 0.3733632083967747,
+              "phaseDegrees": 174.66006143896848
+            },
+            "v(n_CLK)": {
+              "real": -0.37174215198885185,
+              "imaginary": 0.03474708567035155,
+              "magnitude": 0.3733625416775033,
+              "phaseDegrees": 174.66002543903278
+            },
+            "v(n_OSC_RC)": {
+              "real": 12.394530428537507,
+              "imaginary": -2.74945658498228,
+              "magnitude": 12.695821992161223,
+              "phaseDegrees": -12.507293421642263
+            },
+            "v(n_OSC1)": {
+              "real": -166.9602962050383,
+              "imaginary": 13.838053614035822,
+              "magnitude": 167.53277958864965,
+              "phaseDegrees": 175.26202326195886
+            },
+            "v(n_OSC2)": {
+              "real": 9.982325480142205,
+              "imaginary": 3.4644716545444627,
+              "magnitude": 10.566427297655455,
+              "phaseDegrees": 19.13987199448354
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -13.074765226935677,
+              "imaginary": -1.7838873254409149,
+              "magnitude": 13.195898594993638,
+              "phaseDegrees": -172.2306833163989
+            },
+            "second": {
+              "real": -0.05767260771666754,
+              "imaginary": -0.02553031103247608,
+              "magnitude": 0.06307080514989158,
+              "phaseDegrees": -156.1221512674753
+            },
+            "buffer": {
+              "real": -0.0321584470487971,
+              "imaginary": 0.014641790053413086,
+              "magnitude": 0.03533479492735897,
+              "phaseDegrees": 155.52015344454924
+            }
+          }
+        },
+        {
+          "frequencyHz": 100000000.00000018,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": -0.13778386572695553,
+              "imaginary": 0.3405198589514554,
+              "magnitude": 0.3673393090794706,
+              "phaseDegrees": 112.0296339211077
+            },
+            "v(n_CLK)": {
+              "real": -0.13778148013746705,
+              "imaginary": 0.34052011658604975,
+              "magnitude": 0.3673386531099717,
+              "phaseDegrees": 112.02927392175054
+            },
+            "v(n_OSC_RC)": {
+              "real": 14.199352118218986,
+              "imaginary": 18.147252130035746,
+              "magnitude": 23.042229936537325,
+              "phaseDegrees": 51.95852886882808
+            },
+            "v(n_OSC1)": {
+              "real": -151.10862127589746,
+              "imaginary": 111.88738219121004,
+              "magnitude": 188.02287551652995,
+              "phaseDegrees": 143.4821464357022
+            },
+            "v(n_OSC2)": {
+              "real": 12.923006920823793,
+              "imaginary": 18.969659466279342,
+              "magnitude": 22.953258769557344,
+              "phaseDegrees": 55.73550404315698
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": -0.2169643288126263,
+              "imaginary": 8.157040377974974,
+              "magnitude": 8.15992532122024,
+              "phaseDegrees": 91.52361756687412
+            },
+            "second": {
+              "real": 0.00479986682598578,
+              "imaginary": -0.1219825498811129,
+              "magnitude": 0.12207694785275963,
+              "phaseDegrees": -87.74664239254523
+            },
+            "buffer": {
+              "real": 0.00888104979933921,
+              "imaginary": 0.01331343604809808,
+              "magnitude": 0.016003769085597946,
+              "phaseDegrees": 56.29376987859357
+            }
+          }
+        },
+        {
+          "frequencyHz": 1000000000.0000021,
+          "nodeTransimpedanceOhms": {
+            "v(n_OSC_OUT)": {
+              "real": 0.4656316418152115,
+              "imaginary": -0.2319637003004491,
+              "magnitude": 0.5202114801853243,
+              "phaseDegrees": -26.481107320603343
+            },
+            "v(n_CLK)": {
+              "real": 0.46561623383590056,
+              "imaginary": -0.23199254155861374,
+              "magnitude": 0.5202105502105404,
+              "phaseDegrees": -26.48470731417004
+            },
+            "v(n_OSC_RC)": {
+              "real": 37.83739773451969,
+              "imaginary": -19.30783277208023,
+              "magnitude": 42.47894859427256,
+              "phaseDegrees": -27.03451031670081
+            },
+            "v(n_OSC1)": {
+              "real": 21.737210153654267,
+              "imaginary": -3.665109250102826,
+              "magnitude": 22.044031643039336,
+              "phaseDegrees": -9.570618933584493
+            },
+            "v(n_OSC2)": {
+              "real": 37.854942264024174,
+              "imaginary": -19.058402748231348,
+              "magnitude": 42.381828289095736,
+              "phaseDegrees": -26.72337017042731
+            }
+          },
+          "loadedResponseRatios": {
+            "first": {
+              "real": 0.49502025604571254,
+              "imaginary": 0.15573637261645393,
+              "magnitude": 0.5189401426477757,
+              "phaseDegrees": 17.463891383116316
+            },
+            "second": {
+              "real": 1.8370852212548185,
+              "imaginary": -0.5670131826236726,
+              "magnitude": 1.9225987775461348,
+              "phaseDegrees": -17.15275123684282
+            },
+            "buffer": {
+              "real": 0.012274270793206683,
+              "imaginary": 5.1128189436222225e-05,
+              "magnitude": 0.012274377279386585,
+              "phaseDegrees": 0.23866285625727007
+            }
+          }
+        }
+      ],
+      "inputImpedanceMagnitudeRangeOhms": [
+        8.95734714709857,
+        51.71715756024994
+      ],
+      "artifacts": {
+        "probe.cir": "a40e90d9ba9fa64d8c4936f86e1dc2fa697c4a4e666f0efa46730bc193fc3da8",
+        "ngspice.log": "8727cdf01fa7893f5a2d1dd8ce257dc6aa1206b800ae122e7df4c79540df4842",
+        "op.txt": "12929aae6c7928750c650efb5b3bf3bf829ad8c94924c0e3afebe49b7973249c",
+        "ac.txt": "eeeba31ffad7000c02ed38d1a56496d21eea70c7d635eb248feaf54f1ec487ef"
+      }
+    },
+    "sink-re10-unseeded": {
+      "completed": false,
+      "qualified": false,
+      "modelSha256": "f7de01e3966394524533c1f84bf17714a317d7b0747a0e916c3660c39a89f9f8",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+      "transientAssessmentSha256": "a06060d7b7b18fc6cd956d4f61420ad70ca051a80de1bd9a37e3de88af786ec1",
+      "scope": "Closed BR1 and complete reference oscillator including unused gate and reference CPU load. Unit AC current injects into OSC_RC; DC injection is zero. Ratios are loaded responses within the closed circuit, not open-loop gain, stability margins or a startup proof. Observed external-node plateau agreement does not prove identical internal junction states. Frequency coverage and generic device parameters do not establish physical bandwidth.",
+      "seedTransientOp": false,
+      "opComparisonBudgetVolts": 1e-06,
+      "spinitSha256": "160963e9842efb277fc82c6d9222c8b110ee40dce1bb09587875e8b20a925d78",
+      "sources": {
+        "oscillator_ac_probe.py": "7fd5f7e1b4074b3b01d2b1148699e3270cfcbab4398c42189c77a3833d1eab60",
+        "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+        "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+        "oscillator_disturbance.py": "79612fa3edf1629c34a0cf0eb36b509ab63654e82a583543128757689418cb63",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01"
+      },
+      "operatingPointInitialGuessesVolts": {},
+      "operatingPointVolts": {
+        "v(n_OSC_OUT)": 0.4128542760734996,
+        "v(n_CLK)": 0.4128624673901093,
+        "v(n_OSC_RC)": 1.1589268680641251,
+        "v(n_OSC1)": 1.1360593979095384,
+        "v(n_OSC2)": 1.3934346199343934
+      },
+      "transientPlateauComparisons": [
+        {
+          "case": "pulse-+0A-1e-09s",
+          "maximumDifferenceVolts": 4.583134060781721
+        },
+        {
+          "case": "pulse-+0A-5e-10s",
+          "maximumDifferenceVolts": 4.5831340610974864
+        }
+      ],
+      "error": "DC branch differs from transient plateau",
+      "failureEvidence": {
+        "probe.cir": {
+          "status": "retained",
+          "bytes": 759,
+          "sha256": "c93147c8fe9a320d1463d3667526fb336d809f020f22b219eb02909470c48024"
+        },
+        "ngspice.log": {
+          "status": "retained",
+          "bytes": 341,
+          "sha256": "8727cdf01fa7893f5a2d1dd8ce257dc6aa1206b800ae122e7df4c79540df4842"
+        },
+        "op.txt": {
+          "status": "retained",
+          "bytes": 302,
+          "sha256": "285aed5d03cab0f265a98964951b963cc6c76e59b2f88bd3b0322c0d73a5bbd9"
+        },
+        "ac.txt": {
+          "status": "retained",
+          "bytes": 99912,
+          "sha256": "32898b99eac91eb0bf977a7f8459bd2b94d802c30b1b527a826b6a31d54ff432"
+        }
+      }
+    }
+  }
+}
