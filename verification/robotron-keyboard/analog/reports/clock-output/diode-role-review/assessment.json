@@ -1,0 +1,180 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Device-specific DC condition review and one input-diode sensitivity experiment. No complete device admission, switching qualification, physical process calibration or new oscillator default.",
+  "sources": {
+    "ls00_validation_limits.json": "30af1c23dae1faecf3b8cd8fd64fbbee37a4b999d42693645f2fba93cddc9a7d",
+    "k555la3_dc_limits.json": "1bd50e6b6f6131e75b64ce5de99cc961f2dbe01525dfc5567f925a51ec3b33cd",
+    "ls00_validation_probe.py": "b391e7dfee24e871668f4a9c74aff8d591b4f128cb80f1ef2163839ee47b4112",
+    "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+    "ls00_transfer_fixture.py": "d4adb86cc53b6dfc42bd11d513453be6f51e460d43b83743cd2e569e92d3e9b1"
+  },
+  "findings": [
+    "The two higher-IS candidates are rejected by the reviewed TI 4 mA output-low condition alone among its additional DC checks. They pass the separately reviewed K555LA3 DC conditions; the passport does not specify that same 4 mA condition.",
+    "Neither candidate sustains oscillation in the corrected closed-board diagnostic attempts. Each 2 ns and independent 1 ns initial run fails before its paired refinement, isolation and capacitor-sensitivity stages; this is not a completed four-run qualification.",
+    "Separating input diode IS from the clamp/other diode assumption preserves the selected TI and K555LA3 DC passes but leaves large transfer branch differences and fails the same oscillator gate. This one role separation does not resolve the model problem."
+  ],
+  "rejectedPreparation": {
+    "reason": "Initial higher-IS oscillator attempts appended a duplicate LS_NAND_NOMINAL adapter. The resulting solver warning invalidated those runs. Corrected runs use the byte-identical existing candidate directly.",
+    "retained": true
+  },
+  "nextQuestion": "Review other independent device characteristics or circuit assumptions; do not treat a TI-only endpoint failure as universal K555LA3 rejection, nor selected K555LA3 DC passes as dynamic applicability. Input-junction IS separation alone is insufficient.",
+  "deviceConditionReview": [
+    {
+      "candidate": "bf-100-is-1e-10",
+      "modelSha256": "9ec860cd0954ad231050ce375b1e5b2c8e2c12a4991191e326e9a5c72b8361fb",
+      "tiFailures": [
+        {
+          "case": "low-4ma",
+          "check": {
+            "signal": "outputVolts",
+            "minimum": 0,
+            "maximum": 0.4,
+            "observed": 0.41566139438763183,
+            "passed": false
+          }
+        }
+      ],
+      "k555SelectedDcPassed": true,
+      "oscillator": [
+        {
+          "initialStepNs": 2,
+          "passed": false,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "64f0ee3bd9c194b4171842aa9d49f333b09b4afefa4107e20a2e5e31040298ca"
+        },
+        {
+          "initialStepNs": 1,
+          "passed": false,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "64f0ee3bd9c194b4171842aa9d49f333b09b4afefa4107e20a2e5e31040298ca"
+        }
+      ]
+    },
+    {
+      "candidate": "bf-100-is-1e-09",
+      "modelSha256": "d487cdd4dbdc85fec425df3f199ac48b6f1f32ca59388eff5e8e57b7cdd4201e",
+      "tiFailures": [
+        {
+          "case": "low-4ma",
+          "check": {
+            "signal": "outputVolts",
+            "minimum": 0,
+            "maximum": 0.4,
+            "observed": 0.47408938827679026,
+            "passed": false
+          }
+        }
+      ],
+      "k555SelectedDcPassed": true,
+      "oscillator": [
+        {
+          "initialStepNs": 2,
+          "passed": false,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "44cacbca95662d6d5ab95013c665361140a60d15b9f6b85f8f397d3d913c6bfa"
+        },
+        {
+          "initialStepNs": 1,
+          "passed": false,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "44cacbca95662d6d5ab95013c665361140a60d15b9f6b85f8f397d3d913c6bfa"
+        }
+      ]
+    }
+  ],
+  "inputDiodeSensitivity": {
+    "modelSha256": "1648ff7eb76525e755ca16733c75a9722810dcfede57dba02ffea6f644d3102b",
+    "change": "Only Da/Db use a separate diode model with IS=1e-8 A; remaining diode IS stays 1e-12 A. Other parameters and topology unchanged. These are generic assumptions, not extracted junction areas.",
+    "selectedDc": {
+      "ti-dc": true,
+      "k555-dc": true
+    },
+    "transferDirectionComparisons": [
+      {
+        "loadConnection": "ground",
+        "complementaryInput": "tied",
+        "stepVolts": 0.001,
+        "maximumOutputDifferenceVolts": 2.286960415711582,
+        "inputVolts": 1.2499999999999731,
+        "forwardOutputVolts": 2.48332405208215,
+        "reverseOutputVolts": 0.19636363637056772
+      },
+      {
+        "loadConnection": "ground",
+        "complementaryInput": "tied",
+        "stepVolts": 0.0005,
+        "maximumOutputDifferenceVolts": 2.286960415338245,
+        "inputVolts": 1.2499999999999178,
+        "forwardOutputVolts": 2.4833240517274473,
+        "reverseOutputVolts": 0.1963636363892025
+      },
+      {
+        "loadConnection": "ground",
+        "complementaryInput": "high",
+        "stepVolts": 0.001,
+        "maximumOutputDifferenceVolts": 2.2842122239177303,
+        "inputVolts": 1.2319999999999751,
+        "forwardOutputVolts": 2.4803391460050896,
+        "reverseOutputVolts": 0.19612692208735927
+      },
+      {
+        "loadConnection": "ground",
+        "complementaryInput": "high",
+        "stepVolts": 0.0005,
+        "maximumOutputDifferenceVolts": 2.28765932457376,
+        "inputVolts": 1.2314999999999199,
+        "forwardOutputVolts": 2.484241341770362,
+        "reverseOutputVolts": 0.1965820171966021
+      },
+      {
+        "loadConnection": "supply",
+        "complementaryInput": "tied",
+        "stepVolts": 0.001,
+        "maximumOutputDifferenceVolts": 0.5360723609208764,
+        "inputVolts": 1.360999999999961,
+        "forwardOutputVolts": 0.8823401401925013,
+        "reverseOutputVolts": 0.34626777927162483
+      },
+      {
+        "loadConnection": "supply",
+        "complementaryInput": "tied",
+        "stepVolts": 0.0005,
+        "maximumOutputDifferenceVolts": 0.5360723568285443,
+        "inputVolts": 1.3609999999999056,
+        "forwardOutputVolts": 0.882340136099328,
+        "reverseOutputVolts": 0.3462677792707838
+      },
+      {
+        "loadConnection": "supply",
+        "complementaryInput": "high",
+        "stepVolts": 0.001,
+        "maximumOutputDifferenceVolts": 0.526240657298282,
+        "inputVolts": 1.342999999999963,
+        "forwardOutputVolts": 0.8714405872460466,
+        "reverseOutputVolts": 0.3451999299477646
+      },
+      {
+        "loadConnection": "supply",
+        "complementaryInput": "high",
+        "stepVolts": 0.0005,
+        "maximumOutputDifferenceVolts": 0.540815423961275,
+        "inputVolts": 1.3424999999999077,
+        "forwardOutputVolts": 0.8877246664411226,
+        "reverseOutputVolts": 0.3469092424798475
+      }
+    ],
+    "oscillator": [
+      {
+        "initialStepNs": 2,
+        "passed": false,
+        "reportSha256": "30116151889a05449391cdd32634ddddee1fac28ef0e16d37ea5165885fe2253"
+      },
+      {
+        "initialStepNs": 1,
+        "passed": false,
+        "reportSha256": "30116151889a05449391cdd32634ddddee1fac28ef0e16d37ea5165885fe2253"
+      }
+    ]
+  }
+}
