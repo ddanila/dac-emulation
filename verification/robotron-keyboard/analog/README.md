@@ -228,6 +228,7 @@ device, voltage and timing qualification.
 | Passive or active standalone fixture | `ttl7406_output_probe.py --host-passives --out RUN`; add `--host-buffer` for the active candidate |
 | Selected buffer DC conditions | `ttl7404_probe.py --out RUN` |
 | Buffer-input stress | `host_input_review.py --run RUN --out REPORT`; add `--firmware` for service or `--board` for closed-board captures |
+| LED sequence and timing | `compare_led_reference.py RUN --out REPORT`; `compare_led_pair.py COARSE FINE --out REPORT` (add `--experimental-host` for unqualified host-loaded timing review) |
 | Service serial-edge refinement | `compare_firmware_io.py COARSE FINE --experimental-host --out REPORT` |
 | Absolute-time host-voltage differences | `host_waveform_comparison.py COARSE FINE --out REPORT` |
 | Exact samples around maximum differences | `host_transition_windows.py COMPARISON COARSE FINE --out DIRECTORY` |
