@@ -275,6 +275,7 @@ settings, results and rejected alternatives; related captures remain in
 
 | Qualification question | Evidence and boundary |
 | --- | --- |
+| Does the host-loaded closed board complete? | [Closed-board execution review](reports/board-host-load/assessment.json); the bounded full run timed out, while an unchanged-circuit startup diagnostic completed. Neither establishes full-board acceptance. |
 | Does the service configuration work? | [Service repeat qualification](reports/repeat/refined-strict-time/qualification/qualification.json); externally supplied clock/reset do not qualify closed-board startup. |
 | Is startup numerically converged? | [Full-precision supply isolation](reports/clock-output/full-precision-supply-isolation/assessment.json) and [independent solver replay](reports/clock-output/xyce-recorded-supply/assessment.json); retain absolute phase and failing startup. |
 | Does the gate model apply to the device? | [A7 identity and passport checks](reports/clock-output/k555la3-device-review/assessment.json), [candidate admission](reports/clock-output/device-admission/assessment.json) and [output I/V review](reports/clock-output/ls00-output-iv/assessment.json); selected DC/switching passes do not qualify oscillator dynamics or historical process parameters. |
