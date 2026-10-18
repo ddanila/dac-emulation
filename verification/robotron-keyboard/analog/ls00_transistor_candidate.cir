@@ -1,0 +1,32 @@
+* TI 1985 TTL Data Book vol. 2, printed 3-4 (PDF 55), LS00 topology.
+* Experimental only: nominal resistors are sourced; junction parameters below
+* are generic assumptions, not TI process data or DL000 calibration.
+.subckt LS00_TRANSISTOR_CANDIDATE a b y vp g
+Rinput vp input 20k
+Rphase vp drive 8k
+Rcollector vp collector 120
+Remitter input sinkbase 12k
+Rdischarge sinkbase dischargebase 1.5k
+Rbleed sinkbase dischargecollector 3k
+Rhigh highbase y 4k
+Da input a LS00_SCHOTTKY_ASSUMED
+Db input b LS00_SCHOTTKY_ASSUMED
+Dclampa g a LS00_SCHOTTKY_ASSUMED
+Dclampb g b LS00_SCHOTTKY_ASSUMED
+Xphase drive input sinkbase LS00_SCHOTTKY_NPN_ASSUMED
+Xdarlington collector drive highbase LS00_SCHOTTKY_NPN_ASSUMED
+Qhigh collector highbase y LS00_NPN_ASSUMED
+Xsink y sinkbase g LS00_SCHOTTKY_NPN_ASSUMED
+Xdischarge dischargecollector dischargebase g LS00_SCHOTTKY_NPN_ASSUMED
+Dhigh highbase drive LS00_SCHOTTKY_ASSUMED
+Doutput y drive LS00_SCHOTTKY_ASSUMED
+.ends LS00_TRANSISTOR_CANDIDATE
+
+.subckt LS00_SCHOTTKY_NPN_ASSUMED c b e
+Qcore c b e LS00_NPN_ASSUMED
+Dantisat b c LS00_SCHOTTKY_ASSUMED
+.ends LS00_SCHOTTKY_NPN_ASSUMED
+* No parameter was fitted to the board clock or to force a qualification pass.
+.model LS00_NPN_ASSUMED NPN(IS=1e-16 BF=100 BR=1 VAF=100
++ CJE=0.5p CJC=0.25p TF=0.2n TR=2n)
+.model LS00_SCHOTTKY_ASSUMED D(IS=1e-8 N=1 RS=10 CJO=0.2p)

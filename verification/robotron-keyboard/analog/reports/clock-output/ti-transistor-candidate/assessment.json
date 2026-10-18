@@ -1,0 +1,335 @@
+{
+  "completed": true,
+  "qualified": false,
+  "source": {
+    "url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf",
+    "sha256": "a7d4502eb7c937ace5d3922ed5842674bcd28aec3f3ad98f52a44d1d2d066d7f",
+    "topologyPdfPage": 55,
+    "limitsPdfPage": 59
+  },
+  "scope": "DC truth table at TTL input limits, rated output loads, 25 C. No startup, delay, temperature sweep or DL000 equivalence.",
+  "assumptions": "All semiconductor parameters are generic, including junction capacitance and charge storage. Resistors and topology follow the TI drawing. A passing screen does not qualify the model.",
+  "engine": {
+    "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice-unpatched",
+    "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+  },
+  "modelSha256": "36967221c90dfd91cc25be45babccac1f087c2673fab187628ec25c759e16a17",
+  "probeSha256": "7a9ffd0cfa9287214035c17a55e61d8bca945462e17e8b79638be84e546336fb",
+  "spinitSha256": "7b5225b740de47e29e58cc54332709cd241c8696101c0c95b925330450c25417",
+  "diagnosticHelperSha256": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+  "cases": [
+    {
+      "name": "v4.75-a0.8-b0.8",
+      "supplyVolts": 4.75,
+      "inputVolts": [
+        0.8,
+        0.8
+      ],
+      "outputHigh": true,
+      "loadAmps": 0.0004,
+      "publishedSupplyCondition": true,
+      "outputLimitVolts": {
+        "minimum": 2.7,
+        "maximum": 4.75
+      },
+      "deckSha256": "a03091d8c4ab90b3ca8e597ac4b14cf6104c081e61d79dd8000c02ba8d0054e4",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 3.2606090440943656,
+      "supplyAmps": 0.0006159656924120109,
+      "inputAmps": [
+        -7.80883833793689e-05,
+        -7.80883833793689e-05
+      ],
+      "outputLimitPassed": true,
+      "traceSha256": "c42c385d55dac76b3b5561beb9466e6898eb2cc6f9847b5434d534e40e2779ae"
+    },
+    {
+      "name": "v4.75-a0.8-b2",
+      "supplyVolts": 4.75,
+      "inputVolts": [
+        0.8,
+        2.0
+      ],
+      "outputHigh": true,
+      "loadAmps": 0.0004,
+      "publishedSupplyCondition": true,
+      "outputLimitVolts": {
+        "minimum": 2.7,
+        "maximum": 4.75
+      },
+      "deckSha256": "4e6fa2627c2cfb2aa68570dd720b96ecaa836ac1b37ff872e43c23791a9dcfb1",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 3.2604376370399764,
+      "supplyAmps": 0.0006166031282791011,
+      "inputAmps": [
+        -0.00015387340824408728,
+        1.4701998879478006e-08
+      ],
+      "outputLimitPassed": true,
+      "traceSha256": "04bd7b270e7200afa2c1d5fd3598b3304f690ad42c32707ddcb09c39bed73480"
+    },
+    {
+      "name": "v4.75-a2-b0.8",
+      "supplyVolts": 4.75,
+      "inputVolts": [
+        2.0,
+        0.8
+      ],
+      "outputHigh": true,
+      "loadAmps": 0.0004,
+      "publishedSupplyCondition": true,
+      "outputLimitVolts": {
+        "minimum": 2.7,
+        "maximum": 4.75
+      },
+      "deckSha256": "e025f8032b31cddd9a3ab483e2efb23811b97e16b63bd8f3c59374b2d702fa64",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 3.2604376370394674,
+      "supplyAmps": 0.0006166031282791574,
+      "inputAmps": [
+        1.4701998879478006e-08,
+        -0.00015387340824406617
+      ],
+      "outputLimitPassed": true,
+      "traceSha256": "f0dbac3da7f7ebb9edf498db02742b42240b53d0d8c5f221925b42cd9b18b2de"
+    },
+    {
+      "name": "v4.75-a2-b2",
+      "supplyVolts": 4.75,
+      "inputVolts": [
+        2.0,
+        2.0
+      ],
+      "outputHigh": false,
+      "loadAmps": -0.008,
+      "publishedSupplyCondition": true,
+      "outputLimitVolts": {
+        "minimum": 0.0,
+        "maximum": 0.5
+      },
+      "deckSha256": "7825b31d9498194eae7bc707eb540e879a82fa1953d9b72c2f75c53846198717",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 0.5537794131848487,
+      "supplyAmps": 0.000610618787280297,
+      "inputAmps": [
+        1.4699205614476447e-08,
+        1.4699205614476447e-08
+      ],
+      "outputLimitPassed": false,
+      "traceSha256": "23a4413a0a236ea7d61a3be11f03ac680e4df2f0b1c7001f50e2512f8a2cd728"
+    },
+    {
+      "name": "v5-a0.8-b0.8",
+      "supplyVolts": 5.0,
+      "inputVolts": [
+        0.8,
+        0.8
+      ],
+      "outputHigh": true,
+      "loadAmps": 0.0004,
+      "publishedSupplyCondition": false,
+      "outputLimitVolts": {
+        "minimum": 2.7,
+        "maximum": 5.0
+      },
+      "deckSha256": "28a851b532234b27ed165d9a9ab73d3d48f8acfd57bf86fd38cdb0dc2a6c51d5",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 3.510582011862435,
+      "supplyAmps": 0.0006286092798733875,
+      "inputAmps": [
+        -8.421097321592667e-05,
+        -8.421097321592667e-05
+      ],
+      "outputLimitPassed": true,
+      "traceSha256": "ebbda6a54538c5cb92e4fcf59b99194e6e08c6b9eb6cb054d065074de46d5a42"
+    },
+    {
+      "name": "v5-a0.8-b2",
+      "supplyVolts": 5.0,
+      "inputVolts": [
+        0.8,
+        2.0
+      ],
+      "outputHigh": true,
+      "loadAmps": 0.0004,
+      "publishedSupplyCondition": false,
+      "outputLimitVolts": {
+        "minimum": 2.7,
+        "maximum": 5.0
+      },
+      "deckSha256": "bd5e715a5258a195a6ca355aa9fac73eb7ac2f0d818328a4b4299a5f7e60bd9b",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 3.510409209676464,
+      "supplyAmps": 0.0006292560299897235,
+      "inputAmps": [
+        -0.00016610701511175319,
+        1.4701995457853037e-08
+      ],
+      "outputLimitPassed": true,
+      "traceSha256": "4eebf81c826b10658f2e7e8d743931e520eeeec936d6c8c23a2b43e223d816af"
+    },
+    {
+      "name": "v5-a2-b0.8",
+      "supplyVolts": 5.0,
+      "inputVolts": [
+        2.0,
+        0.8
+      ],
+      "outputHigh": true,
+      "loadAmps": 0.0004,
+      "publishedSupplyCondition": false,
+      "outputLimitVolts": {
+        "minimum": 2.7,
+        "maximum": 5.0
+      },
+      "deckSha256": "b5cfda002dba85c1835f9eb0411b1492350507683a0925cf8b469bb101989b64",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 3.5104092096762147,
+      "supplyAmps": 0.0006292560299898204,
+      "inputAmps": [
+        1.4701995457853037e-08,
+        -0.00016610701511175207
+      ],
+      "outputLimitPassed": true,
+      "traceSha256": "efde7ba457768e4853459b8aaa07471673ee2d885766f1e51cc154b0ebe2409d"
+    },
+    {
+      "name": "v5-a2-b2",
+      "supplyVolts": 5.0,
+      "inputVolts": [
+        2.0,
+        2.0
+      ],
+      "outputHigh": false,
+      "loadAmps": -0.008,
+      "publishedSupplyCondition": false,
+      "outputLimitVolts": {
+        "minimum": 0.0,
+        "maximum": 0.5
+      },
+      "deckSha256": "8bc8c8efe7628af631101bdd2f72736e4b410d8c10dd88774371a639682febf5",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 0.5502463673516309,
+      "supplyAmps": 0.0006549000487050641,
+      "inputAmps": [
+        1.4699163123740216e-08,
+        1.4699163123740216e-08
+      ],
+      "outputLimitPassed": false,
+      "traceSha256": "4d06f3b86b28cb1fc134d11ad399435ce14f7182d76e2ab5d24ee01dc7e046fa"
+    },
+    {
+      "name": "v5.25-a0.8-b0.8",
+      "supplyVolts": 5.25,
+      "inputVolts": [
+        0.8,
+        0.8
+      ],
+      "outputHigh": true,
+      "loadAmps": 0.0004,
+      "publishedSupplyCondition": false,
+      "outputLimitVolts": {
+        "minimum": 2.7,
+        "maximum": 5.25
+      },
+      "deckSha256": "3e60d78173be1c1013867f5c2655b7799ed4a79422597fa322394dea880d368b",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 3.7605561432402963,
+      "supplyAmps": 0.0006412492488361616,
+      "inputAmps": [
+        -9.034205297767682e-05,
+        -9.034205297767682e-05
+      ],
+      "outputLimitPassed": true,
+      "traceSha256": "9144aef7b3763d3c1b8e8c3ae542d85ac77db618bd26aeaac61881adc6faaf5f"
+    },
+    {
+      "name": "v5.25-a0.8-b2",
+      "supplyVolts": 5.25,
+      "inputVolts": [
+        0.8,
+        2.0
+      ],
+      "outputHigh": true,
+      "loadAmps": 0.0004,
+      "publishedSupplyCondition": false,
+      "outputLimitVolts": {
+        "minimum": 2.7,
+        "maximum": 5.25
+      },
+      "deckSha256": "9df12eff97a622cb28363d0f7d77d2032a25614212f9f4ce173bcdb4bb9fbd58",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 3.7603819803940954,
+      "supplyAmps": 0.0006419051267980253,
+      "inputAmps": [
+        -0.0001783580651853449,
+        1.4701992250065382e-08
+      ],
+      "outputLimitPassed": true,
+      "traceSha256": "2bce5fbd1c62deabaa7d6da6212f9f87e68f175658a7d1b554ae17fed2e3b39f"
+    },
+    {
+      "name": "v5.25-a2-b0.8",
+      "supplyVolts": 5.25,
+      "inputVolts": [
+        2.0,
+        0.8
+      ],
+      "outputHigh": true,
+      "loadAmps": 0.0004,
+      "publishedSupplyCondition": false,
+      "outputLimitVolts": {
+        "minimum": 2.7,
+        "maximum": 5.25
+      },
+      "deckSha256": "b437bd435ebaaeeeca19d5f8e2cd0aea742161deceea9c033abd7848ff15f21d",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 3.760381980394335,
+      "supplyAmps": 0.0006419051267980394,
+      "inputAmps": [
+        1.4701992250065382e-08,
+        -0.00017835806518536095
+      ],
+      "outputLimitPassed": true,
+      "traceSha256": "c4712b9b44eaefad1abf433c5ead1177f04f5b6bf68595075f692449e16238ab"
+    },
+    {
+      "name": "v5.25-a2-b2",
+      "supplyVolts": 5.25,
+      "inputVolts": [
+        2.0,
+        2.0
+      ],
+      "outputHigh": false,
+      "loadAmps": -0.008,
+      "publishedSupplyCondition": false,
+      "outputLimitVolts": {
+        "minimum": 0.0,
+        "maximum": 0.5
+      },
+      "deckSha256": "0e81d12868df71881f2669ede7d0eb9078d0f2609e8911e9aa5bc395fab80ff4",
+      "exitCode": 0,
+      "logSha256": "ee6b29b803dd6e8aa893cd8c8d23d2f013e0172b859fee3306e2a8a335c1ce27",
+      "outputVolts": 0.5470757922987011,
+      "supplyAmps": 0.0006991320725493978,
+      "inputAmps": [
+        1.4699122837275648e-08,
+        1.4699122837275648e-08
+      ],
+      "outputLimitPassed": false,
+      "traceSha256": "5a6fa0851cc0121f86cde01e57f56c79baaaedc008a444ba6d9411039ce27b5f"
+    }
+  ],
+  "outputLimitsPassed": false
+}

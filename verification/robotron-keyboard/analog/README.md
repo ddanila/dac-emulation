@@ -619,6 +619,15 @@ records explicit Newton starting guesses and preserves the preceding solver
 warning separately. Only DC curve conversion is checked; this is not a switching
 model or a board-default change. Generated vendor-derived decks remain local.
 
+`ls00_transistor_probe.py --ngspice /path/to/ngspice --out /tmp/ls00-transistor`
+screens the experimental `ls00_transistor_candidate.cir` at TTL input limits and
+rated output loads. The [TI 1985 databook](https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf)
+provides the LS00 topology and nominal resistors (printed page 3-4); semiconductor
+parameters are explicit assumptions. The [retained DC screen](reports/clock-output/ti-transistor-candidate/assessment.json)
+fails the low-output limit. This candidate is not a board default or a qualified
+DL000, switching or undervoltage model. A sourced topology alone does not supply
+the missing process parameters.
+
 The independent `xyce_oscillator_probe.py` uses the canonical oscillator wiring
 and existing gate equations with Xyce expression delimiters. Supply comes from
 A7's supply pins, and complete output is checked before normalization and phase

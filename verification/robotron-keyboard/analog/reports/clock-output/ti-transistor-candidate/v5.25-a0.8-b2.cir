@@ -1,0 +1,18 @@
+LS00 transistor DC screen
+.include ls00_transistor_candidate.cir
+.options reltol=1e-8 vntol=1e-10 abstol=1e-14
+.temp 25
+Vcc vp 0 5.25
+Va a 0 0.8
+Vb b 0 2.0
+Xgate a b y vp 0 LS00_TRANSISTOR_CANDIDATE
+Iload y 0 0.0004
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+op
+wrdata v5.25-a0.8-b2.txt v(y) i(Vcc) i(Va) i(Vb)
+quit
+.endc
+.end
