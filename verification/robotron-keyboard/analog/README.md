@@ -689,6 +689,14 @@ receiver rise convergence and cable-load sensitivity, and records driver supply
 and input currents. Results live in `reports/ttl7406/outputs/`. These fixture
 checks do not qualify transistor switching delays or firmware integration.
 
+`write_control_probe.py --ngspice /path/to/ngspice --out /new/output/path`
+checks CPU WR loading through the transistor clock gate and cable. The CPU
+uses explicit low/high/release enables and published DC-endpoint impedances;
+the gate contributes its modeled input bias. The input capacitance remains an
+explicit fixture assumption. Retained waveforms are in `reports/write-control/`.
+This isolated fixture is not yet connected to firmware WR ownership and does
+not qualify U880 control timing or transistor switching parameters.
+
 The boot harness accepts `--electrical-outputs --serial-driver 7406-dc` to use
 that candidate under live HDL control. Its inputs still come from ideal DAC
 drivers; CPU output loading and the remaining package gates are not represented

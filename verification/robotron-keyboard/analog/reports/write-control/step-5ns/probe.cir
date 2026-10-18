@@ -1,0 +1,76 @@
+CPU WR electrical loading fixture
+Vhost n_CABLE_5V n_CABLE_GND 5
+R10.1 n_p5V n_TA_TAKT 560
+R10.2 n_p5V n_TA_DATEN 560
+R11.1 n_LED_SISO_N n_LED_SISO 130
+R11.2 n_LED_CAPS_N n_LED_CAPS 130
+C3.1 n_p5V 0 47u
+C3.2 n_p5V 0 47u
+C5.1 n_p5V 0 47n
+C5.2 n_p5V 0 47n
+C5.3 n_p5V 0 47n
+C5.4 n_p5V 0 47n
+C5.5 n_p5V 0 47n
+L1.1 n_TA_TAKT L1_1_series 1u
+RL1.1 L1_1_series n_CABLE_TAKT 1
+L1.2 0 L1_2_series 1u
+RL1.2 L1_2_series n_CABLE_GND 1
+L1.3 n_p5V L1_3_series 1u
+RL1.3 L1_3_series n_CABLE_5V 1
+L1.4 n_TA_DATEN L1_4_series 1u
+RL1.4 L1_4_series n_CABLE_DATEN 1
+.model LED_NOMINAL D(IS=1e-20 N=2 RS=2)
+Xdata data_intent n_TA_DATEN driver_vp 0 TTL7406_NOMINAL input_br=.01
+Cdata_load n_CABLE_DATEN n_CABLE_GND 1000p
+Rdata_load n_CABLE_DATEN n_CABLE_GND 100k
+Xclock n_WR_N n_TA_TAKT driver_vp 0 TTL7406_NOMINAL input_br=.01
+Cclock_load n_CABLE_TAKT n_CABLE_GND 1000p
+Rclock_load n_CABLE_TAKT n_CABLE_GND 100k
+Bsiso_target siso_target 0 V=V(n_p5V)*(0.7-0.66*V(siso_intent)/5)
+Rsiso_output siso_target n_LED_SISO_N 30
+Dsiso_led n_p5V n_LED_SISO LED_NOMINAL
+Bcaps_target caps_target 0 V=V(n_p5V)*(0.7-0.66*V(caps_intent)/5)
+Rcaps_output caps_target n_LED_CAPS_N 30
+Dcaps_led n_p5V n_LED_CAPS LED_NOMINAL
+Vdriver_supply n_p5V driver_vp 0
+* SN7406 topology from TI SDLS031A, page 2. Resistors are published nominal values.
+* Generic semiconductor parameters are assumptions, NOT a vendor transistor model.
+* No calibrated switching/storage, temperature, breakdown or package parasitics.
+.subckt TTL7406_NOMINAL a y vp g params: input_br=1
+Rinput vp input_base 6k
+Qinput phase_base input_base a TTL7406_INPUT_NPN
+Dinput g a TTL7406_DIODE
+Qphase phase_col phase_base phase_emit TTL7406_NPN
+Dfeed feed phase_col TTL7406_DIODE
+Rfeed vp feed 1.4k
+Rdivider feed inverter_base 2k
+Remitter phase_emit discharge_base 100
+Rdischarge discharge_base g 1k
+Qdischarge inverter_base discharge_base g TTL7406_NPN
+Qinverter output_base inverter_base g TTL7406_NPN
+Routput vp output_base 1.6k
+Qoutput y output_base g TTL7406_NPN
+.model TTL7406_NPN NPN(IS=1e-14 BF=100 BR=1 VAF=100)
+.model TTL7406_INPUT_NPN NPN(IS=1e-14 BF=100 BR={input_br} VAF=100)
+.model TTL7406_DIODE D(IS=1e-14 N=1)
+.ends TTL7406_NOMINAL
+Bwr_low n_WR_N 0 I=V(n_WR_N)*V(wr_low)/(5*222.22222222222223)
+Bwr_high n_p5V n_WR_N I=(V(n_p5V)-V(n_WR_N))*V(wr_high)/(5*10400)
+Cwr_cpu n_WR_N 0 9.9999999999999994e-12
+Rwr_numerical n_WR_N 0 1e12
+Cwr_gate n_WR_N 0 3p
+Vdata data_intent 0 0
+Vsiso siso_intent 0 0
+Vcaps caps_intent 0 0
+Vwr_high wr_high 0 PWL(0 5 10u 5 10.001u 0 40u 0)
+Vwr_low wr_low 0 PWL(0 0 10u 0 10.001u 5 20u 5 20.001u 0 30u 0 30.001u 5 40u 5)
+.save v(n_WR_N) v(n_CABLE_TAKT,n_CABLE_GND) @bwr_low[i] @bwr_high[i] i(Vdriver_supply)
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+tran 5n 40u
+wrdata trace.txt v(n_WR_N) v(n_CABLE_TAKT,n_CABLE_GND) @bwr_low[i] @bwr_high[i] i(Vdriver_supply)
+quit
+.endc
+.end

@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """The optional driver adapter must preserve schematic-derived passive wiring."""
 import copy
+import json
+from pathlib import Path
+
+from write_control import wiring
 from unittest.mock import patch
 import unittest
 
@@ -22,6 +26,35 @@ class TTL7406OutputTests(unittest.TestCase):
             self.assertEqual(metadata['serialDriver']['dataInput']['net'], net)
         with self.assertRaisesRegex(ValueError, 'transistor driver'):
             driver_circuit(components, 'nominal', 1000, electrical_data_input=True)
+
+    def test_physical_clock_input_and_wr_ownership(self):
+        components, _ = load()
+        limits = json.loads(Path(__file__).with_name('bus_limits.json').read_text())
+        for net in ('/WR_N', '/ALTERNATE_WR'):
+            changed = copy.deepcopy(components)
+            changed['A1']['pins']['1'] = net
+            changed['A5']['pins']['22'] = net
+            lines, metadata = driver_circuit(changed, '7406-dc', 1000, electrical_clock_input=True)
+            self.assertIn(f'Xclock n_{net[1:]} n_TA_TAKT driver_vp 0 TTL7406_NOMINAL input_br=.01', lines)
+            self.assertFalse(any('clock_intent' in line for line in lines))
+            self.assertEqual(metadata['serialDriver']['clockInput']['net'], net)
+            loads, info = wiring(changed, limits, 3)
+            self.assertEqual(info['pins'], ['A1:1', 'A5:22'])
+            self.assertTrue(any('V(wr_low)' in line for line in loads))
+            self.assertTrue(any('V(wr_high)' in line for line in loads))
+        for cap in (None, -1, float('nan'), float('inf')):
+            with self.assertRaisesRegex(ValueError, 'capacitance'):
+                wiring(components, limits, cap)
+        changed = copy.deepcopy(components)
+        changed['A1']['pins']['3'] = changed['A5']['pins']['22']
+        with self.assertRaisesRegex(ValueError, 'Unmodeled WR connection'):
+            wiring(changed, limits, 3)
+        changed = copy.deepcopy(components)
+        changed['A1']['pins']['1'] = '/DIFFERENT_NET'
+        with self.assertRaisesRegex(ValueError, 'mapping'):
+            wiring(changed, limits, 3)
+        with self.assertRaisesRegex(ValueError, 'transistor driver'):
+            driver_circuit(components, 'nominal', 1000, electrical_clock_input=True)
 
     def test_passives_and_connector_mapping_preserved(self):
         components, _ = load()
