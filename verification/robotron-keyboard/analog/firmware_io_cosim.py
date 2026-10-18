@@ -27,6 +27,7 @@ from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
 from ngspice_runtime import identify as identify_runtime, verify as verify_runtime
 from output_circuit import output_circuit
+from host_receiver import host_receiver
 from ttl7406_output_probe import driver_circuit, checked_dc_reference
 from serial_observation import validate_transport, first_reference_difference, SerialMismatch
 from io_scenario import load as load_scenario, contact_source, reset_source, c_header, time_ns, observe
@@ -60,6 +61,7 @@ def main():
     p.add_argument('--latch-timing-envelope', action='store_true', help='Conservative Intel 8282 timing; requires electrical-bus')
     p.add_argument('--rom-read-envelope', action='store_true', help='Conservative Intel 2716 read timing; requires electrical-bus')
     p.add_argument('--cpu-profile', choices=CIRCUIT_PROFILES, default='tv80')
+    p.add_argument('--host-buffer', action='store_true', help='Experimental host passive network and 7404 buffer; observe inverted data and falling SIO-side clock')
     p.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal')
     p.add_argument('--bus-latch-pf', type=float, help='Explicit undocumented latch-output capacitance per pin')
     p.add_argument('--bus-7406-pf', type=float, help='Explicit undocumented 7406-input capacitance')
@@ -98,7 +100,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     if args.compress_traces and any(out.glob('*trace.txt*')):
         p.error('Compressed capture requires a fresh waveform output directory')
-    for name in ('report.json', 'trace.txt', 'led-trace.txt', 'bus-trace.txt', 'driver-trace.txt', 'wr-trace.txt', 'ngspice.log'):
+    for name in ('report.json', 'trace.txt', 'led-trace.txt', 'bus-trace.txt', 'driver-trace.txt', 'wr-trace.txt', 'host-trace.txt', 'ngspice.log'):
         (out / name).unlink(missing_ok=True)
     report = {'passed': False, 'scope': __doc__, 'assumptions': {
         'electricalCpuPullups': args.electrical_cpu_pullups,
@@ -133,6 +135,11 @@ def main():
             'unspecified intervals propagate X. No U556 calibration or physical transition prediction; '
             'the bridge unknown-drive voltage is a numerical surrogate, not a qualified pin voltage.')
     report['sources']['cpu_read_phase_candidate.py'] = sha(HERE / 'cpu_read_phase_candidate.py')
+    if args.host_buffer:
+        report['qualified'] = False
+        report['assumptions']['hostBuffer'] = '7404-candidate'
+        report['assumptions']['hostBoundary'] = 'Reference motherboard passives and generic 7404 candidate; falling buffer-output clock and non-inverted logical data. Input loading, switching and SIO loads unqualified.'
+        report['sources'].update({name: sha(HERE / name) for name in ('host_receiver.py', 'host_receiver.json', 'ttl7404_nominal.cir', 'd104_limits.json')})
     if args.serial_driver != 'nominal':
         report['assumptions']['serialDriver'] = args.serial_driver
         report['sources'].update({name: sha(HERE / name) for name in ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'ttl7406_limits.json')})
@@ -196,6 +203,7 @@ def main():
         report['hdlSha256'] = {str(path): sha(path) for path in hdl}
         top = 'firmware_io_electrical_bus' if args.electrical_bus else 'firmware_io_cosim'
         subprocess.run(['iverilog', '-g2012', '-s', top, '-o', str(out / 'io.vvp'),
+                        f'-P{top}.HOST_BUFFER=' + str(int(args.host_buffer)),
                         f'-P{top}.ELECTRICAL_CPU_PULLUPS=' + str(int(args.electrical_cpu_pullups)),
                         f'-P{top}.ELECTRICAL_LOGIC_PULLUPS=' + str(int(args.electrical_logic_pullups)),
                         *map(str, hdl)], check=True)
@@ -206,6 +214,10 @@ def main():
                                            electrical_data_input=args.electrical_bus, electrical_clock_input=args.electrical_wr)
         else:
             outputs, info = output_circuit(components)
+        if args.host_buffer:
+            host_lines, host_info = host_receiver(info, input_reverse_beta=.01)
+            outputs += host_lines
+            report['hostReceiver'] = host_info
         report['outputCircuit'] = info
         logic_lines, logic_inputs = [], 'fixture_reset_n fixture_reset_n fixture_reset_n'
         if args.electrical_logic_pullups:
@@ -272,19 +284,21 @@ def main():
                 'Data and clock gates use electrical D0/WR voltages and transistor topology; other gates remain HDL. '
                 'Generic semiconductor parameters, uncalibrated capacitance and switching timing.')
             report['modelCoverage']['components']['A5']['model'] += '; WR uses explicit reset/BUSACK ownership and linear DC-endpoint driver'
-        ground = info['hostGround']
+        ground = host_info['ground'] if args.host_buffer else info['hostGround']
+        supply = host_info['supply'] if args.host_buffer else info['hostSupply']
+        receiver_nodes = host_info['bufferOutputs'] if args.host_buffer else {label: info['serial'][label]['cable'] for label in ('data','clock')}
         sense = ' '.join(f'n_SENSE{i}' for i in reversed(range(8)))
         dsense = ' '.join(f'dsense{i}' for i in reversed(range(8)))
         columns = ' '.join(f'dcol{i}' for i in reversed(range(13)))
         sinks = ' '.join(f'sink{i}' for i in reversed(range(13)))
-        lines = ['S600 firmware I/O service fixture', f'Vhost {info["hostSupply"]} {ground} PWL(0 0 1u 5)',
+        lines = ['S600 firmware I/O service fixture', f'Vhost {supply} {ground} PWL(0 0 1u 5)',
                  'Vfixture_clock fixture_clock 0 PULSE(0 5 500n 1n 1n 499n 1u)',
                  'Vfixture_reset fixture_reset 0 ' + reset_source(scenario),
                  *matrix, *outputs, *logic_lines, *cpu_lines, *bus_lines,
                  *[f'Vcontact{i} contact{i} 0 ' + contact_source(scenario, i) for i in range(104)],
                  'Esiso_intent siso_intent 0 led0_v 0 1', 'Ecaps_intent caps_intent 0 led1_v 0 1',
-                 f'Edata receiver_data 0 {info["serial"]["data"]["cable"]} {ground} 1',
-                 f'Eclock receiver_clock 0 {info["serial"]["clock"]["cable"]} {ground} 1',
+                 f'Edata receiver_data 0 {receiver_nodes["data"]} {ground} 1',
+                 f'Eclock receiver_clock 0 {receiver_nodes["clock"]} {ground} 1',
                  f'Amatrix [{sense}] [{dsense}] data_receiver',
                  'Arxdata [receiver_data] [rx_data] data_receiver',
                  '.model data_receiver adc_bridge(in_low=.8 in_high=2)',
@@ -302,6 +316,15 @@ def main():
                  '.save v(receiver_data) v(receiver_clock)', '.control', 'set wr_singlescale', 'set wr_vecnames',
                  f'tran {args.step_ns}n {time_ns(scenario["cycles"])}n', 'wrdata trace.txt v(receiver_data) v(receiver_clock)',
                  'quit', '.endc', '.end']
+        if args.host_buffer:
+            signals = ' '.join(f'v({n},{ground})' for n in [
+                *[info['serial'][label]['cable'] for label in ('data','clock')],
+                *[host_info['inputs'][label] for label in ('data','clock')],
+                *[host_info['bufferOutputs'][label] for label in ('data','clock')]])
+            report['hostTraceSignals'] = signals.split()
+            lines.insert(lines.index('.control'), '.save ' + signals)
+            lines.insert(lines.index('.control') + 1, 'set numdgt=17')
+            lines.insert(lines.index('quit'), 'wrdata host-trace.txt ' + signals)
         if args.led_trace:
             signals = 'v(siso_intent) v(caps_intent) @dsiso_led[id] @dcaps_led[id]'
             lines.insert(lines.index('.control'), '.save ' + signals)
@@ -334,6 +357,8 @@ def main():
             trace_names.append('driver-trace.txt')
         if args.electrical_wr:
             trace_names.append('wr-trace.txt')
+        if args.host_buffer:
+            trace_names.append('host-trace.txt')
         with capture_compressed(out, trace_names, args.compress_traces, preset=args.compression_preset) as compressed:
             with (out / 'ngspice.log').open('w') as log:
                 subprocess.run([engine, '-n', '-b', 'io.cir'], cwd=out, env=engine_env, stdout=log, stderr=subprocess.STDOUT,
@@ -351,6 +376,12 @@ def main():
                     digest.update(data)
             report['busTraceSha256'] = digest.hexdigest()
             report['busQualification'] = 'Sampled-voltage and TV80-register checks do not qualify U880 pin timing or calibrated electrical behavior'
+        if args.host_buffer:
+            with open_binary(out / 'host-trace.txt') as stream:
+                digest = hashlib.sha256()
+                for data in iter(lambda: stream.read(1024 * 1024), b''):
+                    digest.update(data)
+            report['hostTraceSha256'] = digest.hexdigest()
         verify_runtime(report['ngspiceRuntime'])
         log = (out / 'ngspice.log').read_text()
         if solver_diagnostic(log):
@@ -408,6 +439,8 @@ def main():
             report['resetFailure'] = error.details
         report['error'] = str(error)
         names = ['ngspice.log', 'trace.txt', 'led-trace.txt']
+        if args.host_buffer:
+            names.append('host-trace.txt')
         if args.electrical_bus:
             names.append('bus-trace.txt')
         if args.serial_driver == '7406-dc':
