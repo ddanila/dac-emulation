@@ -1,0 +1,37 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "d74750f",
+  "scope": "Fixed-breakpoint-spacing timestep refinement of the loaded service reset scenario",
+  "evidence": {
+    "producer": "report.json",
+    "coarse": "../firmware-host-rising-reset-minbreak/assessment.json",
+    "scenarioCoverage": "coverage.json",
+    "sampledStability": "margins.json",
+    "absoluteTimeComparison": "voltage-comparison.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "f4cc2f9b2a5e458b978d50f5c1f28439a8f12bb7fdeee03cf1de1430bf392506",
+    "run-inputs.json": "2363ea20668ece045b3c2a724ed21bef77f39c6c81958947114611bdf33b3ed5",
+    "scenario.json": "5e18138a0d6911d72f31bd3ea0d981f35fc642071bc3939d6c680e6ef546f7e3",
+    "io.cir": "711002c29c41ed8672b447b399c810c3b2b0b098cdfe8fa8dd9f9190b6cbdd17",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "bf5d1db5df22f513c5f27792f1400c13d4d074041b4b0c5f353bc70cc0fe497f",
+    "ngspice.log": "3a8cb0c1abfd313c2430b53f5bb5449a28a1d99cd48fb050d1a434b3592fce2b",
+    "reference.log": "af14c8d9e2586559f0730c4987dd2955bb6e5ff415c77da865f4501d7d0d2a98",
+    "coverage.json": "089f124ebb3578d7cd0ca4b95ddd9795057d65fa2271f3bbdab68d00cfb9d68e",
+    "margins.json": "de1e34c6ea12720f78be943cdd0795e36606fc5d90b6e2969ccf3d8f095c9e9d",
+    "voltage-comparison.json": "1d2ef2ed8b320e8c8a9e556946337f05cc0dcbd917e8a5dad580e7514bd820f1"
+  },
+  "waveforms": {
+    "retention": "Complete waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL included.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-reset-minbreak-fine",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "Both timesteps complete reset, CPU restart and post-reset packet observations. Logical comparison, independent coverage, sampled stability and serial-edge timestep refinement pass. Absolute-time voltage peaks remain substantial; this pair does not establish whole-waveform convergence or calibrated device dynamics.",
+  "nextAction": "Complete other fixed-spacing scenarios and investigate stricter-tolerance solver failures independently of the passing serial comparison."
+}
