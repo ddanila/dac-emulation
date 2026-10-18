@@ -235,6 +235,9 @@ For numerical diagnosis only, run
 `compare_firmware_io.py COARSE FINE --experimental-host --out /tmp/host-convergence.json`.
 This checks matching model/runtime inputs and serial-edge refinement while retaining
 `qualified: false`; it does not bypass the paired electrical qualification gate.
+`host_waveform_comparison.py COARSE FINE --out /tmp/host-voltages.json` compares
+all retained host-voltage sample knots at absolute time using linear interpolation.
+It reports maximum differences without phase alignment or a physical-accuracy claim.
 
 Use `host_input_review.py --firmware --run /path/to/service-run --out /tmp/input-limits.json`
 for a retained host-buffer firmware capture; it verifies artifact hashes, observed
@@ -268,7 +271,7 @@ settings, results and rejected alternatives; related captures remain in
 | Do transfer branches depend on the solver? | [Published fixture review](reports/clock-output/ls00-transfer500/assessment.json) and [Xyce replay](reports/clock-output/xyce-transfer500/assessment.json); fixture alternatives and explicit runtime temperatures remain part of the comparison. Solver agreement is not calibration. |
 | Do device conditions or input-junction assumptions resolve startup? | [Device-condition and diode review](reports/clock-output/diode-role-review/assessment.json); selected TI/К555ЛА3 DC checks remain distinct from dynamic applicability. |
 | Are CPU reads electrically valid? | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json) and [floating-read analysis](reports/floating-io/static-analysis.json); functional agreement does not qualify released input voltage. |
-| Does firmware traverse the experimental host receiver? | [Service firmware observation](reports/firmware-host-buffer/assessment.json) and [paired numerical review](reports/firmware-host-buffer-fine/assessment.json); logical comparison, serial-edge refinement, sampled stability and input stress pass. Full waveforms remain local; device/loading and closed-board qualification remain open. |
+| Does firmware traverse the experimental host receiver? | [Service firmware observation](reports/firmware-host-buffer/assessment.json) and [paired numerical review](reports/firmware-host-buffer-fine/assessment.json); logical comparison, serial-edge refinement, sampled stability and input stress pass, but absolute-time voltage comparison exposes substantial transition differences. Full waveforms remain local; voltage convergence, device/loading and closed-board qualification remain open. |
 | Is the host buffer switching model qualified? | [D104 switching fixture review](reports/host-buffer-switching/assessment.json); threshold timing converges under explicit generator assumptions, but incomplete fixture parameters and uncalibrated device dynamics prevent qualification. |
 | Does an active host buffer change the rejected input pulses? | [Buffer candidate review](reports/host-buffer/assessment.json); selected DC and nominal fixture checks pass for the explicit candidate, while clamp dynamics, device applicability and SIO loading remain unqualified. |
 | Where does the cable terminate electrically? | [Host input review](reports/host-receiver/assessment.json); factory and redrawn schematics place passive filters before D104 buffers. The passive boundary changes loading and undershoot but does not qualify the active receiver. |
