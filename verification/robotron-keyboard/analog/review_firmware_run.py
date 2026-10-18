@@ -23,7 +23,10 @@ def confirmed_prefix(log):
     index, excluded = samples[-1]
     if not re.fullmatch(r'BUS_SAMPLE \d+ [0-9a-fA-F]{4} [0-9a-fA-FxXzZ]{2} [01] [01] [01]', excluded):
         return None
-    return '\n'.join(lines[:index] + lines[index + 1:]) + '\n', excluded
+    stamp = excluded.split()[1]
+    remaining = [line for i, line in enumerate(lines)
+                 if i != index and not line.startswith('BUS_DRIVE ' + stamp + ' ')]
+    return '\n'.join(remaining) + '\n', excluded
 
 
 def main():

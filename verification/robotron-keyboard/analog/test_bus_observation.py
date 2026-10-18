@@ -32,6 +32,21 @@ class BusObservationTests(unittest.TestCase):
         self.assertEqual(report['minimumHighMarginVolts'], 2.5)
         self.assertFalse(report['qualified'])
 
+    def test_driver_states_preserve_release_and_unknown_on_failure(self):
+        drives = ('BUS_DRIVE 100000 ' + '0'*24 + ' ' + '0'*24 + '\n' +
+                  'BUS_DRIVE 300000 ' + '0'*16 + 'x0000000 ' + '0'*24 + '\n')
+        with self.assertRaises(BusMismatch) as caught:
+            self.check(log=LOG.replace('8000 a5', '8000 aX') + drives)
+        owners = caught.exception.details['drivers']
+        self.assertEqual(owners['cpu']['lowEnableBits7To0'], 'x0000000')
+        self.assertEqual(owners['rom']['lowEnableBits7To0'], '00000000')
+        self.assertEqual(owners['latch']['highEnableBits7To0'], '00000000')
+        self.assertEqual(caught.exception.details['signal'], 'CPU_DI_UNKNOWN')
+        self.assertTrue(self.check(log=LOG + drives)['driverStatesCaptured'])
+        for broken in (drives.replace('300000', '300001'), drives.splitlines()[0] + '\n'):
+            with self.assertRaisesRegex(ValueError, 'driver observations'):
+                self.check(log=LOG + broken)
+
     def test_postponed_region_latch_at_sampling_time(self):
         log = LOG.replace('150000', '100000').replace('350000', '300000')
         self.assertEqual(self.check(log=log)['sampleCount'], 2)
