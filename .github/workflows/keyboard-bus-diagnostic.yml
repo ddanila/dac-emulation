@@ -11,10 +11,15 @@ on:
         description: Use transistor data/clock gates and finite CPU WR drive
         type: boolean
         default: false
+      cpu_profile:
+        description: Experimental CPU read sampling
+        type: choice
+        options: [tv80, falling-indexed-candidate]
+        default: tv80
 permissions:
   contents: read
 concurrency:
-  group: keyboard-bus-${{ github.ref }}-${{ inputs.scenario }}-${{ inputs.electrical_wr }}
+  group: keyboard-bus-${{ github.ref }}-${{ inputs.scenario }}-${{ inputs.electrical_wr }}-${{ inputs.cpu_profile }}
   cancel-in-progress: false
 jobs:
   bus:
@@ -23,6 +28,7 @@ jobs:
     env:
       SCENARIO: ${{ inputs.scenario }}
       ELECTRICAL_WR: ${{ inputs.electrical_wr }}
+      CPU_PROFILE: ${{ inputs.cpu_profile }}
     steps:
       - uses: actions/checkout@v7
       - name: Build dependencies
@@ -77,6 +83,7 @@ jobs:
                   '--rom', str(runtime / 's600.bin'), '--scenario',
                   'verification/robotron-keyboard/analog/scenarios/' + os.environ['SCENARIO'] + '.json',
                   '--electrical-bus', '--bus-latch-pf', '12', '--bus-7406-pf', '3',
+                  '--cpu-profile', os.environ['CPU_PROFILE'],
                   '--electrical-cpu-pullups', '--electrical-logic-pullups', '--logic-load-pf', '10',
                   '--minimum-breakpoint-fs', '1', '--compress-traces', '--compression-preset', '6',
                   '--step-ns', step, '--timeout-seconds', '5400',
@@ -86,6 +93,7 @@ jobs:
               outcomes[name] = subprocess.run(command).returncode
               (root / 'assessment.json').write_text(json.dumps({'qualified': False, 'exitCodes': outcomes,
                   'electricalWr': os.environ['ELECTRICAL_WR'] == 'true',
+                  'cpuProfile': os.environ['CPU_PROFILE'],
                   'boundary': 'Experimental bus fixture; paired physical bus timing and device calibration remain unqualified.'}, indent=2) + '\n')
           raise SystemExit(0 if all(code == 0 for code in outcomes.values()) else 1)
           PY

@@ -6,6 +6,7 @@ from pathlib import Path
 from bus_inventory import DATA_PINS, inventory
 from circuit import load
 from controller_interface import generate as generate_controller
+from cpu_read_phase_candidate import CIRCUIT_PROFILES
 
 
 def generate():
@@ -55,9 +56,11 @@ def generate():
     return source.replace('endmodule', '\n'.join(declarations) + '\nendmodule')
 
 
-def generate_service(electrical_wr=False):
+def generate_service(electrical_wr=False, cpu_profile='tv80'):
     """Reuse TV80/ROM/service behavior while replacing only the bus boundary."""
     here = Path(__file__).resolve().parent
+    if cpu_profile not in CIRCUIT_PROFILES:
+        raise ValueError('Unsupported circuit CPU profile: ' + cpu_profile)
 
     def replace_once(source, old, new):
         if source.count(old) != 1:
@@ -90,6 +93,14 @@ def generate_service(electrical_wr=False):
   end
  end
 endmodule''')
+    if cpu_profile != 'tv80':
+        boot = replace_once(boot, 'always @(posedge clk) begin\n  if(reset_n',
+                            'always @(posedge clk or negedge clk) begin\n  if(reset_n')
+        boot = replace_once(boot,
+                            "cpu.tstate[2]===1'b1 && cpu.wait_n===1'b1 &&\n     rd_n",
+                            "((clk===1'b1 && cpu.mcycle[0]===1'b1 &&\n"
+                            "       cpu.tstate[2]===1'b1 && cpu.wait_n===1'b1) ||\n"
+                            "      (clk===1'b0 && cpu.delayed_read===1'b1)) &&\n     rd_n")
     service = (here / 'firmware_io_cosim.v').read_text()
     service = replace_once(service, 'module firmware_io_cosim #(', 'module firmware_io_electrical_bus #(')
     service = replace_once(service, 'output [1:0] logic_sink,',

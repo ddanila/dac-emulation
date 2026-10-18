@@ -4,13 +4,57 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+import re
 
 from electrical_bus_interface import generate, generate_service
+from cpu_read_phase_candidate import circuit_sources
 
 HERE = Path(__file__).resolve().parent
 
 
 class ElectricalBusInterfaceTests(unittest.TestCase):
+    def test_observer_follows_selected_cpu_sampling_edge(self):
+        for profile, expected, stamp in (('tv80', '12', '8500000'),
+                                         ('falling-indexed-candidate', '34', '9000000')):
+            with self.subTest(profile=profile), tempfile.TemporaryDirectory() as directory:
+                out = Path(directory)
+                (out / 'controller.v').write_text(generate_service(cpu_profile=profile))
+                (out / 's600.hex').write_text('00\n' * 2048)
+                bench = """`timescale 1ns/1ps
+module probe;
+ reg clk=0,reset_n=0,late=0;
+ wire [15:0] address=dut.board.address;
+ wire [7:0] dout=dut.board.dout;
+ wire [7:0] di=address==0 ? 8'h3e : address==1 ? (late?8'h34:8'h12) :
+               address==2 ? 8'hd3 : address==3 ? 8'h80 : 8'h76;
+ firmware_io_electrical_bus dut(.fixture_clk(clk),.fixture_reset_n(reset_n),
+ .sense(8'hff),.receiver_data(1'b0),.receiver_clock(1'b0),.bus_sense(di));
+ always #500 clk=~clk;
+ initial begin #2200;reset_n=1;#50000;$fatal(1,"Missing instruction output");end
+ always @(posedge clk) if(reset_n && dut.board.cpu.tstate[2] &&
+     !dut.board.cpu.mcycle[0] && !dut.board.mreq_n && !dut.board.rd_n && address==1)
+   #100 late=1;
+ always @(negedge dut.board.wr_n) if(reset_n && !dut.board.iorq_n) begin
+   if(dout!==8'hEXPECTED)$fatal(1,"Wrong instruction operand");
+   $display("CIRCUIT_CPU_PHASE_PASS");$finish;
+ end
+endmodule
+""".replace('EXPECTED', expected)
+                (out / 'probe.v').write_text(bench)
+                sources, model = circuit_sources(HERE.parents[2] / 'third_party/cpu/tv80', out, profile)
+                self.assertEqual(model['profile'], profile)
+                subprocess.run(['iverilog', '-g2012', '-s', 'probe', '-o', str(out / 'probe.vvp'),
+                                *map(str, sources), str(out / 'controller.v'),
+                                str(HERE.parent / 'chips.v'), str(HERE.parent / 'generated/controller.v'),
+                                str(out / 'probe.v')], check=True)
+                result = subprocess.run(['vvp', 'probe.vvp'], cwd=out, capture_output=True,
+                                        text=True, check=True, timeout=30)
+                self.assertIn('CIRCUIT_CPU_PHASE_PASS', result.stdout)
+                reads = re.findall(r'^BUS_SAMPLE (\d+) 0001 ([0-9a-f]{2}) 0 1 1$', result.stdout, re.M)
+                self.assertEqual(reads, [(stamp, expected)])
+                self.assertIn('BUS_LATCH ' + stamp + ' ' + expected + ' ' + expected, result.stdout)
+                self.assertIn('BUS_SAMPLE 4500000 0000 3e 0 1 0', result.stdout)
+
     def test_service_cpu_reads_returned_voltage_logic(self):
         with tempfile.TemporaryDirectory() as directory:
             out = Path(directory)
