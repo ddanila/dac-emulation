@@ -705,6 +705,8 @@ An extended capture failed storage and remains unqualified. Dispatch the
 coarse/fine firmware runs. The WR observer requires both active and inactive
 states, checks settled voltage and ownership, and rejects incomplete captures;
 its settling window is a diagnostic allowance, not a propagation limit.
+Unknown ownership intervals are rejected even between waveform samples.
+Failures retain signal, time and expected/observed values in `wrFailure`.
 These checks do not
 qualify U880 control timing or transistor switching parameters.
 

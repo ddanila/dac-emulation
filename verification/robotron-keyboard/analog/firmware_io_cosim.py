@@ -15,7 +15,7 @@ from circuit import load, node
 from controller_interface import generate
 from electrical_bus_interface import generate_service
 from write_control import wiring as wr_wiring
-from write_control_observation import measure as measure_wr
+from write_control_observation import measure as measure_wr, WriteMismatch
 from bus_driver import wiring as bus_wiring
 from bus_observation import measure as measure_bus, BusMismatch
 from transient_analysis import with_minimum_breakpoint
@@ -370,6 +370,8 @@ def main():
                 raise ValueError('Compressed waveform differs from producer bytes: ' + name)
         report['passed'] = True
     except Exception as error:
+        if isinstance(error, WriteMismatch):
+            report['wrFailure'] = error.details
         if isinstance(error, BusMismatch):
             report['busFailure'] = error.details
         if isinstance(error, SerialMismatch):
