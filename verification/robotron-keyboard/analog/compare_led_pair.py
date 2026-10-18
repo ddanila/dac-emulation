@@ -64,6 +64,8 @@ def main():
     p.add_argument('fine', type=Path)
     p.add_argument('--tolerance-ns', type=float, default=15)
     p.add_argument('--out', type=Path, required=True)
+    p.add_argument('--experimental-host', action='store_true',
+                   help='Review host-loaded LED timing without electrical qualification')
     args = p.parse_args()
     if not math.isfinite(args.tolerance_ns) or args.tolerance_ns <= 0:
         p.error('tolerance-ns must be positive and finite')
@@ -74,6 +76,9 @@ def main():
               'sources': {n: sha(HERE / n) for n in (
                   'compare_led_pair.py', 'compare_firmware_io.py', 'transient_analysis.py', 'clock_convergence.py',
                   'led_observation.py', 'serial_observation.py', 'failure_evidence.py', 'trace_io.py')}}
+    if args.experimental_host:
+        result['qualified'] = False
+        result['scope'] = 'Experimental host-buffer LED intent timestep comparison'
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
         if normalized_deck(args.coarse) != normalized_deck(args.fine):
@@ -84,7 +89,8 @@ def main():
         result['inputs'] = {n: {'path': str(d.resolve()), 'reportSha256': sha(d / 'report.json')}
                             for n, d in (('coarse', args.coarse), ('fine', args.fine))}
         # Reuse the provenance and paired-timestep checks before interpreting LED differences.
-        if not compare(*reports, *transports, args.tolerance_ns)['withinTolerance']:
+        if not compare(*reports, *transports, args.tolerance_ns,
+                       experimental_host=args.experimental_host)['withinTolerance']:
             raise ValueError('Serial timing does not converge')
         timelines = []
         for d, r in zip((args.coarse, args.fine), reports):
