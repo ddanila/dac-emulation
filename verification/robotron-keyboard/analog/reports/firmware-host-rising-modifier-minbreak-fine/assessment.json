@@ -1,0 +1,37 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "4edd43e",
+  "scope": "Fixed-spacing timestep refinement of the loaded modifier-release scenario",
+  "evidence": {
+    "producer": "report.json",
+    "coarse": "../firmware-host-rising-modifier-minbreak/assessment.json",
+    "scenarioCoverage": "coverage.json",
+    "sampledStability": "margins.json",
+    "absoluteTimeComparison": "voltage-comparison.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "c7143d92ef8de8c641181820b4fd38b44a20da51ba63eb5c12d542264357351f",
+    "run-inputs.json": "797177b128b9c84bcc6f92110a29e38697b1a5f0396f059c2e6031f97eb82c60",
+    "scenario.json": "b96bd3d3b3161a83cf14aefa2a7c4fd9f45c45a5d243084cab452dd58ebc9eb8",
+    "io.cir": "1f5b11a8fcac3a2af4dadd5086f6d5f353ea2fb8454e4e44dad1e049199d91d9",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "b0e76022f954385a2c6064becf0089d1ee285a1fc9262addd341bc251032d01f",
+    "ngspice.log": "3706701006c8d366c08aeca2353e6c77ae605fb679a995f4403002e988dc287a",
+    "reference.log": "1f7f7b3a2b579d9e174ac6cd346d73e900c909c68fcd5003762be5b752e51fcd",
+    "coverage.json": "6f1696054ca33def1497ecad786ac874fd962ad3a94da198f32b8df1eb39ec16",
+    "margins.json": "10005e100b33c93ad0324b6d09456aeaec0e9ac5e5ac5b821f9ca9d722065fa2",
+    "voltage-comparison.json": "13f98c02c303d36fa76781ecf1ddedc8b9f07a4dd6b6e7fd55b421d988746ef0"
+  },
+  "waveforms": {
+    "retention": "Complete waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL included.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-modifier-minbreak-fine",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "Both timesteps complete modifier release and the subsequent ordinary-key packet. Logical comparison, independent coverage, sampled stability and serial-edge refinement pass. Absolute-time voltage differences remain; neither this result nor the companion reset pair establishes whole-waveform convergence or calibrated device dynamics.",
+  "nextAction": "Complete remaining loaded scenarios and investigate the independently retained strict-tolerance failures; preserve the separate device-applicability boundary."
+}

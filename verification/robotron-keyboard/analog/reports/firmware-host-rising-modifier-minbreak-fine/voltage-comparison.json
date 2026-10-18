@@ -1,0 +1,94 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Compare host voltages at absolute time using the union of retained sample knots.",
+  "boundary": "Piecewise-linear sampled voltages only; no phase alignment or intersample peak claim. Integrated and RMS differences describe duration-weighted error, not acceptance of peak errors. No physical accuracy tolerance is inferred.",
+  "sources": {
+    "host_waveform_comparison.py": "b1f96a72148a1bebaa25cd2188fc11ee1e5fa7a17f36ce0ff6ab25d4fc53e3a8",
+    "compare_firmware_io.py": "e2754823ee4c2741d2ae591d68969558bad142f893a241158781abf1c2bfeef1",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "transient_analysis.py": "dd0dd5ef7a34533cd75128fa3c90c52815d8b11364b938e32680310207d3310e",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "serialEdges": {
+    "transmittedMaximumDifferenceNs": 0.0,
+    "receivedMaximumDifferenceNs": 3.0,
+    "transportMaximumDifferenceNs": 3.0,
+    "qualified": false,
+    "boundary": "Experimental host serial-edge convergence only; device applicability, voltage margins and closed-board behavior remain separate",
+    "withinTolerance": true,
+    "firstTimingDifference": null
+  },
+  "reports": {
+    "coarse": "d6d54518eaadbfc9ed220302a22d7884f9574fa7b297489cf8f2097a00cfbce0",
+    "fine": "c7143d92ef8de8c641181820b4fd38b44a20da51ba63eb5c12d542264357351f"
+  },
+  "observation": {
+    "signals": [
+      {
+        "maximumDifferenceV": 0.41521011746440223,
+        "timeSeconds": 0.12573651439673453,
+        "coarseV": 0.15404280698342548,
+        "fineV": 0.5692529244478277,
+        "integratedAbsoluteDifferenceVoltSeconds": 2.5935931193953365e-05,
+        "meanAbsoluteDifferenceV": 0.0001979842075874303,
+        "rmsDifferenceV": 0.0006132364328396909,
+        "signal": "v(n_CABLE_DATEN,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.41516070226784524,
+        "timeSeconds": 0.06450451439673449,
+        "coarseV": 0.15399294434170735,
+        "fineV": 0.5691536466095526,
+        "integratedAbsoluteDifferenceVoltSeconds": 3.657446952572849e-05,
+        "meanAbsoluteDifferenceV": 0.0002791944238605229,
+        "rmsDifferenceV": 0.0008041137608891554,
+        "signal": "v(n_CABLE_TAKT,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.12614344434266744,
+        "timeSeconds": 0.012709619019710497,
+        "coarseV": 2.1831716405918247,
+        "fineV": 2.0570281962491572,
+        "integratedAbsoluteDifferenceVoltSeconds": 2.4859971437852804e-05,
+        "meanAbsoluteDifferenceV": 0.00018977077433475427,
+        "rmsDifferenceV": 0.0005383773005596588,
+        "signal": "v(host_data_buffer_input,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.05770518095840366,
+        "timeSeconds": 0.01270970034004097,
+        "coarseV": 0.12355839575318012,
+        "fineV": 0.06585321479477646,
+        "integratedAbsoluteDifferenceVoltSeconds": 2.4976885876905106e-05,
+        "meanAbsoluteDifferenceV": 0.0001906632509687413,
+        "rmsDifferenceV": 0.0004562933646322096,
+        "signal": "v(host_clock_buffer_input,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 2.7082366767503787,
+        "timeSeconds": 0.12937163824838904,
+        "coarseV": 0.018966791069517708,
+        "fineV": 2.7272034678198964,
+        "integratedAbsoluteDifferenceVoltSeconds": 3.689846953868445e-05,
+        "meanAbsoluteDifferenceV": 0.0002816677064021714,
+        "rmsDifferenceV": 0.005645115534921632,
+        "signal": "v(host_data_buffer_output,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.7803136347056496,
+        "timeSeconds": 0.025951134499693405,
+        "coarseV": 0.02314412908728891,
+        "fineV": 0.8034577637929385,
+        "integratedAbsoluteDifferenceVoltSeconds": 4.540533683691023e-06,
+        "meanAbsoluteDifferenceV": 3.466056247092385e-05,
+        "rmsDifferenceV": 0.0003117977065741924,
+        "signal": "v(host_clock_buffer_output,host_receiver_gnd)"
+      }
+    ],
+    "unionKnots": 18607583,
+    "endSeconds": 0.13099999999999998
+  }
+}
