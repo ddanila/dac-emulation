@@ -1,0 +1,71 @@
+{
+  "completed": false,
+  "qualified": false,
+  "scope": "Logging-only audit of breakpoints, Newton results and truncation in the original coupled transition",
+  "evidence": {
+    "producer": "report.json",
+    "log": "ngspice.log.xz",
+    "build": "build-provenance.json",
+    "patch": "../../engine-patches/ngspice-47-transition-audit.patch",
+    "baseline": "../firmware-host-rising-load-strict-iterations1000/assessment.json"
+  },
+  "inputComparison": {
+    "deckEqual": true,
+    "codeModelsEqual": true,
+    "initializationEqual": true,
+    "waveformsEqual": true,
+    "waveformIdentities": {
+      "trace.txt": "e22719a5fe7102eee1ce28fdd49831a0257c936777aaeae4b69b64e1e32ee4b7",
+      "driver-trace.txt": "45e723545bb3b4ec1a55ebf02bbb15be37f00da8de3208f34ee752eb6b08d142",
+      "host-trace.txt": "02e8454b0314d6a2dfe029b8a39c30f5621aa496e4059419ae9a2436e7e7d8e1"
+    },
+    "changedRunnerSources": {
+      "firmware_io_cosim.py": {
+        "baseline": "2d65d91b72f7e64262794dd89f7e36a16c898786fcfee535873847239e5dca77",
+        "audit": "580741e0c4e5122ed7a5f6d6eee4e0e701cc332c5e6cfe0071b5ee59c9f32030"
+      }
+    }
+  },
+  "observations": {
+    "trialCount": 44,
+    "temporaryBreakpointValues": [
+      1e+30
+    ],
+    "permanentBreakpointValues": [
+      0.0010980119999999998,
+      0.0010984999999999999
+    ],
+    "lastTrial": {
+      "kind": "trial",
+      "time": 0.0010980122484352953,
+      "delta": 5e-19,
+      "permanent": 0.0010984999999999999,
+      "next": 0.005,
+      "last": 1e+30
+    },
+    "lastSolve": {
+      "kind": "solved",
+      "time": 0.0010980122484352953,
+      "temporary": 1e+30,
+      "permanent": 0.0010984999999999999,
+      "result": 0.0
+    }
+  },
+  "interpretation": "The edge-start breakpoint is reached. Subsequent logged trials have no pending temporary breakpoint and the next permanent breakpoint lies beyond the failed transition. The final Newton solve succeeds; inductor truncation rejects its result. This narrows the immediate step-reduction mechanism, but does not exclude earlier scheduling effects or establish device-model applicability or a physical fault.",
+  "nextAction": "Investigate inductor error estimation and the semiconductor transition response with the boundary-free analog control; preserve absolute-time trajectory differences.",
+  "retainedFilesSha256": {
+    "report.json": "57c1774276729b3ba39ae623936c9f7a6671b7b7721f5e64f69802f86f78b623",
+    "run-inputs.json": "76b58301f135cfb5d8f6844f048ff4703d702ca664465e14c0ab2f3fc2ec5e11",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "build-provenance.json": "e15e49827bd6a28fb7d76c58d256f04c366232ab9c66f7fff3d413ccfae65240",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "43e086856e1c03ba0986ea02bbd93a5c753129616ac3ebb03c221c49543cf440",
+    "ngspice.log.xz": "b5a4c5cc148ef7a8605b5db5f6e2b5b86207d415056a12d4a97c8344a8a3ae4c"
+  },
+  "logCompression": {
+    "format": "xz",
+    "uncompressedSha256": "a2edb9a52b6359e35dc28d95ceb4e0ec095884e05c3e1dfb892bcaaeb60b4dbf"
+  }
+}

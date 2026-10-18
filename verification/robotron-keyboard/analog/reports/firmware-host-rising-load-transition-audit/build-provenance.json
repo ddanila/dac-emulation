@@ -1,0 +1,26 @@
+{
+  "source": "ngspice-47",
+  "patchSha256": "2a3bddbd580978bdb623876e1ff8399a62023f6299e45952a8dcd7b2af26f360",
+  "baseFiles": {
+    "src/spicelib/analysis/dctran.c": "382d523b08a843469d81b14e3c08c0cd2b11509ee3470b9e3b3bce6f27157a74",
+    "src/spicelib/analysis/ckttrunc.c": "1ae5c196a7e4b672da62be20624f6bbafc3fca713b0ab12aa69ac22d6a1b4757",
+    "src/spicelib/devices/cap/captrunc.c": "aa17ffdb3cdef8c496fe2a8c3d3f3638a359ea6137a7e45d5a45a31c578235d2",
+    "src/spicelib/devices/ind/indtrunc.c": "2c5dee893df91380c84227242f30610d8aa72c3435c4e4365704f66c3c867bfb",
+    "src/spicelib/analysis/cktterr.c": "e8c55f9f07b12e501eaa5113d9470ccf8304b8b1196563b2f7d36a9d6527c132"
+  },
+  "scope": "Logging only in a bounded transition window; original installed code models retained",
+  "configureArguments": [
+    "--prefix=/private/tmp/robotron-transition-audit/install",
+    "--without-x",
+    "--with-readline=no",
+    "--disable-openmp",
+    "--disable-klu"
+  ],
+  "buildCommand": "make -j4",
+  "executableSha256": "fb0f9590574d008efc218840fc86e5f00c26032d420346d294d6e4950f546333",
+  "compilerVersion": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin",
+  "buildLogsSha256": {
+    "configure.log": "1fb707bfc5126e5202d4c6da46f35ec4d2747d7e74eb57e5021268743db3f7d3",
+    "make.log": "94e41652b571e327d29e1463afe72ab43179b4d286e1002583faa0ca6a7356a4"
+  }
+}
