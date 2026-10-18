@@ -1,0 +1,31 @@
+{
+  "completed": false,
+  "qualified": false,
+  "sourceRevisionVerified": "14502f7",
+  "scope": "Finer-timestep coupled service under stricter effective truncation control",
+  "evidence": {
+    "producer": "report.json",
+    "log": "ngspice.log.xz",
+    "baseline": "../firmware-host-rising-load-strict-iterations1000/assessment.json"
+  },
+  "inputComparison": {
+    "coarseLocalDirectory": "build/keyboard-controller-analog/firmware-host-strict-trtol-point1",
+    "coarseDeckSha256": "33c8c361297651f22dadb4875a10b083afd0f14f28bf05784222a4e5bb2319b4",
+    "coarseFineDeckDifferenceOnly": ".tran timestep 50 ns to 25 ns"
+  },
+  "interpretation": "The finer run aborts at an early driver transition despite tightening effective trtol from 1 to 0.1. This is not a completed refinement pair and does not establish a physical fault. Any coarse-run completion must retain this failed refinement.",
+  "logCompression": {
+    "format": "xz",
+    "uncompressedSha256": "57719a936e8a2d3f5494b34a711b5111f09a84135568839a191b2e97c8ed2abf"
+  },
+  "retainedFilesSha256": {
+    "report.json": "c6fd4d897e60c55006db807bd5608ad06ca7c21c3d646a771aa28a17570529bf",
+    "run-inputs.json": "f0c3ea7cf1470b68e75dcfa1bc3afdf8ded7ecec0c4caf703856a6b3f759e208",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log.xz": "831c01be756998194bea1f2ddae6910143d4603ddc73552c860852253facf02d",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "f90cc9b24de4074dcd99b691cadde404260037779335bf51e2250a17e926a48a"
+  }
+}
