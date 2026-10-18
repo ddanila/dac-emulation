@@ -106,6 +106,7 @@ def main():
     if args.electrical_bus:
         report['assumptions'].update(electricalBus=True, busLatchPf=args.bus_latch_pf,
                                      bus7406Pf=args.bus_7406_pf,
+                                     waveformNumdgt=17,
                                      busDriver='Linear 5 V DC-endpoint stress fixture; no calibrated I/V or leakage')
         report['sources'].update({name: sha(HERE / name) for name in (
             'electrical_bus_interface.py', 'bus_driver.py', 'bus_load.py', 'bus_inventory.py', 'bus_limits.json', 'bus_observation.py')})
@@ -241,6 +242,7 @@ def main():
         if args.electrical_bus:
             signals = ' '.join(f'v(n_D{i})' for i in range(8)) + ' v(n_p5V)'
             lines.insert(lines.index('.control'), '.save ' + signals)
+            lines.insert(lines.index('.control') + 1, 'set numdgt=17')
             lines.insert(lines.index('quit'), 'wrdata bus-trace.txt ' + signals)
         (out / 'io.cir').write_text(with_minimum_breakpoint('\n'.join(lines) + '\n', args.minimum_breakpoint_fs))
         report['deckSha256'] = sha(out / 'io.cir')
@@ -272,7 +274,8 @@ def main():
         if solver_diagnostic(log):
             raise ValueError('Solver/HDL diagnostics: inspect ngspice.log')
         if args.electrical_bus:
-            report['busObservation'] = measure_bus(log, out / 'bus-trace.txt', args.step_ns, args.rom.read_bytes())
+            report['busObservation'] = measure_bus(log, out / 'bus-trace.txt', args.step_ns, args.rom.read_bytes(),
+                                                  trace_extent=(0, time_ns(scenario['cycles']) * 1e-9))
         report['resetDelivery'] = validate_service_reset(log, scenario, args.rom.read_bytes()[0])
         report['serialTransport'] = validate_transport(log, require_activity=True)
         received_bits = [bit for _, bit in report['serialTransport']['received']]

@@ -643,6 +643,8 @@ missing observations and waveform gaps. TV80's sampling
 edge is not a substitute for the U880's distinct M1 and M2–M5 pin timing.
 Electrical and data mismatches retain the first failing read's time, address,
 signal and expected/observed values in `busFailure`, alongside the failure traces.
+Firmware runs require the complete bus capture interval, including its beginning
+and end, and retain high-precision waveform timestamps.
 Physical bus timing checks remain unfinished, so the paired firmware qualifier
 rejects this mode rather than treating serial agreement as bus qualification.
 
