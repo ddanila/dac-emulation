@@ -668,7 +668,9 @@ with the selected `--cpu-profile`, or the manual `keyboard-cpu-phase.yml` workfl
 Add `--latch-timing-envelope` (workflow input `latch_timing_envelope`) to replace
 the generated board's A4 model while preserving its numbered pin connections.
 The [combined firmware result](reports/latch-timing-envelope/firmware/assessment.json)
-retains the full workload and comparison with the ROM-only baseline.
+retains the full workload and comparison with the ROM-only baseline. The
+[combined CPU-profile comparison](reports/latch-timing-envelope/cpu-profiles/assessment.json)
+checks the same workload across all available CPU sampling profiles.
 Either timing option sets a 1 MHz fixture clock so nanosecond ROM limits have physical units while
 preserving the cycle-indexed contact recipe. The retained
 [CPU-profile comparison](reports/rom-read-envelope/cpu-profiles/assessment.json)

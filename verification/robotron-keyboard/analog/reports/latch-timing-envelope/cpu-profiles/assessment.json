@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "qualified": false,
+  "source": "https://github.com/ddanila/dac-emulation/actions/runs/39110109047",
+  "sourceCommit": "9946fa54b76d5c445e1355756b0b8f63dc3f55df",
+  "recordedEventsMatchRomOnlyTv80": true,
+  "baselineSource": "https://github.com/ddanila/dac-emulation/actions/runs/39109246982",
+  "baselineHdlSha256": "9da4308c6b13be7c293c9447be932f45b8c7ab3abbeaf3f2e1e77f350b196efd",
+  "uncompressedSha256": {
+    "tv80": {
+      "report.json": "cc78adc5ebf3e2c5b5ed6ffee75ec012b452b8c4bd3eec47f9d516c7545fc317",
+      "firmware-c.txt": "3e1735d98cc3b1e069c7a9fcbaa0a64cb567815464dfe13f79450d32ce26f549",
+      "firmware-hdl.txt": "9da4308c6b13be7c293c9447be932f45b8c7ab3abbeaf3f2e1e77f350b196efd"
+    },
+    "falling-candidate": {
+      "report.json": "9b4f541cb05e9060ca8e05644f8d6e54f1ab6b8f522d2490151785960ac40acf",
+      "firmware-c.txt": "3e1735d98cc3b1e069c7a9fcbaa0a64cb567815464dfe13f79450d32ce26f549",
+      "firmware-hdl.txt": "9da4308c6b13be7c293c9447be932f45b8c7ab3abbeaf3f2e1e77f350b196efd"
+    },
+    "falling-indexed-candidate": {
+      "report.json": "ccc493909d47faa856decbfc0d9cacca8e4379331b6507cf1c71921ac1a5e45d",
+      "firmware-c.txt": "3e1735d98cc3b1e069c7a9fcbaa0a64cb567815464dfe13f79450d32ce26f549",
+      "firmware-hdl.txt": "9da4308c6b13be7c293c9447be932f45b8c7ab3abbeaf3f2e1e77f350b196efd"
+    }
+  },
+  "boundary": "Full digital contact/reset workload with ROM and latch timing envelopes at 1 MHz. Matching recorded serial/LED values and cycles does not establish internal-state equivalence, physical pin timing or analog bus qualification."
+}
