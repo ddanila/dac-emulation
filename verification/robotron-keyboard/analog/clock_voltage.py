@@ -16,10 +16,13 @@ def inspect(primary, diagnostic, *, diagnostic_columns=8):
     limits = json.loads(LIMITS.read_text())
     supply = limits['operatingConditions']
     clock = limits['clockInput']
+    reset = limits['ordinaryInput']
     result = {
         'qualified': False,
         'scope': 'Sampled excursions within the published supply range only; '
                  'does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range',
+        'supplyEpochs': [],
+        'resetBoundary': 'Complete numerical clock cycles with sampled reset low, counted separately for each contiguous rated-supply interval. Not reset pulse-width, CPU state-retention or restart qualification.',
         'samples': 0, 'validSupplySamples': 0, 'belowSupplySamples': 0,
         'aboveSupplySamples': 0, 'lowExcursionObserved': False,
         'highExcursionObserved': False, 'firstValidSupplySeconds': None,
@@ -31,6 +34,7 @@ def inspect(primary, diagnostic, *, diagnostic_columns=8):
                                'leading/trailing partial cycles are not assessed. No pulse-width or slew claim.'},
     }
     previous, previous_voltage, cycle = None, None, None
+    epoch, reset_streak = None, 0
     with open_text(primary) as clocks, open_text(diagnostic) as rails:
         next(clocks, None)
         next(rails, None)
@@ -45,6 +49,17 @@ def inspect(primary, diagnostic, *, diagnostic_columns=8):
                 raise ValueError('Clock/supply samples are not time aligned')
             previous = t
             valid_supply = supply['supplyMinimumVolts'] <= vcc <= supply['supplyMaximumVolts']
+            reset_low = reset['minimumVolts'] <= c[2] <= min(reset['lowMaximumVolts'], vcc)
+            if not valid_supply:
+                epoch, reset_streak = None, 0
+            else:
+                if epoch is None:
+                    epoch = {'firstSampleSeconds': t, 'lastSampleSeconds': t,
+                             'completeResetLowCycles': 0, 'maximumConsecutiveResetLowCycles': 0}
+                    result['supplyEpochs'].append(epoch)
+                epoch['lastSampleSeconds'] = t
+                if not reset_low:
+                    reset_streak = 0
             low = clock['lowMaximumVolts'] - voltage
             high = voltage - (vcc - clock['highMinimumSupplyDropVolts'])
             if previous_voltage is not None and previous_voltage < 1.4 <= voltage:
@@ -53,6 +68,13 @@ def inspect(primary, diagnostic, *, diagnostic_columns=8):
                     cycles['completed'] += 1
                     if cycle['validSupply'] and valid_supply:
                         cycles['assessedWithinSupplyRange'] += 1
+                        if cycle['resetLow'] and reset_low:
+                            reset_streak += 1
+                            epoch['completeResetLowCycles'] += 1
+                            epoch['maximumConsecutiveResetLowCycles'] = max(
+                                epoch['maximumConsecutiveResetLowCycles'], reset_streak)
+                        else:
+                            reset_streak = 0
                         cycles['missingLowExcursion'] += int(not cycle['low'])
                         cycles['missingHighExcursion'] += int(not cycle['high'])
                         if not (cycle['low'] and cycle['high']) and cycles['firstFailure'] is None:
@@ -61,9 +83,10 @@ def inspect(primary, diagnostic, *, diagnostic_columns=8):
                                 'lowExcursionObserved': cycle['low'], 'highExcursionObserved': cycle['high']}
                     else:
                         cycles['excludedForSupply'] += 1
-                cycle = {'start': t, 'validSupply': True, 'low': False, 'high': False}
+                cycle = {'start': t, 'validSupply': True, 'low': False, 'high': False, 'resetLow': True}
             if cycle is not None:
                 cycle['validSupply'] &= valid_supply
+                cycle['resetLow'] &= reset_low
                 cycle['low'] |= low >= 0
                 cycle['high'] |= high >= 0
             previous_voltage = voltage
