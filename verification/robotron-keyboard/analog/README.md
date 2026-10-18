@@ -908,5 +908,10 @@ experiment; `--read-kind io` exercises input-port reads. `--wait` requires an
 external WAIT interval that actually postpones the accepted read. The fixture
 selects the final T3 iteration after TV80's automatic I/O waits. The
 candidate consumes the later operand in these cases. It is not selected by the
-board harness: interrupt, indexed-opcode and full-firmware behavior still need
-qualification. Vendored TV80 sources remain unchanged.
+board harness. The `indexed-opcode` fixture shows that the operand-only candidate
+still takes the earlier DD-CB opcode through the core's direct instruction input.
+`--profile falling-indexed-candidate` also moves that isolated path to the falling
+edge; the fixture checks the resulting RAM write and output, including WAIT.
+These behavioral dual-edge experiments do not establish synthesis suitability,
+interrupt/reset/bus-grant correctness, full-firmware behavior or calibrated U880
+timing. Vendored TV80 sources remain unchanged.

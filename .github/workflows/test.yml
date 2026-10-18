@@ -22,14 +22,17 @@ jobs:
         run: python3 verification/robotron-keyboard/analog/bus_timing_probe.py
       - name: CPU read sampling phase diagnostic
         run: |
-          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py
-          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py --wait --out build/keyboard-controller-analog/cpu-read-phase-wait
-          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py --profile falling-candidate --out build/keyboard-controller-analog/cpu-read-phase-candidate
-          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py --profile falling-candidate --wait --out build/keyboard-controller-analog/cpu-read-phase-candidate-wait
-          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py --read-kind io --out build/keyboard-controller-analog/cpu-read-phase-io
-          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py --read-kind io --wait --out build/keyboard-controller-analog/cpu-read-phase-io-wait
-          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py --read-kind io --profile falling-candidate --out build/keyboard-controller-analog/cpu-read-phase-io-candidate
-          python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py --read-kind io --profile falling-candidate --wait --out build/keyboard-controller-analog/cpu-read-phase-io-candidate-wait
+          for kind in memory io indexed-opcode; do
+            for profile in tv80 falling-candidate falling-indexed-candidate; do
+              for wait_mode in plain wait; do
+                extra=()
+                if [ "$wait_mode" = wait ]; then extra+=(--wait); fi
+                python3 verification/robotron-keyboard/analog/cpu_read_phase_probe.py \
+                  --read-kind "$kind" --profile "$profile" "${extra[@]}" \
+                  --out "build/keyboard-controller-analog/cpu-read-phase-$kind-$profile-$wait_mode"
+              done
+            done
+          done
       - name: Resolved CPU ROM and latch bus
         run: python3 verification/robotron-keyboard/analog/resolved_bus_probe.py
       - name: Firmware serial observation failure controls
