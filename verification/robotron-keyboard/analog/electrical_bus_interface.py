@@ -76,6 +76,23 @@ def generate_service():
                         'initial if(!RESOLVED_BUS || !EXPLICIT_CPU_DRIVE || !ELECTRICAL_MATRIX)\n'
                         '  $fatal(1,"Electrical bus requires resolved ROM, CPU drive intent and matrix feedback");\n'
                         ' initial $readmemh')
+    # Observe the actual tv80n input-register sampling predicate. This is not a
+    # claim that its edge phase equals the U880's published M2-M5 pin timing.
+    boot = replace_once(boot, 'endmodule', '''reg bus_sample_pending=0;
+ reg [7:0] bus_sample_value;
+ always @(posedge clk) begin
+  bus_sample_pending <= 0;
+  if(reset_n===1'b1 && cpu.tstate[2]===1'b1 && cpu.wait_n===1'b1 &&
+     rd_n===1'b0 && (mreq_n===1'b0 || iorq_n===1'b0)) begin
+   $display("BUS_SAMPLE %0t %04x %02x %b %b %b",$time,address,di,mreq_n,iorq_n,m1_n);
+   bus_sample_value <= di;
+   bus_sample_pending <= 1;
+  end
+ end
+ always @(negedge clk) if(bus_sample_pending) begin
+  $display("BUS_LATCH %0t %02x %02x",$time,bus_sample_value,cpu.di_reg);
+ end
+endmodule''')
     service = (here / 'firmware_io_cosim.v').read_text()
     service = replace_once(service, 'module firmware_io_cosim #(', 'module firmware_io_electrical_bus #(')
     service = replace_once(service, 'output [1:0] logic_sink,',

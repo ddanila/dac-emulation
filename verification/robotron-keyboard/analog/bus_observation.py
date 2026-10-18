@@ -1,0 +1,95 @@
+"""Check voltage agreement at TV80 input-register reads; not U880 pin timing."""
+import math
+import re
+
+from trace_io import open_text
+
+
+def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
+    if not all(math.isfinite(v) and v >= 0 for v in (step_ns, setup_ns, hold_ns)) or step_ns == 0:
+        raise ValueError('Invalid bus observation interval')
+    if rom is not None and len(rom) != 2048:
+        raise ValueError('Expected mapped 2048-byte ROM')
+    samples, latches = [], []
+    for line in log.splitlines():
+        if line.startswith('BUS_SAMPLE '):
+            match = re.fullmatch(r'BUS_SAMPLE (\d+) ([0-9a-f]{4}) ([0-9a-f]{2}) ([01]) ([01]) ([01])', line)
+            if not match:
+                raise ValueError('Unknown or malformed sampled bus value: ' + line)
+            time, address, value, memory, io, m1 = match.groups()
+            sample = (int(time), int(address, 16), int(value, 16), int(memory), int(io), int(m1))
+            if sample[3:5] not in ((0, 1), (1, 0)):
+                raise ValueError('Ambiguous bus read selects')
+            if samples and sample[0] <= samples[-1][0]:
+                raise ValueError('Nonmonotonic bus read times')
+            if rom is not None and sample[3] == 0 and sample[2] != rom[sample[1] & 2047]:
+                raise ValueError('Sampled memory data differs from mapped ROM')
+            samples.append(sample)
+        elif line.startswith('BUS_LATCH '):
+            match = re.fullmatch(r'BUS_LATCH (\d+) ([0-9a-f]{2}) ([0-9a-f]{2})', line)
+            if not match:
+                raise ValueError('Unknown or malformed CPU latch value')
+            time, expected, actual = match.groups()
+            latches.append((int(time), int(expected, 16), int(actual, 16)))
+    if not samples or len(samples) != len(latches):
+        raise ValueError('Missing bus samples or CPU latch confirmations')
+    for index, (sample, latch) in enumerate(zip(samples, latches)):
+        if (not sample[0] < latch[0] or latch[1:] != (sample[2], sample[2]) or
+            (index + 1 < len(samples) and latch[0] >= samples[index + 1][0])):
+            raise ValueError('CPU input register differs from sampled bus or latch ordering')
+
+    def rows(stream):
+        header = next(stream, '').lower().split()
+        if header != ['time', *[f'v(n_d{i})' for i in range(8)]]:
+            raise ValueError('Unexpected bus trace columns')
+        last = None
+        for line in stream:
+            row = list(map(float, line.split()))
+            if len(row) != 9 or not all(map(math.isfinite, row)) or (last is not None and row[0] < last):
+                raise ValueError('Invalid bus trace row or time order')
+            last = row[0]
+            yield row
+
+    low_margin, high_margin = math.inf, math.inf
+    with open_text(trace) as stream:
+        iterator = iter(rows(stream))
+        current, previous = next(iterator, None), None
+        for time_ps, _, value, _, _, _ in samples:
+            start = time_ps * 1e-12 - setup_ns * 1e-9
+            end = time_ps * 1e-12 + hold_ns * 1e-9
+            while current is not None and current[0] < start:
+                previous, current = current, next(iterator, None)
+            window = [] if previous is None else [previous]
+            while current is not None and current[0] <= end:
+                window.append(current)
+                previous, current = current, next(iterator, None)
+            if not window or window[-1][0] < end:
+                if current is not None:
+                    window.append(current)
+            if not window or window[0][0] > start or window[-1][0] < end:
+                raise ValueError('Bus trace does not bracket read window')
+            if any(b[0] - a[0] > step_ns * 1.01e-9 + 1e-12 for a, b in zip(window, window[1:])):
+                raise ValueError('Bus read window contains a waveform gap')
+            for row in window:
+                for bit, volts in enumerate(row[1:]):
+                    high = bool(value & (1 << bit))
+                    margin = volts - 2 if high else .8 - volts
+                    if margin < 0:
+                        raise ValueError(f'Bus voltage disagrees with sampled D{bit} at {time_ps} ps')
+                    if high:
+                        high_margin = min(high_margin, margin)
+                    else:
+                        low_margin = min(low_margin, margin)
+        # Validate the tail too; malformed trailing samples must not be hidden.
+        for _ in iterator:
+            pass
+    return {'passed': True, 'qualified': False, 'sampleCount': len(samples),
+            'memoryReads': sum(sample[3] == 0 for sample in samples),
+            'ioReads': sum(sample[4] == 0 for sample in samples),
+            'firstReadPs': samples[0][0], 'lastReadPs': samples[-1][0],
+            'minimumLowMarginVolts': None if math.isinf(low_margin) else low_margin,
+            'minimumHighMarginVolts': None if math.isinf(high_margin) else high_margin,
+            'setupNs': setup_ns, 'holdNs': hold_ns,
+            'boundary': 'Sampled-voltage agreement and TV80 input-register confirmation only. '
+                        'Windows include bracketing trace samples. No between-sample excursion proof, '
+                        'U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing.'}

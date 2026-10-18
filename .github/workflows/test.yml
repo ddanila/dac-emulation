@@ -44,6 +44,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_compressed_output.py
           python3 verification/robotron-keyboard/analog/test_bus_inventory.py
           python3 verification/robotron-keyboard/analog/test_electrical_bus_interface.py
+          python3 verification/robotron-keyboard/analog/test_bus_observation.py
       - name: Published 7406 topology and DC limits
         run: |
           python3 verification/robotron-keyboard/analog/test_ttl7406_probe.py
