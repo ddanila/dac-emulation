@@ -217,7 +217,9 @@ Host winding values remain assumptions. Add `--host-buffer` to exercise the
 experimental standard-7404 transistor topology with input reverse beta 0.01.
 `ttl7404_probe.py --out /tmp/7404-dc` screens selected D104 DC conditions; it
 does not calibrate input clamps or switching. Buffer outputs use illustrative SIO
-loads. `firmware_io_cosim.py --host-buffer --serial-driver 7406-dc` includes
+loads. The [U856 source review](u856_limits.json) constrains leakage and capacitance
+without supplying exact I/V or Schmitt thresholds; clock-capacitance pin coverage
+remains explicit. `firmware_io_cosim.py --host-buffer --serial-driver 7406-dc` includes
 this experimental network in the service firmware fixture. The observer samples
 the falling buffer-output clock and uses the output data without cable inversion;
 `host-trace.txt` retains cable, buffer-input and buffer-output voltages separately.

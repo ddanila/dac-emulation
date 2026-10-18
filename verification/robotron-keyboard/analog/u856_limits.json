@@ -1,0 +1,70 @@
+{
+  "scope": "Published U856 input and serial-clock constraints; not a transistor or calibrated input model",
+  "source": {
+    "url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/U856D-SIO.pdf",
+    "sha256": "0536a33182e3c459c0804dbaad727c09eb303302a173eb5ce554026b210b7401",
+    "publisher": "VEB Funkwerk Erfurt, VEB Kombinat Mikroelektronik",
+    "title": "Mikroprozessorsystem der II. Leistungsklasse: Technische Beschreibung, SIO U856 D",
+    "status": "Informational manual; preface reserves binding specifications to device standards",
+    "locators": {
+      "pinRoles": "PDF pages 6-8, printed pages 7-9",
+      "absoluteLimits": "PDF page 59, printed page 60",
+      "static": "PDF page 60, printed page 61",
+      "serialTiming": "PDF page 63, printed page 64"
+    }
+  },
+  "conditions": {
+    "temperatureC": [
+      0,
+      70
+    ],
+    "supplyV": [
+      4.75,
+      5.25
+    ]
+  },
+  "absoluteInputV": [
+    -0.5,
+    7
+  ],
+  "ordinaryInput": {
+    "lowV": [
+      -0.5,
+      0.8
+    ],
+    "highMinV": 2,
+    "highMax": "Ucc",
+    "leakageMaximumA": 1e-05,
+    "capacitanceMaximumF": 5e-12
+  },
+  "clockTableEntry": {
+    "lowV": [
+      -0.5,
+      0.45
+    ],
+    "highMin": "Ucc - 0.2 V",
+    "highMax": "Ucc",
+    "capacitanceMaximumF": 5e-11
+  },
+  "capacitanceConditions": {
+    "temperatureC": 25,
+    "frequencyHz": [
+      500000,
+      2000000
+    ]
+  },
+  "serialReceiveClock": {
+    "pinRole": "Schmitt-trigger input, distinct from system clock C",
+    "periodMinimumSeconds": 4e-07,
+    "highWidthMinimumSeconds": 1.8e-07,
+    "lowWidthMinimumSeconds": 1.8e-07,
+    "systemClockMinimumToMaximumDataRateRatio": 4.5
+  },
+  "interpretation": {
+    "qualified": false,
+    "receiveData": "Ordinary serial input; published leakage and capacitance constrain load screening, not an exact I/V curve.",
+    "receiveClock": "Manual identifies Schmitt input but does not give its hysteresis thresholds. Static table does not explicitly enumerate pins covered by clock capacitance; retain this ambiguity rather than silently applying system-clock thresholds or selecting a capacitance.",
+    "timing": "Serial receive setup/hold labels appear in the diagram, but no corresponding numeric bounds were found in the reviewed tables. Existing fixture stability budget remains an assumption.",
+    "nextAction": "Screen explicit leakage/capacitance load assumptions and seek independent pin-specific receiver evidence; preserve nominal fixture captures separately."
+  }
+}
