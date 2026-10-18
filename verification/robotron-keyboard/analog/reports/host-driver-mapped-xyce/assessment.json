@@ -1,0 +1,29 @@
+{
+  "completed": false,
+  "qualified": false,
+  "scope": "Cross-solver diagnostic of a recorded-driver circuit with explicit switch mapping.",
+  "evidence": {
+    "producer": "report.json",
+    "log": "solver.log.xz",
+    "source": "../host-analog-driver-replay-no-capture-knot/assessment.json",
+    "runner": "../../independent_driver_replay.py",
+    "mappingControl": "../host-driver-mapped-ngspice/assessment.json"
+  },
+  "logCompression": {
+    "format": "xz",
+    "uncompressedSha256": "3bfa7a8f4a65bf6992a2839d716d55e10798d94efa3b492235dc4f2f3c85e98a"
+  },
+  "switchReference": {
+    "url": "https://raw.githubusercontent.com/Xyce/Xyce/Release-7.10.0/src/DeviceModelPKG/OpenModels/N_DEV_SW.C",
+    "localSourceSha256": "e062338035391e85b73437b25e7dd41f9c61bbb0399d5a5ed5bdc7eba778d47a"
+  },
+  "boundary": "Switch resistance and threshold are preserved away from equality. At exactly 2.5 V the mapped switch is off, whereas ngspice SW can retain state. This mapping requires its ngspice control; time-integration, nonlinear tolerances and device implementations differ across solvers. Short constructed stimulus only, not firmware or physical qualification.",
+  "lastRawSampleSeconds": 0.00032126210432155265,
+  "interpretation": "Xyce aborts with a timestep-too-small diagnostic during startup, before the original coupled transition. Single-terminal topology warnings are also retained. No completed cross-solver comparison or shared failure mechanism is established.",
+  "nextAction": "Resolve the independent startup failure and switch-mapping sensitivity before using this fixture to infer the original transition mechanism.",
+  "retainedFilesSha256": {
+    "report.json": "2ba29f19739d04b75707096ac4225201f43325899a4ee0bb09cc7a8cf5303571",
+    "io.cir": "5e2cf5244b515de814c1ab5a50c4fd1ec6bfa62e1428a7d5d587ff5269582506",
+    "solver.log.xz": "74f6b473300345b693fa24a7dc0e865de2684fab7062588b088646847aa90621"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Cross-solver diagnostic of a recorded-driver circuit with explicit switch mapping.",
+  "evidence": {
+    "producer": "report.json",
+    "log": "solver.log.xz",
+    "source": "../host-analog-driver-replay-no-capture-knot/assessment.json",
+    "runner": "../../independent_driver_replay.py",
+    "mappingComparison": "switch-mapping-comparison.json"
+  },
+  "logCompression": {
+    "format": "xz",
+    "uncompressedSha256": "e50984aeb243d08c914dc4f88b619cf664dcc32fc6ac01434ff5cea7f1caa0f5"
+  },
+  "switchReference": {
+    "url": "https://raw.githubusercontent.com/Xyce/Xyce/Release-7.10.0/src/DeviceModelPKG/OpenModels/N_DEV_SW.C",
+    "localSourceSha256": "e062338035391e85b73437b25e7dd41f9c61bbb0399d5a5ed5bdc7eba778d47a"
+  },
+  "boundary": "Switch resistance and threshold are preserved away from equality. At exactly 2.5 V the mapped switch is off, whereas ngspice SW can retain state. This mapping requires its ngspice control; time-integration, nonlinear tolerances and device implementations differ across solvers. Short constructed stimulus only, not firmware or physical qualification.",
+  "interpretation": "The mapped circuit completes, but absolute-time host data-output differences reach approximately 0.83 V. This control does not establish waveform equivalence; the mapping and changed numerical trajectory constrain any independent-solver inference.",
+  "retainedFilesSha256": {
+    "switch-mapping-comparison.json": "c68f01c96c9432d26569f98f24a801baedfb16ce431d05b245287039644ab0bb",
+    "report.json": "dc7fd7efb8f4fa4af4552fd26c0aa653b9787f874f6ca41fcd7a572022e19e34",
+    "io.cir": "1c61339ebf660ddca58215cb03f6078f05bd39c12b369e26f9b86dfd0f8d3f78",
+    "solver.log.xz": "1d5586f4a38ea881883ec37eddb460e6a6c90ba67ed0a18c303d41f8493cd9db"
+  }
+}
