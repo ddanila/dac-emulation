@@ -1,0 +1,29 @@
+{
+  "source": "ngspice-47",
+  "configureArguments": [
+    "--prefix=/private/tmp/robotron-ngspice-klu/install",
+    "--without-x",
+    "--with-readline=no",
+    "--disable-openmp",
+    "--enable-klu"
+  ],
+  "scope": "Separate KLU-capable runtime; compare Sparse and KLU within this build before attributing a difference to backend selection. Installed default runtime is unchanged.",
+  "sourceFiles": {
+    "configure.ac": "12ed326ff584df4411dbe6e314abf8a2ac442ed9f0acb5bd2e1e9523ff69a039",
+    "src/spicelib/analysis/cktntask.c": "09857e69b321b4f7cd6cc37dd4912788b80ef54fde90b04987b4e72cabd2a238",
+    "src/spicelib/analysis/cktdojob.c": "5007a84813eedf779a37a80d6f40010c1fa4c3ce2f709ef8e34d18339ac2faf8",
+    "src/spicelib/devices/bjt/bjtload.c": "44d89ff001169377123443fc3b1ddb4dc76b27d8d43ad4c348494df1ccace0db",
+    "src/xspice/icm/digital/d_cosim/cfunc.mod": "f9ddb6ea2b7812a91009ca208cfa58e3b72e4997369b9459c721d38271ab8360"
+  },
+  "compilerVersion": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin",
+  "buildCommands": [
+    "make -j4",
+    "make install"
+  ],
+  "executableSha256": "cdd595d33563c7ff5ee2e005a07cc0a2af7332d3d43ba6f5bd2d694936c84149",
+  "buildLogsSha256": {
+    "configure.log": "fd0e0be2f6dfe4a3b90176fbdee0a2f21cf0c718c9d0753d8b88bb38d6661181",
+    "make.log": "6edabe8116a3ed2de7073e7a5d6a382eb599510106d11e39d60ca026f08c7e9b",
+    "install.log": "33143275a583667a6026576404ac395672f5f375deaf3b9c888cfd235e5e2f0c"
+  }
+}

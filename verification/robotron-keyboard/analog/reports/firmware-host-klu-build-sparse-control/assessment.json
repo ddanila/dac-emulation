@@ -1,0 +1,37 @@
+{
+  "completed": false,
+  "qualified": false,
+  "sourceRevisionVerified": "fffd351",
+  "scope": "Sparse backend control in a separate KLU-capable build",
+  "evidence": {
+    "producer": "report.json",
+    "build": "build-provenance.json",
+    "baseline": "../firmware-host-rising-load-strict-iterations1000/assessment.json",
+    "log": "ngspice.log.xz"
+  },
+  "inputComparison": {
+    "onlyDeckDifference": ".options sparse",
+    "originalWaveformsEqual": true,
+    "waveformIdentities": {
+      "trace.txt": "e22719a5fe7102eee1ce28fdd49831a0257c936777aaeae4b69b64e1e32ee4b7",
+      "driver-trace.txt": "45e723545bb3b4ec1a55ebf02bbb15be37f00da8de3208f34ee752eb6b08d142",
+      "host-trace.txt": "02e8454b0314d6a2dfe029b8a39c30f5621aa496e4059419ae9a2436e7e7d8e1"
+    }
+  },
+  "interpretation": "The new KLU-capable build using Sparse reproduces the original solver failure and all retained waveform identities. It is a control for changing only backend selection within the new runtime. This does not qualify KLU or the circuit.",
+  "logCompression": {
+    "format": "xz",
+    "uncompressedSha256": "0bb6474bf1968ee83d39e96dfec1cf45fd541173aa3d398c2e6d85d4898016bf"
+  },
+  "retainedFilesSha256": {
+    "report.json": "4814119ac482cfe265a746975d8f86a75533d958a7e32a6a9ca5bd9be6a7120b",
+    "run-inputs.json": "63d997acca7dcc44c622817e099ad1ea4fffbc539bdea68f3c3ea7961f88c2ec",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "build-provenance.json": "b06c7066b1ea6f6e75923d96aa1e23b73fd978a26ef09f8d5c6291ca0ae5ff61",
+    "ngspice.log.xz": "29ae104488600221589f0a394d9b1cdb452056bc7ab66fa34fd308c569822afd",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "5124e91def3580d9e2453aa1712d3943cce1f1e65560fcb3c9bf344632e83a62"
+  }
+}
