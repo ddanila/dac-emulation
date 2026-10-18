@@ -1,0 +1,45 @@
+{
+  "completed": false,
+  "qualified": false,
+  "producerSourceRevision": "79e6d8f",
+  "scope": "Tighter solver-tolerance control for loaded single-press service fixture",
+  "evidence": {
+    "producer": "report.json",
+    "baseline": "../firmware-host-rising-load-minbreak-25ns/assessment.json",
+    "otherTimestep": "../firmware-host-rising-load-strict-50ns/assessment.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "c7cd72cbbf6e98fcb5779e4559c8fd95e6aa0b48c47675d92b2c247bb5350da8",
+    "run-inputs.json": "2991028b915e7664b5c5f95a6954fa34683e9e359eaca62075bc56d28c35b167",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "597d98bd28e18b94af825574c5dd9d8f41ba76c637dab79703934938ba6884e2",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "d60b0fe996366c970390bed182c3d18687c01716d42f069a6e16749542521569",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591"
+  },
+  "baselineComparison": {
+    "runtimeEqual": true,
+    "deckDifference": "Only the explicit reltol/vntol/abstol option line",
+    "changedSources": [
+      "firmware_io_cosim.py"
+    ]
+  },
+  "diagnostic": {
+    "simulationTimeSeconds": 0.00109801,
+    "reportedTimestepSeconds": 3.125e-20,
+    "instance": "xdata:ttl7406_npn-instance q.xdata.qoutput",
+    "message": "Timestep too small"
+  },
+  "waveforms": {
+    "retention": "Incomplete local captures; failureArtifacts retain hashes. No scenario acceptance.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-load-strict-25ns",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "The run aborts after initial reset release and before the key stimulus. Tighter tolerances alone do not establish convergence. The two timesteps report different transistor instances; neither identifies a physical component fault or the root numerical cause.",
+  "nextAction": "Test a larger transient Newton iteration limit with unchanged circuit, tolerances, spacing and stimulus; inspect solver behavior before modifying device parameters."
+}
