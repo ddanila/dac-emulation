@@ -16,12 +16,12 @@ class BusObservationTests(unittest.TestCase):
         self.rows = [[i * 1e-9, *[4.5 if 0xa5 & (1 << bit) else .2 for bit in range(8)], 5]
                      for i in range(0, 401, 10)]
 
-    def check(self, log=LOG, rows=None, header=HEADER, rom=bytes([0xa5]) * 2048):
+    def check(self, log=LOG, rows=None, header=HEADER, rom=bytes([0xa5]) * 2048, trace_extent=None):
         with tempfile.TemporaryDirectory() as temporary:
             trace = Path(temporary) / 'trace.txt'
             trace.write_text(header + ''.join(' '.join(map(str, row)) + '\n'
                                              for row in (self.rows if rows is None else rows)))
-            return measure(log, trace, 10, rom, setup_ns=20, hold_ns=10)
+            return measure(log, trace, 10, rom, setup_ns=20, hold_ns=10, trace_extent=trace_extent)
 
     def test_memory_io_and_latch_agree_with_bracketed_voltages(self):
         report = self.check()
@@ -100,6 +100,17 @@ class BusObservationTests(unittest.TestCase):
         self.assertEqual(caught.exception.details['signal'], 'CPU_DI_REG')
         self.assertEqual(caught.exception.details['latchedByte'], 0)
         self.assertEqual(caught.exception.details['latchTimePs'], 150000)
+
+    def test_reads_alone_do_not_prove_complete_capture(self):
+        self.assertEqual(self.check(trace_extent=(0, 400e-9))['waveform']['rows'], 41)
+        # Both shortened captures still contain every read window.
+        for rows in (self.rows[1:], self.rows[:-1]):
+            self.assertTrue(self.check(rows=rows)['passed'])
+            with self.assertRaisesRegex(ValueError, 'capture extent'):
+                self.check(rows=rows, trace_extent=(0, 400e-9))
+        for extent in ((0, 0), (-1, 1), (0, float('inf')), (0,)):
+            with self.assertRaisesRegex(ValueError, 'expected bus capture extent'):
+                self.check(trace_extent=extent)
 
 
 if __name__ == '__main__':

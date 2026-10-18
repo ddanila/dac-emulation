@@ -15,13 +15,16 @@ class BusMismatch(ValueError):
         self.details = details
 
 
-def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
+def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=None):
     limits = json.loads(Path(__file__).with_name('cpu_clock_limits.json').read_text())
     operating, inputs = limits['operatingConditions'], limits['ordinaryInput']
     if not all(math.isfinite(v) and v >= 0 for v in (step_ns, setup_ns, hold_ns)) or step_ns == 0:
         raise ValueError('Invalid bus observation interval')
     if rom is not None and len(rom) != 2048:
         raise ValueError('Expected mapped 2048-byte ROM')
+    if trace_extent is not None and (len(trace_extent) != 2 or
+        not all(math.isfinite(t) and t >= 0 for t in trace_extent) or trace_extent[0] >= trace_extent[1]):
+        raise ValueError('Invalid expected bus capture extent')
     samples, latches = [], []
     for line in log.splitlines():
         if line.startswith('BUS_SAMPLE '):
@@ -48,6 +51,8 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
             (index + 1 < len(samples) and latch[0] >= samples[index + 1][0])):
             raise ValueError('Invalid CPU latch ordering')
 
+    extent = {'firstSeconds': None, 'lastSeconds': None, 'rows': 0}
+
     def rows(stream):
         header = next(stream, '').lower().split()
         if header != ['time', *[f'v(n_d{i})' for i in range(8)], 'v(n_p5v)']:
@@ -58,6 +63,10 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
             if len(row) != 10 or not all(map(math.isfinite, row)) or (last is not None and row[0] < last):
                 raise ValueError('Invalid bus trace row or time order')
             last = row[0]
+            if extent['firstSeconds'] is None:
+                extent['firstSeconds'] = row[0]
+            extent['lastSeconds'] = row[0]
+            extent['rows'] += 1
             yield row
 
     low_margin, high_margin = math.inf, math.inf
@@ -122,7 +131,12 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0):
         # Validate the tail too; malformed trailing samples must not be hidden.
         for _ in iterator:
             pass
+    if trace_extent is not None and (extent['firstSeconds'] is None or
+        abs(extent['firstSeconds'] - trace_extent[0]) > 1e-12 or
+        abs(extent['lastSeconds'] - trace_extent[1]) > 1e-12):
+        raise ValueError('Incomplete bus waveform capture extent')
     return {'passed': True, 'qualified': False, 'sampleCount': len(samples),
+            'waveform': extent,
             'memoryReads': sum(sample[3] == 0 for sample in samples),
             'ioReads': sum(sample[4] == 0 for sample in samples),
             'firstReadPs': samples[0][0], 'lastReadPs': samples[-1][0],
