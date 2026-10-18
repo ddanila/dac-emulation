@@ -225,6 +225,9 @@ Electrical-bus preparation supports the same option. The closed-board boot runne
 still uses its existing output boundary. Serial agreement cannot qualify this
 candidate: the paired firmware qualifier rejects host-buffer runs pending device,
 receiver-voltage and timing qualification.
+Use `host_input_review.py --firmware --run /path/to/service-run --out /tmp/input-limits.json`
+for a retained host-buffer firmware capture; it verifies artifact hashes, observed
+nodes and full capture extent before reviewing input stress. For standalone fixtures,
 `host_input_review.py --run /tmp/host-input-review --out /tmp/input-limits.json`
 checks retained buffer-input waveforms against [RFT D104D conditions](d104_limits.json).
 It distinguishes static bounds from the conditional negative-pulse allowance;

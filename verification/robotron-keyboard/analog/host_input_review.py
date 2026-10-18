@@ -14,14 +14,28 @@ def sha(path):
 
 
 def review(samples, limits):
-    if len(samples) < 2 or any(len(row) != 2 or not all(map(math.isfinite, row)) for row in samples):
-        raise ValueError('Invalid input samples')
-    if any(b[0] <= a[0] for a,b in zip(samples,samples[1:])):
-        raise ValueError('Input sample times must increase')
+    samples = iter(samples)
+    def valid(row):
+        if len(row) != 2 or not all(map(math.isfinite, row)):
+            raise ValueError('Invalid input samples')
+        return row
+    try:
+        first = valid(next(samples))
+    except StopIteration:
+        raise ValueError('No input samples') from None
+    previous = first
+    count = 1
+    low = high = first[1]
     pulses = []
-    start = samples[0][0] if samples[0][1] < 0 else None
-    minimum = samples[0][1] if start is not None else 0
-    for a,b in zip(samples,samples[1:]):
+    start = first[0] if first[1] < 0 else None
+    minimum = first[1] if start is not None else 0
+    for row in samples:
+        a, b = previous, valid(row)
+        if b[0] <= a[0]:
+            raise ValueError('Input sample times must increase')
+        count += 1
+        low, high = min(low, b[1]), max(high, b[1])
+        previous = b
         if a[1] >= 0 and b[1] < 0:
             start = a[0] - a[1]*(b[0]-a[0])/(b[1]-a[1])
             minimum = b[1]
@@ -30,12 +44,13 @@ def review(samples, limits):
         if a[1] < 0 and b[1] >= 0:
             end = a[0] - a[1]*(b[0]-a[0])/(b[1]-a[1])
             pulses.append({'start':start,'end':end,'durationSeconds':end-start,'minV':minimum,
-                           'complete':start > samples[0][0]})
+                           'complete':start > first[0]})
             start = None
+    if count < 2:
+        raise ValueError('Insufficient input samples')
     if start is not None:
-        pulses.append({'start':start,'end':samples[-1][0],'durationSeconds':samples[-1][0]-start,
+        pulses.append({'start':start,'end':previous[0],'durationSeconds':previous[0]-start,
                        'minV':minimum,'complete':False})
-    low, high = min(v for _,v in samples), max(v for _,v in samples)
     condition = limits['negativePulse']
     relevant = [p for p in pulses if p['minV'] < limits['staticMinV']]
     for p in relevant:
@@ -52,22 +67,74 @@ def review(samples, limits):
             'boundary':'Piecewise-linear sampled voltage review only. Pulse duty, input currents, supply/temperature applicability, missed intersample extrema and receiver behavior remain separate.'}
 
 
+def firmware_samples(path, signals, channel, end_seconds, step_ns):
+    """Validate observation nodes and capture extent while streaming one input."""
+    from trace_io import open_text
+    expected = [f'v(host_{label}_buffer_input,host_receiver_gnd)' for label in ('data', 'clock')]
+    if len(signals) != 6 or signals[2:4] != expected:
+        raise ValueError('Wrong firmware host input observation nodes')
+    if not math.isfinite(end_seconds) or end_seconds <= 0 or not math.isfinite(step_ns) or step_ns <= 0:
+        raise ValueError('Invalid capture duration or timestep')
+    with open_text(path) as stream:
+        if stream.readline().split() != ['time', *signals]:
+            raise ValueError('Host waveform header differs from report')
+        previous = None
+        for line in stream:
+            row = list(map(float, line.split()))
+            if len(row) != 7 or not all(map(math.isfinite, row)):
+                raise ValueError('Invalid host waveform row')
+            if previous is None:
+                if abs(row[0]) > 1e-15:
+                    raise ValueError('Missing host waveform start')
+            elif not 0 < row[0] - previous <= step_ns * 1e-9 + 1e-15:
+                raise ValueError('Host waveform time order or gap')
+            previous = row[0]
+            yield row[0], row[3 + channel]
+        if previous is None or abs(previous - end_seconds) > 1e-12:
+            raise ValueError('Incomplete host waveform extent')
+
+
+def firmware_review(directory, limits):
+    from compare_firmware_io import load_run
+    import re
+    report, _ = load_run(directory)
+    if not report['assumptions'].get('hostBuffer') or report.get('qualified') is not False:
+        raise ValueError('Requires an experimental host-buffer service run')
+    deck = (directory / 'io.cir').read_text()
+    analyses = re.findall(r'^\.?tran [0-9.eE+-]+n ([0-9.eE+-]+)n$', deck, re.M)
+    if len(analyses) != 1:
+        raise ValueError('Missing unambiguous executed analysis duration')
+    end_seconds = float(analyses[0]) * 1e-9
+    return {'boundary': 'Service firmware capture; CPU clock/reset externally supplied',
+            'traceSha256': report['hostTraceSha256'],
+            'inputs': {label: review(firmware_samples(directory / 'host-trace.txt',
+                        report['hostTraceSignals'], i, end_seconds,
+                        report['assumptions']['stepNs']), limits['input'])
+                       for i, label in enumerate(('data', 'clock'))}}
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run',type=Path,required=True)
     parser.add_argument('--out',type=Path,required=True)
+    parser.add_argument('--firmware',action='store_true',help='Review a retained host-buffer service firmware capture')
     args=parser.parse_args()
     args.out.unlink(missing_ok=True)
     producer=args.run/'report.json'
     report=json.loads(producer.read_text())
-    if not report.get('hostPassives'):
+    if not args.firmware and not report.get('hostPassives'):
         raise ValueError('Requires voltages at host buffer inputs, not cable-only traces')
     limits_path=HERE/'d104_limits.json'
     limits=json.loads(limits_path.read_text())
     result={'completed':False,'qualified':False,'producerReportSha256':sha(producer),
             'sources':{name:sha(HERE/name)for name in ('host_input_review.py','d104_limits.json')},
             'deviceSource':limits['source'],'runs':[]}
-    for run in report['runs']:
+    if args.firmware:
+        result['runs'].append(firmware_review(args.run, limits))
+        from compare_firmware_io import sha as trace_sha
+        for name in ('trace_io.py', 'compare_firmware_io.py', 'transient_analysis.py', 'serial_observation.py', 'led_observation.py', 'failure_evidence.py'):
+            result['sources'][name] = trace_sha(HERE / name)
+    for run in ([] if args.firmware else report['runs']):
         path=args.run/f"{run['profile']}-{run['stepNs']}ns-{run['cablePf']}pf"
         for name,digest in run['artifacts'].items():
             if sha(path/name)!=digest:raise ValueError('Changed producer artifact: '+name)
