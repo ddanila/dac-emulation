@@ -32,6 +32,14 @@ class BusObservationTests(unittest.TestCase):
         self.assertEqual(report['minimumHighMarginVolts'], 2.5)
         self.assertFalse(report['qualified'])
 
+    def test_overlapping_read_windows_reuse_retained_samples(self):
+        log = LOG.replace('150000', '105000').replace('300000', '110000').replace('350000', '115000')
+        self.assertEqual(self.check(log=log)['sampleCount'], 2)
+        rows = [r[:] for r in self.rows]
+        rows[9][1] = 1.4
+        with self.assertRaisesRegex(ValueError, 'D0'):
+            self.check(log=log, rows=rows)
+
     def test_read_data_and_register_confirmation_are_not_optional(self):
         for log in (LOG.replace('0001 a5', '0001 ax'), LOG.replace('a5 a5', 'a5 00'),
                     LOG.replace('BUS_LATCH 150000 a5 a5\n', ''),
