@@ -1,0 +1,63 @@
+{
+  "completed": false,
+  "qualified": false,
+  "sourceRevisionVerified": "f4dcc18",
+  "scope": "Logging-only replay of the tighter-tolerance 1000-iteration host failure",
+  "evidence": {
+    "producer": "report.json",
+    "uninstrumented": "../firmware-host-rising-load-strict-iterations1000/assessment.json",
+    "auditPatch": "../../engine-patches/ngspice-47-breakpoint-audit.patch",
+    "priorAuditProvenance": "../coupled-clock-startup/breakpoint-audit/baseline/report.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "24637a7bc2be08e9e0c700129a31a5416a687d2d90aad13809d33457433be13a",
+    "run-inputs.json": "6b4f81370080184885eff20257c340557af4ded056009627dd092aa40b660d9d",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "43e086856e1c03ba0986ea02bbd93a5c753129616ac3ebb03c221c49543cf440",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "da12528909a8740ca05b8986e70ce4124427e29fff5828ad3f2412b93cfe817e",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591"
+  },
+  "inputComparison": {
+    "sourceHashesEqual": true,
+    "deckEqual": true,
+    "codeModelsEqual": true,
+    "initializationEqual": true,
+    "waveformIdentities": {
+      "trace.txt": "e22719a5fe7102eee1ce28fdd49831a0257c936777aaeae4b69b64e1e32ee4b7",
+      "driver-trace.txt": "45e723545bb3b4ec1a55ebf02bbb15be37f00da8de3208f34ee752eb6b08d142",
+      "host-trace.txt": "02e8454b0314d6a2dfe029b8a39c30f5621aa496e4059419ae9a2436e7e7d8e1"
+    }
+  },
+  "auditPatchSha256": "058ec6cbc75e397eec3bc835dcd54cdec900419ee5c7e8007c8589ce5d937a10",
+  "engineSources": {
+    "src/maths/ni/niiter.c": "85ed2001b0f4589e43a1e4d11f1fafc8a30f90d25d8ad361efe92c51a8e023a1",
+    "src/spicelib/analysis/dctran.c": "382d523b08a843469d81b14e3c08c0cd2b11509ee3470b9e3b3bce6f27157a74",
+    "src/include/ngspice/sperror.h": "1907ca53da4601b4a912ee32f8ce712b108782772a010c13cd68c5fdad4ea525"
+  },
+  "observations": {
+    "loggedSolverResults": {
+      "0": 8,
+      "103": 2
+    },
+    "lastSolverCall": "BP_AUDIT solver time=0x1.1fd65aca615bfp-10 delta=0x1.2725dd1d243acp-61 previous=0x1.1fd65aca615bdp-10 breakpoint=0x1.93e5939a08ceap+99 result=0 order=1",
+    "nearEventCuts": 0,
+    "loggingScope": "Solver calls with delta below 10 fs after 100 us; event cuts below 10 fs after 100 us",
+    "resultCodes": {
+      "0": "OK",
+      "103": "E_ITERLIM"
+    }
+  },
+  "interpretation": "Instrumentation preserves all partial waveform bytes. The narrow logged range contains iteration-limit failures followed by successful Newton solves before the terminal timestep abort. No near-event-cut message appears in that range. The source control flow motivates inspecting truncation-error rejection after convergence; these logs do not directly expose truncation decisions or rule out every event interaction.",
+  "nextAction": "Add logging-only truncation and rejection fields in a separate audit runtime; preserve the installed runtime and compare waveform identity.",
+  "waveforms": {
+    "retention": "Incomplete local captures; producer hashes retained.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-load-strict-audit",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  }
+}
