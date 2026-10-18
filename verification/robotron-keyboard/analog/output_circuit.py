@@ -1,25 +1,63 @@
 """Electrical serial, cable, supply-decoupling and external LED load model."""
+import math
+from itertools import combinations
+
 from circuit import elements, node
 
 
-def output_circuit(components, cable_pf=1000, choke_uh=1, choke_ohms=1):
-    refs = ['R10.1', 'R10.2', 'R11.1', 'R11.2', 'C3.1', 'C3.2',
-            *[f'C5.{i}' for i in range(1, 6)]]
-    lines, models = elements(components, refs)
-    for ref in ('L1.1', 'L1.2', 'L1.3', 'L1.4'):
+CHOKE_REFS = ('L1.1', 'L1.2', 'L1.3', 'L1.4')
+
+
+def choke_circuit(components, choke_uh=1, choke_ohms=1, coupling=0,
+                  dots=(1, 1, 1, 1)):
+    """Equal windings with uniform coupling; dot pins are explicit hypotheses.
+
+    In board pin-1 current coordinates L = Lself*((1-k)I + k*s*s^T).
+    Its eigenvalues are Lself*(1-k) and Lself*(1+3k), positive for 0<=k<1.
+    Reversing node order implements dot polarity without arbitrary pair signs.
+    """
+    if any(not math.isfinite(x) or x <= 0 for x in (choke_uh, choke_ohms)):
+        raise ValueError('Choke inductance and resistance must be positive and finite')
+    if not math.isfinite(coupling) or not 0 <= coupling < 1:
+        raise ValueError('Coupling must be finite and in [0, 1)')
+    if len(dots) != 4 or any(type(pin) is not int or pin not in (1, 2) for pin in dots):
+        raise ValueError('Supply one dot pin (1 or 2) per L1.1 through L1.4')
+    lines, models = [], {}
+    for ref, dot in zip(CHOKE_REFS, dots):
         c = components[ref]
         if c['type'] != 'CHOKE' or set(c['pins']) != {'1', '2'}:
             raise ValueError('Unexpected cable filter component: ' + ref)
         first, second = (node(c['pins'][p]) for p in ('1', '2'))
         middle = ref.replace('.', '_') + '_series'
-        lines += [f'{ref} {first} {middle} {choke_uh}u',
+        ends = (first, middle) if dot == 1 else (middle, first)
+        lines += [f'{ref} {ends[0]} {ends[1]} {choke_uh}u',
                   f'R{ref} {middle} {second} {choke_ohms}']
-        models[ref] = 'uncoupled nominal series RL; no characterized ferrite/coupling model'
+        models[ref] = ('uncoupled nominal series RL; no characterized ferrite/coupling model'
+                       if coupling == 0 else
+                       'uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model')
+    if coupling:
+        for i, j in combinations(range(4), 2):
+            lines.append(f'Kfilter{i+1}{j+1} {CHOKE_REFS[i]} {CHOKE_REFS[j]} {coupling:.17g}')
+    return lines, models
+
+
+def output_circuit(components, cable_pf=1000, choke_uh=1, choke_ohms=1,
+                   *, coupling=0, dots=(1, 1, 1, 1)):
+    refs = ['R10.1', 'R10.2', 'R11.1', 'R11.2', 'C3.1', 'C3.2',
+            *[f'C5.{i}' for i in range(1, 6)]]
+    lines, models = elements(components, refs)
+    choke_lines, choke_models = choke_circuit(components, choke_uh, choke_ohms, coupling, dots)
+    lines += choke_lines
+    models.update(choke_models)
     connector = components['XT1']['pins']
     host_ground, host_supply = (node(connector[p]) for p in ('A3', 'B4'))
     channels = {'data': ('4', 'A1'), 'clock': ('2', 'B2')}
     metadata = {'models': models, 'hostGround': host_ground, 'hostSupply': host_supply,
-                'serial': {}, 'leds': {}}
+                'serial': {}, 'leds': {},
+                'filter': {'coupling': coupling, 'dotPins': dict(zip(CHOKE_REFS, dots)),
+                           'qualified': False, 'selfInductanceUh': choke_uh,
+                           'seriesOhms': choke_ohms,
+                           'scope': 'Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted'}}
     lines += ['.model OUTPUT_SINK_NOMINAL SW(RON=20 ROFF=1t VT=2.5 VH=0)',
               '.model LED_NOMINAL D(IS=1e-20 N=2 RS=2)']
     for label, (pin, connector_pin) in channels.items():

@@ -131,7 +131,11 @@ jobs:
           python3 verification/robotron-keyboard/analog/oscillator_probe.py --gate-profile dl000-dc --out build/keyboard-controller-analog/oscillator-dl000-dc
           python3 verification/robotron-keyboard/analog/oscillator_probe.py --steps-ns 1 .5 --reltol 1e-7 --vntol 1e-9 --abstol 1e-15 --require-phase --out build/keyboard-controller-analog/oscillator-phase
       - name: Serial, cable and LED electrical loads
-        run: python3 verification/robotron-keyboard/analog/output_probe.py
+        run: |
+          python3 verification/robotron-keyboard/analog/test_output_filter.py
+          python3 verification/robotron-keyboard/analog/output_probe.py
+          python3 verification/robotron-keyboard/analog/output_probe.py --coupling .8 --out build/keyboard-controller-analog/filter-coupled
+          python3 verification/robotron-keyboard/analog/output_probe.py --coupling .8 --dot-pins 1 2 1 1 --out build/keyboard-controller-analog/filter-reversed-return
   checks:
     name: ${{ matrix.target }} (${{ matrix.os }})
     strategy:

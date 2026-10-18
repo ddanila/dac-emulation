@@ -1,0 +1,411 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Test nominal serial/cable and LED loads generated from reference connectivity.",
+  "runs": [
+    {
+      "stepNs": 10,
+      "cablePf": 1000,
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "v(n_CABLE_GND)",
+        "@dsiso_led[id]",
+        "@dcaps_led[id]"
+      ],
+      "samples": [
+        [
+          2.0028e-06,
+          4.97200752,
+          4.97200752,
+          4.9999004,
+          -7.83378766e-08,
+          3.91620743e-08,
+          3.91620743e-08
+        ],
+        [
+          1.60023207e-05,
+          0.174679922,
+          0.174679922,
+          4.99556753,
+          -0.00221417495,
+          0.0162143276,
+          0.0162143276
+        ],
+        [
+          3.60005e-05,
+          4.967992,
+          4.967992,
+          4.99191105,
+          -0.00399477592,
+          3.7389239e-08,
+          3.7389239e-08
+        ]
+      ],
+      "receiverRiseSeconds08to2V": [
+        1.8938020906042726e-07,
+        1.8941084167600183e-07
+      ],
+      "signalRanges": [
+        [
+          -0.505079469,
+          4.97200752
+        ],
+        [
+          -0.36256451,
+          5.01614556
+        ],
+        [
+          4.99152365,
+          4.9999004
+        ],
+        [
+          -1.12334974,
+          0.751635551
+        ],
+        [
+          3.73053454e-08,
+          0.0165625748
+        ],
+        [
+          3.73053626e-08,
+          0.0165606993
+        ]
+      ],
+      "deckSha256": "106b42043baa7f2ede22a6dc51fbc004ce0eb279ba85ce65e8eff5cd29ca7af4",
+      "artifacts": {
+        "outputs.cir": "106b42043baa7f2ede22a6dc51fbc004ce0eb279ba85ce65e8eff5cd29ca7af4",
+        "trace.txt": "42176f47179e55c06c4de46dd721a1b721529a757f5413a9884b5d590c77ac23",
+        "ngspice.log": "8334108fd0a31edb3baa07fb3b7205a0400a71333c0fe532f412cdffb86b2a0c"
+      }
+    },
+    {
+      "stepNs": 5,
+      "cablePf": 1000,
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "v(n_CABLE_GND)",
+        "@dsiso_led[id]",
+        "@dcaps_led[id]"
+      ],
+      "samples": [
+        [
+          2.0014e-06,
+          4.97200752,
+          4.97200752,
+          4.9999004,
+          -7.83335414e-08,
+          3.91620743e-08,
+          3.91620743e-08
+        ],
+        [
+          1.5998162e-05,
+          0.174678567,
+          0.174678567,
+          4.99556964,
+          -0.00221311805,
+          0.0162143399,
+          0.0162143399
+        ],
+        [
+          3.59975e-05,
+          4.96799194,
+          4.96799194,
+          4.99191092,
+          -0.00399484118,
+          3.73892107e-08,
+          3.73892107e-08
+        ]
+      ],
+      "receiverRiseSeconds08to2V": [
+        1.893889645466823e-07,
+        1.894180763390014e-07
+      ],
+      "signalRanges": [
+        [
+          -0.478542091,
+          4.97200752
+        ],
+        [
+          -0.353681582,
+          5.01655298
+        ],
+        [
+          4.99152365,
+          4.9999004
+        ],
+        [
+          -1.12402341,
+          0.755178949
+        ],
+        [
+          3.73053445e-08,
+          0.0163421906
+        ],
+        [
+          3.73053622e-08,
+          0.016340256
+        ]
+      ],
+      "deckSha256": "4313c6d52a1ac557f137cde3880db52dec75b2b458aa70095f31a88dd43e87f3",
+      "artifacts": {
+        "outputs.cir": "4313c6d52a1ac557f137cde3880db52dec75b2b458aa70095f31a88dd43e87f3",
+        "trace.txt": "437185539d0bb366a5550b0d728201284667b035faf804de8864d3271e513b64",
+        "ngspice.log": "76a8ca9e1a8082f447334308ae2e435ac8351e38efc1edada3f3f80136af8ea0"
+      }
+    },
+    {
+      "stepNs": 10,
+      "cablePf": 2000,
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "v(n_CABLE_GND)",
+        "@dsiso_led[id]",
+        "@dcaps_led[id]"
+      ],
+      "samples": [
+        [
+          2.0028e-06,
+          4.97200752,
+          4.97200752,
+          4.9999004,
+          -7.83159964e-08,
+          3.91620743e-08,
+          3.91620743e-08
+        ],
+        [
+          1.60005138e-05,
+          0.174533333,
+          0.174533333,
+          4.99551886,
+          -0.00223803836,
+          0.0162140447,
+          0.0162140447
+        ],
+        [
+          3.60005e-05,
+          4.96794002,
+          4.96792583,
+          4.99182178,
+          -0.00403938336,
+          3.73698905e-08,
+          3.73698905e-08
+        ]
+      ],
+      "receiverRiseSeconds08to2V": [
+        3.790394601980326e-07,
+        3.7908167137426786e-07
+      ],
+      "signalRanges": [
+        [
+          -0.0196139178,
+          4.97200752
+        ],
+        [
+          0.0204343434,
+          4.99921873
+        ],
+        [
+          4.99143632,
+          4.9999004
+        ],
+        [
+          -1.12499135,
+          0.751971877
+        ],
+        [
+          3.72864603e-08,
+          0.0165625748
+        ],
+        [
+          3.72864755e-08,
+          0.0165606993
+        ]
+      ],
+      "deckSha256": "5f6d2429845d64ebcdfac0a112c584884d5ba323c5e03022cbcf8ecb0a98947d",
+      "artifacts": {
+        "outputs.cir": "5f6d2429845d64ebcdfac0a112c584884d5ba323c5e03022cbcf8ecb0a98947d",
+        "trace.txt": "7e0bc66323b823b9bae80dda4c725d0ccf36f9b43155b9266c413e55281aa298",
+        "ngspice.log": "8334108fd0a31edb3baa07fb3b7205a0400a71333c0fe532f412cdffb86b2a0c"
+      }
+    },
+    {
+      "stepNs": 5,
+      "cablePf": 2000,
+      "signals": [
+        "v(n_CABLE_DATEN,n_CABLE_GND)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "v(n_p5V)",
+        "v(n_CABLE_GND)",
+        "@dsiso_led[id]",
+        "@dcaps_led[id]"
+      ],
+      "samples": [
+        [
+          2.0014e-06,
+          4.97200752,
+          4.97200752,
+          4.9999004,
+          -7.82251668e-08,
+          3.91620743e-08,
+          3.91620743e-08
+        ],
+        [
+          1.60024952e-05,
+          0.174534146,
+          0.174534146,
+          4.99551786,
+          -0.00223853435,
+          0.016214039,
+          0.016214039
+        ],
+        [
+          3.59975e-05,
+          4.96793996,
+          4.96792573,
+          4.99182165,
+          -0.00403944926,
+          3.7369862e-08,
+          3.7369862e-08
+        ]
+      ],
+      "receiverRiseSeconds08to2V": [
+        3.790362537919142e-07,
+        3.7907898723521386e-07
+      ],
+      "signalRanges": [
+        [
+          -0.0167770092,
+          4.97200752
+        ],
+        [
+          0.025395146,
+          4.99915148
+        ],
+        [
+          4.99143632,
+          4.9999004
+        ],
+        [
+          -1.12559527,
+          0.755513951
+        ],
+        [
+          3.72864592e-08,
+          0.0163421906
+        ],
+        [
+          3.7286475e-08,
+          0.016340256
+        ]
+      ],
+      "deckSha256": "033ba3448c3adf368cb3f2889e108ce0e3e01f75a0d9709c4644d99aa6f67b9d",
+      "artifacts": {
+        "outputs.cir": "033ba3448c3adf368cb3f2889e108ce0e3e01f75a0d9709c4644d99aa6f67b9d",
+        "trace.txt": "f3094ebd9e5cef9a3b943110651bc9c35da78560874eaf71a3d637ed62f1c698",
+        "ngspice.log": "76a8ca9e1a8082f447334308ae2e435ac8351e38efc1edada3f3f80136af8ea0"
+      }
+    }
+  ],
+  "acceptanceBoundary": "Fixture steady-state levels, release crossings, timestep and load sensitivity only; not absolute voltage limits or calibrated full-board behavior",
+  "sources": {
+    "output_probe.py": "dd89fca1b66ead93952c6535fb14baa446b131ff17af943ae0f21d9b5d576245",
+    "output_circuit.py": "ab579833c72e96932e112a5739629c8825f1038fb5dfe2b6c97e7baa09ebfb39",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87"
+  },
+  "assumptions": {
+    "cablePf": 1000,
+    "chokeUh": 1,
+    "chokeOhms": 1,
+    "receiverOhms": 100000,
+    "serialSinkOhms": 20,
+    "releasedOhms": 1000000000000.0,
+    "led": "Generic diode IS=1e-20 N=2 RS=2, not a characterized VQA33",
+    "ledOutput": "30 ohms, targets 0.04/0.70 of local supply; not characterized DL074",
+    "filter": "Linear equal-winding RL hypothesis; coupling and ferrite behavior unqualified",
+    "coupling": 0.8,
+    "dotPins": [
+      1,
+      2,
+      1,
+      1
+    ],
+    "supply": "Ideal host 5 V through supply/return chokes; controller IC quiescent currents omitted",
+    "decoupling": "Ideal schematic capacitors; ESR/leakage omitted",
+    "stimulus": "Ideal drive intents; separate from HDL/firmware qualification"
+  },
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "circuit": {
+    "models": {
+      "R10.1": "resistor",
+      "R10.2": "resistor",
+      "R11.1": "resistor",
+      "R11.2": "resistor",
+      "C3.1": "capacitor",
+      "C3.2": "capacitor",
+      "C5.1": "capacitor",
+      "C5.2": "capacitor",
+      "C5.3": "capacitor",
+      "C5.4": "capacitor",
+      "C5.5": "capacitor",
+      "L1.1": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model",
+      "L1.2": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model",
+      "L1.3": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model",
+      "L1.4": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model"
+    },
+    "hostGround": "n_CABLE_GND",
+    "hostSupply": "n_CABLE_5V",
+    "serial": {
+      "data": {
+        "board": "n_TA_DATEN",
+        "cable": "n_CABLE_DATEN",
+        "connectorPin": "A1"
+      },
+      "clock": {
+        "board": "n_TA_TAKT",
+        "cable": "n_CABLE_TAKT",
+        "connectorPin": "B2"
+      }
+    },
+    "leds": {
+      "siso": {
+        "output": "n_LED_SISO_N",
+        "cathode": "n_LED_SISO",
+        "anode": "n_p5V",
+        "connectorPin": "A5",
+        "diode": "Dsiso_led"
+      },
+      "caps": {
+        "output": "n_LED_CAPS_N",
+        "cathode": "n_LED_CAPS",
+        "anode": "n_p5V",
+        "connectorPin": "A6",
+        "diode": "Dcaps_led"
+      }
+    },
+    "filter": {
+      "coupling": 0.8,
+      "dotPins": {
+        "L1.1": 1,
+        "L1.2": 2,
+        "L1.3": 1,
+        "L1.4": 1
+      },
+      "qualified": false,
+      "selfInductanceUh": 1,
+      "seriesOhms": 1,
+      "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+    },
+    "shield": {
+      "net": "/SHIELD",
+      "model": "Unconnected external shield boundary; no invented ground bond"
+    }
+  },
+  "executableSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "tool": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******"
+}
