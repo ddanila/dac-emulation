@@ -50,7 +50,7 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
     if not samples or len(samples) != len(latches):
         raise ValueError('Missing bus samples or CPU latch confirmations')
     for index, (sample, latch) in enumerate(zip(samples, latches)):
-        if (not sample[0] < latch[0] or
+        if (sample[0] > latch[0] or
             (index + 1 < len(samples) and latch[0] >= samples[index + 1][0])):
             raise ValueError('Invalid CPU latch ordering')
 

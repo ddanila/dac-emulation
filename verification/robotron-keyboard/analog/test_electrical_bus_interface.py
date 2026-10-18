@@ -38,6 +38,15 @@ module tb;
   sense=0; #1;
   if(hi[7:0]!==8'h5a || lo[7:0]!==8'ha5 || hi[15:8]!==8'ha5 ||
      dut.board.cpu.di!==0)$fatal(1,"CPU/ROM drive or sensed contention lost");
+  force dut.board.reset_n=1;
+  force dut.board.cpu.tstate=7'b0000100;
+  force dut.board.cpu.wait_n=1;
+  force dut.board.rd_n=0;
+  force dut.board.m1_n=1;
+  force dut.board.clk=0;
+  #1; force dut.board.clk=1;
+  // End before any following falling edge: the completed latch still exists.
+  #0.1;
   $display("SERVICE_BUS_PASS");$finish;
  end
 endmodule
@@ -50,6 +59,8 @@ endmodule
             result = subprocess.run(['vvp', str(out / 'bus.vvp')], cwd=out,
                                     capture_output=True, text=True, check=True, timeout=30)
             self.assertIn('SERVICE_BUS_PASS', result.stdout)
+            self.assertIn('BUS_SAMPLE 4000 0000 00 0 1 1', result.stdout)
+            self.assertIn('BUS_LATCH 4000 00 00', result.stdout)
 
     def test_wr_reset_bus_handover_and_unknown_ownership(self):
         with tempfile.TemporaryDirectory() as directory:

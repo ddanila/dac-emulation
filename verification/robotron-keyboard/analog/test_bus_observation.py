@@ -32,6 +32,14 @@ class BusObservationTests(unittest.TestCase):
         self.assertEqual(report['minimumHighMarginVolts'], 2.5)
         self.assertFalse(report['qualified'])
 
+    def test_postponed_region_latch_at_sampling_time(self):
+        log = LOG.replace('150000', '100000').replace('350000', '300000')
+        self.assertEqual(self.check(log=log)['sampleCount'], 2)
+        with self.assertRaisesRegex(ValueError, 'CPU input register'):
+            self.check(log=log.replace('BUS_LATCH 300000 a5 a5', 'BUS_LATCH 300000 a5 00'))
+        with self.assertRaisesRegex(ValueError, 'Missing bus'):
+            self.check(log=log.replace('BUS_LATCH 300000 a5 a5\n', ''))
+
     def test_overlapping_read_windows_reuse_retained_samples(self):
         log = LOG.replace('150000', '105000').replace('300000', '110000').replace('350000', '115000')
         self.assertEqual(self.check(log=log)['sampleCount'], 2)
