@@ -29,12 +29,24 @@ class RolloffTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             candidate(source, 'other', .1)
 
+    def test_resistance_changes_only_the_sink_and_preserves_external_clamp(self):
+        source = self.source()
+        for parameter in ['RB', 'RC', 'RE']:
+            text = candidate(source, 'sink', 10, parameter)
+            self.assertEqual(text.count(parameter+'=10'), 1)
+            self.assertIn('Dantisat b c LS00_SCHOTTKY_ASSUMED', text)
+            self.assertIn('Xphase drive input sinkbase LS00_SCHOTTKY_NPN_ASSUMED', text)
+            self.assertIn('Qhigh collector highbase y LS00_NPN_ASSUMED', text)
+            self.assertNotIn(parameter+'=', text.split('.model LS00_SINK_ASSUMED')[0])
+        with self.assertRaises(ValueError):candidate(source, 'sink', 1, 'unknown')
+        with self.assertRaises(ValueError):candidate(source, 'sink', -1, 'RE')
+
     @unittest.skipUnless(shutil.which('ngspice'), 'ngspice required')
     def test_rolloff_reduces_forced_output_current(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             values = []
-            for label, text in [('base', self.source()), ('rolloff', candidate(self.source(), 'sink', .01))]:
+            for label, text in [('base', self.source()), ('rolloff', candidate(self.source(), 'sink', .01)), ('resistance', candidate(self.source(), 'sink', 10, 'RE'))]:
                 model = root/(label+'.cir');model.write_text(text)
                 out = root/label
                 subprocess.run([sys.executable, str(HERE/'ls00_iv_probe.py'), '--model', str(model),
@@ -45,6 +57,7 @@ class RolloffTests(unittest.TestCase):
                                    if c['name']=='low-threshold' for p in c['selectedPoints']
                                    if abs(p['outputVolts']-2)<1e-10))
             self.assertLess(values[1], values[0]/2)
+            self.assertLess(values[2], values[0]/10)
 
 
 if __name__ == '__main__':
