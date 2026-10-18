@@ -7,7 +7,8 @@
     "producer": "report.json",
     "baselineFailure": "../firmware-host-rising-reset/assessment.json",
     "scenarioCoverage": "coverage.json",
-    "sampledStability": "margins.json"
+    "sampledStability": "margins.json",
+    "invocationControl": "../firmware-host-rising-reset-default-spacing/assessment.json"
   },
   "retainedFilesSha256": {
     "report.json": "6ca96a01bfbb29ee3f7e7172410bce8b2e92ed288ef86a12feb54329f55bd569",
@@ -45,6 +46,6 @@
       "driver-trace.txt.xz"
     ]
   },
-  "interpretation": "Full service scenario completes without solver diagnostics. CPU restart, before/after-reset packet coverage received-bit agreement and sampled stability pass under the declared assumptions. Both explicit breakpoint spacing and deck-tran/run invocation differ from the failed baseline; this run alone cannot isolate causality or qualify device behavior.",
-  "nextAction": "Compare the invocation control at default-equivalent spacing and the timestep-refined run; retain absolute-time differences and separate device applicability."
+  "interpretation": "Full service scenario completes without solver diagnostics; CPU restart, before/after-reset packet coverage, received-bit agreement and sampled stability pass. The invocation control reproduces the baseline failure when default-equivalent spacing is restored, isolating spacing as a consequential numerical parameter. This does not identify the exact internal failure path or qualify device behavior.",
+  "nextAction": "Complete fixed-spacing timestep refinement and modifier coverage; retain absolute-time voltage differences and separate device applicability."
 }

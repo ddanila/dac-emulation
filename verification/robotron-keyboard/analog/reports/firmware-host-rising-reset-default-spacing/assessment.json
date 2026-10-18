@@ -1,0 +1,49 @@
+{
+  "completed": false,
+  "qualified": false,
+  "producerSourceRevision": "fe4c087",
+  "scope": "Reset release control retaining deck-tran/run while restoring default-equivalent breakpoint spacing",
+  "evidence": {
+    "producer": "report.json",
+    "successfulSpacing": "../firmware-host-rising-reset-minbreak/assessment.json",
+    "baselineFailure": "../firmware-host-rising-reset/assessment.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "6f3860df364c9834ff223e00f124a2bc5cd5179d3f92ac7b52a9f0938332ae0a",
+    "run-inputs.json": "91788ccedfa7352826c6898c7d98890331b7d0fdec1d467f645b72986ac31892",
+    "scenario.json": "5e18138a0d6911d72f31bd3ea0d981f35fc642071bc3939d6c680e6ef546f7e3",
+    "io.cir": "01cd3f7814008652292a95039d3863ed29d62b7c8381c3ec596661dbd1c77f61",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "bf5d1db5df22f513c5f27792f1400c13d4d074041b4b0c5f353bc70cc0fe497f",
+    "ngspice.log": "2798fafd4e82c3c9982a478de6a6e6e13bb96c39ea4ce9909d762f74a3560372",
+    "reference.log": "af14c8d9e2586559f0730c4987dd2955bb6e5ff415c77da865f4501d7d0d2a98"
+  },
+  "inputComparison": {
+    "sourceHashesEqual": true,
+    "runtimeEqual": true,
+    "deckDifference": "Only .options minbreak changes relative to successful reset diagnostic",
+    "assumptionDifferences": {
+      "minimumBreakpointFs": [
+        1.0,
+        0.005
+      ]
+    }
+  },
+  "diagnostic": {
+    "simulationTimeSeconds": 0.041016,
+    "reportedTimestepSeconds": 6.25e-20,
+    "instance": "q.xhost_data.qinput",
+    "message": "Timestep too small"
+  },
+  "waveforms": {
+    "retention": "Incomplete local captures; producer failureArtifacts retain their hashes. No full-scenario claim.",
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-reset-default-spacing",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ]
+  },
+  "interpretation": "The same release failure recurs with deck-tran/run at default-equivalent spacing. Invocation alone does not remove it. Increasing spacing to 1 fs allows the otherwise identical reset scenario to complete. This isolates spacing as a consequential numerical parameter for this fixture, not the exact internal failure path or a physical circuit defect.",
+  "nextAction": "Complete fixed-spacing timestep refinement and modifier coverage; preserve absolute-time voltage differences and device-model limits."
+}
