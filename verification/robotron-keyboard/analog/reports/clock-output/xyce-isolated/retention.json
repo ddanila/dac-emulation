@@ -1,0 +1,30 @@
+{
+  "scope": "Full producer and normalized Xyce traces retained. Normalization preserves numeric tokens and removes only the header/footer framing. The extracted ngspice clock retains the earlier printed precision.",
+  "runtimeDownload": {
+    "url": "https://xyce.sandia.gov/download/1952/?tmstv=1754510116",
+    "archiveSha256": "06cd438e0a3d4dc86948c1d0f6684fa125db3dfa1776ff1d9339ebb77865754b",
+    "packageSha256": "937ca6d0b0e28d292989de78300a66d67af1e4431d791c3a1aab8444c947168b",
+    "installation": "Package expanded with pkgutil --expand-full; payloads merged under /tmp/robotron-xyce/runtime. No system installation. Runtime binaries are not committed."
+  },
+  "reproduce": "python3 verification/robotron-keyboard/analog/xyce_oscillator_probe.py --xyce /path/to/Xyce --out /path/to/new-output",
+  "interpretation": "Paired Xyce and cross-solver isolated phase checks pass. Both engines retain an isolated steady period shorter than the currently pinned U880 reference minimum. No slow-supply, coupled-board or device qualification.",
+  "retainedFiles": {
+    "assessment.json": "ce0277f521aa7c87020f5654949299e6d8dcc2f596b431caae2786fe863cceb7",
+    "ngspice-clock.txt.xz": "fc15c8ce51b1c1d8263bcb5ac1fad0cdf3e2a0dda143f49cd2857d2a305a6f2a",
+    "cross-solver.json": "738310179f7bfb360ce491125db3c43052c712931e1e0c194e89492cd2cb969f",
+    "rejected-initial-adapter/assessment.json": "55948cc34f419cb7c9a534fe8fc048dde9b628efb3bb20495e86c06dba41f839",
+    "rejected-initial-adapter/oscillator.cir": "cbd3686db2a9976db21e20bf580d409d015ef038e5b447e23b43493309007fca",
+    "rejected-initial-adapter/xyce.log": "2293eac80b79dffe7bc013dccdbb0a54ecf27ba31ef6b854eabf125345575590",
+    "rejected-initial-adapter/model.cir": "c3eb400ee9d00ce2aca22a89114ad2806ad439eae7857dfc8b8f0466cea7aac5",
+    "coarse/xyce-trace.txt.xz": "ede8ab17991c34c3d357b8c7b30a55c182235448975e9e2fc9a32f643c15835e",
+    "coarse/oscillator.cir": "bdf10f2b1c721209eb2154f5e027b79e236e8fd2780a01d9a03023c6129b09f0",
+    "coarse/xyce.log": "bbd9b375e417803059f677b86cd462c3ce7c292cf151a71393ca7acfb73804c3",
+    "coarse/trace.txt.xz": "fcd80dab07fb30e240a373be1040df57fbe28b1ae4d8698da0185e93e7c6e2c1",
+    "coarse/model.cir": "c3eb400ee9d00ce2aca22a89114ad2806ad439eae7857dfc8b8f0466cea7aac5",
+    "fine/xyce-trace.txt.xz": "c0e6fb7bcebedb3003029c46e0b99231585ea769c7470dd65335f5bfe539b3bc",
+    "fine/oscillator.cir": "03dc284bfe52016afc88bf186ab234c25e4ae8080db960fda178f2812c486c11",
+    "fine/xyce.log": "ff6dd490fd8a8aa8ebc86f64aabbadb69bafd718316c31d2e918827e23bcc06f",
+    "fine/trace.txt.xz": "08d1280e0dde19b737e37510bc83f663e06feaa46adbb57eb6de71ee0dd99502",
+    "fine/model.cir": "c3eb400ee9d00ce2aca22a89114ad2806ad439eae7857dfc8b8f0466cea7aac5"
+  }
+}

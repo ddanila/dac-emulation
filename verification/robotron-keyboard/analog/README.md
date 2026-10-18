@@ -619,6 +619,21 @@ records explicit Newton starting guesses and preserves the preceding solver
 warning separately. Only DC curve conversion is checked; this is not a switching
 model or a board-default change. Generated vendor-derived decks remain local.
 
+The independent `xyce_oscillator_probe.py` uses the canonical oscillator wiring
+and existing gate equations with Xyce expression delimiters. Supply comes from
+A7's supply pins, and complete output is checked before normalization and phase
+comparison. Xyce's solver tolerances have different semantics from ngspice's.
+
+```sh
+python3 verification/robotron-keyboard/analog/xyce_oscillator_probe.py --xyce /path/to/Xyce --out /tmp/xyce-oscillator
+```
+
+The [retained isolated comparison](reports/clock-output/xyce-isolated/cross-solver.json)
+passes paired and cross-solver phase checks, while retaining the short clock
+period. It does not qualify slow-supply startup, the HDL bridge or the full board.
+The [runtime receipt](reports/clock-output/xyce-isolated/retention.json) identifies
+the official executable package and retained traces; no runtime is redistributed.
+
 ## Coupled firmware boot
 
 After building the bridge, run the longer electrical-clock/reset integration test:

@@ -1,0 +1,6 @@
+{
+  "qualified": false,
+  "usableForCircuitComparison": false,
+  "reason": "Exploratory adapter mistakenly used the BR1 signal-source return value as the supply node, clamping n_OSC_OUT instead of driving n_p5V. This circuit is invalid for oscillator comparison. The checked adapter now derives supply from A7 pin 14 and has a regression test.",
+  "rawTraceSha256": "643ca0b383ec63d2fb3b27240c7b456c6b3770a1358b1a2f8c2bafe91b57d9fa"
+}
