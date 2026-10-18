@@ -191,8 +191,8 @@ timestamp precision and sample gaps contribute to the bounds; ambiguous results
 remain indeterminate. This diagnostic does not identify the specimen's CPU speed
 grade or prove tester-threshold equivalence or behavior between samples.
 
-`--electrical-cpu-pullups` enables schematic R6.4/R6.5 in boot and coupled-clock
-runs. Each attached U880 control input receives the published maximum input
+`--electrical-cpu-pullups` enables schematic R6.4/R6.5 in boot, coupled-clock
+and S600 service runs. Each attached U880 control input receives the published maximum input
 capacitance; voltage receivers feed INT/NMI/WAIT and BUSRQ into TV80 instead of
 constant highs. X1:A9 remains externally open. `CPU_CONTROL` records the received
 logic levels, including unknowns. Leakage, clamps and CPU brownout behavior remain
