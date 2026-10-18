@@ -1,0 +1,252 @@
+{
+  "completed": true,
+  "qualified": false,
+  "screenSha256": "972ac949d0e0a1911578b896dcd5147c11910d483f3a4262ad6735e0fd8a0455",
+  "sources": {
+    "oscillator_family_probe.py": "21a2fce8d094ea6b8918829db1e638673dabeea8cc8adc374bcc52b31020bb25",
+    "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee"
+  },
+  "scope": "Device-test survivors under the reference oscillator topology, fixed source component values and ideal supply ramp. No fitting to board frequency. Failure at coarse resolution is independently retried at finer resolution.",
+  "candidates": [
+    {
+      "name": "bf-50-is-1e-12",
+      "modelSha256": "0f81e2f537cd9524851c86521ddc698583aea710475bec6fa1b4f625a94af1a1",
+      "runs": [
+        {
+          "coarseStepNs": 2,
+          "fineStepNs": 1,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "725602d6036935d8619e568c75c9d9917593b726e5df7d9bc32779de3386c800",
+          "artifacts": {
+            "closed-2.0ns-c1/ls_nand_nominal.cir": "0f81e2f537cd9524851c86521ddc698583aea710475bec6fa1b4f625a94af1a1",
+            "closed-2.0ns-c1/ngspice.log": "ea2af296304e033a851566649cc673307577ce02bbff7e71a29d954eaf9f9885",
+            "closed-2.0ns-c1/oscillator.cir": "57b8f1741204b07767447049d15b083d8aa3ec8292def1da8daac64a0e3b6b96",
+            "closed-2.0ns-c1/trace.txt": "5ba5a3add46e1d367714e2733f36faedca5d88a86e39a5adc1570ed75aeafed5",
+            "report.json": "725602d6036935d8619e568c75c9d9917593b726e5df7d9bc32779de3386c800",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        },
+        {
+          "coarseStepNs": 1,
+          "fineStepNs": 0.5,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "725602d6036935d8619e568c75c9d9917593b726e5df7d9bc32779de3386c800",
+          "artifacts": {
+            "closed-1.0ns-c1/ls_nand_nominal.cir": "0f81e2f537cd9524851c86521ddc698583aea710475bec6fa1b4f625a94af1a1",
+            "closed-1.0ns-c1/ngspice.log": "711f7fa160c1faa999ffd38c925ea2554af6c203ac1e322144ef23e3183188a9",
+            "closed-1.0ns-c1/oscillator.cir": "e6a8a990b1c89e33665259fa300d6cb7b45f5beacc5c77fff3758a81b8689d75",
+            "closed-1.0ns-c1/trace.txt": "e11b9bbe7d494f929610e8d59769c8007bb99eba2e85cc037cd7cf2d41ab28c8",
+            "report.json": "725602d6036935d8619e568c75c9d9917593b726e5df7d9bc32779de3386c800",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        }
+      ]
+    },
+    {
+      "name": "bf-50-is-1e-11",
+      "modelSha256": "1b23535163b25bb2fc4349f98f6a17177ee3bfd10252a76df53e5e630128597a",
+      "runs": [
+        {
+          "coarseStepNs": 2,
+          "fineStepNs": 1,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "3f2f75de40b93b3b0c427e1b30ec5caf7298336882315787744fd3d265c41d49",
+          "artifacts": {
+            "closed-2.0ns-c1/ls_nand_nominal.cir": "1b23535163b25bb2fc4349f98f6a17177ee3bfd10252a76df53e5e630128597a",
+            "closed-2.0ns-c1/ngspice.log": "b72744c4ad81887e878e18efa3da10cbf26912996512a6904772ae34a3c050f4",
+            "closed-2.0ns-c1/oscillator.cir": "57b8f1741204b07767447049d15b083d8aa3ec8292def1da8daac64a0e3b6b96",
+            "closed-2.0ns-c1/trace.txt": "44bbd3292b433d1940f2876960ce971feb9d33741d7d694b7dbfb518a624a0b2",
+            "report.json": "3f2f75de40b93b3b0c427e1b30ec5caf7298336882315787744fd3d265c41d49",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        },
+        {
+          "coarseStepNs": 1,
+          "fineStepNs": 0.5,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "3f2f75de40b93b3b0c427e1b30ec5caf7298336882315787744fd3d265c41d49",
+          "artifacts": {
+            "closed-1.0ns-c1/ls_nand_nominal.cir": "1b23535163b25bb2fc4349f98f6a17177ee3bfd10252a76df53e5e630128597a",
+            "closed-1.0ns-c1/ngspice.log": "a8a426c2bf381b099cba05910d0f3f247294ebf5f7ea32990316ed985863885a",
+            "closed-1.0ns-c1/oscillator.cir": "e6a8a990b1c89e33665259fa300d6cb7b45f5beacc5c77fff3758a81b8689d75",
+            "closed-1.0ns-c1/trace.txt": "fcf7b542e639e0c628e74dc475e1dfa5553184a29b8a8de77ea38e65e2d33922",
+            "report.json": "3f2f75de40b93b3b0c427e1b30ec5caf7298336882315787744fd3d265c41d49",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        }
+      ]
+    },
+    {
+      "name": "bf-100-is-1e-12",
+      "modelSha256": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+      "runs": [
+        {
+          "coarseStepNs": 2,
+          "fineStepNs": 1,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "d835bfc081a9f180c0f775ac7cd8903edc4320c7b1d94a2b8042e8568938d488",
+          "artifacts": {
+            "closed-2.0ns-c1/ls_nand_nominal.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+            "closed-2.0ns-c1/ngspice.log": "490e5f1a0f27520770d7a4411efe607220538a6cc053befb039659056e0e16a0",
+            "closed-2.0ns-c1/oscillator.cir": "57b8f1741204b07767447049d15b083d8aa3ec8292def1da8daac64a0e3b6b96",
+            "closed-2.0ns-c1/trace.txt": "725bfeae43e376cf38a2d3fcea1ebc00b764b854fa92eda47a861b88e08a280c",
+            "report.json": "d835bfc081a9f180c0f775ac7cd8903edc4320c7b1d94a2b8042e8568938d488",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        },
+        {
+          "coarseStepNs": 1,
+          "fineStepNs": 0.5,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "d835bfc081a9f180c0f775ac7cd8903edc4320c7b1d94a2b8042e8568938d488",
+          "artifacts": {
+            "closed-1.0ns-c1/ls_nand_nominal.cir": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+            "closed-1.0ns-c1/ngspice.log": "edd87dde7c533906a119475c577ccbc116499c1cfd190bd108ab76da03b0a5e3",
+            "closed-1.0ns-c1/oscillator.cir": "e6a8a990b1c89e33665259fa300d6cb7b45f5beacc5c77fff3758a81b8689d75",
+            "closed-1.0ns-c1/trace.txt": "b390863c17e1e5bcffa893e273c475f8359b6b21cd1ced2203b8a3354edc374c",
+            "report.json": "d835bfc081a9f180c0f775ac7cd8903edc4320c7b1d94a2b8042e8568938d488",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        }
+      ]
+    },
+    {
+      "name": "bf-100-is-1e-11",
+      "modelSha256": "3b697621928eed8b50c79704f64a7eb9c1c122ee0373f4028aeded2968bb0ad7",
+      "runs": [
+        {
+          "coarseStepNs": 2,
+          "fineStepNs": 1,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "ed3edd1b7bb53fcc0bc2b66c171b911c6409f10bdc2d931c82f98cf0f61f7f11",
+          "artifacts": {
+            "closed-2.0ns-c1/ls_nand_nominal.cir": "3b697621928eed8b50c79704f64a7eb9c1c122ee0373f4028aeded2968bb0ad7",
+            "closed-2.0ns-c1/ngspice.log": "43d5ae2dcee51f30a581c1ee1f5bebd3288833d16077df5c3df2bdb26e7177d8",
+            "closed-2.0ns-c1/oscillator.cir": "57b8f1741204b07767447049d15b083d8aa3ec8292def1da8daac64a0e3b6b96",
+            "closed-2.0ns-c1/trace.txt": "3bf0295f65fb91a6b189ff6d9070f72d74aec483d01f4d5543dfdc9e8207ab89",
+            "report.json": "ed3edd1b7bb53fcc0bc2b66c171b911c6409f10bdc2d931c82f98cf0f61f7f11",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        },
+        {
+          "coarseStepNs": 1,
+          "fineStepNs": 0.5,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "ed3edd1b7bb53fcc0bc2b66c171b911c6409f10bdc2d931c82f98cf0f61f7f11",
+          "artifacts": {
+            "closed-1.0ns-c1/ls_nand_nominal.cir": "3b697621928eed8b50c79704f64a7eb9c1c122ee0373f4028aeded2968bb0ad7",
+            "closed-1.0ns-c1/ngspice.log": "05dfeea484a8554226484247e572dec7cfc61ce6487dcdb88f41b054b941891a",
+            "closed-1.0ns-c1/oscillator.cir": "e6a8a990b1c89e33665259fa300d6cb7b45f5beacc5c77fff3758a81b8689d75",
+            "closed-1.0ns-c1/trace.txt": "82de42a1ce48bf038b5d369051f3565483dcf3abaaabc1c50b9a38431061243d",
+            "report.json": "ed3edd1b7bb53fcc0bc2b66c171b911c6409f10bdc2d931c82f98cf0f61f7f11",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        }
+      ]
+    },
+    {
+      "name": "bf-200-is-1e-12",
+      "modelSha256": "ef04002086e14544da1dd010450782ace9bf93a0655d88790cc40a096169db6d",
+      "runs": [
+        {
+          "coarseStepNs": 2,
+          "fineStepNs": 1,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "7af1dc964460f2985bdd3dda2d80617c7f1523788604f8ab0374435a343a3684",
+          "artifacts": {
+            "closed-2.0ns-c1/ls_nand_nominal.cir": "ef04002086e14544da1dd010450782ace9bf93a0655d88790cc40a096169db6d",
+            "closed-2.0ns-c1/ngspice.log": "d213475f8ee4c070da4740f6932acbaed56e9b98acea8beeb3980f2499a3c6d3",
+            "closed-2.0ns-c1/oscillator.cir": "57b8f1741204b07767447049d15b083d8aa3ec8292def1da8daac64a0e3b6b96",
+            "closed-2.0ns-c1/trace.txt": "00fcb04ebb7e8ef2657258c3a3762595965320c868affaf89ecdeefee9066f64",
+            "report.json": "7af1dc964460f2985bdd3dda2d80617c7f1523788604f8ab0374435a343a3684",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        },
+        {
+          "coarseStepNs": 1,
+          "fineStepNs": 0.5,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "7af1dc964460f2985bdd3dda2d80617c7f1523788604f8ab0374435a343a3684",
+          "artifacts": {
+            "closed-1.0ns-c1/ls_nand_nominal.cir": "ef04002086e14544da1dd010450782ace9bf93a0655d88790cc40a096169db6d",
+            "closed-1.0ns-c1/ngspice.log": "97e9a807a77ab9ab0ba943ec204545ed4cf42e759b92553753b1fdb8e1028c27",
+            "closed-1.0ns-c1/oscillator.cir": "e6a8a990b1c89e33665259fa300d6cb7b45f5beacc5c77fff3758a81b8689d75",
+            "closed-1.0ns-c1/trace.txt": "0bc7e1ad6fb1e7bed631a75c847ef9258c1384ed82a469b0f4512d02c9bb9b45",
+            "report.json": "7af1dc964460f2985bdd3dda2d80617c7f1523788604f8ab0374435a343a3684",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        }
+      ]
+    },
+    {
+      "name": "bf-200-is-1e-11",
+      "modelSha256": "6f3a03242b523a44f32046bb9ab4c985ee1bfefed9d292eda8067f4c05d06e1a",
+      "runs": [
+        {
+          "coarseStepNs": 2,
+          "fineStepNs": 1,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "3c3e2bc8915b9f7011806b12c15c7c98432524d32fbeb97045ccf43906ba4024",
+          "artifacts": {
+            "closed-2.0ns-c1/ls_nand_nominal.cir": "6f3a03242b523a44f32046bb9ab4c985ee1bfefed9d292eda8067f4c05d06e1a",
+            "closed-2.0ns-c1/ngspice.log": "02000f016c977384791f20c545e151025e29d4f8cf1dd22b7994fa407c01c278",
+            "closed-2.0ns-c1/oscillator.cir": "57b8f1741204b07767447049d15b083d8aa3ec8292def1da8daac64a0e3b6b96",
+            "closed-2.0ns-c1/trace.txt": "933648e1e71ba61ed203ffbbd805e01a452f19e9c861bbe6b86930ee8c716752",
+            "report.json": "3c3e2bc8915b9f7011806b12c15c7c98432524d32fbeb97045ccf43906ba4024",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        },
+        {
+          "coarseStepNs": 1,
+          "fineStepNs": 0.5,
+          "passed": false,
+          "phaseQualified": false,
+          "exitCode": 1,
+          "error": "Oscillator did not sustain transitions after startup",
+          "reportSha256": "3c3e2bc8915b9f7011806b12c15c7c98432524d32fbeb97045ccf43906ba4024",
+          "artifacts": {
+            "closed-1.0ns-c1/ls_nand_nominal.cir": "6f3a03242b523a44f32046bb9ab4c985ee1bfefed9d292eda8067f4c05d06e1a",
+            "closed-1.0ns-c1/ngspice.log": "33c5106fd3c68a1fabc04b8cf19e47cd54bc1dc88787aed99ae4120ef1d4cc84",
+            "closed-1.0ns-c1/oscillator.cir": "e6a8a990b1c89e33665259fa300d6cb7b45f5beacc5c77fff3758a81b8689d75",
+            "closed-1.0ns-c1/trace.txt": "cfdf2e0951b497f37e2dce8b7626fbbee58461dc6678e993e8e65c3c7346479a",
+            "report.json": "3c3e2bc8915b9f7011806b12c15c7c98432524d32fbeb97045ccf43906ba4024",
+            "spinit": "db9ad3946639a9176133092265af626d82cf4b2ac64e661c0ba04f0f24aa4592"
+          }
+        }
+      ]
+    }
+  ]
+}
