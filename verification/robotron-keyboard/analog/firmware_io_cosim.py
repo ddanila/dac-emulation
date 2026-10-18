@@ -13,6 +13,7 @@ from boot_cosim import ROM_SHA256, sha
 from circuit import load
 from controller_interface import generate
 from transient_analysis import with_minimum_breakpoint
+from model_coverage import classify_service
 from cpu_control import wiring as cpu_wiring
 from logic_control import wiring as logic_wiring
 from matrix import LATCH_LOADS, matrix_circuit
@@ -85,7 +86,7 @@ def main():
         'bridgeDelay': 'Numerical interface delay, not a calibrated device propagation delay'},
         'sources': {name: sha(HERE / name) for name in (
             'firmware_io_cosim.py', 'firmware_io_cosim.v', 'boot_cosim.py', 'boot_cosim.v',
-            'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'logic_control.py', 'cpu_control.py', 'cpu_clock_limits.json', 'serial_observation.py',
+            'ngspice_runtime.py', 'circuit.py', 'matrix.py', 'latch_limits.json', 'failure_evidence.py', 'output_circuit.py', 'controller_interface.py', 'logic_control.py', 'model_coverage.py', 'reset_probe.py', 'oscillator_probe.py', 'cpu_control.py', 'cpu_clock_limits.json', 'serial_observation.py',
             'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compressed_output.py', 'transient_analysis.py')}}
     try:
         scenario = load_scenario(args.scenario)
@@ -158,6 +159,10 @@ def main():
             report['cpuControlModels'] = cpu_models
             cpu_lines += [f'Acontrol [{cpu_info["interruptNmiWait"]} {cpu_info["busRequest"]}] [dcontrol dbusrq] data_receiver']
             cpu_inputs = 'dcontrol dbusrq'
+        service_models = {**report['matrixCircuit']['models'], **info['models'],
+                          **report.get('logicControlModels', {}), **report.get('cpuControlModels', {})}
+        report['modelCoverage'] = classify_service(components, service_models,
+            args.electrical_cpu_pullups, args.electrical_logic_pullups)
         ground = info['hostGround']
         sense = ' '.join(f'n_SENSE{i}' for i in reversed(range(8)))
         dsense = ' '.join(f'dsense{i}' for i in reversed(range(8)))
