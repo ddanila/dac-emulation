@@ -63,6 +63,26 @@ def load_run(directory):
     return report, transport
 
 
+C_REFERENCE_PATHS = (
+    'verification/robotron-keyboard/analog/firmware_io_reference.c',
+    'machines/robotron1715m/keyboard.c', 'common/cpu/z80.c',
+    'machines/robotron1715m/keyboard.h', 'common/cpu/z80.h',
+)
+
+
+def reference_sources(sources):
+    """Preserve source roles/hashes while allowing relocation of one checkout."""
+    anchor=Path(C_REFERENCE_PATHS[0]).parts
+    roots=[Path(*Path(name).parts[:-len(anchor)]) for name in sources
+           if Path(name).parts[-len(anchor):]==anchor and '..' not in Path(name).parts]
+    if len(roots)!=1:
+        raise ValueError('Missing or ambiguous C reference source root')
+    expected={str(roots[0]/name):name for name in C_REFERENCE_PATHS}
+    if set(sources)!=set(expected):
+        raise ValueError('Incomplete or mixed-root C reference sources')
+    return {expected[name]:digest for name,digest in sources.items()}
+
+
 def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns, *, experimental_host=False):
     host_pair = any(report['assumptions'].get('hostBuffer') for report in (coarse, fine))
     if experimental_host and not host_pair:
@@ -122,9 +142,11 @@ def compare(coarse, fine, coarse_transport, fine_transport, tolerance_ns, *, exp
         return hashes
     if hdl_by_name(coarse) != hdl_by_name(fine):
         raise ValueError('Compiled HDL inputs differ')
-    for key in ('cReferenceSources', 'generatedScenarioHeaderSha256'):
-        if key in coarse and key in fine and coarse[key] != fine[key]:
-            raise ValueError('C reference inputs differ: ' + key)
+    if 'cReferenceSources' in coarse or 'cReferenceSources' in fine:
+        if reference_sources(coarse.get('cReferenceSources',{})) != reference_sources(fine.get('cReferenceSources',{})):
+            raise ValueError('C reference inputs differ: cReferenceSources')
+    if coarse.get('generatedScenarioHeaderSha256') != fine.get('generatedScenarioHeaderSha256'):
+        raise ValueError('C reference inputs differ: generatedScenarioHeaderSha256')
     result = {}
     violations = []
 
