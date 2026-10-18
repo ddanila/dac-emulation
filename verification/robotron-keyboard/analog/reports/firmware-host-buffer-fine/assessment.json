@@ -1,0 +1,37 @@
+{
+  "qualified": false,
+  "scope": "Paired numerical review of the experimental S600 host-buffer service fixture",
+  "producerSourceRevision": "95bbf5c",
+  "evidence": {
+    "coarse": "../firmware-host-buffer/assessment.json",
+    "fine": "report.json",
+    "serialEdgeConvergence": "convergence.json",
+    "sampledStability": "margins.json",
+    "sampledInputStress": "input-review.json"
+  },
+  "retainedFilesSha256": {
+    "report.json": "bcb48153bcbb5ca885a666b210d4d4b4f167d26eb604843e3ab3bed2dd10653f",
+    "margins.json": "5e9e7921dad5a7f7b91a95d7539111c58e4f88a3869885d6004dfd223f1b8293",
+    "input-review.json": "68216694d82886a535e7cc83726e65522e43b309ca8380cb2e9d7917902fc485",
+    "convergence.json": "b7626c0c7781ace2c4e6529cdea14be915f86212d65cb79f3d86d6a6d7310d8b",
+    "run-inputs.json": "98b4c6e595f15ece5f059f95b4346d2bdcf0cc9f3cdeae1ba8f275df50e3baad",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "io.cir": "96280a72e1b48db39d7c7590ad3c314e2052f0a1839cbfb545cddb15cd68a72d",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "ngspice.log": "44ba7f09a4412bafb6e9d1c6cc8c385b42491438792ca7693e114dd67ec75bf3",
+    "reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591"
+  },
+  "waveforms": {
+    "retention": "Full waveforms remain local, not included in this repository receipt. Reports retain hashes; independent waveform review requires the captures or reproduction.",
+    "directory": "build/keyboard-controller-analog/firmware-host-buffer-fine",
+    "files": [
+      "driver-trace.txt.xz",
+      "host-trace.txt.xz",
+      "trace.txt.xz"
+    ]
+  },
+  "reproduce": "python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom /path/to/s600.bin --host-buffer --serial-driver 7406-dc --step-ns 25 --compress-traces --ngspice /path/to/runtime/ngspice --out build/keyboard-controller-analog/firmware-host-buffer-fine",
+  "interpretation": "Serial edges converge within the existing numerical budget. Sampled stability and D104 static input envelopes pass. No device-dynamic, SIO load, intersample extrema or closed-board qualification is claimed.",
+  "nextAction": "Constrain SIO loading from published U856 evidence and screen those loads separately from this illustrative load pair."
+}

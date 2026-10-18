@@ -1,0 +1,33 @@
+{
+  "passed": true,
+  "scope": "Experimental host-buffer serial-edge timestep comparison",
+  "toleranceNs": 15,
+  "interpretation": "Exploratory numerical comparison, not a historical receiver timing specification",
+  "validationSources": {
+    "compare_firmware_io.py": "347913750e06adea13a0515ee69e6371f75a7d7d4ba30a71d0c56a969a699e20",
+    "transient_analysis.py": "dd0dd5ef7a34533cd75128fa3c90c52815d8b11364b938e32680310207d3310e",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "qualified": false,
+  "reports": {
+    "coarse": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-host-buffer",
+      "sha256": "5f2820e8eb5d65892fc9bf5dc7cac6786f1242f819038a2e1d701a99d5636770"
+    },
+    "fine": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-host-buffer-fine",
+      "sha256": "bcb48153bcbb5ca885a666b210d4d4b4f167d26eb604843e3ab3bed2dd10653f"
+    }
+  },
+  "comparison": {
+    "transmittedMaximumDifferenceNs": 0.0,
+    "receivedMaximumDifferenceNs": 3.0,
+    "transportMaximumDifferenceNs": 3.0,
+    "qualified": false,
+    "boundary": "Experimental host serial-edge convergence only; device applicability, voltage margins and closed-board behavior remain separate",
+    "withinTolerance": true,
+    "firstTimingDifference": null
+  }
+}
