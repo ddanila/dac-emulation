@@ -1,0 +1,214 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Exercise finite CPU WR drive against the transistor clock gate and cable.",
+  "runs": [
+    {
+      "stepNs": 5,
+      "signals": [
+        "v(n_WR_N)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "@bwr_low[i]",
+        "@bwr_high[i]",
+        "i(Vdriver_supply)"
+      ],
+      "samples": [
+        [
+          5.001399999999958e-06,
+          4.911770452702945,
+          0.0635821229626021,
+          0.0,
+          4.7565864154716e-06,
+          0.010570881031206602
+        ],
+        [
+          1.4999310224263114e-05,
+          0.15413972800100706,
+          4.952373256364761,
+          0.000693628776011468,
+          0.0,
+          0.010072986807742223
+        ],
+        [
+          2.500080568691709e-05,
+          1.5753081083498144,
+          0.0637706542752414,
+          0.0,
+          0.0,
+          0.010573370085345814
+        ],
+        [
+          3.499928093480366e-05,
+          0.15416945791928988,
+          4.952794874945838,
+          0.000693762560643742,
+          0.0,
+          0.010074796331524258
+        ]
+      ],
+      "files": {
+        "probe.cir": "c0de902be7ac70d2bb0c017265224a525d7242c54817620ef6fc32f3d6987ce0",
+        "ngspice.log": "ff327be13fccd68685f60a73f23028777c0cbd49d499c8a82deedc58885a465b",
+        "trace.txt": "08249204ab8c28fefbc44471bdbb26693d6b0effd182e64291b654f48884532d"
+      }
+    },
+    {
+      "stepNs": 2.5,
+      "signals": [
+        "v(n_WR_N)",
+        "v(n_CABLE_TAKT,n_CABLE_GND)",
+        "@bwr_low[i]",
+        "@bwr_high[i]",
+        "i(Vdriver_supply)"
+      ],
+      "samples": [
+        [
+          5.000700000000156e-06,
+          4.911770452713445,
+          0.06358212300964353,
+          0.0,
+          4.75658641447573e-06,
+          0.010570881053947353
+        ],
+        [
+          1.4999894586981568e-05,
+          0.15413972955609848,
+          4.952373901914922,
+          0.0006936287830093794,
+          0.0,
+          0.010072986826265748
+        ],
+        [
+          2.5000409999997424e-05,
+          1.5753081215754705,
+          0.06367801007382269,
+          0.0,
+          0.0,
+          0.010573369912465448
+        ],
+        [
+          3.500045373377294e-05,
+          0.15416946647257548,
+          4.9527962524637275,
+          0.0006937625991335273,
+          0.0,
+          0.010074796842648283
+        ]
+      ],
+      "files": {
+        "probe.cir": "fe65859c12b12b6b1a323cb098ca4a0836157a886b7c0842a576178fb51d785f",
+        "ngspice.log": "279690590be33b159cb26936a2e48e6ebd5359d97271595038190c3216a071a5",
+        "trace.txt": "fb6fca10495435330677e533aab40b5346c4579dd84da1f5685c0847d634f087"
+      }
+    }
+  ],
+  "executableSha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+  "spinitSha256": "fc079da013cb7a532ef5feb794c584c44dfe2d9880533919dbe8bdab1760eac9",
+  "dcCandidateReportSha256": "09605f7f96dfb57ca07e61938b39a38be6da258ad71c842829eab066956d3c00",
+  "sources": {
+    "write_control_probe.py": "f916869eb07165973edb20ee9a7219c8a1b51882da4c081283a674c82490280a",
+    "write_control.py": "3d3213f8047ab47e4b7567fdb7e3d4efb7eed8039c1ff5573093891be4aff6d8",
+    "ttl7406_output_probe.py": "2350813f19c05a67d03da67e669e3bf5ae68ad399c866f57f0fb3f86735df529",
+    "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+    "output_circuit.py": "bfd14455600e28d73cd5417b30055cb08b85aedbf932b2a52bb1c4db984b0ed0",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "limitations": "Synthetic ownership stimulus, not firmware or U880 phase qualification. Transistor storage and junction capacitances are uncalibrated.",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "wrCircuit": {
+    "net": "/WR_N",
+    "pins": [
+      "A1:1",
+      "A5:22"
+    ],
+    "lowOhms": 222.22222222222223,
+    "highOhms": 10400.0,
+    "cpuOutputCapacitanceFarads": 1e-11,
+    "gateInputFixturePf": 3,
+    "source": {
+      "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/U880D-CPU.pdf",
+      "title": "VEB Funkwerk Erfurt, Technische Beschreibung CPU U880D",
+      "page": "Printed page 57; PDF page 58",
+      "sha256": "a3266f1cea4d24c0c91ca2941f6b40762f24a2934e6cf41dccd5fb52f80e75be"
+    },
+    "ownership": "Independent 0/5 V wr_low/wr_high enables: 00 release, 10 low, 01 high; 11 contention stress only",
+    "boundary": "5 V linear DC-endpoint stress fixture, not calibrated I/V or CPU control-pin timing. Caller supplies drive/release states; no assumed reset or BUSACK behavior. No CPU leakage, clamps, brownout or package supply model. 7406 input bias requires the separate transistor clock gate."
+  },
+  "outputCircuit": {
+    "models": {
+      "R10.1": "resistor",
+      "R10.2": "resistor",
+      "R11.1": "resistor",
+      "R11.2": "resistor",
+      "C3.1": "capacitor",
+      "C3.2": "capacitor",
+      "C5.1": "capacitor",
+      "C5.2": "capacitor",
+      "C5.3": "capacitor",
+      "C5.4": "capacitor",
+      "C5.5": "capacitor",
+      "L1.1": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+      "L1.2": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+      "L1.3": "uncoupled nominal series RL; no characterized ferrite/coupling model",
+      "L1.4": "uncoupled nominal series RL; no characterized ferrite/coupling model"
+    },
+    "hostGround": "n_CABLE_GND",
+    "hostSupply": "n_CABLE_5V",
+    "serial": {
+      "data": {
+        "board": "n_TA_DATEN",
+        "cable": "n_CABLE_DATEN",
+        "connectorPin": "A1"
+      },
+      "clock": {
+        "board": "n_TA_TAKT",
+        "cable": "n_CABLE_TAKT",
+        "connectorPin": "B2"
+      }
+    },
+    "leds": {
+      "siso": {
+        "output": "n_LED_SISO_N",
+        "cathode": "n_LED_SISO",
+        "anode": "n_p5V",
+        "connectorPin": "A5",
+        "diode": "Dsiso_led"
+      },
+      "caps": {
+        "output": "n_LED_CAPS_N",
+        "cathode": "n_LED_CAPS",
+        "anode": "n_p5V",
+        "connectorPin": "A6",
+        "diode": "Dcaps_led"
+      }
+    },
+    "shield": {
+      "net": "/SHIELD",
+      "model": "Unconnected external shield boundary; no invented ground bond"
+    },
+    "serialDriver": {
+      "profile": "7406-dc",
+      "supplyPin": "A1:14",
+      "groundPin": "A1:7",
+      "modelQualified": false,
+      "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+      "assumptions": "Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration",
+      "clockInput": {
+        "pin": "A1:1",
+        "net": "/WR_N",
+        "boundary": "Physical WR voltage drives the clock-gate input transistor and serial output"
+      }
+    }
+  },
+  "comparison": {
+    "maximumSampleVoltageDifference": 9.2644201418704e-05,
+    "maximumSampleCurrentDifferenceAmps": 5.111240250488258e-10,
+    "budgets": {
+      "sampleVolts": 0.001,
+      "sampleAmps": 1e-06
+    },
+    "boundary": "Settled-state sample convergence, not transition timing"
+  }
+}
