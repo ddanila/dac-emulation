@@ -4,13 +4,16 @@
   "evidence": {
     "replay": "report.json",
     "localCapture": "build/keyboard-controller-analog/host-analog-driver-replay",
-    "stimulus": "../firmware-host-all-driver-boundary/report.json"
+    "stimulus": "../firmware-host-all-driver-boundary/report.json",
+    "boundaryControl": "../host-analog-driver-replay-no-capture-knot/assessment.json",
+    "prefixComparison": "prefix-before-transition-end.json"
   },
-  "interpretation": "The analog-only replay also aborts near the recorded data transition. HDL feedback is therefore not necessary for a failure in this diagnostic. PWL interpolation changes the breakpoint mesh and includes an explicit continuation beyond the capture; this does not prove the identical failure mechanism, exclude scheduling effects in the original run, or establish a physical fault.",
+  "interpretation": "This replay fails near the inserted capture-end PWL knot. Removing that knot under a sub-nanovolt stimulus bound completes the short diagnostic; see boundaryControl. The failed replay does not independently confirm the original coupled failure mechanism. Absolute-time prefix differences prevent assuming an identical trajectory.",
   "retainedFilesSha256": {
     "report.json": "d5160fe1d938b0e0fed9e102d101e7f6b6a3b3914c701ff7e24a5852a3a672a0",
     "ngspice.log": "9732f593b69cd04deb8587332f1f3036f5b2e581e590bc30456674ef2c698e6f",
-    "io.cir": "ea8037e0bf2d165dac50bdbc72837c2800f65e066e38ac7b5cd1bc12298bed60"
+    "io.cir": "ea8037e0bf2d165dac50bdbc72837c2800f65e066e38ac7b5cd1bc12298bed60",
+    "prefix-before-transition-end.json": "e98a5231b20a4edf5dee25b4f9eacfcd817ef7abab77da614623f2f0783b4ddd"
   },
-  "nextAction": "Compare absolute-time prefixes and isolate transition integration in the analog network before changing circuit parameters; preserve device-model uncertainty."
+  "nextAction": "Investigate with the boundary-free control while preserving the original coupled failure and device-model uncertainty."
 }
