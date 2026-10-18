@@ -1,0 +1,390 @@
+{
+  "qualified": false,
+  "scope": "Diagnostic output I/V comparison, not a curve fit or guaranteed device-limit gate.",
+  "source": {
+    "url": "https://www.ti.com/lit/an/sdya010/sdya010.pdf",
+    "sha256": "04c1c9f091451c716fbdc68016366ee67a57b6572358029d97edcbda9a2fedb8",
+    "document": "SDYA010, November 1996",
+    "figure": 32,
+    "pdfPage": 19,
+    "printedPage": 13,
+    "conditions": "Typical curves; supply, temperature and input stimulus not explicitly specified for this figure. Do not assume exact equivalence to the probe."
+  },
+  "topologyReview": {
+    "source": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf",
+    "pdfPage": 55,
+    "finding": "Visual re-review found no connection, Schottky-symbol or resistor-value discrepancy between the drawing and the candidate. This is not independent semiconductor parameter validation."
+  },
+  "interpretation": "At forced output 2 V while commanding low, both assumed models sink about 0.75 A. The typical TI graph shows currents of order tens of milliamps near this voltage. Missing graph conditions prevent a calibrated residual or formal limit failure, but the discrepancy makes the current model unsuitable as a claimed full I/V representation.",
+  "nextWork": "Review high-injection gain rolloff, transistor series resistance and output-clamp current paths against device evidence. Keep rail-level limits and switching holdouts; do not adjust parameters to the board oscillator target.",
+  "runs": {
+    "baseline": {
+      "completed": true,
+      "qualified": false,
+      "scope": "Isolated NAND output clamped from 0 to 5 V in 10 mV steps. 5 V supply, 25 C, tied inputs at 0, 2 or 4.5 V. Conditions are explicit probe assumptions; not claimed identical to the typical TI graph or measured DL000 behavior.",
+      "currentConvention": "Positive output current leaves the gate into the clamp; negative current enters the gate. Supply current is positive into the gate.",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "modelSha256": "36967221c90dfd91cc25be45babccac1f087c2673fab187628ec25c759e16a17",
+      "sources": {
+        "ls00_iv_probe.py": "091fbbc67a1defebc18a68a774b8e5efb9bee3ef2d935399ab8bb43c10f016e8",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01"
+      },
+      "spinitSha256": "300e3a0b036db72112acce90e31fa6c0955a1d22937e948fbbef98366743ec07",
+      "cases": [
+        {
+          "name": "high",
+          "inputVolts": 0,
+          "selectedPoints": [
+            {
+              "outputVolts": 0.0,
+              "outputSourceAmps": 0.030935351143482764,
+              "supplyAmps": 0.031166573013083176
+            },
+            {
+              "outputVolts": 0.25000000000000006,
+              "outputSourceAmps": 0.028820075581586713,
+              "supplyAmps": 0.029057575234246964
+            },
+            {
+              "outputVolts": 0.4000000000000002,
+              "outputSourceAmps": 0.027554812803282053,
+              "supplyAmps": 0.027792319759390106
+            },
+            {
+              "outputVolts": 0.5000000000000002,
+              "outputSourceAmps": 0.02671135997338173,
+              "supplyAmps": 0.026948866969201537
+            },
+            {
+              "outputVolts": 1.0000000000000007,
+              "outputSourceAmps": 0.022494689221796357,
+              "supplyAmps": 0.022732196231900332
+            },
+            {
+              "outputVolts": 2.0000000000000013,
+              "outputSourceAmps": 0.014063101409296138,
+              "supplyAmps": 0.014300608427703173
+            },
+            {
+              "outputVolts": 2.99999999999998,
+              "outputSourceAmps": 0.005608249689548343,
+              "supplyAmps": 0.005845756715875588
+            },
+            {
+              "outputVolts": 3.9999999999999587,
+              "outputSourceAmps": 7.132143778949879e-05,
+              "supplyAmps": 0.0003088284697310251
+            },
+            {
+              "outputVolts": 4.999999999999938,
+              "outputSourceAmps": -7.398936313451061e-09,
+              "supplyAmps": 0.00023749963604215683
+            }
+          ],
+          "artifacts": {
+            "high.cir": "43e66e40ffe3c35aacd96c5cd29b8de71a8959d8e46670c154c7085204107b04",
+            "high.log": "525ff3c8bfe9ee8b51a90972f5e7515223852af64772d2304b77a316593c3152",
+            "high.txt": "16f526485661bff699a14ba7bfdf7a2e1c1e8ce920a727c0f79b6972e15853b0"
+          }
+        },
+        {
+          "name": "low-threshold",
+          "inputVolts": 2,
+          "selectedPoints": [
+            {
+              "outputVolts": 0.0,
+              "outputSourceAmps": 0.0007514937301904965,
+              "supplyAmps": 0.0007514790508866774
+            },
+            {
+              "outputVolts": 0.25000000000000006,
+              "outputSourceAmps": 0.0007075266347196022,
+              "supplyAmps": 0.0007078101300819002
+            },
+            {
+              "outputVolts": 0.4000000000000002,
+              "outputSourceAmps": 0.0005949640425163551,
+              "supplyAmps": 0.0006815488053482536
+            },
+            {
+              "outputVolts": 0.5000000000000002,
+              "outputSourceAmps": -0.0011218149092523159,
+              "supplyAmps": 0.0006638919995176759
+            },
+            {
+              "outputVolts": 1.0000000000000007,
+              "outputSourceAmps": -0.04049146674785873,
+              "supplyAmps": 0.0006197705538558083
+            },
+            {
+              "outputVolts": 2.0000000000000013,
+              "outputSourceAmps": -0.7508411532824992,
+              "supplyAmps": 0.0005892143057243745
+            },
+            {
+              "outputVolts": 2.99999999999998,
+              "outputSourceAmps": -0.9339146677812703,
+              "supplyAmps": 0.0004667247275877057
+            },
+            {
+              "outputVolts": 3.9999999999999587,
+              "outputSourceAmps": -0.9524129201486821,
+              "supplyAmps": 0.00034205629385579666
+            },
+            {
+              "outputVolts": 4.999999999999938,
+              "outputSourceAmps": -0.9710892868220807,
+              "supplyAmps": 0.0002173861775826557
+            }
+          ],
+          "artifacts": {
+            "low-threshold.cir": "05e9fd605ce7a8567c6db3c34687341b38eda34d573aed2a4325622616ef10ed",
+            "low-threshold.log": "525ff3c8bfe9ee8b51a90972f5e7515223852af64772d2304b77a316593c3152",
+            "low-threshold.txt": "d925a58669f315909ee43ad59b9e074d8bfb6c8c8c025475cd0726b552622921"
+          }
+        },
+        {
+          "name": "low-rail",
+          "inputVolts": 4.5,
+          "selectedPoints": [
+            {
+              "outputVolts": 0.0,
+              "outputSourceAmps": 0.0007514937355188204,
+              "supplyAmps": 0.0007514790508089203
+            },
+            {
+              "outputVolts": 0.25000000000000006,
+              "outputSourceAmps": 0.0007075266406509793,
+              "supplyAmps": 0.0007078101299864139
+            },
+            {
+              "outputVolts": 0.4000000000000002,
+              "outputSourceAmps": 0.0005949640484296393,
+              "supplyAmps": 0.0006815488052286966
+            },
+            {
+              "outputVolts": 0.5000000000000002,
+              "outputSourceAmps": -0.001121814933890576,
+              "supplyAmps": 0.0006638919993693459
+            },
+            {
+              "outputVolts": 1.0000000000000007,
+              "outputSourceAmps": -0.040491467878562844,
+              "supplyAmps": 0.0006197705540225075
+            },
+            {
+              "outputVolts": 2.0000000000000013,
+              "outputSourceAmps": -0.7508413008025016,
+              "supplyAmps": 0.000589214307634826
+            },
+            {
+              "outputVolts": 2.99999999999998,
+              "outputSourceAmps": -0.9339150553241845,
+              "supplyAmps": 0.00046672473253031317
+            },
+            {
+              "outputVolts": 3.9999999999999587,
+              "outputSourceAmps": -0.9524133165012587,
+              "supplyAmps": 0.0003420562988407715
+            },
+            {
+              "outputVolts": 4.999999999999938,
+              "outputSourceAmps": -0.9710896921017083,
+              "supplyAmps": 0.00021738618261097042
+            }
+          ],
+          "artifacts": {
+            "low-rail.cir": "791fea674ba819e0c0a3253d27761d819a52603eeab264066bc1c06508431089",
+            "low-rail.log": "525ff3c8bfe9ee8b51a90972f5e7515223852af64772d2304b77a316593c3152",
+            "low-rail.txt": "8292de01871daa75061c5e6a30657f5ec7abf421eeb779c49bd8afa3fd5ac585"
+          }
+        }
+      ]
+    },
+    "candidate": {
+      "completed": true,
+      "qualified": false,
+      "scope": "Isolated NAND output clamped from 0 to 5 V in 10 mV steps. 5 V supply, 25 C, tied inputs at 0, 2 or 4.5 V. Conditions are explicit probe assumptions; not claimed identical to the typical TI graph or measured DL000 behavior.",
+      "currentConvention": "Positive output current leaves the gate into the clamp; negative current enters the gate. Supply current is positive into the gate.",
+      "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+      "modelSha256": "35cadf5dad5ee1b21300be06c679261efef228251f4a81adf8da84fc3ca6185f",
+      "sources": {
+        "ls00_iv_probe.py": "091fbbc67a1defebc18a68a774b8e5efb9bee3ef2d935399ab8bb43c10f016e8",
+        "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a",
+        "ls00_transistor_probe.py": "85ff493cd0e7f5b487fcc30a24f861b4548329d4c66c2e3ff4e74d4b6fd04a01"
+      },
+      "spinitSha256": "300e3a0b036db72112acce90e31fa6c0955a1d22937e948fbbef98366743ec07",
+      "cases": [
+        {
+          "name": "high",
+          "inputVolts": 0,
+          "selectedPoints": [
+            {
+              "outputVolts": 0.0,
+              "outputSourceAmps": 0.03288413047846091,
+              "supplyAmps": 0.033103667664572296
+            },
+            {
+              "outputVolts": 0.25000000000000006,
+              "outputSourceAmps": 0.030767623440158504,
+              "supplyAmps": 0.0309933570650575
+            },
+            {
+              "outputVolts": 0.4000000000000002,
+              "outputSourceAmps": 0.02950148922591738,
+              "supplyAmps": 0.029727229796436216
+            },
+            {
+              "outputVolts": 0.5000000000000002,
+              "outputSourceAmps": 0.028657414757652173,
+              "supplyAmps": 0.02888315536058767
+            },
+            {
+              "outputVolts": 1.0000000000000007,
+              "outputSourceAmps": 0.02443702605229921,
+              "supplyAmps": 0.024662766718257276
+            },
+            {
+              "outputVolts": 2.0000000000000013,
+              "outputSourceAmps": 0.015992340456159326,
+              "supplyAmps": 0.01621808124732188
+            },
+            {
+              "outputVolts": 2.99999999999998,
+              "outputSourceAmps": 0.007491537923457013,
+              "supplyAmps": 0.0077172788398076455
+            },
+            {
+              "outputVolts": 3.9999999999999587,
+              "outputSourceAmps": 7.134972342586572e-05,
+              "supplyAmps": 0.0002970907630768874
+            },
+            {
+              "outputVolts": 4.999999999999938,
+              "outputSourceAmps": -1.2271195413652635e-08,
+              "supplyAmps": 0.0002257288887589606
+            }
+          ],
+          "artifacts": {
+            "high.cir": "43e66e40ffe3c35aacd96c5cd29b8de71a8959d8e46670c154c7085204107b04",
+            "high.log": "525ff3c8bfe9ee8b51a90972f5e7515223852af64772d2304b77a316593c3152",
+            "high.txt": "21362c56881204a7dad61cec57a3cf34cd70a0631a268d3e030aaee665b9a5ea"
+          }
+        },
+        {
+          "name": "low-threshold",
+          "inputVolts": 2,
+          "selectedPoints": [
+            {
+              "outputVolts": 0.0,
+              "outputSourceAmps": 0.0007397332243235904,
+              "supplyAmps": 0.0007398281899515987
+            },
+            {
+              "outputVolts": 0.25000000000000006,
+              "outputSourceAmps": -0.00043897289067301384,
+              "supplyAmps": 0.0006958355874322887
+            },
+            {
+              "outputVolts": 0.4000000000000002,
+              "outputSourceAmps": -0.03140468172915541,
+              "supplyAmps": 0.0006684538527406993
+            },
+            {
+              "outputVolts": 0.5000000000000002,
+              "outputSourceAmps": -0.0363133050292314,
+              "supplyAmps": 0.0006535790193099111
+            },
+            {
+              "outputVolts": 1.0000000000000007,
+              "outputSourceAmps": -0.036623722761750556,
+              "supplyAmps": 0.0006495366202365545
+            },
+            {
+              "outputVolts": 2.0000000000000013,
+              "outputSourceAmps": -0.7443144281436681,
+              "supplyAmps": 0.000618756975235087
+            },
+            {
+              "outputVolts": 2.99999999999998,
+              "outputSourceAmps": -0.9241849233415829,
+              "supplyAmps": 0.0004962272297821053
+            },
+            {
+              "outputVolts": 3.9999999999999587,
+              "outputSourceAmps": -0.9425856844396161,
+              "supplyAmps": 0.00037155908391211205
+            },
+            {
+              "outputVolts": 4.999999999999938,
+              "outputSourceAmps": -0.9611645213744158,
+              "supplyAmps": 0.0002468892394230081
+            }
+          ],
+          "artifacts": {
+            "low-threshold.cir": "05e9fd605ce7a8567c6db3c34687341b38eda34d573aed2a4325622616ef10ed",
+            "low-threshold.log": "525ff3c8bfe9ee8b51a90972f5e7515223852af64772d2304b77a316593c3152",
+            "low-threshold.txt": "cec1cd1d6728e1cf4f2970d5a99c58f1a4d40d5f2b2fcec7bfabd72540e03d62"
+          }
+        },
+        {
+          "name": "low-rail",
+          "inputVolts": 4.5,
+          "selectedPoints": [
+            {
+              "outputVolts": 0.0,
+              "outputSourceAmps": 0.0007397332292426073,
+              "supplyAmps": 0.000739828189871399
+            },
+            {
+              "outputVolts": 0.25000000000000006,
+              "outputSourceAmps": -0.00043897289718443063,
+              "supplyAmps": 0.0006958355873471138
+            },
+            {
+              "outputVolts": 0.4000000000000002,
+              "outputSourceAmps": -0.03140468213367577,
+              "supplyAmps": 0.0006684538526681027
+            },
+            {
+              "outputVolts": 0.5000000000000002,
+              "outputSourceAmps": -0.03631330550016434,
+              "supplyAmps": 0.0006535790193044304
+            },
+            {
+              "outputVolts": 1.0000000000000007,
+              "outputSourceAmps": -0.036623723236583125,
+              "supplyAmps": 0.0006495366203047305
+            },
+            {
+              "outputVolts": 2.0000000000000013,
+              "outputSourceAmps": -0.7443144496460863,
+              "supplyAmps": 0.0006187569755136525
+            },
+            {
+              "outputVolts": 2.99999999999998,
+              "outputSourceAmps": -0.9241849728760815,
+              "supplyAmps": 0.0004962272304140146
+            },
+            {
+              "outputVolts": 3.9999999999999587,
+              "outputSourceAmps": -0.9425857349459383,
+              "supplyAmps": 0.0003715590845474752
+            },
+            {
+              "outputVolts": 4.999999999999938,
+              "outputSourceAmps": -0.9611645728627469,
+              "supplyAmps": 0.0002468892400619208
+            }
+          ],
+          "artifacts": {
+            "low-rail.cir": "791fea674ba819e0c0a3253d27761d819a52603eeab264066bc1c06508431089",
+            "low-rail.log": "525ff3c8bfe9ee8b51a90972f5e7515223852af64772d2304b77a316593c3152",
+            "low-rail.txt": "67203344b789154fd3723cd547b1401124d11ea8e912cc9f4dbfcab20cde25cd"
+          }
+        }
+      ]
+    }
+  }
+}
