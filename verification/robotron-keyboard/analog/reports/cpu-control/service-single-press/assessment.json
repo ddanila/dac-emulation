@@ -1,10 +1,14 @@
 {
-  "qualified": false,
-  "pairPending": true,
+  "qualified": true,
+  "pairPending": false,
   "scope": "S600 single-key BR service fixture with electrical CPU and logic-control pullups",
   "coarsePassed": true,
   "coarseOrdinalBitsMatchC": true,
   "coarseStepNs": 5,
   "fineStepNs": 2.5,
-  "boundary": "Fine run and paired timing/margin checks pending. Oscillator/reset generators, calibrated device parameters, LED activity and brownout remain outside this fixture qualification."
+  "boundary": "Qualified single-key BR service fixture with both electrical control-pullup options: retained inputs, ordinal C bits, paired serial timing, scenario coverage and sampled receiver margins pass. Oscillator/reset generators, calibrated device parameters, LED activity and brownout remain outside this qualification.",
+  "finePassed": true,
+  "fineOrdinalBitsMatchC": true,
+  "qualificationReport": "qualification/qualification.json",
+  "qualificationReportSha256": "d6f87e012af93ad7a2c2018384ed3adeab568a5bacb29d14c401f15c5d76b4c5"
 }
