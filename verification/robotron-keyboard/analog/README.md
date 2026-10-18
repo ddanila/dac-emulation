@@ -1104,6 +1104,10 @@ with the falling-edge CPU candidate also rejects the same released I/O read at
 both timesteps: D0 remains in the receiver unknown band. Serial bits agree with C,
 but the bus gate remains failed. This combined configuration does not isolate the
 effect of ROM timing from CPU phase and does not qualify full-board startup.
+A [short live ownership capture](reports/rom-read-envelope/electrical-bus/ownership-startup/ownership-assessment.json)
+records all CPU, ROM and latch drivers released at that failed read. This confirms
+the modeled release boundary; it does not calibrate the remaining input loading
+or establish a deterministic physical CPU sample.
 
 Both `firmware_io_cosim.py` and `boot_cosim.py` accept
 `--cpu-profile falling-indexed-candidate` with `--electrical-bus`. They generate

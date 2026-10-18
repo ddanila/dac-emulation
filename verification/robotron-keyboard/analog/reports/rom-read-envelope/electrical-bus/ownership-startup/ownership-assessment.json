@@ -1,0 +1,47 @@
+{
+  "qualified": false,
+  "completed": true,
+  "preparedReportSha256": "20b19f6d17f34cf9e7105319e327111892530037aa040fb36624193a96cdb62e",
+  "preparedDeckSha256": "f5ae5595b849f3b6bed2f4997639e97aa44142c0582ce75396007969e29cf36a",
+  "diagnosticDeckSha256": "e3aa0c74d7125ffda83c718894594bd97031564d67deb56ef7a3e7d64b225044",
+  "stopSeconds": 0.0016,
+  "scriptSha256": "8181b03419078f6f4d0b9b65214cf49f83fba908963e3a0063b3c8f1a02ba384",
+  "boundary": "Short service-boundary diagnostic; only transient stop time differs from prepared single-press deck. Not the complete contact scenario or a qualification pass.",
+  "exitCode": 0,
+  "waveform": {
+    "lastSeconds": 0.0016,
+    "rows": 364484,
+    "sha256": "07ffa3b5ccc8fae493bb7d6c5951bbc0cf4f907c4e7eb468dae093ecc4130ab0"
+  },
+  "busFailure": {
+    "ordinal": 118,
+    "readTimePs": 1485002000,
+    "address": 0,
+    "sampledByte": null,
+    "drivers": {
+      "cpu": {
+        "lowEnableBits7To0": "00000000",
+        "highEnableBits7To0": "00000000"
+      },
+      "rom": {
+        "lowEnableBits7To0": "00000000",
+        "highEnableBits7To0": "00000000"
+      },
+      "latch": {
+        "lowEnableBits7To0": "00000000",
+        "highEnableBits7To0": "00000000"
+      }
+    },
+    "signal": "CPU_DI_UNKNOWN",
+    "sampledHex": "0X",
+    "recordedSampleHex": "0X",
+    "latchedHex": "0X",
+    "latchTimePs": 1485002000,
+    "memorySelectN": 1,
+    "ioSelectN": 0,
+    "m1N": 1
+  },
+  "busError": "Unknown sampled bus or CPU latch data",
+  "allDriversReleasedAtFirstFailure": true,
+  "logSha256": "3f327a2cb47eb67d212ba79a1c0964dd65e9fb83f1225857421018d4b3682b98"
+}
