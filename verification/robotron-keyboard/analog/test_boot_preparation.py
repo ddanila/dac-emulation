@@ -68,11 +68,16 @@ class BootPreparationTests(unittest.TestCase):
             self.assertTrue(wr_report['assumptions']['electricalWr'])
             args.cpu_profile = 'falling-indexed-candidate'
             args.rom_read_envelope = True
+            args.latch_timing_envelope = True
             candidate_report = {'assumptions': {'traceWindowSeconds': [.124, .127]}}
             with patch('boot_cosim.ROM_SHA256', sha(rom)):
                 prepare(args, candidate_report)
             self.assertEqual(candidate_report['assumptions']['cpuProfile'], args.cpu_profile)
             self.assertEqual(candidate_report['cpuModel']['profile'], args.cpu_profile)
+            self.assertTrue(candidate_report['assumptions']['latchTimingEnvelope'])
+            self.assertIn('8282 timing envelope', candidate_report['modelCoverage']['components']['A4']['model'])
+            self.assertIn('i8282_timing.v', candidate_report['sources'])
+            self.assertIn('chip_I8282_timed A4', (out / 'controller_analog.v').read_text())
             self.assertTrue(candidate_report['assumptions']['romReadEnvelope'])
             self.assertIn('2716 read envelope', candidate_report['modelCoverage']['components']['A8']['model'])
             self.assertIn('eprom2716.v', candidate_report['sources'])

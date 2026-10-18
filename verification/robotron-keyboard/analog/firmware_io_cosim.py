@@ -57,6 +57,7 @@ def main():
     p.add_argument('--column-load-pf', type=float, default=0, help='Assumed fixture capacitance per column to ground; zero omits it')
     p.add_argument('--electrical-cpu-pullups', action='store_true')
     p.add_argument('--electrical-bus', action='store_true', help='Experimental linear bus-driver stress fixture with electrical receiver feedback')
+    p.add_argument('--latch-timing-envelope', action='store_true', help='Conservative Intel 8282 timing; requires electrical-bus')
     p.add_argument('--rom-read-envelope', action='store_true', help='Conservative Intel 2716 read timing; requires electrical-bus')
     p.add_argument('--cpu-profile', choices=CIRCUIT_PROFILES, default='tv80')
     p.add_argument('--serial-driver', choices=('nominal', '7406-dc'), default='nominal')
@@ -67,6 +68,8 @@ def main():
     p.add_argument('--minimum-breakpoint-fs', type=float, help='Explicit ngspice breakpoint spacing via deck tran/run')
     p.add_argument('--electrical-wr', action='store_true', help='Finite CPU WR drive into transistor clock gate; requires electrical-bus and 7406-dc')
     args = p.parse_args()
+    if args.latch_timing_envelope and not args.electrical_bus:
+        p.error('Latch timing envelope requires electrical-bus')
     if args.rom_read_envelope and not args.electrical_bus:
         p.error('ROM read envelope requires electrical-bus')
     if args.cpu_profile != 'tv80' and not args.electrical_bus:
@@ -118,6 +121,11 @@ def main():
             'io_scenario.py', 'reset_observation.py', 'led_observation.py', 'trace_io.py', 'compressed_output.py', 'transient_analysis.py')}}
     report['waveformCompression'] = {'format': 'xz', 'preset': args.compression_preset} if args.compress_traces else None
     report['assumptions']['cpuProfile'] = args.cpu_profile
+    report['assumptions']['latchTimingEnvelope'] = bool(getattr(args, 'latch_timing_envelope', False))
+    if getattr(args, 'latch_timing_envelope', False):
+        report.setdefault('sources', {})['i8282_timing.v'] = sha(HERE / 'i8282_timing.v')
+        report['assumptions']['latchTimingBoundary'] = ('Intel I8282 reference output envelope and storage constraints; '
+            'X intervals and bridge unknown-drive voltages are not physical metastability or transition predictions.')
     report['assumptions']['romReadEnvelope'] = bool(getattr(args, 'rom_read_envelope', False))
     if getattr(args, 'rom_read_envelope', False):
         report.setdefault('sources', {})['eprom2716.v'] = sha(HERE / 'eprom2716.v')
@@ -180,7 +188,7 @@ def main():
             if sha(tv80 / name) != digest:
                 raise ValueError('TV80 source differs: ' + name)
         subprocess.run(['python3', str(HERE.parent / 'generate.py'), '--check'], check=True)
-        (out / 'controller_analog.v').write_text(generate_service(electrical_wr=args.electrical_wr, cpu_profile=args.cpu_profile, rom_timing=args.rom_read_envelope) if args.electrical_bus else
+        (out / 'controller_analog.v').write_text(generate_service(electrical_wr=args.electrical_wr, cpu_profile=args.cpu_profile, rom_timing=args.rom_read_envelope, latch_timing=args.latch_timing_envelope) if args.electrical_bus else
                                                generate(explicit_cpu_drive=True, resolved_bus=True))
         cpu_sources, report['cpuModel'] = circuit_sources(tv80, out, args.cpu_profile)
         hdl = [*cpu_sources, HERE.parent / 'chips.v', HERE.parent / 'generated/controller.v',
@@ -226,6 +234,8 @@ def main():
         if args.serial_driver == '7406-dc':
             report['modelCoverage']['components']['A1']['model'] = ('Data and clock gates use published transistor topology with '
                 'generic semiconductor parameters and ideal input intent; other gates remain HDL.')
+        if args.latch_timing_envelope:
+            report['modelCoverage']['components']['A4']['model'] += '; conservative Intel 8282 timing envelope'
         bus_lines, bus_inputs, bus_outputs = [], '', ''
         if args.electrical_bus:
             limits = json.loads((HERE / 'bus_limits.json').read_text())
