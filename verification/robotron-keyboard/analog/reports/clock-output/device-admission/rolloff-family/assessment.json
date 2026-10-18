@@ -1,0 +1,85 @@
+{
+  "completed": true,
+  "qualified": false,
+  "screenSha256": "2a973fe55860c944e8a2ec2112a439fa1e347bfbb62c0247a6a0c43be7018546",
+  "mode": "device-admission-only",
+  "sources": {
+    "oscillator_family_probe.py": "c80b84661de3829cd428b269ddfc9895dc553ab16a93a4dab395c45a028685ec",
+    "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee"
+  },
+  "scope": "Device-test survivors under the reference oscillator topology, fixed source component values and ideal supply ramp. No fitting to board frequency. Failure at coarse resolution is independently retried at finer resolution.",
+  "candidates": [
+    {
+      "name": "all-ikf-0.01",
+      "modelSha256": "cbaf009f8e5d6dc3be1ee2536b50e585ec6a672370db5283503ec4fe37486d20",
+      "deviceReports": {
+        "dcReportSha256": "9efee20584fc7ebb7ae2ba6677e31cdf96ead74d51319686be04ed3acf3bd72e",
+        "validationReportSha256": "06ca8e085aa10e3ff1c31fc2d908d08646f2ca059c2006def7547ee93c6b18e1",
+        "switchingReportSha256": "e14caece7387360646b096e73acb0b5eb2069c46c304b4e2d20fa61c5b10e03c"
+      },
+      "runs": []
+    },
+    {
+      "name": "all-ikf-0.1",
+      "modelSha256": "c26e6cc5d531ba9b9dfe4feffcb836653b01eb5c2f73e159b3c47402c43953e8",
+      "deviceReports": {
+        "dcReportSha256": "ef94b2d9e668becd223475e04436c856860e985711d57bc3ff3bed943ef1d431",
+        "validationReportSha256": "27e350f07fb2b6b9700275a939ef86724f8fb6150f64dc3a2459a6e69bd9ea32",
+        "switchingReportSha256": "0ad96761fd5ca550f1b4a7986d01bcc842f5779cb905ff32ea84edc083e15b21"
+      },
+      "runs": []
+    },
+    {
+      "name": "sink-ikf-0.01",
+      "modelSha256": "e9edc03aa61d19f54b0268d4d6f399aeb554fa9ee49125b4258df1ef3e9f0aee",
+      "deviceReports": {
+        "dcReportSha256": "81de86dc6bb24960eafc535ed4ce2f9beab8adb7daded57e0650e6410ddf86ca",
+        "validationReportSha256": "414ab8d528b8001cdb5b0998810c7226cf748bdaf6696a0ad34a97cfb1cf19c6",
+        "switchingReportSha256": "02698cbd4b07a36a8d7cd97c479620b049b2f3601e8aef01cb7ee795b46d6735"
+      },
+      "runs": []
+    },
+    {
+      "name": "sink-ikf-0.1",
+      "modelSha256": "949a22d69cbac26b7f9f9e718e881c427dbd97d60b5d50859abfde65155a7271",
+      "deviceReports": {
+        "dcReportSha256": "f64176f98dafb1351e208020849760822fd9944548eb4325dae604a149e5df0d",
+        "validationReportSha256": "15ddcd49897863898fdf77bce1b7108f615539c1234eedc83d3f83838d6c7e1a",
+        "switchingReportSha256": "d9d658ebc6fa54df1b1bd1b34dc2d20f90879b6962ac0dd974b86f0fac087e93"
+      },
+      "runs": []
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "name": "all-ikf-0.0001",
+      "failedOrMissingChecks": [
+        "dcOutputLimitsPassed",
+        "additionalDcLimitsPassed",
+        "switchingLimitsPassed"
+      ]
+    },
+    {
+      "name": "all-ikf-0.001",
+      "failedOrMissingChecks": [
+        "dcOutputLimitsPassed",
+        "switchingLimitsPassed"
+      ]
+    },
+    {
+      "name": "sink-ikf-0.0001",
+      "failedOrMissingChecks": [
+        "dcOutputLimitsPassed",
+        "additionalDcLimitsPassed",
+        "switchingLimitsPassed"
+      ]
+    },
+    {
+      "name": "sink-ikf-0.001",
+      "failedOrMissingChecks": [
+        "dcOutputLimitsPassed",
+        "switchingLimitsPassed"
+      ]
+    }
+  ]
+}

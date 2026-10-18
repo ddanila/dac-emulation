@@ -1,0 +1,28 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Revalidation of device-admission prerequisites from retained complete reports and model hashes. No electrical simulation was rerun and no oscillator or device model is newly qualified.",
+  "finding": "Both retained oscillator families admitted the same candidate names and model hashes under the stricter device-evidence checks. Their earlier oscillator failures remain unchanged.",
+  "families": [
+    {
+      "family": "parameter-family",
+      "retainedScreen": "ls00-parameter-validation/assessment.json",
+      "retainedScreenSha256": "972ac949d0e0a1911578b896dcd5147c11910d483f3a4262ad6735e0fd8a0455",
+      "retainedOscillator": "ls00-family-oscillator/assessment.json",
+      "retainedOscillatorSha256": "d600e9f50454f7ad705763d8715e2dac795918ecdfbb431aa4fe6be20264f027",
+      "admissionReport": "parameter-family/assessment.json",
+      "admissionReportSha256": "a9f5dbbf8c4e36242103467d399903d8c9fed88500a76661288f63ce92c6eee9",
+      "sameCandidateNamesAndModelHashes": true
+    },
+    {
+      "family": "rolloff-family",
+      "retainedScreen": "ls00-rolloff/assessment.json",
+      "retainedScreenSha256": "0c1f1dfea0e751dbbe6e062287213155e17fab691a212249cc264479136c1b6f",
+      "retainedOscillator": "ls00-rolloff/assessment.json",
+      "retainedOscillatorSha256": "0c1f1dfea0e751dbbe6e062287213155e17fab691a212249cc264479136c1b6f",
+      "admissionReport": "rolloff-family/assessment.json",
+      "admissionReportSha256": "0fd05398af25d90feac1083abc0ea8cf6ed31f4f511e4e1804d6079ca4041177",
+      "sameCandidateNamesAndModelHashes": true
+    }
+  ]
+}
