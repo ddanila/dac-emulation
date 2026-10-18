@@ -1,0 +1,45 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Experimental host buffer topology; no firmware, switching or specimen qualification",
+  "topologySource": {
+    "url": "https://www.ti.com/lit/ds/symlink/sn7404.pdf",
+    "locator": "SDLS029C page 4 standard '04 schematic",
+    "sha256": "88eaa5e7d48b56e088f0b2e2c3266b1afa20884da266391be2954c2acaf6f85c"
+  },
+  "limitSource": "../../d104_limits.json",
+  "reports": [
+    {
+      "file": "ttl7404-dc-report.json",
+      "sha256": "bf8184fb25588db7ea8a780c9d36affc448de4041bd9fe26612649d87da40843",
+      "status": "rejected-preliminary-fixture"
+    },
+    {
+      "file": "ttl7404-dc-corrected-report.json",
+      "sha256": "80d6aa9446201e7e25281417aff0c20a70b14fbdebb417d801fa0c5c48b8e0b2",
+      "status": "retained"
+    },
+    {
+      "file": "host-buffer-candidate-report.json",
+      "sha256": "462cd020c4aacf18165ee3e5dcf4ad42e8fdf74c7635853638349cd9af3712ca",
+      "status": "retained"
+    },
+    {
+      "file": "host-buffer-candidate-input-review.json",
+      "sha256": "5f48b19df030f2119e5e51d32ffdb9db5226bfc4572de48e83a537837ed78c87",
+      "status": "retained"
+    }
+  ],
+  "archive": {
+    "file": "captures.tar.gz",
+    "sha256": "92af5d2267d8605e8f542e6c302d38ee2cd81ac2e655ff6d1224cef8a4684f0c",
+    "bytes": 3591653
+  },
+  "findings": [
+    "The original generic input transistor reverse beta fails the D104 high-input-current condition. The explicit 0.01 reverse-beta candidate passes the selected DC conditions at 25 C; neither proves applicability across temperature or process.",
+    "Adding the experimental host buffer makes all retained sampled buffer-input extrema fit the static D104 voltage envelope and preserves settled output inversion for both driver fixtures and cable loads.",
+    "Passing the waveform voltage envelope does not calibrate the generic diode clamp, transistor storage, propagation, SIO input loads or host winding parameters.",
+    "The initial DC fixture used the wrong sign for datasheet output load current and is rejected. Corrected fixtures load VOH by drawing current and VOL by injecting current; the regression check preserves this distinction."
+  ],
+  "nextAction": "Qualify buffer switching and input clamp/loading behavior independently, then connect the sourced host boundary to firmware observation without treating illustrative SIO loads as historical measurements."
+}

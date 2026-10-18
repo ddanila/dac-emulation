@@ -213,8 +213,11 @@ the motherboard input chokes, pull-ups and RC filters documented in
 [host receiver evidence](host_receiver.json). It compares voltage at the D104
 buffer inputs, retaining cable-terminal voltages separately. The SIO is downstream
 of the buffers; its pin limits must not be applied directly to cable voltages.
-Host winding values remain assumptions, and buffer input currents, clamps and
-propagation are unmodeled. Firmware runners do not yet include this host network.
+Host winding values remain assumptions. Add `--host-buffer` to exercise the
+experimental standard-7404 transistor topology with input reverse beta 0.01.
+`ttl7404_probe.py --out /tmp/7404-dc` screens selected D104 DC conditions; it
+does not calibrate input clamps or switching. Buffer outputs use illustrative SIO
+loads. Firmware runners do not yet include this host network.
 `host_input_review.py --run /tmp/host-input-review --out /tmp/input-limits.json`
 checks retained buffer-input waveforms against [RFT D104D conditions](d104_limits.json).
 It distinguishes static bounds from the conditional negative-pulse allowance;
@@ -244,6 +247,7 @@ settings, results and rejected alternatives; related captures remain in
 | Do transfer branches depend on the solver? | [Published fixture review](reports/clock-output/ls00-transfer500/assessment.json) and [Xyce replay](reports/clock-output/xyce-transfer500/assessment.json); fixture alternatives and explicit runtime temperatures remain part of the comparison. Solver agreement is not calibration. |
 | Do device conditions or input-junction assumptions resolve startup? | [Device-condition and diode review](reports/clock-output/diode-role-review/assessment.json); selected TI/К555ЛА3 DC checks remain distinct from dynamic applicability. |
 | Are CPU reads electrically valid? | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json) and [floating-read analysis](reports/floating-io/static-analysis.json); functional agreement does not qualify released input voltage. |
+| Does an active host buffer change the rejected input pulses? | [Buffer candidate review](reports/host-buffer/assessment.json); selected DC and nominal fixture checks pass for the explicit candidate, while clamp dynamics, device applicability and SIO loading remain unqualified. |
 | Where does the cable terminate electrically? | [Host input review](reports/host-receiver/assessment.json); factory and redrawn schematics place passive filters before D104 buffers. The passive boundary changes loading and undershoot but does not qualify the active receiver. |
 | How does cable coupling affect the nominal output fixture? | [Filter hypotheses](reports/filter-coupling/assessment.json); similar release intervals can coexist with materially different transient undershoot. No historical winding parameters or receiver clamp behavior are qualified. |
 | Does reset recover after a supply dip? | [Reset dip response](reports/reset-brownout/report.json); startup reset and sampled recovery do not establish reliable firmware restart. |

@@ -1,0 +1,291 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceTopology": {
+    "url": "https://www.ti.com/lit/ds/symlink/sn7404.pdf",
+    "locator": "SDLS029C page 4 standard '04 schematic; not LS04 or S04"
+  },
+  "sources": {
+    "ttl7404_probe.py": "d28a5e5ebdc5e180c4ae5af6749197c68505f7682eb9b1994d1cede0fc2b3fe2",
+    "ttl7404_nominal.cir": "897965264d1bd6061436805a260acd5ad32aacab08a121ebb82e900cd4501ed2",
+    "d104_limits.json": "541eb612b620ec9b5b84d6991719acd3cb36b411950b0bf3d4aa1a2b50fa719f",
+    "failure_evidence.py": "57aa76de905dd2d35012522ba4ae8e6f3381ea249d30ea114ebfbdb5ecfbd63a"
+  },
+  "executableSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "spinitSha256": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+  "scope": "Selected D104 DC limits at 25 C only. TI topology applicability, switching, clamp I/V and process corners remain unqualified.",
+  "candidates": [
+    {
+      "inputReverseBeta": 1,
+      "checks": [
+        {
+          "fixture": {
+            "parameter": "IIL",
+            "maxMagnitudeA": 0.0016,
+            "supplyV": 5.25,
+            "inputV": 0.4,
+            "name": "IIL",
+            "input": "Vin a 0 0.4",
+            "output": "Iload y 0 0"
+          },
+          "inputV": 0.4,
+          "outputV": 4.88142574057648,
+          "inputCurrentA": -0.0010432154961226366,
+          "supplyCurrentA": 0.0010433053091466122,
+          "value": 0.0010432154961226366,
+          "withinLimit": true,
+          "artifacts": {
+            "probe.cir": "c8842f92b34c5ecc3a1858466344242846bbb161f376f5ae442412dcaddbd07c",
+            "trace.txt": "244f3fadd49cc70246a354c620f26377bf8fdc36ecf07bfd2a0d11cd297808cb",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        },
+        {
+          "fixture": {
+            "parameter": "IIH",
+            "maxA": 4e-05,
+            "supplyV": 5.25,
+            "inputV": 2.4,
+            "name": "IIH",
+            "input": "Vin a 0 2.4",
+            "output": "Iload y 0 0"
+          },
+          "inputV": 2.4000000000000004,
+          "outputV": 0.017898093464233305,
+          "inputCurrentA": 0.0007906343576947406,
+          "supplyCurrentA": 0.0036118789785291546,
+          "value": 0.0007906343576947406,
+          "withinLimit": false,
+          "artifacts": {
+            "probe.cir": "9184598504e74ab47406186ffa2da68b76321467e1b937dffac3b9f1b4f1a40a",
+            "trace.txt": "46048ee42629dd5fb33620b684eabff03bfa47ac0dca635a91fcd420ede4ebb1",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        },
+        {
+          "fixture": {
+            "parameter": "VOH",
+            "minV": 2.4,
+            "supplyV": 4.75,
+            "inputV": 0.8,
+            "outputCurrentA": -0.0008,
+            "name": "VOH",
+            "input": "Vin a 0 0.8",
+            "output": "Iload y 0 -0.0008"
+          },
+          "inputV": 0.8,
+          "outputV": 216983951.2712641,
+          "inputCurrentA": -0.0008194617067926386,
+          "supplyCurrentA": 0.0007429371936418368,
+          "value": 216983951.2712641,
+          "withinLimit": true,
+          "artifacts": {
+            "probe.cir": "83d3a454a45cc5d9ffbfbf179c8fe705c52dcee0674ee7f7d7c29aea1681f231",
+            "trace.txt": "1a1cc6f6b39d9ba9a46e6a1538c40357734be93aff0f888735a1e63753291238",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        },
+        {
+          "fixture": {
+            "parameter": "VOL",
+            "maxV": 0.4,
+            "supplyV": 4.75,
+            "inputV": 2,
+            "outputCurrentA": 0.016,
+            "name": "VOL",
+            "input": "Vin a 0 2",
+            "output": "Iload y 0 0.016"
+          },
+          "inputV": 2.0,
+          "outputV": -2.3137480374658588,
+          "inputCurrentA": 0.0012349537994656564,
+          "supplyCurrentA": 0.005192076923062613,
+          "value": -2.3137480374658588,
+          "withinLimit": false,
+          "artifacts": {
+            "probe.cir": "4b019bd44623add2843462618cf0558d87b1915f35899618126d77412642110f",
+            "trace.txt": "e47972a1ab3687284bccedaa3f2e7da5bd764bed2d5aa4ab3e5dad21f97a8e63",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        },
+        {
+          "fixture": {
+            "name": "ICCH",
+            "supplyV": 5.25,
+            "input": "Vin a 0 0",
+            "output": "Iload y 0 0",
+            "maxA": 0.002
+          },
+          "inputV": 0.0,
+          "outputV": 4.881566071214189,
+          "inputCurrentA": -0.0011426315997808082,
+          "supplyCurrentA": 0.0011426316201103863,
+          "value": 0.0011426316201103863,
+          "withinLimit": true,
+          "artifacts": {
+            "probe.cir": "dc29a2bacb6ea51e8c5fe6a167fa61647ae1aad1f5355a7c4470394db90fc111",
+            "trace.txt": "34d7a178719bf8c4593325586cc19661faa4fe947d38a85af2875d2c420d1033",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        },
+        {
+          "fixture": {
+            "name": "ICCL",
+            "supplyV": 5.25,
+            "input": "Vin a 0 5",
+            "output": "Iload y 0 0",
+            "maxA": 0.0055000000000000005
+          },
+          "inputV": 5.0,
+          "outputV": 0.017898093464358812,
+          "inputCurrentA": 0.0007906343654369484,
+          "supplyCurrentA": 0.0036118789785255035,
+          "value": 0.0036118789785255035,
+          "withinLimit": true,
+          "artifacts": {
+            "probe.cir": "e6d77e718c931db89284e0dea8436e7679398b77e416668316719587529c2b62",
+            "trace.txt": "26035202f47f88a25336b8a64c22b3f1df0fdf4b533a6db07311b708aa30b74d",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        }
+      ],
+      "selectedDcWithinLimits": false
+    },
+    {
+      "inputReverseBeta": 0.01,
+      "checks": [
+        {
+          "fixture": {
+            "parameter": "IIL",
+            "maxMagnitudeA": 0.0016,
+            "supplyV": 5.25,
+            "inputV": 0.4,
+            "name": "IIL",
+            "input": "Vin a 0 0.4",
+            "output": "Iload y 0 0"
+          },
+          "inputV": 0.4,
+          "outputV": 4.875451790237067,
+          "inputCurrentA": -0.0010474655433905151,
+          "supplyCurrentA": 0.0010513772548352781,
+          "value": 0.0010474655433905151,
+          "withinLimit": true,
+          "artifacts": {
+            "probe.cir": "9dedc35e2069fa5f31e521c689f42117339572fcf97723ad5cf0ee233451fb4d",
+            "trace.txt": "2d209aeaa68228522a318f9ddb4fab767eca50925c9c9c3f318a31c228371c9b",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        },
+        {
+          "fixture": {
+            "parameter": "IIH",
+            "maxA": 4e-05,
+            "supplyV": 5.25,
+            "inputV": 2.4,
+            "name": "IIH",
+            "input": "Vin a 0 2.4",
+            "output": "Iload y 0 0"
+          },
+          "inputV": 2.4000000000000004,
+          "outputV": 0.01789735343060509,
+          "inputCurrentA": 8.240170021037975e-06,
+          "supplyCurrentA": 0.003642221220881904,
+          "value": 8.240170021037975e-06,
+          "withinLimit": true,
+          "artifacts": {
+            "probe.cir": "e768ee653be6d773aca8487d65973b97d7c6ba2697b68288a2aba8ecd8ca1c60",
+            "trace.txt": "b38f396638a081466c4e032e77afc7bcb57ef161e6dd29a6ce9739c9a604b4ff",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        },
+        {
+          "fixture": {
+            "parameter": "VOH",
+            "minV": 2.4,
+            "supplyV": 4.75,
+            "inputV": 0.8,
+            "outputCurrentA": -0.0008,
+            "name": "VOH",
+            "input": "Vin a 0 0.8",
+            "output": "Iload y 0 -0.0008"
+          },
+          "inputV": 0.8,
+          "outputV": 73203503.80169198,
+          "inputCurrentA": -0.0008218973660282656,
+          "supplyCurrentA": 0.0010114076108309197,
+          "value": 73203503.80169198,
+          "withinLimit": true,
+          "artifacts": {
+            "probe.cir": "052478cfac411c22c0d08c4d6f46cb44d513caff7601551b08e96c2108be50ac",
+            "trace.txt": "676ba817e5be793ea5a4217b13b8659052f475c4a68e3df598c789b3ee7bb623",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        },
+        {
+          "fixture": {
+            "parameter": "VOL",
+            "maxV": 0.4,
+            "supplyV": 4.75,
+            "inputV": 2,
+            "outputCurrentA": 0.016,
+            "name": "VOL",
+            "input": "Vin a 0 2",
+            "output": "Iload y 0 0.016"
+          },
+          "inputV": 2.0,
+          "outputV": -2.9517488310736084,
+          "inputCurrentA": 1.4248376272895029e-05,
+          "supplyCurrentA": 0.005774782993477621,
+          "value": -2.9517488310736084,
+          "withinLimit": false,
+          "artifacts": {
+            "probe.cir": "68618347446132616424061071c8d04cd87ef6b2193a4e75e5c33b49714e5ccb",
+            "trace.txt": "cec590f7f44d35f2c9893505a5c1bd9d0887a3b75d7beb17ce34a8b9cb8ad3c6",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        },
+        {
+          "fixture": {
+            "name": "ICCH",
+            "supplyV": 5.25,
+            "input": "Vin a 0 0",
+            "output": "Iload y 0 0",
+            "maxA": 0.002
+          },
+          "inputV": 0.0,
+          "outputV": 4.881566070160095,
+          "inputCurrentA": -0.001146919778199531,
+          "supplyCurrentA": 0.00114691979950717,
+          "value": 0.00114691979950717,
+          "withinLimit": true,
+          "artifacts": {
+            "probe.cir": "5b42cc4d348603658334f2c03999e450df7e0d880126d9b38b7d92f387564a02",
+            "trace.txt": "6f0c4d94364f61215c0452dcdd0168945e1341bcbec0ef4e30b221ff801a2012",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        },
+        {
+          "fixture": {
+            "name": "ICCL",
+            "supplyV": 5.25,
+            "input": "Vin a 0 5",
+            "output": "Iload y 0 0",
+            "maxA": 0.0055000000000000005
+          },
+          "inputV": 5.0,
+          "outputV": 0.01789735343801202,
+          "inputCurrentA": 8.240175246565622e-06,
+          "supplyCurrentA": 0.0036422212208838583,
+          "value": 0.0036422212208838583,
+          "withinLimit": true,
+          "artifacts": {
+            "probe.cir": "bd063e19023eccfadb1428f1d0ebea34f384842f8a6b64bafc73a16a994da1df",
+            "trace.txt": "26787ac60e0248c8a62c607095f8793f4e6dd5f961239b3cb4dbfd06aa66cc57",
+            "ngspice.log": "4eb8c06c2b9459f0a0c1f65d1f5c01d4f5327adee21b8b5025fc5c95db8f541c"
+          }
+        }
+      ],
+      "selectedDcWithinLimits": false
+    }
+  ]
+}
