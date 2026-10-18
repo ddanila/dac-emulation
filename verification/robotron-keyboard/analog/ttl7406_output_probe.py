@@ -74,7 +74,7 @@ def driver_circuit(components, profile, cable_pf, electrical_data_input=False, e
     return lines, metadata
 
 
-def simulate(root, profile, step, cable, components, executable, env, host_passives=False):
+def simulate(root, profile, step, cable, components, executable, env, host_passives=False, host_buffer=False):
     out = root / f'{profile}-{step}ns-{cable}pf'
     out.mkdir()
     lines, metadata = driver_circuit(components, profile, cable)
@@ -82,7 +82,7 @@ def simulate(root, profile, step, cable, components, executable, env, host_passi
     supply = metadata['hostSupply']
     cable_signals = [f'v({metadata["serial"][label]["cable"]},{ground})' for label in ('data', 'clock')]
     if host_passives:
-        host_lines, host_info = host_receiver(metadata)
+        host_lines, host_info = host_receiver(metadata, input_reverse_beta=.01 if host_buffer else None)
         lines += host_lines
         metadata['hostReceiver'] = host_info
         ground, supply = host_info['ground'], host_info['supply']
@@ -93,6 +93,8 @@ def simulate(root, profile, step, cable, components, executable, env, host_passi
     signals += ['v(n_p5V)', 'i(Vhost)', 'i(Vdriver_supply)', 'i(Vdata)', 'i(Vclock)']
     if host_passives:
         signals += cable_signals
+    if host_buffer:
+        signals += [f'v({host_info["bufferOutputs"][label]},{ground})' for label in ('data','clock')]
     deck = '\n'.join([
         'Serial driver topology fixture; no firmware or historical timing qualification',
         f'Vhost {supply} {ground} 5', *lines,
@@ -120,6 +122,8 @@ def simulate(root, profile, step, cable, components, executable, env, host_passi
     for index, row in enumerate(samples):
         if not all(v < .8 if index == 1 else v > 2 for v in row[1:3]):
             raise ValueError('Serial drive/release failed at cable receiver')
+        if host_buffer and not all(v > 2.4 if index == 1 else 0 <= v < .4 for v in row[-2:]):
+            raise ValueError('Host buffer output does not invert the settled input state')
         if profile == '7406-dc' and row[5] <= .001:
             raise ValueError('Transistor driver supply current not observed')
         if profile == 'nominal' and abs(row[5]) > 1e-12:
@@ -147,8 +151,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ngspice', default='ngspice')
     parser.add_argument('--host-passives', action='store_true', help='Include reference motherboard chokes, pullups and RC input filters; no buffer transistor model')
+    parser.add_argument('--host-buffer', action='store_true', help='Experimental 7404 transistor buffer with input BR=.01; requires --host-passives')
     parser.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/ttl7406-outputs')
     args = parser.parse_args()
+    if args.host_buffer and not args.host_passives:
+        parser.error('--host-buffer requires --host-passives')
     located = shutil.which(args.ngspice)
     if located is None:
         parser.error('ngspice executable not found')
@@ -159,10 +166,10 @@ def main():
     (out / 'spinit').write_text('* Pure SPICE output fixture; no external initialization or code models.\n')
     env = dict(os.environ, SPICE_SCRIPTS=str(out))
     report = {'passed': False, 'qualified': False, 'scope': __doc__,
-              'dcCandidateReportSha256': dc_reference_digest, 'hostPassives': args.host_passives,
+              'dcCandidateReportSha256': dc_reference_digest, 'hostPassives': args.host_passives, 'hostBufferCandidate': args.host_buffer,
               'executableSha256': sha(executable), 'spinitSha256': sha(out / 'spinit'),
               'sources': {name: sha(HERE / name) for name in
-                          ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'output_circuit.py', 'circuit.py', 'failure_evidence.py', 'host_receiver.py', 'host_receiver.json')},
+                          ('ttl7406_output_probe.py', 'ttl7406_nominal.cir', 'output_circuit.py', 'circuit.py', 'failure_evidence.py', 'host_receiver.py', 'host_receiver.json', 'ttl7404_nominal.cir')},
               'limitations': 'Numerical fixture checks only. No transistor storage/capacitance, device-corner, full-package, firmware, or specimen qualification.',
               'runs': []}
     try:
@@ -170,7 +177,7 @@ def main():
         for profile in ('nominal', '7406-dc'):
             profile_runs = []
             for cable in (1000, 2000):
-                pair = [simulate(out, profile, step, cable, components, executable, env, args.host_passives) for step in (10, 5)]
+                pair = [simulate(out, profile, step, cable, components, executable, env, args.host_passives, args.host_buffer) for step in (10, 5)]
                 report['runs'] += pair
                 profile_runs += pair
                 for a, b in zip(*(run['receiverRiseSeconds08to2V'] for run in pair)):

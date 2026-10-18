@@ -86,6 +86,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_ttl7406_probe.py
           python3 verification/robotron-keyboard/analog/test_ttl7406_output.py
           python3 verification/robotron-keyboard/analog/test_host_receiver.py
+          python3 verification/robotron-keyboard/analog/test_ttl7404_probe.py
           python3 verification/robotron-keyboard/analog/test_host_input_review.py
           python3 verification/robotron-keyboard/analog/test_write_control_observation.py
           python3 verification/robotron-keyboard/analog/test_transient_analysis.py
@@ -95,6 +96,9 @@ jobs:
           python3 verification/robotron-keyboard/analog/ttl7406_output_probe.py
           python3 verification/robotron-keyboard/analog/ttl7406_output_probe.py --host-passives --out build/keyboard-controller-analog/host-passives
           python3 verification/robotron-keyboard/analog/host_input_review.py --run build/keyboard-controller-analog/host-passives --out build/keyboard-controller-analog/host-input-review.json
+          python3 verification/robotron-keyboard/analog/ttl7404_probe.py --out build/keyboard-controller-analog/ttl7404-dc
+          python3 verification/robotron-keyboard/analog/ttl7406_output_probe.py --host-passives --host-buffer --out build/keyboard-controller-analog/host-buffer
+          python3 verification/robotron-keyboard/analog/host_input_review.py --run build/keyboard-controller-analog/host-buffer --out build/keyboard-controller-analog/host-buffer-input-review.json
       - name: Reference analog sensing feasibility
         run: python3 verification/robotron-keyboard/analog/sense_probe.py
       - name: Clock pullup and U880 input-level regression
