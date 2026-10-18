@@ -53,6 +53,8 @@ def electrical_bus_options(args):
     enabled = getattr(args, 'electrical_bus', False)
     if getattr(args, 'cpu_profile', 'tv80') != 'tv80' and not enabled:
         raise ValueError('Experimental CPU profile requires electrical-bus observation')
+    if getattr(args, 'rom_read_envelope', False) and not enabled:
+        raise ValueError('ROM read envelope requires electrical-bus')
     caps = [getattr(args, name, None) for name in ('bus_latch_pf', 'bus_7406_pf')]
     if enabled:
         if not args.electrical_matrix or args.bypass_rom_bus or args.wr_only_data:
@@ -91,9 +93,15 @@ def prepare(args, report):
     report['tv80'] = source
     cpu_profile = getattr(args, 'cpu_profile', 'tv80')
     report.setdefault('assumptions', {})['cpuProfile'] = cpu_profile
+    report['assumptions']['romReadEnvelope'] = bool(getattr(args, 'rom_read_envelope', False))
+    if getattr(args, 'rom_read_envelope', False):
+        report.setdefault('sources', {})['eprom2716.v'] = sha(HERE / 'eprom2716.v')
+        report['assumptions']['romTimingBoundary'] = ('Intel 2716 450 ns-grade read envelope; '
+            'unspecified intervals propagate X. No U556 calibration or physical transition prediction; '
+            'the bridge unknown-drive voltage is a numerical surrogate, not a qualified pin voltage.')
     report.setdefault('sources', {})['cpu_read_phase_candidate.py'] = sha(HERE / 'cpu_read_phase_candidate.py')
     subprocess.run([sys.executable, str(HERE.parent / 'generate.py'), '--check'], check=True)
-    (out / 'controller_analog.v').write_text(generate_service(electrical_wr=electrical_wr, cpu_profile=cpu_profile) if electrical_bus else
+    (out / 'controller_analog.v').write_text(generate_service(electrical_wr=electrical_wr, cpu_profile=cpu_profile, rom_timing=getattr(args, 'rom_read_envelope', False)) if electrical_bus else
                                            generate(explicit_cpu_drive=True, resolved_bus=True))
     cpu_sources, report['cpuModel'] = circuit_sources(tv80, out, cpu_profile)
     hdl = [*cpu_sources, HERE.parent / 'chips.v',
@@ -405,6 +413,7 @@ def main():
     p.add_argument('--abstol', type=float, default=1e-12)
     p.add_argument('--electrical-wr', action='store_true', help='Electrical WR output into transistor clock gate; requires electrical bus and transistor outputs')
     p.add_argument('--electrical-bus', action='store_true')
+    p.add_argument('--rom-read-envelope', action='store_true', help='Conservative Intel 2716 read timing; requires electrical-bus')
     p.add_argument('--cpu-profile', choices=CIRCUIT_PROFILES, default='tv80')
     p.add_argument('--bus-latch-pf', type=float)
     p.add_argument('--bus-7406-pf', type=float)

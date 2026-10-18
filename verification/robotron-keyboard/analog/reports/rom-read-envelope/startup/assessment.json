@@ -1,0 +1,38 @@
+{
+  "completed": true,
+  "qualified": false,
+  "stopSeconds": 0.00115,
+  "solverDiagnostic": null,
+  "readCount": 39,
+  "busReadAndLatchRecordsMatchUntimedRomStartup": true,
+  "boundary": "Short live timer/bridge startup check with external service clock/reset; not full contact coverage, U556 calibration or physical ROM transition timing. X-drive voltages remain numerical surrogates.",
+  "busObservation": {
+    "passed": true,
+    "qualified": false,
+    "sampleCount": 39,
+    "waveform": {
+      "firstSeconds": 0.0,
+      "lastSeconds": 0.00115,
+      "rows": 255882
+    },
+    "memoryReads": 39,
+    "ioReads": 0,
+    "firstReadPs": 1002501000,
+    "lastReadPs": 1146501000,
+    "minimumLowMarginVolts": 0.8,
+    "minimumHighMarginVolts": 2.9175846746022582,
+    "setupNs": 0,
+    "holdNs": 0,
+    "boundary": "Sampled-voltage agreement and TV80 input-register confirmation only. Windows include bracketing trace samples. No between-sample excursion proof, U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing."
+  },
+  "retainedSha256": {
+    "run-inputs.json": "8299427f7f6ed6bfd6ef243f7c5caf9fd7f4d97fd9be7d36e7ba40f8fb166664",
+    "startup-deck-change.json": "c39c7cc9b6f35e691b092ea72f998e01e947ca1399b5c4e7e944846458d8fc3b",
+    "io.cir": "ca4b6f56bc0b63a53ffb36fa7ee0f2a2df9a4476b13bc8c652458a68f2bae998",
+    "ngspice.log": "1fe30c780d5135d40bc5d73ae9a4077bbe8dc263fe487d576442245c5adf7768",
+    "controller_analog.v": "8a1031fda8cc2e81938031fa376c16ed68905969090b36207f0c3801aea0c9be",
+    "candidate_tv80n.v": "fa3700e9efa8549f597b1eb0fb443373f846c871783f6a233244096ba0cf1733",
+    "candidate_tv80_core.v": "7b391e727276a0728cd5527fbd384da8646bd502d2d151b7c9b8545a8ac66292"
+  },
+  "uncompressedBusTraceSha256": "0620b904a486ec62cefa9260e4a792f7931aa84c34da254b9511d55f435fc15d"
+}

@@ -632,6 +632,23 @@ the fixture omits input bias, leakage, clamps and IC power behavior. It is not y
 calibrated. Run with `--bridge` and `--ngspice` as for the other live fixtures;
 results are retained in `reports/bus-feedback`.
 
+Both electrical-bus firmware harnesses accept `--rom-read-envelope` to replace
+instantaneous ROM output with the conservative read envelope in `eprom2716.v`.
+The [Intel 2716 table](https://www.theoddys.com/acorn/semiconductor_datasheets/2716%20Intel.pdf)
+(printed page 2-5, standard 450 ns grade) supplies address/CE access, OE access and
+output-float deadlines. Unspecified intervals propagate X; a later address glitch
+restarts access even when it returns to the same address. CE/OE and address pins
+come from the schematic. This is an optional reference timing model, not U556
+calibration: it assumes the published supply, temperature and test load, and does
+not predict an analog transition or programming behavior. The bridge's numerical
+voltage for X is not a qualified pin voltage. Reports retain the option and model
+hash. Executed HDL tests cover timing windows and CPU instruction execution;
+live mixed-signal timing remains unqualified. The retained
+[startup experiment](reports/rom-read-envelope/startup/assessment.json) exercises
+the timers through ngspice and preserves its voltage trace. Its sampled-read pass
+is specific to this envelope and unknown-drive surrogate; it does not resolve
+the baseline driver-model failures or qualify a complete firmware scenario.
+
 The service harness accepts `--electrical-bus --bus-latch-pf 12 --bus-7406-pf 3`
 to route S600/TV80 bus reads through this experimental model. The capacitances in
 this example are explicit fixture assumptions. This mode retains `bus-trace.txt`

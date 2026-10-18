@@ -67,11 +67,15 @@ class BootPreparationTests(unittest.TestCase):
             self.assertIn('wrdata wr-trace.txt v(n_WR_N)', deck)
             self.assertTrue(wr_report['assumptions']['electricalWr'])
             args.cpu_profile = 'falling-indexed-candidate'
+            args.rom_read_envelope = True
             candidate_report = {'assumptions': {'traceWindowSeconds': [.124, .127]}}
             with patch('boot_cosim.ROM_SHA256', sha(rom)):
                 prepare(args, candidate_report)
             self.assertEqual(candidate_report['assumptions']['cpuProfile'], args.cpu_profile)
             self.assertEqual(candidate_report['cpuModel']['profile'], args.cpu_profile)
+            self.assertTrue(candidate_report['assumptions']['romReadEnvelope'])
+            self.assertIn('eprom2716.v', candidate_report['sources'])
+            self.assertIn('eprom2716_read_envelope rom_access', (out / 'controller_analog.v').read_text())
             self.assertIn('cpu_read_phase_candidate.py', candidate_report['sources'])
             self.assertIn('cpu.delayed_read', (out / 'controller_analog.v').read_text())
             self.assertIn('candidate_tv80_core.v', candidate_report['cpuModel']['generatedSha256'])
