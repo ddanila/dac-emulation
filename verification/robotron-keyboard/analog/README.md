@@ -79,6 +79,9 @@ make qualify-keyboard-board-scenario S600_ROM=/path/to/s600.bin
 `boot_cosim.py` uses the onboard oscillator/reset with closed BRs. Matrix and
 output electrical options are explicit; defaults do not imply every interface
 is electrical. `--prepare-only` validates preparation, not simulation or behavior.
+Use `--capture-startup` to retain waveforms from time zero when reviewing reset
+and startup; a tail capture cannot prove events before its saved window. Allow
+for both simulation and trace output when setting the execution timeout.
 The paired target runs coarse/fine captures and applies qualification checks.
 Retained pairs can be checked separately:
 
@@ -118,17 +121,11 @@ pin-role and load-condition review; restricted model files stay local. A passing
 switching fixture with generic diodes does not establish equivalence to the
 manufacturer's fixture or historical DL000 behavior.
 
-For candidate-model diagnosis, use fresh output directories. Entry points expose
-arguments and defaults through `--help`; retained assessments identify the exact
-fixtures and commands used.
-
-| Question | Entry points |
-| --- | --- |
-| Does a candidate meet independent device conditions? | [ls00_validation_probe.py](ls00_validation_probe.py), [ls00_parameter_screen.py](ls00_parameter_screen.py), [ls00_rolloff_screen.py](ls00_rolloff_screen.py) |
-| Do admitted models start and recover in the oscillator? | [oscillator_family_probe.py](oscillator_family_probe.py), [oscillator_disturbance.py](oscillator_disturbance.py) |
-| Which transfer branches and output currents occur? | [oscillator_transfer_probe.py](oscillator_transfer_probe.py), [ls00_transfer_fixture.py](ls00_transfer_fixture.py), [ls00_iv_probe.py](ls00_iv_probe.py) |
-| What explains a candidate's operating state? | [ls00_branch_probe.py](ls00_branch_probe.py), [ls00_branch_transient.py](ls00_branch_transient.py), [oscillator_ac_probe.py](oscillator_ac_probe.py), [oscillator_internal_probe.py](oscillator_internal_probe.py) |
-| Does an independent solver reproduce a transfer capture? | [xyce_transfer_fixture.py](xyce_transfer_fixture.py) |
+Candidate probes expose their arguments through `--help`; assessments retain
+fixture settings and commands. Start with [ls00_validation_probe.py](ls00_validation_probe.py)
+for independent device conditions and [oscillator_family_probe.py](oscillator_family_probe.py)
+for admitted-model startup. Transfer, internal-state and independent-solver
+investigations are linked in the evidence index below.
 
 `oscillator_family_probe.py --validate-screen-only` checks candidate admission
 without running oscillators. Admission requires explicit DC and switching passes,
@@ -141,15 +138,10 @@ guesses when the default DC solve selects another state. It still rejects a
 mismatched observed plateau. Loaded response ratios do not establish loop gain,
 stability or identical internal junction states.
 
-Preserve sweep direction and step refinement when comparing transfer curves;
-coarse agreement can miss branches. Keep device condition sets separate: a failure
-under one device's limits does not automatically reject another device. Retained
-fixture interpretations and comparisons are indexed below.
-
-These probes never select a board default. A parameter grid is not a measured
-process range or a continuous robustness proof. DC source-current sign changes
-identify candidate equilibria; interpolation across a branch jump does not prove
-an operating point. Loaded slopes describe that branch, not AC gain or stability.
+Preserve sweep direction and step refinement when comparing transfer branches.
+Interpolation across a branch jump does not prove an operating point, and loaded
+slopes do not establish AC gain or stability. Candidate probes do not select a
+board default; a parameter grid is not a measured process range.
 
 ## Bus and CPU boundaries
 
@@ -226,7 +218,8 @@ index below owns links to current coverage and convergence results.
 
 `host-trace.txt` separates cable, buffer-input and buffer-output voltages. Service
 reviews require the complete service interval. Board input reviews cover only the
-recorded window, preserve producer failures and make no startup-voltage claim.
+declared capture window and preserve producer failures. Startup review requires
+a capture beginning at time zero; a tail capture supplies no earlier voltage evidence.
 Both paired electrical qualifiers reject experimental host-buffer runs pending
 device, voltage and timing qualification.
 
@@ -265,10 +258,10 @@ settings, results and rejected alternatives; related captures remain in
 
 | Qualification question | Evidence and boundary |
 | --- | --- |
-| Does the host-loaded closed board complete? | [Closed-board execution review](reports/board-host-load/assessment.json); the bounded full run timed out, while an unchanged-circuit startup diagnostic completed. Neither establishes full-board acceptance. |
+| Does the host-loaded closed board complete? | [Completed capture](reports/board-host-load-long/assessment.json); the scenario reaches its endpoint, but the saved window misses reset release and the receiver observer is obsolete. Startup-inclusive capture and corrected sampling remain required. |
 | Does corrected host sampling cover service scenarios? | [Single press](reports/firmware-host-rising-load-fine/assessment.json), fixed-spacing [reset](reports/firmware-host-rising-reset-minbreak-fine/assessment.json) and [modifier](reports/firmware-host-rising-modifier-minbreak-fine/assessment.json) pairs pass packet coverage, sampled stability and serial-edge refinement. Remaining scenarios and device qualification are open. |
 | Do loaded voltage waveforms converge? | [Further refinement](reports/firmware-host-rising-load-refined/assessment.json) does not consistently reduce absolute-time differences; the [spacing control](reports/firmware-host-rising-load-minbreak-25ns/assessment.json) leaves those waveforms unchanged. |
-| What constrains the strict-tolerance failure? | [Transition audit](reports/firmware-host-rising-load-transition-audit/assessment.json) and [matched-control replay](reports/host-analog-driver-replay-matched-trtol/assessment.json) narrow the transition investigation. Preserving effective XSPICE truncation control also fails without HDL feedback; trajectory identity and the original cause remain unresolved. |
+| What constrains the strict-tolerance failure? | [Transition audit](reports/firmware-host-rising-load-transition-audit/assessment.json) and [matched-control replay](reports/host-analog-driver-replay-matched-trtol/assessment.json) narrow the transition investigation. [Tighter truncation](reports/firmware-host-strict-trtol-point1/assessment.json) and [KLU](reports/firmware-host-klu-strict/assessment.json) also fail. No tested control resolves the failure or establishes its physical cause. |
 | Does the independent solver resolve the loaded-driver transition? | [Mapped ngspice control](reports/host-driver-mapped-ngspice/assessment.json) changes transition voltages; [Xyce replay](reports/host-driver-mapped-xyce/assessment.json) aborts during startup before the target transition. Neither establishes waveform equivalence or a shared failure mechanism. |
 | Does the service configuration work? | [Service repeat qualification](reports/repeat/refined-strict-time/qualification/qualification.json); externally supplied clock/reset do not qualify closed-board startup. |
 | Is startup numerically converged? | [Full-precision supply isolation](reports/clock-output/full-precision-supply-isolation/assessment.json) and [independent solver replay](reports/clock-output/xyce-recorded-supply/assessment.json); retain absolute phase and failing startup. |
