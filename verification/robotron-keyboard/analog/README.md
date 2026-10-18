@@ -824,7 +824,10 @@ R10.3 to raise the CPU clock toward the supply. `clock_output_probe.py` checks
 that path through BR1 with the reference maximum CPU capacitance; the older
 resistive-output models fail its U880 high-level check. Selected DL000 DC checks
 also pass, but neither test calibrates switching, package current or temperature
-behavior. The 560-ohm pullup can demand more than the published 8 mA output test
+behavior. A [tight numerical refinement](reports/clock-output/tight-refinement/assessment.json)
+passes the short isolated phase gate with unchanged device parameters, but its
+clock period still violates the pinned U880 reference limit. This does not qualify
+coupled startup or the full board. The 560-ohm pullup can demand more than the published 8 mA output test
 current, so modeled clock levels do not establish guaranteed device corners.
 
 Timed contact recipes can also run with BR1/BR2 closed:

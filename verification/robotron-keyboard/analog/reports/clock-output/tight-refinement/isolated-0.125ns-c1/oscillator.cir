@@ -1,0 +1,23 @@
+Robotron reference oscillator; nominal LS-TTL model
+Vcc n_p5V 0 PWL(0 0 10n 5)
+.options reltol=1e-06 vntol=1e-08 abstol=1e-14
+.include ls_nand_nominal.cir
+R4.3 n_OSC1 n_OSC_RC 220
+C6 n_OSC_RC n_OSC2 {470p*1}
+R10.3 n_p5V n_CLK 560
+XA7_0 a7_unconnected_1 a7_unconnected_2 a7_unconnected_3 n_p5V 0 LS_NAND_NOMINAL
+XA7_1 n_OSC1 n_OSC1 n_OSC2 n_p5V 0 LS_NAND_NOMINAL
+XA7_2 n_OSC2 n_OSC2 n_OSC_OUT n_p5V 0 LS_NAND_NOMINAL
+XA7_3 n_OSC_RC n_OSC_RC n_OSC1 n_p5V 0 LS_NAND_NOMINAL
+RBR1 n_OSC_OUT n_CLK 1t
+Rcpu n_CLK 0 1g
+Ccpu n_CLK 0 10p
+Rfixture n_CLK 0 10
+.control
+set wr_singlescale
+set wr_vecnames
+tran 0.125n 20u
+wrdata trace.txt v(n_OSC_OUT) v(n_CLK) v(n_OSC_RC) v(n_OSC1) v(n_OSC2)
+quit
+.endc
+.end
