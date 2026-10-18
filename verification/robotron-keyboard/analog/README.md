@@ -124,6 +124,7 @@ For candidate-model diagnosis, use fresh output directories and the probes' `--h
 | Test every surviving candidate after verifying its receipts | `oscillator_family_probe.py --screen /path/to/screen --out /path/to/run` |
 | Compare forward/reverse DC branches with schematic loading | `oscillator_transfer_probe.py --model /path/to/candidate.cir --out /path/to/run` |
 | Check isolated-gate internal currents and numerical-conductance sensitivity | `ls00_branch_probe.py --model /path/to/candidate.cir --gmin 1e-15 --out /path/to/run` |
+| Check finite input-disturbance recovery on both branches | `ls00_branch_transient.py --model /path/to/candidate.cir --out /path/to/run` |
 
 These probes never select a board default. A parameter grid is not a measured
 process range or a continuous robustness proof. DC source-current sign changes
@@ -189,6 +190,7 @@ git history without a second chronological narrative here.
 | [Device parameter screen](reports/clock-output/ls00-parameter-validation/assessment.json), [oscillator family](reports/clock-output/ls00-family-oscillator/assessment.json) | Passing isolated device checks does not establish sustained oscillation or DL000 applicability |
 | [Loaded transfer comparison](reports/clock-output/ls00-transfer/assessment.json), [bidirectional branches](reports/clock-output/ls00-branches/assessment.json) | Branch-dependent solutions require circuit and solver diagnosis; they are not measured device hysteresis |
 | [Isolated-gate current balance](reports/clock-output/ls00-internal-kcl/assessment.json) | Both branches persist with reduced numerical conductance and pass reported-current KCL; this does not prove stability or physical hysteresis |
+| [Branch perturbation recovery](reports/clock-output/ls00-branch-perturbation/assessment.json) | Both branches recover after the tested input disturbances; plateau refinement is not full transient convergence or a general stability proof |
 | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json), [floating-read analysis](reports/floating-io/static-analysis.json) | Functional agreement does not qualify the released input voltage |
 | [Reset dip response](reports/reset-brownout/report.json) | No sampled low CPU reset at valid supply during recovery in this fixture; reliable restart remains unproved |
 
