@@ -127,6 +127,7 @@ For candidate-model diagnosis, use fresh output directories and the probes' `--h
 | Check finite input-disturbance recovery on both branches | `ls00_branch_transient.py --model /path/to/candidate.cir --out /path/to/run` |
 | Check complete-oscillator recovery after finite current disturbances | `oscillator_disturbance.py --model /path/to/candidate.cir --out /path/to/run` |
 | Check the photographed K555LA3 device’s selected DC passport conditions | `ls00_validation_probe.py --device k555la3 --model /path/to/candidate.cir --out /path/to/run` |
+| Compare small-signal response at an observed transient plateau | `oscillator_ac_probe.py --model /path/to/candidate.cir --transient /path/to/disturbance-capture --out /path/to/run` |
 | Capture forced-output I/V beyond the rated-load endpoints | `ls00_iv_probe.py --model /path/to/candidate.cir --out /path/to/run` |
 | Screen high-current gain rolloff with DC and switching holdouts | `ls00_rolloff_screen.py --model /path/to/candidate.cir --out /path/to/run` |
 | Screen sink base/collector/emitter resistance assumptions with the same holdouts | `ls00_rolloff_screen.py --parameter RB` (or `RC`, `RE`) with the model/output arguments above |
@@ -136,6 +137,11 @@ without running oscillators. Admission requires explicit DC and switching passes
 complete hash-matched reports and matching model identities. The retained
 [admission audit](reports/clock-output/device-admission/assessment.json) links
 those checks to the previously screened oscillator families.
+
+`oscillator_ac_probe.py --seed-transient-op` uses observed voltages as initial
+guesses when the default DC solve selects another state. It still rejects a
+mismatched observed plateau. Loaded response ratios do not establish loop gain,
+stability or identical internal junction states.
 
 These probes never select a board default. A parameter grid is not a measured
 process range or a continuous robustness proof. DC source-current sign changes
@@ -207,6 +213,7 @@ git history without a second chronological narrative here.
 | [Sink-resistance screen](reports/clock-output/ls00-sink-resistance/assessment.json) | Reduced forced-output current with passing isolated checks still does not establish sustained oscillation or calibrated junction parameters |
 | [Complete-oscillator disturbance](reports/clock-output/oscillator-disturbance/assessment.json) | Tested current pulses return these candidates to nonoscillating plateaus; this does not rule out every startup path or establish physical stability |
 | [A7 identity and K555LA3 DC checks](reports/clock-output/k555la3-device-review/assessment.json) | Primary K555LA3 and comparison D100D remain separate; selected passport DC passes do not qualify oscillator behavior or the TI switching fixture |
+| [Matched-plateau AC response](reports/clock-output/oscillator-ac/assessment.json) | Second-stage attenuation narrows device diagnosis; a different default DC branch and an incomplete pole search remain rejected evidence |
 | [Electrical-bus assessment](reports/rom-read-envelope/electrical-bus/assessment.json), [floating-read analysis](reports/floating-io/static-analysis.json) | Functional agreement does not qualify the released input voltage |
 | [Reset dip response](reports/reset-brownout/report.json) | No sampled low CPU reset at valid supply during recovery in this fixture; reliable restart remains unproved |
 
