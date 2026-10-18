@@ -15,6 +15,7 @@ from circuit import load
 from controller_interface import generate
 from electrical_bus_interface import generate_service
 from bus_driver import wiring as bus_wiring
+from bus_observation import measure as measure_bus
 from transient_analysis import with_minimum_breakpoint
 from model_coverage import classify_service
 from cpu_control import wiring as cpu_wiring
@@ -107,7 +108,7 @@ def main():
                                      bus7406Pf=args.bus_7406_pf,
                                      busDriver='Linear 5 V DC-endpoint stress fixture; no calibrated I/V or leakage')
         report['sources'].update({name: sha(HERE / name) for name in (
-            'electrical_bus_interface.py', 'bus_driver.py', 'bus_load.py', 'bus_inventory.py', 'bus_limits.json')})
+            'electrical_bus_interface.py', 'bus_driver.py', 'bus_load.py', 'bus_inventory.py', 'bus_limits.json', 'bus_observation.py')})
     try:
         scenario = load_scenario(args.scenario)
         report['assumptions']['scenario'] = scenario
@@ -265,11 +266,13 @@ def main():
                 for data in iter(lambda: stream.read(1024 * 1024), b''):
                     digest.update(data)
             report['busTraceSha256'] = digest.hexdigest()
-            report['busQualification'] = 'Pending firmware bus timing and electrical observation checks; serial agreement alone is insufficient'
+            report['busQualification'] = 'Sampled-voltage and TV80-register checks do not qualify U880 pin timing or calibrated electrical behavior'
         verify_runtime(report['ngspiceRuntime'])
         log = (out / 'ngspice.log').read_text()
         if solver_diagnostic(log):
             raise ValueError('Solver/HDL diagnostics: inspect ngspice.log')
+        if args.electrical_bus:
+            report['busObservation'] = measure_bus(log, out / 'bus-trace.txt', args.step_ns, args.rom.read_bytes())
         report['resetDelivery'] = validate_service_reset(log, scenario, args.rom.read_bytes()[0])
         report['serialTransport'] = validate_transport(log, require_activity=True)
         received_bits = [bit for _, bit in report['serialTransport']['received']]
@@ -314,8 +317,10 @@ def main():
             report['resetFailure'] = error.details
         report['error'] = str(error)
         names = ['ngspice.log', 'trace.txt', 'led-trace.txt']
+        if args.electrical_bus:
+            names.append('bus-trace.txt')
         if args.compress_traces:
-            names += [name + suffix for name in ('trace.txt', 'led-trace.txt') for suffix in ('.xz', '.xz.partial')]
+            names += [name + suffix for name in list(names) if name.endswith('trace.txt') for suffix in ('.xz', '.xz.partial')]
         report['failureArtifacts'] = capture_failure(out, names)
         raise
     finally:

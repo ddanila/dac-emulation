@@ -635,8 +635,11 @@ results are retained in `reports/bus-feedback`.
 The service harness accepts `--electrical-bus --bus-latch-pf 12 --bus-7406-pf 3`
 to route S600/TV80 bus reads through this experimental model. The capacitances in
 this example are explicit fixture assumptions. This mode retains `bus-trace.txt`
-and source provenance; it does not change the default bus path. Firmware bus
-timing and voltage checks remain unfinished, so the paired firmware qualifier
+and source provenance; it does not change the default bus path. `bus_observation.py`
+checks sampled voltages, mapped ROM bytes and TV80 input-register confirmations.
+It rejects unknown data, missing observations and waveform gaps. TV80's sampling
+edge is not a substitute for the U880's distinct M1 and M2–M5 pin timing.
+Physical bus timing checks remain unfinished, so the paired firmware qualifier
 rejects this mode rather than treating serial agreement as bus qualification.
 
 `bus_load.wiring()` generates pin capacitances from the inventory, using published

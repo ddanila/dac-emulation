@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "qualified": false,
+  "scope": "Short S600 startup at TV80 sampling points; no full scenario or physical U880 edge timing qualification",
+  "busObservation": {
+    "passed": true,
+    "qualified": false,
+    "sampleCount": 2,
+    "memoryReads": 2,
+    "ioReads": 0,
+    "firstReadPs": 1002501000,
+    "lastReadPs": 1006501000,
+    "minimumLowMarginVolts": 0.8,
+    "minimumHighMarginVolts": 2.92372485,
+    "setupNs": 0,
+    "holdNs": 0,
+    "boundary": "Sampled-voltage agreement and TV80 input-register confirmation only. Windows include bracketing trace samples. No between-sample excursion proof, U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing."
+  },
+  "sixtyNsDiagnosticWindow": {
+    "passed": true,
+    "qualified": false,
+    "sampleCount": 2,
+    "memoryReads": 2,
+    "ioReads": 0,
+    "firstReadPs": 1002501000,
+    "lastReadPs": 1006501000,
+    "minimumLowMarginVolts": 0.8,
+    "minimumHighMarginVolts": 2.9208649600000003,
+    "setupNs": 60,
+    "holdNs": 0,
+    "boundary": "Sampled-voltage agreement and TV80 input-register confirmation only. Windows include bracketing trace samples. No between-sample excursion proof, U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing."
+  },
+  "files": {
+    "controller_analog.v": {
+      "rawSha256": "c8def1e9912498509c32c80a716aef39cdd2792fa38311ce0da4f47d1bf59217"
+    },
+    "io.cir": {
+      "rawSha256": "0fabc9eb6d310b47ea3855c92c480a4f126dfba41b9c6a707644501f9ebb19ff"
+    },
+    "run-inputs.json": {
+      "rawSha256": "f0522e6adb41b651b682421103c753869a53e941c8ac04314781e32e504c4b67"
+    },
+    "scope.json": {
+      "rawSha256": "66956bed45ee8d3076c81c27c94c0df4e6457ec8b712d6aa0962023ac5e828c5"
+    },
+    "ngspice.log": {
+      "rawSha256": "c06a54a7a343be0f8f1673e80efb8281de36ce4e098e3f0edba1a53ef2343d0f"
+    },
+    "bus-trace.txt": {
+      "rawSha256": "7e18bf0cbc4639973930515286e241da2b85b05e347ff32ec460950dda65e346",
+      "compressedSha256": "afe6c8f89e30011c8e2a6dc1da52913b7dbc29dad4c25edd84e5afd3403c60b5"
+    },
+    "trace.txt": {
+      "rawSha256": "b5833643e0a908106162afdc6d71d40bd854421898f91592923c2881e617c228",
+      "compressedSha256": "e1d9c53844629f937dc177e71d4107fd173a0bc7ce860c3433e670e68184ae93"
+    }
+  }
+}
