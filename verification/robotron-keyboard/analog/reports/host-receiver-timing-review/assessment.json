@@ -1,0 +1,72 @@
+{
+  "qualified": false,
+  "scope": "Independent receiver timing evidence; no transfer of Zilog limits to U856 silicon",
+  "sources": [
+    {
+      "id": "zilog-sio-manual",
+      "url": "https://computers.baffa.tec.br/pages/datasheet/zilog_z80_sio_Technical_Manual.pdf",
+      "sha256": "b71639441394e83a4974dc893f1240637cd0c68a7d416de43a923a0f9bc69869",
+      "publisher": "Zilog",
+      "title": "Z80-SIO Technical Manual",
+      "locators": {
+        "schmitt": "PDF page 10, printed page 4",
+        "serialTiming": "PDF page 50, printed page 44",
+        "dc": "PDF page 51, printed page 45"
+      },
+      "findings": {
+        "x1ReceiveSetupMinimumNs": 0,
+        "x1ReceiveHoldMinimumNs": 140,
+        "serialClockPeriodMinimumNs": 400,
+        "serialClockHighLowMinimumNs": 180,
+        "interpretation": "RxC/TxC use Schmitt buffering with no specified noise margin. DC tables distinguish clock and ordinary input levels but do not explicitly map those rows to RxC. These are Zilog device conditions, not independently guaranteed U856 parameters."
+      }
+    },
+    {
+      "id": "u856-short-sheet",
+      "url": "https://hjs.lima-city.de/DDR/index.php?pdf=U856",
+      "sha256": "60d58489d1bfa01fd7c259878e181581a999a94b3f998d411ad0c78dc45e3aa4",
+      "title": "U856 D short sheet",
+      "publisher": "Not identified in the extracted pages",
+      "locators": {
+        "pinRoles": "PDF pages 1-2",
+        "static": "PDF page 3",
+        "clockTiming": "PDF page 4"
+      },
+      "interpretation": "Separates system clock C from serial clocks in pin roles, but static clock rows do not enumerate applicable pins. Broad TTL compatibility does not resolve that ambiguity. No explicit hysteresis thresholds found; no new U856 limit adopted."
+    }
+  ],
+  "screen": {
+    "requiredSetupHoldNs": 140,
+    "meaning": "Symmetric 140 ns sampled-stability screen also exceeds the Zilog zero-setup requirement. Uses existing voltage boundaries and observed receiver edges. No between-sample, switching-threshold, supply or specimen qualification."
+  },
+  "nextAction": "Apply the independent timing screen to remaining completed host scenarios; continue seeking pin-specific U856 electrical evidence before promoting threshold assumptions.",
+  "evidence": {
+    "coarse": {
+      "review": "coarse-margins.json",
+      "producer": "../firmware-host-rising-load/report.json"
+    },
+    "fine": {
+      "review": "fine-margins.json",
+      "producer": "../firmware-host-rising-load-fine/report.json"
+    }
+  },
+  "observations": {
+    "coarse": {
+      "minimumSampledSetupNs": 2467.708973091093,
+      "minimumSampledHoldNs": 494.16981452374273,
+      "requiredSetupHoldNs": 140.0,
+      "withinBudget": true
+    },
+    "fine": {
+      "minimumSampledSetupNs": 2467.785162038605,
+      "minimumSampledHoldNs": 493.4205465705055,
+      "requiredSetupHoldNs": 140.0,
+      "withinBudget": true
+    }
+  },
+  "interpretation": "Both retained single-press timesteps pass the stronger sampled-stability screen. This constrains timing under the existing receiver-edge and voltage assumptions; it does not qualify U856 thresholds, full voltage convergence or the host device model.",
+  "retainedFilesSha256": {
+    "fine-margins.json": "18614ac259449c5bfed7e8123488295c9b3d4602ec90c1d289c8e297a296b15e",
+    "coarse-margins.json": "0c7589fff0256e591b39a560d3ecbe6110e3dda75f21675004f7085a386b6ec5"
+  }
+}
