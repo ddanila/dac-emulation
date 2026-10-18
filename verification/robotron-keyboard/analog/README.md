@@ -1157,3 +1157,6 @@ The [retained pullup-model result](reports/clock-output/gate-switching-pullup/re
 converges and meets the selected delay maxima. Its generic fixture diodes have not
 been established as 1N3064 equivalents; this is not DL000 switching calibration or
 oscillator-startup qualification. The existing gate model is unchanged.
+CI runs this fixture with `--require-limits`, which rejects delay-limit or timestep
+convergence failures while retaining the diagnostic report. This regression gate
+does not promote the model to device qualification.
