@@ -11,12 +11,16 @@
     "mpfr512": "512/report.json",
     "mpfr512StateReview": "512/state-review.json",
     "gearMpfr256": "gear-256/options-review.json",
-    "inductorStampReview": "256/inductor-stamps.json"
+    "inductorStampReview": "256/inductor-stamps.json",
+    "gearMpfr512": "gear-512/report.json",
+    "gearPrecisionVoltages": "gear-512/voltage-comparison.json",
+    "gearMpfr256Fine": "gear-256-fine/report.json",
+    "gearFineState": "gear-256-fine/state-review.json"
   },
   "interpretation": "The disabled runtime reproduces baseline waveform bytes and failure. MPFR256 from initialization also fails near the original transition, without a precision guard rejection. Higher-precision real linear arithmetic alone has not resolved the recorded-stimulus replay. Binary64 device stamping, nonlinear evaluation and integration remain separate numerical boundaries; neither device validity nor a physical cause follows from this result. Selected MPFR256 solves agree with independent Decimal160 solutions to binary64 rounding scale. The final Newton trial converges, then L1.4 flux-history truncation requests a step below the configured minimum. Exact arithmetic on the logged history yields the same proposal. Final audited voltages no longer show the original extreme linear-solve errors; this does not establish physically valid dynamics. Gear with MPFR256 reaches the recorded-stimulus endpoint without solver diagnostics after excluding an exact informational options heading; the original producer report is preserved. Neither Gear alone nor MPFR with trapezoidal integration completes this fixture. This combined numerical result remains unqualified pending refinement and coupled replay.",
   "build": "Apply ngspice-47-linear-state-audit.patch to the original ngspice-47 source first. build.py copies that source and applies the incremental ngspice-47-mpfr-linear.patch; check_build.py validates the adapter and records runtime provenance.",
   "boundary": "MPFR replaces real linear arithmetic only. Device stamping, nonlinear evaluation, integration and simulator states remain binary64. No tolerances or circuit physics are relaxed. This recorded-stimulus replay is not full coupled firmware qualification.",
-  "nextAction": "Complete Gear/MPFR512 precision control and Gear/MPFR256 timestep refinement; compare absolute-time host voltages before coupled replay. Refinement lowers ngspice-derived delmin alongside maximum step, as recorded in each receipt.",
+  "nextAction": "Investigate integration/state-history sensitivity and missing device switching dynamics. Keep the successful coarse replay separate from the failed refinement; do not promote it to a qualified coupled-board default.",
   "retainedFilesSha256": {
     "build.py": "7bc876c6220ff2cef97c6ba54e2a63faf404033e9e2e81bf88ffad5af9c0cc90",
     "run.py": "4d732a346be734444671d24071577dc26e975f754fbf5486d155c9959348588a",
@@ -25,6 +29,12 @@
     "review_options.py": "130e6f2428838078a75c03490d9019e4f33d5f8fb8b40f9cda37fbb430566047",
     "review.py": "be968101cb5e639e8c87c9c0715b4ee1b83bfad44eb1d43b80c793863640f066",
     "inductor_stamps.py": "d2a1ebed62e745513efd57ad7f1bdd77466aca072267b5ed5b014601cc193e32",
+    "gear-256-fine/report.json": "f11b04be66de1e3a76094a7e4c9ecd24c9b3c4b02f141e86a9fe47d21424d2a1",
+    "gear-256-fine/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+    "gear-256-fine/ngspice.log.xz": "6ae0b8d813d54b573d3bc24f3d7890a32be16b932bbc797cdae2a2414fea0f2c",
+    "gear-256-fine/state-review.json": "ed2704bf3c963b616582af2245fe3c11966b61fc308c7983751ad75cbdd29030",
+    "gear-256-fine/voltage-comparison.log": "93b92fb91b98357fdbcd7ee0767e3b76d12f279c234ceb6733d04619f0917825",
+    "gear-256-fine/io.cir": "461550aa70be39ffcd9579178cd3c7f53d55593b6459dfeca741ccb2e272c7c3",
     "256/report.json": "a7179a2dba50f71d9eef3cd9bbf91d9359c704c52c135840803b8bd031cd11f3",
     "256/inductor-stamps.json": "15d9adad26e29b8b19fff5511d4d25a06f430f892658b5bc0dfcb20f4b78adbb",
     "256/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
@@ -35,6 +45,11 @@
     "gear-off/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
     "gear-off/ngspice.log.xz": "83c2daa8142e2d10c9097184a7c5ebe3716c5894a1afba396bb5d6dc70da7079",
     "gear-off/io.cir": "503d713368f1902ae786012bddf3d44005cf2523b0ff9c2603bdd259396bfd64",
+    "gear-512/report.json": "1c2070411d9ef051c4ff316a4026e35c34b7afad0bc3043df039034f2fd50ef5",
+    "gear-512/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+    "gear-512/ngspice.log.xz": "eba60f86aa97ea917e96b82214c587a850c8d28879980a3510b1700227182b22",
+    "gear-512/io.cir": "503d713368f1902ae786012bddf3d44005cf2523b0ff9c2603bdd259396bfd64",
+    "gear-512/voltage-comparison.json": "6805dbaa9f5f217826bfe3a5abcb09c89b2e05fd52fa5be22f51947c798ca11f",
     "gear-256/report.json": "796e5436640ee39fc3c6b6857b96a38e46cd17da60fd46f086b1fb3237d26d66",
     "gear-256/options-review.json": "101547e2a279bdefedcbe6ad18cee3876b4cb5aab6a937464a1d871f3641b4f0",
     "gear-256/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
@@ -59,5 +74,19 @@
     },
     "solverDiagnosticIdentical": true,
     "interpretation": "Identical recorded trajectories and terminal failure at 256 and 512 bits. Doubling real linear arithmetic precision does not alter this replay; binary64 stamping and state integration remain unchanged."
+  },
+  "gearPrecisionComparison": {
+    "waveformsByteIdentical": {
+      "trace.txt": true,
+      "host-trace.txt": true,
+      "driver-trace.txt": true,
+      "boundary-trace.txt": true
+    },
+    "interpretation": "Both Gear precision captures reach the full recorded-stimulus endpoint. Absolute-time host-voltage differences are zero. This checks precision sensitivity only; timestep and device qualification remain open."
+  },
+  "gearRefinement": {
+    "completed": false,
+    "qualified": false,
+    "interpretation": "The 25 ns Gear/MPFR256 capture fails near the original transition; the 50 ns completion does not establish timestep convergence. The paired voltage review rejects the incomplete capture. Refinement changes the trajectory and engine-derived minimum step; no single failure cause is inferred."
   }
 }

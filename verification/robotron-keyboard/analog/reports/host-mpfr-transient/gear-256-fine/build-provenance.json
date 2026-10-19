@@ -1,0 +1,59 @@
+{
+  "source": "ngspice-47",
+  "scope": "Experimental MPFR real linear arithmetic; binary64 stamping and integration remain unchanged",
+  "basePatchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+  "patchSha256": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+  "kernelSha256": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+  "buildInputs": {
+    "configure": [
+      "/private/tmp/robotron-mpfr-transient/source/configure",
+      "--prefix=/private/tmp/robotron-mpfr-transient/install",
+      "--without-x",
+      "--with-readline=no",
+      "--disable-openmp",
+      "--disable-klu"
+    ],
+    "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+    "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+  },
+  "buildLogsSha256": {
+    "configure.log": "4a7378c67efddfbf1c43666b2261904c63db281e41284847dc3386caef439273",
+    "make.log": "658725523102e60d1a162adaa6648e665af78d347828b007d0ccab31405e581e"
+  },
+  "executableSha256": "9eab043d1a1a2c41ead0d756fb2c4d1ff3dcd9e6a02fd6b3cca812defd398741",
+  "libraries": {
+    "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+    "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "checks": {
+    "command": [
+      "clang",
+      "-O2",
+      "-I/private/tmp/robotron-mpfr-transient/source/src/include",
+      "-I/private/tmp/robotron-mpfr-transient/build/src/include",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-transient/check.c",
+      "/private/tmp/robotron-mpfr-transient/build/src/maths/sparse/.libs/libsparse.a",
+      "/private/tmp/robotron-mpfr-transient/build/src/misc/.libs/libmisc.a",
+      "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+      "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+      "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+      "-lmpfr",
+      "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+      "-lgmp",
+      "-o",
+      "/private/tmp/robotron-mpfr-transient/check"
+    ],
+    "sourceSha256": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+    "executableSha256": "42d5a38a0a257d8f5261f1086e58c32b5a1a20a1029735b9498dc3c0a9f29191",
+    "exitCode": 0,
+    "stdout": "pivot, reordered external coordinates, precision changes, reuse and diagonal Gmin pass\n",
+    "stderr": ""
+  },
+  "equationSourceSha256": {
+    "src/maths/ni/niiter.c": "059fb48cf2dbf3567dd65f56c1d2d611ac28ba899ed68d015078f34a86a6c785",
+    "src/maths/sparse/spsmp.c": "c0150e6886425ac3738f615305500431a1c922a8d4ca4c6ae23332b6d9ee07b0",
+    "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+    "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504"
+  }
+}
