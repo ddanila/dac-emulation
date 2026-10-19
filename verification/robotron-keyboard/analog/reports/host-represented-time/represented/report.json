@@ -1,0 +1,109 @@
+{
+  "qualified": false,
+  "completed": false,
+  "scope": "Controlled analog replay with exact rollback and optional represented integration intervals.",
+  "mode": "off",
+  "integrationArithmetic": "off",
+  "timeStepMode": "represented",
+  "timeStepPatchSha256": "c1bf6de99d158399b614a1e4616d7dee820865b4450dd2659919c7feb9453f12",
+  "integrationTransformerSha256": "a11bf4340695eb33ee1616a2b361f796bc73d2ef0c0768aeab28bde233fbf905",
+  "integration": {
+    "selection": "original",
+    "addedOptions": null
+  },
+  "timestep": {
+    "divisor": 1,
+    "sourceStepNs": 50.0,
+    "stepNs": 50.0,
+    "derivedMinimumStepSeconds": 5e-19,
+    "boundary": "ngspice traninit derives delmin as 1e-11 times the maximum step; refinement also lowers that numerical floor. Circuit tolerances and stimulus are unchanged."
+  },
+  "sourceDirectory": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/host-reference-node-control-vectors",
+  "sourceReportSha256": "fb076e26fe665f551831e7b730d6118c39c15c528de81312c858f2d808e47a13",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-represented-time/build/src/ngspice",
+      "sha256": "bf9941663d0a9acb6328babd5f2b5499a35f0ef8ce0d4396fa92fcd154b58268"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "stopSeconds": 0.001098014248435295,
+  "runnerSha256": "1125a87f643115476e3f68c01be1618678a2d501c36b927809286809c77cfc02",
+  "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+  "deckEqual": true,
+  "boundary": "Active time-step modes restore the exact saved base time on retries. Represented mode additionally uses the binary64 time difference for integration coefficients and history; rounded intervals cannot lower the configured floor unless the original request was already below it. Event instances and shared-library execution are rejected in active modes. NIintegrate companion history, derivative and diagonal arithmetic use MPFR256 when enabled. Stored state histories, integration coefficients, nonlinear device evaluation, truncation and other stamping remain binary64. Real linear precision is selected separately. Circuit physics and acceptance tolerances are unchanged. Recorded stimulus replay is not coupled firmware qualification.",
+  "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 8.13152e-20: trouble with xdata:ttl7406_input_npn-instance q.xdata.qinput",
+  "precisionGuardDiagnostics": [],
+  "exitCode": 0,
+  "waveforms": {
+    "trace.txt": {
+      "rows": 53495,
+      "lastSampleSeconds": 0.0010980122484064198,
+      "sourceIdentical": false
+    },
+    "host-trace.txt": {
+      "rows": 53495,
+      "lastSampleSeconds": 0.0010980122484064198,
+      "sourceIdentical": false
+    },
+    "driver-trace.txt": {
+      "rows": 53495,
+      "lastSampleSeconds": 0.0010980122484064198,
+      "sourceIdentical": false
+    },
+    "boundary-trace.txt": {
+      "rows": 53495,
+      "lastSampleSeconds": 0.0010980122484064198,
+      "sourceIdentical": false
+    }
+  },
+  "artifacts": {
+    "io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "build-provenance.json": "a9d0167e2d08edfe00346bf3529ed1ae9764e67135e20797b2aae0e8a934ce94",
+    "ngspice.log": "1fa235c7726ec51200d1b7cc2e4f589fd930b1aea8398b903652c472c173c657",
+    "trace.txt": "68762e5127194439c960ba2443d5a95da2b28886197ff4b2f7f06346a57b8b6c",
+    "host-trace.txt": "00e450a73384cbb5607fa54a8a5caa5f17bf4d0085d5b331757197c8b1b2c0cf",
+    "driver-trace.txt": "42c02629eee84fa2e2875395a91bc8fcbd4862eee92acea5e8bf30106b8d89d8",
+    "boundary-trace.txt": "4ae0938afdbd77dfd19d88a93b97f372ddf22c8a23ddb9d2eff91dbb01cec51f"
+  }
+}

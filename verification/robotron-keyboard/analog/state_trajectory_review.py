@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Match logged solver trials to saved cable-voltage samples without interpolation."""
 import argparse
+from collections import Counter
 import json
 import math
 from pathlib import Path
@@ -74,7 +75,8 @@ def review(audit, waveform, start, end, excursion):
     selected = [dict(t) for t in audit if start <= t['timeSeconds'] <= end]
     saved = {r[0]: r for r in waveform if start <= r[0] <= end}
     times = [t['timeSeconds'] for t in selected]
-    if not selected or not saved or len(times) != len(set(times)):
+    repeated_saved = {t for t, count in Counter(times).items() if count > 1} & set(saved)
+    if not selected or not saved or repeated_saved:
         raise ValueError('Missing window evidence or ambiguous repeated trial times')
     prior = [r[0] for r in waveform if r[0] < start]
     if not prior:

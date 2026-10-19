@@ -1,0 +1,61 @@
+{
+  "completed": false,
+  "qualified": false,
+  "scope": "Separate exact retry rollback and represented time intervals from integration and linear arithmetic precision",
+  "evidence": {
+    "disabledControl": "off/report.json",
+    "rollback": "rollback/report.json",
+    "representedTime": "represented/report.json",
+    "rollbackTrajectory": "rollback/trajectory-review.json",
+    "representedTrajectory": "represented/trajectory-review.json",
+    "runtimeAdmission": "runtime-check/report.json",
+    "helper": "../../engine-patches/represented_time_step.h",
+    "adapter": "../../engine-patches/ngspice-47-represented-time-step.patch",
+    "tests": "../../test_represented_time_step.py"
+  },
+  "interpretation": "With all experiments off, the rebuilt runtime reproduces all four baseline waveform hashes and the same failure. The actual runtime admits off/rollback/represented modes, rejects an invalid mode and matches a constant-current capacitor analytic solution. Exact rollback alone still fails near the original transition. Represented-time integration removes the measured time/step discrepancy in every audited trial but also fails, including large saved cable excursions. Time-step mismatch alone is therefore not a sufficient explanation or remedy. Combined represented time with MPFR integration and linear solving remains in progress.",
+  "boundary": "Experimental standalone analog-only runtime; event instances and shared execution are rejected in active modes. Device physics, circuit tolerances and requested minimum-step policy are preserved. Represented mode can round a trial endpoint upward by one time increment to avoid lowering the requested/configured floor. The pre-adjustment requested step controls the final minimum-step retry guard. State history, coefficients, time and nonlinear evaluation remain binary64. No board default or physical qualification follows.",
+  "nextAction": "Review the combined-precision replay. Require complete timestep refinement for any successful capture; retain failures and distinguish numerical controls from device calibration.",
+  "waveforms": {
+    "directories": [
+      "build/keyboard-controller-analog/host-represented-time-off",
+      "build/keyboard-controller-analog/host-represented-time-rollback",
+      "build/keyboard-controller-analog/host-represented-time-represented"
+    ],
+    "retention": "Full local waveforms verified against each producer receipt. Retained logs and reviews preserve the failed trajectories."
+  },
+  "retainedFilesSha256": {
+    "build.py": "990836b2cdf4935cab3f51fce92d0bc64c0a03df5dfd0da98cfa882a6ad5eeb3",
+    "run.py": "1125a87f643115476e3f68c01be1618678a2d501c36b927809286809c77cfc02",
+    "check_runtime.py": "7cdaebf360edbc5b0d624fb0f9eadbe5e47f337510a77ebf363c6dd92517fe55",
+    "represented/report.json": "4c6b5186b129b7516f8360bce26d940ba420616a9c27a773c6b30ef75eb5efe2",
+    "represented/build-provenance.json": "a9d0167e2d08edfe00346bf3529ed1ae9764e67135e20797b2aae0e8a934ce94",
+    "represented/trajectory-review.json": "3056469816e93f0459b04ddb0ddf453f708a9899c3d65e0e3afe6480543956ad",
+    "represented/ngspice.log.xz": "310c6c9425e66135f4afab2cc39755855b25c88d65abeddda8356027de030a1d",
+    "represented/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "rollback/report.json": "9f2eb920e4867bca792de1d72ad42685a45cc1f950c777429bd2cf308541896f",
+    "rollback/build-provenance.json": "a9d0167e2d08edfe00346bf3529ed1ae9764e67135e20797b2aae0e8a934ce94",
+    "rollback/trajectory-review.json": "49b8b873a9326a21cc1563df2d9aed03f04e8a904a884c10a4399e42b85d669c",
+    "rollback/ngspice.log.xz": "b40e4e412ad60f777818805deffceccc2e50ebaef94c69cc9c633f1e0530d286",
+    "rollback/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "runtime-check/report.json": "3da4f154e1dce15022577bf432cff09d59413d49e1f22df73ca892700aec487a",
+    "runtime-check/unset/check.cir": "6f924b5e0006154bc7a737e390b0c9978b3962f432c2b8c110bee5bc3b939307",
+    "runtime-check/unset/ngspice.log": "f323094d7648b11ccf8b9e166d87456c1bc5c0afb4ca9d9864989403cc813616",
+    "runtime-check/unset/trace.txt": "4a515c98e267f128f8f0d443468881967f8eae08e53a7d66b958ea4527414965",
+    "runtime-check/represented/check.cir": "6f924b5e0006154bc7a737e390b0c9978b3962f432c2b8c110bee5bc3b939307",
+    "runtime-check/represented/ngspice.log": "9871cec796858bde5a89194a7973a77204a16f7c58a6dae2b03bd680a55ac284",
+    "runtime-check/represented/trace.txt": "0cdf6bd701667ca7e1b9251d1706578097341233c1c65f3665db8b32951b14b6",
+    "runtime-check/invalid/check.cir": "6f924b5e0006154bc7a737e390b0c9978b3962f432c2b8c110bee5bc3b939307",
+    "runtime-check/invalid/ngspice.log": "5d44cf90f6e5cbb740398dc6551166fa2597cd0daf90e9cb1186958ad90270fa",
+    "runtime-check/rollback/check.cir": "6f924b5e0006154bc7a737e390b0c9978b3962f432c2b8c110bee5bc3b939307",
+    "runtime-check/rollback/ngspice.log": "0adc040a30ef6ca761dd8997d0deb69cdc6a40dd3277d4bb3110db6b3e45387d",
+    "runtime-check/rollback/trace.txt": "4a515c98e267f128f8f0d443468881967f8eae08e53a7d66b958ea4527414965",
+    "runtime-check/off/check.cir": "6f924b5e0006154bc7a737e390b0c9978b3962f432c2b8c110bee5bc3b939307",
+    "runtime-check/off/ngspice.log": "f323094d7648b11ccf8b9e166d87456c1bc5c0afb4ca9d9864989403cc813616",
+    "runtime-check/off/trace.txt": "4a515c98e267f128f8f0d443468881967f8eae08e53a7d66b958ea4527414965",
+    "off/report.json": "fef92fa2cc3a41116c2c20d81be4489b88a1ff7d3549fc104a14856ab21e69b2",
+    "off/build-provenance.json": "a9d0167e2d08edfe00346bf3529ed1ae9764e67135e20797b2aae0e8a934ce94",
+    "off/ngspice.log.xz": "4ea2423ab4ad98c7a04aaeaf52890b51f9df9d78393052173da983853d3d5a75",
+    "off/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95"
+  }
+}
