@@ -45,7 +45,7 @@ class ReferenceNodeTests(unittest.TestCase):
         self.assertEqual(original['host_receiver_5v']-original['host_receiver_gnd'],
                          shifted['host_receiver_5v']-shifted['0'])
         self.assertEqual(mapping['observations'][0]['transformed'],
-                         ['v(out,board_reference)', 'v(host_receiver_5v,0)', 'i(Vhost)'])
+                         ['v(out,board_reference)', 'v(host_receiver_5v)', 'i(Vhost)'])
 
     def test_substrate_is_old_global_ground_not_local_emitter(self):
         shifted, _ = transform(FIXTURE, True)
@@ -55,7 +55,8 @@ class ReferenceNodeTests(unittest.TestCase):
         control, mapping = transform(FIXTURE, False)
         self.assertNotIn('.global', control)
         self.assertIn('Q1 y a g 0 NPN_MODEL', control)
-        self.assertIn('v(out,0)', control)
+        self.assertIn('v(out)', control)
+        self.assertNotIn('v(out,0)', control)
         self.assertEqual(mapping['mappedNodeOccurrences'], 0)
 
     def test_reject_implicit_or_unreviewed_interfaces(self):
