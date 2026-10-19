@@ -1,0 +1,42 @@
+{
+  "completed": true,
+  "producerPassed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "37e6e31b2393c069c7fbde3cbd3152190cd923cc",
+  "scope": "Startup-inclusive closed-board S600 single-press capture with rising-RxC host observation",
+  "evidence": {
+    "producer": "report.json",
+    "inputs": "run-inputs.json",
+    "previousTailCapture": "../board-host-load-long/assessment.json"
+  },
+  "interpretation": "The producer completes from time zero and passes reset activity, first fetch, bit transport and scenario-window checks using rising RxC. This resolves the earlier capture-window and legacy-observer gaps. It does not qualify the board: the CPU clock never reaches the required high excursion in assessed valid-supply cycles, and the clock timing screen fails. Some later supply-valid intervals lack a fresh reset interval. Digital threshold crossings and matching bit intent cannot waive these electrical failures. Host input, clock-width and receiver-margin reviews are running separately.",
+  "nextAction": "Retain the pending host reviews, constrain oscillator/CPU-clock levels and timing with independently applicable device models, and require completed refinement and remaining scenario/bus/supply qualification. A successful startup-inclusive producer run alone is not acceptance.",
+  "boundary": "Reference S600 and nominal unqualified device/loading assumptions; CPU/peripheral buses remain digital. No C ordinal comparison or exact U880 timing claim. Both entire simulation and saved waveform begin at zero. No specimen qualification.",
+  "waveforms": {
+    "directory": "build/keyboard-controller-analog/board-host-rising-full-startup",
+    "identities": {
+      "trace.txt": {
+        "sha256": "8dd1380d1f186bf7ff825b936bc971ad2b0abd3e79600f753adc608306f0fd97",
+        "bytes": 5240930562
+      },
+      "supply-trace.txt": {
+        "sha256": "1c5a6959f2ee2ca9ca9b5ed28eebe193da9d2da3d7ad84098bcff774e301bd18",
+        "bytes": 2121329037
+      },
+      "host-trace.txt": {
+        "sha256": "59569e622e25fcaddefb2155de7a362852c40e8898172a28c00a5f0e746ded21",
+        "bytes": 7320665011
+      }
+    },
+    "retention": "Lossless local captures and producer hashes; diagnostic reviews independently verify the captures they consume."
+  },
+  "retainedFilesSha256": {
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+    "report.json": "dd08732646a117283e2d33ad8350e1aea4a81fee331b09201c2a45901a8bd1f9",
+    "run-inputs.json": "266779700a8437cfcb1f62028246623f0d8309291911c874d19f60ef5a150f76",
+    "boot.cir": "2397fba87688d26dd3b5bb7413e2bff565415df399c7827c9d4246be2d7dcc7a",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "ngspice.log.xz": "225dd7b2ff18b2f776506c679d56d4189d467e9c5b64ed6ec15ae07c0610f727",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282"
+  }
+}
