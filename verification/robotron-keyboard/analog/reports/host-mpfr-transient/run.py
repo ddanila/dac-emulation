@@ -14,7 +14,7 @@ sys.path.insert(0, str(ANALOG))
 from analog_driver_replay import sha
 from failure_evidence import solver_diagnostic
 from ngspice_runtime import identify, verify
-from integration_method_replay import prepare
+from integration_method_replay import prepare, refine_step
 
 
 TRACE_COLUMNS = {'trace.txt': 3, 'host-trace.txt': 7, 'driver-trace.txt': 2, 'boundary-trace.txt': 22}
@@ -23,6 +23,7 @@ TRACE_COLUMNS = {'trace.txt': 3, 'host-trace.txt': 7, 'driver-trace.txt': 2, 'bo
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
+    parser.add_argument('--step-divisor', type=int, choices=(1,2,4), default=1)
     parser.add_argument('--integration', choices=('original', 'gear', 'trap1'), default='original')
     parser.add_argument('--mode', choices=('off', '256', '512'), required=True)
     parser.add_argument('--runtime', type=Path, required=True)
@@ -53,15 +54,16 @@ def main():
     env['ROBOTRON_MPFR_BITS'] = args.mode
     out.mkdir(parents=True, exist_ok=False)
     deck, integration = prepare((source/'io.cir').read_text(), args.integration)
+    deck, timestep = refine_step(deck, args.step_divisor)
     (out/'io.cir').write_text(deck)
     shutil.copyfile(args.build_provenance, out/'build-provenance.json')
     report = {'qualified': False, 'completed': False, 'scope': __doc__, 'mode': args.mode,
               'integrationTransformerSha256': sha(ANALOG/'integration_method_replay.py'),
-              'integration': integration, 'sourceDirectory': str(source), 'sourceReportSha256': sha(source/'report.json'),
+              'integration': integration, 'timestep': timestep, 'sourceDirectory': str(source), 'sourceReportSha256': sha(source/'report.json'),
               'ngspiceRuntime': runtime, 'stopSeconds': parent['stopSeconds'],
               'runnerSha256': sha(__file__), 'patchSha256': sha(patch),
               'deckEqual': sha(source/'io.cir') == sha(out/'io.cir'),
-              'boundary': 'Identical analog-only circuit and sampled diagnostic stimulus; integration method/order changes are declared separately. Active modes solve each real Newton system in MPFR from the beginning, preserving binary64 stamping, diagonal Gmin loading and returned physical coordinates before Newton checks. Default circuit and nonlinear/temporal tolerances are unchanged. Not a coupled firmware run or physical qualification.'}
+              'boundary': 'Identical analog-only circuit and sampled diagnostic stimulus; integration method/order changes are declared separately. Active modes solve each real Newton system in MPFR from the beginning, preserving binary64 stamping, diagonal Gmin loading and returned physical coordinates before Newton checks. Circuit and nonlinear/truncation tolerance settings are unchanged; timestep refinement also changes the engine-derived minimum step as recorded. Not a coupled firmware run or physical qualification.'}
     try:
         verify(runtime)
         with (out/'ngspice.log').open('w') as log:
@@ -105,7 +107,7 @@ def main():
                                not report['precisionGuardDiagnostics'] and
                                all(abs(v['lastSampleSeconds']-parent['stopSeconds']) < 1e-15
                                    for v in report['waveforms'].values()))
-        if args.mode == 'off' and args.integration == 'original':
+        if args.mode == 'off' and args.integration == 'original' and args.step_divisor == 1:
             report['reproducedControl'] = (report['solverDiagnostic'] == parent['solverDiagnostic'] and
                                             all(v['sourceIdentical'] for v in report['waveforms'].values()))
             if not report['reproducedControl']:
