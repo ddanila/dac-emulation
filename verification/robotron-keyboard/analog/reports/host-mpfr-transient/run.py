@@ -14,6 +14,7 @@ sys.path.insert(0, str(ANALOG))
 from analog_driver_replay import sha
 from failure_evidence import solver_diagnostic
 from ngspice_runtime import identify, verify
+from integration_method_replay import prepare
 
 
 TRACE_COLUMNS = {'trace.txt': 3, 'host-trace.txt': 7, 'driver-trace.txt': 2, 'boundary-trace.txt': 22}
@@ -22,6 +23,7 @@ TRACE_COLUMNS = {'trace.txt': 3, 'host-trace.txt': 7, 'driver-trace.txt': 2, 'bo
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
+    parser.add_argument('--integration', choices=('original', 'gear', 'trap1'), default='original')
     parser.add_argument('--mode', choices=('off', '256', '512'), required=True)
     parser.add_argument('--runtime', type=Path, required=True)
     parser.add_argument('--build-provenance', type=Path, required=True)
@@ -50,14 +52,16 @@ def main():
             raise ValueError('Runtime initialization differs')
     env['ROBOTRON_MPFR_BITS'] = args.mode
     out.mkdir(parents=True, exist_ok=False)
-    shutil.copyfile(source/'io.cir', out/'io.cir')
+    deck, integration = prepare((source/'io.cir').read_text(), args.integration)
+    (out/'io.cir').write_text(deck)
     shutil.copyfile(args.build_provenance, out/'build-provenance.json')
     report = {'qualified': False, 'completed': False, 'scope': __doc__, 'mode': args.mode,
-              'sourceDirectory': str(source), 'sourceReportSha256': sha(source/'report.json'),
+              'integrationTransformerSha256': sha(ANALOG/'integration_method_replay.py'),
+              'integration': integration, 'sourceDirectory': str(source), 'sourceReportSha256': sha(source/'report.json'),
               'ngspiceRuntime': runtime, 'stopSeconds': parent['stopSeconds'],
               'runnerSha256': sha(__file__), 'patchSha256': sha(patch),
               'deckEqual': sha(source/'io.cir') == sha(out/'io.cir'),
-              'boundary': 'Identical analog-only replay circuit and sampled diagnostic stimulus. Active modes solve each real Newton system in MPFR from the beginning, preserving binary64 stamping, diagonal Gmin loading and returned physical coordinates before Newton checks. Default circuit and nonlinear/temporal tolerances are unchanged. Not a coupled firmware run or physical qualification.'}
+              'boundary': 'Identical analog-only circuit and sampled diagnostic stimulus; integration method/order changes are declared separately. Active modes solve each real Newton system in MPFR from the beginning, preserving binary64 stamping, diagonal Gmin loading and returned physical coordinates before Newton checks. Default circuit and nonlinear/temporal tolerances are unchanged. Not a coupled firmware run or physical qualification.'}
     try:
         verify(runtime)
         with (out/'ngspice.log').open('w') as log:
@@ -68,6 +72,12 @@ def main():
         observed = re.findall(r'^MPFR_DIAGNOSTIC bits=(-?\d+)$', text, re.M)
         if observed != ['0' if args.mode == 'off' else args.mode]:
             raise ValueError('Effective mode not confirmed')
+        if args.integration != 'original':
+            expected_method, expected_order = ('GEAR', '2') if args.integration == 'gear' else ('TRAPEZOIDAL', '1')
+            if (re.findall(r'^Integration Method = (\w+)$', text, re.M) != [expected_method] or
+                    re.findall(r'^MaxOrder = (\d+)$', text, re.M) != [expected_order]):
+                raise ValueError('Effective integration method/order not confirmed')
+            report['effectiveIntegrationVerified'] = True
         prefixes = ('TRUNC_AUDIT ', 'TRANSITION_AUDIT ', 'NODE_AUDIT ', 'INDUCTOR_AUDIT ', 'LINEAR_AUDIT ')
         messages = '\n'.join(line for line in text.splitlines() if not line.startswith(prefixes))
         report['solverDiagnostic'] = solver_diagnostic(messages)
@@ -95,7 +105,7 @@ def main():
                                not report['precisionGuardDiagnostics'] and
                                all(abs(v['lastSampleSeconds']-parent['stopSeconds']) < 1e-15
                                    for v in report['waveforms'].values()))
-        if args.mode == 'off':
+        if args.mode == 'off' and args.integration == 'original':
             report['reproducedControl'] = (report['solverDiagnostic'] == parent['solverDiagnostic'] and
                                             all(v['sourceIdentical'] for v in report['waveforms'].values()))
             if not report['reproducedControl']:
