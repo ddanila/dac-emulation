@@ -27,7 +27,7 @@ def summarize(log):
             fields = dict(item.split('=', 1) for item in line.split()[1:])
             trials[-1]['nodes'][fields['name']] = {
                 key: float.fromhex(fields[key]) for key in ('rhs', 'oldrhs')}
-        elif trials and line.startswith('INDUCTOR_AUDIT ', 'LINEAR_AUDIT '):
+        elif trials and line.startswith('INDUCTOR_AUDIT '):
             fields = dict(item.split('=', 1) for item in line.split()[1:])
             trials[-1]['inductors'].append({key: value if key == 'name' else
                 int(value) if key in ('state', 'order') else float.fromhex(value)
@@ -94,7 +94,7 @@ def main():
         report['waveformsEqual'] = {name: sha(out/name) == parent['artifacts'][name] for name in
                                    ('trace.txt', 'host-trace.txt', 'driver-trace.txt', 'boundary-trace.txt')}
         report['nodeAuditRecords'] = sum(line.startswith('NODE_AUDIT ') for line in log_text.splitlines())
-        report['inductorAuditRecords'] = sum(line.startswith('INDUCTOR_AUDIT ', 'LINEAR_AUDIT ') for line in log_text.splitlines())
+        report['inductorAuditRecords'] = sum(line.startswith('INDUCTOR_AUDIT ') for line in log_text.splitlines())
         report['reproducedEvidence'] = (report['deckEqual'] and report['diagnosticEqual'] and
                                        all(report['waveformsEqual'].values()) and report['nodeAuditRecords'] > 0)
         if not report['reproducedEvidence']:
