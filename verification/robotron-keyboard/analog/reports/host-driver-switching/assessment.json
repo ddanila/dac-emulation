@@ -5,7 +5,8 @@
   "evidence": {
     "producer": "report.json",
     "captures": "captures.tar.gz",
-    "conditions": "../../ttl7406_switching_limits.json"
+    "conditions": "../../ttl7406_switching_limits.json",
+    "vendorAdmission": "../host-driver-vendor-review/assessment.json"
   },
   "interpretation": "The measured delay brackets refine within the declared numerical budget. The fast-edge candidate is much faster than the published typical delays; the slower permitted edge produces an output falling threshold crossing before the input midpoint. This fails the diagnostic nonnegative-delay screen, not a published TI minimum. Maximum-delay compliance alone does not establish device dynamics, and typical values do not uniquely determine semiconductor parameters.",
   "nextAction": "Constrain charge-storage and junction-capacitance candidates using independent switching evidence and retained DC checks before testing them in the board; do not choose parameters only to remove its transient failure.",

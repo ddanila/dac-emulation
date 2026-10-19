@@ -1,0 +1,45 @@
+{
+  "completed": true,
+  "qualified": false,
+  "admittedForSn7406": false,
+  "scope": "Admission review of the public TI SDLM056 behavioral model as an SN7406 driver candidate",
+  "evidence": {
+    "producer": "report.json",
+    "captures": "captures.tar.gz",
+    "reproducer": "run.py",
+    "dcConditions": "../../ttl7406_limits.json"
+  },
+  "sources": [
+    {
+      "url": "https://www.ti.com/product/SN74LS06",
+      "download": "https://www.ti.com/lit/zip/SDLM056",
+      "archiveSha256": "aae641a551b174c2bb5eb84d6ca5e1ac42155a863b9de377e7ca9d8d5f7b8708",
+      "member": "SN74LS06.cir",
+      "modelSha256": "1e00d760f03681f72627bae69a9f2e7ceac12c8649d3e8a4d55e9b7b687ae532",
+      "identity": "Archive is published for SN74LS06; internal header also names SN7406 and SN74S06. Subcircuit is SN74LS06. Header describes a generic behavioral model derived from datasheets for typical 25 C behavior."
+    },
+    {
+      "url": "https://www.ti.com/product/SN7406",
+      "observation": "No model download found in the retrieved product page; this does not prove none exists."
+    },
+    {
+      "url": "https://cad.ultralibrarian.com/orcad/Home/Part?partUuid=163a3bd9-103f-11e9-ab3a-0a3560a4cccc",
+      "observation": "Lists an SN7406 behavioral model behind login; contents were not retrieved and identity with SDLM056 is unproven."
+    }
+  ],
+  "modelReview": {
+    "architecture": "Behavioral input threshold, RC delay, switched output conductance and supply-current sources; not a transistor charge-storage parameter set.",
+    "inputThresholdAt4_75V": 2.375,
+    "onResistanceAt4_75VOhms": 57.8125,
+    "derivation": "Linear interpolation of the standard-input threshold and low-output resistance tables in the hash-identified model. Output also includes switch and shunt paths.",
+    "consequence": "At the published SN7406 2 V input sink test, the model classifies the input as low and releases the output. With 3 V input, output conduction is enabled but its voltage still exceeds the SN7406 low-output limit."
+  },
+  "interpretation": "The shared device header does not establish applicability. This unmodified vendor model fails the selected SN7406 DC admission condition and supplies no physical transistor storage or capacitance calibration. It is not adopted for coupled-board simulation.",
+  "boundary": "The very high released-output solution is an unbounded diagnostic current-source fixture result outside device ratings, not a physical overvoltage prediction. The 3 V input case is an additional diagnostic, not the published 2 V test. No switching qualification follows from these DC probes. Vendor archive and model remain local; retained captures contain only our decks, logs and measurements.",
+  "nextAction": "Continue independently constrained transistor dynamics research; if a distinct SN7406 vendor model becomes available, verify its identity and DC admission before switching and board tests. Do not substitute LS or S family behavior based on the shared header.",
+  "retainedFilesSha256": {
+    "run.py": "8164cb4916883892bd8e96d3e4e9b7eafac7a33fdcf3996cb811e56d9582383e",
+    "report.json": "468e8b13c4948c4c8a0d6236aef7fdcec3c0ab1fb786dc8ab9f6dd72b316666c",
+    "captures.tar.gz": "5e0d95acbb6814fc92f1f074696cf829157f4420aad0dac2fed95d51867e821b"
+  }
+}
