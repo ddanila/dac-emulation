@@ -1,0 +1,37 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "323441d",
+  "scope": "Host-loaded rising-RxC control-key timestep comparison",
+  "evidence": {
+    "producer": "report.json",
+    "sampledStability": "margins-140ns.json",
+    "serialRefinement": "comparison.json",
+    "absoluteTimeVoltages": "host-comparison.json",
+    "coarse": "../firmware-host-rising-control-minbreak/assessment.json"
+  },
+  "interpretation": "Both captures cover distinct control-modified and ordinary packets and pass ordinal C-reference, serial-edge refinement and the independent sampled stability screen. Material absolute-time voltage differences remain, including a host data-output peak difference exceeding two volts. Timing agreement does not qualify voltage convergence, receiver device applicability or onboard startup.",
+  "nextAction": "Investigate switching dynamics and numerical convergence without alignment, discarded peaks or relaxed electrical budgets.",
+  "waveforms": {
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-control-minbreak-fine",
+    "files": [
+      "trace.txt.xz",
+      "driver-trace.txt.xz",
+      "host-trace.txt.xz"
+    ],
+    "retention": "Complete lossless local traces verified against producer hashes. No ROM or compiled HDL retained."
+  },
+  "retainedFilesSha256": {
+    "report.json": "d23270f8694d68624445224eefd092ab0871cb7823f1a901b2d63deaa78436d1",
+    "run-inputs.json": "8d9442666ff77b76e1448866d77592ea184ebf1a489d5b54ae5cf68987615821",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "9f0884f5b777e4b873493bba1861ed88baa2fbfec82a5efd281e9dfb27a8c7ee",
+    "comparison.json": "c85453a63a6bed4124b84041554aa00cf572a57a9c817a4cf283738b0ecb59de",
+    "margins-140ns.json": "97cea808b2bfe0f5a62efbc8d4f16cdb10308b0ed54000b6d1c2b15a95a06471",
+    "ngspice.log.xz": "71d4ee1d729240feb09a6f69f2b933cc457c5cf59757aed64f97e12f73054c2a",
+    "reference.log": "fda7a914f45a24358d7654f489ee1961de75ed23493e84d32a339251a332d35e",
+    "scenario.json": "e841f3b4e34c5c52d3ed4e15d97668b9d7a7bc26d3c83743d1bf68a14ea3e4fd",
+    "io.cir": "0be0785d5c80f62291987791568803c0103efea0683e25892ae4aba118971d46",
+    "host-comparison.json": "313745a3540deb95aa633b5ab15dcec7229aba6f911b5b4ca3789164239f21b0"
+  }
+}
