@@ -237,6 +237,7 @@ device, voltage and timing qualification.
 | Service serial-edge refinement | `compare_firmware_io.py COARSE FINE --experimental-host --out REPORT` |
 | Absolute-time host-voltage differences | `host_waveform_comparison.py COARSE FINE --out REPORT` |
 | Exact samples around maximum differences | `host_transition_windows.py COMPARISON COARSE FINE --out DIRECTORY` |
+| Sampled receiver setup/hold | `receiver_margins.py RUN --required-ns 140 --out REPORT`; add `--board` for a closed-board host capture (diagnostic only) |
 | Clock-width screen | `host_clock_widths.py RUN --out REPORT`; add `--board` for the recorded closed-board window |
 
 The host capture reviews retain `qualified: false`. Input stress review distinguishes
