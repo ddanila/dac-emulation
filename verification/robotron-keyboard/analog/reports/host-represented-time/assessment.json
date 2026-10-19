@@ -1,5 +1,5 @@
 {
-  "completed": false,
+  "completed": true,
   "qualified": false,
   "scope": "Separate exact retry rollback and represented time intervals from integration and linear arithmetic precision",
   "evidence": {
@@ -11,16 +11,19 @@
     "runtimeAdmission": "runtime-check/report.json",
     "helper": "../../engine-patches/represented_time_step.h",
     "adapter": "../../engine-patches/ngspice-47-represented-time-step.patch",
-    "tests": "../../test_represented_time_step.py"
+    "tests": "../../test_represented_time_step.py",
+    "combined": "combined/report.json",
+    "combinedTrajectory": "combined/trajectory-review.json"
   },
-  "interpretation": "With all experiments off, the rebuilt runtime reproduces all four baseline waveform hashes and the same failure. The actual runtime admits off/rollback/represented modes, rejects an invalid mode and matches a constant-current capacitor analytic solution. Exact rollback alone still fails near the original transition. Represented-time integration removes the measured time/step discrepancy in every audited trial but also fails, including large saved cable excursions. Time-step mismatch alone is therefore not a sufficient explanation or remedy. Combined represented time with MPFR integration and linear solving remains in progress.",
+  "interpretation": "With all experiments off, the rebuilt runtime reproduces all four baseline waveform hashes and the same failure. The actual runtime admits off/rollback/represented modes, rejects an invalid mode and matches a constant-current capacitor analytic solution. Exact rollback alone still fails near the original transition. Represented-time integration removes the measured time/step discrepancy in every audited trial but also fails, including large saved cable excursions. Time-step mismatch alone is therefore not a sufficient explanation or remedy. Combined represented time with MPFR integration and linear solving also fails near the same transition. The audited intervals match their integration steps exactly, and saved cable values stay below the diagnostic excursion locator in this window, but the final unsaved trial has a large excursion followed by truncation rejection. No convergence remedy or physical validity is established.",
   "boundary": "Experimental standalone analog-only runtime; event instances and shared execution are rejected in active modes. Device physics, circuit tolerances and requested minimum-step policy are preserved. Represented mode can round a trial endpoint upward by one time increment to avoid lowering the requested/configured floor. The pre-adjustment requested step controls the final minimum-step retry guard. State history, coefficients, time and nonlinear evaluation remain binary64. No board default or physical qualification follows.",
-  "nextAction": "Review the combined-precision replay. Require complete timestep refinement for any successful capture; retain failures and distinguish numerical controls from device calibration.",
+  "nextAction": "Capture final linear systems with logging that admits the represented minimum step, preserving a byte-identical logging control. Distinguish remaining state/stamping sensitivity from device dynamics; require completed refinement before adopting any numerical remedy.",
   "waveforms": {
     "directories": [
       "build/keyboard-controller-analog/host-represented-time-off",
       "build/keyboard-controller-analog/host-represented-time-rollback",
-      "build/keyboard-controller-analog/host-represented-time-represented"
+      "build/keyboard-controller-analog/host-represented-time-represented",
+      "build/keyboard-controller-analog/host-represented-time-combined-256"
     ],
     "retention": "Full local waveforms verified against each producer receipt. Retained logs and reviews preserve the failed trajectories."
   },
@@ -56,6 +59,16 @@
     "off/report.json": "fef92fa2cc3a41116c2c20d81be4489b88a1ff7d3549fc104a14856ab21e69b2",
     "off/build-provenance.json": "a9d0167e2d08edfe00346bf3529ed1ae9764e67135e20797b2aae0e8a934ce94",
     "off/ngspice.log.xz": "4ea2423ab4ad98c7a04aaeaf52890b51f9df9d78393052173da983853d3d5a75",
-    "off/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95"
+    "off/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "combined/report.json": "bdba05b3d62c18e04f2cde8186719db8e0a2a23be4b8b86d0840353224fa5547",
+    "combined/build-provenance.json": "a9d0167e2d08edfe00346bf3529ed1ae9764e67135e20797b2aae0e8a934ce94",
+    "combined/trajectory-review.json": "477202fea12090c47af61204aedc0f16af8c9a0c62fa78785eb34e0d4fc8f5f4",
+    "combined/ngspice.log.xz": "3f4960f9bf735fa2dc65d3b89e6be67e36764e4695e82ff09f39cbf9c5786256",
+    "combined/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95"
+  },
+  "linearAudit": {
+    "available": false,
+    "reason": "The logging gate requires delta <= 5.0001e-19 s. Represented mode rounds the requested minimum to 6.505213034913027e-19 s at this time, so no linear system meets the logging gate. Absence of logs does not establish solve accuracy.",
+    "nextAction": "Broaden logging-only capture to include the represented minimum step and verify waveform identity before auditing the final systems."
   }
 }
