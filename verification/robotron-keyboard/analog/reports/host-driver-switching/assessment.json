@@ -1,0 +1,17 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "TI SN7406 reference switching fixture applied to the existing generic DC candidate",
+  "evidence": {
+    "producer": "report.json",
+    "captures": "captures.tar.gz",
+    "conditions": "../../ttl7406_switching_limits.json"
+  },
+  "interpretation": "The measured delay brackets refine within the declared numerical budget. The fast-edge candidate is much faster than the published typical delays; the slower permitted edge produces an output falling threshold crossing before the input midpoint. This fails the diagnostic nonnegative-delay screen, not a published TI minimum. Maximum-delay compliance alone does not establish device dynamics, and typical values do not uniquely determine semiconductor parameters.",
+  "nextAction": "Constrain charge-storage and junction-capacitance candidates using independent switching evidence and retained DC checks before testing them in the board; do not choose parameters only to remove its transient failure.",
+  "sourcePdfSha256": "0795a70eb763f226a76d4067783d47690072ea861f13e5e0baf205f5f033950b",
+  "retainedFilesSha256": {
+    "report.json": "e658f4d79dace86e6b60604838a8368ee257b1ca4b718097c68bf81d4473874c",
+    "captures.tar.gz": "ba1af520e6b8a115088883867c20ecd5b1cda1b9d904e5efa539e58da33da3f0"
+  }
+}

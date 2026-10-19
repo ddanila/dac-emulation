@@ -1,0 +1,199 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Check the generic SN7406 candidate in the published TI switching fixture.",
+  "sources": {
+    "ttl7406_switching.py": "cc8772b37b726513bd6a9c21165df076ffedcd4a8c535f17fbc3e08dfb4d7706",
+    "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+    "ttl7406_switching_limits.json": "54f1a75ebde76bd57783657f70718fd1896dd620d3a6eb465e16403baa0ff012",
+    "gate_switching_probe.py": "bb8a4f2d6dfa153684a4c05ba3d3696a20ffa33d9fafedf48aa655a589d3e719",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8"
+  },
+  "executableSha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7",
+  "spinitSha256": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+  "publishedGenerator": {
+    "lowV": 0,
+    "highV": 3,
+    "sourceOhms": 50,
+    "maximumRepetitionHz": 1000000.0,
+    "maximumRiseSeconds": 7e-09,
+    "maximumFallSeconds": 7e-09,
+    "delayThresholdV": 1.5
+  },
+  "publishedFixture": {
+    "temperatureC": 25,
+    "supplyV": 5,
+    "loadOhms": 110,
+    "loadPf": 15,
+    "riseDelayTypicalSeconds": 1e-08,
+    "riseDelayMaxSeconds": 1.5e-08,
+    "fallDelayTypicalSeconds": 1.5e-08,
+    "fallDelayMaxSeconds": 2.3e-08
+  },
+  "deviceSource": {
+    "url": "https://www.ti.com/lit/ds/symlink/sn7406.pdf",
+    "title": "TI SDLS031A",
+    "sha256": "0795a70eb763f226a76d4067783d47690072ea861f13e5e0baf205f5f033950b",
+    "locator": "PDF pages 3-4, switching table and Figure 1"
+  },
+  "assumptions": {
+    "generatorLowV": 0,
+    "generatorHighV": 3,
+    "sourceOhms": 50,
+    "inputReverseBeta": 0.01,
+    "pulseShape": "Linear ramps at the declared generator; output source impedance is explicit",
+    "refinementBudgetNs": 0.2,
+    "minimumDelayScreenNs": 0
+  },
+  "limitations": [
+    "Published fixture uses one output and one input transition per measurement; this probe isolates the rising and falling measurement windows.",
+    "Generic transistor storage and capacitance remain absent. Passing maximum-delay checks would not establish dynamic applicability.",
+    "Nonnegative delay is a diagnostic screen, not a TI minimum-delay specification; typical delays are references, not acceptance bounds."
+  ],
+  "cases": [
+    {
+      "inputEdgeNs": 1,
+      "runs": [
+        {
+          "stepNs": 0.1,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 0.11268148782170949,
+              "maximumNs": 0.2074586213110185,
+              "withinDelayLimit": true,
+              "withinPublishedMaximum": true,
+              "typicalReferenceNs": 14.999999999999998,
+              "differenceFromTypicalNs": [
+                -14.88731851217829,
+                -14.79254137868898
+              ]
+            },
+            "tPLH": {
+              "minimumNs": 0.600000000000045,
+              "maximumNs": 0.8000000000000601,
+              "withinDelayLimit": true,
+              "withinPublishedMaximum": true,
+              "typicalReferenceNs": 10.0,
+              "differenceFromTypicalNs": [
+                -9.399999999999954,
+                -9.19999999999994
+              ]
+            }
+          },
+          "artifacts": {
+            "probe.cir": "58791f448c5181dc8ee1a5aa2a05a60a161683b5c85e999fee3bc808a09288ba",
+            "trace.txt": "28f40f74e91f141d541cc640729a67b5b084eb71a13f38cc368d4d1aaf71b912",
+            "ngspice.log": "43b870a9ab321c43175b50b502d51a1197e119e1c9d33a297c966a6f806c4443"
+          }
+        },
+        {
+          "stepNs": 0.05,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 0.05000000000000376,
+              "maximumNs": 0.13275538772216153,
+              "withinDelayLimit": true,
+              "withinPublishedMaximum": true,
+              "typicalReferenceNs": 14.999999999999998,
+              "differenceFromTypicalNs": [
+                -14.949999999999994,
+                -14.867244612277837
+              ]
+            },
+            "tPLH": {
+              "minimumNs": 0.600000000000045,
+              "maximumNs": 0.7000000000000526,
+              "withinDelayLimit": true,
+              "withinPublishedMaximum": true,
+              "typicalReferenceNs": 10.0,
+              "differenceFromTypicalNs": [
+                -9.399999999999954,
+                -9.299999999999947
+              ]
+            }
+          },
+          "artifacts": {
+            "probe.cir": "76ee63266010176282fe4d142c740f9b6b362ec21e69c0c94f4b4a0b44d6a632",
+            "trace.txt": "f667e942a546d87ad6c8993794d930367fb1be8a0eb26972afcf438768922071",
+            "ngspice.log": "2f2d4077b1bfd1a85b0da8b662e57836c6514bb4c69d28e766d91e8da0a6c519"
+          }
+        }
+      ],
+      "maximumBracketEndpointDifferenceNs": 0.10000000000000753,
+      "converged": true
+    },
+    {
+      "inputEdgeNs": 7,
+      "runs": [
+        {
+          "stepNs": 0.1,
+          "delays": {
+            "tPHL": {
+              "minimumNs": -0.5146572135127347,
+              "maximumNs": -0.3309390798746992,
+              "withinDelayLimit": false,
+              "withinPublishedMaximum": true,
+              "typicalReferenceNs": 14.999999999999998,
+              "differenceFromTypicalNs": [
+                -15.514657213512733,
+                -15.330939079874698
+              ]
+            },
+            "tPLH": {
+              "minimumNs": 1.1034394232301346,
+              "maximumNs": 1.3034394232301494,
+              "withinDelayLimit": true,
+              "withinPublishedMaximum": true,
+              "typicalReferenceNs": 10.0,
+              "differenceFromTypicalNs": [
+                -8.896560576769865,
+                -8.696560576769851
+              ]
+            }
+          },
+          "artifacts": {
+            "probe.cir": "4c093712decf2a6bf6915e7c21060f275471f89e99163e215bfc7c37bb142525",
+            "trace.txt": "18cb1bc072256f791b675319245fd858185773b014b819240a87bf79ad1877f6",
+            "ngspice.log": "8aad35dab41e0bf49d21b33d5a6ad7fe8aedde7d1680f32253e3418779847528"
+          }
+        },
+        {
+          "stepNs": 0.05,
+          "delays": {
+            "tPHL": {
+              "minimumNs": -0.44987883847258237,
+              "maximumNs": -0.34987883847257484,
+              "withinDelayLimit": false,
+              "withinPublishedMaximum": true,
+              "typicalReferenceNs": 14.999999999999998,
+              "differenceFromTypicalNs": [
+                -15.44987883847258,
+                -15.349878838472574
+              ]
+            },
+            "tPLH": {
+              "minimumNs": 1.1267609582712004,
+              "maximumNs": 1.226760958271208,
+              "withinDelayLimit": true,
+              "withinPublishedMaximum": true,
+              "typicalReferenceNs": 10.0,
+              "differenceFromTypicalNs": [
+                -8.8732390417288,
+                -8.773239041728791
+              ]
+            }
+          },
+          "artifacts": {
+            "probe.cir": "7d7e0c70f49bd58527d6c4b7bcc1953b8db1f63999088dae71d420adb4c76e52",
+            "trace.txt": "1a5d3c146ea50cfc12774e199b23f812678dd91345e1581665c674fe3fe21e80",
+            "ngspice.log": "2f2d4077b1bfd1a85b0da8b662e57836c6514bb4c69d28e766d91e8da0a6c519"
+          }
+        }
+      ],
+      "maximumBracketEndpointDifferenceNs": 0.07667846495894137,
+      "converged": true
+    }
+  ],
+  "numericallyConverged": true,
+  "withinDelayScreen": false
+}

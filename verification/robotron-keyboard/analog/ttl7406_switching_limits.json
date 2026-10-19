@@ -1,0 +1,33 @@
+{
+  "device": "TI SN7406 reference",
+  "source": {
+    "url": "https://www.ti.com/lit/ds/symlink/sn7406.pdf",
+    "title": "TI SDLS031A",
+    "sha256": "0795a70eb763f226a76d4067783d47690072ea861f13e5e0baf205f5f033950b",
+    "locator": "PDF pages 3-4, switching table and Figure 1"
+  },
+  "switching": {
+    "temperatureC": 25,
+    "supplyV": 5,
+    "loadOhms": 110,
+    "loadPf": 15,
+    "riseDelayTypicalSeconds": 1e-08,
+    "riseDelayMaxSeconds": 1.5e-08,
+    "fallDelayTypicalSeconds": 1.5e-08,
+    "fallDelayMaxSeconds": 2.3e-08
+  },
+  "generator": {
+    "lowV": 0,
+    "highV": 3,
+    "sourceOhms": 50,
+    "maximumRepetitionHz": 1000000.0,
+    "maximumRiseSeconds": 7e-09,
+    "maximumFallSeconds": 7e-09,
+    "delayThresholdV": 1.5
+  },
+  "boundaries": [
+    "Capacitive load includes probe and fixture capacitance.",
+    "Typical values are nominal references, not guaranteed minimum delays or parameter ranges.",
+    "This source describes the TI reference device, not independently identified museum or host parts."
+  ]
+}
