@@ -7,12 +7,14 @@
     "kernel": "../host-mpfr-linear-review/assessment.json",
     "mpfr256": "256/report.json",
     "mpfr256StateReview": "256/state-review.json",
-    "gearWithoutMpfr": "gear-off/report.json"
+    "gearWithoutMpfr": "gear-off/report.json",
+    "mpfr512": "512/report.json",
+    "mpfr512StateReview": "512/state-review.json"
   },
   "interpretation": "The disabled runtime reproduces baseline waveform bytes and failure. MPFR256 from initialization also fails near the original transition, without a precision guard rejection. Higher-precision real linear arithmetic alone has not resolved the recorded-stimulus replay. Binary64 device stamping, nonlinear evaluation and integration remain separate numerical boundaries; neither device validity nor a physical cause follows from this result. Selected MPFR256 solves agree with independent Decimal160 solutions to binary64 rounding scale. The final Newton trial converges, then L1.4 flux-history truncation requests a step below the configured minimum. Exact arithmetic on the logged history yields the same proposal. Final audited voltages no longer show the original extreme linear-solve errors; this does not establish physically valid dynamics.",
   "build": "Apply ngspice-47-linear-state-audit.patch to the original ngspice-47 source first. build.py copies that source and applies the incremental ngspice-47-mpfr-linear.patch; check_build.py validates the adapter and records runtime provenance.",
   "boundary": "MPFR replaces real linear arithmetic only. Device stamping, nonlinear evaluation, integration and simulator states remain binary64. No tolerances or circuit physics are relaxed. This recorded-stimulus replay is not full coupled firmware qualification.",
-  "nextAction": "Complete MPFR512 control and compare MPFR256 with Gear integration, preserving circuit physics and tolerance settings. Gear without MPFR also fails; method/order are independently confirmed by the runtime options report.",
+  "nextAction": "Complete MPFR256 with Gear integration and review state-history sensitivity while preserving circuit physics and tolerance settings. Gear without MPFR also fails; method/order are independently confirmed by the runtime options report.",
   "retainedFilesSha256": {
     "build.py": "7bc876c6220ff2cef97c6ba54e2a63faf404033e9e2e81bf88ffad5af9c0cc90",
     "run.py": "59911c4c12754c9cb1902d0ee55d83279128caa466bbd5f28fea57c637dc1f1c",
@@ -28,9 +30,24 @@
     "gear-off/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
     "gear-off/ngspice.log.xz": "83c2daa8142e2d10c9097184a7c5ebe3716c5894a1afba396bb5d6dc70da7079",
     "gear-off/io.cir": "503d713368f1902ae786012bddf3d44005cf2523b0ff9c2603bdd259396bfd64",
+    "512/report.json": "d956e4db6cdb1c02e8e8a7bab21425b9b40466c58a906c1557f63318aeb4c52e",
+    "512/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+    "512/ngspice.log.xz": "dc8f39cfaf5de6cefed45b75731afb54891d5940f64c3de8f855a0915d525ea5",
+    "512/state-review.json": "37afa02dc99d2ef9ba78d1ce2af2555437023148ea0ae8fd259a67d9dbd501ac",
+    "512/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
     "off/report.json": "e247dce85b19c477eb9a4f46e574e7f8af338c0f351d8c72765346e099c6b303",
     "off/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
     "off/ngspice.log.xz": "eb65f0eb8a6f224fef0e28811fdc40a06fff332ef910a036e50006ef1acb0d1c",
     "off/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95"
+  },
+  "precisionComparison": {
+    "waveformsByteIdentical": {
+      "trace.txt": true,
+      "host-trace.txt": true,
+      "driver-trace.txt": true,
+      "boundary-trace.txt": true
+    },
+    "solverDiagnosticIdentical": true,
+    "interpretation": "Identical recorded trajectories and terminal failure at 256 and 512 bits. Doubling real linear arithmetic precision does not alter this replay; binary64 stamping and state integration remain unchanged."
   }
 }
