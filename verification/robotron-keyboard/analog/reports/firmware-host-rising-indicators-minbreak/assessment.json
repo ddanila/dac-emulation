@@ -1,0 +1,36 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "f67c0a5",
+  "scope": "Host-loaded rising-RxC indicator service scenario",
+  "evidence": {
+    "producer": "report.json",
+    "sampledStability": "margins-140ns.json",
+    "ordinalLedReference": "led-reference.json",
+    "timingReference": "../host-receiver-timing-review/assessment.json"
+  },
+  "interpretation": "Service packet coverage, ordinal serial agreement, required LED activity/current checks, ordinal LED-state agreement with the C reference and the independent sampled timing screen pass. These remain separate from timestep convergence, physical brightness/current calibration, receiver-device applicability and onboard startup.",
+  "nextAction": "Compare the finer-timestep capture for serial and LED edges and absolute-time voltages.",
+  "waveforms": {
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-indicators-minbreak",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz",
+      "led-trace.txt.xz"
+    ],
+    "retention": "Complete local waveforms are identified by producer hashes. No ROM or compiled HDL retained."
+  },
+  "retainedFilesSha256": {
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io.cir": "7be389f584d0c8793232b6f55ddd93aaf4b229d2c6d72b46e11c48d81a470206",
+    "io_scenario.h": "1097ffcb0fa2b99d360364ba33334a8b3ac1b844010ade3a7c7be4fb53625140",
+    "led-reference.json": "e281c1c428a753ccbcb0c372f02a62f559a6fb2170244f436ef9dd13d93a3a3f",
+    "margins-140ns.json": "4869fcce8c04e4a02b2787868db42e51864ac27cb0681d12b16e7bd397526f23",
+    "ngspice.log.xz": "5f8cb3bebde5a2054f93e4989993974b93895c2abfb84cf1677f03b8cc18fc30",
+    "reference.log": "23006b06110fa413caecf8f532c4dbd28bbedd89e16b2ef5377cef55574fc20b",
+    "report.json": "859c10bc9b890cbc0ec936b9a2e0cd6327d12d15c9bf5e77687b74677d7f34c8",
+    "run-inputs.json": "03c7aa3a9c6bece59cc39379278f8f65533162d7ac1a0ee2e60aeb8c276a75ea",
+    "scenario.json": "0f58450c344e6723a03677dee5383b4028f3d6fd414a8a402dc9785615a5cc1d"
+  }
+}

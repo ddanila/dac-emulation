@@ -1,0 +1,59 @@
+{
+  "qualified": false,
+  "scope": "Fresh Sparse factorization and exact power-of-two row/column scaling of recorded systems",
+  "evidence": {
+    "control": {
+      "report": "control/report.json",
+      "independentReference": "../host-linear-state-audit/control/precision-review.json",
+      "independentReferenceSha256": "7b7ea8c1e80c7ce9206441dac601a55372fff32c673b1ab22d75a387df30c630",
+      "cases": {
+        "fresh": {
+          "maximumComponentwiseBackwardError": 0.28910495184803076,
+          "maximumSolutionDifferenceFrom160DigitReference": 1.2655788635106759e+33
+        },
+        "scaled": {
+          "maximumComponentwiseBackwardError": 3.4677693192978295e-15,
+          "maximumSolutionDifferenceFrom160DigitReference": 15624172275.227997
+        }
+      }
+    },
+    "shifted": {
+      "report": "shifted/report.json",
+      "independentReference": "../host-linear-state-audit/shifted/precision-review.json",
+      "independentReferenceSha256": "49831034c35767b25aa7dec1661d18b80b1334cd6bbe5ea50f70d3e96fba3fe7",
+      "cases": {
+        "fresh": {
+          "maximumComponentwiseBackwardError": 0.9999985376428212,
+          "maximumSolutionDifferenceFrom160DigitReference": 110588500480817.08
+        },
+        "scaled": {
+          "maximumComponentwiseBackwardError": 2.8324009804245014e-13,
+          "maximumSolutionDifferenceFrom160DigitReference": 2347121841005427.0
+        }
+      }
+    }
+  },
+  "interpretation": "Scaling reduces the worst componentwise residual in these frozen systems by many orders of magnitude, but the binary64 solutions still differ greatly from independently converged 160-digit solutions. Small backward error alone does not establish an accurate solution to these ill-conditioned equations. Fresh factorization is not the original transient pivot history. No full-run fix or physical qualification is claimed.",
+  "nextAction": "Test scaling with preserved unscaled device/convergence equations before failure develops; verify forward-solution sensitivity and full waveform convergence. Evaluate higher-precision solving if scaling remains insufficient.",
+  "reproduce": "Run run.py with the retained linear audit directory, selected system ID and the matching ngspice source/build directories; the report records compiler, static-library and executable hashes.",
+  "retainedFilesSha256": {
+    "control/fresh-input.txt.xz": "dde9fcb78908b7312a593232cfdffa21f1430ce8dc41e520a60a4881f761e157",
+    "control/fresh-output.txt.xz": "90d3dbd2090d33c5aabea7f9a1cf9010afeb70b6df415a2aa25225befd9d8685",
+    "control/fresh-stderr.txt.xz": "0040f94d11d0039505328a90b2ff48968db873e9e7967307631bf40ef5679275",
+    "control/report.json": "073581d93f2c85280514f0f05af12978082d5ebb47598abe615f209dff348c48",
+    "control/scaled-input.txt.xz": "c03dbee6ab33649813cae596abebfb75964d20aa86b92fcb367da10d55d36592",
+    "control/scaled-output.txt.xz": "6bcd5a4edb932ae3ea030efb81b331cccbc93991f9feb0237c0a835ea4d6a5b9",
+    "control/scaled-stderr.txt.xz": "0040f94d11d0039505328a90b2ff48968db873e9e7967307631bf40ef5679275",
+    "control/smoke.json": "dc285f311513da0e9394e5408b8472b8b510656f8c0f51f62478e52279cb639d",
+    "run.py": "d78f0089afafcc67c83c504ef2b8c7c40d56d8d3948c5882d9403a571e18f1a3",
+    "shifted/fresh-input.txt.xz": "628a088bcc59149de868636dbaca600505611854019e6a20f16a468060367a78",
+    "shifted/fresh-output.txt.xz": "0eab280de0c254fe5702397384d55d259572a6c9a29b7ed367a04c812e3abb58",
+    "shifted/fresh-stderr.txt.xz": "0040f94d11d0039505328a90b2ff48968db873e9e7967307631bf40ef5679275",
+    "shifted/report.json": "c581f666888e4cf8bb733e50c3bbe0fc4fa585fbaa8b6563b57a7591d61cab58",
+    "shifted/scaled-input.txt.xz": "7f343549282e05ba1642097f5556d82d433fadb63bab997958b94e6e12ff4548",
+    "shifted/scaled-output.txt.xz": "a17743c71d48353286330e49ded7cf5e7043e7915cd0aa117207216cbec58029",
+    "shifted/scaled-stderr.txt.xz": "0040f94d11d0039505328a90b2ff48968db873e9e7967307631bf40ef5679275",
+    "shifted/smoke.json": "dc285f311513da0e9394e5408b8472b8b510656f8c0f51f62478e52279cb639d",
+    "solve.c": "c8fd92ea8fe26771ddbe1a03b262e188c269e7c782ad817250993cbf803027a6"
+  }
+}
