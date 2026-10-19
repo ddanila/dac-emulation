@@ -1,0 +1,55 @@
+{
+  "qualified": false,
+  "sourceRevisionVerified": "96837c4",
+  "scope": "Logging-only solved-state and integration audit of the matched reference-node comparison",
+  "evidence": {
+    "control": {
+      "report": "control/report.json",
+      "stateReview": "control/state-review.json",
+      "waveformsIdentical": true,
+      "finalNewtonResult": 0,
+      "finalTruncation": {
+        "time": 0.0010980122484074574,
+        "delta": 5e-19,
+        "proposed": 4.7789778805190846e-21,
+        "delmin": 5e-19,
+        "result": 0,
+        "order": 1,
+        "newtrunc": 0
+      },
+      "maximumFinalTrialNodeMagnitude": 111255517435.89908
+    },
+    "shifted": {
+      "report": "shifted/report.json",
+      "stateReview": "shifted/state-review.json",
+      "waveformsIdentical": true,
+      "finalNewtonResult": 103,
+      "finalTruncation": null,
+      "maximumFinalTrialNodeMagnitude": 4482493625059355.0
+    }
+  },
+  "referenceComparison": "../host-reference-node-review/assessment.json",
+  "patch": "../../engine-patches/ngspice-47-reference-state-audit.patch",
+  "interpretation": "Both instrumented captures reproduce every source waveform byte and the simulator failure message. The unshifted analog-only replay ends with successful Newton iteration followed by inductor truncation rejection. The shifted replay ends with Newton iteration-limit failure (E_PRIVATE+3 = 103) before truncation. Large internal node and winding trial voltages appear in both, with severe common-mode excursions. They are rejected/nonconverged solver states, not physical predictions. Reference sensitivity is established, but neither a device fault nor a unique numerical cause or remedy is established.",
+  "nextAction": "Audit the linear-system residuals and conditioning at the tiny-timestep trials, preserving circuit physics and accuracy criteria; distinguish solve error from nonlinear-state and integration-history effects.",
+  "waveforms": {
+    "retention": "Complete source-identical waveforms remain local with producer hashes; logs and final internal-state summaries are retained here.",
+    "directories": [
+      "build/keyboard-controller-analog/host-reference-state-control-verified",
+      "build/keyboard-controller-analog/host-reference-state-shifted-verified"
+    ]
+  },
+  "retainedFilesSha256": {
+    "control/build-provenance.json": "ec7e47c674c603f698fa1120402ed91952bdb57583b4125fa5eed2c2fb624a97",
+    "control/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "control/ngspice.log.xz": "0821667dbe8ab644d04e5e4cc53a2cb7aee19900a90bcb440dc24c0ff8d1632a",
+    "control/report.json": "4e13101d8e19927e675379fe70786816f26c9549500b467dd45144cf48fdb3b2",
+    "control/state-review.json": "d531ed39df3dcf5772e6e750253d2a58173fb08846d1b9a99a434b5ff5cd12a3",
+    "run.py": "94a8d7d7e87ae05b91082b46e264762b93075f6e10648861ceba5b4e11b439fb",
+    "shifted/build-provenance.json": "ec7e47c674c603f698fa1120402ed91952bdb57583b4125fa5eed2c2fb624a97",
+    "shifted/io.cir": "240108e28066b7b778aac600ec9a6b35f6d9937a03a9f1a0b2517a26b29398b4",
+    "shifted/ngspice.log.xz": "ae2346d7bcb4389433af6c1e815fecddbb581bfaa975931100acaf90420a4f16",
+    "shifted/report.json": "8fe9bd450e2fa7b75d22d869a607b4c96e71ccba1bf08691fd8fd7166e90717c",
+    "shifted/state-review.json": "48a65c95e384520542c677ffdddbf476c450864e7a618cefaf6c487a3781be11"
+  }
+}
