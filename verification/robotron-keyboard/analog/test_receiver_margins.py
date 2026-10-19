@@ -67,5 +67,59 @@ class ReceiverMarginTests(unittest.TestCase):
         self.assertTrue(result['withinBudget'])
 
 
+
+class BoardMarginTests(unittest.TestCase):
+    def test_board_polarity_hashes_and_producer_failure_are_preserved(self):
+        import json
+        import subprocess
+        from compare_firmware_io import sha
+        from serial_observation import validate_transport
+        from receiver_margins import load_board_run
+        with tempfile.TemporaryDirectory() as directory:
+            p=Path(directory)
+            (p/'boot.cir').write_text('fixture\n.control\ntran 25n 0.0000005 0\n.endc\n.end\n')
+            log='SERIAL_TX 1000 1\nSERIAL_RX 250000 1\n'
+            (p/'ngspice.log').write_text(log)
+            (p/'host-trace.txt').write_text('Hash-bound host capture\n')
+            header='time v(cpu_clock) v(cpu_reset) v(receiver_data) v(receiver_clock)\n'
+            trace=header+''.join(f'{i*1e-9:.17e} 0 5 3 0\n' for i in range(0,501,25))
+            (p/'trace.txt').write_text(trace)
+            report={'passed':False,'qualified':False,'error':'Independent producer gate failed',
+                    'assumptions':{'hostBuffer':'7404-candidate','maximumStepNs':25,
+                                   'traceWindowSeconds':[0,5e-7]},
+                    'serialTransport':validate_transport(log,require_activity=True)}
+            for name,key in [('boot.cir','deckSha256'),('ngspice.log','logSha256'),
+                             ('host-trace.txt','hostTraceSha256'),('trace.txt','traceSha256')]:
+                report[key]=sha(p/name)
+            (p/'report.json').write_text(json.dumps(report))
+            command=['python3',str(Path(__file__).with_name('receiver_margins.py')),str(p),
+                     '--board','--required-ns','140','--out',str(p/'margins.json')]
+            subprocess.run(command,check=True,capture_output=True,text=True)
+            result=json.loads((p/'margins.json').read_text())
+            self.assertTrue(result['passed'])
+            self.assertFalse(result['qualified'])
+            self.assertFalse(result['producerPassed'])
+            self.assertEqual(result['producerError'],report['error'])
+            self.assertFalse(result['observations']['invertedData'])
+            self.assertAlmostEqual(result['observations']['minimumSampledSetupNs'],250)
+            (p/'trace.txt').write_text(trace+'0.0000006 0 5 3 0\n')
+            with self.assertRaisesRegex(ValueError,'trace differs'):load_board_run(p)
+            (p/'trace.txt').write_text(trace)
+            report['serialTransport']['received'][0]=(250000,0)
+            (p/'report.json').write_text(json.dumps(report))
+            with self.assertRaisesRegex(ValueError,'serial report differs'):load_board_run(p)
+            report['serialTransport']=validate_transport(log,require_activity=True)
+            lines=trace.splitlines(True)
+            for invalid in (trace.replace('v(receiver_data)','v(wrong)'),
+                            lines[0]+''.join(lines[2:]), ''.join(lines[:-1]),
+                            trace.replace(' 5 3 0', ' 5 0 0')):
+                (p/'trace.txt').write_text(invalid)
+                report['traceSha256']=sha(p/'trace.txt')
+                (p/'report.json').write_text(json.dumps(report))
+                result=subprocess.run(command,capture_output=True,text=True)
+                self.assertNotEqual(result.returncode,0)
+                self.assertFalse(json.loads((p/'margins.json').read_text())['passed'])
+
+
 if __name__ == '__main__':
     unittest.main()

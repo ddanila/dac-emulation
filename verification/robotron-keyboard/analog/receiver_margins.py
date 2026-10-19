@@ -105,9 +105,26 @@ def measure(trace, received, maximum_step_ns, required_ns=100, *, columns=3, dat
                               'The budget is a fixture assumption, not a historical receiver specification.'}
 
 
+def load_board_run(directory):
+    from host_input_review import board_capture
+    from serial_observation import validate_transport
+    original, start, end, step = board_capture(directory)
+    if sha(directory / 'trace.txt') != original.get('traceSha256'):
+        raise ValueError('Board receiver trace differs or is incomplete')
+    with open_text(directory / 'trace.txt') as stream:
+        header = next(stream).split()
+    if len(header) != 5 or header[0] != 'time' or header[-2:] != ['v(receiver_data)', 'v(receiver_clock)']:
+        raise ValueError('Unexpected board receiver trace columns')
+    transport = validate_transport((directory / 'ngspice.log').read_text(), require_activity=True)
+    if json.loads(json.dumps(transport)) != original.get('serialTransport'):
+        raise ValueError('Board serial report differs from retained log')
+    return original, transport, start, end, step
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('directory', type=Path)
+    p.add_argument('--board', action='store_true', help='Diagnostic margins for a retained experimental host-buffer board capture')
     p.add_argument('--required-ns', type=float, default=100)
     p.add_argument('--out', type=Path, required=True)
     args = p.parse_args()
@@ -115,15 +132,29 @@ def main():
         p.error('required-ns must be positive and finite')
     result = {'passed': False, 'scope': __doc__,
               'validationSources': {name: sha(Path(__file__).resolve().parent / name) for name in
-                                    ('receiver_margins.py', 'compare_firmware_io.py', 'transient_analysis.py', 'serial_observation.py', 'led_observation.py', 'trace_io.py')}}
+                                    ('receiver_margins.py', 'compare_firmware_io.py', 'transient_analysis.py', 'serial_observation.py', 'led_observation.py', 'trace_io.py', 'host_input_review.py', 'failure_evidence.py')}}
     args.out.parent.mkdir(parents=True, exist_ok=True)
     try:
-        original, transport = load_run(args.directory)
+        if args.board:
+            original, transport, start, end, step = load_board_run(args.directory)
+            result.update(qualified=False, producerPassed=original.get('passed') is True,
+                          producerError=original.get('error'), captureWindowSeconds=[start, end],
+                          board=True, boundary='Sampled stability at logged receiver events only; producer failures, supply applicability, device thresholds and closed-board qualification remain separate.')
+        else:
+            original, transport = load_run(args.directory)
+            step = original['assumptions']['stepNs']
         result['originalReportSha256'] = sha(args.directory / 'report.json')
         result['traceSha256'] = original['traceSha256']
         result['observations'] = measure(args.directory / 'trace.txt', transport['received'],
-                                         original['assumptions']['stepNs'], args.required_ns,
+                                         step, args.required_ns,
+                                         columns=5 if args.board else 3, data_column=3 if args.board else 1,
                                          inverted_data=not bool(original['assumptions'].get('hostBuffer')))
+        if args.board:
+            observed = result['observations']
+            first, last = observed['waveformStartSeconds'], observed['waveformEndSeconds']
+            if ((start == 0 and first != 0) or not start <= first <= start + step*1e-9
+                    or abs(last-end) > 1e-12):
+                raise ValueError('Board margin capture does not cover its declared window')
         if original['assumptions'].get('hostBuffer'):
             result['qualified'] = False
             result['hostBufferBoundary'] = 'Sampled output stability only; generic buffer, SIO loads and threshold assumptions remain unqualified'
