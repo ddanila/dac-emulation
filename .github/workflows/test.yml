@@ -16,7 +16,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v7
-      - run: sudo apt-get update && sudo apt-get install -y iverilog ngspice
+      - run: sudo apt-get update && sudo apt-get install -y iverilog ngspice libmpfr-dev libgmp-dev pkg-config
       - run: make test-keyboard-controller audit-keyboard-controller
       - name: CPU write-data setup and hold
         run: python3 verification/robotron-keyboard/analog/bus_timing_probe.py
@@ -71,6 +71,7 @@ jobs:
           REFERENCE_NODE_NGSPICE=ngspice python3 verification/robotron-keyboard/analog/test_reference_node_replay.py
           python3 verification/robotron-keyboard/analog/test_linear_system_review.py
           python3 verification/robotron-keyboard/analog/test_linear_precision_review.py
+          python3 verification/robotron-keyboard/analog/test_mpfr_linear_solver.py
           python3 verification/robotron-keyboard/analog/test_linear_startup_reference.py
           python3 verification/robotron-keyboard/analog/test_led_observation.py
           python3 verification/robotron-keyboard/analog/test_trace_io.py
