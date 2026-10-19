@@ -1,0 +1,56 @@
+{
+  "qualified": false,
+  "sourceRevisionVerified": "e3198b7",
+  "independentReviewerRevision": "313600c",
+  "scope": "Exact residual and independent precision review of selected linear solves near the reference-node failures",
+  "evidence": {
+    "control": {
+      "producer": "control/report.json",
+      "linearResiduals": "control/linear-review.json",
+      "independentSolve": "control/precision-review.json",
+      "selectedSystemId": 10,
+      "originalMaximumComponentwiseBackwardError": 0.5747379122355308,
+      "independentMaximumComponentwiseBackwardError": 4.853931996018437e-149,
+      "maximumChangeFromRecordedSolution": 111255775903.59944,
+      "maximumChangeBetweenIndependentPrecisions": 1.728798589141588e-61
+    },
+    "shifted": {
+      "producer": "shifted/report.json",
+      "linearResiduals": "shifted/linear-review.json",
+      "independentSolve": "shifted/precision-review.json",
+      "selectedSystemId": 21,
+      "originalMaximumComponentwiseBackwardError": 0.9999993348114298,
+      "independentMaximumComponentwiseBackwardError": 1.7811719616948566e-144,
+      "maximumChangeFromRecordedSolution": 4482493625138909.0,
+      "maximumChangeBetweenIndependentPrecisions": 2.4796711410683767e-62
+    }
+  },
+  "stateAudit": "../host-reference-state-audit/assessment.json",
+  "patch": "../../engine-patches/ngspice-47-linear-state-audit.patch",
+  "interpretation": "The matrix logging reproduces every source waveform byte and failure diagnostic. Exact row residuals expose severe componentwise backward error hidden by tiny mixed-unit normwise error. Independent 80- and 160-digit solves agree closely with each other and materially disagree with the recorded binary64 solutions. This establishes numerical linear-solve error for the selected stamped systems. The independently solved cable voltages remain extreme: earlier integration history, stamping precision and nonlinear iteration are not repaired by solving one frozen system. No physical device fault, full-run remedy or qualification is established.",
+  "nextAction": "Test algebraically equivalent row/column scaling or higher-precision linear solving from before the failing transition, preserving unscaled device equations and convergence criteria. Verify residuals and waveform convergence; do not promote a fixed-snapshot correction as a full-board remedy.",
+  "waveforms": {
+    "retention": "Complete source-identical waveforms remain local with producer hashes. Full audit logs and independent reviews are retained here.",
+    "directories": [
+      "build/keyboard-controller-analog/host-linear-state-control-verified",
+      "build/keyboard-controller-analog/host-linear-state-shifted-verified"
+    ]
+  },
+  "retainedFilesSha256": {
+    "control/build-provenance.json": "5aff42b8794e1babd8f3c3e6e8d5e7185e090db9605f50ddb95d50ef58c37ba6",
+    "control/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "control/linear-review.json": "29c35321f4961c20d82fc3beb664ebe4d7bc4482ac81cbf768c631b4cde0a621",
+    "control/ngspice.log.xz": "5b6c32fd00edcb0d9209365e078fc474f878d8b3d97f19604cd618d33a0142b2",
+    "control/precision-review.json": "7b7ea8c1e80c7ce9206441dac601a55372fff32c673b1ab22d75a387df30c630",
+    "control/report.json": "e51e05288fa6121c671946f80213e08d858107bcad1c0530ced237c4df1e76d9",
+    "control/state-review.json": "d531ed39df3dcf5772e6e750253d2a58173fb08846d1b9a99a434b5ff5cd12a3",
+    "run.py": "8975efe9d734120ef762da742ee38d47825bac80c66fdf7e68055578ba145301",
+    "shifted/build-provenance.json": "5aff42b8794e1babd8f3c3e6e8d5e7185e090db9605f50ddb95d50ef58c37ba6",
+    "shifted/io.cir": "240108e28066b7b778aac600ec9a6b35f6d9937a03a9f1a0b2517a26b29398b4",
+    "shifted/linear-review.json": "ba6f6861bc9e7135a2e834be5932be6bfd5f84cf60ca0bd458c075395a349f87",
+    "shifted/ngspice.log.xz": "0a77ba1b1fe9715a61308df850a7142f959e7caad9f19787564957d63ffeedfa",
+    "shifted/precision-review.json": "49831034c35767b25aa7dec1661d18b80b1334cd6bbe5ea50f70d3e96fba3fe7",
+    "shifted/report.json": "06f0eec4de0ab9abcaa68079318c0f181a90254120766aaea74cf6fbf4376514",
+    "shifted/state-review.json": "48a65c95e384520542c677ffdddbf476c450864e7a618cefaf6c487a3781be11"
+  }
+}

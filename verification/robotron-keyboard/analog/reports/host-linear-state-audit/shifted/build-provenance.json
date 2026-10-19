@@ -1,0 +1,34 @@
+{
+  "source": "ngspice-47",
+  "scope": "Read-only pre-factorization Sparse matrix, RHS and post-solve solution capture; no circuit or solver changes",
+  "baseFiles": {
+    "src/spicelib/analysis/dctran.c": "382d523b08a843469d81b14e3c08c0cd2b11509ee3470b9e3b3bce6f27157a74",
+    "src/spicelib/analysis/ckttrunc.c": "1ae5c196a7e4b672da62be20624f6bbafc3fca713b0ab12aa69ac22d6a1b4757",
+    "src/spicelib/devices/cap/captrunc.c": "aa17ffdb3cdef8c496fe2a8c3d3f3638a359ea6137a7e45d5a45a31c578235d2",
+    "src/spicelib/devices/ind/indtrunc.c": "2c5dee893df91380c84227242f30610d8aa72c3435c4e4365704f66c3c867bfb",
+    "src/spicelib/analysis/cktterr.c": "e8c55f9f07b12e501eaa5113d9470ccf8304b8b1196563b2f7d36a9d6527c132",
+    "src/maths/ni/niiter.c": "85ed2001b0f4589e43a1e4d11f1fafc8a30f90d25d8ad361efe92c51a8e023a1",
+    "src/maths/sparse/spsmp.c": "8d04e3cadc25e2f96e7265af26ef4b1b7a2a9ce820552f8d3202ac839f698825"
+  },
+  "patchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+  "configureArguments": [
+    "--prefix=/private/tmp/robotron-linear-state-audit/install",
+    "--without-x",
+    "--with-readline=no",
+    "--disable-openmp",
+    "--disable-klu"
+  ],
+  "buildCommand": "make -j4",
+  "executableSha256": "aa1b237400bd8ad27498e5dc974a39193901e2658db5a3540291fde364a4dca3",
+  "compilerVersion": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin",
+  "buildLogsSha256": {
+    "configure.log": "2be46725175b38a7a762163e418c8073df40e3c7abe2ee26254259c799134bd9",
+    "make.log": "9c14000859abcb7e2a12cc4fc88035c7751c9baa8944d3155e9c0ff4e144a806"
+  },
+  "equationSourceSha256": {
+    "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504",
+    "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+    "src/maths/ni/niiter.c": "33610d51524aa156a37c04155bdb2fe2c27a374585a95032f0cb170d8c8e2444",
+    "src/maths/sparse/spsmp.c": "82e736529fefafaf7c7c819e378872fcd2fc39832e6cf4e182f8ed7585389691"
+  }
+}
