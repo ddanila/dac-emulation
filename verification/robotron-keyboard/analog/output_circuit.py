@@ -8,6 +8,25 @@ from circuit import elements, node
 CHOKE_REFS = ('L1.1', 'L1.2', 'L1.3', 'L1.4')
 
 
+def add_filter_options(parser):
+    parser.add_argument('--filter-coupling', type=float, default=0,
+                        help='Experimental uniform cable-winding coupling in [0, 1); not measured')
+    parser.add_argument('--filter-dot-pins', type=int, nargs=4, default=(1, 1, 1, 1),
+                        metavar='PIN', help='Assumed dot terminal (1 or 2) for L1.1 through L1.4')
+
+
+def filter_options(args, enabled=True):
+    coupling = getattr(args, 'filter_coupling', 0)
+    dots = tuple(getattr(args, 'filter_dot_pins', (1, 1, 1, 1)))
+    if not math.isfinite(coupling) or not 0 <= coupling < 1:
+        raise ValueError('Filter coupling must be finite and in [0, 1)')
+    if len(dots) != 4 or any(type(pin) is not int or pin not in (1, 2) for pin in dots):
+        raise ValueError('Filter requires four dot terminals, each 1 or 2')
+    if not enabled and (coupling != 0 or dots != (1, 1, 1, 1)):
+        raise ValueError('Filter hypotheses require electrical outputs')
+    return {'coupling': coupling, 'dots': dots}
+
+
 def choke_circuit(components, choke_uh=1, choke_ohms=1, coupling=0,
                   dots=(1, 1, 1, 1)):
     """Equal windings with uniform coupling; dot pins are explicit hypotheses.

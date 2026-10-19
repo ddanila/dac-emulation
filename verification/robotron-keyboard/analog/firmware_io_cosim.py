@@ -26,7 +26,7 @@ from logic_control import wiring as logic_wiring
 from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
 from ngspice_runtime import identify as identify_runtime, verify as verify_runtime
-from output_circuit import output_circuit
+from output_circuit import output_circuit, add_filter_options, filter_options
 from host_receiver import host_receiver
 from ttl7406_output_probe import driver_circuit, checked_dc_reference
 from serial_observation import validate_transport, first_reference_difference, SerialMismatch
@@ -116,8 +116,10 @@ def main():
     p.add_argument('--sio-data-pf', type=float)
     p.add_argument('--sio-clock-pf', type=float)
     p.add_argument('--sio-leakage-ua', type=float)
+    add_filter_options(p)
     args = p.parse_args()
     try:
+        filter_model = filter_options(args)
         solver = solver_tolerances(args.reltol, args.vntol, args.abstol)
     except ValueError as error:
         p.error(str(error))
@@ -278,14 +280,15 @@ def main():
         if args.serial_driver == '7406-dc':
             report['serialDriverDcReferenceSha256'] = checked_dc_reference()
             outputs, info = driver_circuit(components, args.serial_driver, 1000,
-                                           electrical_data_input=args.electrical_bus, electrical_clock_input=args.electrical_wr)
+                                           electrical_data_input=args.electrical_bus, electrical_clock_input=args.electrical_wr, **filter_model)
         else:
-            outputs, info = output_circuit(components)
+            outputs, info = output_circuit(components, **filter_model)
         if args.host_buffer:
             host_lines, host_info = host_receiver(info, input_reverse_beta=.01, sio_load=sio_load)
             outputs += host_lines
             report['hostReceiver'] = host_info
         report['outputCircuit'] = info
+        report['assumptions']['filterHypothesis'] = info['filter']
         logic_lines, logic_inputs = [], 'fixture_reset_n fixture_reset_n fixture_reset_n'
         if args.electrical_logic_pullups:
             logic_lines, logic_models, logic_info = logic_wiring(components, args.logic_load_pf)

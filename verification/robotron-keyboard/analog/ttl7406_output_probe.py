@@ -31,12 +31,13 @@ def checked_dc_reference():
     return sha(dc_reference_path)
 
 
-def driver_circuit(components, profile, cable_pf, electrical_data_input=False, electrical_clock_input=False):
+def driver_circuit(components, profile, cable_pf, electrical_data_input=False, electrical_clock_input=False,
+                   *, coupling=0, dots=(1, 1, 1, 1)):
     if profile not in ('nominal', '7406-dc'):
         raise ValueError('Unknown serial driver profile')
     if (electrical_data_input or electrical_clock_input) and profile != '7406-dc':
         raise ValueError('Physical input requires the transistor driver')
-    lines, metadata = output_circuit(components, cable_pf=cable_pf)
+    lines, metadata = output_circuit(components, cable_pf=cable_pf, coupling=coupling, dots=dots)
     device = components['A1']
     if device['type'] != '7406' or node(device['pins']['7']) != '0':
         raise ValueError('Unexpected serial driver package or ground')

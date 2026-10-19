@@ -1,0 +1,40 @@
+{
+  "scope": "Photo evidence for investigating cable-filter coupling; no electrical terminal assignment",
+  "cadRevision": "98407964f67806e5ab2fa5f0e5392221689f8a0f",
+  "sources": [
+    {
+      "sourceId": "photo-top",
+      "path": "models/robotron-1715m/reference/photos/PXL_20261012_123622947.jpg",
+      "sha256": "dce38a857c38475372e19cd98aae75f5e7596be67f45e6afc7488f6cf7c99240",
+      "specimen": "primary",
+      "locator": {
+        "pixelRectangle": [
+          1160,
+          640,
+          1380,
+          830
+        ],
+        "scope": "Approximate region of the cable-entry wound core; no terminal or dimensional registration"
+      },
+      "observation": "Insulated conductors wrap a common dark core at the cable entry. Nearby termination rows are visible, but individual winding endpoint correspondence is not established."
+    },
+    {
+      "sourceId": "comparison-photo-080406304",
+      "path": "models/robotron-1715m/reference/photos/PXL_20261017_080406304.jpg",
+      "sha256": "c899c7aba12b0f1085f5b71da44e524611aedf37e3e28567c602cb3b746e6fa2",
+      "specimen": "comparison-20261017",
+      "locator": {
+        "pixelRectangle": [
+          1550,
+          2350,
+          2110,
+          2840
+        ],
+        "scope": "Approximate region of the cable-entry wound core; no terminal or dimensional registration"
+      },
+      "observation": "Insulated conductors wrap a common dark core at the cable entry. Nearby termination rows are visible, but individual winding endpoint correspondence is not established."
+    }
+  ],
+  "conclusion": "Both specimens support a shared-core construction hypothesis. An uncoupled electrical model is a baseline assumption, not a photo-established absence of mutual inductance. The photographs do not determine coupling coefficients, dot polarity, per-winding turns, inductance, losses or which observed endpoint corresponds to each schematic L1 section.",
+  "nextAction": "Trace individual termination paths in overlapping views while testing declared coupling/polarity hypotheses through firmware runners. Do not transfer comparison-specimen coordinates or promote a convenient coefficient to measured fact."
+}

@@ -48,6 +48,8 @@ class BootPreparationTests(unittest.TestCase):
             self.assertIn('bus_observation.py', report['sources'])
             with self.assertRaisesRegex(ValueError, 'timing qualification'):
                 compare(report, report, 10)
+            args.filter_coupling = .8
+            args.filter_dot_pins = (1, 2, 1, 1)
             args.host_buffer = True
             args.sio_data_pf, args.sio_clock_pf, args.sio_leakage_ua = 5, 50, 10
             for bus in (False, True):
@@ -57,6 +59,9 @@ class BootPreparationTests(unittest.TestCase):
                 with patch('boot_cosim.ROM_SHA256',sha(rom)):
                     prepare(args,host)
                 deck=(out/'boot.cir').read_text()
+                self.assertIn('Kfilter12 L1.1 L1.2 0.80000000000000004', deck)
+                self.assertEqual(host['assumptions']['filterHypothesis']['dotPins']['L1.2'], 2)
+                self.assertFalse(host['assumptions']['filterHypothesis']['qualified'])
                 self.assertIn('Vhost host_receiver_5v host_receiver_gnd ',deck)
                 self.assertIn('Ereceiver_data receiver_data 0 host_data_buffer_output host_receiver_gnd 1',deck)
                 self.assertIn('Ereceiver_clock receiver_clock 0 host_clock_buffer_output host_receiver_gnd 1',deck)
@@ -71,6 +76,8 @@ class BootPreparationTests(unittest.TestCase):
                 self.assertFalse(host['qualified'])
                 with self.assertRaisesRegex(ValueError,'Host-buffer full-board'):
                     compare(host,host,10)
+            args.filter_coupling = 0
+            args.filter_dot_pins = (1, 1, 1, 1)
             args.host_buffer = False
             args.sio_data_pf = args.sio_clock_pf = args.sio_leakage_ua = None
             args.reset_load = 'reference-capacitance'
