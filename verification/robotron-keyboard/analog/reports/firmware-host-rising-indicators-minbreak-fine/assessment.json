@@ -1,0 +1,45 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "f67c0a506a908fe8d6fc753cae5418be5bb370b9",
+  "scope": "Host-loaded rising-RxC indicator scenario timestep comparison",
+  "evidence": {
+    "producer": "report.json",
+    "sampledStability": "margins-140ns.json",
+    "serialRefinement": "comparison.json",
+    "ledRefinement": "led-comparison.json",
+    "ledReference": "led-reference.json",
+    "absoluteTimeVoltages": "host-comparison.json",
+    "reviewProvenance": "review-provenance.json",
+    "coarse": "../firmware-host-rising-indicators-minbreak/assessment.json"
+  },
+  "interpretation": "Indicator captures pass packet coverage, ordinal C-reference serial and LED comparisons, LED intent timing refinement, serial-edge refinement and the independent sampled stability screen. Absolute-time voltage differences remain material, including a host data-output peak difference exceeding two volts. LED intent timing does not establish physical brightness or device dynamics; logical agreement does not qualify voltage convergence, receiver applicability or onboard startup.",
+  "nextAction": "Resolve numerical convergence and independently constrain switching dynamics before coupled-board qualification. Preserve absolute-time differences and failed electrical gates.",
+  "waveforms": {
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-indicators-minbreak-fine",
+    "files": [
+      "trace.txt.xz",
+      "led-trace.txt.xz",
+      "driver-trace.txt.xz",
+      "host-trace.txt.xz"
+    ],
+    "retention": "Complete lossless local traces verified by the hash-bound reviews. No ROM or compiled HDL retained."
+  },
+  "retainedFilesSha256": {
+    "led-comparison.json": "a4778e4a5dace54c65e4a3f4a9d4a1f5b3131d16d42f40e009ef97d1dd2aa1d3",
+    "review-provenance.json": "07ad03d535467ccfa10153d13313ad5da1ef1a8a011d90b1d28af430bc175ce4",
+    "report.json": "8536dfc863a5e630942c5c5929121283bfc4d497ac52813282771f84a09893a8",
+    "run-inputs.json": "e2e7dd72acbc8c848e1647c5dfa0e713c05a9c393a3c1f7d6faab8ad53b10b46",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io_scenario.h": "1097ffcb0fa2b99d360364ba33334a8b3ac1b844010ade3a7c7be4fb53625140",
+    "comparison.json": "34a125170a72eed9593eaa88e19811dd35749f7d63872904483276661124173a",
+    "margins-140ns.json": "12eaf51eddaa486ea3da34e6c37c1af7835aabbf7767a4a3d8babe0b951c8c03",
+    "ngspice.log.xz": "4a16cb4e3c84b80d2126488beae73831e017e36721544624bf541dd5e7d2655d",
+    "led-reference.json": "1247e920fbfbff30ae53d0678e522f00d6593593d583c495643c8f0edf39d9f8",
+    "reference.log": "23006b06110fa413caecf8f532c4dbd28bbedd89e16b2ef5377cef55574fc20b",
+    "scenario.json": "0f58450c344e6723a03677dee5383b4028f3d6fd414a8a402dc9785615a5cc1d",
+    "io.cir": "cfc0fff64735b135d65b8699e6fafb33af57584bb2dc3730d56d52e530b0559d",
+    "host-comparison.json": "61601e8215555022ad1daea12290f67deaf441bf2e0560d1ac7fda72eb03dbb5",
+    "led-reference/reference.log": "125e4abe7179e14b30261098c284f70f0378a02fd7ccd33f7712f62daf7df72e"
+  }
+}
