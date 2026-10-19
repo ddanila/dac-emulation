@@ -1,0 +1,1833 @@
+{
+  "passed": false,
+  "scope": "Exercise S600 matrix/cable feedback with CPU-side clock/reset service fixtures.",
+  "assumptions": {
+    "electricalCpuPullups": false,
+    "electricalLogicPullups": false,
+    "logicLoadPf": 0,
+    "logicClockReceiver": "Nominal 1.4 V threshold; not calibrated DL074 switching timing",
+    "minimumBreakpointFs": 1.0,
+    "solverTolerances": {
+      "reltol": 0.0001,
+      "vntol": 1e-07,
+      "abstol": 1e-13
+    },
+    "transientIterations": 1000,
+    "truncationTolerance": null,
+    "linearSolver": null,
+    "integrationMethod": null,
+    "maximumOrder": null,
+    "analysisInvocation": "deck-tran/run",
+    "clockPeriodNs": 1000,
+    "resetRampStartNs": 1000000,
+    "fixtureEdgeNs": 1,
+    "fixtureThresholdVolts": 1.4,
+    "br1Closed": false,
+    "br2Closed": false,
+    "contactTransitionNs": 1,
+    "latchLoad": "ideal",
+    "columnLoadPf": 0,
+    "supply": "1 us host-supply ramp through cable paths; fixture holds CPU reset for 1 ms; no board power-on-reset qualification",
+    "semiconductors": "Generic matrix PNP and nominal output/load models",
+    "coverage": "TV80, resolved ROM/latch bus, electrical matrix and cable receiver; oscillator/reset generators excluded",
+    "ledTrace": false,
+    "requireLedActivity": false,
+    "stepNs": 50.0,
+    "bridgeDelayNs": 10,
+    "bridgeDelay": "Numerical interface delay, not a calibrated device propagation delay",
+    "cpuProfile": "tv80",
+    "latchTimingEnvelope": false,
+    "romReadEnvelope": false,
+    "hostBuffer": "7404-candidate",
+    "sioLoad": {
+      "dataPf": 5.0,
+      "clockPf": 50.0,
+      "leakageUa": 10.0
+    },
+    "hostBoundary": "Reference motherboard passives and generic 7404 candidate; rising buffer-output clock and non-inverted logical data. Input loading, switching and SIO loads unqualified.",
+    "serialDriver": "7406-dc",
+    "scenario": {
+      "name": "single press",
+      "cycles": 29000,
+      "contacts": [
+        {
+          "cycle": 4000,
+          "index": 61,
+          "closed": true
+        }
+      ],
+      "resets": [],
+      "observations": [
+        {
+          "name": "press",
+          "startCycle": 4000,
+          "endCycle": 29000,
+          "minimumBits": 26
+        }
+      ]
+    },
+    "filterHypothesis": {
+      "coupling": 0.8,
+      "dotPins": {
+        "L1.1": 1,
+        "L1.2": 1,
+        "L1.3": 1,
+        "L1.4": 1
+      },
+      "qualified": false,
+      "selfInductanceUh": 1,
+      "seriesOhms": 1,
+      "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+    }
+  },
+  "sources": {
+    "firmware_io_cosim.py": "b3fa1f796d816645fc4e7917de2b767afd0f4a0c8092dd6f4f513fc0597dd4b7",
+    "firmware_io_cosim.v": "af9360a358028646e583eec39b783116c08860be9ec7e6406f1147e7e2914297",
+    "boot_cosim.py": "bcc5ac632e3f18c20874e3b295af8fbd40b6f6e4228bd5870dc2f443914a82ba",
+    "boot_cosim.v": "305e3f4aa49bd60226fd5987e7563d9e364948a1362431b30b6778a712f1f134",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "matrix.py": "20c4660f5dcb675954ad3e5baa71529115615a12246300ff896657ed8dcbfdd5",
+    "latch_limits.json": "b3b1cee9f151e6aa43f45e680c7affe12d9b520b14f0a5f0fdfcfde3e8e57d85",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+    "output_circuit.py": "d39ada5615bc15676e7e9e800729417a6422e4341ad005f08b8d5543f68f9bb8",
+    "controller_interface.py": "46f5c499306b32d3801976557de3b956846a81feb80fc035afd7606ae38d968a",
+    "logic_control.py": "858d26b9ec425fce396b45332f147150f1b52d7f918aa0cf8ff514452d41ea2d",
+    "model_coverage.py": "4e0104305f96974a8f30f7b6afe05ac7e142ab60a37de204f75a5727a48d6b9c",
+    "reset_probe.py": "b0b659ed506e57188de7313bccdde13e829e3e925e67a464d7aaa35ce5cac851",
+    "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+    "cpu_control.py": "9352eb76bb7204e7e7ad2b4e2812c67dd71477abafd7e49f21234bd9076d7768",
+    "cpu_clock_limits.json": "2c9bcde027d0aa4e756e46bfa95c9da7daae6dec70631b9b8d2586d61f6400b1",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "reset_observation.py": "35418feb9ac2f0a333873fd804b56e23f06640d10ff5c4d6df485226cbd07098",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "compressed_output.py": "0e7005c4322b99101788a19448172a9ed0ec88bc6dc64d9fde9c058862d89447",
+    "transient_analysis.py": "dd0dd5ef7a34533cd75128fa3c90c52815d8b11364b938e32680310207d3310e",
+    "cpu_read_phase_candidate.py": "f5d40a34c9fe4cfd607541b38b9ab9bd687893e1c1431f82fa25b43001eee4c3",
+    "u856_limits.json": "317877d5b5faa4d538f20aa8fcd8d772824eebfb615523329100b099ad2c7696",
+    "host_receiver.py": "c6bf4020bc1b95bcd90d8bdb6e6b92f9bf0c232a556b3cc8021e5371785c47c6",
+    "host_receiver.json": "53a0ce5e712aaf7d629419f765973c85196aa1ecc3777488ce2f2ffe743ebc10",
+    "ttl7404_nominal.cir": "897965264d1bd6061436805a260acd5ad32aacab08a121ebb82e900cd4501ed2",
+    "d104_limits.json": "541eb612b620ec9b5b84d6991719acd3cb36b411950b0bf3d4aa1a2b50fa719f",
+    "ttl7406_output_probe.py": "7bd0ee72b97207bfd92b1e25c6beb33924a80b3724b90f292ee385249a407a6a",
+    "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+    "ttl7406_limits.json": "9eff9a9d9ee2060cab81a3a9bedc6017770c1e7b115c7ff894ec02193c9839aa"
+  },
+  "waveformCompression": null,
+  "qualified": false,
+  "scenarioSha256": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+  "generatedScenarioHeaderSha256": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+  "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+  "cReferenceSources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/firmware_io_reference.c": "f2afb530804d237b3c6ceb47ca39729d68c8f29545591cf3b7241e2aa6337e8f",
+    "/Users/ddanila/fun/dac-emulation/machines/robotron1715m/keyboard.c": "d611b8dd61a6ecc75dc922fc40d0c1901722aec0de988516157af2a26c89922b",
+    "/Users/ddanila/fun/dac-emulation/common/cpu/z80.c": "d7329a9a116f49441b9ed4f23c0c2fdbb8cb338f74e327cc3344442a355461cf",
+    "/Users/ddanila/fun/dac-emulation/machines/robotron1715m/keyboard.h": "49e4aaa2a5b8dc4bb4b2882c4fc24da194194581e6f133723dc37b8e3216979f",
+    "/Users/ddanila/fun/dac-emulation/common/cpu/z80.h": "a998bd23598a0076b26adf94ab895710378d4f19a0a58a1168c1edd23504ad46"
+  },
+  "referenceLogSha256": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+  "referenceCoverage": {
+    "passed": true,
+    "windows": [
+      {
+        "name": "press",
+        "startCycle": 4000,
+        "endCycle": 29000,
+        "minimumBits": 26,
+        "observedBits": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          1
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "tv80": {
+    "repository": "https://github.com/hutch31/tv80",
+    "revision": "66a131c38d05ef58b3d8c4f1507a72e6e4aa5d65",
+    "scope": "Unmodified rtl/core files; MIT license retained in each file. Qualification only, not production runtime.",
+    "files": {
+      "tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+      "tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+      "tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+      "tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+      "tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+    }
+  },
+  "cpuModel": {
+    "profile": "tv80",
+    "qualified": false,
+    "sampling": "M1 rising; non-M1 rising",
+    "boundary": "Behavioral CPU experiment; not calibrated U880 pin timing or synthesis qualification"
+  },
+  "hdlSha256": {
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/boot_cosim.v": "305e3f4aa49bd60226fd5987e7563d9e364948a1362431b30b6778a712f1f134",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/firmware_io_cosim.v": "af9360a358028646e583eec39b783116c08860be9ec7e6406f1147e7e2914297",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/firmware-filter-strict-k08/controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece"
+  },
+  "matrixCircuit": {
+    "latchLoad": "ideal",
+    "columnLoadPf": 0,
+    "columnLoadScope": "Assumed per-column fixture capacitance to ground; zero omits it; not specimen calibration",
+    "models": {
+      "R1": "common-pin resistor network",
+      "R2": "common-pin resistor network",
+      "R9.1": "resistor",
+      "R9.2": "resistor",
+      "R9.3": "resistor",
+      "R9.4": "resistor",
+      "R9.5": "resistor",
+      "R9.6": "resistor",
+      "R9.7": "resistor",
+      "R9.8": "resistor",
+      "V4.1": "PNP_NOMINAL",
+      "V4.2": "PNP_NOMINAL",
+      "V4.3": "PNP_NOMINAL",
+      "V4.4": "PNP_NOMINAL",
+      "V4.5": "PNP_NOMINAL",
+      "V4.6": "PNP_NOMINAL",
+      "V4.7": "PNP_NOMINAL",
+      "V4.8": "PNP_NOMINAL"
+    },
+    "contacts": [
+      {
+        "index": 0,
+        "column": 0,
+        "row": 0,
+        "connectorPins": [
+          "A11",
+          "B6"
+        ]
+      },
+      {
+        "index": 1,
+        "column": 0,
+        "row": 1,
+        "connectorPins": [
+          "A11",
+          "B2"
+        ]
+      },
+      {
+        "index": 2,
+        "column": 0,
+        "row": 2,
+        "connectorPins": [
+          "A11",
+          "B7"
+        ]
+      },
+      {
+        "index": 3,
+        "column": 0,
+        "row": 3,
+        "connectorPins": [
+          "A11",
+          "A1"
+        ]
+      },
+      {
+        "index": 4,
+        "column": 0,
+        "row": 4,
+        "connectorPins": [
+          "A11",
+          "A4"
+        ]
+      },
+      {
+        "index": 5,
+        "column": 0,
+        "row": 5,
+        "connectorPins": [
+          "A11",
+          "B5"
+        ]
+      },
+      {
+        "index": 6,
+        "column": 0,
+        "row": 6,
+        "connectorPins": [
+          "A11",
+          "B11"
+        ]
+      },
+      {
+        "index": 7,
+        "column": 0,
+        "row": 7,
+        "connectorPins": [
+          "A11",
+          "B13"
+        ]
+      },
+      {
+        "index": 8,
+        "column": 1,
+        "row": 0,
+        "connectorPins": [
+          "A13",
+          "B6"
+        ]
+      },
+      {
+        "index": 9,
+        "column": 1,
+        "row": 1,
+        "connectorPins": [
+          "A13",
+          "B2"
+        ]
+      },
+      {
+        "index": 10,
+        "column": 1,
+        "row": 2,
+        "connectorPins": [
+          "A13",
+          "B7"
+        ]
+      },
+      {
+        "index": 11,
+        "column": 1,
+        "row": 3,
+        "connectorPins": [
+          "A13",
+          "A1"
+        ]
+      },
+      {
+        "index": 12,
+        "column": 1,
+        "row": 4,
+        "connectorPins": [
+          "A13",
+          "A4"
+        ]
+      },
+      {
+        "index": 13,
+        "column": 1,
+        "row": 5,
+        "connectorPins": [
+          "A13",
+          "B5"
+        ]
+      },
+      {
+        "index": 14,
+        "column": 1,
+        "row": 6,
+        "connectorPins": [
+          "A13",
+          "B11"
+        ]
+      },
+      {
+        "index": 15,
+        "column": 1,
+        "row": 7,
+        "connectorPins": [
+          "A13",
+          "B13"
+        ]
+      },
+      {
+        "index": 16,
+        "column": 2,
+        "row": 0,
+        "connectorPins": [
+          "B10",
+          "B6"
+        ]
+      },
+      {
+        "index": 17,
+        "column": 2,
+        "row": 1,
+        "connectorPins": [
+          "B10",
+          "B2"
+        ]
+      },
+      {
+        "index": 18,
+        "column": 2,
+        "row": 2,
+        "connectorPins": [
+          "B10",
+          "B7"
+        ]
+      },
+      {
+        "index": 19,
+        "column": 2,
+        "row": 3,
+        "connectorPins": [
+          "B10",
+          "A1"
+        ]
+      },
+      {
+        "index": 20,
+        "column": 2,
+        "row": 4,
+        "connectorPins": [
+          "B10",
+          "A4"
+        ]
+      },
+      {
+        "index": 21,
+        "column": 2,
+        "row": 5,
+        "connectorPins": [
+          "B10",
+          "B5"
+        ]
+      },
+      {
+        "index": 22,
+        "column": 2,
+        "row": 6,
+        "connectorPins": [
+          "B10",
+          "B11"
+        ]
+      },
+      {
+        "index": 23,
+        "column": 2,
+        "row": 7,
+        "connectorPins": [
+          "B10",
+          "B13"
+        ]
+      },
+      {
+        "index": 24,
+        "column": 3,
+        "row": 0,
+        "connectorPins": [
+          "B9",
+          "B6"
+        ]
+      },
+      {
+        "index": 25,
+        "column": 3,
+        "row": 1,
+        "connectorPins": [
+          "B9",
+          "B2"
+        ]
+      },
+      {
+        "index": 26,
+        "column": 3,
+        "row": 2,
+        "connectorPins": [
+          "B9",
+          "B7"
+        ]
+      },
+      {
+        "index": 27,
+        "column": 3,
+        "row": 3,
+        "connectorPins": [
+          "B9",
+          "A1"
+        ]
+      },
+      {
+        "index": 28,
+        "column": 3,
+        "row": 4,
+        "connectorPins": [
+          "B9",
+          "A4"
+        ]
+      },
+      {
+        "index": 29,
+        "column": 3,
+        "row": 5,
+        "connectorPins": [
+          "B9",
+          "B5"
+        ]
+      },
+      {
+        "index": 30,
+        "column": 3,
+        "row": 6,
+        "connectorPins": [
+          "B9",
+          "B11"
+        ]
+      },
+      {
+        "index": 31,
+        "column": 3,
+        "row": 7,
+        "connectorPins": [
+          "B9",
+          "B13"
+        ]
+      },
+      {
+        "index": 32,
+        "column": 4,
+        "row": 0,
+        "connectorPins": [
+          "B1",
+          "B6"
+        ]
+      },
+      {
+        "index": 33,
+        "column": 4,
+        "row": 1,
+        "connectorPins": [
+          "B1",
+          "B2"
+        ]
+      },
+      {
+        "index": 34,
+        "column": 4,
+        "row": 2,
+        "connectorPins": [
+          "B1",
+          "B7"
+        ]
+      },
+      {
+        "index": 35,
+        "column": 4,
+        "row": 3,
+        "connectorPins": [
+          "B1",
+          "A1"
+        ]
+      },
+      {
+        "index": 36,
+        "column": 4,
+        "row": 4,
+        "connectorPins": [
+          "B1",
+          "A4"
+        ]
+      },
+      {
+        "index": 37,
+        "column": 4,
+        "row": 5,
+        "connectorPins": [
+          "B1",
+          "B5"
+        ]
+      },
+      {
+        "index": 38,
+        "column": 4,
+        "row": 6,
+        "connectorPins": [
+          "B1",
+          "B11"
+        ]
+      },
+      {
+        "index": 39,
+        "column": 4,
+        "row": 7,
+        "connectorPins": [
+          "B1",
+          "B13"
+        ]
+      },
+      {
+        "index": 40,
+        "column": 5,
+        "row": 0,
+        "connectorPins": [
+          "A2",
+          "B6"
+        ]
+      },
+      {
+        "index": 41,
+        "column": 5,
+        "row": 1,
+        "connectorPins": [
+          "A2",
+          "B2"
+        ]
+      },
+      {
+        "index": 42,
+        "column": 5,
+        "row": 2,
+        "connectorPins": [
+          "A2",
+          "B7"
+        ]
+      },
+      {
+        "index": 43,
+        "column": 5,
+        "row": 3,
+        "connectorPins": [
+          "A2",
+          "A1"
+        ]
+      },
+      {
+        "index": 44,
+        "column": 5,
+        "row": 4,
+        "connectorPins": [
+          "A2",
+          "A4"
+        ]
+      },
+      {
+        "index": 45,
+        "column": 5,
+        "row": 5,
+        "connectorPins": [
+          "A2",
+          "B5"
+        ]
+      },
+      {
+        "index": 46,
+        "column": 5,
+        "row": 6,
+        "connectorPins": [
+          "A2",
+          "B11"
+        ]
+      },
+      {
+        "index": 47,
+        "column": 5,
+        "row": 7,
+        "connectorPins": [
+          "A2",
+          "B13"
+        ]
+      },
+      {
+        "index": 48,
+        "column": 6,
+        "row": 0,
+        "connectorPins": [
+          "B3",
+          "B6"
+        ]
+      },
+      {
+        "index": 49,
+        "column": 6,
+        "row": 1,
+        "connectorPins": [
+          "B3",
+          "B2"
+        ]
+      },
+      {
+        "index": 50,
+        "column": 6,
+        "row": 2,
+        "connectorPins": [
+          "B3",
+          "B7"
+        ]
+      },
+      {
+        "index": 51,
+        "column": 6,
+        "row": 3,
+        "connectorPins": [
+          "B3",
+          "A1"
+        ]
+      },
+      {
+        "index": 52,
+        "column": 6,
+        "row": 4,
+        "connectorPins": [
+          "B3",
+          "A4"
+        ]
+      },
+      {
+        "index": 53,
+        "column": 6,
+        "row": 5,
+        "connectorPins": [
+          "B3",
+          "B5"
+        ]
+      },
+      {
+        "index": 54,
+        "column": 6,
+        "row": 6,
+        "connectorPins": [
+          "B3",
+          "B11"
+        ]
+      },
+      {
+        "index": 55,
+        "column": 6,
+        "row": 7,
+        "connectorPins": [
+          "B3",
+          "B13"
+        ]
+      },
+      {
+        "index": 56,
+        "column": 7,
+        "row": 0,
+        "connectorPins": [
+          "B12",
+          "B6"
+        ]
+      },
+      {
+        "index": 57,
+        "column": 7,
+        "row": 1,
+        "connectorPins": [
+          "B12",
+          "B2"
+        ]
+      },
+      {
+        "index": 58,
+        "column": 7,
+        "row": 2,
+        "connectorPins": [
+          "B12",
+          "B7"
+        ]
+      },
+      {
+        "index": 59,
+        "column": 7,
+        "row": 3,
+        "connectorPins": [
+          "B12",
+          "A1"
+        ]
+      },
+      {
+        "index": 60,
+        "column": 7,
+        "row": 4,
+        "connectorPins": [
+          "B12",
+          "A4"
+        ]
+      },
+      {
+        "index": 61,
+        "column": 7,
+        "row": 5,
+        "connectorPins": [
+          "B12",
+          "B5"
+        ]
+      },
+      {
+        "index": 62,
+        "column": 7,
+        "row": 6,
+        "connectorPins": [
+          "B12",
+          "B11"
+        ]
+      },
+      {
+        "index": 63,
+        "column": 7,
+        "row": 7,
+        "connectorPins": [
+          "B12",
+          "B13"
+        ]
+      },
+      {
+        "index": 64,
+        "column": 8,
+        "row": 0,
+        "connectorPins": [
+          "A3",
+          "B6"
+        ]
+      },
+      {
+        "index": 65,
+        "column": 8,
+        "row": 1,
+        "connectorPins": [
+          "A3",
+          "B2"
+        ]
+      },
+      {
+        "index": 66,
+        "column": 8,
+        "row": 2,
+        "connectorPins": [
+          "A3",
+          "B7"
+        ]
+      },
+      {
+        "index": 67,
+        "column": 8,
+        "row": 3,
+        "connectorPins": [
+          "A3",
+          "A1"
+        ]
+      },
+      {
+        "index": 68,
+        "column": 8,
+        "row": 4,
+        "connectorPins": [
+          "A3",
+          "A4"
+        ]
+      },
+      {
+        "index": 69,
+        "column": 8,
+        "row": 5,
+        "connectorPins": [
+          "A3",
+          "B5"
+        ]
+      },
+      {
+        "index": 70,
+        "column": 8,
+        "row": 6,
+        "connectorPins": [
+          "A3",
+          "B11"
+        ]
+      },
+      {
+        "index": 71,
+        "column": 8,
+        "row": 7,
+        "connectorPins": [
+          "A3",
+          "B13"
+        ]
+      },
+      {
+        "index": 72,
+        "column": 9,
+        "row": 0,
+        "connectorPins": [
+          "A10",
+          "B6"
+        ]
+      },
+      {
+        "index": 73,
+        "column": 9,
+        "row": 1,
+        "connectorPins": [
+          "A10",
+          "B2"
+        ]
+      },
+      {
+        "index": 74,
+        "column": 9,
+        "row": 2,
+        "connectorPins": [
+          "A10",
+          "B7"
+        ]
+      },
+      {
+        "index": 75,
+        "column": 9,
+        "row": 3,
+        "connectorPins": [
+          "A10",
+          "A1"
+        ]
+      },
+      {
+        "index": 76,
+        "column": 9,
+        "row": 4,
+        "connectorPins": [
+          "A10",
+          "A4"
+        ]
+      },
+      {
+        "index": 77,
+        "column": 9,
+        "row": 5,
+        "connectorPins": [
+          "A10",
+          "B5"
+        ]
+      },
+      {
+        "index": 78,
+        "column": 9,
+        "row": 6,
+        "connectorPins": [
+          "A10",
+          "B11"
+        ]
+      },
+      {
+        "index": 79,
+        "column": 9,
+        "row": 7,
+        "connectorPins": [
+          "A10",
+          "B13"
+        ]
+      },
+      {
+        "index": 80,
+        "column": 10,
+        "row": 0,
+        "connectorPins": [
+          "A12",
+          "B6"
+        ]
+      },
+      {
+        "index": 81,
+        "column": 10,
+        "row": 1,
+        "connectorPins": [
+          "A12",
+          "B2"
+        ]
+      },
+      {
+        "index": 82,
+        "column": 10,
+        "row": 2,
+        "connectorPins": [
+          "A12",
+          "B7"
+        ]
+      },
+      {
+        "index": 83,
+        "column": 10,
+        "row": 3,
+        "connectorPins": [
+          "A12",
+          "A1"
+        ]
+      },
+      {
+        "index": 84,
+        "column": 10,
+        "row": 4,
+        "connectorPins": [
+          "A12",
+          "A4"
+        ]
+      },
+      {
+        "index": 85,
+        "column": 10,
+        "row": 5,
+        "connectorPins": [
+          "A12",
+          "B5"
+        ]
+      },
+      {
+        "index": 86,
+        "column": 10,
+        "row": 6,
+        "connectorPins": [
+          "A12",
+          "B11"
+        ]
+      },
+      {
+        "index": 87,
+        "column": 10,
+        "row": 7,
+        "connectorPins": [
+          "A12",
+          "B13"
+        ]
+      },
+      {
+        "index": 88,
+        "column": 11,
+        "row": 0,
+        "connectorPins": [
+          "B8",
+          "B6"
+        ]
+      },
+      {
+        "index": 89,
+        "column": 11,
+        "row": 1,
+        "connectorPins": [
+          "B8",
+          "B2"
+        ]
+      },
+      {
+        "index": 90,
+        "column": 11,
+        "row": 2,
+        "connectorPins": [
+          "B8",
+          "B7"
+        ]
+      },
+      {
+        "index": 91,
+        "column": 11,
+        "row": 3,
+        "connectorPins": [
+          "B8",
+          "A1"
+        ]
+      },
+      {
+        "index": 92,
+        "column": 11,
+        "row": 4,
+        "connectorPins": [
+          "B8",
+          "A4"
+        ]
+      },
+      {
+        "index": 93,
+        "column": 11,
+        "row": 5,
+        "connectorPins": [
+          "B8",
+          "B5"
+        ]
+      },
+      {
+        "index": 94,
+        "column": 11,
+        "row": 6,
+        "connectorPins": [
+          "B8",
+          "B11"
+        ]
+      },
+      {
+        "index": 95,
+        "column": 11,
+        "row": 7,
+        "connectorPins": [
+          "B8",
+          "B13"
+        ]
+      },
+      {
+        "index": 96,
+        "column": 12,
+        "row": 0,
+        "connectorPins": [
+          "B4",
+          "B6"
+        ]
+      },
+      {
+        "index": 97,
+        "column": 12,
+        "row": 1,
+        "connectorPins": [
+          "B4",
+          "B2"
+        ]
+      },
+      {
+        "index": 98,
+        "column": 12,
+        "row": 2,
+        "connectorPins": [
+          "B4",
+          "B7"
+        ]
+      },
+      {
+        "index": 99,
+        "column": 12,
+        "row": 3,
+        "connectorPins": [
+          "B4",
+          "A1"
+        ]
+      },
+      {
+        "index": 100,
+        "column": 12,
+        "row": 4,
+        "connectorPins": [
+          "B4",
+          "A4"
+        ]
+      },
+      {
+        "index": 101,
+        "column": 12,
+        "row": 5,
+        "connectorPins": [
+          "B4",
+          "B5"
+        ]
+      },
+      {
+        "index": 102,
+        "column": 12,
+        "row": 6,
+        "connectorPins": [
+          "B4",
+          "B11"
+        ]
+      },
+      {
+        "index": 103,
+        "column": 12,
+        "row": 7,
+        "connectorPins": [
+          "B4",
+          "B13"
+        ]
+      }
+    ],
+    "outputs": [
+      "n_SENSE0",
+      "n_SENSE1",
+      "n_SENSE2",
+      "n_SENSE3",
+      "n_SENSE4",
+      "n_SENSE5",
+      "n_SENSE6",
+      "n_SENSE7"
+    ],
+    "columnNets": [
+      "n_COL0",
+      "n_COL1",
+      "n_COL2",
+      "n_COL3",
+      "n_COL4",
+      "n_COL5",
+      "n_COL6",
+      "n_COL7",
+      "n_COL8",
+      "n_COL9",
+      "n_COL10",
+      "n_COL11",
+      "n_COL12"
+    ]
+  },
+  "serialDriverDcReferenceSha256": "09605f7f96dfb57ca07e61938b39a38be6da258ad71c842829eab066956d3c00",
+  "hostReceiver": {
+    "bufferOutputs": {
+      "data": "host_data_buffer_output",
+      "clock": "host_clock_buffer_output"
+    },
+    "bufferModel": {
+      "inputReverseBeta": 0.01,
+      "qualified": false,
+      "scope": "TI standard 7404 topology, generic semiconductors; explicit assumed SIO loads, not measured or device-qualified",
+      "sioLoad": {
+        "dataPf": 5.0,
+        "clockPf": 50.0,
+        "leakageUa": 10.0
+      },
+      "loadBoundary": "1 Gohm shunt plus specified capacitance and constant leakage; positive leakage flows from input to ground. Constant leakage is a stress assumption, not device I/V behavior."
+    },
+    "supply": "host_receiver_5v",
+    "ground": "host_receiver_gnd",
+    "inputs": {
+      "data": "host_data_buffer_input",
+      "clock": "host_clock_buffer_input"
+    },
+    "evidence": {
+      "scope": "Reference motherboard passive keyboard input network; not specimen continuity or a D104 transistor model",
+      "sources": [
+        {
+          "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+          "locator": "PDF page 7, drawing 56-330-0101-2, keyboard connector X3 through L1.1, R7/R2/C2 to A11.2 and A29",
+          "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+        },
+        {
+          "url": "https://www.sax.de/~zander/pc1715/pc_zres.pdf",
+          "locator": "PDF page 1, right side: TASTATUR, A11.2E/F, A29 U856D",
+          "sha256": "d96efdeeefcf214c7f5044c03ff5165203bc7781afd0852e8de94b623c5b5c63"
+        }
+      ],
+      "channels": {
+        "data": {
+          "connectorContacts": [
+            "X3:A4",
+            "X3:B4"
+          ],
+          "winding": "L1.14",
+          "pullup": "R7.2",
+          "pullupOhms": 560,
+          "series": "R2.2",
+          "seriesOhms": 100,
+          "capacitor": "C2.1",
+          "capacitancePf": 680,
+          "bufferInput": "A11.2:11",
+          "bufferOutput": "A11.2:10",
+          "sioInput": "A29:12"
+        },
+        "clock": {
+          "connectorContacts": [
+            "X3:A1",
+            "X3:B1"
+          ],
+          "winding": "L1.11",
+          "pullup": "R7.1",
+          "pullupOhms": 560,
+          "series": "R2.3",
+          "seriesOhms": 100,
+          "capacitor": "C2.2",
+          "capacitancePf": 680,
+          "bufferInput": "A11.2:13",
+          "bufferOutput": "A11.2:12",
+          "sioInput": "A29:13"
+        }
+      },
+      "supply": {
+        "connectorContacts": [
+          "X3:A2",
+          "X3:B2"
+        ],
+        "winding": "L1.12"
+      },
+      "ground": {
+        "connectorContacts": [
+          "X3:A3",
+          "X3:B3"
+        ],
+        "winding": "L1.13"
+      },
+      "limitations": [
+        "Winding inductance, resistance and mutual coupling are not specified by these drawings.",
+        "The passive network terminates at buffer inputs; D104/T104 input currents, clamps, propagation and inversion into the SIO are not yet modeled.",
+        "Published reference motherboard revisions are not proof of installed specimen wiring."
+      ]
+    },
+    "qualified": false,
+    "windingAssumptions": {
+      "selfInductanceUh": 1,
+      "seriesOhms": 1,
+      "coupling": 0
+    }
+  },
+  "outputCircuit": {
+    "models": {
+      "R10.1": "resistor",
+      "R10.2": "resistor",
+      "R11.1": "resistor",
+      "R11.2": "resistor",
+      "C3.1": "capacitor",
+      "C3.2": "capacitor",
+      "C5.1": "capacitor",
+      "C5.2": "capacitor",
+      "C5.3": "capacitor",
+      "C5.4": "capacitor",
+      "C5.5": "capacitor",
+      "L1.1": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model",
+      "L1.2": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model",
+      "L1.3": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model",
+      "L1.4": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model"
+    },
+    "hostGround": "n_CABLE_GND",
+    "hostSupply": "n_CABLE_5V",
+    "serial": {
+      "data": {
+        "board": "n_TA_DATEN",
+        "cable": "n_CABLE_DATEN",
+        "connectorPin": "A1"
+      },
+      "clock": {
+        "board": "n_TA_TAKT",
+        "cable": "n_CABLE_TAKT",
+        "connectorPin": "B2"
+      }
+    },
+    "leds": {
+      "siso": {
+        "output": "n_LED_SISO_N",
+        "cathode": "n_LED_SISO",
+        "anode": "n_p5V",
+        "connectorPin": "A5",
+        "diode": "Dsiso_led"
+      },
+      "caps": {
+        "output": "n_LED_CAPS_N",
+        "cathode": "n_LED_CAPS",
+        "anode": "n_p5V",
+        "connectorPin": "A6",
+        "diode": "Dcaps_led"
+      }
+    },
+    "filter": {
+      "coupling": 0.8,
+      "dotPins": {
+        "L1.1": 1,
+        "L1.2": 1,
+        "L1.3": 1,
+        "L1.4": 1
+      },
+      "qualified": false,
+      "selfInductanceUh": 1,
+      "seriesOhms": 1,
+      "scope": "Linear equal-winding hypothesis; ferrite losses, saturation and parasitics omitted"
+    },
+    "shield": {
+      "net": "/SHIELD",
+      "model": "Unconnected external shield boundary; no invented ground bond"
+    },
+    "serialDriver": {
+      "profile": "7406-dc",
+      "supplyPin": "A1:14",
+      "groundPin": "A1:7",
+      "modelQualified": false,
+      "scope": "Data and clock gates only; remaining A1 gates and other controller IC supply currents are not modeled here",
+      "assumptions": "Published resistor topology, generic semiconductors, input reverse beta .01; DC candidate without storage or junction capacitance calibration"
+    }
+  },
+  "modelCoverage": {
+    "components": {
+      "A1": {
+        "referenceType": "7406",
+        "domain": "digital-or-interface",
+        "model": "Data and clock gates use published transistor topology with generic semiconductor parameters and ideal input intent; other gates remain HDL."
+      },
+      "A2.1": {
+        "referenceType": "DL003",
+        "domain": "digital-or-interface",
+        "model": "DL003 HDL logic; column pins use electrical sinks in matrix mode"
+      },
+      "A2.2": {
+        "referenceType": "DL003",
+        "domain": "digital-or-interface",
+        "model": "DL003 HDL logic; column pins use electrical sinks in matrix mode"
+      },
+      "A2.3": {
+        "referenceType": "DL003",
+        "domain": "digital-or-interface",
+        "model": "DL003 HDL logic; column pins use electrical sinks in matrix mode"
+      },
+      "A4": {
+        "referenceType": "I8282",
+        "domain": "digital-or-interface",
+        "model": "8282 HDL latch and bus; nominal input load in matrix mode"
+      },
+      "A5": {
+        "referenceType": "U880",
+        "domain": "digital-or-interface",
+        "model": "TV80 CPU with externally supplied digital service clock/reset; resolved digital data bus; interrupt/NMI/wait and bus request held high; no package supply-current or brownout model"
+      },
+      "A6": {
+        "referenceType": "DL074",
+        "domain": "digital-or-interface",
+        "model": "DL074 HDL flip-flops; nominal electrical LED output drive in output mode"
+      },
+      "A7": {
+        "referenceType": "DL000",
+        "domain": "boundary",
+        "model": "Oscillator excluded by the BR1 service fixture; no electrical or supply-current contribution"
+      },
+      "A8": {
+        "referenceType": "U556_2716",
+        "domain": "digital-or-interface",
+        "model": "U556/2716 pin-mapped ROM on resolved CPU/latch bus"
+      },
+      "BR1": {
+        "referenceType": "BRIDGE",
+        "domain": "boundary",
+        "model": "Virtual open bridge; CPU clock supplied by the HDL service boundary"
+      },
+      "BR2": {
+        "referenceType": "BRIDGE",
+        "domain": "boundary",
+        "model": "Virtual open bridge; CPU reset supplied by the HDL service boundary"
+      },
+      "C1": {
+        "referenceType": "220p",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "C2": {
+        "referenceType": "10u",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "C3.1": {
+        "referenceType": "47u",
+        "domain": "electrical",
+        "model": "capacitor"
+      },
+      "C3.2": {
+        "referenceType": "47u",
+        "domain": "electrical",
+        "model": "capacitor"
+      },
+      "C4": {
+        "referenceType": "10u",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "C5.1": {
+        "referenceType": "47n",
+        "domain": "electrical",
+        "model": "capacitor"
+      },
+      "C5.2": {
+        "referenceType": "47n",
+        "domain": "electrical",
+        "model": "capacitor"
+      },
+      "C5.3": {
+        "referenceType": "47n",
+        "domain": "electrical",
+        "model": "capacitor"
+      },
+      "C5.4": {
+        "referenceType": "47n",
+        "domain": "electrical",
+        "model": "capacitor"
+      },
+      "C5.5": {
+        "referenceType": "47n",
+        "domain": "electrical",
+        "model": "capacitor"
+      },
+      "C6": {
+        "referenceType": "470p",
+        "domain": "boundary",
+        "model": "Oscillator excluded by the BR1 service fixture; no electrical or supply-current contribution"
+      },
+      "L1.1": {
+        "referenceType": "CHOKE",
+        "domain": "electrical",
+        "model": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model"
+      },
+      "L1.2": {
+        "referenceType": "CHOKE",
+        "domain": "electrical",
+        "model": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model"
+      },
+      "L1.3": {
+        "referenceType": "CHOKE",
+        "domain": "electrical",
+        "model": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model"
+      },
+      "L1.4": {
+        "referenceType": "CHOKE",
+        "domain": "electrical",
+        "model": "uniform coupled nominal series RL; assumed dot polarity, no characterized ferrite model"
+      },
+      "R1": {
+        "referenceType": "8x910",
+        "domain": "electrical",
+        "model": "common-pin resistor network"
+      },
+      "R10.1": {
+        "referenceType": "560",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R10.2": {
+        "referenceType": "560",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R10.3": {
+        "referenceType": "560",
+        "domain": "boundary",
+        "model": "Oscillator excluded by the BR1 service fixture; no electrical or supply-current contribution"
+      },
+      "R11.1": {
+        "referenceType": "130",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R11.2": {
+        "referenceType": "130",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R2": {
+        "referenceType": "8x4k7",
+        "domain": "electrical",
+        "model": "common-pin resistor network"
+      },
+      "R3": {
+        "referenceType": "22k",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "R4.1": {
+        "referenceType": "220",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "R4.2": {
+        "referenceType": "220",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "R4.3": {
+        "referenceType": "220",
+        "domain": "boundary",
+        "model": "Oscillator excluded by the BR1 service fixture; no electrical or supply-current contribution"
+      },
+      "R5": {
+        "referenceType": "10k",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "R6.1": {
+        "referenceType": "1k",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "R6.3": {
+        "referenceType": "1k",
+        "domain": "digital-or-interface",
+        "model": "HDL pullup on latch output enable; no electrical loading"
+      },
+      "R6.4": {
+        "referenceType": "1k",
+        "domain": "digital-or-interface",
+        "model": "CPU interrupt/NMI/wait tie-high boundary; no electrical loading"
+      },
+      "R6.5": {
+        "referenceType": "1k",
+        "domain": "digital-or-interface",
+        "model": "CPU bus-request tie-high boundary; no electrical loading"
+      },
+      "R6.6": {
+        "referenceType": "1k",
+        "domain": "digital-or-interface",
+        "model": "HDL pullup on flip-flop preset/clear; no electrical loading"
+      },
+      "R7": {
+        "referenceType": "3k3",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "R8": {
+        "referenceType": "47k",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "R9.1": {
+        "referenceType": "3k9",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R9.2": {
+        "referenceType": "3k9",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R9.3": {
+        "referenceType": "3k9",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R9.4": {
+        "referenceType": "3k9",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R9.5": {
+        "referenceType": "3k9",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R9.6": {
+        "referenceType": "3k9",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R9.7": {
+        "referenceType": "3k9",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R9.8": {
+        "referenceType": "3k9",
+        "domain": "electrical",
+        "model": "resistor"
+      },
+      "R9.9": {
+        "referenceType": "3k9",
+        "domain": "digital-or-interface",
+        "model": "HDL pullup on I/O active; no electrical loading"
+      },
+      "V1.1": {
+        "referenceType": "DIODE",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "V1.2": {
+        "referenceType": "DIODE",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "V2": {
+        "referenceType": "DIODE",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "V3.1": {
+        "referenceType": "SC236D",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "V3.2": {
+        "referenceType": "SC236D",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "V4.1": {
+        "referenceType": "SC308C",
+        "domain": "electrical",
+        "model": "PNP_NOMINAL"
+      },
+      "V4.2": {
+        "referenceType": "SC308C",
+        "domain": "electrical",
+        "model": "PNP_NOMINAL"
+      },
+      "V4.3": {
+        "referenceType": "SC308C",
+        "domain": "electrical",
+        "model": "PNP_NOMINAL"
+      },
+      "V4.4": {
+        "referenceType": "SC308C",
+        "domain": "electrical",
+        "model": "PNP_NOMINAL"
+      },
+      "V4.5": {
+        "referenceType": "SC308C",
+        "domain": "electrical",
+        "model": "PNP_NOMINAL"
+      },
+      "V4.6": {
+        "referenceType": "SC308C",
+        "domain": "electrical",
+        "model": "PNP_NOMINAL"
+      },
+      "V4.7": {
+        "referenceType": "SC308C",
+        "domain": "electrical",
+        "model": "PNP_NOMINAL"
+      },
+      "V4.8": {
+        "referenceType": "SC308C",
+        "domain": "electrical",
+        "model": "PNP_NOMINAL"
+      },
+      "V4.9": {
+        "referenceType": "SC308C",
+        "domain": "boundary",
+        "model": "Reset generator excluded by the BR2 service fixture; no electrical or supply-current contribution"
+      },
+      "X1": {
+        "referenceType": "MATRIX_CONNECTOR",
+        "domain": "digital-or-interface",
+        "model": "Matrix/LED external fixture; bus-request contact remains open"
+      },
+      "XT1": {
+        "referenceType": "KEYBOARD_CABLE",
+        "domain": "digital-or-interface",
+        "model": "External cable/load boundary; shield remains unconnected"
+      }
+    },
+    "meaning": "BR service-fixture implementation/boundary inventory; excluded clock/reset circuits are not simulated",
+    "remainingFidelityGaps": [
+      "Uncharacterized semiconductor, gate, cable and filter parameters",
+      "Electrical bus currents, pin delays and calibrated control-pullup loading",
+      "Controller IC supply-current and brownout behavior",
+      "Specimen key construction, firmware and physical routing"
+    ]
+  },
+  "hostTraceSignals": [
+    "v(n_CABLE_DATEN,host_receiver_gnd)",
+    "v(n_CABLE_TAKT,host_receiver_gnd)",
+    "v(host_data_buffer_input,host_receiver_gnd)",
+    "v(host_clock_buffer_input,host_receiver_gnd)",
+    "v(host_data_buffer_output,host_receiver_gnd)",
+    "v(host_clock_buffer_output,host_receiver_gnd)"
+  ],
+  "deckSha256": "7e62affa57b1c3e1c7d10834216bf77ec0b7122da5e7f2e2a0e23382c157ece8",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with Sparse Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "driverTraceSha256": "3878004b3b72d2580ead0d52573ca93d0d024aa9b4555cce4f51c18fd3ac9e2f",
+  "hostTraceSha256": "157f349f9a4387f28308febb120ae8696f5e082ca8b6f84db2a05c8dc1ac6891",
+  "error": "Solver/HDL diagnostics: inspect ngspice.log",
+  "failureArtifacts": {
+    "ngspice.log": {
+      "status": "retained",
+      "bytes": 18014,
+      "sha256": "4cba240c416ee944095138cba0de44e0ae324097ebf3ae2aa7ab6b6654c0acb9"
+    },
+    "trace.txt": {
+      "status": "retained",
+      "bytes": 3994028,
+      "sha256": "754448811021ae2e31c28ad4e2ca2b3e5100a2d9cbc500d40d785a4ae04ad4b5"
+    },
+    "led-trace.txt": {
+      "status": "missing"
+    },
+    "host-trace.txt": {
+      "status": "retained",
+      "bytes": 9249427,
+      "sha256": "157f349f9a4387f28308febb120ae8696f5e082ca8b6f84db2a05c8dc1ac6891"
+    },
+    "driver-trace.txt": {
+      "status": "retained",
+      "bytes": 2680203,
+      "sha256": "3878004b3b72d2580ead0d52573ca93d0d024aa9b4555cce4f51c18fd3ac9e2f"
+    }
+  }
+}
