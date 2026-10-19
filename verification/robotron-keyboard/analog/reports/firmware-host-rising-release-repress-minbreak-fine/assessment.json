@@ -1,0 +1,35 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "323441d",
+  "scope": "Host-loaded rising-RxC release/repress timestep comparison",
+  "evidence": {
+    "producer": "report.json",
+    "sampledStability": "margins-140ns.json",
+    "serialRefinement": "comparison.json",
+    "coarse": "../firmware-host-rising-release-repress-minbreak/assessment.json"
+  },
+  "interpretation": "Both timestep captures pass packet coverage and ordinal C-reference agreement. The serial-edge refinement and independent sampled stability screen pass. Absolute-time voltage convergence remains a separate review; these timing results do not qualify receiver-device applicability or onboard startup.",
+  "nextAction": "Complete the absolute-time host-voltage comparison and retain any differences without alignment or relaxed budgets.",
+  "waveforms": {
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-release-repress-minbreak-fine",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ],
+    "retention": "Complete local waveforms are identified by producer hashes. No ROM or compiled HDL retained."
+  },
+  "retainedFilesSha256": {
+    "comparison.json": "5290888bef13371fd51d7353626a5524245af6b692ca636f88a8413388cb20a6",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io.cir": "251ea782d241f61e7d17bc7b3f6cd819147ff1e21e43acb3fc9cb6394f723826",
+    "io_scenario.h": "a69d0336b48a3f8b417da8dea0658fcc4c0adb018464117cce30d349f5a8c7f5",
+    "margins-140ns.json": "71d6429b25804e52f329ab2e200aa0df400bc707e5ce3c7455d9b03a05476f76",
+    "ngspice.log.xz": "5811e39ef2645a1ce58344189088687cd20a2d1030b6a1f6fa9c4e58ca455930",
+    "reference.log": "988cf7c860af52b09f3680cc901af79c494c4cc1e44a8aa442f468e11aff8cb3",
+    "report.json": "7c0840c2558d308640ad89117f723ec2cd89d1d0beff83bce402769bc473a226",
+    "run-inputs.json": "1e1581b08f2a06fb22b6b7d7716ea3cae8009680ec9e56dc6bed9291638edc39",
+    "scenario.json": "94516d7ba8f438d97a740b42ab10e0e16f8f54f21abb0ec8ef8a0c7d0b5b89f2"
+  }
+}
