@@ -1,0 +1,41 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "846bd0c2b9e617f32b13b5fcb3248cb295e44efb",
+  "scope": "Strict-tolerance coupled firmware sensitivity to a uniform cable-winding hypothesis",
+  "evidence": {
+    "comparison": "comparison.json",
+    "control": "k0/report.json",
+    "coupled": "k08/report.json",
+    "physicalContext": "../filter-coupling/photo-review.json"
+  },
+  "interpretation": "The uncoupled control and k=0.8 all-pin-1-dot hypothesis both terminate in timestep rejection near the original troublesome transition. Verified decks differ only in the six mutual-inductance statements. No remedy, refined convergence or physical parameter identification is established. The simulator trouble-node labels do not identify the root cause.",
+  "nextAction": "Continue independent device-dynamics and integration/state-history work; use additional filter hypotheses only to distinguish a stated physical or numerical question, not to search for a passing coefficient.",
+  "waveforms": {
+    "directories": [
+      "build/keyboard-controller-analog/firmware-filter-strict-k0",
+      "build/keyboard-controller-analog/firmware-filter-strict-k08"
+    ],
+    "retention": "Complete local failed-run waveforms verified against producer failure-artifact hashes; comparison records finite monotonic samples and exact endpoints. No failed capture is promoted to a qualification input."
+  },
+  "retainedFilesSha256": {
+    "comparison.json": "2e420e3dd5e74318282e9c7df6b1bce75bdfb04890fa3c46ac250e1e426cb98f",
+    "review.py": "9c710efb3fe7c93fb8a9a705d0d0c69b8be13bdaa1642a760966767a52d747d2",
+    "k08/report.json": "8f3c3d27bb34186f6e122150a7be2e341b5f0a5025e4070697245f56d0eb3b2a",
+    "k08/run-inputs.json": "1d41f2f482bd4c4fbcf8d925149460346336406653916f919e20baf4d2c8b83b",
+    "k08/controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "k08/io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "k08/ngspice.log.xz": "cc611fe6d67352b19f59f03466077da0f516de84c7f491ccea9b3a1e4a4d0221",
+    "k08/reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "k08/scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "k08/io.cir": "7e62affa57b1c3e1c7d10834216bf77ec0b7122da5e7f2e2a0e23382c157ece8",
+    "k0/report.json": "1fa4ac292be298ffaadb0a0dc82bfe0f11f3e568ce693e0a70bd680114ba83c4",
+    "k0/run-inputs.json": "dcb6de606c29db72b0e8d65d7d55238a230e0aefc7509593a0d12796c642f5a0",
+    "k0/controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "k0/io_scenario.h": "c1620a0fcd5d642eca53bbe7f7497df59e86f0ce15a2ffb769c8f3f1dd6e0c6b",
+    "k0/ngspice.log.xz": "e08319d4e1169dfe81fc70e07b993f54657caaaee98eef367f99ee66b7993d67",
+    "k0/reference.log": "fa4a90c30f1460b9d5f6261e1999463ba78f3ed8d25aa0d49ff55fe892119591",
+    "k0/scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "k0/io.cir": "43e086856e1c03ba0986ea02bbd93a5c753129616ac3ebb03c221c49543cf440"
+  }
+}

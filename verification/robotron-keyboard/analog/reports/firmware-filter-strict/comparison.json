@@ -1,0 +1,58 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Verify matched failed firmware captures differing only in winding coupling.",
+  "reviewerSha256": "9c710efb3fe7c93fb8a9a705d0d0c69b8be13bdaa1642a760966767a52d747d2",
+  "diagnosticScannerSha256": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+  "control": {
+    "reportSha256": "1fa4ac292be298ffaadb0a0dc82bfe0f11f3e568ce693e0a70bd680114ba83c4",
+    "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 2.98332e-20: trouble with node \"vhost#branch\"",
+    "traces": {
+      "trace.txt": {
+        "rows": 52947,
+        "lastSampleSeconds": 0.001098012248435295,
+        "sha256": "e22719a5fe7102eee1ce28fdd49831a0257c936777aaeae4b69b64e1e32ee4b7"
+      },
+      "host-trace.txt": {
+        "rows": 52947,
+        "lastSampleSeconds": 0.001098012248435295,
+        "sha256": "02e8454b0314d6a2dfe029b8a39c30f5621aa496e4059419ae9a2436e7e7d8e1"
+      },
+      "driver-trace.txt": {
+        "rows": 52947,
+        "lastSampleSeconds": 0.001098012248435295,
+        "sha256": "45e723545bb3b4ec1a55ebf02bbb15be37f00da8de3208f34ee752eb6b08d142"
+      }
+    }
+  },
+  "coupled": {
+    "reportSha256": "8f3c3d27bb34186f6e122150a7be2e341b5f0a5025e4070697245f56d0eb3b2a",
+    "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109101, timestep = 6.25e-20: trouble with xhost_data:ttl7404_input_npn-instance q.xhost_data.qinput",
+    "traces": {
+      "trace.txt": {
+        "rows": 52552,
+        "lastSampleSeconds": 0.001091012248438797,
+        "sha256": "754448811021ae2e31c28ad4e2ca2b3e5100a2d9cbc500d40d785a4ae04ad4b5"
+      },
+      "host-trace.txt": {
+        "rows": 52552,
+        "lastSampleSeconds": 0.001091012248438797,
+        "sha256": "157f349f9a4387f28308febb120ae8696f5e082ca8b6f84db2a05c8dc1ac6891"
+      },
+      "driver-trace.txt": {
+        "rows": 52552,
+        "lastSampleSeconds": 0.001091012248438797,
+        "sha256": "3878004b3b72d2580ead0d52573ca93d0d024aa9b4555cce4f51c18fd3ac9e2f"
+      }
+    }
+  },
+  "onlyDeckChanges": [
+    "Kfilter12 L1.1 L1.2 0.80000000000000004",
+    "Kfilter13 L1.1 L1.3 0.80000000000000004",
+    "Kfilter14 L1.1 L1.4 0.80000000000000004",
+    "Kfilter23 L1.2 L1.3 0.80000000000000004",
+    "Kfilter24 L1.2 L1.4 0.80000000000000004",
+    "Kfilter34 L1.3 L1.4 0.80000000000000004"
+  ],
+  "interpretation": "Both coupled-firmware captures fail before the scenario endpoint. The coupling hypothesis changes the trajectory but does not remedy the strict-tolerance failure. This is a model-sensitivity control, not timestep convergence or identification of physical winding parameters."
+}
