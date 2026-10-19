@@ -1,0 +1,23 @@
+{
+  "qualified": false,
+  "completed": false,
+  "scope": "Experimental MPFR linear solving during analog-only transient evolution",
+  "evidence": {
+    "disabledControl": "off/report.json",
+    "kernel": "../host-mpfr-linear-review/assessment.json"
+  },
+  "interpretation": "The disabled experimental runtime reproduces all baseline waveform bytes and its solver failure. Native adapter checks cover pivoting, reordered external coordinates, repeated solves, precision changes and diagonal Gmin loading. Active transient results remain pending.",
+  "build": "Apply ngspice-47-linear-state-audit.patch to the original ngspice-47 source first. build.py copies that source and applies the incremental ngspice-47-mpfr-linear.patch; check_build.py validates the adapter and records runtime provenance.",
+  "boundary": "MPFR replaces real linear arithmetic only. Device stamping, nonlinear evaluation, integration and simulator states remain binary64. No tolerances or circuit physics are relaxed. This recorded-stimulus replay is not full coupled firmware qualification.",
+  "nextAction": "Run active MPFR256 transient replay from initialization and retain complete results; compare MPFR512 where warranted.",
+  "retainedFilesSha256": {
+    "build.py": "7bc876c6220ff2cef97c6ba54e2a63faf404033e9e2e81bf88ffad5af9c0cc90",
+    "run.py": "25d45801d70f48c23bbdc248d8628e45ebb4112857b0eea1b51a849bc67ac476",
+    "check_build.py": "81f51bcb9d19955cffc5f83f12d205ac755edbdf41945d5494eb5bf2aac2db34",
+    "check.c": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+    "off/report.json": "e247dce85b19c477eb9a4f46e574e7f8af338c0f351d8c72765346e099c6b303",
+    "off/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+    "off/ngspice.log.xz": "eb65f0eb8a6f224fef0e28811fdc40a06fff332ef910a036e50006ef1acb0d1c",
+    "off/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95"
+  }
+}
