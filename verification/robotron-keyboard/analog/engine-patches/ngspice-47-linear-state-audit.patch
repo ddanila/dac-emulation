@@ -119,19 +119,16 @@
  }
 --- a/src/maths/ni/niiter.c
 +++ b/src/maths/ni/niiter.c
-@@ -19,6 +19,39 @@
+@@ -19,6 +19,24 @@
  #include "ngspice/smpdefs.h"
  #include "ngspice/sperror.h"
  #include "ngspice/fteext.h"
-+#include "ngspice/spmatrix.h"
-+#include "../sparse/spdefs.h"
++extern void SMPauditLinearLoad(SMPmatrix *, double *, unsigned long, double, double, int, int, double);
 +
 +/* Read-only Sparse audit, before factorization and immediately after solve. */
 +static unsigned long audit_linear_load(CKTcircuit *ckt, int iteration, int maxIter)
 +{
 +    static unsigned long serial = 0;
-+    MatrixPtr matrix = ckt->CKTmatrix->SPmatrix;
-+    int col;
 +    CKTnode *node;
 +    if (!(ckt->CKTdelta <= 5.0001e-19 &&
 +          ((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) ||
@@ -139,9 +136,60 @@
 +          (iteration <= 10 || iteration % 100 == 0 || iteration > maxIter)))
 +        return 0;
 +    ++serial;
++    SMPauditLinearLoad(ckt->CKTmatrix, ckt->CKTrhs, serial, ckt->CKTtime, ckt->CKTdelta, iteration, ckt->CKTorder, ckt->CKTdiagGmin);
++    for (node = ckt->CKTnodes; node; node = node->next)
++        fprintf(stderr, "LINEAR_AUDIT name id=%lu index=%d name=%s\n", serial, node->number, node->name);
++    return serial;
++}
+ 
+ /* Limit the number of 'singular matrix' warnings */
+ static int msgcount = 0;
+@@ -31,6 +49,7 @@
+     double startTime, *OldCKTstate0 = NULL;
+     int error, i, j;
+ 
++    unsigned long linear_audit = 0;
+     int iterno = 0;
+     int ipass = 0;
+ 
+@@ -90,6 +109,8 @@
+ 
+             /* printf("after loading, before solving\n"); */
+             /* CKTdump(ckt); */
++
++            linear_audit = audit_linear_load(ckt, iterno, maxIter);
+ 
+             if (!(ckt->CKTniState & NIDIDPREORDER)) {
+                 error = SMPpreOrder(ckt->CKTmatrix);
+@@ -252,6 +273,12 @@
+ 
+             startTime = SPfrontEnd->IFseconds();
+             SMPsolve(ckt->CKTmatrix, ckt->CKTrhs, ckt->CKTrhsSpare);
++            if (linear_audit) {
++                int audit_row;
++                for (audit_row = 1; audit_row <= SMPmatSize(ckt->CKTmatrix); ++audit_row)
++                    fprintf(stderr, "LINEAR_AUDIT x id=%lu row=%d value=%a\n", linear_audit, audit_row, ckt->CKTrhs[audit_row]);
++                fprintf(stderr, "LINEAR_AUDIT end id=%lu\n", linear_audit);
++            }
+             ckt->CKTstat->STATsolveTime +=
+                 SPfrontEnd->IFseconds() - startTime;
+ #ifdef STEPDEBUG
+--- a/src/maths/sparse/spsmp.c
++++ b/src/maths/sparse/spsmp.c
+@@ -616,3 +616,24 @@
+ {
+     spMultiply(Matrix->SPmatrix, RHS, Solution, iRHS, iSolution);
+ }
++
++/* Read-only audit in external equation order; called before factorization. */
++void SMPauditLinearLoad(SMPmatrix *external, double *rhs, unsigned long serial,
++                       double time, double delta, int iteration, int order, double gmin)
++{
++    MatrixPtr matrix = external->SPmatrix;
++    int col;
 +    fprintf(stderr, "LINEAR_AUDIT begin id=%lu time=%a delta=%a iteration=%d order=%d size=%d external=%d gmin=%a\n",
-+        serial, ckt->CKTtime, ckt->CKTdelta, iteration, ckt->CKTorder,
-+        matrix->Size, matrix->ExtSize, ckt->CKTdiagGmin);
++        serial, time, delta, iteration, order,
++        matrix->Size, matrix->ExtSize, gmin);
 +    for (col = 1; col <= matrix->Size; ++col) {
 +        ElementPtr element;
 +        for (element = matrix->FirstInCol[col]; element; element = element->NextInCol) {
@@ -151,41 +199,5 @@
 +        }
 +    }
 +    for (col = 1; col <= matrix->ExtSize; ++col)
-+        fprintf(stderr, "LINEAR_AUDIT b id=%lu row=%d value=%a\n", serial, col, ckt->CKTrhs[col]);
-+    for (node = ckt->CKTnodes; node; node = node->next)
-+        fprintf(stderr, "LINEAR_AUDIT name id=%lu index=%d name=%s\n", serial, node->number, node->name);
-+    return serial;
++        fprintf(stderr, "LINEAR_AUDIT b id=%lu row=%d value=%a\n", serial, col, rhs[col]);
 +}
- 
- /* Limit the number of 'singular matrix' warnings */
- static int msgcount = 0;
-@@ -31,6 +64,7 @@
-     double startTime, *OldCKTstate0 = NULL;
-     int error, i, j;
- 
-+    unsigned long linear_audit = 0;
-     int iterno = 0;
-     int ipass = 0;
- 
-@@ -90,6 +124,8 @@
- 
-             /* printf("after loading, before solving\n"); */
-             /* CKTdump(ckt); */
-+
-+            linear_audit = audit_linear_load(ckt, iterno, maxIter);
- 
-             if (!(ckt->CKTniState & NIDIDPREORDER)) {
-                 error = SMPpreOrder(ckt->CKTmatrix);
-@@ -252,6 +288,12 @@
- 
-             startTime = SPfrontEnd->IFseconds();
-             SMPsolve(ckt->CKTmatrix, ckt->CKTrhs, ckt->CKTrhsSpare);
-+            if (linear_audit) {
-+                int audit_row;
-+                for (audit_row = 1; audit_row <= ckt->CKTmatrix->SPmatrix->ExtSize; ++audit_row)
-+                    fprintf(stderr, "LINEAR_AUDIT x id=%lu row=%d value=%a\n", linear_audit, audit_row, ckt->CKTrhs[audit_row]);
-+                fprintf(stderr, "LINEAR_AUDIT end id=%lu\n", linear_audit);
-+            }
-             ckt->CKTstat->STATsolveTime +=
-                 SPfrontEnd->IFseconds() - startTime;
- #ifdef STEPDEBUG
