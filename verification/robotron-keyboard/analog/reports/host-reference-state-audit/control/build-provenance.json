@@ -1,0 +1,31 @@
+{
+  "source": "ngspice-47",
+  "baseFiles": {
+    "src/spicelib/analysis/dctran.c": "382d523b08a843469d81b14e3c08c0cd2b11509ee3470b9e3b3bce6f27157a74",
+    "src/spicelib/analysis/ckttrunc.c": "1ae5c196a7e4b672da62be20624f6bbafc3fca713b0ab12aa69ac22d6a1b4757",
+    "src/spicelib/devices/cap/captrunc.c": "aa17ffdb3cdef8c496fe2a8c3d3f3638a359ea6137a7e45d5a45a31c578235d2",
+    "src/spicelib/devices/ind/indtrunc.c": "2c5dee893df91380c84227242f30610d8aa72c3435c4e4365704f66c3c867bfb",
+    "src/spicelib/analysis/cktterr.c": "e8c55f9f07b12e501eaa5113d9470ccf8304b8b1196563b2f7d36a9d6527c132"
+  },
+  "patchSha256": "dc6bfd9ca5c65ea26f6b8a08220b39f5bf0560d6f7890e45b8aeb7d935caabd5",
+  "scope": "Logging-only solved-node and inductor audit at original and shifted-reference failures; original code models retained",
+  "configureArguments": [
+    "--prefix=/private/tmp/robotron-reference-state-audit/install",
+    "--without-x",
+    "--with-readline=no",
+    "--disable-openmp",
+    "--disable-klu"
+  ],
+  "buildCommand": "make -j2",
+  "executableSha256": "77ea5b03f54a7cebc8e96d8b54d68c084c00b54bd3331485142451125b123817",
+  "compilerVersion": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin",
+  "buildLogsSha256": {
+    "configure.log": "2be46725175b38a7a762163e418c8073df40e3c7abe2ee26254259c799134bd9",
+    "make.log": "6c16dd17dca5f08e8924855fc0692bb455a0f251a00d763d9ceedf14fb7730a3"
+  },
+  "equationSourceSha256": {
+    "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504",
+    "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+    "src/maths/ni/niiter.c": "85ed2001b0f4589e43a1e4d11f1fafc8a30f90d25d8ad361efe92c51a8e023a1"
+  }
+}

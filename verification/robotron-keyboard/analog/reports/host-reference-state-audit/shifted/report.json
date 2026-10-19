@@ -1,0 +1,79 @@
+{
+  "qualified": false,
+  "reproducedEvidence": true,
+  "scope": "Reproduce a failed analog-only capture with the logging-only audit runtime.",
+  "sourceDirectory": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/host-reference-node-shifted-vectors",
+  "sourceReportSha256": "ec958fe4134911235122336e0d23b45d717ea72c4a5e81d4a42e190a5c24d83f",
+  "runnerSha256": "94a8d7d7e87ae05b91082b46e264762b93075f6e10648861ceba5b4e11b439fb",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-reference-state-audit/build/src/ngspice",
+      "sha256": "77ea5b03f54a7cebc8e96d8b54d68c084c00b54bd3331485142451125b123817"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "patchSha256": "dc6bfd9ca5c65ea26f6b8a08220b39f5bf0560d6f7890e45b8aeb7d935caabd5",
+  "deckEqual": true,
+  "exitCode": 0,
+  "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.0002765, timestep = 6.25e-20: trouble with xdata:ttl7406_input_npn-instance q.xdata.qinput",
+  "filteredInstrumentationLines": 9713,
+  "diagnosticEqual": true,
+  "waveformsEqual": {
+    "trace.txt": true,
+    "host-trace.txt": true,
+    "driver-trace.txt": true,
+    "boundary-trace.txt": true
+  },
+  "nodeAuditRecords": 4040,
+  "inductorAuditRecords": 1496,
+  "artifacts": {
+    "io.cir": "240108e28066b7b778aac600ec9a6b35f6d9937a03a9f1a0b2517a26b29398b4",
+    "ngspice.log": "dab28698bae377f2468e6927d994f44e0e60c5a98980bdd84863103cb451b47c",
+    "build-provenance.json": "ec7e47c674c603f698fa1120402ed91952bdb57583b4125fa5eed2c2fb624a97",
+    "state-review.json": "48a65c95e384520542c677ffdddbf476c450864e7a618cefaf6c487a3781be11",
+    "trace.txt": "5a91dcc9567a62300f390475179800827c123c75c64dd059e9030aafc8e6114a",
+    "host-trace.txt": "85c71961cb0afa8bfe51c5ab0f9174ae2263a263d4ce75d09e51dae64edaecee",
+    "driver-trace.txt": "b5f83cd60b5b4ed55a307e162640e52d56feff81fb496f0f34f62c4c8883c83b",
+    "boundary-trace.txt": "6a464ccb90c508134b94125223be9c1ed7b5f69c978cf76af94a58e375b1d345"
+  }
+}
