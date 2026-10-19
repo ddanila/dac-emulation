@@ -83,7 +83,13 @@ def main():
         log_text = (out/'ngspice.log').read_text()
         (out/'state-review.json').write_text(json.dumps(summarize(log_text), indent=2)+'\n')
         report['exitCode'] = process.returncode
-        report['solverDiagnostic'] = solver_diagnostic(log_text)
+        audit_prefixes = ('TRUNC_AUDIT ', 'TRANSITION_AUDIT ', 'NODE_AUDIT ', 'INDUCTOR_AUDIT ')
+        # The generic failure scanner treats the audit label 'error' as an error.
+        # Filter only our explicit instrumentation records, retaining all simulator messages.
+        diagnostic_lines = [line for line in log_text.splitlines()
+                            if not line.startswith(audit_prefixes)]
+        report['solverDiagnostic'] = solver_diagnostic('\n'.join(diagnostic_lines))
+        report['filteredInstrumentationLines'] = len(log_text.splitlines()) - len(diagnostic_lines)
         report['diagnosticEqual'] = report['solverDiagnostic'] == parent['solverDiagnostic']
         report['waveformsEqual'] = {name: sha(out/name) == parent['artifacts'][name] for name in
                                    ('trace.txt', 'host-trace.txt', 'driver-trace.txt', 'boundary-trace.txt')}
