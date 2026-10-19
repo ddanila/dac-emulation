@@ -1,0 +1,3519 @@
+{
+  "qualified": false,
+  "scope": "Independently solve a recorded linear system; this does not rerun Newton iteration.",
+  "sourceReportSha256": "e51e05288fa6121c671946f80213e08d858107bcad1c0530ced237c4df1e76d9",
+  "logSha256": "3b4d604bbac7ffcc0926b0b359456a52019f7a3815ecb7c77079db7a5afac7e4",
+  "systemId": 10,
+  "sources": {
+    "linear_precision_review.py": "71fed1eda77fb50eb17c16b6609222b79d2307fd30f7227bfc49af434522a02c",
+    "linear_system_review.py": "d236746c8cf7649e25e619fc6951e0e14e923ce0452315ecc95f300d0cfdee69"
+  },
+  "original": {
+    "id": 10,
+    "timeSeconds": 0.0010980122484074574,
+    "deltaSeconds": 5e-19,
+    "iteration": 10,
+    "order": 1,
+    "size": 363,
+    "nonzeroCoefficients": 859,
+    "coefficientMagnitudeRange": [
+      1.0000202557912869e-16,
+      188470000000000.97
+    ],
+    "maximumAbsoluteSolution": 111255517435.89445,
+    "worstAbsoluteResidual": {
+      "index": 169,
+      "name": "n_cable_gnd",
+      "residual": 22863.485290934223,
+      "exactResidual": "823743870693137468417/36028797018963968",
+      "sumAbsoluteProductsAndRhs": 8.900441396914919e+20,
+      "componentwiseBackwardError": 2.5688035313461188e-17
+    },
+    "worstComponentwiseResidual": {
+      "index": 174,
+      "name": "driver_vp",
+      "residual": -0.037559733370895534,
+      "exactResidual": "-6240681138851411232030253303537911/166153499473114484112975882535043072",
+      "sumAbsoluteProductsAndRhs": 0.06535106275624174,
+      "componentwiseBackwardError": 0.5747379122355308
+    },
+    "normwiseBackwardError": 1.0903819310571595e-21,
+    "rowResiduals": [
+      {
+        "index": 1,
+        "name": "host_receiver_5v",
+        "residual": -0.017334761270689725,
+        "exactResidual": "-1373401283100180842101196339/79228162514264337593543950336",
+        "sumAbsoluteProductsAndRhs": 2104871.6756014866,
+        "componentwiseBackwardError": 8.235543036482808e-09
+      },
+      {
+        "index": 2,
+        "name": "host_receiver_gnd",
+        "residual": -0.07422719858329717,
+        "exactResidual": "-2940442276168019990274558007/39614081257132168796771975168",
+        "sumAbsoluteProductsAndRhs": 5835933999048741.0,
+        "componentwiseBackwardError": 1.2718992126263976e-17
+      },
+      {
+        "index": 5,
+        "name": "n_sense7",
+        "residual": 6.926441883605795e-18,
+        "exactResidual": "77232407789361669849191579/11150372599265311570767859136324180752990208",
+        "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+        "componentwiseBackwardError": 4.106293093716202e-17
+      },
+      {
+        "index": 6,
+        "name": "n_sense6",
+        "residual": 6.926441882843839e-18,
+        "exactResidual": "38616203890432785082228715/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+        "componentwiseBackwardError": 4.106293093264481e-17
+      },
+      {
+        "index": 7,
+        "name": "n_sense5",
+        "residual": 6.926441882843839e-18,
+        "exactResidual": "38616203890432785082228715/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+        "componentwiseBackwardError": 4.106293093264481e-17
+      },
+      {
+        "index": 8,
+        "name": "n_sense4",
+        "residual": 6.926441882843839e-18,
+        "exactResidual": "38616203890432785082228715/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+        "componentwiseBackwardError": 4.106293093264481e-17
+      },
+      {
+        "index": 9,
+        "name": "n_sense3",
+        "residual": 6.926441883605795e-18,
+        "exactResidual": "77232407789361669849191579/11150372599265311570767859136324180752990208",
+        "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+        "componentwiseBackwardError": 4.106293093716202e-17
+      },
+      {
+        "index": 10,
+        "name": "n_sense2",
+        "residual": 6.926441882843839e-18,
+        "exactResidual": "38616203890432785082228715/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+        "componentwiseBackwardError": 4.106293093264481e-17
+      },
+      {
+        "index": 11,
+        "name": "n_sense1",
+        "residual": 6.926441883605795e-18,
+        "exactResidual": "77232407789361669849191579/11150372599265311570767859136324180752990208",
+        "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+        "componentwiseBackwardError": 4.106293093716202e-17
+      },
+      {
+        "index": 12,
+        "name": "n_sense0",
+        "residual": 6.926441882843839e-18,
+        "exactResidual": "38616203890432785082228715/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+        "componentwiseBackwardError": 4.106293093264481e-17
+      },
+      {
+        "index": 13,
+        "name": "n_p5v",
+        "residual": -0.038935168865743774,
+        "exactResidual": "-1909375125427607052216437265935367518055532389384976975/49039857307708443467467104868809893875799651909875269632",
+        "sumAbsoluteProductsAndRhs": 1739042985523806.5,
+        "componentwiseBackwardError": 2.2388847883490557e-17
+      },
+      {
+        "index": 14,
+        "name": "n_base6",
+        "residual": 1.6888870405947568e-19,
+        "exactResidual": "505510128659697673990381545333809/2993155353253689176481146537402947624255349848014848",
+        "sumAbsoluteProductsAndRhs": 0.004329164264210795,
+        "componentwiseBackwardError": 3.901184934368944e-17
+      },
+      {
+        "index": 15,
+        "name": "n_base0",
+        "residual": 1.6888870405947568e-19,
+        "exactResidual": "505510128659697673990381545333809/2993155353253689176481146537402947624255349848014848",
+        "sumAbsoluteProductsAndRhs": 0.004329164264210795,
+        "componentwiseBackwardError": 3.901184934368944e-17
+      },
+      {
+        "index": 16,
+        "name": "n_base1",
+        "residual": -2.008542984269478e-20,
+        "exactResidual": "-60118811856063282146736660929487/2993155353253689176481146537402947624255349848014848",
+        "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+        "componentwiseBackwardError": 4.63956288486003e-18
+      },
+      {
+        "index": 17,
+        "name": "n_base4",
+        "residual": 1.6888870405947568e-19,
+        "exactResidual": "505510128659697673990381545333809/2993155353253689176481146537402947624255349848014848",
+        "sumAbsoluteProductsAndRhs": 0.004329164264210795,
+        "componentwiseBackwardError": 3.901184934368944e-17
+      },
+      {
+        "index": 18,
+        "name": "n_base7",
+        "residual": -2.008542984269478e-20,
+        "exactResidual": "-60118811856063282146736660929487/2993155353253689176481146537402947624255349848014848",
+        "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+        "componentwiseBackwardError": 4.63956288486003e-18
+      },
+      {
+        "index": 19,
+        "name": "n_base5",
+        "residual": 1.6888870405947568e-19,
+        "exactResidual": "505510128659697673990381545333809/2993155353253689176481146537402947624255349848014848",
+        "sumAbsoluteProductsAndRhs": 0.004329164264210795,
+        "componentwiseBackwardError": 3.901184934368944e-17
+      },
+      {
+        "index": 20,
+        "name": "n_base2",
+        "residual": 1.6888870405947568e-19,
+        "exactResidual": "505510128659697673990381545333809/2993155353253689176481146537402947624255349848014848",
+        "sumAbsoluteProductsAndRhs": 0.004329164264210795,
+        "componentwiseBackwardError": 3.901184934368944e-17
+      },
+      {
+        "index": 21,
+        "name": "n_base3",
+        "residual": -2.008542984269478e-20,
+        "exactResidual": "-60118811856063282146736660929487/2993155353253689176481146537402947624255349848014848",
+        "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+        "componentwiseBackwardError": 4.63956288486003e-18
+      },
+      {
+        "index": 22,
+        "name": "n_row7",
+        "residual": 5.101621346035778e-20,
+        "exactResidual": "1221595619372822396617052097254897/23945242826029513411849172299223580994042798784118784",
+        "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+        "componentwiseBackwardError": 2.1562779201763287e-17
+      },
+      {
+        "index": 23,
+        "name": "n_row6",
+        "residual": 5.101622500667719e-20,
+        "exactResidual": "1221595895852244415122300672054769/23945242826029513411849172299223580994042798784118784",
+        "sumAbsoluteProductsAndRhs": 0.002365938684572996,
+        "componentwiseBackwardError": 2.156278408199094e-17
+      },
+      {
+        "index": 24,
+        "name": "n_row0",
+        "residual": 5.101622500667719e-20,
+        "exactResidual": "1221595895852244415122300672054769/23945242826029513411849172299223580994042798784118784",
+        "sumAbsoluteProductsAndRhs": 0.002365938684572996,
+        "componentwiseBackwardError": 2.156278408199094e-17
+      },
+      {
+        "index": 25,
+        "name": "n_row5",
+        "residual": 5.101622500667719e-20,
+        "exactResidual": "1221595895852244415122300672054769/23945242826029513411849172299223580994042798784118784",
+        "sumAbsoluteProductsAndRhs": 0.002365938684572996,
+        "componentwiseBackwardError": 2.156278408199094e-17
+      },
+      {
+        "index": 26,
+        "name": "n_row1",
+        "residual": 5.101621346035778e-20,
+        "exactResidual": "1221595619372822396617052097254897/23945242826029513411849172299223580994042798784118784",
+        "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+        "componentwiseBackwardError": 2.1562779201763287e-17
+      },
+      {
+        "index": 27,
+        "name": "n_row2",
+        "residual": 5.101622500667719e-20,
+        "exactResidual": "1221595895852244415122300672054769/23945242826029513411849172299223580994042798784118784",
+        "sumAbsoluteProductsAndRhs": 0.002365938684572996,
+        "componentwiseBackwardError": 2.156278408199094e-17
+      },
+      {
+        "index": 28,
+        "name": "n_row3",
+        "residual": 5.101621346035778e-20,
+        "exactResidual": "1221595619372822396617052097254897/23945242826029513411849172299223580994042798784118784",
+        "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+        "componentwiseBackwardError": 2.1562779201763287e-17
+      },
+      {
+        "index": 29,
+        "name": "n_row4",
+        "residual": 5.101622500667719e-20,
+        "exactResidual": "1221595895852244415122300672054769/23945242826029513411849172299223580994042798784118784",
+        "sumAbsoluteProductsAndRhs": 0.002365938684572996,
+        "componentwiseBackwardError": 2.156278408199094e-17
+      },
+      {
+        "index": 30,
+        "name": "n_col0",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 40,
+        "name": "n_col1",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 50,
+        "name": "n_col2",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 60,
+        "name": "n_col3",
+        "residual": -2.388138817707689e-27,
+        "exactResidual": "-13314318818104837/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 3.235202805710259e-17
+      },
+      {
+        "index": 70,
+        "name": "n_col4",
+        "residual": -2.388138817707689e-27,
+        "exactResidual": "-13314318818104837/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 3.235202805710259e-17
+      },
+      {
+        "index": 80,
+        "name": "n_col5",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 90,
+        "name": "n_col6",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 100,
+        "name": "n_col7",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 110,
+        "name": "n_col8",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 120,
+        "name": "n_col9",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 130,
+        "name": "n_col10",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 140,
+        "name": "n_col11",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 150,
+        "name": "n_col12",
+        "residual": -5.2690744111596974e-27,
+        "exactResidual": "-29376071468842549/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+        "componentwiseBackwardError": 7.137995577176075e-17
+      },
+      {
+        "index": 160,
+        "name": "n_ta_takt",
+        "residual": 1.50640983515744e-12,
+        "exactResidual": "3910863527376971646253/2596148429267413814265248164610048",
+        "sumAbsoluteProductsAndRhs": 4.362610995414571,
+        "componentwiseBackwardError": 3.4530005923993423e-13
+      },
+      {
+        "index": 161,
+        "name": "n_ta_daten",
+        "residual": 1.977462229990918e-12,
+        "exactResidual": "43065313799556270419195806549/21778071482940061661655974875633165533184",
+        "sumAbsoluteProductsAndRhs": 0.12773258070412186,
+        "componentwiseBackwardError": 1.5481267340644175e-11
+      },
+      {
+        "index": 162,
+        "name": "n_led_siso_n",
+        "residual": -1.1386905709569668e-18,
+        "exactResidual": "-369526217151443/324518553658426726783156020576256",
+        "sumAbsoluteProductsAndRhs": 0.2649851393364469,
+        "componentwiseBackwardError": 4.297186528302599e-18
+      },
+      {
+        "index": 163,
+        "name": "n_led_siso",
+        "residual": 1.3077398807084642e-19,
+        "exactResidual": "11125020548109548179/85070591730234615865843651857942052864",
+        "sumAbsoluteProductsAndRhs": 0.04968545704101709,
+        "componentwiseBackwardError": 2.6320375389299106e-18
+      },
+      {
+        "index": 164,
+        "name": "n_led_caps_n",
+        "residual": -1.1386905709569668e-18,
+        "exactResidual": "-369526217151443/324518553658426726783156020576256",
+        "sumAbsoluteProductsAndRhs": 0.2649851393364469,
+        "componentwiseBackwardError": 4.297186528302599e-18
+      },
+      {
+        "index": 165,
+        "name": "n_led_caps",
+        "residual": 1.3077398807084642e-19,
+        "exactResidual": "11125020548109548179/85070591730234615865843651857942052864",
+        "sumAbsoluteProductsAndRhs": 0.04968545704101709,
+        "componentwiseBackwardError": 2.6320375389299106e-18
+      },
+      {
+        "index": 166,
+        "name": "l1_1_series",
+        "residual": -3.7180037019968193e-06,
+        "exactResidual": "-133955200695/36028797018963968",
+        "sumAbsoluteProductsAndRhs": 222511034862.69928,
+        "componentwiseBackwardError": 1.6709300301852526e-17
+      },
+      {
+        "index": 167,
+        "name": "n_cable_takt",
+        "residual": -15088.980012232048,
+        "exactResidual": "-1087275596167825890087/72057594037927936",
+        "sumAbsoluteProductsAndRhs": 4.4502206994791177e+20,
+        "componentwiseBackwardError": 3.390613866408504e-17
+      },
+      {
+        "index": 168,
+        "name": "l1_2_series",
+        "residual": -4.7151789416138845e-06,
+        "exactResidual": "-339764449991/72057594037927936",
+        "sumAbsoluteProductsAndRhs": 222511034862.44992,
+        "componentwiseBackwardError": 2.1190764514347235e-17
+      },
+      {
+        "index": 169,
+        "name": "n_cable_gnd",
+        "residual": 22863.485290934223,
+        "exactResidual": "823743870693137468417/36028797018963968",
+        "sumAbsoluteProductsAndRhs": 8.900441396914919e+20,
+        "componentwiseBackwardError": 2.5688035313461188e-17
+      },
+      {
+        "index": 170,
+        "name": "l1_3_series",
+        "residual": 2.769742768471417e-11,
+        "exactResidual": "997905/36028797018963968",
+        "sumAbsoluteProductsAndRhs": 1031090.7282721305,
+        "componentwiseBackwardError": 2.6862260444460258e-17
+      },
+      {
+        "index": 171,
+        "name": "n_cable_5v",
+        "residual": -2.7697413806926363e-11,
+        "exactResidual": "-1995809/72057594037927936",
+        "sumAbsoluteProductsAndRhs": 1031090.7282721305,
+        "componentwiseBackwardError": 2.6862246985132744e-17
+      },
+      {
+        "index": 172,
+        "name": "l1_4_series",
+        "residual": -5.791778153865779e-06,
+        "exactResidual": "-417341598969/72057594037927936",
+        "sumAbsoluteProductsAndRhs": 222511034871.7889,
+        "componentwiseBackwardError": 2.6029172697897917e-17
+      },
+      {
+        "index": 173,
+        "name": "n_cable_daten",
+        "residual": -7774.171498696133,
+        "exactResidual": "-1120376187668551503355/144115188075855872",
+        "sumAbsoluteProductsAndRhs": 4.4502206996609106e+20,
+        "componentwiseBackwardError": 1.7469181920097794e-17
+      },
+      {
+        "index": 174,
+        "name": "driver_vp",
+        "residual": -0.037559733370895534,
+        "exactResidual": "-6240681138851411232030253303537911/166153499473114484112975882535043072",
+        "sumAbsoluteProductsAndRhs": 0.06535106275624174,
+        "componentwiseBackwardError": 0.5747379122355308
+      },
+      {
+        "index": 175,
+        "name": "xdata.input_base",
+        "residual": 6.47223516879382e-19,
+        "exactResidual": "26884613067701425/41538374868278621028243970633760768",
+        "sumAbsoluteProductsAndRhs": 0.06681854208576556,
+        "componentwiseBackwardError": 9.686286121726995e-18
+      },
+      {
+        "index": 176,
+        "name": "xdata.phase_base",
+        "residual": -7.082323701838447e-19,
+        "exactResidual": "-987131851801333584956617/1393796574908163946345982392040522594123776",
+        "sumAbsoluteProductsAndRhs": 0.048705793607904314,
+        "componentwiseBackwardError": 1.4541029264101916e-17
+      },
+      {
+        "index": 177,
+        "name": "data_intent",
+        "residual": 9.288172140920616e-19,
+        "exactResidual": "9645389405766565/10384593717069655257060992658440192",
+        "sumAbsoluteProductsAndRhs": 0.06571757960459516,
+        "componentwiseBackwardError": 1.4133466565270707e-17
+      },
+      {
+        "index": 178,
+        "name": "xdata.phase_col",
+        "residual": 4.006090631806886e-18,
+        "exactResidual": "2600101475317087/649037107316853453566312041152512",
+        "sumAbsoluteProductsAndRhs": 0.16031506732504996,
+        "componentwiseBackwardError": 2.4988859117554174e-17
+      },
+      {
+        "index": 179,
+        "name": "xdata.phase_emit",
+        "residual": -1.2467471828950055e-18,
+        "exactResidual": "-1657211259170018169/1329227995784915872903807060280344576",
+        "sumAbsoluteProductsAndRhs": 0.08247438974267012,
+        "componentwiseBackwardError": 1.5116779727440296e-17
+      },
+      {
+        "index": 180,
+        "name": "xdata.feed",
+        "residual": -3.6544738384563055e-18,
+        "exactResidual": "-75900452124057553/20769187434139310514121985316880384",
+        "sumAbsoluteProductsAndRhs": 0.13005203926181275,
+        "componentwiseBackwardError": 2.810008869679732e-17
+      },
+      {
+        "index": 181,
+        "name": "xdata.inverter_base",
+        "residual": -3.4857937658076894e-19,
+        "exactResidual": "-3706731728835287635/10633823966279326983230456482242756608",
+        "sumAbsoluteProductsAndRhs": 0.04543829123326874,
+        "componentwiseBackwardError": 7.671489554729297e-18
+      },
+      {
+        "index": 182,
+        "name": "xdata.discharge_base",
+        "residual": -9.756560609955676e-19,
+        "exactResidual": "-5439464304416050968861227/5575186299632655785383929568162090376495104",
+        "sumAbsoluteProductsAndRhs": 0.014759112763129802,
+        "componentwiseBackwardError": 6.610533279702858e-17
+      },
+      {
+        "index": 183,
+        "name": "xdata.output_base",
+        "residual": 3.403195444106844e-16,
+        "exactResidual": "14823006730434959258195389/43556142965880123323311949751266331066368",
+        "sumAbsoluteProductsAndRhs": 0.14458869658649992,
+        "componentwiseBackwardError": 2.3537078101197824e-15
+      },
+      {
+        "index": 184,
+        "name": "xclock.input_base",
+        "residual": -1.0340279321030562e-19,
+        "exactResidual": "-2147591993398385/20769187434139310514121985316880384",
+        "sumAbsoluteProductsAndRhs": 0.06845363933504009,
+        "componentwiseBackwardError": 1.5105521666161542e-18
+      },
+      {
+        "index": 185,
+        "name": "xclock.phase_base",
+        "residual": 5.325988165673453e-18,
+        "exactResidual": "442465785939519025/83076749736557242056487941267521536",
+        "sumAbsoluteProductsAndRhs": 0.10266945257496488,
+        "componentwiseBackwardError": 5.1875100451954226e-17
+      },
+      {
+        "index": 186,
+        "name": "clock_intent",
+        "residual": 1.0660555141590133e-20,
+        "exactResidual": "221411067887663/20769187434139310514121985316880384",
+        "sumAbsoluteProductsAndRhs": 0.0006740243477739445,
+        "componentwiseBackwardError": 1.5816276039282617e-17
+      },
+      {
+        "index": 187,
+        "name": "xclock.phase_col",
+        "residual": -3.0252851794078793e-18,
+        "exactResidual": "-981761170825719/324518553658426726783156020576256",
+        "sumAbsoluteProductsAndRhs": 0.32217951329709515,
+        "componentwiseBackwardError": 9.390060679054219e-18
+      },
+      {
+        "index": 188,
+        "name": "xclock.phase_emit",
+        "residual": 1.4913928667783037e-17,
+        "exactResidual": "77437544970142369/5192296858534827628530496329220096",
+        "sumAbsoluteProductsAndRhs": 0.2601270280484725,
+        "componentwiseBackwardError": 5.733325283293497e-17
+      },
+      {
+        "index": 189,
+        "name": "xclock.feed",
+        "residual": -4.206630163263089e-18,
+        "exactResidual": "-2795785290461284613/664613997892457936451903530140172288",
+        "sumAbsoluteProductsAndRhs": 0.17385013659644413,
+        "componentwiseBackwardError": 2.419687580129937e-17
+      },
+      {
+        "index": 190,
+        "name": "xclock.inverter_base",
+        "residual": -2.4528202856160144e-18,
+        "exactResidual": "-109399440414619695336005321/44601490397061246283071436545296723011960832",
+        "sumAbsoluteProductsAndRhs": 0.04534462969361995,
+        "componentwiseBackwardError": 5.4092850734232145e-17
+      },
+      {
+        "index": 191,
+        "name": "xclock.discharge_base",
+        "residual": 1.554861658550694e-18,
+        "exactResidual": "64586426441192163/41538374868278621028243970633760768",
+        "sumAbsoluteProductsAndRhs": 0.07550568544707105,
+        "componentwiseBackwardError": 2.0592643445911646e-17
+      },
+      {
+        "index": 192,
+        "name": "xclock.output_base",
+        "residual": -1.1735073135480273e-16,
+        "exactResidual": "-167488560563499126278448725895/1427247692705959881058285969449495136382746624",
+        "sumAbsoluteProductsAndRhs": 0.14360669600894316,
+        "componentwiseBackwardError": 8.171675459164847e-16
+      },
+      {
+        "index": 193,
+        "name": "siso_target",
+        "residual": 6.832725716161694e-18,
+        "exactResidual": "2217346266953531/324518553658426726783156020576256",
+        "sumAbsoluteProductsAndRhs": 0.2153004257108631,
+        "componentwiseBackwardError": 3.173577429585614e-17
+      },
+      {
+        "index": 195,
+        "name": "caps_target",
+        "residual": 6.832725716161694e-18,
+        "exactResidual": "2217346266953531/324518553658426726783156020576256",
+        "sumAbsoluteProductsAndRhs": 0.2153004257108631,
+        "componentwiseBackwardError": 3.173577429585614e-17
+      },
+      {
+        "index": 197,
+        "name": "host_data_winding",
+        "residual": 1.3212507476989543e-11,
+        "exactResidual": "1904123/144115188075855872",
+        "sumAbsoluteProductsAndRhs": 2062181.4138003874,
+        "componentwiseBackwardError": 6.4070539034876936e-18
+      },
+      {
+        "index": 198,
+        "name": "host_data_filtered",
+        "residual": -1.2965625816271034e-11,
+        "exactResidual": "-64202669329416417/4951760157141521099596496896",
+        "sumAbsoluteProductsAndRhs": 2086485.5825866552,
+        "componentwiseBackwardError": 6.21409796668583e-18
+      },
+      {
+        "index": 199,
+        "name": "host_data_buffer_input",
+        "residual": -0.08785785411642032,
+        "exactResidual": "-870102043011284585017445073/9903520314283042199192993792",
+        "sumAbsoluteProductsAndRhs": 2804553699232749.5,
+        "componentwiseBackwardError": 3.132685751050367e-17
+      },
+      {
+        "index": 200,
+        "name": "host_clock_winding",
+        "residual": 4.0568978731947425e-11,
+        "exactResidual": "2923303/72057594037927936",
+        "sumAbsoluteProductsAndRhs": 2062172.3242463341,
+        "componentwiseBackwardError": 1.967293336980179e-17
+      },
+      {
+        "index": 201,
+        "name": "host_clock_filtered",
+        "residual": -4.069742914028892e-11,
+        "exactResidual": "-50380977028743247/1237940039285380274899124224",
+        "sumAbsoluteProductsAndRhs": 2086476.4045596602,
+        "componentwiseBackwardError": 1.9505338786171368e-17
+      },
+      {
+        "index": 202,
+        "name": "host_clock_buffer_input",
+        "residual": -0.10410145900549304,
+        "exactResidual": "-2061941828014807453390285313/19807040628566084398385987584",
+        "sumAbsoluteProductsAndRhs": 2804541666991778.0,
+        "componentwiseBackwardError": 3.7118884782751297e-17
+      },
+      {
+        "index": 203,
+        "name": "host_supply_winding",
+        "residual": 2.7697413806926363e-11,
+        "exactResidual": "1995809/72057594037927936",
+        "sumAbsoluteProductsAndRhs": 2062172.2294390276,
+        "componentwiseBackwardError": 1.3431183589578687e-17
+      },
+      {
+        "index": 204,
+        "name": "host_ground_winding",
+        "residual": -5.5109722341128986e-11,
+        "exactResidual": "-1985537/36028797018963968",
+        "sumAbsoluteProductsAndRhs": 2062162.5440037444,
+        "componentwiseBackwardError": 2.6724237864456586e-17
+      },
+      {
+        "index": 205,
+        "name": "xhost_data.input_base",
+        "residual": 1.4042598954131658e-12,
+        "exactResidual": "59730610122917694450943769/42535295865117307932921825928971026432",
+        "sumAbsoluteProductsAndRhs": 61910.244296943754,
+        "componentwiseBackwardError": 2.2682189536804785e-17
+      },
+      {
+        "index": 206,
+        "name": "xhost_data.phase_base",
+        "residual": -6.240386328981117e-12,
+        "exactResidual": "-61801792778038673/9903520314283042199192993792",
+        "sumAbsoluteProductsAndRhs": 123928.37183042055,
+        "componentwiseBackwardError": 5.035478346734236e-17
+      },
+      {
+        "index": 207,
+        "name": "xhost_data.phase_col",
+        "residual": -6.09989152500933e-12,
+        "exactResidual": "-64865172690348362833714403/10633823966279326983230456482242756608",
+        "sumAbsoluteProductsAndRhs": 330160.5390392978,
+        "componentwiseBackwardError": 1.8475531760272785e-17
+      },
+      {
+        "index": 208,
+        "name": "xhost_data.sink_base",
+        "residual": 2.1764108139273564e-12,
+        "exactResidual": "1347133044247179/618970019642690137449562112",
+        "sumAbsoluteProductsAndRhs": 552492.1892656852,
+        "componentwiseBackwardError": 3.939260782709009e-18
+      },
+      {
+        "index": 209,
+        "name": "xhost_data.high_col",
+        "residual": -3.6300078514720725e-13,
+        "exactResidual": "-7362530610802813073/20282409603651670423947251286016",
+        "sumAbsoluteProductsAndRhs": 15863.86072623282,
+        "componentwiseBackwardError": 2.2882247355269662e-17
+      },
+      {
+        "index": 210,
+        "name": "xhost_data.high_emit",
+        "residual": 1.2806848446182337e-16,
+        "exactResidual": "5319756716387535277/41538374868278621028243970633760768",
+        "sumAbsoluteProductsAndRhs": 2.0139838999412993,
+        "componentwiseBackwardError": 6.358962674207879e-17
+      },
+      {
+        "index": 211,
+        "name": "host_data_buffer_output",
+        "residual": -0.0008361457460578464,
+        "exactResidual": "-33918101019792307702257979095/40564819207303340847894502572032",
+        "sumAbsoluteProductsAndRhs": 20621623080282.434,
+        "componentwiseBackwardError": 4.054703855281573e-17
+      },
+      {
+        "index": 212,
+        "name": "xhost_clock.input_base",
+        "residual": -6.9755515856182645e-12,
+        "exactResidual": "-138165033662999539/19807040628566084398385987584",
+        "sumAbsoluteProductsAndRhs": 79537.08690377924,
+        "componentwiseBackwardError": 8.770187414654758e-17
+      },
+      {
+        "index": 213,
+        "name": "xhost_clock.phase_base",
+        "residual": -2.3702922983642638e-12,
+        "exactResidual": "-100821084197732877191135331/42535295865117307932921825928971026432",
+        "sumAbsoluteProductsAndRhs": 79028.24931048177,
+        "componentwiseBackwardError": 2.9992974905112626e-17
+      },
+      {
+        "index": 214,
+        "name": "xhost_clock.phase_col",
+        "residual": -2.439379350945779e-15,
+        "exactResidual": "-25939930604934135115579/10633823966279326983230456482242756608",
+        "sumAbsoluteProductsAndRhs": 1484.9152636047322,
+        "componentwiseBackwardError": 1.6427734367980168e-18
+      },
+      {
+        "index": 215,
+        "name": "xhost_clock.sink_base",
+        "residual": -9.003481783415825e-15,
+        "exactResidual": "-11967680046055816433261/1329227995784915872903807060280344576",
+        "sumAbsoluteProductsAndRhs": 2252.3691383253035,
+        "componentwiseBackwardError": 3.997338460297922e-18
+      },
+      {
+        "index": 216,
+        "name": "xhost_clock.high_col",
+        "residual": -1.028984265513858e-12,
+        "exactResidual": "-163049065225505733/158456325028528675187087900672",
+        "sumAbsoluteProductsAndRhs": 16628.26755506572,
+        "componentwiseBackwardError": 6.188162790298518e-17
+      },
+      {
+        "index": 217,
+        "name": "xhost_clock.high_emit",
+        "residual": 1.1129298373618809e-14,
+        "exactResidual": "902915952859964173/81129638414606681695789005144064",
+        "sumAbsoluteProductsAndRhs": 1546.1152004862452,
+        "componentwiseBackwardError": 7.198233592243774e-18
+      },
+      {
+        "index": 218,
+        "name": "host_clock_buffer_output",
+        "residual": -0.003879145203813679,
+        "exactResidual": "-82500294473982810947722304102198527/21267647932558653966460912964485513216",
+        "sumAbsoluteProductsAndRhs": 206217007796553.53,
+        "componentwiseBackwardError": 1.881098579240713e-17
+      },
+      {
+        "index": 225,
+        "name": "dcaps_led#internal",
+        "residual": 1.2142694313528972e-16,
+        "exactResidual": "5164930952256323250649/42535295865117307932921825928971026432",
+        "sumAbsoluteProductsAndRhs": 4.613581107348124,
+        "componentwiseBackwardError": 2.631945560508107e-17
+      },
+      {
+        "index": 226,
+        "name": "dsiso_led#internal",
+        "residual": 1.2142694313528972e-16,
+        "exactResidual": "5164930952256323250649/42535295865117307932921825928971026432",
+        "sumAbsoluteProductsAndRhs": 4.613581107348124,
+        "componentwiseBackwardError": 2.631945560508107e-17
+      },
+      {
+        "index": 227,
+        "name": "lhost_ground#branch",
+        "residual": -1.697348729199493e-05,
+        "exactResidual": "-2504844608910335/147573952589676412928",
+        "sumAbsoluteProductsAndRhs": 629131495921.7476,
+        "componentwiseBackwardError": 2.697923629960202e-17
+      },
+      {
+        "index": 228,
+        "name": "lhost_supply#branch",
+        "residual": -1.1070265606972469e-05,
+        "exactResidual": "-3267365703676961/295147905179352825856",
+        "sumAbsoluteProductsAndRhs": 368153588142.4311,
+        "componentwiseBackwardError": 3.0069693637454405e-17
+      },
+      {
+        "index": 229,
+        "name": "lhost_clock#branch",
+        "residual": 8.824584331577942e-06,
+        "exactResidual": "2604557579543769/295147905179352825856",
+        "sumAbsoluteProductsAndRhs": 222511034862.69928,
+        "componentwiseBackwardError": 3.9659086287667324e-17
+      },
+      {
+        "index": 230,
+        "name": "lhost_data#branch",
+        "residual": -6.945244425466358e-06,
+        "exactResidual": "-4099748686269947/590295810358705651712",
+        "sumAbsoluteProductsAndRhs": 222511034871.7889,
+        "componentwiseBackwardError": 3.121303367928793e-17
+      },
+      {
+        "index": 231,
+        "name": "l1.4#branch",
+        "residual": 4.638914916072084e-06,
+        "exactResidual": "1369166019783929/295147905179352825856",
+        "sumAbsoluteProductsAndRhs": 222511034871.67764,
+        "componentwiseBackwardError": 2.084802184641023e-17
+      },
+      {
+        "index": 232,
+        "name": "l1.3#branch",
+        "residual": 1.3923326479658184e-05,
+        "exactResidual": "2054720321799663/147573952589676412928",
+        "sumAbsoluteProductsAndRhs": 368152557060.93,
+        "componentwiseBackwardError": 3.781944797779537e-17
+      },
+      {
+        "index": 233,
+        "name": "l1.2#branch",
+        "residual": 7.906480137725624e-06,
+        "exactResidual": "2333581049991879/295147905179352825856",
+        "sumAbsoluteProductsAndRhs": 405818469796.9664,
+        "componentwiseBackwardError": 1.948280013396455e-17
+      },
+      {
+        "index": 234,
+        "name": "l1.1#branch",
+        "residual": 8.509600639567396e-06,
+        "exactResidual": "1255795401340599/147573952589676412928",
+        "sumAbsoluteProductsAndRhs": 260177999079.14117,
+        "componentwiseBackwardError": 3.2706841737909355e-17
+      }
+    ]
+  },
+  "solves": [
+    {
+      "decimalPrecision": 80,
+      "residualReview": {
+        "id": 10,
+        "timeSeconds": 0.0010980122484074574,
+        "deltaSeconds": 5e-19,
+        "iteration": 10,
+        "order": 1,
+        "size": 363,
+        "nonzeroCoefficients": 859,
+        "coefficientMagnitudeRange": [
+          1.0000202557912869e-16,
+          188470000000000.97
+        ],
+        "maximumAbsoluteSolution": 258472.42030001406,
+        "worstAbsoluteResidual": {
+          "index": 13,
+          "name": "n_p5v",
+          "residual": 7.4793245035731e-65,
+          "exactResidual": "1896234039251228798944897142256366463995582050550668263/25353012004564588029934064107520000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "sumAbsoluteProductsAndRhs": 1739042985523806.5,
+          "componentwiseBackwardError": 4.300827849473944e-80
+        },
+        "worstComponentwiseResidual": {
+          "index": 192,
+          "name": "xclock.output_base",
+          "residual": -1.0032701037290462e-69,
+          "exactResidual": "-620994115812091521227935855068973972063/618970019642690137449562112000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "sumAbsoluteProductsAndRhs": 0.14015519807165874,
+          "componentwiseBackwardError": 7.158279660923407e-69
+        },
+        "normwiseBackwardError": 1.5353174441046113e-84,
+        "rowResiduals": [
+          {
+            "index": 1,
+            "name": "host_receiver_5v",
+            "residual": 1.0513012815918819e-78,
+            "exactResidual": "484827142147207582339/461168601842738790400000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 26.223149785316547,
+            "componentwiseBackwardError": 4.009057989595704e-80
+          },
+          {
+            "index": 2,
+            "name": "host_receiver_gnd",
+            "residual": -6.325729710020392e-70,
+            "exactResidual": "-18232674537532359019644849009/28823037615171174400000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 59293299105.303566,
+            "componentwiseBackwardError": 1.0668540636920941e-80
+          },
+          {
+            "index": 5,
+            "name": "n_sense7",
+            "residual": -7.602272974497806e-82,
+            "exactResidual": "-294098690772124956267307275392649/386856262276681335905976320000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.506954874711879e-81
+          },
+          {
+            "index": 6,
+            "name": "n_sense6",
+            "residual": -7.964144282894246e-82,
+            "exactResidual": "-154048954475633439407961298832287/193428131138340667952988160000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.7214877733419025e-81
+          },
+          {
+            "index": 7,
+            "name": "n_sense5",
+            "residual": -7.964144287659342e-82,
+            "exactResidual": "-154048954567803789885876517582287/193428131138340667952988160000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.721487776166857e-81
+          },
+          {
+            "index": 8,
+            "name": "n_sense4",
+            "residual": -7.964144286468068e-82,
+            "exactResidual": "-154048954544761202266397712894787/193428131138340667952988160000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.7214877754606185e-81
+          },
+          {
+            "index": 9,
+            "name": "n_sense3",
+            "residual": -7.602272981645449e-82,
+            "exactResidual": "-294098691048636007701046462892649/386856262276681335905976320000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.506954878949311e-81
+          },
+          {
+            "index": 10,
+            "name": "n_sense2",
+            "residual": -7.964144287659342e-82,
+            "exactResidual": "-154048954567803789885876517582287/193428131138340667952988160000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.721487776166857e-81
+          },
+          {
+            "index": 11,
+            "name": "n_sense1",
+            "residual": -7.602272979262901e-82,
+            "exactResidual": "-294098690956465657223133400392649/386856262276681335905976320000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.506954877536833e-81
+          },
+          {
+            "index": 12,
+            "name": "n_sense0",
+            "residual": -7.964144287063705e-82,
+            "exactResidual": "-154048954556282496076137115238537/193428131138340667952988160000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.721487775813738e-81
+          },
+          {
+            "index": 13,
+            "name": "n_p5v",
+            "residual": 7.4793245035731e-65,
+            "exactResidual": "1896234039251228798944897142256366463995582050550668263/25353012004564588029934064107520000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 1739042985523806.5,
+            "componentwiseBackwardError": 4.300827849473944e-80
+          },
+          {
+            "index": 14,
+            "name": "n_base6",
+            "residual": -2.719081217193695e-82,
+            "exactResidual": "-3366059508832902696027454856310173/12379400392853802748991242240000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 6.28084556567267e-80
+          },
+          {
+            "index": 15,
+            "name": "n_base0",
+            "residual": 3.0874204442256676e-83,
+            "exactResidual": "382204138601520899406529143689827/12379400392853802748991242240000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 7.131677746093804e-81
+          },
+          {
+            "index": 16,
+            "name": "n_base1",
+            "residual": -3.256835049072665e-83,
+            "exactResidual": "-806353301719003658588701499869521/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 7.523011025469568e-81
+          },
+          {
+            "index": 17,
+            "name": "n_base4",
+            "residual": -1.6043417243836445e-83,
+            "exactResidual": "-198607885731066364183870856310173/12379400392853802748991242240000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 3.7058924690077935e-81
+          },
+          {
+            "index": 18,
+            "name": "n_base7",
+            "residual": -3.0534522141536905e-82,
+            "exactResidual": "-7559981507890901878444573499869521/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 7.053214033471965e-80
+          },
+          {
+            "index": 19,
+            "name": "n_base5",
+            "residual": 5.215080048732415e-83,
+            "exactResidual": "645595640040420913298113143689827/12379400392853802748991242240000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 1.2046389858304728e-80
+          },
+          {
+            "index": 20,
+            "name": "n_base2",
+            "residual": 7.77918261283498e-83,
+            "exactResidual": "963016162934108162996929143689827/12379400392853802748991242240000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 1.7969247961195402e-80
+          },
+          {
+            "index": 21,
+            "name": "n_base3",
+            "residual": 1.8074316189467147e-82,
+            "exactResidual": "4474983938729068949532130500130479/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 4.1750127937827494e-80
+          },
+          {
+            "index": 22,
+            "name": "n_row7",
+            "residual": 1.3317606629894377e-82,
+            "exactResidual": "13189118779678948903047850444267319/99035203142830421991929937920000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 5.628889166372432e-80
+          },
+          {
+            "index": 23,
+            "name": "n_row6",
+            "residual": 1.309055453849614e-82,
+            "exactResidual": "12964257279722659238597290444267319/99035203142830421991929937920000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 5.532922143693982e-80
+          },
+          {
+            "index": 24,
+            "name": "n_row0",
+            "residual": -2.2940607161192456e-83,
+            "exactResidual": "-2271927690428565175709013555732681/99035203142830421991929937920000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 9.696196824869439e-81
+          },
+          {
+            "index": 25,
+            "name": "n_row5",
+            "residual": -2.2940605861192462e-83,
+            "exactResidual": "-2271927561682801604472149555732681/99035203142830421991929937920000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 9.696196275404652e-81
+          },
+          {
+            "index": 26,
+            "name": "n_row1",
+            "residual": 3.0611968934841187e-83,
+            "exactResidual": "3031662562064011197633194444267319/99035203142830421991929937920000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 1.2938614654067433e-80
+          },
+          {
+            "index": 27,
+            "name": "n_row2",
+            "residual": -4.85816328022181e-83,
+            "exactResidual": "-4811291873578063173299541555732681/99035203142830421991929937920000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 2.0533766626748447e-80
+          },
+          {
+            "index": 28,
+            "name": "n_row3",
+            "residual": -9.759316057028701e-83,
+            "exactResidual": "-9665158482429242361556309555732681/99035203142830421991929937920000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 4.124923490479239e-80
+          },
+          {
+            "index": 29,
+            "name": "n_row4",
+            "residual": 2.7004184798331854e-84,
+            "exactResidual": "267436492720932821881514444267319/99035203142830421991929937920000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 1.1413729770095698e-81
+          },
+          {
+            "index": 30,
+            "name": "n_col0",
+            "residual": 2.6554966456755914e-91,
+            "exactResidual": "262987649749587/990352031428304219919299379200000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 3.5973914644083366e-81
+          },
+          {
+            "index": 40,
+            "name": "n_col1",
+            "residual": -6.344503354324408e-91,
+            "exactResidual": "-15708229463397169/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 8.594875180853433e-81
+          },
+          {
+            "index": 50,
+            "name": "n_col2",
+            "residual": -6.344503354324408e-91,
+            "exactResidual": "-15708229463397169/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 8.594875180853433e-81
+          },
+          {
+            "index": 60,
+            "name": "n_col3",
+            "residual": -3.298226856004726e-91,
+            "exactResidual": "-79746232103409901743757/241785163922925834941235200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 4.468095698330335e-81
+          },
+          {
+            "index": 70,
+            "name": "n_col4",
+            "residual": -8.298226856804727e-91,
+            "exactResidual": "-200638814084215647350413/241785163922925834941235200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.1241577169003966e-80
+          },
+          {
+            "index": 80,
+            "name": "n_col5",
+            "residual": -6.344503354324408e-91,
+            "exactResidual": "-15708229463397169/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 8.594875180853433e-81
+          },
+          {
+            "index": 90,
+            "name": "n_col6",
+            "residual": 2.6554966456755914e-91,
+            "exactResidual": "262987649749587/990352031428304219919299379200000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 3.5973914644083366e-81
+          },
+          {
+            "index": 100,
+            "name": "n_col7",
+            "residual": 2.6554966456755914e-91,
+            "exactResidual": "262987649749587/990352031428304219919299379200000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 3.5973914644083366e-81
+          },
+          {
+            "index": 110,
+            "name": "n_col8",
+            "residual": -6.344503354324408e-91,
+            "exactResidual": "-15708229463397169/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 8.594875180853433e-81
+          },
+          {
+            "index": 120,
+            "name": "n_col9",
+            "residual": -6.344503354324408e-91,
+            "exactResidual": "-15708229463397169/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 8.594875180853433e-81
+          },
+          {
+            "index": 130,
+            "name": "n_col10",
+            "residual": 2.6554966456755914e-91,
+            "exactResidual": "262987649749587/990352031428304219919299379200000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 3.5973914644083366e-81
+          },
+          {
+            "index": 140,
+            "name": "n_col11",
+            "residual": 1.1655496645675591e-90,
+            "exactResidual": "28857611950876519/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.5789658109670105e-80
+          },
+          {
+            "index": 150,
+            "name": "n_col12",
+            "residual": 1.1655496645675591e-90,
+            "exactResidual": "28857611950876519/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.5789658109670105e-80
+          },
+          {
+            "index": 160,
+            "name": "n_ta_takt",
+            "residual": 8.51030476830242e-71,
+            "exactResidual": "490585668906702544418535679567/5764607523034234880000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 4.2513552195095485,
+            "componentwiseBackwardError": 2.0017863313910993e-71
+          },
+          {
+            "index": 161,
+            "name": "n_ta_daten",
+            "residual": 1.0234884011106158e-71,
+            "exactResidual": "3866629856808491823344704007895749239/377789318629571617095680000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.016477074414702128,
+            "componentwiseBackwardError": 6.211590573368896e-70
+          },
+          {
+            "index": 162,
+            "name": "n_led_siso_n",
+            "residual": -1.372537518167897e-81,
+            "exactResidual": "-1978035025719349/1441151880758558720000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2649851393364469,
+            "componentwiseBackwardError": 5.179677326830054e-81
+          },
+          {
+            "index": 163,
+            "name": "n_led_siso",
+            "residual": 6.463960565254286e-82,
+            "exactResidual": "488403051519167459239/755578637259143234191360000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.049685457041017095,
+            "componentwiseBackwardError": 1.300976372204458e-80
+          },
+          {
+            "index": 164,
+            "name": "n_led_caps_n",
+            "residual": -1.372537518167897e-81,
+            "exactResidual": "-1978035025719349/1441151880758558720000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2649851393364469,
+            "componentwiseBackwardError": 5.179677326830054e-81
+          },
+          {
+            "index": 165,
+            "name": "n_led_caps",
+            "residual": 6.463879997086545e-82,
+            "exactResidual": "244198481980264331417/377789318629571617095680000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.049685457041017095,
+            "componentwiseBackwardError": 1.3009601565605778e-80
+          },
+          {
+            "index": 166,
+            "name": "l1_1_series",
+            "residual": 4.8442266e-75,
+            "exactResidual": "24221133/5000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 516944.51841474464,
+            "componentwiseBackwardError": 9.370883000859051e-81
+          },
+          {
+            "index": 167,
+            "name": "n_cable_takt",
+            "residual": 6.116210085476513e-66,
+            "exactResidual": "125259982550558980037/20480000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 1033889681717005.8,
+            "componentwiseBackwardError": 5.915727948188025e-81
+          },
+          {
+            "index": 168,
+            "name": "l1_2_series",
+            "residual": 3.93269e-75,
+            "exactResidual": "393269/100000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 516944.8406000281,
+            "componentwiseBackwardError": 7.6075621442226775e-81
+          },
+          {
+            "index": 169,
+            "name": "n_cable_gnd",
+            "residual": -7.613579710486144e-67,
+            "exactResidual": "-311852224941512437/409600000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 2067779362917067.2,
+            "componentwiseBackwardError": 3.6820077843051295e-82
+          },
+          {
+            "index": 170,
+            "name": "l1_3_series",
+            "residual": -3.2e-80,
+            "exactResidual": "-1/31250000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 17.459143324327336,
+            "componentwiseBackwardError": 1.83285052453929e-81
+          },
+          {
+            "index": 171,
+            "name": "n_cable_5v",
+            "residual": 3.1e-80,
+            "exactResidual": "31/1000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 17.459143324327336,
+            "componentwiseBackwardError": 1.7755739456474372e-81
+          },
+          {
+            "index": 172,
+            "name": "l1_4_series",
+            "residual": -4.74866989355e-75,
+            "exactResidual": "-94973397871/20000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 516935.40995870886,
+            "componentwiseBackwardError": 9.186195803319623e-81
+          },
+          {
+            "index": 173,
+            "name": "n_cable_daten",
+            "residual": -5.354852118456133e-66,
+            "exactResidual": "-109667371385981603819/20480000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 1033889681716996.6,
+            "componentwiseBackwardError": 5.179326395407339e-81
+          },
+          {
+            "index": 174,
+            "name": "driver_vp",
+            "residual": 2.0159413551510534e-82,
+            "exactResidual": "9296888561519673871/46116860184273879040000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.027791329385346203,
+            "componentwiseBackwardError": 7.253850030700646e-81
+          },
+          {
+            "index": 175,
+            "name": "xdata.input_base",
+            "residual": -2.6277469783080487e-82,
+            "exactResidual": "-2423668799965609/9223372036854775808000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.06681854208576554,
+            "componentwiseBackwardError": 3.932661348604674e-81
+          },
+          {
+            "index": 176,
+            "name": "xdata.phase_base",
+            "residual": -2.836462601026901e-81,
+            "exactResidual": "-87784265593668835508426681/30948500982134506872478105600000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0487057936079043,
+            "componentwiseBackwardError": 5.823665709794698e-80
+          },
+          {
+            "index": 177,
+            "name": "data_intent",
+            "residual": -4.569145788485146e-77,
+            "exactResidual": "-164620826163385422226713/3602879701896396800000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.06571757960459515,
+            "componentwiseBackwardError": 6.95269943898795e-76
+          },
+          {
+            "index": 178,
+            "name": "xdata.phase_col",
+            "residual": -1.647170776540971e-81,
+            "exactResidual": "-11869116312712781/7205759403792793600000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.1603150673212839,
+            "componentwiseBackwardError": 1.0274584941164092e-80
+          },
+          {
+            "index": 179,
+            "name": "xdata.phase_emit",
+            "residual": 1.5957888197987609e-81,
+            "exactResidual": "47099372727223599511/29514790517935282585600000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.08247438974266881,
+            "componentwiseBackwardError": 1.9348901213792988e-80
+          },
+          {
+            "index": 180,
+            "name": "xdata.feed",
+            "residual": 1.8116735207948093e-81,
+            "exactResidual": "417743472290227071/230584300921369395200000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.13005203925786657,
+            "componentwiseBackwardError": 1.3930373803694316e-80
+          },
+          {
+            "index": 181,
+            "name": "xdata.inverter_base",
+            "residual": 4.8988579667042185e-82,
+            "exactResidual": "28917753332878677027/59029581035870565171200000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.04543829123269297,
+            "componentwiseBackwardError": 1.0781342858200349e-80
+          },
+          {
+            "index": 182,
+            "name": "xdata.discharge_base",
+            "residual": -6.267101809073958e-76,
+            "exactResidual": "-38791481298652469295355452690811/61897001964269013744956211200000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.014759112763129436,
+            "componentwiseBackwardError": 4.24625918214417e-74
+          },
+          {
+            "index": 183,
+            "name": "xdata.output_base",
+            "residual": -3.7034111035928304e-82,
+            "exactResidual": "-179085972151235231541351/483570327845851669882470400000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.14458869652419634,
+            "componentwiseBackwardError": 2.5613420638127676e-81
+          },
+          {
+            "index": 184,
+            "name": "xclock.input_base",
+            "residual": -7.464318522598305e-82,
+            "exactResidual": "-34423093367755181/46116860184273879040000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.06845363933503547,
+            "componentwiseBackwardError": 1.0904195299340307e-80
+          },
+          {
+            "index": 185,
+            "name": "xclock.phase_base",
+            "residual": -8.842518453306821e-82,
+            "exactResidual": "-407789187188012403/461168601842738790400000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.10266945257495554,
+            "componentwiseBackwardError": 8.612608942130275e-81
+          },
+          {
+            "index": 186,
+            "name": "clock_intent",
+            "residual": -5.161216794796221e-84,
+            "exactResidual": "-7438097290823234341/1441151880758558720000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0006740243477738989,
+            "componentwiseBackwardError": 7.657315068576051e-81
+          },
+          {
+            "index": 187,
+            "name": "xclock.phase_col",
+            "residual": 2.7491726150383175e-81,
+            "exactResidual": "9904938211730991/3602879701896396800000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.3221795132970558,
+            "componentwiseBackwardError": 8.53304602426265e-81
+          },
+          {
+            "index": 188,
+            "name": "xclock.phase_emit",
+            "residual": 1.2914973507347223e-81,
+            "exactResidual": "18612438360060411/14411518807585587200000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2601270280484452,
+            "componentwiseBackwardError": 4.964871818295631e-81
+          },
+          {
+            "index": 189,
+            "name": "xclock.feed",
+            "residual": -3.0244172251893344e-81,
+            "exactResidual": "-435864457228019091/144115188075855872000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.1738501365964287,
+            "componentwiseBackwardError": 1.739669168169905e-80
+          },
+          {
+            "index": 190,
+            "name": "xclock.inverter_base",
+            "residual": 2.2690352056355088e-82,
+            "exactResidual": "112357181264173312722124357/495176015714152109959649689600000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.045344629693582925,
+            "componentwiseBackwardError": 5.003977805020245e-81
+          },
+          {
+            "index": 191,
+            "name": "xclock.discharge_base",
+            "residual": 3.9150745767351297e-82,
+            "exactResidual": "56422170895718507/144115188075855872000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.07550568544705429,
+            "componentwiseBackwardError": 5.1851387793577995e-81
+          },
+          {
+            "index": 192,
+            "name": "xclock.output_base",
+            "residual": -1.0032701037290462e-69,
+            "exactResidual": "-620994115812091521227935855068973972063/618970019642690137449562112000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.14015519807165874,
+            "componentwiseBackwardError": 7.158279660923407e-69
+          },
+          {
+            "index": 193,
+            "name": "siso_target",
+            "residual": -1.6835488052466666e-82,
+            "exactResidual": "-18955074429922329351/112589990684262400000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2153004257108631,
+            "componentwiseBackwardError": 7.819533099797871e-82
+          },
+          {
+            "index": 195,
+            "name": "caps_target",
+            "residual": -1.6834488052466667e-82,
+            "exactResidual": "-18953948530015486727/112589990684262400000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2153004257108631,
+            "componentwiseBackwardError": 7.819068632532329e-82
+          },
+          {
+            "index": 197,
+            "name": "host_data_winding",
+            "residual": -4.4595e-79,
+            "exactResidual": "-8919/20000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 25.324896187128356,
+            "componentwiseBackwardError": 1.760915411873075e-80
+          },
+          {
+            "index": 198,
+            "name": "host_data_filtered",
+            "residual": 8.197845463657865e-71,
+            "exactResidual": "75611778611958736584987861/922337203685477580800000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 25.623368177905228,
+            "componentwiseBackwardError": 3.1993629435207453e-72
+          },
+          {
+            "index": 199,
+            "name": "host_data_buffer_input",
+            "residual": 3.659504888239675e-71,
+            "exactResidual": "1687648752746158982765689209/46116860184273879040000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 34407188677.28702,
+            "componentwiseBackwardError": 1.063587299317889e-81
+          },
+          {
+            "index": 200,
+            "name": "host_clock_winding",
+            "residual": -3.94e-80,
+            "exactResidual": "-197/5000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 16.253778789971783,
+            "componentwiseBackwardError": 2.424051693401224e-81
+          },
+          {
+            "index": 201,
+            "name": "host_clock_filtered",
+            "residual": 1.990259891976719e-70,
+            "exactResidual": "917845371686583827344490673/4611686018427387904000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 16.445341182853596,
+            "componentwiseBackwardError": 1.210227182183258e-71
+          },
+          {
+            "index": 202,
+            "name": "host_clock_buffer_input",
+            "residual": 3.856634983640887e-70,
+            "exactResidual": "35571179264469236340357345069/92233720368547758080000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 22374868601.23345,
+            "componentwiseBackwardError": 1.7236458691106164e-80
+          },
+          {
+            "index": 203,
+            "name": "host_supply_winding",
+            "residual": -1.78152919431e-70,
+            "exactResidual": "-178152919431/1000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 25.691186939269095,
+            "componentwiseBackwardError": 6.934398159654214e-72
+          },
+          {
+            "index": 204,
+            "name": "host_ground_winding",
+            "residual": 5.059522972212e-68,
+            "exactResidual": "1264880743053/25000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 15.894496911318424,
+            "componentwiseBackwardError": 3.1831916420136135e-69
+          },
+          {
+            "index": 205,
+            "name": "xhost_data.input_base",
+            "residual": -2.2692490262766638e-71,
+            "exactResidual": "-280919422873724388921624673138838287/12379400392853802748991242240000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.5863547971491283,
+            "componentwiseBackwardError": 3.870095439330946e-71
+          },
+          {
+            "index": 206,
+            "name": "xhost_data.phase_base",
+            "residual": 4.631164253561385e-81,
+            "exactResidual": "53393688592974369/11529215046068469760000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 1.1101204859777853,
+            "componentwiseBackwardError": 4.171767219917838e-81
+          },
+          {
+            "index": 207,
+            "name": "xhost_data.phase_col",
+            "residual": 1.8169016021941798e-71,
+            "exactResidual": "224921524079793340995282606575163429/12379400392853802748991242240000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 2.8833030427484077,
+            "componentwiseBackwardError": 6.301459039360226e-72
+          },
+          {
+            "index": 208,
+            "name": "xhost_data.sink_base",
+            "residual": -7.310794412767649e-79,
+            "exactResidual": "-2107193023559851993/2882303761517117440000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 4.619099428106868,
+            "componentwiseBackwardError": 1.5827315533157875e-79
+          },
+          {
+            "index": 209,
+            "name": "xhost_data.high_col",
+            "residual": 2.7411890269839182e-70,
+            "exactResidual": "25889798368477821422532979617213/94447329657392904273920000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.19763279952848786,
+            "componentwiseBackwardError": 1.3870111811014387e-69
+          },
+          {
+            "index": 210,
+            "name": "xhost_data.high_emit",
+            "residual": -3.736224632839389e-76,
+            "exactResidual": "-18067273706078901781053429451/48357032784585166988247040000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 1.6069462313503037e-05,
+            "componentwiseBackwardError": 2.325046451429722e-71
+          },
+          {
+            "index": 211,
+            "name": "host_data_buffer_output",
+            "residual": 2.5724884119634395e-69,
+            "exactResidual": "121482330542267073312965935571327/47223664828696452136960000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 157271240.061428,
+            "componentwiseBackwardError": 1.6357017411185037e-77
+          },
+          {
+            "index": 212,
+            "name": "xhost_clock.input_base",
+            "residual": -6.45899510471642e-73,
+            "exactResidual": "-59573714835023308699621499/92233720368547758080000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.6850810478301064,
+            "componentwiseBackwardError": 9.42807442298154e-73
+          },
+          {
+            "index": 213,
+            "name": "xhost_clock.phase_base",
+            "residual": 6.321757183190407e-75,
+            "exactResidual": "156519126714227367027959645654809/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.6396536294670018,
+            "componentwiseBackwardError": 9.883094368522665e-75
+          },
+          {
+            "index": 214,
+            "name": "xhost_clock.phase_col",
+            "residual": -2.097684970655259e-71,
+            "exactResidual": "-64920205374533077474940383144238517/3094850098213450687247810560000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.017672528342046433,
+            "componentwiseBackwardError": 1.1869750213750981e-69
+          },
+          {
+            "index": 215,
+            "name": "xhost_clock.sink_base",
+            "residual": 4.027522870331934e-76,
+            "exactResidual": "498583182032148147350545335143/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.01723092256044713,
+            "componentwiseBackwardError": 2.3373808664063906e-74
+          },
+          {
+            "index": 216,
+            "name": "xhost_clock.high_col",
+            "residual": -1.8941660680507698e-71,
+            "exactResidual": "-87352991726093151169560327/4611686018427387904000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2071374250838995,
+            "componentwiseBackwardError": 9.144489786351026e-71
+          },
+          {
+            "index": 217,
+            "name": "xhost_clock.high_emit",
+            "residual": -3.1006584933070276e-73,
+            "exactResidual": "-1464244574361820157335244057/4722366482869645213696000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.018452696457032954,
+            "componentwiseBackwardError": 1.680328130106568e-71
+          },
+          {
+            "index": 218,
+            "name": "host_clock_buffer_output",
+            "residual": -3.2941635238235204e-68,
+            "exactResidual": "-101949423052363882707898747214531769941/3094850098213450687247810560000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 2353970571.6927814,
+            "componentwiseBackwardError": 1.3994072667844057e-77
+          },
+          {
+            "index": 223,
+            "name": "bcaps_target#branch",
+            "residual": -3.855996631091645e-79,
+            "exactResidual": "-17365864990926219/45035996273704960000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 6.459012521179276,
+            "componentwiseBackwardError": 5.96994760181642e-80
+          },
+          {
+            "index": 224,
+            "name": "bsiso_target#branch",
+            "residual": -3.855996631091645e-79,
+            "exactResidual": "-17365864990926219/45035996273704960000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 6.459012521179276,
+            "componentwiseBackwardError": 5.96994760181642e-80
+          },
+          {
+            "index": 225,
+            "name": "dcaps_led#internal",
+            "residual": -1.354732992496687e-79,
+            "exactResidual": "-102360730832064778030207/755578637259143234191360000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 4.613581107348124,
+            "componentwiseBackwardError": 2.9364022458367144e-80
+          },
+          {
+            "index": 226,
+            "name": "dsiso_led#internal",
+            "residual": -1.8547330730648547e-79,
+            "exactResidual": "-28027933756516114986419/151115727451828646838272000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 4.613581107348124,
+            "componentwiseBackwardError": 4.0201592426993245e-80
+          },
+          {
+            "index": 227,
+            "name": "lhost_ground#branch",
+            "residual": -7.346286037659234e-69,
+            "exactResidual": "-1504519380512611/204800000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 406620461059.3892,
+            "componentwiseBackwardError": 1.8066690541148804e-80
+          },
+          {
+            "index": 228,
+            "name": "lhost_supply#branch",
+            "residual": -1.7004441391473557e-69,
+            "exactResidual": "-6965019193947569/4096000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 368151525995.8929,
+            "componentwiseBackwardError": 4.618870272362598e-81
+          },
+          {
+            "index": 229,
+            "name": "lhost_clock#branch",
+            "residual": -4.3225726718182275e-69,
+            "exactResidual": "-88526288318837303/20480000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 37671638605.68213,
+            "componentwiseBackwardError": 1.1474342056271057e-79
+          },
+          {
+            "index": 230,
+            "name": "lhost_data#branch",
+            "residual": 2.611100716661609e-72,
+            "exactResidual": "213901370708919/81920000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 798326294.9053568,
+            "componentwiseBackwardError": 3.2707186689512215e-81
+          },
+          {
+            "index": 231,
+            "name": "l1.4#branch",
+            "residual": 7.6287809323573e-76,
+            "exactResidual": "62494973397871/81920000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 539169.8998664211,
+            "componentwiseBackwardError": 1.4149122445906799e-81
+          },
+          {
+            "index": 232,
+            "name": "l1.3#branch",
+            "residual": -2.0360922811447354e-68,
+            "exactResidual": "-5212396239730523/256000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 368151525987.6609,
+            "componentwiseBackwardError": 5.530582212534352e-80
+          },
+          {
+            "index": 233,
+            "name": "l1.2#branch",
+            "residual": -2.6780077244450438e-70,
+            "exactResidual": "-109691196393269/409600000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 405818986741.60406,
+            "componentwiseBackwardError": 6.599020282287098e-82
+          },
+          {
+            "index": 234,
+            "name": "l1.1#branch",
+            "residual": -4.196137569439126e-71,
+            "exactResidual": "-859368974221133/20480000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 37666964216.57197,
+            "componentwiseBackwardError": 1.11401002356144e-81
+          },
+          {
+            "index": 235,
+            "name": "eclock#branch",
+            "residual": 5.19e-77,
+            "exactResidual": "519/10000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 23.539705716839578,
+            "componentwiseBackwardError": 2.2047854218870863e-78
+          },
+          {
+            "index": 236,
+            "name": "edata#branch",
+            "residual": 2.7205e-76,
+            "exactResidual": "5441/20000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 15.727123680852817,
+            "componentwiseBackwardError": 1.7298140812055206e-77
+          },
+          {
+            "index": 360,
+            "name": "vdriver_supply#branch",
+            "residual": 1e-79,
+            "exactResidual": "1/10000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 9.227160744541823,
+            "componentwiseBackwardError": 1.083756994903913e-80
+          },
+          {
+            "index": 363,
+            "name": "vhost#branch",
+            "residual": 3.34120063369e-68,
+            "exactResidual": "334120063369/10000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 25.691186939269095,
+            "componentwiseBackwardError": 1.300524044135524e-69
+          }
+        ]
+      },
+      "maximumChangeFromRecordedSolution": 111255775903.59944,
+      "largestChangeNode": "n_cable_gnd",
+      "maximumChangeFromPreviousPrecision": null,
+      "solution": {
+        "vhost#branch": "-0.10522510975190411501146198277622841862829522287443992761798206096395905391791989",
+        "vfixture_clock#branch": "0",
+        "vfixture_reset#branch": "0",
+        "vdriver_supply#branch": "0.0097490360634030193021616914295601697482123808592916546422010944250360554197712901",
+        "vcontact0#branch": "0",
+        "vcontact1#branch": "0",
+        "vcontact2#branch": "0",
+        "vcontact3#branch": "0",
+        "vcontact4#branch": "0",
+        "vcontact5#branch": "0",
+        "vcontact6#branch": "0",
+        "vcontact7#branch": "0",
+        "vcontact8#branch": "0",
+        "vcontact9#branch": "0",
+        "vcontact10#branch": "0",
+        "vcontact11#branch": "0",
+        "vcontact12#branch": "0",
+        "vcontact13#branch": "0",
+        "vcontact14#branch": "0",
+        "vcontact15#branch": "0",
+        "vcontact16#branch": "0",
+        "vcontact17#branch": "0",
+        "vcontact18#branch": "0",
+        "vcontact19#branch": "0",
+        "vcontact20#branch": "0",
+        "vcontact21#branch": "0",
+        "vcontact22#branch": "0",
+        "vcontact23#branch": "0",
+        "vcontact24#branch": "0",
+        "vcontact25#branch": "0",
+        "vcontact26#branch": "0",
+        "vcontact27#branch": "0",
+        "vcontact28#branch": "0",
+        "vcontact29#branch": "0",
+        "vcontact30#branch": "0",
+        "vcontact31#branch": "0",
+        "vcontact32#branch": "0",
+        "vcontact33#branch": "0",
+        "vcontact34#branch": "0",
+        "vcontact35#branch": "0",
+        "vcontact36#branch": "0",
+        "vcontact37#branch": "0",
+        "vcontact38#branch": "0",
+        "vcontact39#branch": "0",
+        "vcontact40#branch": "0",
+        "vcontact41#branch": "0",
+        "vcontact42#branch": "0",
+        "vcontact43#branch": "0",
+        "vcontact44#branch": "0",
+        "vcontact45#branch": "0",
+        "vcontact46#branch": "0",
+        "vcontact47#branch": "0",
+        "vcontact48#branch": "0",
+        "vcontact49#branch": "0",
+        "vcontact50#branch": "0",
+        "vcontact51#branch": "0",
+        "vcontact52#branch": "0",
+        "vcontact53#branch": "0",
+        "vcontact54#branch": "0",
+        "vcontact55#branch": "0",
+        "vcontact56#branch": "0",
+        "vcontact57#branch": "0",
+        "vcontact58#branch": "0",
+        "vcontact59#branch": "0",
+        "vcontact60#branch": "0",
+        "vcontact61#branch": "0",
+        "vcontact62#branch": "0",
+        "vcontact63#branch": "0",
+        "vcontact64#branch": "0",
+        "vcontact65#branch": "0",
+        "vcontact66#branch": "0",
+        "vcontact67#branch": "0",
+        "vcontact68#branch": "0",
+        "vcontact69#branch": "0",
+        "vcontact70#branch": "0",
+        "vcontact71#branch": "0",
+        "vcontact72#branch": "0",
+        "vcontact73#branch": "0",
+        "vcontact74#branch": "0",
+        "vcontact75#branch": "0",
+        "vcontact76#branch": "0",
+        "vcontact77#branch": "0",
+        "vcontact78#branch": "0",
+        "vcontact79#branch": "0",
+        "vcontact80#branch": "0",
+        "vcontact81#branch": "0",
+        "vcontact82#branch": "0",
+        "vcontact83#branch": "0",
+        "vcontact84#branch": "0",
+        "vcontact85#branch": "0",
+        "vcontact86#branch": "0",
+        "vcontact87#branch": "0",
+        "vcontact88#branch": "0",
+        "vcontact89#branch": "0",
+        "vcontact90#branch": "0",
+        "vcontact91#branch": "0",
+        "vcontact92#branch": "0",
+        "vcontact93#branch": "0",
+        "vcontact94#branch": "0",
+        "vcontact95#branch": "0",
+        "vcontact96#branch": "0",
+        "vcontact97#branch": "0",
+        "vcontact98#branch": "0",
+        "vcontact99#branch": "0",
+        "vcontact100#branch": "0",
+        "vcontact101#branch": "0",
+        "vcontact102#branch": "0",
+        "vcontact103#branch": "0",
+        "vreplay_data_intent#branch": "0.00044965745780624221087197956356847801971442391145239604882878638907867008242445534",
+        "vreplay_clock_intent#branch": "-0.0000042404840478903694489185537596385305805333904663005616096519520702970743427813178",
+        "vreplay_led0_v#branch": "0",
+        "vreplay_led1_v#branch": "0",
+        "vreplay_sink0#branch": "0",
+        "vreplay_sink1#branch": "0",
+        "vreplay_sink2#branch": "0",
+        "vreplay_sink3#branch": "0",
+        "vreplay_sink4#branch": "0",
+        "vreplay_sink5#branch": "0",
+        "vreplay_sink6#branch": "0",
+        "vreplay_sink7#branch": "0",
+        "vreplay_sink8#branch": "0",
+        "vreplay_sink9#branch": "0",
+        "vreplay_sink10#branch": "0",
+        "vreplay_sink11#branch": "0",
+        "vreplay_sink12#branch": "0",
+        "esiso_intent#branch": "0",
+        "ecaps_intent#branch": "0",
+        "edata#branch": "0",
+        "eclock#branch": "0",
+        "l1.1#branch": "-0.0094166118179772423053968184514013218946579516657321499007801670167468088348442266",
+        "l1.2#branch": "0.10145474668540102742551906029005043457847377526242915642547957824724238019606731",
+        "l1.3#branch": "-0.092037881494608438744956092002212185241300591464708585735114233404213019193947568",
+        "l1.4#branch": "1.3479247496660529053542107827026457978501219877731469413356166349112474866989355E-7",
+        "lhost_data#branch": "-0.00019958157372633922260571052515553837734441825741519930738501329522136126375255405",
+        "lhost_clock#branch": "-0.0094179096514205326021618142864487948318092744627978341030070929354591956800234606",
+        "lhost_supply#branch": "-0.092037881494608438744956092002212185241300591464708585735114233404213019193947569",
+        "lhost_ground#branch": "0.10165498602466354347205530207133171615754930132910881724978565102283961942974778",
+        "dsiso_led#internal": "4.6135803639326916422072855190700647128375911077221654725399573630798058700035541",
+        "dcaps_led#internal": "4.6135803639326916422072855190700647128375911077221654725399573630798058700035542",
+        "bsiso_target#branch": "4.16911028763789046988131581710054275712346855722360271410117077153144967028226E-9",
+        "bcaps_target#branch": "4.16911028763789046988131581710054275712346855722360271410117077153144967028227E-9",
+        "receiver_clock": "3.9242593887852398475044117119381315200064385565946633146060455962763773678230798",
+        "receiver_data": "0.01796837079185998917575790904903089805695450037728785102991245424226490954634555",
+        "led1_v": "0",
+        "led0_v": "0",
+        "host_clock_buffer_output": "11.769852858419787971950665168146407070508612666356600281717385428176187153163558",
+        "xhost_clock.high_emit": "12.305880645699346848749958352575175069964488403258518546704243387900609596856664",
+        "xhost_clock.high_col": "12.844305866354923626409324740013260095371651510101133973681810174015326550213048",
+        "xhost_clock.sink_base": "7.847981474214718223897557312741139441980235096782943715271216370739625581321476",
+        "xhost_clock.phase_col": "12.841650388480102272667042183592936995963398338024189900564764890667907913840895",
+        "xhost_clock.phase_base": "8.3455612752227833683105639229758319619961001556565173519949138295714069914641054",
+        "xhost_clock.input_base": "8.8810750725016063815169485935824735945303576113972948959884896472248319110904513",
+        "host_data_buffer_output": "7.8635618404264081136220113652573064485591286101392248181412522861420746948866036",
+        "xhost_data.high_emit": "8.2269402668239385163740326909201211541315539199662671515707757800851650957985011",
+        "xhost_data.high_col": "12.845591840971948358540912938833617261926589887285292216279493201429852980864518",
+        "xhost_data.sink_base": "8.5442321780447218016521159787754246863361580838181181623925782365340277305588121",
+        "xhost_data.phase_col": "8.5889935907246145142001877789057154956832687025762596031368956192672233764180411",
+        "xhost_data.phase_base": "9.2361885735664160786316726285227501029656230811528739247309954950448621231192612",
+        "xhost_data.input_base": "9.7654352751735635314094609494196685245253731106591336725800239416257361845583416",
+        "host_ground_winding": "7.9472484556592116679183087582796072666597234110910457843611254829227",
+        "host_supply_winding": "12.75355558813993968570129736420606336526087351829722838137622559849563",
+        "host_clock_buffer_input": "8.2260546325121158926862913613540185170581945472010066071507306898180234257182878",
+        "host_clock_filtered": "8.12688939498589210228936014971858212373263860462941375333481643693935",
+        "host_clock_winding": "8.1174714853344715696871983354321333289008293301666159192318093440038908043199765",
+        "host_data_buffer_input": "12.64970171949567735088784543252307018576991019772496739136158193395539096821815",
+        "host_data_filtered": "12.66244809356417793997772503617952902672103476380146248170081705599915",
+        "host_data_winding": "12.662248511990451600755119325654373488343690345544047282393432042703928638736247",
+        "caps_intent": "0",
+        "caps_target": "3.2295062605896381553511898998027701569555686337865273103328012060048994773406818",
+        "siso_intent": "0",
+        "siso_target": "3.2295062605896381553511898998027701569555686337865273103328012060048994773406818",
+        "xclock.output_base": "0.74898430863471913316649559013377271997999498251935769754172153349497158755124937",
+        "xclock.discharge_base": "0.6836535289875095378433766024869935657475437971612623320349096468485091159473254",
+        "xclock.inverter_base": "0.025751143951757556188559965478538872696197995288989773010004555373637724918085528",
+        "xclock.feed": "1.5740217607454915143482903035235334175226642679790866369802405546422309130913369",
+        "xclock.phase_emit": "0.86639920055197545873583842264792895717761623573187485892451973215919636460770198",
+        "xclock.phase_col": "0.91025693051102192869337520042713821993841180488523889736181107171864644254790584",
+        "clock_intent": "5",
+        "xclock.phase_base": "1.542201784096227800764657540408309501942635665850628066812499326238069928288509",
+        "xclock.input_base": "2.0561508512147588261538294828569132564689748480478101744994695818604888012162718",
+        "xdata.output_base": "0.23068135626880191218665756553580882067594976540736551901150061123887107470585133",
+        "xdata.discharge_base": "0.65119876785743428429652804540179475563500170441877480349203433030206644169035382",
+        "xdata.inverter_base": "0.68130590555574903110606397136959878898484284699588510865260126346546151193231027",
+        "xdata.feed": "2.4564056628331458466559857443907989087372950273618013267650684901165550743221344",
+        "xdata.phase_emit": "0.71717804288768884804920294854266588110582675270495516313593785077915421932883938",
+        "xdata.phase_col": "1.812299377201671597029557892353820921871456193022632411303982826794196037603369",
+        "data_intent": "1.242037288020764851381727567058987915515899658203125",
+        "xdata.phase_base": "1.3611679060856263232289675935649081314660715988441844684565376606903197814941784",
+        "xdata.input_base": "1.8766142942519456724243257478168455411845876316614366941481129855825238132705899",
+        "driver_vp": "4.61358037227091177738433124259328327635380484018001230602816306304790032032738",
+        "n_cable_daten": "-258467.70497935444281424293017066006216684593534661287386568129164708025691793",
+        "l1_4_series": "-258467.70497921965033927632488012464108857567076682786166690397695294669525443888",
+        "n_cable_5v": "8.72957166216366745091529234940077941342798947497097463656975144747388",
+        "l1_3_series": "8.6375337806690590121703362573985672281866888835062660508346372140696669808060524",
+        "n_cable_gnd": "-258472.42030001404513161704117690887327233384240711602254697191697203103170409424",
+        "l1_2_series": "-258472.31884526735973058961565784858322189926393334076011781549149245278446171404",
+        "n_cable_takt": "-258472.24979076051512101186942400352472456915703814116142180768411546157698602216",
+        "l1_1_series": "-258472.25920737233309825417482082197612589105169609282715395758489562859373283099",
+        "n_led_caps": "3.2295069276472841774136367303796204777238805652364531375170450897970659133302947",
+        "n_led_caps_n": "3.2295063856629467844879057319830822464200523794927018525066270023180232652675509",
+        "n_led_siso": "3.2295069276472841774136367303796204777238805652364531375170450897970659133302947",
+        "n_led_siso_n": "3.2295063856629467844879057319830822464200523794927018525066270023180232652675509",
+        "n_ta_daten": "4.61350483977393480538652962298517552141471148810252497550791145755463377022",
+        "n_ta_takt": "0.072294355157400091372707604728100514134857293588992900559646071875777",
+        "contact103": "0",
+        "contact102": "0",
+        "contact101": "0",
+        "contact100": "0",
+        "contact99": "0",
+        "contact98": "0",
+        "contact97": "0",
+        "contact96": "0",
+        "sink12": "0",
+        "n_col12": "4.1009601786745121194475954177762534270857364475899477550076737660725991496932701",
+        "contact95": "0",
+        "contact94": "0",
+        "contact93": "0",
+        "contact92": "0",
+        "contact91": "0",
+        "contact90": "0",
+        "contact89": "0",
+        "contact88": "0",
+        "sink11": "0",
+        "n_col11": "4.1009601786745121194475954177762534270857364475899477550076737660725991496932701",
+        "contact87": "0",
+        "contact86": "0",
+        "contact85": "0",
+        "contact84": "0",
+        "contact83": "0",
+        "contact82": "0",
+        "contact81": "0",
+        "contact80": "0",
+        "sink10": "0",
+        "n_col10": "4.10096017867451211944759541777625342708573644758994775500767376607259914969327",
+        "contact79": "0",
+        "contact78": "0",
+        "contact77": "0",
+        "contact76": "0",
+        "contact75": "0",
+        "contact74": "0",
+        "contact73": "0",
+        "contact72": "0",
+        "sink9": "0",
+        "n_col9": "4.1009601786745121194475954177762534270857364475899477550076737660725991496932699",
+        "contact71": "0",
+        "contact70": "0",
+        "contact69": "0",
+        "contact68": "0",
+        "contact67": "0",
+        "contact66": "0",
+        "contact65": "0",
+        "contact64": "0",
+        "sink8": "0",
+        "n_col8": "4.1009601786745121194475954177762534270857364475899477550076737660725991496932699",
+        "contact63": "0",
+        "contact62": "0",
+        "contact61": "0",
+        "contact60": "0",
+        "contact59": "0",
+        "contact58": "0",
+        "contact57": "0",
+        "contact56": "0",
+        "sink7": "0",
+        "n_col7": "4.10096017867451211944759541777625342708573644758994775500767376607259914969327",
+        "contact55": "0",
+        "contact54": "0",
+        "contact53": "0",
+        "contact52": "0",
+        "contact51": "0",
+        "contact50": "0",
+        "contact49": "0",
+        "contact48": "0",
+        "sink6": "0",
+        "n_col6": "4.10096017867451211944759541777625342708573644758994775500767376607259914969327",
+        "contact47": "0",
+        "contact46": "0",
+        "contact45": "0",
+        "contact44": "0",
+        "contact43": "0",
+        "contact42": "0",
+        "contact41": "0",
+        "contact40": "0",
+        "sink5": "0",
+        "n_col5": "4.1009601786745121194475954177762534270857364475899477550076737660725991496932699",
+        "contact39": "0",
+        "contact38": "0",
+        "contact37": "0",
+        "contact36": "0",
+        "contact35": "0",
+        "contact34": "0",
+        "contact33": "0",
+        "contact32": "0",
+        "sink4": "5",
+        "n_col4": "7.3817283204330440523694346713008250843573303428475039927359795868862879165029902E-10",
+        "contact31": "0",
+        "contact30": "0",
+        "contact29": "0",
+        "contact28": "0",
+        "contact27": "0",
+        "contact26": "0",
+        "contact25": "0",
+        "contact24": "0",
+        "sink3": "5",
+        "n_col3": "7.3817283204330440523694346713008250843573303428475039927359795868862879165029903E-10",
+        "contact23": "0",
+        "contact22": "0",
+        "contact21": "0",
+        "contact20": "0",
+        "contact19": "0",
+        "contact18": "0",
+        "contact17": "0",
+        "contact16": "0",
+        "sink2": "0",
+        "n_col2": "4.1009601786745121194475954177762534270857364475899477550076737660725991496932699",
+        "contact15": "0",
+        "contact14": "0",
+        "contact13": "0",
+        "contact12": "0",
+        "contact11": "0",
+        "contact10": "0",
+        "contact9": "0",
+        "contact8": "0",
+        "sink1": "0",
+        "n_col1": "4.1009601786745121194475954177762534270857364475899477550076737660725991496932699",
+        "contact7": "0",
+        "contact6": "0",
+        "contact5": "0",
+        "contact4": "0",
+        "contact3": "0",
+        "contact2": "0",
+        "contact1": "0",
+        "contact0": "0",
+        "sink0": "0",
+        "n_col0": "4.10096017867451211944759541777625342708573644758994775500767376607259914969327",
+        "n_row4": "4.6135802010088260308557568498814760523588429162248706411399236689711741289685064",
+        "n_row3": "4.6135802010088260308557539505024700875557711162728028729208155525163255240317644",
+        "n_row2": "4.6135802010088260308557568498814760523588429162248706411399236689711741289685064",
+        "n_row1": "4.6135802010088260308557539505024700875557711162728028729208155525163255240317645",
+        "n_row5": "4.6135802010088260308557568498814760523588429162248706411399236689711741289685065",
+        "n_row0": "4.6135802010088260308557568498814760523588429162248706411399236689711741289685064",
+        "n_row6": "4.6135802010088260308557568498814760523588429162248706411399236689711741289685063",
+        "n_row7": "4.6135802010088260308557539505024700875557711162728028729208155525163255240317641",
+        "n_base3": "4.613580258986149616456615407552031442045985710238813305095552690793281050550744",
+        "n_base2": "4.6135802589861496164566183069311844053640725486265456085592126740846460896924489",
+        "n_base5": "4.6135802589861496164566183069311844053640725486265456085592126740846460896924489",
+        "n_base7": "4.6135802589861496164566154075520314420459857102388133050955526907932810505507428",
+        "n_base4": "4.6135802589861496164566183069311844053640725486265456085592126740846460896924487",
+        "n_base1": "4.6135802589861496164566154075520314420459857102388133050955526907932810505507436",
+        "n_base0": "4.6135802589861496164566183069311844053640725486265456085592126740846460896924488",
+        "n_base6": "4.6135802589861496164566183069311844053640725486265456085592126740846460896924481",
+        "n_p5v": "4.6135803722709117773843312425932832763538048401800123060281630630479003203273801",
+        "n_sense0": "4.2169675453906657767692897573412896278010042237613816368543258197195857406335876E-9",
+        "n_sense1": "4.2169675453906657767692897456950542659781301275558728583563091111405696520708426E-9",
+        "n_sense2": "4.2169675453906657767692897573412896278010042237613816368543258197195857406335876E-9",
+        "n_sense3": "4.2169675453906657767692897456950542659781301275558728583563091111405696520708426E-9",
+        "n_sense4": "4.2169675453906657767692897573412896278010042237613816368543258197195857406335876E-9",
+        "n_sense5": "4.2169675453906657767692897573412896278010042237613816368543258197195857406335876E-9",
+        "n_sense6": "4.2169675453906657767692897573412896278010042237613816368543258197195857406335876E-9",
+        "n_sense7": "4.2169675453906657767692897456950542659781301275558728583563091111405696520708426E-9",
+        "fixture_reset": "5",
+        "fixture_clock": "0",
+        "host_receiver_gnd": "7.8455934696345481244462534562082755505021741097619369671113398318998097853405301",
+        "host_receiver_5v": "12.845593469634548124446253456208275550502174109761936967111339831899843197346867"
+      }
+    },
+    {
+      "decimalPrecision": 160,
+      "residualReview": {
+        "id": 10,
+        "timeSeconds": 0.0010980122484074574,
+        "deltaSeconds": 5e-19,
+        "iteration": 10,
+        "order": 1,
+        "size": 363,
+        "nonzeroCoefficients": 859,
+        "coefficientMagnitudeRange": [
+          1.0000202557912869e-16,
+          188470000000000.97
+        ],
+        "maximumAbsoluteSolution": 258472.42030001406,
+        "worstAbsoluteResidual": {
+          "index": 13,
+          "name": "n_p5v",
+          "residual": -1.466300088423386e-144,
+          "exactResidual": "-118960395981095108758522221711640156750417717631655915569/81129638414606681695789005144064000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "sumAbsoluteProductsAndRhs": 1739042985523806.5,
+          "componentwiseBackwardError": 8.431649479795525e-160
+        },
+        "worstComponentwiseResidual": {
+          "index": 192,
+          "name": "xclock.output_base",
+          "residual": 6.803038003283259e-150,
+          "exactResidual": "842175313304441295415785624540255908129/123794003928538027489912422400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "sumAbsoluteProductsAndRhs": 0.14015519807165874,
+          "componentwiseBackwardError": 4.853931996018437e-149
+        },
+        "normwiseBackwardError": 3.0099457550920205e-164,
+        "rowResiduals": [
+          {
+            "index": 1,
+            "name": "host_receiver_5v",
+            "residual": -5.976800208776703e-159,
+            "exactResidual": "-68907814894373533139/11529215046068469760000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 26.223149785316547,
+            "componentwiseBackwardError": 2.2792075924164406e-160
+          },
+          {
+            "index": 2,
+            "name": "host_receiver_gnd",
+            "residual": -3.7852488131822407e-150,
+            "exactResidual": "-87281895140107017603797752597/23058430092136939520000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 59293299105.303566,
+            "componentwiseBackwardError": 6.3839402939271835e-161
+          },
+          {
+            "index": 5,
+            "name": "n_sense7",
+            "residual": 5.109028613467103e-162,
+            "exactResidual": "197645971327049906759224564886151/38685626227668133590597632000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 3.0288522250845782e-161
+          },
+          {
+            "index": 6,
+            "name": "n_sense6",
+            "residual": 7.752026015950164e-162,
+            "exactResidual": "149945990480103671730980040053837/19342813113834066795298816000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.5957349280512844e-161
+          },
+          {
+            "index": 7,
+            "name": "n_sense5",
+            "residual": 7.752026013567615e-162,
+            "exactResidual": "149945990434018496492022430678837/19342813113834066795298816000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.595734926638808e-161
+          },
+          {
+            "index": 8,
+            "name": "n_sense4",
+            "residual": 7.752026014758889e-162,
+            "exactResidual": "149945990457061084111501235366337/19342813113834066795298816000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.595734927345046e-161
+          },
+          {
+            "index": 9,
+            "name": "n_sense3",
+            "residual": 5.109028614658377e-162,
+            "exactResidual": "197645971373135081998181096136151/38685626227668133590597632000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 3.0288522257908166e-161
+          },
+          {
+            "index": 10,
+            "name": "n_sense2",
+            "residual": 7.752026014758889e-162,
+            "exactResidual": "149945990457061084111501235366337/19342813113834066795298816000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.595734927345046e-161
+          },
+          {
+            "index": 11,
+            "name": "n_sense1",
+            "residual": 5.109028618232199e-162,
+            "exactResidual": "197645971511390607715050689886151/38685626227668133590597632000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 3.028852227909532e-161
+          },
+          {
+            "index": 12,
+            "name": "n_sense0",
+            "residual": 7.752026015354526e-162,
+            "exactResidual": "149945990468582377921240637710087/19342813113834066795298816000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.16867870182489467,
+            "componentwiseBackwardError": 4.595734927698165e-161
+          },
+          {
+            "index": 13,
+            "name": "n_p5v",
+            "residual": -1.466300088423386e-144,
+            "exactResidual": "-118960395981095108758522221711640156750417717631655915569/81129638414606681695789005144064000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 1739042985523806.5,
+            "componentwiseBackwardError": 8.431649479795525e-160
+          },
+          {
+            "index": 14,
+            "name": "n_base6",
+            "residual": -8.4355302239103775e-165,
+            "exactResidual": "-41770722467122503469405592721383/4951760157141521099596496896000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 1.9485354930158036e-162
+          },
+          {
+            "index": 15,
+            "name": "n_base0",
+            "residual": -5.2079826183492e-164,
+            "exactResidual": "-257886808286271446698333592721383/4951760157141521099596496896000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 1.2029995399813304e-161
+          },
+          {
+            "index": 16,
+            "name": "n_base1",
+            "residual": 1.5780498865890408e-163,
+            "exactResidual": "24419139232479088279600564631019/154742504910672534362390528000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 3.645160567444348e-161
+          },
+          {
+            "index": 17,
+            "name": "n_base4",
+            "residual": 6.735066470876956e-163,
+            "exactResidual": "3335043380618826606458530407278617/4951760157141521099596496896000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 1.555742877801094e-160
+          },
+          {
+            "index": 18,
+            "name": "n_base7",
+            "residual": 3.9112147235463535e-162,
+            "exactResidual": "605231163565066351870000564631019/154742504910672534362390528000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 9.034572228825713e-160
+          },
+          {
+            "index": 19,
+            "name": "n_base5",
+            "residual": 1.611859080809558e-162,
+            "exactResidual": "7981539575279524715181730407278617/4951760157141521099596496896000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 3.7232569208214134e-160
+          },
+          {
+            "index": 20,
+            "name": "n_base2",
+            "residual": 4.170963906774392e-163,
+            "exactResidual": "2065361289044077607663266407278617/4951760157141521099596496896000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 9.634570675120267e-161
+          },
+          {
+            "index": 21,
+            "name": "n_base3",
+            "residual": 1.9472212641834657e-162,
+            "exactResidual": "301317896035075911122992564631019/154742504910672534362390528000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.004329164264210794,
+            "componentwiseBackwardError": 4.497914944649124e-160
+          },
+          {
+            "index": 22,
+            "name": "n_row7",
+            "residual": -2.133489945813202e-162,
+            "exactResidual": "-52822652546699184461496336687936431/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 9.01752002164948e-160
+          },
+          {
+            "index": 23,
+            "name": "n_row6",
+            "residual": -1.2249910977314065e-163,
+            "exactResidual": "-3032931055299716758814736687936431/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 5.177611346054358e-161
+          },
+          {
+            "index": 24,
+            "name": "n_row0",
+            "residual": 1.3391117263711567e-163,
+            "exactResidual": "3315480046302846091345903312063569/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 5.659959554754224e-161
+          },
+          {
+            "index": 25,
+            "name": "n_row5",
+            "residual": -8.917298660039099e-163,
+            "exactResidual": "-22078162107056542812651536687936431/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 3.76903202022266e-160
+          },
+          {
+            "index": 26,
+            "name": "n_row1",
+            "residual": -8.22078945311508e-164,
+            "exactResidual": "-2035368883709224509685776687936431/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 3.4746418014627324e-161
+          },
+          {
+            "index": 27,
+            "name": "n_row2",
+            "residual": -1.2249908377314074e-163,
+            "exactResidual": "-3032930411570898902630416687936431/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 5.177610247124784e-161
+          },
+          {
+            "index": 28,
+            "name": "n_row3",
+            "residual": -5.950283553516638e-163,
+            "exactResidual": "-14732188511999078785269776687936431/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 2.5149779207361603e-160
+          },
+          {
+            "index": 29,
+            "name": "n_row4",
+            "residual": -3.789093531833971e-163,
+            "exactResidual": "-9381341191309052824698896687936431/24758800785707605497982484480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0023659386845729957,
+            "componentwiseBackwardError": 1.601518059846858e-160
+          },
+          {
+            "index": 30,
+            "name": "n_col0",
+            "residual": -5.590003991177261e-171,
+            "exactResidual": "-6920089760443411/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 7.572757689834521e-161
+          },
+          {
+            "index": 40,
+            "name": "n_col1",
+            "residual": -5.590003991177261e-171,
+            "exactResidual": "-6920089760443411/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 7.572757689834521e-161
+          },
+          {
+            "index": 50,
+            "name": "n_col2",
+            "residual": -1.459000399117726e-170,
+            "exactResidual": "-18061550114011833/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.976502433509629e-160
+          },
+          {
+            "index": 60,
+            "name": "n_col3",
+            "residual": 1.1938468947540722e-171,
+            "exactResidual": "14432723357349467383083/12089258196146291747061760000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.6172999638288237e-161
+          },
+          {
+            "index": 70,
+            "name": "n_col4",
+            "residual": 1.1938468947540722e-171,
+            "exactResidual": "14432723357349467383083/12089258196146291747061760000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.6172999638288237e-161
+          },
+          {
+            "index": 80,
+            "name": "n_col5",
+            "residual": 3.4099960088227385e-171,
+            "exactResidual": "4221370593125011/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 4.619508955427248e-161
+          },
+          {
+            "index": 90,
+            "name": "n_col6",
+            "residual": -5.590003991177261e-171,
+            "exactResidual": "-6920089760443411/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 7.572757689834521e-161
+          },
+          {
+            "index": 100,
+            "name": "n_col7",
+            "residual": -1.459000399117726e-170,
+            "exactResidual": "-18061550114011833/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.976502433509629e-160
+          },
+          {
+            "index": 110,
+            "name": "n_col8",
+            "residual": -1.459000399117726e-170,
+            "exactResidual": "-18061550114011833/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.976502433509629e-160
+          },
+          {
+            "index": 120,
+            "name": "n_col9",
+            "residual": -5.590003991177261e-171,
+            "exactResidual": "-6920089760443411/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 7.572757689834521e-161
+          },
+          {
+            "index": 130,
+            "name": "n_col10",
+            "residual": -1.459000399117726e-170,
+            "exactResidual": "-18061550114011833/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.976502433509629e-160
+          },
+          {
+            "index": 140,
+            "name": "n_col11",
+            "residual": -1.459000399117726e-170,
+            "exactResidual": "-18061550114011833/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.976502433509629e-160
+          },
+          {
+            "index": 150,
+            "name": "n_col12",
+            "residual": -1.459000399117726e-170,
+            "exactResidual": "-18061550114011833/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 7.381728321614122e-11,
+            "componentwiseBackwardError": 1.976502433509629e-160
+          },
+          {
+            "index": 160,
+            "name": "n_ta_takt",
+            "residual": 6.717379276542245e-150,
+            "exactResidual": "3872305511262968875066325565087/576460752303423488000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 4.2513552195095485,
+            "componentwiseBackwardError": 1.5800559891387257e-150
+          },
+          {
+            "index": 161,
+            "name": "n_ta_daten",
+            "residual": -2.239120654567967e-151,
+            "exactResidual": "-42295793320931634169232856055751150267/188894659314785808547840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.016477074414702128,
+            "componentwiseBackwardError": 1.3589309595944105e-149
+          },
+          {
+            "index": 162,
+            "name": "n_led_siso_n",
+            "residual": -2.8392229906467137e-161,
+            "exactResidual": "-4091751552863451/144115188075855872000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2649851393364469,
+            "componentwiseBackwardError": 1.07146498771835e-160
+          },
+          {
+            "index": 163,
+            "name": "n_led_siso",
+            "residual": 5.132305129705882e-162,
+            "exactResidual": "387786011590128066141/75557863725914323419136000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.049685457041017095,
+            "componentwiseBackwardError": 1.0329592269764135e-160
+          },
+          {
+            "index": 164,
+            "name": "n_led_caps_n",
+            "residual": -2.8392229906467137e-161,
+            "exactResidual": "-4091751552863451/144115188075855872000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2649851393364469,
+            "componentwiseBackwardError": 1.07146498771835e-160
+          },
+          {
+            "index": 165,
+            "name": "n_led_caps",
+            "residual": 5.132385697873622e-162,
+            "exactResidual": "193896049574383431273/37778931862957161709568000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.049685457041017095,
+            "componentwiseBackwardError": 1.0329754426202938e-160
+          },
+          {
+            "index": 166,
+            "name": "l1_1_series",
+            "residual": -1.3457899e-155,
+            "exactResidual": "-13457899/1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 516944.51841474464,
+            "componentwiseBackwardError": 2.6033546194221807e-161
+          },
+          {
+            "index": 167,
+            "name": "n_cable_takt",
+            "residual": -1.5417806870710084e-146,
+            "exactResidual": "-63151336942428502391/4096000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 1033889681717005.8,
+            "componentwiseBackwardError": 1.491242938521773e-161
+          },
+          {
+            "index": 168,
+            "name": "l1_2_series",
+            "residual": 4.92023e-155,
+            "exactResidual": "492023/10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 516944.8406000281,
+            "componentwiseBackwardError": 9.517901357307275e-161
+          },
+          {
+            "index": 169,
+            "name": "n_cable_gnd",
+            "residual": -1.674784129553857e-146,
+            "exactResidual": "-342995789732629897/20480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 2067779362917067.2,
+            "componentwiseBackwardError": 8.099433428870272e-162
+          },
+          {
+            "index": 170,
+            "name": "l1_3_series",
+            "residual": 2e-161,
+            "exactResidual": "1/50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 17.459143324327336,
+            "componentwiseBackwardError": 1.1455315778370564e-162
+          },
+          {
+            "index": 171,
+            "name": "n_cable_5v",
+            "residual": 1.7e-160,
+            "exactResidual": "17/100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 17.459143324327336,
+            "componentwiseBackwardError": 9.737018411614978e-162
+          },
+          {
+            "index": 172,
+            "name": "l1_4_series",
+            "residual": -3.75448428187e-155,
+            "exactResidual": "-375448428187/10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 516935.40995870886,
+            "componentwiseBackwardError": 7.262965951916306e-161
+          },
+          {
+            "index": 173,
+            "name": "n_cable_daten",
+            "residual": 3.216564816804873e-146,
+            "exactResidual": "658752474481637979771/20480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 1033889681716996.6,
+            "componentwiseBackwardError": 3.111129624064991e-161
+          },
+          {
+            "index": 174,
+            "name": "driver_vp",
+            "residual": -1.2855847377240343e-162,
+            "exactResidual": "-5928713160465569257/4611686018427387904000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.027791329385346203,
+            "componentwiseBackwardError": 4.6258482992968904e-161
+          },
+          {
+            "index": 175,
+            "name": "xdata.input_base",
+            "residual": 1.356170683516486e-161,
+            "exactResidual": "50033867038192741/3689348814741910323200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.06681854208576554,
+            "componentwiseBackwardError": 2.02963225653107e-160
+          },
+          {
+            "index": 176,
+            "name": "xdata.phase_base",
+            "residual": 6.748920643581422e-162,
+            "exactResidual": "4177379543324550051070603/618970019642690137449562112000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0487057936079043,
+            "componentwiseBackwardError": 1.385650482961469e-160
+          },
+          {
+            "index": 177,
+            "name": "data_intent",
+            "residual": 4.176748800834314e-157,
+            "exactResidual": "75241617372230332119691/180143985094819840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.06571757960459515,
+            "componentwiseBackwardError": 6.355603517300361e-156
+          },
+          {
+            "index": 178,
+            "name": "xdata.phase_col",
+            "residual": -3.832567813411514e-162,
+            "exactResidual": "-69041403905409/18014398509481984000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.1603150673212839,
+            "componentwiseBackwardError": 2.3906472906447086e-161
+          },
+          {
+            "index": 179,
+            "name": "xdata.phase_emit",
+            "residual": -2.0911481899274906e-163,
+            "exactResidual": "-123439601535338853/590295810358705651712000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.08247438974266881,
+            "componentwiseBackwardError": 2.5355121710535283e-162
+          },
+          {
+            "index": 180,
+            "name": "xdata.feed",
+            "residual": 1.386608633292649e-161,
+            "exactResidual": "7993254558983023/576460752303423488000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.13005203925786657,
+            "componentwiseBackwardError": 1.0661952255460507e-160
+          },
+          {
+            "index": 181,
+            "name": "xdata.inverter_base",
+            "residual": 3.1271414637684814e-162,
+            "exactResidual": "18459385044615248629/5902958103587056517120000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.04543829123269297,
+            "componentwiseBackwardError": 6.882172236086412e-161
+          },
+          {
+            "index": 182,
+            "name": "xdata.discharge_base",
+            "residual": -1.482442842008484e-155,
+            "exactResidual": "-91758767503715685709213362274167/6189700196426901374495621120000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.014759112763129436,
+            "componentwiseBackwardError": 1.0044254460280685e-153
+          },
+          {
+            "index": 183,
+            "name": "xdata.output_base",
+            "residual": -2.3939817930242955e-160,
+            "exactResidual": "-2894146401274395817765963/12089258196146291747061760000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.14458869652419634,
+            "componentwiseBackwardError": 1.6557184970705313e-159
+          },
+          {
+            "index": 184,
+            "name": "xclock.input_base",
+            "residual": 1.3215189789548814e-161,
+            "exactResidual": "243777223933306553/18446744073709551616000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.06845363933503547,
+            "componentwiseBackwardError": 1.9305313666186782e-160
+          },
+          {
+            "index": 185,
+            "name": "xclock.phase_base",
+            "residual": -2.167558867948823e-161,
+            "exactResidual": "-1999220185087577047/92233720368547758080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.10266945257495554,
+            "componentwiseBackwardError": 2.1112013491708853e-160
+          },
+          {
+            "index": 186,
+            "name": "clock_intent",
+            "residual": 1.4293611497187355e-163,
+            "exactResidual": "16479412073602971549/115292150460684697600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.0006740243477738989,
+            "componentwiseBackwardError": 2.1206372654630182e-160
+          },
+          {
+            "index": 187,
+            "name": "xclock.phase_col",
+            "residual": -8.345410986554618e-161,
+            "exactResidual": "-15033755923720407/180143985094819840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.3221795132970558,
+            "componentwiseBackwardError": 2.5902984647133616e-160
+          },
+          {
+            "index": 188,
+            "name": "xclock.phase_emit",
+            "residual": 3.9274372435674915e-161,
+            "exactResidual": "226401342805139997/5764607523034234880000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2601270280484452,
+            "componentwiseBackwardError": 1.50981513648634e-160
+          },
+          {
+            "index": 189,
+            "name": "xclock.feed",
+            "residual": 4.775773331898245e-161,
+            "exactResidual": "5506091775473379827/115292150460684697600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.1738501365964287,
+            "componentwiseBackwardError": 2.7470633186700363e-160
+          },
+          {
+            "index": 190,
+            "name": "xclock.inverter_base",
+            "residual": -3.789435280644177e-162,
+            "exactResidual": "-46910936601900581132672259/12379400392853802748991242240000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.045344629693582925,
+            "componentwiseBackwardError": 8.356965987485944e-161
+          },
+          {
+            "index": 191,
+            "name": "xclock.discharge_base",
+            "residual": 1.0581761272295182e-162,
+            "exactResidual": "30499850318612559/28823037615171174400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.07550568544705429,
+            "componentwiseBackwardError": 1.4014522495415622e-161
+          },
+          {
+            "index": 192,
+            "name": "xclock.output_base",
+            "residual": 6.803038003283259e-150,
+            "exactResidual": "842175313304441295415785624540255908129/123794003928538027489912422400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.14015519807165874,
+            "componentwiseBackwardError": 4.853931996018437e-149
+          },
+          {
+            "index": 193,
+            "name": "siso_target",
+            "residual": 2.8956988486266466e-161,
+            "exactResidual": "326026706391303503323/11258999068426240000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2153004257108631,
+            "componentwiseBackwardError": 1.3449573260553671e-160
+          },
+          {
+            "index": 195,
+            "name": "caps_target",
+            "residual": 2.8956888486266465e-161,
+            "exactResidual": "326025580491396660699/11258999068426240000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2153004257108631,
+            "componentwiseBackwardError": 1.3449526813827117e-160
+          },
+          {
+            "index": 197,
+            "name": "host_data_winding",
+            "residual": -9.977e-160,
+            "exactResidual": "-9977/10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 25.324896187128356,
+            "componentwiseBackwardError": 3.9396015392437876e-161
+          },
+          {
+            "index": 198,
+            "name": "host_data_filtered",
+            "residual": -2.628917621397258e-150,
+            "exactResidual": "-1212374263819512038555656267/461168601842738790400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 25.623368177905228,
+            "componentwiseBackwardError": 1.0259844073364827e-151
+          },
+          {
+            "index": 199,
+            "name": "host_data_buffer_input",
+            "residual": 2.645938229623511e-150,
+            "exactResidual": "48808945356709044934417199739/18446744073709551616000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 34407188677.28702,
+            "componentwiseBackwardError": 7.690073880898488e-161
+          },
+          {
+            "index": 200,
+            "name": "host_clock_winding",
+            "residual": -4.79e-160,
+            "exactResidual": "-479/1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 16.253778789971783,
+            "componentwiseBackwardError": 2.9470070079674777e-161
+          },
+          {
+            "index": 201,
+            "name": "host_clock_filtered",
+            "residual": -3.6891084242828526e-150,
+            "exactResidual": "-340260194814558460189177651/92233720368547758080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 16.445341182853596,
+            "componentwiseBackwardError": 2.2432544167154327e-151
+          },
+          {
+            "index": 202,
+            "name": "host_clock_buffer_input",
+            "residual": -2.1858298042449464e-152,
+            "exactResidual": "-1008036074689829421296573/46116860184273879040000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 22374868601.23345,
+            "componentwiseBackwardError": 9.769129120715592e-163
+          },
+          {
+            "index": 203,
+            "name": "host_supply_winding",
+            "residual": -2.17574292417e-150,
+            "exactResidual": "-217574292417/100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 25.691186939269095,
+            "componentwiseBackwardError": 8.468829911647122e-152
+          },
+          {
+            "index": 204,
+            "name": "host_ground_winding",
+            "residual": -8.36273178706e-149,
+            "exactResidual": "-418136589353/5000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 15.894496911318424,
+            "componentwiseBackwardError": 5.261400743741014e-150
+          },
+          {
+            "index": 205,
+            "name": "xhost_data.input_base",
+            "residual": 1.662007241078349e-153,
+            "exactResidual": "4114930618626235721467954221560459/2475880078570760549798248448000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.5863547971491283,
+            "componentwiseBackwardError": 2.834473682417318e-153
+          },
+          {
+            "index": 206,
+            "name": "xhost_data.phase_base",
+            "residual": -5.403290858942426e-161,
+            "exactResidual": "-249182809076813/4611686018427387904000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 1.1101204859777853,
+            "componentwiseBackwardError": 4.867301276926937e-161
+          },
+          {
+            "index": 207,
+            "name": "xhost_data.phase_col",
+            "residual": -4.7929367851111135e-152,
+            "exactResidual": "-59333683520527962497058209580189301/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 2.8833030427484077,
+            "componentwiseBackwardError": 1.6623076777050859e-152
+          },
+          {
+            "index": 208,
+            "name": "xhost_data.sink_base",
+            "residual": 4.2462450649015893e-160,
+            "exactResidual": "61194840614446733/144115188075855872000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 4.619099428106868,
+            "componentwiseBackwardError": 9.192798576847062e-161
+          },
+          {
+            "index": 209,
+            "name": "xhost_data.high_col",
+            "residual": 3.865102937904068e-151,
+            "exactResidual": "365048651335983303661910189463/944473296573929042739200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.19763279952848786,
+            "componentwiseBackwardError": 1.9556991284470122e-150
+          },
+          {
+            "index": 210,
+            "name": "xhost_data.high_emit",
+            "residual": -1.668785418383776e-156,
+            "exactResidual": "-1613950223744438666117865089/967140655691703339764940800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 1.6069462313503037e-05,
+            "componentwiseBackwardError": 1.0384824245062073e-151
+          },
+          {
+            "index": 211,
+            "name": "host_data_buffer_output",
+            "residual": -1.6184905386237809e-149,
+            "exactResidual": "-38215527362192907908907601333167/2361183241434822606848000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 157271240.061428,
+            "componentwiseBackwardError": 1.0291077618461076e-157
+          },
+          {
+            "index": 212,
+            "name": "xhost_clock.input_base",
+            "residual": 2.2263366976144984e-153,
+            "exactResidual": "8213732656560467941097511/3689348814741910323200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.6850810478301064,
+            "componentwiseBackwardError": 3.249742062878681e-153
+          },
+          {
+            "index": 213,
+            "name": "xhost_clock.phase_base",
+            "residual": -8.420086688838733e-155,
+            "exactResidual": "-104235624463673285054546966954387/1237940039285380274899124224000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.6396536294670018,
+            "componentwiseBackwardError": 1.3163509594801894e-154
+          },
+          {
+            "index": 214,
+            "name": "xhost_clock.phase_col",
+            "residual": -3.550747678095453e-151,
+            "exactResidual": "-2747257950071223610010541175601153/7737125245533626718119526400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.017672528342046433,
+            "componentwiseBackwardError": 2.0091905410317116e-149
+          },
+          {
+            "index": 215,
+            "name": "xhost_clock.sink_base",
+            "residual": 5.429326529790238e-156,
+            "exactResidual": "840147587197710513179044715819/154742504910672534362390528000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.01723092256044713,
+            "componentwiseBackwardError": 3.150920393695595e-154
+          },
+          {
+            "index": 216,
+            "name": "xhost_clock.high_col",
+            "residual": 2.28008203869628e-150,
+            "exactResidual": "2103004491744609784946476853/922337203685477580800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.2071374250838995,
+            "componentwiseBackwardError": 1.1007581260473567e-149
+          },
+          {
+            "index": 217,
+            "name": "xhost_clock.high_emit",
+            "residual": 4.587610067147665e-152,
+            "exactResidual": "2708047002196687092872687447/59029581035870565171200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 0.018452696457032954,
+            "componentwiseBackwardError": 2.486146172636558e-150
+          },
+          {
+            "index": 218,
+            "name": "host_clock_buffer_output",
+            "residual": 1.3678223302754909e-148,
+            "exactResidual": "338656405855332313242735651543858838327/2475880078570760549798248448000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 2353970571.6927814,
+            "componentwiseBackwardError": 5.810702762064973e-158
+          },
+          {
+            "index": 223,
+            "name": "bcaps_target#branch",
+            "residual": 2.3281883236318746e-160,
+            "exactResidual": "209704561335137/900719925474099200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 6.459012521179276,
+            "componentwiseBackwardError": 3.6045576874138e-161
+          },
+          {
+            "index": 224,
+            "name": "bsiso_target#branch",
+            "residual": 2.3281883236318746e-160,
+            "exactResidual": "209704561335137/900719925474099200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 6.459012521179276,
+            "componentwiseBackwardError": 3.6045576874138e-161
+          },
+          {
+            "index": 225,
+            "name": "dcaps_led#internal",
+            "residual": -1.0478670353392868e-160,
+            "exactResidual": "-494841216619023017477/4722366482869645213696000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 4.613581107348124,
+            "componentwiseBackwardError": 2.271266096677768e-161
+          },
+          {
+            "index": 226,
+            "name": "dsiso_led#internal",
+            "residual": 3.95213377034239e-160,
+            "exactResidual": "1866342405288214288891/4722366482869645213696000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 4.613581107348124,
+            "componentwiseBackwardError": 8.56630387194833e-161
+          },
+          {
+            "index": 227,
+            "name": "lhost_ground#branch",
+            "residual": -1.8841615729363135e-149,
+            "exactResidual": "-385876290137357/20480000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 406620461059.3892,
+            "componentwiseBackwardError": 4.6337106795546155e-161
+          },
+          {
+            "index": 228,
+            "name": "lhost_supply#branch",
+            "residual": -5.823618725768024e-150,
+            "exactResidual": "-2385354230074583/409600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 368151525995.8929,
+            "componentwiseBackwardError": 1.5818537516622962e-161
+          },
+          {
+            "index": 229,
+            "name": "lhost_clock#branch",
+            "residual": -4.726539089359119e-149,
+            "exactResidual": "-193599041100149521/4096000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 37671638605.68213,
+            "componentwiseBackwardError": 1.254667772440937e-159
+          },
+          {
+            "index": 230,
+            "name": "lhost_data#branch",
+            "residual": 3.8871432480346923e-149,
+            "exactResidual": "1592173874395009977/40960000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 798326294.9053568,
+            "componentwiseBackwardError": 4.86911589013302e-158
+          },
+          {
+            "index": 231,
+            "name": "l1.4#branch",
+            "residual": 2.6327525596391284e-155,
+            "exactResidual": "1078375448428187/40960000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 539169.8998664211,
+            "componentwiseBackwardError": 4.882973920264078e-161
+          },
+          {
+            "index": 232,
+            "name": "l1.3#branch",
+            "residual": -2.9159453641876806e-148,
+            "exactResidual": "-59718561058563701/204800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 368151525987.6609,
+            "componentwiseBackwardError": 7.9205032665963e-160
+          },
+          {
+            "index": 233,
+            "name": "l1.2#branch",
+            "residual": 1.0919528289814398e-148,
+            "exactResidual": "4472638787507977/40960000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 405818986741.60406,
+            "componentwiseBackwardError": 2.690738641257107e-160
+          },
+          {
+            "index": 234,
+            "name": "l1.1#branch",
+            "residual": -5.32065409827688e-150,
+            "exactResidual": "-21793399186542101/4096000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 37666964216.57197,
+            "componentwiseBackwardError": 1.4125518764095152e-160
+          },
+          {
+            "index": 235,
+            "name": "eclock#branch",
+            "residual": -4.569e-156,
+            "exactResidual": "-4569/1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 23.539705716839578,
+            "componentwiseBackwardError": 1.9409758367248743e-157
+          },
+          {
+            "index": 236,
+            "name": "edata#branch",
+            "residual": -1.1553e-156,
+            "exactResidual": "-11553/10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 15.727123680852817,
+            "componentwiseBackwardError": 7.345907767016129e-158
+          },
+          {
+            "index": 360,
+            "name": "vdriver_supply#branch",
+            "residual": 3e-159,
+            "exactResidual": "3/1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 9.227160744541823,
+            "componentwiseBackwardError": 3.251270984711739e-160
+          },
+          {
+            "index": 363,
+            "name": "vhost#branch",
+            "residual": -1.54450501672e-148,
+            "exactResidual": "-19306312709/125000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "sumAbsoluteProductsAndRhs": 25.691186939269095,
+            "componentwiseBackwardError": 6.01180872013047e-150
+          }
+        ]
+      },
+      "maximumChangeFromRecordedSolution": 111255775903.59944,
+      "largestChangeNode": "n_cable_gnd",
+      "maximumChangeFromPreviousPrecision": 1.728798589141588e-61,
+      "solution": {
+        "vhost#branch": "-0.1052251097519041150114619827762284186282952228744399276179820609639590146022280871716190588438011602785895892483083293325106002150975687469762753137604654387389",
+        "vfixture_clock#branch": "0",
+        "vfixture_reset#branch": "0",
+        "vdriver_supply#branch": "0.009749036063403019302161691429560169748212380859291654642201094425036054953967474109247669825086779918285754671456716107538283488176163134771374496833488072892358",
+        "vcontact0#branch": "0",
+        "vcontact1#branch": "0",
+        "vcontact2#branch": "0",
+        "vcontact3#branch": "0",
+        "vcontact4#branch": "0",
+        "vcontact5#branch": "0",
+        "vcontact6#branch": "0",
+        "vcontact7#branch": "0",
+        "vcontact8#branch": "0",
+        "vcontact9#branch": "0",
+        "vcontact10#branch": "0",
+        "vcontact11#branch": "0",
+        "vcontact12#branch": "0",
+        "vcontact13#branch": "0",
+        "vcontact14#branch": "0",
+        "vcontact15#branch": "0",
+        "vcontact16#branch": "0",
+        "vcontact17#branch": "0",
+        "vcontact18#branch": "0",
+        "vcontact19#branch": "0",
+        "vcontact20#branch": "0",
+        "vcontact21#branch": "0",
+        "vcontact22#branch": "0",
+        "vcontact23#branch": "0",
+        "vcontact24#branch": "0",
+        "vcontact25#branch": "0",
+        "vcontact26#branch": "0",
+        "vcontact27#branch": "0",
+        "vcontact28#branch": "0",
+        "vcontact29#branch": "0",
+        "vcontact30#branch": "0",
+        "vcontact31#branch": "0",
+        "vcontact32#branch": "0",
+        "vcontact33#branch": "0",
+        "vcontact34#branch": "0",
+        "vcontact35#branch": "0",
+        "vcontact36#branch": "0",
+        "vcontact37#branch": "0",
+        "vcontact38#branch": "0",
+        "vcontact39#branch": "0",
+        "vcontact40#branch": "0",
+        "vcontact41#branch": "0",
+        "vcontact42#branch": "0",
+        "vcontact43#branch": "0",
+        "vcontact44#branch": "0",
+        "vcontact45#branch": "0",
+        "vcontact46#branch": "0",
+        "vcontact47#branch": "0",
+        "vcontact48#branch": "0",
+        "vcontact49#branch": "0",
+        "vcontact50#branch": "0",
+        "vcontact51#branch": "0",
+        "vcontact52#branch": "0",
+        "vcontact53#branch": "0",
+        "vcontact54#branch": "0",
+        "vcontact55#branch": "0",
+        "vcontact56#branch": "0",
+        "vcontact57#branch": "0",
+        "vcontact58#branch": "0",
+        "vcontact59#branch": "0",
+        "vcontact60#branch": "0",
+        "vcontact61#branch": "0",
+        "vcontact62#branch": "0",
+        "vcontact63#branch": "0",
+        "vcontact64#branch": "0",
+        "vcontact65#branch": "0",
+        "vcontact66#branch": "0",
+        "vcontact67#branch": "0",
+        "vcontact68#branch": "0",
+        "vcontact69#branch": "0",
+        "vcontact70#branch": "0",
+        "vcontact71#branch": "0",
+        "vcontact72#branch": "0",
+        "vcontact73#branch": "0",
+        "vcontact74#branch": "0",
+        "vcontact75#branch": "0",
+        "vcontact76#branch": "0",
+        "vcontact77#branch": "0",
+        "vcontact78#branch": "0",
+        "vcontact79#branch": "0",
+        "vcontact80#branch": "0",
+        "vcontact81#branch": "0",
+        "vcontact82#branch": "0",
+        "vcontact83#branch": "0",
+        "vcontact84#branch": "0",
+        "vcontact85#branch": "0",
+        "vcontact86#branch": "0",
+        "vcontact87#branch": "0",
+        "vcontact88#branch": "0",
+        "vcontact89#branch": "0",
+        "vcontact90#branch": "0",
+        "vcontact91#branch": "0",
+        "vcontact92#branch": "0",
+        "vcontact93#branch": "0",
+        "vcontact94#branch": "0",
+        "vcontact95#branch": "0",
+        "vcontact96#branch": "0",
+        "vcontact97#branch": "0",
+        "vcontact98#branch": "0",
+        "vcontact99#branch": "0",
+        "vcontact100#branch": "0",
+        "vcontact101#branch": "0",
+        "vcontact102#branch": "0",
+        "vcontact103#branch": "0",
+        "vreplay_data_intent#branch": "0.0004496574578062422108719795635684780197144239114523960488287863890786700824753203913167870047044090892272849713617351184720456513179884705109903191095473871150324",
+        "vreplay_clock_intent#branch": "-0.00000424048404789036944891855375963853058053339046630056160965195207029707434278131938642746117443100085453903335605357823285294138113068013629002675257292934190226",
+        "vreplay_led0_v#branch": "0",
+        "vreplay_led1_v#branch": "0",
+        "vreplay_sink0#branch": "0",
+        "vreplay_sink1#branch": "0",
+        "vreplay_sink2#branch": "0",
+        "vreplay_sink3#branch": "0",
+        "vreplay_sink4#branch": "0",
+        "vreplay_sink5#branch": "0",
+        "vreplay_sink6#branch": "0",
+        "vreplay_sink7#branch": "0",
+        "vreplay_sink8#branch": "0",
+        "vreplay_sink9#branch": "0",
+        "vreplay_sink10#branch": "0",
+        "vreplay_sink11#branch": "0",
+        "vreplay_sink12#branch": "0",
+        "esiso_intent#branch": "0",
+        "ecaps_intent#branch": "0",
+        "edata#branch": "0",
+        "eclock#branch": "0",
+        "l1.1#branch": "-0.009416611817977242305396818451401321894657951665732149900780167016746808878064188889187289150094632013632597883959156033628539917073638167462506922543735186542101",
+        "l1.2#branch": "0.1014547466854010274255190602900504345784737752624291564254795782472423801528473550534640105964910836127628227828447001111357982012229134271330989582945603507977",
+        "l1.3#branch": "-0.09203788149460843874495609200221218524130059146470858573511423340421301923716753034827451679824152136275626989373015903962932406962062456614595651921354230074602",
+        "l1.4#branch": "1.347924749666052905354210782702645797850121987773146941335616634910815287122272430619964390926967828809820712248520332808725428813817755540315522102375448428187E-7",
+        "lhost_data#branch": "-0.0001995815737263392226057105251555383773444182574151993073850132952213613069725225079278015683991633254063629249944561491917219682248645171553717147068072740990023",
+        "lhost_clock#branch": "-0.009417909651420532602161814286448794831809274462797834103007092935459195723243426254869559918249882564326739422175377988373620700237993500533367069903616096629521",
+        "lhost_supply#branch": "-0.09203788149460843874495609200221218524130059146470858573511423340421301923716753034827451679824152136275626989373015903962932406962062456614595651921354230074583",
+        "lhost_ground#branch": "0.1016549860246635434720553020713317161575493013291088172497856510228396193865278271543171449294845901856462082281266030671058818251550146591348848519134587725286",
+        "dsiso_led#internal": "4.613580363932691642207285519070064712837591107722165472539957363079805870003554074102134455508570543898291873595797079937017046026952326163084001626898301537463",
+        "dcaps_led#internal": "4.613580363932691642207285519070064712837591107722165472539957363079805870003554074102134455508570543898291873595797079937017046026952326163084001626898301537462",
+        "bsiso_target#branch": "4.1691102876378904698813158171005427571234685572236027141011707715314496711767505849092937692627194275647023384498362348559488081698780113777253029190485516302E-9",
+        "bcaps_target#branch": "4.1691102876378904698813158171005427571234685572236027141011707715314496711767505849092937692627194275647023384498362348559488081698780113777253029190485516301E-9",
+        "receiver_clock": "3.924259388785239847504411711938131520006438556594663314606045596276377367823369539374624812563429526462012317137383399470114754827676361865910362006411090913369",
+        "receiver_data": "0.0179683707918599891757579090490308980569545003772878510299124542422649095458336406601091565936930339583434236641428247298277839274143478426897163991496436813637",
+        "led1_v": "0",
+        "led0_v": "0",
+        "host_clock_buffer_output": "11.76985285841978797195066516814640707050861266635660028171738560105604571883485209798458975679056516462573286934788870645183190267549350328745331806308125946328",
+        "xhost_clock.high_emit": "12.3058806456993468487499583525751750699644884032585185467042435607804685110154604790767541644189135563848349216859808578547797162263663641365045743679958749975",
+        "xhost_clock.high_col": "12.84430586635492362640932474001326009537165151010113397368181034689515416691748482107536552161685466796673931182744701640478729360577876713514589154127349557696",
+        "xhost_clock.sink_base": "7.847981474214718223897557312741139441980235096782943715271216543619484146203578087425166247884399664184632531339144318928784379488799856319510533064249289818233",
+        "xhost_clock.phase_col": "12.84165038848010227266704218359293699596339833802418990056476506354776635726457763707410067999038847928243441609167248710292293038587905249250975058211162876182",
+        "xhost_clock.phase_base": "8.345561275222783368310563922975831961996100155656517351994914002451265552188740965245880575098932677989001764781661075014019261459435102206476173660301826931088",
+        "xhost_clock.input_base": "8.881075072501606381516948593582473594530357611397294895988489820104690272073857025116329871933458454097948583463964101661721708877883245269697425886798165385896",
+        "host_data_buffer_output": "7.863561840426408113622011365257306448559128610139224818141252459021933260557316199270074100820828672122063975874648131711544931775231489264232672455819812227861",
+        "xhost_data.high_emit": "8.226940266823938516374032690920121154131553919966267151570775952965023636889882588865972694869469195267507669216984017995082795917795409758900314502216393178426",
+        "xhost_data.high_col": "12.8455918409719483585409129388336172619265898872852922162794933743096424766470917625110614482779748725424424548420282061220216760042679736153723788392413120553",
+        "xhost_data.sink_base": "8.544232178044721801652115978775424686336158083818118162392578409413886067238373105618347437192622983986318868509469596061754495668340710284014680780544612347442",
+        "xhost_data.phase_col": "8.588993590724614514200187778905715495683268702576259603136895792147081144585810791997846209186436506571890099278238909581220722136597249311732626573958016907818",
+        "xhost_data.phase_base": "9.236188573566416078631672628522750102965623081152873924730995667924720396622492854658526080448753951413526517022503264195385789126169745516785952531658019245636",
+        "xhost_data.input_base": "9.765435275173563531409460949419668524525373110659133672580024114505594938128035866061290483165982502210297509178952591476287061374337988608123371526931465112539",
+        "host_ground_winding": "7.9472484556592116679183087582796072666597234110910457843611256558025079703980103857642820891566202283493667604386319100488230296729721560806778409085",
+        "host_supply_winding": "12.7535555881399396857012973642060633652608735182972283813762257713754553317743150282616904274288941168009642823167751479420878237781965168553969995373",
+        "host_clock_buffer_input": "8.226054632512115892686291361354018517058194547201006607150730862697881991389248490915099431291891573203521588848700386407976895980044594561095017804765632722525",
+        "host_clock_filtered": "8.126889394985892102289360149718582123732638604629413753334816609819186612524947743445522443778919482179467257483981209681812294960682999398217882231",
+        "host_clock_winding": "8.11747148533447156968719833543213332890082933016661591923180951688372741680170431719065288386066959961514051806180583169343867426044500589768451516109638390337",
+        "host_data_buffer_input": "12.64970171949567735088784543252307018576991019772496739136158210683524953388910355561592707373249635638113382522420771814374218645800306842662880098927037078625",
+        "host_data_filtered": "12.6624480935641779399777250361795290267210347638014624817008172288789965438309387059925150475659569457229781829095187223324410079098633064152355170921",
+        "host_data_winding": "12.6622485119904516007551193256543734883436903455440472823934322155837751825239661834845872459975577823975718199845242661832492859416384418980801453773931927259",
+        "caps_intent": "0",
+        "caps_target": "3.229506260589638155351189899802770156955568633786527310332801206004899477340681907808518938779872476906527714782094091978246269976512199396433763960340260611162",
+        "siso_intent": "0",
+        "siso_target": "3.229506260589638155351189899802770156955568633786527310332801206004899477340681907808518938779872476906527714782094091978246269976512199396433763960340260611162",
+        "xclock.output_base": "0.7489843086347191331664955901337727199799949825193576975417215334949722357961274620145315671726744639580918699030727123304151718989305221420203843475905877635972",
+        "xclock.discharge_base": "0.6836535289875095378433766024869935657475437971612623320349096468485091159473254023040411994758721415688773188796914725482078513379683512775416698929493670720597",
+        "xclock.inverter_base": "0.02575114395175755618855996547853887269619799528898977301000455537363772491808553222111152368446314883129626655666968965564384399690098034283722479441783460963788",
+        "xclock.feed": "1.574021760745491514348290303523533417522664267979086636980240554642230913091336924128593592182726758163148970671073819306276310027615770679573744529889416873985",
+        "xclock.phase_emit": "0.8663992005519754587358384226479289571776162357318748589245197321591963646077020136993609398753648796792710884222678846083547563471974375040478131409238728734415",
+        "xclock.phase_col": "0.9102569305110219286933752004271382199384118048852388973618110717186464425479058125609311855135760589166592837316859651441848572827597164172945265374436933024646",
+        "clock_intent": "5",
+        "xclock.phase_base": "1.542201784096227800764657540408309501942635665850628066812499326238069928288509070018376483170771088760239260264582309172432721673253092194727239098855146473508",
+        "xclock.input_base": "2.056150851214758826153829482856913256468974848047810174499469581860488801216271911186548173350065359345900708972144745298829798577545162456828261709457119771081",
+        "xdata.output_base": "0.2306813562688019121866575655358088206759497654073655190115006112388711715478042065757874426005541777528663129783826608583855056793107868923089828283479185132859",
+        "xdata.discharge_base": "0.6511987678574342842965280454017947556350017044187748034920343303020664417642402932961716768665780546064165714007684027552927104927846443725813381544144029752369",
+        "xdata.inverter_base": "0.6813059055557490311060639713695987889848428469958851086526012634654615113094948718676405893042635513072171159102571142059349956414866430173541013378648696898575",
+        "xdata.feed": "2.456405662833145846655985744390798908737295027361801326765068490116555074496429932411546814055703960115965465019299039951448591118118454521795320836729019111826",
+        "xdata.phase_emit": "0.7171780428876888480492029485426658811058267527049551631359378507791542193498984644358028721798282916178659706853084374007278961356165331577600072084645181654905",
+        "xdata.phase_col": "1.81229937720167159702955789235382092187145619302263241130398282679419603779837321093591565519707865302240982749584982224813024146119114299885987743339403047609",
+        "data_intent": "1.242037288020764851381727567058987915515899658203125",
+        "xdata.phase_base": "1.361167906085626323228967593564908131466071598844184468456537660690319781494478737231853416259385504535947934280420703031238569273929893748491024792742226470384",
+        "xdata.input_base": "1.876614294251945672424325747816845541184587631661436694148112985582523813270884489673861704190975321357526007593729624297693348080346544069287490795034471885402",
+        "driver_vp": "4.613580372270911777384331242593283276353804840180012306028163063047900320327379703155508328021978411885424762240657758349178804130643184880670778489420686781558",
+        "n_cable_daten": "-258467.7049793544428142429301706600621668459353466128738656812916469938170083046789741182252364927542382826393567366110961852918339496088588388669706441849",
+        "l1_4_series": "-258467.7049792196503392763248801246410885756707668278616669039769528602553448135974454059979934307577991899425738556290249604398006687363159574851950901533477898",
+        "n_cable_5v": "8.7295716621636674509152923494007794134279894749709746365697515339137843356694311308827366361245570250245726572255815326654479759892301631511068672733",
+        "l1_3_series": "8.637533780669059012170336257398567228186688883506266050834637300509571316432263600534462119326315503661816387331851373625818651919609538584960910754086457699254",
+        "n_cable_gnd": "-258472.4203000140451316170411769088732723338424071160225469719169719445917944689216515442868388865101746153462028978809101346125995822041881095784053793870658908",
+        "l1_2_series": "-258472.3188452673597305896156578485832218992639333407601178154914923663445520887688041892333748759136835317334400750980654345014637840029651961512722804287713304",
+        "n_cable_takt": "-258472.2497907605151210118694240035247245691570381411614218076841153751370763968447096493319992395291573282603800273525688267469066340277978648681657119439230808",
+        "l1_1_series": "-258472.259207372333098254174820821976125891051696092827153957584895542153823205722773838221186528679251960274012625236527982780535173944871503035628218866466816",
+        "n_led_caps": "3.229506927647284177413636730379620477723880565236453137517045089797065913330294745560354278493623718895109802596261138148293281223215483507667009992898885416208",
+        "n_led_caps_n": "3.229506385662946784487905731983082246420052379492701852506627002318023265267551029592590070318685857597100149312523982203622758218748737338716988156081157252771",
+        "n_led_siso": "3.229506927647284177413636730379620477723880565236453137517045089797065913330294745560354278493623718895109802596261138148293281223215483507667009992898885416208",
+        "n_led_siso_n": "3.229506385662946784487905731983082246420052379492701852506627002318023265267551029592590070318685857597100149312523982203622758218748737338716988156081157252771",
+        "n_ta_daten": "4.6135048397739348053865296229851755214147114881025249755079114575546280628879262605344333585447800498120104229294845211633322038770790824548255373889668632",
+        "n_ta_takt": "0.07229435515740009137270760472810051413485729358899290055964607187576208885403410772941496829606743162994426077735994653801701372286784368309463620043",
+        "contact103": "0",
+        "contact102": "0",
+        "contact101": "0",
+        "contact100": "0",
+        "contact99": "0",
+        "contact98": "0",
+        "contact97": "0",
+        "contact96": "0",
+        "sink12": "0",
+        "n_col12": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116086",
+        "contact95": "0",
+        "contact94": "0",
+        "contact93": "0",
+        "contact92": "0",
+        "contact91": "0",
+        "contact90": "0",
+        "contact89": "0",
+        "contact88": "0",
+        "sink11": "0",
+        "n_col11": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116086",
+        "contact87": "0",
+        "contact86": "0",
+        "contact85": "0",
+        "contact84": "0",
+        "contact83": "0",
+        "contact82": "0",
+        "contact81": "0",
+        "contact80": "0",
+        "sink10": "0",
+        "n_col10": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116086",
+        "contact79": "0",
+        "contact78": "0",
+        "contact77": "0",
+        "contact76": "0",
+        "contact75": "0",
+        "contact74": "0",
+        "contact73": "0",
+        "contact72": "0",
+        "sink9": "0",
+        "n_col9": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116087",
+        "contact71": "0",
+        "contact70": "0",
+        "contact69": "0",
+        "contact68": "0",
+        "contact67": "0",
+        "contact66": "0",
+        "contact65": "0",
+        "contact64": "0",
+        "sink8": "0",
+        "n_col8": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116086",
+        "contact63": "0",
+        "contact62": "0",
+        "contact61": "0",
+        "contact60": "0",
+        "contact59": "0",
+        "contact58": "0",
+        "contact57": "0",
+        "contact56": "0",
+        "sink7": "0",
+        "n_col7": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116086",
+        "contact55": "0",
+        "contact54": "0",
+        "contact53": "0",
+        "contact52": "0",
+        "contact51": "0",
+        "contact50": "0",
+        "contact49": "0",
+        "contact48": "0",
+        "sink6": "0",
+        "n_col6": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116087",
+        "contact47": "0",
+        "contact46": "0",
+        "contact45": "0",
+        "contact44": "0",
+        "contact43": "0",
+        "contact42": "0",
+        "contact41": "0",
+        "contact40": "0",
+        "sink5": "0",
+        "n_col5": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116088",
+        "contact39": "0",
+        "contact38": "0",
+        "contact37": "0",
+        "contact36": "0",
+        "contact35": "0",
+        "contact34": "0",
+        "contact33": "0",
+        "contact32": "0",
+        "sink4": "5",
+        "n_col4": "7.381728320433044052369434671300825084357330342847503992735979586886287916502989817078832379279830333597671013198427332579733219314881062186040983875644837515711E-10",
+        "contact31": "0",
+        "contact30": "0",
+        "contact29": "0",
+        "contact28": "0",
+        "contact27": "0",
+        "contact26": "0",
+        "contact25": "0",
+        "contact24": "0",
+        "sink3": "5",
+        "n_col3": "7.381728320433044052369434671300825084357330342847503992735979586886287916502989817078832379279830333597671013198427332579733219314881062186040983875644837515711E-10",
+        "contact23": "0",
+        "contact22": "0",
+        "contact21": "0",
+        "contact20": "0",
+        "contact19": "0",
+        "contact18": "0",
+        "contact17": "0",
+        "contact16": "0",
+        "sink2": "0",
+        "n_col2": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116086",
+        "contact15": "0",
+        "contact14": "0",
+        "contact13": "0",
+        "contact12": "0",
+        "contact11": "0",
+        "contact10": "0",
+        "contact9": "0",
+        "contact8": "0",
+        "sink1": "0",
+        "n_col1": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116087",
+        "contact7": "0",
+        "contact6": "0",
+        "contact5": "0",
+        "contact4": "0",
+        "contact3": "0",
+        "contact2": "0",
+        "contact1": "0",
+        "contact0": "0",
+        "sink0": "0",
+        "n_col0": "4.100960178674512119447595417776253427085736447589947755007673766072599149693269665557979038003334052724477342113894457062462551859956080129802235049995155116087",
+        "n_row4": "4.613580201008826030855756849881476052358842916224870641139923668971174128968506055335982767667709589726682078969659256737851718272423708696796395189121162138519",
+        "n_row3": "4.613580201008826030855753950502470087555771116272802872920815552516325524031763992963854023750232908844555223339098225869391797406368036081359185466072362033304",
+        "n_row2": "4.61358020100882603085575684988147605235884291622487064113992366897117412896850605533598276766770958972668207896965925673785171827242370869679639518912116213852",
+        "n_row1": "4.6135802010088260308557539505024700875557711162728028729208155525163255240317639929638540237502329088445552233390982258693917974063680360813591854660723620333",
+        "n_row5": "4.613580201008826030855756849881476052358842916224870641139923668971174128968506055335982767667709589726682078969659256737851718272423708696796395189121162138519",
+        "n_row0": "4.61358020100882603085575684988147605235884291622487064113992366897117412896850605533598276766770958972668207896965925673785171827242370869679639518912116213852",
+        "n_row6": "4.613580201008826030855756849881476052358842916224870641139923668971174128968506055335982767667709589726682078969659256737851718272423708696796395189121162138518",
+        "n_row7": "4.6135802010088260308557539505024700875557711162728028729208155525163255240317639929638540237502329088445552233390982258693917974063680360813591854660723620333",
+        "n_base3": "4.613580258986149616456615407552031442045985710238813305095552690793281050550743212350520340461064799097694102734480243849281895871151211662908932894351690102298",
+        "n_base2": "4.613580258986149616456618306931184405364072548626545608559212674084646089692448365867610542114227963580598716567894520561545123572396380187965876997097769207849",
+        "n_base5": "4.613580258986149616456618306931184405364072548626545608559212674084646089692448365867610542114227963580598716567894520561545123572396380187965876997097769207851",
+        "n_base7": "4.6135802589861496164566154075520314420459857102388133050955526907932810505507432123505203404610647990976941027344802438492818958711512116629089328943516901023",
+        "n_base4": "4.613580258986149616456618306931184405364072548626545608559212674084646089692448365867610542114227963580598716567894520561545123572396380187965876997097769207849",
+        "n_base1": "4.613580258986149616456615407552031442045985710238813305095552690793281050550743212350520340461064799097694102734480243849281895871151211662908932894351690102292",
+        "n_base0": "4.613580258986149616456618306931184405364072548626545608559212674084646089692448365867610542114227963580598716567894520561545123572396380187965876997097769207848",
+        "n_base6": "4.613580258986149616456618306931184405364072548626545608559212674084646089692448365867610542114227963580598716567894520561545123572396380187965876997097769207847",
+        "n_p5v": "4.613580372270911777384331242593283276353804840180012306028163063047900320327379703155508328021978411885424762240657758349178804130643184880670778489420686781561",
+        "n_sense0": "4.216967545390665776769289757341289627801004223761381636854325819719585740633587639820721412175869092663683907368943173638366496112910597162733181072118055674099E-9",
+        "n_sense1": "4.216967545390665776769289745695054265978130127555872858356309111140569652070842638011364874655612941891074060320138441164604020917946323977623041348895818290976E-9",
+        "n_sense2": "4.216967545390665776769289757341289627801004223761381636854325819719585740633587639820721412175869092663683907368943173638366496112910597162733181072118055674099E-9",
+        "n_sense3": "4.216967545390665776769289745695054265978130127555872858356309111140569652070842638011364874655612941891074060320138441164604020917946323977623041348895818290976E-9",
+        "n_sense4": "4.216967545390665776769289757341289627801004223761381636854325819719585740633587639820721412175869092663683907368943173638366496112910597162733181072118055674099E-9",
+        "n_sense5": "4.216967545390665776769289757341289627801004223761381636854325819719585740633587639820721412175869092663683907368943173638366496112910597162733181072118055674099E-9",
+        "n_sense6": "4.216967545390665776769289757341289627801004223761381636854325819719585740633587639820721412175869092663683907368943173638366496112910597162733181072118055674099E-9",
+        "n_sense7": "4.216967545390665776769289745695054265978130127555872858356309111140569652070842638011364874655612941891074060320138441164604020917946323977623041348895818290976E-9",
+        "fixture_reset": "5",
+        "fixture_clock": "0",
+        "host_receiver_gnd": "7.845593469634548124446253456208275550502174109761936967111340004779668351011482558609964944227135638163720552210505306981717147847817141421542956056670168545342",
+        "host_receiver_5v": "12.84559346963454812444625345620827555050217410976193696711134000477966835101148255860996494422713563816372055221050530698171714784781714142154295605651571804367"
+      }
+    }
+  ],
+  "boundary": "Frozen stamped binary64 equations only. Increased arithmetic precision does not recover lost stamping precision, rerun nonlinear devices or integration, or establish physical qualification."
+}
