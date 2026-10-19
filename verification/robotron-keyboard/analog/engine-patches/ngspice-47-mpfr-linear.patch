@@ -1,0 +1,113 @@
+--- a/src/maths/ni/niiter.c
++++ b/src/maths/ni/niiter.c
+@@ -21,6 +21,23 @@
+ #include "ngspice/fteext.h"
+ extern void SMPauditLinearLoad(SMPmatrix *, double *, unsigned long, double, double, int, int, double);
+ 
++extern int SMPmpfrSolve(SMPmatrix *, double *, double, int);
++static int mpfr_precision(void)
++{
++    static int bits = -1;
++    if (bits == -1) {
++        const char *value = getenv("ROBOTRON_MPFR_BITS");
++        bits = 0;
++        if (value && strcmp(value, "off")) {
++            if (!strcmp(value, "256")) bits = 256;
++            else if (!strcmp(value, "512")) bits = 512;
++            else bits = -2;
++        }
++        fprintf(stderr, "MPFR_DIAGNOSTIC bits=%d\n", bits);
++    }
++    return bits;
++}
++
+ /* Read-only Sparse audit, before factorization and immediately after solve. */
+ static unsigned long audit_linear_load(CKTcircuit *ckt, int iteration, int maxIter)
+ {
+@@ -50,9 +67,12 @@
+     int error, i, j;
+ 
+     unsigned long linear_audit = 0;
++    int mpfr_bits = mpfr_precision();
+     int iterno = 0;
+     int ipass = 0;
+ 
++    if (mpfr_bits < 0) return E_SINGULAR;
++
+     /* some convergence issues that get resolved by increasing max iter */
+     if (maxIter < 100)
+         maxIter = 100;
+@@ -112,6 +132,17 @@
+ 
+             linear_audit = audit_linear_load(ckt, iterno, maxIter);
+ 
++            if (mpfr_bits) {
++                startTime = SPfrontEnd->IFseconds();
++                error = SMPmpfrSolve(ckt->CKTmatrix, ckt->CKTrhs, ckt->CKTdiagGmin, mpfr_bits);
++                ckt->CKTstat->STATsolveTime += SPfrontEnd->IFseconds() - startTime;
++                if (error) {
++                    fprintf(stderr, "MPFR_DIAGNOSTIC rejected code=%d time=%a iteration=%d\n", error, ckt->CKTtime, iterno);
++                    ckt->CKTstat->STATnumIter += iterno;
++                    FREE(OldCKTstate0);
++                    return E_SINGULAR;
++                }
++            } else {
+             if (!(ckt->CKTniState & NIDIDPREORDER)) {
+                 error = SMPpreOrder(ckt->CKTmatrix);
+                 if (error) {
+@@ -263,6 +294,8 @@
+ 
+             }
+ 
++            } /* original Sparse path */
++
+             /* moved it to here as if xspice is included then CKTload changes
+                CKTnumStates the first time it is run */
+             if (!OldCKTstate0)
+@@ -272,7 +305,7 @@
+                        (size_t) ckt->CKTnumStates * sizeof(double));
+ 
+             startTime = SPfrontEnd->IFseconds();
+-            SMPsolve(ckt->CKTmatrix, ckt->CKTrhs, ckt->CKTrhsSpare);
++            if (!mpfr_bits) SMPsolve(ckt->CKTmatrix, ckt->CKTrhs, ckt->CKTrhsSpare);
+             if (linear_audit) {
+                 int audit_row;
+                 for (audit_row = 1; audit_row <= SMPmatSize(ckt->CKTmatrix); ++audit_row)
+--- a/src/maths/sparse/spsmp.c
++++ b/src/maths/sparse/spsmp.c
+@@ -97,6 +97,7 @@
+ #include <stdio.h>
+ #include <math.h>
+ #include "ngspice/spmatrix.h"
++#include "mpfr_linear_solver.h"
+ #include "spdefs.h"
+ #include "ngspice/smpdefs.h"
+ 
+@@ -637,3 +638,27 @@
+     for (col = 1; col <= matrix->ExtSize; ++col)
+         fprintf(stderr, "LINEAR_AUDIT b id=%lu row=%d value=%a\n", serial, col, rhs[col]);
+ }
++
++/* Experimental replacement of real linear arithmetic only. */
++int SMPmpfrSolve(SMPmatrix *external, double *rhs, double gmin, int bits)
++{
++    static RobotronMpfr solver = {0};
++    MatrixPtr matrix = external->SPmatrix;
++    int col, result;
++    if (matrix->Size != matrix->ExtSize) return 1;
++    spSetReal(external->SPmatrix);
++    LoadGmin(external, gmin);
++    if (robotron_mpfr_init(&solver, matrix->Size, bits)) return 2;
++    robotron_mpfr_reset(&solver);
++    for (col = 1; col <= matrix->Size; ++col) {
++        ElementPtr element;
++        for (element = matrix->FirstInCol[col]; element; element = element->NextInCol)
++            if (robotron_mpfr_set(&solver,
++                    matrix->IntToExtRowMap[element->Row]-1,
++                    matrix->IntToExtColMap[element->Col]-1, element->Real)) return 3;
++    }
++    for (col = 1; col <= matrix->ExtSize; ++col)
++        if (robotron_mpfr_set(&solver, col-1, matrix->Size, rhs[col])) return 4;
++    result = robotron_mpfr_solve(&solver, rhs);
++    return result ? result+4 : 0;
++}
