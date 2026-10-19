@@ -60,6 +60,11 @@ def transform(deck, shifted):
                                 token, re.I) for token in value.split()):
             raise ValueError('Unsupported saved expression')
         mapped = voltages(value)
+        # Nutmeg's vector evaluator has no saved vector for node 0. The circuit
+        # expression parser accepts V(a,0), but wrdata needs the single-ended form.
+        mapped = re.sub(r'v\((' + NODE + r'),0\)', r'v(\1)', mapped)
+        if re.search(r'v\(0(?:,|\))', mapped):
+            raise ValueError('Ground-first observation needs separate review')
         observations.append({'original': value.split(), 'transformed': mapped.split()})
         return mapped
 
@@ -178,7 +183,13 @@ def main():
                                      cwd=out, env=env, stdout=log, stderr=subprocess.STDOUT, timeout=600)
         verify(runtime)
         report['exitCode'] = process.returncode
-        report['solverDiagnostic'] = solver_diagnostic((out/'ngspice.log').read_text())
+        log_text = (out/'ngspice.log').read_text()
+        report['solverDiagnostic'] = solver_diagnostic(log_text)
+        if re.search(r'^Error:', log_text, re.M):
+            raise ValueError('Simulator expression or command error; inspect retained log')
+        for name in ('trace.txt', 'host-trace.txt', 'driver-trace.txt', 'boundary-trace.txt'):
+            if not (out/name).is_file():
+                raise ValueError('Missing waveform: ' + name)
         previous, count = None, 0
         with (out/'trace.txt').open() as stream:
             header = next(stream).split()
