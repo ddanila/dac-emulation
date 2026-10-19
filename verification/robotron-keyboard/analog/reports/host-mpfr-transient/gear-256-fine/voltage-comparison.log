@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/compare_mpfr_replays.py", line 87, in <module>
+    if __name__=='__main__':main()
+  File "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/compare_mpfr_replays.py", line 71, in main
+    captures=[load(p) for p in (args.coarse,args.fine)]
+  File "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/compare_mpfr_replays.py", line 71, in <listcomp>
+    captures=[load(p) for p in (args.coarse,args.fine)]
+  File "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/compare_mpfr_replays.py", line 51, in load
+    if solver_diagnostic(messages):raise ValueError('Solver diagnostic remains')
+ValueError: Solver diagnostic remains

@@ -1,0 +1,92 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Compare completed analog-only MPFR replay voltages without phase alignment.",
+  "kind": "precision",
+  "sources": {
+    "compare_mpfr_replays.py": "6e3df0f14a72043af35a43d29e4fe7d4e51dcfeb5ba49badd9abd3204a8eb34e",
+    "host_waveform_comparison.py": "b1f96a72148a1bebaa25cd2188fc11ee1e5fa7a17f36ce0ff6ab25d4fc53e3a8",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "analog_driver_replay.py": "f914538948c81c336334cc6b2de4370635aa7670c1bf3255823fe1e75bad6753",
+    "compare_firmware_io.py": "e2754823ee4c2741d2ae591d68969558bad142f893a241158781abf1c2bfeef1",
+    "transient_analysis.py": "dd0dd5ef7a34533cd75128fa3c90c52815d8b11364b938e32680310207d3310e",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136",
+    "led_observation.py": "ac9eedc353648e572aa6b63d6cda77f9b47112cc2cb4ac995fa25674f084bf2a"
+  },
+  "reports": {
+    "coarse": "796e5436640ee39fc3c6b6857b96a38e46cd17da60fd46f086b1fb3237d26d66",
+    "fine": "1c2070411d9ef051c4ff316a4026e35c34b7afad0bc3043df039034f2fd50ef5"
+  },
+  "stepsNs": [
+    50.0,
+    50.0
+  ],
+  "observation": {
+    "signals": [
+      {
+        "maximumDifferenceV": 0.0,
+        "timeSeconds": 0.0,
+        "coarseV": -1.549482499171883e-14,
+        "fineV": -1.549482499171883e-14,
+        "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+        "meanAbsoluteDifferenceV": 0.0,
+        "rmsDifferenceV": 0.0,
+        "signal": "v(n_CABLE_DATEN,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.0,
+        "timeSeconds": 0.0,
+        "coarseV": -1.549482499171883e-14,
+        "fineV": -1.549482499171883e-14,
+        "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+        "meanAbsoluteDifferenceV": 0.0,
+        "rmsDifferenceV": 0.0,
+        "signal": "v(n_CABLE_TAKT,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.0,
+        "timeSeconds": 0.0,
+        "coarseV": -1.9993348870313332e-14,
+        "fineV": -1.9993348870313332e-14,
+        "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+        "meanAbsoluteDifferenceV": 0.0,
+        "rmsDifferenceV": 0.0,
+        "signal": "v(host_data_buffer_input,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.0,
+        "timeSeconds": 0.0,
+        "coarseV": -1.9993348870313332e-14,
+        "fineV": -1.9993348870313332e-14,
+        "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+        "meanAbsoluteDifferenceV": 0.0,
+        "rmsDifferenceV": 0.0,
+        "signal": "v(host_clock_buffer_input,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.0,
+        "timeSeconds": 0.0,
+        "coarseV": -0.5231550550356652,
+        "fineV": -0.5231550550356652,
+        "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+        "meanAbsoluteDifferenceV": 0.0,
+        "rmsDifferenceV": 0.0,
+        "signal": "v(host_data_buffer_output,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.0,
+        "timeSeconds": 0.0,
+        "coarseV": -0.5231550550356652,
+        "fineV": -0.5231550550356652,
+        "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+        "meanAbsoluteDifferenceV": 0.0,
+        "rmsDifferenceV": 0.0,
+        "signal": "v(host_clock_buffer_output,host_receiver_gnd)"
+      }
+    ],
+    "unionKnots": 54822,
+    "endSeconds": 0.0010980142484352945
+  },
+  "boundary": "Whole saved interval at absolute time, using piecewise-linear interpolation on the union of original knots. No phase alignment or physical accuracy budget. Timestep refinement also changes ngspice-derived delmin. Completion and small duration-weighted errors cannot waive peak differences or device qualification."
+}
