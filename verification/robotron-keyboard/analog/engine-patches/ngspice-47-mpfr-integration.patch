@@ -1,0 +1,49 @@
+--- a/src/maths/ni/niinteg.c
++++ b/src/maths/ni/niinteg.c
+@@ -12,6 +12,8 @@
+ #include "ngspice/cktdefs.h"
+ #include "ngspice/sperror.h"
+ 
++#include "mpfr_integration.h"
++
+ #define ccap qcap+1
+ 
+ int
+@@ -19,6 +21,37 @@
+ {
+     static char *ordmsg = "Illegal integration order";
+     static char *methodmsg = "Unknown integration method";
++
++    /* Opt-in arithmetic experiment; the disabled branch is unchanged. */
++    {
++        static int integration_mode = -1;
++        double q[7], result[3];
++        int i, method;
++        if (integration_mode == -1) {
++            const char *value = getenv("ROBOTRON_MPFR_INTEGRATION");
++            integration_mode = (!value || !strcmp(value, "off")) ? 0 :
++                               !strcmp(value, "256") ? 1 : 2;
++            if (integration_mode == 1)
++                fprintf(stderr, "MPFR_INTEGRATION enabled bits=256 states=binary64\n");
++        }
++        if (integration_mode == 2) return E_BADPARM;
++        if (integration_mode == 1) {
++            if (ckt->CKTorder < 1 || ckt->CKTorder > 6) return E_ORDER;
++            method = ckt->CKTintegrateMethod == TRAPEZOIDAL ? 0 :
++                     ckt->CKTintegrateMethod == GEAR ? 1 : -1;
++            for (i = 0; i <= ckt->CKTorder; ++i)
++                q[i] = ckt->CKTstates[i][qcap];
++            if (robotron_mpfr_integrate(method, ckt->CKTorder, ckt->CKTag, q,
++                                       ckt->CKTstate1[ccap], cap, result)) {
++                fprintf(stderr, "MPFR_INTEGRATION error: invalid or nonfinite integration\n");
++                return E_BADPARM;
++            }
++            ckt->CKTstate0[ccap] = result[0];
++            *ceq = result[1];
++            *geq = result[2];
++            return OK;
++        }
++    }
+ 
+     switch(ckt->CKTintegrateMethod) {
+ 
