@@ -1,0 +1,43 @@
+{
+  "qualified": false,
+  "completed": true,
+  "scope": "Recheck a retained options-heading false positive without replacing its producer report.",
+  "sourceReportSha256": "796e5436640ee39fc3c6b6857b96a38e46cd17da60fd46f086b1fb3237d26d66",
+  "artifactsVerified": {
+    "io.cir": "503d713368f1902ae786012bddf3d44005cf2523b0ff9c2603bdd259396bfd64",
+    "build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+    "ngspice.log": "4b94021840b2166af8740debdbe393445a0e898769a6f329408618679d21c1b4",
+    "trace.txt": "1d64626e8cc09957c164e2cdbf3856ed3373833a2f406bd4fdf265fa13382f97",
+    "host-trace.txt": "d93aee1edbfd6b60ce9b1df614c966ca45868a3a677ec4553fffc43390d8bcbb",
+    "driver-trace.txt": "f93821f16ab4cffa70ea7b3ce8f12acb278bc2bfbce1c3ce85ea3fd9d93eb526",
+    "boundary-trace.txt": "ade19ae8570fb85315ec69a6eb3cf693832b37bf1f1e04ec5559805e04a873ac"
+  },
+  "sources": {
+    "review_options.py": "130e6f2428838078a75c03490d9019e4f33d5f8fb8b40f9cda37fbb430566047",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8"
+  },
+  "solverDiagnostic": null,
+  "waveforms": {
+    "trace.txt": {
+      "rows": 54822,
+      "lastSampleSeconds": 0.0010980142484352945,
+      "sourceIdentical": false
+    },
+    "host-trace.txt": {
+      "rows": 54822,
+      "lastSampleSeconds": 0.0010980142484352945,
+      "sourceIdentical": false
+    },
+    "driver-trace.txt": {
+      "rows": 54822,
+      "lastSampleSeconds": 0.0010980142484352945,
+      "sourceIdentical": false
+    },
+    "boundary-trace.txt": {
+      "rows": 54822,
+      "lastSampleSeconds": 0.0010980142484352945,
+      "sourceIdentical": false
+    }
+  },
+  "interpretation": "Original report is preserved. Its waveform parser accepted every row and reached the declared endpoint. Hash-verified outputs and log are unchanged; only the exact informational options heading is excluded from diagnostic scanning. Completion does not establish convergence or circuit qualification."
+}
