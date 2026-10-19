@@ -1,0 +1,107 @@
+{
+  "qualified": false,
+  "completed": false,
+  "scope": "Controlled replay of MPFR integration arithmetic, with separately selected linear precision.",
+  "mode": "off",
+  "integrationArithmetic": "256",
+  "integrationTransformerSha256": "a11bf4340695eb33ee1616a2b361f796bc73d2ef0c0768aeab28bde233fbf905",
+  "integration": {
+    "selection": "original",
+    "addedOptions": null
+  },
+  "timestep": {
+    "divisor": 1,
+    "sourceStepNs": 50.0,
+    "stepNs": 50.0,
+    "derivedMinimumStepSeconds": 5e-19,
+    "boundary": "ngspice traninit derives delmin as 1e-11 times the maximum step; refinement also lowers that numerical floor. Circuit tolerances and stimulus are unchanged."
+  },
+  "sourceDirectory": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/host-reference-node-control-vectors",
+  "sourceReportSha256": "fb076e26fe665f551831e7b730d6118c39c15c528de81312c858f2d808e47a13",
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-mpfr-integration/build/src/ngspice",
+      "sha256": "767fe6f762bba14cd9cb2380b01b2292b4ac5caa9c63c020ff93292ab6d93ed3"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/share/ngspice/scripts/spinit",
+      "sha256": "52b9eb0288155daee9cf49345867f439b2e58216eabfbf63d1603ff49db34470"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm",
+        "sha256": "374f32b3ad2c5fbdc599cc49b89f96e831138fe6dc34bfc32cbd3a1709ad7ee5",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "stopSeconds": 0.001098014248435295,
+  "runnerSha256": "d71152b28def374e72e2159c2cdbc2f6f62b975d9f633f7961b62d95da97467c",
+  "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+  "deckEqual": true,
+  "boundary": "NIintegrate companion history, derivative and diagonal arithmetic use MPFR256 when enabled. Stored state histories, integration coefficients, nonlinear device evaluation, truncation and other stamping remain binary64. Real linear precision is selected separately. Circuit physics and acceptance tolerances are unchanged. Recorded stimulus replay is not coupled firmware qualification.",
+  "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 1.65857e-21: trouble with node \"vhost#branch\"",
+  "precisionGuardDiagnostics": [],
+  "exitCode": 0,
+  "waveforms": {
+    "trace.txt": {
+      "rows": 53502,
+      "lastSampleSeconds": 0.0010980122483880412,
+      "sourceIdentical": false
+    },
+    "host-trace.txt": {
+      "rows": 53502,
+      "lastSampleSeconds": 0.0010980122483880412,
+      "sourceIdentical": false
+    },
+    "driver-trace.txt": {
+      "rows": 53502,
+      "lastSampleSeconds": 0.0010980122483880412,
+      "sourceIdentical": false
+    },
+    "boundary-trace.txt": {
+      "rows": 53502,
+      "lastSampleSeconds": 0.0010980122483880412,
+      "sourceIdentical": false
+    }
+  },
+  "artifacts": {
+    "io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "build-provenance.json": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+    "ngspice.log": "4c646ccf3a10ad6ccb65e2fa53113612125b2f0f9be110afaaeabd6003ccc78b",
+    "trace.txt": "f8ee0110de035b69f41906a5c5b84fe32e0f7a2b8ce23d42a3c42669a887ae37",
+    "host-trace.txt": "6c192c1eabd12fd422443e9f40d4e752d2e02ec3d2ef6fc2e0ffce2c7941f060",
+    "driver-trace.txt": "923451594bca9ea8749b7e5ad193038cbe243c939c4b49936ad5f40c54cc5241",
+    "boundary-trace.txt": "a2a2e4def1d4f4cb0e5e4a63af3e020aaa16fc67a4ab0f71d5e7622739ad817c"
+  }
+}
