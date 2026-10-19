@@ -1,0 +1,46 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Trace the failed trapezoidal replay through logged trials and exact saved sample matches",
+  "evidence": {
+    "off": {
+      "review": "off.json",
+      "producer": "../host-mpfr-integration/off/report.json",
+      "localCapture": "build/keyboard-controller-analog/host-mpfr-integration-off",
+      "command": "python3 verification/robotron-keyboard/analog/state_trajectory_review.py build/keyboard-controller-analog/host-mpfr-integration-off --start 0.001098011 --end 0.001098014 --excursion-v 10 --out build/keyboard-controller-analog/host-mpfr-integration-off/trajectory-review.json"
+    },
+    "integration-only": {
+      "review": "integration-only.json",
+      "producer": "../host-mpfr-integration/integration-only/report.json",
+      "localCapture": "build/keyboard-controller-analog/host-mpfr-integration-256-linear-off",
+      "command": "python3 verification/robotron-keyboard/analog/state_trajectory_review.py build/keyboard-controller-analog/host-mpfr-integration-256-linear-off --start 0.001098011 --end 0.001098014 --excursion-v 10 --out build/keyboard-controller-analog/host-mpfr-integration-256-linear-off/trajectory-review.json"
+    },
+    "linear-only": {
+      "review": "linear-only.json",
+      "producer": "../host-mpfr-transient/256/report.json",
+      "localCapture": "build/keyboard-controller-analog/host-mpfr-transient-256",
+      "command": "python3 verification/robotron-keyboard/analog/state_trajectory_review.py build/keyboard-controller-analog/host-mpfr-transient-256 --start 0.001098011 --end 0.001098014 --excursion-v 10 --out build/keyboard-controller-analog/host-mpfr-transient-256/trajectory-review.json"
+    },
+    "combined": {
+      "review": "combined.json",
+      "producer": "../host-mpfr-integration/combined/report.json",
+      "localCapture": "build/keyboard-controller-analog/host-mpfr-integration-256-linear-256",
+      "command": "python3 verification/robotron-keyboard/analog/state_trajectory_review.py build/keyboard-controller-analog/host-mpfr-integration-256-linear-256 --start 0.001098011 --end 0.001098014 --excursion-v 10 --out build/keyboard-controller-analog/host-mpfr-integration-256-linear-256/trajectory-review.json"
+    }
+  },
+  "interpretation": "All four reviewed precision configurations contain saved cable-data excursions in the audited transition window; the failures are not confined to rejected internal trials. The combined run first exceeds the diagnostic locator in an unsaved trial, then saves a much larger excursion after step reduction. Its buffer input stays bounded in the same saved window. Accurate final local arithmetic and a bounded final trial in a different run cannot establish an accurate preceding trajectory.",
+  "timeObservation": "In the combined run, the first saved excursion advances by three representable time increments; the logged integration step differs from that represented advance by about 7.6 percent. The linear-only run also shows a material time-step discrepancy at its first saved excursion. This identifies time/state consistency as a testable numerical question, not an established root cause: excursions also occur in controls with smaller relative discrepancies.",
+  "boundary": "The 10 V locator is diagnostic, not a device limit or acceptance budget. These failed numerical trajectories are not physical voltage predictions. The review only covers the declared audit window and does not infer rejection causes from absent samples. Linear-only uses its separately recorded runtime; no new claim of a matched runtime pair is made.",
+  "nextAction": "Audit represented time increments, rollback and integration-history updates around the first saved excursion. Test any correction with a disabled byte-identical control, unchanged circuit/tolerances and completed refinement pairs.",
+  "retainedFilesSha256": {
+    "integration-only.json": "28cb2b6a43d94b682e437d871ec7da15049ebbee1b11c5c1ec426da23b14b0d4",
+    "combined.json": "2fb1aefa2cbde82e2f00d5c3b6db166056de6398da5b8d3069c7ef0c4187132b",
+    "linear-only.json": "3524bfff57baf3de8f4eeb14a571ed13708b029c1d8e07bc0caac4dc9cda54c0",
+    "off.json": "429c695cc6f8ad0da797421e811d78aad9547800abc877ecef4f2d19a019053e"
+  },
+  "sourceObservation": {
+    "path": "/private/tmp/robotron-mpfr-integration/source/src/spicelib/analysis/dctran.c",
+    "sha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
+    "behavior": "The transient loop adds CKTdelta to binary64 CKTtime, records the unadjusted CKTdelta in CKTdeltaOld[0], and computes integration coefficients. Executable-mode Newton/truncation retries subtract the logged delta to roll time back. The observed difference between represented advance and integration delta is therefore not corrected at this boundary. This code observation does not establish that it causes the excursion."
+  }
+}
