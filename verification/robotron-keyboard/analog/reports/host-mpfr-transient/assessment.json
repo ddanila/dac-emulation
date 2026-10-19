@@ -5,20 +5,23 @@
   "evidence": {
     "disabledControl": "off/report.json",
     "kernel": "../host-mpfr-linear-review/assessment.json",
-    "mpfr256": "256/report.json"
+    "mpfr256": "256/report.json",
+    "mpfr256StateReview": "256/state-review.json"
   },
-  "interpretation": "The disabled runtime reproduces baseline waveform bytes and failure. MPFR256 from initialization also fails near the original transition, without a precision guard rejection. Higher-precision real linear arithmetic alone has not resolved the recorded-stimulus replay. Binary64 device stamping, nonlinear evaluation and integration remain separate numerical boundaries; neither device validity nor a physical cause follows from this result.",
+  "interpretation": "The disabled runtime reproduces baseline waveform bytes and failure. MPFR256 from initialization also fails near the original transition, without a precision guard rejection. Higher-precision real linear arithmetic alone has not resolved the recorded-stimulus replay. Binary64 device stamping, nonlinear evaluation and integration remain separate numerical boundaries; neither device validity nor a physical cause follows from this result. Selected MPFR256 solves agree with independent Decimal160 solutions to binary64 rounding scale. The final Newton trial converges, then L1.4 flux-history truncation requests a step below the configured minimum. Exact arithmetic on the logged history yields the same proposal. Final audited voltages no longer show the original extreme linear-solve errors; this does not establish physically valid dynamics.",
   "build": "Apply ngspice-47-linear-state-audit.patch to the original ngspice-47 source first. build.py copies that source and applies the incremental ngspice-47-mpfr-linear.patch; check_build.py validates the adapter and records runtime provenance.",
   "boundary": "MPFR replaces real linear arithmetic only. Device stamping, nonlinear evaluation, integration and simulator states remain binary64. No tolerances or circuit physics are relaxed. This recorded-stimulus replay is not full coupled firmware qualification.",
-  "nextAction": "Compare MPFR512 and review the final nonlinear/truncation state before selecting the next remedy. Preserve the failed captures and unchanged circuit/tolerance controls.",
+  "nextAction": "Compare MPFR512, then isolate integration-method and state-history sensitivity with unchanged device physics and strict tolerances. Exact final-history arithmetic does not exclude errors accumulated earlier.",
   "retainedFilesSha256": {
     "build.py": "7bc876c6220ff2cef97c6ba54e2a63faf404033e9e2e81bf88ffad5af9c0cc90",
     "run.py": "25d45801d70f48c23bbdc248d8628e45ebb4112857b0eea1b51a849bc67ac476",
     "check_build.py": "81f51bcb9d19955cffc5f83f12d205ac755edbdf41945d5494eb5bf2aac2db34",
     "check.c": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+    "review.py": "be968101cb5e639e8c87c9c0715b4ee1b83bfad44eb1d43b80c793863640f066",
     "256/report.json": "a7179a2dba50f71d9eef3cd9bbf91d9359c704c52c135840803b8bd031cd11f3",
     "256/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
     "256/ngspice.log.xz": "925342a8ccfce60a73a130803c2ca2ffe01e04f584d296b3008a9ab79dd86dd8",
+    "256/state-review.json": "2728f09fae54dafd8f174a2f9e5c80a7df8ee475c678ade2533b6e19a2224b67",
     "256/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
     "off/report.json": "e247dce85b19c477eb9a4f46e574e7f8af338c0f351d8c72765346e099c6b303",
     "off/build-provenance.json": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
