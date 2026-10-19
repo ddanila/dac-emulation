@@ -30,6 +30,12 @@ def solver_diagnostic(log):
     The time-order message also covers equal timestamps in ngspice 47. Reject it
     as unresolved evidence; its text alone does not prove backward execution.
     """
+    # Read-only `option` output in ngspice 47, not a solver diagnostic.
+    informational = {
+        'Truncation error correction, charge based, is selected:',
+        'Truncation error correction, voltage based, is selected:',
+    }
+    log = '\n'.join(line for line in log.splitlines() if line not in informational)
     match = re.search(r'^.*(?:warning|error|failed|fatal|singular|no vlog_startup_routines|'
                       r'timestep too small|simulation\(s\) aborted|XSPICE time is behind vtime).*$',
                       log, re.I | re.M)

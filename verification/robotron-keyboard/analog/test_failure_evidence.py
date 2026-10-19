@@ -19,6 +19,14 @@ class FailureEvidenceTests(unittest.TestCase):
                 self.assertEqual(solver_diagnostic(message), message)
         self.assertIsNone(solver_diagnostic('No. of Data Rows : 100\nngspice-47 done\n'))
 
+    def test_options_heading_does_not_hide_real_errors(self):
+        for kind in ('charge', 'voltage'):
+            heading = f'Truncation error correction, {kind} based, is selected:'
+            self.assertIsNone(solver_diagnostic(heading))
+            self.assertEqual(solver_diagnostic(heading+'\nTimestep too small'), 'Timestep too small')
+            self.assertEqual(solver_diagnostic('WARNING: '+heading), 'WARNING: '+heading)
+            self.assertEqual(solver_diagnostic(heading+' failed'), heading+' failed')
+
     def test_partial_output_is_retained_without_validation(self):
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp)
