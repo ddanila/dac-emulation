@@ -1,0 +1,33 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "f26697c",
+  "scope": "Host-loaded rising-RxC control-modifier service scenario",
+  "evidence": {
+    "producer": "report.json",
+    "sampledStability": "margins-140ns.json",
+    "timingReference": "../host-receiver-timing-review/assessment.json"
+  },
+  "interpretation": "The control-modified packet passes scenario coverage and ordinal C-reference agreement. The independent symmetric timing screen passes under the declared voltage thresholds and SIO loads. This does not establish between-sample voltages, timestep convergence, U856 applicability or onboard startup.",
+  "nextAction": "Compare against the finer-timestep capture, including absolute-time voltage differences.",
+  "waveforms": {
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-control-minbreak",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ],
+    "retention": "Complete waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL retained."
+  },
+  "retainedFilesSha256": {
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io.cir": "50e536f4fbbdd7ac8d99e5a096f43b7e4965869c106f8dc47efc8af7310948c7",
+    "io_scenario.h": "9f0884f5b777e4b873493bba1861ed88baa2fbfec82a5efd281e9dfb27a8c7ee",
+    "margins-140ns.json": "48e0658a53e3db1995dd096eb9b6b7b40d0ae6f1a0a107f902af9d936b19cbcf",
+    "ngspice.log.xz": "c537791e5cf2c07189ff3a3e772a857b1ea72bae4a8a6131c3e3d5af214daf66",
+    "reference.log": "fda7a914f45a24358d7654f489ee1961de75ed23493e84d32a339251a332d35e",
+    "report.json": "f7cf68ca29e20c1509659ab4e7938f5c6673bb335713902d53218140cfbf37c0",
+    "run-inputs.json": "9cfda8c99c370aafe7dba238184afe51b0038765e070ae4c6809acff465a1016",
+    "scenario.json": "e841f3b4e34c5c52d3ed4e15d97668b9d7a7bc26d3c83743d1bf68a14ea3e4fd"
+  }
+}

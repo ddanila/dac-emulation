@@ -1,0 +1,41 @@
+{
+  "name": "release and repress",
+  "cycles": 120000,
+  "contacts": [
+    {
+      "cycle": 4000,
+      "index": 61,
+      "closed": true
+    },
+    {
+      "cycle": 30000,
+      "index": 61,
+      "closed": false
+    },
+    {
+      "cycle": 60000,
+      "index": 61,
+      "closed": true
+    },
+    {
+      "cycle": 90000,
+      "index": 61,
+      "closed": false
+    }
+  ],
+  "resets": [],
+  "observations": [
+    {
+      "name": "first press",
+      "startCycle": 4000,
+      "endCycle": 30000,
+      "minimumBits": 26
+    },
+    {
+      "name": "second press",
+      "startCycle": 60000,
+      "endCycle": 90000,
+      "minimumBits": 26
+    }
+  ]
+}

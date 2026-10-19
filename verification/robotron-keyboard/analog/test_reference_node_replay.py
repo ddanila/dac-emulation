@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import tempfile
 import unittest
+
 
 from reference_node_replay import transform
 
@@ -72,6 +78,51 @@ class ReferenceNodeTests(unittest.TestCase):
                      FIXTURE.replace('Rlocal g 0', 'Rlocal host_receiver_gnd 0')]:
             with self.assertRaises(ValueError):
                 transform(deck, True)
+
+
+@unittest.skipUnless(os.environ.get('REFERENCE_NODE_NGSPICE'), 'Set REFERENCE_NODE_NGSPICE for solver validation')
+class ReferenceNodeSolverTests(unittest.TestCase):
+    def test_divider_and_behavioral_voltage_are_reference_invariant(self):
+        # Independent DC solution: supply branch is 5 V across 1000 + 100 ohms.
+        # The off transistor includes substrate capacitance to exercise its explicit
+        # old-ground connection within a subcircuit during the supply rise.
+        deck = FIXTURE.replace('R1 host_receiver_5v 0 1000',
+                               'R1 host_receiver_5v 0 1000\nRreturn host_receiver_gnd 0 100')
+        deck = deck.replace('V=V(host_receiver_5v)*V(out,host_receiver_gnd)/5',
+                            'V=V(host_receiver_5v)/2')
+        deck = deck.replace('Q1 y a g NPN_MODEL', 'Q1 y g g NPN_MODEL')
+        deck = deck.replace('NPN(IS=1e-14 BF=100 BR={input_br})',
+                            'NPN(IS=1e-14 BF=100 BR={input_br} CJS=1p)')
+        deck = deck.replace('X1 out result host_receiver_5v 0',
+                            'X1 out host_receiver_5v host_receiver_5v 0')
+        deck = deck.replace('.tran 50n .001', '.tran 50n 5e-6')
+        deck = deck.replace('reltol=0.0001 vntol=1e-07 abstol=1e-13',
+                            'reltol=1e-8 vntol=1e-12 abstol=1e-16')
+        executable = shutil.which(os.environ['REFERENCE_NODE_NGSPICE'])
+        self.assertIsNotNone(executable)
+        final = []
+        with tempfile.TemporaryDirectory() as directory:
+            # This analog fixture needs no XSPICE code models or local startup settings.
+            (Path(directory)/'spinit').write_text('* isolated analog test\n')
+            env = dict(os.environ, SPICE_SCRIPTS=directory)
+            for name, text in [('original', deck), ('control', transform(deck, False)[0]),
+                               ('shifted', transform(deck, True)[0])]:
+                run = Path(directory)/name
+                run.mkdir()
+                (run/'io.cir').write_text(text)
+                process = subprocess.run([executable, '-n', '-b', 'io.cir'],
+                                         cwd=run, env=env, capture_output=True, text=True, timeout=30)
+                self.assertEqual(process.returncode, 0, process.stdout+process.stderr)
+                self.assertNotIn('Error:', process.stdout+process.stderr)
+                rows = [list(map(float, line.split())) for line in
+                        (run/'trace.txt').read_text().splitlines()[1:]]
+                self.assertAlmostEqual(rows[-1][0], 5e-6, places=14)
+                self.assertAlmostEqual(rows[-1][1], 25/11, places=7)
+                self.assertAlmostEqual(rows[-1][2], 5, places=7)
+                final.append(rows[-1][1:])
+        for result in final[1:]:
+            for actual, expected in zip(result, final[0]):
+                self.assertAlmostEqual(actual, expected, places=9)
 
 
 if __name__ == '__main__':
