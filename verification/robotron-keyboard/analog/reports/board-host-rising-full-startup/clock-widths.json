@@ -1,0 +1,1212 @@
+{
+  "qualified": false,
+  "scope": "Screen host receive-clock pulse widths at an explicit, uncalibrated threshold.",
+  "producerReportSha256": "dd08732646a117283e2d33ad8350e1aea4a81fee331b09201c2a45901a8bd1f9",
+  "traceSha256": "8dd1380d1f186bf7ff825b936bc971ad2b0abd3e79600f753adc608306f0fd97",
+  "sources": {
+    "host_clock_widths.py": "7c8a4c72244b707d351b91008abf462dac505d29729eb0c11e42a6eb31b3ed82",
+    "host_input_review.py": "854def38b8a1c15c770b8778e82364d9788d5ab8cea3c4e2705ef37baaa826ef",
+    "u856_limits.json": "317877d5b5faa4d538f20aa8fcd8d772824eebfb615523329100b099ad2c7696",
+    "receiver_margins.py": "e691d8ab061c4c8c21fff7ca2873a950cbc47c44e481a3a5f31e430baebfbb3f",
+    "compare_firmware_io.py": "e2754823ee4c2741d2ae591d68969558bad142f893a241158781abf1c2bfeef1",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "transient_analysis.py": "dd0dd5ef7a34533cd75128fa3c90c52815d8b11364b938e32680310207d3310e",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8"
+  },
+  "boundary": "Sample-bracket screen at an assumed threshold, not U856 Schmitt calibration or between-sample pulse proof. Initial/final censored intervals, supply applicability and system-clock/data-rate ratio are not qualified.",
+  "producerPassed": true,
+  "producerError": null,
+  "captureWindowSeconds": [
+    0,
+    0.154
+  ],
+  "board": true,
+  "observation": {
+    "qualified": false,
+    "thresholdVolts": 1.4,
+    "measurements": [
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.00034962729099904304,
+          0.0003496296295041056
+        ],
+        "endBracketSeconds": [
+          0.1368183400310799,
+          0.13681834473601892
+        ],
+        "durationLowerSeconds": 0.1364687104015758,
+        "durationUpperSeconds": 0.13646871744501987,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.1368183400310799,
+          0.13681834473601892
+        ],
+        "endBracketSeconds": [
+          0.13681863574822845,
+          0.1368186366604711
+        ],
+        "durationLowerSeconds": 2.9101220952454376e-07,
+        "durationUpperSeconds": 2.966293911887963e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.00034962729099904304,
+          0.0003496296295041056
+        ],
+        "endBracketSeconds": [
+          0.13681863574822845,
+          0.1368186366604711
+        ],
+        "durationLowerSeconds": 0.13646900611872434,
+        "durationUpperSeconds": 0.13646900936947204,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13681863574822845,
+          0.1368186366604711
+        ],
+        "endBracketSeconds": [
+          0.13682369284980966,
+          0.13682369545567566
+        ],
+        "durationLowerSeconds": 5.056189338575878e-06,
+        "durationUpperSeconds": 5.059707447213624e-06,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13682369284980966,
+          0.13682369545567566
+        ],
+        "endBracketSeconds": [
+          0.13682398674563825,
+          0.13682398932044876
+        ],
+        "durationLowerSeconds": 2.912899625950871e-07,
+        "durationUpperSeconds": 2.9647063909399307e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13681863574822845,
+          0.1368186366604711
+        ],
+        "endBracketSeconds": [
+          0.13682398674563825,
+          0.13682398932044876
+        ],
+        "durationLowerSeconds": 5.350085167166174e-06,
+        "durationUpperSeconds": 5.353572220312408e-06,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13682398674563825,
+          0.13682398932044876
+        ],
+        "endBracketSeconds": [
+          0.13682904493542586,
+          0.13682904825647685
+        ],
+        "durationLowerSeconds": 5.055614977100831e-06,
+        "durationUpperSeconds": 5.061510838594296e-06,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13682904493542586,
+          0.13682904825647685
+        ],
+        "endBracketSeconds": [
+          0.136829346557389,
+          0.13682934774922073
+        ],
+        "durationLowerSeconds": 2.983009121382274e-07,
+        "durationUpperSeconds": 3.02813794872403e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13682398674563825,
+          0.13682398932044876
+        ],
+        "endBracketSeconds": [
+          0.136829346557389,
+          0.13682934774922073
+        ],
+        "durationLowerSeconds": 5.357236940228827e-06,
+        "durationUpperSeconds": 5.361003582476931e-06,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.136829346557389,
+          0.13682934774922073
+        ],
+        "endBracketSeconds": [
+          0.13683676333086747,
+          0.1368367642719716
+        ],
+        "durationLowerSeconds": 7.415581646741387e-06,
+        "durationUpperSeconds": 7.417714582624857e-06,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13683676333086747,
+          0.1368367642719716
+        ],
+        "endBracketSeconds": [
+          0.13683706178358948,
+          0.13683706443120766
+        ],
+        "durationLowerSeconds": 2.9751161786939484e-07,
+        "durationUpperSeconds": 3.011003401887091e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.136829346557389,
+          0.13682934774922073
+        ],
+        "endBracketSeconds": [
+          0.13683706178358948,
+          0.13683706443120766
+        ],
+        "durationLowerSeconds": 7.714034368749845e-06,
+        "durationUpperSeconds": 7.717873818674503e-06,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13683706178358948,
+          0.13683706443120766
+        ],
+        "endBracketSeconds": [
+          0.13684749768316795,
+          0.13684750038921345
+        ],
+        "durationLowerSeconds": 1.0433251960290102e-05,
+        "durationUpperSeconds": 1.0438605623969144e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13684749768316795,
+          0.13684750038921345
+        ],
+        "endBracketSeconds": [
+          0.13684779611073408,
+          0.13684779875835681
+        ],
+        "durationLowerSeconds": 2.9572152063228607e-07,
+        "durationUpperSeconds": 3.0107518886324236e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13683706178358948,
+          0.13683706443120766
+        ],
+        "endBracketSeconds": [
+          0.13684779611073408,
+          0.13684779875835681
+        ],
+        "durationLowerSeconds": 1.0731679526421178e-05,
+        "durationUpperSeconds": 1.0736974767333596e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13684779611073408,
+          0.13684779875835681
+        ],
+        "endBracketSeconds": [
+          0.13685821138208015,
+          0.13685821156735314
+        ],
+        "durationLowerSeconds": 1.0412623723338177e-05,
+        "durationUpperSeconds": 1.0415456619061736e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13685821138208015,
+          0.13685821156735314
+        ],
+        "endBracketSeconds": [
+          0.1368585099280724,
+          0.13685851257569273
+        ],
+        "durationLowerSeconds": 2.9836071926969687e-07,
+        "durationUpperSeconds": 3.0119361257852084e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13684779611073408,
+          0.13684779875835681
+        ],
+        "endBracketSeconds": [
+          0.1368585099280724,
+          0.13685851257569273
+        ],
+        "durationLowerSeconds": 1.0711169715599267e-05,
+        "durationUpperSeconds": 1.0716464958648864e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.1368585099280724,
+          0.13685851257569273
+        ],
+        "endBracketSeconds": [
+          0.1368689137365704,
+          0.13686891670096998
+        ],
+        "durationLowerSeconds": 1.0401160877665516e-05,
+        "durationUpperSeconds": 1.040677289756986e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.1368689137365704,
+          0.13686891670096998
+        ],
+        "endBracketSeconds": [
+          0.1368692144518702,
+          0.13686921566101323
+        ],
+        "durationLowerSeconds": 2.9775090021333384e-07,
+        "durationUpperSeconds": 3.0192444283594355e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.1368585099280724,
+          0.13685851257569273
+        ],
+        "endBracketSeconds": [
+          0.1368692144518702,
+          0.13686921566101323
+        ],
+        "durationLowerSeconds": 1.0701876177465763e-05,
+        "durationUpperSeconds": 1.070573294081889e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.1368692144518702,
+          0.13686921566101323
+        ],
+        "endBracketSeconds": [
+          0.13687964097469224,
+          0.13687964274149242
+        ],
+        "durationLowerSeconds": 1.0425313679007786e-05,
+        "durationUpperSeconds": 1.0428289622221865e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13687964097469224,
+          0.13687964274149242
+        ],
+        "endBracketSeconds": [
+          0.13687993995441608,
+          0.13687994071794693
+        ],
+        "durationLowerSeconds": 2.972129236611387e-07,
+        "durationUpperSeconds": 2.997432546891776e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.1368692144518702,
+          0.13686921566101323
+        ],
+        "endBracketSeconds": [
+          0.13687993995441608,
+          0.13687994071794693
+        ],
+        "durationLowerSeconds": 1.0724293402847307e-05,
+        "durationUpperSeconds": 1.072626607673266e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13687993995441608,
+          0.13687994071794693
+        ],
+        "endBracketSeconds": [
+          0.1368903531635434,
+          0.13689035577925465
+        ],
+        "durationLowerSeconds": 1.0412445596463815e-05,
+        "durationUpperSeconds": 1.0415824838572174e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.1368903531635434,
+          0.13689035577925465
+        ],
+        "endBracketSeconds": [
+          0.13689064701482523,
+          0.13689064958842498
+        ],
+        "durationLowerSeconds": 2.9123557057642024e-07,
+        "durationUpperSeconds": 2.9642488158510005e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13687993995441608,
+          0.13687994071794693
+        ],
+        "endBracketSeconds": [
+          0.13689064701482523,
+          0.13689064958842498
+        ],
+        "durationLowerSeconds": 1.0706296878298938e-05,
+        "durationUpperSeconds": 1.0709634008898572e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13689064701482523,
+          0.13689064958842498
+        ],
+        "endBracketSeconds": [
+          0.13690106283293152,
+          0.13690106467368318
+        ],
+        "durationLowerSeconds": 1.0413244506540797e-05,
+        "durationUpperSeconds": 1.0417658857952983e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13690106283293152,
+          0.13690106467368318
+        ],
+        "endBracketSeconds": [
+          0.13690135556061508,
+          0.13690135698797307
+        ],
+        "durationLowerSeconds": 2.908869319029339e-07,
+        "durationUpperSeconds": 2.941550415469507e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13689064701482523,
+          0.13689064958842498
+        ],
+        "endBracketSeconds": [
+          0.13690135556061508,
+          0.13690135698797307
+        ],
+        "durationLowerSeconds": 1.0705972190105939e-05,
+        "durationUpperSeconds": 1.0709973147837726e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13690135556061508,
+          0.13690135698797307
+        ],
+        "endBracketSeconds": [
+          0.13691176711780853,
+          0.13691177036904037
+        ],
+        "durationLowerSeconds": 1.0410129835464188e-05,
+        "durationUpperSeconds": 1.0414808425285305e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13691176711780853,
+          0.13691177036904037
+        ],
+        "endBracketSeconds": [
+          0.13691206351349705,
+          0.1369120651459529
+        ],
+        "durationLowerSeconds": 2.931444566811603e-07,
+        "durationUpperSeconds": 2.980281443576427e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13690135556061508,
+          0.13690135698797307
+        ],
+        "endBracketSeconds": [
+          0.13691206351349705,
+          0.1369120651459529
+        ],
+        "durationLowerSeconds": 1.0706525523984656e-05,
+        "durationUpperSeconds": 1.070958533780364e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13691206351349705,
+          0.1369120651459529
+        ],
+        "endBracketSeconds": [
+          0.13692314468833158,
+          0.13692314720072143
+        ],
+        "durationLowerSeconds": 1.1079542378694685e-05,
+        "durationUpperSeconds": 1.1083687224383576e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13692314468833158,
+          0.13692314720072143
+        ],
+        "endBracketSeconds": [
+          0.13692343766548393,
+          0.1369234389216979
+        ],
+        "durationLowerSeconds": 2.9046476249239284e-07,
+        "durationUpperSeconds": 2.942333663102925e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13691206351349705,
+          0.1369120651459529
+        ],
+        "endBracketSeconds": [
+          0.13692343766548393,
+          0.1369234389216979
+        ],
+        "durationLowerSeconds": 1.1372519531038794e-05,
+        "durationUpperSeconds": 1.1375408200842152e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13692343766548393,
+          0.1369234389216979
+        ],
+        "endBracketSeconds": [
+          0.1369284968434629,
+          0.13692850023473327
+        ],
+        "durationLowerSeconds": 5.057921765000417e-06,
+        "durationUpperSeconds": 5.06256924934223e-06,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.1369284968434629,
+          0.13692850023473327
+        ],
+        "endBracketSeconds": [
+          0.1369287902127593,
+          0.13692879097390448
+        ],
+        "durationLowerSeconds": 2.8997802603569767e-07,
+        "durationUpperSeconds": 2.9413044158599355e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13692343766548393,
+          0.1369234389216979
+        ],
+        "endBracketSeconds": [
+          0.1369287902127593,
+          0.13692879097390448
+        ],
+        "durationLowerSeconds": 5.351291061411745e-06,
+        "durationUpperSeconds": 5.353308420552594e-06,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.1369287902127593,
+          0.13692879097390448
+        ],
+        "endBracketSeconds": [
+          0.13698207244379684,
+          0.13698207428205644
+        ],
+        "durationLowerSeconds": 5.3281469892363376e-05,
+        "durationUpperSeconds": 5.328406929713814e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13698207244379684,
+          0.13698207428205644
+        ],
+        "endBracketSeconds": [
+          0.13698236489035542,
+          0.13698236614956844
+        ],
+        "durationLowerSeconds": 2.9060829898064355e-07,
+        "durationUpperSeconds": 2.9370577159237854e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.1369287902127593,
+          0.13692879097390448
+        ],
+        "endBracketSeconds": [
+          0.13698236489035542,
+          0.13698236614956844
+        ],
+        "durationLowerSeconds": 5.3573916450944115e-05,
+        "durationUpperSeconds": 5.357593680913042e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13698236489035542,
+          0.13698236614956844
+        ],
+        "endBracketSeconds": [
+          0.1369874212344978,
+          0.13698742307155537
+        ],
+        "durationLowerSeconds": 5.0550849293728994e-06,
+        "durationUpperSeconds": 5.058181199946166e-06,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.1369874212344978,
+          0.13698742307155537
+        ],
+        "endBracketSeconds": [
+          0.1369877138226305,
+          0.13698771508058746
+        ],
+        "durationLowerSeconds": 2.9075107513265586e-07,
+        "durationUpperSeconds": 2.9384608965510317e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13698236489035542,
+          0.13698236614956844
+        ],
+        "endBracketSeconds": [
+          0.1369877138226305,
+          0.13698771508058746
+        ],
+        "durationLowerSeconds": 5.347673062067182e-06,
+        "durationUpperSeconds": 5.350190232039642e-06,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.1369877138226305,
+          0.13698771508058746
+        ],
+        "endBracketSeconds": [
+          0.1369941021121243,
+          0.13699410240581242
+        ],
+        "durationLowerSeconds": 6.387031536825294e-06,
+        "durationUpperSeconds": 6.388583181915486e-06,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.1369941021121243,
+          0.13699410240581242
+        ],
+        "endBracketSeconds": [
+          0.1369944010712154,
+          0.13699440371883578
+        ],
+        "durationLowerSeconds": 2.9866540299239297e-07,
+        "durationUpperSeconds": 3.016067114947063e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.1369877138226305,
+          0.13698771508058746
+        ],
+        "endBracketSeconds": [
+          0.1369944010712154,
+          0.13699440371883578
+        ],
+        "durationLowerSeconds": 6.685990627947058e-06,
+        "durationUpperSeconds": 6.689896205280821e-06,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.1369944010712154,
+          0.13699440371883578
+        ],
+        "endBracketSeconds": [
+          0.13700176163074623,
+          0.13700176350893364
+        ],
+        "durationLowerSeconds": 7.357911910449433e-06,
+        "durationUpperSeconds": 7.362437718233528e-06,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13700176163074623,
+          0.13700176350893364
+        ],
+        "endBracketSeconds": [
+          0.13700205248400796,
+          0.13700205506382376
+        ],
+        "durationLowerSeconds": 2.8897507431402403e-07,
+        "durationUpperSeconds": 2.9343307753060266e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.1369944010712154,
+          0.13699440371883578
+        ],
+        "endBracketSeconds": [
+          0.13700205248400796,
+          0.13700205506382376
+        ],
+        "durationLowerSeconds": 7.64876517217461e-06,
+        "durationUpperSeconds": 7.653992608352977e-06,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13700205248400796,
+          0.13700205506382376
+        ],
+        "endBracketSeconds": [
+          0.1370124641507742,
+          0.1370124644808066
+        ],
+        "durationLowerSeconds": 1.0409086950435853e-05,
+        "durationUpperSeconds": 1.0411996798631584e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.1370124641507742,
+          0.1370124644808066
+        ],
+        "endBracketSeconds": [
+          0.13701276312570254,
+          0.13701276458558304
+        ],
+        "durationLowerSeconds": 2.986448959518828e-07,
+        "durationUpperSeconds": 3.0043480883645834e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13700205248400796,
+          0.13700205506382376
+        ],
+        "endBracketSeconds": [
+          0.13701276312570254,
+          0.13701276458558304
+        ],
+        "durationLowerSeconds": 1.0708061878778041e-05,
+        "durationUpperSeconds": 1.0712101575077737e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13701276312570254,
+          0.13701276458558304
+        ],
+        "endBracketSeconds": [
+          0.1370231763265849,
+          0.13702317666035008
+        ],
+        "durationLowerSeconds": 1.0411741001858932e-05,
+        "durationUpperSeconds": 1.041353464753536e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.1370231763265849,
+          0.13702317666035008
+        ],
+        "endBracketSeconds": [
+          0.13702347558035802,
+          0.13702347698288944
+        ],
+        "durationLowerSeconds": 2.9892000794062845e-07,
+        "durationUpperSeconds": 3.0065630454712e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13701276312570254,
+          0.13701276458558304
+        ],
+        "endBracketSeconds": [
+          0.13702347558035802,
+          0.13702347698288944
+        ],
+        "durationLowerSeconds": 1.0710994774981719e-05,
+        "durationUpperSeconds": 1.0713857186900322e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13702347558035802,
+          0.13702347698288944
+        ],
+        "endBracketSeconds": [
+          0.13703389785138836,
+          0.13703389822236278
+        ],
+        "durationLowerSeconds": 1.0420868498922653e-05,
+        "durationUpperSeconds": 1.0422642004764837e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13703389785138836,
+          0.13703389822236278
+        ],
+        "endBracketSeconds": [
+          0.13703419710063972,
+          0.13703419974826025
+        ],
+        "durationLowerSeconds": 2.9887827693309e-07,
+        "durationUpperSeconds": 3.018968718904169e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13702347558035802,
+          0.13702347698288944
+        ],
+        "endBracketSeconds": [
+          0.13703419710063972,
+          0.13703419974826025
+        ],
+        "durationLowerSeconds": 1.0720117750273594e-05,
+        "durationUpperSeconds": 1.0724167902237403e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13703419710063972,
+          0.13703419974826025
+        ],
+        "endBracketSeconds": [
+          0.13704459990890624,
+          0.1370446044200212
+        ],
+        "durationLowerSeconds": 1.0400160645990253e-05,
+        "durationUpperSeconds": 1.0407319381483537e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13704459990890624,
+          0.1370446044200212
+        ],
+        "endBracketSeconds": [
+          0.13704490226609695,
+          0.1370449034500675
+        ],
+        "durationLowerSeconds": 2.9784607574745436e-07,
+        "durationUpperSeconds": 3.0354116126174446e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13703419710063972,
+          0.13703419974826025
+        ],
+        "endBracketSeconds": [
+          0.13704490226609695,
+          0.1370449034500675
+        ],
+        "durationLowerSeconds": 1.0702517836691516e-05,
+        "durationUpperSeconds": 1.0706349427791473e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13704490226609695,
+          0.1370449034500675
+        ],
+        "endBracketSeconds": [
+          0.1370552987566618,
+          0.13705529974371147
+        ],
+        "durationLowerSeconds": 1.0395306594301879e-05,
+        "durationUpperSeconds": 1.0397477614526585e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.1370552987566618,
+          0.13705529974371147
+        ],
+        "endBracketSeconds": [
+          0.13705559130915976,
+          0.13705559258943456
+        ],
+        "durationLowerSeconds": 2.9156544828490283e-07,
+        "durationUpperSeconds": 2.938327727519674e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13704490226609695,
+          0.1370449034500675
+        ],
+        "endBracketSeconds": [
+          0.13705559130915976,
+          0.13705559258943456
+        ],
+        "durationLowerSeconds": 1.0687859092251006e-05,
+        "durationUpperSeconds": 1.0690323337614327e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13705559130915976,
+          0.13705559258943456
+        ],
+        "endBracketSeconds": [
+          0.13706600843433345,
+          0.13706601019228143
+        ],
+        "durationLowerSeconds": 1.0415844898886695e-05,
+        "durationUpperSeconds": 1.0418883121671163e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13706600843433345,
+          0.13706601019228143
+        ],
+        "endBracketSeconds": [
+          0.13706630137630585,
+          0.13706630259718092
+        ],
+        "durationLowerSeconds": 2.91184024420188e-07,
+        "durationUpperSeconds": 2.941628474695257e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13705559130915976,
+          0.13705559258943456
+        ],
+        "endBracketSeconds": [
+          0.13706630137630585,
+          0.13706630259718092
+        ],
+        "durationLowerSeconds": 1.0708786871288511e-05,
+        "durationUpperSeconds": 1.071128802115906e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13706630137630585,
+          0.13706630259718092
+        ],
+        "endBracketSeconds": [
+          0.13707670021515736,
+          0.13707670184810578
+        ],
+        "durationLowerSeconds": 1.0397617976443119e-05,
+        "durationUpperSeconds": 1.0400471799926203e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13707670021515736,
+          0.13707670184810578
+        ],
+        "endBracketSeconds": [
+          0.13707700056072208,
+          0.13707700320834243
+        ],
+        "durationLowerSeconds": 2.987126163089826e-07,
+        "durationUpperSeconds": 3.029931850695444e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13706630137630585,
+          0.13706630259718092
+        ],
+        "endBracketSeconds": [
+          0.13707700056072208,
+          0.13707700320834243
+        ],
+        "durationLowerSeconds": 1.0697963541167477e-05,
+        "durationUpperSeconds": 1.0701832036580372e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.13707700056072208,
+          0.13707700320834243
+        ],
+        "endBracketSeconds": [
+          0.13708805765150664,
+          0.13708806133804877
+        ],
+        "durationLowerSeconds": 1.1054443164210115e-05,
+        "durationUpperSeconds": 1.1060777326682425e-05,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13708805765150664,
+          0.13708806133804877
+        ],
+        "endBracketSeconds": [
+          0.1370883499232819,
+          0.13708835250409013
+        ],
+        "durationLowerSeconds": 2.8858523312691453e-07,
+        "durationUpperSeconds": 2.948525834878257e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.13707700056072208,
+          0.13707700320834243
+        ],
+        "endBracketSeconds": [
+          0.1370883499232819,
+          0.13708835250409013
+        ],
+        "durationLowerSeconds": 1.1346714939464153e-05,
+        "durationUpperSeconds": 1.1351943368043127e-05,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "high",
+        "startBracketSeconds": [
+          0.1370883499232819,
+          0.13708835250409013
+        ],
+        "endBracketSeconds": [
+          0.13709340646981685,
+          0.1370934096676218
+        ],
+        "durationLowerSeconds": 5.053965726725673e-06,
+        "durationUpperSeconds": 5.059744339896977e-06,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "low",
+        "startBracketSeconds": [
+          0.13709340646981685,
+          0.1370934096676218
+        ],
+        "endBracketSeconds": [
+          0.13709369792970938,
+          0.13709370051192918
+        ],
+        "durationLowerSeconds": 2.8826208758880867e-07,
+        "durationUpperSeconds": 2.940421123254211e-07,
+        "referenceMinimumSeconds": 1.8e-07,
+        "status": "pass"
+      },
+      {
+        "kind": "period",
+        "startBracketSeconds": [
+          0.1370883499232819,
+          0.13708835250409013
+        ],
+        "endBracketSeconds": [
+          0.13709369792970938,
+          0.13709370051192918
+        ],
+        "durationLowerSeconds": 5.345425619251998e-06,
+        "durationUpperSeconds": 5.350588647284882e-06,
+        "referenceMinimumSeconds": 4e-07,
+        "status": "pass"
+      }
+    ],
+    "censoredIntervals": [
+      {
+        "side": "left",
+        "level": "low"
+      },
+      {
+        "side": "right",
+        "level": "high"
+      }
+    ],
+    "screenPassed": true,
+    "samples": 41594686
+  }
+}

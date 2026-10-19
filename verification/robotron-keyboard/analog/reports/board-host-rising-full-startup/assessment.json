@@ -7,10 +7,14 @@
   "evidence": {
     "producer": "report.json",
     "inputs": "run-inputs.json",
-    "previousTailCapture": "../board-host-load-long/assessment.json"
+    "previousTailCapture": "../board-host-load-long/assessment.json",
+    "clockWidths": "clock-widths.json",
+    "hostInputs": "host-input-review.json.xz",
+    "receiverMargins": "margins-140ns.json",
+    "reviewCommands": "review-jobs.json"
   },
-  "interpretation": "The producer completes from time zero and passes reset activity, first fetch, bit transport and scenario-window checks using rising RxC. This resolves the earlier capture-window and legacy-observer gaps. It does not qualify the board: the CPU clock never reaches the required high excursion in assessed valid-supply cycles, and the clock timing screen fails. Some later supply-valid intervals lack a fresh reset interval. Digital threshold crossings and matching bit intent cannot waive these electrical failures. Host input, clock-width and receiver-margin reviews are running separately.",
-  "nextAction": "Retain the pending host reviews, constrain oscillator/CPU-clock levels and timing with independently applicable device models, and require completed refinement and remaining scenario/bus/supply qualification. A successful startup-inclusive producer run alone is not acceptance.",
+  "interpretation": "The producer completes from time zero and passes reset activity, first fetch, bit transport and scenario-window checks using rising RxC. This resolves the earlier capture-window and legacy-observer gaps. It does not qualify the board: the CPU clock never reaches the required high excursion in assessed valid-supply cycles, and the clock timing screen fails. Some later supply-valid intervals lack a fresh reset interval. Digital threshold crossings and matching bit intent cannot waive these electrical failures. The host receive-clock width screen passes at its explicit nominal threshold, including startup coverage, with leading/trailing intervals censored. It does not qualify Schmitt thresholds or supply applicability. The sampled host-input voltage ranges remain within the selected static envelope without invoking pulse exceptions. Input currents, duty, supply/temperature applicability and intersample extrema remain unqualified. The receiver-margin review meets the selected sampled setup/hold budget at logged rising-RxC events. No host review establishes U856 thresholds, loading or between-sample behavior.",
+  "nextAction": "Constrain oscillator/CPU-clock levels and timing with independently applicable device models, then require completed refinement and remaining scenario/bus/supply qualification. The completed diagnostic host screens do not waive CPU-clock or supply-recovery failures.",
   "boundary": "Reference S600 and nominal unqualified device/loading assumptions; CPU/peripheral buses remain digital. No C ordinal comparison or exact U880 timing claim. Both entire simulation and saved waveform begin at zero. No specimen qualification.",
   "waveforms": {
     "directory": "build/keyboard-controller-analog/board-host-rising-full-startup",
@@ -37,6 +41,16 @@
     "boot.cir": "2397fba87688d26dd3b5bb7413e2bff565415df399c7827c9d4246be2d7dcc7a",
     "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
     "ngspice.log.xz": "225dd7b2ff18b2f776506c679d56d4189d467e9c5b64ed6ec15ae07c0610f727",
-    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282"
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "clock-widths.json": "b8289c02996ab00ed8918839d6d6e33775d42758024c1a124dafc136d77f64a1",
+    "host-input-review.json.xz": "8cf9806376930f3f06b9ce4d8b40c59d7df2dd6f48a95fda2d4805d16dc6a37e",
+    "margins-140ns.json": "522fbb3ed4aa73f2dfc922f022ff76e8d75bac86e10c6560a1b021283ed1c7ed",
+    "review-jobs.json": "2314605b49103d0fba073ffc85c9d5b8a7bcb6ef9cc5bc1900fbd822683090ac"
+  },
+  "compression": {
+    "host-input-review.json.xz": {
+      "format": "xz",
+      "uncompressedSha256": "74e24ef8bdb295e057148844e80371a5a86a09e5dbb5fe2b19060925c7e6a4ca"
+    }
   }
 }

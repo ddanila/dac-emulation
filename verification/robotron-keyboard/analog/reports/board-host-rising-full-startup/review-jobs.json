@@ -1,0 +1,47 @@
+[
+  {
+    "name": "host-input",
+    "command": [
+      "python3",
+      "verification/robotron-keyboard/analog/host_input_review.py",
+      "--run",
+      "build/keyboard-controller-analog/board-host-rising-full-startup",
+      "--board",
+      "--out",
+      "build/keyboard-controller-analog/board-host-rising-full-startup/host-input-review.json"
+    ],
+    "output": "host-input-review.json",
+    "producerReportSha256": "dd08732646a117283e2d33ad8350e1aea4a81fee331b09201c2a45901a8bd1f9",
+    "exitCode": 0
+  },
+  {
+    "name": "clock-widths",
+    "command": [
+      "python3",
+      "verification/robotron-keyboard/analog/host_clock_widths.py",
+      "build/keyboard-controller-analog/board-host-rising-full-startup",
+      "--board",
+      "--out",
+      "build/keyboard-controller-analog/board-host-rising-full-startup/clock-widths.json"
+    ],
+    "output": "clock-widths.json",
+    "producerReportSha256": "dd08732646a117283e2d33ad8350e1aea4a81fee331b09201c2a45901a8bd1f9",
+    "exitCode": 0
+  },
+  {
+    "name": "receiver-margins",
+    "command": [
+      "python3",
+      "verification/robotron-keyboard/analog/receiver_margins.py",
+      "build/keyboard-controller-analog/board-host-rising-full-startup",
+      "--board",
+      "--required-ns",
+      "140",
+      "--out",
+      "build/keyboard-controller-analog/board-host-rising-full-startup/margins-140ns.json"
+    ],
+    "output": "margins-140ns.json",
+    "producerReportSha256": "dd08732646a117283e2d33ad8350e1aea4a81fee331b09201c2a45901a8bd1f9",
+    "exitCode": 0
+  }
+]
