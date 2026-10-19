@@ -32,6 +32,13 @@ class TrajectoryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             review(audit, wave, .5, 2, 10)
 
+    def test_repeated_unsaved_trial_is_not_a_saved_sample_ambiguity(self):
+        audit, wave = self.fixture()
+        audit.insert(2, copy.deepcopy(audit[1]))
+        result = review(audit, wave, .5, 2, 10)
+        self.assertEqual([t['savedSample'] for t in result['trials']],
+                         [True, False, False, True])
+
     def test_step_discrepancy_is_measured_without_rewriting_time(self):
         audit, wave = self.fixture()
         audit[-1]['deltaSeconds'] = .24

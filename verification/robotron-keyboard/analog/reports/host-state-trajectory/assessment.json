@@ -42,5 +42,6 @@
     "path": "/private/tmp/robotron-mpfr-integration/source/src/spicelib/analysis/dctran.c",
     "sha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
     "behavior": "The transient loop adds CKTdelta to binary64 CKTtime, records the unadjusted CKTdelta in CKTdeltaOld[0], and computes integration coefficients. Executable-mode Newton/truncation retries subtract the logged delta to roll time back. The observed difference between represented advance and integration delta is therefore not corrected at this boundary. This code observation does not establish that it causes the excursion."
-  }
+  },
+  "followup": "../host-represented-time/assessment.json"
 }

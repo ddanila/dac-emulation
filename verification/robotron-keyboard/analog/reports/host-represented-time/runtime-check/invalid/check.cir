@@ -1,0 +1,13 @@
+Constant current capacitor: V(out) = time
+I1 0 out 1
+C1 out 0 1 IC=0
+.tran .01 1 UIC
+.control
+set numdgt=17
+set wr_singlescale
+set wr_vecnames
+run
+wrdata trace.txt v(out)
+quit
+.endc
+.end
