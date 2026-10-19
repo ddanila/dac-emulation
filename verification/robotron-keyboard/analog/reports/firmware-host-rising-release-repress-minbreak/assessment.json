@@ -1,0 +1,33 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "f26697c",
+  "scope": "Host-loaded rising-RxC release/repress service scenario",
+  "evidence": {
+    "producer": "report.json",
+    "sampledStability": "margins-140ns.json",
+    "timingReference": "../host-receiver-timing-review/assessment.json"
+  },
+  "interpretation": "Both press windows pass packet coverage and ordinal C-reference agreement. The independent symmetric timing screen passes under the declared voltage thresholds and SIO loads. This does not establish between-sample voltages, timestep convergence, U856 applicability or onboard startup.",
+  "nextAction": "Compare against the finer-timestep capture, including absolute-time voltage differences.",
+  "waveforms": {
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-release-repress-minbreak",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ],
+    "retention": "Complete waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL retained."
+  },
+  "retainedFilesSha256": {
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "io.cir": "5a5bc2ce3de18ffd13ab85ec406082f1b88fe61c261587a51fa9e4839457df7f",
+    "io_scenario.h": "a69d0336b48a3f8b417da8dea0658fcc4c0adb018464117cce30d349f5a8c7f5",
+    "margins-140ns.json": "96458d8a827dab5ca3d1e5e9a89e81553bc6f5214a43e8f275911b3002d37306",
+    "ngspice.log.xz": "0968592de516caf8b2618c8bff1434aac1ad430495b9fb42fd3e8418c0dcff24",
+    "reference.log": "988cf7c860af52b09f3680cc901af79c494c4cc1e44a8aa442f468e11aff8cb3",
+    "report.json": "6a0b5a9d7e97fed342b1d79d86d5f477a18d680f043420ecb94ffd8e73fb0c32",
+    "run-inputs.json": "b3d17cee82a45caff109df58b072635c9b95fad444f8e23f9ba0bd4f1e4ba496",
+    "scenario.json": "94516d7ba8f438d97a740b42ab10e0e16f8f54f21abb0ec8ef8a0c7d0b5b89f2"
+  }
+}

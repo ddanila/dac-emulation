@@ -1,0 +1,45 @@
+{
+  "qualified": false,
+  "completed": false,
+  "scope": "Reference-node sensitivity of the matched analog-only driver replay",
+  "sourceRevisionVerified": "323441d",
+  "evidence": {
+    "control": {
+      "report": "control/report.json",
+      "lastSampleSeconds": 0.001098012248407457,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 4.77898e-21: trouble with xhost_data:ttl7404_input_npn-instance q.xhost_data.qinput",
+      "waveformRows": 53512
+    },
+    "shifted": {
+      "report": "shifted/report.json",
+      "lastSampleSeconds": 0.0002765000397151967,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.0002765, timestep = 6.25e-20: trouble with xdata:ttl7406_input_npn-instance q.xdata.qinput",
+      "waveformRows": 12809
+    }
+  },
+  "original": "../host-analog-driver-replay-matched-trtol/assessment.json",
+  "controlWaveformIdentitiesEqual": {
+    "trace.txt": true,
+    "host-trace.txt": true,
+    "driver-trace.txt": true,
+    "boundary-trace.txt": true
+  },
+  "transformation": "Control explicitly connects previously omitted BJT substrates to old global ground. Shifted deck moves global reference to host_receiver_gnd, preserves board ground as a global named node, and expresses all saved and behavioral voltages relative to their original reference. Component values, stimuli, branch topology and accuracy options are retained.",
+  "interpretation": "The explicit-substrate control reproduces the original failure and all waveform bytes. The host-reference run fails earlier. This establishes sensitivity to numerical coordinates under fixed options; it does not identify a physical fault, qualify a waveform or provide a remedy. Coordinate changes can alter relative Newton criteria and matrix conditioning.",
+  "nextAction": "Compare the shifted failure state and common-mode voltages with the original replay; investigate conditioning and device-state transitions without changing branch physics or acceptance limits.",
+  "waveforms": {
+    "retention": "Complete waveforms remain local; report hashes identify original bytes.",
+    "directories": [
+      "build/keyboard-controller-analog/host-reference-node-control-vectors",
+      "build/keyboard-controller-analog/host-reference-node-shifted-vectors"
+    ]
+  },
+  "retainedFilesSha256": {
+    "control/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "control/ngspice.log.xz": "70af5eceb2f0d1629e48e321808291516a9bf841ed009ec69993661845c866da",
+    "control/report.json": "fb076e26fe665f551831e7b730d6118c39c15c528de81312c858f2d808e47a13",
+    "shifted/io.cir": "240108e28066b7b778aac600ec9a6b35f6d9937a03a9f1a0b2517a26b29398b4",
+    "shifted/ngspice.log.xz": "e0301b084ff75cf8edd4bbbba4812413992e193d830285c583a775512a2bfcf1",
+    "shifted/report.json": "ec958fe4134911235122336e0d23b45d717ea72c4a5e81d4a42e190a5c24d83f"
+  }
+}
