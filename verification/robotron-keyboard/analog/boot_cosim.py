@@ -20,7 +20,7 @@ from controller_interface import generate
 from matrix import LATCH_LOADS, matrix_circuit
 from failure_evidence import capture as capture_failure, solver_diagnostic
 from ngspice_runtime import identify as identify_runtime, verify as verify_runtime
-from output_circuit import output_circuit
+from output_circuit import output_circuit, add_filter_options, filter_options
 from host_receiver import host_receiver
 from ttl7406_output_probe import driver_circuit, checked_dc_reference
 from transient_analysis import with_minimum_breakpoint
@@ -89,6 +89,7 @@ def host_options(args):
 def prepare(args, report):
     electrical_bus = electrical_bus_options(args)
     sio_load = host_options(args)
+    filter_model = filter_options(args, args.electrical_outputs)
     host_buffer = getattr(args, 'host_buffer', False)
     electrical_wr = getattr(args, 'electrical_wr', False)
     out = args.out.resolve()
@@ -183,10 +184,11 @@ def prepare(args, report):
     if args.electrical_outputs:
         if args.serial_driver == '7406-dc':
             report['serialDriverDCReferenceSha256'] = checked_dc_reference()
-            output_lines, output_info = driver_circuit(components, args.serial_driver, 1000, electrical_data_input=electrical_bus, electrical_clock_input=electrical_wr)
+            output_lines, output_info = driver_circuit(components, args.serial_driver, 1000, electrical_data_input=electrical_bus, electrical_clock_input=electrical_wr, **filter_model)
         else:
-            output_lines, output_info = output_circuit(components)
+            output_lines, output_info = output_circuit(components, **filter_model)
         report['outputCircuit'] = output_info
+        report['assumptions']['filterHypothesis'] = output_info['filter']
         report['outputControlUnknowns'] = (
             f'DAC X maps uniformly to {args.output_unknown_volts:g} V; diagnostic assumption, '
             'not a measured power-on state or exhaustive mixed-state coverage')
@@ -514,10 +516,12 @@ def main():
     p.add_argument('--cpu-profile', choices=CIRCUIT_PROFILES, default='tv80')
     p.add_argument('--bus-latch-pf', type=float)
     p.add_argument('--bus-7406-pf', type=float)
+    add_filter_options(p)
     args = p.parse_args()
     try:
         electrical_bus_options(args)
         host_options(args)
+        filter_options(args, args.electrical_outputs)
     except ValueError as error:
         p.error(str(error))
     if args.serial_driver != 'nominal' and not args.electrical_outputs:

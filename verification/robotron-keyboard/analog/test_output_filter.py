@@ -1,5 +1,6 @@
 """Check passive winding modes against analytical impedance, including dot reversal."""
 import math
+import argparse
 from pathlib import Path
 import re
 import subprocess
@@ -7,10 +8,37 @@ import tempfile
 import unittest
 
 from circuit import load, node
-from output_circuit import CHOKE_REFS, choke_circuit, output_circuit
+from output_circuit import CHOKE_REFS, choke_circuit, output_circuit, add_filter_options, filter_options
+from ttl7406_output_probe import driver_circuit
 
 
 class FilterTests(unittest.TestCase):
+    def test_runner_filter_options_and_driver_paths(self):
+        parser = argparse.ArgumentParser()
+        add_filter_options(parser)
+        components, _ = load()
+        args = parser.parse_args(['--filter-coupling', '.8', '--filter-dot-pins', '1', '2', '1', '1'])
+        options = filter_options(args)
+        for profile in ('nominal', '7406-dc'):
+            lines, metadata = driver_circuit(components, profile, 1000, **options)
+            self.assertEqual(sum(line.startswith('Kfilter') for line in lines), 6)
+            self.assertEqual(metadata['filter']['coupling'], .8)
+            self.assertEqual(metadata['filter']['dotPins']['L1.2'], 2)
+            self.assertFalse(metadata['filter']['qualified'])
+            winding = next(line for line in lines if line.startswith('L1.2 '))
+            self.assertEqual(winding.split()[1], 'L1_2_series')
+        with self.assertRaisesRegex(ValueError, 'electrical outputs'):
+            filter_options(args, enabled=False)
+        for invalid in ('nan', 'inf', '-.1', '1'):
+            args = parser.parse_args(['--filter-coupling', invalid])
+            with self.assertRaises(ValueError):
+                filter_options(args)
+        args = parser.parse_args(['--filter-dot-pins', '1', '2', '3', '1'])
+        with self.assertRaises(ValueError):
+            filter_options(args)
+        self.assertEqual(filter_options(parser.parse_args([]), enabled=False),
+                         {'coupling': 0, 'dots': (1, 1, 1, 1)})
+
     def test_invalid_and_singular_hypotheses_rejected(self):
         components, _ = load()
         for k in (-.1, 1, float('nan'), float('inf')):

@@ -187,8 +187,11 @@ an assumption. Neither includes complete leakage, protection or retention behavi
 `output_probe.py --coupling 0.8 --dot-pins 1 2 1 1 --out /tmp/filter-review`
 exercises a uniform mutual-inductance hypothesis. Dot terminals are listed in
 L1.1 through L1.4 order; they are not identified specimen winding polarities.
-The default remains uncoupled. The shared circuit generator accepts the same
-options; firmware runners currently retain the default.
+The default remains uncoupled. Service and closed-board firmware runners accept
+`--filter-coupling` and `--filter-dot-pins` for the same hypothesis; closed-board
+runs require electrical outputs. Reports retain the filter assumptions, and
+refinement pairs must use identical values. The [photo review](reports/filter-coupling/photo-review.json)
+supports investigating a common core without identifying its parameters or terminals.
 
 The model uses positive coupling below unity and explicit winding reversal,
 following the [ngspice mutual-inductor convention](https://ngspice.sourceforge.io/docs/ngspice-manual.pdf).
