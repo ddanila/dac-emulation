@@ -208,7 +208,7 @@
  #include "ngspice/spmatrix.h"
  #include "spdefs.h"
  #include "ngspice/smpdefs.h"
-@@ -616,3 +618,122 @@
+@@ -616,3 +618,124 @@
  {
      spMultiply(Matrix->SPmatrix, RHS, Solution, iRHS, iSolution);
  }
@@ -262,6 +262,8 @@
 +    MatrixPtr matrix = external->SPmatrix;
 +    int mode = diagnosticMode(), col;
 +    if (mode < 2) return mode;
++    /* NIiter uses real factorization; select the same mode before scaling. */
++    spSetReal(matrix);
 +    if (gmin != 0 || matrix->Complex || matrix->Size != matrix->ExtSize) {
 +        fprintf(stderr, "SPARSE_DIAGNOSTIC rejected unsupported matrix or diagonal gmin\n");
 +        return -1;
