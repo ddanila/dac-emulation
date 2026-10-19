@@ -1,0 +1,28 @@
+{
+  "completed": false,
+  "qualified": false,
+  "scope": "Separate NIintegrate arithmetic precision from linear-solve precision and binary64 state storage",
+  "evidence": {
+    "disabledControl": "off/report.json",
+    "build": "off/build-provenance.json",
+    "kernel": "../../engine-patches/mpfr_integration.h",
+    "adapterPatch": "../../engine-patches/ngspice-47-mpfr-integration.patch",
+    "independentArithmeticTests": "../../test_mpfr_integration.py"
+  },
+  "interpretation": "The kernel agrees with independent Decimal arithmetic across supported trapezoidal/Gear orders and cancellation controls. The actual NIintegrate adapter passes enabled, disabled and invalid-mode checks. With both experimental precision modes off, the rebuilt runtime reproduces all four baseline waveform hashes and the same timestep rejection. Active transient effects remain to be measured.",
+  "boundary": "Only per-call integration arithmetic changes. State history, time, integration coefficients, nonlinear evaluation and other device stamping remain binary64. Exact arithmetic on already-rounded history is not higher-precision history storage. Circuit physics and tolerance budgets remain unchanged. This analog-only replay cannot qualify firmware or physical behavior.",
+  "nextAction": "Compare active integration with original versus MPFR linear arithmetic, then test timestep refinement for any completed capture. Preserve incomplete trajectories and diagnostics.",
+  "waveforms": {
+    "disabledDirectory": "build/keyboard-controller-analog/host-mpfr-integration-off",
+    "retention": "Complete local waveforms verified against the baseline and retained report hashes."
+  },
+  "retainedFilesSha256": {
+    "build.py": "ab5defda22dc241824c6e1699d00bec706b13050e64fb26a101a032721e74c64",
+    "run.py": "d71152b28def374e72e2159c2cdbc2f6f62b975d9f633f7961b62d95da97467c",
+    "check.c": "92efd02f9ba2aa813344fbc9f6681655d278ba25256bfa9ea54a8b267440abbe",
+    "off/report.json": "b6d55646d2367673a44dd30e8f5ddbe99fd246e79f29bd7245ebd58a64618ccb",
+    "off/build-provenance.json": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+    "off/ngspice.log.xz": "0f9ef4d16bea1cab2e3a8aa82e75f2bd8f55b4d2c114dd5ce45fe09c5dca7715",
+    "off/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95"
+  }
+}
