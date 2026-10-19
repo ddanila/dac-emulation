@@ -1,0 +1,23 @@
+{
+  "qualified": false,
+  "completed": true,
+  "scope": "MPFR linear kernel validation on frozen recorded binary64 systems",
+  "evidence": {
+    "control": "control/report.json",
+    "shifted": "shifted/report.json"
+  },
+  "interpretation": "Both recorded systems agree with independent Decimal160 solutions within binary64 rounding scale. MPFR256 and MPFR512 return identical binary64 coordinates. Pivot, singular-system and nonfinite-input controls pass. Residuals are evaluated after binary64 output rounding; they are not MPFR internal residuals. Existing extreme solved states and earlier integration history are not repaired by this frozen-system check.",
+  "nextAction": "Integrate the verified kernel into an isolated experimental ngspice runtime. Require a disabled control to reproduce baseline waveform bytes and failure, then test higher-precision transient evolution without changing physical equations or convergence criteria.",
+  "retainedFilesSha256": {
+    "control/input.txt": "7699cdb45448ceffaea535bc57b31f4554390a087451c94871154167016bebd0",
+    "control/output-256.txt": "ce1ddbebfbe1a488058ceb4d52e176e6340622f86003d318707fae7211ac6e68",
+    "control/output-512.txt": "ce1ddbebfbe1a488058ceb4d52e176e6340622f86003d318707fae7211ac6e68",
+    "control/report.json": "d354349fb74db73a999c302584781c14ebd851391cb1aed626f652dce7d8e2a3",
+    "run.py": "84087c37024830674b84ae1c809663057ee936c3cc6b3bf839da1eed6896572c",
+    "shifted/input.txt": "526c862532c2eff157bff16e9ab69595871a31c7129bfa6cd3f9b7a004736ce6",
+    "shifted/output-256.txt": "4a8ab39f5c478bbffffee3831aee83da03d1e547d5b73659c3ecca08c7899d95",
+    "shifted/output-512.txt": "4a8ab39f5c478bbffffee3831aee83da03d1e547d5b73659c3ecca08c7899d95",
+    "shifted/report.json": "b91e6fc8db47677cde629c5d984db7dc1c789ae0c62ac7cddef05ccf3429cd05",
+    "solve.c": "a6841662991d4f140179465cbe98312d935ecf379c3f093d5f1528844483ec6f"
+  }
+}
