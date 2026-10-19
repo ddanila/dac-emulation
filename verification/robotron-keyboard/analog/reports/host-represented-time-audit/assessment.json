@@ -1,0 +1,32 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Logging-only audit of the failed represented-time combined-precision replay",
+  "evidence": {
+    "control": "audit-control.json",
+    "producer": "report.json",
+    "build": "build-provenance.json",
+    "state": "state-review.json",
+    "inductorStamps": "inductor-stamps.json",
+    "parent": "../host-represented-time/assessment.json"
+  },
+  "interpretation": "The wider minimum-step logging gate reproduces the original deck, all four waveform hashes and failure diagnostic exactly. Final selected linear systems have small componentwise backward errors; the final system agrees with independent Decimal160 arithmetic and its Decimal80 cross-check. Audited inductor derivatives match correctly rounded exact logged-history arithmetic. The final Newton trial converges and then fails flux-history truncation. Replacing the final uncoupled inductor rows with exact logged-history coefficients and RHS changes the frozen-system solution only at microvolt scale, insufficient to explain the large internal cable excursion in that trial.",
+  "boundary": "No transient remedy, device calibration or board qualification. Exact local equations retain previously rounded histories, integration coefficients, all other assembled device terms and nonlinear states. Small frozen-system changes do not rule out accumulated trajectory errors. Audit evidence covers selected trials in the declared logging windows only.",
+  "nextAction": "Investigate accumulated history and assembly of capacitive/nonlinear terms near the onset of the excursion. Keep local arithmetic correctness separate from convergence and independently constrained device dynamics.",
+  "waveforms": {
+    "directory": "build/keyboard-controller-analog/host-represented-time-combined-256-audit",
+    "retention": "Complete local traces verified against both producer hashes and the prior uninstrumented capture."
+  },
+  "retainedFilesSha256": {
+    "build.py": "b767c8991f2ccf8d7020f346353b52c2f43d379cd416f5970f70850c9e04c6e9",
+    "run.py": "0a7c892e9713a5b8bc962c49f1e7be30e42746b8eec134bce01c53cebe26bce6",
+    "report.json": "c9111bb8990e7b80c08b3cd6341582e2d3f91ded68f2079f02490fe74fe528eb",
+    "inductor-stamps.json": "9faebb9282c042d22352485bfd3aa398710c5b93ccc78b71c664d8f16a571709",
+    "build-provenance.json": "d8aabb67e31c6b9df5a3d52a3a22b621256ca9725ae4d8b49987a61ec1d978d9",
+    "ngspice.log.xz": "8687a4a940f37c2ecd4d1eeed0714650474b5de6602188c7b65888b3155b0cda",
+    "state-review.json": "a9bf57532b89ba225b4d3f52f84d56688dc912fd8d29a1303911363d7e4a4bce",
+    "inductor_stamps.py": "53b7815b3cef17233c1c300d97292306335514ef804931bbbc2fe5a6c013fa0e",
+    "io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "audit-control.json": "715a8ae0d368607e13160a43488201f514a5ced2b9556ce781408b70e8a92127"
+  }
+}

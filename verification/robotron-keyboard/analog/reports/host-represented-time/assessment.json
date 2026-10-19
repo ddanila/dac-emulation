@@ -13,11 +13,12 @@
     "adapter": "../../engine-patches/ngspice-47-represented-time-step.patch",
     "tests": "../../test_represented_time_step.py",
     "combined": "combined/report.json",
-    "combinedTrajectory": "combined/trajectory-review.json"
+    "combinedTrajectory": "combined/trajectory-review.json",
+    "extendedLinearAudit": "../host-represented-time-audit/assessment.json"
   },
   "interpretation": "With all experiments off, the rebuilt runtime reproduces all four baseline waveform hashes and the same failure. The actual runtime admits off/rollback/represented modes, rejects an invalid mode and matches a constant-current capacitor analytic solution. Exact rollback alone still fails near the original transition. Represented-time integration removes the measured time/step discrepancy in every audited trial but also fails, including large saved cable excursions. Time-step mismatch alone is therefore not a sufficient explanation or remedy. Combined represented time with MPFR integration and linear solving also fails near the same transition. The audited intervals match their integration steps exactly, and saved cable values stay below the diagnostic excursion locator in this window, but the final unsaved trial has a large excursion followed by truncation rejection. No convergence remedy or physical validity is established.",
   "boundary": "Experimental standalone analog-only runtime; event instances and shared execution are rejected in active modes. Device physics, circuit tolerances and requested minimum-step policy are preserved. Represented mode can round a trial endpoint upward by one time increment to avoid lowering the requested/configured floor. The pre-adjustment requested step controls the final minimum-step retry guard. State history, coefficients, time and nonlinear evaluation remain binary64. No board default or physical qualification follows.",
-  "nextAction": "Capture final linear systems with logging that admits the represented minimum step, preserving a byte-identical logging control. Distinguish remaining state/stamping sensitivity from device dynamics; require completed refinement before adopting any numerical remedy.",
+  "nextAction": "The logging-only follow-up reproduces the failure and closes the missing linear-audit evidence. Investigate accumulated history and capacitive/nonlinear assembly while retaining independent device qualification and convergence requirements.",
   "waveforms": {
     "directories": [
       "build/keyboard-controller-analog/host-represented-time-off",
@@ -69,6 +70,7 @@
   "linearAudit": {
     "available": false,
     "reason": "The logging gate requires delta <= 5.0001e-19 s. Represented mode rounds the requested minimum to 6.505213034913027e-19 s at this time, so no linear system meets the logging gate. Absence of logs does not establish solve accuracy.",
-    "nextAction": "Broaden logging-only capture to include the represented minimum step and verify waveform identity before auditing the final systems."
+    "nextAction": "Broaden logging-only capture to include the represented minimum step and verify waveform identity before auditing the final systems.",
+    "followup": "../host-represented-time-audit/assessment.json"
   }
 }

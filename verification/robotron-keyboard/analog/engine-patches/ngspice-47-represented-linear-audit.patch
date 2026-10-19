@@ -1,0 +1,14 @@
+--- a/src/maths/ni/niiter.c
++++ b/src/maths/ni/niiter.c
+@@ -43,7 +43,10 @@
+ {
+     static unsigned long serial = 0;
+     CKTnode *node;
+-    if (!(ckt->CKTdelta <= 5.0001e-19 &&
++    /* Logging only: include the represented minimum at this time scale. */
++    double audit_delta = fmax(5.0001e-19,
++        4 * (nextafter(ckt->CKTtime, INFINITY) - ckt->CKTtime));
++    if (!(ckt->CKTdelta <= audit_delta &&
+           ((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) ||
+            (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)) &&
+           (iteration <= 10 || iteration % 100 == 0 || iteration > maxIter)))
