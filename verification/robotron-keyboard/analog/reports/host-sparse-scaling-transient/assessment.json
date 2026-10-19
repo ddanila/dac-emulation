@@ -1,0 +1,54 @@
+{
+  "qualified": false,
+  "completed": false,
+  "sourceRevisionVerified": "1b12e6b",
+  "scope": "Full recorded analog-only transient with fresh-order and power-of-two scaling controls",
+  "evidence": {
+    "off": {
+      "report": "off/report.json",
+      "lastSampleSeconds": 0.001098012248407457,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 4.77898e-21: trouble with xhost_data:ttl7404_input_npn-instance q.xhost_data.qinput",
+      "scalingGuardDiagnostics": []
+    },
+    "reorder": {
+      "report": "reorder/report.json",
+      "lastSampleSeconds": 0.0010980122484257828,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 6.25e-20: trouble with xhost_data:ttl7404_input_npn-instance q.xhost_data.qinput",
+      "scalingGuardDiagnostics": []
+    },
+    "scale": {
+      "report": "scale/report.json",
+      "lastSampleSeconds": 0.0010980122483961001,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 6.25e-20: trouble with xdata:ttl7406_npn-instance q.xdata.qoutput",
+      "scalingGuardDiagnostics": []
+    }
+  },
+  "frozenSystems": "../host-sparse-scaling-review/assessment.json",
+  "patch": "../../engine-patches/ngspice-47-sparse-scaling.patch",
+  "interpretation": "The disabled experimental runtime reproduces all original waveform bytes and its failure. Requesting fresh ordering alone and combining it with exact power-of-two scaling both still fail near the original transition. No scaling guard rejects the tested trajectory. Physical solution coordinates are restored before Newton checks and branch physics, recorded stimulus and temporal/nonlinear tolerances are unchanged. These controls do not resolve the strict-tolerance replay failure; no coupled firmware or device qualification is inferred.",
+  "nextAction": "Evaluate higher-precision linear solving during transient evolution, starting before the failing transition; preserve fixed-snapshot residual checks, strict tolerances and independent controls.",
+  "waveforms": {
+    "retention": "Complete local waveforms are identified by producer hashes. Full logs and executed decks are retained here.",
+    "directories": [
+      "build/keyboard-controller-analog/host-sparse-transient-control-off",
+      "build/keyboard-controller-analog/host-sparse-transient-control-reorder",
+      "build/keyboard-controller-analog/host-sparse-transient-control-scale"
+    ]
+  },
+  "retainedFilesSha256": {
+    "check.c": "8d2d8a99c4e338d5b889845e5156e6a9b2f832bad391b6bfa2eadb7138571453",
+    "off/build-provenance.json": "8627c60e635dc61ba2b64020c981f5db2a4e609337aa318e5cb148d1c17f0464",
+    "off/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "off/ngspice.log.xz": "19e61a3d4577bcfce7fbddc7d4939c8eda55be34441e8a0239f650d90f542976",
+    "off/report.json": "51420ab5da56b52d5eb7a69a675de97aaad9993928afc403515f67c3d847a13c",
+    "reorder/build-provenance.json": "8627c60e635dc61ba2b64020c981f5db2a4e609337aa318e5cb148d1c17f0464",
+    "reorder/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "reorder/ngspice.log.xz": "a6af824ccdd37a94325058d352d4cfb9249d346fb4c0836bebc5049d1d7ea16b",
+    "reorder/report.json": "c8d8dafc698120538fc2767fb0b6b43517e69bc63e3656f81497025b35e4f13d",
+    "run.py": "082e4e073471edd169186a4e8f33f999b4757f2842db5dc4f8e51c12fc712fd9",
+    "scale/build-provenance.json": "8627c60e635dc61ba2b64020c981f5db2a4e609337aa318e5cb148d1c17f0464",
+    "scale/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "scale/ngspice.log.xz": "c5d76970420119d0b092c2432efe47591255b24a785da5d91c7b05eedbfc7528",
+    "scale/report.json": "ddb4bf6844f75df5c86848e965f52f1502323d5cf2bd74f7fdf4915629b2691b"
+  }
+}
