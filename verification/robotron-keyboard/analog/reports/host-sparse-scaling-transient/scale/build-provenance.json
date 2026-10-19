@@ -1,0 +1,52 @@
+{
+  "source": "ngspice-47",
+  "scope": "Experimental power-of-two equation scaling with restored solution coordinates; disabled and fresh-order-only controls",
+  "baseFiles": {
+    "src/spicelib/analysis/dctran.c": "382d523b08a843469d81b14e3c08c0cd2b11509ee3470b9e3b3bce6f27157a74",
+    "src/spicelib/analysis/ckttrunc.c": "1ae5c196a7e4b672da62be20624f6bbafc3fca713b0ab12aa69ac22d6a1b4757",
+    "src/spicelib/devices/cap/captrunc.c": "aa17ffdb3cdef8c496fe2a8c3d3f3638a359ea6137a7e45d5a45a31c578235d2",
+    "src/spicelib/devices/ind/indtrunc.c": "2c5dee893df91380c84227242f30610d8aa72c3435c4e4365704f66c3c867bfb",
+    "src/spicelib/analysis/cktterr.c": "e8c55f9f07b12e501eaa5113d9470ccf8304b8b1196563b2f7d36a9d6527c132",
+    "src/maths/ni/niiter.c": "85ed2001b0f4589e43a1e4d11f1fafc8a30f90d25d8ad361efe92c51a8e023a1",
+    "src/maths/sparse/spsmp.c": "8d04e3cadc25e2f96e7265af26ef4b1b7a2a9ce820552f8d3202ac839f698825"
+  },
+  "patchSha256": "259d703cb293b146b023be9bc8ff318fb41f907e47c74ab6035f657a3c46140b",
+  "configureArguments": [
+    "--prefix=/private/tmp/robotron-sparse-scaling/install",
+    "--without-x",
+    "--with-readline=no",
+    "--disable-openmp",
+    "--disable-klu"
+  ],
+  "buildCommand": "make -j4",
+  "executableSha256": "8c0e75b146d1be9a05566bd7f13bbc054699af02499d4fb4ed5d358634026dcd",
+  "compilerVersion": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin",
+  "buildLogsSha256": {
+    "configure.log": "2be46725175b38a7a762163e418c8073df40e3c7abe2ee26254259c799134bd9",
+    "make.log": "887f4f2730195b58bce7c04a93583a4343f9c7bec7586c7deabe98e3d75d9bf5"
+  },
+  "checks": {
+    "off": {
+      "exitCode": 0,
+      "stdout": "x1=0x1p+0 x2=0x1p+1\n",
+      "stderr": "SPARSE_DIAGNOSTIC mode=0\n"
+    },
+    "reorder": {
+      "exitCode": 0,
+      "stdout": "x1=0x1p+0 x2=0x1p+1\n",
+      "stderr": "SPARSE_DIAGNOSTIC mode=1\n"
+    },
+    "scale": {
+      "exitCode": 0,
+      "stdout": "x1=0x1p+0 x2=0x1p+1\n",
+      "stderr": "SPARSE_DIAGNOSTIC mode=2\n"
+    },
+    "scale-gmin": {
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "SPARSE_DIAGNOSTIC mode=2\nSPARSE_DIAGNOSTIC rejected unsupported matrix or diagonal gmin\n"
+    }
+  },
+  "checkSourceSha256": "8d2d8a99c4e338d5b889845e5156e6a9b2f832bad391b6bfa2eadb7138571453",
+  "checkExecutableSha256": "51755210b1fd3be23b0ce6d6685c4ea9e4659c18192bb4112694f52b3eabe0fe"
+}
