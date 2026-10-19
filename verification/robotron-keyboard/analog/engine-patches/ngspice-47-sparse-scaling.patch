@@ -1,0 +1,333 @@
+--- a/src/spicelib/analysis/dctran.c
++++ b/src/spicelib/analysis/dctran.c
+@@ -705,8 +705,30 @@
+             g_mif_info.circuit.evt_step = ckt->CKTtime;
+         }
+ #endif
++        if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)))
++            fprintf(stderr, "TRANSITION_AUDIT trial time=%a delta=%a permanent=%a next=%a last=%a\n", ckt->CKTtime, ckt->CKTdelta, ckt->CKTbreaks[0], ckt->CKTbreaks[1], g_mif_info.breakpoint.last);
+         /* Central solver step */
+         converged = NIiter(ckt,ckt->CKTtranMaxIter);
++        if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)))
++            fprintf(stderr, "TRUNC_AUDIT solver time=%a delta=%a result=%d order=%d\n", ckt->CKTtime, ckt->CKTdelta, converged, ckt->CKTorder);
++
++        if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502))) {
++            CKTnode *audit_node;
++            for (audit_node = ckt->CKTnodes; audit_node; audit_node = audit_node->next) {
++                if (!strcmp(audit_node->name, "board_reference") ||
++                    !strcmp(audit_node->name, "host_receiver_gnd") ||
++                    !strcmp(audit_node->name, "host_receiver_5v") ||
++                    !strcmp(audit_node->name, "n_p5v") ||
++                    !strcmp(audit_node->name, "n_ta_daten") ||
++                    !strcmp(audit_node->name, "n_cable_daten") ||
++                    !strcmp(audit_node->name, "fixture_clock") ||
++                    !strncmp(audit_node->name, "xdata.", 6) ||
++                    !strncmp(audit_node->name, "xhost_data.", 11))
++                    fprintf(stderr, "NODE_AUDIT time=%a delta=%a result=%d name=%s rhs=%a oldrhs=%a\n",
++                        ckt->CKTtime, ckt->CKTdelta, converged, audit_node->name,
++                        ckt->CKTrhs[audit_node->number], ckt->CKTrhsOld[audit_node->number]);
++            }
++        }
+ 
+         ckt->CKTstat->STATtimePts ++;
+         ckt->CKTmode = (ckt->CKTmode&MODEUIC)|MODETRAN | MODEINITPRED;
+@@ -721,6 +743,8 @@
+                 return(converged);
+         }
+ 
++        if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)))
++            fprintf(stderr, "TRANSITION_AUDIT solved time=%a temporary=%a permanent=%a result=%d\n", ckt->CKTtime, g_mif_info.breakpoint.current, ckt->CKTbreaks[0], converged);
+         /* If no convergence in Central solver step */
+         if(converged != 0) {
+ 
+@@ -794,6 +818,8 @@
+             /* Scan through all devices, estimate the truncation error,
+                and reduce the time step, if necessary.*/
+             error = CKTtrunc(ckt,&newdelta);
++            if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)))
++                fprintf(stderr, "TRUNC_AUDIT step time=%a delta=%a proposed=%a delmin=%a result=%d order=%d newtrunc=%d\n", ckt->CKTtime, ckt->CKTdelta, newdelta, ckt->CKTdelmin, error, ckt->CKTorder, ckt->CKTnewtrunc);
+             if(error) {
+                 UPDATE_STATS(DOING_TRAN);
+                 return(error);
+@@ -823,6 +849,8 @@
+                     newdelta = ckt->CKTdelta;
+                     ckt->CKTorder = 2;
+                     error = CKTtrunc(ckt, &newdelta);
++                    if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)))
++                        fprintf(stderr, "TRUNC_AUDIT order-check time=%a delta=%a proposed=%a result=%d order=%d\n", ckt->CKTtime, ckt->CKTdelta, newdelta, error, ckt->CKTorder);
+                     if (error) {
+                         UPDATE_STATS(DOING_TRAN);
+                         return(error);
+--- a/src/spicelib/analysis/ckttrunc.c
++++ b/src/spicelib/analysis/ckttrunc.c
+@@ -36,7 +36,10 @@
+ #ifdef STEPDEBUG
+                 debugtemp = timetemp;
+ #endif /* STEPDEBUG */
++                double audit_previous = timetemp;
+                 error = DEVices[i]->DEVtrunc(ckt->CKThead[i], ckt, &timetemp);
++                if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)) && timetemp < audit_previous)
++                    fprintf(stderr, "TRUNC_AUDIT device time=%a type=%s before=%a proposed=%a\n", ckt->CKTtime, DEVices[i]->DEVpublic.name, audit_previous, timetemp);
+                 if (error) {
+                     ckt->CKTstat->STATtranTruncTime += SPfrontEnd->IFseconds()
+                         - startTime;
+--- a/src/spicelib/devices/cap/captrunc.c
++++ b/src/spicelib/devices/cap/captrunc.c
+@@ -23,7 +23,10 @@
+         for(here = CAPinstances(model); here != NULL ;
+                 here = CAPnextInstance(here)) {
+ 
++            double audit_previous = *timeStep;
+             CKTterr(here->CAPqcap,ckt,timeStep);
++            if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)) && *timeStep < audit_previous)
++                fprintf(stderr, "TRUNC_AUDIT instance time=%a name=%s state=%d before=%a proposed=%a q0=%a q1=%a\n", ckt->CKTtime, here->CAPname, here->CAPqcap, audit_previous, *timeStep, ckt->CKTstate0[here->CAPqcap], ckt->CKTstate1[here->CAPqcap]);
+         }
+     }
+     return(OK);
+--- a/src/spicelib/devices/ind/indtrunc.c
++++ b/src/spicelib/devices/ind/indtrunc.c
+@@ -21,7 +21,19 @@
+         for(here = INDinstances(model); here != NULL ;
+                 here = INDnextInstance(here)) {
+ 
++            if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)))
++                fprintf(stderr, "INDUCTOR_AUDIT time=%a delta=%a order=%d name=%s state=%d L=%a m=%a ag0=%a ag1=%a flux0=%a flux1=%a volt0=%a volt1=%a current=%a oldcurrent=%a vp=%a vn=%a oldvp=%a oldvn=%a\n",
++                    ckt->CKTtime, ckt->CKTdelta, ckt->CKTorder, here->INDname, here->INDflux,
++                    here->INDinduct, here->INDm, ckt->CKTag[0], ckt->CKTag[1],
++                    ckt->CKTstate0[here->INDflux], ckt->CKTstate1[here->INDflux],
++                    ckt->CKTstate0[here->INDvolt], ckt->CKTstate1[here->INDvolt],
++                    ckt->CKTrhs[here->INDbrEq], ckt->CKTrhsOld[here->INDbrEq],
++                    ckt->CKTrhs[here->INDposNode], ckt->CKTrhs[here->INDnegNode],
++                    ckt->CKTrhsOld[here->INDposNode], ckt->CKTrhsOld[here->INDnegNode]);
++            double audit_previous = *timeStep;
+             CKTterr(here->INDflux,ckt,timeStep);
++            if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)) && *timeStep < audit_previous)
++                fprintf(stderr, "TRUNC_AUDIT instance time=%a name=%s state=%d before=%a proposed=%a q0=%a q1=%a\n", ckt->CKTtime, here->INDname, here->INDflux, audit_previous, *timeStep, ckt->CKTstate0[here->INDflux], ckt->CKTstate1[here->INDflux]);
+         }
+     }
+     return(OK);
+--- a/src/spicelib/analysis/cktterr.c
++++ b/src/spicelib/analysis/cktterr.c
+@@ -74,6 +74,8 @@
+     } else if (ckt->CKTorder > 3) {
+         del = exp(log(del)/ckt->CKTorder);
+     }
++    if (((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) || (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)) && del < *timeStep)
++        fprintf(stderr, "TRUNC_AUDIT error time=%a state=%d delta=%a dt0=%a dt1=%a dt2=%a order=%d proposed=%a tol=%a difference=%a q0=%a q1=%a q2=%a q3=%a\n", ckt->CKTtime, qcap, ckt->CKTdelta, ckt->CKTdeltaOld[0], ckt->CKTdeltaOld[1], ckt->CKTdeltaOld[2], ckt->CKTorder, del, tol, diff[0], ckt->CKTstates[0][qcap], ckt->CKTstates[1][qcap], ckt->CKTstates[2][qcap], ckt->CKTstates[3][qcap]);
+     *timeStep = MIN(*timeStep,del);
+     return;
+ }
+--- a/src/maths/ni/niiter.c
++++ b/src/maths/ni/niiter.c
+@@ -19,6 +19,26 @@
+ #include "ngspice/smpdefs.h"
+ #include "ngspice/sperror.h"
+ #include "ngspice/fteext.h"
++extern int SMPdiagnosticScale(SMPmatrix *, double *, double);
++extern int SMPdiagnosticUnscale(SMPmatrix *, double *);
++extern void SMPauditLinearLoad(SMPmatrix *, double *, unsigned long, double, double, int, int, double);
++
++/* Read-only Sparse audit, before factorization and immediately after solve. */
++static unsigned long audit_linear_load(CKTcircuit *ckt, int iteration, int maxIter)
++{
++    static unsigned long serial = 0;
++    CKTnode *node;
++    if (!(ckt->CKTdelta <= 5.0001e-19 &&
++          ((ckt->CKTtime > .001098011 && ckt->CKTtime < .001098014) ||
++           (ckt->CKTtime > .000276499 && ckt->CKTtime < .000276502)) &&
++          (iteration <= 10 || iteration % 100 == 0 || iteration > maxIter)))
++        return 0;
++    ++serial;
++    SMPauditLinearLoad(ckt->CKTmatrix, ckt->CKTrhs, serial, ckt->CKTtime, ckt->CKTdelta, iteration, ckt->CKTorder, ckt->CKTdiagGmin);
++    for (node = ckt->CKTnodes; node; node = node->next)
++        fprintf(stderr, "LINEAR_AUDIT name id=%lu index=%d name=%s\n", serial, node->number, node->name);
++    return serial;
++}
+ 
+ /* Limit the number of 'singular matrix' warnings */
+ static int msgcount = 0;
+@@ -31,6 +51,7 @@
+     double startTime, *OldCKTstate0 = NULL;
+     int error, i, j;
+ 
++    unsigned long linear_audit = 0;
+     int iterno = 0;
+     int ipass = 0;
+ 
+@@ -91,6 +112,8 @@
+             /* printf("after loading, before solving\n"); */
+             /* CKTdump(ckt); */
+ 
++            linear_audit = audit_linear_load(ckt, iterno, maxIter);
++
+             if (!(ckt->CKTniState & NIDIDPREORDER)) {
+                 error = SMPpreOrder(ckt->CKTmatrix);
+                 if (error) {
+@@ -102,6 +125,16 @@
+                     return(error); /* badly formed matrix */
+                 }
+                 ckt->CKTniState |= NIDIDPREORDER;
++            }
++
++            {
++                int scaling_mode = SMPdiagnosticScale(ckt->CKTmatrix, ckt->CKTrhs, ckt->CKTdiagGmin);
++                if (scaling_mode < 0) {
++                    FREE(OldCKTstate0);
++                    return E_BADMATRIX;
++                }
++                if (scaling_mode > 0)
++                    ckt->CKTniState |= NISHOULDREORDER;
+             }
+ 
+             if ((ckt->CKTmode & MODEINITJCT) ||
+@@ -252,6 +285,16 @@
+ 
+             startTime = SPfrontEnd->IFseconds();
+             SMPsolve(ckt->CKTmatrix, ckt->CKTrhs, ckt->CKTrhsSpare);
++            if (SMPdiagnosticUnscale(ckt->CKTmatrix, ckt->CKTrhs)) {
++                FREE(OldCKTstate0);
++                return E_BADMATRIX;
++            }
++            if (linear_audit) {
++                int audit_row;
++                for (audit_row = 1; audit_row <= SMPmatSize(ckt->CKTmatrix); ++audit_row)
++                    fprintf(stderr, "LINEAR_AUDIT x id=%lu row=%d value=%a\n", linear_audit, audit_row, ckt->CKTrhs[audit_row]);
++                fprintf(stderr, "LINEAR_AUDIT end id=%lu\n", linear_audit);
++            }
+             ckt->CKTstat->STATsolveTime +=
+                 SPfrontEnd->IFseconds() - startTime;
+ #ifdef STEPDEBUG
+--- a/src/maths/sparse/spsmp.c
++++ b/src/maths/sparse/spsmp.c
+@@ -96,6 +96,8 @@
+ #include <assert.h>
+ #include <stdio.h>
+ #include <math.h>
++#include <stdlib.h>
++#include <string.h>
+ #include "ngspice/spmatrix.h"
+ #include "spdefs.h"
+ #include "ngspice/smpdefs.h"
+@@ -616,3 +618,122 @@
+ {
+     spMultiply(Matrix->SPmatrix, RHS, Solution, iRHS, iSolution);
+ }
++
++/* Read-only audit in external equation order; called before factorization. */
++void SMPauditLinearLoad(SMPmatrix *external, double *rhs, unsigned long serial,
++                       double time, double delta, int iteration, int order, double gmin)
++{
++    MatrixPtr matrix = external->SPmatrix;
++    int col;
++    fprintf(stderr, "LINEAR_AUDIT begin id=%lu time=%a delta=%a iteration=%d order=%d size=%d external=%d gmin=%a\n",
++        serial, time, delta, iteration, order,
++        matrix->Size, matrix->ExtSize, gmin);
++    for (col = 1; col <= matrix->Size; ++col) {
++        ElementPtr element;
++        for (element = matrix->FirstInCol[col]; element; element = element->NextInCol) {
++            if (element->Real != 0.0)
++                fprintf(stderr, "LINEAR_AUDIT a id=%lu row=%d col=%d value=%a\n", serial,
++                    matrix->IntToExtRowMap[element->Row], matrix->IntToExtColMap[element->Col], element->Real);
++        }
++    }
++    for (col = 1; col <= matrix->ExtSize; ++col)
++        fprintf(stderr, "LINEAR_AUDIT b id=%lu row=%d value=%a\n", serial, col, rhs[col]);
++}
++
++/* Experimental algebraic scaling. Always restore physical solution coordinates. */
++static int diagnostic_mode = -1;
++static int diagnostic_size = 0;
++static double *row_maximum, *column_maximum, *row_scale, *column_scale;
++
++static int diagnosticMode(void)
++{
++    if (diagnostic_mode < 0) {
++        const char *mode = getenv("ROBOTRON_SPARSE_MODE");
++        diagnostic_mode = (!mode || !strcmp(mode, "off")) ? 0 :
++                          !strcmp(mode, "reorder") ? 1 : !strcmp(mode, "scale") ? 2 : -2;
++        fprintf(stderr, "SPARSE_DIAGNOSTIC mode=%d\n", diagnostic_mode);
++    }
++    return diagnostic_mode;
++}
++
++static double diagnosticPower(double maximum)
++{
++    int exponent = 0;
++    if (maximum) frexp(maximum, &exponent);
++    return scalbn(1.0, -exponent);
++}
++
++int SMPdiagnosticScale(SMPmatrix *external, double *rhs, double gmin)
++{
++    MatrixPtr matrix = external->SPmatrix;
++    int mode = diagnosticMode(), col;
++    if (mode < 2) return mode;
++    if (gmin != 0 || matrix->Complex || matrix->Size != matrix->ExtSize) {
++        fprintf(stderr, "SPARSE_DIAGNOSTIC rejected unsupported matrix or diagonal gmin\n");
++        return -1;
++    }
++    if (diagnostic_size != matrix->ExtSize) {
++        free(row_maximum); free(column_maximum); free(row_scale); free(column_scale);
++        diagnostic_size = matrix->ExtSize;
++        row_maximum = calloc((size_t)diagnostic_size+1, sizeof(double));
++        column_maximum = calloc((size_t)diagnostic_size+1, sizeof(double));
++        row_scale = calloc((size_t)diagnostic_size+1, sizeof(double));
++        column_scale = calloc((size_t)diagnostic_size+1, sizeof(double));
++        if (!row_maximum || !column_maximum || !row_scale || !column_scale) return -1;
++    }
++    memset(row_maximum, 0, ((size_t)diagnostic_size+1)*sizeof(double));
++    memset(column_maximum, 0, ((size_t)diagnostic_size+1)*sizeof(double));
++    for (col = 1; col <= matrix->Size; ++col) {
++        ElementPtr element;
++        for (element = matrix->FirstInCol[col]; element; element = element->NextInCol) {
++            int row = matrix->IntToExtRowMap[element->Row];
++            row_maximum[row] = fmax(row_maximum[row], fabs(element->Real));
++        }
++    }
++    for (col = 1; col <= diagnostic_size; ++col) row_scale[col] = diagnosticPower(row_maximum[col]);
++    for (col = 1; col <= matrix->Size; ++col) {
++        ElementPtr element;
++        int external_col = matrix->IntToExtColMap[col];
++        for (element = matrix->FirstInCol[col]; element; element = element->NextInCol)
++            column_maximum[external_col] = fmax(column_maximum[external_col],
++                fabs(element->Real*row_scale[matrix->IntToExtRowMap[element->Row]]));
++    }
++    for (col = 1; col <= diagnostic_size; ++col) column_scale[col] = diagnosticPower(column_maximum[col]);
++    for (col = 1; col <= matrix->Size; ++col) {
++        ElementPtr element;
++        int external_col = matrix->IntToExtColMap[col];
++        for (element = matrix->FirstInCol[col]; element; element = element->NextInCol) {
++            double rs = row_scale[matrix->IntToExtRowMap[element->Row]], cs = column_scale[external_col];
++            double value = (element->Real*rs)*cs;
++            if (!isfinite(value) || (value/cs)/rs != element->Real) {
++                fprintf(stderr, "SPARSE_DIAGNOSTIC rejected inexact coefficient scaling\n");
++                return -1;
++            }
++            element->Real = value;
++        }
++    }
++    for (col = 1; col <= diagnostic_size; ++col) {
++        double value = rhs[col]*row_scale[col];
++        if (!isfinite(value) || value/row_scale[col] != rhs[col]) {
++            fprintf(stderr, "SPARSE_DIAGNOSTIC rejected inexact RHS scaling\n");
++            return -1;
++        }
++        rhs[col] = value;
++    }
++    return mode;
++}
++
++int SMPdiagnosticUnscale(SMPmatrix *external, double *solution)
++{
++    int i;
++    if (diagnosticMode() != 2) return 0;
++    for (i = 1; i <= external->SPmatrix->ExtSize; ++i) {
++        double value = solution[i]*column_scale[i];
++        if (!isfinite(value) || value/column_scale[i] != solution[i]) {
++            fprintf(stderr, "SPARSE_DIAGNOSTIC rejected inexact solution unscaling\n");
++            return 1;
++        }
++        solution[i] = value;
++    }
++    return 0;
++}
