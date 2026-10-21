@@ -1,0 +1,64 @@
+--- a/src/spicelib/analysis/dctran.c
++++ b/src/spicelib/analysis/dctran.c
+@@ -22,6 +22,7 @@
+ #include "ngspice/fteext.h"
+ #include "ngspice/missing_math.h"
+ #include "represented_time_step.h"
++#include "accepted_budget.h"
+ 
+ /* for setting breakpoints required by dbs data base */
+ extern struct dbcomm *dbs;
+@@ -70,6 +71,7 @@
+ {
+     TRANan *job = (TRANan *) ckt->CKTcurJob;
+ 
++    RobotronAcceptedBudget robotron_budget;
+     int i;
+     double olddelta;
+     double robotron_base_time = 0;
+@@ -117,6 +119,23 @@
+ #if defined SHARED_MODULE
+     int redostep;
+ #endif
++    if (robotron_budget_init(&robotron_budget,
++            getenv("ROBOTRON_ACCEPTED_LIMIT"), getenv("ROBOTRON_ACCEPTED_AFTER"))) {
++        fprintf(stderr, "ACCEPTED_BUDGET error invalid configuration\n");
++        return E_BADPARM;
++    }
++    if (robotron_budget.limit) {
++#ifdef SHARED_MODULE
++        fprintf(stderr, "ACCEPTED_BUDGET error shared execution unsupported\n");
++        return E_BADPARM;
++#endif
++        if (!restart) {
++            fprintf(stderr, "ACCEPTED_BUDGET error resume unsupported\n");
++            return E_BADPARM;
++        }
++        fprintf(stderr, "ACCEPTED_BUDGET configured limit=%lu after=%.17g\n",
++                robotron_budget.limit, robotron_budget.after);
++    }
+     if (robotron_time_env && strcmp(robotron_time_env, "off")) {
+         if (!strcmp(robotron_time_env, "rollback")) robotron_time_mode = 1;
+         else if (!strcmp(robotron_time_env, "represented")) robotron_time_mode = 2;
+@@ -478,6 +497,21 @@
+         ckt->CKTag[0] = ckt->CKTag[1] = 0.;
+         return(OK);
+     }
++    /* Keep the accepted plot available to subsequent control commands.
++       This is an explicit operational truncation, never convergence success. */
++    if (robotron_budget_hit(&robotron_budget, ckt->CKTtime)) {
++        fprintf(stderr, "ACCEPTED_BUDGET stopped count=%lu time=%.17g requested=%.17g\n",
++                robotron_budget.count, ckt->CKTtime, ckt->CKTfinalTime);
++        SPfrontEnd->OUTendPlot(job->TRANplot);
++        job->TRANplot = NULL;
++        UPDATE_STATS(0);
++#ifdef WANT_SENSE2
++        if (ckt->CKTsenInfo && (ckt->CKTsenInfo->SENmode & TRANSEN))
++            ckt->CKTsenInfo->SENmode = save;
++#endif
++        ckt->CKTag[0] = ckt->CKTag[1] = 0.;
++        return OK;
++    }
+     if(SPfrontEnd->IFpauseTest()) {
+         /* user requested pause... */
+         UPDATE_STATS(DOING_TRAN);
