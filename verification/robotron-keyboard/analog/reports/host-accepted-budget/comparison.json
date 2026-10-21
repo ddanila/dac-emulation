@@ -1,0 +1,219 @@
+{
+  "completed": true,
+  "qualified": false,
+  "pairCompleted": false,
+  "scope": "Compare only the common prefix of explicitly budget-truncated accepted captures.",
+  "absoluteTimePrefix": {
+    "signals": [
+      {
+        "maximumDifferenceV": 52.402844326965365,
+        "timeSeconds": 0.0010980122484366545,
+        "coarseV": 57.175961507898165,
+        "fineV": 4.773117180932802,
+        "integratedAbsoluteDifferenceVoltSeconds": 2.9631295143314907e-09,
+        "meanAbsoluteDifferenceV": 2.6986306560301752e-06,
+        "rmsDifferenceV": 4.765684747638831e-05,
+        "signal": "v(n_CABLE_DATEN,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 52.402763293881435,
+        "timeSeconds": 0.0010980122484366545,
+        "coarseV": 52.63115008423733,
+        "fineV": 0.2283867903558954,
+        "integratedAbsoluteDifferenceVoltSeconds": 2.8254657235097465e-09,
+        "meanAbsoluteDifferenceV": 2.5732551959498557e-06,
+        "rmsDifferenceV": 4.963855663135893e-05,
+        "signal": "v(n_CABLE_TAKT,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.003215445998294264,
+        "timeSeconds": 0.0002751367699999956,
+        "coarseV": 4.02848354388158,
+        "fineV": 4.0316989898798745,
+        "integratedAbsoluteDifferenceVoltSeconds": 3.0088617655483858e-09,
+        "meanAbsoluteDifferenceV": 2.7402806934336296e-06,
+        "rmsDifferenceV": 3.577964130704057e-05,
+        "signal": "v(host_data_buffer_input,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.003215445998294264,
+        "timeSeconds": 0.0002751367699999956,
+        "coarseV": 4.02848354388158,
+        "fineV": 4.0316989898798745,
+        "integratedAbsoluteDifferenceVoltSeconds": 2.3633354579889803e-09,
+        "meanAbsoluteDifferenceV": 2.1523762247196473e-06,
+        "rmsDifferenceV": 3.3902897073936885e-05,
+        "signal": "v(host_clock_buffer_input,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.2628350260212754,
+        "timeSeconds": 0.00032124966842219196,
+        "coarseV": 0.2954647905026472,
+        "fineV": 0.03262976448137178,
+        "integratedAbsoluteDifferenceVoltSeconds": 9.36292606003858e-10,
+        "meanAbsoluteDifferenceV": 8.527159941392038e-07,
+        "rmsDifferenceV": 0.0001363677873219828,
+        "signal": "v(host_data_buffer_output,host_receiver_gnd)"
+      },
+      {
+        "maximumDifferenceV": 0.09185369869987715,
+        "timeSeconds": 0.00032125773064562856,
+        "coarseV": 0.03278902027066821,
+        "fineV": 0.12464271897054537,
+        "integratedAbsoluteDifferenceVoltSeconds": 9.21641767708854e-10,
+        "meanAbsoluteDifferenceV": 8.393729387080415e-07,
+        "rmsDifferenceV": 0.00013128846906591905,
+        "signal": "v(host_clock_buffer_output,host_receiver_gnd)"
+      }
+    ],
+    "unionKnots": 96383,
+    "endSeconds": 0.0010980122484380308
+  },
+  "sources": {
+    "accepted_capture_review.py": "955b65e56ce8fba75cdc158b571b75785ae738f91d15567c6693c6ff9c4ae1a3",
+    "compare_mpfr_replays.py": "6e3df0f14a72043af35a43d29e4fe7d4e51dcfeb5ba49badd9abd3204a8eb34e",
+    "host_waveform_comparison.py": "b1f96a72148a1bebaa25cd2188fc11ee1e5fa7a17f36ce0ff6ab25d4fc53e3a8",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "captures": {
+    "coarse": {
+      "reportSha256": "106eeb48388ef628c15dc378fc4b05063f2d0b1c8a43af6b5c3d6469ca8ffd8b",
+      "receiptSha256": "c1692a2fdf06f6659307148dcecdabfac2f5734eff7cc2f136e54df1d82e0aad",
+      "waveforms": {
+        "trace.txt": {
+          "rows": 53722,
+          "lastSampleSeconds": 0.0010980122484380308,
+          "sourceIdentical": false
+        },
+        "host-trace.txt": {
+          "rows": 53722,
+          "lastSampleSeconds": 0.0010980122484380308,
+          "sourceIdentical": false
+        },
+        "driver-trace.txt": {
+          "rows": 53722,
+          "lastSampleSeconds": 0.0010980122484380308,
+          "sourceIdentical": false
+        },
+        "boundary-trace.txt": {
+          "rows": 53722,
+          "lastSampleSeconds": 0.0010980122484380308,
+          "sourceIdentical": false
+        }
+      },
+      "notices": [
+        "ACCEPTED_BUDGET configured limit=200 after=0.0010980122484353001",
+        "ACCEPTED_BUDGET stopped count=200 time=0.0010980122484380308 requested=0.0010980142484352947"
+      ],
+      "budgetWindow": {
+        "samples": 200,
+        "firstSeconds": 0.0010980122484353808,
+        "lastSeconds": 0.0010980122484380308,
+        "advanceSeconds": 2.65000694998907e-15,
+        "minimumIntervalSeconds": 4.9873299934333204e-18,
+        "sampledVoltages": [
+          {
+            "signal": "v(n_CABLE_DATEN,host_receiver_gnd)",
+            "minV": -47.62162813190812,
+            "maxV": 57.175961507898165
+          },
+          {
+            "signal": "v(n_CABLE_TAKT,host_receiver_gnd)",
+            "minV": -52.16643955556975,
+            "maxV": 52.631150084237326
+          },
+          {
+            "signal": "v(host_data_buffer_input,host_receiver_gnd)",
+            "minV": 4.804108268342568,
+            "maxV": 4.804108268809946
+          },
+          {
+            "signal": "v(host_clock_buffer_input,host_receiver_gnd)",
+            "minV": 0.38046115943267167,
+            "maxV": 0.3804611594343731
+          },
+          {
+            "signal": "v(host_data_buffer_output,host_receiver_gnd)",
+            "minV": 0.017968370791859194,
+            "maxV": 0.017968370791874078
+          },
+          {
+            "signal": "v(host_clock_buffer_output,host_receiver_gnd)",
+            "minV": 3.924259386276799,
+            "maxV": 3.9242593862769777
+          }
+        ]
+      }
+    },
+    "fine": {
+      "reportSha256": "936c36e85a569fc395f6b3d656d585aa8dc5b7c22ba3d28feea7abfa55495fa1",
+      "receiptSha256": "d2ea7c1da70d712af8d9a1a4f55dfbba86fbb9d9653e2db37b8d4e62a67e50b7",
+      "waveforms": {
+        "trace.txt": {
+          "rows": 73249,
+          "lastSampleSeconds": 0.0010980122484804734,
+          "sourceIdentical": false
+        },
+        "host-trace.txt": {
+          "rows": 73249,
+          "lastSampleSeconds": 0.0010980122484804734,
+          "sourceIdentical": false
+        },
+        "driver-trace.txt": {
+          "rows": 73249,
+          "lastSampleSeconds": 0.0010980122484804734,
+          "sourceIdentical": false
+        },
+        "boundary-trace.txt": {
+          "rows": 73249,
+          "lastSampleSeconds": 0.0010980122484804734,
+          "sourceIdentical": false
+        }
+      },
+      "notices": [
+        "ACCEPTED_BUDGET configured limit=200 after=0.0010980122484353001",
+        "ACCEPTED_BUDGET stopped count=200 time=0.0010980122484804734 requested=0.0010980142484352947"
+      ],
+      "budgetWindow": {
+        "samples": 200,
+        "firstSeconds": 0.0010980122484372233,
+        "lastSeconds": 0.0010980122484804734,
+        "advanceSeconds": 4.3250125703053754e-14,
+        "minimumIntervalSeconds": 2.3852447794681098e-18,
+        "sampledVoltages": [
+          {
+            "signal": "v(n_CABLE_DATEN,host_receiver_gnd)",
+            "minV": -110.07472313616046,
+            "maxV": 118.7143294611058
+          },
+          {
+            "signal": "v(n_CABLE_TAKT,host_receiver_gnd)",
+            "minV": -114.61945353343144,
+            "maxV": 114.16959906406315
+          },
+          {
+            "signal": "v(host_data_buffer_input,host_receiver_gnd)",
+            "minV": 4.80401512027602,
+            "maxV": 4.804015127908669
+          },
+          {
+            "signal": "v(host_clock_buffer_input,host_receiver_gnd)",
+            "minV": 0.3804532935088387,
+            "maxV": 0.3804532935352384
+          },
+          {
+            "signal": "v(host_data_buffer_output,host_receiver_gnd)",
+            "minV": 0.01796837079184077,
+            "maxV": 0.017968370791865418
+          },
+          {
+            "signal": "v(host_clock_buffer_output,host_receiver_gnd)",
+            "minV": 3.924259318599938,
+            "maxV": 3.9242593186041432
+          }
+        ]
+      }
+    }
+  },
+  "boundary": "Common accepted-state prefix only, with one interpolated endpoint if needed. No phase alignment, extrapolation, completed refinement, intersample-peak or convergence claim. Budget termination is operational, not a solver failure."
+}
