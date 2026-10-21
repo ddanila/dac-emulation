@@ -1,0 +1,65 @@
+{
+  "qualified": false,
+  "completed": false,
+  "operationallyTruncated": false,
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-represented-time/run.py",
+    "build/keyboard-controller-analog/host-represented-time-combined-256-audit",
+    "--time-step",
+    "represented",
+    "--integration-arithmetic",
+    "256",
+    "--mode",
+    "256",
+    "--step-divisor",
+    "1",
+    "--runtime",
+    "/tmp/robotron-accepted-budget/build/src/ngspice",
+    "--build-provenance",
+    "/tmp/robotron-accepted-budget/provenance.json",
+    "--out",
+    "build/keyboard-controller-analog/host-accepted-budget-off"
+  ],
+  "environment": {
+    "ROBOTRON_CAP_ASSEMBLY": "off"
+  },
+  "notices": [],
+  "endpoint": {},
+  "endpointReviewerSha256": "955b65e56ce8fba75cdc158b571b75785ae738f91d15567c6693c6ff9c4ae1a3",
+  "reviewExisting": true,
+  "runnerSha256": "4b7a4cd5090cbf1d5acd4d06649e2adbb501595be39192673648ea57f4d4c0a2",
+  "reportSha256": "9a9af13d5f5ff9f58262171c2d657b8349fb13534a635919ad940fe5b9d01b35",
+  "sourceReportSha256": "c9111bb8990e7b80c08b3cd6341582e2d3f91ded68f2079f02490fe74fe528eb",
+  "identicalArtifacts": {
+    "io.cir": true,
+    "trace.txt": true,
+    "host-trace.txt": true,
+    "driver-trace.txt": true,
+    "boundary-trace.txt": true
+  },
+  "disabledControlPassed": true,
+  "waveforms": {
+    "trace.txt": {
+      "rows": 53491,
+      "lastSampleSeconds": 0.0010980122484305155,
+      "sourceIdentical": true
+    },
+    "host-trace.txt": {
+      "rows": 53491,
+      "lastSampleSeconds": 0.0010980122484305155,
+      "sourceIdentical": true
+    },
+    "driver-trace.txt": {
+      "rows": 53491,
+      "lastSampleSeconds": 0.0010980122484305155,
+      "sourceIdentical": true
+    },
+    "boundary-trace.txt": {
+      "rows": 53491,
+      "lastSampleSeconds": 0.0010980122484305155,
+      "sourceIdentical": true
+    }
+  },
+  "boundary": "Accepted-state output only; not a restart checkpoint, completed refinement or convergence result."
+}

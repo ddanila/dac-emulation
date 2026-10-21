@@ -1,0 +1,87 @@
+{
+  "completed": true,
+  "qualified": false,
+  "pairCompleted": false,
+  "runtimeSourceRevision": "52ec707a98d3956b6a371df6689d2556de89d894",
+  "scope": "Operationally bounded accepted-state observation of the experimental exact capacitor-addition correction.",
+  "finding": "The disabled capture runtime reproduces all five baseline circuit/waveform artifacts and the original failure. Both exact-capacitor-addition captures reach the operational accepted-point limit and retain their waveforms. Saved cable voltages still exhibit large excursions, with a 52.402844 V maximum coarse/fine difference over the common absolute-time prefix. Exact local capacitor additions alone therefore do not provide a qualified transient remedy; longer runtime cannot erase the already retained excursions.",
+  "boundary": "Budget stops retain accepted waveforms without changing the circuit or timesteps. They are neither solver failures nor completed refinements; snapshots are not restart checkpoints. Prefix comparisons use absolute time and one interpolated common endpoint, with no extrapolation or phase alignment.",
+  "evidence": {
+    "comparison": "comparison.json",
+    "disabledControl": "off/capture-control.json"
+  },
+  "retention": {
+    "off": {
+      "rawDirectory": "build/keyboard-controller-analog/host-accepted-budget-off",
+      "compressedFiles": {
+        "ngspice.log.xz": {
+          "uncompressedSha256": "e42ed6375464bf59a3807271fc286d9a60187d74711493b9af95aa704e9e0edb"
+        }
+      },
+      "localOnlyFiles": {
+        "trace.txt": "7cfe35de70679efd88b6671c01250ac426bdbf539de20364540df0e9d87a6e0a",
+        "host-trace.txt": "c16df0b332a4c79fd40dc0b686777b08603ba8dce9728fecae1a65edc061a8da",
+        "driver-trace.txt": "412222a4a92d58339d570e0cd49375aacb4309496f529585e3da2d19308c2876",
+        "boundary-trace.txt": "9226d0b6e30f11af5c1cf7e1f693b4b813ccdc4895c0dbe3e6d9b6e89c564b00"
+      },
+      "scope": "Full audit log retained compressed. Corrected host waveforms retained for the prefix comparison; remaining complete raw waveforms are hash-bound local artifacts. Disabled waveforms duplicate the baseline."
+    },
+    "coarse": {
+      "rawDirectory": "build/keyboard-controller-analog/host-accepted-budget-coarse",
+      "compressedFiles": {
+        "ngspice.log.xz": {
+          "uncompressedSha256": "8add2a2acc3c3d5717fc3296ab31b360124631a7e94dc0cde02e3962d9cd72a4"
+        },
+        "host-trace.txt.xz": {
+          "uncompressedSha256": "60e4fa0c9ccda9da2c6ee6f153331f356f424dcfddd8018980605947eb67b0b8"
+        }
+      },
+      "localOnlyFiles": {
+        "trace.txt": "de145a9ff5c80dfaf8f290cfd93b9f8076cfe4048365901272ac24011e0623f3",
+        "driver-trace.txt": "e6ec3620fc86a7fe291a3ff54dcf8a529ffabccaad46a0d38249646a9c0238c2",
+        "boundary-trace.txt": "196617534445ca6ef708cf6a9bfcfdb0f42feb0e12d330117096fe7307d54068"
+      },
+      "scope": "Full audit log retained compressed. Corrected host waveforms retained for the prefix comparison; remaining complete raw waveforms are hash-bound local artifacts. Disabled waveforms duplicate the baseline."
+    },
+    "fine": {
+      "rawDirectory": "build/keyboard-controller-analog/host-accepted-budget-fine",
+      "compressedFiles": {
+        "ngspice.log.xz": {
+          "uncompressedSha256": "88a818d18871da5bdc2e2ce67538a0f85f0a5149fdd951dd1af12ed852824fbc"
+        },
+        "host-trace.txt.xz": {
+          "uncompressedSha256": "70fbea647d5acab5e5c953b957d8bcff55c8071c6a3c033839d145f5e03e5071"
+        }
+      },
+      "localOnlyFiles": {
+        "trace.txt": "34bc4a15ef42e78fee2307ec3a9739edd1f3d5d4448c10a927dae680b7366c7e",
+        "driver-trace.txt": "6f4d46a09242f9f1c67a439a78d7ad769b7e6fdf29c8a23cad98a941ca64d00e",
+        "boundary-trace.txt": "6c2e8c87b26402f8c75c16fa0366937e25fbc5513a853988557061c3bd51d905"
+      },
+      "scope": "Full audit log retained compressed. Corrected host waveforms retained for the prefix comparison; remaining complete raw waveforms are hash-bound local artifacts. Disabled waveforms duplicate the baseline."
+    }
+  },
+  "artifacts": {
+    "build.py": "904a90380a654d9aea106be5fc5ed6b6da331f03d9c2c7999bd24a63db7a0510",
+    "coarse/build-provenance.json": "ddf957caede5fa6bfa2c004546704c255211a03ce87eb5bc89110e1d616ca37a",
+    "coarse/capture-control.json": "c1692a2fdf06f6659307148dcecdabfac2f5734eff7cc2f136e54df1d82e0aad",
+    "coarse/host-trace.txt.xz": "8b7f38aa0f5d856a191d18853f92519159fad2b8e0df6a8e79336444487291f6",
+    "coarse/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "coarse/ngspice.log.xz": "2b050d703fbafc1fa7cec248611b0016968fdf606d1a0518f4434a7c5ead6d44",
+    "coarse/report.json": "106eeb48388ef628c15dc378fc4b05063f2d0b1c8a43af6b5c3d6469ca8ffd8b",
+    "comparison.json": "80ca6648e8f71611911d47763d6952ba2aa33fbb781cd6907a5accafb9acb80e",
+    "fine/build-provenance.json": "ddf957caede5fa6bfa2c004546704c255211a03ce87eb5bc89110e1d616ca37a",
+    "fine/capture-control.json": "d2ea7c1da70d712af8d9a1a4f55dfbba86fbb9d9653e2db37b8d4e62a67e50b7",
+    "fine/host-trace.txt.xz": "d6d5db73b4746dc760268b10b888ad3d534a5195c60e51c5e1f1220e2f27e028",
+    "fine/io.cir": "8f4eeab4c24648a3a931537ecc586d89c62de1c85bc0457dc097bfee59f9a6a4",
+    "fine/ngspice.log.xz": "c542fc8fedb66d306862d9eab52908e0c75549e38b7d0b642a54bf04e08f8194",
+    "fine/report.json": "936c36e85a569fc395f6b3d656d585aa8dc5b7c22ba3d28feea7abfa55495fa1",
+    "off/build-provenance.json": "ddf957caede5fa6bfa2c004546704c255211a03ce87eb5bc89110e1d616ca37a",
+    "off/capture-control.json": "10f5a8b205e17943910264593f1d13cd8e9866608a0d913016e6341cad48cedf",
+    "off/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "off/ngspice.log.xz": "846f1befd6948567581260b91102c1e16f6b93d7ac13bd9438e75806befc6831",
+    "off/report.json": "9a9af13d5f5ff9f58262171c2d657b8349fb13534a635919ad940fe5b9d01b35",
+    "run.py": "4b7a4cd5090cbf1d5acd4d06649e2adbb501595be39192673648ea57f4d4c0a2"
+  },
+  "nextAction": "Use the accepted-state boundary and full local audit logs to isolate remaining stamp-addition and stored-history sensitivity. Preserve the disabled control, and require completed matched refinement and independently justified device dynamics before board qualification."
+}

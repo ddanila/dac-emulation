@@ -1,0 +1,74 @@
+{
+  "qualified": false,
+  "completed": false,
+  "operationallyTruncated": true,
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-represented-time/run.py",
+    "build/keyboard-controller-analog/host-represented-time-combined-256-audit",
+    "--time-step",
+    "represented",
+    "--integration-arithmetic",
+    "256",
+    "--mode",
+    "256",
+    "--step-divisor",
+    "1",
+    "--runtime",
+    "/tmp/robotron-accepted-budget/build/src/ngspice",
+    "--build-provenance",
+    "/tmp/robotron-accepted-budget/provenance.json",
+    "--out",
+    "build/keyboard-controller-analog/host-accepted-budget-coarse"
+  ],
+  "environment": {
+    "ROBOTRON_CAP_ASSEMBLY": "exact",
+    "ROBOTRON_ACCEPTED_LIMIT": "200",
+    "ROBOTRON_ACCEPTED_AFTER": "0.0010980122484353"
+  },
+  "notices": [
+    "ACCEPTED_BUDGET configured limit=200 after=0.0010980122484353001",
+    "ACCEPTED_BUDGET stopped count=200 time=0.0010980122484380308 requested=0.0010980142484352947"
+  ],
+  "endpoint": {
+    "effectiveStopSeconds": 0.0010980142484352947,
+    "acceptedSeconds": 0.0010980122484380308,
+    "stopParseDifferenceUlps": -1.0
+  },
+  "endpointReviewerSha256": "955b65e56ce8fba75cdc158b571b75785ae738f91d15567c6693c6ff9c4ae1a3",
+  "reviewExisting": true,
+  "runnerSha256": "4b7a4cd5090cbf1d5acd4d06649e2adbb501595be39192673648ea57f4d4c0a2",
+  "reportSha256": "106eeb48388ef628c15dc378fc4b05063f2d0b1c8a43af6b5c3d6469ca8ffd8b",
+  "sourceReportSha256": "c9111bb8990e7b80c08b3cd6341582e2d3f91ded68f2079f02490fe74fe528eb",
+  "identicalArtifacts": {
+    "io.cir": true,
+    "trace.txt": false,
+    "host-trace.txt": false,
+    "driver-trace.txt": false,
+    "boundary-trace.txt": false
+  },
+  "disabledControlPassed": false,
+  "waveforms": {
+    "trace.txt": {
+      "rows": 53722,
+      "lastSampleSeconds": 0.0010980122484380308,
+      "sourceIdentical": false
+    },
+    "host-trace.txt": {
+      "rows": 53722,
+      "lastSampleSeconds": 0.0010980122484380308,
+      "sourceIdentical": false
+    },
+    "driver-trace.txt": {
+      "rows": 53722,
+      "lastSampleSeconds": 0.0010980122484380308,
+      "sourceIdentical": false
+    },
+    "boundary-trace.txt": {
+      "rows": 53722,
+      "lastSampleSeconds": 0.0010980122484380308,
+      "sourceIdentical": false
+    }
+  },
+  "boundary": "Accepted-state output only; not a restart checkpoint, completed refinement or convergence result."
+}
