@@ -1,0 +1,35 @@
+{
+  "qualified": false,
+  "reproducedEvidence": true,
+  "sourceReportSha256": "c9111bb8990e7b80c08b3cd6341582e2d3f91ded68f2079f02490fe74fe528eb",
+  "reportSha256": "3e5dfd0ef3f6e95aa21d972b37866ede40c10898529f2de012e7357d6d464bd3",
+  "wrapperSha256": "fae9ed94fca89982f3c11b729c88c1e3d13e8106d8ac3a49b95b277829d65a43",
+  "runnerSha256": "1125a87f643115476e3f68c01be1618678a2d501c36b927809286809c77cfc02",
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-represented-time/run.py",
+    "build/keyboard-controller-analog/host-represented-time-combined-256-audit",
+    "--time-step",
+    "represented",
+    "--integration-arithmetic",
+    "256",
+    "--mode",
+    "256",
+    "--runtime",
+    "/private/tmp/robotron-capacitor-stamp-audit/build/src/ngspice",
+    "--build-provenance",
+    "/private/tmp/robotron-capacitor-stamp-audit/provenance.json",
+    "--out",
+    "build/keyboard-controller-analog/host-capacitor-stamp-audit"
+  ],
+  "identicalArtifacts": {
+    "io.cir": true,
+    "trace.txt": true,
+    "host-trace.txt": true,
+    "driver-trace.txt": true,
+    "boundary-trace.txt": true
+  },
+  "diagnosticEqual": true,
+  "capacitorAuditRecords": 126,
+  "linearAuditRecords": 6
+}

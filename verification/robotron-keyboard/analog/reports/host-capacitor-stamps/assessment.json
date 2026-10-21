@@ -1,0 +1,42 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Exact-rational capacitor contribution review of the final frozen system in a matched logging-only replay.",
+  "producerRevision": "7d28742",
+  "finding": "Capacitor arithmetic and rounded assembly materially alter the final ill-conditioned linear system. Correcting logged capacitor contributions shifts the cable common-mode solution by approximately 114.5 kV, while solving each fixed system at 80 versus 160 decimal digits agrees. Accurate solution of the already-rounded matrix does not recover these lost terms. This is a diagnostic of an unphysical failed state, not a physical voltage or a proven initiating cause.",
+  "boundary": "Frozen-equation diagnostic. Corrections replace each logged capacitor addition with exact rational integration/history contributions. All other assembled terms, including subsequent rounding and nonlinear-device capacitances, remain fixed. Previously rounded charge histories and coefficients remain inputs. No transient convergence or physical calibration claim.",
+  "nextAction": "Locate the first affected accepted/rejected state and preserve assembly contributions through the high-precision solve. Require an identical diagnostic control and a completed matched transient refinement pair; the frozen-system correction is not a convergence remedy.",
+  "evidence": {
+    "review": "stamp-review.json",
+    "producer": "report.json",
+    "loggingControl": "audit-control.json",
+    "buildProvenance": "build-provenance.json",
+    "log": "ngspice.log.xz"
+  },
+  "reproduction": {
+    "command": [
+      "python3",
+      "verification/robotron-keyboard/analog/reports/host-capacitor-stamps/review.py",
+      "build/keyboard-controller-analog/host-capacitor-stamp-audit",
+      "--out",
+      "/tmp/capacitor-stamps.json"
+    ],
+    "waveformDirectory": "build/keyboard-controller-analog/host-capacitor-stamp-audit",
+    "scope": "Full producer waveform hashes are checked by review.py; original waveform files remain in the retained build capture. Compressed log preserves the frozen systems for independent analysis."
+  },
+  "checks": {
+    "loggedTrajectoryIdentical": true,
+    "original80Vs160": 4.614860567583891e-62,
+    "corrected80Vs160": 2.2922909088783442e-61,
+    "cableCommonModeChangeVolts": 114512.55386456061
+  },
+  "artifacts": {
+    "stamp-review.json": "479792f1049ba65130a1b9a71cf8aebde26c274331aab9566a7b7a7c8a1fbd47",
+    "report.json": "3e5dfd0ef3f6e95aa21d972b37866ede40c10898529f2de012e7357d6d464bd3",
+    "audit-control.json": "ceb26024aeb1065e4220c311c8759f1a1f2bc2b5f076f5752582f2129faf48eb",
+    "build-provenance.json": "2b909a91fee20e049529b3562666d177a8a80aa319566cd0de3db2123cdcc39f",
+    "io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "ngspice.log.xz": "507958d7420354329cfc7c5baca26f1814dce22d0e891387e07465663bf3729e"
+  },
+  "compressedLogUncompressedSha256": "15331f1335c775cc82b138ac579e3b892e70026692cfc0f15bcf68609ef6f546"
+}
