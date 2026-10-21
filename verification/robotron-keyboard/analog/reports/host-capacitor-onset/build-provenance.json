@@ -1,0 +1,453 @@
+{
+  "scope": "Build logging-only capacitor contributions alongside the represented-step linear audit.",
+  "baseProvenanceSha256": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+  "baseProvenance": {
+    "scope": "Experimental MPFR256 NIintegrate arithmetic with binary64 stored states and coefficients; opt-in and disabled-control modes",
+    "baseProvenanceSha256": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+    "baseProvenance": {
+      "source": "ngspice-47",
+      "scope": "Experimental MPFR real linear arithmetic; binary64 stamping and integration remain unchanged",
+      "basePatchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+      "patchSha256": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+      "kernelSha256": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+      "buildInputs": {
+        "configure": [
+          "/private/tmp/robotron-mpfr-transient/source/configure",
+          "--prefix=/private/tmp/robotron-mpfr-transient/install",
+          "--without-x",
+          "--with-readline=no",
+          "--disable-openmp",
+          "--disable-klu"
+        ],
+        "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+      },
+      "buildLogsSha256": {
+        "configure.log": "4a7378c67efddfbf1c43666b2261904c63db281e41284847dc3386caef439273",
+        "make.log": "658725523102e60d1a162adaa6648e665af78d347828b007d0ccab31405e581e"
+      },
+      "executableSha256": "9eab043d1a1a2c41ead0d756fb2c4d1ff3dcd9e6a02fd6b3cca812defd398741",
+      "libraries": {
+        "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+        "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+      },
+      "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+      "checks": {
+        "command": [
+          "clang",
+          "-O2",
+          "-I/private/tmp/robotron-mpfr-transient/source/src/include",
+          "-I/private/tmp/robotron-mpfr-transient/build/src/include",
+          "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-transient/check.c",
+          "/private/tmp/robotron-mpfr-transient/build/src/maths/sparse/.libs/libsparse.a",
+          "/private/tmp/robotron-mpfr-transient/build/src/misc/.libs/libmisc.a",
+          "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+          "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+          "-lmpfr",
+          "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+          "-lgmp",
+          "-o",
+          "/private/tmp/robotron-mpfr-transient/check"
+        ],
+        "sourceSha256": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+        "executableSha256": "42d5a38a0a257d8f5261f1086e58c32b5a1a20a1029735b9498dc3c0a9f29191",
+        "exitCode": 0,
+        "stdout": "pivot, reordered external coordinates, precision changes, reuse and diagonal Gmin pass\n",
+        "stderr": ""
+      },
+      "equationSourceSha256": {
+        "src/maths/ni/niiter.c": "059fb48cf2dbf3567dd65f56c1d2d611ac28ba899ed68d015078f34a86a6c785",
+        "src/maths/sparse/spsmp.c": "c0150e6886425ac3738f615305500431a1c922a8d4ca4c6ae23332b6d9ee07b0",
+        "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+        "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504"
+      }
+    },
+    "builderSha256": "53168a07333a5deeae21bae0112cb60cac3dc5e9f80d4e1e9f87fbaf49c7dd12",
+    "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+    "headerSha256": "a078128a975b60856eccf8a48fc58d8d713c114c87bede2b1b7847a79c41dd99",
+    "executableSha256": "767fe6f762bba14cd9cb2380b01b2292b4ac5caa9c63c020ff93292ab6d93ed3",
+    "integrationSourceSha256": "ca59da52307f2848dc5dab90fa49c1c34e2638fd7a07754d5170ce4a5c03f807",
+    "buildInputs": {
+      "configure": [
+        "/private/tmp/robotron-mpfr-integration/source/configure",
+        "--prefix=/private/tmp/robotron-mpfr-integration/install",
+        "--without-x",
+        "--with-readline=no",
+        "--disable-openmp",
+        "--disable-klu"
+      ],
+      "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+      "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+    },
+    "logsSha256": {
+      "configure.log": "38bfe31553eab1195026dd646d73a308cb89530a2ce020a33355a69b433af362",
+      "make.log": "37a0b5b541e55ef0f695c074d35749cc92b61f3d093441ed51ca5085a26a0ebf"
+    },
+    "adapterChecks": {
+      "off": {
+        "exitCode": 0,
+        "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+        "stderr": ""
+      },
+      "256": {
+        "exitCode": 0,
+        "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+        "stderr": "MPFR_INTEGRATION enabled bits=256 states=binary64\n"
+      },
+      "invalid": {
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    "checkSourceSha256": "92efd02f9ba2aa813344fbc9f6681655d278ba25256bfa9ea54a8b267440abbe",
+    "checkExecutableSha256": "6f4759bb99bb0164a197f9c86fa05f434ca6fac6f633d69c7d14424362f08b3d",
+    "checkCommand": [
+      "cc",
+      "-O2",
+      "-I/private/tmp/robotron-mpfr-integration/source/src/include",
+      "-I/private/tmp/robotron-mpfr-integration/build/src/include",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-integration/check.c",
+      "/private/tmp/robotron-mpfr-integration/source/src/maths/ni/niinteg.c",
+      "/private/tmp/robotron-mpfr-integration/build/src/misc/.libs/libmisc.a",
+      "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+      "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+      "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+      "-lmpfr",
+      "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+      "-lgmp",
+      "-o",
+      "/private/tmp/robotron-mpfr-integration/check"
+    ],
+    "adapterCheckExecution": "Executed separately after the initial build; build.py includes the same check for future builds.",
+    "adapterCheckBuilderSha256": "ab5defda22dc241824c6e1699d00bec706b13050e64fb26a101a032721e74c64"
+  },
+  "builderSha256": "32b0a17bca8fd887415c4be32cd1443a9524a82293a8cf5dbc8c950b42e08683",
+  "patchSha256": "c1bf6de99d158399b614a1e4616d7dee820865b4450dd2659919c7feb9453f12",
+  "headerSha256": "8baeb727ecc028dcc77c6da11e407889b47fb3e4fcbb40d1bacdeaa99a72e70b",
+  "baseTransientSourceSha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
+  "transientSourceSha256": "b0d997e4939fa321f37b042421d1bec31c1071ee606ecb0189c0b508c20d7dee",
+  "executableSha256": "16fa35feee49be21f69843761da356f4157e54944b18e4a7c488e98292599a9f",
+  "buildInputs": {
+    "configure": [
+      "/private/tmp/robotron-capacitor-window-audit/source/configure",
+      "--prefix=/private/tmp/robotron-capacitor-window-audit/install",
+      "--without-x",
+      "--with-readline=no",
+      "--disable-openmp",
+      "--disable-klu"
+    ],
+    "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+    "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+  },
+  "logsSha256": {
+    "configure.log": "4b37173821d83065eb5dfdeebbe5d5a8c4ae2672ad5cb4e31bb69ae5987bb0be",
+    "make.log": "ea0f6a4a2578e59a9904d6d93e7da0c1ee9e8cc1582a299977aef0dc88284aa3"
+  },
+  "auditBaseProvenance": {
+    "scope": "Build logging-only coverage of linear systems at represented minimum steps.",
+    "baseProvenanceSha256": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+    "baseProvenance": {
+      "scope": "Experimental MPFR256 NIintegrate arithmetic with binary64 stored states and coefficients; opt-in and disabled-control modes",
+      "baseProvenanceSha256": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+      "baseProvenance": {
+        "source": "ngspice-47",
+        "scope": "Experimental MPFR real linear arithmetic; binary64 stamping and integration remain unchanged",
+        "basePatchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+        "patchSha256": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+        "kernelSha256": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+        "buildInputs": {
+          "configure": [
+            "/private/tmp/robotron-mpfr-transient/source/configure",
+            "--prefix=/private/tmp/robotron-mpfr-transient/install",
+            "--without-x",
+            "--with-readline=no",
+            "--disable-openmp",
+            "--disable-klu"
+          ],
+          "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+        },
+        "buildLogsSha256": {
+          "configure.log": "4a7378c67efddfbf1c43666b2261904c63db281e41284847dc3386caef439273",
+          "make.log": "658725523102e60d1a162adaa6648e665af78d347828b007d0ccab31405e581e"
+        },
+        "executableSha256": "9eab043d1a1a2c41ead0d756fb2c4d1ff3dcd9e6a02fd6b3cca812defd398741",
+        "libraries": {
+          "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+          "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+        },
+        "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+        "checks": {
+          "command": [
+            "clang",
+            "-O2",
+            "-I/private/tmp/robotron-mpfr-transient/source/src/include",
+            "-I/private/tmp/robotron-mpfr-transient/build/src/include",
+            "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-transient/check.c",
+            "/private/tmp/robotron-mpfr-transient/build/src/maths/sparse/.libs/libsparse.a",
+            "/private/tmp/robotron-mpfr-transient/build/src/misc/.libs/libmisc.a",
+            "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+            "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+            "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+            "-lmpfr",
+            "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+            "-lgmp",
+            "-o",
+            "/private/tmp/robotron-mpfr-transient/check"
+          ],
+          "sourceSha256": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+          "executableSha256": "42d5a38a0a257d8f5261f1086e58c32b5a1a20a1029735b9498dc3c0a9f29191",
+          "exitCode": 0,
+          "stdout": "pivot, reordered external coordinates, precision changes, reuse and diagonal Gmin pass\n",
+          "stderr": ""
+        },
+        "equationSourceSha256": {
+          "src/maths/ni/niiter.c": "059fb48cf2dbf3567dd65f56c1d2d611ac28ba899ed68d015078f34a86a6c785",
+          "src/maths/sparse/spsmp.c": "c0150e6886425ac3738f615305500431a1c922a8d4ca4c6ae23332b6d9ee07b0",
+          "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+          "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504"
+        }
+      },
+      "builderSha256": "53168a07333a5deeae21bae0112cb60cac3dc5e9f80d4e1e9f87fbaf49c7dd12",
+      "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+      "headerSha256": "a078128a975b60856eccf8a48fc58d8d713c114c87bede2b1b7847a79c41dd99",
+      "executableSha256": "767fe6f762bba14cd9cb2380b01b2292b4ac5caa9c63c020ff93292ab6d93ed3",
+      "integrationSourceSha256": "ca59da52307f2848dc5dab90fa49c1c34e2638fd7a07754d5170ce4a5c03f807",
+      "buildInputs": {
+        "configure": [
+          "/private/tmp/robotron-mpfr-integration/source/configure",
+          "--prefix=/private/tmp/robotron-mpfr-integration/install",
+          "--without-x",
+          "--with-readline=no",
+          "--disable-openmp",
+          "--disable-klu"
+        ],
+        "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+      },
+      "logsSha256": {
+        "configure.log": "38bfe31553eab1195026dd646d73a308cb89530a2ce020a33355a69b433af362",
+        "make.log": "37a0b5b541e55ef0f695c074d35749cc92b61f3d093441ed51ca5085a26a0ebf"
+      },
+      "adapterChecks": {
+        "off": {
+          "exitCode": 0,
+          "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+          "stderr": ""
+        },
+        "256": {
+          "exitCode": 0,
+          "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+          "stderr": "MPFR_INTEGRATION enabled bits=256 states=binary64\n"
+        },
+        "invalid": {
+          "exitCode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      "checkSourceSha256": "92efd02f9ba2aa813344fbc9f6681655d278ba25256bfa9ea54a8b267440abbe",
+      "checkExecutableSha256": "6f4759bb99bb0164a197f9c86fa05f434ca6fac6f633d69c7d14424362f08b3d",
+      "checkCommand": [
+        "cc",
+        "-O2",
+        "-I/private/tmp/robotron-mpfr-integration/source/src/include",
+        "-I/private/tmp/robotron-mpfr-integration/build/src/include",
+        "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-integration/check.c",
+        "/private/tmp/robotron-mpfr-integration/source/src/maths/ni/niinteg.c",
+        "/private/tmp/robotron-mpfr-integration/build/src/misc/.libs/libmisc.a",
+        "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+        "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+        "-lmpfr",
+        "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+        "-lgmp",
+        "-o",
+        "/private/tmp/robotron-mpfr-integration/check"
+      ],
+      "adapterCheckExecution": "Executed separately after the initial build; build.py includes the same check for future builds.",
+      "adapterCheckBuilderSha256": "ab5defda22dc241824c6e1699d00bec706b13050e64fb26a101a032721e74c64"
+    },
+    "builderSha256": "b767c8991f2ccf8d7020f346353b52c2f43d379cd416f5970f70850c9e04c6e9",
+    "patchSha256": "c1bf6de99d158399b614a1e4616d7dee820865b4450dd2659919c7feb9453f12",
+    "headerSha256": "8baeb727ecc028dcc77c6da11e407889b47fb3e4fcbb40d1bacdeaa99a72e70b",
+    "baseTransientSourceSha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
+    "transientSourceSha256": "b0d997e4939fa321f37b042421d1bec31c1071ee606ecb0189c0b508c20d7dee",
+    "executableSha256": "2e2d28f9952b751a18c79cf85005e548a54932b4769ee8de0361511858c9a7fa",
+    "buildInputs": {
+      "configure": [
+        "/private/tmp/robotron-represented-time-audit/source/configure",
+        "--prefix=/private/tmp/robotron-represented-time-audit/install",
+        "--without-x",
+        "--with-readline=no",
+        "--disable-openmp",
+        "--disable-klu"
+      ],
+      "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+      "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+    },
+    "logsSha256": {
+      "configure.log": "4a0599b54886e0a7c4d988fca6f8863c43829fd485c4741968cfec070bb8f4fc",
+      "make.log": "434e45fc454447fdca22171b8f875e2da1ec6abf4ba761c7b578625fe6d2a4fa"
+    },
+    "auditBaseProvenance": {
+      "scope": "Opt-in exact rollback and represented integration intervals; standalone analog-only experiment",
+      "baseProvenanceSha256": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+      "baseProvenance": {
+        "scope": "Experimental MPFR256 NIintegrate arithmetic with binary64 stored states and coefficients; opt-in and disabled-control modes",
+        "baseProvenanceSha256": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+        "baseProvenance": {
+          "source": "ngspice-47",
+          "scope": "Experimental MPFR real linear arithmetic; binary64 stamping and integration remain unchanged",
+          "basePatchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+          "patchSha256": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+          "kernelSha256": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+          "buildInputs": {
+            "configure": [
+              "/private/tmp/robotron-mpfr-transient/source/configure",
+              "--prefix=/private/tmp/robotron-mpfr-transient/install",
+              "--without-x",
+              "--with-readline=no",
+              "--disable-openmp",
+              "--disable-klu"
+            ],
+            "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+            "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+          },
+          "buildLogsSha256": {
+            "configure.log": "4a7378c67efddfbf1c43666b2261904c63db281e41284847dc3386caef439273",
+            "make.log": "658725523102e60d1a162adaa6648e665af78d347828b007d0ccab31405e581e"
+          },
+          "executableSha256": "9eab043d1a1a2c41ead0d756fb2c4d1ff3dcd9e6a02fd6b3cca812defd398741",
+          "libraries": {
+            "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+            "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+          },
+          "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+          "checks": {
+            "command": [
+              "clang",
+              "-O2",
+              "-I/private/tmp/robotron-mpfr-transient/source/src/include",
+              "-I/private/tmp/robotron-mpfr-transient/build/src/include",
+              "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-transient/check.c",
+              "/private/tmp/robotron-mpfr-transient/build/src/maths/sparse/.libs/libsparse.a",
+              "/private/tmp/robotron-mpfr-transient/build/src/misc/.libs/libmisc.a",
+              "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+              "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+              "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+              "-lmpfr",
+              "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+              "-lgmp",
+              "-o",
+              "/private/tmp/robotron-mpfr-transient/check"
+            ],
+            "sourceSha256": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+            "executableSha256": "42d5a38a0a257d8f5261f1086e58c32b5a1a20a1029735b9498dc3c0a9f29191",
+            "exitCode": 0,
+            "stdout": "pivot, reordered external coordinates, precision changes, reuse and diagonal Gmin pass\n",
+            "stderr": ""
+          },
+          "equationSourceSha256": {
+            "src/maths/ni/niiter.c": "059fb48cf2dbf3567dd65f56c1d2d611ac28ba899ed68d015078f34a86a6c785",
+            "src/maths/sparse/spsmp.c": "c0150e6886425ac3738f615305500431a1c922a8d4ca4c6ae23332b6d9ee07b0",
+            "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+            "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504"
+          }
+        },
+        "builderSha256": "53168a07333a5deeae21bae0112cb60cac3dc5e9f80d4e1e9f87fbaf49c7dd12",
+        "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+        "headerSha256": "a078128a975b60856eccf8a48fc58d8d713c114c87bede2b1b7847a79c41dd99",
+        "executableSha256": "767fe6f762bba14cd9cb2380b01b2292b4ac5caa9c63c020ff93292ab6d93ed3",
+        "integrationSourceSha256": "ca59da52307f2848dc5dab90fa49c1c34e2638fd7a07754d5170ce4a5c03f807",
+        "buildInputs": {
+          "configure": [
+            "/private/tmp/robotron-mpfr-integration/source/configure",
+            "--prefix=/private/tmp/robotron-mpfr-integration/install",
+            "--without-x",
+            "--with-readline=no",
+            "--disable-openmp",
+            "--disable-klu"
+          ],
+          "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+        },
+        "logsSha256": {
+          "configure.log": "38bfe31553eab1195026dd646d73a308cb89530a2ce020a33355a69b433af362",
+          "make.log": "37a0b5b541e55ef0f695c074d35749cc92b61f3d093441ed51ca5085a26a0ebf"
+        },
+        "adapterChecks": {
+          "off": {
+            "exitCode": 0,
+            "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+            "stderr": ""
+          },
+          "256": {
+            "exitCode": 0,
+            "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+            "stderr": "MPFR_INTEGRATION enabled bits=256 states=binary64\n"
+          },
+          "invalid": {
+            "exitCode": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "checkSourceSha256": "92efd02f9ba2aa813344fbc9f6681655d278ba25256bfa9ea54a8b267440abbe",
+        "checkExecutableSha256": "6f4759bb99bb0164a197f9c86fa05f434ca6fac6f633d69c7d14424362f08b3d",
+        "checkCommand": [
+          "cc",
+          "-O2",
+          "-I/private/tmp/robotron-mpfr-integration/source/src/include",
+          "-I/private/tmp/robotron-mpfr-integration/build/src/include",
+          "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-integration/check.c",
+          "/private/tmp/robotron-mpfr-integration/source/src/maths/ni/niinteg.c",
+          "/private/tmp/robotron-mpfr-integration/build/src/misc/.libs/libmisc.a",
+          "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+          "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+          "-lmpfr",
+          "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+          "-lgmp",
+          "-o",
+          "/private/tmp/robotron-mpfr-integration/check"
+        ],
+        "adapterCheckExecution": "Executed separately after the initial build; build.py includes the same check for future builds.",
+        "adapterCheckBuilderSha256": "ab5defda22dc241824c6e1699d00bec706b13050e64fb26a101a032721e74c64"
+      },
+      "builderSha256": "990836b2cdf4935cab3f51fce92d0bc64c0a03df5dfd0da98cfa882a6ad5eeb3",
+      "patchSha256": "c1bf6de99d158399b614a1e4616d7dee820865b4450dd2659919c7feb9453f12",
+      "headerSha256": "8baeb727ecc028dcc77c6da11e407889b47fb3e4fcbb40d1bacdeaa99a72e70b",
+      "baseTransientSourceSha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
+      "transientSourceSha256": "b0d997e4939fa321f37b042421d1bec31c1071ee606ecb0189c0b508c20d7dee",
+      "executableSha256": "bf9941663d0a9acb6328babd5f2b5499a35f0ef8ce0d4396fa92fcd154b58268",
+      "buildInputs": {
+        "configure": [
+          "/private/tmp/robotron-represented-time/source/configure",
+          "--prefix=/private/tmp/robotron-represented-time/install",
+          "--without-x",
+          "--with-readline=no",
+          "--disable-openmp",
+          "--disable-klu"
+        ],
+        "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+      },
+      "logsSha256": {
+        "configure.log": "53120bb5eb481ee602c58a0e0f6e6906d26d460bcc9c78514f695c4f34bfbf68",
+        "make.log": "b8cc2ebc993c4f674f6fdd8cc3d041b6b45caeeaf5a93374b256e244a881dc71"
+      }
+    },
+    "auditBaseProvenanceSha256": "a9d0167e2d08edfe00346bf3529ed1ae9764e67135e20797b2aae0e8a934ce94",
+    "auditPatchSha256": "54c5121fbfd749e37cdba6efe58461653b6fe302e48129af93eb260c1d9dea1f",
+    "auditedLinearSourceSha256": "bbd56fa35e0f0336129aa98848271e47572af73456ea7518732f8577cee5e26c"
+  },
+  "auditBaseProvenanceSha256": "d8aabb67e31c6b9df5a3d52a3a22b621256ca9725ae4d8b49987a61ec1d978d9",
+  "auditPatchSha256": "8e1351747b000cd83280444b204192c1fe9dc5a54238356251bdc62e1b9af3aa",
+  "auditedLinearSourceSha256": "d9d01608a1260f8d666c777c17fc4db9c5b198dd896a47648c4c5cb27afebf80",
+  "auditWindow": "transition",
+  "auditWindowPatchSha256": "2b9dc5a593ad00e6e4b0d3d75dd6c0acf3a8851b44008840b50f854239f4e158",
+  "auditedCapacitorSourceSha256": "240159cff017ed50e3f9e3bd29a0737b8cf9ba7646f1d39a77eb65209369be70"
+}

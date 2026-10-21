@@ -25,6 +25,11 @@ if (provenance['auditPatchSha256'] != sha(analog/'engine-patches/ngspice-47-capa
         or provenance['auditBaseProvenanceSha256'] != sha(args.source/'build-provenance.json')
         or provenance['auditBaseProvenance']['executableSha256'] != parent['ngspiceRuntime']['executable']['sha256']):
     raise ValueError('Logging-only build does not derive from source runtime')
+window = provenance.get('auditWindow', 'minimum-step')
+if window not in ('minimum-step', 'transition'):
+    raise ValueError('Unknown logging window')
+if window == 'transition' and provenance.get('auditWindowPatchSha256') != sha(analog/'engine-patches/ngspice-47-capacitor-window-audit.patch'):
+    raise ValueError('Transition logging patch differs')
 runner = analog/'reports/host-represented-time/run.py'
 command = [sys.executable, str(runner), str(args.source), '--time-step', 'represented',
            '--integration-arithmetic', '256', '--mode', '256',
@@ -35,7 +40,7 @@ result = json.loads((args.out/'report.json').read_text())
 matches = {name: sha(args.out/name) == digest for name, digest in parent['artifacts'].items()
            if name in ('io.cir', 'trace.txt', 'host-trace.txt', 'driver-trace.txt', 'boundary-trace.txt')}
 log = (args.out/'ngspice.log').read_text()
-receipt = {'qualified': False, 'reproducedEvidence': False,
+receipt = {'qualified': False, 'reproducedEvidence': False, 'auditWindow': window,
            'sourceReportSha256': sha(args.source/'report.json'),
            'reportSha256': sha(args.out/'report.json'),
            'wrapperSha256': sha(__file__), 'runnerSha256': sha(runner), 'command': command,

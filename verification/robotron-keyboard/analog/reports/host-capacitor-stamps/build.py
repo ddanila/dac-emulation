@@ -13,6 +13,8 @@ sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--base', type=Path, required=True)
 parser.add_argument('--out', type=Path, required=True)
+parser.add_argument('--audit-window', choices=('minimum-step', 'transition'), default='minimum-step')
+parser.add_argument('--assembly-correction', action='store_true')
 args = parser.parse_args()
 base, out = args.base.resolve(), args.out.resolve()
 analog = Path(__file__).resolve().parents[2]
@@ -41,6 +43,16 @@ shutil.copytree(base/'source', out/'source')
 (out/'build').mkdir()
 with patch.open() as stream:
     subprocess.run(['patch', '-p1'], cwd=out/'source', stdin=stream, check=True)
+window_patch = analog/'engine-patches/ngspice-47-capacitor-window-audit.patch'
+if args.audit_window == 'transition':
+    with window_patch.open() as stream:
+        subprocess.run(['patch', '-p1'], cwd=out/'source', stdin=stream, check=True)
+assembly_patch = analog/'engine-patches/ngspice-47-capacitor-assembly.patch'
+assembly_header = analog/'engine-patches/capacitor_assembly.h'
+if args.assembly_correction:
+    shutil.copy2(assembly_header, out/'source/src/maths/sparse/capacitor_assembly.h')
+    with assembly_patch.open() as stream:
+        subprocess.run(['patch', '-p1'], cwd=out/'source', stdin=stream, check=True)
 env = dict(os.environ)
 for key in ('CPPFLAGS', 'LIBS'):
     env[key] = parent['buildInputs'][key]
@@ -54,7 +66,10 @@ for filename, cmd in [('configure.log', command), ('make.log', ['make', '-j4'])]
 report = copy.deepcopy(parent)
 report.update(scope=__doc__, builderSha256=sha(__file__),
               auditBaseProvenance=parent, auditBaseProvenanceSha256=sha(base/'provenance.json'),
-              auditPatchSha256=sha(patch),
+              auditPatchSha256=sha(patch), auditWindow=args.audit_window,
+              assemblyPatchSha256=sha(assembly_patch) if args.assembly_correction else None,
+              assemblyHeaderSha256=sha(assembly_header) if args.assembly_correction else None,
+              auditWindowPatchSha256=sha(window_patch) if args.audit_window == 'transition' else None,
               auditedLinearSourceSha256=sha(out/'source/src/maths/ni/niiter.c'),
               auditedCapacitorSourceSha256=sha(out/'source/src/spicelib/devices/cap/capload.c'),
               executableSha256=sha(out/'build/src/ngspice'),

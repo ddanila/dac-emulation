@@ -1,0 +1,34 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Exact capacitor-addition sensitivity across the represented-time transition audit.",
+  "finding": "Material capacitor assembly sensitivity occurs in a bounded saved state before the large rejected-trial excursion. The first change beyond the diagnostic 0.1 V locator is about 0.144 V; a later rejected trial shifts by about 18.5 V. No saved sample exceeds the 10 V locator in this represented-time replay. The final frozen corrected solution remains unphysical, so the correction is not a demonstrated transient remedy.",
+  "boundary": "Frozen equations retain previously rounded histories and all other device stamps. First means first within the declared transition window and final solve of each trial, not first globally or within all Newton iterations. Corrected solutions are not accepted transient states. Diagnostic locators are not device limits.",
+  "nextAction": "Test exact capacitor contribution corrections through the high-precision transient solve, requiring a byte-identical disabled control and matched refinement. Other assembly contributions and nonlinear evaluation remain separate suspects.",
+  "evidence": {
+    "review": "onset-review.json",
+    "producer": "report.json",
+    "control": "audit-control.json",
+    "build": "build-provenance.json",
+    "log": "ngspice.log.xz"
+  },
+  "reproduction": {
+    "build": "python3 verification/robotron-keyboard/analog/reports/host-capacitor-stamps/build.py --base /tmp/robotron-represented-time-audit --out /tmp/robotron-capacitor-window-audit --audit-window transition",
+    "review": "python3 verification/robotron-keyboard/analog/capacitor_onset_review.py build/keyboard-controller-analog/host-capacitor-window-audit --out onset-review.json",
+    "capturedBuilder": "captured-builder.py records the exact builder bytes; current shared builder also supports the correction experiment. Run it from the original host-capacitor-stamps location when reproducing the captured builder."
+  },
+  "waveforms": {
+    "directory": "build/keyboard-controller-analog/host-capacitor-window-audit",
+    "retention": "Local lossless captures, all producer hashes verified by the review; logging control matches the original replay byte-for-byte."
+  },
+  "uncompressedLogSha256": "cddc58194d31b41cd57cc2bbd1de96ed02d55cf9b1686a6b15a6e2fcff74d7b8",
+  "artifacts": {
+    "audit-control.json": "e94bc24602b5c665f117ee5dcf81b848ca1388e18218d5a78ab6f4e0a8b4eac2",
+    "build-provenance.json": "b784bff0f429d06c9c53900851f1e3db7e513cf5cdf242043b45ef60620d708c",
+    "captured-builder.py": "32b0a17bca8fd887415c4be32cd1443a9524a82293a8cf5dbc8c950b42e08683",
+    "io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "ngspice.log.xz": "ae4440db285343e5a6f073420f9b8cc468a750d5b421cefb5d4eaefa4f3bd282",
+    "onset-review.json": "a148c5089759387f250d462a05c6eaaf090bc82e12f1aeace787c759582ab9c3",
+    "report.json": "85b88d77fa6f288d2ffaf45bf055f22d44fdf34d9d8994e1f260877b4fdc46cc"
+  }
+}
