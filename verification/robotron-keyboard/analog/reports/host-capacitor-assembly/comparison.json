@@ -1,0 +1,108 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Review the disabled control and matched exact-capacitor refinement attempts.",
+  "disabledControlPassed": true,
+  "pairCompleted": false,
+  "runs": {
+    "off": {
+      "producerReportSha256": "906a35ff8d452c5623a7534b3901e3776e9c43da20f902d532f67d6645c88476",
+      "receiptSha256": "759ee6413c526db5a3552b116f9be87fd5fa5456d5661d2b93ce4d626d445e5e",
+      "stepNs": 50.0,
+      "completed": false,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 2.27309e-19: trouble with xhost_data:ttl7404_npn-instance q.xhost_data.qsink",
+      "precisionGuardDiagnostics": [],
+      "producerError": null,
+      "interruption": null,
+      "waveforms": {
+        "trace.txt": {
+          "rows": 53491,
+          "lastSampleSeconds": 0.0010980122484305155,
+          "sourceIdentical": true
+        },
+        "host-trace.txt": {
+          "rows": 53491,
+          "lastSampleSeconds": 0.0010980122484305155,
+          "sourceIdentical": true
+        },
+        "driver-trace.txt": {
+          "rows": 53491,
+          "lastSampleSeconds": 0.0010980122484305155,
+          "sourceIdentical": true
+        },
+        "boundary-trace.txt": {
+          "rows": 53491,
+          "lastSampleSeconds": 0.0010980122484305155,
+          "sourceIdentical": true
+        }
+      },
+      "lastLoggedTrial": {
+        "timeSeconds": 0.0010980122484305162,
+        "deltaSeconds": 6.505213034913027e-19,
+        "order": 1,
+        "newtonResult": 0
+      }
+    },
+    "coarse": {
+      "producerReportSha256": "0ff709c867527efe043c30223359c20fd3350544c29c50e56b7e8dccbd1c6561",
+      "receiptSha256": "e9d25982f6e2cc57839ab72448bef7d0cb5d6979fdb1b35cfb18ee9ff7bb1691",
+      "stepNs": 50.0,
+      "completed": false,
+      "solverDiagnostic": null,
+      "precisionGuardDiagnostics": [],
+      "producerError": "[Errno 2] No such file or directory: '/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/host-capacitor-assembly-exact-1/trace.txt'",
+      "interruption": {
+        "reason": "Diagnostic log growth and negligible simulated-time progress at near-representable timesteps; operational stop, not a solver-convergence verdict.",
+        "signal": "SIGINT",
+        "wallClockUnixSeconds": 1792601297.9763432,
+        "logBytesBeforeSignal": 23620598,
+        "qualified": false,
+        "experimentProcessIds": [
+          2209,
+          2210
+        ]
+      },
+      "waveforms": {},
+      "lastLoggedTrial": {
+        "timeSeconds": 0.0010980122484463063,
+        "deltaSeconds": 5.204170427930421e-18,
+        "order": 2,
+        "newtonResult": 0
+      }
+    },
+    "fine": {
+      "producerReportSha256": "7ef665405fb77b0eeb7f60eab41252051e14df82b8bddd9ccc59cb06eb1521b1",
+      "receiptSha256": "fea018c4a65de5e9a4f5de61557fe72159271f5dc4052629237c294ff5bed7e1",
+      "stepNs": 25.0,
+      "completed": false,
+      "solverDiagnostic": null,
+      "precisionGuardDiagnostics": [],
+      "producerError": "[Errno 2] No such file or directory: '/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/host-capacitor-assembly-exact-2/trace.txt'",
+      "interruption": {
+        "reason": "Diagnostic log growth and negligible simulated-time progress at near-representable timesteps; operational stop, not a solver-convergence verdict.",
+        "signal": "SIGINT",
+        "wallClockUnixSeconds": 1792601297.976576,
+        "logBytesBeforeSignal": 2238110090,
+        "qualified": false,
+        "experimentProcessIds": [
+          2209,
+          2210
+        ]
+      },
+      "waveforms": {},
+      "lastLoggedTrial": {
+        "timeSeconds": 0.0010980122485017005,
+        "deltaSeconds": 8.673617379884035e-19,
+        "order": 2,
+        "newtonResult": 0
+      }
+    }
+  },
+  "sources": {
+    "reports/host-capacitor-assembly/review.py": "2d3f7295c9d3ee608920c65e8444f7fcd74dd67a6a0c2fccd51f11ff68360e82",
+    "compare_mpfr_replays.py": "6e3df0f14a72043af35a43d29e4fe7d4e51dcfeb5ba49badd9abd3204a8eb34e",
+    "host_waveform_comparison.py": "b1f96a72148a1bebaa25cd2188fc11ee1e5fa7a17f36ce0ff6ab25d4fc53e3a8",
+    "analog_driver_replay.py": "f914538948c81c336334cc6b2de4370635aa7670c1bf3255823fe1e75bad6753"
+  },
+  "boundary": "Constant-capacitor local corrections only. Other stamp additions, nonlinear-device evaluation and stored histories remain binary64. Matched attempts are not a completed refinement pair unless both reach the requested stop. Even a completed analog-only segment does not qualify the full coupled board or device dynamics."
+}

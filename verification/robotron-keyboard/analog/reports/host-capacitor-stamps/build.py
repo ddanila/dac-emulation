@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build logging-only capacitor contributions alongside the represented-step linear audit."""
+"""Build capacitor logging with an optional, opt-in exact-addition correction backend."""
 import argparse
 import copy
 import hashlib
