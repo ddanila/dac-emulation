@@ -1,0 +1,50 @@
+{
+  "completed": true,
+  "qualified": false,
+  "sourceRevisionVerified": "d24b52951c4343eaa21345e67e89494935f35107",
+  "scope": "Host-loaded rising-RxC held-key/repeat/release service capture; external CPU clock/reset.",
+  "evidence": {
+    "producer": "report.json",
+    "sampledStability": "receiver-margins.json",
+    "nominalClockWidths": "clock-widths.json",
+    "sampledInputVoltages": "host-input.json.xz",
+    "reviewProvenance": "review-provenance.json"
+  },
+  "interpretation": "Scenario coverage and ordinal serial comparison pass. The 140 ns sampled stability screen and nominal 1.4 V clock-width screen pass. Both buffer inputs stay within the declared static voltage envelope in retained samples. These checks do not establish intersample extrema, device applicability, timestep convergence or onboard startup.",
+  "sampledInputExtremaVolts": {
+    "data": {
+      "minV": -0.6105329483383878,
+      "maxV": 5.1853426022513815,
+      "withinStaticVoltageEnvelope": true
+    },
+    "clock": {
+      "minV": -0.7110641929649525,
+      "maxV": 4.382097786211277,
+      "withinStaticVoltageEnvelope": true
+    }
+  },
+  "nextAction": "Obtain a matched finer-timestep capture with identical producer models, runtime and assumptions; compare absolute-time voltages as well as serial edges. Keep host and driver dynamics unqualified until independently constrained.",
+  "waveforms": {
+    "directory": "build/keyboard-controller-analog/firmware-host-rising-repeat-minbreak",
+    "files": [
+      "trace.txt.xz",
+      "host-trace.txt.xz",
+      "driver-trace.txt.xz"
+    ],
+    "retention": "Complete lossless waveforms remain local, identified by producer hashes; no ROM or compiled HDL retained."
+  },
+  "retainedFilesSha256": {
+    "clock-widths.json": "2c256ea62b2be55eab05710ea5e23598b37a4b487ea78567d500bfe049bbcca3",
+    "controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece",
+    "host-input.json.xz": "acc7e0e74b6118ae3146964715e93ea28eea0b61bc1c274b0185f1af54aeff42",
+    "io.cir": "182a13c8f7c3d868d1180943adec406bb934adb839c8aab9ad3f17049c9991a3",
+    "io_scenario.h": "7147dfe5aaf3f56796005c7cd143f77c570d99062eea16d8f976036495ff2037",
+    "ngspice.log.xz": "70c3b4d4a03ba4b735ea1f14499cdf5b0084937e3e9f29f26e4ccefdc2d94ee6",
+    "receiver-margins.json": "c8cfbd76dad3ab7a69a370309088b2fa242ddd9ff9c9e0c30638a3ec4c9648cc",
+    "reference.log": "9954b780bb9d16a79ac2f4d348476ebd654a7a33affbec2e87e0ede98a84153b",
+    "report.json": "bc8522314204dd63d98fba4013495b175f412708fb6d7446819ca698ff8a9223",
+    "review-provenance.json": "d3cdcd36c7d21de90f217f5d8161f40e98a61a6990d3fd38a1df424686f2967a",
+    "run-inputs.json": "e30ff486ca2fc0161adac54ae237a70c31149509491515cbf38640e0aa15cb4e",
+    "scenario.json": "b2bdb5ab446a6946753f0afaff57e8e2a2dc034d5e24f02d5e65d391c7b03b53"
+  }
+}
