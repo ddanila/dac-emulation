@@ -1,0 +1,42 @@
+{
+  "qualified": false,
+  "mode": "exact",
+  "sourceReportSha256": "c9111bb8990e7b80c08b3cd6341582e2d3f91ded68f2079f02490fe74fe528eb",
+  "reportSha256": "7ef665405fb77b0eeb7f60eab41252051e14df82b8bddd9ccc59cb06eb1521b1",
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-represented-time/run.py",
+    "build/keyboard-controller-analog/host-represented-time-combined-256-audit",
+    "--time-step",
+    "represented",
+    "--integration-arithmetic",
+    "256",
+    "--mode",
+    "256",
+    "--step-divisor",
+    "2",
+    "--runtime",
+    "/tmp/robotron-capacitor-assembly/build/src/ngspice",
+    "--build-provenance",
+    "/tmp/robotron-capacitor-assembly/provenance.json",
+    "--out",
+    "build/keyboard-controller-analog/host-capacitor-assembly-exact-2"
+  ],
+  "wrapperSha256": "ee54e6114477dd0130affd2ac9dbb7a7ce64d1308f3fb9b77bfc6c0f7b701de1",
+  "assemblyPatchSha256": "1baa74263f80deb1f5a89ba936301957c74bf26b5b1618fbd0d43f813290f06f",
+  "assemblyHeaderSha256": "4afed3b1d2f525417b027637e056c1153a6eb33f8df80a2aefd5c5902140d061",
+  "identicalArtifacts": {
+    "io.cir": false,
+    "trace.txt": false,
+    "host-trace.txt": false,
+    "driver-trace.txt": false,
+    "boundary-trace.txt": false
+  },
+  "diagnosticEqual": false,
+  "completed": false,
+  "producerError": "[Errno 2] No such file or directory: '/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/host-capacitor-assembly-exact-2/trace.txt'",
+  "interruptionSha256": "f22a8e18acd68bcb1d59d2194a518d1b7b649b845290826e2ecd6f8e9f598cd0",
+  "reviewExisting": true,
+  "boundary": "Exact rational corrections replace constant-capacitor local additions in the MPFR linear system. Binary64 matrix storage, all other stamping and previously rounded histories remain unchanged. Experimental analog replay, not coupled-board or physical qualification.",
+  "disabledControlPassed": false
+}

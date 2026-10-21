@@ -1,0 +1,42 @@
+{
+  "completed": true,
+  "qualified": false,
+  "pairCompleted": false,
+  "runtimeSourceRevisionVerified": "b7fdb4ea0aa533575f6a060aaae9fcafdc0c749b",
+  "scope": "Opt-in exact-rational constant-capacitor addition corrections passed directly into MPFR256 transient solves.",
+  "finding": "The disabled correction reproduces baseline circuit/waveform bytes and failure. Both corrected attempts advance beyond the original stopping time but make negligible progress near representable timestep scales. They were operationally interrupted because of diagnostic log growth and lack of useful simulated-time advance. Neither reaches the requested endpoint; no voltage-refinement comparison or convergence claim is possible.",
+  "boundary": "No circuit values or acceptance tolerances changed. This correction covers local constant-capacitor contributions only; subsequent rounding, nonlinear-device stamps and previously rounded histories remain. Interrupted ngspice runs did not write waveform files, and producer missing-file errors are retained. Logged Newton trials are not accepted waveform samples. Operational interruption does not prove eventual solver failure.",
+  "nextAction": "Add bounded diagnostics and checkpointable captures before further long replays. Audit remaining device/stamp additions and state-history sensitivity; do not promote this partial correction as a board-model remedy. Require completed matched refinement and absolute-time voltage convergence.",
+  "evidence": {
+    "comparison": "comparison.json",
+    "off": "off/assembly-control.json",
+    "coarse": "coarse/assembly-control.json",
+    "fine": "fine/assembly-control.json"
+  },
+  "retention": {
+    "fullLogs": "Full hashed logs remain in build/keyboard-controller-analog/host-capacitor-assembly-{off,exact-1,exact-2}. Repository log files contain only the last 1500 lines and are explicitly incomplete audit windows.",
+    "waveforms": "Only the disabled control produced retained waveforms; corrected attempts have none."
+  },
+  "artifacts": {
+    "coarse/assembly-control.json": "e9d25982f6e2cc57839ab72448bef7d0cb5d6979fdb1b35cfb18ee9ff7bb1691",
+    "coarse/build-provenance.json": "9035935bf93ae9677e4c4fb1f6011134853a55ed798d2558381ba4c8e5d9b904",
+    "coarse/interruption.json": "b1f6e2445f269d5f0f68b3d23e2805ed13fb91306bb9e80313e97a5bc472771b",
+    "coarse/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "coarse/ngspice-tail.log.xz": "5cd3819daeb20a0b89718ff065b216cfe0cc08c43dbbbea6095126c06bac9a2b",
+    "coarse/report.json": "0ff709c867527efe043c30223359c20fd3350544c29c50e56b7e8dccbd1c6561",
+    "comparison.json": "ff3f1e3148cb0461a570c5544a791aca4d90f3df94932d6664c60d04fbcea213",
+    "fine/assembly-control.json": "fea018c4a65de5e9a4f5de61557fe72159271f5dc4052629237c294ff5bed7e1",
+    "fine/build-provenance.json": "9035935bf93ae9677e4c4fb1f6011134853a55ed798d2558381ba4c8e5d9b904",
+    "fine/interruption.json": "f22a8e18acd68bcb1d59d2194a518d1b7b649b845290826e2ecd6f8e9f598cd0",
+    "fine/io.cir": "8f4eeab4c24648a3a931537ecc586d89c62de1c85bc0457dc097bfee59f9a6a4",
+    "fine/ngspice-tail.log.xz": "dca3f7623f311102cf6b626000f14fc3578f7d1030a1874bde5248ac518cd3ce",
+    "fine/report.json": "7ef665405fb77b0eeb7f60eab41252051e14df82b8bddd9ccc59cb06eb1521b1",
+    "off/assembly-control.json": "759ee6413c526db5a3552b116f9be87fd5fa5456d5661d2b93ce4d626d445e5e",
+    "off/build-provenance.json": "9035935bf93ae9677e4c4fb1f6011134853a55ed798d2558381ba4c8e5d9b904",
+    "off/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "off/ngspice-tail.log.xz": "03183500039be72408c31f3dec6462078bca3a51eab634b53367855a1faa8c5f",
+    "off/report.json": "906a35ff8d452c5623a7534b3901e3776e9c43da20f902d532f67d6645c88476",
+    "review.py": "2d3f7295c9d3ee608920c65e8444f7fcd74dd67a6a0c2fccd51f11ff68360e82",
+    "run.py": "ee54e6114477dd0130affd2ac9dbb7a7ce64d1308f3fb9b77bfc6c0f7b701de1"
+  }
+}
