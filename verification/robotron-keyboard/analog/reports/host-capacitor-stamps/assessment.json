@@ -2,7 +2,6 @@
   "completed": true,
   "qualified": false,
   "scope": "Exact-rational capacitor contribution review of the final frozen system in a matched logging-only replay.",
-  "producerRevision": "7d28742",
   "finding": "Capacitor arithmetic and rounded assembly materially alter the final ill-conditioned linear system. Correcting logged capacitor contributions shifts the cable common-mode solution by approximately 114.5 kV, while solving each fixed system at 80 versus 160 decimal digits agrees. Accurate solution of the already-rounded matrix does not recover these lost terms. This is a diagnostic of an unphysical failed state, not a physical voltage or a proven initiating cause.",
   "boundary": "Frozen-equation diagnostic. Corrections replace each logged capacitor addition with exact rational integration/history contributions. All other assembled terms, including subsequent rounding and nonlinear-device capacitances, remain fixed. Previously rounded charge histories and coefficients remain inputs. No transient convergence or physical calibration claim.",
   "nextAction": "Locate the first affected accepted/rejected state and preserve assembly contributions through the high-precision solve. Require an identical diagnostic control and a completed matched transient refinement pair; the frozen-system correction is not a convergence remedy.",
@@ -38,5 +37,6 @@
     "io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
     "ngspice.log.xz": "507958d7420354329cfc7c5baca26f1814dce22d0e891387e07465663bf3729e"
   },
-  "compressedLogUncompressedSha256": "15331f1335c775cc82b138ac579e3b892e70026692cfc0f15bcf68609ef6f546"
+  "compressedLogUncompressedSha256": "15331f1335c775cc82b138ac579e3b892e70026692cfc0f15bcf68609ef6f546",
+  "reviewBaseRevision": "7d28742"
 }
