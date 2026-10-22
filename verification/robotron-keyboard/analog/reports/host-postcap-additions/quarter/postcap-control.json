@@ -1,0 +1,45 @@
+{
+  "qualified": false,
+  "mode": "exact",
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-represented-time/run.py",
+    "build/keyboard-controller-analog/host-represented-time-combined-256-audit",
+    "--time-step",
+    "represented",
+    "--integration-arithmetic",
+    "256",
+    "--mode",
+    "256",
+    "--step-divisor",
+    "4",
+    "--runtime",
+    "/tmp/robotron-postcap-additions/build/src/ngspice",
+    "--build-provenance",
+    "/tmp/robotron-postcap-additions/provenance.json",
+    "--out",
+    "build/keyboard-controller-analog/host-postcap-quarter"
+  ],
+  "environment": {
+    "ROBOTRON_CAP_ASSEMBLY": "exact",
+    "ROBOTRON_POSTCAP_ASSEMBLY": "exact",
+    "ROBOTRON_ACCEPTED_LIMIT": "200",
+    "ROBOTRON_ACCEPTED_AFTER": ".0010980122484353"
+  },
+  "reportSha256": "6b9de52c7dfb29e037ac6dd4d6b1f39bb17ca47b076556ee3d0d84eb3a8ead19",
+  "runtimeProvenanceSha256": "9dec97ef4c21dd566acad16607a55599431aff79ac5dc26d627e2ca5f2771117",
+  "runnerSha256": "0771c1d7799f777dcf8b4c2f803e356bc5cf553da9c2c9676f6d02518cbe4041",
+  "completed": true,
+  "solverDiagnostic": null,
+  "endpoint": null,
+  "operationallyTruncated": false,
+  "identicalArtifacts": {
+    "io.cir": false,
+    "trace.txt": false,
+    "host-trace.txt": false,
+    "driver-trace.txt": false,
+    "boundary-trace.txt": false
+  },
+  "disabledControlPassed": false,
+  "scope": "Experimental exact additions for constant capacitors, resistors and voltage-controlled switches. No model parameters or switch decisions changed; all other stamps and histories remain as before."
+}

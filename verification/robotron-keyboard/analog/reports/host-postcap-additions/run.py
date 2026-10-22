@@ -4,7 +4,7 @@ from pathlib import Path
 A=Path(__file__).resolve().parents[2];sys.path.insert(0,str(A))
 from analog_driver_replay import sha
 from accepted_capture_review import budget_stop
-p=argparse.ArgumentParser();p.add_argument('source',type=Path);p.add_argument('--runtime',type=Path,required=True);p.add_argument('--provenance',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--mode',choices=('off','exact'),required=True);p.add_argument('--step-divisor',type=int,choices=(1,2),default=1);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('source',type=Path);p.add_argument('--runtime',type=Path,required=True);p.add_argument('--provenance',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--mode',choices=('off','exact'),required=True);p.add_argument('--step-divisor',type=int,choices=(1,2,4),default=1);a=p.parse_args()
 provenance=json.loads(a.provenance.read_text())
 if provenance['postcapHeaderSha256']!=sha(A/'engine-patches/postcap_additions.h') or provenance['executableSha256']!=sha(a.runtime):raise ValueError('Changed runtime')
 env={k:v for k,v in os.environ.items() if not k.startswith('ROBOTRON_')};env.update(ROBOTRON_CAP_ASSEMBLY=a.mode,ROBOTRON_POSTCAP_ASSEMBLY=a.mode)

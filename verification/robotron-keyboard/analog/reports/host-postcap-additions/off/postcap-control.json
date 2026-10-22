@@ -1,0 +1,43 @@
+{
+  "qualified": false,
+  "mode": "off",
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-represented-time/run.py",
+    "build/keyboard-controller-analog/host-represented-time-combined-256-audit",
+    "--time-step",
+    "represented",
+    "--integration-arithmetic",
+    "256",
+    "--mode",
+    "256",
+    "--step-divisor",
+    "1",
+    "--runtime",
+    "/tmp/robotron-postcap-additions/build/src/ngspice",
+    "--build-provenance",
+    "/tmp/robotron-postcap-additions/provenance.json",
+    "--out",
+    "build/keyboard-controller-analog/host-postcap-off"
+  ],
+  "environment": {
+    "ROBOTRON_CAP_ASSEMBLY": "off",
+    "ROBOTRON_POSTCAP_ASSEMBLY": "off"
+  },
+  "reportSha256": "6608ab4a1f945c62b631f2bab8c2796c3deb746320e1e48f74058ceea03dcc79",
+  "runtimeProvenanceSha256": "9dec97ef4c21dd566acad16607a55599431aff79ac5dc26d627e2ca5f2771117",
+  "runnerSha256": "785423d56bc5f0b237169245252da4fb16c719bdcdfcefe80ed9fb53452e1133",
+  "completed": false,
+  "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00109801, timestep = 2.27309e-19: trouble with xhost_data:ttl7404_npn-instance q.xhost_data.qsink",
+  "endpoint": null,
+  "operationallyTruncated": false,
+  "identicalArtifacts": {
+    "io.cir": true,
+    "trace.txt": true,
+    "host-trace.txt": true,
+    "driver-trace.txt": true,
+    "boundary-trace.txt": true
+  },
+  "disabledControlPassed": true,
+  "scope": "Experimental exact additions for constant capacitors, resistors and voltage-controlled switches. No model parameters or switch decisions changed; all other stamps and histories remain as before."
+}
