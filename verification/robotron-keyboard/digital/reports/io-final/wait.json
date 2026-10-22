@@ -1,0 +1,5455 @@
+{
+  "reference": "https://www.zilog.com/docs/z80/um0080.pdf",
+  "locator": "Figure 7 and printed pages 7, 10\u201311",
+  "scope": "Immediate, ED and block reads, including ignored DD/FD prefixes; stable and between-edge WAIT transitions. First-read pulse and completion checked. Does not qualify writes, reset, memory or interrupts.",
+  "passed": true,
+  "negativeControls": {
+    "old-c": true,
+    "old-hdl": true
+  },
+  "cases": [
+    {
+      "instruction": "immediate",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "immediate",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "dd-prefix-in",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "fd-prefix-in",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-b",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-c",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-d",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-e",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-h",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-l",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-flags",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "in-a",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 52
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ini",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "ind",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "inir",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 1,
+      "stop": 2,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 1,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 1,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 2,
+      "stop": 3,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 2,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 3,
+      "stop": 4,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 3,
+      "stop": 5,
+      "expectedWidth": 7,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 7,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 4,
+      "stop": 5,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 4,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 5,
+      "stop": 6,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 1,
+      "stop": 8,
+      "expectedWidth": 11,
+      "old-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 11,
+        "halt": 1,
+        "data": 255
+      }
+    },
+    {
+      "instruction": "indr",
+      "start": 6,
+      "stop": 9,
+      "expectedWidth": 5,
+      "old-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "old-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-c": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      },
+      "candidate-hdl": {
+        "width": 5,
+        "halt": 1,
+        "data": 255
+      }
+    }
+  ],
+  "sources": {
+    "verification/robotron-keyboard/digital/io_wait_candidate.py": "8e00aba0807a951f46625fbccc6b90fdeee4d43a9318102a94efb80b6072f026",
+    "verification/robotron-keyboard/digital/io_wait_probe.c": "633aabd432262fac5fabd4074931e2c38bb932c1472e173a5554479ae7951ae2",
+    "verification/robotron-keyboard/digital/c_read_instructions.py": "7535539ece0d2bdb4f28d8b6978527f99fd44ac768abe0f6a41180a2aaf713f9",
+    "verification/robotron-keyboard/digital/io_wait_probe.v": "db92d8254118993e80e69bae67d3f727610b919e49d7dfb76978d474017b94d6",
+    "verification/robotron-keyboard/digital/c_read_half.h": "de0fc38dda9cc557d17177996a240d457b05fdf67bdbf1325dab9c78a5fe5cf5",
+    "verification/robotron-keyboard/digital/c_read_candidate.py": "10f42f3f81d6f6a7aad6d23023077aa745c2fbd63ec5d89339e5e38d1a81bd9d",
+    "verification/robotron-keyboard/digital/tv80_io_candidate.v": "54443655f3da8570563d258c49db4883e8c3c450e0faeb7cdd420682d4b0a8cf",
+    "verification/robotron-keyboard/digital/io_flags_candidate.py": "87f9936e64c8f1e0e68d57676385c8d182019183dc4b2141303b200968634ccc",
+    "verification/robotron-keyboard/digital/c_read_sampling.py": "7d16d54e2d1dd7cf05cd7b9b5934ce93ef4f3d8f46414972bc12d27d126747a5",
+    "verification/robotron-keyboard/digital/c_read_half_test.c": "2d59424bc97117e43b9e8b8fba762d8236a669424166c61cdb0135ac58fcad19",
+    "third_party/cpu/chips/z80.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3",
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+    "verification/robotron-keyboard/digital/io_final_regression.py": "c9965edbc73575231e2a9754d50e9f08a4c74a716e3aa549de1f58b613f252d5",
+    "verification/robotron-keyboard/digital/io_wait_probe.py": "ffc458f8de88a1aa2354a63fc2010f446c211c8b74f37f21514f60e481179d49",
+    "verification/robotron-keyboard/digital/io_complete_candidate.py": "3fe55f7cc28fd781759661af8ef36e5bdc97882acfbf0d2582a234f42c87281b",
+    "verification/robotron-keyboard/digital/io_repeat_candidate.py": "073cef2acdf9db4fe78a4676bb412cc83c44707d94ee2e4d21e5a49d881b75a2"
+  },
+  "artifacts": {
+    "candidate/c_read_half.h": "397ad17c1aea77e87dd12c27e5073620eb32e0e88f14eb96882e0ccd1f186299",
+    "candidate/candidate.h": "4a7c3e702e21c3c2e696fa281a197e99f42f9b10198b8686c9017a322aaee4b6",
+    "candidate/dd-prefix-in-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/dd-prefix-in-c-1-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/dd-prefix-in-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/dd-prefix-in-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "candidate/dd-prefix-in-c-2-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/dd-prefix-in-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/dd-prefix-in-c-3-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/dd-prefix-in-c-3-5.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/dd-prefix-in-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/dd-prefix-in-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/dd-prefix-in-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/dd-prefix-in-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/dd-prefix-in-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/dd-prefix-in-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/dd-prefix-in-hdl-1-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/dd-prefix-in-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "candidate/dd-prefix-in-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/dd-prefix-in-hdl-2-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/dd-prefix-in-hdl-3-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/dd-prefix-in-hdl-3-5.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/dd-prefix-in-hdl-4-5.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/dd-prefix-in-hdl-4-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/dd-prefix-in-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/dd-prefix-in-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/fd-prefix-in-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/fd-prefix-in-c-1-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/fd-prefix-in-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/fd-prefix-in-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "candidate/fd-prefix-in-c-2-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/fd-prefix-in-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/fd-prefix-in-c-3-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/fd-prefix-in-c-3-5.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/fd-prefix-in-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/fd-prefix-in-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/fd-prefix-in-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/fd-prefix-in-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/fd-prefix-in-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/fd-prefix-in-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/fd-prefix-in-hdl-1-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/fd-prefix-in-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "candidate/fd-prefix-in-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/fd-prefix-in-hdl-2-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/fd-prefix-in-hdl-3-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/fd-prefix-in-hdl-3-5.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/fd-prefix-in-hdl-4-5.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/fd-prefix-in-hdl-4-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/fd-prefix-in-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/fd-prefix-in-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/immediate-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/immediate-c-1-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/immediate-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/immediate-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "candidate/immediate-c-2-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/immediate-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/immediate-c-3-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/immediate-c-3-5.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/immediate-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/immediate-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/immediate-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/immediate-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/immediate-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/immediate-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/immediate-hdl-1-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/immediate-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "candidate/immediate-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/immediate-hdl-2-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/immediate-hdl-3-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/immediate-hdl-3-5.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/immediate-hdl-4-5.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/immediate-hdl-4-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/immediate-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/immediate-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-a-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-a-c-1-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-a-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-a-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "candidate/in-a-c-2-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-a-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-a-c-3-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-a-c-3-5.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-a-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-a-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-a-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-a-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-a-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-a-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-a-hdl-1-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-a-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "candidate/in-a-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-a-hdl-2-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-a-hdl-3-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-a-hdl-3-5.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-a-hdl-4-5.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-a-hdl-4-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-a-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-a-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-b-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-b-c-1-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-b-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-b-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "candidate/in-b-c-2-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-b-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-b-c-3-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-b-c-3-5.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-b-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-b-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-b-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-b-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-b-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-b-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-b-hdl-1-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-b-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "candidate/in-b-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-b-hdl-2-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-b-hdl-3-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-b-hdl-3-5.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-b-hdl-4-5.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-b-hdl-4-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-b-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-b-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-c-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-c-c-1-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-c-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-c-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "candidate/in-c-c-2-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-c-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-c-c-3-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-c-c-3-5.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-c-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-c-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-c-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-c-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-c-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-c-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-c-hdl-1-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-c-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "candidate/in-c-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-c-hdl-2-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-c-hdl-3-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-c-hdl-3-5.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-c-hdl-4-5.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-c-hdl-4-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-c-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-c-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-d-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-d-c-1-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-d-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-d-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "candidate/in-d-c-2-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-d-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-d-c-3-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-d-c-3-5.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-d-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-d-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-d-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-d-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-d-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-d-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-d-hdl-1-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-d-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "candidate/in-d-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-d-hdl-2-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-d-hdl-3-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-d-hdl-3-5.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-d-hdl-4-5.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-d-hdl-4-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-d-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-d-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-e-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-e-c-1-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-e-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-e-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "candidate/in-e-c-2-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-e-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-e-c-3-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-e-c-3-5.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-e-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-e-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-e-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-e-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-e-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-e-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-e-hdl-1-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-e-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "candidate/in-e-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-e-hdl-2-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-e-hdl-3-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-e-hdl-3-5.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-e-hdl-4-5.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-e-hdl-4-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-e-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-e-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-flags-c-1-2.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/in-flags-c-1-3.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/in-flags-c-1-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/in-flags-c-1-8.txt": "23365d70139cbb38e4cb9110c8976039baa7fa6b1135732ce6ac054d647c8585",
+    "candidate/in-flags-c-2-3.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/in-flags-c-2-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/in-flags-c-3-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/in-flags-c-3-5.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/in-flags-c-4-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/in-flags-c-4-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/in-flags-c-5-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/in-flags-c-6-9.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/in-flags-hdl-1-2.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/in-flags-hdl-1-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/in-flags-hdl-1-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/in-flags-hdl-1-8.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "candidate/in-flags-hdl-2-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/in-flags-hdl-2-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/in-flags-hdl-3-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/in-flags-hdl-3-5.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/in-flags-hdl-4-5.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/in-flags-hdl-4-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/in-flags-hdl-5-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/in-flags-hdl-6-9.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/in-h-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-h-c-1-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-h-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-h-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "candidate/in-h-c-2-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-h-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-h-c-3-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-h-c-3-5.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-h-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-h-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-h-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-h-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-h-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-h-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-h-hdl-1-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-h-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "candidate/in-h-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-h-hdl-2-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-h-hdl-3-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-h-hdl-3-5.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-h-hdl-4-5.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-h-hdl-4-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-h-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-h-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-l-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-l-c-1-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-l-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-l-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "candidate/in-l-c-2-3.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-l-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-l-c-3-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-l-c-3-5.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "candidate/in-l-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-l-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-l-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-l-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "candidate/in-l-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-l-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-l-hdl-1-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-l-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "candidate/in-l-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-l-hdl-2-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-l-hdl-3-4.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-l-hdl-3-5.txt": "b3f8a39a5674bd75a772ab370477f997204a7e6286d51bc58a4900270156dc51",
+    "candidate/in-l-hdl-4-5.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-l-hdl-4-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-l-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/in-l-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "candidate/ind-c-1-2.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ind-c-1-3.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ind-c-1-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/ind-c-1-8.txt": "23365d70139cbb38e4cb9110c8976039baa7fa6b1135732ce6ac054d647c8585",
+    "candidate/ind-c-2-3.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ind-c-2-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/ind-c-3-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/ind-c-3-5.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/ind-c-4-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ind-c-4-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ind-c-5-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ind-c-6-9.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ind-hdl-1-2.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ind-hdl-1-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ind-hdl-1-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/ind-hdl-1-8.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "candidate/ind-hdl-2-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ind-hdl-2-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/ind-hdl-3-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/ind-hdl-3-5.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/ind-hdl-4-5.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ind-hdl-4-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ind-hdl-5-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ind-hdl-6-9.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/indr-c-1-2.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/indr-c-1-3.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/indr-c-1-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/indr-c-1-8.txt": "23365d70139cbb38e4cb9110c8976039baa7fa6b1135732ce6ac054d647c8585",
+    "candidate/indr-c-2-3.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/indr-c-2-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/indr-c-3-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/indr-c-3-5.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/indr-c-4-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/indr-c-4-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/indr-c-5-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/indr-c-6-9.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/indr-hdl-1-2.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/indr-hdl-1-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/indr-hdl-1-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/indr-hdl-1-8.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "candidate/indr-hdl-2-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/indr-hdl-2-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/indr-hdl-3-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/indr-hdl-3-5.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/indr-hdl-4-5.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/indr-hdl-4-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/indr-hdl-5-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/indr-hdl-6-9.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ini-c-1-2.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ini-c-1-3.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ini-c-1-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/ini-c-1-8.txt": "23365d70139cbb38e4cb9110c8976039baa7fa6b1135732ce6ac054d647c8585",
+    "candidate/ini-c-2-3.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ini-c-2-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/ini-c-3-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/ini-c-3-5.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/ini-c-4-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ini-c-4-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ini-c-5-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ini-c-6-9.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/ini-hdl-1-2.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ini-hdl-1-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ini-hdl-1-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/ini-hdl-1-8.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "candidate/ini-hdl-2-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ini-hdl-2-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/ini-hdl-3-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/ini-hdl-3-5.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/ini-hdl-4-5.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ini-hdl-4-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ini-hdl-5-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/ini-hdl-6-9.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/inir-c-1-2.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/inir-c-1-3.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/inir-c-1-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/inir-c-1-8.txt": "23365d70139cbb38e4cb9110c8976039baa7fa6b1135732ce6ac054d647c8585",
+    "candidate/inir-c-2-3.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/inir-c-2-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/inir-c-3-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/inir-c-3-5.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "candidate/inir-c-4-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/inir-c-4-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/inir-c-5-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/inir-c-6-9.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "candidate/inir-hdl-1-2.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/inir-hdl-1-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/inir-hdl-1-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/inir-hdl-1-8.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "candidate/inir-hdl-2-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/inir-hdl-2-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/inir-hdl-3-4.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/inir-hdl-3-5.txt": "f221663cbbec491067a677bb725258bc24cd41a274ed4307542382b4ed6e4107",
+    "candidate/inir-hdl-4-5.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/inir-hdl-4-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/inir-hdl-5-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/inir-hdl-6-9.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "candidate/tv80_core.v": "2778d350049ba3e31a4dff9d18fc72a70fc0da4665cea59c8573ea83fe0b0614",
+    "candidate/tv80_io_candidate.v": "2a7d58e28477f58f66ade29e7fa49ca40823e77766c4d4417370144e68f7e940",
+    "old/c_read_half.h": "de0fc38dda9cc557d17177996a240d457b05fdf67bdbf1325dab9c78a5fe5cf5",
+    "old/candidate.h": "4a7c3e702e21c3c2e696fa281a197e99f42f9b10198b8686c9017a322aaee4b6",
+    "old/dd-prefix-in-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/dd-prefix-in-c-1-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/dd-prefix-in-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/dd-prefix-in-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "old/dd-prefix-in-c-2-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/dd-prefix-in-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/dd-prefix-in-c-3-4.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/dd-prefix-in-c-3-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/dd-prefix-in-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/dd-prefix-in-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/dd-prefix-in-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/dd-prefix-in-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/dd-prefix-in-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/dd-prefix-in-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/dd-prefix-in-hdl-1-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/dd-prefix-in-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/dd-prefix-in-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/dd-prefix-in-hdl-2-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/dd-prefix-in-hdl-3-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/dd-prefix-in-hdl-3-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/dd-prefix-in-hdl-4-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/dd-prefix-in-hdl-4-6.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/dd-prefix-in-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/dd-prefix-in-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/fd-prefix-in-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/fd-prefix-in-c-1-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/fd-prefix-in-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/fd-prefix-in-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "old/fd-prefix-in-c-2-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/fd-prefix-in-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/fd-prefix-in-c-3-4.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/fd-prefix-in-c-3-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/fd-prefix-in-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/fd-prefix-in-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/fd-prefix-in-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/fd-prefix-in-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/fd-prefix-in-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/fd-prefix-in-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/fd-prefix-in-hdl-1-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/fd-prefix-in-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/fd-prefix-in-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/fd-prefix-in-hdl-2-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/fd-prefix-in-hdl-3-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/fd-prefix-in-hdl-3-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/fd-prefix-in-hdl-4-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/fd-prefix-in-hdl-4-6.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/fd-prefix-in-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/fd-prefix-in-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/immediate-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/immediate-c-1-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/immediate-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/immediate-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "old/immediate-c-2-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/immediate-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/immediate-c-3-4.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/immediate-c-3-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/immediate-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/immediate-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/immediate-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/immediate-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/immediate-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/immediate-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/immediate-hdl-1-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/immediate-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/immediate-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/immediate-hdl-2-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/immediate-hdl-3-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/immediate-hdl-3-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/immediate-hdl-4-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/immediate-hdl-4-6.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/immediate-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/immediate-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-a-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-a-c-1-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-a-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-a-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "old/in-a-c-2-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-a-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-a-c-3-4.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-a-c-3-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-a-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-a-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-a-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-a-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-a-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-a-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-a-hdl-1-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-a-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-a-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-a-hdl-2-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-a-hdl-3-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-a-hdl-3-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-a-hdl-4-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-a-hdl-4-6.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-a-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-a-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-b-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-b-c-1-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-b-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-b-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "old/in-b-c-2-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-b-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-b-c-3-4.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-b-c-3-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-b-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-b-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-b-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-b-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-b-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-b-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-b-hdl-1-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-b-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-b-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-b-hdl-2-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-b-hdl-3-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-b-hdl-3-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-b-hdl-4-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-b-hdl-4-6.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-b-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-b-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-c-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-c-c-1-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-c-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-c-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "old/in-c-c-2-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-c-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-c-c-3-4.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-c-c-3-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-c-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-c-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-c-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-c-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-c-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-c-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-c-hdl-1-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-c-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-c-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-c-hdl-2-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-c-hdl-3-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-c-hdl-3-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-c-hdl-4-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-c-hdl-4-6.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-c-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-c-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-d-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-d-c-1-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-d-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-d-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "old/in-d-c-2-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-d-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-d-c-3-4.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-d-c-3-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-d-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-d-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-d-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-d-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-d-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-d-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-d-hdl-1-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-d-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-d-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-d-hdl-2-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-d-hdl-3-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-d-hdl-3-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-d-hdl-4-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-d-hdl-4-6.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-d-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-d-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-e-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-e-c-1-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-e-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-e-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "old/in-e-c-2-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-e-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-e-c-3-4.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-e-c-3-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-e-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-e-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-e-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-e-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-e-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-e-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-e-hdl-1-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-e-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-e-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-e-hdl-2-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-e-hdl-3-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-e-hdl-3-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-e-hdl-4-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-e-hdl-4-6.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-e-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-e-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-flags-c-1-2.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/in-flags-c-1-3.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/in-flags-c-1-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/in-flags-c-1-8.txt": "23365d70139cbb38e4cb9110c8976039baa7fa6b1135732ce6ac054d647c8585",
+    "old/in-flags-c-2-3.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/in-flags-c-2-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/in-flags-c-3-4.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/in-flags-c-3-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/in-flags-c-4-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/in-flags-c-4-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/in-flags-c-5-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/in-flags-c-6-9.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/in-flags-hdl-1-2.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/in-flags-hdl-1-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/in-flags-hdl-1-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/in-flags-hdl-1-8.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/in-flags-hdl-2-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/in-flags-hdl-2-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/in-flags-hdl-3-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/in-flags-hdl-3-5.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/in-flags-hdl-4-5.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/in-flags-hdl-4-6.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/in-flags-hdl-5-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/in-flags-hdl-6-9.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/in-h-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-h-c-1-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-h-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-h-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "old/in-h-c-2-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-h-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-h-c-3-4.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-h-c-3-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-h-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-h-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-h-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-h-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-h-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-h-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-h-hdl-1-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-h-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-h-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-h-hdl-2-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-h-hdl-3-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-h-hdl-3-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-h-hdl-4-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-h-hdl-4-6.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-h-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-h-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-l-c-1-2.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-l-c-1-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-l-c-1-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-l-c-1-8.txt": "26733fc0d8a5ac8ea6522a5660bcbbfb39af417fb6f968da5de02f2c6d797e88",
+    "old/in-l-c-2-3.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-l-c-2-4.txt": "d85d2731d042c2b9144b913e22abd89dcd83c140ffadf0826f45296d5042335f",
+    "old/in-l-c-3-4.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-l-c-3-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-l-c-4-5.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-l-c-4-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-l-c-5-6.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-l-c-6-9.txt": "68f88ef565c2081412338770853345820e64332704dbc3f145a3fc6e6424fc64",
+    "old/in-l-hdl-1-2.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-l-hdl-1-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-l-hdl-1-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-l-hdl-1-8.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-l-hdl-2-3.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-l-hdl-2-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-l-hdl-3-4.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-l-hdl-3-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-l-hdl-4-5.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-l-hdl-4-6.txt": "ffd62c7faf6610a808dfb96fbfed5e924b8d26dcb462938f3a4a28a2dedd067f",
+    "old/in-l-hdl-5-6.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/in-l-hdl-6-9.txt": "1f62e5dff21e3204113ef3e31db2404f1afaf5e3826bfa2a738d09f8e453a2e1",
+    "old/ind-c-1-2.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ind-c-1-3.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/ind-c-1-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/ind-c-1-8.txt": "23365d70139cbb38e4cb9110c8976039baa7fa6b1135732ce6ac054d647c8585",
+    "old/ind-c-2-3.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/ind-c-2-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/ind-c-3-4.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ind-c-3-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ind-c-4-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ind-c-4-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ind-c-5-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ind-c-6-9.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ind-hdl-1-2.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ind-hdl-1-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ind-hdl-1-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ind-hdl-1-8.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/ind-hdl-2-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ind-hdl-2-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ind-hdl-3-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ind-hdl-3-5.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/ind-hdl-4-5.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/ind-hdl-4-6.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/ind-hdl-5-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ind-hdl-6-9.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/indr-c-1-2.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/indr-c-1-3.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/indr-c-1-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/indr-c-1-8.txt": "23365d70139cbb38e4cb9110c8976039baa7fa6b1135732ce6ac054d647c8585",
+    "old/indr-c-2-3.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/indr-c-2-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/indr-c-3-4.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/indr-c-3-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/indr-c-4-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/indr-c-4-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/indr-c-5-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/indr-c-6-9.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/indr-hdl-1-2.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/indr-hdl-1-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/indr-hdl-1-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/indr-hdl-1-8.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/indr-hdl-2-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/indr-hdl-2-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/indr-hdl-3-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/indr-hdl-3-5.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/indr-hdl-4-5.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/indr-hdl-4-6.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/indr-hdl-5-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/indr-hdl-6-9.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ini-c-1-2.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ini-c-1-3.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/ini-c-1-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/ini-c-1-8.txt": "23365d70139cbb38e4cb9110c8976039baa7fa6b1135732ce6ac054d647c8585",
+    "old/ini-c-2-3.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/ini-c-2-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/ini-c-3-4.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ini-c-3-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ini-c-4-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ini-c-4-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ini-c-5-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ini-c-6-9.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/ini-hdl-1-2.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ini-hdl-1-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ini-hdl-1-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ini-hdl-1-8.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/ini-hdl-2-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ini-hdl-2-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ini-hdl-3-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ini-hdl-3-5.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/ini-hdl-4-5.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/ini-hdl-4-6.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/ini-hdl-5-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/ini-hdl-6-9.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/inir-c-1-2.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/inir-c-1-3.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/inir-c-1-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/inir-c-1-8.txt": "23365d70139cbb38e4cb9110c8976039baa7fa6b1135732ce6ac054d647c8585",
+    "old/inir-c-2-3.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/inir-c-2-4.txt": "3f838f43860c4f8a989b3b30d043d2476ae8847792150576990df868b348e494",
+    "old/inir-c-3-4.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/inir-c-3-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/inir-c-4-5.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/inir-c-4-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/inir-c-5-6.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/inir-c-6-9.txt": "1a599969884653a86a85a2313310de571329b2e454da962b81920ee133d8db30",
+    "old/inir-hdl-1-2.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/inir-hdl-1-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/inir-hdl-1-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/inir-hdl-1-8.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/inir-hdl-2-3.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/inir-hdl-2-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/inir-hdl-3-4.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/inir-hdl-3-5.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/inir-hdl-4-5.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/inir-hdl-4-6.txt": "1f8829b5c8b27aca3896df0c6d2fe053b233bacb20f27bc839a37183f5e3511e",
+    "old/inir-hdl-5-6.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/inir-hdl-6-9.txt": "36c2deef63adc5ff73909bfaf96ac4c2977dc0c2c97b17f064aeee7f78132afc",
+    "old/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "old/tv80_io_candidate.v": "54443655f3da8570563d258c49db4883e8c3c450e0faeb7cdd420682d4b0a8cf",
+    "sampling/c.txt": "232e3a01e5b5d970378b364096b7dd1e898ae5a21734031ce2738d16e7f30479",
+    "sampling/candidate.h": "7856a3e25add23245b153b04800054518721cea19b51d0420eaf6133aafb2129",
+    "sampling/early.txt": "e046ab60daa5fe8f253f919ff45a1f97733cf0c3d8d938a2545f8e3c8a9387e4",
+    "sampling/early.v": "ce64d68523547636e80fed16238e7ff845368ebc89be53d8bfe019a8e3efd59d",
+    "sampling/falling.txt": "00c3afb8d39a526eb8ed1757fefe3d4db8b011a002207a2a33dc959dd697dbe8",
+    "sampling/falling.v": "caf447012aacf9f54578f906891a9d32f649c2ce2ebdc7f23bb7570d07befae9",
+    "sampling/tv80n_falling.v": "33cb0418301258af1ef956b4053ff4878e191e020d9201fb8b73df53beff7615"
+  },
+  "composedArtifacts": {
+    "producer.py": "c4c3eecb72aa02f02d033d7be5c02a8f27844abee33a3394cf652d4da08993af"
+  },
+  "profile": "Complete I/O candidate regression"
+}
