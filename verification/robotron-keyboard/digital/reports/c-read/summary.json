@@ -1,0 +1,16 @@
+{
+  "qualified": false,
+  "productionChanged": false,
+  "gates": {
+    "firmwareFunctionalAgreement": true,
+    "serialCycleAgreement": true,
+    "knownLedTransitionAgreement": true,
+    "lateInputDataAgreement": true,
+    "fullInstructionIncludingFlagsAgreement": false,
+    "rawCycleAgreement": false,
+    "nonIoInterruptAndArbitrationQualified": false,
+    "waitTransitionPhaseQualified": false
+  },
+  "boundary": "C address/control and explicit falling-edge I/O sampling candidates, paired with the HDL I/O boundary. Stable WAIT extension is tested; half-cycle WAIT transition acceptance, non-I/O pins, interrupts and arbitration are not qualified. Initial LED observations remain unequal and raw BUS logging uses different observation phases. Flag disagreement is retained, not resolved by choosing one core as the oracle.",
+  "contractSha256": "87b05b7febfe2dcb22952b02a1cb5a368a90c923c3f966624f7b9cd26d1218c0"
+}
