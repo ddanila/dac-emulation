@@ -1,0 +1,17 @@
+{
+  "qualified": false,
+  "productionChanged": false,
+  "gates": {
+    "normalCompletionIoFlags": true,
+    "readWaitHalfEdgeAcceptance": true,
+    "nonIoSameCoreRegression": true,
+    "firmwareFunctionalAgreement": true,
+    "serialCycleAgreement": true,
+    "knownLedTransitionAgreement": true,
+    "writeWaitHalfEdgeAcceptance": false,
+    "interruptedRepeatFlags": false,
+    "rawPinAndStartupQualification": false,
+    "crossCoreArbitration": false
+  },
+  "boundary": "Reference Z80 digital candidate. Normal-completion I/O flags and read WAIT have independent oracles. Non-I/O checks compare each core before/after, not cross-core conformance. CHIPS has no BUSRQ/BUSACK interface. Interrupted repeats, write WAIT, raw pin/startup acceptance and production adoption remain open; no U880 specimen calibration is claimed."
+}
