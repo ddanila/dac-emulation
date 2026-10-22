@@ -510,11 +510,11 @@ static void s600_workload(const uint8_t *keyboard) {
   }
   assert(combined);
   /* Find an actual partially shifted keyboard byte, not an arbitrary delay.
-   * This optional native fixture deliberately inspects snapshot layout 15. */
+   * This optional native fixture deliberately inspects snapshot layout 16. */
   assert(!dac_matrix(a,61,1));unsigned found=0;
   for(unsigned n=0;n<1600;n++){
     assert(dac_run(a,256)==256);assert(!dac_state_save(a,left,size));
-    uint32_t header[8];memcpy(header,left,sizeof(header));assert(header[1]==15);
+    uint32_t header[8];memcpy(header,left,sizeof(header));assert(header[1]==16);
     robotron_sio_rx rx;memcpy(&rx,(uint8_t*)left+sizeof(header)+offsetof(robotron,rx),sizeof(rx));
     if(rx.phase&&rx.bits>0&&rx.bits<8){found=1;break;}
   }

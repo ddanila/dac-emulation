@@ -1,9 +1,9 @@
 # Robotron 1715M / PC-1715W functional profile
 
-For the current **0.16.0 / snapshot layout 14** baseline, see [Robotron status](../../docs/robotron-status.md). Versioned entries below retain their original historical scope.
+See [Robotron status](../../docs/robotron-status.md) for current behavior and qualification. Historical sections below keep their original scope.
 
 
-An experimental portable C machine using the shared Z80 adapter. The tested profile is the S550 boot ROM, 287 CAS PROM and TOS/M 1.0 disk decoded from `A92V010A.TD0`. It cold-boots to `A>`, accepts keyboard packets, creates/reads/copies/deletes files and reboots from an exported session disk. No guest ROM patches or guest-PC traps are used. Matching Danila's exact physical machine is still pending.
+A portable C machine with a shared main-CPU adapter and a dedicated keyboard CPU backend. The tested profile is the S550 boot ROM, 287 CAS PROM and TOS/M 1.0 disk decoded from `A92V010A.TD0`. It cold-boots to `A>`, accepts keyboard packets, creates/reads/copies/deletes files and reboots from an exported session disk. No guest ROM patches or guest-PC traps are used. Matching Danila's exact physical machine is still pending.
 
 Implemented: 256 KB RAM with independent read/write banks selected through the supplied CAS PROM; boot ROM/gap/character/video windows; CTC timer cascade and DMA/CTC interrupt priority with in-service/RETI handling; optional S600 keyboard CPU/matrix with clocked SIO reception, or a legacy byte adapter; DMA addressing, ready polarity, end-of-block interrupt control and board-gated terminal count; raw 80×2×5×1024 media; floppy specify/sense/recalibrate/seek/read-ID/read/write/deleted-data/read-track/format/scan commands. Storage uses `common/media`. Native I/O events use `common/trace`.
 

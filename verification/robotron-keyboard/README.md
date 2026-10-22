@@ -1,7 +1,7 @@
 # Robotron keyboard board co-simulation
 
-This harness compares a KiCad-derived reference circuit with the production
-keyboard emulator. It is separate from the browser runtime. The canonical
+The production keyboard backend and the baseline schematic harness have separate
+acceptance suites. They compare a KiCad-derived reference circuit with C models. The canonical
 schematic and physical reconstruction live in `3d-models`; [reference/source.json](reference/source.json)
 pins the imported revision and connectivity. [generate.py](generate.py) emits
 numbered-pin wiring; [chips.v](chips.v) owns chip behavior.
@@ -93,51 +93,26 @@ Chip models, the C emulator, TV80 and firmware provide separate checks with shar
 inputs and explicit boundaries. Specimen firmware, physical copper and measured
 timing remain separate claims.
 
-## Digital completion gate
+## Production digital acceptance
 
-`digital/qualify.py --rom /path/to/s600.bin` exercises every matrix contact,
-overlapping keys, modifier changes and two reset positions within a serial frame.
-`digital/review.py build/keyboard-controller-digital --out /tmp/digital-review.json`
-combines those captures with the existing repeat/release, bus and virtual-bridge
-checks. It returns failure while any completion gate remains open. Raw CPU cycle
-coordinates are never shifted; observations outside the declared half-open capture
-interval are retained separately. Reports distinguish logical output agreement
-from CPU assertion timing and electrical qualification.
+The normal native and browser builds use `keyboard_board.c` and `keyboard_cpu.c`.
+`tools/generate_keyboard_cpu.py --check` checks their generated sources against
+those exercised by the independent HDL fixtures. The original `keyboard.c/h`
+remain the whole-clock reference for older captures; they are not linked into the
+normal machine build.
 
-`digital/pin_timing.py` isolates immediate/ED I/O, memory readback, waits and
-reset at both HDL clock edges. C falling-edge observations repeat its whole-cycle
-state; they do not establish physical setup/hold. The retained instruction traces
-reject `T2Write=1` because it exposes stale data during an active write.
+```sh
+python3 verification/robotron-keyboard/digital/cpu_bus_review.py
+python3 verification/robotron-keyboard/digital/cpu_bus_cross.py --pins --require-pass
+python3 verification/robotron-keyboard/digital/cpu_bus_instructions.py
+python3 verification/robotron-keyboard/digital/cpu_bus_firmware.py --production --out build/keyboard-controller-cpu-bus-production --rom /path/to/s600.bin
+python3 verification/robotron-keyboard/digital/cpu_bus_evidence.py
+```
 
-`digital/joint_phase.py build/keyboard-controller-digital --out build/keyboard-controller-joint-phase`
-tests the experimental joint data/strobe adapter against those C captures.
-Its retained `digital/reports/joint-phase/assessment.json` passes functional and
-serial-cycle comparisons, including interrupted transmission. LED edge and raw
-bus timing still differ. `digital/verify_joint_phase.py` checks the retained
-captures and replays the short instruction fixture against Figure 7 of the
-[Z80 timing manual](https://www.zilog.com/docs/z80/um0080.pdf).
-`digital/joint_repeat.py --rom /path/to/s600.bin` runs the unchanged long
-repeat/release/reset fixture; its separate retained comparison also agrees
-functionally and on serial cycle labels.
-The adapter remains separate from production: block I/O, interrupts, arbitration,
-C half-cycle semantics and U880 electrical timing are not qualified.
-
-`digital/io-read-contract.json` defines the experimental read phase contract.
-The C generator preserves instruction transitions while preparing the address in
-T1 and holding RD/IORQ through waits. `c_read_half.h` supplies explicit rising and
-falling calls so late data can be sampled in T3. `c_read_instructions.py` compares
-ordinary, prefixed and block operations and retains flag disagreements separately
-from data agreement; its whole-cycle profile is a late-input negative control.
-`c_read_pair.py --rom /path/to/s600.bin` runs the complete firmware stimuli with
-both experimental boundaries, transparent matrix reads and CPU-only reset.
-These candidates do not replace the production core while promotion checks remain
-open. DD/FD-prefixed IN instructions ignore the prefix; indexed memory remains a
-separate control, not an invented indexed I/O mode.
-
-`digital/c_read_evidence.py` verifies the compressed captures and retained
-counterexamples. `digital/reports/c-read/summary.json` separates successful data,
-serial and known-LED comparisons from unresolved flag, startup and pin gates.
-The periodic LED fixture observes after the rising edge settles; earlier snapshots
-are retained as a negative control. This changes observation timing, not event
-labels. The C half-cycle API still needs qualification for WAIT transitions,
-non-I/O behavior, interrupts and arbitration before default adoption.
+The [acceptance summary](digital/reports/cpu-bus/summary.json) declares the tested
+bus, firmware and integration scope. Edge labels are never shifted. BUSRQ is an
+external input through X1 A9; BR2 resets only the CPU. A6 validity remains unknown
+until its first IORQ clock, and matrix input remains live through the sampling edge.
+These are reference Z80 semantics, not measured U880 timing or electrical accuracy.
+Earlier candidates and counterexamples remain under `digital/reports/`; their
+source receipts describe their own producer revisions rather than the current runtime.

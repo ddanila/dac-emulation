@@ -1,4 +1,4 @@
-ROBOTRON_OBJECTS = build/machines/robotron1715m/disk.o build/machines/robotron1715m/robotron.o build/machines/robotron1715m/keyboard.o build/machines/robotron1715m/sio.o
+ROBOTRON_OBJECTS = build/machines/robotron1715m/disk.o build/machines/robotron1715m/robotron.o build/machines/robotron1715m/keyboard_board.o build/machines/robotron1715m/keyboard_cpu.o build/machines/robotron1715m/sio.o
 CC ?= cc
 AR ?= ar
 NODE ?= node
@@ -87,7 +87,7 @@ test-wasm: test-clock-wasm
 
 RUNTIME_BUILD_ID := $(shell git describe --always --dirty --abbrev=40 --exclude='*' 2>/dev/null || echo unversioned)
 RUNTIME_SOURCES = common/runtime/session.c $(CORE) common/cpu/z80.c machines/vjuga/vjuga.c $(ROBOTRON_OBJECTS:build/%.o=%.c)
-RUNTIME_HEADERS = $(wildcard common/*/*.h machines/*/*.h third_party/cpu/i8080/*.h third_party/cpu/chips/*.h)
+RUNTIME_HEADERS = $(wildcard machines/robotron1715m/generated/keyboard_cpu/*.h common/*/*.h machines/*/*.h third_party/cpu/i8080/*.h third_party/cpu/chips/*.h)
 
 build/libdac-runtime.so: $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
 	@mkdir -p build
@@ -204,3 +204,13 @@ qualify-keyboard-board-scenario:
 	python3 verification/robotron-keyboard/analog/boot_cosim.py --rom "$(S600_ROM)" --electrical-matrix --electrical-outputs --scenario "$(KEYBOARD_BOARD_SCENARIO)" $(KEYBOARD_BOARD_ARGS) --gate-profile "$(KEYBOARD_BOARD_GATE_PROFILE)" --timeout-seconds "$(KEYBOARD_BOARD_TIMEOUT_SECONDS)" --step-ns "$(KEYBOARD_BOARD_COARSE_STEP_NS)" --bridge-delay-ns 10 --out "$(KEYBOARD_BOARD_OUT)/coarse"
 	python3 verification/robotron-keyboard/analog/boot_cosim.py --rom "$(S600_ROM)" --electrical-matrix --electrical-outputs --scenario "$(KEYBOARD_BOARD_SCENARIO)" $(KEYBOARD_BOARD_ARGS) --gate-profile "$(KEYBOARD_BOARD_GATE_PROFILE)" --timeout-seconds "$(KEYBOARD_BOARD_TIMEOUT_SECONDS)" --step-ns "$(KEYBOARD_BOARD_FINE_STEP_NS)" --bridge-delay-ns 10 --out "$(KEYBOARD_BOARD_OUT)/fine"
 	python3 verification/robotron-keyboard/analog/qualify_board_pair.py "$(KEYBOARD_BOARD_OUT)/coarse" "$(KEYBOARD_BOARD_OUT)/fine" --out "$(KEYBOARD_BOARD_OUT)/qualification.json"
+
+# Production keyboard backend; the legacy fixture is not linked into machines.
+build/keyboard-backend-test: tests/integration/keyboard_backend_test.c build/machines/robotron1715m/keyboard_board.o build/machines/robotron1715m/keyboard_cpu.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
+test: test-keyboard-backend
+.PHONY: test-keyboard-backend
+test-keyboard-backend: build/keyboard-backend-test
+	python3 tools/generate_keyboard_cpu.py --check
+	./build/keyboard-backend-test

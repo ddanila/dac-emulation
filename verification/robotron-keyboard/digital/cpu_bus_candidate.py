@@ -11,7 +11,25 @@ HERE = Path(__file__).resolve().parent
 def generate(out):
     out.mkdir(parents=True, exist_ok=True)
     vendor = ROOT / 'third_party/cpu/tv80'
-    (out / 'tv80_core.v').write_text(hdl_core((vendor / 'tv80_core.v').read_text()))
+    core=hdl_core((vendor / 'tv80_core.v').read_text())
+    anchor="      Auto_Wait = 1'b0;\n      if (IntCycle == 1'b1 || NMICycle == 1'b1 )"
+    core=replace_once(core,anchor,"      Auto_Wait = 1'b0;\n      if (IntCycle == 1'b1 )")
+    for signal in ('NMICycle','IntCycle'):
+        anchor="                                  "+signal+" <= `TV80DELAY 1'b1;"
+        core=replace_once(core,anchor,anchor+"\n                                  Halt_FF <= `TV80DELAY 1'b0;")
+    (out / 'tv80_core.v').write_text(core)
+    mcode=(vendor/'tv80_mcode.v').read_text()
+    start=mcode.index('                      // NMI')
+    end=mcode.index("                  else if (IntCycle == 1'b1 )",start)
+    block=mcode[start:end]
+    if block.count("TStates = 3'b100;")!=2:raise ValueError('NMI cycle contract changed')
+    mcode=mcode[:start]+block.replace("TStates = 3'b100;","TStates = 3'b011;")+mcode[end:]
+    start=mcode.index('                      // INT (IM 2)')
+    end=mcode.index("                end // case: 8'b00000000",start)
+    block=mcode[start:end]
+    if block.count("TStates = 3'b100;")!=2:raise ValueError('IM2 cycle contract changed')
+    mcode=mcode[:start]+block.replace("TStates = 3'b100;","TStates = 3'b011;")+mcode[end:]
+    (out/'tv80_mcode.v').write_text(mcode)
     wrapper = hdl_wrapper((HERE / 'tv80_io_candidate.v').read_text())
     wrapper = replace_once(wrapper, 'wire accepted_wait=read_wait?wait_sampled:wait_n;',
                            'wire accepted_wait=wait_sampled;')
@@ -28,5 +46,5 @@ def generate(out):
                         'if ((clk && mcycle[0] && tstate[2] && wait_n) || (!clk && delayed_read))')
     (out / 'tv80n.v').write_text(base)
     (out / 'cpu_bus_candidate.v').write_text((HERE / 'cpu_bus_candidate.v').read_text())
-    return [p for p in sorted(vendor.glob('*.v')) if p.name not in ('tv80_core.v', 'tv80n.v')] + [
-        out / 'tv80_core.v', out / 'tv80n.v', out / 'tv80_io_candidate.v', out / 'cpu_bus_candidate.v']
+    return [p for p in sorted(vendor.glob('*.v')) if p.name not in ('tv80_core.v', 'tv80n.v', 'tv80_mcode.v')] + [
+        out / 'tv80_core.v', out / 'tv80_mcode.v', out / 'tv80n.v', out / 'tv80_io_candidate.v', out / 'cpu_bus_candidate.v']

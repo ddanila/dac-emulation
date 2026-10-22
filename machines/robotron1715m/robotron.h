@@ -3,7 +3,7 @@
 #include "../../common/cpu/z80.h"
 #include "../../common/media/media.h"
 #include "../../common/trace/trace.h"
-#include "keyboard.h"
+#include "keyboard_board.h"
 #include <stddef.h>
 #define ROBOTRON_REVOLUTION_TICKS 798720u /* 3.9936 MHz / 5 Hz */
 #define ROBOTRON_SPINUP_TICKS                                                  \

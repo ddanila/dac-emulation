@@ -11,6 +11,15 @@ module cpu_bus_candidate(
  .int_n(int_n),.nmi_n(nmi_n),.busrq_n(busrq_n),.di(di),.A(A),.dout(qdata),
  .m1_n(m1_n),.mreq_n(qmreq),.iorq_n(qiorq),.rd_n(qrd),.wr_n(qwr),
  .rfsh_n(qrfsh),.halt_n(halt_n),.busak_n(busak_n));
+ wire interrupt_cycle=qualified.base.mcycle[0] && !qualified.base.intcycle_n;
+ reg [2:0] acknowledge_clock=0;reg acknowledge=0;
+ always @(posedge clk or negedge reset_n)
+  if(!reset_n)acknowledge_clock<=0;
+  else if(!interrupt_cycle)acknowledge_clock<=0;
+  else if(acknowledge_clock!=7)acknowledge_clock<=acknowledge_clock+1;
+ always @(negedge clk or negedge reset_n)
+  if(!reset_n)acknowledge<=0;
+  else acknowledge<=interrupt_cycle && acknowledge_clock>=2 && (qualified.base.tstate[1] || qualified.base.tstate[2]);
  wire fetch=qualified.base.mcycle[0] && qualified.base.intcycle_n;
  wire memory_cycle=!qualified.base.mcycle[0] && !qualified.base.iorq;
  wire reading=memory_cycle && !qualified.base.no_read && !qualified.base.write;
@@ -52,5 +61,5 @@ module cpu_bus_candidate(
  assign rd_n=!control_oe?1'b1:!qrfsh?1'b1:
    fetch?~read_fetch:reading?~memory_active:qrd;
  assign wr_n=!control_oe?1'b1:writing?~write_active:qwr;
- assign iorq_n=(!control_oe || !qrfsh)?1'b1:qiorq;
+ assign iorq_n=(!control_oe || !qrfsh)?1'b1:interrupt_cycle?~acknowledge:qiorq;
 endmodule
