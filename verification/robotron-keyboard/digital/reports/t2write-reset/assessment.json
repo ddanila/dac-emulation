@@ -1,0 +1,186 @@
+{
+  "scenario": {
+    "id": "reset-transmit",
+    "cycles": 800000,
+    "events": [
+      [
+        200000,
+        "key",
+        7,
+        5,
+        1
+      ],
+      [
+        223600,
+        "reset"
+      ],
+      [
+        400000,
+        "key",
+        7,
+        5,
+        1
+      ],
+      [
+        600000,
+        "release"
+      ]
+    ],
+    "scope": "Fixed shared reset instant inside the baseline serial burst; verify its location from each CPU trace."
+  },
+  "events": {
+    "BIT": {
+      "cCount": 31,
+      "hdlCount": 31,
+      "valuesEquivalent": false,
+      "rawCycleEquivalent": false,
+      "offsetCounts": {
+        "0": 31
+      },
+      "firstDifference": {
+        "ordinal": 2,
+        "c": [
+          "223543",
+          "0"
+        ],
+        "hdl": [
+          "223543",
+          "1"
+        ]
+      }
+    },
+    "EDGE": {
+      "cCount": 1,
+      "hdlCount": 1,
+      "valuesEquivalent": true,
+      "rawCycleEquivalent": false,
+      "offsetCounts": {
+        "394": 1
+      },
+      "firstDifference": {
+        "ordinal": 0,
+        "c": [
+          "0",
+          "0"
+        ],
+        "hdl": [
+          "394",
+          "0"
+        ]
+      }
+    },
+    "LED": {
+      "cCount": 4,
+      "hdlCount": 4,
+      "valuesEquivalent": true,
+      "rawCycleEquivalent": true,
+      "offsetCounts": {
+        "0": 4
+      },
+      "firstDifference": null
+    },
+    "BUS": {
+      "cCount": 3519,
+      "hdlCount": 3519,
+      "valuesEquivalent": false,
+      "rawCycleEquivalent": false,
+      "offsetCounts": {
+        "-1": 3488,
+        "0": 31
+      },
+      "firstDifference": {
+        "ordinal": 0,
+        "c": [
+          "395",
+          "5",
+          "32896",
+          "0"
+        ],
+        "hdl": [
+          "394",
+          "5",
+          "32896",
+          "0"
+        ]
+      }
+    }
+  },
+  "contactWindows": {
+    "c": [
+      {
+        "contact": [
+          7,
+          5
+        ],
+        "start": 200000,
+        "end": 223600,
+        "bits": 5
+      },
+      {
+        "contact": [
+          7,
+          5
+        ],
+        "start": 400000,
+        "end": 600000,
+        "bits": 26
+      }
+    ],
+    "hdl": [
+      {
+        "contact": [
+          7,
+          5
+        ],
+        "start": 200000,
+        "end": 223600,
+        "bits": 5
+      },
+      {
+        "contact": [
+          7,
+          5
+        ],
+        "start": 400000,
+        "end": 600000,
+        "bits": 26
+      }
+    ]
+  },
+  "resetWitnesses": [
+    {
+      "c": {
+        "precedingBits": 5,
+        "lastBitCycle": 223598,
+        "partial26BitFrame": true,
+        "postResetBits": 26
+      },
+      "hdl": {
+        "precedingBits": 5,
+        "lastBitCycle": 223598,
+        "partial26BitFrame": true,
+        "postResetBits": 26
+      }
+    }
+  ],
+  "functionalAgreement": false,
+  "rawCycleAgreement": false,
+  "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+  "qualified": false,
+  "profile": "TV80 T2Write=1",
+  "sourceCaptureSha256": "4db7d45ac6cdb0ea7cf56f45541f6a206adfb856aae35bd5cd214a3cdff36bda",
+  "sourceCTraceSha256": "4ddeeb2ccfc3aa9eeda1d722fb27265aa260b7882233a04ebae33d8382e421ef",
+  "producerSha256": "b8cc3f52bb7e33bf22e39693eee4287195cdaf3057986f08052216530f306443",
+  "hdlSha256": "f25678b3e01652746257c366c8c72ee87ce5b171aab3d945041ecccc6cc054f7",
+  "sources": {
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+    "verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+    "verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "../dac-emulation/build/keyboard-controller-digital-t2write-reset/bench.v": "df7fb218c4019b6a0884849ce44fbcd26602e30d523a0457deddfc2591f0bf15"
+  },
+  "boundary": "Parameter sensitivity only. Earlier write assertion may change pulse width and setup/hold; matching serial edges does not establish U880 pin timing, read phases or electrical qualification."
+}

@@ -1,0 +1,5526 @@
+{
+  "schema": 1,
+  "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+  "gates": {
+    "fullBusAudit": true,
+    "virtualBridgeService": true,
+    "allMatrixPositionsExercised": true,
+    "repeatReleaseBaseline": true,
+    "expandedFunctionalAgreement": false,
+    "rawCycleAgreement": false,
+    "postResetSerialRecovery": true,
+    "resetDuringFrameWitnessed": true
+  },
+  "digitalComplete": false,
+  "electricallyQualified": false,
+  "specimenQualified": false,
+  "observationInterval": "0 <= fixture cycle < declared stop; out-of-window observations are retained separately, with no phase shift or interior-event deletion.",
+  "cases": [
+    {
+      "scenario": {
+        "id": "column-00",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            0,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            0,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            0,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            0,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            0,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            0,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            0,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            0,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217507",
+              "1"
+            ],
+            "hdl": [
+              "217509",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8380,
+          "hdlCount": 8380,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8172,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              0,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              0,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              0,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8172,
+          "hdlCount": 8172,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8172
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-01",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            1,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            1,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            1,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            1,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            1,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            1,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            1,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            1,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217526",
+              "1"
+            ],
+            "hdl": [
+              "217528",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8402,
+          "hdlCount": 8402,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8194,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              1,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              1,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              1,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8194,
+          "hdlCount": 8194,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8194
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-02",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            2,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            2,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            2,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            2,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            2,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            2,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            2,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            2,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217526",
+              "1"
+            ],
+            "hdl": [
+              "217528",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8404,
+          "hdlCount": 8404,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8196,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              2,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              2,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              2,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8196,
+          "hdlCount": 8196,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8196
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-03",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            3,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            3,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            3,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            3,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            3,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            3,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            3,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            3,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217526",
+              "1"
+            ],
+            "hdl": [
+              "217528",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8408,
+          "hdlCount": 8408,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8200,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              3,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              3,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              3,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8200,
+          "hdlCount": 8200,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8200
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-04",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            4,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            4,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            4,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            4,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            4,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            4,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            4,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            4,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217526",
+              "1"
+            ],
+            "hdl": [
+              "217528",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 4549,
+          "hdlCount": 4549,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1,
+            "-1": 4544,
+            "2": 4
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8319,
+          "hdlCount": 8319,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8111,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              4,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              4,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              4,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8111,
+          "hdlCount": 8111,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8111
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-05",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            5,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            5,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            5,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            5,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            5,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            5,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            5,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            5,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217526",
+              "1"
+            ],
+            "hdl": [
+              "217528",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8406,
+          "hdlCount": 8406,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8198,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              5,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              5,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              5,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8198,
+          "hdlCount": 8198,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8198
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-06",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            6,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            6,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            6,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            6,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            6,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            6,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            6,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            6,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217526",
+              "1"
+            ],
+            "hdl": [
+              "217528",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8406,
+          "hdlCount": 8406,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8198,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              6,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              6,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              6,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8198,
+          "hdlCount": 8198,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8198
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-07",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            7,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            7,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            7,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            7,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            7,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            7,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            7,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            7,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "223391",
+              "1"
+            ],
+            "hdl": [
+              "223393",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8408,
+          "hdlCount": 8408,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8200,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              7,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              7,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8200,
+          "hdlCount": 8200,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8200
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-08",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            8,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            8,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            8,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            8,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            8,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            8,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            8,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            8,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 26,
+          "hdlCount": 26,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 26
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "617412",
+              "1"
+            ],
+            "hdl": [
+              "617414",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 2998,
+          "hdlCount": 2998,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1,
+            "-1": 2997
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8326,
+          "hdlCount": 8326,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8300,
+            "2": 26
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              8,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              8,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 0
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              8,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              8,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 0
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [
+            [
+              "1900000",
+              "0"
+            ]
+          ],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8300,
+          "hdlCount": 8300,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8300
+          }
+        },
+        "ioWrite": {
+          "cCount": 26,
+          "hdlCount": 26,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 26
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-09",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            9,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            9,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            9,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            9,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            9,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            9,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            9,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            9,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217526",
+              "1"
+            ],
+            "hdl": [
+              "217528",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8403,
+          "hdlCount": 8403,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8195,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              9,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              9,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              9,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8195,
+          "hdlCount": 8195,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8195
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-10",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            10,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            10,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            10,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            10,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            10,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            10,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            10,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            10,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217526",
+              "1"
+            ],
+            "hdl": [
+              "217528",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8404,
+          "hdlCount": 8404,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8196,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              10,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              10,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              10,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8196,
+          "hdlCount": 8196,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8196
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-11",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            11,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            11,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            11,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            11,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            11,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            11,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            11,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            11,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217526",
+              "1"
+            ],
+            "hdl": [
+              "217528",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8406,
+          "hdlCount": 8406,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8198,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              11,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              11,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              11,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8198,
+          "hdlCount": 8198,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8198
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "column-12",
+        "cycles": 1900000,
+        "events": [
+          [
+            200000,
+            "key",
+            12,
+            0,
+            1
+          ],
+          [
+            300000,
+            "release"
+          ],
+          [
+            400000,
+            "key",
+            12,
+            1,
+            1
+          ],
+          [
+            500000,
+            "release"
+          ],
+          [
+            600000,
+            "key",
+            12,
+            2,
+            1
+          ],
+          [
+            700000,
+            "release"
+          ],
+          [
+            800000,
+            "key",
+            12,
+            3,
+            1
+          ],
+          [
+            900000,
+            "release"
+          ],
+          [
+            1000000,
+            "key",
+            12,
+            4,
+            1
+          ],
+          [
+            1100000,
+            "release"
+          ],
+          [
+            1200000,
+            "key",
+            12,
+            5,
+            1
+          ],
+          [
+            1300000,
+            "release"
+          ],
+          [
+            1400000,
+            "key",
+            12,
+            6,
+            1
+          ],
+          [
+            1500000,
+            "release"
+          ],
+          [
+            1600000,
+            "key",
+            12,
+            7,
+            1
+          ],
+          [
+            1700000,
+            "release"
+          ]
+        ],
+        "scope": "All eight contact positions, press and release; no assumption every contact is a populated key."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "217526",
+              "1"
+            ],
+            "hdl": [
+              "217528",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 8407,
+          "hdlCount": 8407,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 8199,
+            "2": 208
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              12,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              12,
+              0
+            ],
+            "start": 200000,
+            "end": 300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              1
+            ],
+            "start": 400000,
+            "end": 500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              2
+            ],
+            "start": 600000,
+            "end": 700000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              3
+            ],
+            "start": 800000,
+            "end": 900000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              4
+            ],
+            "start": 1000000,
+            "end": 1100000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              5
+            ],
+            "start": 1200000,
+            "end": 1300000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              6
+            ],
+            "start": 1400000,
+            "end": 1500000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              12,
+              7
+            ],
+            "start": 1600000,
+            "end": 1700000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 8199,
+          "hdlCount": 8199,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 8199
+          }
+        },
+        "ioWrite": {
+          "cCount": 208,
+          "hdlCount": 208,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 208
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "chords-modifiers",
+        "cycles": 1800000,
+        "events": [
+          [
+            200000,
+            "key",
+            7,
+            5,
+            1
+          ],
+          [
+            400000,
+            "key",
+            7,
+            4,
+            1
+          ],
+          [
+            600000,
+            "key",
+            8,
+            1,
+            1
+          ],
+          [
+            800000,
+            "key",
+            8,
+            0,
+            1
+          ],
+          [
+            1000000,
+            "key",
+            7,
+            5,
+            0
+          ],
+          [
+            1200000,
+            "key",
+            8,
+            1,
+            0
+          ],
+          [
+            1400000,
+            "release"
+          ]
+        ],
+        "scope": "Two overlapping ordinary contacts and modifier transitions while held."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 52,
+          "hdlCount": 52,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 52
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "223511",
+              "1"
+            ],
+            "hdl": [
+              "223513",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 9,
+          "hdlCount": 9,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 9
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 7722,
+          "hdlCount": 7722,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 7670,
+            "2": 52
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 200000,
+            "end": 400000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              4
+            ],
+            "start": 400000,
+            "end": 600000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              8,
+              1
+            ],
+            "start": 600000,
+            "end": 800000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              0
+            ],
+            "start": 800000,
+            "end": 1000000,
+            "bits": 0
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 200000,
+            "end": 400000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              7,
+              4
+            ],
+            "start": 400000,
+            "end": 600000,
+            "bits": 26
+          },
+          {
+            "contact": [
+              8,
+              1
+            ],
+            "start": 600000,
+            "end": 800000,
+            "bits": 0
+          },
+          {
+            "contact": [
+              8,
+              0
+            ],
+            "start": 800000,
+            "end": 1000000,
+            "bits": 0
+          }
+        ]
+      },
+      "resetWitnesses": [],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 7670,
+          "hdlCount": 7670,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 7670
+          }
+        },
+        "ioWrite": {
+          "cCount": 52,
+          "hdlCount": 52,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 52
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "reset-transmit",
+        "cycles": 800000,
+        "events": [
+          [
+            200000,
+            "key",
+            7,
+            5,
+            1
+          ],
+          [
+            223600,
+            "reset"
+          ],
+          [
+            400000,
+            "key",
+            7,
+            5,
+            1
+          ],
+          [
+            600000,
+            "release"
+          ]
+        ],
+        "scope": "Fixed shared reset instant inside the baseline serial burst; verify its location from each CPU trace."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 31,
+          "hdlCount": 30,
+          "valuesEquivalent": false,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 4,
+            "200071": 1,
+            "18": 5,
+            "25": 2,
+            "34": 14,
+            "36": 2,
+            "162": 1,
+            "22": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "223511",
+              "1"
+            ],
+            "hdl": [
+              "223513",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 4,
+          "hdlCount": 4,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 4
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 3519,
+          "hdlCount": 3518,
+          "valuesEquivalent": false,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 988,
+            "2": 4,
+            "412": 1,
+            "87": 1250,
+            "480": 31,
+            "470": 68,
+            "382": 68,
+            "388": 68,
+            "355": 68,
+            "361": 68,
+            "328": 68,
+            "334": 68,
+            "301": 68,
+            "307": 68,
+            "274": 68,
+            "243": 96,
+            "485": 31,
+            "787": 1,
+            "502": 2,
+            "443": 36,
+            "467": 1,
+            "18": 5,
+            "25": 2,
+            "34": 14,
+            "36": 2,
+            "162": 1,
+            "22": 1,
+            "1042": 1,
+            "630": 28,
+            "488": 28,
+            "400": 28,
+            "406": 28,
+            "373": 28,
+            "379": 28,
+            "346": 28,
+            "352": 28,
+            "319": 28,
+            "325": 28,
+            "292": 28,
+            "521": 28,
+            "738": 1,
+            "503": 34
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 200000,
+            "end": 223600,
+            "bits": 5
+          },
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 400000,
+            "end": 600000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 200000,
+            "end": 223600,
+            "bits": 4
+          },
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 400000,
+            "end": 600000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [
+        {
+          "c": {
+            "precedingBits": 5,
+            "lastBitCycle": 223598,
+            "partial26BitFrame": true,
+            "postResetBits": 26
+          },
+          "hdl": {
+            "precedingBits": 4,
+            "lastBitCycle": 223568,
+            "partial26BitFrame": true,
+            "postResetBits": 26
+          }
+        }
+      ],
+      "functionalAgreement": false,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 3488,
+          "hdlCount": 3488,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 3488
+          }
+        },
+        "ioWrite": {
+          "cCount": 31,
+          "hdlCount": 30,
+          "addressesEquivalent": false,
+          "offsetCounts": {
+            "2": 4,
+            "18": 5,
+            "22": 1,
+            "25": 2,
+            "34": 14,
+            "36": 2,
+            "162": 1,
+            "200071": 1
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    },
+    {
+      "scenario": {
+        "id": "reset-between-edges",
+        "cycles": 800000,
+        "events": [
+          [
+            200000,
+            "key",
+            7,
+            5,
+            1
+          ],
+          [
+            223590,
+            "reset"
+          ],
+          [
+            400000,
+            "key",
+            7,
+            5,
+            1
+          ],
+          [
+            600000,
+            "release"
+          ]
+        ],
+        "scope": "Reset between serial edges, paired with the fixed near-edge reset case."
+      },
+      "events": {
+        "BIT": {
+          "cCount": 30,
+          "hdlCount": 30,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "2": 30
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "223511",
+              "1"
+            ],
+            "hdl": [
+              "223513",
+              "1"
+            ]
+          }
+        },
+        "EDGE": {
+          "cCount": 1,
+          "hdlCount": 1,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "394": 1
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "0",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "0"
+            ]
+          }
+        },
+        "LED": {
+          "cCount": 4,
+          "hdlCount": 4,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": true,
+          "offsetCounts": {
+            "0": 4
+          },
+          "firstDifference": null
+        },
+        "BUS": {
+          "cCount": 3517,
+          "hdlCount": 3517,
+          "valuesEquivalent": true,
+          "rawCycleEquivalent": false,
+          "offsetCounts": {
+            "-1": 3487,
+            "2": 30
+          },
+          "firstDifference": {
+            "ordinal": 0,
+            "c": [
+              "395",
+              "5",
+              "32896",
+              "0"
+            ],
+            "hdl": [
+              "394",
+              "5",
+              "32896",
+              "0"
+            ]
+          }
+        }
+      },
+      "contactWindows": {
+        "c": [
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 200000,
+            "end": 223590,
+            "bits": 4
+          },
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 400000,
+            "end": 600000,
+            "bits": 26
+          }
+        ],
+        "hdl": [
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 200000,
+            "end": 223590,
+            "bits": 4
+          },
+          {
+            "contact": [
+              7,
+              5
+            ],
+            "start": 400000,
+            "end": 600000,
+            "bits": 26
+          }
+        ]
+      },
+      "resetWitnesses": [
+        {
+          "c": {
+            "precedingBits": 4,
+            "lastBitCycle": 223566,
+            "partial26BitFrame": true,
+            "postResetBits": 26
+          },
+          "hdl": {
+            "precedingBits": 4,
+            "lastBitCycle": 223568,
+            "partial26BitFrame": true,
+            "postResetBits": 26
+          }
+        }
+      ],
+      "functionalAgreement": true,
+      "rawCycleAgreement": false,
+      "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+      "postResetSerialAgreement": true,
+      "outsideObservationInterval": {
+        "c": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        },
+        "hdl": {
+          "BIT": [],
+          "EDGE": [],
+          "LED": [],
+          "BUS": []
+        }
+      },
+      "busAssertionTiming": {
+        "ioRead": {
+          "cCount": 3487,
+          "hdlCount": 3487,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "-1": 3487
+          }
+        },
+        "ioWrite": {
+          "cCount": 30,
+          "hdlCount": 30,
+          "addressesEquivalent": true,
+          "offsetCounts": {
+            "2": 30
+          }
+        },
+        "memoryWrite": {
+          "cCount": 0,
+          "hdlCount": 0,
+          "addressesEquivalent": true,
+          "offsetCounts": {}
+        }
+      }
+    }
+  ],
+  "producerSha256": "c4ad00f0203f7d8da433fd775e22b6f9d6e66bd24f0c6d95af612bebe1d21974",
+  "baselineSha256": "bba919d140ed8185b6395f1e885a43bcc238860a299a6cfedde759ec2d955843",
+  "reviewerSha256": "26e34ff07cdf8093646e63f62042cc978a7f322d871c7395f5e7d1fe771c33ce",
+  "boundary": "Matching output sequences establish only the declared stimuli and digital boundaries. CPU read and write assertion phases remain independently visible; this comparison cannot choose which CPU is faithful to U880 pin timing."
+}

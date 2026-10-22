@@ -20,6 +20,12 @@ class QualificationTests(unittest.TestCase):
         self.assertFalse(compare(a,dict(b,BIT=b['BIT'][:1]))['BIT']['valuesEquivalent'])
         self.assertFalse(compare(a,dict(b,BIT=[['12','x'],['22','0']]))['BIT']['valuesEquivalent'])
 
+    def test_observation_window_keeps_interior_mismatches(self):
+        from review import observation_window
+        inside,outside=observation_window({'EDGE':[['0','0'],['99','1'],['100','0']]},100)
+        self.assertEqual(inside['EDGE'],[['0','0'],['99','1']])
+        self.assertEqual(outside['EDGE'],[['100','0']])
+
     def test_reset_requires_partial_frame_witness(self):
         case={'events':[[100,'reset']],'cycles':200}
         a={k:[] for k in ('BIT','EDGE','LED','BUS')};a['BIT']=[['80','1'],['120','0']]
