@@ -1,0 +1,28 @@
+{
+  "reference": {
+    "url": "https://www.zilog.com/docs/z80/um0080.pdf",
+    "locator": "UM008011-0816, Figure 7, printed pages 10–11",
+    "scope": "Z80 digital I/O cycle reference; not U880 electrical calibration"
+  },
+  "ioRead": {
+    "addressPrepared": "T1 rising",
+    "iorqAndRdAssert": "T2 rising",
+    "automaticWaitStates": 1,
+    "externalWait": "Hold selected address and read controls while extending the wait interval",
+    "dataSample": "T3 falling, including input changes after T3 rising",
+    "controlRelease": "After sampling at T3 falling"
+  },
+  "fixture": {
+    "ledObservation": "After the rising edge and settled HDL updates",
+    "cpuReset": "Cancel pending CPU sampling; retain external LED latch state",
+    "matrixInput": "8282 remains transparent while its strobe is active",
+    "initialValues": "Retain C initialization and unresolved HDL startup as separate observations; never relabel them as matching transitions"
+  },
+  "promotionRequires": [
+    "Address, strobe, wait, late-input and reset checks pass",
+    "Ordinary and block instruction data and flag behavior is qualified",
+    "Full matrix, chord, modifier, repeat, release and reset comparisons pass",
+    "Remaining raw pin and initialization differences have an explicit accepted contract",
+    "Non-I/O behavior, interrupts and arbitration have no unqualified regression"
+  ]
+}

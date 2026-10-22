@@ -121,3 +121,15 @@ repeat/release/reset fixture; its separate retained comparison also agrees
 functionally and on serial cycle labels.
 The adapter remains separate from production: block I/O, interrupts, arbitration,
 C half-cycle semantics and U880 electrical timing are not qualified.
+
+`digital/io-read-contract.json` defines the experimental read phase contract.
+The C generator preserves instruction transitions while preparing the address in
+T1 and holding RD/IORQ through waits. `c_read_half.h` supplies explicit rising and
+falling calls so late data can be sampled in T3. `c_read_instructions.py` compares
+ordinary, prefixed and block operations and retains flag disagreements separately
+from data agreement; its whole-cycle profile is a late-input negative control.
+`c_read_pair.py --rom /path/to/s600.bin` runs the complete firmware stimuli with
+both experimental boundaries, transparent matrix reads and CPU-only reset.
+These candidates do not replace the production core while promotion checks remain
+open. DD/FD-prefixed IN instructions ignore the prefix; indexed memory remains a
+separate control, not an invented indexed I/O mode.

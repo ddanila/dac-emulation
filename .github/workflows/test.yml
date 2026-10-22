@@ -21,6 +21,8 @@ jobs:
       - name: Digital qualification gates and numerical diagnostics
         run: |
           python3 verification/robotron-keyboard/digital/test_qualify.py
+          python3 verification/robotron-keyboard/digital/test_c_read_contract.py
+          python3 verification/robotron-keyboard/digital/c_read_instructions.py
           python3 verification/robotron-keyboard/digital/verify_joint_phase.py
           python3 verification/robotron-keyboard/digital/joint_repeat.py --verify verification/robotron-keyboard/digital/reports/joint-repeat
           python3 verification/robotron-keyboard/digital/pin_timing.py
