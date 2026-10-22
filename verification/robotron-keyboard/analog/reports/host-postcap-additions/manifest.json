@@ -1,0 +1,85 @@
+{
+  "scope": "Retain complete host waveforms and logs; other raw traces remain hash-bound locally.",
+  "retained": {
+    "off": {
+      "localRawDirectory": "build/keyboard-controller-analog/host-postcap-off",
+      "compressed": {
+        "ngspice.log": "affe8053c6608b9d37458245339882c5a2caeeae827404b62800248fb8866b1f",
+        "host-trace.txt": "c16df0b332a4c79fd40dc0b686777b08603ba8dce9728fecae1a65edc061a8da"
+      },
+      "localOnly": {
+        "trace.txt": "7cfe35de70679efd88b6671c01250ac426bdbf539de20364540df0e9d87a6e0a",
+        "driver-trace.txt": "412222a4a92d58339d570e0cd49375aacb4309496f529585e3da2d19308c2876",
+        "boundary-trace.txt": "9226d0b6e30f11af5c1cf7e1f693b4b813ccdc4895c0dbe3e6d9b6e89c564b00"
+      }
+    },
+    "coarse": {
+      "localRawDirectory": "build/keyboard-controller-analog/host-postcap-coarse",
+      "compressed": {
+        "ngspice.log": "3d5b3dc42f3b337b0080680ce29aae10bfccfe60f0b85c0f6b804c75bfcc420c",
+        "host-trace.txt": "94d5167a0936a2d513e28afee02803cdd24e564ce064da7bf971a6ae92e1dd00"
+      },
+      "localOnly": {
+        "trace.txt": "2aa2f44967da60c786914b755e6aa2bf338f0b181ff04d4a62dde6d36f0b2ffa",
+        "driver-trace.txt": "ee2651c29ef85a80212aee13579cac327a18210af035386d43957a017ea5aaaa",
+        "boundary-trace.txt": "06e5bda0201626159f2625e5c0c4b8544e3d3bdc2739467b115c317e96730c52"
+      }
+    },
+    "fine": {
+      "localRawDirectory": "build/keyboard-controller-analog/host-postcap-fine",
+      "compressed": {
+        "ngspice.log": "aaadbb4a5e5f4b8566a8c8567a42e15aef7f98eeaf1d5cbd8c8d6537c3bc5f75",
+        "host-trace.txt": "ae2d45a7e3fb04904c7f69f1ae8172edcef793d03ad5f267ad7501485e9a51f9"
+      },
+      "localOnly": {
+        "trace.txt": "c33f8fc9abc4753f01fb12ea34769c3437d3e90afbadaff5b4f66833794b020f",
+        "driver-trace.txt": "9bb4ee65875c2f54b404f9b258ba990ba6b14f99228d186f137116013fbcda87",
+        "boundary-trace.txt": "bf90481349c0318ca33366e48f398989c144391554c8c3354f3c48989c39658d"
+      }
+    },
+    "quarter": {
+      "localRawDirectory": "build/keyboard-controller-analog/host-postcap-quarter",
+      "compressed": {
+        "ngspice.log": "e94179d0412ff958c79f616cdbbdb1e3a715fba1803a4f1555cc4b5b0a71df6a",
+        "host-trace.txt": "d1bc717c5df49f4f8d5d2f128fd35ce29f46f06f0c81fb4641d72eea3aed5a87"
+      },
+      "localOnly": {
+        "trace.txt": "b231c2ee11a26ef31f2f6edf3d4ddb39cee9cb22660613ece5d601d43740cec6",
+        "driver-trace.txt": "c28e691ce510ac91179cadcb7a261c9f14891f2da51201865d042b15c707a36f",
+        "boundary-trace.txt": "4e5f7d10d56c396d763985c8c7ae91976f7fe693c044b14dda67f5a799a91f50"
+      }
+    }
+  },
+  "files": {
+    "assess.py": "85e46f7e07cc58ecc2a443ba59b4c1a3a30b3a444e94f0a8848884f2947ebd2b",
+    "assessment.json": "a4ebc63aa5cbd077fa46b766b3601ebdf4fa01f3b9564f55a94839b5d57c363e",
+    "build.py": "3e4af105464c8ae55011c8d13c9731a8d1b3657cc9db0ef792e0c72a3d0fbb02",
+    "captured-runner-v1.py": "785423d56bc5f0b237169245252da4fb16c719bdcdfcefe80ed9fb53452e1133",
+    "coarse/build-provenance.json": "9dec97ef4c21dd566acad16607a55599431aff79ac5dc26d627e2ca5f2771117",
+    "coarse/host-trace.txt.xz": "b3e51921742f7eb2ccee86e165964293c4208d5f17de36ac2be245a6f9a89713",
+    "coarse/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "coarse/ngspice.log.xz": "4c6a81249583307387ec861560b81c0df5ddf66a9332728eaed1c74fc2c854de",
+    "coarse/postcap-control.json": "d3f55a4925adbb26732b3a5dfbb007741f53f9aedcd4b7180f6aa30a71ad31e5",
+    "coarse/report.json": "05684d2ab6aa891fd76e120175ce287f5c9f2fc7b570a7358310265f3cacdcdc",
+    "fine/build-provenance.json": "9dec97ef4c21dd566acad16607a55599431aff79ac5dc26d627e2ca5f2771117",
+    "fine/host-trace.txt.xz": "e3c1f0cb3d331dafbe81fadafdcc521c1323e45624c6b7c577e0a7bbf26b0a48",
+    "fine/io.cir": "8f4eeab4c24648a3a931537ecc586d89c62de1c85bc0457dc097bfee59f9a6a4",
+    "fine/ngspice.log.xz": "6508c7a4ee97af74a809d63d3ac0c751a13dcec2fdf5be328eff936ea54d9638",
+    "fine/postcap-control.json": "0116ad8d2b28aeb3f2fc7a265080b0beaadc4d92cf88becfd442089f56b2c7dc",
+    "fine/report.json": "9c9ed106a67e57c935d5d6623337b2a7cdfdee5865fae14889fc8679be2dc054",
+    "off/build-provenance.json": "9dec97ef4c21dd566acad16607a55599431aff79ac5dc26d627e2ca5f2771117",
+    "off/host-trace.txt.xz": "11e0674ee0f96e11e0f60217ab0903bfee7890576be56e0192fb66a17c5bf4c1",
+    "off/io.cir": "74b4ff84cc6b3907b638d9d375f7defb49e87d691902c40a5eb353bb76e5ba95",
+    "off/ngspice.log.xz": "607a7059311e7e6bc7657bb5c0acd5df1f679de5e76bc19cb18329c9143396c4",
+    "off/postcap-control.json": "4f6b33b9875d7efe40d8e9a2843b32029149c01c600b08ce2a90a69198a9a2e2",
+    "off/report.json": "6608ab4a1f945c62b631f2bab8c2796c3deb746320e1e48f74058ceea03dcc79",
+    "quarter/build-provenance.json": "9dec97ef4c21dd566acad16607a55599431aff79ac5dc26d627e2ca5f2771117",
+    "quarter/host-trace.txt.xz": "128fd810f39ed271c812355c452494ec4be25e3a2cd7f372ee29ef43d61d59b3",
+    "quarter/io.cir": "0cdd70870e4d39c906ec5e88557e84090baf4e68c7ed294c913c6af0f529a1a9",
+    "quarter/ngspice.log.xz": "1e7bc8c54c9f44c70f920d36194c3ec358bdc58ad9764b6ba00dcbae6194c4ef",
+    "quarter/postcap-control.json": "193a598f2ec74fba7f91935024b813179a81dec65560f1ce73f3eef5b5dac503",
+    "quarter/report.json": "6b9de52c7dfb29e037ac6dd4d6b1f39bb17ca47b076556ee3d0d84eb3a8ead19",
+    "retain.py": "c66509d31bd906a5151a32f7d1d863e9e5cb7d2fde7d5845ef6933a6bfaef920",
+    "run.py": "0771c1d7799f777dcf8b4c2f803e356bc5cf553da9c2c9676f6d02518cbe4041"
+  }
+}

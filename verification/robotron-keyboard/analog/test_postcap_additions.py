@@ -1,4 +1,6 @@
 import ctypes
+import hashlib
+import json
 from pathlib import Path
 import shlex
 import subprocess
@@ -6,6 +8,22 @@ import tempfile
 import unittest
 HERE=Path(__file__).resolve().parent
 class PostCapTests(unittest.TestCase):
+    def test_retained_producers_and_assessment_agree(self):
+        root=HERE/'reports/host-postcap-additions'
+        manifest=json.loads((root/'manifest.json').read_text())
+        sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+        for name,digest in manifest['files'].items():self.assertEqual(sha(root/name),digest,name)
+        summary=json.loads((root/'assessment.json').read_text())
+        for mode,row in summary['runs'].items():
+            report=json.loads((root/mode/'report.json').read_text())
+            control=json.loads((root/mode/'postcap-control.json').read_text())
+            self.assertEqual(row['reportSha256'],sha(root/mode/'report.json'))
+            self.assertEqual(control['reportSha256'],row['reportSha256'])
+            self.assertEqual(row['completed'],report['completed'])
+            self.assertEqual(row['solverDiagnostic'],report['solverDiagnostic'])
+        self.assertTrue(summary['disabledControlPassed'])
+        self.assertFalse(summary['qualified'])
+
     def test_small_late_stamp_is_restored_with_ground_excluded(self):
         with tempfile.TemporaryDirectory() as temp:
             p=Path(temp);(p/'check.c').write_text('''#include "mpfr_linear_solver.h"
