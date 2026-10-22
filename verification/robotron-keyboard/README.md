@@ -133,3 +133,11 @@ both experimental boundaries, transparent matrix reads and CPU-only reset.
 These candidates do not replace the production core while promotion checks remain
 open. DD/FD-prefixed IN instructions ignore the prefix; indexed memory remains a
 separate control, not an invented indexed I/O mode.
+
+`digital/c_read_evidence.py` verifies the compressed captures and retained
+counterexamples. `digital/reports/c-read/summary.json` separates successful data,
+serial and known-LED comparisons from unresolved flag, startup and pin gates.
+The periodic LED fixture observes after the rising edge settles; earlier snapshots
+are retained as a negative control. This changes observation timing, not event
+labels. The C half-cycle API still needs qualification for WAIT transitions,
+non-I/O behavior, interrupts and arbitration before default adoption.

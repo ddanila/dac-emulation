@@ -1,0 +1,29 @@
+{
+  "qualified": false,
+  "cHalfCycleLateDataPassed": true,
+  "hdlLateDataPassed": true,
+  "sources": {
+    "verification/robotron-keyboard/digital/c_read_sampling.py": "7d16d54e2d1dd7cf05cd7b9b5934ce93ef4f3d8f46414972bc12d27d126747a5",
+    "verification/robotron-keyboard/digital/c_read_candidate.py": "10f42f3f81d6f6a7aad6d23023077aa745c2fbd63ec5d89339e5e38d1a81bd9d",
+    "verification/robotron-keyboard/digital/c_read_half.h": "de0fc38dda9cc557d17177996a240d457b05fdf67bdbf1325dab9c78a5fe5cf5",
+    "verification/robotron-keyboard/digital/c_read_half_test.c": "2d59424bc97117e43b9e8b8fba762d8236a669424166c61cdb0135ac58fcad19",
+    "verification/robotron-keyboard/digital/tv80_io_candidate.v": "54443655f3da8570563d258c49db4883e8c3c450e0faeb7cdd420682d4b0a8cf",
+    "verification/robotron-keyboard/analog/cpu_read_phase_probe.v": "ab4333401dd83597e35970bb2bf95041fa4a04f604b7239391210333d42a27ae",
+    "third_party/cpu/chips/z80.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3",
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+  },
+  "artifacts": {
+    "c.txt": "232e3a01e5b5d970378b364096b7dd1e898ae5a21734031ce2738d16e7f30479",
+    "candidate.h": "7856a3e25add23245b153b04800054518721cea19b51d0420eaf6133aafb2129",
+    "early.txt": "0dffb261691e57cf6c07e3c73f417dd05f746cc6ab10527b49a0990b5c860fa5",
+    "early.v": "ce64d68523547636e80fed16238e7ff845368ebc89be53d8bfe019a8e3efd59d",
+    "falling.txt": "a8d7a3f437372246a11420f05a5b5e2df8fdf1dc731b9650a4318ce5d6a90ba8",
+    "falling.v": "caf447012aacf9f54578f906891a9d32f649c2ce2ebdc7f23bb7570d07befae9",
+    "tv80n_falling.v": "33cb0418301258af1ef956b4053ff4878e191e020d9201fb8b73df53beff7615"
+  },
+  "boundary": "I/O-only half-cycle candidates. C defers the consuming microstate to falling; HDL defers its I/O input latch. Memory/indexed-opcode sampling retains existing behavior. Whole-cycle APIs cannot expose asynchronous inputs between the two calls."
+}

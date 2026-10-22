@@ -14,7 +14,8 @@ DRIVER=r'''
 int main(int argc,char **argv){
  if(argc!=3)return 2;
  unsigned char mem[65536]={0};FILE *f=fopen(argv[1],"rb");if(!f)return 2;
- if(!fread(mem,1,sizeof mem,f))return 2;fclose(f);
+ if(!fread(mem,1,sizeof mem,f))return 2;
+ fclose(f);
  c_read_half c;c_read_reset(&c);uint64_t p=c.pins;int left=0,waited=0;
  for(int cycle=0;cycle<600;cycle++){
   if(left){p|=Z80_WAIT;left--;}else p&=~Z80_WAIT;
