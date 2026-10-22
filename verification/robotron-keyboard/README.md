@@ -103,3 +103,18 @@ checks. It returns failure while any completion gate remains open. Raw CPU cycle
 coordinates are never shifted; observations outside the declared half-open capture
 interval are retained separately. Reports distinguish logical output agreement
 from CPU assertion timing and electrical qualification.
+
+`digital/pin_timing.py` isolates immediate/ED I/O, memory readback, waits and
+reset at both HDL clock edges. C falling-edge observations repeat its whole-cycle
+state; they do not establish physical setup/hold. The retained instruction traces
+reject `T2Write=1` because it exposes stale data during an active write.
+
+`digital/joint_phase.py build/keyboard-controller-digital --out build/keyboard-controller-joint-phase`
+tests the experimental joint data/strobe adapter against those C captures.
+Its retained `digital/reports/joint-phase/assessment.json` passes functional and
+serial-cycle comparisons, including interrupted transmission. LED edge and raw
+bus timing still differ. `digital/verify_joint_phase.py` checks the retained
+captures and replays the short instruction fixture against Figure 7 of the
+[Z80 timing manual](https://www.zilog.com/docs/z80/um0080.pdf).
+The adapter remains separate from production: block I/O, interrupts, arbitration,
+C half-cycle semantics and U880 electrical timing are not qualified.
