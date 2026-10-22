@@ -1,0 +1,14 @@
+{
+  "qualified": false,
+  "completionSha256": "607d0ae6fdb86334b783e7fe5c8b28b22900bbcaf41cfe90addfd26c39d5f0c9",
+  "writePhaseCandidateSha256": "7370c3cfc251a8bd3a606a88695f7295453280e00ceb754bed36dde709959f6c",
+  "finding": "Across non-reset captures, TV80 I/O read assertions precede C by one fixture cycle and write assertions follow C by two. A shared reset near a write edge therefore interrupts a different number of bits. Both cores recover and produce the same subsequent frame.",
+  "rejectedCandidate": "TV80 T2Write=1 aligns every recorded serial edge in the near-reset fixture, but changes bit values. Earlier assertion without qualified data setup is not a remedy. Production and vendored cores remain unchanged.",
+  "observationBoundary": "A final HDL LED edge at the excluded stop cycle is retained outside the half-open capture interval. This corrects the observation window without suppressing interior timing or value differences.",
+  "nextProof": "Qualify joint address/data/control timing against CPU bus-cycle requirements, including data setup/hold, read sampling, wait states and reset edges, before changing either CPU boundary. A constant log shift cannot reconcile the differing read/write offsets.",
+  "reference": {
+    "url": "https://www.zilog.com/docs/z80/um0080.pdf",
+    "locator": "UM008011-0816, printed pages 10\u201311, Figure 7",
+    "scope": "Independent Z80 I/O-cycle requirements; not U880 specimen calibration."
+  }
+}

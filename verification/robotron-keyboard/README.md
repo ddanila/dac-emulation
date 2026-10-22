@@ -92,3 +92,14 @@ Published oscillator revisions differ; do not merge them to fit the emulator.
 Chip models, the C emulator, TV80 and firmware provide separate checks with shared
 inputs and explicit boundaries. Specimen firmware, physical copper and measured
 timing remain separate claims.
+
+## Digital completion gate
+
+`digital/qualify.py --rom /path/to/s600.bin` exercises every matrix contact,
+overlapping keys, modifier changes and two reset positions within a serial frame.
+`digital/review.py build/keyboard-controller-digital --out /tmp/digital-review.json`
+combines those captures with the existing repeat/release, bus and virtual-bridge
+checks. It returns failure while any completion gate remains open. Raw CPU cycle
+coordinates are never shifted; observations outside the declared half-open capture
+interval are retained separately. Reports distinguish logical output agreement
+from CPU assertion timing and electrical qualification.
