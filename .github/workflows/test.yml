@@ -13,7 +13,7 @@ jobs:
   keyboard-controller:
     name: Keyboard reference wiring and full bus audit
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v7
       - run: sudo apt-get update && sudo apt-get install -y iverilog ngspice libmpfr-dev libgmp-dev pkg-config
@@ -22,10 +22,13 @@ jobs:
         run: |
           python3 verification/robotron-keyboard/digital/test_qualify.py
           python3 verification/robotron-keyboard/digital/test_c_read_contract.py
-          python3 verification/robotron-keyboard/digital/io_boundary_suite.py instructions
+          python3 verification/robotron-keyboard/digital/io_final_suite.py instructions
           python3 verification/robotron-keyboard/digital/io_flags_probe.py --quick --out build/keyboard-controller-io-flags-ci
-          python3 verification/robotron-keyboard/digital/io_wait_probe.py
-          python3 verification/robotron-keyboard/digital/io_nonio_probe.py
+          python3 verification/robotron-keyboard/digital/io_final_regression.py read
+          python3 verification/robotron-keyboard/digital/io_final_regression.py nonio
+          python3 verification/robotron-keyboard/digital/io_write_probe.py
+          python3 verification/robotron-keyboard/digital/io_repeat_probe.py
+          python3 verification/robotron-keyboard/digital/io_pin_review.py --require-pass
           python3 verification/robotron-keyboard/digital/io_boundary_evidence.py
           python3 verification/robotron-keyboard/digital/c_read_evidence.py
           python3 verification/robotron-keyboard/digital/verify_joint_phase.py
