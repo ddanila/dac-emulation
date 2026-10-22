@@ -1,0 +1,111 @@
+{
+  "qualified": false,
+  "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+  "comparison": {
+    "scenario": {
+      "id": "baseline-repeat-release-reset",
+      "cycles": 4600000,
+      "events": []
+    },
+    "events": {
+      "BIT": {
+        "cCount": 390,
+        "hdlCount": 390,
+        "valuesEquivalent": true,
+        "rawCycleEquivalent": true,
+        "offsetCounts": {
+          "0": 390
+        },
+        "firstDifference": null
+      },
+      "EDGE": {
+        "cCount": 11971,
+        "hdlCount": 11971,
+        "valuesEquivalent": true,
+        "rawCycleEquivalent": false,
+        "offsetCounts": {
+          "394": 1,
+          "-1": 11957,
+          "0": 12,
+          "410": 1
+        },
+        "firstDifference": {
+          "ordinal": 0,
+          "c": [
+            "0",
+            "0"
+          ],
+          "hdl": [
+            "394",
+            "0"
+          ]
+        }
+      },
+      "LED": {
+        "cCount": 23,
+        "hdlCount": 23,
+        "valuesEquivalent": true,
+        "rawCycleEquivalent": true,
+        "offsetCounts": {
+          "0": 23
+        },
+        "firstDifference": null
+      },
+      "BUS": {
+        "cCount": 0,
+        "hdlCount": 0,
+        "valuesEquivalent": true,
+        "rawCycleEquivalent": true,
+        "offsetCounts": {},
+        "firstDifference": null
+      }
+    },
+    "contactWindows": {
+      "c": [],
+      "hdl": []
+    },
+    "resetWitnesses": [],
+    "functionalAgreement": true,
+    "rawCycleAgreement": false,
+    "scope": "Fixture cycle coordinates retained without shifting. BUS edges are diagnostics, not a qualified U880 timing reference.",
+    "coverage": {
+      "c": {
+        "repeat": 260,
+        "afterRelease": 0,
+        "afterReset": 26
+      },
+      "hdl": {
+        "repeat": 260,
+        "afterRelease": 0,
+        "afterReset": 26
+      }
+    },
+    "coveragePassed": true
+  },
+  "sources": {
+    "verification/robotron-keyboard/digital/joint_repeat.py": "7bbb5d6d3fa3178651a717daf2df9f2591257e1d9ce53e68b76d52f776406eb1",
+    "verification/robotron-keyboard/digital/qualify.py": "c9141045f1468d8d8701ae61501ada563a241f490d8ddb73d46220358c55adeb",
+    "verification/robotron-keyboard/digital/review.py": "26e34ff07cdf8093646e63f62042cc978a7f322d871c7395f5e7d1fe771c33ce",
+    "verification/robotron-keyboard/firmware_tb.v": "94f76cda36a2cad516e8fddc2e0dc76cb194ebbf4b9b34fd4f1c394aba4f4050",
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+    "verification/robotron-keyboard/digital/tv80_io_candidate.v": "54443655f3da8570563d258c49db4883e8c3c450e0faeb7cdd420682d4b0a8cf",
+    "verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+    "verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "verification/robotron-keyboard/firmware_probe.c": "08ce0bae8ddd72c6e4ecebcb4ed3f6bfbceeff1ab9620bc9a0acf6338fdbd442",
+    "machines/robotron1715m/keyboard.c": "d611b8dd61a6ecc75dc922fc40d0c1901722aec0de988516157af2a26c89922b",
+    "common/cpu/z80.c": "d7329a9a116f49441b9ed4f23c0c2fdbb8cb338f74e327cc3344442a355461cf",
+    "common/cpu/z80.h": "a998bd23598a0076b26adf94ab895710378d4f19a0a58a1168c1edd23504ad46",
+    "machines/robotron1715m/keyboard.h": "49e4aaa2a5b8dc4bb4b2882c4fc24da194194581e6f133723dc37b8e3216979f",
+    "third_party/cpu/chips/z80.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3"
+  },
+  "artifacts": {
+    "bench.v": "88ae64b16706003e96834855ccb789c6ee5cf06e36b27af8f5d1de96c6e283b9",
+    "c.txt": "3e1735d98cc3b1e069c7a9fcbaa0a64cb567815464dfe13f79450d32ce26f549",
+    "hdl.txt": "5c974e75362e38290b274d2d1b41aeba8b7753c4be1fdc9c2ba66d337aa46990"
+  },
+  "boundary": "Unchanged standard held-repeat/release/reset stimulus with the experimental adapter; exact CPU pin phases and electrical timing remain unqualified."
+}

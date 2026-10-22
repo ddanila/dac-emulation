@@ -36,6 +36,9 @@ def figure7(path):
   if t3 is None:raise ValueError('Missing T3 witness')
   active=[i for i in range(start,end) if trace[i][7]]
   if active!=list(range(start+2,t3+1)):raise ValueError('Figure 7 control phase mismatch')
+  for i in range(start,end):
+   enabled=int(i in active)
+   if trace[i][8:10]!=[enabled*(1-row[4]),enabled*row[4]]:raise ValueError('Read/write strobe disagrees with the I/O phase')
   checked+=1
  if checked<10:raise ValueError('Insufficient I/O phase coverage')
 
