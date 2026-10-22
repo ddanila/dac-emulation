@@ -22,6 +22,7 @@ jobs:
         run: |
           python3 verification/robotron-keyboard/digital/test_qualify.py
           python3 verification/robotron-keyboard/digital/verify_joint_phase.py
+          python3 verification/robotron-keyboard/digital/joint_repeat.py --verify verification/robotron-keyboard/digital/reports/joint-repeat
           python3 verification/robotron-keyboard/digital/pin_timing.py
           python3 verification/robotron-keyboard/digital/pin_timing.py --verify verification/robotron-keyboard/digital/reports/pin-timing
           python3 verification/robotron-keyboard/analog/test_history_sensitivity_review.py

@@ -116,5 +116,8 @@ serial-cycle comparisons, including interrupted transmission. LED edge and raw
 bus timing still differ. `digital/verify_joint_phase.py` checks the retained
 captures and replays the short instruction fixture against Figure 7 of the
 [Z80 timing manual](https://www.zilog.com/docs/z80/um0080.pdf).
+`digital/joint_repeat.py --rom /path/to/s600.bin` runs the unchanged long
+repeat/release/reset fixture; its separate retained comparison also agrees
+functionally and on serial cycle labels.
 The adapter remains separate from production: block I/O, interrupts, arbitration,
 C half-cycle semantics and U880 electrical timing are not qualified.
