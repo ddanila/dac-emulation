@@ -41,6 +41,11 @@ def figure7(path):
 
 def main():
  subprocess.run(['python3',str(HERE/'verify.py')],check=True)
+ for name in ('no-wait-tv80.txt','early-write.txt'):
+  try:figure7(HERE/'reports/pin-timing'/name)
+  except ValueError as error:
+   if 'control phase mismatch' not in str(error):raise
+  else:raise ValueError('Phase negative control unexpectedly passed '+name)
  report=json.loads((REPORTS/'assessment.json').read_text());receipt=json.loads((REPORTS/'receipt.json').read_text())
  for name,digest in receipt.items():
   if sha(REPORTS/name)!=digest:raise ValueError('Changed retained artifact '+name)
@@ -73,6 +78,8 @@ def main():
    if r!=report['pinCases'][case]:raise ValueError('Pin assessment changed '+case)
    with (root/'replay.txt').open('w') as f:subprocess.run(['vvp',str(root/'pin.vvp'),'+rom='+str(candidate/'program.hex'),f'+reset_at={reset}',f'+wait_at={wait}',f'+wait_end={end}'],stdout=f,check=True,timeout=30)
    if rows(root/'replay.txt')!=rows(path):raise ValueError('Pin replay differs '+case)
-   if case in ('no-wait','write-wait','read-wait'):figure7(root/'replay.txt')
+   if case in ('no-wait','write-wait','read-wait'):
+    figure7(root/'replay.txt')
+    if any(w['holdObservedHalfCycles']<1 for w in r['setupHold']['writes']):raise ValueError('Normal write hold regression')
  print('Candidate firmware evidence and instruction replay verified; full pin qualification remains open.')
 if __name__=='__main__':main()
