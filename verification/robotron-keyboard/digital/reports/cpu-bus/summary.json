@@ -1,0 +1,15 @@
+{
+  "qualified": true,
+  "productionAdopted": true,
+  "gates": {
+    "machineCycleArbitration": true,
+    "memoryRefreshInterruptPins": true,
+    "instructionFlagsWaitResetAndLateInputs": true,
+    "firmwareFunctionalAgreement": true,
+    "serialCycleAgreement": true,
+    "knownLedTransitionAgreement": true,
+    "startupValidityAndCpuOnlyReset": true,
+    "nativeAndBrowserBackendSelected": true
+  },
+  "boundary": "Reference Z80 digital acceptance for the retained instruction, phase-sweep and complete standard-S600 scenarios. Selected addresses, write data and controls agree at identical edge labels; inactive/undriven bus values are not CPU-output comparisons. BUSRQ exposes bus ownership, not driven zeroes. This is not exhaustive Z80 opcode conformance, U880 specimen calibration, analog qualification or historical copper verification."
+}
