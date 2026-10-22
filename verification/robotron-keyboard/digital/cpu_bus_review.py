@@ -60,6 +60,18 @@ def nop_oracle(rows):
     return errors
 
 
+def memory_oracle(rows):
+    errors=[]
+    for start,address,write in [(4,1,False),(7,2,False),(14,4,False),(17,5,False),(24,7,False),(27,0x8000,True)]:
+        for r in rows[start*2:(start+3)*2]:
+            offset=(r['cycle']-start)*2+r['edge']
+            expected={'address':address,'mreq':int(1<=offset<5),'rd':int(not write and 1<=offset<5),'wr':int(write and 3<=offset<5)}
+            if write and offset>=1:expected['data']=0x5a
+            for key,value in expected.items():
+                if r[key]!=value:errors.append({'kind':'memory-waveform','cycle':r['cycle'],'edge':r['edge'],'signal':key,'expected':value,'actual':r[key]})
+    return errors
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-cpu-bus')
@@ -72,6 +84,7 @@ def main():
         '31 00 f0 21 00 80 36 5a 7e 32 01 80 01 03 80 ed 78 ed 79 dd 21 00 80 dd 7e 00 f5 f1 76'),
                 'indexed': bytes.fromhex('31 00 f0 dd 21 00 80 dd 36 00 5a dd 7e 00 32 01 80 dd cb 00 06 dd 7e 00 32 02 80 76'),
                 'block': bytes.fromhex('31 00 f0 21 00 80 36 5a 11 01 80 01 02 00 ed b0 01 00 03 21 00 80 ed b3 76'),
+                'internal': bytes.fromhex('31 00 f0 21 00 80 01 01 00 09 ed 4a ed 42 dd 21 00 80 dd 09 af 20 02 18 00 06 02 10 fe 21 00 80 36 5a 76'),
                 'late': bytes.fromhex('3a 00 80 d3 00 76')}
     for name, program in programs.items():
         path = out / (name + '.hex'); path.write_text('\n'.join(f'{x:02x}' for x in program) + '\n')
@@ -84,6 +97,7 @@ def main():
             (out / (label + '.txt')).write_text(log)
             rows = parse(log); errors = failures(rows)
             if name == 'nop' and start is None: errors += nop_oracle(rows)
+            if name == 'mixed' and start is None: errors += memory_oracle(rows)
             if start is not None:
                 grants = [r for r in rows if r['busack']]
                 if not grants or grants[-1]['cycle'] >= end + 3 or grants[0]['cycle'] > start + 8:
@@ -97,7 +111,7 @@ def main():
                                        'actual': grants[0]['cycle'] if grants else None})
             if name == 'late' and 'OUTPUT 1 52' not in log:
                 errors.append({'kind': 'late-memory-data-not-sampled'})
-            expected = {'mixed':'RESULT 90 90 0', 'indexed':'RESULT 180 90 180', 'block':'RESULT 90 90 90'}
+            expected = {'mixed':'RESULT 90 90 0', 'indexed':'RESULT 180 90 180', 'block':'RESULT 90 90 90', 'internal':'RESULT 90 0 0'}
             if name in expected and expected[name] not in log:
                 errors.append({'kind': 'resume-state-or-memory-corrupt'})
             results.append({'id': label, 'passed': not errors, 'errors': errors})
@@ -134,15 +148,26 @@ def main():
                 rows = parse(log); errors = failures(rows)
                 if 'RESULT 90 109 109' not in log:
                     errors.append({'kind': 'interrupt-resume-memory-result'})
+                if not grant:
+                    duration=11 if kind=='nmi' else (19 if im==2 else 13)
+                    arrival=next((r['cycle'] for r in rows if r['cycle']>202 and r['address']==address and r['m1']),None)
+                    if arrival!=202+duration:errors.append({'kind':'interrupt-entry-clock-count','expected':202+duration,'actual':arrival})
                 if grant and any(r['m1'] and r['iorq'] and r['busack'] for r in rows):
                     errors.append({'kind': 'interrupt-ack-during-grant'})
                 results.append({'id': label, 'passed': not errors, 'errors': errors})
-    sources = [Path(__file__), HERE / 'cpu_bus_candidate.py', HERE / 'cpu_bus_candidate.v', HERE / 'cpu_bus_probe.v']
-    report = {'passed': all(r['passed'] for r in results), 'productionChanged': False,
+    run(['iverilog','-g2012','-s','probe','-o',out/'no-refresh.vvp',*rtl,HERE/'cpu_bus_probe.v'])
+    negative=run(['vvp',out/'no-refresh.vvp','+rom='+str(out/'nop.hex')])
+    (out/'no-refresh.txt').write_text(negative)
+    negative_detected=bool(nop_oracle(parse(negative)))
+    if not negative_detected:raise ValueError('Refresh-disabled control was not detected')
+    sources = [Path(__file__), HERE / 'cpu_bus_candidate.py', HERE / 'cpu_bus_candidate.v', HERE / 'cpu_bus_probe.v',
+               *[HERE/name for name in ('io_repeat_candidate.py','io_complete_candidate.py','io_flags_candidate.py','io_wait_candidate.py','tv80_io_candidate.v')],
+               *sorted((ROOT/'third_party/cpu/tv80').glob('*.v'))]
+    report = {'refreshDisabledDetected':negative_detected,'passed': all(r['passed'] for r in results), 'productionChanged': False,
               'qualified': False, 'reference': 'https://www.zilog.com/docs/z80/um0080.pdf',
-              'boundary': 'HDL fetch/refresh and bus-grant reference. C arbitration, full memory/interrupt pin agreement and production adoption remain open.',
+              'boundary': 'Reference Z80 waveforms and bus ownership for the declared programs. Cross-core and production acceptance are separate reports; this is not U880 electrical qualification.',
               'cases': results, 'sources': {str(p.relative_to(ROOT)): sha(p) for p in sources},
-              'artifacts': {str(p.relative_to(out)): sha(p) for p in out.rglob('*') if p.suffix in ('.v', '.txt', '.hex')}}
+              'artifacts': {str(p.relative_to(out)): sha(p) for p in out.rglob('*') if p.suffix in ('.v', '.txt', '.hex') and (p.parent==out or p.is_relative_to(out/'rtl'))}}
     (out / 'assessment.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps({'passed': report['passed'], 'failures': [r for r in results if not r['passed']][:3]}, indent=2))
     if not report['passed']: raise SystemExit(1)

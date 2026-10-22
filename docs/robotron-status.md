@@ -10,7 +10,8 @@ ABI and snapshot identities; release changes belong in git history.
 Keyboard logical comparisons and electrical qualification have distinct scopes.
 Use the [board guide](../verification/robotron-keyboard/README.md) for C/HDL
 comparisons and the [analog guide](../verification/robotron-keyboard/analog/README.md)
-for closed-board simulation. Logical agreement does not establish exact CPU cycles,
+for closed-board simulation. The keyboard backend has a separate Z80 bus-timing
+acceptance suite. Its digital contract does not establish U880 specimen timing,
 applicable analog device behavior, physical copper or specimen firmware identity.
 
 ## Reproduce qualification

@@ -15,8 +15,11 @@ static void cpu_bus_reset(cpu_bus_half *c) {
 static uint64_t cpu_bus_rise(cpu_bus_half *c,uint64_t pins,int request) {
  c_read_half preview=c->core;
  uint64_t internal=(pins&~(Z80_CTRL_PIN_MASK))|(c->core.pins&Z80_CTRL_PIN_MASK);
+ /* CHIPS repeats the HALT opcode internally. The external bus reads the
+  * following address, whose contents must not be executed while halted. */
+ if((internal&(Z80_HALT|Z80_M1))==(Z80_HALT|Z80_M1))Z80_SET_DATA(internal,0x76);
  uint64_t next=c_read_rise(&preview,internal);
- int boundary=(next&Z80_M1) || cpu_bus_internal(c->core.cpu.step) ||
+ int boundary=((next&Z80_M1) && preview.cpu.step!=c->core.cpu.step) || cpu_bus_internal(c->core.cpu.step) ||
   (cpu_bus_t2(&preview.cpu) && preview.cpu.step!=c->core.cpu.step);
  c->busack=c->request && (c->busack || (c->started && boundary));
  c->request=request;c->started=1;
@@ -25,7 +28,8 @@ static uint64_t cpu_bus_rise(cpu_bus_half *c,uint64_t pins,int request) {
   uint64_t rising=(internal^c->core.cpu.pins)&internal&Z80_NMI;
   c->core.cpu.int_bits=((c->core.cpu.int_bits|rising)&Z80_NMI)|(internal&Z80_INT);
   c->core.cpu.pins=(c->core.cpu.pins&~(Z80_NMI|Z80_INT))|(internal&(Z80_NMI|Z80_INT));
-  c->pins=internal&~Z80_CTRL_PIN_MASK;
+  c->core.pins|=preview.pins&Z80_HALT;
+  c->pins=(internal&~Z80_CTRL_PIN_MASK)|(c->core.pins&Z80_HALT);
  }
  else {c->core=preview;c->pins=next;}
  return c->pins;

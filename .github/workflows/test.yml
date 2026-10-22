@@ -31,6 +31,9 @@ jobs:
           python3 verification/robotron-keyboard/digital/io_pin_review.py --require-pass
           python3 verification/robotron-keyboard/digital/io_boundary_evidence.py
           python3 verification/robotron-keyboard/digital/io_final_evidence.py
+          python3 verification/robotron-keyboard/digital/cpu_bus_review.py
+          python3 verification/robotron-keyboard/digital/cpu_bus_cross.py --pins --require-pass
+          python3 verification/robotron-keyboard/digital/cpu_bus_instructions.py
           python3 verification/robotron-keyboard/digital/c_read_evidence.py
           python3 verification/robotron-keyboard/digital/verify_joint_phase.py
           python3 verification/robotron-keyboard/digital/joint_repeat.py --verify verification/robotron-keyboard/digital/reports/joint-repeat
@@ -207,7 +210,7 @@ jobs:
         run: >-
           cc -std=c11 -O1 -g -fsanitize=address,undefined
           tests/integration/machines_test.c machines/robotron1715m/robotron.c machines/robotron1715m/disk.c
-          machines/robotron1715m/keyboard.c machines/robotron1715m/sio.c
+          machines/robotron1715m/keyboard_board.c machines/robotron1715m/keyboard_cpu.c machines/robotron1715m/sio.c
           machines/vjuga/vjuga.c common/cpu/z80.c common/media/media.c common/trace/trace.c
           -o /tmp/machines-test && /tmp/machines-test
       - name: Robotron peripheral memory and undefined-behavior checks
@@ -215,7 +218,7 @@ jobs:
         run: >-
           cc -std=c11 -O1 -g -fsanitize=address,undefined
           tests/integration/robotron_devices_test.c machines/robotron1715m/robotron.c machines/robotron1715m/disk.c
-          machines/robotron1715m/keyboard.c machines/robotron1715m/sio.c
+          machines/robotron1715m/keyboard_board.c machines/robotron1715m/keyboard_cpu.c machines/robotron1715m/sio.c
           common/cpu/z80.c common/media/media.c common/trace/trace.c
           -o /tmp/robotron-devices-test && /tmp/robotron-devices-test
       - name: Install pinned Emscripten
