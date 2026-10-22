@@ -1,0 +1,21 @@
+{
+  "qualified": false,
+  "productionChanged": false,
+  "boardControlSourceSha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "gates": {
+    "writeWaitAndRelease": true,
+    "interruptedRepeatFlags": true,
+    "ordinaryIoPinAgreement": true,
+    "startupLedValidity": true,
+    "readWaitHalfEdges": true,
+    "nonIoSameCoreRegression": true,
+    "instructionDataAndFlags": true,
+    "firmwareFunctionalAgreement": true,
+    "serialCycleAgreement": true,
+    "knownLedTransitionAgreement": true,
+    "crossCoreArbitration": false,
+    "allCpuPinsQualified": false,
+    "productionAdopted": false
+  },
+  "boundary": "Explicit Z80 reference I/O candidate. Ordinary I/O pins agree at both labelled edges, including reset. Startup LEDs are invalid until A6 is clocked; arbitrary initial bits converge then. Non-I/O regression is same-core; memory/refresh/interrupt-acknowledge pins and C BUSRQ/BUSACK remain outside qualification. X1 A9 exposes BUSRQ, so full external board-control coverage is not claimed. U880 specimen fidelity and analog qualification remain separate."
+}

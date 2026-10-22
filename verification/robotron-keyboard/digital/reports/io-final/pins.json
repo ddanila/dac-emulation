@@ -1,0 +1,83 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "ioPinsAgree": true,
+      "mismatches": [],
+      "ioHalfEdges": 70,
+      "id": "plain"
+    },
+    {
+      "ioPinsAgree": true,
+      "mismatches": [],
+      "ioHalfEdges": 76,
+      "id": "write-wait"
+    },
+    {
+      "ioPinsAgree": true,
+      "mismatches": [],
+      "ioHalfEdges": 76,
+      "id": "read-wait"
+    },
+    {
+      "ioPinsAgree": true,
+      "mismatches": [],
+      "ioHalfEdges": 37,
+      "id": "reset-write"
+    },
+    {
+      "ioPinsAgree": true,
+      "mismatches": [],
+      "ioHalfEdges": 45,
+      "id": "reset-read"
+    }
+  ],
+  "boundary": "Same labelled rising/falling fixture observations for ordinary I/O. Memory, inactive-address, startup and interrupt-acknowledge pins are outside this comparison; no rows or timestamps are shifted.",
+  "sources": {
+    "verification/robotron-keyboard/digital/io_pin_review.py": "5ba372ed3f4018c9204778e919fd64d4d8d4aba0ef34fb2b05c1cd8342563e50",
+    "verification/robotron-keyboard/digital/pin_timing.py": "6976d3e622e7d1e7e6b9f17d672da6dfadbe370f1cf280c4dc90be92de31bad2",
+    "verification/robotron-keyboard/digital/pin_timing.v": "c2059db025b16c6001d7c58c925896fbd87fd4d2ad1edc4886f8d0eb80377101",
+    "verification/robotron-keyboard/digital/io_repeat_candidate.py": "073cef2acdf9db4fe78a4676bb412cc83c44707d94ee2e4d21e5a49d881b75a2",
+    "verification/robotron-keyboard/digital/io_complete_candidate.py": "3fe55f7cc28fd781759661af8ef36e5bdc97882acfbf0d2582a234f42c87281b",
+    "verification/robotron-keyboard/digital/io_wait_candidate.py": "8e00aba0807a951f46625fbccc6b90fdeee4d43a9318102a94efb80b6072f026",
+    "verification/robotron-keyboard/digital/io_flags_candidate.py": "87f9936e64c8f1e0e68d57676385c8d182019183dc4b2141303b200968634ccc",
+    "verification/robotron-keyboard/digital/c_read_candidate.py": "10f42f3f81d6f6a7aad6d23023077aa745c2fbd63ec5d89339e5e38d1a81bd9d",
+    "verification/robotron-keyboard/digital/c_read_half.h": "de0fc38dda9cc557d17177996a240d457b05fdf67bdbf1325dab9c78a5fe5cf5",
+    "verification/robotron-keyboard/digital/c_read_sampling.py": "7d16d54e2d1dd7cf05cd7b9b5934ce93ef4f3d8f46414972bc12d27d126747a5",
+    "verification/robotron-keyboard/digital/c_read_half_test.c": "2d59424bc97117e43b9e8b8fba762d8236a669424166c61cdb0135ac58fcad19",
+    "verification/robotron-keyboard/digital/tv80_io_candidate.v": "54443655f3da8570563d258c49db4883e8c3c450e0faeb7cdd420682d4b0a8cf",
+    "third_party/cpu/chips/z80.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3",
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7"
+  },
+  "artifacts": {
+    "c_read_half.h": "397ad17c1aea77e87dd12c27e5073620eb32e0e88f14eb96882e0ccd1f186299",
+    "candidate.h": "4a7c3e702e21c3c2e696fa281a197e99f42f9b10198b8686c9017a322aaee4b6",
+    "plain-c.txt": "e06c115bf8c7e066a641358c13aeedee43b13e60265d5f353b8443f64de71b34",
+    "plain-hdl.txt": "ba191776b8ec3689c816924434e41166e799c0ec9c40f99e80b2aabb0cfd2233",
+    "probe.c": "9809523c3b0443962e4fb80f582c6e89cc61fb215d1a5cc2c7fa975a2c9721da",
+    "probe.v": "f4304ae18d379bd5920a91b0718166e7f9ea2814e0dcbf1168525a326a34a810",
+    "program.bin": "034bf4daaf4f78a6c53fcd30bce7a6298bb2567b347e19fdbbe8d61ea385a195",
+    "program.hex": "eae8660557c7f05b8861c272d8c2a2909503b78f67ce3fa287426599a3cada99",
+    "read-wait-c.txt": "952d2bbfc54fd4cb522c31c5880f7f5ac3ac47f5e65883bbfd3937de776458dd",
+    "read-wait-hdl.txt": "27e13295b2bb90000dbf69b21bb8376f493d44fd663dc4c80e26ad59fe4ba02c",
+    "reset-read-c.txt": "f51a621a64545134d473741929cf04c8c3001b93fe4e68bea5a73f1fcefbe5e1",
+    "reset-read-hdl.txt": "3d417dd29e629132ed7504ea9bb40e8e416fb0e5c64eb0bce6f53174d03e1cf1",
+    "reset-write-c.txt": "04f3e7641f550b3cdb31c99e7ee2249d323d5d209323a6f12b19b4c8a525c737",
+    "reset-write-hdl.txt": "2b427a4805e06760e28561a6525d1d26841f4ad7aaab2b0d323e6dc5d915bbfc",
+    "sampling/c.txt": "232e3a01e5b5d970378b364096b7dd1e898ae5a21734031ce2738d16e7f30479",
+    "sampling/candidate.h": "7856a3e25add23245b153b04800054518721cea19b51d0420eaf6133aafb2129",
+    "sampling/early.txt": "169b6ed73d1a8dad7ce544495a193130ebc9e1b3e80cd0703d4af767f3222890",
+    "sampling/early.v": "ce64d68523547636e80fed16238e7ff845368ebc89be53d8bfe019a8e3efd59d",
+    "sampling/falling.txt": "ad843f201a1de6893e2d94d2262f28c8711765bcb67f75cac5e36802923e288e",
+    "sampling/falling.v": "caf447012aacf9f54578f906891a9d32f649c2ce2ebdc7f23bb7570d07befae9",
+    "sampling/tv80n_falling.v": "33cb0418301258af1ef956b4053ff4878e191e020d9201fb8b73df53beff7615",
+    "tv80_core.v": "2778d350049ba3e31a4dff9d18fc72a70fc0da4665cea59c8573ea83fe0b0614",
+    "tv80_io_candidate.v": "2a7d58e28477f58f66ade29e7fa49ca40823e77766c4d4417370144e68f7e940",
+    "write-wait-c.txt": "d77dbf9b07043ec561caa4e6d4879fe14f347960f332fb78432671ba8d6449b4",
+    "write-wait-hdl.txt": "bf51fd10f11923cdf4e5902f5d57697b332fcb4646b48174e14a995299a8f282"
+  }
+}

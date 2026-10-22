@@ -1,0 +1,391 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "im": 0,
+      "mode": 0,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        0,
+        0,
+        0
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        0,
+        0,
+        0,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 0,
+      "mode": 1,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        109,
+        109,
+        1
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        109,
+        109,
+        7,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 0,
+      "mode": 2,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        109,
+        109,
+        0
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        109,
+        109,
+        0,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 0,
+      "mode": 3,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        0,
+        0,
+        0
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        0,
+        0,
+        0,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 0,
+      "mode": 4,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        0,
+        0,
+        0,
+        34
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 1,
+      "mode": 0,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        0,
+        0,
+        0
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        0,
+        0,
+        0,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 1,
+      "mode": 1,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        109,
+        109,
+        1
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        109,
+        109,
+        7,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 1,
+      "mode": 2,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        109,
+        109,
+        0
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        109,
+        109,
+        0,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 1,
+      "mode": 3,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        0,
+        0,
+        0
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        0,
+        0,
+        0,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 1,
+      "mode": 4,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        0,
+        0,
+        0,
+        34
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 2,
+      "mode": 0,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        0,
+        0,
+        0
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        0,
+        0,
+        0,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 2,
+      "mode": 1,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        109,
+        109,
+        1
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        109,
+        109,
+        7,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 2,
+      "mode": 2,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        109,
+        109,
+        0
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        109,
+        109,
+        0,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 2,
+      "mode": 3,
+      "cUnchanged": true,
+      "cResult": [
+        90,
+        0,
+        0,
+        0
+      ],
+      "cExpected": true,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        0,
+        0,
+        0,
+        0
+      ],
+      "hdlExpected": true
+    },
+    {
+      "im": 2,
+      "mode": 4,
+      "hdlUnchanged": true,
+      "hdlResult": [
+        90,
+        0,
+        0,
+        0,
+        34
+      ],
+      "hdlExpected": true
+    }
+  ],
+  "scope": "Same-core before/after pin regression for memory, indexed access, stack, HALT, IM0/1/2, NMI and memory WAIT. HDL BUSRQ/BUSACK exercised; CHIPS has no arbitration interface. Does not prove cross-core raw-pin equivalence or interrupt/repeat interactions.",
+  "sources": {
+    "verification/robotron-keyboard/digital/io_nonio_probe.c": "90cfc33ad3b81001c34894cadbccbfdd6ccc9131c0dc1d23807e18a47a241a34",
+    "verification/robotron-keyboard/digital/io_nonio_probe.v": "eaf0e8870e9c97ee037b62bf690122b492b619352d31c07f5346d96b491a0664",
+    "verification/robotron-keyboard/digital/io_flags_candidate.py": "87f9936e64c8f1e0e68d57676385c8d182019183dc4b2141303b200968634ccc",
+    "verification/robotron-keyboard/digital/io_wait_candidate.py": "8e00aba0807a951f46625fbccc6b90fdeee4d43a9318102a94efb80b6072f026",
+    "verification/robotron-keyboard/digital/c_read_candidate.py": "10f42f3f81d6f6a7aad6d23023077aa745c2fbd63ec5d89339e5e38d1a81bd9d",
+    "verification/robotron-keyboard/digital/c_read_half.h": "de0fc38dda9cc557d17177996a240d457b05fdf67bdbf1325dab9c78a5fe5cf5",
+    "verification/robotron-keyboard/digital/c_read_sampling.py": "7d16d54e2d1dd7cf05cd7b9b5934ce93ef4f3d8f46414972bc12d27d126747a5",
+    "verification/robotron-keyboard/digital/c_read_half_test.c": "2d59424bc97117e43b9e8b8fba762d8236a669424166c61cdb0135ac58fcad19",
+    "verification/robotron-keyboard/digital/tv80_io_candidate.v": "54443655f3da8570563d258c49db4883e8c3c450e0faeb7cdd420682d4b0a8cf",
+    "third_party/cpu/chips/z80.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3",
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_core.v": "904c180ea8df7d2a407187c2277424b5c803afb2bf14ac358f24826f40e61774",
+    "third_party/cpu/tv80/tv80_mcode.v": "78c869b94fa8e37eb5492ffa9f92bfe2c6d12faac548c1a035719bb994152be8",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "third_party/cpu/tv80/tv80n.v": "c7176c748d2f3dcba95c8cf24fa88b7a0f62c06780ca14ce3632150f2a9d06f7",
+    "verification/robotron-keyboard/digital/io_final_regression.py": "c9965edbc73575231e2a9754d50e9f08a4c74a716e3aa549de1f58b613f252d5",
+    "verification/robotron-keyboard/digital/io_nonio_probe.py": "647aa87cc29dcf396b97ed92ce1d7e0c48f4f59d1675064e7db87dbeb7e18479",
+    "verification/robotron-keyboard/digital/io_complete_candidate.py": "3fe55f7cc28fd781759661af8ef36e5bdc97882acfbf0d2582a234f42c87281b",
+    "verification/robotron-keyboard/digital/io_repeat_candidate.py": "073cef2acdf9db4fe78a4676bb412cc83c44707d94ee2e4d21e5a49d881b75a2"
+  },
+  "artifacts": {
+    "candidate/c-im0-mode0.txt": "3417655b8f26c9b4fb4d2834d46142d0b12ea508334a61300609d2336abdd74f",
+    "candidate/c-im0-mode1.txt": "ebe25c04638446d0bd76288597cc36c81411e96a54dd28ad5c3c1b26574d76b9",
+    "candidate/c-im0-mode2.txt": "898ce3ef94d6ac2f12b6040fc84a1eee5879900dd0a00382461eff45928463e7",
+    "candidate/c-im0-mode3.txt": "3128d386767f56a7ba6272b35d074f4cd5b70dae333de4b212e606ff8bd554f6",
+    "candidate/c-im1-mode0.txt": "264dc24413b1005db63c6cbb8bfe0029e2d487cfac37602ead339c82d10b1afa",
+    "candidate/c-im1-mode1.txt": "e55f10b06a33120bb8cc072c7a849731a76f5c35716849008c6a75d8d89ce3c0",
+    "candidate/c-im1-mode2.txt": "1c5085e3c06cfb5e307ea91e2742e7e6cfb27e88d67078cd5181cb8244893b23",
+    "candidate/c-im1-mode3.txt": "bb802ebc1abf258c0b107a6aea2b1d9f1a9297f92e9fa90d01e90328c2a699d9",
+    "candidate/c-im2-mode0.txt": "cf4cf40baf9b541b440b89a5c1413f245b118b338ed20c21971743a93a60dba8",
+    "candidate/c-im2-mode1.txt": "b22334c7233cbd8e75565ad5f9a3458548c219ba6c5aa8f5dc3228f4d23e81e3",
+    "candidate/c-im2-mode2.txt": "685c07dbac4ca75dfc039086304f544e4d9edb2859650efe92d5b829c8867243",
+    "candidate/c-im2-mode3.txt": "b8c08659846617ea79485891d2ea0ed81585b82cc814421fef238287ed346307",
+    "candidate/c_read_half.h": "397ad17c1aea77e87dd12c27e5073620eb32e0e88f14eb96882e0ccd1f186299",
+    "candidate/candidate.h": "4a7c3e702e21c3c2e696fa281a197e99f42f9b10198b8686c9017a322aaee4b6",
+    "candidate/hdl-im0-mode0.txt": "664c15291b7033ca848689d3764277d67eda1839b71062e9c238de0648657e2c",
+    "candidate/hdl-im0-mode1.txt": "13972c4a87a626daeee21612bba6fe061919516074ab75db21950e4f6384d2b8",
+    "candidate/hdl-im0-mode2.txt": "3a6cffcf01e11f03d38c136a41bb02d4c751e9665d9e352525203ebd3b1e5d78",
+    "candidate/hdl-im0-mode3.txt": "c441990b2e4c3cd46a75ecc60ede5d6f1ca9418240659fa886cf6dd4f6554ad5",
+    "candidate/hdl-im0-mode4.txt": "12726190b3eeb6993f24629ca4308339f9bbd70c7327172c4c09c66fb6fe16a6",
+    "candidate/hdl-im1-mode0.txt": "664c15291b7033ca848689d3764277d67eda1839b71062e9c238de0648657e2c",
+    "candidate/hdl-im1-mode1.txt": "13972c4a87a626daeee21612bba6fe061919516074ab75db21950e4f6384d2b8",
+    "candidate/hdl-im1-mode2.txt": "3a6cffcf01e11f03d38c136a41bb02d4c751e9665d9e352525203ebd3b1e5d78",
+    "candidate/hdl-im1-mode3.txt": "c441990b2e4c3cd46a75ecc60ede5d6f1ca9418240659fa886cf6dd4f6554ad5",
+    "candidate/hdl-im1-mode4.txt": "12726190b3eeb6993f24629ca4308339f9bbd70c7327172c4c09c66fb6fe16a6",
+    "candidate/hdl-im2-mode0.txt": "664c15291b7033ca848689d3764277d67eda1839b71062e9c238de0648657e2c",
+    "candidate/hdl-im2-mode1.txt": "be04e73a5b7e89b26b352edfea98b052fa47f1da3a4e13e80b017b755989cc65",
+    "candidate/hdl-im2-mode2.txt": "3a6cffcf01e11f03d38c136a41bb02d4c751e9665d9e352525203ebd3b1e5d78",
+    "candidate/hdl-im2-mode3.txt": "c441990b2e4c3cd46a75ecc60ede5d6f1ca9418240659fa886cf6dd4f6554ad5",
+    "candidate/hdl-im2-mode4.txt": "12726190b3eeb6993f24629ca4308339f9bbd70c7327172c4c09c66fb6fe16a6",
+    "candidate/tv80_core.v": "2778d350049ba3e31a4dff9d18fc72a70fc0da4665cea59c8573ea83fe0b0614",
+    "candidate/tv80_io_candidate.v": "2a7d58e28477f58f66ade29e7fa49ca40823e77766c4d4417370144e68f7e940",
+    "original/c-im0-mode0.txt": "3417655b8f26c9b4fb4d2834d46142d0b12ea508334a61300609d2336abdd74f",
+    "original/c-im0-mode1.txt": "ebe25c04638446d0bd76288597cc36c81411e96a54dd28ad5c3c1b26574d76b9",
+    "original/c-im0-mode2.txt": "898ce3ef94d6ac2f12b6040fc84a1eee5879900dd0a00382461eff45928463e7",
+    "original/c-im0-mode3.txt": "3128d386767f56a7ba6272b35d074f4cd5b70dae333de4b212e606ff8bd554f6",
+    "original/c-im1-mode0.txt": "264dc24413b1005db63c6cbb8bfe0029e2d487cfac37602ead339c82d10b1afa",
+    "original/c-im1-mode1.txt": "e55f10b06a33120bb8cc072c7a849731a76f5c35716849008c6a75d8d89ce3c0",
+    "original/c-im1-mode2.txt": "1c5085e3c06cfb5e307ea91e2742e7e6cfb27e88d67078cd5181cb8244893b23",
+    "original/c-im1-mode3.txt": "bb802ebc1abf258c0b107a6aea2b1d9f1a9297f92e9fa90d01e90328c2a699d9",
+    "original/c-im2-mode0.txt": "cf4cf40baf9b541b440b89a5c1413f245b118b338ed20c21971743a93a60dba8",
+    "original/c-im2-mode1.txt": "b22334c7233cbd8e75565ad5f9a3458548c219ba6c5aa8f5dc3228f4d23e81e3",
+    "original/c-im2-mode2.txt": "685c07dbac4ca75dfc039086304f544e4d9edb2859650efe92d5b829c8867243",
+    "original/c-im2-mode3.txt": "b8c08659846617ea79485891d2ea0ed81585b82cc814421fef238287ed346307",
+    "original/c_read_half.h": "397ad17c1aea77e87dd12c27e5073620eb32e0e88f14eb96882e0ccd1f186299",
+    "original/candidate.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3",
+    "original/hdl-im0-mode0.txt": "664c15291b7033ca848689d3764277d67eda1839b71062e9c238de0648657e2c",
+    "original/hdl-im0-mode1.txt": "13972c4a87a626daeee21612bba6fe061919516074ab75db21950e4f6384d2b8",
+    "original/hdl-im0-mode2.txt": "3a6cffcf01e11f03d38c136a41bb02d4c751e9665d9e352525203ebd3b1e5d78",
+    "original/hdl-im0-mode3.txt": "c441990b2e4c3cd46a75ecc60ede5d6f1ca9418240659fa886cf6dd4f6554ad5",
+    "original/hdl-im0-mode4.txt": "12726190b3eeb6993f24629ca4308339f9bbd70c7327172c4c09c66fb6fe16a6",
+    "original/hdl-im1-mode0.txt": "664c15291b7033ca848689d3764277d67eda1839b71062e9c238de0648657e2c",
+    "original/hdl-im1-mode1.txt": "13972c4a87a626daeee21612bba6fe061919516074ab75db21950e4f6384d2b8",
+    "original/hdl-im1-mode2.txt": "3a6cffcf01e11f03d38c136a41bb02d4c751e9665d9e352525203ebd3b1e5d78",
+    "original/hdl-im1-mode3.txt": "c441990b2e4c3cd46a75ecc60ede5d6f1ca9418240659fa886cf6dd4f6554ad5",
+    "original/hdl-im1-mode4.txt": "12726190b3eeb6993f24629ca4308339f9bbd70c7327172c4c09c66fb6fe16a6",
+    "original/hdl-im2-mode0.txt": "664c15291b7033ca848689d3764277d67eda1839b71062e9c238de0648657e2c",
+    "original/hdl-im2-mode1.txt": "be04e73a5b7e89b26b352edfea98b052fa47f1da3a4e13e80b017b755989cc65",
+    "original/hdl-im2-mode2.txt": "3a6cffcf01e11f03d38c136a41bb02d4c751e9665d9e352525203ebd3b1e5d78",
+    "original/hdl-im2-mode3.txt": "c441990b2e4c3cd46a75ecc60ede5d6f1ca9418240659fa886cf6dd4f6554ad5",
+    "original/hdl-im2-mode4.txt": "12726190b3eeb6993f24629ca4308339f9bbd70c7327172c4c09c66fb6fe16a6",
+    "sampling/c.txt": "232e3a01e5b5d970378b364096b7dd1e898ae5a21734031ce2738d16e7f30479",
+    "sampling/candidate.h": "7856a3e25add23245b153b04800054518721cea19b51d0420eaf6133aafb2129",
+    "sampling/early.txt": "0ecacdf370a23a740155d4116f6238136e469ac474e7146d4a32e01e6f08f5f7",
+    "sampling/early.v": "ce64d68523547636e80fed16238e7ff845368ebc89be53d8bfe019a8e3efd59d",
+    "sampling/falling.txt": "9c1b8f01e3a22ea642eaa46be16e272f9fe6c4921991c05cc2e455e176ec345d",
+    "sampling/falling.v": "caf447012aacf9f54578f906891a9d32f649c2ce2ebdc7f23bb7570d07befae9",
+    "sampling/tv80n_falling.v": "33cb0418301258af1ef956b4053ff4878e191e020d9201fb8b73df53beff7615"
+  },
+  "composedArtifacts": {
+    "producer.py": "36b0fa08ff0a105fdf300d43e29aa971bbfee721abe238b669be5b59a6106bef"
+  },
+  "profile": "Complete I/O candidate regression"
+}
