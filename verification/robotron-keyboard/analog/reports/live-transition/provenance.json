@@ -1,0 +1,17 @@
+{
+  "baseRuntimeReceipt": "reports/bus-transition/runtime.json:matchedAfter",
+  "baseExecutableSha256": "fab0eca626fd3d41ad40afeab9de435f78e8f0ccdf29e7108eed7fc2ee06af4f",
+  "auditCorePatch": {
+    "path": "engine-patches/ngspice-47-live-transition-audit.patch",
+    "sha256": "e07a93b3e9a8f155d2f91ab8a39b425b777c58c057f00eb9b4481f613f4c284c"
+  },
+  "coreBuild": "Same configured source/build tree as bus-transition matchedAfter, with read-only audit patch added; evaluation cache disabled. Code-model experiment rebuilt separately by build_live_transition_models.py.",
+  "reproduce": "Use live_transition_probe.py with a prepared tight service deck, explicit executable/spinit, and fresh output. Compare no flags, --audit, and --dac-corners at 50/25/12.5 ns. --reduce-matrix substitutes the inactive matrix boundary; it is diagnostic only.",
+  "sources": {
+    "live_transition_probe.py": "695e2aeec7df3ffc3d2558cb13019941016196cadc277a09ac38166142b5f0f7",
+    "build_live_transition_models.py": "a08a5eb25431db440d6d16f6c1b14d6e356fd9f7d71015ec12768c201813bcd1",
+    "test_dac_ramp.py": "42e2a9c6c866137919760149b5815a463c05b8731bf44b90126428ac7d57b1ea",
+    "fixtures/dac_ramp_harness.c": "437256487c63f9dc146aeb1edd0aa49eb2243e7467f082e3b953e30487aff81e"
+  },
+  "retention": "Compressed full logs and waveform extents/tails with full-file SHA-256; raw waveforms remain local."
+}

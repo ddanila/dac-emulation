@@ -336,6 +336,23 @@ prove equivalence to the live trajectory. The corrected runtime remains diagnost
 Use `bus_transition_probe.py` for tolerance sweeps and recorded-output isolation;
 retained decks, runtime fingerprints and reproduction notes accompany the review.
 
+The [live-transition audit](reports/live-transition/assessment.json) isolates
+truncation/error-estimation rejection with converged Newton solves and no ADC
+state change inside the selected collapse window. Logging preserves the waveform.
+Recorded-output replay changes both forcing history and breakpoint placement, so
+its completion cannot identify a feedback defect. A reduced fixture keeps CPU/bus
+feedback and output/supply circuitry live, but substitutes the inactive matrix and
+fails later; it is not equivalent full-board evidence.
+
+The opt-in [DAC corner experiment](engine-patches/dac-ramp-breakpoint.patch)
+schedules a missing ramp-end breakpoint when an event lands at the analog boundary.
+The compiled upstream regression verifies the omission and unchanged output
+arithmetic. Tight live controls still abort or time out, so the candidate is not
+adopted. `build_live_transition_models.py` builds fingerprinted code models;
+`live_transition_probe.py` reproduces controls with explicit runtime inputs.
+Keep later acceptance gated until matched live refinement completes.
+
+
 
 The optional [evaluator cache](engine-patches/eval-cache.patch) reuses shared pure
 subexpressions only within one value/gradient evaluation. It defaults off;

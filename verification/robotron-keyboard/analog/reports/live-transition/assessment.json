@@ -1,0 +1,107 @@
+{
+  "qualified": false,
+  "cases": {
+    "control": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100501, timestep = 3.32078e-20: trouble with node \"n_cable_5v\"",
+      "lastSeconds": 0.0010050120000662582,
+      "requestedStopSeconds": 0.00116,
+      "traceSha256": "813cbedf2ae66b456d9407893f7d15cb358ae878f5f59788abf0bfb83eca85e9"
+    },
+    "audit": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100501, timestep = 3.32078e-20: trouble with node \"n_cable_5v\"",
+      "lastSeconds": 0.0010050120000662582,
+      "requestedStopSeconds": 0.00116,
+      "traceSha256": "813cbedf2ae66b456d9407893f7d15cb358ae878f5f59788abf0bfb83eca85e9"
+    },
+    "corners-25": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100114, timestep = 3.81739e-20: trouble with node \"n_cable_5v\"",
+      "lastSeconds": 0.0010011360270028552,
+      "requestedStopSeconds": 0.00116,
+      "traceSha256": "62314f6a258947e8fae547697c4339fd6725b61ad4c0ab05e89d4231b2b2601c"
+    },
+    "corners-50": {
+      "completed": false,
+      "timedOut": true,
+      "diagnostic": null,
+      "lastSeconds": null,
+      "requestedStopSeconds": 0.00116,
+      "traceSha256": null
+    },
+    "corners-12": {
+      "completed": false,
+      "timedOut": true,
+      "diagnostic": null,
+      "lastSeconds": null,
+      "requestedStopSeconds": 0.00116,
+      "traceSha256": null
+    },
+    "reduced": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "Instance: ahdl   Message: Advancing vtime by 1doAnalyses: TRAN:  Timestep too small; time = 0.00102901, timestep = 6.84507e-20: trouble with node \"n_d1\"",
+      "lastSeconds": 0.0010290120022194416,
+      "requestedStopSeconds": 0.00116,
+      "traceSha256": "5298973a3293a89fd5abdaf4e45b2937963ca19d5380525f13199cc974762fe0"
+    },
+    "recorded-grid": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100113, timestep = 1.60358e-20: trouble with node \"n_cable_5v\"",
+      "lastSeconds": 0.0010011319927770836,
+      "requestedStopSeconds": 0.00101,
+      "traceSha256": "fb30ce834485b58d7179fc5b7c8491799d365d097ba7ece9856e9d9abc15b796"
+    },
+    "ramp-endpoints": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100901, timestep = 4.4026e-20: trouble with node \"n_cable_5v\"",
+      "lastSeconds": 0.0010090120002068158,
+      "requestedStopSeconds": 0.00101,
+      "traceSha256": "ff4da7548bcd7fba7e3c64f455e7be4187ecc0498fdc5e6c94d6510edbbb0f92"
+    },
+    "ramp-substeps": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100501, timestep = 1.25026e-20: trouble with node \"n_cable_5v\"",
+      "lastSeconds": 0.0010050120002001491,
+      "requestedStopSeconds": 0.00101,
+      "traceSha256": "cdb4aee646bd88851887ddf62cd0a84bac1de3c6e162ad629c5692357feb1fb5"
+    }
+  },
+  "auditWaveformByteIdentical": true,
+  "audit": {
+    "windowSeconds": [
+      0.001005011,
+      0.001005014
+    ],
+    "solverCalls": 36,
+    "allAuditedNewtonSolvesConverged": true,
+    "rejectedSteps": 19,
+    "firstRejection": {
+      "timeSeconds": 0.001005012816,
+      "trialStepSeconds": 8.160000002088719e-10,
+      "proposedStepSeconds": 7.352026667762369e-15,
+      "lastLimitingDevice": "Capacitor"
+    },
+    "lastRejection": {
+      "timeSeconds": 0.0010050120000662584,
+      "trialStepSeconds": 2.5e-19,
+      "proposedStepSeconds": 3.3207833847121347e-20,
+      "lastLimitingDevice": "Inductor"
+    },
+    "adcDecisionChangesInWindow": 0
+  },
+  "dacCornerRegression": "Compiled original evaluator omits completion breakpoint for an event exactly at the analog boundary. Opt-in candidate schedules the corner without changing single-bit ramp output arithmetic.",
+  "candidateAdopted": false,
+  "feedbackPreservedInReduction": true,
+  "reductionScope": "Inactive matrix is replaced by fixed low sense inputs. CPU/ROM, bus ADC feedback, supply/filter, serial and LED loads remain live. Failure moves later; this is a reduced failure-class fixture, not an equivalent reproducer of the original event.",
+  "interpretation": "The selected live collapse is timestep/error-estimation rejection with converged Newton solves, without an ADC decision change inside the audited window. Recorded-output replay also changes forcing history and breakpoint placement; its completion does not establish a bridge defect. Adding time-grid points alone does not establish convergence.",
+  "serviceAcceptance": "Not extended: no completed matched tight pair, and device-model/input-range prerequisites remain unmet.",
+  "reviewSha256": "fc3429ea9c06c7948816481572c2b16ad5a30cb75fb89a4a5992c4704ba00d9e"
+}

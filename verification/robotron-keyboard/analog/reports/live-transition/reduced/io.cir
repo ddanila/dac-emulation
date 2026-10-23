@@ -1,0 +1,159 @@
+S600 firmware I/O service fixture
+Vhost n_CABLE_5V n_CABLE_GND PWL(0 0 1u 5)
+Vfixture_clock fixture_clock 0 PULSE(0 5 500n 1n 1n 499n 1u)
+Vfixture_reset fixture_reset 0 PWL(0 0 1000000n 0 1000001n 5)
+.model D_NOMINAL D(IS=1e-14 N=1)
+Vmatrix_boundary0 n_SENSE0 0 0
+Vmatrix_boundary1 n_SENSE1 0 0
+Vmatrix_boundary2 n_SENSE2 0 0
+Vmatrix_boundary3 n_SENSE3 0 0
+Vmatrix_boundary4 n_SENSE4 0 0
+Vmatrix_boundary5 n_SENSE5 0 0
+Vmatrix_boundary6 n_SENSE6 0 0
+Vmatrix_boundary7 n_SENSE7 0 0
+R10.1 n_p5V n_TA_TAKT 560
+R10.2 n_p5V n_TA_DATEN 560
+R11.1 n_LED_SISO_N n_LED_SISO 130
+R11.2 n_LED_CAPS_N n_LED_CAPS 130
+C3.1 n_p5V 0 47u
+C3.2 n_p5V 0 47u
+C5.1 n_p5V 0 47n
+C5.2 n_p5V 0 47n
+C5.3 n_p5V 0 47n
+C5.4 n_p5V 0 47n
+C5.5 n_p5V 0 47n
+L1.1 n_TA_TAKT L1_1_series 1u
+RL1.1 L1_1_series n_CABLE_TAKT 1
+L1.2 0 L1_2_series 1u
+RL1.2 L1_2_series n_CABLE_GND 1
+L1.3 n_p5V L1_3_series 1u
+RL1.3 L1_3_series n_CABLE_5V 1
+L1.4 n_TA_DATEN L1_4_series 1u
+RL1.4 L1_4_series n_CABLE_DATEN 1
+.model OUTPUT_SINK_NOMINAL SW(RON=20 ROFF=1t VT=2.5 VH=0)
+.model LED_NOMINAL D(IS=1e-20 N=2 RS=2)
+Sdata n_TA_DATEN 0 data_intent 0 OUTPUT_SINK_NOMINAL
+Cdata_load n_CABLE_DATEN n_CABLE_GND 1000p
+Rdata_load n_CABLE_DATEN n_CABLE_GND 100k
+Sclock n_TA_TAKT 0 clock_intent 0 OUTPUT_SINK_NOMINAL
+Cclock_load n_CABLE_TAKT n_CABLE_GND 1000p
+Rclock_load n_CABLE_TAKT n_CABLE_GND 100k
+Bsiso_target siso_target 0 V=V(n_p5V)*(0.7-0.66*V(siso_intent)/5)
+Rsiso_output siso_target n_LED_SISO_N 30
+Dsiso_led n_p5V n_LED_SISO LED_NOMINAL
+Bcaps_target caps_target 0 V=V(n_p5V)*(0.7-0.66*V(caps_intent)/5)
+Rcaps_output caps_target n_LED_CAPS_N 30
+Dcaps_led n_p5V n_LED_CAPS LED_NOMINAL
+Cbus_A1_3 n_D0 0 4.9999999999999997e-12
+Cbus_A4_19 n_D0 0 4.9999999999999997e-12
+Cbus_A5_14 n_D0 0 9.9999999999999994e-12
+Cbus_A8_9 n_D0 0 1.2000000000000001e-11
+Cbus_A4_18 n_D1 0 4.9999999999999997e-12
+Cbus_A5_15 n_D1 0 9.9999999999999994e-12
+Cbus_A8_10 n_D1 0 1.2000000000000001e-11
+Cbus_A4_17 n_D2 0 4.9999999999999997e-12
+Cbus_A5_12 n_D2 0 9.9999999999999994e-12
+Cbus_A8_11 n_D2 0 1.2000000000000001e-11
+Cbus_A4_16 n_D3 0 4.9999999999999997e-12
+Cbus_A5_8 n_D3 0 9.9999999999999994e-12
+Cbus_A8_13 n_D3 0 1.2000000000000001e-11
+Cbus_A4_15 n_D4 0 4.9999999999999997e-12
+Cbus_A5_7 n_D4 0 9.9999999999999994e-12
+Cbus_A8_14 n_D4 0 1.2000000000000001e-11
+Cbus_A4_14 n_D5 0 4.9999999999999997e-12
+Cbus_A5_9 n_D5 0 9.9999999999999994e-12
+Cbus_A8_15 n_D5 0 1.2000000000000001e-11
+Cbus_A4_13 n_D6 0 4.9999999999999997e-12
+Cbus_A5_10 n_D6 0 9.9999999999999994e-12
+Cbus_A8_16 n_D6 0 1.2000000000000001e-11
+Cbus_A4_12 n_D7 0 4.9999999999999997e-12
+Cbus_A5_13 n_D7 0 9.9999999999999994e-12
+Cbus_A8_17 n_D7 0 1.2000000000000001e-11
+Bbus_low_0 n_D0 0 I=V(n_D0)*V(bus_low_0)/(5*222.22222222222223)
+Bbus_high_0 n_p5V n_D0 I=(V(n_p5V)-V(n_D0))*V(bus_high_0)/(5*10400)
+Bbus_low_1 n_D1 0 I=V(n_D1)*V(bus_low_1)/(5*222.22222222222223)
+Bbus_high_1 n_p5V n_D1 I=(V(n_p5V)-V(n_D1))*V(bus_high_1)/(5*10400)
+Bbus_low_2 n_D2 0 I=V(n_D2)*V(bus_low_2)/(5*222.22222222222223)
+Bbus_high_2 n_p5V n_D2 I=(V(n_p5V)-V(n_D2))*V(bus_high_2)/(5*10400)
+Bbus_low_3 n_D3 0 I=V(n_D3)*V(bus_low_3)/(5*222.22222222222223)
+Bbus_high_3 n_p5V n_D3 I=(V(n_p5V)-V(n_D3))*V(bus_high_3)/(5*10400)
+Bbus_low_4 n_D4 0 I=V(n_D4)*V(bus_low_4)/(5*222.22222222222223)
+Bbus_high_4 n_p5V n_D4 I=(V(n_p5V)-V(n_D4))*V(bus_high_4)/(5*10400)
+Bbus_low_5 n_D5 0 I=V(n_D5)*V(bus_low_5)/(5*222.22222222222223)
+Bbus_high_5 n_p5V n_D5 I=(V(n_p5V)-V(n_D5))*V(bus_high_5)/(5*10400)
+Bbus_low_6 n_D6 0 I=V(n_D6)*V(bus_low_6)/(5*222.22222222222223)
+Bbus_high_6 n_p5V n_D6 I=(V(n_p5V)-V(n_D6))*V(bus_high_6)/(5*10400)
+Bbus_low_7 n_D7 0 I=V(n_D7)*V(bus_low_7)/(5*222.22222222222223)
+Bbus_high_7 n_p5V n_D7 I=(V(n_p5V)-V(n_D7))*V(bus_high_7)/(5*10400)
+Bbus_low_8 n_D0 0 I=V(n_D0)*V(bus_low_8)/(5*214.28571428571431)
+Bbus_high_8 n_p5V n_D0 I=(V(n_p5V)-V(n_D0))*V(bus_high_8)/(5*6500)
+Bbus_low_9 n_D1 0 I=V(n_D1)*V(bus_low_9)/(5*214.28571428571431)
+Bbus_high_9 n_p5V n_D1 I=(V(n_p5V)-V(n_D1))*V(bus_high_9)/(5*6500)
+Bbus_low_10 n_D2 0 I=V(n_D2)*V(bus_low_10)/(5*214.28571428571431)
+Bbus_high_10 n_p5V n_D2 I=(V(n_p5V)-V(n_D2))*V(bus_high_10)/(5*6500)
+Bbus_low_11 n_D3 0 I=V(n_D3)*V(bus_low_11)/(5*214.28571428571431)
+Bbus_high_11 n_p5V n_D3 I=(V(n_p5V)-V(n_D3))*V(bus_high_11)/(5*6500)
+Bbus_low_12 n_D4 0 I=V(n_D4)*V(bus_low_12)/(5*214.28571428571431)
+Bbus_high_12 n_p5V n_D4 I=(V(n_p5V)-V(n_D4))*V(bus_high_12)/(5*6500)
+Bbus_low_13 n_D5 0 I=V(n_D5)*V(bus_low_13)/(5*214.28571428571431)
+Bbus_high_13 n_p5V n_D5 I=(V(n_p5V)-V(n_D5))*V(bus_high_13)/(5*6500)
+Bbus_low_14 n_D6 0 I=V(n_D6)*V(bus_low_14)/(5*214.28571428571431)
+Bbus_high_14 n_p5V n_D6 I=(V(n_p5V)-V(n_D6))*V(bus_high_14)/(5*6500)
+Bbus_low_15 n_D7 0 I=V(n_D7)*V(bus_low_15)/(5*214.28571428571431)
+Bbus_high_15 n_p5V n_D7 I=(V(n_p5V)-V(n_D7))*V(bus_high_15)/(5*6500)
+Bbus_low_16 n_D0 0 I=V(n_D0)*V(bus_low_16)/(5*22.5)
+Bbus_high_16 n_p5V n_D0 I=(V(n_p5V)-V(n_D0))*V(bus_high_16)/(5*520)
+Bbus_low_17 n_D1 0 I=V(n_D1)*V(bus_low_17)/(5*22.5)
+Bbus_high_17 n_p5V n_D1 I=(V(n_p5V)-V(n_D1))*V(bus_high_17)/(5*520)
+Bbus_low_18 n_D2 0 I=V(n_D2)*V(bus_low_18)/(5*22.5)
+Bbus_high_18 n_p5V n_D2 I=(V(n_p5V)-V(n_D2))*V(bus_high_18)/(5*520)
+Bbus_low_19 n_D3 0 I=V(n_D3)*V(bus_low_19)/(5*22.5)
+Bbus_high_19 n_p5V n_D3 I=(V(n_p5V)-V(n_D3))*V(bus_high_19)/(5*520)
+Bbus_low_20 n_D4 0 I=V(n_D4)*V(bus_low_20)/(5*22.5)
+Bbus_high_20 n_p5V n_D4 I=(V(n_p5V)-V(n_D4))*V(bus_high_20)/(5*520)
+Bbus_low_21 n_D5 0 I=V(n_D5)*V(bus_low_21)/(5*22.5)
+Bbus_high_21 n_p5V n_D5 I=(V(n_p5V)-V(n_D5))*V(bus_high_21)/(5*520)
+Bbus_low_22 n_D6 0 I=V(n_D6)*V(bus_low_22)/(5*22.5)
+Bbus_high_22 n_p5V n_D6 I=(V(n_p5V)-V(n_D6))*V(bus_high_22)/(5*520)
+Bbus_low_23 n_D7 0 I=V(n_D7)*V(bus_low_23)/(5*22.5)
+Bbus_high_23 n_p5V n_D7 I=(V(n_p5V)-V(n_D7))*V(bus_high_23)/(5*520)
+Abus [n_D7 n_D6 n_D5 n_D4 n_D3 n_D2 n_D1 n_D0] [dbus7 dbus6 dbus5 dbus4 dbus3 dbus2 dbus1 dbus0] data_receiver
+Abus_low [dbus_low23 dbus_low22 dbus_low21 dbus_low20 dbus_low19 dbus_low18 dbus_low17 dbus_low16 dbus_low15 dbus_low14 dbus_low13 dbus_low12 dbus_low11 dbus_low10 dbus_low9 dbus_low8 dbus_low7 dbus_low6 dbus_low5 dbus_low4 dbus_low3 dbus_low2 dbus_low1 dbus_low0] [bus_low_23 bus_low_22 bus_low_21 bus_low_20 bus_low_19 bus_low_18 bus_low_17 bus_low_16 bus_low_15 bus_low_14 bus_low_13 bus_low_12 bus_low_11 bus_low_10 bus_low_9 bus_low_8 bus_low_7 bus_low_6 bus_low_5 bus_low_4 bus_low_3 bus_low_2 bus_low_1 bus_low_0] drive
+Abus_high [dbus_high23 dbus_high22 dbus_high21 dbus_high20 dbus_high19 dbus_high18 dbus_high17 dbus_high16 dbus_high15 dbus_high14 dbus_high13 dbus_high12 dbus_high11 dbus_high10 dbus_high9 dbus_high8 dbus_high7 dbus_high6 dbus_high5 dbus_high4 dbus_high3 dbus_high2 dbus_high1 dbus_high0] [bus_high_23 bus_high_22 bus_high_21 bus_high_20 bus_high_19 bus_high_18 bus_high_17 bus_high_16 bus_high_15 bus_high_14 bus_high_13 bus_high_12 bus_high_11 bus_high_10 bus_high_9 bus_high_8 bus_high_7 bus_high_6 bus_high_5 bus_high_4 bus_high_3 bus_high_2 bus_high_1 bus_high_0] drive
+Rbus_numerical0 n_D0 0 1e12
+Rbus_numerical1 n_D1 0 1e12
+Rbus_numerical2 n_D2 0 1e12
+Rbus_numerical3 n_D3 0 1e12
+Rbus_numerical4 n_D4 0 1e12
+Rbus_numerical5 n_D5 0 1e12
+Rbus_numerical6 n_D6 0 1e12
+Rbus_numerical7 n_D7 0 1e12
+Esiso_intent siso_intent 0 led0_v 0 1
+Ecaps_intent caps_intent 0 led1_v 0 1
+Edata receiver_data 0 n_CABLE_DATEN n_CABLE_GND 1
+Eclock receiver_clock 0 n_CABLE_TAKT n_CABLE_GND 1
+Amatrix [n_SENSE7 n_SENSE6 n_SENSE5 n_SENSE4 n_SENSE3 n_SENSE2 n_SENSE1 n_SENSE0] [dsense7 dsense6 dsense5 dsense4 dsense3 dsense2 dsense1 dsense0] data_receiver
+Arxdata [receiver_data] [rx_data] data_receiver
+.model data_receiver adc_bridge(in_low=.8 in_high=2)
+Arxclock [receiver_clock] [rx_clock] clock_receiver
+.model clock_receiver adc_bridge(in_low=1.4 in_high=1.4)
+Afixture [fixture_clock fixture_reset] [fixture_clk fixture_reset_n] clock_receiver
+Ahdl [fixture_clk fixture_reset_n dsense7 dsense6 dsense5 dsense4 dsense3 dsense2 dsense1 dsense0 rx_data rx_clock fixture_reset_n fixture_reset_n fixture_reset_n fixture_reset_n fixture_reset_n dbus7 dbus6 dbus5 dbus4 dbus3 dbus2 dbus1 dbus0] [dbus_low23 dbus_low22 dbus_low21 dbus_low20 dbus_low19 dbus_low18 dbus_low17 dbus_low16 dbus_low15 dbus_low14 dbus_low13 dbus_low12 dbus_low11 dbus_low10 dbus_low9 dbus_low8 dbus_low7 dbus_low6 dbus_low5 dbus_low4 dbus_low3 dbus_low2 dbus_low1 dbus_low0 dbus_high23 dbus_high22 dbus_high21 dbus_high20 dbus_high19 dbus_high18 dbus_high17 dbus_high16 dbus_high15 dbus_high14 dbus_high13 dbus_high12 dbus_high11 dbus_high10 dbus_high9 dbus_high8 dbus_high7 dbus_high6 dbus_high5 dbus_high4 dbus_high3 dbus_high2 dbus_high1 dbus_high0 dlogic_sink1 dlogic_sink0 dsink csink led1 led0 dcol12 dcol11 dcol10 dcol9 dcol8 dcol7 dcol6 dcol5 dcol4 dcol3 dcol2 dcol1 dcol0] hdl
+.model hdl d_cosim simulation="/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so" sim_args=["io.vvp"] delay=10n
++ lib_args=["/private/tmp/robotron-icarus-src/vvp/libvvp.so" "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi"]
+Adrive [dsink csink led1 led0] [data_intent clock_intent led1_v led0_v] drive
+Acolumns [dcol12 dcol11 dcol10 dcol9 dcol8 dcol7 dcol6 dcol5 dcol4 dcol3 dcol2 dcol1 dcol0] [sink12 sink11 sink10 sink9 sink8 sink7 sink6 sink5 sink4 sink3 sink2 sink1 sink0] drive
+.model drive dac_bridge(out_low=0 out_high=5 out_undef=2.5 t_rise=1n t_fall=1n)
+.options minbreak=1f
+.tran 25n 1160000n
+.save v(n_D1) v(n_p5V) v(bus_low_1) v(bus_high_1) v(bus_low_9) v(bus_high_9) v(bus_low_17) v(bus_high_17)
+.options reltol=1e-06 vntol=1e-09 abstol=1e-15
+.control
+set numdgt=17
+set wr_singlescale
+set wr_vecnames
+run
+wrdata witness.txt v(n_D1) v(n_p5V) v(bus_low_1) v(bus_high_1) v(bus_low_9) v(bus_high_9) v(bus_low_17) v(bus_high_17)
+quit
+.endc
+.end

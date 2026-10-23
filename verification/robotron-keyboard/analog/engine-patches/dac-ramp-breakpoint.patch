@@ -1,0 +1,30 @@
+--- a/src/xspice/icm/digital/dac_bridge/cfunc.mod
++++ b/src/xspice/icm/digital/dac_bridge/cfunc.mod
+@@ -48,6 +48,7 @@
+ /*=== INCLUDE FILES ====================*/
+ 
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <ctype.h>
+ #include <math.h>
+ #include <string.h>
+@@ -555,6 +556,19 @@
+                 if (when > 0.0)
+                     cm_analog_set_perm_bkpt(when + TIME);
+             }
++            /* An event exactly at T(0) uses the previous input for that
++             * analog solve. The next call may enter the no-change branch,
++             * so neither branch has scheduled the new ramp's completion.
++             * Preserve the existing ramp equation; advertise its next corner.
++             */
++            if (getenv("ROBOTRON_DAC_BREAKPOINTS") && TIME > 0.0) {
++                double target = in[i].i == ONE ? out_high :
++                                in[i].i == ZERO ? out_low : out_undef;
++                double remaining = vout < target ? (target - vout) / rise_slope :
++                                   vout > target ? (vout - target) / fall_slope : 0.0;
++                if (remaining > 0.0)
++                    cm_analog_set_perm_bkpt(TIME + remaining);
++            }
+             OUTPUT(out[i]) = out[i] = vout;
+         }
+         break;
