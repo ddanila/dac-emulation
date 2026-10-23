@@ -1,0 +1,46 @@
+{
+  "qualified": false,
+  "base": "reports/live-transition/provenance.json",
+  "patchOrder": [
+    "ngspice-47-live-state-audit.patch",
+    "ngspice-47-mpfr-linear.patch",
+    "ngspice-47-mpfr-live-window.patch"
+  ],
+  "patches": {
+    "ngspice-47-live-state-audit.patch": "45dd118498efdab35b7026be46ff15f7386bb5f4578730e4362e19b6f84ae6c0",
+    "ngspice-47-mpfr-linear.patch": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+    "ngspice-47-mpfr-live-window.patch": "8a0c0dcb61feb6575d92308f1d7791d842ac74e20e7cfc2aab5c90609eb94a05",
+    "mpfr_linear_solver.h": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d"
+  },
+  "configure": "Inherited live-transition build; Sparse, XSPICE, no KLU or fast-math.",
+  "mpfrBuildCommand": "make -j4 CFLAGS='-O3 -std=gnu11 -I/opt/homebrew/opt/mpfr/include -I/opt/homebrew/opt/gmp/include' LIBS='-L/opt/homebrew/opt/mpfr/lib -L/opt/homebrew/opt/gmp/lib -lmpfr -lgmp -lm'",
+  "controls": {
+    "live-state-disabled": {
+      "sha256": "813cbedf2ae66b456d9407893f7d15cb358ae878f5f59788abf0bfb83eca85e9",
+      "rows": 68730,
+      "lastRow": " 1.00501200006625820e-03  4.95918913171975184e+00  4.95923396891173063e+00  0.00000000000000000e+00  0.00000000000000000e+00  0.00000000000000000e+00  3.31292068431188191e-04  0.00000000000000000e+00  0.00000000000000000e+00 "
+    },
+    "live-mpfr-disabled": {
+      "sha256": "813cbedf2ae66b456d9407893f7d15cb358ae878f5f59788abf0bfb83eca85e9",
+      "rows": 68730,
+      "lastRow": " 1.00501200006625820e-03  4.95918913171975184e+00  4.95923396891173063e+00  0.00000000000000000e+00  0.00000000000000000e+00  0.00000000000000000e+00  3.31292068431188191e-04  0.00000000000000000e+00  0.00000000000000000e+00 "
+    },
+    "live-state-mpfr256": {
+      "sha256": "57340a683116e939c66beab1829b06552ba53dbf90c7eee09dd9a6c4c2e3c1fa",
+      "rows": 76765,
+      "lastRow": " 1.06603623988719563e-03  8.19158262545741783e-02  4.96103725704719434e+00  0.00000000000000000e+00  0.00000000000000000e+00  5.00000000000000000e+00  0.00000000000000000e+00  0.00000000000000000e+00  0.00000000000000000e+00 "
+    },
+    "live-state-mpfr256-long": {
+      "sha256": "57340a683116e939c66beab1829b06552ba53dbf90c7eee09dd9a6c4c2e3c1fa",
+      "rows": 76765,
+      "lastRow": " 1.06603623988719563e-03  8.19158262545741783e-02  4.96103725704719434e+00  0.00000000000000000e+00  0.00000000000000000e+00  5.00000000000000000e+00  0.00000000000000000e+00  0.00000000000000000e+00  0.00000000000000000e+00 "
+    }
+  },
+  "auditWitnessSha256": "813cbedf2ae66b456d9407893f7d15cb358ae878f5f59788abf0bfb83eca85e9",
+  "boundary": "State capture uses the supplemental audit patch before MPFR patches; controls use explicit runtime fingerprints in their run receipts. MPFR intervention starts after 1.005011 ms; earlier trajectory and stored states remain binary64. No electrical qualification.",
+  "mpfrLibraries": {
+    "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+    "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+  },
+  "outcome": "Disabled waveforms identical. MPFR intervention passes original collapse; 25 ns long run fails later, 12.5 ns long run times out. Short 25/12.5 ns prefixes finish but retain a drive timing mismatch. Tightened-tolerance short run times out before intervention. No qualification or adopted correction."
+}
