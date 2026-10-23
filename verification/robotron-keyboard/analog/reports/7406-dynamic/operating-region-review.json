@@ -1,0 +1,29 @@
+{
+  "qualified": false,
+  "sources": [
+    {
+      "url": "https://www.ti.com/lit/an/sdya009c/sdya009c.pdf",
+      "title": "TI SDYA009C, Designing With Logic",
+      "locator": "Sections 6.2 and 6.4; printed pages 14-15 and 18-19; Figure 21 and Table 3",
+      "sha256": "2ec6797461509a234475246841c06ee6305088d0fced31af9dd0e5f971a38c47",
+      "scope": "Bipolar output undershoot can affect internal bias and later switching. The illustrated bus-driver clamp is not a supplied SN7406 subcircuit. Table 3 gives family-average capacitances, explicitly allows device variation, and labels the open-collector column for low-drive gates."
+    },
+    {
+      "url": "https://www.ti.com/lit/pdf/szza008",
+      "title": "TI SZZA008, Input and Output Characteristics of Digital Integrated Circuits at 5-V Supply Voltage",
+      "locator": "Section 3, printed page 10; Figure 13",
+      "sha256": "aed59d4a741c1fd71c545a77767bc3cf636b6c1543ab2004bb55b6e72556b01d",
+      "scope": "Describes protection-diode behavior for negative output peaks; the standard-TTL plotted example is SN7400, not SN7406."
+    }
+  ],
+  "familyContext": {
+    "family": "SN74",
+    "biasV": 2.5,
+    "typicalInputPf": 3,
+    "typicalLowDriveOpenCollectorOutputPf": 5,
+    "deviceSpecific": false,
+    "acceptanceBounds": false
+  },
+  "interpretation": "These sources support investigating output recovery and pin loading, but do not identify the SN7406 junction parameters or authorize importing a bus-driver clamp. A converged negative excursion is not independently validated device behavior.",
+  "nextAction": "Isolate the retained negative-output excursion; examine internal transistor charge and collector-base current, then test only independently supported output-recovery or package-loading hypotheses. Preserve the existing candidate as the control."
+}

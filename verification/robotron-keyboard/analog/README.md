@@ -415,6 +415,13 @@ intent DAC channels and connects the candidate directly to both physical inputs.
 `live_transition_probe.py --network-trace --physical-driver-trace` observes these
 inputs and driver currents. This path remains diagnostic until device admission
 and absolute-time board refinement pass; CPU drivers remain endpoint fixtures.
+The [complete live refinement](reports/7406-dynamic/live/assessment.json) preserves
+reference firmware reads and reduces serial-voltage disagreement to millivolt
+scale. The output undershoot persists under refinement; its
+[operating-region review](reports/7406-dynamic/operating-region-review.json)
+separates relevant manufacturer guidance from device-specific evidence.
+[Direct-driver traffic fixtures](reports/7406-dynamic/traffic/assessment.json)
+are prepared and C-checked, but have not passed electrical admission.
 
 The optional [evaluator cache](engine-patches/eval-cache.patch) reuses shared pure
 subexpressions only within one value/gradient evaluation. It defaults off;
