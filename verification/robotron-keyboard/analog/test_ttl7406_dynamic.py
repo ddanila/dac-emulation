@@ -3,12 +3,14 @@
 import hashlib
 import copy
 import json
+import lzma
 from pathlib import Path
 import tarfile
 import unittest
 
 from circuit import load
 from network_trace import observe_network, PHYSICAL_SIGNALS
+from network_refinement_review import events, artifact
 from prepare_dynamic_driver import transform, checked_candidate
 from ttl7406_dynamic import model
 from ttl7406_output_probe import driver_circuit
@@ -117,6 +119,29 @@ class DynamicDriverTests(unittest.TestCase):
         with tarfile.open(root/'prepared.tar.gz') as archive:
             for name,digest in receipt['preparedInputs'].items():
                 self.assertEqual(hashlib.sha256(archive.extractfile(name).read()).hexdigest(),digest,name)
+
+    def test_complete_live_refinement_and_firmware(self):
+        root=HERE/'reports/7406-dynamic/live'
+        report=json.loads((root/'assessment.json').read_text())
+        self.assertTrue(report['completed'])
+        self.assertTrue(report['firmwareMatchesIdealDriverReference'])
+        self.assertTrue(report['firmwareLatchesMatch'])
+        self.assertFalse(report['qualified'])
+        self.assertFalse(report['boardAdmission'])
+        self.assertFalse(report['representativeTrafficExecuted'])
+        reference=events(lzma.decompress((HERE/'reports/boundary-refinement/network-adc25/ngspice.log.xz').read_bytes()).decode())
+        for directory in ('25','12.5','6.25'):
+            observed=events(lzma.decompress((root/directory/'ngspice.log.xz').read_bytes()).decode())
+            self.assertEqual(observed['samples'],reference['samples'])
+            self.assertTrue(observed['latchesMatch'])
+        for pair,paths in zip(report['refinement']['pairs'],[('25','12.5'),('12.5','6.25')]):
+            self.assertEqual(set(pair['signals']),set(PHYSICAL_SIGNALS))
+            self.assertAlmostEqual(pair['endSeconds'],.00116,places=17)
+            for label,path in zip(('coarse','fine'),paths):
+                for name,digest in pair['artifacts'][label].items():
+                    self.assertEqual(hashlib.sha256(artifact(root/path,name).read_bytes()).hexdigest(),digest,name)
+        for name,digest in report['sources'].items():
+            self.assertEqual(hashlib.sha256((HERE/name).read_bytes()).hexdigest(),digest,name)
 
 
 if __name__=='__main__':

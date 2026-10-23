@@ -7,8 +7,26 @@ from pathlib import Path
 from gate_switching_probe import sha
 from network_refinement_review import artifact, events, text_file
 from network_refinement_series import series
+from network_trace import PHYSICAL_SIGNALS
+from host_waveform_comparison import rows
 
 HERE=Path(__file__).resolve().parent
+
+
+def ranges(path):
+    receipt=json.loads((path/'run.json').read_text())
+    limits={n:{'minimum':float('inf'),'maximum':-float('inf')} for n in PHYSICAL_SIGNALS}
+    for row in rows(path/'network_witness.txt',PHYSICAL_SIGNALS,receipt['stepNs']):
+        if row[0]<.001:
+            continue
+        for name,value in zip(PHYSICAL_SIGNALS,row[1:]):
+            result=limits[name]
+            if value<result['minimum']:
+                result['minimum']=value;result['minimumTimeSeconds']=row[0]
+            if value>result['maximum']:
+                result['maximum']=value;result['maximumTimeSeconds']=row[0]
+    return {'startSeconds':.001,'endSeconds':.00116,'signals':limits,
+            'boundary':'Sampled post-reset range, not a static-limit waiver or proof of intersample extrema.'}
 
 
 def review(paths, baseline, device_report, validation_report):
@@ -29,6 +47,7 @@ def review(paths, baseline, device_report, validation_report):
         deviceScreensPass=device['cases'][0]['selectedScreensPass'] and validation['allScreensPass'],
         firmwareMatchesIdealDriverReference=all(e['samples']==reference['samples'] for e in live),
         firmwareLatchesMatch=all(e['latchesMatch'] for e in live),
+        sampledPostResetRanges=[ranges(p) for p in paths],
         refinement=result,
         sources={p.name:sha(p) for p in (Path(__file__),HERE/'network_refinement_series.py',HERE/'network_refinement_review.py',HERE/'network_trace.py')},
         evidence={'deviceReportSha256':sha(device_report),'validationReportSha256':sha(validation_report),

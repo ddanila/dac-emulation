@@ -1,0 +1,12 @@
+{
+  "originalWallClockLimitSeconds": 2400,
+  "additionalSupervisionLimitSeconds": 1800,
+  "parentPid": 16183,
+  "simulatorPid": 16187,
+  "parentCommand": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python verification/robotron-keyboard/analog/live_transition_probe.py --prepared build/keyboard-controller-analog/7406-direct-prepared --spinit /tmp/k7658-adc-crossing-models-v2/spinit --ngspice /tmp/k7658-passive-cap-runtime --out build/keyboard-controller-analog/7406-live-6.25 --mpfr-transition 256 --mpfr-start-ns 0 --fixture-crossings-ps .25 --conservative-cap --passive-assembly --network-trace --physical-driver-trace --adc-crossings --step-ns 6.25 --tolerance-scale .25 --stop-ns 1160000 --timeout 2400",
+  "startedUtc": "2026-10-23T16:14:43.808257+00:00",
+  "mechanism": "Suspend only the Python timeout waiter; ngspice continues uninterrupted. Resume the waiter after child exit so it collects the original exit status and writes its unchanged receipt. No circuit, input, simulator or numerical setting changes.",
+  "simulatorExited": true,
+  "waiterResumedUtc": "2026-10-23T16:31:00.796655+00:00",
+  "supervisionElapsedSeconds": 976.987707333
+}
