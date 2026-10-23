@@ -27,6 +27,18 @@ def assess(root):
     control_preserved=internal['networkByteIdenticalToControl'] and internal['firmwareMatchesControl']
     return dict(completed=True,qualified=False,boardAdmission=False,
         sourceSha256=sha(Path(__file__)),evidence={key:sha(path) for key,path in paths.items()},
+        evidenceTiers=dict(
+            published=dict(established='Selected datasheet screens and reproducible reference-model behavior.',
+                limitation='Fitted junction parameters, filter impedance and CPU I/V remain assumptions, not published device curves.'),
+            bench=dict(required=[
+                'Measure equivalent driver recovery, reverse current and loaded waveform under the modeled slow-input and filter conditions.',
+                'Measure equivalent CPU/bus driver I/V and transitions over the modeled supply and loading range.',
+                'Characterize the reference filter, cable and host impedance.'],
+                decision='Whether the electrical uncertainty changes host receiver decisions or CPU/bus timing.'),
+            specimen=dict(required='Installed identity, actual cable/filter parameters and timing for a specimen claim.',
+                blocksFunctionalReference=False)),
+        diagnosticScope='Replay initialization failure and internal-current residual are retained research diagnostics; they do not independently block a functional reference release. Their relevance to electrical acceptance depends on terminal and receiver margins.',
+        clockGate='Oscillator and CPU clock admission remain separate prerequisites; this investigation does not establish them.',
         unchangedLiveControl=control_preserved,
         internalCurrentBalanceScreen=internal['currentBalanceScreen'],
         inputLevelsPassSampledCpuCases=all(r['levelsPass'] for r in cpu['runs']),

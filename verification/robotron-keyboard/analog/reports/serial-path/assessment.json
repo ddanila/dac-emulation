@@ -2,7 +2,7 @@
   "completed": true,
   "qualified": false,
   "boardAdmission": false,
-  "sourceSha256": "4edb428f33091861aac4a451efb485fc028fbc261033d9f0dfafa06f8651a662",
+  "sourceSha256": "452fd0ade1ffaf510120f1b8efd2ecc1b2af35e92771d721e2c042f6a68d5950",
   "evidence": {
     "cpu": "767f2e2faf7469fbec281a6fde457695902c3bc084a5f5d145b0a90de440f582",
     "recovery": "1cf2c6723b773c5a05054e015289d269016a402ce24880303f62779de79dddbd",
@@ -12,6 +12,26 @@
     "independentDeviceScope": "f305439eda831690357ba7e7bb7b17a42c608dbb94dc9e80a4e0e530896a5684",
     "device": "0222d732856dd4fd2fb8aee52cdf8790ba1471cb596c16bff27a72c951ce5f99"
   },
+  "evidenceTiers": {
+    "published": {
+      "established": "Selected datasheet screens and reproducible reference-model behavior.",
+      "limitation": "Fitted junction parameters, filter impedance and CPU I/V remain assumptions, not published device curves."
+    },
+    "bench": {
+      "required": [
+        "Measure equivalent driver recovery, reverse current and loaded waveform under the modeled slow-input and filter conditions.",
+        "Measure equivalent CPU/bus driver I/V and transitions over the modeled supply and loading range.",
+        "Characterize the reference filter, cable and host impedance."
+      ],
+      "decision": "Whether the electrical uncertainty changes host receiver decisions or CPU/bus timing."
+    },
+    "specimen": {
+      "required": "Installed identity, actual cable/filter parameters and timing for a specimen claim.",
+      "blocksFunctionalReference": false
+    }
+  },
+  "diagnosticScope": "Replay initialization failure and internal-current residual are retained research diagnostics; they do not independently block a functional reference release. Their relevance to electrical acceptance depends on terminal and receiver margins.",
+  "clockGate": "Oscillator and CPU clock admission remain separate prerequisites; this investigation does not establish them.",
   "unchangedLiveControl": true,
   "internalCurrentBalanceScreen": {
     "budgetA": 1e-06,

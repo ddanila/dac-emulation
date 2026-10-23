@@ -108,6 +108,8 @@ class SerialPathTests(unittest.TestCase):
         self.assertFalse(report['representativeTraffic']['electricalExecuted'])
         self.assertFalse(report['representativeTraffic']['admissionPassed'])
         self.assertTrue(report['physicalEvidenceGaps'])
+        self.assertEqual(set(report['evidenceTiers']),{'published','bench','specimen'})
+        self.assertFalse(report['evidenceTiers']['specimen']['blocksFunctionalReference'])
 
 
 if __name__=='__main__':unittest.main()
