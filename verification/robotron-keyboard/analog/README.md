@@ -478,3 +478,17 @@ later paired phase check failed. Never compact an active capture. Partial or
 failed runs must retain their evidence; storage changes cannot turn them into
 passes. Validator timeouts can be extended independently of electrical budgets
 when decompression or review takes longer.
+
+## Reference CPU clock acceptance
+
+`clock_acceptance.py --out BUILD --retain REPORTS` screens startup from zero
+with the reference oscillator wiring and closed BR1 against the published U880
+levels and valid-level timing. The [retained screen](reports/clock-acceptance/assessment.json)
+keeps supply/load assumptions, model identities, source hashes and complete
+lossless captures. Replay their acceptance checks with
+`python3 verification/robotron-keyboard/analog/verify_clock_acceptance.py verification/robotron-keyboard/analog/reports/clock-acceptance`.
+It is an isolated oscillator screen, not closed-board or
+independent device qualification. The reference behavioral models fail; raising
+the high level alone does not repair pulse width or slew. Loose intended-family
+gate measurements around the switching region and under the reference pullup
+are needed before admitting a replacement model.

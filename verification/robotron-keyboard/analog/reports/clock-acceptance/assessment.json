@@ -1,0 +1,4369 @@
+{
+  "completed": true,
+  "qualified": false,
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "engineSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "evidenceTier": "published-constrained simulation",
+  "scope": "Isolated reference oscillator with closed BR1, ideal 10 ns supply ramp, 25 C and explicit CPU capacitance. Whole startup waveform retained. No closed-board or device-admission claim.",
+  "identities": {
+    "primary": "\u041a555\u041b\u04103",
+    "comparison": "D100D",
+    "reference": "DL000"
+  },
+  "sources": {
+    "clock_acceptance.py": "4d2650a0f841944d2f21d0282eac0a729585ddc0c3f9af044ad8814f18e8863a",
+    "oscillator_probe.py": "7d438cc4bb4b0e99bfa5438dcbdf3ce76a093198dc686f18bd80b97571fc03ee",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "clock_voltage.py": "dd101a34b699a8f0a772c9a4cce0d16edcfc62a49e43e4865dceaf3c153b4e79",
+    "clock_timing.py": "aaaf826305171e953a49302c0b0fb442ce7966c7e46789032c4a9fa620c4c6ed",
+    "clock_convergence.py": "e4a300be990cb1a717d41254a5d5386bfe89daba8b71e8772f0021f0a36db3f9",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "gate_models.py": "123ef0299bf1e81f3b3b0ba6b26f20e663e2737d55047edb56979ddc852b2e37",
+    "cpu_clock_limits.json": "2c9bcde027d0aa4e756e46bfa95c9da7daae6dec70631b9b8d2586d61f6400b1"
+  },
+  "cases": [
+    {
+      "id": "nominal-10p-4.75V-1ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 1,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 20867,
+        "validSupplySamples": 20843,
+        "belowSupplySamples": 24,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.028128269423591312,
+        "bestHighMarginVolts": -1.1525401771662103,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 58,
+          "assessedWithinSupplyRange": 57,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 57,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 2.996388992323572e-07,
+            "endSeconds": 6.409192408778565e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 20867,
+        "validSupplySamples": 20843,
+        "abortedExcursions": 58,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 58,
+            "passed": 0,
+            "failed": 58,
+            "indeterminate": 0,
+            "minimumLowerNs": 165.57222764849482,
+            "maximumUpperNs": 167.367758430056,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                1.2979183116659084e-07,
+                1.3079183116659089e-07
+              ],
+              "endBracketSeconds": [
+                2.9687469555203003e-07,
+                2.971391946854478e-07
+              ],
+              "durationLowerNs": 166.08286438543914,
+              "durationUpperNs": 167.34736351885698
+            }
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "c899d431812d1044aab68140dcce47597d055b9e11152f9c867e0460febc8aba",
+        "clock.txt": "999f4b260166d5bf2149cf648878dcf883a67145e1640a9f32fd2568bdfdbfc5",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "3fca1e9d69103633d4a090632b30d6dfd888cbeda1890b1ff519e95f5aecef02",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "07aaf27fbed418c7f694f9ba627e596df204028b932094cca7a33a19f746fb8d"
+      }
+    },
+    {
+      "id": "nominal-10p-4.75V-0.5ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 0.5,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40172,
+        "validSupplySamples": 40141,
+        "belowSupplySamples": 31,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.028128269420776286,
+        "bestHighMarginVolts": -1.1525401771683361,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 58,
+          "assessedWithinSupplyRange": 57,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 57,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.002704508462662e-07,
+            "endSeconds": 6.41003388736187e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40172,
+        "validSupplySamples": 40141,
+        "abortedExcursions": 58,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 58,
+            "passed": 0,
+            "failed": 58,
+            "indeterminate": 0,
+            "minimumLowerNs": 165.99999999979818,
+            "maximumUpperNs": 167.48604654340687,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                1.3031969041938373e-07,
+                1.308196904193838e-07
+              ],
+              "endBracketSeconds": [
+                2.971744120234651e-07,
+                2.974499081998865e-07
+              ],
+              "durationLowerNs": 166.35472160408133,
+              "durationUpperNs": 167.13021778050276
+            }
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "00e08ac7621a497820d134d844087fcfe16a1cdbda4b24ed396c43ceacc48c09",
+        "clock.txt": "f805e4dd0653412d235a73267cbb75fbbaf8b6c48fda31146ec66ca8969b6889",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "699871f639af977f2f04579ebec387468ee562e81ba22992f7be2ac4b989b284",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "b49dc08ac7e3e1abc1641cd34e2de0ea133e1d0f08bb00e134378c3457065d96"
+      }
+    },
+    {
+      "id": "nominal-10p-5V-1ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5,
+      "maximumStepNs": 1,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 20866,
+        "validSupplySamples": 20842,
+        "belowSupplySamples": 24,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.634225122027485e-09,
+        "bestLowMarginVolts": 0.0059244941300793386,
+        "bestHighMarginVolts": -1.2237265022797832,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 58,
+          "assessedWithinSupplyRange": 57,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 57,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.0166521219250404e-07,
+            "endSeconds": 6.450801651487683e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 20866,
+        "validSupplySamples": 20842,
+        "abortedExcursions": 57,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 58,
+            "passed": 0,
+            "failed": 58,
+            "indeterminate": 0,
+            "minimumLowerNs": 162.77240417941746,
+            "maximumUpperNs": 164.65321883905963,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                1.3377752062444225e-07,
+                1.347775206244423e-07
+              ],
+              "endBracketSeconds": [
+                2.980945786245237e-07,
+                2.9838391036743966e-07
+              ],
+              "durationLowerNs": 163.31705800008143,
+              "durationUpperNs": 164.6063897429974
+            }
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "a841aaf54bf842a493f8b95fd1562e5fe66d9f0ba605d1f6a1887e253a7792c7",
+        "clock.txt": "74f109bb22612203d0ca7b9d47a8bf8e2886f2870672fb6d1376361e306ea049",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "3aa3f083e0b0ea88e1e7b3efa9b7a6beba4e5603cefa8b80b62fbbd2a067ed38",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "79dd0153ddeb30551394de72dc2873cbecb2f9a0b546bf5aa704f9219754a439"
+      }
+    },
+    {
+      "id": "nominal-10p-5V-0.5ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5,
+      "maximumStepNs": 0.5,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40162,
+        "validSupplySamples": 40132,
+        "belowSupplySamples": 30,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.685139097521727e-09,
+        "bestLowMarginVolts": 0.005924494127133306,
+        "bestHighMarginVolts": -1.2237265022805501,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 58,
+          "assessedWithinSupplyRange": 57,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 57,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.01963413025193e-07,
+            "endSeconds": 6.456904319893649e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40162,
+        "validSupplySamples": 40132,
+        "abortedExcursions": 57,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 58,
+            "passed": 0,
+            "failed": 58,
+            "indeterminate": 0,
+            "minimumLowerNs": 163.49999999980116,
+            "maximumUpperNs": 164.50000000036746,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                1.3422653702593548e-07,
+                1.3472653702593554e-07
+              ],
+              "endBracketSeconds": [
+                2.982265370259359e-07,
+                2.98726537025936e-07
+              ],
+              "durationLowerNs": 163.50000000000037,
+              "durationUpperNs": 164.50000000000054
+            }
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "812841e9e237ef0ca09ccb19bcc0b73953be9dcbaf0d5bc4e2b78a26404f18d4",
+        "clock.txt": "194e354139f03ba4db21e42523d17fe2380cabb9ed95ad6d9a4df518981405fb",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "e6148cff5e5a1acb6d324c43a765cfa188629f8c4ef893088cf7699a275c403e",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "ed79289d96d8802728f60dcde66f240ff6ee5cf3d506f7b132eca3e60a632e9d"
+      }
+    },
+    {
+      "id": "nominal-10p-5.25V-1ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 1,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 20846,
+        "validSupplySamples": 20823,
+        "belowSupplySamples": 23,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": false,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.063761866989264e-09,
+        "bestLowMarginVolts": -0.016279281162775272,
+        "bestHighMarginVolts": -1.2949128273953407,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 57,
+          "assessedWithinSupplyRange": 56,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 56,
+          "missingHighExcursion": 56,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.038907372787982e-07,
+            "endSeconds": 6.495623601963086e-07,
+            "lowExcursionObserved": false,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 20846,
+        "validSupplySamples": 20823,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "f2c0e5a7f6dfb6b586238448c2ebbc94ff18cece41aa88091d5fe8857d96a73b",
+        "clock.txt": "758e966e49c23c34b92ff685ca8863eb53fb9e13433378227975700bc17ac8a4",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "9f2ebc3bb362c8abb52437cd294a59e3ff58c010bc65b3e9279d24cf91b1e8f4",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "3bd9981b4393f659f2bb193f359ac272c890306d5677ce115340011d225be5e6"
+      }
+    },
+    {
+      "id": "nominal-10p-5.25V-0.5ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 0.5,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40140,
+        "validSupplySamples": 40111,
+        "belowSupplySamples": 29,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": false,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.300159654741026e-09,
+        "bestLowMarginVolts": -0.016279281165577975,
+        "bestHighMarginVolts": -1.2949128273973316,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 57,
+          "assessedWithinSupplyRange": 56,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 56,
+          "missingHighExcursion": 56,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.0379256780400223e-07,
+            "endSeconds": 6.502013723908228e-07,
+            "lowExcursionObserved": false,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40140,
+        "validSupplySamples": 40111,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "47e20b2ed93ff33b69b983df0567cfce8d9b9b12a6fd99ea6db41fbe3eedafeb",
+        "clock.txt": "b2c8e282e8972b8272f7e42b15df9b30c306f7024a224f2379b6dd85cacf4e51",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "9c97d26f3da071ed6f9ddda5800bfe0b2ad9326d78d602e5ba1b9bd55e254aa3",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "21ec8d9021786145894120e87ef5afd0f42785f8163bf94c8916f5315686d9c5"
+      }
+    },
+    {
+      "id": "nominal-50p-4.75V-1ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 1,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 20868,
+        "validSupplySamples": 20843,
+        "belowSupplySamples": 25,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.028128269422970642,
+        "bestHighMarginVolts": -1.1525401771740529,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 58,
+          "assessedWithinSupplyRange": 57,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 57,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.0145536662373137e-07,
+            "endSeconds": 6.41908802108584e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 20868,
+        "validSupplySamples": 20843,
+        "abortedExcursions": 58,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 58,
+            "passed": 0,
+            "failed": 58,
+            "indeterminate": 0,
+            "minimumLowerNs": 164.7551109667969,
+            "maximumUpperNs": 166.34770672247387,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                1.3106145024536004e-07,
+                1.3206145024536009e-07
+              ],
+              "endBracketSeconds": [
+                2.9709010488679863e-07,
+                2.974091569678339e-07
+              ],
+              "durationLowerNs": 165.02865464143855,
+              "durationUpperNs": 166.34770672247387
+            }
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "6c70082338052677757d493ca9d5b468fb8fab3e2a491c281bdcbc0af8da4e4c",
+        "clock.txt": "38816529be8a70cf44977f0173e8070fd7a293c5766ae7ef4caa47dff375c4c4",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "ab62e7beef7af64d888e18071a765655380bb86649cf75ed9908e10ecd1a8ccf",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "d7a08ea0b7e3162df424f5ac29cef02900bc2a57675b47ab3fb416f4dc1066b3"
+      }
+    },
+    {
+      "id": "nominal-50p-4.75V-0.5ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 0.5,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40170,
+        "validSupplySamples": 40139,
+        "belowSupplySamples": 31,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.02812826942315111,
+        "bestHighMarginVolts": -1.1525401771753478,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 58,
+          "assessedWithinSupplyRange": 57,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 57,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.0127399009856967e-07,
+            "endSeconds": 6.421718290124643e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40170,
+        "validSupplySamples": 40139,
+        "abortedExcursions": 58,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 58,
+            "passed": 0,
+            "failed": 58,
+            "indeterminate": 0,
+            "minimumLowerNs": 165.0915627245918,
+            "maximumUpperNs": 166.43385026073832,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                1.3182364762041092e-07,
+                1.3232364762041098e-07
+              ],
+              "endBracketSeconds": [
+                2.974500761092683e-07,
+                2.977610363939471e-07
+              ],
+              "durationLowerNs": 165.1264284888573,
+              "durationUpperNs": 165.9373887735362
+            }
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "5a3f6c3d9eea35f55049711e9e04d0a5d5a0d93ff9390815f745feba37410c75",
+        "clock.txt": "54ba5c005b18cec295dff1bb011f1fabb64afb232cf2ba780674a10357d10203",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "a887f2edff49c372b80ea1838eb276d4aa1d4cce2a2c4639403fb0011f46effe",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "cad1e3a5adcbff2b1321f52f30e3d483448f25878fd459594875499d17cef446"
+      }
+    },
+    {
+      "id": "nominal-50p-5V-1ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5,
+      "maximumStepNs": 1,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 20845,
+        "validSupplySamples": 20821,
+        "belowSupplySamples": 24,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.598199903379437e-09,
+        "bestLowMarginVolts": 0.005924494129742941,
+        "bestHighMarginVolts": -1.2237265022884327,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 58,
+          "assessedWithinSupplyRange": 57,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 57,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.029546347116513e-07,
+            "endSeconds": 6.459083299098012e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 20845,
+        "validSupplySamples": 20821,
+        "abortedExcursions": 57,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 58,
+            "passed": 0,
+            "failed": 58,
+            "indeterminate": 0,
+            "minimumLowerNs": 161.5350422634856,
+            "maximumUpperNs": 163.79629010539114,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                1.3539550278542157e-07,
+                1.3639550278542162e-07
+              ],
+              "endBracketSeconds": [
+                2.979799888466813e-07,
+                2.9825749560034317e-07
+              ],
+              "durationLowerNs": 161.5844860612597,
+              "durationUpperNs": 162.8619928149216
+            }
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "1a19747452af959d3a770ede3b6f525e01fefbc9305172011fb5b7937638ea13",
+        "clock.txt": "3dcaa971db179bb037ba0f15bf8d87df0f13b693d5b451b4daa211f4f83687a9",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "8d3c8fa6a7c5183f11d89009d2f7bae6bf4ea8dd0f8f8a73f905a8479c00ab83",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "92c81e4bd17efb84f2fa58f3cd80a3c2d0b062957ac1ed253f0476728c04b51c"
+      }
+    },
+    {
+      "id": "nominal-50p-5V-0.5ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5,
+      "maximumStepNs": 0.5,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40162,
+        "validSupplySamples": 40132,
+        "belowSupplySamples": 30,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.572785165666001e-09,
+        "bestLowMarginVolts": 0.005924494129633917,
+        "bestHighMarginVolts": -1.2237265022944488,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 58,
+          "assessedWithinSupplyRange": 57,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 57,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.030183490373567e-07,
+            "endSeconds": 6.467518459657322e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40162,
+        "validSupplySamples": 40132,
+        "abortedExcursions": 57,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 58,
+            "passed": 0,
+            "failed": 58,
+            "indeterminate": 0,
+            "minimumLowerNs": 162.44040770795868,
+            "maximumUpperNs": 163.32862181425122,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                1.357367896860875e-07,
+                1.3623678968608756e-07
+              ],
+              "endBracketSeconds": [
+                2.987367896860879e-07,
+                2.99061146214911e-07
+              ],
+              "durationLowerNs": 162.5000000000003,
+              "durationUpperNs": 163.3243565288235
+            }
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "1f158654be23168b6040aabdd9ce2722b148e1164ae662980563f4bbfb69776d",
+        "clock.txt": "dfaf17a87928cba3d8db14287ec27b46c8aa89758dfa820871bf3c97b6c0c85f",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "8d7dd5dd737dd894eac279bef603e7225d392b9122b93662b4430f38e161ac15",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "73fd19fb20404a9b3b8f97013105995daae15c597a677d1ca55162ffc6d0cbc1"
+      }
+    },
+    {
+      "id": "nominal-50p-5.25V-1ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 1,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 20856,
+        "validSupplySamples": 20833,
+        "belowSupplySamples": 23,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": false,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.107231142668202e-09,
+        "bestLowMarginVolts": -0.01627928116366495,
+        "bestHighMarginVolts": -1.2949128274021953,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 57,
+          "assessedWithinSupplyRange": 57,
+          "excludedForSupply": 0,
+          "missingLowExcursion": 57,
+          "missingHighExcursion": 57,
+          "firstFailure": {
+            "cycleOrdinal": 0,
+            "startSeconds": 9.107231142668202e-09,
+            "endSeconds": 3.0506069446632614e-07,
+            "lowExcursionObserved": false,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 20856,
+        "validSupplySamples": 20833,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "4622a8172a3e65089a9768d4725ff3421bbd594a177bc119c0cfd1ee7cd93cc3",
+        "clock.txt": "6a005114e38f71b38b891b015fc2d971f8310d73f95cfdab8b684eea8a98e055",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "ddd6477be347435c60b7dfe41c10fc44b40d0ea896f853bf4bfbad074aefafe9",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "6024bbfedf7b4f4a2c63d87f3f1a8ffe512cfca8b1876efb4e605f769e4078ca"
+      }
+    },
+    {
+      "id": "nominal-50p-5.25V-0.5ns",
+      "profile": "nominal",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 0.5,
+      "modelSha256": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40140,
+        "validSupplySamples": 40111,
+        "belowSupplySamples": 29,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": false,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.117237466323402e-09,
+        "bestLowMarginVolts": -0.016279281163884662,
+        "bestHighMarginVolts": -1.294912827409279,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 57,
+          "assessedWithinSupplyRange": 57,
+          "excludedForSupply": 0,
+          "missingLowExcursion": 57,
+          "missingHighExcursion": 57,
+          "firstFailure": {
+            "cycleOrdinal": 0,
+            "startSeconds": 9.117237466323402e-09,
+            "endSeconds": 3.05071405512315e-07,
+            "lowExcursionObserved": false,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40140,
+        "validSupplySamples": 40111,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "98f0fe9c2bb13f7796c7e754633747d25d42d45117495d0fd39e3d1f7e9a1074",
+        "clock.txt": "ba7d2dab6547201fdcdf06fb85cb991b468ae38c4c87b37b6c59ee29a6e407c7",
+        "model.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
+        "ngspice.log": "e2d7f63b2f4e7108e547c4340b89e09d4817381724fedc6b7fa7473e52d49443",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "c27eff5703bd0af73dc01a9329101e67bec4e162d198f6ba3c3440528ee53e57"
+      }
+    },
+    {
+      "id": "dl000-dc-10p-4.75V-1ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 1,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21061,
+        "validSupplySamples": 21037,
+        "belowSupplySamples": 24,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.028128269418916718,
+        "bestHighMarginVolts": -1.108194734693392,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 53,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.218879011768823e-07,
+            "endSeconds": 6.878950729178824e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21061,
+        "validSupplySamples": 21037,
+        "abortedExcursions": 54,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 183.21595273946957,
+            "maximumUpperNs": 184.6630093323938,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "c899d431812d1044aab68140dcce47597d055b9e11152f9c867e0460febc8aba",
+        "clock.txt": "22d3c076574f30919ad70bf94eaaafd993cb6f1ee4878012d689b05c906bd8a0",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "619348b304f27805f1ad7ba48be33e0431b1a714738a38c230340c41d6623cb1",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "0258835257860025aab0aad80f587451d4b05f2e74a6c261ba1433b9df282aa8"
+      }
+    },
+    {
+      "id": "dl000-dc-10p-4.75V-0.5ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 0.5,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40342,
+        "validSupplySamples": 40311,
+        "belowSupplySamples": 31,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.028128269416298313,
+        "bestHighMarginVolts": -1.1081947346919918,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 53,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.220835404096111e-07,
+            "endSeconds": 6.886214390027116e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40342,
+        "validSupplySamples": 40311,
+        "abortedExcursions": 54,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 183.57364560382928,
+            "maximumUpperNs": 184.50207947589024,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "00e08ac7621a497820d134d844087fcfe16a1cdbda4b24ed396c43ceacc48c09",
+        "clock.txt": "8b3e100431f8047fd84f95a53285404c11c2a89909e31c7802c7d98e1ddb6c48",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "ccc1362d3e5e8623ad141c5fd4b5e2068d8cea03c1acb793f0d70fb6ab7f8ecb",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "b1368270d3dc5d7e54460ca97f0577294ec1689582c07c3619eb1ad01612d82d"
+      }
+    },
+    {
+      "id": "dl000-dc-10p-5V-1ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5,
+      "maximumStepNs": 1,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21091,
+        "validSupplySamples": 21067,
+        "belowSupplySamples": 24,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.897546058401915e-09,
+        "bestLowMarginVolts": 0.005924494125119917,
+        "bestHighMarginVolts": -1.1770470891510967,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 53,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.2302852837089456e-07,
+            "endSeconds": 6.918693175393849e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21091,
+        "validSupplySamples": 21067,
+        "abortedExcursions": 53,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 180.23448381746073,
+            "maximumUpperNs": 182.19802719524222,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "a841aaf54bf842a493f8b95fd1562e5fe66d9f0ba605d1f6a1887e253a7792c7",
+        "clock.txt": "03b29ef9ed44a63b0eea016102c5c54943aabdf3c9ea1ace81eada05cfbc2371",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "30ec64369023928fc972661bfc55500f66f420e24e2d3743099f08cf566ee7dd",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "c664e2aadfe20574c57ef8cc5313a89230dda1c6f05b2a262a43a3a8115edcbe"
+      }
+    },
+    {
+      "id": "dl000-dc-10p-5V-0.5ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5,
+      "maximumStepNs": 0.5,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40415,
+        "validSupplySamples": 40385,
+        "belowSupplySamples": 30,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.68513909752183e-09,
+        "bestLowMarginVolts": 0.005924494121848867,
+        "bestHighMarginVolts": -1.1770470891499576,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 53,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.2346318334492454e-07,
+            "endSeconds": 6.924441105747621e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40415,
+        "validSupplySamples": 40385,
+        "abortedExcursions": 53,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 181.01711425158243,
+            "maximumUpperNs": 182.16134831416082,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "812841e9e237ef0ca09ccb19bcc0b73953be9dcbaf0d5bc4e2b78a26404f18d4",
+        "clock.txt": "fa5a5a8d010a6bb8b585243018fae6cdb5b0e795ea213e789559127a30d73ea6",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "45e49b449ff49531eaefaaa466d464a2e669900ccd740660161dd39ee8b377d2",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "94702179355a872738f33575bcbf45ad975d5a3e259cd5175214a6c9a795f9b9"
+      }
+    },
+    {
+      "id": "dl000-dc-10p-5.25V-1ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 1,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21199,
+        "validSupplySamples": 21176,
+        "belowSupplySamples": 23,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": false,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.180334863720197e-09,
+        "bestLowMarginVolts": -0.01627928117049504,
+        "bestHighMarginVolts": -1.2458994436110795,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 53,
+          "missingHighExcursion": 53,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.252055316182274e-07,
+            "endSeconds": 6.962690377290495e-07,
+            "lowExcursionObserved": false,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21199,
+        "validSupplySamples": 21176,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "f2c0e5a7f6dfb6b586238448c2ebbc94ff18cece41aa88091d5fe8857d96a73b",
+        "clock.txt": "fbfd6d9221e591b4b045440783940ce0d694549f38dce13a843925f27664ff4d",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "2c3b4783db7cebf1d9140130006cc49bd1c6c3ad05e30d1878cf3f8ad6c68b75",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "f55d9dfd48a9c6f44dc1254694eaef63e942b6d260c56409331633d7c7e364ef"
+      }
+    },
+    {
+      "id": "dl000-dc-10p-5.25V-0.5ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 0.5,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40408,
+        "validSupplySamples": 40379,
+        "belowSupplySamples": 29,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": false,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.329955939026078e-09,
+        "bestLowMarginVolts": -0.01627928117187849,
+        "bestHighMarginVolts": -1.2458994436094115,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 53,
+          "assessedWithinSupplyRange": 52,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 52,
+          "missingHighExcursion": 52,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.2549820247444225e-07,
+            "endSeconds": 6.969322485286705e-07,
+            "lowExcursionObserved": false,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40408,
+        "validSupplySamples": 40379,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "47e20b2ed93ff33b69b983df0567cfce8d9b9b12a6fd99ea6db41fbe3eedafeb",
+        "clock.txt": "7906c64b9ab51b489b7f459488429d88d7491fdb22d200ab2d2789d0b9db9c6e",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "42df031d7ba1b1b19f4e1e88bd2c0fbf5234e6d89651d7765f79f2732dfd6cee",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "43b5f2ff89b6c36bd059bf95d27599ded10f42ef722f80737fe834d1bd295e89"
+      }
+    },
+    {
+      "id": "dl000-dc-50p-4.75V-1ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 1,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21102,
+        "validSupplySamples": 21078,
+        "belowSupplySamples": 24,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.028128269418351726,
+        "bestHighMarginVolts": -1.1081947347012453,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 54,
+          "excludedForSupply": 0,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 54,
+          "firstFailure": {
+            "cycleOrdinal": 0,
+            "startSeconds": 1e-08,
+            "endSeconds": 3.235144921628458e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21102,
+        "validSupplySamples": 21078,
+        "abortedExcursions": 54,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 181.46886849901915,
+            "maximumUpperNs": 183.80696172511176,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "6c70082338052677757d493ca9d5b468fb8fab3e2a491c281bdcbc0af8da4e4c",
+        "clock.txt": "b63ba9a69eb69877070f61e7ea937cda198f85cb9afe984ed8d9137151631de5",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "c55ce229746b436e935aa387f2215229949217336c339e0577a2abb29c8e144f",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "922029cb5bf7a61d2d99f991abb00c1ccebfe5c9289aa3a78613d93c35db5b6a"
+      }
+    },
+    {
+      "id": "dl000-dc-50p-4.75V-0.5ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 0.5,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40342,
+        "validSupplySamples": 40311,
+        "belowSupplySamples": 31,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.028128269418673912,
+        "bestHighMarginVolts": -1.1081947347119838,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 53,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.236480227752072e-07,
+            "endSeconds": 6.901299884177765e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40342,
+        "validSupplySamples": 40311,
+        "abortedExcursions": 54,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 182.4050589918528,
+            "maximumUpperNs": 183.20504087577697,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "5a3f6c3d9eea35f55049711e9e04d0a5d5a0d93ff9390815f745feba37410c75",
+        "clock.txt": "45fe89edadbcda995f7cf851857becd52617128c2a8d28a81ea4329f979b46f3",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "e7774afcec9fa98bff7851b29da744aa71f0927a522a7ad37f6bfe31ea8c1ad1",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "a68407ebc657363eba22d0a542c6a6f85b1bb2774a300370ef24bdf01db06825"
+      }
+    },
+    {
+      "id": "dl000-dc-50p-5V-1ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5,
+      "maximumStepNs": 1,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21169,
+        "validSupplySamples": 21145,
+        "belowSupplySamples": 24,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.640724329393145e-09,
+        "bestLowMarginVolts": 0.0059244941241752835,
+        "bestHighMarginVolts": -1.1770470891620413,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 53,
+          "firstFailure": {
+            "cycleOrdinal": 1,
+            "startSeconds": 3.2464260427371753e-07,
+            "endSeconds": 6.931939341745693e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21169,
+        "validSupplySamples": 21145,
+        "abortedExcursions": 53,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 54,
+            "minimumLowerNs": 179.28505337377396,
+            "maximumUpperNs": 180.62611669624718,
+            "firstNonPass": {
+              "status": "indeterminate",
+              "startBracketSeconds": [
+                1.4009847779261256e-07,
+                1.410984777926126e-07
+              ],
+              "endBracketSeconds": [
+                3.204583653003073e-07,
+                3.2072459448885974e-07
+              ],
+              "durationLowerNs": 179.3598875076947,
+              "durationUpperNs": 180.62611669624718
+            }
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "1a19747452af959d3a770ede3b6f525e01fefbc9305172011fb5b7937638ea13",
+        "clock.txt": "4671a80b743a85981970e67c4216dc52385e125cd74d417bc3135aaa6e482646",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "9413195e2ece2bb48d5395ebd3c1b62fa7eca8c795f792847bbbe641c1622107",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "e48ddb9d46afbae5fb6c4fb24a5d6ac630483fcb02657749a1f14f7e025466f5"
+      }
+    },
+    {
+      "id": "dl000-dc-50p-5V-0.5ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5,
+      "maximumStepNs": 0.5,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40413,
+        "validSupplySamples": 40383,
+        "belowSupplySamples": 30,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.580362009822548e-09,
+        "bestLowMarginVolts": 0.0059244941243487,
+        "bestHighMarginVolts": -1.1770470891723201,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 54,
+          "excludedForSupply": 0,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 54,
+          "firstFailure": {
+            "cycleOrdinal": 0,
+            "startSeconds": 9.580362009822548e-09,
+            "endSeconds": 3.249915461188884e-07,
+            "lowExcursionObserved": true,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40413,
+        "validSupplySamples": 40383,
+        "abortedExcursions": 53,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 54,
+            "passed": 28,
+            "failed": 0,
+            "indeterminate": 26,
+            "minimumLowerNs": 179.80246291208667,
+            "maximumUpperNs": 180.90421802255614,
+            "firstNonPass": {
+              "status": "indeterminate",
+              "startBracketSeconds": [
+                5.095444519343609e-07,
+                5.100444519343612e-07
+              ],
+              "endBracketSeconds": [
+                6.898469148464478e-07,
+                6.901123042770437e-07
+              ],
+              "durationLowerNs": 179.80246291208667,
+              "durationUpperNs": 180.5678523426828
+            }
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "1f158654be23168b6040aabdd9ce2722b148e1164ae662980563f4bbfb69776d",
+        "clock.txt": "f7f350f7f331fd3b60613b69b59dc829701e6eb36c9c753e35140c8362ac6794",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "865c058e8846f57bc16f1a48f011c8059cb05e62b1e50a1cd528ef611e06d7d9",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "286dfe187ca0235a50c37074d7f149575d34c7b07fbeda1674820253b9314ddd"
+      }
+    },
+    {
+      "id": "dl000-dc-50p-5.25V-1ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 1,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21197,
+        "validSupplySamples": 21174,
+        "belowSupplySamples": 23,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": false,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.185700087656019e-09,
+        "bestLowMarginVolts": -0.01627928117128924,
+        "bestHighMarginVolts": -1.2458994436228403,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 54,
+          "excludedForSupply": 0,
+          "missingLowExcursion": 54,
+          "missingHighExcursion": 54,
+          "firstFailure": {
+            "cycleOrdinal": 0,
+            "startSeconds": 9.185700087656019e-09,
+            "endSeconds": 3.266822016030554e-07,
+            "lowExcursionObserved": false,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21197,
+        "validSupplySamples": 21174,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "4622a8172a3e65089a9768d4725ff3421bbd594a177bc119c0cfd1ee7cd93cc3",
+        "clock.txt": "22690dd2f676ef002392611c40b68cd72117b0c1b90212aea491d88eedf06519",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "c5e119f717002e3010bbc9af94d44cf8e59b50e98dfd3e3b8bc44e311febfc37",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "9b76bf7c9e80ff79154bcf2d802dc4f22a6deb17084a92a50e6cdfcbe8d0c02b"
+      }
+    },
+    {
+      "id": "dl000-dc-50p-5.25V-0.5ns",
+      "profile": "dl000-dc",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 0.5,
+      "modelSha256": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40409,
+        "validSupplySamples": 40380,
+        "belowSupplySamples": 29,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": false,
+        "highExcursionObserved": false,
+        "firstValidSupplySeconds": 9.119431658129569e-09,
+        "bestLowMarginVolts": -0.016279281171232896,
+        "bestHighMarginVolts": -1.2458994436323318,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 53,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 0,
+          "missingLowExcursion": 53,
+          "missingHighExcursion": 53,
+          "firstFailure": {
+            "cycleOrdinal": 0,
+            "startSeconds": 9.119431658129569e-09,
+            "endSeconds": 3.270402880075396e-07,
+            "lowExcursionObserved": false,
+            "highExcursionObserved": false
+          },
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": false
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40409,
+        "validSupplySamples": 40380,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "low": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "fall": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 0,
+            "passed": 0,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": null,
+            "maximumUpperNs": null,
+            "firstNonPass": null
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "98f0fe9c2bb13f7796c7e754633747d25d42d45117495d0fd39e3d1f7e9a1074",
+        "clock.txt": "0a38c539504d3d7b4841029bbf4ab5c7a95273e2404239f4dc48cdee12962050",
+        "model.cir": "24a5e1b59237759e24bc1fa691a992caeab1102b7590dff6d9150f1aae59fcd8",
+        "ngspice.log": "9d5335f24e367b4e2963f1492d033a5cf28ad816e04f3c2bf8a88d0dc3baeae3",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "0d26b51547d08de80cd149c36382d262773a98d91518b7c5cd12f5c2abff3788"
+      }
+    },
+    {
+      "id": "dl000-pullup-10p-4.75V-1ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 1,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21716,
+        "validSupplySamples": 21686,
+        "belowSupplySamples": 30,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.20846694168718735,
+        "bestHighMarginVolts": 0.19999733722166546,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21716,
+        "validSupplySamples": 21686,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 55,
+            "passed": 0,
+            "failed": 55,
+            "indeterminate": 0,
+            "minimumLowerNs": 77.90471871117327,
+            "maximumUpperNs": 125.597427180245,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.495222804951006e-08,
+                3.595222804951008e-08
+              ],
+              "endBracketSeconds": [
+                1.1385694676068335e-07,
+                1.1452758693206199e-07
+              ],
+              "durationLowerNs": 77.90471871117327,
+              "durationUpperNs": 79.57535888255192
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 190.96402491894213,
+            "maximumUpperNs": 193.39470908802693,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 36.21989560809981,
+            "maximumUpperNs": 38.450045538523305,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.1802761943415345e-07,
+                3.1825664554647437e-07
+              ],
+              "endBracketSeconds": [
+                3.5466841847262423e-07,
+                3.5566841847262436e-07
+              ],
+              "durationLowerNs": 36.411772926149865,
+              "durationUpperNs": 37.64079903847091
+            }
+          },
+          "fall": {
+            "observations": 55,
+            "passed": 55,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 10.55016276408365,
+            "maximumUpperNs": 13.139606125630046,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 318.71619042311414,
+            "maximumUpperNs": 367.2290697509819,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.495222804951006e-08,
+                3.595222804951008e-08
+              ],
+              "endBracketSeconds": [
+                3.5466841847262423e-07,
+                3.5566841847262436e-07
+              ],
+              "durationLowerNs": 318.71619042311414,
+              "durationUpperNs": 320.7161904231143
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "c899d431812d1044aab68140dcce47597d055b9e11152f9c867e0460febc8aba",
+        "clock.txt": "f90c3a68656d70eda65d4d70f066cb00994fa02c6f15b8bc07692fe30289adb0",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "147dd8cac08deedfaeed425a8510eefde6ea3e40856cdab2c7aa6554df17b2d9",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "b55fab645de0ae2bf3d1d515881c2adaf795e23b9e6440574b3e3b992afc37be"
+      }
+    },
+    {
+      "id": "dl000-pullup-10p-4.75V-0.5ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 0.5,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40913,
+        "validSupplySamples": 40879,
+        "belowSupplySamples": 34,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.20846694168549154,
+        "bestHighMarginVolts": 0.19999733737392233,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40913,
+        "validSupplySamples": 40879,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 55,
+            "passed": 0,
+            "failed": 55,
+            "indeterminate": 0,
+            "minimumLowerNs": 78.18323990673005,
+            "maximumUpperNs": 125.1016910312917,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.575e-08,
+                3.625000000000001e-08
+              ],
+              "endBracketSeconds": [
+                1.1443323990673007e-07,
+                1.1493323990673009e-07
+              ],
+              "durationLowerNs": 78.18323990673005,
+              "durationUpperNs": 79.1832399067301
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 192.1026521891178,
+            "maximumUpperNs": 192.90007748278114,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 36.815440938827294,
+            "maximumUpperNs": 37.975359136091484,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.1860661246335626e-07,
+                3.1883336279684653e-07
+              ],
+              "endBracketSeconds": [
+                3.5607207551556915e-07,
+                3.5657207551556924e-07
+              ],
+              "durationLowerNs": 37.23871271872262,
+              "durationUpperNs": 37.96546305221298
+            }
+          },
+          "fall": {
+            "observations": 55,
+            "passed": 55,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 10.95354058248794,
+            "maximumUpperNs": 12.000045407335385,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 319.8220755155691,
+            "maximumUpperNs": 366.26342177594654,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.575e-08,
+                3.625000000000001e-08
+              ],
+              "endBracketSeconds": [
+                3.5607207551556915e-07,
+                3.5657207551556924e-07
+              ],
+              "durationLowerNs": 319.8220755155691,
+              "durationUpperNs": 320.8220755155693
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "00e08ac7621a497820d134d844087fcfe16a1cdbda4b24ed396c43ceacc48c09",
+        "clock.txt": "73e9b1a7077386a8dea2175cbbdbb1c02ab07826d9c0c753ba4c5d527b8dcd51",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "cc0c24cfae46cde42ee662f3511cebfa32d3f2178a9ce156823ff27317b889b6",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "7e1e8d91fd0fa4c42ad765acb448c5a5721fe02807d382ef47b4736ac73b7da9"
+      }
+    },
+    {
+      "id": "dl000-pullup-10p-5V-1ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5,
+      "maximumStepNs": 1,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21766,
+        "validSupplySamples": 21736,
+        "belowSupplySamples": 30,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.19575467545999353,
+        "bestHighMarginVolts": 0.1999971968916494,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21766,
+        "validSupplySamples": 21736,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 55,
+            "passed": 0,
+            "failed": 55,
+            "indeterminate": 0,
+            "minimumLowerNs": 73.66280156193466,
+            "maximumUpperNs": 121.15133705483075,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.495196389195143e-08,
+                3.595196389195144e-08
+              ],
+              "endBracketSeconds": [
+                1.0961476545388611e-07,
+                1.1026619175590936e-07
+              ],
+              "durationLowerNs": 73.66280156193466,
+              "durationUpperNs": 75.31422786395794
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 195.71694820600578,
+            "maximumUpperNs": 197.89860106022547,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 36.683668392752715,
+            "maximumUpperNs": 38.8095474013085,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.190559433022601e-07,
+                3.193041984925484e-07
+              ],
+              "endBracketSeconds": [
+                3.56361781393962e-07,
+                3.5736178139396214e-07
+              ],
+              "durationLowerNs": 37.05758290141363,
+              "durationUpperNs": 38.30583809170203
+            }
+          },
+          "fall": {
+            "observations": 55,
+            "passed": 55,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 11.183326419915597,
+            "maximumUpperNs": 13.970867312388801,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 320.4098175020106,
+            "maximumUpperNs": 368.4591725839552,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.495196389195143e-08,
+                3.595196389195144e-08
+              ],
+              "endBracketSeconds": [
+                3.56361781393962e-07,
+                3.5736178139396214e-07
+              ],
+              "durationLowerNs": 320.4098175020106,
+              "durationUpperNs": 322.4098175020107
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "a841aaf54bf842a493f8b95fd1562e5fe66d9f0ba605d1f6a1887e253a7792c7",
+        "clock.txt": "59d5f2bbb294b6e6a466a63a7545f94753478d42403fc1cca11ef4e6d140b9dc",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "d227bc5084f5d26d68bb5d0531e285dd293d44e8eef48a1b1a4faf64345e98d4",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "292a3499b3029beef5db90df4640f57dee43ca99394b0495cae33c31c1108c03"
+      }
+    },
+    {
+      "id": "dl000-pullup-10p-5V-0.5ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5,
+      "maximumStepNs": 0.5,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40888,
+        "validSupplySamples": 40854,
+        "belowSupplySamples": 34,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 9.72858100099535e-09,
+        "bestLowMarginVolts": 0.19575467545841202,
+        "bestHighMarginVolts": 0.1999971970427703,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40888,
+        "validSupplySamples": 40854,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 55,
+            "passed": 0,
+            "failed": 55,
+            "indeterminate": 0,
+            "minimumLowerNs": 73.12902072655959,
+            "maximumUpperNs": 120.52351185997053,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.625e-08,
+                3.675000000000001e-08
+              ],
+              "endBracketSeconds": [
+                1.0987902072655959e-07,
+                1.1037902072655961e-07
+              ],
+              "durationLowerNs": 73.12902072655959,
+              "durationUpperNs": 74.12902072655962
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 196.51814852744394,
+            "maximumUpperNs": 197.74454074924196,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 37.183547599440104,
+            "maximumUpperNs": 38.42518914951415,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.196069086850535e-07,
+                3.198447488116594e-07
+              ],
+              "endBracketSeconds": [
+                3.5712110353210243e-07,
+                3.576211035321025e-07
+              ],
+              "durationLowerNs": 37.27635472044301,
+              "durationUpperNs": 38.01419484704901
+            }
+          },
+          "fall": {
+            "observations": 55,
+            "passed": 55,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 11.422966671104302,
+            "maximumUpperNs": 13.065327019848562,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 320.37110353210244,
+            "maximumUpperNs": 367.9022258892544,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.625e-08,
+                3.675000000000001e-08
+              ],
+              "endBracketSeconds": [
+                3.5712110353210243e-07,
+                3.576211035321025e-07
+              ],
+              "durationLowerNs": 320.37110353210244,
+              "durationUpperNs": 321.3711035321025
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "812841e9e237ef0ca09ccb19bcc0b73953be9dcbaf0d5bc4e2b78a26404f18d4",
+        "clock.txt": "d7d41344ace9fe5bacaca7a5e08bb3013c49614662a7e016213f0f709b25e817",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "20a815a6d7f658731c2665baaabbd8ea6a8bcef87cb139e257de1e455ec04c54",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "a34189592ec6ce54d3374f696c99b0b8d8c711ad2876c2a174377d4a8baff675"
+      }
+    },
+    {
+      "id": "dl000-pullup-10p-5.25V-1ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 1,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21753,
+        "validSupplySamples": 21724,
+        "belowSupplySamples": 29,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 9.168931461978258e-09,
+        "bestLowMarginVolts": 0.18304240923320453,
+        "bestHighMarginVolts": 0.19999705634190335,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21753,
+        "validSupplySamples": 21724,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 55,
+            "passed": 0,
+            "failed": 55,
+            "indeterminate": 0,
+            "minimumLowerNs": 69.29305106508647,
+            "maximumUpperNs": 116.25772442811122,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.595339701026243e-08,
+                3.6953397010262444e-08
+              ],
+              "endBracketSeconds": [
+                1.0624644807534892e-07,
+                1.067934413186602e-07
+              ],
+              "durationLowerNs": 69.29305106508647,
+              "durationUpperNs": 70.84004430839776
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 200.74134562134017,
+            "maximumUpperNs": 202.74365639396842,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 37.466587361652664,
+            "maximumUpperNs": 38.92717343826412,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.206328450579545e-07,
+                3.2090321829036495e-07
+              ],
+              "endBracketSeconds": [
+                3.5837017938793306e-07,
+                3.593701793879332e-07
+              ],
+              "durationLowerNs": 37.4669610975681,
+              "durationUpperNs": 38.73733432997869
+            }
+          },
+          "fall": {
+            "observations": 55,
+            "passed": 55,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 11.366120577736353,
+            "maximumUpperNs": 13.950538488978708,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 321.4167823776706,
+            "maximumUpperNs": 369.2195263601242,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.595339701026243e-08,
+                3.6953397010262444e-08
+              ],
+              "endBracketSeconds": [
+                3.5837017938793306e-07,
+                3.593701793879332e-07
+              ],
+              "durationLowerNs": 321.4167823776706,
+              "durationUpperNs": 323.41678237767076
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "f2c0e5a7f6dfb6b586238448c2ebbc94ff18cece41aa88091d5fe8857d96a73b",
+        "clock.txt": "351c28c823fdee7779b57bf8c67f44c7189c15c021ac89c167d3fd8055ba9df8",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "ee8ef9b0b3343cf73d0d3a39e1ecd38bf5a1798a1207858d7d4510c1a53e867d",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "a94cdacdf03f44f361232bb2b6b09c39e03e778702435a4d9370efead5909bd9"
+      }
+    },
+    {
+      "id": "dl000-pullup-10p-5.25V-0.5ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 10,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 0.5,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40890,
+        "validSupplySamples": 40857,
+        "belowSupplySamples": 33,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 9.421156767315023e-09,
+        "bestLowMarginVolts": 0.18304240923221532,
+        "bestHighMarginVolts": 0.19999705649567545,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40890,
+        "validSupplySamples": 40857,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 68.95219138208279,
+            "maximumUpperNs": 116.07801666453834,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.6749999999999995e-08,
+                3.7250000000000006e-08
+              ],
+              "endBracketSeconds": [
+                1.0620219138208279e-07,
+                1.0670219138208281e-07
+              ],
+              "durationLowerNs": 68.95219138208279,
+              "durationUpperNs": 69.95219138208282
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 201.31894046877574,
+            "maximumUpperNs": 202.15216468816251,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 37.87221816282986,
+            "maximumUpperNs": 38.656302774007095,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.2111940529032474e-07,
+                3.213840195760366e-07
+              ],
+              "endBracketSeconds": [
+                3.592562377388665e-07,
+                3.5975623773886657e-07
+              ],
+              "durationLowerNs": 37.87221816282986,
+              "durationUpperNs": 38.636832448541824
+            }
+          },
+          "fall": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 12.400414384062842,
+            "maximumUpperNs": 13.529663505791389,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 322.0062377388665,
+            "maximumUpperNs": 368.9823964837138,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.6749999999999995e-08,
+                3.7250000000000006e-08
+              ],
+              "endBracketSeconds": [
+                3.592562377388665e-07,
+                3.5975623773886657e-07
+              ],
+              "durationLowerNs": 322.0062377388665,
+              "durationUpperNs": 323.00623773886656
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "47e20b2ed93ff33b69b983df0567cfce8d9b9b12a6fd99ea6db41fbe3eedafeb",
+        "clock.txt": "042af20fdefaf328df73c7a9d49fb1825dd3c6430d3de2a7ed6a78febd64f962",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "ad2ce44477ab8ce7d0b0047f7564708b0213b395726e7f34624a8e0a9e42e888",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "ff30661b32a171335c9651fd9cbf7b4470ad63b06b7b5445eccf245e32066f55"
+      }
+    },
+    {
+      "id": "dl000-pullup-50p-4.75V-1ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 1,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21521,
+        "validSupplySamples": 21491,
+        "belowSupplySamples": 30,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.20846694168664318,
+        "bestHighMarginVolts": 0.1888494427634697,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21521,
+        "validSupplySamples": 21491,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 55,
+            "passed": 0,
+            "failed": 55,
+            "indeterminate": 0,
+            "minimumLowerNs": 36.738134936339556,
+            "maximumUpperNs": 84.10128414825424,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                7.695222432725481e-08,
+                7.795222432725483e-08
+              ],
+              "endBracketSeconds": [
+                1.1469035926359439e-07,
+                1.1557016150864364e-07
+              ],
+              "durationLowerNs": 36.738134936339556,
+              "durationUpperNs": 38.617937181388825
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 189.84594123530064,
+            "maximumUpperNs": 192.6083078978052,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 77.4943829977352,
+            "maximumUpperNs": 79.9612674275046,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.188424054699324e-07,
+                3.1953642688633895e-07
+              ],
+              "endBracketSeconds": [
+                3.972725987955784e-07,
+                3.9827259879557853e-07
+              ],
+              "durationLowerNs": 77.73617190923946,
+              "durationUpperNs": 79.43019332564613
+            }
+          },
+          "fall": {
+            "observations": 55,
+            "passed": 55,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 11.02563799283285,
+            "maximumUpperNs": 14.424358615174908,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 319.32037446832356,
+            "maximumUpperNs": 367.2586098693573,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                7.695222432725481e-08,
+                7.795222432725483e-08
+              ],
+              "endBracketSeconds": [
+                3.972725987955784e-07,
+                3.9827259879557853e-07
+              ],
+              "durationLowerNs": 319.32037446832356,
+              "durationUpperNs": 321.32037446832373
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "6c70082338052677757d493ca9d5b468fb8fab3e2a491c281bdcbc0af8da4e4c",
+        "clock.txt": "32d3c0bac5bd5aec337b5e6e3de4e3b77f9c3a56bd9152b634f438fd243286e9",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "f6a66c2c938c727454d3eba162debe1c223cd4f5348f49e2a8439b86654f846a",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "0aba3c78bb25e4140de3c9dd553034bf47a2fef48400addf3d74ec24f0158c47"
+      }
+    },
+    {
+      "id": "dl000-pullup-50p-4.75V-0.5ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 4.75,
+      "maximumStepNs": 0.5,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40857,
+        "validSupplySamples": 40823,
+        "belowSupplySamples": 34,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.20846694168685148,
+        "bestHighMarginVolts": 0.18890500997633008,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40857,
+        "validSupplySamples": 40823,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 55,
+            "passed": 0,
+            "failed": 55,
+            "indeterminate": 0,
+            "minimumLowerNs": 36.6813032196733,
+            "maximumUpperNs": 83.60310552273015,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                7.774999999999982e-08,
+                7.824999999999984e-08
+              ],
+              "endBracketSeconds": [
+                1.1493130321967315e-07,
+                1.1543130321967317e-07
+              ],
+              "durationLowerNs": 36.6813032196733,
+              "durationUpperNs": 37.68130321967335
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 190.99436935439167,
+            "maximumUpperNs": 192.3268460958543,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 77.99999999990337,
+            "maximumUpperNs": 79.4970523675009,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.191488628458494e-07,
+                3.196459152133527e-07
+              ],
+              "endBracketSeconds": [
+                3.981459152133502e-07,
+                3.986459152133503e-07
+              ],
+              "durationLowerNs": 78.49999999999748,
+              "durationUpperNs": 79.4970523675009
+            }
+          },
+          "fall": {
+            "observations": 55,
+            "passed": 55,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 11.999999999982267,
+            "maximumUpperNs": 13.000000000035282,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 319.89591521335035,
+            "maximumUpperNs": 366.2870221104312,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                7.774999999999982e-08,
+                7.824999999999984e-08
+              ],
+              "endBracketSeconds": [
+                3.981459152133502e-07,
+                3.986459152133503e-07
+              ],
+              "durationLowerNs": 319.89591521335035,
+              "durationUpperNs": 320.89591521335046
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "5a3f6c3d9eea35f55049711e9e04d0a5d5a0d93ff9390815f745feba37410c75",
+        "clock.txt": "6a425e4945ea9370e07bfb475ed814573a2423d86aa31769eae0adf82d5b36d3",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "993a793da84b55fd8062cf37a93e228f8c320ce7d2ffbb7a60cbed0454647d62",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "e00bf9a4dca9cd03528b3d44ea1013e21490305f14306645d58ebea56032a6c8"
+      }
+    },
+    {
+      "id": "dl000-pullup-50p-5V-1ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5,
+      "maximumStepNs": 1,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21606,
+        "validSupplySamples": 21576,
+        "belowSupplySamples": 30,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 1e-08,
+        "bestLowMarginVolts": 0.1957546754597762,
+        "bestHighMarginVolts": 0.1864737601256552,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21606,
+        "validSupplySamples": 21576,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 55,
+            "passed": 0,
+            "failed": 55,
+            "indeterminate": 0,
+            "minimumLowerNs": 30.66243094579781,
+            "maximumUpperNs": 78.61900266615295,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                7.795196921837306e-08,
+                7.895196921837309e-08
+              ],
+              "endBracketSeconds": [
+                1.0961440016417089e-07,
+                1.1046518570719037e-07
+              ],
+              "durationLowerNs": 30.66243094579781,
+              "durationUpperNs": 32.513216488817314
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 194.9444686535794,
+            "maximumUpperNs": 197.4871869306293,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 79.2268688349573,
+            "maximumUpperNs": 81.05231833727412,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.193060178104097e-07,
+                3.197257285110253e-07
+              ],
+              "endBracketSeconds": [
+                3.989586872446078e-07,
+                3.999586872446079e-07
+              ],
+              "durationLowerNs": 79.2329587335825,
+              "durationUpperNs": 80.65266943419822
+            }
+          },
+          "fall": {
+            "observations": 55,
+            "passed": 55,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 11.899041667151163,
+            "maximumUpperNs": 14.985147854999585,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 320.0067180262347,
+            "maximumUpperNs": 368.19156749115854,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                7.795196921837306e-08,
+                7.895196921837309e-08
+              ],
+              "endBracketSeconds": [
+                3.989586872446078e-07,
+                3.999586872446079e-07
+              ],
+              "durationLowerNs": 320.0067180262347,
+              "durationUpperNs": 322.00671802623486
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "1a19747452af959d3a770ede3b6f525e01fefbc9305172011fb5b7937638ea13",
+        "clock.txt": "aa5909a54031e266935c3d5328cc08d1f52979fa1339387d9d80a04a099d3766",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "9c713b200eea384e1bfa82a0a9767c2dcc62e252486b06c944bc439bb5eaf4c3",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "10d595ae84ddba589b406d29c41e61f52bf70bab1b18e00d441d3a137c66b35e"
+      }
+    },
+    {
+      "id": "dl000-pullup-50p-5V-0.5ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5,
+      "maximumStepNs": 0.5,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40841,
+        "validSupplySamples": 40807,
+        "belowSupplySamples": 34,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 9.739551033378287e-09,
+        "bestLowMarginVolts": 0.19575467545984332,
+        "bestHighMarginVolts": 0.18653174456005228,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40841,
+        "validSupplySamples": 40807,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 55,
+            "passed": 0,
+            "failed": 55,
+            "indeterminate": 0,
+            "minimumLowerNs": 30.625299545854446,
+            "maximumUpperNs": 78.12715662398713,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                7.924999999999981e-08,
+                7.974999999999984e-08
+              ],
+              "endBracketSeconds": [
+                1.1037529954585428e-07,
+                1.1087529954585431e-07
+              ],
+              "durationLowerNs": 30.625299545854446,
+              "durationUpperNs": 31.625299545854492
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 195.49506662416394,
+            "maximumUpperNs": 196.91816062675863,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 79.49999999990158,
+            "maximumUpperNs": 80.96216106933134,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.2011527634411206e-07,
+                3.2060550139777434e-07
+              ],
+              "endBracketSeconds": [
+                4.001055013977718e-07,
+                4.006055013977719e-07
+              ],
+              "durationLowerNs": 79.49999999999746,
+              "durationUpperNs": 80.49022505365983
+            }
+          },
+          "fall": {
+            "observations": 55,
+            "passed": 55,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 12.49999999998167,
+            "maximumUpperNs": 14.000000000037474,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 320.35550139777195,
+            "maximumUpperNs": 367.8533000906392,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                7.924999999999981e-08,
+                7.974999999999984e-08
+              ],
+              "endBracketSeconds": [
+                4.001055013977718e-07,
+                4.006055013977719e-07
+              ],
+              "durationLowerNs": 320.35550139777195,
+              "durationUpperNs": 321.35550139777206
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "1f158654be23168b6040aabdd9ce2722b148e1164ae662980563f4bbfb69776d",
+        "clock.txt": "e9b7952faea4525a9b777ad74dab713c816c2d8bd601947e80312620ae7851ef",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "14948158610494f0d031942478d4d30911165c7b7048b0e2fca599a6c3461a66",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "7e92942f7ba6394d878a067bc3284e6a33a50383df5a0087f9f84153140c6fa6"
+      }
+    },
+    {
+      "id": "dl000-pullup-50p-5.25V-1ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 1,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 21601,
+        "validSupplySamples": 21572,
+        "belowSupplySamples": 29,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 9.175796234689062e-09,
+        "bestLowMarginVolts": 0.18304240923273513,
+        "bestHighMarginVolts": 0.18375462467414572,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 21601,
+        "validSupplySamples": 21572,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 55,
+            "passed": 0,
+            "failed": 55,
+            "indeterminate": 0,
+            "minimumLowerNs": 24.42680767008317,
+            "maximumUpperNs": 73.41919362807288,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                8.095395028083468e-08,
+                8.19539502808347e-08
+              ],
+              "endBracketSeconds": [
+                1.0638075795091787e-07,
+                1.0736759222455001e-07
+              ],
+              "durationLowerNs": 24.42680767008317,
+              "durationUpperNs": 26.413641943715334
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 199.1803288941258,
+            "maximumUpperNs": 202.06035002757315,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 80.4514224677753,
+            "maximumUpperNs": 82.8581234992983,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.211927301224628e-07,
+                3.217190603787432e-07
+              ],
+              "endBracketSeconds": [
+                4.0238160020471417e-07,
+                4.033816002047143e-07
+              ],
+              "durationLowerNs": 80.66253982597098,
+              "durationUpperNs": 82.18887008225151
+            }
+          },
+          "fall": {
+            "observations": 55,
+            "passed": 55,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 12.346868592160781,
+            "maximumUpperNs": 15.676931969848466,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 320.4276499238794,
+            "maximumUpperNs": 369.81158607679345,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                8.095395028083468e-08,
+                8.19539502808347e-08
+              ],
+              "endBracketSeconds": [
+                4.0238160020471417e-07,
+                4.033816002047143e-07
+              ],
+              "durationLowerNs": 320.4276499238794,
+              "durationUpperNs": 322.4276499238796
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "4622a8172a3e65089a9768d4725ff3421bbd594a177bc119c0cfd1ee7cd93cc3",
+        "clock.txt": "7b599bf474b001d4c1bf9c15f2f7ee0fc688aa2180e4d44b708320fe40f92431",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "ccd92fe8aeb4af1ed0cc8785efe5ad86412db26f5481c3a133aa04caa1646191",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "11260a441abf5b0af79650f7d07beb78f062c8176a875496aaa7bda635159e14"
+      }
+    },
+    {
+      "id": "dl000-pullup-50p-5.25V-0.5ns",
+      "profile": "dl000-pullup",
+      "cpuCapacitancePf": 50,
+      "supplyVolts": 5.25,
+      "maximumStepNs": 0.5,
+      "modelSha256": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+      "completed": true,
+      "passed": false,
+      "exitCode": 0,
+      "voltage": {
+        "qualified": false,
+        "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+        "samples": 40819,
+        "validSupplySamples": 40786,
+        "belowSupplySamples": 33,
+        "aboveSupplySamples": 0,
+        "lowExcursionObserved": true,
+        "highExcursionObserved": true,
+        "firstValidSupplySeconds": 9.430225274086623e-09,
+        "bestLowMarginVolts": 0.18304240923283965,
+        "bestHighMarginVolts": 0.18380234979010712,
+        "inputRangeViolations": 0,
+        "firstInputRangeViolation": null,
+        "cycles": {
+          "completed": 54,
+          "assessedWithinSupplyRange": 53,
+          "excludedForSupply": 1,
+          "missingLowExcursion": 0,
+          "missingHighExcursion": 0,
+          "firstFailure": null,
+          "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+        },
+        "bothExcursionsObserved": true
+      },
+      "timing": {
+        "passed": false,
+        "qualified": false,
+        "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+        "samples": 40819,
+        "validSupplySamples": 40786,
+        "abortedExcursions": 0,
+        "inputRangeViolations": 0,
+        "measurements": {
+          "high": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 24.946466170299427,
+            "maximumUpperNs": 72.5780431986123,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                8.12499999999998e-08,
+                8.174999999999983e-08
+              ],
+              "endBracketSeconds": [
+                1.0669646617029926e-07,
+                1.0719646617029928e-07
+              ],
+              "durationLowerNs": 24.946466170299427,
+              "durationUpperNs": 25.946466170299477
+            }
+          },
+          "low": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 200.534671829966,
+            "maximumUpperNs": 201.7673520349853,
+            "firstNonPass": null
+          },
+          "rise": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 80.99999999989979,
+            "maximumUpperNs": 82.4091441777058,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                3.2174912171121224e-07,
+                3.2224912171121233e-07
+              ],
+              "endBracketSeconds": [
+                4.0324912171120973e-07,
+                4.037491217112098e-07
+              ],
+              "durationLowerNs": 80.9999999999974,
+              "durationUpperNs": 81.99999999999758
+            }
+          },
+          "fall": {
+            "observations": 54,
+            "passed": 54,
+            "failed": 0,
+            "indeterminate": 0,
+            "minimumLowerNs": 12.999999999981071,
+            "maximumUpperNs": 14.50000000003857,
+            "firstNonPass": null
+          },
+          "period": {
+            "observations": 54,
+            "passed": 0,
+            "failed": 54,
+            "indeterminate": 0,
+            "minimumLowerNs": 321.4991217112099,
+            "maximumUpperNs": 369.0255688462465,
+            "firstNonPass": {
+              "status": "failed",
+              "startBracketSeconds": [
+                8.12499999999998e-08,
+                8.174999999999983e-08
+              ],
+              "endBracketSeconds": [
+                4.0324912171120973e-07,
+                4.037491217112098e-07
+              ],
+              "durationLowerNs": 321.4991217112099,
+              "durationUpperNs": 322.49912171121
+            }
+          }
+        },
+        "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+      },
+      "artifacts": {
+        "clock.cir": "98f0fe9c2bb13f7796c7e754633747d25d42d45117495d0fd39e3d1f7e9a1074",
+        "clock.txt": "622a6da8d6e1c27fab8ac774f5846d900c9bcb8c137ca20f3200284e60438698",
+        "model.cir": "b5bbd2505c409593860b293a7405b3e22f6b758833818cd319a1f8ca283d938f",
+        "ngspice.log": "a31625ac8c155ff8b425090560f6f773664dc02723d9cad0bb4be763344fa578",
+        "spinit": "3f233c38150c83944557faa1a8f7bf75eb8b52f0e722fd8aad089f7bebf2d2ee",
+        "supply.txt": "173a98b31ff9ab2651eadf1e3ed22f523f1d3c2ea428e409a906bf9010f8f515"
+      }
+    }
+  ],
+  "gates": {
+    "independentlyAdmittedDevice": false,
+    "startupInclusiveClosedBoard": false,
+    "allReferenceScreensPassed": false
+  },
+  "decision": "Do not replace the external digital clock boundary with a claimed electrically qualified oscillator.",
+  "requiredEvidence": {
+    "tier": "bench",
+    "specimenRequired": false,
+    "measurement": "Loose intended-family gate: loaded DC transfer around switching, high-output behavior under the reference pullup, and startup waveforms with reference RC and bounded CPU load. Record part identity, supply, temperature and probe loading. Compare levels and valid-level widths against cpu_clock_limits.json; keep part families separate."
+  }
+}
