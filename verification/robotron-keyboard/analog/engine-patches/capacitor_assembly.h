@@ -16,8 +16,8 @@ int RobotronCapReset(void)
     static int mode = -1;
     if (mode == -1) {
         const char *value = getenv("ROBOTRON_CAP_ASSEMBLY");
-        mode = (!value || !strcmp(value, "off")) ? 0 : !strcmp(value, "exact") ? 1 : -2;
-        if (mode == 1) {
+        mode = (!value || !strcmp(value, "off")) ? 0 : !strcmp(value, "exact") ? 1 : !strcmp(value, "paired-rhs") ? 2 : -2;
+        if (mode > 0) {
             const char *bits = getenv("ROBOTRON_MPFR_BITS");
             if (!bits || (strcmp(bits,"256") && strcmp(bits,"512"))) mode = -2;
         }
@@ -72,6 +72,20 @@ int RobotronCapAdd(int p, int n, int order, double m, double capacitance,
     result |= robotron_cap_entry(p,-1,b,-1,before[4],after[4]);
     result |= robotron_cap_entry(n,-1,b,1,before[5],after[5]);
     mpq_clears(g,b,factor,temp,NULL);
+    return result;
+}
+
+/* Preserve only paired RHS additions; integration and conductance stay binary64. */
+int RobotronCapPairRhs(int p, int n, double history, const double *before, const double *after)
+{
+    mpq_t b;
+    int result;
+    if (!p || !n) return 0;
+    if (p == n || p < 0 || n < 0 || !isfinite(history)) return 1;
+    mpq_init(b); mpq_set_d(b,history);
+    result = robotron_cap_entry(p,-1,b,-1,before[4],after[4]);
+    result |= robotron_cap_entry(n,-1,b,1,before[5],after[5]);
+    mpq_clear(b);
     return result;
 }
 

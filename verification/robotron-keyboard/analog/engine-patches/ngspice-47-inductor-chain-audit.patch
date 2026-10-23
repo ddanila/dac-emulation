@@ -1,0 +1,62 @@
+--- a/src/maths/ni/niiter.c
++++ b/src/maths/ni/niiter.c
+@@ -44,8 +44,7 @@
+     static unsigned long serial = 0;
+     CKTnode *node;
+     if (!(getenv("ROBOTRON_STATE_AUDIT") &&
+-          (ckt->CKTtime > .001005011 &&
+-           ckt->CKTtime < .001005014) &&
++          ((ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) || (ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605)) &&
+           (iteration <= 10 || iteration % 100 == 0 || iteration > maxIter)))
+         return 0;
+     ++serial;
+--- a/src/spicelib/analysis/dctran.c
++++ b/src/spicelib/analysis/dctran.c
+@@ -372,7 +372,7 @@
+     /* end LTRA code addition */
+ 
+     error = CKTaccept(ckt);
+-        if (getenv("ROBOTRON_STATE_AUDIT") && ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) {
++        if (getenv("ROBOTRON_STATE_AUDIT") && ((ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) || (ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605))) {
+             int ah, ai;
+             fprintf(stderr, "STATE_AUDIT accepted time=%a delta=%a order=%d states=%d ag0=%a ag1=%a\n", ckt->CKTtime, ckt->CKTdelta, ckt->CKTorder, ckt->CKTnumStates, ckt->CKTag[0], ckt->CKTag[1]);
+             for (ah=0; ah<4; ++ah) {
+@@ -718,7 +718,7 @@
+         if (((getenv("ROBOTRON_LIVE_AUDIT") && ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) || (getenv("ROBOTRON_SWITCH_AUDIT") && ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605)))
+             fprintf(stderr, "TRANSITION_AUDIT trial time=%a delta=%a permanent=%a next=%a last=%a\n", ckt->CKTtime, ckt->CKTdelta, ckt->CKTbreaks[0], ckt->CKTbreaks[1], g_mif_info.breakpoint.last);
+ 
+-        if (getenv("ROBOTRON_STATE_AUDIT") && ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) {
++        if (getenv("ROBOTRON_STATE_AUDIT") && ((ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) || (ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605))) {
+             int ah, ai;
+             fprintf(stderr, "STATE_AUDIT trial time=%a delta=%a order=%d states=%d ag0=%a ag1=%a\n", ckt->CKTtime, ckt->CKTdelta, ckt->CKTorder, ckt->CKTnumStates, ckt->CKTag[0], ckt->CKTag[1]);
+             for (ah=0; ah<4; ++ah) {
+--- a/src/spicelib/devices/cap/capload.c
++++ b/src/spicelib/devices/cap/capload.c
+@@ -25,7 +25,7 @@
+     double ceq;
+     int error;
+     double m;
+-    int audit = getenv("ROBOTRON_STATE_AUDIT") && ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014;
++    int audit = getenv("ROBOTRON_STATE_AUDIT") && ((ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) || (ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605));
+     if (audit)
+         fprintf(stderr, "CAP_AUDIT begin time=%a delta=%a order=%d mode=%ld\n",
+             ckt->CKTtime, ckt->CKTdelta, ckt->CKTorder, ckt->CKTmode);
+--- a/src/spicelib/devices/ind/indload.c
++++ b/src/spicelib/devices/ind/indload.c
+@@ -22,6 +22,7 @@
+     double veq;
+     double req;
+     double m;
++    int audit = getenv("ROBOTRON_STATE_AUDIT") && ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605;
+     int error;
+ 
+     MUTinstance *muthere;
+@@ -114,6 +115,8 @@
+                 if(error) return(error);
+             }
+ 
++            if (audit)
++                fprintf(stderr,"IND_CHAIN time=%a delta=%a mode=%ld order=%d name=%s state=%d p=%d n=%d branch=%d L=%a m=%a ag0=%a ag1=%a q0=%a q1=%a q2=%a v0=%a v1=%a current=%a vp=%a vn=%a req=%a veq=%a diag=%a rhs=%a\n", ckt->CKTtime,ckt->CKTdelta,ckt->CKTmode,ckt->CKTorder,here->INDname,here->INDflux,here->INDposNode,here->INDnegNode,here->INDbrEq,here->INDinduct,here->INDm,ckt->CKTag[0],ckt->CKTag[1],ckt->CKTstate0[here->INDflux],ckt->CKTstate1[here->INDflux],ckt->CKTstate2[here->INDflux],ckt->CKTstate0[here->INDvolt],ckt->CKTstate1[here->INDvolt],ckt->CKTrhsOld[here->INDbrEq],ckt->CKTrhsOld[here->INDposNode],ckt->CKTrhsOld[here->INDnegNode],req,veq,*here->INDibrIbrPtr,ckt->CKTrhs[here->INDbrEq]);
+             *(ckt->CKTrhs+here->INDbrEq) += veq;
+ 
+             if(ckt->CKTmode & MODEINITTRAN) {
