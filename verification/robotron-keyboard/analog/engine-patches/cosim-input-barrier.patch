@@ -1,0 +1,21 @@
+--- a/src/xspice/icm/digital/d_cosim/cfunc.mod
++++ b/src/xspice/icm/digital/d_cosim/cfunc.mod
+@@ -358,6 +358,18 @@
+         return;
+     }
+ 
++    /* Inputs inside a tentative analog interval must not be committed to
++     * an irreversible simulator. A later output can shorten the interval,
++     * and Newton/LTE rejection can then retry before the consumed input.
++     * Settle the analog circuit at its earliest uncommitted input first.
++     * Older queued inputs may already be at an accepted analog boundary.
++     */
++    for (i = 0; i <= ip->q_index; ++i) {
++        if (ip->q[i].when > T(1) && ip->q[i].when < TIME &&
++            !cm_analog_set_temp_bkpt(ip->q[i].when))
++            return;
++    }
++
+     /* Scan the queue. */
+ 
+     DBG("%.16g: Running Q with %d entries", TIME, ip->q_index + 1);
