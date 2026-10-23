@@ -1,0 +1,36 @@
+Static device endpoint screen
+Vcc vp 0 5.25
+Vin a 0 2.4
+Iload y 0 0
+* TI SDLS029C page 4, standard '04 topology and nominal resistor values.
+* Generic semiconductor parameters are assumptions, not a D104 vendor model.
+* No calibrated storage, junction capacitance, breakdown, temperature or process corners.
+.subckt TTL7404_NOMINAL a y vp g params: input_br=1
+Rinput vp input_base 4k
+Qinput phase_base input_base a TTL7404_INPUT_NPN
+Dinput g a TTL7404_DIODE
+Qphase phase_col phase_base sink_base TTL7404_NPN
+Rphase vp phase_col 1.6k
+Rsink sink_base g 1k
+Rhigh vp high_col 130
+Qhigh high_col phase_col high_emit TTL7404_NPN
+Dhigh high_emit y TTL7404_DIODE
+Qsink y sink_base g TTL7404_NPN
+.model TTL7404_NPN NPN(IS=1e-14 BF=100 BR=1 VAF=100)
+.model TTL7404_INPUT_NPN NPN(IS=1e-14 BF=100 BR={input_br} VAF=100)
+.model TTL7404_DIODE D(IS=1e-14 N=1)
+.ends TTL7404_NOMINAL
+
+Xdut a y vp 0 TTL7404_NOMINAL input_br=.01
+.temp 70
+.options reltol=1e-8 vntol=1e-10 abstol=1e-15
+.control
+set numdgt=17
+set wr_singlescale
+set wr_vecnames
+op
+let observed = -i(Vin)
+wrdata trace.txt observed
+quit
+.endc
+.end

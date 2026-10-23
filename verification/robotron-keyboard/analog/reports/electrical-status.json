@@ -1,0 +1,56 @@
+{
+  "qualified": false,
+  "gates": {
+    "staticDeviceEndpoints": true,
+    "numericalConvergence": false,
+    "bridgeTimeOrdering": false,
+    "oscillatorDynamics": false,
+    "serialDriverDynamics": false,
+    "hostBufferDynamics": false,
+    "closedBoardElectrical": false
+  },
+  "evidence": {
+    "staticDeviceEndpoints": {
+      "path": "reports/device-endpoints/assessment.json",
+      "sha256": "c00ce8bfbbbe6eed203ad702f710b9f5eb09ae09bc556c284b1882413f49496f",
+      "field": "staticEndpointsPassed"
+    },
+    "numericalConvergence": {
+      "path": "reports/host-device-additions/assessment.json",
+      "sha256": "1924bf3880d20693b4704da4dbecbf19316de4b7bd47e77788bcddec1b13c272",
+      "field": "qualified"
+    },
+    "bridgeTimeOrdering": {
+      "path": "reports/qualified-cpu-bridge-time/assessment.json",
+      "sha256": "281a9616adf3530510e4a6f619b3aa2e3a682ec7020c3498cb23f8f8e69c3078",
+      "field": "qualified"
+    },
+    "oscillatorDynamics": {
+      "path": "reports/clock-output/device-admission/assessment.json",
+      "sha256": "554d5e924980e84fc73ba33f3bd1cd358165a9cb58b787e546446e874d6f8841",
+      "field": "qualified"
+    },
+    "serialDriverDynamics": {
+      "path": "reports/host-driver-switching/assessment.json",
+      "sha256": "1e4befb8c8a93c9de51f08fb6f44adeabc88b6d5bae441815445d24d741373a1",
+      "field": "qualified"
+    },
+    "hostBufferDynamics": {
+      "path": "reports/host-buffer-switching/assessment.json",
+      "sha256": "d08dd41d183031969deae73da5e04b0d4b80fc7a281194bdc28a74a4729a170a",
+      "field": "qualified"
+    },
+    "closedBoardElectrical": {
+      "path": "reports/board-host-rising-full-startup/assessment.json",
+      "sha256": "2781d83799ed4f99a8013e0d846b236808f855b380633a79946de8b871cd860b",
+      "field": "qualified"
+    }
+  },
+  "scope": "Current reference electrical evidence; separate from production digital acceptance. Static endpoint screens are not device-dynamics qualification. Closed-board evidence is the retained startup/single-press capture, not complete scenario acceptance.",
+  "remainingAcceptance": [
+    "Resolve simulator ordering and numerical convergence",
+    "Admit oscillator and switching models against independent conditions",
+    "Complete matched coupled startup, keys/chords, repeat/release, reset and supply-recovery scenarios"
+  ],
+  "generatorSha256": "d9cd7dca19eb41edee20e76c2257389b0a65f10ab170c22c9c87d5c5c6676e27"
+}

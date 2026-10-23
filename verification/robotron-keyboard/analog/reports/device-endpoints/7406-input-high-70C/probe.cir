@@ -1,0 +1,40 @@
+Static device endpoint screen
+Vcc vp 0 5.25
+Vin a 0 2.4
+Rload vp y 1000000000.0
+Iload 0 y 0
+* SN7406 topology from TI SDLS031A, page 2. Resistors are published nominal values.
+* Generic semiconductor parameters are assumptions, NOT a vendor transistor model.
+* No calibrated switching/storage, temperature, breakdown or package parasitics.
+.subckt TTL7406_NOMINAL a y vp g params: input_br=1
+Rinput vp input_base 6k
+Qinput phase_base input_base a TTL7406_INPUT_NPN
+Dinput g a TTL7406_DIODE
+Qphase phase_col phase_base phase_emit TTL7406_NPN
+Dfeed feed phase_col TTL7406_DIODE
+Rfeed vp feed 1.4k
+Rdivider feed inverter_base 2k
+Remitter phase_emit discharge_base 100
+Rdischarge discharge_base g 1k
+Qdischarge inverter_base discharge_base g TTL7406_NPN
+Qinverter output_base inverter_base g TTL7406_NPN
+Routput vp output_base 1.6k
+Qoutput y output_base g TTL7406_NPN
+.model TTL7406_NPN NPN(IS=1e-14 BF=100 BR=1 VAF=100)
+.model TTL7406_INPUT_NPN NPN(IS=1e-14 BF=100 BR={input_br} VAF=100)
+.model TTL7406_DIODE D(IS=1e-14 N=1)
+.ends TTL7406_NOMINAL
+
+Xdut a y vp 0 TTL7406_NOMINAL input_br=.01
+.temp 70
+.options reltol=1e-8 vntol=1e-10 abstol=1e-15
+.control
+set numdgt=17
+set wr_singlescale
+set wr_vecnames
+op
+let observed = -i(Vin)
+wrdata trace.txt observed
+quit
+.endc
+.end

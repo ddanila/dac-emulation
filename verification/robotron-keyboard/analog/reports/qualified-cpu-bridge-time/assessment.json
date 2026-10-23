@@ -1,0 +1,41 @@
+{
+  "completed": true,
+  "qualified": false,
+  "cpuProfile": "qualified-digital",
+  "productionReference": true,
+  "producerSourceDifferences": {
+    "boot_cosim.py": [
+      "903a502b7f8af8e1b65193cf4a2077d518861c6cec2b155eca5c0bd601892741",
+      "dcbf0082fe236ef10e5326875c9252df7a345c6103789b00a31741907a952ff3"
+    ]
+  },
+  "executedSourcesAndCircuitMatch": true,
+  "loggingOnlyWaveformsIdentical": {
+    "trace.txt": true,
+    "bus-trace.txt": true
+  },
+  "diagnostics": [
+    "0.025137052->0.02513705166",
+    "0.02528805199->0.02528805165",
+    "0.025630052->0.02563005166"
+  ],
+  "orderingViolations": [
+    {
+      "target": 0.025137051658783594,
+      "actual": 0.025137051997,
+      "base": 0.025137051997371894,
+      "tick": 1e-12,
+      "pending": 0.0,
+      "backwardSeconds": 3.382164062704085e-10
+    }
+  ],
+  "reports": {
+    "control": "09fe98382f4e2a066d03befa8ecae03dabe6ce7e5f2a147ee229126c3e0172ff",
+    "audit": "0f9b0394276feabeeba90c1889d7ac0b9045793b315c9e58d6f17c4cf85ec106"
+  },
+  "sources": {
+    "bridge_time_review.py": "e60eaf10a910413decb0747d1e89545746ed8da20e9a1199e6dc013015b10815",
+    "build_bridge_time_audit.py": "0645c4ff95653fb4ee57cad2f2b0442fd2a01ffce0f7a6b91cadc65bca232f56"
+  },
+  "boundary": "The bridge was asked to advance to a target earlier than its actual HDL time by more than one HDL tick. The audit leaves both captured waveforms byte-identical. These rejected service captures do not qualify firmware transport, voltage margins or the closed board; they isolate a simulator ordering failure, not a specimen defect."
+}

@@ -1,0 +1,574 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Check published static endpoint conditions without fitting semiconductor parameters.",
+  "temperatureSamplesC": [
+    0,
+    25,
+    70
+  ],
+  "sources": {
+    "device_endpoint_probe.py": "2f1ba39dd9098873332c1ab27f21c2eaa85b8c99f7e0534fac401e3ad5041b36",
+    "ttl7406_probe.py": "8726f6dc39c717b65abccc85792859aad3d8537dc02ac7eb85d2bd72d3e8021b",
+    "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+    "ttl7404_nominal.cir": "897965264d1bd6061436805a260acd5ad32aacab08a121ebb82e900cd4501ed2",
+    "ttl7406_limits.json": "9eff9a9d9ee2060cab81a3a9bedc6017770c1e7b115c7ff894ec02193c9839aa",
+    "d104_limits.json": "541eb612b620ec9b5b84d6991719acd3cb36b411950b0bf3d4aa1a2b50fa719f",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8"
+  },
+  "runtime": {
+    "path": "/opt/homebrew/Cellar/ngspice/47/bin/ngspice",
+    "sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+    "spinitSha256": "2567ddb612eb2d41da2425a202e762c1eb53d9cdf69c31d3b4f9eeaf9914bda9"
+  },
+  "sourceConditions": {
+    "7406": {
+      "url": "https://www.ti.com/lit/ds/symlink/sn7406.pdf",
+      "locator": "SDLS031A printed page 3, SN7406 column, DC bounds over 0\u201370 C; switching bounds apply at 25 C only"
+    },
+    "7404": {
+      "url": "https://www.datasheetarchive.com/datasheet/D104D/RFT?term=d104d&version=1",
+      "pdfUrl": "https://www.datasheetarchive.com/pdf/download/distributors/Datasheets-AE/DSA5GERT0000159.pdf",
+      "sha256": "47c849b87a495178bb41838282e10ecc2fab69001bac0de3b4943fe50bb205f6",
+      "publisher": "VEB Halbleiterwerk Frankfurt/Oder",
+      "locator": "Printed pages 2\u20134; dynamic measurement circuit on page 7",
+      "rights": "Manufacturer document linked, not redistributed"
+    }
+  },
+  "assumptions": {
+    "inputReverseBeta": 0.01,
+    "temperatureModel": "Unmodified SPICE generic semiconductor temperature laws; endpoints are screens, not validated temperature dependence"
+  },
+  "boundary": "No parameter fitting, continuous temperature/process coverage, dynamic qualification, clone equivalence or specimen calibration. D104 limits are tested against a TI 7404-topology proxy. Passing static endpoints cannot admit oscillator or host dynamics.",
+  "cases": [
+    {
+      "device": "7406",
+      "name": "input-low",
+      "temperatureC": 0,
+      "metric": "-i(Vin)",
+      "minimum": -0.0016,
+      "maximum": 0,
+      "value": -0.0006926337779946828,
+      "withinLimit": true,
+      "directory": "7406-input-low-0C",
+      "artifacts": {
+        "probe.cir": "7918b52df5a7458cc3267e22bbfac1f0d6d46948ba2366083bcb2950c26f1c0e",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "4b6ef2baa4a94d063dd327796ec08b4c977d667636a60a16b1018e475d293dda"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-low",
+      "temperatureC": 25,
+      "metric": "-i(Vin)",
+      "minimum": -0.0016,
+      "maximum": 0,
+      "value": -0.0007000245718868087,
+      "withinLimit": true,
+      "directory": "7406-input-low-25C",
+      "artifacts": {
+        "probe.cir": "400674e33aa80e381ce3805028c8770801dcecf5386d7b8453b9793a712603c2",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "747a130a4e3fece71107ff3602610231296079bb8240b3a0d44a491997648d9d"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-low",
+      "temperatureC": 70,
+      "metric": "-i(Vin)",
+      "minimum": -0.0016,
+      "maximum": 0,
+      "value": -0.0007131882686800948,
+      "withinLimit": true,
+      "directory": "7406-input-low-70C",
+      "artifacts": {
+        "probe.cir": "af1303a85dea955a0d7691f99f33d900fe775feb75a4f6a15852269439b983a9",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "7df52acdb0e65552b2be92ec303cc4bd2313d1a9695913222f3943d915adcf71"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-high",
+      "temperatureC": 0,
+      "metric": "-i(Vin)",
+      "minimum": 0,
+      "maximum": 4e-05,
+      "value": 4.960779689065766e-06,
+      "withinLimit": true,
+      "directory": "7406-input-high-0C",
+      "artifacts": {
+        "probe.cir": "173d448291860970e86f230b9b975bb3c94e3ca99eb91cab9cefc060c8706b83",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "d370655b09b584347864a004aa6d2134af7d949ec536d5a4bbb7325516aecf92"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-high",
+      "temperatureC": 25,
+      "metric": "-i(Vin)",
+      "minimum": 0,
+      "maximum": 4e-05,
+      "value": 5.1697829250965895e-06,
+      "withinLimit": true,
+      "directory": "7406-input-high-25C",
+      "artifacts": {
+        "probe.cir": "5a9cbd95675d2185e2e179d8d7c8fa5d88015e1a76496406e7c72996e1fac1d0",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "bfc864c2a2140a6c250c50cd0467882851008b79257702c232f30f3256f6b9e0"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-high",
+      "temperatureC": 70,
+      "metric": "-i(Vin)",
+      "minimum": 0,
+      "maximum": 4e-05,
+      "value": 5.550950431210641e-06,
+      "withinLimit": true,
+      "directory": "7406-input-high-70C",
+      "artifacts": {
+        "probe.cir": "b710c6b14f4462a66728dec3fd8b6759e422064222db7293154c6bedbb41105b",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "d1d8df10b17abe0551299ec77c05c2c8f7dbe015be079987a3bfcc56d980166f"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-maximum",
+      "temperatureC": 0,
+      "metric": "-i(Vin)",
+      "minimum": 0,
+      "maximum": 0.001,
+      "value": 4.960785919041e-06,
+      "withinLimit": true,
+      "directory": "7406-input-maximum-0C",
+      "artifacts": {
+        "probe.cir": "aa593be9c7a07dd3f210ddb9153f3ab622597eb5a5ca378a91a1e5b8aa224173",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "fd5870d24c47745bde740e3f5112dae5e61c6f9384cfabf422124bf928c5cb4d"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-maximum",
+      "temperatureC": 25,
+      "metric": "-i(Vin)",
+      "minimum": 0,
+      "maximum": 0.001,
+      "value": 5.169789155078986e-06,
+      "withinLimit": true,
+      "directory": "7406-input-maximum-25C",
+      "artifacts": {
+        "probe.cir": "0ca55786e8d11a402d4ff996a9c1f75b7340fd25ec2a563e3a72b71160ab0cc5",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "feddef7b50d388da0fd8f6e7f8fffff59c1906e4d1e15a6e7676cd591a30b79d"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-maximum",
+      "temperatureC": 70,
+      "metric": "-i(Vin)",
+      "minimum": 0,
+      "maximum": 0.001,
+      "value": 5.5509566621252885e-06,
+      "withinLimit": true,
+      "directory": "7406-input-maximum-70C",
+      "artifacts": {
+        "probe.cir": "c2afcc40830229b97210918b65f962df1bda751aa7a1b75941d82f79c7b50c66",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "9d6949b6de78b1a0ff068dab2131578d2d69d68d23afb1a01fb4919483d455b2"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "sink-16ma",
+      "temperatureC": 0,
+      "metric": "v(y)",
+      "minimum": 0,
+      "maximum": 0.4,
+      "value": 0.05193159808010081,
+      "withinLimit": true,
+      "directory": "7406-sink-16ma-0C",
+      "artifacts": {
+        "probe.cir": "27c1c8f1c5695ffec3b7bc1915f5549aee5d2ea183b81507071b7d4ea9fb73e1",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "74b0ef57714d9360de815205b7faa2c89f81c8dc0c17d1f551ae8eae9328b815"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "sink-16ma",
+      "temperatureC": 25,
+      "metric": "v(y)",
+      "minimum": 0,
+      "maximum": 0.4,
+      "value": 0.056473926596641154,
+      "withinLimit": true,
+      "directory": "7406-sink-16ma-25C",
+      "artifacts": {
+        "probe.cir": "d3d49374ba08e08fe8e7de223563524ed9301f77e57d72c278e6d53a59d1f0a6",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "33457d5f5255d3386a4e169e0bbfc83535f482d80555c9f2e35bcc56aac7dcb9"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "sink-16ma",
+      "temperatureC": 70,
+      "metric": "v(y)",
+      "minimum": 0,
+      "maximum": 0.4,
+      "value": 0.06455996259383999,
+      "withinLimit": true,
+      "directory": "7406-sink-16ma-70C",
+      "artifacts": {
+        "probe.cir": "888cdfd75646b6c0c01f404125c31e34f1d3669df350c16a2160456626016b00",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "6be3892b90e8ae9eabfe135e6542fcf5c493a9465adfacc0546f158c4e40d659"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "sink-40ma",
+      "temperatureC": 0,
+      "metric": "v(y)",
+      "minimum": 0,
+      "maximum": 0.7,
+      "value": 0.0726001160487627,
+      "withinLimit": true,
+      "directory": "7406-sink-40ma-0C",
+      "artifacts": {
+        "probe.cir": "88178b476816c53dfb15dc6456984e1f66bda42f66da8a56ba877887e408b5fa",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "1caa73f672709c820cc765a33b39602d42d0892689d050239e02b83d639a8890"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "sink-40ma",
+      "temperatureC": 25,
+      "metric": "v(y)",
+      "minimum": 0,
+      "maximum": 0.7,
+      "value": 0.07898147685967818,
+      "withinLimit": true,
+      "directory": "7406-sink-40ma-25C",
+      "artifacts": {
+        "probe.cir": "45c9602b763a47f48c71edfc1498dfa893a2d8ec483441d0c2db99070e395164",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "78b7672ecedcc1364bf5527afebecfed95186e32cef4c83893da99c7bd4c1d4c"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "sink-40ma",
+      "temperatureC": 70,
+      "metric": "v(y)",
+      "minimum": 0,
+      "maximum": 0.7,
+      "value": 0.09035437049560369,
+      "withinLimit": true,
+      "directory": "7406-sink-40ma-70C",
+      "artifacts": {
+        "probe.cir": "1d996fb9aea7671ef0a821c3bd659bf7b1d73547d51d2a220213a92a4fd9d1a3",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "49e705b5bf8b93258d877a460d0b98edb7629c26f83b7eab2408583243cf68bb"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-clamp",
+      "temperatureC": 0,
+      "metric": "v(a)",
+      "minimum": -1.5,
+      "maximum": 0,
+      "value": -0.7595552337308633,
+      "withinLimit": true,
+      "directory": "7406-input-clamp-0C",
+      "artifacts": {
+        "probe.cir": "b7bd2f233fa5518fbfedd72d7bab4b1d6c71f8e2d3e1546f727c41f80f5169ae",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "28f49fb0ada1c42c3734ef528b44a9fb2f03613ae2d07782ac92d8dba4861e2b"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-clamp",
+      "temperatureC": 25,
+      "metric": "v(a)",
+      "minimum": -1.5,
+      "maximum": 0,
+      "value": -0.720728556838112,
+      "withinLimit": true,
+      "directory": "7406-input-clamp-25C",
+      "artifacts": {
+        "probe.cir": "a35c7935fab82e0a404e611f10bf2208963e83eac2906e84eb981f1e40c1fd6d",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "52a026b723e97ce2c93d1abc0d0d2a1bfb3b4fb3bfe6828de9a78e4ee6dad6fa"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "input-clamp",
+      "temperatureC": 70,
+      "metric": "v(a)",
+      "minimum": -1.5,
+      "maximum": 0,
+      "value": -0.6495008525115948,
+      "withinLimit": true,
+      "directory": "7406-input-clamp-70C",
+      "artifacts": {
+        "probe.cir": "4cc3847754062a969ed58e6004683099e1aad2e9f3a7d3a8e92f7d117fde9a82",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "5444ad09025f90b36b207f91bcb731a7cc915a8445425525c7a3368958f3ca8a"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "off-leakage",
+      "temperatureC": 0,
+      "metric": "-i(Vout)",
+      "minimum": 0,
+      "maximum": 0.00025,
+      "value": 5.996356679118219e-11,
+      "withinLimit": true,
+      "directory": "7406-off-leakage-0C",
+      "artifacts": {
+        "probe.cir": "b6e29b60879883f163c82c07f7bfc92b7c5fba7141db267afd0ec5d731d6609b",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "772e8c589a5bd097cb1b971af79c0f2e9bc242fccdae72f40034801c7d00eea8"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "off-leakage",
+      "temperatureC": 25,
+      "metric": "-i(Vout)",
+      "minimum": 0,
+      "maximum": 0.00025,
+      "value": 6.00132283264402e-11,
+      "withinLimit": true,
+      "directory": "7406-off-leakage-25C",
+      "artifacts": {
+        "probe.cir": "99e4ab6942fbdd081deed50c5ea7d6e38205b8861d7b281c6d21633ae3717588",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "04b3a4050bd2996fe9cfc4978fe8aab5203378c3ac6c9e7d3eee5a211d6b9518"
+      }
+    },
+    {
+      "device": "7406",
+      "name": "off-leakage",
+      "temperatureC": 70,
+      "metric": "-i(Vout)",
+      "minimum": 0,
+      "maximum": 0.00025,
+      "value": 8.383205264229513e-11,
+      "withinLimit": true,
+      "directory": "7406-off-leakage-70C",
+      "artifacts": {
+        "probe.cir": "c1e1d56cf09b408c8645cf213b7883cf437b1e817567c7ebad694c4024cd6019",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "66930382e5bbb7f716b750ffab78d3cc4aef3378a18ed9e48f83fd03ab733e7c"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "IIL",
+      "temperatureC": 0,
+      "metric": "-i(Vin)",
+      "minimum": -0.0016,
+      "maximum": 0,
+      "value": -0.0010365788858269975,
+      "withinLimit": true,
+      "directory": "7404-IIL-0C",
+      "artifacts": {
+        "probe.cir": "cddf0523d58a601f5bb821f031415c3e66340ed9f3ea478081b46c7788cd1592",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "211ed84a5964ddd618a1ad9fd67a003e3a72851e5e2d58b995311b9ae4643d45"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "IIL",
+      "temperatureC": 25,
+      "metric": "-i(Vin)",
+      "minimum": -0.0016,
+      "maximum": 0,
+      "value": -0.001047465543390512,
+      "withinLimit": true,
+      "directory": "7404-IIL-25C",
+      "artifacts": {
+        "probe.cir": "19ba6786465ed31762f632f8e0fa4f5838c7439c1a7add5ae01c21fefd63e828",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "a5ed28425baab029a2d71a5a82c22df3d92c96e7ced59d4f7a29f50dbedf0e4d"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "IIL",
+      "temperatureC": 70,
+      "metric": "-i(Vin)",
+      "minimum": -0.0016,
+      "maximum": 0,
+      "value": -0.0010670049051753768,
+      "withinLimit": true,
+      "directory": "7404-IIL-70C",
+      "artifacts": {
+        "probe.cir": "b2f7ea123cadbeeade8c79e1cbed5ca8e5bcfc887b6b2bf72d121093d348e152",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "b77b4a61a6c2105b53c9ec4b89e65950cf7e91a409422b8a685e6851afaf40e0"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "IIH",
+      "temperatureC": 0,
+      "metric": "-i(Vin)",
+      "minimum": 0,
+      "maximum": 4e-05,
+      "value": 7.904664613194134e-06,
+      "withinLimit": true,
+      "directory": "7404-IIH-0C",
+      "artifacts": {
+        "probe.cir": "fc6fd3cac416e5590bd5ac4986956fd6baefa0d8098580a22f3f9469f64f6e36",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "0a7d2179bacf495d25b27d9934440f74eacc9c50a76fcd092470f57191b9c939"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "IIH",
+      "temperatureC": 25,
+      "metric": "-i(Vin)",
+      "minimum": 0,
+      "maximum": 4e-05,
+      "value": 8.240170021037761e-06,
+      "withinLimit": true,
+      "directory": "7404-IIH-25C",
+      "artifacts": {
+        "probe.cir": "9862c330b5c31a880f49b38b52e50cb4b2090db1fa03eee6a9a6ffd7a082d498",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "27065c3f4394574c56a688095ddde0f60c72302145a063963644c0d6c2f6ca61"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "IIH",
+      "temperatureC": 70,
+      "metric": "-i(Vin)",
+      "minimum": 0,
+      "maximum": 4e-05,
+      "value": 8.85292802094547e-06,
+      "withinLimit": true,
+      "directory": "7404-IIH-70C",
+      "artifacts": {
+        "probe.cir": "fd82d8b0cf1a9a99ceee97fa67a377fb04a3889f8f2a1cae4577501d66ef0567",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "a3e4c3925e6e163a07a83319445b716743c82cf97e8b6b0009efec6e0056f075"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "VOH",
+      "temperatureC": 0,
+      "metric": "v(y)",
+      "minimum": 2.4,
+      "maximum": 4.75,
+      "value": 2.9615571170818216,
+      "withinLimit": true,
+      "directory": "7404-VOH-0C",
+      "artifacts": {
+        "probe.cir": "b824a26c2c5393dbd6f5952597093fd37dd140f6fecbc00c4b55aac326b8e215",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "7aad45164dcdd2a7a4440d05302b9f491b1d04b234ea291a15e1bb010beceed5"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "VOH",
+      "temperatureC": 25,
+      "metric": "v(y)",
+      "minimum": 2.4,
+      "maximum": 4.75,
+      "value": 2.968145456993662,
+      "withinLimit": true,
+      "directory": "7404-VOH-25C",
+      "artifacts": {
+        "probe.cir": "bf43c903728ad3203a593e092ac1a85e3acb088cd73ab6f36f969feb11caed96",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "4ccc86904ba3e35df4835a005231d5b6053abe4ae8c9cb906574ebe93c7893dd"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "VOH",
+      "temperatureC": 70,
+      "metric": "v(y)",
+      "minimum": 2.4,
+      "maximum": 4.75,
+      "value": 2.9804615052868604,
+      "withinLimit": true,
+      "directory": "7404-VOH-70C",
+      "artifacts": {
+        "probe.cir": "2cab26146fd697d9c0b0b38f23e272328cef6bc4036d8a2192e070669249edfe",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "044c804858e970926f28476e62e1685b8c009af3cbea8d7430292f8fe0586ae8"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "VOL",
+      "temperatureC": 0,
+      "metric": "v(y)",
+      "minimum": 0,
+      "maximum": 0.4,
+      "value": 0.05298182984437305,
+      "withinLimit": true,
+      "directory": "7404-VOL-0C",
+      "artifacts": {
+        "probe.cir": "a8ef65b488e87f63ff80eec78e0aecd323b441b69ed5f8cb543fa848d23563b3",
+        "ngspice.log": "3db5c7987f39eee9be3b07b6600b6ba0b14080cbc79974b9d8036fd5e5778c76",
+        "trace.txt": "bf1b93a65caa227ec07ed3896eca316b3cca8db2f058bf19702cf7960f9710a9"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "VOL",
+      "temperatureC": 25,
+      "metric": "v(y)",
+      "minimum": 0,
+      "maximum": 0.4,
+      "value": 0.05699359730389593,
+      "withinLimit": true,
+      "directory": "7404-VOL-25C",
+      "artifacts": {
+        "probe.cir": "3b9d2550531bed908b65be5fb69f386e7748fd9a2f776184982c17d551bc3a71",
+        "ngspice.log": "13e83624ca30da8cdb62fb8d27be15433dae404d73edf7faa597a1c2f8af1ea5",
+        "trace.txt": "b42218b4a44b272b1dbc30602871c359891c07115e3de30a7391309649fc2b73"
+      }
+    },
+    {
+      "device": "7404",
+      "name": "VOL",
+      "temperatureC": 70,
+      "metric": "v(y)",
+      "minimum": 0,
+      "maximum": 0.4,
+      "value": 0.06394601438234916,
+      "withinLimit": true,
+      "directory": "7404-VOL-70C",
+      "artifacts": {
+        "probe.cir": "aff016eaacd653b558db07b483dec2b671f7f9fe5db5bc1730fdc390556f1068",
+        "ngspice.log": "99f72e6fd57eb129c231f845af2283172303be213f2dad5a211cbf1ab9fb984c",
+        "trace.txt": "b608688351d58fca96fff64bb2a7750334d714c3c8f6d38639fa2c39d66f5644"
+      }
+    }
+  ],
+  "staticEndpointsPassed": true
+}
