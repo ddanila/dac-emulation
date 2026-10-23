@@ -1,0 +1,161 @@
+{
+  "completed": true,
+  "passed": false,
+  "qualified": false,
+  "scope": "Fail-fast clock prerequisite from a prepared closed-board deck, before firmware acceptance.",
+  "durationSeconds": 0.0005,
+  "boundary": "Bounded startup clock screen only. Reset release, firmware execution, scenario coverage and supply recovery are not accepted by this screen.",
+  "sources": {
+    "startup_boundary_screen.py": "61553d51611edc095c0974297b60dda3a92293659e616091600b2255911de50e",
+    "clock_voltage.py": "dd101a34b699a8f0a772c9a4cce0d16edcfc62a49e43e4865dceaf3c153b4e79",
+    "clock_timing.py": "aaaf826305171e953a49302c0b0fb442ce7966c7e46789032c4a9fa620c4c6ed",
+    "cpu_clock_limits.json": "2c9bcde027d0aa4e756e46bfa95c9da7daae6dec70631b9b8d2586d61f6400b1",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9"
+  },
+  "stepNs": 10.0,
+  "sourceDeckSha256": "9b2ff166f82b60d1615e5cb6993dc21fb5ccc3d01dc48d874e49f6016887ae00",
+  "deckSha256": "b496b3037150be896744321fe7a1680762072617e90c9bac0e39ef4489724cf2",
+  "copiedInputs": {
+    "boot.vvp": "bebacb965798df45564664b1ac9c8dfef7ef47687e602fb2067228993823c6e7",
+    "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d"
+  },
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-cosim-input-barrier-v2/spinit",
+      "sha256": "561dad9c750e5dd2850f1745d86f4fabae08f197cb83b57670b296c0dab13ad8"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-cosim-input-barrier-v2/digital.cm",
+        "sha256": "29fe2266edc502cc1cb959e7b5ce65753400972dafef1d381f0bdf696d6e0d3a",
+        "loadPath": "/private/tmp/robotron-cosim-input-barrier-v2/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "exitCode": 0,
+  "clockVoltage": {
+    "qualified": false,
+    "scope": "Sampled excursions within the published supply range only; does not qualify pulse widths, between-sample behavior, temperature, or CPU behavior below that range",
+    "supplyEpochs": [],
+    "resetBoundary": "Complete numerical clock cycles with sampled reset low, counted separately for each contiguous rated-supply interval. Not reset pulse-width, CPU state-retention or restart qualification.",
+    "samples": 125369,
+    "validSupplySamples": 0,
+    "belowSupplySamples": 125369,
+    "aboveSupplySamples": 0,
+    "lowExcursionObserved": false,
+    "highExcursionObserved": false,
+    "firstValidSupplySeconds": null,
+    "bestLowMarginVolts": null,
+    "bestHighMarginVolts": null,
+    "inputRangeViolations": 0,
+    "firstInputRangeViolation": null,
+    "cycles": {
+      "completed": 1204,
+      "assessedWithinSupplyRange": 0,
+      "excludedForSupply": 1204,
+      "missingLowExcursion": 0,
+      "missingHighExcursion": 0,
+      "firstFailure": null,
+      "boundary": "Complete cycles delimited by rising 1.4 V numerical crossings; leading/trailing partial cycles are not assessed. No pulse-width or slew claim."
+    },
+    "bothExcursionsObserved": false
+  },
+  "clockTiming": {
+    "passed": false,
+    "qualified": false,
+    "scope": "Sample-bracket comparison using clock valid-input voltage limits; no interpolation, between-sample waveform proof, specimen speed-grade assignment or tester-threshold calibration",
+    "samples": 125369,
+    "validSupplySamples": 0,
+    "abortedExcursions": 0,
+    "inputRangeViolations": 0,
+    "measurements": {
+      "high": {
+        "observations": 0,
+        "passed": 0,
+        "failed": 0,
+        "indeterminate": 0,
+        "minimumLowerNs": null,
+        "maximumUpperNs": null,
+        "firstNonPass": null
+      },
+      "low": {
+        "observations": 0,
+        "passed": 0,
+        "failed": 0,
+        "indeterminate": 0,
+        "minimumLowerNs": null,
+        "maximumUpperNs": null,
+        "firstNonPass": null
+      },
+      "rise": {
+        "observations": 0,
+        "passed": 0,
+        "failed": 0,
+        "indeterminate": 0,
+        "minimumLowerNs": null,
+        "maximumUpperNs": null,
+        "firstNonPass": null
+      },
+      "fall": {
+        "observations": 0,
+        "passed": 0,
+        "failed": 0,
+        "indeterminate": 0,
+        "minimumLowerNs": null,
+        "maximumUpperNs": null,
+        "firstNonPass": null
+      },
+      "period": {
+        "observations": 0,
+        "passed": 0,
+        "failed": 0,
+        "indeterminate": 0,
+        "minimumLowerNs": null,
+        "maximumUpperNs": null,
+        "firstNonPass": null
+      }
+    },
+    "partialIntervalPolicy": "Intervals clipped by file endpoints, invalid supply or out-of-range clock voltage are excluded; transitions with both observed brackets may still be assessed"
+  },
+  "artifacts": {
+    "trace.txt": "0737df25bd98751bae81f3455e0f3b9392259bea2c1e4cf4e1ddb88a9a9b2cc5",
+    "supply-trace.txt": "1b78d4f9720784d1dd8ae8d56893228e17defbdaf6987d00cf39a62e1f4d4014",
+    "ngspice.log": "0d899e7f9365eaf18b4a06d5cc85fb5c92f4f6151d5e379bd896c67ce4d0ac39"
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "passed": true,
+  "scope": "Qualify mixed-signal transport, not the SN7406 electrical characteristics.",
+  "assumptions": {
+    "supplyVolts": 5,
+    "pullupOhms": 560,
+    "loadFarads": 2e-11,
+    "thresholdVolts": [
+      0.8,
+      2
+    ],
+    "bridgeDelaySeconds": 1e-09,
+    "driver": "explicit sink enable: 20 ohms on, open when off; X uses 40 ohms solely as an exploratory surrogate",
+    "electricalQualification": "Transport probe only; not calibrated SN7406 characteristics"
+  },
+  "sources": {
+    "bridge_probe.py": "fea02f782a9b0122dc18ec71f02643c00d8f01d69a03760ab989cbcf8aa0fa9a",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "bridge_probe.v": "f761856743243ab19e75f723cbffbe9a268c2da427cdb8d6cef009def86bdb06",
+    "chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8"
+  },
+  "runs": [
+    {
+      "stepNs": 2,
+      "samples": [
+        [
+          5.0088e-07,
+          0.0,
+          5.0,
+          0.0
+        ],
+        [
+          1.501e-06,
+          5.0,
+          0.172413793,
+          5.0
+        ],
+        [
+          2.501e-06,
+          0.0,
+          5.0,
+          0.0
+        ]
+      ],
+      "echoLatencySeconds": [
+        1.799999999999987e-08,
+        1.8000000000000082e-08,
+        1.8000000000000082e-08,
+        1.8000000000000082e-08
+      ],
+      "deckSha256": "0e048e0a727c903b57cd1c33858e62c442546384d0a137da32129b48a6592841"
+    },
+    {
+      "stepNs": 1,
+      "samples": [
+        [
+          5.0028e-07,
+          0.0,
+          5.0,
+          0.0
+        ],
+        [
+          1.4995e-06,
+          5.0,
+          0.172413793,
+          5.0
+        ],
+        [
+          2.5005e-06,
+          0.0,
+          5.0,
+          0.0
+        ]
+      ],
+      "echoLatencySeconds": [
+        1.8000000000000082e-08,
+        1.799999999999987e-08,
+        1.8000000000000082e-08,
+        1.8000000000000082e-08
+      ],
+      "deckSha256": "c5fffc7b870a4d63432df4d75d2c0719cfd6aa2bf5c0d7148a5511d30289501e"
+    }
+  ],
+  "ngspiceRuntime": {
+    "executable": {
+      "path": "/private/tmp/robotron-ngspice-switch/install/bin/ngspice",
+      "sha256": "b90755091d81acf89dde0fba18c80f4586a6c1e88cd582101246ef3491adf1f7"
+    },
+    "spinit": {
+      "path": "/private/tmp/robotron-cosim-input-barrier-v2/spinit",
+      "sha256": "561dad9c750e5dd2850f1745d86f4fabae08f197cb83b57670b296c0dab13ad8"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-cosim-input-barrier-v2/digital.cm",
+        "sha256": "29fe2266edc502cc1cb959e7b5ce65753400972dafef1d381f0bdf696d6e0d3a",
+        "loadPath": "/private/tmp/robotron-cosim-input-barrier-v2/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+        "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    }
+  },
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with Sparse Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******"
+}
