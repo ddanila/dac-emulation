@@ -2,7 +2,7 @@
 import json,subprocess,tempfile,unittest
 from pathlib import Path
 from prepare_boundary_trace import MONITOR,instrument
-from failure_evidence import solver_diagnostic
+from live_transition_probe import live_diagnostic as solver_diagnostic
 from boundary_transition_review import observations,undefined_intervals
 
 class BoundaryTraceTest(unittest.TestCase):

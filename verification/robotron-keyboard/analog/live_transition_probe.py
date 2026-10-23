@@ -9,6 +9,12 @@ from fixture_crossing_grid import add_crossings
 from network_trace import observe_network
 from io_scenario import load as load_scenario
 
+def live_diagnostic(log):
+ # Icarus can abort HDL initialization with SORRY while ngspice still exits zero.
+ diagnostic=solver_diagnostic(log)
+ unsupported=re.search(r'^.*SORRY:.*$',log,re.M)
+ return diagnostic or (unsupported.group(0) if unsupported else None)
+
 def reduce_matrix(deck):
  """Diagnostic empty-matrix boundary; this is not equivalent full-board evidence."""
  start=deck.index('R1_2 ');end=deck.index('R10.1 ',start)
@@ -67,6 +73,6 @@ def main():
  if a.conservative_cap and 'CAP_ASSEMBLY mode=1' not in logtext:raise ValueError('Runtime did not acknowledge exact capacitor mode')
  if a.cap_paired_rhs and 'CAP_ASSEMBLY mode=2' not in logtext:raise ValueError('Runtime did not acknowledge paired RHS mode')
  if a.passive_assembly and 'POSTCAP_ASSEMBLY mode=1' not in logtext:raise ValueError('Runtime did not acknowledge passive assembly mode')
- result={'exitCode':code,'timedOut':timedout,'elapsedSeconds':time.monotonic()-start,'runtime':runtime,'enabled':a.dac_corners,'adcCrossings':a.adc_crossings,'audit':a.audit,'stateAudit':a.state_audit,'switchAudit':a.switch_audit,'conservativeCap':a.conservative_cap,'capPairedRhs':a.cap_paired_rhs,'inductorMonitor':a.inductor_monitor,'passiveAssembly':a.passive_assembly,'networkTrace':a.network_trace,'mpfrTransitionBits':a.mpfr_transition,'mpfrStartNs':a.mpfr_start_ns,'matrixBoundarySubstitution':a.reduce_matrix,'stepNs':a.step_ns,'stopNs':a.stop_ns,'fixtureCrossingGuardPs':a.fixture_crossings_ps,'toleranceScale':a.tolerance_scale,'qualified':False,'method':a.method or 'trap','solverDiagnostic':solver_diagnostic((a.out/'ngspice.log').read_text()),'sourceDeckSha256':sha(a.prepared/'io.cir'),'deckSha256':sha(a.out/'io.cir'),'inputs':{n:sha(a.out/n) for n in ('io.vvp','s600.hex')},'generatorSha256':generator_sha}
+ result={'exitCode':code,'timedOut':timedout,'elapsedSeconds':time.monotonic()-start,'runtime':runtime,'enabled':a.dac_corners,'adcCrossings':a.adc_crossings,'audit':a.audit,'stateAudit':a.state_audit,'switchAudit':a.switch_audit,'conservativeCap':a.conservative_cap,'capPairedRhs':a.cap_paired_rhs,'inductorMonitor':a.inductor_monitor,'passiveAssembly':a.passive_assembly,'networkTrace':a.network_trace,'mpfrTransitionBits':a.mpfr_transition,'mpfrStartNs':a.mpfr_start_ns,'matrixBoundarySubstitution':a.reduce_matrix,'stepNs':a.step_ns,'stopNs':a.stop_ns,'fixtureCrossingGuardPs':a.fixture_crossings_ps,'toleranceScale':a.tolerance_scale,'qualified':False,'method':a.method or 'trap','solverDiagnostic':live_diagnostic(logtext),'sourceDeckSha256':sha(a.prepared/'io.cir'),'deckSha256':sha(a.out/'io.cir'),'inputs':{n:sha(a.out/n) for n in ('io.vvp','s600.hex')},'generatorSha256':generator_sha}
  (a.out/'run.json').write_text(json.dumps(result,indent=2)+'\n');print(a.out/'run.json')
 if __name__=='__main__':main()
