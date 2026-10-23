@@ -394,8 +394,12 @@ shows why that plateau retains the ideal switch's previous state rather than
 specifying a physical 7406 transfer curve. The opt-in
 [ADC crossing candidate](engine-patches/adc-crossing-breakpoint.patch) requests
 rollback to interpolated threshold crossings, retaining unknown states and
-native threshold rules. Analytic ramp and RC controls pass; full-board refinement
-and physical-driver admission remain required. [Traffic preflight](reports/boundary-refinement/traffic/assessment.json)
+native threshold rules. Analytic ramp and RC controls pass, and the
+[matched three-level live series](reports/boundary-refinement/assessment.json)
+completes with preserved firmware reads. RMS disagreements improve relative to
+the baseline, but ideal-switch voltage peaks remain and waveform convergence is
+not established. Keep the candidate opt-in pending those electrical gates and
+physical-driver admission. [Traffic preflight](reports/boundary-refinement/traffic/assessment.json)
 prepares press/release, overlapping contacts and reset during observed serial
 activity; production-C coverage is not electrical execution.
 

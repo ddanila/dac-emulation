@@ -1,0 +1,78 @@
+{
+  "exitCode": 0,
+  "timedOut": false,
+  "elapsedSeconds": 886.833597833,
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-passive-cap-runtime",
+      "sha256": "8ac92aaa0956bb70b10d1bee4f76ade09d462856a20cbd535a65283b6568bce0"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-live-models/spinit",
+      "sha256": "4d701f9d8a521e9393fa6b7dbebba6195df89ed6cb8c8c79a18e536f6af7e160"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-live-models/digital.cm",
+        "sha256": "b4ee8f758fb28fa20f0ea0562c564f222ec0f8de41c589abfbc3d3c8910cbbba",
+        "loadPath": "/private/tmp/k7658-live-models/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "enabled": false,
+  "audit": false,
+  "stateAudit": false,
+  "switchAudit": false,
+  "conservativeCap": true,
+  "capPairedRhs": false,
+  "inductorMonitor": false,
+  "passiveAssembly": true,
+  "networkTrace": true,
+  "mpfrTransitionBits": "256",
+  "mpfrStartNs": 0.0,
+  "matrixBoundarySubstitution": false,
+  "stepNs": 12.5,
+  "stopNs": null,
+  "fixtureCrossingGuardPs": 0.5,
+  "toleranceScale": 0.5,
+  "qualified": false,
+  "method": "trap",
+  "solverDiagnostic": null,
+  "sourceDeckSha256": "9623170b301db2a1de93690df6b78d700d32b778916fc18ca6c97d32b6e6818c",
+  "deckSha256": "1ffeb7f05271bdd93d95ecf835fb798fee6299fd4cee3ce7a9149963d919c18c",
+  "inputs": {
+    "io.vvp": "a6605afef0096800a93c54aff135f9bbc7aa1c21a2a356a52122a24e5db70780",
+    "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966"
+  },
+  "generatorSha256": "07e7ce7b499643144a1b3ae51adc8c76f5122c3e442aad1a1304118eea33d713"
+}

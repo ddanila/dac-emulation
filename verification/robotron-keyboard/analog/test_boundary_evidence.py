@@ -3,10 +3,28 @@ import hashlib,json,re,unittest
 from pathlib import Path
 from unknown_output_probe import assess
 from io_scenario import load,observe
+from boundary_campaign_review import review
 HERE=Path(__file__).resolve().parent
 ROOT=HERE/'reports/boundary-refinement'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 class BoundaryEvidenceTest(unittest.TestCase):
+ def test_completed_series_preserve_the_qualification_boundary(self):
+  expected=json.loads((ROOT/'assessment.json').read_text())
+  self.assertEqual(review(ROOT),expected)
+  self.assertTrue(expected['completedRefinementSeries']);self.assertFalse(expected['qualified'])
+  for comparison in expected['comparisons']:
+   self.assertTrue(comparison['firmwareReadsPreserved'])
+   self.assertGreater(comparison['candidatePeaks']['v(n_TA_DATEN)']['value'],4)
+  checked={}
+  for kind in ('zero','adc'):
+   report=json.loads((ROOT/f'{kind}-series.json').read_text())
+   for pair,levels in zip(report['pairs'],((25,12),(12,6))):
+    for label,level in zip(('coarse','fine'),levels):
+     for name,digest in pair['artifacts'][label].items():
+      p=ROOT/f'network-{kind}{level}'/name
+      if not p.exists():p=p.with_name(p.name+'.xz')
+      if p not in checked:checked[p]=sha(p)
+      self.assertEqual(checked[p],digest)
  def test_undefined_threshold_memory(self):
   root=ROOT/'unknown-output';report=json.loads((root/'assessment.json').read_text())
   self.assertFalse(report['qualified'])
