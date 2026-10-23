@@ -1,0 +1,68 @@
+--- a/src/spicelib/parser/ifeval.c
++++ b/src/spicelib/parser/ifeval.c
+@@ -18,6 +18,16 @@
+ 
+ 
+ extern double PTfudge_factor;
++#include <stdint.h>
++#include <string.h>
++/* Cache shared pure subexpressions only during one value/gradient evaluation.
++ * No operation is reordered; each miss executes the original evaluator. */
++struct eval_entry { INPparseNode *node; uint64_t epoch; double value; };
++static _Thread_local struct eval_entry eval_cache[1024];
++static _Thread_local uint64_t eval_epoch, eval_impure;
++static int eval_enabled = -1;
++static int PTeval_raw(INPparseNode *, double, double *, double *);
++
+ 
+ static int PTeval(INPparseNode * tree, double gmin, double *res,
+ 		  double *vals);
+@@ -29,6 +39,14 @@
+        double *derivs)
+ {
+     int i, err;
++    if (eval_enabled < 0) {
++        const char *mode = getenv("ROBOTRON_EVAL_CACHE");
++        eval_enabled = mode && !strcmp(mode, "exact");
++    }
++    if (++eval_epoch == 0) {
++        memset(eval_cache, 0, sizeof(eval_cache));
++        eval_epoch = 1;
++    }
+     INPparseTree *myTree = (INPparseTree *) tree;
+ 
+     if (!myTree) {
+@@ -78,7 +96,32 @@
+ }
+ 
+ static int
+-PTeval(INPparseNode * tree, double gmin, double *res, double *vals)
++PTeval(INPparseNode *tree, double gmin, double *res, double *vals)
++{
++    if (!eval_enabled)
++        return PTeval_raw(tree, gmin, res, vals);
++    if (tree->type == PT_FUNCTION && (tree->data || tree->funcnum == PTF_DDT)) {
++        ++eval_impure;
++        return PTeval_raw(tree, gmin, res, vals);
++    }
++    if (tree->usecnt <= 1 || tree->type == PT_CONSTANT || tree->type == PT_VAR)
++        return PTeval_raw(tree, gmin, res, vals);
++    uintptr_t key = (uintptr_t)tree;
++    struct eval_entry *entry = &eval_cache[((key >> 4) ^ (key >> 14)) & 1023];
++    if (entry->epoch == eval_epoch && entry->node == tree) {
++        *res = entry->value;
++        return OK;
++    }
++    uint64_t impure = eval_impure;
++    int err = PTeval_raw(tree, gmin, res, vals);
++    if (err == OK && impure == eval_impure) {
++        entry->node = tree; entry->epoch = eval_epoch; entry->value = *res;
++    }
++    return err;
++}
++
++static int
++PTeval_raw(INPparseNode * tree, double gmin, double *res, double *vals)
+ {
+     double r1, r2;
+     int err;
