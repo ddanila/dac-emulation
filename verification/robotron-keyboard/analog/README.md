@@ -350,6 +350,20 @@ The compiled upstream regression verifies the omission and unchanged output
 arithmetic. Tight live controls still abort or time out, so the candidate is not
 adopted. `build_live_transition_models.py` builds fingerprinted code models;
 `live_transition_probe.py` reproduces controls with explicit runtime inputs.
+
+The [live-state replay](reports/live-state/assessment.json) captures accepted
+histories and pre-factorization equations. Independent 80/160-digit solves
+separate the initial capacitor rejection from the terminal ill-conditioned
+solve: correcting the logged LTE recurrence alone does not remove rejection.
+Use `live_state_review.py LOG --out REPORT` to recompute the frozen comparison.
+`--state-audit` requires the supplemental live-state patch; `--mpfr-transition`
+requires the MPFR linear and live-window patches and changes linear arithmetic
+only after the selected transition boundary. This is a diagnostic intervention,
+not a qualified solver or a full high-precision trajectory. The short timestep
+pair completes, but a drive timing mismatch, tighter-tolerance timeout and later
+long-run failure leave convergence open. `live_prefix_review.py` compares the
+retained short waveforms without phase alignment.
+
 Keep later acceptance gated until matched live refinement completes.
 
 
