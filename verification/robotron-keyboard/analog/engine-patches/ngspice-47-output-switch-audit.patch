@@ -1,0 +1,22 @@
+--- a/src/spicelib/devices/sw/swload.c
++++ b/src/spicelib/devices/sw/swload.c
+@@ -137,6 +137,8 @@
+             else
+                 g_now = model->SWoffConduct;
+ 
++            if (getenv("ROBOTRON_SWITCH_AUDIT") && ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605 && !strcmp(here->SWname,"sdata"))
++                fprintf(stderr,"SWITCH_AUDIT time=%a delta=%a mode=%ld control=%a threshold=%a previous=%a old=%a current=%a conductance=%a noncon=%d\n",ckt->CKTtime,ckt->CKTdelta,ckt->CKTmode,v_ctrl,model->SWvThreshold,previous_state,old_current_state,current_state,g_now,ckt->CKTnoncon);
+             here->SWcond = g_now;
+ 
+             *(here->SWposPosPtr) += g_now;
+--- a/src/spicelib/analysis/dctran.c
++++ b/src/spicelib/analysis/dctran.c
+@@ -729,6 +729,8 @@
+         }
+         /* Central solver step */
+         converged = NIiter(ckt,ckt->CKTtranMaxIter);
++        if (getenv("ROBOTRON_SWITCH_AUDIT") && ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605)
++            fprintf(stderr,"SWITCH_SOLVER time=%a delta=%a result=%d\n",ckt->CKTtime,ckt->CKTdelta,converged);
+         if (getenv("ROBOTRON_LIVE_AUDIT") && ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014)
+             fprintf(stderr, "TRUNC_AUDIT solver time=%a delta=%a result=%d order=%d\n", ckt->CKTtime, ckt->CKTdelta, converged, ckt->CKTorder);
+ 

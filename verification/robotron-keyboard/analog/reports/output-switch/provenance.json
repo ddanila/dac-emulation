@@ -1,0 +1,15 @@
+{
+  "qualified": false,
+  "base": "reports/switching-events/provenance.json",
+  "control": "reports/switching-events/live-reset-crossings25",
+  "witnessSha256": "bb28e28c83fdc20472d28fffdf60addb9e901fc5fd52043f4b3504afffbdfb85",
+  "patchOrder": [
+    "ngspice-47-output-switch-audit.patch",
+    "ngspice-47-later-truncation-audit.patch"
+  ],
+  "patchHashes": {
+    "ngspice-47-output-switch-audit.patch": "7cf17d172879938a95ee9a1c296d6f5d95f97e1f3e9f65b39ce7a7ae32513fc9",
+    "ngspice-47-later-truncation-audit.patch": "4aa5789bdd5d979c0bb8918d2cc30d728602ac3c9903063aa25b54da39481e49"
+  },
+  "boundary": "Read-only supplemental audit; unchanged MPFR start, fixture grid, tolerances and waveform. Named trouble element is not an attribution of cause."
+}
