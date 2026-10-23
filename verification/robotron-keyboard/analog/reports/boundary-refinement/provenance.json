@@ -1,0 +1,20 @@
+{
+  "qualified": false,
+  "baseRuntime": "reports/inductor-chain/provenance.json",
+  "candidateBuild": "adc-model-build.json",
+  "patches": {
+    "adc-crossing-breakpoint.patch": "25b881dcd0595c8028e2e3806e09622c47f58a0664a4e13e8b1208cbd484693b"
+  },
+  "sources": {
+    "adc_crossing_probe.py": "593cdeb9a7671c374635686227c8b850728cf5356d7ad51a6950f1a2f554c58d",
+    "boundary_transition_review.py": "9c4a2107fae5cff859eda5bb9c096049d07ed29c3453deecac50deacf327c337",
+    "network_refinement_series.py": "a2c488157337469ea4e338f8bd8a043252e39af21cd75e63d02de56fb522726e",
+    "network_refinement_review.py": "cd4a52ba2d00a1d2d1f2e8c41d04ceaa7e1e83ddf8a5417bd5dd23c4e5306e8c",
+    "prepare_boundary_trace.py": "7cd6c27f8a32796c8864fe352e48b30ae7fd966767c9e6c79d7f5b65a09de094",
+    "unknown_output_probe.py": "e11068b4c6c291ea9a4a495dbd11052f55aced98dc22e08a9ba8058001fc5b55",
+    "traffic_preflight.py": "001aa290c25e20ea9912cb2091fa1a78c3de811a78d12403a2c703076c7ad33e",
+    "fixture_crossing_grid.py": "c1f449a61a26ffe22c26bdc1ca09eecab4642658ac24cd389c5fcb11695ea0e7",
+    "live_transition_probe.py": "89adb9b567f6376bd4e56aeaa03f97faf03dc8704dd4a62662b17d931d155e69"
+  },
+  "boundary": "Opt-in numerical boundary candidate. Unknown voltage bands and physical device admission remain explicit; no trace alignment, parameter tuning or waived waveform peaks. Time-zero precision controls address a separate startup crawl."
+}

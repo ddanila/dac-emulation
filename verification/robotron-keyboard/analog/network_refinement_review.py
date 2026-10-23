@@ -44,7 +44,8 @@ def review(directories):
    values=re.findall(key+r'=([0-9.eE+-]+)',deck)
    if len(values)!=1 or float(values[0])!=base*r['toleranceScale']:raise ValueError('Unexpected tolerance '+key)
  a,b=receipts
- for key in ('runtime','inputs','sourceDeckSha256','mpfrTransitionBits','mpfrStartNs','method'):
+ if a.get('adcCrossings',False)!=b.get('adcCrossings',False):raise ValueError('Different ADC crossing mode')
+ for key in ('runtime','inputs','sourceDeckSha256','mpfrTransitionBits','mpfrStartNs','method','enabled','matrixBoundarySubstitution'):
   if a[key]!=b[key]:raise ValueError('Different '+key)
  if a['stepNs']!=2*b['stepNs'] or a['toleranceScale']!=2*b['toleranceScale']:raise ValueError('Expected timestep and tolerance halving')
  if normalized((directories[0]/'io.cir').read_text())!=normalized((directories[1]/'io.cir').read_text()):raise ValueError('Physical circuit or stimulus differs')

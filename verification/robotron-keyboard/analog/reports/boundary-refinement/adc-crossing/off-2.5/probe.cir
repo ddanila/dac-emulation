@@ -1,0 +1,17 @@
+Linear receiver threshold timing diagnostic
+Vin source 0 PWL(0 0 10n 0 20n 5 30n 5 40n 0)
+Ainput [source] [digital] receiver
+.model receiver adc_bridge(in_low=.8 in_high=2)
+Adac [digital] [intent] drive
+.model drive dac_bridge(out_low=0 out_high=5 out_undef=2.5 t_rise=1p t_fall=1p)
+Rload intent 0 1g
+.options reltol=1e-7 vntol=1e-9 abstol=1e-15
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+tran 2.5n 50n 0 2.5n
+wrdata trace.txt v(source) v(intent)
+quit
+.endc
+.end

@@ -1,0 +1,500 @@
+{
+  "crossingRegressionPassed": true,
+  "curve": "linear",
+  "qualified": false,
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-passive-cap-runtime",
+      "sha256": "8ac92aaa0956bb70b10d1bee4f76ade09d462856a20cbd535a65283b6568bce0"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-adc-crossing-models-v2/spinit",
+      "sha256": "7fa7d7c6b9cc64f84e39f0052e3e88ece135299caea6de56c7a5f1d917704afe"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-adc-crossing-models-v2/digital.cm",
+        "sha256": "370711ef1acf830b77d111f505df8662f0c5636c5e55054b8e932f413971e3b5",
+        "loadPath": "/private/tmp/k7658-adc-crossing-models-v2/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "expectedTimesNs": [
+        0,
+        11.6,
+        14,
+        36,
+        38.4
+      ],
+      "events": [
+        {
+          "timeSeconds": 0.0,
+          "value": 0.0,
+          "old": 3,
+          "new": 0
+        },
+        {
+          "timeSeconds": 1.35e-08,
+          "value": 1.75,
+          "old": 0,
+          "new": 2
+        },
+        {
+          "timeSeconds": 1.45e-08,
+          "value": 2.2500000000000004,
+          "old": 2,
+          "new": 1
+        },
+        {
+          "timeSeconds": 3.675e-08,
+          "value": 1.6250000000000004,
+          "old": 1,
+          "new": 2
+        },
+        {
+          "timeSeconds": 3.8425e-08,
+          "value": 0.7874999999999999,
+          "old": 2,
+          "new": 0
+        }
+      ],
+      "enabled": false,
+      "stepNs": 5,
+      "crossings": [
+        {
+          "expectedThresholdSeconds": 1.16e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": null,
+          "delaySeconds": null
+        },
+        {
+          "expectedThresholdSeconds": 1.4000000000000001e-08,
+          "target": 5,
+          "firstTargetSampleSeconds": 1.5549999999999997e-08,
+          "delaySeconds": 1.5499999999999957e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.6000000000000005e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 3.7975e-08,
+          "delaySeconds": 1.974999999999996e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.84e-08,
+          "target": 0,
+          "firstTargetSampleSeconds": 3.94825e-08,
+          "delaySeconds": 1.0825000000000032e-09
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "0009d40120d9e72e525eb5cfbc1beb2a6617304601462c5b8cae4ea0078ae187",
+        "ngspice.log": "e0078245bed3a55dd491d57cd252b35b92f2e2bb8c50fe35276c2d621e9e16f1",
+        "trace.txt": "7861edf70a44f6c3b4acc6410a20ba0d52b65872a10f4562c660261d16b00fd6"
+      }
+    },
+    {
+      "expectedTimesNs": [
+        0,
+        11.6,
+        14,
+        36,
+        38.4
+      ],
+      "events": [
+        {
+          "timeSeconds": 0.0,
+          "value": 0.0,
+          "old": 3,
+          "new": 0
+        },
+        {
+          "timeSeconds": 1.1750000000000001e-08,
+          "value": 0.8750000000000003,
+          "old": 0,
+          "new": 2
+        },
+        {
+          "timeSeconds": 1.4150000000000003e-08,
+          "value": 2.075000000000001,
+          "old": 2,
+          "new": 1
+        },
+        {
+          "timeSeconds": 3.6250000000000004e-08,
+          "value": 1.8749999999999996,
+          "old": 1,
+          "new": 2
+        },
+        {
+          "timeSeconds": 3.8562500000000005e-08,
+          "value": 0.718749999999998,
+          "old": 2,
+          "new": 0
+        }
+      ],
+      "enabled": false,
+      "stepNs": 2.5,
+      "crossings": [
+        {
+          "expectedThresholdSeconds": 1.16e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 1.2950000000000002e-08,
+          "delaySeconds": 1.3500000000000022e-09
+        },
+        {
+          "expectedThresholdSeconds": 1.4000000000000001e-08,
+          "target": 5,
+          "firstTargetSampleSeconds": 1.5310000000000003e-08,
+          "delaySeconds": 1.3100000000000015e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.6000000000000005e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 3.743750000000001e-08,
+          "delaySeconds": 1.4375000000000021e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.84e-08,
+          "target": 0,
+          "firstTargetSampleSeconds": 3.9606250000000004e-08,
+          "delaySeconds": 1.2062500000000046e-09
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "2bb466171c874638b55c33a0d291890f15b3bf6d331d9c9228141a5c7cc295dd",
+        "ngspice.log": "4abf203acb4b47d42243db6c8156863a367f2996e75e47f4b17cde49d38e3404",
+        "trace.txt": "5e126c34776bafa24fcc69491ae1404305f5bcc1fb3e6b33ffbbd9429d4e882f"
+      }
+    },
+    {
+      "expectedTimesNs": [
+        0,
+        11.6,
+        14,
+        36,
+        38.4
+      ],
+      "events": [
+        {
+          "timeSeconds": 0.0,
+          "value": 0.0,
+          "old": 3,
+          "new": 0
+        },
+        {
+          "timeSeconds": 1.1875e-08,
+          "value": 0.9375000000000001,
+          "old": 0,
+          "new": 2
+        },
+        {
+          "timeSeconds": 1.4750000000000001e-08,
+          "value": 2.3750000000000004,
+          "old": 2,
+          "new": 1
+        },
+        {
+          "timeSeconds": 3.687500000000001e-08,
+          "value": 1.5624999999999956,
+          "old": 1,
+          "new": 2
+        },
+        {
+          "timeSeconds": 3.875000000000001e-08,
+          "value": 0.6249999999999944,
+          "old": 2,
+          "new": 0
+        }
+      ],
+      "enabled": false,
+      "stepNs": 1.25,
+      "crossings": [
+        {
+          "expectedThresholdSeconds": 1.16e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 1.3e-08,
+          "delaySeconds": 1.400000000000001e-09
+        },
+        {
+          "expectedThresholdSeconds": 1.4000000000000001e-08,
+          "target": 5,
+          "firstTargetSampleSeconds": 1.5875e-08,
+          "delaySeconds": 1.8750000000000002e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.6000000000000005e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 3.8000000000000016e-08,
+          "delaySeconds": 2.0000000000000113e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.84e-08,
+          "target": 0,
+          "firstTargetSampleSeconds": 3.977500000000001e-08,
+          "delaySeconds": 1.3750000000000107e-09
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "26531964e9c2019c8f0acd5267dc7987bad7fc421c5a338cdab2bd9511fa5807",
+        "ngspice.log": "09ccbc727d847ffa31b3d3ba4e5ae277c70e2044836259a3ca66e1e844553a82",
+        "trace.txt": "3c087220f577b234a225de74cf285db64d2daa5a1bfd872f8b67acffe14285ab"
+      }
+    },
+    {
+      "expectedTimesNs": [
+        0,
+        11.6,
+        14,
+        36,
+        38.4
+      ],
+      "events": [
+        {
+          "timeSeconds": 0.0,
+          "value": 0.0,
+          "old": 3,
+          "new": 0
+        },
+        {
+          "timeSeconds": 1.1600000000000001e-08,
+          "value": 0.8000000000000006,
+          "old": 0,
+          "new": 2
+        },
+        {
+          "timeSeconds": 1.4000000000000001e-08,
+          "value": 2.0000000000000004,
+          "old": 2,
+          "new": 1
+        },
+        {
+          "timeSeconds": 3.600000000000001e-08,
+          "value": 1.9999999999999951,
+          "old": 1,
+          "new": 2
+        },
+        {
+          "timeSeconds": 3.8400000000000006e-08,
+          "value": 0.7999999999999974,
+          "old": 2,
+          "new": 0
+        }
+      ],
+      "enabled": true,
+      "stepNs": 5,
+      "crossings": [
+        {
+          "expectedThresholdSeconds": 1.16e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 1.2680000000000003e-08,
+          "delaySeconds": 1.0800000000000037e-09
+        },
+        {
+          "expectedThresholdSeconds": 1.4000000000000001e-08,
+          "target": 5,
+          "firstTargetSampleSeconds": 1.5079999999999997e-08,
+          "delaySeconds": 1.0799999999999954e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.6000000000000005e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 3.730000000000001e-08,
+          "delaySeconds": 1.300000000000005e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.84e-08,
+          "target": 0,
+          "firstTargetSampleSeconds": 3.946000000000001e-08,
+          "delaySeconds": 1.0600000000000108e-09
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "0009d40120d9e72e525eb5cfbc1beb2a6617304601462c5b8cae4ea0078ae187",
+        "ngspice.log": "1d3d4f546db02dbcc6cb4760361988fa8a1e727ec5ed7f71a9314d7fe3034744",
+        "trace.txt": "f232a7a27f328e3cd409063a8f7db73137f63a5843a141263044b4ac41bae794"
+      }
+    },
+    {
+      "expectedTimesNs": [
+        0,
+        11.6,
+        14,
+        36,
+        38.4
+      ],
+      "events": [
+        {
+          "timeSeconds": 0.0,
+          "value": 0.0,
+          "old": 3,
+          "new": 0
+        },
+        {
+          "timeSeconds": 1.1600000000000003e-08,
+          "value": 0.8000000000000014,
+          "old": 0,
+          "new": 2
+        },
+        {
+          "timeSeconds": 1.4000000000000003e-08,
+          "value": 2.0000000000000013,
+          "old": 2,
+          "new": 1
+        },
+        {
+          "timeSeconds": 3.600000000000001e-08,
+          "value": 1.9999999999999951,
+          "old": 1,
+          "new": 2
+        },
+        {
+          "timeSeconds": 3.840000000000001e-08,
+          "value": 0.799999999999994,
+          "old": 2,
+          "new": 0
+        }
+      ],
+      "enabled": true,
+      "stepNs": 2.5,
+      "crossings": [
+        {
+          "expectedThresholdSeconds": 1.16e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 1.2770000000000004e-08,
+          "delaySeconds": 1.1700000000000049e-09
+        },
+        {
+          "expectedThresholdSeconds": 1.4000000000000001e-08,
+          "target": 5,
+          "firstTargetSampleSeconds": 1.5083999999999998e-08,
+          "delaySeconds": 1.0839999999999967e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.6000000000000005e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 3.7200000000000015e-08,
+          "delaySeconds": 1.2000000000000107e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.84e-08,
+          "target": 0,
+          "firstTargetSampleSeconds": 3.946000000000001e-08,
+          "delaySeconds": 1.0600000000000108e-09
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "2bb466171c874638b55c33a0d291890f15b3bf6d331d9c9228141a5c7cc295dd",
+        "ngspice.log": "c8cc97e745caafab0e8df5f5dcd83ea361f57d0538b87f20b071854d64ae03cc",
+        "trace.txt": "d0b64e017719a631cfde7402d251ef7442b1758276c5da4971dbac25e192adc9"
+      }
+    },
+    {
+      "expectedTimesNs": [
+        0,
+        11.6,
+        14,
+        36,
+        38.4
+      ],
+      "events": [
+        {
+          "timeSeconds": 0.0,
+          "value": 0.0,
+          "old": 3,
+          "new": 0
+        },
+        {
+          "timeSeconds": 1.1600000000000001e-08,
+          "value": 0.8000000000000006,
+          "old": 0,
+          "new": 2
+        },
+        {
+          "timeSeconds": 1.4000000000000003e-08,
+          "value": 2.0000000000000013,
+          "old": 2,
+          "new": 1
+        },
+        {
+          "timeSeconds": 3.600000000000001e-08,
+          "value": 1.9999999999999951,
+          "old": 1,
+          "new": 2
+        },
+        {
+          "timeSeconds": 3.8400000000000006e-08,
+          "value": 0.7999999999999974,
+          "old": 2,
+          "new": 0
+        }
+      ],
+      "enabled": true,
+      "stepNs": 1.25,
+      "crossings": [
+        {
+          "expectedThresholdSeconds": 1.16e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 1.2725000000000001e-08,
+          "delaySeconds": 1.1250000000000018e-09
+        },
+        {
+          "expectedThresholdSeconds": 1.4000000000000001e-08,
+          "target": 5,
+          "firstTargetSampleSeconds": 1.5105000000000002e-08,
+          "delaySeconds": 1.1050000000000006e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.6000000000000005e-08,
+          "target": 2.5,
+          "firstTargetSampleSeconds": 3.7125000000000016e-08,
+          "delaySeconds": 1.1250000000000117e-09
+        },
+        {
+          "expectedThresholdSeconds": 3.84e-08,
+          "target": 0,
+          "firstTargetSampleSeconds": 3.946000000000001e-08,
+          "delaySeconds": 1.0600000000000108e-09
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "26531964e9c2019c8f0acd5267dc7987bad7fc421c5a338cdab2bd9511fa5807",
+        "ngspice.log": "9a3a0432a13eeaf33e486bf9383e928b0e16e4242183ba903f79a426038ffcb1",
+        "trace.txt": "1900db73dc2f5815dc67b6c5a55a5c0735b9e34896f9931212c0041774a89f27"
+      }
+    }
+  ],
+  "sourceSha256": "593cdeb9a7671c374635686227c8b850728cf5356d7ad51a6950f1a2f554c58d",
+  "boundary": "Analytic linear-ramp or RC crossings only. First DAC target sample includes DAC slew and sample spacing. Full nonlinear board and event rollback need separate controls."
+}

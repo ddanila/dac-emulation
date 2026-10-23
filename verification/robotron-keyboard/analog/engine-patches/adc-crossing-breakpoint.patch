@@ -1,0 +1,72 @@
+--- a/src/xspice/icm/digital/adc_bridge/cfunc.mod
++++ b/src/xspice/icm/digital/adc_bridge/cfunc.mod
+@@ -40,6 +40,8 @@
+ ===============================================================================*/
+ 
+ /*=== INCLUDE FILES ====================*/
++#include <math.h>
++#include <stdlib.h>
+ 
+ /*=== CONSTANTS ========================*/
+ 
+@@ -145,6 +147,13 @@
+             } else if (in_low >= in_high) {
+                 cm_message_printf("Error: bad threshold values (low > high)");
+             }
++        }
++
++        /* Optional rollback-aware analog history; default-off diagnostic. */
++        if (getenv("ROBOTRON_ADC_CROSSINGS") && size_in == size_out) {
++            cm_analog_alloc(0, size_in * (int)sizeof(double));
++            double *values = (double *)cm_analog_get_ptr(0, 0);
++            for (i = 0; i < size_in; ++i) values[i] = INPUT(in[i]);
+         }
+ 
+         /* Allocate storage for outputs */
+@@ -229,6 +238,37 @@
+ 
+     /* Normal, multiple single-bit conversion output option. */
+ 
++    if (getenv("ROBOTRON_ADC_CROSSINGS")) {
++        double *values = (double *)cm_analog_get_ptr(0, 0);
++        double *previous = (double *)cm_analog_get_ptr(0, 1);
++        double earliest = TIME;
++        for (i = 0; i < size_in; ++i) {
++            double now = INPUT(in[i]);
++            if (CALL_TYPE == ANALOG) values[i] = now;
++            if (TIME > 0.0 && T(1) < TIME && isfinite(now) && isfinite(previous[i])) {
++                double thresholds[2] = {in_low, in_high};
++                for (int j = 0; j < 2; ++j) {
++                    double level = thresholds[j];
++                    if ((previous[i] <= level && now > level) ||
++                        (previous[i] >= level && now < level)) {
++                        double fraction = (level - previous[i]) / (now - previous[i]);
++                        double crossing = T(1) + fraction * (TIME - T(1));
++                        /* Step just beyond equality without changing voltage thresholds. */
++                        crossing = nextafter(crossing, TIME);
++                        if (crossing <= T(1) || previous[i] == level) crossing = (T(1) + TIME) / 2.0;
++                        if (crossing > T(1) && crossing < earliest) earliest = crossing;
++                    }
++                }
++            }
++        }
++        if (earliest < TIME && !cm_analog_set_temp_bkpt(earliest)) {
++            if (CALL_TYPE == EVENT)
++                for (i = 0; i < size_out; ++i) OUTPUT_CHANGED(out[i]) = FALSE;
++            return;
++        }
++    }
++
++
+     switch (CALL_TYPE) {
+         case ANALOG:    /** analog call...check for breakpoint calls. **/
+             /* loop through all inputs... */
+@@ -254,6 +294,8 @@
+                 if (getenv("ROBOTRON_LIVE_EVENTS") && TIME > .001005011 && TIME < .001005014 && test != out[i])
+                     cm_message_printf("ADC_LIVE time=%a node=%s value=%a old=%d new=%d call=%d", TIME, cm_get_node_name("in", i), INPUT(in[i]), out[i], test, CALL_TYPE);
+                 if (test != out[i]) {
++                    if (getenv("ROBOTRON_ADC_TRACE"))
++                        cm_message_printf("ADC_CROSS time=%a node=%s value=%a old=%d new=%d", TIME, cm_get_node_name("in", i), INPUT(in[i]), out[i], test);
+                     /* Post changed value. */
+ 
+                     OUTPUT_STATE(out[i]) = test;

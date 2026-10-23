@@ -1,0 +1,45 @@
+{
+  "name": "reset during an observed serial burst",
+  "cycles": 100000,
+  "contacts": [
+    {
+      "cycle": 4000,
+      "index": 61,
+      "closed": true
+    },
+    {
+      "cycle": 30000,
+      "index": 61,
+      "closed": false
+    },
+    {
+      "cycle": 60000,
+      "index": 61,
+      "closed": true
+    }
+  ],
+  "resets": [
+    {
+      "cycle": 24236,
+      "asserted": true
+    },
+    {
+      "cycle": 24252,
+      "asserted": false
+    }
+  ],
+  "observations": [
+    {
+      "name": "interrupted transmission",
+      "startCycle": 4000,
+      "endCycle": 24236,
+      "minimumBits": 6
+    },
+    {
+      "name": "press after reset",
+      "startCycle": 60000,
+      "endCycle": 100000,
+      "minimumBits": 26
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+{
+  "passed": true,
+  "qualified": false,
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-passive-cap-runtime",
+      "sha256": "8ac92aaa0956bb70b10d1bee4f76ade09d462856a20cbd535a65283b6568bce0"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-live-models/spinit",
+      "sha256": "4d701f9d8a521e9393fa6b7dbebba6195df89ed6cb8c8c79a18e536f6af7e160"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-live-models/digital.cm",
+        "sha256": "b4ee8f758fb28fa20f0ea0562c564f222ec0f8de41c589abfbc3d3c8910cbbba",
+        "loadPath": "/private/tmp/k7658-live-models/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "runs": [
+    {
+      "stepNs": 0.1,
+      "plateaus": [
+        {
+          "windowNs": [
+            15,
+            25
+          ],
+          "expectedOn": false,
+          "maximumOutputErrorV": 8.881784197001252e-16,
+          "maximumIntentErrorV": 0.0
+        },
+        {
+          "windowNs": [
+            35,
+            45
+          ],
+          "expectedOn": true,
+          "maximumOutputErrorV": 0.0,
+          "maximumIntentErrorV": 0.0
+        },
+        {
+          "windowNs": [
+            55,
+            65
+          ],
+          "expectedOn": true,
+          "maximumOutputErrorV": 0.0,
+          "maximumIntentErrorV": 0.0
+        },
+        {
+          "windowNs": [
+            75,
+            85
+          ],
+          "expectedOn": false,
+          "maximumOutputErrorV": 8.881784197001252e-16,
+          "maximumIntentErrorV": 0.0
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "0870156c23356ea0704ffab981b1606a3b7875c8718e6e2713782b296744f266",
+        "ngspice.log": "ec5be5fee77abde6788b1f73bd1eca844733cdebaf9809ec4edd982188f8ef38",
+        "trace.txt": "3b4a32479b36296cd19c91a9c65cc13e9e2bf57a28bb26bbcb882d5f4811fcae"
+      }
+    },
+    {
+      "stepNs": 0.05,
+      "plateaus": [
+        {
+          "windowNs": [
+            15,
+            25
+          ],
+          "expectedOn": false,
+          "maximumOutputErrorV": 8.881784197001252e-16,
+          "maximumIntentErrorV": 0.0
+        },
+        {
+          "windowNs": [
+            35,
+            45
+          ],
+          "expectedOn": true,
+          "maximumOutputErrorV": 0.0,
+          "maximumIntentErrorV": 0.0
+        },
+        {
+          "windowNs": [
+            55,
+            65
+          ],
+          "expectedOn": true,
+          "maximumOutputErrorV": 0.0,
+          "maximumIntentErrorV": 0.0
+        },
+        {
+          "windowNs": [
+            75,
+            85
+          ],
+          "expectedOn": false,
+          "maximumOutputErrorV": 8.881784197001252e-16,
+          "maximumIntentErrorV": 0.0
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "876aea5cfb651c780f3b1ac58550a4f1c24731aef691b3bbb96cc33f5191197c",
+        "ngspice.log": "0321620ae6be64f35096c60c01d86b13cff2044c521f995c60acb7e31b111778",
+        "trace.txt": "680402e5a25f53123d644fb0e1ae265e57ecab97649023449dd1f01ea9ecc1d5"
+      }
+    },
+    {
+      "stepNs": 0.025,
+      "plateaus": [
+        {
+          "windowNs": [
+            15,
+            25
+          ],
+          "expectedOn": false,
+          "maximumOutputErrorV": 8.881784197001252e-16,
+          "maximumIntentErrorV": 0.0
+        },
+        {
+          "windowNs": [
+            35,
+            45
+          ],
+          "expectedOn": true,
+          "maximumOutputErrorV": 0.0,
+          "maximumIntentErrorV": 0.0
+        },
+        {
+          "windowNs": [
+            55,
+            65
+          ],
+          "expectedOn": true,
+          "maximumOutputErrorV": 0.0,
+          "maximumIntentErrorV": 0.0
+        },
+        {
+          "windowNs": [
+            75,
+            85
+          ],
+          "expectedOn": false,
+          "maximumOutputErrorV": 8.881784197001252e-16,
+          "maximumIntentErrorV": 0.0
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "d9a56474c876faba3e188495f27518bdd7881dcb9235ae44416f7bbeb0a053b0",
+        "ngspice.log": "7134d7a7d15f702627f43909c75ca94fe92953a9e1bf2bb352e9c029366f1065",
+        "trace.txt": "34d3899f66b18e82a93b0145bef0db0a70d1a9bc8b3e637c9ae039b9d05360c6"
+      }
+    }
+  ],
+  "sourceSha256": "e11068b4c6c291ea9a4a495dbd11052f55aced98dc22e08a9ba8058001fc5b55",
+  "finding": "The same 1.4 V undefined receiver input maps to 2.5 V DAC intent but retains opposite output switch states depending on prior logic. This is threshold memory, not a uniquely determined physical output.",
+  "boundary": "No threshold, unknown value, load or switch parameter has been changed to choose a favorable result."
+}
