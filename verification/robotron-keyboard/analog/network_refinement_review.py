@@ -4,7 +4,7 @@ import argparse,json,lzma,re
 from pathlib import Path
 from host_waveform_comparison import rows,compare_samples
 from analog_driver_replay import sha
-from network_trace import SIGNALS
+from network_trace import SIGNALS, PHYSICAL_SIGNALS
 
 def text_file(path):
  return (lzma.decompress(path.read_bytes()).decode() if path.suffix=='.xz' else path.read_text())
@@ -44,16 +44,18 @@ def review(directories):
    values=re.findall(key+r'=([0-9.eE+-]+)',deck)
    if len(values)!=1 or float(values[0])!=base*r['toleranceScale']:raise ValueError('Unexpected tolerance '+key)
  a,b=receipts
+ if a.get('physicalDriverTrace',False)!=b.get('physicalDriverTrace',False):raise ValueError('Different physical driver observation')
+ selected=PHYSICAL_SIGNALS if a.get('physicalDriverTrace',False) else SIGNALS
  if a.get('adcCrossings',False)!=b.get('adcCrossings',False):raise ValueError('Different ADC crossing mode')
  for key in ('runtime','inputs','sourceDeckSha256','mpfrTransitionBits','mpfrStartNs','method','enabled','matrixBoundarySubstitution'):
   if a[key]!=b[key]:raise ValueError('Different '+key)
  if a['stepNs']!=2*b['stepNs'] or a['toleranceScale']!=2*b['toleranceScale']:raise ValueError('Expected timestep and tolerance halving')
  if normalized((directories[0]/'io.cir').read_text())!=normalized((directories[1]/'io.cir').read_text()):raise ValueError('Physical circuit or stimulus differs')
- observed=compare_samples(*(rows(p/'network_witness.txt',SIGNALS,r['stepNs']) for p,r in zip(directories,receipts)))
+ observed=compare_samples(*(rows(p/'network_witness.txt',selected,r['stepNs']) for p,r in zip(directories,receipts)))
  if abs(observed['endSeconds']-.00116)>1e-18:raise ValueError('Required endpoint not reached')
  signals={}
- for name,s in zip(SIGNALS,observed['signals']):
-  signals[name]={'unit':'A' if name.startswith('i(') else 'V','maximumAbsoluteDifference':s['maximumDifferenceV'],
+ for name,s in zip(selected,observed['signals']):
+  signals[name]={'unit':'A' if (name.startswith('i(') or name.endswith('[i]')) else 'V','maximumAbsoluteDifference':s['maximumDifferenceV'],
                  'timeSeconds':s['timeSeconds'],'coarse':s['coarseV'],'fine':s['fineV'],
                  'meanAbsoluteDifference':s['meanAbsoluteDifferenceV'],'rmsDifference':s['rmsDifferenceV']}
  ev=[events(text_file(artifact(p,'ngspice.log'))) for p in directories]

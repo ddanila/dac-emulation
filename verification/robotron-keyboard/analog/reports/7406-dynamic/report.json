@@ -1,0 +1,761 @@
+{
+  "completed": true,
+  "qualified": false,
+  "boardAdmission": false,
+  "deviceSource": {
+    "url": "https://www.ti.com/lit/ds/symlink/sn7406.pdf",
+    "title": "TI SDLS031A",
+    "sha256": "0795a70eb763f226a76d4067783d47690072ea861f13e5e0baf205f5f033950b",
+    "locator": "PDF pages 3-4, switching table and Figure 1"
+  },
+  "executableSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "sources": {
+    "ttl7406_dynamic.py": "2b09ef3f4ecb523e4355abcc9ed016a3988f64f6a1aedd982048c38a6d62be80",
+    "ttl7406_nominal.cir": "1a454db289b07badb3885a48ed12b18c5254ccb5c675513990dfd9e3192d6e57",
+    "ttl7406_limits.json": "9eff9a9d9ee2060cab81a3a9bedc6017770c1e7b115c7ff894ec02193c9839aa",
+    "ttl7406_switching_limits.json": "54f1a75ebde76bd57783657f70718fd1896dd620d3a6eb465e16403baa0ff012",
+    "gate_switching_probe.py": "bb8a4f2d6dfa153684a4c05ba3d3696a20ffa33d9fafedf48aa655a589d3e719",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8"
+  },
+  "calibration": {
+    "edgeNs": 1,
+    "stepNs": 0.1,
+    "targetsNs": {
+      "tPHL": 15,
+      "tPLH": 10
+    },
+    "meaning": "Typical-delay least squares, not a tolerance or independent validation"
+  },
+  "assumptions": [
+    "Uniform TF/TR/CJE/CJC for all transistors; CJC=CJE/2; generic diode unchanged.",
+    "Junction hypotheses are sensitivity cases, not measured values or a supported range.",
+    "No breakdown, package parasitics, temperature or process calibration.",
+    "Published limits apply to TI SN7406, not proof of the museum device."
+  ],
+  "cases": [
+    {
+      "parameters": {
+        "tf_ns": 0.8214285714285714,
+        "tr_ns": 0.047258979206049156,
+        "junction_pf": 0.5
+      },
+      "calibration": {
+        "parameters": {
+          "tf_ns": 0.8214285714285714,
+          "tr_ns": 0.047258979206049156,
+          "junction_pf": 0.5
+        },
+        "delays": {
+          "tPHL": {
+            "minimumNs": 14.827730233907413,
+            "maximumNs": 14.93476228671261,
+            "withinDelayLimit": true
+          },
+          "tPLH": {
+            "minimumNs": 9.9880773346091,
+            "maximumNs": 10.109757700500742,
+            "withinDelayLimit": true
+          }
+        },
+        "objective": 0.01649537421409371
+      },
+      "validation": [
+        {
+          "edgeNs": 1,
+          "runs": [
+            {
+              "tPHL": {
+                "minimumNs": 14.827730233907413,
+                "maximumNs": 14.93476228671261,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 9.9880773346091,
+                "maximumNs": 10.109757700500742,
+                "withinDelayLimit": true
+              }
+            },
+            {
+              "tPHL": {
+                "minimumNs": 14.800893935978802,
+                "maximumNs": 14.857935353542278,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 10.050354354902067,
+                "maximumNs": 10.122986439003908,
+                "withinDelayLimit": true
+              }
+            }
+          ],
+          "maximumBracketDifferenceNs": 0.07682693317033262,
+          "converged": true,
+          "withinDelayScreen": true
+        },
+        {
+          "edgeNs": 7,
+          "runs": [
+            {
+              "tPHL": {
+                "minimumNs": 14.46705959012687,
+                "maximumNs": 14.610773747812852,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 10.012901904711983,
+                "maximumNs": 10.153094295595462,
+                "withinDelayLimit": true
+              }
+            },
+            {
+              "tPHL": {
+                "minimumNs": 14.481532220501874,
+                "maximumNs": 14.575056832125062,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 10.000025517059294,
+                "maximumNs": 10.08980809111099,
+                "withinDelayLimit": true
+              }
+            }
+          ],
+          "maximumBracketDifferenceNs": 0.06328620448447175,
+          "converged": true,
+          "withinDelayScreen": true
+        }
+      ],
+      "dc": [
+        {
+          "name": "input-low",
+          "sample": {
+            "inputVolts": 0.4,
+            "outputVolts": 5.239517313026724,
+            "supplyAmps": 0.005296158168187829,
+            "inputAmps": -0.0007000245718868087
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "input-high",
+          "sample": {
+            "inputVolts": 2.4000000000000004,
+            "outputVolts": 0.01789720712086184,
+            "supplyAmps": 0.005939580241564478,
+            "inputAmps": 5.1697829250965895e-06
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "input-maximum",
+          "sample": {
+            "inputVolts": 5.5,
+            "outputVolts": 0.017897207120861777,
+            "supplyAmps": 0.005939580241328829,
+            "inputAmps": 5.1697891550789475e-06
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "sink-16ma",
+          "sample": {
+            "inputVolts": 2.0,
+            "outputVolts": 0.056473926596641154,
+            "supplyAmps": 0.005208393684502602,
+            "inputAmps": 4.425928713752614e-06
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "sink-40ma",
+          "sample": {
+            "inputVolts": 2.0,
+            "outputVolts": 0.07898147685967818,
+            "supplyAmps": 0.005196164393238124,
+            "inputAmps": 4.425928713752353e-06
+          },
+          "withinLimit": true
+        }
+      ],
+      "loadingSensitivity": [
+        {
+          "loadOhms": 560,
+          "loadPf": 15,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 9.12784629247182,
+              "maximumNs": 9.234878345272968
+            },
+            "tPLH": {
+              "minimumNs": 10.340987359693235,
+              "maximumNs": 10.46266872620819
+            }
+          }
+        },
+        {
+          "loadOhms": 560,
+          "loadPf": 100,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 18.427416793622555,
+              "maximumNs": 18.534448846461526
+            },
+            "tPLH": {
+              "minimumNs": 26.423482951366573,
+              "maximumNs": 26.545861312105703
+            }
+          }
+        },
+        {
+          "loadOhms": 560,
+          "loadPf": 1000,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 54.72735847581082,
+              "maximumNs": 54.8343905286558
+            },
+            "tPLH": {
+              "minimumNs": 201.24838959933908,
+              "maximumNs": 201.37008076115342
+            }
+          }
+        }
+      ],
+      "selectedScreensPass": true
+    },
+    {
+      "parameters": {
+        "tf_ns": 0.6086956521739131,
+        "tr_ns": 0.033880180772935614,
+        "junction_pf": 2
+      },
+      "calibration": {
+        "parameters": {
+          "tf_ns": 0.6086956521739131,
+          "tr_ns": 0.033880180772935614,
+          "junction_pf": 2
+        },
+        "delays": {
+          "tPHL": {
+            "minimumNs": 13.159852789913426,
+            "maximumNs": 13.287412916517432,
+            "withinDelayLimit": true
+          },
+          "tPLH": {
+            "minimumNs": 12.359248627895953,
+            "maximumNs": 12.480032660097196,
+            "withinDelayLimit": true
+          }
+        },
+        "objective": 9.010141086255715
+      },
+      "validation": [
+        {
+          "edgeNs": 1,
+          "runs": [
+            {
+              "tPHL": {
+                "minimumNs": 13.159852789913426,
+                "maximumNs": 13.287412916517432,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 12.359248627895953,
+                "maximumNs": 12.480032660097196,
+                "withinDelayLimit": true
+              }
+            },
+            {
+              "tPHL": {
+                "minimumNs": 13.184293481104046,
+                "maximumNs": 13.261821932090106,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 12.389290847036746,
+                "maximumNs": 12.476369344276568,
+                "withinDelayLimit": true
+              }
+            }
+          ],
+          "maximumBracketDifferenceNs": 0.030042219140792525,
+          "converged": true,
+          "withinDelayScreen": true
+        },
+        {
+          "edgeNs": 7,
+          "runs": [
+            {
+              "tPHL": {
+                "minimumNs": 13.7545399373422,
+                "maximumNs": 13.92956361190835,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 11.447154529972064,
+                "maximumNs": 11.618671926566156,
+                "withinDelayLimit": true
+              }
+            },
+            {
+              "tPHL": {
+                "minimumNs": 13.76359693537849,
+                "maximumNs": 13.863596935378498,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 11.463512281362645,
+                "maximumNs": 11.563512281362653,
+                "withinDelayLimit": true
+              }
+            }
+          ],
+          "maximumBracketDifferenceNs": 0.06596667652985211,
+          "converged": true,
+          "withinDelayScreen": true
+        }
+      ],
+      "dc": [
+        {
+          "name": "input-low",
+          "sample": {
+            "inputVolts": 0.4,
+            "outputVolts": 5.239517313026724,
+            "supplyAmps": 0.005296158168187829,
+            "inputAmps": -0.0007000245718868087
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "input-high",
+          "sample": {
+            "inputVolts": 2.4000000000000004,
+            "outputVolts": 0.01789720712086184,
+            "supplyAmps": 0.005939580241564478,
+            "inputAmps": 5.1697829250965895e-06
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "input-maximum",
+          "sample": {
+            "inputVolts": 5.5,
+            "outputVolts": 0.017897207120861777,
+            "supplyAmps": 0.005939580241328829,
+            "inputAmps": 5.1697891550789475e-06
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "sink-16ma",
+          "sample": {
+            "inputVolts": 2.0,
+            "outputVolts": 0.056473926596641154,
+            "supplyAmps": 0.005208393684502602,
+            "inputAmps": 4.425928713752614e-06
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "sink-40ma",
+          "sample": {
+            "inputVolts": 2.0,
+            "outputVolts": 0.07898147685967818,
+            "supplyAmps": 0.005196164393238124,
+            "inputAmps": 4.425928713752353e-06
+          },
+          "withinLimit": true
+        }
+      ],
+      "loadingSensitivity": [
+        {
+          "loadOhms": 560,
+          "loadPf": 15,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 8.956536798384116,
+              "maximumNs": 9.084096924917159
+            },
+            "tPLH": {
+              "minimumNs": 13.21567034578026,
+              "maximumNs": 13.356666285985625
+            }
+          }
+        },
+        {
+          "loadOhms": 560,
+          "loadPf": 100,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 16.958332047626307,
+              "maximumNs": 17.085892174730937
+            },
+            "tPLH": {
+              "minimumNs": 29.32980553125355,
+              "maximumNs": 29.47249844522505
+            }
+          }
+        },
+        {
+          "loadOhms": 560,
+          "loadPf": 1000,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 48.96011561138577,
+              "maximumNs": 49.08767573858402
+            },
+            "tPLH": {
+              "minimumNs": 204.24014930741149,
+              "maximumNs": 204.3819973061367
+            }
+          }
+        }
+      ],
+      "selectedScreensPass": true
+    },
+    {
+      "parameters": {
+        "tf_ns": 0.15873015873015872,
+        "tr_ns": 0.001107632325141777,
+        "junction_pf": 5
+      },
+      "calibration": {
+        "parameters": {
+          "tf_ns": 0.15873015873015872,
+          "tr_ns": 0.001107632325141777,
+          "junction_pf": 5
+        },
+        "delays": {
+          "tPHL": {
+            "minimumNs": 9.3425740607321,
+            "maximumNs": 9.488053591204665,
+            "withinDelayLimit": true
+          },
+          "tPLH": {
+            "minimumNs": 15.289410545268781,
+            "maximumNs": 15.316231717057113,
+            "withinDelayLimit": false
+          }
+        },
+        "objective": 59.30863161152818
+      },
+      "validation": [
+        {
+          "edgeNs": 1,
+          "runs": [
+            {
+              "tPHL": {
+                "minimumNs": 9.3425740607321,
+                "maximumNs": 9.488053591204665,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 15.289410545268781,
+                "maximumNs": 15.316231717057113,
+                "withinDelayLimit": false
+              }
+            },
+            {
+              "tPHL": {
+                "minimumNs": 9.314675588765866,
+                "maximumNs": 9.410061439105599,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 15.28806546175376,
+                "maximumNs": 15.314877417870846,
+                "withinDelayLimit": false
+              }
+            }
+          ],
+          "maximumBracketDifferenceNs": 0.07799215209906585,
+          "converged": true,
+          "withinDelayScreen": false
+        },
+        {
+          "edgeNs": 7,
+          "runs": [
+            {
+              "tPHL": {
+                "minimumNs": 10.462342098564328,
+                "maximumNs": 10.662342098564343,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 14.33471063373283,
+                "maximumNs": 14.447819940038174,
+                "withinDelayLimit": true
+              }
+            },
+            {
+              "tPHL": {
+                "minimumNs": 10.459502669393828,
+                "maximumNs": 10.559502669393837,
+                "withinDelayLimit": true
+              },
+              "tPLH": {
+                "minimumNs": 14.324369222125396,
+                "maximumNs": 14.387436022318765,
+                "withinDelayLimit": true
+              }
+            }
+          ],
+          "maximumBracketDifferenceNs": 0.10283942917050659,
+          "converged": true,
+          "withinDelayScreen": true
+        }
+      ],
+      "dc": [
+        {
+          "name": "input-low",
+          "sample": {
+            "inputVolts": 0.4,
+            "outputVolts": 5.239517313026724,
+            "supplyAmps": 0.005296158168187829,
+            "inputAmps": -0.0007000245718868087
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "input-high",
+          "sample": {
+            "inputVolts": 2.4000000000000004,
+            "outputVolts": 0.01789720712086184,
+            "supplyAmps": 0.005939580241564478,
+            "inputAmps": 5.1697829250965895e-06
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "input-maximum",
+          "sample": {
+            "inputVolts": 5.5,
+            "outputVolts": 0.017897207120861777,
+            "supplyAmps": 0.005939580241328829,
+            "inputAmps": 5.1697891550789475e-06
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "sink-16ma",
+          "sample": {
+            "inputVolts": 2.0,
+            "outputVolts": 0.056473926596641154,
+            "supplyAmps": 0.005208393684502602,
+            "inputAmps": 4.425928713752614e-06
+          },
+          "withinLimit": true
+        },
+        {
+          "name": "sink-40ma",
+          "sample": {
+            "inputVolts": 2.0,
+            "outputVolts": 0.07898147685967818,
+            "supplyAmps": 0.005196164393238124,
+            "inputAmps": 4.425928713752353e-06
+          },
+          "withinLimit": true
+        }
+      ],
+      "loadingSensitivity": [
+        {
+          "loadOhms": 560,
+          "loadPf": 15,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 7.939913870285649,
+              "maximumNs": 8.085393425017024
+            },
+            "tPLH": {
+              "minimumNs": 17.496011963620123,
+              "maximumNs": 17.60980350219158
+            }
+          }
+        },
+        {
+          "loadOhms": 560,
+          "loadPf": 100,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 12.16002356321439,
+              "maximumNs": 12.30550351271529
+            },
+            "tPLH": {
+              "minimumNs": 33.710794328161924,
+              "maximumNs": 33.82466531239232
+            }
+          }
+        },
+        {
+          "loadOhms": 560,
+          "loadPf": 1000,
+          "delays": {
+            "tPHL": {
+              "minimumNs": 31.465430095608575,
+              "maximumNs": 31.61091011123289
+            },
+            "tPLH": {
+              "minimumNs": 208.92776596711792,
+              "maximumNs": 209.04142699854074
+            }
+          }
+        }
+      ],
+      "selectedScreensPass": false
+    }
+  ],
+  "nextGate": "Independent loading/storage evidence is needed to admit any fitted hypothesis; typical-delay fitting cannot establish board dynamics.",
+  "artifacts": {
+    "junction-0.5pf/candidate.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/dc/input-high/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/dc/input-high/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-0.5pf/dc/input-high/probe.cir": "d47c6781a08993fe9c80b5e6b5ab4e2521a8da8c2556d8163b70c827c16c9cce",
+    "junction-0.5pf/dc/input-high/trace.txt": "da11a263920b039ac2110406af8c3b2e420381f1e7dbb12da3f95a4da575e5e3",
+    "junction-0.5pf/dc/input-low/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/dc/input-low/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-0.5pf/dc/input-low/probe.cir": "772b72d94ae75a0986f936a7fb41cbe5798da90d924cc549789346ca3de16ad7",
+    "junction-0.5pf/dc/input-low/trace.txt": "bf393a8019e339c34a1a1ccb30ff405278fb37f204c527d7322dc88abe2b5707",
+    "junction-0.5pf/dc/input-maximum/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/dc/input-maximum/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-0.5pf/dc/input-maximum/probe.cir": "b664eb176235ea2330bdd410253bfcf51d0793c31a9642b45ba4de2b6bcf6e1c",
+    "junction-0.5pf/dc/input-maximum/trace.txt": "b52413090e5311478a3fb06312bb9265d7697ad539c2a40447fb9a5e733e8558",
+    "junction-0.5pf/dc/sink-16ma/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/dc/sink-16ma/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-0.5pf/dc/sink-16ma/probe.cir": "fba656c0b029e84f95b7bde9d39bf397d9bc18a8c72cdc6e9f4c57e03248be71",
+    "junction-0.5pf/dc/sink-16ma/trace.txt": "9bf1c91f03131904cc783f8fd1e1e2fcea253a8190eabb716c9929f8e5fe9564",
+    "junction-0.5pf/dc/sink-40ma/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/dc/sink-40ma/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-0.5pf/dc/sink-40ma/probe.cir": "1ff99582eae9f5c42b2a420f49bf3772837704bb7f11d304157c5e28efc0778b",
+    "junction-0.5pf/dc/sink-40ma/trace.txt": "3d70580aece99f9cc0ca864cef708ed2c06f718e4119e7c16c1b5dc9133c5242",
+    "junction-0.5pf/edge-1-step-0.05/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/edge-1-step-0.05/ngspice.log": "ade4e2374be12baeff602864bbce496676cdc4142026fb42c80938ac29c7ae55",
+    "junction-0.5pf/edge-1-step-0.05/probe.cir": "ce744ca74ce26067a705a0f55d54e76cb49317943db98262ac0c8843b314c08a",
+    "junction-0.5pf/edge-1-step-0.05/trace.txt": "8034daafde38d49f00bd9c32b939d893e338a8e28260213137dae7a6a4b81317",
+    "junction-0.5pf/edge-1-step-0.1/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/edge-1-step-0.1/ngspice.log": "85f0e874021e17f1c7a476a9c4d82e67f15c30e1142e005301e5827629a4fc75",
+    "junction-0.5pf/edge-1-step-0.1/probe.cir": "b56424ca72fabed99a2e4a8fb4f450fe9b2e1ee53e299e8c8b6fc56c06cd98f8",
+    "junction-0.5pf/edge-1-step-0.1/trace.txt": "cfc8318899bb79b08c9930b00270a3e471a478237af3ca9003161efcdb9d5743",
+    "junction-0.5pf/edge-7-step-0.05/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/edge-7-step-0.05/ngspice.log": "4cd0803ec582b537c091250822a06bc48bd4ae43722dd3565f0211f0dced7c50",
+    "junction-0.5pf/edge-7-step-0.05/probe.cir": "7ec80399e316bc03ceb7ac3510c9912127192fb06b08bcb9e92274855988c260",
+    "junction-0.5pf/edge-7-step-0.05/trace.txt": "a9576b21490a27c79d1b666badeb2a59f4a5b76bf53d791117f52bb6a644521c",
+    "junction-0.5pf/edge-7-step-0.1/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/edge-7-step-0.1/ngspice.log": "b52e0debc6987a042ddd6a238182d1c6546fd354f367cd00d8ac96560319c188",
+    "junction-0.5pf/edge-7-step-0.1/probe.cir": "8f2402fb0c06d33103844c4901bed2d57728071ce86cc829e86c949db98eac45",
+    "junction-0.5pf/edge-7-step-0.1/trace.txt": "86d640c021d6b88330436a34432e61e8775c78e9f2f76f3bd28687e62e82cc50",
+    "junction-0.5pf/load-1000pf/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/load-1000pf/ngspice.log": "0174c88c78c3879dc93dea9e8385f5737b048c7954651f76c1584e8f47d89a6c",
+    "junction-0.5pf/load-1000pf/probe.cir": "f55a013e8218b1c9a44287b95262d84e72879f29eb8cfe63a6e57d9673756a6a",
+    "junction-0.5pf/load-1000pf/trace.txt": "73b11624f01bb51daadc085bfea3c24cc26bbcb73e9d8e87803e9ca6147ac87f",
+    "junction-0.5pf/load-100pf/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/load-100pf/ngspice.log": "9b36a43bd6d9cf34275f28c9b252314eb783ef8155ca1556a47021c0e93ac5e4",
+    "junction-0.5pf/load-100pf/probe.cir": "306f21d043eaae39e50048ef1374fb59de0f67419345ae09c123c9e18c5bd613",
+    "junction-0.5pf/load-100pf/trace.txt": "a3dea108b52660a0aab526b27966db26dd8faf8120b3191810d682e7d987312b",
+    "junction-0.5pf/load-15pf/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "junction-0.5pf/load-15pf/ngspice.log": "d13dfa2461c2f1d9270d8606d86fe5e7352bb835d19361658863e6b51570c7a2",
+    "junction-0.5pf/load-15pf/probe.cir": "704c6f07e0496ae2ad7358b588b96f96533513a8a3fe36a253d9d7c862c9a3ed",
+    "junction-0.5pf/load-15pf/trace.txt": "31643c30e3254b073764f5e7a3229557016043ca68dc47038ba1ef4645873edc",
+    "junction-0.5pf/search.json": "543240923f4488a754368af118811f6fdb0cb4791167902076f8b9c6ec896e4a",
+    "junction-2pf/candidate.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/dc/input-high/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/dc/input-high/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-2pf/dc/input-high/probe.cir": "d47c6781a08993fe9c80b5e6b5ab4e2521a8da8c2556d8163b70c827c16c9cce",
+    "junction-2pf/dc/input-high/trace.txt": "da11a263920b039ac2110406af8c3b2e420381f1e7dbb12da3f95a4da575e5e3",
+    "junction-2pf/dc/input-low/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/dc/input-low/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-2pf/dc/input-low/probe.cir": "772b72d94ae75a0986f936a7fb41cbe5798da90d924cc549789346ca3de16ad7",
+    "junction-2pf/dc/input-low/trace.txt": "bf393a8019e339c34a1a1ccb30ff405278fb37f204c527d7322dc88abe2b5707",
+    "junction-2pf/dc/input-maximum/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/dc/input-maximum/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-2pf/dc/input-maximum/probe.cir": "b664eb176235ea2330bdd410253bfcf51d0793c31a9642b45ba4de2b6bcf6e1c",
+    "junction-2pf/dc/input-maximum/trace.txt": "b52413090e5311478a3fb06312bb9265d7697ad539c2a40447fb9a5e733e8558",
+    "junction-2pf/dc/sink-16ma/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/dc/sink-16ma/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-2pf/dc/sink-16ma/probe.cir": "fba656c0b029e84f95b7bde9d39bf397d9bc18a8c72cdc6e9f4c57e03248be71",
+    "junction-2pf/dc/sink-16ma/trace.txt": "9bf1c91f03131904cc783f8fd1e1e2fcea253a8190eabb716c9929f8e5fe9564",
+    "junction-2pf/dc/sink-40ma/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/dc/sink-40ma/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-2pf/dc/sink-40ma/probe.cir": "1ff99582eae9f5c42b2a420f49bf3772837704bb7f11d304157c5e28efc0778b",
+    "junction-2pf/dc/sink-40ma/trace.txt": "3d70580aece99f9cc0ca864cef708ed2c06f718e4119e7c16c1b5dc9133c5242",
+    "junction-2pf/edge-1-step-0.05/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/edge-1-step-0.05/ngspice.log": "fbb605305fa364e24047dfe46df574878d906dfa1dea46ba29549e87b170566b",
+    "junction-2pf/edge-1-step-0.05/probe.cir": "ce744ca74ce26067a705a0f55d54e76cb49317943db98262ac0c8843b314c08a",
+    "junction-2pf/edge-1-step-0.05/trace.txt": "a81bf09ea8268bdc1360eca2e692a45a410bfec50f5bf0d5b132bb1c37ad7d3d",
+    "junction-2pf/edge-1-step-0.1/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/edge-1-step-0.1/ngspice.log": "f1d1b65782bd977d55878a0889260190f5526a69a008cfbec2db360025e2e124",
+    "junction-2pf/edge-1-step-0.1/probe.cir": "b56424ca72fabed99a2e4a8fb4f450fe9b2e1ee53e299e8c8b6fc56c06cd98f8",
+    "junction-2pf/edge-1-step-0.1/trace.txt": "0d101444f673dcd423f8caa514b1a1188d5ca3953bcbee2c4461748b4ba8dff3",
+    "junction-2pf/edge-7-step-0.05/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/edge-7-step-0.05/ngspice.log": "c335e9a584ffcbb1fe2846f119bca13b0bba7176498cb57c40b5c8953c1e586c",
+    "junction-2pf/edge-7-step-0.05/probe.cir": "7ec80399e316bc03ceb7ac3510c9912127192fb06b08bcb9e92274855988c260",
+    "junction-2pf/edge-7-step-0.05/trace.txt": "3bab0ac01983344feb21f79e70e4c4a22c665af0835567044ddae73190084aff",
+    "junction-2pf/edge-7-step-0.1/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/edge-7-step-0.1/ngspice.log": "ed4663b637859a9deb2d02ac9718db804216eef7ed5c8adb2ed5ec233e787c2a",
+    "junction-2pf/edge-7-step-0.1/probe.cir": "8f2402fb0c06d33103844c4901bed2d57728071ce86cc829e86c949db98eac45",
+    "junction-2pf/edge-7-step-0.1/trace.txt": "8873c7a68b5fb1e49382278672c6c9cdb0ba2b4b712cfb222a01a9bcf4c2b8c8",
+    "junction-2pf/load-1000pf/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/load-1000pf/ngspice.log": "2055a6be90aad69c5792f2007426157a97f3f39b0a79f16d03bc6ce149385e21",
+    "junction-2pf/load-1000pf/probe.cir": "f55a013e8218b1c9a44287b95262d84e72879f29eb8cfe63a6e57d9673756a6a",
+    "junction-2pf/load-1000pf/trace.txt": "efb9736ed07cf09195a6beccc817a48846382bb59351d9eaf40e3a68be3bd7cc",
+    "junction-2pf/load-100pf/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/load-100pf/ngspice.log": "80450d33e9fd83066e12be7ca430bc078d32a060468b6df944889d1c59f709a4",
+    "junction-2pf/load-100pf/probe.cir": "306f21d043eaae39e50048ef1374fb59de0f67419345ae09c123c9e18c5bd613",
+    "junction-2pf/load-100pf/trace.txt": "e3f47f4c2d2c7b5b6fd7c3289ad2463ba10124ac630632084680ad851fbbfb33",
+    "junction-2pf/load-15pf/model.cir": "873bc88d0240078aa77836ef4e58e4a88559581c8416a3a68d81fee35793e6bc",
+    "junction-2pf/load-15pf/ngspice.log": "6ac82b097ac6ae5cd0a48cf18c426a6c54bd0037730a12bad9d25f886ef5ba57",
+    "junction-2pf/load-15pf/probe.cir": "704c6f07e0496ae2ad7358b588b96f96533513a8a3fe36a253d9d7c862c9a3ed",
+    "junction-2pf/load-15pf/trace.txt": "2fdf326b6495e3a4a92bf53e6c3868f74fcb34b04735240ed1d75fa34c96e76b",
+    "junction-2pf/search.json": "45fa798deb7ddfbe4d2e45edd85ab5a34972f99d2c6aa4bb8ce2edeb22708555",
+    "junction-5pf/candidate.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/dc/input-high/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/dc/input-high/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-5pf/dc/input-high/probe.cir": "d47c6781a08993fe9c80b5e6b5ab4e2521a8da8c2556d8163b70c827c16c9cce",
+    "junction-5pf/dc/input-high/trace.txt": "da11a263920b039ac2110406af8c3b2e420381f1e7dbb12da3f95a4da575e5e3",
+    "junction-5pf/dc/input-low/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/dc/input-low/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-5pf/dc/input-low/probe.cir": "772b72d94ae75a0986f936a7fb41cbe5798da90d924cc549789346ca3de16ad7",
+    "junction-5pf/dc/input-low/trace.txt": "bf393a8019e339c34a1a1ccb30ff405278fb37f204c527d7322dc88abe2b5707",
+    "junction-5pf/dc/input-maximum/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/dc/input-maximum/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-5pf/dc/input-maximum/probe.cir": "b664eb176235ea2330bdd410253bfcf51d0793c31a9642b45ba4de2b6bcf6e1c",
+    "junction-5pf/dc/input-maximum/trace.txt": "b52413090e5311478a3fb06312bb9265d7697ad539c2a40447fb9a5e733e8558",
+    "junction-5pf/dc/sink-16ma/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/dc/sink-16ma/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-5pf/dc/sink-16ma/probe.cir": "fba656c0b029e84f95b7bde9d39bf397d9bc18a8c72cdc6e9f4c57e03248be71",
+    "junction-5pf/dc/sink-16ma/trace.txt": "9bf1c91f03131904cc783f8fd1e1e2fcea253a8190eabb716c9929f8e5fe9564",
+    "junction-5pf/dc/sink-40ma/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/dc/sink-40ma/ngspice.log": "b7a941215e59fe8e0444ce3691edb924c9539a9811feab83c8c9eb92bc6f64f9",
+    "junction-5pf/dc/sink-40ma/probe.cir": "1ff99582eae9f5c42b2a420f49bf3772837704bb7f11d304157c5e28efc0778b",
+    "junction-5pf/dc/sink-40ma/trace.txt": "3d70580aece99f9cc0ca864cef708ed2c06f718e4119e7c16c1b5dc9133c5242",
+    "junction-5pf/edge-1-step-0.05/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/edge-1-step-0.05/ngspice.log": "2c2991ebe43f0eb44b1d4ddcb4ddb835fe9a5f03b5351ec776e43b7f9dfeaf43",
+    "junction-5pf/edge-1-step-0.05/probe.cir": "ce744ca74ce26067a705a0f55d54e76cb49317943db98262ac0c8843b314c08a",
+    "junction-5pf/edge-1-step-0.05/trace.txt": "5bcf8974b7c5f366d5f332dffebc2f2ee946418e410d8438244e344a07b97acd",
+    "junction-5pf/edge-1-step-0.1/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/edge-1-step-0.1/ngspice.log": "22278abd34be3382c0811dbaa1c7f50455e3f6440a19978fa2573e7a71dfecde",
+    "junction-5pf/edge-1-step-0.1/probe.cir": "b56424ca72fabed99a2e4a8fb4f450fe9b2e1ee53e299e8c8b6fc56c06cd98f8",
+    "junction-5pf/edge-1-step-0.1/trace.txt": "f9582f343c9e140fcf5bee76326557ccb8d0e858e8d6eafaac36b97a279ebbae",
+    "junction-5pf/edge-7-step-0.05/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/edge-7-step-0.05/ngspice.log": "acc685ecae8fe10ebbdfcbeb6021ed64d2229fc5b1927fe04c99f20f79002d3d",
+    "junction-5pf/edge-7-step-0.05/probe.cir": "7ec80399e316bc03ceb7ac3510c9912127192fb06b08bcb9e92274855988c260",
+    "junction-5pf/edge-7-step-0.05/trace.txt": "c639760c7dcfaeb5ccb118ec10325b511375fc8c2b8b8f2dd82303504b10ddb2",
+    "junction-5pf/edge-7-step-0.1/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/edge-7-step-0.1/ngspice.log": "961f8947b6e021df09404bf584a1b7338acc99979aa083dc9086ec0dd8f4fd7a",
+    "junction-5pf/edge-7-step-0.1/probe.cir": "8f2402fb0c06d33103844c4901bed2d57728071ce86cc829e86c949db98eac45",
+    "junction-5pf/edge-7-step-0.1/trace.txt": "b5f49e3123d6f9ada22de826016863f39e2d8bbc216825355037e9a7bc6789b1",
+    "junction-5pf/load-1000pf/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/load-1000pf/ngspice.log": "13a4481e321ef8e4519f8344ea0e65c436e0d569400cdea52da3e90bccdc02a8",
+    "junction-5pf/load-1000pf/probe.cir": "f55a013e8218b1c9a44287b95262d84e72879f29eb8cfe63a6e57d9673756a6a",
+    "junction-5pf/load-1000pf/trace.txt": "023f405344a1cd32170c66cc74adcd5ecbde6d3cf357ad9a56294328bbcf4578",
+    "junction-5pf/load-100pf/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/load-100pf/ngspice.log": "b814ec5d58ad884bbba46b727eb67b0e44180187902362e7a3c51dccbaf2b6ec",
+    "junction-5pf/load-100pf/probe.cir": "306f21d043eaae39e50048ef1374fb59de0f67419345ae09c123c9e18c5bd613",
+    "junction-5pf/load-100pf/trace.txt": "fd168096963537ac5a13c329de42988c618ea78e714bf5c301f654019c9d5ca7",
+    "junction-5pf/load-15pf/model.cir": "149e04a9beec499d81e416dae33b18452d83c0b2c949b0da8e56afeb1a4bc781",
+    "junction-5pf/load-15pf/ngspice.log": "9a35efa1e424863308ccf272362f0f263f6536c0555f7c43a4a360e047863a31",
+    "junction-5pf/load-15pf/probe.cir": "704c6f07e0496ae2ad7358b588b96f96533513a8a3fe36a253d9d7c862c9a3ed",
+    "junction-5pf/load-15pf/trace.txt": "3e1d2aee745dbc2a08a4724319eb9c4dc034a6a0e9d465d88466d0fbc3f4f651",
+    "junction-5pf/search.json": "21e40c639caabc344a4f82c3440580e9b3a84c0ebf4712a4b0633032cc63657e",
+    "spinit": "453033227cdc64f36f58d5b61ef07bbf4819358d327c8c90a8865da8e344f426"
+  }
+}

@@ -403,6 +403,19 @@ physical-driver admission. [Traffic preflight](reports/boundary-refinement/traff
 prepares press/release, overlapping contacts and reset during observed serial
 activity; production-C coverage is not electrical execution.
 
+The experimental [7406 dynamic candidate](reports/7406-dynamic/report.json)
+fits storage parameters to published typical delays while treating junction
+capacitance as an explicit hypothesis. `ttl7406_dynamic.py --out DIRECTORY`
+reproduces calibration and withheld edge/DC checks; fitting is not independent
+device validation. `ttl7406_dynamic_validation.py --device-report REPORT --out
+DIRECTORY` checks temperature, loading refinement and intermediate-input settling.
+Use `prepare_dynamic_driver.py` on a prepared electrical D0/WR fixture with
+`--bus-7406-pf 0` to avoid counting gate capacitance twice. It removes the serial
+intent DAC channels and connects the candidate directly to both physical inputs.
+`live_transition_probe.py --network-trace --physical-driver-trace` observes these
+inputs and driver currents. This path remains diagnostic until device admission
+and absolute-time board refinement pass; CPU drivers remain endpoint fixtures.
+
 The optional [evaluator cache](engine-patches/eval-cache.patch) reuses shared pure
 subexpressions only within one value/gradient evaluation. It defaults off;
 `ROBOTRON_EVAL_CACHE=exact` enables it. Build the pinned ngspice 47 archive with

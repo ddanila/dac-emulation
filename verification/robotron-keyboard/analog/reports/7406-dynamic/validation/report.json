@@ -1,0 +1,426 @@
+{
+  "completed": true,
+  "qualified": false,
+  "boardAdmission": false,
+  "calibrationSha256": "0222d732856dd4fd2fb8aee52cdf8790ba1471cb596c16bff27a72c951ce5f99",
+  "parameters": {
+    "tf_ns": 0.8214285714285714,
+    "tr_ns": 0.047258979206049156,
+    "junction_pf": 0.5
+  },
+  "executableSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "sourceSha256": "fbd510122f97e99a4f3772339313217750e7d735693905faaf0df107e7e499ab",
+  "temperatureChecks": [
+    {
+      "temperatureC": 0,
+      "name": "input-low",
+      "sample": {
+        "inputVolts": 0.4,
+        "outputVolts": 5.23955616444425,
+        "supplyAmps": 0.005276844147046491,
+        "inputAmps": -0.0006926337779946828
+      },
+      "withinLimit": true
+    },
+    {
+      "temperatureC": 0,
+      "name": "input-high",
+      "sample": {
+        "inputVolts": 2.4000000000000004,
+        "outputVolts": 0.01640146889391396,
+        "supplyAmps": 0.0058458251130950305,
+        "inputAmps": 4.960779689065766e-06
+      },
+      "withinLimit": true
+    },
+    {
+      "temperatureC": 0,
+      "name": "input-maximum",
+      "sample": {
+        "inputVolts": 5.5,
+        "outputVolts": 0.01640146889391409,
+        "supplyAmps": 0.0058458251128584325,
+        "inputAmps": 4.960785919041e-06
+      },
+      "withinLimit": true
+    },
+    {
+      "temperatureC": 0,
+      "name": "sink-16ma",
+      "sample": {
+        "inputVolts": 2.0,
+        "outputVolts": 0.05193159808010125,
+        "supplyAmps": 0.0051160831069624,
+        "inputAmps": 4.21667419160823e-06
+      },
+      "withinLimit": true
+    },
+    {
+      "temperatureC": 0,
+      "name": "sink-40ma",
+      "sample": {
+        "inputVolts": 2.0,
+        "outputVolts": 0.07260011604874937,
+        "supplyAmps": 0.005104860712585997,
+        "inputAmps": 4.216674191608022e-06
+      },
+      "withinLimit": true
+    },
+    {
+      "temperatureC": 70,
+      "name": "input-low",
+      "sample": {
+        "inputVolts": 0.4,
+        "outputVolts": 5.220852570526989,
+        "supplyAmps": 0.005352354526372182,
+        "inputAmps": -0.0007131882686800948
+      },
+      "withinLimit": true
+    },
+    {
+      "temperatureC": 70,
+      "name": "input-high",
+      "sample": {
+        "inputVolts": 2.4000000000000004,
+        "outputVolts": 0.020587077340032692,
+        "supplyAmps": 0.006110679365540729,
+        "inputAmps": 5.550950431210641e-06
+      },
+      "withinLimit": true
+    },
+    {
+      "temperatureC": 70,
+      "name": "input-maximum",
+      "sample": {
+        "inputVolts": 5.5,
+        "outputVolts": 0.020587077340032768,
+        "supplyAmps": 0.0061106793653066226,
+        "inputAmps": 5.5509566621252885e-06
+      },
+      "withinLimit": true
+    },
+    {
+      "temperatureC": 70,
+      "name": "sink-16ma",
+      "sample": {
+        "inputVolts": 2.0,
+        "outputVolts": 0.06455996259383999,
+        "supplyAmps": 0.00537686939405882,
+        "inputAmps": 4.8073692968464175e-06
+      },
+      "withinLimit": true
+    },
+    {
+      "temperatureC": 70,
+      "name": "sink-40ma",
+      "sample": {
+        "inputVolts": 2.0,
+        "outputVolts": 0.09035437049564059,
+        "supplyAmps": 0.005362836840676849,
+        "inputAmps": 4.807369296846104e-06
+      },
+      "withinLimit": true
+    }
+  ],
+  "loadingRefinement": [
+    {
+      "loadOhms": 560,
+      "loadPf": 15,
+      "runs": [
+        {
+          "tPHL": {
+            "minimumNs": 9.12784629247182,
+            "maximumNs": 9.234878345272968
+          },
+          "tPLH": {
+            "minimumNs": 10.340987359693235,
+            "maximumNs": 10.46266872620819
+          }
+        },
+        {
+          "tPHL": {
+            "minimumNs": 9.109631894319586,
+            "maximumNs": 9.166673311877474
+          },
+          "tPLH": {
+            "minimumNs": 10.394175101153607,
+            "maximumNs": 10.466402694908833
+          }
+        },
+        {
+          "tPHL": {
+            "minimumNs": 9.139399907320284,
+            "maximumNs": 9.171520479034776
+          },
+          "tPLH": {
+            "minimumNs": 10.419281327940448,
+            "maximumNs": 10.469281327940346
+          }
+        }
+      ],
+      "maximumBracketDifferencesNs": [
+        0.06820503339549333,
+        0.02976801300069809
+      ],
+      "converged": true
+    },
+    {
+      "loadOhms": 560,
+      "loadPf": 100,
+      "runs": [
+        {
+          "tPHL": {
+            "minimumNs": 18.427416793622555,
+            "maximumNs": 18.534448846461526
+          },
+          "tPLH": {
+            "minimumNs": 26.423482951366573,
+            "maximumNs": 26.545861312105703
+          }
+        },
+        {
+          "tPHL": {
+            "minimumNs": 18.456112030589484,
+            "maximumNs": 18.513153448189936
+          },
+          "tPLH": {
+            "minimumNs": 26.50424886312788,
+            "maximumNs": 26.57620902693954
+          }
+        },
+        {
+          "tPHL": {
+            "minimumNs": 18.489395010041925,
+            "maximumNs": 18.521515581823756
+          },
+          "tPLH": {
+            "minimumNs": 26.515530050629582,
+            "maximumNs": 26.56553005062948
+          }
+        }
+      ],
+      "maximumBracketDifferencesNs": [
+        0.08076591176130776,
+        0.03328297945244074
+      ],
+      "converged": true
+    },
+    {
+      "loadOhms": 560,
+      "loadPf": 1000,
+      "runs": [
+        {
+          "tPHL": {
+            "minimumNs": 54.72735847581082,
+            "maximumNs": 54.8343905286558
+          },
+          "tPLH": {
+            "minimumNs": 201.24838959933908,
+            "maximumNs": 201.37008076115342
+          }
+        },
+        {
+          "tPHL": {
+            "minimumNs": 54.75638682370263,
+            "maximumNs": 54.813428241310895
+          },
+          "tPLH": {
+            "minimumNs": 201.22486771583038,
+            "maximumNs": 201.29780286794679
+          }
+        },
+        {
+          "tPHL": {
+            "minimumNs": 54.764394600985675,
+            "maximumNs": 54.79651517277775
+          },
+          "tPLH": {
+            "minimumNs": 201.24504729895045,
+            "maximumNs": 201.29504729895035
+          }
+        }
+      ],
+      "maximumBracketDifferencesNs": [
+        0.07227789320663192,
+        0.0201795831200684
+      ],
+      "converged": true
+    }
+  ],
+  "undefinedInput": [
+    {
+      "generatorPlateauV": 0.8,
+      "final": [
+        {
+          "initialV": 0,
+          "inputV": 0.8292386174715953,
+          "outputV": 4.999999994421394,
+          "supplyA": 0.0051216538756270755,
+          "inputA": -0.0005847723494319066
+        },
+        {
+          "initialV": 3,
+          "inputV": 0.8292386174715984,
+          "outputV": 4.99999999082186,
+          "supplyA": 0.005121653882054813,
+          "inputA": -0.0005847723494319688
+        }
+      ],
+      "holdSeconds": 1.1793e-05,
+      "loadTimeConstantSeconds": 5.6e-07,
+      "outputDifferenceV": 3.599534004194993e-09,
+      "settledHistoryIndependent": true
+    },
+    {
+      "generatorPlateauV": 1.4,
+      "final": [
+        {
+          "initialV": 0,
+          "inputV": 1.4195359962838823,
+          "outputV": 0.04392753269521778,
+          "supplyA": 0.014434091025376128,
+          "inputA": -0.000390719925677642
+        },
+        {
+          "initialV": 3,
+          "inputV": 1.419535996283877,
+          "outputV": 0.043927532695220615,
+          "supplyA": 0.014434091025376131,
+          "inputA": -0.0003907199256775354
+        }
+      ],
+      "holdSeconds": 1.1793e-05,
+      "loadTimeConstantSeconds": 5.6e-07,
+      "outputDifferenceV": 2.8380076066980564e-15,
+      "settledHistoryIndependent": true
+    },
+    {
+      "generatorPlateauV": 2,
+      "final": [
+        {
+          "initialV": 0,
+          "inputV": 1.9997601293119818,
+          "outputV": 0.043927532695224786,
+          "supplyA": 0.01441970156182649,
+          "inputA": 4.797413760364577e-06
+        },
+        {
+          "initialV": 3,
+          "inputV": 1.9997601293119918,
+          "outputV": 0.043927532695220706,
+          "supplyA": 0.014419701561826438,
+          "inputA": 4.797413760164737e-06
+        }
+      ],
+      "holdSeconds": 1.1793e-05,
+      "loadTimeConstantSeconds": 5.6e-07,
+      "outputDifferenceV": 4.08006961549745e-15,
+      "settledHistoryIndependent": true
+    }
+  ],
+  "boundary": "DC limits apply over the published temperature range. Loading and undefined-input tests check numerical behavior, not undocumented device waveforms. No parameter is fitted here.",
+  "allScreensPass": true,
+  "artifacts": {
+    "dc-0-input-high/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "dc-0-input-high/ngspice.log": "88ab7825bb9b8da944d34f13f12cedb9e6d533a29e76bea71780dc2b2d9778a9",
+    "dc-0-input-high/probe.cir": "cf4d14c8a89f890fb762ba61de10761c104564f0c4427c6f8295a35f1a15afe0",
+    "dc-0-input-high/trace.txt": "956a029808605393180260d426d64c047cd668dd24dcd60d63cc5b6be87c7e44",
+    "dc-0-input-low/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "dc-0-input-low/ngspice.log": "88ab7825bb9b8da944d34f13f12cedb9e6d533a29e76bea71780dc2b2d9778a9",
+    "dc-0-input-low/probe.cir": "31631f908f40b618b257790731f4b40fb0aafdb334ac128680fd1bb9888d1953",
+    "dc-0-input-low/trace.txt": "8968588543f5b90a0c150e164c3700566c9a7114a268d01022010c2676435c04",
+    "dc-0-input-maximum/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "dc-0-input-maximum/ngspice.log": "88ab7825bb9b8da944d34f13f12cedb9e6d533a29e76bea71780dc2b2d9778a9",
+    "dc-0-input-maximum/probe.cir": "1a1ec7773576f5a0c21b341e5408c91083a5e1316ba70f15927c4d59c459b21d",
+    "dc-0-input-maximum/trace.txt": "18747c8b5657f4591bd4f73af22aba06c56bf2e8bef04df598852bafd96259c3",
+    "dc-0-sink-16ma/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "dc-0-sink-16ma/ngspice.log": "88ab7825bb9b8da944d34f13f12cedb9e6d533a29e76bea71780dc2b2d9778a9",
+    "dc-0-sink-16ma/probe.cir": "70a873864e65944a88c3319353cbf38c332e00f3b96c062993a9034ad1c0f5cb",
+    "dc-0-sink-16ma/trace.txt": "73c47d433750a196df3bfc6c2355240c24ea2466428d92de91878da9f3abf2d7",
+    "dc-0-sink-40ma/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "dc-0-sink-40ma/ngspice.log": "88ab7825bb9b8da944d34f13f12cedb9e6d533a29e76bea71780dc2b2d9778a9",
+    "dc-0-sink-40ma/probe.cir": "f5c14bb905d2ac475d40226d42a3fc31f003d843acbded60976fb70c8f4711c2",
+    "dc-0-sink-40ma/trace.txt": "5cc9e01401ce5d6892529571330c29b89366508a7f36368ed29bef47c40a037e",
+    "dc-70-input-high/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "dc-70-input-high/ngspice.log": "261cdc7c4d81b4e79b0340aa86f580fd28b3d64ea3e7216a2db71912211688c8",
+    "dc-70-input-high/probe.cir": "16ed09d23a309b0eb738f1c16369ba49ed8f2f2ce5c0aa1ad44c1a5440310f33",
+    "dc-70-input-high/trace.txt": "69ef33aedf19a10e0c0a28508c9cbad3f18cac4df6757a6defd44543431dc0db",
+    "dc-70-input-low/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "dc-70-input-low/ngspice.log": "261cdc7c4d81b4e79b0340aa86f580fd28b3d64ea3e7216a2db71912211688c8",
+    "dc-70-input-low/probe.cir": "a41c7da2f88fa9c1e58171aa8376b6d11b36faf7dbf1157ba031483cde4731e5",
+    "dc-70-input-low/trace.txt": "875f4339c955174e1910454bb9276529164d7db93c531abcadc8ee27e9cfe943",
+    "dc-70-input-maximum/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "dc-70-input-maximum/ngspice.log": "261cdc7c4d81b4e79b0340aa86f580fd28b3d64ea3e7216a2db71912211688c8",
+    "dc-70-input-maximum/probe.cir": "83e075a5730ee731544eae8df8e04bca6aac8762c519f5c6359339b861493d14",
+    "dc-70-input-maximum/trace.txt": "dd886b4348ec4a4fbe558fdf47c8799ba3a54d32573c8327f2ca9fafa2d2490f",
+    "dc-70-sink-16ma/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "dc-70-sink-16ma/ngspice.log": "261cdc7c4d81b4e79b0340aa86f580fd28b3d64ea3e7216a2db71912211688c8",
+    "dc-70-sink-16ma/probe.cir": "65ab826fcc202bee8ce9a43f4d997611783d869054e7550340499625864bf40d",
+    "dc-70-sink-16ma/trace.txt": "edc7e366cb7167bdaa353d13df1fe0a8b72120954352e205f633b48c073ab576",
+    "dc-70-sink-40ma/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "dc-70-sink-40ma/ngspice.log": "261cdc7c4d81b4e79b0340aa86f580fd28b3d64ea3e7216a2db71912211688c8",
+    "dc-70-sink-40ma/probe.cir": "74760bc5f2a6bb6c9d1164fe92fe594200edfe748641caea25355939fa0f08c3",
+    "dc-70-sink-40ma/trace.txt": "691fba49d52ae5b4fb4de392c2b0b4dea08615fd544981f20c44a9c428305229",
+    "load-100-0.025/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "load-100-0.025/ngspice.log": "39a515553f6ac1386fc20bba76c37c6e726025f31012693eb82406f7e0007584",
+    "load-100-0.025/probe.cir": "b7ef4f774810c33d49013bbe120c879f926b23ca1fdfd9741e4ee820912a06b1",
+    "load-100-0.025/trace.txt": "8c46c39908c496815a5769cb8a27df978b50705e28bc1f99b82dab92e0c56a48",
+    "load-100-0.05/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "load-100-0.05/ngspice.log": "6d6e78c142cdda286e5c47b6f4f558f206040423fa7fdb0a62f2548e2c4bf413",
+    "load-100-0.05/probe.cir": "1d1eb929d894182d4097ea7a5f35a6f98399d2473dd8bdcc9e18a818a5709f36",
+    "load-100-0.05/trace.txt": "2c8e6eda7e3b776577e608d43659d783836195f5530ed172d891d271dda4fa00",
+    "load-100-0.1/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "load-100-0.1/ngspice.log": "9b36a43bd6d9cf34275f28c9b252314eb783ef8155ca1556a47021c0e93ac5e4",
+    "load-100-0.1/probe.cir": "306f21d043eaae39e50048ef1374fb59de0f67419345ae09c123c9e18c5bd613",
+    "load-100-0.1/trace.txt": "a3dea108b52660a0aab526b27966db26dd8faf8120b3191810d682e7d987312b",
+    "load-1000-0.025/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "load-1000-0.025/ngspice.log": "8a1ac6b774845bda3c4fcbef54a4c906483e44b742c8b2d6644dfd57e2154778",
+    "load-1000-0.025/probe.cir": "323e3ec67332ee75eccf411deff684112956c68fd61f1c0ddf174500c8cf5b5b",
+    "load-1000-0.025/trace.txt": "2ca823b1ea44c3f587437d4eb7ea4cc5bb5552b965ee0fafe9ba1b6e160c849c",
+    "load-1000-0.05/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "load-1000-0.05/ngspice.log": "5a6fa0c962442bdd745a8b5afb0efcd2a620c243eda8afcc42945829764427d1",
+    "load-1000-0.05/probe.cir": "d84c6d60300fe783f7d2ab40df05671184fadeb98a5e30592d373aa02cee313d",
+    "load-1000-0.05/trace.txt": "92a4df07b7fe86e431ad313f214c57db6bdd609d0a2c4fbc7a0d0f496e94bf1e",
+    "load-1000-0.1/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "load-1000-0.1/ngspice.log": "0174c88c78c3879dc93dea9e8385f5737b048c7954651f76c1584e8f47d89a6c",
+    "load-1000-0.1/probe.cir": "f55a013e8218b1c9a44287b95262d84e72879f29eb8cfe63a6e57d9673756a6a",
+    "load-1000-0.1/trace.txt": "73b11624f01bb51daadc085bfea3c24cc26bbcb73e9d8e87803e9ca6147ac87f",
+    "load-15-0.025/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "load-15-0.025/ngspice.log": "5043730aa66886b048b26e5876f92d8d7d0901fd506deb01a8a4715f33614760",
+    "load-15-0.025/probe.cir": "87f90e40838a4030aeec913194671df1f61802710bf3fdca621888cd2616ab23",
+    "load-15-0.025/trace.txt": "524cb404517c8ea74d7d7e03beb87a573f475d6e549525759acb6e3e265468af",
+    "load-15-0.05/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "load-15-0.05/ngspice.log": "059dad74848db2586baea7cd19ffe9e730ba4758390cb50359ff4ba8622f4bfc",
+    "load-15-0.05/probe.cir": "030d699677286acb047efbe1cc8606c042387f5494ade7a4af37f986dc7d1c9e",
+    "load-15-0.05/trace.txt": "c64bf47fffea46328b7ca4c305c56345c882a1d242cc14b950f9a035726964c8",
+    "load-15-0.1/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "load-15-0.1/ngspice.log": "d13dfa2461c2f1d9270d8606d86fe5e7352bb835d19361658863e6b51570c7a2",
+    "load-15-0.1/probe.cir": "704c6f07e0496ae2ad7358b588b96f96533513a8a3fe36a253d9d7c862c9a3ed",
+    "load-15-0.1/trace.txt": "31643c30e3254b073764f5e7a3229557016043ca68dc47038ba1ef4645873edc",
+    "plateau-0.8-from-0/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "plateau-0.8-from-0/ngspice.log": "5065c3c69480ababd7667a4441c32f4c4e7a3c758f4a0e39c2bf570fb057d45e",
+    "plateau-0.8-from-0/probe.cir": "5ff8931ee7a8dd3879aa9f7987aea97754e73552f01a370f12a49eff51f4e5db",
+    "plateau-0.8-from-0/trace.txt": "f6dfc574824e7dc112e81fcc4a6bfd7a6a54ada5de1756aee61a08edd477fe72",
+    "plateau-0.8-from-3/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "plateau-0.8-from-3/ngspice.log": "81f50d34a7a1029b1fe52abef56172105146f452740af0e5fa2b152d3ee45120",
+    "plateau-0.8-from-3/probe.cir": "6925d73a030fc5fa2770c60e262a3fe4529ab1b60e85deb9396b05188743df76",
+    "plateau-0.8-from-3/trace.txt": "b60491b31d88139ab9e60de46da4ad449b9764c9f3ca2c0f4a62552c4411784e",
+    "plateau-1.4-from-0/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "plateau-1.4-from-0/ngspice.log": "e8a05d52fea42f9cb4aae6edfc860f628747a74028eb7d0a7bae2fd34b8ac9b0",
+    "plateau-1.4-from-0/probe.cir": "e5094b488f2648dbf65f53696508b0dd51c61335eeb11647c9316b0fa1d11d95",
+    "plateau-1.4-from-0/trace.txt": "881019803c92a0d738224604e17389f7effabffb8c17ae3705d828b823716b2d",
+    "plateau-1.4-from-3/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "plateau-1.4-from-3/ngspice.log": "a60183a194a6e74f13376410048de3056533ee97e089662572d9cd0c13078590",
+    "plateau-1.4-from-3/probe.cir": "8fece55125d98c39184e98c05f11e6ace0a479305864785900e1d03ed140fb0c",
+    "plateau-1.4-from-3/trace.txt": "ba8dc161484b82077072e61d96e88e2b34eaa14a0927e10c898d53c5cf077f13",
+    "plateau-2-from-0/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "plateau-2-from-0/ngspice.log": "8cccf41beb43cceec420401d11550c1492001c2981b9ccc122affed52faaecde",
+    "plateau-2-from-0/probe.cir": "f3f4f381e65f7f0367bc27b54aa3ade2b7fb0f7bd0ea48f18b3d08b5d6c05d3e",
+    "plateau-2-from-0/trace.txt": "0480ab1004cc95a27b47fd3b8a8b55f8589d8239824d662baced957435a199d5",
+    "plateau-2-from-3/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "plateau-2-from-3/ngspice.log": "0c31273c211fc4858602c848d7c64c365887f6e648efc022032949e2c519b1a6",
+    "plateau-2-from-3/probe.cir": "f5d6a7589f57ced1bba6484b9cabaf7f57181a3a937c4ec6fe8ec268794fadd8",
+    "plateau-2-from-3/trace.txt": "f374c8fc0b41f7eda9d823ee557ca5ed1b9b56607dbf74d9708458f4a7d8de2f",
+    "spinit": "2f0e2f94c177ce63138523276d9a01e0585945253ddf668c5f8be9a93bd72417"
+  }
+}
