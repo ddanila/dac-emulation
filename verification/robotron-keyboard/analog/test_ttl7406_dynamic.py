@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Guard direct electrical wiring and the calibration/qualification boundary."""
 import hashlib
+import copy
 import json
 from pathlib import Path
 import tarfile
@@ -8,7 +9,7 @@ import unittest
 
 from circuit import load
 from network_trace import observe_network, PHYSICAL_SIGNALS
-from prepare_dynamic_driver import transform
+from prepare_dynamic_driver import transform, checked_candidate
 from ttl7406_dynamic import model
 from ttl7406_output_probe import driver_circuit
 
@@ -61,6 +62,15 @@ class DynamicDriverTests(unittest.TestCase):
         self.assertTrue(report['cases'][0]['selectedScreensPass'])
         self.assertLess(report['cases'][0]['calibration']['objective'],.1)
         self.assertFalse(report['cases'][-1]['selectedScreensPass'])
+        checked_candidate(report,0)
+        altered=copy.deepcopy(report)
+        altered['cases'][0]['parameters']['tf_ns']*=2
+        with self.assertRaisesRegex(ValueError,'tested model'):
+            checked_candidate(altered,0)
+        altered=copy.deepcopy(report)
+        altered['cases'][0]['dc'][0]['withinLimit']=False
+        with self.assertRaisesRegex(ValueError,'device screens'):
+            checked_candidate(altered,0)
         for name,digest in report['sources'].items():
             self.assertEqual(hashlib.sha256((HERE/name).read_bytes()).hexdigest(),digest,name)
         with tarfile.open(root/'captures.tar.gz') as archive:
@@ -81,6 +91,31 @@ class DynamicDriverTests(unittest.TestCase):
             self.assertLess(case['outputDifferenceV'],1e-6)
         with tarfile.open(root/'captures.tar.gz') as archive:
             for name,digest in report['artifacts'].items():
+                self.assertEqual(hashlib.sha256(archive.extractfile(name).read()).hexdigest(),digest,name)
+
+    def test_traffic_preflight_preserves_direct_driver(self):
+        root=HERE/'reports/7406-dynamic/traffic'
+        report=json.loads((root/'assessment.json').read_text())
+        self.assertTrue(report['preflightPassed'])
+        self.assertFalse(report['qualified'])
+        with tarfile.open(root/'captures.tar.gz') as archive:
+            for case,entry in report['cases'].items():
+                self.assertFalse(entry['electricalExecuted'])
+                for name,digest in entry['preparedArtifacts'].items():
+                    data=archive.extractfile(f'{case}/{name}').read()
+                    self.assertEqual(hashlib.sha256(data).hexdigest(),digest,name)
+                    if name=='io.cir':
+                        self.assertIn(b'Xdata n_D0 n_TA_DATEN driver_vp 0 TTL7406_DYNAMIC',data)
+                        self.assertIn(b'Xclock n_WR_N n_TA_TAKT driver_vp 0 TTL7406_DYNAMIC',data)
+                        self.assertNotIn(b'data_intent',data)
+
+    def test_prepared_inputs_and_producer(self):
+        root=HERE/'reports/7406-dynamic'
+        receipt=json.loads((root/'provenance.json').read_text())
+        self.assertTrue(receipt['currentPreparerReproducesAllInputBytes'])
+        self.assertEqual(receipt['preparerSha256'],hashlib.sha256((HERE/'prepare_dynamic_driver.py').read_bytes()).hexdigest())
+        with tarfile.open(root/'prepared.tar.gz') as archive:
+            for name,digest in receipt['preparedInputs'].items():
                 self.assertEqual(hashlib.sha256(archive.extractfile(name).read()).hexdigest(),digest,name)
 
 

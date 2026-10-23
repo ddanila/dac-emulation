@@ -1,0 +1,81 @@
+{
+  "preparedInputs": {
+    "io.cir": "ec5caae3fc2aaa22ff4bbc788bf73a8ac43e072c94cc79a119c80fa239ea7f70",
+    "io.vvp": "ebc881557d10b5eef868a629a7c329b003ec15817507597ef9644a2b56851829",
+    "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+    "controller_analog.v": "3f3231bdad3d8b5b55493538c177ceceab84467ffe61e0097b4d3e8cca73bec3",
+    "scenario.json": "8256ff5c02baaaf4bc3e0c3bc889a272bda897e115e86c77ea50df5f7237b282",
+    "dynamic-driver.json": "aef5962a44b572da1853f96601b56bd37520862477ac5ab1dc4b681491451b6c"
+  },
+  "parentInputReportSha256": "9c550ecacc8e096223d1429b9a516b3f3f982848b7667db1876e067c5b0402d5",
+  "currentPreparerReproducesAllInputBytes": true,
+  "preparerSha256": "7a95e70c7a4f2e9d4a886236c43089fd2e236c115a8d637046f420c7b4dd3219",
+  "preparationCommand": [
+    "python3",
+    "verification/robotron-keyboard/analog/firmware_io_cosim.py",
+    "--prepare-only",
+    "--rom",
+    "build/keyboard-controller-analog/boundary-traffic-final/s600.bin",
+    "--out",
+    "build/keyboard-controller-analog/7406-direct-base",
+    "--ngspice",
+    "/tmp/k7658-passive-cap-runtime",
+    "--ngspice-spinit",
+    "/tmp/k7658-adc-crossing-models-v2/spinit",
+    "--electrical-bus",
+    "--electrical-wr",
+    "--serial-driver",
+    "7406-dc",
+    "--cpu-profile",
+    "qualified-digital",
+    "--bus-latch-pf",
+    "12",
+    "--bus-7406-pf",
+    "0",
+    "--minimum-breakpoint-fs",
+    "1",
+    "--reltol",
+    "1e-6",
+    "--vntol",
+    "1e-9",
+    "--abstol",
+    "1e-15",
+    "--step-ns",
+    "25"
+  ],
+  "dynamicPreparationCommand": [
+    "python3",
+    "verification/robotron-keyboard/analog/prepare_dynamic_driver.py",
+    "--prepared",
+    "build/keyboard-controller-analog/7406-direct-base",
+    "--device-report",
+    "build/keyboard-controller-analog/7406-dynamic-v2/report.json",
+    "--out",
+    "build/keyboard-controller-analog/7406-direct-prepared"
+  ],
+  "liveSettings": {
+    "stepsNs": [
+      25,
+      12.5,
+      6.25
+    ],
+    "toleranceScales": [
+      1,
+      0.5,
+      0.25
+    ],
+    "fixtureGuardsPs": [
+      1,
+      0.5,
+      0.25
+    ],
+    "mpfrBits": 256,
+    "mpfrStartNs": 0,
+    "stopNs": 1160000,
+    "adcCrossings": true,
+    "conservativeCap": true,
+    "passiveAssembly": true,
+    "physicalDriverTrace": true
+  },
+  "boundary": "Source input report describes the original DC fixture before replacement. dynamic-driver.json and the retained final deck describe the experimental storage model. No model admission is implied."
+}
