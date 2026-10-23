@@ -1,0 +1,280 @@
+{
+  "preflightPassed": true,
+  "qualified": false,
+  "cases": {
+    "release-repress": {
+      "referenceCoverage": {
+        "passed": true,
+        "windows": [
+          {
+            "name": "first press",
+            "startCycle": 4000,
+            "endCycle": 30000,
+            "minimumBits": 26,
+            "observedBits": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            "passed": true
+          },
+          {
+            "name": "second press",
+            "startCycle": 60000,
+            "endCycle": 90000,
+            "minimumBits": 26,
+            "observedBits": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            "passed": true
+          }
+        ]
+      },
+      "preparedArtifacts": {
+        "scenario.json": "94516d7ba8f438d97a740b42ab10e0e16f8f54f21abb0ec8ef8a0c7d0b5b89f2",
+        "io_scenario.h": "a69d0336b48a3f8b417da8dea0658fcc4c0adb018464117cce30d349f5a8c7f5",
+        "io.cir": "7d7a13f545e1c50a1ece56a05f031a1123e50913ef24f83563c8c213b5e9f252",
+        "io.vvp": "ebc881557d10b5eef868a629a7c329b003ec15817507597ef9644a2b56851829",
+        "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+        "reference.c": "b70fb3ff75822cdfa06c18551281c7b32b5026093a073669e878f83e3403e71b",
+        "reference.log": "988cf7c860af52b09f3680cc901af79c494c4cc1e44a8aa442f468e11aff8cb3"
+      },
+      "electricalExecuted": false
+    },
+    "modifier": {
+      "referenceCoverage": {
+        "passed": true,
+        "windows": [
+          {
+            "name": "modified",
+            "startCycle": 6000,
+            "endCycle": 40000,
+            "minimumBits": 26,
+            "observedBits": [
+              1,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              1,
+              1
+            ],
+            "passed": true
+          },
+          {
+            "name": "ordinary",
+            "startCycle": 70000,
+            "endCycle": 100000,
+            "minimumBits": 26,
+            "differentFrom": "modified",
+            "observedBits": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            "passed": true
+          }
+        ]
+      },
+      "preparedArtifacts": {
+        "scenario.json": "b96bd3d3b3161a83cf14aefa2a7c4fd9f45c45a5d243084cab452dd58ebc9eb8",
+        "io_scenario.h": "b0e76022f954385a2c6064becf0089d1ee285a1fc9262addd341bc251032d01f",
+        "io.cir": "39e34a7088a253549cf6c2d638f68ed5d8e826b96c3d10ccba6e011971b140d5",
+        "io.vvp": "ebc881557d10b5eef868a629a7c329b003ec15817507597ef9644a2b56851829",
+        "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+        "reference.c": "b70fb3ff75822cdfa06c18551281c7b32b5026093a073669e878f83e3403e71b",
+        "reference.log": "1f7f7b3a2b579d9e174ac6cd346d73e900c909c68fcd5003762be5b752e51fcd"
+      },
+      "electricalExecuted": false
+    },
+    "reset-during-transmission": {
+      "referenceCoverage": {
+        "passed": true,
+        "windows": [
+          {
+            "name": "interrupted transmission",
+            "startCycle": 4000,
+            "endCycle": 24236,
+            "minimumBits": 6,
+            "observedBits": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            "passed": true
+          },
+          {
+            "name": "press after reset",
+            "startCycle": 60000,
+            "endCycle": 100000,
+            "minimumBits": 26,
+            "observedBits": [
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              0,
+              1,
+              1
+            ],
+            "passed": true
+          }
+        ]
+      },
+      "preparedArtifacts": {
+        "scenario.json": "18c1d73521c1c5d7f721b47f2b74d98b4016b43c5581b53d914a099bae15333d",
+        "io_scenario.h": "46943d84cbca518f678dc9898b6ad979465a5ec0cb4de6afb5a8a083dfac0a44",
+        "io.cir": "0b13a1ec47719c684b75ebb20acfa81780ac1b16df60a2d6323f2971409b268e",
+        "io.vvp": "ebc881557d10b5eef868a629a7c329b003ec15817507597ef9644a2b56851829",
+        "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+        "reference.c": "b70fb3ff75822cdfa06c18551281c7b32b5026093a073669e878f83e3403e71b",
+        "reference.log": "d76bca16ea8b1b1518c305edfd697b63ff90093822f94aa282de4bbd36def1e7"
+      },
+      "electricalExecuted": false
+    }
+  },
+  "resetPlacement": {
+    "cycle": 24236,
+    "uninterruptedNeighborBits": [
+      [
+        24220,
+        0
+      ],
+      [
+        24252,
+        0
+      ]
+    ]
+  },
+  "romSha256": "4b54891c02a8ec279e2b8aec03489a961fc8647e08ad2036dcf82d0634bf7273",
+  "sourceSha256": "001aa290c25e20ea9912cb2091fa1a78c3de811a78d12403a2c703076c7ad33e",
+  "productionSources": {
+    "common/cpu/z80.h": "a998bd23598a0076b26adf94ab895710378d4f19a0a58a1168c1edd23504ad46",
+    "third_party/cpu/chips/z80.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3",
+    "verification/robotron-keyboard/analog/io_scenario.py": "cd120556193981fa7e34f3e99882d266163d399c2a1024b8effe48776dedcd01",
+    "verification/robotron-keyboard/analog/firmware_io_reference.c": "f2afb530804d237b3c6ceb47ca39729d68c8f29545591cf3b7241e2aa6337e8f",
+    "machines/robotron1715m/keyboard_board.c": "6f0f7b4d5b975fbff8f964d2771214b2197081c77944a5e183c4b59518d58179",
+    "machines/robotron1715m/keyboard_cpu.c": "faa89b30a3ef19849a62a2e6c4b3a06ad98476608bdce94a5169e536daf47b2f",
+    "machines/robotron1715m/keyboard_board.h": "7a9e22e273dec4bb2f606175968cd17b880b98293b8f8728d09ac4c56803487c",
+    "machines/robotron1715m/keyboard_cpu.h": "6471af3fb30d135054ce91cf11323e9925cd739bb93b2a47a84b177c4de45d86",
+    "machines/robotron1715m/generated/keyboard_cpu/c_read_half.h": "253d74355da61a1bf1f8fb3a271c96f558e7dc133ddacbdcc0fea28da4020887",
+    "machines/robotron1715m/generated/keyboard_cpu/candidate.h": "a3d45af8651db6fe875a8d626709ef3a5b0e26524107f10a3bdaac6c535ad101",
+    "machines/robotron1715m/generated/keyboard_cpu/cpu_bus_half.h": "5d3884c3d7cb97e44df45adedaa904d7b8849decbedf766ee0edda06e74dca87",
+    "machines/robotron1715m/generated/keyboard_cpu/cpu_bus_pins.h": "378f3bb63f6ad01f459e9d775487a2fe665f79023debed941f55678f8e687c6a",
+    "machines/robotron1715m/generated/keyboard_cpu/cpu_bus_states.h": "2f66bd2ed402a212bed462ed0c5695607047ec2cb8aec52f6e36100d7a12bd9a",
+    "machines/robotron1715m/generated/keyboard_cpu/cpu_bus_steps.h": "0962999b0c4602a8a9c646ce0509a97132b3b343eef4c17a1d8df1cbc36e247d"
+  },
+  "boundary": "Prepared unchanged physical circuits with new contact/reset stimuli. Production-C coverage only; full live electrical traffic remains gated by boundary convergence and physical-driver admission."
+}

@@ -6,6 +6,7 @@ Input is firmware_io_cosim --prepare-only --electrical-bus --electrical-wr
 This prepares a diagnostic run; selected device screens are not board admission.
 """
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -13,6 +14,19 @@ import shutil
 
 from ttl7406_dynamic import model
 from gate_switching_probe import sha
+
+
+def checked_candidate(report, case_index):
+    if not report['completed']:
+        raise ValueError('Incomplete device investigation')
+    case=report['cases'][case_index]
+    if not case['selectedScreensPass'] or not all(c['withinLimit'] for c in case['dc']) or not all(c['converged'] and c['withinDelayScreen'] for c in case['validation']):
+        raise ValueError('Candidate fails device screens')
+    candidate=model(**case['parameters'])
+    name=f'junction-{case["parameters"]["junction_pf"]:g}pf/candidate.cir'
+    if hashlib.sha256(candidate.encode()).hexdigest()!=report['artifacts'].get(name):
+        raise ValueError('Parameters differ from the tested model')
+    return candidate
 
 
 def transform(deck, candidate):
@@ -47,11 +61,8 @@ def transform(deck, candidate):
 
 def prepare(source, report_path, case_index, out):
     report=json.loads(report_path.read_text())
-    if not report['completed']:
-        raise ValueError('Incomplete device investigation')
+    candidate=checked_candidate(report,case_index)
     case=report['cases'][case_index]
-    if not case['selectedScreensPass']:
-        raise ValueError('Candidate fails device screens')
     for name,digest in report['sources'].items():
         if sha(Path(__file__).with_name(name))!=digest:
             raise ValueError('Device evidence has stale source: '+name)
@@ -61,7 +72,7 @@ def prepare(source, report_path, case_index, out):
     inputs=json.loads((source/'run-inputs.json').read_text())
     if inputs['assumptions']['bus7406Pf']!=0:
         raise ValueError('Gate capacitance fixture must be zero')
-    deck=transform((source/'io.cir').read_text(),model(**case['parameters']))
+    deck=transform((source/'io.cir').read_text(),candidate)
     out.mkdir(parents=True,exist_ok=False)
     for name in ('io.vvp','s600.hex','controller_analog.v','scenario.json'):
         shutil.copyfile(source/name,out/name)
