@@ -1,0 +1,1236 @@
+{
+  "completed": true,
+  "qualified": false,
+  "boardAdmission": false,
+  "sources": {
+    "cpu_serial_drive.py": "a62fc4ea5ab31c728c33ee4fe1231b9dbf612af804976bb98e87e0172909763a",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "ttl7406_dynamic.py": "2b09ef3f4ecb523e4355abcc9ed016a3988f64f6a1aedd982048c38a6d62be80",
+    "prepare_dynamic_driver.py": "7a95e70c7a4f2e9d4a886236c43089fd2e236c115a8d637046f420c7b4dd3219",
+    "gate_switching_probe.py": "bb8a4f2d6dfa153684a4c05ba3d3696a20ffa33d9fafedf48aa655a589d3e719",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8"
+  },
+  "deviceReportSha256": "0222d732856dd4fd2fb8aee52cdf8790ba1471cb596c16bff27a72c951ce5f99",
+  "executableSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+  "endpoints": {
+    "False": [
+      {
+        "supplyV": 4.75,
+        "highOhms": 10400.0,
+        "loadedHighV": 2.15,
+        "passed": false
+      },
+      {
+        "supplyV": 5,
+        "highOhms": 10400.0,
+        "loadedHighV": 2.4,
+        "passed": true
+      },
+      {
+        "supplyV": 5.25,
+        "highOhms": 10400.0,
+        "loadedHighV": 2.65,
+        "passed": true
+      }
+    ],
+    "True": [
+      {
+        "supplyV": 4.75,
+        "highOhms": 9400.0,
+        "loadedHighV": 2.4,
+        "passed": true
+      },
+      {
+        "supplyV": 5,
+        "highOhms": 10400.0,
+        "loadedHighV": 2.4,
+        "passed": true
+      },
+      {
+        "supplyV": 5.25,
+        "highOhms": 11400.0,
+        "loadedHighV": 2.4,
+        "passed": true
+      }
+    ]
+  },
+  "staticSingleGateHeadroom": {
+    "highCurrentA": 0.00021,
+    "lowCurrentA": 0.00019999999999999987,
+    "scope": "Published endpoint comparison for one SN7406 input only; not total bus fanout or transient current."
+  },
+  "runs": [
+    {
+      "supplyV": 4.75,
+      "temperatureC": 0,
+      "pinPf": 10,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.705772753112286,
+      "inputLowV": 0.14490240326287857,
+      "highMarginV": 2.705772753112286,
+      "lowMarginV": 0.6550975967371215,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        35.800919418693006,
+        36.30091941869302
+      ],
+      "inputFallDelayNs": [
+        4.967487981040826,
+        4.992506037599877
+      ],
+      "sourceToOutputLowNs": [
+        76.9647495449227,
+        77.23226659721273
+      ],
+      "maximumSourceA": 0.0004379127204726633,
+      "maximumSinkA": 0.017018308106152055
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 0,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.473621828417089,
+      "inputLowV": 0.1449024490560171,
+      "highMarginV": 2.473621828417089,
+      "lowMarginV": 0.6550975509439829,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        112.66761852767384,
+        113.02936678138924
+      ],
+      "inputFallDelayNs": [
+        14.507136622203168,
+        14.650581064227152
+      ],
+      "sourceToOutputLowNs": [
+        109.59632270499847,
+        109.8614334252088
+      ],
+      "maximumSourceA": 0.00044128411964583654,
+      "maximumSinkA": 0.0188826953989675
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 25,
+      "pinPf": 10,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.7035925888136765,
+      "inputLowV": 0.14649784557114506,
+      "highMarginV": 2.7035925888136765,
+      "lowMarginV": 0.653502154428855,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        37.05253154096484,
+        37.55253154096486
+      ],
+      "inputFallDelayNs": [
+        4.927693691518467,
+        4.965742006017518
+      ],
+      "sourceToOutputLowNs": [
+        75.00424230846257,
+        75.2285851338
+      ],
+      "maximumSourceA": 0.0004377321825750207,
+      "maximumSinkA": 0.017010363903290963
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 25,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.468602044278017,
+      "inputLowV": 0.14649789510097513,
+      "highMarginV": 2.4686020442780174,
+      "lowMarginV": 0.6535021048990249,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        117.48365223965112,
+        117.72057438910839
+      ],
+      "inputFallDelayNs": [
+        14.48784652425049,
+        14.595568918697918
+      ],
+      "sourceToOutputLowNs": [
+        104.10113162475457,
+        104.32124698176072
+      ],
+      "maximumSourceA": 0.000441121435755387,
+      "maximumSinkA": 0.018862016822933564
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 70,
+      "pinPf": 10,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.699617131746405,
+      "inputLowV": 0.149412142015059,
+      "highMarginV": 2.699617131746405,
+      "lowMarginV": 0.650587857984941,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        39.78514463093544,
+        40.28514463093543
+      ],
+      "inputFallDelayNs": [
+        4.841690062980471,
+        4.886779337939625
+      ],
+      "sourceToOutputLowNs": [
+        71.59026128045855,
+        71.89199502837462
+      ],
+      "maximumSourceA": 0.00043740303544382274,
+      "maximumSinkA": 0.01699602415647454
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 70,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.459427501913247,
+      "inputLowV": 0.14941214276627768,
+      "highMarginV": 2.4594275019132468,
+      "lowMarginV": 0.6505878572337224,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        125.80156435552661,
+        126.3015643555266
+      ],
+      "inputFallDelayNs": [
+        14.637884279526197,
+        14.667596166571808
+      ],
+      "sourceToOutputLowNs": [
+        94.95681889830756,
+        95.24569705804893
+      ],
+      "maximumSourceA": 0.0004408241453451185,
+      "maximumSinkA": 0.018823736656799858
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 0,
+      "pinPf": 10,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.951887652273166,
+      "inputLowV": 0.15378095658196872,
+      "highMarginV": 2.9518876522731663,
+      "lowMarginV": 0.6462190434180313,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        32.96111186593055,
+        33.46111186593056
+      ],
+      "inputFallDelayNs": [
+        5.171718452046526,
+        5.1924071278124595
+      ],
+      "sourceToOutputLowNs": [
+        75.70370515247843,
+        75.93404335430803
+      ],
+      "maximumSourceA": 0.0004608170411523838,
+      "maximumSinkA": 0.01790805020837457
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 0,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.705585623312814,
+      "inputLowV": 0.15378100212324267,
+      "highMarginV": 2.705585623312814,
+      "lowMarginV": 0.6462189978767574,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        102.78686339026633,
+        103.28686339026632
+      ],
+      "inputFallDelayNs": [
+        14.966122295718256,
+        15.10790677151187
+      ],
+      "sourceToOutputLowNs": [
+        106.29185908497472,
+        106.54135703866457
+      ],
+      "maximumSourceA": 0.00046438173266878484,
+      "maximumSinkA": 0.019861736727488016
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 25,
+      "pinPf": 10,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.949706937514046,
+      "inputLowV": 0.15537241071519092,
+      "highMarginV": 2.949706937514046,
+      "lowMarginV": 0.6446275892848091,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        34.29228726102719,
+        34.7922872610272
+      ],
+      "inputFallDelayNs": [
+        5.119440181079513,
+        5.1512495265690905
+      ],
+      "sourceToOutputLowNs": [
+        74.09111137665899,
+        74.30445179346962
+      ],
+      "maximumSourceA": 0.000460636608530114,
+      "maximumSinkA": 0.017899553694750204
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 25,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.700486470595404,
+      "inputLowV": 0.1553724599674901,
+      "highMarginV": 2.700486470595404,
+      "lowMarginV": 0.6446275400325099,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        107.589343720263,
+        107.62726662593506
+      ],
+      "inputFallDelayNs": [
+        15.00386027127002,
+        15.11250761220219
+      ],
+      "sourceToOutputLowNs": [
+        101.21686604229332,
+        101.42395875618969
+      ],
+      "maximumSourceA": 0.00046421938237774414,
+      "maximumSinkA": 0.019840908063619055
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 70,
+      "pinPf": 10,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.945734207126394,
+      "inputLowV": 0.1582797667758489,
+      "highMarginV": 2.945734207126394,
+      "lowMarginV": 0.6417202332241512,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        36.54744572919514,
+        37.047445729195154
+      ],
+      "inputFallDelayNs": [
+        5.043247382600571,
+        5.082209016444836
+      ],
+      "sourceToOutputLowNs": [
+        70.8271075072144,
+        71.12423278668716
+      ],
+      "maximumSourceA": 0.0004603093567030889,
+      "maximumSinkA": 0.01788527864185149
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 70,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.691316546665245,
+      "inputLowV": 0.15827976683360717,
+      "highMarginV": 2.691316546665245,
+      "lowMarginV": 0.6417202331663929,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        115.3296062301845,
+        115.82960623018448
+      ],
+      "inputFallDelayNs": [
+        15.126118294363382,
+        15.155976011510594
+      ],
+      "sourceToOutputLowNs": [
+        92.64624249087147,
+        92.9397711739955
+      ],
+      "maximumSourceA": 0.0004639228946134475,
+      "maximumSinkA": 0.01980261234935139
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 0,
+      "pinPf": 10,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 5.197992639500401,
+      "inputLowV": 0.16266230358985942,
+      "highMarginV": 3.1979926395004012,
+      "lowMarginV": 0.6373376964101406,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        30.107377400353176,
+        30.607377400353187
+      ],
+      "inputFallDelayNs": [
+        5.39865097127866,
+        5.416675450010407
+      ],
+      "sourceToOutputLowNs": [
+        74.76533093109708,
+        74.98266652455314
+      ],
+      "maximumSourceA": 0.0004837202285975306,
+      "maximumSinkA": 0.018796785010173022
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 0,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.937609277375282,
+      "inputLowV": 0.16266234887894523,
+      "highMarginV": 2.937609277375282,
+      "lowMarginV": 0.6373376511210548,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        94.45125104160238,
+        94.95125104160236
+      ],
+      "inputFallDelayNs": [
+        15.437024343200534,
+        15.584208617006754
+      ],
+      "sourceToOutputLowNs": [
+        103.37080036969684,
+        103.60720733723653
+      ],
+      "maximumSourceA": 0.000487478960226458,
+      "maximumSinkA": 0.020840127819056493
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 25,
+      "pinPf": 10,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 5.195813304722171,
+      "inputLowV": 0.16424995519392602,
+      "highMarginV": 3.1958133047221713,
+      "lowMarginV": 0.635750044806074,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        31.802224899734465,
+        32.302224899734476
+      ],
+      "inputFallDelayNs": [
+        5.3314871484649204,
+        5.361863545497501
+      ],
+      "sourceToOutputLowNs": [
+        73.15859228120527,
+        73.35402817887542
+      ],
+      "maximumSourceA": 0.0004835406376817635,
+      "maximumSinkA": 0.01878887811803403
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 25,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.932370031773228,
+      "inputLowV": 0.16425000416705532,
+      "highMarginV": 2.932370031773228,
+      "lowMarginV": 0.6357499958329447,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        98.89460452925788,
+        99.10144925979972
+      ],
+      "inputFallDelayNs": [
+        15.413395501106688,
+        15.514049490033264
+      ],
+      "sourceToOutputLowNs": [
+        98.69795200077799,
+        98.89460452925788
+      ],
+      "maximumSourceA": 0.00048731703296420626,
+      "maximumSinkA": 0.020819693329434966
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 70,
+      "pinPf": 10,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 5.191841452515549,
+      "inputLowV": 0.16715067983329762,
+      "highMarginV": 3.1918414525155487,
+      "lowMarginV": 0.6328493201667025,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        34.14836027354276,
+        34.64836027354277
+      ],
+      "inputFallDelayNs": [
+        5.219726530743382,
+        5.247339252252188
+      ],
+      "sourceToOutputLowNs": [
+        70.34119759405574,
+        70.60185967922622
+      ],
+      "maximumSourceA": 0.00048321577535469104,
+      "maximumSinkA": 0.018774332905863562
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 70,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.9231326028455165,
+      "inputLowV": 0.16715067983345291,
+      "highMarginV": 2.9231326028455165,
+      "lowMarginV": 0.6328493201665472,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        106.29276024770503,
+        106.65483795633973
+      ],
+      "inputFallDelayNs": [
+        15.600379336348213,
+        15.6312387822645
+      ],
+      "sourceToOutputLowNs": [
+        90.93243254931724,
+        91.17137765596726
+      ],
+      "maximumSourceA": 0.0004870213206777802,
+      "maximumSinkA": 0.02078210183947638
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 0,
+      "pinPf": 10,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.710221692303082,
+      "inputLowV": 0.14490240326570014,
+      "highMarginV": 2.710221692303082,
+      "lowMarginV": 0.6550975967342999,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        33.443279859001066,
+        33.94327985900108
+      ],
+      "inputFallDelayNs": [
+        4.969390832064904,
+        4.994428471543734
+      ],
+      "sourceToOutputLowNs": [
+        76.20453474438848,
+        76.44803529235669
+      ],
+      "maximumSourceA": 0.00048426857297076485,
+      "maximumSinkA": 0.017034929644242185
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 0,
+      "pinPf": 34,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.535414023963022,
+      "inputLowV": 0.14490244919787085,
+      "highMarginV": 2.535414023963022,
+      "lowMarginV": 0.6550975508021292,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        104.60977659621322,
+        105.10977659621321
+      ],
+      "inputFallDelayNs": [
+        14.512874305397661,
+        14.647762761109155
+      ],
+      "sourceToOutputLowNs": [
+        107.42070935968091,
+        107.66449175222358
+      ],
+      "maximumSourceA": 0.00048815740315320924,
+      "maximumSinkA": 0.019138164510704898
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 25,
+      "pinPf": 10,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.708252983642675,
+      "inputLowV": 0.14649784557427398,
+      "highMarginV": 2.7082529836426747,
+      "lowMarginV": 0.653502154425726,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        34.742420335290156,
+        35.24242033529016
+      ],
+      "inputFallDelayNs": [
+        4.930340730861208,
+        4.968357907753609
+      ],
+      "sourceToOutputLowNs": [
+        74.3054870908144,
+        74.52467263899378
+      ],
+      "maximumSourceA": 0.0004840684356756156,
+      "maximumSinkA": 0.01702748520778539
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 25,
+      "pinPf": 34,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.531503622549729,
+      "inputLowV": 0.14649789525864504,
+      "highMarginV": 2.531503622549729,
+      "lowMarginV": 0.653502104741355,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        109.071661606294,
+        109.11199820741979
+      ],
+      "inputFallDelayNs": [
+        14.623716356852745,
+        14.731481265919216
+      ],
+      "sourceToOutputLowNs": [
+        102.46280028299215,
+        102.69175832215919
+      ],
+      "maximumSourceA": 0.00048797734775323583,
+      "maximumSinkA": 0.019121152650940415
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 70,
+      "pinPf": 10,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.704664367279898,
+      "inputLowV": 0.14941214201510158,
+      "highMarginV": 2.7046643672798982,
+      "lowMarginV": 0.6505878579848985,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        36.66311737202864,
+        37.16311737202865
+      ],
+      "inputFallDelayNs": [
+        4.867899355235101,
+        4.911102712948462
+      ],
+      "sourceToOutputLowNs": [
+        71.04718970916596,
+        71.36345655690168
+      ],
+      "maximumSourceA": 0.0004837049435146526,
+      "maximumSinkA": 0.017014686281829023
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 70,
+      "pinPf": 34,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.524119534321396,
+      "inputLowV": 0.14941214276906892,
+      "highMarginV": 2.524119534321396,
+      "lowMarginV": 0.6505878572309312,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        115.98313286349804,
+        116.48313286349803
+      ],
+      "inputFallDelayNs": [
+        14.74579965326617,
+        14.775536471986912
+      ],
+      "sourceToOutputLowNs": [
+        93.3512284471266,
+        93.67824901635804
+      ],
+      "maximumSourceA": 0.0004876485190020233,
+      "maximumSinkA": 0.01909115979183905
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 0,
+      "pinPf": 10,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.951887652273166,
+      "inputLowV": 0.15378095658196872,
+      "highMarginV": 2.9518876522731663,
+      "lowMarginV": 0.6462190434180313,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        32.96111186593055,
+        33.46111186593056
+      ],
+      "inputFallDelayNs": [
+        5.171718452046526,
+        5.1924071278124595
+      ],
+      "sourceToOutputLowNs": [
+        75.70370515247843,
+        75.93404335430803
+      ],
+      "maximumSourceA": 0.0004608170411523838,
+      "maximumSinkA": 0.01790805020837457
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 0,
+      "pinPf": 34,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.705585623312814,
+      "inputLowV": 0.15378100212324267,
+      "highMarginV": 2.705585623312814,
+      "lowMarginV": 0.6462189978767574,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        102.78686339026633,
+        103.28686339026632
+      ],
+      "inputFallDelayNs": [
+        14.966122295718256,
+        15.10790677151187
+      ],
+      "sourceToOutputLowNs": [
+        106.29185908497472,
+        106.54135703866457
+      ],
+      "maximumSourceA": 0.00046438173266878484,
+      "maximumSinkA": 0.019861736727488016
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 25,
+      "pinPf": 10,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.949706937514046,
+      "inputLowV": 0.15537241071519092,
+      "highMarginV": 2.949706937514046,
+      "lowMarginV": 0.6446275892848091,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        34.29228726102719,
+        34.7922872610272
+      ],
+      "inputFallDelayNs": [
+        5.119440181079513,
+        5.1512495265690905
+      ],
+      "sourceToOutputLowNs": [
+        74.09111137665899,
+        74.30445179346962
+      ],
+      "maximumSourceA": 0.000460636608530114,
+      "maximumSinkA": 0.017899553694750204
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 25,
+      "pinPf": 34,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.700486470595404,
+      "inputLowV": 0.1553724599674901,
+      "highMarginV": 2.700486470595404,
+      "lowMarginV": 0.6446275400325099,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        107.589343720263,
+        107.62726662593506
+      ],
+      "inputFallDelayNs": [
+        15.00386027127002,
+        15.11250761220219
+      ],
+      "sourceToOutputLowNs": [
+        101.21686604229332,
+        101.42395875618969
+      ],
+      "maximumSourceA": 0.00046421938237774414,
+      "maximumSinkA": 0.019840908063619055
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 70,
+      "pinPf": 10,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.945734207126394,
+      "inputLowV": 0.1582797667758489,
+      "highMarginV": 2.945734207126394,
+      "lowMarginV": 0.6417202332241512,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        36.54744572919514,
+        37.047445729195154
+      ],
+      "inputFallDelayNs": [
+        5.043247382600571,
+        5.082209016444836
+      ],
+      "sourceToOutputLowNs": [
+        70.8271075072144,
+        71.12423278668716
+      ],
+      "maximumSourceA": 0.0004603093567030889,
+      "maximumSinkA": 0.01788527864185149
+    },
+    {
+      "supplyV": 5,
+      "temperatureC": 70,
+      "pinPf": 34,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.691316546665245,
+      "inputLowV": 0.15827976683360717,
+      "highMarginV": 2.691316546665245,
+      "lowMarginV": 0.6417202331663929,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        115.3296062301845,
+        115.82960623018448
+      ],
+      "inputFallDelayNs": [
+        15.126118294363382,
+        15.155976011510594
+      ],
+      "sourceToOutputLowNs": [
+        92.64624249087147,
+        92.9397711739955
+      ],
+      "maximumSourceA": 0.0004639228946134475,
+      "maximumSinkA": 0.01980261234935139
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 0,
+      "pinPf": 10,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 5.192522181129222,
+      "inputLowV": 0.16266230358696135,
+      "highMarginV": 3.192522181129222,
+      "lowMarginV": 0.6373376964130387,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        32.2029798906419,
+        32.70297989064191
+      ],
+      "inputFallDelayNs": [
+        5.395963763942459,
+        5.413990369044541
+      ],
+      "sourceToOutputLowNs": [
+        75.3240895855691,
+        75.54105261652728
+      ],
+      "maximumSourceA": 0.00044146258185610306,
+      "maximumSinkA": 0.0187769523158993
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 0,
+      "pinPf": 34,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.863530044614286,
+      "inputLowV": 0.16266234872674923,
+      "highMarginV": 2.8635300446142864,
+      "lowMarginV": 0.6373376512732508,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        100.82992090684074,
+        101.32992090684073
+      ],
+      "inputFallDelayNs": [
+        15.2266113188583,
+        15.363847672972472
+      ],
+      "sourceToOutputLowNs": [
+        104.83191623109725,
+        105.04878400277518
+      ],
+      "maximumSourceA": 0.0004447716922165568,
+      "maximumSinkA": 0.020534076561664328
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 25,
+      "pinPf": 10,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 5.190125984078991,
+      "inputLowV": 0.16424995519059812,
+      "highMarginV": 3.190125984078991,
+      "lowMarginV": 0.6357500448094019,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        33.79011116596225,
+        34.290111165962266
+      ],
+      "inputFallDelayNs": [
+        5.329235871310857,
+        5.359600896684716
+      ],
+      "sourceToOutputLowNs": [
+        73.62651322966722,
+        73.82263393856796
+      ],
+      "maximumSourceA": 0.00044129841407099593,
+      "maximumSinkA": 0.01876821327043
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 25,
+      "pinPf": 34,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.857596924325538,
+      "inputLowV": 0.16425000399757939,
+      "highMarginV": 2.857596924325538,
+      "lowMarginV": 0.6357499960024207,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        105.67200491193513,
+        105.69785782323048
+      ],
+      "inputFallDelayNs": [
+        15.298998267604658,
+        15.39967459147334
+      ],
+      "sourceToOutputLowNs": [
+        100.12986420010557,
+        100.33111545062812
+      ],
+      "maximumSourceA": 0.0004446239318444377,
+      "maximumSinkA": 0.020508556950537136
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 70,
+      "pinPf": 10,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 5.185765395909904,
+      "inputLowV": 0.16715067983329793,
+      "highMarginV": 3.185765395909904,
+      "lowMarginV": 0.6328493201667021,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        36.488378575337144,
+        36.98837857533716
+      ],
+      "inputFallDelayNs": [
+        5.195993086714512,
+        5.22453685380395
+      ],
+      "sourceToOutputLowNs": [
+        70.68650725331133,
+        70.9499746662715
+      ],
+      "maximumSourceA": 0.00044100119223249923,
+      "maximumSinkA": 0.018752235117200457
+    },
+    {
+      "supplyV": 5.25,
+      "temperatureC": 70,
+      "pinPf": 34,
+      "anchored": true,
+      "stepNs": 0.5,
+      "inputHighV": 4.846216543279637,
+      "inputLowV": 0.16715067983345722,
+      "highMarginV": 2.8462165432796374,
+      "lowMarginV": 0.6328493201665428,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        113.84468538418028,
+        114.34468538418027
+      ],
+      "inputFallDelayNs": [
+        15.478965707900302,
+        15.509780510694382
+      ],
+      "sourceToOutputLowNs": [
+        91.88671184424244,
+        92.1470596921946
+      ],
+      "maximumSourceA": 0.00044435409912459844,
+      "maximumSinkA": 0.020462119876659326
+    }
+  ],
+  "boundary": "Fixed resistance is the retained control. Supply-anchored resistance satisfies one published DC endpoint, not device dynamics. 10/34 pF are existing WR/D0 fixture loads, not measured bounds. Temperature varies the candidate gate only; CPU temperature, leakage, bus contention, supply transients and cable/filter recovery are not modeled here.",
+  "limitingCaseRefinement": [
+    {
+      "supplyV": 4.75,
+      "temperatureC": 0,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.5,
+      "inputHighV": 4.473621828417089,
+      "inputLowV": 0.1449024490560171,
+      "highMarginV": 2.473621828417089,
+      "lowMarginV": 0.6550975509439829,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        112.66761852767384,
+        113.02936678138924
+      ],
+      "inputFallDelayNs": [
+        14.507136622203168,
+        14.650581064227152
+      ],
+      "sourceToOutputLowNs": [
+        109.59632270499847,
+        109.8614334252088
+      ],
+      "maximumSourceA": 0.00044128411964583654,
+      "maximumSinkA": 0.0188826953989675
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 0,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.25,
+      "inputHighV": 4.473750897637111,
+      "inputLowV": 0.14490244906796362,
+      "highMarginV": 2.473750897637111,
+      "lowMarginV": 0.6550975509320365,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        112.62724297493823,
+        112.87724297493824
+      ],
+      "inputFallDelayNs": [
+        14.406469695860737,
+        14.54098034027773
+      ],
+      "sourceToOutputLowNs": [
+        109.37724297493799,
+        109.627242974938
+      ],
+      "maximumSourceA": 0.0004412836448490001,
+      "maximumSinkA": 0.018882281959570105
+    },
+    {
+      "supplyV": 4.75,
+      "temperatureC": 0,
+      "pinPf": 34,
+      "anchored": false,
+      "stepNs": 0.125,
+      "inputHighV": 4.473758737944116,
+      "inputLowV": 0.1449024490716843,
+      "highMarginV": 2.4737587379441157,
+      "lowMarginV": 0.6550975509283157,
+      "levelsPass": true,
+      "inputRiseDelayNs": [
+        112.82186193380136,
+        112.94686193380137
+      ],
+      "inputFallDelayNs": [
+        14.43987121641726,
+        14.564871216417322
+      ],
+      "sourceToOutputLowNs": [
+        109.57186193380112,
+        109.69686193380113
+      ],
+      "maximumSourceA": 0.00044128402182299205,
+      "maximumSinkA": 0.018881952668333098
+    }
+  ],
+  "artifacts": {
+    "refine-0.125/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "refine-0.125/ngspice.log": "e6d7c3a34e1ba553c55e1b03560f60044373b21d3e793f8716fbeef4b7a9ce75",
+    "refine-0.125/probe.cir": "5c4d2fb591ff83cd7d793b0a703f94e43bd396bfc099cd8b6273f05c49e72e41",
+    "refine-0.125/trace.txt.xz": "8b46925b8c91fb18aa49c3ac8f1c8177c4a19907842303dffae26364bb03bfa1",
+    "refine-0.25/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "refine-0.25/ngspice.log": "3ddab9627d65824f19f26a34c64204d91f1a9117770015800ea990d4debcba4e",
+    "refine-0.25/probe.cir": "60cfaf47935f9182d7912c806e1323e442646b3cf6874eacce191404c4c94ff2",
+    "refine-0.25/trace.txt.xz": "a7e6f5efdd48045c3ae732b0f2108c028f96a8acd1f2495089ede2401df139c5",
+    "run-000/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-000/ngspice.log": "f035c972bbe840d26db1aad2d11a57cb878ac48b5a4d4f119187ab0d392f22f2",
+    "run-000/probe.cir": "44419d50932827f99b21a031f40717b550742586382e8eb0aa0a5971a8a540f8",
+    "run-000/trace.txt.xz": "1ef94e4f0eac791aa402ca12192945bfdfd29e0b452f3821552489cb6446faa6",
+    "run-001/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-001/ngspice.log": "6041a2c777ee6f8d68ef44f0f2fc379f95bc5b7f20d9028203ac5b3edc7f010c",
+    "run-001/probe.cir": "0cac31e374508a42fe10d97ce0e425112c2906e39e9f3121ebca2b39acb8dba8",
+    "run-001/trace.txt.xz": "6ee373148906ec2798fa80f330645144a3c48a6e376ee3ebc322783759dcb421",
+    "run-002/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-002/ngspice.log": "66c0f58504a5fced46da7b0c8c877b062e842ba75a9850bfe46df9569b660540",
+    "run-002/probe.cir": "aab5d51868d91eb9e39e6ebc29a83a3c2e86da58098330378b2ce0416b3d678e",
+    "run-002/trace.txt.xz": "bd7308698e9f9decc6ba56a4a203cbaef9605b224f6a3f302a58d0d343d1a55c",
+    "run-003/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-003/ngspice.log": "5d66b12084a80590938bb0b6e1050631a9443f2be15bb6e691fc6a9ed1f2dfa2",
+    "run-003/probe.cir": "592b502de2bcd45a9105efb91208f025638227517df3827e1de10bfb8542eeaf",
+    "run-003/trace.txt.xz": "ea674aa153ca8b069ebbb65744001126bc99cfc820f823a7d04bc616a317d154",
+    "run-004/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-004/ngspice.log": "f3e45f341453a676f3b22e8bcfecb1820c446ff3804d730bbe3860757614911a",
+    "run-004/probe.cir": "706fbc0dd3a216787a390f99eb2203f49ecd6d989425682d55989074ad58f166",
+    "run-004/trace.txt.xz": "1fca50c35012926393f3617d8d8052b5e6bb095ee2aa335c321b19cc2eb74a94",
+    "run-005/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-005/ngspice.log": "56cffafdee83b1f1193f2f8e1d0c4fdea8234cc69b653c53d5bb58f5cb35dda8",
+    "run-005/probe.cir": "914d779f49b60448d1653c105779976718152f15949a5651668794a5f42cf363",
+    "run-005/trace.txt.xz": "8b2487e3a76f30be59c059521df51a314046b929b46ebd043fa25aed80ca3c86",
+    "run-006/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-006/ngspice.log": "eb0c861ea54f4ed17bda0aff34cd1199f8909c5ff7ab23630864299a0e9b9dce",
+    "run-006/probe.cir": "86f5a1497b3bdc732558f81c6fdb62cdc92e6fffd7c62002d257308bb30cadc3",
+    "run-006/trace.txt.xz": "8c0caa85cff8626943f0ff58456cca1dd15f89bc62d835669dcc1bb46226fae3",
+    "run-007/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-007/ngspice.log": "59b7b1f29d755d3fffee1a9fdbd07d97b465f3dbf70a877f0e766bce0ed3dffa",
+    "run-007/probe.cir": "55b0b305ce7c90c891e02de72d035e7e110832fecbeafb147bf13adaf007ea81",
+    "run-007/trace.txt.xz": "ee9a82e3e76e082c803a1ca2f590445565381ff464ccc9e705f2ad682e019509",
+    "run-008/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-008/ngspice.log": "02f388eb20c4a39a7624db24e3869df79f7bc980e119fddffcc8275822cb4f0c",
+    "run-008/probe.cir": "052250ce12a5659c5c2a01bfa143e49c18da4cb7860e38ac92262c1e1128807f",
+    "run-008/trace.txt.xz": "2fd334cd15415f60561a60da293ff27a581b500e58dcae2cc04389085931a2ca",
+    "run-009/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-009/ngspice.log": "96e2a41afad96955471e85b4de83f53d0470394b07ab6deb43facb6f33b4626c",
+    "run-009/probe.cir": "836ace45b6f92803748f2eb2e16794ab8db9b1362da0cc67d6a908c626b023c2",
+    "run-009/trace.txt.xz": "c6a02239c5ade7062f88fca6d8c7ea442e738b58240f862615718e6548b6340a",
+    "run-010/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-010/ngspice.log": "225e20d16ff6cd45ef284648ba5bdf32e0560d85fe09e37a967b76fa0b74bbd5",
+    "run-010/probe.cir": "f14b6b422751ba6da9a2d8d474801300d4aa840e2ef0476db283a53b557954bf",
+    "run-010/trace.txt.xz": "d8dee87b26db8d31867b74dc7f1852ea780360b88bc0204411f050092e87edd3",
+    "run-011/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-011/ngspice.log": "aff68269140852a74f1116ec605076c2b11b7eec75bd34b53604fbc000d0afac",
+    "run-011/probe.cir": "89fe4fba950f614522879e4ba96d145450ba18b595064e62a48eacc24b775699",
+    "run-011/trace.txt.xz": "bf30874aeadf50476fe39cdf94a670af7e65eda26acc9252e73cda8d2f6ddecc",
+    "run-012/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-012/ngspice.log": "9fe063022644d9375a3f0237f6a4ad0fc0f0cff7f41ccfc1826b57645db9363c",
+    "run-012/probe.cir": "150e4c0f67a0347f3873e9eb2860f975b0a07d36d5a2f64fbc8e674e9bc79900",
+    "run-012/trace.txt.xz": "0371f60a41f89b5a3ca3e1f56ea2d05b7b112f21c957ed11e7175b4fb977638a",
+    "run-013/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-013/ngspice.log": "7fa13128e088ec0d564463f1fb0c0e4b32c6fd7f7605d2a2b67c63d98fd2258d",
+    "run-013/probe.cir": "e95ba8e5e655ee5f6f94ca47dae55fd1e30439ac14908927c2c25baa069e6e8e",
+    "run-013/trace.txt.xz": "f727a7eb9454ef3dc0e018fc07e97a131fb385e07c62bdf2320091670b14cb21",
+    "run-014/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-014/ngspice.log": "4f85f1255a81d0d13681ad082a21b6d51e2bba62357f16d892e7914ce8523e13",
+    "run-014/probe.cir": "0bfdaa1b9edf0377103dfc011d378ab7455ed0a08962f731eb353b45a2e512b2",
+    "run-014/trace.txt.xz": "7362d8455182c537f6784366c15744518c32ff37dfb55814e9c3dfe26484e656",
+    "run-015/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-015/ngspice.log": "27c4cceec58ca737ee3ddfd4b263de7c274a6280e8ce887fe67b8b67032d5268",
+    "run-015/probe.cir": "b323ad44a72b28d83b865c9f2e85eb963e47f6d38b1df427c313382488ef0732",
+    "run-015/trace.txt.xz": "408380c64bc152646342b0c72e457d24d08c16482ddda336bdbe6e89ec45396e",
+    "run-016/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-016/ngspice.log": "78fac4a9c96801c45310d5eea00279d7b1344f5d8f26f12328c9eedb8b47180a",
+    "run-016/probe.cir": "078c2a8bc91bd841a53e228a8bd06fcd3030fe1ba87844a9e40e1cca90018eac",
+    "run-016/trace.txt.xz": "991851583c0552c6d0750f12932353ed812a88bcea4bb9c08d075caee78a6c88",
+    "run-017/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-017/ngspice.log": "c8995b4191a293c933d60f92f455c47c800bf0e962e31cbf8a4ee83635517eeb",
+    "run-017/probe.cir": "27c41ae31f63b28bb882932ac4052748dc7566b585df59558b5bc67c8c4ce0ea",
+    "run-017/trace.txt.xz": "baba1129690c4fb9d3c6e221759c38a253c4805a77fa8300ce9f25cf2266016f",
+    "run-018/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-018/ngspice.log": "7cfd5a0587b18b0a5df11df5ceb50d57cea46678c2829eb3d4d70ca690ef5c52",
+    "run-018/probe.cir": "e1d0827dfecfd6d666e4dd44cd970d0112d31e986659d326a321f0ace9a3a9b0",
+    "run-018/trace.txt.xz": "1fbff57e5a8cac700c3aadbce1a072f6399f3163baea392b172c66884a335773",
+    "run-019/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-019/ngspice.log": "3196c77061c83137298536b29c7ef586986ad8a1a70f73a6531fd359a390fcf1",
+    "run-019/probe.cir": "d7436f454005d7038f4205b2d3a3996f99aa6b882ee985304dede5d419a88998",
+    "run-019/trace.txt.xz": "edffc502e17a62a3e300e233011d33d8f5f1d8e26621cc6547aeefc365bd3f3d",
+    "run-020/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-020/ngspice.log": "d1c931035edf8e302407885c5c1ba7d896d215fb526bac0dc0d342b60b933cd3",
+    "run-020/probe.cir": "3d1d35c7fc759be02bda6cd84d6c46dc0465faa7f7126daf3e8865bac1413c10",
+    "run-020/trace.txt.xz": "6c441c49217af52a3b1417e1666e9a7723bfec1590e005f33048abc1f6ed9ab7",
+    "run-021/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-021/ngspice.log": "61ee85a50da925c61ad84087e089cbab61e72ab17dc0dc24d4fef45053a988ca",
+    "run-021/probe.cir": "a1d05aef138d5dff00170a9aec55602cf85ac9a1437608b99961d72789e79f75",
+    "run-021/trace.txt.xz": "177aa27a497a5696ba11df3b554825b1eb69b10d82b2fa581c9c16919f85c262",
+    "run-022/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-022/ngspice.log": "247212d89ed9cc3e4dcc1846f26799e9855ef2dc5b7cf885cdc15797804a3101",
+    "run-022/probe.cir": "6b2ee38131d623a570e8251301583d0e82f89fe3e9037a6177d6c0bcd3c17d54",
+    "run-022/trace.txt.xz": "0f3596c65ca95fae636f086a85488939c9ae214586ad2e28b317488759b2c903",
+    "run-023/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-023/ngspice.log": "56cffafdee83b1f1193f2f8e1d0c4fdea8234cc69b653c53d5bb58f5cb35dda8",
+    "run-023/probe.cir": "b5456ff2ae7bb69a07c43d3b08c2515ef8059ef9b6e9ef92ebb7ea5e6146b4a7",
+    "run-023/trace.txt.xz": "2c66df201769e21db656133e86e6f803269c9ee3f158f4b0ef5a82ad0feb05bb",
+    "run-024/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-024/ngspice.log": "eb0c861ea54f4ed17bda0aff34cd1199f8909c5ff7ab23630864299a0e9b9dce",
+    "run-024/probe.cir": "86f5a1497b3bdc732558f81c6fdb62cdc92e6fffd7c62002d257308bb30cadc3",
+    "run-024/trace.txt.xz": "8c0caa85cff8626943f0ff58456cca1dd15f89bc62d835669dcc1bb46226fae3",
+    "run-025/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-025/ngspice.log": "59b7b1f29d755d3fffee1a9fdbd07d97b465f3dbf70a877f0e766bce0ed3dffa",
+    "run-025/probe.cir": "55b0b305ce7c90c891e02de72d035e7e110832fecbeafb147bf13adaf007ea81",
+    "run-025/trace.txt.xz": "ee9a82e3e76e082c803a1ca2f590445565381ff464ccc9e705f2ad682e019509",
+    "run-026/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-026/ngspice.log": "02f388eb20c4a39a7624db24e3869df79f7bc980e119fddffcc8275822cb4f0c",
+    "run-026/probe.cir": "052250ce12a5659c5c2a01bfa143e49c18da4cb7860e38ac92262c1e1128807f",
+    "run-026/trace.txt.xz": "2fd334cd15415f60561a60da293ff27a581b500e58dcae2cc04389085931a2ca",
+    "run-027/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-027/ngspice.log": "96e2a41afad96955471e85b4de83f53d0470394b07ab6deb43facb6f33b4626c",
+    "run-027/probe.cir": "836ace45b6f92803748f2eb2e16794ab8db9b1362da0cc67d6a908c626b023c2",
+    "run-027/trace.txt.xz": "c6a02239c5ade7062f88fca6d8c7ea442e738b58240f862615718e6548b6340a",
+    "run-028/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-028/ngspice.log": "225e20d16ff6cd45ef284648ba5bdf32e0560d85fe09e37a967b76fa0b74bbd5",
+    "run-028/probe.cir": "f14b6b422751ba6da9a2d8d474801300d4aa840e2ef0476db283a53b557954bf",
+    "run-028/trace.txt.xz": "d8dee87b26db8d31867b74dc7f1852ea780360b88bc0204411f050092e87edd3",
+    "run-029/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-029/ngspice.log": "aff68269140852a74f1116ec605076c2b11b7eec75bd34b53604fbc000d0afac",
+    "run-029/probe.cir": "89fe4fba950f614522879e4ba96d145450ba18b595064e62a48eacc24b775699",
+    "run-029/trace.txt.xz": "bf30874aeadf50476fe39cdf94a670af7e65eda26acc9252e73cda8d2f6ddecc",
+    "run-030/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-030/ngspice.log": "9cccc8eb0efceb0386fe984b4117bc7e688c874729ab0d2ddd7c33c5ebee38f0",
+    "run-030/probe.cir": "67478582e23c1bdeaa029186b06feda7ea900b3f6625a2b2be858dac13beaaf4",
+    "run-030/trace.txt.xz": "943b31a3ac788217060369440b48d4156abe688e600e2f5fc73480284d7be4a4",
+    "run-031/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-031/ngspice.log": "13e885e5aba625558b3f03d93bbb8afbb29609f4692e8dbf4914ca5a4e9aed37",
+    "run-031/probe.cir": "c9162912db037456e95023c875b1687d9013711f67f4d6ac458cc060d8dcd4bb",
+    "run-031/trace.txt.xz": "cd7e95960532efcd5bc0dd5ad9c4254129b8c4c342439797473b5b1adfe81524",
+    "run-032/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-032/ngspice.log": "4f85f1255a81d0d13681ad082a21b6d51e2bba62357f16d892e7914ce8523e13",
+    "run-032/probe.cir": "8f4ea74e06383e7c7becf190aea7d4ffe58c82d94abebc5274916951c01c8e46",
+    "run-032/trace.txt.xz": "35d1078976cfe5a47c4f499bdc3e65219822feffbe2778bf7ac0ee39b6c88008",
+    "run-033/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-033/ngspice.log": "2d3cec57af23c5a08b9d6958bc9abda3ad4001a6f86a47369f949f9b581ad0ab",
+    "run-033/probe.cir": "70414a9d0d377a440f5959887f5fae2260ad6bbbb37002e56b389eb16b5e72e3",
+    "run-033/trace.txt.xz": "60b7b4df14acecdb1e886d47b77a8c72fa63d88ece379da6a864b6d0a666cb92",
+    "run-034/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-034/ngspice.log": "2c38f68ed24f1e485c6ffdaecf6c00ef8bb3640052fe04c2941d5a7b159b102b",
+    "run-034/probe.cir": "123295e3f296d4129ffad117dc2b3dffbb7c06e284f77068ad7abad978e2d04c",
+    "run-034/trace.txt.xz": "b413434da3edb3448a23be1a0576b26bb69485fa10f707b19746f1b491622af4",
+    "run-035/model.cir": "01db0e06c84567ea8c8051d6e4ee6bb3a2b631c03616d0878ce5f239c96dd112",
+    "run-035/ngspice.log": "f65274e578f8099894db51c16d104205d7b4239a80fdd6e8a87ec3b54eeac6a4",
+    "run-035/probe.cir": "b0fdf6c934627c1f361758f051309b7f826dd58cb7d5b3ce4905d4653554332f",
+    "run-035/trace.txt.xz": "cc74ee608afd3f6df2cf4d4fca4c48303aac242b342dd1e5d2ef0117b165184f",
+    "spinit": "0f9b815485954ba7d87338257c534205652e602327414546266985cc92071bd1"
+  }
+}
