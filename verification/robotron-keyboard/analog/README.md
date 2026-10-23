@@ -387,6 +387,18 @@ coupled startup/service qualification remain open. Reproduce the comparison
 with `network_refinement_review.py`; patch order and build provenance live in
 [the runtime receipt](reports/inductor-chain/provenance.json).
 
+The [boundary trace](reports/boundary-refinement/boundary-review.json) follows
+D0 through undefined receiver logic to the DAC's threshold plateau; observation
+preserves the original waveforms. The [small reproducer](reports/boundary-refinement/unknown-output/assessment.json)
+shows why that plateau retains the ideal switch's previous state rather than
+specifying a physical 7406 transfer curve. The opt-in
+[ADC crossing candidate](engine-patches/adc-crossing-breakpoint.patch) requests
+rollback to interpolated threshold crossings, retaining unknown states and
+native threshold rules. Analytic ramp and RC controls pass; full-board refinement
+and physical-driver admission remain required. [Traffic preflight](reports/boundary-refinement/traffic/assessment.json)
+prepares press/release, overlapping contacts and reset during observed serial
+activity; production-C coverage is not electrical execution.
+
 The optional [evaluator cache](engine-patches/eval-cache.patch) reuses shared pure
 subexpressions only within one value/gradient evaluation. It defaults off;
 `ROBOTRON_EVAL_CACHE=exact` enables it. Build the pinned ngspice 47 archive with

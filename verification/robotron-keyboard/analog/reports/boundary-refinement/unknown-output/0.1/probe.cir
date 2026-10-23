@@ -1,0 +1,20 @@
+Undefined receiver boundary, not a physical 7406 model
+Vcc supply 0 5
+Vin source 0 PWL(0 0 10n 0 11n 1.4 30n 1.4 31n 5 50n 5 51n 1.4 70n 1.4 71n 0)
+Ainput [source] [digital] receiver
+.model receiver adc_bridge(in_low=.8 in_high=2)
+Adac [digital] [intent] drive
+.model drive dac_bridge(out_low=0 out_high=5 out_undef=2.5 t_rise=1n t_fall=1n)
+Rpull supply output 1k
+Sdriver output 0 intent 0 sink
+.model sink SW(RON=20 ROFF=1t VT=2.5 VH=0)
+.options reltol=1e-7 vntol=1e-9 abstol=1e-15
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+tran 0.1n 90n
+wrdata trace.txt v(source) v(intent) v(output)
+quit
+.endc
+.end

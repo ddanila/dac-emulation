@@ -1,0 +1,33 @@
+MPFR_DIAGNOSTIC bits=0
+CAP_ASSEMBLY mode=0
+POSTCAP_ASSEMBLY mode=0
+
+Note: No compatibility mode selected!
+
+
+Circuit: linear receiver threshold timing diagnostic
+
+Reducing trtol to 1 for xspice 'A' devices
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+
+Instance: ainput   Message: ADC_CROSS time=0x0p+0 node=source value=0x0p+0 old=3 new=0
+
+Initial Transient Solution
+--------------------------
+
+Node                                   Voltage
+----                                   -------
+drive                                        0
+source                                       0
+intent                                       0
+vin#branch                                   0
+adac#branch_1_0                              0
+
+
+Instance: ainput   Message: ADC_CROSS time=0x1.93857d55b7842p-27 node=source value=0x1.99999999eb611p-1 old=0 new=2
+
+Instance: ainput   Message: ADC_CROSS time=0x1.0390b8d330f07p-26 node=source value=0x1.0000000007e17p+1 old=2 new=1
+
+No. of Data Rows : 241
+ngspice-47 done

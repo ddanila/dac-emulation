@@ -36,7 +36,7 @@ def solver_diagnostic(log):
         'Truncation error correction, voltage based, is selected:',
     }
     log = '\n'.join(line for line in log.splitlines() if line not in informational)
-    match = re.search(r'^.*(?:warning|error|failed|fatal|singular|no vlog_startup_routines|'
+    match = re.search(r'^.*(?:warning|error|failed|fatal|singular|SORRY:|no vlog_startup_routines|'
                       r'timestep too small|simulation\(s\) aborted|XSPICE time is behind vtime).*$',
                       log, re.I | re.M)
     return match.group(0) if match else None

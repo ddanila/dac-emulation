@@ -1,0 +1,35 @@
+{
+  "command": [
+    "iverilog",
+    "-g2012",
+    "-DTV80_REFRESH",
+    "-s",
+    "firmware_io_electrical_bus",
+    "-o",
+    "build/keyboard-controller-analog/boundary-prepared-v2/io.vvp",
+    "build/keyboard-controller-analog/input-barrier-v2-coarse/qualified-cpu/cpu_bus_candidate.v",
+    "build/keyboard-controller-analog/input-barrier-v2-coarse/qualified-cpu/tv80_core.v",
+    "build/keyboard-controller-analog/input-barrier-v2-coarse/qualified-cpu/tv80_io_candidate.v",
+    "build/keyboard-controller-analog/input-barrier-v2-coarse/qualified-cpu/tv80_mcode.v",
+    "build/keyboard-controller-analog/input-barrier-v2-coarse/qualified-cpu/tv80n.v",
+    "third_party/cpu/tv80/tv80_alu.v",
+    "third_party/cpu/tv80/tv80_reg.v",
+    "verification/robotron-keyboard/chips.v",
+    "verification/robotron-keyboard/generated/controller.v",
+    "build/keyboard-controller-analog/boundary-prepared-v2/controller_analog.v"
+  ],
+  "parent": "build/keyboard-controller-analog/live-edge-prepared",
+  "sources": {
+    "build/keyboard-controller-analog/input-barrier-v2-coarse/qualified-cpu/cpu_bus_candidate.v": "32bd49ab54cf593fd894cc3bf82bb4aa0865172c9bfcb93f4675e8fb86a87708",
+    "build/keyboard-controller-analog/input-barrier-v2-coarse/qualified-cpu/tv80_core.v": "f0ebcb540a6a3930ef581163aef602d13c03cfa22efedebfa545915f230667ee",
+    "build/keyboard-controller-analog/input-barrier-v2-coarse/qualified-cpu/tv80_io_candidate.v": "6e1ae3866b23a6e631d2ac2982cc25dd0e18dfe426832968661d97141fc315ac",
+    "build/keyboard-controller-analog/input-barrier-v2-coarse/qualified-cpu/tv80_mcode.v": "71cd24c4dd700723f4f19259dbdd9dec5dcfd95fde467e86413975753d94c61e",
+    "build/keyboard-controller-analog/input-barrier-v2-coarse/qualified-cpu/tv80n.v": "6711d3e2654cedb4f068b2d55688609feea336f7e51ffd960247c9b6b801c697",
+    "third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+    "verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "build/keyboard-controller-analog/boundary-prepared-v2/controller_analog.v": "5e486ad3f600b98c82a9452ac93c66c49c9de1db8ab3d24f717d29bcaf69d502"
+  },
+  "observerOnly": true
+}

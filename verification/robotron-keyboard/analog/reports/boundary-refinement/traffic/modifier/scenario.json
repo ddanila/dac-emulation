@@ -1,0 +1,52 @@
+{
+  "name": "modifier with ordinary contact, then ordinary contact alone",
+  "cycles": 130000,
+  "contacts": [
+    {
+      "cycle": 4000,
+      "index": 65,
+      "closed": true
+    },
+    {
+      "cycle": 6000,
+      "index": 61,
+      "closed": true
+    },
+    {
+      "cycle": 40000,
+      "index": 61,
+      "closed": false
+    },
+    {
+      "cycle": 42000,
+      "index": 65,
+      "closed": false
+    },
+    {
+      "cycle": 70000,
+      "index": 61,
+      "closed": true
+    },
+    {
+      "cycle": 100000,
+      "index": 61,
+      "closed": false
+    }
+  ],
+  "resets": [],
+  "observations": [
+    {
+      "name": "modified",
+      "startCycle": 6000,
+      "endCycle": 40000,
+      "minimumBits": 26
+    },
+    {
+      "name": "ordinary",
+      "startCycle": 70000,
+      "endCycle": 100000,
+      "minimumBits": 26,
+      "differentFrom": "modified"
+    }
+  ]
+}

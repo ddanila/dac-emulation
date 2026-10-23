@@ -9,13 +9,21 @@ Vfixture_reset fixture_reset 0 PWL(0 0 1000000n 0 1000001n 5)
 '''
 class CrossingGridTest(unittest.TestCase):
  def test_threshold_and_guard_refinement(self):
-  for guard in (1,.5):
+  for guard in (1,.5,.25):
    result=add_crossings(DECK,guard)
    self.assertTrue(result.endswith(DECK))
    points=[D(t) for t in re.findall(r'^\+ ([0-9.]+)n 0$',result,re.M)]
    self.assertEqual(points,sorted(set(points)))
    for edge in (D('500.28'),D('1000.72'),D('1000000.28')):
     self.assertIn(edge+D(str(guard))/1000,points)
+ def test_service_reset_crossings(self):
+  from io_scenario import reset_source
+  scenario={'cycles':30,'resets':[{'cycle':10,'asserted':True},{'cycle':26,'asserted':False}]}
+  deck=DECK.replace('PWL(0 0 1000000n 0 1000001n 5)',reset_source(scenario))
+  grid=add_crossings(deck,.25,scenario)
+  self.assertIn('+ 1010000.72025n 0',grid)
+  self.assertIn('+ 1026000.28025n 0',grid)
+  with self.assertRaises(ValueError):add_crossings(DECK,.25,scenario)
  def test_reject_unrecognized_physics(self):
   with self.assertRaises(ValueError):add_crossings(DECK.replace('1.4','1.5'))
   with self.assertRaises(ValueError):add_crossings(DECK,2)
