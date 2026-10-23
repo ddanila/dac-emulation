@@ -1,15 +1,27 @@
-"""Experimental non-M1 falling-edge input latch; not a qualified U880 wrapper."""
+"""Explicit CPU profiles for circuit experiments and scoped digital acceptance."""
 
 import hashlib
 from pathlib import Path
 
-CIRCUIT_PROFILES = ('tv80', 'falling-indexed-candidate')
+CIRCUIT_PROFILES = ('tv80', 'falling-indexed-candidate', 'qualified-digital')
 
 
 def circuit_sources(vendor, output, profile):
     """Select explicit circuit CPU sources after the caller verifies the vendor."""
     if profile not in CIRCUIT_PROFILES:
         raise ValueError('Unsupported circuit CPU profile: ' + profile)
+    if profile == 'qualified-digital':
+        import sys
+        digital = Path(__file__).resolve().parent.parent / 'digital'
+        sys.path.insert(0, str(digital))
+        from cpu_bus_candidate import generate as bus_sources
+        sources = bus_sources(output / 'qualified-cpu')
+        return sources, {'profile': profile, 'qualified': False,
+            'digitalAcceptance': 'digital/reports/cpu-bus/summary.json',
+            'digitalAcceptanceSha256': hashlib.sha256((digital/'reports/cpu-bus/summary.json').read_bytes()).hexdigest(),
+            'sampling': 'M1 rising T3; non-M1 falling T3; WAIT falling edge',
+            'generatedSha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sources},
+            'boundary': 'Qualified reference digital boundary; electrical loading, coupled simulation and U880 specimen timing remain unqualified'}
     sources = sorted(vendor.glob('*.v'))
     report = {'profile': profile, 'qualified': False,
               'sampling': 'M1 rising; non-M1 rising' if profile == 'tv80' else

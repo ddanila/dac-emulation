@@ -77,7 +77,8 @@ endmodule
 
     def test_observer_follows_selected_cpu_sampling_edge(self):
         for profile, expected, stamp in (('tv80', '12', '8500000'),
-                                         ('falling-indexed-candidate', '34', '9000000')):
+                                         ('falling-indexed-candidate', '34', '9000000'),
+                                         ('qualified-digital', '34', '9000000')):
             with self.subTest(profile=profile), tempfile.TemporaryDirectory() as directory:
                 out = Path(directory)
                 (out / 'controller.v').write_text(generate_service(cpu_profile=profile))
@@ -102,10 +103,12 @@ module probe;
  end
 endmodule
 """.replace('EXPECTED', expected)
+                if profile == 'qualified-digital':
+                    bench=bench.replace('dut.board.cpu.tstate','dut.board.cpu.qualified.base.tstate').replace('dut.board.cpu.mcycle','dut.board.cpu.qualified.base.mcycle')
                 (out / 'probe.v').write_text(bench)
                 sources, model = circuit_sources(HERE.parents[2] / 'third_party/cpu/tv80', out, profile)
                 self.assertEqual(model['profile'], profile)
-                subprocess.run(['iverilog', '-g2012', '-s', 'probe', '-o', str(out / 'probe.vvp'),
+                subprocess.run(['iverilog', '-g2012', *(['-DTV80_REFRESH'] if profile == 'qualified-digital' else []), '-s', 'probe', '-o', str(out / 'probe.vvp'),
                                 *map(str, sources), str(out / 'controller.v'),
                                 str(HERE.parent / 'chips.v'), str(HERE.parent / 'generated/controller.v'),
                                 str(out / 'probe.v')], check=True)

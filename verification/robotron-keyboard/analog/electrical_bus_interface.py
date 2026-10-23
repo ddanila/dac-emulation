@@ -123,6 +123,14 @@ endmodule''')
                             "((clk===1'b1 && cpu.mcycle[0]===1'b1 &&\n"
                             "       cpu.tstate[2]===1'b1 && cpu.wait_n===1'b1) ||\n"
                             "      (clk===1'b0 && cpu.delayed_read===1'b1)) &&\n     rd_n")
+    if cpu_profile == 'qualified-digital':
+        boot = replace_once(boot, 'tv80n cpu(', 'cpu_bus_candidate cpu(')
+        boot = replace_once(boot,
+            'wire cpu_data_drive=reset_n && busak_n && (EXPLICIT_CPU_DRIVE ? cpu.write : !wr_n);',
+            'wire cpu_data_drive=cpu.data_oe;')
+        # Observe the actual latch inside the qualified wrapper, preserving edge labels.
+        for signal in ('tstate', 'mcycle', 'wait_n', 'delayed_read', 'di_reg'):
+            boot = boot.replace('cpu.'+signal, 'cpu.qualified.base.'+signal)
     service = (here / 'firmware_io_cosim.v').read_text()
     service = replace_once(service, 'module firmware_io_cosim #(', 'module firmware_io_electrical_bus #(')
     service = replace_once(service, 'output [1:0] logic_sink,',
