@@ -235,8 +235,24 @@ def main():
         (out / 's600.hex').write_text('\n'.join(f'{b:02x}' for b in args.rom.read_bytes()) + '\n')
         c_sources = [HERE / 'firmware_io_reference.c', ROOT / 'machines/robotron1715m/keyboard.c',
                      ROOT / 'common/cpu/z80.c']
-        report['cReferenceSources'] = {str(path): sha(path) for path in [*c_sources,
-            ROOT / 'machines/robotron1715m/keyboard.h', ROOT / 'common/cpu/z80.h']}
+        if args.cpu_profile == 'qualified-digital':
+            reference_source = (HERE/'firmware_io_reference.c').read_text()
+            reference_source = reference_source.replace('../../../machines/robotron1715m/keyboard.h',
+                str(ROOT/'machines/robotron1715m/keyboard_board.h'))
+            reference_source = reference_source.replace('dac_z80_tick(', 'k7658_cpu_tick(')
+            # Preserve external contact and A6 state on CPU-only reset.
+            reference_source = reference_source.replace(
+                '                robotron_keyboard_init(&keyboard, rom, NULL, bit);',
+                '                robotron_keyboard_reset(&keyboard);')
+            (out/'production_reference.c').write_text(reference_source)
+            c_sources = [out/'production_reference.c', ROOT/'machines/robotron1715m/keyboard_board.c',
+                         ROOT/'machines/robotron1715m/keyboard_cpu.c']
+            report['productionReference'] = True
+        headers = ([ROOT/'machines/robotron1715m/keyboard_board.h', ROOT/'machines/robotron1715m/keyboard_cpu.h',
+                    *sorted((ROOT/'machines/robotron1715m/generated/keyboard_cpu').glob('*.h'))]
+                   if args.cpu_profile == 'qualified-digital' else [ROOT/'machines/robotron1715m/keyboard.h'])
+        report['cReferenceSources'] = {str(path): sha(path) for path in [*c_sources, *headers,
+            ROOT/'common/cpu/z80.h']}
         subprocess.run(['cc', '-std=c11', '-O2', '-Wall', '-Wextra', '-Werror', '-I', str(out),
                         *map(str, c_sources), '-o', str(out / 'reference')], check=True)
         reference = subprocess.check_output([str(out / 'reference'), str(args.rom.resolve())], text=True)
@@ -267,11 +283,13 @@ def main():
         (out / 'controller_analog.v').write_text(generate_service(electrical_wr=args.electrical_wr, cpu_profile=args.cpu_profile, rom_timing=args.rom_read_envelope, latch_timing=args.latch_timing_envelope) if args.electrical_bus else
                                                generate(explicit_cpu_drive=True, resolved_bus=True))
         cpu_sources, report['cpuModel'] = circuit_sources(tv80, out, args.cpu_profile)
+        if args.cpu_profile == 'qualified-digital' and not args.electrical_bus:
+            raise ValueError('Qualified digital CPU requires the electrical bus interface')
         hdl = [*cpu_sources, HERE.parent / 'chips.v', HERE.parent / 'generated/controller.v',
                HERE / 'boot_cosim.v', HERE / 'firmware_io_cosim.v', out / 'controller_analog.v']
         report['hdlSha256'] = {str(path): sha(path) for path in hdl}
         top = 'firmware_io_electrical_bus' if args.electrical_bus else 'firmware_io_cosim'
-        subprocess.run(['iverilog', '-g2012', '-s', top, '-o', str(out / 'io.vvp'),
+        subprocess.run(['iverilog', '-g2012', *(['-DTV80_REFRESH'] if args.cpu_profile == 'qualified-digital' else []), '-s', top, '-o', str(out / 'io.vvp'),
                         f'-P{top}.HOST_BUFFER=' + str(int(args.host_buffer)),
                         f'-P{top}.ELECTRICAL_CPU_PULLUPS=' + str(int(args.electrical_cpu_pullups)),
                         f'-P{top}.ELECTRICAL_LOGIC_PULLUPS=' + str(int(args.electrical_logic_pullups)),

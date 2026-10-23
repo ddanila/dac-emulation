@@ -150,8 +150,11 @@ board default; a parameter grid is not a measured process range.
 
 Electrical-bus options require declared capacitance and loading assumptions.
 Conservative ROM/latch timing envelopes are not measured clone waveforms. The
-default CPU remains TV80; explicit read-phase candidates are generated separately
-from vendored sources. Their functional success does not establish calibrated
+default CPU remains legacy TV80 for reproducibility. Select
+`--cpu-profile qualified-digital --electrical-bus` to use the accepted reference
+CPU boundary and production C service reference; specify the bus capacitance
+fixtures explicitly. This profile enables refresh and observes the actual input
+latch at the selected edge. Explicit read-phase candidates remain available. Their functional success does not establish calibrated
 U880 pin timing, reset/bus-grant behavior or synthesis suitability.
 
 At each read, distinguish digital drive intent from analog pin voltage and verify

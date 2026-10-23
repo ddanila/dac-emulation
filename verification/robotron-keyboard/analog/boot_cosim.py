@@ -113,6 +113,8 @@ def prepare(args, report):
             raise ValueError('TV80 source differs: ' + name)
     report['tv80'] = source
     cpu_profile = getattr(args, 'cpu_profile', 'tv80')
+    if cpu_profile == 'qualified-digital' and not electrical_bus:
+        raise ValueError('Qualified digital CPU requires the electrical bus interface')
     report.setdefault('assumptions', {})['cpuProfile'] = cpu_profile
     report['assumptions']['latchTimingEnvelope'] = bool(getattr(args, 'latch_timing_envelope', False))
     if getattr(args, 'latch_timing_envelope', False):
@@ -134,7 +136,7 @@ def prepare(args, report):
            HERE.parent / 'generated/controller.v', HERE / 'boot_cosim.v', out / 'controller_analog.v']
     report['hdlSha256'] = {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path): sha(path) for path in hdl}
     top = 'boot_electrical_bus' if electrical_bus else 'boot_cosim'
-    subprocess.run([args.iverilog, '-g2012', '-s', top,
+    subprocess.run([args.iverilog, '-g2012', *(['-DTV80_REFRESH'] if args.cpu_profile == 'qualified-digital' else []), '-s', top,
                     f'-P{top}.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)),
                     f'-P{top}.ELECTRICAL_OUTPUTS=' + str(int(args.electrical_outputs)),
                     f'-P{top}.HOST_BUFFER=' + str(int(host_buffer)),
