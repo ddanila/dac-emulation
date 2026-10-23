@@ -1,0 +1,1435 @@
+{
+  "scope": "Build logging-only capacitor contributions alongside the represented-step linear audit.",
+  "baseProvenanceSha256": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+  "baseProvenance": {
+    "scope": "Experimental MPFR256 NIintegrate arithmetic with binary64 stored states and coefficients; opt-in and disabled-control modes",
+    "baseProvenanceSha256": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+    "baseProvenance": {
+      "source": "ngspice-47",
+      "scope": "Experimental MPFR real linear arithmetic; binary64 stamping and integration remain unchanged",
+      "basePatchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+      "patchSha256": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+      "kernelSha256": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+      "buildInputs": {
+        "configure": [
+          "/private/tmp/robotron-mpfr-transient/source/configure",
+          "--prefix=/private/tmp/robotron-mpfr-transient/install",
+          "--without-x",
+          "--with-readline=no",
+          "--disable-openmp",
+          "--disable-klu"
+        ],
+        "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+      },
+      "buildLogsSha256": {
+        "configure.log": "4a7378c67efddfbf1c43666b2261904c63db281e41284847dc3386caef439273",
+        "make.log": "658725523102e60d1a162adaa6648e665af78d347828b007d0ccab31405e581e"
+      },
+      "executableSha256": "9eab043d1a1a2c41ead0d756fb2c4d1ff3dcd9e6a02fd6b3cca812defd398741",
+      "libraries": {
+        "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+        "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+      },
+      "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+      "checks": {
+        "command": [
+          "clang",
+          "-O2",
+          "-I/private/tmp/robotron-mpfr-transient/source/src/include",
+          "-I/private/tmp/robotron-mpfr-transient/build/src/include",
+          "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-transient/check.c",
+          "/private/tmp/robotron-mpfr-transient/build/src/maths/sparse/.libs/libsparse.a",
+          "/private/tmp/robotron-mpfr-transient/build/src/misc/.libs/libmisc.a",
+          "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+          "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+          "-lmpfr",
+          "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+          "-lgmp",
+          "-o",
+          "/private/tmp/robotron-mpfr-transient/check"
+        ],
+        "sourceSha256": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+        "executableSha256": "42d5a38a0a257d8f5261f1086e58c32b5a1a20a1029735b9498dc3c0a9f29191",
+        "exitCode": 0,
+        "stdout": "pivot, reordered external coordinates, precision changes, reuse and diagonal Gmin pass\n",
+        "stderr": ""
+      },
+      "equationSourceSha256": {
+        "src/maths/ni/niiter.c": "059fb48cf2dbf3567dd65f56c1d2d611ac28ba899ed68d015078f34a86a6c785",
+        "src/maths/sparse/spsmp.c": "c0150e6886425ac3738f615305500431a1c922a8d4ca4c6ae23332b6d9ee07b0",
+        "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+        "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504"
+      }
+    },
+    "builderSha256": "53168a07333a5deeae21bae0112cb60cac3dc5e9f80d4e1e9f87fbaf49c7dd12",
+    "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+    "headerSha256": "a078128a975b60856eccf8a48fc58d8d713c114c87bede2b1b7847a79c41dd99",
+    "executableSha256": "767fe6f762bba14cd9cb2380b01b2292b4ac5caa9c63c020ff93292ab6d93ed3",
+    "integrationSourceSha256": "ca59da52307f2848dc5dab90fa49c1c34e2638fd7a07754d5170ce4a5c03f807",
+    "buildInputs": {
+      "configure": [
+        "/private/tmp/robotron-mpfr-integration/source/configure",
+        "--prefix=/private/tmp/robotron-mpfr-integration/install",
+        "--without-x",
+        "--with-readline=no",
+        "--disable-openmp",
+        "--disable-klu"
+      ],
+      "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+      "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+    },
+    "logsSha256": {
+      "configure.log": "38bfe31553eab1195026dd646d73a308cb89530a2ce020a33355a69b433af362",
+      "make.log": "37a0b5b541e55ef0f695c074d35749cc92b61f3d093441ed51ca5085a26a0ebf"
+    },
+    "adapterChecks": {
+      "off": {
+        "exitCode": 0,
+        "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+        "stderr": ""
+      },
+      "256": {
+        "exitCode": 0,
+        "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+        "stderr": "MPFR_INTEGRATION enabled bits=256 states=binary64\n"
+      },
+      "invalid": {
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    "checkSourceSha256": "92efd02f9ba2aa813344fbc9f6681655d278ba25256bfa9ea54a8b267440abbe",
+    "checkExecutableSha256": "6f4759bb99bb0164a197f9c86fa05f434ca6fac6f633d69c7d14424362f08b3d",
+    "checkCommand": [
+      "cc",
+      "-O2",
+      "-I/private/tmp/robotron-mpfr-integration/source/src/include",
+      "-I/private/tmp/robotron-mpfr-integration/build/src/include",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-integration/check.c",
+      "/private/tmp/robotron-mpfr-integration/source/src/maths/ni/niinteg.c",
+      "/private/tmp/robotron-mpfr-integration/build/src/misc/.libs/libmisc.a",
+      "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+      "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+      "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+      "-lmpfr",
+      "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+      "-lgmp",
+      "-o",
+      "/private/tmp/robotron-mpfr-integration/check"
+    ],
+    "adapterCheckExecution": "Executed separately after the initial build; build.py includes the same check for future builds.",
+    "adapterCheckBuilderSha256": "ab5defda22dc241824c6e1699d00bec706b13050e64fb26a101a032721e74c64"
+  },
+  "builderSha256": "904a90380a654d9aea106be5fc5ed6b6da331f03d9c2c7999bd24a63db7a0510",
+  "patchSha256": "c1bf6de99d158399b614a1e4616d7dee820865b4450dd2659919c7feb9453f12",
+  "headerSha256": "8baeb727ecc028dcc77c6da11e407889b47fb3e4fcbb40d1bacdeaa99a72e70b",
+  "baseTransientSourceSha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
+  "transientSourceSha256": "0b9b06c00567ab2c4878d828144b4a95af4176d7ee5ffede44cd9257450fefe8",
+  "executableSha256": "d258ed539e77d92f9229284ebdd283ff06fb2f0ed98da6b2b9b415d5c8cd5f5e",
+  "buildInputs": {
+    "configure": [
+      "/private/tmp/robotron-device-additions-v2/source/configure",
+      "--prefix=/private/tmp/robotron-device-additions-v2/install",
+      "--without-x",
+      "--with-readline=no",
+      "--disable-openmp",
+      "--disable-klu"
+    ],
+    "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+    "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+  },
+  "logsSha256": {
+    "configure.log": "f3471da230afed5b3e40b50d98a34711fd33b58322502bf4c79d19066bca65ca",
+    "make.log": "bd817749a9d969c030386f5e0a601aca410f30e2088bb65b4db6ed3345a72ddf"
+  },
+  "auditBaseProvenance": {
+    "scope": "Build logging-only coverage of linear systems at represented minimum steps.",
+    "baseProvenanceSha256": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+    "baseProvenance": {
+      "scope": "Experimental MPFR256 NIintegrate arithmetic with binary64 stored states and coefficients; opt-in and disabled-control modes",
+      "baseProvenanceSha256": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+      "baseProvenance": {
+        "source": "ngspice-47",
+        "scope": "Experimental MPFR real linear arithmetic; binary64 stamping and integration remain unchanged",
+        "basePatchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+        "patchSha256": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+        "kernelSha256": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+        "buildInputs": {
+          "configure": [
+            "/private/tmp/robotron-mpfr-transient/source/configure",
+            "--prefix=/private/tmp/robotron-mpfr-transient/install",
+            "--without-x",
+            "--with-readline=no",
+            "--disable-openmp",
+            "--disable-klu"
+          ],
+          "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+        },
+        "buildLogsSha256": {
+          "configure.log": "4a7378c67efddfbf1c43666b2261904c63db281e41284847dc3386caef439273",
+          "make.log": "658725523102e60d1a162adaa6648e665af78d347828b007d0ccab31405e581e"
+        },
+        "executableSha256": "9eab043d1a1a2c41ead0d756fb2c4d1ff3dcd9e6a02fd6b3cca812defd398741",
+        "libraries": {
+          "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+          "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+        },
+        "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+        "checks": {
+          "command": [
+            "clang",
+            "-O2",
+            "-I/private/tmp/robotron-mpfr-transient/source/src/include",
+            "-I/private/tmp/robotron-mpfr-transient/build/src/include",
+            "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-transient/check.c",
+            "/private/tmp/robotron-mpfr-transient/build/src/maths/sparse/.libs/libsparse.a",
+            "/private/tmp/robotron-mpfr-transient/build/src/misc/.libs/libmisc.a",
+            "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+            "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+            "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+            "-lmpfr",
+            "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+            "-lgmp",
+            "-o",
+            "/private/tmp/robotron-mpfr-transient/check"
+          ],
+          "sourceSha256": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+          "executableSha256": "42d5a38a0a257d8f5261f1086e58c32b5a1a20a1029735b9498dc3c0a9f29191",
+          "exitCode": 0,
+          "stdout": "pivot, reordered external coordinates, precision changes, reuse and diagonal Gmin pass\n",
+          "stderr": ""
+        },
+        "equationSourceSha256": {
+          "src/maths/ni/niiter.c": "059fb48cf2dbf3567dd65f56c1d2d611ac28ba899ed68d015078f34a86a6c785",
+          "src/maths/sparse/spsmp.c": "c0150e6886425ac3738f615305500431a1c922a8d4ca4c6ae23332b6d9ee07b0",
+          "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+          "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504"
+        }
+      },
+      "builderSha256": "53168a07333a5deeae21bae0112cb60cac3dc5e9f80d4e1e9f87fbaf49c7dd12",
+      "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+      "headerSha256": "a078128a975b60856eccf8a48fc58d8d713c114c87bede2b1b7847a79c41dd99",
+      "executableSha256": "767fe6f762bba14cd9cb2380b01b2292b4ac5caa9c63c020ff93292ab6d93ed3",
+      "integrationSourceSha256": "ca59da52307f2848dc5dab90fa49c1c34e2638fd7a07754d5170ce4a5c03f807",
+      "buildInputs": {
+        "configure": [
+          "/private/tmp/robotron-mpfr-integration/source/configure",
+          "--prefix=/private/tmp/robotron-mpfr-integration/install",
+          "--without-x",
+          "--with-readline=no",
+          "--disable-openmp",
+          "--disable-klu"
+        ],
+        "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+      },
+      "logsSha256": {
+        "configure.log": "38bfe31553eab1195026dd646d73a308cb89530a2ce020a33355a69b433af362",
+        "make.log": "37a0b5b541e55ef0f695c074d35749cc92b61f3d093441ed51ca5085a26a0ebf"
+      },
+      "adapterChecks": {
+        "off": {
+          "exitCode": 0,
+          "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+          "stderr": ""
+        },
+        "256": {
+          "exitCode": 0,
+          "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+          "stderr": "MPFR_INTEGRATION enabled bits=256 states=binary64\n"
+        },
+        "invalid": {
+          "exitCode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      "checkSourceSha256": "92efd02f9ba2aa813344fbc9f6681655d278ba25256bfa9ea54a8b267440abbe",
+      "checkExecutableSha256": "6f4759bb99bb0164a197f9c86fa05f434ca6fac6f633d69c7d14424362f08b3d",
+      "checkCommand": [
+        "cc",
+        "-O2",
+        "-I/private/tmp/robotron-mpfr-integration/source/src/include",
+        "-I/private/tmp/robotron-mpfr-integration/build/src/include",
+        "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-integration/check.c",
+        "/private/tmp/robotron-mpfr-integration/source/src/maths/ni/niinteg.c",
+        "/private/tmp/robotron-mpfr-integration/build/src/misc/.libs/libmisc.a",
+        "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+        "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+        "-lmpfr",
+        "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+        "-lgmp",
+        "-o",
+        "/private/tmp/robotron-mpfr-integration/check"
+      ],
+      "adapterCheckExecution": "Executed separately after the initial build; build.py includes the same check for future builds.",
+      "adapterCheckBuilderSha256": "ab5defda22dc241824c6e1699d00bec706b13050e64fb26a101a032721e74c64"
+    },
+    "builderSha256": "b767c8991f2ccf8d7020f346353b52c2f43d379cd416f5970f70850c9e04c6e9",
+    "patchSha256": "c1bf6de99d158399b614a1e4616d7dee820865b4450dd2659919c7feb9453f12",
+    "headerSha256": "8baeb727ecc028dcc77c6da11e407889b47fb3e4fcbb40d1bacdeaa99a72e70b",
+    "baseTransientSourceSha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
+    "transientSourceSha256": "b0d997e4939fa321f37b042421d1bec31c1071ee606ecb0189c0b508c20d7dee",
+    "executableSha256": "2e2d28f9952b751a18c79cf85005e548a54932b4769ee8de0361511858c9a7fa",
+    "buildInputs": {
+      "configure": [
+        "/private/tmp/robotron-represented-time-audit/source/configure",
+        "--prefix=/private/tmp/robotron-represented-time-audit/install",
+        "--without-x",
+        "--with-readline=no",
+        "--disable-openmp",
+        "--disable-klu"
+      ],
+      "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+      "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+    },
+    "logsSha256": {
+      "configure.log": "4a0599b54886e0a7c4d988fca6f8863c43829fd485c4741968cfec070bb8f4fc",
+      "make.log": "434e45fc454447fdca22171b8f875e2da1ec6abf4ba761c7b578625fe6d2a4fa"
+    },
+    "auditBaseProvenance": {
+      "scope": "Opt-in exact rollback and represented integration intervals; standalone analog-only experiment",
+      "baseProvenanceSha256": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+      "baseProvenance": {
+        "scope": "Experimental MPFR256 NIintegrate arithmetic with binary64 stored states and coefficients; opt-in and disabled-control modes",
+        "baseProvenanceSha256": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+        "baseProvenance": {
+          "source": "ngspice-47",
+          "scope": "Experimental MPFR real linear arithmetic; binary64 stamping and integration remain unchanged",
+          "basePatchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+          "patchSha256": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+          "kernelSha256": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+          "buildInputs": {
+            "configure": [
+              "/private/tmp/robotron-mpfr-transient/source/configure",
+              "--prefix=/private/tmp/robotron-mpfr-transient/install",
+              "--without-x",
+              "--with-readline=no",
+              "--disable-openmp",
+              "--disable-klu"
+            ],
+            "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+            "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+          },
+          "buildLogsSha256": {
+            "configure.log": "4a7378c67efddfbf1c43666b2261904c63db281e41284847dc3386caef439273",
+            "make.log": "658725523102e60d1a162adaa6648e665af78d347828b007d0ccab31405e581e"
+          },
+          "executableSha256": "9eab043d1a1a2c41ead0d756fb2c4d1ff3dcd9e6a02fd6b3cca812defd398741",
+          "libraries": {
+            "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+            "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+          },
+          "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+          "checks": {
+            "command": [
+              "clang",
+              "-O2",
+              "-I/private/tmp/robotron-mpfr-transient/source/src/include",
+              "-I/private/tmp/robotron-mpfr-transient/build/src/include",
+              "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-transient/check.c",
+              "/private/tmp/robotron-mpfr-transient/build/src/maths/sparse/.libs/libsparse.a",
+              "/private/tmp/robotron-mpfr-transient/build/src/misc/.libs/libmisc.a",
+              "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+              "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+              "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+              "-lmpfr",
+              "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+              "-lgmp",
+              "-o",
+              "/private/tmp/robotron-mpfr-transient/check"
+            ],
+            "sourceSha256": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+            "executableSha256": "42d5a38a0a257d8f5261f1086e58c32b5a1a20a1029735b9498dc3c0a9f29191",
+            "exitCode": 0,
+            "stdout": "pivot, reordered external coordinates, precision changes, reuse and diagonal Gmin pass\n",
+            "stderr": ""
+          },
+          "equationSourceSha256": {
+            "src/maths/ni/niiter.c": "059fb48cf2dbf3567dd65f56c1d2d611ac28ba899ed68d015078f34a86a6c785",
+            "src/maths/sparse/spsmp.c": "c0150e6886425ac3738f615305500431a1c922a8d4ca4c6ae23332b6d9ee07b0",
+            "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+            "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504"
+          }
+        },
+        "builderSha256": "53168a07333a5deeae21bae0112cb60cac3dc5e9f80d4e1e9f87fbaf49c7dd12",
+        "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+        "headerSha256": "a078128a975b60856eccf8a48fc58d8d713c114c87bede2b1b7847a79c41dd99",
+        "executableSha256": "767fe6f762bba14cd9cb2380b01b2292b4ac5caa9c63c020ff93292ab6d93ed3",
+        "integrationSourceSha256": "ca59da52307f2848dc5dab90fa49c1c34e2638fd7a07754d5170ce4a5c03f807",
+        "buildInputs": {
+          "configure": [
+            "/private/tmp/robotron-mpfr-integration/source/configure",
+            "--prefix=/private/tmp/robotron-mpfr-integration/install",
+            "--without-x",
+            "--with-readline=no",
+            "--disable-openmp",
+            "--disable-klu"
+          ],
+          "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+        },
+        "logsSha256": {
+          "configure.log": "38bfe31553eab1195026dd646d73a308cb89530a2ce020a33355a69b433af362",
+          "make.log": "37a0b5b541e55ef0f695c074d35749cc92b61f3d093441ed51ca5085a26a0ebf"
+        },
+        "adapterChecks": {
+          "off": {
+            "exitCode": 0,
+            "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+            "stderr": ""
+          },
+          "256": {
+            "exitCode": 0,
+            "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+            "stderr": "MPFR_INTEGRATION enabled bits=256 states=binary64\n"
+          },
+          "invalid": {
+            "exitCode": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "checkSourceSha256": "92efd02f9ba2aa813344fbc9f6681655d278ba25256bfa9ea54a8b267440abbe",
+        "checkExecutableSha256": "6f4759bb99bb0164a197f9c86fa05f434ca6fac6f633d69c7d14424362f08b3d",
+        "checkCommand": [
+          "cc",
+          "-O2",
+          "-I/private/tmp/robotron-mpfr-integration/source/src/include",
+          "-I/private/tmp/robotron-mpfr-integration/build/src/include",
+          "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-integration/check.c",
+          "/private/tmp/robotron-mpfr-integration/source/src/maths/ni/niinteg.c",
+          "/private/tmp/robotron-mpfr-integration/build/src/misc/.libs/libmisc.a",
+          "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+          "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+          "-lmpfr",
+          "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+          "-lgmp",
+          "-o",
+          "/private/tmp/robotron-mpfr-integration/check"
+        ],
+        "adapterCheckExecution": "Executed separately after the initial build; build.py includes the same check for future builds.",
+        "adapterCheckBuilderSha256": "ab5defda22dc241824c6e1699d00bec706b13050e64fb26a101a032721e74c64"
+      },
+      "builderSha256": "990836b2cdf4935cab3f51fce92d0bc64c0a03df5dfd0da98cfa882a6ad5eeb3",
+      "patchSha256": "c1bf6de99d158399b614a1e4616d7dee820865b4450dd2659919c7feb9453f12",
+      "headerSha256": "8baeb727ecc028dcc77c6da11e407889b47fb3e4fcbb40d1bacdeaa99a72e70b",
+      "baseTransientSourceSha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
+      "transientSourceSha256": "b0d997e4939fa321f37b042421d1bec31c1071ee606ecb0189c0b508c20d7dee",
+      "executableSha256": "bf9941663d0a9acb6328babd5f2b5499a35f0ef8ce0d4396fa92fcd154b58268",
+      "buildInputs": {
+        "configure": [
+          "/private/tmp/robotron-represented-time/source/configure",
+          "--prefix=/private/tmp/robotron-represented-time/install",
+          "--without-x",
+          "--with-readline=no",
+          "--disable-openmp",
+          "--disable-klu"
+        ],
+        "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+      },
+      "logsSha256": {
+        "configure.log": "53120bb5eb481ee602c58a0e0f6e6906d26d460bcc9c78514f695c4f34bfbf68",
+        "make.log": "b8cc2ebc993c4f674f6fdd8cc3d041b6b45caeeaf5a93374b256e244a881dc71"
+      }
+    },
+    "auditBaseProvenanceSha256": "a9d0167e2d08edfe00346bf3529ed1ae9764e67135e20797b2aae0e8a934ce94",
+    "auditPatchSha256": "54c5121fbfd749e37cdba6efe58461653b6fe302e48129af93eb260c1d9dea1f",
+    "auditedLinearSourceSha256": "bbd56fa35e0f0336129aa98848271e47572af73456ea7518732f8577cee5e26c"
+  },
+  "auditBaseProvenanceSha256": "d8aabb67e31c6b9df5a3d52a3a22b621256ca9725ae4d8b49987a61ec1d978d9",
+  "auditPatchSha256": "8e1351747b000cd83280444b204192c1fe9dc5a54238356251bdc62e1b9af3aa",
+  "auditedLinearSourceSha256": "bbd56fa35e0f0336129aa98848271e47572af73456ea7518732f8577cee5e26c",
+  "auditWindow": "minimum-step",
+  "assemblyPatchSha256": "1baa74263f80deb1f5a89ba936301957c74bf26b5b1618fbd0d43f813290f06f",
+  "assemblyHeaderSha256": "4afed3b1d2f525417b027637e056c1153a6eb33f8df80a2aefd5c5902140d061",
+  "auditWindowPatchSha256": null,
+  "auditedCapacitorSourceSha256": "19c3968e22d12effd6affcb317bb3addded6ca5cf5f464023ece6095de819146",
+  "budgetBaseProvenance": {
+    "scope": "Build logging-only capacitor contributions alongside the represented-step linear audit.",
+    "baseProvenanceSha256": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+    "baseProvenance": {
+      "scope": "Experimental MPFR256 NIintegrate arithmetic with binary64 stored states and coefficients; opt-in and disabled-control modes",
+      "baseProvenanceSha256": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+      "baseProvenance": {
+        "source": "ngspice-47",
+        "scope": "Experimental MPFR real linear arithmetic; binary64 stamping and integration remain unchanged",
+        "basePatchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+        "patchSha256": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+        "kernelSha256": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+        "buildInputs": {
+          "configure": [
+            "/private/tmp/robotron-mpfr-transient/source/configure",
+            "--prefix=/private/tmp/robotron-mpfr-transient/install",
+            "--without-x",
+            "--with-readline=no",
+            "--disable-openmp",
+            "--disable-klu"
+          ],
+          "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+        },
+        "buildLogsSha256": {
+          "configure.log": "4a7378c67efddfbf1c43666b2261904c63db281e41284847dc3386caef439273",
+          "make.log": "658725523102e60d1a162adaa6648e665af78d347828b007d0ccab31405e581e"
+        },
+        "executableSha256": "9eab043d1a1a2c41ead0d756fb2c4d1ff3dcd9e6a02fd6b3cca812defd398741",
+        "libraries": {
+          "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+          "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+        },
+        "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+        "checks": {
+          "command": [
+            "clang",
+            "-O2",
+            "-I/private/tmp/robotron-mpfr-transient/source/src/include",
+            "-I/private/tmp/robotron-mpfr-transient/build/src/include",
+            "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-transient/check.c",
+            "/private/tmp/robotron-mpfr-transient/build/src/maths/sparse/.libs/libsparse.a",
+            "/private/tmp/robotron-mpfr-transient/build/src/misc/.libs/libmisc.a",
+            "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+            "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+            "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+            "-lmpfr",
+            "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+            "-lgmp",
+            "-o",
+            "/private/tmp/robotron-mpfr-transient/check"
+          ],
+          "sourceSha256": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+          "executableSha256": "42d5a38a0a257d8f5261f1086e58c32b5a1a20a1029735b9498dc3c0a9f29191",
+          "exitCode": 0,
+          "stdout": "pivot, reordered external coordinates, precision changes, reuse and diagonal Gmin pass\n",
+          "stderr": ""
+        },
+        "equationSourceSha256": {
+          "src/maths/ni/niiter.c": "059fb48cf2dbf3567dd65f56c1d2d611ac28ba899ed68d015078f34a86a6c785",
+          "src/maths/sparse/spsmp.c": "c0150e6886425ac3738f615305500431a1c922a8d4ca4c6ae23332b6d9ee07b0",
+          "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+          "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504"
+        }
+      },
+      "builderSha256": "53168a07333a5deeae21bae0112cb60cac3dc5e9f80d4e1e9f87fbaf49c7dd12",
+      "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+      "headerSha256": "a078128a975b60856eccf8a48fc58d8d713c114c87bede2b1b7847a79c41dd99",
+      "executableSha256": "767fe6f762bba14cd9cb2380b01b2292b4ac5caa9c63c020ff93292ab6d93ed3",
+      "integrationSourceSha256": "ca59da52307f2848dc5dab90fa49c1c34e2638fd7a07754d5170ce4a5c03f807",
+      "buildInputs": {
+        "configure": [
+          "/private/tmp/robotron-mpfr-integration/source/configure",
+          "--prefix=/private/tmp/robotron-mpfr-integration/install",
+          "--without-x",
+          "--with-readline=no",
+          "--disable-openmp",
+          "--disable-klu"
+        ],
+        "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+      },
+      "logsSha256": {
+        "configure.log": "38bfe31553eab1195026dd646d73a308cb89530a2ce020a33355a69b433af362",
+        "make.log": "37a0b5b541e55ef0f695c074d35749cc92b61f3d093441ed51ca5085a26a0ebf"
+      },
+      "adapterChecks": {
+        "off": {
+          "exitCode": 0,
+          "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+          "stderr": ""
+        },
+        "256": {
+          "exitCode": 0,
+          "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+          "stderr": "MPFR_INTEGRATION enabled bits=256 states=binary64\n"
+        },
+        "invalid": {
+          "exitCode": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      },
+      "checkSourceSha256": "92efd02f9ba2aa813344fbc9f6681655d278ba25256bfa9ea54a8b267440abbe",
+      "checkExecutableSha256": "6f4759bb99bb0164a197f9c86fa05f434ca6fac6f633d69c7d14424362f08b3d",
+      "checkCommand": [
+        "cc",
+        "-O2",
+        "-I/private/tmp/robotron-mpfr-integration/source/src/include",
+        "-I/private/tmp/robotron-mpfr-integration/build/src/include",
+        "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-integration/check.c",
+        "/private/tmp/robotron-mpfr-integration/source/src/maths/ni/niinteg.c",
+        "/private/tmp/robotron-mpfr-integration/build/src/misc/.libs/libmisc.a",
+        "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+        "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+        "-lmpfr",
+        "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+        "-lgmp",
+        "-o",
+        "/private/tmp/robotron-mpfr-integration/check"
+      ],
+      "adapterCheckExecution": "Executed separately after the initial build; build.py includes the same check for future builds.",
+      "adapterCheckBuilderSha256": "ab5defda22dc241824c6e1699d00bec706b13050e64fb26a101a032721e74c64"
+    },
+    "builderSha256": "44005b803127c7fc7c74c5ea910780b9812ffa00715d9882fcf046e4731457a5",
+    "patchSha256": "c1bf6de99d158399b614a1e4616d7dee820865b4450dd2659919c7feb9453f12",
+    "headerSha256": "8baeb727ecc028dcc77c6da11e407889b47fb3e4fcbb40d1bacdeaa99a72e70b",
+    "baseTransientSourceSha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
+    "transientSourceSha256": "b0d997e4939fa321f37b042421d1bec31c1071ee606ecb0189c0b508c20d7dee",
+    "executableSha256": "456c5412cab84a76101fa4b1795b09eeca95198b745ac5e1d18d3a8d37fc332f",
+    "buildInputs": {
+      "configure": [
+        "/private/tmp/robotron-capacitor-assembly/source/configure",
+        "--prefix=/private/tmp/robotron-capacitor-assembly/install",
+        "--without-x",
+        "--with-readline=no",
+        "--disable-openmp",
+        "--disable-klu"
+      ],
+      "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+      "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+    },
+    "logsSha256": {
+      "configure.log": "19f06553b6846fb4b6caef242b65c2348fce8893097bfde8621cf345ffd26d5e",
+      "make.log": "9d9e84abf8f79328a7bb269cab6c8278f142577666849ffe37cd4fe4d897b624"
+    },
+    "auditBaseProvenance": {
+      "scope": "Build logging-only coverage of linear systems at represented minimum steps.",
+      "baseProvenanceSha256": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+      "baseProvenance": {
+        "scope": "Experimental MPFR256 NIintegrate arithmetic with binary64 stored states and coefficients; opt-in and disabled-control modes",
+        "baseProvenanceSha256": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+        "baseProvenance": {
+          "source": "ngspice-47",
+          "scope": "Experimental MPFR real linear arithmetic; binary64 stamping and integration remain unchanged",
+          "basePatchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+          "patchSha256": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+          "kernelSha256": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+          "buildInputs": {
+            "configure": [
+              "/private/tmp/robotron-mpfr-transient/source/configure",
+              "--prefix=/private/tmp/robotron-mpfr-transient/install",
+              "--without-x",
+              "--with-readline=no",
+              "--disable-openmp",
+              "--disable-klu"
+            ],
+            "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+            "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+          },
+          "buildLogsSha256": {
+            "configure.log": "4a7378c67efddfbf1c43666b2261904c63db281e41284847dc3386caef439273",
+            "make.log": "658725523102e60d1a162adaa6648e665af78d347828b007d0ccab31405e581e"
+          },
+          "executableSha256": "9eab043d1a1a2c41ead0d756fb2c4d1ff3dcd9e6a02fd6b3cca812defd398741",
+          "libraries": {
+            "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+            "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+          },
+          "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+          "checks": {
+            "command": [
+              "clang",
+              "-O2",
+              "-I/private/tmp/robotron-mpfr-transient/source/src/include",
+              "-I/private/tmp/robotron-mpfr-transient/build/src/include",
+              "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-transient/check.c",
+              "/private/tmp/robotron-mpfr-transient/build/src/maths/sparse/.libs/libsparse.a",
+              "/private/tmp/robotron-mpfr-transient/build/src/misc/.libs/libmisc.a",
+              "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+              "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+              "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+              "-lmpfr",
+              "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+              "-lgmp",
+              "-o",
+              "/private/tmp/robotron-mpfr-transient/check"
+            ],
+            "sourceSha256": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+            "executableSha256": "42d5a38a0a257d8f5261f1086e58c32b5a1a20a1029735b9498dc3c0a9f29191",
+            "exitCode": 0,
+            "stdout": "pivot, reordered external coordinates, precision changes, reuse and diagonal Gmin pass\n",
+            "stderr": ""
+          },
+          "equationSourceSha256": {
+            "src/maths/ni/niiter.c": "059fb48cf2dbf3567dd65f56c1d2d611ac28ba899ed68d015078f34a86a6c785",
+            "src/maths/sparse/spsmp.c": "c0150e6886425ac3738f615305500431a1c922a8d4ca4c6ae23332b6d9ee07b0",
+            "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+            "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504"
+          }
+        },
+        "builderSha256": "53168a07333a5deeae21bae0112cb60cac3dc5e9f80d4e1e9f87fbaf49c7dd12",
+        "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+        "headerSha256": "a078128a975b60856eccf8a48fc58d8d713c114c87bede2b1b7847a79c41dd99",
+        "executableSha256": "767fe6f762bba14cd9cb2380b01b2292b4ac5caa9c63c020ff93292ab6d93ed3",
+        "integrationSourceSha256": "ca59da52307f2848dc5dab90fa49c1c34e2638fd7a07754d5170ce4a5c03f807",
+        "buildInputs": {
+          "configure": [
+            "/private/tmp/robotron-mpfr-integration/source/configure",
+            "--prefix=/private/tmp/robotron-mpfr-integration/install",
+            "--without-x",
+            "--with-readline=no",
+            "--disable-openmp",
+            "--disable-klu"
+          ],
+          "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+        },
+        "logsSha256": {
+          "configure.log": "38bfe31553eab1195026dd646d73a308cb89530a2ce020a33355a69b433af362",
+          "make.log": "37a0b5b541e55ef0f695c074d35749cc92b61f3d093441ed51ca5085a26a0ebf"
+        },
+        "adapterChecks": {
+          "off": {
+            "exitCode": 0,
+            "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+            "stderr": ""
+          },
+          "256": {
+            "exitCode": 0,
+            "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+            "stderr": "MPFR_INTEGRATION enabled bits=256 states=binary64\n"
+          },
+          "invalid": {
+            "exitCode": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "checkSourceSha256": "92efd02f9ba2aa813344fbc9f6681655d278ba25256bfa9ea54a8b267440abbe",
+        "checkExecutableSha256": "6f4759bb99bb0164a197f9c86fa05f434ca6fac6f633d69c7d14424362f08b3d",
+        "checkCommand": [
+          "cc",
+          "-O2",
+          "-I/private/tmp/robotron-mpfr-integration/source/src/include",
+          "-I/private/tmp/robotron-mpfr-integration/build/src/include",
+          "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-integration/check.c",
+          "/private/tmp/robotron-mpfr-integration/source/src/maths/ni/niinteg.c",
+          "/private/tmp/robotron-mpfr-integration/build/src/misc/.libs/libmisc.a",
+          "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+          "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+          "-lmpfr",
+          "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+          "-lgmp",
+          "-o",
+          "/private/tmp/robotron-mpfr-integration/check"
+        ],
+        "adapterCheckExecution": "Executed separately after the initial build; build.py includes the same check for future builds.",
+        "adapterCheckBuilderSha256": "ab5defda22dc241824c6e1699d00bec706b13050e64fb26a101a032721e74c64"
+      },
+      "builderSha256": "b767c8991f2ccf8d7020f346353b52c2f43d379cd416f5970f70850c9e04c6e9",
+      "patchSha256": "c1bf6de99d158399b614a1e4616d7dee820865b4450dd2659919c7feb9453f12",
+      "headerSha256": "8baeb727ecc028dcc77c6da11e407889b47fb3e4fcbb40d1bacdeaa99a72e70b",
+      "baseTransientSourceSha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
+      "transientSourceSha256": "b0d997e4939fa321f37b042421d1bec31c1071ee606ecb0189c0b508c20d7dee",
+      "executableSha256": "2e2d28f9952b751a18c79cf85005e548a54932b4769ee8de0361511858c9a7fa",
+      "buildInputs": {
+        "configure": [
+          "/private/tmp/robotron-represented-time-audit/source/configure",
+          "--prefix=/private/tmp/robotron-represented-time-audit/install",
+          "--without-x",
+          "--with-readline=no",
+          "--disable-openmp",
+          "--disable-klu"
+        ],
+        "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+        "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+      },
+      "logsSha256": {
+        "configure.log": "4a0599b54886e0a7c4d988fca6f8863c43829fd485c4741968cfec070bb8f4fc",
+        "make.log": "434e45fc454447fdca22171b8f875e2da1ec6abf4ba761c7b578625fe6d2a4fa"
+      },
+      "auditBaseProvenance": {
+        "scope": "Opt-in exact rollback and represented integration intervals; standalone analog-only experiment",
+        "baseProvenanceSha256": "313a372716a0fd51b29031e71ef241846bb58eca291cd060cf9f65a58af88860",
+        "baseProvenance": {
+          "scope": "Experimental MPFR256 NIintegrate arithmetic with binary64 stored states and coefficients; opt-in and disabled-control modes",
+          "baseProvenanceSha256": "988c97a5e884e1ae160f8453bb7bae92b18e81b36be5bdcea6f113d32774765e",
+          "baseProvenance": {
+            "source": "ngspice-47",
+            "scope": "Experimental MPFR real linear arithmetic; binary64 stamping and integration remain unchanged",
+            "basePatchSha256": "81257eb7abdb563f1514229a32665aaa2f7a79bf56c00149f1a49795bd2fd5f7",
+            "patchSha256": "97223a05428d7dd48f9bf4fc420db834ad889d236587482ea15b66bb1327d0d7",
+            "kernelSha256": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+            "buildInputs": {
+              "configure": [
+                "/private/tmp/robotron-mpfr-transient/source/configure",
+                "--prefix=/private/tmp/robotron-mpfr-transient/install",
+                "--without-x",
+                "--with-readline=no",
+                "--disable-openmp",
+                "--disable-klu"
+              ],
+              "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+              "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+            },
+            "buildLogsSha256": {
+              "configure.log": "4a7378c67efddfbf1c43666b2261904c63db281e41284847dc3386caef439273",
+              "make.log": "658725523102e60d1a162adaa6648e665af78d347828b007d0ccab31405e581e"
+            },
+            "executableSha256": "9eab043d1a1a2c41ead0d756fb2c4d1ff3dcd9e6a02fd6b3cca812defd398741",
+            "libraries": {
+              "/opt/homebrew/Cellar/mpfr/4.2.2/lib/libmpfr.6.dylib": "3bcf49b46e24a9bb293c2e2a155fc170372f7eff2af72f577c1aee0c6656b61b",
+              "/opt/homebrew/Cellar/gmp/6.3.0/lib/libgmp.10.dylib": "8e5e329ef23a12e39885bbdf417f87654e163078916d904c5909d2224305e0cc"
+            },
+            "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+            "checks": {
+              "command": [
+                "clang",
+                "-O2",
+                "-I/private/tmp/robotron-mpfr-transient/source/src/include",
+                "-I/private/tmp/robotron-mpfr-transient/build/src/include",
+                "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-transient/check.c",
+                "/private/tmp/robotron-mpfr-transient/build/src/maths/sparse/.libs/libsparse.a",
+                "/private/tmp/robotron-mpfr-transient/build/src/misc/.libs/libmisc.a",
+                "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+                "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+                "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+                "-lmpfr",
+                "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+                "-lgmp",
+                "-o",
+                "/private/tmp/robotron-mpfr-transient/check"
+              ],
+              "sourceSha256": "4be6abf8af9945ca543c4d53ca8f641c24fcbb98b7a2acf16a9398900ec53ba4",
+              "executableSha256": "42d5a38a0a257d8f5261f1086e58c32b5a1a20a1029735b9498dc3c0a9f29191",
+              "exitCode": 0,
+              "stdout": "pivot, reordered external coordinates, precision changes, reuse and diagonal Gmin pass\n",
+              "stderr": ""
+            },
+            "equationSourceSha256": {
+              "src/maths/ni/niiter.c": "059fb48cf2dbf3567dd65f56c1d2d611ac28ba899ed68d015078f34a86a6c785",
+              "src/maths/sparse/spsmp.c": "c0150e6886425ac3738f615305500431a1c922a8d4ca4c6ae23332b6d9ee07b0",
+              "src/maths/ni/niinteg.c": "b0925c863b3778ae9d581505bbd2d467a9382dfcb87c28657a911c6c650599c2",
+              "src/spicelib/devices/ind/indload.c": "704b1ad569dd6b82ce0a07234f24c94b93e6b26e50f496406a3e118f0f226504"
+            }
+          },
+          "builderSha256": "53168a07333a5deeae21bae0112cb60cac3dc5e9f80d4e1e9f87fbaf49c7dd12",
+          "patchSha256": "a7a82776ef21d41c97b04bae3a8bf72434afbf3353f0703c61de56d010a51c65",
+          "headerSha256": "a078128a975b60856eccf8a48fc58d8d713c114c87bede2b1b7847a79c41dd99",
+          "executableSha256": "767fe6f762bba14cd9cb2380b01b2292b4ac5caa9c63c020ff93292ab6d93ed3",
+          "integrationSourceSha256": "ca59da52307f2848dc5dab90fa49c1c34e2638fd7a07754d5170ce4a5c03f807",
+          "buildInputs": {
+            "configure": [
+              "/private/tmp/robotron-mpfr-integration/source/configure",
+              "--prefix=/private/tmp/robotron-mpfr-integration/install",
+              "--without-x",
+              "--with-readline=no",
+              "--disable-openmp",
+              "--disable-klu"
+            ],
+            "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+            "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+          },
+          "logsSha256": {
+            "configure.log": "38bfe31553eab1195026dd646d73a308cb89530a2ce020a33355a69b433af362",
+            "make.log": "37a0b5b541e55ef0f695c074d35749cc92b61f3d093441ed51ca5085a26a0ebf"
+          },
+          "adapterChecks": {
+            "off": {
+              "exitCode": 0,
+              "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+              "stderr": ""
+            },
+            "256": {
+              "exitCode": 0,
+              "stdout": "NIintegrate adapter arithmetic and state write verified\n",
+              "stderr": "MPFR_INTEGRATION enabled bits=256 states=binary64\n"
+            },
+            "invalid": {
+              "exitCode": 0,
+              "stdout": "",
+              "stderr": ""
+            }
+          },
+          "checkSourceSha256": "92efd02f9ba2aa813344fbc9f6681655d278ba25256bfa9ea54a8b267440abbe",
+          "checkExecutableSha256": "6f4759bb99bb0164a197f9c86fa05f434ca6fac6f633d69c7d14424362f08b3d",
+          "checkCommand": [
+            "cc",
+            "-O2",
+            "-I/private/tmp/robotron-mpfr-integration/source/src/include",
+            "-I/private/tmp/robotron-mpfr-integration/build/src/include",
+            "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-mpfr-integration/check.c",
+            "/private/tmp/robotron-mpfr-integration/source/src/maths/ni/niinteg.c",
+            "/private/tmp/robotron-mpfr-integration/build/src/misc/.libs/libmisc.a",
+            "-I/opt/homebrew/Cellar/mpfr/4.2.2/include",
+            "-I/opt/homebrew/Cellar/gmp/6.3.0/include",
+            "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib",
+            "-lmpfr",
+            "-L/opt/homebrew/Cellar/gmp/6.3.0/lib",
+            "-lgmp",
+            "-o",
+            "/private/tmp/robotron-mpfr-integration/check"
+          ],
+          "adapterCheckExecution": "Executed separately after the initial build; build.py includes the same check for future builds.",
+          "adapterCheckBuilderSha256": "ab5defda22dc241824c6e1699d00bec706b13050e64fb26a101a032721e74c64"
+        },
+        "builderSha256": "990836b2cdf4935cab3f51fce92d0bc64c0a03df5dfd0da98cfa882a6ad5eeb3",
+        "patchSha256": "c1bf6de99d158399b614a1e4616d7dee820865b4450dd2659919c7feb9453f12",
+        "headerSha256": "8baeb727ecc028dcc77c6da11e407889b47fb3e4fcbb40d1bacdeaa99a72e70b",
+        "baseTransientSourceSha256": "aa32666c2442791894d2f9c958fd5f0369a87778eafa46937fcfcb1fa3982663",
+        "transientSourceSha256": "b0d997e4939fa321f37b042421d1bec31c1071ee606ecb0189c0b508c20d7dee",
+        "executableSha256": "bf9941663d0a9acb6328babd5f2b5499a35f0ef8ce0d4396fa92fcd154b58268",
+        "buildInputs": {
+          "configure": [
+            "/private/tmp/robotron-represented-time/source/configure",
+            "--prefix=/private/tmp/robotron-represented-time/install",
+            "--without-x",
+            "--with-readline=no",
+            "--disable-openmp",
+            "--disable-klu"
+          ],
+          "CPPFLAGS": "-I/opt/homebrew/Cellar/mpfr/4.2.2/include -I/opt/homebrew/Cellar/gmp/6.3.0/include",
+          "LIBS": "-L/opt/homebrew/Cellar/mpfr/4.2.2/lib -lmpfr -L/opt/homebrew/Cellar/gmp/6.3.0/lib -lgmp"
+        },
+        "logsSha256": {
+          "configure.log": "53120bb5eb481ee602c58a0e0f6e6906d26d460bcc9c78514f695c4f34bfbf68",
+          "make.log": "b8cc2ebc993c4f674f6fdd8cc3d041b6b45caeeaf5a93374b256e244a881dc71"
+        }
+      },
+      "auditBaseProvenanceSha256": "a9d0167e2d08edfe00346bf3529ed1ae9764e67135e20797b2aae0e8a934ce94",
+      "auditPatchSha256": "54c5121fbfd749e37cdba6efe58461653b6fe302e48129af93eb260c1d9dea1f",
+      "auditedLinearSourceSha256": "bbd56fa35e0f0336129aa98848271e47572af73456ea7518732f8577cee5e26c"
+    },
+    "auditBaseProvenanceSha256": "d8aabb67e31c6b9df5a3d52a3a22b621256ca9725ae4d8b49987a61ec1d978d9",
+    "auditPatchSha256": "8e1351747b000cd83280444b204192c1fe9dc5a54238356251bdc62e1b9af3aa",
+    "auditedLinearSourceSha256": "bbd56fa35e0f0336129aa98848271e47572af73456ea7518732f8577cee5e26c",
+    "auditWindow": "minimum-step",
+    "assemblyPatchSha256": "1baa74263f80deb1f5a89ba936301957c74bf26b5b1618fbd0d43f813290f06f",
+    "assemblyHeaderSha256": "4afed3b1d2f525417b027637e056c1153a6eb33f8df80a2aefd5c5902140d061",
+    "auditWindowPatchSha256": null,
+    "auditedCapacitorSourceSha256": "19c3968e22d12effd6affcb317bb3addded6ca5cf5f464023ece6095de819146"
+  },
+  "budgetBaseProvenanceSha256": "9035935bf93ae9677e4c4fb1f6011134853a55ed798d2558381ba4c8e5d9b904",
+  "budgetPatchSha256": "fec48f90517db5585727f678c4ae66e606e034f9fd0829dcfe2ba7af2f6ef104",
+  "budgetHeaderSha256": "26f2350a2092b83508b434d18040787566a4c2c14e5df8edd284464a14c7ef76",
+  "postcapBaseProvenanceSha256": "ddf957caede5fa6bfa2c004546704c255211a03ce87eb5bc89110e1d616ca37a",
+  "postcapHeaderSha256": "505aeec736d35b39c3d2a4be2177cb0aa37f468dbb833187d9ae1fc26e5514c0",
+  "postcapBuilderSha256": "3e4af105464c8ae55011c8d13c9731a8d1b3657cc9db0ef792e0c72a3d0fbb02",
+  "postcapSources": {
+    "src/maths/sparse/spsmp.c": "b5cdc7834eaea537009575215b13b0cb9aa2531943c430404300e7dceb321904",
+    "src/spicelib/devices/res/resload.c": "ff19d3ed3b2e0aba5877375f7b6ddd5cdb048f6ab8608cc121335f0d6e2f0c9c",
+    "src/spicelib/devices/sw/swload.c": "0bb9454ac2a1334a06b34c6ee01c5f2a198a1e67ab2e42de9287327d19228503"
+  },
+  "postcapOriginalSources": {
+    "src/maths/sparse/spsmp.c": "a6296ba3d7aa1b64579ddd67fa6304a5de4c5cae5dadb63095621345b0b61d70",
+    "src/spicelib/devices/res/resload.c": "4d45fce821b486eb99f55ee5b36aee958e176ac37bba9bf385e3f9ba0c2f960a",
+    "src/spicelib/devices/sw/swload.c": "d8e671f4e149ce9bdf956e7aa3caa78e356baf7ad0e90d8e2ac6121f9a933aca"
+  },
+  "deviceBaseProvenanceSha256": "9dec97ef4c21dd566acad16607a55599431aff79ac5dc26d627e2ca5f2771117",
+  "deviceHeaderSha256": "a32bbe7106a4a4966302a1ea28509838ed9ec021619be04b28a433d988b02f4e",
+  "deviceBuilderSha256": "07210d9ce84f947d684605d50db87708a65e106723e70a6c3488c7e819dca88e",
+  "deviceSources": {
+    "src/maths/sparse/spsmp.c": "66224ef11c4ff7b6048cecf59bee207785340e0fd0115a631b679d814ac001fa",
+    "src/spicelib/devices/bjt/bjtload.c": "abe6fce44a1d8a8c2bd21291253c8a29543cb684393303d361ceb01506e7d64b",
+    "src/spicelib/devices/dio/dioload.c": "8e29c2b2c74e7fb311409ba37c26314a6583f9ea5aa180e9201aa6172e1468e4"
+  },
+  "deviceOriginalSources": {
+    "src/maths/sparse/spsmp.c": "b5cdc7834eaea537009575215b13b0cb9aa2531943c430404300e7dceb321904",
+    "src/spicelib/devices/bjt/bjtload.c": "44d89ff001169377123443fc3b1ddb4dc76b27d8d43ad4c348494df1ccace0db",
+    "src/spicelib/devices/dio/dioload.c": "865bbecef98de2237a1cceccf088fb77e6d868f9f913023827ac910232c35b38"
+  },
+  "deviceStampInventory": {
+    "bjt": [
+      {
+        "pointer": "ckt->CKTrhs + here->BJTbaseNode",
+        "sign": "+",
+        "value": "m * (-ceqbx)"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->BJTcolPrimeNode",
+        "sign": "+",
+        "value": "m * (ceqbx+ceqbc)"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->BJTsubstConNode",
+        "sign": "+",
+        "value": "m * ceqsub"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->BJTbasePrimeNode",
+        "sign": "+",
+        "value": "m * (-ceqbe-ceqbc)"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->BJTemitPrimeNode",
+        "sign": "+",
+        "value": "m * (ceqbe)"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->BJTsubstNode",
+        "sign": "+",
+        "value": "m * (-ceqsub)"
+      },
+      {
+        "pointer": "here->BJTcolColPtr",
+        "sign": "+",
+        "value": "m * (here->BJTtcollectorConduct)"
+      },
+      {
+        "pointer": "here->BJTbaseBasePtr",
+        "sign": "+",
+        "value": "m * (gx+geqbx)"
+      },
+      {
+        "pointer": "here->BJTemitEmitPtr",
+        "sign": "+",
+        "value": "m * (here->BJTtemitterConduct)"
+      },
+      {
+        "pointer": "here->BJTcolPrimeColPrimePtr",
+        "sign": "+",
+        "value": "m * (gmu+go+geqbx)"
+      },
+      {
+        "pointer": "here->BJTcollCXcollCXPtr",
+        "sign": "+",
+        "value": "m * (here->BJTtcollectorConduct)"
+      },
+      {
+        "pointer": "here->BJTsubstConSubstConPtr",
+        "sign": "+",
+        "value": "m * (geqsub)"
+      },
+      {
+        "pointer": "here->BJTbasePrimeBasePrimePtr",
+        "sign": "+",
+        "value": "m * (gx +gpi+gmu+geqcb)"
+      },
+      {
+        "pointer": "here->BJTemitPrimeEmitPrimePtr",
+        "sign": "+",
+        "value": "m * (gpi+here->BJTtemitterConduct+gm+go)"
+      },
+      {
+        "pointer": "here->BJTcollCollCXPtr",
+        "sign": "+",
+        "value": "m * (-here->BJTtcollectorConduct)"
+      },
+      {
+        "pointer": "here->BJTbaseBasePrimePtr",
+        "sign": "+",
+        "value": "m * (-gx)"
+      },
+      {
+        "pointer": "here->BJTemitEmitPrimePtr",
+        "sign": "+",
+        "value": "m * (-here->BJTtemitterConduct)"
+      },
+      {
+        "pointer": "here->BJTcollCXCollPtr",
+        "sign": "+",
+        "value": "m * (-here->BJTtcollectorConduct)"
+      },
+      {
+        "pointer": "here->BJTcolPrimeBasePrimePtr",
+        "sign": "+",
+        "value": "m * (-gmu+gm)"
+      },
+      {
+        "pointer": "here->BJTcolPrimeEmitPrimePtr",
+        "sign": "+",
+        "value": "m * (-gm-go)"
+      },
+      {
+        "pointer": "here->BJTbasePrimeBasePtr",
+        "sign": "+",
+        "value": "m * (-gx)"
+      },
+      {
+        "pointer": "here->BJTbasePrimeColPrimePtr",
+        "sign": "+",
+        "value": "m * (-gmu-geqcb)"
+      },
+      {
+        "pointer": "here->BJTbasePrimeEmitPrimePtr",
+        "sign": "+",
+        "value": "m * (-gpi)"
+      },
+      {
+        "pointer": "here->BJTemitPrimeEmitPtr",
+        "sign": "+",
+        "value": "m * (-here->BJTtemitterConduct)"
+      },
+      {
+        "pointer": "here->BJTemitPrimeColPrimePtr",
+        "sign": "+",
+        "value": "m * (-go+geqcb)"
+      },
+      {
+        "pointer": "here->BJTemitPrimeBasePrimePtr",
+        "sign": "+",
+        "value": "m * (-gpi-gm-geqcb)"
+      },
+      {
+        "pointer": "here->BJTsubstSubstPtr",
+        "sign": "+",
+        "value": "m * (geqsub)"
+      },
+      {
+        "pointer": "here->BJTsubstConSubstPtr",
+        "sign": "+",
+        "value": "m * (-geqsub)"
+      },
+      {
+        "pointer": "here->BJTsubstSubstConPtr",
+        "sign": "+",
+        "value": "m * (-geqsub)"
+      },
+      {
+        "pointer": "here->BJTbaseColPrimePtr",
+        "sign": "+",
+        "value": "m * (-geqbx)"
+      },
+      {
+        "pointer": "here->BJTcolPrimeBasePtr",
+        "sign": "+",
+        "value": "m * (-geqbx)"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->BJTcollCXNode",
+        "sign": "+",
+        "value": "-rhs_current"
+      },
+      {
+        "pointer": "here->BJTcollCXcollCXPtr",
+        "sign": "+",
+        "value": "m * Irci_Vrci"
+      },
+      {
+        "pointer": "here->BJTcollCXColPrimePtr",
+        "sign": "+",
+        "value": "m * -Irci_Vrci"
+      },
+      {
+        "pointer": "here->BJTcollCXBasePrimePtr",
+        "sign": "+",
+        "value": "m * Irci_Vbci"
+      },
+      {
+        "pointer": "here->BJTcollCXColPrimePtr",
+        "sign": "+",
+        "value": "m * -Irci_Vbci"
+      },
+      {
+        "pointer": "here->BJTcollCXBasePrimePtr",
+        "sign": "+",
+        "value": "m * Irci_Vbcx"
+      },
+      {
+        "pointer": "here->BJTcollCXcollCXPtr",
+        "sign": "+",
+        "value": "m * -Irci_Vbcx"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->BJTcolPrimeNode",
+        "sign": "+",
+        "value": "rhs_current"
+      },
+      {
+        "pointer": "here->BJTcolPrimeCollCXPtr",
+        "sign": "+",
+        "value": "m * -Irci_Vrci"
+      },
+      {
+        "pointer": "here->BJTcolPrimeColPrimePtr",
+        "sign": "+",
+        "value": "m * Irci_Vrci"
+      },
+      {
+        "pointer": "here->BJTcolPrimeBasePrimePtr",
+        "sign": "+",
+        "value": "m * -Irci_Vbci"
+      },
+      {
+        "pointer": "here->BJTcolPrimeColPrimePtr",
+        "sign": "+",
+        "value": "m * Irci_Vbci"
+      },
+      {
+        "pointer": "here->BJTcolPrimeBasePrimePtr",
+        "sign": "+",
+        "value": "m * -Irci_Vbcx"
+      },
+      {
+        "pointer": "here->BJTcolPrimeCollCXPtr",
+        "sign": "+",
+        "value": "m * Irci_Vbcx"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->BJTbasePrimeNode",
+        "sign": "+",
+        "value": "m * -cbcx"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->BJTcollCXNode",
+        "sign": "+",
+        "value": "m * cbcx"
+      },
+      {
+        "pointer": "here->BJTbasePrimeBasePrimePtr",
+        "sign": "+",
+        "value": "m * gbcx"
+      },
+      {
+        "pointer": "here->BJTcollCXcollCXPtr",
+        "sign": "+",
+        "value": "m * gbcx"
+      },
+      {
+        "pointer": "here->BJTbasePrimeCollCXPtr",
+        "sign": "+",
+        "value": "m * -gbcx"
+      },
+      {
+        "pointer": "here->BJTcollCXBasePrimePtr",
+        "sign": "+",
+        "value": "m * -gbcx"
+      }
+    ],
+    "dio": [
+      {
+        "pointer": "ckt->CKTrhs + here->DIOnegNode",
+        "sign": "+",
+        "value": "cdeq"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOposPrimeNode",
+        "sign": "-",
+        "value": "cdeq"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOposNode",
+        "sign": "+",
+        "value": "dIrs_dT*delTemp"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOposPrimeNode",
+        "sign": "+",
+        "value": "dIdio_dT*delTemp - dIrs_dT*delTemp"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOnegNode",
+        "sign": "+",
+        "value": "-dIdio_dT*delTemp"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOtempNode",
+        "sign": "+",
+        "value": "Ith - dIth_dVdio*vd - dIth_dVrs*vrs - dIth_dT*delTemp - ceqqth"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOnegNode",
+        "sign": "+",
+        "value": "cdeqsw"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOposSwPrimeNode",
+        "sign": "-",
+        "value": "cdeqsw"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOposNode",
+        "sign": "+",
+        "value": "dIrssw_dT*delTemp"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOposSwPrimeNode",
+        "sign": "+",
+        "value": "dIdioSw_dT*delTemp - dIrssw_dT*delTemp"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOnegNode",
+        "sign": "+",
+        "value": "-dIdioSw_dT*delTemp"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOtempNode",
+        "sign": "+",
+        "value": "-dIth_dVdioSw*vdsw - dIth_dVrssw*vrssw"
+      },
+      {
+        "pointer": "here->DIOposPosPtr",
+        "sign": "+",
+        "value": "gspr"
+      },
+      {
+        "pointer": "here->DIOnegNegPtr",
+        "sign": "+",
+        "value": "gd"
+      },
+      {
+        "pointer": "here->DIOposPrimePosPrimePtr",
+        "sign": "+",
+        "value": "(gd + gspr)"
+      },
+      {
+        "pointer": "here->DIOposPosPrimePtr",
+        "sign": "-",
+        "value": "gspr"
+      },
+      {
+        "pointer": "here->DIOnegPosPrimePtr",
+        "sign": "-",
+        "value": "gd"
+      },
+      {
+        "pointer": "here->DIOposPrimePosPtr",
+        "sign": "-",
+        "value": "gspr"
+      },
+      {
+        "pointer": "here->DIOposPrimeNegPtr",
+        "sign": "-",
+        "value": "gd"
+      },
+      {
+        "pointer": "here->DIOtempPosPtr",
+        "sign": "+",
+        "value": "-dIth_dVrs"
+      },
+      {
+        "pointer": "here->DIOtempPosPrimePtr",
+        "sign": "+",
+        "value": "-dIth_dVdio + dIth_dVrs"
+      },
+      {
+        "pointer": "here->DIOtempNegPtr",
+        "sign": "+",
+        "value": "dIth_dVdio"
+      },
+      {
+        "pointer": "here->DIOtempTempPtr",
+        "sign": "+",
+        "value": "-dIth_dT + 1/model->DIOrth0 + gcTt"
+      },
+      {
+        "pointer": "here->DIOposTempPtr",
+        "sign": "+",
+        "value": "dIrs_dT"
+      },
+      {
+        "pointer": "here->DIOposPrimeTempPtr",
+        "sign": "+",
+        "value": "dIdio_dT - dIrs_dT"
+      },
+      {
+        "pointer": "here->DIOnegTempPtr",
+        "sign": "+",
+        "value": "-dIdio_dT"
+      },
+      {
+        "pointer": "here->DIOposPosPtr",
+        "sign": "+",
+        "value": "gsprsw"
+      },
+      {
+        "pointer": "here->DIOnegNegPtr",
+        "sign": "+",
+        "value": "gdsw"
+      },
+      {
+        "pointer": "here->DIOposSwPrimePosSwPrimePtr",
+        "sign": "+",
+        "value": "(gdsw + gsprsw)"
+      },
+      {
+        "pointer": "here->DIOposPosSwPrimePtr",
+        "sign": "-",
+        "value": "gsprsw"
+      },
+      {
+        "pointer": "here->DIOnegPosSwPrimePtr",
+        "sign": "-",
+        "value": "gdsw"
+      },
+      {
+        "pointer": "here->DIOposSwPrimePosPtr",
+        "sign": "-",
+        "value": "gsprsw"
+      },
+      {
+        "pointer": "here->DIOposSwPrimeNegPtr",
+        "sign": "-",
+        "value": "gdsw"
+      },
+      {
+        "pointer": "here->DIOtempPosPtr",
+        "sign": "+",
+        "value": "-dIth_dVrssw"
+      },
+      {
+        "pointer": "here->DIOtempPosSwPrimePtr",
+        "sign": "+",
+        "value": "-dIth_dVdioSw + dIth_dVrssw"
+      },
+      {
+        "pointer": "here->DIOtempNegPtr",
+        "sign": "+",
+        "value": "dIth_dVdioSw"
+      },
+      {
+        "pointer": "here->DIOposTempPtr",
+        "sign": "+",
+        "value": "dIrssw_dT"
+      },
+      {
+        "pointer": "here->DIOposSwPrimeTempPtr",
+        "sign": "+",
+        "value": "dIdioSw_dT - dIrssw_dT"
+      },
+      {
+        "pointer": "here->DIOnegTempPtr",
+        "sign": "+",
+        "value": "-dIdioSw_dT"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOqpNode",
+        "sign": "-",
+        "value": "ceqrr"
+      },
+      {
+        "pointer": "here->DIOqpQpPtr",
+        "sign": "+",
+        "value": "grr + gqcsr"
+      },
+      {
+        "pointer": "here->DIOqpPosPrimePtr",
+        "sign": "+",
+        "value": "-dcrrdvd"
+      },
+      {
+        "pointer": "here->DIOqpNegPtr",
+        "sign": "+",
+        "value": "dcrrdvd"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOposPrimeNode",
+        "sign": "-",
+        "value": "ceqrrd"
+      },
+      {
+        "pointer": "ckt->CKTrhs + here->DIOnegNode",
+        "sign": "+",
+        "value": "ceqrrd"
+      },
+      {
+        "pointer": "here->DIOposPrimeQpPtr",
+        "sign": "+",
+        "value": "geqrrd"
+      },
+      {
+        "pointer": "here->DIOnegQpPtr",
+        "sign": "+",
+        "value": "-geqrrd"
+      }
+    ]
+  }
+}

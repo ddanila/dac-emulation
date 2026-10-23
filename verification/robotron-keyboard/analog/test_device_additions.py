@@ -1,7 +1,17 @@
-import os,subprocess,tempfile,shlex,unittest
+import os,subprocess,tempfile,shlex,unittest,json,hashlib,lzma
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
 class DeviceAdditionsTests(unittest.TestCase):
+ def test_retained_evidence(self):
+  root=HERE/'reports/host-device-additions'
+  manifest=json.loads((root/'manifest.json').read_text())
+  for name,digest in manifest['files'].items():
+   self.assertEqual(hashlib.sha256((root/name).read_bytes()).hexdigest(),digest,name)
+  for mode,receipt in manifest['retained'].items():
+   for name,digest in receipt['compressed'].items():
+    self.assertEqual(hashlib.sha256(lzma.decompress((root/mode/(name+'.xz')).read_bytes())).hexdigest(),digest)
+  summary=json.loads((root/'assessment.json').read_text())
+  self.assertTrue(summary['disabledControlPassed']);self.assertFalse(summary['qualified'])
  def test_accumulation_ground_and_unmapped_guard(self):
   source=r'''#include "mpfr_linear_solver.h"
 #include "capacitor_assembly.h"

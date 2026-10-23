@@ -136,7 +136,7 @@ def prepare(args, report):
            HERE.parent / 'generated/controller.v', HERE / 'boot_cosim.v', out / 'controller_analog.v']
     report['hdlSha256'] = {str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path): sha(path) for path in hdl}
     top = 'boot_electrical_bus' if electrical_bus else 'boot_cosim'
-    subprocess.run([args.iverilog, '-g2012', *(['-DTV80_REFRESH'] if args.cpu_profile == 'qualified-digital' else []), '-s', top,
+    subprocess.run([args.iverilog, '-g2012', *(['-DTV80_REFRESH'] if cpu_profile == 'qualified-digital' else []), '-s', top,
                     f'-P{top}.ELECTRICAL_MATRIX=' + str(int(args.electrical_matrix)),
                     f'-P{top}.ELECTRICAL_OUTPUTS=' + str(int(args.electrical_outputs)),
                     f'-P{top}.HOST_BUFFER=' + str(int(host_buffer)),
