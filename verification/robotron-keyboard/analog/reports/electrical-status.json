@@ -3,7 +3,7 @@
   "gates": {
     "staticDeviceEndpoints": true,
     "numericalConvergence": false,
-    "bridgeTimeOrdering": false,
+    "bridgeTimeOrdering": true,
     "oscillatorDynamics": false,
     "serialDriverDynamics": false,
     "hostBufferDynamics": false,
@@ -21,9 +21,9 @@
       "field": "qualified"
     },
     "bridgeTimeOrdering": {
-      "path": "reports/qualified-cpu-bridge-time/assessment.json",
-      "sha256": "281a9616adf3530510e4a6f619b3aa2e3a682ec7020c3498cb23f8f8e69c3078",
-      "field": "qualified"
+      "path": "reports/input-barrier/assessment.json",
+      "sha256": "f7bf23988e4060bf883fc0403a70f34f0c81be0393f19acf764dfe7217b0e761",
+      "field": "orderingRegressionPassed"
     },
     "oscillatorDynamics": {
       "path": "reports/clock-output/device-admission/assessment.json",
@@ -41,16 +41,16 @@
       "field": "qualified"
     },
     "closedBoardElectrical": {
-      "path": "reports/board-host-rising-full-startup/assessment.json",
-      "sha256": "2781d83799ed4f99a8013e0d846b236808f855b380633a79946de8b871cd860b",
+      "path": "reports/input-barrier/assessment.json",
+      "sha256": "f7bf23988e4060bf883fc0403a70f34f0c81be0393f19acf764dfe7217b0e761",
       "field": "qualified"
     }
   },
-  "scope": "Current reference electrical evidence; separate from production digital acceptance. Static endpoint screens are not device-dynamics qualification. Closed-board evidence is the retained startup/single-press capture, not complete scenario acceptance.",
+  "scope": "Current reference electrical evidence; separate from production digital acceptance. Static endpoint screens are not device-dynamics qualification. Bridge ordering covers the retained input-driven regression and matched service pair, not arbitrary HDL rollback. The qualified-CPU full-board startup attempt is incomplete.",
   "remainingAcceptance": [
-    "Resolve simulator ordering and numerical convergence",
+    "Resolve supply-relative bus voltage and numerical convergence",
     "Admit oscillator and switching models against independent conditions",
     "Complete matched coupled startup, keys/chords, repeat/release, reset and supply-recovery scenarios"
   ],
-  "generatorSha256": "d9cd7dca19eb41edee20e76c2257389b0a65f10ab170c22c9c87d5c5c6676e27"
+  "generatorSha256": "2dd5786715a7b199b5d0dc7b5af4cc05ac969de6653cbf16fec0442de4de94b0"
 }

@@ -54,6 +54,14 @@ between the two halves of a qualification. Removing XSPICE devices also changes
 implicit truncation control; analog-only replays must preserve the effective
 setting recorded by the source run.
 
+The optional [input-boundary patch](engine-patches/cosim-input-barrier.patch)
+settles the analog circuit at queued input boundaries before irreversible HDL
+consumption. Apply it when building ngspice 47, or use
+`build_cosim_input_barrier.py --help` to rebuild the digital code-model library
+from a fingerprinted existing build. Select its `spinit` explicitly; do not mix
+patched and control runtimes within a refinement pair. The bus diagnostic workflow
+exposes the patch and qualified digital CPU as explicit options.
+
 ## Firmware workflows
 
 Virtual BR service runs supply CPU clock/reset externally and exercise the
@@ -88,6 +96,13 @@ Retained pairs can be checked separately:
 ```sh
 python3 verification/robotron-keyboard/analog/qualify_board_pair.py /path/to/coarse /path/to/fine --out /tmp/board-qualification.json
 ```
+
+`coupled_acceptance.py --help` provides paired service scenarios with the qualified
+CPU and explicit reference loads. It stops subsequent scenarios when an earlier
+service prerequisite fails and records them as untested. Its service result does
+not accept onboard startup or supply recovery. `startup_boundary_screen.py` checks
+a bounded initial interval from a prepared closed-board deck; no rated-supply
+samples means that clock acceptance is unproven, not that it passes.
 
 Use [qualify_io_pair.py](qualify_io_pair.py) for service pairs. Matching serial bits
 is only one gate: phase, voltage, bus timing, coverage and solver diagnostics
@@ -291,8 +306,12 @@ sampled published conditions, but do not qualify switching or oscillator dynamic
 the disabled control and still leave coarse failure and material refinement error.
 The [qualified-CPU bridge audit](reports/qualified-cpu-bridge-time/assessment.json)
 records a backwards time request exceeding the HDL tick; logging leaves the
-control waveforms byte-identical. Resolve this ordering violation before coupled
-acceptance. Neither failure requires specimen measurements to investigate.
+control waveforms byte-identical. The [input-boundary regression](reports/input-barrier/assessment.json)
+reproduces the cause in the original scheduler and verifies an input-boundary
+patch against paired qualified-CPU captures. This fixes the tested input-driven
+ordering failure, not general rollback for autonomous HDL or multiple clients.
+Service acceptance now stops at a supply-relative bus-voltage failure; full-board
+startup timed out. Neither result establishes complete electrical acceptance.
 
 Verify retained endpoint and bridge evidence with `device_endpoint_probe.py
 --verify reports/device-endpoints` and `bridge_time_review.py --verify --out

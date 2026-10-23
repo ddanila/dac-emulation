@@ -9,6 +9,7 @@ import subprocess
 from pathlib import Path
 
 from failure_evidence import solver_diagnostic
+from ngspice_runtime import identify, verify
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -71,7 +72,7 @@ quit
                     '-Pbridge_probe.DIRECT_Z=' + str(int(a.direct_z)), '-o', str(out / 'probe.vvp'),
                     str(HERE / 'bridge_probe.v'), str(HERE.parent / 'chips.v')], check=True)
     proc = subprocess.run([a.ngspice, '-n', '-b', 'probe.cir'], cwd=out, capture_output=True,
-                          text=True, timeout=60)
+                          text=True, timeout=60, env=getattr(a, 'engine_env', None))
     log = proc.stdout + proc.stderr
     (out / 'ngspice.log').write_text(log)
     proc.check_returncode()
@@ -114,6 +115,7 @@ def main():
     p.add_argument('--bridge', type=Path, default=ROOT / 'build/keyboard-controller-analog/bridge/bridge.json')
     p.add_argument('--out', type=Path, default=ROOT / 'build/keyboard-controller-analog/boundary')
     p.add_argument('--ngspice', default='ngspice')
+    p.add_argument('--ngspice-spinit', type=Path, help='Fingerprint an explicit code-model runtime')
     p.add_argument('--iverilog', default='iverilog')
     a = p.parse_args()
     a.out.mkdir(parents=True, exist_ok=True)
@@ -125,9 +127,11 @@ def main():
         'driver': ('ngspice bidi_bridge defaults (unqualified)' if a.direct_z else
                    'explicit sink enable: 20 ohms on, open when off; X uses 40 ohms solely as an exploratory surrogate'),
         'electricalQualification': 'Transport probe only; not calibrated SN7406 characteristics'},
-        'sources': {path.name: sha(path) for path in (Path(__file__), HERE / 'failure_evidence.py', HERE / 'bridge_probe.v', HERE.parent / 'chips.v')},
+        'sources': {path.name: sha(path) for path in (Path(__file__), HERE / 'failure_evidence.py', HERE / 'ngspice_runtime.py', HERE / 'bridge_probe.v', HERE.parent / 'chips.v')},
         'runs': []}
     try:
+        if a.ngspice_spinit:
+            report['ngspiceRuntime'], a.engine_env = identify(a.ngspice, a.ngspice_spinit)
         bridge = json.loads(a.bridge.read_text())
         report['bridge'] = bridge
         for lib in bridge['libraries'].values():
@@ -141,6 +145,8 @@ def main():
         for first, second in zip(report['runs'][0]['samples'], report['runs'][1]['samples']):
             if max(abs(x - y) for x, y in zip(first[1:], second[1:])) > .01:
                 raise ValueError('Step refinement changes endpoint voltages')
+        if a.ngspice_spinit:
+            verify(report['ngspiceRuntime'])
         report['passed'] = True
     except Exception as error:
         report['error'] = str(error)

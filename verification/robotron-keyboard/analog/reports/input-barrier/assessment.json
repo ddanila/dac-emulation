@@ -1,0 +1,53 @@
+{
+  "completed": true,
+  "qualified": false,
+  "orderingRegressionPassed": true,
+  "scope": "Input-driven qualified-CPU single-press service, matched 50/25 ns steps, plus original transport probe. Not a general rollback solution for arbitrary autonomous HDL events or multiple irreversible clients.",
+  "runs": {
+    "coarse": {
+      "captureCompleted": true,
+      "solverDiagnostics": null,
+      "producerPassed": false,
+      "error": "Bus D1 outside reference input voltage range",
+      "busExcessVolts": 1.7902535036640188e-06,
+      "readTimePs": 1158501000,
+      "reportSha256": "c30dcb654c72ec76f401a7cc0f3bc61c7fc81bdb239fd4d8793de12ca8f9cf0a"
+    },
+    "fine": {
+      "captureCompleted": true,
+      "solverDiagnostics": null,
+      "producerPassed": false,
+      "error": "Bus D1 outside reference input voltage range",
+      "busExcessVolts": 1.7897112618570077e-06,
+      "readTimePs": 1158501000,
+      "reportSha256": "6ca2cf7464c987a79dc7ce9c0f538351fd42461b792fcc07511b7f651a751718"
+    }
+  },
+  "transportPassed": true,
+  "serviceAcceptancePassed": false,
+  "startup": {
+    "completed": false,
+    "reason": "Full closed-board run timed out; bounded early screen has no rated-supply samples and cannot qualify CPU clock behavior.",
+    "earlyRatedSupplySamples": 0
+  },
+  "remaining": [
+    "Resolve the supply-relative bus-voltage gate with convergence and model evidence; no limit was relaxed",
+    "Complete service scenario/refinement gates before full-board acceptance",
+    "Complete onboard startup, independent device dynamics and supply recovery"
+  ],
+  "sources": {
+    "input_barrier_review.py": "512d4bd5f3a8e64328afd7a2e1c5043efecc7bd97fa3745f4fe8f7718692d327",
+    "build_cosim_input_barrier.py": "40f8ca038dc9ba53d3c45decb4cbf8387a0eb38e017e773bc48053e38db06b98",
+    "test_cosim_input_barrier.py": "b18bed67614afae8740cd6e9bc3383fa9ac2e10f0791fabed82d710b20dfd420",
+    "fixtures/cosim_order_harness.c": "87a8088f4005db39aaff0338939818a6876d8748838bb1dfdb993eeb8699cf01",
+    "engine-patches/cosim-input-barrier.patch": "1722a99123143b438e0dc95054430e90f0420fc621b507d88f2bf12abe61e5cf",
+    "coupled_acceptance.py": "caecd3a9a9ae0bd596d7a11a74454e741fa3ea357f6d24c6d8fa7310e7e9906a",
+    "startup_boundary_screen.py": "61553d51611edc095c0974297b60dda3a92293659e616091600b2255911de50e",
+    "bridge_probe.py": "fea02f782a9b0122dc18ec71f02643c00d8f01d69a03760ab989cbcf8aa0fa9a",
+    "ngspice_runtime.py": "ed8307c23539b1433a0f306f1888f258846504d64e29259cbe5ed76bb4dcdbf9",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+    "clock_voltage.py": "dd101a34b699a8f0a772c9a4cce0d16edcfc62a49e43e4865dceaf3c153b4e79",
+    "clock_timing.py": "aaaf826305171e953a49302c0b0fb442ce7966c7e46789032c4a9fa620c4c6ed",
+    "cpu_clock_limits.json": "2c9bcde027d0aa4e756e46bfa95c9da7daae6dec70631b9b8d2586d61f6400b1"
+  }
+}

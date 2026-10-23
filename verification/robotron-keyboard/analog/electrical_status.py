@@ -7,11 +7,11 @@ HERE=Path(__file__).resolve().parent
 EVIDENCE={
  'staticDeviceEndpoints':('reports/device-endpoints/assessment.json','staticEndpointsPassed'),
  'numericalConvergence':('reports/host-device-additions/assessment.json','qualified'),
- 'bridgeTimeOrdering':('reports/qualified-cpu-bridge-time/assessment.json','qualified'),
+ 'bridgeTimeOrdering':('reports/input-barrier/assessment.json','orderingRegressionPassed'),
  'oscillatorDynamics':('reports/clock-output/device-admission/assessment.json','qualified'),
  'serialDriverDynamics':('reports/host-driver-switching/assessment.json','qualified'),
  'hostBufferDynamics':('reports/host-buffer-switching/assessment.json','qualified'),
- 'closedBoardElectrical':('reports/board-host-rising-full-startup/assessment.json','qualified')}
+ 'closedBoardElectrical':('reports/input-barrier/assessment.json','qualified')}
 
 def status():
  evidence={};gates={}
@@ -20,8 +20,8 @@ def status():
   if type(report[field]) is not bool or report.get('completed') is not True:raise ValueError('Incomplete evidence: '+name)
   gates[key]=report[field];evidence[key]={'path':name,'sha256':sha(path),'field':field}
  return {'qualified':all(gates.values()),'gates':gates,'evidence':evidence,
-         'scope':'Current reference electrical evidence; separate from production digital acceptance. Static endpoint screens are not device-dynamics qualification. Closed-board evidence is the retained startup/single-press capture, not complete scenario acceptance.',
-         'remainingAcceptance':['Resolve simulator ordering and numerical convergence','Admit oscillator and switching models against independent conditions','Complete matched coupled startup, keys/chords, repeat/release, reset and supply-recovery scenarios'],
+         'scope':'Current reference electrical evidence; separate from production digital acceptance. Static endpoint screens are not device-dynamics qualification. Bridge ordering covers the retained input-driven regression and matched service pair, not arbitrary HDL rollback. The qualified-CPU full-board startup attempt is incomplete.',
+         'remainingAcceptance':['Resolve supply-relative bus voltage and numerical convergence','Admit oscillator and switching models against independent conditions','Complete matched coupled startup, keys/chords, repeat/release, reset and supply-recovery scenarios'],
          'generatorSha256':sha(Path(__file__))}
 
 def main():
