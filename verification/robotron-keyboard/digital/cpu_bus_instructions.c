@@ -24,7 +24,9 @@ static int consuming(unsigned step){
  switch(step){case 974:case 1188:case 1222:case 1256:case 1285:case 1314:case 1352:case 1390:case 1418:case 1463:case 1495:case 1537:case 1589:return 1;default:return 0;}
 }
 int main(int argc,char **argv){
- if(argc!=5)return 2;FILE *f=fopen(argv[1],"rb");if(!f)return 2;
+ if(argc!=5)return 2;
+ FILE *f=fopen(argv[1],"rb");
+ if(!f)return 2;
  size_t n=fread(memory,1,sizeof memory,f);fclose(f);if(!n)return 2;
  mode=atoi(argv[2]);reset_mode=atoi(argv[3]);late_mode=atoi(argv[4]);
  k7658_cpu_init(&cpu,(dac_z80_bus){NULL,read_mem,write_mem,input,output,NULL});
