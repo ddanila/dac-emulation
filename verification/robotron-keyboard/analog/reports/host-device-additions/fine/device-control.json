@@ -1,0 +1,46 @@
+{
+  "qualified": false,
+  "mode": "exact",
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/reports/host-represented-time/run.py",
+    "build/keyboard-controller-analog/host-postcap-coarse",
+    "--time-step",
+    "represented",
+    "--integration-arithmetic",
+    "256",
+    "--mode",
+    "256",
+    "--step-divisor",
+    "2",
+    "--runtime",
+    "/tmp/robotron-device-additions-v2/build/src/ngspice",
+    "--build-provenance",
+    "/tmp/robotron-device-additions-v2/provenance.json",
+    "--out",
+    "build/keyboard-controller-analog/host-device-fine"
+  ],
+  "environment": {
+    "ROBOTRON_CAP_ASSEMBLY": "exact",
+    "ROBOTRON_POSTCAP_ASSEMBLY": "exact",
+    "ROBOTRON_DEVICE_ASSEMBLY": "exact",
+    "ROBOTRON_ACCEPTED_LIMIT": "200",
+    "ROBOTRON_ACCEPTED_AFTER": ".0010980122484353"
+  },
+  "reportSha256": "a37518a3a03e56ce46049f211a864855931ea3288ef0954041e47ac1df1154bb",
+  "runtimeProvenanceSha256": "14e9f695ae0b059add0f3a69ee7ed5f7a3fb62529852d953bf9cc64eee062d04",
+  "runnerSha256": "1d6bb780fb275b7c9657679340322818b40e9eea5f795bdfb9a715935fc9ca07",
+  "completed": true,
+  "solverDiagnostic": null,
+  "endpoint": null,
+  "operationallyTruncated": false,
+  "identicalArtifacts": {
+    "io.cir": false,
+    "trace.txt": false,
+    "host-trace.txt": false,
+    "driver-trace.txt": false,
+    "boundary-trace.txt": false
+  },
+  "disabledControlPassed": false,
+  "scope": "Exact accumulation of evaluated binary64 BJT and diode matrix/RHS contributions, added to existing capacitor/resistor/switch corrections. Nonlinear equations, stored history, circuit parameters and acceptance budgets unchanged. Analog-only replay does not qualify the coupled board."
+}
