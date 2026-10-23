@@ -422,7 +422,19 @@ supply, temperature and pin-load checks. Passing logic levels or matching a DC
 endpoint does not validate the predicted transient currents or CPU I/V law.
 The [complete live refinement](reports/7406-dynamic/live/assessment.json) preserves
 reference firmware reads and reduces serial-voltage disagreement to millivolt
-scale. The [serial-path review](reports/serial-path/assessment.json) separates that
+scale. The [expanded saved-vector review](reports/direct-repeat/assessment.json)
+checks bus, receiver and drive-control observations too. Board voltages meet the
+short-window budget; the strict all-saved/nonincreasing screen fails. The retained
+full-repeat attempts and disabled controls do not qualify. A bounded startup
+comparison supports the opt-in DAC-corner correction; no production default changes.
+Use `saved_network_review.py --help` to replay complete-window comparisons and
+`startup_drive_review.py --help` for the startup controls. New live runs can select
+`--all-saved-network`; `complete_network_review.py --end-seconds` requires the
+explicit complete interval. Retention preserves every available sample, including
+failed controls. Longer runs need a concrete board/receiver decision, not merely
+an improved private fixture waveform.
+
+The [serial-path review](reports/serial-path/assessment.json) separates that
 numerical agreement from physical admission. Internal observations identify
 reverse output-transistor operation; isolated recovery controls expose load
 sensitivity and disagreement between candidates passing the same selected
