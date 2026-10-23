@@ -1,0 +1,66 @@
+{
+  "completed": true,
+  "qualified": false,
+  "boardAdmission": false,
+  "sourceSha256": "4edb428f33091861aac4a451efb485fc028fbc261033d9f0dfafa06f8651a662",
+  "evidence": {
+    "cpu": "767f2e2faf7469fbec281a6fde457695902c3bc084a5f5d145b0a90de440f582",
+    "recovery": "1cf2c6723b773c5a05054e015289d269016a402ce24880303f62779de79dddbd",
+    "recoveryComparison": "aab08b35f3d72c50bec77f59b9222b1631b18e46b2c013609b299898d247b99a",
+    "internal": "ccf9e5b0240c61cb3b8f0677e547d02c27f1444056c83100d9e79552fe6fc6e4",
+    "traffic": "dd62750d5ee2c3c1ede6b9148ca18e7767ac0a71606448aa7f691c9db392bb2a",
+    "independentDeviceScope": "f305439eda831690357ba7e7bb7b17a42c608dbb94dc9e80a4e0e530896a5684",
+    "device": "0222d732856dd4fd2fb8aee52cdf8790ba1471cb596c16bff27a72c951ce5f99"
+  },
+  "unchangedLiveControl": true,
+  "internalCurrentBalanceScreen": {
+    "budgetA": 1e-06,
+    "outputPassed": true,
+    "basePassed": false,
+    "scope": "Additional diagnostic consistency screen using reported transistor states; not a waiver or replacement of board refinement requirements."
+  },
+  "inputLevelsPassSampledCpuCases": true,
+  "supplyAnchoredEndpointHypothesisPasses": true,
+  "fittedDriverExceedsPublishedSinkTestCurrent": true,
+  "equallyScreenedDeviceSensitivityV": 1.348681813559509,
+  "unsuccessfulReplays": {
+    "extended-prelude": "doAnalyses: TRAN:  Timestep too small; time = 1.77013e-06, timestep = 6.25e-22: trouble with node \"vinput#branch\""
+  },
+  "inputReplayErrorsV": {
+    "control": 0.5817326762695928,
+    "long-prelude": 0.0009332919161876285,
+    "half-step": 0.001393896194705091,
+    "quarter-step": 0.0022522240586790865
+  },
+  "precedingReadDriveSample": {
+    "timeSeconds": 0.001151002,
+    "scope": "Drive intent at the preceding read sample; not a continuous ownership observation at the voltage minimum.",
+    "d0": {
+      "CPU": {
+        "low": "0",
+        "high": "0"
+      },
+      "ROM": {
+        "low": "1",
+        "high": "0"
+      },
+      "latch": {
+        "low": "0",
+        "high": "0"
+      }
+    }
+  },
+  "observedMechanism": "The output transistor enters reverse operation during the loaded filter excursion. Base-collector voltage and stored charge, filter current and cable-ground motion are observed; changing load or filter assumptions changes the result.",
+  "physicalEvidenceGaps": [
+    "Independent L1, cable and host impedance parameters; the load sweep is sensitivity, not a measured range.",
+    "SN7406-specific reverse recovery and transient-current behavior; generic fitted transistor charge is not independently validated.",
+    "CPU D0/WR and bus-owner I/V, supply dependence and transient behavior; endpoint interpolation does not identify these."
+  ],
+  "representativeTraffic": {
+    "preflightPassed": true,
+    "electricalExecuted": false,
+    "admissionPassed": false,
+    "reason": "Independent physical-model admission remains open. Passing waveform refinement and DC endpoint screens does not authorize qualification traffic."
+  },
+  "decision": "Retain the original circuit and the diagnostic hypotheses separately. Do not tune a clamp or reduce load solely to remove undershoot. Qualify the loaded driver and CPU boundaries before running representative coupled traffic for acceptance."
+}
