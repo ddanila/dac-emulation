@@ -1,0 +1,37 @@
+{
+  "scope": "Source review for model admission; maximum ratings are not operating guarantees or transient allowances",
+  "sources": "bus_limits.json:sources; hashes checked against the retrieved manufacturer scans",
+  "devices": {
+    "U880": {
+      "source": "u880d",
+      "supplyRangeVolts": [4.75, 5.25],
+      "absoluteInputRangeVolts": [-0.5, 7],
+      "absoluteSupplyRangeVolts": [-0.5, 7],
+      "operatingInputs": "cpu_clock_limits.json:ordinaryInput and clockInput",
+      "topologyPage": "PDF page 57, printed page 56, figure 26",
+      "topology": "Data pin has MOS pull-up/pull-down stages and a ground-referenced diode. The drawing does not establish a positive-rail clamp or transistor parameters.",
+      "transientAllowance": null,
+      "unresolved": ["Output I/V and supply dependence", "Release and switching dynamics", "Leakage away from specified test points", "Data-pin capacitance versus voltage"]
+    },
+    "U556_2716": {
+      "source": "2716",
+      "supplyRangeVolts": [4.75, 5.25],
+      "absoluteInputOutputRangeVolts": [-0.3, 6],
+      "readInputLowRangeVolts": [-0.1, 0.8],
+      "readInputHighMinimumVolts": 2,
+      "readInputHighMaximumSupplyOffsetVolts": 1,
+      "transientAllowance": null,
+      "unresolved": ["Intel reference applicability to installed U556", "Output I/V and supply dependence", "Output transition shape and reverse current", "Leakage away from specified test point"]
+    },
+    "I8282": {
+      "source": "8282",
+      "supplyRangeVolts": [4.5, 5.5],
+      "absoluteInputRangeVolts": [-1, 5.5],
+      "absoluteOutputRangeVolts": [-0.5, 7],
+      "inputClampTest": {"maximumVolts": -1, "currentAmps": -0.005},
+      "inputClampScope": "Input test, not a clamp specification for the bus-facing outputs",
+      "transientAllowance": null,
+      "unresolved": ["Output capacitance", "Output I/V and supply dependence", "Switching shape and reverse current"]
+    }
+  }
+}

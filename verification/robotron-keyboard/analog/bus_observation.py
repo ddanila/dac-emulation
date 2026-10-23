@@ -6,6 +6,7 @@ from pathlib import Path
 from collections import deque
 
 from trace_io import open_text
+from bus_input_limits import classify_input
 
 
 class BusMismatch(ValueError):
@@ -145,7 +146,8 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
                         raise BusMismatch(f'Bus D{bit} outside reference input voltage range',
                                           dict(context, signal=f'D{bit}', traceTimeSeconds=row[0], volts=volts,
                                                minimumVolts=inputs['minimumVolts'],
-                                               maximumVolts=supply + inputs['maximumSupplyOffsetVolts']))
+                                               maximumVolts=supply + inputs['maximumSupplyOffsetVolts'],
+                                               voltageClassification=classify_input(volts, supply, bool(value & (1 << bit)), limits)))
                     high = bool(value & (1 << bit))
                     margin = volts - inputs['highMinimumVolts'] if high else inputs['lowMaximumVolts'] - volts
                     if margin < 0:

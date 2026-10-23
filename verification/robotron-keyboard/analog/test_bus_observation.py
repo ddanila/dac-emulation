@@ -98,6 +98,16 @@ class BusObservationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'columns'):
             self.check(header=HEADER.replace(' v(n_p5V)', ''))
 
+    def test_small_overrail_is_still_rejected_but_not_labelled_maximum_rating_failure(self):
+        rows = [r[:] for r in self.rows]
+        rows[10][1] = 5.000002
+        with self.assertRaises(BusMismatch) as caught:
+            self.check(rows=rows)
+        classification = caught.exception.details['voltageClassification']
+        self.assertFalse(classification['staticInputRangePassed'])
+        self.assertTrue(classification['withinAbsoluteInputRatings'])
+        self.assertTrue(classification['logicThresholdPassed'])
+
     def test_first_read_electrical_failure_precedes_later_rom_mismatch(self):
         log = LOG.replace('8000 a5 1 0 1', '0002 a4 0 1 0').replace('350000 a5 a5', '350000 a4 a4')
         rows = [r[:] for r in self.rows]

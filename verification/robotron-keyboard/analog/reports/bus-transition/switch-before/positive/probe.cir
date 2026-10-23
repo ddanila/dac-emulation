@@ -1,0 +1,16 @@
+Switch state boundary regression: positive
+Vcc supply 0 5
+Vcontrol control 0 PWL(0 0 1n 0 2n 2.5 20n 2.5 21n 5 40n 5 41n 2.5 60n 2.5 61n 0)
+Rpull supply output 1k
+Sdriver output 0 control 0 switchmodel
+.model switchmodel SW(RON=20 ROFF=1t VT=2.5 VH=0.1)
+.options reltol=1e-7 vntol=1e-9 abstol=1e-15
+.control
+set wr_singlescale
+set wr_vecnames
+set numdgt=17
+tran .1n 90n
+wrdata trace.txt v(control) v(output)
+quit
+.endc
+.end

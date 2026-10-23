@@ -1,0 +1,139 @@
+{
+  "qualified": false,
+  "drivers": [
+    {
+      "reference": "A5",
+      "lowOhms": 222.22222222222223,
+      "highOhms": 10400.0,
+      "profile": "U880",
+      "source": "u880d",
+      "points": [
+        {
+          "supplyVolts": 4.75,
+          "predictedLoadedHighVolts": 2.15,
+          "predictedLoadedLowVolts": 0.4,
+          "highDeficitVolts": 0.25,
+          "endpointPassed": false
+        },
+        {
+          "supplyVolts": 5,
+          "predictedLoadedHighVolts": 2.4,
+          "predictedLoadedLowVolts": 0.4,
+          "highDeficitVolts": 0,
+          "endpointPassed": true
+        },
+        {
+          "supplyVolts": 5.25,
+          "predictedLoadedHighVolts": 2.65,
+          "predictedLoadedLowVolts": 0.4,
+          "highDeficitVolts": 0,
+          "endpointPassed": true
+        }
+      ],
+      "fullSupplyEndpointEnvelopePassed": false,
+      "admitted": false,
+      "unresolved": [
+        "Output I/V and supply dependence",
+        "Release and switching dynamics",
+        "Leakage away from specified test points",
+        "Data-pin capacitance versus voltage"
+      ]
+    },
+    {
+      "reference": "A8",
+      "lowOhms": 214.2857142857143,
+      "highOhms": 6500.0,
+      "profile": "U556_2716",
+      "source": "2716",
+      "points": [
+        {
+          "supplyVolts": 4.75,
+          "predictedLoadedHighVolts": 2.15,
+          "predictedLoadedLowVolts": 0.45,
+          "highDeficitVolts": 0.25,
+          "endpointPassed": false
+        },
+        {
+          "supplyVolts": 5,
+          "predictedLoadedHighVolts": 2.4,
+          "predictedLoadedLowVolts": 0.45,
+          "highDeficitVolts": 0,
+          "endpointPassed": true
+        },
+        {
+          "supplyVolts": 5.25,
+          "predictedLoadedHighVolts": 2.65,
+          "predictedLoadedLowVolts": 0.45,
+          "highDeficitVolts": 0,
+          "endpointPassed": true
+        }
+      ],
+      "fullSupplyEndpointEnvelopePassed": false,
+      "admitted": false,
+      "unresolved": [
+        "Intel reference applicability to installed U556",
+        "Output I/V and supply dependence",
+        "Output transition shape and reverse current",
+        "Leakage away from specified test point"
+      ]
+    },
+    {
+      "reference": "A4",
+      "lowOhms": 22.5,
+      "highOhms": 520.0,
+      "profile": "I8282",
+      "source": "8282",
+      "points": [
+        {
+          "supplyVolts": 4.5,
+          "predictedLoadedHighVolts": 1.9,
+          "predictedLoadedLowVolts": 0.45,
+          "highDeficitVolts": 0.5,
+          "endpointPassed": false
+        },
+        {
+          "supplyVolts": 5,
+          "predictedLoadedHighVolts": 2.4,
+          "predictedLoadedLowVolts": 0.45,
+          "highDeficitVolts": 0,
+          "endpointPassed": true
+        },
+        {
+          "supplyVolts": 5.5,
+          "predictedLoadedHighVolts": 2.9,
+          "predictedLoadedLowVolts": 0.45,
+          "highDeficitVolts": 0,
+          "endpointPassed": true
+        }
+      ],
+      "fullSupplyEndpointEnvelopePassed": false,
+      "admitted": false,
+      "unresolved": [
+        "Output capacitance",
+        "Output I/V and supply dependence",
+        "Switching shape and reverse current"
+      ]
+    }
+  ],
+  "observedRead": {
+    "logicThresholdPassed": true,
+    "staticInputRangePassed": false,
+    "ratedSupplyPassed": true,
+    "withinAbsoluteInputRatings": true,
+    "transientAllowanceEstablished": false,
+    "interpretation": "Maximum-rating compliance does not establish operation, device safety, or permission to waive the static input range."
+  },
+  "decision": "Keep linear drivers as explicitly unqualified stress fixtures. Nominal endpoint interpolation fails the published high-level load guarantee at minimum rated supply; it cannot identify a physical transient fault. Do not repair this by choosing arbitrary clamps, leakage or voltage tolerances.",
+  "serviceAcceptance": "Still gated by unchanged static input range and coupled refinement/model admission.",
+  "sources": {
+    "bus_device_review.py": "af3e81fc14d573044fba256ebbfd41f006b1a1c9cfbb2430d63244690ef2a4a1",
+    "bus_input_limits.py": "885b3c35255435f08226779f11e8bbde5085adf3de44d132654a825a8fc4eb04",
+    "bus_device_contract.json": "2ec7297942027de6507fe06b7ee0ee28380affd73d7aa15af47f6c73fa3d6c03",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "cpu_clock_limits.json": "2c9bcde027d0aa4e756e46bfa95c9da7daae6dec70631b9b8d2586d61f6400b1",
+    "bus_driver.py": "69eea0141b09cec9f7c1297dd9f9738323581964a2c3dea4f6341f25886781d6",
+    "bus_load.py": "0b5bb0f19ecf4ebac6ebf1502dcc4e8ea536a39a95426a640bc24078cb32f1de",
+    "reports/bus-read-replay/assessment.json": "e7214175746a35348d4e98591409b541a5e3cd904d167f7805d6c687d64383b1"
+  },
+  "arithmeticBoundary": "The 1e-12 V comparison allowance applies only to analytic floating-point endpoint arithmetic, never to captured input voltage acceptance."
+}

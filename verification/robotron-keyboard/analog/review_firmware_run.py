@@ -53,7 +53,7 @@ def main():
     for name in ('ngspice.log', 'bus-trace.txt.xz'):
         if sha(root / name) != report['failureArtifacts'][name]['sha256']:
             raise ValueError('Artifact hash differs: ' + name)
-    result = {'qualified': False, 'originalPassed': report['passed'], 'originalError': report.get('error'), 'originalBusFailure': report.get('busFailure'), 'inputHashes': {name: sha(root / name) for name in ('report.json', 'ngspice.log', 'reference.log', 'bus-trace.txt.xz')}, 'reviewScriptSha256': sha(Path(__file__)), 'checkerSources': {name: sha(HERE / name) for name in ('bus_observation.py', 'cpu_clock_limits.json', 'serial_observation.py', 'trace_io.py', 'io_scenario.py')}}
+    result = {'qualified': False, 'originalPassed': report['passed'], 'originalError': report.get('error'), 'originalBusFailure': report.get('busFailure'), 'inputHashes': {name: sha(root / name) for name in ('report.json', 'ngspice.log', 'reference.log', 'bus-trace.txt.xz')}, 'reviewScriptSha256': sha(Path(__file__)), 'checkerSources': {name: sha(HERE / name) for name in ('bus_observation.py', 'bus_input_limits.py', 'bus_device_contract.json', 'cpu_clock_limits.json', 'serial_observation.py', 'trace_io.py', 'io_scenario.py')}}
     try:
         result['busObservation'] = measure(log, root / 'bus-trace.txt', report['assumptions']['stepNs'], rom, trace_extent=(0, time_ns(scenario['cycles']) * 1e-09))
     except (ValueError, BusMismatch) as error:

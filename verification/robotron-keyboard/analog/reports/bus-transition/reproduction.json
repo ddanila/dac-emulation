@@ -1,0 +1,21 @@
+{
+  "probe": "bus_transition_probe.py",
+  "probeSha256": "ba6b0c5c41681340a8e498157a657a8b9020e13a7bfc0cb5260fc510667bf7a8",
+  "collector": "bus_transition_review.py",
+  "captureSource": "reports/bus-read-replay/coupled/default/io.cir",
+  "stopsSeconds": {
+    "tolerances": 0.00116,
+    "isolation": 0.001002,
+    "second-transition": 0.00101
+  },
+  "commands": [
+    "python3 bus_transition_probe.py --prepared PREPARED --out OUT --ngspice ENGINE --spinit SPINIT --mode sweep",
+    "python3 bus_transition_probe.py --prepared PREPARED --out OUT --ngspice ENGINE --spinit SPINIT --mode boundary --cases nominal tight"
+  ],
+  "notes": [
+    "Prepare io.vvp and s600.hex using the qualified-digital firmware service producer. Preserve the literal bridge library paths or regenerate them for the local runtime.",
+    "The retained io.cir files are the exact decks run. Standalone replay decks need no HDL runtime.",
+    "The no-bus diagnostic deletes Cbus_, Bbus_ and Rbus_ lines; ideal-rail adds a 5 V source at n_p5V. Neither is an acceptance candidate.",
+    "Runtime control compares binaries from the same build before/after the zero-hysteresis patch with evaluator caching disabled."
+  ]
+}
