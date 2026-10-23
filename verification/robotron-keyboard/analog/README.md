@@ -281,6 +281,23 @@ settings, results and rejected alternatives; related captures remain in
 | Are the host and cable models qualified? | [Host circuit evidence](reports/host-receiver/assessment.json), [filter hypotheses](reports/filter-coupling/assessment.json) and [buffer switching](reports/host-buffer-switching/assessment.json) retain uncalibrated winding, clamp and device assumptions. [Reference 7406 switching](reports/host-driver-switching/assessment.json) leaves driver dynamics unqualified; the [vendor candidate](reports/host-driver-vendor-review/assessment.json) fails SN7406 DC admission. The [matched filter comparison](reports/firmware-filter-strict/assessment.json) finds no convergence remedy in the tested coupling hypothesis. |
 | Does reset recover after a supply dip? | [Reset dip response](reports/reset-brownout/report.json) does not establish reliable firmware restart or specimen brownout behavior. |
 
+## Electrical evidence index
+
+[`electrical-status.json`](reports/electrical-status.json) indexes the scoped
+results for DAC; `electrical_status.py --check` checks its source hashes.
+[Static device endpoints](reports/device-endpoints/assessment.json) pass the
+sampled published conditions, but do not qualify switching or oscillator dynamics.
+[Exact BJT/diode additions](reports/host-device-additions/assessment.json) preserve
+the disabled control and still leave coarse failure and material refinement error.
+The [qualified-CPU bridge audit](reports/qualified-cpu-bridge-time/assessment.json)
+records a backwards time request exceeding the HDL tick; logging leaves the
+control waveforms byte-identical. Resolve this ordering violation before coupled
+acceptance. Neither failure requires specimen measurements to investigate.
+
+Verify retained endpoint and bridge evidence with `device_endpoint_probe.py
+--verify reports/device-endpoints` and `bridge_time_review.py --verify --out
+reports/qualified-cpu-bridge-time` from this directory.
+
 ## Review and store captures
 
 Use `review_firmware_run.py --run /path/to/failed-run --rom /path/to/s600.bin
