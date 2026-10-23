@@ -1,0 +1,73 @@
+--- a/src/maths/sparse/spsmp.c
++++ b/src/maths/sparse/spsmp.c
+@@ -98,6 +98,7 @@
+ #include <math.h>
+ #include "ngspice/spmatrix.h"
+ #include "mpfr_linear_solver.h"
++#include "capacitor_assembly.h"
+ #include "spdefs.h"
+ #include "ngspice/smpdefs.h"
+ 
+@@ -659,6 +660,7 @@
+     }
+     for (col = 1; col <= matrix->ExtSize; ++col)
+         if (robotron_mpfr_set(&solver, col-1, matrix->Size, rhs[col])) return 4;
++    if (robotron_cap_apply(&solver)) return 9;
+     result = robotron_mpfr_solve(&solver, rhs);
+     return result ? result+4 : 0;
+ }
+--- a/src/spicelib/devices/cap/capload.c
++++ b/src/spicelib/devices/cap/capload.c
+@@ -10,6 +10,9 @@
+ #include "ngspice/trandefs.h"
+ #include "ngspice/sperror.h"
+ #include "ngspice/suffix.h"
++
++extern int RobotronCapReset(void);
++extern int RobotronCapAdd(int,int,int,double,double,double,double,double,double,const double *,const double *);
+ 
+ int
+ CAPload(GENmodel *inModel, CKTcircuit *ckt)
+@@ -25,6 +28,9 @@
+     double ceq;
+     int error;
+     double m;
++    double cap_before[6], cap_after[6];
++    int cap_correct = RobotronCapReset();
++    if (cap_correct < 0 || (cap_correct && ckt->CKTintegrateMethod != TRAPEZOIDAL)) return E_BADPARM;
+     int audit = getenv("ROBOTRON_STATE_AUDIT") && ((ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) || (ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605));
+     if (audit)
+         fprintf(stderr, "CAP_AUDIT begin time=%a delta=%a order=%d mode=%ld\n",
+@@ -84,12 +90,32 @@
+                             *here->CAPposPosPtr, *here->CAPnegNegPtr,
+                             *here->CAPposNegPtr, *here->CAPnegPosPtr,
+                             ckt->CKTrhs[here->CAPposNode], ckt->CKTrhs[here->CAPnegNode]);
++                    if (cap_correct) {
++                        cap_before[0] = *here->CAPposPosPtr;
++                        cap_before[1] = *here->CAPnegNegPtr;
++                        cap_before[2] = *here->CAPposNegPtr;
++                        cap_before[3] = *here->CAPnegPosPtr;
++                        cap_before[4] = ckt->CKTrhs[here->CAPposNode];
++                        cap_before[5] = ckt->CKTrhs[here->CAPnegNode];
++                    }
+                     *(here->CAPposPosPtr) += m * geq;
+                     *(here->CAPnegNegPtr) += m * geq;
+                     *(here->CAPposNegPtr) -= m * geq;
+                     *(here->CAPnegPosPtr) -= m * geq;
+                     *(ckt->CKTrhs+here->CAPposNode) -= m * ceq;
+                     *(ckt->CKTrhs+here->CAPnegNode) += m * ceq;
++                    if (cap_correct) {
++                        cap_after[0] = *here->CAPposPosPtr;
++                        cap_after[1] = *here->CAPnegNegPtr;
++                        cap_after[2] = *here->CAPposNegPtr;
++                        cap_after[3] = *here->CAPnegPosPtr;
++                        cap_after[4] = ckt->CKTrhs[here->CAPposNode];
++                        cap_after[5] = ckt->CKTrhs[here->CAPnegNode];
++                        if (RobotronCapAdd(here->CAPposNode, here->CAPnegNode, ckt->CKTorder,
++                                m, here->CAPcapac, ckt->CKTag[0], ckt->CKTag[1],
++                                ckt->CKTstate1[here->CAPqcap], ckt->CKTstate1[here->CAPccap],
++                                cap_before, cap_after)) return E_BADPARM;
++                    }
+                     if (audit)
+                         fprintf(stderr, "CAP_AUDIT after name=%s pp=%a nn=%a pn=%a np=%a bp=%a bn=%a\n",
+                             here->CAPname, *here->CAPposPosPtr, *here->CAPnegNegPtr,

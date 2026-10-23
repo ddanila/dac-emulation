@@ -1,0 +1,48 @@
+{
+  "qualified": false,
+  "base": "reports/output-switch/provenance.json",
+  "patchOrder": [
+    "ngspice-47-inductor-chain-audit.patch",
+    "ngspice-47-live-capacitor-assembly.patch",
+    "ngspice-47-cap-paired-rhs.patch",
+    "ngspice-47-inductor-monitor.patch",
+    "ngspice-47-live-passive-assembly.patch"
+  ],
+  "patches": {
+    "ngspice-47-inductor-chain-audit.patch": "a8105dafc597a272012eef7eb9bc29983a07c122a64a9c75f237c7454932d6b3",
+    "ngspice-47-live-capacitor-assembly.patch": "325c7b88a076d97e69bd155ac35fecce21336a99cf9f225a0390363ceb2e0dda",
+    "ngspice-47-cap-paired-rhs.patch": "032762dce032385e11864c0237db6c3f3092298ec800f80ebbe6b41dd6431ae8",
+    "ngspice-47-inductor-monitor.patch": "5866fead0c32972a8451a8a7412951dd09009b6b552af5bc260f3a53757eefc7",
+    "ngspice-47-live-passive-assembly.patch": "9e4f53c312dcf0ea9056a655a8ea4362a5e35ddb6743f9da10c787138dec494c"
+  },
+  "headers": {
+    "capacitor_assembly.h": "84933108002255222166801b7a412c98fb9f92400410742922f14e291e8163c4",
+    "mpfr_linear_solver.h": "abc3977e85351280c2a9acdaedfe2f5463f8501459867f140faa37f6b089a85d",
+    "postcap_additions.h": "505aeec736d35b39c3d2a4be2177cb0aa37f468dbb833187d9ae1fc26e5514c0"
+  },
+  "baseSourceArchiveSha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+  "build": "Inherited configured ngspice 47 XSPICE/Sparse tree, no KLU or fast-math. Same O3 gnu11 and MPFR/GMP flags as reports/live-state/provenance.json. Final full runs use a frozen executable copy.",
+  "correctionStages": {
+    "inductor-chain-audit": "Read-only inductor-chain patch on output-switch runtime.",
+    "conservative-cap": "Exact-capacitor-only stage uses capacitor_assembly.h from commit 9083a33.",
+    "paired-cap": "Paired-RHS mode and current header; monitor adds sparse diagnostic sampling.",
+    "passive-cap": "Exact capacitor and subsequent resistor/switch additions. Device evaluation and stored state precision remain binary64."
+  },
+  "sources": {
+    "inductor_chain_review.py": "299e782e17d05bf79e26a5e94ded728a6150848a573c6083140907b3e92ad5cf",
+    "capacitor_stamp_review.py": "f18f7f689d8daad3f3755f35ee72686d3456cb43404e91669489a502ae6f48e0",
+    "linear_system_review.py": "d236746c8cf7649e25e619fc6951e0e14e923ce0452315ecc95f300d0cfdee69",
+    "linear_precision_review.py": "71fed1eda77fb50eb17c16b6609222b79d2307fd30f7227bfc49af434522a02c",
+    "network_refinement_review.py": "3fd59768e0309e4e4269053abf1c9a38a70ed60d076a6fbcb832829e5ec89968",
+    "network_trace.py": "7bfdf8f70ade2ad7757d9da5a1c11be4e486edc3512b3170ab7d2ef630b44128",
+    "fixture_crossing_grid.py": "ec6e1e92747e31de089f9959776e2b55d234589c70f0594cdd04e0c081dabfde",
+    "live_transition_probe.py": "f288382e163bee998a3b30f975255d7d34cd2f447c9f723bf08ef9c08171bf42",
+    "host_waveform_comparison.py": "b1f96a72148a1bebaa25cd2188fc11ee1e5fa7a17f36ce0ff6ab25d4fc53e3a8"
+  },
+  "controls": {
+    "readOnlyAuditWitnessSha256": "bb28e28c83fdc20472d28fffdf60addb9e901fc5fd52043f4b3504afffbdfb85",
+    "disabledCorrectionWitnessSha256": "bb28e28c83fdc20472d28fffdf60addb9e901fc5fd52043f4b3504afffbdfb85",
+    "observationOnlyWitnessSha256": "813cbedf2ae66b456d9407893f7d15cb358ae878f5f59788abf0bfb83eca85e9"
+  },
+  "boundary": "Corrections remain opt-in. Completed numerical runs do not admit the ideal drivers, justify phase alignment or waive unresolved absolute-time waveform differences."
+}

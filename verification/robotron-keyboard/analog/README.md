@@ -369,14 +369,23 @@ constant-capacitor stamp rounding as the dominant cause in the captured initial
 and terminal trials. Picosecond bus-edge observations expose timing hidden by
 whole-nanosecond logs. Analytic threshold breakpoints stabilize the ideal fixture
 clock in short controls; they do not repair the general ADC crossing model.
-Full runs still fail later, including a Gear comparison, and stricter tolerances
-remain unqualified. The [later-collapse audit](reports/output-switch/assessment.json)
-shows converged Newton solves and a stable final switch state despite the named
-switch diagnostic. L1.1 flux history limits the final timestep; exact estimator
-replay preserves rejection. Investigate inductor history and equation assembly
-before changing switch physics. Keep these controls diagnostic.
+The [later-collapse audit](reports/output-switch/assessment.json) identifies
+L1.1 flux-history rejection with converged Newton solves and a stable switch.
+The [inductor-chain replay](reports/inductor-chain/assessment.json) traces that
+later collapse to lost cancellation in floating-capacitor history-current
+assembly. Its paired-RHS regression restores current conservation without
+changing matrix coefficients; an inductor-only correction does not explain the
+observed current jump.
 
-Keep later acceptance gated until matched live refinement completes.
+Exact capacitor assembly plus recovery of resistor/switch matrix additions
+allows both [full live refinement runs](reports/inductor-chain/network-refinement.json)
+to complete with matching firmware reads and latches. Disabled corrections and
+added observations preserve their baseline traces. The correction remains
+opt-in: absolute-time waveform differences around ideal switch transitions
+still prevent a convergence claim. General ADC timing, device admission and
+coupled startup/service qualification remain open. Reproduce the comparison
+with `network_refinement_review.py`; patch order and build provenance live in
+[the runtime receipt](reports/inductor-chain/provenance.json).
 
 The optional [evaluator cache](engine-patches/eval-cache.patch) reuses shared pure
 subexpressions only within one value/gradient evaluation. It defaults off;

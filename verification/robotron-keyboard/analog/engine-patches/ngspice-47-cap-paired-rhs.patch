@@ -1,0 +1,21 @@
+--- a/src/spicelib/devices/cap/capload.c
++++ b/src/spicelib/devices/cap/capload.c
+@@ -12,6 +12,7 @@
+ #include "ngspice/suffix.h"
+ 
+ extern int RobotronCapReset(void);
++extern int RobotronCapPairRhs(int,int,double,const double *,const double *);
+ extern int RobotronCapAdd(int,int,int,double,double,double,double,double,double,const double *,const double *);
+ 
+ int
+@@ -111,7 +112,9 @@
+                         cap_after[3] = *here->CAPnegPosPtr;
+                         cap_after[4] = ckt->CKTrhs[here->CAPposNode];
+                         cap_after[5] = ckt->CKTrhs[here->CAPnegNode];
+-                        if (RobotronCapAdd(here->CAPposNode, here->CAPnegNode, ckt->CKTorder,
++                        if (cap_correct == 2) {
++                            if (RobotronCapPairRhs(here->CAPposNode,here->CAPnegNode,m*ceq,cap_before,cap_after)) return E_BADPARM;
++                        } else if (RobotronCapAdd(here->CAPposNode, here->CAPnegNode, ckt->CKTorder,
+                                 m, here->CAPcapac, ckt->CKTag[0], ckt->CKTag[1],
+                                 ckt->CKTstate1[here->CAPqcap], ckt->CKTstate1[here->CAPccap],
+                                 cap_before, cap_after)) return E_BADPARM;

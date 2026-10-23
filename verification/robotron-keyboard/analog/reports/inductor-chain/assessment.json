@@ -1,0 +1,110 @@
+{
+  "qualified": false,
+  "systemId": 246,
+  "metadata": {
+    "time": "0x1.177472eec6b1p-10",
+    "delta": "0x1.2725dd1d243acp-62",
+    "iteration": "2",
+    "order": "2",
+    "size": "423",
+    "external": "423",
+    "gmin": "0x0p+0"
+  },
+  "inductors": [
+    {
+      "name": "l1.4",
+      "branch": 243,
+      "acceptedFlux": 1.8961797917916545e-12,
+      "trialFlux": 1.8365760449448234e-12,
+      "historyCurrent": 1.8961797917916546e-06,
+      "recordedCurrentBeforeLoad": 1.8365760449448236e-06,
+      "fluxProductError": -1.0843547678521122e-28,
+      "integratedVoltageError": 3.653943039581968e-11,
+      "reqError": 0.0004094526053929099,
+      "historySourceError": -8.513344626007644e-10,
+      "capacitorCorrectedCurrent": 1.8961806897171208e-06,
+      "pairedCorrectedCurrent": 1.8961806897171208e-06,
+      "recordedSolvedCurrent": 1.8365760449448236e-06,
+      "replayedCurrent": 1.8365760449448236e-06,
+      "correctedCurrent": 1.8365760449456516e-06
+    },
+    {
+      "name": "l1.3",
+      "branch": 244,
+      "acceptedFlux": -1.949582940002578e-08,
+      "trialFlux": -1.9495889004969862e-08,
+      "historyCurrent": -0.019495829400025783,
+      "recordedCurrentBeforeLoad": -0.019495889004969864,
+      "fluxProductError": 5.185549474139693e-25,
+      "integratedVoltageError": -1.4384617933913772e-12,
+      "reqError": 0.0004094526053929099,
+      "historySourceError": -1.2025878213474227e-05,
+      "capacitorCorrectedCurrent": -0.01949582940032509,
+      "pairedCorrectedCurrent": -0.01949582940032509,
+      "recordedSolvedCurrent": -0.019495889004969864,
+      "replayedCurrent": -0.019495889004969864,
+      "correctedCurrent": -0.019495889004969864
+    },
+    {
+      "name": "l1.2",
+      "branch": 245,
+      "acceptedFlux": 1.9492040263858492e-08,
+      "trialFlux": 1.9491980658914404e-08,
+      "historyCurrent": 0.019492040263858493,
+      "recordedCurrentBeforeLoad": 0.019491980658914405,
+      "fluxProductError": 5.959635511340426e-25,
+      "integratedVoltageError": -2.7196177205195777e-11,
+      "reqError": 0.0004094526053929099,
+      "historySourceError": -1.4467748844412243e-05,
+      "capacitorCorrectedCurrent": 0.01949204026355918,
+      "pairedCorrectedCurrent": 0.01949204026355918,
+      "recordedSolvedCurrent": 0.019491980658914405,
+      "replayedCurrent": 0.019491980658914405,
+      "correctedCurrent": 0.019491980658914405
+    },
+    {
+      "name": "l1.1",
+      "branch": 246,
+      "acceptedFlux": 1.892956375499338e-12,
+      "trialFlux": 1.8333514314130142e-12,
+      "historyCurrent": 1.892956375499338e-06,
+      "recordedCurrentBeforeLoad": 1.8333514314130143e-06,
+      "fluxProductError": 1.928539145657507e-31,
+      "integratedVoltageError": 3.027171291342866e-11,
+      "reqError": 0.0004094526053929099,
+      "historySourceError": -1.9611508184818365e-10,
+      "capacitorCorrectedCurrent": 1.89295607618934e-06,
+      "pairedCorrectedCurrent": 1.89295607618934e-06,
+      "recordedSolvedCurrent": 1.8333514314130143e-06,
+      "replayedCurrent": 1.8333514314130143e-06,
+      "correctedCurrent": 1.8333514314138423e-06
+    }
+  ],
+  "cableBalance": {
+    "nodes": [
+      "n_cable_5v",
+      "n_cable_gnd",
+      "l1_1_series",
+      "n_cable_takt",
+      "l1_2_series",
+      "l1_3_series",
+      "l1_4_series",
+      "n_cable_daten"
+    ],
+    "originalRhsSum": 2.384185791015625e-07,
+    "pairedRhsSum": 0.0,
+    "nonzeroColumnSums": {
+      "l1.4#branch": -1.0,
+      "l1.3#branch": -1.0,
+      "l1.2#branch": -1.0,
+      "l1.1#branch": -1.0
+    },
+    "pairedPrecisionAgreement": 5.429340525772755e-56
+  },
+  "maximumSolveReplayDifference": 2.180707617388978e-11,
+  "maximumCorrection": 6.6236930322564095e-06,
+  "precisionAgreement": 1.9931048251310778e-52,
+  "incompleteSystemsExcluded": [],
+  "boundary": "Frozen binary64 stored histories and other device stamps; Independent inductor, full-capacitor and paired-RHS corrections are compared separately. No mutual inductance is assumed. Does not establish live convergence.",
+  "logSha256": "89ebbaae23aa1660d76024aba70965b0e4ce6281b0ef33c1c4ea69d3751c441c"
+}

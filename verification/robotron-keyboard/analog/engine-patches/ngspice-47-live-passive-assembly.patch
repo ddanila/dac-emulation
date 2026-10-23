@@ -1,0 +1,94 @@
+--- a/src/maths/sparse/spsmp.c
++++ b/src/maths/sparse/spsmp.c
+@@ -99,6 +99,7 @@
+ #include "ngspice/spmatrix.h"
+ #include "mpfr_linear_solver.h"
+ #include "capacitor_assembly.h"
++#include "postcap_additions.h"
+ #include "spdefs.h"
+ #include "ngspice/smpdefs.h"
+ 
+--- a/src/spicelib/devices/res/resload.c
++++ b/src/spicelib/devices/res/resload.c
+@@ -12,9 +12,15 @@
+ 
+ /* actually load the current resistance value into the sparse matrix
+  * previously provided */
++extern int RobotronPostCapEnabled(void);
++extern int RobotronPostCapAdd(int,int,double,const double *,const double *);
++
+ int
+ RESload(GENmodel *inModel, CKTcircuit *ckt)
+ {
++    int exact=RobotronPostCapEnabled();
++    double before[4],after[4];
++    if(exact<0)return E_BADPARM;
+     RESmodel *model = (RESmodel *)inModel;
+ 
+     /*  loop through all the resistor models */
+@@ -28,10 +34,23 @@
+             here->REScurrent = (*(ckt->CKTrhsOld+here->RESposNode) -
+                                 *(ckt->CKTrhsOld+here->RESnegNode)) * here->RESconduct;
+ 
++            if(exact) {
++                before[0]=*here->RESposPosPtr;
++                before[1]=*here->RESnegNegPtr;
++                before[2]=*here->RESposNegPtr;
++                before[3]=*here->RESnegPosPtr;
++            }
+             *(here->RESposPosPtr) += here->RESconduct;
+             *(here->RESnegNegPtr) += here->RESconduct;
+             *(here->RESposNegPtr) -= here->RESconduct;
+             *(here->RESnegPosPtr) -= here->RESconduct;
++            if(exact) {
++                after[0]=*here->RESposPosPtr;
++                after[1]=*here->RESnegNegPtr;
++                after[2]=*here->RESposNegPtr;
++                after[3]=*here->RESnegPosPtr;
++                if(RobotronPostCapAdd(here->RESposNode,here->RESnegNode,here->RESconduct,before,after))return E_BADPARM;
++            }
+         }
+     }
+     return(OK);
+--- a/src/spicelib/devices/sw/swload.c
++++ b/src/spicelib/devices/sw/swload.c
+@@ -13,9 +13,15 @@
+ #include "ngspice/suffix.h"
+ 
+ 
++extern int RobotronPostCapEnabled(void);
++extern int RobotronPostCapAdd(int,int,double,const double *,const double *);
++
+ int
+ SWload(GENmodel *inModel, CKTcircuit *ckt)
+ {
++    int exact=RobotronPostCapEnabled();
++    double before[4],after[4];
++    if(exact<0)return E_BADPARM;
+     SWmodel *model = (SWmodel *) inModel;
+     SWinstance *here;
+     double g_now;
+@@ -141,10 +147,23 @@
+                 fprintf(stderr,"SWITCH_AUDIT time=%a delta=%a mode=%ld control=%a threshold=%a previous=%a old=%a current=%a conductance=%a noncon=%d\n",ckt->CKTtime,ckt->CKTdelta,ckt->CKTmode,v_ctrl,model->SWvThreshold,previous_state,old_current_state,current_state,g_now,ckt->CKTnoncon);
+             here->SWcond = g_now;
+ 
++            if(exact) {
++                before[0]=*here->SWposPosPtr;
++                before[1]=*here->SWnegNegPtr;
++                before[2]=*here->SWposNegPtr;
++                before[3]=*here->SWnegPosPtr;
++            }
+             *(here->SWposPosPtr) += g_now;
+             *(here->SWposNegPtr) -= g_now;
+             *(here->SWnegPosPtr) -= g_now;
+             *(here->SWnegNegPtr) += g_now;
++            if(exact) {
++                after[0]=*here->SWposPosPtr;
++                after[1]=*here->SWnegNegPtr;
++                after[2]=*here->SWposNegPtr;
++                after[3]=*here->SWnegPosPtr;
++                if(RobotronPostCapAdd(here->SWposNode,here->SWnegNode,g_now,before,after))return E_BADPARM;
++            }
+         }
+ 
+     return OK;
