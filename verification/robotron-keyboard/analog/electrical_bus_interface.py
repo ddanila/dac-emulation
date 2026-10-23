@@ -106,6 +106,7 @@ def generate_service(electrical_wr=False, cpu_profile='tv80', rom_timing=False, 
  always @(posedge clk) begin
   if(reset_n===1'b1 && cpu.tstate[2]===1'b1 && cpu.wait_n===1'b1 &&
      rd_n===1'b0 && (mreq_n===1'b0 || iorq_n===1'b0)) begin
+   $display("BUS_EDGE_PS %0.0f",$realtime*1000.0);
    $display("BUS_SAMPLE %0t %04x %02x %b %b %b",$time,address,di,mreq_n,iorq_n,m1_n);
    $display("BUS_DRIVE %0t %024b %024b",$time,bus_low,bus_high);
    bus_sample_value <= di;

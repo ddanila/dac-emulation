@@ -153,7 +153,7 @@ module tb;
   force dut.board.rd_n=0;
   force dut.board.m1_n=1;
   force dut.board.clk=0;
-  #1; force dut.board.clk=1;
+  #1.123; force dut.board.clk=1;
   // End before any following falling edge: the completed latch still exists.
   #0.1;
   force dut.board.cpu_data_drive=0;
@@ -177,6 +177,7 @@ endmodule
             result = subprocess.run(['vvp', str(out / 'bus.vvp')], cwd=out,
                                     capture_output=True, text=True, check=True, timeout=30)
             self.assertIn('SERVICE_BUS_PASS', result.stdout)
+            self.assertIn('BUS_EDGE_PS 4123', result.stdout)
             self.assertIn('BUS_SAMPLE 4000 0000 00 0 1 1', result.stdout)
             self.assertIn('BUS_LATCH 4000 00 00', result.stdout)
             self.assertIn('BUS_DRIVE 4000 000000000101101010100101 000000001010010101011010', result.stdout)

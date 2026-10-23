@@ -1,0 +1,18 @@
+{
+  "qualified": false,
+  "base": "reports/live-state/provenance.json",
+  "patchOrder": [
+    "ngspice-47-live-cap-audit.patch",
+    "ngspice-47-mpfr-start.patch"
+  ],
+  "unchangedDisabledWitnessSha256": "813cbedf2ae66b456d9407893f7d15cb358ae878f5f59788abf0bfb83eca85e9",
+  "sources": {
+    "verification/robotron-keyboard/analog/fixture_crossing_grid.py": "ec6e1e92747e31de089f9959776e2b55d234589c70f0594cdd04e0c081dabfde",
+    "verification/robotron-keyboard/analog/live_cap_review.py": "ebecb34f2fdf42b9187766b93f3521019de5a1ec654f70c98897dbdd3750106f",
+    "verification/robotron-keyboard/analog/switching_event_review.py": "cba64ecd9709ea9e5cb9c0c702a9401c9c700d2f6cddefb424abf18005610b9c",
+    "verification/robotron-keyboard/analog/engine-patches/ngspice-47-live-cap-audit.patch": "0e5878ec0d53160bf0ed10e47561a34859ff76e5b30236c952aba3d37d187309",
+    "verification/robotron-keyboard/analog/engine-patches/ngspice-47-mpfr-start.patch": "8a0bbf4807f6b73eaf716d6322c6aa7bc69d482737827c5220bafa251b0aee86"
+  },
+  "build": "Same configured MPFR/Sparse tree and flags as live-state receipt; supplemental patches add read-only cap capture and configurable start. Existing code-model library retained.",
+  "boundary": "Dummy clock source is electrically isolated and supplies time breakpoints only; fixture waveform unchanged. BUS_EDGE_PS adds observation only. Neither establishes specimen timing or general ADC interpolation."
+}

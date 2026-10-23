@@ -1,0 +1,20 @@
+--- a/src/maths/ni/niiter.c
++++ b/src/maths/ni/niiter.c
+@@ -68,7 +68,16 @@
+ 
+     unsigned long linear_audit = 0;
+     int mpfr_bits = mpfr_precision();
+-    if (getenv("ROBOTRON_MPFR_TRANSITION_ONLY") && ckt->CKTtime <= .001005011) mpfr_bits = 0;
++    if (getenv("ROBOTRON_MPFR_TRANSITION_ONLY")) {
++        double start = .001005011;
++        const char *value = getenv("ROBOTRON_MPFR_START");
++        if (value) {
++            char *end;
++            start = strtod(value, &end);
++            if (end == value || *end || !isfinite(start) || start < 0) return E_BADPARM;
++        }
++        if (ckt->CKTtime <= start) mpfr_bits = 0;
++    }
+     int iterno = 0;
+     int ipass = 0;
+ 
