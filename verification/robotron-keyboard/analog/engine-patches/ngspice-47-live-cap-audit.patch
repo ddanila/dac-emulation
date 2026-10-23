@@ -1,0 +1,46 @@
+--- a/src/spicelib/devices/cap/capload.c
++++ b/src/spicelib/devices/cap/capload.c
+@@ -25,6 +25,10 @@
+     double ceq;
+     int error;
+     double m;
++    int audit = getenv("ROBOTRON_STATE_AUDIT") && ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014;
++    if (audit)
++        fprintf(stderr, "CAP_AUDIT begin time=%a delta=%a order=%d mode=%ld\n",
++            ckt->CKTtime, ckt->CKTdelta, ckt->CKTorder, ckt->CKTmode);
+ 
+     /* check if capacitors are in the circuit or are open circuited */
+     if(ckt->CKTmode & (MODETRAN|MODEAC|MODETRANOP) ) {
+@@ -71,17 +75,32 @@
+                         *(ckt->CKTstate1+here->CAPccap) =
+                             *(ckt->CKTstate0+here->CAPccap);
+                     }
++                    if (audit)
++                        fprintf(stderr, "CAP_AUDIT before name=%s p=%d n=%d m=%a C=%a ag0=%a ag1=%a q0=%a q1=%a i1=%a geq=%a ceq=%a pp=%a nn=%a pn=%a np=%a bp=%a bn=%a\n",
++                            here->CAPname, here->CAPposNode, here->CAPnegNode, m,
++                            here->CAPcapac, ckt->CKTag[0], ckt->CKTag[1],
++                            ckt->CKTstate0[here->CAPqcap], ckt->CKTstate1[here->CAPqcap],
++                            ckt->CKTstate1[here->CAPccap], geq, ceq,
++                            *here->CAPposPosPtr, *here->CAPnegNegPtr,
++                            *here->CAPposNegPtr, *here->CAPnegPosPtr,
++                            ckt->CKTrhs[here->CAPposNode], ckt->CKTrhs[here->CAPnegNode]);
+                     *(here->CAPposPosPtr) += m * geq;
+                     *(here->CAPnegNegPtr) += m * geq;
+                     *(here->CAPposNegPtr) -= m * geq;
+                     *(here->CAPnegPosPtr) -= m * geq;
+                     *(ckt->CKTrhs+here->CAPposNode) -= m * ceq;
+                     *(ckt->CKTrhs+here->CAPnegNode) += m * ceq;
++                    if (audit)
++                        fprintf(stderr, "CAP_AUDIT after name=%s pp=%a nn=%a pn=%a np=%a bp=%a bn=%a\n",
++                            here->CAPname, *here->CAPposPosPtr, *here->CAPnegNegPtr,
++                            *here->CAPposNegPtr, *here->CAPnegPosPtr,
++                            ckt->CKTrhs[here->CAPposNode], ckt->CKTrhs[here->CAPnegNode]);
+                 } else
+                     *(ckt->CKTstate0+here->CAPqcap) = here->CAPcapac * vcap;
+             }
+         }
+     }
++    if (audit) fprintf(stderr, "CAP_AUDIT end\n");
+     return(OK);
+ }
+ 

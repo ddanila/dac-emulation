@@ -364,9 +364,15 @@ pair completes, but a drive timing mismatch, tighter-tolerance timeout and later
 long-run failure leave convergence open. `live_prefix_review.py` compares the
 retained short waveforms without phase alignment.
 
+The [switching-event review](reports/switching-events/assessment.json) excludes
+constant-capacitor stamp rounding as the dominant cause in the captured initial
+and terminal trials. Picosecond bus-edge observations expose timing hidden by
+whole-nanosecond logs. Analytic threshold breakpoints stabilize the ideal fixture
+clock in short controls; they do not repair the general ADC crossing model.
+Full runs still fail at the output switch, including a Gear comparison, and
+stricter tolerances remain unqualified. Keep these controls diagnostic.
+
 Keep later acceptance gated until matched live refinement completes.
-
-
 
 The optional [evaluator cache](engine-patches/eval-cache.patch) reuses shared pure
 subexpressions only within one value/gradient evaluation. It defaults off;
