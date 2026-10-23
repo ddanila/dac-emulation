@@ -19,10 +19,14 @@ on:
         description: Use conservative Intel 2716 read timing
         type: boolean
         default: false
+      input_boundary_barrier:
+        description: Apply the tested d_cosim input-boundary scheduling patch
+        type: boolean
+        default: true
       cpu_profile:
         description: Experimental CPU read sampling
         type: choice
-        options: [tv80, falling-indexed-candidate]
+        options: [tv80, falling-indexed-candidate, qualified-digital]
         default: tv80
 permissions:
   contents: read
@@ -70,6 +74,9 @@ jobs:
         run: |
           patch -d "$RUNTIME_ROOT/ngspice-47" -p1 < verification/robotron-keyboard/analog/engine-patches/ngspice-47-strict-time-diagnostic.patch
           patch -d "$RUNTIME_ROOT/ngspice-47" -p1 < verification/robotron-keyboard/analog/engine-patches/ngspice-47-seegenerator-stdlib.patch
+          if [ "${{ inputs.input_boundary_barrier }}" = "true" ]; then
+            patch -d "$RUNTIME_ROOT/ngspice-47" -p1 < verification/robotron-keyboard/analog/engine-patches/cosim-input-barrier.patch
+          fi
           mkdir "$RUNTIME_ROOT/ngspice-build"
           cd "$RUNTIME_ROOT/ngspice-build"
           "$RUNTIME_ROOT/ngspice-47/configure" --prefix="$RUNTIME_ROOT/install" --enable-xspice --without-x --with-readline=no --disable-openmp --disable-klu
