@@ -369,8 +369,12 @@ constant-capacitor stamp rounding as the dominant cause in the captured initial
 and terminal trials. Picosecond bus-edge observations expose timing hidden by
 whole-nanosecond logs. Analytic threshold breakpoints stabilize the ideal fixture
 clock in short controls; they do not repair the general ADC crossing model.
-Full runs still fail at the output switch, including a Gear comparison, and
-stricter tolerances remain unqualified. Keep these controls diagnostic.
+Full runs still fail later, including a Gear comparison, and stricter tolerances
+remain unqualified. The [later-collapse audit](reports/output-switch/assessment.json)
+shows converged Newton solves and a stable final switch state despite the named
+switch diagnostic. L1.1 flux history limits the final timestep; exact estimator
+replay preserves rejection. Investigate inductor history and equation assembly
+before changing switch physics. Keep these controls diagnostic.
 
 Keep later acceptance gated until matched live refinement completes.
 
