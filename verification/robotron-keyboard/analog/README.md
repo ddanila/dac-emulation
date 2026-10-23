@@ -422,11 +422,23 @@ supply, temperature and pin-load checks. Passing logic levels or matching a DC
 endpoint does not validate the predicted transient currents or CPU I/V law.
 The [complete live refinement](reports/7406-dynamic/live/assessment.json) preserves
 reference firmware reads and reduces serial-voltage disagreement to millivolt
-scale. The output undershoot persists under refinement; its
-[operating-region review](reports/7406-dynamic/operating-region-review.json)
-separates relevant manufacturer guidance from device-specific evidence.
+scale. The [serial-path review](reports/serial-path/assessment.json) separates that
+numerical agreement from physical admission. Internal observations identify
+reverse output-transistor operation; isolated recovery controls expose load
+sensitivity and disagreement between candidates passing the same selected
+screens. The [manufacturer scope review](reports/7406-dynamic/operating-region-review.json)
+does not supply the missing device-specific recovery parameters.
+`serial_device_trace.observe` adds internal probes without changing components;
+`serial_device_review.py` checks their live control and current balance.
+`serial_path_probe.py --live TRACE.xz --device-report REPORT --ngspice RUNTIME
+--out DIRECTORY` reproduces the isolated experiment; `serial_recovery_review.py`
+compares its hypotheses. `retain_serial_recovery.py` retains inputs, logs and
+all accepted points in the reviewed event window, with original-capture hashes;
+failed controls remain explicit. These forced-input replays are not feedback
+runs or proof of initialization independence.
 [Direct-driver traffic fixtures](reports/7406-dynamic/traffic/assessment.json)
-are prepared and C-checked, but have not passed electrical admission.
+are prepared and C-checked. Their electrical acceptance remains gated on
+independent driver, CPU/bus and load admission.
 
 The optional [evaluator cache](engine-patches/eval-cache.patch) reuses shared pure
 subexpressions only within one value/gradient evaluation. It defaults off;

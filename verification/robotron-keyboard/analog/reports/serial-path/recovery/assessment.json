@@ -1,0 +1,53 @@
+{
+  "completed": true,
+  "qualified": false,
+  "boardAdmission": false,
+  "sourceSha256": "1b07fc1a6d6ed66b67f6eebbcc7ab806e3063cd24a813812d7ae27d55d3d8cbd",
+  "recoveryReportSha256": "1cf2c6723b773c5a05054e015289d269016a402ce24880303f62779de79dddbd",
+  "refinement": [
+    {
+      "first": "long-prelude",
+      "second": "half-step",
+      "maximumDifferenceV": 0.00046226542961286254,
+      "timeFromReplayStartSeconds": 3.9710680566027674e-06,
+      "intervalSeconds": [
+        3.5e-06,
+        5e-06
+      ]
+    },
+    {
+      "first": "half-step",
+      "second": "quarter-step",
+      "maximumDifferenceV": 0.0008598602068038419,
+      "timeFromReplayStartSeconds": 3.9710676085081675e-06,
+      "intervalSeconds": [
+        3.5e-06,
+        5e-06
+      ]
+    }
+  ],
+  "alternativeRefinement": {
+    "first": "junction-2pf",
+    "second": "junction-2pf-half",
+    "maximumDifferenceV": 0.0001586750644764212,
+    "timeFromReplayStartSeconds": 3.966747123506261e-06,
+    "intervalSeconds": [
+      3.5e-06,
+      5e-06
+    ]
+  },
+  "sameStepDeviceSensitivity": {
+    "first": "long-prelude",
+    "second": "junction-2pf",
+    "maximumDifferenceV": 1.348681813559509,
+    "timeFromReplayStartSeconds": 3.968600395972766e-06,
+    "intervalSeconds": [
+      3.5e-06,
+      5e-06
+    ]
+  },
+  "failedControls": {
+    "extended-prelude": "doAnalyses: TRAN:  Timestep too small; time = 1.77013e-06, timestep = 6.25e-22: trouble with node \"vinput#branch\""
+  },
+  "boundary": "Absolute replay time, piecewise-linear comparison at the union of retained knots, no alignment or discarded transitions within the event interval. Two candidates pass selected device screens; their disagreement demonstrates non-uniqueness, not a physical error bound. A failed longer prelude prevents declaring arbitrary initialization independence."
+}
