@@ -1,0 +1,208 @@
+{
+  "qualified": false,
+  "cases": {
+    "isolation/coupled": {
+      "completed": true,
+      "diagnostic": null,
+      "timedOut": false,
+      "lastSeconds": 0.001002,
+      "requestedStopSeconds": 0.001002
+    },
+    "isolation/ideal-rail": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100107, timestep = 6.33333e-20: trouble with output_sink_nominal-instance sdata",
+      "timedOut": false,
+      "lastSeconds": 0.0010010699331527843,
+      "requestedStopSeconds": 0.001002
+    },
+    "isolation/no-bus": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100107, timestep = 3.37595e-20: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010010699331589508,
+      "requestedStopSeconds": 0.001002
+    },
+    "isolation/replay-default": {
+      "completed": true,
+      "diagnostic": null,
+      "timedOut": false,
+      "lastSeconds": 0.001002,
+      "requestedStopSeconds": 0.001002
+    },
+    "isolation/replay-tight": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100107, timestep = 7.48313e-20: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010010699331531052,
+      "requestedStopSeconds": 0.001002
+    },
+    "refinement/backward-euler": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 1.07559e-06, timestep = 1.07993e-24: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 1.0755883986931188e-06,
+      "requestedStopSeconds": 0.00116
+    },
+    "refinement/gear": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100101, timestep = 5.56477e-21: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010010120000397461,
+      "requestedStopSeconds": 0.00116
+    },
+    "refinement/iterations": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100501, timestep = 3.32078e-20: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010050120000662582,
+      "requestedStopSeconds": 0.00116
+    },
+    "refinement/tight-12ns": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100501, timestep = 5.78544e-20: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010050120000403148,
+      "requestedStopSeconds": 0.00116
+    },
+    "refinement/tight-50ns": {
+      "completed": false,
+      "diagnostic": null,
+      "timedOut": true,
+      "lastSeconds": null,
+      "requestedStopSeconds": 0.00116
+    },
+    "refinement/trtol": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 2.50001e-10, timestep = 1.79744e-20: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 2.5000092503146926e-10,
+      "requestedStopSeconds": 0.00116
+    },
+    "second-transition/coupled": {
+      "completed": true,
+      "diagnostic": null,
+      "timedOut": false,
+      "lastSeconds": 0.00101,
+      "requestedStopSeconds": 0.00101
+    },
+    "second-transition/replay-tight": {
+      "completed": true,
+      "diagnostic": null,
+      "timedOut": false,
+      "lastSeconds": 0.0010099999999999998,
+      "requestedStopSeconds": 0.00101
+    },
+    "switch-controls/after-nominal": {
+      "completed": true,
+      "diagnostic": null,
+      "timedOut": false,
+      "lastSeconds": 0.00116,
+      "requestedStopSeconds": 0.00116
+    },
+    "switch-controls/after-replay-tight": {
+      "completed": true,
+      "diagnostic": null,
+      "timedOut": false,
+      "lastSeconds": 0.001002,
+      "requestedStopSeconds": 0.001002
+    },
+    "switch-controls/after-tight": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100501, timestep = 3.32078e-20: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010050120000662582,
+      "requestedStopSeconds": 0.00116
+    },
+    "switch-controls/before-nominal": {
+      "completed": true,
+      "diagnostic": null,
+      "timedOut": false,
+      "lastSeconds": 0.00116,
+      "requestedStopSeconds": 0.00116
+    },
+    "switch-controls/before-replay-tight": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100107, timestep = 7.48313e-20: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010010699331531052,
+      "requestedStopSeconds": 0.001002
+    },
+    "switch-controls/before-tight": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100106, timestep = 6.42106e-20: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010010618735001014,
+      "requestedStopSeconds": 0.00116
+    },
+    "tolerances/current": {
+      "completed": true,
+      "diagnostic": null,
+      "timedOut": false,
+      "lastSeconds": 0.00116,
+      "requestedStopSeconds": 0.00116
+    },
+    "tolerances/nominal": {
+      "completed": true,
+      "diagnostic": null,
+      "timedOut": false,
+      "lastSeconds": 0.00116,
+      "requestedStopSeconds": 0.00116
+    },
+    "tolerances/relative": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100106, timestep = 1.4644e-19: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.001001060752635651,
+      "requestedStopSeconds": 0.00116
+    },
+    "tolerances/tight": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100106, timestep = 6.42106e-20: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010010618735001014,
+      "requestedStopSeconds": 0.00116
+    },
+    "tolerances/tight-12ns": {
+      "completed": false,
+      "diagnostic": null,
+      "timedOut": true,
+      "lastSeconds": null,
+      "requestedStopSeconds": 0.00116
+    },
+    "tolerances/tight-50ns": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100106, timestep = 4.83419e-20: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010010629980834636,
+      "requestedStopSeconds": 0.00116
+    },
+    "tolerances/tight-gear": {
+      "completed": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100101, timestep = 5.56477e-21: trouble with node \"n_cable_5v\"",
+      "timedOut": false,
+      "lastSeconds": 0.0010010120000397461,
+      "requestedStopSeconds": 0.00116
+    },
+    "tolerances/voltage": {
+      "completed": true,
+      "diagnostic": null,
+      "timedOut": false,
+      "lastSeconds": 0.00116,
+      "requestedStopSeconds": 0.00116
+    }
+  },
+  "switchBoundaryRegressionPassed": true,
+  "nonzeroHysteresisControlsByteIdentical": {
+    "positive": true,
+    "negative": true
+  },
+  "findings": [
+    "Relative tolerance tightening reproduces failure; tightening only voltage or current tolerance completes the tested prefix.",
+    "First failure persists with recorded HDL outputs and without bus loads; the reported supply node does not uniquely locate the cause.",
+    "Correcting zero-hysteresis threshold state retention completes the isolated tight replay. The corrected coupled tight run still aborts at a later event.",
+    "Recorded-output replay of the corrected later prefix completes tightly. This does not establish equivalence to the failing live trajectory or prove a bridge defect."
+  ],
+  "serviceAcceptance": "Not resumed: static bus input range, coupled refinement and physical driver-model admission remain unmet.",
+  "scope": "Ablations change circuit physics and cannot qualify it. Recorded-output replay removes feedback and is diagnostic only. Retained trace summaries include a full-file hash and final samples; raw captures remain local.",
+  "reviewSha256": "b0b17898dac52d52c54e90c08fb3a89f8fdb0c3cfbe66790f4c1e11990267532"
+}

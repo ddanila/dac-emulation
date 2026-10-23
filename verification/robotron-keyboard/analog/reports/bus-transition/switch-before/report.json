@@ -1,0 +1,172 @@
+{
+  "passed": false,
+  "scope": "Check switch threshold plateaus; this is a solver regression, not board qualification.",
+  "runs": [
+    {
+      "hysteresisVolts": 0,
+      "exitCode": 0,
+      "solverDiagnostic": null,
+      "passed": false,
+      "plateaus": [
+        {
+          "windowNs": [
+            5,
+            15
+          ],
+          "expectedOn": false,
+          "samples": 100,
+          "maximumVoltageError": 4.901960779313725,
+          "passed": false
+        },
+        {
+          "windowNs": [
+            25,
+            35
+          ],
+          "expectedOn": true,
+          "samples": 100,
+          "maximumVoltageError": 0.0,
+          "passed": true
+        },
+        {
+          "windowNs": [
+            45,
+            55
+          ],
+          "expectedOn": true,
+          "samples": 100,
+          "maximumVoltageError": 4.901960779313726,
+          "passed": false
+        },
+        {
+          "windowNs": [
+            70,
+            80
+          ],
+          "expectedOn": false,
+          "samples": 100,
+          "maximumVoltageError": 8.881784197001252e-16,
+          "passed": true
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "3787d1fd31b78d979eaf923dd8fe2ea15b6cda06a1a8d247e09ec4c72894444a",
+        "ngspice.log": "161d76871ede5d82b63f180b34759d6669aa4d430e341adafe4eb9b1f18421e3",
+        "trace.txt": "92d1481e7ee3e0f1a4e19235a5d407c4e8f4629b1f454ddf33f5de19ff00a234"
+      }
+    },
+    {
+      "hysteresisVolts": 0.1,
+      "exitCode": 0,
+      "solverDiagnostic": null,
+      "passed": true,
+      "plateaus": [
+        {
+          "windowNs": [
+            5,
+            15
+          ],
+          "expectedOn": false,
+          "samples": 100,
+          "maximumVoltageError": 8.881784197001252e-16,
+          "passed": true
+        },
+        {
+          "windowNs": [
+            25,
+            35
+          ],
+          "expectedOn": true,
+          "samples": 100,
+          "maximumVoltageError": 0.0,
+          "passed": true
+        },
+        {
+          "windowNs": [
+            45,
+            55
+          ],
+          "expectedOn": true,
+          "samples": 100,
+          "maximumVoltageError": 0.0,
+          "passed": true
+        },
+        {
+          "windowNs": [
+            70,
+            80
+          ],
+          "expectedOn": false,
+          "samples": 100,
+          "maximumVoltageError": 8.881784197001252e-16,
+          "passed": true
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "bf80f2dedc2592ab7ffb5b79f433b9c64f9101b36897429f0a68991f9afb1d80",
+        "ngspice.log": "32a34c30fefd30b5f6944459a539baae9e2d65ee01cfc516170215c3ee662b6e",
+        "trace.txt": "d691b07da9ab2618284848f1dd9e62f0d8a6e219a62cf140aaaf6bf40d566494"
+      }
+    },
+    {
+      "hysteresisVolts": -0.1,
+      "exitCode": 0,
+      "solverDiagnostic": null,
+      "passed": true,
+      "plateaus": [
+        {
+          "windowNs": [
+            5,
+            15
+          ],
+          "expectedOn": true,
+          "samples": 100,
+          "maximumVoltageError": 0.0,
+          "passed": true
+        },
+        {
+          "windowNs": [
+            25,
+            35
+          ],
+          "expectedOn": true,
+          "samples": 100,
+          "maximumVoltageError": 0.0,
+          "passed": true
+        },
+        {
+          "windowNs": [
+            45,
+            55
+          ],
+          "expectedOn": false,
+          "samples": 100,
+          "maximumVoltageError": 8.881784197001252e-16,
+          "passed": true
+        },
+        {
+          "windowNs": [
+            70,
+            80
+          ],
+          "expectedOn": false,
+          "samples": 100,
+          "maximumVoltageError": 8.881784197001252e-16,
+          "passed": true
+        }
+      ],
+      "artifacts": {
+        "probe.cir": "3dc7d5cf203b8ab5af42c6a93f5e279050f3f22401da0e80968cd476d2d23e6f",
+        "ngspice.log": "0d873febc39b353d8c1eb24a846e786ba4dae0f950da15cbec7544dfcfd04372",
+        "trace.txt": "969a79600da14c94e8fa33a79a590a082dcd468569c5331c83f35290771cd425"
+      }
+    }
+  ],
+  "criterion": "At zero hysteresis, an exact threshold plateau retains the preceding state, as in the nonnegative-hysteresis branch.",
+  "ngspice": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with Sparse Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******\n",
+  "ngspiceSha256": "244b1b17579f1aa6f449affbddc293534778a5dbaa4f57fc642a8cd60b3d2815",
+  "sources": {
+    "switch_boundary_probe.py": "6ddd7226d223286f8f21cad85f572e372fb9805d37ce238f086baefd78471df5",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8"
+  }
+}

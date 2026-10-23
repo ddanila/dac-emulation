@@ -293,7 +293,7 @@ def prepare(args, report):
                 for item in report['assumptions']['remainingDigitalBoundaries']]
         report.setdefault('sources', {}).update({name: sha(HERE / name) for name in (
             'electrical_bus_interface.py', 'firmware_io_cosim.v', 'bus_driver.py', 'bus_load.py',
-            'bus_inventory.py', 'bus_limits.json', 'bus_observation.py')})
+            'bus_inventory.py', 'bus_limits.json', 'bus_observation.py', 'bus_input_limits.py', 'bus_device_contract.json')})
         for ref in ('A5', 'A8', 'A4'):
             report['modelCoverage']['components'][ref]['model'] = report['modelCoverage']['components'][ref]['model'].replace(
                 'digital buses', 'digital address/control buses') + '; data pins use electrical endpoint drivers and capacitance fixtures'

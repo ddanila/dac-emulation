@@ -321,6 +321,21 @@ coupled solver or proof of a specimen fault. The retained `coupled/` runs includ
 a tighter-tolerance abort and timeout. Reproduce the capture with
 `bus_read_capture.py`, then replay it with `bus_read_replay.py`; keep input limits
 unchanged while reviewing driver dynamics and transient applicability.
+The [bus-device admission review](reports/bus-device-admission/assessment.json)
+separates logic thresholds, static input ranges and maximum ratings. The latter
+cannot substitute for operating guarantees. Linear nominal-supply drivers fail
+the loaded-high guarantee at minimum rated supply; they remain stress fixtures.
+`bus_device_contract.json` records the source-reviewed scope and missing dynamics.
+
+The [transition isolation](reports/bus-transition/assessment.json) reproduces the
+first tight-tolerance failure without HDL feedback. The existing zero-hysteresis
+switch correction passes its plateau regression, preserves nonzero-hysteresis
+controls byte-for-byte and completes that isolated replay. The coupled run still
+fails later; a recorded-output replay of the later prefix completes but cannot
+prove equivalence to the live trajectory. The corrected runtime remains diagnostic.
+Use `bus_transition_probe.py` for tolerance sweeps and recorded-output isolation;
+retained decks, runtime fingerprints and reproduction notes accompany the review.
+
 
 The optional [evaluator cache](engine-patches/eval-cache.patch) reuses shared pure
 subexpressions only within one value/gradient evaluation. It defaults off;

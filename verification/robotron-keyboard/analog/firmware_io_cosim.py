@@ -218,7 +218,7 @@ def main():
                                      waveformNumdgt=17,
                                      busDriver='Linear 5 V DC-endpoint stress fixture; no calibrated I/V or leakage')
         report['sources'].update({name: sha(HERE / name) for name in (
-            'electrical_bus_interface.py', 'bus_driver.py', 'bus_load.py', 'bus_inventory.py', 'bus_limits.json', 'bus_observation.py')})
+            'electrical_bus_interface.py', 'bus_driver.py', 'bus_load.py', 'bus_inventory.py', 'bus_limits.json', 'bus_observation.py', 'bus_input_limits.py', 'bus_device_contract.json')})
     if args.electrical_wr:
         report['assumptions']['electricalWr'] = True
         report['sources'].update({name: sha(HERE / name) for name in ('write_control.py', 'write_control_observation.py')})
