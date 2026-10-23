@@ -1,0 +1,72 @@
+{
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-ngspice-performance/install/bin/ngspice",
+      "sha256": "244b1b17579f1aa6f449affbddc293534778a5dbaa4f57fc642a8cd60b3d2815"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-ngspice-performance/install/share/ngspice/scripts/spinit",
+      "sha256": "a473861dbbd9ea2f70013584b48932f2357d8607c634ebcde9e0453b7602556d"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/k7658-ngspice-performance/install/lib/ngspice/spice2poly.cm",
+        "sha256": "d79ee95d88fc75442486d8c7fd3f75b1acf0a7d1411b79ce5e916c75ccb4d868",
+        "loadPath": "/tmp/k7658-ngspice-performance/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-ngspice-performance/install/lib/ngspice/analog.cm",
+        "sha256": "9cc0577e818f431ae2f974238c19287ca9dac461343cc7d64cd545b152e63461",
+        "loadPath": "/tmp/k7658-ngspice-performance/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-ngspice-performance/install/lib/ngspice/digital.cm",
+        "sha256": "517a3dd943096e4ce80792873319602a311e21bfb1cf8f85df352efa5ef48288",
+        "loadPath": "/tmp/k7658-ngspice-performance/install/lib/ngspice/digital.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-ngspice-performance/install/lib/ngspice/xtradev.cm",
+        "sha256": "dd51a41fbcdfd2326146486ad3d8dec7b2fb9b6a9b01983b4c790408467205ba",
+        "loadPath": "/tmp/k7658-ngspice-performance/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-ngspice-performance/install/lib/ngspice/xtraevt.cm",
+        "sha256": "078c6d9501a6824142e9bc1306c488d85b8a8c39bb75870a3fb75b7f2ee1f238",
+        "loadPath": "/tmp/k7658-ngspice-performance/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-ngspice-performance/install/lib/ngspice/table.cm",
+        "sha256": "6acb56a54f5e9b955eca92055d05227fe741c16c677fe08ca2d63782c77744a1",
+        "loadPath": "/tmp/k7658-ngspice-performance/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-ngspice-performance/install/lib/ngspice/tlines.cm",
+        "sha256": "6076e2998182e082bbb5d4080bbf68aedc4b5219f8bea0e77a8cb62d7ce35b96",
+        "loadPath": "/tmp/k7658-ngspice-performance/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "patchSha256": {
+    "ngspice-47-seegenerator-stdlib.patch": "c155b550f3f7dd7fdd4633dff25a1ca2fc46f463758a063223c087638f5aea41",
+    "ngspice-47-strict-time-diagnostic.patch": "2ec5f1cdedeb136b3d09756d6674a1654d2f890d620a6cee703d3b39c00fb957",
+    "cosim-input-barrier.patch": "1722a99123143b438e0dc95054430e90f0420fc621b507d88f2bf12abe61e5cf",
+    "eval-cache.patch": "fb4d3b0c4033265df9ff35a6ed1a80aeea5c2c26154ae3a9233b5e885da7cbc0"
+  },
+  "archiveSha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+  "configure": [
+    "--enable-xspice",
+    "--without-x",
+    "--with-readline=no",
+    "--disable-openmp",
+    "--disable-klu"
+  ],
+  "CFLAGS": "-O3 -std=gnu11",
+  "inputs": {
+    "boot.cir": "b496b3037150be896744321fe7a1680762072617e90c9bac0e39ef4489724cf2",
+    "boot.vvp": "bebacb965798df45564664b1ac9c8dfef7ef47687e602fb2067228993823c6e7",
+    "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+    "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d"
+  },
+  "retention": "Waveform SHA-256 receipts from four completed local runs; large raw waveforms remain local. Reproduce with eval_cache_benchmark.py."
+}

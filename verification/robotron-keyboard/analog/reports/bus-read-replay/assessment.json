@@ -1,0 +1,40 @@
+{
+  "completed": true,
+  "qualified": false,
+  "boundary": "Conditional replay of sampled supply/enables and captured initial capacitor voltage. It isolates this read; it does not qualify full-board solver convergence, semiconductor I/V or transient input applicability.",
+  "runs": {
+    "default": {
+      "volts": 4.967833093966234,
+      "supplyVolts": 4.967831304255167,
+      "excessVolts": 1.7897110664577554e-06,
+      "firstSampleSeconds": 1.0000000003410062e-12
+    },
+    "tight": {
+      "volts": 4.967833093980872,
+      "supplyVolts": 4.967831304255167,
+      "excessVolts": 1.7897257045262904e-06,
+      "firstSampleSeconds": 1.0000000003410062e-12
+    },
+    "tighter": {
+      "volts": 4.967833093980659,
+      "supplyVolts": 4.967831304255167,
+      "excessVolts": 1.7897254922516481e-06,
+      "firstSampleSeconds": 1.0000000003410062e-12
+    },
+    "xyce": {
+      "volts": 4.96783309398063,
+      "supplyVolts": 4.967831304255167,
+      "excessVolts": 1.7897254629417603e-06,
+      "firstSampleSeconds": 0.0
+    }
+  },
+  "independentKclVolts": [
+    4.967833093980981,
+    4.967833093980978
+  ],
+  "observedSolverSpreadVolts": 1.474731448070088e-11,
+  "originalExcessVolts": 1.7902535036640188e-06,
+  "replayExcessPersists": true,
+  "interpretation": "The isolated linear stress fixture retains charge above its falling supply. Agreement conditional on this recorded boundary does not resolve the coupled capture uncertainty or establish a specimen fault. Keep the published limit unchanged.",
+  "sourceSha256": "ffa64d28393e897cfea78250cabbdbc52d4ab38286eb63c1c7a9d1c6f53fdd1e"
+}

@@ -313,6 +313,26 @@ ordering failure, not general rollback for autonomous HDL or multiple clients.
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
 startup timed out. Neither result establishes complete electrical acceptance.
 
+The [isolated bus-read replay](reports/bus-read-replay/assessment.json) preserves
+all D1 loads, driver resistances and recorded supply/enable transitions. Tight
+ngspice, Xyce and independent KCL integration reproduce charge above the falling
+rail. This is conditional agreement on sampled boundary data, not a bound on the
+coupled solver or proof of a specimen fault. The retained `coupled/` runs include
+a tighter-tolerance abort and timeout. Reproduce the capture with
+`bus_read_capture.py`, then replay it with `bus_read_replay.py`; keep input limits
+unchanged while reviewing driver dynamics and transient applicability.
+
+The optional [evaluator cache](engine-patches/eval-cache.patch) reuses shared pure
+subexpressions only within one value/gradient evaluation. It defaults off;
+`ROBOTRON_EVAL_CACHE=exact` enables it. Build the pinned ngspice 47 archive with
+the patch set and configure flags in [the runtime receipt](reports/eval-cache/runtime.json).
+Do not use fast-math. The [startup benchmark](reports/eval-cache/assessment.json)
+retains byte-equality receipts for disabled/enabled runs; use
+`eval_cache_benchmark.py` to reproduce them from a prepared startup directory.
+The improvement is scoped to a short, below-rated-supply window. Longer startup
+and service controls must pass before enabling the cache in qualification runs.
+
+
 Verify retained endpoint and bridge evidence with `device_endpoint_probe.py
 --verify reports/device-endpoints` and `bridge_time_review.py --verify --out
 reports/qualified-cpu-bridge-time` from this directory.
