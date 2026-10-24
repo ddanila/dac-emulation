@@ -329,7 +329,11 @@ preserve every waveform sample and firmware event. The sole irreversible client
 runs last, and no callback occurs in an LTE-rejected trial. Client-requested
 breakpoints are covered by the [complete bridge timing control](reports/bridge-rollback/assessment.json):
 no logged advance or output occurs in breakpoint-rejected trials, and observed
-HDL time remains monotonic. Newton rejection was not exercised.
+HDL time remains monotonic. The [forced Newton-retry control](reports/newton-retry/assessment.json)
+preserves firmware events and stays within the voltage budget; no irreversible
+callback precedes the Newton rejection. Its disabled runtime reproduces every
+sample and solver/HDL record. This exercises retry scheduling, not natural device
+nonconvergence or general state rollback.
 Callback ordering alone does not establish internal HDL rollback. Use `build_bridge_time_audit.py` to prepare a separate
 bridge logger, then `live_bridge_time_capture.py` against a completed enabled
 dispatch control. The capture permits only the identified VPI-library substitution;
