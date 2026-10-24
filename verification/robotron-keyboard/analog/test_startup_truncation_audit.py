@@ -36,6 +36,7 @@ int main(void) {
  for(int method=1;method<=2;method++)for(int order=1;order<=2;order++)for(int i=0;i<5;i++){
  c.CKTintegrateMethod=method;c.CKTorder=order;c.CKTtime=times[i];double step=1e-6;
  CKTterr(0,&c,&step);printf("%a\\n",step);
+ step=1e-30;CKTterr(0,&c,&step);printf("%a\\n",step);
  }
  return 0;
 }
