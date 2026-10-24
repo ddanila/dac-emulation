@@ -1,0 +1,56 @@
+--- a/src/xspice/icm/digital/dac_bridge/cfunc.mod
++++ b/src/xspice/icm/digital/dac_bridge/cfunc.mod
+@@ -49,6 +49,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include "dac_anchor.h"
+ #include <ctype.h>
+ #include <math.h>
+ #include <string.h>
+@@ -259,6 +260,14 @@
+                 OUTPUT(out[i]) = out[i];
+             }
+         }
++        if (!multi && getenv("ROBOTRON_DAC_ANCHORED")) {
++            RobotronDacRamp *state;
++            cm_analog_alloc(1, size_out * (int)sizeof(RobotronDacRamp));
++            state = (RobotronDacRamp *)cm_analog_get_ptr(1, 0);
++            for (i = 0; i < size_out; ++i)
++                state[i] = (RobotronDacRamp){TIME, out[i], out[i]};
++            cm_message_printf("DAC_ANCHORED enabled single-bit");
++        }
+         for (i = 0; i < size_in; i++)
+             LOAD(in[i]) = PARAM(input_load);
+         return;
+@@ -411,6 +420,30 @@
+             out[0] = vout * level_inc + out_low;
+             OUTPUT(out[0]) = out[0];
+             return;
++        }
++
++        /* Opt-in, event-anchored arithmetic. Analog state storage provides
++         * accepted/trial snapshots, including rejected-step rollback. */
++        if (getenv("ROBOTRON_DAC_ANCHORED")) {
++            RobotronDacRamp *state = (RobotronDacRamp *)cm_analog_get_ptr(1, 0);
++            RobotronDacRamp *accepted = (RobotronDacRamp *)cm_analog_get_ptr(1, 1);
++            for (i = 0; i < size_in; ++i) {
++                double target = in[i].i == ONE ? out_high :
++                                in[i].i == ZERO ? out_low : out_undef;
++                if (TIME == 0.0)
++                    state[i] = (RobotronDacRamp){0.0, target, target};
++                else
++                    state[i] = robotron_dac_trial(&accepted[i], TIME,
++                        in[i].i_changed, target, rise_slope, fall_slope);
++                vout = robotron_dac_value(&state[i], TIME, rise_slope, fall_slope);
++                if (state[i].value != state[i].target) {
++                    double slope = state[i].value < state[i].target ? rise_slope : fall_slope;
++                    double corner = state[i].origin + fabs(state[i].target - state[i].value) / slope;
++                    if (corner > TIME) cm_analog_set_perm_bkpt(corner);
++                }
++                OUTPUT(out[i]) = out[i] = vout;
++            }
++            break;
+         }
+ 
+         /* Multiple single-bit conversions. */
