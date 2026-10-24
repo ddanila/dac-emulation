@@ -65,7 +65,7 @@ def main():
  if a.reduce_matrix:deck=reduce_matrix(deck)
  if a.fixture_crossings_ps:
   scenario_path=a.prepared/'scenario.json'
-  deck=add_crossings(deck,a.fixture_crossings_ps,load_scenario(scenario_path) if scenario_path.exists() else None)
+  deck=add_crossings(deck,a.fixture_crossings_ps,load_scenario(scenario_path) if scenario_path.exists() else None, stop_ns=a.stop_ns)
  deck,count=re.subn(r'^\.tran\s+\S+',f'.tran {a.step_ns:g}n',deck,flags=re.M)
  if count!=1:raise ValueError('Expected one transient')
  if a.stop_ns is not None:
