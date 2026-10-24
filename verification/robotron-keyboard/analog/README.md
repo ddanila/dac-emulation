@@ -359,7 +359,7 @@ histories and pre-factorization equations. Independent 80/160-digit solves
 separate the initial capacitor rejection from the terminal ill-conditioned
 solve: correcting the logged LTE recurrence alone does not remove rejection.
 Use `live_state_review.py LOG --out REPORT` to recompute the frozen comparison.
-`--truncation-tolerance` explicitly sets a transient-error allowance at or below the effective XSPICE default of 1, independently of Newton tolerances. A candidate still requires complete matched refinement and control captures.
+`--truncation-tolerance` explicitly sets a transient-error allowance at or below the effective XSPICE default of 1, independently of Newton tolerances. A candidate still requires complete matched refinement and control captures. Retain the series with `fixture_grid_review.py --experiment transient-error`; its explicit default must reproduce the implicit baseline.
 
 `--filter-trunc-audit` requires the filter-truncation patch on the retained startup-instrumented runtime. It logs timestep reductions and device identities only in 138–138.5 µs; complete disabled/enabled waveform controls are required before interpreting its records. [The analysis tool](filter_truncation_review.py) verifies the build ancestry and waveform equivalence before replaying the logged arithmetic.
 

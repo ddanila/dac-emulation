@@ -6,6 +6,8 @@ import copy,json,tempfile
 from pathlib import Path
 from fixture_grid_review import validate_anchor_build, validate_anchor_grids, retain_generator
 from ttl7406_probe import sha
+from fixture_grid_review import validate_truncation_decks, validate_truncation_baseline
+from transient_error_control import set_truncation_tolerance
 
 class MatchedControls(unittest.TestCase):
  def receipts(self,experiment):
@@ -59,6 +61,30 @@ class MatchedControls(unittest.TestCase):
    with self.assertRaises(ValueError):validate_receipts(bad,'dense-anchored')
   bad=copy.deepcopy(runs);bad['6.25']['samplingGridSha256']=runs['25']['samplingGridSha256']
   with self.assertRaises(ValueError):validate_anchor_grids(bad,'dense-anchored')
+ def transient_inputs(self):
+  root=Path(__file__).resolve().parent/'reports/dense-anchored-refinement'
+  runs={name:json.loads((root/('25' if name=='control' else name)/'run.json').read_text()) for name in ('control','25','12.5','6.25')}
+  decks={name:set_truncation_tolerance((root/('25' if name=='control' else name)/'io.cir').read_text(),1 if name=='control' else .25) for name in runs}
+  for name,run in runs.items():run.update(filterTruncAudit=False,truncationTolerance=1 if name=='control' else .25)
+  return runs,decks
+ def test_transient_error_receipts_and_baseline(self):
+  runs,decks=self.transient_inputs()
+  validate_receipts(runs,'transient-error');validate_anchor_grids(runs,'transient-error')
+  validate_truncation_decks(decks);validate_truncation_baseline(runs['control'],decks['control'])
+  for field,value in [('truncationTolerance',1),('filterTruncAudit',True),('dacAnchored',False),('haltNs',2000),('stopNs',2000),('toleranceScale',.1),('runtime',{}),('generatorSha256','changed')]:
+   bad=copy.deepcopy(runs);bad['6.25'][field]=value
+   with self.assertRaises(ValueError):validate_receipts(bad,'transient-error')
+ def test_transient_error_decks_reject_extra_options_and_physical_changes(self):
+  runs,decks=self.transient_inputs()
+  for edit in (lambda d:d.replace('trtol=0.25','trtol=0.5'),lambda d:d+'\n.options trtol=.25\n',lambda d:d+'\nset xtrtol=7\n',lambda d:d+'\nRunexpected a 0 100\n'):
+   bad=dict(decks);bad['6.25']=edit(bad['6.25'])
+   with self.assertRaises(ValueError):validate_truncation_decks(bad)
+ def test_explicit_baseline_rejects_changed_inputs(self):
+  runs,decks=self.transient_inputs();run=runs['control'];deck=decks['control']
+  for field,value in [('truncationTolerance',.25),('filterTruncAudit',True),('inputs',{}),('runtime',{}),('haltNs',2000)]:
+   bad=copy.deepcopy(run);bad[field]=value
+   with self.assertRaises(ValueError):validate_truncation_baseline(bad,deck)
+  with self.assertRaises(ValueError):validate_truncation_baseline(run,deck+'\nRunexpected a 0 100\n')
  def test_retains_exact_generator_and_rejects_missing_source(self):
   with tempfile.TemporaryDirectory() as directory:
    root=Path(directory);out=root/'report';out.mkdir()
