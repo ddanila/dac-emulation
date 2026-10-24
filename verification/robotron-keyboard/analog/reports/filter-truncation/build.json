@@ -1,0 +1,28 @@
+{
+  "base": {
+    "baseRuntimeSha256": "a9be81f88d1c4a3bf6698881bb41e1b1835f3c303fda475e549fae8ccd3cb4aa",
+    "files": {
+      "src/spicelib/analysis/cktterr.c": "a383f164dd704fec3872b4c14fd19fdbab4bcf8d52cf8ca5071d420550da005e",
+      "src/spicelib/devices/cap/captrunc.c": "44790a62c3e0931733dec82658e603a4bc5e1235a42397b6abd8e998dfd950a4",
+      "src/spicelib/devices/ind/indtrunc.c": "210ed38e186a880dbaeb26c1363e0d38b3f0a6db96f1ff1a4704c2059f14e58d",
+      "src/spicelib/devices/bjt/bjttrunc.c": "ab948f6f2ba686f1f1f4e3cef611f73e9e6cb48f31b7e27f2c573c7119178d05"
+    },
+    "scope": "Existing startup-instrumented passive-assembly runtime; filter patch adds logging only in 138\u2013138.5 us."
+  },
+  "patchSha256": "24096231e42ed3de126cf70c4ff7d12cb09119289234bf2a9b15f0e92843d98c",
+  "executableSha256": "042819cee67700e7c2b82756fc7a383f0178dd3bdcd1226c99de3420fee7f3b0",
+  "sourceSha256": {
+    "src/spicelib/analysis/cktterr.c": "e95914264fe638be0e7f9f4df302d24ef74c9f0e053ef287076f62988a2cfebd",
+    "src/spicelib/devices/cap/captrunc.c": "44bc30d95a96d1e96b15f83ddce4f0fd85909901222d3ff425bbceab03223354",
+    "src/spicelib/devices/ind/indtrunc.c": "a0518c1edb5264219219a05c6ced062e8048987f70872735db5f90a8c7bef41c",
+    "src/spicelib/devices/bjt/bjttrunc.c": "77c9e437b4a45ea0a7857dca7ce29ed2a1f43603ba929f6e2254b59a84b87a39"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+  "buildCommand": [
+    "make",
+    "-C",
+    "/private/tmp/k7658-ngspice-performance/build",
+    "-j2"
+  ],
+  "scope": "Incremental logging-only build over retained startup-instrumented runtime. Requires complete disabled and enabled waveform controls before diagnostic interpretation."
+}
