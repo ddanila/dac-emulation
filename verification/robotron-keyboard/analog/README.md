@@ -331,8 +331,10 @@ breakpoints still need actual HDL-time checks; Newton rejection was not exercise
 Callback ordering alone does not establish internal HDL rollback. Use `build_bridge_time_audit.py` to prepare a separate
 bridge logger, then `live_bridge_time_capture.py` against a completed enabled
 dispatch control. The capture permits only the identified VPI-library substitution;
-complete waveform equivalence is required before interpreting requested/actual HDL
-times.
+`live_bridge_time_review.py` requires complete waveform and solver-dispatch-history
+equivalence before interpreting requested/actual HDL times. `bridge_rollback_log.py`
+keeps callbacks without logged advances separate from requests and outputs, and
+checks the bridge's existing one-tick time-order guard.
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
 startup timed out. Neither result establishes complete electrical acceptance.
 
