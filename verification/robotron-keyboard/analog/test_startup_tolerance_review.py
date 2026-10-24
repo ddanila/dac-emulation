@@ -13,6 +13,16 @@ class ControlTests(unittest.TestCase):
                       '.options reltol=1e-8 vntol=1e-9\nR1 a 0 1\n')
     def test_matched_controls(self):
         validate_pair(self.base, self.candidate, *self.decks)
+    def test_voltage_control_changes_only_absolute_voltage_tolerance(self):
+        base = {**self.base, 'toleranceScale': .01}
+        candidate = {**base, 'toleranceComponents': ['reltol', 'vntol']}
+        deck = self.decks[1]
+        tightened = deck.replace('vntol=1e-9', 'vntol=' + str(1e-9 * .01))
+        validate_pair(base, candidate, deck, tightened, 'voltage')
+        with self.assertRaises(ValueError):
+            validate_pair(base, candidate, deck, tightened.replace('reltol=1e-8', 'reltol=1e-9'), 'voltage')
+        with self.assertRaises(ValueError):
+            validate_pair(base, candidate, deck, deck, 'voltage')
     def test_changed_physics_and_absolute_tolerance_rejected(self):
         for deck in (self.decks[1].replace('R1 a 0 1', 'R1 a 0 2'),
                      self.decks[1].replace('vntol=1e-9', 'vntol=1e-8')):
