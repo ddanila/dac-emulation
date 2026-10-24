@@ -2,10 +2,16 @@ import struct
 import tempfile
 from pathlib import Path
 import unittest
-from live_raw_review import compare_trace
+from live_raw_review import compare_trace, signal_name
 
 
 class LiveRawReviewTests(unittest.TestCase):
+    def test_special_current_names_follow_ngspice_writer(self):
+        self.assertEqual(signal_name('i(@Bwr_low[i])'), '@bwr_low[i]')
+        self.assertEqual(signal_name('@Bwr_low[i]'), '@bwr_low[i]')
+        self.assertEqual(signal_name('i(Vdriver_supply)'), 'i(vdriver_supply)')
+        self.assertEqual(signal_name('i(@device[v])'), 'i(@device[v])')
+
     def test_reordered_columns_preserve_every_sample(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d)
