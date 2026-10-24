@@ -349,6 +349,8 @@ diagnostic runtime and the completed bridge timing control's circuit and inputs.
 then checks the injected retry's complete absolute-time waveforms, firmware events
 and dispatch/HDL timing. `raw_pair_review.py` streams both sample grids and rejects
 missing observations or an incomplete declared endpoint.
+`retain_newton_retry.py` retains the checked pair's receipts and compressed logs;
+its `--check` mode verifies their manifest and recomputes dispatch/timing results.
 This tests retry scheduling, not natural device nonconvergence or general rollback.
 
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
