@@ -13,6 +13,7 @@ from reset_release_driver_review import trace_summary, TRACES
 from startup_grid_review import prefix, STEPS, WINDOW
 from tolerance_controls_review import normalized
 from trace_io import open_binary
+from sampling_error_review import build as sampling_review
 
 HERE = Path(__file__).resolve().parent
 BASELINE = HERE / 'reports/startup-grid-density'
@@ -98,6 +99,11 @@ def retain(root, out):
                           'tolerance_controls_review.py', 'host_waveform_comparison.py',
                           'numerical_voltage_budget.py', 'trace_io.py')}}
     (out / 'assessment.json').write_text(json.dumps(result, indent=2) + '\n')
+    sampling = sampling_review(out, out, '')
+    sampling['observationWindowSeconds'] = [0, WINDOW]
+    sampling['scope'] = ('Diagnostic-prefix peaks only, not full-window qualification. '
+                         + sampling['scope'].replace('whole-window', 'diagnostic-prefix'))
+    (out / 'sampling-error.json').write_text(json.dumps(sampling, indent=2) + '\n')
     (out / 'manifest.json').write_text(json.dumps({str(p.relative_to(out)): sha(p)
         for p in sorted(out.rglob('*')) if p.is_file()}, indent=2) + '\n')
     print(json.dumps(result['diagnosticVoltageGate'], indent=2))
