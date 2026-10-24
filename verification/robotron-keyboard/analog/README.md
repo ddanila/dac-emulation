@@ -325,7 +325,11 @@ irreversible-client dispatch logging. `live_raw_output.py --rollback-audit` pair
 complete logging-disabled/enabled captures. `rollback_dispatch_review.py` requires
 identical samples, firmware events and complete audit coverage before interpreting
 `rollback_audit_log.py` results. Callback ordering alone does not
-establish internal HDL rollback.
+establish internal HDL rollback. Use `build_bridge_time_audit.py` to prepare a separate
+bridge logger, then `live_bridge_time_capture.py` against a completed enabled
+dispatch control. The capture permits only the identified VPI-library substitution;
+complete waveform equivalence is required before interpreting requested/actual HDL
+times.
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
 startup timed out. Neither result establishes complete electrical acceptance.
 
