@@ -2,6 +2,7 @@
 """Capture bridge request/actual-time logging against a complete dispatch control."""
 import argparse
 import json
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -11,6 +12,14 @@ from eval_cache_benchmark import external_dependencies, verify_dependencies
 from filter_truncation_log import diagnostic
 from ngspice_runtime import identify, verify
 from ttl7406_probe import sha
+
+
+def substitute_vpi(deck, old, new):
+    token='"'+old+'"'
+    lines=[line for line in deck.splitlines() if token in line]
+    if deck.count(token)!=1 or not re.fullmatch(r'\+\s+lib_args=\["[^"]+"\s+'+re.escape(token)+r'\]',lines[0]):
+        raise ValueError('Expected one VPI path in the bridge lib_args')
+    return deck.replace(token,'"'+new+'"')
 
 
 def run(control, base_bridge, audit_bridge, out, timeout):
@@ -34,15 +43,13 @@ def run(control, base_bridge, audit_bridge, out, timeout):
     deck=(control/'io.cir').read_text()
     if sha(control/'io.cir')!=prior['deckSha256'] or 'run waveform.raw' not in deck:
         raise ValueError('Changed direct-output control')
-    original=(control/'io.vvp').read_text()
     old=base['libraries']['vpi']['path'];new=audit['libraries']['vpi']['path']
-    needle=':vpi_module "'+old+'";'
-    if original.count(needle)!=1:raise ValueError('Expected one pinned VPI module')
+    changed_deck=substitute_vpi(deck,old,new)
     if sha(control/'io.vvp')!=prior['inputs']['io.vvp'] or sha(control/'s600.hex')!=prior['inputs']['s600.hex']:
         raise ValueError('Changed baseline inputs')
     out.mkdir(parents=True,exist_ok=False)
-    (out/'io.cir').write_text(deck)
-    (out/'io.vvp').write_text(original.replace(needle,':vpi_module "'+new+'";'))
+    (out/'io.cir').write_text(changed_deck)
+    shutil.copyfile(control/'io.vvp',out/'io.vvp')
     shutil.copyfile(control/'s600.hex',out/'s600.hex')
     shutil.copyfile(__file__,out/'capture-generator.py')
     shutil.copyfile(audit_bridge,out/'bridge.json')
