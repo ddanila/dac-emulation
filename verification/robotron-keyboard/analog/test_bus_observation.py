@@ -5,6 +5,7 @@ import tempfile
 import unittest
 
 from bus_observation import measure, BusMismatch
+from test_raw_pair_review import write as write_raw
 
 LOG = ('BUS_SAMPLE 100000 0001 a5 0 1 0\nBUS_LATCH 150000 a5 a5\n'
        'BUS_SAMPLE 300000 8000 a5 1 0 1\nBUS_LATCH 350000 a5 a5\n')
@@ -12,6 +13,22 @@ HEADER = 'time ' + ' '.join(f'v(n_D{i})' for i in range(8)) + ' v(n_p5V)\n'
 
 
 class BusObservationTests(unittest.TestCase):
+    def test_raw_samples_preserve_text_bus_assessment_and_reject_corruption(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            trace=Path(temporary)/'bus.raw'
+            write_raw(trace,self.rows,HEADER.split())
+            result=measure(LOG,trace,10,bytes([0xa5])*2048,setup_ns=20,hold_ns=10,raw_count=len(self.rows))
+            self.assertEqual(result,self.check())
+            original=trace.read_bytes()
+            for data in (original[:-1],original+b'x'):
+                trace.write_bytes(data)
+                with self.assertRaises(ValueError):
+                    measure(LOG,trace,10,raw_count=len(self.rows))
+            bad=[r[:] for r in self.rows];bad[10][1]=1.4
+            write_raw(trace,bad,HEADER.split())
+            with self.assertRaisesRegex(BusMismatch,'D0'):
+                measure(LOG,trace,10,raw_count=len(bad))
+
     def setUp(self):
         self.rows = [[i * 1e-9, *[4.5 if 0xa5 & (1 << bit) else .2 for bit in range(8)], 5]
                      for i in range(0, 401, 10)]

@@ -5,7 +5,8 @@ import json
 from pathlib import Path
 from collections import deque
 
-from trace_io import open_text
+from trace_io import open_text, open_binary
+from raw_waveform import header as raw_header, rows as raw_rows
 from bus_input_limits import classify_input
 
 
@@ -16,13 +17,15 @@ class BusMismatch(ValueError):
         self.details = details
 
 
-def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=None, start_tolerance_ns=0):
+def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=None, start_tolerance_ns=0, raw_count=None):
     limits = json.loads(Path(__file__).with_name('cpu_clock_limits.json').read_text())
     operating, inputs = limits['operatingConditions'], limits['ordinaryInput']
     if not all(math.isfinite(v) and v >= 0 for v in (step_ns, setup_ns, hold_ns)) or step_ns == 0:
         raise ValueError('Invalid bus observation interval')
     if rom is not None and len(rom) != 2048:
         raise ValueError('Expected mapped 2048-byte ROM')
+    if raw_count is not None and (type(raw_count) is not int or raw_count<2):
+        raise ValueError('Raw bus input requires a verified complete sample count')
     if trace_extent is not None and (len(trace_extent) != 2 or
         not all(math.isfinite(t) and t >= 0 for t in trace_extent) or trace_extent[0] >= trace_extent[1]):
         raise ValueError('Invalid expected bus capture extent')
@@ -67,12 +70,21 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
     extent = {'firstSeconds': None, 'lastSeconds': None, 'rows': 0}
 
     def rows(stream):
-        header = next(stream, '').lower().split()
-        if header != ['time', *[f'v(n_d{i})' for i in range(8)], 'v(n_p5v)']:
-            raise ValueError('Unexpected bus trace columns')
+        expected=['time', *[f'v(n_d{i})' for i in range(8)], 'v(n_p5v)']
+        if raw_count is None:
+            header = next(stream, '').lower().split()
+            if header != expected:
+                raise ValueError('Unexpected bus trace columns')
+            samples=(list(map(float,line.split())) for line in stream)
+        else:
+            names,declared=raw_header(stream)
+            names=[name.lower() for name in names]
+            if declared not in (0,raw_count) or len(set(names))!=len(names) or not set(expected)<=set(names):
+                raise ValueError('Incomplete or ambiguous raw bus observations')
+            selection=[names.index(name) for name in expected]
+            samples=([sample[i] for i in selection] for sample in raw_rows(stream,len(names),raw_count))
         last = None
-        for line in stream:
-            row = list(map(float, line.split()))
+        for row in samples:
             if len(row) != 10 or not all(map(math.isfinite, row)) or (last is not None and row[0] < last):
                 raise ValueError('Invalid bus trace row or time order')
             last = row[0]
@@ -83,7 +95,7 @@ def measure(log, trace, step_ns, rom=None, setup_ns=0, hold_ns=0, trace_extent=N
             yield row
 
     low_margin, high_margin = math.inf, math.inf
-    with open_text(trace) as stream:
+    with (open_text(trace) if raw_count is None else open_binary(trace)) as stream:
         iterator = iter(rows(stream))
         current, history = next(iterator, None), deque()
         for ordinal, (time_ps, address, raw_value, memory, io, m1) in enumerate(samples):
