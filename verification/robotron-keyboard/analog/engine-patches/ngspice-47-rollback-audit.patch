@@ -1,0 +1,52 @@
+--- a/src/spicelib/analysis/dctran.c
++++ b/src/spicelib/analysis/dctran.c
+@@ -353,6 +353,8 @@
+     }
+ 
+     nextTime:
++    if (getenv("ROBOTRON_ROLLBACK_AUDIT"))
++        fprintf(stderr, "ROLLBACK_AUDIT accept time=%a\n", ckt->CKTtime);
+ 
+     /* begin LTRA code addition */
+     if (ckt->CKTtimePoints) {
+@@ -751,6 +753,8 @@
+             fprintf(stderr, "TRANSITION_AUDIT solved time=%a temporary=%a permanent=%a result=%d\n", ckt->CKTtime, g_mif_info.breakpoint.current, ckt->CKTbreaks[0], converged);
+         /* If no convergence in Central solver step */
+         if(converged != 0) {
++            if (getenv("ROBOTRON_ROLLBACK_AUDIT"))
++                fprintf(stderr, "ROLLBACK_AUDIT reject kind=newton time=%a delta=%a\n", ckt->CKTtime, ckt->CKTdelta);
+ 
+ #ifndef SHARED_MODULE
+             ckt->CKTtime = ckt->CKTtime -ckt->CKTdelta;
+@@ -777,6 +781,8 @@
+                - new delta by difference between by retracted time and breakpoint */
+ 
+         past_breakpoint:
++            if (getenv("ROBOTRON_ROLLBACK_AUDIT"))
++                fprintf(stderr, "ROLLBACK_AUDIT reject kind=breakpoint time=%a delta=%a target=%a\n", ckt->CKTtime, ckt->CKTdelta, g_mif_info.breakpoint.current);
+             ckt->CKTsaveDelta = ckt->CKTdelta;
+             ckt->CKTtime -= ckt->CKTdelta;
+             ckt->CKTdelta = g_mif_info.breakpoint.current - ckt->CKTtime;
+@@ -912,6 +918,8 @@
+                 /* not (newdelta > .9 * ckt->CKTdelta): reject the step
+                 - redo the time
+                 - apply the new (reduced) delta */
++                if (getenv("ROBOTRON_ROLLBACK_AUDIT"))
++                    fprintf(stderr, "ROLLBACK_AUDIT reject kind=lte time=%a delta=%a target_delta=%a\n", ckt->CKTtime, ckt->CKTdelta, newdelta);
+ #ifndef SHARED_MODULE
+                 ckt->CKTtime = ckt->CKTtime -ckt->CKTdelta;
+                 ckt->CKTstat->STATrejected ++;
+--- a/src/xspice/evt/evtcall_hybrids.c
++++ b/src/xspice/evt/evtcall_hybrids.c
+@@ -76,7 +76,11 @@
+     /* Call EVTload for all hybrids */
+ 
+     for(i = 0; i < num_hybrids; i++) {
++        if (getenv("ROBOTRON_ROLLBACK_AUDIT") && hybrids[i]->irreversible)
++            fprintf(stderr, "ROLLBACK_AUDIT client phase=before time=%a name=%s priority=%u index=%d count=%d breakpoint=%a\n", ckt->CKTtime, hybrids[i]->gen.GENname, hybrids[i]->irreversible, i, num_hybrids, g_mif_info.breakpoint.current);
+         EVTload_with_event(ckt, hybrids[i], MIF_STEP_PENDING);
++        if (getenv("ROBOTRON_ROLLBACK_AUDIT") && hybrids[i]->irreversible)
++            fprintf(stderr, "ROLLBACK_AUDIT client phase=after time=%a name=%s priority=%u index=%d count=%d breakpoint=%a\n", ckt->CKTtime, hybrids[i]->gen.GENname, hybrids[i]->irreversible, i, num_hybrids, g_mif_info.breakpoint.current);
+         if (g_mif_info.breakpoint.current < ckt->CKTtime) {
+             /* An XSPICE instance rejected the time-step. */
+ 
