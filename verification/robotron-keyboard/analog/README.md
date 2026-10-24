@@ -462,7 +462,9 @@ retains byte-equality receipts for disabled/enabled runs; use
 New captures derive their window from the deck and reject incomplete, nonfinite
 or nonmonotonic traces; timeout/failure receipts remain in the output directory.
 The runtime receipt fingerprints the executable, initialization and code models.
-The startup improvement is scoped to a short, below-rated-supply window. The
+The [extended startup comparison](reports/eval-cache-startup-2ms/assessment.json)
+covers the first 2 ms, including supply settling into its rated range; it does not
+cover later firmware service. The
 [recorded bus-read comparison](reports/eval-cache-bus-read/assessment.json) checks
 an unchanged captured-boundary replay, not live CPU/HDL service. A prepared
 `fixture.json` can select its deck, input files and output traces; without it the

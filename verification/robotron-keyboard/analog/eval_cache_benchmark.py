@@ -38,6 +38,12 @@ def fixture(root):
  if spec['deck'] not in spec['inputs'] or set(spec['inputs']) & set(spec['traces']):raise ValueError('Invalid fixture deck or traces')
  return spec
 
+def validate_extent(extent,scope):
+ if not isinstance(extent['samples'],int) or isinstance(extent['samples'],bool) or extent['samples']<2:raise ValueError('Incomplete retained capture')
+ if not all(math.isfinite(extent[k]) for k in ('firstSeconds','lastSeconds','minimumValue','maximumValue')):raise ValueError('Nonfinite retained capture')
+ if extent['minimumValue']>extent['maximumValue']:raise ValueError('Invalid retained voltage range')
+ if not valid_start(extent['firstSeconds'],scope) or abs(extent['lastSeconds']-scope['stopSeconds'])>max(1e-15,scope['stepSeconds']*1e-6):raise ValueError('Incomplete retained capture')
+
 def trace_extent(path,scope):
  count=0;first=last=None;low=high=None
  with path.open() as stream:
@@ -69,7 +75,7 @@ def assess(root):
   for n,r in zip(('off','exact','off-repeat','exact-repeat'),runs):
    for name in spec['traces']:
     extent=r['capture'][name]
-    if extent['samples']<2 or not valid_start(extent['firstSeconds'],scope) or abs(extent['lastSeconds']-scope['stopSeconds'])>max(1e-15,scope['stepSeconds']*1e-6):raise ValueError('Incomplete retained capture')
+    validate_extent(extent,scope)
     if (root/n/name).exists() and trace_extent(root/n/name,scope)!=extent:raise ValueError('Changed capture extent')
  identical=all(r['sha256']==runs[0]['sha256'] for r in runs)
  if not identical:raise ValueError('Cache changed recorded waveforms')
