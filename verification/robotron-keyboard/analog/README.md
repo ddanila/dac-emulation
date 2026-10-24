@@ -436,7 +436,10 @@ full-repeat attempts and disabled controls do not qualify. A bounded startup
 comparison supports the opt-in DAC-corner correction; no production default changes.
 Use `saved_network_review.py --help` to replay complete-window comparisons and
 `startup_drive_review.py --help` for the startup controls. New live runs can select
-`--all-saved-network`; `complete_network_review.py --end-seconds` requires the
+`--compressed-output` to stream each `wrdata` file losslessly to XZ, retaining
+producer-byte hashes in the run receipt. This avoids raw output allocation; it
+does not reduce ngspice vector memory or qualify full-repeat behavior.
+`--all-saved-network` selects every saved observation; `complete_network_review.py --end-seconds` requires the
 explicit complete interval. Retention preserves every available sample, including
 failed controls. Longer runs need a concrete board/receiver decision, not merely
 an improved private fixture waveform.
