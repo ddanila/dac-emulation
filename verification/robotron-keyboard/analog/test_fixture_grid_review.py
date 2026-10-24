@@ -4,7 +4,7 @@ from local_refinement_grid import grids
 from sampling_grid import add_sampling_grid
 import copy,json
 from pathlib import Path
-from fixture_grid_review import validate_anchor_build
+from fixture_grid_review import validate_anchor_build, validate_anchor_grids
 
 class MatchedControls(unittest.TestCase):
  def receipts(self,experiment):
@@ -48,6 +48,16 @@ class MatchedControls(unittest.TestCase):
   for field,value in [('dacAnchored',False),('haltNs',12),('dacStateAudit',True),('inputs',{}),('runtime',{})]:
    bad=copy.deepcopy(runs);bad['6.25'][field]=value
    with self.assertRaises(ValueError):validate_receipts(bad,'dac-anchored')
+ def test_dense_anchored_full_window_and_retained_grids(self):
+  root=Path(__file__).resolve().parent/'reports/startup-tight-tolerance'
+  runs={name:json.loads((root/('25' if name=='control' else name)/'run.json').read_text()) for name in ('control','25','12.5','6.25')}
+  for name,run in runs.items():run.update(haltNs=None,dacAnchored=name!='control',startupTruncAudit=False)
+  validate_receipts(runs,'dense-anchored');validate_anchor_grids(runs,'dense-anchored')
+  for field,value in [('toleranceScale',.1),('stopNs',2000),('haltNs',2000),('startupTruncAudit',True),('dacAnchored',False)]:
+   bad=copy.deepcopy(runs);bad['6.25'][field]=value
+   with self.assertRaises(ValueError):validate_receipts(bad,'dense-anchored')
+  bad=copy.deepcopy(runs);bad['6.25']['samplingGridSha256']=runs['25']['samplingGridSha256']
+  with self.assertRaises(ValueError):validate_anchor_grids(bad,'dense-anchored')
  def test_anchored_build_fingerprints(self):
   root=Path(__file__).resolve().parent/'reports/dac-anchored-startup'
   run=json.loads((root/'25/run.json').read_text());build=json.loads((root/'build.json').read_text())
