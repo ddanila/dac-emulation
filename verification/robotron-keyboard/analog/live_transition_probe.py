@@ -11,6 +11,7 @@ from sampling_grid import add_sampling_grid
 from transient_error_control import set_truncation_tolerance
 from network_trace import observe_network, PHYSICAL_SIGNALS
 from io_scenario import load as load_scenario
+from live_capture import run as run_capture
 
 def live_diagnostic(log):
  # Icarus can abort HDL initialization with SORRY while ngspice still exits zero.
@@ -35,6 +36,7 @@ def tighten_tolerances(deck, scale, components):
 def main():
  p=argparse.ArgumentParser(description=__doc__)
  for key in ('prepared','spinit','out'):p.add_argument('--'+key,type=Path,required=True)
+ p.add_argument('--compressed-output',action='store_true')
  p.add_argument('--truncation-tolerance',type=float);p.add_argument('--filter-trunc-audit',action='store_true');p.add_argument('--startup-trunc-audit',action='store_true');p.add_argument('--dac-anchored',action='store_true');p.add_argument('--halt-ns',type=float);p.add_argument('--dac-state-audit',action='store_true');p.add_argument('--tolerance-components',nargs='+',choices=('reltol','vntol','abstol'),default=['reltol','vntol','abstol']);p.add_argument('--sampling-grid',type=Path);p.add_argument('--all-saved-network',action='store_true');p.add_argument('--physical-driver-trace',action='store_true');p.add_argument('--adc-crossings',action='store_true');p.add_argument('--network-trace',action='store_true');p.add_argument('--passive-assembly',action='store_true');p.add_argument('--inductor-monitor',action='store_true');p.add_argument('--cap-paired-rhs',action='store_true');p.add_argument('--conservative-cap',action='store_true');p.add_argument('--switch-audit',action='store_true');p.add_argument('--method',choices=('trap','gear'));p.add_argument('--mpfr-start-ns',type=float);p.add_argument('--fixture-crossings-ps',type=float,choices=(1,.5,.25));p.add_argument('--ngspice',required=True);p.add_argument('--audit',action='store_true');p.add_argument('--mpfr-transition',choices=('256','512'));p.add_argument('--state-audit',action='store_true');p.add_argument('--dac-corners',action='store_true');p.add_argument('--reduce-matrix',action='store_true');p.add_argument('--stop-ns',type=float);p.add_argument('--tolerance-scale',type=float,default=1);p.add_argument('--step-ns',type=float,default=25);p.add_argument('--timeout',type=float,default=60);a=p.parse_args()
  if a.step_ns<=0 or a.timeout<=0 or not 0<a.tolerance_scale<=1 or (a.stop_ns is not None and a.stop_ns<=0):p.error('Step and timeout must be positive')
  if a.mpfr_start_ns is not None and (not a.mpfr_transition or not 0<=a.mpfr_start_ns<1e12):p.error('MPFR start requires MPFR and a finite nonnegative start')
@@ -98,8 +100,7 @@ def main():
   deck=add_halt(deck,a.halt_ns,a.stop_ns)
  (a.out/'io.cir').write_text(deck);start=time.monotonic();code=None;timedout=False
  with (a.out/'ngspice.log').open('w') as log:
-  try:code=subprocess.run([a.ngspice,'-n','-b','io.cir'],cwd=a.out,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=a.timeout).returncode
-  except subprocess.TimeoutExpired:timedout=True
+  code,timedout,storage_error,storage=run_capture([a.ngspice,'-n','-b','io.cir'],a.out,env,log,a.timeout,deck,compressed=a.compressed_output)
  verify(runtime)
  verify_dependencies(dependencies)
  logtext=(a.out/'ngspice.log').read_text()
@@ -113,5 +114,7 @@ def main():
  if a.startup_trunc_audit and 'STARTUP_TRUNC error ' not in logtext:raise ValueError('Missing startup truncation audit')
  if a.filter_trunc_audit and 'FILTER_TRUNC error ' not in logtext:raise ValueError('Missing filter truncation audit')
  result={'truncationTolerance':a.truncation_tolerance,'filterTruncAudit':a.filter_trunc_audit,'startupTruncAudit':a.startup_trunc_audit,'dacAnchored':a.dac_anchored,'haltNs':a.halt_ns,'dacStateAudit':a.dac_state_audit,'toleranceComponents':a.tolerance_components,'samplingGridSha256':sampling_hash,'externalDependencies':dependencies,'observationSignals':observation_signals,'exitCode':code,'timedOut':timedout,'elapsedSeconds':time.monotonic()-start,'runtime':runtime,'enabled':a.dac_corners,'adcCrossings':a.adc_crossings,'audit':a.audit,'stateAudit':a.state_audit,'switchAudit':a.switch_audit,'conservativeCap':a.conservative_cap,'capPairedRhs':a.cap_paired_rhs,'inductorMonitor':a.inductor_monitor,'passiveAssembly':a.passive_assembly,'physicalDriverTrace':a.physical_driver_trace,'networkTrace':a.network_trace,'mpfrTransitionBits':a.mpfr_transition,'mpfrStartNs':a.mpfr_start_ns,'matrixBoundarySubstitution':a.reduce_matrix,'stepNs':a.step_ns,'stopNs':a.stop_ns,'fixtureCrossingGuardPs':a.fixture_crossings_ps,'toleranceScale':a.tolerance_scale,'qualified':False,'method':a.method or 'trap','solverDiagnostic':live_diagnostic(logtext),'sourceDeckSha256':sha(a.prepared/'io.cir'),'deckSha256':sha(a.out/'io.cir'),'inputs':{n:sha(a.out/n) for n in ('io.vvp','s600.hex')},'generatorSha256':generator_sha}
+ if a.compressed_output:result['compressedOutput']={'format':'xz','streams':storage,'error':storage_error}
+ if storage_error:result['solverDiagnostic']=result['solverDiagnostic'] or 'Output capture failed: '+storage_error
  (a.out/'run.json').write_text(json.dumps(result,indent=2)+'\n');print(a.out/'run.json')
 if __name__=='__main__':main()
