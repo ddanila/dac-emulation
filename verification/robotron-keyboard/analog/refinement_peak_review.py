@@ -43,7 +43,7 @@ def witnesses(path, signals, step, requests):
     return result
 
 
-def review(root, evidence):
+def review(root, evidence, prefix='fixture-grid-reset-'):
     assessment = json.loads((evidence / 'assessment.json').read_text())
     requests = {name: [] for name in ('25', '12.5', '6.25')}
     peaks = []
@@ -59,7 +59,7 @@ def review(root, evidence):
     captured = {}
     hashes = {}
     for name, pending in requests.items():
-        path = root / ('fixture-grid-reset-' + name) / 'network_witness.txt'
+        path = root / (prefix + name) / 'network_witness.txt'
         run = json.loads((evidence / name / 'run.json').read_text())
         endpoint = json.loads((evidence / name / 'trace-endpoints.json').read_text())['network_witness.txt']
         hashes[name] = sha(path)
@@ -85,5 +85,6 @@ if __name__ == '__main__':
     parser.add_argument('--runs', type=Path, required=True)
     parser.add_argument('--evidence', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--prefix', default='fixture-grid-reset-')
     args = parser.parse_args()
-    args.out.write_text(json.dumps(review(args.runs, args.evidence), indent=2)+'\n')
+    args.out.write_text(json.dumps(review(args.runs, args.evidence, args.prefix), indent=2)+'\n')
