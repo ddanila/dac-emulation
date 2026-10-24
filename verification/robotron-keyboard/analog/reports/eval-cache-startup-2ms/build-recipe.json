@@ -1,0 +1,20 @@
+{
+  "archiveSha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+  "patchSha256": {
+    "ngspice-47-seegenerator-stdlib.patch": "c155b550f3f7dd7fdd4633dff25a1ca2fc46f463758a063223c087638f5aea41",
+    "ngspice-47-strict-time-diagnostic.patch": "2ec5f1cdedeb136b3d09756d6674a1654d2f890d620a6cee703d3b39c00fb957",
+    "cosim-input-barrier.patch": "1722a99123143b438e0dc95054430e90f0420fc621b507d88f2bf12abe61e5cf",
+    "eval-cache.patch": "fb4d3b0c4033265df9ff35a6ed1a80aeea5c2c26154ae3a9233b5e885da7cbc0"
+  },
+  "configure": [
+    "--enable-xspice",
+    "--without-x",
+    "--with-readline=no",
+    "--disable-openmp",
+    "--disable-klu"
+  ],
+  "CFLAGS": "-O3 -std=gnu11",
+  "baseline": "reports/eval-cache/runtime.json",
+  "baselineSha256": "cc7765ee260245b3aa76b91251655bb5071fca03387c232248f3639ba2bf24c4",
+  "scope": "Fresh build of the pinned cache recipe; prepared startup deck differs only in transient stop time."
+}

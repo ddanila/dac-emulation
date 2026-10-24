@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 import subprocess
 from eval_cache_benchmark import main
-from eval_cache_benchmark import assess,capture_scope,trace_extent,fixture
+from eval_cache_benchmark import assess,capture_scope,trace_extent,fixture,validate_extent
 
 class CaptureTests(unittest.TestCase):
  def test_window_and_corrupt_traces(self):
@@ -32,7 +32,7 @@ class CaptureTests(unittest.TestCase):
    (root/'scope.json').write_text(json.dumps(capture_scope(deck)))
    for mode in ('off','exact','off-repeat','exact-repeat'):
     folder=root/mode;folder.mkdir();(folder/'ngspice.log').write_text('')
-    extent={'samples':2,'firstSeconds':0,'lastSeconds':.001}
+    extent={'samples':2,'firstSeconds':0,'lastSeconds':.001,'minimumValue':0,'maximumValue':5}
     (folder/'run.json').write_text(json.dumps({'mode':mode,'exitCode':0,'elapsedSeconds':1,'sha256':{'trace.txt':'same','supply-trace.txt':'same'},'capture':{'trace.txt':extent,'supply-trace.txt':extent}}))
    with self.assertRaisesRegex(ValueError,'Incomplete'):assess(root)
 
@@ -53,6 +53,13 @@ class CaptureTests(unittest.TestCase):
    for changes in ({'inputs':['../probe.cir']},{'traces':['probe.cir']},{'traces':[]}):
     (root/'fixture.json').write_text(json.dumps(dict(spec,**changes)))
     with self.assertRaises(ValueError):fixture(root)
+
+ def test_retained_extent_rejects_nonfinite_receipts(self):
+  scope=capture_scope('.tran 10n 2m 0')
+  extent={'samples':100,'firstSeconds':0,'lastSeconds':.002,'minimumValue':0,'maximumValue':5}
+  validate_extent(extent,scope)
+  for changes in ({'lastSeconds':float('nan')},{'minimumValue':float('-inf')},{'minimumValue':6},{'samples':2.5},{'samples':True}):
+   with self.assertRaises(ValueError):validate_extent(dict(extent,**changes),scope)
 
  def test_timeout_retains_failure_receipt(self):
   with tempfile.TemporaryDirectory() as tmp:
