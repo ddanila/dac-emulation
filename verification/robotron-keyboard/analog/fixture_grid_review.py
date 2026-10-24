@@ -13,6 +13,7 @@ from numerical_voltage_budget import voltage_gate
 from network_refinement_review import events
 from ttl7406_probe import sha
 from common_samples import samples_at, compare_native
+from local_refinement_grid import grids
 
 HERE = Path(__file__).resolve().parent
 CASES = ('control', '25', '12.5', '6.25')
@@ -23,12 +24,14 @@ def validate_receipts(receipts, experiment):
     ignored = {'elapsedSeconds', 'exitCode', 'timedOut', 'solverDiagnostic', 'deckSha256',
                'stepNs', 'fixtureCrossingGuardPs', 'method', 'samplingGridSha256'}
     identity = lambda run: {k: v for k, v in run.items() if k not in ignored}
-    if experiment not in ('crossings','integration','sampling','tight-passive'):raise ValueError('Unknown experiment')
+    if experiment not in ('crossings','integration','sampling','tight-passive','nested-local'):raise ValueError('Unknown experiment')
     base=receipts['25'] if experiment=='tight-passive' else receipts['control']
     expected_grid=receipts['25'].get('samplingGridSha256') if experiment in ('sampling','tight-passive') else None
     if experiment in ('sampling','tight-passive') and not expected_grid:raise ValueError('Missing sampling grid')
     for name, run in receipts.items():
-        if run.get('samplingGridSha256') != (None if name=='control' else expected_grid):
+        if experiment=='nested-local':
+            if not run.get('samplingGridSha256'):raise ValueError('Missing nested grid')
+        elif run.get('samplingGridSha256') != (None if name=='control' else expected_grid):
             raise ValueError('Unmatched sampling grid')
         if identity(run) != identity(base):
             raise ValueError('Unmatched runtime, circuit or experimental controls')
@@ -39,8 +42,24 @@ def validate_receipts(receipts, experiment):
             raise ValueError('Unexpected scheduling guard')
         if run['stepNs'] != (25 if name == 'control' else float(name)):
             raise ValueError('Unexpected refinement step')
-        if experiment=='tight-passive' and (run['toleranceScale']!=.1 or run['toleranceComponents']!=['reltol'] or run['mpfrStartNs']!=0 or run['mpfrTransitionBits']!='256' or not run['conservativeCap'] or not run['passiveAssembly']):
+        if experiment in ('tight-passive','nested-local') and (run['toleranceScale']!=.1 or run['toleranceComponents']!=['reltol'] or run['mpfrStartNs']!=0 or run['mpfrTransitionBits']!='256' or not run['conservativeCap'] or not run['passiveAssembly']):
             raise ValueError('Unexpected tight passive candidate')
+
+
+def validate_nested_inputs(decks, sampling, assessment, stop_ns):
+    expected=grids(assessment,sampling['control'],stop_ns)
+    for name,grid in zip(('25','12.5','6.25'),expected):
+        for key,value in grid.items():
+            if sampling[name].get(key)!=value:
+                raise ValueError('Unexpected local grid: '+name+' '+key)
+    normalized=set()
+    for deck in decks.values():
+        # Only the isolated breakpoint source and maximum timestep may vary.
+        stripped,count=re.subn(r'^Vsampling_grid sampling_grid 0 PWL\(0 0\n(?:\+ [^\n]*\n)*?\+ \)\n',
+                               '<sampling-grid>\n',deck,flags=re.M)
+        if count!=1:raise ValueError('Missing or ambiguous isolated grid source')
+        normalized.add(re.sub(r'^\.tran\s+\S+', '.tran <step>',stripped,flags=re.M))
+    if len(normalized)!=1:raise ValueError('Nested decks differ beyond timestep and grid')
 
 
 def bus_if_complete(log, complete):
@@ -50,6 +69,8 @@ def bus_if_complete(log, complete):
 def retain(root, out, experiment="crossings"):
     case_names=('25','12.5','6.25') if experiment=='tight-passive' else CASES
     def source(name):
+        if experiment == "nested-local":
+            return root / ("tight-passive-full-25" if name == "control" else "nested-local-full-"+name)
         if experiment == "tight-passive":
             return root / ("tight-passive-full-"+name)
         if experiment == "sampling":
@@ -88,6 +109,10 @@ def retain(root, out, experiment="crossings"):
     if experiment=='tight-passive':
         decks={re.sub(r'^\.tran\s+\S+', '.tran <step>',(source(name)/'io.cir').read_text(),flags=re.M) for name in case_names}
         if len(decks)!=1:raise ValueError('Refinement decks differ beyond timestep')
+    if experiment=='nested-local':
+        validate_nested_inputs({name:(source(name)/'io.cir').read_text() for name in case_names},
+            {name:json.loads((source(name)/'sampling-grid.json').read_text()) for name in case_names},
+            json.loads((HERE/'reports/tight-passive-refinement/assessment.json').read_text()), receipts['25']['stopNs'])
     pairs = []
     for a, b in (('control', '25'), ('25', '12.5'), ('12.5', '6.25')):
         if a not in cases or b not in cases or not (cases[a]['completed'] and cases[b]['completed']):
@@ -105,7 +130,7 @@ def retain(root, out, experiment="crossings"):
                 if len(ea['edgeTimesPs']) == len(eb['edgeTimesPs']) else None,
             'latchesMatch': ea['latchesMatch'] and eb['latchesMatch']})
     common=None
-    if experiment in ('sampling','tight-passive'):
+    if experiment in ('sampling','tight-passive','nested-local'):
         times=json.loads((source('25')/'sampling-grid.json').read_text())['timesSeconds']
         signals=receipts['25']['observationSignals']
         common={'signals':signals,'samples':{name:samples_at(rows(source(name)/'network_witness.txt',signals,receipts[name]['stepNs']),times) for name in case_names if cases[name]['completed']},
@@ -122,6 +147,9 @@ def retain(root, out, experiment="crossings"):
         'sources': {name: sha(HERE / name) for name in ('fixture_grid_review.py', 'fixture_crossing_grid.py',
             'live_transition_probe.py', 'reset_release_driver_review.py', 'live_transition_review.py',
             'host_waveform_comparison.py', 'network_refinement_review.py', 'numerical_voltage_budget.py', 'trace_io.py', 'sampling_grid.py', 'common_samples.py')}}
+    if experiment=='nested-local':
+        result['sources']['local_refinement_grid.py']=sha(HERE/'local_refinement_grid.py')
+        result['scope']='Matched tight passive candidate with nested requested local breakpoints and maximum-step refinement. Actual adaptive meshes need not be nested. The control retains the original common grid. All comparisons cover the full observation window; this prefix cannot qualify full-repeat traffic or physical device models.'
     if experiment=='tight-passive':
         result['startupControls']={'path':'reports/startup-passive/assessment.json','sha256':sha(HERE/'reports/startup-passive/assessment.json')}
         result['scope']='Tighter-relative-tolerance live prefix with precision from zero and exact capacitor/later passive additions. Only maximum timestep varies across these captures. Preserved startup controls remain separate; completing this prefix does not qualify full-repeat traffic, production defaults or physical device models.'
@@ -136,7 +164,7 @@ if __name__ == '__main__':
     parser.add_argument('--runs', type=Path)
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--check', action='store_true')
-    parser.add_argument('--experiment', choices=('crossings','integration','sampling','tight-passive'), default='crossings')
+    parser.add_argument('--experiment', choices=('crossings','integration','sampling','tight-passive','nested-local'), default='crossings')
     args = parser.parse_args()
     if args.check:
         for name, digest in json.loads((args.out / 'manifest.json').read_text()).items():
