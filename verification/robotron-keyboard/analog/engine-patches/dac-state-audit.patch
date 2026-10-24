@@ -1,0 +1,13 @@
+--- a/src/xspice/icm/digital/dac_bridge/cfunc.mod
++++ b/src/xspice/icm/digital/dac_bridge/cfunc.mod
+@@ -569,6 +569,10 @@
+                 if (remaining > 0.0)
+                     cm_analog_set_perm_bkpt(TIME + remaining);
+             }
++            if (getenv("ROBOTRON_DAC_STATE_AUDIT") && TIME <= 12e-9 &&
++                !strcmp(cm_get_node_name("out", i), "wr_high"))
++                cm_message_printf("DAC_STATE time=%a previous_time=%a old=%d current=%d changed=%a previous_value=%a value=%a",
++                    TIME, T(1), in_old[i].i, in[i].i, in[i].i_changed, out_old[i], vout);
+             OUTPUT(out[i]) = out[i] = vout;
+         }
+         break;
