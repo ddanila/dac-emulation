@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "cases": {
+    "precision": {
+      "completed": false,
+      "timedOut": true,
+      "diagnostic": null,
+      "elapsedSeconds": 180.015074667,
+      "requiredEndSeconds": 2.0000000000000003e-06,
+      "lastSeconds": {},
+      "bus": null
+    },
+    "capacitor": {
+      "completed": false,
+      "timedOut": true,
+      "diagnostic": null,
+      "elapsedSeconds": 180.008907291,
+      "requiredEndSeconds": 2.0000000000000003e-06,
+      "lastSeconds": {},
+      "bus": null
+    },
+    "passive": {
+      "completed": true,
+      "timedOut": false,
+      "diagnostic": null,
+      "elapsedSeconds": 7.2483773750000005,
+      "requiredEndSeconds": 2.0000000000000003e-06,
+      "lastSeconds": {
+        "witness.txt": 2e-06,
+        "bus-trace.txt": 2e-06,
+        "driver-trace.txt": 2e-06,
+        "wr-trace.txt": 2e-06,
+        "network_witness.txt": 2e-06
+      },
+      "bus": null
+    },
+    "extended": {
+      "completed": true,
+      "timedOut": false,
+      "diagnostic": null,
+      "elapsedSeconds": 493.16920870900003,
+      "requiredEndSeconds": 0.0010060000000000002,
+      "lastSeconds": {
+        "witness.txt": 0.001006,
+        "bus-trace.txt": 0.001006,
+        "driver-trace.txt": 0.001006,
+        "wr-trace.txt": 0.001006,
+        "network_witness.txt": 0.001006
+      },
+      "bus": {
+        "edgeTimesPs": [
+          1002501280
+        ],
+        "samples": [
+          [
+            "0000",
+            "af",
+            "0",
+            "1",
+            "0"
+          ]
+        ],
+        "latchesMatch": true
+      }
+    }
+  },
+  "shortControlDecksIdentical": true,
+  "numericallyQualified": false,
+  "electricallyQualified": false,
+  "productionDefaultChangeAuthorized": false,
+  "scope": "Identical 2 us decks isolate precision-only, exact capacitor loading, and exact capacitor plus later passive additions. The extended candidate preserves physical source inputs, precision and tolerances but changes observation duration and scheduled fixture crossings. Completion is not timestep refinement, full-repeat coverage, or physical model admission. Failed and timed-out controls remain failures.",
+  "sources": {
+    "startup_passive_review.py": "835211eb075ae4fcd542c7197bd1a9b63865b064d0e8eef86ca2cadc806b89d4",
+    "live_transition_probe.py": "42be59e7da6eb3f3f0add9d4fdff3d40c71a4906a41a13538d5bed2ca350ec64",
+    "reset_release_driver_review.py": "e496540a023b4a360f99b3b80bf77479e0f396174ea9d3efcb9abdf264c9dcac",
+    "live_transition_review.py": "fc3429ea9c06c7948816481572c2b16ad5a30cb75fb89a4a5992c4704ba00d9e",
+    "network_refinement_review.py": "6e693a385f93a7dd9cc849cf1eed8e415bed41ba47992376f15ced6648681fad",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  }
+}
