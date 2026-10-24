@@ -218,6 +218,10 @@ def retain(root, out, experiment="crossings"):
         result['startupControls']={'path':'reports/startup-passive/assessment.json','sha256':sha(HERE/'reports/startup-passive/assessment.json')}
         result['scope']='Tighter-relative-tolerance live prefix with precision from zero and exact capacitor/later passive additions. Only maximum timestep varies across these captures. Preserved startup controls remain separate; completing this prefix does not qualify full-repeat traffic, production defaults or physical device models.'
     (out / 'assessment.json').write_text(json.dumps(result, indent=2) + '\n')
+    if experiment == 'dense-anchored' and len(pairs) == 2:
+        from sampling_error_review import build as sampling_review
+        sampling = sampling_review(root, out, 'dense-tight-full-')
+        (out / 'sampling-error.json').write_text(json.dumps(sampling, indent=2) + '\n')
     manifest = {str(p.relative_to(out)): sha(p) for p in sorted(out.rglob('*')) if p.is_file()}
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     return result
