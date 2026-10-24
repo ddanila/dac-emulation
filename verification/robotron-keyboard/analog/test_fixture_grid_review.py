@@ -1,5 +1,8 @@
 import unittest
-from fixture_grid_review import validate_receipts, bus_if_complete
+from fixture_grid_review import validate_receipts, bus_if_complete, validate_nested_inputs
+from local_refinement_grid import grids
+from sampling_grid import add_sampling_grid
+import copy
 
 class MatchedControls(unittest.TestCase):
  def receipts(self,experiment):
@@ -18,6 +21,23 @@ class MatchedControls(unittest.TestCase):
   validate_receipts(runs,'tight-passive')
   for run in runs.values():run['passiveAssembly']=False
   with self.assertRaises(ValueError):validate_receipts(runs,'tight-passive')
+ def test_nested_decks_reject_physical_changes_and_missing_points(self):
+  assessment={'refinementPairs':[{'signals':{'v':{'unit':'V','timeSeconds':5e-7}}}]}
+  common={'timesSeconds':[1e-7]}
+  sampling={'control':common,**dict(zip(('25','12.5','6.25'),grids(assessment,common,1000)))}
+  decks={name:add_sampling_grid('Vfixture_clock clock 0 5\nR1 a 0 100\n.tran 25n 1000n\n',grid['timesSeconds'],1000) for name,grid in sampling.items()}
+  validate_nested_inputs(decks,sampling,assessment,1000)
+  bad=dict(decks);bad['6.25']=bad['6.25'].replace('R1 a 0 100','R1 a 0 101')
+  with self.assertRaises(ValueError):validate_nested_inputs(bad,sampling,assessment,1000)
+  bad=copy.deepcopy(sampling);bad['6.25']['timesSeconds'].pop()
+  with self.assertRaises(ValueError):validate_nested_inputs(decks,bad,assessment,1000)
+ def test_nested_receipts_retain_candidate_constraints(self):
+  runs=self.receipts('sampling')
+  for name,run in runs.items():
+   run.update(samplingGridSha256=name,toleranceScale=.1,toleranceComponents=['reltol'],mpfrStartNs=0,mpfrTransitionBits='256',conservativeCap=True,passiveAssembly=True)
+  validate_receipts(runs,'nested-local')
+  runs['control']['mpfrStartNs']=1
+  with self.assertRaises(ValueError):validate_receipts(runs,'nested-local')
  def test_incomplete_capture_does_not_require_bus_reads(self):
   self.assertIsNone(bus_if_complete('run simulation(s) aborted',False))
   with self.assertRaises(ValueError):bus_if_complete('No bus observations',True)
