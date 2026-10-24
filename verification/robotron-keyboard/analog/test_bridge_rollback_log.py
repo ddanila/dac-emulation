@@ -41,5 +41,17 @@ class BridgeRollbackLogTests(unittest.TestCase):
                       sequence()+['TIME_AUDIT advance target=nan']):
             with self.subTest(lines=lines),self.assertRaises(ValueError):analyze(lines)
 
+    def test_terminal_observation_requires_declared_endpoint_and_no_advance(self):
+        terminal='TIME_AUDIT advance target=1 actual=1 base=1 tick=.1 pending=0'
+        result=analyze(sequence()+[terminal],expected_end=1)
+        self.assertEqual(result['terminalBridgeObservation']['actual'],1)
+        for lines,end in ((sequence()+[terminal],None), (sequence()+[terminal],2),
+                          (sequence()+[terminal.replace('actual=1','actual=.9')],1),
+                          (sequence()+[terminal.replace('pending=0','pending=1')],1),
+                          (sequence()+[terminal,terminal],1),
+                          (sequence()+[terminal,client('before',2)],1)):
+            with self.subTest(lines=lines,end=end),self.assertRaises(ValueError):
+                analyze(lines,expected_end=end)
+
 
 if __name__=='__main__':unittest.main()

@@ -57,7 +57,7 @@ def review(capture, control, baseline, base_bridge, build):
         if value!=established['comparisons']['on'][name]:raise ValueError('Changed complete waveform extent')
         if abs(value['lastSeconds']-end)>2*math.ulp(end):raise ValueError('Incomplete window')
     if events(log)!=established['firmwareEvents']:raise ValueError('Changed firmware events')
-    timing=analyze(log.splitlines())
+    timing=analyze(log.splitlines(),expected_end=end)
     if timing['completedClientCallbacks']!=sum(established['audit']['clientCalls'].values()):
         raise ValueError('Missing client callback coverage')
     return {'waveformsExactlyMatchBaseline':True,'dispatchRecordsExactlyMatchControl':True,
