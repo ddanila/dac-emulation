@@ -459,6 +459,9 @@ the patch set and configure flags in [the runtime receipt](reports/eval-cache/ru
 Do not use fast-math. The [startup benchmark](reports/eval-cache/assessment.json)
 retains byte-equality receipts for disabled/enabled runs; use
 `eval_cache_benchmark.py` to reproduce them from a prepared startup directory.
+New captures derive their window from the deck and reject incomplete, nonfinite
+or nonmonotonic traces; timeout/failure receipts remain in the output directory.
+The runtime receipt fingerprints the executable, initialization and code models.
 The improvement is scoped to a short, below-rated-supply window. Longer startup
 and service controls must pass before enabling the cache in qualification runs.
 
