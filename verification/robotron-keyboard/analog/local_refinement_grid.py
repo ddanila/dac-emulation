@@ -40,14 +40,33 @@ def grids(assessment, common, stop_ns):
     return result
 
 
+def startup_grids(prepared, window_ns):
+    window=Decimal(str(window_ns))
+    if not window.is_finite() or window<=0 or len(prepared)!=3:
+        raise ValueError('Finite positive startup window and three grids required')
+    if any(window>Decimal(str(grid['stopNs'])) for grid in prepared):
+        raise ValueError('Startup grid exceeds observation horizon')
+    stop_fs=int(window*1_000_000)
+    result=[]
+    for grid,step_fs in zip(prepared,(1_000_000,500_000,250_000)):
+        times=sorted(set(grid['timesSeconds'])|{t/10**15 for t in range(step_fs,stop_fs+1,step_fs)})
+        if len(times)>10000:raise ValueError('Sampling grid exceeds harness limit')
+        result.append({**grid,'timesSeconds':times,'startupWindowNs':window_ns,'startupStepNs':step_fs/1_000_000})
+    for a,b in zip(result,result[1:]):
+        if not set(a['timesSeconds'])<=set(b['timesSeconds']):raise ValueError('Non-nested input grids')
+    return result
+
+
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--assessment', type=Path, required=True)
     p.add_argument('--common', type=Path, required=True)
     p.add_argument('--stop-ns', type=float, required=True)
+    p.add_argument('--startup-window-ns',type=float)
     p.add_argument('--out', type=Path, required=True)
     args = p.parse_args()
     prepared = grids(json.loads(args.assessment.read_text()), json.loads(args.common.read_text()), args.stop_ns)
+    if args.startup_window_ns is not None:prepared=startup_grids(prepared,args.startup_window_ns)
     args.out.mkdir(parents=True, exist_ok=False)
     sources = {name: hashlib.sha256(path.read_bytes()).hexdigest()
                for name, path in [('assessment', args.assessment), ('common', args.common), ('generator', Path(__file__))]}
