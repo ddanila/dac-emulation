@@ -1,7 +1,7 @@
 import itertools
 import unittest
 from fractions import Fraction as F
-from charge_history_sensitivity import exact_difference, sensitivity
+from charge_history_sensitivity import exact_difference, sensitivity, step_policy_screen
 
 
 class HistorySensitivityTests(unittest.TestCase):
@@ -18,6 +18,13 @@ class HistorySensitivityTests(unittest.TestCase):
                 offsets.append(exact_difference(shifted,dt,order)-result['difference'])
             self.assertEqual(max(offsets),result['radius']);self.assertEqual(min(offsets),-result['radius'])
         self.assertIsNone(result['relativeRadius']);self.assertTrue(result['intervalIncludesZero'])
+
+    def test_step_policy_thresholds_do_not_claim_final_decisions(self):
+        self.assertEqual(step_policy_screen(1.,2.),{'belowGrowthCap':False,'atOrBelowRejectionThreshold':False})
+        self.assertEqual(step_policy_screen(1.,1.),{'belowGrowthCap':True,'atOrBelowRejectionThreshold':False})
+        self.assertEqual(step_policy_screen(1.,.9),{'belowGrowthCap':True,'atOrBelowRejectionThreshold':True})
+        for delta,proposal in ((0.,1.),(1.,float('nan')),(1.,-1.)):
+            with self.assertRaises(ValueError):step_policy_screen(delta,proposal)
 
     def test_rejects_invalid_histories(self):
         for q,dt,order in (([0.,1.],[1.],2),([0.,1.,2.],[0.,1.],1),([0.,float('nan'),2.],[1.,1.],1)):

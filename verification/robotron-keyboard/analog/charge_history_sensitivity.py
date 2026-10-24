@@ -46,6 +46,19 @@ def decimal(value):
         return str(Decimal(value.numerator)/Decimal(value.denominator))
 
 
+def step_policy_screen(delta, proposed):
+    if not all(math.isfinite(x) and x > 0 for x in (delta, proposed)):
+        raise ValueError('Invalid candidate step')
+    # ngspice CKTtrunc caps growth at 2*delta; dctran accepts only >0.9*delta.
+    # Other devices, order checks and event breakpoints still affect the outcome.
+    return {'belowGrowthCap': proposed < 2*delta,
+            'atOrBelowRejectionThreshold': proposed <= .9*delta}
+
+
+def policy_summary():
+    return {'records':0, 'maximumRelativeRadius':None, 'worstWitness':None}
+
+
 def retain(source, out):
     # Require the retained full-waveform controls before using the diagnostic log.
     manifest=json.loads((source/'manifest.json').read_text())
@@ -55,6 +68,7 @@ def retain(source, out):
     if set(prior['cases'])!={'disabled','enabled'} or not all(c['completed'] and c['allFiveWaveformsByteIdenticalToBaseline'] for c in prior['cases'].values()):
         raise ValueError('Missing waveform-preserving controls')
     states={}; records=0
+    policy={name:policy_summary() for name in ('atOrAboveGrowthCap','belowGrowthCap','atOrBelowRejectionThreshold')}
     with lzma.open(source/'enabled/ngspice.log.xz','rt') as stream:
         for line in stream:
             line=line.rstrip('\n')
@@ -63,6 +77,15 @@ def retain(source, out):
             values=[float.fromhex(raw['q'+str(i)]) for i in range(order+2)]
             deltas=[float.fromhex(raw['dt'+str(i)]) for i in range(order+1)]
             result=sensitivity(values,deltas,order);records+=1
+            screen=step_policy_screen(float.fromhex(raw['delta']),float.fromhex(raw['proposed']))
+            groups=['belowGrowthCap' if screen['belowGrowthCap'] else 'atOrAboveGrowthCap']
+            if screen['atOrBelowRejectionThreshold']:groups.append('atOrBelowRejectionThreshold')
+            for group in groups:
+                summary=policy[group];summary['records']+=1;ratio=result['relativeRadius']
+                if ratio is not None and (summary['maximumRelativeRadius'] is None or ratio>summary['maximumRelativeRadius']):
+                    summary['maximumRelativeRadius']=ratio
+                    summary['worstWitness']={'logged':raw,'instance':prior['analysis']['states'][state]['instance'],
+                        'exactDifference':decimal(result['difference']),'halfUlpRadius':decimal(result['radius'])}
             entry=states.setdefault(state,{'instance':prior['analysis']['states'][state]['instance'],
                 'records':0,'intervalIncludesZero':0,'zeroDifferenceRecords':0,'maximumRelativeRadius':None,'worstWitness':None})
             entry['records']+=1;entry['intervalIncludesZero']+=result['intervalIncludesZero'];entry['zeroDifferenceRecords']+=result['difference']==0
@@ -76,9 +99,10 @@ def retain(source, out):
                     'interval':[decimal(result['difference']-result['radius']),decimal(result['difference']+result['radius'])]}
     if records!=prior['analysis']['records']:raise ValueError('Diagnostic record count differs')
     for entry in states.values():entry['maximumRelativeRadius']=decimal(entry['maximumRelativeRadius'])
-    result={'schema':1,'records':records,'states':states,'qualified':False,
+    for entry in policy.values():entry['maximumRelativeRadius']=decimal(entry['maximumRelativeRadius'])
+    result={'schema':1,'records':records,'states':states,'stepPolicyScreens':policy,'qualified':False,
         'filterAssessmentSha256':sha(source/'assessment.json'),'filterLogSha256':sha(source/'enabled/ngspice.log.xz'),
-        'scope':'Exact rational propagation of independent hypothetical ±half-current-ULP perturbations of the logged binary64 charge/flux histories, with time history fixed. This is a sensitivity box, not a bound on actual nonlinear-evaluation or accumulated history error. Logged candidate reductions may later be rejected; counts depend on device order. The symmetric box can conservatively exceed the rounding cell at binade boundaries. No voltage-error correction, acceptance waiver or production change follows.',
+        'scope':'Exact rational propagation of independent hypothetical ±half-current-ULP perturbations of the logged binary64 charge/flux histories, with time history fixed. This is a sensitivity box, not a bound on actual nonlinear-evaluation or accumulated history error. The step-policy screens compare each proposal with CKTtrunc’s 2*delta growth cap and dctran’s 0.9*delta acceptance threshold. A proposal above the growth cap does not constrain that cap; proposals below it can still be superseded by other devices, order changes or event breakpoints. They do not identify final accepted or rejected steps; counts depend on device order. The symmetric box can conservatively exceed the rounding cell at binade boundaries. No voltage-error correction, acceptance waiver or production change follows.',
         'sources':{n:sha(HERE/n) for n in ('charge_history_sensitivity.py','filter_truncation_log.py','startup_truncation_log.py')}}
     out.mkdir(parents=True,exist_ok=False)
     (out/'assessment.json').write_text(json.dumps(result,indent=2)+'\n')
