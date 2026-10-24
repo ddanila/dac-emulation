@@ -561,6 +561,9 @@ an unchanged captured-boundary replay, not live CPU/HDL service. A prepared
 `fixture.json` can select its deck, input files and output traces; without it the
 runner uses the startup fixture. Longer startup and live service controls must
 pass before enabling the cache in qualification runs.
+`live_cache_review.py` checks a complete raw capture against the retained live
+bridge control, allowing only the cache-mode change. Every sample, firmware event
+and solver/HDL timing record must match; one such pair does not establish a speedup.
 
 
 Verify retained endpoint and bridge evidence with `device_endpoint_probe.py
