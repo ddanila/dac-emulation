@@ -1,7 +1,12 @@
 import unittest
-from live_transition_probe import reduce_matrix
+from live_transition_probe import reduce_matrix,initial_environment
 from live_transition_review import audit_stats,diagnostic
 class LiveTransitionTests(unittest.TestCase):
+ def test_inherited_fault_and_future_diagnostics_cannot_leak_into_control(self):
+  inherited={'PATH':'/tools','SPICE_SCRIPTS':'/models','ROBOTRON_FORCE_NEWTON_REJECT':'1',
+             'ROBOTRON_ROLLBACK_AUDIT':'1','ROBOTRON_EVAL_CACHE':'on','ROBOTRON_FUTURE_OPTION':'1'}
+  self.assertEqual(initial_environment(inherited),{'PATH':'/tools','SPICE_SCRIPTS':'/models','ROBOTRON_EVAL_CACHE':'off'})
+  self.assertEqual(inherited['ROBOTRON_FORCE_NEWTON_REJECT'],'1')
  def test_reduction_keeps_live_bus_feedback_and_supply(self):
   before='title\nVhost supply 0 5\nR1_2 0 sense 910\nScontact0 col row key 0 CONTACT\nR10.1 supply clock 560\nC3.1 supply 0 47u\nAbus [D0] [di] adc\nAhdl [di] [do] cpu\nBbus_high_0 supply D0 I=V(do)\nSdata output 0 do 0 SW\n'
   after=reduce_matrix(before)
