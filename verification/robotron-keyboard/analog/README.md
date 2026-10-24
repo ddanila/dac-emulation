@@ -491,6 +491,10 @@ For new captures, `live_transition_probe.py --raw-output --compressed-output
 with a raw-pipe-patched runtime. The raw mode rejects diagnostic halts. Preserve
 the complete scenario endpoint when preparing full-repeat runs; this capture
 option does not itself establish scenario coverage or numerical convergence.
+Add `--full-scenario` to pin the prepared `scenario.json` and require the complete
+endpoint derived from its cycle count and reset interval. Conflicting stop-time
+overrides and diagnostic halts are rejected before running. Completion and
+serial observation windows must still pass review after capture.
 `retain_live_raw.py` retains checked receipts while keeping full compressed captures
 locally; `--check --out reports/live-raw-output` verifies the retained manifest.
 `--all-saved-network` selects every saved observation; `complete_network_review.py --end-seconds` requires the
