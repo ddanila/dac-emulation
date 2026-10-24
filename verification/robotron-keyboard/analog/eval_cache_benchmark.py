@@ -22,7 +22,7 @@ def capture_scope(deck):
 def trace_extent(path,scope):
  count=0;first=last=None;low=high=None
  with path.open() as stream:
-  columns=len(next(stream).split())
+  columns=len(next(stream,'').split())
   if columns<2:raise ValueError('Missing trace vectors')
   for line in stream:
    values=list(map(float,line.split()))
@@ -69,10 +69,12 @@ def main():
  a.out.mkdir(parents=True,exist_ok=False)
  shutil.copyfile(a.prepared/'boot.cir',a.out/'boot.cir')
  (a.out/'scope.json').write_text(json.dumps(scope,indent=2)+'\n')
- (a.out/'runtime.json').write_text(json.dumps({'runtime':runtime,'patchSha256':sha(HERE/'engine-patches/eval-cache.patch'),'inputSha256':{n:sha(a.prepared/n) for n in ('boot.cir','boot.vvp','s600.hex','ls_nand_nominal.cir')}},indent=2)+'\n')
+ inputs={n:sha(a.prepared/n) for n in ('boot.cir','boot.vvp','s600.hex','ls_nand_nominal.cir')}
+ (a.out/'runtime.json').write_text(json.dumps({'runtime':runtime,'experimentalEnvironment':{k:v for k,v in env.items() if k.startswith('ROBOTRON_') and k!='ROBOTRON_EVAL_CACHE'},'patchSha256':sha(HERE/'engine-patches/eval-cache.patch'),'inputSha256':inputs},indent=2)+'\n')
  for mode in ('off','exact','off-repeat','exact-repeat'):
   folder=a.out/mode;folder.mkdir()
   for n in ('boot.cir','boot.vvp','s600.hex','ls_nand_nominal.cir'):shutil.copyfile(a.prepared/n,folder/n)
+  if any(sha(folder/n)!=h for n,h in inputs.items()):raise ValueError('Prepared input changed between runs')
   start=time.monotonic();failure=None
   with (folder/'ngspice.log').open('w') as log:
    try:
