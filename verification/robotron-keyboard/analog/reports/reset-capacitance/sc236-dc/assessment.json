@@ -1,0 +1,1044 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Compare source C4 alternatives; isolated exploratory reset, not board qualification.",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "variants": {
+    "component": "C4",
+    "installedValueKnown": false,
+    "referenceDefault": "zander",
+    "variants": [
+      {
+        "id": "zander",
+        "spiceValue": "10u",
+        "capacitanceFarads": 1e-05,
+        "ratedVoltageVolts": 40,
+        "url": "https://www.sax.de/~zander/pc1715/pc_tasts.pdf",
+        "pdfPage": 1,
+        "sha256": "ddae459f60872a322202f29332346270cf9735eaa198a9795a5b7cbe68e8443f"
+      },
+      {
+        "id": "factory",
+        "spiceValue": "100u",
+        "capacitanceFarads": 0.0001,
+        "ratedVoltageVolts": 10,
+        "url": "https://www.tiffe.de/Robotron/PC1715/PC-1715-Schaltplaene.pdf",
+        "pdfPage": 11,
+        "drawing": "56-330-4103-7",
+        "sha256": "9d020e9dd41662f85b6a9a44e300cc9800ef20284c2a689e005f69a84f6e3fd3"
+      }
+    ]
+  },
+  "supplyStimulus": {
+    "pointsSecondsVolts": [
+      [
+        0,
+        0
+      ],
+      [
+        1e-06,
+        5
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        3.000001,
+        0
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        4.000001,
+        5
+      ],
+      [
+        7,
+        5
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "stepUs": 100,
+      "br2Closed": true,
+      "observation": {
+        "segments": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 1e-06,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 5,
+            "sampleCount": 20,
+            "validSupplySamples": 1,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 1,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              2.5882155900783487e-29,
+              1.6107747218425001
+            ],
+            "cpuResetVolts": [
+              2.5882155900783487e-29,
+              1.6107747143186761
+            ],
+            "firstSampleSeconds": 0.0,
+            "lastSampleSeconds": 1e-06
+          },
+          {
+            "startSeconds": 1e-06,
+            "endSeconds": 3,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 5,
+            "sampleCount": 30055,
+            "validSupplySamples": 30055,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 1281,
+              "high": 28768,
+              "unknown": 6,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              5.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              0.024186225226724638,
+              4.889212381399579
+            ],
+            "cpuResetVolts": [
+              0.024186220067784987,
+              4.889212383193556
+            ],
+            "firstSampleSeconds": 1e-06,
+            "lastSampleSeconds": 3.0
+          },
+          {
+            "startSeconds": 3,
+            "endSeconds": 3.000001,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 0,
+            "sampleCount": 7,
+            "validSupplySamples": 1,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 1,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              -0.1623702126790611,
+              4.885087220287063
+            ],
+            "cpuResetVolts": [
+              -0.16237022084618866,
+              4.885087219211227
+            ],
+            "firstSampleSeconds": 3.0,
+            "lastSampleSeconds": 3.000001
+          },
+          {
+            "startSeconds": 3.000001,
+            "endSeconds": 4,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 0,
+            "sampleCount": 10026,
+            "validSupplySamples": 0,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              0.0
+            ],
+            "sourceResetVolts": [
+              -0.1623702126790611,
+              1.9691092307858926e-05
+            ],
+            "cpuResetVolts": [
+              -0.16237022084618866,
+              1.969127319163068e-05
+            ],
+            "firstSampleSeconds": 3.000001,
+            "lastSampleSeconds": 4.0
+          },
+          {
+            "startSeconds": 4,
+            "endSeconds": 4.000001,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 5,
+            "sampleCount": 5,
+            "validSupplySamples": 0,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              4.002794379838242
+            ],
+            "sourceResetVolts": [
+              -4.496255880771231e-05,
+              1.2667664936789296
+            ],
+            "cpuResetVolts": [
+              -4.4962739681984914e-05,
+              1.266766487427489
+            ],
+            "firstSampleSeconds": 4.0,
+            "lastSampleSeconds": 4.000000800558876
+          },
+          {
+            "startSeconds": 4.000001,
+            "endSeconds": 7,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 5,
+            "sampleCount": 30049,
+            "validSupplySamples": 30049,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 1276,
+              "high": 28767,
+              "unknown": 6,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              5.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              0.024187640369337654,
+              4.887821608339085
+            ],
+            "cpuResetVolts": [
+              0.02418763521354365,
+              4.887821605954055
+            ],
+            "firstSampleSeconds": 4.000001000000001,
+            "lastSampleSeconds": 7.0
+          }
+        ],
+        "maximumSampleGapSeconds": 0.00010000000000021103,
+        "maximumBridgeDifferenceVolts": 4.5943195470243836e-08,
+        "scope": "Sampled voltage ranges only. No logic interpretation below rated supply, interpolation, restart or convergence qualification."
+      },
+      "cpuResetLoad": {
+        "profile": "reference-capacitance",
+        "pin": "A5:26",
+        "net": "n_RESET_N",
+        "capacitanceFarads": 5e-12,
+        "qualified": false,
+        "resistanceOhms": null,
+        "capacitanceCondition": "25 C, 0.5 to 2 MHz; reference maximum, not measured board capacitance",
+        "boundary": "Reference capacitance is a maximum at specified test conditions, not measured reset-pin capacitance. No leakage I/V, protection junction, undervoltage or state-retention model."
+      },
+      "models": {
+        "C1": "capacitor",
+        "C2": "capacitor",
+        "C4": "capacitor",
+        "R3": "resistor",
+        "R4.1": "resistor",
+        "R4.2": "resistor",
+        "R5": "resistor",
+        "R6.1": "resistor",
+        "R7": "resistor",
+        "R8": "resistor",
+        "V1.1": "D_NOMINAL",
+        "V1.2": "D_NOMINAL",
+        "V2": "D_NOMINAL",
+        "V3.1": "NPN_NOMINAL",
+        "V3.2": "NPN_NOMINAL",
+        "V4.9": "PNP_NOMINAL",
+        "BR2": "1 milliohm closed / 1 teraohm open"
+      },
+      "signals": [
+        "n_p5V",
+        "n_RESET_OUT",
+        "n_RESET_N",
+        "n_RESET_RC",
+        "n_RESET_BIAS",
+        "n_RESET_BASE",
+        "supplyCurrentAmps"
+      ],
+      "artifacts": {
+        "reset.cir": "04ddafc4afa2654bbd8e4578d51aace82a61b52c3a3cc4f2d48e3fbd4eba072b",
+        "trace.txt": "761b19e2fa5b7e3fbdb9af6ae78e22cbbeefb14f8180f22b00dfe9f13cd52284",
+        "ngspice.log": "ab9b0963ddb99f5b4f9f7ccb2638c9e1d4068513b5325e6baab18d481165f191"
+      },
+      "variant": "zander",
+      "directory": "zander/closed-100us",
+      "releasesSecondsAt2V": [
+        [
+          0.12464927081727142
+        ],
+        [
+          0.12462875521595862
+        ]
+      ],
+      "compressedTraceSha256": "eb51bfcdf8e68234f96834068263e3f80d18186640f8a1b812fbe07de7249bae"
+    },
+    {
+      "stepUs": 50,
+      "br2Closed": true,
+      "observation": {
+        "segments": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 1e-06,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 5,
+            "sampleCount": 20,
+            "validSupplySamples": 1,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 1,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              2.5882155900783487e-29,
+              1.6107747218425001
+            ],
+            "cpuResetVolts": [
+              2.5882155900783487e-29,
+              1.6107747143186761
+            ],
+            "firstSampleSeconds": 0.0,
+            "lastSampleSeconds": 1e-06
+          },
+          {
+            "startSeconds": 1e-06,
+            "endSeconds": 3,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 5,
+            "sampleCount": 60052,
+            "validSupplySamples": 60052,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 2529,
+              "high": 57517,
+              "unknown": 6,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              5.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              0.024415661924677565,
+              4.88589964215974
+            ],
+            "cpuResetVolts": [
+              0.024415657382302523,
+              4.885899641245551
+            ],
+            "firstSampleSeconds": 1e-06,
+            "lastSampleSeconds": 3.0
+          },
+          {
+            "startSeconds": 3,
+            "endSeconds": 3.000001,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 0,
+            "sampleCount": 7,
+            "validSupplySamples": 1,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 1,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              -0.1623702126825673,
+              4.885087205394408
+            ],
+            "cpuResetVolts": [
+              -0.1623702208496943,
+              4.8850872043052584
+            ],
+            "firstSampleSeconds": 3.0,
+            "lastSampleSeconds": 3.000001
+          },
+          {
+            "startSeconds": 3.000001,
+            "endSeconds": 4,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 0,
+            "sampleCount": 20025,
+            "validSupplySamples": 0,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              0.0
+            ],
+            "sourceResetVolts": [
+              -0.1623702126825673,
+              -1.572051529459941e-06
+            ],
+            "cpuResetVolts": [
+              -0.1623702208496943,
+              -1.571989634368595e-06
+            ],
+            "firstSampleSeconds": 3.000001,
+            "lastSampleSeconds": 4.0
+          },
+          {
+            "startSeconds": 4,
+            "endSeconds": 4.000001,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 5,
+            "sampleCount": 5,
+            "validSupplySamples": 0,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              4.00279716871848
+            ],
+            "sourceResetVolts": [
+              -1.572051529459941e-06,
+              1.2667651457022306
+            ],
+            "cpuResetVolts": [
+              -1.571989634368595e-06,
+              1.266765139448564
+            ],
+            "firstSampleSeconds": 4.0,
+            "lastSampleSeconds": 4.000000800559434
+          },
+          {
+            "startSeconds": 4.000001,
+            "endSeconds": 7,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 5,
+            "sampleCount": 60024,
+            "validSupplySamples": 60024,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 2507,
+              "high": 57513,
+              "unknown": 4,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              5.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              0.02441630521371951,
+              4.896441858390896
+            ],
+            "cpuResetVolts": [
+              0.024416300673844375,
+              4.896441859977237
+            ],
+            "firstSampleSeconds": 4.000001000000001,
+            "lastSampleSeconds": 7.0
+          }
+        ],
+        "maximumSampleGapSeconds": 5.0000000000105516e-05,
+        "maximumBridgeDifferenceVolts": 4.5943194582065416e-08,
+        "scope": "Sampled voltage ranges only. No logic interpretation below rated supply, interpolation, restart or convergence qualification."
+      },
+      "cpuResetLoad": {
+        "profile": "reference-capacitance",
+        "pin": "A5:26",
+        "net": "n_RESET_N",
+        "capacitanceFarads": 5e-12,
+        "qualified": false,
+        "resistanceOhms": null,
+        "capacitanceCondition": "25 C, 0.5 to 2 MHz; reference maximum, not measured board capacitance",
+        "boundary": "Reference capacitance is a maximum at specified test conditions, not measured reset-pin capacitance. No leakage I/V, protection junction, undervoltage or state-retention model."
+      },
+      "models": {
+        "C1": "capacitor",
+        "C2": "capacitor",
+        "C4": "capacitor",
+        "R3": "resistor",
+        "R4.1": "resistor",
+        "R4.2": "resistor",
+        "R5": "resistor",
+        "R6.1": "resistor",
+        "R7": "resistor",
+        "R8": "resistor",
+        "V1.1": "D_NOMINAL",
+        "V1.2": "D_NOMINAL",
+        "V2": "D_NOMINAL",
+        "V3.1": "NPN_NOMINAL",
+        "V3.2": "NPN_NOMINAL",
+        "V4.9": "PNP_NOMINAL",
+        "BR2": "1 milliohm closed / 1 teraohm open"
+      },
+      "signals": [
+        "n_p5V",
+        "n_RESET_OUT",
+        "n_RESET_N",
+        "n_RESET_RC",
+        "n_RESET_BIAS",
+        "n_RESET_BASE",
+        "supplyCurrentAmps"
+      ],
+      "artifacts": {
+        "reset.cir": "9a7227a0df26ea79e27ac1b4e6a3b3ba1db029ff5743d459c98988934a286eed",
+        "trace.txt": "eed14a0ae880914e55a1b75e85999bb26697e79ef12253aa78d0427a86a44f81",
+        "ngspice.log": "d56fa7e4389617441ea09598b28b1021e95085ce3dd88554a3eeece69b9e4668"
+      },
+      "variant": "zander",
+      "directory": "zander/closed-50us",
+      "releasesSecondsAt2V": [
+        [
+          0.12464896340664361
+        ],
+        [
+          0.12462454479237284
+        ]
+      ],
+      "compressedTraceSha256": "ab20803736acf7515ef1248b0747fcfb1a1cabcfbe9cc549790b8f0e743aa697"
+    },
+    {
+      "stepUs": 100,
+      "br2Closed": true,
+      "observation": {
+        "segments": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 1e-06,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 5,
+            "sampleCount": 20,
+            "validSupplySamples": 1,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 1,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              2.5882155900783487e-29,
+              1.5774436421797668
+            ],
+            "cpuResetVolts": [
+              2.5882155900783487e-29,
+              1.577443634387223
+            ],
+            "firstSampleSeconds": 0.0,
+            "lastSampleSeconds": 1e-06
+          },
+          {
+            "startSeconds": 1e-06,
+            "endSeconds": 3,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 5,
+            "sampleCount": 30052,
+            "validSupplySamples": 30052,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 1279,
+              "high": 28768,
+              "unknown": 5,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              5.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              0.024519329858391205,
+              4.887986053272232
+            ],
+            "cpuResetVolts": [
+              0.02451932766598622,
+              4.8879860521015654
+            ],
+            "firstSampleSeconds": 1e-06,
+            "lastSampleSeconds": 3.0
+          },
+          {
+            "startSeconds": 3,
+            "endSeconds": 3.000001,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 0,
+            "sampleCount": 7,
+            "validSupplySamples": 1,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 1,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              -0.16858931939682054,
+              4.8850903040756934
+            ],
+            "cpuResetVolts": [
+              -0.16858933571420676,
+              4.885090305758182
+            ],
+            "firstSampleSeconds": 3.0,
+            "lastSampleSeconds": 3.000001
+          },
+          {
+            "startSeconds": 3.000001,
+            "endSeconds": 4,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 0,
+            "sampleCount": 10025,
+            "validSupplySamples": 0,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              0.0
+            ],
+            "sourceResetVolts": [
+              -0.16858931939682054,
+              4.7438998837502565e-05
+            ],
+            "cpuResetVolts": [
+              -0.16858933571420676,
+              4.7439334949211424e-05
+            ],
+            "firstSampleSeconds": 3.000001,
+            "lastSampleSeconds": 4.0
+          },
+          {
+            "startSeconds": 4,
+            "endSeconds": 4.000001,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 5,
+            "sampleCount": 8,
+            "validSupplySamples": 0,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              3.67335191546472
+            ],
+            "sourceResetVolts": [
+              4.7438998837502565e-05,
+              1.2019842711269986
+            ],
+            "cpuResetVolts": [
+              4.7439334949211424e-05,
+              1.2019842634207278
+            ],
+            "firstSampleSeconds": 4.0,
+            "lastSampleSeconds": 4.000000734670383
+          },
+          {
+            "startSeconds": 4.000001,
+            "endSeconds": 7,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 5,
+            "sampleCount": 30017,
+            "validSupplySamples": 30017,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 1257,
+              "high": 28756,
+              "unknown": 4,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              5.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              0.02434556034691437,
+              4.887156015748348
+            ],
+            "cpuResetVolts": [
+              0.024345556541611982,
+              4.887156019979307
+            ],
+            "firstSampleSeconds": 4.000001000000001,
+            "lastSampleSeconds": 7.0
+          }
+        ],
+        "maximumSampleGapSeconds": 0.00010000000000021103,
+        "maximumBridgeDifferenceVolts": 4.594335445418096e-08,
+        "scope": "Sampled voltage ranges only. No logic interpretation below rated supply, interpolation, restart or convergence qualification."
+      },
+      "cpuResetLoad": {
+        "profile": "reference-capacitance",
+        "pin": "A5:26",
+        "net": "n_RESET_N",
+        "capacitanceFarads": 5e-12,
+        "qualified": false,
+        "resistanceOhms": null,
+        "capacitanceCondition": "25 C, 0.5 to 2 MHz; reference maximum, not measured board capacitance",
+        "boundary": "Reference capacitance is a maximum at specified test conditions, not measured reset-pin capacitance. No leakage I/V, protection junction, undervoltage or state-retention model."
+      },
+      "models": {
+        "C1": "capacitor",
+        "C2": "capacitor",
+        "C4": "capacitor",
+        "R3": "resistor",
+        "R4.1": "resistor",
+        "R4.2": "resistor",
+        "R5": "resistor",
+        "R6.1": "resistor",
+        "R7": "resistor",
+        "R8": "resistor",
+        "V1.1": "D_NOMINAL",
+        "V1.2": "D_NOMINAL",
+        "V2": "D_NOMINAL",
+        "V3.1": "NPN_NOMINAL",
+        "V3.2": "NPN_NOMINAL",
+        "V4.9": "PNP_NOMINAL",
+        "BR2": "1 milliohm closed / 1 teraohm open"
+      },
+      "signals": [
+        "n_p5V",
+        "n_RESET_OUT",
+        "n_RESET_N",
+        "n_RESET_RC",
+        "n_RESET_BIAS",
+        "n_RESET_BASE",
+        "supplyCurrentAmps"
+      ],
+      "artifacts": {
+        "reset.cir": "26ce31da1d4c1a57cd24d54781a042933d610578ff5a5294a89a12de7c872aa7",
+        "trace.txt": "e4f26261b3502adbfc0812e530391545ff6bd17ac6080d39010ac88b5d1ced22",
+        "ngspice.log": "63e7da4ea9c26d6fa400e4607d4d5107cf3669f595f65a18ec38bca8496a2b3c"
+      },
+      "variant": "factory",
+      "directory": "factory/closed-100us",
+      "releasesSecondsAt2V": [
+        [
+          0.1246019939493421
+        ],
+        [
+          0.12456131910543977
+        ]
+      ],
+      "compressedTraceSha256": "915a7bd8be5ad5cdbcaff0fba4594e021d20d84688b67999f86475a959a3c0a8"
+    },
+    {
+      "stepUs": 50,
+      "br2Closed": true,
+      "observation": {
+        "segments": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 1e-06,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 5,
+            "sampleCount": 20,
+            "validSupplySamples": 1,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 1,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              2.5882155900783487e-29,
+              1.5774436421797668
+            ],
+            "cpuResetVolts": [
+              2.5882155900783487e-29,
+              1.577443634387223
+            ],
+            "firstSampleSeconds": 0.0,
+            "lastSampleSeconds": 1e-06
+          },
+          {
+            "startSeconds": 1e-06,
+            "endSeconds": 3,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 5,
+            "sampleCount": 60054,
+            "validSupplySamples": 60054,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 2528,
+              "high": 57521,
+              "unknown": 5,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              5.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              0.024610776643798096,
+              4.887217941390231
+            ],
+            "cpuResetVolts": [
+              0.02461077471336445,
+              4.887217942725647
+            ],
+            "firstSampleSeconds": 1e-06,
+            "lastSampleSeconds": 3.0
+          },
+          {
+            "startSeconds": 3,
+            "endSeconds": 3.000001,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 0,
+            "sampleCount": 7,
+            "validSupplySamples": 1,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 1,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              -0.16858931221413503,
+              4.885089407020446
+            ],
+            "cpuResetVolts": [
+              -0.16858932853148043,
+              4.885089407899988
+            ],
+            "firstSampleSeconds": 3.0,
+            "lastSampleSeconds": 3.000001
+          },
+          {
+            "startSeconds": 3.000001,
+            "endSeconds": 4,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 0,
+            "sampleCount": 20024,
+            "validSupplySamples": 0,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              0.0
+            ],
+            "sourceResetVolts": [
+              -0.16858931221413503,
+              7.922685721123209e-06
+            ],
+            "cpuResetVolts": [
+              -0.16858932853148043,
+              7.922800753446e-06
+            ],
+            "firstSampleSeconds": 3.000001,
+            "lastSampleSeconds": 4.0
+          },
+          {
+            "startSeconds": 4,
+            "endSeconds": 4.000001,
+            "programmedStartVolts": 0,
+            "programmedEndVolts": 5,
+            "sampleCount": 5,
+            "validSupplySamples": 0,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 0,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              0.0,
+              3.9249032729514206
+            ],
+            "sourceResetVolts": [
+              -3.319292417343348e-05,
+              1.2337330594838996
+            ],
+            "cpuResetVolts": [
+              -3.3193039196343645e-05,
+              1.2337330531594777
+            ],
+            "firstSampleSeconds": 4.0,
+            "lastSampleSeconds": 4.000000784980655
+          },
+          {
+            "startSeconds": 4.000001,
+            "endSeconds": 7,
+            "programmedStartVolts": 5,
+            "programmedEndVolts": 5,
+            "sampleCount": 60042,
+            "validSupplySamples": 60042,
+            "cpuResetStatesWithinSupplyRange": {
+              "low": 2518,
+              "high": 57518,
+              "unknown": 6,
+              "outsideInputRange": 0
+            },
+            "supplyVolts": [
+              5.0,
+              5.0
+            ],
+            "sourceResetVolts": [
+              0.024431998388712763,
+              4.885150173470002
+            ],
+            "cpuResetVolts": [
+              0.02443199386325904,
+              4.885150170366871
+            ],
+            "firstSampleSeconds": 4.000001000000001,
+            "lastSampleSeconds": 7.0
+          }
+        ],
+        "maximumSampleGapSeconds": 5.0000000000105516e-05,
+        "maximumBridgeDifferenceVolts": 4.594330960117077e-08,
+        "scope": "Sampled voltage ranges only. No logic interpretation below rated supply, interpolation, restart or convergence qualification."
+      },
+      "cpuResetLoad": {
+        "profile": "reference-capacitance",
+        "pin": "A5:26",
+        "net": "n_RESET_N",
+        "capacitanceFarads": 5e-12,
+        "qualified": false,
+        "resistanceOhms": null,
+        "capacitanceCondition": "25 C, 0.5 to 2 MHz; reference maximum, not measured board capacitance",
+        "boundary": "Reference capacitance is a maximum at specified test conditions, not measured reset-pin capacitance. No leakage I/V, protection junction, undervoltage or state-retention model."
+      },
+      "models": {
+        "C1": "capacitor",
+        "C2": "capacitor",
+        "C4": "capacitor",
+        "R3": "resistor",
+        "R4.1": "resistor",
+        "R4.2": "resistor",
+        "R5": "resistor",
+        "R6.1": "resistor",
+        "R7": "resistor",
+        "R8": "resistor",
+        "V1.1": "D_NOMINAL",
+        "V1.2": "D_NOMINAL",
+        "V2": "D_NOMINAL",
+        "V3.1": "NPN_NOMINAL",
+        "V3.2": "NPN_NOMINAL",
+        "V4.9": "PNP_NOMINAL",
+        "BR2": "1 milliohm closed / 1 teraohm open"
+      },
+      "signals": [
+        "n_p5V",
+        "n_RESET_OUT",
+        "n_RESET_N",
+        "n_RESET_RC",
+        "n_RESET_BIAS",
+        "n_RESET_BASE",
+        "supplyCurrentAmps"
+      ],
+      "artifacts": {
+        "reset.cir": "c611895f3987167d0afde05e51b2ead8c48257113b1d56370120b8645457da39",
+        "trace.txt": "8849af189e007d93f7a9ec220629abf3675e146c0a56a62ef074e5cfd8988abd",
+        "ngspice.log": "32d5377423c9538cb9fa3d0a730e67248e20aa6eddc8effc4a9567632ded7194"
+      },
+      "variant": "factory",
+      "directory": "factory/closed-50us",
+      "releasesSecondsAt2V": [
+        [
+          0.12459901180215444
+        ],
+        [
+          0.12457934248976521
+        ]
+      ],
+      "compressedTraceSha256": "71cd1294ffbde0f78d9c0619729e769263a55d8a9c530edf8e24c698f853f6dd"
+    }
+  ],
+  "runtime": {
+    "executable": "/opt/homebrew/Cellar/ngspice/47/bin/ngspice",
+    "sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+    "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******\n"
+  },
+  "sources": {
+    "reset_capacitance_review.py": "8b38967060eb63dc5a9a30494b053ee15e284d9b36e1d41c4b7446edd3aa5727",
+    "reset-capacitance-sources.json": "f0e90b3335dc5c47396da4dc238b1064b3108f7dc054ebb80626c73c3161a39e",
+    "reset_probe.py": "b0b659ed506e57188de7313bccdde13e829e3e925e67a464d7aaa35ce5cac851",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "cpu_control.py": "9352eb76bb7204e7e7ad2b4e2812c67dd71477abafd7e49f21234bd9076d7768",
+    "cpu_clock_limits.json": "2c9bcde027d0aa4e756e46bfa95c9da7daae6dec70631b9b8d2586d61f6400b1",
+    "supply_stimulus.py": "fea07055c3c2c058b9d2aee8a2f7f18a76f1e1a97ceafda393678d57cebfad0e",
+    "reset_supply_observation.py": "ba15a22b33b02913aac02476dfcf5dcd3f45e8a85864c6707a4ef241987bf1a3",
+    "sc236_dc.cir": "c6fbd48612fdf503ea01a595542df99bfdc6d68ec27e27c799995c62505b63e1"
+  },
+  "assumptions": {
+    "beta": 100,
+    "npnProfile": "sc236-dc",
+    "cpuLoad": "reference-capacitance",
+    "sourceOhms": 0,
+    "passives": "Ideal nominal values; no ESR, leakage or tolerance",
+    "semiconductors": "Selected exploratory NPN profile; generic PNP and diode models",
+    "thresholdVolts": 2,
+    "boundary": "Closed BR2, isolated reset circuit. No CPU execution, full-board convergence, installed-value identification or device admission."
+  },
+  "timingComparisons": [
+    {
+      "variant": "zander",
+      "oneReleasePerPoweredWindow": true,
+      "releaseDifferenceSeconds": [
+        3.0741062781447503e-07,
+        4.210423585782053e-06
+      ],
+      "releaseTimingWithin100us": true
+    },
+    {
+      "variant": "factory",
+      "oneReleasePerPoweredWindow": true,
+      "releaseDifferenceSeconds": [
+        2.982147187663431e-06,
+        1.8023384325438485e-05
+      ],
+      "releaseTimingWithin100us": true
+    }
+  ]
+}
