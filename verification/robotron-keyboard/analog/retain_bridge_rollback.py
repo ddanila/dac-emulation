@@ -34,9 +34,12 @@ def retain(capture, control, baseline, base_bridge, build, out):
         shutil.copyfile(capture/name, out/name)
     for source, name in ((control/'run.json', 'control.json'),
                          (base_bridge, 'base-bridge.json'),
-                         (build, 'build.json'),
-                         (baseline/'completion-check.json', 'baseline-traces.json')):
+                         (build, 'build.json')):
         shutil.copyfile(source, out/name)
+    if json.loads((baseline/'run.json').read_text()).get('rawOutput'):
+        (out/'baseline-traces.json').write_text(json.dumps(result['comparisons'], indent=2)+'\n')
+    else:
+        shutil.copyfile(baseline/'completion-check.json', out/'baseline-traces.json')
     bridge = json.loads((capture/'bridge.json').read_text())
     vpi_source = Path(bridge['libraries']['vpi']['path']).parent/'vpi.c'
     if sha(vpi_source) != bridge['audit']['sourceSha256']:
@@ -49,7 +52,8 @@ def retain(capture, control, baseline, base_bridge, build, out):
         'scope': 'Complete raw waveforms remain local, pinned by the run receipt; every sample was compared before retention.',
         'sources': {n: sha(HERE/n) for n in (
             'live_bridge_time_review.py', 'bridge_rollback_log.py',
-            'live_bridge_time_capture.py', 'retain_bridge_rollback.py')}}
+            'live_bridge_time_capture.py', 'retain_bridge_rollback.py',
+            'rollback_dispatch_review.py', 'raw_pair_review.py', 'raw_waveform.py')}}
     (out/'assessment.json').write_text(json.dumps(result, indent=2)+'\n')
     manifest = {str(p.relative_to(out)): sha(p) for p in sorted(out.rglob('*')) if p.is_file()}
     (out/'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
