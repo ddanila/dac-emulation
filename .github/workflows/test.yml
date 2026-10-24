@@ -230,6 +230,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/dac-state-startup --check
           python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/dac-anchored-startup --check
           python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/startup-grid-density --check
+          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/startup-tight-tolerance --check
           python3 verification/robotron-keyboard/analog/reset_probe.py
           python3 verification/robotron-keyboard/analog/reset_probe.py --reset-load reference-capacitance --npn-profile sc236-dc --supply-stimulus verification/robotron-keyboard/analog/supply-stimuli/brownout.json --stop-seconds .127 --out build/keyboard-controller-analog/reset-brownout
       - name: SC236D candidate DC limits and reset integration
