@@ -52,6 +52,8 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_live_state.py
           python3 verification/robotron-keyboard/analog/test_fixture_crossing_grid.py
           python3 verification/robotron-keyboard/analog/test_fixture_grid_review.py
+          python3 verification/robotron-keyboard/analog/test_sampling_grid.py
+          python3 verification/robotron-keyboard/analog/test_common_samples.py
           python3 verification/robotron-keyboard/analog/test_refinement_peak_review.py
           python3 verification/robotron-keyboard/analog/test_switching_event.py
           python3 verification/robotron-keyboard/analog/test_output_switch.py
@@ -211,6 +213,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/reset_release_audit_review.py --out verification/robotron-keyboard/analog/reports/reset-release-audit --check
           python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/fixture-grid-reset --check
           python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/fixture-grid-gear --check
+          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/fixture-grid-sampling --check
           python3 verification/robotron-keyboard/analog/reset_probe.py
           python3 verification/robotron-keyboard/analog/reset_probe.py --reset-load reference-capacitance --npn-profile sc236-dc --supply-stimulus verification/robotron-keyboard/analog/supply-stimuli/brownout.json --stop-seconds .127 --out build/keyboard-controller-analog/reset-brownout
       - name: SC236D candidate DC limits and reset integration
