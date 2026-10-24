@@ -1,0 +1,26 @@
+--- a/src/spicelib/analysis/dctran.c
++++ b/src/spicelib/analysis/dctran.c
+@@ -21,6 +21,7 @@
+ #include "ngspice/sperror.h"
+ #include "ngspice/fteext.h"
+ #include "ngspice/missing_math.h"
++#include "rollback_fault.h"
+ 
+ /* for setting breakpoints required by dbs data base */
+ extern struct dbcomm *dbs;
+@@ -81,6 +82,7 @@
+     double startTime;
+     int startIters;
+     int converged;
++    int rollback_fault_done = 0;
+     int firsttime;
+     int error;
+ #ifdef WANT_SENSE2
+@@ -751,6 +753,7 @@
+ 
+         if (((getenv("ROBOTRON_LIVE_AUDIT") && ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) || (((getenv("ROBOTRON_SWITCH_AUDIT") && ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605) || (getenv("ROBOTRON_INDUCTOR_MONITOR") && ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605 && ckt->CKTstat->STATnumIter % 2048 < 8)))))
+             fprintf(stderr, "TRANSITION_AUDIT solved time=%a temporary=%a permanent=%a result=%d\n", ckt->CKTtime, g_mif_info.breakpoint.current, ckt->CKTbreaks[0], converged);
++        converged = robotron_force_newton_reject(converged, ckt->CKTtime, &rollback_fault_done);
+         /* If no convergence in Central solver step */
+         if(converged != 0) {
+             if (getenv("ROBOTRON_ROLLBACK_AUDIT"))

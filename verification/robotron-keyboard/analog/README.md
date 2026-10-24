@@ -335,6 +335,14 @@ dispatch control. The capture permits only the identified VPI-library substituti
 equivalence before interpreting requested/actual HDL times. `bridge_rollback_log.py`
 keeps callbacks without logged advances separate from requests and outputs, and
 checks the bridge's existing one-tick time-order guard.
+
+For a diagnostic Newton-retry control, apply `ngspice-47-rollback-fault.patch`
+after the rollback audit patch and copy `rollback_fault.h` beside `dctran.c`.
+`ROBOTRON_FORCE_NEWTON_REJECT=1` routes one otherwise converged trial at or after
+1.0025 ms through the existing Newton failure branch in a fresh transient run.
+Require a complete disabled control before interpreting an injected capture.
+This tests retry scheduling, not natural device nonconvergence or general rollback.
+
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
 startup timed out. Neither result establishes complete electrical acceptance.
 
