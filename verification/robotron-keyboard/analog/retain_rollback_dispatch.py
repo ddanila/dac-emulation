@@ -18,7 +18,10 @@ def retain(root, baseline, build, out):
     out.mkdir(parents=True,exist_ok=True)
     if build.resolve()!=(out/'build.json').resolve():shutil.copyfile(build,out/'build.json')
     for name in ('baseline.json','capture-generator.py'):shutil.copyfile(root/name,out/name)
-    shutil.copyfile(baseline/'completion-check.json',out/'baseline-traces.json')
+    if json.loads((baseline/'run.json').read_text()).get('rawOutput'):
+        (out/'baseline-traces.json').write_text(json.dumps(result['comparisons']['off'],indent=2)+'\n')
+    else:
+        shutil.copyfile(baseline/'completion-check.json',out/'baseline-traces.json')
     for mode in ('off','on'):
         target=out/mode;target.mkdir()
         for name in ('io.cir','run.json'):shutil.copyfile(root/mode/name,target/name)

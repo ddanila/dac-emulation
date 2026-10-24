@@ -40,7 +40,14 @@ def run_pair(baseline, runtime_path, spinit, out, timeout, *, rollback_audit=Fal
     deck = (baseline/'io.cir').read_text()
     if sha(baseline/'io.cir') != receipt['deckSha256']:
         raise ValueError('Changed baseline deck')
-    transformed, writers = raw_deck(deck)
+    if receipt.get('rawOutput'):
+        if not rollback_audit:
+            raise ValueError('Raw baseline requires rollback audit controls')
+        if len(re.findall(r'^run waveform\.raw$', deck, re.M)) != 1 or re.search(r'^wrdata\b', deck, re.M):
+            raise ValueError('Expected one direct raw writer')
+        transformed, writers = deck, []
+    else:
+        transformed, writers = raw_deck(deck)
     saves = re.findall(r'^\.save (.+)$', deck, re.M)
     if len(saves) != 1 or set(saves[0].split()) != set(receipt['observationSignals']):
         raise ValueError('Baseline does not observe every saved signal')

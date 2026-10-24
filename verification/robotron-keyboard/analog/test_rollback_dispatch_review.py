@@ -32,6 +32,22 @@ def setup(root):
     return pair,baseline,build
 
 
+def raw_setup(root):
+    pair,baseline,build=setup(root)
+    shutil.copyfile(pair/'off/io.cir',baseline/'io.cir')
+    shutil.copyfile(pair/'off/waveform.raw',baseline/'waveform.raw')
+    shutil.copyfile(pair/'off/ngspice.log',baseline/'ngspice.log')
+    r=json.loads((baseline/'run.json').read_text())
+    r.update(rawOutput=True,deckSha256=sha(baseline/'io.cir'),
+             compressedOutput={'error':None,'streams':{'waveform.raw':{'sha256':sha(baseline/'waveform.raw')}}})
+    write_json(baseline/'run.json',r);write_json(pair/'baseline.json',r)
+    for mode in ('off','on'):
+        path=pair/mode/'run.json';current=json.loads(path.read_text())
+        current['baselineRunSha256']=sha(baseline/'run.json');write_json(path,current)
+    (baseline/'completion-check.json').unlink()
+    return pair,baseline,build
+
+
 class RollbackReviewTests(unittest.TestCase):
     def test_complete_unchanged_pair_is_scoped_evidence(self):
         with tempfile.TemporaryDirectory() as d:
@@ -39,6 +55,33 @@ class RollbackReviewTests(unittest.TestCase):
             self.assertTrue(result['waveformsExactlyMatchBaseline'])
             self.assertFalse(result['qualified'])
             self.assertEqual(result['audit']['clientCalls'],{'hdl':1})
+
+    def test_complete_raw_baseline_and_corruptions(self):
+        with tempfile.TemporaryDirectory() as d:
+            result=review(*raw_setup(Path(d)))
+            self.assertTrue(result['waveformsExactlyMatchBaseline'])
+            self.assertEqual(result['comparisons']['on']['waveform.raw']['samples'],2)
+        for kind in ('hash','endpoint','count','sample','truncated'):
+            with self.subTest(kind=kind),tempfile.TemporaryDirectory() as d:
+                pair,baseline,build=raw_setup(Path(d))
+                if kind in ('sample','truncated'):
+                    p=pair/'on/waveform.raw'
+                    if kind=='sample':
+                        import struct
+                        p.write_bytes(p.read_bytes()[:-8]+struct.pack('=d',3.0))
+                    else:p.write_bytes(p.read_bytes()[:-8])
+                    q=pair/'on/run.json';v=json.loads(q.read_text())
+                    v['storage']['waveform.raw']['sha256']=sha(p);write_json(q,v)
+                elif kind=='count':
+                    p=baseline/'ngspice.log';p.write_text(p.read_text().replace('No. of Data Rows : 2','No. of Data Rows : 3'))
+                else:
+                    p=baseline/'run.json';r=json.loads(p.read_text())
+                    if kind=='hash':r['compressedOutput']['streams']['waveform.raw']['sha256']='changed'
+                    else:r['stopNs']*=2
+                    write_json(p,r);write_json(pair/'baseline.json',r)
+                    for mode in ('off','on'):
+                        p=pair/mode/'run.json';v=json.loads(p.read_text());v['baselineRunSha256']=sha(baseline/'run.json');write_json(p,v)
+                with self.assertRaises(ValueError):review(pair,baseline,build)
 
     def test_rejects_hidden_environment_change_or_missing_flag(self):
         for changes in ({'ROBOTRON_EVAL_CACHE':'exact'}, {'ROBOTRON_ROLLBACK_AUDIT':'0'}):

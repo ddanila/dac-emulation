@@ -1,0 +1,60 @@
+{
+  "completed": true,
+  "qualified": false,
+  "samples": 1410645,
+  "endSeconds": 0.00116,
+  "bus": {
+    "passed": true,
+    "assessment": {
+      "passed": true,
+      "qualified": false,
+      "sampleCount": 41,
+      "driverStatesCaptured": true,
+      "waveform": {
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.00116,
+        "rows": 1410645
+      },
+      "memoryReads": 41,
+      "ioReads": 0,
+      "firstReadPs": 1002501000,
+      "lastReadPs": 1158501000,
+      "minimumLowMarginVolts": 0.65208068182205,
+      "minimumHighMarginVolts": 2.8861444964631024,
+      "setupNs": 0,
+      "holdNs": 0,
+      "boundary": "Sampled-voltage agreement and TV80 input-register confirmation only. Windows include bracketing trace samples. No between-sample excursion proof, U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing."
+    }
+  },
+  "serial": {
+    "passed": true,
+    "assessment": {
+      "activityObserved": false,
+      "transmitted": [],
+      "received": [],
+      "clockTransportSeconds": [],
+      "scope": "Bit transport only; no S600 frame or key-semantics claim from matching intent"
+    }
+  },
+  "reviewSourceSha256": "d4d9113cb7d0b68986d0539d3d16abffb1e9f5ca6096594ba31b100cc2da8601",
+  "artifacts": {
+    "run.json": "4f55ceb4dc624bea30d565415b21b49d47cec6d0fdc9b275623281b8a9c8812a",
+    "io.cir": "5de7a4789b67b5a3b5ea3788080458b08bc9b5b4ba55963431f5dab10d7507f3",
+    "ngspice.log": "725b720861f5db99661419160913f521e181cbf22ff21eb099afdbb318ae332d",
+    "waveform.raw": "1d02c060311e5b491b723f05674ef3e016d5433bbd6845ad3bc8262445ff5c2a"
+  },
+  "boundary": "Complete longer-window control only. No timestep-refinement, coupled rollback or full-repeat claim.",
+  "reviewDependencies": {
+    "compare_firmware_io.py": "e2754823ee4c2741d2ae591d68969558bad142f893a241158781abf1c2bfeef1",
+    "bus_observation.py": "502fbfd68f47085107c0491a8f828a468eb4b1191d739a4bc28ce36485ba6c12",
+    "filter_truncation_log.py": "d44c46ab976ff4a85f1016504a1338e82cc095396e0350c90e445132b6f23dc9",
+    "live_raw_review.py": "1a2e43cbbfc40bc8d65f26b8539ad9d5f8335e8f78527abd5615a01b63d2036a",
+    "raw_waveform.py": "e959314c1f68c4e0eca1e069d2bbea613503c7f00581ffe615f380515453ba52",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "serial_observation.py": "1641e0a72d60fd893582a48e7e6a47a22a892dac826589b69354a333d4c2f136"
+  },
+  "retention": {
+    "fullCapture": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/trtol-postreset-raw-25-long",
+    "scope": "Full compressed waveform and firmware inputs remain local and are hash-pinned by the run receipt. Review consumed all raw rows before retention."
+  }
+}

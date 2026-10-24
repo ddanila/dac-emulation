@@ -10,6 +10,7 @@ from compare_firmware_io import sha
 from filter_truncation_log import diagnostic
 from live_bridge_time_capture import substitute_vpi
 from live_raw_review import compare_trace
+from raw_pair_review import compare_raw
 from network_refinement_review import events
 from rollback_dispatch_review import review as dispatch_review
 from trace_io import open_text
@@ -52,7 +53,12 @@ def review(capture, control, baseline, base_bridge, build):
     counts=re.findall(r'No\. of Data Rows\s*:\s*(\d+)',log)
     if len(counts)!=1:raise ValueError('Missing unique completion count')
     count=int(counts[0])
-    comparisons={name:compare_trace(capture/'waveform.raw',baseline/name,count) for name in established['comparisons']['on']}
+    if original.get('rawOutput'):
+        extent=established['comparisons']['on']['waveform.raw']
+        compare_raw(control/'waveform.raw',capture/'waveform.raw',[extent['samples'],count],end,exact=True)
+        comparisons={'waveform.raw':dict(extent)}
+    else:
+        comparisons={name:compare_trace(capture/'waveform.raw',baseline/name,count) for name in established['comparisons']['on']}
     for name,value in comparisons.items():
         if value!=established['comparisons']['on'][name]:raise ValueError('Changed complete waveform extent')
         if abs(value['lastSeconds']-end)>2*math.ulp(end):raise ValueError('Incomplete window')

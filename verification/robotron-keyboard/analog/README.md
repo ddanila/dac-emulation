@@ -359,8 +359,11 @@ missing observations or an incomplete declared endpoint.
 `retain_newton_retry.py` retains the checked pair's receipts and compressed logs;
 its `--check` mode verifies their manifest and recomputes dispatch/timing results.
 This tests retry scheduling, not natural device nonconvergence or general rollback.
-The [extended post-reset attempt](reports/postreset-timeout/assessment.json) hit
-its runtime limit before the declared endpoint; it cannot extend this coverage.
+The [complete post-reset control](reports/postreset-control/assessment.json) checks
+all saved samples and firmware bus reads over its declared window. It supplies
+a baseline for longer paired controls, not convergence or rollback acceptance.
+`live_raw_output.py --rollback-audit` and `rollback_dispatch_review.py` accept
+complete direct-raw baselines without expanding them into text waveforms.
 
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
 startup timed out. Neither result establishes complete electrical acceptance.
