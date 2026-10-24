@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Retain bounded live reset-release controls without qualifying failed prefixes."""
 import argparse
+import hashlib
 import json
 import math
 import re
@@ -8,6 +9,7 @@ import shutil
 from pathlib import Path
 from failure_evidence import solver_diagnostic
 from ttl7406_probe import sha
+from trace_io import open_binary
 
 HERE=Path(__file__).resolve().parent
 CASES=('trap','gear','dac-corners','corners-25','corners-12.5','corners-6.25')
@@ -15,17 +17,20 @@ TRACES=('witness.txt','bus-trace.txt','driver-trace.txt','wr-trace.txt','network
 
 def trace_summary(path):
     first=last=None;count=0;valid=True;tail=[]
-    with path.open() as stream:
-        header=next(stream).split()
+    digest=hashlib.sha256();size=0
+    with open_binary(path) as stream:
+        raw=next(stream);digest.update(raw);size+=len(raw)
+        header=raw.decode('ascii').split()
         if len(header)<2 or header[0]!='time':raise ValueError('Missing waveform header')
         for line in stream:
+            digest.update(line);size+=len(line)
             row=list(map(float,line.split()))
             if len(row)!=len(header) or not all(map(math.isfinite,row)):raise ValueError('Invalid waveform values')
             if last is not None and row[0]<=last:valid=False
             if first is None:first=row[0]
             last=row[0];count+=1;tail.append(row)
             if len(tail)>8:tail.pop(0)
-    return {'sha256':sha(path),'bytes':path.stat().st_size,'samples':count,'firstSeconds':first,
+    return {'sha256':digest.hexdigest(),'bytes':size,'samples':count,'firstSeconds':first,
             'lastSeconds':last,'strictlyIncreasing':valid,'columns':header,'tail':tail}
 
 def completed(run, traces, diagnostic):

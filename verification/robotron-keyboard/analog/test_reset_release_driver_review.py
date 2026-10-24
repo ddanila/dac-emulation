@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import copy
+import gzip
 import tempfile
 import unittest
 from pathlib import Path
@@ -19,6 +20,14 @@ class CaptureTests(unittest.TestCase):
         self.assertFalse(completed(self.run,self.traces,'run simulation(s) aborted'))
         self.traces['witness.txt']['lastSeconds']=.001001012
         self.assertFalse(completed(self.run,self.traces,None))
+
+    def test_compressed_trace_preserves_receipt(self):
+        with tempfile.TemporaryDirectory() as folder:
+            p=Path(folder)/'trace.txt';p.write_text('time v(a)\n0 0\n0.001002 1\n')
+            expected=trace_summary(p)
+            with gzip.open(str(p)+'.gz','wb') as stream:stream.write(p.read_bytes())
+            p.unlink()
+            self.assertEqual(trace_summary(p),expected)
 
     def test_timeout_and_nonmonotonic_trace_never_pass(self):
         run=copy.deepcopy(self.run);run['timedOut']=True

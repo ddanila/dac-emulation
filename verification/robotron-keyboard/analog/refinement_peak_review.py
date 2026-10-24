@@ -5,7 +5,7 @@ import json
 from decimal import Decimal, localcontext
 from pathlib import Path
 from host_waveform_comparison import rows
-from ttl7406_probe import sha
+from compare_firmware_io import sha
 
 HERE = Path(__file__).resolve().parent
 
@@ -75,7 +75,7 @@ def review(root, evidence):
                     comparisonArithmeticDifferenceVolts=abs(float(difference)-peak['reportedDifferenceVolts']))
     return {'schema': 1, 'peaks': peaks, 'rawCaptureSha256': hashes,
         'assessmentSha256': sha(evidence / 'assessment.json'),
-        'sources': {name: sha(HERE/name) for name in ('refinement_peak_review.py', 'host_waveform_comparison.py')},
+        'sources': {name: sha(HERE/name) for name in ('refinement_peak_review.py', 'host_waveform_comparison.py', 'compare_firmware_io.py', 'trace_io.py')},
         'qualified': False,
         'scope': 'Independent 64-digit interpolation of the same binary64 sample values at previously reported absolute-time voltage maxima. Brackets identify sampling intervals and simulation phases; arithmetic agreement does not exclude intersample curvature, trajectory error or device uncertainty. No peaks are omitted from acceptance.'}
 
