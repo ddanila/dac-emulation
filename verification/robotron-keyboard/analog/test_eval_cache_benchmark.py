@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 import subprocess
 from eval_cache_benchmark import main
-from eval_cache_benchmark import assess,capture_scope,trace_extent,fixture,validate_extent
+from eval_cache_benchmark import assess,capture_scope,trace_extent,fixture,validate_extent,external_dependencies,verify_dependencies
 
 class CaptureTests(unittest.TestCase):
  def test_window_and_corrupt_traces(self):
@@ -60,6 +60,17 @@ class CaptureTests(unittest.TestCase):
   validate_extent(extent,scope)
   for changes in ({'lastSeconds':float('nan')},{'minimumValue':float('-inf')},{'minimumValue':6},{'samples':2.5},{'samples':True}):
    with self.assertRaises(ValueError):validate_extent(dict(extent,**changes),scope)
+
+ def test_external_dependency_drift(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);library=root/'bridge.so';vpi=root/'cpu.vpi'
+   library.write_bytes(b'bridge');vpi.write_bytes(b'cpu')
+   (root/'probe.cir').write_text('.model hdl d_cosim simulation="'+str(library)+'"\n')
+   (root/'cpu.vvp').write_text(':vpi_module "'+str(vpi)+'";\n.file_names 1;\n"/not/a/runtime/source.v";\n')
+   receipts=external_dependencies(root,{'deck':'probe.cir','inputs':['probe.cir','cpu.vvp']})
+   self.assertEqual(len(receipts),2);verify_dependencies(receipts)
+   vpi.write_bytes(b'changed cpu')
+   with self.assertRaisesRegex(ValueError,'changed'):verify_dependencies(receipts)
 
  def test_timeout_retains_failure_receipt(self):
   with tempfile.TemporaryDirectory() as tmp:

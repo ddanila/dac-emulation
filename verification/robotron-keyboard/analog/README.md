@@ -461,7 +461,8 @@ retains byte-equality receipts for disabled/enabled runs; use
 `eval_cache_benchmark.py` to reproduce them from a prepared startup directory.
 New captures derive their window from the deck and reject incomplete, nonfinite
 or nonmonotonic traces; timeout/failure receipts remain in the output directory.
-The runtime receipt fingerprints the executable, initialization and code models.
+The runtime receipt fingerprints the executable, initialization, code models and
+external co-simulation/VPI libraries. Loaded-library changes invalidate paired runs.
 The [extended startup comparison](reports/eval-cache-startup-2ms/assessment.json)
 covers the first 2 ms, including supply settling into its rated range; it does not
 cover later firmware service. The

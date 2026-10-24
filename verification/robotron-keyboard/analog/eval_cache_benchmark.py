@@ -4,7 +4,7 @@ import argparse,json,os,shutil,subprocess,time,statistics,math,re
 from pathlib import Path
 from ttl7406_probe import sha
 from failure_evidence import solver_diagnostic
-from ngspice_runtime import identify,verify
+from ngspice_runtime import identify,verify,fingerprint
 HERE=Path(__file__).resolve().parent
 
 def capture_scope(deck):
@@ -62,6 +62,18 @@ def trace_extent(path,scope):
  if count<2 or not valid_start(first,scope) or abs(last-scope['stopSeconds'])>tolerance:raise ValueError('Incomplete trace window')
  return {'samples':count,'firstSeconds':first,'lastSeconds':last,'minimumValue':low,'maximumValue':high}
 
+def external_dependencies(prepared,spec):
+ paths=set(re.findall(r'"(/[^"\n]+)"',(prepared/spec['deck']).read_text()))
+ for name in spec['inputs']:
+  if name.endswith('.vvp'):
+   paths.update(re.findall(r'^:vpi_module "([^"\n]+)";', (prepared/name).read_text(),re.M))
+ if any(not Path(p).is_absolute() for p in paths):raise ValueError('VPI dependencies require explicit absolute paths')
+ return [fingerprint(p) for p in sorted(paths)]
+
+def verify_dependencies(receipts):
+ for item in receipts:
+  if fingerprint(item['path'])!=item:raise ValueError('External co-simulation dependency changed: '+item['path'])
+
 def assess(root):
  spec=fixture(root)
  runs=[json.loads((root/n/'run.json').read_text()) for n in ('off','exact','off-repeat','exact-repeat')]
@@ -92,17 +104,19 @@ def main():
  if not all((a.prepared,a.ngspice,a.spinit)):p.error('Prepared startup, runtime and spinit required')
  spec=fixture(a.prepared)
  runtime,env=identify(a.ngspice,Path(a.spinit)/'spinit')
+ dependencies=external_dependencies(a.prepared,spec)
  scope=capture_scope((a.prepared/spec['deck']).read_text())
  a.out.mkdir(parents=True,exist_ok=False)
  shutil.copyfile(a.prepared/spec['deck'],a.out/spec['deck'])
  (a.out/'fixture.json').write_text(json.dumps(spec,indent=2)+'\n')
  (a.out/'scope.json').write_text(json.dumps(scope,indent=2)+'\n')
  inputs={n:sha(a.prepared/n) for n in spec['inputs']}
- (a.out/'runtime.json').write_text(json.dumps({'runtime':runtime,'experimentalEnvironment':{k:v for k,v in env.items() if k.startswith('ROBOTRON_') and k!='ROBOTRON_EVAL_CACHE'},'patchSha256':sha(HERE/'engine-patches/eval-cache.patch'),'inputSha256':inputs},indent=2)+'\n')
+ (a.out/'runtime.json').write_text(json.dumps({'runtime':runtime,'externalDependencies':dependencies,'experimentalEnvironment':{k:v for k,v in env.items() if k.startswith('ROBOTRON_') and k!='ROBOTRON_EVAL_CACHE'},'patchSha256':sha(HERE/'engine-patches/eval-cache.patch'),'inputSha256':inputs},indent=2)+'\n')
  for mode in ('off','exact','off-repeat','exact-repeat'):
   folder=a.out/mode;folder.mkdir()
   for n in spec['inputs']:shutil.copyfile(a.prepared/n,folder/n)
   if any(sha(folder/n)!=h for n,h in inputs.items()):raise ValueError('Prepared input changed between runs')
+  verify_dependencies(dependencies)
   start=time.monotonic();failure=None
   with (folder/'ngspice.log').open('w') as log:
    try:
@@ -117,6 +131,7 @@ def main():
    if failure or code or solver_diagnostic((folder/'ngspice.log').read_text()):raise ValueError(failure or 'Solver failure')
    result['capture']={n:trace_extent(folder/n,scope) for n in spec['traces']}
    verify(runtime)
+   verify_dependencies(dependencies)
   except (ValueError,OSError) as error:
    result['failure']=str(error)
   (folder/'run.json').write_text(json.dumps(result,indent=2)+'\n')
