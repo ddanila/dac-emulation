@@ -1,0 +1,653 @@
+{
+  "schema": 1,
+  "cases": {
+    "disabled": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100501, timestep = 3.125e-20: trouble with xdata:ttl7406_diode-instance d.xdata.dfeed",
+      "requestedEndSeconds": 0.0010060000000000002,
+      "lastSeconds": {
+        "witness.txt": 0.0010050120000221598,
+        "bus-trace.txt": 0.0010050120000221598,
+        "driver-trace.txt": 0.0010050120000221598,
+        "wr-trace.txt": 0.0010050120000221598,
+        "network_witness.txt": 0.0010050120000221598
+      }
+    },
+    "enabled": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100501, timestep = 3.125e-20: trouble with xdata:ttl7406_diode-instance d.xdata.dfeed",
+      "requestedEndSeconds": 0.0010060000000000002,
+      "lastSeconds": {
+        "witness.txt": 0.0010050120000221598,
+        "bus-trace.txt": 0.0010050120000221598,
+        "driver-trace.txt": 0.0010050120000221598,
+        "wr-trace.txt": 0.0010050120000221598,
+        "network_witness.txt": 0.0010050120000221598
+      }
+    },
+    "mpfr-local": {
+      "completed": true,
+      "timedOut": false,
+      "diagnostic": null,
+      "requestedEndSeconds": 0.0010060000000000002,
+      "lastSeconds": {
+        "witness.txt": 0.001006,
+        "bus-trace.txt": 0.001006,
+        "driver-trace.txt": 0.001006,
+        "wr-trace.txt": 0.001006,
+        "network_witness.txt": 0.001006
+      }
+    },
+    "refined-25": {
+      "completed": true,
+      "timedOut": false,
+      "diagnostic": null,
+      "requestedEndSeconds": 0.0010060000000000002,
+      "lastSeconds": {
+        "witness.txt": 0.001006,
+        "bus-trace.txt": 0.001006,
+        "driver-trace.txt": 0.001006,
+        "wr-trace.txt": 0.001006,
+        "network_witness.txt": 0.001006
+      }
+    },
+    "refined-12.5": {
+      "completed": true,
+      "timedOut": false,
+      "diagnostic": null,
+      "requestedEndSeconds": 0.0010060000000000002,
+      "lastSeconds": {
+        "witness.txt": 0.001006,
+        "bus-trace.txt": 0.001006,
+        "driver-trace.txt": 0.001006,
+        "wr-trace.txt": 0.001006,
+        "network_witness.txt": 0.001006
+      }
+    },
+    "refined-6.25": {
+      "completed": true,
+      "timedOut": false,
+      "diagnostic": null,
+      "requestedEndSeconds": 0.0010060000000000002,
+      "lastSeconds": {
+        "witness.txt": 0.001006,
+        "bus-trace.txt": 0.001006,
+        "driver-trace.txt": 0.001006,
+        "wr-trace.txt": 0.001006,
+        "network_witness.txt": 0.001006
+      }
+    }
+  },
+  "auditWaveformsByteIdentical": true,
+  "audit": {
+    "windowSeconds": [
+      0.001005011,
+      0.001005014
+    ],
+    "solverCalls": 16,
+    "allAuditedNewtonSolvesConverged": false,
+    "rejectedSteps": 3,
+    "firstRejection": {
+      "timeSeconds": 0.0010050120999999998,
+      "trialStepSeconds": 9.99999999907325e-11,
+      "proposedStepSeconds": 2.2155508526762388e-14,
+      "lastLimitingDevice": "Capacitor"
+    },
+    "lastRejection": {
+      "timeSeconds": 0.0010050120000221609,
+      "trialStepSeconds": 1e-18,
+      "proposedStepSeconds": 3.0252950757009877e-20,
+      "lastLimitingDevice": "Inductor"
+    },
+    "adcDecisionChangesInWindow": 0
+  },
+  "frozenTerminalSystems": [
+    {
+      "id": 116,
+      "timeSeconds": 0.00100501200002216,
+      "iteration": 100,
+      "recordedFeedVolts": -100.81047948006282,
+      "independentFeedVolts": 2.905007066230924,
+      "maximum64to96SolutionDifference": 1.7683677977589298e-40,
+      "normwiseBackwardError": 7.889432465623717e-20,
+      "worstAbsoluteResidual": {
+        "index": 372,
+        "name": "vdriver_supply#branch",
+        "residual": 176.31636567117945,
+        "exactResidual": "198514579684010979/1125899906842624",
+        "sumAbsoluteProductsAndRhs": 176.31636567117945,
+        "componentwiseBackwardError": 1.0
+      },
+      "scope": "Independent 64/96 decimal-digit solutions of the same recorded, already-rounded linear coefficients. Does not reconstruct device loading, rerun Newton iteration or qualify the physical driver."
+    },
+    {
+      "id": 117,
+      "timeSeconds": 0.00100501200002216,
+      "iteration": 101,
+      "recordedFeedVolts": 18.628718506075884,
+      "independentFeedVolts": 2.90500746365207,
+      "maximum64to96SolutionDifference": 2.8231986419575816e-40,
+      "normwiseBackwardError": 1.1960714208930104e-20,
+      "worstAbsoluteResidual": {
+        "index": 372,
+        "name": "vdriver_supply#branch",
+        "residual": -26.730308793935162,
+        "exactResidual": "-30095652180966173/1125899906842624",
+        "sumAbsoluteProductsAndRhs": 36.57270076723759,
+        "componentwiseBackwardError": 0.730881456200265
+      },
+      "scope": "Independent 64/96 decimal-digit solutions of the same recorded, already-rounded linear coefficients. Does not reconstruct device loading, rerun Newton iteration or qualify the physical driver."
+    }
+  ],
+  "refinementPairs": [
+    {
+      "coarse": "refined-25",
+      "fine": "refined-12.5",
+      "endSeconds": 0.001006,
+      "signals": {
+        "v(receiver_data)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 8.330177639459535e-05,
+          "timeSeconds": 0.00013812071228622608
+        },
+        "v(receiver_clock)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 8.996871804045625e-05,
+          "timeSeconds": 0.00013812071228622608
+        },
+        "v(n_D0)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00015102217422136022,
+          "timeSeconds": 0.0010014461303326848
+        },
+        "v(n_D1)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00022331255749641343,
+          "timeSeconds": 0.0010014461303326848
+        },
+        "v(n_D2)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00022331255749641343,
+          "timeSeconds": 0.0010014461303326848
+        },
+        "v(n_D3)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00022331255749641343,
+          "timeSeconds": 0.0010014461303326848
+        },
+        "v(n_D4)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "v(n_D5)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00022331255749641343,
+          "timeSeconds": 0.0010014461303326848
+        },
+        "v(n_D6)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0004561542368382021,
+          "timeSeconds": 0.001005430583402516
+        },
+        "v(n_D7)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00022331255749641343,
+          "timeSeconds": 0.0010014461303326848
+        },
+        "v(n_p5V)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 1.0496869171159988e-06,
+          "timeSeconds": 9.489736586347911e-07
+        },
+        "i(Vdriver_supply)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 7.996841914006958e-08,
+          "timeSeconds": 0.00013822934850525956
+        },
+        "v(n_WR_N)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 9.847937858633096e-07,
+          "timeSeconds": 9.489736586347911e-07
+        },
+        "v(wr_low)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "v(wr_high)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 7.993605777301127e-15,
+          "timeSeconds": 1.0864167770422044e-08
+        },
+        "@bwr_low[i]": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "@bwr_high[i]": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 6.574764123864707e-12,
+          "timeSeconds": 8.864736586347912e-07
+        },
+        "v(n_TA_TAKT)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00013536179422840577,
+          "timeSeconds": 0.00013822364521377567
+        },
+        "v(n_TA_DATEN)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 7.75086199586994e-05,
+          "timeSeconds": 0.00013812071228622608
+        },
+        "v(L1_1_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 8.745056299264142e-05,
+          "timeSeconds": 0.00013812071228622608
+        },
+        "v(L1_2_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 5.5862573717924136e-05,
+          "timeSeconds": 8.864736586347912e-07
+        },
+        "v(L1_3_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 5.429336704732002e-05,
+          "timeSeconds": 8.864736586347912e-07
+        },
+        "v(L1_4_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 8.113518086139138e-05,
+          "timeSeconds": 0.00013812071228622608
+        },
+        "v(n_CABLE_TAKT)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 8.754803943200606e-05,
+          "timeSeconds": 0.00013812071228622608
+        },
+        "v(n_CABLE_GND)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 4.551122238383165e-05,
+          "timeSeconds": 0.00013822364521377567
+        },
+        "v(n_CABLE_5V)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 4.5511222383609606e-05,
+          "timeSeconds": 0.00013822364521377567
+        },
+        "v(n_CABLE_DATEN)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 8.08810977863672e-05,
+          "timeSeconds": 0.00013812071228622608
+        },
+        "i(L1.1)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 2.071248184416785e-06,
+          "timeSeconds": 0.0001382496115129782
+        },
+        "i(L1.2)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 5.518246204094801e-05,
+          "timeSeconds": 8.864736586347912e-07
+        },
+        "i(L1.3)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 5.49734787240741e-05,
+          "timeSeconds": 8.864736586347912e-07
+        },
+        "i(L1.4)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 6.616228534640084e-07,
+          "timeSeconds": 0.00013838884766041967
+        }
+      },
+      "busEventsIdentical": false,
+      "busSamplesIdentical": true,
+      "busEdgeTimingDifferencePs": [
+        46
+      ],
+      "latchesMatch": true
+    },
+    {
+      "coarse": "refined-12.5",
+      "fine": "refined-6.25",
+      "endSeconds": 0.001006,
+      "signals": {
+        "v(receiver_data)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00011814333264759114,
+          "timeSeconds": 0.0001381219843439862
+        },
+        "v(receiver_clock)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0001296690738379347,
+          "timeSeconds": 0.00013811956581159348
+        },
+        "v(n_D0)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00026101997897365337,
+          "timeSeconds": 0.0010012909077566324
+        },
+        "v(n_D1)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00038900787759255095,
+          "timeSeconds": 0.0010012909077566324
+        },
+        "v(n_D2)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00038900787759255095,
+          "timeSeconds": 0.0010012909077566324
+        },
+        "v(n_D3)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00038900787759255095,
+          "timeSeconds": 0.0010012909077566324
+        },
+        "v(n_D4)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "v(n_D5)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00038900787759255095,
+          "timeSeconds": 0.0010012909077566324
+        },
+        "v(n_D6)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005715603148344073,
+          "timeSeconds": 0.0010051645259282018
+        },
+        "v(n_D7)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00038900787759255095,
+          "timeSeconds": 0.0010012909077566324
+        },
+        "v(n_p5V)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 3.362914593311485e-07,
+          "timeSeconds": 9.697133530389068e-07
+        },
+        "i(Vdriver_supply)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 3.282296114391972e-07,
+          "timeSeconds": 0.0001385014958077807
+        },
+        "v(n_WR_N)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 3.213209275338552e-07,
+          "timeSeconds": 9.697133530389068e-07
+        },
+        "v(wr_low)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "v(wr_high)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 1.2434497875801753e-14,
+          "timeSeconds": 1.1000000000000001e-08
+        },
+        "@bwr_low[i]": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "@bwr_high[i]": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 3.202696285714392e-12,
+          "timeSeconds": 5.313900000000064e-07
+        },
+        "v(n_TA_TAKT)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00012409107254929275,
+          "timeSeconds": 0.00013811956581159348
+        },
+        "v(n_TA_DATEN)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00010974670352936755,
+          "timeSeconds": 0.0001381219843439862
+        },
+        "v(L1_1_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0001260892506831368,
+          "timeSeconds": 0.00013811956581159348
+        },
+        "v(L1_2_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 3.434252361416909e-05,
+          "timeSeconds": 0.0001382234292776003
+        },
+        "v(L1_3_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 3.433822629217431e-05,
+          "timeSeconds": 0.0001382234292776003
+        },
+        "v(L1_4_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00011499845392304309,
+          "timeSeconds": 0.0001381219843439862
+        },
+        "v(n_CABLE_TAKT)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00012621673798163258,
+          "timeSeconds": 0.00013811956581159348
+        },
+        "v(n_CABLE_GND)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 3.456432324133729e-05,
+          "timeSeconds": 0.0001382234292776003
+        },
+        "v(n_CABLE_5V)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 3.456432324133729e-05,
+          "timeSeconds": 0.0001382234292776003
+        },
+        "v(n_CABLE_DATEN)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00011465261368170943,
+          "timeSeconds": 0.0001381219843439862
+        },
+        "i(L1.1)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 2.0973524363886165e-06,
+          "timeSeconds": 0.0001382495898529066
+        },
+        "i(L1.2)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 2.717465299090227e-05,
+          "timeSeconds": 5.313900000000064e-07
+        },
+        "i(L1.3)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 2.6960986512447604e-05,
+          "timeSeconds": 5.313900000000064e-07
+        },
+        "i(L1.4)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 6.240113640393341e-07,
+          "timeSeconds": 0.0001383890003535658
+        }
+      },
+      "busEventsIdentical": false,
+      "busSamplesIdentical": true,
+      "busEdgeTimingDifferencePs": [
+        -625
+      ],
+      "latchesMatch": true
+    }
+  ],
+  "voltageGate": {
+    "budgetVolts": 0.01,
+    "nodes": {
+      "v(receiver_data)": {
+        "previousDifferenceVolts": 8.330177639459535e-05,
+        "finestDifferenceVolts": 0.00011814333264759114,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(receiver_clock)": {
+        "previousDifferenceVolts": 8.996871804045625e-05,
+        "finestDifferenceVolts": 0.0001296690738379347,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_D0)": {
+        "previousDifferenceVolts": 0.00015102217422136022,
+        "finestDifferenceVolts": 0.00026101997897365337,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_D1)": {
+        "previousDifferenceVolts": 0.00022331255749641343,
+        "finestDifferenceVolts": 0.00038900787759255095,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_D2)": {
+        "previousDifferenceVolts": 0.00022331255749641343,
+        "finestDifferenceVolts": 0.00038900787759255095,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_D3)": {
+        "previousDifferenceVolts": 0.00022331255749641343,
+        "finestDifferenceVolts": 0.00038900787759255095,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_D4)": {
+        "previousDifferenceVolts": 0.0,
+        "finestDifferenceVolts": 0.0,
+        "withinBudget": true,
+        "nonIncreasing": true
+      },
+      "v(n_D5)": {
+        "previousDifferenceVolts": 0.00022331255749641343,
+        "finestDifferenceVolts": 0.00038900787759255095,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_D6)": {
+        "previousDifferenceVolts": 0.0004561542368382021,
+        "finestDifferenceVolts": 0.0005715603148344073,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_D7)": {
+        "previousDifferenceVolts": 0.00022331255749641343,
+        "finestDifferenceVolts": 0.00038900787759255095,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_p5V)": {
+        "previousDifferenceVolts": 1.0496869171159988e-06,
+        "finestDifferenceVolts": 3.362914593311485e-07,
+        "withinBudget": true,
+        "nonIncreasing": true
+      },
+      "v(n_WR_N)": {
+        "previousDifferenceVolts": 9.847937858633096e-07,
+        "finestDifferenceVolts": 3.213209275338552e-07,
+        "withinBudget": true,
+        "nonIncreasing": true
+      },
+      "v(wr_low)": {
+        "previousDifferenceVolts": 0.0,
+        "finestDifferenceVolts": 0.0,
+        "withinBudget": true,
+        "nonIncreasing": true
+      },
+      "v(wr_high)": {
+        "previousDifferenceVolts": 7.993605777301127e-15,
+        "finestDifferenceVolts": 1.2434497875801753e-14,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_TA_TAKT)": {
+        "previousDifferenceVolts": 0.00013536179422840577,
+        "finestDifferenceVolts": 0.00012409107254929275,
+        "withinBudget": true,
+        "nonIncreasing": true
+      },
+      "v(n_TA_DATEN)": {
+        "previousDifferenceVolts": 7.75086199586994e-05,
+        "finestDifferenceVolts": 0.00010974670352936755,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(L1_1_series)": {
+        "previousDifferenceVolts": 8.745056299264142e-05,
+        "finestDifferenceVolts": 0.0001260892506831368,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(L1_2_series)": {
+        "previousDifferenceVolts": 5.5862573717924136e-05,
+        "finestDifferenceVolts": 3.434252361416909e-05,
+        "withinBudget": true,
+        "nonIncreasing": true
+      },
+      "v(L1_3_series)": {
+        "previousDifferenceVolts": 5.429336704732002e-05,
+        "finestDifferenceVolts": 3.433822629217431e-05,
+        "withinBudget": true,
+        "nonIncreasing": true
+      },
+      "v(L1_4_series)": {
+        "previousDifferenceVolts": 8.113518086139138e-05,
+        "finestDifferenceVolts": 0.00011499845392304309,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_CABLE_TAKT)": {
+        "previousDifferenceVolts": 8.754803943200606e-05,
+        "finestDifferenceVolts": 0.00012621673798163258,
+        "withinBudget": true,
+        "nonIncreasing": false
+      },
+      "v(n_CABLE_GND)": {
+        "previousDifferenceVolts": 4.551122238383165e-05,
+        "finestDifferenceVolts": 3.456432324133729e-05,
+        "withinBudget": true,
+        "nonIncreasing": true
+      },
+      "v(n_CABLE_5V)": {
+        "previousDifferenceVolts": 4.5511222383609606e-05,
+        "finestDifferenceVolts": 3.456432324133729e-05,
+        "withinBudget": true,
+        "nonIncreasing": true
+      },
+      "v(n_CABLE_DATEN)": {
+        "previousDifferenceVolts": 8.08810977863672e-05,
+        "finestDifferenceVolts": 0.00011465261368170943,
+        "withinBudget": true,
+        "nonIncreasing": false
+      }
+    },
+    "passed": false,
+    "boardNodesWithinBudget": true,
+    "fixtureControlNodes": [
+      "v(wr_low)",
+      "v(wr_high)"
+    ],
+    "boundary": "The strict all-saved/nonincreasing result is preserved. The separate board budget excludes only the two behavioral DAC control voltages; it is not full-repeat or physical qualification."
+  },
+  "numericallyQualified": false,
+  "electricallyQualified": false,
+  "productionDefaultChangeAuthorized": false,
+  "scope": "Bounded live direct-driver circuit through reset release. Failed controls are retained. Frozen-system corrections and successful short captures cannot establish full-repeat convergence or device applicability. No alignment or omitted failing interval is used to admit refinement.",
+  "sources": {
+    "reset_release_audit_review.py": "21582ade3a0c327b99bf7ab24a7698c96eb82c4a8eb45433b2d77c9d20d0e537",
+    "live_transition_probe.py": "c2d487d807c40dcef5374bdb75f06f70c23d71a1d9413c4372bdd0d2529677e9",
+    "eval_cache_benchmark.py": "2c64fe1665456481a2bdfd862b3dffa939e6cd6dd5b25e2b3f7c67f7f6aed672",
+    "linear_system_review.py": "d236746c8cf7649e25e619fc6951e0e14e923ce0452315ecc95f300d0cfdee69",
+    "linear_precision_review.py": "71fed1eda77fb50eb17c16b6609222b79d2307fd30f7227bfc49af434522a02c",
+    "live_transition_review.py": "fc3429ea9c06c7948816481572c2b16ad5a30cb75fb89a4a5992c4704ba00d9e",
+    "reset_release_driver_review.py": "93ce50a72630a66fe4edcc92e040c28c961925143a14575b3425549491a406dc",
+    "host_waveform_comparison.py": "b1f96a72148a1bebaa25cd2188fc11ee1e5fa7a17f36ce0ff6ab25d4fc53e3a8",
+    "numerical_voltage_budget.py": "ea060e02f0b7352256e269e742873b65a0205116e6998fb402a98d3162a08a7c"
+  }
+}

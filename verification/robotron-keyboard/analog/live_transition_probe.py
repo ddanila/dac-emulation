@@ -3,6 +3,7 @@
 import argparse,json,os,re,shutil,subprocess,time
 from pathlib import Path
 from ngspice_runtime import identify,verify
+from eval_cache_benchmark import external_dependencies,verify_dependencies
 from ttl7406_probe import sha
 from failure_evidence import solver_diagnostic
 from fixture_crossing_grid import add_crossings
@@ -32,6 +33,7 @@ def main():
  if a.passive_assembly and not a.conservative_cap:p.error('Passive addition experiment requires exact capacitor correction')
  generator_sha=sha(Path(__file__))
  runtime,env=identify(a.ngspice,a.spinit);env['ROBOTRON_EVAL_CACHE']='off'
+ dependencies=external_dependencies(a.prepared,{'deck':'io.cir','inputs':['io.vvp','s600.hex']})
  for key in ('ROBOTRON_LIVE_AUDIT','ROBOTRON_LIVE_EVENTS','ROBOTRON_DAC_BREAKPOINTS','ROBOTRON_STATE_AUDIT','ROBOTRON_MPFR_BITS','ROBOTRON_MPFR_TRANSITION_ONLY','ROBOTRON_MPFR_START','ROBOTRON_SWITCH_AUDIT','ROBOTRON_CAP_ASSEMBLY','ROBOTRON_INDUCTOR_MONITOR','ROBOTRON_POSTCAP_ASSEMBLY','ROBOTRON_ADC_CROSSINGS'):env.pop(key,None)
  if a.adc_crossings:env['ROBOTRON_ADC_CROSSINGS']='1'
  if a.audit:env.update(ROBOTRON_LIVE_AUDIT='1',ROBOTRON_LIVE_EVENTS='1')
@@ -78,12 +80,13 @@ def main():
   try:code=subprocess.run([a.ngspice,'-n','-b','io.cir'],cwd=a.out,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=a.timeout).returncode
   except subprocess.TimeoutExpired:timedout=True
  verify(runtime)
+ verify_dependencies(dependencies)
  logtext=(a.out/'ngspice.log').read_text()
  if a.mpfr_transition and 'MPFR_DIAGNOSTIC bits='+a.mpfr_transition not in logtext:raise ValueError('Runtime did not acknowledge MPFR request')
  if a.state_audit and 'STATE_AUDIT trial ' not in logtext:raise ValueError('Runtime did not capture state audit')
  if a.conservative_cap and 'CAP_ASSEMBLY mode=1' not in logtext:raise ValueError('Runtime did not acknowledge exact capacitor mode')
  if a.cap_paired_rhs and 'CAP_ASSEMBLY mode=2' not in logtext:raise ValueError('Runtime did not acknowledge paired RHS mode')
  if a.passive_assembly and 'POSTCAP_ASSEMBLY mode=1' not in logtext:raise ValueError('Runtime did not acknowledge passive assembly mode')
- result={'observationSignals':observation_signals,'exitCode':code,'timedOut':timedout,'elapsedSeconds':time.monotonic()-start,'runtime':runtime,'enabled':a.dac_corners,'adcCrossings':a.adc_crossings,'audit':a.audit,'stateAudit':a.state_audit,'switchAudit':a.switch_audit,'conservativeCap':a.conservative_cap,'capPairedRhs':a.cap_paired_rhs,'inductorMonitor':a.inductor_monitor,'passiveAssembly':a.passive_assembly,'physicalDriverTrace':a.physical_driver_trace,'networkTrace':a.network_trace,'mpfrTransitionBits':a.mpfr_transition,'mpfrStartNs':a.mpfr_start_ns,'matrixBoundarySubstitution':a.reduce_matrix,'stepNs':a.step_ns,'stopNs':a.stop_ns,'fixtureCrossingGuardPs':a.fixture_crossings_ps,'toleranceScale':a.tolerance_scale,'qualified':False,'method':a.method or 'trap','solverDiagnostic':live_diagnostic(logtext),'sourceDeckSha256':sha(a.prepared/'io.cir'),'deckSha256':sha(a.out/'io.cir'),'inputs':{n:sha(a.out/n) for n in ('io.vvp','s600.hex')},'generatorSha256':generator_sha}
+ result={'externalDependencies':dependencies,'observationSignals':observation_signals,'exitCode':code,'timedOut':timedout,'elapsedSeconds':time.monotonic()-start,'runtime':runtime,'enabled':a.dac_corners,'adcCrossings':a.adc_crossings,'audit':a.audit,'stateAudit':a.state_audit,'switchAudit':a.switch_audit,'conservativeCap':a.conservative_cap,'capPairedRhs':a.cap_paired_rhs,'inductorMonitor':a.inductor_monitor,'passiveAssembly':a.passive_assembly,'physicalDriverTrace':a.physical_driver_trace,'networkTrace':a.network_trace,'mpfrTransitionBits':a.mpfr_transition,'mpfrStartNs':a.mpfr_start_ns,'matrixBoundarySubstitution':a.reduce_matrix,'stepNs':a.step_ns,'stopNs':a.stop_ns,'fixtureCrossingGuardPs':a.fixture_crossings_ps,'toleranceScale':a.tolerance_scale,'qualified':False,'method':a.method or 'trap','solverDiagnostic':live_diagnostic(logtext),'sourceDeckSha256':sha(a.prepared/'io.cir'),'deckSha256':sha(a.out/'io.cir'),'inputs':{n:sha(a.out/n) for n in ('io.vvp','s600.hex')},'generatorSha256':generator_sha}
  (a.out/'run.json').write_text(json.dumps(result,indent=2)+'\n');print(a.out/'run.json')
 if __name__=='__main__':main()
