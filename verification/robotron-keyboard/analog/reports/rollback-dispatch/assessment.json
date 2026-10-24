@@ -1,0 +1,246 @@
+{
+  "waveformsExactlyMatchBaseline": true,
+  "firmwareEvents": {
+    "edgeTimesPs": [
+      1002501280
+    ],
+    "samples": [
+      [
+        "0000",
+        "af",
+        "0",
+        "1",
+        "0"
+      ]
+    ],
+    "latchesMatch": true
+  },
+  "comparisons": {
+    "off": {
+      "witness.txt": {
+        "samples": 141168,
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.001006,
+        "columns": [
+          "time",
+          "v(receiver_data)",
+          "v(receiver_clock)"
+        ],
+        "allSamplesExactlyEqual": true
+      },
+      "network_witness.txt": {
+        "samples": 141168,
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.001006,
+        "columns": [
+          "time",
+          "v(receiver_data)",
+          "v(receiver_clock)",
+          "v(n_D0)",
+          "v(n_D1)",
+          "v(n_D2)",
+          "v(n_D3)",
+          "v(n_D4)",
+          "v(n_D5)",
+          "v(n_D6)",
+          "v(n_D7)",
+          "v(n_p5V)",
+          "i(Vdriver_supply)",
+          "v(n_WR_N)",
+          "v(wr_low)",
+          "v(wr_high)",
+          "@bwr_low[i]",
+          "@bwr_high[i]",
+          "v(n_TA_TAKT)",
+          "v(n_TA_DATEN)",
+          "v(L1_1_series)",
+          "v(L1_2_series)",
+          "v(L1_3_series)",
+          "v(L1_4_series)",
+          "v(n_CABLE_TAKT)",
+          "v(n_CABLE_GND)",
+          "v(n_CABLE_5V)",
+          "v(n_CABLE_DATEN)",
+          "i(L1.1)",
+          "i(L1.2)",
+          "i(L1.3)",
+          "i(L1.4)"
+        ],
+        "allSamplesExactlyEqual": true
+      },
+      "bus-trace.txt": {
+        "samples": 141168,
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.001006,
+        "columns": [
+          "time",
+          "v(n_D0)",
+          "v(n_D1)",
+          "v(n_D2)",
+          "v(n_D3)",
+          "v(n_D4)",
+          "v(n_D5)",
+          "v(n_D6)",
+          "v(n_D7)",
+          "v(n_p5V)"
+        ],
+        "allSamplesExactlyEqual": true
+      },
+      "driver-trace.txt": {
+        "samples": 141168,
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.001006,
+        "columns": [
+          "time",
+          "i(Vdriver_supply)"
+        ],
+        "allSamplesExactlyEqual": true
+      },
+      "wr-trace.txt": {
+        "samples": 141168,
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.001006,
+        "columns": [
+          "time",
+          "v(n_WR_N)",
+          "v(wr_low)",
+          "v(wr_high)",
+          "@bwr_low[i]",
+          "@bwr_high[i]",
+          "v(n_p5V)"
+        ],
+        "allSamplesExactlyEqual": true
+      }
+    },
+    "on": {
+      "witness.txt": {
+        "samples": 141168,
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.001006,
+        "columns": [
+          "time",
+          "v(receiver_data)",
+          "v(receiver_clock)"
+        ],
+        "allSamplesExactlyEqual": true
+      },
+      "network_witness.txt": {
+        "samples": 141168,
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.001006,
+        "columns": [
+          "time",
+          "v(receiver_data)",
+          "v(receiver_clock)",
+          "v(n_D0)",
+          "v(n_D1)",
+          "v(n_D2)",
+          "v(n_D3)",
+          "v(n_D4)",
+          "v(n_D5)",
+          "v(n_D6)",
+          "v(n_D7)",
+          "v(n_p5V)",
+          "i(Vdriver_supply)",
+          "v(n_WR_N)",
+          "v(wr_low)",
+          "v(wr_high)",
+          "@bwr_low[i]",
+          "@bwr_high[i]",
+          "v(n_TA_TAKT)",
+          "v(n_TA_DATEN)",
+          "v(L1_1_series)",
+          "v(L1_2_series)",
+          "v(L1_3_series)",
+          "v(L1_4_series)",
+          "v(n_CABLE_TAKT)",
+          "v(n_CABLE_GND)",
+          "v(n_CABLE_5V)",
+          "v(n_CABLE_DATEN)",
+          "i(L1.1)",
+          "i(L1.2)",
+          "i(L1.3)",
+          "i(L1.4)"
+        ],
+        "allSamplesExactlyEqual": true
+      },
+      "bus-trace.txt": {
+        "samples": 141168,
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.001006,
+        "columns": [
+          "time",
+          "v(n_D0)",
+          "v(n_D1)",
+          "v(n_D2)",
+          "v(n_D3)",
+          "v(n_D4)",
+          "v(n_D5)",
+          "v(n_D6)",
+          "v(n_D7)",
+          "v(n_p5V)"
+        ],
+        "allSamplesExactlyEqual": true
+      },
+      "driver-trace.txt": {
+        "samples": 141168,
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.001006,
+        "columns": [
+          "time",
+          "i(Vdriver_supply)"
+        ],
+        "allSamplesExactlyEqual": true
+      },
+      "wr-trace.txt": {
+        "samples": 141168,
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.001006,
+        "columns": [
+          "time",
+          "v(n_WR_N)",
+          "v(wr_low)",
+          "v(wr_high)",
+          "@bwr_low[i]",
+          "@bwr_high[i]",
+          "v(n_p5V)"
+        ],
+        "allSamplesExactlyEqual": true
+      }
+    }
+  },
+  "audit": {
+    "records": 433644,
+    "acceptedPoints": 141168,
+    "firstAcceptedSeconds": 0.0,
+    "lastAcceptedSeconds": 0.001006,
+    "rejectedTrials": {
+      "lte": 3711,
+      "breakpoint": 2143
+    },
+    "clientCalls": {
+      "ahdl": 143311
+    },
+    "unprotectedClientCalls": 0,
+    "trialsRejectedAfterClientCallbacks": {
+      "breakpoint": 2143
+    },
+    "invalidTrialOrdering": 0,
+    "qualified": false,
+    "boundary": "Client callbacks are not proof of irreversible HDL advancement. Complete waveform controls and internal client-state evidence remain separate."
+  },
+  "qualified": false,
+  "boundary": "Complete reset-release callback-order evidence only. Client callbacks do not prove internal HDL advancement or restoration; full-repeat and physical qualification remain separate.",
+  "retention": {
+    "fullCaptures": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/live-rollback-control",
+    "scope": "Full compressed waveforms remain local; run receipts pin original bytes. Every sample was checked against the baseline before retention.",
+    "sources": {
+      "rollback_dispatch_review.py": "7526155d7dbdc1eb0b500a831714bf977280e647b8aab895c6e2233ddba22060",
+      "rollback_audit_log.py": "37a4c411e21d236abc7eec20f48526aaf749789a4863a3feca4d4dc08c29d5e4",
+      "live_raw_review.py": "1a2e43cbbfc40bc8d65f26b8539ad9d5f8335e8f78527abd5615a01b63d2036a",
+      "raw_waveform.py": "e959314c1f68c4e0eca1e069d2bbea613503c7f00581ffe615f380515453ba52",
+      "retain_rollback_dispatch.py": "4a74da68ab674a818eb022abc612b0abfe8d1c15c94c475d98b58f6887c0066a",
+      "engine-patches/ngspice-47-rollback-audit.patch": "f98b91b166c795dcf50aa89315a5baa9416b21d61ca138d5052b5cfd03dd914a"
+    }
+  }
+}

@@ -324,8 +324,11 @@ does not reject registration; it must not be treated as a qualified configuratio
 irreversible-client dispatch logging. `live_raw_output.py --rollback-audit` pairs
 complete logging-disabled/enabled captures. `rollback_dispatch_review.py` requires
 identical samples, firmware events and complete audit coverage before interpreting
-`rollback_audit_log.py` results. Callback ordering alone does not
-establish internal HDL rollback. Use `build_bridge_time_audit.py` to prepare a separate
+`rollback_audit_log.py` results. The [complete reset-release controls](reports/rollback-dispatch/assessment.json)
+preserve every waveform sample and firmware event. The sole irreversible client
+runs last, and no callback occurs in an LTE-rejected trial. Client-requested
+breakpoints still need actual HDL-time checks; Newton rejection was not exercised.
+Callback ordering alone does not establish internal HDL rollback. Use `build_bridge_time_audit.py` to prepare a separate
 bridge logger, then `live_bridge_time_capture.py` against a completed enabled
 dispatch control. The capture permits only the identified VPI-library substitution;
 complete waveform equivalence is required before interpreting requested/actual HDL
