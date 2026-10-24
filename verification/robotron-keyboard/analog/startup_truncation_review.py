@@ -10,8 +10,7 @@ from decimal import Decimal, localcontext
 from pathlib import Path
 from compare_firmware_io import sha
 from reset_release_driver_review import trace_summary, TRACES
-from live_transition_review import diagnostic
-from failure_evidence import startup_truncation_record
+from startup_truncation_log import diagnostic, startup_truncation_record
 
 HERE = Path(__file__).resolve().parent
 BASELINE = HERE/'reports/startup-tight-tolerance/25'
@@ -132,7 +131,7 @@ def retain(root, build_path, out):
     result = {'schema':1, 'cases':cases, 'failedAttempt': {'path':'failed-disk-full', 'countsForQualification':False}, 'analysis':analyze(logs['enabled']),
         'baselineAssessmentSha256':sha(BASELINE.parent/'assessment.json'), 'qualified':False,
         'sources':{n:sha(HERE/n) for n in ('startup_truncation_review.py', 'live_transition_probe.py',
-            'engine-patches/ngspice-47-startup-truncation-audit.patch', 'failure_evidence.py')}}
+            'engine-patches/ngspice-47-startup-truncation-audit.patch', 'startup_truncation_log.py')}}
     (out/'assessment.json').write_text(json.dumps(result,indent=2)+'\n')
     (out/'manifest.json').write_text(json.dumps({str(p.relative_to(out)):sha(p) for p in sorted(out.rglob('*')) if p.is_file()},indent=2)+'\n')
     print(json.dumps({k:{n:v for n,v in s.items() if n != 'worstArithmeticWitness'} for k,s in result['analysis']['states'].items()},indent=2))

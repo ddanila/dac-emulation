@@ -5,7 +5,7 @@ from pathlib import Path
 from ngspice_runtime import identify,verify
 from eval_cache_benchmark import external_dependencies,verify_dependencies
 from ttl7406_probe import sha
-from failure_evidence import solver_diagnostic
+from startup_truncation_log import diagnostic as solver_diagnostic
 from fixture_crossing_grid import add_crossings
 from sampling_grid import add_sampling_grid
 from network_trace import observe_network, PHYSICAL_SIGNALS
