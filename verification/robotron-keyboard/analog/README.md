@@ -495,6 +495,10 @@ Add `--full-scenario` to pin the prepared `scenario.json` and require the comple
 endpoint derived from its cycle count and reset interval. Conflicting stop-time
 overrides and diagnostic halts are rejected before running. Completion and
 serial observation windows must still pass review after capture.
+`full_scenario_review.py --run DIR --out REPORT` streams every saved raw sample,
+checks the declared endpoint and signal set, and verifies transmitted/received
+serial windows. Its coverage result does not replace firmware-reference, bus,
+numerical-refinement or physical-model acceptance.
 `retain_live_raw.py` retains checked receipts while keeping full compressed captures
 locally; `--check --out reports/live-raw-output` verifies the retained manifest.
 `--all-saved-network` selects every saved observation; `complete_network_review.py --end-seconds` requires the
