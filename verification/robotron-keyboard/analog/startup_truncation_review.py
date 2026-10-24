@@ -36,7 +36,9 @@ def difference(values, deltas, order, exact=False):
         return diff[0]
 
 
-def analyze(text):
+def analyze(text, window=(.75e-6, 1.05e-6)):
+    if len(window) != 2 or not all(math.isfinite(v) for v in window) or not 0 <= window[0] < window[1]:
+        raise ValueError('Invalid audit window')
     states = {}; names = {}; records = 0
     for match in re.finditer(r'STARTUP_TRUNC (error|instance) ([^\r\n]+)', text):
         kind, fields = match.groups()
@@ -48,7 +50,7 @@ def analyze(text):
             names[state] = raw['name']
             continue
         r = {k: int(v) if k in ('state', 'order') else float.fromhex(v) for k,v in raw.items()}
-        if not all(math.isfinite(v) for v in r.values()) or not .75e-6 <= r['time'] <= 1.05e-6 or r['proposed'] >= r['before']:
+        if not all(math.isfinite(v) for v in r.values()) or not window[0] <= r['time'] <= window[1] or r['proposed'] >= r['before']:
             raise ValueError('Invalid reduction or audit window')
         values = [r['q'+str(i)] for i in range(4)]
         deltas = [r['dt'+str(i)] for i in range(3)]
@@ -75,7 +77,7 @@ def analyze(text):
         summary['instance'] = names.get(state)
     return {'records': records, 'binary64ReplayExact': True,
         'states': {str(k):v for k,v in sorted(states.items())},
-        'scope': 'Logged reductions in 0.75–1.05 us, including candidate steps that may later be rejected. Counts follow device evaluation order and do not alone identify the final accepted step. The 64-digit replay preserves the kernel denominator recurrence on the same binary64 charge/flux histories; it cannot measure error already present in those histories or physical accuracy. Unmapped state identities remain null.'}
+        'scope': f'Logged reductions in {window[0]*1e6:g}–{window[1]*1e6:g} us, including candidate steps that may later be rejected. Counts follow device evaluation order and do not alone identify the final accepted step. The 64-digit replay preserves the kernel denominator recurrence on the same binary64 charge/flux histories; it cannot measure error already present in those histories or physical accuracy. Unmapped state identities remain null.'}
 
 
 def retain(root, build_path, out):

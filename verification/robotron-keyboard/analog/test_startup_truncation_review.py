@@ -12,5 +12,7 @@ class DifferenceTests(unittest.TestCase):
         for values,deltas,order in [([0.,1.],[1.],2),([0.,1.,2.],[0.,1.],1),([0.,1.,float('nan')],[1.,1.],1)]:
             with self.assertRaises(ValueError):difference(values,deltas,order)
         with self.assertRaises(ValueError):analyze('no audit')
+        for window in ((1.,0.), (0.,float('nan')), (0.,), (-1.,1.)):
+            with self.assertRaises(ValueError):analyze('no audit',window)
 
 if __name__=='__main__':unittest.main()
