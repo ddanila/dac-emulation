@@ -2,9 +2,10 @@ import unittest
 from fixture_grid_review import validate_receipts, bus_if_complete, validate_nested_inputs
 from local_refinement_grid import grids
 from sampling_grid import add_sampling_grid
-import copy,json
+import copy,json,tempfile
 from pathlib import Path
-from fixture_grid_review import validate_anchor_build, validate_anchor_grids
+from fixture_grid_review import validate_anchor_build, validate_anchor_grids, retain_generator
+from ttl7406_probe import sha
 
 class MatchedControls(unittest.TestCase):
  def receipts(self,experiment):
@@ -58,6 +59,17 @@ class MatchedControls(unittest.TestCase):
    with self.assertRaises(ValueError):validate_receipts(bad,'dense-anchored')
   bad=copy.deepcopy(runs);bad['6.25']['samplingGridSha256']=runs['25']['samplingGridSha256']
   with self.assertRaises(ValueError):validate_anchor_grids(bad,'dense-anchored')
+ def test_retains_exact_generator_and_rejects_missing_source(self):
+  with tempfile.TemporaryDirectory() as directory:
+   root=Path(directory);out=root/'report';out.mkdir()
+   current=root/'current.py';current.write_text('newer runner\n')
+   frozen=root/'frozen.py';frozen.write_text('capture runner\n')
+   expected=sha(frozen)
+   receipt=retain_generator((current,frozen),out,expected)
+   self.assertEqual(receipt,{'path':'capture-generator.py','sha256':expected})
+   self.assertEqual((out/receipt['path']).read_bytes(),frozen.read_bytes())
+   frozen.write_text('changed runner\n')
+   with self.assertRaises(ValueError):retain_generator((current,frozen),out,expected)
  def test_anchored_build_fingerprints(self):
   root=Path(__file__).resolve().parent/'reports/dac-anchored-startup'
   run=json.loads((root/'25/run.json').read_text());build=json.loads((root/'build.json').read_text())
