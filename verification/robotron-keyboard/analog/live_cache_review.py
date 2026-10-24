@@ -10,6 +10,17 @@ from newton_retry_review import log_data
 from raw_pair_review import compare_raw
 from retain_bridge_rollback import check as check_bridge
 from trace_io import open_text
+from ttl7406_probe import sha as file_sha
+
+
+def check(out):
+    expected=json.loads((out/'manifest.json').read_text())
+    actual={str(p.relative_to(out)):file_sha(p) for p in out.rglob('*') if p.is_file() and p.name!='manifest.json'}
+    if actual!=expected:raise ValueError('Changed retained cache evidence')
+    result=json.loads((out/'assessment.json').read_text())
+    with open_text(out/'ngspice.log') as stream:
+        timing=analyze(stream,expected_end=result['completeWaveformComparison']['endSeconds'])
+    if timing!=result['timing']:raise ValueError('Changed retained cache timing interpretation')
 
 
 def review(capture,control,evidence):
@@ -50,5 +61,10 @@ def review(capture,control,evidence):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
-    for name in ('capture','control','evidence','out'):p.add_argument('--'+name,type=Path,required=True)
-    a=p.parse_args();a.out.write_text(json.dumps(review(a.capture,a.control,a.evidence),indent=2)+'\n')
+    for name in ('capture','control','evidence'):p.add_argument('--'+name,type=Path)
+    p.add_argument('--out',type=Path,required=True);p.add_argument('--check',action='store_true')
+    a=p.parse_args()
+    if a.check:check(a.out)
+    else:
+        if not all((a.capture,a.control,a.evidence)):p.error('Review requires complete capture and established control')
+        a.out.write_text(json.dumps(review(a.capture,a.control,a.evidence),indent=2)+'\n')

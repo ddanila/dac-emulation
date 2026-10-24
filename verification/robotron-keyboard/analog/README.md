@@ -564,6 +564,10 @@ pass before enabling the cache in qualification runs.
 `live_cache_review.py` checks a complete raw capture against the retained live
 bridge control, allowing only the cache-mode change. Every sample, firmware event
 and solver/HDL timing record must match; one such pair does not establish a speedup.
+The [live reset-release comparison](reports/live-cache-reset/assessment.json)
+passes that exact-equivalence check. Later firmware/service coverage remains open;
+keep caching opt-in. `--check --out reports/live-cache-reset` verifies the retained
+manifest and timing interpretation without redoing the full local waveform comparison.
 
 
 Verify retained endpoint and bridge evidence with `device_endpoint_probe.py
