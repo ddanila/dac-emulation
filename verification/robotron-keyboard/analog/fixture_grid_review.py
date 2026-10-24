@@ -3,6 +3,7 @@
 import argparse
 import json
 import lzma
+import re
 import shutil
 from pathlib import Path
 from reset_release_driver_review import trace_summary, completed, TRACES
@@ -22,13 +23,14 @@ def validate_receipts(receipts, experiment):
     ignored = {'elapsedSeconds', 'exitCode', 'timedOut', 'solverDiagnostic', 'deckSha256',
                'stepNs', 'fixtureCrossingGuardPs', 'method', 'samplingGridSha256'}
     identity = lambda run: {k: v for k, v in run.items() if k not in ignored}
-    if experiment not in ('crossings','integration','sampling'):raise ValueError('Unknown experiment')
-    expected_grid=receipts['25'].get('samplingGridSha256') if experiment=='sampling' else None
-    if experiment=='sampling' and not expected_grid:raise ValueError('Missing sampling grid')
+    if experiment not in ('crossings','integration','sampling','tight-passive'):raise ValueError('Unknown experiment')
+    base=receipts['25'] if experiment=='tight-passive' else receipts['control']
+    expected_grid=receipts['25'].get('samplingGridSha256') if experiment in ('sampling','tight-passive') else None
+    if experiment in ('sampling','tight-passive') and not expected_grid:raise ValueError('Missing sampling grid')
     for name, run in receipts.items():
         if run.get('samplingGridSha256') != (None if name=='control' else expected_grid):
             raise ValueError('Unmatched sampling grid')
-        if identity(run) != identity(receipts['control']):
+        if identity(run) != identity(base):
             raise ValueError('Unmatched runtime, circuit or experimental controls')
         expected_method = 'gear' if experiment == 'integration' and name != 'control' else 'trap'
         if run['method'] != expected_method:
@@ -37,10 +39,19 @@ def validate_receipts(receipts, experiment):
             raise ValueError('Unexpected scheduling guard')
         if run['stepNs'] != (25 if name == 'control' else float(name)):
             raise ValueError('Unexpected refinement step')
+        if experiment=='tight-passive' and (run['toleranceScale']!=.1 or run['toleranceComponents']!=['reltol'] or run['mpfrStartNs']!=0 or run['mpfrTransitionBits']!='256' or not run['conservativeCap'] or not run['passiveAssembly']):
+            raise ValueError('Unexpected tight passive candidate')
+
+
+def bus_if_complete(log, complete):
+    return events(log) if complete else None
 
 
 def retain(root, out, experiment="crossings"):
+    case_names=('25','12.5','6.25') if experiment=='tight-passive' else CASES
     def source(name):
+        if experiment == "tight-passive":
+            return root / ("tight-passive-full-"+name)
         if experiment == "sampling":
             return root / ("fixture-grid-sampling-"+name)
         if experiment == "integration":
@@ -48,7 +59,7 @@ def retain(root, out, experiment="crossings"):
         return root / ("fixture-grid-reset-"+name)
     out.mkdir(parents=True, exist_ok=False)
     receipts, cases = {}, {}
-    for name in CASES:
+    for name in case_names:
         src = source(name)
         dst = out / name
         dst.mkdir()
@@ -69,13 +80,17 @@ def retain(root, out, experiment="crossings"):
             stream.write(log)
         traces = {file: trace_summary(src / file) for file in TRACES if any(Path(str(src/file)+suffix).exists() for suffix in ('','.gz','.xz'))}
         (dst / 'trace-endpoints.json').write_text(json.dumps(traces, indent=2) + '\n')
-        cases[name] = {'completed': completed(run, traces, diagnostic(log)),
+        complete=completed(run, traces, diagnostic(log))
+        cases[name] = {'completed': complete,
                        'diagnostic': diagnostic(log), 'timedOut': run['timedOut'],
-                       'bus': events(log)}
+                       'bus': bus_if_complete(log,complete)}
     validate_receipts(receipts, experiment)
+    if experiment=='tight-passive':
+        decks={re.sub(r'^\.tran\s+\S+', '.tran <step>',(source(name)/'io.cir').read_text(),flags=re.M) for name in case_names}
+        if len(decks)!=1:raise ValueError('Refinement decks differ beyond timestep')
     pairs = []
     for a, b in (('control', '25'), ('25', '12.5'), ('12.5', '6.25')):
-        if not (cases[a]['completed'] and cases[b]['completed']):
+        if a not in cases or b not in cases or not (cases[a]['completed'] and cases[b]['completed']):
             continue
         signals = receipts[a]['observationSignals']
         result = compare_samples(*(rows(source(name) / 'network_witness.txt',
@@ -90,10 +105,10 @@ def retain(root, out, experiment="crossings"):
                 if len(ea['edgeTimesPs']) == len(eb['edgeTimesPs']) else None,
             'latchesMatch': ea['latchesMatch'] and eb['latchesMatch']})
     common=None
-    if experiment=='sampling':
+    if experiment in ('sampling','tight-passive'):
         times=json.loads((source('25')/'sampling-grid.json').read_text())['timesSeconds']
         signals=receipts['25']['observationSignals']
-        common={'signals':signals,'samples':{name:samples_at(rows(source(name)/'network_witness.txt',signals,receipts[name]['stepNs']),times) for name in CASES if cases[name]['completed']},
+        common={'signals':signals,'samples':{name:samples_at(rows(source(name)/'network_witness.txt',signals,receipts[name]['stepNs']),times) for name in case_names if cases[name]['completed']},
             'scope':'Actual nearest saved samples with explicit time offsets; no interpolation. Added breakpoints can change solver trajectory. These selected times do not substitute for the full-window gate.'}
         common['comparisons']=[{'coarse':a,'fine':b,**compare_native(common['samples'][a],common['samples'][b],signals)}
             for a,b in (('25','12.5'),('12.5','6.25')) if a in common['samples'] and b in common['samples']]
@@ -107,6 +122,9 @@ def retain(root, out, experiment="crossings"):
         'sources': {name: sha(HERE / name) for name in ('fixture_grid_review.py', 'fixture_crossing_grid.py',
             'live_transition_probe.py', 'reset_release_driver_review.py', 'live_transition_review.py',
             'host_waveform_comparison.py', 'network_refinement_review.py', 'numerical_voltage_budget.py', 'trace_io.py', 'sampling_grid.py', 'common_samples.py')}}
+    if experiment=='tight-passive':
+        result['startupControls']={'path':'reports/startup-passive/assessment.json','sha256':sha(HERE/'reports/startup-passive/assessment.json')}
+        result['scope']='Tighter-relative-tolerance live prefix with precision from zero and exact capacitor/later passive additions. Only maximum timestep varies across these captures. Preserved startup controls remain separate; completing this prefix does not qualify full-repeat traffic, production defaults or physical device models.'
     (out / 'assessment.json').write_text(json.dumps(result, indent=2) + '\n')
     manifest = {str(p.relative_to(out)): sha(p) for p in sorted(out.rglob('*')) if p.is_file()}
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
@@ -118,7 +136,7 @@ if __name__ == '__main__':
     parser.add_argument('--runs', type=Path)
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--check', action='store_true')
-    parser.add_argument('--experiment', choices=('crossings','integration','sampling'), default='crossings')
+    parser.add_argument('--experiment', choices=('crossings','integration','sampling','tight-passive'), default='crossings')
     args = parser.parse_args()
     if args.check:
         for name, digest in json.loads((args.out / 'manifest.json').read_text()).items():
