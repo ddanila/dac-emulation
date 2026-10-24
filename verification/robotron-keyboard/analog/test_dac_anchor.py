@@ -42,4 +42,15 @@ class AnchoredRampTests(unittest.TestCase):
    p=Path(tmp);(p/'test.c').write_text(CODE)
    subprocess.run(['cc','-std=c11','-O2','-I'+str(HERE/'engine-patches'),str(p/'test.c'),'-lm','-o',str(p/'test')],check=True)
    subprocess.run([str(p/'test')],check=True)
+ def test_actual_callback_rejected_trials_and_channel_isolation(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);p=root/'src/xspice/icm/digital/dac_bridge/cfunc.mod';p.parent.mkdir(parents=True)
+   p.write_text((HERE/'fixtures/ngspice-47/dac_bridge.mod').read_text())
+   for patch in ('dac-ramp-breakpoint.patch','dac-anchored-ramp.patch'):
+    subprocess.run(['patch','-d',str(root),'-p1','-i',str(HERE/'engine-patches'/patch)],check=True,capture_output=True)
+   code=p.read_text();start=code.index('        /* Opt-in, event-anchored arithmetic.');end=code.index('        /* Multiple single-bit conversions. */',start)
+   harness=(HERE/'fixtures/dac_anchor_callback_harness.c').read_text().replace('/* ACTUAL_ANCHORED_CALLBACK */',code[start:end])
+   (root/'test.c').write_text(harness)
+   subprocess.run(['cc','-std=gnu11','-O2','-I'+str(HERE/'engine-patches'),str(root/'test.c'),'-lm','-o',str(root/'test')],check=True)
+   subprocess.run([str(root/'test')],check=True)
 if __name__=='__main__':unittest.main()
