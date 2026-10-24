@@ -9,15 +9,34 @@ HERE=Path(__file__).resolve().parent
 
 def capture_scope(deck):
  # Prepared decks use numeric SI seconds. Reject unsupported syntax explicitly.
- lines=[line.split() for line in deck.splitlines() if line.lower().startswith('.tran ')]
- if len(lines)!=1 or len(lines[0])!=4:raise ValueError('Expected one numeric .tran step stop start')
+ lines=[line.split() for line in deck.splitlines() if line.strip().lower().startswith(('.tran ','tran '))]
+ if len(lines)!=1:raise ValueError('Expected one transient analysis')
+ tokens=lines[0][1:];uic=tokens[-1].lower()=='uic'
+ if uic:tokens=tokens[:-1]
+ if lines[0][0].lower()=='tran' and len(tokens)==2:tokens.append('0')
+ if len(tokens)!=3:raise ValueError('Expected numeric transient step stop start')
  def seconds(token):
   match=re.fullmatch(r'([0-9.eE+\-]+)([num]?)',token)
   if not match:raise ValueError('Unsupported transient time: '+token)
   return float(match[1])*{'':1,'n':1e-9,'u':1e-6,'m':1e-3}[match[2]]
- step,stop,start=map(seconds,lines[0][1:])
+ step,stop,start=map(seconds,tokens)
  if not all(map(math.isfinite,(step,stop,start))) or not (step>0 and 0<=start<stop):raise ValueError('Invalid transient window')
- return {'startSeconds':start,'stopSeconds':stop,'stepSeconds':step}
+ result={'startSeconds':start,'stopSeconds':stop,'stepSeconds':step}
+ if uic:result['useInitialConditions']=True
+ return result
+
+def valid_start(first,scope):
+ tolerance=max(1e-15,scope['stepSeconds']*1e-6)
+ return math.isfinite(first) and scope['startSeconds']-tolerance<=first<=scope['startSeconds']+(scope['stepSeconds'] if scope.get('useInitialConditions') else tolerance)
+
+def fixture(root):
+ path=root/'fixture.json'
+ spec=json.loads(path.read_text()) if path.exists() else {'deck':'boot.cir','inputs':['boot.cir','boot.vvp','s600.hex','ls_nand_nominal.cir'],'traces':['trace.txt','supply-trace.txt']}
+ for field in ('inputs','traces'):
+  if not spec[field] or len(set(spec[field]))!=len(spec[field]):raise ValueError('Invalid fixture files')
+  if any(Path(n).name!=n or n in ('.','..') for n in spec[field]):raise ValueError('Fixture files must be local basenames')
+ if spec['deck'] not in spec['inputs'] or set(spec['inputs']) & set(spec['traces']):raise ValueError('Invalid fixture deck or traces')
+ return spec
 
 def trace_extent(path,scope):
  count=0;first=last=None;low=high=None
@@ -34,22 +53,23 @@ def trace_extent(path,scope):
    low=min(values[1:]) if low is None else min(low,*values[1:])
    high=max(values[1:]) if high is None else max(high,*values[1:])
  tolerance=max(1e-15,scope['stepSeconds']*1e-6)
- if count<2 or abs(first-scope['startSeconds'])>tolerance or abs(last-scope['stopSeconds'])>tolerance:raise ValueError('Incomplete trace window')
+ if count<2 or not valid_start(first,scope) or abs(last-scope['stopSeconds'])>tolerance:raise ValueError('Incomplete trace window')
  return {'samples':count,'firstSeconds':first,'lastSeconds':last,'minimumValue':low,'maximumValue':high}
 
 def assess(root):
+ spec=fixture(root)
  runs=[json.loads((root/n/'run.json').read_text()) for n in ('off','exact','off-repeat','exact-repeat')]
  for n,r in zip(('off','exact','off-repeat','exact-repeat'),runs):
   if r['mode']!=n or not math.isfinite(r['elapsedSeconds']) or r['elapsedSeconds']<=0:raise ValueError('Invalid run identity or timing: '+n)
-  if set(r['sha256'])!={'trace.txt','supply-trace.txt'}:raise ValueError('Incomplete waveform hashes: '+n)
+  if set(r['sha256'])!=set(spec['traces']):raise ValueError('Incomplete waveform hashes: '+n)
   if r.get('failure') or r['exitCode'] or solver_diagnostic((root/n/'ngspice.log').read_text()):raise ValueError('Failed benchmark: '+n)
  scope=json.loads((root/'scope.json').read_text()) if (root/'scope.json').exists() else None
  if scope:
-  if capture_scope((root/'boot.cir').read_text())!=scope:raise ValueError('Stale capture scope')
+  if capture_scope((root/spec['deck']).read_text())!=scope:raise ValueError('Stale capture scope')
   for n,r in zip(('off','exact','off-repeat','exact-repeat'),runs):
-   for name in ('trace.txt','supply-trace.txt'):
+   for name in spec['traces']:
     extent=r['capture'][name]
-    if extent['samples']<2 or abs(extent['firstSeconds']-scope['startSeconds'])>1e-15 or abs(extent['lastSeconds']-scope['stopSeconds'])>max(1e-15,scope['stepSeconds']*1e-6):raise ValueError('Incomplete retained capture')
+    if extent['samples']<2 or not valid_start(extent['firstSeconds'],scope) or abs(extent['lastSeconds']-scope['stopSeconds'])>max(1e-15,scope['stepSeconds']*1e-6):raise ValueError('Incomplete retained capture')
     if (root/n/name).exists() and trace_extent(root/n/name,scope)!=extent:raise ValueError('Changed capture extent')
  identical=all(r['sha256']==runs[0]['sha256'] for r in runs)
  if not identical:raise ValueError('Cache changed recorded waveforms')
@@ -64,30 +84,32 @@ def main():
   if assess(a.out)!=json.loads((a.out/'assessment.json').read_text()):raise ValueError('Stale benchmark assessment')
   print('Scoped cache benchmark verified');return
  if not all((a.prepared,a.ngspice,a.spinit)):p.error('Prepared startup, runtime and spinit required')
+ spec=fixture(a.prepared)
  runtime,env=identify(a.ngspice,Path(a.spinit)/'spinit')
- scope=capture_scope((a.prepared/'boot.cir').read_text())
+ scope=capture_scope((a.prepared/spec['deck']).read_text())
  a.out.mkdir(parents=True,exist_ok=False)
- shutil.copyfile(a.prepared/'boot.cir',a.out/'boot.cir')
+ shutil.copyfile(a.prepared/spec['deck'],a.out/spec['deck'])
+ (a.out/'fixture.json').write_text(json.dumps(spec,indent=2)+'\n')
  (a.out/'scope.json').write_text(json.dumps(scope,indent=2)+'\n')
- inputs={n:sha(a.prepared/n) for n in ('boot.cir','boot.vvp','s600.hex','ls_nand_nominal.cir')}
+ inputs={n:sha(a.prepared/n) for n in spec['inputs']}
  (a.out/'runtime.json').write_text(json.dumps({'runtime':runtime,'experimentalEnvironment':{k:v for k,v in env.items() if k.startswith('ROBOTRON_') and k!='ROBOTRON_EVAL_CACHE'},'patchSha256':sha(HERE/'engine-patches/eval-cache.patch'),'inputSha256':inputs},indent=2)+'\n')
  for mode in ('off','exact','off-repeat','exact-repeat'):
   folder=a.out/mode;folder.mkdir()
-  for n in ('boot.cir','boot.vvp','s600.hex','ls_nand_nominal.cir'):shutil.copyfile(a.prepared/n,folder/n)
+  for n in spec['inputs']:shutil.copyfile(a.prepared/n,folder/n)
   if any(sha(folder/n)!=h for n,h in inputs.items()):raise ValueError('Prepared input changed between runs')
   start=time.monotonic();failure=None
   with (folder/'ngspice.log').open('w') as log:
    try:
-    process=subprocess.run([a.ngspice,'-n','-b','boot.cir'],cwd=folder,env=dict(env,ROBOTRON_EVAL_CACHE=mode.split('-')[0]),stdout=log,stderr=subprocess.STDOUT,timeout=a.timeout)
+    process=subprocess.run([a.ngspice,'-n','-b',spec['deck']],cwd=folder,env=dict(env,ROBOTRON_EVAL_CACHE=mode.split('-')[0]),stdout=log,stderr=subprocess.STDOUT,timeout=a.timeout)
     code=process.returncode
    except subprocess.TimeoutExpired:
     code=-1;failure='Simulation timed out'
   result={'mode':mode,'elapsedSeconds':time.monotonic()-start,'exitCode':code,'sha256':{},'capture':{}}
   try:
-   for n in ('trace.txt','supply-trace.txt'):
+   for n in spec['traces']:
     if (folder/n).exists():result['sha256'][n]=sha(folder/n)
    if failure or code or solver_diagnostic((folder/'ngspice.log').read_text()):raise ValueError(failure or 'Solver failure')
-   result['capture']={n:trace_extent(folder/n,scope) for n in ('trace.txt','supply-trace.txt')}
+   result['capture']={n:trace_extent(folder/n,scope) for n in spec['traces']}
    verify(runtime)
   except (ValueError,OSError) as error:
    result['failure']=str(error)
