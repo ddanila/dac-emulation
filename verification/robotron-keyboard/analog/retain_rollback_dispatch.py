@@ -28,7 +28,7 @@ def retain(root, baseline, build, out):
         with (root/mode/'ngspice.log').open('rb') as source,lzma.open(target/'ngspice.log.xz','wb',preset=6) as destination:
             shutil.copyfileobj(source,destination,1024*1024)
     result['retention']={'fullCaptures':str(root.resolve()),'scope':'Full compressed waveforms remain local; run receipts pin original bytes. Every sample was checked against the baseline before retention.',
-        'sources':{n:sha(HERE/n) for n in ('rollback_dispatch_review.py','rollback_audit_log.py','live_raw_review.py','raw_waveform.py','retain_rollback_dispatch.py','engine-patches/ngspice-47-rollback-audit.patch')}}
+        'sources':{n:sha(HERE/n) for n in ('rollback_dispatch_review.py','rollback_audit_log.py','live_raw_review.py','raw_pair_review.py','raw_waveform.py','retain_rollback_dispatch.py','engine-patches/ngspice-47-rollback-audit.patch')}}
     (out/'assessment.json').write_text(json.dumps(result,indent=2)+'\n')
     manifest={str(p.relative_to(out)):sha(p) for p in sorted(out.rglob('*')) if p.is_file()}
     (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
