@@ -1,7 +1,21 @@
 """Keep a full-scenario capture tied to its declared stimulus endpoint."""
 from decimal import Decimal, InvalidOperation
 import re
-from io_scenario import time_ns
+from io_scenario import time_ns, contact_source, reset_source
+
+
+def validate_stimulus(deck, scenario):
+    """Require the fixture's actual sources to implement the pinned scenario."""
+    expected = [f'Vcontact{i} contact{i} 0 '+contact_source(scenario,i) for i in range(104)]
+    expected += ['Vfixture_reset fixture_reset 0 '+reset_source(scenario),
+                 'Vfixture_clock fixture_clock 0 PULSE(0 5 500n 1n 1n 499n 1u)']
+    actual = [line for line in deck.splitlines()
+              if re.match(r'^\s*(?:Vcontact\d+|Vfixture_reset|Vfixture_clock)\s',line,re.I)]
+    normalize = lambda line: ' '.join(line.lower().split())
+    if sorted(map(normalize,actual)) != sorted(map(normalize,expected)):
+        raise ValueError('Circuit contact/reset/clock sources differ from pinned scenario')
+    if re.search(r'^\s*(?:alter|altermod|reset)\b',deck,re.M|re.I):
+        raise ValueError('Scenario capture cannot alter its stimulus during execution')
 
 
 def endpoint_ns(deck, scenario, requested=None):

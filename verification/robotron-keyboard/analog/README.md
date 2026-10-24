@@ -492,7 +492,8 @@ with a raw-pipe-patched runtime. The raw mode rejects diagnostic halts. Preserve
 the complete scenario endpoint when preparing full-repeat runs; this capture
 option does not itself establish scenario coverage or numerical convergence.
 Add `--full-scenario` to pin the prepared `scenario.json` and require the complete
-endpoint derived from its cycle count and reset interval. Conflicting stop-time
+endpoint derived from its cycle count and reset interval. The circuit's contact,
+reset and fixture-clock sources must implement that scenario. Conflicting stop-time
 overrides and diagnostic halts are rejected before running. Completion and
 serial observation windows must still pass review after capture.
 `full_scenario_review.py --run DIR --out REPORT` streams every saved raw sample,

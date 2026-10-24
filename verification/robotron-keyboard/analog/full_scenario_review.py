@@ -10,7 +10,7 @@ from filter_truncation_log import diagnostic
 from io_scenario import load, observe
 from live_raw_review import signal_name
 from raw_waveform import header, rows
-from scenario_capture import endpoint_ns
+from scenario_capture import endpoint_ns, validate_stimulus
 from serial_observation import validate_transport
 from trace_io import open_binary, open_text
 
@@ -26,6 +26,7 @@ def review(root):
         raise ValueError('Changed scenario')
     deck=(root/'io.cir').read_text()
     end_ns=endpoint_ns(deck,scenario,r['stopNs'])
+    validate_stimulus(deck,scenario)
     if end_ns!=r['fullScenario']['endNs'] or sha(root/'io.cir')!=r['deckSha256']:
         raise ValueError('Changed capture endpoint or deck')
     for name,digest in r['inputs'].items():

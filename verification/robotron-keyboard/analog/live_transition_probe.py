@@ -49,7 +49,7 @@ def main():
  scenario=None
  if a.full_scenario:
   if not a.raw_output:p.error('Full-scenario capture requires raw output')
-  from scenario_capture import endpoint_ns
+  from scenario_capture import endpoint_ns,validate_stimulus
   scenario=load_scenario(a.prepared/'scenario.json')
   a.stop_ns=endpoint_ns((a.prepared/'io.cir').read_text(),scenario,a.stop_ns)
  generator_sha=sha(Path(__file__))
@@ -111,7 +111,10 @@ def main():
  if a.raw_output:
   from live_raw_output import raw_deck
   deck,_=raw_deck(deck)
- if scenario is not None:endpoint_ns(deck,scenario,a.stop_ns)
+ if scenario is not None:
+  endpoint_ns(deck,scenario,a.stop_ns)
+  validate_stimulus(deck,scenario)
+  if load_scenario(a.out/'scenario.json')!=scenario:raise ValueError('Scenario changed while preparing capture')
  (a.out/'io.cir').write_text(deck);start=time.monotonic();code=None;timedout=False
  with (a.out/'ngspice.log').open('w') as log:
   code,timedout,storage_error,storage=run_capture([a.ngspice,'-n','-b','io.cir'],a.out,env,log,a.timeout,deck,compressed=a.compressed_output)
