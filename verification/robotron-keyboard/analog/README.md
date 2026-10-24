@@ -502,6 +502,11 @@ serial observation windows must still pass review after capture.
 checks the declared endpoint and signal set, and verifies transmitted/received
 serial windows. Its coverage result does not replace firmware-reference, bus,
 numerical-refinement or physical-model acceptance.
+`full_scenario_refinement.py COARSE MIDDLE FINE --out REPORT` requires complete
+captures with two timestep halvings and otherwise identical settings. It compares
+every saved voltage at absolute time, requires unchanged firmware/serial records,
+and applies the 10 mV and per-node nonincreasing-error gate. It does not replace
+the separate disabled control or electrical-model admission.
 `retain_live_raw.py` retains checked receipts while keeping full compressed captures
 locally; `--check --out reports/live-raw-output` verifies the retained manifest.
 `--all-saved-network` selects every saved observation; `complete_network_review.py --end-seconds` requires the
