@@ -356,6 +356,8 @@ missing observations or an incomplete declared endpoint.
 `retain_newton_retry.py` retains the checked pair's receipts and compressed logs;
 its `--check` mode verifies their manifest and recomputes dispatch/timing results.
 This tests retry scheduling, not natural device nonconvergence or general rollback.
+The [extended post-reset attempt](reports/postreset-timeout/assessment.json) hit
+its runtime limit before the declared endpoint; it cannot extend this coverage.
 
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
 startup timed out. Neither result establishes complete electrical acceptance.
