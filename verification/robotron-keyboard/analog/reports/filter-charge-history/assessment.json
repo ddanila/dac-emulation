@@ -867,12 +867,104 @@
       }
     }
   },
+  "stepPolicyScreens": {
+    "atOrAboveGrowthCap": {
+      "records": 4748,
+      "maximumRelativeRadius": "1.666666666666666666666666666666666666666666666666666666666666667",
+      "worstWitness": {
+        "logged": {
+          "time": "0x1.2217f3dd7626bp-13",
+          "state": "10",
+          "delta": "0x1.3fce6cdcab2c5p-42",
+          "dt0": "0x1.3fce6cdcab2c5p-42",
+          "dt1": "0x1.3fce6cdcab2c5p-43",
+          "dt2": "0x1.3fce6cdcab2c5p-44",
+          "order": "2",
+          "before": "0x1.fffffep+127",
+          "proposed": "0x1.eae9ef5657107p-29",
+          "currenttol": "0x1.b4c4a4460744fp-48",
+          "chargetol": "0x1.13eccfa379ecep-27",
+          "abstol": "0x1.203af9ee75616p-50",
+          "reltol": "0x1.5798ee2308c3ap-27",
+          "chgtol": "0x1.6849b86a12b9bp-47",
+          "difference": "-0x1.c234e0246eed6p+32",
+          "q0": "0x1.00d1cdf052381p-42",
+          "q1": "0x1.00d1d88b5db0ep-42",
+          "q2": "0x1.00d1ddd959b54p-42",
+          "q3": "0x1.00d1e08075498p-42"
+        },
+        "instance": "q.xclock.qoutput",
+        "exactDifference": "-7553212728.683753399933064979853549997254155224246899431977746736",
+        "halfUlpRadius": "12588687881.13958899988844163308924999542359204041149905329624456"
+      }
+    },
+    "belowGrowthCap": {
+      "records": 4633,
+      "maximumRelativeRadius": "3.687158132382334297386711679230948878567692058050902776456375412E-8",
+      "worstWitness": {
+        "logged": {
+          "time": "0x1.221d818874cb2p-13",
+          "state": "10",
+          "delta": "0x1.047dec5690383p-33",
+          "dt0": "0x1.047dec5690383p-33",
+          "dt1": "0x1.047dec5690383p-34",
+          "dt2": "0x1.047dec5690383p-35",
+          "order": "2",
+          "before": "0x1.fffffep+127",
+          "proposed": "0x1.fde2d1947bc11p-33",
+          "currenttol": "0x1.50d9bd3e5faefp-45",
+          "chargetol": "0x1.7301e49f8357cp-36",
+          "abstol": "0x1.203af9ee75616p-50",
+          "reltol": "0x1.5798ee2308c3ap-27",
+          "chgtol": "0x1.6849b86a12b9bp-47",
+          "difference": "-0x1.18914ff7cbb58p+32",
+          "q0": "0x1.1945b392f8c64p-42",
+          "q1": "0x1.18c9c0da55ce9p-42",
+          "q2": "0x1.188c06730dff3p-42",
+          "q3": "0x1.186d392d2b976p-42"
+        },
+        "instance": "q.xclock.qoutput",
+        "exactDifference": "-4707143671.802729731691925649875375044673529551553677793755470179",
+        "halfUlpRadius": "173.5598306977947649846306460702897302002489025273499241560963427"
+      }
+    },
+    "atOrBelowRejectionThreshold": {
+      "records": 162,
+      "maximumRelativeRadius": "1.523170275839790411770044444839340441884390106755196707921310485E-8",
+      "worstWitness": {
+        "logged": {
+          "time": "0x1.21e32ad330813p-13",
+          "state": "10",
+          "delta": "0x1.7a9e5b2p-37",
+          "dt0": "0x1.7a9e5b2p-37",
+          "dt1": "0x1.7a9e5b2p-38",
+          "dt2": "0x1.ba8adf7427a5bp-37",
+          "order": "1",
+          "before": "0x1.fffffep+127",
+          "proposed": "0x1.05ee083d179e8p-37",
+          "currenttol": "0x1.4ebdbfd01e8e2p-45",
+          "chargetol": "0x1.d496f1e44be5p-27",
+          "abstol": "0x1.203af9ee75616p-50",
+          "reltol": "0x1.5798ee2308c3ap-27",
+          "chgtol": "0x1.6849b86a12b9bp-47",
+          "difference": "-0x1.c9fb339b25352p+11",
+          "q0": "0x1.022ce2b5185cbp-36",
+          "q1": "0x1.022cb693067bep-36",
+          "q2": "0x1.022ca02412ddbp-36",
+          "q3": "0x1.022c6ac505e25p-36"
+        },
+        "instance": "q.xclock.qoutput",
+        "exactDifference": "-3663.850049565014467715803688931222307927399939015830779350927183",
+        "halfUlpRadius": "0.00005580667490631572858957560575171266877218995617482436812513748351"
+      }
+    }
+  },
   "qualified": false,
   "filterAssessmentSha256": "2ab84ffe35ebf362348de8fea9a3ac362101cd3785d9ed4a9209bd0980e94629",
   "filterLogSha256": "c5bd73e3d6dbb76f2b4e5845c67aeaff1e65980bd6447ad5176e9d048aa5aa28",
-  "scope": "Exact rational propagation of independent hypothetical \u00b1half-current-ULP perturbations of the logged binary64 charge/flux histories, with time history fixed. This is a sensitivity box, not a bound on actual nonlinear-evaluation or accumulated history error. Logged candidate reductions may later be rejected; counts depend on device order. The symmetric box can conservatively exceed the rounding cell at binade boundaries. No voltage-error correction, acceptance waiver or production change follows.",
+  "scope": "Exact rational propagation of independent hypothetical \u00b1half-current-ULP perturbations of the logged binary64 charge/flux histories, with time history fixed. This is a sensitivity box, not a bound on actual nonlinear-evaluation or accumulated history error. The step-policy screens compare each proposal with CKTtrunc\u2019s 2*delta growth cap and dctran\u2019s 0.9*delta acceptance threshold. A proposal above the growth cap does not constrain that cap; proposals below it can still be superseded by other devices, order changes or event breakpoints. They do not identify final accepted or rejected steps; counts depend on device order. The symmetric box can conservatively exceed the rounding cell at binade boundaries. No voltage-error correction, acceptance waiver or production change follows.",
   "sources": {
-    "charge_history_sensitivity.py": "8d1881797d98c8f5e561d5a5de5486c17a259421f10f0dd06f4161bbc707ad7e",
+    "charge_history_sensitivity.py": "84a66a1b011b43c7004ec877c26a0cc4289d5ae94dfaae57dbdc5321042ea166",
     "filter_truncation_log.py": "d44c46ab976ff4a85f1016504a1338e82cc095396e0350c90e445132b6f23dc9",
     "startup_truncation_log.py": "37501e7730864b5a060128a18936d21a0aa0ce34bca7d28cf95b71bf4945edb1"
   }
