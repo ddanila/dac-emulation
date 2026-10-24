@@ -43,6 +43,8 @@ def compare_trace(raw_path, text_path, count):
 
 def review(root, baseline):
     original = json.loads((baseline/'run.json').read_text())
+    if original.get('exitCode') != 0 or original.get('timedOut') or original.get('solverDiagnostic') or original.get('haltNs') is not None:
+        raise ValueError('Baseline is not a complete unhalted capture')
     if json.loads((root/'baseline.json').read_text()) != original:
         raise ValueError('Changed baseline receipt')
     captures = [json.loads((root/n/'run.json').read_text()) for n in ('memory','pipe')]
@@ -60,10 +62,15 @@ def review(root, baseline):
         if captures[0][key] != captures[1][key]:
             raise ValueError('Changed paired '+key)
     original_deck=(baseline/'io.cir').read_text()
+    if sha(baseline/'io.cir') != original['deckSha256']:
+        raise ValueError('Changed baseline deck')
     transformed,writers=raw_deck(original_deck)
     if (root/'memory/io.cir').read_text()!=original_deck or (root/'pipe/io.cir').read_text()!=transformed:
         raise ValueError('Circuit changed beyond output commands')
-    extents=json.loads((baseline/'completion-check.json').read_text())['traces']
+    completion=json.loads((baseline/'completion-check.json').read_text())
+    if completion.get('completed') is not True:
+        raise ValueError('Baseline completion is unproven')
+    extents=completion['traces']
     for name,_ in writers:
         for label in ('memory',):
             if sha(root/label/name)!=extents[name]['sha256'] or captures[0]['storage'][name]['sha256']!=extents[name]['sha256']:
