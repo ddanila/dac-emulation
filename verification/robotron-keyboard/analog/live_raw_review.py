@@ -13,17 +13,25 @@ from trace_io import open_binary, open_text
 from compare_firmware_io import sha
 
 
+def signal_name(name):
+    # ngspice fileInit_pass2 wraps special current vectors in i(...), whereas
+    # wrdata retains the original @device[i] expression. This is naming only.
+    return re.sub(r'^i\((@[^\s()]+\[i\])\)$', r'\1', name.lower())
+
+
 def compare_trace(raw_path, text_path, count):
     with open_binary(raw_path) as raw, open_text(text_path) as text:
         names, declared = header(raw)
         if declared not in (0,count):
             raise ValueError('Raw header disagrees with completed log count')
         columns = text.readline().split()
-        lowered = [n.lower() for n in names]
+        lowered = [signal_name(n) for n in names]
+        if len(set(lowered)) != len(lowered):
+            raise ValueError('Ambiguous raw observation names')
         if not columns or columns[0] != 'time' or len(set(columns)) != len(columns):
             raise ValueError('Invalid baseline columns')
         try:
-            selection = [lowered.index(n.lower()) for n in columns]
+            selection = [lowered.index(signal_name(n)) for n in columns]
         except ValueError as exc:
             raise ValueError('Missing raw observation') from exc
         first = last = None
