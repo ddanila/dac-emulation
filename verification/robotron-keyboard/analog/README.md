@@ -462,8 +462,12 @@ retains byte-equality receipts for disabled/enabled runs; use
 New captures derive their window from the deck and reject incomplete, nonfinite
 or nonmonotonic traces; timeout/failure receipts remain in the output directory.
 The runtime receipt fingerprints the executable, initialization and code models.
-The improvement is scoped to a short, below-rated-supply window. Longer startup
-and service controls must pass before enabling the cache in qualification runs.
+The startup improvement is scoped to a short, below-rated-supply window. The
+[recorded bus-read comparison](reports/eval-cache-bus-read/assessment.json) checks
+an unchanged captured-boundary replay, not live CPU/HDL service. A prepared
+`fixture.json` can select its deck, input files and output traces; without it the
+runner uses the startup fixture. Longer startup and live service controls must
+pass before enabling the cache in qualification runs.
 
 
 Verify retained endpoint and bridge evidence with `device_endpoint_probe.py

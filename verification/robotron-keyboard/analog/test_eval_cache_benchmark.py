@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 import subprocess
 from eval_cache_benchmark import main
-from eval_cache_benchmark import assess,capture_scope,trace_extent
+from eval_cache_benchmark import assess,capture_scope,trace_extent,fixture
 
 class CaptureTests(unittest.TestCase):
  def test_window_and_corrupt_traces(self):
@@ -35,6 +35,24 @@ class CaptureTests(unittest.TestCase):
     extent={'samples':2,'firstSeconds':0,'lastSeconds':.001}
     (folder/'run.json').write_text(json.dumps({'mode':mode,'exitCode':0,'elapsedSeconds':1,'sha256':{'trace.txt':'same','supply-trace.txt':'same'},'capture':{'trace.txt':extent,'supply-trace.txt':extent}}))
    with self.assertRaisesRegex(ValueError,'Incomplete'):assess(root)
+
+ def test_uic_replay_window(self):
+  scope=capture_scope('.control\ntran .25n 4u uic\n.endc\n')
+  self.assertTrue(scope['useInitialConditions'])
+  with tempfile.TemporaryDirectory() as tmp:
+   p=Path(tmp)/'trace.txt'
+   p.write_text('time voltage\n2.5e-12 4\n4e-6 5\n')
+   self.assertEqual(trace_extent(p,scope)['samples'],2)
+   p.write_text('time voltage\n1e-6 4\n4e-6 5\n')
+   with self.assertRaisesRegex(ValueError,'Incomplete'):trace_extent(p,scope)
+ def test_fixture_contract(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);spec={'deck':'probe.cir','inputs':['probe.cir'],'traces':['trace.txt']}
+   (root/'fixture.json').write_text(json.dumps(spec))
+   self.assertEqual(fixture(root),spec)
+   for changes in ({'inputs':['../probe.cir']},{'traces':['probe.cir']},{'traces':[]}):
+    (root/'fixture.json').write_text(json.dumps(dict(spec,**changes)))
+    with self.assertRaises(ValueError):fixture(root)
 
  def test_timeout_retains_failure_receipt(self):
   with tempfile.TemporaryDirectory() as tmp:

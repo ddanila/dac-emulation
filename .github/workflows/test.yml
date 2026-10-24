@@ -70,6 +70,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/bus_transition_review.py --verify --out verification/robotron-keyboard/analog/reports/bus-transition
           python3 verification/robotron-keyboard/analog/bus_read_replay.py --verify --out verification/robotron-keyboard/analog/reports/bus-read-replay
           python3 verification/robotron-keyboard/analog/eval_cache_benchmark.py --verify --out verification/robotron-keyboard/analog/reports/eval-cache
+          python3 verification/robotron-keyboard/analog/eval_cache_benchmark.py --verify --out verification/robotron-keyboard/analog/reports/eval-cache-bus-read
           python3 verification/robotron-keyboard/analog/test_coupled_acceptance.py
           python3 verification/robotron-keyboard/analog/test_device_additions.py
           python3 verification/robotron-keyboard/analog/device_endpoint_probe.py --verify verification/robotron-keyboard/analog/reports/device-endpoints
