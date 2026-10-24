@@ -345,6 +345,10 @@ after the rollback audit patch and copy `rollback_fault.h` beside `dctran.c`.
 Require a complete disabled control before interpreting an injected capture.
 `live_newton_retry.py` captures the disabled/enabled pair using a separately pinned
 diagnostic runtime and the completed bridge timing control's circuit and inputs.
+`newton_retry_review.py` requires exact disabled-control waveforms and scheduling,
+then checks the injected retry's complete absolute-time waveforms, firmware events
+and dispatch/HDL timing. `raw_pair_review.py` streams both sample grids and rejects
+missing observations or an incomplete declared endpoint.
 This tests retry scheduling, not natural device nonconvergence or general rollback.
 
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
