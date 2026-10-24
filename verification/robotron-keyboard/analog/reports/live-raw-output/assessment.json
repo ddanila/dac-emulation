@@ -1,0 +1,127 @@
+{
+  "allSamplesExactlyEqual": true,
+  "events": {
+    "edgeTimesPs": [
+      1002501280
+    ],
+    "samples": [
+      [
+        "0000",
+        "af",
+        "0",
+        "1",
+        "0"
+      ]
+    ],
+    "latchesMatch": true
+  },
+  "traces": {
+    "witness.txt": {
+      "samples": 141168,
+      "firstSeconds": 0.0,
+      "lastSeconds": 0.001006,
+      "columns": [
+        "time",
+        "v(receiver_data)",
+        "v(receiver_clock)"
+      ],
+      "allSamplesExactlyEqual": true
+    },
+    "network_witness.txt": {
+      "samples": 141168,
+      "firstSeconds": 0.0,
+      "lastSeconds": 0.001006,
+      "columns": [
+        "time",
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_D0)",
+        "v(n_D1)",
+        "v(n_D2)",
+        "v(n_D3)",
+        "v(n_D4)",
+        "v(n_D5)",
+        "v(n_D6)",
+        "v(n_D7)",
+        "v(n_p5V)",
+        "i(Vdriver_supply)",
+        "v(n_WR_N)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "@bwr_low[i]",
+        "@bwr_high[i]",
+        "v(n_TA_TAKT)",
+        "v(n_TA_DATEN)",
+        "v(L1_1_series)",
+        "v(L1_2_series)",
+        "v(L1_3_series)",
+        "v(L1_4_series)",
+        "v(n_CABLE_TAKT)",
+        "v(n_CABLE_GND)",
+        "v(n_CABLE_5V)",
+        "v(n_CABLE_DATEN)",
+        "i(L1.1)",
+        "i(L1.2)",
+        "i(L1.3)",
+        "i(L1.4)"
+      ],
+      "allSamplesExactlyEqual": true
+    },
+    "bus-trace.txt": {
+      "samples": 141168,
+      "firstSeconds": 0.0,
+      "lastSeconds": 0.001006,
+      "columns": [
+        "time",
+        "v(n_D0)",
+        "v(n_D1)",
+        "v(n_D2)",
+        "v(n_D3)",
+        "v(n_D4)",
+        "v(n_D5)",
+        "v(n_D6)",
+        "v(n_D7)",
+        "v(n_p5V)"
+      ],
+      "allSamplesExactlyEqual": true
+    },
+    "driver-trace.txt": {
+      "samples": 141168,
+      "firstSeconds": 0.0,
+      "lastSeconds": 0.001006,
+      "columns": [
+        "time",
+        "i(Vdriver_supply)"
+      ],
+      "allSamplesExactlyEqual": true
+    },
+    "wr-trace.txt": {
+      "samples": 141168,
+      "firstSeconds": 0.0,
+      "lastSeconds": 0.001006,
+      "columns": [
+        "time",
+        "v(n_WR_N)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "@bwr_low[i]",
+        "@bwr_high[i]",
+        "v(n_p5V)"
+      ],
+      "allSamplesExactlyEqual": true
+    }
+  },
+  "qualified": false,
+  "boundary": "Complete bounded reset-release output equivalence; no full-repeat, rollback or physical model qualification.",
+  "retention": {
+    "fullCaptures": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/live-raw-output-control",
+    "scope": "Complete compressed waveforms remain at the capture path. Run receipts pin their original byte hashes; every sample was compared before retention.",
+    "sources": {
+      "live_raw_review.py": "1a2e43cbbfc40bc8d65f26b8539ad9d5f8335e8f78527abd5615a01b63d2036a",
+      "raw_waveform.py": "e959314c1f68c4e0eca1e069d2bbea613503c7f00581ffe615f380515453ba52",
+      "retain_live_raw.py": "ccf7b2e2e51f23c29f04340ea3b75061e7f0b6bde53d7fff4b98121ce7ea067d",
+      "compressed_output.py": "0e7005c4322b99101788a19448172a9ed0ec88bc6dc64d9fde9c058862d89447",
+      "engine-patches/ngspice-47-raw-pipe.patch": "1b8b1f2b72c24456e482ed1d46b0e379d14e4dd0335f0df18519aab2e6fa6dd7"
+    }
+  }
+}

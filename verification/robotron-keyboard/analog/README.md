@@ -443,10 +443,13 @@ The diagnostic [raw-pipe transport control](reports/raw-pipe-transport/assessmen
 compares in-memory, direct-file and compressed-pipe samples exactly.
 `raw_pipe_review.py` reproduces this RC check with the separate
 `ngspice-47-raw-pipe.patch` runtime. Direct raw output bypasses plot accumulation;
-complete live keyboard equivalence is still required before using it for qualification.
-`live_raw_output.py` runs paired complete in-memory/pipe controls from a pinned
-reset-release capture. `live_raw_review.py` requires exact sample and firmware-event
-equality with that baseline, including every original waveform column and endpoint.
+the [complete live reset-release control](reports/live-raw-output/assessment.json)
+preserves every original waveform sample and firmware event exactly. This covers
+the bounded reset-release window; full-repeat execution is deferred pending storage.
+`live_raw_output.py` runs the paired controls; `live_raw_review.py` checks every
+original waveform column and endpoint against the pinned baseline.
+`retain_live_raw.py` retains checked receipts while keeping full compressed captures
+locally; `--check --out reports/live-raw-output` verifies the retained manifest.
 `--all-saved-network` selects every saved observation; `complete_network_review.py --end-seconds` requires the
 explicit complete interval. Retention preserves every available sample, including
 failed controls. Longer runs need a concrete board/receiver decision, not merely
