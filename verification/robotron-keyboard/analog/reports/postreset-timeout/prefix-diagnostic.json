@@ -1,0 +1,43 @@
+{
+  "scope": "Diagnostic only: available complete samples from an immutable timed-out partial archive. Full original log is retained; no failing read is omitted. Not full-window acceptance.",
+  "qualified": false,
+  "sourcePartialSha256": "9cecf5410520eb3ca19132687f7f939c053e68e5e7af75b05006e0068ee0a044",
+  "rows": 341213,
+  "firstSeconds": 0.0,
+  "lastSeconds": 0.0010779741975204197,
+  "bus": {
+    "assessment": {
+      "passed": true,
+      "qualified": false,
+      "sampleCount": 19,
+      "driverStatesCaptured": true,
+      "waveform": {
+        "firstSeconds": 0.0,
+        "lastSeconds": 0.0010779741975204197,
+        "rows": 341213
+      },
+      "memoryReads": 19,
+      "ioReads": 0,
+      "firstReadPs": 1002501000,
+      "lastReadPs": 1075501000,
+      "minimumLowMarginVolts": 0.6523199744329383,
+      "minimumHighMarginVolts": 2.8861444964631024,
+      "setupNs": 0,
+      "holdNs": 0,
+      "boundary": "Sampled-voltage agreement and TV80 input-register confirmation only. Windows include bracketing trace samples. No between-sample excursion proof, U880 M1/M2-M5 edge-phase qualification or calibrated setup/hold timing."
+    }
+  },
+  "diagnosticSourceSha256": "548e0f37fff309121122747c025a2dee58d7bd9e97cda03f04988dd24b19652b",
+  "sources": {
+    "bus_observation.py": "502fbfd68f47085107c0491a8f828a468eb4b1191d739a4bc28ce36485ba6c12",
+    "bus_input_limits.py": "885b3c35255435f08226779f11e8bbde5085adf3de44d132654a825a8fc4eb04",
+    "cpu_clock_limits.json": "2c9bcde027d0aa4e756e46bfa95c9da7daae6dec70631b9b8d2586d61f6400b1",
+    "raw_waveform.py": "e959314c1f68c4e0eca1e069d2bbea613503c7f00581ffe615f380515453ba52",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "originalLogSha256": "df131e31572544a4f242d0bead95f705f1c01e46b14e69c202f80ea988f490fa",
+  "busPrefix": {
+    "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/trtol-postreset-raw-25/diagnostic-bus-prefix.txt.gz",
+    "sha256": "03f0db04d3bcaa548aef00f0392a6ed016a2f69ea22f49e59444f104552f71ae"
+  }
+}
