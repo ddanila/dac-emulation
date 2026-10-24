@@ -9,8 +9,11 @@ class SamplingTests(unittest.TestCase):
   self.assertIn('Vsampling_grid sampling_grid 0 PWL(0 0',result)
   self.assertIn('+ 1e-08 0',result)
   with self.assertRaises(ValueError):add_sampling_grid(result,[1e-8],2000)
+ def test_prefix_keeps_future_breakpoints(self):
+  deck='Vfixture_clock fixture_clock 0 0\n'
+  self.assertEqual(add_sampling_grid(deck,[1e-6],1),add_sampling_grid(deck,[1e-6],2000))
  def test_reject_invalid_times(self):
-  for times in ([],[0],[2e-6],[float('nan')],[True],[1e-7,1e-8],[1e-8,1e-8]):
+  for times in ([],[0],[-2e-6],[float('nan')],[True],[1e-7,1e-8],[1e-8,1e-8]):
    with self.assertRaises(ValueError):add_sampling_grid('Vfixture_clock x 0 0',times,2000)
   with self.assertRaises(ValueError):add_sampling_grid('Vfixture_clock x 0 0',[1e-8],None)
 

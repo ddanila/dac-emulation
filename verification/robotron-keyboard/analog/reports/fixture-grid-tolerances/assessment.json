@@ -1,0 +1,748 @@
+{
+  "schema": 1,
+  "startupPrecisionControls": {
+    "cases": {
+      "late": {
+        "completed": false,
+        "timedOut": true,
+        "diagnostic": null,
+        "elapsedSeconds": 120.015439334,
+        "mpfrStartNs": 1001000,
+        "lastSeconds": {}
+      },
+      "early": {
+        "completed": true,
+        "timedOut": false,
+        "diagnostic": null,
+        "elapsedSeconds": 7.67205325,
+        "mpfrStartNs": 0,
+        "lastSeconds": {
+          "witness.txt": 1.0000000000000001e-07,
+          "bus-trace.txt": 1.0000000000000001e-07,
+          "driver-trace.txt": 1.0000000000000001e-07,
+          "wr-trace.txt": 1.0000000000000001e-07,
+          "network_witness.txt": 1.0000000000000001e-07
+        }
+      }
+    },
+    "scope": "Matched 100 ns startup prefixes differing only in precision start. Shortening the observation window can change solver stepping; this is a separate startup control, not completion of the longer failed capture. No firmware traffic or refinement is qualified."
+  },
+  "cases": {
+    "control": {
+      "completed": true,
+      "timedOut": false,
+      "diagnostic": null,
+      "bus": {
+        "edgeTimesPs": [
+          1002501280
+        ],
+        "samples": [
+          [
+            "0000",
+            "af",
+            "0",
+            "1",
+            "0"
+          ]
+        ],
+        "latchesMatch": true
+      },
+      "tolerances": {
+        "reltol": 1e-06,
+        "vntol": 1e-09,
+        "abstol": 1e-15
+      },
+      "lastSeconds": {
+        "witness.txt": 0.001006,
+        "bus-trace.txt": 0.001006,
+        "driver-trace.txt": 0.001006,
+        "wr-trace.txt": 0.001006,
+        "network_witness.txt": 0.001006
+      }
+    },
+    "all": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 1.00008e-10, timestep = 1.36084e-19: trouble with node \"vdriver_supply#branch\"",
+      "bus": null,
+      "tolerances": {
+        "reltol": 1e-07,
+        "vntol": 1.0000000000000002e-10,
+        "abstol": 1.0000000000000001e-16
+      },
+      "lastSeconds": {
+        "witness.txt": 1.000075173327789e-10,
+        "bus-trace.txt": 1.000075173327789e-10,
+        "driver-trace.txt": 1.000075173327789e-10,
+        "wr-trace.txt": 1.000075173327789e-10,
+        "network_witness.txt": 1.000075173327789e-10
+      }
+    },
+    "reltol": {
+      "completed": false,
+      "timedOut": false,
+      "diagnostic": "doAnalyses: TRAN:  Timestep too small; time = 1.00036e-10, timestep = 1.6023e-19: trouble with xdata:ttl7406_diode-instance d.xdata.dinput",
+      "bus": null,
+      "tolerances": {
+        "reltol": 1e-07,
+        "vntol": 1e-09,
+        "abstol": 1e-15
+      },
+      "lastSeconds": {
+        "witness.txt": 1.0003558624312835e-10,
+        "bus-trace.txt": 1.0003558624312835e-10,
+        "driver-trace.txt": 1.0003558624312835e-10,
+        "wr-trace.txt": 1.0003558624312835e-10,
+        "network_witness.txt": 1.0003558624312835e-10
+      }
+    },
+    "vntol": {
+      "completed": true,
+      "timedOut": false,
+      "diagnostic": null,
+      "bus": {
+        "edgeTimesPs": [
+          1002501280
+        ],
+        "samples": [
+          [
+            "0000",
+            "af",
+            "0",
+            "1",
+            "0"
+          ]
+        ],
+        "latchesMatch": true
+      },
+      "tolerances": {
+        "reltol": 1e-06,
+        "vntol": 1.0000000000000002e-10,
+        "abstol": 1e-15
+      },
+      "lastSeconds": {
+        "witness.txt": 0.001006,
+        "bus-trace.txt": 0.001006,
+        "driver-trace.txt": 0.001006,
+        "wr-trace.txt": 0.001006,
+        "network_witness.txt": 0.001006
+      }
+    },
+    "abstol": {
+      "completed": true,
+      "timedOut": false,
+      "diagnostic": null,
+      "bus": {
+        "edgeTimesPs": [
+          1002501280
+        ],
+        "samples": [
+          [
+            "0000",
+            "af",
+            "0",
+            "1",
+            "0"
+          ]
+        ],
+        "latchesMatch": true
+      },
+      "tolerances": {
+        "reltol": 1e-06,
+        "vntol": 1e-09,
+        "abstol": 1.0000000000000001e-16
+      },
+      "lastSeconds": {
+        "witness.txt": 0.001006,
+        "bus-trace.txt": 0.001006,
+        "driver-trace.txt": 0.001006,
+        "wr-trace.txt": 0.001006,
+        "network_witness.txt": 0.001006
+      }
+    }
+  },
+  "completedControlComparisons": {
+    "vntol": {
+      "signals": {
+        "v(receiver_data)": {
+          "maximumDifferenceV": 2.3334713930456275e-05,
+          "timeSeconds": 1.0691622813338467e-06,
+          "coarseV": 1.621842658355706,
+          "fineV": 1.6218193236417755,
+          "integratedAbsoluteDifferenceVoltSeconds": 3.7699268861443314e-12,
+          "meanAbsoluteDifferenceV": 3.747442232747845e-09,
+          "rmsDifferenceV": 1.6048187314060515e-07
+        },
+        "v(receiver_clock)": {
+          "maximumDifferenceV": 2.3515732469725492e-05,
+          "timeSeconds": 0.00013860422426218978,
+          "coarseV": 1.3868628438835806,
+          "fineV": 1.3868393281511109,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.448805506625168e-12,
+          "meanAbsoluteDifferenceV": 4.422271875372931e-09,
+          "rmsDifferenceV": 1.748113627194894e-07
+        },
+        "v(n_D0)": {
+          "maximumDifferenceV": 8.765267916821529e-06,
+          "timeSeconds": 0.0010051608393576834,
+          "coarseV": 4.819867795649164,
+          "fineV": 4.819859030381247,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.099923994411875e-12,
+          "meanAbsoluteDifferenceV": 1.0933638115426193e-09,
+          "rmsDifferenceV": 5.7959631120212784e-08
+        },
+        "v(n_D1)": {
+          "maximumDifferenceV": 5.915733442218851e-06,
+          "timeSeconds": 0.0010011411881775411,
+          "coarseV": 2.1754444325626094,
+          "fineV": 2.1754503482960517,
+          "integratedAbsoluteDifferenceVoltSeconds": 3.5807371759492945e-13,
+          "meanAbsoluteDifferenceV": 3.5593808906056605e-10,
+          "rmsDifferenceV": 2.779144224508472e-08
+        },
+        "v(n_D2)": {
+          "maximumDifferenceV": 5.915733442218851e-06,
+          "timeSeconds": 0.0010011411881775411,
+          "coarseV": 2.1754444325626094,
+          "fineV": 2.1754503482960517,
+          "integratedAbsoluteDifferenceVoltSeconds": 3.5807371759492945e-13,
+          "meanAbsoluteDifferenceV": 3.5593808906056605e-10,
+          "rmsDifferenceV": 2.779144224508472e-08
+        },
+        "v(n_D3)": {
+          "maximumDifferenceV": 0.0003576484926013368,
+          "timeSeconds": 0.001005019823829347,
+          "coarseV": 1.7332174992158063,
+          "fineV": 1.732859850723205,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.4307118240231513e-12,
+          "meanAbsoluteDifferenceV": 1.422178751514067e-09,
+          "rmsDifferenceV": 2.979506927514473e-07
+        },
+        "v(n_D4)": {
+          "maximumDifferenceV": 0.0,
+          "timeSeconds": 0.0,
+          "coarseV": 0.0,
+          "fineV": 0.0,
+          "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+          "meanAbsoluteDifferenceV": 0.0,
+          "rmsDifferenceV": 0.0
+        },
+        "v(n_D5)": {
+          "maximumDifferenceV": 5.915733442218851e-06,
+          "timeSeconds": 0.0010011411881775411,
+          "coarseV": 2.1754444325626094,
+          "fineV": 2.1754503482960517,
+          "integratedAbsoluteDifferenceVoltSeconds": 3.5807371759492945e-13,
+          "meanAbsoluteDifferenceV": 3.5593808906056605e-10,
+          "rmsDifferenceV": 2.779144224508472e-08
+        },
+        "v(n_D6)": {
+          "maximumDifferenceV": 0.00031661163243645873,
+          "timeSeconds": 0.0010051608393576834,
+          "coarseV": 2.4092472226330783,
+          "fineV": 2.408930611000642,
+          "integratedAbsoluteDifferenceVoltSeconds": 2.9833916777177494e-11,
+          "meanAbsoluteDifferenceV": 2.9655980891826536e-08,
+          "rmsDifferenceV": 1.9763286485006233e-06
+        },
+        "v(n_D7)": {
+          "maximumDifferenceV": 0.0003576484926013368,
+          "timeSeconds": 0.001005019823829347,
+          "coarseV": 1.7332174992158063,
+          "fineV": 1.732859850723205,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.4307118240231513e-12,
+          "meanAbsoluteDifferenceV": 1.422178751514067e-09,
+          "rmsDifferenceV": 2.979506927514473e-07
+        },
+        "v(n_p5V)": {
+          "maximumDifferenceV": 7.33184590748226e-08,
+          "timeSeconds": 1.191958252540369e-06,
+          "coarseV": 0.0056504349968504106,
+          "fineV": 0.005650508315309485,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.0906477856732971e-14,
+          "meanAbsoluteDifferenceV": 1.0841429281046692e-11,
+          "rmsDifferenceV": 5.291001156619897e-10
+        },
+        "i(Vdriver_supply)": {
+          "maximumDifferenceV": 7.517779104272704e-08,
+          "timeSeconds": 0.00013865437594458066,
+          "coarseV": 0.004350582586167707,
+          "fineV": 0.0043506577639587495,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.3167800962003631e-14,
+          "meanAbsoluteDifferenceV": 1.3089265369784922e-11,
+          "rmsDifferenceV": 2.469863351753113e-10
+        },
+        "v(n_WR_N)": {
+          "maximumDifferenceV": 8.092764327942426e-08,
+          "timeSeconds": 1.488574407120923e-06,
+          "coarseV": 0.00840456864136171,
+          "fineV": 0.00840448771371843,
+          "integratedAbsoluteDifferenceVoltSeconds": 2.7748360666804355e-14,
+          "meanAbsoluteDifferenceV": 2.758286348588902e-11,
+          "rmsDifferenceV": 5.681081689806311e-10
+        },
+        "v(wr_low)": {
+          "maximumDifferenceV": 0.0,
+          "timeSeconds": 0.0,
+          "coarseV": 0.0,
+          "fineV": 0.0,
+          "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+          "meanAbsoluteDifferenceV": 0.0,
+          "rmsDifferenceV": 0.0
+        },
+        "v(wr_high)": {
+          "maximumDifferenceV": 0.0,
+          "timeSeconds": 0.0,
+          "coarseV": 0.0,
+          "fineV": 0.0,
+          "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+          "meanAbsoluteDifferenceV": 0.0,
+          "rmsDifferenceV": 0.0
+        },
+        "@bwr_low[i]": {
+          "maximumDifferenceV": 0.0,
+          "timeSeconds": 0.0,
+          "coarseV": 0.0,
+          "fineV": 0.0,
+          "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+          "meanAbsoluteDifferenceV": 0.0,
+          "rmsDifferenceV": 0.0
+        },
+        "@bwr_high[i]": {
+          "maximumDifferenceV": 7.993169342516263e-13,
+          "timeSeconds": 1.488574407120923e-06,
+          "coarseV": 1.49619806772357e-07,
+          "fineV": 1.4962060608929126e-07,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.7211715639321158e-18,
+          "meanAbsoluteDifferenceV": 1.7109061271691012e-15,
+          "rmsDifferenceV": 5.371557845308343e-15
+        },
+        "v(n_TA_TAKT)": {
+          "maximumDifferenceV": 2.358674313282516e-05,
+          "timeSeconds": 0.0001383245965432512,
+          "coarseV": -0.2245074180572328,
+          "fineV": -0.22448383131409996,
+          "integratedAbsoluteDifferenceVoltSeconds": 3.34519992207388e-12,
+          "meanAbsoluteDifferenceV": 3.3252484314849705e-09,
+          "rmsDifferenceV": 1.5525145342180903e-07
+        },
+        "v(n_TA_DATEN)": {
+          "maximumDifferenceV": 2.6369932778616545e-05,
+          "timeSeconds": 0.0001384615684904056,
+          "coarseV": -0.05932013943471873,
+          "fineV": -0.059346509367497344,
+          "integratedAbsoluteDifferenceVoltSeconds": 2.991492442509488e-12,
+          "meanAbsoluteDifferenceV": 2.9736505392738453e-09,
+          "rmsDifferenceV": 1.491997070842472e-07
+        },
+        "v(L1_1_series)": {
+          "maximumDifferenceV": 2.336568064775779e-05,
+          "timeSeconds": 1.0691622813338467e-06,
+          "coarseV": -0.8778400191099603,
+          "fineV": -0.8778633847906081,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.269866496564258e-12,
+          "meanAbsoluteDifferenceV": 4.244400095988329e-09,
+          "rmsDifferenceV": 1.6817743769743876e-07
+        },
+        "v(L1_2_series)": {
+          "maximumDifferenceV": 9.063586123363079e-06,
+          "timeSeconds": 0.0001383245965432512,
+          "coarseV": -0.0008244516314801498,
+          "fineV": -0.0008153880453567867,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.5774083830514834e-12,
+          "meanAbsoluteDifferenceV": 1.5680003807668822e-09,
+          "rmsDifferenceV": 5.841697956221864e-08
+        },
+        "v(L1_3_series)": {
+          "maximumDifferenceV": 9.063585914681482e-06,
+          "timeSeconds": 0.0001383245965432512,
+          "coarseV": 2.5732823845512396,
+          "fineV": 2.5732914481371543,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.55272017580226e-12,
+          "meanAbsoluteDifferenceV": 1.5434594192865409e-09,
+          "rmsDifferenceV": 5.706442051031727e-08
+        },
+        "v(L1_4_series)": {
+          "maximumDifferenceV": 2.3365680641762587e-05,
+          "timeSeconds": 1.0691622813338467e-06,
+          "coarseV": -0.8778400191099546,
+          "fineV": -0.8778633847905963,
+          "integratedAbsoluteDifferenceVoltSeconds": 3.739592536591568e-12,
+          "meanAbsoluteDifferenceV": 3.7172888037689547e-09,
+          "rmsDifferenceV": 1.5987031675249335e-07
+        },
+        "v(n_CABLE_TAKT)": {
+          "maximumDifferenceV": 2.3439650583267913e-05,
+          "timeSeconds": 1.0691622813338467e-06,
+          "coarseV": -0.8797691155725482,
+          "fineV": -0.8797925552231315,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.28894707409313e-12,
+          "meanAbsoluteDifferenceV": 4.263366872855994e-09,
+          "rmsDifferenceV": 1.6892782985770258e-07
+        },
+        "v(n_CABLE_GND)": {
+          "maximumDifferenceV": 9.008986995739932e-06,
+          "timeSeconds": 0.0001383245965432512,
+          "coarseV": -1.216412010462972,
+          "fineV": -1.2164030014759764,
+          "integratedAbsoluteDifferenceVoltSeconds": 6.574540032685253e-13,
+          "meanAbsoluteDifferenceV": 6.535328064299457e-10,
+          "rmsDifferenceV": 2.8760342670997545e-08
+        },
+        "v(n_CABLE_5V)": {
+          "maximumDifferenceV": 9.008986996406065e-06,
+          "timeSeconds": 0.0001383245965432512,
+          "coarseV": 3.7835879895370272,
+          "fineV": 3.7835969985240236,
+          "integratedAbsoluteDifferenceVoltSeconds": 6.57454001669479e-13,
+          "meanAbsoluteDifferenceV": 6.535328048404363e-10,
+          "rmsDifferenceV": 2.876034267089776e-08
+        },
+        "v(n_CABLE_DATEN)": {
+          "maximumDifferenceV": 2.3439650577272708e-05,
+          "timeSeconds": 1.0691622813338467e-06,
+          "coarseV": -0.8797691155725426,
+          "fineV": -0.8797925552231198,
+          "integratedAbsoluteDifferenceVoltSeconds": 3.7451562108983465e-12,
+          "meanAbsoluteDifferenceV": 3.722819295127581e-09,
+          "rmsDifferenceV": 1.6005915811004436e-07
+        },
+        "i(L1.1)": {
+          "maximumDifferenceV": 2.2402353513140995e-06,
+          "timeSeconds": 0.00013868990742440528,
+          "coarseV": -0.0036536587515486885,
+          "fineV": -0.0036514185161973744,
+          "integratedAbsoluteDifferenceVoltSeconds": 6.417287111229518e-14,
+          "meanAbsoluteDifferenceV": 6.379013033031331e-11,
+          "rmsDifferenceV": 3.828620113319117e-09
+        },
+        "i(L1.2)": {
+          "maximumDifferenceV": 7.000652517463735e-06,
+          "timeSeconds": 1.191958252540369e-06,
+          "coarseV": 1.1936411728201854,
+          "fineV": 1.193634172167668,
+          "integratedAbsoluteDifferenceVoltSeconds": 9.555401324369257e-13,
+          "meanAbsoluteDifferenceV": 9.498410859213974e-10,
+          "rmsDifferenceV": 5.051803852153856e-08
+        },
+        "i(L1.3)": {
+          "maximumDifferenceV": 6.875327229316497e-06,
+          "timeSeconds": 1.488574407120923e-06,
+          "coarseV": -1.5296644693037338,
+          "fineV": -1.529671344630963,
+          "integratedAbsoluteDifferenceVoltSeconds": 9.404907889556905e-13,
+          "meanAbsoluteDifferenceV": 9.348814999559547e-10,
+          "rmsDifferenceV": 4.9609388636890666e-08
+        },
+        "i(L1.4)": {
+          "maximumDifferenceV": 7.974245206047309e-07,
+          "timeSeconds": 0.00013838788570312048,
+          "coarseV": -0.012243196934552402,
+          "fineV": -0.012243994359073007,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.448928818859351e-14,
+          "meanAbsoluteDifferenceV": 4.4223944521464725e-11,
+          "rmsDifferenceV": 2.0466401606048127e-09
+        }
+      },
+      "endSeconds": 0.001006,
+      "busEventsIdentical": true
+    },
+    "abstol": {
+      "signals": {
+        "v(receiver_data)": {
+          "maximumDifferenceV": 2.199771232325176e-05,
+          "timeSeconds": 0.0001382451210844206,
+          "coarseV": 2.824654816737606,
+          "fineV": 2.8246768144499295,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.6113916823173631e-12,
+          "meanAbsoluteDifferenceV": 1.6017809963393272e-09,
+          "rmsDifferenceV": 7.21269413585944e-08
+        },
+        "v(receiver_clock)": {
+          "maximumDifferenceV": 5.792381454283735e-05,
+          "timeSeconds": 0.0001382451210844206,
+          "coarseV": 1.1849359180431902,
+          "fineV": 1.1848779942286474,
+          "integratedAbsoluteDifferenceVoltSeconds": 2.6843768936182274e-12,
+          "meanAbsoluteDifferenceV": 2.6683666934574825e-09,
+          "rmsDifferenceV": 1.3660831516757962e-07
+        },
+        "v(n_D0)": {
+          "maximumDifferenceV": 4.309114802758529e-07,
+          "timeSeconds": 0.0010011411564387386,
+          "coarseV": 3.0234303466274857,
+          "fineV": 3.023430777538966,
+          "integratedAbsoluteDifferenceVoltSeconds": 5.8995574036974e-14,
+          "meanAbsoluteDifferenceV": 5.864371176637575e-11,
+          "rmsDifferenceV": 2.000024611115998e-09
+        },
+        "v(n_D1)": {
+          "maximumDifferenceV": 6.508193206578028e-07,
+          "timeSeconds": 0.0010011411564387386,
+          "coarseV": 2.175055388443962,
+          "fineV": 2.1750560392632825,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.474786386224969e-14,
+          "meanAbsoluteDifferenceV": 4.448097799428399e-11,
+          "rmsDifferenceV": 3.0097297663421615e-09
+        },
+        "v(n_D2)": {
+          "maximumDifferenceV": 6.508193206578028e-07,
+          "timeSeconds": 0.0010011411564387386,
+          "coarseV": 2.175055388443962,
+          "fineV": 2.1750560392632825,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.474786386224969e-14,
+          "meanAbsoluteDifferenceV": 4.448097799428399e-11,
+          "rmsDifferenceV": 3.0097297663421615e-09
+        },
+        "v(n_D3)": {
+          "maximumDifferenceV": 6.508193206578028e-07,
+          "timeSeconds": 0.0010011411564387386,
+          "coarseV": 2.175055388443962,
+          "fineV": 2.1750560392632825,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.4750215845805244e-14,
+          "meanAbsoluteDifferenceV": 4.448331595010462e-11,
+          "rmsDifferenceV": 3.0097300530589467e-09
+        },
+        "v(n_D4)": {
+          "maximumDifferenceV": 0.0,
+          "timeSeconds": 0.0,
+          "coarseV": 0.0,
+          "fineV": 0.0,
+          "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+          "meanAbsoluteDifferenceV": 0.0,
+          "rmsDifferenceV": 0.0
+        },
+        "v(n_D5)": {
+          "maximumDifferenceV": 6.508193206578028e-07,
+          "timeSeconds": 0.0010011411564387386,
+          "coarseV": 2.175055388443962,
+          "fineV": 2.1750560392632825,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.474786386224969e-14,
+          "meanAbsoluteDifferenceV": 4.448097799428399e-11,
+          "rmsDifferenceV": 3.0097297663421615e-09
+        },
+        "v(n_D6)": {
+          "maximumDifferenceV": 3.8499319288121114e-09,
+          "timeSeconds": 0.0010054204961154954,
+          "coarseV": 4.1456214278345795,
+          "fineV": 4.145621423984648,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.2651989991742534e-16,
+          "meanAbsoluteDifferenceV": 4.239760436554924e-13,
+          "rmsDifferenceV": 2.2598715468529577e-11
+        },
+        "v(n_D7)": {
+          "maximumDifferenceV": 6.508193206578028e-07,
+          "timeSeconds": 0.0010011411564387386,
+          "coarseV": 2.175055388443962,
+          "fineV": 2.1750560392632825,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.4750215845805244e-14,
+          "meanAbsoluteDifferenceV": 4.448331595010462e-11,
+          "rmsDifferenceV": 3.0097300530589467e-09
+        },
+        "v(n_p5V)": {
+          "maximumDifferenceV": 1.7673862373612792e-10,
+          "timeSeconds": 0.00013821098598945864,
+          "coarseV": 2.585522514854701,
+          "fineV": 2.5855225146779626,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.353963640531891e-16,
+          "meanAbsoluteDifferenceV": 4.3279956665326955e-13,
+          "rmsDifferenceV": 1.9121787258613427e-12
+        },
+        "i(Vdriver_supply)": {
+          "maximumDifferenceV": 6.127561689994732e-08,
+          "timeSeconds": 0.0001386543221289908,
+          "coarseV": 0.004350587765467363,
+          "fineV": 0.0043506490410842626,
+          "integratedAbsoluteDifferenceVoltSeconds": 8.264438685112052e-15,
+          "meanAbsoluteDifferenceV": 8.21514779832212e-12,
+          "rmsDifferenceV": 6.05851179722167e-11
+        },
+        "v(n_WR_N)": {
+          "maximumDifferenceV": 3.639092582830017e-09,
+          "timeSeconds": 0.0006050010587474999,
+          "coarseV": 4.70732176866625,
+          "fineV": 4.707321772305343,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.5298249605780925e-14,
+          "meanAbsoluteDifferenceV": 1.5207007560418415e-11,
+          "rmsDifferenceV": 3.365504286903119e-11
+        },
+        "v(wr_low)": {
+          "maximumDifferenceV": 0.0,
+          "timeSeconds": 0.0,
+          "coarseV": 0.0,
+          "fineV": 0.0,
+          "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+          "meanAbsoluteDifferenceV": 0.0,
+          "rmsDifferenceV": 0.0
+        },
+        "v(wr_high)": {
+          "maximumDifferenceV": 0.0,
+          "timeSeconds": 0.0,
+          "coarseV": 0.0,
+          "fineV": 0.0,
+          "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+          "meanAbsoluteDifferenceV": 0.0,
+          "rmsDifferenceV": 0.0
+        },
+        "@bwr_low[i]": {
+          "maximumDifferenceV": 0.0,
+          "timeSeconds": 0.0,
+          "coarseV": 0.0,
+          "fineV": 0.0,
+          "integratedAbsoluteDifferenceVoltSeconds": 0.0,
+          "meanAbsoluteDifferenceV": 0.0,
+          "rmsDifferenceV": 0.0
+        },
+        "@bwr_high[i]": {
+          "maximumDifferenceV": 3.499159088974106e-13,
+          "timeSeconds": 0.0006050010587474999,
+          "coarseV": 4.458595606237583e-06,
+          "fineV": 4.458595256321674e-06,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.4661082987706e-18,
+          "meanAbsoluteDifferenceV": 1.4573641140860837e-15,
+          "rmsDifferenceV": 3.231476744712856e-15
+        },
+        "v(n_TA_TAKT)": {
+          "maximumDifferenceV": 5.622701939458907e-05,
+          "timeSeconds": 0.00013822292321171025,
+          "coarseV": 0.18456379541134588,
+          "fineV": 0.1845075683919513,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.0827583042886152e-12,
+          "meanAbsoluteDifferenceV": 1.0763005012809296e-09,
+          "rmsDifferenceV": 8.313980155337126e-08
+        },
+        "v(n_TA_DATEN)": {
+          "maximumDifferenceV": 2.9209168123989215e-05,
+          "timeSeconds": 0.0001382465370422103,
+          "coarseV": 1.5848130637921651,
+          "fineV": 1.5848422729602891,
+          "integratedAbsoluteDifferenceVoltSeconds": 7.357524630864167e-13,
+          "meanAbsoluteDifferenceV": 7.313642774218854e-10,
+          "rmsDifferenceV": 5.164766212917994e-08
+        },
+        "v(L1_1_series)": {
+          "maximumDifferenceV": 4.9747003104446547e-05,
+          "timeSeconds": 0.0001382451210844206,
+          "coarseV": -0.004691515844516426,
+          "fineV": -0.004741262847620872,
+          "integratedAbsoluteDifferenceVoltSeconds": 2.2354437875595927e-12,
+          "meanAbsoluteDifferenceV": 2.2221111208345854e-09,
+          "rmsDifferenceV": 1.166803853085439e-07
+        },
+        "v(L1_2_series)": {
+          "maximumDifferenceV": 1.8453788231471285e-05,
+          "timeSeconds": 0.00013822292321171025,
+          "coarseV": -0.02416679798913916,
+          "fineV": -0.02418525177737063,
+          "integratedAbsoluteDifferenceVoltSeconds": 7.915809516982796e-13,
+          "meanAbsoluteDifferenceV": 7.868597929406359e-10,
+          "rmsDifferenceV": 3.872267383539474e-08
+        },
+        "v(L1_3_series)": {
+          "maximumDifferenceV": 1.8453774501381304e-05,
+          "timeSeconds": 0.00013822292321171025,
+          "coarseV": 2.54863202700209,
+          "fineV": 2.5486135732275885,
+          "integratedAbsoluteDifferenceVoltSeconds": 7.916329168206108e-13,
+          "meanAbsoluteDifferenceV": 7.869114481318199e-10,
+          "rmsDifferenceV": 3.87227070715159e-08
+        },
+        "v(L1_4_series)": {
+          "maximumDifferenceV": 3.332888286378122e-05,
+          "timeSeconds": 0.0001382451210844206,
+          "coarseV": 1.6383222670647688,
+          "fineV": 1.6383555959476326,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.5824509342703784e-12,
+          "meanAbsoluteDifferenceV": 1.5730128571276129e-09,
+          "rmsDifferenceV": 7.982477337752858e-08
+        },
+        "v(n_CABLE_TAKT)": {
+          "maximumDifferenceV": 4.655638439439794e-05,
+          "timeSeconds": 0.0001382451210844206,
+          "coarseV": 0.007055997218407644,
+          "fineV": 0.007009440834013246,
+          "integratedAbsoluteDifferenceVoltSeconds": 2.2305827077598184e-12,
+          "meanAbsoluteDifferenceV": 2.2172790335584678e-09,
+          "rmsDifferenceV": 1.1418985345516043e-07
+        },
+        "v(n_CABLE_GND)": {
+          "maximumDifferenceV": 1.8555747003379253e-05,
+          "timeSeconds": 0.00013822292321171025,
+          "coarseV": -1.247904957861989,
+          "fineV": -1.2479235136089923,
+          "integratedAbsoluteDifferenceVoltSeconds": 7.868137261744863e-13,
+          "meanAbsoluteDifferenceV": 7.821210001734457e-10,
+          "rmsDifferenceV": 3.807384524739031e-08
+        },
+        "v(n_CABLE_5V)": {
+          "maximumDifferenceV": 1.8555747002491074e-05,
+          "timeSeconds": 0.00013822292321171025,
+          "coarseV": 3.7520950421380106,
+          "fineV": 3.752076486391008,
+          "integratedAbsoluteDifferenceVoltSeconds": 7.868137300615623e-13,
+          "meanAbsoluteDifferenceV": 7.821210040373383e-10,
+          "rmsDifferenceV": 3.807384524733566e-08
+        },
+        "v(n_CABLE_DATEN)": {
+          "maximumDifferenceV": 3.3365142471986076e-05,
+          "timeSeconds": 0.0001382451210844206,
+          "coarseV": 1.6467748959128234,
+          "fineV": 1.6468082610552954,
+          "integratedAbsoluteDifferenceVoltSeconds": 1.5893457138747974e-12,
+          "meanAbsoluteDifferenceV": 1.579866514786081e-09,
+          "rmsDifferenceV": 8.0091431852651e-08
+        },
+        "i(L1.1)": {
+          "maximumDifferenceV": 3.190618710052079e-06,
+          "timeSeconds": 0.0001382451210844206,
+          "coarseV": -0.011747513062924068,
+          "fineV": -0.01175070368163412,
+          "integratedAbsoluteDifferenceVoltSeconds": 8.243453747637438e-14,
+          "meanAbsoluteDifferenceV": 8.194288019520316e-11,
+          "rmsDifferenceV": 6.530814800184751e-09
+        },
+        "i(L1.2)": {
+          "maximumDifferenceV": 1.6133889197966766e-06,
+          "timeSeconds": 0.0001382451210844206,
+          "coarseV": 1.2235577870859489,
+          "fineV": 1.2235594004748687,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.3697163501224655e-14,
+          "meanAbsoluteDifferenceV": 4.3436544235809795e-11,
+          "rmsDifferenceV": 3.051754927898799e-09
+        },
+        "i(L1.3)": {
+          "maximumDifferenceV": 1.613489398533119e-06,
+          "timeSeconds": 0.0001382451210844206,
+          "coarseV": -1.2033576451749701,
+          "fineV": -1.2033560316855716,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.369985758272497e-14,
+          "meanAbsoluteDifferenceV": 4.3439222249229594e-11,
+          "rmsDifferenceV": 3.0519711858645865e-09
+        },
+        "i(L1.4)": {
+          "maximumDifferenceV": 6.555595024806547e-07,
+          "timeSeconds": 0.00013868990742440528,
+          "coarseV": -0.0003572040252599184,
+          "fineV": -0.00035785958476239907,
+          "integratedAbsoluteDifferenceVoltSeconds": 4.027601428218915e-14,
+          "meanAbsoluteDifferenceV": 4.0035799485277484e-11,
+          "rmsDifferenceV": 1.993817954760391e-09
+        }
+      },
+      "endSeconds": 0.001006,
+      "busEventsIdentical": true
+    }
+  },
+  "numericallyQualified": false,
+  "electricallyQualified": false,
+  "productionDefaultChangeAuthorized": false,
+  "scope": "Independent tenfold tolerance tightening with unchanged physical model, sampling grid, integration method and precision window. Generator revisions differ only in selective-tolerance support; complete normalized decks and all other runtime/stimulus options are checked. Failed captures cannot establish refinement or full-repeat convergence.",
+  "sources": {
+    "tolerance_controls_review.py": "833042ba8c6754c55210400444071156f491a36e2498a68ebe2b9525b4f2cc13",
+    "live_transition_probe.py": "42be59e7da6eb3f3f0add9d4fdff3d40c71a4906a41a13538d5bed2ca350ec64",
+    "reset_release_driver_review.py": "e496540a023b4a360f99b3b80bf77479e0f396174ea9d3efcb9abdf264c9dcac",
+    "host_waveform_comparison.py": "b1f96a72148a1bebaa25cd2188fc11ee1e5fa7a17f36ce0ff6ab25d4fc53e3a8",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66",
+    "sampling_grid.py": "f99c50ee3e230939547f29e9cc62b07d0ed6cd8d010799857e738d6a4dd4fbfc"
+  }
+}
