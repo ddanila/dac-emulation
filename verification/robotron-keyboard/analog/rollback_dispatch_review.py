@@ -11,6 +11,7 @@ from live_raw_output import raw_deck
 from live_raw_review import compare_trace, signal_name
 from network_refinement_review import events
 from raw_waveform import header
+from raw_pair_review import compare_raw
 from rollback_audit_log import analyze
 from trace_io import open_binary, open_text
 
@@ -26,16 +27,31 @@ def review(root, baseline, build_receipt):
     deck=(baseline/'io.cir').read_text()
     if sha(baseline/'io.cir')!=original['deckSha256']:
         raise ValueError('Changed baseline circuit')
-    expected_deck,writers=raw_deck(deck)
+    raw = original.get('rawOutput', False)
+    if raw:
+        if len(re.findall(r'^run waveform\.raw$',deck,re.M))!=1 or re.search(r'^wrdata\b',deck,re.M):
+            raise ValueError('Expected one direct raw writer')
+        expected_deck,writers=deck,[]
+        storage=original['compressedOutput']
+        if storage.get('error') or sha(baseline/'waveform.raw')!=storage['streams']['waveform.raw']['sha256']:
+            raise ValueError('Changed baseline waveform')
+        with open_text(baseline/'ngspice.log') as stream:baseline_log=stream.read()
+        if diagnostic(baseline_log) or 'SORRY:' in baseline_log:raise ValueError('Baseline diagnostic')
+        count_matches=re.findall(r'No\. of Data Rows\s*:\s*(\d+)',baseline_log)
+        if len(count_matches)!=1:raise ValueError('Missing baseline completion count')
+        baseline_count=int(count_matches[0])
+    else:
+        expected_deck,writers=raw_deck(deck)
     saved=re.findall(r'^\.save (.+)$',deck,re.M)
     if len(saved)!=1 or set(saved[0].split())!=set(original['observationSignals']):
         raise ValueError('Incomplete baseline observation scope')
-    completion=json.loads((baseline/'completion-check.json').read_text())
-    if completion.get('completed') is not True:
-        raise ValueError('Baseline completion is unproven')
-    for name,_ in writers:
-        if sha(baseline/name)!=completion['traces'][name]['sha256']:
-            raise ValueError('Changed baseline waveform')
+    if not raw:
+        completion=json.loads((baseline/'completion-check.json').read_text())
+        if completion.get('completed') is not True:
+            raise ValueError('Baseline completion is unproven')
+        for name,_ in writers:
+            if sha(baseline/name)!=completion['traces'][name]['sha256']:
+                raise ValueError('Changed baseline waveform')
     build=json.loads(build_receipt.read_text())
     receipts={};logs={};counts={};comparisons={}
     for mode in ('off','on'):
@@ -74,6 +90,11 @@ def review(root, baseline, build_receipt):
     if 'ROLLBACK_AUDIT ' in logs['off']:raise ValueError('Disabled control emitted audit records')
     if counts['off']!=counts['on']:raise ValueError('Different complete row counts')
     for mode in ('off','on'):
+        end=original['stopNs']*1e-9
+        if raw:
+            exact=compare_raw(baseline/'waveform.raw',root/mode/'waveform.raw',[baseline_count,counts[mode]],end,exact=True)
+            comparisons[mode]={'waveform.raw':{'samples':exact['samples'],'firstSeconds':0.0,'lastSeconds':end}}
+            continue
         comparisons[mode]={name:compare_trace(root/mode/'waveform.raw',baseline/name,counts[mode]) for name,_ in writers}
         for name,extent in comparisons[mode].items():
             end=original['stopNs']*1e-9
@@ -87,7 +108,7 @@ def review(root, baseline, build_receipt):
         raise ValueError('Audit does not cover the complete waveform')
     return {'waveformsExactlyMatchBaseline':True,'firmwareEvents':reference_events,
             'comparisons':comparisons,'audit':audit,'qualified':False,
-            'boundary':'Complete reset-release callback-order evidence only. Client callbacks do not prove internal HDL advancement or restoration; full-repeat and physical qualification remain separate.'}
+            'boundary':'Complete declared-window callback-order evidence only. Client callbacks do not prove internal HDL advancement or restoration; full-repeat and physical qualification remain separate.'}
 
 
 if __name__=='__main__':
