@@ -16,37 +16,50 @@ from trace_io import open_binary
 from sampling_error_review import build as sampling_review
 
 HERE = Path(__file__).resolve().parent
-BASELINE = HERE / 'reports/startup-grid-density'
+EXPERIMENTS = {
+    'relative': {'baseline': 'startup-grid-density', 'subdirectory': 'dense',
+                 'stem': 'dense-tight-startup2us-', 'baseScale': .1,
+                 'baseComponents': ['reltol'], 'components': ['reltol'],
+                 'baseTolerance': {'reltol': 1e-7}, 'tolerance': {'reltol': 1e-8}},
+    'voltage': {'baseline': 'startup-tight-tolerance', 'subdirectory': '',
+                'stem': 'dense-voltage-startup2us-', 'baseScale': .01,
+                'baseComponents': ['reltol'], 'components': ['reltol', 'vntol'],
+                'baseTolerance': {'vntol': 1e-9}, 'tolerance': {'vntol': 1e-9 * .01}},
+}
 
 
-def validate_pair(base, candidate, base_deck, candidate_deck):
-    for run, scale in ((base, .1), (candidate, .01)):
-        if (run['toleranceScale'] != scale or run['toleranceComponents'] != ['reltol']
+def validate_pair(base, candidate, base_deck, candidate_deck, experiment='relative'):
+    config = EXPERIMENTS[experiment]
+    for run, scale, components in ((base, config['baseScale'], config['baseComponents']),
+                                   (candidate, .01, config['components'])):
+        if (run['toleranceScale'] != scale or run['toleranceComponents'] != components
                 or run['haltNs'] != 2000 or run['stopNs'] != 1006000
                 or not run['dacAnchored'] or run['exitCode'] != 0
                 or run['timedOut'] or run['solverDiagnostic']):
             raise ValueError('Unexpected or failed startup control')
-    ignored = {'elapsedSeconds', 'deckSha256', 'toleranceScale'}
+    ignored = {'elapsedSeconds', 'deckSha256', 'toleranceScale', 'toleranceComponents'}
     if ({k: v for k, v in base.items() if k not in ignored}
             != {k: v for k, v in candidate.items() if k not in ignored}):
         raise ValueError('Changed runtime, grid, stimulus or numerical settings')
-    if normalized(base_deck, {'reltol': 1e-7}) != normalized(candidate_deck, {'reltol': 1e-8}):
-        raise ValueError('Deck changed beyond relative tolerance')
+    if normalized(base_deck, config['baseTolerance']) != normalized(candidate_deck, config['tolerance']):
+        raise ValueError('Deck changed beyond selected tolerance')
 
 
-def retain(root, out):
+def retain(root, out, experiment='relative'):
+    config = EXPERIMENTS[experiment]
+    baseline = HERE / 'reports' / config['baseline']
     out.mkdir(parents=True, exist_ok=False)
-    for name, digest in json.loads((BASELINE / 'manifest.json').read_text()).items():
-        if sha(BASELINE / name) != digest:
+    for name, digest in json.loads((baseline / 'manifest.json').read_text()).items():
+        if sha(baseline / name) != digest:
             raise ValueError('Changed baseline evidence')
     runs = {}
     cases = {}
     for step in STEPS:
-        src = root / ('dense-tight-startup2us-' + step)
-        base = BASELINE / 'dense' / step
+        src = root / (config['stem'] + step)
+        base = baseline / config['subdirectory'] / step
         run = json.loads((src / 'run.json').read_text())
         validate_pair(json.loads((base / 'run.json').read_text()), run,
-                      (base / 'io.cir').read_text(), (src / 'io.cir').read_text())
+                      (base / 'io.cir').read_text(), (src / 'io.cir').read_text(), experiment)
         if run['stepNs'] != float(step):
             raise ValueError('Incorrect refinement level')
         for name, digest in {**run['inputs'], 'io.cir': run['deckSha256'],
@@ -86,15 +99,16 @@ def retain(root, out):
     for step in STEPS:
         signals = runs[step]['observationSignals']
         comparison = compare_samples(*(prefix(rows(p / 'network_witness.txt', signals, float(step)), WINDOW)
-                                       for p in (BASELINE / 'dense' / step, out / step)))
+                                       for p in (baseline / config['subdirectory'] / step, out / step)))
         sensitivity[step] = {'endSeconds': comparison['endSeconds'],
                              'signals': dict(zip(signals, comparison['signals']))}
-    result = {'schema': 1, 'windowSeconds': [0, WINDOW], 'cases': cases,
+    result = {'schema': 1, 'experiment': experiment, 'controlledTolerances': {
+                  'baseline': config['baseTolerance'], 'candidate': config['tolerance']}, 'windowSeconds': [0, WINDOW], 'cases': cases,
               'refinementPairs': pairs, 'diagnosticVoltageGate': voltage_gate(pairs),
               'sameGridToleranceSensitivity': sensitivity,
-              'baselineAssessmentSha256': sha(BASELINE / 'assessment.json'),
+              'baselineAssessmentSha256': sha(baseline / 'assessment.json'),
               'qualified': False,
-              'scope': 'Tenfold relative-tolerance tightening on the same three startup grids and runtime. Comparison covers 0–1.9 us before the 2 us diagnostic halt, with the unchanged 1.006 ms declared horizon. No alignment or acceptance-limit change. This diagnostic cannot qualify reset release, repeat, physical models or production adoption.',
+              'scope': 'Selected tolerance tightening on the same three startup grids and runtime; all other deck options and dependency fingerprints must match. Comparison covers 0–1.9 us before the 2 us diagnostic halt, with the unchanged 1.006 ms declared horizon. No alignment or acceptance-limit change. This diagnostic cannot qualify reset release, repeat, physical models or production adoption.',
               'sources': {n: sha(HERE / n) for n in ('startup_tolerance_review.py', 'startup_grid_review.py',
                           'tolerance_controls_review.py', 'host_waveform_comparison.py',
                           'numerical_voltage_budget.py', 'trace_io.py')}}
@@ -113,5 +127,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--runs', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--experiment', choices=tuple(EXPERIMENTS), default='relative')
     args = parser.parse_args()
-    retain(args.runs, args.out)
+    retain(args.runs, args.out, args.experiment)
