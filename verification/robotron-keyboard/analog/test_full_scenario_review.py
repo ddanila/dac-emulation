@@ -6,6 +6,7 @@ import unittest
 from compare_firmware_io import sha
 from full_scenario_review import review
 from test_raw_pair_review import write
+from io_scenario import contact_source, reset_source
 
 
 def dump(p,v):p.write_text(json.dumps(v))
@@ -15,7 +16,10 @@ def fixture(root):
     scenario={'name':'test','cycles':10,'contacts':[],'resets':[],
               'observations':[{'name':'press','startCycle':0,'endCycle':10,'minimumBits':1}]}
     dump(root/'scenario.json',scenario)
-    (root/'io.cir').write_text('.tran 25n 1010000n\n.save v(x)\n')
+    sources='\n'.join(f'Vcontact{i} contact{i} 0 '+contact_source(scenario,i) for i in range(104))
+    sources+='\nVfixture_reset fixture_reset 0 '+reset_source(scenario)
+    sources+='\nVfixture_clock fixture_clock 0 PULSE(0 5 500n 1n 1n 499n 1u)\n'
+    (root/'io.cir').write_text(sources+'.tran 25n 1010000n\n.save v(x)\n')
     (root/'io.vvp').write_text('hdl');(root/'s600.hex').write_text('00')
     write(root/'waveform.raw',[(0,0),(.00101,1)])
     (root/'waveform.raw.xz').write_bytes(lzma.compress((root/'waveform.raw').read_bytes()))
