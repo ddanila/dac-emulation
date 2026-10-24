@@ -1,0 +1,37 @@
+Robotron reference reset; nominal exploratory semiconductor models
+Vcc n_p5V 0 PWL(0 0 9.9999999999999995e-07 5 3 5 3.0000010000000001 0 4 0 4.0000010000000001 5 7 5)
+.model D_NOMINAL D(IS=1e-14 N=1)
+* SC236D exploratory DC candidate, not a manufacturer SPICE model.
+* Source conditions and DC gain limits: device_limits.json.
+* IS/BF/ISE/NE/IKF approximate the published forward current dependence.
+* VAF remains an assumption. Junction charge, reverse operation, saturation,
+* temperature dependence and specimen variation are not qualified.
+.model NPN_NOMINAL NPN(IS=6.8e-14 BF=240 ISE=2e-13 NE=1.5 IKF=.15 VAF=100 TNOM=25)
+.model PNP_NOMINAL PNP(IS=1e-14 BF=100 VAF=100)
+C1 n_RESET_BASE n_RESET_OUT 220p
+C2 n_RESET_BIAS_LOW n_RESET_OUT 10u
+C4 n_RESET_RC 0 100u
+R3 n_p5V n_RESET_BIAS_LOW 22k
+R4.1 n_p5V n_RESET_DIODE_TOP 220
+R4.2 n_RESET_OUT 0 220
+R5 n_p5V n_RESET_BIAS 10k
+R6.1 n_p5V n_RESET_BASE 1k
+R7 n_RESET_EMITTERS 0 3.3k
+R8 n_RESET_RC 0 47k
+DV1.1 n_RESET_BIAS n_RESET_BIAS_LOW D_NOMINAL
+DV1.2 n_RESET_BIAS_LOW n_RESET_DIODE_TOP D_NOMINAL
+DV2 n_p5V n_RESET_RC D_NOMINAL
+QV3.1 n_p5V n_RESET_RC n_RESET_EMITTERS NPN_NOMINAL
+QV3.2 n_RESET_BASE n_RESET_BIAS n_RESET_EMITTERS NPN_NOMINAL
+QV4.9 n_RESET_OUT n_RESET_BASE n_p5V PNP_NOMINAL
+RBR2 n_RESET_OUT n_RESET_N .001
+Ccpu_reset n_RESET_N 0 4.9999999999999997e-12
+.control
+set numdgt=17
+set wr_singlescale
+set wr_vecnames
+tran 50u 7 0 50u
+wrdata capacitors.txt v(n_p5V) v(n_RESET_BIAS_LOW,n_RESET_OUT) v(n_RESET_RC)
+quit
+.endc
+.end
