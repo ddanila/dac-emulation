@@ -359,7 +359,7 @@ histories and pre-factorization equations. Independent 80/160-digit solves
 separate the initial capacitor rejection from the terminal ill-conditioned
 solve: correcting the logged LTE recurrence alone does not remove rejection.
 Use `live_state_review.py LOG --out REPORT` to recompute the frozen comparison.
-`--filter-trunc-audit` requires the filter-truncation patch on the retained startup-instrumented runtime. It logs timestep reductions and device identities only in 138–138.5 µs; complete disabled/enabled waveform controls are required before interpreting its records.
+`--filter-trunc-audit` requires the filter-truncation patch on the retained startup-instrumented runtime. It logs timestep reductions and device identities only in 138–138.5 µs; complete disabled/enabled waveform controls are required before interpreting its records. [The analysis tool](filter_truncation_review.py) verifies the build ancestry and waveform equivalence before replaying the logged arithmetic.
 
 `--state-audit` requires the supplemental live-state patch; `--mpfr-transition`
 requires the MPFR linear and live-window patches and changes linear arithmetic
