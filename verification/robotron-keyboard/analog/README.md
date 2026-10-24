@@ -486,6 +486,11 @@ preserves every original waveform sample and firmware event exactly. This covers
 the bounded reset-release window; full-repeat execution is deferred pending storage.
 `live_raw_output.py` runs the paired controls; `live_raw_review.py` checks every
 original waveform column and endpoint against the pinned baseline.
+For new captures, `live_transition_probe.py --raw-output --compressed-output
+--network-trace --all-saved-network` uses the same direct-output transformation
+with a raw-pipe-patched runtime. The raw mode rejects diagnostic halts. Preserve
+the complete scenario endpoint when preparing full-repeat runs; this capture
+option does not itself establish scenario coverage or numerical convergence.
 `retain_live_raw.py` retains checked receipts while keeping full compressed captures
 locally; `--check --out reports/live-raw-output` verifies the retained manifest.
 `--all-saved-network` selects every saved observation; `complete_network_review.py --end-seconds` requires the

@@ -9,6 +9,25 @@ from live_capture import run
 
 
 class LiveCaptureTests(unittest.TestCase):
+    def test_direct_raw_stream_preserves_binary_bytes(self):
+        data=bytes(range(256))*32
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            with (root/'log').open('w') as log:
+                code,timeout,error,records=run(
+                    [sys.executable,'-c',f'from pathlib import Path; Path("waveform.raw").write_bytes({data!r})'],
+                    root,os.environ.copy(),log,10,'set filetype=binary\nrun waveform.raw\n',compressed=True)
+            self.assertEqual((code,timeout,error),(0,False,None))
+            self.assertEqual(lzma.decompress((root/'waveform.raw.xz').read_bytes()),data)
+            self.assertEqual(records['waveform.raw']['sha256'],hashlib.sha256(data).hexdigest())
+
+    def test_rejects_mixed_or_uncompressed_raw_outputs(self):
+        for deck,compressed in [('run waveform.raw\nwrdata a v(a)\n',True),
+                                ('run waveform.raw\n',False),('run other.raw\n',True)]:
+            with self.subTest(deck=deck),tempfile.TemporaryDirectory() as d:
+                with (Path(d)/'log').open('w') as log,self.assertRaises(ValueError):
+                    run([],Path(d),{},log,10,deck,compressed=compressed)
+
     def execute(self, root, script, timeout=10, compressed=True):
         with (root / 'log').open('w') as log:
             return run([sys.executable, '-c', script], root, os.environ.copy(), log,
