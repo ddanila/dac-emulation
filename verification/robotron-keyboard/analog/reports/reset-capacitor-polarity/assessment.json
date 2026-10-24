@@ -1,0 +1,737 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Signed reset-capacitor voltage diagnostic using the retained source-variant circuits.",
+  "connectivitySha256": "68ce8ebda5a03cb5d5339b78b2e964ed3c2b2fdfee379f77029d9f38e128aa25",
+  "pins": {
+    "C2": {
+      "1": "/RESET_BIAS_LOW",
+      "2": "/RESET_OUT"
+    },
+    "C4": {
+      "1": "/RESET_RC",
+      "2": "/GND"
+    }
+  },
+  "runtime": {
+    "executableSha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511",
+    "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n******\n"
+  },
+  "sources": {
+    "reset_capacitor_polarity.py": "bccff2e51064eb172aed2170161d0b59e390ad82a89999f7bd247eb09c03d19f",
+    "circuit.py": "42b9e4db6095b95a1a79b58efdc92d4f047aa13e752333234377142e2d082f87",
+    "reports/reset-capacitance/generic/assessment.json": "2a8a225ab3fcc043bb69b4d7e67ad93b85a9ac77d8c5385e7fc96911727e62aa",
+    "reports/reset-capacitance/generic/zander/closed-50us/reset.cir": "45c4d66f3586dc38b6170234aa2e07af31cbb0c90d1dddcf70d4f29183f5b961",
+    "reports/reset-capacitance/generic/factory/closed-50us/reset.cir": "c489e1c21f5328c26fa4c54f7ce2e3ec6f2686679261e6d0016c7368173fac0f",
+    "reports/reset-capacitance/sc236-dc/assessment.json": "10278aac478ae32880dd05bfbacf3d71344a64aff7d16a2e144b5b60b330664a",
+    "reports/reset-capacitance/sc236-dc/zander/closed-50us/reset.cir": "9a7227a0df26ea79e27ac1b4e6a3b3ba1db029ff5743d459c98988934a286eed",
+    "reports/reset-capacitance/sc236-dc/factory/closed-50us/reset.cir": "c611895f3987167d0afde05e51b2ead8c48257113b1d56370120b8645457da39"
+  },
+  "runs": [
+    {
+      "profile": "generic",
+      "c4Variant": "zander",
+      "stepUs": 50,
+      "directory": "generic/zander/50us",
+      "observations": {
+        "C2": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 2.977123823834323e-27,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 3.79579335887552,
+            "maximumAtSeconds": 0.12485550763871607,
+            "sampleCount": 60063
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.0012783200485069258,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 0.11512183215177606,
+            "maximumAtSeconds": 3.0000011031500224,
+            "sampleCount": 20030
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.0012783200485069258,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 3.795787088022654,
+            "maximumAtSeconds": 4.1248349292447335,
+            "sampleCount": 60051
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11511243897106738,
+            "minimumAtSeconds": 2.9899723163542076,
+            "maximumVoltsPin1MinusPin2": 0.11512329491535667,
+            "maximumAtSeconds": 2.5000223163553494,
+            "sampleCount": 9800
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11511237904627691,
+            "minimumAtSeconds": 7.0,
+            "maximumVoltsPin1MinusPin2": 0.1151232893436287,
+            "maximumAtSeconds": 6.500018063056023,
+            "sampleCount": 10001
+          }
+        },
+        "C4": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 1.4933721668019543e-26,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 4.406108390638964,
+            "maximumAtSeconds": 2.4798723163553964,
+            "sampleCount": 60063
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.06395146546816831,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 4.4061083906389,
+            "maximumAtSeconds": 3.0,
+            "sampleCount": 20030
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.06395145395866002,
+            "minimumAtSeconds": 4.0000001,
+            "maximumVoltsPin1MinusPin2": 4.406108390638945,
+            "maximumAtSeconds": 5.250968063058934,
+            "sampleCount": 60051
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 4.4061083906389,
+            "minimumAtSeconds": 2.9677723163542593,
+            "maximumVoltsPin1MinusPin2": 4.406108390638964,
+            "maximumAtSeconds": 2.5000223163553494,
+            "sampleCount": 9800
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 4.406108390638912,
+            "minimumAtSeconds": 6.687968063055585,
+            "maximumVoltsPin1MinusPin2": 4.4061083906389165,
+            "maximumAtSeconds": 6.755318063055428,
+            "sampleCount": 10001
+          }
+        }
+      },
+      "artifacts": {
+        "reset.cir": "76f72e1bd3fe11f1156401029eaf424a154ab101301cd6b4d782c9c3cbf2210b",
+        "ngspice.log": "86053a5ea6a50bee89f3ed910adbd7daf0c29dbbd000f29ede0a2fb44ef7c402",
+        "capacitors.txt": "b7ffa5b0407330f57def19a462adea00447af6e844bf3e44a843a7da6fbf9fad",
+        "capacitors.txt.gz": "630cdff265115e831f0d02a5de769867e70de012ce3ec146bd755775ecc0b208"
+      }
+    },
+    {
+      "profile": "generic",
+      "c4Variant": "zander",
+      "stepUs": 25,
+      "directory": "generic/zander/25us",
+      "observations": {
+        "C2": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 2.977123823834323e-27,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 3.7957994957785006,
+            "maximumAtSeconds": 0.12485614946942797,
+            "sampleCount": 120071
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.001278320052067447,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 0.11512183082507141,
+            "maximumAtSeconds": 3.000001103150412,
+            "sampleCount": 40029
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.001278320052067447,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 3.795795994079932,
+            "maximumAtSeconds": 4.124836091810446,
+            "sampleCount": 120049
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11511243762458445,
+            "minimumAtSeconds": 2.989976282830973,
+            "maximumVoltsPin1MinusPin2": 0.11512329550944234,
+            "maximumAtSeconds": 2.5000012828321148,
+            "sampleCount": 19600
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11511238085921871,
+            "minimumAtSeconds": 7.0,
+            "maximumVoltsPin1MinusPin2": 0.11512329592083237,
+            "maximumAtSeconds": 6.500018774621538,
+            "sampleCount": 20001
+          }
+        },
+        "C4": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 1.4933721668019543e-26,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 4.4061083906389396,
+            "maximumAtSeconds": 1.305701282834898,
+            "sampleCount": 120071
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.06395220938955277,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 4.406108390638924,
+            "maximumAtSeconds": 3.0,
+            "sampleCount": 40029
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.06395219787982588,
+            "minimumAtSeconds": 4.0000001,
+            "maximumVoltsPin1MinusPin2": 4.40610839063893,
+            "maximumAtSeconds": 5.974918774622762,
+            "sampleCount": 120049
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 4.40610839063892,
+            "minimumAtSeconds": 2.6073512828318646,
+            "maximumVoltsPin1MinusPin2": 4.406108390638924,
+            "maximumAtSeconds": 2.8626262828312696,
+            "sampleCount": 19600
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 4.4061083906389005,
+            "minimumAtSeconds": 6.58926877462133,
+            "maximumVoltsPin1MinusPin2": 4.4061083906389165,
+            "maximumAtSeconds": 6.796168774620848,
+            "sampleCount": 20001
+          }
+        }
+      },
+      "artifacts": {
+        "reset.cir": "add7bc27bdd60817a665da84e3d55e2824b7d07104b4770170aa3938d39e95fb",
+        "ngspice.log": "fc5b05ddb43c25fff10be071f51e37035ce3fc0289f7590aa0cc3815ee98b5da",
+        "capacitors.txt": "2f4b70074ddf2bfe9a1915a6424b0cc3c637c6a5cab4134f5f9b838dd1c4a316",
+        "capacitors.txt.gz": "ce463159ccebfd295a91755e8e74275d4c33c96cfe58cb7a14b36c3360bc283b"
+      }
+    },
+    {
+      "profile": "generic",
+      "c4Variant": "factory",
+      "stepUs": 50,
+      "directory": "generic/factory/50us",
+      "observations": {
+        "C2": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 2.977123823834323e-27,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 3.79491264120356,
+            "maximumAtSeconds": 0.12477589507753255,
+            "sampleCount": 60050
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.0012783213705208384,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 0.11512195045803053,
+            "maximumAtSeconds": 3.0000011046016644,
+            "sampleCount": 20030
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.0012783213705208384,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 3.794944042540912,
+            "maximumAtSeconds": 4.124759375623381,
+            "sampleCount": 60057
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11511243711866026,
+            "minimumAtSeconds": 2.9899504340804675,
+            "maximumVoltsPin1MinusPin2": 0.11512329075387928,
+            "maximumAtSeconds": 2.5000004340816093,
+            "sampleCount": 9800
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11511237750142822,
+            "minimumAtSeconds": 7.0,
+            "maximumVoltsPin1MinusPin2": 0.11512328128271676,
+            "maximumAtSeconds": 6.500013544806959,
+            "sampleCount": 10001
+          }
+        },
+        "C4": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 1.4933721668019543e-26,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 4.406108390637946,
+            "maximumAtSeconds": 2.380350434081888,
+            "sampleCount": 60050
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.43463295502886207,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 4.406108390637942,
+            "maximumAtSeconds": 3.0,
+            "sampleCount": 20030
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.4346329457798089,
+            "minimumAtSeconds": 4.0000001,
+            "maximumVoltsPin1MinusPin2": 4.406108390638364,
+            "maximumAtSeconds": 5.022413544810402,
+            "sampleCount": 60057
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 4.406108390637943,
+            "minimumAtSeconds": 2.8119504340808823,
+            "maximumVoltsPin1MinusPin2": 4.406108390637946,
+            "maximumAtSeconds": 2.5000004340816093,
+            "sampleCount": 9800
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 4.406108390638357,
+            "minimumAtSeconds": 6.500013544806959,
+            "maximumVoltsPin1MinusPin2": 4.4061083906383605,
+            "maximumAtSeconds": 7.0,
+            "sampleCount": 10001
+          }
+        }
+      },
+      "artifacts": {
+        "reset.cir": "e3af698f236efd1f8cdfc505926ce1d45c82298c64aa71a6b9b14a2f9e6e5967",
+        "ngspice.log": "98312ea797cb4c64a565c829bfcce61a7fef2de9e10c7ce607a4a22d916ea4c8",
+        "capacitors.txt": "876a5489edb8112b43d43a8f3547e72ff69126b49b0e330dbdf98c5b05a064af",
+        "capacitors.txt.gz": "ef62f9bc1e02d043c0712c1d47cf5419ae27a6c69fc8d343616ea8f4b3debb71"
+      }
+    },
+    {
+      "profile": "generic",
+      "c4Variant": "factory",
+      "stepUs": 25,
+      "directory": "generic/factory/25us",
+      "observations": {
+        "C2": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 2.977123823834323e-27,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 3.7949441535558384,
+            "maximumAtSeconds": 0.12477920917146687,
+            "sampleCount": 120057
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.0012783214080819127,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 0.11512195219260153,
+            "maximumAtSeconds": 3.0000011046019965,
+            "sampleCount": 40029
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.0012783214080819127,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 3.7949544408315923,
+            "maximumAtSeconds": 4.124760308720164,
+            "sampleCount": 120058
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11511243860952725,
+            "minimumAtSeconds": 2.9899929878265707,
+            "maximumVoltsPin1MinusPin2": 0.11512329320346293,
+            "maximumAtSeconds": 2.5000179878277127,
+            "sampleCount": 19600
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11511237835122134,
+            "minimumAtSeconds": 7.0,
+            "maximumVoltsPin1MinusPin2": 0.11512328946032824,
+            "maximumAtSeconds": 6.500011537607606,
+            "sampleCount": 20001
+          }
+        },
+        "C4": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 1.4933721668019543e-26,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 4.406108390638133,
+            "maximumAtSeconds": 0.7137429878306043,
+            "sampleCount": 120057
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.43463348040599364,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 4.406108390638131,
+            "maximumAtSeconds": 3.0,
+            "sampleCount": 40029
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.43463347115692924,
+            "minimumAtSeconds": 4.0000001,
+            "maximumVoltsPin1MinusPin2": 4.406108390638731,
+            "maximumAtSeconds": 5.030686537611031,
+            "sampleCount": 120058
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 4.40610839063813,
+            "minimumAtSeconds": 2.899292987826782,
+            "maximumVoltsPin1MinusPin2": 4.406108390638133,
+            "maximumAtSeconds": 2.5000179878277127,
+            "sampleCount": 19600
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 4.406108390638727,
+            "minimumAtSeconds": 7.0,
+            "maximumVoltsPin1MinusPin2": 4.40610839063873,
+            "maximumAtSeconds": 6.500011537607606,
+            "sampleCount": 20001
+          }
+        }
+      },
+      "artifacts": {
+        "reset.cir": "c7bd946d9aa1776c5c785835e9dfe4ee398fda7fd06c596392662c02aa7127cf",
+        "ngspice.log": "34c303791ee8526c1713c9ee2658122b8cedc8bfa69922e17bbd3439badb9962",
+        "capacitors.txt": "6e442085b865c404a02d3af23096677e5adbfb9fe32aec64ff1259e5bf2c5760",
+        "capacitors.txt.gz": "42559a85f95377e2135e98355f4c0c11a4513a46f94c5e70594a44b045fac7ed"
+      }
+    },
+    {
+      "profile": "sc236-dc",
+      "c4Variant": "zander",
+      "stepUs": 50,
+      "directory": "sc236-dc/zander/50us",
+      "observations": {
+        "C2": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": -9.446117687892377e-26,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 3.794089554494267,
+            "maximumAtSeconds": 0.12464869010344935,
+            "sampleCount": 60071
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.0012760990833869824,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 0.1149218204748643,
+            "maximumAtSeconds": 3.0000010610609285,
+            "sampleCount": 20031
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.0012760990833869824,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 3.793993944807181,
+            "maximumAtSeconds": 4.124619687756038,
+            "sampleCount": 60029
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 0.1149128825116339,
+            "minimumAtSeconds": 2.9899508071302336,
+            "maximumVoltsPin1MinusPin2": 0.11492372929173023,
+            "maximumAtSeconds": 2.5000008071313755,
+            "sampleCount": 9800
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 0.1149128219148432,
+            "minimumAtSeconds": 7.0,
+            "maximumVoltsPin1MinusPin2": 0.11492371298805892,
+            "maximumAtSeconds": 6.500011749730761,
+            "sampleCount": 10001
+          }
+        },
+        "C4": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 1.7688505887721618e-22,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 4.406108343783565,
+            "maximumAtSeconds": 2.3497508071317257,
+            "sampleCount": 60071
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.05667892888643203,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 4.4061083437835205,
+            "maximumAtSeconds": 3.0,
+            "sampleCount": 20031
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.05667891960518849,
+            "minimumAtSeconds": 4.0000001,
+            "maximumVoltsPin1MinusPin2": 4.406108343783563,
+            "maximumAtSeconds": 5.909461749732137,
+            "sampleCount": 60029
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 4.406108343783499,
+            "minimumAtSeconds": 2.9669008071302874,
+            "maximumVoltsPin1MinusPin2": 4.406108343783563,
+            "maximumAtSeconds": 2.585550807131176,
+            "sampleCount": 9800
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 4.406108343783524,
+            "minimumAtSeconds": 6.500061749730761,
+            "maximumVoltsPin1MinusPin2": 4.406108343783553,
+            "maximumAtSeconds": 6.835361749729979,
+            "sampleCount": 10001
+          }
+        }
+      },
+      "artifacts": {
+        "reset.cir": "fe7f044d4a63dd42e0f317d58096b8274f979963dd5439336f7b7c0f8adbae53",
+        "ngspice.log": "72b11bcbe174ef479c26f18739ef8718a080070231d50847953d7994caff9e7b",
+        "capacitors.txt": "1c4cabe2f8a218d54ff261f008f7b38958e3004ecbf49c57ea0cfb74eb4d7d21",
+        "capacitors.txt.gz": "708f7ba3ab68cd61d1bfe55465d26e3234614dc5d451e3b43c3bc8ed0c1ed529"
+      }
+    },
+    {
+      "profile": "sc236-dc",
+      "c4Variant": "zander",
+      "stepUs": 25,
+      "directory": "sc236-dc/zander/25us",
+      "observations": {
+        "C2": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": -9.446117687892377e-26,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 3.794090576995635,
+            "maximumAtSeconds": 0.12464872483559919,
+            "sampleCount": 120067
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.001276099103749808,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 0.11492182067608381,
+            "maximumAtSeconds": 3.0000010610609538,
+            "sampleCount": 40030
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.001276099103749808,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 3.79408597794105,
+            "maximumAtSeconds": 4.124628471027411,
+            "sampleCount": 120040
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 0.1149128824807244,
+            "minimumAtSeconds": 2.9899909497691173,
+            "maximumVoltsPin1MinusPin2": 0.11492372995991573,
+            "maximumAtSeconds": 2.500015949770259,
+            "sampleCount": 19600
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11491282530532487,
+            "minimumAtSeconds": 7.0,
+            "maximumVoltsPin1MinusPin2": 0.11492373086458318,
+            "maximumAtSeconds": 6.500014488735265,
+            "sampleCount": 20001
+          }
+        },
+        "C4": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 1.7688505887721618e-22,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 4.4061083437836,
+            "maximumAtSeconds": 2.994315949769107,
+            "sampleCount": 120067
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.05667958313101756,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 4.4061083437835915,
+            "maximumAtSeconds": 3.0,
+            "sampleCount": 40030
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.05667957384956455,
+            "minimumAtSeconds": 4.0000001,
+            "maximumVoltsPin1MinusPin2": 4.406108343783602,
+            "maximumAtSeconds": 6.678914488734848,
+            "sampleCount": 120040
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 4.4061083437835045,
+            "minimumAtSeconds": 2.703940949769784,
+            "maximumVoltsPin1MinusPin2": 4.40610834378358,
+            "maximumAtSeconds": 2.6157659497699894,
+            "sampleCount": 19600
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 4.406108343783483,
+            "minimumAtSeconds": 6.926489488734271,
+            "maximumVoltsPin1MinusPin2": 4.406108343783602,
+            "maximumAtSeconds": 6.678914488734848,
+            "sampleCount": 20001
+          }
+        }
+      },
+      "artifacts": {
+        "reset.cir": "3d2acf5a6e6c0dc3cc02504d2fce65e48d03c02d761a24b666a6fd0714a9b240",
+        "ngspice.log": "ed685216a93d8581a2873aa85090bb1153761451da883f5111e50a3e1c91420e",
+        "capacitors.txt": "ce0e7d230a29957804b79280b2e85f8a9fa67c7b5d72c58914308f826968f215",
+        "capacitors.txt.gz": "454bb37c055edf83716f61ee1301fbfba6c90979b314fc7f708e2473c884bc85"
+      }
+    },
+    {
+      "profile": "sc236-dc",
+      "c4Variant": "factory",
+      "stepUs": 50,
+      "directory": "sc236-dc/factory/50us",
+      "observations": {
+        "C2": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": -9.446117687892377e-26,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 3.7935264245106843,
+            "maximumAtSeconds": 0.12459854330913246,
+            "sampleCount": 60073
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.0012761062014614059,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 0.11492245838292453,
+            "maximumAtSeconds": 3.000001101730935,
+            "sampleCount": 20030
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.0012761062014614059,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 3.7935289351040025,
+            "maximumAtSeconds": 4.124578922429184,
+            "sampleCount": 60047
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11491288132565547,
+            "minimumAtSeconds": 2.989972286195288,
+            "maximumVoltsPin1MinusPin2": 0.114923719669072,
+            "maximumAtSeconds": 2.50002228619643,
+            "sampleCount": 9800
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11491282708114525,
+            "minimumAtSeconds": 7.0,
+            "maximumVoltsPin1MinusPin2": 0.11492373075377849,
+            "maximumAtSeconds": 6.500001681454561,
+            "sampleCount": 10001
+          }
+        },
+        "C4": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 1.7688505887721618e-22,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 4.406108343783494,
+            "maximumAtSeconds": 1.6706222861969005,
+            "sampleCount": 60073
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.3856831189422648,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 4.406108343783473,
+            "maximumAtSeconds": 3.0,
+            "sampleCount": 20030
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.3856831107332022,
+            "minimumAtSeconds": 4.0000001,
+            "maximumVoltsPin1MinusPin2": 4.406108343783399,
+            "maximumAtSeconds": 6.996651681453404,
+            "sampleCount": 60047
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 4.406108343783472,
+            "minimumAtSeconds": 2.5410222861963345,
+            "maximumVoltsPin1MinusPin2": 4.406108343783475,
+            "maximumAtSeconds": 2.5705722861962657,
+            "sampleCount": 9800
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 4.406108343783319,
+            "minimumAtSeconds": 6.814251681453829,
+            "maximumVoltsPin1MinusPin2": 4.406108343783399,
+            "maximumAtSeconds": 6.996651681453404,
+            "sampleCount": 10001
+          }
+        }
+      },
+      "artifacts": {
+        "reset.cir": "6afdb8432f95e3443943291d18ddc08c7400793b5d8d425e190d84fc4bdb7195",
+        "ngspice.log": "aca4d7a91cabb874f62dbc879d73cb7d3e96ae5ccede1c9c14b8e33e93050c64",
+        "capacitors.txt": "e5aebe76d2f096fba15cb076a522f23672978fe3f19b43a75173403377f7522c",
+        "capacitors.txt.gz": "4cbc186180f17e28a24d1ed32fe953701a095e0bd7132cef5a144c05d5698685"
+      }
+    },
+    {
+      "profile": "sc236-dc",
+      "c4Variant": "factory",
+      "stepUs": 25,
+      "directory": "sc236-dc/factory/25us",
+      "observations": {
+        "C2": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": -9.446117687892377e-26,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 3.793536295885586,
+            "maximumAtSeconds": 0.12459946158016502,
+            "sampleCount": 120064
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.0012761062332313875,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 0.11492245959988193,
+            "maximumAtSeconds": 3.0000011017309998,
+            "sampleCount": 40029
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.0012761062332313875,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 3.7935315333717288,
+            "maximumAtSeconds": 4.124579157827405,
+            "sampleCount": 120055
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 0.11491288254131149,
+            "minimumAtSeconds": 2.989978632189894,
+            "maximumVoltsPin1MinusPin2": 0.11492372866152234,
+            "maximumAtSeconds": 2.500003632191036,
+            "sampleCount": 19600
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 0.1149128232545884,
+            "minimumAtSeconds": 7.0,
+            "maximumVoltsPin1MinusPin2": 0.11492372522053085,
+            "maximumAtSeconds": 6.500024006952957,
+            "sampleCount": 20001
+          }
+        },
+        "C4": {
+          "startup": {
+            "minimumVoltsPin1MinusPin2": 1.7688505887721618e-22,
+            "minimumAtSeconds": 0.0,
+            "maximumVoltsPin1MinusPin2": 4.406108343785082,
+            "maximumAtSeconds": 1.7820036321927093,
+            "sampleCount": 120064
+          },
+          "power-off": {
+            "minimumVoltsPin1MinusPin2": 0.3856835859695949,
+            "minimumAtSeconds": 4.0,
+            "maximumVoltsPin1MinusPin2": 4.4061083437850606,
+            "maximumAtSeconds": 3.0,
+            "sampleCount": 40029
+          },
+          "recovery": {
+            "minimumVoltsPin1MinusPin2": 0.38568357776052226,
+            "minimumAtSeconds": 4.0000001,
+            "maximumVoltsPin1MinusPin2": 4.406108343783446,
+            "maximumAtSeconds": 5.632849006954978,
+            "sampleCount": 120055
+          },
+          "first-steady": {
+            "minimumVoltsPin1MinusPin2": 4.406108343785035,
+            "minimumAtSeconds": 2.5812786321908465,
+            "maximumVoltsPin1MinusPin2": 4.4061083437850685,
+            "maximumAtSeconds": 2.7103286321905458,
+            "sampleCount": 19600
+          },
+          "recovered-steady": {
+            "minimumVoltsPin1MinusPin2": 4.40610834378344,
+            "minimumAtSeconds": 6.793749006952273,
+            "maximumVoltsPin1MinusPin2": 4.406108343783446,
+            "maximumAtSeconds": 7.0,
+            "sampleCount": 20001
+          }
+        }
+      },
+      "artifacts": {
+        "reset.cir": "99138921d945cb5639f69c96a58c2e2219f5119b1dc803c22621f7c7254f25db",
+        "ngspice.log": "4f2789d56cb61015c74e91dc849a356364d4afaee261c6b31bd0d010706b9ad8",
+        "capacitors.txt": "fd282ab75b6cb8285499df38adc6169f44aacdde1a8e108a3cf265849d171df1",
+        "capacitors.txt.gz": "ed67a117b62c1597bc50b2e2f810dc281d1411ce610242556a564ef6fde5fb1a"
+      }
+    }
+  ],
+  "boundary": "Isolated reset with ideal R/C, ideal 5 V supply ramps and exploratory semiconductor profiles. Sampled signed voltages do not establish installed polarity, allowable reverse voltage, capacitor leakage/ESR or full-board electrical qualification."
+}
