@@ -54,6 +54,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_filter_truncation_audit.py
           python3 verification/robotron-keyboard/analog/test_filter_truncation_log.py
           python3 verification/robotron-keyboard/analog/test_filter_truncation_review.py
+          python3 verification/robotron-keyboard/analog/test_charge_history_sensitivity.py
           python3 verification/robotron-keyboard/analog/test_transient_error_control.py
           python3 verification/robotron-keyboard/analog/test_startup_truncation_review.py
           python3 verification/robotron-keyboard/analog/test_startup_truncation_log.py
@@ -242,6 +243,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/startup-truncation --check
           python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/dense-anchored-refinement --check
           python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/filter-truncation --check
+          python3 verification/robotron-keyboard/analog/fixture_grid_review.py --out verification/robotron-keyboard/analog/reports/filter-charge-history --check
           python3 verification/robotron-keyboard/analog/reset_probe.py
           python3 verification/robotron-keyboard/analog/reset_probe.py --reset-load reference-capacitance --npn-profile sc236-dc --supply-stimulus verification/robotron-keyboard/analog/supply-stimuli/brownout.json --stop-seconds .127 --out build/keyboard-controller-analog/reset-brownout
       - name: SC236D candidate DC limits and reset integration
