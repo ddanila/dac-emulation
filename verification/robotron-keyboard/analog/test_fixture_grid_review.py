@@ -2,7 +2,9 @@ import unittest
 from fixture_grid_review import validate_receipts, bus_if_complete, validate_nested_inputs
 from local_refinement_grid import grids
 from sampling_grid import add_sampling_grid
-import copy
+import copy,json
+from pathlib import Path
+from fixture_grid_review import validate_anchor_build
 
 class MatchedControls(unittest.TestCase):
  def receipts(self,experiment):
@@ -38,6 +40,23 @@ class MatchedControls(unittest.TestCase):
   validate_receipts(runs,'nested-local')
   runs['control']['mpfrStartNs']=1
   with self.assertRaises(ValueError):validate_receipts(runs,'nested-local')
+ def test_anchored_receipts_allow_only_declared_flag_and_grid(self):
+  root=Path(__file__).resolve().parent/'reports/dac-anchored-startup'
+  runs={name:json.loads((root/('disabled' if name=='control' else name)/'run.json').read_text()) for name in ('control','25','12.5','6.25')}
+  for run in runs.values():run['haltNs']=None
+  validate_receipts(runs,'dac-anchored')
+  for field,value in [('dacAnchored',False),('haltNs',12),('dacStateAudit',True),('inputs',{}),('runtime',{})]:
+   bad=copy.deepcopy(runs);bad['6.25'][field]=value
+   with self.assertRaises(ValueError):validate_receipts(bad,'dac-anchored')
+ def test_anchored_build_fingerprints(self):
+  root=Path(__file__).resolve().parent/'reports/dac-anchored-startup'
+  run=json.loads((root/'25/run.json').read_text());build=json.loads((root/'build.json').read_text())
+  validate_anchor_build(run,build)
+  for key in ('digital.cm','spinit'):
+   bad=copy.deepcopy(build);bad['outputs'][key]='changed'
+   with self.assertRaises(ValueError):validate_anchor_build(run,bad)
+  bad=copy.deepcopy(build);bad['dacAnchorHeaderSha256']='changed'
+  with self.assertRaises(ValueError):validate_anchor_build(run,bad)
  def test_incomplete_capture_does_not_require_bus_reads(self):
   self.assertIsNone(bus_if_complete('run simulation(s) aborted',False))
   with self.assertRaises(ValueError):bus_if_complete('No bus observations',True)
