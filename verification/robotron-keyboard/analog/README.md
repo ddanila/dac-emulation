@@ -322,8 +322,9 @@ priority-1 irreversible client is dispatched last. Duplicate priority warns but
 does not reject registration; it must not be treated as a qualified configuration.
 `ngspice-47-rollback-audit.patch` adds opt-in accepted/rejected-step and
 irreversible-client dispatch logging. `live_raw_output.py --rollback-audit` pairs
-complete logging-disabled/enabled captures; require identical samples before
-interpreting `rollback_audit_log.py` results. Callback ordering alone does not
+complete logging-disabled/enabled captures. `rollback_dispatch_review.py` requires
+identical samples, firmware events and complete audit coverage before interpreting
+`rollback_audit_log.py` results. Callback ordering alone does not
 establish internal HDL rollback.
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
 startup timed out. Neither result establishes complete electrical acceptance.
