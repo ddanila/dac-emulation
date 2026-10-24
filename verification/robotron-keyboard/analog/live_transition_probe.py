@@ -13,6 +13,11 @@ from network_trace import observe_network, PHYSICAL_SIGNALS
 from io_scenario import load as load_scenario
 from live_capture import run as run_capture
 
+def initial_environment(inherited):
+ env={key:value for key,value in inherited.items() if not key.startswith('ROBOTRON_')}
+ env['ROBOTRON_EVAL_CACHE']='off'
+ return env
+
 def live_diagnostic(log):
  # Icarus can abort HDL initialization with SORRY while ngspice still exits zero.
  diagnostic=solver_diagnostic(log)
@@ -53,9 +58,8 @@ def main():
   scenario=load_scenario(a.prepared/'scenario.json')
   a.stop_ns=endpoint_ns((a.prepared/'io.cir').read_text(),scenario,a.stop_ns)
  generator_sha=sha(Path(__file__))
- runtime,env=identify(a.ngspice,a.spinit);env['ROBOTRON_EVAL_CACHE']='off'
+ runtime,env=identify(a.ngspice,a.spinit);env=initial_environment(env)
  dependencies=external_dependencies(a.prepared,{'deck':'io.cir','inputs':['io.vvp','s600.hex']})
- for key in ('ROBOTRON_FILTER_TRUNC_AUDIT','ROBOTRON_STARTUP_TRUNC_AUDIT','ROBOTRON_DAC_ANCHORED','ROBOTRON_DAC_STATE_AUDIT','ROBOTRON_LIVE_AUDIT','ROBOTRON_LIVE_EVENTS','ROBOTRON_DAC_BREAKPOINTS','ROBOTRON_STATE_AUDIT','ROBOTRON_MPFR_BITS','ROBOTRON_MPFR_TRANSITION_ONLY','ROBOTRON_MPFR_START','ROBOTRON_SWITCH_AUDIT','ROBOTRON_CAP_ASSEMBLY','ROBOTRON_INDUCTOR_MONITOR','ROBOTRON_POSTCAP_ASSEMBLY','ROBOTRON_ADC_CROSSINGS'):env.pop(key,None)
  if a.filter_trunc_audit:env['ROBOTRON_FILTER_TRUNC_AUDIT']='1'
  if a.startup_trunc_audit:env['ROBOTRON_STARTUP_TRUNC_AUDIT']='1'
  if a.adc_crossings:env['ROBOTRON_ADC_CROSSINGS']='1'
@@ -135,6 +139,7 @@ def main():
  result={'truncationTolerance':a.truncation_tolerance,'filterTruncAudit':a.filter_trunc_audit,'startupTruncAudit':a.startup_trunc_audit,'dacAnchored':a.dac_anchored,'haltNs':a.halt_ns,'dacStateAudit':a.dac_state_audit,'toleranceComponents':a.tolerance_components,'samplingGridSha256':sampling_hash,'externalDependencies':dependencies,'observationSignals':observation_signals,'exitCode':code,'timedOut':timedout,'elapsedSeconds':time.monotonic()-start,'runtime':runtime,'enabled':a.dac_corners,'adcCrossings':a.adc_crossings,'audit':a.audit,'stateAudit':a.state_audit,'switchAudit':a.switch_audit,'conservativeCap':a.conservative_cap,'capPairedRhs':a.cap_paired_rhs,'inductorMonitor':a.inductor_monitor,'passiveAssembly':a.passive_assembly,'physicalDriverTrace':a.physical_driver_trace,'networkTrace':a.network_trace,'mpfrTransitionBits':a.mpfr_transition,'mpfrStartNs':a.mpfr_start_ns,'matrixBoundarySubstitution':a.reduce_matrix,'stepNs':a.step_ns,'stopNs':a.stop_ns,'fixtureCrossingGuardPs':a.fixture_crossings_ps,'toleranceScale':a.tolerance_scale,'qualified':False,'method':a.method or 'trap','solverDiagnostic':live_diagnostic(logtext),'sourceDeckSha256':sha(a.prepared/'io.cir'),'deckSha256':sha(a.out/'io.cir'),'inputs':{n:sha(a.out/n) for n in ('io.vvp','s600.hex')},'generatorSha256':generator_sha}
  if a.compressed_output:result['compressedOutput']={'format':'xz','streams':storage,'error':storage_error}
  if a.raw_output:result['rawOutput']=True
+ result['environment']={key:value for key,value in env.items() if key.startswith('ROBOTRON_')}
  if scenario is not None:result['fullScenario']={'sha256':sha(a.out/'scenario.json'),'endNs':a.stop_ns}
  if storage_error:result['solverDiagnostic']=result['solverDiagnostic'] or 'Output capture failed: '+storage_error
  (a.out/'run.json').write_text(json.dumps(result,indent=2)+'\n');print(a.out/'run.json')
