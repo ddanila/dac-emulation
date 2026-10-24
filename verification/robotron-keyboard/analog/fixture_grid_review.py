@@ -63,6 +63,18 @@ def validate_anchor_grids(receipts, experiment):
             raise ValueError('Anchored candidate changed the retained grid')
 
 
+def retain_generator(candidates, out, expected_digest):
+    """Preserve the source that actually produced the capture, not a newer runner."""
+    for candidate in candidates:
+        if candidate.is_file() and sha(candidate) == expected_digest:
+            target = out / 'capture-generator.py'
+            shutil.copyfile(candidate, target)
+            if sha(target) != expected_digest:
+                raise ValueError('Changed capture generator during retention')
+            return {'path': target.name, 'sha256': expected_digest}
+    raise ValueError('Missing hash-matched capture generator')
+
+
 def validate_anchor_build(run, build):
     models=[m for m in run['runtime']['codeModels'] if Path(m['path']).name=='digital.cm']
     if len(models)!=1 or models[0]['sha256']!=build['outputs']['digital.cm'] or run['runtime']['spinit']['sha256']!=build['outputs']['spinit']:
@@ -197,6 +209,9 @@ def retain(root, out, experiment="crossings"):
         result['disabledTracesMatchOriginal']={n:current[n]['sha256']==v['sha256'] for n,v in original.items() if n in current}
         result['scope']='Full reset-release prefix with the opt-in anchored DAC; all captures use the same instrumentable library and the control disables only anchored arithmetic. Original nested grids, physical circuit, firmware and numerical settings are preserved. Full-repeat traffic, complete coupled rollback and physical admission remain separate. No peak omission, phase alignment or gate relaxation.'
     if experiment=='dense-anchored':
+        result['captureGenerator']=retain_generator(
+            (HERE/'live_transition_probe.py', root/'dense-tight-runner.py'),
+            out, receipts['25']['generatorSha256'])
         result['sources'].update({n:sha(HERE/n) for n in ('engine-patches/dac_anchor.h','engine-patches/dac-anchored-ramp.patch')})
         result['scope']='Full reset-release window with anchored DAC, retained dense-startup grids and fixed tighter relative tolerance. The control disables only anchored arithmetic. All levels require identical physical inputs and runtime dependencies; no alignment, omitted spans or relaxed voltage gate. Full-repeat, coupled rollback and physical admission remain separate.'
     if experiment=='tight-passive':
