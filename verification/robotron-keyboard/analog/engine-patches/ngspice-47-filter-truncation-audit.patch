@@ -1,0 +1,66 @@
+--- a/src/spicelib/analysis/cktterr.c
++++ b/src/spicelib/analysis/cktterr.c
+@@ -78,6 +78,8 @@
+         fprintf(stderr, "TRUNC_AUDIT error time=%a state=%d delta=%a dt0=%a dt1=%a dt2=%a order=%d proposed=%a tol=%a difference=%a q0=%a q1=%a q2=%a q3=%a\n", ckt->CKTtime, qcap, ckt->CKTdelta, ckt->CKTdeltaOld[0], ckt->CKTdeltaOld[1], ckt->CKTdeltaOld[2], ckt->CKTorder, del, tol, diff[0], ckt->CKTstates[0][qcap], ckt->CKTstates[1][qcap], ckt->CKTstates[2][qcap], ckt->CKTstates[3][qcap]);
+     if (getenv("ROBOTRON_STARTUP_TRUNC_AUDIT") && ckt->CKTtime >= .75e-6 && ckt->CKTtime <= 1.05e-6 && del < *timeStep)
+         fprintf(stderr, "STARTUP_TRUNC error time=%a state=%d delta=%a dt0=%a dt1=%a dt2=%a order=%d before=%a proposed=%a currenttol=%a chargetol=%a abstol=%a reltol=%a chgtol=%a difference=%a q0=%a q1=%a q2=%a q3=%a\n", ckt->CKTtime, qcap, ckt->CKTdelta, ckt->CKTdeltaOld[0], ckt->CKTdeltaOld[1], ckt->CKTdeltaOld[2], ckt->CKTorder, *timeStep, del, volttol, chargetol, ckt->CKTabstol, ckt->CKTreltol, ckt->CKTchgtol, diff[0], ckt->CKTstates[0][qcap], ckt->CKTstates[1][qcap], ckt->CKTstates[2][qcap], ckt->CKTstates[3][qcap]);
++    if (getenv("ROBOTRON_FILTER_TRUNC_AUDIT") && ckt->CKTtime >= 138e-6 && ckt->CKTtime <= 138.5e-6 && del < *timeStep)
++        fprintf(stderr, "FILTER_TRUNC error time=%a state=%d delta=%a dt0=%a dt1=%a dt2=%a order=%d before=%a proposed=%a currenttol=%a chargetol=%a abstol=%a reltol=%a chgtol=%a difference=%a q0=%a q1=%a q2=%a q3=%a\n", ckt->CKTtime, qcap, ckt->CKTdelta, ckt->CKTdeltaOld[0], ckt->CKTdeltaOld[1], ckt->CKTdeltaOld[2], ckt->CKTorder, *timeStep, del, volttol, chargetol, ckt->CKTabstol, ckt->CKTreltol, ckt->CKTchgtol, diff[0], ckt->CKTstates[0][qcap], ckt->CKTstates[1][qcap], ckt->CKTstates[2][qcap], ckt->CKTstates[3][qcap]);
+     *timeStep = MIN(*timeStep,del);
+     return;
+ }
+--- a/src/spicelib/devices/cap/captrunc.c
++++ b/src/spicelib/devices/cap/captrunc.c
+@@ -27,6 +27,8 @@
+             CKTterr(here->CAPqcap,ckt,timeStep);
+             if (getenv("ROBOTRON_STARTUP_TRUNC_AUDIT") && ckt->CKTtime >= .75e-6 && ckt->CKTtime <= 1.05e-6 && *timeStep < audit_previous)
+                 fprintf(stderr, "STARTUP_TRUNC instance time=%a name=%s state=%d before=%a proposed=%a\n", ckt->CKTtime, here->CAPname, here->CAPqcap, audit_previous, *timeStep);
++            if (getenv("ROBOTRON_FILTER_TRUNC_AUDIT") && ckt->CKTtime >= 138e-6 && ckt->CKTtime <= 138.5e-6 && *timeStep < audit_previous)
++                fprintf(stderr, "FILTER_TRUNC instance time=%a name=%s state=%d before=%a proposed=%a\n", ckt->CKTtime, here->CAPname, here->CAPqcap, audit_previous, *timeStep);
+             if (((getenv("ROBOTRON_LIVE_AUDIT") && ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) || (((getenv("ROBOTRON_SWITCH_AUDIT") && ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605) || (getenv("ROBOTRON_INDUCTOR_MONITOR") && ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605 && ckt->CKTstat->STATnumIter % 2048 < 8)))) && *timeStep < audit_previous)
+                 fprintf(stderr, "TRUNC_AUDIT instance time=%a name=%s state=%d before=%a proposed=%a q0=%a q1=%a\n", ckt->CKTtime, here->CAPname, here->CAPqcap, audit_previous, *timeStep, ckt->CKTstate0[here->CAPqcap], ckt->CKTstate1[here->CAPqcap]);
+         }
+--- a/src/spicelib/devices/ind/indtrunc.c
++++ b/src/spicelib/devices/ind/indtrunc.c
+@@ -25,6 +25,8 @@
+             CKTterr(here->INDflux,ckt,timeStep);
+             if (getenv("ROBOTRON_STARTUP_TRUNC_AUDIT") && ckt->CKTtime >= .75e-6 && ckt->CKTtime <= 1.05e-6 && *timeStep < audit_previous)
+                 fprintf(stderr, "STARTUP_TRUNC instance time=%a name=%s state=%d before=%a proposed=%a\n", ckt->CKTtime, here->INDname, here->INDflux, audit_previous, *timeStep);
++            if (getenv("ROBOTRON_FILTER_TRUNC_AUDIT") && ckt->CKTtime >= 138e-6 && ckt->CKTtime <= 138.5e-6 && *timeStep < audit_previous)
++                fprintf(stderr, "FILTER_TRUNC instance time=%a name=%s state=%d before=%a proposed=%a\n", ckt->CKTtime, here->INDname, here->INDflux, audit_previous, *timeStep);
+             if (((getenv("ROBOTRON_LIVE_AUDIT") && ckt->CKTtime > .001005011 && ckt->CKTtime < .001005014) || (((getenv("ROBOTRON_SWITCH_AUDIT") && ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605) || (getenv("ROBOTRON_INDUCTOR_MONITOR") && ckt->CKTtime > .00106603 && ckt->CKTtime < .00106605 && ckt->CKTstat->STATnumIter % 2048 < 8)))) && *timeStep < audit_previous)
+                 fprintf(stderr, "TRUNC_AUDIT instance time=%a name=%s state=%d before=%a proposed=%a q0=%a q1=%a\n", ckt->CKTtime, here->INDname, here->INDflux, audit_previous, *timeStep, ckt->CKTstate0[here->INDflux], ckt->CKTstate1[here->INDflux]);
+         }
+--- a/src/spicelib/devices/bjt/bjttrunc.c
++++ b/src/spicelib/devices/bjt/bjttrunc.c
+@@ -27,11 +27,27 @@
+     for( ; model != NULL; model = BJTnextModel(model)) {
+         for(here=BJTinstances(model);here!=NULL;here = BJTnextInstance(here)){
+ 
+-            CKTterr(here->BJTqbe,ckt,timeStep);
+-            CKTterr(here->BJTqbc,ckt,timeStep);
+-            CKTterr(here->BJTqsub,ckt,timeStep);
++            { double audit_previous = *timeStep;
++                CKTterr(here->BJTqbe,ckt,timeStep);
++                if (getenv("ROBOTRON_FILTER_TRUNC_AUDIT") && ckt->CKTtime >= 138e-6 && ckt->CKTtime <= 138.5e-6 && *timeStep < audit_previous)
++                    fprintf(stderr, "FILTER_TRUNC instance time=%a name=%s state=%d before=%a proposed=%a\n", ckt->CKTtime, here->BJTname, here->BJTqbe, audit_previous, *timeStep);
++            }
++            { double audit_previous = *timeStep;
++                CKTterr(here->BJTqbc,ckt,timeStep);
++                if (getenv("ROBOTRON_FILTER_TRUNC_AUDIT") && ckt->CKTtime >= 138e-6 && ckt->CKTtime <= 138.5e-6 && *timeStep < audit_previous)
++                    fprintf(stderr, "FILTER_TRUNC instance time=%a name=%s state=%d before=%a proposed=%a\n", ckt->CKTtime, here->BJTname, here->BJTqbc, audit_previous, *timeStep);
++            }
++            { double audit_previous = *timeStep;
++                CKTterr(here->BJTqsub,ckt,timeStep);
++                if (getenv("ROBOTRON_FILTER_TRUNC_AUDIT") && ckt->CKTtime >= 138e-6 && ckt->CKTtime <= 138.5e-6 && *timeStep < audit_previous)
++                    fprintf(stderr, "FILTER_TRUNC instance time=%a name=%s state=%d before=%a proposed=%a\n", ckt->CKTtime, here->BJTname, here->BJTqsub, audit_previous, *timeStep);
++            }
+             if (model->BJTintCollResistGiven) {
++                { double audit_previous = *timeStep;
+                 CKTterr(here->BJTqbcx,ckt,timeStep);
++                if (getenv("ROBOTRON_FILTER_TRUNC_AUDIT") && ckt->CKTtime >= 138e-6 && ckt->CKTtime <= 138.5e-6 && *timeStep < audit_previous)
++                    fprintf(stderr, "FILTER_TRUNC instance time=%a name=%s state=%d before=%a proposed=%a\n", ckt->CKTtime, here->BJTname, here->BJTqbcx, audit_previous, *timeStep);
++            }
+             }
+         }
+     }
