@@ -1,0 +1,19 @@
+--- a/src/frontend/outitf.c
++++ b/src/frontend/outitf.c
+@@ -1117,10 +1117,13 @@
+ {
+     if (run->fp != stdout) {
+         long place = ftell(run->fp);
+-        fseek(run->fp, run->pointPos, SEEK_SET);
+-        fprintf(run->fp, "%d", run->pointCount);
++        /* Pipes cannot rewrite the header. Leave its zero count intact;
++         * the existing log reports the completed number of accepted rows. */
++        if (place >= 0 && fseek(run->fp, run->pointPos, SEEK_SET) == 0) {
++            fprintf(run->fp, "%d", run->pointCount);
++            fseek(run->fp, place, SEEK_SET);
++        }
+         fprintf(stdout, "\nNo. of Data Rows : %d\n", run->pointCount);
+-        fseek(run->fp, place, SEEK_SET);
+     } else {
+         /* Yet another hack-around */
+         fprintf(stderr, "@@@ %ld %d\n", run->pointPos, run->pointCount);

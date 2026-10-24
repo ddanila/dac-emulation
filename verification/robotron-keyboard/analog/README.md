@@ -439,6 +439,11 @@ Use `saved_network_review.py --help` to replay complete-window comparisons and
 `--compressed-output` to stream each `wrdata` file losslessly to XZ, retaining
 producer-byte hashes in the run receipt. This avoids raw output allocation; it
 does not reduce ngspice vector memory or qualify full-repeat behavior.
+The diagnostic [raw-pipe transport control](reports/raw-pipe-transport/assessment.json)
+compares in-memory, direct-file and compressed-pipe samples exactly.
+`raw_pipe_review.py` reproduces this RC check with the separate
+`ngspice-47-raw-pipe.patch` runtime. Direct raw output bypasses plot accumulation;
+complete live keyboard equivalence is still required before using it for qualification.
 `--all-saved-network` selects every saved observation; `complete_network_review.py --end-seconds` requires the
 explicit complete interval. Retention preserves every available sample, including
 failed controls. Longer runs need a concrete board/receiver decision, not merely

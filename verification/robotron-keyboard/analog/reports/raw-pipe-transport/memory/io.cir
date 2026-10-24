@@ -1,0 +1,16 @@
+Raw-output transport control
+V1 in 0 PULSE(0 5 1n 1n 1n 10n 20n)
+R1 in out 1k
+C1 out 0 1p
+.save v(in) v(out) i(V1)
+.tran .1n 100n
+.control
+set filetype=binary
+set wr_vecnames
+set wr_singlescale
+set numdgt=17
+run
+wrdata trace.txt v(in) v(out) i(V1)
+quit
+.endc
+.end
