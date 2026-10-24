@@ -2,6 +2,7 @@
 """Validate the disabled runtime control before assessing a forced Newton retry."""
 import argparse
 import json
+import math
 from pathlib import Path
 import re
 from bridge_rollback_log import analyze as bridge_analyze
@@ -49,7 +50,15 @@ def review(root, control, evidence):
         expected_runtime=dict(prior['runtime'],executable=build['runtime'])
         if r['runtime']!=expected_runtime:raise ValueError('Different retry runtime or dependencies')
         expected_env=dict(prior['environment'])
-        if mode=='on':expected_env['ROBOTRON_FORCE_NEWTON_REJECT']='1'
+        start=r.get('faultStartSeconds', .0010025)
+        if isinstance(start, bool) or not isinstance(start, (int,float)) or not math.isfinite(start) or not 0<=start<end:
+            raise ValueError('Retry start outside the complete capture')
+        if receipts and r.get('faultStartSeconds')!=receipts[0].get('faultStartSeconds'):
+            raise ValueError('Different requested retry times')
+        if mode=='on':
+            expected_env['ROBOTRON_FORCE_NEWTON_REJECT']='1'
+            if 'faultStartSeconds' in r:
+                expected_env['ROBOTRON_NEWTON_REJECT_START']=repr(float(start))
         if r['environment']!=expected_env:raise ValueError('Unexpected experimental environment')
         for key in ('externalDependencies','inputs','deckSha256'):
             if r[key]!=prior[key]:raise ValueError('Changed '+key)
@@ -68,7 +77,7 @@ def review(root, control, evidence):
     if len(faults)!=1:raise ValueError('Need exactly one injected retry')
     i,line=faults[0]
     match=re.fullmatch(r'ROLLBACK_FAULT kind=newton time=(\S+) original=0 injected=(\d+)',line)
-    if not match or int(match[2])==0 or float.fromhex(match[1])<.0010025:
+    if not match or int(match[2])==0 or not start<=float.fromhex(match[1])<end:
         raise ValueError('Invalid injected retry record')
     following=next((s.strip() for s in lines[i+1:] if s.strip().startswith(('ROLLBACK_AUDIT ','TIME_AUDIT '))),None)
     reject=REJECT.fullmatch(following or '')
@@ -88,7 +97,7 @@ def review(root, control, evidence):
             'comparison':comparison,'firmwareEventsMatch':firmware,'dispatch':dispatch,'timing':timing,
             'retryScreenPassed':firmware and ordering and comparison['maximumVoltageDifference']<=.01,
             'qualified':False,
-            'boundary':'One forced Newton retry during complete reset release. Disabled runtime must reproduce every sample and solver/HDL record. Injection is not natural device nonconvergence, full-repeat coverage or general state rollback proof.'}
+            'boundary':'One forced Newton retry during the declared complete control window. Disabled runtime must reproduce every sample and solver/HDL record. Injection is not natural device nonconvergence, full-repeat coverage or general state rollback proof.'}
 
 
 if __name__=='__main__':

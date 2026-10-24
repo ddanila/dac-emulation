@@ -346,6 +346,9 @@ For a diagnostic Newton-retry control, apply `ngspice-47-rollback-fault.patch`
 after the rollback audit patch and copy `rollback_fault.h` beside `dctran.c`.
 `ROBOTRON_FORCE_NEWTON_REJECT=1` routes one otherwise converged trial at or after
 1.0025 ms through the existing Newton failure branch in a fresh transient run.
+Use `live_newton_retry.py --fault-start SECONDS` with a rebuilt diagnostic runtime
+to select a later trial (`ROBOTRON_NEWTON_REJECT_START`); the reviewer requires
+matching requested times and an injection within the complete control window.
 Require a complete disabled control before interpreting an injected capture.
 `live_newton_retry.py` captures the disabled/enabled pair using a separately pinned
 diagnostic runtime and the completed bridge timing control's circuit and inputs.

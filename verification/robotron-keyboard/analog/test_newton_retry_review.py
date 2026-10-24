@@ -58,10 +58,29 @@ class RetryReviewTests(unittest.TestCase):
             args=fixture(Path(tmp));r=review(*args)
             self.assertTrue(r['retryScreenPassed']);self.assertFalse(r['qualified'])
 
+    def test_selected_time_and_rejects_early_or_invalid_injection(self):
+        for start in (.0010029, .001004, END, -1, float('nan'), True):
+            with self.subTest(start=start), tempfile.TemporaryDirectory() as tmp, patch('newton_retry_review.check_bridge'):
+                args=fixture(Path(tmp))
+                for mode in ('off','on'):
+                    p=args[0]/mode/'run.json';r=json.loads(p.read_text())
+                    r['faultStartSeconds']=start
+                    if mode=='on':r['environment']['ROBOTRON_NEWTON_REJECT_START']=repr(float(start))
+                    dump(p,r)
+                if start==.0010029:
+                    self.assertTrue(review(*args)['retryScreenPassed'])
+                else:
+                    with self.assertRaises(ValueError):review(*args)
+
     def test_rejects_changed_inputs_environment_truncation_and_missing_retry(self):
-        for mutation in ('input','environment','truncation','retry','control-history'):
+        for mutation in ('input','environment','truncation','retry','control-history','requested-time','threshold-env'):
             with self.subTest(mutation=mutation),tempfile.TemporaryDirectory() as tmp,patch('newton_retry_review.check_bridge'):
                 args=fixture(Path(tmp));pair=args[0]
+                if mutation in ('requested-time','threshold-env'):
+                    p=pair/'on/run.json';r=json.loads(p.read_text())
+                    if mutation=='requested-time':r['faultStartSeconds']=.0010029
+                    else:r['environment']['ROBOTRON_NEWTON_REJECT_START']='.0010029'
+                    dump(p,r)
                 if mutation=='input':(pair/'on/io.cir').write_text('changed')
                 if mutation=='environment':
                     p=pair/'on/run.json';r=json.loads(p.read_text());r['environment']['OTHER']='1';dump(p,r)
