@@ -327,7 +327,9 @@ identical samples, firmware events and complete audit coverage before interpreti
 `rollback_audit_log.py` results. The [complete reset-release controls](reports/rollback-dispatch/assessment.json)
 preserve every waveform sample and firmware event. The sole irreversible client
 runs last, and no callback occurs in an LTE-rejected trial. Client-requested
-breakpoints still need actual HDL-time checks; Newton rejection was not exercised.
+breakpoints are covered by the [complete bridge timing control](reports/bridge-rollback/assessment.json):
+no logged advance or output occurs in breakpoint-rejected trials, and observed
+HDL time remains monotonic. Newton rejection was not exercised.
 Callback ordering alone does not establish internal HDL rollback. Use `build_bridge_time_audit.py` to prepare a separate
 bridge logger, then `live_bridge_time_capture.py` against a completed enabled
 dispatch control. The capture permits only the identified VPI-library substitution;
@@ -341,6 +343,8 @@ after the rollback audit patch and copy `rollback_fault.h` beside `dctran.c`.
 `ROBOTRON_FORCE_NEWTON_REJECT=1` routes one otherwise converged trial at or after
 1.0025 ms through the existing Newton failure branch in a fresh transient run.
 Require a complete disabled control before interpreting an injected capture.
+`live_newton_retry.py` captures the disabled/enabled pair using a separately pinned
+diagnostic runtime and the completed bridge timing control's circuit and inputs.
 This tests retry scheduling, not natural device nonconvergence or general rollback.
 
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
