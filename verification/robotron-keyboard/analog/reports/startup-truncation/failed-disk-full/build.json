@@ -1,0 +1,26 @@
+{
+  "base": {
+    "baseRuntimeSha256": "8ac92aaa0956bb70b10d1bee4f76ade09d462856a20cbd535a65283b6568bce0",
+    "files": {
+      "src/spicelib/analysis/cktterr.c": "6bf50720f1057fd455941fab990506ffea2278370c9a7297c57f58e4abe50c16",
+      "src/spicelib/devices/cap/captrunc.c": "08ba827663d3afb14c708a2eb6cbe155af2ae64024355c0b201b894782b6112c",
+      "src/spicelib/devices/ind/indtrunc.c": "f4ecc6e27d3a8c49c82d91cfc10919c20ce16d6c6831a41944e917ce74be60e2"
+    },
+    "scope": "Sources from the retained passive-assembly diagnostic runtime before startup logging. Includes earlier opt-in diagnostics; not pristine ngspice."
+  },
+  "patchSha256": "4f433341d8e2e5186fe0b42c6c855035c5a8b30a6ddef01f3a5d2801476b146b",
+  "executableSha256": "603ec3a1f1c578b62bf25b6f3d28fe81237cefcd7d1e2daff0ad99d423eff5b9",
+  "sourceSha256": {
+    "src/spicelib/analysis/cktterr.c": "da8bcf010a1edd97548655c1b32064f6338cc3520e13377ea548fe44b8df4403",
+    "src/spicelib/devices/cap/captrunc.c": "2e263bb94fdec7ed965fd10ea1c6cc03479e3aa2fd3f081e7acc861721a29f4f",
+    "src/spicelib/devices/ind/indtrunc.c": "4080b368a960cfe778587927bbca0bd9a5149fac78c05eeaad7ad612a2e4bb73"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+  "buildCommand": [
+    "make",
+    "-C",
+    "/private/tmp/k7658-ngspice-performance/build",
+    "-j2"
+  ],
+  "scope": "Incremental diagnostic rebuild, same configured build tree and unchanged reused objects. Disabled waveform control required before interpreting logs."
+}

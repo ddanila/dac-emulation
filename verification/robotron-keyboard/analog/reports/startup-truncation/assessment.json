@@ -1,0 +1,576 @@
+{
+  "schema": 1,
+  "cases": {
+    "disabled": {
+      "allFiveWaveformsByteIdenticalToBaseline": true,
+      "originalDiagnosticReclassified": false
+    },
+    "enabled": {
+      "allFiveWaveformsByteIdenticalToBaseline": true,
+      "originalDiagnosticReclassified": true
+    }
+  },
+  "failedAttempt": {
+    "path": "failed-disk-full",
+    "countsForQualification": false
+  },
+  "analysis": {
+    "records": 7666,
+    "binary64ReplayExact": true,
+    "states": {
+      "10": {
+        "reductions": 2352,
+        "chargeToleranceDominant": 2352,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "1.118120813160914499661820012855594724990062069445945208410203797E-7",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.beb1551bec11fp-21",
+            "state": "10",
+            "delta": "0x1.716f9798dp-37",
+            "dt0": "0x1.716f9798dp-37",
+            "dt1": "0x1.716f9798dp-37",
+            "dt2": "0x1.a636641c5999ap-38",
+            "order": "2",
+            "before": "0x1.fffffep+127",
+            "proposed": "0x1.12afa6c1abc07p-24",
+            "currenttol": "0x1.4957280964581p-49",
+            "chargetol": "0x1.5f68950548a08p-33",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "-0x1.c9d607e9d9578p+18",
+            "q0": "-0x1.79d59e2dde74ep-43",
+            "q1": "-0x1.79d4d70736ea8p-43",
+            "q2": "-0x1.79d40fdeeeb6bp-43",
+            "q3": "-0x1.79d39e1053836p-43"
+          },
+          "exactRecurrence": "-468824.0712278145535748671461297415477010686521999205680662242667",
+          "absoluteArithmeticError": "0.0524201951750654507707403756397989313478000794319337757333"
+        },
+        "instance": null
+      },
+      "12": {
+        "reductions": 24,
+        "chargeToleranceDominant": 24,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "3.951835460435811127716037581905315529403120551203319855129509722E-11",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.18512c2de081ep-20",
+            "state": "12",
+            "delta": "0x1.33dcfe54a3334p-33",
+            "dt0": "0x1.33dcfe54a3334p-33",
+            "dt1": "0x1.33dcfe54a3334p-34",
+            "dt2": "0x1.33dcfe54a3334p-35",
+            "order": "2",
+            "before": "0x1.52c99724b197fp-28",
+            "proposed": "0x1.2340f5d2eb894p-28",
+            "currenttol": "0x1.3645e7b634d0ep-49",
+            "chargetol": "0x1.ed77c60b3993ep-37",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "0x1.1ded9fa5ac8ebp+23",
+            "q0": "0x1.ba1c616e802b6p-43",
+            "q1": "0x1.ba25af6637411p-43",
+            "q2": "0x1.ba2a566f8e6a1p-43",
+            "q3": "0x1.ba2ca9f7474fep-43"
+          },
+          "exactRecurrence": "9369295.823952392433014776526377996972474330775111051562298820695",
+          "absoluteArithmeticError": "0.000370259154764082251475653222474330775111051562298820695"
+        },
+        "instance": null
+      },
+      "43": {
+        "reductions": 846,
+        "chargeToleranceDominant": 846,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "4.279549103073922412465257401039872776005493965432168088659143028E-8",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.d98947b6a8c11p-21",
+            "state": "43",
+            "delta": "0x1.716f9798bp-37",
+            "dt0": "0x1.716f9798bp-37",
+            "dt1": "0x1.716f9798b8p-37",
+            "dt2": "0x1.a636641c4p-38",
+            "order": "2",
+            "before": "0x1.bd63ec884f9e1p-24",
+            "proposed": "0x1.d125dbd60a6edp-25",
+            "currenttol": "0x1.2b92b96c7996fp-50",
+            "chargetol": "0x1.4f16d99ca173ep-37",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "-0x1.307e9dcfc65fap+15",
+            "q0": "0x1.2d84e9fd18cf7p-50",
+            "q1": "0x1.2d81dd769e2cdp-50",
+            "q2": "0x1.2d7ed0f287a6dp-50",
+            "q3": "0x1.2d7d12f14497dp-50"
+          },
+          "exactRecurrence": "-38975.30655785427779969896401919137276141394525405754783944427180",
+          "absoluteArithmeticError": "0.00166796738221696440849744070731671105474594245216055572820"
+        },
+        "instance": null
+      },
+      "45": {
+        "reductions": 1253,
+        "chargeToleranceDominant": 1253,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "1.988078889567237774635213283656694133455525809865408537412005897E-10",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.0f64cd24767c8p-20",
+            "state": "45",
+            "delta": "0x1.811f232948757p-37",
+            "dt0": "0x1.811f232948757p-37",
+            "dt1": "0x1.811f232948757p-38",
+            "dt2": "0x1.811f232948757p-39",
+            "order": "2",
+            "before": "0x1.69e70b96d5893p-30",
+            "proposed": "0x1.5cf1823ee64eap-30",
+            "currenttol": "0x1.c5c2fe88bb158p-48",
+            "chargetol": "0x1.b63e1f804368p-34",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "0x1.61d090fcca7p+29",
+            "q0": "0x1.eb2dc7c140631p-44",
+            "q1": "0x1.eb3476ad7695dp-44",
+            "q2": "0x1.eb37cdd447313p-44",
+            "q3": "0x1.eb397953d6b25p-44"
+          },
+          "exactRecurrence": "742003231.7463625316494360213660781227205369429950668238474813267",
+          "absoluteArithmeticError": "0.1475160961025610213660781227205369429950668238474813267"
+        },
+        "instance": null
+      },
+      "76": {
+        "reductions": 206,
+        "chargeToleranceDominant": 206,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "7.186276149974486307993077874713203597467049518946021013870727423E-12",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.d98d9c056f8b4p-21",
+            "state": "76",
+            "delta": "0x1.278c7946f999ap-36",
+            "dt0": "0x1.278c7946f999ap-36",
+            "dt1": "0x1.278c7946f999ap-37",
+            "dt2": "0x1.278c7946f999ap-38",
+            "order": "2",
+            "before": "0x1.282d160366c93p-25",
+            "proposed": "0x1.00de8fe40f9c1p-25",
+            "currenttol": "0x1.203cc10cac95cp-50",
+            "chargetol": "0x1.a2dc9003c0beep-38",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "-0x1.3805f711fceadp+16",
+            "q0": "0x1.e173c62422dd3p-60",
+            "q1": "0x1.e170b825989cep-60",
+            "q2": "0x1.e16f31282c1e5p-60",
+            "q3": "0x1.e16e6daa8991fp-60"
+          },
+          "exactRecurrence": "-79877.96511765043097577794650787924594558123357479579274707875163",
+          "absoluteArithmeticError": "5.7402511563346525435830288254376642520420725292124837E-7"
+        },
+        "instance": null
+      },
+      "109": {
+        "reductions": 57,
+        "chargeToleranceDominant": 57,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "2.461544546903973952962812016653018821158834785549140328843919834E-9",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.d98d9c056f8b4p-21",
+            "state": "109",
+            "delta": "0x1.278c7946f999ap-36",
+            "dt0": "0x1.278c7946f999ap-36",
+            "dt1": "0x1.278c7946f999ap-37",
+            "dt2": "0x1.278c7946f999ap-38",
+            "order": "2",
+            "before": "0x1.00de8fe40f9c1p-25",
+            "proposed": "0x1.bfd180e854575p-26",
+            "currenttol": "0x1.23fba1e8a8111p-50",
+            "chargetol": "0x1.a2dc9003c0beep-38",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "-0x1.9aa5725068764p+16",
+            "q0": "0x1.d52c89620be4ap-52",
+            "q1": "0x1.d52614c64f0bfp-52",
+            "q2": "0x1.d522da7dbf5d6p-52",
+            "q3": "0x1.d5213d5acc04ep-52"
+          },
+          "exactRecurrence": "-105125.4462806585712472509385104885261305451288925054639705561285",
+          "absoluteArithmeticError": "0.0002587709690330017565731296379319548711074945360294438715"
+        },
+        "instance": null
+      },
+      "142": {
+        "reductions": 56,
+        "chargeToleranceDominant": 56,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "3.650443510951385356607484155668158149995105861425469192812161318E-10",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.df7d53b2799fep-21",
+            "state": "142",
+            "delta": "0x1.1db2753c2p-35",
+            "dt0": "0x1.1db2753c2p-35",
+            "dt1": "0x1.1db2753c2p-36",
+            "dt2": "0x1.1db2753c2p-37",
+            "order": "2",
+            "before": "0x1.83a004409b941p-26",
+            "proposed": "0x1.61ca2d44dd3e7p-26",
+            "currenttol": "0x1.2259887684614p-50",
+            "chargetol": "0x1.b14e1964e9449p-39",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "0x1.544f4f81998c2p+16",
+            "q0": "0x1.7b056a1a78d7ep-52",
+            "q1": "0x1.7afe5d9c5ba3ep-52",
+            "q2": "0x1.7afad7621b11p-52",
+            "q3": "0x1.7af91446296fbp-52"
+          },
+          "exactRecurrence": "87119.31060308833731403696843577393394780180904043325710390404250",
+          "absoluteArithmeticError": "0.00003180241220696020432902344566655180904043325710390404250"
+        },
+        "instance": null
+      },
+      "144": {
+        "reductions": 2,
+        "chargeToleranceDominant": 2,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "3.360061994814713322128101987080912797951634161697271981251158614E-11",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.fb57cf9fbaf0dp-21",
+            "state": "144",
+            "delta": "0x1.2d4424c432p-33",
+            "dt0": "0x1.2d4424c432p-33",
+            "dt1": "0x1.2d4424c432p-33",
+            "dt2": "0x1.ec94ca2106667p-34",
+            "order": "2",
+            "before": "0x1.146c0a1339688p-25",
+            "proposed": "0x1.1414ee1050e9cp-25",
+            "currenttol": "0x1.24768defdd457p-50",
+            "chargetol": "0x1.9ae991646ca2p-41",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "0x1.08fb2d1d9287ap+13",
+            "q0": "0x1.1cd07208c5ac9p-51",
+            "q1": "0x1.1cb2c2566adfep-51",
+            "q2": "0x1.1c95148f221a8p-51",
+            "q3": "0x1.1c7cd2a88307p-51"
+          },
+          "exactRecurrence": "8479.397029346005322691576343641744415019320574360496883807848832",
+          "absoluteArithmeticError": "2.84912996972502928839193145488070574360496883807848832E-7"
+        },
+        "instance": null
+      },
+      "175": {
+        "reductions": 91,
+        "chargeToleranceDominant": 91,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "2.227326565955936603180031062843236476282734815085529023233952223E-9",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.d9adef62b34e9p-21",
+            "state": "175",
+            "delta": "0x1.278c7946f999ap-33",
+            "dt0": "0x1.278c7946f999ap-33",
+            "dt1": "0x1.278c7946f999ap-34",
+            "dt2": "0x1.278c7946f999ap-35",
+            "order": "2",
+            "before": "0x1.fe40f100a6572p-26",
+            "proposed": "0x1.fdd72b79cec87p-26",
+            "currenttol": "0x1.2f17439b61c74p-49",
+            "chargetol": "0x1.c6f13a37f6c44p-37",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "-0x1.581a712c0d5d5p+17",
+            "q0": "-0x1.8752bae22e78fp-43",
+            "q1": "-0x1.874a2f6b87c8cp-43",
+            "q2": "-0x1.8745e959f3cdfp-43",
+            "q3": "-0x1.8743c63b984c6p-43"
+          },
+          "exactRecurrence": "-176180.8837644542474608681560017709098575023813162502551382931434",
+          "absoluteArithmeticError": "0.0003924123628221639036677237190487476186837497448617068566"
+        },
+        "instance": null
+      },
+      "208": {
+        "reductions": 346,
+        "chargeToleranceDominant": 346,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "4.938448917280648296126946058266237967615425709879015997958882530E-9",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.01f76ac9e72e2p-20",
+            "state": "208",
+            "delta": "0x1.260268a55p-34",
+            "dt0": "0x1.260268a55p-34",
+            "dt1": "0x1.260268a54ep-34",
+            "dt2": "0x1.5002c0bcecccdp-35",
+            "order": "2",
+            "before": "0x1.775bfd897542fp-25",
+            "proposed": "0x1.7445006e1c74bp-25",
+            "currenttol": "0x1.2c9a9dc491f42p-50",
+            "chargetol": "0x1.a50df7f8fdf75p-40",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "-0x1.2aac0ae180c3ap+13",
+            "q0": "0x1.8b25d7cbb592ap-50",
+            "q1": "0x1.8b10aaf4491edp-50",
+            "q2": "0x1.8afb7e80ad918p-50",
+            "q3": "0x1.8aef6546e46e4p-50"
+          },
+          "exactRecurrence": "-9557.505360124562133662984979399637901919554434066565150036084366",
+          "absoluteArithmeticError": "0.000047199251997611136448630289757388304434066565150036084366"
+        },
+        "instance": null
+      },
+      "210": {
+        "reductions": 743,
+        "chargeToleranceDominant": 743,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "2.608664724741469510635129226756999807872528883417035444418914985E-10",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.0f664e4399a5dp-20",
+            "state": "210",
+            "delta": "0x1.811f232948757p-36",
+            "dt0": "0x1.811f232948757p-36",
+            "dt1": "0x1.811f232948757p-37",
+            "dt2": "0x1.811f232948757p-38",
+            "order": "2",
+            "before": "0x1.edb6c74712461p-31",
+            "proposed": "0x1.edb130fe0ba12p-31",
+            "currenttol": "0x1.c62120db4d38bp-48",
+            "chargetol": "0x1.b6382904b629fp-35",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "0x1.617e1a346723p+29",
+            "q0": "0x1.eb20676652f5ep-44",
+            "q1": "0x1.eb2dc7b7a18p-44",
+            "q2": "0x1.eb3476a3e45ep-44",
+            "q3": "0x1.eb37cdcabb564p-44"
+          },
+          "exactRecurrence": "741327686.7437472645404092168688220256827890927966893430078595464",
+          "absoluteArithmeticError": "0.1933875385882607793688220256827890927966893430078595464"
+        },
+        "instance": null
+      },
+      "241": {
+        "reductions": 116,
+        "chargeToleranceDominant": 116,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "2.353489088896404762991355644684347140289380983294173080067194680E-13",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.ea29c3b7941a5p-21",
+            "state": "241",
+            "delta": "0x1.18601e7acb8p-32",
+            "dt0": "0x1.18601e7acb8p-32",
+            "dt1": "0x1.33dcfe54a399ap-33",
+            "dt2": "0x1.33dcfe54a399ap-34",
+            "order": "2",
+            "before": "0x1.09b18b3cc20f5p-26",
+            "proposed": "0x1.0952b50dc2d0ap-26",
+            "currenttol": "0x1.203ccd0f5711cp-50",
+            "chargetol": "0x1.b98785229ee2dp-42",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "-0x1.3448a9623d364p+14",
+            "q0": "0x1.f6888d9f8e4bfp-60",
+            "q1": "0x1.f659a9c1ca4f5p-60",
+            "q2": "0x1.f63fec0295391p-60",
+            "q3": "0x1.f6330fe86223p-60"
+          },
+          "exactRecurrence": "-19730.16541381960410258161720378278712295485507023745569189122337",
+          "absoluteArithmeticError": "4.64347290235456569074610732985507023745569189122337E-9"
+        },
+        "instance": null
+      },
+      "274": {
+        "reductions": 4,
+        "chargeToleranceDominant": 4,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "2.272816699343946207345883410123789647694173280335433657208746294E-9",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.d9923a3754a72p-21",
+            "state": "274",
+            "delta": "0x1.278c7946f999ap-35",
+            "dt0": "0x1.278c7946f999ap-35",
+            "dt1": "0x1.278c7946f999ap-36",
+            "dt2": "0x1.278c7946f999ap-37",
+            "order": "2",
+            "before": "0x1.83eac7f5b4e2dp-25",
+            "proposed": "0x1.40c9202748db8p-25",
+            "currenttol": "0x1.23f684819f881p-50",
+            "chargetol": "0x1.a2dc9003c0beep-39",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "-0x1.9023d0108c8d1p+14",
+            "q0": "0x1.d1a7066d0db21p-52",
+            "q1": "0x1.d19a2edcd375bp-52",
+            "q2": "0x1.d193c329e23a6p-52",
+            "q3": "0x1.d1908d55b6298p-52"
+          },
+          "exactRecurrence": "-25608.95324633398632629252486794183358204808991635132539133998498",
+          "absoluteArithmeticError": "0.00005820445659098624699680993660939183991635132539133998498"
+        },
+        "instance": null
+      },
+      "307": {
+        "reductions": 145,
+        "chargeToleranceDominant": 145,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "1.182234174707378325974682934906262110793507516551018081011485015E-8",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.d98947b6a8c11p-21",
+            "state": "307",
+            "delta": "0x1.716f9798bp-37",
+            "dt0": "0x1.716f9798bp-37",
+            "dt1": "0x1.716f9798b8p-37",
+            "dt2": "0x1.a636641c4p-38",
+            "order": "2",
+            "before": "0x1.d125dbd60a6edp-25",
+            "proposed": "0x1.8c3082086b6d6p-25",
+            "currenttol": "0x1.2b46b209c3dc3p-50",
+            "chargetol": "0x1.4f16d99ca173ep-37",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "0x1.a3b75d5d60a9ep+15",
+            "q0": "0x1.58a7c921d558ep-50",
+            "q1": "0x1.58a4d10c99822p-50",
+            "q2": "0x1.58a1d8fb72431p-50",
+            "q3": "0x1.58a026aa553aep-50"
+          },
+          "exactRecurrence": "53723.68171789976522823312056961803469059485040173951340458827497",
+          "absoluteArithmeticError": "0.00063513972518003097998198718991878014959826048659541172503"
+        },
+        "instance": null
+      },
+      "594": {
+        "reductions": 1418,
+        "chargeToleranceDominant": 1418,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "8.374835539021299710340998339265378129096904322950807521160555707E-8",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.d99b769b1edefp-21",
+            "state": "594",
+            "delta": "0x1.278c7946f999ap-34",
+            "dt0": "0x1.278c7946f999ap-34",
+            "dt1": "0x1.278c7946f999ap-35",
+            "dt2": "0x1.278c7946f999ap-36",
+            "order": "2",
+            "before": "0x1.5fd39ed4d9f9ap-25",
+            "proposed": "0x1.3b7bfd709eb2ep-25",
+            "currenttol": "0x1.d77554e6acc8fp-50",
+            "chargetol": "0x1.79bf3af6c4a4p-39",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "0x1.7517b2e0f9f37p+14",
+            "q0": "0x1.44ec402733ff6p-46",
+            "q1": "0x1.44d88d2967a1p-46",
+            "q2": "0x1.44ceb3f3735fdp-46",
+            "q3": "0x1.44c9c76ab58bap-46"
+          },
+          "exactRecurrence": "23877.92268660499142689734569280021234842782459640615459497554999",
+          "absoluteArithmeticError": "0.00199973675513782434293539650396016592540359384540502445001"
+        },
+        "instance": "cwr_cpu"
+      },
+      "810": {
+        "reductions": 6,
+        "chargeToleranceDominant": 6,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "1.020103000255870508069518571127546459906085254484666637598635225E-8",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.d98947b6a8c11p-21",
+            "state": "810",
+            "delta": "0x1.716f9798bp-37",
+            "dt0": "0x1.716f9798bp-37",
+            "dt1": "0x1.716f9798b8p-37",
+            "dt2": "0x1.a636641c4p-38",
+            "order": "2",
+            "before": "0x1.8c3082086b6d6p-25",
+            "proposed": "0x1.214eb128f11e2p-25",
+            "currenttol": "0x1.2081b30ffa72dp-37",
+            "chargetol": "0x1.1e7a60503d1ecp-19",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "-0x1.5077bf27c737cp+34",
+            "q0": "0x1.34056c0fc1767p-29",
+            "q1": "0x1.34051e8586464p-29",
+            "q2": "0x1.3404d0fab30fp-29",
+            "q3": "0x1.3404a4ab1ab6bp-29"
+          },
+          "exactRecurrence": "-22579968952.77383696587096211463937082702253425750358581732217619",
+          "absoluteArithmeticError": "230.33894074408997538536062917297746574249641418267782381"
+        },
+        "instance": "l1.4"
+      },
+      "816": {
+        "reductions": 1,
+        "chargeToleranceDominant": 1,
+        "currentToleranceDominant": 0,
+        "maximumRelativeArithmeticError": "8.950913877535505632649668400962672893233358682746894701099123657E-15",
+        "worstArithmeticWitness": {
+          "logged": {
+            "time": "0x1.0c6fe13dffe47p-20",
+            "state": "816",
+            "delta": "0x1.1331ad746a5a6p-38",
+            "dt0": "0x1.1331ad746a5a6p-38",
+            "dt1": "0x1.1331ad746a5a6p-39",
+            "dt2": "0x1.45fea0e11cp-32",
+            "order": "2",
+            "before": "0x1.f9561736fdefbp-33",
+            "proposed": "0x1.f9561736f186p-33",
+            "currenttol": "0x1.9b9363ccd35f3p-38",
+            "chargetol": "0x1.8eb0c063121c2p-18",
+            "abstol": "0x1.203af9ee75616p-50",
+            "reltol": "0x1.5798ee2308c3ap-27",
+            "chgtol": "0x1.6849b86a12b9bp-47",
+            "difference": "-0x1.32f4b7ac4ce2bp+50",
+            "q0": "0x1.3f51b62b69ea6p-29",
+            "q1": "0x1.3f51a1a827f5cp-29",
+            "q2": "0x1.3f51975b7e203p-29",
+            "q3": "0x1.3f4b76796a05ap-29"
+          },
+          "exactRecurrence": "-1350006446568342.833791437350974956127992298451364291617083336536",
+          "absoluteArithmeticError": "12.083791437350974956127992298451364291617083336536"
+        },
+        "instance": "l1.1"
+      }
+    },
+    "scope": "Logged reductions in 0.75\u20131.05 us, including candidate steps that may later be rejected. Counts follow device evaluation order and do not alone identify the final accepted step. The 64-digit replay preserves the kernel denominator recurrence on the same binary64 charge/flux histories; it cannot measure error already present in those histories or physical accuracy. Unmapped state identities remain null."
+  },
+  "baselineAssessmentSha256": "a0f2c70941cc61d2411d9ef3d02bfe6c6a2f0e3db643cca742fc6bdb365773b7",
+  "qualified": false,
+  "sources": {
+    "startup_truncation_review.py": "63ecd55e8eb2d5c3be4428bf52b0b27a97eb8a07a23bc51076f091d77e998359",
+    "live_transition_probe.py": "1f6393a511b757dc68cadd33cbeb1479196d11da6ee1b8c95b304245867ee755",
+    "engine-patches/ngspice-47-startup-truncation-audit.patch": "6601843439ca56492050fb8bf914241445490ab9ef7a9c071f49e6e444f439f2",
+    "failure_evidence.py": "e670335407f7c1013357553e513c084db6511895e46f716c650386a41a0bc6c9"
+  }
+}
