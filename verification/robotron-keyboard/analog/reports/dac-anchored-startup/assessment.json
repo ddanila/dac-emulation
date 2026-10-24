@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "cases": {
+    "disabled": {
+      "traceSha256": {
+        "driver-trace.txt": "8e8435e1ee4a9f628219bbf0730eeb45558d782b8ec1a7bca731195776d97541",
+        "witness.txt": "7280da65a57f059b2bd293c3ffcdcc812e4a44bee4bae354b6b58f8628f7e921",
+        "network_witness.txt": "b409e0cf4638908d472ebf83717ecf3f0424814d2f891ec0a94fa2c6f778c59f",
+        "wr-trace.txt": "a735785b54e3808438153454c40a4d341adaca2e676cf2f3d6fee8e47b95cfbd",
+        "bus-trace.txt": "faa31f72347d1dc43888d0e5acc4961349db4235295768dc3a50abc1d30700ef"
+      },
+      "endSeconds": 1.200059386249719e-08,
+      "samples": 317,
+      "doubleEquationMismatches": 11,
+      "maximumExactRampError": {
+        "absoluteVolts": "8.428547031320843263557662794482894241809844970703E-15",
+        "timeSeconds": 1.0864e-08,
+        "capturedVolts": 4.32000000000001
+      }
+    },
+    "25": {
+      "traceSha256": {
+        "driver-trace.txt": "8e8435e1ee4a9f628219bbf0730eeb45558d782b8ec1a7bca731195776d97541",
+        "witness.txt": "7280da65a57f059b2bd293c3ffcdcc812e4a44bee4bae354b6b58f8628f7e921",
+        "network_witness.txt": "2bcff06974c04ccb11cf5c5c7ce501ac9335c149bdfc3788b5856ae4c036c675",
+        "wr-trace.txt": "488a8effff04f1a3bec81822a1475299e9027553f3e22a4957160ead19e5838d",
+        "bus-trace.txt": "faa31f72347d1dc43888d0e5acc4961349db4235295768dc3a50abc1d30700ef"
+      },
+      "endSeconds": 1.200059386249719e-08,
+      "samples": 317,
+      "doubleEquationMismatches": 0,
+      "maximumExactRampError": {
+        "absoluteVolts": "4.36835219689776788065671553340507671236991882324E-16",
+        "timeSeconds": 1.0893119157776359e-08,
+        "capturedVolts": 4.465595788881794
+      }
+    },
+    "12.5": {
+      "traceSha256": {
+        "driver-trace.txt": "38a18f0646290f8b14986eb9c17d346a5aa6097b8a4126a5fa0feca0affe9a5f",
+        "witness.txt": "41a67d41560256e479f63d2b69c0448e3568a70be25636419f8b9de672a6f14e",
+        "network_witness.txt": "122ff9c3d0c6233fd7266311796646fe4c1661ea0c0d07a7f4fa199ab97efd65",
+        "wr-trace.txt": "bbb56bd5446b0c11a0837b857e2131aad4a3dfc3b96e75be7dd45ea2117ae317",
+        "bus-trace.txt": "d5c218533c767393e0bfac11e1a13986feb65df55e688c2f16db732d601b9158"
+      },
+      "endSeconds": 1.2000593718918693e-08,
+      "samples": 336,
+      "doubleEquationMismatches": 0,
+      "maximumExactRampError": {
+        "absoluteVolts": "4.40932318055645838805745029276295099407434463501E-16",
+        "timeSeconds": 1.0871126888665305e-08,
+        "capturedVolts": 4.355634443326527
+      }
+    },
+    "6.25": {
+      "traceSha256": {
+        "driver-trace.txt": "1ad2dc69287c21a53df970011c03dfb6c0084a37974f183a5148275a6917e684",
+        "witness.txt": "c6347b5c3a67c9fadeaec8bce090a58a6ac6a45cd471226f6135a3ef6980afe7",
+        "network_witness.txt": "60fa09eb367f5b15af298328a1c3f2bebc13013bd0327a9879abab3c1cb9b564",
+        "wr-trace.txt": "3e0319fb0b6abc52e22b54c8e4138a8ee1f23baeb2268d732832856398c6dbe6",
+        "bus-trace.txt": "683a65bf1ec935756350a642a27fd9e79068e696f748366a3127b7cece31c15f"
+      },
+      "endSeconds": 1.2000593683015334e-08,
+      "samples": 362,
+      "doubleEquationMismatches": 0,
+      "maximumExactRampError": {
+        "absoluteVolts": "4.39685485557287508706636458555294666439294815064E-16",
+        "timeSeconds": 1.0866566568216094e-08,
+        "capturedVolts": 4.332832841080471
+      }
+    }
+  },
+  "disabledCaptureMatchesOriginal": true,
+  "qualified": false,
+  "scope": "Short live startup diagnostic, not full-window convergence. Every enabled saved wr_high value matches the event-anchored binary64 ramp equation; exact-ramp error uses 64-digit arithmetic. Endpoints differ near the diagnostic halt, so no pairwise full-window gate is claimed. Compiled helper tests cover interrupted ramps and discarded trial isolation; full coupled rollback and firmware scenarios remain required. Candidate remains opt-in.",
+  "sources": {
+    "dac_anchor_review.py": "12ac58ed0bfcdd89a78e3de5632c4cd66da0f99ec7e87d804b5776c619443d39",
+    "dac_partition_review.py": "7b18a26cbc475d6a447687da1aa0d5156b382db1e79b9558c2d2aad5d60f5097",
+    "live_transition_probe.py": "f7e44e7b33fc17091fbfaa9eb163d678b143edc473d301ab45d1e1b77d56fde4",
+    "build_live_transition_models.py": "779e6747b10f8a88cb71888c6604056decd95f670c3749d2618ba647b36f4852",
+    "engine-patches/dac_anchor.h": "5f9d7fa7832270f1a9087c5a5a6cc17164e04ecd2e0b731c301ffdeeb9a47722",
+    "engine-patches/dac-anchored-ramp.patch": "49ecd5c84cb7b99f6da476795ccb71c9ccb62c2dd52deab5ead35e5c3ac30495",
+    "test_dac_anchor.py": "904556b1d8503078e5cf6178227c9cee4be360afc28bd426b9e27dd6932328e1"
+  }
+}
