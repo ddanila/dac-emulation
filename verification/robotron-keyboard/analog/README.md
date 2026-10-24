@@ -444,6 +444,9 @@ compares in-memory, direct-file and compressed-pipe samples exactly.
 `raw_pipe_review.py` reproduces this RC check with the separate
 `ngspice-47-raw-pipe.patch` runtime. Direct raw output bypasses plot accumulation;
 complete live keyboard equivalence is still required before using it for qualification.
+`live_raw_output.py` runs paired complete in-memory/pipe controls from a pinned
+reset-release capture. `live_raw_review.py` requires exact sample and firmware-event
+equality with that baseline, including every original waveform column and endpoint.
 `--all-saved-network` selects every saved observation; `complete_network_review.py --end-seconds` requires the
 explicit complete interval. Retention preserves every available sample, including
 failed controls. Longer runs need a concrete board/receiver decision, not merely
