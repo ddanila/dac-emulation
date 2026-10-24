@@ -1,0 +1,172 @@
+{
+  "schema": 1,
+  "cases": {
+    "trap": {
+      "requiredEndSeconds": 0.001002,
+      "completed": false,
+      "stepNs": 25.0,
+      "method": "trap",
+      "dacCorners": false,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100101, timestep = 4.90523e-21: trouble with xdata:ttl7406_diode-instance d.xdata.dfeed",
+      "reportedFailureSeconds": 0.00100101,
+      "resetReleaseEventsPs": [
+        1000001000
+      ],
+      "observedLastSeconds": {
+        "witness.txt": 0.0010010120000000006,
+        "bus-trace.txt": 0.0010010120000000006,
+        "driver-trace.txt": 0.0010010120000000006,
+        "wr-trace.txt": 0.0010010120000000006,
+        "network_witness.txt": 0.0010010120000000006
+      },
+      "files": {
+        "trap/io.cir": "5714a8aa857f59c83615ee1e037628193ff6026ba612dac4c8e9eea88616863f",
+        "trap/ngspice.log": "a00c2a54cc0bfe1cef0497f01b605f7da1ee70271fca980da19dbc9c2cc917c1",
+        "trap/run.json": "47b7a9812341d72fb82528bae74d0ef5e42d6888b79d5688eee5b7450bd9a93c",
+        "trap/trace-endpoints.json": "7d50a10cb74003016c2898cce412728b6cdac2f64332e93c236d144520e5f1ef"
+      }
+    },
+    "gear": {
+      "requiredEndSeconds": 0.001002,
+      "completed": false,
+      "stepNs": 25.0,
+      "method": "gear",
+      "dacCorners": false,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100101, timestep = 3.125e-20: trouble with xdata:ttl7406_diode-instance d.xdata.dfeed",
+      "reportedFailureSeconds": 0.00100101,
+      "resetReleaseEventsPs": [
+        1000001000
+      ],
+      "observedLastSeconds": {
+        "witness.txt": 0.001001012,
+        "bus-trace.txt": 0.001001012,
+        "driver-trace.txt": 0.001001012,
+        "wr-trace.txt": 0.001001012,
+        "network_witness.txt": 0.001001012
+      },
+      "files": {
+        "gear/io.cir": "344b65b507cee1f10f7ee1b5bb269ec62aae59f7c8406f1c2a3cba273c3cccc5",
+        "gear/ngspice.log": "cf92396764295512d8300f65553673cdfc9a4b747b15bd5f0afabfa01845cf50",
+        "gear/run.json": "54e4dce813f8cc35df203e8cb1e551518db677b03f6da954694ab2ce49100b5e",
+        "gear/trace-endpoints.json": "59b442e757be79df177082720db9c910ad85b9c3b53b84882c46f3afd4b7ad50"
+      }
+    },
+    "dac-corners": {
+      "requiredEndSeconds": 0.001002,
+      "completed": true,
+      "stepNs": 25.0,
+      "method": "trap",
+      "dacCorners": true,
+      "solverDiagnostic": null,
+      "reportedFailureSeconds": null,
+      "resetReleaseEventsPs": [
+        1000001000
+      ],
+      "observedLastSeconds": {
+        "witness.txt": 0.0010019999999999999,
+        "bus-trace.txt": 0.0010019999999999999,
+        "driver-trace.txt": 0.0010019999999999999,
+        "wr-trace.txt": 0.0010019999999999999,
+        "network_witness.txt": 0.0010019999999999999
+      },
+      "files": {
+        "dac-corners/io.cir": "5714a8aa857f59c83615ee1e037628193ff6026ba612dac4c8e9eea88616863f",
+        "dac-corners/ngspice.log": "c480c915501f07acbfe1f22957c5e9ede2aa2ca82c1c1c6d524b0e8ae20ea354",
+        "dac-corners/run.json": "fdd94cbe6580561bbf57c07de81b7067f3abdec3ca83d0951bb7c3b2aaf5d929",
+        "dac-corners/trace-endpoints.json": "f758c7ded3327f2ddf0c05dd8db518d4ef650e5186acefa412d8d8af8dbae3d2"
+      }
+    },
+    "corners-25": {
+      "requiredEndSeconds": 0.00116,
+      "completed": false,
+      "stepNs": 25.0,
+      "method": "trap",
+      "dacCorners": true,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100501, timestep = 3.125e-20: trouble with xdata:ttl7406_diode-instance d.xdata.dfeed",
+      "reportedFailureSeconds": 0.00100501,
+      "resetReleaseEventsPs": [
+        1000001000
+      ],
+      "observedLastSeconds": {
+        "witness.txt": 0.0010050120000221598,
+        "bus-trace.txt": 0.0010050120000221598,
+        "driver-trace.txt": 0.0010050120000221598,
+        "wr-trace.txt": 0.0010050120000221598,
+        "network_witness.txt": 0.0010050120000221598
+      },
+      "files": {
+        "corners-25/io.cir": "d5238b483cfb26e5c5f2d845ba1659c24e0c888afa709455442239cc43e4548b",
+        "corners-25/ngspice.log": "d7d0c46c6bedf64c669150cfe27d652ebd1dae0756f6011cd40aed11bae16207",
+        "corners-25/run.json": "5013d4c3ec54e6440aaa4f53407c800a2342ade18fc2dbe025bf401252117b23",
+        "corners-25/trace-endpoints.json": "9c12273d53eac529c6504bd2bf63fb480d9c83da6987204ed0811e5bc70d58f4"
+      }
+    },
+    "corners-12.5": {
+      "requiredEndSeconds": 0.00116,
+      "completed": false,
+      "stepNs": 12.5,
+      "method": "trap",
+      "dacCorners": true,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100101, timestep = 1.5625e-20: trouble with xdata:ttl7406_diode-instance d.xdata.dfeed",
+      "reportedFailureSeconds": 0.00100101,
+      "resetReleaseEventsPs": [
+        1000001000
+      ],
+      "observedLastSeconds": {
+        "witness.txt": 0.001001012000027705,
+        "bus-trace.txt": 0.001001012000027705,
+        "driver-trace.txt": 0.001001012000027705,
+        "wr-trace.txt": 0.001001012000027705,
+        "network_witness.txt": 0.001001012000027705
+      },
+      "files": {
+        "corners-12.5/io.cir": "1b96834e2807e55428dfba95d3a5861c36e7d569918cdbdf3c9ff0b5bd8473bb",
+        "corners-12.5/ngspice.log": "d160779ad0e1cb30d86d1e5b3da19c2010ea5f3d278ca4b85fcc9d75dec9d8b1",
+        "corners-12.5/run.json": "288cca7d3b0c6de009ae2713e5118901ae53079ef893a8d42f224a7349d38bf7",
+        "corners-12.5/trace-endpoints.json": "44dc28bc3a49254404120c1b6fbf29e4c86bbdc57bcad9b1047adec5091fb174"
+      }
+    },
+    "corners-6.25": {
+      "requiredEndSeconds": 0.00116,
+      "completed": false,
+      "stepNs": 6.25,
+      "method": "trap",
+      "dacCorners": true,
+      "solverDiagnostic": "doAnalyses: TRAN:  Timestep too small; time = 0.00100101, timestep = 7.8125e-21: trouble with xdata:ttl7406_diode-instance d.xdata.dfeed",
+      "reportedFailureSeconds": 0.00100101,
+      "resetReleaseEventsPs": [
+        1000001000
+      ],
+      "observedLastSeconds": {
+        "witness.txt": 0.0010010120000000001,
+        "bus-trace.txt": 0.0010010120000000001,
+        "driver-trace.txt": 0.0010010120000000001,
+        "wr-trace.txt": 0.0010010120000000001,
+        "network_witness.txt": 0.0010010120000000001
+      },
+      "files": {
+        "corners-6.25/io.cir": "317afab92828253ca838c2fc31f7b45e8b708dc1551c218b37b1d56ea3c57722",
+        "corners-6.25/ngspice.log": "fc890f146fdd9a907d8cce626150b578cc4cfe9eb010ca7aa33c068955b6a7ab",
+        "corners-6.25/run.json": "981e739613dc514ec79e5476e1a21948309b12ec0997c3c12a08aeb137aa60b6",
+        "corners-6.25/trace-endpoints.json": "1f105f5288c45146b726ae20371d6fe7e128432be32e999c0a66420f5ea7ea44"
+      }
+    }
+  },
+  "refinementCapturesComplete": false,
+  "numericallyQualified": false,
+  "electricallyQualified": false,
+  "productionDefaultChangeAuthorized": false,
+  "comparison": {
+    "performed": false,
+    "reason": "Waveform comparison requires complete matching refinement windows; failed or truncated traces cannot substitute."
+  },
+  "scope": "Original live CPU/HDL, standard S600, direct drivers, matrix and host/filter circuit. Only stop time, maximum step, integration method and the existing opt-in DAC-corner fix vary. No model parameters or solver tolerances are relaxed. Trace tails are diagnostic evidence, not complete captures; raw traces remain in the local run directories with hashes retained here.",
+  "runtimeLimit": "The original runner fingerprints ngspice, code models, bytecode and ROM. External VPI/shared-library dependencies were not independently fingerprinted before these runs; this investigation cannot admit production runtime equivalence.",
+  "nextAction": "Investigate the live boundary at the first post-reset data-bus drive. Any fix must complete both finer steps and its disabled controls before full-repeat testing.",
+  "sources": {
+    "reset_release_driver_review.py": "93ce50a72630a66fe4edcc92e040c28c961925143a14575b3425549491a406dc",
+    "live_transition_probe.py": "1da5a6a9764c41caa8778bdfd01e4a04a97b4fb4425b20d007f8f9a7d5968e05",
+    "network_trace.py": "23a1a4997edc730648a5cf7a5e71e24ec2c11d234b494b5b4e0143314176cf8f",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8"
+  }
+}
