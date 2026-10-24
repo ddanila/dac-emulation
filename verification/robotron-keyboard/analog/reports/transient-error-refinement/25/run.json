@@ -1,0 +1,161 @@
+{
+  "truncationTolerance": 0.25,
+  "filterTruncAudit": false,
+  "startupTruncAudit": false,
+  "dacAnchored": true,
+  "haltNs": null,
+  "dacStateAudit": false,
+  "toleranceComponents": [
+    "reltol"
+  ],
+  "samplingGridSha256": "60125f0b8d37ed151a445d1b6e3b9f604f4bc45ebfde9a208c452154b4af8e04",
+  "externalDependencies": [
+    {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+      "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+    },
+    {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.vpi",
+      "sha256": "d04bd1d938eb0dc3055b73e0c6745ec2400d258315cfd7851cf83ed0e337a3ea"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi",
+      "sha256": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi",
+      "sha256": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi",
+      "sha256": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi",
+      "sha256": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi",
+      "sha256": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi",
+      "sha256": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e"
+    },
+    {
+      "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+    }
+  ],
+  "observationSignals": [
+    "v(receiver_data)",
+    "v(receiver_clock)",
+    "v(n_D0)",
+    "v(n_D1)",
+    "v(n_D2)",
+    "v(n_D3)",
+    "v(n_D4)",
+    "v(n_D5)",
+    "v(n_D6)",
+    "v(n_D7)",
+    "v(n_p5V)",
+    "i(Vdriver_supply)",
+    "v(n_WR_N)",
+    "v(wr_low)",
+    "v(wr_high)",
+    "@bwr_low[i]",
+    "@bwr_high[i]",
+    "v(n_TA_TAKT)",
+    "v(n_TA_DATEN)",
+    "v(L1_1_series)",
+    "v(L1_2_series)",
+    "v(L1_3_series)",
+    "v(L1_4_series)",
+    "v(n_CABLE_TAKT)",
+    "v(n_CABLE_GND)",
+    "v(n_CABLE_5V)",
+    "v(n_CABLE_DATEN)",
+    "i(L1.1)",
+    "i(L1.2)",
+    "i(L1.3)",
+    "i(L1.4)"
+  ],
+  "exitCode": 0,
+  "timedOut": false,
+  "elapsedSeconds": 682.036652833,
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-passive-cap-runtime",
+      "sha256": "8ac92aaa0956bb70b10d1bee4f76ade09d462856a20cbd535a65283b6568bce0"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-dac-anchored-models-v2/spinit",
+      "sha256": "c56f8ed3e7ea921900863a5612d3b46894f3a7193ad8a670f5a653068d1cd5c3"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-dac-anchored-models-v2/digital.cm",
+        "sha256": "d155daf67d0f3f86ca93a9811cc72603ff326848574e77a371a2cc04d9ef28b1",
+        "loadPath": "/private/tmp/k7658-dac-anchored-models-v2/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "enabled": true,
+  "adcCrossings": false,
+  "audit": false,
+  "stateAudit": false,
+  "switchAudit": false,
+  "conservativeCap": true,
+  "capPairedRhs": false,
+  "inductorMonitor": false,
+  "passiveAssembly": true,
+  "physicalDriverTrace": true,
+  "networkTrace": true,
+  "mpfrTransitionBits": "256",
+  "mpfrStartNs": 0.0,
+  "matrixBoundarySubstitution": false,
+  "stepNs": 25.0,
+  "stopNs": 1006000.0,
+  "fixtureCrossingGuardPs": 0.25,
+  "toleranceScale": 0.01,
+  "qualified": false,
+  "method": "trap",
+  "solverDiagnostic": null,
+  "sourceDeckSha256": "1c38a1ee2fcb4fc01b05107a5f8128c54136b3e5bf75ef002b6b38be022e1b51",
+  "deckSha256": "2e97a8eaa4ee5fa0a6cf1d848bfceb9f031267a06f546e2ef00a92a104b8a53f",
+  "inputs": {
+    "io.vvp": "ebc881557d10b5eef868a629a7c329b003ec15817507597ef9644a2b56851829",
+    "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966"
+  },
+  "generatorSha256": "36479eac2bac9f6d5b40b2244ca898a38f4ba3613f9715e4150c56ca85ef07ae"
+}
