@@ -24,7 +24,7 @@ def raw_deck(deck):
     return result.replace('\nrun\n', '\nset filetype=binary\nrun waveform.raw\n'), commands
 
 
-def run_pair(baseline, runtime_path, spinit, out, timeout):
+def run_pair(baseline, runtime_path, spinit, out, timeout, *, rollback_audit=False):
     baseline = baseline.resolve()
     receipt = json.loads((baseline/'run.json').read_text())
     if receipt['exitCode'] != 0 or receipt['timedOut'] or receipt['solverDiagnostic'] or receipt['haltNs'] is not None:
@@ -60,8 +60,13 @@ def run_pair(baseline, runtime_path, spinit, out, timeout):
     out.mkdir(parents=True, exist_ok=False)
     shutil.copyfile(__file__, out/'capture-generator.py')
     (out/'baseline.json').write_text(json.dumps(receipt,indent=2)+'\n')
-    for label, text, names in [('memory', deck, [name for name,_ in writers]),
-                               ('pipe', transformed, ['waveform.raw'])]:
+    controls = ([('off', transformed, ['waveform.raw']), ('on', transformed, ['waveform.raw'])]
+                if rollback_audit else [('memory', deck, [name for name,_ in writers]),
+                                       ('pipe', transformed, ['waveform.raw'])])
+    for label, text, names in controls:
+        env.pop('ROBOTRON_ROLLBACK_AUDIT', None)
+        if rollback_audit and label == 'on':
+            env['ROBOTRON_ROLLBACK_AUDIT'] = '1'
         directory = out/label
         directory.mkdir()
         for name in ('io.vvp','s600.hex'):
@@ -104,5 +109,6 @@ if __name__ == '__main__':
     for name in ('baseline','runtime','spinit','out'):
         p.add_argument('--'+name,type=Path,required=True)
     p.add_argument('--timeout',type=float,default=3600)
+    p.add_argument('--rollback-audit',action='store_true',help='Compare complete raw captures with rollback logging off/on')
     a=p.parse_args()
-    run_pair(a.baseline,a.runtime.resolve(),a.spinit,a.out,a.timeout)
+    run_pair(a.baseline,a.runtime.resolve(),a.spinit,a.out,a.timeout,rollback_audit=a.rollback_audit)
