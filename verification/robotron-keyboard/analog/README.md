@@ -313,6 +313,13 @@ control waveforms byte-identical. The [input-boundary regression](reports/input-
 reproduces the cause in the original scheduler and verifies an input-boundary
 patch against paired qualified-CPU captures. This fixes the tested input-driven
 ordering failure, not general rollback for autonomous HDL or multiple clients.
+The [source-level dispatch regression](test_cosim_dispatch_rollback.py) demonstrates
+that a later hybrid can request a breakpoint after an earlier irreversible client
+has advanced. Reordering this example avoids the failure but is not a general fix;
+the test does not establish that this schedule occurs in the keyboard circuit.
+The [registration regression](test_cosim_registration.py) verifies that a sole
+priority-1 irreversible client is dispatched last. Duplicate priority warns but
+does not reject registration; it must not be treated as a qualified configuration.
 Service acceptance now stops at a supply-relative bus-voltage failure; full-board
 startup timed out. Neither result establishes complete electrical acceptance.
 
