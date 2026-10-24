@@ -72,6 +72,8 @@ def main():
  if a.dac_state_audit:env['ROBOTRON_DAC_STATE_AUDIT']='1'
  if a.dac_corners:env['ROBOTRON_DAC_BREAKPOINTS']='1'
  a.out.mkdir(parents=True,exist_ok=False)
+ shutil.copyfile(__file__,a.out/'capture-generator.py')
+ if sha(a.out/'capture-generator.py')!=generator_sha:raise ValueError('Capture generator changed during preparation')
  if scenario is not None:shutil.copyfile(a.prepared/'scenario.json',a.out/'scenario.json')
  for name in ('io.vvp','s600.hex'):shutil.copyfile(a.prepared/name,a.out/name)
  deck=(a.prepared/'io.cir').read_text()

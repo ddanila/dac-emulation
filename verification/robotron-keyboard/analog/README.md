@@ -507,6 +507,10 @@ captures with two timestep halvings and otherwise identical settings. It compare
 every saved voltage at absolute time, requires unchanged firmware/serial records,
 and applies the 10 mV and per-node nonincreasing-error gate. It does not replace
 the separate disabled control or electrical-model admission.
+`retain_full_scenario.py COARSE MIDDLE FINE --out DIR` runs that review before
+archiving receipts, decks, scenarios, frozen generators and compressed logs.
+Raw waveforms stay local with recorded hashes. `--check --out DIR` verifies the
+retained manifest and event consistency; it does not repeat the raw comparison.
 `retain_live_raw.py` retains checked receipts while keeping full compressed captures
 locally; `--check --out reports/live-raw-output` verifies the retained manifest.
 `--all-saved-network` selects every saved observation; `complete_network_review.py --end-seconds` requires the
