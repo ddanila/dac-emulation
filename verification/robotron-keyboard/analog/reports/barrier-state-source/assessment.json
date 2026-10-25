@@ -1,6 +1,7 @@
 {
   "schema": 1,
   "kind": "Manually reviewed source argument; freshness checks are not a formal proof",
+  "reviewerSha256": "54efe8a8178c2a4564c1f02f30da2de8ce629ce1308e5d35b6e0628f2a17149b",
   "archiveSha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
   "sourceExcerpts": {
     "src/xspice/verilog/coroutine_shim.h": {
@@ -17,6 +18,11 @@
       "sha256": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b",
       "firstLine": 123,
       "excerpt": "static void step(struct co_info *pinfo)\n{\n    struct ng_vvp *ctx = (struct ng_vvp *)pinfo->handle;\n\n    /* Let VVP run.  It will stop when it has caught up with SPICE time\n     * (pinfo->vtime) or produced output.\n     */\n\n    cr_yield_to_sim(&ctx->cr_ctx);\n\n    /* Check for output. */\n\n    if (ctx->out_pending) {\n        struct ngvp_port *pp;\n        uint32_t          changed, mask, limit, i, bit;\n\n        limit = ctx->outs + ctx->inouts;\n        for (i = 0, pp = ctx->ports + ctx->ins; i < limit; ++i, ++pp) {\n            if (!(pp->flags & OUT_PENDING))\n                continue;\n\n            pp->flags &= (uint16_t)~OUT_PENDING;\n            changed = (uint32_t)((pp->new.aval ^ pp->previous.aval) |\n                                 (pp->new.bval ^ pp->previous.bval));\n            if (changed) {\n                bit = pp->position;\n                mask = 1 << (pp->bits - 1);\n                while (changed) {\n                    if (mask & changed) {\n                        const Digital_t lv_vals[] =\n                            { {ZERO, STRONG}, {ONE, STRONG},\n                              {ZERO, HI_IMPEDANCE}, {UNKNOWN, STRONG} };\n                        uint32_t a, b;\n\n                        a = ((uint32_t)pp->new.aval & mask) != 0;\n                        b = ((uint32_t)pp->new.bval & mask) != 0;\n                        a += (b << 1);\n                        pinfo->out_fn(pinfo, bit, (Digital_t *)lv_vals + a);\n                        changed &= ~mask;\n                    }\n                    mask >>= 1;\n                    ++bit;\n                }\n                pp->previous.aval = pp->new.aval;\n                pp->previous.bval = pp->new.bval;\n            }\n            if (--ctx->out_pending == 0)\n                break;\n        }\n        if (ctx->out_pending)\n            abort();\n    }\n}"
+    },
+    "src/xspice/cm/cmevt.c": {
+      "sha256": "726f47c675cac5ccf294b4f59b9f2732e45fd520c8ee462ec4d50f5fde3ff1b4",
+      "firstLine": 157,
+      "excerpt": "void *cm_event_get_ptr(\n    int tag,            /* The user-specified tag for the memory block */\n    int timepoint)      /* The timepoint - 0=current, 1=previous */\n{\n\n    int         i;\n    int         inst_index;\n\n    MIFinstance *here;\n    CKTcircuit  *ckt;\n\n    void        *ptr;\n\n    Evt_State_Desc_t    *desc;\n\n    Evt_State_Data_t    *state_data;\n    Evt_State_t         *state;\n\n\n    /* Get the address of the ckt and instance structs from g_mif_info */\n    here = g_mif_info.instance;\n    ckt  = g_mif_info.ckt;\n\n\n    /* If initialization pass, return error */\n    if((! here->initialized) && (timepoint > 0)) {\n        g_mif_info.errmsg =\n        \"ERROR - cm_event_get_ptr() - Cannot get_ptr(tag,1) during initialization pass\\n\";\n        return(NULL);\n    }\n\n    /* Get pointers for fast access */\n    inst_index = here->inst_index;\n    state_data = ckt->evt->data.state;\n\n    /* Scan state descriptor list to find the descriptor for this tag. */\n    /* Report error if tag not found */\n    desc = state_data->desc[inst_index];\n    while(desc) {\n        if(desc->tag == tag)\n            break;\n        desc = desc->next;\n    }\n\n    if(desc == NULL) {\n        g_mif_info.errmsg =\n        \"ERROR - cm_event_get_ptr() - Specified tag not found\\n\";\n        return(NULL);\n    }\n\n    /* Get the state pointer from the current array */\n    state = *(state_data->tail[inst_index]);\n\n    /* Backup the specified number of timesteps */\n    for(i = 0; i < timepoint; i++)\n        if(state->prev)\n            state = state->prev;\n\n    /* Return pointer */\n    ptr = ((char *) state->block) + desc->offset;\n    return(ptr);\n}"
     },
     "src/xspice/cm/cm.c": {
       "sha256": "b62c7b7d0051c5b73bdb520f302f52b3db2d6e392c1cd45f8dc62f631e247537",
@@ -65,5 +71,55 @@
     "Complete HDL event-queue serialization or general rollback, Windows fiber behavior, or all physical/firmware scenarios.",
     "Source-to-binary equivalence beyond the retained build lineage; changed sources or bridge backends require a new review."
   ],
+  "callbackOwnership": [
+    {
+      "path": "TIME == 0",
+      "writes": "Direct HDL input delivery and current input history; output changed flags cleared.",
+      "control": "Startup must be observed separately; do not access previous history during initialization."
+    },
+    {
+      "path": "Pending output before queue trimming",
+      "writes": "output() publishes pending values to current output history and OUTPUT/DELAY/CHANGED fields, then clears op_pending.",
+      "control": "Observe callback entry and output entry/exit, not only run() entry; compare accepted output continuation."
+    },
+    {
+      "path": "Backward trial time",
+      "writes": "Queue index drops future entries; this does not restore HDL state.",
+      "control": "Retain queue contents and accepted/trial times before and after trimming."
+    },
+    {
+      "path": "EVENT input capture",
+      "writes": "check_input appends or truncates queue entries; caller updates current input history. Overflow may request a shorter step.",
+      "control": "Observe input history and queue transitions, including overflow; a run-entry snapshot can miss callbacks that never call run."
+    },
+    {
+      "path": "STEP_PENDING first advance and run",
+      "writes": "advance resumes HDL and can invoke accept_output; first advance precedes run-entry observation.",
+      "control": "Bracket info.step, including first advance. Check state and timestamped continuation after resumption."
+    },
+    {
+      "path": "accept_output",
+      "writes": "Seeds pending out_vals from current output history when op_pending is clear, sets op_pending, writes changed bit.",
+      "control": "Capture pending buffer only when initialized/meaningful, current history, and pending flag; distinguish ordinary outputs from bidirectional ports."
+    },
+    {
+      "path": "advance output-driven truncation",
+      "writes": "HDL already advanced; a breakpoint is requested and remaining input queue discarded. Pending output survives for publication.",
+      "control": "Test successful truncation and failed-breakpoint recovery separately; barrier non-execution does not apply."
+    }
+  ],
+  "historyObservationContract": {
+    "tags": {
+      "0": "input Digital_t array",
+      "1": "output Digital_t array"
+    },
+    "timepoints": {
+      "0": "current history",
+      "1": "previous history, only after initialization"
+    },
+    "missingPrevious": "cm_event_get_ptr returns the oldest available block when no predecessor exists; timepoint 1 need not be a distinct state.",
+    "identity": "Serialize state/strength and lifecycle validity, not pointer addresses or raw struct padding.",
+    "limits": "History access observes solver-owned memory; reading it does not establish correct restoration or cover scheduled output events."
+  },
   "qualified": false
 }
