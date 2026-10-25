@@ -67,6 +67,8 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_internal_state_probe.py
           python3 verification/robotron-keyboard/analog/test_live_cosim_state_review.py
           python3 verification/robotron-keyboard/analog/test_history_state_review.py
+          python3 verification/robotron-keyboard/analog/test_output_history_init.py
+          python3 verification/robotron-keyboard/analog/output_history_review.py --root verification/robotron-keyboard/analog/reports/output-history-init --check-manifest
           python3 verification/robotron-keyboard/analog/history_state_review.py --root verification/robotron-keyboard/analog/reports/history-state --check-manifest
           python3 verification/robotron-keyboard/analog/barrier_state_source_review.py --check
           python3 verification/robotron-keyboard/analog/live_cosim_state_review.py --root verification/robotron-keyboard/analog/reports/live-cosim-state --check-manifest
