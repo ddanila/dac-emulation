@@ -611,9 +611,15 @@ lossless storage, not a new numerical run or full-repeat storage feasibility.
 `raw_stream_review.py` can compare raw pipes before final producer counts are
 available, then requires independent completion counts before returning success.
 The [complete replay](reports/online-stream-replay/assessment.json) matches the
-retained retry comparison and input hashes without a raw spool. Live producer/log
-integration, three-level orchestration and evidence retention remain prerequisites
-for using this path in full-repeat qualification.
+retained retry comparison and input hashes without a raw spool.
+`stream_refinement_capture.py` runs three matched live producers, drains compressed
+logs independently and compares both adjacent pairs with bounded raw pipes. It
+pins inputs and runtime, checks completion, applies the unchanged voltage gate and,
+with `--scenario`, checks firmware events and serial windows. The
+[live RC control](reports/live-stream-transport/assessment.json) matches stored-waveform
+comparisons exactly. Raw bytes are hashed but not retained for later replay; compressed
+logs still require disk space. Keyboard-scale resource bounds and retained-evidence
+adequacy remain prerequisites for full-repeat qualification.
 
 Use `review_firmware_run.py --run /path/to/failed-run --rom /path/to/s600.bin
 --out /tmp/firmware-review` to recheck an archived failure without rerunning SPICE.
