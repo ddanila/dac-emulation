@@ -381,7 +381,10 @@ The [input-barrier source argument](reports/barrier-state-source/assessment.json
 justifies non-execution on the successful early-return branch under the pinned
 pthread ownership assumptions. It does not cover the surrounding callback or
 paths that resume HDL; private queue traversal is not a prerequisite for that
-branch-specific argument.
+branch-specific argument. Its callback ownership map identifies the missing observation
+points before pending-output publication and the first HDL advance, and specifies
+valid access to current/previous XSPICE history. These are observation requirements,
+not evidence of general rollback.
 Firmware and state streams are compared separately because merged stdout/stderr
 buffering changes their interleaving. Full replay uses `live_cosim_state_review.py
 --root reports/live-cosim-state`; CI checks the retained manifest and parser controls
@@ -635,8 +638,12 @@ pins inputs and runtime, checks completion, applies the unchanged voltage gate a
 with `--scenario`, checks firmware events and serial windows. The
 [live RC control](reports/live-stream-transport/assessment.json) matches stored-waveform
 comparisons exactly. Raw bytes are hashed but not retained for later replay; compressed
-logs still require disk space. Keyboard-scale resource bounds and retained-evidence
-adequacy remain prerequisites for full-repeat qualification.
+logs still require disk space. The [bounded keyboard benchmark](reports/keyboard-stream-benchmark/assessment.json)
+measures the complete observer fixture with three refinements and sampled process-tree
+RSS. It retains compressed logs, comparison receipts and runtime/input identities.
+The strict non-growing-error gate fails despite differences below the voltage limit.
+Its resource measurements do not bound full-repeat costs, and raw hashes cannot
+replace replayable waveforms when a different numerical review is needed.
 
 Use `review_firmware_run.py --run /path/to/failed-run --rom /path/to/s600.bin
 --out /tmp/firmware-review` to recheck an archived failure without rerunning SPICE.

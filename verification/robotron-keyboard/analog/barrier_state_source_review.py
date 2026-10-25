@@ -24,6 +24,7 @@ def build(archive):
         'src/xspice/verilog/coroutine_shim.h':('static void cr_yield_to_sim(struct cr_ctx *ctx) {','static void cr_safety(void) {'),
         'src/xspice/verilog/coroutine_cosim.h':('/* On a Unix-like OS','\n#endif\n#endif'),
         'src/xspice/verilog/icarus_shim.c':('static void step(struct co_info *pinfo)','static void cleanup(struct co_info *pinfo)'),
+        'src/xspice/cm/cmevt.c':('void *cm_event_get_ptr(', '/*\ncm_event_queue()'),
         'src/xspice/cm/cm.c':('int cm_analog_set_temp_bkpt(','/*\ncm_analog_set_perm_bkpt()')}
     with tarfile.open(archive) as package:
         for name,(start,end) in selections.items():
@@ -38,7 +39,7 @@ def build(archive):
     scheduler=(HERE/files[0]).read_text()
     sources[files[0]]={'sha256':sha(scheduler.encode()),'locators':['run: input queue processing','advance: client step and output handling','accept_output/output: output buffer writes']}
     return {'schema':1,'kind':'Manually reviewed source argument; freshness checks are not a formal proof',
-            'archiveSha256':ARCHIVE,'sourceExcerpts':sources,'repositorySources':{n:sha((HERE/n).read_bytes()) for n in files},
+            'reviewerSha256':sha(Path(__file__).read_bytes()),'archiveSha256':ARCHIVE,'sourceExcerpts':sources,'repositorySources':{n:sha((HERE/n).read_bytes()) for n in files},
             'pthreadContract':{'url':'https://pubs.opengroup.org/onlinepubs/7908799/xsh/pthread_cond_wait.html',
                                'requirement':'A successful condition wait returns owning the associated mutex; spurious wakeups still require reacquiring it.'},
             'entryConditions':['Initialized single-Icarus pthread bridge; SPICE owns the coroutine mutex.',
@@ -57,6 +58,27 @@ def build(archive):
                               'State preservation on failed-breakpoint, advance, output, startup or cleanup paths.',
                               'Complete HDL event-queue serialization or general rollback, Windows fiber behavior, or all physical/firmware scenarios.',
                               'Source-to-binary equivalence beyond the retained build lineage; changed sources or bridge backends require a new review.'],
+            'callbackOwnership':[
+                {'path':'TIME == 0', 'writes':'Direct HDL input delivery and current input history; output changed flags cleared.',
+                 'control':'Startup must be observed separately; do not access previous history during initialization.'},
+                {'path':'Pending output before queue trimming', 'writes':'output() publishes pending values to current output history and OUTPUT/DELAY/CHANGED fields, then clears op_pending.',
+                 'control':'Observe callback entry and output entry/exit, not only run() entry; compare accepted output continuation.'},
+                {'path':'Backward trial time', 'writes':'Queue index drops future entries; this does not restore HDL state.',
+                 'control':'Retain queue contents and accepted/trial times before and after trimming.'},
+                {'path':'EVENT input capture', 'writes':'check_input appends or truncates queue entries; caller updates current input history. Overflow may request a shorter step.',
+                 'control':'Observe input history and queue transitions, including overflow; a run-entry snapshot can miss callbacks that never call run.'},
+                {'path':'STEP_PENDING first advance and run', 'writes':'advance resumes HDL and can invoke accept_output; first advance precedes run-entry observation.',
+                 'control':'Bracket info.step, including first advance. Check state and timestamped continuation after resumption.'},
+                {'path':'accept_output', 'writes':'Seeds pending out_vals from current output history when op_pending is clear, sets op_pending, writes changed bit.',
+                 'control':'Capture pending buffer only when initialized/meaningful, current history, and pending flag; distinguish ordinary outputs from bidirectional ports.'},
+                {'path':'advance output-driven truncation', 'writes':'HDL already advanced; a breakpoint is requested and remaining input queue discarded. Pending output survives for publication.',
+                 'control':'Test successful truncation and failed-breakpoint recovery separately; barrier non-execution does not apply.'}],
+            'historyObservationContract':{
+                'tags':{'0':'input Digital_t array','1':'output Digital_t array'},
+                'timepoints':{'0':'current history','1':'previous history, only after initialization'},
+                'missingPrevious':'cm_event_get_ptr returns the oldest available block when no predecessor exists; timepoint 1 need not be a distinct state.',
+                'identity':'Serialize state/strength and lifecycle validity, not pointer addresses or raw struct padding.',
+                'limits':'History access observes solver-owned memory; reading it does not establish correct restoration or cover scheduled output events.'},
             'qualified':False}
 
 
@@ -64,6 +86,7 @@ def check():
     result=json.loads(TARGET.read_text())
     for name,digest in result['repositorySources'].items():
         if sha((HERE/name).read_bytes())!=digest:raise ValueError('Changed source argument dependency: '+name)
+    if result['reviewerSha256']!=sha(Path(__file__).read_bytes()):raise ValueError('Changed source reviewer; regenerate report')
     if result['archiveSha256']!=ARCHIVE:raise ValueError('Changed archive identity')
     if result['qualified'] is not False:raise ValueError('Source argument cannot qualify whole-board rollback')
 
