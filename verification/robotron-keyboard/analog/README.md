@@ -608,6 +608,12 @@ preserves the previous post-reset assessments. Bridge, retry, raw-output and
 logical hashes and publishing outputs only after compression completes. Failed captures
 remain partial and cannot satisfy completion checks. The transport replay establishes
 lossless storage, not a new numerical run or full-repeat storage feasibility.
+`raw_stream_review.py` can compare raw pipes before final producer counts are
+available, then requires independent completion counts before returning success.
+The [complete replay](reports/online-stream-replay/assessment.json) matches the
+retained retry comparison and input hashes without a raw spool. Live producer/log
+integration, three-level orchestration and evidence retention remain prerequisites
+for using this path in full-repeat qualification.
 
 Use `review_firmware_run.py --run /path/to/failed-run --rom /path/to/s600.bin
 --out /tmp/firmware-review` to recheck an archived failure without rerunning SPICE.
