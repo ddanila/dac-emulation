@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "kind": "Manually reviewed source argument; freshness checks are not a formal proof",
+  "archiveSha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+  "sourceExcerpts": {
+    "src/xspice/verilog/coroutine_shim.h": {
+      "sha256": "312cd4c02bb77aca1b2cf094531a7f062fa1624153cffd9d037c91eece461ada",
+      "firstLine": 74,
+      "excerpt": "static void cr_yield_to_sim(struct cr_ctx *ctx) {\n    int err;\n\n    err = pthread_cond_signal(&ctx->cosim_cond);\n    if (err)\n        fail(\"pthread_cond_signal (sim)\", err);\n    err = pthread_cond_wait(&ctx->spice_cond, &ctx->mutex);\n    if (err)\n        fail(\"pthread_cond_wait (spice)\", err);\n}\n\nstatic void cr_init(struct cr_ctx *ctx, void *(*fn)(void *), void *data) {\n    int err;\n\n    /* Create pthread apparatus. */\n\n    err = pthread_mutex_init(&ctx->mutex, NULL);\n    if (err)\n        fail(\"pthread_mutex_init\", err);\n    err = pthread_cond_init(&ctx->spice_cond, NULL);\n    if (!err)\n        err = pthread_cond_init(&ctx->cosim_cond, NULL);\n    if (err)\n        fail(\"pthread_cond_init\", err);\n\n    /* Start the cosimulator thread and wait for it to be ready. */\n\n    pthread_mutex_lock(&ctx->mutex);\n    err = pthread_create(&ctx->thread, NULL, fn, data);\n    if (err)\n        fail(\"pthread_create\", err);\n    err = pthread_cond_wait(&ctx->spice_cond, &ctx->mutex);\n    if (err)\n        fail(\"pthread_cond_wait\", err);\n}"
+    },
+    "src/xspice/verilog/coroutine_cosim.h": {
+      "sha256": "78de72acfb12c09155f46b53821d8ecab2b596423ce93c995384dd971550716e",
+      "firstLine": 17,
+      "excerpt": "/* On a Unix-like OS pthreads are used to give libvvp its own stack. */\n\nstatic void cr_yield_to_spice(struct cr_ctx *ctx) {\n    pthread_cond_signal(&ctx->spice_cond);\n    pthread_cond_wait(&ctx->cosim_cond, &ctx->mutex);\n}\n\nstatic void cr_init(struct cr_ctx *ctx) {\n    pthread_mutex_lock(&ctx->mutex);\n}"
+    },
+    "src/xspice/verilog/icarus_shim.c": {
+      "sha256": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b",
+      "firstLine": 123,
+      "excerpt": "static void step(struct co_info *pinfo)\n{\n    struct ng_vvp *ctx = (struct ng_vvp *)pinfo->handle;\n\n    /* Let VVP run.  It will stop when it has caught up with SPICE time\n     * (pinfo->vtime) or produced output.\n     */\n\n    cr_yield_to_sim(&ctx->cr_ctx);\n\n    /* Check for output. */\n\n    if (ctx->out_pending) {\n        struct ngvp_port *pp;\n        uint32_t          changed, mask, limit, i, bit;\n\n        limit = ctx->outs + ctx->inouts;\n        for (i = 0, pp = ctx->ports + ctx->ins; i < limit; ++i, ++pp) {\n            if (!(pp->flags & OUT_PENDING))\n                continue;\n\n            pp->flags &= (uint16_t)~OUT_PENDING;\n            changed = (uint32_t)((pp->new.aval ^ pp->previous.aval) |\n                                 (pp->new.bval ^ pp->previous.bval));\n            if (changed) {\n                bit = pp->position;\n                mask = 1 << (pp->bits - 1);\n                while (changed) {\n                    if (mask & changed) {\n                        const Digital_t lv_vals[] =\n                            { {ZERO, STRONG}, {ONE, STRONG},\n                              {ZERO, HI_IMPEDANCE}, {UNKNOWN, STRONG} };\n                        uint32_t a, b;\n\n                        a = ((uint32_t)pp->new.aval & mask) != 0;\n                        b = ((uint32_t)pp->new.bval & mask) != 0;\n                        a += (b << 1);\n                        pinfo->out_fn(pinfo, bit, (Digital_t *)lv_vals + a);\n                        changed &= ~mask;\n                    }\n                    mask >>= 1;\n                    ++bit;\n                }\n                pp->previous.aval = pp->new.aval;\n                pp->previous.bval = pp->new.bval;\n            }\n            if (--ctx->out_pending == 0)\n                break;\n        }\n        if (ctx->out_pending)\n            abort();\n    }\n}"
+    },
+    "src/xspice/cm/cm.c": {
+      "sha256": "b62c7b7d0051c5b73bdb520f302f52b3db2d6e392c1cd45f8dc62f631e247537",
+      "firstLine": 419,
+      "excerpt": "int cm_analog_set_temp_bkpt(\n    double time)              /* The time of the breakpoint to be set */\n{\n    CKTcircuit  *ckt;\n\n    /* Get the address of the ckt and instance structs from g_mif_info */\n    ckt  = g_mif_info.ckt;\n\n    /* Make sure breakpoint is not prior to last accepted timepoint */\n    if(time < ((ckt->CKTtime - ckt->CKTdelta) + ckt->CKTminBreak)) {\n        g_mif_info.errmsg =\n        \"ERROR - cm_analog_set_temp_bkpt() - Time < last accepted timepoint\\n\";\n        return(MIF_ERROR);\n    }\n\n    /* If too close to a permanent breakpoint or the current time, discard it */\n    if ((ckt->CKTbreaks &&\n         (fabs(time - ckt->CKTbreaks[0]) < ckt->CKTminBreak ||\n          fabs(time - ckt->CKTbreaks[1]) < ckt->CKTminBreak)) ||\n        fabs(time - ckt->CKTtime) < ckt->CKTminBreak) {\n        g_mif_info.errmsg = \"WARNING - time is too close to existing break.\";\n        return MIF_ERROR;\n    }\n\n    /* If < current dynamic breakpoint, make it the current breakpoint */\n    if( time < g_mif_info.breakpoint.current)\n        g_mif_info.breakpoint.current = time;\n\n    return(MIF_OK);\n}"
+    },
+    "fixtures/ngspice-47/d_cosim.mod": {
+      "sha256": "aa31bc8cf686914b3f667c9790aae4b79115a6f3b0e786732358a63df9340207",
+      "locators": [
+        "run: input queue processing",
+        "advance: client step and output handling",
+        "accept_output/output: output buffer writes"
+      ]
+    }
+  },
+  "repositorySources": {
+    "fixtures/ngspice-47/d_cosim.mod": "aa31bc8cf686914b3f667c9790aae4b79115a6f3b0e786732358a63df9340207",
+    "engine-patches/cosim-input-barrier.patch": "1722a99123143b438e0dc95054430e90f0420fc621b507d88f2bf12abe61e5cf",
+    "engine-patches/ngspice-47-strict-time-diagnostic.patch": "2ec5f1cdedeb136b3d09756d6674a1654d2f890d620a6cee703d3b39c00fb957",
+    "reports/live-cosim-state/model/cfunc.mod": "3c73f642ccac50ce8bd208e61dc461b34ae0677df5b61ca42d5ad2e0d3757898",
+    "reports/live-cosim-state/model/live_state_audit.h": "9579eabc5cbcd476b18639ec72e6389324007bc696f619e4c9229d958f4ab89f",
+    "reports/live-cosim-state/assessment.json": "1232bdb13b1ca0c59da09e9ab3475f2cc3ef51ce825191da13aa6cb00c333af2"
+  },
+  "pthreadContract": {
+    "url": "https://pubs.opengroup.org/onlinepubs/7908799/xsh/pthread_cond_wait.html",
+    "requirement": "A successful condition wait returns owning the associated mutex; spurious wakeups still require reacquiring it."
+  },
+  "entryConditions": [
+    "Initialized single-Icarus pthread bridge; SPICE owns the coroutine mutex.",
+    "A queued input lies strictly after the accepted boundary and before the trial time.",
+    "The temporary-breakpoint request succeeds, taking the input-barrier return.",
+    "No fault injection, extra VPI writer, cancellation or external worker mutates simulator state."
+  ],
+  "reviewedPath": "Uninstrumented input-barrier patch on the pinned scheduler. Observer helper calls are additional empirical evidence, not part of this no-call argument.",
+  "argument": [
+    "The uninstrumented barrier loop calls only cm_analog_set_temp_bkpt before returning. It precedes queued-input delivery and advance().",
+    "The breakpoint helper reads circuit times and may write the breakpoint or error-message fields; it neither calls Icarus nor releases the coroutine mutex.",
+    "advance() resumes Icarus through info.step; the pthread bridge releases SPICE ownership only while waiting in cr_yield_to_sim. Neither is reached on the successful barrier branch.",
+    "Icarus cannot leave its condition wait while SPICE retains the same mutex, including after a spurious wakeup. Pending HDL events therefore cannot execute through this branch.",
+    "The branch makes no writes to the pending-output buffer and does not call output(), accept_output() or cm_event_get_ptr. Local buffer contents cannot change through this branch under the entry conditions."
+  ],
+  "conclusion": "Private event-queue traversal is not necessary to justify non-execution on this specific successful early-return branch. This does not prove rollback after advancing the HDL.",
+  "notEstablished": [
+    "Immutability of the entire surrounding callback or trial; queued input and XSPICE history can change outside the reviewed branch.",
+    "State preservation on failed-breakpoint, advance, output, startup or cleanup paths.",
+    "Complete HDL event-queue serialization or general rollback, Windows fiber behavior, or all physical/firmware scenarios.",
+    "Source-to-binary equivalence beyond the retained build lineage; changed sources or bridge backends require a new review."
+  ],
+  "qualified": false
+}

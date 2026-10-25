@@ -377,6 +377,11 @@ HDL state, bridge/input queues, continuation and every waveform sample, and dete
 deliberate register corruption. Its reset and endpoint are shortened explicitly
 for observer validation. Complete HDL event queues and XSPICE output-history
 buffers are outside this inventory; full-repeat and general rollback remain open.
+The [input-barrier source argument](reports/barrier-state-source/assessment.json)
+justifies non-execution on the successful early-return branch under the pinned
+pthread ownership assumptions. It does not cover the surrounding callback or
+paths that resume HDL; private queue traversal is not a prerequisite for that
+branch-specific argument.
 Firmware and state streams are compared separately because merged stdout/stderr
 buffering changes their interleaving. Full replay uses `live_cosim_state_review.py
 --root reports/live-cosim-state`; CI checks the retained manifest and parser controls
