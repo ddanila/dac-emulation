@@ -1,0 +1,23 @@
+{
+  "parentRuntimeSha256": "eeb1f6ea7bdc799942324d297740c3245b30a10a41c7efc8919ffba94e6a194a",
+  "patchSha256": "f98b91b166c795dcf50aa89315a5baa9416b21d61ca138d5052b5cfd03dd914a",
+  "sources": {
+    "src/spicelib/analysis/dctran.c": {
+      "beforeSha256": "223735ad1f480696abff7ed5f21df2381d0ef0ba19cf7cda2ba850e0346d1ca9",
+      "afterSha256": "dbcd59f8f4d9c76bc2638544ebb28ef6f3758e0389a130ca03d0e1d0aba312d8"
+    },
+    "src/xspice/evt/evtcall_hybrids.c": {
+      "beforeSha256": "99e84099cd0420eb6e0c026baa0e28e5ae6866b47125dc77645e85712db3ffeb",
+      "afterSha256": "fb0b089f52e4fef9e45e619be42df573028622743e1627f7dbaa320e4600ca69"
+    }
+  },
+  "scope": "Logging only; does not record client internal state or establish firmware rollback.",
+  "runtimeSha256": "3d60cc1e88ceb04aff950d6c44a6fffd46d4b125683438edd56da45f3aec6f6f",
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+  "buildCommand": [
+    "make",
+    "-C",
+    "/private/tmp/k7658-ngspice-performance/build",
+    "-j2"
+  ]
+}
