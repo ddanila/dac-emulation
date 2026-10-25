@@ -46,12 +46,24 @@ class BridgeRollbackLogTests(unittest.TestCase):
         result=analyze(sequence()+[terminal],expected_end=1)
         self.assertEqual(result['terminalBridgeObservation']['actual'],1)
         for lines,end in ((sequence()+[terminal],None), (sequence()+[terminal],2),
-                          (sequence()+[terminal.replace('actual=1','actual=.9')],1),
+                          (sequence()+[terminal.replace('actual=1','actual=.89')],1),
                           (sequence()+[terminal.replace('pending=0','pending=1')],1),
+                          (sequence()+[terminal.replace('actual=1','actual=1.01')],1),
+                          (sequence()+[terminal.replace('tick=.1','tick=1')],1),
                           (sequence()+[terminal,terminal],1),
                           (sequence()+[terminal,client('before',2)],1)):
             with self.subTest(lines=lines,end=end),self.assertRaises(ValueError):
                 analyze(lines,expected_end=end)
+
+    def test_terminal_subtick_request_schedules_no_hdl_advance(self):
+        terminal='TIME_AUDIT advance target=1 actual=.95 base=1 tick=.1 pending=0'
+        result=analyze(sequence()+[terminal],expected_end=1)
+        self.assertEqual(result['terminalBridgeObservation']['actual'],.95)
+        self.assertTrue(result['timeOrderScreenPassed'])
+        # Exact one-tick distance must still be rejected.
+        lines=[s.replace('tick=.1','tick=.125') for s in sequence()]
+        with self.assertRaises(ValueError):
+            analyze(lines+[terminal.replace('actual=.95','actual=.875').replace('tick=.1','tick=.125')],expected_end=1)
 
 
 if __name__=='__main__':unittest.main()
