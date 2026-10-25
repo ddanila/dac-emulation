@@ -362,6 +362,10 @@ This tests retry scheduling, not natural device nonconvergence or general rollba
 The [complete post-reset control](reports/postreset-control/assessment.json) checks
 all saved samples and firmware bus reads over its declared window. It supplies
 a baseline for longer paired controls, not convergence or rollback acceptance.
+The [post-reset dispatch controls](reports/postreset-dispatch/assessment.json)
+reproduce that baseline exactly with logging disabled and enabled, preserving
+firmware events and valid callback ordering throughout the window. Internal HDL
+advancement during rejected trials still requires the matching bridge timing control.
 `live_raw_output.py --rollback-audit` and `rollback_dispatch_review.py` accept
 complete direct-raw baselines without expanding them into text waveforms.
 
