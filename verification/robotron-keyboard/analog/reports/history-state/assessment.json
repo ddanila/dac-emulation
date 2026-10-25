@@ -1,0 +1,127 @@
+{
+  "history": {
+    "phases": {
+      "callback-entry": 27708,
+      "advance-before": 27566,
+      "advance-after": 27566,
+      "output-before": 24,
+      "output-after": 24,
+      "run-entry": 27636,
+      "event-after": 72
+    },
+    "rejections": 72,
+    "corruptionsDetected": 0,
+    "dimensions": [
+      25,
+      69
+    ]
+  },
+  "negativeControl": {
+    "phases": {
+      "callback-entry": 6663,
+      "advance-before": 6663,
+      "advance-after": 6663,
+      "output-before": 2,
+      "output-after": 2,
+      "run-entry": 6662,
+      "event-after": 1
+    },
+    "rejections": 1,
+    "corruptionsDetected": 1,
+    "dimensions": [
+      25,
+      69
+    ]
+  },
+  "waveformComparisons": [
+    {
+      "allSamplesExactlyEqual": true,
+      "samples": 27566,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    },
+    {
+      "allSamplesExactlyEqual": true,
+      "samples": 27566,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    }
+  ],
+  "qualified": false,
+  "baseline": {
+    "path": "verification/robotron-keyboard/analog/reports/live-cosim-state/off",
+    "receiptSha256": "b0af0a0da9c4eaf9d402ac465e67a7e6d234a299d8a18a48fa5784effe4326dc"
+  },
+  "scope": "Initialized callback/history observation and input-barrier equality in the bounded 20-us observer fixture. Exact disabled/enabled/prior waveform and firmware continuation; corruption changes actual input history and is detected.",
+  "notEstablished": [
+    "Initialization histories",
+    "Complete pending HDL events",
+    "Output delay/changed flags and downstream scheduled events",
+    "General rollback and full required scenarios",
+    "Independent physical-model admission"
+  ]
+}
