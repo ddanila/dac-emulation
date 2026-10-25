@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 from rollback_dispatch_review import review
 from ttl7406_probe import sha
+from trace_io import open_binary
 
 HERE=Path(__file__).resolve().parent
 
@@ -25,7 +26,7 @@ def retain(root, baseline, build, out):
     for mode in ('off','on'):
         target=out/mode;target.mkdir()
         for name in ('io.cir','run.json'):shutil.copyfile(root/mode/name,target/name)
-        with (root/mode/'ngspice.log').open('rb') as source,lzma.open(target/'ngspice.log.xz','wb',preset=6) as destination:
+        with open_binary(root/mode/'ngspice.log') as source,lzma.open(target/'ngspice.log.xz','wb',preset=6) as destination:
             shutil.copyfileobj(source,destination,1024*1024)
     result['retention']={'fullCaptures':str(root.resolve()),'scope':'Full compressed waveforms remain local; run receipts pin original bytes. Every sample was checked against the baseline before retention.',
         'sources':{n:sha(HERE/n) for n in ('rollback_dispatch_review.py','rollback_audit_log.py','live_raw_review.py','raw_pair_review.py','raw_waveform.py','retain_rollback_dispatch.py','engine-patches/ngspice-47-rollback-audit.patch')}}

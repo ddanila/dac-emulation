@@ -10,7 +10,7 @@ CLIENT=re.compile(r'ROLLBACK_AUDIT client phase=(before|after) time=('+HEX+r') n
 
 
 def analyze(lines):
-    accepted=[];rejected=Counter();clients=Counter();pending=None;trial=[]
+    accepted_count=0;first_accepted=None;rejected=Counter();clients=Counter();pending=None;trial=[]
     calls_before_reject=Counter();unprotected=0;invalid_order=0
     last_accepted=-math.inf;records=0
     for text in lines:
@@ -23,7 +23,8 @@ def analyze(lines):
             if pending is not None or time<=last_accepted:
                 raise ValueError('Invalid accepted-point ordering')
             if any(t!=time for t in trial):invalid_order+=1
-            accepted.append(time);last_accepted=time;trial=[]
+            if first_accepted is None:first_accepted=time
+            accepted_count+=1;last_accepted=time;trial=[]
         elif r:
             kind=r[1];time=float.fromhex(r[2]);delta=float.fromhex(r[3])
             expected={'newton':None,'lte':'target_delta','breakpoint':'target'}[kind]
@@ -51,10 +52,10 @@ def analyze(lines):
                 unprotected+=int(priority!=1 or index!=count-1)
         else:
             raise ValueError('Malformed rollback audit record')
-    if pending is not None or trial or len(accepted)<2:
+    if pending is not None or trial or accepted_count<2:
         raise ValueError('Incomplete rollback audit')
-    return {'records':records,'acceptedPoints':len(accepted),'firstAcceptedSeconds':accepted[0],
-            'lastAcceptedSeconds':accepted[-1],'rejectedTrials':dict(rejected),
+    return {'records':records,'acceptedPoints':accepted_count,'firstAcceptedSeconds':first_accepted,
+            'lastAcceptedSeconds':last_accepted,'rejectedTrials':dict(rejected),
             'clientCalls':dict(clients),'unprotectedClientCalls':unprotected,
             'trialsRejectedAfterClientCallbacks':dict(calls_before_reject),
             'invalidTrialOrdering':invalid_order,'qualified':False,

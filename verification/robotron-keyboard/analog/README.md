@@ -359,6 +359,14 @@ missing observations or an incomplete declared endpoint.
 `retain_newton_retry.py` retains the checked pair's receipts and compressed logs;
 its `--check` mode verifies their manifest and recomputes dispatch/timing results.
 This tests retry scheduling, not natural device nonconvergence or general rollback.
+The [internal-state probe](reports/internal-state/assessment.json) runs the patched
+`d_cosim` scheduler against real Icarus keyboard HDL. It compares exposed registers,
+memories and bridge queues across controlled input-barrier rejections, then compares
+continuation against an unrejected control. Immediate and delayed corruption controls
+exercise both checks. This is not a live analog solver trial or an inventory of the
+simulator's entire pending-event queue. `internal_state_probe.py` captures the probe;
+`--check --out reports/internal-state` verifies its retained evidence.
+
 The [complete post-reset control](reports/postreset-control/assessment.json) checks
 all saved samples and firmware bus reads over its declared window. It supplies
 a baseline for longer paired controls, not convergence or rollback acceptance.
@@ -592,6 +600,14 @@ Verify retained endpoint and bridge evidence with `device_endpoint_probe.py
 reports/qualified-cpu-bridge-time` from this directory.
 
 ## Review and store captures
+
+Retry and cache reviews stream audit records and firmware events; dispatch summaries
+do not retain accepted-point histories. The [complete-capture comparison](reports/streaming-audit/assessment.json)
+preserves the previous post-reset assessments. Bridge, retry, raw-output and
+`live_cache_capture.py` producers compress audit stdout alongside waveforms, retaining
+logical hashes and publishing outputs only after compression completes. Failed captures
+remain partial and cannot satisfy completion checks. The transport replay establishes
+lossless storage, not a new numerical run or full-repeat storage feasibility.
 
 Use `review_firmware_run.py --run /path/to/failed-run --rom /path/to/s600.bin
 --out /tmp/firmware-review` to recheck an archived failure without rerunning SPICE.

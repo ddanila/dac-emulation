@@ -83,6 +83,21 @@ class RollbackReviewTests(unittest.TestCase):
                         p=pair/mode/'run.json';v=json.loads(p.read_text());v['baselineRunSha256']=sha(baseline/'run.json');write_json(p,v)
                 with self.assertRaises(ValueError):review(pair,baseline,build)
 
+    def test_compressed_audits_can_be_reviewed_and_retained(self):
+        import lzma
+        from retain_rollback_dispatch import retain
+        from trace_io import open_text
+        with tempfile.TemporaryDirectory() as d:
+            pair,baseline,build=raw_setup(Path(d))
+            (pair/'capture-generator.py').write_text('# fixture producer\n')
+            for mode in ('off','on'):
+                p=pair/mode/'ngspice.log'
+                Path(str(p)+'.xz').write_bytes(lzma.compress(p.read_bytes()));p.unlink()
+            out=Path(d)/'retained';retain(pair,baseline,build,out)
+            for mode in ('off','on'):
+                with open_text(pair/mode/'ngspice.log') as a,open_text(out/mode/'ngspice.log') as b:
+                    self.assertEqual(a.read(),b.read())
+
     def test_rejects_hidden_environment_change_or_missing_flag(self):
         for changes in ({'ROBOTRON_EVAL_CACHE':'exact'}, {'ROBOTRON_ROLLBACK_AUDIT':'0'}):
             with self.subTest(changes=changes),tempfile.TemporaryDirectory() as d:

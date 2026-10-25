@@ -60,5 +60,9 @@ def capture(directory, names, enabled=True, *, preset=1):
                 except subprocess.TimeoutExpired:
                     worker.kill()
                     worker.communicate()
+            if worker is not None:
+                for stream in (worker.stdout, worker.stderr):
+                    if stream is not None:
+                        stream.close()
             if path.exists() and stat.S_ISFIFO(path.lstat().st_mode):
                 path.unlink()

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from bridge_rollback_log import analyze
 from compare_firmware_io import sha
-from network_refinement_review import events
+from audit_log import equal, AUDIT, BUS
 from newton_retry_review import log_data
 from raw_pair_review import compare_raw
 from retain_bridge_rollback import check as check_bridge
@@ -42,17 +42,14 @@ def review(capture,control,evidence):
         if current[key]!=prior[key]:raise ValueError('Changed '+key)
     if sha(capture/'bridge.json')!=sha(control/'bridge.json'):
         raise ValueError('Changed bridge identity')
-    control_log,n=log_data(control,prior);log,m=log_data(capture,current)
-    with open_text(evidence/'ngspice.log') as stream:
-        if control_log!=stream.read():raise ValueError('Changed established log')
-    def records(text):
-        return [line.strip() for line in text.splitlines() if line.strip().startswith(('ROLLBACK_AUDIT ','TIME_AUDIT '))]
-    if records(log)!=records(control_log) or 'ROLLBACK_FAULT ' in log:
+    control_log,base_info=log_data(control,prior);log,info=log_data(capture,current)
+    if not equal(control_log,evidence/'ngspice.log'):raise ValueError('Changed established log')
+    if not equal(log,control_log,AUDIT) or info['faults']:
         raise ValueError('Cache changed solver/HDL history')
-    if events(log)!=events(control_log):raise ValueError('Cache changed firmware events')
+    if not equal(log,control_log,BUS):raise ValueError('Cache changed firmware events')
     end=next(iter(established['comparisons'].values()))['lastSeconds']
-    waveform=compare_raw(control/'waveform.raw',capture/'waveform.raw',[n,m],end,exact=True)
-    timing=analyze(log.splitlines(),expected_end=end)
+    waveform=compare_raw(control/'waveform.raw',capture/'waveform.raw',[base_info['count'],info['count']],end,exact=True)
+    with open_text(log) as stream:timing=analyze(stream,expected_end=end)
     if timing!=established['timing']:raise ValueError('Changed bridge timing interpretation')
     return {'completeWaveformComparison':waveform,'solverAndHdlHistoryExactlyEqual':True,
             'firmwareEventsExactlyEqual':True,'timing':timing,'qualified':False,
