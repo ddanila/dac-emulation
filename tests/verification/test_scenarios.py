@@ -31,7 +31,7 @@ class Scenarios(unittest.TestCase):
         return run_file(path, LIBRARY, output), output
 
     def test_both_machines_deterministic_reset_and_memory_conditions(self):
-        for machine in ("juku", "robotron"):
+        for machine in ("juku", "robotron", "pc1715"):
             with self.subTest(machine=machine):
                 doc = self.document(machine)
                 first, a = self.run_document(doc)
@@ -53,7 +53,7 @@ class Scenarios(unittest.TestCase):
                     )
 
     def test_unreachable_condition_and_bad_memory_have_failure_evidence(self):
-        for machine in ("juku", "robotron"):
+        for machine in ("juku", "robotron", "pc1715"):
             for fault in (
                 "unreachable",
                 "range",
@@ -86,7 +86,7 @@ class Scenarios(unittest.TestCase):
                             compare(output / "trace.jsonl", output / "trace.jsonl")
 
     def test_instruction_overshoot_and_tick_exactness_are_reported(self):
-        for machine in ("juku", "robotron"):
+        for machine in ("juku", "robotron", "pc1715"):
             doc = self.document(machine)
             doc["steps"] = [{"run": 1}]
             report, _ = self.run_document(doc)
@@ -96,7 +96,7 @@ class Scenarios(unittest.TestCase):
             )
 
     def test_observation_does_not_advance_or_emit_bus_events(self):
-        for machine in ("juku", "robotron"):
+        for machine in ("juku", "robotron", "pc1715"):
             doc = self.document(machine)
             with Runtime(LIBRARY, doc["machine"], 1000) as runtime:
                 for slot, spec in doc["firmware"].items():

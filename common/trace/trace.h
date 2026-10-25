@@ -11,7 +11,7 @@ typedef struct {
   uint32_t address;
   uint8_t data;
   uint64_t cycle;
-  unsigned source; /* machine identity: Juku=0, Robotron=2 */
+  unsigned source; /* machine identity: Juku=0, Robotron W/M=2, plain PC1715=3 */
   unsigned master; /* CPU or DMA, independent of machine identity */
   unsigned space;  /* UNKNOWN means no mapped-address assertion is available */
   uint32_t offset; /* byte offset within backing space, not CPU address */

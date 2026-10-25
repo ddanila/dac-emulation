@@ -174,3 +174,22 @@ for(let i=0;i<10000;i++)wasm._dac_run(shortSerial,1);
 assert.equal(wasm._dac_debug_byte(shortSerial,0x4000),0xe1);
 wasm._free(shortState);wasm._dac_destroy(shortSerial);
 console.log('PASS WASM short-character SIO register and mid-reception snapshot continuation');
+
+
+// Plain PC1715 is headless and must not inherit W/M devices or PROM requirements.
+const plain1715=wasm._dac_create(3),plainROM=new Uint8Array(2048);
+plainROM.set([0x3e,0x42,0x32,0,0x80,0x76]);
+assert(plain1715);
+assert.equal(load(plain1715,0,plainROM),0);
+assert(wasm._dac_load(plain1715,1,0,256)<0);
+assert.equal(wasm._dac_power(plain1715,1),0);
+assert.equal(wasm._dac_run(plain1715,100),100);
+assert.equal(wasm._dac_width(plain1715),0);
+assert.equal(wasm._dac_height(plain1715),0);
+assert.equal(wasm._dac_video(plain1715),0);
+assert(wasm._dac_mount_unit(plain1715,0,0,0,0)<0);
+assert(wasm._dac_key(plain1715,65,1)<0);
+assert.equal(wasm._dac_state_size(plain1715),0);
+assert.equal(wasm._dac_reset(plain1715),0);
+wasm._dac_destroy(plain1715);
+console.log('PASS WASM plain PC1715 headless profile and unsupported-device boundaries');
