@@ -1,4 +1,5 @@
 #include "session.h"
+#include "pc1715.h"
 #include "../../machines/juku/juku_internal.h"
 #include "../../machines/robotron1715m/robotron.h"
 #include "../../machines/vjuga/vjuga.h"
@@ -26,6 +27,7 @@ struct dac_session {
   juku *j;
   vjuga *v;
   robotron *r;
+  pc1715 *plain;
   uint32_t pixels[640 * 384];
 };
 #ifndef DAC_BUILD_ID
@@ -103,6 +105,8 @@ static void bind_observer(dac_session *s) {
     s->j->bus_trace = sink;
   if (s->r)
     s->r->trace = sink;
+  if (s->plain)
+    s->plain->trace = sink;
 }
 void dac_timeline_capture(dac_session *s, unsigned enabled) {
   if (!s)
@@ -169,9 +173,10 @@ int dac_observe(dac_session *s, dac_observation *out) {
     *out = (dac_observation){s->j->cpu.cyc, s->j->cpu.pc, s->j->cpu.sp,
                              s->j->cpu.halted, (unsigned)s->j->mode};
   } else {
-    dac_z80 *cpu = s->r ? &s->r->cpu : &s->v->cpu;
+    dac_z80 *cpu = s->plain ? &s->plain->cpu : s->r ? &s->r->cpu : &s->v->cpu;
     *out = (dac_observation){cpu->cycles, cpu->cpu.pc, cpu->cpu.sp,
                              !!(cpu->pins & Z80_HALT),
+                             s->plain ? s->plain->rom_enabled :
                              s->r ? s->r->bank : s->v->portc};
   }
   return 0;
@@ -183,12 +188,14 @@ int dac_peek(dac_session *s, unsigned space, uint32_t offset, void *out,
   const uint8_t *p = NULL;
   size_t length = 0;
   if (space == DAC_MEMORY_RAM) {
-    p = s->j ? s->j->ram : s->r ? s->r->ram : s->v->ram;
+    p = s->plain ? s->plain->ram : s->j ? s->j->ram : s->r ? s->r->ram : s->v->ram;
     length = s->r ? sizeof(s->r->ram) : 65536;
   } else if (space == DAC_MEMORY_ROM) {
-    p = s->j ? s->j->rom : s->r ? s->r->rom : s->v->rom;
-    length = s->r ? sizeof(s->r->rom) : 16384;
+    p = s->plain ? s->plain->rom : s->j ? s->j->rom : s->r ? s->r->rom : s->v->rom;
+    length = s->plain ? sizeof(s->plain->rom) : s->r ? sizeof(s->r->rom) : 16384;
   } else if (space == DAC_MEMORY_VIDEO) {
+    if (s->plain)
+      return -ENOTSUP;
     p = s->j ? s->j->ram + VRAM_BASE : s->r ? s->r->vram : s->v->ram + 0xd800;
     length = s->r ? sizeof(s->r->vram) : 65536 - 0xd800;
   } else
@@ -200,21 +207,23 @@ int dac_peek(dac_session *s, unsigned space, uint32_t offset, void *out,
   return 0;
 }
 dac_session *dac_create(unsigned kind) {
-  if (kind > 2)
+  if (kind > 3)
     return NULL;
   dac_session *s = calloc(1, sizeof(*s));
   if (!s)
     return NULL;
   s->kind = kind;
-  s->width = kind == 2 ? 640 : 320;
-  s->height = kind == 2 ? 384 : 241;
+  s->width = kind == 3 ? 0 : kind == 2 ? 640 : 320;
+  s->height = kind == 3 ? 0 : kind == 2 ? 384 : 241;
   if (kind == 0)
     s->j = juku_create();
   else if (kind == 1)
     s->v = calloc(1, sizeof(vjuga));
-  else
+  else if (kind == 2)
     s->r = calloc(1, sizeof(robotron));
-  if (!s->j && !s->v && !s->r) {
+  else
+    s->plain = calloc(1, sizeof(pc1715));
+  if (!s->j && !s->v && !s->r && !s->plain) {
     free(s);
     return NULL;
   }
@@ -226,6 +235,7 @@ void dac_destroy(dac_session *s) {
   free(s->j);
   free(s->v);
   free(s->r);
+  free(s->plain);
   free(s->disk);
   free(s->disk_b);
   free(s);
@@ -234,7 +244,7 @@ int dac_load(dac_session *s, unsigned slot, const void *p, size_t n) {
   if (!s || !p || s->on)
     return -EINVAL;
   if (slot == 0) {
-    if (n != (s->kind == 2 ? 2048u : 16384u))
+    if (n != (s->kind >= 2 ? 2048u : 16384u))
       return -EINVAL;
     memcpy(s->firmware, p, n);
     s->firmware_size = n;
@@ -254,6 +264,8 @@ int dac_load(dac_session *s, unsigned slot, const void *p, size_t n) {
 }
 int dac_mount_unit(dac_session *s, unsigned unit, const void *p, size_t n,
                    int writable) {
+  if (s && s->plain)
+    return -ENOTSUP;
   if (!s || unit > (s->kind == 2 ? 1u : 0u) || s->kind == 1 || (n && !p))
     return -EINVAL;
   if (s->on &&
@@ -333,6 +345,11 @@ int dac_power(dac_session *s, int on) {
       juku_fdc_init(&s->j->fdc, &s->j->disk);
       s->j->fdc_enabled = 1;
     }
+  } else if (s->plain) {
+    pc1715_card card = s->plain->card;
+    pc1715_init(s->plain);
+    pc1715_load(s->plain, s->firmware, s->firmware_size);
+    pc1715_attach(s->plain, &card);
   } else if (s->v) {
     vjuga_init(s->v, 0);
     vjuga_load_rom(s->v, s->firmware, s->firmware_size);
@@ -389,7 +406,9 @@ unsigned dac_run(dac_session *s, unsigned ticks) {
     }
     return (unsigned)(s->j->cpu.cyc - start);
   }
-  if (s->v)
+  if (s->plain)
+    pc1715_run(s->plain, ticks);
+  else if (s->v)
     vjuga_run(s->v, ticks);
   else
     robotron_run(s->r, ticks);
@@ -529,7 +548,7 @@ int dac_key(dac_session *s, unsigned key, int down) {
 unsigned dac_width(dac_session *s) { return s ? s->width : 0; }
 unsigned dac_height(dac_session *s) { return s ? s->height : 0; }
 const uint32_t *dac_video(dac_session *s) {
-  if (!s)
+  if (!s || s->plain)
     return NULL;
   if (!s->on) {
     for (unsigned i = 0; i < s->width * s->height; i++)
@@ -937,6 +956,8 @@ static unsigned other_state_size(dac_session *s);
 static int other_state_save(dac_session *s, void *p, size_t n);
 static int other_state_load(dac_session *s, const void *p, size_t n);
 unsigned dac_state_size(dac_session *s) {
+  if (s && s->plain)
+    return 0;
   if (s && !s->r)
     return other_state_size(s);
   return s && s->r && s->on
@@ -945,6 +966,8 @@ unsigned dac_state_size(dac_session *s) {
              : 0;
 }
 int dac_state_save(dac_session *s, void *p, size_t n) {
+  if (s && s->plain)
+    return -ENOTSUP;
   if (s && !s->r)
     return other_state_save(s, p, n);
   if (!p || !dac_state_size(s) || n != dac_state_size(s))
@@ -983,6 +1006,8 @@ static int valid_cpu(const dac_z80 *c) {
   return c->cpu.step <= 1708 && c->cpu.hlx_idx < 3 && c->cpu.im < 3;
 }
 int dac_state_load(dac_session *s, const void *p, size_t n) {
+  if (s && s->plain)
+    return -ENOTSUP;
   if (s && !s->r)
     return other_state_load(s, p, n);
   if (!s || !s->r || !p || n < sizeof(state_header) + sizeof(robotron))
@@ -1292,5 +1317,18 @@ static int other_state_load(dac_session *s, const void *p, size_t n) {
     memcpy(s->disk, payload + size, s->disk_size);
   s->on = 1;
   bind_observer(s);
+  return 0;
+}
+
+int dac_pc1715_attach(dac_session *s, const pc1715_card *card) {
+  if (!s)
+    return -EINVAL;
+  if (!s->plain)
+    return -ENOTSUP;
+  if (s->on)
+    return -EBUSY;
+  /* A powered-off session may retain old CPU cycles. Attachment takes effect
+   * at next power-on, whose reset callback establishes fresh card state. */
+  s->plain->card = card ? *card : (pc1715_card){0};
   return 0;
 }

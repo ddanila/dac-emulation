@@ -10,6 +10,7 @@ typedef struct {
   uint64_t cycles;
   uint32_t pc, sp, halted, bank;
 } dac_observation;
+/* For plain PC1715, bank is 1 while the boot ROM is visible, otherwise 0. */
 /* Returns -ENOTSUP for unimplemented observation, -EINVAL for bad bounds.
  * RAM is physical backing storage: Robotron bank N starts at N*65536.
  * ROM is the boot ROM. VIDEO is the machine's video backing bytes.

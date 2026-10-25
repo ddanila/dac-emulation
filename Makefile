@@ -1,3 +1,4 @@
+PC1715_OBJECTS = build/machines/robotron1715/pc1715.o
 ROBOTRON_OBJECTS = build/machines/robotron1715m/disk.o build/machines/robotron1715m/robotron.o build/machines/robotron1715m/keyboard_board.o build/machines/robotron1715m/keyboard_cpu.o build/machines/robotron1715m/sio.o
 CC ?= cc
 AR ?= ar
@@ -49,7 +50,7 @@ build/robotron-boot: build/runners/native/robotron_boot.o $(ROBOTRON_OBJECTS) bu
 build/machines-test: tests/integration/machines_test.c $(ROBOTRON_OBJECTS) $(Z80_OBJECTS) build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
 
-build/browser-reference: tests/integration/wasm_reference.c common/runtime/session.c build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS)
+build/browser-reference: tests/integration/wasm_reference.c common/runtime/session.c build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS) $(PC1715_OBJECTS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
 
 .PHONY: wasm test-wasm
@@ -73,7 +74,7 @@ test-robotron-devices: build/robotron-devices-test
 build/robotron-keyboard-rom-test: tests/integration/robotron_keyboard_rom.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
 
-build/dac-replay: runners/native/replay.c common/runtime/session.c build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS)
+build/dac-replay: runners/native/replay.c common/runtime/session.c build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS) $(PC1715_OBJECTS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
 
 .PHONY: test-clock-wasm
@@ -86,7 +87,7 @@ test: build/dac-replay
 test-wasm: test-clock-wasm
 
 RUNTIME_BUILD_ID := $(shell git describe --always --dirty --abbrev=40 --exclude='*' 2>/dev/null || echo unversioned)
-RUNTIME_SOURCES = common/runtime/session.c $(CORE) common/cpu/z80.c machines/vjuga/vjuga.c $(ROBOTRON_OBJECTS:build/%.o=%.c)
+RUNTIME_SOURCES = machines/robotron1715/pc1715.c common/runtime/session.c $(CORE) common/cpu/z80.c machines/vjuga/vjuga.c $(ROBOTRON_OBJECTS:build/%.o=%.c)
 RUNTIME_HEADERS = $(wildcard machines/robotron1715m/generated/keyboard_cpu/*.h common/*/*.h machines/*/*.h third_party/cpu/i8080/*.h third_party/cpu/chips/*.h)
 
 build/libdac-runtime.so: $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
@@ -100,8 +101,8 @@ test-verification: build/libdac-runtime.so build/runtime-test
 
 test: test-verification
 
-build/runtime-test: tests/integration/runtime_test.c common/runtime/session.c common/runtime/observe.h common/runtime/session.h build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS)
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) tests/integration/runtime_test.c common/runtime/session.c build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS) -o $@
+build/runtime-test: tests/integration/runtime_test.c common/runtime/session.c common/runtime/observe.h common/runtime/session.h build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS) $(PC1715_OBJECTS)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) tests/integration/runtime_test.c common/runtime/session.c build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS) $(PC1715_OBJECTS) -o $@
 
 
 build/runtime-sanitize: tests/integration/runtime_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
@@ -109,8 +110,9 @@ build/runtime-sanitize: tests/integration/runtime_test.c $(RUNTIME_SOURCES) $(RU
 	$(CC) $(CPPFLAGS) -std=c11 -O1 -g -fsanitize=address,undefined tests/integration/runtime_test.c $(RUNTIME_SOURCES) -o $@
 
 .PHONY: test-runtime-sanitize
-test-runtime-sanitize: build/runtime-sanitize
+test-runtime-sanitize: build/runtime-sanitize build/pc1715-sanitize
 	./build/runtime-sanitize
+	./build/pc1715-sanitize
 
 # Optional independent-reference check; MAME is never a normal CI dependency.
 build/robotron-comparison: tests/integration/robotron_comparison.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
@@ -214,3 +216,22 @@ test: test-keyboard-backend
 test-keyboard-backend: build/keyboard-backend-test
 	python3 tools/generate_keyboard_cpu.py --check
 	./build/keyboard-backend-test
+
+-include $(PC1715_OBJECTS:.o=.d)
+
+all: build/pc1715-probe
+build/pc1715-probe: runners/native/pc1715_probe.c $(PC1715_OBJECTS) build/common/cpu/z80.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
+build/pc1715-test: tests/integration/pc1715_test.c common/runtime/session.c build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS) $(PC1715_OBJECTS)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
+.PHONY: test-pc1715
+test-pc1715: build/pc1715-test
+	./build/pc1715-test
+
+test: test-pc1715
+
+build/pc1715-sanitize: tests/integration/pc1715_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
+	@mkdir -p build
+	$(CC) $(CPPFLAGS) -std=c11 -O1 -g -fsanitize=address,undefined tests/integration/pc1715_test.c $(RUNTIME_SOURCES) -o $@

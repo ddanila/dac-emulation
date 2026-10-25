@@ -3,7 +3,10 @@
 #include <stddef.h>
 #include <stdint.h>
 typedef struct dac_session dac_session;
-/* kinds: 0=Juku, 1=VJUGA Rev-A Mode B, 2=Robotron functional profile.
+/* kinds: 0=Juku, 1=VJUGA Rev-A Mode B, 2=Robotron W/M functional profile,
+ * 3=ordinary PC1715 headless CPU/bus profile (2048-byte boot ROM, slot 0 only).
+ * Kind 3 has no video, mounted disks, keyboard or snapshots yet; use the native
+ * attachment seam in pc1715.h for external device models.
  * Firmware slots: 0=boot ROM, 1=Robotron CAS PROM, 2=Robotron character data,
  * 3=Robotron keyboard firmware (optional S600, 2048 bytes).
  * All loads copy bytes. Persistence is owned by the host. */

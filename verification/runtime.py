@@ -4,6 +4,13 @@ import ctypes as C
 from pathlib import Path
 
 PROFILES = {
+    "robotron1715": {
+        "kind": 3,
+        "step": "clock",
+        "trace": "mapped-access",
+        "clock_hz": 2458000,
+        "scope": "headless CPU/bus; no floppy/display peripherals yet",
+    },
     "juku": {
         "kind": 0,
         "step": "instruction",

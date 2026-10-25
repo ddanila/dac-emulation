@@ -9,6 +9,12 @@ The goal is to run the same machine implementation in native verification tools 
 
 ## Status
 
+The ordinary [PC 1715](machines/robotron1715/README.md) now has a separate
+headless CPU/memory/bus profile (runtime kind 3), with a native external-card
+attachment for Pico1715 modelling. It runs stock-ROM startup but does not yet
+implement the PIO floppy controller, onboard peripherals or display. This does
+not change the W/M profile or imply ordinary-1715 SCP boot support.
+
 Juku now builds as an instance-based C library and a native compatibility runner. Shared tracing and callback-backed media are implemented. `8080-cosim` now pins this core and preserves its legacy build paths through forwarding files. VJUGA now has a bounded-boot Z80 profile; the experimental Robotron profile boots TOS/M with keyboard, two-drive disk operations, serial-printer capture and same-build snapshots. All three cores build for WebAssembly and connect to the DAC prototype. See [validation and limitations](docs/z80-browser-validation.md).
 
 ```sh
@@ -37,6 +43,7 @@ The original-ROM-free example scenarios are included in `make test`.
 | `machines/juku/` | Juku machine core and machine-specific devices |
 | `machines/vjuga/` | Functional Z80 bounded-boot profile and HDL reference |
 | `machines/robotron1715m/` | Experimental Robotron banked Z80 machine and devices |
+| `machines/robotron1715/` | Ordinary PC1715 headless motherboard and card-model seam |
 | `third_party/cpu/` | Pinned CPU dependencies with their original notices |
 | `runners/native/` | Native CLI, files, terminal transport, and host pacing |
 | `runners/browser/` | WebAssembly integration, browser input, scheduling, and output |
