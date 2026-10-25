@@ -1,0 +1,19 @@
+{
+  "archiveSha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+  "sourceFiles": {
+    "src/include/ngspice/mif.h": "af13157eb7795e31a9a45696585de1d72e718e3029e3f2ba08ec71890ccc9f65",
+    "src/include/ngspice/evt.h": "38fac303999286ff290b3d51a2dfd91899cddac880a3044050964d8caf93577c",
+    "src/include/ngspice/mifcmdat.h": "dab7dc8a960992d2a7e0b220f164451625aef5fc1853679924927fccea7577fa",
+    "src/include/ngspice/miftypes.h": "00d359e8e2cc9db6296687b2c3268d7ff0412da99ad9b88fde377e98b2ff319c",
+    "src/include/ngspice/mifdefs.h": "58f609351067b3f3dc8617af04c545584d5d35591e1223dec1b4ae67fab8a3c1",
+    "src/include/ngspice/cktdefs.h": "6e180f74efdae65793a5b5baa316b8fcd4e59782ed8bda5165dd8cd19b692672",
+    "src/xspice/evt/evtload.c": "bfab88e47287694c7327588a035183556b79e4837fd37c539680dd64bd1c1226"
+  },
+  "contract": [
+    "Mif_Port_Data_t changed/delay fields describe the current callback staging state; output values are read only after output() assigned changed ports.",
+    "EVTprocess_output moves the staged next_event to the output queue after the code-model callback, at evt_step plus delay.",
+    "Each selected port is mapped by evt_data.output_index; the observer walks the full linked list from *queue.current[index], including removed entries.",
+    "removed_time is read only when removed is true. Current-list coverage does not serialize past, free or other-model queue entries."
+  ],
+  "scope": "Pinned ngspice 47 internal layout and callback semantics; backend or ABI changes require rebuilding and reviewing the observer."
+}

@@ -1,0 +1,552 @@
+{
+  "history": {
+    "phases": {
+      "callback-entry": 27708,
+      "advance-before": 27566,
+      "advance-after": 27566,
+      "output-before": 24,
+      "output-after": 24,
+      "run-entry": 27636,
+      "event-after": 72
+    },
+    "rejections": 72,
+    "corruptionsDetected": 0,
+    "dimensions": [
+      25,
+      69
+    ]
+  },
+  "negativeControl": {
+    "phases": {
+      "callback-entry": 6663,
+      "advance-before": 6663,
+      "advance-after": 6663,
+      "output-before": 2,
+      "output-after": 2,
+      "run-entry": 6662,
+      "event-after": 1
+    },
+    "rejections": 1,
+    "corruptionsDetected": 1,
+    "dimensions": [
+      25,
+      69
+    ]
+  },
+  "waveformComparisons": [
+    {
+      "allSamplesExactlyEqual": true,
+      "samples": 27566,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    },
+    {
+      "allSamplesExactlyEqual": true,
+      "samples": 27566,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    }
+  ],
+  "qualified": false,
+  "baseline": {
+    "path": "verification/robotron-keyboard/analog/reports/live-cosim-state/off",
+    "receiptSha256": "b0af0a0da9c4eaf9d402ac465e67a7e6d234a299d8a18a48fa5784effe4326dc"
+  },
+  "scope": "Bounded initialized controller histories, output flags/delays, assigned output values, and complete lists from controller output-queue current pointers. Delay corruption is detected at a rejected input barrier. Disabled/enabled/prior waveform samples and firmware events match exactly.",
+  "notEstablished": [
+    "Startup lifecycle",
+    "Other circuit models and past/free output queue history",
+    "Private HDL pending-event queue",
+    "General rollback, full scenarios, numerical convergence and physical-model admission"
+  ],
+  "scheduling": {
+    "snapshots": 110596,
+    "ports": 69,
+    "pendingEventObservations": 260622,
+    "maximumObservedPendingEvents": 67,
+    "assignedOutputObservations": 287,
+    "publicationsWitnessedInPendingQueue": 218,
+    "unwitnessedPublicationKeys": 69,
+    "unwitnessedPublications": [
+      {
+        "outputIndex": 20,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 21,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 22,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 23,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 24,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 25,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 26,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 27,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 28,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 29,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 30,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 31,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 32,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 33,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 34,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 35,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 36,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 37,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 38,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 39,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 40,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 41,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 42,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 43,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 44,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 45,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 46,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 47,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 48,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 49,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 50,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 51,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 52,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 53,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 54,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 55,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 56,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 57,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 58,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 59,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 60,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 61,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 62,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 63,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 64,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 65,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 66,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 67,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 68,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 69,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 70,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 71,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 72,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 73,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 74,
+        "scheduledTime": 1e-08,
+        "state": 2,
+        "strength": 0
+      },
+      {
+        "outputIndex": 75,
+        "scheduledTime": 1e-08,
+        "state": 2,
+        "strength": 0
+      },
+      {
+        "outputIndex": 76,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 77,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 78,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 79,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 80,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 81,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 82,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 83,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 84,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 85,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 86,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 87,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 88,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      }
+    ],
+    "matchingScope": "Exact port, scheduled time and value matches. Events may be consumed before another observer checkpoint; unmatched requests are not classified as lost."
+  }
+}
