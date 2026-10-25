@@ -370,6 +370,18 @@ simulator's entire pending-event queue. `internal_state_probe.py` captures the p
 The [complete post-reset control](reports/postreset-control/assessment.json) checks
 all saved samples and firmware bus reads over its declared window. It supplies
 a baseline for longer paired controls, not convergence or rollback acceptance.
+`build_live_state_audit.py` adds opt-in observation to the live code model;
+`live_cosim_state_capture.py` runs the bounded observer controls. The
+[live state comparison](reports/live-cosim-state/assessment.json) preserves exposed
+HDL state, bridge/input queues, continuation and every waveform sample, and detects
+deliberate register corruption. Its reset and endpoint are shortened explicitly
+for observer validation. Complete HDL event queues and XSPICE output-history
+buffers are outside this inventory; full-repeat and general rollback remain open.
+Firmware and state streams are compared separately because merged stdout/stderr
+buffering changes their interleaving. Full replay uses `live_cosim_state_review.py
+--root reports/live-cosim-state`; CI checks the retained manifest and parser controls
+without repeatedly expanding the multi-gigabyte snapshot logs.
+
 The [post-reset dispatch controls](reports/postreset-dispatch/assessment.json)
 reproduce that baseline exactly with logging disabled and enabled, preserving
 firmware events and valid callback ordering throughout the window. The matching

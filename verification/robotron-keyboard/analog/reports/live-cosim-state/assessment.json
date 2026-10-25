@@ -1,0 +1,103 @@
+{
+  "stateAndContinuationPassed": true,
+  "recordOrdering": "Compare state snapshots and timestamped firmware streams independently: merged stdout/stderr buffering changes their interleaving, not event timestamps.",
+  "immediateCorruptionDetected": true,
+  "observe": {
+    "entries": 27636,
+    "objects": 2715,
+    "rejections": 0,
+    "firmwareFetched": true,
+    "samples": 27566
+  },
+  "check": {
+    "entries": 27636,
+    "objects": 2715,
+    "rejections": 72,
+    "firmwareFetched": true,
+    "samples": 27566
+  },
+  "waveformComparisons": [
+    {
+      "allSamplesExactlyEqual": true,
+      "samples": 27566,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    },
+    {
+      "allSamplesExactlyEqual": true,
+      "samples": 27566,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    }
+  ],
+  "qualified": false,
+  "scope": "Bounded coupled observer control with an explicitly shortened reset/traffic stimulus. Exact exposed-state and bridge/input-queue equality around input-barrier rejections and subsequent scheduler entries. No full-repeat, complete pending-event-queue, general rollback or physical-model qualification.",
+  "unobservedState": [
+    "Complete HDL pending-event queue",
+    "XSPICE rotating output history and d_cosim out_vals buffer"
+  ]
+}
