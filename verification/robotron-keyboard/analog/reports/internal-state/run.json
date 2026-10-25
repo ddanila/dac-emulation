@@ -1,0 +1,91 @@
+{
+  "bridgeSha256": "f5a288ff4b039e378f09abd16af307f35fa2abbe7887a214b01abca06e30a44e",
+  "cpu": {
+    "profile": "qualified-digital",
+    "qualified": false,
+    "digitalAcceptance": "digital/reports/cpu-bus/summary.json",
+    "digitalAcceptanceSha256": "73fc7bb3cedc91aadf4872be04d052bc53b521c590e03cfaa226437c6245f921",
+    "sampling": "M1 rising T3; non-M1 falling T3; WAIT falling edge",
+    "generatedSha256": {
+      "tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+      "tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+      "tv80_core.v": "f0ebcb540a6a3930ef581163aef602d13c03cfa22efedebfa545915f230667ee",
+      "tv80_mcode.v": "71cd24c4dd700723f4f19259dbdd9dec5dcfd95fde467e86413975753d94c61e",
+      "tv80n.v": "6711d3e2654cedb4f068b2d55688609feea336f7e51ffd960247c9b6b801c697",
+      "tv80_io_candidate.v": "6e1ae3866b23a6e631d2ac2982cc25dd0e18dfe426832968661d97141fc315ac",
+      "cpu_bus_candidate.v": "32bd49ab54cf593fd894cc3bf82bb4aa0865172c9bfcb93f4675e8fb86a87708"
+    },
+    "boundary": "Qualified reference digital boundary; electrical loading, coupled simulation and U880 specimen timing remain unqualified"
+  },
+  "sources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/internal_state_probe.py": "9cdb7801fcb588cb06e667306d7485263d5ffdf9f2d379e035d57912c5cfdd92",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/cosim_state_harness.c": "e411b5ccbf3ac2751aec6152c882e39a58fa8cbead55da25746f6753f847f6b1",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/ngspice-47/d_cosim.mod": "aa31bc8cf686914b3f667c9790aae4b79115a6f3b0e786732358a63df9340207",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/cosim-input-barrier.patch": "1722a99123143b438e0dc95054430e90f0420fc621b507d88f2bf12abe61e5cf",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_alu.v": "5bcfbcb1dda9d8eca18bdd8dae6da95dda062d0285d5976c2640d3ee11ef5cc9",
+    "/Users/ddanila/fun/dac-emulation/third_party/cpu/tv80/tv80_reg.v": "e38fa80510f044c7f298b56d58c0d7fec4857e6e39e0efdac3f889da95b5e68c",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/internal-state-release/qualified-cpu/tv80_core.v": "f0ebcb540a6a3930ef581163aef602d13c03cfa22efedebfa545915f230667ee",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/internal-state-release/qualified-cpu/tv80_mcode.v": "71cd24c4dd700723f4f19259dbdd9dec5dcfd95fde467e86413975753d94c61e",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/internal-state-release/qualified-cpu/tv80n.v": "6711d3e2654cedb4f068b2d55688609feea336f7e51ffd960247c9b6b801c697",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/internal-state-release/qualified-cpu/tv80_io_candidate.v": "6e1ae3866b23a6e631d2ac2982cc25dd0e18dfe426832968661d97141fc315ac",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/internal-state-release/qualified-cpu/cpu_bus_candidate.v": "32bd49ab54cf593fd894cc3bf82bb4aa0865172c9bfcb93f4675e8fb86a87708",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/chips.v": "652a92103f9645b1940563a372f380422a7e7e905654e126ed98a8c8054684d8",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/generated/controller.v": "f2eba27006dbbc9f3adedf781527b9418c7241419791082f8084380fc9fdf269",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/boot_cosim.v": "305e3f4aa49bd60226fd5987e7563d9e364948a1362431b30b6778a712f1f134",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/internal-state-release/controller_analog.v": "91f840d2bc7174a8b8c8b2957f785008eadc27b5907831226323513e4215eece"
+  },
+  "headers": {
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cmtypes.h": "268ca5c099d9d2e19bef436abc81261195c4ac5e237a5489786331de8d22b371",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cosim.h": "1fdf5e534cdc4a6f77b5d8177152107722f192a2b9e3e7a7fa007d093e13a425",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/coroutine.h": "7cf5658515a0896da730a9c7b8017472ba96a10015a3f612090676fd37292176",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.h": "cb3a43a781157f1477b9ba4ed5ca6669c60b76e3f1c6d9674153f703b6395912",
+    "/opt/homebrew/include/iverilog/vpi_user.h": "109e905f31b6b25dcd3ad784784177baf1bab342a3c1634a82a20abf00516256"
+  },
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "inputs": {
+    "probe.c": "d0d540ce63511f55cf0a49b118d1fb4f4774b49f70dc5494d3a221ade604d3ed",
+    "probe": "4f6fa122ba92f410a5bb513e12eb0b43bce1970ebd2321568adb495c5f5368b7",
+    "board.vvp": "03e5add7d1e277b8cbcd7f2efc07904bea530f40d396ae15fb7aa990e3e79e9d",
+    "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966"
+  },
+  "runs": {
+    "control": {
+      "exitCode": 0,
+      "storage": {
+        "control.log": {
+          "sha256": "ac4898a4c378f513c52eab95d69a29629dbd07ffac800cc0372876760a3b32ee",
+          "bytes": 1654551
+        }
+      }
+    },
+    "retry": {
+      "exitCode": 0,
+      "storage": {
+        "retry.log": {
+          "sha256": "3be260c526f2df7b9b50f8ffc2f5294fd0b6de6ca26af52b6919fb77be1adca0",
+          "bytes": 1654553
+        }
+      }
+    },
+    "register-corruption": {
+      "exitCode": 2,
+      "storage": {
+        "register-corruption.log": {
+          "sha256": "77a97f9c6c80a79d345c6d8744a77cf663936c50d85937da6d68348f2f99a45e",
+          "bytes": 108
+        }
+      }
+    },
+    "delayed-corruption": {
+      "exitCode": 0,
+      "storage": {
+        "delayed-corruption.log": {
+          "sha256": "184b5a94b97e299e0395830b925cf483aba9b199e58a9b259590870be8eb9e6f",
+          "bytes": 1654553
+        }
+      }
+    }
+  },
+  "qualified": false
+}

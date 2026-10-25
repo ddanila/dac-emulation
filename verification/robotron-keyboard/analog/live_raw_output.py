@@ -9,7 +9,7 @@ import subprocess
 import time
 from compressed_output import capture
 from eval_cache_benchmark import external_dependencies, verify_dependencies
-from filter_truncation_log import diagnostic
+from audit_log import scan
 from ngspice_runtime import identify, verify
 from ttl7406_probe import sha
 
@@ -88,7 +88,7 @@ def run_pair(baseline, runtime_path, spinit, out, timeout, *, rollback_audit=Fal
                   'environment':{k:v for k,v in env.items() if k.startswith('ROBOTRON_')},
                   'qualified':False, 'exitCode':None, 'timedOut':False}
         try:
-            with capture(directory,names) as storage:
+            with capture(directory,[*names,'ngspice.log']) as storage:
                 with (directory/'ngspice.log').open('w') as log:
                     process = subprocess.run([str(runtime_path),'-n','-b','io.cir'],cwd=directory,
                                              env=env,stdout=log,stderr=subprocess.STDOUT,timeout=timeout)
@@ -98,8 +98,9 @@ def run_pair(baseline, runtime_path, spinit, out, timeout, *, rollback_audit=Fal
             result['storage'] = storage
             verify(runtime)
             verify_dependencies(deps)
-            result['solverDiagnostic'] = diagnostic((directory/'ngspice.log').read_text())
-            if result['solverDiagnostic']:
+            summary = scan(directory/'ngspice.log')
+            result['solverDiagnostic'] = summary['diagnostic']
+            if result['solverDiagnostic'] or summary['sorry']:
                 raise ValueError('Live solver diagnostic')
         except Exception as exc:
             result['error'] = str(exc)

@@ -1,0 +1,40 @@
+{
+  "completeReviewComparisons": {
+    "postreset-cache": {
+      "assessmentExactlyEqual": true,
+      "elapsedSeconds": 227.403244958,
+      "peakRssBytes": 64569344,
+      "retainedAssessmentSha256": "cc3edafae3f62d97c616fdb42ddaa3df3ee8cadb32290f519948278703105cba",
+      "controlReceiptSha256": "96b06655a026dca907b2bf1a6a6d3fcdd7e4d32462e4f62e3744fe2988f5e553",
+      "captureReceipts": {
+        "run.json": "95671d3ed1c2a284076acb5f527b737f28cf63a99e4c74db4b0212cc77abf543"
+      }
+    },
+    "postreset-newton-retry": {
+      "assessmentExactlyEqual": true,
+      "elapsedSeconds": 386.08617516699996,
+      "peakRssBytes": 64634880,
+      "retainedAssessmentSha256": "c6497347eb4059c9f211e31f081f1a5785d8bda9e7eb7dc750e247ffe2d05dea",
+      "controlReceiptSha256": "96b06655a026dca907b2bf1a6a6d3fcdd7e4d32462e4f62e3744fe2988f5e553",
+      "captureReceipts": {
+        "on/run.json": "9332cdb20efe575782160a4caa3c0c79ab73f30eff555aa8ae8cab303f66efda",
+        "off/run.json": "908a27787624ff5fcaf6686ddc8c1e5795250dba49f07eddb29c83f2f123e054"
+      }
+    }
+  },
+  "auditTransport": {
+    "source": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-cache/ngspice.log",
+    "storage": {
+      "ngspice.log": {
+        "sha256": "07eaf5cdf8d4cb15c258e23fb77643e64bd094c17bad70951cf58c12049ea2a8",
+        "bytes": 646628857
+      }
+    },
+    "compressedBytes": 38125540,
+    "logicalBytesExactlyEqual": true,
+    "elapsedSeconds": 11.357876083999999,
+    "boundary": "Complete retained audit log replayed through subprocess stdout and the capture FIFO. No new numerical simulation or throughput comparison."
+  },
+  "measurementScope": "Peak RSS from resource.getrusage on macOS, bytes; sequential reviews in one Python process. Elapsed values are observations, not controlled performance comparisons. Entire raw waveforms and audit logs were checked. Existing captures have no optional log receipt hash; that new guard has separate positive/negative tests.",
+  "qualified": false
+}

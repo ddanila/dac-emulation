@@ -87,7 +87,7 @@ def review(root, baseline):
         raise ValueError('Changed raw waveform')
     logs=[]
     for label in ('memory','pipe'):
-        log=(root/label/'ngspice.log').read_text()
+        with open_text(root/label/'ngspice.log') as stream:log=stream.read()
         for required in ('DAC_ANCHORED enabled single-bit','MPFR_DIAGNOSTIC bits=256','CAP_ASSEMBLY mode=1','POSTCAP_ASSEMBLY mode=1'):
             if required not in log:
                 raise ValueError('Missing runtime acknowledgment')

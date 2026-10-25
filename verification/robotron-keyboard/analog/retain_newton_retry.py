@@ -38,7 +38,7 @@ def retain(root,control,evidence,out):
             shutil.copyfileobj(source,dest,1024*1024)
     result['retention']={'fullCaptures':str(root.resolve()),
         'scope':'Complete compressed waveforms remain local, pinned by run receipts and compared before retention.',
-        'sources':{name:sha(HERE/name) for name in ('newton_retry_review.py','raw_pair_review.py',
+        'sources':{name:sha(HERE/name) for name in ('newton_retry_review.py','audit_log.py','raw_pair_review.py',
             'rollback_audit_log.py','bridge_rollback_log.py','retain_newton_retry.py',
             'engine-patches/rollback_fault.h','engine-patches/ngspice-47-rollback-fault.patch')}}
     (out/'assessment.json').write_text(json.dumps(result,indent=2)+'\n')

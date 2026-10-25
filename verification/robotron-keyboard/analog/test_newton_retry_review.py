@@ -58,6 +58,18 @@ class RetryReviewTests(unittest.TestCase):
             args=fixture(Path(tmp));r=review(*args)
             self.assertTrue(r['retryScreenPassed']);self.assertFalse(r['qualified'])
 
+    def test_new_compressed_log_receipt_is_enforced(self):
+        import lzma
+        with tempfile.TemporaryDirectory() as tmp,patch('newton_retry_review.check_bridge'):
+            args=fixture(Path(tmp));pair=args[0]
+            for mode in ('off','on'):
+                directory=pair/mode;p=directory/'ngspice.log';r=json.loads((directory/'run.json').read_text())
+                r['storage']['ngspice.log']={'sha256':sha(p)}
+                Path(str(p)+'.xz').write_bytes(lzma.compress(p.read_bytes()));p.unlink();dump(directory/'run.json',r)
+            self.assertTrue(review(*args)['retryScreenPassed'])
+            p=pair/'on/run.json';r=json.loads(p.read_text());r['storage']['ngspice.log']['sha256']='changed';dump(p,r)
+            with self.assertRaisesRegex(ValueError,'Changed captured audit log'):review(*args)
+
     def test_selected_time_and_rejects_early_or_invalid_injection(self):
         for start in (.0010029, .001004, END, -1, float('nan'), True):
             with self.subTest(start=start), tempfile.TemporaryDirectory() as tmp, patch('newton_retry_review.check_bridge'):

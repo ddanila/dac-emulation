@@ -9,7 +9,7 @@ import subprocess
 import time
 from compressed_output import capture
 from eval_cache_benchmark import external_dependencies, verify_dependencies
-from filter_truncation_log import diagnostic
+from audit_log import scan
 from ngspice_runtime import identify, verify
 from ttl7406_probe import sha
 
@@ -70,7 +70,7 @@ def run(control, build, out, timeout, fault_start=None):
             result['faultStartSeconds'] = fault_start
         start = time.monotonic()
         try:
-            with capture(directory, ['waveform.raw']) as storage:
+            with capture(directory, ['waveform.raw', 'ngspice.log']) as storage:
                 with (directory/'ngspice.log').open('w') as log:
                     process = subprocess.run([runtime['executable']['path'], '-n', '-b', 'io.cir'],
                         cwd=directory, env=env, stdout=log, stderr=subprocess.STDOUT, timeout=timeout)
@@ -80,11 +80,11 @@ def run(control, build, out, timeout, fault_start=None):
             result['storage'] = storage
             verify(runtime)
             verify_dependencies(deps)
-            log = (directory/'ngspice.log').read_text()
-            result['solverDiagnostic'] = diagnostic(log)
-            if result['solverDiagnostic'] or 'SORRY:' in log:
+            summary = scan(directory/'ngspice.log')
+            result['solverDiagnostic'] = summary['diagnostic']
+            if summary['diagnostic'] or summary['sorry']:
                 raise ValueError('Solver/HDL diagnostic')
-            count = log.count('ROLLBACK_FAULT kind=newton ')
+            count = len(summary['faults'])
             if count != (1 if mode == 'on' else 0):
                 raise ValueError('Unexpected number of injected retries')
         except Exception as exc:

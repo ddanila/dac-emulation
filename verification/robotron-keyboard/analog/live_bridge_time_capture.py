@@ -9,7 +9,7 @@ import subprocess
 import time
 from compressed_output import capture
 from eval_cache_benchmark import external_dependencies, verify_dependencies
-from filter_truncation_log import diagnostic
+from audit_log import scan
 from ngspice_runtime import identify, verify
 from ttl7406_probe import sha
 
@@ -63,16 +63,16 @@ def run(control, base_bridge, audit_bridge, out, timeout):
             'baseBridgeReceiptSha256':sha(base_bridge),'exitCode':None,'timedOut':False,'qualified':False}
     start=time.monotonic()
     try:
-        with capture(out,['waveform.raw']) as storage:
+        with capture(out,['waveform.raw','ngspice.log']) as storage:
             with (out/'ngspice.log').open('w') as log:
                 process=subprocess.run([runtime['executable']['path'],'-n','-b','io.cir'],cwd=out,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=timeout)
             result['exitCode']=process.returncode
             if process.returncode:raise ValueError('Bridge audit producer failed')
         result['storage']=storage
         verify(runtime);verify_dependencies(deps)
-        log=(out/'ngspice.log').read_text();result['solverDiagnostic']=diagnostic(log)
-        if result['solverDiagnostic'] or 'SORRY:' in log:raise ValueError('Solver/HDL diagnostic')
-        if 'TIME_AUDIT advance ' not in log:raise ValueError('No bridge time records')
+        summary=scan(out/'ngspice.log');result['solverDiagnostic']=summary['diagnostic']
+        if summary['diagnostic'] or summary['sorry']:raise ValueError('Solver/HDL diagnostic')
+        if not summary['advances']:raise ValueError('No bridge time records')
     except Exception as exc:
         result['error']=str(exc);result['timedOut']=isinstance(exc,subprocess.TimeoutExpired)
         raise
