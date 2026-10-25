@@ -19,6 +19,11 @@ typedef struct {
   uint8_t (*ack)(void *);
   void (*reti)(void *);
   void (*reset)(void *);
+  /* Optional native transaction wait: nonzero defers read/write callbacks.
+   * Called repeatedly with the same address/direction while CPU microsteps
+   * pause and card/clock ticks continue. No M1/ack or memory waits. This is a
+   * T-state transaction abstraction, not a half-clock /WAIT sampling model. */
+  int (*wait)(void *, uint16_t address, int write);
 } pc1715_card;
 
 /* Headless ordinary PC1715 motherboard bring-up. No W/M devices or CAS PROM.
@@ -28,9 +33,10 @@ typedef struct {
   dac_trace_sink trace;
   pc1715_card card;
   uint8_t ram[65536], rom[2048];
-  unsigned rom_enabled, io_active;
+  unsigned rom_enabled, io_active, io_waiting;
   uint8_t io_value;
   uint64_t io_reads, io_writes, unclaimed_reads;
+  uint64_t wait_ticks;
 } pc1715;
 
 void pc1715_init(pc1715 *);

@@ -18,7 +18,8 @@ Implemented:
 - Shared session creation, slot-0 ROM loading, run/reset, observation and peek.
 
 **Not implemented:** onboard CTC, SIO, keyboard, display/CRT, the two PIOs and
-custom floppy controller, /WAIT, external memory inhibition or bus mastering.
+custom floppy controller, external memory inhibition or bus mastering.
+The native card seam supports transaction waits as described below.
 Unclaimed I/O reads return FFh. A bare profile therefore represents bring-up
 without operational peripherals, not a bootable SCP machine. Callbacks are an
 emulator seam, not an electrical simulation of every X2 wire. The future board
@@ -77,3 +78,19 @@ Next: model the ordinary controller's PIO handshake/status/data stream and
 interrupts using independent expectations from the schematics and stock ROM/OS.
 Then qualify boot/read/write/reboot, and add onboard peripherals/display rather
 than borrowing the W/M memory and device map.
+
+## Native card transaction waits
+
+An optional `pc1715_card.wait(user, address, write)` callback defers a normal
+I/O transaction until it returns zero. While held, card ticks and CPU clock
+counts continue, but CPU microsteps stop; read/write side effects and their trace
+event occur exactly once on acceptance. Reset cancels an outstanding transaction.
+Interrupt acknowledgements and memory transactions do not call this callback.
+
+This is a T-state-level bus transaction abstraction. The chips CPU core exposes
+some I/O reads after its internal WAIT sampling step, so the adapter holds that
+exposed transaction before the data-consuming step. It does not claim to model
+half-clock /WAIT setup/hold constraints. Use the Z80 timing diagrams and physical
+measurements to qualify a real frontend's assertion and release deadlines.
+The new callback is appended to the native C structure; external clients must
+rebuild and initialize it (NULL preserves the earlier behavior).
