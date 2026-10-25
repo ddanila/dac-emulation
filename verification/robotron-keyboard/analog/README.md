@@ -367,8 +367,11 @@ reproduce that baseline exactly with logging disabled and enabled, preserving
 firmware events and valid callback ordering throughout the window. The matching
 [bridge timing control](reports/postreset-bridge/assessment.json) also preserves
 every sample and dispatch record, with monotonic observed HDL time and no logged
-HDL advances or outputs in rejected trials. Forced Newton retry beyond reset
-release remains to be checked; these observations do not establish general rollback.
+HDL advances or outputs in rejected trials. The matching
+[post-reset forced Newton retry](reports/postreset-newton-retry/assessment.json)
+preserves firmware events and stays within the voltage budget, with valid callback
+ordering and monotonic observed HDL time. Its disabled control reproduces every
+sample and scheduling record. These bounded checks do not establish general rollback.
 `live_raw_output.py --rollback-audit` and `rollback_dispatch_review.py` accept
 complete direct-raw baselines without expanding them into text waveforms.
 
@@ -577,8 +580,9 @@ pass before enabling the cache in qualification runs.
 `live_cache_review.py` checks a complete raw capture against the retained live
 bridge control, allowing only the cache-mode change. Every sample, firmware event
 and solver/HDL timing record must match; one such pair does not establish a speedup.
-The [live reset-release comparison](reports/live-cache-reset/assessment.json)
-passes that exact-equivalence check. Later firmware/service coverage remains open;
+The [live reset-release comparison](reports/live-cache-reset/assessment.json) and
+[post-reset comparison](reports/postreset-cache/assessment.json) pass that
+exact-equivalence check. Full-repeat firmware/service coverage remains open;
 keep caching opt-in. `--check --out reports/live-cache-reset` verifies the retained
 manifest and timing interpretation without redoing the full local waveform comparison.
 

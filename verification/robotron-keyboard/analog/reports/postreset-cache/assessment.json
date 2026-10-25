@@ -1,0 +1,93 @@
+{
+  "completeWaveformComparison": {
+    "allSamplesExactlyEqual": true,
+    "samples": 1410645,
+    "endSeconds": 0.00116,
+    "signals": [
+      "v(receiver_data)",
+      "v(receiver_clock)",
+      "v(n_d0)",
+      "v(n_d1)",
+      "v(n_d2)",
+      "v(n_d3)",
+      "v(n_d4)",
+      "v(n_d5)",
+      "v(n_d6)",
+      "v(n_d7)",
+      "v(n_p5v)",
+      "i(vdriver_supply)",
+      "v(n_wr_n)",
+      "v(wr_low)",
+      "v(wr_high)",
+      "v(n_ta_takt)",
+      "v(n_ta_daten)",
+      "v(l1_1_series)",
+      "v(l1_2_series)",
+      "v(l1_3_series)",
+      "v(l1_4_series)",
+      "v(n_cable_takt)",
+      "v(n_cable_gnd)",
+      "v(n_cable_5v)",
+      "v(n_cable_daten)",
+      "i(l1.1)",
+      "i(l1.2)",
+      "i(l1.3)",
+      "i(l1.4)",
+      "@bwr_low[i]",
+      "@bwr_high[i]"
+    ]
+  },
+  "solverAndHdlHistoryExactlyEqual": true,
+  "firmwareEventsExactlyEqual": true,
+  "timing": {
+    "advanceRequests": 1410644,
+    "outputCallbacks": 633,
+    "completedClientCallbacks": 1415014,
+    "terminalBridgeObservation": {
+      "target": 0.00116,
+      "actual": 0.001159999999,
+      "base": 0.00116,
+      "tick": 1e-12
+    },
+    "hdlTicksSeconds": [
+      1e-12
+    ],
+    "outputPorts": {
+      "data_sink": 78,
+      "wr_high": 2,
+      "wr_low": 2,
+      "bus_high": 214,
+      "bus_low": 214,
+      "column_sink": 123
+    },
+    "rejectedTrials": {
+      "lte": 20990,
+      "breakpoint": 4369
+    },
+    "callbacksBeforeRejectionWithAdvanceRequests": {},
+    "callbacksBeforeRejectionWithoutAdvanceRequests": {
+      "breakpoint": 4369
+    },
+    "callbacksBeforeRejectionWithOutputs": {},
+    "decreasingRequestedTargets": 0,
+    "decreasingObservedHdlTime": 0,
+    "maximumObservedHdlAheadOfTargetSeconds": 0.0,
+    "requestsEarlierThanActualByMoreThanOneTick": 0,
+    "firstTimeOrderViolations": [],
+    "timeOrderScreenPassed": true,
+    "qualified": false,
+    "boundary": "Observed request/output times in the declared logger window. A callback without a logged request does not prove absence of all internal state changes. No full-repeat or general rollback claim."
+  },
+  "qualified": false,
+  "boundary": "Complete bounded reset-release cache equivalence only. One enabled run is not a repeatable performance measurement or full-service qualification. Keep caching opt-in.",
+  "retention": {
+    "fullCapture": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-cache",
+    "scope": "Every raw sample was compared before retention; complete raw waveform remains local and is pinned by run receipt. No performance claim.",
+    "sources": {
+      "live_cache_review.py": "d2ed302c4e927fdb0011c8cfc59bb38490194116f898e27b9cb39ea5f88af980",
+      "raw_pair_review.py": "d72666bff67f9897613d0a5729ff6aa044d4ca0e4f752e09daffcefdf155e42c",
+      "bridge_rollback_log.py": "f84cf259aa8c6733f61e884ebfda140c847bb738f185948e8dd02fe70defa82a",
+      "engine-patches/eval-cache.patch": "fb4d3b0c4033265df9ff35a6ed1a80aeea5c2c26154ae3a9233b5e885da7cbc0"
+    }
+  }
+}
