@@ -384,7 +384,13 @@ paths that resume HDL; private queue traversal is not a prerequisite for that
 branch-specific argument. Its callback ownership map identifies the missing observation
 points before pending-output publication and the first HDL advance, and specifies
 valid access to current/previous XSPICE history. These are observation requirements,
-not evidence of general rollback.
+not evidence of general rollback. The [live history control](reports/history-state/assessment.json)
+observes those initialized callbacks, verifies output-history publication from the
+pending buffer, and detects a deliberate input-history mutation. Disabled, enabled
+and prior baseline waveforms and firmware events match exactly. Startup histories,
+output scheduling flags and complete pending-event coverage remain open.
+`history_state_capture.py` captures the bounded controls; `history_state_review.py`
+replays them. CI checks the retained manifest and damaged-trace controls.
 Firmware and state streams are compared separately because merged stdout/stderr
 buffering changes their interleaving. Full replay uses `live_cosim_state_review.py
 --root reports/live-cosim-state`; CI checks the retained manifest and parser controls
