@@ -32,12 +32,16 @@ def analyze(lines, *, expected_end=None):
         elif advance or output:
             if active is None:
                 # cleanup() resumes VVP once after the final accepted point.
-                # Admit only a zero-distance observation at the declared endpoint.
+                # Admit only a zero-tick request at the declared endpoint.
+                # VPI truncates (target - actual) / tick to uint64_t.
                 if advance and expected_end is not None and last_accept is not None:
                     target,actual,base,tick=map(float,advance.groups()[:4])
-                    if (not trial and last_accept==target==actual==base
+                    if (not trial and last_accept==last_target==target==base
                             and abs(target-expected_end)<=2*math.ulp(expected_end)
-                            and math.isfinite(tick) and tick>0 and advance[5]=='0'):
+                            and all(map(math.isfinite,(target,actual,base,tick)))
+                            and tick in ticks and tick>0
+                            and last_actual<=actual<=target
+                            and (target-actual)/tick<1 and advance[5]=='0'):
                         terminal_observation={'target':target,'actual':actual,'base':base,'tick':tick}
                         continue
                 raise ValueError('Bridge observation outside client callback')
