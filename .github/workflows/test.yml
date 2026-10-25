@@ -63,6 +63,8 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_eval_cache_benchmark.py
           python3 verification/robotron-keyboard/analog/test_audit_log.py
           python3 verification/robotron-keyboard/analog/test_internal_state_probe.py
+          python3 verification/robotron-keyboard/analog/test_live_cosim_state_review.py
+          python3 verification/robotron-keyboard/analog/live_cosim_state_review.py --root verification/robotron-keyboard/analog/reports/live-cosim-state --check-manifest
           python3 verification/robotron-keyboard/analog/internal_state_probe.py --check --out verification/robotron-keyboard/analog/reports/internal-state
           python3 verification/robotron-keyboard/analog/test_live_cache_review.py
           python3 verification/robotron-keyboard/analog/live_cache_review.py --check --out verification/robotron-keyboard/analog/reports/live-cache-reset
