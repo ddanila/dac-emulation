@@ -391,6 +391,11 @@ and prior baseline waveforms and firmware events match exactly. Startup historie
 output scheduling flags and complete pending-event coverage remain open.
 `history_state_capture.py` captures the bounded controls; `history_state_review.py`
 replays them. CI checks the retained manifest and damaged-trace controls.
+The [output-history initializer controls](reports/output-history-init/assessment.json)
+exercise an opt-in initialization from declared output-port values. A partial-output
+shim exposes dependence on otherwise uninitialized history; the bounded board
+fixture is unchanged under the tested seeds, with or without the initializer.
+Broader startup/scenario qualification remains open; allocation seeds are test controls.
 Firmware and state streams are compared separately because merged stdout/stderr
 buffering changes their interleaving. Full replay uses `live_cosim_state_review.py
 --root reports/live-cosim-state`; CI checks the retained manifest and parser controls
