@@ -25,6 +25,10 @@ void pc1715_write(void *p, uint16_t a, uint8_t data) {
 static uint8_t input(void *p, uint16_t a) {
   pc1715 *m = p;
   if (!m->io_active) {
+    if (m->card.wait && m->card.wait(m->card.user, a, 0)) {
+      m->io_waiting = 1;
+      return 0xff;
+    }
     m->io_active = 1;
     m->io_value = 0xff;
     uint8_t value = 0xff;
@@ -41,6 +45,10 @@ static void output(void *p, uint16_t a, uint8_t data) {
   pc1715 *m = p;
   if (m->io_active)
     return;
+  if (m->card.wait && m->card.wait(m->card.user, a, 1)) {
+    m->io_waiting = 1;
+    return;
+  }
   m->io_active = 1;
   m->io_writes++;
   trace(m, "IW", a, data, DAC_SPACE_IO, a & 255);
@@ -62,6 +70,8 @@ static uint8_t acknowledge(void *p) {
 void pc1715_reset(pc1715 *m) {
   m->rom_enabled = 1;
   m->io_active = 0;
+  m->io_waiting = 0;
+  m->wait_ticks = 0;
   m->io_value = 0xff;
   m->io_reads = m->io_writes = m->unclaimed_reads = 0;
   dac_z80_init(&m->cpu, (dac_z80_bus){m, pc1715_read, pc1715_write,
@@ -95,6 +105,22 @@ void pc1715_run(pc1715 *m, unsigned ticks) {
   while (ticks--) {
     if (m->card.tick)
       m->card.tick(m->card.user, m->cpu.cycles);
+    if (m->io_waiting) {
+      /* The chips core exposes reads after its WAIT sampling microstep.
+       * Hold the exposed transaction before its next (data consuming) step.
+       * Never tick that microstep with placeholder data or repeat side effects. */
+      uint16_t address = Z80_GET_ADDR(m->cpu.pins);
+      m->io_waiting = 0;
+      if (m->cpu.pins & Z80_RD) {
+        uint8_t data = input(m, address);
+        Z80_SET_DATA(m->cpu.pins, data);
+      } else output(m, address, Z80_GET_DATA(m->cpu.pins));
+      if (m->io_waiting) m->cpu.pins |= Z80_WAIT;
+      else m->cpu.pins &= ~Z80_WAIT;
+      m->wait_ticks++;
+      m->cpu.cycles++;
+      continue;
+    }
     int irq = m->card.irq ? !!m->card.irq(m->card.user) : 0;
     dac_z80_tick(&m->cpu, irq, 0);
     if (!(m->cpu.pins & Z80_IORQ))

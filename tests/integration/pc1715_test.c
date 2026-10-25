@@ -44,7 +44,7 @@ static void card_reset(void *p) {
 }
 static pc1715_card card(card_state *s) {
   return (pc1715_card){s, card_read, card_write, card_tick, card_irq,
-                       card_ack, card_reti, card_reset};
+                       card_ack, card_reti, card_reset, NULL};
 }
 static unsigned ir, iw, ia, mr, mw;
 static void observe(void *user, const dac_trace_event *e) {
@@ -124,6 +124,36 @@ static void interrupts(void) {
   assert(ia == 1 && !ir && !iw && !s.reads && !s.writes);
   free(m);
 }
+static int slow_io(void *p, uint16_t address, int write) {
+  card_state *s = p;
+  assert((address & 255) == (write ? 4 : 2));
+  return s->ticks < (write ? 400u : 200u);
+}
+static void waits(void) {
+  uint8_t rom[2048] = {0x01, 2, 0x12, 0xed, 0x78, 0x32, 0, 0x80,
+                      0x3e, 0xc3, 0xd3, 4, 0x76};
+  pc1715 *m = malloc(sizeof(*m));
+  assert(m);
+  pc1715_init(m);
+  card_state state = {0};
+  pc1715_card c = card(&state); c.wait = slow_io;
+  assert(!pc1715_load(m, rom, sizeof(rom)) && !pc1715_attach(m, &c));
+  pc1715_run(m, 100);
+  assert(m->io_waiting && !state.reads && !state.writes);
+  assert(m->cpu.cycles == 100 && state.ticks == 100);
+  pc1715_run(m, 200);
+  assert(state.reads == 1 && !state.writes && m->ram[0x8000] == 0xa5);
+  assert(m->io_waiting); /* write stalls without a repeated callback */
+  pc1715_run(m, 200);
+  assert(state.reads == 1 && state.writes == 1 && state.data == 0xc3);
+  assert(m->cpu.pins & Z80_HALT);
+  assert(m->wait_ticks > 300 && !(m->cpu.pins & Z80_WAIT));
+  pc1715_reset(m); pc1715_run(m, 100);
+  assert(m->io_waiting);
+  pc1715_reset(m);
+  assert(!m->io_waiting && !m->wait_ticks && !(m->cpu.pins & Z80_WAIT));
+  free(m);
+}
 static void runtime(void) {
   uint8_t rom[2048], data = 0;
   boot_program(rom);
@@ -166,6 +196,7 @@ int main(void) {
   board();
   interrupts();
   runtime();
+  waits();
   puts("PASS plain PC1715 memory, bus transactions, IRQ/RETI and session isolation");
   return 0;
 }
