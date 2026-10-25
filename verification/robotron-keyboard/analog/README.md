@@ -387,8 +387,14 @@ valid access to current/previous XSPICE history. These are observation requireme
 not evidence of general rollback. The [live history control](reports/history-state/assessment.json)
 observes those initialized callbacks, verifies output-history publication from the
 pending buffer, and detects a deliberate input-history mutation. Disabled, enabled
-and prior baseline waveforms and firmware events match exactly. Startup histories,
-output scheduling flags and complete pending-event coverage remain open.
+and prior baseline waveforms and firmware events match exactly. The [scheduling control](reports/event-state/assessment.json) adds controller-port
+flags, delays and pending-event lists, with a detected delay-corruption control.
+The [repeated-output fix](reports/staged-output/assessment.json) preserves changed
+flags until the callback returns, repairing initial LED events lost during a second
+`output()` call. Observer controls remain exact; the fix changes the sampling grid
+and electrical waveforms while preserving firmware events. It stays opt-in pending
+broader scenario and convergence checks. Startup and event state outside the
+controller-port queues remain open.
 `history_state_capture.py` captures the bounded controls; `history_state_review.py`
 replays them. CI checks the retained manifest and damaged-trace controls.
 The [output-history initializer controls](reports/output-history-init/assessment.json)
