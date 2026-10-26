@@ -674,3 +674,12 @@ firmware agreement across original, rebuilt, observer-disabled and observed
 controls, plus rejection/restoration of a single callback's NULL data pointer.
 These controls must pass before claiming board display coverage; descriptor
 internals, other VPI objects and executing wrappers remain separate.
+
+`build_display_stop_bridge.py` accepts the same bridge/VPI build arguments and
+adds the saved `stop_cb` relationship to that observer. It uses the live runtime
+registry to check the handle, known callback function and context without
+reading through a supplied handle. `display_stop_review.py` checks that a saved
+handle names the executing delayed stop; a null handle permits startup or an
+immediate output-triggered stop. The `stop-corrupt` mode substitutes an invalid
+handle and restores it before HDL continuation. This variant still requires
+matched board controls; it does not establish freed-storage equivalence.
