@@ -147,6 +147,8 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_postreset_tick.py
           python3 verification/robotron-keyboard/analog/input_tick_probe.py --check verification/robotron-keyboard/analog/reports/input-tick
           python3 verification/robotron-keyboard/analog/test_port_board_review.py
+          python3 verification/robotron-keyboard/analog/test_startup_callback_probe.py
+          python3 verification/robotron-keyboard/analog/startup_callback_probe.py --check verification/robotron-keyboard/analog/reports/startup-callback
           python3 verification/robotron-keyboard/analog/test_value_callback_probe.py
           python3 verification/robotron-keyboard/analog/test_output_callback_bridge.py
           python3 verification/robotron-keyboard/analog/test_output_callback_board_review.py
@@ -386,6 +388,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/stop-board
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wrapper-board
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/port-board
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/startup-callback
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/value-callback
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/input-tick
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/absolute-tick-board

@@ -797,3 +797,12 @@ pending startup list but not yet destroyed. Track that active lifetime separatel
 from timed wrappers, validate the registered startup function/context, and avoid
 reading unspecified suppressed-time words. Empty timed-wrapper inventories do
 not prove startup state coverage.
+
+Build this startup observer with `build_startup_callback_runtime.py` using the same
+pinned archive/build arguments. `startup_callback_probe.py --candidate BUILD
+--baseline ORIGINAL_LIBVVP --modules VPI_DIRECTORY --out FRESH_DIRECTORY` runs the
+[standalone controls](reports/startup-callback/assessment.json): pending/active
+lifetimes, cancellation, destruction and restored context/function/time/link
+faults with exact callback continuation. These controls do not suspend the bridge
+coroutine; integration must verify its actual paused startup callback before
+startup/recovery rejection checks can establish board coverage.

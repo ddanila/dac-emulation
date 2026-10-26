@@ -1,0 +1,123 @@
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -691,9 +691,20 @@
+  * callbacks.
+  */
+ 
++class simulator_callback;
++struct robotron_start_record {
++    unsigned long long id;
++    PLI_INT32 (*function)(p_cb_data);
++};
++static std::map<const simulator_callback*, robotron_start_record> robotron_start_live;
++static unsigned long long robotron_start_serial = 0;
++static simulator_callback* robotron_start_active = 0;
++static __vpiCallback* robotron_start_active_next = 0;
++
+ class simulator_callback : public __vpiCallback {
+     public:
+       explicit simulator_callback(const struct t_cb_data*data);
++      ~simulator_callback() override { robotron_start_live.erase(this); }
+ 
+     public:
+       struct t_vpi_time cb_time;
+@@ -710,6 +721,8 @@
+ 	    cb_time.type = vpiSuppressTime;
+       }
+       cb_data.time = &cb_time;
++      if (data->reason == cbStartOfSimulation)
++          robotron_start_live[this] = {++robotron_start_serial, data->cb_rtn};
+ }
+ 
+ static simulator_callback*NextSimTime = 0;
+@@ -771,6 +784,7 @@
+ 
+ void vpiStartOfSim(void) {
+       simulator_callback* cur;
++      assert(!robotron_start_active);
+ 
+       /*
+        * Walk the list of register callbacks, executing them and
+@@ -782,9 +796,13 @@
+       while (StartOfSimulation) {
+ 	    cur = StartOfSimulation;
+ 	    StartOfSimulation = dynamic_cast<simulator_callback*>(cur->next);
++            robotron_start_active = cur;
++            robotron_start_active_next = cur->next;
+ 	    if (cur->cb_data.cb_rtn != 0) {
+ 		  (cur->cb_data.cb_rtn)(&cur->cb_data);
+ 	    }
++            robotron_start_active = 0;
++            robotron_start_active_next = 0;
+ 	    delete cur;
+       }
+ 
+@@ -1330,3 +1348,68 @@
+     }
+     return 0;
+ }
++
++/* Startup-only identity contract. Never dereference an unregistered handle or
++ * list link. Suppressed time words and unrelated optional payloads are unread.
++ * Invoke on the simulator thread or while its coroutine is paused. */
++extern "C" unsigned long long robotron_vvp_start_identity(
++    const void* handle, PLI_INT32 (*function)(p_cb_data), PLI_BYTE8* user)
++{
++    auto wanted = robotron_start_live.find(static_cast<const simulator_callback*>(handle));
++    if (wanted == robotron_start_live.end() || !function || !user ||
++        wanted->second.function != function) return 0;
++    const simulator_callback* cb = wanted->first;
++    if (cb->cb_data.reason != cbStartOfSimulation || cb->cb_data.cb_rtn != function ||
++        cb->cb_data.user_data != user || cb->cb_data.time != &cb->cb_time ||
++        cb->cb_time.type != vpiSuppressTime) return 0;
++    std::set<const __vpiCallback*> seen;
++    const __vpiCallback* node = StartOfSimulation;
++    bool pending = false;
++    while (node) {
++        /* Compare base identities before accessing derived storage. */
++        const simulator_callback* registered = 0;
++        for (const auto& item : robotron_start_live)
++            if (static_cast<const __vpiCallback*>(item.first) == node) registered = item.first;
++        if (!registered || !seen.insert(node).second || registered == robotron_start_active) return 0;
++        if (registered == cb) pending = true;
++        node = registered->next;
++    }
++    bool active = cb == robotron_start_active;
++    if (active && cb->next != robotron_start_active_next) return 0;
++    return pending != active ? wanted->second.id : 0;
++}
++
++/* Restored negative controls only. No scheduler execution between the pair. */
++extern "C" int robotron_vvp_start_toggle(
++    const void* handle, PLI_INT32 (*function)(p_cb_data), PLI_BYTE8* user, int field)
++{
++    static simulator_callback* saved = 0;
++    static int saved_field = -1;
++    static const PLI_BYTE8* saved_user;
++    static PLI_INT32 (*saved_function)(p_cb_data);
++    static p_vpi_time saved_time;
++    static __vpiCallback* saved_next;
++    if (saved) {
++        if (saved != handle || saved_field != field || !robotron_start_live.count(saved)) return -1;
++        saved->cb_data.user_data = saved_user;
++        saved->cb_data.cb_rtn = saved_function;
++        saved->cb_data.time = saved_time;
++        saved->next = saved_next;
++        saved = 0; saved_field = -1;
++        return 1;
++    }
++    if (field < 0 || field > 3 || !robotron_vvp_start_identity(handle,function,user)) return -1;
++    saved = const_cast<simulator_callback*>(static_cast<const simulator_callback*>(handle));
++    saved_field = field;
++    saved_user = saved->cb_data.user_data;
++    saved_function = saved->cb_data.cb_rtn;
++    saved_time = saved->cb_data.time;
++    saved_next = saved->next;
++    switch (field) {
++        case 0: saved->cb_data.user_data = 0; break;
++        case 1: saved->cb_data.cb_rtn = 0; break;
++        case 2: saved->cb_data.time = reinterpret_cast<p_vpi_time>(1); break;
++        case 3: saved->next = reinterpret_cast<__vpiCallback*>(1); break;
++    }
++    return 1;
++}
