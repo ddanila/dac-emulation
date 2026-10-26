@@ -1,0 +1,182 @@
+--- a/vvp/vvp_island.h
++++ b/vvp/vvp_island.h
+@@ -71,6 +71,8 @@
+ 	// event. The run_run() method will then be called by the
+ 	// scheduler to process whatever happened.
+       void flag_island();
++      int robotron_inventory(FILE*);
++      int robotron_flag_toggle();
+ 
+ 	// This is the method that is called, eventually, to process
+ 	// whatever happened. The derived island class implements this
+--- a/vvp/vvp_island.cc
++++ b/vvp/vvp_island.cc
+@@ -34,6 +34,30 @@
+ 
+ using namespace std;
+ 
++#include <map>
++#include <vector>
++struct robotron_island_record {
++    unsigned long long id;
++    std::vector<vvp_net_t*> ports;
++    std::vector<vvp_island_branch*> branches;
++};
++static std::map<vvp_island*,robotron_island_record>& robotron_islands()
++{ static std::map<vvp_island*,robotron_island_record> value;return value; }
++static unsigned long long robotron_island_serial=0;
++extern int robotron_tran_inventory(FILE*,vvp_island_branch*);
++extern int robotron_tran_toggle(vvp_island_branch*);
++static int robotron_island_vector(FILE* out,const char* name,const vvp_vector8_t& value)
++{
++    if(fprintf(out,"VI_VECTOR %s %u ",name,value.size())<0)return -1;
++    if(!value.size() && fputc('-',out)==EOF)return -1;
++    for(unsigned i=0;i<value.size();++i){
++        auto b=value.value(i);
++        if(fprintf(out,"%u%u%u",(unsigned)b.value(),b.strength0(),b.strength1())<0)return -1;
++    }
++    return fputc('\n',out)==EOF?-1:0;
++}
++
++
+ #ifdef CHECK_WITH_VALGRIND
+ static bool at_EOS = false;
+ #endif
+@@ -58,10 +82,12 @@
+       ports_ = 0;
+       anodes_ = 0;
+       bnodes_ = 0;
++      robotron_islands()[this]={++robotron_island_serial,{}, {}};
+ }
+ 
+ vvp_island::~vvp_island()
+ {
++      robotron_islands().erase(this);
+ 	// We can only delete islands at the end of simulation.
+ #ifdef CHECK_WITH_VALGRIND
+       if (!at_EOS) assert(0);
+@@ -104,6 +130,7 @@
+       assert(ports_->sym_get_value(key) == 0);
+ 
+       ports_->sym_set_value(key, net);
++      robotron_islands().at(this).ports.push_back(net);
+ }
+ 
+ void vvp_island::add_branch(vvp_island_branch*branch, const char*pa, const char*pb)
+@@ -145,6 +172,7 @@
+ 
+       branch->next_branch = branches_;
+       branches_ = branch;
++      robotron_islands().at(this).branches.push_back(branch);
+ }
+ 
+ vvp_net_t* vvp_island::find_port(const char*key)
+@@ -380,3 +408,87 @@
+       delete island_table;
+       island_table = 0;
+ }
++
++int vvp_island::robotron_inventory(FILE* out)
++{
++    const auto& r=robotron_islands().at(this);
++    std::map<vvp_island_branch*,unsigned> branches;
++    std::map<vvp_net_t*,unsigned> ports;
++    for(unsigned i=0;i<r.branches.size();++i)branches[r.branches[i]]=i+1;
++    for(unsigned i=0;i<r.ports.size();++i)ports[r.ports[i]]=i+1;
++    if(branches_ && !branches.count(branches_))return -1;
++    if(fprintf(out,"VI_ISLAND %llu %p %u %u %zu %zu\n",r.id,
++               (void*)static_cast<vvp_gen_event_s*>(this),(unsigned)flagged_,
++               branches_?branches.at(branches_):0,r.branches.size(),r.ports.size())<0)return -1;
++    for(unsigned i=0;i<r.ports.size();++i){
++        auto net=r.ports[i];auto port=dynamic_cast<vvp_island_port*>(net->fun);
++        if(!port)return -1;
++        if(fprintf(out,"VI_PORT %u %p %p %p\n",i+1,(void*)net,(void*)net->fun,(void*)net->fil)<0)return -1;
++        if(robotron_island_vector(out,"in",port->invalue) || robotron_island_vector(out,"out",port->outvalue) ||
++           robotron_island_vector(out,"scratch",port->value))return -1;
++    }
++    for(unsigned i=0;i<r.branches.size();++i){
++        auto b=r.branches[i];
++        if(!ports.count(b->a) || !ports.count(b->b) ||
++           (b->next_branch && !branches.count(b->next_branch)) ||
++           !branches.count(b->link[0].ptr()) || !branches.count(b->link[1].ptr()))return -1;
++        if(fprintf(out,"VI_BRANCH %u %u %u %u %u %u %u %u\n",i+1,
++                   b->next_branch?branches.at(b->next_branch):0,ports.at(b->a),ports.at(b->b),
++                   branches.at(b->link[0].ptr()),b->link[0].port(),
++                   branches.at(b->link[1].ptr()),b->link[1].port())<0)return -1;
++        if(robotron_tran_inventory(out,b))return -1;
++    }
++    return ferror(out)?-1:0;
++}
++int vvp_island::robotron_flag_toggle(){flagged_=!flagged_;return 1;}
++extern "C" int robotron_vvp_island_inventory(FILE* out)
++{
++    if(!out || fprintf(out,"VI_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    // Stable lifetime order rather than allocator address order.
++    std::map<unsigned long long,vvp_island*> ordered;
++    for(const auto& item:robotron_islands())ordered[item.second.id]=item.first;
++    for(const auto& item:ordered)if(item.second->robotron_inventory(out))return -1;
++    return fprintf(out,"VI_END %zu\n",ordered.size())<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_island_toggle(int field)
++{
++    static vvp_island* owner=0;static unsigned long long lifetime=0;
++    static int saved_field=-1;static vvp_vector8_t* vector=0;static vvp_vector8_t saved;
++    static vvp_island_branch* branch=0;
++    if(owner){
++        auto found=robotron_islands().find(owner);
++        if(found==robotron_islands().end() || found->second.id!=lifetime || field!=saved_field)return -1;
++        if(field==0)owner->robotron_flag_toggle();
++        else if(field==4){if(robotron_tran_toggle(branch)!=1)return -1;}
++        else if(field==5)branch->link[0]=vvp_branch_ptr_t(branch->link[0].ptr(),branch->link[0].port()^1);
++        else *vector=saved;
++        owner=0;vector=0;branch=0;saved_field=-1;return 1;
++    }
++    if(field<0 || field>5)return -1;
++    std::map<unsigned long long,vvp_island*> ordered;
++    for(const auto& item:robotron_islands())ordered[item.second.id]=item.first;
++    for(const auto& item:ordered){
++        auto island=item.second;const auto& r=robotron_islands().at(island);
++        bool changed=false;
++        if(field==0){island->robotron_flag_toggle();changed=true;}
++        else if(field==4 || field==5){
++            for(auto b:r.branches){
++                if(field==4){if(robotron_tran_toggle(b)!=1)continue;}
++                else b->link[0]=vvp_branch_ptr_t(b->link[0].ptr(),b->link[0].port()^1);
++                branch=b;changed=true;break;
++            }
++        }else{
++            for(auto net:r.ports){
++                auto p=dynamic_cast<vvp_island_port*>(net->fun);if(!p)return -1;
++                auto v=field==2?&p->outvalue:&p->invalue;
++                if(!v->size())continue;
++                vector=v;saved=*v;auto b=v->value(0);
++                if(field==3)v->set_bit(0,vvp_scalar_t(b.value(),b.strength0()^1,b.strength1()^1));
++                else v->set_bit(0,vvp_scalar_t(b.value()==BIT4_1?BIT4_0:BIT4_1,6,6));
++                changed=true;break;
++            }
++        }
++        if(changed){owner=island;lifetime=r.id;saved_field=field;return 1;}
++    }
++    return 0;
++}
+--- a/vvp/island_tran.cc
++++ b/vvp/island_tran.cc
+@@ -484,3 +484,18 @@
+       free(pa);
+       free(pb);
+ }
++
++int robotron_tran_inventory(FILE* out,vvp_island_branch* branch)
++{
++    auto b=dynamic_cast<vvp_island_branch_tran*>(branch);if(!b)return -1;
++    return fprintf(out,"VI_TRAN %p %u %u %u %u %u %u\n",(void*)b->en,
++                   b->width,b->part,b->offset,(unsigned)b->active_high,(unsigned)b->resistive,
++                   (unsigned)b->state)<0?-1:0;
++}
++int robotron_tran_toggle(vvp_island_branch* branch)
++{
++    static vvp_island_branch_tran* saved=0;static tran_state_t state;
++    auto b=dynamic_cast<vvp_island_branch_tran*>(branch);if(!b)return -1;
++    if(saved){if(saved!=b)return -1;b->state=state;saved=0;return 1;}
++    saved=b;state=b->state;b->state=b->state==tran_enabled?tran_disabled:tran_enabled;return 1;
++}
