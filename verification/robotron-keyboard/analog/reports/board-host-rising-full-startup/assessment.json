@@ -11,9 +11,10 @@
     "clockWidths": "clock-widths.json",
     "hostInputs": "host-input-review.json.xz",
     "receiverMargins": "margins-140ns.json",
-    "reviewCommands": "review-jobs.json"
+    "reviewCommands": "review-jobs.json",
+    "resetSetup": "reset-setup-review.json"
   },
-  "interpretation": "The producer completes from time zero and passes reset activity, first fetch, bit transport and scenario-window checks using rising RxC. This resolves the earlier capture-window and legacy-observer gaps. It does not qualify the board: the CPU clock never reaches the required high excursion in assessed valid-supply cycles, and the clock timing screen fails. Some later supply-valid intervals lack a fresh reset interval. Digital threshold crossings and matching bit intent cannot waive these electrical failures. The host receive-clock width screen passes at its explicit nominal threshold, including startup coverage, with leading/trailing intervals censored. It does not qualify Schmitt thresholds or supply applicability. The sampled host-input voltage ranges remain within the selected static envelope without invoking pulse exceptions. Input currents, duty, supply/temperature applicability and intersample extrema remain unqualified. The receiver-margin review meets the selected sampled setup/hold budget at logged rising-RxC events. No host review establishes U856 thresholds, loading or between-sample behavior.",
+  "interpretation": "The producer completes from time zero and passes reset activity, first fetch, bit transport and scenario-window checks using rising RxC. This resolves the earlier capture-window and legacy-observer gaps. It does not qualify the board: the CPU clock never reaches the required high excursion in assessed valid-supply cycles, and the clock timing screen fails. Some later supply-valid intervals lack a fresh reset interval. Digital threshold crossings and matching bit intent cannot waive these electrical failures. The host receive-clock width screen passes at its explicit nominal threshold, including startup coverage, with leading/trailing intervals censored. It does not qualify Schmitt thresholds or supply applicability. The sampled host-input voltage ranges remain within the selected static envelope without invoking pulse exceptions. Input currents, duty, supply/temperature applicability and intersample extrema remain unqualified. The receiver-margin review meets the selected sampled setup/hold budget at logged rising-RxC events. No host review establishes U856 thresholds, loading or between-sample behavior. The complete-trace RESET setup screen finds no qualifying clock voltage rises, so it cannot establish the published 90 ns setup requirement; zero assessed rises is not a timing pass.",
   "nextAction": "Constrain oscillator/CPU-clock levels and timing with independently applicable device models, then require completed refinement and remaining scenario/bus/supply qualification. The completed diagnostic host screens do not waive CPU-clock or supply-recovery failures.",
   "boundary": "Reference S600 and nominal unqualified device/loading assumptions; CPU/peripheral buses remain digital. No C ordinal comparison or exact U880 timing claim. Both entire simulation and saved waveform begin at zero. No specimen qualification.",
   "waveforms": {
@@ -45,7 +46,8 @@
     "clock-widths.json": "b8289c02996ab00ed8918839d6d6e33775d42758024c1a124dafc136d77f64a1",
     "host-input-review.json.xz": "8cf9806376930f3f06b9ce4d8b40c59d7df2dd6f48a95fda2d4805d16dc6a37e",
     "margins-140ns.json": "522fbb3ed4aa73f2dfc922f022ff76e8d75bac86e10c6560a1b021283ed1c7ed",
-    "review-jobs.json": "2314605b49103d0fba073ffc85c9d5b8a7bcb6ef9cc5bc1900fbd822683090ac"
+    "review-jobs.json": "15928209ecd323d42d935333fc59d61bb86a335c0ee07b676f02dc621d4aa63f",
+    "reset-setup-review.json": "fafbea318b1f9d1e6d0d8a7d26e0fc6126340e957f58b1e4e469372f6b651825"
   },
   "compression": {
     "host-input-review.json.xz": {

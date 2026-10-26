@@ -378,6 +378,8 @@ to check sampled RESET stability against complete CPU-clock voltage rises. It
 verifies full clock/supply traces and their time alignment, preserves endpoint and
 sample-gap checks, and reports unestablished margins without interpolation. This
 is a reset setup screen, not clock, reset-duration or firmware-restart qualification.
+The [full startup review](reports/board-host-rising-full-startup/reset-setup-review.json)
+finds no qualifying clock voltage rises; it cannot establish RESET setup timing.
 
 ### Scheduling and state controls
 

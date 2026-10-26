@@ -43,5 +43,19 @@
     "output": "margins-140ns.json",
     "producerReportSha256": "dd08732646a117283e2d33ad8350e1aea4a81fee331b09201c2a45901a8bd1f9",
     "exitCode": 0
+  },
+  {
+    "name": "reset-setup",
+    "command": [
+      "python3",
+      "verification/robotron-keyboard/analog/cpu_reset_setup_review.py",
+      "--root",
+      "build/keyboard-controller-analog/board-host-rising-full-startup",
+      "--out",
+      "build/keyboard-controller-analog/board-host-rising-full-startup/reset-setup-review.json"
+    ],
+    "output": "reset-setup-review.json",
+    "producerReportSha256": "dd08732646a117283e2d33ad8350e1aea4a81fee331b09201c2a45901a8bd1f9",
+    "exitCode": 0
   }
 ]
