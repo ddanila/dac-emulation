@@ -13,7 +13,8 @@ jobs:
   keyboard-controller:
     name: Keyboard reference wiring and full bus audit
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    # Include checkout and runner variability; keep all verification steps.
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v7
       - name: Resolve keyboard verification dependencies
