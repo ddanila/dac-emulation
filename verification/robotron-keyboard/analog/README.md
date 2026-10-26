@@ -365,6 +365,10 @@ claiming a convergence correction.
 runtime arguments, plus `--adc-crossings off|on` and `--step-ns 25|12.5|6.25`.
 It preserves the full post-reset window; capture completion alone does not pass
 the numerical or rollback gates.
+Review the three enabled captures with `postreset_adc_review.py --coarse BASELINE
+--enabled RUN25 --fine RUN12_5 --finest RUN6_25 --out REPORT`. The review preserves
+the numerical gate and checks firmware agreement with the original baseline;
+ADC-enabled retry and internal-state coverage remain separate requirements.
 `numericalGatePassed` is scoped to this window; `qualified` remains false because
 startup, supply recovery and device admission need independent evidence.
 
