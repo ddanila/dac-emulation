@@ -1,0 +1,1324 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Complete 1.16-ms positive controls; negative controls intentionally abort. External clock/reset, not startup or supply recovery.",
+  "comparisons": {
+    "disabledBaseline": {
+      "allSamplesExactlyEqual": true,
+      "samples": 1401518,
+      "endSeconds": 0.00116,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    },
+    "enabledObserver": {
+      "allSamplesExactlyEqual": true,
+      "samples": 1401518,
+      "endSeconds": 0.00116,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    }
+  },
+  "histories": {
+    "check": {
+      "phases": {
+        "callback-entry": 1410159,
+        "advance-before": 1401518,
+        "advance-after": 1401518,
+        "output-before": 264,
+        "output-after": 264,
+        "run-entry": 1405831,
+        "event-after": 4328
+      },
+      "rejections": 4315,
+      "corruptionsDetected": 0,
+      "dimensions": [
+        25,
+        69
+      ]
+    },
+    "immediate": {
+      "phases": {
+        "callback-entry": 6673,
+        "advance-before": 6673,
+        "advance-after": 6673,
+        "output-before": 2,
+        "output-after": 2,
+        "run-entry": 6672,
+        "event-after": 1
+      },
+      "rejections": 1,
+      "corruptionsDetected": 1,
+      "dimensions": [
+        25,
+        69
+      ]
+    },
+    "delayed": {
+      "phases": {
+        "callback-entry": 635785,
+        "advance-before": 629446,
+        "advance-after": 629446,
+        "output-before": 154,
+        "output-after": 154,
+        "run-entry": 632611,
+        "event-after": 3174
+      },
+      "rejections": 3167,
+      "corruptionsDetected": 1,
+      "dimensions": [
+        25,
+        69
+      ]
+    }
+  },
+  "corruption": {
+    "immediate": {
+      "detectedAtSeconds": 5.015190746338849e-07,
+      "requestedAfterSeconds": 0.0,
+      "earlierUnchangedRejections": 0,
+      "priorFirstFetch": false,
+      "mutatedOutput": {
+        "index": 0,
+        "instanceIndex": 0,
+        "nodeIndex": 0,
+        "controllerOwned": false,
+        "instance": "abus",
+        "node": "dbus7"
+      },
+      "mutation": "output pending flag"
+    },
+    "delayed": {
+      "detectedAtSeconds": 0.0011000018081933356,
+      "requestedAfterSeconds": 0.0011,
+      "earlierUnchangedRejections": 3166,
+      "priorFirstFetch": true,
+      "mutatedOutput": {
+        "index": 0,
+        "instanceIndex": 0,
+        "nodeIndex": 0,
+        "controllerOwned": false,
+        "instance": "abus",
+        "node": "dbus7"
+      },
+      "mutation": "output pending flag"
+    }
+  },
+  "circuitOutputs": {
+    "snapshots": 5623882,
+    "outputs": 89,
+    "controllerOutputs": 69,
+    "otherInstances": [
+      "abus",
+      "afixture",
+      "amatrix",
+      "arxclock",
+      "arxdata"
+    ],
+    "pendingEventObservations": 1237252,
+    "otherModelPendingEventObservations": 242714,
+    "inventory": [
+      {
+        "index": 0,
+        "instanceIndex": 0,
+        "nodeIndex": 0,
+        "controllerOwned": false,
+        "instance": "abus",
+        "node": "dbus7"
+      },
+      {
+        "index": 1,
+        "instanceIndex": 0,
+        "nodeIndex": 1,
+        "controllerOwned": false,
+        "instance": "abus",
+        "node": "dbus6"
+      },
+      {
+        "index": 2,
+        "instanceIndex": 0,
+        "nodeIndex": 2,
+        "controllerOwned": false,
+        "instance": "abus",
+        "node": "dbus5"
+      },
+      {
+        "index": 3,
+        "instanceIndex": 0,
+        "nodeIndex": 3,
+        "controllerOwned": false,
+        "instance": "abus",
+        "node": "dbus4"
+      },
+      {
+        "index": 4,
+        "instanceIndex": 0,
+        "nodeIndex": 4,
+        "controllerOwned": false,
+        "instance": "abus",
+        "node": "dbus3"
+      },
+      {
+        "index": 5,
+        "instanceIndex": 0,
+        "nodeIndex": 5,
+        "controllerOwned": false,
+        "instance": "abus",
+        "node": "dbus2"
+      },
+      {
+        "index": 6,
+        "instanceIndex": 0,
+        "nodeIndex": 6,
+        "controllerOwned": false,
+        "instance": "abus",
+        "node": "dbus1"
+      },
+      {
+        "index": 7,
+        "instanceIndex": 0,
+        "nodeIndex": 7,
+        "controllerOwned": false,
+        "instance": "abus",
+        "node": "dbus0"
+      },
+      {
+        "index": 8,
+        "instanceIndex": 4,
+        "nodeIndex": 58,
+        "controllerOwned": false,
+        "instance": "amatrix",
+        "node": "dsense7"
+      },
+      {
+        "index": 9,
+        "instanceIndex": 4,
+        "nodeIndex": 59,
+        "controllerOwned": false,
+        "instance": "amatrix",
+        "node": "dsense6"
+      },
+      {
+        "index": 10,
+        "instanceIndex": 4,
+        "nodeIndex": 60,
+        "controllerOwned": false,
+        "instance": "amatrix",
+        "node": "dsense5"
+      },
+      {
+        "index": 11,
+        "instanceIndex": 4,
+        "nodeIndex": 61,
+        "controllerOwned": false,
+        "instance": "amatrix",
+        "node": "dsense4"
+      },
+      {
+        "index": 12,
+        "instanceIndex": 4,
+        "nodeIndex": 62,
+        "controllerOwned": false,
+        "instance": "amatrix",
+        "node": "dsense3"
+      },
+      {
+        "index": 13,
+        "instanceIndex": 4,
+        "nodeIndex": 63,
+        "controllerOwned": false,
+        "instance": "amatrix",
+        "node": "dsense2"
+      },
+      {
+        "index": 14,
+        "instanceIndex": 4,
+        "nodeIndex": 64,
+        "controllerOwned": false,
+        "instance": "amatrix",
+        "node": "dsense1"
+      },
+      {
+        "index": 15,
+        "instanceIndex": 4,
+        "nodeIndex": 65,
+        "controllerOwned": false,
+        "instance": "amatrix",
+        "node": "dsense0"
+      },
+      {
+        "index": 16,
+        "instanceIndex": 5,
+        "nodeIndex": 66,
+        "controllerOwned": false,
+        "instance": "arxdata",
+        "node": "rx_data"
+      },
+      {
+        "index": 17,
+        "instanceIndex": 6,
+        "nodeIndex": 67,
+        "controllerOwned": false,
+        "instance": "arxclock",
+        "node": "rx_clock"
+      },
+      {
+        "index": 18,
+        "instanceIndex": 7,
+        "nodeIndex": 68,
+        "controllerOwned": false,
+        "instance": "afixture",
+        "node": "fixture_clk"
+      },
+      {
+        "index": 19,
+        "instanceIndex": 7,
+        "nodeIndex": 69,
+        "controllerOwned": false,
+        "instance": "afixture",
+        "node": "fixture_reset_n"
+      },
+      {
+        "index": 20,
+        "instanceIndex": 8,
+        "nodeIndex": 8,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low23"
+      },
+      {
+        "index": 21,
+        "instanceIndex": 8,
+        "nodeIndex": 9,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low22"
+      },
+      {
+        "index": 22,
+        "instanceIndex": 8,
+        "nodeIndex": 10,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low21"
+      },
+      {
+        "index": 23,
+        "instanceIndex": 8,
+        "nodeIndex": 11,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low20"
+      },
+      {
+        "index": 24,
+        "instanceIndex": 8,
+        "nodeIndex": 12,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low19"
+      },
+      {
+        "index": 25,
+        "instanceIndex": 8,
+        "nodeIndex": 13,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low18"
+      },
+      {
+        "index": 26,
+        "instanceIndex": 8,
+        "nodeIndex": 14,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low17"
+      },
+      {
+        "index": 27,
+        "instanceIndex": 8,
+        "nodeIndex": 15,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low16"
+      },
+      {
+        "index": 28,
+        "instanceIndex": 8,
+        "nodeIndex": 16,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low15"
+      },
+      {
+        "index": 29,
+        "instanceIndex": 8,
+        "nodeIndex": 17,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low14"
+      },
+      {
+        "index": 30,
+        "instanceIndex": 8,
+        "nodeIndex": 18,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low13"
+      },
+      {
+        "index": 31,
+        "instanceIndex": 8,
+        "nodeIndex": 19,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low12"
+      },
+      {
+        "index": 32,
+        "instanceIndex": 8,
+        "nodeIndex": 20,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low11"
+      },
+      {
+        "index": 33,
+        "instanceIndex": 8,
+        "nodeIndex": 21,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low10"
+      },
+      {
+        "index": 34,
+        "instanceIndex": 8,
+        "nodeIndex": 22,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low9"
+      },
+      {
+        "index": 35,
+        "instanceIndex": 8,
+        "nodeIndex": 23,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low8"
+      },
+      {
+        "index": 36,
+        "instanceIndex": 8,
+        "nodeIndex": 24,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low7"
+      },
+      {
+        "index": 37,
+        "instanceIndex": 8,
+        "nodeIndex": 25,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low6"
+      },
+      {
+        "index": 38,
+        "instanceIndex": 8,
+        "nodeIndex": 26,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low5"
+      },
+      {
+        "index": 39,
+        "instanceIndex": 8,
+        "nodeIndex": 27,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low4"
+      },
+      {
+        "index": 40,
+        "instanceIndex": 8,
+        "nodeIndex": 28,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low3"
+      },
+      {
+        "index": 41,
+        "instanceIndex": 8,
+        "nodeIndex": 29,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low2"
+      },
+      {
+        "index": 42,
+        "instanceIndex": 8,
+        "nodeIndex": 30,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low1"
+      },
+      {
+        "index": 43,
+        "instanceIndex": 8,
+        "nodeIndex": 31,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_low0"
+      },
+      {
+        "index": 44,
+        "instanceIndex": 8,
+        "nodeIndex": 32,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high23"
+      },
+      {
+        "index": 45,
+        "instanceIndex": 8,
+        "nodeIndex": 33,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high22"
+      },
+      {
+        "index": 46,
+        "instanceIndex": 8,
+        "nodeIndex": 34,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high21"
+      },
+      {
+        "index": 47,
+        "instanceIndex": 8,
+        "nodeIndex": 35,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high20"
+      },
+      {
+        "index": 48,
+        "instanceIndex": 8,
+        "nodeIndex": 36,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high19"
+      },
+      {
+        "index": 49,
+        "instanceIndex": 8,
+        "nodeIndex": 37,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high18"
+      },
+      {
+        "index": 50,
+        "instanceIndex": 8,
+        "nodeIndex": 38,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high17"
+      },
+      {
+        "index": 51,
+        "instanceIndex": 8,
+        "nodeIndex": 39,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high16"
+      },
+      {
+        "index": 52,
+        "instanceIndex": 8,
+        "nodeIndex": 40,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high15"
+      },
+      {
+        "index": 53,
+        "instanceIndex": 8,
+        "nodeIndex": 41,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high14"
+      },
+      {
+        "index": 54,
+        "instanceIndex": 8,
+        "nodeIndex": 42,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high13"
+      },
+      {
+        "index": 55,
+        "instanceIndex": 8,
+        "nodeIndex": 43,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high12"
+      },
+      {
+        "index": 56,
+        "instanceIndex": 8,
+        "nodeIndex": 44,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high11"
+      },
+      {
+        "index": 57,
+        "instanceIndex": 8,
+        "nodeIndex": 45,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high10"
+      },
+      {
+        "index": 58,
+        "instanceIndex": 8,
+        "nodeIndex": 46,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high9"
+      },
+      {
+        "index": 59,
+        "instanceIndex": 8,
+        "nodeIndex": 47,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high8"
+      },
+      {
+        "index": 60,
+        "instanceIndex": 8,
+        "nodeIndex": 48,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high7"
+      },
+      {
+        "index": 61,
+        "instanceIndex": 8,
+        "nodeIndex": 49,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high6"
+      },
+      {
+        "index": 62,
+        "instanceIndex": 8,
+        "nodeIndex": 50,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high5"
+      },
+      {
+        "index": 63,
+        "instanceIndex": 8,
+        "nodeIndex": 51,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high4"
+      },
+      {
+        "index": 64,
+        "instanceIndex": 8,
+        "nodeIndex": 52,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high3"
+      },
+      {
+        "index": 65,
+        "instanceIndex": 8,
+        "nodeIndex": 53,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high2"
+      },
+      {
+        "index": 66,
+        "instanceIndex": 8,
+        "nodeIndex": 54,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high1"
+      },
+      {
+        "index": 67,
+        "instanceIndex": 8,
+        "nodeIndex": 55,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dbus_high0"
+      },
+      {
+        "index": 68,
+        "instanceIndex": 8,
+        "nodeIndex": 56,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dwr_low"
+      },
+      {
+        "index": 69,
+        "instanceIndex": 8,
+        "nodeIndex": 57,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dwr_high"
+      },
+      {
+        "index": 70,
+        "instanceIndex": 8,
+        "nodeIndex": 70,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dlogic_sink1"
+      },
+      {
+        "index": 71,
+        "instanceIndex": 8,
+        "nodeIndex": 71,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dlogic_sink0"
+      },
+      {
+        "index": 72,
+        "instanceIndex": 8,
+        "nodeIndex": 72,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dsink"
+      },
+      {
+        "index": 73,
+        "instanceIndex": 8,
+        "nodeIndex": 73,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "csink"
+      },
+      {
+        "index": 74,
+        "instanceIndex": 8,
+        "nodeIndex": 74,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "led1"
+      },
+      {
+        "index": 75,
+        "instanceIndex": 8,
+        "nodeIndex": 75,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "led0"
+      },
+      {
+        "index": 76,
+        "instanceIndex": 8,
+        "nodeIndex": 76,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol12"
+      },
+      {
+        "index": 77,
+        "instanceIndex": 8,
+        "nodeIndex": 77,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol11"
+      },
+      {
+        "index": 78,
+        "instanceIndex": 8,
+        "nodeIndex": 78,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol10"
+      },
+      {
+        "index": 79,
+        "instanceIndex": 8,
+        "nodeIndex": 79,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol9"
+      },
+      {
+        "index": 80,
+        "instanceIndex": 8,
+        "nodeIndex": 80,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol8"
+      },
+      {
+        "index": 81,
+        "instanceIndex": 8,
+        "nodeIndex": 81,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol7"
+      },
+      {
+        "index": 82,
+        "instanceIndex": 8,
+        "nodeIndex": 82,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol6"
+      },
+      {
+        "index": 83,
+        "instanceIndex": 8,
+        "nodeIndex": 83,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol5"
+      },
+      {
+        "index": 84,
+        "instanceIndex": 8,
+        "nodeIndex": 84,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol4"
+      },
+      {
+        "index": 85,
+        "instanceIndex": 8,
+        "nodeIndex": 85,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol3"
+      },
+      {
+        "index": 86,
+        "instanceIndex": 8,
+        "nodeIndex": 86,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol2"
+      },
+      {
+        "index": 87,
+        "instanceIndex": 8,
+        "nodeIndex": 87,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol1"
+      },
+      {
+        "index": 88,
+        "instanceIndex": 8,
+        "nodeIndex": 88,
+        "controllerOwned": true,
+        "instance": "ahdl",
+        "node": "dcol0"
+      }
+    ]
+  },
+  "scheduling": {
+    "snapshots": 5623882,
+    "ports": 69,
+    "pendingEventObservations": 994538,
+    "maximumObservedPendingEvents": 69,
+    "assignedOutputObservations": 1488,
+    "publicationsWitnessedInPendingQueue": 1419,
+    "unwitnessedPublicationKeys": 67,
+    "unwitnessedPublications": [
+      {
+        "outputIndex": 20,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 21,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 22,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 23,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 24,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 25,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 26,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 27,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 28,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 29,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 30,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 31,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 32,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 33,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 34,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 35,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 36,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 37,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 38,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 39,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 40,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 41,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 42,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 43,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 44,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 45,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 46,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 47,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 48,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 49,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 50,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 51,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 52,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 53,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 54,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 55,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 56,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 57,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 58,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 59,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 60,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 61,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 62,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 63,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 64,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 65,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 66,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 67,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 68,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 69,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 70,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 71,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 72,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 73,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 76,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 77,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 78,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 79,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 80,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 81,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 82,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 83,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 84,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 85,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 86,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 87,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 88,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      }
+    ],
+    "matchingScope": "Exact port, scheduled time and value matches. Events may be consumed before another observer checkpoint; unmatched requests are not classified as lost."
+  },
+  "receipts": {
+    "off": "a73de3cf8fa0b76f6d0c88f7a97cb46699564e5a0ba81ef0ef5dc77d01ed93d1",
+    "check": "20e987fe6c0e0b2ff0fed343255ce5e9378e4e224415df57c0ddd19239e5fc81",
+    "immediate": "3a8991e6aa5edb0eba13f0d62f67dc192a47e5e060f6702fe6e580c24f3df4e6",
+    "delayed": "3950e3a579dfb9facf663ac530c5c0f87e67f7e9941d511d6033049d04260841"
+  },
+  "baselineReceiptSha256": "0d8c6bb67166ff318f7ae3259906751eac7277ee800215ba4920b06f1896c9b8",
+  "notEstablished": [
+    "Full-repeat qualification",
+    "Startup and supply recovery",
+    "Instance queues and private HDL events",
+    "Numerical convergence",
+    "Device admission"
+  ]
+}

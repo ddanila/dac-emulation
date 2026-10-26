@@ -1,0 +1,83 @@
+{
+  "scope": "Complete compressed logs retained in bounded parts; complete raw waveforms remain local. Raw hashes do not substitute for waveform replay. Preserve the local waveforms and prior baseline/source captures.",
+  "localRawCaptures": {
+    "off": {
+      "directory": "build/keyboard-controller-analog/postreset-state-controls/off",
+      "waveformLogicalIdentity": {
+        "sha256": "9dea48a56de48cd0742843ed71cf9d3316cd154bf99dff48c485e1420f58f540",
+        "bytes": 358789553
+      },
+      "waveformContainerSha256": "19ff81db05e0e16bcbab89e2bee7085af2719cb3083f7b0035264d1d5b920690",
+      "waveformContainerBytes": 201410228
+    },
+    "check": {
+      "directory": "build/keyboard-controller-analog/postreset-state-controls/check",
+      "waveformLogicalIdentity": {
+        "sha256": "bf582a6d91514b364158967ab053f78184d98e22c10cff11b36f2750678b34f6",
+        "bytes": 358789553
+      },
+      "waveformContainerSha256": "a335c2e63180e7ce59f0a7b3401337c0a4d2501db5450ac15a6717350de46337",
+      "waveformContainerBytes": 201410228
+    },
+    "immediate": {
+      "directory": "build/keyboard-controller-analog/postreset-state-controls/immediate",
+      "waveformLogicalIdentity": {
+        "sha256": "a60e783ff1eaab27d8e25dd5f91a0577aafbe5bac2dbdb7439aa4fea188f4971",
+        "bytes": 1709233
+      },
+      "waveformContainerSha256": "d581df25957013a5500109d2e926c5835b4fed8a6e0955d3e5cf2fcb73154b27",
+      "waveformContainerBytes": 797240
+    },
+    "delayed": {
+      "directory": "build/keyboard-controller-analog/postreset-state-controls/delayed",
+      "waveformLogicalIdentity": {
+        "sha256": "718fcb7a0fa4a63fecdfde9ea604e220b4d491bd0128878d16eb9859a1aebd90",
+        "bytes": 161139121
+      },
+      "waveformContainerSha256": "4d779dba8c1a1b8095084ee1b913146c744553a4ed2801056937c1a991414dfe",
+      "waveformContainerBytes": 87327012
+    }
+  },
+  "restoreLogs": [
+    [
+      "python3",
+      "verification/robotron-keyboard/analog/evidence_parts.py",
+      "restore",
+      "verification/robotron-keyboard/analog/reports/postreset-output-state/off/ngspice.log.xz.parts",
+      "<capture-root>/off/ngspice.log.xz"
+    ],
+    [
+      "python3",
+      "verification/robotron-keyboard/analog/evidence_parts.py",
+      "restore",
+      "verification/robotron-keyboard/analog/reports/postreset-output-state/check/ngspice.log.xz.parts",
+      "<capture-root>/check/ngspice.log.xz"
+    ],
+    [
+      "python3",
+      "verification/robotron-keyboard/analog/evidence_parts.py",
+      "restore",
+      "verification/robotron-keyboard/analog/reports/postreset-output-state/immediate/ngspice.log.xz.parts",
+      "<capture-root>/immediate/ngspice.log.xz"
+    ],
+    [
+      "python3",
+      "verification/robotron-keyboard/analog/evidence_parts.py",
+      "restore",
+      "verification/robotron-keyboard/analog/reports/postreset-output-state/delayed/ngspice.log.xz.parts",
+      "<capture-root>/delayed/ngspice.log.xz"
+    ]
+  ],
+  "reviewCommand": [
+    "python3",
+    "verification/robotron-keyboard/analog/postreset_state_review.py",
+    "--root",
+    "build/keyboard-controller-analog/postreset-state-controls",
+    "--source",
+    "build/keyboard-controller-analog/postreset-newton-retry/off",
+    "--baseline",
+    "build/keyboard-controller-analog/postreset-startup-combined",
+    "--out",
+    "<new-assessment.json>"
+  ]
+}
