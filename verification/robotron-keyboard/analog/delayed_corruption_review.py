@@ -43,7 +43,8 @@ def fault(path, after, *, mutation_line="E_CORRUPT output-delay"):
             'earlierUnchangedRejections': len(rejected)-1, 'priorFirstFetch': any(t < when for t in fetches)}
 
 
-def assess(root, baseline, *, fault_review=None):
+def assess(root, baseline, *, fault_review=None, summary_review=None):
+    summarize = summary_review or runtime_summary
     base = json.loads((baseline / 'run.json').read_text())
     runs = {m: json.loads((root / m / 'run.json').read_text()) for m in VARIANTS}
     positive = {}; negative = {}; histories = {}
@@ -71,12 +72,12 @@ def assess(root, baseline, *, fault_review=None):
         if expected_exit == 2:
             negative[mode] = (fault_review or fault)(log, float(VARIANTS[mode]['ROBOTRON_HISTORY_CORRUPT_AFTER']))
         else:
-            positive[mode] = runtime_summary(log)
+            positive[mode] = summarize(log)
             if positive[mode]['count'] is None or positive[mode]['diagnostic'] or positive[mode]['sorry']:
                 raise ValueError('Incomplete positive control')
     for name, info in base['storage'].items():
         if logical_sha(baseline / name) != info['sha256']: raise ValueError('Changed baseline stream')
-    prior = runtime_summary(baseline / 'ngspice.log')
+    prior = summarize(baseline / 'ngspice.log')
     if base['exitCode'] != 0 or prior['count'] is None or prior['diagnostic'] or prior['sorry']:
         raise ValueError('Incomplete baseline')
     comparisons = {}

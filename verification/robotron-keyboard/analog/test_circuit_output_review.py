@@ -1,7 +1,7 @@
 from pathlib import Path
 import tempfile
 import unittest
-from circuit_output_review import inventory, external_fault
+from circuit_output_review import inventory, external_fault, runtime_summary
 
 FRAME = ('H_BEGIN callback-entry 0.000011\nC_SUM 2\n'
          'C_PORT 0 1 0 0 adc sense 1 0 0\nC_EVENT 0 0 0x1p-16 0x1p-17 0 0x0p+0 1 0\n'
@@ -13,6 +13,23 @@ FAULT = ('H_REJECT 0.000001 equal=1\nFIRST_FETCH 2000000 0000 af\n'
 
 
 class CircuitOutputTests(unittest.TestCase):
+    def test_typed_records_do_not_hide_real_failures(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'log'
+            path.write_text(FRAME + 'No. of Data Rows : 2\n')
+            self.assertEqual(runtime_summary(path), {'count': 2, 'diagnostic': None, 'sorry': False})
+            for marker in ('E_CORRUPT output-delay\n', 'C_CORRUPT pending index=0 instance=adc\n',
+                           'No. of Data Rows : 3\n'):
+                path.write_text(FRAME + 'No. of Data Rows : 2\n' + marker)
+                with self.assertRaises(ValueError): runtime_summary(path)
+            path.write_text(FRAME + 'No. of Data Rows : 2\nSORRY: unsupported HDL\n')
+            self.assertTrue(runtime_summary(path)['sorry'])
+            path.write_text(FRAME + 'No. of Data Rows : 2\nError: timestep too small\n')
+            self.assertTrue(runtime_summary(path)['diagnostic'])
+            path.write_text(FRAME.replace('C_SUM 2', 'C_SUM broken') + 'No. of Data Rows : 2\n')
+            self.assertEqual(runtime_summary(path)['count'], 2)
+            with self.assertRaises(ValueError): inventory(path)
+
     def test_external_inventory_and_fault(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'log'; path.write_text(FRAME + FAULT)
