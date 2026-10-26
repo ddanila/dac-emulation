@@ -689,8 +689,9 @@ it reuses their disabled baseline and keeps the same runtime/module. Review with
 `stop_board_review.py --root CAPTURES --producer stop_board_capture.py --out REPORT`.
 Pass the recorded `SPICE_SCRIPTS` initialization explicitly; a copied runtime
 receipt alone does not select its code models ([rejected control](reports/stop-runtime-selection/assessment.json)).
-This variant still requires matched board controls; it does not establish
-freed-storage equivalence.
+The [bounded stop controls](reports/stop-board/assessment.json) pass exact waveform
+and firmware comparisons and reject a restored invalid handle. Longer windows
+and freed-storage equivalence remain open.
 
 Build the executing-wrapper candidate with `build_executing_wrapper_runtime.py`
 using the same pinned archive arguments. Run `executing_wrapper_probe.py
@@ -700,3 +701,12 @@ generic event to its executing synchronization callback and check deletion
 ownership across delayed, read/write and read-only callbacks. A changed deletion
 flag is restored before callback return. Unknown generic objects fail closed;
 board integration, other event families and scheduler continuation remain open.
+
+For combined board controls, build `build_executing_wrapper_bridge.py` with the
+paired bridge/VPI arguments above. Run `wrapper_board_capture.py --source
+REVIEWED_BOARD_CAPTURES --assessment REVIEWED_ASSESSMENT --bridge BRIDGE --icarus
+RUNTIME --out FRESH_DIRECTORY`, then `wrapper_board_review.py --root CAPTURES
+--producer wrapper_board_capture.py --out REPORT`. The capture reuses the reviewed
+disabled baseline, selects its XSPICE initialization explicitly and exercises
+separate display-pointer, stop-handle and wrapper-deletion faults. Board
+acceptance requires all three restored faults and exact positive-control outputs.
