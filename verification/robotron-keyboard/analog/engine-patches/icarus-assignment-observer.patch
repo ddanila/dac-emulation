@@ -1,0 +1,138 @@
+--- a/vvp/schedule.cc
++++ b/vvp/schedule.cc
+@@ -25,6 +25,7 @@
+ # include  "slab.h"
+ # include  "compile.h"
+ # include  <new>
++# include  <map>
+ # include  <typeinfo>
+ # include  <csignal>
+ # include  <cstdlib>
+@@ -169,13 +170,19 @@
+ 	   << " scope=" << scope->vpi_get_str(vpiFullName) << endl;
+ }
+ 
++static std::map<const event_s*,unsigned long long> robotron_assignment_live;
++static unsigned long long robotron_assignment_serial=0;
++
+ struct assign_vector4_event_s  : public event_s {
+ 	/* The default constructor. */
+       explicit assign_vector4_event_s(const vvp_vector4_t&that) : val(that) {
++            robotron_assignment_live[this]=++robotron_assignment_serial;
+ 	    base = 0;
+ 	    vwid = 0;
+ 	    next = NULL;
+       }
++
++      ~assign_vector4_event_s() override {robotron_assignment_live.erase(this);}
+ 
+ 	/* Where to do the assign. */
+       vvp_net_ptr_t ptr;
+@@ -224,6 +231,8 @@
+ unsigned long count_assign4_pool(void) { return assign4_heap.pool; }
+ 
+ struct assign_vector8_event_s  : public event_s {
++      assign_vector8_event_s() {robotron_assignment_live[this]=++robotron_assignment_serial;}
++      ~assign_vector8_event_s() override {robotron_assignment_live.erase(this);}
+       vvp_net_ptr_t ptr;
+       vvp_vector8_t val;
+       void run_run(void) override;
+@@ -1422,3 +1431,98 @@
+     event->delete_obj_when_done = !event->delete_obj_when_done;
+     return 1;
+ }
++
++/* Typed pending assignment observation: destinations stay opaque. Only queued
++ * objects are read, after their schedule_* producers initialized all payloads. */
++template<class F> static int robotron_assignment_queue(event_s* tail,long long slot,const char* region,F visit)
++{
++    if (!tail) return 0;
++    event_s* head=tail->next;event_s* cur=head;std::set<event_s*> seen;
++    unsigned long long ordinal=0;
++    for (;;) {
++        if (!cur || !seen.insert(cur).second || visit(cur,slot,region,ordinal++)) return -1;
++        if (cur==tail) return cur->next==head ? 0 : -1;
++        cur=cur->next;
++    }
++}
++template<class F> static int robotron_assignment_walk(F visit)
++{
++    if (robotron_assignment_queue(schedule_init_list,-1,"init",visit) ||
++        robotron_assignment_queue(schedule_final_list,-1,"final",visit)) return -1;
++    std::set<event_time_s*> seen;long long slot=0;
++    for (event_time_s* t=sched_list;t;t=t->next,++slot) {
++        if (!seen.insert(t).second) return -1;
++        const char* names[]={"start","active","inactive","nbassign","rwsync","rosync","del_thr"};
++        event_s* queues[]={t->start,t->active,t->inactive,t->nbassign,t->rwsync,t->rosync,t->del_thr};
++        for (unsigned i=0;i<7;i++) if(robotron_assignment_queue(queues[i],slot,names[i],visit)) return -1;
++    }
++    return 0;
++}
++extern "C" int robotron_vvp_assignment_inventory(FILE* out)
++{
++    if (!out || fprintf(out,"VAP_BEGIN 1 %llu\n",(unsigned long long)schedule_time)<0) return -1;
++    unsigned long long counts[3]={0,0,0};
++    int result=robotron_assignment_walk([&](event_s* event,long long slot,const char* region,unsigned long long ordinal) {
++        auto a=dynamic_cast<assign_vector4_event_s*>(event);
++        auto b=dynamic_cast<assign_vector8_event_s*>(event);
++        if (!a && !b) {++counts[2];return 0;}
++        auto identity=robotron_assignment_live.find(event);
++        if (identity==robotron_assignment_live.end()) return -1;
++        vvp_net_ptr_t ptr=a ? a->ptr : b->ptr;
++        unsigned size=a ? a->val.size() : b->val.size();
++        ++counts[a?0:1];
++        if (fprintf(out,"VAP_EVENT %lld %s %llu %llu %d %p %u %u %u %u ",slot,region,ordinal,
++                    identity->second,a?4:8,(const void*)ptr.ptr(),ptr.port(),a && a->vwid?a->base:0,a?a->vwid:0,size)<0) return -1;
++        if (!size && fputc('-',out)==EOF) return -1;
++        for(unsigned i=0;i<size;i++) {
++            if(a) {if(fputc('0'+(unsigned)a->val.value(i),out)==EOF)return -1;}
++            else {vvp_scalar_t value=b->val.value(i);if(fprintf(out,"%u%u%u",(unsigned)value.value(),value.strength0(),value.strength1())<0)return -1;}
++        }
++        return fputc('\n',out)==EOF ? -1 : 0;
++    });
++    if(result)return result;
++    return fprintf(out,"VAP_END %llu %llu %llu\n",counts[0],counts[1],counts[2])<0 || ferror(out) ? -1 : 0;
++}
++
++/* Change actual queued data, restoring the exact original object before yield.
++ * No queue deletion or scheduling is permitted between paired calls. */
++extern "C" int robotron_vvp_assignment_toggle(int kind,int field)
++{
++    static event_s* saved=0;static unsigned long long saved_id;
++    static int saved_kind,saved_field;
++    static vvp_net_ptr_t saved_ptr;
++    static vvp_vector4_t saved4;
++    static vvp_vector8_t saved8;
++    static unsigned saved_width;
++    if(saved) {
++        auto found=robotron_assignment_live.find(saved);
++        if(kind!=saved_kind || field!=saved_field || found==robotron_assignment_live.end() || found->second!=saved_id)return -1;
++        if(kind==4){auto p=static_cast<assign_vector4_event_s*>(saved);p->ptr=saved_ptr;p->val=saved4;p->vwid=saved_width;}
++        else {auto p=static_cast<assign_vector8_event_s*>(saved);p->ptr=saved_ptr;p->val=saved8;}
++        saved=0;return 1;
++    }
++    if((kind!=4 && kind!=8) || field<0 || field>2)return -1;
++    int result=robotron_assignment_walk([&](event_s* event,long long,const char*,unsigned long long) {
++        if(saved)return 0;
++        auto a=kind==4 ? dynamic_cast<assign_vector4_event_s*>(event) : 0;
++        auto b=kind==8 ? dynamic_cast<assign_vector8_event_s*>(event) : 0;
++        if((!a && !b) || (a && !a->val.size()) || (b && !b->val.size()))return 0;
++        auto found=robotron_assignment_live.find(event);if(found==robotron_assignment_live.end())return -1;
++        saved=event;saved_id=found->second;saved_kind=kind;saved_field=field;
++        saved_ptr=a?a->ptr:b->ptr;
++        if(a){saved4=a->val;saved_width=a->vwid;}
++        else saved8=b->val;
++        if(field==0){
++            if(a)a->val.set_bit(0,a->val.value(0)==BIT4_1?BIT4_0:BIT4_1);
++            else {auto v=b->val.value(0);b->val.set_bit(0,vvp_scalar_t(v.value()==BIT4_1?BIT4_0:BIT4_1,6,6));}
++        } else if(field==1){
++            vvp_net_ptr_t changed(saved_ptr.ptr(),saved_ptr.port()^1);
++            if(a)a->ptr=changed;else b->ptr=changed;
++        } else {
++            if(a)a->vwid^=1;
++            else {auto v=b->val.value(0);b->val.set_bit(0,vvp_scalar_t(BIT4_X,v.strength0()==3?4:3,5));}
++        }
++        return 0;
++    });
++    return result ? -1 : saved ? 1 : 0;
++}

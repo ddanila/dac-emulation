@@ -817,3 +817,13 @@ Those fault runs terminate while startup is paused and need not reach a firmware
 fetch; the normal controls must cover subsequent firmware execution and all
 existing board observers. Passing the standalone probe does not satisfy this
 board review.
+
+`build_assignment_runtime.py` adds typed pending vector4/vector8 payload observation
+to the combined runtime. Run `assignment_probe.py --candidate BUILD --baseline
+ORIGINAL_LIBVVP --modules VPI_DIRECTORY --out FRESH_DIRECTORY` for the
+[standalone assignment controls](reports/assignment-payload/assessment.json).
+They preserve every fixture output transition under restored value, destination
+port, slice-width and strength faults. The [source contract](reports/assignment-payload/source-contract.json)
+limits reads to initialized logical vector contents and meaningful slice fields;
+destination pointers remain opaque. Board integration, target referents, threads
+and primitive-event payloads remain separate requirements.

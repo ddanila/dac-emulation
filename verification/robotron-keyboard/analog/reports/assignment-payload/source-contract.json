@@ -1,0 +1,42 @@
+{
+  "qualified": false,
+  "scope": "Source initialization/consumption argument for typed pending assignment payloads, not a formal proof or complete board coverage.",
+  "evidence": {
+    "vector4": {
+      "path": "/private/tmp/k7658-assignment-runtime-v2/vvp/schedule.cc",
+      "sha256": "bf2c20c6f5da30aad51f8d55f35b2c13df25d8b346c1c6539c48a3b96d0d035f",
+      "firstLine": 176,
+      "excerpt": "struct assign_vector4_event_s  : public event_s {\n\t/* The default constructor. */\n      explicit assign_vector4_event_s(const vvp_vector4_t&that) : val(that) {\n            robotron_assignment_live[this]=++robotron_assignment_serial;\n\t    base = 0;\n\t    vwid = 0;\n\t    next = NULL;\n      }\n\n      ~assign_vector4_event_s() override {robotron_assignment_live.erase(this);}\n\n\t/* Where to do the assign. */\n      vvp_net_ptr_t ptr;\n\t/* Value to assign. */\n      vvp_vector4_t val;\n\t/* Offset of the part into the destination. */\n      unsigned base;\n\t/* Width of the destination vector. */\n      unsigned vwid;\n      void run_run(void) override;\n      void single_step_display(void) override;\n\n      static void* operator new(size_t);\n      static void operator delete(void*);\n};\n\nvoid assign_vector4_event_s::run_run(void)\n{\n      count_assign_events += 1;\n      if (vwid > 0)\n\t    vvp_send_vec4_pv(ptr, val, base, vwid, 0);\n      else\n\t    vvp_send_vec4(ptr, val, 0);\n}\n\n"
+    },
+    "vector8": {
+      "path": "/private/tmp/k7658-assignment-runtime-v2/vvp/schedule.cc",
+      "sha256": "bf2c20c6f5da30aad51f8d55f35b2c13df25d8b346c1c6539c48a3b96d0d035f",
+      "firstLine": 233,
+      "excerpt": "struct assign_vector8_event_s  : public event_s {\n      assign_vector8_event_s() {robotron_assignment_live[this]=++robotron_assignment_serial;}\n      ~assign_vector8_event_s() override {robotron_assignment_live.erase(this);}\n      vvp_net_ptr_t ptr;\n      vvp_vector8_t val;\n      void run_run(void) override;\n      void single_step_display(void) override;\n\n      static void* operator new(size_t);\n      static void operator delete(void*);\n};\n\nvoid assign_vector8_event_s::run_run(void)\n{\n      count_assign_events += 1;\n      vvp_send_vec8(ptr, val);\n}\n\n"
+    },
+    "producers": {
+      "path": "/private/tmp/k7658-assignment-runtime-v2/vvp/schedule.cc",
+      "sha256": "bf2c20c6f5da30aad51f8d55f35b2c13df25d8b346c1c6539c48a3b96d0d035f",
+      "firstLine": 973,
+      "excerpt": "void schedule_set_vector(vvp_net_ptr_t ptr, const vvp_vector4_t&bit)\n{\n      struct assign_vector4_event_s*cur = new struct assign_vector4_event_s(bit);\n      cur->ptr = ptr;\n      cur->base = 0;\n      cur->vwid = 0;\n      schedule_event_(cur, 0, SEQ_ACTIVE);\n}\n\nvoid schedule_set_vector(vvp_net_ptr_t ptr, const vvp_vector8_t&bit)\n{\n      struct assign_vector8_event_s*cur = new struct assign_vector8_event_s;\n      cur->ptr = ptr;\n      cur->val = bit;\n      schedule_event_(cur, 0, SEQ_ACTIVE);\n}\n\nvoid schedule_set_vector(vvp_net_ptr_t ptr, double bit)\n{\n      struct assign_real_event_s*cur = new struct assign_real_event_s;\n      cur->ptr = ptr;\n      cur->val = bit;\n      schedule_event_(cur, 0, SEQ_ACTIVE);\n}\n\nvoid schedule_init_vector(vvp_net_ptr_t ptr, const vvp_vector4_t&bit)\n{\n      struct assign_vector4_event_s*cur = new struct assign_vector4_event_s(bit);\n      cur->ptr = ptr;\n      cur->base = 0;\n      cur->vwid = 0;\n      schedule_init_event(cur);\n}\n\nvoid schedule_init_vector(vvp_net_ptr_t ptr, const vvp_vector8_t&bit)\n{\n      struct assign_vector8_event_s*cur = new struct assign_vector8_event_s;\n      cur->ptr = ptr;\n      cur->val = bit;\n      schedule_init_event(cur);\n}\n\n"
+    },
+    "scalar": {
+      "path": "/private/tmp/k7658-assignment-runtime-v2/vvp/vvp_net.h",
+      "sha256": "fa9accac57b68e5716eec675bd970b5a63717b8c34bc099fc92f730724094e1b",
+      "firstLine": 811,
+      "excerpt": "class vvp_scalar_t {\n\n      friend vvp_scalar_t fully_featured_resolv_(vvp_scalar_t a, vvp_scalar_t b);\n\n    public:\n\t// Make a HiZ value.\n      explicit vvp_scalar_t();\n\n\t// Make an unambiguous value.\n      explicit vvp_scalar_t(vvp_bit4_t val, unsigned str0, unsigned str1);\n\n\t// Get the vvp_bit4_t version of the value\n      vvp_bit4_t value() const;\n      unsigned strength0() const;\n      unsigned strength1() const;\n\n      bool eeq(vvp_scalar_t that) const { return value_ == that.value_; }\n      bool is_hiz() const { return (value_ & 0x77) == 0; }\n\n    private:\n\t// This class and the vvp_vector8_t class are closely related,\n\t// so allow vvp_vector8_t access to the raw encoding so that\n\t// it can do compact vectoring of vvp_scalar_t objects.\n      friend class vvp_vector8_t;\n      explicit vvp_scalar_t(unsigned char val) : value_(val) { }\n      unsigned char raw() const { return value_; }\n\n    private:\n      unsigned char value_;\n};\n\n"
+    },
+    "destination": {
+      "path": "/private/tmp/k7658-assignment-runtime-v2/vvp/vvp_net.h",
+      "sha256": "fa9accac57b68e5716eec675bd970b5a63717b8c34bc099fc92f730724094e1b",
+      "firstLine": 1053,
+      "excerpt": "template <class T> class vvp_sub_pointer_t {\n\n    public:\n      vvp_sub_pointer_t() : bits_(0) { }\n\n      vvp_sub_pointer_t(T*ptr__, unsigned port__)\n      {\n\t    bits_ = reinterpret_cast<uintptr_t> (ptr__);\n\t    assert( (bits_  &  UINTPTR_C(3)) == 0 );\n\t    assert( (port__ & ~UINTPTR_C(3)) == 0 );\n\t    bits_ |= port__;\n      }\n\n      ~vvp_sub_pointer_t() = default;\n\n      T* ptr()\n      { return reinterpret_cast<T*> (bits_ & ~UINTPTR_C(3)); }\n\n      const T* ptr() const\n      { return reinterpret_cast<const T*> (bits_ & ~UINTPTR_C(3)); }\n\n      unsigned  port() const { return bits_ & UINTPTR_C(3); }\n\n      bool nil() const { return bits_ == 0; }\n\n      bool operator == (vvp_sub_pointer_t that) const { return bits_ == that.bits_; }\n      bool operator != (vvp_sub_pointer_t that) const { return bits_ != that.bits_; }\n\n    private:\n      uintptr_t bits_;\n};\n\n"
+    }
+  },
+  "findings": [
+    "Constructor hooks record only lifetime identity; payloads are inspected only once enqueued, after schedule producers initialize the destination and vector.",
+    "Vector4 base is meaningful only when destination width is nonzero. Observation uses logical size/value accessors, never vector capacity, union slack or padding.",
+    "Vector8 logical values and both strength components are read through typed accessors. Destination pointer/port remain opaque; the observer neither dereferences nor validates the destination net contents.",
+    "Destructor hooks retire IDs before slab storage reuse. The controls distinguish fresh delayed assignments from consumed startup assignments; they do not establish general freed-storage equivalence."
+  ]
+}
