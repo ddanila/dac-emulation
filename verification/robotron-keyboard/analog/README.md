@@ -366,6 +366,12 @@ Group those captures under `root/{off,check,immediate,delayed}` and use
 `postreset_state_review.py` with that root, the original `--source` control and
 the completed combined-fix `--baseline`. Positive captures must cover the whole
 1.16-ms window; expected negative exits cannot satisfy that requirement.
+For instance-queue coverage, use the same capture runner with the
+`build_instance_queue_audit.py` model build and a separate capture root. Review
+with `postreset_instance_review.py`, passing the same `--root`, `--source`,
+`--baseline` and `--out` arguments. It retains the complete output-queue,
+waveform and firmware checks and additionally verifies instance worklists,
+rollback anchors and immediate/delayed external-instance corruption.
 
 ### Scheduling and state controls
 
