@@ -1,0 +1,26 @@
+{
+  "qualified": false,
+  "scope": "Manual source/initialization argument for meaningful callback state; not a formal proof or board qualification.",
+  "watchRegistration": {
+    "path": "build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c",
+    "sha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+    "excerpt": "static void watch(vpiHandle handle, void *pp)\n{\n    static struct t_vpi_time  time = { .type = vpiSuppressTime };\n    static struct t_vpi_value val = { .format = vpiVectorVal };\n    static struct t_cb_data   cb = {\n        .reason = cbValueChange, .cb_rtn = output_cb,\n        .time = &time, .value = &val\n    };\n\n    cb.obj = handle;\n    cb.user_data = pp;\n    vpi_register_cb(&cb);\n}\n\n"
+  },
+  "outputConsumption": {
+    "path": "build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c",
+    "sha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+    "excerpt": "static PLI_INT32 output_cb(struct t_cb_data *cb)\n{\n    struct ngvp_port *pp = (struct ngvp_port *)cb->user_data;\n    struct ng_vvp    *ctx = pp->ctx;\n\n    DBG(\"Output: %s is %d now %g (VL) %g (SPICE)\\n\",\n        vpi_get_str(vpiName, cb->obj),\n        cb->value->value.vector->aval,\n        get_time(ctx), ctx->cosim_context->vtime);\n\n    if(get_time(ctx)>0.0 && get_time(ctx)<0.001160000001) fprintf(stderr,\"TIME_AUDIT output actual=%.17g target=%.17g base=%.17g port=%s\\n\",get_time(ctx),ctx->cosim_context->vtime,ctx->base_time,vpi_get_str(vpiName,cb->obj));\n    if (ctx->stop_cb) {\n        /* First call in the current VVP cycle: cancel the current\n         * stop CB and request a new one before the next VVP time point.\n         * That allows all output events in the current timestep\n         * to be gathered before stopping.\n         */\n\n        vpi_remove_cb(ctx->stop_cb);\n        ctx->stop_cb = NULL;\n        set_stop(0, ctx);\n\n        /* Set the output time in SPICE format.\n         * It must not be earlier than entry time.\n         */\n\n        ctx->cosim_context->vtime = get_time(ctx);\n        if (ctx->cosim_context->vtime < ctx->base_time)\n            ctx->cosim_context->vtime = ctx->base_time;\n    }\n\n    /* Record the value. */\n\n    pp->new.aval = cb->value->value.vector->aval;\n    pp->new.bval = cb->value->value.vector->bval;\n    if (!(pp->flags & OUT_PENDING)) {\n        pp->flags |= OUT_PENDING;\n        ++ctx->out_pending;\n    }\n    return 0;\n}\n\n"
+  },
+  "valueRefresh": {
+    "path": "/private/tmp/k7658-value-callback-runtime-v2/vvp/vpi_callback.cc",
+    "sha256": "e234a3c9b6cd28603b5e5971af85506d9614fdf74197e92b835b218700261020",
+    "excerpt": "void vvp_vpi_callback::run_vpi_callbacks()\n{\n      struct __vpi_array_word*array_word = array_words_;\n      while (array_word) {\n\t    array_word->array->word_change(array_word->word);\n\t    array_word = array_word->next;\n      }\n\n      value_callback *next = vpi_callbacks_;\n      value_callback *prev = 0;\n\n      while (next) {\n\t    value_callback*cur = next;\n\t    next = dynamic_cast<value_callback*>(cur->next);\n\n\t    if (cur->cb_data.cb_rtn != 0) {\n\t\t  if (cur->test_value_callback_ready()) {\n\t\t\tif (cur->cb_data.value)\n\t\t\t      get_value(cur->cb_data.value);\n\n\t\t\tcallback_execute(cur);\n\t\t  }\n\t\t  prev = cur;\n\n\t    } else if (prev == 0) {\n\n\t\t  vpi_callbacks_ = next;\n\t\t  cur->next = 0;\n\t\t  delete cur;\n\n\t    } else {\n\t\t  assert(prev->next == cur);\n\t\t  prev->next = next;\n\t\t  cur->next = 0;\n\t\t  delete cur;\n\t    }\n      }\n}\n\n"
+  },
+  "findings": [
+    "watch() registers the callback before the port metadata (including pp->ctx and pp->handle) is assigned. A registration handoff may store opaque port/signal/callback/function identities, but must defer reading that port metadata until initialization completes.",
+    "Before invoking each live value callback, run_vpi_callbacks() refreshes its value via get_value(). output_cb() copies the vector words into pp->new and returns without yielding. The temporary value union is not surviving bridge state at the subsequent synchronization pause.",
+    "The known watch caller initializes callback user_data, object, function, vector format and suppressed time. The observer validates those relationships and actual signal-list membership, without reading unused index or suppressed time/value storage.",
+    "Cancellation clears cb_rtn immediately; a subsequent signal change removes the callback from its list and invokes its destructor. The registry erases its entry at destruction. Controls cover head and non-head removal."
+  ],
+  "next": "Integrate explicit watch-registration handoff with the initialized-port observer. Check every output/inout port has one registered callback with the original lifetime ID; exercise restored faults against the complete bounded board with the matched original-runtime baseline."
+}

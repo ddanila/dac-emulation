@@ -768,3 +768,17 @@ enabled voltages and firmware, including firmware under a forced rejection.
 Passing refinement alone does not accept changed baseline behavior or establish
 private-HDL rollback. These are post-reset captures, not the deferred full-repeat
 campaign.
+
+
+`build_value_callback_runtime.py` accepts the pinned archive/build arguments above.
+Run `value_callback_probe.py --candidate BUILD --baseline ORIGINAL_LIBVVP --modules
+VPI_DIRECTORY --out FRESH_DIRECTORY` for the [value-change callback controls](reports/value-callback/assessment.json).
+They validate known callback/function/signal/user-data identities and actual list
+membership, including shared signals and head/non-head cancellation. Context,
+object, function and link faults are restored before callback execution; complete
+timestamped output agrees with the original runtime.
+The [initialization contract](reports/value-callback/source-contract.json) requires
+board integration to store watch-registration identities before port metadata is
+initialized, then validate them after initialization. Temporary value buffers are
+refreshed before callback use and must not be treated as persistent bridge state.
+Board integration, other callback families and general rollback remain open.
