@@ -54,7 +54,9 @@ def stream_info(path):
     return {'sha256':h.hexdigest(),'bytes':size}
 
 
-def assess(root, source, baseline):
+def assess(root, source, baseline, *, fault_review=None, summary_review=None):
+    review_fault=fault_review or external_fault
+    summarize=summary_review or runtime_summary
     prior, inputs=validate_source(source); source_digest=sha(source/'run.json')
     base=json.loads((baseline/'run.json').read_text())
     validate_baseline(base,prior,inputs,'combined',base['runtime'],sha(HERE/'reports/startup-fixes/build.json'),source_digest)
@@ -86,9 +88,9 @@ def assess(root, source, baseline):
             for _ in snapshots(folder/'ngspice.log',stats,corrupt=negative): pass
             histories[mode]=stats
         if negative:
-            faults[mode]=external_fault(folder/'ngspice.log',float(VARIANTS[mode]['ROBOTRON_HISTORY_CORRUPT_AFTER']))
+            faults[mode]=review_fault(folder/'ngspice.log',float(VARIANTS[mode]['ROBOTRON_HISTORY_CORRUPT_AFTER']))
         else:
-            summaries[mode]=runtime_summary(folder/'ngspice.log')
+            summaries[mode]=summarize(folder/'ngspice.log')
             s=summaries[mode]
             if s['count'] is None or s['diagnostic'] or s['sorry']: raise ValueError('Incomplete positive log')
     comparisons={}
