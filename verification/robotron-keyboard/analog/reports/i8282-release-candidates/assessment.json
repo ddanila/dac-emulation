@@ -1,0 +1,2410 @@
+{
+  "completed": true,
+  "qualified": false,
+  "deviceAdmitted": false,
+  "runtime": {
+    "path": "/opt/homebrew/Cellar/ngspice/47/bin/ngspice",
+    "sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511"
+  },
+  "scope": "Published disable loads and 0.1-V output departure. Enabled initial state is the explicit resistor hypothesis; released output has constant leakage at zero and both published magnitude bounds. No internal disconnect delay is chosen.",
+  "interpretation": "The published loaded disable maximum includes passive output response. Its remainder is the permissible internal-disconnect delay for each hypothesis, not a measured device delay. Cases do not admit combinations rejected by rise-time tests.",
+  "notEstablished": [
+    "Enable thresholds and dynamics",
+    "Actual internal disconnect behavior",
+    "Voltage-dependent leakage",
+    "Nonlinear I/V and capacitance",
+    "Specimen applicability"
+  ],
+  "sources": {
+    "i8282_release_probe.py": "928aa42e3ce82863c5d81eca776bd78d893b7a7df96a8467b1eaca00f37ef380",
+    "i8282_release_contract.json": "23d7f77f855e34f05f69c8c340345f762e2ac0e549e65f167191f37456c81001",
+    "i8282_capacitance_probe.py": "dbba9facc8947247892c062de94a7ba52885049a6e66853734370d9388dd562c",
+    "bus_cosim.py": "d5d8eba9ab45ee0753c013c66f1f56882077d30c48074c113f3d4f99773baa23",
+    "i8282_enabled_candidates.py": "1219d0f07705e1241b5349c494121f3a20e05dcd03915a561ca90c155070913d",
+    "bus_switching_probe.py": "d122f1e6f8bb4d8f44660f835c9a980eb394698ef23c911c0caca31cbcee2f23",
+    "bus_switching_limits.json": "669da702f6aed3654862bc8730eea51c267d30d5921ea3316f43b85145510ec3",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "bus_device_contract.json": "2ec7297942027de6507fe06b7ee0ee28380affd73d7aa15af47f6c73fa3d6c03",
+    "bus_endpoint_candidates.py": "6437f6e81fcb100065df54ac21f1f7a87c13fb68482567c85410dbd27e3e5fb0",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+    "ttl7406_probe.py": "8726f6dc39c717b65abccc85792859aad3d8537dc02ac7eb85d2bd72d3e8021b"
+  },
+  "cases": [
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.270491803278688,
+        "targetVolts": 3.1704918032786877,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 3.1560402628033677e-09,
+        "maximumInternalDisconnectSeconds": 2.184395973719663e-08
+      },
+      "measuredSeconds": 3.15604e-09,
+      "files": {
+        "probe.cir": "8b37f4c13a2dbbc840994125d64875d934fd03362eff0a17a3a14ec35788ce2b",
+        "ngspice.log": "2c20c1ab59b19f868f4e5134f69a4ff6e141f6c50d2cd49353f33b1b9b31af06"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.270491803278688,
+        "targetVolts": 3.1704918032786877,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 3.1395214923591987e-09,
+        "maximumInternalDisconnectSeconds": 2.18604785076408e-08
+      },
+      "measuredSeconds": 3.13952e-09,
+      "files": {
+        "probe.cir": "e7ab1861eccb67fe6877fecf002a325f4d95b3499a4913cf3e97cc0683a05547",
+        "ngspice.log": "20cbdb35546cca3b8d16cb6fc355eea06799815acb828646865a242f3c39e597"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.270491803278688,
+        "targetVolts": 3.1704918032786877,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 3.123174788586527e-09,
+        "maximumInternalDisconnectSeconds": 2.1876825211413473e-08
+      },
+      "measuredSeconds": 3.12317e-09,
+      "files": {
+        "probe.cir": "c05e01fdf9428e409f415a2b74d79797fa331a40ffb490d4d87fef0f0313ec1d",
+        "ngspice.log": "bf9bc90a843cf0e2f306635a0f7fccc60f98b0d396465e676700132be4e8b67b"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.1750001741173758e-09,
+        "maximumInternalDisconnectSeconds": 2.3824999825882624e-08
+      },
+      "measuredSeconds": 1.175e-09,
+      "files": {
+        "probe.cir": "38d8a224b65b16f65fe8dd8e2829efa467b39131a46e619398a734724440e969",
+        "ngspice.log": "becc478e3915a813a4f0e7e121fa784bf78966d03b5988d39ca2eee346c8a174"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.1773084498902392e-09,
+        "maximumInternalDisconnectSeconds": 2.382269155010976e-08
+      },
+      "measuredSeconds": 1.17731e-09,
+      "files": {
+        "probe.cir": "d20af0c4a43646efd27e8172db440c180c128b1b98a67651e646d38be883f523",
+        "ngspice.log": "8bc8f80b7c61c9545e76c63d5a046a65ddf9cdc73352b63d472613eb1f28b94a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.1796258234313025e-09,
+        "maximumInternalDisconnectSeconds": 2.3820374176568697e-08
+      },
+      "measuredSeconds": 1.17963e-09,
+      "files": {
+        "probe.cir": "0f7b10c16667cd23cae3ef9683981ccc669b1eaff8477ee37d63cc0f810be36a",
+        "ngspice.log": "0630bbac068079c238205d434fff4b6c7be502675d3fd62d2dd7a33fc6477944"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.270491803278688,
+        "targetVolts": 3.1704918032786877,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 3.2822818733155027e-09,
+        "maximumInternalDisconnectSeconds": 2.1717718126684497e-08
+      },
+      "measuredSeconds": 3.28228e-09,
+      "files": {
+        "probe.cir": "86b1fdfeb9a3a4681e31bd9da1ba9a6c919e461555fc30af4690f86a7ada9beb",
+        "ngspice.log": "7da46378f470ae157fa6e08d56bfa3abc3d537d717f6827494f930f4a078d209"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.270491803278688,
+        "targetVolts": 3.1704918032786877,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 3.2651023520535666e-09,
+        "maximumInternalDisconnectSeconds": 2.1734897647946432e-08
+      },
+      "measuredSeconds": 3.2651e-09,
+      "files": {
+        "probe.cir": "86b672b4b2a11e99df33f6b8afc305d4ed01c1c30ea6b453c82c03b41bfd082e",
+        "ngspice.log": "570d136d2079fd02c853b2e128febc7137664f48eedde1d32becdf638dc0f172"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.270491803278688,
+        "targetVolts": 3.1704918032786877,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 3.248101780129988e-09,
+        "maximumInternalDisconnectSeconds": 2.175189821987001e-08
+      },
+      "measuredSeconds": 3.2481e-09,
+      "files": {
+        "probe.cir": "f601519e50fcbb2e98a96783a201e73e3367b2b45b52defb08f758296900c5d5",
+        "ngspice.log": "b37526f61abb3a47fdd925a295a850a03200529b11a2152648a0024824ac3452"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2220001810820708e-09,
+        "maximumInternalDisconnectSeconds": 2.3777999818917928e-08
+      },
+      "measuredSeconds": 1.222e-09,
+      "files": {
+        "probe.cir": "445eedfea0619724dbf9b4920d2917e2c12cb52eea990437cdc6ef0a311698cf",
+        "ngspice.log": "8483f1f225ad7aa442ae214381d84df092715dc5c0e12f97612e0ee159173370"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2244007878858488e-09,
+        "maximumInternalDisconnectSeconds": 2.377559921211415e-08
+      },
+      "measuredSeconds": 1.2244e-09,
+      "files": {
+        "probe.cir": "51b289676d94aedf81d8e6699fc4544574e4e3335aaa9e79c082181f354d0139",
+        "ngspice.log": "ddfc9bfc95d2c27e10973d19a58317f8adbd46f5a88f9954e7c8fed9ffc6671c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2268108563685546e-09,
+        "maximumInternalDisconnectSeconds": 2.3773189143631444e-08
+      },
+      "measuredSeconds": 1.22681e-09,
+      "files": {
+        "probe.cir": "be02dcd7f5b01b670cda0904bef32ee5b84f89efcd14104c426ba77f88b276be",
+        "ngspice.log": "52da3c739aa8b65509f59cf2f889cac6e659a2ac9c228b419de3959cfcb0ca46"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.270491803278688,
+        "targetVolts": 3.1704918032786877,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 3.471644289083705e-09,
+        "maximumInternalDisconnectSeconds": 2.1528355710916294e-08
+      },
+      "measuredSeconds": 3.47164e-09,
+      "files": {
+        "probe.cir": "1be44867634c91567e56beef81ee619e06ffc7773fed50c396996c6609642b85",
+        "ngspice.log": "d2e71868912511b6f1e850ffd90bc1e101f47c7c1f2221c8bc02e9072bf13d8f"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.270491803278688,
+        "targetVolts": 3.1704918032786877,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 3.4534736415951187e-09,
+        "maximumInternalDisconnectSeconds": 2.154652635840488e-08
+      },
+      "measuredSeconds": 3.45347e-09,
+      "files": {
+        "probe.cir": "0dd458bc41b79afa1797cb3938081cc5b6ea16557bf7fa663e349b57150d0d1e",
+        "ngspice.log": "078fe7f4c4021173cea02c500163043b9119712a987d3a73012bdee9558cf537"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.270491803278688,
+        "targetVolts": 3.1704918032786877,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 3.43549226744518e-09,
+        "maximumInternalDisconnectSeconds": 2.156450773255482e-08
+      },
+      "measuredSeconds": 3.43549e-09,
+      "files": {
+        "probe.cir": "836eb24b13fdcffb63196b474dd4f1c119381f45ce4d2123508606cae4c49c09",
+        "ngspice.log": "28f864af670d705038556c53ddc9c23575312795e2a935361b9cbfd443712dd2"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2925001915291133e-09,
+        "maximumInternalDisconnectSeconds": 2.3707499808470884e-08
+      },
+      "measuredSeconds": 1.2925e-09,
+      "files": {
+        "probe.cir": "23a828df656269c79891f9370d620cbb339b2d96fde3f2dad5b227b35028bf4e",
+        "ngspice.log": "8cdf9195c7310a8a47dfb4ce9569a42d3199b418eb11643c2b66cdb5e11c7b94"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2950392948792632e-09,
+        "maximumInternalDisconnectSeconds": 2.3704960705120736e-08
+      },
+      "measuredSeconds": 1.29504e-09,
+      "files": {
+        "probe.cir": "db1ccb3e5ae291ea1a10f886e6145334a76c2b0dbf3859bd320394e361437857",
+        "ngspice.log": "b42e8d027c1b60a2b12e5248c8449b9be08fd478f9b2336533f32a3dbee9680e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2975884057744328e-09,
+        "maximumInternalDisconnectSeconds": 2.3702411594225566e-08
+      },
+      "measuredSeconds": 1.29759e-09,
+      "files": {
+        "probe.cir": "a4e8c6978a229b51e85cd85df4f9b7ab02c64da5378a012e1438852332384c41",
+        "ngspice.log": "7479e1842e27e3538fe7f016f40a6af5880e97602cf45096599db39a394bcaed"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.565573770491803,
+        "targetVolts": 3.465573770491803,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 2.6917116812734376e-09,
+        "maximumInternalDisconnectSeconds": 2.2308288318726563e-08
+      },
+      "measuredSeconds": 2.69171e-09,
+      "files": {
+        "probe.cir": "05691621be7941d4d19a95fd3b1904aa7677e76c95a64efaeba00e29919b0fee",
+        "ngspice.log": "9735ac48525e6196ae540c8499ccab24d3ed51bff7ac564803919d0ab09ae93f"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.565573770491803,
+        "targetVolts": 3.465573770491803,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 2.6796876255725107e-09,
+        "maximumInternalDisconnectSeconds": 2.2320312374427487e-08
+      },
+      "measuredSeconds": 2.67969e-09,
+      "files": {
+        "probe.cir": "d4219e4606b72e8de295bc3b8425e9711289f6f1d2560537b92d0c77db192fa9",
+        "ngspice.log": "dfae176523ed56c08d25d2085b06503a3f41f664407ac69db9230c1e9884b9ed"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.565573770491803,
+        "targetVolts": 3.465573770491803,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 2.667770538402473e-09,
+        "maximumInternalDisconnectSeconds": 2.2332229461597528e-08
+      },
+      "measuredSeconds": 2.66777e-09,
+      "files": {
+        "probe.cir": "ef9431c08874df770e2f24927f0856fdf7fff27a6f6719f9989e20c2db59db82",
+        "ngspice.log": "5a568cb32837c388a53d39db43af5ee3f65a6aaae3c1746c1d722ee7147a04de"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.1750001741173758e-09,
+        "maximumInternalDisconnectSeconds": 2.3824999825882624e-08
+      },
+      "measuredSeconds": 1.175e-09,
+      "files": {
+        "probe.cir": "38d8a224b65b16f65fe8dd8e2829efa467b39131a46e619398a734724440e969",
+        "ngspice.log": "becc478e3915a813a4f0e7e121fa784bf78966d03b5988d39ca2eee346c8a174"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.1773084498902392e-09,
+        "maximumInternalDisconnectSeconds": 2.382269155010976e-08
+      },
+      "measuredSeconds": 1.17731e-09,
+      "files": {
+        "probe.cir": "d20af0c4a43646efd27e8172db440c180c128b1b98a67651e646d38be883f523",
+        "ngspice.log": "8bc8f80b7c61c9545e76c63d5a046a65ddf9cdc73352b63d472613eb1f28b94a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.1796258234313025e-09,
+        "maximumInternalDisconnectSeconds": 2.3820374176568697e-08
+      },
+      "measuredSeconds": 1.17963e-09,
+      "files": {
+        "probe.cir": "0f7b10c16667cd23cae3ef9683981ccc669b1eaff8477ee37d63cc0f810be36a",
+        "ngspice.log": "0630bbac068079c238205d434fff4b6c7be502675d3fd62d2dd7a33fc6477944"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.565573770491803,
+        "targetVolts": 3.465573770491803,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 2.799380148524375e-09,
+        "maximumInternalDisconnectSeconds": 2.2200619851475624e-08
+      },
+      "measuredSeconds": 2.79938e-09,
+      "files": {
+        "probe.cir": "a40cf9edad7a1a880d7c277db7d5b84091343b6db24848d3e27f01a91bff63e9",
+        "ngspice.log": "b52ea3c767b600921bdb423dc77bfc143924b852192a8b7037332d8ee3901a67"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.565573770491803,
+        "targetVolts": 3.465573770491803,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 2.786875130595411e-09,
+        "maximumInternalDisconnectSeconds": 2.2213124869404588e-08
+      },
+      "measuredSeconds": 2.78688e-09,
+      "files": {
+        "probe.cir": "e484db5b35354a46f23e79c9f29f17eb57d29a116aeffa10f8b03ae2ee7ae9c1",
+        "ngspice.log": "ebcdf6a4b9cde285183f4eeb47eff060512c42114cae4ae34dda77bb62f24214"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.565573770491803,
+        "targetVolts": 3.465573770491803,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 2.774481359938572e-09,
+        "maximumInternalDisconnectSeconds": 2.2225518640061428e-08
+      },
+      "measuredSeconds": 2.77448e-09,
+      "files": {
+        "probe.cir": "890ebc01744ea8a1c9e30c773dbf900cbb4587a484ad279b6f356d5f016d4852",
+        "ngspice.log": "2100445ec5fa5fb718008e0de6cf9578937181fec3fbec0408720d90a28a0ddc"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2220001810820708e-09,
+        "maximumInternalDisconnectSeconds": 2.3777999818917928e-08
+      },
+      "measuredSeconds": 1.222e-09,
+      "files": {
+        "probe.cir": "445eedfea0619724dbf9b4920d2917e2c12cb52eea990437cdc6ef0a311698cf",
+        "ngspice.log": "8483f1f225ad7aa442ae214381d84df092715dc5c0e12f97612e0ee159173370"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2244007878858488e-09,
+        "maximumInternalDisconnectSeconds": 2.377559921211415e-08
+      },
+      "measuredSeconds": 1.2244e-09,
+      "files": {
+        "probe.cir": "51b289676d94aedf81d8e6699fc4544574e4e3335aaa9e79c082181f354d0139",
+        "ngspice.log": "ddfc9bfc95d2c27e10973d19a58317f8adbd46f5a88f9954e7c8fed9ffc6671c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2268108563685546e-09,
+        "maximumInternalDisconnectSeconds": 2.3773189143631444e-08
+      },
+      "measuredSeconds": 1.22681e-09,
+      "files": {
+        "probe.cir": "be02dcd7f5b01b670cda0904bef32ee5b84f89efcd14104c426ba77f88b276be",
+        "ngspice.log": "52da3c739aa8b65509f59cf2f889cac6e659a2ac9c228b419de3959cfcb0ca46"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.565573770491803,
+        "targetVolts": 3.465573770491803,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 2.960882849400781e-09,
+        "maximumInternalDisconnectSeconds": 2.203911715059922e-08
+      },
+      "measuredSeconds": 2.96088e-09,
+      "files": {
+        "probe.cir": "d698cfc017b45d19593b32719a900d287efb1f0ca452ae9b17dbd3e89ea78b2d",
+        "ngspice.log": "4aa57d86c0fb1169df5b132d9fae474ab3cf7f9acf59822574caca5104923612"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.565573770491803,
+        "targetVolts": 3.465573770491803,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 2.9476563881297616e-09,
+        "maximumInternalDisconnectSeconds": 2.205234361187024e-08
+      },
+      "measuredSeconds": 2.94766e-09,
+      "files": {
+        "probe.cir": "b916ce5f7e4c42b89e77682da2837fc243de254d3978f61092400fcef45f13de",
+        "ngspice.log": "90ad482d84c7e3e703de0d9c11721414e177e233fddd7d271a0a4fb596516a8d"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.565573770491803,
+        "targetVolts": 3.465573770491803,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 2.9345475922427205e-09,
+        "maximumInternalDisconnectSeconds": 2.2065452407757278e-08
+      },
+      "measuredSeconds": 2.93455e-09,
+      "files": {
+        "probe.cir": "7fda2732d21f30287c50ac89c277534560eb6942ea0c6d0ba9e91d9a534df02e",
+        "ngspice.log": "6de60882e99db273da7e70b3220bc68e73e13227b4c02610f61ae51687f7b1fa"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2925001915291133e-09,
+        "maximumInternalDisconnectSeconds": 2.3707499808470884e-08
+      },
+      "measuredSeconds": 1.2925e-09,
+      "files": {
+        "probe.cir": "23a828df656269c79891f9370d620cbb339b2d96fde3f2dad5b227b35028bf4e",
+        "ngspice.log": "8cdf9195c7310a8a47dfb4ce9569a42d3199b418eb11643c2b66cdb5e11c7b94"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2950392948792632e-09,
+        "maximumInternalDisconnectSeconds": 2.3704960705120736e-08
+      },
+      "measuredSeconds": 1.29504e-09,
+      "files": {
+        "probe.cir": "db1ccb3e5ae291ea1a10f886e6145334a76c2b0dbf3859bd320394e361437857",
+        "ngspice.log": "b42e8d027c1b60a2b12e5248c8449b9be08fd478f9b2336533f32a3dbee9680e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2975884057744328e-09,
+        "maximumInternalDisconnectSeconds": 2.3702411594225566e-08
+      },
+      "measuredSeconds": 1.29759e-09,
+      "files": {
+        "probe.cir": "a4e8c6978a229b51e85cd85df4f9b7ab02c64da5378a012e1438852332384c41",
+        "ngspice.log": "7479e1842e27e3538fe7f016f40a6af5880e97602cf45096599db39a394bcaed"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.8606557377049175,
+        "targetVolts": 3.7606557377049175,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 2.346506295580882e-09,
+        "maximumInternalDisconnectSeconds": 2.2653493704419118e-08
+      },
+      "measuredSeconds": 2.34651e-09,
+      "files": {
+        "probe.cir": "1a46ff51efd4c8420d7f00d75542fdec8b2de8b2c07682b50e0f366e3c13fe2f",
+        "ngspice.log": "f9c76250aa2cab94da9419ff0fb9ec9b57da075e64beee94aeb27fc542f36ef7"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.8606557377049175,
+        "targetVolts": 3.7606557377049175,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 2.3373637979442087e-09,
+        "maximumInternalDisconnectSeconds": 2.266263620205579e-08
+      },
+      "measuredSeconds": 2.33736e-09,
+      "files": {
+        "probe.cir": "d6a046a2b96160e2461fdb414a862fb0d0090a2d70f41deb29735fe1ba420319",
+        "ngspice.log": "06d1f49ad91037ade1d296ad4ea098b6f3c0758e6cfbe31960a60bea1563fcf4"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.8606557377049175,
+        "targetVolts": 3.7606557377049175,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 2.3282922771117598e-09,
+        "maximumInternalDisconnectSeconds": 2.267170772288824e-08
+      },
+      "measuredSeconds": 2.32829e-09,
+      "files": {
+        "probe.cir": "a38e0c4575b6aea877ca35f7b967b39a1c709a127ecc21d85d52f05efc597db8",
+        "ngspice.log": "73fe85a4d88721d27af0d0f2f6833164c94a8f044419ac419d922e0751e3cc83"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.1750001741173758e-09,
+        "maximumInternalDisconnectSeconds": 2.3824999825882624e-08
+      },
+      "measuredSeconds": 1.175e-09,
+      "files": {
+        "probe.cir": "38d8a224b65b16f65fe8dd8e2829efa467b39131a46e619398a734724440e969",
+        "ngspice.log": "becc478e3915a813a4f0e7e121fa784bf78966d03b5988d39ca2eee346c8a174"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.1773084498902392e-09,
+        "maximumInternalDisconnectSeconds": 2.382269155010976e-08
+      },
+      "measuredSeconds": 1.17731e-09,
+      "files": {
+        "probe.cir": "d20af0c4a43646efd27e8172db440c180c128b1b98a67651e646d38be883f523",
+        "ngspice.log": "8bc8f80b7c61c9545e76c63d5a046a65ddf9cdc73352b63d472613eb1f28b94a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.1796258234313025e-09,
+        "maximumInternalDisconnectSeconds": 2.3820374176568697e-08
+      },
+      "measuredSeconds": 1.17963e-09,
+      "files": {
+        "probe.cir": "0f7b10c16667cd23cae3ef9683981ccc669b1eaff8477ee37d63cc0f810be36a",
+        "ngspice.log": "0630bbac068079c238205d434fff4b6c7be502675d3fd62d2dd7a33fc6477944"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.8606557377049175,
+        "targetVolts": 3.7606557377049175,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 2.4403665474041175e-09,
+        "maximumInternalDisconnectSeconds": 2.2559633452595883e-08
+      },
+      "measuredSeconds": 2.44037e-09,
+      "files": {
+        "probe.cir": "a1ba2800cf1a5dfd7465d56c90e485cc9144be57c7cdedc574f13965535e8c0e",
+        "ngspice.log": "bd5241899d804a91978cf166560c380abdd1459a629804f63627652d4c62f8d6"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.8606557377049175,
+        "targetVolts": 3.7606557377049175,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 2.430858349861977e-09,
+        "maximumInternalDisconnectSeconds": 2.256914165013802e-08
+      },
+      "measuredSeconds": 2.43086e-09,
+      "files": {
+        "probe.cir": "3096fd0a6327c73cee1ef58ebdaef1cb41024c82e3cfc82f33a7986b786c6b9a",
+        "ngspice.log": "7890baa82fd7388d4e6a167810a3f415bff7b2ee64e25d919f15c7610b05ae3c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.8606557377049175,
+        "targetVolts": 3.7606557377049175,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 2.4214239681962303e-09,
+        "maximumInternalDisconnectSeconds": 2.2578576031803768e-08
+      },
+      "measuredSeconds": 2.42142e-09,
+      "files": {
+        "probe.cir": "f1ac1ddb599ad6169bc596696ad34a3d3322b76e4c7c5a80a6dd8d8e4cd97f64",
+        "ngspice.log": "0934db215cc2840a18eb691537a6fb546845d49127ecb8e7ecce637be3c80105"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2220001810820708e-09,
+        "maximumInternalDisconnectSeconds": 2.3777999818917928e-08
+      },
+      "measuredSeconds": 1.222e-09,
+      "files": {
+        "probe.cir": "445eedfea0619724dbf9b4920d2917e2c12cb52eea990437cdc6ef0a311698cf",
+        "ngspice.log": "8483f1f225ad7aa442ae214381d84df092715dc5c0e12f97612e0ee159173370"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2244007878858488e-09,
+        "maximumInternalDisconnectSeconds": 2.377559921211415e-08
+      },
+      "measuredSeconds": 1.2244e-09,
+      "files": {
+        "probe.cir": "51b289676d94aedf81d8e6699fc4544574e4e3335aaa9e79c082181f354d0139",
+        "ngspice.log": "ddfc9bfc95d2c27e10973d19a58317f8adbd46f5a88f9954e7c8fed9ffc6671c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2268108563685546e-09,
+        "maximumInternalDisconnectSeconds": 2.3773189143631444e-08
+      },
+      "measuredSeconds": 1.22681e-09,
+      "files": {
+        "probe.cir": "be02dcd7f5b01b670cda0904bef32ee5b84f89efcd14104c426ba77f88b276be",
+        "ngspice.log": "52da3c739aa8b65509f59cf2f889cac6e659a2ac9c228b419de3959cfcb0ca46"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.8606557377049175,
+        "targetVolts": 3.7606557377049175,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 2.5811569251389705e-09,
+        "maximumInternalDisconnectSeconds": 2.2418843074861027e-08
+      },
+      "measuredSeconds": 2.58116e-09,
+      "files": {
+        "probe.cir": "a3a4038daecad57ff91d4103ec60503e61f2fa13645b5299b2f13afa689d5f19",
+        "ngspice.log": "adfd2468cb62869da4f2f398ea7d4c721d54997bf196ad20aa47eae56eefda1b"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.8606557377049175,
+        "targetVolts": 3.7606557377049175,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 2.5711001777386296e-09,
+        "maximumInternalDisconnectSeconds": 2.242889982226137e-08
+      },
+      "measuredSeconds": 2.5711e-09,
+      "files": {
+        "probe.cir": "6d089958797ec18771e8bbf8bfd95bbea0bfbd3cb1e4c8b7ff568f866fdcb244",
+        "ngspice.log": "59019eb59f87ec98e7ad93d2ca5a2475fc9c55846acdf8ae26c2ef03c8ab9b85"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.8606557377049175,
+        "targetVolts": 3.7606557377049175,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 2.5611215048229357e-09,
+        "maximumInternalDisconnectSeconds": 2.2438878495177063e-08
+      },
+      "measuredSeconds": 2.56112e-09,
+      "files": {
+        "probe.cir": "518386e7e25952ca61adf4e10c5063e10ed3fc1d582a40f5f0c76a7620247a06",
+        "ngspice.log": "f28fede4dac2e49ccaf0b1341fdd7a72863e7873c69bd930697fdadd3e1e2636"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2925001915291133e-09,
+        "maximumInternalDisconnectSeconds": 2.3707499808470884e-08
+      },
+      "measuredSeconds": 1.2925e-09,
+      "files": {
+        "probe.cir": "23a828df656269c79891f9370d620cbb339b2d96fde3f2dad5b227b35028bf4e",
+        "ngspice.log": "8cdf9195c7310a8a47dfb4ce9569a42d3199b418eb11643c2b66cdb5e11c7b94"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2950392948792632e-09,
+        "maximumInternalDisconnectSeconds": 2.3704960705120736e-08
+      },
+      "measuredSeconds": 1.29504e-09,
+      "files": {
+        "probe.cir": "db1ccb3e5ae291ea1a10f886e6145334a76c2b0dbf3859bd320394e361437857",
+        "ngspice.log": "b42e8d027c1b60a2b12e5248c8449b9be08fd478f9b2336533f32a3dbee9680e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2975884057744328e-09,
+        "maximumInternalDisconnectSeconds": 2.3702411594225566e-08
+      },
+      "measuredSeconds": 1.29759e-09,
+      "files": {
+        "probe.cir": "a4e8c6978a229b51e85cd85df4f9b7ab02c64da5378a012e1438852332384c41",
+        "ngspice.log": "7479e1842e27e3538fe7f016f40a6af5880e97602cf45096599db39a394bcaed"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 2.7558139534883717,
+        "targetVolts": 2.6558139534883716,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 4.514607252599233e-09,
+        "maximumInternalDisconnectSeconds": 2.0485392747400767e-08
+      },
+      "measuredSeconds": 4.51461e-09,
+      "files": {
+        "probe.cir": "4b65866a711b8eea3e35858ded92767be98f9e56240b4f7d80ab7ad30477e442",
+        "ngspice.log": "1b6d1697fd0a42705fc75808953edab1de1a62eddf45ca7b0b6cd7458e37d117"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 2.7558139534883717,
+        "targetVolts": 2.6558139534883716,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 4.480872126931333e-09,
+        "maximumInternalDisconnectSeconds": 2.0519127873068666e-08
+      },
+      "measuredSeconds": 4.48087e-09,
+      "files": {
+        "probe.cir": "efdfbba0dd9d29b307350f16cca683f8370a7a047aa01711800b91a2f7a5c7e4",
+        "ngspice.log": "8e017fb7a5a0cfb563664a76c480924a0da8c84adab78e3ae88789294c6d85b9"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 2.7558139534883717,
+        "targetVolts": 2.6558139534883716,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 4.4476377120238625e-09,
+        "maximumInternalDisconnectSeconds": 2.0552362287976135e-08
+      },
+      "measuredSeconds": 4.44764e-09,
+      "files": {
+        "probe.cir": "57bd82b816af51d1679803f192ab06aa172b7a5fc39dceca5e1fb2c22015f9f3",
+        "ngspice.log": "bd40748a9a00fe87525f1ba64a20798ba0b3d4abbff1fd0b94a70f491d316e1d"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.1750001741173758e-09,
+        "maximumInternalDisconnectSeconds": 2.3824999825882624e-08
+      },
+      "measuredSeconds": 1.175e-09,
+      "files": {
+        "probe.cir": "38d8a224b65b16f65fe8dd8e2829efa467b39131a46e619398a734724440e969",
+        "ngspice.log": "becc478e3915a813a4f0e7e121fa784bf78966d03b5988d39ca2eee346c8a174"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.1773084498902392e-09,
+        "maximumInternalDisconnectSeconds": 2.382269155010976e-08
+      },
+      "measuredSeconds": 1.17731e-09,
+      "files": {
+        "probe.cir": "d20af0c4a43646efd27e8172db440c180c128b1b98a67651e646d38be883f523",
+        "ngspice.log": "8bc8f80b7c61c9545e76c63d5a046a65ddf9cdc73352b63d472613eb1f28b94a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.1796258234313025e-09,
+        "maximumInternalDisconnectSeconds": 2.3820374176568697e-08
+      },
+      "measuredSeconds": 1.17963e-09,
+      "files": {
+        "probe.cir": "0f7b10c16667cd23cae3ef9683981ccc669b1eaff8477ee37d63cc0f810be36a",
+        "ngspice.log": "0630bbac068079c238205d434fff4b6c7be502675d3fd62d2dd7a33fc6477944"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 2.7558139534883717,
+        "targetVolts": 2.6558139534883716,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 4.695191542703202e-09,
+        "maximumInternalDisconnectSeconds": 2.0304808457296797e-08
+      },
+      "measuredSeconds": 4.69519e-09,
+      "files": {
+        "probe.cir": "f4320e668a9c4709dba6b349f266413af82fbf833446a8cfeab592d2ea5b7f39",
+        "ngspice.log": "799bc62184ae67a0c77ff70cf6cdf96c704fcc96f6c38c5dc499c624117963d8"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 2.7558139534883717,
+        "targetVolts": 2.6558139534883716,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 4.660107012008586e-09,
+        "maximumInternalDisconnectSeconds": 2.0339892987991413e-08
+      },
+      "measuredSeconds": 4.66011e-09,
+      "files": {
+        "probe.cir": "92c0905f7202f8d3af852fedb383d09e3b66a1462cf28e7e1087afcc4b5bc779",
+        "ngspice.log": "b7e0f346324d78b6a1e88572cb8a4b2cfc60a28f3a5a01b8f24076d62c014e87"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 2.7558139534883717,
+        "targetVolts": 2.6558139534883716,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 4.6255432205048176e-09,
+        "maximumInternalDisconnectSeconds": 2.037445677949518e-08
+      },
+      "measuredSeconds": 4.62554e-09,
+      "files": {
+        "probe.cir": "6a7fafbcb7294c5092bffd31db15b9abb2d5816b446c05c5a95e48fe93bfc4e1",
+        "ngspice.log": "70fb10a494659dcb437c3fbc39c44803341a2f5485bf7ec8b9e8424e384abb83"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2220001810820708e-09,
+        "maximumInternalDisconnectSeconds": 2.3777999818917928e-08
+      },
+      "measuredSeconds": 1.222e-09,
+      "files": {
+        "probe.cir": "445eedfea0619724dbf9b4920d2917e2c12cb52eea990437cdc6ef0a311698cf",
+        "ngspice.log": "8483f1f225ad7aa442ae214381d84df092715dc5c0e12f97612e0ee159173370"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2244007878858488e-09,
+        "maximumInternalDisconnectSeconds": 2.377559921211415e-08
+      },
+      "measuredSeconds": 1.2244e-09,
+      "files": {
+        "probe.cir": "51b289676d94aedf81d8e6699fc4544574e4e3335aaa9e79c082181f354d0139",
+        "ngspice.log": "ddfc9bfc95d2c27e10973d19a58317f8adbd46f5a88f9954e7c8fed9ffc6671c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2268108563685546e-09,
+        "maximumInternalDisconnectSeconds": 2.3773189143631444e-08
+      },
+      "measuredSeconds": 1.22681e-09,
+      "files": {
+        "probe.cir": "be02dcd7f5b01b670cda0904bef32ee5b84f89efcd14104c426ba77f88b276be",
+        "ngspice.log": "52da3c739aa8b65509f59cf2f889cac6e659a2ac9c228b419de3959cfcb0ca46"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 2.7558139534883717,
+        "targetVolts": 2.6558139534883716,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 4.966067977859156e-09,
+        "maximumInternalDisconnectSeconds": 2.0033932022140843e-08
+      },
+      "measuredSeconds": 4.96607e-09,
+      "files": {
+        "probe.cir": "816d672bfcb8e5351cca01ff1ef0526ab3c07f6cb229e176b664fdde6cae5535",
+        "ngspice.log": "3e6ff994c2167bd7638a6836fa07f0f6fe0a1b7e1978265bced30c96336674e2"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 2.7558139534883717,
+        "targetVolts": 2.6558139534883716,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 4.928959339624466e-09,
+        "maximumInternalDisconnectSeconds": 2.0071040660375534e-08
+      },
+      "measuredSeconds": 4.92896e-09,
+      "files": {
+        "probe.cir": "cc955d3375dcf46386c776afe8422913ae6f9931f88463ecd36955780e907ac2",
+        "ngspice.log": "627b93e49e4fac77cb40397c59b069f8b74cc3fa57476c801b8efe0a8e294250"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 2.7558139534883717,
+        "targetVolts": 2.6558139534883716,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 4.892401483226249e-09,
+        "maximumInternalDisconnectSeconds": 2.010759851677375e-08
+      },
+      "measuredSeconds": 4.8924e-09,
+      "files": {
+        "probe.cir": "dc4c23ef0ff2206e90708e029625e2572bcbe661d9c57b06881ff8848728f28f",
+        "ngspice.log": "0e522b0c879fbdd326708259b624ad8e3e3af5fc28aa0ce54dad526c8438bb7e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2925001915291133e-09,
+        "maximumInternalDisconnectSeconds": 2.3707499808470884e-08
+      },
+      "measuredSeconds": 1.2925e-09,
+      "files": {
+        "probe.cir": "23a828df656269c79891f9370d620cbb339b2d96fde3f2dad5b227b35028bf4e",
+        "ngspice.log": "8cdf9195c7310a8a47dfb4ce9569a42d3199b418eb11643c2b66cdb5e11c7b94"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2950392948792632e-09,
+        "maximumInternalDisconnectSeconds": 2.3704960705120736e-08
+      },
+      "measuredSeconds": 1.29504e-09,
+      "files": {
+        "probe.cir": "db1ccb3e5ae291ea1a10f886e6145334a76c2b0dbf3859bd320394e361437857",
+        "ngspice.log": "b42e8d027c1b60a2b12e5248c8449b9be08fd478f9b2336533f32a3dbee9680e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2975884057744328e-09,
+        "maximumInternalDisconnectSeconds": 2.3702411594225566e-08
+      },
+      "measuredSeconds": 1.29759e-09,
+      "files": {
+        "probe.cir": "a4e8c6978a229b51e85cd85df4f9b7ab02c64da5378a012e1438852332384c41",
+        "ngspice.log": "7479e1842e27e3538fe7f016f40a6af5880e97602cf45096599db39a394bcaed"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 2.9651162790697674,
+        "targetVolts": 2.8651162790697673,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 3.841985045665749e-09,
+        "maximumInternalDisconnectSeconds": 2.1158014954334248e-08
+      },
+      "measuredSeconds": 3.84199e-09,
+      "files": {
+        "probe.cir": "50bd546c222db279582b2e24807bb8fbf6e2f65e6e52a265e80fda7bfda7a3e4",
+        "ngspice.log": "cd62a76b29332795a739cdffef0214207a0e99c7b3f360be6871b7cff748fb9a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 2.9651162790697674,
+        "targetVolts": 2.8651162790697673,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 3.817529976104032e-09,
+        "maximumInternalDisconnectSeconds": 2.1182470023895966e-08
+      },
+      "measuredSeconds": 3.81753e-09,
+      "files": {
+        "probe.cir": "da1070060bf82185542338fdd6e80a7061120141fb6c9f1eee321e9cb181c510",
+        "ngspice.log": "b45ccdb45699359d20af72472fc82292b683eb2a4a71b95b4c8f730cdde0fe8a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 2.9651162790697674,
+        "targetVolts": 2.8651162790697673,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 3.7933843883002116e-09,
+        "maximumInternalDisconnectSeconds": 2.1206615611699787e-08
+      },
+      "measuredSeconds": 3.79338e-09,
+      "files": {
+        "probe.cir": "4172cc3c2790d2fba6efeab8caf6b693e907777030e59cc1bd3c2e44254808ff",
+        "ngspice.log": "8fcf5e6a727f76aeccd2374e0dc028fce8f68331e4d5154b5733a0cc4eae15c1"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.1750001741173758e-09,
+        "maximumInternalDisconnectSeconds": 2.3824999825882624e-08
+      },
+      "measuredSeconds": 1.175e-09,
+      "files": {
+        "probe.cir": "38d8a224b65b16f65fe8dd8e2829efa467b39131a46e619398a734724440e969",
+        "ngspice.log": "becc478e3915a813a4f0e7e121fa784bf78966d03b5988d39ca2eee346c8a174"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.1773084498902392e-09,
+        "maximumInternalDisconnectSeconds": 2.382269155010976e-08
+      },
+      "measuredSeconds": 1.17731e-09,
+      "files": {
+        "probe.cir": "d20af0c4a43646efd27e8172db440c180c128b1b98a67651e646d38be883f523",
+        "ngspice.log": "8bc8f80b7c61c9545e76c63d5a046a65ddf9cdc73352b63d472613eb1f28b94a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.1796258234313025e-09,
+        "maximumInternalDisconnectSeconds": 2.3820374176568697e-08
+      },
+      "measuredSeconds": 1.17963e-09,
+      "files": {
+        "probe.cir": "0f7b10c16667cd23cae3ef9683981ccc669b1eaff8477ee37d63cc0f810be36a",
+        "ngspice.log": "0630bbac068079c238205d434fff4b6c7be502675d3fd62d2dd7a33fc6477944"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 2.9651162790697674,
+        "targetVolts": 2.8651162790697673,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 3.995664447492379e-09,
+        "maximumInternalDisconnectSeconds": 2.100433555250762e-08
+      },
+      "measuredSeconds": 3.99566e-09,
+      "files": {
+        "probe.cir": "8060c8bee3cec29627c7e03a1dc2478850fc2e8717c895700d1f20d2388b9032",
+        "ngspice.log": "6e392f1805cfad36ac800b6731c94f4343f8c2d85b58abe9dce8174bd762180d"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 2.9651162790697674,
+        "targetVolts": 2.8651162790697673,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 3.970231175148194e-09,
+        "maximumInternalDisconnectSeconds": 2.1029768824851804e-08
+      },
+      "measuredSeconds": 3.97023e-09,
+      "files": {
+        "probe.cir": "cbe57ae2fe150ace4f4484735464df18f8ed64989315685a9dbf9e65a53d3e49",
+        "ngspice.log": "6204dc9bbce2080f05e59542909d6354e92c36c34fd8e31a5194488d393dbcbc"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 2.9651162790697674,
+        "targetVolts": 2.8651162790697673,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 3.94511976383222e-09,
+        "maximumInternalDisconnectSeconds": 2.1054880236167778e-08
+      },
+      "measuredSeconds": 3.94512e-09,
+      "files": {
+        "probe.cir": "7b31df769a8ac4c37f38a1be5192110962e429e1aaee99a7b2aa922ad25d2d19",
+        "ngspice.log": "94a3d39b333e7efb51ccd1f89c8ba65dc0a42881eb81faccaafc21d841ff8a8b"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2220001810820708e-09,
+        "maximumInternalDisconnectSeconds": 2.3777999818917928e-08
+      },
+      "measuredSeconds": 1.222e-09,
+      "files": {
+        "probe.cir": "445eedfea0619724dbf9b4920d2917e2c12cb52eea990437cdc6ef0a311698cf",
+        "ngspice.log": "8483f1f225ad7aa442ae214381d84df092715dc5c0e12f97612e0ee159173370"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2244007878858488e-09,
+        "maximumInternalDisconnectSeconds": 2.377559921211415e-08
+      },
+      "measuredSeconds": 1.2244e-09,
+      "files": {
+        "probe.cir": "51b289676d94aedf81d8e6699fc4544574e4e3335aaa9e79c082181f354d0139",
+        "ngspice.log": "ddfc9bfc95d2c27e10973d19a58317f8adbd46f5a88f9954e7c8fed9ffc6671c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2268108563685546e-09,
+        "maximumInternalDisconnectSeconds": 2.3773189143631444e-08
+      },
+      "measuredSeconds": 1.22681e-09,
+      "files": {
+        "probe.cir": "be02dcd7f5b01b670cda0904bef32ee5b84f89efcd14104c426ba77f88b276be",
+        "ngspice.log": "52da3c739aa8b65509f59cf2f889cac6e659a2ac9c228b419de3959cfcb0ca46"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 2.9651162790697674,
+        "targetVolts": 2.8651162790697673,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 4.226183550232324e-09,
+        "maximumInternalDisconnectSeconds": 2.0773816449767675e-08
+      },
+      "measuredSeconds": 4.22618e-09,
+      "files": {
+        "probe.cir": "d24f49a56a42419b7ec39396f097892a37df391c6be52cffc7a61641598fd434",
+        "ngspice.log": "9d7c2c269b528b6cd14479be7af376cf0dfb33ebc00d0d9f7c00a68e11cd5929"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 2.9651162790697674,
+        "targetVolts": 2.8651162790697673,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 4.199282973714436e-09,
+        "maximumInternalDisconnectSeconds": 2.0800717026285564e-08
+      },
+      "measuredSeconds": 4.19928e-09,
+      "files": {
+        "probe.cir": "112e20ca17ad52cdd6762aaf20759d0bdeb63de71acfe1d5bccde8c27552cc7a",
+        "ngspice.log": "905cf67c3db13d31613174e5eab34a9b0e3a943989bbeb27724708618e78584c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 2.9651162790697674,
+        "targetVolts": 2.8651162790697673,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 4.1727228271302326e-09,
+        "maximumInternalDisconnectSeconds": 2.0827277172869767e-08
+      },
+      "measuredSeconds": 4.17272e-09,
+      "files": {
+        "probe.cir": "721bcc6098c81b9c12906cff2023a1e7cae1dbbe3b7c6e40d5f661663d70bddc",
+        "ngspice.log": "aa49812cbc51a8e0c275ce8fdadd56b35b25fe90e63695e1959e7188a5c1c233"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2925001915291133e-09,
+        "maximumInternalDisconnectSeconds": 2.3707499808470884e-08
+      },
+      "measuredSeconds": 1.2925e-09,
+      "files": {
+        "probe.cir": "23a828df656269c79891f9370d620cbb339b2d96fde3f2dad5b227b35028bf4e",
+        "ngspice.log": "8cdf9195c7310a8a47dfb4ce9569a42d3199b418eb11643c2b66cdb5e11c7b94"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2950392948792632e-09,
+        "maximumInternalDisconnectSeconds": 2.3704960705120736e-08
+      },
+      "measuredSeconds": 1.29504e-09,
+      "files": {
+        "probe.cir": "db1ccb3e5ae291ea1a10f886e6145334a76c2b0dbf3859bd320394e361437857",
+        "ngspice.log": "b42e8d027c1b60a2b12e5248c8449b9be08fd478f9b2336533f32a3dbee9680e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2975884057744328e-09,
+        "maximumInternalDisconnectSeconds": 2.3702411594225566e-08
+      },
+      "measuredSeconds": 1.29759e-09,
+      "files": {
+        "probe.cir": "a4e8c6978a229b51e85cd85df4f9b7ab02c64da5378a012e1438852332384c41",
+        "ngspice.log": "7479e1842e27e3538fe7f016f40a6af5880e97602cf45096599db39a394bcaed"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.174418604651162,
+        "targetVolts": 3.074418604651162,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 3.343854895294144e-09,
+        "maximumInternalDisconnectSeconds": 2.1656145104705854e-08
+      },
+      "measuredSeconds": 3.34386e-09,
+      "files": {
+        "probe.cir": "a383b60d7b8605cf721a9438b2b69f9bfaf0fcafc025ba906f2a2249feea524b",
+        "ngspice.log": "3e2fe4cc601db680eac67068b6ed31359b6c88b62025e1af2fb5cb9c99df8fe6"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.174418604651162,
+        "targetVolts": 3.074418604651162,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 3.3253167112826042e-09,
+        "maximumInternalDisconnectSeconds": 2.1674683288717396e-08
+      },
+      "measuredSeconds": 3.32532e-09,
+      "files": {
+        "probe.cir": "a1603bb422dca9502aaaeb3cfef106b7c0b8fc10c305f2e77ae21377039d43cc",
+        "ngspice.log": "a08c1ff134fd562e76913c71afdb555f822aafebe2390efaa474fd9ec210c254"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 3.174418604651162,
+        "targetVolts": 3.074418604651162,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 3.3069830076262332e-09,
+        "maximumInternalDisconnectSeconds": 2.1693016992373765e-08
+      },
+      "measuredSeconds": 3.30698e-09,
+      "files": {
+        "probe.cir": "e240a287d6d61e6f2eec4aafc1aab45e3edf9474db67ac1a6bcca4cf59803adf",
+        "ngspice.log": "5541722f46c76dd5fabb8235aab14bd3bf6d7fcddab92fe89bd4191dbdf36369"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.1750001741173758e-09,
+        "maximumInternalDisconnectSeconds": 2.3824999825882624e-08
+      },
+      "measuredSeconds": 1.175e-09,
+      "files": {
+        "probe.cir": "38d8a224b65b16f65fe8dd8e2829efa467b39131a46e619398a734724440e969",
+        "ngspice.log": "becc478e3915a813a4f0e7e121fa784bf78966d03b5988d39ca2eee346c8a174"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.1773084498902392e-09,
+        "maximumInternalDisconnectSeconds": 2.382269155010976e-08
+      },
+      "measuredSeconds": 1.17731e-09,
+      "files": {
+        "probe.cir": "d20af0c4a43646efd27e8172db440c180c128b1b98a67651e646d38be883f523",
+        "ngspice.log": "8bc8f80b7c61c9545e76c63d5a046a65ddf9cdc73352b63d472613eb1f28b94a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 0.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.1796258234313025e-09,
+        "maximumInternalDisconnectSeconds": 2.3820374176568697e-08
+      },
+      "measuredSeconds": 1.17963e-09,
+      "files": {
+        "probe.cir": "0f7b10c16667cd23cae3ef9683981ccc669b1eaff8477ee37d63cc0f810be36a",
+        "ngspice.log": "0630bbac068079c238205d434fff4b6c7be502675d3fd62d2dd7a33fc6477944"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.174418604651162,
+        "targetVolts": 3.074418604651162,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 3.4776090911059097e-09,
+        "maximumInternalDisconnectSeconds": 2.152239090889409e-08
+      },
+      "measuredSeconds": 3.47761e-09,
+      "files": {
+        "probe.cir": "d2c572b87ccf96ab7f1d82597d02697593dc72bc04a9961c97d4c4cbdadbe660",
+        "ngspice.log": "2cccf0344231f87de8ad83f0dfcf4bbed8fb9ddf49e0050804119532e9964f1e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.174418604651162,
+        "targetVolts": 3.074418604651162,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 3.4583293797339085e-09,
+        "maximumInternalDisconnectSeconds": 2.154167062026609e-08
+      },
+      "measuredSeconds": 3.45833e-09,
+      "files": {
+        "probe.cir": "900b02f2c80b320f26d8da605a7fca5684c1bf4b3afc6c60e941cba96fc7e807",
+        "ngspice.log": "5384f333aa78d0a51e236c8ac0d00969196cae5243f978d71d280f160a91de91"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 3.174418604651162,
+        "targetVolts": 3.074418604651162,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 3.4392623279312823e-09,
+        "maximumInternalDisconnectSeconds": 2.1560737672068716e-08
+      },
+      "measuredSeconds": 3.43926e-09,
+      "files": {
+        "probe.cir": "9ec88e3ad33c8f2200dc270925969a674934f1efc092004304eb61a0e36a89a0",
+        "ngspice.log": "317a6a95c8f01b806405f9316556e5dcb273682137fda290b326290179593961"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2220001810820708e-09,
+        "maximumInternalDisconnectSeconds": 2.3777999818917928e-08
+      },
+      "measuredSeconds": 1.222e-09,
+      "files": {
+        "probe.cir": "445eedfea0619724dbf9b4920d2917e2c12cb52eea990437cdc6ef0a311698cf",
+        "ngspice.log": "8483f1f225ad7aa442ae214381d84df092715dc5c0e12f97612e0ee159173370"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2244007878858488e-09,
+        "maximumInternalDisconnectSeconds": 2.377559921211415e-08
+      },
+      "measuredSeconds": 1.2244e-09,
+      "files": {
+        "probe.cir": "51b289676d94aedf81d8e6699fc4544574e4e3335aaa9e79c082181f354d0139",
+        "ngspice.log": "ddfc9bfc95d2c27e10973d19a58317f8adbd46f5a88f9954e7c8fed9ffc6671c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 12.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.12e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2268108563685546e-09,
+        "maximumInternalDisconnectSeconds": 2.3773189143631444e-08
+      },
+      "measuredSeconds": 1.22681e-09,
+      "files": {
+        "probe.cir": "be02dcd7f5b01b670cda0904bef32ee5b84f89efcd14104c426ba77f88b276be",
+        "ngspice.log": "52da3c739aa8b65509f59cf2f889cac6e659a2ac9c228b419de3959cfcb0ca46"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.174418604651162,
+        "targetVolts": 3.074418604651162,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.509,
+        "stageSeconds": 3.6782403848235585e-09,
+        "maximumInternalDisconnectSeconds": 2.132175961517644e-08
+      },
+      "measuredSeconds": 3.67824e-09,
+      "files": {
+        "probe.cir": "175a4e7734b3ef9c4dec5b01b18344f9a749241c594b813f96e6c055f1b3844c",
+        "ngspice.log": "12a3073e7a7eb270f915be62015b8b740cf87725e9fe4470de4e8b2428a47902"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.174418604651162,
+        "targetVolts": 3.074418604651162,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 3.657848382410865e-09,
+        "maximumInternalDisconnectSeconds": 2.1342151617589134e-08
+      },
+      "measuredSeconds": 3.65785e-09,
+      "files": {
+        "probe.cir": "257be1a3df55cfe78786f49e83ba44359539bb32dab2d15fd6de8c0f5c28bfc7",
+        "ngspice.log": "c1889239a01749af76869aa468be940d8ca9a7f1943c2ef94dcd39a3252d92e9"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "high",
+        "loadOhms": 180,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 3.174418604651162,
+        "targetVolts": 3.074418604651162,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.491,
+        "stageSeconds": 3.6376813083888565e-09,
+        "maximumInternalDisconnectSeconds": 2.136231869161114e-08
+      },
+      "measuredSeconds": 3.63768e-09,
+      "files": {
+        "probe.cir": "c279d1e97b58e8d2e8c48f93361ea5a238656c54506596126b9cd9ff72077dbe",
+        "ngspice.log": "eda123adba1e0cb7ae587edffdb6841c820f89d6e09a083d1d7d54aa31c0e113"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": -5e-05,
+        "finalVolts": 1.50165,
+        "stageSeconds": 1.2925001915291133e-09,
+        "maximumInternalDisconnectSeconds": 2.3707499808470884e-08
+      },
+      "measuredSeconds": 1.2925e-09,
+      "files": {
+        "probe.cir": "23a828df656269c79891f9370d620cbb339b2d96fde3f2dad5b227b35028bf4e",
+        "ngspice.log": "8cdf9195c7310a8a47dfb4ce9569a42d3199b418eb11643c2b66cdb5e11c7b94"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 0.0,
+        "finalVolts": 1.5,
+        "stageSeconds": 1.2950392948792632e-09,
+        "maximumInternalDisconnectSeconds": 2.3704960705120736e-08
+      },
+      "measuredSeconds": 1.29504e-09,
+      "files": {
+        "probe.cir": "db1ccb3e5ae291ea1a10f886e6145334a76c2b0dbf3859bd320394e361437857",
+        "ngspice.log": "b42e8d027c1b60a2b12e5248c8449b9be08fd478f9b2336533f32a3dbee9680e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "extraCapacitancePf": 30.0,
+        "releasedFrom": "low",
+        "loadOhms": 33,
+        "biasVolts": 1.5,
+        "capacitanceFarads": 3.3e-10,
+        "initialVolts": 0.608108108108108,
+        "targetVolts": 0.708108108108108,
+        "leakageAmps": 5e-05,
+        "finalVolts": 1.49835,
+        "stageSeconds": 1.2975884057744328e-09,
+        "maximumInternalDisconnectSeconds": 2.3702411594225566e-08
+      },
+      "measuredSeconds": 1.29759e-09,
+      "files": {
+        "probe.cir": "a4e8c6978a229b51e85cd85df4f9b7ab02c64da5378a012e1438852332384c41",
+        "ngspice.log": "7479e1842e27e3538fe7f016f40a6af5880e97602cf45096599db39a394bcaed"
+      }
+    }
+  ]
+}
