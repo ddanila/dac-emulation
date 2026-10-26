@@ -391,6 +391,11 @@ controls in the bounded single-controller fixture. The failure occurs after HDL
 advancement; it does not establish HDL rollback or recovery correctness. Require
 actual branch activity and compare complete waveforms and firmware before drawing
 conclusions from these controls.
+The [bounded board control](reports/output-breakpoint-controls/assessment.json)
+reproduces the baseline but never enters this branch. Exercise a targeted
+delayed-output fixture before treating the recovery path as covered.
+`output_breakpoint_review.py --root <capture> --source <baseline> --out <assessment>`
+checks full streams and reports branch coverage separately from equivalence.
 
 ### Scheduling and state controls
 
