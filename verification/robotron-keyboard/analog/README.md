@@ -380,6 +380,11 @@ records, but the disabled comparison has one-picosecond bus timestamp difference
 these are retained in [complete selected records](reports/postreset-adc/firmware-differences.json)
 and are not waived. Full numerical replay requires the local captures listed in
 [retention metadata](reports/postreset-adc/retention.json).
+[Timing localization](reports/postreset-adc/timing-localization.json) corroborates
+the changed bus times with VPI callback timestamps and locates a middle-step
+`data_sink` event one tick late before the largest voltage residual. Test input
+application and tick conversion with deterministic edges before attributing
+this correlation to a numerical defect.
 `numericalGatePassed` is scoped to this window; `qualified` remains false because
 startup, supply recovery and device admission need independent evidence.
 
@@ -728,4 +733,6 @@ first yield; the review checks layout against the compiled HDL interface.
 Handle, context and initialized-value faults are restored before continuation.
 The [initialization contract](reports/port-state-contract/assessment.json) excludes
 unused input-only `new` words, which the legacy observer read before initialization.
+The [bounded port controls](reports/port-board/assessment.json) pass exact waveform
+and firmware comparisons, the compiled port contract and all restored faults.
 Output value-change callback relationships and longer-window coverage remain open.
