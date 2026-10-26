@@ -135,6 +135,8 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_delayed_corruption.py
           python3 verification/robotron-keyboard/analog/test_delayed_corruption_review.py
           python3 verification/robotron-keyboard/analog/test_circuit_output_review.py
+          python3 verification/robotron-keyboard/analog/test_cached_circuit_output_review.py
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/cached-output-inventory
           python3 verification/robotron-keyboard/analog/test_instance_queue_review.py
           python3 verification/robotron-keyboard/analog/instance_queue_review.py --root verification/robotron-keyboard/analog/reports/instance-queue-state --check-manifest
           python3 verification/robotron-keyboard/analog/circuit_output_review.py --root verification/robotron-keyboard/analog/reports/circuit-output-state --check-manifest
