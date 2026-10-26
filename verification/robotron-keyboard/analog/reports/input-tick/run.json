@@ -1,0 +1,2431 @@
+{
+  "qualified": false,
+  "commands": [
+    [
+      "cc",
+      "-std=c11",
+      "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/include",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/input_tick_probe.c",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-s",
+      "input_tick_probe",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/input_tick_probe.v"
+    ]
+  ],
+  "boardReceiptSha256": "1a443c1e442ee1b95ab1eac5a8eb4b41350b1a5ec6455ff9e5f67c7a0fa919a9",
+  "dependencies": {
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi": "32afc2fe7978e2a9cd71229c47551f54c2a9d64d1f0961cc57ed7e189bb7a9b5",
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi": "f66a6588a0dc9e70d2c5a2472a1e056a5e1abb1d61a880e9a540c9cf5f65873c"
+  },
+  "sources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/input_tick_probe.py": "1a8f648e68ce4ac41cc8f3d83128a6272a18cfc1afbb17daa8ce72ebaed06342",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/input_tick_probe.c": "1716eef295c4ac04aea02e084eab9f0ef844cdd90a86b5fa70da54cc9143f992",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/input_tick_probe.v": "e76f52a08d663bda5cfce06b6b45c080b2355e8efac1ac457180337cbc86d833",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cmtypes.h": "268ca5c099d9d2e19bef436abc81261195c4ac5e237a5489786331de8d22b371",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cosim.h": "1fdf5e534cdc4a6f77b5d8177152107722f192a2b9e3e7a7fa007d093e13a425"
+  },
+  "probeSha256": "a6add27e6903792880e31a08276be96dab874650986057a7c74b7df0b1f819b8",
+  "vvpSha256": "61402e603162a20f89332d3a0bb2911a90649eef8ff236bd117c4e084ebada4f",
+  "runs": {
+    "10000-below-direct/baseline": {
+      "target": "0x1.5798ee2308c39p-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-below-direct-baseline.log",
+      "sha256": "16779f528ad56b64ff139ea37223ee9de612f5bee9501416e498d9c824631e5a",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c39p-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-below-direct/off": {
+      "target": "0x1.5798ee2308c39p-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-below-direct-off.log",
+      "sha256": "16779f528ad56b64ff139ea37223ee9de612f5bee9501416e498d9c824631e5a",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c39p-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-below-direct/on": {
+      "target": "0x1.5798ee2308c39p-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-below-direct-on.log",
+      "sha256": "16779f528ad56b64ff139ea37223ee9de612f5bee9501416e498d9c824631e5a",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c39p-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-below-staged/baseline": {
+      "target": "0x1.5798ee2308c39p-27",
+      "prior": "0x1.5774f41835b9fp-27",
+      "exitCode": 0,
+      "log": "10000-below-staged-baseline.log",
+      "sha256": "db5539ad4523f8155391901e201535216887a96a56b1ad9c26c55bd9210ae1b9",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c39p-27",
+        "0x1.5774f41835b9fp-27"
+      ]
+    },
+    "10000-below-staged/off": {
+      "target": "0x1.5798ee2308c39p-27",
+      "prior": "0x1.5774f41835b9fp-27",
+      "exitCode": 0,
+      "log": "10000-below-staged-off.log",
+      "sha256": "db5539ad4523f8155391901e201535216887a96a56b1ad9c26c55bd9210ae1b9",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c39p-27",
+        "0x1.5774f41835b9fp-27"
+      ]
+    },
+    "10000-below-staged/on": {
+      "target": "0x1.5798ee2308c39p-27",
+      "prior": "0x1.5774f41835b9fp-27",
+      "exitCode": 0,
+      "log": "10000-below-staged-on.log",
+      "sha256": "db5539ad4523f8155391901e201535216887a96a56b1ad9c26c55bd9210ae1b9",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c39p-27",
+        "0x1.5774f41835b9fp-27"
+      ]
+    },
+    "10000-below-near/baseline": {
+      "target": "0x1.5798ee2308c39p-27",
+      "prior": "0x1.5796bb2fd89ddp-27",
+      "exitCode": 0,
+      "log": "10000-below-near-baseline.log",
+      "sha256": "cf6d61fc48f0e87d7fa4e08c80b42519d2b96f8eb5b80d84ce4be57ff8bbce24",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c39p-27",
+        "0x1.5796bb2fd89ddp-27"
+      ]
+    },
+    "10000-below-near/off": {
+      "target": "0x1.5798ee2308c39p-27",
+      "prior": "0x1.5796bb2fd89ddp-27",
+      "exitCode": 0,
+      "log": "10000-below-near-off.log",
+      "sha256": "cf6d61fc48f0e87d7fa4e08c80b42519d2b96f8eb5b80d84ce4be57ff8bbce24",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c39p-27",
+        "0x1.5796bb2fd89ddp-27"
+      ]
+    },
+    "10000-below-near/on": {
+      "target": "0x1.5798ee2308c39p-27",
+      "prior": "0x1.5796bb2fd89ddp-27",
+      "exitCode": 0,
+      "log": "10000-below-near-on.log",
+      "sha256": "cf6d61fc48f0e87d7fa4e08c80b42519d2b96f8eb5b80d84ce4be57ff8bbce24",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c39p-27",
+        "0x1.5796bb2fd89ddp-27"
+      ]
+    },
+    "10000-exact-direct/baseline": {
+      "target": "0x1.5798ee2308c3ap-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-exact-direct-baseline.log",
+      "sha256": "fc04ea8645c1a7c5adc04124a54682da4a63e0b7219d3ec82c4624b7cbf70df6",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3ap-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-exact-direct/off": {
+      "target": "0x1.5798ee2308c3ap-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-exact-direct-off.log",
+      "sha256": "fc04ea8645c1a7c5adc04124a54682da4a63e0b7219d3ec82c4624b7cbf70df6",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3ap-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-exact-direct/on": {
+      "target": "0x1.5798ee2308c3ap-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-exact-direct-on.log",
+      "sha256": "fc04ea8645c1a7c5adc04124a54682da4a63e0b7219d3ec82c4624b7cbf70df6",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3ap-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-exact-staged/baseline": {
+      "target": "0x1.5798ee2308c3ap-27",
+      "prior": "0x1.5774f41835ba0p-27",
+      "exitCode": 0,
+      "log": "10000-exact-staged-baseline.log",
+      "sha256": "09014e31c927e57d302a9d4c148d3cc3dc7d2ce819747c6c6d73e025e80dfcc3",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3ap-27",
+        "0x1.5774f41835ba0p-27"
+      ]
+    },
+    "10000-exact-staged/off": {
+      "target": "0x1.5798ee2308c3ap-27",
+      "prior": "0x1.5774f41835ba0p-27",
+      "exitCode": 0,
+      "log": "10000-exact-staged-off.log",
+      "sha256": "09014e31c927e57d302a9d4c148d3cc3dc7d2ce819747c6c6d73e025e80dfcc3",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3ap-27",
+        "0x1.5774f41835ba0p-27"
+      ]
+    },
+    "10000-exact-staged/on": {
+      "target": "0x1.5798ee2308c3ap-27",
+      "prior": "0x1.5774f41835ba0p-27",
+      "exitCode": 0,
+      "log": "10000-exact-staged-on.log",
+      "sha256": "09014e31c927e57d302a9d4c148d3cc3dc7d2ce819747c6c6d73e025e80dfcc3",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3ap-27",
+        "0x1.5774f41835ba0p-27"
+      ]
+    },
+    "10000-exact-near/baseline": {
+      "target": "0x1.5798ee2308c3ap-27",
+      "prior": "0x1.5796bb2fd89dep-27",
+      "exitCode": 0,
+      "log": "10000-exact-near-baseline.log",
+      "sha256": "2364adc59c97ddd08f1855f0f0714d43023dfd6b4472a2c98073171082a08ab8",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3ap-27",
+        "0x1.5796bb2fd89dep-27"
+      ]
+    },
+    "10000-exact-near/off": {
+      "target": "0x1.5798ee2308c3ap-27",
+      "prior": "0x1.5796bb2fd89dep-27",
+      "exitCode": 0,
+      "log": "10000-exact-near-off.log",
+      "sha256": "2364adc59c97ddd08f1855f0f0714d43023dfd6b4472a2c98073171082a08ab8",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3ap-27",
+        "0x1.5796bb2fd89dep-27"
+      ]
+    },
+    "10000-exact-near/on": {
+      "target": "0x1.5798ee2308c3ap-27",
+      "prior": "0x1.5796bb2fd89dep-27",
+      "exitCode": 0,
+      "log": "10000-exact-near-on.log",
+      "sha256": "2364adc59c97ddd08f1855f0f0714d43023dfd6b4472a2c98073171082a08ab8",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3ap-27",
+        "0x1.5796bb2fd89dep-27"
+      ]
+    },
+    "10000-above-direct/baseline": {
+      "target": "0x1.5798ee2308c3bp-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-above-direct-baseline.log",
+      "sha256": "f510debcc2602159dfb08cafdcca7009e18bb1f000afab15289002632d83ac82",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3bp-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-above-direct/off": {
+      "target": "0x1.5798ee2308c3bp-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-above-direct-off.log",
+      "sha256": "f510debcc2602159dfb08cafdcca7009e18bb1f000afab15289002632d83ac82",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3bp-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-above-direct/on": {
+      "target": "0x1.5798ee2308c3bp-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-above-direct-on.log",
+      "sha256": "f510debcc2602159dfb08cafdcca7009e18bb1f000afab15289002632d83ac82",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3bp-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-above-staged/baseline": {
+      "target": "0x1.5798ee2308c3bp-27",
+      "prior": "0x1.5774f41835ba1p-27",
+      "exitCode": 0,
+      "log": "10000-above-staged-baseline.log",
+      "sha256": "69092e0b6e366d2bb388cbc3c5565f79bdce84635a37edf8046a8b00224eb1be",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3bp-27",
+        "0x1.5774f41835ba1p-27"
+      ]
+    },
+    "10000-above-staged/off": {
+      "target": "0x1.5798ee2308c3bp-27",
+      "prior": "0x1.5774f41835ba1p-27",
+      "exitCode": 0,
+      "log": "10000-above-staged-off.log",
+      "sha256": "69092e0b6e366d2bb388cbc3c5565f79bdce84635a37edf8046a8b00224eb1be",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3bp-27",
+        "0x1.5774f41835ba1p-27"
+      ]
+    },
+    "10000-above-staged/on": {
+      "target": "0x1.5798ee2308c3bp-27",
+      "prior": "0x1.5774f41835ba1p-27",
+      "exitCode": 0,
+      "log": "10000-above-staged-on.log",
+      "sha256": "69092e0b6e366d2bb388cbc3c5565f79bdce84635a37edf8046a8b00224eb1be",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3bp-27",
+        "0x1.5774f41835ba1p-27"
+      ]
+    },
+    "10000-above-near/baseline": {
+      "target": "0x1.5798ee2308c3bp-27",
+      "prior": "0x1.5796bb2fd89dfp-27",
+      "exitCode": 0,
+      "log": "10000-above-near-baseline.log",
+      "sha256": "e8749ae42666b68b4b9e3e8ffd12dcec52700e39dece5120f49c5e13a4fdea74",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3bp-27",
+        "0x1.5796bb2fd89dfp-27"
+      ]
+    },
+    "10000-above-near/off": {
+      "target": "0x1.5798ee2308c3bp-27",
+      "prior": "0x1.5796bb2fd89dfp-27",
+      "exitCode": 0,
+      "log": "10000-above-near-off.log",
+      "sha256": "e8749ae42666b68b4b9e3e8ffd12dcec52700e39dece5120f49c5e13a4fdea74",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3bp-27",
+        "0x1.5796bb2fd89dfp-27"
+      ]
+    },
+    "10000-above-near/on": {
+      "target": "0x1.5798ee2308c3bp-27",
+      "prior": "0x1.5796bb2fd89dfp-27",
+      "exitCode": 0,
+      "log": "10000-above-near-on.log",
+      "sha256": "e8749ae42666b68b4b9e3e8ffd12dcec52700e39dece5120f49c5e13a4fdea74",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.5798ee2308c3bp-27",
+        "0x1.5796bb2fd89dfp-27"
+      ]
+    },
+    "10000-quarter-direct/baseline": {
+      "target": "0x1.579b211638e96p-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-quarter-direct-baseline.log",
+      "sha256": "a1be3e39768c6b7f83ae2f0d64faff54e97b7212d2bd821a3b89a5f93792eac0",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579b211638e96p-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-quarter-direct/off": {
+      "target": "0x1.579b211638e96p-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-quarter-direct-off.log",
+      "sha256": "a1be3e39768c6b7f83ae2f0d64faff54e97b7212d2bd821a3b89a5f93792eac0",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579b211638e96p-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-quarter-direct/on": {
+      "target": "0x1.579b211638e96p-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-quarter-direct-on.log",
+      "sha256": "a1be3e39768c6b7f83ae2f0d64faff54e97b7212d2bd821a3b89a5f93792eac0",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579b211638e96p-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-quarter-staged/baseline": {
+      "target": "0x1.579b211638e96p-27",
+      "prior": "0x1.5777270b65dfcp-27",
+      "exitCode": 0,
+      "log": "10000-quarter-staged-baseline.log",
+      "sha256": "a9e93853ef248a7ab24df68c65677f8081067b08d3dc06ec969da2954fc83d39",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579b211638e96p-27",
+        "0x1.5777270b65dfcp-27"
+      ]
+    },
+    "10000-quarter-staged/off": {
+      "target": "0x1.579b211638e96p-27",
+      "prior": "0x1.5777270b65dfcp-27",
+      "exitCode": 0,
+      "log": "10000-quarter-staged-off.log",
+      "sha256": "a9e93853ef248a7ab24df68c65677f8081067b08d3dc06ec969da2954fc83d39",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579b211638e96p-27",
+        "0x1.5777270b65dfcp-27"
+      ]
+    },
+    "10000-quarter-staged/on": {
+      "target": "0x1.579b211638e96p-27",
+      "prior": "0x1.5777270b65dfcp-27",
+      "exitCode": 0,
+      "log": "10000-quarter-staged-on.log",
+      "sha256": "a9e93853ef248a7ab24df68c65677f8081067b08d3dc06ec969da2954fc83d39",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579b211638e96p-27",
+        "0x1.5777270b65dfcp-27"
+      ]
+    },
+    "10000-quarter-near/baseline": {
+      "target": "0x1.579b211638e96p-27",
+      "prior": "0x1.5798ee2308c3ap-27",
+      "exitCode": 0,
+      "log": "10000-quarter-near-baseline.log",
+      "sha256": "fc7fe2f383f2905dcee16e634992bb7792fa25f07ce368c50be901d336985d59",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579b211638e96p-27",
+        "0x1.5798ee2308c3ap-27"
+      ]
+    },
+    "10000-quarter-near/off": {
+      "target": "0x1.579b211638e96p-27",
+      "prior": "0x1.5798ee2308c3ap-27",
+      "exitCode": 0,
+      "log": "10000-quarter-near-off.log",
+      "sha256": "fc7fe2f383f2905dcee16e634992bb7792fa25f07ce368c50be901d336985d59",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579b211638e96p-27",
+        "0x1.5798ee2308c3ap-27"
+      ]
+    },
+    "10000-quarter-near/on": {
+      "target": "0x1.579b211638e96p-27",
+      "prior": "0x1.5798ee2308c3ap-27",
+      "exitCode": 0,
+      "log": "10000-quarter-near-on.log",
+      "sha256": "fc7fe2f383f2905dcee16e634992bb7792fa25f07ce368c50be901d336985d59",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579b211638e96p-27",
+        "0x1.5798ee2308c3ap-27"
+      ]
+    },
+    "10000-threequarter-direct/baseline": {
+      "target": "0x1.579f86fc9934dp-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-threequarter-direct-baseline.log",
+      "sha256": "b6dc12e8fc889bbab65f1c9cde4974aa8f437e5c45cf01196eef5d0fc3244f65",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579f86fc9934dp-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-threequarter-direct/off": {
+      "target": "0x1.579f86fc9934dp-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-threequarter-direct-off.log",
+      "sha256": "b6dc12e8fc889bbab65f1c9cde4974aa8f437e5c45cf01196eef5d0fc3244f65",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579f86fc9934dp-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-threequarter-direct/on": {
+      "target": "0x1.579f86fc9934dp-27",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "10000-threequarter-direct-on.log",
+      "sha256": "b6dc12e8fc889bbab65f1c9cde4974aa8f437e5c45cf01196eef5d0fc3244f65",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579f86fc9934dp-27",
+        "0x0.0p+0"
+      ]
+    },
+    "10000-threequarter-staged/baseline": {
+      "target": "0x1.579f86fc9934dp-27",
+      "prior": "0x1.577b8cf1c62b3p-27",
+      "exitCode": 0,
+      "log": "10000-threequarter-staged-baseline.log",
+      "sha256": "9d54e4f5a70ba88c347a9ca61405adeebacdd3f925c0482c49875be100084f84",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579f86fc9934dp-27",
+        "0x1.577b8cf1c62b3p-27"
+      ]
+    },
+    "10000-threequarter-staged/off": {
+      "target": "0x1.579f86fc9934dp-27",
+      "prior": "0x1.577b8cf1c62b3p-27",
+      "exitCode": 0,
+      "log": "10000-threequarter-staged-off.log",
+      "sha256": "9d54e4f5a70ba88c347a9ca61405adeebacdd3f925c0482c49875be100084f84",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579f86fc9934dp-27",
+        "0x1.577b8cf1c62b3p-27"
+      ]
+    },
+    "10000-threequarter-staged/on": {
+      "target": "0x1.579f86fc9934dp-27",
+      "prior": "0x1.577b8cf1c62b3p-27",
+      "exitCode": 0,
+      "log": "10000-threequarter-staged-on.log",
+      "sha256": "9d54e4f5a70ba88c347a9ca61405adeebacdd3f925c0482c49875be100084f84",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579f86fc9934dp-27",
+        "0x1.577b8cf1c62b3p-27"
+      ]
+    },
+    "10000-threequarter-near/baseline": {
+      "target": "0x1.579f86fc9934dp-27",
+      "prior": "0x1.579d5409690f1p-27",
+      "exitCode": 0,
+      "log": "10000-threequarter-near-baseline.log",
+      "sha256": "11a0a54d7db67ba5c200b0318a1e9c54f540c5b46b71ad837f344fc443adec8c",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579f86fc9934dp-27",
+        "0x1.579d5409690f1p-27"
+      ]
+    },
+    "10000-threequarter-near/off": {
+      "target": "0x1.579f86fc9934dp-27",
+      "prior": "0x1.579d5409690f1p-27",
+      "exitCode": 0,
+      "log": "10000-threequarter-near-off.log",
+      "sha256": "11a0a54d7db67ba5c200b0318a1e9c54f540c5b46b71ad837f344fc443adec8c",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579f86fc9934dp-27",
+        "0x1.579d5409690f1p-27"
+      ]
+    },
+    "10000-threequarter-near/on": {
+      "target": "0x1.579f86fc9934dp-27",
+      "prior": "0x1.579d5409690f1p-27",
+      "exitCode": 0,
+      "log": "10000-threequarter-near-on.log",
+      "sha256": "11a0a54d7db67ba5c200b0318a1e9c54f540c5b46b71ad837f344fc443adec8c",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.579f86fc9934dp-27",
+        "0x1.579d5409690f1p-27"
+      ]
+    },
+    "1071501280-below-direct/baseline": {
+      "target": "0x1.18e33bd225c09p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-below-direct-baseline.log",
+      "sha256": "286b8ae77340ca7659ae509692eee6fe614111541109819ed6ad804dd14d00ff",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c09p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-below-direct/off": {
+      "target": "0x1.18e33bd225c09p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-below-direct-off.log",
+      "sha256": "286b8ae77340ca7659ae509692eee6fe614111541109819ed6ad804dd14d00ff",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c09p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-below-direct/on": {
+      "target": "0x1.18e33bd225c09p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-below-direct-on.log",
+      "sha256": "286b8ae77340ca7659ae509692eee6fe614111541109819ed6ad804dd14d00ff",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c09p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-below-staged/baseline": {
+      "target": "0x1.18e33bd225c09p-10",
+      "prior": "0x1.18e33bc028bb2p-10",
+      "exitCode": 0,
+      "log": "1071501280-below-staged-baseline.log",
+      "sha256": "fd242828d0c5c7ad5823bc99d7f9e044bed72fe6be8dbba656b9a1e1ee6278c9",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c09p-10",
+        "0x1.18e33bc028bb2p-10"
+      ]
+    },
+    "1071501280-below-staged/off": {
+      "target": "0x1.18e33bd225c09p-10",
+      "prior": "0x1.18e33bc028bb2p-10",
+      "exitCode": 0,
+      "log": "1071501280-below-staged-off.log",
+      "sha256": "fd242828d0c5c7ad5823bc99d7f9e044bed72fe6be8dbba656b9a1e1ee6278c9",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c09p-10",
+        "0x1.18e33bc028bb2p-10"
+      ]
+    },
+    "1071501280-below-staged/on": {
+      "target": "0x1.18e33bd225c09p-10",
+      "prior": "0x1.18e33bc028bb2p-10",
+      "exitCode": 0,
+      "log": "1071501280-below-staged-on.log",
+      "sha256": "fd242828d0c5c7ad5823bc99d7f9e044bed72fe6be8dbba656b9a1e1ee6278c9",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c09p-10",
+        "0x1.18e33bc028bb2p-10"
+      ]
+    },
+    "1071501280-below-near/baseline": {
+      "target": "0x1.18e33bd225c09p-10",
+      "prior": "0x1.18e33bd10c46fp-10",
+      "exitCode": 0,
+      "log": "1071501280-below-near-baseline.log",
+      "sha256": "608f1a55b3198bee902588dd7d0545addff926f7bd17ae626a0e4fd44330d805",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c09p-10",
+        "0x1.18e33bd10c46fp-10"
+      ]
+    },
+    "1071501280-below-near/off": {
+      "target": "0x1.18e33bd225c09p-10",
+      "prior": "0x1.18e33bd10c46fp-10",
+      "exitCode": 0,
+      "log": "1071501280-below-near-off.log",
+      "sha256": "608f1a55b3198bee902588dd7d0545addff926f7bd17ae626a0e4fd44330d805",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c09p-10",
+        "0x1.18e33bd10c46fp-10"
+      ]
+    },
+    "1071501280-below-near/on": {
+      "target": "0x1.18e33bd225c09p-10",
+      "prior": "0x1.18e33bd10c46fp-10",
+      "exitCode": 0,
+      "log": "1071501280-below-near-on.log",
+      "sha256": "608f1a55b3198bee902588dd7d0545addff926f7bd17ae626a0e4fd44330d805",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c09p-10",
+        "0x1.18e33bd10c46fp-10"
+      ]
+    },
+    "1071501280-exact-direct/baseline": {
+      "target": "0x1.18e33bd225c0ap-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-exact-direct-baseline.log",
+      "sha256": "3ff6c94c61c49c6c284d494c4469e48c8599da984b289aa01bdb31b95a2b755e",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0ap-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-exact-direct/off": {
+      "target": "0x1.18e33bd225c0ap-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-exact-direct-off.log",
+      "sha256": "3ff6c94c61c49c6c284d494c4469e48c8599da984b289aa01bdb31b95a2b755e",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0ap-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-exact-direct/on": {
+      "target": "0x1.18e33bd225c0ap-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-exact-direct-on.log",
+      "sha256": "3ff6c94c61c49c6c284d494c4469e48c8599da984b289aa01bdb31b95a2b755e",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0ap-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-exact-staged/baseline": {
+      "target": "0x1.18e33bd225c0ap-10",
+      "prior": "0x1.18e33bc028bb3p-10",
+      "exitCode": 0,
+      "log": "1071501280-exact-staged-baseline.log",
+      "sha256": "75f663cd314939799f05b0bfc098b9f1e7a56a27c6a79e5411e220429fe7ebc5",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0ap-10",
+        "0x1.18e33bc028bb3p-10"
+      ]
+    },
+    "1071501280-exact-staged/off": {
+      "target": "0x1.18e33bd225c0ap-10",
+      "prior": "0x1.18e33bc028bb3p-10",
+      "exitCode": 0,
+      "log": "1071501280-exact-staged-off.log",
+      "sha256": "75f663cd314939799f05b0bfc098b9f1e7a56a27c6a79e5411e220429fe7ebc5",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0ap-10",
+        "0x1.18e33bc028bb3p-10"
+      ]
+    },
+    "1071501280-exact-staged/on": {
+      "target": "0x1.18e33bd225c0ap-10",
+      "prior": "0x1.18e33bc028bb3p-10",
+      "exitCode": 0,
+      "log": "1071501280-exact-staged-on.log",
+      "sha256": "56c9b16e3dcb1df54d1f3e4935eddb299b894110e52945a3e504b7da359f1000",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0ap-10",
+        "0x1.18e33bc028bb3p-10"
+      ]
+    },
+    "1071501280-exact-near/baseline": {
+      "target": "0x1.18e33bd225c0ap-10",
+      "prior": "0x1.18e33bd10c470p-10",
+      "exitCode": 0,
+      "log": "1071501280-exact-near-baseline.log",
+      "sha256": "5bb9f0bc441e742963a91031d3b0b16033126d55692ebceb9022cca9bd8a8a45",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0ap-10",
+        "0x1.18e33bd10c470p-10"
+      ]
+    },
+    "1071501280-exact-near/off": {
+      "target": "0x1.18e33bd225c0ap-10",
+      "prior": "0x1.18e33bd10c470p-10",
+      "exitCode": 0,
+      "log": "1071501280-exact-near-off.log",
+      "sha256": "5bb9f0bc441e742963a91031d3b0b16033126d55692ebceb9022cca9bd8a8a45",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0ap-10",
+        "0x1.18e33bd10c470p-10"
+      ]
+    },
+    "1071501280-exact-near/on": {
+      "target": "0x1.18e33bd225c0ap-10",
+      "prior": "0x1.18e33bd10c470p-10",
+      "exitCode": 0,
+      "log": "1071501280-exact-near-on.log",
+      "sha256": "ca09b4c1d02f928e64308cc555611b037dfcfaea2eb6543593e11c74c84b1be3",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0ap-10",
+        "0x1.18e33bd10c470p-10"
+      ]
+    },
+    "1071501280-above-direct/baseline": {
+      "target": "0x1.18e33bd225c0bp-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-above-direct-baseline.log",
+      "sha256": "bd9ea1bf10414c733909d2aa900e0b45c783cb70cc18b3cd406d74750e0651e7",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0bp-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-above-direct/off": {
+      "target": "0x1.18e33bd225c0bp-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-above-direct-off.log",
+      "sha256": "bd9ea1bf10414c733909d2aa900e0b45c783cb70cc18b3cd406d74750e0651e7",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0bp-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-above-direct/on": {
+      "target": "0x1.18e33bd225c0bp-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-above-direct-on.log",
+      "sha256": "bd9ea1bf10414c733909d2aa900e0b45c783cb70cc18b3cd406d74750e0651e7",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0bp-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-above-staged/baseline": {
+      "target": "0x1.18e33bd225c0bp-10",
+      "prior": "0x1.18e33bc028bb4p-10",
+      "exitCode": 0,
+      "log": "1071501280-above-staged-baseline.log",
+      "sha256": "924f815f42beb9ce569ae5fabaa4937351a350136b8891629f4fa2141bf17981",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0bp-10",
+        "0x1.18e33bc028bb4p-10"
+      ]
+    },
+    "1071501280-above-staged/off": {
+      "target": "0x1.18e33bd225c0bp-10",
+      "prior": "0x1.18e33bc028bb4p-10",
+      "exitCode": 0,
+      "log": "1071501280-above-staged-off.log",
+      "sha256": "924f815f42beb9ce569ae5fabaa4937351a350136b8891629f4fa2141bf17981",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0bp-10",
+        "0x1.18e33bc028bb4p-10"
+      ]
+    },
+    "1071501280-above-staged/on": {
+      "target": "0x1.18e33bd225c0bp-10",
+      "prior": "0x1.18e33bc028bb4p-10",
+      "exitCode": 0,
+      "log": "1071501280-above-staged-on.log",
+      "sha256": "924f815f42beb9ce569ae5fabaa4937351a350136b8891629f4fa2141bf17981",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0bp-10",
+        "0x1.18e33bc028bb4p-10"
+      ]
+    },
+    "1071501280-above-near/baseline": {
+      "target": "0x1.18e33bd225c0bp-10",
+      "prior": "0x1.18e33bd10c471p-10",
+      "exitCode": 0,
+      "log": "1071501280-above-near-baseline.log",
+      "sha256": "80a8d148e1219c8addc1185dae1fd0e86c84fd30b3f0cbc9c00c7179f2b3109f",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0bp-10",
+        "0x1.18e33bd10c471p-10"
+      ]
+    },
+    "1071501280-above-near/off": {
+      "target": "0x1.18e33bd225c0bp-10",
+      "prior": "0x1.18e33bd10c471p-10",
+      "exitCode": 0,
+      "log": "1071501280-above-near-off.log",
+      "sha256": "80a8d148e1219c8addc1185dae1fd0e86c84fd30b3f0cbc9c00c7179f2b3109f",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0bp-10",
+        "0x1.18e33bd10c471p-10"
+      ]
+    },
+    "1071501280-above-near/on": {
+      "target": "0x1.18e33bd225c0bp-10",
+      "prior": "0x1.18e33bd10c471p-10",
+      "exitCode": 0,
+      "log": "1071501280-above-near-on.log",
+      "sha256": "80a8d148e1219c8addc1185dae1fd0e86c84fd30b3f0cbc9c00c7179f2b3109f",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd225c0bp-10",
+        "0x1.18e33bd10c471p-10"
+      ]
+    },
+    "1071501280-quarter-direct/baseline": {
+      "target": "0x1.18e33bd33f3a4p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-quarter-direct-baseline.log",
+      "sha256": "49adc665410771881ad546b79311181b370f8250ff50e2c51ac08b358826dae1",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd33f3a4p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-quarter-direct/off": {
+      "target": "0x1.18e33bd33f3a4p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-quarter-direct-off.log",
+      "sha256": "49adc665410771881ad546b79311181b370f8250ff50e2c51ac08b358826dae1",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd33f3a4p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-quarter-direct/on": {
+      "target": "0x1.18e33bd33f3a4p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-quarter-direct-on.log",
+      "sha256": "49adc665410771881ad546b79311181b370f8250ff50e2c51ac08b358826dae1",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd33f3a4p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-quarter-staged/baseline": {
+      "target": "0x1.18e33bd33f3a4p-10",
+      "prior": "0x1.18e33bc14234dp-10",
+      "exitCode": 0,
+      "log": "1071501280-quarter-staged-baseline.log",
+      "sha256": "839643497389cd28da5e9972f36daba0071419955b5308ed5ea12431499ed047",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd33f3a4p-10",
+        "0x1.18e33bc14234dp-10"
+      ]
+    },
+    "1071501280-quarter-staged/off": {
+      "target": "0x1.18e33bd33f3a4p-10",
+      "prior": "0x1.18e33bc14234dp-10",
+      "exitCode": 0,
+      "log": "1071501280-quarter-staged-off.log",
+      "sha256": "839643497389cd28da5e9972f36daba0071419955b5308ed5ea12431499ed047",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd33f3a4p-10",
+        "0x1.18e33bc14234dp-10"
+      ]
+    },
+    "1071501280-quarter-staged/on": {
+      "target": "0x1.18e33bd33f3a4p-10",
+      "prior": "0x1.18e33bc14234dp-10",
+      "exitCode": 0,
+      "log": "1071501280-quarter-staged-on.log",
+      "sha256": "839643497389cd28da5e9972f36daba0071419955b5308ed5ea12431499ed047",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd33f3a4p-10",
+        "0x1.18e33bc14234dp-10"
+      ]
+    },
+    "1071501280-quarter-near/baseline": {
+      "target": "0x1.18e33bd33f3a4p-10",
+      "prior": "0x1.18e33bd225c0ap-10",
+      "exitCode": 0,
+      "log": "1071501280-quarter-near-baseline.log",
+      "sha256": "c2d1e1b2001734116186a9cafdaabaaf3a8065b0d24ef218dabce3c3b200952c",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd33f3a4p-10",
+        "0x1.18e33bd225c0ap-10"
+      ]
+    },
+    "1071501280-quarter-near/off": {
+      "target": "0x1.18e33bd33f3a4p-10",
+      "prior": "0x1.18e33bd225c0ap-10",
+      "exitCode": 0,
+      "log": "1071501280-quarter-near-off.log",
+      "sha256": "c2d1e1b2001734116186a9cafdaabaaf3a8065b0d24ef218dabce3c3b200952c",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd33f3a4p-10",
+        "0x1.18e33bd225c0ap-10"
+      ]
+    },
+    "1071501280-quarter-near/on": {
+      "target": "0x1.18e33bd33f3a4p-10",
+      "prior": "0x1.18e33bd225c0ap-10",
+      "exitCode": 0,
+      "log": "1071501280-quarter-near-on.log",
+      "sha256": "c2d1e1b2001734116186a9cafdaabaaf3a8065b0d24ef218dabce3c3b200952c",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd33f3a4p-10",
+        "0x1.18e33bd225c0ap-10"
+      ]
+    },
+    "1071501280-threequarter-direct/baseline": {
+      "target": "0x1.18e33bd5722d7p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-threequarter-direct-baseline.log",
+      "sha256": "73221d22199b93c59b694ae81378897e9cec0c838f8f62fa3b11f1d8170eb0bd",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd5722d7p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-threequarter-direct/off": {
+      "target": "0x1.18e33bd5722d7p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-threequarter-direct-off.log",
+      "sha256": "73221d22199b93c59b694ae81378897e9cec0c838f8f62fa3b11f1d8170eb0bd",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd5722d7p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-threequarter-direct/on": {
+      "target": "0x1.18e33bd5722d7p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1071501280-threequarter-direct-on.log",
+      "sha256": "73221d22199b93c59b694ae81378897e9cec0c838f8f62fa3b11f1d8170eb0bd",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd5722d7p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1071501280-threequarter-staged/baseline": {
+      "target": "0x1.18e33bd5722d7p-10",
+      "prior": "0x1.18e33bc375280p-10",
+      "exitCode": 0,
+      "log": "1071501280-threequarter-staged-baseline.log",
+      "sha256": "6fdebea3fb16e90c447e219d8b0ac4a44e5263f8fbace15fe2b74baca714b715",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd5722d7p-10",
+        "0x1.18e33bc375280p-10"
+      ]
+    },
+    "1071501280-threequarter-staged/off": {
+      "target": "0x1.18e33bd5722d7p-10",
+      "prior": "0x1.18e33bc375280p-10",
+      "exitCode": 0,
+      "log": "1071501280-threequarter-staged-off.log",
+      "sha256": "6fdebea3fb16e90c447e219d8b0ac4a44e5263f8fbace15fe2b74baca714b715",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd5722d7p-10",
+        "0x1.18e33bc375280p-10"
+      ]
+    },
+    "1071501280-threequarter-staged/on": {
+      "target": "0x1.18e33bd5722d7p-10",
+      "prior": "0x1.18e33bc375280p-10",
+      "exitCode": 0,
+      "log": "1071501280-threequarter-staged-on.log",
+      "sha256": "6fdebea3fb16e90c447e219d8b0ac4a44e5263f8fbace15fe2b74baca714b715",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd5722d7p-10",
+        "0x1.18e33bc375280p-10"
+      ]
+    },
+    "1071501280-threequarter-near/baseline": {
+      "target": "0x1.18e33bd5722d7p-10",
+      "prior": "0x1.18e33bd458b3dp-10",
+      "exitCode": 0,
+      "log": "1071501280-threequarter-near-baseline.log",
+      "sha256": "e0d25bc478a8bad2a0998478b6710d2d1625e7ab83949b6091ac50c7b9d10bb2",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd5722d7p-10",
+        "0x1.18e33bd458b3dp-10"
+      ]
+    },
+    "1071501280-threequarter-near/off": {
+      "target": "0x1.18e33bd5722d7p-10",
+      "prior": "0x1.18e33bd458b3dp-10",
+      "exitCode": 0,
+      "log": "1071501280-threequarter-near-off.log",
+      "sha256": "e0d25bc478a8bad2a0998478b6710d2d1625e7ab83949b6091ac50c7b9d10bb2",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd5722d7p-10",
+        "0x1.18e33bd458b3dp-10"
+      ]
+    },
+    "1071501280-threequarter-near/on": {
+      "target": "0x1.18e33bd5722d7p-10",
+      "prior": "0x1.18e33bd458b3dp-10",
+      "exitCode": 0,
+      "log": "1071501280-threequarter-near-on.log",
+      "sha256": "e0d25bc478a8bad2a0998478b6710d2d1625e7ab83949b6091ac50c7b9d10bb2",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.18e33bd5722d7p-10",
+        "0x1.18e33bd458b3dp-10"
+      ]
+    },
+    "1096019098-below-direct/baseline": {
+      "target": "0x1.1f5098ba0fefcp-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-below-direct-baseline.log",
+      "sha256": "8b1ba63f02384b66a8a6ab4e1d9de9710f7b9772b48673a84ec25cc09725a754",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefcp-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-below-direct/off": {
+      "target": "0x1.1f5098ba0fefcp-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-below-direct-off.log",
+      "sha256": "8b1ba63f02384b66a8a6ab4e1d9de9710f7b9772b48673a84ec25cc09725a754",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefcp-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-below-direct/on": {
+      "target": "0x1.1f5098ba0fefcp-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-below-direct-on.log",
+      "sha256": "8b1ba63f02384b66a8a6ab4e1d9de9710f7b9772b48673a84ec25cc09725a754",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefcp-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-below-staged/baseline": {
+      "target": "0x1.1f5098ba0fefcp-10",
+      "prior": "0x1.1f5098a812ea5p-10",
+      "exitCode": 0,
+      "log": "1096019098-below-staged-baseline.log",
+      "sha256": "01aec73e255ea4a424560a580e4b7012b9c8d1d9d06b455559e97d71f36de01d",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefcp-10",
+        "0x1.1f5098a812ea5p-10"
+      ]
+    },
+    "1096019098-below-staged/off": {
+      "target": "0x1.1f5098ba0fefcp-10",
+      "prior": "0x1.1f5098a812ea5p-10",
+      "exitCode": 0,
+      "log": "1096019098-below-staged-off.log",
+      "sha256": "01aec73e255ea4a424560a580e4b7012b9c8d1d9d06b455559e97d71f36de01d",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefcp-10",
+        "0x1.1f5098a812ea5p-10"
+      ]
+    },
+    "1096019098-below-staged/on": {
+      "target": "0x1.1f5098ba0fefcp-10",
+      "prior": "0x1.1f5098a812ea5p-10",
+      "exitCode": 0,
+      "log": "1096019098-below-staged-on.log",
+      "sha256": "01aec73e255ea4a424560a580e4b7012b9c8d1d9d06b455559e97d71f36de01d",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefcp-10",
+        "0x1.1f5098a812ea5p-10"
+      ]
+    },
+    "1096019098-below-near/baseline": {
+      "target": "0x1.1f5098ba0fefcp-10",
+      "prior": "0x1.1f5098b8f6762p-10",
+      "exitCode": 0,
+      "log": "1096019098-below-near-baseline.log",
+      "sha256": "12136ea3fb2183227d9f4e77ca9e13a221a887fd67f6e12cebda30fa44312735",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefcp-10",
+        "0x1.1f5098b8f6762p-10"
+      ]
+    },
+    "1096019098-below-near/off": {
+      "target": "0x1.1f5098ba0fefcp-10",
+      "prior": "0x1.1f5098b8f6762p-10",
+      "exitCode": 0,
+      "log": "1096019098-below-near-off.log",
+      "sha256": "12136ea3fb2183227d9f4e77ca9e13a221a887fd67f6e12cebda30fa44312735",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefcp-10",
+        "0x1.1f5098b8f6762p-10"
+      ]
+    },
+    "1096019098-below-near/on": {
+      "target": "0x1.1f5098ba0fefcp-10",
+      "prior": "0x1.1f5098b8f6762p-10",
+      "exitCode": 0,
+      "log": "1096019098-below-near-on.log",
+      "sha256": "12136ea3fb2183227d9f4e77ca9e13a221a887fd67f6e12cebda30fa44312735",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefcp-10",
+        "0x1.1f5098b8f6762p-10"
+      ]
+    },
+    "1096019098-exact-direct/baseline": {
+      "target": "0x1.1f5098ba0fefdp-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-exact-direct-baseline.log",
+      "sha256": "de21f0367664db43bc2b269313be3ac934da71afb3c094d239f6b87f415f98b9",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefdp-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-exact-direct/off": {
+      "target": "0x1.1f5098ba0fefdp-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-exact-direct-off.log",
+      "sha256": "de21f0367664db43bc2b269313be3ac934da71afb3c094d239f6b87f415f98b9",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefdp-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-exact-direct/on": {
+      "target": "0x1.1f5098ba0fefdp-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-exact-direct-on.log",
+      "sha256": "de21f0367664db43bc2b269313be3ac934da71afb3c094d239f6b87f415f98b9",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefdp-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-exact-staged/baseline": {
+      "target": "0x1.1f5098ba0fefdp-10",
+      "prior": "0x1.1f5098a812ea6p-10",
+      "exitCode": 0,
+      "log": "1096019098-exact-staged-baseline.log",
+      "sha256": "e6e54ea489f7aa4643fe6881be36f69c9be2655562ebb4884e48b438f6934348",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefdp-10",
+        "0x1.1f5098a812ea6p-10"
+      ]
+    },
+    "1096019098-exact-staged/off": {
+      "target": "0x1.1f5098ba0fefdp-10",
+      "prior": "0x1.1f5098a812ea6p-10",
+      "exitCode": 0,
+      "log": "1096019098-exact-staged-off.log",
+      "sha256": "e6e54ea489f7aa4643fe6881be36f69c9be2655562ebb4884e48b438f6934348",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefdp-10",
+        "0x1.1f5098a812ea6p-10"
+      ]
+    },
+    "1096019098-exact-staged/on": {
+      "target": "0x1.1f5098ba0fefdp-10",
+      "prior": "0x1.1f5098a812ea6p-10",
+      "exitCode": 0,
+      "log": "1096019098-exact-staged-on.log",
+      "sha256": "597cf1e1f59b1fe8995c1442f7180fc61b5eb055c2d5034e154826862558af4a",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefdp-10",
+        "0x1.1f5098a812ea6p-10"
+      ]
+    },
+    "1096019098-exact-near/baseline": {
+      "target": "0x1.1f5098ba0fefdp-10",
+      "prior": "0x1.1f5098b8f6763p-10",
+      "exitCode": 0,
+      "log": "1096019098-exact-near-baseline.log",
+      "sha256": "5c0b2fa5933b39f44131fc7e97795c974fd0087ed6187db991a957ed7b98cf3e",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefdp-10",
+        "0x1.1f5098b8f6763p-10"
+      ]
+    },
+    "1096019098-exact-near/off": {
+      "target": "0x1.1f5098ba0fefdp-10",
+      "prior": "0x1.1f5098b8f6763p-10",
+      "exitCode": 0,
+      "log": "1096019098-exact-near-off.log",
+      "sha256": "5c0b2fa5933b39f44131fc7e97795c974fd0087ed6187db991a957ed7b98cf3e",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefdp-10",
+        "0x1.1f5098b8f6763p-10"
+      ]
+    },
+    "1096019098-exact-near/on": {
+      "target": "0x1.1f5098ba0fefdp-10",
+      "prior": "0x1.1f5098b8f6763p-10",
+      "exitCode": 0,
+      "log": "1096019098-exact-near-on.log",
+      "sha256": "4740321d091968a1d4f207334c29b76b4a382bd02520df97e3012786ed889575",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefdp-10",
+        "0x1.1f5098b8f6763p-10"
+      ]
+    },
+    "1096019098-above-direct/baseline": {
+      "target": "0x1.1f5098ba0fefep-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-above-direct-baseline.log",
+      "sha256": "3a87ecf6bfd67a25a7e187b0726998a115ebb64d1f6075622cad0aa722759144",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefep-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-above-direct/off": {
+      "target": "0x1.1f5098ba0fefep-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-above-direct-off.log",
+      "sha256": "3a87ecf6bfd67a25a7e187b0726998a115ebb64d1f6075622cad0aa722759144",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefep-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-above-direct/on": {
+      "target": "0x1.1f5098ba0fefep-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-above-direct-on.log",
+      "sha256": "3a87ecf6bfd67a25a7e187b0726998a115ebb64d1f6075622cad0aa722759144",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefep-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-above-staged/baseline": {
+      "target": "0x1.1f5098ba0fefep-10",
+      "prior": "0x1.1f5098a812ea7p-10",
+      "exitCode": 0,
+      "log": "1096019098-above-staged-baseline.log",
+      "sha256": "6e13de1ddeb760b5ed052fa661508e62cbfbeee7feda1089e9b78a27eb599d6b",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefep-10",
+        "0x1.1f5098a812ea7p-10"
+      ]
+    },
+    "1096019098-above-staged/off": {
+      "target": "0x1.1f5098ba0fefep-10",
+      "prior": "0x1.1f5098a812ea7p-10",
+      "exitCode": 0,
+      "log": "1096019098-above-staged-off.log",
+      "sha256": "6e13de1ddeb760b5ed052fa661508e62cbfbeee7feda1089e9b78a27eb599d6b",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefep-10",
+        "0x1.1f5098a812ea7p-10"
+      ]
+    },
+    "1096019098-above-staged/on": {
+      "target": "0x1.1f5098ba0fefep-10",
+      "prior": "0x1.1f5098a812ea7p-10",
+      "exitCode": 0,
+      "log": "1096019098-above-staged-on.log",
+      "sha256": "6e13de1ddeb760b5ed052fa661508e62cbfbeee7feda1089e9b78a27eb599d6b",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefep-10",
+        "0x1.1f5098a812ea7p-10"
+      ]
+    },
+    "1096019098-above-near/baseline": {
+      "target": "0x1.1f5098ba0fefep-10",
+      "prior": "0x1.1f5098b8f6764p-10",
+      "exitCode": 0,
+      "log": "1096019098-above-near-baseline.log",
+      "sha256": "10bff8495cd08749b78d4ac4be958c9d3f365642ec0e21500ebb470e52a058c2",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefep-10",
+        "0x1.1f5098b8f6764p-10"
+      ]
+    },
+    "1096019098-above-near/off": {
+      "target": "0x1.1f5098ba0fefep-10",
+      "prior": "0x1.1f5098b8f6764p-10",
+      "exitCode": 0,
+      "log": "1096019098-above-near-off.log",
+      "sha256": "10bff8495cd08749b78d4ac4be958c9d3f365642ec0e21500ebb470e52a058c2",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefep-10",
+        "0x1.1f5098b8f6764p-10"
+      ]
+    },
+    "1096019098-above-near/on": {
+      "target": "0x1.1f5098ba0fefep-10",
+      "prior": "0x1.1f5098b8f6764p-10",
+      "exitCode": 0,
+      "log": "1096019098-above-near-on.log",
+      "sha256": "10bff8495cd08749b78d4ac4be958c9d3f365642ec0e21500ebb470e52a058c2",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098ba0fefep-10",
+        "0x1.1f5098b8f6764p-10"
+      ]
+    },
+    "1096019098-quarter-direct/baseline": {
+      "target": "0x1.1f5098bb29697p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-quarter-direct-baseline.log",
+      "sha256": "be692816a142d5c72fe3ff4b4f9ac186aedea84c3d0a5d20af1d038b9a08d8e5",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bb29697p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-quarter-direct/off": {
+      "target": "0x1.1f5098bb29697p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-quarter-direct-off.log",
+      "sha256": "be692816a142d5c72fe3ff4b4f9ac186aedea84c3d0a5d20af1d038b9a08d8e5",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bb29697p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-quarter-direct/on": {
+      "target": "0x1.1f5098bb29697p-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-quarter-direct-on.log",
+      "sha256": "be692816a142d5c72fe3ff4b4f9ac186aedea84c3d0a5d20af1d038b9a08d8e5",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bb29697p-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-quarter-staged/baseline": {
+      "target": "0x1.1f5098bb29697p-10",
+      "prior": "0x1.1f5098a92c640p-10",
+      "exitCode": 0,
+      "log": "1096019098-quarter-staged-baseline.log",
+      "sha256": "58425bcfa86d45e51b071cfb56bd018b369d488081cf04e8af1348c9b4bba27a",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bb29697p-10",
+        "0x1.1f5098a92c640p-10"
+      ]
+    },
+    "1096019098-quarter-staged/off": {
+      "target": "0x1.1f5098bb29697p-10",
+      "prior": "0x1.1f5098a92c640p-10",
+      "exitCode": 0,
+      "log": "1096019098-quarter-staged-off.log",
+      "sha256": "58425bcfa86d45e51b071cfb56bd018b369d488081cf04e8af1348c9b4bba27a",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bb29697p-10",
+        "0x1.1f5098a92c640p-10"
+      ]
+    },
+    "1096019098-quarter-staged/on": {
+      "target": "0x1.1f5098bb29697p-10",
+      "prior": "0x1.1f5098a92c640p-10",
+      "exitCode": 0,
+      "log": "1096019098-quarter-staged-on.log",
+      "sha256": "58425bcfa86d45e51b071cfb56bd018b369d488081cf04e8af1348c9b4bba27a",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bb29697p-10",
+        "0x1.1f5098a92c640p-10"
+      ]
+    },
+    "1096019098-quarter-near/baseline": {
+      "target": "0x1.1f5098bb29697p-10",
+      "prior": "0x1.1f5098ba0fefdp-10",
+      "exitCode": 0,
+      "log": "1096019098-quarter-near-baseline.log",
+      "sha256": "62339c0526415ff26cc5c99f6771a3af2d124adc6dfe722c9bbe78b664868fb6",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bb29697p-10",
+        "0x1.1f5098ba0fefdp-10"
+      ]
+    },
+    "1096019098-quarter-near/off": {
+      "target": "0x1.1f5098bb29697p-10",
+      "prior": "0x1.1f5098ba0fefdp-10",
+      "exitCode": 0,
+      "log": "1096019098-quarter-near-off.log",
+      "sha256": "62339c0526415ff26cc5c99f6771a3af2d124adc6dfe722c9bbe78b664868fb6",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bb29697p-10",
+        "0x1.1f5098ba0fefdp-10"
+      ]
+    },
+    "1096019098-quarter-near/on": {
+      "target": "0x1.1f5098bb29697p-10",
+      "prior": "0x1.1f5098ba0fefdp-10",
+      "exitCode": 0,
+      "log": "1096019098-quarter-near-on.log",
+      "sha256": "62339c0526415ff26cc5c99f6771a3af2d124adc6dfe722c9bbe78b664868fb6",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bb29697p-10",
+        "0x1.1f5098ba0fefdp-10"
+      ]
+    },
+    "1096019098-threequarter-direct/baseline": {
+      "target": "0x1.1f5098bd5c5cap-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-threequarter-direct-baseline.log",
+      "sha256": "b6dd1ea317006770d241a0167544104dcf6c936a86bcf8a4d94d315578ad2385",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bd5c5cap-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-threequarter-direct/off": {
+      "target": "0x1.1f5098bd5c5cap-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-threequarter-direct-off.log",
+      "sha256": "b6dd1ea317006770d241a0167544104dcf6c936a86bcf8a4d94d315578ad2385",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bd5c5cap-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-threequarter-direct/on": {
+      "target": "0x1.1f5098bd5c5cap-10",
+      "prior": "0x0.0p+0",
+      "exitCode": 0,
+      "log": "1096019098-threequarter-direct-on.log",
+      "sha256": "b6dd1ea317006770d241a0167544104dcf6c936a86bcf8a4d94d315578ad2385",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bd5c5cap-10",
+        "0x0.0p+0"
+      ]
+    },
+    "1096019098-threequarter-staged/baseline": {
+      "target": "0x1.1f5098bd5c5cap-10",
+      "prior": "0x1.1f5098ab5f573p-10",
+      "exitCode": 0,
+      "log": "1096019098-threequarter-staged-baseline.log",
+      "sha256": "1f9ccb67e8636250d33024fae07c503bfcded495b1fd8595f08682cc502502e0",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bd5c5cap-10",
+        "0x1.1f5098ab5f573p-10"
+      ]
+    },
+    "1096019098-threequarter-staged/off": {
+      "target": "0x1.1f5098bd5c5cap-10",
+      "prior": "0x1.1f5098ab5f573p-10",
+      "exitCode": 0,
+      "log": "1096019098-threequarter-staged-off.log",
+      "sha256": "1f9ccb67e8636250d33024fae07c503bfcded495b1fd8595f08682cc502502e0",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bd5c5cap-10",
+        "0x1.1f5098ab5f573p-10"
+      ]
+    },
+    "1096019098-threequarter-staged/on": {
+      "target": "0x1.1f5098bd5c5cap-10",
+      "prior": "0x1.1f5098ab5f573p-10",
+      "exitCode": 0,
+      "log": "1096019098-threequarter-staged-on.log",
+      "sha256": "1f9ccb67e8636250d33024fae07c503bfcded495b1fd8595f08682cc502502e0",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bd5c5cap-10",
+        "0x1.1f5098ab5f573p-10"
+      ]
+    },
+    "1096019098-threequarter-near/baseline": {
+      "target": "0x1.1f5098bd5c5cap-10",
+      "prior": "0x1.1f5098bc42e30p-10",
+      "exitCode": 0,
+      "log": "1096019098-threequarter-near-baseline.log",
+      "sha256": "539ed902efd1763bc2ef5d3c16c7ee4f136192e0eb9631e70f857617d881e391",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bd5c5cap-10",
+        "0x1.1f5098bc42e30p-10"
+      ]
+    },
+    "1096019098-threequarter-near/off": {
+      "target": "0x1.1f5098bd5c5cap-10",
+      "prior": "0x1.1f5098bc42e30p-10",
+      "exitCode": 0,
+      "log": "1096019098-threequarter-near-off.log",
+      "sha256": "539ed902efd1763bc2ef5d3c16c7ee4f136192e0eb9631e70f857617d881e391",
+      "environment": {},
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bd5c5cap-10",
+        "0x1.1f5098bc42e30p-10"
+      ]
+    },
+    "1096019098-threequarter-near/on": {
+      "target": "0x1.1f5098bd5c5cap-10",
+      "prior": "0x1.1f5098bc42e30p-10",
+      "exitCode": 0,
+      "log": "1096019098-threequarter-near-on.log",
+      "sha256": "539ed902efd1763bc2ef5d3c16c7ee4f136192e0eb9631e70f857617d881e391",
+      "environment": {
+        "ROBOTRON_ABSOLUTE_TICKS": "1"
+      },
+      "command": [
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/input-tick-controls/probe.vvp",
+        "0x1.1f5098bd5c5cap-10",
+        "0x1.1f5098bc42e30p-10"
+      ]
+    }
+  }
+}
