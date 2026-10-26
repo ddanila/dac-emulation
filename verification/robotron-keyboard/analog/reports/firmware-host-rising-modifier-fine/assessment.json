@@ -32,13 +32,14 @@
     "message": "Timestep too small"
   },
   "waveforms": {
-    "retention": "Incomplete local captures; producer failureArtifacts retain compressed-file hashes. No full-scenario qualification.",
+    "retention": "Incomplete local waveforms discarded; reproduce the pinned run for a new waveform review. Producer failureArtifacts preserve capture hashes; retained logs and failure reports preserve the diagnosed abort. Later minbreak captures cover the completed scenario.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-modifier-fine",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "availableLocally": false
   },
   "interpretation": "Halving maximum timestep reproduces the same release-boundary solver failure. This does not establish a physical transistor fault, and timestep refinement alone does not resolve it.",
   "nextAction": "Compare the explicit-breakpoint-spacing diagnostic while retaining unchanged circuit, stimulus and electrical tolerances."

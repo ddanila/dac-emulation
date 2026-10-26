@@ -24,13 +24,14 @@
   },
   "relatedFailure": "../firmware-host-rising-modifier/assessment.json",
   "waveforms": {
-    "retention": "Incomplete captures remain local; compressed-file hashes are in producer failureArtifacts. No full-scenario claim.",
+    "retention": "Incomplete local waveforms discarded; reproduce the pinned run for a new waveform review. Producer failureArtifacts preserve capture hashes; retained logs and failure reports preserve the diagnosed abort. Later minbreak captures cover the completed scenario.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-reset",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "availableLocally": false
   },
   "interpretation": "Both reset and modifier release fail in the same host-input transistor at scheduled stimulus boundaries. This motivates a breakpoint/solver investigation but does not identify the cause or a physical board fault. Startup success and the initial key packet cannot qualify post-reset behavior.",
   "nextAction": "Compare an explicit 1 fs breakpoint-spacing diagnostic using unchanged circuit, scenario, electrical tolerances and maximum timestep. Preserve analysis-invocation differences and reject any solver diagnostic.",

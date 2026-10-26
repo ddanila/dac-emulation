@@ -23,13 +23,14 @@
     "failed-host-tail.txt": "8a3606dd70401edc2492a290fc8d5548b8f4a004132effc64a37bc01463d9cd9"
   },
   "waveforms": {
-    "retention": "Incomplete captures remain local; compressed-file hashes are retained in producer failureArtifacts. They are not full-scenario evidence.",
+    "retention": "Incomplete local waveforms discarded; reproduce the pinned run for a new waveform review. Producer failureArtifacts preserve capture hashes; retained logs and failure reports preserve the diagnosed abort. Later minbreak captures cover the completed scenario.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-modifier",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "availableLocally": false
   },
   "interpretation": "The nominal single-press success does not extend across this release transition. This is a numerical/model failure, not an observed physical keyboard fault. Retain the solver diagnostic and incomplete extent; do not qualify a confirmed prefix as the full scenario.",
   "nextAction": "Repeat the same circuit and stimulus at a finer maximum timestep before isolating the failing transition. Keep device assumptions and acceptance thresholds unchanged.",

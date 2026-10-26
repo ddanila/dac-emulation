@@ -36,13 +36,14 @@
     "message": "Timestep too small"
   },
   "waveforms": {
-    "retention": "Incomplete local captures; producer failureArtifacts retain their hashes. No full-scenario claim.",
+    "retention": "Incomplete local waveforms discarded; reproduce the pinned run for a new waveform review. Producer failureArtifacts preserve capture hashes; retained logs and failure reports preserve the diagnosed abort. Later minbreak captures cover the completed scenario.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-reset-default-spacing",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "availableLocally": false
   },
   "interpretation": "The same release failure recurs with deck-tran/run at default-equivalent spacing. Invocation alone does not remove it. Increasing spacing to 1 fs allows the otherwise identical reset scenario to complete. This isolates spacing as a consequential numerical parameter for this fixture, not the exact internal failure path or a physical circuit defect.",
   "nextAction": "Complete fixed-spacing timestep refinement and modifier coverage; preserve absolute-time voltage differences and device-model limits."
