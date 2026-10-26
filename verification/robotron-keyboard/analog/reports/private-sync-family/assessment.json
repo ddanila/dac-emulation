@@ -1,0 +1,72 @@
+{
+  "completed": true,
+  "qualified": false,
+  "timestampedOutputExactlyEqual": true,
+  "modeMutationsDetectedAndRestored": 6,
+  "legacyUnsafeApiRejected": true,
+  "displayFunctionIdentifiedByModuleOffset": true,
+  "unknownOptionalFieldsNotInterpreted": true,
+  "displayObservations": 6,
+  "executingObservations": 12,
+  "canceledObservations": 12,
+  "scope": "Standalone pinned-module callback identification and safe partial header observation, including actual $strobe.",
+  "notEstablished": [
+    "Display user-data contents and lifetimes",
+    "Optional fields of arbitrary callback families",
+    "Board integration and general rollback",
+    "Executing wrapper/stack and freed storage"
+  ],
+  "runtime": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-icarus-sync-family/vvp/libvvp.so": "1007b4637a6b3587925e7f6ff57e0f002a1679eba6034b25949d1220e6c5f1f0",
+    "/private/tmp/k7658-icarus-sync-family/vvp/vvp": "f591628607d277de036acf3fdddc16d607e6381e38cd40552caa0700e37f7cce",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/private-sync-family-controls-final/probe.vpi": "56a7701f9a746f0905ddd2e9da5cc63a7c32b955351584c41a5d82f00e7b4a57",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "commands": {
+    "baseline": [
+      "/private/tmp/k7658-icarus-sync-family/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "probe.vvp"
+    ],
+    "disabled": [
+      "/private/tmp/k7658-icarus-sync-family/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "probe.vvp"
+    ],
+    "enabled": [
+      "/private/tmp/k7658-icarus-sync-family/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "probe.vvp"
+    ],
+    "corrupt": [
+      "/private/tmp/k7658-icarus-sync-family/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "probe.vvp"
+    ]
+  },
+  "candidateBuildSha256": "a7c3ee7ae90b4c5d3c695a7bc3d8951dff94466de999bab8eaeba50db5363fed",
+  "sources": {
+    "private_sync_family_probe.py": "9e8ee2dec247f710a6b51fd1cb44c85e402ba59ba2efc6f4de9256bf552bb526",
+    "fixtures/private_sync_family_probe.c": "d2c22127a747a4ae80837a9a3374bae90ab2abfb25ff8415760691d7b9414f99",
+    "fixtures/private_sync_family_probe.v": "a32e144798293db01c25a8af3fca14a659758ed6746324a97c97f67278879588",
+    "build_private_sync_family.py": "861132d820559870fb8b070ff1a4d41ebe07439043d372768b7f848a276b9c56",
+    "engine-patches/icarus-sync-family-observer.patch": "3447876a59ec9d53a42e8e75b06d77349fe3d5e53d17cb3e445e0e08dd272ff9",
+    "engine-patches/icarus-sync-observer.patch": "e8056d699a3f27405ed3e7da613154b55530d6e794d6412765caa76cfc1bc085",
+    "engine-patches/icarus-queue-observer.patch": "37dde672e6c8b0645153da87a5c5a8d0d167aa0225a66c8488bda7fccb9e6eb6"
+  }
+}

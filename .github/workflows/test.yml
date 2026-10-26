@@ -133,6 +133,8 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_private_sync_identity_review.py
           python3 verification/robotron-keyboard/analog/test_private_sync_bridge.py
           python3 verification/robotron-keyboard/analog/test_private_sync_board_review.py
+          python3 verification/robotron-keyboard/analog/test_private_sync_family_probe.py
+          python3 verification/robotron-keyboard/analog/private_sync_family_probe.py --check verification/robotron-keyboard/analog/reports/private-sync-family
           python3 verification/robotron-keyboard/analog/test_private_sync_probe.py
           python3 verification/robotron-keyboard/analog/private_sync_probe.py --check verification/robotron-keyboard/analog/reports/private-hdl-sync
           python3 verification/robotron-keyboard/analog/test_private_queue_probe.py
@@ -354,6 +356,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/postreset-instance-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-sync-discovery
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/callback-continuation
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-sync-family
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-hdl-sync
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-hdl-queue
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/private-hdl-board
