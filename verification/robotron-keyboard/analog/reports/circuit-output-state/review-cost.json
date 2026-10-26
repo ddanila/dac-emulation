@@ -1,0 +1,19 @@
+{
+  "scope": "One local full retained-evidence review; no simulation or acceptance limits changed.",
+  "baselineRevision": "b0b802f837d845cbe39b3d8cc0c7fea1837e4783",
+  "baselineObservation": {
+    "stillRunningAfterSeconds": 1400.54,
+    "basis": "macOS sample launch 11:18:01.116 and live sample 11:41:21.656 on 2026-10-26; lower bound, not completed wall time"
+  },
+  "optimizedReview": {
+    "wallSeconds": 144.18,
+    "userCpuSeconds": 141.59,
+    "systemCpuSeconds": 0.8,
+    "measurement": "/usr/bin/time -p",
+    "pythonVersion": "3.9.6"
+  },
+  "assessmentUnchanged": true,
+  "assessmentSha256": "0357b6fc850b61a091a3af3838d7f9845b0155f4670d323f3183ac3a9b726403",
+  "change": "Skip generic solver-diagnostic parsing for typed circuit records; retain full structural inventory, waveform, firmware and corruption checks.",
+  "boundary": "Single local observation with other simulations active; not a controlled throughput benchmark or full-repeat resource qualification."
+}

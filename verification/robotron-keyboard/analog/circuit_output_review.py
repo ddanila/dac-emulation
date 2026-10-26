@@ -8,6 +8,26 @@ import re
 from audit_log import records
 from delayed_corruption_review import assess as base_assess, fault
 from event_state_review import check
+from filter_truncation_log import diagnostic
+from staged_output_review import STATE_RECORDS
+
+
+def runtime_summary(path):
+    # Circuit records receive a complete structural review in inventory(). Only
+    # their exact record prefixes bypass generic solver-message classification.
+    state_records = STATE_RECORDS + ('C_SUM ', 'C_PORT ', 'C_EVENT ')
+    count = None; failure = None; sorry = False
+    for line in records(path):
+        if line.startswith(state_records): continue
+        if line.startswith(('C_CORRUPT ', 'E_CORRUPT ')):
+            raise ValueError('Unexpected corruption in positive control')
+        failure = failure or diagnostic(line)
+        sorry = sorry or 'SORRY:' in line
+        matches = re.findall(r'No\. of Data Rows\s*:\s*(\d+)', line)
+        if matches:
+            if count is not None or len(matches) != 1: raise ValueError('Multiple completion counts')
+            count = int(matches[0])
+    return {'count': count, 'diagnostic': failure, 'sorry': sorry}
 
 
 def inventory(path):
@@ -68,7 +88,7 @@ def external_fault(path, after):
 
 
 def assess(root, baseline):
-    result = base_assess(root, baseline, fault_review=external_fault)
+    result = base_assess(root, baseline, fault_review=external_fault, summary_review=runtime_summary)
     result['circuitOutputs'] = inventory(root / 'check/ngspice.log')
     if not result['circuitOutputs']['otherModelPendingEventObservations']:
         raise ValueError('No pending events witnessed outside controller')
