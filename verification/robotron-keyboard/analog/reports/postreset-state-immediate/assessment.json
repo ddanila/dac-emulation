@@ -1,0 +1,37 @@
+{
+  "qualified": false,
+  "scope": "Immediate negative control on the unchanged 1.16-ms post-reset fixture. Intentional early abort; no full-window or positive observer qualification.",
+  "configuredEndSeconds": 0.00116,
+  "fullWindowCompleted": false,
+  "fault": {
+    "detectedAtSeconds": 5.015190746338849e-07,
+    "requestedAfterSeconds": 0,
+    "earlierUnchangedRejections": 0,
+    "priorFirstFetch": false,
+    "mutatedOutput": {
+      "index": 0,
+      "instanceIndex": 0,
+      "nodeIndex": 0,
+      "controllerOwned": false,
+      "instance": "abus",
+      "node": "dbus7"
+    },
+    "mutation": "output pending flag"
+  },
+  "receiptSha256": "3a8991e6aa5edb0eba13f0d62f67dc192a47e5e060f6702fe6e580c24f3df4e6",
+  "transport": {
+    "bytes": 242899936,
+    "compressedBytes": 607328,
+    "sha256": "b761b99f73f66096e0e2352dd88d82c8ab12236869ecbc93e89ad239ca8d3ebe",
+    "exitCode": 2,
+    "elapsedSeconds": 41.901534083,
+    "logicalLimitBytes": 68719476736,
+    "compressedLimitBytes": 2147483648
+  },
+  "sources": {
+    "postreset_state_capture.py": "eea6ecd175278dc6816fc021569ecd666a35f27c60e3df6b4fe92992596a7878",
+    "bounded_log_process.py": "a007c9ba214d7f1eab485b1e8a4cd14d29c9d3d84451ea88040cb4c4f5e0ecd1",
+    "postreset_startup_capture.py": "72a3c20a8553f129ca82c840cf7ad6968a764118b7e68ca4b9cef018d90cc374",
+    "compressed_output.py": "3bb48754863ed397b059ae6c57fa029841bb2eadf21d6a79f54535b29acdf7a5"
+  }
+}
