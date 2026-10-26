@@ -787,7 +787,7 @@ with the same pinned ngspice/VPI inputs as the port observer.
 port baseline using that pair and the value-callback runtime;
 [review the complete captures](output_callback_board_review.py) for exact disabled
 and observed waveform/firmware agreement, stable per-port callback lifetimes and
-restored user-data, signal, function and list-link faults. Other callback families,
+restored user-data, signal, function and list-link faults. The [retained board controls](reports/output-callback-board/assessment.json) pass these checks. Other callback families,
 longer windows and general rollback remain open.
 
 The [startup continuation contract](reports/startup-callback/source-contract.json)
@@ -806,3 +806,13 @@ lifetimes, cancellation, destruction and restored context/function/time/link
 faults with exact callback continuation. These controls do not suspend the bridge
 coroutine; integration must verify its actual paused startup callback before
 startup/recovery rejection checks can establish board coverage.
+
+For paused startup integration, build `build_startup_callback_bridge.py` with the
+pinned ngspice/VPI inputs. `startup_callback_board_capture.py` accepts the reviewed
+output-callback board baseline and the paired startup runtime/bridge;
+`startup_callback_board_review.py` checks unchanged normal waveform/firmware
+continuation, active-to-destroyed startup lifetime and restored early faults.
+Those fault runs terminate while startup is paused and need not reach a firmware
+fetch; the normal controls must cover subsequent firmware execution and all
+existing board observers. Passing the standalone probe does not satisfy this
+board review.
