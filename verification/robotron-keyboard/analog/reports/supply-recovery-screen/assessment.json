@@ -1,0 +1,212 @@
+{
+  "completed": true,
+  "qualified": false,
+  "runs": [
+    {
+      "directory": "closed-10us",
+      "br2Closed": true,
+      "stepUs": 10,
+      "observation": {
+        "samples": 12781,
+        "outsideRatedSupplySamples": 146,
+        "maximumSampleGapSeconds": 1.0000000000010001e-05,
+        "validSupplyEpochs": [
+          {
+            "kind": "startup",
+            "firstSampleSeconds": 1e-06,
+            "lastSampleSeconds": 0.12500067391307038,
+            "samples": 12528,
+            "resetStates": {
+              "low": 12477,
+              "high": 47,
+              "unknown": 4,
+              "outsideInputRange": 0
+            },
+            "firstLowSeconds": 1.4130026919061268e-06,
+            "firstSubsequentHighSeconds": 0.1246463802766308,
+            "sampledLowThenHigh": true
+          },
+          {
+            "kind": "recovery",
+            "firstSampleSeconds": 0.12601,
+            "lastSampleSeconds": 0.127,
+            "samples": 107,
+            "resetStates": {
+              "low": 0,
+              "high": 107,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "firstLowSeconds": null,
+            "firstSubsequentHighSeconds": null,
+            "sampledLowThenHigh": false
+          }
+        ],
+        "recoveryEpochsWithSampledResetSequence": 0
+      }
+    },
+    {
+      "directory": "closed-5us",
+      "br2Closed": true,
+      "stepUs": 5,
+      "observation": {
+        "samples": 25479,
+        "outsideRatedSupplySamples": 235,
+        "maximumSampleGapSeconds": 5.0000000000050004e-06,
+        "validSupplyEpochs": [
+          {
+            "kind": "startup",
+            "firstSampleSeconds": 1e-06,
+            "lastSampleSeconds": 0.1250005,
+            "samples": 25039,
+            "resetStates": {
+              "low": 24954,
+              "high": 79,
+              "unknown": 6,
+              "outsideInputRange": 0
+            },
+            "firstLowSeconds": 1.4130026919061268e-06,
+            "firstSubsequentHighSeconds": 0.12464970818493354,
+            "sampledLowThenHigh": true
+          },
+          {
+            "kind": "recovery",
+            "firstSampleSeconds": 0.12601,
+            "lastSampleSeconds": 0.127,
+            "samples": 205,
+            "resetStates": {
+              "low": 0,
+              "high": 205,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "firstLowSeconds": null,
+            "firstSubsequentHighSeconds": null,
+            "sampledLowThenHigh": false
+          }
+        ],
+        "recoveryEpochsWithSampledResetSequence": 0
+      }
+    },
+    {
+      "directory": "isolated-10us",
+      "br2Closed": false,
+      "stepUs": 10,
+      "observation": {
+        "samples": 12768,
+        "outsideRatedSupplySamples": 135,
+        "maximumSampleGapSeconds": 1.0000000000010001e-05,
+        "validSupplyEpochs": [
+          {
+            "kind": "startup",
+            "firstSampleSeconds": 1e-06,
+            "lastSampleSeconds": 0.12500064440831027,
+            "samples": 12526,
+            "resetStates": {
+              "low": 12526,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "firstLowSeconds": 1e-06,
+            "firstSubsequentHighSeconds": null,
+            "sampledLowThenHigh": false
+          },
+          {
+            "kind": "recovery",
+            "firstSampleSeconds": 0.12601,
+            "lastSampleSeconds": 0.127,
+            "samples": 107,
+            "resetStates": {
+              "low": 107,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "firstLowSeconds": 0.12601,
+            "firstSubsequentHighSeconds": null,
+            "sampledLowThenHigh": false
+          }
+        ],
+        "recoveryEpochsWithSampledResetSequence": 0
+      }
+    },
+    {
+      "directory": "isolated-5us",
+      "br2Closed": false,
+      "stepUs": 5,
+      "observation": {
+        "samples": 25465,
+        "outsideRatedSupplySamples": 233,
+        "maximumSampleGapSeconds": 5.0000000000050004e-06,
+        "validSupplyEpochs": [
+          {
+            "kind": "startup",
+            "firstSampleSeconds": 1e-06,
+            "lastSampleSeconds": 0.1250005,
+            "samples": 25027,
+            "resetStates": {
+              "low": 25027,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "firstLowSeconds": 1e-06,
+            "firstSubsequentHighSeconds": null,
+            "sampledLowThenHigh": false
+          },
+          {
+            "kind": "recovery",
+            "firstSampleSeconds": 0.12601,
+            "lastSampleSeconds": 0.127,
+            "samples": 205,
+            "resetStates": {
+              "low": 205,
+              "high": 0,
+              "unknown": 0,
+              "outsideInputRange": 0
+            },
+            "firstLowSeconds": 0.12601,
+            "firstSubsequentHighSeconds": null,
+            "sampledLowThenHigh": false
+          }
+        ],
+        "recoveryEpochsWithSampledResetSequence": 0
+      }
+    }
+  ],
+  "allClosedRecoveriesLackSampledAssertion": true,
+  "allIsolatedRecoveriesRemainSampledLow": true,
+  "sourceRetentionSha256": "59c6051567484001aa44651ccc5562da78f12bd6ab947c1f660b0240c2842a60",
+  "sourceAssumptions": {
+    "semiconductors": "Selected exploratory NPN profile; generic PNP and diode; no full device qualification",
+    "beta": 100,
+    "npnProfile": "sc236-dc",
+    "riseUs": null,
+    "sourceOhms": 0,
+    "passives": "Ideal nominal R/C values; no ESR, leakage or tolerance model",
+    "cpuLoad": "1 gigaohm and 10 pF; illustrative, not measured",
+    "supply": "Programmed custom waveform through selected source resistance; not a measured power supply",
+    "thresholdVolts": [
+      0.8,
+      2
+    ],
+    "timing": "Observation windows test nominal behavior, not historical reset duration"
+  },
+  "sources": {
+    "supply_recovery_review.py": "b925e4e239d77250ca033dea710a022e5b5c55caa114be897db9464eba3b33d7",
+    "reset_supply_observation.py": "ba15a22b33b02913aac02476dfcf5dcd3f45e8a85864c6707a4ef241987bf1a3",
+    "cpu_clock_limits.json": "2c9bcde027d0aa4e756e46bfa95c9da7daae6dec70631b9b8d2586d61f6400b1",
+    "trace_io.py": "76011a7cf259814026103b0cce45573a7f391f573adb28a48d6d210b7d0ccc66"
+  },
+  "scope": "Necessary sampled reset-sequence screen on complete retained reset-subcircuit traces. No interpolation or inference of logic state below rated supply.",
+  "interpretation": "A sampled low-then-high sequence is only a necessary reset witness, not a clock-duration or restart proof. With no qualified state-retention model, firmware continuing through undervoltage cannot establish a defined restart. Absence of a sampled reset does not exclude a pulse between samples.",
+  "notEstablished": [
+    "Between-sample reset pulses",
+    "Reset duration in qualified CPU clocks",
+    "CPU state retention below rated supply",
+    "Post-recovery firmware execution",
+    "Full-board convergence",
+    "Physical device applicability"
+  ]
+}

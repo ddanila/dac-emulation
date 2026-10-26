@@ -327,6 +327,7 @@ jobs:
       - name: Reference reset, power cycling and BR2 isolation
         run: |
           python3 verification/robotron-keyboard/analog/test_reset_supply_observation.py
+          python3 verification/robotron-keyboard/analog/test_supply_recovery_review.py
           python3 verification/robotron-keyboard/analog/test_reset_capacitance_review.py
           python3 verification/robotron-keyboard/analog/test_reset_capacitor_polarity.py
           python3 verification/robotron-keyboard/analog/test_reset_release_driver_review.py
