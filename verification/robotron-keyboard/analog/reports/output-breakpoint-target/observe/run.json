@@ -1,0 +1,105 @@
+{
+  "exitCode": 0,
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-rollback-runtime",
+      "sha256": "3d60cc1e88ceb04aff950d6c44a6fffd46d4b125683438edd56da45f3aec6f6f"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-output-breakpoint-v1/spinit",
+      "sha256": "c158376373b92f86fcc8794ec6a8bf3bbaa73d507382d50b8602f21f5c48298d"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-output-breakpoint-v1/digital.cm",
+        "sha256": "205d3c6828491eb1786a133d9b1728cef739c6f2624c4406fd7f9cb655e808be",
+        "loadPath": "/private/tmp/k7658-output-breakpoint-v1/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "environment": {
+    "ROBOTRON_HISTORY_INIT": "on",
+    "ROBOTRON_STAGED_OUTPUT": "on",
+    "ROBOTRON_HISTORY_STATE": "off",
+    "ROBOTRON_OUTPUT_BREAKPOINT": "observe"
+  },
+  "externalDependencies": [
+    {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+      "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+    },
+    {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+      "sha256": "32afc2fe7978e2a9cd71229c47551f54c2a9d64d1f0961cc57ed7e189bb7a9b5"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi",
+      "sha256": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi",
+      "sha256": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi",
+      "sha256": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi",
+      "sha256": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi",
+      "sha256": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi",
+      "sha256": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e"
+    },
+    {
+      "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+    }
+  ],
+  "inputs": {
+    "io.cir": "a981e249b6da4db83bf58cce2f19be1b7727f063846467fd307cf7c0b5471f98",
+    "io.vvp": "a42e86a20db4ea0a73b0c0fa87f45cbddb8673e06b922af89f110569145e7c0e"
+  },
+  "elapsedSeconds": 0.031285832999999985,
+  "files": {
+    "io.cir": "a981e249b6da4db83bf58cce2f19be1b7727f063846467fd307cf7c0b5471f98",
+    "io.vvp": "a42e86a20db4ea0a73b0c0fa87f45cbddb8673e06b922af89f110569145e7c0e",
+    "ngspice.log": "5bdb2ad84ac9443dfcdf7d25483d9dfc2af2320c2429a35a9751e840906956e4",
+    "waveform.raw": "6957a903e57372ac2c9fb7edabb2dc14320520288b24675ca72313276e1b6215"
+  }
+}
