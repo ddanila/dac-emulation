@@ -1,0 +1,31 @@
+{
+  "qualified": false,
+  "scope": "Pinned initialization/consumption argument for the two typed primitive families; not a proof of destination or island/thread state.",
+  "evidence": {
+    "inverterInput": {
+      "path": "/private/tmp/k7658-primitive-runtime/vvp/logic.cc",
+      "sha256": "b44621be6f3f6000f9600d51d6a22c3dd5d61d76940a0153b0680104574b7c03",
+      "firstLine": 164,
+      "excerpt": "vvp_fun_buf_not_::vvp_fun_buf_not_(unsigned wid)\n: input_(wid, BIT4_Z)\n{\n      net_ = 0;\n}\n\nvvp_fun_buf_not_::~vvp_fun_buf_not_()\n{\n}\n\nvoid vvp_fun_buf_not_::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                                 vvp_context_t)\n{\n      if (ptr.port() != 0) return;\n\n      if (input_ .eeq( bit )) return;\n\n      input_ = bit;\n      if (net_ == 0) {\n\t    net_ = ptr.ptr();\n\t    schedule_functor(this);\n      }\n}\n\nvoid vvp_fun_buf_not_::recv_vec4_pv(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                                    unsigned base, unsigned vwid, vvp_context_t)\n{\n      if (ptr.port() != 0) return;\n\n      assert(base + bit.size() <= vwid);\n\n\t// Set the input part. If nothing changes, then break.\n      bool flag = input_.set_vec(base, bit);\n      if (flag == false) return;\n\n      if (net_ == 0) {\n\t    net_ = ptr.ptr();\n\t    schedule_functor(this);\n      }\n}\n\nvoid vvp_fun_buf_not_::recv_real(vvp_net_ptr_t ptr, double real,\n                                 vvp_context_t ctx)\n{\n      if (ptr.port() != 0) return;\n\n      recv_vec4(ptr, double_to_vector4_LSB(real), ctx);\n}\n\n"
+    },
+    "inverterExecution": {
+      "path": "/private/tmp/k7658-primitive-runtime/vvp/logic.cc",
+      "sha256": "b44621be6f3f6000f9600d51d6a22c3dd5d61d76940a0153b0680104574b7c03",
+      "firstLine": 514,
+      "excerpt": "void vvp_fun_not::run_run()\n{\n      vvp_net_t*ptr = net_;\n      net_ = 0;\n\n      vvp_vector4_t result (input_, true /* invert */);\n      ptr->send_vec4(result, 0);\n}\n\n"
+    },
+    "partSelect": {
+      "path": "/private/tmp/k7658-primitive-runtime/vvp/part.cc",
+      "sha256": "121068f6abc55d7e4243b7aef31522c156865bb4e76eb141be2f7fb90b506207",
+      "firstLine": 46,
+      "excerpt": "vvp_fun_part_sa::vvp_fun_part_sa(unsigned base, unsigned wid)\n: vvp_fun_part(base, wid)\n{\n      robotron_vvp_primitive_register(static_cast<vvp_gen_event_s*>(this),this,2,robotron_payload,robotron_toggle);\n      net_ = 0;\n}\n\nvvp_fun_part_sa::~vvp_fun_part_sa()\n{\n      robotron_vvp_primitive_unregister(static_cast<vvp_gen_event_s*>(this));\n}\n\nvoid vvp_fun_part_sa::recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n                                vvp_context_t)\n{\n      assert(port.port() == 0);\n\n      vvp_vector4_t tmp (bit, base_, wid_);\n      if (val_ .eeq( tmp ))\n\t    return;\n\n      val_ = tmp;\n\n      if (net_ == 0) {\n\t    net_ = port.ptr();\n\t    schedule_functor(this);\n      }\n}\n\n/*\n * Handle the case that the part select node is actually fed by a part\n * select assignment. It's not exactly clear what might make this\n * happen, but is does seem to happen and this should have well\n * defined behavior.\n */\nvoid vvp_fun_part_sa::recv_vec4_pv(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n\t\t\t\t   unsigned base, unsigned vwid, vvp_context_t)\n{\n      vvp_vector4_t tmp (vwid, BIT4_Z);\n      tmp.set_vec(base_, val_);\n      tmp.set_vec(base, bit);\n      recv_vec4(port, tmp, 0);\n}\n\nvoid vvp_fun_part_sa::run_run()\n{\n      vvp_net_t*ptr = net_;\n      net_ = 0;\n      ptr->send_vec4(val_, 0);\n}\n\n"
+    }
+  },
+  "findings": [
+    "Inverter cached input starts as Z and its destination starts null. A changed port-zero input updates the cache and sets the destination before scheduling; further input updates coalesce into that pending event.",
+    "Static part-select bounds initialize in the base constructor. A received vector is sliced into val_ before scheduling with a non-null destination. Its empty default vector is not read as initialized elements.",
+    "Both run_run methods save the destination locally and clear the pending destination before sending their cached result. Paused queued-event inspection covers initialized state; neither method itself yields to SPICE.",
+    "Protected-base adjustment is performed within the owning constructor, using an explicit generic-event key. The observer uses that registry rather than guessing offsets or casting arbitrary event payloads.",
+    "The transmission-gate island requires separate mesh, port, filter and branch contracts; this observer does not cover it."
+  ]
+}

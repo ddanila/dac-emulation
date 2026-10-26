@@ -1,0 +1,52 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x1015b6c80 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x1015b6e00 .scope module, "probe" "probe" 3 2;
+ .timescale -9 -12;
+L_0x1015bd2e0 .functor NOT 80, v0x1015bd240_0, C4<00000000000000000000000000000000000000000000000000000000000000000000000000000000>, C4<00000000000000000000000000000000000000000000000000000000000000000000000000000000>, C4<00000000000000000000000000000000000000000000000000000000000000000000000000000000>;
+v0x1015bcf70_0 .net "inverted", 79 0, L_0x1015bd2e0;  1 drivers
+v0x1015bd190_0 .net "selected", 7 0, L_0x1015bd390;  1 drivers
+v0x1015bd240_0 .var "wide", 79 0;
+L_0x1015bd390 .part v0x1015bd240_0, 4, 8;
+    .scope S_0x1015b6e00;
+T_0 ;
+    %pushi/vec4 2443359172, 0, 39;
+    %concati/vec4 3588683648, 0, 32;
+    %concati/vec4 291, 0, 9;
+    %store/vec4 v0x1015bd240_0, 0, 80;
+    %end;
+    .thread T_0, $init;
+    .scope S_0x1015b6e00;
+T_1 ;
+    %vpi_call/w 3 6 "$monitor", "CHANGE %0t %h %h %h", $time, v0x1015bd240_0, v0x1015bcf70_0, v0x1015bd190_0 {0 0 0};
+    %end;
+    .thread T_1;
+    .scope S_0x1015b6e00;
+T_2 ;
+    %delay 1000, 0;
+    %vpi_call/w 3 8 "$primitive_drive" {0 0 0};
+    %delay 1000, 0;
+    %vpi_call/w 3 9 "$primitive_observe" {0 0 0};
+    %delay 1000, 0;
+    %vpi_call/w 3 10 "$primitive_drive" {0 0 0};
+    %delay 1000, 0;
+    %vpi_call/w 3 11 "$primitive_observe" {0 0 0};
+    %delay 1000, 0;
+    %vpi_call/w 3 12 "$finish" {0 0 0};
+    %end;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/primitive-probe-reviewed/probe.v";

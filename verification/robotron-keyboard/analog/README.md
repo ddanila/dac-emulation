@@ -834,5 +834,16 @@ board baseline with the paired assignment runtime, then use
 `assignment_board_review.py` on the complete captures. It requires both assignment
 families, consumption without lifetime reuse, matching native callback/assignment
 times, unchanged normal waveform/firmware behaviour and all restored time-zero
-faults. It keeps unsupported event counts explicit; typed assignment coverage does
+faults. The [retained board controls](reports/assignment-board/assessment.json) pass this review.
+It keeps unsupported event counts explicit; typed assignment coverage does
 not establish the contents of destination nets or other event families.
+
+`build_primitive_runtime.py` adds explicit constructor/destructor registration for
+queued inverter and static part-select objects. Run `primitive_probe.py --candidate
+BUILD --baseline ORIGINAL_LIBVVP --modules VPI_DIRECTORY --out FRESH_DIRECTORY`
+for the [standalone primitive controls](reports/primitive-payload/assessment.json).
+They check initialized cached vectors, destinations and slice bounds, stable
+primitive identities across requeue, fresh wrapper identities and unchanged output
+transitions under restored faults. The [source contract](reports/primitive-payload/source-contract.json)
+explains initialization and protected-base identity handoff. Board integration,
+transmission-gate mesh/port state, thread state and destination referents remain open.
