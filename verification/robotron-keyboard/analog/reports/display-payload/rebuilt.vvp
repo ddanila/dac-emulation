@@ -1,0 +1,63 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/private/tmp/k7658-display-observer-v2/baseline/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x1058d98e0 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x1058d9a60 .scope module, "probe" "probe" 3 2;
+ .timescale -9 -12;
+P_0x1058d4e30 .param/real "FRACTION" 1 3 5, Cr<m5000000000000000gfc2>; value=1.25000
+v0x1058d4760_0 .var/i "i", 31 0;
+v0x1058d9ea0_0 .var "value", 7 0;
+    .scope S_0x1058d9a60;
+T_0 ;
+    %pushi/vec4 0, 0, 8;
+    %store/vec4 v0x1058d9ea0_0, 0, 8;
+    %end;
+    .thread T_0, $init;
+    .scope S_0x1058d9a60;
+T_1 ;
+    %vpi_call/w 3 7 "$timeformat", 32'sb11111111111111111111111111110111, 32'sb00000000000000000000000000000010, " ns", 32'sb00000000000000000000000000001000 {0 0 0};
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x1058d4760_0, 0, 32;
+T_1.0 ; Top of for-loop
+    %load/vec4 v0x1058d4760_0;
+    %cmpi/s 3, 0, 32;
+	  %jmp/0xz T_1.1, 5;
+    %delay 2000, 0;
+    %pushi/vec4 160, 0, 32;
+    %load/vec4 v0x1058d4760_0;
+    %add;
+    %pad/u 8;
+    %store/vec4 v0x1058d9ea0_0, 0, 8;
+    %pushi/vec4 176, 0, 32;
+    %load/vec4 v0x1058d4760_0;
+    %add;
+    %pad/u 8;
+    %assign/vec4 v0x1058d9ea0_0, 0;
+    %vpi_call/w 3 10 "$strobe", "STROBE %0t %h %0.2f", $time, v0x1058d9ea0_0, P_0x1058d4e30 {0 0 0};
+    %vpi_call/w 3 11 "$display_inventory" {0 0 0};
+    %delay 1000, 0;
+    %vpi_call/w 3 12 "$display_inventory" {0 0 0};
+    %delay 7000, 0;
+T_1.2 ; for-loop step statement
+    %load/vec4 v0x1058d4760_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x1058d4760_0, 0, 32;
+    %jmp T_1.0;
+T_1.1 ; for-loop exit label
+    %vpi_call/w 3 15 "$finish" {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/display-payload-controls-final/probe.v";

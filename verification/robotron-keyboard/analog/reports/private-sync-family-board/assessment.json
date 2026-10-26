@@ -1,0 +1,141 @@
+{
+  "reviewCompleted": true,
+  "qualified": false,
+  "controlsPassed": true,
+  "comparisons": {
+    "disabledBaseline": {
+      "allSamplesExactlyEqual": true,
+      "samples": 27578,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    },
+    "enabledObserver": {
+      "allSamplesExactlyEqual": true,
+      "samples": 27578,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    }
+  },
+  "firmwareRecordsExactlyEqual": true,
+  "observedCallbacks": {
+    "boundaries": 55156,
+    "phases": {
+      "before-step": 27578,
+      "after-step": 27578
+    },
+    "liveCallbackObservations": 55213,
+    "maximumLiveCallbacks": 3,
+    "executingCallbackObservations": 55153,
+    "canceledCallbackObservations": 50,
+    "functionObservations": {
+      "next_advance_cb": 55203,
+      "strobe_cb": 10
+    },
+    "functionIdentityEstablished": true,
+    "displayReferentsObserved": false,
+    "payloadCoverageComplete": false,
+    "fault": null
+  },
+  "negativeControl": {
+    "boundaries": 42250,
+    "phases": {
+      "before-step": 21125,
+      "after-step": 21125
+    },
+    "liveCallbackObservations": 42269,
+    "maximumLiveCallbacks": 3,
+    "executingCallbackObservations": 42247,
+    "canceledCallbackObservations": 19,
+    "functionObservations": {
+      "next_advance_cb": 42266,
+      "strobe_cb": 3
+    },
+    "functionIdentityEstablished": true,
+    "displayReferentsObserved": false,
+    "payloadCoverageComplete": false,
+    "fault": {
+      "index": 42249,
+      "phase": "after-step",
+      "targetSeconds": 7.501280250000001e-06
+    }
+  },
+  "receipts": {
+    "baseline": "2cd992d1bed30e31a06a9075c2b7f8e6e383a6249df1be2a6c87670e6fa294e9",
+    "off": "f99e13ddf0d06f417c28fafb360ff5891d82de9a30be951afa7f5a7ea8e2fe2e",
+    "observe": "0724b99011f68d05de4aef622658b382e1f23f68ca38ba50774d32092d5f8770",
+    "corrupt": "1ed5403533e95ccf7a9de95e06820d866a9cd5b664ed6f47481a4489cfeca704"
+  },
+  "baselineReused": true,
+  "payloadCoverageComplete": false,
+  "scope": "Complete 20-us fixture with service reset at 1 us; Family-aware synchronization callback observation at actual HDL step boundaries; stop and display functions are identified against pinned module symbols. Display data remains unobserved.",
+  "notEstablished": [
+    "Display and bridge callback referenced-data contents",
+    "Initial start callback, executing stack/wrapper and other event payloads",
+    "General rollback or private-state restoration",
+    "Full post-reset/startup/repeat/supply recovery qualification"
+  ]
+}
