@@ -1,0 +1,45 @@
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -1156,3 +1156,42 @@
+     }
+     return 0;
+ }
++
++/* Compare opaque handles against live typed objects; never dereference a
++ * supplied handle. Called only under simulator-thread/mutex ownership. */
++static sync_callback* robotron_sync_from_handle(const void* handle)
++{
++    if (!handle) return 0;
++    for (const auto& entry : robotron_sync_live)
++        if (static_cast<const __vpiHandle*>(entry.second) == handle) return entry.second;
++    return 0;
++}
++extern "C" unsigned long long robotron_vvp_sync_payload_identity(
++    const void* handle, robotron_callback_fn function, PLI_BYTE8* user)
++{
++    sync_callback* cb = robotron_sync_from_handle(handle);
++    if (!cb || !function) return 0;
++    auto original = robotron_sync_functions.find(cb);
++    if (original == robotron_sync_functions.end() || original->second != function ||
++        cb->cb_data.cb_rtn != function || cb->cb_data.user_data != user) return 0;
++    for (const auto& entry : robotron_sync_live)
++        if (entry.second == cb) return entry.first;
++    return 0;
++}
++/* Deliberate association fault: restore before executing either callback. */
++extern "C" int robotron_vvp_sync_swap_payloads(
++    const void* left, const void* right, robotron_callback_fn function)
++{
++    sync_callback* a = robotron_sync_from_handle(left);
++    sync_callback* b = robotron_sync_from_handle(right);
++    if (!a || !b || a == b || !function || a == robotron_sync_executing || b == robotron_sync_executing) return -1;
++    auto af = robotron_sync_functions.find(a), bf = robotron_sync_functions.find(b);
++    if (af == robotron_sync_functions.end() || bf == robotron_sync_functions.end() ||
++        af->second != function || bf->second != function ||
++        a->cb_data.cb_rtn != function || b->cb_data.cb_rtn != function ||
++        !a->cb_data.user_data || !b->cb_data.user_data || a->cb_data.user_data == b->cb_data.user_data) return -1;
++    const PLI_BYTE8* saved = a->cb_data.user_data;
++    a->cb_data.user_data = b->cb_data.user_data;
++    b->cb_data.user_data = saved;
++    return 1;
++}

@@ -1,0 +1,83 @@
+{
+  "completed": true,
+  "qualified": false,
+  "vendorAndRebuiltOutputExactlyEqual": true,
+  "observerOutputExactlyEqual": true,
+  "payloadPointerSwapsRejectedAndRestored": 3,
+  "associatedPayloadObservations": 12,
+  "releasedAssociationObservations": 6,
+  "payloadValuesUnchangedDuringRejectedSwap": true,
+  "scope": "Direct callback handle, registered function and user-data identity linked to typed strobe payloads in a standalone fixture.",
+  "notEstablished": [
+    "Board integration and long-window controls",
+    "Other callback families and referenced state",
+    "Executing scheduler wrappers, freed storage and general rollback"
+  ],
+  "runtime": {
+    "/private/tmp/k7658-display-association-v2/vvp/vvp": "8ddf607a6d6f32af2168b2798ed46fc1d5cdfe19cabf7af046c89d081481f491",
+    "/private/tmp/k7658-display-association-v2/vvp/libvvp.so": "0789a48ec37b28fed6d06fb82dee04d9398f57164f96469420061b4245cfa4bb",
+    "/private/tmp/k7658-display-association-v2/baseline/system.vpi": "e1683c679354eb45b557ad71e7134b58c7236345d94a89fccd121003d434ee7d",
+    "/private/tmp/k7658-display-association-v2/vpi/system.vpi": "ac17b809e9ebc7f5fcc9f2f2a6fa316e10a433a96848c18b7630f346f93e10a8",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/display-association-controls/probe.vpi": "be12ca6b62f68d3e01d28fd8988207a57ad4592727825df2a340dc4acddbb30f",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "commands": {
+    "vendor": [
+      "/private/tmp/k7658-display-association-v2/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "vendor.vvp"
+    ],
+    "rebuilt": [
+      "/private/tmp/k7658-display-association-v2/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "rebuilt.vvp"
+    ],
+    "disabled": [
+      "/private/tmp/k7658-display-association-v2/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "disabled.vvp"
+    ],
+    "enabled": [
+      "/private/tmp/k7658-display-association-v2/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "enabled.vvp"
+    ],
+    "corrupt": [
+      "/private/tmp/k7658-display-association-v2/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "corrupt.vvp"
+    ]
+  },
+  "buildReceiptSha256": "c33ee1ea6b7717c234b5dd635d5da88757ff8438535476be758fb614158ad995",
+  "sources": {
+    "display_association_probe.py": "28de0d6b3eb3a18c74ff83a92a17f8488aa9d13ca06341a464902c7c26ecd83a",
+    "fixtures/display_association_probe.c": "be0cb115d33e80b3545db5965bfff1510e35a39086ad561cb5679d02d10dadee",
+    "fixtures/display_association_probe.v": "7cdc4ea07b260e36679eefb639eeadf87306ae9f7b2a1e201daa132e5b18136d",
+    "build_display_association.py": "e3b1faf9c67f574982867ce4299bb58031d617198dfe624d6eacd44fe99fcf83",
+    "engine-patches/icarus-display-observer.patch": "8f78091f7a35cf12564d30cfcdfcf576d5d1a4890ebda3797e720bc6ca07e210",
+    "engine-patches/icarus-display-payload-link.patch": "150664196bfe97fe7b873598f740951979f137c6b4294de990bcb756db297680",
+    "engine-patches/icarus-callback-payload-link.patch": "1aedf06846d21b5881ccbf0fceb77be29c9df84d757c5616ac3e72b5ab9a4764",
+    "build_private_queue_observer.py": "cb1fb9722c972231c1c943d2df1a65909836edcd6642c590d67e9145475b6728",
+    "display_payload_probe.py": "0b8ca1ac91f66847d271303237a5936e187cbaabc94fea6ab4cfda9399612f2d",
+    "private_sync_family_probe.py": "9e8ee2dec247f710a6b51fd1cb44c85e402ba59ba2efc6f4de9256bf552bb526",
+    "engine-patches/icarus-queue-observer.patch": "37dde672e6c8b0645153da87a5c5a8d0d167aa0225a66c8488bda7fccb9e6eb6",
+    "engine-patches/icarus-sync-observer.patch": "e8056d699a3f27405ed3e7da613154b55530d6e794d6412765caa76cfc1bc085",
+    "engine-patches/icarus-sync-family-observer.patch": "3447876a59ec9d53a42e8e75b06d77349fe3d5e53d17cb3e445e0e08dd272ff9"
+  }
+}
