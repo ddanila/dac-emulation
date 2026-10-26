@@ -384,26 +384,19 @@ is a reset setup screen, not clock, reset-duration or firmware-restart qualifica
 The [full startup review](reports/board-host-rising-full-startup/reset-setup-review.json)
 finds no qualifying clock voltage rises; it cannot establish RESET setup timing.
 
-`build_output_breakpoint_probe.py` adds a disabled-by-default observer and a
-single artificial failure of the initial output-driven breakpoint request.
-`output_breakpoint_capture.py` runs disabled, observation-only and forced-failure
-controls in the bounded single-controller fixture. The failure occurs after HDL
-advancement; it does not establish HDL rollback or recovery correctness. Require
-actual branch activity and compare complete waveforms and firmware before drawing
-conclusions from these controls.
-The [bounded board control](reports/output-breakpoint-controls/assessment.json)
-reproduces the baseline but never enters this branch. Exercise a targeted
-delayed-output fixture before treating the recovery path as covered.
+Use `build_output_breakpoint_probe.py` and `output_breakpoint_capture.py` for
+matched disabled, observed and forced-failure controls after HDL advancement.
 `output_breakpoint_review.py --root <capture> --source <baseline> --out <assessment>`
-checks full streams and reports branch coverage separately from equivalence.
-The [sampled delayed-output fixture](reports/output-breakpoint-sampled/assessment.json)
-executes truncation and forced recovery while preserving HDL transitions and the
-complete absolute-time waveform comparison. Samples inside the ideal ramps match
-the analytic waveform. The [sparse fixture](reports/output-breakpoint-target/assessment.json)
-shows why inadequate sampling can create comparison errors without a demonstrated
-state defect. `output_breakpoint_fixture.py --sample-grid` adds the sampling stimulus;
-use `--out <report> --verify` to recheck retained evidence. These controls do not
-establish keyboard or general rollback coverage.
+checks complete streams and distinguishes branch activity from equivalence.
+The [bounded board fixture](reports/output-breakpoint-controls/assessment.json)
+does not exercise output-driven truncation. The
+[sampled autonomous fixture](reports/output-breakpoint-sampled/assessment.json)
+exercises truncation and recovery while preserving HDL transitions and the
+absolute-time waveform comparison. The [sparse control](reports/output-breakpoint-target/assessment.json)
+demonstrates sampling error without a demonstrated state defect.
+Use `output_breakpoint_fixture.py --sample-grid` for the targeted stimulus and
+`--out <report> --verify` to check retained evidence. Keyboard input perturbations
+and general rollback remain outside this diagnostic's scope.
 
 ### Scheduling and state controls
 
