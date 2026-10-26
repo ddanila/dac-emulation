@@ -1,0 +1,267 @@
+{
+  "qualified": false,
+  "scope": "Mid-run observation of identified live process trees. Individual kernel lifetime peaks extend to this query only. Sum of live footprints is not a simultaneous exact tree peak; exited descendants and future allocations are not covered. No memory cap, completed-run budget or full-repeat bound is established.",
+  "utc": "2026-10-26T17:00:14.529262+00:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "api": "proc_pid_rusage RUSAGE_INFO_V4; memory fields in bytes; process start/exit identities in absolute-time units",
+  "source": "https://github.com/apple-oss-distributions/xnu/blob/main/bsd/sys/resource.h",
+  "sources": {
+    "footprint.c": "2339fd7846d938fab66a14cb074f49550847758cc389b52c1522a012493f06fb",
+    "observe.py": "1df3d0db17f4922170c1c010f74c15476ca6687be6ee55e349daf88f8c2a139d"
+  },
+  "binarySha256": "22c5d23ed9fbb6a458e849f05f58ed4d30de75d5879145ea03759e49d0993071",
+  "compileCommand": [
+    "cc",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-O2",
+    "footprint.c",
+    "-o",
+    "footprint"
+  ],
+  "sdkHeaderSha256": "7d16930e6b75f11ba203238faa5580d31d48fcd4230f2b3f604aaa5fd7e86b58",
+  "allocationControl": [
+    {
+      "stage": "ready",
+      "pid": 5109,
+      "startAbsoluteTime": 84311600791254,
+      "exitAbsoluteTime": 0,
+      "residentBytes": 8896512,
+      "footprintBytes": 5128456,
+      "lifetimeMaximumFootprintBytes": 5177608
+    },
+    {
+      "stage": "allocated",
+      "pid": 5109,
+      "startAbsoluteTime": 84311600791254,
+      "exitAbsoluteTime": 0,
+      "residentBytes": 76005376,
+      "footprintBytes": 72286544,
+      "lifetimeMaximumFootprintBytes": 72286544
+    },
+    {
+      "stage": "released",
+      "pid": 5109,
+      "startAbsoluteTime": 84311600791254,
+      "exitAbsoluteTime": 0,
+      "residentBytes": 8896512,
+      "footprintBytes": 5128456,
+      "lifetimeMaximumFootprintBytes": 72286544
+    }
+  ],
+  "trees": {
+    "refinement-6.25": {
+      "rootPid": 1260,
+      "processes": [
+        {
+          "pid": 1260,
+          "startAbsoluteTime": 84188008422721,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 27082752,
+          "footprintBytes": 20349264,
+          "lifetimeMaximumFootprintBytes": 22233424,
+          "parent": 81149,
+          "rssKiB": 26448,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python verification/robotron-keyboard/analog/postreset_refinement_capture.py --source build/keyboard-controller-analog/postreset-newton-retry/off --coarse build/keyboard-controller-analog/postreset-startup-combined --models /private/tmp/k7658-startup-fixes-v1 --runtime /private/tmp/k7658-selectable-retry-runtime --out build/keyboard-controller-analog/postreset-combined-refinement-6.25 --step-ns 6.25"
+        },
+        {
+          "pid": 1265,
+          "startAbsoluteTime": 84188010430487,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 23953408,
+          "footprintBytes": 15860024,
+          "lifetimeMaximumFootprintBytes": 18710840,
+          "parent": 1260,
+          "rssKiB": 23392,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python -c \\012import hashlib,json,lzma,sys\\012h=hashlib.sha256();size=0\\012with open(sys.argv[1], 'rb') as source, lzma.open(sys.argv[2], 'wb', preset=int(sys.argv[3])) as target:\\012    for data in iter(lambda: source.read(1024*1024), b''):\\012        h.update(data);size+=len(data);target.write(data)\\012print(json.dumps({'sha256':h.hexdigest(),'bytes':size}))\\012 /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-combined-refinement-6.25/waveform.raw /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-combined-refinement-6.25/waveform.raw.xz.partial 1"
+        },
+        {
+          "pid": 1267,
+          "startAbsoluteTime": 84188010505676,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 30425088,
+          "footprintBytes": 25297328,
+          "lifetimeMaximumFootprintBytes": 25510320,
+          "parent": 1260,
+          "rssKiB": 29712,
+          "command": "/private/tmp/k7658-selectable-retry-runtime -n -b io.cir"
+        }
+      ],
+      "observedTreeFootprintBytes": 61506616
+    },
+    "refinement-12.5": {
+      "rootPid": 1261,
+      "processes": [
+        {
+          "pid": 1261,
+          "startAbsoluteTime": 84188008614556,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 27000832,
+          "footprintBytes": 20578640,
+          "lifetimeMaximumFootprintBytes": 22151504,
+          "parent": 81149,
+          "rssKiB": 26368,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python verification/robotron-keyboard/analog/postreset_refinement_capture.py --source build/keyboard-controller-analog/postreset-newton-retry/off --coarse build/keyboard-controller-analog/postreset-startup-combined --models /private/tmp/k7658-startup-fixes-v1 --runtime /private/tmp/k7658-selectable-retry-runtime --out build/keyboard-controller-analog/postreset-combined-refinement-12.5 --step-ns 12.5"
+        },
+        {
+          "pid": 1266,
+          "startAbsoluteTime": 84188010471562,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 23511040,
+          "footprintBytes": 16351520,
+          "lifetimeMaximumFootprintBytes": 18792736,
+          "parent": 1261,
+          "rssKiB": 22960,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python -c \\012import hashlib,json,lzma,sys\\012h=hashlib.sha256();size=0\\012with open(sys.argv[1], 'rb') as source, lzma.open(sys.argv[2], 'wb', preset=int(sys.argv[3])) as target:\\012    for data in iter(lambda: source.read(1024*1024), b''):\\012        h.update(data);size+=len(data);target.write(data)\\012print(json.dumps({'sha256':h.hexdigest(),'bytes':size}))\\012 /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-combined-refinement-12.5/waveform.raw /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-combined-refinement-12.5/waveform.raw.xz.partial 1"
+        },
+        {
+          "pid": 1268,
+          "startAbsoluteTime": 84188010518000,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 30801920,
+          "footprintBytes": 25772440,
+          "lifetimeMaximumFootprintBytes": 25919896,
+          "parent": 1261,
+          "rssKiB": 30080,
+          "command": "/private/tmp/k7658-selectable-retry-runtime -n -b io.cir"
+        }
+      ],
+      "observedTreeFootprintBytes": 62702600
+    },
+    "instance-off": {
+      "rootPid": 1807,
+      "processes": [
+        {
+          "pid": 1807,
+          "startAbsoluteTime": 84203441341080,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 28770304,
+          "footprintBytes": 22036816,
+          "lifetimeMaximumFootprintBytes": 23724368,
+          "parent": 81149,
+          "rssKiB": 28096,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python verification/robotron-keyboard/analog/postreset_state_capture.py --source build/keyboard-controller-analog/postreset-newton-retry/off --models /private/tmp/k7658-instance-queue-audit-v3 --runtime /private/tmp/k7658-selectable-retry-runtime --out build/keyboard-controller-analog/postreset-instance-controls/off --mode off --timeout 28800"
+        },
+        {
+          "pid": 1813,
+          "startAbsoluteTime": 84203443527295,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 23560192,
+          "footprintBytes": 18284856,
+          "lifetimeMaximumFootprintBytes": 19251512,
+          "parent": 1807,
+          "rssKiB": 23008,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python -c \\012import hashlib,json,lzma,sys\\012h=hashlib.sha256();size=0\\012with open(sys.argv[1], 'rb') as source, lzma.open(sys.argv[2], 'wb', preset=int(sys.argv[3])) as target:\\012    for data in iter(lambda: source.read(1024*1024), b''):\\012        h.update(data);size+=len(data);target.write(data)\\012print(json.dumps({'sha256':h.hexdigest(),'bytes':size}))\\012 /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-instance-controls/off/waveform.raw /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-instance-controls/off/waveform.raw.xz.partial 1"
+        },
+        {
+          "pid": 1814,
+          "startAbsoluteTime": 84203443585880,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 30638080,
+          "footprintBytes": 25608600,
+          "lifetimeMaximumFootprintBytes": 25870744,
+          "parent": 1807,
+          "rssKiB": 29920,
+          "command": "/private/tmp/k7658-selectable-retry-runtime -n -b io.cir"
+        }
+      ],
+      "observedTreeFootprintBytes": 65930272
+    },
+    "instance-check": {
+      "rootPid": 1808,
+      "processes": [
+        {
+          "pid": 1808,
+          "startAbsoluteTime": 84203441593715,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 28459008,
+          "footprintBytes": 21758312,
+          "lifetimeMaximumFootprintBytes": 23757160,
+          "parent": 81149,
+          "rssKiB": 27792,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python verification/robotron-keyboard/analog/postreset_state_capture.py --source build/keyboard-controller-analog/postreset-newton-retry/off --models /private/tmp/k7658-instance-queue-audit-v3 --runtime /private/tmp/k7658-selectable-retry-runtime --out build/keyboard-controller-analog/postreset-instance-controls/check --mode check --timeout 28800"
+        },
+        {
+          "pid": 1815,
+          "startAbsoluteTime": 84203443696142,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 23658496,
+          "footprintBytes": 16286008,
+          "lifetimeMaximumFootprintBytes": 19267896,
+          "parent": 1808,
+          "rssKiB": 23104,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python -c \\012import hashlib,json,lzma,sys\\012h=hashlib.sha256();size=0\\012with open(sys.argv[1], 'rb') as source, lzma.open(sys.argv[2], 'wb', preset=int(sys.argv[3])) as target:\\012    for data in iter(lambda: source.read(1024*1024), b''):\\012        h.update(data);size+=len(data);target.write(data)\\012print(json.dumps({'sha256':h.hexdigest(),'bytes':size}))\\012 /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-instance-controls/check/waveform.raw /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-instance-controls/check/waveform.raw.xz.partial 1"
+        },
+        {
+          "pid": 1816,
+          "startAbsoluteTime": 84203443764969,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 29720576,
+          "footprintBytes": 25510296,
+          "lifetimeMaximumFootprintBytes": 25837976,
+          "parent": 1808,
+          "rssKiB": 29024,
+          "command": "/private/tmp/k7658-selectable-retry-runtime -n -b io.cir"
+        }
+      ],
+      "observedTreeFootprintBytes": 63554616
+    },
+    "instance-delayed": {
+      "rootPid": 1810,
+      "processes": [
+        {
+          "pid": 1810,
+          "startAbsoluteTime": 84203441814094,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 28786688,
+          "footprintBytes": 22626640,
+          "lifetimeMaximumFootprintBytes": 24281424,
+          "parent": 81149,
+          "rssKiB": 28112,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python verification/robotron-keyboard/analog/postreset_state_capture.py --source build/keyboard-controller-analog/postreset-newton-retry/off --models /private/tmp/k7658-instance-queue-audit-v3 --runtime /private/tmp/k7658-selectable-retry-runtime --out build/keyboard-controller-analog/postreset-instance-controls/delayed --mode delayed --timeout 28800"
+        },
+        {
+          "pid": 1817,
+          "startAbsoluteTime": 84203444092905,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 23576576,
+          "footprintBytes": 17678648,
+          "lifetimeMaximumFootprintBytes": 19398968,
+          "parent": 1810,
+          "rssKiB": 23024,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python -c \\012import hashlib,json,lzma,sys\\012h=hashlib.sha256();size=0\\012with open(sys.argv[1], 'rb') as source, lzma.open(sys.argv[2], 'wb', preset=int(sys.argv[3])) as target:\\012    for data in iter(lambda: source.read(1024*1024), b''):\\012        h.update(data);size+=len(data);target.write(data)\\012print(json.dumps({'sha256':h.hexdigest(),'bytes':size}))\\012 /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-instance-controls/delayed/waveform.raw /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-instance-controls/delayed/waveform.raw.xz.partial 1"
+        },
+        {
+          "pid": 1818,
+          "startAbsoluteTime": 84203444140283,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 26902528,
+          "footprintBytes": 25461168,
+          "lifetimeMaximumFootprintBytes": 25543088,
+          "parent": 1810,
+          "rssKiB": 26272,
+          "command": "/private/tmp/k7658-selectable-retry-runtime -n -b io.cir"
+        }
+      ],
+      "observedTreeFootprintBytes": 65766456
+    },
+    "output-state-review": {
+      "rootPid": 2890,
+      "processes": [
+        {
+          "pid": 2890,
+          "startAbsoluteTime": 84238908510677,
+          "exitAbsoluteTime": 0,
+          "residentBytes": 16105472,
+          "footprintBytes": 14319952,
+          "lifetimeMaximumFootprintBytes": 20808016,
+          "parent": 81149,
+          "rssKiB": 15728,
+          "command": "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python verification/robotron-keyboard/analog/postreset_state_review.py --root build/keyboard-controller-analog/postreset-state-controls --source build/keyboard-controller-analog/postreset-newton-retry/off --baseline build/keyboard-controller-analog/postreset-startup-combined --out build/keyboard-controller-analog/postreset-state-assessment.json"
+        }
+      ],
+      "observedTreeFootprintBytes": 14319952
+    }
+  }
+}

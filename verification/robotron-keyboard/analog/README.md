@@ -522,6 +522,10 @@ RSS. It retains compressed logs, comparison receipts and runtime/input identitie
 The strict non-growing-error gate fails despite differences below the voltage limit.
 Its resource measurements do not bound full-repeat costs, and raw hashes cannot
 replace replayable waveforms when a different numerical review is needed.
+The [post-reset memory observation](reports/postreset-memory-observation/assessment.json)
+records live process-tree footprints and per-process kernel peaks on macOS, checked
+with an allocation/release control. It excludes exited descendants and future
+allocations; it is not a completed-run memory bound.
 
 Use `review_firmware_run.py --run /path/to/failed-run --rom /path/to/s600.bin
 --out /tmp/firmware-review` to recheck an archived failure without rerunning SPICE.
