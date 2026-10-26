@@ -1,0 +1,932 @@
+{
+  "completed": true,
+  "qualified": false,
+  "numericalGatePassed": false,
+  "voltageGate": {
+    "passed": false,
+    "limitV": 0.01,
+    "failures": {
+      "v(n_d0)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 0.00038184321944356725,
+        "finestV": 0.00038590769573776385
+      },
+      "v(n_d1)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 8.246101570641429e-05,
+        "finestV": 0.000405093385199784
+      },
+      "v(n_d6)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 1.511235881518705e-05,
+        "finestV": 1.526527642514708e-05
+      },
+      "v(n_d7)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 8.246101570641429e-05,
+        "finestV": 0.000405093385199784
+      },
+      "v(n_ta_daten)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 0.0021035444266850334,
+        "finestV": 0.002124238922215582
+      },
+      "v(l1_1_series)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 0.0005275866272944629,
+        "finestV": 0.0005326201466779867
+      },
+      "v(l1_2_series)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 0.0005264407555278794,
+        "finestV": 0.0005322183835332339
+      },
+      "v(l1_3_series)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 0.0005264406376346287,
+        "finestV": 0.0005322183831042437
+      },
+      "v(l1_4_series)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 0.0005198743237648795,
+        "finestV": 0.0005240395168568668
+      },
+      "v(n_cable_takt)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 0.0005268159269227191,
+        "finestV": 0.000531885434065682
+      },
+      "v(n_cable_gnd)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 0.0005256639858279843,
+        "finestV": 0.0005314098010678059
+      },
+      "v(n_cable_5v)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 0.0005256639858277623,
+        "finestV": 0.00053140980106825
+      },
+      "v(n_cable_daten)": {
+        "reasons": [
+          "Difference grows under refinement"
+        ],
+        "previousV": 0.0005221984456436068,
+        "finestV": 0.0005263913939705933
+      }
+    }
+  },
+  "stepsNs": [
+    25,
+    12.5,
+    6.25
+  ],
+  "comparisons": [
+    {
+      "signals": {
+        "v(receiver_data)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 6.40728615399766e-05,
+          "timeSeconds": 0.0011481418975403483
+        },
+        "v(receiver_clock)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 2.7927996877619155e-05,
+          "timeSeconds": 0.0011482112460738034
+        },
+        "v(n_d0)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00038184321944356725,
+          "timeSeconds": 0.0011020126947520034
+        },
+        "v(n_d1)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 8.246101570641429e-05,
+          "timeSeconds": 0.0011590117792561585
+        },
+        "v(n_d2)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00027501361961945747,
+          "timeSeconds": 0.0011400127163556824
+        },
+        "v(n_d3)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00042894006213423097,
+          "timeSeconds": 0.001070012720932436
+        },
+        "v(n_d4)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0004169828338094206,
+          "timeSeconds": 0.0011090127181371413
+        },
+        "v(n_d5)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 1.511235881518705e-05,
+          "timeSeconds": 0.0010700127209358529
+        },
+        "v(n_d6)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 1.511235881518705e-05,
+          "timeSeconds": 0.0010700127209358529
+        },
+        "v(n_d7)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 8.246101570641429e-05,
+          "timeSeconds": 0.0011590117792561585
+        },
+        "v(n_p5v)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 1.0491903096321309e-08,
+          "timeSeconds": 9.040982505000423e-06
+        },
+        "i(vdriver_supply)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 2.390038676977971e-06,
+          "timeSeconds": 0.0011090228298599385
+        },
+        "v(n_wr_n)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 1.9779005100417635e-08,
+          "timeSeconds": 0.0011482725900739629
+        },
+        "v(wr_low)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "v(wr_high)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "v(n_ta_takt)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0006309059497153491,
+          "timeSeconds": 0.0011482726259521919
+        },
+        "v(n_ta_daten)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0021035444266850334,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(l1_1_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005275866272944629,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(l1_2_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005264407555278794,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(l1_3_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005264406376346287,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(l1_4_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005198743237648795,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(n_cable_takt)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005268159269227191,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(n_cable_gnd)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005256639858279843,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(n_cable_5v)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005256639858277623,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(n_cable_daten)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005221984456436068,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "i(l1.1)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 9.119946097625297e-07,
+          "timeSeconds": 0.001148261468569339
+        },
+        "i(l1.2)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 7.874439106048126e-07,
+          "timeSeconds": 0.0011090227764086868
+        },
+        "i(l1.3)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 7.873260195467857e-07,
+          "timeSeconds": 0.0011090227764086868
+        },
+        "i(l1.4)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 2.3562849435972708e-06,
+          "timeSeconds": 0.0011090227762607997
+        },
+        "@bwr_low[i]": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "@bwr_high[i]": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 1.8873586275718166e-12,
+          "timeSeconds": 0.0011482725900739629
+        }
+      },
+      "unionKnots": 2777058,
+      "endSeconds": 0.00116,
+      "maximumVoltageDifference": 0.0021035444266850334,
+      "boundary": "All observed samples, piecewise-linear comparison on both absolute-time grids. No alignment or intersample extrema claim."
+    },
+    {
+      "signals": {
+        "v(receiver_data)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 6.106587861465229e-05,
+          "timeSeconds": 0.0011221410908923853
+        },
+        "v(receiver_clock)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 2.6600742478510853e-05,
+          "timeSeconds": 0.001122211291314018
+        },
+        "v(n_d0)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00038590769573776385,
+          "timeSeconds": 0.0011020126947520034
+        },
+        "v(n_d1)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.000405093385199784,
+          "timeSeconds": 0.0010870127208948768
+        },
+        "v(n_d2)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0002749182079773149,
+          "timeSeconds": 0.0011400127206873142
+        },
+        "v(n_d3)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00027374073000174803,
+          "timeSeconds": 0.0010780127206854485
+        },
+        "v(n_d4)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00041697807052898384,
+          "timeSeconds": 0.0011090127181371413
+        },
+        "v(n_d5)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 1.4220326174589626e-05,
+          "timeSeconds": 0.0011020126947520034
+        },
+        "v(n_d6)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 1.526527642514708e-05,
+          "timeSeconds": 0.0011270123911552518
+        },
+        "v(n_d7)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.000405093385199784,
+          "timeSeconds": 0.0010870127208948768
+        },
+        "v(n_p5v)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 2.7431096838448354e-09,
+          "timeSeconds": 8.021238185000208e-06
+        },
+        "i(vdriver_supply)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 2.405286407972454e-06,
+          "timeSeconds": 0.0011090228298599385
+        },
+        "v(n_wr_n)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 1.8767440934652768e-08,
+          "timeSeconds": 0.0011222726321513626
+        },
+        "v(wr_low)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "v(wr_high)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "v(n_ta_takt)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0006008294736869757,
+          "timeSeconds": 0.0011222726664616165
+        },
+        "v(n_ta_daten)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.002124238922215582,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(l1_1_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005326201466779867,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(l1_2_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005322183835332339,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(l1_3_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005322183831042437,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(l1_4_series)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005240395168568668,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(n_cable_takt)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.000531885434065682,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(n_cable_gnd)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005314098010678059,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(n_cable_5v)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.00053140980106825,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "v(n_cable_daten)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0005263913939705933,
+          "timeSeconds": 0.0011090228085920556
+        },
+        "i(l1.1)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 8.688632505368687e-07,
+          "timeSeconds": 0.0011222612498263847
+        },
+        "i(l1.2)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 8.194065396413541e-07,
+          "timeSeconds": 0.0011090227762607997
+        },
+        "i(l1.3)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 8.194061132532626e-07,
+          "timeSeconds": 0.0011090227762607997
+        },
+        "i(l1.4)": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 2.384464499216349e-06,
+          "timeSeconds": 0.0011090227762607997
+        },
+        "@bwr_low[i]": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        },
+        "@bwr_high[i]": {
+          "unit": "A",
+          "maximumAbsoluteDifference": 1.79897954528035e-12,
+          "timeSeconds": 0.0011222726321513626
+        }
+      },
+      "unionKnots": 2891937,
+      "endSeconds": 0.00116,
+      "maximumVoltageDifference": 0.002124238922215582,
+      "boundary": "All observed samples, piecewise-linear comparison on both absolute-time grids. No alignment or intersample extrema claim."
+    }
+  ],
+  "firmwareRecordsExactlyEqual": [
+    true,
+    true
+  ],
+  "controls": {
+    "completed": true,
+    "qualified": false,
+    "comparisons": {
+      "disabledBaseline": {
+        "allSamplesExactlyEqual": true,
+        "samples": 1410645,
+        "endSeconds": 0.00116,
+        "signals": [
+          "v(receiver_data)",
+          "v(receiver_clock)",
+          "v(n_d0)",
+          "v(n_d1)",
+          "v(n_d2)",
+          "v(n_d3)",
+          "v(n_d4)",
+          "v(n_d5)",
+          "v(n_d6)",
+          "v(n_d7)",
+          "v(n_p5v)",
+          "i(vdriver_supply)",
+          "v(n_wr_n)",
+          "v(wr_low)",
+          "v(wr_high)",
+          "v(n_ta_takt)",
+          "v(n_ta_daten)",
+          "v(l1_1_series)",
+          "v(l1_2_series)",
+          "v(l1_3_series)",
+          "v(l1_4_series)",
+          "v(n_cable_takt)",
+          "v(n_cable_gnd)",
+          "v(n_cable_5v)",
+          "v(n_cable_daten)",
+          "i(l1.1)",
+          "i(l1.2)",
+          "i(l1.3)",
+          "i(l1.4)",
+          "@bwr_low[i]",
+          "@bwr_high[i]"
+        ]
+      },
+      "fixEffect": {
+        "signals": {
+          "v(receiver_data)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.06667648507058277,
+            "timeSeconds": 0.0011511594684674425
+          },
+          "v(receiver_clock)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.040066431144718306,
+            "timeSeconds": 0.001129225330850465
+          },
+          "v(n_d0)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0228956221464367,
+            "timeSeconds": 0.00116
+          },
+          "v(n_d1)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.02320338862307203,
+            "timeSeconds": 0.0011590117819480414
+          },
+          "v(n_d2)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.023055777268536026,
+            "timeSeconds": 0.0011400118780772297
+          },
+          "v(n_d3)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.023203391664690542,
+            "timeSeconds": 0.0011590117819480414
+          },
+          "v(n_d4)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.023105244372237266,
+            "timeSeconds": 0.0011570118026890618
+          },
+          "v(n_d5)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.023105244372237266,
+            "timeSeconds": 0.0011570118026890618
+          },
+          "v(n_d6)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.02312531395981665,
+            "timeSeconds": 0.00116
+          },
+          "v(n_d7)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.02320338862307203,
+            "timeSeconds": 0.0011590117819480414
+          },
+          "v(n_p5v)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.023126163454962878,
+            "timeSeconds": 0.00116
+          },
+          "i(vdriver_supply)": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 0.0006122242109081535,
+            "timeSeconds": 0.0011512130424627806
+          },
+          "v(n_wr_n)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.022768205138365083,
+            "timeSeconds": 0.00116
+          },
+          "v(wr_low)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0,
+            "timeSeconds": 0.0
+          },
+          "v(wr_high)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 8.881784197001252e-16,
+            "timeSeconds": 1.0864116978736215e-08
+          },
+          "v(n_ta_takt)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.4856078643648326,
+            "timeSeconds": 0.0011292735955490542
+          },
+          "v(n_ta_daten)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.8722561622226062,
+            "timeSeconds": 0.0011512130424627806
+          },
+          "v(l1_1_series)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.2363271177996124,
+            "timeSeconds": 0.0011512130430518066
+          },
+          "v(l1_2_series)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.2095669175734972,
+            "timeSeconds": 0.0011512130430518066
+          },
+          "v(l1_3_series)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.18647844385737944,
+            "timeSeconds": 0.0011512130430518066
+          },
+          "v(l1_4_series)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.21739061548026983,
+            "timeSeconds": 0.0011512130424627806
+          },
+          "v(n_cable_takt)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.23597760672768783,
+            "timeSeconds": 0.0011512130430518066
+          },
+          "v(n_cable_gnd)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.19766012424253354,
+            "timeSeconds": 0.0011512130430518066
+          },
+          "v(n_cable_5v)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.19766012424253354,
+            "timeSeconds": 0.0011512130430518066
+          },
+          "v(n_cable_daten)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.21846562583102402,
+            "timeSeconds": 0.0011512130424627806
+          },
+          "i(l1.1)": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 0.0007921000021819703,
+            "timeSeconds": 0.0011292716287781284
+          },
+          "i(l1.2)": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 0.011969765200221735,
+            "timeSeconds": 0.0011512123517443133
+          },
+          "i(l1.3)": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 0.012195391725612015,
+            "timeSeconds": 0.0011511163370925331
+          },
+          "i(l1.4)": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 0.0014155706492721895,
+            "timeSeconds": 0.0011510960915521173
+          },
+          "@bwr_low[i]": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 0.0,
+            "timeSeconds": 0.0
+          },
+          "@bwr_high[i]": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 3.616111814430091e-08,
+            "timeSeconds": 0.001151299121431294
+          }
+        },
+        "unionKnots": 2728589,
+        "endSeconds": 0.00116,
+        "maximumVoltageDifference": 0.8722561622226062,
+        "boundary": "All observed samples, piecewise-linear comparison on both absolute-time grids. No alignment or intersample extrema claim."
+      },
+      "forcedRetry": {
+        "signals": {
+          "v(receiver_data)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 7.465212339385907e-05,
+            "timeSeconds": 0.0011081442108580874
+          },
+          "v(receiver_clock)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 3.3305414160023084e-05,
+            "timeSeconds": 0.0011082139831469552
+          },
+          "v(n_d0)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.00013883929721481003,
+            "timeSeconds": 0.0011110127166373996
+          },
+          "v(n_d1)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.00036879124755451187,
+            "timeSeconds": 0.001113012720836244
+          },
+          "v(n_d2)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 3.3455177934627045e-06,
+            "timeSeconds": 0.0011040120698298191
+          },
+          "v(n_d3)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 8.043730446072317e-05,
+            "timeSeconds": 0.0011590117787208566
+          },
+          "v(n_d4)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0003014897281401474,
+            "timeSeconds": 0.0011570126963210115
+          },
+          "v(n_d5)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0004510704442717284,
+            "timeSeconds": 0.0011060127209671475
+          },
+          "v(n_d6)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 3.991844774731135e-06,
+            "timeSeconds": 0.001123012074568004
+          },
+          "v(n_d7)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.00036879124755451187,
+            "timeSeconds": 0.001113012720836244
+          },
+          "v(n_p5v)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 4.2096903740684866e-10,
+            "timeSeconds": 0.001122151347992777
+          },
+          "i(vdriver_supply)": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 2.61855542592164e-06,
+            "timeSeconds": 0.0011110229231373746
+          },
+          "v(n_wr_n)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 2.4058253167424937e-08,
+            "timeSeconds": 0.001108273834089742
+          },
+          "v(wr_low)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0,
+            "timeSeconds": 0.0
+          },
+          "v(wr_high)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0,
+            "timeSeconds": 0.0
+          },
+          "v(n_ta_takt)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0007567062139381964,
+            "timeSeconds": 0.0011082738674841994
+          },
+          "v(n_ta_daten)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0023138706815029053,
+            "timeSeconds": 0.0011110229022139831
+          },
+          "v(l1_1_series)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0005804381045169116,
+            "timeSeconds": 0.0011110229022139831
+          },
+          "v(l1_2_series)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0005791801705958832,
+            "timeSeconds": 0.0011110229022139831
+          },
+          "v(l1_3_series)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0005791802076000607,
+            "timeSeconds": 0.0011110229022139831
+          },
+          "v(l1_4_series)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0005719916722974894,
+            "timeSeconds": 0.0011110229022139831
+          },
+          "v(n_cable_takt)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.000579593745328344,
+            "timeSeconds": 0.0011110229022139831
+          },
+          "v(n_cable_gnd)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0005783296128329951,
+            "timeSeconds": 0.0011110229022139831
+          },
+          "v(n_cable_5v)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0005783296128329951,
+            "timeSeconds": 0.0011110229022139831
+          },
+          "v(n_cable_daten)": {
+            "unit": "V",
+            "maximumAbsoluteDifference": 0.0005745371840164548,
+            "timeSeconds": 0.0011110229022139831
+          },
+          "i(l1.1)": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 1.0632733211560046e-06,
+            "timeSeconds": 0.001108261644593505
+          },
+          "i(l1.2)": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 8.620992291499818e-07,
+            "timeSeconds": 0.0011110228707032035
+          },
+          "i(l1.3)": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 8.62136236581823e-07,
+            "timeSeconds": 0.0011110228707032035
+          },
+          "i(l1.4)": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 2.5802734801321143e-06,
+            "timeSeconds": 0.001111022870561111
+          },
+          "@bwr_low[i]": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 0.0,
+            "timeSeconds": 0.0
+          },
+          "@bwr_high[i]": {
+            "unit": "A",
+            "maximumAbsoluteDifference": 2.325452140115728e-12,
+            "timeSeconds": 0.001108273834089742
+          }
+        },
+        "unionKnots": 2173188,
+        "endSeconds": 0.00116,
+        "maximumVoltageDifference": 0.0023138706815029053,
+        "boundary": "All observed samples, piecewise-linear comparison on both absolute-time grids. No alignment or intersample extrema claim."
+      }
+    },
+    "firmwareRecordsExactlyEqual": {
+      "disabledBaseline": true,
+      "fixEffect": true,
+      "forcedRetry": true
+    },
+    "logs": {
+      "off": {
+        "count": 1410645,
+        "faults": [],
+        "busCounts": [
+          41,
+          41,
+          41
+        ],
+        "latchesMatch": true,
+        "diagnostic": null,
+        "sorry": false,
+        "advances": 1410645,
+        "firmwareCounts": {
+          "FIRST_FETCH": 1,
+          "BUS_EDGE_PS": 41,
+          "BUS_SAMPLE": 41,
+          "BUS_DRIVE": 41,
+          "BUS_LATCH": 41
+        },
+        "lastBusEdgePs": 1158501280
+      },
+      "combined": {
+        "count": 1401518,
+        "faults": [],
+        "busCounts": [
+          41,
+          41,
+          41
+        ],
+        "latchesMatch": true,
+        "diagnostic": null,
+        "sorry": false,
+        "advances": 1401517,
+        "firmwareCounts": {
+          "FIRST_FETCH": 1,
+          "BUS_EDGE_PS": 41,
+          "BUS_SAMPLE": 41,
+          "BUS_DRIVE": 41,
+          "BUS_LATCH": 41
+        },
+        "lastBusEdgePs": 1158501280
+      },
+      "retry": {
+        "count": 1401639,
+        "faults": [
+          {
+            "record": "ROLLBACK_FAULT kind=newton time=0x1.205bc01a36e2fp-10 original=0 injected=103",
+            "following": "ROLLBACK_AUDIT reject kind=newton time=0x1.205bc01a36e2fp-10 delta=0x1.515fc9dp-34"
+          }
+        ],
+        "busCounts": [
+          41,
+          41,
+          41
+        ],
+        "latchesMatch": true,
+        "diagnostic": null,
+        "sorry": false,
+        "advances": 1401638,
+        "firmwareCounts": {
+          "FIRST_FETCH": 1,
+          "BUS_EDGE_PS": 41,
+          "BUS_SAMPLE": 41,
+          "BUS_DRIVE": 41,
+          "BUS_LATCH": 41
+        },
+        "lastBusEdgePs": 1158501280
+      },
+      "baseline": {
+        "count": 1410645,
+        "faults": [],
+        "busCounts": [
+          41,
+          41,
+          41
+        ],
+        "latchesMatch": true,
+        "diagnostic": null,
+        "sorry": false,
+        "advances": 1410645,
+        "firmwareCounts": {
+          "FIRST_FETCH": 1,
+          "BUS_EDGE_PS": 41,
+          "BUS_SAMPLE": 41,
+          "BUS_DRIVE": 41,
+          "BUS_LATCH": 41
+        },
+        "lastBusEdgePs": 1158501280
+      }
+    },
+    "receipts": {
+      "off": "63b4460742f8dd4940a3a4241d4690987bec50b534f84b46b0591e155e4c1414",
+      "combined": "0d8c6bb67166ff318f7ae3259906751eac7277ee800215ba4920b06f1896c9b8",
+      "retry": "12e3528f63b15ca98283da7ec8c95fa84d45912af39e28615922c7f6f312cfc3"
+    },
+    "sourceRunSha256": "908a27787624ff5fcaf6686ddc8c1e5795250dba49f07eddb29c83f2f123e054",
+    "reviewerSha256": "e791312b93d7bbf336b75984dc43b5434bb2ddd12106138e3cbee4f3e6e44157",
+    "scope": "Whole 1.16-ms post-reset window. Disabled baseline must match exactly; enabled differences are measured, not waived.",
+    "notEstablished": [
+      "Three-level numerical convergence",
+      "Private internal-state rollback",
+      "Startup and supply recovery",
+      "Full-repeat qualification",
+      "Device/load admission"
+    ]
+  },
+  "refinementRunSha256": [
+    "02f1f431619ea5b9c1423ec4f6beee9c1dad9bf1c66df63d5a255dca0323ea66",
+    "c0a3a1d8c81489b28522f980cf2f15a7db2d97edc4b133746942194ffecae25a"
+  ],
+  "reviewerSha256": "03dbd5773277ab628c4895265624bb602090f567c97db5c0877ddea97148235a",
+  "scope": "Complete post-reset window on both absolute-time grids; every observed voltage, no alignment or exclusions.",
+  "notEstablished": [
+    "Startup and supply recovery",
+    "Full-repeat qualification",
+    "Device/load admission",
+    "Specimen agreement"
+  ]
+}

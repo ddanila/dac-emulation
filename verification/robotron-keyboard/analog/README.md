@@ -353,6 +353,10 @@ Use `postreset_refinement_review.py` with `--source`, the completed `--off`,
 `--coarse` (combined) and `--retry` controls, the two refinements as `--fine` and
 `--finest`, and a fresh `--out` assessment. It rechecks control evidence, capture
 provenance, every voltage's refinement errors and exact firmware records.
+The [complete comparison](reports/postreset-combined-refinement/assessment.json)
+preserves firmware records and meets the voltage ceiling, but errors grow under
+refinement. Its peak-localization excerpts support diagnosis; they do not replace
+the full-window gate or justify time alignment.
 `numericalGatePassed` is scoped to this window; `qualified` remains false because
 startup, supply recovery and device admission need independent evidence.
 
