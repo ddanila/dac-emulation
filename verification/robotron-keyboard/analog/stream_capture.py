@@ -19,9 +19,27 @@ from filter_truncation_log import diagnostic
 from raw_stream_review import compare_streams
 
 
-def run(build_commands, out, env, expected_end, timeout):
+def run(build_commands, out, env, expected_end, timeout, *,
+        max_log_bytes=1024**3, max_compressed_log_bytes=256*1024**2,
+        max_log_line_bytes=1024**2):
     if len(build_commands)!=3:raise ValueError('Need three producer commands')
     if not math.isfinite(timeout) or timeout<=0:raise ValueError('Need a finite positive timeout')
+    limits={'logicalLogBytes':max_log_bytes,'compressedLogBytes':max_compressed_log_bytes,
+            'logLineBytes':max_log_line_bytes}
+    if any(type(v) is not int or v<=0 for v in limits.values()):
+        raise ValueError('Log budgets must be positive integer byte counts')
+    usage={'logicalLogBytes':0,'compressedLogBytes':0}
+    budget_lock=threading.Lock()
+    def reserve(key,size):
+        with budget_lock:
+            if usage[key]+size>limits[key]:raise ValueError('Log budget exceeded: '+key)
+            usage[key]+=size
+    class BudgetedLog:
+        def __init__(self,target):self.target=target
+        def write(self,data):
+            reserve('compressedLogBytes',len(data))
+            return self.target.write(data)
+        def flush(self):self.target.flush()
     out=Path(out);out.mkdir(parents=True,exist_ok=False)
     processes=[];threads=[];errors=[];logs=[None]*3;comparisons=[None]*2
     raw=[];branches=[];start=time.monotonic();success=False
@@ -34,8 +52,13 @@ def run(build_commands, out, env, expected_end, timeout):
         thread=threading.Thread(target=invoke,daemon=True);threads.append(thread);thread.start()
     def drain(index,stream):
         digest=hashlib.sha256();size=0;counts=[];failure=None
-        with stream,lzma.open(out/f'{index}.log.xz.partial','wb',preset=1) as target:
-            for data in stream:
+        with stream,open(out/f'{index}.log.xz.partial','wb') as sink, \
+                lzma.open(BudgetedLog(sink),'wb',preset=1) as target:
+            while True:
+                data=stream.readline(max_log_line_bytes+1)
+                if not data:break
+                if len(data)>max_log_line_bytes:raise ValueError('Log line budget exceeded')
+                reserve('logicalLogBytes',len(data))
                 digest.update(data);size+=len(data);target.write(data)
                 line=data.decode('utf-8')
                 failure=failure or diagnostic(line) or ('HDL diagnostic' if 'SORRY:' in line else None)
@@ -91,12 +114,12 @@ def run(build_commands, out, env, expected_end, timeout):
         for i in range(3):(out/f'{i}.log.xz.partial').replace(out/f'{i}.log.xz')
         result={'completed':True,'comparisons':[c['comparison'] for c in comparisons],
                 'streams':[comparisons[0]['streams'][0],middle[0],comparisons[1]['streams'][1]],
-                'logs':logs,'elapsedSeconds':time.monotonic()-start,'qualified':False,
+                'logs':logs,'logLimits':limits,'logUsage':dict(usage),'elapsedSeconds':time.monotonic()-start,'qualified':False,
                 'boundary':'Three complete raw producers compared online; no raw spool. Circuit/stimulus identity, serial coverage, numerical acceptance and independent model admission are separate.'}
         (out/'transport.json').write_text(json.dumps(result,indent=2)+'\n');success=True
         return result
     except BaseException as exc:
-        (out/'failure.json').write_text(json.dumps({'completed':False,'error':str(exc),'detail':str(errors[0]) if errors else None,'elapsedSeconds':time.monotonic()-start},indent=2)+'\n')
+        (out/'failure.json').write_text(json.dumps({'completed':False,'logLimits':limits,'logUsage':dict(usage),'error':str(exc),'detail':str(errors[0]) if errors else None,'elapsedSeconds':time.monotonic()-start},indent=2)+'\n')
         raise
     finally:
         if not success:

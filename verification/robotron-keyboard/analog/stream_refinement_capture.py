@@ -17,7 +17,7 @@ from serial_observation import validate_transport
 from stream_capture import run
 
 
-def capture(decks,out,executable,spinit,timeout,inputs,environment,scenario_path=None):
+def capture(decks,out,executable,spinit,timeout,inputs,environment,scenario_path=None,log_limits=None):
     if len(decks)!=3 or not math.isfinite(timeout) or timeout<=0:raise ValueError('Need three levels and a finite positive timeout')
     decks=[p.resolve() for p in decks];out=out.resolve()
     texts=[p.read_text() for p in decks]
@@ -64,7 +64,7 @@ def capture(decks,out,executable,spinit,timeout,inputs,environment,scenario_path
             prepared.append({'path':str(path),'sha256':sha(path),'rawDescriptor':fd})
             return [runtime['executable']['path'],'-n','-b',str(path)],decks[index].parent
         return command
-    transport=run([builder(i) for i in range(3)],out,env,ends[0]*1e-9,timeout)
+    transport=run([builder(i) for i in range(3)],out,env,ends[0]*1e-9,timeout,**(log_limits or {}))
     verify(runtime);verify_dependencies(dependencies[0])
     if scenario_path and sha(scenario_path)!=scenario_hash:raise ValueError('Scenario changed during capture')
     if any(sha(Path(r['path']))!=r['sha256'] for r in prepared):raise ValueError('Executed deck changed during capture')
@@ -101,5 +101,9 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--decks',type=Path,nargs=3,required=True)
     for n in ('out','runtime','spinit','environment'):p.add_argument('--'+n,type=Path,required=True)
     p.add_argument('--input',action='append',default=[]);p.add_argument('--scenario',type=Path)
-    p.add_argument('--timeout',type=float,required=True);a=p.parse_args()
-    capture(a.decks,a.out,a.runtime,a.spinit,a.timeout,a.input,json.loads(a.environment.read_text()),a.scenario)
+    p.add_argument('--timeout',type=float,required=True)
+    p.add_argument('--max-log-bytes',type=int,default=1024**3)
+    p.add_argument('--max-compressed-log-bytes',type=int,default=256*1024**2)
+    p.add_argument('--max-log-line-bytes',type=int,default=1024**2)
+    a=p.parse_args()
+    capture(a.decks,a.out,a.runtime,a.spinit,a.timeout,a.input,json.loads(a.environment.read_text()),a.scenario,{k:getattr(a,k) for k in ('max_log_bytes','max_compressed_log_bytes','max_log_line_bytes')})
