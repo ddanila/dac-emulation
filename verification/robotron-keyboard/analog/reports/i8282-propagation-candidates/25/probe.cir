@@ -1,0 +1,14 @@
+I8282 enabled-output candidate under published load
+Vdrive drive 0 5
+Rdriver drive out 250
+Vbias bias 0 2.0099999999999998
+Rload bias out 78
+Cload out 0 3e-10 IC=0.4499999999999999
+Cdevice out 0 1.2000000000000001e-11 IC=0.4499999999999999
+.options reltol=1e-8 abstol=1e-12
+.control
+tran 0.05n 200n 0 0.05n uic
+meas tran edge_time WHEN v(out)=1.5 RISE=1
+quit
+.endc
+.end
