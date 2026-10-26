@@ -859,3 +859,13 @@ and slice-base faults. Island and thread state remain separate. The
 [island source contract](reports/island-source-contract/assessment.json) identifies
 persistent idle-island state, enable-only ports and force/filter dependencies for
 the next observer; it does not establish runtime coverage.
+
+`build_island_runtime.py` extends the primitive runtime with live transmission-gate
+islands, including idle port caches and enable-only imports. `island_probe.py`
+uses the same runtime arguments as the primitive probe; its
+[retained controls](reports/island-payload/assessment.json) check cache values
+against known stimulus/resolution, stable topology and restored cache, strength,
+flag, branch-state and mesh faults. Replay with `island_probe.py --check
+verification/robotron-keyboard/analog/reports/island-payload`. Queued wrapper
+association, combined board integration and force/filter referents still need
+coverage; idle-island controls do not establish general rollback.
