@@ -847,3 +847,12 @@ primitive identities across requeue, fresh wrapper identities and unchanged outp
 transitions under restored faults. The [source contract](reports/primitive-payload/source-contract.json)
 explains initialization and protected-base identity handoff. Board integration,
 transmission-gate mesh/port state, thread state and destination referents remain open.
+
+The combined primitive observer uses `build_primitive_bridge.py`,
+`primitive_board_capture.py` and `primitive_board_review.py`. Supply a reviewed
+assignment-board capture as the baseline and the runtime built by
+`build_primitive_runtime.py`. The review includes all preceding observer layers,
+allows cached inputs to coalesce while queued, and checks stable primitive
+metadata and wrapper lifetimes. Captures must pass exact waveform and firmware
+comparison plus restored cached-value, destination and slice-base faults before
+this layer counts as board evidence; island and thread state remain separate.
