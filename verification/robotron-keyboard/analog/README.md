@@ -372,6 +372,9 @@ with `postreset_instance_review.py`, passing the same `--root`, `--source`,
 `--baseline` and `--out` arguments. It retains the complete output-queue,
 waveform and firmware checks and additionally verifies instance worklists,
 rollback anchors and immediate/delayed external-instance corruption.
+The [long-window negative controls](reports/postreset-instance-state/negative-assessment.json)
+detect the external instance-queue mutation, including delayed injection after
+firmware execution. Positive-control equivalence remains a separate requirement.
 
 Use `cpu_reset_setup_review.py --root <completed-boot-capture> --out <assessment.json>`
 to check sampled RESET stability against complete CPU-clock voltage rises. It
