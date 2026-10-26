@@ -1,0 +1,311 @@
+{
+  "qualified": false,
+  "scope": "Source-backed timing localization; unchanged full comparison remains authoritative. No phase alignment, gate waiver or causal proof.",
+  "busTimestampExample": {
+    "baseline": [
+      {
+        "ordinal": 253,
+        "actual": "0.0010715012800000001",
+        "target": "0.0010715012825661418",
+        "base": "0.0010715012802499997",
+        "port": "bus_high"
+      },
+      {
+        "ordinal": 254,
+        "actual": "0.0010715012800000001",
+        "target": "0.0010715012802499997",
+        "base": "0.0010715012802499997",
+        "port": "bus_low"
+      }
+    ],
+    "25": [
+      {
+        "ordinal": 253,
+        "actual": "0.0010715012790000001",
+        "target": "0.0010715012803800914",
+        "base": "0.0010715012800000001",
+        "port": "bus_high"
+      },
+      {
+        "ordinal": 254,
+        "actual": "0.0010715012790000001",
+        "target": "0.0010715012800000001",
+        "base": "0.0010715012800000001",
+        "port": "bus_low"
+      }
+    ],
+    "12.5": [
+      {
+        "ordinal": 253,
+        "actual": "0.0010715012790000001",
+        "target": "0.0010715012831069223",
+        "base": "0.0010715012800000001",
+        "port": "bus_high"
+      },
+      {
+        "ordinal": 254,
+        "actual": "0.0010715012790000001",
+        "target": "0.0010715012800000001",
+        "base": "0.0010715012800000001",
+        "port": "bus_low"
+      }
+    ],
+    "6.25": [
+      {
+        "ordinal": 253,
+        "actual": "0.0010715012790000001",
+        "target": "0.0010715012831062928",
+        "base": "0.0010715012800000001",
+        "port": "bus_high"
+      },
+      {
+        "ordinal": 254,
+        "actual": "0.0010715012790000001",
+        "target": "0.0010715012800000001",
+        "base": "0.0010715012800000001",
+        "port": "bus_low"
+      }
+    ]
+  },
+  "peakPrecedingOutput": {
+    "25": {
+      "actual": "0.001096019097",
+      "target": "0.0010960190980799807",
+      "base": "0.0010960190978817567",
+      "port": "data_sink"
+    },
+    "12.5": {
+      "actual": "0.001096019098",
+      "target": "0.0010960190990885984",
+      "base": "0.0010960190988608704",
+      "port": "data_sink"
+    },
+    "6.25": {
+      "actual": "0.001096019097",
+      "target": "0.0010960190980327312",
+      "base": "0.0010960190978817588",
+      "port": "data_sink"
+    }
+  },
+  "peakValues": [
+    {
+      "timeSeconds": 0.001096022859526637,
+      "values": {
+        "25": {
+          "v(receiver_data)": 0.2927850453270368,
+          "v(receiver_clock)": 0.32180480596225397,
+          "v(n_d0)": 0.4825318356794828,
+          "v(n_d1)": 1.1393165085519097,
+          "v(n_d2)": 1.1269850530447096,
+          "v(n_d3)": 4.907521191383347,
+          "v(n_d4)": 1.1269850530447096,
+          "v(n_d5)": 1.1269850530447096,
+          "v(n_d6)": 4.9075211913831716,
+          "v(n_d7)": 1.1393165085519097,
+          "v(n_p5v)": 4.907594853808974,
+          "i(vdriver_supply)": 0.010131288058503963,
+          "v(n_wr_n)": 4.858947761675385,
+          "v(wr_low)": 0.0,
+          "v(wr_high)": 5.0,
+          "v(n_ta_takt)": 0.056790769275463136,
+          "v(n_ta_daten)": 4.829682692948013,
+          "v(l1_1_series)": 1.3625874795878714,
+          "v(l1_2_series)": 1.0932499775131277,
+          "v(l1_3_series)": 6.000767089702311,
+          "v(l1_4_series)": 1.3374637673101062,
+          "v(n_cable_takt)": 1.3666744216682853,
+          "v(n_cable_gnd)": 1.0448696157060313,
+          "v(n_cable_5v)": 6.044869615706031,
+          "v(n_cable_daten)": 1.3376546610330682,
+          "i(l1.1)": -0.004086942080414001,
+          "i(l1.2)": 0.04838036180709623,
+          "i(l1.3)": -0.04410252600372037,
+          "i(l1.4)": -0.0001908937229618611,
+          "i(@bwr_low[i])": 0.0,
+          "i(@bwr_high[i])": 4.677605012845147e-06
+        },
+        "12.5": {
+          "v(receiver_data)": 0.29277985028021447,
+          "v(receiver_clock)": 0.3218066067219094,
+          "v(n_d0)": 0.4825772273456831,
+          "v(n_d1)": 1.1394696281070378,
+          "v(n_d2)": 1.1271365655018053,
+          "v(n_d3)": 4.907521191116772,
+          "v(n_d4)": 1.1271365655018053,
+          "v(n_d5)": 1.1271365655018053,
+          "v(n_d6)": 4.907521191117137,
+          "v(n_d7)": 1.1394696281070378,
+          "v(n_p5v)": 4.907594853748821,
+          "i(vdriver_supply)": 0.01012779719221222,
+          "v(n_wr_n)": 4.858947761713878,
+          "v(wr_low)": 0.0,
+          "v(wr_high)": 5.0,
+          "v(n_ta_takt)": 0.05678595030853461,
+          "v(n_ta_daten)": 4.832844375718495,
+          "v(l1_1_series)": 1.363380506795904,
+          "v(l1_2_series)": 1.0940412110867084,
+          "v(l1_3_series)": 6.001558323313591,
+          "v(l1_4_series)": 1.3382451387388392,
+          "v(n_cable_takt)": 1.367466287455139,
+          "v(n_cable_gnd)": 1.04565968073323,
+          "v(n_cable_5v)": 6.04565968073323,
+          "v(n_cable_daten)": 1.3384395310134443,
+          "i(l1.1)": -0.004085780659235216,
+          "i(l1.2)": 0.04838153035347867,
+          "i(l1.3)": -0.04410135741963842,
+          "i(l1.4)": -0.00019439227460502672,
+          "i(@bwr_low[i])": 0.0,
+          "i(@bwr_high[i])": 4.677605003359919e-06
+        },
+        "6.25": {
+          "v(receiver_data)": 0.29278509218296245,
+          "v(receiver_clock)": 0.3218048264610443,
+          "v(n_d0)": 0.48253183576684466,
+          "v(n_d1)": 1.1393165088673731,
+          "v(n_d2)": 1.126985077179993,
+          "v(n_d3)": 4.907521191022742,
+          "v(n_d4)": 1.126985077179993,
+          "v(n_d5)": 1.126985077179993,
+          "v(n_d6)": 4.907521191022659,
+          "v(n_d7)": 1.1393165088673731,
+          "v(n_p5v)": 4.907594853449284,
+          "i(vdriver_supply)": 0.010131288495117343,
+          "v(n_wr_n)": 4.858947761320779,
+          "v(wr_low)": 0.0,
+          "v(wr_high)": 5.0,
+          "v(n_ta_takt)": 0.05679076850459849,
+          "v(n_ta_daten)": 4.829682234005035,
+          "v(l1_1_series)": 1.3625873691857213,
+          "v(l1_2_series)": 1.0932498457952005,
+          "v(l1_3_series)": 6.00076695761427,
+          "v(l1_4_series)": 1.3374636833960272,
+          "v(n_cable_takt)": 1.3666743107978472,
+          "v(n_cable_gnd)": 1.044869484336803,
+          "v(n_cable_5v)": 6.044869484336803,
+          "v(n_cable_daten)": 1.3376545765197654,
+          "i(l1.1)": -0.004086941612125925,
+          "i(l1.2)": 0.04838036145839738,
+          "i(l1.3)": -0.044102526722533175,
+          "i(l1.4)": -0.00019089312373827823,
+          "i(@bwr_low[i])": 0.0,
+          "i(@bwr_high[i])": 4.677605012356237e-06
+        }
+      }
+    },
+    {
+      "timeSeconds": 0.0010960228596367438,
+      "values": {
+        "25": {
+          "v(receiver_data)": 0.29278502404063156,
+          "v(receiver_clock)": 0.3218043555871877,
+          "v(n_d0)": 0.4825267315732467,
+          "v(n_d1)": 1.1392992907347625,
+          "v(n_d2)": 1.1269680215855626,
+          "v(n_d3)": 4.907521191420032,
+          "v(n_d4)": 1.1269680215855626,
+          "v(n_d5)": 1.1269680215855626,
+          "v(n_d6)": 4.907521191419856,
+          "v(n_d7)": 1.1392992907347625,
+          "v(n_p5v)": 4.9075948538243255,
+          "i(vdriver_supply)": 0.010131676533993213,
+          "v(n_wr_n)": 4.858947761685221,
+          "v(wr_low)": 0.0,
+          "v(wr_high)": 5.0,
+          "v(n_ta_takt)": 0.05679133252996891,
+          "v(n_ta_daten)": 4.829333756067366,
+          "v(l1_1_series)": 1.3624999103330835,
+          "v(l1_2_series)": 1.0931628820361086,
+          "v(l1_3_series)": 6.000679994233852,
+          "v(l1_4_series)": 1.3373771553884997,
+          "v(n_cable_takt)": 1.3665869961781187,
+          "v(n_cable_gnd)": 1.044782640590931,
+          "v(n_cable_5v)": 6.044782640590931,
+          "v(n_cable_daten)": 1.3375676646315626,
+          "i(l1.1)": -0.004087085845035223,
+          "i(l1.2)": 0.04838024144517744,
+          "i(l1.3)": -0.044102646357079264,
+          "i(l1.4)": -0.00019050924306295003,
+          "i(@bwr_low[i])": 0.0,
+          "i(@bwr_high[i])": 4.677605013375391e-06
+        },
+        "12.5": {
+          "v(receiver_data)": 0.29277982859498286,
+          "v(receiver_clock)": 0.32180615648007665,
+          "v(n_d0)": 0.4825721225486858,
+          "v(n_d1)": 1.1394524079017752,
+          "v(n_d2)": 1.1271195316796323,
+          "v(n_d3)": 4.907521191153457,
+          "v(n_d4)": 1.1271195316796323,
+          "v(n_d5)": 1.1271195316796323,
+          "v(n_d6)": 4.907521191153822,
+          "v(n_d7)": 1.1394524079017752,
+          "v(n_p5v)": 4.9075948537641825,
+          "i(vdriver_supply)": 0.010128184454548545,
+          "v(n_wr_n)": 4.858947761723714,
+          "v(wr_low)": 0.0,
+          "v(wr_high)": 5.0,
+          "v(n_ta_takt)": 0.05678651398142286,
+          "v(n_ta_daten)": 4.832495429138346,
+          "v(l1_1_series)": 1.3632929349130132,
+          "v(l1_2_series)": 1.0939541128491044,
+          "v(l1_3_series)": 6.001471225084547,
+          "v(l1_4_series)": 1.3381585240191534,
+          "v(n_cable_takt)": 1.3673788594277663,
+          "v(n_cable_gnd)": 1.0455727029476898,
+          "v(n_cable_5v)": 6.04557270294769,
+          "v(n_cable_daten)": 1.3383525315426725,
+          "i(l1.1)": -0.004085924514753076,
+          "i(l1.2)": 0.04838140990141475,
+          "i(l1.3)": -0.044101477863142474,
+          "i(l1.4)": -0.00019400752351920103,
+          "i(@bwr_low[i])": 0.0,
+          "i(@bwr_high[i])": 4.677605003891238e-06
+        },
+        "6.25": {
+          "v(receiver_data)": 0.29278507083038185,
+          "v(receiver_clock)": 0.3218043761110794,
+          "v(n_d0)": 0.48252673154588616,
+          "v(n_d1)": 1.1392992906535815,
+          "v(n_d2)": 1.1269680453281345,
+          "v(n_d3)": 4.907521191059425,
+          "v(n_d4)": 1.1269680453281345,
+          "v(n_d5)": 1.1269680453281345,
+          "v(n_d6)": 4.9075211910593435,
+          "v(n_d7)": 1.1392992906535815,
+          "v(n_p5v)": 4.907594853464637,
+          "i(vdriver_supply)": 0.010131676779198155,
+          "v(n_wr_n)": 4.858947761330615,
+          "v(wr_low)": 0.0,
+          "v(wr_high)": 5.0,
+          "v(n_ta_takt)": 0.05679133182970636,
+          "v(n_ta_daten)": 4.829333276659521,
+          "v(l1_1_series)": 1.362499794546641,
+          "v(l1_2_series)": 1.093162744908954,
+          "v(l1_3_series)": 6.000679856736584,
+          "v(l1_4_series)": 1.3373770660588638,
+          "v(n_cable_takt)": 1.3665868799384746,
+          "v(n_cable_gnd)": 1.0447825038273952,
+          "v(n_cable_5v)": 6.0447825038273955,
+          "v(n_cable_daten)": 1.337567574657777,
+          "i(l1.1)": -0.004087085391833669,
+          "i(l1.2)": 0.048380241081558806,
+          "i(l1.3)": -0.04410264709081187,
+          "i(l1.4)": -0.0001905085989132724,
+          "i(@bwr_low[i])": 0.0,
+          "i(@bwr_high[i])": 4.6776050128867375e-06
+        }
+      }
+    }
+  ],
+  "source": {
+    "path": "build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c",
+    "sha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+    "getTimeExcerpt": "static double get_time(struct ng_vvp *ctx)\n{\n    static struct t_vpi_time now = { .type = vpiSimTime };\n    uint64_t                 ticks;\n\n    vpi_get_time(NULL, &now);\n    ticks = ((uint64_t)now.high << 32) + now.low;\n    return (double)ticks * ctx->tick_length;\n}"
+  },
+  "findings": [
+    "The first changed bus sample timestamp is corroborated by bus_high/bus_low callback times from vpi_get_time, rather than only the formatted BUS_EDGE_PS text.",
+    "At the largest voltage residual, the middle-step data_sink event is one HDL tick later than both other refinements; the coarse and finest node values nearly coincide while the middle value differs by about 3.16 mV. This is a localization clue, not proof of causation.",
+    "File-adjacent BUS and TIME_AUDIT records are not a common timeline because stdout and stderr buffering differ. Use explicit event times and target-window records."
+  ],
+  "nextExperiment": "Use a bounded deterministic input-edge fixture around integer HDL tick boundaries to distinguish threshold localization, input application ordering and delta-to-tick conversion. Validate any candidate with unchanged controls before another full board refinement."
+}
