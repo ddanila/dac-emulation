@@ -349,6 +349,12 @@ fresh `--out` directories. The runner changes only the transient step, preserves
 the complete window and observations, and retains compressed waveforms and logs.
 Review both successive waveform differences under the unchanged numerical gate;
 producer completion alone does not establish convergence.
+Use `postreset_refinement_review.py` with `--source`, the completed `--off`,
+`--coarse` (combined) and `--retry` controls, the two refinements as `--fine` and
+`--finest`, and a fresh `--out` assessment. It rechecks control evidence, capture
+provenance, every voltage's refinement errors and exact firmware records.
+`numericalGatePassed` is scoped to this window; `qualified` remains false because
+startup, supply recovery and device admission need independent evidence.
 
 For longer internal-state controls, use `postreset_state_capture.py` with the
 circuit-output observer build and a fresh output directory for each mode. It
