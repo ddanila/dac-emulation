@@ -1,0 +1,214 @@
+{
+  "completed": true,
+  "qualified": false,
+  "deviceAdmitted": false,
+  "scope": "I8282 enabled-output transitions under its published switching load. Instantaneous full drive and no added output capacitance give these resistor models their fastest response.",
+  "decision": "Reject both DC-only I8282 candidates as complete switching drivers. This does not reject the CPU/ROM candidates or identify a physical replacement.",
+  "runtime": {
+    "path": "/opt/homebrew/Cellar/ngspice/47/bin/ngspice",
+    "sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511"
+  },
+  "sources": {
+    "bus_switching_probe.py": "82a0bf5d9b040b918ac26a8c71d63b3ffa23261212518c850c30c06b58b50ea5",
+    "bus_switching_limits.json": "669da702f6aed3654862bc8730eea51c267d30d5921ea3316f43b85145510ec3",
+    "bus_endpoint_candidates.py": "6437f6e81fcb100065df54ac21f1f7a87c13fb68482567c85410dbd27e3e5fb0",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "bus_device_contract.json": "2ec7297942027de6507fe06b7ee0ee28380affd73d7aa15af47f6c73fa3d6c03",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+    "ttl7406_probe.py": "8726f6dc39c717b65abccc85792859aad3d8537dc02ac7eb85d2bd72d3e8021b"
+  },
+  "cases": [
+    {
+      "mode": "minimum-supply",
+      "supplyVolts": 4.5,
+      "edge": "rise",
+      "driveVolts": 4.5,
+      "ohms": 420.0,
+      "analyticSeconds": 2.7358435704992545e-08,
+      "maximumSeconds": 2e-08,
+      "withinPublishedLimit": false,
+      "measuredSeconds": 2.73584e-08,
+      "directory": "minimum-supply-4.5-rise",
+      "files": {
+        "probe.cir": "bf7e2e12cbcc940667703067c6d78f29fe01b3bbf3c4d45d8324eac9b2a0d425",
+        "ngspice.log": "e52ffc65fcec3760510865e07ea24bafe6035fb2c0d1edc1910f0ab36b1610bb"
+      }
+    },
+    {
+      "mode": "minimum-supply",
+      "supplyVolts": 4.5,
+      "edge": "fall",
+      "driveVolts": 0,
+      "ohms": 22.5,
+      "analyticSeconds": 7.79574696202793e-09,
+      "maximumSeconds": 1.2e-08,
+      "withinPublishedLimit": true,
+      "measuredSeconds": 7.79568e-09,
+      "directory": "minimum-supply-4.5-fall",
+      "files": {
+        "probe.cir": "1cfef339a8743df38e30d0e226e6f3f707724316c91116b716f500177e7f33dc",
+        "ngspice.log": "211012b50312f7932b686bea0a5f784f42583d131dd6655db89a3d6abcb11955"
+      }
+    },
+    {
+      "mode": "minimum-supply",
+      "supplyVolts": 5,
+      "edge": "rise",
+      "driveVolts": 5,
+      "ohms": 420.0,
+      "analyticSeconds": 2.477284938898438e-08,
+      "maximumSeconds": 2e-08,
+      "withinPublishedLimit": false,
+      "measuredSeconds": 2.47728e-08,
+      "directory": "minimum-supply-5-rise",
+      "files": {
+        "probe.cir": "3d04803ff440c57b79f62b03aa8c68bf1af247edc7f3f09aace93a06ad7fdada",
+        "ngspice.log": "c83c8a475ec6abf5b91aee8536294caf57e8dc56768f589efb810fa1ae2ccac9"
+      }
+    },
+    {
+      "mode": "minimum-supply",
+      "supplyVolts": 5,
+      "edge": "fall",
+      "driveVolts": 0,
+      "ohms": 22.5,
+      "analyticSeconds": 7.79574696202793e-09,
+      "maximumSeconds": 1.2e-08,
+      "withinPublishedLimit": true,
+      "measuredSeconds": 7.79569e-09,
+      "directory": "minimum-supply-5-fall",
+      "files": {
+        "probe.cir": "61900e53e0ee99ed2af590e7a2acbcb05b223aa5eb7c05833a6061db7029be8c",
+        "ngspice.log": "fdaad7387b22452e9e8bacc4d2ed1e9be10e8ba2232341819f28270a3dce4afa"
+      }
+    },
+    {
+      "mode": "minimum-supply",
+      "supplyVolts": 5.5,
+      "edge": "rise",
+      "driveVolts": 5.5,
+      "ohms": 420.0,
+      "analyticSeconds": 2.2680498351752823e-08,
+      "maximumSeconds": 2e-08,
+      "withinPublishedLimit": false,
+      "measuredSeconds": 2.26805e-08,
+      "directory": "minimum-supply-5.5-rise",
+      "files": {
+        "probe.cir": "2a41535eb140ea90b9f396476c8b0c7117823a60e40158de9d64a823ad64eafb",
+        "ngspice.log": "2e69ffe81852a825cdb02e3cb76e04208264d7934a387accc5fe2d3c31113a74"
+      }
+    },
+    {
+      "mode": "minimum-supply",
+      "supplyVolts": 5.5,
+      "edge": "fall",
+      "driveVolts": 0,
+      "ohms": 22.5,
+      "analyticSeconds": 7.79574696202793e-09,
+      "maximumSeconds": 1.2e-08,
+      "withinPublishedLimit": true,
+      "measuredSeconds": 7.79568e-09,
+      "directory": "minimum-supply-5.5-fall",
+      "files": {
+        "probe.cir": "d0f00997b64ffdb1cca91f280c1564b19998fcf1cd79ab55a64b1008c25c8c66",
+        "ngspice.log": "21b9d45d74045bc109c61cc69652f83d4ee168c58827d380be9e1bae45069df0"
+      }
+    },
+    {
+      "mode": "supply-tracking",
+      "supplyVolts": 4.5,
+      "edge": "rise",
+      "driveVolts": 4.5,
+      "ohms": 420.0,
+      "analyticSeconds": 2.7358435704992545e-08,
+      "maximumSeconds": 2e-08,
+      "withinPublishedLimit": false,
+      "measuredSeconds": 2.73584e-08,
+      "directory": "supply-tracking-4.5-rise",
+      "files": {
+        "probe.cir": "bf7e2e12cbcc940667703067c6d78f29fe01b3bbf3c4d45d8324eac9b2a0d425",
+        "ngspice.log": "e52ffc65fcec3760510865e07ea24bafe6035fb2c0d1edc1910f0ab36b1610bb"
+      }
+    },
+    {
+      "mode": "supply-tracking",
+      "supplyVolts": 4.5,
+      "edge": "fall",
+      "driveVolts": 0,
+      "ohms": 22.5,
+      "analyticSeconds": 7.79574696202793e-09,
+      "maximumSeconds": 1.2e-08,
+      "withinPublishedLimit": true,
+      "measuredSeconds": 7.79568e-09,
+      "directory": "supply-tracking-4.5-fall",
+      "files": {
+        "probe.cir": "1cfef339a8743df38e30d0e226e6f3f707724316c91116b716f500177e7f33dc",
+        "ngspice.log": "211012b50312f7932b686bea0a5f784f42583d131dd6655db89a3d6abcb11955"
+      }
+    },
+    {
+      "mode": "supply-tracking",
+      "supplyVolts": 5,
+      "edge": "rise",
+      "driveVolts": 5,
+      "ohms": 520.0,
+      "analyticSeconds": 2.8208076565396042e-08,
+      "maximumSeconds": 2e-08,
+      "withinPublishedLimit": false,
+      "measuredSeconds": 2.82081e-08,
+      "directory": "supply-tracking-5-rise",
+      "files": {
+        "probe.cir": "d58e15cc855bcc274f2ba67795e14e4151ee78c58bdda152ec22446e523da2dc",
+        "ngspice.log": "5a704e0c08202b2202718117ab9103a1e0b74f3a358317708615b83ede3469bf"
+      }
+    },
+    {
+      "mode": "supply-tracking",
+      "supplyVolts": 5,
+      "edge": "fall",
+      "driveVolts": 0,
+      "ohms": 22.5,
+      "analyticSeconds": 7.79574696202793e-09,
+      "maximumSeconds": 1.2e-08,
+      "withinPublishedLimit": true,
+      "measuredSeconds": 7.79569e-09,
+      "directory": "supply-tracking-5-fall",
+      "files": {
+        "probe.cir": "61900e53e0ee99ed2af590e7a2acbcb05b223aa5eb7c05833a6061db7029be8c",
+        "ngspice.log": "fdaad7387b22452e9e8bacc4d2ed1e9be10e8ba2232341819f28270a3dce4afa"
+      }
+    },
+    {
+      "mode": "supply-tracking",
+      "supplyVolts": 5.5,
+      "edge": "rise",
+      "driveVolts": 5.5,
+      "ohms": 620.0,
+      "analyticSeconds": 2.8814267322532056e-08,
+      "maximumSeconds": 2e-08,
+      "withinPublishedLimit": false,
+      "measuredSeconds": 2.88142e-08,
+      "directory": "supply-tracking-5.5-rise",
+      "files": {
+        "probe.cir": "3085a80cc89d374d5c3cf0fa5ac7b33ea7eb1cc2492adb3e6b82e0f9315457ed",
+        "ngspice.log": "c363cb3bfc3452fe78ac0816efdf40058c74db0f25ad99cdc885fba672983867"
+      }
+    },
+    {
+      "mode": "supply-tracking",
+      "supplyVolts": 5.5,
+      "edge": "fall",
+      "driveVolts": 0,
+      "ohms": 22.5,
+      "analyticSeconds": 7.79574696202793e-09,
+      "maximumSeconds": 1.2e-08,
+      "withinPublishedLimit": true,
+      "measuredSeconds": 7.79568e-09,
+      "directory": "supply-tracking-5.5-fall",
+      "files": {
+        "probe.cir": "d0f00997b64ffdb1cca91f280c1564b19998fcf1cd79ab55a64b1008c25c8c66",
+        "ngspice.log": "21b9d45d74045bc109c61cc69652f83d4ee168c58827d380be9e1bae45069df0"
+      }
+    }
+  ]
+}

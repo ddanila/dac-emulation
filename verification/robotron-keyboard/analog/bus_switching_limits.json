@@ -1,0 +1,17 @@
+{
+  "scope": "Independent published switching constraint for I8282 output-driver candidates; not specimen calibration",
+  "source": "bus_limits.json:sources.8282",
+  "pages": "PDF pages 3–4, printed 9-92 and 9-93",
+  "device": "Intel I8282",
+  "supplyRangeVolts": [4.5, 5.5],
+  "temperatureRangeCelsius": [-40, 85],
+  "switchingLoad": {
+    "biasVolts": 2.01,
+    "resistanceOhms": 78,
+    "capacitanceFarads": 3e-10,
+    "topology": "Output to 2.01-V source through 78 ohms; 300 pF from output to ground"
+  },
+  "rise": {"fromVolts": 0.8, "toVolts": 2.0, "maximumSeconds": 2e-8},
+  "fall": {"fromVolts": 2.0, "toVolts": 0.8, "maximumSeconds": 1.2e-8},
+  "excluded": "The separate 33-ohm and 180-ohm loads concern tri-state tests. The 1.5-V reference concerns propagation delay, not the explicitly specified rise/fall thresholds. No output capacitance is inferred from input CIN."
+}
