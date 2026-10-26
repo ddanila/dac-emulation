@@ -1,0 +1,33 @@
+{
+  "qualified": false,
+  "reviewKind": "Manual source/initialization argument with exact source identities; not a general dataflow or memory-safety verifier.",
+  "sources": {
+    "vpi": {
+      "path": "build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c",
+      "sha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+      "excerpt": "    ctx->ports = (struct ngvp_port *)malloc(\n                     (ctx->ins + ctx->outs + ctx->inouts) *\n                     sizeof (struct ngvp_port));\n    if (!ctx->ports) {\n        vpi_printf(\"No memory for ports at \" __FILE__ \":%d\\n\", __LINE__);\n        abort();\n    }\n\n    /* Get the ports. */\n\n    iter = vpi_iterate(vpiPort, top);\n    ii = oi = ioi = 0;\n    while ((item = vpi_scan(iter))) {\n        vpiHandle         namesake;\n        struct ngvp_port *pp;\n        int               first;\n\n        direction = vpi_get(vpiDirection, item);\n        name = vpi_get_str(vpiName, item);\n\n        /* Assume that there is an object with the same name as the port\n         * whose value may be read or set as needed.  This is an assumption\n         * about how code for VVP is generated.\n         */\n\n        namesake = vpi_handle_by_name(name, top);\n        DBG(\"Port %s direction %d size %d, namesake type %d\\n\",\n            name, direction, vpi_get(vpiSize, item),\n            vpi_get(vpiType, namesake));\n\n        switch (direction) {\n        case vpiInput:\n            first = !ii;\n            pp = ctx->ports + ii++;\n            init(namesake);\n            break;\n        case vpiOutput:\n            first = !oi;\n            pp = ctx->ports + ctx->ins + oi++;\n            watch(namesake, pp);\n            break;\n        case vpiInout:\n            first = !ioi;\n            init(namesake);\n            pp = ctx->ports + ctx->ins + ctx->outs + ioi++;\n            watch(namesake, pp);\n            break;\n        default:\n            continue;\n        }\n        pp->bits = (uint16_t)vpi_get(vpiSize, item);\n        pp->flags = 0;\n        pp->position = first ? 0 : pp[-1].position + pp[-1].bits;\n        pp->previous.aval = pp->previous.bval = 0;\n        pp->handle = namesake;\n        pp->ctx = ctx;\n    }\n\n    /* Constant-folded outputs may never emit cbValueChange. Seed the\n     * outgoing snapshot from VPI before the first simulation advance. */\n    for (int i = ctx->ins; i < ctx->ins + ctx->outs + ctx->inouts; ++i) {\n        struct ngvp_port *pp = ctx->ports + i;\n        struct t_vpi_value value = { .format = vpiVectorVal };\n        vpi_get_value(pp->handle, &value);\n        pp->new.aval = value.value.vector->aval;\n        pp->new.bval = value.value.vector->bval;\n        pp->flags |= OUT_PENDING;\n        ++ctx->out_pending;\n    }\n\n"
+    },
+    "shim": {
+      "path": "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.c",
+      "sha256": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "legacyObserver": {
+      "path": "verification/robotron-keyboard/analog/reports/live-cosim-state/model/live_state_audit.h",
+      "sha256": "9579eabc5cbcd476b18639ec72e6389324007bc696f619e4c9229d958f4ab89f",
+      "excerpt": " for(unsigned i=0;i<ctx->ins+ctx->outs+ctx->inouts;i++){\n  struct ngvp_port *p=ctx->ports+i;\n  fprintf(f,\"port %u %u %u %u %d %d %d %d\\n\",i,p->bits,p->flags,p->position,p->previous.aval,p->previous.bval,p->new.aval,p->new.bval);\n }\n"
+    }
+  },
+  "finding": "The port array is allocated with malloc. Every port initializes metadata, flags and previous words. The seeded new-value loop starts at ctx->ins, so input-only new words have no producer initialization. The legacy observer prints those words unconditionally; their equality cannot establish meaningful private-state coverage.",
+  "stateContract": [
+    "Bind the actual context, port-array allocation, cosim owner, runtime library, counts, per-port handle, bit width, packing and full VPI name after port construction and output seeding, before the first HDL yield.",
+    "Check canonical identities before reading port values; never dereference a supplied mutated handle or context pointer.",
+    "Read previous words for all directions, and new words only for outputs/inouts. Keep input-only new fields absent even if allocator bytes happen to be zero.",
+    "Validate direction-specific flags, pending-port counts and the compiled HDL interface. Preserve paused-boundary equality and restore real reference/value faults before scheduling."
+  ],
+  "interpretation": "Existing numerical outputs and retained reports are unchanged. Do not use uninitialized input-only new words from the legacy dump as an acceptance condition or as evidence of complete private-state equivalence.",
+  "remaining": [
+    "Output value-change callback object/function/user-data relationships to the registered ports.",
+    "Full-window matched board/internal-state controls and initialization-only event families.",
+    "Freed-storage equivalence, scheduler continuation and general rollback."
+  ]
+}

@@ -374,6 +374,12 @@ Review the three enabled captures with `postreset_adc_review.py --coarse BASELIN
 --enabled RUN25 --fine RUN12_5 --finest RUN6_25 --out REPORT`. The review preserves
 the numerical gate and checks firmware agreement with the original baseline;
 ADC-enabled retry and internal-state coverage remain separate requirements.
+The [full post-reset comparison](reports/postreset-adc/assessment.json) fails
+non-growing voltage error. Enabled refinements preserve identical firmware
+records, but the disabled comparison has one-picosecond bus timestamp differences;
+these are retained in [complete selected records](reports/postreset-adc/firmware-differences.json)
+and are not waived. Full numerical replay requires the local captures listed in
+[retention metadata](reports/postreset-adc/retention.json).
 `numericalGatePassed` is scoped to this window; `qualified` remains false because
 startup, supply recovery and device admission need independent evidence.
 
@@ -700,7 +706,7 @@ The [standalone controls](reports/executing-wrapper/assessment.json) link the li
 generic event to its executing synchronization callback and check deletion
 ownership across delayed, read/write and read-only callbacks. A changed deletion
 flag is restored before callback return. Unknown generic objects fail closed;
-board integration, other event families and scheduler continuation remain open.
+other event families and scheduler continuation remain open.
 
 For combined board controls, build `build_executing_wrapper_bridge.py` with the
 paired bridge/VPI arguments above. Run `wrapper_board_capture.py --source
@@ -709,4 +715,17 @@ RUNTIME --out FRESH_DIRECTORY`, then `wrapper_board_review.py --root CAPTURES
 --producer wrapper_board_capture.py --out REPORT`. The capture reuses the reviewed
 disabled baseline, selects its XSPICE initialization explicitly and exercises
 separate display-pointer, stop-handle and wrapper-deletion faults. Board
-acceptance requires all three restored faults and exact positive-control outputs.
+[Retained board evidence](reports/wrapper-board/assessment.json) passes all three
+restored faults and exact positive-control outputs over the bounded fixture.
+
+
+For bridge-port coverage, use `build_port_identity_bridge.py` with the same
+paired build arguments, then `port_board_capture.py --source WRAPPER_CAPTURES
+--assessment WRAPPER_ASSESSMENT --bridge PORT_BRIDGE --out FRESH_DIRECTORY` and
+`port_board_review.py --root CAPTURES --producer port_board_capture.py --out REPORT`.
+Canonical handles, context back-references and layout are registered before the
+first yield; the review checks layout against the compiled HDL interface.
+Handle, context and initialized-value faults are restored before continuation.
+The [initialization contract](reports/port-state-contract/assessment.json) excludes
+unused input-only `new` words, which the legacy observer read before initialization.
+Output value-change callback relationships and longer-window coverage remain open.
