@@ -1,0 +1,72 @@
+{
+  "qualified": false,
+  "scope": "Complete compressed audit logs and capture inputs retained. Full positive instance-state assessment is separate; capture completion is not acceptance. Complete raw waveforms remain local and are required for full numerical reanalysis.",
+  "localRawCaptures": {
+    "off": {
+      "directory": "build/keyboard-controller-analog/postreset-instance-controls/off",
+      "waveformLogicalIdentity": {
+        "sha256": "67228fdf70afe46eed5c567b0b19d0c1d1b650464490da2de01a7211e9260301",
+        "bytes": 358789553
+      },
+      "waveformContainerSha256": "26351b82940f65ee85cf764a25e899c1df72c4f5ff5487f5e591445dfd777af8",
+      "waveformContainerBytes": 201410228
+    },
+    "check": {
+      "directory": "build/keyboard-controller-analog/postreset-instance-controls/check",
+      "waveformLogicalIdentity": {
+        "sha256": "67228fdf70afe46eed5c567b0b19d0c1d1b650464490da2de01a7211e9260301",
+        "bytes": 358789553
+      },
+      "waveformContainerSha256": "26351b82940f65ee85cf764a25e899c1df72c4f5ff5487f5e591445dfd777af8",
+      "waveformContainerBytes": 201410228
+    },
+    "immediate": {
+      "directory": "build/keyboard-controller-analog/postreset-instance-controls/immediate",
+      "waveformLogicalIdentity": {
+        "sha256": "1b169ba9558b8e1b16a67d64685945b42f2c85777963fa07a1a405316a4b0063",
+        "bytes": 1709233
+      },
+      "waveformContainerSha256": "e7d7a0495ad4d08dc6906fe3c74b3a1b953ff3ec36433493a20c68b6fdd3cb2e",
+      "waveformContainerBytes": 797236
+    },
+    "delayed": {
+      "directory": "build/keyboard-controller-analog/postreset-instance-controls/delayed",
+      "waveformLogicalIdentity": {
+        "sha256": "ff189c297629f74f3fd62764f065dd72ce229948ef5934f3a157b6dc10caea73",
+        "bytes": 161139121
+      },
+      "waveformContainerSha256": "977dbcf8b401afc5f53a969afee0c5602513faa53513be761ccea6032c7b8f4a",
+      "waveformContainerBytes": 87327012
+    }
+  },
+  "restoreLogs": [
+    [
+      "python3",
+      "verification/robotron-keyboard/analog/evidence_parts.py",
+      "restore",
+      "verification/robotron-keyboard/analog/reports/postreset-instance-state/off/ngspice.log.xz.parts",
+      "<capture-root>/off/ngspice.log.xz"
+    ],
+    [
+      "python3",
+      "verification/robotron-keyboard/analog/evidence_parts.py",
+      "restore",
+      "verification/robotron-keyboard/analog/reports/postreset-instance-state/check/ngspice.log.xz.parts",
+      "<capture-root>/check/ngspice.log.xz"
+    ],
+    [
+      "python3",
+      "verification/robotron-keyboard/analog/evidence_parts.py",
+      "restore",
+      "verification/robotron-keyboard/analog/reports/postreset-instance-state/immediate/ngspice.log.xz.parts",
+      "<capture-root>/immediate/ngspice.log.xz"
+    ],
+    [
+      "python3",
+      "verification/robotron-keyboard/analog/evidence_parts.py",
+      "restore",
+      "verification/robotron-keyboard/analog/reports/postreset-instance-state/delayed/ngspice.log.xz.parts",
+      "<capture-root>/delayed/ngspice.log.xz"
+    ]
+  ]
+}
