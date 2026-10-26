@@ -138,7 +138,10 @@ static void waits(void) {
   card_state state = {0};
   pc1715_card c = card(&state); c.wait = slow_io;
   assert(!pc1715_load(m, rom, sizeof(rom)) && !pc1715_attach(m, &c));
+  assert(!pc1715_onboard_enable(m));
+  assert(pc1715_onboard_write(m,8,0x87));assert(pc1715_onboard_write(m,8,2));
   pc1715_run(m, 100);
+  assert(m->ctc[0].pending); /* onboard clocks continue through a card WAIT */
   assert(m->io_waiting && !state.reads && !state.writes);
   assert(m->cpu.cycles == 100 && state.ticks == 100);
   pc1715_run(m, 200);
@@ -192,11 +195,88 @@ static void runtime(void) {
   dac_destroy(s);
   dac_destroy(wm);
 }
+static void ow(pc1715 *m,unsigned port,uint8_t value){assert(pc1715_onboard_write(m,port,value));}
+static uint8_t rd(pc1715 *m,unsigned port){uint8_t v;assert(pc1715_onboard_read(m,port,&v));return v;}
+static void wr(pc1715 *m,unsigned ch,unsigned reg,uint8_t value){ow(m,14+ch,reg);ow(m,14+ch,value);}
+static void counter(pc1715 *m,unsigned ch){ow(m,8+ch,0xd7);ow(m,8+ch,1);}
+static void edge(pc1715 *m,unsigned ch){pc1715_ctc_input(m,ch,0);pc1715_ctc_input(m,ch,1);}
+static void sio_setup(pc1715 *m){
+  wr(m,1,2,0x60);wr(m,0,1,0x13);wr(m,1,1,0x17);
+  for(unsigned ch=0;ch<2;ch++){wr(m,ch,3,1);wr(m,ch,5,8);}
+}
+static void motherboard_chain(void){
+  pc1715 *m=malloc(sizeof(*m));assert(m);pc1715_init(m);
+  assert(!pc1715_onboard_enable(m));card_state state={0};pc1715_card c=card(&state);
+  assert(!pc1715_attach(m,&c));ow(m,8,0x40);counter(m,0);counter(m,3);sio_setup(m);
+  edge(m,3);assert(!pc1715_sio_receive(m,1,0x55));state.irq=1;
+  assert(pc1715_irq_ack(m)==0xff && state.acks==1);
+  assert(!pc1715_irq_pending(m));pc1715_irq_reti(m);assert(state.retis==1);
+  assert(pc1715_irq_ack(m)==0x46);edge(m,0);
+  assert(pc1715_irq_ack(m)==0x40);state.irq=1;
+  assert(pc1715_irq_ack(m)==0xff);pc1715_irq_reti(m);
+  assert(!pc1715_irq_pending(m));pc1715_irq_reti(m); /* release CTC0 only */
+  assert(!pc1715_irq_pending(m));pc1715_irq_reti(m); /* release CTC3 */
+  assert(pc1715_irq_ack(m)==0x64);
+  assert(!pc1715_sio_receive(m,0,0x33));assert(pc1715_irq_ack(m)==0x6c);
+  assert(rd(m,12)==0x33);pc1715_irq_reti(m);assert(m->sio[1].service[0]);
+  assert(rd(m,13)==0x55);pc1715_irq_reti(m);assert(!pc1715_irq_pending(m));
+  unsigned retis=state.retis;pc1715_irq_reti(m);assert(state.retis==retis);
+  /* All six SIO request classes; service blocks all lower priority sources. */
+  assert(!pc1715_sio_receive(m,0,1));assert(!pc1715_sio_receive(m,1,2));
+  ow(m,12,3);ow(m,13,4);pc1715_sio_external(m,0);pc1715_sio_external(m,1);
+  pc1715_run(m,1);
+  const uint8_t vectors[]={0x6c,0x68,0x6a,0x64,0x60,0x62};
+  for(unsigned n=0;n<6;n++){
+    assert(pc1715_irq_ack(m)==vectors[n]);assert(!pc1715_irq_pending(m));
+    unsigned ch=n/3,kind=n%3;
+    if(!kind)(void)rd(m,12+ch);else ow(m,14+ch,kind==1?0x28:0x10);
+    pc1715_irq_reti(m);
+  }
+  assert(!pc1715_irq_pending(m));
+  /* Card shutdown releases the chain without delivering the next RETI to it. */
+  state.irq=1;assert(pc1715_irq_ack(m)==0xff);edge(m,0);
+  retis=state.retis;pc1715_card_quiesce(m);assert(pc1715_irq_ack(m)==0x40);
+  pc1715_irq_reti(m);assert(state.retis==retis && !m->ctc[0].service);
+  state.irq=1;assert(!pc1715_irq_pending(m));
+  edge(m,0);assert(pc1715_irq_ack(m)==0x40);
+  assert(!pc1715_sio_receive(m,0,9));
+  pc1715_reset(m);assert(m->onboard && !m->card_offline && !pc1715_irq_pending(m));
+  for(unsigned n=0;n<4;n++)assert(!m->ctc[n].service && !m->ctc[n].pending);
+  /* Timers, prescalers, constant zero=256, edge polarity and explicit reset. */
+  ow(m,8,0x40);ow(m,8,0x87);ow(m,8,2);
+  pc1715_run(m,31);assert(!pc1715_irq_pending(m));pc1715_run(m,1);assert(pc1715_irq_ack(m)==0x40);
+  ow(m,8,3);assert(!pc1715_irq_pending(m) && !m->ctc[0].service);
+  ow(m,9,0xc7);ow(m,9,0);assert(m->ctc[1].count==256);
+  pc1715_ctc_input(m,1,1);assert(m->ctc[1].count==256);
+  pc1715_ctc_input(m,1,0);assert(m->ctc[1].count==255);
+  assert(pc1715_onboard_enable(m)==-EBUSY);
+  pc1715_reset(m);ow(m,8,0x40);ow(m,8,0xa7);ow(m,8,2);
+  pc1715_run(m,511);assert(!pc1715_irq_pending(m));pc1715_run(m,1);assert(pc1715_irq_ack(m)==0x40);
+  pc1715_reset(m);ow(m,8,0x40);ow(m,8,0x9f);ow(m,8,1);
+  pc1715_run(m,64);assert(!pc1715_irq_pending(m));edge(m,0);
+  pc1715_run(m,15);assert(!pc1715_irq_pending(m));pc1715_run(m,1);assert(pc1715_irq_ack(m)==0x40);
+  free(m);
+}
+static void motherboard_cpu(void){
+  pc1715 *m=malloc(sizeof(*m));assert(m);pc1715_init(m);assert(!pc1715_onboard_enable(m));
+  /* Synthetic IM2 guest configures a CTC counter through actual OUT cycles.
+     ISR increments a RAM byte and executes EI/RETI. */
+  const uint8_t boot[]={0x31,0,0xf0,0x3e,0x80,0xed,0x47,0xed,0x5e,
+    0x3e,0x40,0xd3,8,0x3e,0xd7,0xd3,8,0x3e,1,0xd3,8,0xfb,0x76,0x18,0xfd};
+  memcpy(m->rom,boot,sizeof(boot));m->ram[0x8040]=0;m->ram[0x8041]=0x90;
+  const uint8_t handler[]={0x21,0,0xa0,0x34,0xfb,0xed,0x4d};memcpy(m->ram+0x9000,handler,sizeof(handler));
+  pc1715_run(m,300);assert(m->cpu.pins&Z80_HALT);edge(m,0);
+  pc1715_run(m,300);assert(m->ram[0xa000]==1 && !m->ctc[0].service);
+  edge(m,0);pc1715_run(m,300);assert(m->ram[0xa000]==2);
+  assert(!pc1715_irq_pending(m));free(m);
+}
 int main(void) {
   board();
   interrupts();
   runtime();
   waits();
-  puts("PASS plain PC1715 memory, bus transactions, IRQ/RETI and session isolation");
+  motherboard_chain();
+  motherboard_cpu();
+  puts("PASS plain PC1715 memory, bus, WAIT, card/CTC/SIO priority, nesting, IM2/RETI, quiesce and session isolation");
   return 0;
 }
