@@ -366,6 +366,12 @@ Group those captures under `root/{off,check,immediate,delayed}` and use
 `postreset_state_review.py` with that root, the original `--source` control and
 the completed combined-fix `--baseline`. Positive captures must cover the whole
 1.16-ms window; expected negative exits cannot satisfy that requirement.
+The [complete post-reset output-state controls](reports/postreset-output-state/assessment.json)
+preserve all observed samples and firmware continuation, with immediate/delayed
+external-output faults detected. Full compressed logs are retained in parts;
+[retention metadata](reports/postreset-output-state/retention.json) locates complete
+local waveforms and the review command. This closes that control window, not
+startup, supply recovery, instance queues or private HDL events.
 For instance-queue coverage, use the same capture runner with the
 `build_instance_queue_audit.py` model build and a separate capture root. Review
 with `postreset_instance_review.py`, passing the same `--root`, `--source`,
