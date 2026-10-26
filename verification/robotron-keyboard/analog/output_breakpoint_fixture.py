@@ -17,12 +17,15 @@ END=400e-9
 EXPECTED=['PROBE_EDGE 53000 1','PROBE_EDGE 131000 0','PROBE_EDGE 197000 1','PROBE_EDGE 301000 0']
 
 
-def deck(libraries):
+def deck(libraries, sample_grid=False):
     paths={k:v['path'] for k,v in libraries.items()}
     if set(paths)!={'shim','libvvp','vpi'} or any('"' in p or '\n' in p for p in paths.values()):raise ValueError('Invalid bridge paths')
+    if type(sample_grid) is not bool:raise ValueError('Invalid sampling-grid selection')
+    grid=('Vgrid grid 0 PWL(0 0\n'+''.join(f'+ {edge+offset:g}n 0\n'
+          for edge in (53,131,197,301) for offset in (1.25,1.5,2,2.5,3))+'+ 400n 0)\n') if sample_grid else ''
     return f'''Autonomous HDL output timing control
 Vin in 0 0
-Ain [in] [din] adc
+{grid}Ain [in] [din] adc
 .model adc adc_bridge(in_low=0.8 in_high=2.0)
 Ahdl [din] [dq] hdl
 .model hdl d_cosim simulation="{paths['shim']}" sim_args=["io.vvp"] delay=1n
@@ -44,6 +47,9 @@ quit
 def assess(root):
     counts={};coverage={};sample_errors={};rs={m:json.loads((root/m/'run.json').read_text()) for m in MODES}
     reference=rs['baseline'];bridge=json.loads((root/'bridge.json').read_text())
+    settings=json.loads((root/'settings.json').read_text()) if (root/'settings.json').exists() else {'sampleGrid':False}
+    if set(settings)!={'sampleGrid'} or type(settings['sampleGrid']) is not bool:raise ValueError('Invalid fixture settings')
+    sample_grid=settings['sampleGrid']
     for mode,r in rs.items():
         folder=root/mode
         if r['exitCode']!=0 or r['inputs']!=reference['inputs'] or r['externalDependencies']!=reference['externalDependencies']:raise ValueError('Failed or mismatched control')
@@ -57,7 +63,7 @@ def assess(root):
             elif a!=b:raise ValueError('Changed unrelated model')
         expected={'ROBOTRON_HISTORY_INIT':'on','ROBOTRON_STAGED_OUTPUT':'on','ROBOTRON_HISTORY_STATE':'off','ROBOTRON_OUTPUT_BREAKPOINT':'off' if mode=='baseline' else mode}
         if r['environment']!=expected:raise ValueError('Changed control environment')
-        if (folder/'io.cir').read_text()!=deck(bridge['libraries']):raise ValueError('Changed stimulus')
+        if (folder/'io.cir').read_text()!=deck(bridge['libraries'],sample_grid):raise ValueError('Changed stimulus')
         if set(r['files'])!={'io.cir','io.vvp','ngspice.log','waveform.raw'} or any(r['files'][n]!=h for n,h in r['inputs'].items()):raise ValueError('Missing or mismatched retained inputs')
         for n,h in r['files'].items():
             if sha(folder/n)!=h:raise ValueError('Changed retained file')
@@ -92,6 +98,7 @@ def assess(root):
 def run(a):
     out=a.out.resolve();out.mkdir(parents=True,exist_ok=False)
     shutil.copyfile(a.bridge,out/'bridge.json');bridge=json.loads(a.bridge.read_text())
+    (out/'settings.json').write_text(json.dumps({'sampleGrid':a.sample_grid},indent=2)+'\n')
     for item in bridge['libraries'].values():
         if sha(Path(item['path']))!=item['sha256']:raise ValueError('Changed bridge')
     shutil.copyfile(HERE/'fixtures/output_breakpoint.v',out/'io.v')
@@ -103,7 +110,7 @@ def run(a):
             if sha(model/n)!=h:raise ValueError('Changed model build')
         shutil.copyfile(model/'build.json',out/(name+'-build.json'))
     for mode in MODES:
-        folder=out/mode;folder.mkdir();shutil.copyfile(out/'io.vvp',folder/'io.vvp');(folder/'io.cir').write_text(deck(bridge['libraries']))
+        folder=out/mode;folder.mkdir();shutil.copyfile(out/'io.vvp',folder/'io.vvp');(folder/'io.cir').write_text(deck(bridge['libraries'],a.sample_grid))
         runtime,env=identify(a.runtime,(a.baseline_models if mode=='baseline' else a.models)/'spinit')
         for k in list(env):
             if k.startswith('ROBOTRON_'):del env[k]
@@ -124,7 +131,7 @@ def run(a):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--out',type=Path,required=True);p.add_argument('--verify',action='store_true')
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--out',type=Path,required=True);p.add_argument('--verify',action='store_true');p.add_argument('--sample-grid',action='store_true')
     for name in ('bridge','baseline-models','models','runtime'):p.add_argument('--'+name,type=Path)
     a=p.parse_args()
     if a.verify:

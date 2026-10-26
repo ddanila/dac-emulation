@@ -333,6 +333,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_output_breakpoint_probe.py
           python3 verification/robotron-keyboard/analog/test_output_breakpoint_review.py
           python3 verification/robotron-keyboard/analog/output_breakpoint_fixture.py --out verification/robotron-keyboard/analog/reports/output-breakpoint-target --verify
+          python3 verification/robotron-keyboard/analog/output_breakpoint_fixture.py --out verification/robotron-keyboard/analog/reports/output-breakpoint-sampled --verify
           python3 verification/robotron-keyboard/analog/event_state_review.py --root verification/robotron-keyboard/analog/reports/output-breakpoint-controls --check-manifest
           python3 verification/robotron-keyboard/analog/test_reset_capacitance_review.py
           python3 verification/robotron-keyboard/analog/test_reset_capacitor_polarity.py
