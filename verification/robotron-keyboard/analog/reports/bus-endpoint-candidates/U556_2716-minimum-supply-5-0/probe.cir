@@ -1,0 +1,15 @@
+DC output endpoint probe
+Vcc vcc 0 5
+Bhigh vcc high I=(V(vcc)-V(high))/((4.75-2.3999999999999999)/0.00040000000000000002)
+Rlow low 0 214.28571428571431
+Ihigh high 0 0
+Ilow 0 low 0
+.control
+set numdgt=17
+set wr_singlescale
+set wr_vecnames
+op
+wrdata trace.txt v(high) v(low)
+quit
+.endc
+.end
