@@ -84,6 +84,10 @@ jobs:
           python3 verification/robotron-keyboard/analog/live_cache_review.py --check --out verification/robotron-keyboard/analog/reports/live-cache-reset
           python3 verification/robotron-keyboard/analog/test_bus_read_replay.py
           python3 verification/robotron-keyboard/analog/test_bus_device_review.py
+          python3 verification/robotron-keyboard/analog/test_bus_endpoint_candidates.py
+          python3 verification/robotron-keyboard/analog/bus_endpoint_probe.py --verify --out verification/robotron-keyboard/analog/reports/bus-endpoint-candidates
+          python3 verification/robotron-keyboard/analog/test_postreset_startup_capture.py
+          python3 verification/robotron-keyboard/analog/test_postreset_startup_review.py
           python3 verification/robotron-keyboard/analog/test_bus_transition.py
           python3 verification/robotron-keyboard/analog/test_dac_ramp.py
           python3 verification/robotron-keyboard/analog/test_dac_state_audit.py
