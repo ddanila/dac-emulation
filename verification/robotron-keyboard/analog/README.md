@@ -373,6 +373,12 @@ with `postreset_instance_review.py`, passing the same `--root`, `--source`,
 waveform and firmware checks and additionally verifies instance worklists,
 rollback anchors and immediate/delayed external-instance corruption.
 
+Use `cpu_reset_setup_review.py --root <completed-boot-capture> --out <assessment.json>`
+to check sampled RESET stability against complete CPU-clock voltage rises. It
+verifies full clock/supply traces and their time alignment, preserves endpoint and
+sample-gap checks, and reports unestablished margins without interpolation. This
+is a reset setup screen, not clock, reset-duration or firmware-restart qualification.
+
 ### Scheduling and state controls
 
 Apply `ngspice-47-rollback-audit.patch` for accepted/rejected-step and dispatch
