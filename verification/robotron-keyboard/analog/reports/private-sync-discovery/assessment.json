@@ -1,0 +1,42 @@
+{
+  "qualified": false,
+  "reviewPassed": false,
+  "captureReceipt": "build/keyboard-controller-analog/private-sync-board-controls/observe/run.json",
+  "captureReceiptSha256": "18d1482d50b403ee6e60e4091239c41335c7739ffedf4e231fe65afa60d336ea",
+  "completeLogSha256": "96945409568adf2707681af62528ef49f83dbb6b1a77d741da06f807f1efa137",
+  "firstUncoveredSnapshot": {
+    "diagnostic": "Uncovered callback identity/referent shape",
+    "snapshot": [
+      "VS_BEGIN 1 3501280 4 3",
+      "VS_CALLBACK 17814 0 0 9 0 0 1 1 1 1 1 1 1 2 0 79 0x0p+0",
+      "VS_CALLBACK 17815 0 1 7 164025784 1 0 0 1 1 1 1 1 2 0 0 0x0p+0",
+      "VS_CALLBACK 17816 1 0 6 0 1 0 1 1 1 1 1 1 2 0 3501280 0x0p+0",
+      "VS_END"
+    ]
+  },
+  "compiledHdlStrobes": [
+    "    %vpi_call/w 3 384 \"$strobe\", \"BUS_LATCH %0t %02x %02x\", $time, v0xb0af56760_0, v0xb0aef2760_0 {0 0 0};"
+  ],
+  "compiledHdlSha256": "ebc881557d10b5eef868a629a7c329b003ec15817507597ef9644a2b56851829",
+  "sourceEvidence": {
+    "path": "/private/tmp/k7658-icarus-sync-observer-v4/vpi/sys_display.c",
+    "sha256": "e6ac1ba377d261cd6153b94a01eb4a2f28a0ba87ea81d4f61a76f0ed065cc3f0",
+    "excerpt": "static PLI_INT32 sys_strobe_calltf(ICARUS_VPI_CONST PLI_BYTE8*name)\n{\n      vpiHandle callh, argv, scope;\n      struct t_cb_data cb;\n      struct t_vpi_time timerec;\n      struct strobe_cb_info*info;\n      PLI_UINT32 fd_mcd;\n\n      callh = vpi_handle(vpiSysTfCall, 0);\n      argv = vpi_iterate(vpiArgument, callh);\n\n\t/* Get the file/MC descriptor and verify it is valid. */\n      if (name[1] == 'f') {\n\t    vpiHandle fd = vpi_scan(argv);\n\t    if (get_fd_mcd_from_arg(&fd_mcd, fd, callh, name)) {\n\t\t  vpi_free_object(argv);\n                  return 0;\n\t    }\n\n      } else {\n\t    fd_mcd = 1;\n      }\n\n      scope = vpi_handle(vpiScope, callh);\n      assert(scope);\n\n      info = calloc(1, sizeof(struct strobe_cb_info));\n      info->fd_mcd = fd_mcd;\n\t/* We could use vpi_get_str(vpiName, callh) to get the task name,\n\t * but name is already defined. */\n      info->name = name;\n      info->filename = strdup(vpi_get_str(vpiFile, callh));\n      info->lineno = (int)vpi_get(vpiLineNo, callh);\n      info->default_format = get_default_format(name);\n      info->scope= scope;\n      array_from_iterator(info, argv);\n\n      timerec.type = vpiSimTime;\n      timerec.low = 0;\n      timerec.high = 0;\n\n      cb.reason = cbReadOnlySynch;\n      cb.cb_rtn = strobe_cb;\n      cb.time = &timerec;\n      cb.obj = 0;\n      cb.value = 0;\n      cb.user_data = (char*)info;\n      vpi_register_cb(&cb);\n\n      return 0;\n}\n\n"
+  },
+  "findings": [
+    "A live read-only synchronization callback (reason 7) has a different user-data identity from the board bridge context. The current board reviewer rejects it rather than claiming complete callback coverage.",
+    "The compiled board fixture contains a BUS_LATCH $strobe call. The inspected Icarus display source registers strobe_cb as cbReadOnlySynch with heap-allocated display data and leaves cb.index uninitialized.",
+    "The observer currently prints cb_data.index for every synchronization callback. This is invalid for the inspected display producer; repeated snapshots of its arbitrary index cannot establish meaningful state equality."
+  ],
+  "attributionLimit": "The strobe attribution follows the HDL call and inspected source, but the loaded system.vpi callback function has not yet been independently identified. Do not admit its referents by reason code alone.",
+  "nextActions": [
+    "Serialize only fields initialized and meaningful for an identified callback family; preserve an explicit uncovered category.",
+    "Identify the read-only callback function and observe relevant display-data referents and lifetimes alongside bridge callbacks.",
+    "Rebuild in an isolated runtime and repeat matched controls; preserve the original failed evidence."
+  ],
+  "notEstablished": [
+    "Board callback payload coverage",
+    "Board equivalence from this failed reviewer",
+    "General rollback or freed-storage safety"
+  ]
+}
