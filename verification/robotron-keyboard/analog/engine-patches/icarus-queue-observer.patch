@@ -1,0 +1,75 @@
+--- a/vvp/schedule.cc
++++ b/vvp/schedule.cc
+@@ -1305,3 +1305,72 @@
+       event_time_heap.delete_pool();
+ }
+ #endif
++
++/* Opt-in topology observation only. Caller must own the simulator thread or
++ * its coroutine mutex. Payloads and the currently executing event are excluded. */
++#include <cstdio>
++#include <set>
++#include <limits>
++
++static int robotron_queue(FILE* stream, long long slot, const char* region,
++                          const event_s* tail)
++{
++    unsigned long long ordinal = 0;
++    if (tail) {
++        const event_s* head = tail->next;
++        const event_s* cur = head;
++        std::set<const event_s*> visited;
++        for (;;) {
++            if (!cur || !visited.insert(cur).second) return -1;
++            const generic_event_s* generic = dynamic_cast<const generic_event_s*>(cur);
++            const char* nested = generic && generic->obj ? typeid(*generic->obj).name() : "-";
++            if (fprintf(stream, "VQ_EVENT %lld %s %llu %s %s\n", slot, region,
++                        ordinal++, typeid(*cur).name(), nested) < 0) return -1;
++            if (cur == tail) {
++                if (cur->next != head) return -1;
++                break;
++            }
++            cur = cur->next;
++        }
++    }
++    return fprintf(stream, "VQ_COUNT %lld %s %llu\n", slot, region, ordinal) < 0 ? -1 : 0;
++}
++
++extern "C" int robotron_vvp_queue_inventory(FILE* stream)
++{
++    if (!stream) return -1;
++    if (fprintf(stream, "VQ_BEGIN 1 %llu %d %d\n", (unsigned long long)schedule_time,
++                (int)schedule_runnable, (int)schedule_stopped_flag) < 0) return -1;
++    if (robotron_queue(stream, -1, "init", schedule_init_list) ||
++        robotron_queue(stream, -1, "final", schedule_final_list)) return -1;
++    std::set<const event_time_s*> visited;
++    vvp_time64_t absolute = schedule_time;
++    unsigned long long slot = 0;
++    for (const event_time_s* time = sched_list; time; time = time->next, ++slot) {
++        if (!visited.insert(time).second ||
++            time->delay > std::numeric_limits<vvp_time64_t>::max() - absolute) return -1;
++        absolute += time->delay;
++        if (fprintf(stream, "VQ_TIME %llu %llu %llu\n", slot,
++                    (unsigned long long)time->delay, (unsigned long long)absolute) < 0) return -1;
++        const char* names[] = {"start", "active", "inactive", "nbassign", "rwsync", "rosync", "del_thr"};
++        const event_s* queues[] = {time->start, time->active, time->inactive, time->nbassign,
++                                  time->rwsync, time->rosync, time->del_thr};
++        for (unsigned i = 0; i < 7; ++i)
++            if (robotron_queue(stream, (long long)slot, names[i], queues[i])) return -1;
++    }
++    return fprintf(stream, "VQ_END %llu\n", slot) < 0 || ferror(stream) ? -1 : 0;
++}
++
++/* Deliberate fault control, never called by observation. The caller must restore
++ * the same delta before returning to the scheduler. No event may run in between. */
++extern "C" int robotron_vvp_queue_adjust_first_future(int delta)
++{
++    if (delta != 1 && delta != -1) return -1;
++    for (event_time_s* time = sched_list; time; time = time->next) {
++        if (!time->delay) continue;
++        if (delta == 1 && time->delay == std::numeric_limits<vvp_time64_t>::max()) return -1;
++        if (delta == 1) ++time->delay; else --time->delay;
++        return 1;
++    }
++    return 0;
++}

@@ -1,0 +1,6 @@
+{
+  "scope": "Complete standalone fixture inputs and stdout/stderr controls. Candidate libvvp is reproducible with the pinned archive and build_private_queue_observer.py; the shared library is not bundled.",
+  "qualified": false,
+  "observerBoundary": "Caller must hold the simulator thread or coroutine mutex. No serialization of event payloads, executing callbacks, thread internals or freed storage. The fault-control API is invoked only by the explicit corruption fixture, which restores its mutation before returning to the scheduler.",
+  "integration": "Not connected to the live board state observer yet. Existing long captures continue using the original libvvp."
+}
