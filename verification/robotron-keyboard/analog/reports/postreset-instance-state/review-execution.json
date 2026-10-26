@@ -1,0 +1,23 @@
+{
+  "state": "finished",
+  "command": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "verification/robotron-keyboard/analog/postreset_instance_review.py",
+    "--root",
+    "build/keyboard-controller-analog/postreset-instance-controls",
+    "--source",
+    "build/keyboard-controller-analog/postreset-newton-retry/off",
+    "--baseline",
+    "build/keyboard-controller-analog/postreset-startup-combined",
+    "--out",
+    "build/keyboard-controller-analog/postreset-instance-assessment.json",
+    "--cached-output-inventory"
+  ],
+  "captureReceipts": {
+    "build/keyboard-controller-analog/postreset-instance-controls/off/run.json": "41df9d89d9101e02cedf5e6de590324d6ebce9c14baf57de29421997e772ceb1",
+    "build/keyboard-controller-analog/postreset-instance-controls/check/run.json": "f408996a7917491743e9c0336d53892fe19df4500efb2471f7dc429c1ad0d294"
+  },
+  "reviewSourceRevision": "032257c19a5b6e66cf1f9ca376035936e2bf2bb9",
+  "exitCode": 0,
+  "elapsedSeconds": 5404.986893916001
+}

@@ -406,9 +406,11 @@ rollback anchors and immediate/delayed external-instance corruption.
 Add `--cached-output-inventory` to use the validated port cache in an isolated
 reviewer instance. Full waveform, firmware, history and instance checks remain
 required; the result records both reviewer sources.
-The [long-window negative controls](reports/postreset-instance-state/negative-assessment.json)
-detect the external instance-queue mutation, including delayed injection after
-firmware execution. Positive-control equivalence remains a separate requirement.
+The [complete post-reset instance controls](reports/postreset-instance-state/assessment.json)
+preserve all observed waveform samples and firmware records and detect immediate
+and delayed external instance-queue mutations. This closes the prescribed
+post-reset window for instance queues, worklists and rollback anchors; private HDL
+events, freed storage, startup, supply recovery and repeat remain separate.
 
 Use `cpu_reset_setup_review.py --root <completed-boot-capture> --out <assessment.json>`
 to check sampled RESET stability against complete CPU-clock voltage rises. It

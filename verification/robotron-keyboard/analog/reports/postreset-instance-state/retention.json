@@ -1,6 +1,6 @@
 {
   "qualified": false,
-  "scope": "Complete compressed audit logs and capture inputs retained. Full positive instance-state assessment is separate; capture completion is not acceptance. Complete raw waveforms remain local and are required for full numerical reanalysis.",
+  "scope": "Complete compressed audit logs, capture inputs and full post-reset instance-state assessment retained. Matched positive captures preserve every observed waveform sample and firmware record; immediate/delayed mutations are detected. This closes the 1.16-ms control window only. Complete raw waveforms remain local and are required for full numerical reanalysis.",
   "localRawCaptures": {
     "off": {
       "directory": "build/keyboard-controller-analog/postreset-instance-controls/off",
@@ -68,5 +68,19 @@
       "verification/robotron-keyboard/analog/reports/postreset-instance-state/delayed/ngspice.log.xz.parts",
       "<capture-root>/delayed/ngspice.log.xz"
     ]
-  ]
+  ],
+  "reviewCommand": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "verification/robotron-keyboard/analog/postreset_instance_review.py",
+    "--root",
+    "build/keyboard-controller-analog/postreset-instance-controls",
+    "--source",
+    "build/keyboard-controller-analog/postreset-newton-retry/off",
+    "--baseline",
+    "build/keyboard-controller-analog/postreset-startup-combined",
+    "--out",
+    "build/keyboard-controller-analog/postreset-instance-assessment.json",
+    "--cached-output-inventory"
+  ],
+  "assessment": "assessment.json"
 }
