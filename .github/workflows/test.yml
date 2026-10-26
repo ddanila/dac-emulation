@@ -16,7 +16,11 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v7
-      - run: sudo apt-get update && sudo apt-get install -y iverilog ngspice libmpfr-dev libgmp-dev pkg-config
+      - name: Install keyboard verification dependencies
+        run: |
+          apt_options=(-o Acquire::Retries=3 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
+          sudo apt-get "${apt_options[@]}" update
+          sudo apt-get "${apt_options[@]}" install -y --no-install-recommends iverilog ngspice libmpfr-dev libgmp-dev pkg-config
       - run: make test-keyboard-controller audit-keyboard-controller
       - name: Digital qualification gates and numerical diagnostics
         run: |
