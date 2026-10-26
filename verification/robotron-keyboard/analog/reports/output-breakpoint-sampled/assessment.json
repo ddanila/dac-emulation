@@ -1,0 +1,79 @@
+{
+  "completed": true,
+  "qualified": false,
+  "coverage": {
+    "baseline": {
+      "initialRequests": 0,
+      "recoveryRequests": 0,
+      "injectedFailures": 0,
+      "branchExercised": false,
+      "injectionExercised": false
+    },
+    "off": {
+      "initialRequests": 0,
+      "recoveryRequests": 0,
+      "injectedFailures": 0,
+      "branchExercised": false,
+      "injectionExercised": false
+    },
+    "observe": {
+      "initialRequests": 4,
+      "recoveryRequests": 0,
+      "injectedFailures": 0,
+      "branchExercised": true,
+      "injectionExercised": false
+    },
+    "fail-once": {
+      "initialRequests": 4,
+      "recoveryRequests": 1,
+      "injectedFailures": 1,
+      "branchExercised": true,
+      "injectionExercised": true
+    }
+  },
+  "comparisons": {
+    "disabledBaseline": {
+      "allSamplesExactlyEqual": true,
+      "samples": 161,
+      "endSeconds": 4e-07,
+      "signals": [
+        "v(out)"
+      ]
+    },
+    "observer": {
+      "allSamplesExactlyEqual": true,
+      "samples": 161,
+      "endSeconds": 4e-07,
+      "signals": [
+        "v(out)"
+      ]
+    },
+    "forcedFailure": {
+      "signals": {
+        "v(out)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0,
+          "timeSeconds": 0.0
+        }
+      },
+      "unionKnots": 162,
+      "endSeconds": 4.0000000000000003e-07,
+      "maximumVoltageDifference": 0.0,
+      "boundary": "All observed samples, piecewise-linear comparison on both absolute-time grids. No alignment or intersample extrema claim."
+    }
+  },
+  "hdlTransitions": [
+    "PROBE_EDGE 53000 1",
+    "PROBE_EDGE 131000 0",
+    "PROBE_EDGE 197000 1",
+    "PROBE_EDGE 301000 0"
+  ],
+  "analyticRampMaximumSampleErrorsVolts": {
+    "baseline": 1.3322676295501878e-13,
+    "off": 1.3322676295501878e-13,
+    "observe": 1.3322676295501878e-13,
+    "fail-once": 1.3322676295501878e-13
+  },
+  "sampleOracleScope": "Known HDL transitions plus 1-ns bridge delay and 1-ns ideal DAC ramp, evaluated only at retained samples; no intersample guarantee.",
+  "scope": "Autonomous delayed-output diagnostic, with real ngspice/Icarus execution and an artificial failed initial breakpoint. No keyboard firmware, input perturbation, private-event rollback, numerical convergence or board qualification."
+}

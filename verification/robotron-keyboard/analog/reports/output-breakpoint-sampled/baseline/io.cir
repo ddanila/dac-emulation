@@ -1,0 +1,40 @@
+Autonomous HDL output timing control
+Vin in 0 0
+Vgrid grid 0 PWL(0 0
++ 54.25n 0
++ 54.5n 0
++ 55n 0
++ 55.5n 0
++ 56n 0
++ 132.25n 0
++ 132.5n 0
++ 133n 0
++ 133.5n 0
++ 134n 0
++ 198.25n 0
++ 198.5n 0
++ 199n 0
++ 199.5n 0
++ 200n 0
++ 302.25n 0
++ 302.5n 0
++ 303n 0
++ 303.5n 0
++ 304n 0
++ 400n 0)
+Ain [in] [din] adc
+.model adc adc_bridge(in_low=0.8 in_high=2.0)
+Ahdl [din] [dq] hdl
+.model hdl d_cosim simulation="/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so" sim_args=["io.vvp"] delay=1n
++ lib_args=["/private/tmp/robotron-icarus-src/vvp/libvvp.so" "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi"]
+Aout [dq] [out] dac
+.model dac dac_bridge(out_low=0 out_high=5 t_rise=1n t_fall=1n)
+Rload out 0 1k
+.save v(out)
+.tran 10n 400n 0 80n
+.control
+set filetype=binary
+run waveform.raw
+quit
+.endc
+.end

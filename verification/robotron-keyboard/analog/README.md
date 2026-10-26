@@ -396,12 +396,14 @@ reproduces the baseline but never enters this branch. Exercise a targeted
 delayed-output fixture before treating the recovery path as covered.
 `output_breakpoint_review.py --root <capture> --source <baseline> --out <assessment>`
 checks full streams and reports branch coverage separately from equivalence.
-The [autonomous delayed-output fixture](reports/output-breakpoint-target/assessment.json)
-executes truncation and forced recovery while preserving HDL transitions. Its sparse
-waveform grids differ despite agreement with the ideal ramp at every retained
-sample; resolve sampling before attributing that difference to state corruption.
-Use `output_breakpoint_fixture.py --out <report> --verify` to recheck the retained
-evidence. This diagnostic does not establish keyboard or general rollback coverage.
+The [sampled delayed-output fixture](reports/output-breakpoint-sampled/assessment.json)
+executes truncation and forced recovery while preserving HDL transitions and the
+complete absolute-time waveform comparison. Samples inside the ideal ramps match
+the analytic waveform. The [sparse fixture](reports/output-breakpoint-target/assessment.json)
+shows why inadequate sampling can create comparison errors without a demonstrated
+state defect. `output_breakpoint_fixture.py --sample-grid` adds the sampling stimulus;
+use `--out <report> --verify` to recheck retained evidence. These controls do not
+establish keyboard or general rollback coverage.
 
 ### Scheduling and state controls
 
