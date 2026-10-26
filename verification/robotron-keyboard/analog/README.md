@@ -527,6 +527,14 @@ records live process-tree footprints and per-process kernel peaks on macOS, chec
 with an allocation/release control. It excludes exited descendants and future
 allocations; it is not a completed-run memory bound.
 
+For evidence larger than the Git hosting file limit, use
+`evidence_parts.py pack <completed-file> <archive-directory>`. It preserves the
+original bytes in bounded parts with a hash manifest. Before running existing
+reviewers, use `evidence_parts.py restore <archive-directory> <original-file>`.
+Restoration verifies every part and the whole file before publishing it, and
+refuses to overwrite a destination. Keep the original capture until restoration
+has been checked; splitting changes storage only, not qualification or replay scope.
+
 Use `review_firmware_run.py --run /path/to/failed-run --rom /path/to/s600.bin
 --out /tmp/firmware-review` to recheck an archived failure without rerunning SPICE.
 It verifies input hashes and independently reviews bus, cable and reference-bit
