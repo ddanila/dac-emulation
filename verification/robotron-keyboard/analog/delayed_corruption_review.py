@@ -15,9 +15,9 @@ from staged_output_review import runtime_summary
 from ttl7406_probe import sha
 
 
-def fault(path, after):
+def fault(path, after, *, mutation_line="E_CORRUPT output-delay"):
     injections = []; rejected = []; fetches = []; mutation = 0; diagnostic = 0
-    for line in records(path, ('HISTORY_CORRUPTION ', 'H_REJECT ', 'E_CORRUPT ', 'FIRST_FETCH ', 'Rejected trial')):
+    for line in records(path, ('HISTORY_CORRUPTION ', 'H_REJECT ', 'E_CORRUPT ', 'C_CORRUPT ', 'FIRST_FETCH ', 'Rejected trial')):
         if line.startswith('HISTORY_CORRUPTION '):
             match = re.fullmatch(r'HISTORY_CORRUPTION time=(\S+) after=(\S+)', line)
             if not match: raise ValueError('Malformed corruption marker')
@@ -29,7 +29,7 @@ def fault(path, after):
             match = re.fullmatch(r'H_REJECT (\S+) equal=([01])', line)
             if not match or not math.isfinite(float(match[1])): raise ValueError('Malformed rejection')
             rejected.append((float(match[1]), int(match[2])))
-        elif line == 'E_CORRUPT output-delay': mutation += 1
+        elif line == mutation_line: mutation += 1
         elif line.startswith('FIRST_FETCH '): fetches.append(int(line.split()[1]) * 1e-12)
         elif line == 'Rejected trial changed XSPICE history': diagnostic += 1
     if len(injections) != 1 or mutation != 1 or diagnostic != 1:
@@ -43,7 +43,7 @@ def fault(path, after):
             'earlierUnchangedRejections': len(rejected)-1, 'priorFirstFetch': any(t < when for t in fetches)}
 
 
-def assess(root, baseline):
+def assess(root, baseline, *, fault_review=None):
     base = json.loads((baseline / 'run.json').read_text())
     runs = {m: json.loads((root / m / 'run.json').read_text()) for m in VARIANTS}
     positive = {}; negative = {}; histories = {}
@@ -69,7 +69,7 @@ def assess(root, baseline):
             for _ in snapshots(log, stats, corrupt=expected_exit == 2): pass
             histories[mode] = stats
         if expected_exit == 2:
-            negative[mode] = fault(log, float(VARIANTS[mode]['ROBOTRON_HISTORY_CORRUPT_AFTER']))
+            negative[mode] = (fault_review or fault)(log, float(VARIANTS[mode]['ROBOTRON_HISTORY_CORRUPT_AFTER']))
         else:
             positive[mode] = runtime_summary(log)
             if positive[mode]['count'] is None or positive[mode]['diagnostic'] or positive[mode]['sorry']:
