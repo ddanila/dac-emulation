@@ -357,6 +357,10 @@ The [complete comparison](reports/postreset-combined-refinement/assessment.json)
 preserves firmware records and meets the voltage ceiling, but errors grow under
 refinement. Its peak-localization excerpts support diagnosis; they do not replace
 the full-window gate or justify time alignment.
+The [clock-crossing control](reports/clock-crossing-control/waveform-review.json)
+checks the existing opt-in ADC localization against analytic fixture timing and
+every output sample. Apply it to matched combined-fix board controls before
+claiming a convergence correction.
 `numericalGatePassed` is scoped to this window; `qualified` remains false because
 startup, supply recovery and device admission need independent evidence.
 

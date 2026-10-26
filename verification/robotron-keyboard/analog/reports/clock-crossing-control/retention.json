@@ -1,0 +1,6 @@
+{
+  "scope": "Complete raw waveforms and separate stdout/stderr streams are retained losslessly. Restore each .xz under its original name and copy shared io.vvp into each run directory for replay.",
+  "qualified": false,
+  "reasonForSeparateLogs": "The two streams have independent buffering; merging them can split ADC diagnostic records with bridge audit writes.",
+  "sourceInputs": "../postreset-combined-refinement: board fixture whose clock pulse, ADC threshold and bridge delay motivate this isolated control."
+}
