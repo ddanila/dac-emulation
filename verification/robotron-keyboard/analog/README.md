@@ -635,8 +635,8 @@ loaded display callback by module hash and symbol offset and leave its optional
 fields unexamined. Registry bookkeeping is covered by the original-library
 baseline. The [bounded board controls](reports/private-sync-family-board/assessment.json)
 preserve waveform and firmware output, identify bridge/display callbacks and
-detect a restored synchronization-mode fault. Display data association, executing
-wrappers and long-window qualification remain open.
+detect a restored synchronization-mode fault. Executing wrappers and long-window
+qualification remain open.
 
 The [failed board observer](reports/private-sync-discovery/assessment.json) reads
 an unset display-callback index. Its legacy API is deliberately rejected by the
@@ -672,8 +672,9 @@ uses the pinned local combined-fix runtime and bounded service fixture. Review w
 `icarus-build.json` in the capture directory. It requires exact waveform and
 firmware agreement across original, rebuilt, observer-disabled and observed
 controls, plus rejection/restoration of a single callback's NULL data pointer.
-These controls must pass before claiming board display coverage; descriptor
-internals, other VPI objects and executing wrappers remain separate.
+The [bounded board evidence](reports/display-board/assessment.json) passes these
+controls and covers typed display associations at paused boundaries. Descriptor
+internals, other VPI objects, executing wrappers and longer windows remain separate.
 
 `build_display_stop_bridge.py` accepts the same bridge/VPI build arguments and
 adds the saved `stop_cb` relationship to that observer. It uses the live runtime
@@ -681,5 +682,10 @@ registry to check the handle, known callback function and context without
 reading through a supplied handle. `display_stop_review.py` checks that a saved
 handle names the executing delayed stop; a null handle permits startup or an
 immediate output-triggered stop. The `stop-corrupt` mode substitutes an invalid
-handle and restores it before HDL continuation. This variant still requires
-matched board controls; it does not establish freed-storage equivalence.
+handle and restores it before HDL continuation. Use
+`stop_board_capture.py --source DISPLAY_CAPTURES --assessment DISPLAY_ASSESSMENT
+--bridge STOP_BRIDGE --out FRESH_DIRECTORY` after the display controls pass;
+it reuses their disabled baseline and keeps the same runtime/module. Review with
+`stop_board_review.py --root CAPTURES --producer stop_board_capture.py --out REPORT`.
+This variant still requires matched board controls; it does not establish
+freed-storage equivalence.
