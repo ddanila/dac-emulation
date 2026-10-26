@@ -1,0 +1,99 @@
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -37,6 +37,7 @@
+ # include  <cstdio>
+ # include  <cassert>
+ # include  <cstdlib>
++# include  <map>
+ 
+ using namespace std;
+ 
+@@ -415,6 +416,13 @@
+     private:
+ };
+ 
++/* Opt-in observation of live synchronization callback headers. Registry IDs
++ * identify lifetimes without exposing allocation addresses. This does not
++ * serialize arbitrary user data, object/value referents or the C++ stack. */
++static std::map<unsigned long long, sync_callback*> robotron_sync_live;
++static unsigned long long robotron_sync_sequence = 0;
++static sync_callback* robotron_sync_executing = 0;
++
+ inline sync_callback::sync_callback(p_cb_data data)
+ {
+       cb_sync = 0;
+@@ -423,10 +431,13 @@
+       assert(data->time);
+       cb_time = *(data->time);
+       cb_data.time = &cb_time;
++      robotron_sync_live[++robotron_sync_sequence] = this;
+ }
+ 
+ sync_callback::~sync_callback()
+ {
++      for (auto it = robotron_sync_live.begin(); it != robotron_sync_live.end(); ++it)
++          if (it->second == this) { robotron_sync_live.erase(it); break; }
+       delete cb_sync;
+ }
+ 
+@@ -444,7 +455,10 @@
+ 	    set_callback_time(&cur->cb_data);
+ 	    assert(vpi_mode_flag == VPI_MODE_NONE);
+ 	    vpi_mode_flag = sync_flag? VPI_MODE_ROSYNC : VPI_MODE_RWSYNC;
+-	    (cur->cb_data.cb_rtn)(&cur->cb_data);
++	    sync_callback* previous = robotron_sync_executing;
++            robotron_sync_executing = cur;
++            (cur->cb_data.cb_rtn)(&cur->cb_data);
++            robotron_sync_executing = previous;
+ 	    vpi_mode_flag = VPI_MODE_NONE;
+       }
+ 
+@@ -1065,3 +1079,48 @@
+       assert(0);
+ }
+ #endif
++
++/* Call only on the simulator thread or while its coroutine mutex is held.
++ * Function and user-data identity are compared with caller-supplied identities;
++ * mismatches are observable and must not be admitted as complete coverage. */
++extern "C" int robotron_vvp_sync_inventory(FILE* stream, PLI_BYTE8* user,
++                                          PLI_INT32 (*function)(p_cb_data))
++{
++    if (!stream) return -1;
++    if (fprintf(stream, "VS_BEGIN 1 %llu %d %llu\n",
++                (unsigned long long)schedule_simtime(), (int)vpi_mode_flag,
++                (unsigned long long)robotron_sync_live.size()) < 0) return -1;
++    for (const auto& entry : robotron_sync_live) {
++        const sync_callback* cb = entry.second;
++        const s_cb_data& d = cb->cb_data;
++        unsigned high = 0, low = 0;
++        double real = 0;
++        if (cb->cb_time.type == vpiSimTime) {
++            high = cb->cb_time.high; low = cb->cb_time.low;
++        } else if (cb->cb_time.type == vpiScaledRealTime) real = cb->cb_time.real;
++        else if (cb->cb_time.type != vpiSuppressTime) return -1;
++        if (fprintf(stream,
++            "VS_CALLBACK %llu %d %d %d %d %d %d %d %d %d %d %d %d %d %u %u %a\n",
++            entry.first, cb == robotron_sync_executing,
++            cb->cb_sync ? (int)cb->cb_sync->sync_flag : -1,
++            d.reason, d.index, d.cb_rtn != 0, d.cb_rtn == function,
++            d.user_data == user, d.obj == 0, d.value == 0, cb->next == 0,
++            cb->cb_sync && cb->cb_sync->handle == cb,
++            d.time == &cb->cb_time, cb->cb_time.type, high, low, real) < 0) return -1;
++    }
++    return fprintf(stream, "VS_END\n") < 0 || ferror(stream) ? -1 : 0;
++}
++
++/* A queued callback's synchronization mode affects execution semantics. Toggle
++ * twice before resuming the scheduler; never mutate the executing callback. */
++extern "C" int robotron_vvp_sync_toggle_queued_mode()
++{
++    for (const auto& entry : robotron_sync_live) {
++        sync_callback* cb = entry.second;
++        if (cb != robotron_sync_executing && cb->cb_sync && cb->cb_data.cb_rtn) {
++            cb->cb_sync->sync_flag = !cb->cb_sync->sync_flag;
++            return 1;
++        }
++    }
++    return 0;
++}
