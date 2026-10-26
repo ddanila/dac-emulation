@@ -121,6 +121,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/bus_endpoint_probe.py --verify --out verification/robotron-keyboard/analog/reports/bus-endpoint-candidates
           python3 verification/robotron-keyboard/analog/test_bus_switching_probe.py
           python3 verification/robotron-keyboard/analog/test_postreset_startup_capture.py
+          python3 verification/robotron-keyboard/analog/test_postreset_refinement_capture.py
           python3 verification/robotron-keyboard/analog/test_bounded_log_process.py
           python3 verification/robotron-keyboard/analog/test_postreset_state_review.py
           python3 verification/robotron-keyboard/analog/event_state_review.py --root verification/robotron-keyboard/analog/reports/postreset-state-immediate --check-manifest

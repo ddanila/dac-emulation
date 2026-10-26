@@ -342,6 +342,14 @@ The review requires exact disabled-baseline waveforms, compares every saved node
 on the absolute-time grids, and reports exact firmware-record agreement. Fix
 impact and forced-retry differences remain separate from timestep convergence.
 
+For combined-fix timestep refinement, use `postreset_refinement_capture.py` with
+the same `--source`, `--models` and `--runtime`, plus `--coarse` pointing to the
+completed combined capture. Run `--step-ns 12.5` and `--step-ns 6.25` into separate
+fresh `--out` directories. The runner changes only the transient step, preserves
+the complete window and observations, and retains compressed waveforms and logs.
+Review both successive waveform differences under the unchanged numerical gate;
+producer completion alone does not establish convergence.
+
 For longer internal-state controls, use `postreset_state_capture.py` with the
 circuit-output observer build and a fresh output directory for each mode. It
 streams lossless compressed logs with explicit byte/time budgets and a free-space
