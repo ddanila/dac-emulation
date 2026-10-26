@@ -1,0 +1,156 @@
+--- a/vvp/vpi_priv.h
++++ b/vvp/vpi_priv.h
+@@ -208,6 +208,7 @@
+ class value_callback : public __vpiCallback {
+     public:
+       explicit value_callback(p_cb_data data);
++      ~value_callback() override;
+ 	// Return true if the callback really is ready to be called
+       virtual bool test_value_callback_ready(void);
+ 
+--- a/vvp/vvp_vpi_callback.h
++++ b/vvp/vvp_vpi_callback.h
+@@ -41,6 +41,7 @@
+       void attach_as_word(struct __vpiArray* arr, unsigned long addr);
+ 
+       void add_vpi_callback(value_callback*);
++      int robotron_value_contains(const value_callback*) const;
+ #ifdef CHECK_WITH_VALGRIND
+ 	/* This has only been tested at EOS. */
+       void clear_all_callbacks(void);
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -41,6 +41,7 @@
+ # include  <cassert>
+ # include  <cstdlib>
+ # include  <map>
++# include  <set>
+ # include  <cstdint>
+ # include  <dlfcn.h>
+ 
+@@ -198,6 +199,107 @@
+ { return vpiCallback; }
+ 
+ 
++/* Register object lifetime without inspecting optional callback fields. */
++struct robotron_value_entry {
++      value_callback *callback;
++      uint64_t id;
++      PLI_INT32 (*function)(p_cb_data);
++      vpiHandle object;
++      vvp_vpi_callback *owner;
++};
++static std::map<const void*,robotron_value_entry> robotron_value_live;
++static uint64_t robotron_value_serial;
++
++static void robotron_value_created(value_callback *cb, p_cb_data data)
++{
++      robotron_value_entry entry = {cb, ++robotron_value_serial,
++                                    data->cb_rtn, data->obj, 0};
++      robotron_value_live[cb] = entry;
++}
++
++value_callback::~value_callback()
++{
++      robotron_value_live.erase(this);
++}
++
++/* Never follow a supplied handle or an unregistered next pointer. */
++int vvp_vpi_callback::robotron_value_contains(const value_callback *wanted) const
++{
++      const void *cursor = vpi_callbacks_;
++      std::set<const void*> seen;
++      unsigned found = 0;
++      while (cursor) {
++            auto it = robotron_value_live.find(cursor);
++            if (it == robotron_value_live.end() || !seen.insert(cursor).second ||
++                it->second.owner != this) return -1;
++            const value_callback *cb = it->second.callback;
++            if (cb == wanted) ++found;
++            cursor = cb->next;
++      }
++      return found == 1 ? 1 : 0;
++}
++
++extern "C" unsigned long long robotron_vvp_value_identity(
++      const void *handle, PLI_INT32 (*function)(p_cb_data),
++      PLI_BYTE8 *user, vpiHandle object)
++{
++      auto it = robotron_value_live.find(handle);
++      if (it == robotron_value_live.end() || !function || !user || !object) return 0;
++      const robotron_value_entry &entry = it->second;
++      if (entry.function != function || entry.object != object || !entry.owner) return 0;
++      const value_callback *cb = entry.callback;
++      /* user_data is initialized by the explicitly identified caller. */
++      if (cb->cb_data.cb_rtn != function || cb->cb_data.obj != object ||
++          cb->cb_data.user_data != user || cb->cb_data.reason != cbValueChange ||
++          cb->cb_data.time != &cb->cb_time || cb->cb_data.value != &cb->cb_value ||
++          cb->cb_time.type != vpiSuppressTime || cb->cb_value.format != vpiVectorVal ||
++          entry.owner->robotron_value_contains(cb) != 1) return 0;
++      /* index, suppressed time words and the temporary value union are unused. */
++      return entry.id;
++}
++
++static struct {
++      value_callback *callback;
++      int field;
++      const PLI_BYTE8 *user;
++      vpiHandle object;
++      PLI_INT32 (*function)(p_cb_data);
++      __vpiCallback *next;
++} robotron_value_fault = {};
++
++extern "C" int robotron_vvp_value_toggle(
++      const void *handle, PLI_INT32 (*function)(p_cb_data),
++      PLI_BYTE8 *user, vpiHandle object, int field)
++{
++      auto it = robotron_value_live.find(handle);
++      if (it == robotron_value_live.end() || field<0 || field>3 ||
++          it->second.function != function || it->second.object != object) return -1;
++      value_callback *cb = it->second.callback;
++      if (robotron_value_fault.callback) {
++            if (robotron_value_fault.callback != cb || robotron_value_fault.field != field) return -1;
++            cb->cb_data.user_data = robotron_value_fault.user;
++            cb->cb_data.obj = robotron_value_fault.object;
++            cb->cb_data.cb_rtn = robotron_value_fault.function;
++            cb->next = robotron_value_fault.next;
++            robotron_value_fault.callback = 0;
++            return 1;
++      }
++      if (!robotron_vvp_value_identity(handle,function,user,object)) return -1;
++      robotron_value_fault.callback = cb;
++      robotron_value_fault.field = field;
++      robotron_value_fault.user = cb->cb_data.user_data;
++      robotron_value_fault.object = cb->cb_data.obj;
++      robotron_value_fault.function = cb->cb_data.cb_rtn;
++      robotron_value_fault.next = cb->next;
++      switch (field) {
++        case 0: cb->cb_data.user_data = 0; break;
++        case 1: cb->cb_data.obj = (vpiHandle)(uintptr_t)1; break;
++        case 2: cb->cb_data.cb_rtn = 0; break;
++        case 3: cb->next = (__vpiCallback*)(uintptr_t)1; break;
++      }
++      return 1;
++}
++
+ value_callback::value_callback(p_cb_data data)
+ {
+       cb_data = *data;
+@@ -213,6 +315,7 @@
+ 	    cb_value.format = vpiSuppressVal;
+       }
+       cb_data.value = &cb_value;
++      robotron_value_created(this, data);
+ }
+ 
+ /*
+@@ -875,6 +978,9 @@
+ 
+ void vvp_vpi_callback::add_vpi_callback(value_callback*cb)
+ {
++      auto it = robotron_value_live.find(cb);
++      assert(it != robotron_value_live.end() && !it->second.owner);
++      it->second.owner = this;
+       cb->next = vpi_callbacks_;
+       vpi_callbacks_ = cb;
+ }
