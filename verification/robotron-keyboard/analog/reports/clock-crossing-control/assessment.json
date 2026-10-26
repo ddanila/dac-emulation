@@ -1,0 +1,282 @@
+{
+  "completed": true,
+  "qualified": false,
+  "scope": "Analytic external-clock crossing control at the same absolute-time scale, ADC thresholds and delay as the board fixture. No CPU, nonlinear board, state rollback or convergence qualification.",
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-selectable-retry-runtime",
+      "sha256": "58105ffa723ed272de4572d8f812af9c26beb9b551f1aec9b1913753fd221904"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-startup-fixes-v1/spinit",
+      "sha256": "806519c1096a4b2868661ff9e282c82ad970afe9de6d0be94149786f8a232b04"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-startup-fixes-v1/digital.cm",
+        "sha256": "08198ba37c439da78d3cfbee957fa1f0dfc65a5b61c375d51151447ebc54d573",
+        "loadPath": "/private/tmp/k7658-startup-fixes-v1/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "bridge": {
+    "ngspiceSourceVersion": "47",
+    "upstreamSourceSha256": {
+      "vpi.c": "4e4fd55d0daa123f5cad0b93f453be29bff530128fcbcca1d686e9ad6f261761",
+      "icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b"
+    },
+    "icarusCommit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+    "patchSha256": "f3734c148a059a7986bb18e656a4518da6eb237b5578a2be153a38bb42111a81",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "libraries": {
+      "shim": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+        "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+      },
+      "vpi": {
+        "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/ivlng.vpi",
+        "sha256": "32afc2fe7978e2a9cd71229c47551f54c2a9d64d1f0961cc57ed7e189bb7a9b5"
+      },
+      "libvvp": {
+        "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+        "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+      }
+    },
+    "audit": {
+      "windowSeconds": [
+        0.0,
+        0.001160000001
+      ],
+      "builderSha256": "0645c4ff95653fb4ee57cad2f2b0442fd2a01ffce0f7a6b91cadc65bca232f56",
+      "sourceSha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+      "baseBridgeSha256": "f5a288ff4b039e378f09abd16af307f35fa2abbe7887a214b01abca06e30a44e",
+      "scope": "Logging only; no scheduling or error handling changes",
+      "vpiHeader": {
+        "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog/vpi_user.h",
+        "sha256": "109e905f31b6b25dcd3ad784784177baf1bab342a3c1634a82a20abf00516256"
+      }
+    }
+  },
+  "runs": [
+    {
+      "enabled": false,
+      "stepNs": 25,
+      "exitCode": 0,
+      "elapsedSeconds": 1.511605208,
+      "adcEvents": 2219,
+      "maximumAdcTimeErrorSeconds": 2.2199999999998703e-09,
+      "lastAdc": {
+        "time": 0.001109001,
+        "new": 0
+      },
+      "lastExpectedAdcTimeSeconds": 0.0011090007200000001,
+      "lastOutput": {
+        "actual": 0.001109001489,
+        "target": 0.0011090030200000003,
+        "base": 0.001109002
+      },
+      "environment": {
+        "ROBOTRON_HISTORY_INIT": "on",
+        "ROBOTRON_STAGED_OUTPUT": "on",
+        "ROBOTRON_HISTORY_STATE": "off",
+        "ROBOTRON_ADC_TRACE": "1"
+      },
+      "files": {
+        "stderr.log": "c42c515d4597ccfb29365d9a334fb7d47f3ba97813f11de96c36c15abcf468a0",
+        "probe.cir": "54bb4addd7cc2a9810e3aadfb77cc343e980230a57f4a4436f4d1d014404713a",
+        "io.vvp": "e6e8ee8f9e29b5d7c4245d1d0a135a6e8d0e41392e266c4a1aa1f0e1b8c27a95",
+        "ngspice.log": "7d5ac202c7318c2649fa34e2fbffee1a53fc9b218e3251041bdb2b4a2291f8d0",
+        "waveform.raw": "9eb40c5a1feb31897fe59964195c23cbde305ec3498c59c0b04a96e3c33e700c"
+      }
+    },
+    {
+      "enabled": false,
+      "stepNs": 12.5,
+      "exitCode": 0,
+      "elapsedSeconds": 2.222314042,
+      "adcEvents": 2219,
+      "maximumAdcTimeErrorSeconds": 9.70000000000094e-10,
+      "lastAdc": {
+        "time": 0.001109001,
+        "new": 0
+      },
+      "lastExpectedAdcTimeSeconds": 0.0011090007200000001,
+      "lastOutput": {
+        "actual": 0.001109001489,
+        "target": 0.0011090030200000003,
+        "base": 0.001109002
+      },
+      "environment": {
+        "ROBOTRON_HISTORY_INIT": "on",
+        "ROBOTRON_STAGED_OUTPUT": "on",
+        "ROBOTRON_HISTORY_STATE": "off",
+        "ROBOTRON_ADC_TRACE": "1"
+      },
+      "files": {
+        "stderr.log": "d6d7fad9af3d52c6e9c220473ebf52246bf56408517a739dd294ab291e957624",
+        "probe.cir": "13cc50ef92527560d70b876f8b98afcd918b87697b1708449c7002d6b6b369db",
+        "io.vvp": "e6e8ee8f9e29b5d7c4245d1d0a135a6e8d0e41392e266c4a1aa1f0e1b8c27a95",
+        "ngspice.log": "4e66056247407fe6e7283c909b61d02155b85c0cc803a711f4ac63cba9fa9e20",
+        "waveform.raw": "67ae40fd311b2716f859409af5465efb21ccc7626d8526db4cb7fadda2223b75"
+      }
+    },
+    {
+      "enabled": false,
+      "stepNs": 6.25,
+      "exitCode": 0,
+      "elapsedSeconds": 3.6838027500000003,
+      "adcEvents": 2219,
+      "maximumAdcTimeErrorSeconds": 3.4499999999999416e-10,
+      "lastAdc": {
+        "time": 0.001109001,
+        "new": 0
+      },
+      "lastExpectedAdcTimeSeconds": 0.0011090007200000001,
+      "lastOutput": {
+        "actual": 0.001109001489,
+        "target": 0.0011090030200000003,
+        "base": 0.001109002
+      },
+      "environment": {
+        "ROBOTRON_HISTORY_INIT": "on",
+        "ROBOTRON_STAGED_OUTPUT": "on",
+        "ROBOTRON_HISTORY_STATE": "off",
+        "ROBOTRON_ADC_TRACE": "1"
+      },
+      "files": {
+        "stderr.log": "87700882d2c8e42898367ffe155d863cff482836eed18397d38b465585bda30d",
+        "probe.cir": "a2fe393ee6bd1c5d50167fabba748a2bc7d372593f192fd69ea54a49a011728a",
+        "io.vvp": "e6e8ee8f9e29b5d7c4245d1d0a135a6e8d0e41392e266c4a1aa1f0e1b8c27a95",
+        "ngspice.log": "9a54e8d1a96034b5cab26a2051183f592f34fb727b7c412f44cd91024c70455b",
+        "waveform.raw": "50ca727ccb0e4fe298dabd1f8436a2466a665fbbc970e2951565eef1f17838b5"
+      }
+    },
+    {
+      "enabled": true,
+      "stepNs": 25,
+      "exitCode": 0,
+      "elapsedSeconds": 1.7014712089999993,
+      "adcEvents": 2219,
+      "maximumAdcTimeErrorSeconds": 2.168404344971009e-19,
+      "lastAdc": {
+        "time": 0.0011090007200000003,
+        "new": 0
+      },
+      "lastExpectedAdcTimeSeconds": 0.0011090007200000001,
+      "lastOutput": {
+        "actual": 0.00110900142,
+        "target": 0.0011090023199999987,
+        "base": 0.0011090017200000002
+      },
+      "environment": {
+        "ROBOTRON_HISTORY_INIT": "on",
+        "ROBOTRON_STAGED_OUTPUT": "on",
+        "ROBOTRON_HISTORY_STATE": "off",
+        "ROBOTRON_ADC_TRACE": "1",
+        "ROBOTRON_ADC_CROSSINGS": "1"
+      },
+      "files": {
+        "stderr.log": "bdb0e4fd87d469caf94d1f502d3db549848a890d0945e7fa2ff37289da9acfa8",
+        "probe.cir": "54bb4addd7cc2a9810e3aadfb77cc343e980230a57f4a4436f4d1d014404713a",
+        "io.vvp": "e6e8ee8f9e29b5d7c4245d1d0a135a6e8d0e41392e266c4a1aa1f0e1b8c27a95",
+        "ngspice.log": "f750f5ab73a45a2cef1e71cb87ec97eb3f8b28dcb4b64c71b385dbfddc51d62d",
+        "waveform.raw": "f8a739be993127f7c51f5ea80415d4f8d8711aaf3aa177541fb1bec5d6ba5f25"
+      }
+    },
+    {
+      "enabled": true,
+      "stepNs": 12.5,
+      "exitCode": 0,
+      "elapsedSeconds": 2.4035621670000005,
+      "adcEvents": 2219,
+      "maximumAdcTimeErrorSeconds": 2.168404344971009e-19,
+      "lastAdc": {
+        "time": 0.0011090007200000003,
+        "new": 0
+      },
+      "lastExpectedAdcTimeSeconds": 0.0011090007200000001,
+      "lastOutput": {
+        "actual": 0.00110900142,
+        "target": 0.0011090023199999987,
+        "base": 0.0011090017200000002
+      },
+      "environment": {
+        "ROBOTRON_HISTORY_INIT": "on",
+        "ROBOTRON_STAGED_OUTPUT": "on",
+        "ROBOTRON_HISTORY_STATE": "off",
+        "ROBOTRON_ADC_TRACE": "1",
+        "ROBOTRON_ADC_CROSSINGS": "1"
+      },
+      "files": {
+        "stderr.log": "808fa7ab3a4ed0c50462b58f8d8bdd85fc94dcdcc8ab78f4ba50cbbc4a5fcdb4",
+        "probe.cir": "13cc50ef92527560d70b876f8b98afcd918b87697b1708449c7002d6b6b369db",
+        "io.vvp": "e6e8ee8f9e29b5d7c4245d1d0a135a6e8d0e41392e266c4a1aa1f0e1b8c27a95",
+        "ngspice.log": "ee4dc6cd130d2576f780efc47e44eea9178ba2e8f8c8ceef81512b17eb1abffa",
+        "waveform.raw": "6fec18624f9b4f0640c1b23bf57c65d6b80fd18e35373bcb2237845045d33574"
+      }
+    },
+    {
+      "enabled": true,
+      "stepNs": 6.25,
+      "exitCode": 0,
+      "elapsedSeconds": 3.9014879580000006,
+      "adcEvents": 2219,
+      "maximumAdcTimeErrorSeconds": 2.168404344971009e-19,
+      "lastAdc": {
+        "time": 0.0011090007200000003,
+        "new": 0
+      },
+      "lastExpectedAdcTimeSeconds": 0.0011090007200000001,
+      "lastOutput": {
+        "actual": 0.00110900142,
+        "target": 0.0011090023199999987,
+        "base": 0.0011090017200000002
+      },
+      "environment": {
+        "ROBOTRON_HISTORY_INIT": "on",
+        "ROBOTRON_STAGED_OUTPUT": "on",
+        "ROBOTRON_HISTORY_STATE": "off",
+        "ROBOTRON_ADC_TRACE": "1",
+        "ROBOTRON_ADC_CROSSINGS": "1"
+      },
+      "files": {
+        "stderr.log": "7f03fd672229c6255c05949a74b090e64985f0b0e2d4c1365c10892a4501348b",
+        "probe.cir": "a2fe393ee6bd1c5d50167fabba748a2bc7d372593f192fd69ea54a49a011728a",
+        "io.vvp": "e6e8ee8f9e29b5d7c4245d1d0a135a6e8d0e41392e266c4a1aa1f0e1b8c27a95",
+        "ngspice.log": "0b0a898c71b677f79e1ced287bae752df99f457567513c757b32e3944eb1d15a",
+        "waveform.raw": "e31aa7cd06f6888b58badc48b959e7d95444889dd506537adaab03754e1ae152"
+      }
+    }
+  ],
+  "scriptSha256": "f76f18e93d2067b6afb1abaa031dbe5fc08a233787f84e4f860883fb9377c6a7"
+}
