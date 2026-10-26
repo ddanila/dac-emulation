@@ -1,0 +1,119 @@
+{
+  "qualified": false,
+  "commit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "commands": [
+    [
+      "tar",
+      "-xzf",
+      "/private/tmp/k7658-icarus-pinned.tar.gz",
+      "--strip-components=1"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-queue-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-family-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-callback-payload-link.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-single-display-runtime.patch"
+    ],
+    [
+      "sh",
+      "autoconf.sh"
+    ],
+    [
+      "./configure",
+      "--enable-libvvp",
+      "--prefix=/private/tmp/k7658-display-board-runtime/install",
+      "YACC=/opt/homebrew/Cellar/bison/3.8.2/bin/bison"
+    ],
+    [
+      "make",
+      "version_tag.h",
+      "version.exe"
+    ],
+    [
+      "make",
+      "-C",
+      "vvp",
+      "-j2"
+    ],
+    [
+      "make",
+      "-C",
+      "vpi",
+      "-j2",
+      "system.vpi"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-display-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-display-payload-link.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-single-display-module.patch"
+    ],
+    [
+      "make",
+      "-C",
+      "vpi",
+      "-j2",
+      "system.vpi"
+    ]
+  ],
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "sources": {
+    "build_display_association.py": "e3b1faf9c67f574982867ce4299bb58031d617198dfe624d6eacd44fe99fcf83",
+    "build_private_queue_observer.py": "cb1fb9722c972231c1c943d2df1a65909836edcd6642c590d67e9145475b6728",
+    "engine-patches/icarus-queue-observer.patch": "37dde672e6c8b0645153da87a5c5a8d0d167aa0225a66c8488bda7fccb9e6eb6",
+    "engine-patches/icarus-sync-observer.patch": "e8056d699a3f27405ed3e7da613154b55530d6e794d6412765caa76cfc1bc085",
+    "engine-patches/icarus-sync-family-observer.patch": "3447876a59ec9d53a42e8e75b06d77349fe3d5e53d17cb3e445e0e08dd272ff9",
+    "engine-patches/icarus-callback-payload-link.patch": "1aedf06846d21b5881ccbf0fceb77be29c9df84d757c5616ac3e72b5ab9a4764",
+    "engine-patches/icarus-single-display-runtime.patch": "b4c80e9d1b96293fdde7e0712d6139c49cad143468250c9f31c10a4d85b7b214",
+    "engine-patches/icarus-display-observer.patch": "8f78091f7a35cf12564d30cfcdfcf576d5d1a4890ebda3797e720bc6ca07e210",
+    "engine-patches/icarus-display-payload-link.patch": "150664196bfe97fe7b873598f740951979f137c6b4294de990bcb756db297680",
+    "engine-patches/icarus-single-display-module.patch": "748b285e072ecc7866f870e4f5eb96fb51cb180ed71158dcf8e4c088c917f622",
+    "build_display_board_runtime.py": "6fbe7b0cdb298850d6db75834576892e11f86a2aca36e1d06f9d709c3c3f7e88"
+  },
+  "outputs": {
+    "vvp/vvp": "ef5748440e8731423e8af0ba390750edeeed0e59c2e997b24ab62d40dc66e21c",
+    "vvp/libvvp.so": "569c82cdd535465256f2539fe6c854d84b3656cf2528e509995c628ef284efa4",
+    "vvp/vpi_callback.cc": "0fc7221e4fcc9143ccc89c23d2d949e4ab2bb01f586fe7dba1ca9272c043ae33",
+    "baseline/system.vpi": "19314ac4a1422b256617dd0e2d64c9d395bdc2f348eb0416ee6251290f0d25c9",
+    "vpi/system.vpi": "431eb8a811eeb234f1a5bf61098eb55e2259142eb11f5854ed5c58603f82c7a6",
+    "vpi/sys_display.c": "dbca76193bfe35ad63e2660d4f47df4504fbc009b4fb818e8a3ca9702a7ca07b"
+  },
+  "scope": "Typed display/callback association runtime with reversible single-payload NULL fault. Restore before executing callbacks. Board controls and general rollback remain separate."
+}
