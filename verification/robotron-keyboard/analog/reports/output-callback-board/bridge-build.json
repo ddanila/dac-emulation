@@ -1,0 +1,61 @@
+{
+  "qualified": false,
+  "commands": [
+    [
+      "cc",
+      "-fPIC",
+      "-fvisibility=default",
+      "-I/private/tmp/k7658-output-callback-bridge/include",
+      "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/include",
+      "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog",
+      "-I/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog",
+      "-dynamiclib",
+      "-undefined",
+      "dynamic_lookup",
+      "/private/tmp/k7658-output-callback-bridge/icarus_shim.c",
+      "-o",
+      "/private/tmp/k7658-output-callback-bridge/ivlng.so"
+    ],
+    [
+      "cc",
+      "-fPIC",
+      "-fvisibility=default",
+      "-I/private/tmp/k7658-output-callback-bridge/include",
+      "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/include",
+      "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog",
+      "-I/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "/private/tmp/k7658-output-callback-bridge/vpi.c",
+      "-o",
+      "/private/tmp/k7658-output-callback-bridge/ivlng.vpi"
+    ]
+  ],
+  "sources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_output_callback_bridge.py": "f18f4b7727b2610e9f3b29fb7c88704f11fd1edc80508e4f7f9ece10de045347",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_port_identity_bridge.py": "a271154ef28daf9523b34a77035d488e8320bdff8f2a44da7394990c292c69d1",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/output_callback_bridge.h": "bef70cbe68846331d18afd9e68351834280976e080ddd0569b140d153a7896c3",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_private_sync_bridge.py": "2c09e7bd45498d580307f60f839381a315eb6c203fda5bcd697522296deb6ea7",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_private_sync_family_bridge.py": "3a4d9536ea81234480f24677886b6b46fcdee01d0f2d0f845089ac514c425223",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_display_stop_bridge.py": "7ae9f463384fef147eee8772e5e7ffeb0b29d779af195d5fdb67622172c06d92",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_executing_wrapper_bridge.py": "6528626033f95e83ae8e877930ea007b2ef4ec21e589792b8ba62d5e4f6fd609",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/port_identity_bridge.h": "b7bc2cfe140c720b14ef5b232188460650d379ecf3342f7d67a5a4d1926f6508",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/display_board_bridge.h": "d1cce8ead91a7940ffdb1d3c63e6265baf89b67b7dec7fefda313f6b680c7fcc",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog/vpi_user.h": "109e905f31b6b25dcd3ad784784177baf1bab342a3c1634a82a20abf00516256",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.h": "cb3a43a781157f1477b9ba4ed5ca6669c60b76e3f1c6d9674153f703b6395912",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/coroutine_shim.h": "312cd4c02bb77aca1b2cf094531a7f062fa1624153cffd9d037c91eece461ada",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/coroutine_cosim.h": "78de72acfb12c09155f46b53821d8ecab2b596423ce93c995384dd971550716e",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cmtypes.h": "268ca5c099d9d2e19bef436abc81261195c4ac5e237a5489786331de8d22b371",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cosim.h": "1fdf5e534cdc4a6f77b5d8177152107722f192a2b9e3e7a7fa007d093e13a425"
+  },
+  "outputs": {
+    "icarus_shim.c": "db68fc1827e2badae30fb066deee7458e013c47432020c48d0e4bafe4d260e7a",
+    "vpi.c": "3dcbb828ad185f2ecad3bfd155fbe653730a26fdcf7402ca333d8ea909722ba4",
+    "ivlng.so": "f21b5ca9aee642919eff2d47879431304d36aec9d89ee3b2f612a6f4fd30580f",
+    "ivlng.vpi": "6a43cbf038a57578abe115e496f154865fc601becfed15479d74f3a540108f1d"
+  },
+  "scope": "Explicit watch-registration identities captured before port metadata initialization, then validated at paused boundaries with live callback lifetime/function/signal/user/list checks. Temporary value union is not observed. Board controls and general rollback remain open."
+}
