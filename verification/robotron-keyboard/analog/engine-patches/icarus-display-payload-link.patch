@@ -1,0 +1,52 @@
+--- a/vpi/sys_display.c
++++ b/vpi/sys_display.c
+@@ -98,6 +98,7 @@
+ struct robotron_display_entry {
+     struct robotron_display_entry *next;
+     struct strobe_cb_info *info;
++    vpiHandle callback;
+     vpiHandle scope;
+     vpiHandle *items;
+     vpiHandle *handles;
+@@ -1521,7 +1522,8 @@
+       cb.obj = 0;
+       cb.value = 0;
+       cb.user_data = (char*)info;
+-      vpi_register_cb(&cb);
++      robotron_display_find(info)->callback = vpi_register_cb(&cb);
++      if (!robotron_display_find(info)->callback) abort();
+ 
+       return 0;
+ }
+@@ -2815,3 +2817,31 @@
+       cb_data.user_data = "system";
+       vpi_register_cb(&cb_data);
+ }
++
++/* Explicit callback handle/function/user-data association; no private layout
++ * is guessed by the caller. The lookup implementation belongs to libvvp. */
++typedef unsigned long long (*robotron_payload_lookup)(const void*, PLI_INT32(*)(p_cb_data), PLI_BYTE8*);
++typedef int (*robotron_payload_swap)(const void*, const void*, PLI_INT32(*)(p_cb_data));
++int robotron_display_associations(FILE *stream, robotron_payload_lookup lookup)
++{
++    if (!stream || !lookup) return -1;
++    unsigned long long count=0;
++    for (struct robotron_display_entry *p=robotron_display_head;p;p=p->next) ++count;
++    if (fprintf(stream,"VJ_BEGIN 1 %llu\n",count)<0) return -1;
++    for (struct robotron_display_entry *p=robotron_display_head;p;p=p->next) {
++        unsigned long long callback=lookup(p->callback,strobe_cb,(PLI_BYTE8*)p->info);
++        if (!callback || fprintf(stream,"VJ_LINK %llu %llu\n",p->id,callback)<0) return -1;
++    }
++    return fprintf(stream,"VJ_END\n")<0 || ferror(stream) ? -1 : 0;
++}
++int robotron_display_swap_callback_data(robotron_payload_swap swap)
++{
++    if (!swap) return -1;
++    struct robotron_display_entry *first=NULL;
++    for (struct robotron_display_entry *p=robotron_display_head;p;p=p->next) {
++        if (p->executing) continue;
++        if (!first) first=p;
++        else return swap(first->callback,p->callback,strobe_cb);
++    }
++    return 0;
++}

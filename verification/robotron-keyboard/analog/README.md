@@ -654,12 +654,14 @@ and test the surviving context, live stop-handle relationship and executing
 callback/event objects; raw stack-byte equality includes irrelevant temporaries
 and padding.
 
-Use `build_display_observer.py --archive PINNED_TARBALL --out FRESH_DIRECTORY
---bison BISON` to build original and instrumented display modules from the same
-source. `display_payload_probe.py --build MODULE_BUILD --runtime ICARUS_BUILD
---modules VPI_DIRECTORY --out FRESH_REPORT` compares vendor, rebuilt, disabled,
-observed and mutation controls. The [typed payload evidence](reports/display-payload/assessment.json)
-covers strobe metadata, format, supported arguments and registry cleanup.
-Integrate it with board callback-to-payload identity checks before claiming board
-referent coverage; descriptor internals and arbitrary VPI objects remain outside
-this observer.
+Build the combined runtime/modules with `build_display_association.py --archive
+PINNED_TARBALL --out FRESH_DIRECTORY --bison BISON`. Run
+`display_association_probe.py --build BUILD --runtime BUILD --modules VPI_DIRECTORY
+--out FRESH_REPORT` for vendor, rebuilt, disabled, observed and pointer-swap controls.
+[Typed payload evidence](reports/display-payload/assessment.json) covers strobe
+metadata, format, supported arguments and registry cleanup. The
+[association controls](reports/display-association/assessment.json) link live
+callback handles/functions/user data to those payloads and reject swapped user-data
+pointers even when payload values stay identical. Integrate the linked observation
+at board boundaries before claiming board referent coverage; descriptor internals,
+other VPI objects and executing wrappers remain separate.

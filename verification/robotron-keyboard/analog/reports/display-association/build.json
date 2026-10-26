@@ -1,0 +1,104 @@
+{
+  "qualified": false,
+  "commit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "commands": [
+    [
+      "tar",
+      "-xzf",
+      "/private/tmp/k7658-icarus-pinned.tar.gz",
+      "--strip-components=1"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-queue-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-family-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-callback-payload-link.patch"
+    ],
+    [
+      "sh",
+      "autoconf.sh"
+    ],
+    [
+      "./configure",
+      "--enable-libvvp",
+      "--prefix=/private/tmp/k7658-display-association-v2/install",
+      "YACC=/opt/homebrew/Cellar/bison/3.8.2/bin/bison"
+    ],
+    [
+      "make",
+      "version_tag.h",
+      "version.exe"
+    ],
+    [
+      "make",
+      "-C",
+      "vvp",
+      "-j2"
+    ],
+    [
+      "make",
+      "-C",
+      "vpi",
+      "-j2",
+      "system.vpi"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-display-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-display-payload-link.patch"
+    ],
+    [
+      "make",
+      "-C",
+      "vpi",
+      "-j2",
+      "system.vpi"
+    ]
+  ],
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "sources": {
+    "build_display_association.py": "e3b1faf9c67f574982867ce4299bb58031d617198dfe624d6eacd44fe99fcf83",
+    "build_private_queue_observer.py": "cb1fb9722c972231c1c943d2df1a65909836edcd6642c590d67e9145475b6728",
+    "engine-patches/icarus-queue-observer.patch": "37dde672e6c8b0645153da87a5c5a8d0d167aa0225a66c8488bda7fccb9e6eb6",
+    "engine-patches/icarus-sync-observer.patch": "e8056d699a3f27405ed3e7da613154b55530d6e794d6412765caa76cfc1bc085",
+    "engine-patches/icarus-sync-family-observer.patch": "3447876a59ec9d53a42e8e75b06d77349fe3d5e53d17cb3e445e0e08dd272ff9",
+    "engine-patches/icarus-callback-payload-link.patch": "1aedf06846d21b5881ccbf0fceb77be29c9df84d757c5616ac3e72b5ab9a4764",
+    "engine-patches/icarus-display-observer.patch": "8f78091f7a35cf12564d30cfcdfcf576d5d1a4890ebda3797e720bc6ca07e210",
+    "engine-patches/icarus-display-payload-link.patch": "150664196bfe97fe7b873598f740951979f137c6b4294de990bcb756db297680"
+  },
+  "outputs": {
+    "vvp/vvp": "8ddf607a6d6f32af2168b2798ed46fc1d5cdfe19cabf7af046c89d081481f491",
+    "vvp/libvvp.so": "0789a48ec37b28fed6d06fb82dee04d9398f57164f96469420061b4245cfa4bb",
+    "vvp/vpi_callback.cc": "12ddf384c6bf5c29afb2bd407db0ea0a2b5dfd1f567724ae9e0a7908b1f42c87",
+    "baseline/system.vpi": "e1683c679354eb45b557ad71e7134b58c7236345d94a89fccd121003d434ee7d",
+    "vpi/system.vpi": "ac17b809e9ebc7f5fcc9f2f2a6fa316e10a433a96848c18b7630f346f93e10a8",
+    "vpi/sys_display.c": "ba1cc2ef8b8d980ae31b0173ad99f30b0235f6f97feead6d6d819bb173c7f802"
+  },
+  "scope": "Direct live callback handle/function/user-data association to typed display payloads. Intentional payload swap must be restored before scheduler continuation. No general rollback or freed-storage qualification."
+}
