@@ -1,0 +1,15 @@
+--- a/vpi/sys_display.c
++++ b/vpi/sys_display.c
+@@ -2845,3 +2845,12 @@
+     }
+     return 0;
+ }
++
++typedef int (*robotron_payload_null)(const void*, PLI_INT32(*)(p_cb_data), PLI_BYTE8*);
++int robotron_display_toggle_callback_data(robotron_payload_null toggle)
++{
++    if (!toggle) return -1;
++    for (struct robotron_display_entry *p=robotron_display_head;p;p=p->next)
++        if (!p->executing) return toggle(p->callback,strobe_cb,(PLI_BYTE8*)p->info);
++    return 0;
++}

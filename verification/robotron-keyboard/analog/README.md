@@ -662,6 +662,15 @@ PINNED_TARBALL --out FRESH_DIRECTORY --bison BISON`. Run
 metadata, format, supported arguments and registry cleanup. The
 [association controls](reports/display-association/assessment.json) link live
 callback handles/functions/user data to those payloads and reject swapped user-data
-pointers even when payload values stay identical. Integrate the linked observation
-at board boundaries before claiming board referent coverage; descriptor internals,
-other VPI objects and executing wrappers remain separate.
+pointers even when payload values stay identical. For board controls, use
+`build_display_board_runtime.py` with the same archive/build arguments and
+`build_display_board_bridge.py` with the paired bridge/VPI arguments above.
+`display_board_capture.py --bridge BRIDGE --icarus RUNTIME --out FRESH_DIRECTORY`
+uses the pinned local combined-fix runtime and bounded service fixture. Review with
+`display_board_review.py --root CAPTURES --producer display_board_capture.py
+--out REPORT`, retaining both build receipts as `bridge-build.json` and
+`icarus-build.json` in the capture directory. It requires exact waveform and
+firmware agreement across original, rebuilt, observer-disabled and observed
+controls, plus rejection/restoration of a single callback's NULL data pointer.
+These controls must pass before claiming board display coverage; descriptor
+internals, other VPI objects and executing wrappers remain separate.

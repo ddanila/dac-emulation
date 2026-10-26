@@ -1,0 +1,22 @@
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -1195,3 +1195,19 @@
+     b->cb_data.user_data = saved;
+     return 1;
+ }
++
++/* Reversible association fault for a board with one pending display callback.
++ * Caller must restore before handing scheduler ownership back to HDL. */
++extern "C" int robotron_vvp_sync_toggle_payload_null(
++    const void* handle, robotron_callback_fn function, PLI_BYTE8* expected_user)
++{
++    sync_callback* cb = robotron_sync_from_handle(handle);
++    if (!cb || !function || !expected_user || cb == robotron_sync_executing) return -1;
++    auto original = robotron_sync_functions.find(cb);
++    if (original == robotron_sync_functions.end() || original->second != function ||
++        cb->cb_data.cb_rtn != function) return -1;
++    if (cb->cb_data.user_data == expected_user) cb->cb_data.user_data = 0;
++    else if (!cb->cb_data.user_data) cb->cb_data.user_data = expected_user;
++    else return -1;
++    return 1;
++}
