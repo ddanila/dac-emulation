@@ -382,9 +382,8 @@ and are not waived. Full numerical replay requires the local captures listed in
 [retention metadata](reports/postreset-adc/retention.json).
 [Timing localization](reports/postreset-adc/timing-localization.json) corroborates
 the changed bus times with VPI callback timestamps and locates a middle-step
-`data_sink` event one tick late before the largest voltage residual. Test input
-application and tick conversion with deterministic edges before attributing
-this correlation to a numerical defect.
+`data_sink` event one tick late before the largest voltage residual. The [direct bridge controls](reports/input-tick/assessment.json) independently
+reproduce history-dependent early input application without an analog circuit.
 `numericalGatePassed` is scoped to this window; `qualified` remains false because
 startup, supply recovery and device admission need independent evidence.
 
@@ -736,3 +735,20 @@ unused input-only `new` words, which the legacy observer read before initializat
 The [bounded port controls](reports/port-board/assessment.json) pass exact waveform
 and firmware comparisons, the compiled port contract and all restored faults.
 Output value-change callback relationships and longer-window coverage remain open.
+
+
+For the opt-in tick-conversion candidate, build `build_absolute_tick_vpi.py
+--source NGSPICE_SOURCE --vpi TIMING_AUDITED_VPI_SOURCE --vpi-header VPI_HEADER
+--out FRESH_DIRECTORY`. `ROBOTRON_ABSOLUTE_TICKS=1` computes the exact floor of the
+binary64 absolute target/tick ratio before subtracting the integer current tick;
+it does not add a timing tolerance or move inputs onto a rounded-up clock grid.
+`input_tick_probe.py --source NGSPICE_SOURCE --candidate BUILD --board-receipt
+BOARD_RUN_JSON --out FRESH_DIRECTORY` exercises the real shim with original,
+disabled and enabled libraries. Its isolated controls pass, including an
+independent rational oracle; board convergence and rollback remain separate.
+Use `absolute_tick_board_capture.py --source ORIGINAL_BOARD_BASELINE --candidate
+BUILD --out FRESH_DIRECTORY`, then `absolute_tick_board_review.py --root CAPTURES
+--producer absolute_tick_board_capture.py --out REPORT` for bounded board and
+forced-retry controls. Preserve the original disabled baseline and explicit
+XSPICE initialization. Full post-reset refinements must pass the existing gate
+before the candidate can be qualified.

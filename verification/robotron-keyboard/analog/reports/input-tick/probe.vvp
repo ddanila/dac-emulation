@@ -1,0 +1,33 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x102e48d40 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x102e48ec0 .scope module, "input_tick_probe" "input_tick_probe" 3 2;
+ .timescale -12 -12;
+    .port_info 0 /INPUT 1 "signal_in";
+    .port_info 1 /OUTPUT 1 "echo";
+o0xc53420040 .functor BUFZ 1, c4<z>; HiZ drive
+L_0x102e4ba10 .functor BUFZ 1, o0xc53420040, C4<0>, C4<0>, C4<0>;
+v0x102e4b4f0_0 .net "echo", 0 0, L_0x102e4ba10;  1 drivers
+v0x102e4b970_0 .net "signal_in", 0 0, o0xc53420040;  0 drivers
+E_0xc52c0c5c0 .event anyedge, v0x102e4b970_0;
+    .scope S_0x102e48ec0;
+T_0 ;
+    %wait E_0xc52c0c5c0;
+    %vpi_call/w 3 5 "$display", "INPUT_TICK %0t %b", $time, v0x102e4b970_0 {0 0 0};
+    %jmp T_0;
+    .thread T_0, $push;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/input_tick_probe.v";
