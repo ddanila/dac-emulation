@@ -1,0 +1,731 @@
+{
+  "completed": true,
+  "qualified": false,
+  "deviceAdmitted": false,
+  "runtime": {
+    "path": "/opt/homebrew/Cellar/ngspice/47/bin/ngspice",
+    "sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511"
+  },
+  "scope": "Published 300-pF external load plus explicitly assumed device capacitance; instantaneous linear drive, no internal switching delay.",
+  "extraCapacitanceScope": "0 pF is the prior fastest-response control; 12 pF is the existing bus_cosim fixture assumption, not an I8282 output specification; 30 pF is a sensitivity hypothesis.",
+  "decision": "The 250-ohm high-side candidate with the existing 12-pF assumption fails the minimum-supply rise limit. Do not combine those choices in an admitted model. The 125-ohm candidate passes these tested capacitances but remains a non-unique hypothesis.",
+  "boundScope": "Necessary total extra-capacitance ceilings within the constant-resistance family, computed from both edge limits. These are not measured capacitance values or a bound on nonlinear transistor models.",
+  "capacitanceBudgets": [
+    {
+      "highOhms": 125.0,
+      "supplyVolts": 4.5,
+      "edgeExtraCapacitanceBoundsPf": {
+        "rise": 215.9694495664521,
+        "fall": 161.7902578848611
+      },
+      "maximumExtraCapacitancePf": 161.7902578848611
+    },
+    {
+      "highOhms": 125.0,
+      "supplyVolts": 5.0,
+      "edgeExtraCapacitanceBoundsPf": {
+        "rise": 285.883820234382,
+        "fall": 161.7902578848611
+      },
+      "maximumExtraCapacitancePf": 161.7902578848611
+    },
+    {
+      "highOhms": 125.0,
+      "supplyVolts": 5.5,
+      "edgeExtraCapacitanceBoundsPf": {
+        "rise": 355.0982260656456,
+        "fall": 161.7902578848611
+      },
+      "maximumExtraCapacitancePf": 161.7902578848611
+    },
+    {
+      "highOhms": 250.0,
+      "supplyVolts": 4.5,
+      "edgeExtraCapacitanceBoundsPf": {
+        "rise": 6.874611243522666,
+        "fall": 161.7902578848611
+      },
+      "maximumExtraCapacitancePf": 6.874611243522666
+    },
+    {
+      "highOhms": 250.0,
+      "supplyVolts": 5.0,
+      "edgeExtraCapacitanceBoundsPf": {
+        "rise": 43.300178032101755,
+        "fall": 161.7902578848611
+      },
+      "maximumExtraCapacitancePf": 43.300178032101755
+    },
+    {
+      "highOhms": 250.0,
+      "supplyVolts": 5.5,
+      "edgeExtraCapacitanceBoundsPf": {
+        "rise": 79.11963922229523,
+        "fall": 161.7902578848611
+      },
+      "maximumExtraCapacitancePf": 79.11963922229523
+    }
+  ],
+  "sources": {
+    "i8282_capacitance_probe.py": "dbba9facc8947247892c062de94a7ba52885049a6e66853734370d9388dd562c",
+    "bus_cosim.py": "d5d8eba9ab45ee0753c013c66f1f56882077d30c48074c113f3d4f99773baa23",
+    "i8282_enabled_candidates.py": "1219d0f07705e1241b5349c494121f3a20e05dcd03915a561ca90c155070913d",
+    "bus_switching_probe.py": "d122f1e6f8bb4d8f44660f835c9a980eb394698ef23c911c0caca31cbcee2f23",
+    "bus_switching_limits.json": "669da702f6aed3654862bc8730eea51c267d30d5921ea3316f43b85145510ec3",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "bus_device_contract.json": "2ec7297942027de6507fe06b7ee0ee28380affd73d7aa15af47f6c73fa3d6c03",
+    "bus_endpoint_candidates.py": "6437f6e81fcb100065df54ac21f1f7a87c13fb68482567c85410dbd27e3e5fb0",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+    "ttl7406_probe.py": "8726f6dc39c717b65abccc85792859aad3d8537dc02ac7eb85d2bd72d3e8021b"
+  },
+  "cases": [
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "expectedSeconds": 1.162859546246692e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.16286e-08,
+      "files": {
+        "probe.cir": "547a0aab7f918bb4690a42e1bae801d4b569b730c6a3112adc82cfd811155d29",
+        "ngspice.log": "eeccddb466185c6ecd0af3032c3d3ce88238e768c86dd25d2220716447dc852f"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "expectedSeconds": 1.2093739280965598e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.20937e-08,
+      "files": {
+        "probe.cir": "b4c71b7183dab4aa1490948f8e968931ae1a12c10a6687e1f0eeff8dfeb8830d",
+        "ngspice.log": "7fc9edfaa6537628ae1446cd4536d1a1dbe3c0f6fb6489cdcd55244854c6e4d0"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "expectedSeconds": 1.2791455008713613e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.27914e-08,
+      "files": {
+        "probe.cir": "0ae820250d353be3753b2f619bc13eefc44aa25e1d50fca0f2921c564d0eb62b",
+        "ngspice.log": "938ec72a317a88a359a45797317de33a47a9a83be476d1adc87c58e2175d5d4b"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 7.79574696202793e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 7.79568e-09,
+      "files": {
+        "probe.cir": "6373d0b901a362c5cd63f4fc71394a33e12f008a014a50ee66cecf59f122f973",
+        "ngspice.log": "250aa5fd3b985b43ee57c8aa866c2cef570fd342e1a77666c587f114040dc95a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.107576840509046e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.10751e-09,
+      "files": {
+        "probe.cir": "84f9595e02d1d7396b807a195118afc420ed98a6a18f783960b59e1f2aef8fea",
+        "ngspice.log": "7b5e8156d883463906a97c9cf1bd62e650bdd02ac960ef5e42b6a48e396f8522"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.57532165823072e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.5753e-09,
+      "files": {
+        "probe.cir": "47f6f8fde7d94a526f1acf71b60c6a72d06dc52fa4332a1bed8fff02734ef678",
+        "ngspice.log": "d373205bab2cf0b891d23bb94a45301aabd373d7910286ab1da2fa9bc2843db0"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "expectedSeconds": 1.0240938207851018e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.02409e-08,
+      "files": {
+        "probe.cir": "ec83050ebfae170f3d1134e6721878c69cc2635817f446668e840f17dadce00a",
+        "ngspice.log": "a501efff8841fcad36fc845607dd38edd8dac47f65951ef5ec0e16f58b543866"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "expectedSeconds": 1.065057573616506e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.06506e-08,
+      "files": {
+        "probe.cir": "fe3021056177ccfed415cb1a30e92f6bee1e3e2210adc9bde5d685cd3f6720a3",
+        "ngspice.log": "9ea9b1dcc7bd7508657da727d5d818800b8a5298664c1791613e96173ef052a8"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "expectedSeconds": 1.126503202863612e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.1265e-08,
+      "files": {
+        "probe.cir": "f79ab6058f1ee7eda7ec9dfb60edbf511ac677ecf5362d8dc97622557ed5f46a",
+        "ngspice.log": "bd0cba13690655c048610adbfc7392dc6d00544276ed74f0dccc5309947bcde3"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 7.79574696202793e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 7.79569e-09,
+      "files": {
+        "probe.cir": "43882d89426b73122ecda2fce82df7782de082ea1611b8014eee06cb011fe1be",
+        "ngspice.log": "dbe1cc956606058564f250245fa0ff9ae62f000770df8e4e1c64dc0aa32b61ac"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.107576840509046e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.10753e-09,
+      "files": {
+        "probe.cir": "df5b5b1fcd9ca03e9f5d8e2c2da23d2c8e2cc468169efb7422aab02842bfdcba",
+        "ngspice.log": "4f94a5aecb00531f0e19ce7913ebd876232e948a20acf614f716ccc96e5471fb"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.57532165823072e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.57522e-09,
+      "files": {
+        "probe.cir": "14f46d190a319c4af014921b5555faf3e0e055794237d6fdac86ed11841a8121",
+        "ngspice.log": "d587a2bab87a8a0af9f671c0cf4a19cdbf21615c8a80445d8c80cef4a946aba9"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "expectedSeconds": 9.158931838412209e-09,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 9.15892e-09,
+      "files": {
+        "probe.cir": "805b4a82f1d40aa028210ff6937aaef66c5d8d3be775bfaaaf4b468ff50e9cfd",
+        "ngspice.log": "010296010f8e3c344cdb83462af5bd36e08be7f31f04814bdc866f8bbd23b46d"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "expectedSeconds": 9.525289111948697e-09,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 9.52526e-09,
+      "files": {
+        "probe.cir": "1d3e9f7907df9fe8d031f98b235a47a3d203ab03d46ff29a4fbbf97df670ed36",
+        "ngspice.log": "3cee4fc4573a7248d8a6117bfad635713f5139c47d60cfd2e69c13ac21baffba"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "expectedSeconds": 1.007482502225343e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.00748e-08,
+      "files": {
+        "probe.cir": "372d3435673a85a8318e27ecef59c1b5c38d1e86ec4b13ca5af1ab67d833dd95",
+        "ngspice.log": "dadeb56e863a1d638201ce9773bca25c8d41297c214dd1d0ddd09e6070cebf73"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 7.79574696202793e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 7.79568e-09,
+      "files": {
+        "probe.cir": "77d59cd990922060aa7955905fdf029068dd815c0d3ef7ccdfd371ceb5b0f045",
+        "ngspice.log": "bfa320a03cc0197cfeb0253da01763b7a75ad2811411afa65ddc04e51cfa3eef"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.107576840509046e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.1075e-09,
+      "files": {
+        "probe.cir": "3ad872a60b4c1e14b9fc1bd84300978ca85ae10f68a1d3400ed405c0e2c92017",
+        "ngspice.log": "5c55ae9c361bd052423603f211ff5d234e2e1def76470a5c05a747b3af1f85c9"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.57532165823072e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.57524e-09,
+      "files": {
+        "probe.cir": "2e6fff799ad1adecfd0ae4efa2945006da282575fe7e45c6f5799ace82e40f1c",
+        "ngspice.log": "4d227909bd8fc2f5e605a0cfad4f43875bd0f7ff8ec390e401bee1c499c2c5c7"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "expectedSeconds": 1.9551959595766803e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.95519e-08,
+      "files": {
+        "probe.cir": "0e68643de4f779b7856862d3829ef8da67eaf5f1b3bce703955071ac4fe7505e",
+        "ngspice.log": "20dd5ef162fddcdb59c92da288de6cc9aa2aa1f3fee74190af7a6da3af3cc27c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "expectedSeconds": 2.033403797959748e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": false
+      },
+      "measuredSeconds": 2.0334e-08,
+      "files": {
+        "probe.cir": "f318fa886b5f24622d14d949eb6a0bfaf550db111e030d74790eae2478a7a49e",
+        "ngspice.log": "ec0553ed4753039c4f44ed868f1f18d822e0cd94a223a8eb80dcdb9ebbc854bf"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "expectedSeconds": 2.1507155555343482e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": false
+      },
+      "measuredSeconds": 2.15071e-08,
+      "files": {
+        "probe.cir": "37425b801faf36a53f64dc5573b9da7a4c4a083ad861344d048ae6dad6342d34",
+        "ngspice.log": "d4ced0fb471ff1799051eaa85225cbf87678c141f48ef8fdfe645d55dee3b603"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 7.79574696202793e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 7.79568e-09,
+      "files": {
+        "probe.cir": "6373d0b901a362c5cd63f4fc71394a33e12f008a014a50ee66cecf59f122f973",
+        "ngspice.log": "250aa5fd3b985b43ee57c8aa866c2cef570fd342e1a77666c587f114040dc95a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.107576840509046e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.10751e-09,
+      "files": {
+        "probe.cir": "84f9595e02d1d7396b807a195118afc420ed98a6a18f783960b59e1f2aef8fea",
+        "ngspice.log": "7b5e8156d883463906a97c9cf1bd62e650bdd02ac960ef5e42b6a48e396f8522"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.57532165823072e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.5753e-09,
+      "files": {
+        "probe.cir": "47f6f8fde7d94a526f1acf71b60c6a72d06dc52fa4332a1bed8fff02734ef678",
+        "ngspice.log": "d373205bab2cf0b891d23bb94a45301aabd373d7910286ab1da2fa9bc2843db0"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "expectedSeconds": 1.7477415929096733e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.74774e-08,
+      "files": {
+        "probe.cir": "66987748dc6a88db268292ef66df86e88512b20fbff6ca344a4eb3dc6af6bff4",
+        "ngspice.log": "72538d51e4de4fff0fed02aedd57733000f833c4f004ccf0b840d50da730f8f0"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "expectedSeconds": 1.8176512566260605e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.81765e-08,
+      "files": {
+        "probe.cir": "9b80a0a0ff88d3d69c12f1b500dc639b4d14f66e6e9a76982651cb1b78add46d",
+        "ngspice.log": "08f1a6c70ea97c1e8333df8377310721aa58a356dbcb2fcd17869d930ae2a705"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "expectedSeconds": 1.9225157522006406e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.92251e-08,
+      "files": {
+        "probe.cir": "08fa58f5c25bc46c389935719a275f6a9be97cb256c3ed72e20ad7ac50f37b23",
+        "ngspice.log": "02d7bd716bbd890f273464594ba09c6b00a2ab855c6d1e100c82d27f15268c1c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 7.79574696202793e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 7.79569e-09,
+      "files": {
+        "probe.cir": "43882d89426b73122ecda2fce82df7782de082ea1611b8014eee06cb011fe1be",
+        "ngspice.log": "dbe1cc956606058564f250245fa0ff9ae62f000770df8e4e1c64dc0aa32b61ac"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.107576840509046e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.10753e-09,
+      "files": {
+        "probe.cir": "df5b5b1fcd9ca03e9f5d8e2c2da23d2c8e2cc468169efb7422aab02842bfdcba",
+        "ngspice.log": "4f94a5aecb00531f0e19ce7913ebd876232e948a20acf614f716ccc96e5471fb"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.57532165823072e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.57522e-09,
+      "files": {
+        "probe.cir": "14f46d190a319c4af014921b5555faf3e0e055794237d6fdac86ed11841a8121",
+        "ngspice.log": "d587a2bab87a8a0af9f671c0cf4a19cdbf21615c8a80445d8c80cef4a946aba9"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "expectedSeconds": 1.5826138715230008e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.58261e-08,
+      "files": {
+        "probe.cir": "0729a9af3dff18216648f50efd9607fe46b89b4885dcca6880e7b3635e94ea16",
+        "ngspice.log": "4bad35540f597b80c6185d2558bdae1dff8390ffb64073a70fd2bb60924694bf"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "expectedSeconds": 1.645918426383921e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.64592e-08,
+      "files": {
+        "probe.cir": "3324f68e72c89101aa6e52122f0ce32f2bcee80a18e3276345ae1a3cf7a0299b",
+        "ngspice.log": "0edd330d124f1adf489b5886cd2877201e6ffb8f76f0c362d22775d7b6bce88a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "expectedSeconds": 1.7408752586753008e-08,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 1.74087e-08,
+      "files": {
+        "probe.cir": "311b25f6809c6069923b37681b2cc844197ffe4023f4b25a197405066241872a",
+        "ngspice.log": "8e61491d23395a59a807a40bf44cb685ab81963d0a6424b6abc4459feee02ded"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 7.79574696202793e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 7.79568e-09,
+      "files": {
+        "probe.cir": "77d59cd990922060aa7955905fdf029068dd815c0d3ef7ccdfd371ceb5b0f045",
+        "ngspice.log": "bfa320a03cc0197cfeb0253da01763b7a75ad2811411afa65ddc04e51cfa3eef"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.107576840509046e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.1075e-09,
+      "files": {
+        "probe.cir": "3ad872a60b4c1e14b9fc1bd84300978ca85ae10f68a1d3400ed405c0e2c92017",
+        "ngspice.log": "5c55ae9c361bd052423603f211ff5d234e2e1def76470a5c05a747b3af1f85c9"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "expectedSeconds": 8.57532165823072e-09,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "withinPublishedLimit": true
+      },
+      "measuredSeconds": 8.57524e-09,
+      "files": {
+        "probe.cir": "2e6fff799ad1adecfd0ae4efa2945006da282575fe7e45c6f5799ace82e40f1c",
+        "ngspice.log": "4d227909bd8fc2f5e605a0cfad4f43875bd0f7ff8ec390e401bee1c499c2c5c7"
+      }
+    }
+  ]
+}
