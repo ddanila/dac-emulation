@@ -869,3 +869,11 @@ flag, branch-state and mesh faults. Replay with `island_probe.py --check
 verification/robotron-keyboard/analog/reports/island-payload`. Queued wrapper
 association, combined board integration and force/filter referents still need
 coverage; idle-island controls do not establish general rollback.
+
+For combined board checks, build `build_island_queue_runtime.py` and
+`build_island_bridge.py`, then run `island_board_capture.py` against reviewed
+primitive-board controls. `island_board_review.py` requires matching pending flags
+and queued island identities, consumption without wrapper reuse, stable topology,
+exact normal waveforms/firmware and restored faults. The output-cache fault runs
+after initialization; the other faults target paused startup. These controls
+must pass before treating island board integration as established.

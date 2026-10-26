@@ -1,0 +1,62 @@
+--- a/vvp/vvp_island.h
++++ b/vvp/vvp_island.h
+@@ -73,6 +73,7 @@
+       void flag_island();
+       int robotron_inventory(FILE*);
+       int robotron_flag_toggle();
++      const void* robotron_event_key() const {return static_cast<const vvp_gen_event_s*>(this);}
+ 
+ 	// This is the method that is called, eventually, to process
+ 	// whatever happened. The derived island class implements this
+--- a/vvp/vvp_island.cc
++++ b/vvp/vvp_island.cc
+@@ -492,3 +492,11 @@
+     }
+     return 0;
+ }
++
++extern "C" unsigned long long robotron_vvp_island_identity(const void* key)
++{
++    if(!key)return 0;
++    for(const auto& item:robotron_islands())
++        if(item.first->robotron_event_key()==key)return item.second.id;
++    return 0;
++}
+--- a/vvp/schedule.cc
++++ b/vvp/schedule.cc
+@@ -1575,3 +1575,35 @@
+     });
+     return result ? -1 : saved ? 1 : 0;
+ }
++
++extern "C" unsigned long long robotron_vvp_island_identity(const void*);
++extern "C" int robotron_vvp_island_queue_inventory(FILE* out)
++{
++    if(!out || fprintf(out,"VIQ_BEGIN 1 %llu\n",(unsigned long long)schedule_time)<0)return -1;
++    unsigned long long known=0,other=0;
++    int result=robotron_assignment_walk([&](event_s* event,long long slot,const char* region,unsigned long long ordinal){
++        auto wrapper=dynamic_cast<generic_event_s*>(event);
++        auto id=wrapper?robotron_vvp_island_identity(wrapper->obj):0;
++        if(!id){++other;return 0;}
++        ++known;
++        return fprintf(out,"VIQ_EVENT %lld %s %llu %llu %llu %d %p\n",slot,region,ordinal,
++                       wrapper->robotron_id,id,(int)wrapper->delete_obj_when_done,(void*)wrapper->obj)<0?-1:0;
++    });
++    return result || fprintf(out,"VIQ_END %llu %llu\n",known,other)<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_island_queue_toggle()
++{
++    static generic_event_s* saved=0;static vvp_gen_event_s* object=0;static unsigned long long identity=0;
++    generic_event_s* found=0;
++    int result=robotron_assignment_walk([&](event_s* event,long long,const char*,unsigned long long){
++        auto wrapper=dynamic_cast<generic_event_s*>(event);
++        if(!wrapper || found)return 0;
++        if(saved){if(wrapper==saved && wrapper->robotron_id==identity)found=wrapper;}
++        else if(robotron_vvp_island_identity(wrapper->obj))found=wrapper;
++        return 0;
++    });
++    if(result)return -1;
++    if(!found)return saved?-1:0;
++    if(saved){found->obj=object;saved=0;object=0;return 1;}
++    saved=found;object=found->obj;identity=found->robotron_id;found->obj=0;return 1;
++}
