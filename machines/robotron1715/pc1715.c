@@ -3,6 +3,7 @@
 #include "pc1715.h"
 #include <errno.h>
 #include <string.h>
+#include "peripherals.h"
 
 static void trace(pc1715 *m, const char *kind, uint16_t a, uint8_t data,
                   unsigned space, uint32_t offset) {
@@ -25,14 +26,14 @@ void pc1715_write(void *p, uint16_t a, uint8_t data) {
 static uint8_t input(void *p, uint16_t a) {
   pc1715 *m = p;
   if (!m->io_active) {
-    if (m->card.wait && m->card.wait(m->card.user, a, 0)) {
+    if (!m->card_offline && !(m->onboard && (a&255)>=8 && (a&255)<=15) && m->card.wait && m->card.wait(m->card.user, a, 0)) {
       m->io_waiting = 1;
       return 0xff;
     }
     m->io_active = 1;
     m->io_value = 0xff;
     uint8_t value = 0xff;
-    if (m->card.read && m->card.read(m->card.user, a, &value))
+    if (pc1715_onboard_read(m,a,&value) || (!m->card_offline && m->card.read && m->card.read(m->card.user, a, &value)))
       m->io_value = value;
     else
       m->unclaimed_reads++;
@@ -45,7 +46,7 @@ static void output(void *p, uint16_t a, uint8_t data) {
   pc1715 *m = p;
   if (m->io_active)
     return;
-  if (m->card.wait && m->card.wait(m->card.user, a, 1)) {
+  if (!m->card_offline && !(m->onboard && (a&255)>=8 && (a&255)<=15) && m->card.wait && m->card.wait(m->card.user, a, 1)) {
     m->io_waiting = 1;
     return;
   }
@@ -55,19 +56,21 @@ static void output(void *p, uint16_t a, uint8_t data) {
   /* A2..A7 decode MEMCS1, ignoring A0/A1 and the upper I/O address byte. */
   if ((a & 0xfc) == 0x28)
     m->rom_enabled = 0;
-  if (m->card.write)
+  if (!pc1715_onboard_write(m,a,data) && !m->card_offline && m->card.write)
     m->card.write(m->card.user, a, data);
 }
 static uint8_t acknowledge(void *p) {
   pc1715 *m = p;
   if (!m->io_active) {
     m->io_active = 1;
-    m->io_value = m->card.ack ? m->card.ack(m->card.user) : 0xff;
+    m->io_value = pc1715_irq_ack(m);
     trace(m, "IA", 0, m->io_value, DAC_SPACE_UNKNOWN, 0);
   }
   return m->io_value;
 }
 void pc1715_reset(pc1715 *m) {
+  m->card_service=m->card_offline=0;
+  m->ctc_vector=0;memset(m->ctc,0,sizeof(m->ctc));memset(m->sio,0,sizeof(m->sio));
   m->rom_enabled = 1;
   m->io_active = 0;
   m->io_waiting = 0;
@@ -103,7 +106,8 @@ int pc1715_attach(pc1715 *m, const pc1715_card *card) {
 }
 void pc1715_run(pc1715 *m, unsigned ticks) {
   while (ticks--) {
-    if (m->card.tick)
+    peripheral_tick(m);
+    if (!m->card_offline && m->card.tick)
       m->card.tick(m->card.user, m->cpu.cycles);
     if (m->io_waiting) {
       /* The chips core exposes reads after its WAIT sampling microstep.
@@ -121,11 +125,11 @@ void pc1715_run(pc1715 *m, unsigned ticks) {
       m->cpu.cycles++;
       continue;
     }
-    int irq = m->card.irq ? !!m->card.irq(m->card.user) : 0;
+    int irq = pc1715_irq_pending(m);
     dac_z80_tick(&m->cpu, irq, 0);
     if (!(m->cpu.pins & Z80_IORQ))
       m->io_active = 0;
-    if ((m->cpu.pins & Z80_RETI) && m->card.reti)
-      m->card.reti(m->card.user);
+    if (m->cpu.pins & Z80_RETI)
+      pc1715_irq_reti(m);
   }
 }

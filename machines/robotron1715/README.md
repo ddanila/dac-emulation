@@ -17,13 +17,15 @@ Implemented:
   acknowledge, RETI and reset. No W/M CAS PROM or DMA controller is present.
 - Shared session creation, slot-0 ROM loading, run/reset, observation and peek.
 
-**Not implemented:** onboard CTC, SIO, keyboard, display/CRT, the two PIOs and
+**Not implemented:** full serial waveforms, keyboard, display/CRT, the two PIOs and
 custom floppy controller, external memory inhibition or bus mastering.
-The native card seam supports transaction waits as described below.
+An opt-in [CTC/SIO interrupt-chain subset](interrupts.md) now supports priority,
+nesting, acknowledge and RETI. The native card seam supports transaction waits
+as described below.
 Unclaimed I/O reads return FFh. A bare profile therefore represents bring-up
 without operational peripherals, not a bootable SCP machine. Callbacks are an
-emulator seam, not an electrical simulation of every X2 wire. The future board
-model must arbitrate onboard/expansion decoding as those devices are added.
+emulator seam, not an electrical simulation of every X2 wire. Opt-in onboard CTC/SIO decoding owns 08h–0Fh ahead of the external callback;
+legacy mode leaves these ports to external fixtures.
 
 No video or misleading screen is returned: runtime dimensions are zero and
 `dac_video` returns NULL. Mounted disks and snapshots return `-ENOTSUP`; keyboard
