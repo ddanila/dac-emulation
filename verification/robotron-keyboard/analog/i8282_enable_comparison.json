@@ -26,5 +26,34 @@
     "highLoadOhms": 180,
     "lowLoadOhms": 33
   },
-  "interpretation": "NEC explicitly labels enable departures from the 1.5-V released bias. Intel AFN-01413B explicitly labels disable departures but not corresponding enable thresholds. Resolve the Intel measurement convention before applying an electrical enable acceptance test; do not assume a transition to final VOH minus 0.1 V or VOL plus 0.1 V."
+  "interpretation": "NEC explicitly labels enable departures from the 1.5-V released bias. Intel AFN-01413B explicitly labels disable departures but not corresponding enable thresholds. Resolve the Intel measurement convention before applying an electrical enable acceptance test; do not assume a transition to final VOH minus 0.1 V or VOL plus 0.1 V.",
+  "earlierIntelRevision": {
+    "url": "https://bitsavers.trailing-edge.com/components/intel/8051/MCS-51_Users_Manual_Jan81.pdf",
+    "sha256": "bbd60107a107afb680fb8ff2cea8b7fc4bf08128caba92687be204dd3676e066",
+    "title": "Intel MCS-51 Users Manual, January 1981: 8282/8283, AFN 00727B",
+    "pdfPagesOneBased": [
+      281,
+      282
+    ],
+    "printedPages": [
+      "7-150",
+      "7-151"
+    ],
+    "grade": "Commercial 8282/8283, 0 to 70 degrees Celsius; not the I8282 industrial profile",
+    "enableMinimumSeconds": 1e-08,
+    "enableMaximumSeconds": 3e-08,
+    "threeStateLoad": {
+      "biasVolts": 1.5,
+      "highLoadOhms": 180,
+      "lowLoadOhms": 33,
+      "capacitanceFarads": 3e-10
+    },
+    "switchingLoad": {
+      "biasVolts": 2.14,
+      "resistanceOhms": 52.7,
+      "capacitanceFarads": 3e-10
+    },
+    "finding": "Figure 4 labels the disable departure levels but supplies no separate enable departure voltage; its general 1.5-V timing convention does not resolve the released-output bias ambiguity. Do not infer the NEC 1.6/1.4-V thresholds. The switching load also differs from AFN-01413B, so neither load nor commercial timing limits replace the industrial contract.",
+    "verification": "Embedded page text and rendered timing/load figure inspected; no complete PDF copy retained in the repository."
+  }
 }
