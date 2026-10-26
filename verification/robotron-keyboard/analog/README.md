@@ -348,6 +348,10 @@ streams lossless compressed logs with explicit byte/time budgets and a free-spac
 reserve. The [immediate fault control](reports/postreset-state-immediate/assessment.json)
 validates this capture path; the long positive and delayed controls still require
 complete state, firmware and waveform review.
+Group those captures under `root/{off,check,immediate,delayed}` and use
+`postreset_state_review.py` with that root, the original `--source` control and
+the completed combined-fix `--baseline`. Positive captures must cover the whole
+1.16-ms window; expected negative exits cannot satisfy that requirement.
 
 ### Scheduling and state controls
 
