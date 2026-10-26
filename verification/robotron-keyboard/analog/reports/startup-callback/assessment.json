@@ -1,0 +1,19 @@
+{
+  "completed": true,
+  "qualified": false,
+  "timestampedCallbackOutputExactlyEqual": true,
+  "callbackIdentityObservations": 30,
+  "restoredFaults": 32,
+  "fields": [
+    "user_data",
+    "function",
+    "time pointer",
+    "next pointer"
+  ],
+  "scope": "Startup callbacks before dispatch and while active outside the pending list; non-head cancellation, post-return destruction, unknown handles and mismatched identities. Original, disabled, observed and restored-fault continuation agrees.",
+  "notEstablished": [
+    "Paused board integration and startup/recovery rejection controls",
+    "Other simulator callback families",
+    "Stack, freed-storage equivalence or general rollback"
+  ]
+}
