@@ -633,7 +633,10 @@ Use `build_private_sync_family.py --archive PINNED_TARBALL --out FRESH_DIRECTORY
 The [family controls](reports/private-sync-family/assessment.json) identify the
 loaded display callback by module hash and symbol offset and leave its optional
 fields unexamined. Registry bookkeeping is covered by the original-library
-baseline. Display data, executing wrappers and board integration remain open.
+baseline. The [bounded board controls](reports/private-sync-family-board/assessment.json)
+preserve waveform and firmware output, identify bridge/display callbacks and
+detect a restored synchronization-mode fault. Display data association, executing
+wrappers and long-window qualification remain open.
 
 The [failed board observer](reports/private-sync-discovery/assessment.json) reads
 an unset display-callback index. Its legacy API is deliberately rejected by the
@@ -650,3 +653,13 @@ identifies overwritten scalar temporaries at the pinned pthread yield. Preserve
 and test the surviving context, live stop-handle relationship and executing
 callback/event objects; raw stack-byte equality includes irrelevant temporaries
 and padding.
+
+Use `build_display_observer.py --archive PINNED_TARBALL --out FRESH_DIRECTORY
+--bison BISON` to build original and instrumented display modules from the same
+source. `display_payload_probe.py --build MODULE_BUILD --runtime ICARUS_BUILD
+--modules VPI_DIRECTORY --out FRESH_REPORT` compares vendor, rebuilt, disabled,
+observed and mutation controls. The [typed payload evidence](reports/display-payload/assessment.json)
+covers strobe metadata, format, supported arguments and registry cleanup.
+Integrate it with board callback-to-payload identity checks before claiming board
+referent coverage; descriptor internals and arbitrary VPI objects remain outside
+this observer.

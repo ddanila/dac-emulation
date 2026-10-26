@@ -1,0 +1,128 @@
+--- a/vpi/sys_display.c
++++ b/vpi/sys_display.c
+@@ -92,6 +92,99 @@
+       unsigned nitems;
+       unsigned fd_mcd;
+ };
++
++/* Typed strobe state: observe from the simulator thread or its held coroutine
++ * mutex only. This registry owns no producer payload and never restores it. */
++struct robotron_display_entry {
++    struct robotron_display_entry *next;
++    struct strobe_cb_info *info;
++    vpiHandle scope;
++    vpiHandle *items;
++    vpiHandle *handles;
++    unsigned nitems;
++    unsigned long long id;
++    int executing;
++};
++static struct robotron_display_entry *robotron_display_head;
++static unsigned long long robotron_display_created, robotron_display_freed;
++
++static struct robotron_display_entry *robotron_display_find(struct strobe_cb_info *info)
++{
++    for (struct robotron_display_entry *p=robotron_display_head;p;p=p->next)
++        if (p->info==info) return p;
++    return NULL;
++}
++static void robotron_display_add(struct strobe_cb_info *info)
++{
++    struct robotron_display_entry *p=calloc(1,sizeof(*p));
++    if (!p || robotron_display_find(info)) abort();
++    p->info=info;p->scope=info->scope;p->items=info->items;p->nitems=info->nitems;
++    if (p->nitems) {
++        p->handles=malloc(p->nitems*sizeof(*p->handles));
++        if (!p->handles) abort();
++        memcpy(p->handles,info->items,p->nitems*sizeof(*p->handles));
++    }
++    p->id=++robotron_display_created;
++    struct robotron_display_entry **tail=&robotron_display_head;
++    while (*tail) tail=&(*tail)->next;
++    *tail=p;
++}
++static void robotron_display_remove(struct strobe_cb_info *info)
++{
++    struct robotron_display_entry **link=&robotron_display_head;
++    while (*link && (*link)->info!=info) link=&(*link)->next;
++    if (!*link) abort();
++    struct robotron_display_entry *p=*link;*link=p->next;
++    free(p->handles);free(p);++robotron_display_freed;
++}
++static int robotron_display_text(FILE *stream,const char *s)
++{
++    if (!s) return fprintf(stream,"null")<0 ? -1 : 0;
++    if (fprintf(stream,"hex:")<0) return -1;
++    for (const unsigned char *p=(const unsigned char*)s;*p;++p)
++        if (fprintf(stream,"%02x",*p)<0) return -1;
++    return 0;
++}
++int robotron_display_inventory(FILE *stream)
++{
++    if (!stream) return -1;
++    unsigned long long count=0;
++    for (struct robotron_display_entry *p=robotron_display_head;p;p=p->next) ++count;
++    if (fprintf(stream,"VD_BEGIN 1 %llu %llu %llu\n",robotron_display_created,robotron_display_freed,count)<0) return -1;
++    if (fprintf(stream,"VD_FORMAT %d %u %u %u ",timeformat_info.units,timeformat_info.prec,timeformat_info.width,compatible_flag)<0 ||
++        robotron_display_text(stream,timeformat_info.suff) || fputc('\n',stream)==EOF) return -1;
++    for (struct robotron_display_entry *p=robotron_display_head;p;p=p->next) {
++        const struct strobe_cb_info *info=p->info;
++        /* Reject changed referent identities before dereferencing an altered
++         * array or scope. These invariants do not serialize internal VPI state. */
++        if (info->scope!=p->scope || info->items!=p->items || info->nitems!=p->nitems) return -1;
++        if (fprintf(stream,"VD_INFO %llu %d %d %d %u %u ",p->id,p->executing,info->lineno,info->default_format,info->fd_mcd,info->nitems)<0 ||
++            robotron_display_text(stream,info->name) || fputc(' ',stream)==EOF ||
++            robotron_display_text(stream,info->filename) || fputc(' ',stream)==EOF ||
++            robotron_display_text(stream,vpi_get_str(vpiFullName,p->scope)) ||
++            fprintf(stream," %d %d\n",vpi_get(vpiTimeUnit,p->scope),vpi_get(vpiTimePrecision,p->scope))<0) return -1;
++        for (unsigned i=0;i<p->nitems;++i) {
++            if (info->items[i]!=p->handles[i] || !p->handles[i]) return -1;
++            vpiHandle item=p->handles[i];int type=vpi_get(vpiType,item);
++            if (type!=vpiConstant && type!=vpiParameter && type!=vpiNet && type!=vpiReg && type!=vpiSysFuncCall) return -1;
++            int real=(type==vpiConstant || type==vpiParameter) && vpi_get(vpiConstType,item)==vpiRealConst;
++            s_vpi_value val;val.format=real?vpiRealVal:vpiBinStrVal;vpi_get_value(item,&val);
++            if (fprintf(stream,"VD_ITEM %llu %u %d %d %d ",p->id,i,type,vpi_get(vpiSize,item),vpi_get(vpiSigned,item))<0) return -1;
++            if (real) {if (fprintf(stream,"real %a\n",val.value.real)<0) return -1;}
++            else if (fprintf(stream,"bits ")<0 || robotron_display_text(stream,val.value.str) || fputc('\n',stream)==EOF) return -1;
++        }
++    }
++    return fprintf(stream,"VD_END\n")<0 || ferror(stream) ? -1 : 0;
++}
++int robotron_display_toggle_destination(void)
++{
++    for (struct robotron_display_entry *p=robotron_display_head;p;p=p->next) {
++        if (p->executing) continue;
++        p->info->fd_mcd^=1u;
++        return 1;
++    }
++    return 0;
++}
+ 
+ /*
+  * The number of decimal digits needed to represent a
+@@ -1347,6 +1440,9 @@
+ static PLI_INT32 strobe_cb(p_cb_data cb)
+ {
+       struct strobe_cb_info*info = (struct strobe_cb_info*)cb->user_data;
++      struct robotron_display_entry *observed=robotron_display_find(info);
++      if (!observed) abort();
++      observed->executing=1;
+ 
+ 	/* We really need to cancel any $fstrobe() calls for a file when it
+ 	 * is closed, but for now we will just skip processing the result.
+@@ -1362,6 +1458,7 @@
+ 	    free(result);
+       }
+ 
++      robotron_display_remove(info);
+       free(info->filename);
+       free(info->items);
+       free(info);
+@@ -1418,6 +1515,7 @@
+       timerec.high = 0;
+ 
+       cb.reason = cbReadOnlySynch;
++      robotron_display_add(info);
+       cb.cb_rtn = strobe_cb;
+       cb.time = &timerec;
+       cb.obj = 0;

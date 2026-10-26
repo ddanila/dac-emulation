@@ -1,0 +1,68 @@
+{
+  "qualified": false,
+  "commit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "upstreamSchedulerSha256": "06a3f5ffa3aa411e5c07473c206a86783a8a18fdea2f666f256efd38bebb23d8",
+  "sourceUrl": "https://codeload.github.com/steveicarus/iverilog/tar.gz/dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "sources": {
+    "build_private_sync_family.py": "861132d820559870fb8b070ff1a4d41ebe07439043d372768b7f848a276b9c56",
+    "engine-patches/icarus-queue-observer.patch": "37dde672e6c8b0645153da87a5c5a8d0d167aa0225a66c8488bda7fccb9e6eb6",
+    "engine-patches/icarus-sync-observer.patch": "e8056d699a3f27405ed3e7da613154b55530d6e794d6412765caa76cfc1bc085",
+    "engine-patches/icarus-sync-family-observer.patch": "3447876a59ec9d53a42e8e75b06d77349fe3d5e53d17cb3e445e0e08dd272ff9"
+  },
+  "commands": [
+    [
+      "tar",
+      "-xzf",
+      "/private/tmp/k7658-icarus-pinned.tar.gz",
+      "--strip-components=1"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-queue-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-family-observer.patch"
+    ],
+    [
+      "sh",
+      "autoconf.sh"
+    ],
+    [
+      "./configure",
+      "--enable-libvvp",
+      "--prefix=/private/tmp/k7658-icarus-sync-family/install",
+      "YACC=/opt/homebrew/Cellar/bison/3.8.2/bin/bison"
+    ],
+    [
+      "make",
+      "version_tag.h",
+      "version.exe"
+    ],
+    [
+      "make",
+      "-C",
+      "vvp",
+      "-j2"
+    ]
+  ],
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "outputs": {
+    "vvp/libvvp.so": "1007b4637a6b3587925e7f6ff57e0f002a1679eba6034b25949d1220e6c5f1f0",
+    "vvp/vvp": "f591628607d277de036acf3fdddc16d607e6381e38cd40552caa0700e37f7cce",
+    "vvp/schedule.cc": "2f8e2303272f97ae7e66d8480dbcd50ae16870565ecc4422d4e3aa6f480381e5",
+    "vvp/vpi_callback.cc": "dd96949a6a3cad81338860abfc799b8ad22b11ecbce4ce0e1cd2e1238acb644c"
+  },
+  "scope": "Family-aware synchronization callback fields, registered function module offsets and lifetime IDs. The unsafe v1 API fails closed; index is never serialized and unknown-family optional fields are not read. Registry bookkeeping runs in all candidate modes. Arbitrary referents, executing stack, freed storage and general rollback remain unqualified."
+}

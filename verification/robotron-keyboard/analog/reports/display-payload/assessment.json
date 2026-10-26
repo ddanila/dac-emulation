@@ -1,0 +1,77 @@
+{
+  "completed": true,
+  "qualified": false,
+  "vendorAndRebuiltOutputExactlyEqual": true,
+  "observerOutputExactlyEqual": true,
+  "destinationMutationsDetectedAndRestored": 3,
+  "pendingPayloadObservations": 6,
+  "releasedRegistryObservations": 6,
+  "deferredArgumentsFollowNonblockingAssignments": true,
+  "scope": "Typed strobe metadata, format, supported argument values and referent-identity checks in a standalone fixture.",
+  "notEstablished": [
+    "Board integration and callback-to-payload association",
+    "Arbitrary VPI objects or monitor callbacks",
+    "File descriptor internals",
+    "Freed storage contents, executing wrapper state and general rollback"
+  ],
+  "runtime": {
+    "/private/tmp/k7658-icarus-sync-family/vvp/vvp": "f591628607d277de036acf3fdddc16d607e6381e38cd40552caa0700e37f7cce",
+    "/private/tmp/k7658-icarus-sync-family/vvp/libvvp.so": "1007b4637a6b3587925e7f6ff57e0f002a1679eba6034b25949d1220e6c5f1f0",
+    "/private/tmp/k7658-display-observer-v2/baseline/system.vpi": "3403ed47d31505356c9f50fd6c2236c352c840525936542398d5eec4200b8094",
+    "/private/tmp/k7658-display-observer-v2/vpi/system.vpi": "eb4b19d21e05957ad4703ea44db7baac1dbf0405a1de4496ccfe00ad211b25b9",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/display-payload-controls-final/probe.vpi": "3b71d129fe0b656e31ecb26a2933776bfa48198f846493c23777462cf16a9fe8",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "commands": {
+    "vendor": [
+      "/private/tmp/k7658-icarus-sync-family/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "vendor.vvp"
+    ],
+    "rebuilt": [
+      "/private/tmp/k7658-icarus-sync-family/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "rebuilt.vvp"
+    ],
+    "disabled": [
+      "/private/tmp/k7658-icarus-sync-family/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "disabled.vvp"
+    ],
+    "enabled": [
+      "/private/tmp/k7658-icarus-sync-family/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "enabled.vvp"
+    ],
+    "corrupt": [
+      "/private/tmp/k7658-icarus-sync-family/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "corrupt.vvp"
+    ]
+  },
+  "buildReceiptSha256": "546d723b23a86424b42d5a0a1d8dd2c58fe003f149b3164cfad5783087f8b27a",
+  "sources": {
+    "display_payload_probe.py": "0b8ca1ac91f66847d271303237a5936e187cbaabc94fea6ab4cfda9399612f2d",
+    "fixtures/display_payload_probe.c": "a890ed8e88d1c32065093872d886b7e94d4ade9d43c29a7603bbdfd501eaaa67",
+    "fixtures/display_payload_probe.v": "181601aca1dfebc57e6c736de10acd23935109f66587355e4399033c93e93087",
+    "build_display_observer.py": "801e9974401a3af6f4fed229849a38f220be2b0be41f31096cc22e08ebf763bf",
+    "engine-patches/icarus-display-observer.patch": "8f78091f7a35cf12564d30cfcdfcf576d5d1a4890ebda3797e720bc6ca07e210",
+    "build_private_queue_observer.py": "cb1fb9722c972231c1c943d2df1a65909836edcd6642c590d67e9145475b6728"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "qualified": false,
+  "commit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "upstreamDisplaySha256": "e6ac1ba377d261cd6153b94a01eb4a2f28a0ba87ea81d4f61a76f0ed065cc3f0",
+  "commands": [
+    [
+      "tar",
+      "-xzf",
+      "/private/tmp/k7658-icarus-pinned.tar.gz",
+      "--strip-components=1"
+    ],
+    [
+      "sh",
+      "autoconf.sh"
+    ],
+    [
+      "./configure",
+      "--enable-libvvp",
+      "--prefix=/private/tmp/k7658-display-observer-v2/install",
+      "YACC=/opt/homebrew/Cellar/bison/3.8.2/bin/bison"
+    ],
+    [
+      "make",
+      "version_tag.h",
+      "version.exe"
+    ],
+    [
+      "make",
+      "-C",
+      "vpi",
+      "-j2",
+      "system.vpi"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-display-observer.patch"
+    ],
+    [
+      "make",
+      "-C",
+      "vpi",
+      "-j2",
+      "system.vpi"
+    ]
+  ],
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "sources": {
+    "build_display_observer.py": "801e9974401a3af6f4fed229849a38f220be2b0be41f31096cc22e08ebf763bf",
+    "build_private_queue_observer.py": "cb1fb9722c972231c1c943d2df1a65909836edcd6642c590d67e9145475b6728",
+    "engine-patches/icarus-display-observer.patch": "8f78091f7a35cf12564d30cfcdfcf576d5d1a4890ebda3797e720bc6ca07e210"
+  },
+  "outputs": {
+    "baseline/system.vpi": "3403ed47d31505356c9f50fd6c2236c352c840525936542398d5eec4200b8094",
+    "vpi/system.vpi": "eb4b19d21e05957ad4703ea44db7baac1dbf0405a1de4496ccfe00ad211b25b9",
+    "vpi/sys_display.c": "27409fc5a53026222663261eb6b0c7375532e94272200b16f7c2cef87a367d08",
+    "observer-symbols.txt": "fceaa70171bcd62d7c365106332e87d471ee824a03ee8a347ae8f2c4f31916de"
+  },
+  "scope": "Typed strobe-producer registry, metadata and supported argument values with referent identity checks. Source-version and observer effects need separate matched controls. Descriptor internals, arbitrary VPI objects, monitor callbacks and general rollback remain unqualified."
+}
