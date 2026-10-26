@@ -50,6 +50,31 @@ def cases():
                        'withinPublishedLimit': seconds <= spec['maximumSeconds']}, load, spec
 
 
+def resistance_bounds():
+    """Necessary bounds within the ideal resistor family, not extracted values."""
+    limits = json.loads((HERE/'bus_switching_limits.json').read_text())
+    profile = json.loads((HERE/'bus_limits.json').read_text())['profiles']['I8282']
+    high = profile['outputHigh']; spec = limits['rise']; load = limits['switchingLoad']
+    result = []
+    for supply in (limits['supplyRangeVolts'][0], 5, limits['supplyRangeVolts'][1]):
+        dc_max = (supply-high['minimumVolts'])/high['sourceMagnitudeAmps']
+        low, upper = 0., dc_max
+        def seconds(ohms):
+            return duration(supply, ohms, load, spec['fromVolts'], spec['toVolts'])
+        if seconds(upper) <= spec['maximumSeconds']:
+            raise ValueError('Switching constraint no longer tightens DC bound')
+        # At fixed supply this loaded rise time increases with resistance.
+        # Retain a passing/failing bracket instead of rounding a root into a pass.
+        for _ in range(40):
+            middle = (low+upper)/2
+            if seconds(middle) <= spec['maximumSeconds']: low = middle
+            else: upper = middle
+        result.append({'supplyVolts': supply, 'dcMaximumOhms': dc_max,
+                       'switchingBoundaryOhms': [low, upper],
+                       'boundarySeconds': [seconds(low), seconds(upper)]})
+    return result
+
+
 def run(out, executable):
     out = out.resolve(); out.mkdir(parents=True, exist_ok=False)
     engine = Path(shutil.which(executable) or executable).resolve()
@@ -57,6 +82,8 @@ def run(out, executable):
     report = {'completed': False, 'qualified': False, 'deviceAdmitted': False,
               'scope': 'I8282 enabled-output transitions under its published switching load. Instantaneous full drive and no added output capacitance give these resistor models their fastest response.',
               'decision': 'Reject both DC-only I8282 candidates as complete switching drivers. This does not reject the CPU/ROM candidates or identify a physical replacement.',
+              'resistanceBounds': resistance_bounds(),
+              'boundScope': 'Necessary upper bounds for instantaneous linear high-side drive with no added output capacitance. A fixed resistance must satisfy the minimum-supply bound; increasing supply only speeds this model. These inequalities do not select a unique I/V curve, propagation delay, release behavior or temperature model, and do not admit a replacement.',
               'runtime': {'path': str(engine), 'sha256': sha(engine)},
               'sources': {n: sha(HERE/n) for n in SOURCES}, 'cases': []}
     for case, load, spec in cases():
@@ -101,6 +128,14 @@ def verify(out):
     if report.get('completed') is not True or report.get('qualified') is not False or report.get('deviceAdmitted') is not False:
         raise ValueError('Invalid assessment status')
     if report['sources'] != {n: sha(HERE/n) for n in SOURCES}: raise ValueError('Stale sources')
+    bounds = resistance_bounds()
+    if len(report['resistanceBounds']) != len(bounds): raise ValueError('Missing resistance bounds')
+    for actual, expected in zip(report['resistanceBounds'], bounds):
+        if set(actual) != set(expected) or any(actual[k] != expected[k] for k in ('supplyVolts','dcMaximumOhms')):
+            raise ValueError('Changed resistance bound conditions')
+        for key, tolerance in (('switchingBoundaryOhms',1e-11), ('boundarySeconds',1e-22)):
+            if len(actual[key]) != 2 or any(not math.isclose(a,b,rel_tol=0,abs_tol=tolerance) for a,b in zip(actual[key],expected[key])):
+                raise ValueError('Changed resistance bounds')
     expected = list(cases())
     if len(report['cases']) != len(expected): raise ValueError('Missing or duplicate cases')
     for actual, (case, _, _) in zip(report['cases'], expected):

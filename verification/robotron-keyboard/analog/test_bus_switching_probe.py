@@ -7,7 +7,7 @@ from pathlib import Path
 import shutil
 import tempfile
 import unittest
-from bus_switching_probe import HERE, cases, duration, measurement, verify
+from bus_switching_probe import HERE, cases, duration, measurement, resistance_bounds, verify
 
 
 class SwitchingTests(unittest.TestCase):
@@ -32,6 +32,17 @@ class SwitchingTests(unittest.TestCase):
         for log in ('','edge_time = nan','edge_time = -1','edge_time = 1\nedge_time = 1'):
             with self.assertRaises(ValueError): measurement(log)
 
+    def test_resistance_boundary_brackets_pass_and_fail(self):
+        rows = resistance_bounds()
+        for row in rows:
+            low, high = row['switchingBoundaryOhms']
+            self.assertLess(low, high)
+            self.assertLess(high-low, 1e-9)
+            self.assertLess(high, row['dcMaximumOhms'])
+            self.assertLessEqual(row['boundarySeconds'][0], 20e-9)
+            self.assertGreater(row['boundarySeconds'][1], 20e-9)
+        self.assertTrue(258 < rows[0]['switchingBoundaryOhms'][0] < 259)
+
     def test_retained_evidence_and_corruption(self):
         source = HERE/'reports/bus-switching-candidates'
         with contextlib.redirect_stdout(io.StringIO()): verify(source)
@@ -43,7 +54,10 @@ class SwitchingTests(unittest.TestCase):
             p.write_text(original);r=json.loads(original)
             r['cases'].pop();p.write_text(json.dumps(r))
             with self.assertRaises(ValueError): verify(out)
-            p.write_text(original)
+            r=json.loads(original);r['resistanceBounds'][0]['switchingBoundaryOhms'][0] += 1
+            p.write_text(json.dumps(r))
+            with self.assertRaises(ValueError): verify(out)
+            p.write_text(original);r=json.loads(original)
             log=out/r['cases'][0]['directory']/'ngspice.log'
             log.write_text(log.read_text().replace('edge_time', 'missing_measurement'))
             with self.assertRaises(ValueError): verify(out)

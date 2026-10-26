@@ -4,12 +4,51 @@
   "deviceAdmitted": false,
   "scope": "I8282 enabled-output transitions under its published switching load. Instantaneous full drive and no added output capacitance give these resistor models their fastest response.",
   "decision": "Reject both DC-only I8282 candidates as complete switching drivers. This does not reject the CPU/ROM candidates or identify a physical replacement.",
+  "resistanceBounds": [
+    {
+      "supplyVolts": 4.5,
+      "dcMaximumOhms": 420.0,
+      "switchingBoundaryOhms": [
+        258.34207092251745,
+        258.34207092289944
+      ],
+      "boundarySeconds": [
+        1.9999999999991447e-08,
+        2.0000000000011776e-08
+      ]
+    },
+    {
+      "supplyVolts": 5,
+      "dcMaximumOhms": 520.0,
+      "switchingBoundaryOhms": [
+        303.0437852133764,
+        303.04378521384933
+      ],
+      "boundarySeconds": [
+        1.9999999999994558e-08,
+        2.000000000001592e-08
+      ]
+    },
+    {
+      "supplyVolts": 5.5,
+      "dcMaximumOhms": 620.0,
+      "switchingBoundaryOhms": [
+        347.66769257576016,
+        347.66769257632404
+      ],
+      "boundarySeconds": [
+        1.999999999999511e-08,
+        2.0000000000017236e-08
+      ]
+    }
+  ],
+  "boundScope": "Necessary upper bounds for instantaneous linear high-side drive with no added output capacitance. A fixed resistance must satisfy the minimum-supply bound; increasing supply only speeds this model. These inequalities do not select a unique I/V curve, propagation delay, release behavior or temperature model, and do not admit a replacement.",
   "runtime": {
     "path": "/opt/homebrew/Cellar/ngspice/47/bin/ngspice",
     "sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511"
   },
   "sources": {
-    "bus_switching_probe.py": "82a0bf5d9b040b918ac26a8c71d63b3ffa23261212518c850c30c06b58b50ea5",
+    "bus_switching_probe.py": "d122f1e6f8bb4d8f44660f835c9a980eb394698ef23c911c0caca31cbcee2f23",
     "bus_switching_limits.json": "669da702f6aed3654862bc8730eea51c267d30d5921ea3316f43b85145510ec3",
     "bus_endpoint_candidates.py": "6437f6e81fcb100065df54ac21f1f7a87c13fb68482567c85410dbd27e3e5fb0",
     "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
