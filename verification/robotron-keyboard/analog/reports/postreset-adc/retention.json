@@ -1,0 +1,72 @@
+{
+  "qualified": false,
+  "scope": "Assessment, input/producer receipts and complete selected firmware records retained. Complete logs and waveforms remain local and are required for full numerical replay; hashes do not replace replay.",
+  "captures": {
+    "baseline": {
+      "directory": "build/keyboard-controller-analog/postreset-startup-combined",
+      "outputs": {
+        "ngspice.log.xz": {
+          "bytes": 37915084,
+          "sha256": "bb68d706763f80100411b49d6d617d6bcaaf4b3731157073c0fccc95b7c3cf41"
+        },
+        "waveform.raw.xz": {
+          "bytes": 201410228,
+          "sha256": "02fbdb2fb581c671b78e4243ed4a02e407cdfe7b1beb97dc2e4104e084043893"
+        }
+      }
+    },
+    "25": {
+      "directory": "build/keyboard-controller-analog/postreset-adc-on-25",
+      "outputs": {
+        "ngspice.log.xz": {
+          "bytes": 38700860,
+          "sha256": "130fc9b90cecf30dc780aad759ff4c0486c2f22b18fb072e83e1d5f88f8450ec"
+        },
+        "waveform.raw.xz": {
+          "bytes": 204269416,
+          "sha256": "bc619cbbc36100bd37a178a46ced66a4bdd4f8884689650b6c9cf0607c5b04a3"
+        }
+      }
+    },
+    "12.5": {
+      "directory": "build/keyboard-controller-analog/postreset-adc-on-12.5",
+      "outputs": {
+        "ngspice.log.xz": {
+          "bytes": 39650448,
+          "sha256": "89dc3a7938f9839ecdbdc1ac073d4fbd09aa3a78006f69b6c696db6cf6edc9a8"
+        },
+        "waveform.raw.xz": {
+          "bytes": 208113160,
+          "sha256": "c3b9e5a614615ce914e5044e9b84aae274be24d7647c6e058ce14b7e57cc3cc1"
+        }
+      }
+    },
+    "6.25": {
+      "directory": "build/keyboard-controller-analog/postreset-adc-on-6.25",
+      "outputs": {
+        "ngspice.log.xz": {
+          "bytes": 41635084,
+          "sha256": "1c1eb407cca76ce890d89c1f5cc5e34b692b2e83ba845d79d1fa6af58ab944cd"
+        },
+        "waveform.raw.xz": {
+          "bytes": 216279188,
+          "sha256": "eb7b3cdb46151c16082e2ebf29e470c6a9730e7f595a433eda377b0f3bacc03c"
+        }
+      }
+    }
+  },
+  "reviewCommand": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "verification/robotron-keyboard/analog/postreset_adc_review.py",
+    "--coarse",
+    "build/keyboard-controller-analog/postreset-startup-combined",
+    "--enabled",
+    "build/keyboard-controller-analog/postreset-adc-on-25",
+    "--fine",
+    "build/keyboard-controller-analog/postreset-adc-on-12.5",
+    "--finest",
+    "build/keyboard-controller-analog/postreset-adc-on-6.25",
+    "--out",
+    "build/keyboard-controller-analog/postreset-adc-assessment.json"
+  ]
+}

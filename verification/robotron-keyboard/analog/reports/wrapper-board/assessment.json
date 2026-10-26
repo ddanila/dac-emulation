@@ -1,0 +1,156 @@
+{
+  "reviewCompleted": true,
+  "qualified": false,
+  "controlsPassed": true,
+  "comparisons": {
+    "disabledBaseline": {
+      "allSamplesExactlyEqual": true,
+      "samples": 27578,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    },
+    "enabledObserver": {
+      "allSamplesExactlyEqual": true,
+      "samples": 27578,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    }
+  },
+  "firmwareRecordsExactlyEqual": true,
+  "observedState": {
+    "boundaries": 55156,
+    "executingWrapperObservations": 55153,
+    "emptyFrameObservations": 3,
+    "uniqueExecutingEvents": 27091,
+    "associatedDisplayObservations": 10,
+    "releasedDisplayObservations": 18671,
+    "savedStopObservations": 55103,
+    "clearedStopObservations": 53,
+    "fault": null
+  },
+  "negativeControls": {
+    "corrupt": {
+      "boundaries": 37919,
+      "executingWrapperObservations": 37916,
+      "emptyFrameObservations": 3,
+      "uniqueExecutingEvents": 18530,
+      "associatedDisplayObservations": 2,
+      "releasedDisplayObservations": 1442,
+      "savedStopObservations": 37904,
+      "clearedStopObservations": 15,
+      "fault": {
+        "index": 37918,
+        "phase": "before-step",
+        "targetSeconds": 5e-06
+      }
+    },
+    "stop-corrupt": {
+      "boundaries": 37919,
+      "executingWrapperObservations": 37916,
+      "emptyFrameObservations": 3,
+      "uniqueExecutingEvents": 18530,
+      "associatedDisplayObservations": 2,
+      "releasedDisplayObservations": 1442,
+      "savedStopObservations": 37904,
+      "clearedStopObservations": 15,
+      "fault": {
+        "index": 37918,
+        "phase": "before-step",
+        "targetSeconds": 5e-06
+      }
+    },
+    "display-corrupt": {
+      "boundaries": 42250,
+      "executingWrapperObservations": 42247,
+      "emptyFrameObservations": 3,
+      "uniqueExecutingEvents": 20682,
+      "associatedDisplayObservations": 3,
+      "releasedDisplayObservations": 5772,
+      "savedStopObservations": 42228,
+      "clearedStopObservations": 22,
+      "fault": {
+        "index": 42249,
+        "phase": "after-step",
+        "targetSeconds": 7.501280250000001e-06
+      }
+    }
+  },
+  "receipts": {
+    "baseline": "507c297beea233d4c86c29f588fb3ee7a064d4e806c6c0e670330de9b274dce1",
+    "off": "dd95382a36461a7b099fb970e91a5ba2766aaadee389b15a2a2743864f191861",
+    "observe": "b95271b67972ab5fbaa49eef83d5fe48e36c6d91e95caf1bf1d2e613896881e4",
+    "corrupt": "f06f840758f8962e8a6e5b0635e928f0804402a9071b52aedd754bc02d30e3f6",
+    "stop-corrupt": "e8c61e8ca61fc9a4ebbffe250cd02b04844b878f77eb42fde7c5af0da6fdb1b7",
+    "display-corrupt": "4ad1898f11edcf7f060169249a9db2e76a7aca9c6f5cb7d66753099b14a27065"
+  },
+  "scope": "Complete 20-us service fixture, reset at 1 us. Combined display, saved-stop and executing-wrapper observation with restored payload, handle and deletion-ownership faults.",
+  "notEstablished": [
+    "Other referents, initialization-only families and scheduler continuation",
+    "Freed-storage equivalence or general rollback",
+    "Full post-reset/startup/repeat/supply recovery qualification"
+  ]
+}
