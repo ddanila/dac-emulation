@@ -1,0 +1,70 @@
+{
+  "qualified": false,
+  "firstFetchTicks": 2501000,
+  "tickSeconds": 1e-12,
+  "captureReceiptSha256": "e3b27e039a5ab774bd4345e37c1f4b5905666973fcc48e8d07a1ad0ed0208a0c",
+  "phases": {
+    "timeZero": {
+      "boundaries": 7,
+      "events": [
+        {
+          "eventClass": "15generic_event_s",
+          "nestedClass": "11vvp_fun_not",
+          "observations": 3
+        },
+        {
+          "eventClass": "15generic_event_s",
+          "nestedClass": "15vvp_fun_part_sa",
+          "observations": 48
+        },
+        {
+          "eventClass": "15generic_event_s",
+          "nestedClass": "15vvp_island_tran",
+          "observations": 6
+        },
+        {
+          "eventClass": "15generic_event_s",
+          "nestedClass": "7sync_cb",
+          "observations": 4
+        },
+        {
+          "eventClass": "15vthread_event_s",
+          "nestedClass": "-",
+          "observations": 132
+        },
+        {
+          "eventClass": "22assign_vector4_event_s",
+          "nestedClass": "-",
+          "observations": 7503
+        },
+        {
+          "eventClass": "22assign_vector8_event_s",
+          "nestedClass": "-",
+          "observations": 78
+        }
+      ]
+    },
+    "beforeFirstFetch": {
+      "boundaries": 35836,
+      "events": [
+        {
+          "eventClass": "15generic_event_s",
+          "nestedClass": "7sync_cb",
+          "observations": 4
+        }
+      ]
+    },
+    "atOrAfterFirstFetch": {
+      "boundaries": 19313,
+      "events": [
+        {
+          "eventClass": "15generic_event_s",
+          "nestedClass": "7sync_cb",
+          "observations": 52
+        }
+      ]
+    }
+  },
+  "scope": "Each before/repeat observation pair counted once, using the observed native scheduler time rather than the requested bridge target. Event classes are not serialized payloads; no executing-event or rollback claim.",
+  "profilerSha256": "3d0627ae6a06639d1b04e0e71a929c0860340886b4a70847b6296a7fdac42109"
+}

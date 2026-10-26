@@ -1,0 +1,182 @@
+{
+  "reviewCompleted": true,
+  "qualified": false,
+  "controlsPassed": true,
+  "comparisons": {
+    "disabledBaseline": {
+      "allSamplesExactlyEqual": true,
+      "samples": 27578,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    },
+    "enabledObserver": {
+      "allSamplesExactlyEqual": true,
+      "samples": 27578,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    }
+  },
+  "firmwareRecordsExactlyEqual": true,
+  "observedQueues": {
+    "boundaries": 55156,
+    "phases": {
+      "before-step": 27578,
+      "after-step": 27578
+    },
+    "queuedEventObservations": 7830,
+    "maximumQueuedEvents": 2590,
+    "futureTimeSlotObservations": 50,
+    "eventTypes": [
+      [
+        "15generic_event_s",
+        "11vvp_fun_not"
+      ],
+      [
+        "15generic_event_s",
+        "15vvp_fun_part_sa"
+      ],
+      [
+        "15generic_event_s",
+        "15vvp_island_tran"
+      ],
+      [
+        "15generic_event_s",
+        "7sync_cb"
+      ],
+      [
+        "15vthread_event_s",
+        "-"
+      ],
+      [
+        "22assign_vector4_event_s",
+        "-"
+      ],
+      [
+        "22assign_vector8_event_s",
+        "-"
+      ]
+    ],
+    "fault": null
+  },
+  "negativeControl": {
+    "boundaries": 37950,
+    "phases": {
+      "before-step": 18975,
+      "after-step": 18975
+    },
+    "queuedEventObservations": 7785,
+    "maximumQueuedEvents": 2590,
+    "futureTimeSlotObservations": 13,
+    "eventTypes": [
+      [
+        "15generic_event_s",
+        "11vvp_fun_not"
+      ],
+      [
+        "15generic_event_s",
+        "15vvp_fun_part_sa"
+      ],
+      [
+        "15generic_event_s",
+        "15vvp_island_tran"
+      ],
+      [
+        "15generic_event_s",
+        "7sync_cb"
+      ],
+      [
+        "15vthread_event_s",
+        "-"
+      ],
+      [
+        "22assign_vector4_event_s",
+        "-"
+      ],
+      [
+        "22assign_vector8_event_s",
+        "-"
+      ]
+    ],
+    "fault": {
+      "index": 37949,
+      "phase": "after-step",
+      "targetSeconds": 5.0017202499999995e-06
+    }
+  },
+  "receipts": {
+    "baseline": "c004c173e290c8736b3148c249163f4e1ddbe2d539a1f617e062389ba7ae4a7f",
+    "off": "f074e4ef4d22bcf08dba7a5c4946fc75c84fe116b87c4a23729041470d2fd99d",
+    "observe": "e3b27e039a5ab774bd4345e37c1f4b5905666973fcc48e8d07a1ad0ed0208a0c",
+    "corrupt": "ca2a51c332f6796e1674b4903f2c8acf6663070fc4a806e5bb2f452d1cc6283e"
+  },
+  "scope": "Complete 20-us fixture with service reset at 1 us; private queue topology at actual HDL step boundaries.",
+  "notEstablished": [
+    "Event payloads and executing callback/thread state",
+    "General rollback or private-state restoration",
+    "Full post-reset/startup/repeat/supply recovery qualification"
+  ]
+}

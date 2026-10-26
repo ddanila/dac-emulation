@@ -1,0 +1,31 @@
+{
+  "qualified": false,
+  "command": [
+    "cc",
+    "-fPIC",
+    "-fvisibility=default",
+    "-I/private/tmp/k7658-private-queue-bridge/include",
+    "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/include",
+    "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog",
+    "-dynamiclib",
+    "-undefined",
+    "dynamic_lookup",
+    "/private/tmp/k7658-private-queue-bridge/icarus_shim.c",
+    "-o",
+    "/private/tmp/k7658-private-queue-bridge/ivlng.so"
+  ],
+  "sources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_private_queue_bridge.py": "6886633315aa72d7f757cbdada9d670383cdace66b895582d52cfe052e585adf",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/private_queue_bridge.h": "62f635c06a9a5eb9ff3f984fe9efed8f7981693c8d9af6591ab954bde9c1e9f6",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.h": "cb3a43a781157f1477b9ba4ed5ca6669c60b76e3f1c6d9674153f703b6395912",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/coroutine_shim.h": "312cd4c02bb77aca1b2cf094531a7f062fa1624153cffd9d037c91eece461ada",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cmtypes.h": "268ca5c099d9d2e19bef436abc81261195c4ac5e237a5489786331de8d22b371",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cosim.h": "1fdf5e534cdc4a6f77b5d8177152107722f192a2b9e3e7a7fa007d093e13a425"
+  },
+  "outputs": {
+    "icarus_shim.c": "ed71b8ff0a97683ce1df2d36ff5ce30a776689105b35d707c8389bfe883ff5e5",
+    "ivlng.so": "5ba7d7dabceb84ca222dc5feb5e2b731726e100d6df04d268a01722f6ea7af36"
+  },
+  "scope": "Single-Icarus pthread bridge. Observe before releasing the coroutine mutex in step and after reacquiring it; not during HDL execution. Does not inventory event payloads or the executing callback."
+}
