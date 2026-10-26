@@ -381,6 +381,14 @@ is a reset setup screen, not clock, reset-duration or firmware-restart qualifica
 The [full startup review](reports/board-host-rising-full-startup/reset-setup-review.json)
 finds no qualifying clock voltage rises; it cannot establish RESET setup timing.
 
+`build_output_breakpoint_probe.py` adds a disabled-by-default observer and a
+single artificial failure of the initial output-driven breakpoint request.
+`output_breakpoint_capture.py` runs disabled, observation-only and forced-failure
+controls in the bounded single-controller fixture. The failure occurs after HDL
+advancement; it does not establish HDL rollback or recovery correctness. Require
+actual branch activity and compare complete waveforms and firmware before drawing
+conclusions from these controls.
+
 ### Scheduling and state controls
 
 Apply `ngspice-47-rollback-audit.patch` for accepted/rejected-step and dispatch
