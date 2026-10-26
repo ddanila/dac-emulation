@@ -1,0 +1,578 @@
+{
+  "completed": true,
+  "qualified": false,
+  "comparisons": {
+    "disabledBaseline": {
+      "allSamplesExactlyEqual": true,
+      "samples": 27578,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    },
+    "enabledObserver": {
+      "allSamplesExactlyEqual": true,
+      "samples": 27578,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    }
+  },
+  "corruption": {
+    "immediate": {
+      "detectedAtSeconds": 5.015190746338849e-07,
+      "requestedAfterSeconds": 0.0,
+      "earlierUnchangedRejections": 0,
+      "priorFirstFetch": false
+    },
+    "delayed": {
+      "detectedAtSeconds": 1.0002233697500017e-05,
+      "requestedAfterSeconds": 1e-05,
+      "earlierUnchangedRejections": 44,
+      "priorFirstFetch": true
+    }
+  },
+  "histories": {
+    "check": {
+      "phases": {
+        "callback-entry": 27720,
+        "advance-before": 27578,
+        "advance-after": 27578,
+        "output-before": 24,
+        "output-after": 24,
+        "run-entry": 27648,
+        "event-after": 72
+      },
+      "rejections": 72,
+      "corruptionsDetected": 0,
+      "dimensions": [
+        25,
+        69
+      ]
+    },
+    "immediate": {
+      "phases": {
+        "callback-entry": 6673,
+        "advance-before": 6673,
+        "advance-after": 6673,
+        "output-before": 2,
+        "output-after": 2,
+        "run-entry": 6672,
+        "event-after": 1
+      },
+      "rejections": 1,
+      "corruptionsDetected": 1,
+      "dimensions": [
+        25,
+        69
+      ]
+    },
+    "delayed": {
+      "phases": {
+        "callback-entry": 22096,
+        "advance-before": 22008,
+        "advance-after": 22008,
+        "output-before": 12,
+        "output-after": 12,
+        "run-entry": 22051,
+        "event-after": 45
+      },
+      "rejections": 45,
+      "corruptionsDetected": 1,
+      "dimensions": [
+        25,
+        69
+      ]
+    }
+  },
+  "scheduling": {
+    "snapshots": 110644,
+    "ports": 69,
+    "pendingEventObservations": 268322,
+    "maximumObservedPendingEvents": 69,
+    "assignedOutputObservations": 289,
+    "publicationsWitnessedInPendingQueue": 220,
+    "unwitnessedPublicationKeys": 67,
+    "unwitnessedPublications": [
+      {
+        "outputIndex": 20,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 21,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 22,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 23,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 24,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 25,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 26,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 27,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 28,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 29,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 30,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 31,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 32,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 33,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 34,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 35,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 36,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 37,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 38,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 39,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 40,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 41,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 42,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 43,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 44,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 45,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 46,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 47,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 48,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 49,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 50,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 51,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 52,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 53,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 54,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 55,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 56,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 57,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 58,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 59,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 60,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 61,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 62,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 63,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 64,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 65,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 66,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 67,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 68,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 69,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 70,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 71,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 72,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 73,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 76,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 77,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 78,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 79,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 80,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 81,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 82,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 83,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 84,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 85,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 86,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 87,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      },
+      {
+        "outputIndex": 88,
+        "scheduledTime": 1e-08,
+        "state": 0,
+        "strength": 2
+      }
+    ],
+    "matchingScope": "Exact port, scheduled time and value matches. Events may be consumed before another observer checkpoint; unmatched requests are not classified as lost."
+  },
+  "receipts": {
+    "off": "ff785e14df55a438fc146e22a26b915731f89c6ef224597162c381e7e71738cd",
+    "check": "806c0ec1b16ef8659e07cde0f60fcbbf9a68227496b03de1a88b353fedad8822",
+    "immediate": "f3bb2c954d1a7f64899e3eafc5064aa2ae52cceae554bbdeb3b1c43b57e21005",
+    "delayed": "a7953da2cdb28900e6129b72a35f8a8165048c3841e3ddff021b6fc76f3bfbe8"
+  },
+  "baselineReceiptSha256": "a1688de71a628409b1434092e58ee497634ba198ebe28ea558a0646d3c2a3af6",
+  "scope": "Combined fixes in complete 20-us observer fixture. Delayed corruption follows firmware execution and unchanged rejected callbacks.",
+  "notEstablished": [
+    "Long post-reset internal-state qualification",
+    "Other-model and private HDL queues",
+    "Full startup/repeat/supply recovery",
+    "Numerical convergence",
+    "Device admission"
+  ]
+}
