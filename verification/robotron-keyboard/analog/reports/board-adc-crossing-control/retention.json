@@ -1,0 +1,7 @@
+{
+  "qualified": false,
+  "scope": "Complete compressed raw waveforms, audit logs, inputs and review for the 20-us pre-reset board screen. No full-window or firmware acceptance claim.",
+  "restore": "Copy shared inputs into each run directory. The trace reader reads .xz outputs directly. To rerun the frozen producer, place it under build/keyboard-controller-analog; it resolves the repository from that location.",
+  "producerCompletionFlags": "The frozen producer used a post-reset bus check on this pre-reset window. Its Missing bus observations flags are preserved. The separate reviewer validates the expected absence of bus traffic, provenance, diagnostics, hashes and complete raw coverage.",
+  "numericalGate": "Both variants retain per-node non-growth failures despite sub-microvolt differences; no gate relaxation."
+}

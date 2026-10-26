@@ -361,6 +361,10 @@ The [clock-crossing control](reports/clock-crossing-control/waveform-review.json
 checks the existing opt-in ADC localization against analytic fixture timing and
 every output sample. Apply it to matched combined-fix board controls before
 claiming a convergence correction.
+The [bounded board screen](reports/board-adc-crossing-control/assessment.json)
+retains complete pre-reset waveforms: both variants complete without simulator
+diagnostics, but both retain per-node error-growth failures below one microvolt.
+This screen cannot establish post-reset firmware behavior or convergence.
 `postreset_adc_capture.py` accepts the same source, coarse control, model and
 runtime arguments, plus `--adc-crossings off|on` and `--step-ns 25|12.5|6.25`.
 It preserves the full post-reset window; capture completion alone does not pass
