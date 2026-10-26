@@ -781,4 +781,11 @@ The [initialization contract](reports/value-callback/source-contract.json) requi
 board integration to store watch-registration identities before port metadata is
 initialized, then validate them after initialization. Temporary value buffers are
 refreshed before callback use and must not be treated as persistent bridge state.
-Board integration, other callback families and general rollback remain open.
+For board integration, [build the paired bridge](build_output_callback_bridge.py)
+with the same pinned ngspice/VPI inputs as the port observer.
+[Capture matched controls](output_callback_board_capture.py) from the reviewed
+port baseline using that pair and the value-callback runtime;
+[review the complete captures](output_callback_board_review.py) for exact disabled
+and observed waveform/firmware agreement, stable per-port callback lifetimes and
+restored user-data, signal, function and list-link faults. Other callback families,
+longer windows and general rollback remain open.
