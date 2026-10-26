@@ -1,0 +1,182 @@
+--- a/vvp/schedule.h
++++ b/vvp/schedule.h
+@@ -223,3 +223,8 @@
+ extern void vpiNextSimTime(void);
+ 
+ #endif /* IVL_schedule_H */
++
++/* Explicit typed primitive registration; no guessed private class layout. */
++#include <cstdio>
++extern "C" void robotron_vvp_primitive_register(const void*,void*,int,int(*)(FILE*,void*),int(*)(void*,int));
++extern "C" void robotron_vvp_primitive_unregister(const void*);
+--- a/vvp/logic.h
++++ b/vvp/logic.h
+@@ -205,6 +205,8 @@
+     public:
+       explicit vvp_fun_not(unsigned wid);
+       virtual ~vvp_fun_not() override;
++      static int robotron_payload(FILE*,void*);
++      static int robotron_toggle(void*,int);
+ 
+     private:
+       void run_run() override;
+--- a/vvp/part.h
++++ b/vvp/part.h
+@@ -50,6 +50,8 @@
+     public:
+       vvp_fun_part_sa(unsigned base, unsigned wid);
+       ~vvp_fun_part_sa() override;
++      static int robotron_payload(FILE*,void*);
++      static int robotron_toggle(void*,int);
+ 
+     public:
+       void recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,
+--- a/vvp/logic.cc
++++ b/vvp/logic.cc
+@@ -498,11 +498,13 @@
+ vvp_fun_not::vvp_fun_not(unsigned wid)
+ : vvp_fun_buf_not_(wid)
+ {
++      robotron_vvp_primitive_register(static_cast<vvp_gen_event_s*>(this),this,1,robotron_payload,robotron_toggle);
+       count_functors_logic += 1;
+ }
+ 
+ vvp_fun_not::~vvp_fun_not()
+ {
++      robotron_vvp_primitive_unregister(static_cast<vvp_gen_event_s*>(this));
+ }
+ 
+ /*
+@@ -715,3 +717,30 @@
+       define_functor_symbol(label, net_drv);
+       free(label);
+ }
++
++int vvp_fun_not::robotron_payload(FILE* out,void* object)
++{
++    auto p=static_cast<vvp_fun_not*>(object);
++    if(fprintf(out,"VPR_DATA 1 %p %u %u %u ",(void*)p->net_,0u,0u,p->input_.size())<0)return -1;
++    if(!p->input_.size() && fputc('-',out)==EOF)return -1;
++    for(unsigned i=0;i<p->input_.size();i++)if(fputc('0'+(unsigned)p->input_.value(i),out)==EOF)return -1;
++    return fputc('\n',out)==EOF || ferror(out) ? -1 : 0;
++}
++int vvp_fun_not::robotron_toggle(void* object,int field)
++{
++    static vvp_fun_not* saved=0;static int saved_field;
++    static vvp_vector4_t value;static vvp_net_t* net;
++    
++    auto p=static_cast<vvp_fun_not*>(object);
++    if(saved){
++        if(saved!=p || saved_field!=field)return -1;
++        p->input_=value;p->net_=net;
++        saved=0;return 1;
++    }
++    if(field<0 || field>1 || !p->input_.size())return -1;
++    saved=p;saved_field=field;value=p->input_;net=p->net_;
++    if(field==0)p->input_.set_bit(0,p->input_.value(0)==BIT4_1?BIT4_0:BIT4_1);
++    else if(field==1)p->net_=0;
++    
++    return 1;
++}
+--- a/vvp/part.cc
++++ b/vvp/part.cc
+@@ -46,11 +46,13 @@
+ vvp_fun_part_sa::vvp_fun_part_sa(unsigned base, unsigned wid)
+ : vvp_fun_part(base, wid)
+ {
++      robotron_vvp_primitive_register(static_cast<vvp_gen_event_s*>(this),this,2,robotron_payload,robotron_toggle);
+       net_ = 0;
+ }
+ 
+ vvp_fun_part_sa::~vvp_fun_part_sa()
+ {
++      robotron_vvp_primitive_unregister(static_cast<vvp_gen_event_s*>(this));
+ }
+ 
+ void vvp_fun_part_sa::recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,
+@@ -451,3 +453,30 @@
+       input_connect(net, 0, source);
+       input_connect(net, 1, var);
+ }
++
++int vvp_fun_part_sa::robotron_payload(FILE* out,void* object)
++{
++    auto p=static_cast<vvp_fun_part_sa*>(object);
++    if(fprintf(out,"VPR_DATA 2 %p %u %u %u ",(void*)p->net_,p->base_,p->wid_,p->val_.size())<0)return -1;
++    if(!p->val_.size() && fputc('-',out)==EOF)return -1;
++    for(unsigned i=0;i<p->val_.size();i++)if(fputc('0'+(unsigned)p->val_.value(i),out)==EOF)return -1;
++    return fputc('\n',out)==EOF || ferror(out) ? -1 : 0;
++}
++int vvp_fun_part_sa::robotron_toggle(void* object,int field)
++{
++    static vvp_fun_part_sa* saved=0;static int saved_field;
++    static vvp_vector4_t value;static vvp_net_t* net;
++    static unsigned base;
++    auto p=static_cast<vvp_fun_part_sa*>(object);
++    if(saved){
++        if(saved!=p || saved_field!=field)return -1;
++        p->val_=value;p->net_=net;p->base_=base;
++        saved=0;return 1;
++    }
++    if(field<0 || field>2 || !p->val_.size())return -1;
++    saved=p;saved_field=field;value=p->val_;net=p->net_;base=p->base_;
++    if(field==0)p->val_.set_bit(0,p->val_.value(0)==BIT4_1?BIT4_0:BIT4_1);
++    else if(field==1)p->net_=0;
++    else p->base_^=1;
++    return 1;
++}
+--- a/vvp/schedule.cc
++++ b/vvp/schedule.cc
+@@ -1526,3 +1526,52 @@
+     });
+     return result ? -1 : saved ? 1 : 0;
+ }
++
++struct robotron_primitive_record {
++    void* object;int kind;unsigned long long id;
++    int (*payload)(FILE*,void*);int (*toggle)(void*,int);
++};
++static std::map<const void*,robotron_primitive_record> robotron_primitive_live;
++static unsigned long long robotron_primitive_serial;
++extern "C" void robotron_vvp_primitive_register(const void* key,void* object,int kind,
++                                               int(*payload)(FILE*,void*),int(*toggle)(void*,int))
++{
++    if(!key || !object || (kind!=1 && kind!=2) || !payload || !toggle || robotron_primitive_live.count(key))abort();
++    robotron_primitive_live[key]={object,kind,++robotron_primitive_serial,payload,toggle};
++}
++extern "C" void robotron_vvp_primitive_unregister(const void* key)
++{robotron_primitive_live.erase(key);}
++extern "C" int robotron_vvp_primitive_inventory(FILE* out)
++{
++    if(!out || fprintf(out,"VPR_BEGIN 1 %llu\n",(unsigned long long)schedule_time)<0)return -1;
++    unsigned long long known=0,other=0;
++    int result=robotron_assignment_walk([&](event_s* event,long long slot,const char* region,unsigned long long ordinal) {
++        auto wrapper=dynamic_cast<generic_event_s*>(event);
++        if(!wrapper){++other;return 0;}
++        auto found=robotron_primitive_live.find(wrapper->obj);
++        if(found==robotron_primitive_live.end()){++other;return 0;}
++        const auto& r=found->second;++known;
++        if(fprintf(out,"VPR_EVENT %lld %s %llu %llu %llu %d %d\n",slot,region,ordinal,wrapper->robotron_id,r.id,r.kind,(int)wrapper->delete_obj_when_done)<0)return -1;
++        return r.payload(out,r.object);
++    });
++    return result || fprintf(out,"VPR_END %llu %llu\n",known,other)<0 || ferror(out) ? -1 : 0;
++}
++extern "C" int robotron_vvp_primitive_toggle(int kind,int field)
++{
++    static const void* saved=0;static unsigned long long saved_id;static int saved_field;
++    if(saved){
++        auto found=robotron_primitive_live.find(saved);
++        if(found==robotron_primitive_live.end() || found->second.id!=saved_id || found->second.kind!=kind || field!=saved_field)return -1;
++        int result=found->second.toggle(found->second.object,field);if(result==1)saved=0;return result;
++    }
++    if((kind!=1 && kind!=2) || field<0 || field>(kind==1?1:2))return -1;
++    int result=robotron_assignment_walk([&](event_s* event,long long,const char*,unsigned long long) {
++        if(saved)return 0;
++        auto wrapper=dynamic_cast<generic_event_s*>(event);if(!wrapper)return 0;
++        auto found=robotron_primitive_live.find(wrapper->obj);
++        if(found==robotron_primitive_live.end() || found->second.kind!=kind)return 0;
++        if(found->second.toggle(found->second.object,field)!=1)return -1;
++        saved=found->first;saved_id=found->second.id;saved_field=field;return 0;
++    });
++    return result ? -1 : saved ? 1 : 0;
++}
