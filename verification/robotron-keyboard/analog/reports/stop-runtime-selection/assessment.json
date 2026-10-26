@@ -1,0 +1,25 @@
+{
+  "qualified": false,
+  "controlsPassed": false,
+  "scope": "Rejected stop-handle board controls with incorrectly selected XSPICE initialization; not observer or rollback qualification.",
+  "finding": "The producer copied the baseline runtime receipt but built its subprocess environment from ambient os.environ without SPICE_SCRIPTS. The claimed initialization was not selected; candidate logs lack the baseline HISTORY_INIT and DAC_ANCHORED startup diagnostics.",
+  "firstRawDifference": {
+    "index": 974,
+    "baselineTimeSeconds": 1.0020923547472502e-08,
+    "candidateTimeSeconds": 1.0020923547472502e-08,
+    "differentValues": {
+      "v(wr_high)": {
+        "baseline": 0.10461773736250965,
+        "candidate": 0.10461773736250966
+      }
+    }
+  },
+  "sampleCounts": {
+    "baseline": 27578,
+    "candidate": 27566
+  },
+  "correction": "Identify the runtime from its explicit executable and spinit, compare the complete fingerprint, pass and record SPICE_SCRIPTS, and require matching startup diagnostics. Repeat all candidate controls in a fresh directory.",
+  "localCaptureDirectory": "build/keyboard-controller-analog/stop-board-controls",
+  "fullWaveformsRetainedInGit": false,
+  "retainedEvidence": "Original producer/reviewer, immutable run receipts, startup excerpts and exact first mismatch. Complete original compressed captures remain at the local path; this report does not claim full replay from its excerpts."
+}

@@ -1,0 +1,63 @@
+{
+  "completed": true,
+  "qualified": false,
+  "timestampedOutputExactlyEqual": true,
+  "executingWrapperObservations": 18,
+  "emptyFrameObservations": 12,
+  "deletionFlagMutationsDetectedAndRestored": 9,
+  "callbackReasons": [
+    6,
+    7,
+    9
+  ],
+  "scope": "Standalone delayed/read-write/read-only callbacks linked to live executing generic wrappers. Deletion ownership observed and restored before return; canceled callbacks never execute.",
+  "notEstablished": [
+    "Board integration and long-window controls",
+    "Other generic objects, initialization families and scheduler continuation",
+    "Freed-storage equivalence or general rollback"
+  ],
+  "runtime": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-executing-wrapper-runtime/vvp/libvvp.so": "783ed673131c275df941e1cba167028c4ebb7588fd8c1edfdd6b5ef65650358d",
+    "/private/tmp/k7658-executing-wrapper-runtime/vvp/vvp": "06b4f4a84ee7b42169475e351b6b91f4b6fb7b4c56298a83ed35c91b9f33c89f",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/executing-wrapper-controls/probe.vpi": "8313de31f2a2d30aba410c08cb7577c0b5569015385bb53c7f9d441aa14c1217",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "commands": {
+    "baseline": [
+      "/private/tmp/k7658-executing-wrapper-runtime/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "probe.vvp"
+    ],
+    "disabled": [
+      "/private/tmp/k7658-executing-wrapper-runtime/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "probe.vvp"
+    ],
+    "enabled": [
+      "/private/tmp/k7658-executing-wrapper-runtime/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "probe.vvp"
+    ],
+    "corrupt": [
+      "/private/tmp/k7658-executing-wrapper-runtime/vvp/vvp",
+      "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+      "-M.",
+      "-mprobe",
+      "probe.vvp"
+    ]
+  },
+  "candidateBuildSha256": "4e228a729f2f9e078643b0c794088e004ec3e5686a9ec8d631bdb619dee30366"
+}
