@@ -827,3 +827,12 @@ port, slice-width and strength faults. The [source contract](reports/assignment-
 limits reads to initialized logical vector contents and meaningful slice fields;
 destination pointers remain opaque. Board integration, target referents, threads
 and primitive-event payloads remain separate requirements.
+
+For board integration, `build_assignment_bridge.py` takes the pinned bridge/VPI
+arguments above. Run `assignment_board_capture.py` against the reviewed startup
+board baseline with the paired assignment runtime, then use
+`assignment_board_review.py` on the complete captures. It requires both assignment
+families, consumption without lifetime reuse, matching native callback/assignment
+times, unchanged normal waveform/firmware behaviour and all restored time-zero
+faults. It keeps unsupported event counts explicit; typed assignment coverage does
+not establish the contents of destination nets or other event families.
