@@ -319,6 +319,22 @@ provenance. The table below locates evidence that constrains future work.
 | Direct serial driver | [Dynamic candidate](reports/7406-dynamic/report.json), [saved-network review](reports/direct-repeat/assessment.json) and [serial-path admission](reports/serial-path/assessment.json). Typical-delay fitting and selected DC passes leave recovery, reverse operation and load dependence uncertain. CPU drivers remain endpoint fixtures. |
 | Evaluator cache | [Runtime recipe](reports/eval-cache/runtime.json) and [post-reset equivalence](reports/postreset-cache/assessment.json). Keep caching opt-in; exact bounded equivalence neither proves full-repeat behavior nor establishes a speedup. |
 
+Use `postreset_startup_capture.py` to extend the combined fixes to the retained
+1.16-ms post-reset fixture without moving reset or shortening the window:
+
+```sh
+python3 verification/robotron-keyboard/analog/postreset_startup_capture.py \
+  --source build/keyboard-controller-analog/postreset-newton-retry/off \
+  --models /private/tmp/k7658-startup-fixes-v1 \
+  --runtime /private/tmp/k7658-selectable-retry-runtime \
+  --out build/keyboard-controller-analog/postreset-startup-off --mode off
+```
+
+Run `combined` and `retry` into separate fresh output directories. The runner
+checks pinned inputs/dependencies, caps the log, and retains lossless waveforms.
+A completed producer still needs whole-waveform, firmware-continuation and
+internal-state review; it is not numerical or full-board qualification.
+
 ### Scheduling and state controls
 
 Apply `ngspice-47-rollback-audit.patch` for accepted/rejected-step and dispatch
