@@ -1,0 +1,120 @@
+{
+  "reviewCompleted": true,
+  "qualified": false,
+  "controlsPassed": true,
+  "comparisons": {
+    "disabledBaseline": {
+      "allSamplesExactlyEqual": true,
+      "samples": 27578,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    },
+    "enabledObserver": {
+      "allSamplesExactlyEqual": true,
+      "samples": 27578,
+      "endSeconds": 2e-05,
+      "signals": [
+        "v(receiver_data)",
+        "v(receiver_clock)",
+        "v(n_d0)",
+        "v(n_d1)",
+        "v(n_d2)",
+        "v(n_d3)",
+        "v(n_d4)",
+        "v(n_d5)",
+        "v(n_d6)",
+        "v(n_d7)",
+        "v(n_p5v)",
+        "i(vdriver_supply)",
+        "v(n_wr_n)",
+        "v(wr_low)",
+        "v(wr_high)",
+        "v(n_ta_takt)",
+        "v(n_ta_daten)",
+        "v(l1_1_series)",
+        "v(l1_2_series)",
+        "v(l1_3_series)",
+        "v(l1_4_series)",
+        "v(n_cable_takt)",
+        "v(n_cable_gnd)",
+        "v(n_cable_5v)",
+        "v(n_cable_daten)",
+        "i(l1.1)",
+        "i(l1.2)",
+        "i(l1.3)",
+        "i(l1.4)",
+        "@bwr_low[i]",
+        "@bwr_high[i]"
+      ]
+    }
+  },
+  "firmwareRecordsExactlyEqual": true,
+  "observedRelationships": {
+    "boundaries": 55156,
+    "liveCallbackObservations": 55213,
+    "executingCallbackObservations": 55153,
+    "associatedDisplayObservations": 10,
+    "releasedDisplayObservations": 18671,
+    "savedStopObservations": 55103,
+    "clearedStopObservations": 53,
+    "fault": null
+  },
+  "negativeControl": {
+    "boundaries": 37919,
+    "liveCallbackObservations": 37930,
+    "executingCallbackObservations": 37916,
+    "associatedDisplayObservations": 2,
+    "releasedDisplayObservations": 1442,
+    "savedStopObservations": 37904,
+    "clearedStopObservations": 15,
+    "fault": {
+      "index": 37918,
+      "phase": "before-step",
+      "targetSeconds": 5e-06
+    }
+  },
+  "receipts": {
+    "baseline": "507c297beea233d4c86c29f588fb3ee7a064d4e806c6c0e670330de9b274dce1",
+    "off": "8881af40b3d43ca1438f2c015c6650bd681d91b567260b13ec54420ab573986c",
+    "observe": "9f9c9655f0fe8ba3c5eb21fddbb8ead58c6353783465679086fea4138048879d",
+    "corrupt": "32847ebc808cf0140e8aa017fda084dbe8d676eda6eb07a6fc4170913501ab44"
+  },
+  "scope": "Complete 20-us service fixture, reset at 1 us. Saved stop handles linked to active executing delayed callbacks; cleared handles observed during startup/output stops. Invalid opaque handle rejected and restored before scheduler continuation.",
+  "notEstablished": [
+    "Port referent identities, executing wrappers and initialization-only event families",
+    "Freed-storage equivalence or general rollback",
+    "Full post-reset/startup/repeat/supply recovery qualification"
+  ]
+}
