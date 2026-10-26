@@ -752,3 +752,19 @@ BUILD --out FRESH_DIRECTORY`, then `absolute_tick_board_review.py --root CAPTURE
 forced-retry controls. Preserve the original disabled baseline and explicit
 XSPICE initialization. Full post-reset refinements must pass the existing gate
 before the candidate can be qualified.
+
+
+After those bounded controls, `postreset_tick_capture.py --source ADC_COARSE
+--candidate BUILD --bounded-root BOUNDED_CAPTURES --bounded-assessment ASSESSMENT
+--mode MODE --step-ns STEP --out FRESH_DIRECTORY` retains the complete post-reset
+window. Run `off` at 25 ns first and require exact original-baseline agreement;
+then use `on` at 25, 12.5 and 6.25 ns and `retry` at 25 ns. Review all five with
+`postreset_tick_review.py --source ADC_COARSE --off OFF --coarse ON_25 --fine ON_12_5
+--finest ON_6_25 --retry RETRY --out REPORT`. The reviewer checks the unchanged
+voltage/non-growth gate and firmware across refinements, while reporting the
+candidate's original-baseline timing changes and forced-retry effects separately.
+The [bounded board controls](reports/absolute-tick-board/assessment.json) preserve
+enabled voltages and firmware, including firmware under a forced rejection.
+Passing refinement alone does not accept changed baseline behavior or establish
+private-HDL rollback. These are post-reset captures, not the deferred full-repeat
+campaign.
