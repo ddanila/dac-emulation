@@ -637,9 +637,13 @@ baseline. Display data, executing wrappers and board integration remain open.
 
 The [failed board observer](reports/private-sync-discovery/assessment.json) reads
 an unset display-callback index. Its legacy API is deliberately rejected by the
-new runtime; adapt the board bridge and reviewer to the family API before using
-it. Preserve the explicit stop-function handoff in `build_private_sync_identity.py`.
-A reason code alone cannot identify a callback's data layout.
+new runtime. Use `build_private_sync_family_bridge.py --source NGSPICE_SOURCE
+--vpi TIMING_AUDITED_VPI_SOURCE --vpi-header VPI_HEADER --out FRESH_DIRECTORY`
+for the paired bridge/VPI with explicit stop-function handoff. Review matched
+captures with `private_sync_family_board_review.py --root CAPTURES --producer
+CAPTURE_SCRIPT --out REPORT`; a reused original-runtime baseline must retain its
+original producer and receipt. Module identification does not establish display
+payload coverage. A reason code alone cannot identify a callback's data layout.
 
 The [continuation argument](reports/callback-continuation/assessment.json)
 identifies overwritten scalar temporaries at the pinned pthread yield. Preserve
