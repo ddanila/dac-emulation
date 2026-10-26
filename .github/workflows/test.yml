@@ -16,11 +16,40 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v7
-      - name: Install keyboard verification dependencies
+      - name: Resolve keyboard verification dependencies
+        id: keyboard-apt
         run: |
           apt_options=(-o Acquire::Retries=3 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20)
           sudo apt-get "${apt_options[@]}" update
-          sudo apt-get "${apt_options[@]}" install -y --no-install-recommends iverilog ngspice libmpfr-dev libgmp-dev pkg-config
+          apt-cache policy iverilog ngspice libmpfr-dev libgmp-dev pkg-config |
+            awk '/^[^ ]/ {package=$1} /Candidate:/ {print package, $2}' > "$RUNNER_TEMP/keyboard-apt-versions"
+          . /etc/os-release
+          versions_hash=$(sha256sum "$RUNNER_TEMP/keyboard-apt-versions" | cut -d ' ' -f 1)
+          echo "key=keyboard-apt-v1-${VERSION_ID}-$(dpkg --print-architecture)-${versions_hash}" >> "$GITHUB_OUTPUT"
+          mkdir -p "$RUNNER_TEMP/keyboard-apt-archives"
+      - name: Restore keyboard package archives
+        id: keyboard-apt-cache
+        uses: actions/cache/restore@v6
+        continue-on-error: true
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 1
+        with:
+          path: ${{ runner.temp }}/keyboard-apt-archives/*.deb
+          key: ${{ steps.keyboard-apt.outputs.key }}
+      - name: Install keyboard verification dependencies
+        run: |
+          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20 \
+            -o Dir::Cache::archives="$RUNNER_TEMP/keyboard-apt-archives" \
+            -o APT::Keep-Downloaded-Packages=true \
+            install -y --no-install-recommends iverilog ngspice libmpfr-dev libgmp-dev pkg-config
+      # Save before tests so a later test failure/timeout does not lose the download.
+      - name: Save keyboard package archives
+        if: steps.keyboard-apt-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/keyboard-apt-archives/*.deb
+          key: ${{ steps.keyboard-apt.outputs.key }}
       - run: make test-keyboard-controller audit-keyboard-controller
       - name: Digital qualification gates and numerical diagnostics
         run: |
