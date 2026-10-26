@@ -291,7 +291,7 @@ settings, results and rejected alternatives; related captures remain in
 | Does corrected sampling cover service scenarios? | [Single press](reports/firmware-host-rising-load-fine/assessment.json), [reset](reports/firmware-host-rising-reset-minbreak-fine/assessment.json), [modifier](reports/firmware-host-rising-modifier-minbreak-fine/assessment.json), [release/repress](reports/firmware-host-rising-release-repress-minbreak-fine/assessment.json) and [control](reports/firmware-host-rising-control-minbreak-fine/assessment.json) pairs support logical and serial-edge agreement. The [independent timing screen](reports/host-receiver-timing-review/assessment.json) supports sampled stability, not U856 device applicability. [Indicator refinement](reports/firmware-host-rising-indicators-minbreak-fine/assessment.json) also supports serial and LED intent timing, with ordinal LED agreement against C. Other scenarios and device qualification remain separate. |
 | Does the held-key/repeat/release capture pass review? | [Repeat capture](reports/firmware-host-rising-repeat-minbreak/assessment.json) passes sampled voltage-envelope, receiver-stability and nominal clock-width screens. A matched refinement pair and device applicability remain open. |
 | Do loaded voltages converge? | [Single-press refinement](reports/firmware-host-rising-load-refined/assessment.json), [release/repress](reports/firmware-host-rising-release-repress-minbreak-fine/assessment.json), [control](reports/firmware-host-rising-control-minbreak-fine/assessment.json) and [indicator comparison](reports/firmware-host-rising-indicators-minbreak-fine/assessment.json) retain material absolute-time voltage differences despite serial-edge agreement. |
-| What constrains the strict-tolerance failure? | [Numerical assessment](reports/host-mpfr-transient/assessment.json): Gear with higher-precision linear solving completes the coarse replay but fails refinement; further linear precision does not change the trajectory. The [integration arithmetic audit](reports/host-mpfr-integration/assessment.json) also fails with higher-precision integration alone and combined with linear solving. [Exact rollback and represented-time controls](reports/host-represented-time/assessment.json) also fail. The [capacitor-stamp audit](reports/host-capacitor-stamps/assessment.json) isolates material assembly loss in the final frozen system. The [transition-window audit](reports/host-capacitor-onset/assessment.json) finds material sensitivity in a bounded saved state before the rejected voltage excursion; frozen corrections do not establish a transient remedy. [Bounded accepted-state captures](reports/host-accepted-budget/assessment.json) show that exact capacitor additions alone retain large cable-voltage excursions and refinement differences; they do not qualify a remedy. [Later resistor/switch additions](reports/host-postcap-additions/assessment.json) permit two finer short-window completions, but coarse failure and material absolute-time differences remain. [History sensitivity](reports/host-history-sensitivity/assessment.json) bounds hypothetical single-rounding perturbations in selected frozen systems; it does not bound accumulated trajectory error. |
+| What constrains the strict-tolerance failure? | [Numerical assessment](reports/host-mpfr-transient/assessment.json), [assembly correction](reports/host-postcap-additions/assessment.json) and [history sensitivity](reports/host-history-sensitivity/assessment.json) retain the diagnostic lineage. Higher precision or a corrected frozen system alone has not established a convergent transient remedy. |
 | Which alternative solver controls were checked? | [Tighter truncation](reports/firmware-host-strict-trtol-point1/assessment.json) and [KLU](reports/firmware-host-klu-strict/assessment.json) still fail. The [mapped ngspice control](reports/host-driver-mapped-ngspice/assessment.json) and [Xyce replay](reports/host-driver-mapped-xyce/assessment.json) do not establish equivalent trajectories. |
 | Does service qualification cover onboard startup? | [Service repeat qualification](reports/repeat/refined-strict-time/qualification/qualification.json) uses external clock/reset. [Supply isolation](reports/clock-output/full-precision-supply-isolation/assessment.json) and [independent startup replay](reports/clock-output/xyce-recorded-supply/assessment.json) retain the separate oscillator convergence question. |
 | Are oscillator device models applicable? | [Device-condition review](reports/clock-output/diode-role-review/assessment.json), [candidate admission](reports/clock-output/device-admission/assessment.json) and [output I/V review](reports/clock-output/ls00-output-iv/assessment.json) constrain candidates. [Internal-state analysis](reports/clock-output/oscillator-internal/assessment.json) and [independent transfer replay](reports/clock-output/xyce-transfer500/assessment.json) do not establish calibrated dynamics or general stability. |
@@ -301,268 +301,110 @@ settings, results and rejected alternatives; related captures remain in
 
 ## Electrical evidence index
 
-[`electrical-status.json`](reports/electrical-status.json) indexes the scoped
-results for DAC; `electrical_status.py --check` checks its source hashes.
-[Static device endpoints](reports/device-endpoints/assessment.json) pass the
-sampled published conditions, but do not qualify switching or oscillator dynamics.
-[Exact BJT/diode additions](reports/host-device-additions/assessment.json) preserve
-the disabled control and still leave coarse failure and material refinement error.
-The [qualified-CPU bridge audit](reports/qualified-cpu-bridge-time/assessment.json)
-records a backwards time request exceeding the HDL tick; logging leaves the
-control waveforms byte-identical. The [input-boundary regression](reports/input-barrier/assessment.json)
-reproduces the cause in the original scheduler and verifies an input-boundary
-patch against paired qualified-CPU captures. This fixes the tested input-driven
-ordering failure, not general rollback for autonomous HDL or multiple clients.
-The [source-level dispatch regression](test_cosim_dispatch_rollback.py) demonstrates
-that a later hybrid can request a breakpoint after an earlier irreversible client
-has advanced. Reordering this example avoids the failure but is not a general fix;
-the test does not establish that this schedule occurs in the keyboard circuit.
-The [registration regression](test_cosim_registration.py) verifies that a sole
-priority-1 irreversible client is dispatched last. Duplicate priority warns but
-does not reject registration; it must not be treated as a qualified configuration.
-`ngspice-47-rollback-audit.patch` adds opt-in accepted/rejected-step and
-irreversible-client dispatch logging. `live_raw_output.py --rollback-audit` pairs
-complete logging-disabled/enabled captures. `rollback_dispatch_review.py` requires
-identical samples, firmware events and complete audit coverage before interpreting
-`rollback_audit_log.py` results. The [complete reset-release controls](reports/rollback-dispatch/assessment.json)
-preserve every waveform sample and firmware event. The sole irreversible client
-runs last, and no callback occurs in an LTE-rejected trial. Client-requested
-breakpoints are covered by the [complete bridge timing control](reports/bridge-rollback/assessment.json):
-no logged advance or output occurs in breakpoint-rejected trials, and observed
-HDL time remains monotonic. The [forced Newton-retry control](reports/newton-retry/assessment.json)
-preserves firmware events and stays within the voltage budget; no irreversible
-callback precedes the Newton rejection. Its disabled runtime reproduces every
-sample and solver/HDL record. This exercises retry scheduling, not natural device
-nonconvergence or general state rollback.
-Callback ordering alone does not establish internal HDL rollback. Use `build_bridge_time_audit.py` to prepare a separate
-bridge logger, then `live_bridge_time_capture.py` against a completed enabled
-dispatch control. The capture permits only the identified VPI-library substitution;
-`live_bridge_time_review.py` requires complete waveform and solver-dispatch-history
-equivalence before interpreting requested/actual HDL times. `bridge_rollback_log.py`
-keeps callbacks without logged advances separate from requests and outputs, and
-checks the bridge's existing one-tick time-order guard.
+[`electrical-status.json`](reports/electrical-status.json) owns the scoped results
+consumed by DAC; `electrical_status.py --check` verifies its source hashes.
+Use retained assessments for experiment settings, failed alternatives and build
+provenance. The table below locates evidence that constrains future work.
 
-For a diagnostic Newton-retry control, apply `ngspice-47-rollback-fault.patch`
-after the rollback audit patch and copy `rollback_fault.h` beside `dctran.c`.
-`ROBOTRON_FORCE_NEWTON_REJECT=1` routes one otherwise converged trial at or after
-1.0025 ms through the existing Newton failure branch in a fresh transient run.
-Use `live_newton_retry.py --fault-start SECONDS` with a rebuilt diagnostic runtime
-to select a later trial (`ROBOTRON_NEWTON_REJECT_START`); the reviewer requires
-matching requested times and an injection within the complete control window.
-Require a complete disabled control before interpreting an injected capture.
-`live_newton_retry.py` captures the disabled/enabled pair using a separately pinned
-diagnostic runtime and the completed bridge timing control's circuit and inputs.
-`newton_retry_review.py` requires exact disabled-control waveforms and scheduling,
-then checks the injected retry's complete absolute-time waveforms, firmware events
-and dispatch/HDL timing. `raw_pair_review.py` streams both sample grids and rejects
-missing observations or an incomplete declared endpoint.
-`retain_newton_retry.py` retains the checked pair's receipts and compressed logs;
-its `--check` mode verifies their manifest and recomputes dispatch/timing results.
-This tests retry scheduling, not natural device nonconvergence or general rollback.
-The [internal-state probe](reports/internal-state/assessment.json) runs the patched
-`d_cosim` scheduler against real Icarus keyboard HDL. It compares exposed registers,
-memories and bridge queues across controlled input-barrier rejections, then compares
-continuation against an unrejected control. Immediate and delayed corruption controls
-exercise both checks. This is not a live analog solver trial or an inventory of the
-simulator's entire pending-event queue. `internal_state_probe.py` captures the probe;
-`--check --out reports/internal-state` verifies its retained evidence.
+| Area | Evidence and development consequence |
+| --- | --- |
+| HDL input scheduling | [Input-boundary regression](reports/input-barrier/assessment.json), [dispatch regression](test_cosim_dispatch_rollback.py) and [registration regression](test_cosim_registration.py). A sole priority-1 irreversible client must run last. Multiple such clients are not qualified merely because registration permits them. |
+| Live dispatch and retry | [Post-reset dispatch](reports/postreset-dispatch/assessment.json), [bridge timing](reports/postreset-bridge/assessment.json) and [Newton retry](reports/postreset-newton-retry/assessment.json). These are reusable complete controls; ordering and monotonic time alone do not prove general internal rollback. |
+| Internal state | [Controlled probe](reports/internal-state/assessment.json), [live observer](reports/live-cosim-state/assessment.json), [history](reports/history-state/assessment.json) and [controller event queues](reports/event-state/assessment.json). Bounded state and corruption controls; private HDL and other-model queues are outside their inventory. |
+| Scoped non-execution | [Input-barrier source argument](reports/barrier-state-source/assessment.json). Under its pinned pthread assumptions, the successful early return does not resume HDL. Do not demand private queue traversal for that branch or generalize the argument to other callbacks. |
+| Startup fixes | [History initializer](reports/output-history-init/assessment.json), [repeated-output fix](reports/staged-output/assessment.json) and [combined controls](reports/startup-fixes/assessment.json). Keep both fixes opt-in pending broader scenarios and convergence. Staging repairs lost initial LED events and changes electrical waveforms; initialization seeds are fault controls, not observed specimen behavior. |
+| CPU/bus validity | [Bus-device admission](reports/bus-device-admission/assessment.json) and [contract](bus_device_contract.json). Nominal linear drivers fail a minimum-supply high-level guarantee. Maximum ratings cannot replace operating guarantees; endpoint agreement does not establish I/V or switching behavior. |
+| Bus failure isolation | [Bus-read replay](reports/bus-read-replay/assessment.json) and [transition isolation](reports/bus-transition/assessment.json). Independent solver agreement is conditional on recorded boundaries. A replay's completion cannot prove equivalence to live feedback or identify a specimen fault. |
+| Live numerical diagnosis | [Live-state review](reports/live-state/assessment.json), [inductor-chain provenance](reports/inductor-chain/provenance.json) and [boundary refinement](reports/boundary-refinement/assessment.json). Preserve the demonstrated arithmetic and scheduling distinctions; completed refinements and lower RMS error do not waive absolute-time voltage peaks. |
+| Direct serial driver | [Dynamic candidate](reports/7406-dynamic/report.json), [saved-network review](reports/direct-repeat/assessment.json) and [serial-path admission](reports/serial-path/assessment.json). Typical-delay fitting and selected DC passes leave recovery, reverse operation and load dependence uncertain. CPU drivers remain endpoint fixtures. |
+| Evaluator cache | [Runtime recipe](reports/eval-cache/runtime.json) and [post-reset equivalence](reports/postreset-cache/assessment.json). Keep caching opt-in; exact bounded equivalence neither proves full-repeat behavior nor establishes a speedup. |
 
-The [complete post-reset control](reports/postreset-control/assessment.json) checks
-all saved samples and firmware bus reads over its declared window. It supplies
-a baseline for longer paired controls, not convergence or rollback acceptance.
-`build_live_state_audit.py` adds opt-in observation to the live code model;
-`live_cosim_state_capture.py` runs the bounded observer controls. The
-[live state comparison](reports/live-cosim-state/assessment.json) preserves exposed
-HDL state, bridge/input queues, continuation and every waveform sample, and detects
-deliberate register corruption. Its reset and endpoint are shortened explicitly
-for observer validation. Complete HDL event queues and XSPICE output-history
-buffers are outside this inventory; full-repeat and general rollback remain open.
-The [input-barrier source argument](reports/barrier-state-source/assessment.json)
-justifies non-execution on the successful early-return branch under the pinned
-pthread ownership assumptions. It does not cover the surrounding callback or
-paths that resume HDL; private queue traversal is not a prerequisite for that
-branch-specific argument. Its callback ownership map identifies the missing observation
-points before pending-output publication and the first HDL advance, and specifies
-valid access to current/previous XSPICE history. These are observation requirements,
-not evidence of general rollback. The [live history control](reports/history-state/assessment.json)
-observes those initialized callbacks, verifies output-history publication from the
-pending buffer, and detects a deliberate input-history mutation. Disabled, enabled
-and prior baseline waveforms and firmware events match exactly. The [scheduling control](reports/event-state/assessment.json) adds controller-port
-flags, delays and pending-event lists, with a detected delay-corruption control.
-The [repeated-output fix](reports/staged-output/assessment.json) preserves changed
-flags until the callback returns, repairing initial LED events lost during a second
-`output()` call. Observer controls remain exact; the fix changes the sampling grid
-and electrical waveforms while preserving firmware events. It stays opt-in pending
-broader scenario and convergence checks. Startup and event state outside the
-controller-port queues remain open.
-`history_state_capture.py` captures the bounded controls; `history_state_review.py`
-replays them. CI checks the retained manifest and damaged-trace controls.
-The [output-history initializer controls](reports/output-history-init/assessment.json)
-exercise an opt-in initialization from declared output-port values. A partial-output
-shim exposes dependence on otherwise uninitialized history; the bounded board
-fixture is unchanged under the tested seeds, with or without the initializer.
-Broader startup/scenario qualification remains open; allocation seeds are test controls.
-The [combined-fix controls](reports/startup-fixes/assessment.json) reproduce the
-individual-fix waveforms and firmware exactly, including dirty allocation seeds
-with both fixes enabled. `build_startup_fixes.py` composes the independent opt-ins;
-`startup_fixes_capture.py` and `startup_fixes_review.py` retain and check this bounded
-interaction test. It does not extend the qualified scenario window.
-Firmware and state streams are compared separately because merged stdout/stderr
-buffering changes their interleaving. Full replay uses `live_cosim_state_review.py
---root reports/live-cosim-state`; CI checks the retained manifest and parser controls
-without repeatedly expanding the multi-gigabyte snapshot logs.
+### Scheduling and state controls
 
-The [post-reset dispatch controls](reports/postreset-dispatch/assessment.json)
-reproduce that baseline exactly with logging disabled and enabled, preserving
-firmware events and valid callback ordering throughout the window. The matching
-[bridge timing control](reports/postreset-bridge/assessment.json) also preserves
-every sample and dispatch record, with monotonic observed HDL time and no logged
-HDL advances or outputs in rejected trials. The matching
-[post-reset forced Newton retry](reports/postreset-newton-retry/assessment.json)
-preserves firmware events and stays within the voltage budget, with valid callback
-ordering and monotonic observed HDL time. Its disabled control reproduces every
-sample and scheduling record. These bounded checks do not establish general rollback.
-`live_raw_output.py --rollback-audit` and `rollback_dispatch_review.py` accept
-complete direct-raw baselines without expanding them into text waveforms.
+Apply `ngspice-47-rollback-audit.patch` for accepted/rejected-step and dispatch
+logging. `live_raw_output.py --rollback-audit` captures matched disabled/enabled
+controls; `rollback_dispatch_review.py` requires identical samples, firmware events
+and complete audit coverage before interpreting scheduling. Build a separate bridge
+logger with `build_bridge_time_audit.py`, capture with `live_bridge_time_capture.py`
+and review with `live_bridge_time_review.py`. Only the identified VPI-library
+substitution is permitted. `bridge_rollback_log.py` checks the existing one-tick
+time-order guard and distinguishes callbacks from actual advances and outputs.
 
-Service acceptance now stops at a supply-relative bus-voltage failure; full-board
-startup timed out. Neither result establishes complete electrical acceptance.
+For forced Newton rejection, apply `ngspice-47-rollback-fault.patch` after the audit
+patch and copy `rollback_fault.h` beside `dctran.c`. Use
+`live_newton_retry.py --fault-start SECONDS` with that separately pinned runtime
+and a complete bridge control. `newton_retry_review.py` checks disabled-control
+identity, injection coverage, absolute-time waveforms and firmware continuation.
+`retain_newton_retry.py` retains the checked evidence; `--check` verifies it.
+Forced rejection tests scheduling, not natural device convergence.
 
-The [isolated bus-read replay](reports/bus-read-replay/assessment.json) preserves
-all D1 loads, driver resistances and recorded supply/enable transitions. Tight
-ngspice, Xyce and independent KCL integration reproduce charge above the falling
-rail. This is conditional agreement on sampled boundary data, not a bound on the
-coupled solver or proof of a specimen fault. The retained `coupled/` runs include
-a tighter-tolerance abort and timeout. Reproduce the capture with
-`bus_read_capture.py`, then replay it with `bus_read_replay.py`; keep input limits
-unchanged while reviewing driver dynamics and transient applicability.
-The [bus-device admission review](reports/bus-device-admission/assessment.json)
-separates logic thresholds, static input ranges and maximum ratings. The latter
-cannot substitute for operating guarantees. Linear nominal-supply drivers fail
-the loaded-high guarantee at minimum rated supply; they remain stress fixtures.
-`bus_device_contract.json` records the source-reviewed scope and missing dynamics.
+`build_live_state_audit.py`, `live_cosim_state_capture.py` and
+`live_cosim_state_review.py` implement the live state controls. History and
+controller-output queues use `history_state_capture.py`, `history_state_review.py`
+and `event_state_review.py`. `build_startup_fixes.py` composes the independent
+opt-in fixes; `startup_fixes_capture.py` and `startup_fixes_review.py` check their
+bounded interaction. Do not extend a fixture's coverage claim beyond its declared
+reset and endpoint. Firmware and state streams are compared separately because
+merged stdout/stderr buffering changes their interleaving. CI checks retained
+manifests and damaged-trace controls rather than repeatedly expanding large logs.
 
-The [transition isolation](reports/bus-transition/assessment.json) reproduces the
-first tight-tolerance failure without HDL feedback. The existing zero-hysteresis
-switch correction passes its plateau regression, preserves nonzero-hysteresis
-controls byte-for-byte and completes that isolated replay. The coupled run still
-fails later; a recorded-output replay of the later prefix completes but cannot
-prove equivalence to the live trajectory. The corrected runtime remains diagnostic.
-Use `bus_transition_probe.py` for tolerance sweeps and recorded-output isolation;
-retained decks, runtime fingerprints and reproduction notes accompany the review.
+### Numerical and device diagnosis
 
-The [live-transition audit](reports/live-transition/assessment.json) isolates
-truncation/error-estimation rejection with converged Newton solves and no ADC
-state change inside the selected collapse window. Logging preserves the waveform.
-Recorded-output replay changes both forcing history and breakpoint placement, so
-its completion cannot identify a feedback defect. A reduced fixture keeps CPU/bus
-feedback and output/supply circuitry live, but substitutes the inactive matrix and
-fails later; it is not equivalent full-board evidence.
+`bus_read_capture.py` and `bus_read_replay.py` reproduce the recorded-boundary bus
+comparison. `bus_transition_probe.py` provides tolerance sweeps and output isolation.
+Keep input-voltage limits unchanged when investigating driver dynamics.
 
-The opt-in [DAC corner experiment](engine-patches/dac-ramp-breakpoint.patch)
-schedules a missing ramp-end breakpoint when an event lands at the analog boundary.
-The compiled upstream regression verifies the omission and unchanged output
-arithmetic. Tight live controls still abort or time out, so the candidate is not
-adopted. `build_live_transition_models.py` builds fingerprinted code models;
-`live_transition_probe.py` reproduces controls with explicit runtime inputs.
+`build_live_transition_models.py` builds fingerprinted code models;
+`live_transition_probe.py` takes explicit runtime inputs. Diagnostic options require
+their corresponding patches and provenance: `--state-audit` needs the supplemental
+live-state patch; `--mpfr-transition` needs the MPFR linear and live-window patches;
+`--filter-trunc-audit` needs the filter patch on the startup-instrumented runtime.
+The filter audit is restricted to its coded observation window. Require complete
+logging-disabled/enabled waveform equivalence before interpreting records.
+`live_state_review.py LOG --out REPORT` replays frozen equations; it does not
+establish a corrected transient trajectory.
 
-The [live-state replay](reports/live-state/assessment.json) captures accepted
-histories and pre-factorization equations. Independent 80/160-digit solves
-separate the initial capacitor rejection from the terminal ill-conditioned
-solve: correcting the logged LTE recurrence alone does not remove rejection.
-Use `live_state_review.py LOG --out REPORT` to recompute the frozen comparison.
-`--truncation-tolerance` explicitly sets a transient-error allowance at or below the effective XSPICE default of 1, independently of Newton tolerances. A candidate still requires complete matched refinement and control captures. Retain the series with `fixture_grid_review.py --experiment transient-error`; its explicit default must reproduce the implicit baseline.
+`--truncation-tolerance` controls transient error separately from Newton tolerances.
+Keep it at or below the effective XSPICE default; the explicit-default control must
+reproduce the implicit baseline. Retain matched refinements with
+`fixture_grid_review.py --experiment transient-error`. Use
+`network_refinement_review.py` for the retained network correction and
+`saved_network_review.py` for complete-window saved-vector comparisons. A frozen
+high-precision solve, successful reduced fixture or short-window comparison cannot
+qualify the complete live circuit.
 
-`--filter-trunc-audit` requires the filter-truncation patch on the retained startup-instrumented runtime. It logs timestep reductions and device identities only in 138–138.5 µs; complete disabled/enabled waveform controls are required before interpreting its records. [The analysis tool](filter_truncation_review.py) verifies the build ancestry and waveform equivalence before replaying the logged arithmetic.
+`ttl7406_dynamic.py --out DIRECTORY` fits the exploratory driver and checks withheld
+edges/DC conditions; `ttl7406_dynamic_validation.py --device-report REPORT --out
+DIRECTORY` checks temperature, loading and intermediate-input settling.
+`prepare_dynamic_driver.py` connects the candidate directly to electrical D0/WR;
+use `--bus-7406-pf 0` to avoid double-counting its gate capacitance. Observe with
+`live_transition_probe.py --network-trace --physical-driver-trace`.
+`cpu_serial_drive.py --device-report REPORT --out DIRECTORY` checks the separate
+CPU endpoint hypothesis. None of these operations establishes physical admission.
 
-`--state-audit` requires the supplemental live-state patch; `--mpfr-transition`
-requires the MPFR linear and live-window patches and changes linear arithmetic
-only after the selected transition boundary. This is a diagnostic intervention,
-not a qualified solver or a full high-precision trajectory. The short timestep
-pair completes, but a drive timing mismatch, tighter-tolerance timeout and later
-long-run failure leave convergence open. `live_prefix_review.py` compares the
-retained short waveforms without phase alignment.
+`serial_device_trace.observe` adds internal probes without changing components;
+`serial_device_review.py` checks their live control and current balance.
+`serial_path_probe.py --live TRACE.xz --device-report REPORT --ngspice RUNTIME
+--out DIRECTORY`, `serial_recovery_review.py` and `retain_serial_recovery.py`
+reproduce and retain recovery hypotheses. Forced-input replays do not establish
+feedback behavior or initialization independence.
 
-The [switching-event review](reports/switching-events/assessment.json) excludes
-constant-capacitor stamp rounding as the dominant cause in the captured initial
-and terminal trials. Picosecond bus-edge observations expose timing hidden by
-whole-nanosecond logs. Analytic threshold breakpoints stabilize the ideal fixture
-clock in short controls; they do not repair the general ADC crossing model.
-The [later-collapse audit](reports/output-switch/assessment.json) identifies
-L1.1 flux-history rejection with converged Newton solves and a stable switch.
-The [inductor-chain replay](reports/inductor-chain/assessment.json) traces that
-later collapse to lost cancellation in floating-capacitor history-current
-assembly. Its paired-RHS regression restores current conservation without
-changing matrix coefficients; an inductor-only correction does not explain the
-observed current jump.
+### Cache controls
 
-Exact capacitor assembly plus recovery of resistor/switch matrix additions
-allows both [full live refinement runs](reports/inductor-chain/network-refinement.json)
-to complete with matching firmware reads and latches. Disabled corrections and
-added observations preserve their baseline traces. The correction remains
-opt-in: absolute-time waveform differences around ideal switch transitions
-still prevent a convergence claim. General ADC timing, device admission and
-coupled startup/service qualification remain open. Reproduce the comparison
-with `network_refinement_review.py`; patch order and build provenance live in
-[the runtime receipt](reports/inductor-chain/provenance.json).
+The evaluator cache defaults off. `ROBOTRON_EVAL_CACHE=exact` enables reuse only
+within a single value/gradient evaluation. Build from the pinned runtime recipe;
+do not use fast-math. `eval_cache_benchmark.py` takes a prepared startup directory
+or a `fixture.json` selecting a deck, inputs and traces. Library changes invalidate
+paired captures. `live_cache_review.py` permits only the cache-mode change against
+a complete bridge control and requires every sample, firmware event and timing
+record to match. Full-repeat validation remains deferred.
 
-The [boundary trace](reports/boundary-refinement/boundary-review.json) follows
-D0 through undefined receiver logic to the DAC's threshold plateau; observation
-preserves the original waveforms. The [small reproducer](reports/boundary-refinement/unknown-output/assessment.json)
-shows why that plateau retains the ideal switch's previous state rather than
-specifying a physical 7406 transfer curve. The opt-in
-[ADC crossing candidate](engine-patches/adc-crossing-breakpoint.patch) requests
-rollback to interpolated threshold crossings, retaining unknown states and
-native threshold rules. Analytic ramp and RC controls pass, and the
-[matched three-level live series](reports/boundary-refinement/assessment.json)
-completes with preserved firmware reads. RMS disagreements improve relative to
-the baseline, but ideal-switch voltage peaks remain and waveform convergence is
-not established. Keep the candidate opt-in pending those electrical gates and
-physical-driver admission. [Traffic preflight](reports/boundary-refinement/traffic/assessment.json)
-prepares press/release, overlapping contacts and reset during observed serial
-activity; production-C coverage is not electrical execution.
+## Review and store captures
 
-The experimental [7406 dynamic candidate](reports/7406-dynamic/report.json)
-fits storage parameters to published typical delays while treating junction
-capacitance as an explicit hypothesis. `ttl7406_dynamic.py --out DIRECTORY`
-reproduces calibration and withheld edge/DC checks; fitting is not independent
-device validation. `ttl7406_dynamic_validation.py --device-report REPORT --out
-DIRECTORY` checks temperature, loading refinement and intermediate-input settling.
-Use `prepare_dynamic_driver.py` on a prepared electrical D0/WR fixture with
-`--bus-7406-pf 0` to avoid counting gate capacitance twice. It removes the serial
-intent DAC channels and connects the candidate directly to both physical inputs.
-`live_transition_probe.py --network-trace --physical-driver-trace` observes these
-inputs and driver currents. This path remains diagnostic until device admission
-and absolute-time board refinement pass; CPU drivers remain endpoint fixtures.
-The [CPU drive screen](reports/serial-path/cpu-drive/report.json) compares the
-fixed-resistance control with a supply-anchored endpoint hypothesis.
-`cpu_serial_drive.py --device-report REPORT --out DIRECTORY` reproduces the
-supply, temperature and pin-load checks. Passing logic levels or matching a DC
-endpoint does not validate the predicted transient currents or CPU I/V law.
-The [complete live refinement](reports/7406-dynamic/live/assessment.json) preserves
-reference firmware reads and reduces serial-voltage disagreement to millivolt
-scale. The [expanded saved-vector review](reports/direct-repeat/assessment.json)
-checks bus, receiver and drive-control observations too. Board voltages meet the
-short-window budget; the strict all-saved/nonincreasing screen fails. The retained
-full-repeat attempts and disabled controls do not qualify. A bounded startup
-comparison supports the opt-in DAC-corner correction; no production default changes.
-Use `saved_network_review.py --help` to replay complete-window comparisons and
-`startup_drive_review.py --help` for the startup controls. New live runs can select
-`--compressed-output` to stream each `wrdata` file losslessly to XZ, retaining
-producer-byte hashes in the run receipt. This avoids raw output allocation; it
-does not reduce ngspice vector memory or qualify full-repeat behavior.
-The diagnostic [raw-pipe transport control](reports/raw-pipe-transport/assessment.json)
-compares in-memory, direct-file and compressed-pipe samples exactly.
-`raw_pipe_review.py` reproduces this RC check with the separate
-`ngspice-47-raw-pipe.patch` runtime. Direct raw output bypasses plot accumulation;
-the [complete live reset-release control](reports/live-raw-output/assessment.json)
-preserves every original waveform sample and firmware event exactly. This covers
-the bounded reset-release window; full-repeat execution is deferred pending storage.
-`live_raw_output.py` runs the paired controls; `live_raw_review.py` checks every
-original waveform column and endpoint against the pinned baseline.
-For new captures, `live_transition_probe.py --raw-output --compressed-output
---network-trace --all-saved-network` uses the same direct-output transformation
-with a raw-pipe-patched runtime. The raw mode rejects diagnostic halts. Preserve
+Use `live_transition_probe.py --raw-output --compressed-output
+--network-trace --all-saved-network` with the `ngspice-47-raw-pipe.patch` runtime.
+Direct raw output bypasses plot accumulation; compressing ordinary output alone
+does not reduce ngspice vector memory. The raw mode rejects diagnostic halts. Preserve
 the complete scenario endpoint when preparing full-repeat runs; this capture
 option does not itself establish scenario coverage or numerical convergence.
 Add `--full-scenario` to pin the prepared `scenario.json` and require the complete
@@ -590,59 +432,6 @@ explicit complete interval. Retention preserves every available sample, includin
 failed controls. Longer runs need a concrete board/receiver decision, not merely
 an improved private fixture waveform.
 
-The [serial-path review](reports/serial-path/assessment.json) separates that
-numerical agreement from physical admission. Internal observations identify
-reverse output-transistor operation; isolated recovery controls expose load
-sensitivity and disagreement between candidates passing the same selected
-screens. The [manufacturer scope review](reports/7406-dynamic/operating-region-review.json)
-does not supply the missing device-specific recovery parameters.
-`serial_device_trace.observe` adds internal probes without changing components;
-`serial_device_review.py` checks their live control and current balance.
-`serial_path_probe.py --live TRACE.xz --device-report REPORT --ngspice RUNTIME
---out DIRECTORY` reproduces the isolated experiment; `serial_recovery_review.py`
-compares its hypotheses. `retain_serial_recovery.py` retains inputs, logs and
-all accepted points in the reviewed event window, with original-capture hashes;
-failed controls remain explicit. These forced-input replays are not feedback
-runs or proof of initialization independence.
-[Direct-driver traffic fixtures](reports/7406-dynamic/traffic/assessment.json)
-are prepared and C-checked. Their electrical acceptance remains gated on
-independent driver, CPU/bus and load admission.
-
-The optional [evaluator cache](engine-patches/eval-cache.patch) reuses shared pure
-subexpressions only within one value/gradient evaluation. It defaults off;
-`ROBOTRON_EVAL_CACHE=exact` enables it. Build the pinned ngspice 47 archive with
-the patch set and configure flags in [the runtime receipt](reports/eval-cache/runtime.json).
-Do not use fast-math. The [startup benchmark](reports/eval-cache/assessment.json)
-retains byte-equality receipts for disabled/enabled runs; use
-`eval_cache_benchmark.py` to reproduce them from a prepared startup directory.
-New captures derive their window from the deck and reject incomplete, nonfinite
-or nonmonotonic traces; timeout/failure receipts remain in the output directory.
-The runtime receipt fingerprints the executable, initialization, code models and
-external co-simulation/VPI libraries. Loaded-library changes invalidate paired runs.
-The [extended startup comparison](reports/eval-cache-startup-2ms/assessment.json)
-covers the first 2 ms, including supply settling into its rated range; it does not
-cover later firmware service. The
-[recorded bus-read comparison](reports/eval-cache-bus-read/assessment.json) checks
-an unchanged captured-boundary replay, not live CPU/HDL service. A prepared
-`fixture.json` can select its deck, input files and output traces; without it the
-runner uses the startup fixture. Longer startup and live service controls must
-pass before enabling the cache in qualification runs.
-`live_cache_review.py` checks a complete raw capture against the retained live
-bridge control, allowing only the cache-mode change. Every sample, firmware event
-and solver/HDL timing record must match; one such pair does not establish a speedup.
-The [live reset-release comparison](reports/live-cache-reset/assessment.json) and
-[post-reset comparison](reports/postreset-cache/assessment.json) pass that
-exact-equivalence check. Full-repeat firmware/service coverage remains open;
-keep caching opt-in. `--check --out reports/live-cache-reset` verifies the retained
-manifest and timing interpretation without redoing the full local waveform comparison.
-
-
-Verify retained endpoint and bridge evidence with `device_endpoint_probe.py
---verify reports/device-endpoints` and `bridge_time_review.py --verify --out
-reports/qualified-cpu-bridge-time` from this directory.
-
-## Review and store captures
-
 Retry and cache reviews stream audit records and firmware events; dispatch summaries
 do not retain accepted-point histories. The [complete-capture comparison](reports/streaming-audit/assessment.json)
 preserves the previous post-reset assessments. Bridge, retry, raw-output and
@@ -660,8 +449,8 @@ logs independently and compares both adjacent pairs with bounded raw pipes.
 bound total logical logs, total retained compressed logs and individual diagnostic
 lines. Exceeding a budget stops the producers and retains a failure receipt and
 partial logs, never a successful comparison. Choose budgets before launching;
-these limits do not bound total process memory or establish full-repeat capacity. It
-pins inputs and runtime, checks completion, applies the unchanged voltage gate and,
+these limits do not bound total process memory or establish full-repeat capacity.
+The runner pins inputs and runtime, checks completion, applies the unchanged voltage gate and,
 with `--scenario`, checks firmware events and serial windows. The
 [live RC control](reports/live-stream-transport/assessment.json) matches stored-waveform
 comparisons exactly. Raw bytes are hashed but not retained for later replay; compressed
@@ -704,6 +493,7 @@ lossless captures. Replay their acceptance checks with
 `python3 verification/robotron-keyboard/analog/verify_clock_acceptance.py verification/robotron-keyboard/analog/reports/clock-acceptance`.
 It is an isolated oscillator screen, not closed-board or
 independent device qualification. The reference behavioral models fail; raising
-the high level alone does not repair pulse width or slew. Loose intended-family
-gate measurements around the switching region and under the reference pullup
-are needed before admitting a replacement model.
+the high level alone does not repair pulse width or slew. Independent intended-family
+data around the switching region and under the reference pullup are needed before
+admitting a replacement model. Published data may suffice; bench measurements
+are a fallback for consequential ambiguities.
