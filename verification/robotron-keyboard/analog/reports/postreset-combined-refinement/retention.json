@@ -1,0 +1,66 @@
+{
+  "scope": "Completed full-window captures only. Numerical convergence, firmware equivalence and control revalidation require the separate full assessment. Complete compressed waveforms remain local; hashes do not replace replay evidence.",
+  "qualified": false,
+  "captureReceiptsValidated": true,
+  "captures": {
+    "12.5": {
+      "directory": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-combined-refinement-12.5",
+      "waveformCompressedSha256": "5e28132c1b2d7584fef00cc09fa5d240af222ba18e3005c1f78977b533f99127",
+      "waveformCompressedBytes": 205380660,
+      "waveform": {
+        "sha256": "e558165247bac213b80416edf0f95fce9d34936bd4d48fe2b8ca934e53bdcca7",
+        "bytes": 368196529
+      },
+      "logLogical": {
+        "sha256": "43f2dc515fc22aabc359394bc04a6932073a256aba31dcab721161e92299f01e",
+        "bytes": 659578224
+      },
+      "restoreLogCommand": [
+        "python3",
+        "verification/robotron-keyboard/analog/evidence_parts.py",
+        "restore",
+        "verification/robotron-keyboard/analog/reports/postreset-combined-refinement/12.5/ngspice.log.xz.parts",
+        "<destination>/ngspice.log.xz"
+      ]
+    },
+    "6.25": {
+      "directory": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-combined-refinement-6.25",
+      "waveformCompressedSha256": "6061fa621082209eca00f0935b4bf5d90a61c0370bf95589d3b4022659293a19",
+      "waveformCompressedBytes": 213227704,
+      "waveform": {
+        "sha256": "744eb29fd70b040e0bdaa1fb199929973fd1a2cb403ee23b19b6c9110675c86d",
+        "bytes": 387650225
+      },
+      "logLogical": {
+        "sha256": "40acb77c16f626587c80804aa581d9c40b3860d11413bb001be9fb01f820ac49",
+        "bytes": 694398861
+      },
+      "restoreLogCommand": [
+        "python3",
+        "verification/robotron-keyboard/analog/evidence_parts.py",
+        "restore",
+        "verification/robotron-keyboard/analog/reports/postreset-combined-refinement/6.25/ngspice.log.xz.parts",
+        "<destination>/ngspice.log.xz"
+      ]
+    }
+  },
+  "controlsRetention": "../postreset-startup-fixes/retention.json",
+  "reviewCommand": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "verification/robotron-keyboard/analog/postreset_refinement_review.py",
+    "--source",
+    "build/keyboard-controller-analog/postreset-newton-retry/off",
+    "--off",
+    "build/keyboard-controller-analog/postreset-startup-off",
+    "--coarse",
+    "build/keyboard-controller-analog/postreset-startup-combined",
+    "--retry",
+    "build/keyboard-controller-analog/postreset-startup-retry",
+    "--fine",
+    "build/keyboard-controller-analog/postreset-combined-refinement-12.5",
+    "--finest",
+    "build/keyboard-controller-analog/postreset-combined-refinement-6.25",
+    "--out",
+    "build/keyboard-controller-analog/postreset-combined-refinement-assessment.json"
+  ]
+}
