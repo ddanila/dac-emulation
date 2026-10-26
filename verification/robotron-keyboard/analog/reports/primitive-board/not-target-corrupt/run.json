@@ -1,0 +1,140 @@
+{
+  "qualified": false,
+  "completed": true,
+  "mode": "not-target-corrupt",
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-selectable-retry-runtime",
+      "sha256": "58105ffa723ed272de4572d8f812af9c26beb9b551f1aec9b1913753fd221904"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-startup-fixes-v1/spinit",
+      "sha256": "806519c1096a4b2868661ff9e282c82ad970afe9de6d0be94149786f8a232b04"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-startup-fixes-v1/digital.cm",
+        "sha256": "08198ba37c439da78d3cfbee957fa1f0dfc65a5b61c375d51151447ebc54d573",
+        "loadPath": "/private/tmp/k7658-startup-fixes-v1/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "environment": {
+    "ROBOTRON_EVAL_CACHE": "off",
+    "ROBOTRON_DAC_ANCHORED": "1",
+    "ROBOTRON_DAC_BREAKPOINTS": "1",
+    "ROBOTRON_MPFR_BITS": "256",
+    "ROBOTRON_MPFR_TRANSITION_ONLY": "1",
+    "ROBOTRON_MPFR_START": "0",
+    "ROBOTRON_CAP_ASSEMBLY": "exact",
+    "ROBOTRON_POSTCAP_ASSEMBLY": "exact",
+    "ROBOTRON_ROLLBACK_AUDIT": "1",
+    "ROBOTRON_HISTORY_INIT": "on",
+    "ROBOTRON_STAGED_OUTPUT": "on",
+    "ROBOTRON_HISTORY_STATE": "off",
+    "ROBOTRON_PRIVATE_SYNC": "off",
+    "ROBOTRON_PRIVATE_DISPLAY": "primitive-not-target-corrupt",
+    "ROBOTRON_DISPLAY_MODULE": "/private/tmp/k7658-primitive-runtime/vpi/system.vpi"
+  },
+  "runtimeEnvironment": {
+    "SPICE_SCRIPTS": "/private/tmp/k7658-startup-fixes-v1"
+  },
+  "externalDependencies": [
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi",
+      "sha256": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi",
+      "sha256": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi",
+      "sha256": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi",
+      "sha256": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi",
+      "sha256": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e"
+    },
+    {
+      "path": "/private/tmp/k7658-primitive-bridge/ivlng.so",
+      "sha256": "db98fff321c3e2c10d0f99fe127b0515fb8d417f81c929e2b9b4fe942ae85957"
+    },
+    {
+      "path": "/private/tmp/k7658-primitive-bridge/ivlng.vpi",
+      "sha256": "a27dbf9aef6b7f488d5133ae559a4260b8e39d45fc8d4cd20c54f5095304da01"
+    },
+    {
+      "path": "/private/tmp/k7658-primitive-runtime/vpi/system.vpi",
+      "sha256": "3c472d6c979c3aab2c8072cb6fece35facae88630333e05ce50613843c27cd8a"
+    },
+    {
+      "path": "/private/tmp/k7658-primitive-runtime/vvp/libvvp.so",
+      "sha256": "13969cabd66fde2189ff14b26daf1a6e1a6ceb3a4bf86574db8dce0205618221"
+    }
+  ],
+  "inputs": {
+    "io.cir": "85d5b03a20e133ba103d470ca217cf9af94d82a51473150bcf985c12e310ea98",
+    "io.vvp": "4dad2f8e8dfa03a78080b7ae2537126a2b990fbb68bc3fbd616968a268071caa",
+    "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966"
+  },
+  "baselineReceiptSha256": "e0270b0ba5771033be6e19410dc24dcd2ba2ff3d7fa69d2cebd7162b9885af47",
+  "baselineAssessmentSha256": "793df2f995c33a2d5194d17b3465ace4f9cc7c3d417e09e42bdeb176af6a1f3b",
+  "bridgeBuildSha256": "93f3ab33c00a90c1db8570b6b6d5b88c332fd56d653994b11540cb0675296867",
+  "icarusBuildSha256": "49345114633bce8cbdff68913ea2c109a21986d31a3872c431b1f37e28db202e",
+  "producerSha256": "92e83ad97840ac2902b1e3e734ff7211e7d960763cd6023ad82505c812e5770b",
+  "symbolReceiptSha256": "a50c06f39917bb3a1d567f9019ec04113b390e897d73a19069f9c625daf51921",
+  "endSeconds": 2e-05,
+  "expectedExitCode": 2,
+  "storage": {
+    "waveform.raw": {
+      "sha256": "1ac0efb5028f5fcd1b66f6729ed2f19509959581aec2c45e068713ef5a0679c4",
+      "bytes": 1457
+    }
+  },
+  "log": {
+    "bytes": 430401,
+    "compressedBytes": 14568,
+    "sha256": "798e5d78b9297fab3255e85327c02cda8de4b7195a54fcd95de982acb26ba394",
+    "exitCode": 2,
+    "elapsedSeconds": 0.08105141700002605,
+    "logicalLimitBytes": 536870912,
+    "compressedLimitBytes": 134217728
+  },
+  "exitCode": 2,
+  "elapsedSeconds": 0.08814850000004526
+}
