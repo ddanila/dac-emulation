@@ -1,0 +1,31 @@
+{
+  "source": {
+    "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/U880D-CPU.pdf",
+    "title": "VEB Funkwerk Erfurt, Technische Beschreibung CPU U880D",
+    "page": "PDF page 59, printed page 58; reset function on PDF page 10, printed page 9",
+    "sha256": "a3266f1cea4d24c0c91ca2941f6b40762f24a2934e6cf41dccd5fb52f80e75be"
+  },
+  "activeLevel": "low",
+  "setupBeforeRisingClockMinimumNs": 90,
+  "holdAfterRisingClockMinimumNs": 0,
+  "electricalConditions": "cpu_clock_limits.json:operatingConditions, ordinaryInput and clockInput",
+  "resetState": {
+    "programCounter": 0,
+    "interruptVectorRegister": 0,
+    "refreshRegister": 0,
+    "interruptMode": 0,
+    "interruptsEnabled": false
+  },
+  "duringReset": {
+    "addressBus": "high impedance",
+    "dataBus": "high impedance",
+    "controlOutputs": "inactive"
+  },
+  "scope": "Published U880D reference. Setup/hold must be checked at the CPU pin against a qualified clock. Counting numerical crossings while reset is low is not sufficient timing evidence.",
+  "notEstablished": [
+    "Minimum active pulse duration from this excerpt",
+    "Undervoltage state retention",
+    "Actual specimen switching thresholds",
+    "Between-sample timing"
+  ]
+}
