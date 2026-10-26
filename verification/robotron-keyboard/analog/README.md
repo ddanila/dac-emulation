@@ -625,12 +625,24 @@ data around the switching region and under the reference pullup are needed befor
 admitting a replacement model. Published data may suffice; bench measurements
 are a fallback for consequential ambiguities.
 
-Build the isolated callback observer with `build_private_sync_observer.py --archive PINNED_TARBALL --out FRESH_DIRECTORY --bison BISON`. Run `private_sync_probe.py --candidate BUILD_DIRECTORY --baseline ORIGINAL_LIBVVP --modules VPI_DIRECTORY --out FRESH_REPORT` for matched controls. Registry bookkeeping runs even with observation disabled; the original-library baseline checks that addition. These controls do not qualify arbitrary callback-owned data or board rollback.
+## Private callback observation
 
-For board integration, `build_private_sync_bridge.py --source NGSPICE47_SOURCE --out FRESH_DIRECTORY` instruments the paused step boundaries. Use it with the callback-observer runtime and `ROBOTRON_PRIVATE_SYNC=off|observe|corrupt`; the fault mode restores a queued synchronization-mode mutation and exits intentionally. Review matched captures with `private_sync_board_review.py --root CAPTURE_ROOT --producer CAPTURE_SCRIPT --out REPORT`. The bridge checks context identity but cannot identify private callback functions; initial start-callback and referenced-data coverage also remain separate. A successful build or synthetic reviewer test is not board validation.
+Use `build_private_sync_family.py --archive PINNED_TARBALL --out FRESH_DIRECTORY
+--bison BISON`, then `private_sync_family_probe.py --candidate BUILD_DIRECTORY
+--baseline ORIGINAL_LIBVVP --modules VPI_DIRECTORY --out FRESH_REPORT`.
+The [family controls](reports/private-sync-family/assessment.json) identify the
+loaded display callback by module hash and symbol offset and leave its optional
+fields unexamined. Registry bookkeeping is covered by the original-library
+baseline. Display data, executing wrappers and board integration remain open.
 
-The separate `build_private_sync_identity.py` candidate accepts `--source`, `--vpi`, `--vpi-header` and `--out`. It pins the timing-audited VPI source and builds both libraries with an explicit stop-callback identity handoff. Pair its shim and VPI with the callback-observer runtime; use `private_sync_identity_review.py` for matched board captures. Compile-time and handoff tests do not establish board equivalence, and callback-owned data and the executing stack remain outside this candidate.
+The [failed board observer](reports/private-sync-discovery/assessment.json) reads
+an unset display-callback index. Its legacy API is deliberately rejected by the
+new runtime; adapt the board bridge and reviewer to the family API before using
+it. Preserve the explicit stop-function handoff in `build_private_sync_identity.py`.
+A reason code alone cannot identify a callback's data layout.
 
-The [callback continuation argument](reports/callback-continuation/assessment.json) identifies overwritten scalar temporaries at the pinned pthread yield. It does not justify ignoring the surviving context, callback objects or executing generic-event deletion flag. Use its remaining-state contract when extending observation; raw stack-byte equality would include irrelevant temporaries and padding.
-
-The [board callback discovery](reports/private-sync-discovery/assessment.json) rejects an additional read-only callback with non-bridge user data. The inspected display producer leaves `cb.index` unset, so the current header observer is unsuitable for that family. Identify the loaded callback and serialize meaningful family-specific fields before rerunning matched board controls; a reason code alone cannot identify its payload.
+The [continuation argument](reports/callback-continuation/assessment.json)
+identifies overwritten scalar temporaries at the pinned pthread yield. Preserve
+and test the surviving context, live stop-handle relationship and executing
+callback/event objects; raw stack-byte equality includes irrelevant temporaries
+and padding.
