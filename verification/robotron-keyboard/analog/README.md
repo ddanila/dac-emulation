@@ -335,6 +335,13 @@ checks pinned inputs/dependencies, caps the log, and retains lossless waveforms.
 A completed producer still needs whole-waveform, firmware-continuation and
 internal-state review; it is not numerical or full-board qualification.
 
+After both producers complete, run `postreset_startup_review.py` with `--source`
+pointing to the same baseline, `--off` and `--combined` to the capture directories,
+and `--out` to a fresh assessment JSON. Add `--retry` when that control completes.
+The review requires exact disabled-baseline waveforms, compares every saved node
+on the absolute-time grids, and reports exact firmware-record agreement. Fix
+impact and forced-retry differences remain separate from timestep convergence.
+
 ### Scheduling and state controls
 
 Apply `ngspice-47-rollback-audit.patch` for accepted/rejected-step and dispatch
