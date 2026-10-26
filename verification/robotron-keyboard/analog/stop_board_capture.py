@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
 """Capture stop-handle controls using a qualified display observer baseline."""
-import argparse,json,os,shutil,subprocess,time
+import argparse,json,shutil,subprocess,time
 from pathlib import Path
 from ttl7406_probe import sha
-from ngspice_runtime import verify
+from ngspice_runtime import identify,verify
 from eval_cache_benchmark import external_dependencies,verify_dependencies
 from bounded_log_process import run as producer
 from compressed_output import capture
 from audit_log import complete
 from private_sync_family_board_review import function_symbols
+
+
+def runtime_environment(base):
+    runtime,env=identify(base['runtime']['executable']['path'],base['runtime']['spinit']['path'])
+    if runtime!=base['runtime']:raise ValueError('Changed selected XSPICE runtime')
+    for key in list(env):
+        if key.startswith('ROBOTRON_'):del env[key]
+    env.update(base['environment'])
+    return env
 
 
 def run(source,assessment,bridge,out):
@@ -20,7 +29,7 @@ def run(source,assessment,bridge,out):
     for name,h in build['outputs'].items():
         if sha(bridge/name)!=h:raise ValueError('Changed bridge build')
     if shutil.disk_usage(out.parent).free<4*1024**3:raise ValueError('Need 4 GiB free')
-    verify(base['runtime']);verify_dependencies(base['externalDependencies'])
+    base_env=runtime_environment(base);verify_dependencies(base['externalDependencies'])
     def dep(name):
         matches=[d['path'] for d in base['externalDependencies'] if Path(d['path']).name==name]
         if len(matches)!=1:raise ValueError('Ambiguous runtime dependency')
@@ -46,13 +55,11 @@ def run(source,assessment,bridge,out):
     for mode in ('off','observe','corrupt'):
         folder=out/mode;folder.mkdir();(folder/'io.cir').write_text(deck)
         for name in ('io.vvp','s600.hex'):shutil.copyfile(baseline/name,folder/name)
-        env=dict(os.environ)
-        for key in list(env):
-            if key.startswith('ROBOTRON_'):del env[key]
-        env.update(base['environment']);env['ROBOTRON_PRIVATE_DISPLAY']='stop-corrupt' if mode=='corrupt' else mode
+        env=base_env.copy();env['ROBOTRON_PRIVATE_DISPLAY']='stop-corrupt' if mode=='corrupt' else mode
         deps=external_dependencies(folder,{'deck':'io.cir','inputs':['io.vvp','s600.hex']})
         record={'qualified':False,'completed':False,'mode':mode,'runtime':base['runtime'],
-                'environment':{k:v for k,v in env.items() if k.startswith('ROBOTRON_')},'externalDependencies':deps,
+                'environment':{k:v for k,v in env.items() if k.startswith('ROBOTRON_')},
+                'runtimeEnvironment':{'SPICE_SCRIPTS':env['SPICE_SCRIPTS']},'externalDependencies':deps,
                 'inputs':{n:sha(folder/n) for n in ('io.cir','io.vvp','s600.hex')},
                 'baselineReceiptSha256':sha(out/'baseline/run.json'),'baselineAssessmentSha256':sha(out/'baseline-assessment.json'),
                 'bridgeBuildSha256':sha(bridge/'build.json'),'producerSha256':sha(Path(__file__)),

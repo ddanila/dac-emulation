@@ -1,0 +1,19 @@
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -1211,3 +1211,16 @@
+     else return -1;
+     return 1;
+ }
++
++/* Relate the executing generic event's opaque object to its live sync wrapper.
++ * The supplied pointer is compared, never unpacked or dereferenced. */
++extern "C" unsigned long long robotron_vvp_sync_executing_wrapper(const void* object)
++{
++    if (!object) return 0;
++    for (const auto& entry : robotron_sync_live) {
++        const sync_callback* cb = entry.second;
++        if (cb != robotron_sync_executing || !cb->cb_sync || cb->cb_sync->handle != cb) continue;
++        if (static_cast<const vvp_gen_event_s*>(cb->cb_sync) == object) return entry.first;
++    }
++    return 0;
++}

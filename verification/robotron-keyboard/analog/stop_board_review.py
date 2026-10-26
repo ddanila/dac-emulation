@@ -54,6 +54,13 @@ def inventory(path,identities,*,corrupt=False):
             'associatedDisplayObservations':display,'releasedDisplayObservations':released,'savedStopObservations':saved,'clearedStopObservations':cleared,'fault':fault}
 
 
+def startup_identity(path):
+    lines=[line for line in records(path,('HISTORY_INIT ','Instance: ')) if line.startswith('HISTORY_INIT ') or 'DAC_ANCHORED enabled' in line]
+    if not any(l.startswith('HISTORY_INIT ') for l in lines) or not any('DAC_ANCHORED enabled' in l for l in lines):
+        raise ValueError('Missing selected XSPICE startup diagnostics')
+    return lines
+
+
 def assess(root,producer):
     names=('baseline','off','observe','corrupt');runs={n:json.loads((root/n/'run.json').read_text()) for n in names}
     base=runs['baseline'];prior=json.loads((root/'baseline-assessment.json').read_text())
@@ -73,6 +80,7 @@ def assess(root,producer):
         if old['path']==new['path'] or deck.count(old['path'])!=1 or new['sha256']!=build['outputs'][name]:
             raise ValueError('Unpinned bridge substitution')
         deck=deck.replace(old['path'],new['path'])
+    startup=startup_identity(root/'baseline/ngspice.log')
     scans={};receipts={}
     for mode,r in runs.items():
         folder=root/mode;negative=mode=='corrupt'
@@ -83,6 +91,7 @@ def assess(root,producer):
             if r['mode']!=mode or r['producerSha256']!=sha(producer):raise ValueError('Changed producer/mode')
             for key,path in [('baselineReceiptSha256','baseline/run.json'),('baselineAssessmentSha256','baseline-assessment.json'),('bridgeBuildSha256','bridge-build.json'),('symbolReceiptSha256','symbols.json')]:
                 if r[key]!=sha(root/path):raise ValueError('Changed '+key)
+            if r.get('runtimeEnvironment')!={'SPICE_SCRIPTS':str(Path(base['runtime']['spinit']['path']).parent)}:raise ValueError('Missing explicit XSPICE initialization selection')
             expected=dict(base['environment'],ROBOTRON_PRIVATE_DISPLAY='stop-corrupt' if negative else mode)
             if r['environment']!=expected or r['externalDependencies']!=runs['off']['externalDependencies']:
                 raise ValueError('Changed matched control environment/dependencies')
@@ -92,6 +101,7 @@ def assess(root,producer):
             if sha(folder/name)!=h or (name!='io.cir' and h!=base['inputs'][name]):raise ValueError('Changed input/firmware')
         for name,h in [('waveform.raw',r['storage']['waveform.raw']['sha256']),('ngspice.log',r['log']['sha256'])]:
             if logical_sha(folder/name)!=h:raise ValueError('Changed retained output')
+        if startup_identity(folder/'ngspice.log')!=startup:raise ValueError('Changed XSPICE startup diagnostics')
         if not negative:
             scans[mode]=complete(folder/'ngspice.log')
             if not scans[mode]['latchesMatch']:raise ValueError('Invalid firmware continuation')

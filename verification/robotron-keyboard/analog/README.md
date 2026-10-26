@@ -687,5 +687,16 @@ handle and restores it before HDL continuation. Use
 --bridge STOP_BRIDGE --out FRESH_DIRECTORY` after the display controls pass;
 it reuses their disabled baseline and keeps the same runtime/module. Review with
 `stop_board_review.py --root CAPTURES --producer stop_board_capture.py --out REPORT`.
+Pass the recorded `SPICE_SCRIPTS` initialization explicitly; a copied runtime
+receipt alone does not select its code models ([rejected control](reports/stop-runtime-selection/assessment.json)).
 This variant still requires matched board controls; it does not establish
 freed-storage equivalence.
+
+Build the executing-wrapper candidate with `build_executing_wrapper_runtime.py`
+using the same pinned archive arguments. Run `executing_wrapper_probe.py
+--candidate BUILD --baseline ORIGINAL_LIBVVP --modules VPI_DIRECTORY --out REPORT`.
+The [standalone controls](reports/executing-wrapper/assessment.json) link the live
+generic event to its executing synchronization callback and check deletion
+ownership across delayed, read/write and read-only callbacks. A changed deletion
+flag is restored before callback return. Unknown generic objects fail closed;
+board integration, other event families and scheduler continuation remain open.

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/stop_board_review.py", line 118, in <module>
+    a=p.parse_args();result=assess(a.root,a.producer)
+  File "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/stop_board_review.py", line 107, in assess
+    comparisons[label]=compare_raw(root/left/'waveform.raw',root/right/'waveform.raw',[scans[n]['count'] for n in (left,right)],20e-6,exact=True)
+  File "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/raw_pair_review.py", line 38, in compare_raw
+    if x != y:raise ValueError('Different raw sample at row '+str(index))
+ValueError: Different raw sample at row 974

@@ -1,0 +1,74 @@
+--- a/vvp/schedule.cc
++++ b/vvp/schedule.cc
+@@ -494,7 +494,17 @@
+ 
+ unsigned long count_assign_arword_pool(void) { return array_r_w_heap.pool; }
+ 
++static unsigned long long robotron_generic_sequence;
++struct generic_event_s;
++struct robotron_generic_frame {
++    generic_event_s* event;
++    robotron_generic_frame* previous;
++};
++static robotron_generic_frame* robotron_generic_executing;
++
+ struct generic_event_s : public event_s {
++      generic_event_s() : robotron_id(++robotron_generic_sequence) { }
++      const unsigned long long robotron_id;
+       vvp_gen_event_t obj;
+       bool delete_obj_when_done;
+       void run_run(void) override;
+@@ -507,11 +517,14 @@
+ void generic_event_s::run_run(void)
+ {
+       count_gen_events += 1;
++      robotron_generic_frame frame = {this, robotron_generic_executing};
++      robotron_generic_executing = &frame;
+       if (obj) {
+ 	    obj->run_run();
+ 	    if (delete_obj_when_done)
+ 		  delete obj;
+       }
++      robotron_generic_executing = frame.previous;
+ }
+ 
+ void generic_event_s::single_step_display(void)
+@@ -1374,3 +1387,38 @@
+     }
+     return 0;
+ }
++
++/* The frame is live on the HDL stack while the callback yields. Only source-
++ * defined continuation state is read; padding and overwritten locals are not. */
++extern "C" unsigned long long robotron_vvp_sync_executing_wrapper(const void*);
++extern "C" int robotron_vvp_executing_inventory(FILE* stream)
++{
++    if (!stream) return -1;
++    std::set<const robotron_generic_frame*> seen;
++    unsigned long long depth = 0;
++    for (const robotron_generic_frame* f=robotron_generic_executing; f; f=f->previous) {
++        if (!f->event || !seen.insert(f).second) return -1;
++        ++depth;
++    }
++    if (fprintf(stream,"VE_BEGIN 1 %llu\n",depth)<0) return -1;
++    unsigned long long ordinal = 0;
++    for (const robotron_generic_frame* f=robotron_generic_executing; f; f=f->previous) {
++        const generic_event_s* event=f->event;
++        unsigned long long callback=robotron_vvp_sync_executing_wrapper(event->obj);
++        if (!callback) return -1; /* No inferred layout for other generic objects. */
++        if (fprintf(stream,"VE_FRAME %llu %llu %llu %d\n",ordinal++,event->robotron_id,
++                    callback,(int)event->delete_obj_when_done)<0) return -1;
++    }
++    return fprintf(stream,"VE_END\n")<0 || ferror(stream) ? -1 : 0;
++}
++
++/* A changed deletion flag would change continuation ownership. Restore it
++ * before the callback returns: a sync callback destroys its own wrapper. */
++extern "C" int robotron_vvp_executing_toggle_delete()
++{
++    if (!robotron_generic_executing) return 0;
++    generic_event_s* event=robotron_generic_executing->event;
++    if (!event || !robotron_vvp_sync_executing_wrapper(event->obj)) return -1;
++    event->delete_obj_when_done = !event->delete_obj_when_done;
++    return 1;
++}
