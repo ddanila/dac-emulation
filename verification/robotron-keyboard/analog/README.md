@@ -360,8 +360,7 @@ For longer internal-state controls, use `postreset_state_capture.py` with the
 circuit-output observer build and a fresh output directory for each mode. It
 streams lossless compressed logs with explicit byte/time budgets and a free-space
 reserve. The [immediate fault control](reports/postreset-state-immediate/assessment.json)
-validates this capture path; the long positive and delayed controls still require
-complete state, firmware and waveform review.
+validates this capture path.
 Group those captures under `root/{off,check,immediate,delayed}` and use
 `postreset_state_review.py` with that root, the original `--source` control and
 the completed combined-fix `--baseline`. Positive captures must cover the whole
@@ -372,6 +371,11 @@ external-output faults detected. Full compressed logs are retained in parts;
 [retention metadata](reports/postreset-output-state/retention.json) locates complete
 local waveforms and the review command. This closes that control window, not
 startup, supply recovery, instance queues or private HDL events.
+For standalone inventory review, `cached_circuit_output_review.py <log> --out <json>`
+uses bounded caching of repeated port records while checking every snapshot and
+event. Its [equivalence evidence](reports/cached-output-inventory/full-assessment.json)
+covers the full post-reset inventory. This command replaces only the inventory
+pass; it does not perform waveform, firmware or rollback qualification.
 For instance-queue coverage, use the same capture runner with the
 `build_instance_queue_audit.py` model build and a separate capture root. Review
 with `postreset_instance_review.py`, passing the same `--root`, `--source`,
