@@ -1,0 +1,62 @@
+{
+  "qualified": false,
+  "scope": "Pinned-source analysis of the bridge startup continuation. Identifies required observer coverage; does not establish runtime fault detection, stack equivalence or rollback.",
+  "evidence": {
+    "registration": {
+      "path": "build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c",
+      "sha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+      "firstLine": 364,
+      "excerpt": "static void start(void)\n{\n    static struct t_vpi_time now = { .type = vpiSimTime };\n    static struct t_cb_data  cbd = { .reason = cbStartOfSimulation,\n                                     .time = &now, .cb_rtn = start_cb };\n#ifdef DEBUG\n    struct t_vpi_vlog_info   info;\n\n    /* Get the program name. */\n\n    if (vpi_get_vlog_info(&info)) {\n        vpi_printf(\"Starting ivlng.vpi in %s\\n\", info.argv[0]);\n        for (int i = 0; i < info.argc; ++i)\n            vpi_printf(\"%d: %s\\n\", i, info.argv[i]);\n        vpi_printf(\"P: %s V: %s\\n\", info.product, info.version);\n    } else {\n        vpi_printf(\"Failed to get invocation information.\\n\");\n    }\n#endif\n\n    /* The first step is to find the top-level module and query its ports.\n     * At this point they do not exist, so request a callback once they do.\n     */\n\n    cbd.user_data = (PLI_BYTE8 *)Get_ng_vvp();\n    vpi_register_cb(&cbd);\n}\n\n"
+    },
+    "startupHandoff": {
+      "path": "build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c",
+      "sha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+      "firstLine": 342,
+      "excerpt": "    /* Constant-folded outputs may never emit cbValueChange. Seed the\n     * outgoing snapshot from VPI before the first simulation advance. */\n    for (int i = ctx->ins; i < ctx->ins + ctx->outs + ctx->inouts; ++i) {\n        struct ngvp_port *pp = ctx->ports + i;\n        struct t_vpi_value value = { .format = vpiVectorVal };\n        vpi_get_value(pp->handle, &value);\n        pp->new.aval = value.value.vector->aval;\n        pp->new.bval = value.value.vector->bval;\n        pp->flags |= OUT_PENDING;\n        ++ctx->out_pending;\n    }\n\n    /* Make a direct call to the \"end-of-advance\" callback to start running. */\n\n    cr_init(&ctx->cr_ctx);\n    cb->user_data = (PLI_BYTE8 *)ctx;\n    next_advance_cb(cb);\n    return 0;\n}\n\n"
+    },
+    "advanceContinuation": {
+      "path": "build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c",
+      "sha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+      "firstLine": 96,
+      "excerpt": "static PLI_INT32 next_advance_cb(struct t_cb_data *cb)\n{\n    struct ng_vvp *ctx = (struct ng_vvp *)cb->user_data;\n    struct t_vpi_value val;\n    double             vl_time;\n    uint64_t           ticks;\n    unsigned int       i;\n\n    for (;;) {\n        /* Still wanted? */\n\n        if (ctx->stop) {\n            vpi_control(vpiFinish, 0); // Returns after scheduling $finish.\n            return 0;\n        }\n\n        /* Save base time for next slice. */\n\n        ctx->base_time = ctx->cosim_context->vtime;\n\n        /* Repeatedly wait for instructions from the main thread\n         * until VVP can advance at least one time unit.\n         */\n\n        cr_yield_to_spice(&ctx->cr_ctx);\n\n        /* Check for input. */\n\n        val.format = vpiVectorVal;\n        i = ctx->ins ? 0 : ctx->outs;\n        while (ctx->in_pending) {\n            if (ctx->ports[i].flags & IN_PENDING) {\n                ctx->ports[i].flags ^= IN_PENDING;\n                val.value.vector =\n                    (struct t_vpi_vecval *)&ctx->ports[i].previous;\n                vpi_put_value(ctx->ports[i].handle, &val, NULL, vpiNoDelay);\n                ctx->in_pending--;\n                DBG(\"VPI input %d/%d on %s\\n\",\n                    val.value.vector->aval, val.value.vector->bval,\n                    vpi_get_str(vpiName, ctx->ports[i].handle));\n            } else if (++i == ctx->ins) {\n                i = ctx->ins + ctx->outs;      // Now scan inouts\n            }\n        }\n\n        /* How many VVP ticks to advance? */\n\n        vl_time = get_time(ctx);\n        if(ctx->cosim_context->vtime>0.0 && ctx->cosim_context->vtime<0.001160000001) fprintf(stderr,\"TIME_AUDIT advance target=%.17g actual=%.17g base=%.17g tick=%.17g pending=%u\\n\",ctx->cosim_context->vtime,vl_time,ctx->base_time,ctx->tick_length,ctx->out_pending);\n        if (ctx->cosim_context->vtime < vl_time) {\n            /* This can occur legitimately as the two times need not\n             * align exactly.  But it should be less than one SPICE timestep.\n             */\n\n            DBG(\"VVP time %.16g ahead of SPICE target %.16g\\n\",\n                    vl_time, ctx->cosim_context->vtime);\n            if (ctx->cosim_context->vtime + ctx->tick_length < vl_time) {\n                fprintf(stderr,\n                        \"Error: time reversal (%.10g->%.10g) in \"\n                        \"Icarus Shim VPI!\\n\",\n                        vl_time, ctx->cosim_context->vtime);\n            }\n            continue;\n        }\n\n        ticks = (uint64_t)\n            ((ctx->cosim_context->vtime - vl_time)  / ctx->tick_length);\n        if (ticks > 0) {\n            DBG(\"Advancing from %g to %g: %lu ticks\\n\",\n                vl_time, ctx->cosim_context->vtime, ticks);\n            ctx->stop_cb = set_stop(ticks, ctx);\n            return 0;\n        }\n    }\n}\n\n/* Callback function - new output value. */\n\n"
+    },
+    "prepostInitialization": {
+      "path": "/private/tmp/k7658-value-callback-runtime-v2/vvp/vpi_callback.cc",
+      "sha256": "e234a3c9b6cd28603b5e5971af85506d9614fdf74197e92b835b218700261020",
+      "firstLine": 702,
+      "excerpt": "inline simulator_callback::simulator_callback(const struct t_cb_data*data)\n{\n      cb_data = *data;\n      if ((data->reason == cbNextSimTime) && data->time) {\n\t    cb_time = *(data->time);\n      } else if (data->reason == cbEndOfSimulation) {\n\t    cb_time.type = vpiSimTime;\n      } else {\n\t    cb_time.type = vpiSuppressTime;\n      }\n      cb_data.time = &cb_time;\n}\n\n"
+    },
+    "startupExecution": {
+      "path": "/private/tmp/k7658-value-callback-runtime-v2/vvp/vpi_callback.cc",
+      "sha256": "e234a3c9b6cd28603b5e5971af85506d9614fdf74197e92b835b218700261020",
+      "firstLine": 772,
+      "excerpt": "void vpiStartOfSim(void) {\n      simulator_callback* cur;\n\n      /*\n       * Walk the list of register callbacks, executing them and\n       * freeing them when done.\n       */\n      assert(vpi_mode_flag == VPI_MODE_NONE);\n      vpi_mode_flag = VPI_MODE_RWSYNC;\n\n      while (StartOfSimulation) {\n\t    cur = StartOfSimulation;\n\t    StartOfSimulation = dynamic_cast<simulator_callback*>(cur->next);\n\t    if (cur->cb_data.cb_rtn != 0) {\n\t\t  (cur->cb_data.cb_rtn)(&cur->cb_data);\n\t    }\n\t    delete cur;\n      }\n\n      vpi_mode_flag = VPI_MODE_NONE;\n}\n\n"
+    },
+    "schedulerOrder": {
+      "path": "/private/tmp/k7658-value-callback-runtime-v2/vvp/schedule.cc",
+      "sha256": "2852bfa1a27be78a6301b6f90773cd943c82f26a58f706e18331adf89c8a4e57",
+      "firstLine": 1142,
+      "excerpt": "void schedule_simulate(void)\n{\n      bool run_finals;\n      sim_started = false;\n\n      schedule_time = 0;\n\n      if (verbose_flag) {\n\t    vpi_mcd_printf(1, \" ...execute EndOfCompile callbacks\\n\");\n      }\n\n      // Execute end of compile callbacks\n      vpiEndOfCompile();\n\n      if (verbose_flag) {\n\t    vpi_mcd_printf(1, \" ...propagate initialization events\\n\");\n      }\n\n\t// Execute initialization events.\n      while (schedule_init_list) {\n\t    struct event_s*cur = schedule_init_list->next;\n\t    if (cur->next == cur) {\n\t\t  schedule_init_list = 0;\n\t    } else {\n\t\t  schedule_init_list->next = cur->next;\n\t    }\n\t    cur->run_run();\n\t    delete cur;\n      }\n\n      sim_started = true;\n\n      if (verbose_flag) {\n\t    vpi_mcd_printf(1, \" ...execute StartOfSim callbacks\\n\");\n      }\n\n      // Execute start of simulation callbacks\n      vpiStartOfSim();\n\n"
+    },
+    "syncInventoryDomain": {
+      "path": "/private/tmp/k7658-value-callback-runtime-v2/vvp/vpi_callback.cc",
+      "sha256": "e234a3c9b6cd28603b5e5971af85506d9614fdf74197e92b835b218700261020",
+      "firstLine": 1208,
+      "excerpt": "extern \"C\" int robotron_vvp_sync_family_inventory(FILE* stream, PLI_BYTE8* user,\n                                                 robotron_callback_fn expected)\n{\n    if (!stream) return -1;\n    if (fprintf(stream, \"VF_BEGIN 1 %llu %d %llu\\n\",\n                (unsigned long long)schedule_simtime(), (int)vpi_mode_flag,\n                (unsigned long long)robotron_sync_live.size()) < 0) return -1;\n"
+    }
+  },
+  "findings": [
+    "The bridge registers start_cb as cbStartOfSimulation with the explicit bridge context as user_data. It is a simulator_callback, not a sync_callback or executing generic-event wrapper.",
+    "vpiStartOfSim removes the current callback from StartOfSimulation before invoking it. The callback remains live in the local cur reference and is deleted only after its function returns. Traversing the pending list alone misses the suspended active callback.",
+    "After port metadata and outgoing values are initialized, start_cb calls next_advance_cb directly. That direct call yields to SPICE and can repeat its yield without returning while no positive tick advance is scheduled. The registered function remains start_cb; it must not be compared with next_advance_cb.",
+    "The startup callback constructor sets only cb_time.type to vpiSuppressTime. Its high, low and real storage is unspecified and must not be serialized. The known bridge registration is static zero-initialized, but this does not authorize reading optional fields of unrelated simulator callbacks.",
+    "End-of-compile callbacks and scheduler initialization events execute before vpiStartOfSim. The main scheduler and signals_capture occur after its return. This bounds where startup continuation lives; it does not establish correctness of all initialization events.",
+    "The current VF inventory enumerates robotron_sync_live only. Empty generic wrapper or sync inventories at a startup pause therefore cannot establish complete callback coverage."
+  ],
+  "requiredImplementation": [
+    "Register simulator-callback lifetimes and record the active pre/post callback independently of pending lists. Cover pending and executing states, cancellation and destruction without dereferencing unknown handles.",
+    "Hand off the known startup function/context explicitly. At paused board boundaries validate original lifetime, reason, function, context and internal time pointer/type; do not inspect suppressed time words or unrelated optional payloads.",
+    "Exercise restored function, context, time-pointer and list/active-identity faults, including a non-head pending callback. Restore before scheduling or deletion; retain exact callback ordering and continuation controls.",
+    "Prove the board startup handoff and later destruction in matched original/disabled/observed runs, then include startup and recovery rejection controls. Keep stack/freed-storage and general rollback claims separate."
+  ]
+}
