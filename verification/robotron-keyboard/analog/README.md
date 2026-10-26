@@ -382,6 +382,9 @@ with `postreset_instance_review.py`, passing the same `--root`, `--source`,
 `--baseline` and `--out` arguments. It retains the complete output-queue,
 waveform and firmware checks and additionally verifies instance worklists,
 rollback anchors and immediate/delayed external-instance corruption.
+Add `--cached-output-inventory` to use the validated port cache in an isolated
+reviewer instance. Full waveform, firmware, history and instance checks remain
+required; the result records both reviewer sources.
 The [long-window negative controls](reports/postreset-instance-state/negative-assessment.json)
 detect the external instance-queue mutation, including delayed injection after
 firmware execution. Positive-control equivalence remains a separate requirement.
