@@ -1,0 +1,18 @@
+{
+  "qualified": false,
+  "scope": "Initialization and meaningful-field boundaries for the filter observer. Not complete referent coverage.",
+  "sources": {
+    "vvp_net.h": "8569bc9a504e71f8d62ff7510935f334a67e4f86b8493c7b10e2144bd7cba6e8",
+    "vvp_net.cc": "d2a0a9c9dad7e4405d35d7c92df1062ed17d1f2ef4808443eeb9305cfc7e3c04",
+    "vvp_net_sig.h": "1084077bedab7805a60ff55f9e7bbc2e76e4ac42846ecde5d7cd15bff67f8d78",
+    "vvp_net_sig.cc": "f471d4dcebd7daeeb1b924a31ae75d633534b47cf5417455b4ad96599cf4d19b"
+  },
+  "findings": [
+    "vvp_net_fil_t initializes force_link_ to null and force_propagate_ to false; force_mask_ is a constructed vector, not raw allocation bytes.",
+    "vvp_wire_vec8 initializes needs_init_ and constructs its driven vector. vvp_vector8_t clears every logical element, including allocated wide-vector storage; force8_ starts empty.",
+    "A force link initializes port 2 (source) and port 3 (destination) before use. Only those meaningful endpoint fields are serialized; other port slots and object padding are not read.",
+    "Release clears selected mask bits; releasing every bit empties the mask. The old forced vector may remain allocated. Link storage persists after unlink, with a null source endpoint.",
+    "Filter propagation can call value callbacks and clear force_propagate_; the observer reads fields directly and never calls filtering or propagation methods.",
+    "Filter callback lists, force-link functor and source/destination fanout remain separate referents. Their pointer identity alone is not complete state coverage."
+  ]
+}

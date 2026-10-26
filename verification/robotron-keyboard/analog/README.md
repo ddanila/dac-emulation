@@ -877,3 +877,13 @@ and queued island identities, consumption without wrapper reuse, stable topology
 exact normal waveforms/firmware and restored faults. The output-cache fault runs
 after initialization; the other faults target paused startup. These controls
 must pass before treating island board integration as established.
+
+`build_island_filter_runtime.py` adds island vec8 wire-filter state.
+`island_filter_probe.py` uses the same runtime arguments and checks whole-net,
+partial-bit and variable-linked force/release. Its [retained controls](reports/island-filter/assessment.json)
+cover driven/forced vectors, masks, initialization/propagation flags and initialized
+force-link endpoints. Replay with `island_filter_probe.py --check
+verification/robotron-keyboard/analog/reports/island-filter`. The
+[source contract](reports/island-filter/source-contract.json) bounds meaningful
+field reads; callback lists, force-link functors and net fanout remain separate.
+Combined board integration is still required.

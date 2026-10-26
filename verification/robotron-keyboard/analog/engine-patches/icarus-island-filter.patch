@@ -1,0 +1,136 @@
+--- a/vvp/vvp_net.h
++++ b/vvp/vvp_net.h
+@@ -1278,6 +1278,8 @@
+ 
+     public:
+       vvp_net_fil_t();
++      int robotron_filter_inventory(FILE*) const;
++      int robotron_filter_toggle(int);
+       virtual ~vvp_net_fil_t() override;
+ 
+     public:
+--- a/vvp/vvp_net_sig.h
++++ b/vvp/vvp_net_sig.h
+@@ -456,6 +456,8 @@
+ 
+     public:
+       explicit vvp_wire_vec8(unsigned wid);
++      int robotron_wire_inventory(FILE*) const;
++      int robotron_wire_toggle(int);
+ 
+ 	// The main filter behavior for this class
+       prop_t filter_vec4(const vvp_vector4_t&bit, vvp_vector4_t&rep,
+--- a/vvp/vvp_net_sig.cc
++++ b/vvp/vvp_net_sig.cc
+@@ -1388,3 +1388,69 @@
+       return 0.0;
+ }
+ #endif
++
++int vvp_net_fil_t::robotron_filter_inventory(FILE* out) const
++{
++    if(fprintf(out,"VIF_BASE %u %p %u ",(unsigned)force_propagate_,(void*)force_link_,force_mask_.size())<0)return -1;
++    if(!force_mask_.size() && fputc('-',out)==EOF)return -1;
++    for(unsigned i=0;i<force_mask_.size();++i)if(fputc('0'+force_mask_.value(i),out)==EOF)return -1;
++    if(fputc('\n',out)==EOF)return -1;
++    if(force_link_ && fprintf(out,"VIF_LINK %p %u %p %u\n",(void*)force_link_->port[2].ptr(),force_link_->port[2].port(),
++                             (void*)force_link_->port[3].ptr(),force_link_->port[3].port())<0)return -1;
++    return ferror(out)?-1:0;
++}
++int vvp_net_fil_t::robotron_filter_toggle(int field)
++{
++    static vvp_net_fil_t* saved=0;static int saved_field;
++    static vvp_vector2_t mask;static bool propagate;static vvp_net_ptr_t destination;
++    if(saved){
++        if(saved!=this || saved_field!=field)return -1;
++        if(field==3)force_mask_=mask;
++        else if(field==4)force_propagate_=propagate;
++        else force_link_->port[3]=destination;
++        saved=0;return 1;
++    }
++    if(field<3 || field>5)return -1;
++    if((field==3 && !force_mask_.size()) || (field==5 && !force_link_))return 0;
++    saved=this;saved_field=field;
++    if(field==3){mask=force_mask_;force_mask_.set_bit(0,force_mask_.value(0)^1);}
++    else if(field==4){propagate=force_propagate_;force_propagate_=!force_propagate_;}
++    else{destination=force_link_->port[3];force_link_->port[3]=vvp_net_ptr_t(destination.ptr(),destination.port()^1);}
++    return 1;
++}
++static int robotron_filter_vector(FILE* out,const char* name,const vvp_vector8_t& value)
++{
++    if(fprintf(out,"VIF_VECTOR %s %u ",name,value.size())<0)return -1;
++    if(!value.size() && fputc('-',out)==EOF)return -1;
++    for(unsigned i=0;i<value.size();++i){auto b=value.value(i);
++        if(fprintf(out,"%u%u%u",(unsigned)b.value(),b.strength0(),b.strength1())<0)return -1;}
++    return fputc('\n',out)==EOF?-1:0;
++}
++int vvp_wire_vec8::robotron_wire_inventory(FILE* out) const
++{
++    if(fprintf(out,"VIF_WIRE %u\n",(unsigned)needs_init_)<0 || robotron_filter_inventory(out))return -1;
++    return robotron_filter_vector(out,"driven",bits8_) || robotron_filter_vector(out,"forced",force8_)?-1:0;
++}
++int vvp_wire_vec8::robotron_wire_toggle(int field)
++{
++    if(field>=3 && field<=5)return robotron_filter_toggle(field);
++    static vvp_wire_vec8* saved=0;static int saved_field;static bool init;static vvp_vector8_t vector;
++    if(saved){
++        if(saved!=this || saved_field!=field)return -1;
++        if(field==0)needs_init_=init;
++        else if(field==2)force8_=vector;
++        else bits8_=vector;
++        saved=0;return 1;
++    }
++    if(field<0 || field>6)return -1;
++    auto value=field==2?&force8_:&bits8_;
++    if(field!=0 && !value->size())return 0;
++    saved=this;saved_field=field;
++    if(field==0){init=needs_init_;needs_init_=!needs_init_;}
++    else{
++        vector=*value;auto b=value->value(0);
++        if(field==6)value->set_bit(0,vvp_scalar_t(b.value(),b.strength0()^1,b.strength1()^1));
++        else value->set_bit(0,vvp_scalar_t(b.value()==BIT4_1?BIT4_0:BIT4_1,6,6));
++    }
++    return 1;
++}
+--- a/vvp/vvp_island.cc
++++ b/vvp/vvp_island.cc
+@@ -500,3 +500,39 @@
+         if(item.first->robotron_event_key()==key)return item.second.id;
+     return 0;
+ }
++
++extern "C" int robotron_vvp_island_filter_inventory(FILE* out)
++{
++    if(!out || fprintf(out,"VIF_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    std::map<unsigned long long,vvp_island*> ordered;
++    for(const auto& item:robotron_islands())ordered[item.second.id]=item.first;
++    unsigned count=0;
++    for(const auto& item:ordered){
++        const auto& r=robotron_islands().at(item.second);
++        for(unsigned i=0;i<r.ports.size();++i){
++            auto net=r.ports[i];if(!net->fil)continue;
++            auto filter=dynamic_cast<vvp_wire_vec8*>(net->fil);if(!filter)return -1;
++            if(fprintf(out,"VIF_PORT %llu %u %p\n",r.id,i+1,(void*)net->fil)<0 || filter->robotron_wire_inventory(out))return -1;
++            ++count;
++        }
++    }
++    return fprintf(out,"VIF_END %u\n",count)<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_island_filter_toggle(int field)
++{
++    static vvp_wire_vec8* saved=0;static int saved_field;
++    if(field<0 || field>6 || (saved && saved_field!=field))return -1;
++    std::map<unsigned long long,vvp_island*> ordered;
++    for(const auto& item:robotron_islands())ordered[item.second.id]=item.first;
++    for(const auto& item:ordered){
++        const auto& r=robotron_islands().at(item.second);
++        for(auto net:r.ports){
++            if(!net->fil)continue;
++            auto filter=dynamic_cast<vvp_wire_vec8*>(net->fil);if(!filter)return -1;
++            if(saved && filter!=saved)continue;
++            int result=filter->robotron_wire_toggle(field);if(result<0)return result;
++            if(result){saved=saved?0:filter;saved_field=field;return 1;}
++        }
++    }
++    return saved?-1:0;
++}
