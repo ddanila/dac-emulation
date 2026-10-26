@@ -650,7 +650,12 @@ available, then requires independent completion counts before returning success.
 The [complete replay](reports/online-stream-replay/assessment.json) matches the
 retained retry comparison and input hashes without a raw spool.
 `stream_refinement_capture.py` runs three matched live producers, drains compressed
-logs independently and compares both adjacent pairs with bounded raw pipes. It
+logs independently and compares both adjacent pairs with bounded raw pipes.
+`--max-log-bytes`, `--max-compressed-log-bytes` and `--max-log-line-bytes`
+bound total logical logs, total retained compressed logs and individual diagnostic
+lines. Exceeding a budget stops the producers and retains a failure receipt and
+partial logs, never a successful comparison. Choose budgets before launching;
+these limits do not bound total process memory or establish full-repeat capacity. It
 pins inputs and runtime, checks completion, applies the unchanged voltage gate and,
 with `--scenario`, checks firmware events and serial windows. The
 [live RC control](reports/live-stream-transport/assessment.json) matches stored-waveform
