@@ -1,0 +1,94 @@
+{
+  "qualified": false,
+  "scope": "Pinned next_advance_cb suspension at pthread cr_yield_to_spice, including its direct startup caller. Manual control-flow argument, not a general stack verifier.",
+  "sources": {
+    "callback_continuation_review.py": "9fe562cd6ff887dd537a929c33e2bb4df57e82852e10d1763d4f7cd1e3a25029",
+    "build_private_sync_identity.py": "ac38113d813feb8ccc2d12007a97dcc73ded63b84ebc0d53ce788f66e9d29889",
+    "build_private_sync_bridge.py": "2c09e7bd45498d580307f60f839381a315eb6c203fda5bcd697522296deb6ea7",
+    "fixtures/private_sync_bridge.h": "8f36870626c9bfae7c4fdc090c29706d7eecd7d657683dc4853f034dd8643052",
+    "reports/live-cosim-state/model/live_state_audit.h": "9579eabc5cbcd476b18639ec72e6389324007bc696f619e4c9229d958f4ab89f"
+  },
+  "buildReceipts": {
+    "/private/tmp/k7658-private-sync-identity-v2/build.json": "12f47cbabbcca476c50acf3e830359d2039a46db9d0d18a6a2ede786230e0e84",
+    "/private/tmp/k7658-icarus-sync-observer-v4/build.json": "d24e0abbe1d380c6daf6f52b9ff0abb8d6f026e48ff1fcf32df13adb68280c54"
+  },
+  "sourceExcerpts": {
+    "next_advance_cb": {
+      "path": "build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c",
+      "sourceSha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+      "excerpt": "static PLI_INT32 next_advance_cb(struct t_cb_data *cb)\n{\n    struct ng_vvp *ctx = (struct ng_vvp *)cb->user_data;\n    struct t_vpi_value val;\n    double             vl_time;\n    uint64_t           ticks;\n    unsigned int       i;\n\n    for (;;) {\n        /* Still wanted? */\n\n        if (ctx->stop) {\n            vpi_control(vpiFinish, 0); // Returns after scheduling $finish.\n            return 0;\n        }\n\n        /* Save base time for next slice. */\n\n        ctx->base_time = ctx->cosim_context->vtime;\n\n        /* Repeatedly wait for instructions from the main thread\n         * until VVP can advance at least one time unit.\n         */\n\n        cr_yield_to_spice(&ctx->cr_ctx);\n\n        /* Check for input. */\n\n        val.format = vpiVectorVal;\n        i = ctx->ins ? 0 : ctx->outs;\n        while (ctx->in_pending) {\n            if (ctx->ports[i].flags & IN_PENDING) {\n                ctx->ports[i].flags ^= IN_PENDING;\n                val.value.vector =\n                    (struct t_vpi_vecval *)&ctx->ports[i].previous;\n                vpi_put_value(ctx->ports[i].handle, &val, NULL, vpiNoDelay);\n                ctx->in_pending--;\n                DBG(\"VPI input %d/%d on %s\\n\",\n                    val.value.vector->aval, val.value.vector->bval,\n                    vpi_get_str(vpiName, ctx->ports[i].handle));\n            } else if (++i == ctx->ins) {\n                i = ctx->ins + ctx->outs;      // Now scan inouts\n            }\n        }\n\n        /* How many VVP ticks to advance? */\n\n        vl_time = get_time(ctx);\n        if(ctx->cosim_context->vtime>0.0 && ctx->cosim_context->vtime<0.001160000001) fprintf(stderr,\"TIME_AUDIT advance target=%.17g actual=%.17g base=%.17g tick=%.17g pending=%u\\n\",ctx->cosim_context->vtime,vl_time,ctx->base_time,ctx->tick_length,ctx->out_pending);\n        if (ctx->cosim_context->vtime < vl_time) {\n            /* This can occur legitimately as the two times need not\n             * align exactly.  But it should be less than one SPICE timestep.\n             */\n\n            DBG(\"VVP time %.16g ahead of SPICE target %.16g\\n\",\n                    vl_time, ctx->cosim_context->vtime);\n            if (ctx->cosim_context->vtime + ctx->tick_length < vl_time) {\n                fprintf(stderr,\n                        \"Error: time reversal (%.10g->%.10g) in \"\n                        \"Icarus Shim VPI!\\n\",\n                        vl_time, ctx->cosim_context->vtime);\n            }\n            continue;\n        }\n\n        ticks = (uint64_t)\n            ((ctx->cosim_context->vtime - vl_time)  / ctx->tick_length);\n        if (ticks > 0) {\n            DBG(\"Advancing from %g to %g: %lu ticks\\n\",\n                vl_time, ctx->cosim_context->vtime, ticks);\n            ctx->stop_cb = set_stop(ticks, ctx);\n            return 0;\n        }\n    }\n}\n\n"
+    },
+    "start_cb": {
+      "path": "build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c",
+      "sourceSha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+      "excerpt": "static PLI_INT32 start_cb(struct t_cb_data *cb)\n{\n    struct ng_vvp *ctx = (struct ng_vvp *)cb->user_data;\n    vpiHandle      iter, top, item;\n    PLI_INT32      direction;\n    char          *name;\n    int            ii, oi, ioi;\n\n    DBG(\"Unit %d precision %d\\n\",\n        vpi_get(vpiTimeUnit, NULL),  vpi_get(vpiTimePrecision, NULL));\n    ctx->tick_length = pow(10.0, vpi_get(vpiTimeUnit, NULL));\n\n    /* Find the (unique?) top-level module and the one inside it. */\n\n    iter = vpi_iterate(vpiModule, NULL);\n    top = vpi_scan(iter);\n    vpi_free_object(iter);\n    DBG(\"Top %s\\n\", vpi_get_str(vpiName, top));\n\n    /* Count the ports. */\n\n    iter = vpi_iterate(vpiPort, top);\n    if (!iter)\n        vpi_printf(\"Top module has no ports!\\n\"); // vpi_scan() aborts.\n    ctx->ins = ctx->outs = ctx->inouts = 0;\n    while ((item = vpi_scan(iter))) {\n        direction = vpi_get(vpiDirection, item);\n        switch (direction) {\n        case vpiInput:\n            ++ctx->ins;\n            break;\n        case vpiOutput:\n            ++ctx->outs;\n            break;\n        case vpiInout:\n            ++ctx->inouts;\n            break;\n        default:\n            break;\n        }\n    }\n    ctx->ports = (struct ngvp_port *)malloc(\n                     (ctx->ins + ctx->outs + ctx->inouts) *\n                     sizeof (struct ngvp_port));\n    if (!ctx->ports) {\n        vpi_printf(\"No memory for ports at \" __FILE__ \":%d\\n\", __LINE__);\n        abort();\n    }\n\n    /* Get the ports. */\n\n    iter = vpi_iterate(vpiPort, top);\n    ii = oi = ioi = 0;\n    while ((item = vpi_scan(iter))) {\n        vpiHandle         namesake;\n        struct ngvp_port *pp;\n        int               first;\n\n        direction = vpi_get(vpiDirection, item);\n        name = vpi_get_str(vpiName, item);\n\n        /* Assume that there is an object with the same name as the port\n         * whose value may be read or set as needed.  This is an assumption\n         * about how code for VVP is generated.\n         */\n\n        namesake = vpi_handle_by_name(name, top);\n        DBG(\"Port %s direction %d size %d, namesake type %d\\n\",\n            name, direction, vpi_get(vpiSize, item),\n            vpi_get(vpiType, namesake));\n\n        switch (direction) {\n        case vpiInput:\n            first = !ii;\n            pp = ctx->ports + ii++;\n            init(namesake);\n            break;\n        case vpiOutput:\n            first = !oi;\n            pp = ctx->ports + ctx->ins + oi++;\n            watch(namesake, pp);\n            break;\n        case vpiInout:\n            first = !ioi;\n            init(namesake);\n            pp = ctx->ports + ctx->ins + ctx->outs + ioi++;\n            watch(namesake, pp);\n            break;\n        default:\n            continue;\n        }\n        pp->bits = (uint16_t)vpi_get(vpiSize, item);\n        pp->flags = 0;\n        pp->position = first ? 0 : pp[-1].position + pp[-1].bits;\n        pp->previous.aval = pp->previous.bval = 0;\n        pp->handle = namesake;\n        pp->ctx = ctx;\n    }\n\n    /* Constant-folded outputs may never emit cbValueChange. Seed the\n     * outgoing snapshot from VPI before the first simulation advance. */\n    for (int i = ctx->ins; i < ctx->ins + ctx->outs + ctx->inouts; ++i) {\n        struct ngvp_port *pp = ctx->ports + i;\n        struct t_vpi_value value = { .format = vpiVectorVal };\n        vpi_get_value(pp->handle, &value);\n        pp->new.aval = value.value.vector->aval;\n        pp->new.bval = value.value.vector->bval;\n        pp->flags |= OUT_PENDING;\n        ++ctx->out_pending;\n    }\n\n    /* Make a direct call to the \"end-of-advance\" callback to start running. */\n\n    cr_init(&ctx->cr_ctx);\n    cb->user_data = (PLI_BYTE8 *)ctx;\n    next_advance_cb(cb);\n    return 0;\n}\n\n"
+    },
+    "output_cb": {
+      "path": "build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c",
+      "sourceSha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+      "excerpt": "static PLI_INT32 output_cb(struct t_cb_data *cb)\n{\n    struct ngvp_port *pp = (struct ngvp_port *)cb->user_data;\n    struct ng_vvp    *ctx = pp->ctx;\n\n    DBG(\"Output: %s is %d now %g (VL) %g (SPICE)\\n\",\n        vpi_get_str(vpiName, cb->obj),\n        cb->value->value.vector->aval,\n        get_time(ctx), ctx->cosim_context->vtime);\n\n    if(get_time(ctx)>0.0 && get_time(ctx)<0.001160000001) fprintf(stderr,\"TIME_AUDIT output actual=%.17g target=%.17g base=%.17g port=%s\\n\",get_time(ctx),ctx->cosim_context->vtime,ctx->base_time,vpi_get_str(vpiName,cb->obj));\n    if (ctx->stop_cb) {\n        /* First call in the current VVP cycle: cancel the current\n         * stop CB and request a new one before the next VVP time point.\n         * That allows all output events in the current timestep\n         * to be gathered before stopping.\n         */\n\n        vpi_remove_cb(ctx->stop_cb);\n        ctx->stop_cb = NULL;\n        set_stop(0, ctx);\n\n        /* Set the output time in SPICE format.\n         * It must not be earlier than entry time.\n         */\n\n        ctx->cosim_context->vtime = get_time(ctx);\n        if (ctx->cosim_context->vtime < ctx->base_time)\n            ctx->cosim_context->vtime = ctx->base_time;\n    }\n\n    /* Record the value. */\n\n    pp->new.aval = cb->value->value.vector->aval;\n    pp->new.bval = cb->value->value.vector->bval;\n    if (!(pp->flags & OUT_PENDING)) {\n        pp->flags |= OUT_PENDING;\n        ++ctx->out_pending;\n    }\n    return 0;\n}\n\n/* Utilty functions for start_cb() - initialise or set watch on a variable.*/\n\nstatic void init(vpiHandle handle)\n{\n    static struct t_vpi_value val = { .format = vpiIntVal };\n\n    DBG(\"Initialising %s to 0\\n\", vpi_get_str(vpiName, handle));\n\n    vpi_put_value(handle, &val, NULL, vpiNoDelay);\n}\n\nstatic void watch(vpiHandle handle, void *pp)\n{\n    static struct t_vpi_time  time = { .type = vpiSuppressTime };\n    static struct t_vpi_value val = { .format = vpiVectorVal };\n    static struct t_cb_data   cb = {\n        .reason = cbValueChange, .cb_rtn = output_cb,\n        .time = &time, .value = &val\n    };\n\n    cb.obj = handle;\n    cb.user_data = pp;\n    vpi_register_cb(&cb);\n}\n\n"
+    },
+    "pthread_yield": {
+      "path": "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/coroutine_cosim.h",
+      "sourceSha256": "78de72acfb12c09155f46b53821d8ecab2b596423ce93c995384dd971550716e",
+      "excerpt": "/* On a Unix-like OS pthreads are used to give libvvp its own stack. */\n\nstatic void cr_yield_to_spice(struct cr_ctx *ctx) {\n    pthread_cond_signal(&ctx->spice_cond);\n    pthread_cond_wait(&ctx->cosim_cond, &ctx->mutex);\n}\n\nstatic void cr_init(struct cr_ctx *ctx) {\n    pthread_mutex_lock(&ctx->mutex);\n}"
+    },
+    "bridge_context": {
+      "path": "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.h",
+      "sourceSha256": "cb3a43a781157f1477b9ba4ed5ca6669c60b76e3f1c6d9674153f703b6395912",
+      "excerpt": "struct ng_vvp {\n    struct cr_ctx       cr_ctx;         // Coroutine context.\n    int                 stop;           // Indicates simulation is over.\n    struct co_info     *cosim_context;\n    uint32_t            ins;            // Port counts by type.\n    uint32_t            outs;\n    uint32_t            inouts;\n    double              base_time;      // SPICE time on entry.\n    double              tick_length;    // VVP's time unit.\n    struct __vpiHandle *stop_cb;        // Handle to end-of-tick callback.\n    volatile uint32_t   in_pending;     // Counts of changed ports.\n    volatile uint32_t   out_pending;\n    struct ngvp_port   *ports;          // Port information array.\n    void               *vvp_handle;     // dlopen() handle for libvvp.\n};\n\n"
+    },
+    "generic_event": {
+      "path": "/private/tmp/k7658-icarus-sync-observer-v4/vvp/schedule.cc",
+      "sourceSha256": "2f8e2303272f97ae7e66d8480dbcd50ae16870565ecc4422d4e3aa6f480381e5",
+      "excerpt": "struct generic_event_s : public event_s {\n      vvp_gen_event_t obj;\n      bool delete_obj_when_done;\n      void run_run(void) override;\n      void single_step_display(void) override;\n\n      static void* operator new(size_t);\n      static void operator delete(void*);\n};\n\nvoid generic_event_s::run_run(void)\n{\n      count_gen_events += 1;\n      if (obj) {\n\t    obj->run_run();\n\t    if (delete_obj_when_done)\n\t\t  delete obj;\n      }\n}\n\n"
+    },
+    "sync_execution": {
+      "path": "/private/tmp/k7658-icarus-sync-observer-v4/vvp/vpi_callback.cc",
+      "sourceSha256": "ca529907c81010162a6b0ad67bf95e4303cbd54b847c69cf04f141766e982ff5",
+      "excerpt": "void sync_cb::run_run()\n{\n      if (handle == 0)\n\t    return;\n\n      sync_callback*cur = handle;\n\n\t/* Run the callback. If the cb_rtn function pointer is set to\n\t   null, then just skip the whole thing and free it. This is\n\t   the usual way to cancel one-time callbacks of this sort. */\n      if (cur->cb_data.cb_rtn != 0) {\n\t    set_callback_time(&cur->cb_data);\n\t    assert(vpi_mode_flag == VPI_MODE_NONE);\n\t    vpi_mode_flag = sync_flag? VPI_MODE_ROSYNC : VPI_MODE_RWSYNC;\n\t    sync_callback* previous = robotron_sync_executing;\n            robotron_sync_executing = cur;\n            (cur->cb_data.cb_rtn)(&cur->cb_data);\n            robotron_sync_executing = previous;\n\t    vpi_mode_flag = VPI_MODE_NONE;\n      }\n\n      delete cur;\n}\n\n"
+    }
+  },
+  "entryConditions": [
+    "One Icarus instance using the reviewed pthread coroutine backend.",
+    "Observation occurs while SPICE owns the same mutex used by the HDL condition wait.",
+    "Pinned source/build lineage remains unchanged; foreign callbacks and asynchronous writes are outside the argument."
+  ],
+  "continuationArgument": [
+    "cb is read to obtain ctx before entering the loop and is not read after the yield. Its stale local value need not be copied to compare this continuation.",
+    "val.format and the input-loop index i are assigned before their next use. val.value.vector is assigned on every path that passes val to vpi_put_value.",
+    "vl_time is assigned by get_time before comparison or logging, and ticks is assigned before its conditional and set_stop call. Previous values of these scalar locals cannot influence the reviewed resumed path.",
+    "ctx survives the yield and is subsequently dereferenced. Its identity and relevant referents therefore remain part of the state contract.",
+    "The initial start_cb directly calls next_advance_cb and only returns zero afterward. Its initialization locals are not read after that call returns; this does not inventory the outer startup callback object.",
+    "The pthread condition wait cannot return to user callback code until the HDL thread reacquires the shared mutex. This establishes a paused observation boundary, not restoration after HDL advancement.",
+    "After the stop callback returns, sync_cb::run_run uses cur for deletion and resets observer/execution bookkeeping. generic_event_s::run_run subsequently reads delete_obj_when_done and may delete obj. These surrounding objects are live continuation state even though they are absent from pending queue topology."
+  ],
+  "remainingStateContract": [
+    {
+      "root": "ng_vvp context and ports",
+      "existingEvidence": "reports/live-cosim-state/model/live_state_audit.h serializes bridge timing, pending counts, stop flag and port values; callback headers compare user-data identity.",
+      "missing": "Integrate referent observation with the same callback boundary controls; establish port handle/back-reference identity and the live stop_cb relationship, rather than only its non-null flag."
+    },
+    {
+      "root": "sync_callback / sync_cb",
+      "existingEvidence": "Live callback header observer records lifetime IDs, active/canceled state, synchronization mode, time and structural back-references.",
+      "missing": "Match executing wrapper identity and continuation roots; identity-handoff board controls remain required."
+    },
+    {
+      "root": "executing generic event and scheduler frame",
+      "existingEvidence": "Source identifies obj and delete_obj_when_done as reads after callback return.",
+      "missing": "Observe executing event identity and deletion flag, link obj to the live callback, and account for the scheduler continuation separately from pending queues."
+    },
+    {
+      "root": "OS synchronization and storage lifecycle",
+      "existingEvidence": "The pinned pthread mutex defines observation ownership.",
+      "missing": "No thread-stack serialization, mutex snapshot/restore or freed-storage equivalence is established."
+    }
+  ],
+  "conclusion": "Do not add opaque stack-byte comparisons for overwritten next_advance_cb temporaries. Preserve and test its surviving context root and surrounding callback/event state instead.",
+  "notEstablished": [
+    "General rejected-trial rollback, startup/recovery qualification or all callback families.",
+    "Dynamic equivalence of unobserved referents, handle lifetimes, scheduler frames or freed storage.",
+    "A compiler-independent formal dataflow proof or correctness of the physical board model."
+  ]
+}

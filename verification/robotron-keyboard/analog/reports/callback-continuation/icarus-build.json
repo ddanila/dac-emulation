@@ -1,0 +1,61 @@
+{
+  "qualified": false,
+  "commit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "upstreamSchedulerSha256": "06a3f5ffa3aa411e5c07473c206a86783a8a18fdea2f666f256efd38bebb23d8",
+  "sourceUrl": "https://codeload.github.com/steveicarus/iverilog/tar.gz/dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "sources": {
+    "build_private_sync_observer.py": "a3e2a59e74a74e7ca7a43325faa8d2602e2f3cd78c4d4dca4788ec02e6ac9241",
+    "engine-patches/icarus-queue-observer.patch": "37dde672e6c8b0645153da87a5c5a8d0d167aa0225a66c8488bda7fccb9e6eb6",
+    "engine-patches/icarus-sync-observer.patch": "e8056d699a3f27405ed3e7da613154b55530d6e794d6412765caa76cfc1bc085"
+  },
+  "commands": [
+    [
+      "tar",
+      "-xzf",
+      "/private/tmp/k7658-icarus-pinned.tar.gz",
+      "--strip-components=1"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-queue-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-observer.patch"
+    ],
+    [
+      "sh",
+      "autoconf.sh"
+    ],
+    [
+      "./configure",
+      "--enable-libvvp",
+      "--prefix=/private/tmp/k7658-icarus-sync-observer-v4/install",
+      "YACC=/opt/homebrew/Cellar/bison/3.8.2/bin/bison"
+    ],
+    [
+      "make",
+      "version_tag.h",
+      "version.exe"
+    ],
+    [
+      "make",
+      "-C",
+      "vvp",
+      "-j2"
+    ]
+  ],
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "outputs": {
+    "vvp/libvvp.so": "b9b1889677d891a3a40405cfb1c976a76c4309032c52de145f11d2b21d38a664",
+    "vvp/vvp": "13d09b13cee68c677d1e909dbeb85189003151a897c44eaccc2fc3c12fbf51cd",
+    "vvp/schedule.cc": "2f8e2303272f97ae7e66d8480dbcd50ae16870565ecc4422d4e3aa6f480381e5",
+    "vvp/vpi_callback.cc": "ca529907c81010162a6b0ad67bf95e4303cbd54b847c69cf04f141766e982ff5"
+  },
+  "scope": "Live synchronization callback header fields, lifetime IDs and executing callback identity. Registry bookkeeping runs in all candidate modes. Arbitrary referents, executing stack, freed storage and general rollback remain unqualified."
+}
