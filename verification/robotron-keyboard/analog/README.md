@@ -789,3 +789,11 @@ port baseline using that pair and the value-callback runtime;
 and observed waveform/firmware agreement, stable per-port callback lifetimes and
 restored user-data, signal, function and list-link faults. Other callback families,
 longer windows and general rollback remain open.
+
+The [startup continuation contract](reports/startup-callback/source-contract.json)
+identifies a separate observer requirement: `start_cb` yields through a direct
+`next_advance_cb` call while its simulator callback is already removed from the
+pending startup list but not yet destroyed. Track that active lifetime separately
+from timed wrappers, validate the registered startup function/context, and avoid
+reading unspecified suppressed-time words. Empty timed-wrapper inventories do
+not prove startup state coverage.
