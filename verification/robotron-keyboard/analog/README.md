@@ -342,6 +342,13 @@ The review requires exact disabled-baseline waveforms, compares every saved node
 on the absolute-time grids, and reports exact firmware-record agreement. Fix
 impact and forced-retry differences remain separate from timestep convergence.
 
+For longer internal-state controls, use `postreset_state_capture.py` with the
+circuit-output observer build and a fresh output directory for each mode. It
+streams lossless compressed logs with explicit byte/time budgets and a free-space
+reserve. The [immediate fault control](reports/postreset-state-immediate/assessment.json)
+validates this capture path; the long positive and delayed controls still require
+complete state, firmware and waveform review.
+
 ### Scheduling and state controls
 
 Apply `ngspice-47-rollback-audit.patch` for accepted/rejected-step and dispatch
