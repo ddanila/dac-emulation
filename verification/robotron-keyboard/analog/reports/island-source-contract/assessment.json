@@ -1,0 +1,74 @@
+{
+  "qualified": false,
+  "scope": "Pinned source contract for transmission-gate observer implementation; no runtime island-state coverage claimed.",
+  "icarusRevision": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "board": {
+    "compiledSha256": "78ada4d6ad77e11403c586e945249a80a3c6010ce4a3057167ca9143a32cc56a",
+    "records": [
+      "I0xb0acfc9a0 .island tran;",
+      "p0xb0b45b350 .port I0xb0acfc9a0, RS_0xb0b45b350;",
+      "I0xb0acfc940 .island tran;",
+      "p0xb0b45b3b0 .port I0xb0acfc940, L_0xb0ac899d0;",
+      "p0xb0b45b290 .import I0xb0acfc9a0, L_0xb0b4780a0;",
+      "p0xb0b45b2c0 .import I0xb0acfc940, L_0xb0b4780e8;",
+      "p0xb0b45b380 .port I0xb0acfc9a0, L_0xb0ac896c0;",
+      "p0xb0b45b3e0 .port I0xb0acfc940, L_0xb0ac89340;",
+      ".tranif1 I0xb0acfc9a0, p0xb0b45b380 p0xb0b45b350, p0xb0b45b290;",
+      ".tranif1 I0xb0acfc940, p0xb0b45b3e0 p0xb0b45b3b0, p0xb0b45b2c0;"
+    ]
+  },
+  "evidence": {
+    "scheduling": {
+      "file": "vvp_island.cc",
+      "sha256": "fe48ecc2f1162e3c581f3eed7ca8ff31ee8b8b58732d168e4d62406927999a7a",
+      "firstLine": 54,
+      "excerpt": "vvp_island::vvp_island()\n{\n      flagged_ = false;\n      branches_ = 0;\n      ports_ = 0;\n      anodes_ = 0;\n      bnodes_ = 0;\n}\n\nvvp_island::~vvp_island()\n{\n\t// We can only delete islands at the end of simulation.\n#ifdef CHECK_WITH_VALGRIND\n      if (!at_EOS) assert(0);\n#endif\n\n      while (branches_) {\n\t    vvp_island_branch *next_br = branches_->next_branch;\n\t    delete branches_;\n\t    branches_ = next_br;\n      }\n}\n\nvoid vvp_island::flag_island()\n{\n      if (flagged_ == true)\n\t    return;\n\n      schedule_generic(this, 0, false, false);\n      flagged_ = true;\n}\n\n/*\n* This method handles the callback from the scheduler. It does basic\n* housecleaning and calls the run_island() method implemented by the\n* derived class.\n*/\nvoid vvp_island::run_run()\n{\n      flagged_ = false;\n      run_island();\n}\n\n\n"
+    },
+    "meshConstruction": {
+      "file": "vvp_island.cc",
+      "sha256": "fe48ecc2f1162e3c581f3eed7ca8ff31ee8b8b58732d168e4d62406927999a7a",
+      "firstLine": 109,
+      "excerpt": "void vvp_island::add_branch(vvp_island_branch*branch, const char*pa, const char*pb)\n{\n      vvp_island_branch*cur;\n      assert(ports_);\n      branch->a = ports_->sym_get_value(pa);\n      branch->b = ports_->sym_get_value(pb);\n      assert(branch->a && branch->b);\n\n      vvp_branch_ptr_t ptra (branch, 0);\n      vvp_branch_ptr_t ptrb (branch, 1);\n      if (anodes_ == 0)\n\t    anodes_ = new symbol_map_s<vvp_island_branch>;\n      if (bnodes_ == 0)\n\t    bnodes_ = new symbol_map_s<vvp_island_branch>;\n\n      if ((cur = anodes_->sym_get_value(pa))) {\n\t    branch->link[0] = cur->link[0];\n\t    cur->link[0] = ptra;\n      } else if ((cur = bnodes_->sym_get_value(pa))) {\n\t    branch->link[0] = cur->link[1];\n\t    cur->link[1] = ptra;\n      } else {\n\t    branch->link[0] = ptra;\n\t    anodes_->sym_set_value(pa, branch);\n      }\n\n      if ((cur = anodes_->sym_get_value(pb))) {\n\t    branch->link[1] = cur->link[0];\n\t    cur->link[0] = ptrb;\n      } else if ((cur = bnodes_->sym_get_value(pb))) {\n\t    branch->link[1] = cur->link[1];\n\t    cur->link[1] = ptrb;\n      } else {\n\t    branch->link[1] = ptrb;\n\t    bnodes_->sym_set_value(pb, branch);\n      }\n\n      branch->next_branch = branches_;\n      branches_ = branch;\n}\n\n"
+    },
+    "cleanupAndInputs": {
+      "file": "vvp_island.cc",
+      "sha256": "fe48ecc2f1162e3c581f3eed7ca8ff31ee8b8b58732d168e4d62406927999a7a",
+      "firstLine": 158,
+      "excerpt": "void vvp_island::compile_cleanup()\n{\n      delete ports_;\n      ports_ = 0;\n\n      delete anodes_;\n      anodes_ = 0;\n\n      delete bnodes_;\n      bnodes_ = 0;\n}\n\nvvp_island_port::vvp_island_port(vvp_island*ip)\n: island_(ip)\n{\n}\n\nvvp_island_port::~vvp_island_port()\n{\n}\n\nvoid vvp_island_port::recv_vec4(vvp_net_ptr_t, const vvp_vector4_t&bit,\n                                vvp_context_t)\n{\n      vvp_vector8_t tmp (bit, 6, 6);\n      if (invalue .eeq(tmp))\n\t    return;\n\n      invalue = tmp;\n      island_->flag_island();\n}\n\nvoid vvp_island_port::recv_vec4_pv(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n\t\t\t\t   unsigned base, unsigned vwid, vvp_context_t)\n{\n      vvp_vector8_t tmp(bit, 6, 6);\n      recv_vec8_pv(port, tmp, base, vwid);\n}\n\n\nvoid vvp_island_port::recv_vec8(vvp_net_ptr_t, const vvp_vector8_t&bit)\n{\n      if (invalue .eeq(bit))\n\t    return;\n\n      invalue = bit;\n      island_->flag_island();\n}\n\nvoid vvp_island_port::recv_vec8_pv(vvp_net_ptr_t, const vvp_vector8_t&bit,\n                                   unsigned base, unsigned vwid)\n{\n      if (invalue.size() == 0) {\n\t    invalue = part_expand(bit, vwid, base);\n      } else {\n\t    unsigned wid = bit.size();\n\t    assert(invalue.size() == vwid);\n\t    for (unsigned idx = 0; idx < wid ; idx += 1) {\n\t\t  if ((base+idx) >= vwid)\n\t\t\tbreak;\n\t\t  invalue.set_bit(base+idx, bit.value(idx));\n\t    }\n      }\n\n      island_->flag_island();\n}\n\nvoid vvp_island_port::force_flag(bool run_now)\n{\n      if (run_now)\n\t    island_->run_island();\n      else\n\t    island_->flag_island();\n}\n\n"
+    },
+    "branchInitialization": {
+      "file": "island_tran.cc",
+      "sha256": "36c2dd9348e0a713d03add663ee34477cff52ccfafe845396b1912af64dae271",
+      "firstLine": 60,
+      "excerpt": "vvp_island_branch_tran::vvp_island_branch_tran(vvp_net_t*en__,\n                                               bool active_high__,\n                                               unsigned width__,\n                                               unsigned part__,\n                                               unsigned offset__,\n                                               bool resistive__)\n: en(en__), width(width__), part(part__), offset(offset__),\n  active_high(active_high__), resistive(resistive__)\n{\n      state = en__ ? tran_disabled : tran_enabled;\n}\n\n"
+    },
+    "enableResolution": {
+      "file": "island_tran.cc",
+      "sha256": "36c2dd9348e0a713d03add663ee34477cff52ccfafe845396b1912af64dae271",
+      "firstLine": 197,
+      "excerpt": "void vvp_island_branch_tran::run_test_enabled()\n{\n      vvp_island_port*ep = en? dynamic_cast<vvp_island_port*> (en->fun) : NULL;\n\n\t// If there is no ep port (no \"enabled\" input) then this is a\n\t// tran branch. Assume it is always enabled.\n      if (ep == 0) {\n\t    state = tran_enabled;\n\t    return;\n      }\n\n\t// Get the input that is driving this enable.\n\t// SPECIAL NOTE: Try to get the input value from the\n\t// *outvalue* of the port. If the enable is connected to a\n\t// .port (instead of a .import) then there may be feedback\n\t// going on, and we need to be looking at the resolved input,\n\t// not the event input. For example:\n\t//\n\t//   tranif1 (pin, X, pin);\n\t//\n\t// In this case, when we test the value for \"pin\", we need to\n\t// look at the value that is resolved from this\n\t// island. Reading the outvalue will do the trick.\n\t//\n\t// If the outvalue is nil, then we know that this port is a\n\t// .import after all, so just read the invalue.\n      vvp_bit4_t enable_val;\n      if (ep->outvalue.size() != 0)\n\t    enable_val = ep->outvalue.value(0).value();\n      else if (ep->invalue.size() == 0)\n\t    enable_val = BIT4_Z;\n      else\n\t    enable_val = ep->invalue.value(0).value();\n\n      switch (enable_val) {\n\t  case BIT4_0:\n\t    state = active_high ? tran_disabled : tran_enabled;\n\t    break;\n\t  case BIT4_1:\n\t    state = active_high ? tran_enabled : tran_disabled;\n\t    break;\n\t  default:\n\t    state = tran_unknown;\n\t    break;\n      }\n}\n\n"
+    },
+    "outputClearing": {
+      "file": "island_tran.cc",
+      "sha256": "36c2dd9348e0a713d03add663ee34477cff52ccfafe845396b1912af64dae271",
+      "firstLine": 419,
+      "excerpt": "void vvp_island_branch_tran::run_output()\n{\n      vvp_island_port*port;\n\n\t// If the A side port hasn't already been updated, send the\n        // resolved value to the output.\n      port = dynamic_cast<vvp_island_port*>(a->fun);\n      if (port->value.size() != 0) {\n\t    island_send_value(a, port->value);\n\t    port->value = vvp_vector8_t::nil;\n      }\n\n\t// Do the same for the B side port.\n      port = dynamic_cast<vvp_island_port*>(b->fun);\n      if (port->value.size() != 0) {\n\t    island_send_value(b, port->value);\n\t    port->value = vvp_vector8_t::nil;\n      }\n}\n\n"
+    },
+    "filterReferent": {
+      "file": "vvp_island.h",
+      "sha256": "f9034cedbff9dabfeb738eabd78f57d89849a0e8bdc3dd12a6d22df8b50db30f",
+      "firstLine": 166,
+      "excerpt": "inline vvp_vector8_t island_get_value(vvp_net_t*net)\n{\n      const vvp_island_port*fun = dynamic_cast<vvp_island_port*>(net->fun);\n      const vvp_wire_vec8*fil = dynamic_cast<vvp_wire_vec8*>(net->fil);\n\n      if (fil == 0) {\n\t    return fun->invalue;\n      } else {\n\t      // This is painful, but necessary. If the island is\n\t      // connected to a forced net, then run the input through\n\t      // the force filter first. The island must used the\n\t      // forced value for its deliberations.\n\t    vvp_vector8_t rep;\n\t    switch (fil->filter_input_vec8(fun->invalue, rep)) {\n\t\tdefault:\n\t\tcase vvp_net_fil_t::PROP:\n\t\t  return fun->invalue;\n\t\tcase vvp_net_fil_t::REPL:\n\t\t  return rep;\n\t    }\n      }\n}\n\n"
+    }
+  },
+  "requirements": [
+    "Register the private generic-event base key inside the owning island class; do not guess base offsets. Register identities without reading partially initialized derived or branch fields.",
+    "Observe all live islands, including unqueued ones: input/output caches and branch enable state persist after the queued wrapper is consumed.",
+    "Retain a registry of linked ports before compile_cleanup deletes symbol maps. Include enable-only import ports, not just the two branch endpoints.",
+    "Serialize flagged_, branch list/mesh endpoints, enable port, polarity, resistance and slice metadata plus initialized state. Validate links against registered objects before following them.",
+    "Serialize invalue, outvalue and value through logical vector8 accessors including both strengths. Empty scratch vectors are meaningful and must not be read as elements.",
+    "Keep wire/filter force state as an explicit remaining referent until observed. island_get_value can substitute forced values, so input caches alone are insufficient.",
+    "Test coalesced inputs, disabled/enabled/unknown enables, conflicting drivers, strengths and consumption/requeue, with original/disabled/observed/restored full-output controls.",
+    "Restore real cache, strength, flag, enable-state and mesh mutations before scheduler continuation; require unchanged unrelated state and exact restored snapshots."
+  ]
+}

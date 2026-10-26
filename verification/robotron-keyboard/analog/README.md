@@ -825,8 +825,8 @@ ORIGINAL_LIBVVP --modules VPI_DIRECTORY --out FRESH_DIRECTORY` for the
 They preserve every fixture output transition under restored value, destination
 port, slice-width and strength faults. The [source contract](reports/assignment-payload/source-contract.json)
 limits reads to initialized logical vector contents and meaningful slice fields;
-destination pointers remain opaque. Board integration, target referents, threads
-and primitive-event payloads remain separate requirements.
+destination pointers remain opaque. Target referents and other event families
+require their own controls.
 
 For board integration, `build_assignment_bridge.py` takes the pinned bridge/VPI
 arguments above. Run `assignment_board_capture.py` against the reviewed startup
@@ -845,14 +845,17 @@ for the [standalone primitive controls](reports/primitive-payload/assessment.jso
 They check initialized cached vectors, destinations and slice bounds, stable
 primitive identities across requeue, fresh wrapper identities and unchanged output
 transitions under restored faults. The [source contract](reports/primitive-payload/source-contract.json)
-explains initialization and protected-base identity handoff. Board integration,
-transmission-gate mesh/port state, thread state and destination referents remain open.
+explains initialization and protected-base identity handoff. Transmission-gate
+mesh/port state, thread state and destination referents remain open.
 
 The combined primitive observer uses `build_primitive_bridge.py`,
 `primitive_board_capture.py` and `primitive_board_review.py`. Supply a reviewed
 assignment-board capture as the baseline and the runtime built by
 `build_primitive_runtime.py`. The review includes all preceding observer layers,
 allows cached inputs to coalesce while queued, and checks stable primitive
-metadata and wrapper lifetimes. Captures must pass exact waveform and firmware
-comparison plus restored cached-value, destination and slice-base faults before
-this layer counts as board evidence; island and thread state remain separate.
+metadata and wrapper lifetimes. The [retained board controls](reports/primitive-board/assessment.json)
+pass exact waveform and firmware comparison and restored cached-value, destination
+and slice-base faults. Island and thread state remain separate. The
+[island source contract](reports/island-source-contract/assessment.json) identifies
+persistent idle-island state, enable-only ports and force/filter dependencies for
+the next observer; it does not establish runtime coverage.
