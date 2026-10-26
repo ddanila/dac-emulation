@@ -402,6 +402,11 @@ exercise an opt-in initialization from declared output-port values. A partial-ou
 shim exposes dependence on otherwise uninitialized history; the bounded board
 fixture is unchanged under the tested seeds, with or without the initializer.
 Broader startup/scenario qualification remains open; allocation seeds are test controls.
+The [combined-fix controls](reports/startup-fixes/assessment.json) reproduce the
+individual-fix waveforms and firmware exactly, including dirty allocation seeds
+with both fixes enabled. `build_startup_fixes.py` composes the independent opt-ins;
+`startup_fixes_capture.py` and `startup_fixes_review.py` retain and check this bounded
+interaction test. It does not extend the qualified scenario window.
 Firmware and state streams are compared separately because merged stdout/stderr
 buffering changes their interleaving. Full replay uses `live_cosim_state_review.py
 --root reports/live-cosim-state`; CI checks the retained manifest and parser controls
