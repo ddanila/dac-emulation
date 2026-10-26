@@ -1,0 +1,30 @@
+{
+  "source": {
+    "url": "https://tonpa.guru/stream/2022/intel/XT/8282.pdf",
+    "sha256": "ad4e4fcce5039f71b8ac06565198e6358a83cb67e84eb2027d90070010ab4006",
+    "title": "NEC microPD8282/83",
+    "page": "PDF page 3, printed 8-119"
+  },
+  "scope": "Comparison manufacturer only; do not transfer these thresholds or timing limits to Intel I8282 or the specimen.",
+  "enable": {
+    "minimumSeconds": 1e-08,
+    "maximumSeconds": 3e-08,
+    "highMeasurementVolts": 1.6,
+    "lowMeasurementVolts": 1.4
+  },
+  "conditions": {
+    "temperatureCelsius": [
+      0,
+      70
+    ],
+    "supplyRangeVolts": [
+      4.5,
+      5.5
+    ],
+    "externalCapacitanceFarads": 3e-10,
+    "biasVolts": 1.5,
+    "highLoadOhms": 180,
+    "lowLoadOhms": 33
+  },
+  "interpretation": "NEC explicitly labels enable departures from the 1.5-V released bias. Intel AFN-01413B explicitly labels disable departures but not corresponding enable thresholds. Resolve the Intel measurement convention before applying an electrical enable acceptance test; do not assume a transition to final VOH minus 0.1 V or VOL plus 0.1 V."
+}
