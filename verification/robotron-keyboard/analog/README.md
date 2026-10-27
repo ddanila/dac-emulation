@@ -1007,3 +1007,9 @@ and `scope_board_review.py --root NEW_DIR --producer scope_board_capture.py --ou
 The reviewer retains preceding state checks and requires exact waveform/firmware
 agreement plus restored membership faults at startup and after 5 us. Native
 fixtures alone do not establish this board acceptance.
+
+The [instruction operand schema](reports/code-operand-contract/assessment.json)
+derives initialized fields from the pinned compiler, including VPI-call handles
+and allocator-generated instructions. It does not establish operand stability or
+referenced-object coverage. Regenerate with
+`code_operand_contract.py --archive PINNED_ARCHIVE --vvp COMPILED_BOARD --out REPORT`.
