@@ -1692,3 +1692,20 @@ fixture; other internal payload bindings, lifecycle qualification and operationa
 board integration/cost remain open. Build with
 `build_scope_metadata_bindings_runtime.py`; reproduce with
 `scope_metadata_bindings.py` using the retained receipt paths.
+
+The [initialized board metadata budget](reports/scope-metadata-board-budget/assessment.json)
+checks the real keyboard bridge before its first coroutine advance: 32 scopes,
+1,932 registered internal objects and all 18 admitted bridge signal handles join
+across the native inventories. Repeated complete images remain identical. The
+1,884 remaining object identities comprise 437 nets, 191 registers, 5 integer
+variables, 3 memories, 56 parameters, 317 ports and 875 port bits; their identities
+and types do not establish payload coverage. Metadata/reference images occupy
+40,322/61,663 bytes. Sixty-four scans per API average about 0.426/0.500 ms locally;
+repeating both dense images over the prior 110,312 snapshot calls projects to
+11,250,169,320 logical bytes and about 102.1 seconds of these scans alone. These
+initial-state projections exclude growth, other observers and review, and do not
+qualify transient board coverage. Five tests replay the retained assessment and
+reject changed images, cross-observer address mismatches, truncation and nonfinite
+cost. Build with `build_scope_metadata_board_budget.py`, then run
+`scope_metadata_board_budget.py` against the reviewed `reports/array-board` source
+and the metadata-bindings runtime, using the paths in the retained build receipts.
