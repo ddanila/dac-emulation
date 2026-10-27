@@ -1197,3 +1197,11 @@ waveforms and firmware records remain required. The capture retains the bounded
 log limits and adds a measured wire-scan allowance to its timeout. Native force,
 mask, link and strength controls remain necessary for paths absent from this
 board fixture. Integration is unqualified until capture and retained replay pass.
+
+The [signal ownership contract](reports/signal-source-contract/assessment.json)
+pins static variable storage and procedural assignment semantics. Unfiltered
+signal bits, partial assignment masks and source links are separate from wire
+filter output and force helpers. The report identifies initialized fields and
+required native fault/continuation controls; it does not establish payload
+coverage. Reproduce with `signal_source_contract.py --archive PINNED_ARCHIVE
+--vvp reports/net-types-board/board.vvp --out FRESH_REPORT`.

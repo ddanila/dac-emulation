@@ -1,0 +1,1840 @@
+{
+  "qualified": false,
+  "scope": "Pinned source and compiled static-variable admission; not native payload coverage.",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "compiledSha256": "ee163ba57fce12d3728292218a2c26d37e61fc16c0b8116b766a1ed06a649c35",
+  "compiled": {
+    "signals": [
+      {
+        "label": "v0xb0af56760_0",
+        "name": "bus_sample_value",
+        "scope": "S_0x103149b80",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0af569e0_0",
+        "name": "clock_edges",
+        "scope": "S_0x103149b80",
+        "kind": ".var/i",
+        "msb": 31,
+        "lsb": 0,
+        "width": 32
+      },
+      {
+        "label": "v0xb0af56d00_0",
+        "name": "cycles",
+        "scope": "S_0x103149b80",
+        "kind": ".var/i",
+        "msb": 31,
+        "lsb": 0,
+        "width": 32
+      },
+      {
+        "label": "v0xb0af56f80_0",
+        "name": "fetches",
+        "scope": "S_0x103149b80",
+        "kind": ".var/i",
+        "msb": 31,
+        "lsb": 0,
+        "width": 32
+      },
+      {
+        "label": "v0xb0af575c0_0",
+        "name": "reads",
+        "scope": "S_0x103149b80",
+        "kind": ".var/i",
+        "msb": 31,
+        "lsb": 0,
+        "width": 32
+      },
+      {
+        "label": "v0xb0af57a20_0",
+        "name": "reset_sampled",
+        "scope": "S_0x103149b80",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0af58280_0",
+        "name": "writes",
+        "scope": "S_0x103149b80",
+        "kind": ".var/i",
+        "msb": 31,
+        "lsb": 0,
+        "width": 32
+      },
+      {
+        "label": "v0xb0aef7480_0",
+        "name": "acknowledge",
+        "scope": "S_0x103144eb0",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef7520_0",
+        "name": "acknowledge_clock",
+        "scope": "S_0x103144eb0",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aef7e80_0",
+        "name": "memory_active",
+        "scope": "S_0x103144eb0",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef8000_0",
+        "name": "memory_data",
+        "scope": "S_0x103144eb0",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aef8640_0",
+        "name": "read_fetch",
+        "scope": "S_0x103144eb0",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef8780_0",
+        "name": "refresh_active",
+        "scope": "S_0x103144eb0",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef8d20_0",
+        "name": "write_active",
+        "scope": "S_0x103144eb0",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef4fa0_0",
+        "name": "ended",
+        "scope": "S_0x103145030",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef5720_0",
+        "name": "started",
+        "scope": "S_0x103145030",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef5860_0",
+        "name": "wait_sampled",
+        "scope": "S_0x103145030",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef59a0_0",
+        "name": "write_data",
+        "scope": "S_0x103145030",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aef2620_0",
+        "name": "delayed_read",
+        "scope": "S_0x103148a90",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef2760_0",
+        "name": "di_reg",
+        "scope": "S_0x103148a90",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aef2b20_0",
+        "name": "iorq_n",
+        "scope": "S_0x103148a90",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef2d00_0",
+        "name": "mreq_n",
+        "scope": "S_0x103148a90",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef2ee0_0",
+        "name": "nxt_iorq_n",
+        "scope": "S_0x103148a90",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef2f80_0",
+        "name": "nxt_mreq_n",
+        "scope": "S_0x103148a90",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef3020_0",
+        "name": "nxt_rd_n",
+        "scope": "S_0x103148a90",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef30c0_0",
+        "name": "nxt_wr_n",
+        "scope": "S_0x103148a90",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef3160_0",
+        "name": "rd_n",
+        "scope": "S_0x103148a90",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef3480_0",
+        "name": "wr_n",
+        "scope": "S_0x103148a90",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeab20_0",
+        "name": "A",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeeabc0_0",
+        "name": "ACC",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeead00_0",
+        "name": "ALU_Op_r",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 3,
+        "lsb": 0,
+        "width": 4
+      },
+      {
+        "label": "v0xb0aeeae40_0",
+        "name": "Alternate",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeaee0_0",
+        "name": "Ap",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeeb020_0",
+        "name": "Arith16_r",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeb0c0_0",
+        "name": "Auto_Wait",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeb160_0",
+        "name": "Auto_Wait_t1",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeb200_0",
+        "name": "Auto_Wait_t2",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeb2a0_0",
+        "name": "BTR_r",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeb340_0",
+        "name": "BusA",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeeb3e0_0",
+        "name": "BusAck",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeb480_0",
+        "name": "BusB",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeeb520_0",
+        "name": "BusReq_s",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeb660_0",
+        "name": "ClkEn",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeb700_0",
+        "name": "DI_Reg",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeeba20_0",
+        "name": "F",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeebb60_0",
+        "name": "Fp",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeebca0_0",
+        "name": "Halt_FF",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeebd40_0",
+        "name": "I",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeebde0_0",
+        "name": "ID16",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeebe80_0",
+        "name": "ID16_B",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeec000_0",
+        "name": "INT_s",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeec0a0_0",
+        "name": "IR",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeec140_0",
+        "name": "ISet",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 1,
+        "lsb": 0,
+        "width": 2
+      },
+      {
+        "label": "v0xb0aeec1e0_0",
+        "name": "IStatus",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 1,
+        "lsb": 0,
+        "width": 2
+      },
+      {
+        "label": "v0xb0aeec960_0",
+        "name": "IncDecZ",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeecbe0_0",
+        "name": "IntCycle",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeecc80_0",
+        "name": "IntE",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeecd20_0",
+        "name": "IntE_FF1",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeecdc0_0",
+        "name": "IntE_FF2",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeed220_0",
+        "name": "NMICycle",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeed2c0_0",
+        "name": "NMI_s",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeed360_0",
+        "name": "NextIs_XY_Fetch",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeed400_0",
+        "name": "No_BTR",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeed4a0_0",
+        "name": "Oldnmi_n",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeed540_0",
+        "name": "PC",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeed5e0_0",
+        "name": "PC16",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeed680_0",
+        "name": "PC16_B",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeed720_0",
+        "name": "Pre_XY_F_M",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aeed900_0",
+        "name": "PreserveC_r",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeed9a0_0",
+        "name": "R",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeedb80_0",
+        "name": "Read_To_Reg_r",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 4,
+        "lsb": 0,
+        "width": 5
+      },
+      {
+        "label": "v0xb0aeedc20_0",
+        "name": "RegAddrA",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aeedcc0_0",
+        "name": "RegAddrA_r",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aeedd60_0",
+        "name": "RegAddrB",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aeede00_0",
+        "name": "RegAddrB_r",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aeedea0_0",
+        "name": "RegAddrC",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aeedfe0_0",
+        "name": "RegBusA_r",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeee1c0_0",
+        "name": "RegDIH",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeee260_0",
+        "name": "RegDIL",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeee300_0",
+        "name": "RegWEH",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeee3a0_0",
+        "name": "RegWEL",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeee4e0_0",
+        "name": "SP",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeee580_0",
+        "name": "SP16",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeee620_0",
+        "name": "SP16_A",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeee6c0_0",
+        "name": "SP16_B",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeee800_0",
+        "name": "Save_ALU_r",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeee8a0_0",
+        "name": "Save_Mux",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aeeed00_0",
+        "name": "T_Res",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeeda0_0",
+        "name": "TmpAddr",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 15,
+        "lsb": 0,
+        "width": 16
+      },
+      {
+        "label": "v0xb0aeeee40_0",
+        "name": "XY_Ind",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aeeeee0_0",
+        "name": "XY_State",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 1,
+        "lsb": 0,
+        "width": 2
+      },
+      {
+        "label": "v0xb0aeeef80_0",
+        "name": "Z16_r",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef0780_0",
+        "name": "block_b",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aef0960_0",
+        "name": "block_data",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aef0c80_0",
+        "name": "block_term",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aef0dc0_0",
+        "name": "busak_n",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef1220_0",
+        "name": "dout",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aef12c0_0",
+        "name": "halt_n",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef1400_0",
+        "name": "intcycle_n",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef14a0_0",
+        "name": "iorq",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef15e0_0",
+        "name": "last_mcycle",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef1680_0",
+        "name": "last_tstate",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef1720_0",
+        "name": "m1_n",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef17c0_0",
+        "name": "mc",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 6,
+        "lsb": 0,
+        "width": 7
+      },
+      {
+        "label": "v0xb0aef1860_0",
+        "name": "mcycle",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 6,
+        "lsb": 0,
+        "width": 7
+      },
+      {
+        "label": "v0xb0aef1900_0",
+        "name": "mcycles",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aef1c20_0",
+        "name": "repeat_count",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aef1cc0_0",
+        "name": "repeat_data",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0aef1ea0_0",
+        "name": "rfsh_n",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef1f40_0",
+        "name": "stop",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aef1fe0_0",
+        "name": "ts",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 6,
+        "lsb": 0,
+        "width": 7
+      },
+      {
+        "label": "v0xb0aef2080_0",
+        "name": "tstate",
+        "scope": "S_0x103148c10",
+        "kind": ".var",
+        "msb": 6,
+        "lsb": 0,
+        "width": 7
+      },
+      {
+        "label": "v0xb0adfdd60_0",
+        "name": "BitMask",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0adfdf40_0",
+        "name": "Carry7_v",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfdfe0_0",
+        "name": "Carry_v",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfe080_0",
+        "name": "DAA_Q",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 8,
+        "lsb": 0,
+        "width": 9
+      },
+      {
+        "label": "v0xb0adfe1c0_0",
+        "name": "F_Out",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0adfe260_0",
+        "name": "HalfCarry_v",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfe440_0",
+        "name": "OverFlow_v",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfe4e0_0",
+        "name": "Q",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0adfe580_0",
+        "name": "Q_t",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0adfe620_0",
+        "name": "Q_v",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0adfe6c0_0",
+        "name": "UseCarry",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfe800_0",
+        "name": "addsub1",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 1,
+        "lsb": 0,
+        "width": 2
+      },
+      {
+        "label": "v0xb0adfe8a0_0",
+        "name": "addsub3",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 3,
+        "lsb": 0,
+        "width": 4
+      },
+      {
+        "label": "v0xb0adfe940_0",
+        "name": "addsub4",
+        "scope": "S_0x103145f80",
+        "kind": ".var",
+        "msb": 4,
+        "lsb": 0,
+        "width": 5
+      },
+      {
+        "label": "v0xb0adfd2c0_0",
+        "name": "A",
+        "scope": "S_0x103146100",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfd400_0",
+        "name": "B",
+        "scope": "S_0x103146100",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfd4a0_0",
+        "name": "Carry_In",
+        "scope": "S_0x103146100",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfd540_0",
+        "name": "Sub",
+        "scope": "S_0x103146100",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfd5e0_0",
+        "name": "A",
+        "scope": "S_0xb0aee4000",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0adfd720_0",
+        "name": "B",
+        "scope": "S_0xb0aee4000",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0adfd7c0_0",
+        "name": "Carry_In",
+        "scope": "S_0xb0aee4000",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfd860_0",
+        "name": "Sub",
+        "scope": "S_0xb0aee4000",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfd900_0",
+        "name": "A",
+        "scope": "S_0xb0aee4180",
+        "kind": ".var",
+        "msb": 3,
+        "lsb": 0,
+        "width": 4
+      },
+      {
+        "label": "v0xb0adfda40_0",
+        "name": "B",
+        "scope": "S_0xb0aee4180",
+        "kind": ".var",
+        "msb": 3,
+        "lsb": 0,
+        "width": 4
+      },
+      {
+        "label": "v0xb0adfdae0_0",
+        "name": "Carry_In",
+        "scope": "S_0xb0aee4180",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfdb80_0",
+        "name": "Sub",
+        "scope": "S_0xb0aee4180",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfebc0_0",
+        "name": "ALU_Op",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 3,
+        "lsb": 0,
+        "width": 4
+      },
+      {
+        "label": "v0xb0adfec60_0",
+        "name": "Arith16",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfed00_0",
+        "name": "Call",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfeda0_0",
+        "name": "DDD",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0adfee40_0",
+        "name": "DPAIR",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 1,
+        "lsb": 0,
+        "width": 2
+      },
+      {
+        "label": "v0xb0adfeee0_0",
+        "name": "ExchangeAF",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfef80_0",
+        "name": "ExchangeDH",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff020_0",
+        "name": "ExchangeRS",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff0c0_0",
+        "name": "ExchangeRp",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff200_0",
+        "name": "Halt",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff2a0_0",
+        "name": "IMode",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 1,
+        "lsb": 0,
+        "width": 2
+      },
+      {
+        "label": "v0xb0adff340_0",
+        "name": "IORQ",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff520_0",
+        "name": "I_BC",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff5c0_0",
+        "name": "I_BT",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff660_0",
+        "name": "I_BTR",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff700_0",
+        "name": "I_CCF",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff7a0_0",
+        "name": "I_CPL",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff840_0",
+        "name": "I_DJNZ",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff8e0_0",
+        "name": "I_INRC",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adff980_0",
+        "name": "I_RETN",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adffa20_0",
+        "name": "I_RLD",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adffac0_0",
+        "name": "I_RRD",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adffb60_0",
+        "name": "I_SCF",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adffc00_0",
+        "name": "IncDec_16",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 3,
+        "lsb": 0,
+        "width": 4
+      },
+      {
+        "label": "v0xb0adffca0_0",
+        "name": "Inc_PC",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adffd40_0",
+        "name": "Inc_WZ",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adffe80_0",
+        "name": "Jump",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfff20_0",
+        "name": "JumpE",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0acea8a0_0",
+        "name": "JumpXY",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0ace9540_0",
+        "name": "LDSPHL",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0acea580_0",
+        "name": "LDW",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0acea940_0",
+        "name": "LDZ",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0acebca0_0",
+        "name": "MCycles",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aee8000_0",
+        "name": "NoRead",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aee80a0_0",
+        "name": "Prefix",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 1,
+        "lsb": 0,
+        "width": 2
+      },
+      {
+        "label": "v0xb0aee8140_0",
+        "name": "PreserveC",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aee81e0_0",
+        "name": "Read_To_Acc",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aee8280_0",
+        "name": "Read_To_Reg",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aee8320_0",
+        "name": "RstP",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aee83c0_0",
+        "name": "SSS",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aee8460_0",
+        "name": "Save_ALU",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aee8500_0",
+        "name": "SetDI",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aee85a0_0",
+        "name": "SetEI",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0aee8640_0",
+        "name": "Set_Addr_To",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aee86e0_0",
+        "name": "Set_BusA_To",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 3,
+        "lsb": 0,
+        "width": 4
+      },
+      {
+        "label": "v0xb0aee8780_0",
+        "name": "Set_BusB_To",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 3,
+        "lsb": 0,
+        "width": 4
+      },
+      {
+        "label": "v0xb0aee8820_0",
+        "name": "Special_LD",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aee88c0_0",
+        "name": "TStates",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aee8960_0",
+        "name": "Write",
+        "scope": "S_0xb0aee4300",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0adfe9e0_0",
+        "name": "FF",
+        "scope": "S_0xb0aee4600",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0adfea80_0",
+        "name": "cc",
+        "scope": "S_0xb0aee4600",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0aeea8a0_0",
+        "name": "mcyc",
+        "scope": "S_0xb0aee4900",
+        "kind": ".var",
+        "msb": 6,
+        "lsb": 0,
+        "width": 7
+      },
+      {
+        "label": "v0xb0aeea9e0_0",
+        "name": "num",
+        "scope": "S_0xb0aee4a80",
+        "kind": ".var",
+        "msb": 2,
+        "lsb": 0,
+        "width": 3
+      },
+      {
+        "label": "v0xb0af012c0_0",
+        "name": "latch",
+        "scope": "S_0xb0aee5680",
+        "kind": ".var",
+        "msb": 7,
+        "lsb": 0,
+        "width": 8
+      },
+      {
+        "label": "v0xb0af02260_0",
+        "name": "previous_clk",
+        "scope": "S_0xb0aee5980",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0af02300_0",
+        "name": "q",
+        "scope": "S_0xb0aee5980",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0af02620_0",
+        "name": "previous_clk",
+        "scope": "S_0xb0aee5b00",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      },
+      {
+        "label": "v0xb0af026c0_0",
+        "name": "q",
+        "scope": "S_0xb0aee5b00",
+        "kind": ".var",
+        "msb": 0,
+        "lsb": 0,
+        "width": 1
+      }
+    ],
+    "logicalBits": 854
+  },
+  "sources": {
+    "vvp/vvp_net_sig.h": "da424c2f3849c6244b07149a477390065f431dfc383ac2e6fc44e673b5ba5399",
+    "vvp/vvp_net_sig.cc": "819a30d4e33802d14aea5c67ec90d921bc29a2f7ba96597f1ec88702b767809a",
+    "vvp/vvp_net.cc": "d2a0a9c9dad7e4405d35d7c92df1062ed17d1f2ef4808443eeb9305cfc7e3c04",
+    "vvp/words.cc": "b900af8cfb17449158ec529970245287fa1bd4fd99ab230342a003f595984a6a",
+    "vvp/vthread.cc": "95e83a73511df6999864528f827c8b3fedd11c68f3ee3e64fc826811568869c5"
+  },
+  "evidence": {
+    "baseFields": {
+      "file": "vvp/vvp_net_sig.h",
+      "firstLine": 68,
+      "excerpt": "class vvp_fun_signal_base : public vvp_net_fun_t {\n\n    public:\n      vvp_fun_signal_base();\n\n      void deassign();\n      void deassign_pv(unsigned base, unsigned wid);\n\n    public:\n\n\t/* The %cassign/link instruction needs a place to write the\n\t   source node of the force, so that subsequent %cassign and\n\t   %deassign instructions can undo the link as needed. */\n      class vvp_net_t*cassign_link;\n\n    protected:\n      bool continuous_assign_active_;\n      vvp_vector2_t assign_mask_;\n\n    protected:\n\t// This is true until at least one propagation happens.\n      bool needs_init_;\n};\n\n"
+    },
+    "staticFields": {
+      "file": "vvp/vvp_net_sig.h",
+      "firstLine": 135,
+      "excerpt": "class vvp_fun_signal4_sa : public vvp_fun_signal_vec {\n\n    public:\n      explicit vvp_fun_signal4_sa(unsigned wid, vvp_bit4_t init=BIT4_X);\n\n      void recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n                     vvp_context_t) override;\n      void recv_vec8(vvp_net_ptr_t port, const vvp_vector8_t&bit) override;\n\n\t// Part select variants of above\n      void recv_vec4_pv(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n\t\t\tunsigned base, unsigned vwid, vvp_context_t) override;\n      void recv_vec8_pv(vvp_net_ptr_t port, const vvp_vector8_t&bit,\n\t\t\tunsigned base, unsigned vwid) override;\n\n\t// Get information about the vector value.\n      const vvp_vector4_t& vec4_unfiltered_value() const override;\n\n    private:\n      vvp_vector4_t bits4_;\n};\n\n"
+    },
+    "constructors": {
+      "file": "vvp/vvp_net_sig.cc",
+      "firstLine": 146,
+      "excerpt": "vvp_fun_signal_base::vvp_fun_signal_base()\n{\n      continuous_assign_active_ = false;\n      needs_init_ = true;\n      cassign_link = 0;\n      count_functors_sig += 1;\n}\n\nvvp_fun_signal4_sa::vvp_fun_signal4_sa(unsigned wid, vvp_bit4_t init)\n: bits4_(wid, init)\n{\n}\n\n"
+    },
+    "emptyMaskInitialization": {
+      "file": "vvp/vvp_net.cc",
+      "firstLine": 2356,
+      "excerpt": "vvp_vector2_t::vvp_vector2_t()\n{\n      vec_ = 0;\n      wid_ = 0;\n}\n\n"
+    },
+    "fullAndPartialWrites": {
+      "file": "vvp/vvp_net_sig.cc",
+      "firstLine": 171,
+      "excerpt": "void vvp_fun_signal4_sa::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                                   vvp_context_t)\n{\n      switch (ptr.port()) {\n\t  case 0: // Normal input (feed from net, or set from process)\n\t      /* If we don't have a continuous assign mask then just\n\t\t copy the bits, otherwise we need to see if there are\n\t\t any holes in the mask so we can set those bits. */\n\t    if (assign_mask_.size() == 0) {\n                  if (needs_init_ || !bits4_.eeq(bit)) {\n\t\t\tassert(bit.size() == bits4_.size());\n\t\t\tbits4_ = bit;\n\t\t\tneeds_init_ = false;\n\t\t\tptr.ptr()->send_vec4(bits4_, 0);\n\t\t  }\n\t    } else {\n\t\t  bool changed = false;\n\t\t  assert(bits4_.size() == assign_mask_.size());\n\t\t  for (unsigned idx = 0 ;  idx < bit.size() ;  idx += 1) {\n\t\t\tif (idx >= bits4_.size()) break;\n\t\t\tif (assign_mask_.value(idx)) continue;\n\t\t\tbits4_.set_bit(idx, bit.value(idx));\n\t\t\tchanged = true;\n\t\t  }\n\t\t  if (changed) {\n\t\t\tneeds_init_ = false;\n\t\t\tptr.ptr()->send_vec4(bits4_, 0);\n\t\t  }\n\t    }\n\t    break;\n\n\t  case 1: // Continuous assign value\n\t      // Handle the simple case of the linked source being wider\n\t      // than this signal. Note we don't yet support the case of\n\t      // the linked source being narrower than this signal, or\n\t      // the case of an expression being assigned.\n\t    bits4_ = coerce_to_width(bit, bits4_.size());\n\t    assign_mask_ = vvp_vector2_t(vvp_vector2_t::FILL1, bits4_.size());\n\t    ptr.ptr()->send_vec4(bits4_, 0);\n\t    break;\n\n\t  default:\n\t    fprintf(stderr, \"Unsupported port type %u.\\n\", ptr.port());\n\t    assert(0);\n\t    break;\n      }\n}\n\nvoid vvp_fun_signal4_sa::recv_vec8(vvp_net_ptr_t ptr, const vvp_vector8_t&bit)\n{\n      recv_vec4(ptr, reduce4(bit), 0);\n}\n\nvoid vvp_fun_signal4_sa::recv_vec4_pv(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n\t\t\t\t      unsigned base, unsigned vwid, vvp_context_t)\n{\n      assert(bits4_.size() == vwid);\n      unsigned wid = bit.size();\n\n      switch (ptr.port()) {\n\t  case 0: // Normal input\n\t    if (assign_mask_.size() == 0) {\n                  for (unsigned idx = 0 ;  idx < wid ;  idx += 1) {\n\t\t\tif (base+idx >= bits4_.size()) break;\n\t\t\tbits4_.set_bit(base+idx, bit.value(idx));\n\t\t  }\n\t\t  needs_init_ = false;\n\t\t  ptr.ptr()->send_vec4(bits4_,0);\n\t    } else {\n\t\t  bool changed = false;\n\t\t  assert(bits4_.size() == assign_mask_.size());\n\t\t  for (unsigned idx = 0 ;  idx < wid ;  idx += 1) {\n\t\t\tif (base+idx >= bits4_.size()) break;\n\t\t\tif (assign_mask_.value(base+idx)) continue;\n\t\t\tbits4_.set_bit(base+idx, bit.value(idx));\n\t\t\tchanged = true;\n\t\t  }\n\t\t  if (changed) {\n\t\t\tneeds_init_ = false;\n\t\t\tptr.ptr()->send_vec4(bits4_,0);\n\t\t  }\n\t    }\n\t    break;\n\n\t  case 1: // Continuous assign value\n\t    if (assign_mask_.size() == 0)\n\t\t  assign_mask_ = vvp_vector2_t(vvp_vector2_t::FILL0, bits4_.size());\n\t    for (unsigned idx = 0 ;  idx < wid ;  idx += 1) {\n\t\t  if (base+idx >= bits4_.size())\n\t\t\tbreak;\n\t\t  bits4_.set_bit(base+idx, bit.value(idx));\n\t\t  assign_mask_.set_bit(base+idx, 1);\n\t    }\n\t    ptr.ptr()->send_vec4(bits4_,0);\n\t    break;\n\n\t  default:\n\t    fprintf(stderr, \"Unsupported port type %u.\\n\", ptr.port());\n\t    assert(0);\n\t    break;\n      }\n}\n\nvoid vvp_fun_signal4_sa::recv_vec8_pv(vvp_net_ptr_t ptr, const vvp_vector8_t&bit,\n\t\t\t\t      unsigned base, unsigned vwid)\n{\n      recv_vec4_pv(ptr, reduce4(bit), base, vwid, 0);\n}\n\nvoid vvp_fun_signal_base::deassign()\n{\n      continuous_assign_active_ = false;\n      assign_mask_ = vvp_vector2_t();\n}\n\nvoid vvp_fun_signal_base::deassign_pv(unsigned base, unsigned wid)\n{\n      for (unsigned idx = 0 ;  idx < wid ;  idx += 1) {\n\t    assign_mask_.set_bit(base+idx, 0);\n      }\n\n      if (assign_mask_.is_zero()) {\n\t    assign_mask_ = vvp_vector2_t();\n      }\n}\n\n"
+    },
+    "unfilteredReadAndAutomaticContext": {
+      "file": "vvp/vvp_net_sig.cc",
+      "firstLine": 329,
+      "excerpt": "const vvp_vector4_t& vvp_fun_signal4_sa::vec4_unfiltered_value() const\n{\n      return bits4_;\n}\n\nvvp_fun_signal4_aa::vvp_fun_signal4_aa(unsigned wid, vvp_bit4_t init)\n{\n      context_idx_ = vpip_add_item_to_context(this, vpip_peek_context_scope());\n      size_ = wid;\n      init_ = init;\n}\n\nvvp_fun_signal4_aa::~vvp_fun_signal4_aa()\n{\n      assert(0);\n}\n\n"
+    },
+    "separateFunctorAndFilterInitialization": {
+      "file": "vvp/words.cc",
+      "firstLine": 171,
+      "excerpt": "void compile_variable(char*label, char*name,\n\t\t      int msb, int lsb, int vpi_type_code,\n\t\t      bool signed_flag, bool local_flag)\n{\n      unsigned wid = ((msb > lsb)? msb-lsb : lsb-msb) + 1;\n\n      vvp_net_t*net = new vvp_net_t;\n\n      vvp_bit4_t init;\n      if (vpi_type_code == vpiIntVar)\n\t    init = BIT4_0;\n      else\n\t    init = BIT4_X;\n\n      if (vpip_peek_current_scope()->is_automatic()) {\n\t    vvp_fun_signal4_aa*tmp = new vvp_fun_signal4_aa(wid, init);\n\t    net->fil = tmp;\n            net->fun = tmp;\n      } else {\n\t    net->fil = new vvp_wire_vec4(wid, init);\n            net->fun = new vvp_fun_signal4_sa(wid);\n      }\n      const vvp_signal_value*vfil = dynamic_cast<vvp_signal_value*>(net->fil);\n\n      define_functor_symbol(label, net);\n\n      vpiHandle obj = 0;\n      if (! local_flag) {\n\t      /* Make the vpiHandle for the reg. */\n\t    switch (vpi_type_code) {\n\t\tcase vpiLogicVar:\n\t\t  obj = vpip_make_var4(name, msb, lsb, signed_flag, net);\n\t\t  break;\n\t\tcase vpiIntegerVar:\n\t\t  obj = vpip_make_int4(name, msb, lsb, net);\n\t\t  break;\n\t\tcase vpiIntVar: // This handles all the atom2 int types\n\t\t  obj = vpip_make_int2(name, msb, lsb, signed_flag, net);\n\t\t  break;\n\t\tdefault:\n\t\t  fprintf(stderr, \"internal error: %s: vpi_type_code=%d\\n\", name, vpi_type_code);\n\t\t  break;\n\t    }\n\t    assert(obj);\n\t    compile_vpi_symbol(label, obj);\n      }\n\t// If the signal has a name, then it goes into the current\n\t// scope as a signal.\n      if (name) {\n\t    if (obj) vpip_attach_to_current_scope(obj);\n            if (!vpip_peek_current_scope()->is_automatic()) {\n\t\t  vvp_vector4_t tmp;\n\t\t  vfil->vec4_value(tmp);\n\t          schedule_init_vector(vvp_net_ptr_t(net,0), tmp);\n\t    }\n      }\n\n      free(label);\n      delete[] name;\n}\n\n\n"
+    },
+    "proceduralAssignmentLink": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1547,
+      "excerpt": "bool of_CASSIGN_LINK(vthread_t, vvp_code_t cp)\n{\n      vvp_net_t*dst = cp->net;\n      vvp_net_t*src = cp->net2;\n\n      vvp_fun_signal_base*sig\n\t    = dynamic_cast<vvp_fun_signal_base*>(dst->fun);\n      assert(sig);\n\n\t/* Any previous continuous assign should have been removed already. */\n      assert(sig->cassign_link == 0);\n\n      sig->cassign_link = src;\n\n\t/* Link the output of the src to the port[1] (the cassign\n\t   port) of the destination. */\n      vvp_net_ptr_t dst_ptr (dst, 1);\n      src->link(dst_ptr);\n\n      return true;\n}\n\n/*\n * If there is an existing continuous assign linked to the destination\n * node, unlink it. This must be done before applying a new continuous\n * assign, otherwise the initial assigned value will be propagated to\n * any other nodes driven by the old continuous assign source.\n */\nstatic void cassign_unlink(vvp_net_t*dst)\n{\n      vvp_fun_signal_base*sig\n\t    = dynamic_cast<vvp_fun_signal_base*>(dst->fun);\n      assert(sig);\n\n      if (sig->cassign_link == 0)\n\t    return;\n\n      vvp_net_ptr_t tmp (dst, 1);\n      sig->cassign_link->unlink(tmp);\n      sig->cassign_link = 0;\n}\n\n/*\n * The %cassign/v instruction invokes a continuous assign of a\n * constant value to a signal. The instruction arguments are:\n *\n *     %cassign/vec4 <net>;\n *\n * Where the <net> is the net label assembled into a vvp_net pointer,\n * and the <base> and <wid> are stashed in the bit_idx array.\n *\n * This instruction writes vvp_vector4_t values to port-1 of the\n * target signal.\n */\n"
+    },
+    "deassignmentAndUnlink": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 2406,
+      "excerpt": "bool of_DEASSIGN(vthread_t, vvp_code_t cp)\n{\n      vvp_net_t*net = cp->net;\n      unsigned base  = cp->bit_idx[0];\n      unsigned width = cp->bit_idx[1];\n\n      vvp_signal_value*fil = dynamic_cast<vvp_signal_value*> (net->fil);\n      assert(fil);\n      vvp_fun_signal_vec*sig = dynamic_cast<vvp_fun_signal_vec*>(net->fun);\n      assert(sig);\n\n      if (base >= fil->value_size()) return true;\n      if (base+width > fil->value_size()) width = fil->value_size() - base;\n\n      bool full_sig = base == 0 && width == fil->value_size();\n\n\t// This is the net that is forcing me...\n      if (vvp_net_t*src = sig->cassign_link) {\n\t    if (! full_sig) {\n\t\t  fprintf(stderr, \"Sorry: when a signal is assigning a \"\n\t\t          \"register, I cannot deassign part of it.\\n\");\n\t\t  exit(1);\n\t    }\n\t      // And this is the pointer to be removed.\n\t    vvp_net_ptr_t dst_ptr (net, 1);\n\t    src->unlink(dst_ptr);\n\t    sig->cassign_link = 0;\n      }\n\n\t/* Do we release all or part of the net? */\n      if (full_sig) {\n\t    sig->deassign();\n      } else {\n\t    sig->deassign_pv(base, width);\n      }\n\n      return true;\n}\n\nbool of_DEASSIGN_WR(vthread_t, vvp_code_t cp)\n{\n      vvp_net_t*net = cp->net;\n\n      vvp_fun_signal_real*sig = dynamic_cast<vvp_fun_signal_real*>(net->fun);\n      assert(sig);\n\n\t// This is the net that is forcing me...\n      if (vvp_net_t*src = sig->cassign_link) {\n\t      // And this is the pointer to be removed.\n\t    vvp_net_ptr_t dst_ptr (net, 1);\n\t    src->unlink(dst_ptr);\n\t    sig->cassign_link = 0;\n      }\n\n      sig->deassign();\n\n      return true;\n}\n\n/*\n * %debug/thr\n */\n"
+    }
+  },
+  "requirements": [
+    "Enumerate allocated signal functors independently of visible VPI handles. Bind each signal to its registered graph node and functor pointer; compare compiled variable widths and scope admission without substituting counts for identity.",
+    "Observe unfiltered bits4_ separately from wire-filter output. Force/release can make them differ; VPI-visible equality cannot prove underlying signal storage equality.",
+    "Read logical vector bits only. Static bits4_ is initialized by its constructor; needs_init_, continuous_assign_active_ and cassign_link initialize explicitly, and assign_mask_ starts empty. Do not serialize padding or inactive vector allocation bytes.",
+    "Preserve assign-mask width and every mask bit, including partially assigned variables. Preserve the initialized continuous-assignment flag even though vec4 receive paths use the mask; do not borrow real-signal semantics.",
+    "Bind non-null cassign_link to an allocated source node and the corresponding destination port-1 graph link. Procedural assignment links differ from force-helper links and must not be conflated.",
+    "Static compilation creates separate signal and wire-filter objects and schedules initial propagation. Do not assume their initial contents are interchangeable, particularly for two-state profiles; re-audit profiles outside admitted .var/.var/i static variables.",
+    "Automatic, real, string, dynamic-array and object signal families require separate storage/context admission; reject unsupported signal subclasses before reading static fields.",
+    "Exercise unwritten X, 0/1/X/Z, wide vectors, full/partial writes, procedural assign/deassign, assignment-source relinking and force/release. Inject actual initialized value/mask/link/flag faults, restore without propagation setters, and require unchanged continuation.",
+    "Preserve native controls for paths absent from compiled board instructions. Measure full-board capture/review cost and reconstruct every normal and corrupted snapshot before integrating compact payload observations."
+  ]
+}
