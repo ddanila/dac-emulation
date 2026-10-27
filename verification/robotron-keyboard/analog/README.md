@@ -928,3 +928,11 @@ binds the next observer to the pinned event implementation and compiled board.
 `thread.event` belongs to event-controlled assignments; ordinary wait lists live
 on event functors. Include idle edge-history caches and per-context wait heads,
 and keep observer reads separate from helpers that allocate missing caches.
+
+`build_wait_runtime.py` adds typed wait-event heads and initialized edge/anyedge
+history. Use `wait_probe.py` with the standard runtime arguments; replay the
+[retained controls](reports/wait-event/assessment.json) with `wait_probe.py --check
+verification/robotron-keyboard/analog/reports/wait-event`. Static and automatic
+contexts are observed alongside live threads; nonempty event-controlled
+assignment lists fail closed. Board integration, context reuse, deep referents
+and general rollback require separate evidence.
