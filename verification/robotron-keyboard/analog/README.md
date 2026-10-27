@@ -944,3 +944,10 @@ thread-board controls as `--source` and `--assessment`, the built `--bridge` and
 as `--producer`, and a fresh assessment `--out`. The reviewer checks the event
 inventory against compiled declarations and preserves all preceding state and
 waveform checks; capture completion alone does not qualify the board.
+
+`build_thread_lifecycle_runtime.py` adds targeted detached, wait-fork and
+pending-deletion flag faults. Replay the [native lifecycle controls](reports/thread-lifecycle/assessment.json)
+with `thread_lifecycle_probe.py --check verification/robotron-keyboard/analog/reports/thread-lifecycle`.
+The fixture covers cancellation, deferred deletion and fresh identities after
+storage reuse. This does not establish freed-storage equivalence; board
+reachability and integration remain separate checks.

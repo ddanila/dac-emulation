@@ -1,0 +1,26 @@
+{
+  "completed": true,
+  "qualified": false,
+  "simulationOutputExactlyEqual": true,
+  "normalStateTrajectoryExactlyEqual": true,
+  "restoredFaults": 8,
+  "faultsByField": {
+    "8": 5,
+    "9": 1,
+    "10": 2
+  },
+  "observedStateFamilies": [
+    "deferred-delete",
+    "deletion-queue",
+    "detached",
+    "disabled-pending-zombie",
+    "storage-reused-with-fresh-identity",
+    "wait-fork"
+  ],
+  "scope": "Detached children, wait-fork, disabled pending zombie threads, deferred-delete queue binding and completion; restored actual lifecycle flags and fresh identity after storage reuse.",
+  "notEstablished": [
+    "Board integration and broader operating windows",
+    "Freed-storage contents/equivalence",
+    "Deep scope/context/code/object referents and general rollback"
+  ]
+}
