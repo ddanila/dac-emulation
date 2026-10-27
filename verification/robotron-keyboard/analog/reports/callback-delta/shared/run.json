@@ -1,0 +1,94 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/callback-delta-controls-v3/shared/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/callback-delta-controls-v3/shared/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-callback-delta-runtime-v2",
+      "-I/private/tmp/k7658-callback-delta-runtime-v2/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/callback-delta-controls-v3/shared/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/callback-delta-controls-v3/shared/probe.cc"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-callback-delta-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "disabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-callback-delta-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-callback-delta-runtime-v2/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "enabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-callback-delta-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-callback-delta-runtime-v2/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "corrupt": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-callback-delta-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-callback-delta-runtime-v2/vvp/libvvp.so",
+      "mode": "corrupt"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-callback-delta-runtime-v2/vvp/libvvp.so": "bbb0e1169c22c5c5938e119331160a617e7009932bb2457b3cfd2b8a6e93b8a8",
+    "/private/tmp/k7658-callback-delta-runtime-v2/vvp/vvp": "2bf4179f07f97c8db0ed1f04a47c928db19c89b58473bfe9217e0b87225b3256",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/callback-delta-controls-v3/shared/probe.vpi": "bc3ad426a6a88b228f91b67389a46d6591ff4164a176ddb946f2ce4c34ee7ed7",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/callback-delta-controls-v3/shared/probe.vvp": "339feff6590775981fb052c21cf1566978c41223739171ec7914751ec293ebca",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "callback_delta.py": "d295aa30428e8b9e72f9e7cd509c232c29c6a888aa4cf28c1a4089187937f199",
+    "fixtures/callback_delta_adapter.h": "b64adb51ebf2fae0c6ec181d3c2901634acf3782fdb36b2ece2df651e5074065",
+    "fixtures/callback_words.cc": "1528496921f5cd932d20e5363dd9bc633b43b10482694c7c574ebc6edded7376",
+    "fixtures/callback_words.v": "00d7ab226187f9316cd0838db1ea4ecbdcc42932dfb020111620b579437ecfbf",
+    "callback_word_shared.py": "d0dbea7962670d093cb4f14e76e11d739e4aebc22afe97028146c094d8c75179"
+  }
+}

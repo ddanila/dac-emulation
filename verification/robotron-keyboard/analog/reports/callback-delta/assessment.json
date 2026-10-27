@@ -1,0 +1,169 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "cases": {
+    "lists": {
+      "denseControls": {
+        "qualified": false,
+        "controlsPassed": true,
+        "observations": 16,
+        "faultsByTarget": {
+          "0:0": 6,
+          "0:1": 6,
+          "0:2": 6,
+          "0:3": 6,
+          "1:0": 2,
+          "1:1": 2,
+          "1:2": 2,
+          "1:3": 2,
+          "2:0": 4,
+          "2:1": 4,
+          "2:2": 4,
+          "2:3": 4
+        },
+        "activeTraversalRefusals": 12,
+        "originalContinuationExactlyEqual": true,
+        "scope": "Native exact-base callbacks on one signal: complete ordered owner/list rows reveal middle, head and final cancellation before delayed deletion. User/object/function faults change only their fields; invalid next pointers refuse before output and all faults restore before continuation. Unadmitted caller fields and active value traversal refuse. Original output order and values remain exact.",
+        "notEstablished": [
+          "Native nonempty array-word association controls",
+          "Native subclass/unknown-owner refusal controls and post-registration allocation growth",
+          "Typed signal/array/user-data referents and suspended callback traversal",
+          "Compact encoding, operational integration and general rollback"
+        ]
+      },
+      "compact": {
+        "images": 116,
+        "denseBytes": 38161,
+        "deltaBytes": 14178,
+        "referenceBytes": 1568,
+        "refusals": 26
+      }
+    },
+    "registration": {
+      "denseControls": {
+        "qualified": false,
+        "controlsPassed": true,
+        "observations": 9,
+        "originalContinuationExactlyEqual": true,
+        "scope": "Observe an empty owner list before registration, add an exact-base callback during active native dispatch, and refuse inventory both during traversal and after return until explicit caller handoff. New callbacks run on the next native value change. Preserve ordered growth, cancellation before deletion, empty-list recovery and fresh lifetime IDs after re-registration, with exact original callback values/order.",
+        "notEstablished": [
+          "Reentrant nested value dispatch and suspended traversal capture",
+          "Array-association allocation/removal, typed referents and operational integration",
+          "Compact encoding and general rollback"
+        ]
+      },
+      "compact": {
+        "images": 18,
+        "denseBytes": 3968,
+        "deltaBytes": 6052,
+        "referenceBytes": 154,
+        "refusals": 12
+      }
+    },
+    "nested": {
+      "denseControls": {
+        "qualified": false,
+        "controlsPassed": true,
+        "observations": 4,
+        "activeTraversalRefusals": 10,
+        "maximumNativeDepth": 3,
+        "originalContinuationExactlyEqual": true,
+        "scope": "Native no-delay VPI writes nest cross-owner and same-owner callbacks. Complete-list inventory refuses at entry and exit at every depth, including outer callbacks after nested return, and resumes only after complete unwinding. Stable owner/list identities survive the traversal. Exact entry/exit order and shared vector-result overwriting agree with original execution; final HDL signal values remain independently checked.",
+        "notEstablished": [
+          "Capturing or restoring suspended native traversal and shared VPI result storage",
+          "Array-association lifecycle, typed bridge referents and operational integration",
+          "General rollback"
+        ]
+      },
+      "compact": {
+        "images": 8,
+        "denseBytes": 2760,
+        "deltaBytes": 280,
+        "referenceBytes": 693,
+        "refusals": 10
+      }
+    },
+    "words": {
+      "denseControls": {
+        "qualified": false,
+        "controlsPassed": true,
+        "observations": 8,
+        "faultsByTarget": {
+          "1:0": 4,
+          "1:1": 4,
+          "1:2": 4,
+          "2:0": 4,
+          "2:1": 4,
+          "2:2": 4,
+          "3:0": 4,
+          "3:1": 4,
+          "3:2": 4,
+          "4:0": 4,
+          "4:1": 4,
+          "4:2": 4,
+          "5:0": 4,
+          "5:1": 4,
+          "5:2": 4
+        },
+        "originalContinuationExactlyEqual": true,
+        "scope": "Native buffered net arrays attach five association nodes to independently bound word owners. Concrete array identities use the adjusted native pointer rather than the VPI base-subobject address. Every array pointer and word address binds to VPI array identity/size and expected word membership. Full lists survive dynamic read-port selection and X/Z propagation. Index and array-pointer faults change only their target field; invalid next pointers refuse before output. All restore before original-equivalent continuation.",
+        "notEstablished": [
+          "Multiple associations sharing one owner and runtime creation/removal of array-word associations",
+          "Registration during active callbacks and typed callback object/user referents",
+          "Compact encoding, operational integration and general rollback"
+        ]
+      },
+      "compact": {
+        "images": 116,
+        "denseBytes": 135444,
+        "deltaBytes": 4900,
+        "referenceBytes": 5150,
+        "refusals": 20
+      }
+    },
+    "shared": {
+      "denseControls": {
+        "qualified": false,
+        "controlsPassed": true,
+        "observations": 8,
+        "faultsByTarget": {
+          "3:0": 4,
+          "3:1": 4,
+          "3:2": 4,
+          "2:0": 4,
+          "2:1": 4,
+          "2:2": 4,
+          "1:0": 4,
+          "1:1": 4,
+          "1:2": 4,
+          "5:0": 4,
+          "5:1": 4,
+          "5:2": 4,
+          "4:0": 4,
+          "4:1": 4,
+          "4:2": 4
+        },
+        "originalContinuationExactlyEqual": true,
+        "scope": "A test-only VVP adapter connects five array words directly to their original two driver nodes, exercising shared-owner association chains through native attachment and dispatch on both original and candidate runtimes. Independently obtained VPI word owners bind every association. Concrete array identities use the adjusted native pointer rather than the VPI base-subobject address. Every array pointer and word address binds to VPI array identity/size and expected word membership. Full lists survive dynamic read-port selection and X/Z propagation. Index and array-pointer faults change only their target field; invalid next pointers refuse before output. All restore before original-equivalent continuation.",
+        "notEstablished": [
+          "Runtime creation/removal of array-word associations",
+          "Registration during active callbacks and typed callback object/user referents",
+          "Compact encoding, operational integration and general rollback"
+        ]
+      },
+      "compact": {
+        "images": 116,
+        "denseBytes": 104704,
+        "deltaBytes": 4932,
+        "referenceBytes": 3930,
+        "refusals": 20
+      }
+    }
+  },
+  "scope": "Every successful native snapshot is paired with exact compact reconstruction against an immutable owner reference. Dense reviewers independently validate cancellation, growth, nested refusal and array-word faults/continuation. Full native admission preflight runs before compact output; initialization guards and refusal paths remain explicit.",
+  "notEstablished": [
+    "Native owner allocation/removal and unsupported-family controls through compact APIs",
+    "Actual board compact cost and combined operational integration",
+    "Deep typed referents, suspended traversal and general rollback"
+  ]
+}
