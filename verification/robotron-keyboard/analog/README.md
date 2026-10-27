@@ -1079,3 +1079,13 @@ required. Build with `build_array_compact_runtime.py`, then use
 `array_compact_probe.py` and `array_compact_budget.py` with the corresponding dense
 probe arguments. Their `--check` modes replay the retained `array-compact` and
 `array-compact-budget` reports without native builds.
+
+For combined array validation, build `build_array_bridge.py`, capture with
+`array_board_capture.py --source REVIEWED_OPERAND_BOARD --assessment OPERAND_ASSESSMENT --bridge BRIDGE --icarus RUNTIME --out NEW_DIR`,
+then review with `array_board_review.py --root NEW_DIR --producer array_board_capture.py --out REPORT`.
+The reviewer binds arrays to the observed scopes, checks compiled array/read-port
+coverage and stable identities, and requires loaded words, materialized handles
+and changing read addresses. Word/address/cache faults run after initialization;
+port-link faults run at paused startup. Every fault must restore exactly without
+changing earlier observer layers. Capture limits remain explicit; native compact
+controls and pre-execution budgets alone do not qualify this combined campaign.
