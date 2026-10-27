@@ -19,7 +19,8 @@
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
     ],
-    "retention": "Complete local waveforms are identified by producer hashes. No ROM or compiled HDL retained."
+    "retention": "Local raw waveforms pruned to reclaim disk space. Producer identities, input decks and completed review results remain retained; raw-waveform replay requires regenerating the captures. Historical results do not establish current replayability or board qualification.",
+    "available": false
   },
   "retainedFilesSha256": {
     "comparison.json": "5290888bef13371fd51d7353626a5524245af6b692ca636f88a8413388cb20a6",

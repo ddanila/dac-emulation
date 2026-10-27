@@ -38,13 +38,14 @@
     }
   },
   "waveforms": {
-    "retention": "Complete waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL included.",
+    "retention": "Local raw waveforms pruned to reclaim disk space. Producer identities, input decks and completed review results remain retained; raw-waveform replay requires regenerating the captures. Historical results do not establish current replayability or board qualification.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-modifier-minbreak",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "interpretation": "The complete modifier/release/ordinary-key scenario passes received-bit agreement, sampled stability and independent coverage, including distinct modified and ordinary packets. Both spacing and invocation differ from the failed modifier baseline; the separate reset control isolates spacing for that reset fixture. No modifier-specific causality, timestep convergence or physical device qualification is inferred.",
   "nextAction": "Compare the fixed-spacing timestep pair; retain absolute-time voltage differences and device-model limits."

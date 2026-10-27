@@ -24,13 +24,14 @@
     "voltage-comparison.json": "1d2ef2ed8b320e8c8a9e556946337f05cc0dcbd917e8a5dad580e7514bd820f1"
   },
   "waveforms": {
-    "retention": "Complete waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL included.",
+    "retention": "Local raw waveforms pruned to reclaim disk space. Producer identities, input decks and completed review results remain retained; raw-waveform replay requires regenerating the captures. Historical results do not establish current replayability or board qualification.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-reset-minbreak-fine",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "interpretation": "Both timesteps complete reset, CPU restart and post-reset packet observations. Logical comparison, independent coverage, sampled stability and serial-edge timestep refinement pass. Absolute-time voltage peaks remain substantial; this pair does not establish whole-waveform convergence or calibrated device dynamics.",
   "nextAction": "Complete other fixed-spacing scenarios and investigate stricter-tolerance solver failures independently of the passing serial comparison."

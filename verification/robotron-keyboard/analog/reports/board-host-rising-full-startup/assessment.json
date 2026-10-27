@@ -33,7 +33,8 @@
         "bytes": 7320665011
       }
     },
-    "retention": "Lossless local captures and producer hashes; diagnostic reviews independently verify the captures they consume."
+    "retention": "Local raw waveforms pruned to reclaim disk space. Producer identities, input decks and completed review results remain retained; raw-waveform replay requires regenerating the captures. Historical results do not establish current replayability or board qualification.",
+    "available": false
   },
   "retainedFilesSha256": {
     "ls_nand_nominal.cir": "a10d3f6cc9a5b7ad1570788d57d5b4be26388710f017173e5f93c8ff8f5c8c7d",
