@@ -247,6 +247,7 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_signal_board_budget.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_signal_integration.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_typed_signal_faults.py
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_scope_scan.py
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-source-contract
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-families

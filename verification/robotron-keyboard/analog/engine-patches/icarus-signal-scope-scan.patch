@@ -1,0 +1,120 @@
+--- a/vvp/vpi_signal.cc
++++ b/vvp/vpi_signal.cc
+@@ -1708,7 +1708,7 @@
+     }
+     return 0;
+ }
+-extern "C" int robotron_vvp_signal_handle_inventory(FILE*out)
++extern "C" int robotron_vvp_signal_handle_reference_inventory(FILE*out)
+ {
+     if(!out)return -1;
+     std::map<unsigned long long,__vpiSignal*> ordered;
+@@ -1750,6 +1750,55 @@
+     return fprintf(out,"VSH_END %zu\n",ordered.size())<0 || ferror(out)?-1:0;
+ }
+ 
++extern "C" int robotron_vvp_scope_handle_ids(std::map<const void*,unsigned long long>*);
++extern "C" int robotron_vvp_signal_handle_inventory(FILE*out)
++{
++    if(!out)return -1;
++    std::map<const void*,unsigned long long> scope_ids;
++    bool admitted=false;for(auto item:robotron_handles())if(item.second.admitted){admitted=true;break;}
++    if(admitted && robotron_vvp_scope_handle_ids(&scope_ids))return -1;
++    auto scope_id=[&](const void*pointer)->unsigned long long {
++        auto found=scope_ids.find(pointer);return found==scope_ids.end()?0:found->second;
++    };
++    std::map<unsigned long long,__vpiSignal*> ordered;
++    for(auto item:robotron_handles())if(item.second.admitted){
++        auto obj=item.first;auto&entry=item.second;
++        if(obj->is_netarray || (typeid(*obj)!=typeid(signal_reg) &&
++           typeid(*obj)!=typeid(signal_net) && typeid(*obj)!=typeid(signal_integer)) ||
++           obj->id.name!=entry.name || !robotron_vvp_net_handle_id(obj->node) ||
++           !scope_id(obj->within.scope) || obj->bits!=entry.bits ||
++           typeid(obj->msb)!=typeid(__vpiDecConst) || typeid(obj->lsb)!=typeid(__vpiDecConst))return -1;
++        if(entry.bits){
++            if((entry.bits-1)->parent!=obj || entry.indexes.size()!=entry.bit_count)return -1;
++            for(unsigned i=0;i<entry.bit_count;++i){
++                auto bit=entry.bits+i;
++                if(bit->bit0!=entry.bits || bit->index!=entry.indexes[i] ||
++                   typeid(*bit->index)!=typeid(__vpiDecConst))return -1;
++            }
++        }
++        ordered[entry.id]=obj;
++    }
++    if(fprintf(out,"VSH_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:ordered){
++        auto obj=item.second;auto&entry=robotron_handles().at(obj);
++        if(fprintf(out,"VSH_SIGNAL %llu %p %s %p %llu %p %llu %u %d %d %p %zu %p %u\n",
++            item.first,(void*)obj,typeid(*obj).name(),(void*)obj->node,robotron_vvp_net_handle_id(obj->node),
++            (void*)obj->within.scope,scope_id(obj->within.scope),obj->signed_flag,
++            obj->msb.get_value(),obj->lsb.get_value(),(void*)entry.name,entry.name_length,
++            (void*)entry.bits,entry.bit_count)<0)return -1;
++        if(fputs("VSH_NAME ",out)==EOF)return -1;
++        if(!entry.name){if(fputc('-',out)==EOF)return -1;}
++        else for(size_t i=0;i<=entry.name_length;++i)if(fprintf(out,"%02x",(unsigned char)entry.name[i])<0)return -1;
++        if(fputc('\n',out)==EOF)return -1;
++        for(unsigned i=0;i<entry.bit_count;++i){
++            auto bit=entry.bits+i;auto index=static_cast<__vpiDecConst*>(bit->index);
++            if(fprintf(out,"VSH_BIT %u %p %p %p %d\n",i,(void*)bit,(void*)bit->bit0,
++                       (void*)bit->index,index->get_value())<0)return -1;
++        }
++    }
++    return fprintf(out,"VSH_END %zu\n",ordered.size())<0 || ferror(out)?-1:0;
++}
++
+ // Resolve only explicit handoffs. No supplied object pointer is dereferenced.
+ extern "C" unsigned long long robotron_vvp_signal_handle_node(vpiHandle handle,void**node)
+ {
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -898,3 +898,12 @@
+     for(size_t i=0;i<scopes.size();++i)if(scopes[i]==pointer)return i+1;
+     return 0;
+ }
++
++// Snapshot the complete admitted scope hierarchy once per metadata inventory.
++extern "C" int robotron_vvp_scope_handle_ids(std::map<const void*,unsigned long long>*ids)
++{
++    if(!ids)return -1;
++    vector<__vpiScope*> scopes;if(robotron_static_scopes(scopes))return -1;
++    ids->clear();for(size_t i=0;i<scopes.size();++i)(*ids)[scopes[i]]=i+1;
++    return 0;
++}
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -1632,3 +1632,35 @@
+     }
+     return fprintf(out,"VSL_END %zu\n",rows.size())<0 || ferror(out)?-1:0;
+ }
++
++extern "C" int robotron_vvp_signal_handle_reference_inventory(FILE*);
++extern "C" int robotron_vvp_callback_signal_reference_inventory(FILE*out)
++{
++    if(!out || robotron_link_preflight(robotron_vvp_callback_list_inventory) ||
++       robotron_link_preflight(robotron_vvp_signal_handle_reference_inventory))return -1;
++    struct row_t {
++        unsigned long long callback_id,handle_id,owner_id,node_id;
++        value_callback*callback;vpiHandle handle;vvp_vpi_callback*owner;
++        vvp_net_fil_t*filter;vvp_net_t*node;
++    };
++    std::map<unsigned long long,row_t> rows;
++    for(auto item:robotron_value_live){
++        auto entry=item.second;auto owner=robotron_callback_owners().find(entry.owner);
++        if(owner==robotron_callback_owners().end())return -1;
++        // List preflight established the exact registered owner class.
++        auto filter=dynamic_cast<vvp_net_fil_t*>(entry.owner);
++        void*address=0;auto handle=entry.callback->cb_data.obj;
++        auto id=robotron_vvp_signal_handle_node(handle,&address);
++        auto node=static_cast<vvp_net_t*>(address);auto node_id=robotron_vvp_net_handle_id(node);
++        // Never cast/dereference an unregistered filter pointer read from a node.
++        if(!id || !node_id || !filter || node->fil!=filter)return -1;
++        rows[entry.id]={entry.id,id,owner->second,node_id,entry.callback,handle,entry.owner,filter,node};
++    }
++    if(fprintf(out,"VSL_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:rows){auto&r=item.second;
++        if(fprintf(out,"VSL_LINK %llu %p %llu %p %llu %p %p %llu %p\n",
++            r.callback_id,(void*)r.callback,r.handle_id,(void*)r.handle,r.owner_id,
++            (void*)r.owner,(void*)r.filter,r.node_id,(void*)r.node)<0)return -1;
++    }
++    return fprintf(out,"VSL_END %zu\n",rows.size())<0 || ferror(out)?-1:0;
++}
