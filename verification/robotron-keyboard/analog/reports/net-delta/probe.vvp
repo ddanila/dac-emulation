@@ -1,0 +1,80 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x104bfcd10 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x104bfce90 .scope module, "net_probe" "net_probe" 3 2;
+ .timescale -9 -12;
+L_0x961454010 .functor BUFT 1, C4<01011010>, C4<0>, C4<0>, C4<0>;
+L_0x104c02b30 .functor XOR 8, v0x104c05520_0, L_0x961454010, C4<00000000>, C4<00000000>;
+v0x104c02a90_0 .net/2u *"_ivl_0", 7 0, L_0x961454010;  1 drivers
+L_0x961454058 .functor BUFT 1, C4<00000001>, C4<0>, C4<0>, C4<0>;
+v0x104c052a0_0 .net/2u *"_ivl_4", 7 0, L_0x961454058;  1 drivers
+v0x104c05340_0 .net "a", 7 0, L_0x104c02b30;  1 drivers
+v0x104c053e0_0 .net "b", 7 0, L_0x104c05700;  1 drivers
+v0x104c05480_0 .var "forced", 7 0;
+v0x104c05520_0 .var "source", 7 0;
+v0x104c055c0_0 .var "unused", 7 0;
+v0x104c05660_0 .net "wide", 63 0, L_0x104c057a0;  1 drivers
+L_0x104c05700 .arith/sum 8, v0x104c05520_0, L_0x961454058;
+LS_0x104c057a0_0_0 .concat [ 8 8 8 8], L_0x104c02b30, v0x104c05520_0, L_0x104c05700, L_0x104c02b30;
+LS_0x104c057a0_0_4 .concat [ 8 8 8 8], v0x104c05520_0, L_0x104c05700, L_0x104c02b30, v0x104c05520_0;
+L_0x104c057a0 .concat [ 32 32 0 0], LS_0x104c057a0_0_0, LS_0x104c057a0_0_4;
+    .scope S_0x104bfce90;
+T_0 ;
+    %pushi/vec4 18, 0, 8;
+    %store/vec4 v0x104c05520_0, 0, 8;
+    %pushi/vec4 165, 0, 8;
+    %store/vec4 v0x104c05480_0, 0, 8;
+    %pushi/vec4 57, 0, 8;
+    %store/vec4 v0x104c055c0_0, 0, 8;
+    %end;
+    .thread T_0, $init;
+    .scope S_0x104bfce90;
+T_1 ;
+    %delay 1000, 0;
+    %vpi_call/w 3 10 "$net_observe" {0 0 0};
+    %vpi_call/w 3 10 "$display", "VALUE %0t %h %h %h", $time, v0x104c05340_0, v0x104c053e0_0, v0x104c05660_0 {0 0 0};
+    %load/vec4 v0x104c05480_0;
+    %force/vec4 v0x104c05340_0;
+    %force/link v0x104c05340_0, v0x104c05480_0;
+    %delay 1000, 0;
+    %vpi_call/w 3 12 "$net_observe" {0 0 0};
+    %vpi_call/w 3 12 "$display", "VALUE %0t %h %h %h", $time, v0x104c05340_0, v0x104c053e0_0, v0x104c05660_0 {0 0 0};
+    %pushi/vec4 52, 0, 8;
+    %store/vec4 v0x104c05520_0, 0, 8;
+    %pushi/vec4 195, 0, 8;
+    %store/vec4 v0x104c05480_0, 0, 8;
+    %delay 1000, 0;
+    %vpi_call/w 3 14 "$net_observe" {0 0 0};
+    %vpi_call/w 3 14 "$display", "VALUE %0t %h %h %h", $time, v0x104c05340_0, v0x104c053e0_0, v0x104c05660_0 {0 0 0};
+    %release/net v0x104c05340_0, 0, 8;
+    %delay 1000, 0;
+    %vpi_call/w 3 16 "$net_observe" {0 0 0};
+    %vpi_call/w 3 16 "$display", "VALUE %0t %h %h %h", $time, v0x104c05340_0, v0x104c053e0_0, v0x104c05660_0 {0 0 0};
+    %load/vec4 v0x104c05480_0;
+    %force/vec4 v0x104c05340_0;
+    %force/link v0x104c05340_0, v0x104c05480_0;
+    %delay 1000, 0;
+    %vpi_call/w 3 18 "$net_observe" {0 0 0};
+    %vpi_call/w 3 18 "$display", "VALUE %0t %h %h %h", $time, v0x104c05340_0, v0x104c053e0_0, v0x104c05660_0 {0 0 0};
+    %release/net v0x104c05340_0, 0, 8;
+    %delay 1000, 0;
+    %vpi_call/w 3 20 "$net_observe" {0 0 0};
+    %vpi_call/w 3 20 "$display", "VALUE %0t %h %h %h", $time, v0x104c05340_0, v0x104c053e0_0, v0x104c05660_0 {0 0 0};
+    %vpi_call/w 3 21 "$finish" {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/net-delta-probe/probe.v";
