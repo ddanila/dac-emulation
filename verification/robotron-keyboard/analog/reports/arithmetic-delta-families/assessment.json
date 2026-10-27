@@ -1,0 +1,40 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "unsupportedProfilesRefused": [
+    "division",
+    "real",
+    "derived"
+  ],
+  "noPartialInventory": true,
+  "disabledContinuationExactlyEqual": true,
+  "nativeClasses": {
+    "division": [
+      "Sink",
+      "vvp_arith_div",
+      "vvp_arith_sum"
+    ],
+    "real": [
+      "Sink",
+      "vvp_arith_sum",
+      "vvp_arith_sum_real"
+    ],
+    "derived": [
+      "ExtraSum",
+      "Sink",
+      "vvp_arith_sum"
+    ]
+  },
+  "scope": "A valid sum-only reference precedes unsupported division, real arithmetic or behavior-changing subclass allocation. Dense inventory and delta refuse before output. Repeated reference creation also refuses, preserving its one-reference lifecycle rule. Original and disabled continuations remain equal.",
+  "notEstablished": [
+    "Payload support for rejected classes",
+    "Every possible plugin-defined subclass",
+    "Board integration and full qualification"
+  ],
+  "referenceCreatedBeforeUnsupportedAllocation": true,
+  "refusedAPIs": [
+    "dense",
+    "reference-reset",
+    "delta"
+  ]
+}
