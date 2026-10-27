@@ -1,0 +1,11 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "rounds": 2,
+  "ownerConstructions": 4,
+  "sameAddressReconstructions": 2,
+  "staleCacheRefusals": 2,
+  "otherRefusals": 12,
+  "originalContinuationExactlyEqual": true,
+  "scope": "Test-owned concrete adapters use native __vpiArrayBase constructor, lazy allocator and destructor at the same address. New owners start unallocated; retained old cache pointers, foreign buffers, wrong lengths and cross-owner cache aliases refuse. Native cache parent/word links initialize correctly. This isolates base cache-owner lifecycle; it does not qualify deletion/reuse of scope-registered __vpiArray memories, aliases or operational board behavior."
+}
