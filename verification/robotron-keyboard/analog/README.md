@@ -1237,3 +1237,13 @@ not operational state changes or combined cost. Budget or losslessly reduce this
 output before integration; later masks/links can grow. Reproduce using
 `signal_board.py --source REVIEWED_WAIT_BOARD --candidate SIGNAL_RUNTIME --out NEW_DIR`
 or replay `signal_board.py --check reports/signal-board-budget`.
+
+The [signal delta controls](reports/signal-delta/assessment.json) retain full native
+scans and encode differences from an immutable per-signal reference. Dense images
+remain the independent oracle for initialization, assignment relinking, partial
+masks, force/release and restored faults. Reference resets and observation before
+reference initialization are refused. The [board delta budget](reports/signal-delta-budget/assessment.json)
+measures initial-state scans and exact reconstruction; unchanged output savings do
+not bound active values, masks or links. Build with `build_signal_delta_runtime.py`,
+then run `signal_delta_probe.py` and `signal_delta_board.py`; replay either with
+`--check` and its retained report directory. Operational integration remains open.

@@ -1,0 +1,38 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "simulationOutputExactlyEqual": true,
+  "normalSignalTrajectoryExactlyEqual": true,
+  "restoredFaults": 45,
+  "faultsByField": {
+    "0": 12,
+    "1": 12,
+    "2": 6,
+    "3": 3,
+    "4": 12
+  },
+  "coverage": [
+    "Z",
+    "assignment-link",
+    "assignment-relinked",
+    "deassigned",
+    "forced-unfiltered-value",
+    "full-mask",
+    "initialized",
+    "initializing",
+    "partial-mask",
+    "unwritten-X",
+    "wide"
+  ],
+  "scope": "All allocated static four-state signal functors: unfiltered logical bits, assignment masks/source links and initialized flags. Faults restore actual native fields without propagation. Signal values are tested separately from forced visible output.",
+  "notEstablished": [
+    "Unsupported signal-family refusal qualification",
+    "Board bindings, operational integration and budgets",
+    "Callback contents, other functor payloads or general rollback"
+  ],
+  "denseAndDeltaExactlyEqual": true,
+  "matchedSnapshots": 142,
+  "denseBytes": 57636,
+  "deltaBytes": 55514,
+  "referenceBytes": 1698
+}
