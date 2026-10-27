@@ -1,0 +1,30 @@
+--- a/vvp/array.cc
++++ b/vvp/array.cc
+@@ -1928,3 +1928,27 @@
+     }
+     return fprintf(out,"VMM_END %zu\n",ordered.size())<0?-1:0;
+ }
++
++extern "C" int robotron_vvp_memory_toggle(unsigned field)
++{
++    static __vpiArray*target=0;static unsigned active=0;
++    if(field>4 || (target && field!=active))return -1;
++    if(!target){
++        char*bytes=0;size_t size=0;FILE*f=open_memstream(&bytes,&size);if(!f)return -1;
++        int rc=robotron_vvp_memory_metadata_inventory(f);if(!rc)rc=robotron_vvp_array_inventory(f);
++        if(fclose(f))rc=-1;free(bytes);if(rc)return -1;
++        std::map<const void*,std::pair<unsigned long long,const void*>> owners;
++        if(robotron_vvp_memory_owners(&owners))return -1;
++        unsigned long long first=~0ULL;
++        for(auto item:robotron_memories){auto id=owners.at(item.first).first;
++            if(item.second.bytes>1 && id<first){target=item.second.array;first=id;}}
++        if(!target)return -1;active=field;
++    }else active=99;
++    if(field==0)const_cast<char*>(target->name)[0]^=1;
++    if(field==1)target->name=reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(target->name)^1);
++    if(field==2)target->vals_words=reinterpret_cast<__vpiArrayWord*>(reinterpret_cast<uintptr_t>(target->vals_words)^1);
++    if(field==3)target->ports_=reinterpret_cast<vvp_fun_arrayport*>(reinterpret_cast<uintptr_t>(target->ports_)^1);
++    if(field==4)target->vals4=reinterpret_cast<vvp_vector4array_t*>(reinterpret_cast<uintptr_t>(target->vals4)^1);
++    if(active==99)target=0;
++    return 1;
++}
