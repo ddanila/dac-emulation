@@ -1282,3 +1282,11 @@ board admission and capture budgets remain open. Build with `build_mux_runtime.p
 then run `mux_probe.py` and `mux_partial_probe.py` with native
 candidate/baseline/module paths. Replay with `--check reports/mux-state` and
 `--check reports/mux-partial`, respectively.
+
+The [mux board budget](reports/mux-board-budget/assessment.json) binds every native
+MUXZ to its allocated graph node and checks compiled width totals. Initial-state
+scans include scheduler-wrapper lookup; their size and timing projections exclude
+later queue/cache growth and other observers. Use lossless differences before
+combined integration, preserving full native scans and wrapper identities.
+Reproduce with `mux_board.py --source REVIEWED_BOARD --candidate MUX_RUNTIME --out NEW_REPORT`;
+replay with `mux_board.py --check reports/mux-board-budget`.
