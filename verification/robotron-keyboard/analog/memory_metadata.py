@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+"""Replay bounded memory names and registered native scope identities."""
+import argparse,copy,json,os,platform,shutil,subprocess
+from pathlib import Path
+from ttl7406_probe import sha
+from net_probe import pointer
+HERE=Path(__file__).resolve().parent
+
+
+def parse(lines):
+    if not lines:raise ValueError('Missing memory metadata')
+    a=lines[0].split()
+    if len(a)!=3 or a[:2]!=['VMM_BEGIN','1'] or not 0<=int(a[2])<2**64:raise ValueError('Invalid memory header')
+    tick=int(a[2]);rows=[];i=1
+    while i<len(lines) and lines[i].startswith('VMM_MEMORY '):
+        a=lines[i].split();i+=1
+        if len(a)!=7:raise ValueError('Invalid memory row')
+        row=dict(id=int(a[1]),handle=pointer(a[2]),array=pointer(a[3]),scope=pointer(a[4]),namePointer=pointer(a[5]),nameBytes=int(a[6]))
+        if min(row.values())<=0 or i>=len(lines):raise ValueError('Invalid memory identity or bound')
+        a=lines[i].split();i+=1
+        if len(a)!=2 or a[0]!='VMM_NAME' or len(a[1])!=2*row['nameBytes'] or bytes.fromhex(a[1]).hex()!=a[1]:raise ValueError('Invalid bounded memory name')
+        row['name']=a[1];rows.append(row)
+    if i!=len(lines)-1 or lines[i].split()!=['VMM_END',str(len(rows))]:raise ValueError('Invalid memory footer')
+    for key in ('id','handle','array'):
+        if len({r[key] for r in rows})!=len(rows):raise ValueError('Duplicate memory identity')
+    if [r['id'] for r in rows]!=sorted(r['id'] for r in rows):raise ValueError('Unordered memory identity')
+    return dict(tick=tick,rows=rows)
+
+
+def review(root):
+    receipt=json.loads((root/'run.json').read_text());images={}
+    for mode in ('baseline','disabled','enabled'):
+        if receipt['runs'][mode]['exitCode'] or (root/(mode+'.stderr')).read_text():raise ValueError('Failed native memory control')
+        lines=(root/(mode+'.stdout')).read_text().splitlines();events=[];identities={};i=0
+        while i<len(lines):
+            line=lines[i];i+=1
+            if line.startswith('IMAGE '):
+                key=line.split()[1];start=i
+                while i<len(lines) and lines[i]!='IMAGE_END':i+=1
+                if i==len(lines) or mode!='enabled' or key in images:raise ValueError('Invalid memory image framing')
+                images[key]=parse(lines[start:i]);i+=1
+            elif line.startswith('IDENTITY '):
+                a=line.split()
+                if len(a)!=5 or mode!='enabled' or int(a[1]) in identities:raise ValueError('Invalid native identity control')
+                identities[int(a[1])]=tuple(pointer(p) for p in a[2:])
+            else:events.append('finish' if '$finish called at 3000 (1ps)' in line else line)
+        expected=[]
+        for r in (1,2):
+            expected.append(f'ROUND {r}')
+            if mode=='enabled':expected += [f'REFUSED {r} {f}' for f in range(5)]
+            expected.append(f'RESTORED {r}')
+        if events!=expected+['CONTINUE 3 10','finish']:raise ValueError('Changed memory refusal or continuation')
+        if mode=='enabled':
+            if set(identities)!={1,2}:raise ValueError('Missing independent identities')
+            for r in (1,2):
+                before=images.get(f'before{r}')
+                if not before or before['tick']!=r*1000 or len(before['rows'])!=1:raise ValueError('Missing memory baseline')
+                row=before['rows'][0]
+                if tuple(row[k] for k in ('handle','array','scope'))!=identities[r] or row['name']!=b'memory\0'.hex():raise ValueError('Wrong registered memory identity/name')
+                expected=copy.deepcopy(before);data=bytearray.fromhex(row['name']);data[0]^=1;expected['rows'][0]['name']=data.hex()
+                if images.get(f'changed{r}')!=expected or images.get(f'restored{r}')!=before:raise ValueError('Wrong isolated name change or restoration')
+    if set(images)!={f'{label}{r}' for label in ('before','changed','restored') for r in (1,2)}:raise ValueError('Missing memory images')
+    return dict(qualified=False,controlsPassed=True,rounds=2,isolatedNameChanges=2,zeroOutputRefusals=10,originalContinuationExactlyEqual=True,
+        scope='Registered native memory handle, concrete array pointer, scope owner and bounded name bytes. Two name-byte changes alter VPI names while prior array payloads remain equal. Changed/foreign name pointers and missing/duplicate/foreign intern ownership refuse before output; every control restores. Static allocation lifetime only. Existing array storage traversal, storage-pointer guards, unsupported memory families and operational board integration remain unqualified.')
+
+
+def run(candidate,baseline,modules,out):
+    candidate=candidate.resolve();baseline=baseline.resolve();modules=modules.resolve();out=out.resolve();out.mkdir(exist_ok=False)
+    build=json.loads((candidate/'build.json').read_text())
+    for n,h in build['outputs'].items():
+        if sha(candidate/n)!=h:raise ValueError('Changed runtime')
+    for ext in ('cc','v'):shutil.copy2(HERE/f'fixtures/memory_metadata.{ext}',out/f'probe.{ext}')
+    flags=['-bundle','-undefined','dynamic_lookup'] if platform.system()=='Darwin' else ['-shared','-fPIC']
+    commands=[['iverilog','-g2012','-ginterconnect','-o',str(out/'probe.vvp'),str(out/'probe.v')],['c++','-std=c++11',*flags,'-I'+str(candidate),'-I'+str(candidate/'vvp'),'-o',str(out/'probe.vpi'),str(out/'probe.cc')]]
+    for cmd in commands:subprocess.run(cmd,check=True)
+    pins={str(p):sha(p) for p in [baseline,candidate/'vvp/libvvp.so',candidate/'vvp/vvp',out/'probe.vpi',out/'probe.vvp',*modules.glob('*.vpi')]};runs={}
+    for mode in ('baseline','disabled','enabled'):
+        lib=baseline if mode=='baseline' else candidate/'vvp/libvvp.so'
+        env=dict(os.environ,K7658_PORT_PAYLOAD='on' if mode=='enabled' else 'off');env['DYLD_LIBRARY_PATH' if platform.system()=='Darwin' else 'LD_LIBRARY_PATH']=str(lib.parent)
+        cmd=[str(candidate/'vvp/vvp'),'-M'+str(modules),'-M.','-mprobe','probe.vvp'];r=subprocess.run(cmd,cwd=out,env=env,capture_output=True,text=True,timeout=30)
+        (out/(mode+'.stdout')).write_text(r.stdout);(out/(mode+'.stderr')).write_text(r.stderr);runs[mode]=dict(exitCode=r.returncode,command=cmd,library=str(lib));r.check_returncode()
+    if any(sha(Path(p))!=h for p,h in pins.items()):raise ValueError('Dependencies changed')
+    (out/'build.json').write_text(json.dumps(build,indent=2)+'\n')
+    (out/'run.json').write_text(json.dumps(dict(runs=runs,commands=commands,dependencies=pins),indent=2)+'\n')
+    (out/'assessment.json').write_text(json.dumps(review(out),indent=2)+'\n')
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser(description=__doc__)
+    for n in ('candidate','baseline','modules','out'):p.add_argument('--'+n,type=Path,required=True)
+    a=p.parse_args();run(a.candidate,a.baseline,a.modules,a.out)
