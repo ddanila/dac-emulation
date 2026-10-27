@@ -1,0 +1,40 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "unsupportedProfilesRefused": [
+    "equiv",
+    "impl",
+    "derived-boolean",
+    "derived-unary"
+  ],
+  "noPartialInventory": true,
+  "disabledContinuationExactlyEqual": true,
+  "nativeClasses": {
+    "equiv": [
+      "Sink",
+      "vvp_fun_and",
+      "vvp_fun_equiv"
+    ],
+    "impl": [
+      "Sink",
+      "vvp_fun_and",
+      "vvp_fun_impl"
+    ],
+    "derived-boolean": [
+      "ExtraAnd",
+      "Sink",
+      "vvp_fun_and"
+    ],
+    "derived-unary": [
+      "ExtraBuf",
+      "Sink",
+      "vvp_fun_and"
+    ]
+  },
+  "scope": "Native equivalence/implication and subclasses with behavior-changing private fields are rejected alongside an admitted AND. Both Boolean and unary inheritance branches are exercised before any inventory output.",
+  "notEstablished": [
+    "Payload support for rejected classes",
+    "Every possible plugin-defined subclass",
+    "Board integration and full qualification"
+  ]
+}
