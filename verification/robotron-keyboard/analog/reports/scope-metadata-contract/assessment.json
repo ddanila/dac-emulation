@@ -1,0 +1,189 @@
+{
+  "completed": true,
+  "qualified": false,
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "nativeSources": {
+    "vvp/vpi_priv.h": "511d7065184d89a20cce34f96ec8080f8ee5a2008c6e3061b0ee57d00174cb1d",
+    "vvp/vpi_scope.cc": "862ac85cc4b3f3c1896e3016faeda192ccbb14e4f05fbadacc9a12f979588a04",
+    "vvp/vpi_time.cc": "4b7224779c5ff9b146000fdc023b819f0548293ca5658ca3adf5843f4d56b80c",
+    "vvp/vpi_priv.cc": "b3094cfaddff83935855871bf70031bbafed6fc6cf624c4d5c9822191e4f2e76",
+    "vvp/words.cc": "b900af8cfb17449158ec529970245287fa1bd4fd99ab230342a003f595984a6a",
+    "vvp/compile.cc": "8de46477b431d978a237f7b7af01c0d1fd219f75bc3c7e7c3f10d350e094d611",
+    "vvp/array.cc": "5868942470ab5478bff3325e1db018325bcdd9b22d1e0970d3b1a16b2d46b397",
+    "vvp/event.cc": "8341e279484e915d23128c5990f41f3919f73ecc0cdb8ab7b2437204436a153f",
+    "vvp/enum_type.cc": "13bd6b6b4f72d2dcbf6d7624c10537772cad27c718f23fb201a289278c0431d6"
+  },
+  "sources": {
+    "scope_metadata_contract.py": "7060335cdd1b1cc1f79f07093b9b506f5400546516047131837f632118b5e931",
+    "scope_referents.py": "2856ec3766a1c0499102fc935199ffa718e0a3b2957367cdf01334a4291a1405",
+    "engine-patches/icarus-scope-observer.patch": "adee83495d4c9473d4eac3b89f39fd0735467fc86e2c280128a71426dc36c79a",
+    "thread_board_reachability.py": "976ec28674d1d936255364c9cb42235aed8cf6ba3c15400e6661b6ebb5ea1440",
+    "ttl7406_probe.py": "8726f6dc39c717b65abccc85792859aad3d8537dc02ac7eb85d2bd72d3e8021b"
+  },
+  "counterexampleAssessmentSha256": "707c602a5e7afc1de5c4dacf70a9f725064ce62d30b370e5edc2810901ecc958",
+  "evidence": {
+    "scopeFields": {
+      "file": "vvp/vpi_priv.h",
+      "firstLine": 256,
+      "excerpt": "class __vpiScope : public __vpiHandle {\n\n    public:\n      int vpi_get(int code) override;\n      char* vpi_get_str(int code) override;\n      vpiHandle vpi_handle(int code) override;\n      vpiHandle vpi_iterate(int code) override;\n\n    public:\n\t// Return the BASE name of the scope. This does not include\n\t// any of the parent hierarchy.\n      inline const char*scope_name() const { return name_; }\n\n      inline const char*scope_def_name() const { return tname_; }\n\t// TRUE if this is an automatic func/task/block\n      inline bool is_automatic() const { return is_automatic_; }\n\n    public:\n      __vpiScope *scope;\n      unsigned file_idx;\n      unsigned lineno;\n      unsigned def_file_idx;\n      unsigned def_lineno;\n      bool is_cell;\n\t/* The scope has a system time of its own. */\n      __vpiScopedTime scoped_time;\n      struct __vpiScopedSTime scoped_stime;\n      struct __vpiScopedRealtime scoped_realtime;\n\t/* Keep an array of internal scope items. */\n      std::vector<class __vpiHandle*> intern;\n\t/* Set of types */\n      std::map<std::string,class_type*> classes;\n        /* Keep an array of items to be automatically allocated */\n      struct automatic_hooks_s**item;\n      unsigned nitem;\n        /* Keep a list of live contexts. */\n      vvp_context_t live_contexts;\n        /* Keep a list of freed contexts. */\n      vvp_context_t free_contexts;\n\t/* Keep a list of threads in the scope. */\n      std::set<vthread_t> threads;\n      signed int time_units :8;\n      signed int time_precision :8;\n\n    protected:\n      __vpiScope(const char*nam, const char*tnam, bool is_auto_flag =false);\n\n    private:\n\t/* The scope has a name. */\n      const char*name_;\n      const char*tname_;\n\t/* the scope may be \"automatic\" */\n      bool is_automatic_;\n};\n\nclass vpiScopeFunction  : public __vpiScope {\n    public:\n      inline vpiScopeFunction(const char*nam, const char*tnam,\n\t\t\t      bool auto_flag, int func_type, unsigned func_wid, vvp_bit4_t func_init_val)\n      : __vpiScope(nam,tnam, auto_flag), func_type_(func_type), func_wid_(func_wid), func_init_val_(func_init_val)\n      { }\n\n      int get_type_code(void) const override { return vpiFunction; }\n      int vpi_get(int code) override\n      {\n\t    switch (code) {\n\t\tcase vpiFuncType:\n\t\t  return func_type_;\n\t\tdefault:\n\t\t  return __vpiScope::vpi_get(code);\n\t    }\n      }\n\n    public:\n      inline unsigned get_func_width(void) const { return func_wid_; }\n      inline vvp_bit4_t get_func_init_val(void) const { return func_init_val_; }\n\n    private:\n      int func_type_;\n      unsigned func_wid_;\n      vvp_bit4_t func_init_val_;\n};\n\n"
+    },
+    "metadataReadsAndConstructor": {
+      "file": "vvp/vpi_scope.cc",
+      "firstLine": 341,
+      "excerpt": "__vpiScope::__vpiScope(const char*nam, const char*tnam, bool auto_flag)\n: is_automatic_(auto_flag)\n{\n      name_ = vpip_name_string(nam);\n      tname_ = vpip_name_string(tnam? tnam : \"\");\n}\n\nint __vpiScope::vpi_get(int code)\n{\n      switch (code) {\n\t  case vpiCellInstance:\n\t    return is_cell? 1 : 0;\n\n\t  case vpiDefLineNo:\n\t    return def_lineno;\n\n\t  case vpiLineNo:\n\t    return lineno;\n\n\t  case vpiTimeUnit:\n\t    return time_units;\n\n\t  case vpiTimePrecision:\n\t    return time_precision;\n\n\t  case vpiTopModule:\n\t    return 0x0 == scope;\n\n          case vpiAutomatic:\n\t    return is_automatic_? 1 : 0;\n      }\n\n      return vpiUndefined;\n}\n\n\nchar*__vpiScope::vpi_get_str(int code)\n{ return scope_get_str(code, this); }\n\nvpiHandle __vpiScope::vpi_handle(int code)\n{ return scope_get_handle(code, this); }\n\nvpiHandle __vpiScope::vpi_iterate(int code)\n{ return module_iter(code, this); }\n\n\n"
+    },
+    "declarationAndTimescale": {
+      "file": "vvp/vpi_scope.cc",
+      "firstLine": 469,
+      "excerpt": "void\ncompile_scope_decl(char*label, char*type, char*name, char*tname,\n                   char*parent, long file_idx, long lineno,\n                   long def_file_idx, long def_lineno, long is_cell)\n{\n      count_vpi_scopes += 1;\n      char vec_type;\n      char sign_flag;\n      unsigned wid;\n\n      __vpiScope*scope;\n      if (strcmp(type,\"module\") == 0) {\n\t    scope = new vpiScopeModule(name, tname);\n      } else if ( sscanf(type, \"function.vec%c.%c%u\", &vec_type, &sign_flag, &wid) == 3 ) {\n\t    int type_code;\n\t    if (sign_flag=='s') {\n\t\t  type_code = vpiSizedSignedFunc;\n\t    } else if (sign_flag=='u') {\n\t\t  type_code = vpiSizedFunc;\n\t    } else if (sign_flag=='i') {\n\t\t  type_code = vpiIntFunc;\n\t    } else {\n\t\t  assert(0);\n\t\t  type_code = vpiSizedFunc;\n\t    }\n\t    vvp_bit4_t init_val = vec_type == '4' ? BIT4_X : BIT4_0;\n\t    scope = new vpiScopeFunction(name, tname, false, type_code, wid, init_val);\n\n      } else if ( sscanf(type, \"autofunction.vec%c.%c%u\", &vec_type, &sign_flag, &wid) == 3 ) {\n\t    int type_code;\n\t    switch (sign_flag) {\n\t\tcase 's':\n\t\t  type_code = vpiSizedSignedFunc;\n\t\t  break;\n\t\tcase 'u':\n\t\t  type_code = vpiSizedFunc;\n\t\t  break;\n\t\tdefault:\n\t\t  assert(0);\n\t\t  type_code = vpiSizedFunc;\n\t\t  break;\n\t    }\n\t    vvp_bit4_t init_val = vec_type == '4' ? BIT4_X : BIT4_0;\n\t    scope = new vpiScopeFunction(name, tname, true, type_code, wid, init_val);\n\n      } else if (strcmp(type,\"function.obj\") == 0) {\n\t    scope = new vpiScopeFunction(name, tname, false, vpiSizedFunc, 0, BIT4_0);\n      } else if (strcmp(type,\"autofunction.obj\") == 0) {\n\t    scope = new vpiScopeFunction(name, tname, true, vpiSizedFunc, 0, BIT4_0);\n      } else if (strcmp(type,\"function.real\") == 0) {\n\t    scope = new vpiScopeFunction(name, tname, false, vpiRealFunc, 0, BIT4_0);\n      } else if (strcmp(type,\"autofunction.real\") == 0) {\n\t    scope = new vpiScopeFunction(name, tname, true, vpiRealFunc, 0, BIT4_0);\n      } else if (strcmp(type,\"function.str\") == 0) {\n\t    scope = new vpiScopeFunction(name, tname, false, vpiOtherFunc, 0, BIT4_0);\n      } else if (strcmp(type,\"autofunction.str\") == 0) {\n\t    scope = new vpiScopeFunction(name, tname, true, vpiOtherFunc, 0, BIT4_0);\n      } else if (strcmp(type,\"function.void\") == 0) {\n\t    scope = new vpiScopeFunction(name, tname, false, vpiOtherFunc, 0, BIT4_0);\n      } else if (strcmp(type,\"autofunction.void\") == 0) {\n\t    scope = new vpiScopeFunction(name, tname, true, vpiOtherFunc, 0, BIT4_0);\n      } else if (strcmp(type,\"task\") == 0) {\n\t    scope = new vpiScopeTask(name, tname);\n      } else if (strcmp(type,\"autotask\") == 0) {\n\t    scope = new vpiScopeTaskAuto(name, tname);\n      } else if (strcmp(type,\"fork\") == 0) {\n\t    scope = new vpiScopeFork(name, tname);\n      } else if (strcmp(type,\"autofork\") == 0) {\n\t    scope = new vpiScopeForkAuto(name, tname);\n      } else if (strcmp(type,\"begin\") == 0) {\n\t    scope = new vpiScopeBegin(name, tname);\n      } else if (strcmp(type,\"autobegin\") == 0) {\n\t    scope = new vpiScopeBeginAuto(name, tname);\n      } else if (strcmp(type,\"generate\") == 0) {\n\t    scope = new vpiScopeGenerate(name, tname);\n      } else if (strcmp(type,\"package\") == 0) {\n\t    scope = new vpiScopePackage(name, tname);\n      } else if (strcmp(type,\"class\") == 0) {\n\t    scope = new vpiScopeClass(name, tname);\n      } else {\n\t    scope = new vpiScopeModule(name, tname);\n\t    assert(0);\n      }\n\n      scope->file_idx = (unsigned) file_idx;\n      scope->lineno  = (unsigned) lineno;\n      scope->def_file_idx = (unsigned) def_file_idx;\n      scope->def_lineno  = (unsigned) def_lineno;\n      scope->item = 0;\n      scope->nitem = 0;\n      scope->live_contexts = 0;\n      scope->free_contexts = 0;\n\n      if (is_cell) scope->is_cell = true;\n      else scope->is_cell = false;\n\n      current_scope = scope;\n\n      compile_vpi_symbol(label, scope);\n\n      free(label);\n      free(type);\n      delete[] name;\n      delete[] tname;\n\n      if (parent) {\n\t    static vpiHandle obj;\n\t    compile_vpi_lookup(&obj, parent);\n\t    assert(obj);\n\t    __vpiScope*sp = dynamic_cast<__vpiScope*>(obj);\n\t    vpip_attach_to_scope(sp, scope);\n\t    scope->scope = dynamic_cast<__vpiScope*>(obj);\n\n\t      /* Inherit time units and precision from the parent scope. */\n\t    scope->time_units = sp->time_units;\n\t    scope->time_precision = sp->time_precision;\n\n      } else {\n\t    scope->scope = 0x0;\n\n\t    vpip_root_table.push_back(scope);\n\n\t      /* Root scopes inherit time_units and precision from the\n\t         system precision. */\n\t    scope->time_units = vpip_get_time_precision();\n\t    scope->time_precision = vpip_get_time_precision();\n      }\n}\n\nvoid compile_scope_recall(char*symbol)\n{\n\t/* A __vpiScope starts with a __vpiHandle structure so this is\n\t   a safe cast. We need the (void*) to avoid a dereferenced\n\t   type punned pointer warning from some gcc compilers. */\n      compile_vpi_lookup((vpiHandle*)(void*)&current_scope, symbol);\n      assert(current_scope);\n}\n\n/*\n * This function handles the \".timescale\" directive in the vvp\n * source. It sets in the current scope the specified units value.\n */\nvoid compile_timescale(long units, long precision)\n{\n      assert(current_scope);\n      current_scope->time_units = units;\n      current_scope->time_precision = precision;\n}\n\n__vpiScope* vpip_peek_current_scope(void)\n{\n      return current_scope;\n}\n\n"
+    },
+    "objectAttachment": {
+      "file": "vvp/vpi_scope.cc",
+      "firstLine": 457,
+      "excerpt": "void vpip_attach_to_scope(__vpiScope*scope, vpiHandle obj)\n{\n      assert(scope);\n      scope->intern.push_back(obj);\n}\n\n"
+    },
+    "scopeIterator": {
+      "file": "vvp/vpi_scope.cc",
+      "firstLine": 332,
+      "excerpt": "static vpiHandle module_iter(int code, vpiHandle obj)\n{\n      __vpiScope*ref = dynamic_cast<__vpiScope*>(obj);\n      assert(ref);\n\n      return make_subset_iterator_(code, ref->intern);\n}\n\n\n"
+    },
+    "timeConversion": {
+      "file": "vvp/vpi_time.cc",
+      "firstLine": 42,
+      "excerpt": "void vpip_time_to_timestruct(struct t_vpi_time*ts, vvp_time64_t ti)\n{\n      ts->low  = ti & 0xFFFFFFFF;\n      ts->high = (ti >> 32) & 0xFFFFFFFF;\n}\n\nvvp_time64_t vpip_timestruct_to_time(const struct t_vpi_time*ts)\n{\n      vvp_time64_t ti = ts->high;\n      ti <<= 32;\n      ti += ts->low & 0xffffffff;\n      return ti;\n}\n\ndouble vpip_time_to_scaled_real(vvp_time64_t ti, const __vpiScope*scope)\n{\n      double val;\n      int scale = 0;\n      if (scope) scale = vpi_time_precision - scope->time_units;\n\n      if (scale >= 0) val = (double)ti * pow(10.0, scale);\n      else val = (double)ti / pow(10.0, -scale);\n\n      return val;\n}\n\n/*\n * This routine does not currently support negative real delays and it\n * does not check for overflow. It is only used for modpath delays and\n * they are required to be non-negative.\n */\nvvp_time64_t vpip_scaled_real_to_time64(double val, const __vpiScope*scope)\n{\n      int shift = 0;\n      if (scope) shift = scope->time_units - scope->time_precision;\n      assert(shift >= 0);\n\n      assert(val >= 0);\n\n\t// Scale to the local precision and then round away from zero.\n      double scale = pow(10.0L, shift);\n      val *= scale;\n\n      vvp_time64_t delay = (vvp_time64_t) (val + 0.5);\n\n\t// If needed now scale the value to the simulator precision.\n      if (scope) {\n\t    shift = scope->time_precision - vpi_time_precision;\n\t    assert(shift >= 0);\n\t    for (int lp = 0; lp <  shift; lp += 1) delay *= 10;\n      }\n\n      return delay;\n}\n\n"
+    }
+  },
+  "attachmentCallSites": [
+    {
+      "file": "vvp/vpi_scope.cc",
+      "line": 457,
+      "context": " */\nstatic __vpiScope*current_scope = 0;\n\nvoid vpip_attach_to_scope(__vpiScope*scope, vpiHandle obj)\n{\n      assert(scope);\n      scope->intern.push_back(obj);"
+    },
+    {
+      "file": "vvp/vpi_scope.cc",
+      "line": 579,
+      "context": "\t    compile_vpi_lookup(&obj, parent);\n\t    assert(obj);\n\t    __vpiScope*sp = dynamic_cast<__vpiScope*>(obj);\n\t    vpip_attach_to_scope(sp, scope);\n\t    scope->scope = dynamic_cast<__vpiScope*>(obj);\n\n\t      /* Inherit time units and precision from the parent scope. */"
+    },
+    {
+      "file": "vvp/vpi_scope.cc",
+      "line": 623,
+      "context": "      return current_scope;\n}\n\nvoid vpip_attach_to_current_scope(vpiHandle obj)\n{\n      vpip_attach_to_scope(current_scope, obj);\n}"
+    },
+    {
+      "file": "vvp/vpi_scope.cc",
+      "line": 625,
+      "context": "\nvoid vpip_attach_to_current_scope(vpiHandle obj)\n{\n      vpip_attach_to_scope(current_scope, obj);\n}\n\n__vpiScope* vpip_peek_context_scope(void)"
+    },
+    {
+      "file": "vvp/vpi_scope.cc",
+      "line": 814,
+      "context": "{\n      vpiPortInfo* obj = new vpiPortInfo( vpip_peek_current_scope(),\n                                          index, vpi_direction, width, name, buffer );\n      vpip_attach_to_current_scope(obj);\n\n\t// Create vpiPortBit objects\n      for (unsigned i=0; i<width; i++) {"
+    },
+    {
+      "file": "vvp/vpi_scope.cc",
+      "line": 820,
+      "context": "      for (unsigned i=0; i<width; i++) {\n\t    vpiPortBitInfo* obj_bit = new vpiPortBitInfo(obj, i);\n\t    obj->add_port_bit(obj_bit);\n\t    vpip_attach_to_current_scope(obj_bit);\n      }\n}"
+    },
+    {
+      "file": "vvp/words.cc",
+      "line": 58,
+      "context": "\n      if (name) {\n\t    assert(!array);\n\t    vpip_attach_to_current_scope(obj);\n            if (!vpip_peek_current_scope()->is_automatic())\n                  schedule_init_vector(vvp_net_ptr_t(net,0), 0.0);\n      }"
+    },
+    {
+      "file": "vvp/words.cc",
+      "line": 93,
+      "context": "      vpiHandle obj = vpip_make_string_var(name, net);\n      compile_vpi_symbol(label, obj);\n\n      vpip_attach_to_current_scope(obj);\n      free(label);\n      delete[] name;\n}"
+    },
+    {
+      "file": "vvp/words.cc",
+      "line": 116,
+      "context": "      vpiHandle obj = vpip_make_darray_var(name, net);\n      compile_vpi_symbol(label, obj);\n\n      vpip_attach_to_current_scope(obj);\n      free(label);\n      delete[] name;\n}"
+    },
+    {
+      "file": "vvp/words.cc",
+      "line": 139,
+      "context": "      vpiHandle obj = vpip_make_queue_var(name, net);\n      compile_vpi_symbol(label, obj);\n\n      vpip_attach_to_current_scope(obj);\n      free(label);\n      delete[] name;\n}"
+    },
+    {
+      "file": "vvp/words.cc",
+      "line": 162,
+      "context": "      vpiHandle obj = vpip_make_cobject_var(name, net);\n      compile_vpi_symbol(label, obj);\n\n      vpip_attach_to_current_scope(obj);\n      free(label);\n      delete[] name;\n}"
+    },
+    {
+      "file": "vvp/words.cc",
+      "line": 220,
+      "context": "\t// If the signal has a name, then it goes into the current\n\t// scope as a signal.\n      if (name) {\n\t    if (obj) vpip_attach_to_current_scope(obj);\n            if (!vpip_peek_current_scope()->is_automatic()) {\n\t\t  vvp_vector4_t tmp;\n\t\t  vfil->vec4_value(tmp);"
+    },
+    {
+      "file": "vvp/words.cc",
+      "line": 367,
+      "context": "      if (array)\n\t    array->attach_word(array_addr, obj);\n      else if (obj)\n\t    vpip_attach_to_scope(scope,obj);\n\n      free(my_label);\n      delete[] name;"
+    },
+    {
+      "file": "vvp/words.cc",
+      "line": 497,
+      "context": "     if (array)\n\t    array->attach_word(array_addr, obj);\n      else if (obj)\n\t    vpip_attach_to_scope(scope, obj);\n\n      free(my_label);\n      delete[] name;"
+    },
+    {
+      "file": "vvp/compile.cc",
+      "line": 1628,
+      "context": "\n      vvp_net_t*net = new vvp_net_t;\n      struct __vpiModPathSrc* srcobj = vpip_make_modpath_src(path, net) ;\n      vpip_attach_to_current_scope(srcobj);\n      net->fun = obj;\n\n\t/* Save the vpiEdge directory into the input path term. */"
+    },
+    {
+      "file": "vvp/compile.cc",
+      "line": 2039,
+      "context": "      vpiHandle obj = vpip_make_binary_param(name, value4, signed_flag,\n                                             local_flag, file_idx, lineno);\n      compile_vpi_symbol(label, obj);\n      vpip_attach_to_current_scope(obj);\n\n      free(label);\n      free(value);"
+    },
+    {
+      "file": "vvp/compile.cc",
+      "line": 2052,
+      "context": "\t// name and value become owned by vpip_make_string_param\n      vpiHandle obj = vpip_make_string_param(name, value, local_flag, file_idx, lineno);\n      compile_vpi_symbol(label, obj);\n      vpip_attach_to_current_scope(obj);\n\n      free(label);\n}"
+    },
+    {
+      "file": "vvp/compile.cc",
+      "line": 2064,
+      "context": "      double dvalue = crstring_to_double(value);\n      vpiHandle obj = vpip_make_real_param(name, dvalue, local_flag, file_idx, lineno);\n      compile_vpi_symbol(label, obj);\n      vpip_attach_to_current_scope(obj);\n\n      free(label);\n      free(value);"
+    },
+    {
+      "file": "vvp/array.cc",
+      "line": 843,
+      "context": "      compile_vpi_symbol(label, obj);\n\n\t/* Blindly attach to the scope as an object. */\n      vpip_attach_to_current_scope(obj);\n\n      return obj;\n}"
+    },
+    {
+      "file": "vvp/array.cc",
+      "line": 1592,
+      "context": "      array_table->sym_set_value(label, obj);\n\n      compile_vpi_symbol(label, obj);\n      vpip_attach_to_current_scope(obj);\n\n      free(label);\n      free(name);"
+    },
+    {
+      "file": "vvp/event.cc",
+      "line": 1073,
+      "context": "      }\n      define_functor_symbol(label, ptr);\n      compile_vpi_symbol(label, obj);\n      if (! local_flag) vpip_attach_to_current_scope(obj);\n\n      free(label);\n      delete[] name;"
+    },
+    {
+      "file": "vvp/enum_type.cc",
+      "line": 155,
+      "context": "\n      assert(idx == spec->names.size());\n      compile_vpi_symbol(label, spec);\n      vpip_attach_to_current_scope(spec);\n\n      free(label);\n      delete names;"
+    },
+    {
+      "file": "vvp/enum_type.cc",
+      "line": 181,
+      "context": "\n      assert(idx == spec->names.size());\n      compile_vpi_symbol(label, spec);\n      vpip_attach_to_current_scope(spec);\n\n      free(label);\n      delete names;"
+    }
+  ],
+  "existingWalkerPatch": "--- a/vvp/vpi_scope.cc\n+++ b/vvp/vpi_scope.cc\n@@ -820,3 +820,74 @@\n \t    vpip_attach_to_current_scope(obj_bit);\n       }\n }\n+\n+// Scope membership is independent of registered live-thread lifetime.\n+#include \"schedule.h\"\n+extern \"C\" unsigned long long robotron_vvp_thread_identity(vthread_t);\n+static int robotron_static_scopes(vector<__vpiScope*>& scopes)\n+{\n+    set<__vpiScope*> seen;\n+    for(auto root:vpip_root_table){\n+        auto scope=dynamic_cast<__vpiScope*>(root);\n+        if(!scope || scope->scope)return -1;\n+        scopes.push_back(scope);\n+    }\n+    for(size_t i=0;i<scopes.size();++i){\n+        auto scope=scopes[i];\n+        if(!seen.insert(scope).second || scope->is_automatic() || scope->nitem ||\n+           scope->item || scope->live_contexts || scope->free_contexts)return -1;\n+        for(auto item:scope->intern){\n+            auto child=dynamic_cast<__vpiScope*>(item);\n+            if(!child)continue;\n+            if(child->scope!=scope)return -1;\n+            scopes.push_back(child);\n+        }\n+    }\n+    return scopes.empty()?-1:0;\n+}\n+extern \"C\" int robotron_vvp_scope_inventory(FILE* out)\n+{\n+    vector<__vpiScope*> scopes;\n+    if(!out || robotron_static_scopes(scopes))return -1;\n+    map<__vpiScope*,unsigned long long> ids;\n+    for(size_t i=0;i<scopes.size();++i)ids[scopes[i]]=i+1;\n+    if(fprintf(out,\"VSC_BEGIN 1 %llu\\n\",(unsigned long long)schedule_simtime())<0)return -1;\n+    for(auto scope:scopes){\n+        map<unsigned long long,vthread_t> members;\n+        for(auto thread:scope->threads){\n+            auto id=robotron_vvp_thread_identity(thread);\n+            if(!id || !members.insert({id,thread}).second)return -1;\n+        }\n+        if(fprintf(out,\"VSC_SCOPE %llu %p %llu %d %zu\\n\",ids[scope],(void*)scope,\n+                   scope->scope?ids.at(scope->scope):0,scope->get_type_code(),members.size())<0)return -1;\n+        for(auto member:members)if(fprintf(out,\"VSC_MEMBER %llu\\n\",member.first)<0)return -1;\n+    }\n+    return fprintf(out,\"VSC_END %zu\\n\",scopes.size())<0 || ferror(out)?-1:0;\n+}\n+extern \"C\" int robotron_vvp_scope_toggle(void)\n+{\n+    static __vpiScope* saved_scope=0;\n+    static vthread_t saved_thread=0;\n+    static unsigned long long saved_id=0;\n+    vector<__vpiScope*> scopes;\n+    if(robotron_static_scopes(scopes))return -1;\n+    if(saved_scope){\n+        bool found=false;for(auto scope:scopes)if(scope==saved_scope)found=true;\n+        if(!found || robotron_vvp_thread_identity(saved_thread)!=saved_id ||\n+           saved_scope->threads.count(saved_thread))return -1;\n+        saved_scope->threads.insert(saved_thread);\n+        saved_scope=0;saved_thread=0;saved_id=0;return 1;\n+    }\n+    for(auto scope:scopes){\n+        map<unsigned long long,vthread_t> members;\n+        for(auto thread:scope->threads){\n+            auto id=robotron_vvp_thread_identity(thread);\n+            if(!id)return -1;\n+            members[id]=thread;\n+        }\n+        if(members.empty())continue;\n+        saved_scope=scope;saved_id=members.begin()->first;saved_thread=members.begin()->second;\n+        scope->threads.erase(saved_thread);return 1;\n+    }\n+    return 0;\n+}\n",
+  "findings": [
+    "Scope declaration initializes file/line fields, parent, context roots and inherited time scale; compile_timescale overrides the scale.",
+    "Scope intern attachment uses push_back; the inspected call sites construct declarations, ports, nets, arrays, events and enum types.",
+    "VPI metadata and scaled-time consumers read these fields after initialization. Function subtype also carries type, width and initial-value fields.",
+    "Current static-scope traversal dynamically casts every intern pointer before an independent allocation-membership check. It cannot safely admit arbitrary corrupted intern pointers."
+  ],
+  "requirements": [
+    "Register fully initialized scope and intern-object identities at native ownership handoff; reject foreign roots, parents and intern pointers before casting or dereferencing.",
+    "Capture or explicitly constrain names, type/subtype metadata, source locations, cell flag, time units/precision, scoped-time back-references and ordered intern membership.",
+    "Preserve complete child hierarchy and actual thread membership; bind known intern families to their existing payload observers. Pointer identity alone does not cover payloads.",
+    "Refuse unsupported scope subclasses, nonempty class maps, automatic hooks and live/free contexts under the static board profile.",
+    "Retain restored metadata/intern faults, original continuation, zero-output foreign-pointer refusal and allocation/lifecycle controls before board integration.",
+    "Audit all admitted runtime/VPI modules before relying on initialization-only invariants. The selected excerpts and textual call-site list alone are not an exhaustive nonmutation proof."
+  ],
+  "scope": "Pinned source ownership/consumer audit supporting the native scope counterexamples. No new observer, runtime write exclusion, operational board admission or general rollback claim."
+}
