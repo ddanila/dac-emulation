@@ -1,0 +1,54 @@
+{
+  "qualified": false,
+  "completed": true,
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "nativeSources": {
+    "vvp/vpi_priv.h": "511d7065184d89a20cce34f96ec8080f8ee5a2008c6e3061b0ee57d00174cb1d",
+    "vvp/vpi_scope.cc": "862ac85cc4b3f3c1896e3016faeda192ccbb14e4f05fbadacc9a12f979588a04",
+    "vvp/compile.cc": "8de46477b431d978a237f7b7af01c0d1fd219f75bc3c7e7c3f10d350e094d611",
+    "vvp/vpi_priv.cc": "b3094cfaddff83935855871bf70031bbafed6fc6cf624c4d5c9822191e4f2e76"
+  },
+  "evidence": {
+    "fields": {
+      "file": "vvp/vpi_priv.h",
+      "firstLine": 439,
+      "excerpt": "class vpiPortInfo  : public __vpiHandle {\n    public:\n      vpiPortInfo( __vpiScope *parent,\n                    unsigned index,\n                    int vpi_direction,\n                    unsigned width,\n                    const char *name,\n                    char* buffer );\n      ~vpiPortInfo() override;\n\n      int get_type_code(void) const override { return vpiPort; }\n      int get_direction(void) { return direction_; }\n      unsigned get_index(void) { return index_; }\n      int get_width(void) { return width_; }\n      void add_port_bit(vpiPortBitInfo* port_bit) { port_bits_.push_back(port_bit); }\n\n      int vpi_get(int code) override;\n      char* vpi_get_str(int code) override;\n      vpiHandle vpi_handle(int code) override;\n      vvp_net_t* get_port(void) const { return ref_; }\n      vpiHandle vpi_iterate(int code) override;\n\n      std::vector<vpiPortBitInfo*> port_bits_;\n\n    private:\n      __vpiScope *parent_;\n      unsigned  index_;\n      int       direction_;\n      unsigned  width_;\n      const char *name_;\n      vvp_net_t *ref_;\n};\n\nclass vpiPortBitInfo  : public __vpiHandle {\n    public:\n      vpiPortBitInfo(vpiPortInfo *parent,\n                     unsigned bit);\n      ~vpiPortBitInfo() override;\n\n      int get_type_code(void) const override { return vpiPortBit; }\n      unsigned get_bit(void) const { return bit_; }\n\n      int vpi_get(int code) override;\n      vpiHandle vpi_handle(int code) override;\n\n    private:\n      vpiPortInfo *parent_;\n      unsigned bit_;\n};\n\n"
+    },
+    "constructorsConsumersAndAttachments": {
+      "file": "vvp/vpi_scope.cc",
+      "firstLine": 664,
+      "excerpt": "vpiPortInfo::vpiPortInfo( __vpiScope *parent,\n              unsigned index,\n              int vpi_direction,\n              unsigned width,\n              const char *name,\n              char* buffer) :\n      parent_(parent),\n      index_(index),\n      direction_(vpi_direction),\n      width_(width),\n      name_(name)\n{\n      if (buffer != nullptr) functor_ref_lookup(&ref_, buffer);\n      else ref_ = nullptr;\n}\n\nvpiPortInfo::~vpiPortInfo()\n{\n      delete[] name_;\n}\n\n#ifdef CHECK_WITH_VALGRIND\nvoid port_delete(__vpiHandle *handle)\n{\n      delete dynamic_cast<vpiPortInfo *>(handle);\n}\n#endif\n\nint vpiPortInfo::vpi_get(int code)\n{\n      switch( code ) {\n\n        case vpiDirection :\n          return direction_;\n        case vpiPortIndex :\n          return index_;\n        case vpiSize :\n          return width_;\n        default :\n          return vpiUndefined;\n      }\n\n}\n\n\nchar *vpiPortInfo::vpi_get_str(int code)\n{\n      switch( code ) {\n        case vpiName :\n          return simple_set_rbuf_str(name_);\n        default :\n          return NULL;\n      }\n\n}\n\n\nvpiHandle vpiPortInfo::vpi_handle(int code)\n{\n\n      switch (code) {\n\n          case vpiParent:\n          case vpiScope:\n          case vpiModule:\n            return parent_;\n          default :\n            break;\n      }\n\n      return 0;\n}\n\nstatic vpiHandle portinfo_iterate(int code, vpiHandle ref)\n{\n      vpiPortInfo*rfp = dynamic_cast<vpiPortInfo*>(ref);\n      assert(rfp);\n      unsigned width = rfp->get_width();\n\n      switch (code) {\n\t  case vpiBit: {\n\t    vpiHandle*args = static_cast<vpiHandle*>(calloc(width, sizeof(vpiHandle*)));\n\n\t    for (unsigned i = 0; i<rfp->port_bits_.size(); i++) {\n\t\t  args[i] = rfp->port_bits_[i];\n\t    }\n\n\t    return vpip_make_iterator(width, args, true);\n\t  }\n      }\n      return 0;\n}\n\nvpiHandle vpiPortInfo::vpi_iterate(int code)\n{\n      return portinfo_iterate(code, this);\n}\n\n\nvpiPortBitInfo::vpiPortBitInfo(vpiPortInfo *parent,\n                               unsigned bit) :\n      parent_(parent),\n      bit_(bit)\n{\n}\n\nvpiPortBitInfo::~vpiPortBitInfo()\n{\n}\n\n#ifdef CHECK_WITH_VALGRIND\nvoid port_bit_delete(__vpiHandle *handle)\n{\n      delete dynamic_cast<vpiPortBitInfo *>(handle);\n}\n#endif\n\nvpiHandle vpiPortBitInfo::vpi_handle(int code)\n{\n\n      switch (code) {\n          case vpiParent:\n            return parent_;\n          default :\n            break;\n      }\n\n      return 0;\n}\n\nint vpiPortBitInfo::vpi_get(int code)\n{\n      switch( code ) {\n        case vpiBit :\n          return bit_;\n        default :\n          break;\n      }\n\n      return 0;\n}\n\n/* Port info is meta-data to allow vpi queries of the port signature of modules for\n * code-generators etc.  There are no actual nets corresponding to instances of module ports\n * as elaboration directly connects nets connected through module ports.\n */\n"
+    },
+    "portCompilation": {
+      "file": "vvp/vpi_scope.cc",
+      "firstLine": 810,
+      "excerpt": "void compile_port_info( unsigned index, int vpi_direction, unsigned width, const char *name, char* buffer )\n{\n      vpiPortInfo* obj = new vpiPortInfo( vpip_peek_current_scope(),\n                                          index, vpi_direction, width, name, buffer );\n      vpip_attach_to_current_scope(obj);\n\n\t// Create vpiPortBit objects\n      for (unsigned i=0; i<width; i++) {\n\t    vpiPortBitInfo* obj_bit = new vpiPortBitInfo(obj, i);\n\t    obj->add_port_bit(obj_bit);\n\t    vpip_attach_to_current_scope(obj_bit);\n      }\n}"
+    },
+    "deferredNetResolution": {
+      "file": "vvp/compile.cc",
+      "firstLine": 544,
+      "excerpt": "struct functor_gen_resolv_list_s: public resolv_list_s {\n      explicit functor_gen_resolv_list_s(char*txt) : resolv_list_s(txt) {\n\t    ref = 0;\n      }\n      vvp_net_t**ref;\n      virtual bool resolve(bool mes) override;\n};\n\nbool functor_gen_resolv_list_s::resolve(bool mes)\n{\n      vvp_net_t*tmp = vvp_net_lookup(label());\n\n      if (tmp) {\n\t    *ref = tmp;\n\t    return true;\n      }\n\n      if (mes)\n\t    fprintf(stderr, \"unresolved functor reference: %s\\n\", label());\n\n      return false;\n}\n\nvoid functor_ref_lookup(vvp_net_t**ref, char*lab)\n{\n      struct functor_gen_resolv_list_s*res =\n\t    new struct functor_gen_resolv_list_s(lab);\n\n      res->ref    = ref;\n\n      resolv_submit(res);\n}\n\n"
+    },
+    "intermoduleConsumer": {
+      "file": "vvp/vpi_priv.cc",
+      "firstLine": 1741,
+      "excerpt": "      vvp_net_t* net1 = port1->get_port();\n      vvp_net_t* net2 = port2->get_port();\n\n      if (net1 == nullptr || net2 == nullptr) {\n\t    fprintf(stderr, \"Error: Could not find net. \"\n\t\t    \"Did you run iverilog with '-ginterconnect'?\\n\");\n\t    return nullptr;\n      }\n\n      if (net1 == net2) {\n\t    fprintf(stderr, \"Error: Net for both ports is the same. \"\n\t\t    \"Did you pass the same port twice?\\n\");\n\t    return nullptr;\n      }\n\n"
+    }
+  },
+  "findings": [
+    "Ports carry parent scope, index, direction, width, owned name, optional resolved net reference and an ordered port-bit vector.",
+    "Port bits carry parent-port and bit-index fields and are separately attached to scope intern lists.",
+    "Native bit iteration allocates from port width but fills from the vector length; malformed size must be refused before invoking this consumer.",
+    "With a buffer label, the port constructor submits a possibly deferred net lookup without first assigning ref_. Attachment alone therefore does not prove this field initialized.",
+    "Intermodule-path consumers dereference resolved net references. Scope object IDs/types do not capture these port payloads."
+  ],
+  "requirements": [
+    "Register exact port and bit allocation families and owned name bounds at native construction/handoff; reject unknown pointers before casts.",
+    "Require completed reference resolution before reading port net storage, or track its initialized state explicitly; bind nonnull references to admitted net identities.",
+    "Capture parent/index/direction/width/name bytes, net reference, ordered bit identities and each bit parent/index. Validate membership before bit dereference and refuse unsupported subclasses.",
+    "Keep bridge port structures, admitted signal handles and native VPI port metadata distinct; bind them where their compiled relationships justify it.",
+    "Preserve restored port-bit ordering and foreign-pointer counterexamples, zero-output refusal, original continuation and operational cost controls.",
+    "Audit runtime modules before relying on initialization-only fields; these selected source excerpts are not a whole-program nonmutation proof."
+  ],
+  "scope": "Pinned source contract for native port metadata payload coverage. No new payload observer or lifetime/operational qualification."
+}
