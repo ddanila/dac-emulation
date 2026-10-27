@@ -1560,3 +1560,21 @@ the paths in `retention.json`; retained hashes alone cannot reproduce them.
 Reproduce with `postreset_retention_benchmark.py --out NEW_DIRECTORY`, then
 `postreset_retention_review.py --root NEW_DIRECTORY --out NEW_REVIEW.json`.
 Add `--full` to repeat every sample comparison again in the independent review.
+
+
+The [finite-slew I8282 controls](reports/i8282-slew-candidates/assessment.json)
+constrain the same 125/250-ohm alternatives with 0/10/30/60-ns internal drive
+ramps, both polarities, three supplies and 0/12/30-pF added capacitance. All
+144 SPICE cases agree with the independent loaded RC solution. Zero-ramp
+controls reproduce the prior edge and propagation calculations. Joint budgets
+require both edge limits as well as propagation headroom: the 250-ohm/0-pF
+alternative fails an edge limit with a 10-ns ramp, and the 125-ohm alternatives
+fail at 30 ns despite positive propagation headroom. At 125 ohms, 12 pF and a
+10-ns ramp, the joint data/strobe pure-delay maxima are 22.2592/42.2592 ns.
+Resistance switches instantly to its final-state value while the drive source
+ramps; this can initially move a falling output in the wrong direction. This
+explicit hypothesis does not establish actual internal drive shape, finite
+disconnect dynamics or enable behavior. Preserve the separate release constraints
+and unresolved Intel enable convention before any device admission. Run
+`i8282_slew_probe.py --out NEW_DIRECTORY`, or verify retained results with
+`i8282_slew_probe.py --out reports/i8282-slew-candidates --verify`.

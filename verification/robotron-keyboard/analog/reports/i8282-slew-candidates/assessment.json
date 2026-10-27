@@ -1,0 +1,5576 @@
+{
+  "completed": true,
+  "qualified": false,
+  "deviceAdmitted": false,
+  "runtime": {
+    "path": "/opt/homebrew/Cellar/ngspice/47/bin/ngspice",
+    "sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511"
+  },
+  "sources": {
+    "bus_cosim.py": "d5d8eba9ab45ee0753c013c66f1f56882077d30c48074c113f3d4f99773baa23",
+    "bus_device_contract.json": "2ec7297942027de6507fe06b7ee0ee28380affd73d7aa15af47f6c73fa3d6c03",
+    "bus_endpoint_candidates.py": "6437f6e81fcb100065df54ac21f1f7a87c13fb68482567c85410dbd27e3e5fb0",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "bus_switching_limits.json": "669da702f6aed3654862bc8730eea51c267d30d5921ea3316f43b85145510ec3",
+    "bus_switching_probe.py": "d122f1e6f8bb4d8f44660f835c9a980eb394698ef23c911c0caca31cbcee2f23",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+    "i8282_capacitance_probe.py": "dbba9facc8947247892c062de94a7ba52885049a6e66853734370d9388dd562c",
+    "i8282_delay_contract.json": "736d83d7b61f4b132c2862a537912666f7939a3da2bda6825f465c3ead5a9894",
+    "i8282_enabled_candidates.py": "1219d0f07705e1241b5349c494121f3a20e05dcd03915a561ca90c155070913d",
+    "i8282_propagation_probe.py": "daa839bc150f17b411d46a62afcc962442cafeb9cb5d73bc29e4864f5eda9a08",
+    "i8282_slew_probe.py": "8a410dab62b57f8a6e79529752a2c3d7cf01c8523f1196d0457a11c37ba3cce2",
+    "i8282_timing.v": "be5f2923e2b3bcc95fcc0e63b7aefd438585a5cfd6e54601a87b243106363bf4",
+    "ttl7406_probe.py": "8726f6dc39c717b65abccc85792859aad3d8537dc02ac7eb85d2bd72d3e8021b",
+    "u880_slew_probe.py": "1c054ef02901851cc044e34da067f80bb0ee44d697d2fc6397900dd117333d56"
+  },
+  "jointBudgets": [
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 0.0,
+      "rampSeconds": 0.0,
+      "failedEdgeCaseIndices": [],
+      "dataHeadroomSeconds": 2.7220369314303314e-08,
+      "strobeHeadroomSeconds": 4.722036931430331e-08,
+      "dataDelayIntervalSeconds": [
+        0.0,
+        2.7220369314303314e-08
+      ],
+      "strobeDelayIntervalSeconds": [
+        0.0,
+        4.722036931430331e-08
+      ]
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 0.0,
+      "rampSeconds": 1e-08,
+      "failedEdgeCaseIndices": [],
+      "dataHeadroomSeconds": 2.2469675907051953e-08,
+      "strobeHeadroomSeconds": 4.246967590705195e-08,
+      "dataDelayIntervalSeconds": [
+        0.0,
+        2.2469675907051953e-08
+      ],
+      "strobeDelayIntervalSeconds": [
+        0.0,
+        4.246967590705195e-08
+      ]
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 0.0,
+      "rampSeconds": 3e-08,
+      "failedEdgeCaseIndices": [
+        2
+      ],
+      "dataHeadroomSeconds": 7.214412361335732e-09,
+      "strobeHeadroomSeconds": 2.7214412361335732e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 0.0,
+      "rampSeconds": 6e-08,
+      "failedEdgeCaseIndices": [
+        3,
+        15,
+        27,
+        39,
+        51,
+        63
+      ],
+      "dataHeadroomSeconds": -1.5478465652922007e-08,
+      "strobeHeadroomSeconds": 4.521534347077993e-09,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 12.0,
+      "rampSeconds": 0.0,
+      "failedEdgeCaseIndices": [],
+      "dataHeadroomSeconds": 2.6909184086875447e-08,
+      "strobeHeadroomSeconds": 4.690918408687545e-08,
+      "dataDelayIntervalSeconds": [
+        0.0,
+        2.6909184086875447e-08
+      ],
+      "strobeDelayIntervalSeconds": [
+        0.0,
+        4.690918408687545e-08
+      ]
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 12.0,
+      "rampSeconds": 1e-08,
+      "failedEdgeCaseIndices": [],
+      "dataHeadroomSeconds": 2.2259197912431763e-08,
+      "strobeHeadroomSeconds": 4.225919791243176e-08,
+      "dataDelayIntervalSeconds": [
+        0.0,
+        2.2259197912431763e-08
+      ],
+      "strobeDelayIntervalSeconds": [
+        0.0,
+        4.225919791243176e-08
+      ]
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 12.0,
+      "rampSeconds": 3e-08,
+      "failedEdgeCaseIndices": [
+        6,
+        30
+      ],
+      "dataHeadroomSeconds": 7.019623538382249e-09,
+      "strobeHeadroomSeconds": 2.701962353838225e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 12.0,
+      "rampSeconds": 6e-08,
+      "failedEdgeCaseIndices": [
+        7,
+        19,
+        31,
+        43,
+        55,
+        67
+      ],
+      "dataHeadroomSeconds": -1.568736859677904e-08,
+      "strobeHeadroomSeconds": 4.3126314032209605e-09,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 30.0,
+      "rampSeconds": 0.0,
+      "failedEdgeCaseIndices": [],
+      "dataHeadroomSeconds": 2.6442406245733645e-08,
+      "strobeHeadroomSeconds": 4.6442406245733645e-08,
+      "dataDelayIntervalSeconds": [
+        0.0,
+        2.6442406245733645e-08
+      ],
+      "strobeDelayIntervalSeconds": [
+        0.0,
+        4.6442406245733645e-08
+      ]
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 30.0,
+      "rampSeconds": 1e-08,
+      "failedEdgeCaseIndices": [],
+      "dataHeadroomSeconds": 2.194243460801644e-08,
+      "strobeHeadroomSeconds": 4.194243460801644e-08,
+      "dataDelayIntervalSeconds": [
+        0.0,
+        2.194243460801644e-08
+      ],
+      "strobeDelayIntervalSeconds": [
+        0.0,
+        4.194243460801644e-08
+      ]
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 30.0,
+      "rampSeconds": 3e-08,
+      "failedEdgeCaseIndices": [
+        10,
+        34
+      ],
+      "dataHeadroomSeconds": 6.7305326438617375e-09,
+      "strobeHeadroomSeconds": 2.6730532643861738e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 30.0,
+      "rampSeconds": 6e-08,
+      "failedEdgeCaseIndices": [
+        11,
+        23,
+        35,
+        47,
+        59,
+        71
+      ],
+      "dataHeadroomSeconds": -1.6000363051120302e-08,
+      "strobeHeadroomSeconds": 3.999636948879698e-09,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 0.0,
+      "rampSeconds": 0.0,
+      "failedEdgeCaseIndices": [],
+      "dataHeadroomSeconds": 2.306436730062424e-08,
+      "strobeHeadroomSeconds": 4.306436730062424e-08,
+      "dataDelayIntervalSeconds": [
+        0.0,
+        2.306436730062424e-08
+      ],
+      "strobeDelayIntervalSeconds": [
+        0.0,
+        4.306436730062424e-08
+      ]
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 0.0,
+      "rampSeconds": 1e-08,
+      "failedEdgeCaseIndices": [
+        73
+      ],
+      "dataHeadroomSeconds": 2.027098120504166e-08,
+      "strobeHeadroomSeconds": 4.0270981205041664e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 0.0,
+      "rampSeconds": 3e-08,
+      "failedEdgeCaseIndices": [
+        74,
+        98,
+        122
+      ],
+      "dataHeadroomSeconds": 7.2325910138926916e-09,
+      "strobeHeadroomSeconds": 2.7232591013892692e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 0.0,
+      "rampSeconds": 6e-08,
+      "failedEdgeCaseIndices": [
+        75,
+        87,
+        99,
+        111,
+        123,
+        135
+      ],
+      "dataHeadroomSeconds": -1.5477995919660612e-08,
+      "strobeHeadroomSeconds": 4.522004080339388e-09,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 12.0,
+      "rampSeconds": 0.0,
+      "failedEdgeCaseIndices": [
+        76
+      ],
+      "dataHeadroomSeconds": 2.2586941992649207e-08,
+      "strobeHeadroomSeconds": 4.258694199264921e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 12.0,
+      "rampSeconds": 1e-08,
+      "failedEdgeCaseIndices": [
+        77
+      ],
+      "dataHeadroomSeconds": 1.9805928486475998e-08,
+      "strobeHeadroomSeconds": 3.9805928486476e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 12.0,
+      "rampSeconds": 3e-08,
+      "failedEdgeCaseIndices": [
+        78,
+        102,
+        126
+      ],
+      "dataHeadroomSeconds": 7.041191002846125e-09,
+      "strobeHeadroomSeconds": 2.7041191002846125e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 12.0,
+      "rampSeconds": 6e-08,
+      "failedEdgeCaseIndices": [
+        79,
+        91,
+        103,
+        115,
+        127,
+        139
+      ],
+      "dataHeadroomSeconds": -1.568671364837537e-08,
+      "strobeHeadroomSeconds": 4.3132863516246305e-09,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 30.0,
+      "rampSeconds": 0.0,
+      "failedEdgeCaseIndices": [
+        80
+      ],
+      "dataHeadroomSeconds": 2.1870804030686662e-08,
+      "strobeHeadroomSeconds": 4.187080403068666e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 30.0,
+      "rampSeconds": 1e-08,
+      "failedEdgeCaseIndices": [
+        81
+      ],
+      "dataHeadroomSeconds": 1.9106594428575646e-08,
+      "strobeHeadroomSeconds": 3.9106594428575646e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 30.0,
+      "rampSeconds": 3e-08,
+      "failedEdgeCaseIndices": [
+        82,
+        106,
+        130
+      ],
+      "dataHeadroomSeconds": 6.7577944047212366e-09,
+      "strobeHeadroomSeconds": 2.6757794404721237e-08,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 30.0,
+      "rampSeconds": 6e-08,
+      "failedEdgeCaseIndices": [
+        83,
+        95,
+        107,
+        119,
+        131,
+        143
+      ],
+      "dataHeadroomSeconds": -1.5999332386102423e-08,
+      "strobeHeadroomSeconds": 4.000667613897578e-09,
+      "dataDelayIntervalSeconds": null,
+      "strobeDelayIntervalSeconds": null
+    }
+  ],
+  "cases": [
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 2.1575854244647843e-09,
+          "to": 1.3786180886931706e-08,
+          "propagation": 7.779630685696688e-09
+        },
+        "edgeSeconds": 1.162859546246692e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.7220369314303314e-08,
+        "strobeHeadroomSeconds": 4.722036931430331e-08
+      },
+      "measuredCrossings": {
+        "from": 2.15759e-09,
+        "to": 1.37862e-08,
+        "propagation": 7.77963e-09
+      },
+      "files": {
+        "probe.cir": "6ccbed61688f513a791767b2d04acaf0036ce2fbd64b2f03d2a4627ea01bd333",
+        "ngspice.log": "b812993f7a34a68746800e8a8660cd57a0af45ce2ac5cf8f8c09029d60edc178"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 4.831097648232002e-09,
+          "to": 1.7617694220504475e-08,
+          "propagation": 1.161114401926946e-08
+        },
+        "edgeSeconds": 1.2786596572272473e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3388855980730542e-08,
+        "strobeHeadroomSeconds": 4.338885598073054e-08
+      },
+      "measuredCrossings": {
+        "from": 4.8311e-09,
+        "to": 1.76177e-08,
+        "propagation": 1.16111e-08
+      },
+      "files": {
+        "probe.cir": "9169893b4908edc532446432e59c7f03d9ca2caa7191fc9537670ae910a9f7da",
+        "ngspice.log": "e6c9f3a1a77803338d087a32ee1797a8fd95a9d0d9c73a9dd2395814edcc45c0"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 6.336740999680062e-09,
+          "to": 2.752549215743601e-08,
+          "propagation": 1.8758250660630405e-08
+        },
+        "edgeSeconds": 2.1188751157755948e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.6241749339369597e-08,
+        "strobeHeadroomSeconds": 3.62417493393696e-08
+      },
+      "measuredCrossings": {
+        "from": 6.33674e-09,
+        "to": 2.75255e-08,
+        "propagation": 1.87583e-08
+      },
+      "files": {
+        "probe.cir": "6e0b7acec277dd7fe51c6f23e84a823b35f249cbb05f07b374419372a61f73c8",
+        "ngspice.log": "defd625b01a05c4487dc1e5e79bcb5abbd73845eddac51cb8fbcd3c106dbf8f4"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 7.110945191565925e-09,
+          "to": 4.158307601694797e-08,
+          "propagation": 2.5685318737037325e-08
+        },
+        "edgeSeconds": 3.4472130825382045e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 9.314681262962677e-09,
+        "strobeHeadroomSeconds": 2.9314681262962678e-08
+      },
+      "measuredCrossings": {
+        "from": 7.11095e-09,
+        "to": 4.15831e-08,
+        "propagation": 2.56853e-08
+      },
+      "files": {
+        "probe.cir": "939415521e1d0fef6d5e19d7e7dbdce2ddf521bbab9b465d2f323cb36665e91e",
+        "ngspice.log": "e26618512a16634c2ad1f855022fc5a3d521742d1ed714d0923c4fd9b98b3eb5"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 2.243888841443376e-09,
+          "to": 1.4337628122408973e-08,
+          "propagation": 8.090815913124556e-09
+        },
+        "edgeSeconds": 1.2093739280965597e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.6909184086875447e-08,
+        "strobeHeadroomSeconds": 4.690918408687545e-08
+      },
+      "measuredCrossings": {
+        "from": 2.24389e-09,
+        "to": 1.43376e-08,
+        "propagation": 8.09082e-09
+      },
+      "files": {
+        "probe.cir": "16a18a6c2c77dffea9e6f931a907fba7641da10ccf750dd2252ec0702e35c3b6",
+        "ngspice.log": "be269e223dc6b80b08819ca7c5c34c87524a85f213fe299825abe9e4c40af963"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 4.966373718993929e-09,
+          "to": 1.8153569552775326e-08,
+          "propagation": 1.1906757343490906e-08
+        },
+        "edgeSeconds": 1.3187195833781397e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3093242656509097e-08,
+        "strobeHeadroomSeconds": 4.30932426565091e-08
+      },
+      "measuredCrossings": {
+        "from": 4.96637e-09,
+        "to": 1.81536e-08,
+        "propagation": 1.19068e-08
+      },
+      "files": {
+        "probe.cir": "ad20cbf5c8ddefa8e33c1b67ecfcd1b1909aa8659812a147802b886b2fe18683",
+        "ngspice.log": "96ee55a710aa1a223da47ec835fd743648685d499667c5b9f0eeb5f8322b6e2e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 6.538907954019654e-09,
+          "to": 2.8008306134244445e-08,
+          "propagation": 1.9169615579728413e-08
+        },
+        "edgeSeconds": 2.146939818022479e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.583038442027159e-08,
+        "strobeHeadroomSeconds": 3.583038442027159e-08
+      },
+      "measuredCrossings": {
+        "from": 6.53891e-09,
+        "to": 2.80083e-08,
+        "propagation": 1.91696e-08
+      },
+      "files": {
+        "probe.cir": "fa6fe6e4c96b832fcda837ff9af6594e0f39e0c88c914a7acae58acc45198f17",
+        "ngspice.log": "eaa08c791205928f810ebc23811ae7f7db3ba793e37feeaa0072a760d6f35a57"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 7.355524786959637e-09,
+          "to": 4.217818090813003e-08,
+          "propagation": 2.6232385206614715e-08
+        },
+        "edgeSeconds": 3.4822656121170395e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 8.767614793385287e-09,
+        "strobeHeadroomSeconds": 2.8767614793385288e-08
+      },
+      "measuredCrossings": {
+        "from": 7.35553e-09,
+        "to": 4.21782e-08,
+        "propagation": 2.62324e-08
+      },
+      "files": {
+        "probe.cir": "d8a5d1987c5e14f5352bddbfabf7e34aec47aa8f3041e0628c7b3882a2ac0a77",
+        "ngspice.log": "5f794119bb3ad1a30d4752f73eebb345b904ff0c6fee4348053724659f29ebbb"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 2.373343966911263e-09,
+          "to": 1.5164798975624876e-08,
+          "propagation": 8.557593754266358e-09
+        },
+        "edgeSeconds": 1.2791455008713613e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.6442406245733645e-08,
+        "strobeHeadroomSeconds": 4.6442406245733645e-08
+      },
+      "measuredCrossings": {
+        "from": 2.37335e-09,
+        "to": 1.51648e-08,
+        "propagation": 8.55759e-09
+      },
+      "files": {
+        "probe.cir": "f4e8dd80aae5087f3923f6b028137e40ca3d7b39bcfa3310824bb67988b21ebd",
+        "ngspice.log": "8405575634d696db381c50a5cebb3a6c16b0f9c363a198505e74e0aac028f62d"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 5.165339729231555e-09,
+          "to": 1.8959536662418454e-08,
+          "propagation": 1.2352331441059935e-08
+        },
+        "edgeSeconds": 1.3794196933186899e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.2647668558940067e-08,
+        "strobeHeadroomSeconds": 4.264766855894007e-08
+      },
+      "measuredCrossings": {
+        "from": 5.16534e-09,
+        "to": 1.89595e-08,
+        "propagation": 1.23523e-08
+      },
+      "files": {
+        "probe.cir": "f3c3571b8355e1ba1afd0435fa16d224c366313fc07549601790f394e5b900e4",
+        "ngspice.log": "5e9f108394f55fa941a9e3f9582fefe8038941882abb2fb1d27596ba78dbdffe"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 6.8376075372992385e-09,
+          "to": 2.8719690607114586e-08,
+          "propagation": 1.9774064429767957e-08
+        },
+        "edgeSeconds": 2.1882083069815348e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.5225935570232046e-08,
+        "strobeHeadroomSeconds": 3.5225935570232046e-08
+      },
+      "measuredCrossings": {
+        "from": 6.83761e-09,
+        "to": 2.87197e-08,
+        "propagation": 1.97741e-08
+      },
+      "files": {
+        "probe.cir": "a82e5cd0c4f9c77def6acf0968c095a01c9a941bd025c3b933ea03933aa33627",
+        "ngspice.log": "a3e473f7c7a08b1f9b264c8c70dcc508c982512a62e471a28097aec0119ba5ff"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 2.966748768472906,
+        "crossings": {
+          "from": 7.718256128046545e-09,
+          "to": 4.306160036495547e-08,
+          "propagation": 2.703786756121025e-08
+        },
+        "edgeSeconds": 3.5343344236908926e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 7.962132438789753e-09,
+        "strobeHeadroomSeconds": 2.7962132438789753e-08
+      },
+      "measuredCrossings": {
+        "from": 7.71826e-09,
+        "to": 4.30616e-08,
+        "propagation": 2.70379e-08
+      },
+      "files": {
+        "probe.cir": "063440d73da22916f98d4aecc9976ca23b8e3c75c93186a3a88687b954fd7e2e",
+        "ngspice.log": "af1f71650dbf53b93ce60049f512373a42b978b2ab84d463a113b9de71d0dd0a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.53931718199548e-09,
+          "to": 1.0335064144023404e-08,
+          "propagation": 4.579647527269583e-09
+        },
+        "edgeSeconds": 7.795746962027924e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.042035247273042e-08,
+        "strobeHeadroomSeconds": 5.042035247273042e-08
+      },
+      "measuredCrossings": {
+        "from": 2.53931e-09,
+        "to": 1.03351e-08,
+        "propagation": 4.57964e-09
+      },
+      "files": {
+        "probe.cir": "7b9b8148ac6baefec1b353ddaced46926626d762d5544178fc5d3fbd89849813",
+        "ngspice.log": "4b685d6011384e22fb147cf7211c7595ac2dfbe011004ad5c98fd57ba918c778"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 9.487502350307703e-09,
+          "to": 1.7313740653815436e-08,
+          "propagation": 1.155832403706161e-08
+        },
+        "edgeSeconds": 7.826238303507734e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3441675962938393e-08,
+        "strobeHeadroomSeconds": 4.344167596293839e-08
+      },
+      "measuredCrossings": {
+        "from": 9.4875e-09,
+        "to": 1.73137e-08,
+        "propagation": 1.15583e-08
+      },
+      "files": {
+        "probe.cir": "f30832000a7ab35f2f105d18298f71572b8572adcc504b8937a3b2f672760cae",
+        "ngspice.log": "7935c6162a2bd98407b5e53e69965a8045f9f3ebed4766858eec4fb6b985c642"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.1708651102436807e-08,
+          "to": 3.286478295856155e-08,
+          "propagation": 2.6126611779899708e-08
+        },
+        "edgeSeconds": 1.1156131856124744e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 8.873388220100294e-09,
+        "strobeHeadroomSeconds": 2.8873388220100295e-08
+      },
+      "measuredCrossings": {
+        "from": 2.17087e-08,
+        "to": 3.28648e-08,
+        "propagation": 2.61266e-08
+      },
+      "files": {
+        "probe.cir": "571bed8dc263b9e94d72ad4abb6f301d67662426f34fa8bbf66bb3cfc0560b9a",
+        "ngspice.log": "78a4db065d82b82bc643a61c6fd6c5c2bd58b4aa1746bac216e887472ef4e4e5"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.8596707050645034e-08,
+          "to": 5.922571463403435e-08,
+          "propagation": 4.7197654096328967e-08
+        },
+        "edgeSeconds": 2.0629007583389315e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.2197654096328964e-08,
+        "strobeHeadroomSeconds": 7.802345903671036e-09
+      },
+      "measuredCrossings": {
+        "from": 3.85967e-08,
+        "to": 5.92257e-08,
+        "propagation": 4.71977e-08
+      },
+      "files": {
+        "probe.cir": "ecf30e9262d1580374acba89977d8f1a3da1f01c6eae078f97c012e315b5b405",
+        "ngspice.log": "9eb24f697ac706853d4d4454fa3598565e3ed0b2a19e541241322894131fb85b"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.6408898692752992e-09,
+          "to": 1.0748466709784342e-08,
+          "propagation": 4.762833428360366e-09
+        },
+        "edgeSeconds": 8.107576840509043e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.0237166571639634e-08,
+        "strobeHeadroomSeconds": 5.0237166571639635e-08
+      },
+      "measuredCrossings": {
+        "from": 2.64089e-09,
+        "to": 1.07485e-08,
+        "propagation": 4.76283e-09
+      },
+      "files": {
+        "probe.cir": "93e30c38fed2400fa492d0cc49d4cc9520256248eea3a61317a7812a7570d2ad",
+        "ngspice.log": "d628a7c7b5fcf2eca82124c1c2851490ca633c9f966253f6f7ca2ce9bfb496ef"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 9.593396785438236e-09,
+          "to": 1.7720038411319426e-08,
+          "propagation": 1.1734405129895452e-08
+        },
+        "edgeSeconds": 8.12664162588119e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.326559487010455e-08,
+        "strobeHeadroomSeconds": 4.326559487010455e-08
+      },
+      "measuredCrossings": {
+        "from": 9.5934e-09,
+        "to": 1.772e-08,
+        "propagation": 1.17344e-08
+      },
+      "files": {
+        "probe.cir": "d99b7c33145d5e2e3a1e0aed5de4fa0ca9eb8618cbb1c90e65e61f97789a8dcd",
+        "ngspice.log": "6e19579ce644e6eca070320fdaa581d91f20c2bde5d025c0feb22295257a19cb"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.188517768198891e-08,
+          "to": 3.318295682434243e-08,
+          "propagation": 2.6318736982117504e-08
+        },
+        "edgeSeconds": 1.129777914235352e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 8.681263017882498e-09,
+        "strobeHeadroomSeconds": 2.86812630178825e-08
+      },
+      "measuredCrossings": {
+        "from": 2.18852e-08,
+        "to": 3.3183e-08,
+        "propagation": 2.63187e-08
+      },
+      "files": {
+        "probe.cir": "5883652ee835d0e5257e9c4e336d4bdfe5f3e835031a8a82d782d0ff5564a02c",
+        "ngspice.log": "9f14a2b3f105e410fdd22c3cc709fcdc2289d4b83955c54183bb4232934b4749"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.8802221479311e-08,
+          "to": 5.9435131301762636e-08,
+          "propagation": 4.740620020466e-08
+        },
+        "edgeSeconds": 2.063290982245164e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.2406200204659998e-08,
+        "strobeHeadroomSeconds": 7.593799795340003e-09
+      },
+      "measuredCrossings": {
+        "from": 3.88022e-08,
+        "to": 5.94351e-08,
+        "propagation": 4.74062e-08
+      },
+      "files": {
+        "probe.cir": "54939c897b91195d04a834bec28e14772f275e6adf800d330ce9c8e29f6bf15d",
+        "ngspice.log": "273b2e05c07ef7950f4d1f8108a64d18c92febd18612022e40a15b0352f1be1d"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.7932489001950274e-09,
+          "to": 1.1368570558425743e-08,
+          "propagation": 5.03761227999654e-09
+        },
+        "edgeSeconds": 8.575321658230715e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.9962387720003464e-08,
+        "strobeHeadroomSeconds": 4.9962387720003464e-08
+      },
+      "measuredCrossings": {
+        "from": 2.79325e-09,
+        "to": 1.13686e-08,
+        "propagation": 5.03761e-09
+      },
+      "files": {
+        "probe.cir": "a92ed09b0c1477775e2f57a648ae0ad9ed6fb6918fa3d249dd32c449614e3ef6",
+        "ngspice.log": "d44942d38ea7c235d9bfcc2ed88eedbdc356fdf7ffd4a86aad09ad829833281c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 9.748372784351363e-09,
+          "to": 1.833092823704416e-08,
+          "propagation": 1.1999969958614952e-08
+        },
+        "edgeSeconds": 8.582555452692797e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.300003004138505e-08,
+        "strobeHeadroomSeconds": 4.3000030041385055e-08
+      },
+      "measuredCrossings": {
+        "from": 9.74837e-09,
+        "to": 1.83309e-08,
+        "propagation": 1.2e-08
+      },
+      "files": {
+        "probe.cir": "7eaaead776a580fd18523feae4ae344ab2ab61d778a5864d70ca03aff8e90527",
+        "ngspice.log": "d27f5d404c58e1588e94afffd0bbe86bcc61ed35640db2d668e7821b6b348e3e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.214545014043085e-08,
+          "to": 3.3671436278959135e-08,
+          "propagation": 2.6603608728351163e-08
+        },
+        "edgeSeconds": 1.1525986138528284e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 8.39639127164884e-09,
+        "strobeHeadroomSeconds": 2.839639127164884e-08
+      },
+      "measuredCrossings": {
+        "from": 2.21455e-08,
+        "to": 3.36714e-08,
+        "propagation": 2.66036e-08
+      },
+      "files": {
+        "probe.cir": "670a460c22ab2d88a8bde03655732464bcc0dddc383357c5b229eb60c2b51bce",
+        "ngspice.log": "4784f5135f1c35d368ebd3990a0e50248a797f6aef4721dd17553490949e84a8"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.966748768472906,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.910905384562931e-08,
+          "to": 5.974915843288752e-08,
+          "propagation": 4.7718517230984535e-08
+        },
+        "edgeSeconds": 2.064010458725821e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.2718517230984533e-08,
+        "strobeHeadroomSeconds": 7.281482769015468e-09
+      },
+      "measuredCrossings": {
+        "from": 3.91091e-08,
+        "to": 5.97492e-08,
+        "propagation": 4.77185e-08
+      },
+      "files": {
+        "probe.cir": "e282c35028d76a898867549a3b96add5928cf4dbc7facba5cfab227eaf043d4d",
+        "ngspice.log": "30c4bf72bb4d4f45040f3af0635180cc99d4337077ca49f1a9db661e82799fb0"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 1.993453024987495e-09,
+          "to": 1.2234391232838516e-08,
+          "propagation": 7.066045382035169e-09
+        },
+        "edgeSeconds": 1.0240938207851022e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.7933954617964834e-08,
+        "strobeHeadroomSeconds": 4.7933954617964834e-08
+      },
+      "measuredCrossings": {
+        "from": 1.99346e-09,
+        "to": 1.22344e-08,
+        "propagation": 7.06605e-09
+      },
+      "files": {
+        "probe.cir": "50a8d09f2913905af085af995f3eb1bcf59d7e2abe320cb1ddfc8d1ad26f7a58",
+        "ngspice.log": "babdcba9b2f406675ef4abf698a1841af1bf4b9878aad3c0158de68d2a305dd8"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 4.681518958935178e-09,
+          "to": 1.617419645832084e-08,
+          "propagation": 1.1005850607517495e-08
+        },
+        "edgeSeconds": 1.149267749938566e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3994149392482507e-08,
+        "strobeHeadroomSeconds": 4.399414939248251e-08
+      },
+      "measuredCrossings": {
+        "from": 4.68152e-09,
+        "to": 1.61742e-08,
+        "propagation": 1.10059e-08
+      },
+      "files": {
+        "probe.cir": "b9d20b2a32f0e93686808b96f289a547d5ac8a7ee50aeb6321e8664bde5141d5",
+        "ngspice.log": "679f9f056052363246c7713eba0cc9fb60ae91a6e53a7eac6af01c7125e1aaf6"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 6.203108922058762e-09,
+          "to": 2.596481720805745e-08,
+          "propagation": 1.7895974161307547e-08
+        },
+        "edgeSeconds": 1.9761708285998688e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 1.7104025838692456e-08,
+        "strobeHeadroomSeconds": 3.7104025838692456e-08
+      },
+      "measuredCrossings": {
+        "from": 6.20311e-09,
+        "to": 2.59648e-08,
+        "propagation": 1.7896e-08
+      },
+      "files": {
+        "probe.cir": "8f8af87e410427067eb57b60026ce2f197f385699bb38a7719ac91de2dbd92b1",
+        "ngspice.log": "729df6561056caae4c9f827f8ed188390b163024cf7148af5e004998e74e026f"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 7.0064079279873625e-09,
+          "to": 3.89015722213836e-08,
+          "propagation": 2.4466608404973696e-08
+        },
+        "edgeSeconds": 3.189516429339623e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.0533391595026307e-08,
+        "strobeHeadroomSeconds": 3.053339159502631e-08
+      },
+      "measuredCrossings": {
+        "from": 7.00641e-09,
+        "to": 3.89016e-08,
+        "propagation": 2.44666e-08
+      },
+      "files": {
+        "probe.cir": "575953e8f46ba84d419de8b8ffac7c5bc8eb8ea99e7f1020ad449445ede073a0",
+        "ngspice.log": "142a7f2ab30c9e887be8472bf6d8900e7106df16034c0ec1fb746527da27f740"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 2.0731911459869948e-09,
+          "to": 1.2723766882152055e-08,
+          "propagation": 7.348687197316576e-09
+        },
+        "edgeSeconds": 1.065057573616506e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.7651312802683428e-08,
+        "strobeHeadroomSeconds": 4.765131280268343e-08
+      },
+      "measuredCrossings": {
+        "from": 2.07319e-09,
+        "to": 1.27238e-08,
+        "propagation": 7.34869e-09
+      },
+      "files": {
+        "probe.cir": "e5981e4c3b33f8e5d9484f5b78b6d733607e32ff9a3fe98a01f6d73627137fba",
+        "ngspice.log": "c0c1aaeaa31c9928f458e24607d536a1e2df1f4c265cab6a1ecbe791da96c3c7"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 4.8110329881548545e-09,
+          "to": 1.664815801306023e-08,
+          "propagation": 1.127307832822475e-08
+        },
+        "edgeSeconds": 1.1837125024905376e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3726921671775252e-08,
+        "strobeHeadroomSeconds": 4.372692167177525e-08
+      },
+      "measuredCrossings": {
+        "from": 4.81103e-09,
+        "to": 1.66482e-08,
+        "propagation": 1.12731e-08
+      },
+      "files": {
+        "probe.cir": "7cc7ff51e45ce79bffe205c06ede5ae0ded0e62751946daafef295d4b5c540a4",
+        "ngspice.log": "473896c30f8d783d0a03b866c0667c15e10e71caacfca7f62a80d67c631b4870"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 6.398584752985256e-09,
+          "to": 2.642877511040816e-08,
+          "propagation": 1.8288988251704895e-08
+        },
+        "edgeSeconds": 2.0030190357422905e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.6711011748295107e-08,
+        "strobeHeadroomSeconds": 3.671101174829511e-08
+      },
+      "measuredCrossings": {
+        "from": 6.39858e-09,
+        "to": 2.64288e-08,
+        "propagation": 1.8289e-08
+      },
+      "files": {
+        "probe.cir": "5843349cbd855e2539faf2ccc3b831d2fb0e6fcb4fd430cc4908c07930641284",
+        "ngspice.log": "da8efcf7ca59f82dcc1f94dae6c38bcc1163ddd53bf2c581162d68a31c9291d2"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 7.244863607648182e-09,
+          "to": 3.9482633621071506e-08,
+          "propagation": 2.4991564829582622e-08
+        },
+        "edgeSeconds": 3.223777001342332e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.000843517041738e-08,
+        "strobeHeadroomSeconds": 3.000843517041738e-08
+      },
+      "measuredCrossings": {
+        "from": 7.24486e-09,
+        "to": 3.94826e-08,
+        "propagation": 2.49916e-08
+      },
+      "files": {
+        "probe.cir": "b03f8d0e8785126c61a914fec26fba04451583e51e16cc8e5969810110f37281",
+        "ngspice.log": "433a56cb72b1e4172ab31f0dd7c680f6d897c44a98032f8aa02a547865cddf2b"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 2.1927983274862444e-09,
+          "to": 1.3457830356122366e-08,
+          "propagation": 7.772649920238686e-09
+        },
+        "edgeSeconds": 1.1265032028636122e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.7227350079761316e-08,
+        "strobeHeadroomSeconds": 4.7227350079761316e-08
+      },
+      "measuredCrossings": {
+        "from": 2.1928e-09,
+        "to": 1.34578e-08,
+        "propagation": 7.77265e-09
+      },
+      "files": {
+        "probe.cir": "ba07c0fae122b4349d4dc615ae9e037fab6bd21f693aa3d596713d177fd342be",
+        "ngspice.log": "524e64c3eddc9910876e60156382da16687c50a875b98b69972b2956443a503c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 5.001464091504599e-09,
+          "to": 1.7361226119747316e-08,
+          "propagation": 1.1676045683863633e-08
+        },
+        "edgeSeconds": 1.2359762028242717e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.332395431613637e-08,
+        "strobeHeadroomSeconds": 4.332395431613637e-08
+      },
+      "measuredCrossings": {
+        "from": 5.00146e-09,
+        "to": 1.73612e-08,
+        "propagation": 1.1676e-08
+      },
+      "files": {
+        "probe.cir": "47f17ee61a41cee93c6d98663d3867c16283a9f162c323a2e1a6979569d936aa",
+        "ngspice.log": "de8aaa1fc1b8b007145c291c218eaf7de6560e5fb36049adcc46b5509213ff20"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 6.687245651732029e-09,
+          "to": 2.7111929238478287e-08,
+          "propagation": 1.8866347155367997e-08
+        },
+        "edgeSeconds": 2.0424683586746258e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.6133652844632005e-08,
+        "strobeHeadroomSeconds": 3.6133652844632005e-08
+      },
+      "measuredCrossings": {
+        "from": 6.68725e-09,
+        "to": 2.71119e-08,
+        "propagation": 1.88663e-08
+      },
+      "files": {
+        "probe.cir": "e4166ea212de93589a22d0706c85a5c6c21c878944a1fb4f59bb00ca0a75f442",
+        "ngspice.log": "18ab9ac22c26d21a9c25ab58011ce83dcacade456f7052af4f32fb497e3ade62"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.158866995073892,
+        "crossings": {
+          "from": 7.59830318711821e-09,
+          "to": 4.034383545283687e-08,
+          "propagation": 2.576418153587886e-08
+        },
+        "edgeSeconds": 3.274553226571866e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 9.235818464121141e-09,
+        "strobeHeadroomSeconds": 2.923581846412114e-08
+      },
+      "measuredCrossings": {
+        "from": 7.5983e-09,
+        "to": 4.03438e-08,
+        "propagation": 2.57642e-08
+      },
+      "files": {
+        "probe.cir": "179df72d889c7585003d875742fc3409b110b68cc8898d279abab6cdedffcef3",
+        "ngspice.log": "b7d66e59ad2cd8edfa8bb4f2a71ce0e4ce99cc38ecf87b6ebb2acfff4bfabc2a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.9246971981019422e-09,
+          "to": 1.0720444160129863e-08,
+          "propagation": 4.965027543376045e-09
+        },
+        "edgeSeconds": 7.795746962027921e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.0034972456623956e-08,
+        "strobeHeadroomSeconds": 5.0034972456623956e-08
+      },
+      "measuredCrossings": {
+        "from": 2.9247e-09,
+        "to": 1.07204e-08,
+        "propagation": 4.96503e-09
+      },
+      "files": {
+        "probe.cir": "19c93cd7cf5563d0dae8a8b035a70a920f5297256570d0d28348b3547b7d263e",
+        "ngspice.log": "e29e54adba9072fe313b7998e6723d3771ec1d957c7d613dbb62a9858c2676a4"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.0026504384850854e-08,
+          "to": 1.7822251346878775e-08,
+          "propagation": 1.2066834730124955e-08
+        },
+        "edgeSeconds": 7.795746962027921e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.2933165269875047e-08,
+        "strobeHeadroomSeconds": 4.293316526987505e-08
+      },
+      "measuredCrossings": {
+        "from": 1.00265e-08,
+        "to": 1.78223e-08,
+        "propagation": 1.20668e-08
+      },
+      "files": {
+        "probe.cir": "631269a049eb6cb4085181fcb1df141eaeab1be379bcc87ec112df7435bdb031",
+        "ngspice.log": "0c5988f778c00be7a7b5f2668bd1b31e2ea3cf2e39e3521d793729b623341c8e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.3081613516146707e-08,
+          "to": 3.34145222596888e-08,
+          "propagation": 2.7039522210806657e-08
+        },
+        "edgeSeconds": 1.0332908743542092e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 7.960477789193345e-09,
+        "strobeHeadroomSeconds": 2.7960477789193346e-08
+      },
+      "measuredCrossings": {
+        "from": 2.30816e-08,
+        "to": 3.34145e-08,
+        "propagation": 2.70395e-08
+      },
+      "files": {
+        "probe.cir": "19a57693cb78d57f55ee5eef433b48004a0277cc0f774592920ba6c9509d4c23",
+        "ngspice.log": "6045faad9b8c7c3b95473c7708d1dfcf0822f32bbc8750af3c61d2a851d056ba"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.1264558405828974e-08,
+          "to": 5.982701120195421e-08,
+          "propagation": 4.900216694094173e-08
+        },
+        "edgeSeconds": 1.8562452796125238e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.4002166940941725e-08,
+        "strobeHeadroomSeconds": 5.997833059058275e-09
+      },
+      "measuredCrossings": {
+        "from": 4.12646e-08,
+        "to": 5.9827e-08,
+        "propagation": 4.90022e-08
+      },
+      "files": {
+        "probe.cir": "24f1b42926b403561984e17021bd1b5f657c9c6294dd6f31a4b4fc21456ab0a6",
+        "ngspice.log": "888b009c51d774e33e24c63cfe3686956b7dd4c6e84d69773f7af93ddc17f989"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.04168508602602e-09,
+          "to": 1.114926192653506e-08,
+          "propagation": 5.163628645111087e-09
+        },
+        "edgeSeconds": 8.10757684050904e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.983637135488892e-08,
+        "strobeHeadroomSeconds": 4.983637135488892e-08
+      },
+      "measuredCrossings": {
+        "from": 3.04169e-09,
+        "to": 1.11493e-08,
+        "propagation": 5.16363e-09
+      },
+      "files": {
+        "probe.cir": "c921410e8000bb08bc6d93d9eac936b3bede38d367317314631d36de7fd77491",
+        "ngspice.log": "d8085478ecbf14efad84f29f79769c32655e4869bd1e7c7eb399debca8128a05"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.0138864246135157e-08,
+          "to": 1.8246441086644206e-08,
+          "propagation": 1.2260807805220226e-08
+        },
+        "edgeSeconds": 8.10757684050905e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.2739192194779777e-08,
+        "strobeHeadroomSeconds": 4.273919219477978e-08
+      },
+      "measuredCrossings": {
+        "from": 1.01389e-08,
+        "to": 1.82464e-08,
+        "propagation": 1.22608e-08
+      },
+      "files": {
+        "probe.cir": "356cc5ce3f1d927a68346ceae1840e5f44eef2554d5b013c780074bec37b607d",
+        "ngspice.log": "22a3a8ce60d153268c21b8347347a9f6c182be064b62426f639813c8c97ce578"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.326277195973762e-08,
+          "to": 3.375422142627447e-08,
+          "propagation": 2.7233149770591394e-08
+        },
+        "edgeSeconds": 1.0491449466536852e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 7.766850229408608e-09,
+        "strobeHeadroomSeconds": 2.776685022940861e-08
+      },
+      "measuredCrossings": {
+        "from": 2.32628e-08,
+        "to": 3.37542e-08,
+        "propagation": 2.72332e-08
+      },
+      "files": {
+        "probe.cir": "32c78a69dc3bfb4b54184eaf3351a50e36b70146b52c71f3b675ffc05c581921",
+        "ngspice.log": "655a151d026013805cd3d415b63ad1447cc4bc05592810860c1e2c3bb879898f"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.1471317684208624e-08,
+          "to": 6.003655601851934e-08,
+          "propagation": 4.921092694787227e-08
+        },
+        "edgeSeconds": 1.856523833431072e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.421092694787227e-08,
+        "strobeHeadroomSeconds": 5.789073052127731e-09
+      },
+      "measuredCrossings": {
+        "from": 4.14713e-08,
+        "to": 6.00366e-08,
+        "propagation": 4.92109e-08
+      },
+      "files": {
+        "probe.cir": "d89bcf0d2f170a719dac666da47b252ffd7cbf248e1bcdafb9beeaf43870f090",
+        "ngspice.log": "6e77525ac5a9002d23c31273686f2e89e660b87b71d7523722104c4b2173e899"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.2171669179121356e-09,
+          "to": 1.1792488576142848e-08,
+          "propagation": 5.461530297713648e-09
+        },
+        "edgeSeconds": 8.575321658230712e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.9538469702286356e-08,
+        "strobeHeadroomSeconds": 4.9538469702286356e-08
+      },
+      "measuredCrossings": {
+        "from": 3.21717e-09,
+        "to": 1.17925e-08,
+        "propagation": 5.46153e-09
+      },
+      "files": {
+        "probe.cir": "902d63dfc3ee2cade1f37cdb79b81b98d2c3b5854845558c769122c4672725a6",
+        "ngspice.log": "186b79cd45dd3f3d2cc0011fa27b76d24c29b61780db8d0e2860f90d3df613d8"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.030863218603942e-08,
+          "to": 1.8883953844270138e-08,
+          "propagation": 1.2552995565840927e-08
+        },
+        "edgeSeconds": 8.575321658230718e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.2447004434159076e-08,
+        "strobeHeadroomSeconds": 4.2447004434159076e-08
+      },
+      "measuredCrossings": {
+        "from": 1.03086e-08,
+        "to": 1.8884e-08,
+        "propagation": 1.2553e-08
+      },
+      "files": {
+        "probe.cir": "54642abfffd09958bf175286218e379d071b60876b9673dc968298b75f7a5dce",
+        "ngspice.log": "d6f61b49af481e46123fafc39b97ed8b69474f628d2a9ca76e8b950e423a7b51"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.353020856974146e-08,
+          "to": 3.427483351503985e-08,
+          "propagation": 2.7520394892986335e-08
+        },
+        "edgeSeconds": 1.0744624945298391e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 7.479605107013667e-09,
+        "strobeHeadroomSeconds": 2.7479605107013668e-08
+      },
+      "measuredCrossings": {
+        "from": 2.35302e-08,
+        "to": 3.42748e-08,
+        "propagation": 2.75204e-08
+      },
+      "files": {
+        "probe.cir": "baa2f14d94fd4dfb1f1a0e7d0b9e1b2bdd8a242d7ef1785bced1a4962bc277ea",
+        "ngspice.log": "d8c9fd1658fc1f1efd447c52ebdde158f66f1164029b98609851ddf1b284a2d1"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 3.158866995073892,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.178034594353737e-08,
+          "to": 6.036158394325461e-08,
+          "propagation": 4.9523647706864893e-08
+        },
+        "edgeSeconds": 1.858123799971724e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.4523647706864891e-08,
+        "strobeHeadroomSeconds": 5.476352293135109e-09
+      },
+      "measuredCrossings": {
+        "from": 4.17803e-08,
+        "to": 6.03616e-08,
+        "propagation": 4.95236e-08
+      },
+      "files": {
+        "probe.cir": "113ef59ff18442be0d34267c0e2fd24ffdba02f06507c8c2769af8ec2eb6855f",
+        "ngspice.log": "80b1df6f708eac0b1d129d8b47be47c7e3dc2a883fbbf13372a53795600391cd"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 1.8525590511243297e-09,
+          "to": 1.101149088953654e-08,
+          "propagation": 6.474370230805494e-09
+        },
+        "edgeSeconds": 9.15893183841221e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.8525629769194508e-08,
+        "strobeHeadroomSeconds": 4.852562976919451e-08
+      },
+      "measuredCrossings": {
+        "from": 1.85256e-09,
+        "to": 1.10115e-08,
+        "propagation": 6.47437e-09
+      },
+      "files": {
+        "probe.cir": "325768181cc53ed1425da3640070389dfef0dc0c6a93de10b1c309ac818e1763",
+        "ngspice.log": "805f9145fec227ae114591518700c563466140ba95ddecf8fe354aacd029b5d7"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 4.546785537731452e-09,
+          "to": 1.504458987115134e-08,
+          "propagation": 1.0507469212420296e-08
+        },
+        "edgeSeconds": 1.049780433341989e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.4492530787579707e-08,
+        "strobeHeadroomSeconds": 4.449253078757971e-08
+      },
+      "measuredCrossings": {
+        "from": 4.54678e-09,
+        "to": 1.50446e-08,
+        "propagation": 1.05075e-08
+      },
+      "files": {
+        "probe.cir": "3b8ea9881501d304b6d8592a8919122ee0ed7ed4d67952f67c5d45661d5c2546",
+        "ngspice.log": "25791078190fdf08403487e37cfce099db40056cc7aef1347096c45fa3f326e9"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 6.079314228847297e-09,
+          "to": 2.4647208398616626e-08,
+          "propagation": 1.7151224686698184e-08
+        },
+        "edgeSeconds": 1.856789416976933e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 1.7848775313301818e-08,
+        "strobeHeadroomSeconds": 3.784877531330182e-08
+      },
+      "measuredCrossings": {
+        "from": 6.07931e-09,
+        "to": 2.46472e-08,
+        "propagation": 1.71512e-08
+      },
+      "files": {
+        "probe.cir": "c44e544682ed0a057df9e6c9b1d2d0ea674a16abb33c56f5ea3b8e2392d5b7a7",
+        "ngspice.log": "b8151bed760997e1703533539febf0a6d40d0fd5fa3f9842366cfba7c5159a3f"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4408866995073892e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 6.907548351925647e-09,
+          "to": 3.667621404803352e-08,
+          "propagation": 2.342198321443533e-08
+        },
+        "edgeSeconds": 2.976866569610787e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.1578016785564671e-08,
+        "strobeHeadroomSeconds": 3.157801678556467e-08
+      },
+      "measuredCrossings": {
+        "from": 6.90755e-09,
+        "to": 3.66762e-08,
+        "propagation": 2.3422e-08
+      },
+      "files": {
+        "probe.cir": "25726c292c63fb3cc7be5953fe6ec284f57102eb8460a5ac3a9dc76f31cfcc59",
+        "ngspice.log": "bb169072f3e628da6f7d0545ce81e0ba4d91e7a1aba7603cd70d7dc2ffd3c1e3"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 1.9266614131693036e-09,
+          "to": 1.1451950525118002e-08,
+          "propagation": 6.7333450400377144e-09
+        },
+        "edgeSeconds": 9.525289111948699e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.8266654959962288e-08,
+        "strobeHeadroomSeconds": 4.8266654959962285e-08
+      },
+      "measuredCrossings": {
+        "from": 1.92666e-09,
+        "to": 1.1452e-08,
+        "propagation": 6.73335e-09
+      },
+      "files": {
+        "probe.cir": "9bde5115a93bc7b709990e61a7a93653d32e547d159da1a9c5842cf749610f50",
+        "ngspice.log": "4c0532d04698fd58e24538324144c666137065e504abd8ee002741433a3c9029"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 4.671225380659755e-09,
+          "to": 1.5469795509481586e-08,
+          "propagation": 1.0751190024401298e-08
+        },
+        "edgeSeconds": 1.0798570128821831e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.4248809975598705e-08,
+        "strobeHeadroomSeconds": 4.42488099755987e-08
+      },
+      "measuredCrossings": {
+        "from": 4.67122e-09,
+        "to": 1.54698e-08,
+        "propagation": 1.07512e-08
+      },
+      "files": {
+        "probe.cir": "ed7c6c540e21bf1562634a46375daea1ef993841c8d4f04a5e584cd8c5a7db14",
+        "ngspice.log": "c8be0cc92fa95e7fb4924fa3c92b283b431ffd548fd5256ef09d1248ee0139f3"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 6.268739172368038e-09,
+          "to": 2.509420410375479e-08,
+          "propagation": 1.752819122332174e-08
+        },
+        "edgeSeconds": 1.8825464931386755e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 1.7471808776678262e-08,
+        "strobeHeadroomSeconds": 3.747180877667826e-08
+      },
+      "measuredCrossings": {
+        "from": 6.26874e-09,
+        "to": 2.50942e-08,
+        "propagation": 1.75282e-08
+      },
+      "files": {
+        "probe.cir": "14ee0adbcf2eff663feb93018a5cf67c898f2fa0160e0e8ca9f3dd54a65c3567",
+        "ngspice.log": "2633cb2aa6435774f0e4261de5be20079bfa049908663085ad0fd2dd325fe447"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.4985221674876848e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 7.140334310956529e-09,
+          "to": 3.7243187339557034e-08,
+          "propagation": 2.3927331696106317e-08
+        },
+        "edgeSeconds": 3.01028530286005e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.1072668303893686e-08,
+        "strobeHeadroomSeconds": 3.1072668303893686e-08
+      },
+      "measuredCrossings": {
+        "from": 7.14033e-09,
+        "to": 3.72432e-08,
+        "propagation": 2.39273e-08
+      },
+      "files": {
+        "probe.cir": "86cd26d81fcf1d57c440bfb4d1aaa088859b7af793022a42414e23d1080782ce",
+        "ngspice.log": "68625ec343cef2eb1df6b2bb838c715cbe3111a750671631158ad6c0776c61f4"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 2.0378149562367627e-09,
+          "to": 1.2112639978490192e-08,
+          "propagation": 7.121807253886045e-09
+        },
+        "edgeSeconds": 1.007482502225343e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.7878192746113956e-08,
+        "strobeHeadroomSeconds": 4.7878192746113956e-08
+      },
+      "measuredCrossings": {
+        "from": 2.03782e-09,
+        "to": 1.21126e-08,
+        "propagation": 7.12181e-09
+      },
+      "files": {
+        "probe.cir": "ac4c0481b5d5d3b3bc2156d2ee1fad35155fc880243e1326df6bf51514c5bf4b",
+        "ngspice.log": "9473dffa078df9bf2381f69ee5d0a3baca60e3c5768b73d5da9673ad1da05f08"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 4.8541466029776934e-09,
+          "to": 1.6109702321704815e-08,
+          "propagation": 1.1118869597100666e-08
+        },
+        "edgeSeconds": 1.1255555718727122e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3881130402899337e-08,
+        "strobeHeadroomSeconds": 4.388113040289934e-08
+      },
+      "measuredCrossings": {
+        "from": 4.85414e-09,
+        "to": 1.61097e-08,
+        "propagation": 1.11189e-08
+      },
+      "files": {
+        "probe.cir": "1ef812239963bd4384e83eafc50e4027ee2a1f58d4270796a8f3628b19e600c0",
+        "ngspice.log": "4b32acef4fd5e819d3eb01f0733925d418c0adf785720497cf1c7654c43cc0e2"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 6.54833521489062e-09,
+          "to": 2.5752040053078814e-08,
+          "propagation": 1.808187387793184e-08
+        },
+        "edgeSeconds": 1.9203704838188192e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 1.691812612206816e-08,
+        "strobeHeadroomSeconds": 3.691812612206816e-08
+      },
+      "measuredCrossings": {
+        "from": 6.54833e-09,
+        "to": 2.5752e-08,
+        "propagation": 1.80819e-08
+      },
+      "files": {
+        "probe.cir": "562dbd00b435c4b420692fab41e4fe753b91223562ff0d53d7afb44e273c36ee",
+        "ngspice.log": "7e01006a374ff9b85ed004e84b3058ad0f4f25104759287b156db579b05ff024"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 125.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.584975369458128e-08,
+        "startEquilibriumVolts": 1.2376847290640394,
+        "finalEquilibriumVolts": 3.350985221674877,
+        "crossings": {
+          "from": 7.485185996264003e-09,
+          "to": 3.808243449323604e-08,
+          "propagation": 2.467084601078087e-08
+        },
+        "edgeSeconds": 3.0597248496972037e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.0329153989219132e-08,
+        "strobeHeadroomSeconds": 3.032915398921913e-08
+      },
+      "measuredCrossings": {
+        "from": 7.48519e-09,
+        "to": 3.80824e-08,
+        "propagation": 2.46708e-08
+      },
+      "files": {
+        "probe.cir": "464bb4e5a8a8e2073274b94502ea4fdf14719de120727afbdb968f2d41675ccd",
+        "ngspice.log": "609d103905e70810bc794b8e2852e2e75ef81e816f2467c4b05ccba42c8ca168"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.283659902569126e-09,
+          "to": 1.1079406864597059e-08,
+          "propagation": 5.323990247843229e-09
+        },
+        "edgeSeconds": 7.795746962027933e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.9676009752156774e-08,
+        "strobeHeadroomSeconds": 4.9676009752156774e-08
+      },
+      "measuredCrossings": {
+        "from": 3.28366e-09,
+        "to": 1.10794e-08,
+        "propagation": 5.32399e-09
+      },
+      "files": {
+        "probe.cir": "018490e7730782208e4011663ce557eb85cee26daf2628babccab21420e297d1",
+        "ngspice.log": "439eeb31cbb6bb1e9b9857ab69fc74dc5ca47547bb4e905e7496eb537a1582ef"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.0489993747673949e-08,
+          "to": 1.8285740709701873e-08,
+          "propagation": 1.253032409294805e-08
+        },
+        "edgeSeconds": 7.795746962027924e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.2469675907051953e-08,
+        "strobeHeadroomSeconds": 4.246967590705195e-08
+      },
+      "measuredCrossings": {
+        "from": 1.049e-08,
+        "to": 1.82857e-08,
+        "propagation": 1.25303e-08
+      },
+      "files": {
+        "probe.cir": "153aefbc3a5841eaf25a10c5815611fcf14f7d20748b1194ab09ddad71347ee5",
+        "ngspice.log": "29e97365a881853702cc0de130b20d33915bae86504325227f1f1f01ca72dacc"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.4199008329902968e-08,
+          "to": 3.391201346197897e-08,
+          "propagation": 2.778558763866427e-08
+        },
+        "edgeSeconds": 9.713005132076002e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 7.214412361335732e-09,
+        "strobeHeadroomSeconds": 2.7214412361335732e-08
+      },
+      "measuredCrossings": {
+        "from": 2.4199e-08,
+        "to": 3.3912e-08,
+        "propagation": 2.77856e-08
+      },
+      "files": {
+        "probe.cir": "ca073f5d7307ac2cf80ed906e2389929ae93dde03fd059bc316d66d51f397e0b",
+        "ngspice.log": "778a9dd0532256bec85186cd790bb055ada92da61cd495d21854b37b9dea334a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.344597122738167e-08,
+          "to": 6.032910586228517e-08,
+          "propagation": 5.047846565292201e-08
+        },
+        "edgeSeconds": 1.68831346349035e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.5478465652922007e-08,
+        "strobeHeadroomSeconds": 4.521534347077993e-09
+      },
+      "measuredCrossings": {
+        "from": 4.3446e-08,
+        "to": 6.03291e-08,
+        "propagation": 5.04785e-08
+      },
+      "files": {
+        "probe.cir": "6574bcec8dab0f3102d39192817038a9b3108bdf406295ad864da28bd37d204a",
+        "ngspice.log": "993910aa94a76f4ae7012c8254250d480ea240ee849aec7153e314186f52f69c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.415006298671891e-09,
+          "to": 1.152258313918094e-08,
+          "propagation": 5.536949857756959e-09
+        },
+        "edgeSeconds": 8.10757684050905e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.9463050142243043e-08,
+        "strobeHeadroomSeconds": 4.9463050142243044e-08
+      },
+      "measuredCrossings": {
+        "from": 3.41501e-09,
+        "to": 1.15226e-08,
+        "propagation": 5.53695e-09
+      },
+      "files": {
+        "probe.cir": "042c961e3d52576a7e1a205118223bb6b87e2ec09c23317337e0ce56d049f221",
+        "ngspice.log": "d36c4954be8da8dd79a241ce1bd01ecc7afe7ed42a634a95289b39bdb7e5ad31"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.061885852848317e-08,
+          "to": 1.8726435368992223e-08,
+          "propagation": 1.274080208756824e-08
+        },
+        "edgeSeconds": 8.107576840509053e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.2259197912431763e-08,
+        "strobeHeadroomSeconds": 4.225919791243176e-08
+      },
+      "measuredCrossings": {
+        "from": 1.06189e-08,
+        "to": 1.87264e-08,
+        "propagation": 1.27408e-08
+      },
+      "files": {
+        "probe.cir": "826f715a3dbd7b1d4ada735cb73b863b37dbfbb8799087fbfc85944823d0503a",
+        "ngspice.log": "dcbfb2fdda350646fbf5237d9d790b9d733fc0ac350a384f43f28d2a07560c0d"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.4383528126561913e-08,
+          "to": 3.427123209554521e-08,
+          "propagation": 2.7980376461617753e-08
+        },
+        "edgeSeconds": 9.887703968983295e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 7.019623538382249e-09,
+        "strobeHeadroomSeconds": 2.701962353838225e-08
+      },
+      "measuredCrossings": {
+        "from": 2.43835e-08,
+        "to": 3.42712e-08,
+        "propagation": 2.79804e-08
+      },
+      "files": {
+        "probe.cir": "c97124e62be1312c0c185ace4fa7cb608981f5073b2ed7627fd1329de369eb05",
+        "ngspice.log": "422b827f7924d555a9ed68eb2fdd8efed4db9b4d62d4b28dd4b87026aea40099"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.365346885825722e-08,
+          "to": 6.055582175573255e-08,
+          "propagation": 5.068736859677904e-08
+        },
+        "edgeSeconds": 1.690235289747533e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.568736859677904e-08,
+        "strobeHeadroomSeconds": 4.3126314032209605e-09
+      },
+      "measuredCrossings": {
+        "from": 4.36535e-08,
+        "to": 6.05558e-08,
+        "propagation": 5.06874e-08
+      },
+      "files": {
+        "probe.cir": "c724de00d2a4a68c66a946e80652eb6f87946b89442b22866430555ca9f45beb",
+        "ngspice.log": "e40ad802f4a2123f1b967368db230e652787a0068fa90378fca9252204416b45"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.6120258928260382e-09,
+          "to": 1.2187347551056772e-08,
+          "propagation": 5.856389272627551e-09
+        },
+        "edgeSeconds": 8.575321658230735e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.914361072737245e-08,
+        "strobeHeadroomSeconds": 4.914361072737245e-08
+      },
+      "measuredCrossings": {
+        "from": 3.61203e-09,
+        "to": 1.21873e-08,
+        "propagation": 5.85639e-09
+      },
+      "files": {
+        "probe.cir": "52afc97e19abdbb6f3536b9253bf1fa90dc398bc84f910658a1e20169992d539",
+        "ngspice.log": "083ced8a1c78a6262c2319a3b7892e60ffadb13d742cac14f3eab0432d893dfc"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.0813202012182048e-08,
+          "to": 1.9388523670412766e-08,
+          "propagation": 1.3057565391983562e-08
+        },
+        "edgeSeconds": 8.575321658230718e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.194243460801644e-08,
+        "strobeHeadroomSeconds": 4.194243460801644e-08
+      },
+      "measuredCrossings": {
+        "from": 1.08132e-08,
+        "to": 1.93885e-08,
+        "propagation": 1.30576e-08
+      },
+      "files": {
+        "probe.cir": "69cabf7f579a19f5beaef7dfd26c288d0a8060e33a2e0de1da78824c4c85c60d",
+        "ngspice.log": "ab0b0ac5b3653db1d227b5126eb8367da73ab24a1531c24766d7c69c53e98c38"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.4656204803575543e-08,
+          "to": 3.4820996058872724e-08,
+          "propagation": 2.8269467356138265e-08
+        },
+        "edgeSeconds": 1.0164791255297181e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 6.7305326438617375e-09,
+        "strobeHeadroomSeconds": 2.6730532643861738e-08
+      },
+      "measuredCrossings": {
+        "from": 2.46562e-08,
+        "to": 3.4821e-08,
+        "propagation": 2.82695e-08
+      },
+      "files": {
+        "probe.cir": "20adbebebe46bcd3071f6d2cbb5dec75517d991d394c4bf3ed82ece8c721a623",
+        "ngspice.log": "254fe7f1b7752c9cbc4a9b31463879ba7bf046e6a7023680b8880c82cf2ada38"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 125.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 3.350985221674877,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.39638267386903e-08,
+          "to": 6.091079333368966e-08,
+          "propagation": 5.1000363051120304e-08
+        },
+        "edgeSeconds": 1.694696659499936e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.6000363051120302e-08,
+        "strobeHeadroomSeconds": 3.999636948879698e-09
+      },
+      "measuredCrossings": {
+        "from": 4.39638e-08,
+        "to": 6.09108e-08,
+        "propagation": 5.10004e-08
+      },
+      "files": {
+        "probe.cir": "3ab14bb558a759ab6fd78a5dcfa2904184d94194063cb91d185d19d9967c6b33",
+        "ngspice.log": "31d87ead3169a21c034ae92f4a547f8c871afc048eaba4fefe54d034c0727de3"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 3.1655701309175325e-09,
+          "to": 2.2717529726684326e-08,
+          "propagation": 1.1935632699375762e-08
+        },
+        "edgeSeconds": 1.9551959595766793e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.306436730062424e-08,
+        "strobeHeadroomSeconds": 4.306436730062424e-08
+      },
+      "measuredCrossings": {
+        "from": 3.16557e-09,
+        "to": 2.27175e-08,
+        "propagation": 1.19356e-08
+      },
+      "files": {
+        "probe.cir": "e28ae4936599d9ce1cfa2da451ae3baf298e1f351c5d7aad85a1e2ed7218f49e",
+        "ngspice.log": "3a0194499ded0e19c22b4488498571b0c47a081c5cd6aea9fc47934f18602c68"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 5.23563337098933e-09,
+          "to": 2.5510915822266907e-08,
+          "propagation": 1.4729018794958343e-08
+        },
+        "edgeSeconds": 2.0275282451277577e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 2.027098120504166e-08,
+        "strobeHeadroomSeconds": 4.0270981205041664e-08
+      },
+      "measuredCrossings": {
+        "from": 5.23563e-09,
+        "to": 2.55109e-08,
+        "propagation": 1.4729e-08
+      },
+      "files": {
+        "probe.cir": "cfbf3ebb5c82478deaaffb4a8205518e0276f3a1bef440367995789d345ddadc",
+        "ngspice.log": "4da73a6e28ddadc7e62fa966ac37505d8f5c6468f7322d121f9e4514222e5dd6"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 6.1612966159443794e-09,
+          "to": 3.3166583148777384e-08,
+          "propagation": 2.0825914219357826e-08
+        },
+        "edgeSeconds": 2.7005286532833005e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.4174085780642176e-08,
+        "strobeHeadroomSeconds": 3.417408578064218e-08
+      },
+      "measuredCrossings": {
+        "from": 6.1613e-09,
+        "to": 3.31666e-08,
+        "propagation": 2.08259e-08
+      },
+      "files": {
+        "probe.cir": "815f2e07dc15709001d0a256d372b622c65231a6dc0f3f5648d18a8eb83b5614",
+        "ngspice.log": "624111d836953d6cb2d50323d519034d8b4c740a0b9acf30dcd108427bfbbed3"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 6.515933637054239e-09,
+          "to": 4.7124481999188033e-08,
+          "propagation": 2.6006161433892584e-08
+        },
+        "edgeSeconds": 4.0608548362133794e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 8.993838566107418e-09,
+        "strobeHeadroomSeconds": 2.899383856610742e-08
+      },
+      "measuredCrossings": {
+        "from": 6.51593e-09,
+        "to": 4.71245e-08,
+        "propagation": 2.60062e-08
+      },
+      "files": {
+        "probe.cir": "b430bacfeb2603324d65a07c72212abe84270abbe1750ec702499119367d5d78",
+        "ngspice.log": "e18193ba4caccab9004b1d504c983f0d12d70114e95682913ba1a0edf560d01f"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 3.292192936154234e-09,
+          "to": 2.3626230915751708e-08,
+          "propagation": 1.2413058007350795e-08
+        },
+        "edgeSeconds": 2.0334037979597472e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 2.2586941992649207e-08,
+        "strobeHeadroomSeconds": 4.258694199264921e-08
+      },
+      "measuredCrossings": {
+        "from": 3.2922e-09,
+        "to": 2.36262e-08,
+        "propagation": 1.24131e-08
+      },
+      "files": {
+        "probe.cir": "ba076d6a97adc4d88107c9366182f94724188f930c9c0d11e5c7d8f61d154c88",
+        "ngspice.log": "9b3102e427016d6f5227984b36247e5e206da9015c830ddb24e8a7a063c22af9"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 5.402754724989151e-09,
+          "to": 2.640724442192491e-08,
+          "propagation": 1.5194071513524004e-08
+        },
+        "edgeSeconds": 2.100448969693576e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.9805928486475998e-08,
+        "strobeHeadroomSeconds": 3.9805928486476e-08
+      },
+      "measuredCrossings": {
+        "from": 5.40275e-09,
+        "to": 2.64072e-08,
+        "propagation": 1.51941e-08
+      },
+      "files": {
+        "probe.cir": "371a3204638c26e709fdb6dfbdd75025ac7074a23c6862626b199f0de463bd3c",
+        "ngspice.log": "447a29a252d84fc22e30b4c4da1bed271adc741bbb9686ad9c77e3b6ca006e8a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 6.381499530616863e-09,
+          "to": 3.395055654377481e-08,
+          "propagation": 2.137412218148364e-08
+        },
+        "edgeSeconds": 2.756905701315795e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.3625877818516362e-08,
+        "strobeHeadroomSeconds": 3.362587781851636e-08
+      },
+      "measuredCrossings": {
+        "from": 6.3815e-09,
+        "to": 3.39506e-08,
+        "propagation": 2.13741e-08
+      },
+      "files": {
+        "probe.cir": "0da4cc04e08068eea38faddc300562712d5e8b0166403d088e8637611ee9791e",
+        "ngspice.log": "af77007545bdcfa82e937ef6847623c4b84dc42fbd03eede60e0c5849b12795c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 6.7601508921338705e-09,
+          "to": 4.7961424954627325e-08,
+          "propagation": 2.6724915267092053e-08
+        },
+        "edgeSeconds": 4.1201274062493456e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 8.27508473290795e-09,
+        "strobeHeadroomSeconds": 2.827508473290795e-08
+      },
+      "measuredCrossings": {
+        "from": 6.76015e-09,
+        "to": 4.79614e-08,
+        "propagation": 2.67249e-08
+      },
+      "files": {
+        "probe.cir": "41478dbbd2b301bfeb59025c6c662dffed3b555b3e6bccbe78c0c067f51ad833",
+        "ngspice.log": "5e5acbca7f529a81b5479bd456185d77fb13138ee1cb3bcc06cb7c6239d966c0"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 3.482127144009286e-09,
+          "to": 2.4989282699352763e-08,
+          "propagation": 1.312919596931334e-08
+        },
+        "edgeSeconds": 2.1507155555343475e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 2.1870804030686662e-08,
+        "strobeHeadroomSeconds": 4.187080403068666e-08
+      },
+      "measuredCrossings": {
+        "from": 3.48213e-09,
+        "to": 2.49893e-08,
+        "propagation": 1.31292e-08
+      },
+      "files": {
+        "probe.cir": "f2b2f7e3b482fdc08c7700195fae7c917b5861191c3e5d0dae3ebc2075158baa",
+        "ngspice.log": "dd73a123eb419437b350962b7fa70d9341942e293d559712312f4cb1b60b4e55"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 5.649656337505885e-09,
+          "to": 2.7753492301463786e-08,
+          "propagation": 1.5893405571424357e-08
+        },
+        "edgeSeconds": 2.21038359639579e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.9106594428575646e-08,
+        "strobeHeadroomSeconds": 3.9106594428575646e-08
+      },
+      "measuredCrossings": {
+        "from": 5.64966e-09,
+        "to": 2.77535e-08,
+        "propagation": 1.58934e-08
+      },
+      "files": {
+        "probe.cir": "15fd12afe8f32c17e8a923f7cc7d0cbf1dd5722b9af6b0a99df2457e4f0ed377",
+        "ngspice.log": "8c0fea47a5af8b3a072f2b2eee8bd32279dbafee96efa4b86a7e39b46d547a6b"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 6.7088339364373795e-09,
+          "to": 3.514418412696111e-08,
+          "propagation": 2.2180601391146746e-08
+        },
+        "edgeSeconds": 2.843535019052373e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.2819398608853256e-08,
+        "strobeHeadroomSeconds": 3.281939860885326e-08
+      },
+      "measuredCrossings": {
+        "from": 6.70883e-09,
+        "to": 3.51442e-08,
+        "propagation": 2.21806e-08
+      },
+      "files": {
+        "probe.cir": "e5ecc79543ff5fd4d61819f61cd89a0f7235ef7180fa37bb5e14c23fa8596421",
+        "ngspice.log": "5f590ccd30e8747e48795832e976014b71b095b927ec8dde6ecddd2721da0e3d"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "rise",
+        "driveVolts": 4.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.6021341463414633,
+        "crossings": {
+          "from": 7.1244204709612305e-09,
+          "to": 4.920127608179812e-08,
+          "propagation": 2.7783848969681217e-08
+        },
+        "edgeSeconds": 4.207685561083689e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 7.216151030318785e-09,
+        "strobeHeadroomSeconds": 2.7216151030318785e-08
+      },
+      "measuredCrossings": {
+        "from": 7.12442e-09,
+        "to": 4.92013e-08,
+        "propagation": 2.77838e-08
+      },
+      "files": {
+        "probe.cir": "e76a33d836c2635d280376d8237ab7a27d2975499ed23cbbf2723858a26301b8",
+        "ngspice.log": "15d2b773db7ea552beae57709cc91ee9e59eed9258b08bd008c760bc95044303"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.7194025496303103e-09,
+          "to": 9.51514951165824e-09,
+          "propagation": 3.759732894904413e-09
+        },
+        "edgeSeconds": 7.79574696202793e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.124026710509559e-08,
+        "strobeHeadroomSeconds": 5.124026710509559e-08
+      },
+      "measuredCrossings": {
+        "from": 1.7194e-09,
+        "to": 9.51514e-09,
+        "propagation": 3.75973e-09
+      },
+      "files": {
+        "probe.cir": "53d46bc06bc7908f5d8b93cfb7e5654b2ed75b91815591360fd037671b34960c",
+        "ngspice.log": "c28c044c3fc9e7a9bd43591319a730ce52fdd45842209ec6f31341da1408fd98"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 9.247155019499082e-09,
+          "to": 1.7109503044292858e-08,
+          "propagation": 1.1354086427539031e-08
+        },
+        "edgeSeconds": 7.862348024793776e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.364591357246097e-08,
+        "strobeHeadroomSeconds": 4.364591357246097e-08
+      },
+      "measuredCrossings": {
+        "from": 9.24716e-09,
+        "to": 1.71095e-08,
+        "propagation": 1.13541e-08
+      },
+      "files": {
+        "probe.cir": "8cfc8aa5cd1eea455a1449d89b7b71594e42feb5760b3cfe8946333fb7af70e1",
+        "ngspice.log": "75cc386464150a14416d97f582967b9bdbe5f8fc7e1a79ccbe6e2232a6b83220"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.1656302953706684e-08,
+          "to": 3.285448026677102e-08,
+          "propagation": 2.610475759028075e-08
+        },
+        "edgeSeconds": 1.1198177313064336e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 8.895242409719252e-09,
+        "strobeHeadroomSeconds": 2.8895242409719253e-08
+      },
+      "measuredCrossings": {
+        "from": 2.16563e-08,
+        "to": 3.28545e-08,
+        "propagation": 2.61048e-08
+      },
+      "files": {
+        "probe.cir": "3766509dead21b2b11bae7c169f7eb44c97c6463f620557e3dfd562aa62df80a",
+        "ngspice.log": "8dbf889d64b753495f176f87979b9b03e37bd41033bd63875891ee8c304724f2"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.859273807250594e-08,
+          "to": 5.922563752770769e-08,
+          "propagation": 4.7196887673892315e-08
+        },
+        "edgeSeconds": 2.0632899455201754e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.2196887673892313e-08,
+        "strobeHeadroomSeconds": 7.803112326107688e-09
+      },
+      "measuredCrossings": {
+        "from": 3.85927e-08,
+        "to": 5.92256e-08,
+        "propagation": 4.71969e-08
+      },
+      "files": {
+        "probe.cir": "ab2002a8fecfe11cf0bfcb47c99382ee300dea5d74f3d8075b567239d9698f5e",
+        "ngspice.log": "c650630ee70135d388cbb5e7adc1e21a7b3a2ce792fff059f1bf6e508fe36bbe"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.7881786516155225e-09,
+          "to": 9.895755492124567e-09,
+          "propagation": 3.9101222107005896e-09
+        },
+        "edgeSeconds": 8.107576840509044e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.108987778929941e-08,
+        "strobeHeadroomSeconds": 5.108987778929941e-08
+      },
+      "measuredCrossings": {
+        "from": 1.78819e-09,
+        "to": 9.89575e-09,
+        "propagation": 3.91013e-09
+      },
+      "files": {
+        "probe.cir": "f23f502f927d9754670d3bc8fb412d8838919a37b6460edd651b5f56e2fd4a78",
+        "ngspice.log": "81be457309521e7a1f3e6d6825504f63a4a1b80ac731f36ed14d34b9c4f5ed13"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 9.337007116453992e-09,
+          "to": 1.749593442884335e-08,
+          "propagation": 1.151030114741938e-08
+        },
+        "edgeSeconds": 8.158927312389358e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3489698852580623e-08,
+        "strobeHeadroomSeconds": 4.348969885258062e-08
+      },
+      "measuredCrossings": {
+        "from": 9.33701e-09,
+        "to": 1.74959e-08,
+        "propagation": 1.15103e-08
+      },
+      "files": {
+        "probe.cir": "b7e1b8c535460c76d2116ebd61fa7baaca224b6c6702aeab05023b75f2576da9",
+        "ngspice.log": "927de3a3cda4920665b1a5fd65d4026f29d095da85acdaa445f28db50d39b4bf"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.182540192919722e-08,
+          "to": 3.317008929048969e-08,
+          "propagation": 2.6293099583352766e-08
+        },
+        "edgeSeconds": 1.134468736129247e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 8.706900416647236e-09,
+        "strobeHeadroomSeconds": 2.8706900416647236e-08
+      },
+      "measuredCrossings": {
+        "from": 2.18254e-08,
+        "to": 3.31701e-08,
+        "propagation": 2.62931e-08
+      },
+      "files": {
+        "probe.cir": "713d4b99d377e2d2fbb2930744b1308cf1c94a275efba3c37e444765e43f743e",
+        "ngspice.log": "03995735bfdc316780ddcdd28f7d46198482434764dd95c092b9f8c597cbd258"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.8797143221875e-08,
+          "to": 5.94350166851191e-08,
+          "propagation": 4.7405156871265054e-08
+        },
+        "edgeSeconds": 2.0637873463244097e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.2405156871265052e-08,
+        "strobeHeadroomSeconds": 7.594843128734948e-09
+      },
+      "measuredCrossings": {
+        "from": 3.87971e-08,
+        "to": 5.9435e-08,
+        "propagation": 4.74052e-08
+      },
+      "files": {
+        "probe.cir": "8a41005a8e49da5c0b1f188dfd6225755ef715557bd9b18b06210c987c155dc5",
+        "ngspice.log": "d85919ed5b73f35a4265d118f1773aa4422f7d0ad87ab580c57b2d551c86e79d"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.891342804593341e-09,
+          "to": 1.0466664462824062e-08,
+          "propagation": 4.135706184394853e-09
+        },
+        "edgeSeconds": 8.575321658230722e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.086429381560515e-08,
+        "strobeHeadroomSeconds": 5.086429381560515e-08
+      },
+      "measuredCrossings": {
+        "from": 1.89135e-09,
+        "to": 1.04667e-08,
+        "propagation": 4.13571e-09
+      },
+      "files": {
+        "probe.cir": "97663d360e0dfbc1eeddb5f91424888512fa153696e05a40f2b7304c9f8b3781",
+        "ngspice.log": "d9252a5e73351d16c396e07634b219a1b8e1591398e12cf49a9e7896eb997435"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 9.467818867724385e-09,
+          "to": 1.8075960126206542e-08,
+          "propagation": 1.1745001847777338e-08
+        },
+        "edgeSeconds": 8.608141258482158e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3254998152222665e-08,
+        "strobeHeadroomSeconds": 4.3254998152222665e-08
+      },
+      "measuredCrossings": {
+        "from": 9.46782e-09,
+        "to": 1.8076e-08,
+        "propagation": 1.1745e-08
+      },
+      "files": {
+        "probe.cir": "0cf61caeef0300eab1bdbecc16fcdaf376cfdd8aa4cd0885bc0949cc7c9d55fa",
+        "ngspice.log": "fb2164f03a56a3c1dc4dec87b396f9a7758fdde9206a0cad55bcb2bf8a569f7f"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.2073689015374587e-08,
+          "to": 3.3653999718160075e-08,
+          "propagation": 2.6571694398836544e-08
+        },
+        "edgeSeconds": 1.1580310702785488e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 8.428305601163459e-09,
+        "strobeHeadroomSeconds": 2.842830560116346e-08
+      },
+      "measuredCrossings": {
+        "from": 2.20737e-08,
+        "to": 3.3654e-08,
+        "propagation": 2.65717e-08
+      },
+      "files": {
+        "probe.cir": "52fbfd67410f65b449a6363bfddf4c6ca90f5b9002531d193b6687d535db3f7e",
+        "ngspice.log": "ab42e686127715acc4ab6e41a695a49aff27dd89b99406b85e31e8629832c558"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 4.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.6021341463414633,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 4.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 3.9425373134328354,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 3.910194304371432e-08,
+          "to": 5.974896163299588e-08,
+          "propagation": 4.7716928045945376e-08
+        },
+        "edgeSeconds": 2.064701858928156e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.2716928045945374e-08,
+        "strobeHeadroomSeconds": 7.283071954054626e-09
+      },
+      "measuredCrossings": {
+        "from": 3.91019e-08,
+        "to": 5.9749e-08,
+        "propagation": 4.77169e-08
+      },
+      "files": {
+        "probe.cir": "bea6ecdc224ffc547d9b6c91589de72f143cbcf7d9a87cedb2a46aabca91d5ab",
+        "ngspice.log": "a548406c4fae780ffffaf5f20f3252271dae1fc7c74b92ea8c9d1ed5bc507152"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 2.9851309413725355e-09,
+          "to": 2.046254687046926e-08,
+          "propagation": 1.1067490414151912e-08
+        },
+        "edgeSeconds": 1.7477415929096723e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.393250958584809e-08,
+        "strobeHeadroomSeconds": 4.3932509585848094e-08
+      },
+      "measuredCrossings": {
+        "from": 2.98513e-09,
+        "to": 2.04625e-08,
+        "propagation": 1.10675e-08
+      },
+      "files": {
+        "probe.cir": "39e8439a68471f489fa2508f7d0e418f2fae27b633a0f780a7571cd9b5ea353d",
+        "ngspice.log": "618265162eed2594623cdcc22dd01a48362beadedc27ab733808bd32d174d3e8"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 5.125407977386587e-09,
+          "to": 2.3392287428497184e-08,
+          "propagation": 1.3997230972179832e-08
+        },
+        "edgeSeconds": 1.8266879451110595e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.100276902782017e-08,
+        "strobeHeadroomSeconds": 4.100276902782017e-08
+      },
+      "measuredCrossings": {
+        "from": 5.12541e-09,
+        "to": 2.33923e-08,
+        "propagation": 1.39972e-08
+      },
+      "files": {
+        "probe.cir": "fd5fca8df854e189d3bf1f3ea224cee8b71220fbf34fb90bdfffc70a01d7f07b",
+        "ngspice.log": "7c25aa0edf7e7e80ab0d1b92dc3f5d950c9e64c465d9e829b4018772e5f27185"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 6.09216144066782e-09,
+          "to": 3.132538083136019e-08,
+          "propagation": 2.00951617298785e-08
+        },
+        "edgeSeconds": 2.523321939069237e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.49048382701215e-08,
+        "strobeHeadroomSeconds": 3.49048382701215e-08
+      },
+      "measuredCrossings": {
+        "from": 6.09216e-09,
+        "to": 3.13254e-08,
+        "propagation": 2.00952e-08
+      },
+      "files": {
+        "probe.cir": "15982d25596fc940a7aca9868cbd76170772e5366225ca284b84e4a93f5019a5",
+        "ngspice.log": "a030214ddac73b33def8968aae9c886e3b8d716b0f60c0a26c8b4b05ccea07b3"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 6.472449427495405e-09,
+          "to": 4.448596093138412e-08,
+          "propagation": 2.517977530644581e-08
+        },
+        "edgeSeconds": 3.8013511503888715e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 9.820224693554194e-09,
+        "strobeHeadroomSeconds": 2.9820224693554194e-08
+      },
+      "measuredCrossings": {
+        "from": 6.47245e-09,
+        "to": 4.4486e-08,
+        "propagation": 2.51798e-08
+      },
+      "files": {
+        "probe.cir": "481a39579058b6e4b70201f5278d79720061bb37d326043d1bcfd14310fd0415",
+        "ngspice.log": "248f30d83ce557aa76b2a41d3ee036b914ab0f0154da6c51887d34cbf398a199"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 3.1045361790274367e-09,
+          "to": 2.1281048745288037e-08,
+          "propagation": 1.151019003071799e-08
+        },
+        "edgeSeconds": 1.81765125662606e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3489809969282012e-08,
+        "strobeHeadroomSeconds": 4.348980996928201e-08
+      },
+      "measuredCrossings": {
+        "from": 3.10454e-09,
+        "to": 2.1281e-08,
+        "propagation": 1.15102e-08
+      },
+      "files": {
+        "probe.cir": "5a185f3d95b436cd3391e34a729ff6af46173ed16f882a1a3e4e63bafce23321",
+        "ngspice.log": "3bd931c25788336f90ca822b99025ec2a30f632587c0c825f6cd52f91d8cf416"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 5.286970056824191e-09,
+          "to": 2.4198276603501106e-08,
+          "propagation": 1.442741788893106e-08
+        },
+        "edgeSeconds": 1.8911306546676915e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.0572582111068943e-08,
+        "strobeHeadroomSeconds": 4.0572582111068943e-08
+      },
+      "measuredCrossings": {
+        "from": 5.28697e-09,
+        "to": 2.41983e-08,
+        "propagation": 1.44274e-08
+      },
+      "files": {
+        "probe.cir": "8095798cae7de498511500bb370911fca559ff6e7a3192b6c06d9aac7bcdedf8",
+        "ngspice.log": "aa2c11361872a8e562ccb256eeb81f3ab0276b25fa2282bcd9c69ad52a958707"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 6.307949861475878e-09,
+          "to": 3.201984407350427e-08,
+          "propagation": 2.062029234232148e-08
+        },
+        "edgeSeconds": 2.5711894212028392e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.4379707657678523e-08,
+        "strobeHeadroomSeconds": 3.4379707657678523e-08
+      },
+      "measuredCrossings": {
+        "from": 6.30795e-09,
+        "to": 3.20198e-08,
+        "propagation": 2.06203e-08
+      },
+      "files": {
+        "probe.cir": "0f74e877222a0604e6aa3f313b43253cf46bec963f3f83e396fcc7e6a307601f",
+        "ngspice.log": "ca4ab668185cf752e25bceaad9a65b54c430eee6f058ee597341d143edc9a5c2"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 6.713591492962872e-09,
+          "to": 4.5299560562488674e-08,
+          "propagation": 2.5870507642965828e-08
+        },
+        "edgeSeconds": 3.85859690695258e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 9.129492357034174e-09,
+        "strobeHeadroomSeconds": 2.9129492357034175e-08
+      },
+      "measuredCrossings": {
+        "from": 6.71359e-09,
+        "to": 4.52996e-08,
+        "propagation": 2.58705e-08
+      },
+      "files": {
+        "probe.cir": "2bc303a038b603ea9f299e8509cf77f71420658e2e6e888f0d3728517c55a7b1",
+        "ngspice.log": "16f85cbc27ca2c47578257845e70304777f671fb3bf702584608c522f290452a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 3.283644035509789e-09,
+          "to": 2.2508801557516192e-08,
+          "propagation": 1.2174239455567102e-08
+        },
+        "edgeSeconds": 1.9225157522006403e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.28257605444329e-08,
+        "strobeHeadroomSeconds": 4.28257605444329e-08
+      },
+      "measuredCrossings": {
+        "from": 3.28365e-09,
+        "to": 2.25088e-08,
+        "propagation": 1.21742e-08
+      },
+      "files": {
+        "probe.cir": "c0258fbb3719a05eafbb49ce299c0ee78636ab85be979ed29079407fd0f1eaf5",
+        "ngspice.log": "808d80be488041b3549e11b1f4b9eab7963d3ae6b942c1ea2cb544b3a5b133b0"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 5.5255288110860115e-09,
+          "to": 2.5409028505797633e-08,
+          "propagation": 1.5074466403848543e-08
+        },
+        "edgeSeconds": 1.988349969471162e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 1.992553359615146e-08,
+        "strobeHeadroomSeconds": 3.992553359615146e-08
+      },
+      "measuredCrossings": {
+        "from": 5.52553e-09,
+        "to": 2.5409e-08,
+        "propagation": 1.50745e-08
+      },
+      "files": {
+        "probe.cir": "b993f42266bf00fed1a29f3891afdade5c0d27aa8d9e7b18f2262199d77e1cd1",
+        "ngspice.log": "b92789c67d5626c9323d63c7ae01bb729a459cfda27ba625ed7cac06f4ff2dfd"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 6.628535297773602e-09,
+          "to": 3.307892232089034e-08,
+          "propagation": 2.139266137114272e-08
+        },
+        "edgeSeconds": 2.645038702311674e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.3607338628857284e-08,
+        "strobeHeadroomSeconds": 3.3607338628857284e-08
+      },
+      "measuredCrossings": {
+        "from": 6.62854e-09,
+        "to": 3.30789e-08,
+        "propagation": 2.13927e-08
+      },
+      "files": {
+        "probe.cir": "0761a15556e96767d748d2c30ff52ee3eb394325e95ad28322d1218fb7327074",
+        "ngspice.log": "fe54603079f9142da4a507f2dccc20bc8bef228c43a25632c92c41c681e42193"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "rise",
+        "driveVolts": 5.0,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.721036585365854,
+        "crossings": {
+          "from": 7.0731093535080705e-09,
+          "to": 4.650326744741554e-08,
+          "propagation": 2.688791848803638e-08
+        },
+        "edgeSeconds": 3.9430158093907466e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 8.112081511963624e-09,
+        "strobeHeadroomSeconds": 2.8112081511963624e-08
+      },
+      "measuredCrossings": {
+        "from": 7.07311e-09,
+        "to": 4.65033e-08,
+        "propagation": 2.68879e-08
+      },
+      "files": {
+        "probe.cir": "d7ed7d2118d3802940f65efbec20f5c6c1d5b5606caf4a82073fab987c92eb4a",
+        "ngspice.log": "a37246d592df33e1369ca0b1587140ae6df201d77cf6c504bab1e523de7749a7"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.0011266581387027e-09,
+          "to": 9.796873620166621e-09,
+          "propagation": 4.041457003412803e-09
+        },
+        "edgeSeconds": 7.795746962027918e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.09585429965872e-08,
+        "strobeHeadroomSeconds": 5.09585429965872e-08
+      },
+      "measuredCrossings": {
+        "from": 2.00113e-09,
+        "to": 9.79687e-09,
+        "propagation": 4.04146e-09
+      },
+      "files": {
+        "probe.cir": "0df9c604970ccf34c93a082a7001c6db162ac88969a02318eda726d741f7cffc",
+        "ngspice.log": "5a4d0268451e7dff08ae48ee5c239b36652e602aa56b1180ef616bc0e26792b3"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 9.798395174641656e-09,
+          "to": 1.759929340339246e-08,
+          "propagation": 1.1843876786638638e-08
+        },
+        "edgeSeconds": 7.800898228750805e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3156123213361364e-08,
+        "strobeHeadroomSeconds": 4.315612321336137e-08
+      },
+      "measuredCrossings": {
+        "from": 9.7984e-09,
+        "to": 1.75993e-08,
+        "propagation": 1.18439e-08
+      },
+      "files": {
+        "probe.cir": "966614fe97c11b8f5a8016e3920cc200d4fae1ce5c5e141e0bbe1295b2fac05c",
+        "ngspice.log": "74e6b0a22e493ca71fbb7acc1c207c930a444eadd911bf3a7b229b486fbd0468"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.303851913516112e-08,
+          "to": 3.3403382287153256e-08,
+          "propagation": 2.7019731174010852e-08
+        },
+        "edgeSeconds": 1.0364863151992135e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 7.98026882598915e-09,
+        "strobeHeadroomSeconds": 2.798026882598915e-08
+      },
+      "measuredCrossings": {
+        "from": 2.30385e-08,
+        "to": 3.34034e-08,
+        "propagation": 2.70197e-08
+      },
+      "files": {
+        "probe.cir": "9bb395cd1468968d2c8651e55a7827f9ce10e471f1f1857ee44d46c7e7af5006",
+        "ngspice.log": "a2e3c84922473dd0c0e8ff8854207054ee69ca5bca10789a66f3f43c7424738a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.126198388949841e-08,
+          "to": 5.982693690761346e-08,
+          "propagation": 4.900158010172215e-08
+        },
+        "edgeSeconds": 1.8564953018115053e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.4001580101722146e-08,
+        "strobeHeadroomSeconds": 5.998419898277855e-09
+      },
+      "measuredCrossings": {
+        "from": 4.1262e-08,
+        "to": 5.98269e-08,
+        "propagation": 4.90016e-08
+      },
+      "files": {
+        "probe.cir": "5d5b6bd9c6872ec879d03528da46fc20d89f787de6674a5141edd92cbd4ef03b",
+        "ngspice.log": "95e8c3b6375321b8d6a03d2f88b8565b7b74fe55956945e337a9d70a1870d046"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.081171724464251e-09,
+          "to": 1.0188748564973294e-08,
+          "propagation": 4.2031152835493165e-09
+        },
+        "edgeSeconds": 8.107576840509043e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.0796884716450686e-08,
+        "strobeHeadroomSeconds": 5.0796884716450686e-08
+      },
+      "measuredCrossings": {
+        "from": 2.08117e-09,
+        "to": 1.01887e-08,
+        "propagation": 4.20312e-09
+      },
+      "files": {
+        "probe.cir": "328a31844245f68e554435972055cc4c4466446faf44c0410965129afb468a88",
+        "ngspice.log": "0da9544eb7dc9861bdb242db40b0a75f37a16ef62d69af307bfde286294236da"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 9.892629763989846e-09,
+          "to": 1.8001659065003312e-08,
+          "propagation": 1.2016025783579335e-08
+        },
+        "edgeSeconds": 8.109029301013466e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.2983974216420668e-08,
+        "strobeHeadroomSeconds": 4.298397421642067e-08
+      },
+      "measuredCrossings": {
+        "from": 9.89263e-09,
+        "to": 1.80017e-08,
+        "propagation": 1.2016e-08
+      },
+      "files": {
+        "probe.cir": "c8b6dea59ed1c60a74808445779e5046a64b964585e4d792567ae980cb97ea4f",
+        "ngspice.log": "5fd4172603e4ec252831357f6e71d99cb0d4c20513ee9f89896fae6da88dc10e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.3213142148863555e-08,
+          "to": 3.374030676102154e-08,
+          "propagation": 2.7209788363949618e-08
+        },
+        "edgeSeconds": 1.0527164612157982e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 7.790211636050384e-09,
+        "strobeHeadroomSeconds": 2.7790211636050385e-08
+      },
+      "measuredCrossings": {
+        "from": 2.32131e-08,
+        "to": 3.37403e-08,
+        "propagation": 2.72098e-08
+      },
+      "files": {
+        "probe.cir": "6ff31f464e47668360bc674b09fb0d557cdbcc26c66f4a940a54824623f22327",
+        "ngspice.log": "0e3bc3a62a7edb903485b7421d55ca9fe03e3e97da371146e5c893c5d4290bf2"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.146796004984185e-08,
+          "to": 6.003644435028496e-08,
+          "propagation": 4.921011749444932e-08
+        },
+        "edgeSeconds": 1.856848430044311e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.4210117494449316e-08,
+        "strobeHeadroomSeconds": 5.7898825055506845e-09
+      },
+      "measuredCrossings": {
+        "from": 4.1468e-08,
+        "to": 6.00365e-08,
+        "propagation": 4.92101e-08
+      },
+      "files": {
+        "probe.cir": "5463706b407e61f03bf81f2a0156a63da9e7ed22be8d512cb37c1fa80679e7dd",
+        "ngspice.log": "1bb8e37c2acfe93f4cdec5d0a126bcd9e4740f0ac806b2fc1f5204c8bacc6e2f"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.2012393239525726e-09,
+          "to": 1.0776560982183281e-08,
+          "propagation": 4.445602703754083e-09
+        },
+        "edgeSeconds": 8.575321658230708e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.0554397296245916e-08,
+        "strobeHeadroomSeconds": 5.0554397296245923e-08
+      },
+      "measuredCrossings": {
+        "from": 2.20124e-09,
+        "to": 1.07766e-08,
+        "propagation": 4.44561e-09
+      },
+      "files": {
+        "probe.cir": "6317c4fee3fdfe7cf15c89a5194e9d27a53684f2073e2650052e2ca11a7aef77",
+        "ngspice.log": "e00ca03d2653a6a6d337c3fee6b57ed14d85220ac0c726f694882b9bc0533508"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.0029912252833097e-08,
+          "to": 1.8605233911063812e-08,
+          "propagation": 1.2274275632634611e-08
+        },
+        "edgeSeconds": 8.575321658230715e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.272572436736539e-08,
+        "strobeHeadroomSeconds": 4.272572436736539e-08
+      },
+      "measuredCrossings": {
+        "from": 1.00299e-08,
+        "to": 1.86052e-08,
+        "propagation": 1.22743e-08
+      },
+      "files": {
+        "probe.cir": "5124e8acfc94dda35f5ffca358e27cb2d0e22a58048fb4472d9aaa2cc3310e6b",
+        "ngspice.log": "26874904c4953853eb86cc9595753234b041a1efe7bbe3a77385e5cc9103b79b"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.346993773810653e-08,
+          "to": 3.425597479183635e-08,
+          "propagation": 2.7491068326599354e-08
+        },
+        "edgeSeconds": 1.0786037053729818e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 7.508931673400649e-09,
+        "strobeHeadroomSeconds": 2.750893167340065e-08
+      },
+      "measuredCrossings": {
+        "from": 2.34699e-08,
+        "to": 3.4256e-08,
+        "propagation": 2.74911e-08
+      },
+      "files": {
+        "probe.cir": "986101c893951fa2c007dcff1c137592bfa9d78982af4f227670e810803062b2",
+        "ngspice.log": "cd75138dbc05ce43ebd17d34b1c7c60eb0b67e4b3237248fe9b98ef6987652e9"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.0,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.721036585365854,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.0,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.330597014925372,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.177552089035835e-08,
+          "to": 6.036138031941638e-08,
+          "propagation": 4.952239246808183e-08
+        },
+        "edgeSeconds": 1.8585859429058038e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.452239246808183e-08,
+        "strobeHeadroomSeconds": 5.47760753191817e-09
+      },
+      "measuredCrossings": {
+        "from": 4.17755e-08,
+        "to": 6.03614e-08,
+        "propagation": 4.95224e-08
+      },
+      "files": {
+        "probe.cir": "d5c9c93f994bb2fc999f1b6d106e4412a7546fbdced4d4f9b22272ccb695ed99",
+        "ngspice.log": "31fb756fe60b15db107a669fc7a53a8fcddbf02060e3a59534d074f363928cb1"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 2.8241933601358094e-09,
+          "to": 1.8650332075365813e-08,
+          "propagation": 1.0320322874409306e-08
+        },
+        "edgeSeconds": 1.5826138715230005e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.4679677125590696e-08,
+        "strobeHeadroomSeconds": 4.4679677125590693e-08
+      },
+      "measuredCrossings": {
+        "from": 2.8242e-09,
+        "to": 1.86503e-08,
+        "propagation": 1.03203e-08
+      },
+      "files": {
+        "probe.cir": "ba594baa5486c277f48d297cb5ea831fbc99e3f9b0de416eaf8a3358c70ec5d4",
+        "ngspice.log": "df2d6bbfb8d55ccd9858f904e59a17a69493e9531810d4491a0a839829718e2c"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 5.023208010078193e-09,
+          "to": 2.170197378241623e-08,
+          "propagation": 1.337196458145972e-08
+        },
+        "edgeSeconds": 1.6678765772338036e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.1628035418540282e-08,
+        "strobeHeadroomSeconds": 4.162803541854028e-08
+      },
+      "measuredCrossings": {
+        "from": 5.02321e-09,
+        "to": 2.1702e-08,
+        "propagation": 1.3372e-08
+      },
+      "files": {
+        "probe.cir": "93c44391939287adcedc47ae1341e0dfe889499895045b7e810b72345041a4d0",
+        "ngspice.log": "921dd29cad7a5a32fa02fc523fd28e684d2865be78cf12c358d6624b52877074"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 6.0259411797941845e-09,
+          "to": 2.987734247580439e-08,
+          "propagation": 1.944787397376611e-08
+        },
+        "edgeSeconds": 2.3851401296010207e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.5552126026233894e-08,
+        "strobeHeadroomSeconds": 3.5552126026233894e-08
+      },
+      "measuredCrossings": {
+        "from": 6.02594e-09,
+        "to": 2.98773e-08,
+        "propagation": 1.94479e-08
+      },
+      "files": {
+        "probe.cir": "f3c1321f5c6b823d4a280ca3e45feec4bd806597b40b9e78fb35e67d7d3072be",
+        "ngspice.log": "1c2396c4ed794c86857879fd3089d2be0abc8ddb21bd3f9da334f9aa48bbc2d1"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.7835365853658536e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 6.430099412280064e-09,
+          "to": 4.227569767946868e-08,
+          "propagation": 2.444356226185126e-08
+        },
+        "edgeSeconds": 3.5845598267188615e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.0556437738148744e-08,
+        "strobeHeadroomSeconds": 3.0556437738148744e-08
+      },
+      "measuredCrossings": {
+        "from": 6.4301e-09,
+        "to": 4.22757e-08,
+        "propagation": 2.44436e-08
+      },
+      "files": {
+        "probe.cir": "ecb8ebe2754041741600b4d75445cfbdbdf0f464eec28941109d92c093b4f27b",
+        "ngspice.log": "e1ae8c313ea0966eab97d59976f5d9fae8b6cd2442d748eee54553d3c4c30969"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 2.9371610945412426e-09,
+          "to": 1.9396345358380445e-08,
+          "propagation": 1.0733135789385679e-08
+        },
+        "edgeSeconds": 1.6459184263839203e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.4266864210614323e-08,
+        "strobeHeadroomSeconds": 4.4266864210614324e-08
+      },
+      "measuredCrossings": {
+        "from": 2.93716e-09,
+        "to": 1.93963e-08,
+        "propagation": 1.07331e-08
+      },
+      "files": {
+        "probe.cir": "7761ad90514f1bc769681bf42e3154ba63f6ae832dbd797af75a1133cf54634f",
+        "ngspice.log": "a78c257368966d78f9d2841a343cd573d225e28692a71fb1d3313522c55498e5"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 5.179739985808346e-09,
+          "to": 2.2435383773987805e-08,
+          "propagation": 1.3772174204993036e-08
+        },
+        "edgeSeconds": 1.7255643788179458e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.1227825795006966e-08,
+        "strobeHeadroomSeconds": 4.122782579500697e-08
+      },
+      "measuredCrossings": {
+        "from": 5.17974e-09,
+        "to": 2.24354e-08,
+        "propagation": 1.37722e-08
+      },
+      "files": {
+        "probe.cir": "b0d04345217fbb357898da0d005f827db5cf79d7631374b10ee7b76d12752403",
+        "ngspice.log": "8dd5ddf9b59caf867b2377e98a9094fc382149c1ebcab8839f7bc1b9b49353aa"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 6.2375770948356254e-09,
+          "to": 3.0500606492844496e-08,
+          "propagation": 1.9952767958356815e-08
+        },
+        "edgeSeconds": 2.426302939800887e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.5047232041643187e-08,
+        "strobeHeadroomSeconds": 3.504723204164319e-08
+      },
+      "measuredCrossings": {
+        "from": 6.23758e-09,
+        "to": 3.05006e-08,
+        "propagation": 1.99528e-08
+      },
+      "files": {
+        "probe.cir": "abcedadf4a56dc58cc98c305bbef32d3add6a3a722b783f4d6f10a7f7bd338fc",
+        "ngspice.log": "76699bac1e853c340891e3674d76120e51fdbf1486cb5e02b87312e497597df8"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.854878048780488e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 6.6682830674440966e-09,
+          "to": 4.3066856946513425e-08,
+          "propagation": 2.5109591804786845e-08
+        },
+        "edgeSeconds": 3.639857387906933e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 9.890408195213158e-09,
+        "strobeHeadroomSeconds": 2.989040819521316e-08
+      },
+      "measuredCrossings": {
+        "from": 6.66828e-09,
+        "to": 4.30669e-08,
+        "propagation": 2.51096e-08
+      },
+      "files": {
+        "probe.cir": "9850ecf0d4084a81b1596c1c45a5e9399fe55117aa1fc0c0157c74da39399027",
+        "ngspice.log": "1c087c3b03758b9ec5dfff78de061272990d7db1c23a789a239fb04f867a3991"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 3.1066126961493906e-09,
+          "to": 2.051536528290239e-08,
+          "propagation": 1.1352355161850237e-08
+        },
+        "edgeSeconds": 1.7408752586752998e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.3647644838149765e-08,
+        "strobeHeadroomSeconds": 4.364764483814977e-08
+      },
+      "measuredCrossings": {
+        "from": 3.10661e-09,
+        "to": 2.05154e-08,
+        "propagation": 1.13524e-08
+      },
+      "files": {
+        "probe.cir": "895dfd1cfd3c252a06fc7e4326988ea8b190f936ed9a603fec0a086653673a1e",
+        "ngspice.log": "6448176e389963be31664df3ae18d38caab19810f0908ef7f784609d09fff836"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 5.410761439805759e-09,
+          "to": 2.353727377418998e-08,
+          "propagation": 1.4374263653137816e-08
+        },
+        "edgeSeconds": 1.812651233438422e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.0625736346862186e-08,
+        "strobeHeadroomSeconds": 4.062573634686219e-08
+      },
+      "measuredCrossings": {
+        "from": 5.41076e-09,
+        "to": 2.35373e-08,
+        "propagation": 1.43743e-08
+      },
+      "files": {
+        "probe.cir": "df0d2ce09a281a7ce87d53bd4530fc3caa71f7921110a77d066179c94c495221",
+        "ngspice.log": "d24357217c974390703d453912134a6276c428ff2aa039d6a5bdbc2503b3dc08"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 6.551824921119799e-09,
+          "to": 3.1452015828386534e-08,
+          "propagation": 2.0695236122943838e-08
+        },
+        "edgeSeconds": 2.4900190907266736e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 1.4304763877056164e-08,
+        "strobeHeadroomSeconds": 3.4304763877056165e-08
+      },
+      "measuredCrossings": {
+        "from": 6.55183e-09,
+        "to": 3.1452e-08,
+        "propagation": 2.06952e-08
+      },
+      "files": {
+        "probe.cir": "feee3895c2b8aaeb9950a5dd0cc9ff062480b03c2b02c6ae8cf4f24186b0ca36",
+        "ngspice.log": "c1f32e9219f00569b60d72c77c6605c80a9cfe536ab44ed25fc6b9c71e925658"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "rise",
+        "driveVolts": 5.5,
+        "resistanceOhms": 250.0,
+        "maximumSeconds": 2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 0.4499999999999999,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 0.0,
+        "tauSeconds": 1.961890243902439e-08,
+        "startEquilibriumVolts": 1.5320121951219512,
+        "finalEquilibriumVolts": 2.839939024390244,
+        "crossings": {
+          "from": 7.023235942463358e-09,
+          "to": 4.423618410184518e-08,
+          "propagation": 2.60904112740515e-08
+        },
+        "edgeSeconds": 3.721294815938182e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": 8.909588725948502e-09,
+        "strobeHeadroomSeconds": 2.8909588725948502e-08
+      },
+      "measuredCrossings": {
+        "from": 7.02324e-09,
+        "to": 4.42362e-08,
+        "propagation": 2.60904e-08
+      },
+      "files": {
+        "probe.cir": "6cc3e421a811022fa9570f5a4492e17db8681c61c4816ecea819abda9f5c8d02",
+        "ngspice.log": "72586fe282d4c7927e91a1b40fbbc247606a8e5bfb5d5ea01244aebfb27027cc"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.2684706802934554e-09,
+          "to": 1.0064217642321379e-08,
+          "propagation": 4.308801025567557e-09
+        },
+        "edgeSeconds": 7.795746962027924e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.0691198974432443e-08,
+        "strobeHeadroomSeconds": 5.0691198974432444e-08
+      },
+      "measuredCrossings": {
+        "from": 2.26848e-09,
+        "to": 1.00642e-08,
+        "propagation": 4.30881e-09
+      },
+      "files": {
+        "probe.cir": "a355a75ec49ddb6a15c1a6cb575399214445d028d9b8bfa38cfc317d339f0780",
+        "ngspice.log": "7f7d57a2825aa9aac83802d5c5ee9a40c4f0ae1dbc57bc059ac223498e97cb3e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.025143460623851e-08,
+          "to": 1.804718156826644e-08,
+          "propagation": 1.2291764951512614e-08
+        },
+        "edgeSeconds": 7.795746962027931e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.2708235048487388e-08,
+        "strobeHeadroomSeconds": 4.270823504848739e-08
+      },
+      "measuredCrossings": {
+        "from": 1.02514e-08,
+        "to": 1.80472e-08,
+        "propagation": 1.22918e-08
+      },
+      "files": {
+        "probe.cir": "441203eea8063c57667e2cb895a594f4525e60af5c7c8adc75b740fc9474e664",
+        "ngspice.log": "6c18bc06a0629ced592afdb5e0cb56fa787bc6fba8717352414806691851f987"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.416231368422248e-08,
+          "to": 3.390018781284467e-08,
+          "propagation": 2.776740898610731e-08
+        },
+        "edgeSeconds": 9.737874128622188e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 7.2325910138926916e-09,
+        "strobeHeadroomSeconds": 2.7232591013892692e-08
+      },
+      "measuredCrossings": {
+        "from": 2.41623e-08,
+        "to": 3.39002e-08,
+        "propagation": 2.77674e-08
+      },
+      "files": {
+        "probe.cir": "43bbe2c10ea9f60120a996d42205999e194595d41efd322f0464e83d66d95a83",
+        "ngspice.log": "c0fcba4b7ac0dd9e4f083d0e4dfa1e554280506091a05b575c98cf400af8335a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 0.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.238805970149254e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.344417100042496e-08,
+          "to": 6.032902958874823e-08,
+          "propagation": 5.0477995919660615e-08
+        },
+        "edgeSeconds": 1.6884858588323274e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.5477995919660612e-08,
+        "strobeHeadroomSeconds": 4.522004080339388e-09
+      },
+      "measuredCrossings": {
+        "from": 4.34442e-08,
+        "to": 6.0329e-08,
+        "propagation": 5.0478e-08
+      },
+      "files": {
+        "probe.cir": "abe5f00c555f5a4f212839ee79e4afc8968e6bb675d5a7878686cd826c63c942",
+        "ngspice.log": "a5625f60984d554e3f1b7b409add48b4c2e0478eb8195274802c58b1fa17c399"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.3592095075051938e-09,
+          "to": 1.0466786348014241e-08,
+          "propagation": 4.481153066590261e-09
+        },
+        "edgeSeconds": 8.107576840509048e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.051884693340974e-08,
+        "strobeHeadroomSeconds": 5.051884693340974e-08
+      },
+      "measuredCrossings": {
+        "from": 2.35921e-09,
+        "to": 1.04668e-08,
+        "propagation": 4.48115e-09
+      },
+      "files": {
+        "probe.cir": "cb463dd419d7cc970cbd3cdadecdce6f7141ad8a49ec0d2bac3c688f11c9107d",
+        "ngspice.log": "eda9fbd76331db79f2306501473f620c3b02f0b2ba2dc01989338fd4fdcced8e"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.0356826069473224e-08,
+          "to": 1.8464402909982267e-08,
+          "propagation": 1.247876962855829e-08
+        },
+        "edgeSeconds": 8.107576840509043e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.2521230371441713e-08,
+        "strobeHeadroomSeconds": 4.252123037144171e-08
+      },
+      "measuredCrossings": {
+        "from": 1.03568e-08,
+        "to": 1.84644e-08,
+        "propagation": 1.24788e-08
+      },
+      "files": {
+        "probe.cir": "7bb9d9a09aa55aa1d85011267bc9b24097b80e0e6918ad6616380c35b513e0d5",
+        "ngspice.log": "7d3b3c5dd003c1c1d73f54b0a931811bf878342436545802fa2335d754ffd2bd"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.4340969393402612e-08,
+          "to": 3.4256459741943326e-08,
+          "propagation": 2.7958808997153878e-08
+        },
+        "edgeSeconds": 9.915490348540714e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 7.041191002846125e-09,
+        "strobeHeadroomSeconds": 2.7041191002846125e-08
+      },
+      "measuredCrossings": {
+        "from": 2.4341e-08,
+        "to": 3.42565e-08,
+        "propagation": 2.79588e-08
+      },
+      "files": {
+        "probe.cir": "97f4f7323f7240ae6e82e71a385dc9424a9c938f41ade687b9cf54004fe09f79",
+        "ngspice.log": "31749fe8c240671237a7529b8ba19069cf5838bd0dbd2a183ad3a19c2242580a"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 12.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.448358208955224e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.365108380662886e-08,
+          "to": 6.055570326266826e-08,
+          "propagation": 5.068671364837537e-08
+        },
+        "edgeSeconds": 1.69046194560394e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.568671364837537e-08,
+        "strobeHeadroomSeconds": 4.3132863516246305e-09
+      },
+      "measuredCrossings": {
+        "from": 4.36511e-08,
+        "to": 6.05557e-08,
+        "propagation": 5.06867e-08
+      },
+      "files": {
+        "probe.cir": "5b125f1514cbb53b420b4447672b1bda15059af62b4ecd11117e56f2dd9eb614",
+        "ngspice.log": "aac11d0ced93bd45621bc654aab6aa91378fbefc6990fb4d6f1430f3bc51bcba"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 0.0,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.495317748322801e-09,
+          "to": 1.1070639406553525e-08,
+          "propagation": 4.7396811281243136e-09
+        },
+        "edgeSeconds": 8.575321658230725e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 3.026031887187569e-08,
+        "strobeHeadroomSeconds": 5.0260318871875686e-08
+      },
+      "measuredCrossings": {
+        "from": 2.49532e-09,
+        "to": 1.10706e-08,
+        "propagation": 4.73968e-09
+      },
+      "files": {
+        "probe.cir": "69a67c6f80121267b8db7318598f895244415929807aac4d8f5cbea818804e64",
+        "ngspice.log": "1ba39433050def2b52c73d24a1b686b8ee60b6a42338b1be9393cea058e74ab3"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 1e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 1.0514637767791862e-08,
+          "to": 1.9089959426022584e-08,
+          "propagation": 1.2759001147593379e-08
+        },
+        "edgeSeconds": 8.575321658230722e-09,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 2.2240998852406623e-08,
+        "strobeHeadroomSeconds": 4.2240998852406624e-08
+      },
+      "measuredCrossings": {
+        "from": 1.05146e-08,
+        "to": 1.909e-08,
+        "propagation": 1.2759e-08
+      },
+      "files": {
+        "probe.cir": "e7cc9d743cbd1173b19f97cefddd272db704ed7dbb038524406fbd351f623cf1",
+        "ngspice.log": "84f80247b68b34349d5b578dbe103de15d33cfec7405ae859ae3759b3321864d"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 3e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 2.4604025988667984e-08,
+          "to": 3.4800972104237025e-08,
+          "propagation": 2.8242205595278766e-08
+        },
+        "edgeSeconds": 1.0196946115569041e-08,
+        "edgePassed": true,
+        "dataHeadroomSeconds": 6.7577944047212366e-09,
+        "strobeHeadroomSeconds": 2.6757794404721237e-08
+      },
+      "measuredCrossings": {
+        "from": 2.4604e-08,
+        "to": 3.4801e-08,
+        "propagation": 2.82422e-08
+      },
+      "files": {
+        "probe.cir": "6b99c6ffc9458ddb1b11d910fd3ed9936f53438cf1649411253363b88a25a072",
+        "ngspice.log": "b05a9c3a907278311a8d9e5129cf713d2533503651f5a35407de92920ace70cf"
+      }
+    },
+    {
+      "case": {
+        "highOhms": 250.0,
+        "supplyVolts": 5.5,
+        "kind": "fall",
+        "driveVolts": 0.0,
+        "resistanceOhms": 22.5,
+        "maximumSeconds": 1.2e-08,
+        "extraCapacitancePf": 30.0,
+        "initialVolts": 2.839939024390244,
+        "measurementVolts": 1.5,
+        "rampSeconds": 6e-08,
+        "startDriveVolts": 5.5,
+        "tauSeconds": 5.762686567164178e-09,
+        "startEquilibriumVolts": 4.71865671641791,
+        "finalEquilibriumVolts": 0.4499999999999999,
+        "crossings": {
+          "from": 4.396032530278795e-08,
+          "to": 6.09105772643465e-08,
+          "propagation": 5.0999332386102425e-08
+        },
+        "edgeSeconds": 1.6950251961558552e-08,
+        "edgePassed": false,
+        "dataHeadroomSeconds": -1.5999332386102423e-08,
+        "strobeHeadroomSeconds": 4.000667613897578e-09
+      },
+      "measuredCrossings": {
+        "from": 4.39603e-08,
+        "to": 6.09106e-08,
+        "propagation": 5.09993e-08
+      },
+      "files": {
+        "probe.cir": "c77fd64b030ef1b4731c15850a3769532924c7678a4c6c25d63ac865e0df1c5f",
+        "ngspice.log": "d9c91156893a096d4e8c7bdc77d28a66fde339f0b069bffdeff71773451e2816"
+      }
+    }
+  ],
+  "scope": "Published industrial I8282 78-ohm/2.01-V/300-pF load, three supplies, both polarities, explicit 0/12/30-pF added capacitance and 0/10/30/60-ns internal drive ramps. Pin voltages start at the opposite loaded steady state.",
+  "assumptions": "Resistance switches immediately to its final-state value while the Thevenin source ramps between ground and supply. This can cause a short wrong-direction falling-edge excursion; it is an explicit hypothesis, not a transistor model. Pure data/strobe delay precedes this whole transition. Ramp durations and added capacitance are assumptions.",
+  "notEstablished": [
+    "Actual internal drive shape and resistance transition",
+    "Enable measurement convention and dynamics",
+    "Finite disconnect dynamics; retain separate instantaneous-disconnect constraints",
+    "Nonlinear I/V, temperature law, supply recovery and device/specimen admission"
+  ]
+}
