@@ -1622,3 +1622,15 @@ reachable runtime changes. The control does not cover all scope intern object
 payloads, function metadata, automatic contexts or general rollback. Run
 `scope_referents.py` with the candidate, baseline and module paths recorded in
 `run.json`, using a new output directory. Existing campaigns remain pinned.
+
+
+The [scope metadata source contract](reports/scope-metadata-contract/assessment.json)
+retains declaration/timescale initialization, VPI consumers, function subtype
+fields, internal attachment call sites and the existing scope walker. The
+walker casts intern pointers without an independent allocation registry, so
+future metadata coverage must admit registered pointers before dereferencing
+corrupted entries. Selected compile-time writes do not prove an exhaustive
+runtime nonmutation invariant across admitted modules. Native ownership,
+foreign-pointer refusal, subtype/lifecycle controls and operational integration
+remain required. Regenerate with `scope_metadata_contract.py --archive
+PINNED_ARCHIVE --out NEW_REPORT.json`; `--check` verifies the retained report.
