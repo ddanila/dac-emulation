@@ -1,0 +1,29 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "observations": 8,
+  "faultsByTarget": {
+    "3:0": 4,
+    "3:1": 4,
+    "3:2": 4,
+    "2:0": 4,
+    "2:1": 4,
+    "2:2": 4,
+    "1:0": 4,
+    "1:1": 4,
+    "1:2": 4,
+    "5:0": 4,
+    "5:1": 4,
+    "5:2": 4,
+    "4:0": 4,
+    "4:1": 4,
+    "4:2": 4
+  },
+  "originalContinuationExactlyEqual": true,
+  "scope": "A test-only VVP adapter connects five array words directly to their original two driver nodes, exercising shared-owner association chains through native attachment and dispatch on both original and candidate runtimes. Independently obtained VPI word owners bind every association. Concrete array identities use the adjusted native pointer rather than the VPI base-subobject address. Every array pointer and word address binds to VPI array identity/size and expected word membership. Full lists survive dynamic read-port selection and X/Z propagation. Index and array-pointer faults change only their target field; invalid next pointers refuse before output. All restore before original-equivalent continuation.",
+  "notEstablished": [
+    "Runtime creation/removal of array-word associations",
+    "Registration during active callbacks and typed callback object/user referents",
+    "Compact encoding, operational integration and general rollback"
+  ]
+}
