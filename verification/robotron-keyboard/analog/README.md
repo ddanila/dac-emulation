@@ -1247,3 +1247,14 @@ measures initial-state scans and exact reconstruction; unchanged output savings 
 not bound active values, masks or links. Build with `build_signal_delta_runtime.py`,
 then run `signal_delta_probe.py` and `signal_delta_board.py`; replay either with
 `--check` and its retained report directory. Operational integration remains open.
+
+`build_signal_bridge.py`, `signal_board_capture.py` and `signal_board_review.py`
+extend reviewed wire controls with complete signal differences and an initial
+native class inventory. Signals must retain their class/allocation bindings and
+compiled widths; non-null procedural-assignment sources must reach destination
+port 1 through the allocated graph. Initialization faults restore at startup;
+stored-value and active-flag faults restore after firmware starts. Native mask,
+link and force/release controls remain required for paths absent from this board.
+All preceding state, waveform and firmware checks remain enabled. The capture
+keeps bounded logs and adds a measured signal-scan allowance; operational acceptance
+requires the campaign and retained replay, not the integration tests alone.
