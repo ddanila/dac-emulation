@@ -1,0 +1,91 @@
+{
+  "qualified": false,
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/thread-probe-reviewed/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/thread-probe-reviewed/probe.v"
+    ],
+    [
+      "cc",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-thread-runtime-v2",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/thread-probe-reviewed/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/thread-probe-reviewed/probe.c"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-thread-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-thread-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-thread-runtime-v2/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-thread-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-thread-runtime-v2/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-thread-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-thread-runtime-v2/vvp/libvvp.so",
+      "mode": "corrupt"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-thread-runtime-v2/vvp/libvvp.so": "bc9ef67aeb2ea44839d77a49d5f6e0013cc631e2c16e1ceef88cd1c21f667ca6",
+    "/private/tmp/k7658-thread-runtime-v2/vvp/vvp": "1e97e5ed9f6b4d5ec2c7f64f8b0ee3ca60fb068e6f6f86a2c243355362e8f345",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/thread-probe-reviewed/probe.vpi": "2fef89c569598e4eab7fd6cc16781ef573ffeae00075f27d02877ead36315b2e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "candidateBuildSha256": "990dd10a9e5479a912684f7e2b794f2596dadaf3156b8f1b9b6710a80607a910",
+  "sources": {
+    "thread_probe.py": "e417d8847665bd440683c22b89b2401ea9d9a051c0f54ee03d1b903cf3f8b653",
+    "fixtures/thread_probe.c": "229e342c1f50edfb6f756eeb336aa001529794b2c5fc35eb7a1219244bb6f73d",
+    "fixtures/thread_probe.v": "842ef18bf22f7e4988e3becb3dc5e9606c28cbbf56babdc865ac6b2e015f34f8"
+  }
+}

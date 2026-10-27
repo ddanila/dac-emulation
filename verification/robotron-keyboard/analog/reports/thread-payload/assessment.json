@@ -1,0 +1,34 @@
+{
+  "completed": true,
+  "qualified": false,
+  "simulationOutputExactlyEqual": true,
+  "restoredFaults": 52,
+  "faultsByField": {
+    "0": 10,
+    "1": 10,
+    "2": 9,
+    "3": 10,
+    "4": 10,
+    "5": 1,
+    "6": 1,
+    "7": 1
+  },
+  "observedStateFamilies": [
+    "event-wait",
+    "extended-flags",
+    "function",
+    "join",
+    "reals",
+    "scheduled",
+    "strings",
+    "vectors",
+    "word-registers"
+  ],
+  "scope": "Initialized live-thread flags/words, lifecycle and wait/parent/child relationships, and logical vector/real/string stacks; restored mutations with unchanged complete fixture output.",
+  "notEstablished": [
+    "Board integration and queued/wait-event binding",
+    "Code/scope/context/object referent contents",
+    "Detached/delayed-deletion coverage",
+    "Freed-storage equivalence and general rollback"
+  ]
+}
