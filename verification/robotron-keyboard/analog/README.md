@@ -1590,3 +1590,20 @@ small timing probes and startup controls do not qualify the whole campaign.
 Run it with `--root CAPTURES --producer net_board_capture.py --reference
 ORIGINAL_ASSESSMENT.json --out NEW_RESULT.json`. Source hashes and cache counts
 are recorded separately; pinned captures and the original reviewer are unchanged.
+
+
+The [combined graph controls](reports/net-board/assessment.json) pass the complete
+20-us service fixture across 55,156 normal boundaries and up to 1,820 allocated
+nodes. They bind 258 code-net targets plus array ports and queued assignment/
+primitive destinations to allocated nodes while preserving all earlier observer
+layers. Head/foreign-target faults restore at startup; link/tag/functor/filter
+faults restore at the 5-us boundary before controlled termination. Disabled
+baseline and enabled-observer controls preserve exact waveform samples and
+firmware records. The observed capture took 1,272.63 seconds and emitted
+3,831,556,996 logical log bytes (4,663,296 compressed), within its 4-GiB logical
+and 256-MiB compressed caps. This measured cost does not bound later payload
+integration or a longer window. All capture evidence is retained; the manifest
+check passes. A second full review of the retained copy is running before the
+queued wire campaign. Wire/functor payload integration, complete private state,
+general rollback, startup and supply recovery remain open. Regenerate the
+review using `reports/net-board/retention.json`.
