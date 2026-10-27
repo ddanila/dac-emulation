@@ -1,0 +1,109 @@
+--- a/vvp/vthread.cc
++++ b/vvp/vthread.cc
+@@ -151,7 +151,7 @@
+       template<class T> robotron_word_reference<T> robotron_word_slot(unsigned i) {
+           if(i>=WORDS_COUNT)abort();return {this,i};
+       }
+-      int robotron_inventory(FILE*) const;
++      int robotron_inventory(FILE*,bool compact=false) const;
+       int robotron_toggle(int);
+ 
+ 
+@@ -6777,7 +6777,7 @@
+     for(unsigned i=0;i<value.size();++i)if(fputc('0'+(unsigned)value.value(i),out)==EOF)return -1;
+     return fputc('\n',out)==EOF?-1:0;
+ }
+-int vthread_s::robotron_inventory(FILE* out) const
++int vthread_s::robotron_inventory(FILE* out,bool compact) const
+ {
+     auto id=robotron_thread_id(const_cast<vthread_s*>(this));
+     if(!id || (parent && !robotron_thread_id(parent)) || (wait_next && !robotron_thread_id(wait_next)))return -1;
+@@ -6785,8 +6785,14 @@
+                robotron_thread_id(parent),robotron_thread_id(wait_next),wt_context,rd_context,(void*)event,(unsigned long long)ecount)<0)return -1;
+     if(fprintf(out,"VT_STATE %u%u%u%u%u%u%u%u%u\n",i_am_joining,i_am_detached,i_am_waiting,i_am_in_function,
+                i_have_ended,i_was_disabled,waiting_for_event,is_scheduled,delay_delete)<0)return -1;
+-    if(fprintf(out,"VT_FLAGS %u ",(unsigned)FLAGS_COUNT)<0)return -1;
+-    for(unsigned i=0;i<FLAGS_COUNT;++i)if(fputc(robotron_flags_valid[i]?'0'+(unsigned)flags[i]:'-',out)==EOF)return -1;
++    if(compact){
++        unsigned count=0;for(unsigned i=0;i<FLAGS_COUNT;++i)count+=robotron_flags_valid[i];
++        if(fprintf(out,"VT_FLAGS_SPARSE %u %u",(unsigned)FLAGS_COUNT,count)<0)return -1;
++        for(unsigned i=0;i<FLAGS_COUNT;++i)if(robotron_flags_valid[i] && fprintf(out," %u:%u",i,(unsigned)flags[i])<0)return -1;
++    }else{
++        if(fprintf(out,"VT_FLAGS %u ",(unsigned)FLAGS_COUNT)<0)return -1;
++        for(unsigned i=0;i<FLAGS_COUNT;++i)if(fputc(robotron_flags_valid[i]?'0'+(unsigned)flags[i]:'-',out)==EOF)return -1;
++    }
+     if(fprintf(out,"\nVT_WORDS %u",(unsigned)WORDS_COUNT)<0)return -1;
+     for(unsigned i=0;i<WORDS_COUNT;++i){
+         if(!robotron_words_valid[i]){if(fprintf(out," -")<0)return -1;}
+@@ -6877,3 +6883,15 @@
+         if(r){saved=item.second;identity=item.first;saved_field=field;return 1;}}
+     return 0;
+ }
++
++extern "C" unsigned long long robotron_vvp_thread_identity(vthread_t thread)
++{return robotron_thread_id(thread);}
++extern "C" int robotron_vvp_thread_compact_inventory(FILE* out)
++{
++    if(!out || (running_thread && !robotron_thread_id(running_thread)))return -1;
++    if(fprintf(out,"VT_BEGIN 1 %llu %llu\n",(unsigned long long)schedule_simtime(),robotron_thread_id(running_thread))<0)return -1;
++    map<unsigned long long,vthread_t> ordered;
++    for(const auto& item:robotron_threads())ordered[item.second]=item.first;
++    for(const auto& item:ordered)if(item.second->robotron_inventory(out,true))return -1;
++    return fprintf(out,"VT_END %zu\n",ordered.size())<0 || ferror(out)?-1:0;
++}
+--- a/vvp/schedule.cc
++++ b/vvp/schedule.cc
+@@ -115,7 +115,10 @@
+ /*
+  * Derived event types
+  */
++static unsigned long long robotron_thread_event_serial=0;
+ struct vthread_event_s : public event_s {
++      vthread_event_s():thr(0),robotron_id(++robotron_thread_event_serial){}
++      unsigned long long robotron_id;
+       vthread_t thr;
+       void run_run(void) override;
+       void single_step_display(void) override;
+@@ -153,6 +156,8 @@
+ }
+ 
+ struct del_thr_event_s : public event_s {
++      del_thr_event_s():thr(0),robotron_id(++robotron_thread_event_serial){}
++      unsigned long long robotron_id;
+       vthread_t thr;
+       void run_run(void) override;
+       void single_step_display(void) override;
+@@ -1607,3 +1612,33 @@
+     if(saved){found->obj=object;saved=0;object=0;return 1;}
+     saved=found;object=found->obj;identity=found->robotron_id;found->obj=0;return 1;
+ }
++
++extern "C" unsigned long long robotron_vvp_thread_identity(vthread_t);
++extern "C" int robotron_vvp_thread_queue_inventory(FILE* out)
++{
++    if(!out || fprintf(out,"VTQ_BEGIN 1 %llu\n",(unsigned long long)schedule_time)<0)return -1;
++    unsigned long long known=0,other=0;
++    int result=robotron_assignment_walk([&](event_s* event,long long slot,const char* region,unsigned long long ordinal){
++        auto thread=dynamic_cast<vthread_event_s*>(event);auto deletion=dynamic_cast<del_thr_event_s*>(event);
++        if(!thread && !deletion){++other;return 0;}
++        auto object=thread?thread->thr:deletion->thr;auto id=thread?thread->robotron_id:deletion->robotron_id;
++        ++known;
++        return fprintf(out,"VTQ_EVENT %lld %s %llu %llu %u %llu %p\n",slot,region,ordinal,id,
++                       thread?1u:2u,robotron_vvp_thread_identity(object),(void*)object)<0?-1:0;
++    });
++    return result || fprintf(out,"VTQ_END %llu %llu\n",known,other)<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_thread_queue_toggle()
++{
++    static vthread_event_s* saved=0;static vthread_t object=0;static unsigned long long identity=0;
++    vthread_event_s* found=0;
++    int result=robotron_assignment_walk([&](event_s* event,long long,const char*,unsigned long long){
++        auto thread=dynamic_cast<vthread_event_s*>(event);if(!thread || found)return 0;
++        if(saved){if(thread==saved && thread->robotron_id==identity)found=thread;}
++        else if(robotron_vvp_thread_identity(thread->thr))found=thread;
++        return 0;
++    });
++    if(result)return -1;if(!found)return saved?-1:0;
++    if(saved){found->thr=object;saved=0;object=0;return 1;}
++    saved=found;object=found->thr;identity=found->robotron_id;found->thr=0;return 1;
++}

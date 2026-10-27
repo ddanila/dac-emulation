@@ -908,3 +908,17 @@ cover event waiting, fork/join, automatic functions and vector/real/string stack
 The observer emits markers for untouched registers; it does not initialize them.
 Board integration, queued/wait-event binding, reachable detached/deferred-deletion
 paths and code/context/object referents remain open.
+
+`build_thread_queue_runtime.py` adds typed scheduler-to-thread bindings and a
+compact flag encoding. Replay [compact controls](reports/thread-compact/assessment.json)
+with `thread_compact_probe.py --check verification/robotron-keyboard/analog/reports/thread-compact`.
+Absent flag indices remain uninitialized; dense native snapshots at the same
+paused points must match exactly.
+
+`build_thread_bridge.py`, `thread_board_capture.py` and `thread_board_review.py`
+combine live-thread observations with the preceding board layers. The capture
+uses the reviewed filter-board controls as `--source` and `--assessment`, plus
+`--bridge`, `--icarus` and a fresh `--out`. Review with `--root`, the capture
+script as `--producer`, and a fresh assessment `--out`. A capture alone does not
+establish qualification. Wait-event and deeper object referents, additional
+lifecycle paths and broader operating windows remain separate requirements.
