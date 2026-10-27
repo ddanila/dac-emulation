@@ -1,0 +1,510 @@
+{
+  "qualified": false,
+  "scope": "Compiled-board lifecycle reachability inventory and pinned native semantics. Absence of opcodes is scoped to this compiled input; it does not establish whole-runtime rollback or dynamic execution coverage.",
+  "compiled": {
+    "path": "verification/robotron-keyboard/analog/reports/island-filter-board/off/io.vvp",
+    "sha256": "3d215bba28e65d6abaa51e6fdc32a33a1798f45c6f012fb040cec2007c76c468",
+    "opcodeCounts": {
+      "%add": 9,
+      "%addi": 11,
+      "%and": 161,
+      "%assign/vec4": 258,
+      "%assign/vec4/a/d": 2,
+      "%assign/vec4/off/d": 73,
+      "%blend": 14,
+      "%callf/vec4": 15,
+      "%cmp/e": 68,
+      "%cmp/ne": 8,
+      "%cmp/u": 786,
+      "%cmp/z": 404,
+      "%cmpi/e": 248,
+      "%cmpi/ne": 17,
+      "%cmpi/u": 6,
+      "%concat/vec4": 32,
+      "%concati/vec4": 9,
+      "%dup/vec4": 1189,
+      "%end": 14,
+      "%flag_get/vec4": 245,
+      "%flag_inv": 6,
+      "%flag_mov": 26,
+      "%flag_or": 40,
+      "%flag_set/imm": 755,
+      "%flag_set/vec4": 517,
+      "%fork": 2,
+      "%inv": 103,
+      "%ix/load": 830,
+      "%ix/vec4": 2,
+      "%jmp": 1643,
+      "%jmp/0": 177,
+      "%jmp/0xz": 573,
+      "%jmp/1": 1255,
+      "%join": 2,
+      "%load/vec4": 2189,
+      "%mod/s": 2,
+      "%mul/wr": 1,
+      "%nor/r": 36,
+      "%or": 30,
+      "%pad/u": 16,
+      "%parti/s": 1424,
+      "%pop/vec4": 226,
+      "%pushi/real": 1,
+      "%pushi/vec4": 3704,
+      "%replicate": 2,
+      "%ret/vec4": 27,
+      "%store/vec4": 3175,
+      "%subi": 3,
+      "%vpi_call/w": 16,
+      "%vpi_func/r": 1,
+      "%wait": 42,
+      "%xor": 11,
+      "%xor/r": 15
+    },
+    "lifecycleInstructions": [
+      {
+        "line": 4677,
+        "opcode": "%fork",
+        "text": "    %fork t_1, S_0xb0aee4480;"
+      },
+      {
+        "line": 9443,
+        "opcode": "%join",
+        "text": "t_0 %join;"
+      },
+      {
+        "line": 11454,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_mcode.is_cc_true, S_0xb0aee4600;"
+      },
+      {
+        "line": 11783,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_mcode.is_cc_true, S_0xb0aee4600;"
+      },
+      {
+        "line": 12086,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_mcode.is_cc_true, S_0xb0aee4600;"
+      },
+      {
+        "line": 12342,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_mcode.is_cc_true, S_0xb0aee4600;"
+      },
+      {
+        "line": 12598,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_mcode.is_cc_true, S_0xb0aee4600;"
+      },
+      {
+        "line": 12854,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_mcode.is_cc_true, S_0xb0aee4600;"
+      },
+      {
+        "line": 13110,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_mcode.is_cc_true, S_0xb0aee4600;"
+      },
+      {
+        "line": 13366,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_mcode.is_cc_true, S_0xb0aee4600;"
+      },
+      {
+        "line": 13622,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_mcode.is_cc_true, S_0xb0aee4600;"
+      },
+      {
+        "line": 13878,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_mcode.is_cc_true, S_0xb0aee4600;"
+      },
+      {
+        "line": 19700,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_alu.AddSub4, S_0xb0aee4180;"
+      },
+      {
+        "line": 19716,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_alu.AddSub3, S_0xb0aee4000;"
+      },
+      {
+        "line": 19732,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.i_alu.AddSub1, S_0x103146100;"
+      },
+      {
+        "line": 25535,
+        "opcode": "%fork",
+        "text": "    %fork t_3, S_0xb0aee4c00;"
+      },
+      {
+        "line": 25591,
+        "opcode": "%join",
+        "text": "t_2 %join;"
+      },
+      {
+        "line": 25876,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.mcyc_to_number, S_0xb0aee4900;"
+      },
+      {
+        "line": 25920,
+        "opcode": "%callf/vec4",
+        "text": "    %callf/vec4 TD_firmware_io_electrical_bus.board.cpu.qualified.base.i_tv80_core.number_to_bitvec, S_0xb0aee4a80;"
+      }
+    ],
+    "scopes": [
+      {
+        "line": 11,
+        "label": "S_0x103156020",
+        "kind": "package",
+        "automatic": false
+      },
+      {
+        "line": 13,
+        "label": "S_0x1031561a0",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 65,
+        "label": "S_0x103149b80",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 252,
+        "label": "S_0x103144eb0",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 409,
+        "label": "S_0x103145030",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 522,
+        "label": "S_0x103148a90",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 591,
+        "label": "S_0x103148c10",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 903,
+        "label": "S_0x103145f80",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 954,
+        "label": "S_0x103146100",
+        "kind": "function.vec4.s2",
+        "automatic": false
+      },
+      {
+        "line": 986,
+        "label": "S_0xb0aee4000",
+        "kind": "function.vec4.s4",
+        "automatic": false
+      },
+      {
+        "line": 1018,
+        "label": "S_0xb0aee4180",
+        "kind": "function.vec4.s5",
+        "automatic": false
+      },
+      {
+        "line": 1050,
+        "label": "S_0xb0aee4300",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 1178,
+        "label": "S_0xb0aee4480",
+        "kind": "begin",
+        "automatic": false
+      },
+      {
+        "line": 1180,
+        "label": "S_0xb0aee4600",
+        "kind": "function.vec4.s1",
+        "automatic": false
+      },
+      {
+        "line": 1287,
+        "label": "S_0xb0aee4780",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 1408,
+        "label": "S_0xb0aee4900",
+        "kind": "function.vec4.s3",
+        "automatic": false
+      },
+      {
+        "line": 1476,
+        "label": "S_0xb0aee4a80",
+        "kind": "function.vec4.s7",
+        "automatic": false
+      },
+      {
+        "line": 1544,
+        "label": "S_0xb0aee4c00",
+        "kind": "begin",
+        "automatic": false
+      },
+      {
+        "line": 1546,
+        "label": "S_0xb0aee4d80",
+        "kind": "generate",
+        "automatic": false
+      },
+      {
+        "line": 1553,
+        "label": "S_0xb0aee4f00",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 3869,
+        "label": "S_0xb0aee5080",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 3930,
+        "label": "S_0xb0aee5200",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 3988,
+        "label": "S_0xb0aee5380",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 4046,
+        "label": "S_0xb0aee5500",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 4104,
+        "label": "S_0xb0aee5680",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 4168,
+        "label": "S_0xb0aee5800",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 4256,
+        "label": "S_0xb0aee5980",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 4270,
+        "label": "S_0xb0aee5b00",
+        "kind": "module",
+        "automatic": false
+      },
+      {
+        "line": 4283,
+        "label": "S_0xb0aee5c80",
+        "kind": "generate",
+        "automatic": false
+      },
+      {
+        "line": 4285,
+        "label": "S_0xb0aee5e00",
+        "kind": "generate",
+        "automatic": false
+      },
+      {
+        "line": 4287,
+        "label": "S_0xb0aee5f80",
+        "kind": "generate",
+        "automatic": false
+      },
+      {
+        "line": 4289,
+        "label": "S_0xb0aee6100",
+        "kind": "module",
+        "automatic": false
+      }
+    ],
+    "vpiCalls": [
+      {
+        "line": 26751,
+        "opcode": "%vpi_call/w",
+        "name": "$readmemh",
+        "text": "    %vpi_call/w 3 305 \"$readmemh\", \"s600.hex\", v0xb0af57b60 {0 0 0};"
+      },
+      {
+        "line": 26779,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 343 \"$display\", \"SERIAL_TX %0t %b\", $time, v0xb0af56da0_0 {0 0 0};"
+      },
+      {
+        "line": 26798,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 349 \"$display\", \"SERIAL_RX %0t %b\", $time, v0xb0af57660_0 {0 0 0};"
+      },
+      {
+        "line": 26805,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 351 \"$display\", \"RESET %0t %b\", $time, v0xb0af57980_0 {0 0 0};"
+      },
+      {
+        "line": 26818,
+        "opcode": "%vpi_call/w",
+        "name": "$fflush",
+        "text": "    %vpi_call/w 3 353 \"$fflush\" {0 0 0};"
+      },
+      {
+        "line": 26828,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 357 \"$display\", \"RESET %0t %b\", $time, v0xb0af57980_0 {0 0 0};"
+      },
+      {
+        "line": 26829,
+        "opcode": "%vpi_call/w",
+        "name": "$fflush",
+        "text": "    %vpi_call/w 3 357 \"$fflush\" {0 0 0};"
+      },
+      {
+        "line": 26841,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 360 \"$display\", \"CLOCK_PROGRESS %0t %0d\", $time, v0xb0af569e0_0 {0 0 0};"
+      },
+      {
+        "line": 26842,
+        "opcode": "%vpi_call/w",
+        "name": "$fflush",
+        "text": "    %vpi_call/w 3 360 \"$fflush\" {0 0 0};"
+      },
+      {
+        "line": 26876,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 365 \"$display\", \"FIRST_FETCH %0t %04x %02x\", $time, v0xb0af564e0_0, v0xb0af56e40_0 {0 0 0};"
+      },
+      {
+        "line": 26917,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 370 \"$display\", \"BOOT %0t %0d %0d %0d %0d %04x %b\", $time, v0xb0af56d00_0, v0xb0af56f80_0, v0xb0af575c0_0, v0xb0af58280_0, v0xb0af564e0_0, v0xb0af57160_0 {0 0 0};"
+      },
+      {
+        "line": 27002,
+        "opcode": "%vpi_func/r",
+        "name": "$realtime",
+        "text": "    %vpi_func/r 3 378 \"$realtime\" {0 0 0};"
+      },
+      {
+        "line": 27005,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 378 \"$display\", \"BUS_EDGE_PS %0.0f\", W<0,r> {0 1 0};"
+      },
+      {
+        "line": 27006,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 379 \"$display\", \"BUS_SAMPLE %0t %04x %02x %b %b %b\", $time, v0xb0af564e0_0, v0xb0af56e40_0, v0xb0af573e0_0, v0xb0af570c0_0, v0xb0af57340_0 {0 0 0};"
+      },
+      {
+        "line": 27007,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 380 \"$display\", \"BUS_DRIVE %0t %024b %024b\", $time, v0xb0af56620_0, v0xb0af56580_0 {0 0 0};"
+      },
+      {
+        "line": 27010,
+        "opcode": "%vpi_call/w",
+        "name": "$strobe",
+        "text": "    %vpi_call/w 3 384 \"$strobe\", \"BUS_LATCH %0t %02x %02x\", $time, v0xb0af56760_0, v0xb0aef2760_0 {0 0 0};"
+      },
+      {
+        "line": 27017,
+        "opcode": "%vpi_call/w",
+        "name": "$display",
+        "text": "    %vpi_call/w 3 395 \"$display\", \"WR_DRIVE %0t %b\", $time, v0xb0af58000_0 {0 0 0};"
+      }
+    ],
+    "emitted": {
+      "detach": false,
+      "waitFork": false,
+      "disableFork": false,
+      "automaticScopes": false,
+      "eventControls": false,
+      "strobe": true
+    }
+  },
+  "sources": {
+    "vvp/vthread.cc": "95e83a73511df6999864528f827c8b3fedd11c68f3ee3e64fc826811568869c5",
+    "vvp/schedule.cc": "06a3f5ffa3aa411e5c07473c206a86783a8a18fdea2f666f256efd38bebb23d8",
+    "vpi/sys_display.c": "e6ac1ba377d261cd6153b94a01eb4a2f28a0ba87ea81d4f61a76f0ed065cc3f0",
+    "vvp/vpi_callback.cc": "ca97f729cbdbdec6a1e123799f5365c66da97d327354d767b145a3c1815b45bc"
+  },
+  "evidence": {
+    "synchronousCallbackRegistration": {
+      "file": "vvp/vpi_callback.cc",
+      "firstLine": 476,
+      "excerpt": "make_sync(p_cb_data data, bool readonly_flag)\n{\n      if (!check_callback_time(data, false))\n\t    return 0;\n\n      sync_callback*obj = new sync_callback(data);\n\n      struct sync_cb*cb = new sync_cb;\n      cb->sync_flag = readonly_flag? true : false;\n      cb->handle = obj;\n      obj->cb_sync = cb;\n\n      vvp_time64_t tv = get_sync_cb_time(obj);\n      schedule_generic(cb, tv, true, readonly_flag);\n\n      return obj;\n}\n\n"
+    },
+    "runningThreadFlag": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 849,
+      "excerpt": "void vthread_delay_delete()\n{\n      if (running_thread)\n\t    running_thread->delay_delete = 1;\n}\n\n"
+    },
+    "detach": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3779,
+      "excerpt": "bool of_JOIN_DETACH(vthread_t thr, vvp_code_t cp)\n{\n      unsigned long count = cp->number;\n\n      assert(count == thr->children.size());\n\n      while (! thr->children.empty()) {\n\t    vthread_t child = *thr->children.begin();\n\t    assert(child->parent == thr);\n\n\t      // We cannot detach automatic tasks/functions within an\n\t      // automatic scope. If we try to do that, we might make\n\t      // a mess of the allocation of the context. Note that it\n\t      // is OK if the child context is distinct (See %exec_ufunc.)\n\t    assert(child->wt_context==0 || thr->wt_context!=child->wt_context);\n\t    if (child->i_have_ended) {\n\t\t    // If the child has already ended, then reap it.\n\t\t  vthread_reap(child);\n\n\t    } else {\n\t\t  size_t res = child->parent->children.erase(child);\n\t\t  assert(res == 1);\n\t\t  child->i_am_detached = 1;\n\t\t  thr->detached_children.insert(child);\n\t    }\n      }\n\n      return true;\n}\n\n"
+    },
+    "waitFork": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 6538,
+      "excerpt": "bool of_WAIT_FORK(vthread_t thr, vvp_code_t)\n{\n\t/* If a %wait/fork is being executed then the parent thread\n\t * cannot be waiting in a join or already waiting. */\n      assert(! thr->i_am_in_function);\n      assert(! thr->i_am_joining);\n      assert(! thr->i_am_waiting);\n\n\t/* There should be no active children when waiting. */\n      assert(thr->children.empty());\n\n\t/* If there are no detached children then there is nothing to\n\t * wait for. */\n      if (thr->detached_children.empty()) return true;\n\n\t/* Flag that this process is waiting for the detached children\n\t * to finish and suspend it. */\n      thr->i_am_waiting = 1;\n      return false;\n}\n\n"
+    },
+    "synchronousCallbackMarksDelay": {
+      "file": "vvp/schedule.cc",
+      "firstLine": 1025,
+      "excerpt": "void schedule_generic(vvp_gen_event_t obj, vvp_time64_t delay,\n\t\t      bool sync_flag, bool ro_flag, bool delete_when_done)\n{\n      struct generic_event_s*cur = new generic_event_s;\n\n      cur->obj = obj;\n      cur->delete_obj_when_done = delete_when_done;\n      schedule_event_(cur, delay,\n\t\t      sync_flag? (ro_flag?SEQ_ROSYNC:SEQ_RWSYNC) : SEQ_ACTIVE);\n\n      if (sync_flag)\n\t    vthread_delay_delete();\n}\n\n"
+    },
+    "strobeSchedulesSynchronousCallback": {
+      "file": "vpi/sys_display.c",
+      "firstLine": 1379,
+      "excerpt": "static PLI_INT32 sys_strobe_calltf(ICARUS_VPI_CONST PLI_BYTE8*name)\n{\n      vpiHandle callh, argv, scope;\n      struct t_cb_data cb;\n      struct t_vpi_time timerec;\n      struct strobe_cb_info*info;\n      PLI_UINT32 fd_mcd;\n\n      callh = vpi_handle(vpiSysTfCall, 0);\n      argv = vpi_iterate(vpiArgument, callh);\n\n\t/* Get the file/MC descriptor and verify it is valid. */\n      if (name[1] == 'f') {\n\t    vpiHandle fd = vpi_scan(argv);\n\t    if (get_fd_mcd_from_arg(&fd_mcd, fd, callh, name)) {\n\t\t  vpi_free_object(argv);\n                  return 0;\n\t    }\n\n      } else {\n\t    fd_mcd = 1;\n      }\n\n      scope = vpi_handle(vpiScope, callh);\n      assert(scope);\n\n      info = calloc(1, sizeof(struct strobe_cb_info));\n      info->fd_mcd = fd_mcd;\n\t/* We could use vpi_get_str(vpiName, callh) to get the task name,\n\t * but name is already defined. */\n      info->name = name;\n      info->filename = strdup(vpi_get_str(vpiFile, callh));\n      info->lineno = (int)vpi_get(vpiLineNo, callh);\n      info->default_format = get_default_format(name);\n      info->scope= scope;\n      array_from_iterator(info, argv);\n\n      timerec.type = vpiSimTime;\n      timerec.low = 0;\n      timerec.high = 0;\n\n      cb.reason = cbReadOnlySynch;\n      cb.cb_rtn = strobe_cb;\n      cb.time = &timerec;\n      cb.obj = 0;\n      cb.value = 0;\n      cb.user_data = (char*)info;\n      vpi_register_cb(&cb);\n\n      return 0;\n}\n\n"
+    }
+  },
+  "requirements": [
+    "Keep native detached/wait-fork/cancellation controls as simulator evidence; do not invent a keyboard stimulus to execute instructions absent from the pinned compiled board.",
+    "A strobe call makes the delayed-delete flag reachable through synchronous callback scheduling. Whether its thread ends and enters the deletion queue requires execution or control-flow evidence; opcode absence alone cannot exclude deferred deletion.",
+    "Validate current compiled input before transferring any absence claim. Labelled instructions, VPI calls and automatic scopes must be included.",
+    "Native fixture storage reuse with fresh identities does not establish freed-storage contents or general rollback."
+  ]
+}
