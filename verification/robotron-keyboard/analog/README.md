@@ -1378,3 +1378,14 @@ caches, queued/executing/drained wrappers and restored faults. Reproduce with
 `gate_growth_probe.py` using the native paths, or replay with
 `gate_growth_probe.py --check reports/gate-growth`. Combined board integration,
 deletion and freed-storage equivalence remain open.
+
+`build_gate_bridge.py`, `gate_board_capture.py` and `gate_board_review.py` extend
+reviewed mux controls with full-scan gate differences and complete wrapper
+records. Gate class, inversion, cache widths and allocated node/functor/event
+bindings must remain within the admitted profile. Queued NOT cache/destination
+and wrapper records must agree with the existing primitive observer. Boolean
+input-0 faults restore at paused startup; other input and inversion faults restore
+after firmware starts. Unary/pending-target faults remain in native controls.
+All preceding state and exact waveform/firmware comparisons remain required.
+The capture keeps existing log caps and adds a measured scan-time allowance;
+integration is unqualified until capture and independent retained replay pass.

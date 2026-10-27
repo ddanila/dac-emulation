@@ -205,6 +205,7 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_inputs.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_delta.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_growth.py
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_board_integration.py
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-growth
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-delta
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-input-delta
