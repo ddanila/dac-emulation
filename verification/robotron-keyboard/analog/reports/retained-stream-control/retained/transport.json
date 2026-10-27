@@ -1,0 +1,101 @@
+{
+  "completed": true,
+  "comparisons": [
+    {
+      "signals": {
+        "v(out)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.005242671238200727,
+          "timeSeconds": 1.1750000000000002e-09
+        }
+      },
+      "unionKnots": 1254,
+      "endSeconds": 4e-08,
+      "maximumVoltageDifference": 0.005242671238200727,
+      "boundary": "All observed samples, piecewise-linear comparison on both absolute-time grids. No alignment or intersample extrema claim."
+    },
+    {
+      "signals": {
+        "v(out)": {
+          "unit": "V",
+          "maximumAbsoluteDifference": 0.0010836772308655991,
+          "timeSeconds": 1.0875e-09
+        }
+      },
+      "unionKnots": 2454,
+      "endSeconds": 4e-08,
+      "maximumVoltageDifference": 0.0010836772308655991,
+      "boundary": "All observed samples, piecewise-linear comparison on both absolute-time grids. No alignment or intersample extrema claim."
+    }
+  ],
+  "streams": [
+    {
+      "sha256": "19cce763034cb649b42282a9124aa84120e64fb53bc0391f833513e857b9da03",
+      "bytes": 7126,
+      "samples": 432,
+      "endSeconds": 4e-08
+    },
+    {
+      "sha256": "a9bc83f07689a69e6e509e0c4b2046958471e111aa91f7c90ebf5640db7578e5",
+      "bytes": 13526,
+      "samples": 832,
+      "endSeconds": 4e-08
+    },
+    {
+      "sha256": "0c8b7c10cd08b07283cd3745e25814b0c3cab51fa024419c9325513e0c1baaa4",
+      "bytes": 26326,
+      "samples": 1632,
+      "endSeconds": 4e-08
+    }
+  ],
+  "logs": [
+    {
+      "sha256": "1b8ab111056be2741d2e00208e87171554c76ecc866f91bcc25a04b89b917e1e",
+      "bytes": 579,
+      "samples": 432
+    },
+    {
+      "sha256": "81c01f885bfa360471bbcc36525e9fdd714c917408ba55a4a4c7b9a637fbbdd8",
+      "bytes": 579,
+      "samples": 832
+    },
+    {
+      "sha256": "bc3408c13750f57c3b67d4ad5b3fbaab99ae3521ce28ad63ab0b17516cd8f05c",
+      "bytes": 581,
+      "samples": 1632
+    }
+  ],
+  "storageLimits": {
+    "logicalLogBytes": 1048576,
+    "compressedLogBytes": 262144,
+    "logLineBytes": 8192,
+    "logicalRawBytes": 1048576,
+    "compressedRawBytes": 262144
+  },
+  "storageUsage": {
+    "logicalLogBytes": 1739,
+    "compressedLogBytes": 1084,
+    "logicalRawBytes": 46978,
+    "compressedRawBytes": 35888
+  },
+  "rawArchives": [
+    {
+      "sha256": "19cce763034cb649b42282a9124aa84120e64fb53bc0391f833513e857b9da03",
+      "bytes": 7126,
+      "compressedBytes": 5668
+    },
+    {
+      "sha256": "a9bc83f07689a69e6e509e0c4b2046958471e111aa91f7c90ebf5640db7578e5",
+      "bytes": 13526,
+      "compressedBytes": 10472
+    },
+    {
+      "sha256": "0c8b7c10cd08b07283cd3745e25814b0c3cab51fa024419c9325513e0c1baaa4",
+      "bytes": 26326,
+      "compressedBytes": 19748
+    }
+  ],
+  "elapsedSeconds": 0.03963608399999999,
+  "qualified": false,
+  "boundary": "Three complete raw producers compared online and retained losslessly as compressed raw archives with explicit aggregate byte caps. Circuit/stimulus identity, serial coverage, numerical acceptance and independent model admission are separate."
+}
