@@ -1115,3 +1115,12 @@ graph and binding checks; payload contents, board integration and capture/review
 budgets remain open. Build with `build_net_runtime.py`, run
 `net_probe.py --candidate RUNTIME --baseline ORIGINAL_LIB --modules MODULES --out NEW_DIR`,
 or replay with `net_probe.py --check reports/net-state`.
+
+The [compiled-board graph budget](reports/net-budget/assessment.json) binds all
+observed array destinations and typed code net operands to handed-out allocations.
+Dense graph output exceeds the campaign log cap; use lossless deltas with complete
+reconstruction checks while scanning every node. The pre-execution measurement
+does not establish operational event/bridge bindings, future graph changes or
+combined capture/review cost. Run
+`net_budget.py --source REVIEWED_BOARD --candidate RUNTIME --out NEW_DIR`, or replay
+with `net_budget.py --check reports/net-budget`.
