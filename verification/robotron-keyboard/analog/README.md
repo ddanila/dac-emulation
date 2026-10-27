@@ -1218,6 +1218,11 @@ reject unsupported filters after a valid reference without partial output, while
 preserving native continuation after refusal. Reproduce with
 `wire_raw_delta_family.py` using native-probe arguments, or replay with
 `--check reports/wire-raw-delta-families`.
+[Native raw-filter growth controls](reports/wire-raw-growth/assessment.json)
+allocate supported filters after the reference and reconstruct constructor,
+drive/force and restored collision states. New rows remain complete in every
+difference frame and can exceed dense storage. Reproduce with `wire_raw_growth.py`
+using native-probe arguments, or replay with `--check reports/wire-raw-growth`.
 
 The [board wire budget](reports/wire-board-budget/assessment.json) binds every
 allocated filter to its graph identity and native class before execution. It
