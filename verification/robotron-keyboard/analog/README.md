@@ -1337,3 +1337,12 @@ output. Disabled controls preserve original-runtime behavior. Run
 unequal-width inputs, allocation lifecycle and board integration remain open.
 Build with `build_gate_runtime.py`, then run `native_gate_probe.py` with candidate,
 baseline and module paths. Replay with `native_gate_probe.py --check reports/gate-state`.
+
+The [native gate board budget](reports/gate-board-budget/assessment.json) binds
+all admitted gate caches to allocated nodes and native classes, with independent
+compiled family/inversion/width totals. Initial-state measurements include full
+cache and scheduler-wrapper scans; they exclude later queue growth and combined
+observer costs. Keep the measured dense cost explicit when selecting compact
+encoding and capture limits. Reproduce with
+`native_gate_board.py --source REVIEWED_BOARD --candidate GATE_RUNTIME --out NEW_REPORT`,
+or replay with `native_gate_board.py --check reports/gate-board-budget`.
