@@ -216,6 +216,7 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_growth.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_board_integration.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_strength_encoding.py
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_strength_switch.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_wire_raw_probe.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_families.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_families.py
@@ -247,6 +248,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-delta-families
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-growth
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/strength-encoding
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/strength-switch
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/wire-raw-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-families
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-families

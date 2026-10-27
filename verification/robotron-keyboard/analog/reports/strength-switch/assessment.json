@@ -1,0 +1,33 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "originalAndCandidateExactlyEqual": true,
+  "reachableScalarStates": 127,
+  "constructorInputs": 256,
+  "resolutionPairs": 16129,
+  "tripletsInjectiveOnConstructorResolutionClosure": false,
+  "encodingLossDetected": true,
+  "collisions": [
+    {
+      "rawBytes": [
+        0,
+        136
+      ],
+      "triplet": [
+        2,
+        0,
+        0
+      ],
+      "scalarEqual": false,
+      "vectorEqual": false
+    }
+  ],
+  "scope": "Pinned source-extracted resolve_ambiguous helper linked to original/candidate native scalar constructors and resolver. Both strength maps and enabled/unknown control states cover every pair in the constructor/resolution closure. Raw-byte/triplet collision remains; this is helper coverage, not native island scheduling or board qualification.",
+  "notEstablished": [
+    "Other producers or arbitrary raw-byte states",
+    "Island branch dispatch, queues, concatenation caches and operational board integration",
+    "General rollback"
+  ],
+  "sourceExtractedSwitchCases": 64516,
+  "switchOutputsRemainInConstructorResolutionClosure": true
+}
