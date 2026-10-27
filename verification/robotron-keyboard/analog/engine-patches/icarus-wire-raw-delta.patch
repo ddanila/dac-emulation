@@ -1,0 +1,70 @@
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -4576,3 +4576,67 @@
+     }
+     return -1;
+ }
++
++// Scan all fields; encode each wire_raw independently against an immutable reference.
++static std::map<unsigned long long,std::string> robotron_wire_raw_reference_rows;
++static bool robotron_wire_raw_reference_ready;
++static int robotron_wire_raw_rows(std::map<unsigned long long,std::string>& rows)
++{
++    char* data=0;size_t size=0;FILE* stream=open_memstream(&data,&size);
++    if(!stream)return -1;
++    int result=robotron_vvp_wire_raw_inventory(stream);
++    if(fclose(stream))result=-1;
++    if(result){free(data);return -1;}
++    std::string text(data,size);free(data);std::istringstream input(text);std::string line;
++    if(!std::getline(input,line) || line.compare(0,10,"VWB_BEGIN "))return -1;
++    unsigned long long id=0;
++    while(std::getline(input,line)){
++        if(line.compare(0,11,"VWB_FILTER ")==0){
++            std::istringstream row(line);std::string marker;row>>marker>>id;
++            if(!id || rows.count(id))return -1;
++            rows[id]=line+"\n";
++        }else if(line=="VWB_END "+std::to_string(rows.size())){
++            return std::getline(input,line)?-1:0;
++        }else return -1;
++    }
++    return -1;
++}
++static int robotron_wire_raw_row(FILE* out,unsigned long long id,const std::string& row,const std::string& reference)
++{
++    size_t prefix=0,suffix=0;
++    while(prefix<row.size() && prefix<reference.size() && row[prefix]==reference[prefix])prefix++;
++    while(suffix<row.size()-prefix && suffix<reference.size()-prefix && row[row.size()-1-suffix]==reference[reference.size()-1-suffix])suffix++;
++    if(fprintf(out,"VWC_ROW %llu %zu %zu ",id,prefix,suffix)<0)return -1;
++    static const char digits[]="0123456789abcdef";
++    if(prefix+suffix==row.size()){if(fputc('-',out)==EOF)return -1;}
++    else for(size_t i=prefix;i<row.size()-suffix;i++){
++        unsigned char c=row[i];if(fputc(digits[c>>4],out)==EOF || fputc(digits[c&15],out)==EOF)return -1;
++    }
++    return fputc('\n',out)==EOF?-1:0;
++}
++extern "C" int robotron_vvp_wire_raw_reference(FILE* out)
++{
++    if(!out || robotron_wire_raw_reference_ready)return -1;
++    std::map<unsigned long long,std::string> rows;
++    if(robotron_wire_raw_rows(rows))return -1;
++    if(fprintf(out,"VWC_BEGIN R %llu %zu %zu\n",(unsigned long long)schedule_simtime(),rows.size(),rows.size())<0)return -1;
++    for(auto row:rows)if(robotron_wire_raw_row(out,row.first,row.second,""))return -1;
++    if(fprintf(out,"VWC_END %zu\n",rows.size())<0 || ferror(out))return -1;
++    robotron_wire_raw_reference_rows=rows;robotron_wire_raw_reference_ready=true;return 0;
++}
++extern "C" int robotron_vvp_wire_raw_delta_inventory(FILE* out)
++{
++    if(!out || !robotron_wire_raw_reference_ready)return -1;
++    std::map<unsigned long long,std::string> rows;
++    if(robotron_wire_raw_rows(rows))return -1;
++    for(auto row:robotron_wire_raw_reference_rows)if(!rows.count(row.first))return -1;
++    size_t changed=0;
++    for(auto row:rows){auto old=robotron_wire_raw_reference_rows.find(row.first);if(old==robotron_wire_raw_reference_rows.end() || old->second!=row.second)changed++;}
++    if(fprintf(out,"VWC_BEGIN D %llu %zu %zu\n",(unsigned long long)schedule_simtime(),rows.size(),changed)<0)return -1;
++    for(auto row:rows){
++        auto old=robotron_wire_raw_reference_rows.find(row.first);
++        if(old==robotron_wire_raw_reference_rows.end() || old->second!=row.second)
++            if(robotron_wire_raw_row(out,row.first,row.second,old==robotron_wire_raw_reference_rows.end()?"":old->second))return -1;
++    }
++    return fprintf(out,"VWC_END %zu\n",changed)<0 || ferror(out)?-1:0;
++}
