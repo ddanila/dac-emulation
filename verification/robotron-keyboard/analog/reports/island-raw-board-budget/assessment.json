@@ -1,0 +1,131 @@
+{
+  "qualified": false,
+  "completeAllocatedGraphObserved": true,
+  "observationExactlyRepeatable": true,
+  "allocatedNodes": 1820,
+  "compiledProfile": {
+    "declarations": {
+      ".arith/sub": 2,
+      ".arith/sum": 4,
+      ".array": 3,
+      ".array/port": 23,
+      ".cmp/eeq": 207,
+      ".cmp/eq": 2,
+      ".cmp/nee": 2,
+      ".concat": 17,
+      ".concat8": 43,
+      ".event": 44,
+      ".event/or": 12,
+      ".functor": 981,
+      ".import": 2,
+      ".island": 2,
+      ".net": 1196,
+      ".net/2u": 393,
+      ".net8": 58,
+      ".param/l": 56,
+      ".part": 225,
+      ".port": 4,
+      ".reduce/nor": 38,
+      ".resolv": 18,
+      ".scope": 32,
+      ".var": 191,
+      ".var/i": 5
+    },
+    "functorFamilies": {
+      "AND": 44,
+      "BUFT": 482,
+      "BUFZ": 167,
+      "MUXZ": 251,
+      "NOT": 15,
+      "OR": 21,
+      "XOR": 1
+    },
+    "networkDeclarationCount": 3405,
+    "declarationCountsAreNotNativeAllocationCounts": true,
+    "reasons": [
+      "Net handles may share existing driver nodes.",
+      "Wide-input cores allocate intermediate nodes without labels.",
+      "Pool construction includes unused capacity; register handed-out allocations, not constructor calls."
+    ]
+  },
+  "crossReferences": {
+    "arrayReadPortDestinations": 23,
+    "codeNetOperands": 5737,
+    "uniqueCodeNetTargets": 258
+  },
+  "graph": {
+    "active": 0,
+    "inactive": 0,
+    "maxFanout": 48
+  },
+  "peakResidentBytes": 11796480,
+  "logicalImageBytes": 186049,
+  "projection": {
+    "boundaries": 55156,
+    "normalSnapshotCalls": 110312,
+    "rawIslandDenseLogBytesAtInitialState": 72695608,
+    "rawIslandDeltaLogBytesAtInitialState": 3862234,
+    "meanRawIslandScanSeconds": 0.7377115,
+    "maxSampleRawIslandScanSeconds": 1.985616,
+    "excludesLaterStateGrowthAndOtherObservers": true
+  },
+  "scope": "Actual compiled keyboard board before time advances: complete raw island vectors bind to legacy mesh topology, every native port class and allocated graph/filter identity. Compact images reconstruct dense state exactly. Timings include full raw scans and difference encoding; projections assume unchanged initial state.",
+  "notEstablished": [
+    "Operational board transitions, growth and combined cost",
+    "Named compiled-net correspondence and other reachable payloads",
+    "General rollback or full coupled qualification"
+  ],
+  "pendingIslands": 2,
+  "islandBindings": {
+    "islands": 2,
+    "ports": 6,
+    "branches": 2,
+    "nativeClasses": {
+      "fun": {
+        "resolv_tri": 18,
+        "vvp_arith_sub": 2,
+        "vvp_arith_sum": 4,
+        "vvp_cmp_eeq": 207,
+        "vvp_cmp_eq": 2,
+        "vvp_cmp_nee": 2,
+        "vvp_fun_and": 44,
+        "vvp_fun_anyedge_sa": 35,
+        "vvp_fun_arrayport_sa": 23,
+        "vvp_fun_buft": 482,
+        "vvp_fun_bufz": 167,
+        "vvp_fun_concat": 17,
+        "vvp_fun_concat8": 43,
+        "vvp_fun_edge_sa": 9,
+        "vvp_fun_event_or_sa": 12,
+        "vvp_fun_muxz": 251,
+        "vvp_fun_not": 15,
+        "vvp_fun_or": 21,
+        "vvp_fun_part_sa": 225,
+        "vvp_fun_signal4_sa": 196,
+        "vvp_fun_xor": 1,
+        "vvp_island_port": 6,
+        "vvp_reduce_nor": 38
+      },
+      "filter": {
+        "vvp_wire_vec4": 1544,
+        "vvp_wire_vec8": 29
+      }
+    },
+    "bindingLimit": "Native port pointers bind exactly to graph/classes. Compiled port-order/branch signatures are an independent structural multiset check, not named-net correspondence."
+  },
+  "rawIslandImageBytes": 652,
+  "rawIslandDeltaBytes": 28,
+  "rawIslandReferenceBytes": 1314,
+  "denseAndDeltaExactlyEqual": true,
+  "observedVectorWidths": {
+    "0": 16,
+    "1": 2
+  },
+  "rawIslandDeltaTimings": {
+    "iterations": 64,
+    "totalSeconds": 0.000428,
+    "meanSeconds": 6.6875e-06,
+    "minSeconds": 6e-06,
+    "maxSeconds": 1.8e-05
+  }
+}
