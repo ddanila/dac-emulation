@@ -1,0 +1,22 @@
+NEST_STAGE 0
+NEST_DONE 0
+ENTER 2000 A 1 1 0
+ENTER 2000 B 2 2 0
+ENTER 2000 A 3 3 0
+EXIT 2000 A 3 3 0
+EXIT 2000 B 2 3 0
+EXIT 2000 A 1 3 0
+NEST_STAGE 1
+NEST_DONE 1
+VALUES 2000  3  2
+ENTER 4000 A 1 4 0
+EXIT 4000 A 1 4 0
+NEST_STAGE 2
+NEST_DONE 2
+VALUES 4000  4  2
+ENTER 6000 B 1 5 0
+EXIT 6000 B 1 5 0
+NEST_STAGE 3
+NEST_DONE 3
+VALUES 6000  4  5
+/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/callback-nested-controls/probe.v:9: $finish called at 7000 (1ps)

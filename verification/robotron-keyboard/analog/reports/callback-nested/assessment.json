@@ -1,0 +1,14 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "observations": 4,
+  "activeTraversalRefusals": 10,
+  "maximumNativeDepth": 3,
+  "originalContinuationExactlyEqual": true,
+  "scope": "Native no-delay VPI writes nest cross-owner and same-owner callbacks. Complete-list inventory refuses at entry and exit at every depth, including outer callbacks after nested return, and resumes only after complete unwinding. Stable owner/list identities survive the traversal. Exact entry/exit order and shared vector-result overwriting agree with original execution; final HDL signal values remain independently checked.",
+  "notEstablished": [
+    "Capturing or restoring suspended native traversal and shared VPI result storage",
+    "Array-association lifecycle, typed bridge referents and operational integration",
+    "General rollback"
+  ]
+}
