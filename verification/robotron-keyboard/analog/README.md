@@ -1155,3 +1155,12 @@ not initialized field contents or callback equivalence. Build with
 `build_net_types_runtime.py`, then run `net_types_probe.py` with the native-probe
 arguments or `net_types_board.py` with the board-budget arguments. Replay with
 `--check reports/net-types` or `--check reports/net-types-board`, respectively.
+
+The [all-node wire controls](reports/wire-state/assessment.json) enumerate allocated
+four-state and strength-aware filters beyond island ports. They observe initialized
+drive/force vectors, force masks/flags/links and callback/array-word list heads;
+actual payload faults restore before continuation. Wide vectors and linked
+force/release are exercised. List contents, other filter families and signal-functor
+payloads are separate obligations; unsupported filter families are rejected.
+Build with `build_wire_runtime.py`, run `wire_probe.py` with the native-probe
+arguments, or replay with `wire_probe.py --check reports/wire-state`.

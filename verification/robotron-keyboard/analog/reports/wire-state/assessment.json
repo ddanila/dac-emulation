@@ -1,0 +1,40 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "simulationOutputExactlyEqual": true,
+  "normalWireTrajectoryExactlyEqual": true,
+  "restoredFaults": 68,
+  "faultsByKindAndField": {
+    "4:0": 6,
+    "4:1": 6,
+    "4:2": 5,
+    "4:3": 3,
+    "4:4": 6,
+    "4:5": 5,
+    "8:0": 6,
+    "8:1": 6,
+    "8:2": 5,
+    "8:3": 3,
+    "8:4": 6,
+    "8:5": 5,
+    "8:6": 6
+  },
+  "coverage": [
+    "forced-4",
+    "forced-8",
+    "kind-4",
+    "kind-8",
+    "linked-4",
+    "linked-8",
+    "released-4",
+    "released-8",
+    "wide"
+  ],
+  "scope": "All allocated vec4/vec8 wire filters: initialized drive/force vectors, initialization and force flags/masks/links, and callback/array-word head identities. Native fields are restored before execution.",
+  "notEstablished": [
+    "Callback and array-word list contents",
+    "Signal functor and other payload families",
+    "Board integration and capture budgets",
+    "Raw allocation equivalence or general rollback"
+  ]
+}

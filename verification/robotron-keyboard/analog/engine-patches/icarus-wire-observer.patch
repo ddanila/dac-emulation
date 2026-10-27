@@ -1,0 +1,116 @@
+--- a/vvp/vvp_net_sig.h
++++ b/vvp/vvp_net_sig.h
+@@ -413,6 +413,8 @@
+ 
+     public:
+       vvp_wire_vec4(unsigned wid, vvp_bit4_t init);
++      int robotron_wire_inventory(FILE*) const;
++      int robotron_wire_toggle(int);
+ 
+ 	// The main filter behavior for this class. These methods take
+ 	// the value that the node is driven to, and applies the force
+--- a/vvp/vvp_vpi_callback.h
++++ b/vvp/vvp_vpi_callback.h
+@@ -21,6 +21,7 @@
+ 
+ # include  "config.h"
+ # include  "vpi_user.h"
++# include <cstdio>
+ 
+ class value_callback;
+ 
+@@ -42,6 +43,7 @@
+ 
+       void add_vpi_callback(value_callback*);
+       int robotron_value_contains(const value_callback*) const;
++      int robotron_callback_heads(FILE*) const;
+ #ifdef CHECK_WITH_VALGRIND
+ 	/* This has only been tested at EOS. */
+       void clear_all_callbacks(void);
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -1413,3 +1413,8 @@
+     }
+     return 1;
+ }
++
++int vvp_vpi_callback::robotron_callback_heads(FILE* out) const
++{
++    return fprintf(out,"VWF_CALLBACKS %p %p\n",(void*)vpi_callbacks_,(void*)array_words_)<0?-1:0;
++}
+--- a/vvp/vvp_net_sig.cc
++++ b/vvp/vvp_net_sig.cc
+@@ -1454,3 +1454,33 @@
+     }
+     return 1;
+ }
++
++static int robotron_wire_vector4(FILE* out,const char* name,const vvp_vector4_t& value)
++{
++    if(fprintf(out,"VIF_VECTOR %s %u ",name,value.size())<0)return -1;
++    if(!value.size() && fputc('-',out)==EOF)return -1;
++    for(unsigned bit=0;bit<value.size();++bit)if(fputc('0'+(unsigned)value.value(bit),out)==EOF)return -1;
++    return fputc('\n',out)==EOF?-1:0;
++}
++int vvp_wire_vec4::robotron_wire_inventory(FILE* out) const
++{
++    if(fprintf(out,"VIF_WIRE %u\n",(unsigned)needs_init_)<0 || robotron_filter_inventory(out))return -1;
++    return robotron_wire_vector4(out,"driven",bits4_) || robotron_wire_vector4(out,"forced",force4_)?-1:0;
++}
++int vvp_wire_vec4::robotron_wire_toggle(int field)
++{
++    if(field>=3 && field<=5)return robotron_filter_toggle(field);
++    static vvp_wire_vec4* saved=0;static int saved_field;static bool init;static vvp_vector4_t vector;
++    if(saved){
++        if(saved!=this || saved_field!=field)return -1;
++        if(field==0)needs_init_=init;else if(field==2)force4_=vector;else bits4_=vector;
++        saved=0;return 1;
++    }
++    if(field<0 || field>2)return -1;
++    auto value=field==2?&force4_:&bits4_;
++    if(field!=0 && !value->size())return 0;
++    saved=this;saved_field=field;
++    if(field==0){init=needs_init_;needs_init_=!needs_init_;}
++    else{vector=*value;value->set_bit(0,value->value(0)==BIT4_1?BIT4_0:BIT4_1);}
++    return 1;
++}
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -3944,3 +3944,37 @@
+     }
+     return fprintf(out,"VNT_END %zu\n",nodes.size())<0 || ferror(out)?-1:0;
+ }
++
++extern "C" int robotron_vvp_wire_inventory(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations()){
++        if(item.first->fil && !dynamic_cast<vvp_wire_vec4*>(item.first->fil) && !dynamic_cast<vvp_wire_vec8*>(item.first->fil))return -1;
++        nodes[item.second]=item.first;
++    }
++    if(fprintf(out,"VWF_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    unsigned count=0;
++    for(auto item:nodes){auto node=item.second;if(!node->fil)continue;
++        auto four=dynamic_cast<vvp_wire_vec4*>(node->fil);auto eight=dynamic_cast<vvp_wire_vec8*>(node->fil);
++        if(fprintf(out,"VWF_FILTER %llu %p %p %u\n",item.first,(void*)node,(void*)node->fil,four?4:8)<0 || node->fil->robotron_callback_heads(out))return -1;
++        if(four?four->robotron_wire_inventory(out):eight->robotron_wire_inventory(out))return -1;
++        ++count;
++    }
++    return fprintf(out,"VWF_END %u\n",count)<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_wire_toggle(int kind,int field)
++{
++    static vvp_net_fil_t* saved=0;static int saved_kind=-1,saved_field=-1;
++    if((kind!=4 && kind!=8) || field<0 || field>(kind==4?5:6) || (saved && (kind!=saved_kind || field!=saved_field)))return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations())nodes[item.second]=item.first;
++    for(auto item:nodes){auto filter=item.second->fil;if(!filter || (saved && saved!=filter))continue;
++        auto four=dynamic_cast<vvp_wire_vec4*>(filter);auto eight=dynamic_cast<vvp_wire_vec8*>(filter);
++        if((kind==4 && !four) || (kind==8 && !eight))continue;
++        int result=kind==4?four->robotron_wire_toggle(field):eight->robotron_wire_toggle(field);
++        if(result<0)return result;
++        if(result){saved=saved?0:filter;saved_kind=kind;saved_field=field;return 1;}
++    }
++    return saved?-1:0;
++}
