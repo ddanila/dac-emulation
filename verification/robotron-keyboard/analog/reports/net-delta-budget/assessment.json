@@ -1,0 +1,90 @@
+{
+  "qualified": false,
+  "completeAllocatedGraphObserved": true,
+  "observationExactlyRepeatable": true,
+  "allocatedNodes": 1820,
+  "compiledProfile": {
+    "declarations": {
+      ".arith/sub": 2,
+      ".arith/sum": 4,
+      ".array": 3,
+      ".array/port": 23,
+      ".cmp/eeq": 207,
+      ".cmp/eq": 2,
+      ".cmp/nee": 2,
+      ".concat": 17,
+      ".concat8": 43,
+      ".event": 44,
+      ".event/or": 12,
+      ".functor": 981,
+      ".import": 2,
+      ".island": 2,
+      ".net": 1196,
+      ".net/2u": 393,
+      ".net8": 58,
+      ".param/l": 56,
+      ".part": 225,
+      ".port": 4,
+      ".reduce/nor": 38,
+      ".resolv": 18,
+      ".scope": 32,
+      ".var": 191,
+      ".var/i": 5
+    },
+    "functorFamilies": {
+      "AND": 44,
+      "BUFT": 482,
+      "BUFZ": 167,
+      "MUXZ": 251,
+      "NOT": 15,
+      "OR": 21,
+      "XOR": 1
+    },
+    "networkDeclarationCount": 3405,
+    "declarationCountsAreNotNativeAllocationCounts": true,
+    "reasons": [
+      "Net handles may share existing driver nodes.",
+      "Wide-input cores allocate intermediate nodes without labels.",
+      "Pool construction includes unused capacity; register handed-out allocations, not constructor calls."
+    ]
+  },
+  "crossReferences": {
+    "arrayReadPortDestinations": 23,
+    "codeNetOperands": 5737,
+    "uniqueCodeNetTargets": 258
+  },
+  "graph": {
+    "active": 0,
+    "inactive": 0,
+    "maxFanout": 48
+  },
+  "timings": {
+    "iterations": 64,
+    "totalSeconds": 0.126025999,
+    "meanSeconds": 0.001969156234375,
+    "minSeconds": 0.001926,
+    "maxSeconds": 0.00205
+  },
+  "peakResidentBytes": 13123584,
+  "logicalImageBytes": 31,
+  "projection": {
+    "boundaries": 55156,
+    "normalSnapshotCalls": 110312,
+    "fullGraphLogBytes": 20524209472,
+    "meanScanSeconds": 217.221562526375,
+    "maxSampleScanSeconds": 226.13960000000003,
+    "excludesLaterAllocationsAndOtherObservers": true,
+    "unchangedGraphDeltaLogBytes": 4377910,
+    "assumesUnchangedGraph": true
+  },
+  "scope": "Actual compiled board before execution; full-scan deltas reconstruct the complete graph and preserve array/code target bindings. Timings measure delta scans, not dense scans; output projection assumes unchanged graph and is not a capture cap.",
+  "notEstablished": [
+    "Operational graph changes and event/bridge cross-references",
+    "Combined runtime, compression and review cost",
+    "Functor/filter payload contents and general rollback",
+    "Later allocations, changed bindings and graph deltas at operational boundaries"
+  ],
+  "denseLogicalImageBytes": 186049,
+  "referenceBytes": 186054,
+  "denseAndDeltaExactlyEqual": true
+}

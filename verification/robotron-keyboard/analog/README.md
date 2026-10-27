@@ -1118,9 +1118,19 @@ or replay with `net_probe.py --check reports/net-state`.
 
 The [compiled-board graph budget](reports/net-budget/assessment.json) binds all
 observed array destinations and typed code net operands to handed-out allocations.
-Dense graph output exceeds the campaign log cap; use lossless deltas with complete
-reconstruction checks while scanning every node. The pre-execution measurement
+Dense graph output exceeds the campaign log cap; the [native graph deltas](reports/net-delta/assessment.json)
+reconstruct complete images while scanning every node. The pre-execution measurement
 does not establish operational event/bridge bindings, future graph changes or
 combined capture/review cost. Run
 `net_budget.py --source REVIEWED_BOARD --candidate RUNTIME --out NEW_DIR`, or replay
 with `net_budget.py --check reports/net-budget`.
+
+Graph deltas use one immutable reference and emit full rows for changed or newly
+allocated nodes. Restoration compares against that same reference; no incremental
+baseline can conceal a lost fault. Native controls reconstruct normal, corrupted
+and restored images through force-helper allocation/reuse/release. The
+[board delta budget](reports/net-delta-budget/assessment.json) assumes an unchanged
+graph for its output projection; operational integration still needs explicit caps
+and event/bridge target checks. Build with `build_net_delta_runtime.py`, then use
+`net_delta_probe.py` and `net_delta_budget.py` with the corresponding dense-probe
+arguments. Their `--check` modes replay `net-delta` and `net-delta-budget`.

@@ -1,0 +1,57 @@
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -3880,3 +3880,54 @@
+     }
+     return 0;
+ }
++
++#include <sstream>
++#include <string>
++static std::map<unsigned long long,std::string> robotron_net_reference_rows;
++static bool robotron_net_reference_ready;
++static int robotron_net_rows(std::map<unsigned long long,std::string>& rows)
++{
++    char* data=0;size_t size=0;FILE* stream=open_memstream(&data,&size);
++    if(!stream)return -1;
++    int result=robotron_vvp_net_inventory(stream);
++    if(fclose(stream))result=-1;
++    if(result){free(data);return -1;}
++    std::string text(data,size);free(data);std::istringstream input(text);std::string line;
++    if(!std::getline(input,line) || line.compare(0,10,"VNG_BEGIN "))return -1;
++    while(std::getline(input,line)){
++        if(line.compare(0,9,"VNG_NODE ")==0){
++            std::istringstream row(line);std::string marker;unsigned long long id=0;row>>marker>>id;
++            if(!id || !rows.emplace(id,line).second)return -1;
++        }else if(line=="VNG_END "+std::to_string(count_vvp_nets)){
++            if(std::getline(input,line) || rows.size()!=count_vvp_nets)return -1;
++            return 0;
++        }else return -1;
++    }
++    return -1;
++}
++extern "C" int robotron_vvp_net_reference(FILE* out)
++{
++    if(!out || robotron_net_reference_ready)return -1;
++    std::map<unsigned long long,std::string> rows;
++    if(robotron_net_rows(rows))return -1;
++    if(fprintf(out,"VND_BEGIN R %llu %zu %zu\n",(unsigned long long)schedule_simtime(),rows.size(),rows.size())<0)return -1;
++    for(auto row:rows)if(fprintf(out,"%s\n",row.second.c_str())<0)return -1;
++    if(fprintf(out,"VND_END %zu\n",rows.size())<0 || ferror(out))return -1;
++    robotron_net_reference_rows=rows;robotron_net_reference_ready=true;return 0;
++}
++extern "C" int robotron_vvp_net_delta_inventory(FILE* out)
++{
++    if(!out || !robotron_net_reference_ready)return -1;
++    std::map<unsigned long long,std::string> rows;
++    if(robotron_net_rows(rows))return -1;
++    // Allocation deletion/reuse is outside this observer's admitted lifecycle.
++    for(auto row:robotron_net_reference_rows)if(!rows.count(row.first))return -1;
++    std::vector<std::string> changed;
++    for(auto row:rows){
++        auto reference=robotron_net_reference_rows.find(row.first);
++        if(reference==robotron_net_reference_rows.end() || reference->second!=row.second)changed.push_back(row.second);
++    }
++    if(fprintf(out,"VND_BEGIN D %llu %zu %zu\n",(unsigned long long)schedule_simtime(),rows.size(),changed.size())<0)return -1;
++    for(auto row:changed)if(fprintf(out,"%s\n",row.c_str())<0)return -1;
++    return fprintf(out,"VND_END %zu\n",changed.size())<0 || ferror(out)?-1:0;
++}
