@@ -1,0 +1,172 @@
+--- a/vvp/logic.h
++++ b/vvp/logic.h
+@@ -30,6 +30,10 @@
+ 
+     public:
+       explicit vvp_fun_boolean_(unsigned wid);
++      const void* robotron_gate_key() const { return static_cast<const vvp_gen_event_s*>(this); }
++      int robotron_gate_inventory(FILE*) const;
++      int robotron_gate_toggle(int);
++
+       ~vvp_fun_boolean_() override;
+ 
+       void recv_vec4(vvp_net_ptr_t p, const vvp_vector4_t&bit,
+@@ -48,6 +52,8 @@
+ 
+     public:
+       explicit vvp_fun_and(unsigned wid, bool invert);
++      bool robotron_gate_invert() const { return invert_; }
++      void robotron_gate_invert_toggle() { invert_=!invert_; }
+       ~vvp_fun_and() override;
+ 
+     private:
+@@ -82,6 +88,10 @@
+ 
+     public:
+       explicit vvp_fun_buf_not_(unsigned wid);
++      const void* robotron_gate_key() const { return static_cast<const vvp_gen_event_s*>(this); }
++      int robotron_gate_inventory(FILE*) const;
++      int robotron_gate_toggle(int);
++
+       ~vvp_fun_buf_not_() override;
+ 
+       void recv_vec4(vvp_net_ptr_t p, const vvp_vector4_t&bit,
+@@ -219,6 +229,8 @@
+ 
+     public:
+       explicit vvp_fun_or(unsigned wid, bool invert);
++      bool robotron_gate_invert() const { return invert_; }
++      void robotron_gate_invert_toggle() { invert_=!invert_; }
+       ~vvp_fun_or() override;
+ 
+     private:
+@@ -230,6 +242,8 @@
+ 
+     public:
+       explicit vvp_fun_xor(unsigned wid, bool invert);
++      bool robotron_gate_invert() const { return invert_; }
++      void robotron_gate_invert_toggle() { invert_=!invert_; }
+       ~vvp_fun_xor() override;
+ 
+     private:
+--- a/vvp/logic.cc
++++ b/vvp/logic.cc
+@@ -773,3 +773,55 @@
+     else{pending=net_;net_=0;}
+     return 1;
+ }
++
++int vvp_fun_boolean_::robotron_gate_inventory(FILE* out) const
++{
++    if(fprintf(out,"%p 4",(void*)net_)<0)return -1;
++    for(unsigned i=0;i<4;i++){
++        const auto& bits=input_[i];
++        if(fprintf(out," %u ",bits.size())<0)return -1;
++        for(unsigned j=0;j<bits.size();j++)if(fputc('0'+(unsigned)bits.value(j),out)==EOF)return -1;
++    }
++    return fputc('\n',out)==EOF || ferror(out)?-1:0;
++}
++int vvp_fun_boolean_::robotron_gate_toggle(int field)
++{
++    static vvp_fun_boolean_* saved=0;static int saved_field;static vvp_vector4_t bits;static vvp_net_t* pending;
++    if(saved){
++        if(saved!=this || field!=saved_field)return -1;
++        unsigned i=field;
++        if(field==4)net_=pending;else input_[i]=bits;
++        saved=0;return 1;
++    }
++    if(field!=4 && (field<0 || field>=4))return 0;
++    unsigned i=field;
++    if(field==4){if(!net_)return 0;pending=net_;net_=0;}
++    else {auto& value=input_[i];if(!value.size())return 0;bits=value;value.set_bit(0,value.value(0)==BIT4_1?BIT4_0:BIT4_1);}
++    saved=this;saved_field=field;return 1;
++}
++
++int vvp_fun_buf_not_::robotron_gate_inventory(FILE* out) const
++{
++    if(fprintf(out,"%p 1",(void*)net_)<0)return -1;
++    for(unsigned i=0;i<1;i++){
++        const auto& bits=input_;
++        if(fprintf(out," %u ",bits.size())<0)return -1;
++        for(unsigned j=0;j<bits.size();j++)if(fputc('0'+(unsigned)bits.value(j),out)==EOF)return -1;
++    }
++    return fputc('\n',out)==EOF || ferror(out)?-1:0;
++}
++int vvp_fun_buf_not_::robotron_gate_toggle(int field)
++{
++    static vvp_fun_buf_not_* saved=0;static int saved_field;static vvp_vector4_t bits;static vvp_net_t* pending;
++    if(saved){
++        if(saved!=this || field!=saved_field)return -1;
++        unsigned i=field;
++        if(field==4)net_=pending;else input_=bits;
++        saved=0;return 1;
++    }
++    if(field!=4 && (field<0 || field>=1))return 0;
++    unsigned i=field;
++    if(field==4){if(!net_)return 0;pending=net_;net_=0;}
++    else {auto& value=input_;if(!value.size())return 0;bits=value;value.set_bit(0,value.value(0)==BIT4_1?BIT4_0:BIT4_1);}
++    saved=this;saved_field=field;return 1;
++}
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -4236,3 +4236,60 @@
+     for(const auto& event:events)if(fprintf(out,"%s\n",event.c_str())<0)return -1;
+     return fprintf(out,"VXD_END %zu %zu\n",changed,events.size())<0 || ferror(out)?-1:0;
+ }
++
++// Admit exact families: subclasses may add payload fields.
++static int robotron_gate_kind(vvp_net_fun_t* fun)
++{
++    if(!fun)return 0;
++    if(typeid(*fun)==typeid(vvp_fun_and))return 1;
++    if(typeid(*fun)==typeid(vvp_fun_or))return 2;
++    if(typeid(*fun)==typeid(vvp_fun_xor))return 3;
++    if(typeid(*fun)==typeid(vvp_fun_buf))return 4;
++    if(typeid(*fun)==typeid(vvp_fun_not))return 5;
++    return dynamic_cast<vvp_fun_boolean_*>(fun) || dynamic_cast<vvp_fun_buf_not_*>(fun) ? -1:0;
++}
++extern "C" int robotron_vvp_gate_inventory(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;std::vector<const void*> keys;
++    for(auto item:robotron_net_allocations()){
++        int kind=robotron_gate_kind(item.first->fun);if(kind<0)return -1;
++        if(kind)nodes[item.second]=item.first;
++    }
++    if(fprintf(out,"VGL_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:nodes){
++        auto fun=item.second->fun;int kind=robotron_gate_kind(fun),invert=-1;
++        auto boolean=dynamic_cast<vvp_fun_boolean_*>(fun);auto unary=dynamic_cast<vvp_fun_buf_not_*>(fun);
++        const void* key=boolean?boolean->robotron_gate_key():unary->robotron_gate_key();keys.push_back(key);
++        if(kind==1)invert=static_cast<vvp_fun_and*>(fun)->robotron_gate_invert();
++        if(kind==2)invert=static_cast<vvp_fun_or*>(fun)->robotron_gate_invert();
++        if(kind==3)invert=static_cast<vvp_fun_xor*>(fun)->robotron_gate_invert();
++        if(fprintf(out,"VGL_GATE %llu %p %p %p %d %d ",item.first,(void*)item.second,(void*)fun,key,kind,invert)<0)return -1;
++        if(boolean?boolean->robotron_gate_inventory(out):unary->robotron_gate_inventory(out))return -1;
++    }
++    unsigned events=0;if(robotron_vvp_mux_queue(out,keys.data(),keys.size(),&events))return -1;
++    return fprintf(out,"VGL_END %zu %u\n",nodes.size(),events)<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_gate_toggle(unsigned long long id,int field)
++{
++    static vvp_net_fun_t* saved=0;static int saved_field;static unsigned long long saved_id;
++    if(field<0 || field>5 || (saved && (saved_field!=field || saved_id!=id)))return -1;
++    for(auto item:robotron_net_allocations())if(item.second==id){
++        auto fun=item.first->fun;int kind=robotron_gate_kind(fun);
++        if(kind<=0 || (saved && saved!=fun))return -1;
++        int result=0;
++        if(field==5){
++            if(kind==1)static_cast<vvp_fun_and*>(fun)->robotron_gate_invert_toggle();
++            else if(kind==2)static_cast<vvp_fun_or*>(fun)->robotron_gate_invert_toggle();
++            else if(kind==3)static_cast<vvp_fun_xor*>(fun)->robotron_gate_invert_toggle();
++            else return 0;
++            result=1;
++        }else{
++            auto boolean=dynamic_cast<vvp_fun_boolean_*>(fun);auto unary=dynamic_cast<vvp_fun_buf_not_*>(fun);
++            result=boolean?boolean->robotron_gate_toggle(field):unary->robotron_gate_toggle(field);
++        }
++        if(result==1){saved=saved?0:fun;saved_field=field;saved_id=id;}
++        return result;
++    }
++    return -1;
++}

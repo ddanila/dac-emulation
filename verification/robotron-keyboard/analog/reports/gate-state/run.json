@@ -1,0 +1,89 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-retained/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-retained/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-gate-runtime",
+      "-I/private/tmp/k7658-gate-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-retained/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-retained/probe.cc"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-gate-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-gate-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-gate-runtime/vvp/libvvp.so"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-gate-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-gate-runtime/vvp/libvvp.so"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-gate-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-gate-runtime/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-gate-runtime/vvp/libvvp.so": "f9960bcc33967dfe2153a2f2d28a8bfceae8e639530a24e02f1f92f410e0e481",
+    "/private/tmp/k7658-gate-runtime/vvp/vvp": "dbd5d1dc5d0913818e14d17885aa7478fbaa06567a6df4a1e9c0c16713f9aa95",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-retained/probe.vpi": "d0e5cd4e3bfdcc1f7735ccb5842af606705bbc27c58989031b9829e2e8d07746",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "gate_probe.py": "429b8627705accb91406b08085001c218faf5cef68256a9473a65edc15ca8420",
+    "mux_probe.py": "5e221f38435b483785cce5efaf24338491ff3306cc03c803f2cc268ae7a3c2b0",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "fixtures/gate_probe.cc": "f849eb4d22cfd5864e9ac6ff0e108122098c97821f53413a382fe424962af534",
+    "fixtures/gate_probe.v": "0c4348bbcb51b1a78c5ad8707b94e980fe5cd9b21b47f1839a95f9d29f16ccd1"
+  }
+}
