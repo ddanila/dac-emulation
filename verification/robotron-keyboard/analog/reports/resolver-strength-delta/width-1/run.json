@@ -1,0 +1,94 @@
+{
+  "width": 1,
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-strength-delta/width-1/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-strength-delta/width-1/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-DPROBE_WIDTH=1",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-resolver-delta-runtime",
+      "-I/private/tmp/k7658-resolver-delta-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-strength-delta/width-1/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-strength-delta/width-1/probe.cc"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-resolver-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-resolver-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-delta-runtime/vvp/libvvp.so"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-resolver-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-delta-runtime/vvp/libvvp.so"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-resolver-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-delta-runtime/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-resolver-delta-runtime/vvp/libvvp.so": "f8fecdd87eb790e34f035d2adc84f844ecb4deedf21691aae7ca10f0bbd11df5",
+    "/private/tmp/k7658-resolver-delta-runtime/vvp/vvp": "84ffecb08b48b21ec3dff789f3e609405fe5c9a5d5a9808268f578762ef5ff69",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-strength-delta/width-1/probe.vpi": "87ea70eb3fef3789bd4d6762c3f8fa1b8126e9e1a71225e2b09725b6e0b1722c",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "resolver_strength_delta.py": "4405a0bced2b7869059bdb08c226c6f7bb9997add45377ceeb912a3ea536120a",
+    "resolver_strength_inputs.py": "0dcb1d7897c30e01cbefc02f34a8e969adbd17bd7c4c4920159265ae12e23d56",
+    "resolver_delta_probe.py": "676ef8d99bec27c837ff4503a32c12068cb42614e459046022e1abef2b6da2c7",
+    "resolver_probe.py": "b7dde95cfd465361c18d041887f9f4db9fb1625b01794dc3c26f504a32a5005d",
+    "resolver_source_contract.py": "a7f2292f870c2b83705fbc02efa695452944f92b25a6367e4ebad01fd8499a56",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "fixtures/resolver_strength_delta.cc": "328636544728508932821e5ca4f7a9a9b1bec3c8571a084622b19541b1cd8401",
+    "fixtures/resolver_strength_inputs.v": "9f5945ed2aa86feefd25429c0a4776ef2d64b35df1555a6b3c33a8e489751d31"
+  }
+}
