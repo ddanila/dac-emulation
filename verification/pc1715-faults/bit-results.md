@@ -234,3 +234,7 @@ python3 verification/pc1715-faults/cell_history.py --rom /path/to/ROM \
 The experiment verifies its invariant and contradiction with assertions, and
 the twenty fault tests plus plain-PC1715 suite still pass. Full reproduction
 remains unresolved; the original best component-model prefix remains 82.
+
+See [retention-results.md](retention-results.md) for the subsequent schematic-constrained
+row-retention experiment. It reaches83 intervals under a fitted weak-row
+hypothesis but still does not reproduce the capture.
