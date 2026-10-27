@@ -1676,3 +1676,19 @@ reject unrelated field changes. This prepares the record layer for integration;
 object IDs are not yet bound to other observers, and no board state/cost claim is
 made. Regenerate with `scope_metadata_records.py reports/scope-metadata/enabled.stdout
 --out NEW_REPORT.json`; run `python3 -m unittest test_scope_metadata_records`.
+
+The [native metadata binding controls](reports/scope-metadata-bindings/assessment.json)
+join metadata scope IDs to native addresses and the existing traversal IDs, and
+join ordered internal-object IDs to native addresses/types. A combined snapshot
+binds two explicitly admitted signal handles to their owning scopes. Removing one
+signal from its scope leaves the reference, thread-membership and signal images
+unchanged, but the cross-observer reviewer rejects the missing ownership. Two
+rounds restore exactly and continue identically to the original runtime; foreign
+intern pointers refuse reference output before dereferencing. The existing
+metadata mutation/automatic-refusal controls and lossless semantic replay pass
+with the new runtime. Four tests cover retained replay, cross-observer mismatch,
+reference truncation/alias and changed continuation. This is a static native
+fixture; other internal payload bindings, lifecycle qualification and operational
+board integration/cost remain open. Build with
+`build_scope_metadata_bindings_runtime.py`; reproduce with
+`scope_metadata_bindings.py` using the retained receipt paths.

@@ -1,0 +1,113 @@
+{
+  "runs": {
+    "baseline": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "unsupported-baseline": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "unsupported.vvp"
+      ],
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "disabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/libvvp.so"
+    },
+    "unsupported-disabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "unsupported.vvp"
+      ],
+      "library": "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/libvvp.so"
+    },
+    "enabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/libvvp.so"
+    },
+    "unsupported-enabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "unsupported.vvp"
+      ],
+      "library": "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/libvvp.so"
+    }
+  },
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-metadata-bindings/metadata-controls/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-metadata-bindings/metadata-controls/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-scope-metadata-bindings-runtime",
+      "-I/private/tmp/k7658-scope-metadata-bindings-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-metadata-bindings/metadata-controls/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-metadata-bindings/metadata-controls/probe.cc"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-metadata-bindings/metadata-controls/unsupported.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-metadata-bindings/metadata-controls/unsupported.v"
+    ]
+  ],
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/libvvp.so": "60ea0a5c314c2b5bf0852816ec7108aece28b371ed6c28cbc2689e714129f9e0",
+    "/private/tmp/k7658-scope-metadata-bindings-runtime/vvp/vvp": "ac502976d83eb8f0004c2ebd2c3b7d4304fa341d825791f09ccb8a43ea0cb190",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-metadata-bindings/metadata-controls/probe.vpi": "e667bd4206e8e7dd46fd6cee42090b23a9422186b8f779025a672e296f4de7c8",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-metadata-bindings/metadata-controls/probe.vvp": "d5bba93b444fec0d859b01bb8937ed04ad129e5d120eb84492246df72c44df85",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-metadata-bindings/metadata-controls/unsupported.vvp": "7f136db8acda832ffc22f29f91a199c80575e763766ec85165bd63b3abbabf0d",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  }
+}
