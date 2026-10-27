@@ -1,0 +1,173 @@
+{
+  "completed": true,
+  "qualified": false,
+  "mode": "on",
+  "stepNs": 25.0,
+  "endSeconds": 0.00116,
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-selectable-retry-runtime",
+      "sha256": "58105ffa723ed272de4572d8f812af9c26beb9b551f1aec9b1913753fd221904"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-startup-fixes-v1/spinit",
+      "sha256": "806519c1096a4b2868661ff9e282c82ad970afe9de6d0be94149786f8a232b04"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-startup-fixes-v1/digital.cm",
+        "sha256": "08198ba37c439da78d3cfbee957fa1f0dfc65a5b61c375d51151447ebc54d573",
+        "loadPath": "/private/tmp/k7658-startup-fixes-v1/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "runtimeEnvironment": {
+    "SPICE_SCRIPTS": "/private/tmp/k7658-startup-fixes-v1"
+  },
+  "environment": {
+    "ROBOTRON_EVAL_CACHE": "off",
+    "ROBOTRON_DAC_ANCHORED": "1",
+    "ROBOTRON_DAC_BREAKPOINTS": "1",
+    "ROBOTRON_MPFR_BITS": "256",
+    "ROBOTRON_MPFR_TRANSITION_ONLY": "1",
+    "ROBOTRON_MPFR_START": "0",
+    "ROBOTRON_CAP_ASSEMBLY": "exact",
+    "ROBOTRON_POSTCAP_ASSEMBLY": "exact",
+    "ROBOTRON_ROLLBACK_AUDIT": "1",
+    "ROBOTRON_HISTORY_INIT": "on",
+    "ROBOTRON_STAGED_OUTPUT": "on",
+    "ROBOTRON_HISTORY_STATE": "off",
+    "ROBOTRON_ADC_CROSSINGS": "1",
+    "ROBOTRON_ABSOLUTE_TICKS": "1"
+  },
+  "externalDependencies": [
+    {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/bridge/ivlng.so",
+      "sha256": "311d7443af914275edca7c3c8140730682ad7a5c670a9f2be61a9ffedf06d7ba"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi",
+      "sha256": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi",
+      "sha256": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi",
+      "sha256": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi",
+      "sha256": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi",
+      "sha256": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi",
+      "sha256": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e"
+    },
+    {
+      "path": "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi",
+      "sha256": "f66a6588a0dc9e70d2c5a2472a1e056a5e1abb1d61a880e9a540c9cf5f65873c"
+    },
+    {
+      "path": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "sha256": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69"
+    }
+  ],
+  "inputs": {
+    "io.vvp": "ebc881557d10b5eef868a629a7c329b003ec15817507597ef9644a2b56851829",
+    "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966",
+    "io.cir": "4dacca9d1e1da1a407eea8a1801c57573c804823a8e3e50b3ce89ddfc9b40f33"
+  },
+  "baselineReceiptSha256": "1a443c1e442ee1b95ab1eac5a8eb4b41350b1a5ec6455ff9e5f67c7a0fa919a9",
+  "candidateBuildSha256": "dbc9f8511ce71eba8bb4c13ba0bb5be0b9acb350f155c2332bd321ea1096f3bf",
+  "boundedAssessmentSha256": "dd2b2288e5d8aff7b0e58af63c6bae5b87cc4c1a809836fcf59643eacd4c498b",
+  "sources": {
+    "postreset_tick_capture.py": "01e09d89535e28cca43b733747c410c453dc65733a147e207ac33364baa65709",
+    "postreset_refinement_capture.py": "505c2b9a6c8f9af74e6d5ec16784fd5636bebea84899838c74cc9165cd4b5d27",
+    "postreset_startup_review.py": "e791312b93d7bbf336b75984dc43b5434bb2ddd12106138e3cbee4f3e6e44157",
+    "bounded_log_process.py": "a007c9ba214d7f1eab485b1e8a4cd14d29c9d3d84451ea88040cb4c4f5e0ecd1",
+    "compressed_output.py": "3bb48754863ed397b059ae6c57fa029841bb2eadf21d6a79f54535b29acdf7a5",
+    "stop_board_capture.py": "2d457d2ffb767063be86291bfdd071d406d7bae50e4880d58caef8bc2a837b83"
+  },
+  "limits": {
+    "timeoutSeconds": 28800,
+    "logicalLogBytes": 4294967296,
+    "compressedLogBytes": 536870912,
+    "freeSpaceReserveBytes": 536870912
+  },
+  "requiredFreeBytes": 2170488595,
+  "scope": "Complete 1.16-ms ADC-enabled post-reset window. Only candidate VPI, its opt-in mode, timestep and explicit forced rejection may change. Not full repeat or closed-board startup.",
+  "storage": {
+    "waveform.raw": {
+      "sha256": "f0cd0a3a434e27d0a7355028033f925fcd30841fca445cd97f7f49d0c890f959",
+      "bytes": 365486001
+    }
+  },
+  "log": {
+    "bytes": 655210525,
+    "compressedBytes": 38680052,
+    "sha256": "e2c585fc697dc8a11e675834d861f08d2d176d3328fcc4659e98584d576955cf",
+    "exitCode": 0,
+    "elapsedSeconds": 8027.443426833,
+    "logicalLimitBytes": 4294967296,
+    "compressedLimitBytes": 536870912
+  },
+  "exitCode": 0,
+  "logSummary": {
+    "count": 1427676,
+    "faults": [],
+    "busCounts": [
+      41,
+      41,
+      41
+    ],
+    "latchesMatch": true,
+    "diagnostic": null,
+    "sorry": false,
+    "advances": 1427675,
+    "firmwareCounts": {
+      "FIRST_FETCH": 1,
+      "BUS_EDGE_PS": 41,
+      "BUS_SAMPLE": 41,
+      "BUS_DRIVE": 41,
+      "BUS_LATCH": 41
+    },
+    "lastBusEdgePs": 1158501280
+  },
+  "elapsedSeconds": 8121.839403833001
+}
