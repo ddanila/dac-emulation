@@ -2,7 +2,7 @@
 """Review event-owned wait lists and initialized histories with preceding board layers."""
 import argparse,json,math,copy
 from pathlib import Path
-from audit_log import records,complete,equal
+from fast_audit_log import records,complete,equal
 from compare_firmware_io import sha as logical_sha
 from postreset_startup_review import FIRMWARE
 from raw_pair_review import compare_raw

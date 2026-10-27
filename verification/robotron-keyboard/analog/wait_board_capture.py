@@ -7,7 +7,7 @@ from ngspice_runtime import identify,verify
 from eval_cache_benchmark import external_dependencies,verify_dependencies
 from bounded_log_process import run as producer
 from compressed_output import capture
-from audit_log import complete
+from fast_audit_log import complete
 from private_sync_family_board_review import function_symbols
 
 
