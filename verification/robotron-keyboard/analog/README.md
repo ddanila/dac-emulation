@@ -1171,6 +1171,15 @@ payloads are separate obligations; unsupported filter families are rejected.
 Build with `build_wire_runtime.py`, run `wire_probe.py` with the native-probe
 arguments, or replay with `wire_probe.py --check reports/wire-state`.
 
+The [raw wire controls](reports/wire-raw-state/assessment.json) preserve native
+scalar bytes: legacy logical-value/strength triplets merge distinct states.
+The [raw board budget](reports/wire-raw-board-budget/assessment.json) binds these
+cache bytes to allocated filters, graph identities and legacy views. It measures
+full raw scans before execution; compact encoding and operational integration
+remain open. Build with `build_wire_raw_runtime.py`, then run `wire_raw_board.py`
+with the reviewed `reports/code-binding-board` source and raw runtime. Replay with
+`wire_raw_board.py --check reports/wire-raw-board-budget`.
+
 The [board wire budget](reports/wire-board-budget/assessment.json) binds every
 allocated filter to its graph identity and native class before execution. It
 measures full wire serialization and verifies repeated observations leave the
