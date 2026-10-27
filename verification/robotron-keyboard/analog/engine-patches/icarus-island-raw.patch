@@ -1,0 +1,89 @@
+--- a/vvp/vvp_island.cc
++++ b/vvp/vvp_island.cc
+@@ -536,3 +536,76 @@
+     }
+     return saved?-1:0;
+ }
++
++#include <typeinfo>
++extern bool robotron_raw_tran_island(vvp_island*);
++extern bool robotron_raw_tran_branch(vvp_island_branch*);
++static int robotron_island_raw_admit()
++{
++    for(const auto& item:robotron_islands()){
++        if(!robotron_raw_tran_island(item.first))return -1;
++        for(auto b:item.second.branches)if(!robotron_raw_tran_branch(b))return -1;
++        for(auto n:item.second.ports)
++            if(!n->fun || typeid(*n->fun)!=typeid(vvp_island_port))return -1;
++    }
++    return 0;
++}
++static vvp_vector8_t& robotron_island_raw_vector(vvp_island_port* p,int field)
++{ return field==0?p->invalue:field==1?p->outvalue:p->value; }
++extern "C" int robotron_vvp_island_raw_inventory(FILE* out)
++{
++    if(!out || robotron_island_raw_admit())return -1;
++    std::map<unsigned long long,vvp_island*> ordered;
++    for(const auto& item:robotron_islands())ordered[item.second.id]=item.first;
++    if(fprintf(out,"VIR_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(const auto& item:ordered){
++        const auto& r=robotron_islands().at(item.second);
++        if(fprintf(out,"VIR_ISLAND %llu %p %zu\n",item.first,item.second->robotron_event_key(),r.ports.size())<0)return -1;
++        for(unsigned index=0;index<r.ports.size();index++){
++            auto n=r.ports[index];auto p=static_cast<vvp_island_port*>(n->fun);
++            if(fprintf(out,"VIR_PORT %u %p %p %p\n",index+1,(void*)n,(void*)n->fun,(void*)n->fil)<0)return -1;
++            for(int field=0;field<3;field++){
++                const auto& value=robotron_island_raw_vector(p,field);
++                if(fprintf(out,"VIR_VECTOR %d %u ",field,value.size())<0)return -1;
++                if(!value.size() && fputc('-',out)==EOF)return -1;
++                for(unsigned bit=0;bit<value.size();bit++){
++                    auto scalar=value.value(bit);unsigned char raw;
++                    static_assert(sizeof(scalar)==1,"Unexpected scalar representation");
++                    memcpy(&raw,&scalar,1);if(fprintf(out,"%02x",raw)<0)return -1;
++                }
++                if(fputc('\n',out)==EOF)return -1;
++            }
++        }
++    }
++    return fprintf(out,"VIR_END %zu\n",ordered.size())<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_island_raw_toggle(int field,int operation)
++{
++    static vvp_island* owner=0;static unsigned long long lifetime;
++    static vvp_vector8_t* target=0;static vvp_vector8_t saved;
++    static int saved_field,saved_operation;
++    if(field<0 || field>2 || operation<0 || operation>2 || robotron_island_raw_admit())return -1;
++    if(owner){
++        auto found=robotron_islands().find(owner);
++        if(found==robotron_islands().end() || found->second.id!=lifetime || field!=saved_field || operation!=saved_operation)return -1;
++        *target=saved;owner=0;target=0;return 1;
++    }
++    std::map<unsigned long long,vvp_island*> ordered;
++    for(const auto& item:robotron_islands())ordered[item.second.id]=item.first;
++    for(const auto& item:ordered)for(auto net:robotron_islands().at(item.second).ports){
++        auto p=static_cast<vvp_island_port*>(net->fun);auto& value=robotron_island_raw_vector(p,field);
++        unsigned index=0;unsigned char raw=0;
++        if(operation!=2){
++            if(!value.size())continue;
++            if(operation==1){
++                for(;index<value.size();index++){auto bit=value.value(index);memcpy(&raw,&bit,1);if(raw==0 || raw==136)break;}
++                if(index==value.size())continue;
++            }else {auto bit=value.value(0);memcpy(&raw,&bit,1);}
++        }
++        saved=value;target=&value;owner=item.second;lifetime=item.first;saved_field=field;saved_operation=operation;
++        if(operation==2)value=vvp_vector8_t(value.size()+1);
++        else {raw=operation==1?raw^136:raw==238?102:238;vvp_scalar_t bit;memcpy(&bit,&raw,1);value.set_bit(index,bit);}
++        return 1;
++    }
++    return 0;
++}
+--- a/vvp/island_tran.cc
++++ b/vvp/island_tran.cc
+@@ -499,3 +499,7 @@
+     if(saved){if(saved!=b)return -1;b->state=state;saved=0;return 1;}
+     saved=b;state=b->state;b->state=b->state==tran_enabled?tran_disabled:tran_enabled;return 1;
+ }
++
++#include <typeinfo>
++bool robotron_raw_tran_island(vvp_island* p){return typeid(*p)==typeid(vvp_island_tran);}
++bool robotron_raw_tran_branch(vvp_island_branch* p){return typeid(*p)==typeid(vvp_island_branch_tran);}
