@@ -1,0 +1,23 @@
+--- a/vvp/vpi_const.cc
++++ b/vvp/vpi_const.cc
+@@ -1093,3 +1093,20 @@
+ extern "C" int robotron_vvp_parameter_inventory(FILE*out){return robotron_parameter_access::inventory(out);}
+ 
+ extern "C" int robotron_vvp_parameter_toggle(unsigned field){return robotron_parameter_access::toggle(field);}
++
++extern "C" int robotron_vvp_parameter_add(unsigned kind)
++{
++    if(kind>2)return -1;
++    char*text=0;size_t size=0;FILE*out=open_memstream(&text,&size);if(!out)return -1;
++    int rc=robotron_vvp_parameter_inventory(out);int closed=fclose(out);free(text);
++    if(rc||closed)return -1;
++    std::map<const void*,std::pair<unsigned long long,const void*>> owners;
++    if(robotron_vvp_parameter_owners(&owners)||owners.empty())return -1;
++    auto scope=static_cast<__vpiScope*>(const_cast<void*>(owners.begin()->second.second));
++    static unsigned serial;char buffer[80];snprintf(buffer,sizeof(buffer),"__growth_%u_%u",kind,++serial);
++    char*name=new char[strlen(buffer)+1];strcpy(name,buffer);vpiHandle parameter;
++    if(kind==0){vvp_vector4_t value(80,BIT4_X);value.set_bit(0,BIT4_1);parameter=new __vpiBinaryParam(scope,value,false,name,false,0,0);}
++    else if(kind==1)parameter=new __vpiRealParam(scope,2.5,name,false,0,0);
++    else{const char*encoded="G\\000R";char*value=new char[strlen(encoded)+1];strcpy(value,encoded);parameter=new __vpiStringParam(scope,value,name,false,0,0);}
++    robotron_parameter_register(parameter);vpip_attach_to_scope(scope,parameter);return 1;
++}
