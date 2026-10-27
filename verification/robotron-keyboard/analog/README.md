@@ -1311,3 +1311,13 @@ not an operational bound. Measure actual combined cost before raising log caps.
 Build with `build_mux_delta_runtime.py`, run `mux_delta_probe.py` both with and
 without `--partial`, and run `mux_delta_board.py` with a reviewed board source.
 Replay each report with its producer's `--check` option.
+
+`build_mux_bridge.py`, `mux_board_capture.py` and `mux_board_review.py` add complete
+mux differences and wrapper records to the reviewed signal-board controls.
+Muxes retain their initial native class, allocated node, functor, event identity
+and widths; unexpected allocation changes require profile re-admission.
+Input-A faults restore at paused startup, with input-B, selection and run-history
+faults after firmware starts. Pending-target faults remain covered by the native
+fixtures. All preceding state checks and exact waveform/firmware comparisons stay
+enabled. Log caps remain unchanged; the scan-time allowance comes from the mux
+budget. Integration remains unqualified until capture and retained replay pass.
