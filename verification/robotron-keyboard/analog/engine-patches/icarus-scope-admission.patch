@@ -1,0 +1,55 @@
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -35,6 +35,11 @@
+ 
+ static vector<vpiHandle> vpip_root_table;
+ 
++// Native compilation handoffs register initialized ownership. These sets are
++// not populated by observer-supplied or arbitrary VPI object pointers.
++static set<vpiHandle> robotron_initialized_scopes;
++static set<vpiHandle> robotron_attached_objects;
++
+ static vpiHandle make_subset_iterator_(int type_code, const vector<vpiHandle>&table);
+ 
+ vpiHandle vpip_make_root_iterator(int type_code)
+@@ -458,6 +463,7 @@
+ {
+       assert(scope);
+       scope->intern.push_back(obj);
++      robotron_attached_objects.insert(obj);
+ }
+ 
+ /*
+@@ -593,6 +599,7 @@
+ 	    scope->time_units = vpip_get_time_precision();
+ 	    scope->time_precision = vpip_get_time_precision();
+       }
++      robotron_initialized_scopes.insert(scope);
+ }
+ 
+ void compile_scope_recall(char*symbol)
+@@ -828,6 +835,7 @@
+ {
+     set<__vpiScope*> seen;
+     for(auto root:vpip_root_table){
++        if(!robotron_initialized_scopes.count(root))return -1;
+         auto scope=dynamic_cast<__vpiScope*>(root);
+         if(!scope || scope->scope)return -1;
+         scopes.push_back(scope);
+@@ -837,13 +845,14 @@
+         if(!seen.insert(scope).second || scope->is_automatic() || scope->nitem ||
+            scope->item || scope->live_contexts || scope->free_contexts)return -1;
+         for(auto item:scope->intern){
++            if(!robotron_attached_objects.count(item))return -1;
+             auto child=dynamic_cast<__vpiScope*>(item);
+             if(!child)continue;
+-            if(child->scope!=scope)return -1;
++            if(!robotron_initialized_scopes.count(child) || child->scope!=scope)return -1;
+             scopes.push_back(child);
+         }
+     }
+-    return scopes.empty()?-1:0;
++    return scopes.empty() || scopes.size()!=robotron_initialized_scopes.size()?-1:0;
+ }
+ extern "C" int robotron_vvp_scope_inventory(FILE* out)
+ {
