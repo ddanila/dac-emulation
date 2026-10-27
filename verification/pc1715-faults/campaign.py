@@ -78,6 +78,8 @@ def compare(hardware, simulation):
     for run in hardware['runs']:
         observed = run['fetches']
         fields = ['data', 'clocks', 'reads']
+        if 'read_data' in observed[0]:
+            fields.append('read_data')
         control_fields = [k for k in ['ce', 'oe'] if k in observed[0]]
         joint = prefix(observed, modeled, fields + control_fields)
         n = min(len(observed), len(modeled))

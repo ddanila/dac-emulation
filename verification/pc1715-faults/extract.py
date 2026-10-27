@@ -25,7 +25,7 @@ def low_windows(levels):
             start = None
 
 
-def extract(root, limit=128):
+def extract(root, limit=128, read_data=False):
     result = dict(board="MB001", method="Complete /M1 and CPU /RD overlaps >=7 samples; "
                   "late bytes at end-2, secondary bytes at end-4; duration in measured "
                   "clock edges; additional CPU /RD pulses counted independently. "
@@ -45,11 +45,14 @@ def extract(root, limit=128):
         data = lambda i: sum(a[c][i] << bit for c, bit in enumerate([7,5,3,1,6,4,2,0]))
         rows = []
         for index, ((start, end), (nxt, _)) in enumerate(zip(fetch, fetch[1:])):
-            if index == limit:
+            if limit and index == limit:
                 break
             row = dict(data=data(end-2), data_minus4=data(end-4),
                        clocks=bisect.bisect_left(clock, nxt)-bisect.bisect_left(clock, start),
                        reads=bisect.bisect_left(read_starts, nxt)-bisect.bisect_right(read_starts, start))
+            if read_data:
+                extra=reads[bisect.bisect_right(read_starts,start):bisect.bisect_left(read_starts,nxt)]
+                row['read_data']=[data(en-2) for st,en in extra]
             if 12 in a and 13 in a:
                 row.update(ce=a[12][end-2], oe=a[13][end-2])
             rows.append(row)
@@ -63,5 +66,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('evidence', type=Path)
     parser.add_argument('output', type=Path)
+    parser.add_argument('--read-data',action='store_true')
+    parser.add_argument('--limit',type=int,default=128,help='Fetch limit; zero means all complete intervals')
     args = parser.parse_args()
-    args.output.write_text(json.dumps(extract(args.evidence), indent=2)+'\n')
+    if args.limit<0:parser.error('limit cannot be negative')
+    raw=(json.dumps(extract(args.evidence,args.limit,args.read_data), indent=2)+'\n').encode()
+    args.output.write_bytes(gzip.compress(raw,mtime=0) if args.output.suffix=='.gz' else raw)

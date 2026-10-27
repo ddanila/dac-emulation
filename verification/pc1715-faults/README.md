@@ -5,6 +5,9 @@ normal instruction execution and actual modeled RAM writes. A verification-only
 bus wrapper injects explicit faults. Normal emulation is unchanged.
 
 **Status: partial behavioral reproduction, not a diagnosed physical fault.**
+The [second pass](bit-results.md) reaches **82 consecutive fetch intervals** in
+one run, including operand/read bytes and timing, but no complete startup.
+The first campaign described below is preserved as historical evidence.
 No tested hypothesis reproduces a complete captured startup. The first campaign
 contains 2466 configurations and compares each against seven physical traces.
 The best prefix is eleven fetches in one trace, including duration and additional

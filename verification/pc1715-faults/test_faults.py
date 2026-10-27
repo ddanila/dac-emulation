@@ -20,10 +20,51 @@ class FaultTests(unittest.TestCase):
         self.temp.cleanup()
 
     def probe(self, fault='healthy', bus='fixed', bias=255, decay=0,
-              mask=0, value=0, seed=0, initial=None, pattern='seed'):
+              mask=0, value=0, seed=0, initial=None, pattern='seed', bit=None):
         return json.loads(subprocess.check_output([str(ROOT/'build/pc1715-fault-probe'),
             str(self.rom), fault, bus, str(bias), str(decay), str(mask), str(value),
-            str(seed), '200', str(bias if initial is None else initial), pattern]))
+            str(seed), '200', str(bias if initial is None else initial), pattern]
+            + ([] if bit is None else list(map(str, bit)))))
+
+    def test_bit_write_modes(self):
+        program=bytes([0x3e,0x5a,0x32,0,0x90,0x3a,0,0x90,0x76])
+        self.rom.write_bytes(program+bytes(2048-len(program)))
+        for mode, expected in [(0,0x5a),(1,0x52),(2,0x52),(3,0x5a),(4,0x52)]:
+            self.assertEqual(self.probe(bit=[3,0,0,mode,0])['cpu_a'],expected)
+        self.assertEqual(self.probe(bit=[3,0,0,0,1])['cpu_a'],0x52)
+
+    def test_bit_address_alias_preserves_other_seven_bits(self):
+        program=bytes([0x3e,0xda,0x32,1,0x90,0x3e,0xa5,0x32,0,0x90,
+                       0x3a,1,0x90,0x76])
+        self.rom.write_bytes(program+bytes(2048-len(program)))
+        self.assertEqual(self.probe()['cpu_a'],0xda)
+        self.assertEqual(self.probe(bit=[3,1,0,0,0])['cpu_a'],0xd2)
+
+    def test_read_and_write_address_faults_are_distinct(self):
+        for read_address, expected in [(0,[8,0,8]), (1,[0xda,0xd2,0xd2])]:
+            program=bytes([0x3e,0xda,0x32,1,0x90,0x3a,read_address,0x90,0x76])
+            self.rom.write_bytes(program+bytes(2048-len(program)))
+            for mode,value in enumerate(expected):
+                self.assertEqual(self.probe(bit=[3,1,0,0,0,mode])['cpu_a'],value)
+
+    def test_regular_xor_startup_pattern(self):
+        for address,value in enumerate([8,255,239,24]):
+            program=bytes([0x3a,address,0x90,0x76])
+            self.rom.write_bytes(program+bytes(2048-len(program)))
+            result=self.probe(pattern='xorstripe:0:8:255:1:231')
+            self.assertEqual(result['cpu_a'],value)
+            self.assertEqual(result['fetches'][0]['read_data'],[address,0x90,value])
+
+    def test_timed_write_fault_uses_clock_not_fetch_index(self):
+        for address,expected in [(0,0),(1,8)]:
+            program=bytes([0x3e,0,0x32,0,0x90,0x32,1,0x90,0x3a,address,0x90,0x76])
+            self.rom.write_bytes(program+bytes(2048-len(program)))
+            self.assertEqual(self.probe(bit=[3,0,0,1,0,0,20,3])['cpu_a'],expected)
+
+    def test_io_read_data_is_counted_too(self):
+        self.rom.write_bytes(bytes([0xdb,0x40,0x76])+bytes(2045))
+        row=self.probe()['fetches'][0]
+        self.assertEqual((row['reads'],row['read_data'],row['clocks']),(2,[0x40,255],11))
 
     def test_healthy_program_and_fetch_boundaries(self):
         rows = self.probe()['fetches']
@@ -93,6 +134,10 @@ class FaultTests(unittest.TestCase):
         self.assertFalse(short['reproduces_bounded_observation'])
         wrong_oe = compare(hardware,dict(fetches=[dict(observed,oe=0)]*4))[0]
         self.assertFalse(wrong_oe['reproduces_bounded_observation'])
+        with_reads=dict(observed,reads=1,read_data=[0])
+        hardware['runs'][0]['fetches']=[with_reads]*3
+        wrong_operand=compare(hardware,dict(fetches=[dict(with_reads,read_data=[8])]*4))[0]
+        self.assertFalse(wrong_operand['reproduces_bounded_observation'])
 
     def test_bad_configuration_and_rom_rejected(self):
         cmd=[str(ROOT/'build/pc1715-fault-probe'),str(self.rom),
