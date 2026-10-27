@@ -1,0 +1,98 @@
+{
+  "qualified": false,
+  "completeAllocatedGraphObserved": true,
+  "observationExactlyRepeatable": true,
+  "allocatedNodes": 1820,
+  "compiledProfile": {
+    "declarations": {
+      ".arith/sub": 2,
+      ".arith/sum": 4,
+      ".array": 3,
+      ".array/port": 23,
+      ".cmp/eeq": 207,
+      ".cmp/eq": 2,
+      ".cmp/nee": 2,
+      ".concat": 17,
+      ".concat8": 43,
+      ".event": 44,
+      ".event/or": 12,
+      ".functor": 981,
+      ".import": 2,
+      ".island": 2,
+      ".net": 1196,
+      ".net/2u": 393,
+      ".net8": 58,
+      ".param/l": 56,
+      ".part": 225,
+      ".port": 4,
+      ".reduce/nor": 38,
+      ".resolv": 18,
+      ".scope": 32,
+      ".var": 191,
+      ".var/i": 5
+    },
+    "functorFamilies": {
+      "AND": 44,
+      "BUFT": 482,
+      "BUFZ": 167,
+      "MUXZ": 251,
+      "NOT": 15,
+      "OR": 21,
+      "XOR": 1
+    },
+    "networkDeclarationCount": 3405,
+    "declarationCountsAreNotNativeAllocationCounts": true,
+    "reasons": [
+      "Net handles may share existing driver nodes.",
+      "Wide-input cores allocate intermediate nodes without labels.",
+      "Pool construction includes unused capacity; register handed-out allocations, not constructor calls."
+    ]
+  },
+  "crossReferences": {
+    "arrayReadPortDestinations": 23,
+    "codeNetOperands": 5737,
+    "uniqueCodeNetTargets": 258
+  },
+  "graph": {
+    "active": 0,
+    "inactive": 0,
+    "maxFanout": 48
+  },
+  "peakResidentBytes": 11943936,
+  "logicalImageBytes": 186049,
+  "projection": {
+    "boundaries": 55156,
+    "normalSnapshotCalls": 110312,
+    "rawAssignmentLogBytesAtInitialState": 175175456,
+    "meanRawAssignmentScanSeconds": 32.662692026375,
+    "maxSampleRawAssignmentScanSeconds": 71.15124,
+    "excludesLaterStateGrowthAndOtherObservers": true
+  },
+  "scope": "Compiled keyboard board at startup before time advances. Complete raw strength assignments bind to ordered native queue classes, legacy values/lifetimes/ports and allocated graph targets. Full native scans are timed; projections assume unchanged initial state.",
+  "notEstablished": [
+    "Operational transitions, executing assignment bindings and growth",
+    "Combined capture/review cost and named compiled-net correspondence",
+    "General rollback or full coupled qualification"
+  ],
+  "assignmentBindings": {
+    "pendingAssignments": 26,
+    "executingAssignments": 0,
+    "targetClasses": {
+      "vvp_fun_buft": 26
+    },
+    "uniqueTargets": 26,
+    "rawPayloadBytes": 26,
+    "bindingLimit": "Exact queue positions/classes, legacy lifetime/port/payload identities and allocated native destination nodes. No named compiled-net correspondence or claim that initial populations bound operational state."
+  },
+  "rawAssignmentImageBytes": 1581,
+  "observedVectorWidths": {
+    "1": 26
+  },
+  "rawAssignmentTimings": {
+    "iterations": 64,
+    "totalSeconds": 0.018949999,
+    "meanSeconds": 0.000296093734375,
+    "minSeconds": 0.000285,
+    "maxSeconds": 0.000645
+  }
+}
