@@ -1,0 +1,46 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "unsupportedProfilesRefused": [
+    "equiv",
+    "impl",
+    "derived-boolean",
+    "derived-unary"
+  ],
+  "noPartialInventory": true,
+  "disabledContinuationExactlyEqual": true,
+  "nativeClasses": {
+    "equiv": [
+      "Sink",
+      "vvp_fun_and",
+      "vvp_fun_equiv"
+    ],
+    "impl": [
+      "Sink",
+      "vvp_fun_and",
+      "vvp_fun_impl"
+    ],
+    "derived-boolean": [
+      "ExtraAnd",
+      "Sink",
+      "vvp_fun_and"
+    ],
+    "derived-unary": [
+      "ExtraBuf",
+      "Sink",
+      "vvp_fun_and"
+    ]
+  },
+  "scope": "A valid AND-only reference precedes unsupported equivalence/implication or behavior-changing subclass allocation. Dense inventory, repeated reference and delta entry points all refuse without emitting partial data. Original and disabled continuations remain equal.",
+  "notEstablished": [
+    "Payload support for rejected classes",
+    "Every possible plugin-defined subclass",
+    "Board integration and full qualification"
+  ],
+  "referenceCreatedBeforeUnsupportedAllocation": true,
+  "refusedAPIs": [
+    "dense",
+    "reference-reset",
+    "delta"
+  ]
+}

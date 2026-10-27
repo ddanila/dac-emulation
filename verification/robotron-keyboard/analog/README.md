@@ -1358,3 +1358,18 @@ The board admission check requires equal cached widths; resolve this behavior
 before admitting unequal-width profiles. Overflowing real values remain outside
 these controls. Reproduce with `gate_input_probe.py` and the native runtime paths,
 or replay with `gate_input_probe.py --check reports/gate-inputs`.
+
+The [gate differences](reports/gate-delta/assessment.json) and
+[input-path differences](reports/gate-input-delta/assessment.json) reconstruct
+dense native caches, inversion and pending destinations from an immutable
+reference. Every frame retains complete scheduler-wrapper records. Full native
+field scans remain mandatory; absent/repeated references and disappearing
+reference gates are refused. [Late-family controls](reports/gate-delta-families/assessment.json)
+reject unsupported allocations after a valid reference without partial output.
+The [board budget](reports/gate-delta-budget/assessment.json) measures unchanged
+full-scan encoding and graph/class-bound reconstruction. Changed fixture records
+can exceed dense sizes; operational output and runtime must still be measured.
+Build with `build_gate_delta_runtime.py`; run `gate_delta_probe.py` with and
+without `--inputs`, `gate_delta_family.py`, and `gate_delta_board.py`. Each report
+replays with its producer's `--check` option. Native admitted allocation growth
+and combined board integration remain open.

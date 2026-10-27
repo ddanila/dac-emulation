@@ -1,0 +1,94 @@
+{
+  "inputPaths": false,
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-native/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-native/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-gate-delta-runtime",
+      "-I/private/tmp/k7658-gate-delta-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-native/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-native/probe.cc"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so": "6c7e91e2d301db5ba7d7cc52f8852a39fbaae3db55ca533e25b936503a1ec94d",
+    "/private/tmp/k7658-gate-delta-runtime/vvp/vvp": "08fa9f048eaea40a05ebd08ba550df97283a838b71f83941adebb56e10cd5e7f",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-native/probe.vpi": "f5656921d15ab26ed07298e8a8cdd3e56531edd9585967575059836645c4ab89",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "gate_delta_probe.py": "c86e2ab9c735b0e84068a3040d8af50315445c1557c0b1e962d2c47364c3efbd",
+    "native_gate_probe.py": "c9e5eac6ec52719e08ed505e5ecfdb366d63b61474f43e8818bdcff9efd447db",
+    "gate_input_probe.py": "1d9e349863479d59410f970d90b94b3568a63f487b199ccac20c5db7909560b4",
+    "mux_probe.py": "5e221f38435b483785cce5efaf24338491ff3306cc03c803f2cc268ae7a3c2b0",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "fixtures/gate_delta_probe.cc": "d227ab87d112528c5e88866461a85c851881addea2c78af40f3659b849d95ded",
+    "fixtures/gate_input_delta_probe.cc": "db5118fee81818eeed60fd066af097d6e70aae5bb7d9f6059dccc120d1a59008",
+    "fixtures/gate_probe.v": "0c4348bbcb51b1a78c5ad8707b94e980fe5cd9b21b47f1839a95f9d29f16ccd1",
+    "fixtures/gate_input_probe.v": "b827b3380ce4705ad6dd6656d02c28efe09cea19784316a1ae8f697fe45bdb0f"
+  }
+}
