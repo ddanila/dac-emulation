@@ -1,0 +1,66 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "cases": {
+    "families": {
+      "comparisons": {
+        "signals": {
+          "success": 12,
+          "refused": 0
+        },
+        "links": {
+          "success": 0,
+          "refused": 0
+        }
+      },
+      "originalControls": {
+        "qualified": false,
+        "controlsPassed": true,
+        "originalContinuationExactlyEqual": true,
+        "scope": "Native reg, net and integer handle metadata with scalar, ascending, descending, negative and 73-bit ranges; existing bit caches preserve normalized index mappings. Explicit late native net construction/admission gets a fresh handle identity while sharing a live node. Unsupported two-state, real, array, array-word, constant and foreign handles refuse admission before and after growth without changing admitted state. No board-created alias, handle deletion, automatic-scope admission or operational qualification is inferred."
+      }
+    },
+    "faults": {
+      "comparisons": {
+        "signals": {
+          "success": 13,
+          "refused": 0
+        },
+        "links": {
+          "success": 28,
+          "refused": 15
+        }
+      },
+      "originalControls": {
+        "qualified": false,
+        "controlsPassed": true,
+        "priorCallbackControls": {
+          "qualified": false,
+          "controlsPassed": true,
+          "originalContinuationExactlyEqual": true,
+          "scope": "Native callback allocation/lifetime, typed signal handoff, registered node and adjusted owner/filter linkage agree with independent full inventories. Unadmitted objects, foreign/mismatched node/filter/object pointers and active traversal refuse before output. Restored faults preserve continuation; cancelled callbacks remain linked until native deletion. This fixture does not qualify board integration, aggregate runtime cost or general rollback."
+        },
+        "originalContinuationExactlyEqual": true,
+        "scope": "All six paired metadata fault APIs restore exact native signal/callback/graph state. Wrong field or handle restoration attempts refuse without losing the pending fault, and mutation during active callback traversal refuses. Original and instrumented callback/value continuation agrees. Combined startup faults and operational campaign qualification remain separate."
+      }
+    },
+    "automatic": {
+      "comparisons": {
+        "signals": {
+          "success": 1,
+          "refused": 1
+        },
+        "links": {
+          "success": 0,
+          "refused": 0
+        }
+      },
+      "originalControls": {
+        "controlsPassed": true,
+        "emptyAdmissionPreserved": true,
+        "automaticScopeRefusedAfterHandoff": true
+      }
+    }
+  },
+  "scope": "Optimized and reference native inventories produce identical complete bytes and return codes in the same process, including metadata faults, restored lifetimes, active callbacks, range/cache growth and rejected automatic scopes. Empty admission still emits an empty image even with an automatic scope. This establishes differential controls, not operational cost or whole-board qualification."
+}
