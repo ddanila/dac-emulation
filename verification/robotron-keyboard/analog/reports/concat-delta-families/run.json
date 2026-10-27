@@ -1,0 +1,201 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/derived4-early.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/derived4-late.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/derived8-early.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/derived8-late.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-concat-delta-runtime",
+      "-I/private/tmp/k7658-concat-delta-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/probe.cc"
+    ]
+  ],
+  "runs": {
+    "derived4-early-baseline": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived4-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived4-early-disabled": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived4-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-concat-delta-runtime/vvp/libvvp.so"
+    },
+    "derived4-early-observe": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived4-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-concat-delta-runtime/vvp/libvvp.so"
+    },
+    "derived4-late-baseline": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived4-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived4-late-disabled": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived4-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-concat-delta-runtime/vvp/libvvp.so"
+    },
+    "derived4-late-observe": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived4-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-concat-delta-runtime/vvp/libvvp.so"
+    },
+    "derived8-early-baseline": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived8-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived8-early-disabled": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived8-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-concat-delta-runtime/vvp/libvvp.so"
+    },
+    "derived8-early-observe": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived8-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-concat-delta-runtime/vvp/libvvp.so"
+    },
+    "derived8-late-baseline": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived8-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived8-late-disabled": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived8-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-concat-delta-runtime/vvp/libvvp.so"
+    },
+    "derived8-late-observe": {
+      "command": [
+        "/private/tmp/k7658-concat-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived8-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-concat-delta-runtime/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-concat-delta-runtime/vvp/libvvp.so": "01bb4ed070727dd2a105294205614b6be8c2ca192b7214308fda28ba5455a90e",
+    "/private/tmp/k7658-concat-delta-runtime/vvp/vvp": "74410f8712344386abfae42d4a74a656647cc2a59a58c88d7df6999451b64c79",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/concat-delta-families/probe.vpi": "dd38810f93fac2bf731d0c1f3d362476f63c93252cddbdcb87b01e1db13c0385",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "concat_delta_family.py": "71232cdcc1ae747343647ce3d23e698eaaacd2f0282ceb977e7f2cbd9f96edf2",
+    "concat_delta_probe.py": "196d42c0d75f1a0acca3b52eeb51c05bc273fc2496685c9e9df342642ef617d7",
+    "concat_family_probe.py": "0273d775df8a19cc321a2766d8764839593ff70e4121477b07c9fb1e3a71d451",
+    "concat_probe.py": "acf46fa6e6da86a24752069896b421a2b878b1ba0360335d69e45f1409fd9809",
+    "net_types_probe.py": "825f050da7ac1e208ba29b1e1ce3a5e5bc4bb5ec813b99805261bbe6017736ba",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "fixtures/concat_delta_family.cc": "c8e18939fe007bfff3a40d86b1708c0cdfb44ebfc19c17b2e65fd709e07ad77b",
+    "fixtures/concat_family.v": "2720effb015d8f7fcdf1b8231231de718fcb33ec0fdf62bb593a8d99c4a8cda4"
+  }
+}
