@@ -1055,8 +1055,7 @@ The [native array controls](reports/array-state/assessment.json) cover static
 four-state words, cached read addresses, port links and existing word-handle
 ownership, with restored faults and unchanged continuation. Automatic contexts,
 two-state arrays and registered array callbacks are refused. Scope type determines
-automatic allocation; the compiled cell flag does not. Alias refusal controls,
-board integration/budgets and destination net/fanout contents remain open.
+automatic allocation; the compiled cell flag does not. Board integration/budgets and destination net/fanout contents remain open.
 Build with `build_array_runtime.py`; run
 `array_probe.py --candidate RUNTIME --baseline ORIGINAL_LIB --modules MODULES --out NEW_DIR`
 or replay with `array_probe.py --check reports/array-state`.
@@ -1089,3 +1088,13 @@ and changing read addresses. Word/address/cache faults run after initialization;
 port-link faults run at paused startup. Every fault must restore exactly without
 changing earlier observer layers. Capture limits remain explicit; native compact
 controls and pre-execution budgets alone do not qualify this combined campaign.
+
+The [storage-family refusal controls](reports/array-families/assessment.json) verify
+that both array formats reject shared-storage aliases, net arrays, real arrays
+and string arrays before emitting any inventory. The alias fixture inserts the
+pinned compiler's alias declaration and proves shared writes/readback; it does
+not claim the HDL frontend emits that declaration for every alias construct.
+Original and observer-disabled continuation agree. These controls establish
+refusal, not support for those families. Reproduce with `array_family_probe.py`
+using the native array-probe arguments, or replay with
+`array_family_probe.py --check reports/array-families`.

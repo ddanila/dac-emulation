@@ -1,0 +1,44 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x101480d10 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x101480e90 .scope module, "array_family" "array_family" 3 2;
+ .timescale -9 -12;
+v0x101485290_0 .array/port v0x101485290, 0;
+L_0x1014854a0 .functor BUFZ 8, v0x101485290_0, C4<00000000>, C4<00000000>, C4<00000000>;
+v0x101485290 .array "memory", 3 0, 7 0;
+v0x1014853e0 .array "other", 3 0;
+v0x1014853e0_0 .net v0x1014853e0 0, 7 0, L_0x1014854a0; 1 drivers
+o0xc17420100 .functor BUFZ 8, c4<zzzzzzzz>; HiZ drive
+v0x1014853e0_1 .net v0x1014853e0 1, 7 0, o0xc17420100; 0 drivers
+o0xc17420130 .functor BUFZ 8, c4<zzzzzzzz>; HiZ drive
+v0x1014853e0_2 .net v0x1014853e0 2, 7 0, o0xc17420130; 0 drivers
+o0xc17420160 .functor BUFZ 8, c4<zzzzzzzz>; HiZ drive
+v0x1014853e0_3 .net v0x1014853e0 3, 7 0, o0xc17420160; 0 drivers
+    .scope S_0x101480e90;
+T_0 ;
+    %pushi/vec4 165, 0, 8;
+    %ix/load 4, 0, 0;
+    %flag_set/imm 4, 0;
+    %store/vec4a v0x101485290, 4, 0;
+    %delay 1000, 0;
+    %vpi_call/w 3 23 "$family_check" {0 0 0};
+    %vpi_call/w 3 24 "$family_observe" {0 0 0};
+    %vpi_call/w 3 25 "$display", "CONTINUED %0t", $time {0 0 0};
+    %vpi_call/w 3 26 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-family-reviewed/probe.v";
