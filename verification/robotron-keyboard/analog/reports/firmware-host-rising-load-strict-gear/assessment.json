@@ -34,12 +34,13 @@
   "interpretation": "Changing integration method alone does not complete the strict scenario. Both method controls abort before the key stimulus. The baseline truncation audit identifies its final rejection path, but its detailed trial-state findings must not be silently attributed to this separate Gear run.",
   "nextAction": "Inspect onset of the baseline timestep collapse and its integration history before changing circuit parameters; preserve both integration-method failures.",
   "waveforms": {
-    "retention": "Incomplete local captures; producer failureArtifacts retain hashes.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-load-strict-gear",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   }
 }

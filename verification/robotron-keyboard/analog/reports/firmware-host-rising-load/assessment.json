@@ -35,13 +35,14 @@
     }
   },
   "waveforms": {
-    "retention": "Full captures remain local; producer hashes identify uncompressed bytes. No ROM or compiled HDL is included.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-load",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "interpretation": "Logical comparison and sampled data stability pass at rising RxC. Source-identical voltage captures retain the earlier input-envelope and nominal-threshold pulse-width evidence. This is service-fixture evidence, not device applicability, full-waveform convergence, closed-board startup or specimen calibration.",
   "nextAction": "Complete the matched rising-edge timestep pair, then extend corrected scenarios and coupled-board qualification."

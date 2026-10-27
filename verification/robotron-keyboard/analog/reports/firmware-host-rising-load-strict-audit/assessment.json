@@ -52,12 +52,16 @@
   "interpretation": "Instrumentation preserves all partial waveform bytes. The narrow logged range contains iteration-limit failures followed by successful Newton solves before the terminal timestep abort. No near-event-cut message appears in that range. The source control flow motivates inspecting truncation-error rejection after convergence; these logs do not directly expose truncation decisions or rule out every event interaction.",
   "nextAction": "Add logging-only truncation and rejection fields in a separate audit runtime; preserve the installed runtime and compare waveform identity.",
   "waveforms": {
-    "retention": "Incomplete local captures; producer hashes retained.",
+    "retention": "Complete local waveform set no longer available; listed remaining files, input decks and completed review results retained. Full-waveform replay requires regeneration.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-load-strict-audit",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
+    ],
+    "available": false,
+    "remainingFiles": [
+      "host-trace.txt.xz"
     ]
   }
 }

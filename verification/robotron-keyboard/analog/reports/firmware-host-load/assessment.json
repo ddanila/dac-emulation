@@ -28,13 +28,14 @@
     "clock-widths.json": "c0a6ed00c4b3972d36e7f446a2595a5da83f7eade2bc6d19bfe69ebf1d81dd55"
   },
   "waveforms": {
-    "retention": "Local captures only; producer hashes retained in report. Full waveforms are not included in git.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-load-50pf-sink",
     "files": [
       "driver-trace.txt.xz",
       "host-trace.txt.xz",
       "trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "interpretation": "Logical comparison, sampled stability and D104 input envelopes pass for this explicit load. The load is a source-informed stress assumption, not calibrated SIO I/V behavior. Clock-capacitance applicability, dynamics, timestep convergence for this load, and closed-board qualification remain open.",
   "clockWidthBoundary": "Complete sampled intervals pass the published U856 minimum-width/period screen at the explicit nominal threshold. This does not qualify Schmitt thresholds, censored intervals, supply applicability or system-clock/data-rate ratio."

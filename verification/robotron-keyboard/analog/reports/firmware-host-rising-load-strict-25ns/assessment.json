@@ -32,13 +32,14 @@
     "message": "Timestep too small"
   },
   "waveforms": {
-    "retention": "Incomplete local captures; failureArtifacts retain hashes. No scenario acceptance.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-load-strict-25ns",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "interpretation": "The run aborts after initial reset release and before the key stimulus. Tighter tolerances alone do not establish convergence. The two timesteps report different transistor instances; neither identifies a physical component fault or the root numerical cause.",
   "nextAction": "Test a larger transient Newton iteration limit with unchanged circuit, tolerances, spacing and stimulus; inspect solver behavior before modifying device parameters."

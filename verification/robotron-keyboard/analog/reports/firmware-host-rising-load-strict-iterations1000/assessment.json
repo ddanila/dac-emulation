@@ -31,12 +31,16 @@
   "interpretation": "Increasing the effective iteration limit changes the failure epoch and reported node but does not complete the scenario. The reported branch is a numerical diagnostic, not identification of a physical supply fault. Do not relax tolerances or add unsupported parasitics to obtain a pass.",
   "nextAction": "Use logging-only solver instrumentation to inspect event cuts, rejected steps and convergence outcomes around the failure.",
   "waveforms": {
-    "retention": "Incomplete local captures; producer failureArtifacts retain hashes.",
+    "retention": "Complete local waveform set no longer available; listed remaining files, input decks and completed review results retained. Full-waveform replay requires regeneration.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-load-strict-iterations1000",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
+    ],
+    "available": false,
+    "remainingFiles": [
+      "host-trace.txt.xz"
     ]
   }
 }
