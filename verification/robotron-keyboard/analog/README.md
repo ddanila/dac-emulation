@@ -867,8 +867,8 @@ uses the same runtime arguments as the primitive probe; its
 against known stimulus/resolution, stable topology and restored cache, strength,
 flag, branch-state and mesh faults. Replay with `island_probe.py --check
 verification/robotron-keyboard/analog/reports/island-payload`. Queued wrapper
-association, combined board integration and force/filter referents still need
-coverage; idle-island controls do not establish general rollback.
+association and filter coverage use the board layers below; idle-island controls
+alone do not establish general rollback.
 
 For combined board checks, build `build_island_queue_runtime.py` and
 `build_island_bridge.py`, then run `island_board_capture.py` against reviewed
@@ -886,15 +886,25 @@ force-link endpoints. Replay with `island_filter_probe.py --check
 verification/robotron-keyboard/analog/reports/island-filter`. The
 [source contract](reports/island-filter/source-contract.json) bounds meaningful
 field reads; callback lists, force-link functors and net fanout remain separate.
-Combined board integration is still required.
+Combined board controls are linked below.
 
 `build_island_filter_bridge.py` and `island_filter_board_capture.py` layer the
 filter runtime over reviewed island-board controls. Use
 `island_filter_board_review.py` for exact waveform/firmware comparison, complete
 island-port/filter association and restored initialization, drive, propagation
-and strength faults. Active force masks and links are exercised by the separate
+and strength faults. The [retained filter board controls](reports/island-filter-board/assessment.json)
+pass these checks. Active force masks and links are exercised by the separate
 force/release fixture; normal board stimulus does not establish that coverage.
 
 Before extending to threads, follow the [initialization contract](reports/thread-source-contract/assessment.json):
 track meaningful writes before reading unspecified flags or word registers, and
 include suspended/event-waiting threads rather than only queued thread events.
+
+`build_thread_runtime.py` adds initialized flag/register tracking and live-thread
+observation. `thread_probe.py` uses the same runtime arguments; replay the
+[retained controls](reports/thread-payload/assessment.json) with `thread_probe.py
+--check verification/robotron-keyboard/analog/reports/thread-payload`. Controls
+cover event waiting, fork/join, automatic functions and vector/real/string stacks.
+The observer emits markers for untouched registers; it does not initialize them.
+Board integration, queued/wait-event binding, reachable detached/deferred-deletion
+paths and code/context/object referents remain open.

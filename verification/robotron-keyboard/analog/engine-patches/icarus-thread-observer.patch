@@ -1,0 +1,1294 @@
+--- a/vvp/vthread.cc
++++ b/vvp/vthread.cc
+@@ -32,6 +32,8 @@
+ # include  "vvp_cleanup.h"
+ #endif
+ # include  <set>
++# include <map>
++# include <type_traits>
+ # include  <typeinfo>
+ # include  <vector>
+ # include  <cstdlib>
+@@ -45,6 +47,16 @@
+ # include  <cstdio>
+ 
+ using namespace std;
++static std::map<vthread_t,unsigned long long>& robotron_threads()
++{static std::map<vthread_t,unsigned long long> value;return value;}
++static unsigned long long robotron_thread_serial=0;
++static unsigned long long robotron_thread_id(vthread_t thread)
++{
++    if(!thread)return 0;
++    auto found=robotron_threads().find(thread);
++    return found==robotron_threads().end()?0:found->second;
++}
++
+ 
+ /* This is the size of an unsigned long in bits. This is just a
+    convenience macro. */
+@@ -105,6 +117,44 @@
+ 	    uint64_t w_uint;
+       } words[WORDS_COUNT];
+ 
++      bool robotron_flags_valid[FLAGS_COUNT] = {};
++      bool robotron_words_valid[WORDS_COUNT] = {};
++      vvp_bit4_t robotron_flag_read(unsigned i) const {
++          if(i>=FLAGS_COUNT || !robotron_flags_valid[i]){fprintf(stderr,"ROBOTRON_UNINITIALIZED flag %u\n",i);abort();}
++          return flags[i];
++      }
++      struct robotron_flag_reference {
++          vthread_s* owner;unsigned index;
++          vvp_bit4_t operator=(vvp_bit4_t value){
++              owner->flags[index]=value;owner->robotron_flags_valid[index]=true;return value;
++          }
++      };
++      robotron_flag_reference robotron_flag_slot(unsigned i) {
++          if(i>=FLAGS_COUNT)abort();return {this,i};
++      }
++      template<class T> T robotron_word_read(unsigned i) const {
++          static_assert(sizeof(T)==sizeof(words[0]),"Unexpected register representation");
++          if(i>=WORDS_COUNT || !robotron_words_valid[i]){fprintf(stderr,"ROBOTRON_UNINITIALIZED word %u\n",i);abort();}
++          T value;memcpy(&value,&words[i],sizeof(value));return value;
++      }
++      template<class T> struct robotron_word_reference {
++          vthread_s* owner;unsigned index;
++          T operator=(T value){
++              if(std::is_signed<T>::value)owner->words[index].w_int=value;
++              else owner->words[index].w_uint=value;
++              owner->robotron_words_valid[index]=true;return value;
++          }
++          T operator+=(T value){return *this=owner->robotron_word_read<T>(index)+value;}
++          T operator-=(T value){return *this=owner->robotron_word_read<T>(index)-value;}
++          T operator*=(T value){return *this=owner->robotron_word_read<T>(index)*value;}
++      };
++      template<class T> robotron_word_reference<T> robotron_word_slot(unsigned i) {
++          if(i>=WORDS_COUNT)abort();return {this,i};
++      }
++      int robotron_inventory(FILE*) const;
++      int robotron_toggle(int);
++
++
+ 	// These vectors are depths within the parent thread's
+ 	// corresponding stack.  This is how the %ret/* instructions
+ 	// get at parent thread arguments.
+@@ -347,7 +397,7 @@
+ 
+       fd << "**** Flags: ";
+       for (int idx = 0 ; idx < FLAGS_COUNT ; idx += 1)
+-	    fd << flags[idx];
++	    if(robotron_flags_valid[idx])fd << flags[idx];else fd << '-';
+       fd << endl;
+       fd << "**** vec4 stack..." << endl;
+       for (size_t idx = stack_vec4_.size() ; idx > 0 ; idx -= 1)
+@@ -712,14 +762,15 @@
+       thr->event  = 0;
+       thr->ecount = 0;
+ 
+-      thr->flags[0] = BIT4_0;
+-      thr->flags[1] = BIT4_1;
+-      thr->flags[2] = BIT4_X;
+-      thr->flags[3] = BIT4_Z;
++      thr->robotron_flag_slot(0) = BIT4_0;
++      thr->robotron_flag_slot(1) = BIT4_1;
++      thr->robotron_flag_slot(2) = BIT4_X;
++      thr->robotron_flag_slot(3) = BIT4_Z;
+       for (int idx = 4 ; idx < 8 ; idx += 1)
+-	    thr->flags[idx] = BIT4_X;
++	    thr->robotron_flag_slot(idx) = BIT4_X;
+ 
+       scope->threads .insert(thr);
++      robotron_threads()[thr]=++robotron_thread_serial;
+       return thr;
+ }
+ 
+@@ -820,6 +871,7 @@
+ 
+ void vthread_delete(vthread_t thr)
+ {
++      robotron_threads().erase(thr);
+       thr->cleanup();
+       delete thr;
+ }
+@@ -1084,7 +1136,7 @@
+  */
+ bool of_ASSIGN_AR(vthread_t thr, vvp_code_t cp)
+ {
+-      long adr = thr->words[3].w_int;
++      long adr = thr->robotron_word_read<int64_t>(3);
+       unsigned delay = cp->bit_idx[0];
+       double value = thr->pop_real();
+ 
+@@ -1102,11 +1154,11 @@
+  */
+ bool of_ASSIGN_ARD(vthread_t thr, vvp_code_t cp)
+ {
+-      long adr = thr->words[3].w_int;
++      long adr = thr->robotron_word_read<int64_t>(3);
+       double value = thr->pop_real();
+ 
+       if (adr >= 0) {
+-	    vvp_time64_t delay = thr->words[cp->bit_idx[0]].w_uint;
++	    vvp_time64_t delay = thr->robotron_word_read<uint64_t>(cp->bit_idx[0]);
+ 	    schedule_assign_array_word(cp->array, adr, value, delay);
+       }
+ 
+@@ -1122,7 +1174,7 @@
+  */
+ bool of_ASSIGN_ARE(vthread_t thr, vvp_code_t cp)
+ {
+-      long adr = thr->words[3].w_int;
++      long adr = thr->robotron_word_read<int64_t>(3);
+       double value = thr->pop_real();
+ 
+       if (adr >= 0) {
+@@ -1204,15 +1256,15 @@
+       int del_idx = cp->bit_idx[1];
+       int adr_idx = 3;
+ 
+-      int64_t  off = off_idx ? thr->words[off_idx].w_int : 0;
+-      vvp_time64_t del = del_idx? thr->words[del_idx].w_uint : 0;
+-      long     adr = thr->words[adr_idx].w_int;
++      int64_t  off = off_idx ? thr->robotron_word_read<int64_t>(off_idx) : 0;
++      vvp_time64_t del = del_idx? thr->robotron_word_read<uint64_t>(del_idx) : 0;
++      long     adr = thr->robotron_word_read<int64_t>(adr_idx);
+ 
+       vvp_vector4_t val = thr->pop_vec4();
+ 
+ 	// Abort if flags[4] is set. This can happen if the calculation
+ 	// into an index register failed.
+-      if (thr->flags[4] == BIT4_1)
++      if (thr->robotron_flag_read(4) == BIT4_1)
+ 	    return true;
+ 
+       if (!resize_rval_vec(val, off, cp->array->get_word_size()))
+@@ -1231,14 +1283,14 @@
+       int off_idx = cp->bit_idx[0];
+       int adr_idx = 3;
+ 
+-      int64_t  off = off_idx ? thr->words[off_idx].w_int : 0;
+-      long     adr = thr->words[adr_idx].w_int;
++      int64_t  off = off_idx ? thr->robotron_word_read<int64_t>(off_idx) : 0;
++      long     adr = thr->robotron_word_read<int64_t>(adr_idx);
+ 
+       vvp_vector4_t val = thr->pop_vec4();
+ 
+ 	// Abort if flags[4] is set. This can happen if the calculation
+ 	// into an index register failed.
+-      if (thr->flags[4] == BIT4_1)
++      if (thr->robotron_flag_read(4) == BIT4_1)
+ 	    return true;
+ 
+       if (!resize_rval_vec(val, off, cp->array->get_word_size()))
+@@ -1263,12 +1315,12 @@
+       unsigned del_index = cp->bit_idx[1];
+       vvp_vector4_t val = thr->pop_vec4();
+ 
+-      int64_t off = thr->words[off_index].w_int;
+-      vvp_time64_t del = thr->words[del_index].w_uint;
++      int64_t off = thr->robotron_word_read<int64_t>(off_index);
++      vvp_time64_t del = thr->robotron_word_read<uint64_t>(del_index);
+ 
+ 	// Abort if flags[4] is set. This can happen if the calculation
+ 	// into an index register failed.
+-      if (thr->flags[4] == BIT4_1)
++      if (thr->robotron_flag_read(4) == BIT4_1)
+ 	    return true;
+ 
+       vvp_signal_value*sig = dynamic_cast<vvp_signal_value*> (cp->net->fil);
+@@ -1290,11 +1342,11 @@
+       unsigned off_index = cp->bit_idx[0];
+       vvp_vector4_t val = thr->pop_vec4();
+ 
+-      int64_t off = thr->words[off_index].w_int;
++      int64_t off = thr->robotron_word_read<int64_t>(off_index);
+ 
+ 	// Abort if flags[4] is set. This can happen if the calculation
+ 	// into an index register failed.
+-      if (thr->flags[4] == BIT4_1)
++      if (thr->robotron_flag_read(4) == BIT4_1)
+ 	    return true;
+ 
+       vvp_signal_value*sig = dynamic_cast<vvp_signal_value*> (cp->net->fil);
+@@ -1319,7 +1371,7 @@
+ {
+       vvp_net_ptr_t ptr (cp->net, 0);
+       unsigned del_index = cp->bit_idx[0];
+-      vvp_time64_t del = thr->words[del_index].w_int;
++      vvp_time64_t del = thr->robotron_word_read<int64_t>(del_index);
+ 
+       vvp_vector4_t value = thr->pop_vec4();
+ 
+@@ -1379,7 +1431,7 @@
+ 
+ bool of_ASSIGN_WRD(vthread_t thr, vvp_code_t cp)
+ {
+-      vvp_time64_t delay = thr->words[cp->bit_idx[0]].w_uint;
++      vvp_time64_t delay = thr->robotron_word_read<uint64_t>(cp->bit_idx[0]);
+       double value = thr->pop_real();
+       s_vpi_time del;
+ 
+@@ -1620,11 +1672,11 @@
+ {
+       vvp_net_t*net = cp->net;
+       unsigned base_idx = cp->bit_idx[0];
+-      long base = thr->words[base_idx].w_int;
++      long base = thr->robotron_word_read<int64_t>(base_idx);
+       vvp_vector4_t value = thr->pop_vec4();
+       unsigned wid = value.size();
+ 
+-      if (thr->flags[4] == BIT4_1)
++      if (thr->robotron_flag_read(4) == BIT4_1)
+ 	    return true;
+ 
+ 	/* Remove any previous continuous assign to this net. */
+@@ -1792,13 +1844,13 @@
+ 			break;
+ 	    }
+ 
+-	    thr->flags[4] = eq;
+-	    thr->flags[6] = eeq;
++	    thr->robotron_flag_slot(4) = eq;
++	    thr->robotron_flag_slot(6) = eeq;
+ 
+       } else {
+ 	      // If there are no XZ bits anywhere, then the results of
+ 	      // == match the === test.
+-	    thr->flags[4] = thr->flags[6] = (lval.eeq(rval)? BIT4_1 : BIT4_0);
++	    thr->robotron_flag_slot(4) = thr->robotron_flag_slot(6) = (lval.eeq(rval)? BIT4_1 : BIT4_0);
+       }
+ }
+ 
+@@ -1836,8 +1888,8 @@
+ 
+       do_CMPE(thr, lval, rval);
+ 
+-      thr->flags[4] =  ~thr->flags[4];
+-      thr->flags[6] =  ~thr->flags[6];
++      thr->robotron_flag_slot(4) =  ~thr->robotron_flag_read(4);
++      thr->robotron_flag_slot(6) =  ~thr->robotron_flag_read(6);
+ 
+       thr->pop_vec4(2);
+       return true;
+@@ -1880,8 +1932,8 @@
+ 
+       do_CMPE(thr, lval, rval);
+ 
+-      thr->flags[4] =  ~thr->flags[4];
+-      thr->flags[6] =  ~thr->flags[6];
++      thr->robotron_flag_slot(4) =  ~thr->robotron_flag_read(4);
++      thr->robotron_flag_slot(6) =  ~thr->robotron_flag_read(6);
+ 
+       thr->pop_vec4(1);
+       return true;
+@@ -1897,9 +1949,9 @@
+ 	// known already to be X. Just calculate the eeq result as a
+ 	// special case and short circuit the rest of the compare.
+       if (lval.has_xz() || rval.has_xz()) {
+-	    thr->flags[4] = BIT4_X; // eq
+-	    thr->flags[5] = BIT4_X; // lt
+-	    thr->flags[6] = lval.eeq(rval)? BIT4_1 : BIT4_0;
++	    thr->robotron_flag_slot(4) = BIT4_X; // eq
++	    thr->robotron_flag_slot(5) = BIT4_X; // lt
++	    thr->robotron_flag_slot(6) = lval.eeq(rval)? BIT4_1 : BIT4_0;
+ 	    return;
+       }
+ 
+@@ -1912,17 +1964,17 @@
+ 
+ 	// If the lval is <0 and the rval is >=0, then we know the result.
+       if ((sig1 == BIT4_1) && (sig2 == BIT4_0)) {
+-	    thr->flags[4] = BIT4_0; // eq;
+-	    thr->flags[5] = BIT4_1; // lt;
+-	    thr->flags[6] = BIT4_0; // eeq
++	    thr->robotron_flag_slot(4) = BIT4_0; // eq;
++	    thr->robotron_flag_slot(5) = BIT4_1; // lt;
++	    thr->robotron_flag_slot(6) = BIT4_0; // eeq
+ 	    return;
+       }
+ 
+ 	// If the lval is >=0 and the rval is <0, then we know the result.
+       if ((sig1 == BIT4_0) && (sig2 == BIT4_1)) {
+-	    thr->flags[4] = BIT4_0; // eq;
+-	    thr->flags[5] = BIT4_0; // lt;
+-	    thr->flags[6] = BIT4_0; // eeq
++	    thr->robotron_flag_slot(4) = BIT4_0; // eq;
++	    thr->robotron_flag_slot(5) = BIT4_0; // lt;
++	    thr->robotron_flag_slot(6) = BIT4_0; // eeq
+ 	    return;
+       }
+ 
+@@ -1937,21 +1989,21 @@
+ 	    if (lv == rv)
+ 		  continue;
+ 
+-	    thr->flags[4] = BIT4_0; // eq
+-	    thr->flags[6] = BIT4_0; // eeq
++	    thr->robotron_flag_slot(4) = BIT4_0; // eq
++	    thr->robotron_flag_slot(6) = BIT4_0; // eeq
+ 
+ 	    if (lv==BIT4_0) {
+-		  thr->flags[5] = BIT4_1; // lt
++		  thr->robotron_flag_slot(5) = BIT4_1; // lt
+ 	    } else {
+-		  thr->flags[5] = BIT4_0; // lt
++		  thr->robotron_flag_slot(5) = BIT4_0; // lt
+ 	    }
+ 	    return;
+       }
+ 
+ 	// If we survive the loop above, then the values must be equal.
+-      thr->flags[4] = BIT4_1;
+-      thr->flags[5] = BIT4_0;
+-      thr->flags[6] = BIT4_1;
++      thr->robotron_flag_slot(4) = BIT4_1;
++      thr->robotron_flag_slot(5) = BIT4_0;
++      thr->robotron_flag_slot(6) = BIT4_1;
+ }
+ 
+ /*
+@@ -2022,8 +2074,8 @@
+ 	    lt = BIT4_0;
+       }
+ 
+-      thr->flags[4] = eq;
+-      thr->flags[5] = lt;
++      thr->robotron_flag_slot(4) = eq;
++      thr->robotron_flag_slot(5) = lt;
+ 
+       return true;
+ }
+@@ -2054,9 +2106,9 @@
+ 
+       }
+ 
+-      thr->flags[4] = eq;
+-      thr->flags[5] = BIT4_X;
+-      thr->flags[6] = eeq;
++      thr->robotron_flag_slot(4) = eq;
++      thr->robotron_flag_slot(5) = BIT4_X;
++      thr->robotron_flag_slot(6) = eeq;
+ }
+ 
+ static void do_CMPU(vthread_t thr, const vvp_vector4_t&lval, const vvp_vector4_t&rval)
+@@ -2097,9 +2149,9 @@
+       delete[]larray;
+       delete[]rarray;
+ 
+-      thr->flags[4] = eq;
+-      thr->flags[5] = lt;
+-      thr->flags[6] = eq;
++      thr->robotron_flag_slot(4) = eq;
++      thr->robotron_flag_slot(5) = lt;
++      thr->robotron_flag_slot(6) = eq;
+ }
+ 
+ bool of_CMPU(vthread_t thr, vvp_code_t)
+@@ -2159,7 +2211,7 @@
+ 	    }
+       }
+ 
+-      thr->flags[4] = eq;
++      thr->robotron_flag_slot(4) = eq;
+       return true;
+ }
+ 
+@@ -2189,12 +2241,12 @@
+ 			break;
+ 	    }
+ 
+-	    thr->flags[4] = eq;
++	    thr->robotron_flag_slot(4) = eq;
+ 
+       } else {
+ 	      // If there are no XZ bits anywhere, then the results of
+ 	      // ==? match the === test.
+-	    thr->flags[4] = (lval.eeq(rval)? BIT4_1 : BIT4_0);
++	    thr->robotron_flag_slot(4) = (lval.eeq(rval)? BIT4_1 : BIT4_0);
+       }
+ }
+ 
+@@ -2222,7 +2274,7 @@
+ 
+       do_CMPWE(thr, lval, rval);
+ 
+-      thr->flags[4] =  ~thr->flags[4];
++      thr->robotron_flag_slot(4) =  ~thr->robotron_flag_read(4);
+ 
+       thr->pop_vec4(2);
+       return true;
+@@ -2236,8 +2288,8 @@
+       vvp_bit4_t eq = (l == r)? BIT4_1 : BIT4_0;
+       vvp_bit4_t lt = (l <  r)? BIT4_1 : BIT4_0;
+ 
+-      thr->flags[4] = eq;
+-      thr->flags[5] = lt;
++      thr->robotron_flag_slot(4) = eq;
++      thr->robotron_flag_slot(5) = lt;
+ 
+       return true;
+ }
+@@ -2263,7 +2315,7 @@
+ 	    }
+       }
+ 
+-      thr->flags[4] = eq;
++      thr->robotron_flag_slot(4) = eq;
+       return true;
+ }
+ 
+@@ -2369,7 +2421,7 @@
+ bool of_CVT_SR(vthread_t thr, vvp_code_t cp)
+ {
+       double r = thr->pop_real();
+-      thr->words[cp->bit_idx[0]].w_int = i64round(r);
++      thr->robotron_word_slot<int64_t>(cp->bit_idx[0]) = i64round(r);
+ 
+       return true;
+ }
+@@ -2380,7 +2432,7 @@
+ bool of_CVT_UR(vthread_t thr, vvp_code_t cp)
+ {
+       double r = thr->pop_real();
+-      thr->words[cp->bit_idx[0]].w_uint = vlg_round_to_u64(r);
++      thr->robotron_word_slot<uint64_t>(cp->bit_idx[0]) = vlg_round_to_u64(r);
+ 
+       return true;
+ }
+@@ -2494,7 +2546,7 @@
+       vvp_time64_t delay;
+ 
+       assert(cp->number < vthread_s::WORDS_COUNT);
+-      delay = thr->words[cp->number].w_uint;
++      delay = thr->robotron_word_read<uint64_t>(cp->number);
+       if (delay == 0) schedule_inactive(thr);
+       else schedule_vthread(thr, delay);
+       return false;
+@@ -2504,8 +2556,8 @@
+ {
+       vvp_net_t*net = cp->net;
+ 
+-      int64_t idx_val = thr->words[3].w_int;
+-      if (thr->flags[4] == BIT4_1) {
++      int64_t idx_val = thr->robotron_word_read<int64_t>(3);
++      if (thr->robotron_flag_read(4) == BIT4_1) {
+ 	    cerr << thr->get_fileline()
+ 	         << "Warning: skipping queue delete() with undefined index."
+ 	         << endl;
+@@ -2570,7 +2622,7 @@
+       vvp_queue*queue = obj->get_object().peek<vvp_queue>();
+       assert(queue);
+ 
+-      unsigned idx = thr->words[cp->bit_idx[0]].w_int;
++      unsigned idx = thr->robotron_word_read<int64_t>(cp->bit_idx[0]);
+       queue->erase_tail(idx);
+ 
+       return true;
+@@ -3127,7 +3179,7 @@
+ {
+       vvp_time64_t delay;
+ 
+-      delay = thr->words[cp->bit_idx[0]].w_uint;
++      delay = thr->robotron_word_read<uint64_t>(cp->bit_idx[0]);
+       schedule_propagate_event(cp->net, delay);
+       return true;
+ }
+@@ -3136,7 +3188,7 @@
+ {
+       assert(thr->event == 0 && thr->ecount == 0);
+       thr->event = cp->net;
+-      thr->ecount = thr->words[cp->bit_idx[0]].w_uint;
++      thr->ecount = thr->robotron_word_read<uint64_t>(cp->bit_idx[0]);
+       return true;
+ }
+ bool of_EVCTLC(vthread_t thr, vvp_code_t)
+@@ -3158,7 +3210,7 @@
+ {
+       assert(thr->event == 0 && thr->ecount == 0);
+       thr->event = cp->net;
+-      int64_t val = thr->words[cp->bit_idx[0]].w_int;
++      int64_t val = thr->robotron_word_read<int64_t>(cp->bit_idx[0]);
+       if (val < 0) val = 0;
+       thr->ecount = val;
+       return true;
+@@ -3169,7 +3221,7 @@
+       int flag = cp->number;
+       assert(flag < vthread_s::FLAGS_COUNT);
+ 
+-      vvp_vector4_t val (1, thr->flags[flag]);
++      vvp_vector4_t val (1, thr->robotron_flag_read(flag));
+       thr->push_vec4(val);
+ 
+       return true;
+@@ -3182,7 +3234,7 @@
+ {
+       int flag1 = cp->bit_idx[0];
+ 
+-      thr->flags[flag1] = ~ thr->flags[flag1];
++      thr->robotron_flag_slot(flag1) = ~ thr->robotron_flag_read(flag1);
+       return true;
+ }
+ 
+@@ -3194,7 +3246,7 @@
+       int flag1 = cp->bit_idx[0];
+       int flag2 = cp->bit_idx[1];
+ 
+-      thr->flags[flag1] = thr->flags[flag2];
++      thr->robotron_flag_slot(flag1) = thr->robotron_flag_read(flag2);
+       return true;
+ }
+ 
+@@ -3206,7 +3258,7 @@
+       int flag1 = cp->bit_idx[0];
+       int flag2 = cp->bit_idx[1];
+ 
+-      thr->flags[flag1] = thr->flags[flag1] | thr->flags[flag2];
++      thr->robotron_flag_slot(flag1) = thr->robotron_flag_read(flag1) | thr->robotron_flag_read(flag2);
+       return true;
+ }
+ 
+@@ -3219,7 +3271,7 @@
+       assert(vali >= 0 && vali < 4);
+ 
+       static const vvp_bit4_t map_bit[4] = {BIT4_0, BIT4_1, BIT4_Z, BIT4_X};
+-      thr->flags[flag] = map_bit[vali];
++      thr->robotron_flag_slot(flag) = map_bit[vali];
+       return true;
+ }
+ 
+@@ -3229,7 +3281,7 @@
+       assert(flag < vthread_s::FLAGS_COUNT);
+ 
+       const vvp_vector4_t&val = thr->peek_vec4();
+-      thr->flags[flag] = val.value(0);
++      thr->robotron_flag_slot(flag) = val.value(0);
+       thr->pop_vec4(1);
+ 
+       return true;
+@@ -3289,13 +3341,13 @@
+ {
+       vvp_net_t*net = cp->net;
+       unsigned base_idx = cp->bit_idx[0];
+-      long base = thr->words[base_idx].w_int;
++      long base = thr->robotron_word_read<int64_t>(base_idx);
+       vvp_vector4_t value = thr->pop_vec4();
+       unsigned wid = value.size();
+ 
+       assert(net->fil);
+ 
+-      if (thr->flags[4] == BIT4_1)
++      if (thr->robotron_flag_read(4) == BIT4_1)
+ 	    return true;
+ 
+ 	// This is the width of the target vector.
+@@ -3338,16 +3390,16 @@
+       vvp_net_t*net = cp->net;
+ 
+       unsigned base_idx = cp->bit_idx[0];
+-      long base = thr->words[base_idx].w_int;
++      long base = thr->robotron_word_read<int64_t>(base_idx);
+ 
+       unsigned delay_idx = cp->bit_idx[1];
+-      vvp_time64_t delay = thr->words[delay_idx].w_uint;
++      vvp_time64_t delay = thr->robotron_word_read<uint64_t>(delay_idx);
+ 
+       vvp_vector4_t value = thr->pop_vec4();
+ 
+       assert(net->fil);
+ 
+-      if (thr->flags[4] == BIT4_1)
++      if (thr->robotron_flag_read(4) == BIT4_1)
+ 	    return true;
+ 
+ 	// This is the width of the target vector.
+@@ -3446,35 +3498,35 @@
+ 
+ bool of_IX_ADD(vthread_t thr, vvp_code_t cp)
+ {
+-      thr->words[cp->number].w_int += get_as_64_bit(cp->bit_idx[0],
++      thr->robotron_word_slot<int64_t>(cp->number) += get_as_64_bit(cp->bit_idx[0],
+                                                     cp->bit_idx[1]);
+       return true;
+ }
+ 
+ bool of_IX_SUB(vthread_t thr, vvp_code_t cp)
+ {
+-      thr->words[cp->number].w_int -= get_as_64_bit(cp->bit_idx[0],
++      thr->robotron_word_slot<int64_t>(cp->number) -= get_as_64_bit(cp->bit_idx[0],
+                                                     cp->bit_idx[1]);
+       return true;
+ }
+ 
+ bool of_IX_MUL(vthread_t thr, vvp_code_t cp)
+ {
+-      thr->words[cp->number].w_int *= get_as_64_bit(cp->bit_idx[0],
++      thr->robotron_word_slot<int64_t>(cp->number) *= get_as_64_bit(cp->bit_idx[0],
+                                                     cp->bit_idx[1]);
+       return true;
+ }
+ 
+ bool of_IX_LOAD(vthread_t thr, vvp_code_t cp)
+ {
+-      thr->words[cp->number].w_int = get_as_64_bit(cp->bit_idx[0],
++      thr->robotron_word_slot<int64_t>(cp->number) = get_as_64_bit(cp->bit_idx[0],
+                                                    cp->bit_idx[1]);
+       return true;
+ }
+ 
+ bool of_IX_MOV(vthread_t thr, vvp_code_t cp)
+ {
+-      thr->words[cp->bit_idx[0]].w_int = thr->words[cp->bit_idx[1]].w_int;
++      thr->robotron_word_slot<int64_t>(cp->bit_idx[0]) = thr->robotron_word_read<int64_t>(cp->bit_idx[1]);
+       return true;
+ }
+ 
+@@ -3499,12 +3551,12 @@
+       bool known_flag = vector4_to_value(vec, overflow_flag, val);
+ 
+       if (known_flag)
+-	    thr->words[index].w_uint = val;
++	    thr->robotron_word_slot<uint64_t>(index) = val;
+       else
+-	    thr->words[index].w_uint = 0;
++	    thr->robotron_word_slot<uint64_t>(index) = 0;
+ 
+ 	/* Set bit 4 as a flag if the input is unknown. */
+-      thr->flags[4] = known_flag ? (overflow_flag ? BIT4_X : BIT4_0) : BIT4_1;
++      thr->robotron_flag_slot(4) = known_flag ? (overflow_flag ? BIT4_X : BIT4_0) : BIT4_1;
+ 
+       return true;
+ }
+@@ -3531,12 +3583,12 @@
+       bool known_flag = vector4_to_value(vec, val, true, true);
+ 
+       if (known_flag)
+-	    thr->words[index].w_int = val;
++	    thr->robotron_word_slot<int64_t>(index) = val;
+       else
+-	    thr->words[index].w_int = 0;
++	    thr->robotron_word_slot<int64_t>(index) = 0;
+ 
+ 	/* Set bit 4 as a flag if the input is unknown. */
+-      thr->flags[4] = known_flag? BIT4_0 : BIT4_1;
++      thr->robotron_flag_slot(4) = known_flag? BIT4_0 : BIT4_1;
+ 
+       return true;
+ }
+@@ -3553,12 +3605,12 @@
+ 	// If there are X/Z bits, then the subarray will give us a nil
+ 	// pointer. Set a flag to indicate the error, and give up.
+       if (bits == 0) {
+-	    thr->flags[4] = BIT4_1;
++	    thr->robotron_flag_slot(4) = BIT4_1;
+ 	    return 0;
+       }
+ 
+       uint64_t v = 0;
+-      thr->flags[4] = BIT4_0;
++      thr->robotron_flag_slot(4) = BIT4_0;
+ 
+       assert(sizeof(bits[0]) <= sizeof(v));
+ 
+@@ -3570,7 +3622,7 @@
+ 	    } else {
+ 		  bool overflow = signed_flag && (v >> 63) ? ~tmp != 0 : tmp != 0;
+ 		  if (overflow) {
+-			thr->flags[4] = BIT4_X;
++			thr->robotron_flag_slot(4) = BIT4_X;
+ 			break;
+ 		  }
+ 	    }
+@@ -3600,7 +3652,7 @@
+ bool of_IX_VEC4(vthread_t thr, vvp_code_t cp)
+ {
+       unsigned use_idx = cp->number;
+-      thr->words[use_idx].w_uint = vec4_to_index(thr, false);
++      thr->robotron_word_slot<uint64_t>(use_idx) = vec4_to_index(thr, false);
+       return true;
+ }
+ 
+@@ -3610,7 +3662,7 @@
+ bool of_IX_VEC4_S(vthread_t thr, vvp_code_t cp)
+ {
+       unsigned use_idx = cp->number;
+-      thr->words[use_idx].w_uint = vec4_to_index(thr, true);
++      thr->robotron_word_slot<uint64_t>(use_idx) = vec4_to_index(thr, true);
+       return true;
+ }
+ 
+@@ -3640,7 +3692,7 @@
+  */
+ bool of_JMP0(vthread_t thr, vvp_code_t cp)
+ {
+-      if (thr->flags[cp->bit_idx[0]] == BIT4_0)
++      if (thr->robotron_flag_read(cp->bit_idx[0]) == BIT4_0)
+ 	    thr->pc = cp->cptr;
+ 
+ 	/* Normally, this returns true so that the processor just
+@@ -3660,7 +3712,7 @@
+  */
+ bool of_JMP0XZ(vthread_t thr, vvp_code_t cp)
+ {
+-      if (thr->flags[cp->bit_idx[0]] != BIT4_1)
++      if (thr->robotron_flag_read(cp->bit_idx[0]) != BIT4_1)
+ 	    thr->pc = cp->cptr;
+ 
+ 	/* Normally, this returns true so that the processor just
+@@ -3680,7 +3732,7 @@
+  */
+ bool of_JMP1(vthread_t thr, vvp_code_t cp)
+ {
+-      if (thr->flags[cp->bit_idx[0]] == BIT4_1)
++      if (thr->robotron_flag_read(cp->bit_idx[0]) == BIT4_1)
+ 	    thr->pc = cp->cptr;
+ 
+ 	/* Normally, this returns true so that the processor just
+@@ -3700,7 +3752,7 @@
+  */
+ bool of_JMP1XZ(vthread_t thr, vvp_code_t cp)
+ {
+-      if (thr->flags[cp->bit_idx[0]] != BIT4_0)
++      if (thr->robotron_flag_read(cp->bit_idx[0]) != BIT4_0)
+ 	    thr->pc = cp->cptr;
+ 
+ 	/* Normally, this returns true so that the processor just
+@@ -3815,10 +3867,10 @@
+       double word;
+ 
+ 	/* The result is 0.0 if the address is undefined. */
+-      if (thr->flags[4] == BIT4_1) {
++      if (thr->robotron_flag_read(4) == BIT4_1) {
+ 	    word = 0.0;
+       } else {
+-	    unsigned adr = thr->words[idx].w_int;
++	    unsigned adr = thr->robotron_word_read<int64_t>(idx);
+ 	    word = cp->array->get_word_r(adr);
+       }
+ 
+@@ -3829,7 +3881,7 @@
+ template <typename ELEM>
+ static bool load_dar(vthread_t thr, vvp_code_t cp)
+ {
+-      int64_t adr = thr->words[3].w_int;
++      int64_t adr = thr->robotron_word_read<int64_t>(3);
+       vvp_net_t*net = cp->net;
+       assert(net);
+ 
+@@ -3840,7 +3892,7 @@
+ 
+       ELEM word;
+       if (darray &&
+-          (adr >= 0) && (thr->flags[4] == BIT4_0)) // A defined address >= 0
++          (adr >= 0) && (thr->robotron_flag_read(4) == BIT4_0)) // A defined address >= 0
+ 	    darray->get_word(adr, word);
+       else
+ 	    dq_default(word, obj->size());
+@@ -3900,10 +3952,10 @@
+       vvp_object_t word;
+ 
+ 	/* The result is 0.0 if the address is undefined. */
+-      if (thr->flags[4] == BIT4_1) {
++      if (thr->robotron_flag_read(4) == BIT4_1) {
+ 	    ; // Return nil
+       } else {
+-	    unsigned adr = thr->words[idx].w_int;
++	    unsigned adr = thr->robotron_word_read<int64_t>(idx);
+ 	    cp->array->get_word_obj(adr, word);
+       }
+ 
+@@ -3949,10 +4001,10 @@
+       unsigned idx = cp->bit_idx[0];
+       string word;
+ 
+-      if (thr->flags[4] == BIT4_1) {
++      if (thr->robotron_flag_read(4) == BIT4_1) {
+ 	    word = "";
+       } else {
+-	    unsigned adr = thr->words[idx].w_int;
++	    unsigned adr = thr->robotron_word_read<int64_t>(idx);
+ 	    word = cp->array->get_word_str(adr);
+       }
+ 
+@@ -4001,12 +4053,12 @@
+ {
+       int adr_index = cp->bit_idx[0];
+ 
+-      long adr = thr->words[adr_index].w_int;
++      long adr = thr->robotron_word_read<int64_t>(adr_index);
+ 
+ 	// If flag[3] is set, then the calculation of the address
+ 	// failed, and this load should return X instead of the actual
+ 	// value.
+-      if (thr->flags[4] == BIT4_1) {
++      if (thr->robotron_flag_read(4) == BIT4_1) {
+ 	    vvp_vector4_t tmp (cp->array->get_word_size(), BIT4_X);
+ 	    thr->push_vec4(tmp);
+ 	    return true;
+@@ -4521,7 +4573,7 @@
+ bool of_NEW_DARRAY(vthread_t thr, vvp_code_t cp)
+ {
+       const char*text = cp->text;
+-      size_t size = thr->words[cp->bit_idx[0]].w_int;
++      size_t size = thr->robotron_word_read<int64_t>(cp->bit_idx[0]);
+       unsigned word_wid;
+       size_t n;
+ 
+@@ -4902,7 +4954,7 @@
+ 
+       if (idx != 0) {
+ 	    assert(idx < vthread_s::WORDS_COUNT);
+-	    idx = thr->words[idx].w_uint;
++	    idx = thr->robotron_word_read<uint64_t>(idx);
+       }
+ 
+       vvp_object_t&obj = thr->peek_object();
+@@ -5080,7 +5132,7 @@
+ bool of_PUTC_STR_VEC4(vthread_t thr, vvp_code_t cp)
+ {
+       unsigned muxr = cp->bit_idx[0];
+-      int32_t mux = muxr? thr->words[muxr].w_int : 0;
++      int32_t mux = muxr? thr->robotron_word_read<int64_t>(muxr) : 0;
+ 
+       vvp_vector4_t val = thr->pop_vec4();
+       assert(val.size() == 8);
+@@ -5118,7 +5170,7 @@
+ template <typename ELEM, class QTYPE>
+ static bool qinsert(vthread_t thr, vvp_code_t cp, unsigned wid=0)
+ {
+-      int64_t idx = thr->words[3].w_int;
++      int64_t idx = thr->robotron_word_read<int64_t>(3);
+       ELEM value;
+       vvp_net_t*net = cp->net;
+       pop_value(thr, value, wid); // Pop the value to store.
+@@ -5132,14 +5184,14 @@
+ 	         << " index (" << idx << "). ";
+ 	    print_queue_value(value);
+ 	    cerr << " was not added." << endl;
+-      } else if (thr->flags[4] != BIT4_0) {
++      } else if (thr->robotron_flag_read(4) != BIT4_0) {
+ 	    cerr << thr->get_fileline()
+ 	         << "Warning: cannot insert at an undefined "
+ 	         << get_queue_type(value) << " index. ";
+ 	    print_queue_value(value);
+ 	    cerr << " was not added." << endl;
+       } else {
+-	    unsigned max_size = thr->words[cp->bit_idx[0]].w_int;
++	    unsigned max_size = thr->robotron_word_read<int64_t>(cp->bit_idx[0]);
+ 	    queue->insert(idx, value, max_size);
+       }
+       return true;
+@@ -5467,10 +5519,10 @@
+       assert(val.size() == wid);
+       unsigned depth = get_depth(fun_thr, index, val);
+ 
+-      int64_t off = off_index ? thr->words[off_index].w_int : 0;
++      int64_t off = off_index ? thr->robotron_word_read<int64_t>(off_index) : 0;
+       unsigned int sig_value_size = fun_thr->parent->peek_vec4(depth).size();
+ 
+-      if (off_index!=0 && thr->flags[4] == BIT4_1) {
++      if (off_index!=0 && thr->robotron_flag_read(4) == BIT4_1) {
+ 	    thr->pop_vec4(1);
+ 	    return true;
+       }
+@@ -5589,7 +5641,7 @@
+ template <typename ELEM>
+ static bool set_dar_obj(vthread_t thr, vvp_code_t cp)
+ {
+-      unsigned adr = thr->words[cp->number].w_int;
++      unsigned adr = thr->robotron_word_read<int64_t>(cp->number);
+ 
+       ELEM value;
+       thread_peek(thr, value);
+@@ -5634,16 +5686,16 @@
+ bool of_SHIFTL(vthread_t thr, vvp_code_t cp)
+ {
+       int use_index = cp->number;
+-      uint64_t shift = thr->words[use_index].w_uint;
++      uint64_t shift = thr->robotron_word_read<uint64_t>(use_index);
+ 
+       vvp_vector4_t&val = thr->peek_vec4();
+       unsigned wid  = val.size();
+ 
+-      if (thr->flags[4] == BIT4_1) {
++      if (thr->robotron_flag_read(4) == BIT4_1) {
+ 	      // The result is 'bx if the shift amount is undefined
+ 	    val = vvp_vector4_t(wid, BIT4_X);
+ 
+-      } else if (thr->flags[4] == BIT4_X || shift >= wid) {
++      } else if (thr->robotron_flag_read(4) == BIT4_X || shift >= wid) {
+ 	      // Shift is so big that all value is shifted out. Write
+ 	      // a constant 0 result.
+ 	    val = vvp_vector4_t(wid, BIT4_0);
+@@ -5667,15 +5719,15 @@
+ bool of_SHIFTR(vthread_t thr, vvp_code_t cp)
+ {
+       int use_index = cp->number;
+-      uint64_t shift = thr->words[use_index].w_uint;
++      uint64_t shift = thr->robotron_word_read<uint64_t>(use_index);
+ 
+       vvp_vector4_t val = thr->pop_vec4();
+       unsigned wid  = val.size();
+ 
+-      if (thr->flags[4] == BIT4_1) {
++      if (thr->robotron_flag_read(4) == BIT4_1) {
+ 	    val = vvp_vector4_t(wid, BIT4_X);
+ 
+-      } else if (thr->flags[4] == BIT4_X || shift > wid) {
++      } else if (thr->robotron_flag_read(4) == BIT4_X || shift > wid) {
+ 	    val = vvp_vector4_t(wid, BIT4_0);
+ 
+       } else if (shift > 0) {
+@@ -5695,17 +5747,17 @@
+ bool of_SHIFTR_S(vthread_t thr, vvp_code_t cp)
+ {
+       int use_index = cp->number;
+-      uint64_t shift = thr->words[use_index].w_uint;
++      uint64_t shift = thr->robotron_word_read<uint64_t>(use_index);
+ 
+       vvp_vector4_t val = thr->pop_vec4();
+       unsigned wid  = val.size();
+ 
+       vvp_bit4_t sign_bit = val.value(val.size()-1);
+ 
+-      if (thr->flags[4] == BIT4_1) {
++      if (thr->robotron_flag_read(4) == BIT4_1) {
+ 	    val = vvp_vector4_t(wid, BIT4_X);
+ 
+-      } else if (thr->flags[4] == BIT4_X || shift > wid) {
++      } else if (thr->robotron_flag_read(4) == BIT4_X || shift > wid) {
+ 	    val = vvp_vector4_t(wid, sign_bit);
+ 
+       } else if (shift > 0) {
+@@ -5783,7 +5835,7 @@
+ template <typename ELEM>
+ static bool store_dar(vthread_t thr, vvp_code_t cp)
+ {
+-      int64_t adr = thr->words[3].w_int;
++      int64_t adr = thr->robotron_word_read<int64_t>(3);
+       ELEM value;
+ 	// FIXME: Can we get the size of the underlying array element
+ 	//        and then use the normal pop_value?
+@@ -5801,7 +5853,7 @@
+ 	    cerr << thr->get_fileline()
+ 	         << "Warning: cannot write to a negative " << get_darray_type(value)
+ 	         << " index (" << adr << ")." << endl;
+-      else if (thr->flags[4] != BIT4_0)
++      else if (thr->robotron_flag_read(4) != BIT4_0)
+ 	    cerr << thr->get_fileline()
+ 	         << "Warning: cannot write to an undefined " << get_darray_type(value)
+ 	         << " index." << endl;
+@@ -5858,7 +5910,7 @@
+ bool of_STORE_OBJA(vthread_t thr, vvp_code_t cp)
+ {
+       unsigned idx = cp->bit_idx[0];
+-      unsigned adr = thr->words[idx].w_int;
++      unsigned adr = thr->robotron_word_read<int64_t>(idx);
+ 
+       vvp_object_t val;
+       thr->pop_object(val);
+@@ -5883,7 +5935,7 @@
+ 
+       if (idx != 0) {
+ 	    assert(idx < vthread_s::WORDS_COUNT);
+-	    idx = thr->words[idx].w_uint;
++	    idx = thr->robotron_word_read<uint64_t>(idx);
+       }
+ 
+       vvp_object_t val;
+@@ -5986,7 +6038,7 @@
+ {
+       ELEM value;
+       vvp_net_t*net = cp->net;
+-      unsigned max_size = thr->words[cp->bit_idx[0]].w_int;
++      unsigned max_size = thr->robotron_word_read<int64_t>(cp->bit_idx[0]);
+       pop_value(thr, value, wid); // Pop the value to store.
+ 
+       vvp_queue*queue = get_queue_object<QTYPE>(thr, net);
+@@ -6022,7 +6074,7 @@
+ template <typename ELEM, class QTYPE>
+ static bool store_qdar(vthread_t thr, vvp_code_t cp, unsigned wid=0)
+ {
+-      int64_t idx = thr->words[3].w_int;
++      int64_t idx = thr->robotron_word_read<int64_t>(3);
+       ELEM value;
+       vvp_net_t*net = cp->net;
+       pop_value(thr, value, wid); // Pop the value to store.
+@@ -6036,14 +6088,14 @@
+ 	         << " index (" << idx << "). ";
+ 	    print_queue_value(value);
+ 	    cerr << " was not added." << endl;
+-      } else if (thr->flags[4] != BIT4_0) {
++      } else if (thr->robotron_flag_read(4) != BIT4_0) {
+ 	    cerr << thr->get_fileline()
+ 	         << "Warning: cannot assign to an undefined "
+ 	         << get_queue_type(value) << " index. ";
+ 	    print_queue_value(value);
+ 	    cerr << " was not added." << endl;
+       } else {
+-	    unsigned max_size = thr->words[cp->bit_idx[0]].w_int;
++	    unsigned max_size = thr->robotron_word_read<int64_t>(cp->bit_idx[0]);
+ 	    queue->set_word_max(idx, value, max_size);
+       }
+       return true;
+@@ -6078,7 +6130,7 @@
+ {
+       ELEM value;
+       vvp_net_t*net = cp->net;
+-      unsigned max_size = thr->words[cp->bit_idx[0]].w_int;
++      unsigned max_size = thr->robotron_word_read<int64_t>(cp->bit_idx[0]);
+       pop_value(thr, value, wid); // Pop the value to store.
+ 
+       vvp_queue*queue = get_queue_object<QTYPE>(thr, net);
+@@ -6127,7 +6179,7 @@
+       if (src.test_nil())
+ 	    queue->erase_tail(0);
+       else {
+-	    unsigned max_size = thr->words[cp->bit_idx[0]].w_int;
++	    unsigned max_size = thr->robotron_word_read<int64_t>(cp->bit_idx[0]);
+ 	    queue->copy_elems(src, max_size);
+       }
+ 
+@@ -6182,8 +6234,8 @@
+       ELEM val;
+       pop_value(thr, val, 0);
+ 
+-      if (thr->flags[4] != BIT4_1) {
+-	    unsigned adr = thr->words[idx].w_int;
++      if (thr->robotron_flag_read(4) != BIT4_1) {
++	    unsigned adr = thr->robotron_word_read<int64_t>(idx);
+ 	    cp->array->set_word(adr, val);
+       }
+ 
+@@ -6236,7 +6288,7 @@
+       unsigned off_index = cp->bit_idx[0];
+       unsigned int wid = cp->bit_idx[1];
+ 
+-      int64_t off = off_index ? thr->words[off_index].w_int : 0;
++      int64_t off = off_index ? thr->robotron_word_read<int64_t>(off_index) : 0;
+       unsigned int sig_value_size = sig->value_size();
+ 
+       vvp_vector4_t&val = thr->peek_vec4();
+@@ -6254,7 +6306,7 @@
+ 
+ 	// If there is a problem loading the index register, flags-4
+ 	// will be set to 1, and we know here to skip the actual assignment.
+-      if (off_index!=0 && thr->flags[4] == BIT4_1) {
++      if (off_index!=0 && thr->robotron_flag_read(4) == BIT4_1) {
+ 	    thr->pop_vec4(1);
+ 	    return true;
+       }
+@@ -6281,11 +6333,11 @@
+       unsigned adr_index = cp->bit_idx[0];
+       unsigned off_index = cp->bit_idx[1];
+ 
+-      long adr = adr_index? thr->words[adr_index].w_int : 0;
+-      int64_t off = off_index ? thr->words[off_index].w_int : 0;
++      long adr = adr_index? thr->robotron_word_read<int64_t>(adr_index) : 0;
++      int64_t off = off_index ? thr->robotron_word_read<int64_t>(off_index) : 0;
+ 
+ 	// Suppress action if flags-4 is true.
+-      if (thr->flags[4] == BIT4_1) {
++      if (thr->robotron_flag_read(4) == BIT4_1) {
+ 	    thr->pop_vec4(1);
+ 	    return true;
+       }
+@@ -6358,8 +6410,8 @@
+  */
+ bool of_SUBSTR(vthread_t thr, vvp_code_t cp)
+ {
+-      int32_t first = thr->words[cp->bit_idx[0]].w_int;
+-      int32_t last = thr->words[cp->bit_idx[1]].w_int;
++      int32_t first = thr->robotron_word_read<int64_t>(cp->bit_idx[0]);
++      int32_t last = thr->robotron_word_read<int64_t>(cp->bit_idx[1]);
+       string&val = thr->peek_str(0);
+ 
+       if (first < 0 || last < first || last >= (int32_t)val.size()) {
+@@ -6379,7 +6431,7 @@
+       unsigned sel_idx = cp->bit_idx[0];
+       unsigned wid = cp->bit_idx[1];
+ 
+-      int32_t sel = thr->words[sel_idx].w_int;
++      int32_t sel = thr->robotron_word_read<int64_t>(sel_idx);
+       const string&val = thr->peek_str(0);
+ 
+       assert(wid%8 == 0);
+@@ -6433,9 +6485,9 @@
+       assert(obj);
+ 
+       if (obj->get_object().test_nil())
+-	    thr->flags[4] = BIT4_1;
++	    thr->robotron_flag_slot(4) = BIT4_1;
+       else
+-	    thr->flags[4] = BIT4_0;
++	    thr->robotron_flag_slot(4) = BIT4_0;
+ 
+       return true;
+ }
+@@ -6443,19 +6495,19 @@
+ bool of_TEST_NUL_A(vthread_t thr, vvp_code_t cp)
+ {
+       unsigned idx = cp->bit_idx[0];
+-      unsigned adr = thr->words[idx].w_int;
++      unsigned adr = thr->robotron_word_read<int64_t>(idx);
+       vvp_object_t word;
+ 
+ 	/* If the address is undefined, return true. */
+-      if (thr->flags[4] == BIT4_1) {
++      if (thr->robotron_flag_read(4) == BIT4_1) {
+ 	    return true;
+       }
+ 
+       cp->array->get_word_obj(adr, word);
+       if (word.test_nil())
+-	    thr->flags[4] = BIT4_1;
++	    thr->robotron_flag_slot(4) = BIT4_1;
+       else
+-	    thr->flags[4] = BIT4_0;
++	    thr->robotron_flag_slot(4) = BIT4_0;
+ 
+       return true;
+ }
+@@ -6463,9 +6515,9 @@
+ bool of_TEST_NUL_OBJ(vthread_t thr, vvp_code_t)
+ {
+       if (thr->peek_object().test_nil())
+-	    thr->flags[4] = BIT4_1;
++	    thr->robotron_flag_slot(4) = BIT4_1;
+       else
+-	    thr->flags[4] = BIT4_0;
++	    thr->robotron_flag_slot(4) = BIT4_0;
+       return true;
+ }
+ 
+@@ -6479,7 +6531,7 @@
+ 
+       if (idx != 0) {
+ 	    assert(idx < vthread_s::WORDS_COUNT);
+-	    idx = thr->words[idx].w_uint;
++	    idx = thr->robotron_word_read<uint64_t>(idx);
+       }
+ 
+       vvp_object_t&obj = thr->peek_object();
+@@ -6489,9 +6541,9 @@
+       cobj->get_object(pid, val, idx);
+ 
+       if (val.test_nil())
+-	    thr->flags[4] = BIT4_1;
++	    thr->robotron_flag_slot(4) = BIT4_1;
+       else
+-	    thr->flags[4] = BIT4_0;
++	    thr->robotron_flag_slot(4) = BIT4_0;
+ 
+       return true;
+ }
+@@ -6717,3 +6769,111 @@
+ 
+       return true;
+ }
++
++static int robotron_thread_vector(FILE* out,const vvp_vector4_t& value)
++{
++    if(fprintf(out,"VT_VEC %u ",value.size())<0)return -1;
++    if(!value.size() && fputc('-',out)==EOF)return -1;
++    for(unsigned i=0;i<value.size();++i)if(fputc('0'+(unsigned)value.value(i),out)==EOF)return -1;
++    return fputc('\n',out)==EOF?-1:0;
++}
++int vthread_s::robotron_inventory(FILE* out) const
++{
++    auto id=robotron_thread_id(const_cast<vthread_s*>(this));
++    if(!id || (parent && !robotron_thread_id(parent)) || (wait_next && !robotron_thread_id(wait_next)))return -1;
++    if(fprintf(out,"VT_THREAD %llu %p %p %llu %llu %p %p %p %llu\n",id,(void*)pc,(void*)parent_scope,
++               robotron_thread_id(parent),robotron_thread_id(wait_next),wt_context,rd_context,(void*)event,(unsigned long long)ecount)<0)return -1;
++    if(fprintf(out,"VT_STATE %u%u%u%u%u%u%u%u%u\n",i_am_joining,i_am_detached,i_am_waiting,i_am_in_function,
++               i_have_ended,i_was_disabled,waiting_for_event,is_scheduled,delay_delete)<0)return -1;
++    if(fprintf(out,"VT_FLAGS %u ",(unsigned)FLAGS_COUNT)<0)return -1;
++    for(unsigned i=0;i<FLAGS_COUNT;++i)if(fputc(robotron_flags_valid[i]?'0'+(unsigned)flags[i]:'-',out)==EOF)return -1;
++    if(fprintf(out,"\nVT_WORDS %u",(unsigned)WORDS_COUNT)<0)return -1;
++    for(unsigned i=0;i<WORDS_COUNT;++i){
++        if(!robotron_words_valid[i]){if(fprintf(out," -")<0)return -1;}
++        else if(fprintf(out," %016llx",(unsigned long long)robotron_word_read<uint64_t>(i))<0)return -1;
++    }
++    if(fputc('\n',out)==EOF)return -1;
++    const set<vthread_s*>* sets[]={&children,&detached_children};
++    for(unsigned k=0;k<2;++k){
++        set<unsigned long long> ids;
++        for(auto child:*sets[k]){auto value=robotron_thread_id(child);if(!value)return -1;ids.insert(value);}
++        if(fprintf(out,"VT_CHILDREN %u %zu",k,ids.size())<0)return -1;
++        for(auto value:ids)if(fprintf(out," %llu",value)<0)return -1;
++        if(fputc('\n',out)==EOF)return -1;
++    }
++    const vector<unsigned>* args[]={&args_real,&args_str,&args_vec4};
++    for(unsigned k=0;k<3;++k){
++        if(fprintf(out,"VT_ARGS %u %zu",k,args[k]->size())<0)return -1;
++        for(auto value:*args[k])if(fprintf(out," %u",value)<0)return -1;
++        if(fputc('\n',out)==EOF)return -1;
++    }
++    if(fprintf(out,"VT_STACKS %zu %zu %zu %u\n",stack_vec4_.size(),stack_real_.size(),stack_str_.size(),stack_obj_size_)<0)return -1;
++    for(const auto& value:stack_vec4_)if(robotron_thread_vector(out,value))return -1;
++    for(double value:stack_real_){uint64_t bits;static_assert(sizeof(bits)==sizeof(value),"Unexpected real size");memcpy(&bits,&value,sizeof(bits));
++        if(fprintf(out,"VT_REAL %016llx\n",(unsigned long long)bits)<0)return -1;}
++    for(const auto& value:stack_str_){
++        if(fprintf(out,"VT_STRING %zu ",value.size())<0)return -1;
++        if(value.empty() && fputc('-',out)==EOF)return -1;
++        for(unsigned char c:value)if(fprintf(out,"%02x",(unsigned)c)<0)return -1;
++        if(fputc('\n',out)==EOF)return -1;
++    }
++    for(unsigned i=0;i<stack_obj_size_;++i)if(fprintf(out,"VT_OBJECT %p\n",(void*)stack_obj_[i].peek<vvp_object>())<0)return -1;
++    if(fprintf(out,"VT_SOURCE %u ",lineno_)<0)return -1;
++    if(!filenm_){if(fputc('-',out)==EOF)return -1;}
++    else for(const unsigned char* p=(const unsigned char*)filenm_;*p;++p)if(fprintf(out,"%02x",(unsigned)*p)<0)return -1;
++    return fputc('\n',out)==EOF || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_thread_inventory(FILE* out)
++{
++    if(!out || (running_thread && !robotron_thread_id(running_thread)))return -1;
++    if(fprintf(out,"VT_BEGIN 1 %llu %llu\n",(unsigned long long)schedule_simtime(),robotron_thread_id(running_thread))<0)return -1;
++    map<unsigned long long,vthread_t> ordered;
++    for(const auto& item:robotron_threads())ordered[item.second]=item.first;
++    for(const auto& item:ordered)if(item.second->robotron_inventory(out))return -1;
++    return fprintf(out,"VT_END %zu\n",ordered.size())<0 || ferror(out)?-1:0;
++}
++int vthread_s::robotron_toggle(int field)
++{
++    static vthread_s* saved=0;static int saved_field;static unsigned index;
++    static unsigned scheduled;static vvp_bit4_t flag;static uint64_t word;static vvp_code_t code;static vthread_t next;
++    static vvp_vector4_t vector;static uint64_t real_bits;static string text;
++    if(saved){
++        if(saved!=this || saved_field!=field)return -1;
++        if(field==0)is_scheduled=scheduled;
++        else if(field==1)flags[index]=flag;
++        else if(field==2)memcpy(&words[index],&word,sizeof(word));
++        else if(field==3)pc=code;
++        else if(field==4)wait_next=next;
++        else if(field==5)stack_vec4_[0]=vector;
++        else if(field==6)memcpy(&stack_real_[0],&real_bits,sizeof(real_bits));
++        else stack_str_[0]=text;
++        saved=0;return 1;
++    }
++    if(field<0 || field>7)return -1;
++    if((field==5 && (stack_vec4_.empty() || !stack_vec4_[0].size())) || (field==6 && stack_real_.empty()) || (field==7 && stack_str_.empty()))return 0;
++    if(field==1){for(index=0;index<FLAGS_COUNT && !robotron_flags_valid[index];++index){}if(index==FLAGS_COUNT)return 0;}
++    if(field==2){for(index=0;index<WORDS_COUNT && !robotron_words_valid[index];++index){}if(index==WORDS_COUNT)return 0;}
++    saved=this;saved_field=field;
++    if(field==0){scheduled=is_scheduled;is_scheduled^=1;}
++    else if(field==1){flag=flags[index];flags[index]=flag==BIT4_1?BIT4_0:BIT4_1;}
++    else if(field==2){word=robotron_word_read<uint64_t>(index);uint64_t changed=word^1;memcpy(&words[index],&changed,sizeof(changed));}
++    else if(field==3){code=pc;pc=0;}
++    else if(field==4){next=wait_next;wait_next=wait_next?0:this;}
++    else if(field==5){vector=stack_vec4_[0];stack_vec4_[0].set_bit(0,vector.value(0)==BIT4_1?BIT4_0:BIT4_1);}
++    else if(field==6){memcpy(&real_bits,&stack_real_[0],sizeof(real_bits));uint64_t changed=real_bits^1;memcpy(&stack_real_[0],&changed,sizeof(changed));}
++    else{text=stack_str_[0];stack_str_[0]+="A";}
++    return 1;
++}
++extern "C" int robotron_vvp_thread_toggle(int field)
++{
++    static vthread_t saved=0;static unsigned long long identity;static int saved_field;
++    if(saved){
++        if(robotron_thread_id(saved)!=identity || saved_field!=field)return -1;
++        int r=saved->robotron_toggle(field);if(r==1)saved=0;return r;
++    }
++    map<unsigned long long,vthread_t> ordered;
++    for(const auto& item:robotron_threads())ordered[item.second]=item.first;
++    for(const auto& item:ordered){int r=item.second->robotron_toggle(field);if(r<0)return r;
++        if(r){saved=item.second;identity=item.first;saved_field=field;return 1;}}
++    return 0;
++}
