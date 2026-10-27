@@ -1,0 +1,89 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-raw-delta-controls/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-raw-delta-controls/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-wire-raw-delta-runtime",
+      "-I/private/tmp/k7658-wire-raw-delta-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-raw-delta-controls/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-raw-delta-controls/probe.cc"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-wire-raw-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-wire-raw-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-wire-raw-delta-runtime/vvp/libvvp.so"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-wire-raw-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-wire-raw-delta-runtime/vvp/libvvp.so"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-wire-raw-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-wire-raw-delta-runtime/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-wire-raw-delta-runtime/vvp/libvvp.so": "a0572d57e2c64abf3ed67ca986064d8926bda2efb2f03eda5128c8e8eec54914",
+    "/private/tmp/k7658-wire-raw-delta-runtime/vvp/vvp": "5e3052a2da678c013505b4d053d4422176a05b42af2071aede49cc204dc9c612",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-raw-delta-controls/probe.vpi": "69cf18749dba5b2d98d453b69d5ec8e98c94f597a70c2d4991cfe26e95c4acec",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "wire_raw_delta_probe.py": "e11466d68e21b36a30eb7e95c3913362b18b8923f0ed5e414c91adf48c5d1f11",
+    "wire_raw_probe.py": "0d14b507c4d5e71c6bd5e2cffd3b24b4ab1daa69f3b0a427dfd254c69a66a62b",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "fixtures/wire_raw_delta_probe.cc": "c5e0b510bf20e63c3536e1b8e6cbc21449a950accbee6e1e4037f2b32119bd1c",
+    "fixtures/wire_raw_probe.v": "6d10f11626e6f9eebd7dc713480390223223cc66d4f4b8c7b512ba383b4004c7"
+  }
+}

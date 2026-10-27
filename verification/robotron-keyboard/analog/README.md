@@ -1184,6 +1184,13 @@ reject real filters and vec4/vec8 subclasses before partial output, including
 allocations after a valid observation. Continuation after refusal matches the
 original runtime. Reproduce with `wire_raw_family_probe.py` using the native-probe
 arguments, or replay with `--check reports/wire-raw-families`.
+The [raw byte differences](reports/wire-raw-delta/assessment.json) reconstruct
+native cache snapshots and collision faults from an immutable reference while
+scanning every native field. [Board preflight](reports/wire-raw-delta-budget/assessment.json)
+measures full-scan encoding cost; changing-state output can exceed dense logs.
+Use `build_wire_raw_delta_runtime.py`, `wire_raw_delta_probe.py` and
+`wire_raw_delta_board.py` with the same native-probe and board-budget arguments.
+Both reviewers support `--check` on their respective retained report directories.
 
 The [board wire budget](reports/wire-board-budget/assessment.json) binds every
 allocated filter to its graph identity and native class before execution. It
