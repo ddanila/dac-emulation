@@ -965,3 +965,10 @@ are recorded separately from numerical qualification. Reproduce with
 `audit_scan_benchmark.py --root <retained-controls> --mode observe --out <fresh-assessment>`;
 the benchmark verifies the retained manifest and compares the full scan with its
 original receipt. Keep native captures and large replays out of CI.
+
+`build_code_binding_runtime.py` adds PC lookup against registered allocated code
+slots before reading the opcode. Replay [native binding controls](reports/code-binding/assessment.json)
+with `code_binding_probe.py --check verification/robotron-keyboard/analog/reports/code-binding`.
+Null, foreign and misaligned pointers have no code identity; unused capacity is
+not treated as an instruction. Board integration, full instruction operands and
+their referenced objects remain separate from this binding check.

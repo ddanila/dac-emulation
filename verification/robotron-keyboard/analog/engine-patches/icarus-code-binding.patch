@@ -1,0 +1,110 @@
+--- a/vvp/codes.cc
++++ b/vvp/codes.cc
+@@ -35,6 +35,11 @@
+  */
+ const unsigned code_chunk_size = 1024;
+ 
++#include <vector>
++#include <cstdint>
++struct robotron_code_chunk {vvp_code_t base;unsigned used;};
++static std::vector<robotron_code_chunk>& robotron_code_chunks()
++{static std::vector<robotron_code_chunk> chunks;return chunks;}
+ static struct vvp_code_s *first_chunk = 0;
+ static struct vvp_code_s *current_chunk = 0;
+ static unsigned current_within_chunk = 0;
+@@ -55,6 +60,7 @@
+       current_chunk[code_chunk_size-1].cptr = 0;
+ 
+       current_within_chunk = 1;
++      robotron_code_chunks().push_back({current_chunk,1});
+ 
+       count_opcodes = 0;
+       size_opcodes += code_chunk_size * sizeof (struct vvp_code_s);
+@@ -72,6 +78,7 @@
+ 	    current_chunk[code_chunk_size-1].cptr   = 0;
+ 
+ 	    current_within_chunk = 0;
++            robotron_code_chunks().push_back({current_chunk,0});
+ 
+ 	    size_opcodes += code_chunk_size * sizeof (struct vvp_code_s);
+       }
+@@ -87,6 +94,7 @@
+       count_opcodes += 1;
+ 
+       memset(res, 0, sizeof(*res));
++      robotron_code_chunks().back().used=current_within_chunk;
+ 
+       return res;
+ }
+@@ -99,6 +107,7 @@
+ #ifdef CHECK_WITH_VALGRIND
+ void codespace_delete(void)
+ {
++      robotron_code_chunks().clear();
+       vvp_code_t cur = first_chunk;
+ 
+ 	/* If there are no opcodes then just delete the code space. */
+@@ -132,3 +141,23 @@
+       } while (cur != 0);
+ }
+ #endif
++
++// Validate against separately registered allocated slots before dereferencing.
++// Unused chunk capacity is not an instruction. Chunk links and ZOMBIE are
++// initialized specially and only their opcode is observed here.
++extern "C" unsigned long long robotron_vvp_code_identity(vvp_code_t code,void**opcode)
++{
++    *opcode=0;uintptr_t address=reinterpret_cast<uintptr_t>(code);
++    const auto&chunks=robotron_code_chunks();
++    for(size_t i=0;i<chunks.size();++i) {
++        uintptr_t base=reinterpret_cast<uintptr_t>(chunks[i].base);
++        if(address<base || address-base>=code_chunk_size*sizeof(vvp_code_s))continue;
++        uintptr_t offset=address-base;
++        if(offset%sizeof(vvp_code_s))return 0;
++        unsigned index=offset/sizeof(vvp_code_s);
++        if(index>=chunks[i].used && index!=code_chunk_size-1)return 0;
++        *opcode=reinterpret_cast<void*>(code->opcode);
++        return i*code_chunk_size+index+1;
++    }
++    return 0;
++}
+--- a/vvp/vthread.cc
++++ b/vvp/vthread.cc
+@@ -6856,9 +6856,10 @@
+         else if(field==8)i_am_detached=lifecycle;
+         else if(field==9)delay_delete=lifecycle;
+         else if(field==10)i_am_waiting=lifecycle;
++        else if(field==11)pc=code;
+         saved=0;return 1;
+     }
+-    if(field<0 || field>10)return -1;
++    if(field<0 || field>11)return -1;
+     if((field==8 && !i_am_detached) || (field==9 && (!delay_delete || !i_have_ended)) || (field==10 && !i_am_waiting))return 0;
+     if((field==5 && (stack_vec4_.empty() || !stack_vec4_[0].size())) || (field==6 && stack_real_.empty()) || (field==7 && stack_str_.empty()))return 0;
+     if(field==1){for(index=0;index<FLAGS_COUNT && !robotron_flags_valid[index];++index){}if(index==FLAGS_COUNT)return 0;}
+@@ -6875,6 +6876,7 @@
+     else if(field==8){lifecycle=i_am_detached;i_am_detached=0;}
+     else if(field==9){lifecycle=delay_delete;delay_delete=0;}
+     else if(field==10){lifecycle=i_am_waiting;i_am_waiting=0;}
++    else if(field==11){code=pc;pc=reinterpret_cast<vvp_code_t>(uintptr_t(1));}
+     return 1;
+ }
+ extern "C" int robotron_vvp_thread_toggle(int field)
+@@ -6902,3 +6904,17 @@
+     for(const auto& item:ordered)if(item.second->robotron_inventory(out,true))return -1;
+     return fprintf(out,"VT_END %zu\n",ordered.size())<0 || ferror(out)?-1:0;
+ }
++
++extern "C" unsigned long long robotron_vvp_code_identity(vvp_code_t,void**);
++extern "C" int robotron_vvp_thread_code_inventory(FILE*out)
++{
++    if(!out)return -1;
++    fprintf(out,"VTC_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime());
++    map<unsigned long long,vthread_t>ordered;
++    for(auto item:robotron_threads())ordered[item.second]=item.first;
++    for(auto item:ordered) {
++        void*opcode=0;auto code=robotron_vvp_code_identity(item.second->pc,&opcode);
++        fprintf(out,"VTC_THREAD %llu %p %llu %p\n",item.first,(void*)item.second->pc,code,opcode);
++    }
++    fprintf(out,"VTC_END %zu\n",ordered.size());return ferror(out)?-1:0;
++}

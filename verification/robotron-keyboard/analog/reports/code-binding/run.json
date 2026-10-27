@@ -1,0 +1,93 @@
+{
+  "qualified": false,
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/code-binding-probe-reviewed/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/code-binding-probe-reviewed/probe.v"
+    ],
+    [
+      "cc",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-code-binding-runtime-v2",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/code-binding-probe-reviewed/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/code-binding-probe-reviewed/probe.c"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-code-binding-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-code-binding-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-code-binding-runtime-v2/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-code-binding-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-code-binding-runtime-v2/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-code-binding-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-code-binding-runtime-v2/vvp/libvvp.so",
+      "mode": "corrupt"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-code-binding-runtime-v2/vvp/libvvp.so": "60c0facb88df77c85a89d4354011bc16cc8cd6d618ac91bf9cd085b44d950958",
+    "/private/tmp/k7658-code-binding-runtime-v2/vvp/vvp": "9b1698ed0a7106a5d1379d3bb7f4151a4a878d85c95c3d695d735a6db1f3908c",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/code-binding-probe-reviewed/probe.vpi": "b24424697e59d5a8aea8778fab8684687a70757ef41287d0b4a3baaa96f93792",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "candidateBuildSha256": "abaceb75525738ceb5402da9c27ab6ee593411a1ee2f7490f1a0202d4375c2d5",
+  "sources": {
+    "code_binding_probe.py": "70ba76a8f70d2d28b71e120ae806fce1c291bbb252fb95a28d6f05a059eb2789",
+    "thread_probe.py": "e417d8847665bd440683c22b89b2401ea9d9a051c0f54ee03d1b903cf3f8b653",
+    "thread_compact_probe.py": "3edbf97d7dd5483c1ed90f18e4c58f86d37635fe042e4e47d4714fe2f4418cba",
+    "fixtures/code_binding_probe.c": "f978492e7d07b09f8dd130e117806ea3cfe9b5cb249316e4a13814d97360f0c8",
+    "fixtures/code_binding_probe.v": "dd07308f0fe6e9149403274cd795926c117d134be1022a568cf72baf4e0b7854"
+  }
+}
