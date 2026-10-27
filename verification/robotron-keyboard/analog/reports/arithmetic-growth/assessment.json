@@ -1,0 +1,29 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "normalTrajectoryExactlyEqual": true,
+  "outputMatchesIndependentOracle": true,
+  "restoredFaults": 292,
+  "faultsByField": {
+    "0": 73,
+    "1": 73,
+    "2": 73,
+    "3": 73
+  },
+  "observationsPerRun": 13,
+  "allocationGrowth": [
+    1,
+    6
+  ],
+  "scope": "Five arithmetic objects allocated after a fixed one-object reference: 80-bit sum/subtraction/logical equality/case equality/case inequality operands, configured width and X fallback payload. Full and partial inputs, X/Z, unchanged-output cache writes and restored native faults preserve original-runtime output.",
+  "notEstablished": [
+    "Deletion and freed-storage equivalence",
+    "Other widths, empty operands and non-vector input paths",
+    "Board binding, budgets, integration and general rollback"
+  ],
+  "denseAndDeltaExactlyEqual": true,
+  "matchedSnapshots": 636,
+  "denseBytes": 965156,
+  "deltaBytes": 1891498,
+  "referenceBytes": 314
+}
