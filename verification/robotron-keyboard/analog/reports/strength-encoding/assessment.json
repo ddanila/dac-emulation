@@ -1,0 +1,30 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "originalAndCandidateExactlyEqual": true,
+  "reachableScalarStates": 127,
+  "constructorInputs": 256,
+  "resolutionPairs": 16129,
+  "tripletsInjectiveOnConstructorResolutionClosure": false,
+  "encodingLossDetected": true,
+  "collisions": [
+    {
+      "rawBytes": [
+        0,
+        136
+      ],
+      "triplet": [
+        2,
+        0,
+        0
+      ],
+      "scalarEqual": false,
+      "vectorEqual": false
+    }
+  ],
+  "scope": "Native scalar constructor and binary resolve closure. Distinct reachable raw bytes can share a logical-value/strength0/strength1 triplet while native scalar and vector equality distinguish them. Triplets are insufficient for exact cache-state evidence. All pairwise native resolution results remain in the enumerated closure.",
+  "notEstablished": [
+    "States created by switch-strength reduction, raw-byte mutation or other producers",
+    "Concatenation payload/wrapper coverage, board reachability and general rollback"
+  ]
+}
