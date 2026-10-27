@@ -1665,3 +1665,14 @@ internal-object payloads, deletion/address reuse, exhaustive initialization-only
 proof and operational board integration/cost remain open. Running campaigns retain
 their earlier pinned runtime. Build with `build_scope_metadata_runtime.py` and
 reproduce with `scope_metadata.py` using the paths in the retained receipts.
+
+The [scope metadata record controls](reports/scope-metadata-records/assessment.json)
+parse all 32 retained native images without dropping name bytes, function fields,
+time backreferences or internal-object ordering. The versioned parser rejects
+truncation, invalid counts/ranges, duplicate scope identities, unknown families,
+foreign time/parent references and inconsistent object types. Semantic review
+checks the actual faulted field and exact restoration; malformed-image tests also
+reject unrelated field changes. This prepares the record layer for integration;
+object IDs are not yet bound to other observers, and no board state/cost claim is
+made. Regenerate with `scope_metadata_records.py reports/scope-metadata/enabled.stdout
+--out NEW_REPORT.json`; run `python3 -m unittest test_scope_metadata_records`.
