@@ -17,7 +17,7 @@ class ArraySourceContract(unittest.TestCase):
     def test_unknown_alias_automatic_and_duplicate_rejected(self):
         for extra in ('B .array/alias A;\n','B .array/net "nets", 1 0;\n',ARRAY,
                       'P .array/port MISSING, 0;\n','P .array/port A, 0;\nP .array/port A, 1;\n',
-                      'Z .scope task, "a" "a" 1 1, 1 1 1, S;\nB .array "a", 1 0, 7 0;\n'):
+                      'Z .scope autotask, "a" "a" 1 1, 1 1 0, S;\nB .array "a", 1 0, 7 0;\n'):
             with self.assertRaises(ValueError):profile(BASE+ARRAY+extra)
 
     def test_retained_board_profile(self):

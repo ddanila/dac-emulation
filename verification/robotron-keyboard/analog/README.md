@@ -1048,5 +1048,15 @@ The [array source contract](reports/array-source-contract/assessment.json) ident
 compiled memories and read ports, and distinguishes word storage from cached
 addresses, port links, callbacks and lazily allocated VPI word handles. Observation
 must not allocate those handles or propagate a fault through the normal setter.
-Native array controls remain required. Regenerate with
+Regenerate the source contract with
 `array_source_contract.py --archive PINNED_ARCHIVE --vvp COMPILED_BOARD --out REPORT`.
+
+The [native array controls](reports/array-state/assessment.json) cover static
+four-state words, cached read addresses, port links and existing word-handle
+ownership, with restored faults and unchanged continuation. Automatic contexts,
+two-state arrays and registered array callbacks are refused. Scope type determines
+automatic allocation; the compiled cell flag does not. Alias refusal controls,
+board integration/budgets and destination net/fanout contents remain open.
+Build with `build_array_runtime.py`; run
+`array_probe.py --candidate RUNTIME --baseline ORIGINAL_LIB --modules MODULES --out NEW_DIR`
+or replay with `array_probe.py --check reports/array-state`.

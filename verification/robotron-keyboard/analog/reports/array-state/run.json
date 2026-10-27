@@ -1,0 +1,263 @@
+{
+  "qualified": false,
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-DARRAY_AUTO",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/auto.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/unsupported.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-DARRAY_TWO",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/two.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/unsupported.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-DARRAY_CALLBACK",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/callback.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/unsupported.v"
+    ],
+    [
+      "cc",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-array-runtime-v3",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/probe.c"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "auto-baseline": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "auto.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "two-baseline": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "two.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "callback-baseline": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "callback.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "auto-disabled": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "auto.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "two-disabled": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "two.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "callback-disabled": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "callback.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "auto-enabled": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "auto.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "two-enabled": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "two.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "callback-enabled": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "callback.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "corrupt"
+    },
+    "auto-corrupt": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "auto.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "corrupt"
+    },
+    "two-corrupt": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "two.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "corrupt"
+    },
+    "callback-corrupt": {
+      "command": [
+        "/private/tmp/k7658-array-runtime-v3/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "callback.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so",
+      "mode": "corrupt"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-array-runtime-v3/vvp/libvvp.so": "ce0a3832538ae75bc319da1a935e7a100c0a812df84f8b777390db931ff17818",
+    "/private/tmp/k7658-array-runtime-v3/vvp/vvp": "2b706b374f2164d3dce12bdda7771479fe32f3330f785b99cb6eb0c5833a0d6a",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-probe-final/probe.vpi": "0f089ec4992046a25a92817de9860b941aba370f869cd905f50cc127e34aecc2",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "candidateBuildSha256": "53bc8f34452750d7684df37cda6f90bf7d7ecb5f40054967216de5673182436c",
+  "sources": {
+    "array_probe.py": "bd09dcb086d9b27667fd13d4d35147b6b1bdb92cdaa8c14c426ade4fe9880371",
+    "array_source_contract.py": "0e1abc5999a95c00a1b5cb7e90a34c8752c341d0c8d787c9c490c99967808d1a",
+    "compiled_scope_profile.py": "4acc4b6a1aeb13cbc48823b633889804ca530be2b639be5f2e49e4df0a3e9de4",
+    "thread_board_reachability.py": "976ec28674d1d936255364c9cb42235aed8cf6ba3c15400e6661b6ebb5ea1440",
+    "fixtures/array_probe.c": "c165c31ed3bbd4b56c9feb5696b214d683d38b3d528db63a848c732480412caf",
+    "fixtures/array_probe.v": "98689a1be1a9aed2c344210aef0539c9a8d2a27e491d29f57ab235828dd4ecbe",
+    "fixtures/array_unsupported.v": "5719ffb5172be04a291266e0d6c09235e6059702c1474c42d1d2656ea3f198d3"
+  }
+}
