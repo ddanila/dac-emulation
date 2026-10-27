@@ -1,0 +1,31 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "nativeAllocationGrowth": [
+    1,
+    2,
+    3
+  ],
+  "newMuxPendingFaultWidths": [
+    3,
+    80
+  ],
+  "outputMatchesIndependentOracle": true,
+  "normalTrajectoryExactlyEqual": true,
+  "observationsPerRun": 14,
+  "restoredFaults": 62,
+  "faultsByField": {
+    "0": 14,
+    "1": 14,
+    "2": 14,
+    "3": 14,
+    "4": 6
+  },
+  "scope": "Native muxes allocated after the fixed delta reference, with constructor, queued, executing, drained and partial-write cache states; exact original-runtime continuation and restored faults.",
+  "notEstablished": [
+    "Board integration and operational allocation growth",
+    "Mux deletion, freed storage or general rollback"
+  ],
+  "denseAndDeltaExactlyEqual": true,
+  "matchedSnapshots": 180
+}

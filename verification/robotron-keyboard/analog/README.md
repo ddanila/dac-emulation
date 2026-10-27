@@ -1297,8 +1297,13 @@ complete native snapshots from immutable per-mux references and byte splices.
 Every frame includes complete queued/executing wrapper records; removed wrappers
 are not inherited. Native scans still visit every cache and queue. Missing or
 reset references are refused; new mux records require full data, and disappearing
-reference muxes are refused. Decoder tests cover newly introduced identities;
-operational allocation growth still needs native board validation.
+reference muxes are refused. The [native allocation controls](reports/mux-growth/assessment.json)
+create muxes after reference initialization, preserving their constructor,
+queued/executing and drained states, partial writes and restored pending-target
+faults. Live mux and wrapper identities must remain bound. Operational board
+allocation changes and deletion/freed storage remain separate. Run
+`mux_growth_probe.py` with the same native paths, or replay with
+`mux_growth_probe.py --check reports/mux-growth`.
 The [initial-state budget](reports/mux-delta-budget/assessment.json) measures
 full-scan encoding and exact graph/class-bound reconstruction. Changed fixture
 states can encode larger than dense snapshots, so unchanged-state savings are
