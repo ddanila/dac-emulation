@@ -1,0 +1,152 @@
+{
+  "qualified": false,
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-probe-final/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-probe-final/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-probe-final/unsupported.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-probe-final/unsupported.v"
+    ],
+    [
+      "cc",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-scope-runtime",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-probe-final/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-probe-final/probe.c"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-scope-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "unsupported-baseline": {
+      "command": [
+        "/private/tmp/k7658-scope-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "unsupported.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-scope-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-scope-runtime/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "unsupported-disabled": {
+      "command": [
+        "/private/tmp/k7658-scope-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "unsupported.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-scope-runtime/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-scope-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-scope-runtime/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "unsupported-enabled": {
+      "command": [
+        "/private/tmp/k7658-scope-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "unsupported.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-scope-runtime/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-scope-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-scope-runtime/vvp/libvvp.so",
+      "mode": "corrupt"
+    },
+    "unsupported-corrupt": {
+      "command": [
+        "/private/tmp/k7658-scope-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "unsupported.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-scope-runtime/vvp/libvvp.so",
+      "mode": "corrupt"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-scope-runtime/vvp/libvvp.so": "aa8889a4493083f5975993ac15b2b11840d4fce50f27eb2e118aa48de8b9b5c3",
+    "/private/tmp/k7658-scope-runtime/vvp/vvp": "bc30ee39ba5b62cc2959ead7e123822ec8f78eeeb4f4757d74f6ccd46cc9ef62",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-probe-final/probe.vpi": "8f838a4b289f736fa020e89872454323e1e8c4cbc0b40588bba060be21015b84",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "candidateBuildSha256": "4e3ea0b938b4e6188241339dd9fd30f9512fa6163ec0faba362f6c84808a0928",
+  "sources": {
+    "scope_probe.py": "dc38ea02d6479e8ed811df85936f966978afe0e7637a48e83de5daa47079b84e",
+    "thread_board_reachability.py": "976ec28674d1d936255364c9cb42235aed8cf6ba3c15400e6661b6ebb5ea1440",
+    "thread_lifecycle_probe.py": "6da2239cd5989f07c1f4fa1b80b452ffd968d2e870be7c8c33a81719b8205f98",
+    "thread_probe.py": "e417d8847665bd440683c22b89b2401ea9d9a051c0f54ee03d1b903cf3f8b653",
+    "thread_compact_probe.py": "3edbf97d7dd5483c1ed90f18e4c58f86d37635fe042e4e47d4714fe2f4418cba",
+    "thread_board_review.py": "2c29d69f88bf6a896ac1651c3d3f9187f4e30854da1d37e61d886658d70fe8b1",
+    "fixtures/scope_probe.c": "449df1b6ae1b49b786210036026610dffa5062342fe1409eb441e5cecfe2d1e0",
+    "fixtures/scope_probe.v": "32044e4394c3c5bb3b1b0804745b397f162178f8abc048d473bcbd7320adcb98",
+    "fixtures/scope_unsupported.v": "8f77218be1fcc610cb562dc1d8d6cd66eae13ad59a44242f027b71c844322ed0"
+  }
+}

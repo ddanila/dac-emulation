@@ -1,0 +1,35 @@
+{
+  "completed": true,
+  "qualified": false,
+  "simulationOutputExactlyEqual": true,
+  "normalStateTrajectoryExactlyEqual": true,
+  "restoredFaults": 8,
+  "faultsByField": {
+    "8": 5,
+    "9": 1,
+    "10": 2
+  },
+  "observedStateFamilies": [
+    "deferred-delete",
+    "deletion-queue",
+    "detached",
+    "disabled-pending-zombie",
+    "storage-reused-with-fresh-identity",
+    "wait-fork"
+  ],
+  "scope": "Static scope hierarchy and actual membership across thread lifecycle; restored membership faults preserve all preceding thread/queue controls and complete output.",
+  "notEstablished": [
+    "Automatic scopes/context contents",
+    "Board integration",
+    "Scope intern contents, code operands, net/array/fanout state",
+    "Freed storage or general rollback"
+  ],
+  "scopeMembershipControlsPassed": true,
+  "restoredScopeFaults": 7,
+  "scopeCoverage": [
+    "disabled-pending-zombie",
+    "empty-scope",
+    "reaped-deferred-delete"
+  ],
+  "automaticScopeRefusalPassed": true
+}
