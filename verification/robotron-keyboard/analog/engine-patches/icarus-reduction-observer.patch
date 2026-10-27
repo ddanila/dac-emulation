@@ -1,0 +1,85 @@
+--- a/vvp/reduce.cc
++++ b/vvp/reduce.cc
+@@ -35,6 +35,8 @@
+ 
+     public:
+       vvp_reduce_base();
++      int robotron_reduction_inventory(FILE*) const;
++      int robotron_reduction_toggle(int);
+       virtual ~vvp_reduce_base() override;
+ 
+       void recv_vec4(vvp_net_ptr_t prt, const vvp_vector4_t&bit,
+@@ -281,3 +283,42 @@
+       vvp_reduce_xnor* reduce = new vvp_reduce_xnor;
+       make_reduce(label, reduce, arg);
+ }
++
++int vvp_reduce_base::robotron_reduction_inventory(FILE* out) const
++{
++    if(fprintf(out,"%u ",bits_.size())<0)return -1;
++    if(!bits_.size() && fputc('-',out)==EOF)return -1;
++    for(unsigned j=0;j<bits_.size();j++)if(fputc('0'+(unsigned)bits_.value(j),out)==EOF)return -1;
++    return fputc('\n',out)==EOF || ferror(out)?-1:0;
++}
++int vvp_reduce_base::robotron_reduction_toggle(int field)
++{
++    static vvp_reduce_base* saved=0;static int saved_field;static vvp_vector4_t bits;
++    if(field<0 || field>1)return -1;
++    if(saved){if(saved!=this || field!=saved_field)return -1;bits_=bits;saved=0;return 1;}
++    if(field==0 && !bits_.size())return 0;
++    bits=bits_;
++    if(field==0)bits_.set_bit(0,bits_.value(0)==BIT4_1?BIT4_0:BIT4_1);
++    else bits_=vvp_vector4_t(bits_.size()+1,BIT4_X);
++    saved=this;saved_field=field;return 1;
++}
++#include <typeinfo>
++extern "C" int robotron_reduction_kind(vvp_net_fun_t* fun)
++{
++    if(!fun)return 0;
++    if(typeid(*fun)==typeid(vvp_reduce_and))return 1;
++    if(typeid(*fun)==typeid(vvp_reduce_or))return 2;
++    if(typeid(*fun)==typeid(vvp_reduce_xor))return 3;
++    if(typeid(*fun)==typeid(vvp_reduce_nand))return 4;
++    if(typeid(*fun)==typeid(vvp_reduce_nor))return 5;
++    if(typeid(*fun)==typeid(vvp_reduce_xnor))return 6;
++    return dynamic_cast<vvp_reduce_base*>(fun)?-1:0;
++}
++extern "C" int robotron_reduction_payload(vvp_net_fun_t* fun,FILE* out)
++{
++    return robotron_reduction_kind(fun)>0?static_cast<vvp_reduce_base*>(fun)->robotron_reduction_inventory(out):-1;
++}
++extern "C" int robotron_reduction_fault(vvp_net_fun_t* fun,int field)
++{
++    return robotron_reduction_kind(fun)>0?static_cast<vvp_reduce_base*>(fun)->robotron_reduction_toggle(field):-1;
++}
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -4462,3 +4462,28 @@
+     }
+     return fprintf(out,"VAD_END %zu\n",changed)<0 || ferror(out)?-1:0;
+ }
++
++extern "C" int robotron_reduction_kind(vvp_net_fun_t*);
++extern "C" int robotron_reduction_payload(vvp_net_fun_t*,FILE*);
++extern "C" int robotron_reduction_fault(vvp_net_fun_t*,int);
++extern "C" int robotron_vvp_reduction_inventory(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations()){
++        int kind=robotron_reduction_kind(item.first->fun);if(kind<0)return -1;
++        if(kind)nodes[item.second]=item.first;
++    }
++    if(fprintf(out,"VRD_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:nodes){
++        auto fun=item.second->fun;
++        if(fprintf(out,"VRD_NODE %llu %p %p %d ",item.first,(void*)item.second,(void*)fun,robotron_reduction_kind(fun))<0)return -1;
++        if(robotron_reduction_payload(fun,out))return -1;
++    }
++    return fprintf(out,"VRD_END %zu\n",nodes.size())<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_reduction_toggle(unsigned long long id,int field)
++{
++    for(auto item:robotron_net_allocations())if(item.second==id)return robotron_reduction_fault(item.first->fun,field);
++    return -1;
++}
