@@ -1,0 +1,9 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "parameters": 4,
+  "releaseCallsPerRun": 16,
+  "exactInventoryPreservations": 16,
+  "originalVpiAndHdlContinuationExactlyEqual": true,
+  "scope": "Two rounds of vpi_free_object and vpi_release_handle on four scope-owned binary/wide/real/string parameters return success while preserving handle identity, owner, size, VPI values and exact native inventory. Original/disabled/enabled HDL continuation matches. These public APIs suppress deletion for these classes; native destruction, address reuse, teardown and general lifecycle qualification remain open."
+}
