@@ -1,0 +1,615 @@
+{
+  "qualified": false,
+  "commit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "commands": [
+    [
+      "tar",
+      "-xzf",
+      "/private/tmp/k7658-icarus-pinned.tar.gz",
+      "--strip-components=1"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-queue-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-family-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-callback-payload-link.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-single-display-runtime.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-executing-wrapper-link.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-executing-event.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-value-callback-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-startup-callback-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-assignment-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-primitive-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-island-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-island-queue.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-island-filter.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-thread-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-thread-queue.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-wait-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-thread-lifecycle.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-code-binding.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-scope-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-code-operands.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-array-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-array-compact.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-net-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-net-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-net-types.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-wire-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-wire-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-signal-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-signal-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-mux-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-mux-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-gate-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-gate-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-arithmetic-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-arithmetic-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-reduction-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-reduction-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-wire-raw.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-wire-raw-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-concat-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-concat-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-resolver-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-resolver-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-island-raw.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-island-raw-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-assignment-raw.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-assignment-dispatch.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-callback-lists.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-callback-words.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-callback-delta.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-signal-handles.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-callback-signal-links.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-typed-signal-faults.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-signal-scope-scan.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-scope-admission.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-scope-metadata.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-scope-metadata-bindings.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-scope-metadata-compact.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-scope-metadata-faults.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-port-payload.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-port-payload-faults.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-scope-signals.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-scope-signal-faults.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-parameter-payload.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-parameter-faults.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-memory-metadata.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-array-admission.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-array-cache-admission.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-memory-faults.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-array-port-class.patch"
+    ],
+    [
+      "sh",
+      "autoconf.sh"
+    ],
+    [
+      "./configure",
+      "--enable-libvvp",
+      "--prefix=/private/tmp/k7658-array-port-class-runtime/install",
+      "YACC=/opt/homebrew/Cellar/bison/3.8.2/bin/bison"
+    ],
+    [
+      "make",
+      "version_tag.h",
+      "version.exe"
+    ],
+    [
+      "make",
+      "-C",
+      "vvp",
+      "-j2"
+    ],
+    [
+      "make",
+      "-C",
+      "vpi",
+      "-j2",
+      "system.vpi"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-display-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-display-payload-link.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-single-display-module.patch"
+    ],
+    [
+      "make",
+      "-C",
+      "vpi",
+      "-j2",
+      "system.vpi"
+    ]
+  ],
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "sources": {
+    "build_display_association.py": "e3b1faf9c67f574982867ce4299bb58031d617198dfe624d6eacd44fe99fcf83",
+    "build_private_queue_observer.py": "cb1fb9722c972231c1c943d2df1a65909836edcd6642c590d67e9145475b6728",
+    "engine-patches/icarus-queue-observer.patch": "37dde672e6c8b0645153da87a5c5a8d0d167aa0225a66c8488bda7fccb9e6eb6",
+    "engine-patches/icarus-sync-observer.patch": "e8056d699a3f27405ed3e7da613154b55530d6e794d6412765caa76cfc1bc085",
+    "engine-patches/icarus-sync-family-observer.patch": "3447876a59ec9d53a42e8e75b06d77349fe3d5e53d17cb3e445e0e08dd272ff9",
+    "engine-patches/icarus-callback-payload-link.patch": "1aedf06846d21b5881ccbf0fceb77be29c9df84d757c5616ac3e72b5ab9a4764",
+    "engine-patches/icarus-single-display-runtime.patch": "b4c80e9d1b96293fdde7e0712d6139c49cad143468250c9f31c10a4d85b7b214",
+    "engine-patches/icarus-executing-wrapper-link.patch": "185066400e3848e165114c80a9f6f340c62c5e050fd5da6adc2be31993d822fe",
+    "engine-patches/icarus-executing-event.patch": "220b2608290d8faad4b44aed12ee3ff6712d8041c8faebe189838f49fa41da9a",
+    "engine-patches/icarus-value-callback-observer.patch": "013d6aa94aaa30f8461311a96bd75cd88f3d4d55cb9fa8d6d30cd8b72aeed3ce",
+    "engine-patches/icarus-startup-callback-observer.patch": "08ad0d2d4d7519aa1a208e6a5f4c049d2394e47de6b364169a48119c6291709e",
+    "engine-patches/icarus-assignment-observer.patch": "29cd99fcf452f00aa53df39080037576fadb05b4865b24a59d0a77e39f156e6a",
+    "engine-patches/icarus-primitive-observer.patch": "3bd8c244ef2680e3ab6ccead205656ab0d1b2d9469bd9845f7df081dd88c58bc",
+    "engine-patches/icarus-island-observer.patch": "661454521d4d2059f32aad725fd2737912878ee0ee73d8e67f0330894bdbb902",
+    "engine-patches/icarus-island-queue.patch": "879635c4f8fd4267c7afeda4b806ff438f1d253d9fb7cb3b96eb08c3eb73ce4e",
+    "engine-patches/icarus-island-filter.patch": "d445995edf3b0b5c67190db8bf650a5aa090ede6f51a763da2449bbe2c820c44",
+    "engine-patches/icarus-thread-observer.patch": "40de71d5e6e2dbca5e3160ca0a5c6757b43a5c187d295b04076dd901cf79dce1",
+    "engine-patches/icarus-thread-queue.patch": "cb192b149ace33d7169b09184865deba228e3dce4197e6eb31bbe8e4771ec4df",
+    "engine-patches/icarus-wait-observer.patch": "9b117c7ec7ff62a92b527ba17d7f9763f7fcce7809b435e9c74aef4a0fce1787",
+    "engine-patches/icarus-thread-lifecycle.patch": "1bffcdd24ac7f9d759b2b629627e6b38bfad6739e06c3fa1fb81f01540c2b934",
+    "engine-patches/icarus-code-binding.patch": "6521c92b118aade966a0fa9d504a757b6369f5427c2315873a8766bad3ac74b0",
+    "engine-patches/icarus-scope-observer.patch": "adee83495d4c9473d4eac3b89f39fd0735467fc86e2c280128a71426dc36c79a",
+    "engine-patches/icarus-code-operands.patch": "0b9392de250ede054e311e0fe05c599ab7ce7c6d56de4bbb4d3f05d9b8381ede",
+    "engine-patches/icarus-array-observer.patch": "2eae145cb00bd6ab2515b9d35b5eb0def6e5a8c741c114d858d4816e0e6095d1",
+    "engine-patches/icarus-array-compact.patch": "616d3e415af97bd82fb079a3d69e28d1629b22d9c4620509b11f957a3cfea0ca",
+    "engine-patches/icarus-net-observer.patch": "038db04b943e418d050e5968e6723d6fddf79e28508e0a0d641327fd8c4f8a0d",
+    "engine-patches/icarus-net-delta.patch": "db4a08ee9bf945aff7ff26cabb262f03a7c58b81b78ada5cd2ff4ddba4353b63",
+    "engine-patches/icarus-net-types.patch": "941d10eb26b2e102f0a37b0e5d28b314dca9f272f7590e9de2152de81693714b",
+    "engine-patches/icarus-wire-observer.patch": "825ee87588305fa428e548929900842b86241e07c8934e3a9ac214a0a25d20dc",
+    "engine-patches/icarus-wire-delta.patch": "f6ba003c734b010e11a9014787e99fa508de04bf43298356da540756e87c85ec",
+    "engine-patches/icarus-signal-observer.patch": "732fc18bdaf968e5efc696a9cbbd3f2d919624bf50b00436952eec3cf92ac7d0",
+    "engine-patches/icarus-signal-delta.patch": "f6682493c7c168a9b94d9f6f7fd148a5260b4cb73d1d9fbb6706cdf6b7416d49",
+    "engine-patches/icarus-mux-observer.patch": "b9dace39afb282a789bf92e1308b0c798a68cc197a74c20a003379f3bbf30290",
+    "engine-patches/icarus-mux-delta.patch": "ea0caec1a801b7d79d9163b136433ed04e13fd1bb85025d6df46502da1bccb22",
+    "engine-patches/icarus-gate-observer.patch": "609866e0b5243d91f156cf6cb46bf55c38dc896255a48d86fa7c09edbd28262f",
+    "engine-patches/icarus-gate-delta.patch": "f6fc5b921030d529d9977192024c347c422159a2a795559b4d1f148d8a4287da",
+    "engine-patches/icarus-arithmetic-observer.patch": "0c69ba2fd66428e41e873bccf7ecf727216376485c85092877a7f30108797e09",
+    "engine-patches/icarus-arithmetic-delta.patch": "e846c4db87fa9d1377253163528ed23fb846fbd36dfd811bae93b6f6b43d6ee4",
+    "engine-patches/icarus-reduction-observer.patch": "f45136a4cd147506387c5a59e7b1f2431644be6fa048186624f5c4b453cc22e7",
+    "engine-patches/icarus-reduction-delta.patch": "31f43afe005d4edac1428b656426b3f05ae5e896402fe0b0cd147e7f16463e80",
+    "engine-patches/icarus-wire-raw.patch": "47520dcf9cb944b3ec66b3f98ed635d8fcd9ba1a5bdd630fdc0c206e0569ed44",
+    "engine-patches/icarus-wire-raw-delta.patch": "7a46a33d7157d09e36c8a6234bbdba934259d3eef6618035280db3edb01dae3f",
+    "engine-patches/icarus-concat-observer.patch": "8e3d793d5efd747ac395dc30dcca2d01ed73c5b742e184a82d62fc698452e3af",
+    "engine-patches/icarus-concat-delta.patch": "f23e11a26f7a0a21b5d2c621428ff31f5ab2673c231ac0085f2d2c52a498a036",
+    "engine-patches/icarus-resolver-observer.patch": "3306a5cc999536e99888aa0e369255ac43307fb3aa959540e22497fd0eb078d1",
+    "engine-patches/icarus-resolver-delta.patch": "ebc8e721f7f1646614d9e76e7ee2974983aeca235c56fbc732ed031466e3276f",
+    "engine-patches/icarus-island-raw.patch": "a2f64a54df16f0e65368ab5eaa010badc1a08292512eba4339a79f969bf17e43",
+    "engine-patches/icarus-island-raw-delta.patch": "e69698cca5f9153b842a2999574ce87a1b71215fe82fe95497d7921961c1a2b0",
+    "engine-patches/icarus-assignment-raw.patch": "6b51f4d0e6a7599c3d36d605d7f6754ac8bc9cc181de317bb44a3dc6c35c94c6",
+    "engine-patches/icarus-assignment-dispatch.patch": "49c39e66452ed3c7abcbd979786301afd680b5a336884091620dfb608c778ec5",
+    "engine-patches/icarus-callback-lists.patch": "470fadcc34d32661b9c6321aeacad90cb6d258e9c5ffc9fb65e4dc632470f0bc",
+    "engine-patches/icarus-callback-words.patch": "87dc48a0b0772fc318d7de06e5915a02f4c1e3c3f2fa782584a84e57a5fba2a6",
+    "engine-patches/icarus-callback-delta.patch": "593d90e87df05dba35ae302ed06d570cee74dcd5e06e48ece00181cd7f6613c7",
+    "engine-patches/icarus-signal-handles.patch": "5e268b0029f5f715b7599f99762fff0285ceb79b564d0c8ed308d54e3f102a80",
+    "engine-patches/icarus-callback-signal-links.patch": "bdd130d0a98b0fbef08048730f0a6ca3dd6a50b7763d7f7c38a38b2e9957f3ff",
+    "engine-patches/icarus-typed-signal-faults.patch": "08f039df181735b5680b63673aabccbad62139efd39844a68fda441cb0b1c122",
+    "engine-patches/icarus-signal-scope-scan.patch": "0a72eec96f8317110c904d5550590ac7e1a321921896b66e0f57604253121dbf",
+    "engine-patches/icarus-scope-admission.patch": "399a5d9d2ea2046dec31a07c81c9b1e110cda73f508c6480558d989987e758cb",
+    "engine-patches/icarus-scope-metadata.patch": "c715b3a4e9b5b955ee33bfc21f01a0a04683844240581c707956ca6ad86eedd9",
+    "engine-patches/icarus-scope-metadata-bindings.patch": "7b24e99332336c09175f5939f2a9791870666f2c461a89359cc108b407892dac",
+    "engine-patches/icarus-scope-metadata-compact.patch": "2503bb1aec3e7e0787a0ad4668a78f0ba09be151086184d6996fb5e7b1c85a76",
+    "engine-patches/icarus-scope-metadata-faults.patch": "350eafe5066862a4b0ff67978a426c52175afb5f1aa11e35c62d1b69e35f2f9b",
+    "engine-patches/icarus-port-payload.patch": "bdc4f7c5313f8edd6e4e443405f50a127b1980ea17b93c5cc44a379d162c4098",
+    "engine-patches/icarus-port-payload-faults.patch": "a229d321b5f9731153a83b8bb2bb300a6c824ac06db27fda3d01abf2a4acb989",
+    "engine-patches/icarus-scope-signals.patch": "7c778cb7ba4df30e936c0be602565584ea9453fe28f60febd3a8a41fb74d1644",
+    "engine-patches/icarus-scope-signal-faults.patch": "32a7d8ce65268946ed37753affda2e4cddaf2525f247017de0d01a74df77fdec",
+    "engine-patches/icarus-parameter-payload.patch": "79756ec864e5dd147ad1371c458218270c323bc18448a454b4fcb7f7cfee370f",
+    "engine-patches/icarus-parameter-faults.patch": "0b7a4b39ba690eb454d3dcdb56bf390421ddb9d84dd823f97a918b63f197bf28",
+    "engine-patches/icarus-memory-metadata.patch": "17b11e875738ce0f2af68800c161e42f2915c685967cf473d76b7235edf4210b",
+    "engine-patches/icarus-array-admission.patch": "b166889fd8d03bc6fcd947f91920d5184e3cf75b14eb0b1563ff4bbb3bf62bb4",
+    "engine-patches/icarus-array-cache-admission.patch": "d1e0930e8d0ae3e18afda92f6a654471ac40592c2b2b9b0d712a0f1615a18c91",
+    "engine-patches/icarus-memory-faults.patch": "08def3cc1f24ef1863e5e00fd8e33dcbe98404fc2a94ff91cf30d7260f031ccd",
+    "engine-patches/icarus-array-port-class.patch": "ccb417294407105ad2ed410436029f6ef880403aecafa1b5a645d44dfcd55f40",
+    "engine-patches/icarus-display-observer.patch": "8f78091f7a35cf12564d30cfcdfcf576d5d1a4890ebda3797e720bc6ca07e210",
+    "engine-patches/icarus-display-payload-link.patch": "150664196bfe97fe7b873598f740951979f137c6b4294de990bcb756db297680",
+    "engine-patches/icarus-single-display-module.patch": "748b285e072ecc7866f870e4f5eb96fb51cb180ed71158dcf8e4c088c917f622",
+    "build_array_port_class_runtime.py": "2c9a8f1ae593a6608c715c8b950422b1d0c1b32b418a36d41e76248232550c55"
+  },
+  "outputs": {
+    "vvp/vvp": "fddb4123f786bcdc47129ae194ca379ff5175eaf83de25641ce477624cf37670",
+    "vvp/libvvp.so": "4e4c9fa64a40c53f8eec6c376d77abdd6937e3deaaa952c6b464e1b901183824",
+    "vvp/vpi_callback.cc": "96881f6eb7b19c6c5a2352ee127e01ca91e8fab6883f9115d350c4711b11bb69",
+    "baseline/system.vpi": "9675e5324d06a2259026e0bb446bcef4d69ff905824d7bf352591e42cfb27aff",
+    "vpi/system.vpi": "9600a3858f8314ff8853a11154e73a27f7c0bf910479e4748d17a6323e4ac410",
+    "vpi/sys_display.c": "dbca76193bfe35ad63e2660d4f47df4504fbc009b4fb818e8a3ca9702a7ca07b",
+    "vvp/vpi_priv.h": "d34b498eeb909b8aa4df3aaf7b6830d80bdb12090bf768dd3b5620fe751bc0de",
+    "vvp/vvp_vpi_callback.h": "eaadefce6fef14613d9038d3a599ef0b739a25cc21ec608da6667525a68ef69e",
+    "vvp/resolv.h": "c222ee67594096ee3e378bb3b93e021c52a37b8663124a7bcaa305b1c034461a",
+    "vvp/resolv.cc": "26fce364ccc5e6994f54c2154c2f75a779e56d8d03327af24e5d40ed4d95235f",
+    "vvp/concat.h": "f0ea4dac8f39e1bd96f2ed4266ac66828e5b51e35239f47c54f8f5d51ac5b5e4",
+    "vvp/concat.cc": "23f4b3399f335d87138882778392d0bacfc3a4fb2ad70f25eb25e85e3f3ba76d",
+    "vvp/reduce.cc": "864d6a4f9e504304c2be6aab467b58e497c934881639be451d75addf3900a1cf",
+    "vvp/arith.h": "c19e27631485d570bee15eaa2d72d76e33b004b41d5159f9a83b4021283b8d4e",
+    "vvp/arith.cc": "0a0b167efe21780f204404e380078a8c4e18f2f88bd1895954be4642a93555ea",
+    "vvp/schedule.cc": "a900b16dd48a69b719adc5d137e35d50c4bc856a87a0adc6156add65ffddee5e",
+    "vvp/schedule.h": "04293eb2fce2befd31c0b3281401144c8dac346efa0574879b59c447bf8ead00",
+    "vvp/logic.cc": "a78a279d0b8b23672e65d8d51f093d1d9abeb81bab36f6612a20da33c5efc5c0",
+    "vvp/logic.h": "4162877ce8f75f4ac201d3eb6c199a95870bf08434fd60b0d97b8d89b4e14b7e",
+    "vvp/part.cc": "121068f6abc55d7e4243b7aef31522c156865bb4e76eb141be2f7fb90b506207",
+    "vvp/part.h": "930aa3958d810adff098a74cd768302d1e28697fd29f0920705ef16a75fdd4c0",
+    "vvp/vvp_island.cc": "2bee48a87f9e6efe996af3137d090fcdc733bdb91b14af9dbb7372f5e4c660a3",
+    "vvp/vvp_island.h": "f7928e8ba46c6b5a7bef1c4f3bcf67719e18abdd57b985bc3104755f0beab3d0",
+    "vvp/island_tran.cc": "cb8d04f915954cdb21145f65ce0719254bf6e7b80deab2c7e1266f71e2dc9286",
+    "vvp/vvp_net.h": "aed2e1f12eb90178008f4ee59d096d97f8973a20b57e718cc691c8d30b55a3a2",
+    "vvp/vvp_net_sig.h": "b1b882bbece8bad4dd2bfa2b0aed6ca1cc1a44784c253cb39ff53bb9d11a7e56",
+    "vvp/vvp_net_sig.cc": "f368c7bba6497692d0973d5d493c8db850c7151701ea71651f2ad95d29b7eed5",
+    "vvp/vthread.cc": "43c8b9bfe5d305d82ad004167b298eb23647f3768ce74e9910f27f9441cdb5f5",
+    "vvp/event.h": "9ccf521ac2806c0efc5eb4685b800700acb8dd71be5d5093a372655ea5a8a2d1",
+    "vvp/event.cc": "ac6722d240eb441e195e4d062dd950bc87755a3ef5ecf4808dbf2dd445887d43",
+    "vvp/codes.cc": "f6efcc2a5d94c4c0869009e4dba5f5f7e5641fc9969e3725ead2a3624a6991a2",
+    "vvp/codes.h": "f428ccb51822e8f73aac4edb9ebf156cbbf2b3a1db58b3cb5ceca37875e5b799",
+    "vvp/vpi_scope.cc": "2d056bfe64f70eccca2971d72c4c48fc278d591d2e9693f702f2885306573b59",
+    "vvp/compile.cc": "09bcde4a1675ef37f1da23fff380b1fde64d706925c1ea798f4d6c1b28d72989",
+    "vvp/array.cc": "7ff87d4da0b4cf974103ec3c3eb4ab243392be68e425921d75989e22fbe6f1dc",
+    "vvp/array_common.cc": "d968ef8e145e995e899fd7338732c699c73fad31456caabf784d729cf237b08b",
+    "vvp/array_common.h": "df8ee3a49ead7478f3ae56d782406c25a72e93d3b02b3807c5ba4344f094ab7d",
+    "vvp/vvp_net.cc": "0f112d45ded76f2156865718d2f4c5e1da96c92a6cd6bc1c2ff212507ce85fa9",
+    "vvp/vpi_signal.cc": "c74f26b71562b0510d5457271b9165a79d0ce4916a7e5802de6f179551edffb8",
+    "vvp/vpi_const.cc": "b5ea67f42eed313c0e7f9b0d8cfd73cddbe0e5cb08402845c5134980b4f45e27"
+  },
+  "scope": "Exact static read-port class admission before dense or compact output. Paired diagnostic base/subclass replacement preserves visible fields while paused; no operational or lifetime qualification."
+}
