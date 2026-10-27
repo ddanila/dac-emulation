@@ -1,0 +1,37 @@
+{
+  "qualified": false,
+  "archives": {
+    "coarse/ngspice.log.xz": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-drain-coarse/ngspice.log.xz",
+      "bytes": 38685852,
+      "sha256": "fbf017f3b022b5c73960d8b1cc3bb8e721c01e7485ed1ec96d9a81c7c0436707"
+    },
+    "coarse/waveform.raw.xz": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-drain-coarse/waveform.raw.xz",
+      "bytes": 204372508,
+      "sha256": "7fb0440ff0bf03d2d81d15ce282e89de074f3c12f750c8c5d484d0637252bbe6"
+    },
+    "fine/ngspice.log.xz": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-drain-fine/ngspice.log.xz",
+      "bytes": 39645128,
+      "sha256": "9e4124ff9b24e13a36b4ebd2a6e4c8d06b73d9fb737d360b49e64abde32f5775"
+    },
+    "fine/waveform.raw.xz": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-drain-fine/waveform.raw.xz",
+      "bytes": 208051832,
+      "sha256": "3345823cb10579b0725d0c286baa278b9355ffed1f808206adb9b7e19d7971d4"
+    },
+    "finest/ngspice.log.xz": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-drain-finest/ngspice.log.xz",
+      "bytes": 41625932,
+      "sha256": "0bc0dd543e1fb416226190376596b9c2d4aecfc267c8feae818e72bb8538f1fb"
+    },
+    "finest/waveform.raw.xz": {
+      "path": "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/postreset-drain-finest/waveform.raw.xz",
+      "bytes": 216122064,
+      "sha256": "5bf5dee4ab7fc19311696f14944b47220916fa2b1dbf5951f8ca6f833dee8e2c"
+    }
+  },
+  "scope": "Metadata retained here; complete waveform/log archives remain local. Hash identity is not numerical replay.",
+  "reviewCommand": "python3 verification/robotron-keyboard/analog/postreset_drain_refinement_diagnostic.py --source build/keyboard-controller-analog/postreset-adc-on-25 --coarse build/keyboard-controller-analog/postreset-drain-coarse --fine build/keyboard-controller-analog/postreset-drain-fine --finest build/keyboard-controller-analog/postreset-drain-finest --out NEW_DIAGNOSTIC.json"
+}
