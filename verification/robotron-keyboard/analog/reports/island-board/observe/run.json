@@ -1,0 +1,153 @@
+{
+  "qualified": false,
+  "completed": true,
+  "mode": "observe",
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-selectable-retry-runtime",
+      "sha256": "58105ffa723ed272de4572d8f812af9c26beb9b551f1aec9b1913753fd221904"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-startup-fixes-v1/spinit",
+      "sha256": "806519c1096a4b2868661ff9e282c82ad970afe9de6d0be94149786f8a232b04"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-startup-fixes-v1/digital.cm",
+        "sha256": "08198ba37c439da78d3cfbee957fa1f0dfc65a5b61c375d51151447ebc54d573",
+        "loadPath": "/private/tmp/k7658-startup-fixes-v1/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "environment": {
+    "ROBOTRON_EVAL_CACHE": "off",
+    "ROBOTRON_DAC_ANCHORED": "1",
+    "ROBOTRON_DAC_BREAKPOINTS": "1",
+    "ROBOTRON_MPFR_BITS": "256",
+    "ROBOTRON_MPFR_TRANSITION_ONLY": "1",
+    "ROBOTRON_MPFR_START": "0",
+    "ROBOTRON_CAP_ASSEMBLY": "exact",
+    "ROBOTRON_POSTCAP_ASSEMBLY": "exact",
+    "ROBOTRON_ROLLBACK_AUDIT": "1",
+    "ROBOTRON_HISTORY_INIT": "on",
+    "ROBOTRON_STAGED_OUTPUT": "on",
+    "ROBOTRON_HISTORY_STATE": "off",
+    "ROBOTRON_PRIVATE_SYNC": "off",
+    "ROBOTRON_PRIVATE_DISPLAY": "observe",
+    "ROBOTRON_DISPLAY_MODULE": "/private/tmp/k7658-island-queue-runtime/vpi/system.vpi"
+  },
+  "runtimeEnvironment": {
+    "SPICE_SCRIPTS": "/private/tmp/k7658-startup-fixes-v1"
+  },
+  "externalDependencies": [
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi",
+      "sha256": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi",
+      "sha256": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi",
+      "sha256": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi",
+      "sha256": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi",
+      "sha256": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e"
+    },
+    {
+      "path": "/private/tmp/k7658-island-bridge-v2/ivlng.so",
+      "sha256": "75a10316d3096cae78af76d9748b8570156b8b37b9bd6271dc977f0998deef0a"
+    },
+    {
+      "path": "/private/tmp/k7658-island-bridge-v2/ivlng.vpi",
+      "sha256": "699188cbb89a7c35e0533b85a3a69ad0d68457d31f02b942116e7cafae5a4930"
+    },
+    {
+      "path": "/private/tmp/k7658-island-queue-runtime/vpi/system.vpi",
+      "sha256": "df425eb97d5b87f6afa5b97ea277a2f83ea3ce40ab40dafc30699f6be86b63f2"
+    },
+    {
+      "path": "/private/tmp/k7658-island-queue-runtime/vvp/libvvp.so",
+      "sha256": "b9e70956d3b177e867e89e1651214630c8aef34fef1fc731e80465b31876e2f3"
+    }
+  ],
+  "inputs": {
+    "io.cir": "b3031c9496fd5a379f171af1af02e1e806ffb011b6ae5afad60664de73b36790",
+    "io.vvp": "f810b8b23f64eba3e03019d86e8cde4afb1b28c0230b05a711f540625bd6653e",
+    "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966"
+  },
+  "baselineReceiptSha256": "5bf41d462eb5062a903ff9e3d440e6c170509dbbfb8c28414fa092e4527c5879",
+  "baselineAssessmentSha256": "f122830663a1b396a8801c330875fdcd11f04da4b6885b2781e5490bc94bb80b",
+  "bridgeBuildSha256": "761e69ec21ed471f1421e29df421ce66a2ed522780e1461705ff75503dd10a59",
+  "icarusBuildSha256": "52b81a36c4de618afa6adf3b5c3adf92d1f5b0161a955221086bb5ed25efa532",
+  "producerSha256": "a6d0a026b2222a285e912e17c33e99ead8c66b8584ddf051feb6675f01b30978",
+  "symbolReceiptSha256": "3fecfe022aa36422aac012755efb907f57b2f1ad64bccaab1f2aa4eac89f3b69",
+  "endSeconds": 2e-05,
+  "expectedExitCode": 0,
+  "storage": {
+    "waveform.raw": {
+      "sha256": "8c3a3e5ed5f17fc628ffdc0336635a9c2041746bf7b6ac974dedecc095ab87a2",
+      "bytes": 7060913
+    }
+  },
+  "log": {
+    "bytes": 389193801,
+    "compressedBytes": 2850268,
+    "sha256": "c098326e64889eedfc16f83b475f1fad51c1fd2c64e2d5007d33dbe09cfe09ae",
+    "exitCode": 0,
+    "elapsedSeconds": 168.48284879200003,
+    "logicalLimitBytes": 536870912,
+    "compressedLimitBytes": 134217728
+  },
+  "exitCode": 0,
+  "summary": {
+    "count": 27578,
+    "faults": [],
+    "busCounts": [
+      5,
+      5,
+      5
+    ],
+    "latchesMatch": true,
+    "diagnostic": null,
+    "sorry": false,
+    "advances": 27577
+  },
+  "elapsedSeconds": 262.738177833
+}

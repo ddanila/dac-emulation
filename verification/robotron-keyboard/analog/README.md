@@ -876,7 +876,7 @@ primitive-board controls. `island_board_review.py` requires matching pending fla
 and queued island identities, consumption without wrapper reuse, stable topology,
 exact normal waveforms/firmware and restored faults. The output-cache fault runs
 after initialization; the other faults target paused startup. These controls
-must pass before treating island board integration as established.
+pass in the [retained island board evidence](reports/island-board/assessment.json).
 
 `build_island_filter_runtime.py` adds island vec8 wire-filter state.
 `island_filter_probe.py` uses the same runtime arguments and checks whole-net,
@@ -887,3 +887,14 @@ verification/robotron-keyboard/analog/reports/island-filter`. The
 [source contract](reports/island-filter/source-contract.json) bounds meaningful
 field reads; callback lists, force-link functors and net fanout remain separate.
 Combined board integration is still required.
+
+`build_island_filter_bridge.py` and `island_filter_board_capture.py` layer the
+filter runtime over reviewed island-board controls. Use
+`island_filter_board_review.py` for exact waveform/firmware comparison, complete
+island-port/filter association and restored initialization, drive, propagation
+and strength faults. Active force masks and links are exercised by the separate
+force/release fixture; normal board stimulus does not establish that coverage.
+
+Before extending to threads, follow the [initialization contract](reports/thread-source-contract/assessment.json):
+track meaningful writes before reading unspecified flags or word registers, and
+include suspended/event-waiting threads rather than only queued thread events.

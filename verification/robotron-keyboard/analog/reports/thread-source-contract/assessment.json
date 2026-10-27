@@ -1,0 +1,33 @@
+{
+  "qualified": false,
+  "scope": "Pinned initialization/lifetime constraints for the next live-thread observer; no thread payload coverage claimed.",
+  "icarusRevision": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "source": {
+    "file": "vvp/vthread.cc",
+    "sha256": "95e83a73511df6999864528f827c8b3fedd11c68f3ee3e64fc826811568869c5"
+  },
+  "evidence": {
+    "construction": {
+      "firstLine": 316,
+      "excerpt": "inline vthread_s::vthread_s()\n{\n      stack_obj_size_ = 0;\n      filenm_ = 0;\n      lineno_ = 0;\n}\n\n"
+    },
+    "factory": {
+      "firstLine": 692,
+      "excerpt": "vthread_t vthread_new(vvp_code_t pc, __vpiScope*scope)\n{\n      vthread_t thr = new struct vthread_s;\n      thr->pc     = pc;\n\t//thr->bits4  = vvp_vector4_t(32);\n      thr->parent = 0;\n      thr->parent_scope = scope;\n      thr->wait_next = 0;\n      thr->wt_context = 0;\n      thr->rd_context = 0;\n\n      thr->i_am_joining  = 0;\n      thr->i_am_detached = 0;\n      thr->i_am_waiting  = 0;\n      thr->i_am_in_function = 0;\n      thr->is_scheduled  = 0;\n      thr->i_have_ended  = 0;\n      thr->i_was_disabled = 0;\n      thr->delay_delete  = 0;\n      thr->waiting_for_event = 0;\n      thr->event  = 0;\n      thr->ecount = 0;\n\n      thr->flags[0] = BIT4_0;\n      thr->flags[1] = BIT4_1;\n      thr->flags[2] = BIT4_X;\n      thr->flags[3] = BIT4_Z;\n      for (int idx = 4 ; idx < 8 ; idx += 1)\n\t    thr->flags[idx] = BIT4_X;\n\n      scope->threads .insert(thr);\n      return thr;\n}\n"
+    },
+    "deletionAndScheduling": {
+      "firstLine": 821,
+      "excerpt": "void vthread_delete(vthread_t thr)\n{\n      thr->cleanup();\n      delete thr;\n}\n\nvoid vthread_mark_scheduled(vthread_t thr)\n{\n      while (thr != 0) {\n\t    assert(thr->is_scheduled == 0);\n\t    thr->is_scheduled = 1;\n\t    thr = thr->wait_next;\n      }\n}\n\n"
+    }
+  },
+  "requirements": [
+    "Do not dump whole vthread_s storage. The factory initializes flags 0 through 7 only; flags 8 through 511 and the word-register array are not initialized there.",
+    "Track initialized flag/register writes or prove liveness before reading them. Do not initialize previously unspecified storage merely to make snapshots deterministic.",
+    "Register fully constructed thread identities after the factory establishes lifecycle fields and scope membership. Remove identities before cleanup/delete; never dereference retired pointers.",
+    "Inventory all live threads, not only scheduled events: event waiters and suspended parents retain state while absent from the scheduler queue.",
+    "Serialize initialized lifecycle flags, PC identity, scope/parent/child/wait relationships, contexts and event-control fields with referent coverage explicit.",
+    "Use logical live lengths for vector/string/real/object stacks and argument-depth arrays; do not read reserved capacity or inactive object slots.",
+    "Bind queued thread events and wait-chain links to registered lifetimes. Cover scheduling, suspension, fork/join, detachment and delayed deletion when reachable.",
+    "Test real restored field mutations, unchanged original/disabled/observed output and firmware continuation; code/context/object referents and freed storage remain independent requirements."
+  ]
+}
