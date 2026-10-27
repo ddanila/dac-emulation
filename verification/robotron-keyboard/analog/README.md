@@ -1831,3 +1831,18 @@ Three tests pass. Exhaustive early-resolution, subclass/lifecycle, field-fault a
 actual board integration/cost qualification remain open. Build with
 `build_port_payload_runtime.py`; reproduce with `port_payload.py` and the retained
 runtime paths. Existing queued campaigns retain their pinned runtimes.
+
+The [initialized board port payload budget](reports/port-payload-board-budget/assessment.json)
+checks all 317 ports and 875 bits against independent scope object IDs/owners and
+all compiled port declarations. Names, directions, widths, indices and bit order
+match exactly; complete scans leave images unchanged. This compiled board uses
+null port net references, so nonnull-reference coverage remains the separate
+native `-ginterconnect` fixture. The dense image is 43,756 bytes; 64 local full
+scans average 0.6085 ms. Repeating the initial image at 110,312 prior snapshot calls
+projects to 4,826,811,872 logical bytes and about 67.1 seconds of port scans alone,
+excluding growth, other observers and review. Three tests replay the evidence and
+reject mismatched fields, incomplete families, reordered bits, changed images and
+invalid cost. Build with `build_port_payload_board_budget.py`, then run
+`port_payload_board_budget.py` using reviewed `reports/array-board` and the port
+payload runtime. Compact storage, changing-state/field/subclass/lifecycle cases
+and operational integration remain unqualified.
