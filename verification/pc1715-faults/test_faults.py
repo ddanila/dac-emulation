@@ -47,6 +47,39 @@ class FaultTests(unittest.TestCase):
             for mode,value in enumerate(expected):
                 self.assertEqual(self.probe(bit=[3,1,0,0,0,mode])['cpu_a'],value)
 
+    def test_independent_chip_retains_address_lost_in_ram_alias(self):
+        # Common RAM A3 is stuck high, but D3 still sees the external low A3.
+        args=dict(fault='decoder-ram-alias',mask=8,value=8,pattern='stripe:3:64:8')
+        self.assertEqual(self.probe(**args,bit=[3,0,0,0,0,0])['fetches'][0]['cpu'],8)
+        self.assertEqual(self.probe(**args,bit=[3,0,0,0,0,3])['fetches'][0]['cpu'],0)
+        # A genuine upstream address-bus failure must still affect every chip.
+        args=dict(fault='address-mask',mask=0x800,value=0x800,pattern='stripe:11:64:8')
+        self.assertEqual(self.probe(**args,bit=[3,0,0,0,0,3])['fetches'][0]['cpu'],8)
+
+    def test_independent_write_address_preserves_other_planes(self):
+        source=Path(self.temp.name)/'write_test.c'
+        source.write_text('#define main probe_main\n#include "'+str(ROOT/'verification/pc1715-faults/probe.c')+'"\n#undef main\n'+r'''
+int main(void) {
+  experiment x={0};
+  pc1715_init(&x.board); x.original=x.board.cpu.bus;
+  x.fault=DECODER_ALIAS; x.mask=0xffe0;
+  x.bit_enabled=1; x.bit_index=3; x.bit_address_mode=3;
+  write_memory(&x,0x8031,0xda);
+  if (x.board.ram[0x11]!=0xd2 || x.board.ram[0x8031]!=8) return 1;
+  write_memory(&x,0x11,0xa5);
+  if (x.board.ram[0x11]!=0xa5 || x.board.ram[0x8031]!=8) return 2;
+  if (ram_read(&x,0x11,0x8031)!=0xad) return 3;
+  if (ram_read(&x,0x11,0x11)!=0xa5) return 4;
+  return 0;
+}
+''')
+        binary=Path(self.temp.name)/'write_test'
+        objects=['build/machines/robotron1715/pc1715.o','build/common/cpu/z80.o',
+                 'build/common/trace/trace.o']
+        subprocess.run(['cc','-std=c11','-Wall','-Wextra','-Werror',str(source),
+                        *[str(ROOT/p) for p in objects],'-o',str(binary)],check=True)
+        subprocess.run([str(binary)],check=True)
+
     def test_regular_xor_startup_pattern(self):
         for address,value in enumerate([8,255,239,24]):
             program=bytes([0x3a,address,0x90,0x76])
