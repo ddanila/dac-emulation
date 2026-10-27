@@ -1179,6 +1179,11 @@ full raw scans before execution; compact encoding and operational integration
 remain open. Build with `build_wire_raw_runtime.py`, then run `wire_raw_board.py`
 with the reviewed `reports/code-binding-board` source and raw runtime. Replay with
 `wire_raw_board.py --check reports/wire-raw-board-budget`.
+The [raw filter admission controls](reports/wire-raw-families/assessment.json)
+reject real filters and vec4/vec8 subclasses before partial output, including
+allocations after a valid observation. Continuation after refusal matches the
+original runtime. Reproduce with `wire_raw_family_probe.py` using the native-probe
+arguments, or replay with `--check reports/wire-raw-families`.
 
 The [board wire budget](reports/wire-board-budget/assessment.json) binds every
 allocated filter to its graph identity and native class before execution. It
