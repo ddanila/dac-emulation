@@ -1,0 +1,131 @@
+--- a/vvp/concat.h
++++ b/vvp/concat.h
+@@ -38,6 +38,9 @@
+       vvp_fun_concat(unsigned w0, unsigned w1,
+ 		     unsigned w2, unsigned w3);
+       ~vvp_fun_concat() override;
++      const void* robotron_event_key() const { return static_cast<const vvp_gen_event_s*>(this); }
++      int robotron_concat_inventory(FILE*) const;
++      int robotron_concat_toggle(int);
+ 
+       void recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,
+                      vvp_context_t context) final;
+@@ -58,6 +61,9 @@
+       vvp_fun_concat8(unsigned w0, unsigned w1,
+ 		     unsigned w2, unsigned w3);
+       ~vvp_fun_concat8() override;
++      const void* robotron_event_key() const { return static_cast<const vvp_gen_event_s*>(this); }
++      int robotron_concat_inventory(FILE*) const;
++      int robotron_concat_toggle(int);
+ 
+       void recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,
+                      vvp_context_t context) final;
+--- a/vvp/concat.cc
++++ b/vvp/concat.cc
+@@ -220,3 +220,62 @@
+ 
+       input_connect(net, 0, arg.text);
+ }
++
++#include <cstring>
++
++int vvp_fun_concat::robotron_concat_inventory(FILE* out) const
++{
++    if(fprintf(out,"%p %u %u %u %u %u ",(void*)net_,wid_[0],wid_[1],wid_[2],wid_[3],val_.size())<0)return -1;
++    if(!val_.size() && fputc('-',out)==EOF)return -1;
++    for(unsigned i=0;i<val_.size();i++){if(fputc('0'+(unsigned)val_.value(i),out)==EOF)return -1;}
++    return fputc('\n',out)==EOF || ferror(out)?-1:0;
++}
++int vvp_fun_concat::robotron_concat_toggle(int field)
++{
++    static vvp_fun_concat* saved=0;static int saved_field;static vvp_vector4_t old;
++    static unsigned width;static vvp_net_t* pending;
++    if(field<0 || field>6)return -1;
++    if(saved){
++        if(saved!=this || field!=saved_field)return -1;
++        if(field==0 || field==6)val_=old;else if(field==5)net_=pending;else wid_[field-1]=width;
++        saved=0;return 1;
++    }
++    if(field==6)return 0;
++    if((field==0 && !val_.size()) || (field==5 && !net_))return 0;
++    if(field==0){old=val_;val_.set_bit(0,val_.value(0)==BIT4_1?BIT4_0:BIT4_1);}
++    else if(field==5){pending=net_;net_=nullptr;}
++    else{width=wid_[field-1];wid_[field-1]^=1;}
++    saved=this;saved_field=field;return 1;
++}
++
++int vvp_fun_concat8::robotron_concat_inventory(FILE* out) const
++{
++    if(fprintf(out,"%p %u %u %u %u %u ",(void*)net_,wid_[0],wid_[1],wid_[2],wid_[3],val_.size())<0)return -1;
++    if(!val_.size() && fputc('-',out)==EOF)return -1;
++    for(unsigned i=0;i<val_.size();i++){vvp_scalar_t bit=val_.value(i);unsigned char byte;static_assert(sizeof(bit)==1,"Raw scalar padding");memcpy(&byte,&bit,1);if(fprintf(out,"%02x",byte)<0)return -1;}
++    return fputc('\n',out)==EOF || ferror(out)?-1:0;
++}
++int vvp_fun_concat8::robotron_concat_toggle(int field)
++{
++    static vvp_fun_concat8* saved=0;static int saved_field;static vvp_vector8_t old;
++    static unsigned width;static vvp_net_t* pending;
++    if(field<0 || field>6)return -1;
++    if(saved){
++        if(saved!=this || field!=saved_field)return -1;
++        if(field==0 || field==6)val_=old;else if(field==5)net_=pending;else wid_[field-1]=width;
++        saved=0;return 1;
++    }
++    if(field==6){
++      for(unsigned i=0;i<val_.size();i++){
++        auto bit=val_.value(i);unsigned char byte;memcpy(&byte,&bit,1);
++        if(byte!=0 && byte!=136)continue;
++        old=val_;val_.set_bit(i,byte==0?vvp_scalar_t(BIT4_1,1,0):vvp_scalar_t());saved=this;saved_field=field;return 1;
++      }
++      return 0;
++    }
++    if((field==0 && !val_.size()) || (field==5 && !net_))return 0;
++    if(field==0){old=val_;unsigned char byte;auto bit=val_.value(0);memcpy(&byte,&bit,1);val_.set_bit(0,byte==0xee?vvp_scalar_t(BIT4_0,6,6):vvp_scalar_t(BIT4_1,6,6));}
++    else if(field==5){pending=net_;net_=nullptr;}
++    else{width=wid_[field-1];wid_[field-1]^=1;}
++    saved=this;saved_field=field;return 1;
++}
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -4640,3 +4640,41 @@
+     }
+     return fprintf(out,"VWC_END %zu\n",changed)<0 || ferror(out)?-1:0;
+ }
++
++#include "concat.h"
++static int robotron_concat_kind(vvp_net_fun_t* fun)
++{
++    if(!fun)return 0;
++    if(typeid(*fun)==typeid(vvp_fun_concat))return 4;
++    if(typeid(*fun)==typeid(vvp_fun_concat8))return 8;
++    return dynamic_cast<vvp_fun_concat*>(fun) || dynamic_cast<vvp_fun_concat8*>(fun)?-1:0;
++}
++extern "C" int robotron_vvp_concat_inventory(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;std::vector<const void*> keys;
++    for(auto item:robotron_net_allocations()){
++        int kind=robotron_concat_kind(item.first->fun);if(kind<0)return -1;
++        if(kind)nodes[item.second]=item.first;
++    }
++    if(fprintf(out,"VCN_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:nodes){
++        auto fun=item.second->fun;int kind=robotron_concat_kind(fun);
++        const void* key=kind==4?static_cast<vvp_fun_concat*>(fun)->robotron_event_key():static_cast<vvp_fun_concat8*>(fun)->robotron_event_key();keys.push_back(key);
++        if(fprintf(out,"VCN_NODE %llu %p %p %d %p ",item.first,(void*)item.second,(void*)fun,kind,key)<0)return -1;
++        int result=kind==4?static_cast<vvp_fun_concat*>(fun)->robotron_concat_inventory(out):static_cast<vvp_fun_concat8*>(fun)->robotron_concat_inventory(out);
++        if(result)return -1;
++    }
++    unsigned events=0;if(robotron_vvp_mux_queue(out,keys.data(),keys.size(),&events))return -1;
++    return fprintf(out,"VCN_END %zu %u\n",nodes.size(),events)<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_concat_toggle(unsigned long long id,int field)
++{
++    for(auto item:robotron_net_allocations())if(item.second==id){
++        auto fun=item.first->fun;int kind=robotron_concat_kind(fun);
++        if(kind==4)return static_cast<vvp_fun_concat*>(fun)->robotron_concat_toggle(field);
++        if(kind==8)return static_cast<vvp_fun_concat8*>(fun)->robotron_concat_toggle(field);
++        return -1;
++    }
++    return -1;
++}
