@@ -1789,3 +1789,21 @@ predecessor passes with `scope_metadata_board_capture.py --source PRIOR_CONTROLS
 --assessment PRIOR_ASSESSMENT --bridge FAULT_BRIDGE --icarus FAULT_RUNTIME --out
 NEW_CONTROLS`, followed by `scope_metadata_board_review.py --root NEW_CONTROLS
 --producer scope_metadata_fault_capture.py --out NEW_ASSESSMENT.json`.
+
+The [native port referent counterexamples](reports/port-referents/assessment.json)
+show that swapping two entries in a port's bit vector changes VPI iteration order
+while complete scope metadata/reference images stay byte-identical. A foreign
+pointer in that vector is also invisible to those images; the control restores
+it without invoking the unsafe iterator. Two rounds restore both state and native
+iteration, preserving original/disabled/observed HDL continuation. These injected
+faults do not show ordinary board mutation. The retained
+[source contract](reports/port-referents/source-contract.json) identifies port
+parent/index/direction/width/name/net-reference fields, ordered bits and bit parent/
+index fields. It also identifies a deferred-initialization requirement: a labelled
+net reference need not be assigned at port construction/attachment. An observer
+must establish resolution completion before reading it. Native iteration allocates
+from width but fills from vector length, so malformed vectors must be refused
+before using that consumer. Ownership/class guards, payload scans and operational
+integration remain open. Run `port_referents.py` with the retained runtime paths;
+replay the source extraction with `port_payload_contract.py --archive PINNED_ARCHIVE
+--out reports/port-referents/source-contract.json --check`. Two tests pass.
