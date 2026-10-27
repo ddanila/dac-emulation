@@ -1,0 +1,46 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "simulationOutputExactlyEqual": true,
+  "normalGraphTrajectoryExactlyEqual": true,
+  "restoredFaults": 36,
+  "faultsByField": {
+    "0": 6,
+    "1": 6,
+    "2": 6,
+    "3": 6,
+    "4": 6,
+    "5": 6
+  },
+  "coverage": [
+    "active-force-helper",
+    "multiple-destinations",
+    "no-output",
+    "released-force-helper"
+  ],
+  "allocatedNodesByStage": [
+    10,
+    11,
+    11,
+    11,
+    11,
+    11
+  ],
+  "scope": "Every handed-out native net allocation, functor/filter binding and tagged output/port link; force-helper creation/reuse/release and restored graph faults. Unknown targets are serialized without dereferencing them.",
+  "notEstablished": [
+    "Native payload contents and initialization semantics",
+    "Operational board class inventory and capture budgets",
+    "General rollback"
+  ],
+  "nativeClassBindingsMatchGraph": true,
+  "matchedTypeSnapshots": 96,
+  "observedClasses": [
+    "vvp_arith_sum",
+    "vvp_fun_buft",
+    "vvp_fun_concat",
+    "vvp_fun_force",
+    "vvp_fun_signal4_sa",
+    "vvp_fun_xor",
+    "vvp_wire_vec4"
+  ]
+}

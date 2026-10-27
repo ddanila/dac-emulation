@@ -1,0 +1,19 @@
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -3931,3 +3931,16 @@
+     for(auto row:changed)if(fprintf(out,"%s\n",row.c_str())<0)return -1;
+     return fprintf(out,"VND_END %zu\n",changed.size())<0 || ferror(out)?-1:0;
+ }
++
++extern "C" int robotron_vvp_net_types(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations())nodes[item.second]=item.first;
++    if(fprintf(out,"VNT_BEGIN 1 %llu %lu\n",(unsigned long long)schedule_simtime(),count_vvp_nets)<0)return -1;
++    for(auto item:nodes){auto node=item.second;
++        if(fprintf(out,"VNT_NODE %llu %p %p %s %p %s\n",item.first,(void*)node,(void*)node->fun,
++            node->fun?typeid(*node->fun).name():"-",(void*)node->fil,node->fil?typeid(*node->fil).name():"-")<0)return -1;
++    }
++    return fprintf(out,"VNT_END %zu\n",nodes.size())<0 || ferror(out)?-1:0;
++}
