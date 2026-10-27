@@ -1,0 +1,27 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "nativeAllocationGrowth": [
+    1,
+    9
+  ],
+  "normalTrajectoryExactlyEqual": true,
+  "outputMatchesIndependentOracle": true,
+  "restoredFaults": 251,
+  "faultsByField": {
+    "0": 55,
+    "1": 43,
+    "2": 43,
+    "3": 43,
+    "4": 24,
+    "5": 43
+  },
+  "observationsPerRun": 31,
+  "scope": "Admitted Boolean/inversion and unary variants allocated after reference initialization preserve constructor, queued, executing and drained states. New cache/inversion/pending faults restore before execution; direct partial writes and exact original-runtime continuation remain required.",
+  "notEstablished": [
+    "Gate deletion, freed storage or general rollback",
+    "Operational board allocation changes and combined integration"
+  ],
+  "denseAndDeltaExactlyEqual": true,
+  "matchedSnapshots": 626
+}

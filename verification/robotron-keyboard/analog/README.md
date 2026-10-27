@@ -1371,5 +1371,10 @@ full-scan encoding and graph/class-bound reconstruction. Changed fixture records
 can exceed dense sizes; operational output and runtime must still be measured.
 Build with `build_gate_delta_runtime.py`; run `gate_delta_probe.py` with and
 without `--inputs`, `gate_delta_family.py`, and `gate_delta_board.py`. Each report
-replays with its producer's `--check` option. Native admitted allocation growth
-and combined board integration remain open.
+replays with its producer's `--check` option. The [native allocation controls](reports/gate-growth/assessment.json)
+create all admitted Boolean/inversion and unary variants after reference
+initialization, checking complete new records, stable identities, constructor
+caches, queued/executing/drained wrappers and restored faults. Reproduce with
+`gate_growth_probe.py` using the native paths, or replay with
+`gate_growth_probe.py --check reports/gate-growth`. Combined board integration,
+deletion and freed-storage equivalence remain open.
