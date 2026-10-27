@@ -1,0 +1,57 @@
+{
+  "exitCode": 0,
+  "compileCommand": [
+    "cc",
+    "-bundle",
+    "-undefined",
+    "dynamic_lookup",
+    "-I/private/tmp/k7658-mux-delta-runtime",
+    "-o",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/mux-delta-budget-retained/probe.vpi",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/mux-delta-budget-retained/probe.c"
+  ],
+  "command": [
+    "/private/tmp/k7658-mux-delta-runtime/vvp/vvp",
+    "-M.",
+    "-mprobe",
+    "board.vvp"
+  ],
+  "dependencies": {
+    "/private/tmp/k7658-mux-delta-runtime/vvp/libvvp.so": "6cd0a4634f681e82913211733701375bc27ec00d86767480a0e35347179e84cf",
+    "/private/tmp/k7658-mux-delta-runtime/vvp/vvp": "31bf66f883d02bcfff393f643b8c541b2ce854bd7d550a2d9c42dc62bef0ac24",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/mux-delta-budget-retained/probe.vpi": "c51cc255575bcdacd4598c86bef955582888de8848d6aa8625e5be6a73eb5420",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/mux-delta-budget-retained/board.vvp": "5c3c9310d7405441381ca5302883bc39e1ab625bf192ace9d3909f89c0f173a6",
+    "/private/tmp/k7658-mux-delta-runtime/vpi/system.vpi": "f0fe88202bc263c8a5c312e9e692b4ed76ac8c0bc314d1c4710a24aa31f0fd04",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+  },
+  "originalCompiledSha256": "b624425d385444a9117fbb265e4772a40e083ee1e674e5f7631f365da4835ea3",
+  "baselineReceiptSha256": "b86ac212d156b62caaf1ffe6efbabf53ca87dde0a21d8bb7534b2cb59facc0c9",
+  "assessmentSha256": "ce14a6e7c4cfd842f26fad0577f1ecb6970c2a0d7c8724c7a911789d6e5cf0b3",
+  "reviewedBoundaries": 55156,
+  "endSeconds": 2e-05,
+  "priorObserverProducerSeconds": 197.4111745,
+  "sourceManifestSha256": "1aa03e6f6762f9a00602bc25a2e805b5c9db1a511b13f81d7cb63c96b3eeb83b",
+  "rssUnitBytes": 1,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "sources": {
+    "mux_delta_board.py": "07da90589136afc403cb04c39b3afb2396a80c764f87fd77efc1ca31ad46e34c",
+    "mux_board.py": "f74e8483585999e1b3fb58b0560d175c73cfce80292dfff0a58109b02b9709f9",
+    "mux_delta_probe.py": "c3518597ff799aa1063a64529891b3467b0a5bef17e98d7ab65e9a1723a42d1e",
+    "mux_probe.py": "5e221f38435b483785cce5efaf24338491ff3306cc03c803f2cc268ae7a3c2b0",
+    "net_budget.py": "053e0f1d08e5f4b2e5476cb8d92b5b44481305a222a3cb70547951a3e68001dc",
+    "net_types_probe.py": "825f050da7ac1e208ba29b1e1ce3a5e5bc4bb5ec813b99805261bbe6017736ba",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "net_source_contract.py": "921325d6e7cb3e0dd8c1206e3c2ce9927b44e1daf80dcbe53556c088db0240fc",
+    "array_probe.py": "bd09dcb086d9b27667fd13d4d35147b6b1bdb92cdaa8c14c426ade4fe9880371",
+    "array_source_contract.py": "0e1abc5999a95c00a1b5cb7e90a34c8752c341d0c8d787c9c490c99967808d1a",
+    "code_operand_board_review.py": "387c52775ed868055316671c115d330393ff0593e5509a2ecf02f63a6bd51860",
+    "code_operand_probe.py": "743f03bd671171258eaba6b11eefc88b395641a701a47b41a51e81dabf9d3ae3",
+    "compiled_scope_profile.py": "4acc4b6a1aeb13cbc48823b633889804ca530be2b639be5f2e49e4df0a3e9de4",
+    "thread_board_reachability.py": "976ec28674d1d936255364c9cb42235aed8cf6ba3c15400e6661b6ebb5ea1440",
+    "fixtures/mux_delta_board.c": "475ec4b0bed712d7cdec5d8c4427c193c3ac93925b6fdfefaea3ccfb5420266f"
+  }
+}

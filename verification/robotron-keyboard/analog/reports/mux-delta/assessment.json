@@ -1,0 +1,40 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "simulationOutputExactlyEqual": true,
+  "normalMuxTrajectoryExactlyEqual": true,
+  "observationsPerRun": 19,
+  "restoredFaults": 82,
+  "faultsByField": {
+    "0": 19,
+    "1": 19,
+    "2": 19,
+    "3": 19,
+    "4": 6
+  },
+  "coverage": [
+    "constructor",
+    "executing",
+    "has-run",
+    "idle",
+    "partial-input",
+    "queued",
+    "selected-0",
+    "selected-1",
+    "selected-2",
+    "unselected-cache",
+    "wide"
+  ],
+  "scope": "Allocated MUXZ caches, selection, run history, pending destinations and properly cast queued/executing wrapper associations. Constructor, unselected changes, partial source writes, wide inputs and X/Z selection retain exact continuation; actual field faults restore before execution.",
+  "notEstablished": [
+    "Direct recv_vec4_pv dispatch path",
+    "Other logic or real mux payload families",
+    "Board integration, class admission and capture budgets",
+    "Raw allocation equivalence or general rollback"
+  ],
+  "denseAndDeltaExactlyEqual": true,
+  "matchedSnapshots": 240,
+  "denseBytes": 87290,
+  "deltaBytes": 115193,
+  "referenceBytes": 1316
+}
