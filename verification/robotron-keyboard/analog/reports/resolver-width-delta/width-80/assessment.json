@@ -1,0 +1,31 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "width": 80,
+  "outputAndCachesMatchIndependentOracle": true,
+  "originalContinuationExactlyEqual": true,
+  "observations": 74,
+  "callbackObservations": 62,
+  "faultsByField": {
+    "1:1": 234,
+    "1:2": 36,
+    "1:3": 36,
+    "1:4": 36,
+    "1:5": 36,
+    "2:0": 30,
+    "2:1": 30,
+    "1:0": 195,
+    "1:6": 105
+  },
+  "scope": "Native tri/tri0/tri1 single-input root/leaf aliasing alongside 2/5/17-input cache trees. Full writes, clipped fresh-Z partial replacement, repeated writes and synchronous callbacks preserve independent cache/output expectations and original continuation. All native fault fields restore exactly.",
+  "notEstablished": [
+    "Additional raw-strength input combinations and partial-first initialization",
+    "Operational board integration",
+    "Freed storage or general rollback"
+  ],
+  "denseAndDeltaExactlyEqual": true,
+  "matchedSnapshots": 1624,
+  "denseBytes": 11301235,
+  "deltaBytes": 19887095,
+  "referenceBytes": 5784
+}
