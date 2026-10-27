@@ -1104,5 +1104,14 @@ separates compiled labels, handed-out native nodes and unused pool capacity.
 Net handles may share drivers, intermediate nodes may lack labels, and force-link
 helper ports have distinct back-reference semantics. Register allocations rather
 than constructor calls, preserve all initialized links/bindings, and keep payload
-coverage separate. Native graph controls remain required. Regenerate with
+coverage separate. Regenerate the source contract with
 `net_source_contract.py --archive PINNED_ARCHIVE --vvp COMPILED_BOARD --out REPORT`.
+
+The [native graph controls](reports/net-state/assessment.json) enumerate handed-out
+nodes independently of fanout traversal, preserve tagged links and functor/filter
+bindings, and restore head/link/tag/binding/foreign-target faults before execution.
+Force-helper creation, reuse and release preserve exact continuation. These are
+graph and binding checks; payload contents, board integration and capture/review
+budgets remain open. Build with `build_net_runtime.py`, run
+`net_probe.py --candidate RUNTIME --baseline ORIGINAL_LIB --modules MODULES --out NEW_DIR`,
+or replay with `net_probe.py --check reports/net-state`.

@@ -1,0 +1,88 @@
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -61,6 +61,10 @@
+ static size_t vvp_net_alloc_remaining = 0;
+ // For statistics, count the vvp_nets allocated and the bytes of alloc
+ // chunks allocated.
++#include <map>
++static std::map<vvp_net_t*,unsigned long long>& robotron_net_allocations()
++{static std::map<vvp_net_t*,unsigned long long> nodes;return nodes;}
++static unsigned long long robotron_net_serial;
+ unsigned long count_vvp_nets = 0;
+ size_t size_vvp_nets = 0;
+ 
+@@ -90,6 +94,7 @@
+       vvp_net_alloc_table += 1;
+       vvp_net_alloc_remaining -= 1;
+       count_vvp_nets += 1;
++      robotron_net_allocations()[return_this]=++robotron_net_serial;
+       return return_this;
+ }
+ 
+@@ -3812,3 +3817,66 @@
+       else
+ 	    return BIT4_0;
+ }
++
++// Observe handed-out nodes only; pool constructors include unused capacity.
++static unsigned long long robotron_net_id(vvp_net_t* node)
++{
++    if(!node)return 0;auto found=robotron_net_allocations().find(node);
++    return found==robotron_net_allocations().end()?0:found->second;
++}
++static int robotron_net_pointer(FILE* out,vvp_net_ptr_t ptr)
++{
++    return fprintf(out," %p/%llu/%u",(void*)ptr.ptr(),robotron_net_id(ptr.ptr()),ptr.port())<0?-1:0;
++}
++extern "C" int robotron_vvp_net_inventory(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations())nodes[item.second]=item.first;
++    if(fprintf(out,"VNG_BEGIN 1 %llu %lu\n",(unsigned long long)schedule_simtime(),count_vvp_nets)<0)return -1;
++    for(auto item:nodes){
++        auto node=item.second;
++        if(fprintf(out,"VNG_NODE %llu %p %p %p %u",item.first,(void*)node,(void*)node->fun,(void*)node->fil,
++            dynamic_cast<vvp_fun_force*>(node->fun)?1:0)<0)return -1;
++        if(robotron_net_pointer(out,node->out_))return -1;
++        for(unsigned port=0;port<4;++port)if(robotron_net_pointer(out,node->port[port]))return -1;
++        if(fputc('\n',out)==EOF)return -1;
++    }
++    return fprintf(out,"VNG_END %zu\n",nodes.size())<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_net_toggle(int field)
++{
++    static vvp_net_t* saved=0;static int saved_field=-1;static unsigned saved_port;
++    static vvp_net_ptr_t pointer;static vvp_net_fun_t* fun=0;static vvp_net_fil_t* fil=0;
++    if(saved){
++        if(field!=saved_field || !robotron_net_id(saved))return -1;
++        if(field==0 || field==2 || field==5)saved->out_=pointer;
++        else if(field==1)saved->port[saved_port]=pointer;
++        else if(field==3)saved->fun=fun;
++        else if(field==4)saved->fil=fil;
++        saved=0;saved_field=-1;return 1;
++    }
++    if(field<0 || field>5)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations())nodes[item.second]=item.first;
++    for(auto item:nodes){
++        auto node=item.second;
++        if(field==0 || field==2 || field==5){
++            if(node->out_.nil())continue;
++            pointer=node->out_;
++            node->out_=field==0?vvp_net_ptr_t(0,0):field==2?vvp_net_ptr_t(pointer.ptr(),pointer.port()^1):vvp_net_ptr_t(reinterpret_cast<vvp_net_t*>(4),0);
++        }else if(field==1){
++            if(dynamic_cast<vvp_fun_force*>(node->fun))continue;
++            bool found=false;
++            for(unsigned port=0;port<4;++port)if(!node->port[port].nil()){
++                saved_port=port;pointer=node->port[port];node->port[port]=vvp_net_ptr_t(0,0);found=true;break;
++            }
++            if(!found)continue;
++        }else if(field==3){
++            if(!node->fun || dynamic_cast<vvp_fun_force*>(node->fun))continue;
++            fun=node->fun;node->fun=0;
++        }else if(field==4){if(!node->fil)continue;fil=node->fil;node->fil=0;}
++        saved=node;saved_field=field;return 1;
++    }
++    return 0;
++}
