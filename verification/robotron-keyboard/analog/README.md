@@ -1333,8 +1333,9 @@ check equivalence/implication and Boolean/unary subclasses with behavior-changin
 private state alongside an admitted AND, requiring refusal before any inventory
 output. Disabled controls preserve original-runtime behavior. Run
 `gate_family_probe.py` with the native paths, or replay with
-`gate_family_probe.py --check reports/gate-families`. Real conversion,
-unequal-width inputs, allocation lifecycle and board integration remain open.
+`gate_family_probe.py --check reports/gate-families`. Input-path controls below
+cover conversion and width changes; allocation lifecycle and board integration
+remain open.
 Build with `build_gate_runtime.py`, then run `native_gate_probe.py` with candidate,
 baseline and module paths. Replay with `native_gate_probe.py --check reports/gate-state`.
 
@@ -1346,3 +1347,14 @@ observer costs. Keep the measured dense cost explicit when selecting compact
 encoding and capture limits. Reproduce with
 `native_gate_board.py --source REVIEWED_BOARD --candidate GATE_RUNTIME --out NEW_REPORT`,
 or replay with `native_gate_board.py --check reports/gate-board-budget`.
+
+The [gate input-path controls](reports/gate-inputs/assessment.json) check finite
+real rounding/LSB extraction, NaN/infinity conversion, shrinking/re-expanding
+caches and neutral/controlling unequal widths against original-runtime behavior.
+Both runtimes exhibit an unequal-width AND/OR discontinuity: the first absent
+bit participates as X, while later absent bits force X even with a controlling
+input. Matching this behavior establishes fidelity, not general gate semantics.
+The board admission check requires equal cached widths; resolve this behavior
+before admitting unequal-width profiles. Overflowing real values remain outside
+these controls. Reproduce with `gate_input_probe.py` and the native runtime paths,
+or replay with `gate_input_probe.py --check reports/gate-inputs`.

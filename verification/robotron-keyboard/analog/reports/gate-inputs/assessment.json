@@ -1,0 +1,23 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "normalTrajectoryExactlyEqual": true,
+  "outputMatchesIndependentOracle": true,
+  "unequalWidthControllingDiscontinuityObserved": true,
+  "restoredFaults": 408,
+  "faultsByField": {
+    "0": 88,
+    "1": 66,
+    "2": 66,
+    "3": 66,
+    "4": 56,
+    "5": 66
+  },
+  "observationsPerRun": 67,
+  "scope": "Finite real rounding/LSB extraction and NaN/infinity conversion, gate cache width changes, neutral and controlling unequal-width inputs, repeated unchanged writes and re-expansion preserve original-runtime continuation and restored faults.",
+  "notEstablished": [
+    "Overflowing real values and exhaustive rounding boundaries",
+    "Correction/admission of unequal-width controlling-value behavior and allocation lifecycle",
+    "Board integration, class admission, budgets and general rollback"
+  ]
+}
