@@ -1,0 +1,102 @@
+--- a/vvp/logic.h
++++ b/vvp/logic.h
+@@ -161,6 +161,9 @@
+ 
+     public:
+       explicit vvp_fun_muxz(unsigned width);
++      const void* robotron_event_key() const { return static_cast<const vvp_gen_event_s*>(this); }
++      int robotron_mux_inventory(FILE*) const;
++      int robotron_mux_toggle(int);
+       virtual ~vvp_fun_muxz() override;
+ 
+       void recv_vec4(vvp_net_ptr_t p, const vvp_vector4_t&bit,
+--- a/vvp/logic.cc
++++ b/vvp/logic.cc
+@@ -744,3 +744,32 @@
+     
+     return 1;
+ }
++
++int vvp_fun_muxz::robotron_mux_inventory(FILE* out) const
++{
++    if(fprintf(out,"%p %u %u %u ",(void*)net_,(unsigned)select_,(unsigned)has_run_,a_.size())<0)return -1;
++    if(!a_.size())fputc('-',out);
++    for(unsigned i=0;i<a_.size();i++)if(fputc('0'+(unsigned)a_.value(i),out)==EOF)return -1;
++    if(fprintf(out," %u ",b_.size())<0)return -1;
++    if(!b_.size())fputc('-',out);
++    for(unsigned i=0;i<b_.size();i++)if(fputc('0'+(unsigned)b_.value(i),out)==EOF)return -1;
++    return fputc('\n',out)==EOF || ferror(out)?-1:0;
++}
++int vvp_fun_muxz::robotron_mux_toggle(int field)
++{
++    static vvp_fun_muxz* saved=0;static int saved_field;
++    static vvp_vector4_t bits;static sel_type selection;static bool ran;static vvp_net_t* pending;
++    if(saved){
++        if(saved!=this || field!=saved_field)return -1;
++        if(field==0)a_=bits;else if(field==1)b_=bits;else if(field==2)select_=selection;else if(field==3)has_run_=ran;else net_=pending;
++        saved=0;return 1;
++    }
++    if(field<0 || field>4)return -1;
++    if((field==0 && !a_.size()) || (field==1 && !b_.size()) || (field==4 && !net_))return 0;
++    saved=this;saved_field=field;
++    if(field==0 || field==1){auto& value=field==0?a_:b_;bits=value;value.set_bit(0,value.value(0)==BIT4_1?BIT4_0:BIT4_1);}
++    else if(field==2){selection=select_;select_=select_==SEL_PORT0?SEL_PORT1:SEL_PORT0;}
++    else if(field==3){ran=has_run_;has_run_=!has_run_;}
++    else{pending=net_;net_=0;}
++    return 1;
++}
+--- a/vvp/schedule.cc
++++ b/vvp/schedule.cc
+@@ -1642,3 +1642,17 @@
+     if(saved){found->thr=object;saved=0;object=0;return 1;}
+     saved=found;object=found->thr;identity=found->robotron_id;found->thr=0;return 1;
+ }
++
++extern "C" int robotron_vvp_mux_queue(FILE* out,const void* const* keys,unsigned count,unsigned* observed)
++{
++    std::set<const void*> wanted;for(unsigned i=0;i<count;i++)wanted.insert(keys[i]);*observed=0;
++    auto emit=[&](generic_event_s* wrapper,long long slot,const char* region,unsigned long long ordinal){
++        if(!wrapper || !wanted.count(wrapper->obj))return 0;
++        ++*observed;
++        return fprintf(out,"VXM_EVENT %lld %s %llu %llu %p %u\n",slot,region,ordinal,wrapper->robotron_id,(void*)wrapper->obj,(unsigned)wrapper->delete_obj_when_done)<0?-1:0;
++    };
++    if(robotron_assignment_walk([&](event_s* e,long long slot,const char* region,unsigned long long ordinal){return emit(dynamic_cast<generic_event_s*>(e),slot,region,ordinal);}))return -1;
++    unsigned depth=0;
++    for(auto f=robotron_generic_executing;f;f=f->previous)if(emit(f->event,-2,"executing",depth++))return -1;
++    return ferror(out)?-1:0;
++}
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -4139,3 +4139,32 @@
+     }
+     return fprintf(out,"VSD_END %zu\n",changed)<0 || ferror(out)?-1:0;
+ }
++
++#include "logic.h"
++extern "C" int robotron_vvp_mux_queue(FILE*,const void* const*,unsigned,unsigned*);
++extern "C" int robotron_vvp_mux_inventory(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;std::vector<const void*> keys;
++    for(auto item:robotron_net_allocations())if(dynamic_cast<vvp_fun_muxz*>(item.first->fun))nodes[item.second]=item.first;
++    if(fprintf(out,"VXM_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:nodes){
++        auto mux=dynamic_cast<vvp_fun_muxz*>(item.second->fun);keys.push_back(mux->robotron_event_key());
++        if(fprintf(out,"VXM_MUX %llu %p %p %p ",item.first,(void*)item.second,(void*)mux,mux->robotron_event_key())<0 || mux->robotron_mux_inventory(out))return -1;
++    }
++    unsigned events=0;if(robotron_vvp_mux_queue(out,keys.data(),keys.size(),&events))return -1;
++    return fprintf(out,"VXM_END %zu %u\n",nodes.size(),events)<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_mux_toggle(int field)
++{
++    static vvp_fun_muxz* saved=0;static int saved_field=-1;
++    if(field<0 || field>4 || (saved && field!=saved_field))return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations())nodes[item.second]=item.first;
++    for(auto item:nodes){
++        auto mux=dynamic_cast<vvp_fun_muxz*>(item.second->fun);if(!mux || (saved && saved!=mux))continue;
++        int result=mux->robotron_mux_toggle(field);if(result<0)return result;
++        if(result){saved=saved?0:mux;saved_field=field;return 1;}
++    }
++    return saved?-1:0;
++}
