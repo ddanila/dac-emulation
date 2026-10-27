@@ -1,0 +1,71 @@
+{
+  "qualified": false,
+  "commands": [
+    [
+      "cc",
+      "-fPIC",
+      "-fvisibility=default",
+      "-I/private/tmp/k7658-scope-bridge-v2/include",
+      "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/include",
+      "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog",
+      "-I/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog",
+      "-dynamiclib",
+      "-undefined",
+      "dynamic_lookup",
+      "/private/tmp/k7658-scope-bridge-v2/icarus_shim.c",
+      "-o",
+      "/private/tmp/k7658-scope-bridge-v2/ivlng.so"
+    ],
+    [
+      "cc",
+      "-fPIC",
+      "-fvisibility=default",
+      "-I/private/tmp/k7658-scope-bridge-v2/include",
+      "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/include",
+      "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog",
+      "-I/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "/private/tmp/k7658-scope-bridge-v2/vpi.c",
+      "-o",
+      "/private/tmp/k7658-scope-bridge-v2/ivlng.vpi"
+    ]
+  ],
+  "sources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_output_callback_bridge.py": "f18f4b7727b2610e9f3b29fb7c88704f11fd1edc80508e4f7f9ece10de045347",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_port_identity_bridge.py": "a271154ef28daf9523b34a77035d488e8320bdff8f2a44da7394990c292c69d1",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/output_callback_bridge.h": "bef70cbe68846331d18afd9e68351834280976e080ddd0569b140d153a7896c3",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_private_sync_bridge.py": "2c09e7bd45498d580307f60f839381a315eb6c203fda5bcd697522296deb6ea7",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_private_sync_family_bridge.py": "3a4d9536ea81234480f24677886b6b46fcdee01d0f2d0f845089ac514c425223",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_display_stop_bridge.py": "7ae9f463384fef147eee8772e5e7ffeb0b29d779af195d5fdb67622172c06d92",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_executing_wrapper_bridge.py": "6528626033f95e83ae8e877930ea007b2ef4ec21e589792b8ba62d5e4f6fd609",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/port_identity_bridge.h": "b7bc2cfe140c720b14ef5b232188460650d379ecf3342f7d67a5a4d1926f6508",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/display_board_bridge.h": "d1cce8ead91a7940ffdb1d3c63e6265baf89b67b7dec7fefda313f6b680c7fcc",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.c": "53d62ad7b82372826a183f2f5ed0d89fbb90845d312ff7f2c2e0b489db668f2b",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog/vpi_user.h": "109e905f31b6b25dcd3ad784784177baf1bab342a3c1634a82a20abf00516256",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.h": "cb3a43a781157f1477b9ba4ed5ca6669c60b76e3f1c6d9674153f703b6395912",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/coroutine_shim.h": "312cd4c02bb77aca1b2cf094531a7f062fa1624153cffd9d037c91eece461ada",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/coroutine_cosim.h": "78de72acfb12c09155f46b53821d8ecab2b596423ce93c995384dd971550716e",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cmtypes.h": "268ca5c099d9d2e19bef436abc81261195c4ac5e237a5489786331de8d22b371",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cosim.h": "1fdf5e534cdc4a6f77b5d8177152107722f192a2b9e3e7a7fa007d093e13a425",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_startup_callback_bridge.py": "494f2dc75b8e8e593aafb6e3192d738b6d053181e0533786087c0e3db29a242e",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/startup_callback_bridge.h": "0aab12018446e7d64a5162412ca3017a93d9d9f92a084f786c583088f7aee0e1",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_assignment_bridge.py": "bcba15c5058148fa7f1f85f6563832705e0815c572e88b7d964e49f573c692f5",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_primitive_bridge.py": "bb0415ebbb734545df3ca4546bc26c5966fde58fd358a0bdf787cf6f51c723e9",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_island_bridge.py": "6ea729fac7fb67e79c4a3a94c8463f5dba3de1ae405802170fad80e963bea215",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_island_filter_bridge.py": "6ebf3c150e7ea56b666096ed025e495c38e0fdd4e15e893f43f7a1e03608ace6",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_thread_bridge.py": "d1cd7b2fbef28c095eb171b5aa9873ffc135bb71a6c5e3f34d9cc606bde1d24d",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_wait_bridge.py": "81fcfbad7c25ece2e3407fb3fbd3ddac5e65a048c5afab33568f86a675eedd18",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_code_binding_bridge.py": "44fba9b5901404ab2df92be06e9e23e19bbbb25deea9b4b4b2b2276e893ec571",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_scope_bridge.py": "891b87ac97a3270c607793e815c8f1c5856119f628ba7c6f72a1be06bcdf262a"
+  },
+  "outputs": {
+    "icarus_shim.c": "54119a604deb71acf8cce1253acb9ed984ebc39440c297b0861d0765399780cb",
+    "vpi.c": "2c5f104247255bec7fd31d551c279d2564a90cd412866b39ffe680379ce7a6d1",
+    "ivlng.so": "5332d6f9973f8ed8412f0ffdef55b0099655694e299d00896720940d9b9f9eee",
+    "ivlng.vpi": "4edd035a76979cfe305c2da68545c6a5cc7b0caf772053d939cc2ea4cadbf132"
+  },
+  "scope": "All preceding board layers plus static-scope hierarchy and actual membership; restored membership removal at startup and after 5 us. Scope intern contents and deeper referents remain open."
+}
