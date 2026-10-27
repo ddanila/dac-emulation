@@ -1,0 +1,87 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-delta-final/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-delta-final/probe.v"
+    ],
+    [
+      "cc",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-wire-delta-runtime-v2",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-delta-final/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-delta-final/probe.c"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-wire-delta-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-wire-delta-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-wire-delta-runtime-v2/vvp/libvvp.so"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-wire-delta-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-wire-delta-runtime-v2/vvp/libvvp.so"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-wire-delta-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-wire-delta-runtime-v2/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-wire-delta-runtime-v2/vvp/libvvp.so": "9b60b991da1b11caef6b9d322e1fd6930d97c032a96e3eed403cfca5de87ee41",
+    "/private/tmp/k7658-wire-delta-runtime-v2/vvp/vvp": "531224c2f897752078bf8cd5e5e80d6b160ccfff2de83c479767c62f4a94bfe9",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-delta-final/probe.vpi": "d85157c81f7d1543deb5a9f7749b97150ae2c07f555e696d3cdf98a12e79453d",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "wire_delta_probe.py": "987932cbc609de5f2bd7f507d1fbb977410a42f9c309a2f5a691f2201e3143b5",
+    "wire_probe.py": "a1e94ac7f3719de40ac2fdaeae31a7295d2390ca0e927d15dc6c6f7cd43b516e",
+    "island_filter_probe.py": "c92564e6d3d50eca22db7af9a22aba3ce3714aa83f97f29c0e44a4de411c875a",
+    "fixtures/wire_delta_probe.c": "d289826eb15fd7bf70dd2cf825fec42a1d50bfb8fb4576aa97695de18497a9ee",
+    "fixtures/wire_probe.v": "9e5770ed10992b1692ca98c19a8c759f63fe1ab1f848d15e69fb378ffe8dc703"
+  }
+}

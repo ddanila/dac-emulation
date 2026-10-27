@@ -1173,3 +1173,17 @@ force and callback changes; callback/array-word list contents and combined
 operational capture cost remain open. Reproduce with `wire_board.py` using the
 reviewed wait-board source and wire runtime, or replay with
 `wire_board.py --check reports/wire-board-budget`.
+
+The [wire delta controls](reports/wire-delta/assessment.json) reconstruct complete
+wire images from an immutable per-filter reference plus prefix/suffix splices.
+Every call scans all native fields; omitted records mean exact equality to that
+reference. New filter records are complete; disappearance is refused. Dense
+images remain the independent oracle for force/release and restored faults.
+Reference reset and observations before reference initialization are refused.
+The [board delta budget](reports/wire-delta-budget/assessment.json) measures this
+encoding on the compiled board before execution. Its small unchanged-state
+output is not an operational storage bound; force changes and active vectors
+still require combined capture/review measurements. Callback-list contents and
+other functor payloads remain separate. Build with `build_wire_delta_runtime.py`,
+run `wire_delta_probe.py` and `wire_delta_board.py`, and replay either producer
+with `--check` and its retained report directory.
