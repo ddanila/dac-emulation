@@ -1,0 +1,534 @@
+{
+  "completed": true,
+  "qualified": false,
+  "deviceAdmitted": false,
+  "runtime": {
+    "path": "/opt/homebrew/Cellar/ngspice/47/bin/ngspice",
+    "sha256": "5845b18cd68781daf9c7bd5bbce6b1b3e212eafe58f98861199dca2cba8e2511"
+  },
+  "scope": "Necessary data-high-valid screen at the published 4.75-V, 100-pF condition. No internal delay or favorable active external driver. Starts at zero, the DC low guarantee, and the ordinary-input low ceiling.",
+  "capacitanceScope": "Zero extra capacitance is the fastest control; 10 pF is the published 25-C capacitance maximum used as a sensitivity hypothesis, not a guaranteed 70-C value.",
+  "decision": "Both endpoint-only CPU hypotheses fail even from 0.8 V without added capacitance. Explicit 3-kohm and 4-kohm alternatives pass these RC/DC screens, but are non-unique hypotheses, not extracted I/V models.",
+  "notEstablished": [
+    "Internal clock-to-drive delay, falling and release behavior",
+    "Nonlinear I/V and supply law",
+    "Capacitance at 70 C",
+    "ROM behavior",
+    "Operational integration or specimen applicability"
+  ],
+  "sources": {
+    "u880_output_probe.py": "ae0a50b6284fdc6e596f9a366b018e47897731f24e116009caa513c5bc787f1c",
+    "u880_output_switching.json": "c4d42ff4ffcda3b8494f936efdd33b566721d9495a35afdc610d7653cc187b2f",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "bus_device_contract.json": "2ec7297942027de6507fe06b7ee0ee28380affd73d7aa15af47f6c73fa3d6c03",
+    "bus_endpoint_candidates.py": "6437f6e81fcb100065df54ac21f1f7a87c13fb68482567c85410dbd27e3e5fb0",
+    "bus_switching_probe.py": "d122f1e6f8bb4d8f44660f835c9a980eb394698ef23c911c0caca31cbcee2f23",
+    "ttl7406_probe.py": "8726f6dc39c717b65abccc85792859aad3d8537dc02ac7eb85d2bd72d3e8021b"
+  },
+  "cases": [
+    {
+      "case": {
+        "hypothesis": "minimum-supply",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.0,
+        "targetVolts": 2.0,
+        "analyticSeconds": 5.137510839859857e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -2.537510839859857e-07,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 5.13751e-07,
+      "files": {
+        "probe.cir": "8969602c1dfb5003d46a8b728700a1bc6f4437f9abaf530076213c42210e322d",
+        "ngspice.log": "a63d7b1e5a9001167a8e4ebe950abd79354344fc8d3d3778409ea35f32b8f366"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "minimum-supply",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.4,
+        "targetVolts": 2.0,
+        "analyticSeconds": 4.3106043741678605e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -1.7106043741678605e-07,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 4.3106e-07,
+      "files": {
+        "probe.cir": "f49236bcb32f38d731da2858b4216191e95e4ea8559028e1d1a7b6b70a4f6ad0",
+        "ngspice.log": "92dd6679fb79b2e0d8b0be134a2411c0f4004fc26d800af20565522b2b80b8d1"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "minimum-supply",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.8,
+        "targetVolts": 2.0,
+        "analyticSeconds": 3.403877872004776e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -8.038778720047762e-08,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 3.40388e-07,
+      "files": {
+        "probe.cir": "b5db116616a64bf66b7368e973c902dc77563b6ca1a2ad54818adfe501298022",
+        "ngspice.log": "4f438172a9f5e43829b8657c52f2c6598f6f50e1b7f148734f84a5cd138b7754"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "minimum-supply",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.0,
+        "targetVolts": 2.0,
+        "analyticSeconds": 5.651261923845844e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -3.0512619238458444e-07,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 5.65126e-07,
+      "files": {
+        "probe.cir": "bea5eebcb64f9ca3e92c2dafa5ada93a89104c24a0c600cd62a8d507fa4e779b",
+        "ngspice.log": "ef847d5fba18b29bd7a973c24e4fe4492d294c6137492561d0cea22a8b7adae2"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "minimum-supply",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.4,
+        "targetVolts": 2.0,
+        "analyticSeconds": 4.7416648115846473e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -2.1416648115846473e-07,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 4.74166e-07,
+      "files": {
+        "probe.cir": "ba673b36799c9ecda7e139edb7a8800e7e98a1c999efc1086332f78359a6a43c",
+        "ngspice.log": "d4c9170d4d914e5fb543d6c53e873896d61b400db2a2c10b74ee2376f05598b5"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "minimum-supply",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.8,
+        "targetVolts": 2.0,
+        "analyticSeconds": 3.744265659205254e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -1.1442656592052542e-07,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 3.74427e-07,
+      "files": {
+        "probe.cir": "1e074a3bbc3fd24007e4e427d12efcdada50d8a3213689f52e37799d6489ace8",
+        "ngspice.log": "a416ef22a0b41ceaf4966a26912a0c0f2c4cb780bd8f060ea9f14877fa254ba0"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "supply-tracking",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.0,
+        "targetVolts": 2.0,
+        "analyticSeconds": 5.137510839859857e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -2.537510839859857e-07,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 5.13751e-07,
+      "files": {
+        "probe.cir": "8969602c1dfb5003d46a8b728700a1bc6f4437f9abaf530076213c42210e322d",
+        "ngspice.log": "a63d7b1e5a9001167a8e4ebe950abd79354344fc8d3d3778409ea35f32b8f366"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "supply-tracking",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.4,
+        "targetVolts": 2.0,
+        "analyticSeconds": 4.3106043741678605e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -1.7106043741678605e-07,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 4.3106e-07,
+      "files": {
+        "probe.cir": "f49236bcb32f38d731da2858b4216191e95e4ea8559028e1d1a7b6b70a4f6ad0",
+        "ngspice.log": "92dd6679fb79b2e0d8b0be134a2411c0f4004fc26d800af20565522b2b80b8d1"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "supply-tracking",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.8,
+        "targetVolts": 2.0,
+        "analyticSeconds": 3.403877872004776e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -8.038778720047762e-08,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 3.40388e-07,
+      "files": {
+        "probe.cir": "b5db116616a64bf66b7368e973c902dc77563b6ca1a2ad54818adfe501298022",
+        "ngspice.log": "4f438172a9f5e43829b8657c52f2c6598f6f50e1b7f148734f84a5cd138b7754"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "supply-tracking",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.0,
+        "targetVolts": 2.0,
+        "analyticSeconds": 5.651261923845844e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -3.0512619238458444e-07,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 5.65126e-07,
+      "files": {
+        "probe.cir": "bea5eebcb64f9ca3e92c2dafa5ada93a89104c24a0c600cd62a8d507fa4e779b",
+        "ngspice.log": "ef847d5fba18b29bd7a973c24e4fe4492d294c6137492561d0cea22a8b7adae2"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "supply-tracking",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.4,
+        "targetVolts": 2.0,
+        "analyticSeconds": 4.7416648115846473e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -2.1416648115846473e-07,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 4.74166e-07,
+      "files": {
+        "probe.cir": "ba673b36799c9ecda7e139edb7a8800e7e98a1c999efc1086332f78359a6a43c",
+        "ngspice.log": "d4c9170d4d914e5fb543d6c53e873896d61b400db2a2c10b74ee2376f05598b5"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "supply-tracking",
+        "highOhms": 9400.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.8,
+        "targetVolts": 2.0,
+        "analyticSeconds": 3.744265659205254e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": false,
+        "internalDelayHeadroomSeconds": -1.1442656592052542e-07,
+        "loadedDcHighVolts": 2.4
+      },
+      "measuredSeconds": 3.74427e-07,
+      "files": {
+        "probe.cir": "1e074a3bbc3fd24007e4e427d12efcdada50d8a3213689f52e37799d6489ace8",
+        "ngspice.log": "a416ef22a0b41ceaf4966a26912a0c0f2c4cb780bd8f060ea9f14877fa254ba0"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-3000",
+        "highOhms": 3000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.0,
+        "targetVolts": 2.0,
+        "analyticSeconds": 1.6396311191042098e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 9.603688808957902e-08,
+        "loadedDcHighVolts": 4.0
+      },
+      "measuredSeconds": 1.63963e-07,
+      "files": {
+        "probe.cir": "162cce7ad778b8f8bb4d50b6853b8b911768163ab15398169110d842be4bd451",
+        "ngspice.log": "3725ae239ca1712fc0a9a8d19bbe94a073540fab15328207851eb20fe0d8f05f"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-3000",
+        "highOhms": 3000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.4,
+        "targetVolts": 2.0,
+        "analyticSeconds": 1.3757248002663384e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 1.2242751997336616e-07,
+        "loadedDcHighVolts": 4.0
+      },
+      "measuredSeconds": 1.37572e-07,
+      "files": {
+        "probe.cir": "c9811644c6ac0e9cb559252c89f5b2dee36799dcafa9424d38a4399960fb3123",
+        "ngspice.log": "a2d8e2c34bb2d770d79316d27a3f6f71085aa241003a3d6d689afb91ee1d25f6"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-3000",
+        "highOhms": 3000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.8,
+        "targetVolts": 2.0,
+        "analyticSeconds": 1.0863440017036519e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 1.5136559982963482e-07,
+        "loadedDcHighVolts": 4.0
+      },
+      "measuredSeconds": 1.08634e-07,
+      "files": {
+        "probe.cir": "5cd72a4e1eb8c4c1800d81a7ee929d1f2fb8f2cdc2d7eb78c66aa52fc9c77320",
+        "ngspice.log": "cc817f689d27865f7520421e4d02af1d8960337815e2a568c42ff788782588ac"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-3000",
+        "highOhms": 3000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.0,
+        "targetVolts": 2.0,
+        "analyticSeconds": 1.803594231014631e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 7.964057689853691e-08,
+        "loadedDcHighVolts": 4.0
+      },
+      "measuredSeconds": 1.80359e-07,
+      "files": {
+        "probe.cir": "ed2e2fde551315be1831135e25f7dced979e663b826cc80ad50eb1de6d9c4e36",
+        "ngspice.log": "fa9efa87253c75d6b15399e76cc2af7ab75119f221b850e986e78db7fd4cc30c"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-3000",
+        "highOhms": 3000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.4,
+        "targetVolts": 2.0,
+        "analyticSeconds": 1.5132972802929724e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 1.0867027197070276e-07,
+        "loadedDcHighVolts": 4.0
+      },
+      "measuredSeconds": 1.5133e-07,
+      "files": {
+        "probe.cir": "da587efce0950e4d44b21fcf39211714257e393cafa9176488995beea8a99b41",
+        "ngspice.log": "56a73dcea9f3174c1f3954fcf7986a77bc9e2f47312b0f1651ad9893cbff7355"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-3000",
+        "highOhms": 3000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.8,
+        "targetVolts": 2.0,
+        "analyticSeconds": 1.1949784018740173e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 1.4050215981259827e-07,
+        "loadedDcHighVolts": 4.0
+      },
+      "measuredSeconds": 1.19498e-07,
+      "files": {
+        "probe.cir": "62928ab5119e2968f6e88748365b50d1ffd50e524045966e1e89e49df8750d17",
+        "ngspice.log": "103bd2182a1ed19f0c54c03518c68b7005a08e486c0c779ee110cd711522502c"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-4000",
+        "highOhms": 4000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.0,
+        "targetVolts": 2.0,
+        "analyticSeconds": 2.18617482547228e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 4.1382517452772e-08,
+        "loadedDcHighVolts": 3.75
+      },
+      "measuredSeconds": 2.18617e-07,
+      "files": {
+        "probe.cir": "05ce34f2ff986b15a4c2e5ac534e667d98869e61a13582a1e57f87155fde94e2",
+        "ngspice.log": "532c0fa47148e2906350fbd7828c51875c1352148a1437f8a91e1f7e3eccbeb5"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-4000",
+        "highOhms": 4000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.4,
+        "targetVolts": 2.0,
+        "analyticSeconds": 1.8342997336884513e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 7.657002663115487e-08,
+        "loadedDcHighVolts": 3.75
+      },
+      "measuredSeconds": 1.8343e-07,
+      "files": {
+        "probe.cir": "9fb7d553793046cc760bd7590308c89d359f97db46ceb2a1d2003858b260c02d",
+        "ngspice.log": "431051cebbb32b1af592dfd80b711e1c8027da85f7654b8ed04d5a5e61765533"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-4000",
+        "highOhms": 4000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 0.0,
+        "totalCapacitanceFarads": 1e-10,
+        "initialVolts": 0.8,
+        "targetVolts": 2.0,
+        "analyticSeconds": 1.4484586689382028e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 1.1515413310617972e-07,
+        "loadedDcHighVolts": 3.75
+      },
+      "measuredSeconds": 1.44846e-07,
+      "files": {
+        "probe.cir": "7811e78fdb6bb7e1fa812c1c40a0a653ca816fe536828aa3c42a551efbf4c262",
+        "ngspice.log": "523228ffc368198d4d603605107893f822feb900a3d6e7658f1858486f5c97b5"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-4000",
+        "highOhms": 4000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.0,
+        "targetVolts": 2.0,
+        "analyticSeconds": 2.404792308019508e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 1.952076919804921e-08,
+        "loadedDcHighVolts": 3.75
+      },
+      "measuredSeconds": 2.40479e-07,
+      "files": {
+        "probe.cir": "709dac111e8b3bd5098605564aba49bb65b6aff59cd27302960d9f75b5b82d9d",
+        "ngspice.log": "bbd0bf5a83cd3bad0c7fdfa2dc154d3c7a73fa1f6709a8df9a99e55eed5978d3"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-4000",
+        "highOhms": 4000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.4,
+        "targetVolts": 2.0,
+        "analyticSeconds": 2.0177297070572965e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 5.8227029294270345e-08,
+        "loadedDcHighVolts": 3.75
+      },
+      "measuredSeconds": 2.01773e-07,
+      "files": {
+        "probe.cir": "575b223ceb53d402271d45d9bfb3275e124c6bbd2b4b25daea2b8c2cf5fbd86e",
+        "ngspice.log": "9c4b372b5d799fe3b33ac4cc3c5a1e4dcda5bb0156db9283d34b2367cc657368"
+      }
+    },
+    {
+      "case": {
+        "hypothesis": "linear-4000",
+        "highOhms": 4000.0,
+        "supplyVolts": 4.75,
+        "extraCapacitanceFarads": 1e-11,
+        "totalCapacitanceFarads": 1.1000000000000001e-10,
+        "initialVolts": 0.8,
+        "targetVolts": 2.0,
+        "analyticSeconds": 1.593304535832023e-07,
+        "maximumSeconds": 2.6e-07,
+        "withinBudget": true,
+        "internalDelayHeadroomSeconds": 1.0066954641679771e-07,
+        "loadedDcHighVolts": 3.75
+      },
+      "measuredSeconds": 1.5933e-07,
+      "files": {
+        "probe.cir": "9b7b1d6d7f523b81f1c10a7bc94e364ecba7ea8876bf6264d965ed2d535f1348",
+        "ngspice.log": "1587360ad440d62d6c7ecaebe62f108450bdfd542cbad335d1c62d7ee994a08f"
+      }
+    }
+  ]
+}

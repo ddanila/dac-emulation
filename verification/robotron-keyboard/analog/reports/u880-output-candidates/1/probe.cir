@@ -1,0 +1,11 @@
+U880 data-output high-valid necessary screen
+Vdrive drive 0 4.75
+Rdrive drive out 9400
+Cload out 0 1e-10 IC=0.40000000000000002
+.options reltol=1e-8 abstol=1e-12
+.control
+tran 0.05n 1u 0 0.05n uic
+meas tran edge_time WHEN v(out)=2 RISE=1
+quit
+.endc
+.end
