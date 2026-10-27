@@ -1,0 +1,131 @@
+{
+  "qualified": false,
+  "completeAllocatedGraphObserved": true,
+  "observationExactlyRepeatable": true,
+  "allocatedNodes": 1820,
+  "compiledProfile": {
+    "declarations": {
+      ".arith/sub": 2,
+      ".arith/sum": 4,
+      ".array": 3,
+      ".array/port": 23,
+      ".cmp/eeq": 207,
+      ".cmp/eq": 2,
+      ".cmp/nee": 2,
+      ".concat": 17,
+      ".concat8": 43,
+      ".event": 44,
+      ".event/or": 12,
+      ".functor": 981,
+      ".import": 2,
+      ".island": 2,
+      ".net": 1196,
+      ".net/2u": 393,
+      ".net8": 58,
+      ".param/l": 56,
+      ".part": 225,
+      ".port": 4,
+      ".reduce/nor": 38,
+      ".resolv": 18,
+      ".scope": 32,
+      ".var": 191,
+      ".var/i": 5
+    },
+    "functorFamilies": {
+      "AND": 44,
+      "BUFT": 482,
+      "BUFZ": 167,
+      "MUXZ": 251,
+      "NOT": 15,
+      "OR": 21,
+      "XOR": 1
+    },
+    "networkDeclarationCount": 3405,
+    "declarationCountsAreNotNativeAllocationCounts": true,
+    "reasons": [
+      "Net handles may share existing driver nodes.",
+      "Wide-input cores allocate intermediate nodes without labels.",
+      "Pool construction includes unused capacity; register handed-out allocations, not constructor calls."
+    ]
+  },
+  "crossReferences": {
+    "arrayReadPortDestinations": 23,
+    "codeNetOperands": 5737,
+    "uniqueCodeNetTargets": 258
+  },
+  "graph": {
+    "active": 0,
+    "inactive": 0,
+    "maxFanout": 48
+  },
+  "peakResidentBytes": 11763712,
+  "logicalImageBytes": 186049,
+  "projection": {
+    "boundaries": 55156,
+    "normalSnapshotCalls": 110312,
+    "concatLogBytesAtInitialState": 528615104,
+    "meanConcatScanSeconds": 33.691697874999996,
+    "maxSampleConcatScanSeconds": 35.8514,
+    "excludesLaterStateGrowthAndOtherObservers": true
+  },
+  "scope": "Actual compiled board before time advances: all admitted allocated concat functors bound to graph and native class; raw concat8 bytes and logical concat4 bits observed with port widths and pending/event bindings. Compiled family/width totals are an independent aggregate check, not named-net identity. Timings include full cache scans; initial-state output is not an operational bound.",
+  "notEstablished": [
+    "Operational concat transitions and allocation growth",
+    "Combined capture/review cost and full-board integration",
+    "Other payload families, full coupled qualification or general rollback"
+  ],
+  "nativeClassBindingsMatchGraph": true,
+  "nativeClasses": {
+    "fun": {
+      "resolv_tri": 18,
+      "vvp_arith_sub": 2,
+      "vvp_arith_sum": 4,
+      "vvp_cmp_eeq": 207,
+      "vvp_cmp_eq": 2,
+      "vvp_cmp_nee": 2,
+      "vvp_fun_and": 44,
+      "vvp_fun_anyedge_sa": 35,
+      "vvp_fun_arrayport_sa": 23,
+      "vvp_fun_buft": 482,
+      "vvp_fun_bufz": 167,
+      "vvp_fun_concat": 17,
+      "vvp_fun_concat8": 43,
+      "vvp_fun_edge_sa": 9,
+      "vvp_fun_event_or_sa": 12,
+      "vvp_fun_muxz": 251,
+      "vvp_fun_not": 15,
+      "vvp_fun_or": 21,
+      "vvp_fun_part_sa": 225,
+      "vvp_fun_signal4_sa": 196,
+      "vvp_fun_xor": 1,
+      "vvp_island_port": 6,
+      "vvp_reduce_nor": 38
+    },
+    "filter": {
+      "vvp_wire_vec4": 1544,
+      "vvp_wire_vec8": 29
+    }
+  },
+  "concatFunctors": 60,
+  "observedCacheWidths": {
+    "1": 1,
+    "2": 2,
+    "3": 1,
+    "4": 27,
+    "5": 6,
+    "8": 9,
+    "9": 2,
+    "11": 1,
+    "13": 2,
+    "16": 7,
+    "24": 2
+  },
+  "concatTimings": {
+    "iterations": 64,
+    "totalSeconds": 0.019547,
+    "meanSeconds": 0.000305421875,
+    "minSeconds": 0.000299999,
+    "maxSeconds": 0.000325
+  },
+  "concatImageBytes": 4785
+}
