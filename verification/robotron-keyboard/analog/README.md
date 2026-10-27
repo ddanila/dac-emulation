@@ -1000,3 +1000,10 @@ with restored faults and explicit automatic-scope refusal. Board integration and
 scope-owned net/array contents remain open. Build with `build_scope_runtime.py`;
 run `scope_probe.py --candidate RUNTIME --baseline ORIGINAL_LIB --modules MODULES --out NEW_DIR`
 or replay with `scope_probe.py --check reports/scope-membership` from this directory.
+
+For combined board validation, build `build_scope_bridge.py`, then run
+`scope_board_capture.py --source REVIEWED_PC_BOARD --assessment PC_ASSESSMENT --bridge BRIDGE --icarus RUNTIME --out NEW_DIR`
+and `scope_board_review.py --root NEW_DIR --producer scope_board_capture.py --out REPORT`.
+The reviewer retains preceding state checks and requires exact waveform/firmware
+agreement plus restored membership faults at startup and after 5 us. Native
+fixtures alone do not establish this board acceptance.
