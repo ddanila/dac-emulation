@@ -1,0 +1,108 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x1033fccb0 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x1033fce30 .scope module, "wire_probe" "wire_probe" 3 2;
+ .timescale -9 -12;
+L_0xb99454010 .functor BUFT 1, C4<01011010>, C4<0>, C4<0>, C4<0>;
+L_0x1034052e0 .functor XOR 8, v0x103407110_0, L_0xb99454010, C4<00000000>, C4<00000000>;
+L_0x1034042b0 .functor BUFZ 8, v0x103407110_0, C4<00000000>, C4<00000000>, C4<00000000>;
+v0x103404210_0 .net/2u *"_ivl_0", 7 0, L_0xb99454010;  1 drivers
+L_0xb99454058 .functor BUFT 1, C4<00000001>, C4<0>, C4<0>, C4<0>;
+v0x103405470_0 .net/2u *"_ivl_4", 7 0, L_0xb99454058;  1 drivers
+v0x103405240_0 .net "a", 7 0, L_0x1034052e0;  1 drivers
+v0x103404f10_0 .net "b", 7 0, L_0x103407250;  1 drivers
+I0xb9902c160 .island tran;
+p0xb994200d0 .port I0xb9902c160, L_0x1034042b0;
+v0x103406c50_0 .net8 "c", 7 0, p0xb994200d0;  1 drivers, strength-aware
+o0xb99420100 .functor BUFZ 8, c4<zzzzzzzz>; HiZ drive
+p0xb99420100 .port I0xb9902c160, o0xb99420100;
+v0x103406fd0_0 .net8 "d", 7 0, p0xb99420100;  0 drivers, strength-aware
+v0x103407070_0 .var "forced", 7 0;
+v0x103407110_0 .var "source", 7 0;
+v0x1034071b0_0 .var "unused", 7 0;
+v0xb99050000_0 .net "wide", 63 0, L_0x1034072f0;  1 drivers
+v0xb990500a0_0 .net "wideforced", 79 0, L_0x103407430;  1 drivers
+v0xb99050140_0 .net "widewire", 79 0, L_0x103407390;  1 drivers
+L_0x103407250 .arith/sum 8, v0x103407110_0, L_0xb99454058;
+LS_0x1034072f0_0_0 .concat [ 8 8 8 8], L_0x1034052e0, v0x103407110_0, L_0x103407250, L_0x1034052e0;
+LS_0x1034072f0_0_4 .concat [ 8 8 8 8], v0x103407110_0, L_0x103407250, L_0x1034052e0, v0x103407110_0;
+L_0x1034072f0 .concat [ 32 32 0 0], LS_0x1034072f0_0_0, LS_0x1034072f0_0_4;
+L_0x103407390 .repeat 80, 10, v0x103407110_0;
+L_0x103407430 .repeat 80, 10, v0x103407070_0;
+ .tran I0xb9902c160, p0xb994200d0 p0xb99420100;
+    .scope S_0x1033fce30;
+T_0 ;
+    %pushi/vec4 18, 0, 8;
+    %store/vec4 v0x103407110_0, 0, 8;
+    %pushi/vec4 165, 0, 8;
+    %store/vec4 v0x103407070_0, 0, 8;
+    %pushi/vec4 57, 0, 8;
+    %store/vec4 v0x1034071b0_0, 0, 8;
+    %end;
+    .thread T_0, $init;
+    .scope S_0x1033fce30;
+T_1 ;
+    %delay 1000, 0;
+    %vpi_call/w 3 15 "$wire_observe" {0 0 0};
+    %vpi_call/w 3 15 "$display", "VALUE %0t %h %h %h", $time, v0x103405240_0, v0x103404f10_0, v0xb99050000_0 {0 0 0};
+    %load/vec4 v0x103407070_0;
+    %force/vec4 v0x103405240_0;
+    %force/link v0x103405240_0, v0x103407070_0;
+    %load/vec4 v0x103407070_0;
+    %force/vec4 v0x103406c50_0;
+    %force/link v0x103406c50_0, v0x103407070_0;
+    %load/vec4 v0xb990500a0_0;
+    %force/vec4 v0xb99050140_0;
+    %force/link v0xb99050140_0, v0xb990500a0_0;
+    %delay 1000, 0;
+    %vpi_call/w 3 17 "$wire_observe" {0 0 0};
+    %vpi_call/w 3 17 "$display", "VALUE %0t %h %h %h", $time, v0x103405240_0, v0x103404f10_0, v0xb99050000_0 {0 0 0};
+    %pushi/vec4 52, 0, 8;
+    %store/vec4 v0x103407110_0, 0, 8;
+    %pushi/vec4 195, 0, 8;
+    %store/vec4 v0x103407070_0, 0, 8;
+    %delay 1000, 0;
+    %vpi_call/w 3 19 "$wire_observe" {0 0 0};
+    %vpi_call/w 3 19 "$display", "VALUE %0t %h %h %h", $time, v0x103405240_0, v0x103404f10_0, v0xb99050000_0 {0 0 0};
+    %release/net v0x103405240_0, 0, 8;
+    %release/net v0x103406c50_0, 0, 8;
+    %release/net v0xb99050140_0, 0, 80;
+    %delay 1000, 0;
+    %vpi_call/w 3 21 "$wire_observe" {0 0 0};
+    %vpi_call/w 3 21 "$display", "VALUE %0t %h %h %h", $time, v0x103405240_0, v0x103404f10_0, v0xb99050000_0 {0 0 0};
+    %load/vec4 v0x103407070_0;
+    %force/vec4 v0x103405240_0;
+    %force/link v0x103405240_0, v0x103407070_0;
+    %load/vec4 v0x103407070_0;
+    %force/vec4 v0x103406c50_0;
+    %force/link v0x103406c50_0, v0x103407070_0;
+    %load/vec4 v0xb990500a0_0;
+    %force/vec4 v0xb99050140_0;
+    %force/link v0xb99050140_0, v0xb990500a0_0;
+    %delay 1000, 0;
+    %vpi_call/w 3 23 "$wire_observe" {0 0 0};
+    %vpi_call/w 3 23 "$display", "VALUE %0t %h %h %h", $time, v0x103405240_0, v0x103404f10_0, v0xb99050000_0 {0 0 0};
+    %release/net v0x103405240_0, 0, 8;
+    %release/net v0x103406c50_0, 0, 8;
+    %release/net v0xb99050140_0, 0, 80;
+    %delay 1000, 0;
+    %vpi_call/w 3 25 "$wire_observe" {0 0 0};
+    %vpi_call/w 3 25 "$display", "VALUE %0t %h %h %h", $time, v0x103405240_0, v0x103404f10_0, v0xb99050000_0 {0 0 0};
+    %vpi_call/w 3 26 "$finish" {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/wire-probe-reviewed/probe.v";
