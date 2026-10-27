@@ -24,13 +24,14 @@
     "voltage-comparison.json": "13f98c02c303d36fa76781ecf1ddedc8b9f07a4dd6b6e7fd55b421d988746ef0"
   },
   "waveforms": {
-    "retention": "Complete waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL included.",
+    "retention": "Local raw waveforms pruned to reclaim disk space. Producer identities, input decks and completed review results remain retained; raw-waveform replay requires regenerating the captures. Historical results do not establish current replayability or board qualification.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-modifier-minbreak-fine",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "interpretation": "Both timesteps complete modifier release and the subsequent ordinary-key packet. Logical comparison, independent coverage, sampled stability and serial-edge refinement pass. Absolute-time voltage differences remain; neither this result nor the companion reset pair establishes whole-waveform convergence or calibrated device dynamics.",
   "nextAction": "Complete remaining loaded scenarios and investigate the independently retained strict-tolerance failures; preserve the separate device-applicability boundary."

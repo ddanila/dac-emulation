@@ -23,7 +23,8 @@
       "driver-trace.txt.xz",
       "host-trace.txt.xz"
     ],
-    "retention": "Complete lossless local traces verified by the hash-bound reviews. No ROM or compiled HDL retained."
+    "retention": "Local raw waveforms pruned to reclaim disk space. Producer identities, input decks and completed review results remain retained; raw-waveform replay requires regenerating the captures. Historical results do not establish current replayability or board qualification.",
+    "available": false
   },
   "retainedFilesSha256": {
     "led-comparison.json": "a4778e4a5dace54c65e4a3f4a9d4a1f5b3131d16d42f40e009ef97d1dd2aa1d3",
