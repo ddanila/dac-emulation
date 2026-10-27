@@ -1,0 +1,22 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "observations": 14,
+  "faultsByField": {
+    "0:2": 7,
+    "1:2": 7,
+    "2:2": 7,
+    "0:0": 5,
+    "0:1": 5,
+    "1:0": 5
+  },
+  "originalContinuationExactlyEqual": true,
+  "constructorAndCachesMatchIndependentExpectations": true,
+  "scope": "An untouched initial island retains identity while native tran islands are allocated at later times, observed before input and driven at widths 1 and 9. Raw and legacy bindings agree; first-eligible byte, collision and width faults are restored before native continuation.",
+  "notEstablished": [
+    "Deleted allocations and freed storage",
+    "Live scratch in newly allocated islands and per-allocation fault targeting",
+    "Direct partial/raw-strength input coverage and other switch families",
+    "Compact encoding, operational board integration and general rollback"
+  ]
+}
