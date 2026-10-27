@@ -217,7 +217,8 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_board_integration.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_strength_encoding.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_strength_switch.py
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_wire_raw_probe.py
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_wire_raw*.py'
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_raw_wire_board_integration.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_families.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_families.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_families.py
@@ -589,6 +590,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/postreset-adc
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/postreset-tick
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/output-drain
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/output-drain-board
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/stop-runtime-selection
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/executing-wrapper
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/display-association
