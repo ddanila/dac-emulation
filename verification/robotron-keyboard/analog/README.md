@@ -1493,3 +1493,11 @@ resistance. Ramp times are assumptions, not measured device properties; these
 controls do not qualify actual switching topology, enable/release or nonlinear
 I/V. Run `u880_slew_probe.py --out NEW_REPORT`, or replay with
 `u880_slew_probe.py --out reports/u880-slew-candidates --verify`.
+
+
+The [1986 Intel source review](reports/intel-1986-enable-review/assessment.json)
+records a later handbook's load circuits and enable waveform. It still leaves
+the enable measurement convention unresolved. Its commercial/EXPRESS profiles,
+plastic-package load exception and switching load remain separate from the
+industrial I8282 contract. The source hash and exact pages allow independent
+inspection; no existing model parameter or retained experiment is changed.

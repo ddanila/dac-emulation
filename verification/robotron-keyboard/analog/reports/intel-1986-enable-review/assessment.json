@@ -1,0 +1,20 @@
+{
+  "completed": true,
+  "qualified": false,
+  "enableConventionResolved": false,
+  "source": {
+    "url": "https://bitsavers.trailing-edge.com/components/intel/_dataBooks/1986_Intel_Microsystem_Components_Handbook_Microprocessors_Volume_I.pdf",
+    "title": "Intel 1986 Microsystem Components Handbook, Volume I",
+    "sha256": "be16112ca700a7fd1887ddce5c99857b9000020a20aafe5e909a62f261d28196",
+    "pdfPagesOneBased": [447, 448, 449],
+    "printedPages": ["3-243", "3-244", "3-245"],
+    "inspection": "Embedded text and rendered table, load circuits, waveforms and capacitance curves inspected."
+  },
+  "profile": "Commercial 8282/8283; separate preliminary extended-temperature EXPRESS maxima. Not the AFN-01413B industrial contract.",
+  "enableSeconds": {"commercialMinimum": 1e-8, "commercialMaximum": 3e-8, "preliminaryExpressMaximum": 5e-8},
+  "threeStateLoad": {"biasVolts": 1.5, "highOhms": 180, "lowOhms": 33, "capacitanceFarads": 3e-10, "plasticExceptionFarads": 2e-10},
+  "switchingLoad": {"biasVolts": 2.14, "ohms": 52.7, "capacitanceFarads": 3e-10},
+  "finding": "The general timing reference remains 1.5 V, also the released-load bias. The waveform labels disable departures but no separate enable threshold. This later revision does not resolve that ambiguity.",
+  "independentEvidence": "Output-delay versus capacitance curves are supplied for 8282 and 8283. Their commercial load/profile context cannot silently replace industrial constraints.",
+  "decision": "Keep enable unqualified. Do not transfer commercial or EXPRESS limits, plastic-package loading, switching load or NEC departure thresholds to I8282. New evidence must distinguish the enable measurement convention or explicitly qualify another reference family."
+}
