@@ -1134,3 +1134,14 @@ graph for its output projection; operational integration still needs explicit ca
 and event/bridge target checks. Build with `build_net_delta_runtime.py`, then use
 `net_delta_probe.py` and `net_delta_budget.py` with the corresponding dense-probe
 arguments. Their `--check` modes replay `net-delta` and `net-delta-budget`.
+
+For combined graph validation, build `build_net_bridge.py`, capture with
+`net_board_capture.py --source REVIEWED_ARRAY_BOARD --assessment ARRAY_ASSESSMENT --bridge BRIDGE --icarus RUNTIME --out NEW_DIR`,
+then review with `net_board_review.py --root NEW_DIR --producer net_board_capture.py --out REPORT`.
+The reviewer reconstructs complete graphs and binds code operands, array ports and
+queued assignment/primitive destinations to allocated nodes. A cached decoded image
+is reused only when the complete native delta is identical; native scans still cover
+every node. Head/foreign-target faults run at startup and link/tag/binding faults
+after initialization, restoring before execution. The capture timeout adds a
+rounded allowance for twice the measured graph scan cost; actual cost and bridge
+handle/payload coverage remain separate obligations.
