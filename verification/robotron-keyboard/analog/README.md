@@ -1607,3 +1607,18 @@ check passes. A second full review of the retained copy is running before the
 queued wire campaign. Wire/functor payload integration, complete private state,
 general rollback, startup and supply recovery remain open. Regenerate the
 review using `reports/net-board/retention.json`.
+
+
+The [native scope referent controls](reports/scope-referents/assessment.json)
+demonstrate that the hierarchy/thread-membership image does not cover scope
+metadata or internal object membership. Direct native mutations of `time_units`,
+`lineno` and the `intern` vector change scaled VPI time, source-line queries and
+named signal lookup while every byte of that image remains unchanged. All
+mutations restore before HDL continuation; original-runtime, disabled and
+observed executions agree exactly. This is an injected-state coverage
+counterexample, not evidence that ordinary board execution performs these writes.
+Any applicability argument must distinguish initialization-only fields from
+reachable runtime changes. The control does not cover all scope intern object
+payloads, function metadata, automatic contexts or general rollback. Run
+`scope_referents.py` with the candidate, baseline and module paths recorded in
+`run.json`, using a new output directory. Existing campaigns remain pinned.
