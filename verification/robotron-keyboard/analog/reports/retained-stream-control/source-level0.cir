@@ -1,0 +1,12 @@
+RC live transport
+V1 in 0 PULSE(0 5 1n 1n 1n 10n 20n)
+R1 in out 1k
+C1 out 0 1p
+.save v(out)
+.tran 0.1n 40n
+.control
+set filetype=binary
+run waveform.raw
+quit
+.endc
+.end

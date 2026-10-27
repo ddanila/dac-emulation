@@ -585,6 +585,36 @@ RSS. It retains compressed logs, comparison receipts and runtime/input identitie
 The strict non-growing-error gate fails despite differences below the voltage limit.
 Its resource measurements do not bound full-repeat costs, and raw hashes cannot
 replace replayable waveforms when a different numerical review is needed.
+`retained_stream_refinement.py` provides a separate retention revision for future
+campaigns. It keeps the existing online comparison and scenario checks, while
+requiring `--max-raw-bytes` and `--max-compressed-raw-bytes` in addition to the log
+caps. These are aggregate budgets across all three producers. Raw streams are
+compressed while being forwarded through bounded pipes; complete archives are
+published only after producer completion and byte/hash agreement with the
+comparators. A budget failure terminates producers and leaves partial evidence.
+`retained_stream_review.py CAPTURE` replays every retained sample, checks completion
+logs and recomputes storage accounting. It refuses changed waveforms, logs or
+receipts. Existing pinned campaigns keep their original transport.
+The [live RC retention control](reports/retained-stream-control/assessment.json)
+preserves both comparisons exactly against the unretained transport and reproduces
+them from compressed archives. Run `retained_stream_control.py --out NEW_REPORT`,
+or use `--check` with the retained report. This control does not qualify keyboard
+resource budgets or authorize the deferred full-repeat runs.
+
+The [keyboard retention benchmark](reports/keyboard-retained-stream/review.json)
+qualifies full waveform retention and replay on the existing complete 20-us
+fixture at three timestep levels. Its comparisons exactly match the prior
+benchmark, including the failing non-growing-error gate. It compared 21,382,931
+raw bytes, retained 10,126,448 compressed raw bytes plus 1,292,740 compressed log
+bytes, and completed capture plus replay in 188.33 seconds. The sampled capture
+process-tree maximum was 163,024 KiB across 350 samples; this excludes later
+replay memory and is not an exact peak. These measurements do not predict
+full-repeat cost. `keyboard_retained_benchmark.py` runs the bounded experiment;
+`keyboard_retained_review.py --root REPORT --baseline reports/keyboard-stream-benchmark
+--out NEW_REVIEW` independently recomputes comparisons, the gate, storage usage
+and resource statistics. The retained report also replays with the benchmark's
+`--check` option. No full-repeat execution was resumed.
+
 The [post-reset memory observation](reports/postreset-memory-observation/assessment.json)
 records live process-tree footprints and per-process kernel peaks on macOS, checked
 with an allocation/release control. It excludes exited descendants and future
