@@ -1,0 +1,74 @@
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -1145,3 +1145,14 @@
+     if(restoring)saved=0;else{saved=port;saved_field=field;}
+     return 1;
+ }
++
++// Complete initialized intern ownership, without supplied-pointer dereferences.
++extern "C" int robotron_vvp_scope_object_owners(std::map<const void*,const void*>*owners)
++{
++    vector<__vpiScope*> scopes;
++    if(!owners || robotron_scope_metadata_validate(scopes))return -1;
++    std::map<const void*,const void*> result;
++    for(auto scope:scopes)for(auto item:scope->intern)
++        if(!result.insert({item,scope}).second)return -1;
++    owners->swap(result);return 0;
++}
+--- a/vvp/vpi_signal.cc
++++ b/vvp/vpi_signal.cc
+@@ -1851,3 +1851,54 @@
+     }
+     return 1;
+ }
++
++extern "C" int robotron_vvp_scope_object_owners(std::map<const void*,const void*>*);
++extern "C" int robotron_vvp_scope_signal_inventory(FILE*out)
++{
++    if(!out)return -1;
++    std::map<const void*,unsigned long long> scope_ids;
++    std::map<const void*,const void*> owners;
++    if(robotron_vvp_scope_object_owners(&owners) || robotron_vvp_scope_handle_ids(&scope_ids))return -1;
++    auto scope_id=[&](const void*pointer)->unsigned long long {
++        auto found=scope_ids.find(pointer);return found==scope_ids.end()?0:found->second;
++    };
++    std::map<unsigned long long,__vpiSignal*> ordered;
++    for(auto item:robotron_handles()){
++        auto obj=item.first;auto&entry=item.second;
++        auto owner=owners.find(static_cast<vpiHandle>(obj));
++        if(owner==owners.end() || owner->second!=obj->within.scope || obj->is_netarray || (typeid(*obj)!=typeid(signal_reg) &&
++           typeid(*obj)!=typeid(signal_net) && typeid(*obj)!=typeid(signal_integer)) ||
++           obj->id.name!=entry.name || !robotron_vvp_net_handle_id(obj->node) ||
++           !scope_id(obj->within.scope) || obj->bits!=entry.bits ||
++           typeid(obj->msb)!=typeid(__vpiDecConst) || typeid(obj->lsb)!=typeid(__vpiDecConst))return -1;
++        if(entry.bits){
++            if((entry.bits-1)->parent!=obj || entry.indexes.size()!=entry.bit_count)return -1;
++            for(unsigned i=0;i<entry.bit_count;++i){
++                auto bit=entry.bits+i;
++                if(bit->bit0!=entry.bits || bit->index!=entry.indexes[i] ||
++                   typeid(*bit->index)!=typeid(__vpiDecConst))return -1;
++            }
++        }
++        ordered[entry.id]=obj;
++    }
++    if(fprintf(out,"VSA_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:ordered){
++        auto obj=item.second;auto&entry=robotron_handles().at(obj);
++        if(fprintf(out,"VSA_SIGNAL %llu %p %s %p %llu %p %llu %u %d %d %p %zu %p %u\n",
++            item.first,(void*)obj,typeid(*obj).name(),(void*)obj->node,robotron_vvp_net_handle_id(obj->node),
++            (void*)obj->within.scope,scope_id(obj->within.scope),obj->signed_flag,
++            obj->msb.get_value(),obj->lsb.get_value(),(void*)entry.name,entry.name_length,
++            (void*)entry.bits,entry.bit_count)<0)return -1;
++        if(fputs("VSA_NAME ",out)==EOF)return -1;
++        if(!entry.name){if(fputc('-',out)==EOF)return -1;}
++        else for(size_t i=0;i<=entry.name_length;++i)if(fprintf(out,"%02x",(unsigned char)entry.name[i])<0)return -1;
++        if(fputc('\n',out)==EOF)return -1;
++        for(unsigned i=0;i<entry.bit_count;++i){
++            auto bit=entry.bits+i;auto index=static_cast<__vpiDecConst*>(bit->index);
++            if(fprintf(out,"VSA_BIT %u %p %p %p %d\n",i,(void*)bit,(void*)bit->bit0,
++                       (void*)bit->index,index->get_value())<0)return -1;
++        }
++    }
++    return fprintf(out,"VSA_END %zu\n",ordered.size())<0 || ferror(out)?-1:0;
++}
++
