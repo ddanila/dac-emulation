@@ -1540,3 +1540,23 @@ exactly equal. Draining does not change this coarse electrical trajectory;
 finer-level convergence, internal scheduler state and complete campaign review
 remain separate. Reproduce with `postreset_drain_coarse_review.py` using the
 local capture paths in the report's `retention.json`. Full waveforms remain local.
+
+
+The [full-window retention benchmark](reports/postreset-retained-stream/review.json)
+replays all three existing 1.16-ms exact-tick refinements through capped raw/log
+retention, then repeats both complete waveform comparisons from the new archives.
+Both comparisons exactly preserve the original results, including the failed
+numerical gate. Transport took 522.47 seconds and archive replay 444.08 seconds;
+1,821 process-tree RSS samples reached 833,936 KiB (about 814 MiB), including
+both stages but excluding preflight hashing and between-sample peaks.
+The 1,134,797,587 raw bytes compress to 628,546,404 bytes; 2,034,388,918 authentic
+log bytes compress to 119,960,816 bytes. All remain within the declared aggregate
+caps. These are observed costs for existing captures, not simulator runtime,
+an exact memory bound, full-repeat capacity or numerical admission.
+The independent review decompresses every archive and verifies its logical
+identity against the original capture receipt; its default mode does not rerun
+sample comparisons already performed by the benchmark. Full archives remain at
+the paths in `retention.json`; retained hashes alone cannot reproduce them.
+Reproduce with `postreset_retention_benchmark.py --out NEW_DIRECTORY`, then
+`postreset_retention_review.py --root NEW_DIRECTORY --out NEW_REVIEW.json`.
+Add `--full` to repeat every sample comparison again in the independent review.

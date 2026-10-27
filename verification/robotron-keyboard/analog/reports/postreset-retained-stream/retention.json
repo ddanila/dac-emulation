@@ -1,0 +1,35 @@
+{
+  "qualified": false,
+  "evidenceDirectory": "build/keyboard-controller-analog/postreset-retained-stream",
+  "scope": "Metadata, source receipts and resource history retained here. Complete waveform/log archives remain local; hashes alone do not replace replay.",
+  "archives": {
+    "capture/0.raw.xz": {
+      "bytes": 204372508,
+      "sha256": "fc64315488a5973f10641f0d21bb74d716820b4c869244091027f58943d7e02d"
+    },
+    "capture/0.log.xz": {
+      "bytes": 38680052,
+      "sha256": "43a5c62c6037dc4b18e072c9af6fc94e1676c7c444632092e086566170d51616"
+    },
+    "capture/1.raw.xz": {
+      "bytes": 208051832,
+      "sha256": "d156f2fc44937080b04913ee5749e82e252abd4c45bdb563199bc7c8609fe210"
+    },
+    "capture/1.log.xz": {
+      "bytes": 39645784,
+      "sha256": "91c6dae0fe0149c72aef083af80c2a960b2e0e2be8f47e77daa539c344010075"
+    },
+    "capture/2.raw.xz": {
+      "bytes": 216122064,
+      "sha256": "9f3f5adbaa469041764fe1bc392b6f15512f9a10a099cc03c2f8c9c38fe38472"
+    },
+    "capture/2.log.xz": {
+      "bytes": 41634980,
+      "sha256": "3ef84d5f643b5465b9c0811777d2232a18e9c57b175285458b2557f6bd7c8d7e"
+    }
+  },
+  "reviewCommand": "python3 verification/robotron-keyboard/analog/postreset_retention_review.py --root build/keyboard-controller-analog/postreset-retained-stream --out NEW_REVIEW.json",
+  "fullReviewCommand": "python3 verification/robotron-keyboard/analog/postreset_retention_review.py --root build/keyboard-controller-analog/postreset-retained-stream --out NEW_FULL_REVIEW.json --full",
+  "reproduceCommand": "python3 verification/robotron-keyboard/analog/postreset_retention_benchmark.py --out NEW_DIRECTORY",
+  "prerequisite": "Original complete exact-tick archives identified by preflight.json and reports/postreset-tick/retention.json must remain available."
+}
