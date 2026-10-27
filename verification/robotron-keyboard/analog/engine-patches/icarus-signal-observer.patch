@@ -1,0 +1,89 @@
+--- a/vvp/vvp_net_sig.h
++++ b/vvp/vvp_net_sig.h
+@@ -136,6 +136,8 @@
+ 
+     public:
+       explicit vvp_fun_signal4_sa(unsigned wid, vvp_bit4_t init=BIT4_X);
++      int robotron_signal_inventory(FILE*) const;
++      int robotron_signal_toggle(int);
+ 
+       void recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,
+                      vvp_context_t) override;
+--- a/vvp/vvp_net_sig.cc
++++ b/vvp/vvp_net_sig.cc
+@@ -1484,3 +1484,37 @@
+     else{vector=*value;value->set_bit(0,value->value(0)==BIT4_1?BIT4_0:BIT4_1);}
+     return 1;
+ }
++
++int vvp_fun_signal4_sa::robotron_signal_inventory(FILE* out) const
++{
++    if(fprintf(out,"%u %u %p %u ",(unsigned)needs_init_,(unsigned)continuous_assign_active_,(void*)cassign_link,bits4_.size())<0)return -1;
++    if(!bits4_.size()){if(fputc('-',out)==EOF)return -1;}
++    for(unsigned i=0;i<bits4_.size();i++)if(fputc('0'+(unsigned)bits4_.value(i),out)==EOF)return -1;
++    if(fprintf(out," %u ",assign_mask_.size())<0)return -1;
++    if(!assign_mask_.size()){if(fputc('-',out)==EOF)return -1;}
++    for(unsigned i=0;i<assign_mask_.size();i++)if(fputc('0'+assign_mask_.value(i),out)==EOF)return -1;
++    return fputc('\n',out)==EOF?-1:0;
++}
++int vvp_fun_signal4_sa::robotron_signal_toggle(int field)
++{
++    static vvp_fun_signal4_sa* saved=0;static int saved_field;
++    static bool init,active;static vvp_vector4_t bits;static vvp_vector2_t mask;static vvp_net_t* link;
++    if(saved){
++        if(saved!=this || saved_field!=field)return -1;
++        if(field==0)needs_init_=init;
++        else if(field==1)bits4_=bits;
++        else if(field==2)assign_mask_=mask;
++        else if(field==3)cassign_link=link;
++        else if(field==4)continuous_assign_active_=active;
++        saved=0;return 1;
++    }
++    if(field<0 || field>4)return -1;
++    if((field==1 && !bits4_.size()) || (field==2 && !assign_mask_.size()) || (field==3 && !cassign_link))return 0;
++    saved=this;saved_field=field;
++    if(field==0){init=needs_init_;needs_init_=!needs_init_;}
++    else if(field==1){bits=bits4_;bits4_.set_bit(0,bits4_.value(0)==BIT4_1?BIT4_0:BIT4_1);}
++    else if(field==2){mask=assign_mask_;assign_mask_.set_bit(0,!assign_mask_.value(0));}
++    else if(field==3){link=cassign_link;cassign_link=0;}
++    else{active=continuous_assign_active_;continuous_assign_active_=!continuous_assign_active_;}
++    return 1;
++}
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -4043,3 +4043,35 @@
+     }
+     return fprintf(out,"VWD_END %zu\n",changed)<0 || ferror(out)?-1:0;
+ }
++
++extern "C" int robotron_vvp_signal_inventory(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations()){
++        auto base=dynamic_cast<vvp_fun_signal_base*>(item.first->fun);
++        if(base && !dynamic_cast<vvp_fun_signal4_sa*>(base))return -1;
++        if(base)nodes[item.second]=item.first;
++    }
++    if(fprintf(out,"VSG_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:nodes){
++        auto signal=dynamic_cast<vvp_fun_signal4_sa*>(item.second->fun);
++        if(fprintf(out,"VSG_SIGNAL %llu %p %p ",item.first,(void*)item.second,(void*)signal)<0 || signal->robotron_signal_inventory(out))return -1;
++    }
++    return fprintf(out,"VSG_END %zu\n",nodes.size())<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_signal_toggle(int field)
++{
++    static vvp_fun_signal4_sa* saved=0;static int saved_field=-1;
++    if(field<0 || field>4 || (saved && saved_field!=field))return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations())nodes[item.second]=item.first;
++    for(auto item:nodes){
++        auto signal=dynamic_cast<vvp_fun_signal4_sa*>(item.second->fun);
++        if(!signal || (saved && saved!=signal))continue;
++        int result=signal->robotron_signal_toggle(field);
++        if(result<0)return result;
++        if(result){saved=saved?0:signal;saved_field=field;return 1;}
++    }
++    return saved?-1:0;
++}
