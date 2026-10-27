@@ -1,0 +1,160 @@
+--- a/vvp/vvp_vpi_callback.h
++++ b/vvp/vvp_vpi_callback.h
+@@ -34,6 +34,7 @@
+  * includes some members that arrays use.
+  */
+ class vvp_vpi_callback {
++      friend struct robotron_callback_lists;
+ 
+     public:
+       vvp_vpi_callback();
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -206,6 +206,7 @@
+       PLI_INT32 (*function)(p_cb_data);
+       vpiHandle object;
+       vvp_vpi_callback *owner;
++      bool list_admitted;
+ };
+ static std::map<const void*,robotron_value_entry> robotron_value_live;
+ static uint64_t robotron_value_serial;
+@@ -213,7 +214,7 @@
+ static void robotron_value_created(value_callback *cb, p_cb_data data)
+ {
+       robotron_value_entry entry = {cb, ++robotron_value_serial,
+-                                    data->cb_rtn, data->obj, 0};
++                                    data->cb_rtn, data->obj, 0, false};
+       robotron_value_live[cb] = entry;
+ }
+ 
+@@ -258,6 +259,18 @@
+       return entry.id;
+ }
+ 
++/* Explicit handoff proves the known caller initialized optional user_data.
++ * This does not admit subclasses or authorize reading their retained history. */
++extern "C" unsigned long long robotron_vvp_callback_list_admit(
++    const void* handle,PLI_INT32(*function)(p_cb_data),PLI_BYTE8* user,vpiHandle object)
++{
++    auto it=robotron_value_live.find(handle);
++    if(it==robotron_value_live.end() || typeid(*it->second.callback)!=typeid(value_callback))return 0;
++    auto id=robotron_vvp_value_identity(handle,function,user,object);
++    if(id)it->second.list_admitted=true;
++    return id;
++}
++
+ static struct {
+       value_callback *callback;
+       int field;
+@@ -973,16 +986,33 @@
+       unsigned long word;
+ };
+ 
++struct robotron_callback_word_entry {
++    unsigned long long id;
++    vvp_vpi_callback* owner;
++};
++static std::map<vvp_vpi_callback*,unsigned long long>& robotron_callback_owners()
++{static std::map<vvp_vpi_callback*,unsigned long long> value;return value;}
++static std::map<__vpi_array_word*,robotron_callback_word_entry>& robotron_callback_words()
++{static std::map<__vpi_array_word*,robotron_callback_word_entry> value;return value;}
++static unsigned long long robotron_callback_owner_serial,robotron_callback_word_serial;
++static unsigned robotron_callback_dispatch_depth;
++struct robotron_callback_dispatch_guard {
++    robotron_callback_dispatch_guard(){++robotron_callback_dispatch_depth;}
++    ~robotron_callback_dispatch_guard(){--robotron_callback_dispatch_depth;}
++};
++
+ vvp_vpi_callback::vvp_vpi_callback()
+ {
+       vpi_callbacks_ = 0;
+       array_words_ = 0;
++      robotron_callback_owners()[this]=++robotron_callback_owner_serial;
+ }
+ 
+ vvp_vpi_callback::~vvp_vpi_callback()
+ {
+       assert(vpi_callbacks_ == 0);
+       assert(array_words_ == 0);
++      robotron_callback_owners().erase(this);
+ }
+ 
+ void vvp_vpi_callback::attach_as_word(vvp_array_t arr, unsigned long addr)
+@@ -992,6 +1022,7 @@
+       tmp->word = addr;
+       tmp->next = array_words_;
+       array_words_ = tmp;
++      robotron_callback_words()[tmp]={++robotron_callback_word_serial,this};
+ }
+ 
+ void vvp_vpi_callback::add_vpi_callback(value_callback*cb)
+@@ -1014,6 +1045,7 @@
+       }
+       while (array_words_) {
+ 	    struct __vpi_array_word*tmp = array_words_->next;
++	    robotron_callback_words().erase(array_words_);
+ 	    delete array_words_;
+ 	    array_words_ = tmp;
+       }
+@@ -1028,6 +1060,7 @@
+  */
+ void vvp_vpi_callback::run_vpi_callbacks()
+ {
++      robotron_callback_dispatch_guard observation_guard;
+       struct __vpi_array_word*array_word = array_words_;
+       while (array_word) {
+ 	    array_word->array->word_change(array_word->word);
+@@ -1418,3 +1451,53 @@
+ {
+     return fprintf(out,"VWF_CALLBACKS %p %p\n",(void*)vpi_callbacks_,(void*)array_words_)<0?-1:0;
+ }
++
++/* Complete list contents at a quiescent value-callback boundary. Active list
++ * traversal has native stack cursors not covered here and is refused. */
++struct robotron_callback_lists {
++    static int inventory(FILE* out) {
++        if(!out || robotron_callback_dispatch_depth)return -1;
++        std::map<unsigned long long,vvp_vpi_callback*> owners;
++        std::set<const value_callback*> callbacks;
++        std::set<const __vpi_array_word*> words;
++        for(auto item:robotron_callback_owners()) {
++            auto owner=item.first;
++            if(typeid(*owner)!=typeid(vvp_wire_vec4) && typeid(*owner)!=typeid(vvp_wire_vec8))return -1;
++            owners[item.second]=owner;
++            const void* cursor=owner->vpi_callbacks_;
++            while(cursor) {
++                auto found=robotron_value_live.find(cursor);
++                if(found==robotron_value_live.end())return -1;
++                auto cb=found->second.callback;
++                if(found->second.owner!=owner || !found->second.list_admitted || typeid(*cb)!=typeid(value_callback) || !callbacks.insert(cb).second)return -1;
++                if(cb->cb_data.reason!=cbValueChange || cb->cb_data.time!=&cb->cb_time || cb->cb_data.value!=&cb->cb_value || cb->cb_time.type!=vpiSuppressTime || cb->cb_value.format!=vpiVectorVal)return -1;
++                cursor=cb->next;
++            }
++            auto word=owner->array_words_;
++            while(word) {
++                auto found=robotron_callback_words().find(word);
++                if(found==robotron_callback_words().end() || found->second.owner!=owner || !words.insert(word).second)return -1;
++                word=word->next;
++            }
++        }
++        if(callbacks.size()!=robotron_value_live.size() || words.size()!=robotron_callback_words().size())return -1;
++        if(fprintf(out,"VCL_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++        for(auto item:owners) {
++            auto owner=item.second;unsigned count=0,word_count=0;
++            for(auto cb=owner->vpi_callbacks_;cb;cb=static_cast<value_callback*>(cb->next))++count;
++            for(auto word=owner->array_words_;word;word=word->next)++word_count;
++            if(fprintf(out,"VCL_OWNER %llu %p %s %p %p %u %u\n",item.first,(void*)owner,typeid(*owner).name(),(void*)owner->vpi_callbacks_,(void*)owner->array_words_,count,word_count)<0)return -1;
++            for(auto cb=owner->vpi_callbacks_;cb;cb=static_cast<value_callback*>(cb->next)) {
++                const auto& entry=robotron_value_live.at(cb);
++                if(fprintf(out,"VCL_CALLBACK %llu %p %p %d %p %p %p %p %p %d %d\n",(unsigned long long)entry.id,(void*)cb,(void*)cb->next,cb->cb_data.reason,(void*)cb->cb_data.cb_rtn,(void*)cb->cb_data.obj,(void*)cb->cb_data.user_data,(void*)cb->cb_data.time,(void*)cb->cb_data.value,cb->cb_time.type,cb->cb_value.format)<0)return -1;
++            }
++            for(auto word=owner->array_words_;word;word=word->next) {
++                const auto& entry=robotron_callback_words().at(word);
++                if(fprintf(out,"VCL_WORD %llu %p %p %p %lu\n",entry.id,(void*)word,(void*)word->next,(void*)word->array,word->word)<0)return -1;
++            }
++        }
++        return fprintf(out,"VCL_END %zu %zu %zu\n",owners.size(),callbacks.size(),words.size())<0 || ferror(out)?-1:0;
++    }
++};
++extern "C" int robotron_vvp_callback_list_inventory(FILE* out)
++{return robotron_callback_lists::inventory(out);}
