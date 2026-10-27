@@ -1013,3 +1013,18 @@ derives initialized fields from the pinned compiler, including VPI-call handles
 and allocator-generated instructions. It does not establish operand stability or
 referenced-object coverage. Regenerate with
 `code_operand_contract.py --archive PINNED_ARCHIVE --vvp COMPILED_BOARD --out REPORT`.
+
+The [combined wait-event board controls](reports/wait-board/assessment.json)
+preserve exact normal waveforms and firmware while observing event heads and
+initialized histories, with restored head/mask/history/cache faults. Replay with
+`wait_board_review.py --root reports/wait-board --producer reports/wait-board/producer.py --out NEW_REPORT`.
+This bounded service evidence does not qualify electrical startup or supply recovery.
+
+The [native code-operand controls](reports/code-operands/assessment.json) compare
+full allocated instruction images with exact fixed-reference differences,
+including restored immediate/target/handle faults and unknown-family refusal.
+Each observation scans all allocated slots; unchanged rows are omitted only from
+the encoded output. Referenced objects and board cost/acceptance remain open.
+Build with `build_code_operand_runtime.py`; run `code_operand_probe.py` with the
+same runtime arguments as the scope probe, or replay with
+`code_operand_probe.py --check reports/code-operands`. Retained stdout is compressed.

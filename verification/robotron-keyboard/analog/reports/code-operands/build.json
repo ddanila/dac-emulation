@@ -1,0 +1,251 @@
+{
+  "qualified": false,
+  "commit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "commands": [
+    [
+      "tar",
+      "-xzf",
+      "/private/tmp/k7658-icarus-pinned.tar.gz",
+      "--strip-components=1"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-queue-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-sync-family-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-callback-payload-link.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-single-display-runtime.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-executing-wrapper-link.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-executing-event.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-value-callback-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-startup-callback-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-assignment-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-primitive-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-island-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-island-queue.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-island-filter.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-thread-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-thread-queue.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-wait-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-thread-lifecycle.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-code-binding.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-scope-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-code-operands.patch"
+    ],
+    [
+      "sh",
+      "autoconf.sh"
+    ],
+    [
+      "./configure",
+      "--enable-libvvp",
+      "--prefix=/private/tmp/k7658-code-operand-runtime/install",
+      "YACC=/opt/homebrew/Cellar/bison/3.8.2/bin/bison"
+    ],
+    [
+      "make",
+      "version_tag.h",
+      "version.exe"
+    ],
+    [
+      "make",
+      "-C",
+      "vvp",
+      "-j2"
+    ],
+    [
+      "make",
+      "-C",
+      "vpi",
+      "-j2",
+      "system.vpi"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-display-observer.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-display-payload-link.patch"
+    ],
+    [
+      "patch",
+      "-p1",
+      "-i",
+      "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/engine-patches/icarus-single-display-module.patch"
+    ],
+    [
+      "make",
+      "-C",
+      "vpi",
+      "-j2",
+      "system.vpi"
+    ]
+  ],
+  "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Library/Developer/CommandLineTools/usr/bin\n",
+  "sources": {
+    "build_display_association.py": "e3b1faf9c67f574982867ce4299bb58031d617198dfe624d6eacd44fe99fcf83",
+    "build_private_queue_observer.py": "cb1fb9722c972231c1c943d2df1a65909836edcd6642c590d67e9145475b6728",
+    "engine-patches/icarus-queue-observer.patch": "37dde672e6c8b0645153da87a5c5a8d0d167aa0225a66c8488bda7fccb9e6eb6",
+    "engine-patches/icarus-sync-observer.patch": "e8056d699a3f27405ed3e7da613154b55530d6e794d6412765caa76cfc1bc085",
+    "engine-patches/icarus-sync-family-observer.patch": "3447876a59ec9d53a42e8e75b06d77349fe3d5e53d17cb3e445e0e08dd272ff9",
+    "engine-patches/icarus-callback-payload-link.patch": "1aedf06846d21b5881ccbf0fceb77be29c9df84d757c5616ac3e72b5ab9a4764",
+    "engine-patches/icarus-single-display-runtime.patch": "b4c80e9d1b96293fdde7e0712d6139c49cad143468250c9f31c10a4d85b7b214",
+    "engine-patches/icarus-executing-wrapper-link.patch": "185066400e3848e165114c80a9f6f340c62c5e050fd5da6adc2be31993d822fe",
+    "engine-patches/icarus-executing-event.patch": "220b2608290d8faad4b44aed12ee3ff6712d8041c8faebe189838f49fa41da9a",
+    "engine-patches/icarus-value-callback-observer.patch": "013d6aa94aaa30f8461311a96bd75cd88f3d4d55cb9fa8d6d30cd8b72aeed3ce",
+    "engine-patches/icarus-startup-callback-observer.patch": "08ad0d2d4d7519aa1a208e6a5f4c049d2394e47de6b364169a48119c6291709e",
+    "engine-patches/icarus-assignment-observer.patch": "29cd99fcf452f00aa53df39080037576fadb05b4865b24a59d0a77e39f156e6a",
+    "engine-patches/icarus-primitive-observer.patch": "3bd8c244ef2680e3ab6ccead205656ab0d1b2d9469bd9845f7df081dd88c58bc",
+    "engine-patches/icarus-island-observer.patch": "661454521d4d2059f32aad725fd2737912878ee0ee73d8e67f0330894bdbb902",
+    "engine-patches/icarus-island-queue.patch": "879635c4f8fd4267c7afeda4b806ff438f1d253d9fb7cb3b96eb08c3eb73ce4e",
+    "engine-patches/icarus-island-filter.patch": "d445995edf3b0b5c67190db8bf650a5aa090ede6f51a763da2449bbe2c820c44",
+    "engine-patches/icarus-thread-observer.patch": "40de71d5e6e2dbca5e3160ca0a5c6757b43a5c187d295b04076dd901cf79dce1",
+    "engine-patches/icarus-thread-queue.patch": "cb192b149ace33d7169b09184865deba228e3dce4197e6eb31bbe8e4771ec4df",
+    "engine-patches/icarus-wait-observer.patch": "9b117c7ec7ff62a92b527ba17d7f9763f7fcce7809b435e9c74aef4a0fce1787",
+    "engine-patches/icarus-thread-lifecycle.patch": "1bffcdd24ac7f9d759b2b629627e6b38bfad6739e06c3fa1fb81f01540c2b934",
+    "engine-patches/icarus-code-binding.patch": "6521c92b118aade966a0fa9d504a757b6369f5427c2315873a8766bad3ac74b0",
+    "engine-patches/icarus-scope-observer.patch": "adee83495d4c9473d4eac3b89f39fd0735467fc86e2c280128a71426dc36c79a",
+    "engine-patches/icarus-code-operands.patch": "0b9392de250ede054e311e0fe05c599ab7ce7c6d56de4bbb4d3f05d9b8381ede",
+    "engine-patches/icarus-display-observer.patch": "8f78091f7a35cf12564d30cfcdfcf576d5d1a4890ebda3797e720bc6ca07e210",
+    "engine-patches/icarus-display-payload-link.patch": "150664196bfe97fe7b873598f740951979f137c6b4294de990bcb756db297680",
+    "engine-patches/icarus-single-display-module.patch": "748b285e072ecc7866f870e4f5eb96fb51cb180ed71158dcf8e4c088c917f622",
+    "build_code_operand_runtime.py": "4a08b719b1b8ae634728d6078feda46e39045cc337eb6c12527638e7c2ff0244"
+  },
+  "outputs": {
+    "vvp/vvp": "ea2325a0d164d7a9460d23fff318cd8318db867d3f10dc87cb1ea779b6d58506",
+    "vvp/libvvp.so": "8ca9d6ade497868545106b9f28e740d0ea5b7ef887060ce48e7cb9969119ae83",
+    "vvp/vpi_callback.cc": "ecfba163983bf5150cbbec5cfc745597bb2559e79cfb5abaaac9ef37be3a1ce8",
+    "baseline/system.vpi": "c5ef4f9523d12b28a9916b4d104f1dd44afc2e6e464e7e1823aaf5a60ee4514f",
+    "vpi/system.vpi": "978e14136650d25b92738441ce0ef0047221b73b5e29c551090af1d7c4829c87",
+    "vpi/sys_display.c": "dbca76193bfe35ad63e2660d4f47df4504fbc009b4fb818e8a3ca9702a7ca07b",
+    "vvp/vpi_priv.h": "2469e31d2350a078c6a613b1753c19469bcd1b5838dcbbba2db02643c0e951c0",
+    "vvp/vvp_vpi_callback.h": "a7b73f5b9a9c2b0929a8935cf47df884db04e960a30b0b78a0c5c3f0a5481c18",
+    "vvp/schedule.cc": "a2b15f9e76d9ccb59c439ba8677facae7747299690da1c558340bbf93af2e71b",
+    "vvp/schedule.h": "04293eb2fce2befd31c0b3281401144c8dac346efa0574879b59c447bf8ead00",
+    "vvp/logic.cc": "b44621be6f3f6000f9600d51d6a22c3dd5d61d76940a0153b0680104574b7c03",
+    "vvp/logic.h": "b7259e3ca21c555d75a42a1dc380f30af0932acdd4c7bb3b69af3cf934eb5ec5",
+    "vvp/part.cc": "121068f6abc55d7e4243b7aef31522c156865bb4e76eb141be2f7fb90b506207",
+    "vvp/part.h": "930aa3958d810adff098a74cd768302d1e28697fd29f0920705ef16a75fdd4c0",
+    "vvp/vvp_island.cc": "3c44155e63d663e012a25ba0453d1bc80837be12255ce198c5873d7080a70cbb",
+    "vvp/vvp_island.h": "f7928e8ba46c6b5a7bef1c4f3bcf67719e18abdd57b985bc3104755f0beab3d0",
+    "vvp/island_tran.cc": "9243b544e5f4a01675274eaab97aebf40a3717ac8e5e9974f93695ab9163639c",
+    "vvp/vvp_net.h": "8569bc9a504e71f8d62ff7510935f334a67e4f86b8493c7b10e2144bd7cba6e8",
+    "vvp/vvp_net_sig.h": "1084077bedab7805a60ff55f9e7bbc2e76e4ac42846ecde5d7cd15bff67f8d78",
+    "vvp/vvp_net_sig.cc": "f471d4dcebd7daeeb1b924a31ae75d633534b47cf5417455b4ad96599cf4d19b",
+    "vvp/vthread.cc": "43c8b9bfe5d305d82ad004167b298eb23647f3768ce74e9910f27f9441cdb5f5",
+    "vvp/event.h": "9ccf521ac2806c0efc5eb4685b800700acb8dd71be5d5093a372655ea5a8a2d1",
+    "vvp/event.cc": "ac6722d240eb441e195e4d062dd950bc87755a3ef5ecf4808dbf2dd445887d43",
+    "vvp/codes.cc": "f6efcc2a5d94c4c0869009e4dba5f5f7e5641fc9969e3725ead2a3624a6991a2",
+    "vvp/codes.h": "f428ccb51822e8f73aac4edb9ebf156cbbf2b3a1db58b3cb5ceca37875e5b799",
+    "vvp/vpi_scope.cc": "4aaebc80d1b561f30330fb11202626f6997693d5334f33abc90d605d9bc8cb60"
+  },
+  "scope": "Adds typed operand scans across every allocated instruction and initialized chunk link. Fixed-reference delta output compares complete rows exactly; unknown opcode families fail closed. Includes immediate, code-reference, handle-reference and unknown-family restored faults. Native equivalence, fault controls, board integration and runtime/evidence budgets remain required. Referenced object contents and general rollback remain open."
+}
