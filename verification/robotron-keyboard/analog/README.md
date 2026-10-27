@@ -1846,3 +1846,18 @@ invalid cost. Build with `build_port_payload_board_budget.py`, then run
 `port_payload_board_budget.py` using reviewed `reports/array-board` and the port
 payload runtime. Compact storage, changing-state/field/subclass/lifecycle cases
 and operational integration remain unqualified.
+
+The [combined compact port startup controls](reports/port-payload-combined-preflight/assessment.json)
+append full native port payloads to dense snapshots and compact them only during
+logging, with a separate sequence and exact previous-body comparison. The reviewer
+reconstructs every port record, binds scope/bit identities and current graph state,
+and checks all compiled declarations before delegating to the preceding layer.
+All ten scope/callback controls and ten typed-signal/callback regressions pass,
+with 317 ports and 875 bits checked in each snapshot. Native dense equality and
+restoration remain unchanged. The port decoder shares the tested compact envelope
+rules; tests reject lost/reordered records, changed compiled fields and adapter
+state leakage on failure. Build with `build_port_payload_bridge.py`; capture the
+scope and typed startup suites with their existing producers and review with
+`port_payload_combined_review.py` and `port_payload_typed_review.py`, respectively.
+Port-specific changed/refused fields, changing-state storage/cost, lifecycle and
+normal transient qualification remain open. Running campaigns remain pinned.
