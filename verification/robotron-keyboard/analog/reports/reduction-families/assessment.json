@@ -1,0 +1,28 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "unsupportedProfilesRefused": [
+    "derived-nor",
+    "derived-base"
+  ],
+  "noPartialInventory": true,
+  "disabledContinuationExactlyEqual": true,
+  "nativeClasses": {
+    "derived-nor": [
+      "ExtraNor",
+      "Sink",
+      "vvp_reduce_nor"
+    ],
+    "derived-base": [
+      "ExtraReduction",
+      "Sink",
+      "vvp_reduce_nor"
+    ]
+  },
+  "scope": "Native NOR and direct reduction-base subclasses with private output-inversion fields are rejected alongside an admitted NOR, before any inventory output. Original and disabled continuation preserve the subclass behavior.",
+  "notEstablished": [
+    "Payload support for rejected classes",
+    "Every possible plugin-defined subclass",
+    "Board integration and full qualification"
+  ]
+}
