@@ -1,0 +1,59 @@
+--- a/vvp/vpi_priv.h
++++ b/vvp/vpi_priv.h
+@@ -463,6 +463,14 @@
+       char* vpi_get_str(int code) override;
+       vpiHandle vpi_handle(int code) override;
+       vvp_net_t* get_port(void) const { return ref_; }
++      void robotron_payload_fault(unsigned field) {
++          if(field==0)index_^=1;
++          else if(field==1)direction_^=1;
++          else if(field==3)width_^=1;
++          else if(field==4)parent_=reinterpret_cast<__vpiScope*>(reinterpret_cast<uintptr_t>(parent_)^1);
++          else if(field==5)name_=reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(name_)^1);
++          else if(field==6)ref_=reinterpret_cast<vvp_net_t*>(reinterpret_cast<uintptr_t>(ref_)^1);
++      }
+       const char* robotron_name(void) const { return name_; }
+       __vpiScope* robotron_parent(void) const { return parent_; }
+       vpiHandle vpi_iterate(int code) override;
+@@ -486,6 +494,10 @@
+ 
+       int get_type_code(void) const override { return vpiPortBit; }
+       unsigned get_bit(void) const { return bit_; }
++      void robotron_payload_fault(unsigned field) {
++          if(field==2)bit_^=1;
++          else if(field==7)parent_=reinterpret_cast<vpiPortInfo*>(reinterpret_cast<uintptr_t>(parent_)^1);
++      }
+ 
+       int vpi_get(int code) override;
+       vpiHandle vpi_handle(int code) override;
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -1120,3 +1120,28 @@
+     }
+     return fprintf(out,"VPP_END %zu %zu\n",ports.size(),seen.size())<0 || ferror(out)?-1:0;
+ }
++
++// Diagnostic only: validate before injection, restore without traversing bad fields.
++extern "C" int robotron_vvp_port_payload_toggle(unsigned field)
++{
++    static vpiPortInfo* saved=0;static unsigned saved_field=0;
++    if(field>8 || (saved && field!=saved_field))return -1;
++    bool restoring=saved!=0;auto port=saved;
++    if(!restoring){
++        char*data=0;size_t size=0;FILE*out=open_memstream(&data,&size);
++        if(!out)return -1;
++        int rc=robotron_vvp_port_payload_inventory(out);int close_rc=fclose(out);free(data);
++        if(rc || close_rc)return -1;
++        unsigned long long first=~0ULL;
++        for(auto entry:robotron_ports)if(!entry.first->port_bits_.empty()){
++            auto id=robotron_object_ids.at(entry.first);
++            if(id<first){first=id;port=entry.first;}
++        }
++        if(!port)return -1;
++    }
++    if(field==8)robotron_ports.at(port).ready=!robotron_ports.at(port).ready;
++    else if(field==2 || field==7)port->port_bits_.front()->robotron_payload_fault(field);
++    else port->robotron_payload_fault(field);
++    if(restoring)saved=0;else{saved=port;saved_field=field;}
++    return 1;
++}
