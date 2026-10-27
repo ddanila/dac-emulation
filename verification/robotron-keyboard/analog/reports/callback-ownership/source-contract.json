@@ -1,0 +1,126 @@
+{
+  "qualified": false,
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "bridgeSha256": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+  "sources": {
+    "vvp_vpi_callback.h": "8c99ac72313d7a641d7c33fa9af584377141eb3019ccebdf98573f42a463ec57",
+    "vpi_priv.h": "511d7065184d89a20cce34f96ec8080f8ee5a2008c6e3061b0ee57d00174cb1d",
+    "vpi_callback.cc": "ca97f729cbdbdec6a1e123799f5365c66da97d327354d767b145a3c1815b45bc",
+    "array.cc": "5868942470ab5478bff3325e1db018325bcdd9b22d1e0970d3b1a16b2d46b397",
+    "bridge-vpi.c": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e"
+  },
+  "evidence": {
+    "ownerStorage": {
+      "file": "vvp_vpi_callback.h",
+      "firstLine": 35,
+      "excerpt": "class vvp_vpi_callback {\n\n    public:\n      vvp_vpi_callback();\n      virtual ~vvp_vpi_callback();\n\n      void attach_as_word(struct __vpiArray* arr, unsigned long addr);\n\n      void add_vpi_callback(value_callback*);\n#ifdef CHECK_WITH_VALGRIND\n\t/* This has only been tested at EOS. */\n      void clear_all_callbacks(void);\n#endif\n\n\t// Derived classes implement this method to provide a way for\n\t// vpi to get at the vvp value of the object.\n      virtual void get_value(struct t_vpi_value*value) =0;\n\n    protected:\n\t// Derived classes call this method to indicate that it is\n\t// time to call the callback.\n      void run_vpi_callbacks();\n\n    private:\n      value_callback*vpi_callbacks_;\n      struct __vpi_array_word*array_words_;\n};\n\n\n"
+    },
+    "callbackStorage": {
+      "file": "vpi_priv.h",
+      "firstLine": 196,
+      "excerpt": "struct __vpiCallback : public __vpiHandle {\n      __vpiCallback();\n      ~__vpiCallback() override;\n      int get_type_code(void) const override;\n\n\t// Used for listing callbacks.\n      struct __vpiCallback*next;\n\n\t// user supplied callback data\n      struct t_cb_data cb_data;\n};\n\nclass value_callback : public __vpiCallback {\n    public:\n      explicit value_callback(p_cb_data data);\n\t// Return true if the callback really is ready to be called\n      virtual bool test_value_callback_ready(void);\n\n    public:\n\t// user supplied callback data\n      struct t_vpi_time cb_time;\n      struct t_vpi_value cb_value;\n};\n\n"
+    },
+    "initialization": {
+      "file": "vpi_callback.cc",
+      "firstLine": 195,
+      "excerpt": "value_callback::value_callback(p_cb_data data)\n{\n      cb_data = *data;\n      if (data->time) {\n\t    cb_time = *(data->time);\n      } else {\n\t    cb_time.type = vpiSuppressTime;\n      }\n      cb_data.time = &cb_time;\n      if (data->value) {\n\t    cb_value = *(data->value);\n      } else {\n\t    cb_value.format = vpiSuppressVal;\n      }\n      cb_data.value = &cb_value;\n}\n\n/*\n * Normally, any assign to a value triggers a value change callback,\n * so return a constant true here. This is a stub.\n */\nbool value_callback::test_value_callback_ready(void)\n{\n      return true;\n}\n\n"
+    },
+    "removal": {
+      "file": "vpi_callback.cc",
+      "firstLine": 799,
+      "excerpt": "PLI_INT32 vpi_remove_cb(vpiHandle ref)\n{\n      struct __vpiCallback*obj = dynamic_cast<__vpiCallback*>(ref);\n      assert(obj);\n      obj->cb_data.cb_rtn = 0;\n\n      return 1;\n}\n\n"
+    },
+    "execution": {
+      "file": "vpi_callback.cc",
+      "firstLine": 808,
+      "excerpt": "void callback_execute(struct __vpiCallback*cur)\n{\n      const vpi_mode_t save_mode = vpi_mode_flag;\n      vpi_mode_flag = VPI_MODE_RWSYNC;\n\n      assert(cur->cb_data.cb_rtn);\n      set_callback_time(&cur->cb_data);\n      (cur->cb_data.cb_rtn)(&cur->cb_data);\n\n      vpi_mode_flag = save_mode;\n}\n\n"
+    },
+    "ownerLists": {
+      "file": "vpi_callback.cc",
+      "firstLine": 826,
+      "excerpt": "struct __vpi_array_word {\n      struct __vpi_array_word* next;\n      struct __vpiArray* array;\n      unsigned long word;\n};\n\nvvp_vpi_callback::vvp_vpi_callback()\n{\n      vpi_callbacks_ = 0;\n      array_words_ = 0;\n}\n\nvvp_vpi_callback::~vvp_vpi_callback()\n{\n      assert(vpi_callbacks_ == 0);\n      assert(array_words_ == 0);\n}\n\nvoid vvp_vpi_callback::attach_as_word(vvp_array_t arr, unsigned long addr)\n{\n      struct __vpi_array_word*tmp = new __vpi_array_word;\n      tmp->array = arr;\n      tmp->word = addr;\n      tmp->next = array_words_;\n      array_words_ = tmp;\n}\n\nvoid vvp_vpi_callback::add_vpi_callback(value_callback*cb)\n{\n      cb->next = vpi_callbacks_;\n      vpi_callbacks_ = cb;\n}\n\n#ifdef CHECK_WITH_VALGRIND\nvoid vvp_vpi_callback::clear_all_callbacks()\n{\n      while (vpi_callbacks_) {\n\t    value_callback *tmp = dynamic_cast<value_callback*>\n\t                            (vpi_callbacks_->next);\n\t    delete vpi_callbacks_;\n\t    vpi_callbacks_ = tmp;\n      }\n      while (array_words_) {\n\t    struct __vpi_array_word*tmp = array_words_->next;\n\t    delete array_words_;\n\t    array_words_ = tmp;\n      }\n}\n#endif\n\n/*\n * A vvp_fun_signal uses this method to run its callbacks whenever it\n * has a value change. If the cb_rtn is non-nil, then call the\n * callback function. If the cb_rtn pointer is nil, then the object\n * has been marked for deletion. Free it.\n */\nvoid vvp_vpi_callback::run_vpi_callbacks()\n{\n      struct __vpi_array_word*array_word = array_words_;\n      while (array_word) {\n\t    array_word->array->word_change(array_word->word);\n\t    array_word = array_word->next;\n      }\n\n      value_callback *next = vpi_callbacks_;\n      value_callback *prev = 0;\n\n      while (next) {\n\t    value_callback*cur = next;\n\t    next = dynamic_cast<value_callback*>(cur->next);\n\n\t    if (cur->cb_data.cb_rtn != 0) {\n\t\t  if (cur->test_value_callback_ready()) {\n\t\t\tif (cur->cb_data.value)\n\t\t\t      get_value(cur->cb_data.value);\n\n\t\t\tcallback_execute(cur);\n\t\t  }\n\t\t  prev = cur;\n\n\t    } else if (prev == 0) {\n\n\t\t  vpi_callbacks_ = next;\n\t\t  cur->next = 0;\n\t\t  delete cur;\n\n\t    } else {\n\t\t  assert(prev->next == cur);\n\t\t  prev->next = next;\n\t\t  cur->next = 0;\n\t\t  delete cur;\n\t    }\n      }\n}\n\n"
+    },
+    "partSelect": {
+      "file": "vpi_callback.cc",
+      "firstLine": 231,
+      "excerpt": "class value_part_callback : public value_callback {\n    public:\n      explicit value_part_callback(p_cb_data data);\n      ~value_part_callback() override;\n\n      value_part_callback(const value_part_callback&) = delete;\n      value_part_callback& operator=(const value_part_callback&) = delete;\n\n      bool test_value_callback_ready(void) override;\n\n    private:\n      char*value_bits_;\n      size_t value_off_;\n};\n\ninline value_part_callback::value_part_callback(p_cb_data data)\n: value_callback(data)\n{\n      struct __vpiPV*pobj = dynamic_cast<__vpiPV*>(data->obj);\n      assert(pobj);\n\n      vvp_vpi_callback*sig_fil;\n      sig_fil = dynamic_cast<vvp_vpi_callback*>(pobj->net->fil);\n      assert(sig_fil);\n\n      sig_fil->add_vpi_callback(this);\n\t// Get a reference value that can be used to compare with an\n\t// updated value. Use the filter get_value to get the value,\n\t// and get it in BinStr form so that compares are easy. Note\n\t// that the vpiBinStr format has the MSB first, but the tbase\n\t// is lsb first.\n      s_vpi_value tmp_value;\n      tmp_value.format = vpiBinStrVal;\n      sig_fil->get_value(&tmp_value);\n\n      value_bits_ = new char[pobj->width+1];\n      value_off_ = pobj->parent->vpi_get(vpiSize) - pobj->width - pobj->tbase;\n\n      memcpy(value_bits_, tmp_value.value.str + value_off_, pobj->width);\n      value_bits_[pobj->width] = 0;\n}\n\nvalue_part_callback::~value_part_callback()\n{\n      delete[]value_bits_;\n}\n\nbool value_part_callback::test_value_callback_ready(void)\n{\n      struct __vpiPV*pobj = dynamic_cast<__vpiPV*>(cb_data.obj);\n      assert(pobj);\n\n      vvp_vpi_callback*sig_fil;\n      sig_fil = dynamic_cast<vvp_vpi_callback*>(pobj->net->fil);\n      assert(sig_fil);\n\n\t// Get a reference value that can be used to compare with an\n\t// updated value.\n      s_vpi_value tmp_value;\n      tmp_value.format = vpiBinStrVal;\n      sig_fil->get_value(&tmp_value);\n\n      if (memcmp(value_bits_, tmp_value.value.str + value_off_, pobj->width) == 0)\n\t    return false;\n\n      memcpy(value_bits_, tmp_value.value.str + value_off_, pobj->width);\n      return true;\n}\n\n/*\n * Attach the __vpiCallback to the object that this part select\n * selects from. The part select itself is not a vvp_vpi_callback\n * object, but it refers to a net that is a vvp_vpi_callback, so\n * add the callback to that object.\n */\n"
+    },
+    "arrayCallbacks": {
+      "file": "array.cc",
+      "firstLine": 1279,
+      "excerpt": "class array_word_value_callback : public value_callback {\n    public:\n      inline explicit array_word_value_callback(p_cb_data data, long addr)\n      : value_callback(data), word_addr(addr)\n      { }\n\n    public:\n      long word_addr;\n};\n\nvoid __vpiArray::word_change(unsigned long addr)\n{\n      for (vvp_fun_arrayport*cur = ports_; cur; cur = cur->next_)\n\t    cur->check_word_change(addr);\n\n\t// Run callbacks attached to the array itself.\n      struct __vpiCallback *next = vpi_callbacks;\n      struct __vpiCallback *prev = 0;\n\n      while (next) {\n\t    array_word_value_callback*cur = dynamic_cast<array_word_value_callback*>(next);\n\t    next = cur->next;\n\n\t      // Skip callbacks that are not for me. -1 is for every element.\n\t    if (cur->word_addr != (long)addr && cur->word_addr != -1) {\n\t\t  prev = cur;\n\t\t  continue;\n\t    }\n\n\t      // For whole array callbacks we need to set the index.\n\t    if (cur->word_addr == -1) {\n\t\t  cur->cb_data.index = (PLI_INT32) ((int)addr +\n\t\t\t\t\t\t    first_addr.get_value());\n\t    }\n\n\t    if (cur->cb_data.cb_rtn != 0) {\n\t\t  if (cur->test_value_callback_ready()) {\n\t\t\tif (cur->cb_data.value) {\n\t\t\t      if (vpi_array_is_real(this)) {\n\t\t\t\t    double val = 0.0;\n\t\t\t\t    if (addr < vals->get_size())\n\t\t\t\t\t  vals->get_word(addr, val);\n\t\t\t\t    vpip_real_get_value(val, cur->cb_data.value);\n\t\t\t      } else if (vals4) {\n\t\t\t\t    vpip_vec4_get_value(vals4->get_word(addr),\n\t\t\t\t\t\t\tvals_width,\n\t\t\t\t\t\t\tsigned_flag,\n\t\t\t\t\t\t\tcur->cb_data.value);\n\t\t\t      } else if (dynamic_cast<vvp_darray_atom<int8_t>*>(vals)\n\t\t\t\t      || dynamic_cast<vvp_darray_atom<int16_t>*>(vals)\n\t\t\t\t      || dynamic_cast<vvp_darray_atom<int32_t>*>(vals)\n\t\t\t\t      || dynamic_cast<vvp_darray_atom<int64_t>*>(vals)\n\t\t\t\t      || dynamic_cast<vvp_darray_atom<uint8_t>*>(vals)\n\t\t\t\t      || dynamic_cast<vvp_darray_atom<uint16_t>*>(vals)\n\t\t\t\t      || dynamic_cast<vvp_darray_atom<uint32_t>*>(vals)\n\t\t\t\t      || dynamic_cast<vvp_darray_atom<uint64_t>*>(vals)\n\t\t\t\t      || dynamic_cast<vvp_darray_vec2*>(vals)) {\n\t\t\t\t    vvp_vector4_t val;\n\t\t\t\t    if (addr < vals->get_size())\n\t\t\t\t\t  vals->get_word(addr, val);\n\t\t\t\t    vpip_vec4_get_value(val,\n\t\t\t\t\t\t\tvals_width,\n\t\t\t\t\t\t\tsigned_flag,\n\t\t\t\t\t\t\tcur->cb_data.value);\n\t\t\t      } else {\n\t\t\t            assert(0);\n\t\t\t      }\n\t\t\t}\n\n\t\t\tcallback_execute(cur);\n\t\t  }\n\n\t\t  prev = cur;\n\n\t    } else if (prev == 0) {\n\n\t\t  vpi_callbacks = next;\n\t\t  cur->next = 0;\n\t\t  delete cur;\n\n\t    } else {\n\t\t  assert(prev->next == cur);\n\t\t  prev->next = next;\n\t\t  cur->next = 0;\n\t\t  delete cur;\n\t    }\n      }\n}\n\nclass array_resolv_list_t : public resolv_list_s {\n\n    public:\n      explicit array_resolv_list_t(char*lab) : resolv_list_s(lab) {\n\t    array = 0;\n      }\n\n      vvp_array_t*array;\n      bool resolve(bool mes) override;\n\n    private:\n};\n\n"
+    },
+    "arrayPartSelect": {
+      "file": "array.cc",
+      "firstLine": 1443,
+      "excerpt": "class array_word_part_callback : public array_word_value_callback {\n    public:\n      explicit array_word_part_callback(p_cb_data data, long addr);\n      ~array_word_part_callback() override;\n\n      array_word_part_callback(const array_word_part_callback&) = delete;\n      array_word_part_callback& operator=(const array_word_part_callback&) = delete;\n\n      bool test_value_callback_ready(void) override;\n\n    private:\n      char*value_bits_;\n};\n\narray_word_part_callback::array_word_part_callback(p_cb_data data, long addr)\n: array_word_value_callback(data, addr)\n{\n\t// Get the initial value of the part, to use as a reference.\n      struct __vpiArrayVthrAPV*apvword = dynamic_cast<__vpiArrayVthrAPV*>(data->obj);\n      s_vpi_value tmp_value;\n      tmp_value.format = vpiBinStrVal;\n      apvword->vpi_get_value(&tmp_value);\n\n      value_bits_ = new char[apvword->part_wid+1];\n\n      memcpy(value_bits_, tmp_value.value.str, apvword->part_wid);\n      value_bits_[apvword->part_wid] = 0;\n}\n\narray_word_part_callback::~array_word_part_callback()\n{\n      delete[]value_bits_;\n}\n\nbool array_word_part_callback::test_value_callback_ready(void)\n{\n      struct __vpiArrayVthrAPV*apvword = dynamic_cast<__vpiArrayVthrAPV*>(cb_data.obj);\n      assert(apvword);\n\n\t// Get a reference value that can be used to compare with an\n\t// updated value.\n      s_vpi_value tmp_value;\n      tmp_value.format = vpiBinStrVal;\n      apvword->vpi_get_value(&tmp_value);\n\n      if (memcmp(value_bits_, tmp_value.value.str, apvword->part_wid) == 0)\n\t    return false;\n\n      memcpy(value_bits_, tmp_value.value.str, apvword->part_wid);\n      return true;\n\n}\n\n"
+    },
+    "signalHandle": {
+      "file": "vpi_priv.h",
+      "firstLine": 354,
+      "excerpt": "struct __vpiSignal : public __vpiHandle {\n      int vpi_get(int code) override;\n      int64_t vpi_get64(int code) override;\n      char* vpi_get_str(int code) override;\n      void vpi_get_value(p_vpi_value val) override;\n      vpiHandle vpi_put_value(p_vpi_value val, int flags) override;\n      vpiHandle vpi_handle(int code) override;\n      vpiHandle vpi_iterate(int code) override;\n      vpiHandle vpi_index(int idx) override;\n\n    public:\n      unsigned width() const;\n      vpiHandle get_index(int index);\n      void get_bit_value(const struct __vpiBit*bit, p_vpi_value vp);\n      vpiHandle put_bit_value(struct __vpiBit*bit, p_vpi_value vp, int flags);\n      void make_bits();\n\n      struct __vpiBit*bits;\n\n    public:\n      union { // The scope or parent array that contains me.\n\t    vpiHandle parent;\n\t    __vpiScope* scope;\n      } within;\n      union { // The name of this reg/net, or the index for array words.\n            const char*name;\n            vpiHandle index;\n      } id;\n\t/* The indices that define the width and access offset. */\n      __vpiDecConst msb, lsb;\n\t/* Flags */\n      unsigned signed_flag  : 1;\n      unsigned is_netarray  : 1; // This is word of a net array\n\t/* The represented value is here. */\n      vvp_net_t*node;\n\n    public:\n      static void*operator new(std::size_t size);\n      static void operator delete(void*); // not implemented\n    protected:\n      inline __vpiSignal() : bits(NULL) { }\n    private: // Not implemented\n      static void*operator new[] (std::size_t size);\n      static void operator delete[](void*);\n};\n"
+    },
+    "bridgeWatch": {
+      "file": "bridge-vpi.c",
+      "firstLine": 227,
+      "excerpt": "static void watch(vpiHandle handle, void *pp)\n{\n    static struct t_vpi_time  time = { .type = vpiSuppressTime };\n    static struct t_vpi_value val = { .format = vpiVectorVal };\n    static struct t_cb_data   cb = {\n        .reason = cbValueChange, .cb_rtn = output_cb,\n        .time = &time, .value = &val\n    };\n\n    cb.obj = handle;\n    cb.user_data = pp;\n    vpi_register_cb(&cb);\n}\n\n"
+    },
+    "bridgeStartup": {
+      "file": "bridge-vpi.c",
+      "firstLine": 243,
+      "excerpt": "static PLI_INT32 start_cb(struct t_cb_data *cb)\n{\n    struct ng_vvp *ctx = (struct ng_vvp *)cb->user_data;\n    vpiHandle      iter, top, item;\n    PLI_INT32      direction;\n    char          *name;\n    int            ii, oi, ioi;\n\n    DBG(\"Unit %d precision %d\\n\",\n        vpi_get(vpiTimeUnit, NULL),  vpi_get(vpiTimePrecision, NULL));\n    ctx->tick_length = pow(10.0, vpi_get(vpiTimeUnit, NULL));\n\n    /* Find the (unique?) top-level module and the one inside it. */\n\n    iter = vpi_iterate(vpiModule, NULL);\n    top = vpi_scan(iter);\n    vpi_free_object(iter);\n    DBG(\"Top %s\\n\", vpi_get_str(vpiName, top));\n\n    /* Count the ports. */\n\n    iter = vpi_iterate(vpiPort, top);\n    if (!iter)\n        vpi_printf(\"Top module has no ports!\\n\"); // vpi_scan() aborts.\n    ctx->ins = ctx->outs = ctx->inouts = 0;\n    while ((item = vpi_scan(iter))) {\n        direction = vpi_get(vpiDirection, item);\n        switch (direction) {\n        case vpiInput:\n            ++ctx->ins;\n            break;\n        case vpiOutput:\n            ++ctx->outs;\n            break;\n        case vpiInout:\n            ++ctx->inouts;\n            break;\n        default:\n            break;\n        }\n    }\n    ctx->ports = (struct ngvp_port *)malloc(\n                     (ctx->ins + ctx->outs + ctx->inouts) *\n                     sizeof (struct ngvp_port));\n    if (!ctx->ports) {\n        vpi_printf(\"No memory for ports at \" __FILE__ \":%d\\n\", __LINE__);\n        abort();\n    }\n\n    /* Get the ports. */\n\n    iter = vpi_iterate(vpiPort, top);\n    ii = oi = ioi = 0;\n    while ((item = vpi_scan(iter))) {\n        vpiHandle         namesake;\n        struct ngvp_port *pp;\n        int               first;\n\n        direction = vpi_get(vpiDirection, item);\n        name = vpi_get_str(vpiName, item);\n\n        /* Assume that there is an object with the same name as the port\n         * whose value may be read or set as needed.  This is an assumption\n         * about how code for VVP is generated.\n         */\n\n        namesake = vpi_handle_by_name(name, top);\n        DBG(\"Port %s direction %d size %d, namesake type %d\\n\",\n            name, direction, vpi_get(vpiSize, item),\n            vpi_get(vpiType, namesake));\n\n        switch (direction) {\n        case vpiInput:\n            first = !ii;\n            pp = ctx->ports + ii++;\n            init(namesake);\n            break;\n        case vpiOutput:\n            first = !oi;\n            pp = ctx->ports + ctx->ins + oi++;\n            watch(namesake, pp);\n            break;\n        case vpiInout:\n            first = !ioi;\n            init(namesake);\n            pp = ctx->ports + ctx->ins + ctx->outs + ioi++;\n            watch(namesake, pp);\n            break;\n        default:\n            continue;\n        }\n        pp->bits = (uint16_t)vpi_get(vpiSize, item);\n        pp->flags = 0;\n        pp->position = first ? 0 : pp[-1].position + pp[-1].bits;\n        pp->previous.aval = pp->previous.bval = 0;\n        pp->handle = namesake;\n        pp->ctx = ctx;\n    }\n\n"
+    },
+    "bridgeOutput": {
+      "file": "bridge-vpi.c",
+      "firstLine": 174,
+      "excerpt": "static PLI_INT32 output_cb(struct t_cb_data *cb)\n{\n    struct ngvp_port *pp = (struct ngvp_port *)cb->user_data;\n    struct ng_vvp    *ctx = pp->ctx;\n\n    DBG(\"Output: %s is %d now %g (VL) %g (SPICE)\\n\",\n        vpi_get_str(vpiName, cb->obj),\n        cb->value->value.vector->aval,\n        get_time(ctx), ctx->cosim_context->vtime);\n\n    if(get_time(ctx)>0.0 && get_time(ctx)<0.001160000001) fprintf(stderr,\"TIME_AUDIT output actual=%.17g target=%.17g base=%.17g port=%s\\n\",get_time(ctx),ctx->cosim_context->vtime,ctx->base_time,vpi_get_str(vpiName,cb->obj));\n    if (ctx->stop_cb) {\n        /* First call in the current VVP cycle: cancel the current\n         * stop CB and request a new one before the next VVP time point.\n         * That allows all output events in the current timestep\n         * to be gathered before stopping.\n         */\n\n        vpi_remove_cb(ctx->stop_cb);\n        ctx->stop_cb = NULL;\n        set_stop(0, ctx);\n\n        /* Set the output time in SPICE format.\n         * It must not be earlier than entry time.\n         */\n\n        ctx->cosim_context->vtime = get_time(ctx);\n        if (ctx->cosim_context->vtime < ctx->base_time)\n            ctx->cosim_context->vtime = ctx->base_time;\n    }\n\n    /* Record the value. */\n\n    pp->new.aval = cb->value->value.vector->aval;\n    pp->new.bval = cb->value->value.vector->bval;\n    if (!(pp->flags & OUT_PENDING)) {\n        pp->flags |= OUT_PENDING;\n        ++ctx->out_pending;\n    }\n    return 0;\n}\n\n/* Utilty functions for start_cb() - initialise or set watch on a variable.*/\n\n"
+    }
+  },
+  "analysis": {
+    "ownedLists": {
+      "vvp_vpi_callback.vpi_callbacks_": [
+        "ordered callback allocation/lifetime",
+        "next",
+        "cb_data.cb_rtn including cancelled-null",
+        "object handle and admitted caller user_data",
+        "reason",
+        "time/value self-bindings and initialized format/type"
+      ],
+      "vvp_vpi_callback.array_words_": [
+        "ordered association allocation/lifetime",
+        "next",
+        "array identity",
+        "word address"
+      ]
+    },
+    "statefulSubclasses": {
+      "value_part_callback": [
+        "value_bits_ bytes",
+        "value_off_",
+        "selected handle width/base"
+      ],
+      "array_word_value_callback": [
+        "word_addr",
+        "whole-array callback index when initialized"
+      ],
+      "array_word_part_callback": [
+        "inherited word_addr",
+        "value_bits_ bytes",
+        "selected part width"
+      ]
+    },
+    "admissionRequirements": [
+      "Enumerate all live owners, including empty lists, and bind adjusted owner pointers to native graph/filter classes.",
+      "Validate every list link against registered live allocations before dereferencing; reject cycles, foreign owners and aliases. Preserve order and deferred-cancellation nodes until native unlink/destruction.",
+      "Exact base-class callback admission does not admit part-select or array subclasses. Refuse unknown families before any output until their additional history is observed.",
+      "Observe array-word association nodes independently from procedural-array word-handle caches. Bind each association to array identity and valid word address without allocating VPI handles.",
+      "Follow admitted bridge object handles to typed native signal/node/scope identities; handle pointer equality alone is not referent coverage. Select scope/name versus array-parent/index union arms by native flags.",
+      "Constructor initialization only proves time type/value format and self-pointers. Establish caller initialization before reading optional index, time words, value union or user_data; never serialize padding.",
+      "The bridge watch caller registers before pp metadata initialization. Delay referent validation until registration handoff and port initialization complete.",
+      "Value delivery refreshes the temporary union before invocation. The known output callback copies it without an explicit coroutine yield; preserve this scoped continuation argument instead of claiming arbitrary callback scratch is irrelevant.",
+      "During invocation, local next/prev/array-word cursors can outlive list mutation. Either observe executing traversal frames or enforce the non-yielding admitted-callback boundary; idle list enumeration alone does not cover suspended traversal.",
+      "Require native tail/middle/head cancellation, callback insertion during dispatch, reentrant callbacks, alias associations and subclass refusals. Restore faults before native continuation; preserve all preceding combined state checks."
+    ],
+    "scope": "Pinned ownership and initialization audit, not new native list coverage or operational qualification."
+  }
+}
