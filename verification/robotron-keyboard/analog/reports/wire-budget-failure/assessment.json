@@ -1,0 +1,18 @@
+{
+  "qualified": false,
+  "completed": false,
+  "failure": "Logical log budget exceeded",
+  "logicalBytes": 4294967296,
+  "compressedBytes": 2659976,
+  "logicalSha256": "b51a8872da37d11ea9891716044c366cb05732ec46dec444b0067629c9497273",
+  "completeStableBoundaries": 24226,
+  "startedBoundaries": 24227,
+  "lastBoundary": "VB_BRIDGE 24226 before-step 1.1960673341253568e-06",
+  "trailingBytes": 13,
+  "priorCompleteBoundaries": 55156,
+  "constantBytesPerBoundaryProjection": 9778470080.829521,
+  "proposedLogicalLimitBytes": 12884901888,
+  "unchangedCompressedLimitBytes": 268435456,
+  "unchangedTimeoutSeconds": 3000,
+  "scope": "Incomplete capture at the original logical byte cap, preserved as failure evidence. The boundary-count extrapolation informs a bounded retry; changing state can invalidate it. It proves neither full capture cost nor wire payload acceptance. The new limit does not alter HDL, circuit, window, native observers or acceptance checks."
+}
