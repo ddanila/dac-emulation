@@ -1063,9 +1063,19 @@ or replay with `array_probe.py --check reports/array-state`.
 
 The [board array budget](reports/array-budget/assessment.json) measures complete
 pre-execution memory/read-port scans. Dense output exceeds the current campaign
-log cap even before later word-handle allocation. Integrate lossless compact
-snapshots with full-image equivalence checks before a combined campaign; keep
-scanning every word and port. This probe does not measure loaded firmware,
+log cap even before later word-handle allocation. Integrate the [validated compact snapshots](reports/array-compact/assessment.json)
+with full-image equivalence checks before a combined campaign; keep scanning
+every word and port. This probe does not measure loaded firmware,
 compression or operational review cost. Run
 `array_budget.py --source REVIEWED_BOARD --candidate RUNTIME --out NEW_DIR`
 or replay with `array_budget.py --check reports/array-budget`.
+
+The compact array format packs logical four-state values in pairs and run-length
+encodes existing word-handle pointers. It still reads every word and cache entry;
+normal and corrupted images reconstruct the dense representation exactly, including
+odd-width padding and cache-link faults. The [compact board budget](reports/array-compact-budget/assessment.json)
+measures the reduction before HDL execution; combined operational validation remains
+required. Build with `build_array_compact_runtime.py`, then use
+`array_compact_probe.py` and `array_compact_budget.py` with the corresponding dense
+probe arguments. Their `--check` modes replay the retained `array-compact` and
+`array-compact-budget` reports without native builds.

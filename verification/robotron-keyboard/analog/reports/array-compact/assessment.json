@@ -1,0 +1,37 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "simulationOutputExactlyEqual": true,
+  "normalStateTrajectoryExactlyEqual": true,
+  "restoredFaults": 18,
+  "faultsByField": {
+    "0": 5,
+    "1": 5,
+    "2": 5,
+    "3": 3
+  },
+  "coverage": [
+    "Z-word",
+    "cached-word-handles",
+    "out-of-range-address",
+    "partial-write",
+    "wide-unwritten",
+    "wide-written"
+  ],
+  "scope": "Static four-state arrays, read-port address/link state and existing word-handle ownership. Restored narrow-word faults avoid allocating wide backing storage; observation preserves unwritten X values.",
+  "unsupportedProfilesRefused": [
+    "automatic-context",
+    "two-state-storage",
+    "array-callbacks"
+  ],
+  "notEstablished": [
+    "Board integration and capture budgets",
+    "Alias and other unsupported-family controls",
+    "Destination net/fanout and callback contents",
+    "Raw allocation/freed-storage equivalence or general rollback"
+  ],
+  "denseAndCompactExactlyEqual": true,
+  "matchedSnapshots": 56,
+  "denseBytes": 40624,
+  "compactBytes": 27796
+}
