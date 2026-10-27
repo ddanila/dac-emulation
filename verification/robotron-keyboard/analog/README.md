@@ -972,3 +972,11 @@ with `code_binding_probe.py --check verification/robotron-keyboard/analog/report
 Null, foreign and misaligned pointers have no code identity; unused capacity is
 not treated as an instruction. Board integration, full instruction operands and
 their referenced objects remain separate from this binding check.
+
+`build_code_binding_bridge.py`, `code_binding_board_capture.py` and
+`code_binding_board_review.py` combine PC bindings with all preceding board
+checks. Use reviewed wait-event board controls as `--source` and `--assessment`,
+then supply `--bridge`, `--icarus` and a fresh capture `--out`. Review with
+`--root`, the capture script as `--producer`, and a fresh assessment `--out`.
+Allocated-code identity is checked for every observed thread; this does not
+replace validation of instruction operands or their mutable referents.
