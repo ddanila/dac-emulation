@@ -1043,3 +1043,10 @@ The capture uses the measured producer budget and bounded logs. A single complet
 reference precedes the first boundary; every snapshot carries exact deltas.
 The reviewer checks allocated-slot/schema coverage, rejects normal code changes,
 and preserves all preceding board checks. Referenced object contents remain separate.
+
+The [array source contract](reports/array-source-contract/assessment.json) identifies
+compiled memories and read ports, and distinguishes word storage from cached
+addresses, port links, callbacks and lazily allocated VPI word handles. Observation
+must not allocate those handles or propagate a fault through the normal setter.
+Native array controls remain required. Regenerate with
+`array_source_contract.py --archive PINNED_ARCHIVE --vvp COMPILED_BOARD --out REPORT`.
