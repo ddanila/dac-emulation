@@ -170,6 +170,8 @@ jobs:
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/code-operand-budget
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_code_operand_budget.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_code_operand_board.py
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-source-contract
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_array_source_contract.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_code_operand_probe.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_code_operand_contract.py
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/scope-membership
