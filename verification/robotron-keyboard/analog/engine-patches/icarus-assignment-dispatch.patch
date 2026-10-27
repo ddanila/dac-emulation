@@ -1,0 +1,93 @@
+--- a/vvp/schedule.cc
++++ b/vvp/schedule.cc
+@@ -69,6 +69,21 @@
+       static void operator delete(void*ptr)  { ::delete[]( static_cast<char*>(ptr) ); }
+ };
+ 
++/* Track scheduler dispatch independently of virtual overrides. A subclass
++ * need not call its base run_run, so base-entry tracking alone is insufficient. */
++struct robotron_dispatch_frame {
++    event_s* event;
++    robotron_dispatch_frame* previous;
++};
++static robotron_dispatch_frame* robotron_dispatch_executing;
++static void robotron_dispatch_event(event_s* event)
++{
++    robotron_dispatch_frame frame={event,robotron_dispatch_executing};
++    robotron_dispatch_executing=&frame;
++    event->run_run();
++    robotron_dispatch_executing=frame.previous;
++}
++
+ void event_s::single_step_display(void)
+ {
+       std::cerr << "event_s: Step into event " << typeid(*this).name() << std::endl;
+@@ -1139,7 +1154,7 @@
+ 		  ctim->rosync->next = cur->next;
+ 	    }
+ 
+-	    cur->run_run();
++	    robotron_dispatch_event(cur);
+ 	    delete cur;
+       }
+       sim_at_rosync = false;
+@@ -1152,7 +1167,7 @@
+ 		  ctim->del_thr->next = cur->next;
+ 	    }
+ 
+-	    cur->run_run();
++	    robotron_dispatch_event(cur);
+ 	    delete cur;
+       }
+ 
+@@ -1188,7 +1203,7 @@
+ 	    } else {
+ 		  schedule_init_list->next = cur->next;
+ 	    }
+-	    cur->run_run();
++	    robotron_dispatch_event(cur);
+ 	    delete cur;
+       }
+ 
+@@ -1247,7 +1262,7 @@
+ 			} else {
+ 			      ctim->start->next = cur->next;
+ 			}
+-			cur->run_run();
++			robotron_dispatch_event(cur);
+ 			delete (cur);
+ 		  }
+ 	    }
+@@ -1297,7 +1312,7 @@
+ 		  schedule_single_step_flag = false;
+ 	    }
+ 
+-	    cur->run_run();
++	    robotron_dispatch_event(cur);
+ 
+ 	    delete (cur);
+       }
+@@ -1311,7 +1326,7 @@
+ 	    } else {
+ 		  schedule_final_list->next = cur->next;
+ 	    }
+-	    cur->run_run();
++	    robotron_dispatch_event(cur);
+ 	    delete cur;
+       }
+ 
+@@ -1685,6 +1700,14 @@
+     for(auto f=robotron_assign8_executing;f;f=f->previous) {
+         if(!frames.insert(f).second || admit(f->event,-2,"executing",depth++))return -1;
+     }
++    std::set<const robotron_dispatch_frame*> dispatch_frames;
++    for(auto f=robotron_dispatch_executing;f;f=f->previous) {
++        if(!dispatch_frames.insert(f).second)return -1;
++        /* Exact assignments entered through their base already have a row.
++         * Virtual overrides that bypass it must still undergo class admission. */
++        if(seen.count(f->event))continue;
++        if(dynamic_cast<assign_vector8_event_s*>(f->event) && admit(f->event,-2,"executing",depth++))return -1;
++    }
+     return 0;
+ }
+ extern "C" int robotron_vvp_assignment_raw_inventory(FILE* out)
