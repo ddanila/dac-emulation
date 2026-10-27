@@ -1035,3 +1035,11 @@ execution, then measures scan cost. Its campaign projection assumes unchanged
 code and excludes later scope/PC overhead and review time; it is not a timing guarantee.
 Run `code_operand_budget.py --source REVIEWED_BOARD --candidate RUNTIME --out NEW_DIR`
 or replay with `code_operand_budget.py --check reports/code-operand-budget`.
+
+For combined operand validation, build `build_code_operand_bridge.py`, capture with
+`code_operand_board_capture.py --source REVIEWED_SCOPE_BOARD --assessment SCOPE_ASSESSMENT --bridge BRIDGE --icarus RUNTIME --out NEW_DIR`,
+then review with `code_operand_board_review.py --root NEW_DIR --producer code_operand_board_capture.py --out REPORT`.
+The capture uses the measured producer budget and bounded logs. A single complete
+reference precedes the first boundary; every snapshot carries exact deltas.
+The reviewer checks allocated-slot/schema coverage, rejects normal code changes,
+and preserves all preceding board checks. Referenced object contents remain separate.
