@@ -1,0 +1,68 @@
+{
+  "qualified": false,
+  "capturesCompleted": true,
+  "semanticAcceptanceEstablished": false,
+  "runs": {
+    "off": {
+      "logicalLogBytes": 12961152,
+      "compressedLogBytes": 968816,
+      "producerSeconds": 158.95061295800002,
+      "captureAndChecksSeconds": 159.335717916,
+      "logicalCapFraction": 0.0010059177875518799
+    },
+    "observe": {
+      "logicalLogBytes": 9799026287,
+      "compressedLogBytes": 5891260,
+      "producerSeconds": 1430.375269958,
+      "captureAndChecksSeconds": 1887.388702083,
+      "logicalCapFraction": 0.7605045325277994
+    },
+    "wire4-init-corrupt": {
+      "logicalLogBytes": 2238376,
+      "compressedLogBytes": 139216,
+      "producerSeconds": 0.3118611669999609,
+      "captureAndChecksSeconds": 0.3195813340000768,
+      "logicalCapFraction": 0.00017372084160645804
+    },
+    "wire4-driven-corrupt": {
+      "logicalLogBytes": 6732114190,
+      "compressedLogBytes": 4091148,
+      "producerSeconds": 984.684483083,
+      "captureAndChecksSeconds": 984.7642160830001,
+      "logicalCapFraction": 0.5224808266696831
+    },
+    "wire4-propagate-corrupt": {
+      "logicalLogBytes": 6732115066,
+      "compressedLogBytes": 4092324,
+      "producerSeconds": 1002.6253805000001,
+      "captureAndChecksSeconds": 1002.6840293750001,
+      "logicalCapFraction": 0.522480894656231
+    },
+    "wire8-init-corrupt": {
+      "logicalLogBytes": 2238393,
+      "compressedLogBytes": 139388,
+      "producerSeconds": 0.3417944580000949,
+      "captureAndChecksSeconds": 0.3497070830003395,
+      "logicalCapFraction": 0.0001737221609801054
+    },
+    "wire8-driven-corrupt": {
+      "logicalLogBytes": 6732114514,
+      "compressedLogBytes": 4092836,
+      "producerSeconds": 985.9392585,
+      "captureAndChecksSeconds": 986.0081464169998,
+      "logicalCapFraction": 0.5224808518153926
+    },
+    "wire8-propagate-corrupt": {
+      "logicalLogBytes": 6732113229,
+      "compressedLogBytes": 4092904,
+      "producerSeconds": 979.3532464579994,
+      "captureAndChecksSeconds": 979.424522542,
+      "logicalCapFraction": 0.5224807520862669
+    }
+  },
+  "totalLogicalLogBytes": 36744921207,
+  "totalCompressedLogBytes": 23507892,
+  "totalProducerSeconds": 5542.581907081999,
+  "totalCaptureAndChecksSeconds": 6000.274622833,
+  "scope": "Receipt-backed costs for all eight completed bounded wire captures. Compressed log sizes and hashes were checked against capture files during collection; this report retains receipts and identities, not those logs. Producer time is separate from capture/compression/check time. Full semantic review, exact memory peaks, general runtime/storage bounds and longer-window capacity are not established."
+}
