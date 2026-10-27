@@ -1258,3 +1258,13 @@ link and force/release controls remain required for paths absent from this board
 All preceding state, waveform and firmware checks remain enabled. The capture
 keeps bounded logs and adds a measured signal-scan allowance; operational acceptance
 requires the campaign and retained replay, not the integration tests alone.
+
+The [logic ownership contract](reports/logic-source-contract/assessment.json)
+distinguishes cached mux/Boolean/unary state from BUFZ/BUFT forwarding classes.
+Those exact forwarding classes have no additional per-instance payload; their
+native-class/graph bindings and downstream state still matter. Muxes retain the
+unselected input, selection and run history; Boolean gates retain inputs and
+inversion. Pending destinations must be tied to scheduler wrappers using the
+properly adjusted event-base pointer. The report pins source initialization and
+required controls, not native payload coverage. Reproduce with
+`logic_source_contract.py --archive PINNED_ARCHIVE --board reports/net-types-board --out NEW_REPORT`.

@@ -1,0 +1,128 @@
+{
+  "qualified": false,
+  "scope": "Pinned logic ownership semantics and initial native class admission; no new runtime payload or queue coverage.",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "boardManifestSha256": "2a519da822656095940dc581f8176527342c2280ad359b3c277e42190a1e5de1",
+  "observed": {
+    "statelessForwarders": {
+      "vvp_fun_buft": 482,
+      "vvp_fun_bufz": 167
+    },
+    "cachedLogic": {
+      "vvp_fun_and": 44,
+      "vvp_fun_muxz": 251,
+      "vvp_fun_not": 15,
+      "vvp_fun_or": 21,
+      "vvp_fun_xor": 1
+    },
+    "otherFamilies": {
+      "resolv_tri": 18,
+      "vvp_arith_sub": 2,
+      "vvp_arith_sum": 4,
+      "vvp_cmp_eeq": 207,
+      "vvp_cmp_eq": 2,
+      "vvp_cmp_nee": 2,
+      "vvp_fun_anyedge_sa": 35,
+      "vvp_fun_arrayport_sa": 23,
+      "vvp_fun_concat": 17,
+      "vvp_fun_concat8": 43,
+      "vvp_fun_edge_sa": 9,
+      "vvp_fun_event_or_sa": 12,
+      "vvp_fun_part_sa": 225,
+      "vvp_fun_signal4_sa": 196,
+      "vvp_island_port": 6,
+      "vvp_reduce_nor": 38
+    }
+  },
+  "sources": {
+    "vvp/logic.h": "215e0e9eb6b2f7770538a5baba591b1a788e72fde49a9c872bf1ff9556b746cf",
+    "vvp/logic.cc": "c1e5172b74a6fcdc269c53b725c69b96c8f49c16bf115e204bc3f500751c2e0c",
+    "vvp/vvp_net.h": "fa9accac57b68e5716eec675bd970b5a63717b8c34bc099fc92f730724094e1b",
+    "vvp/schedule.h": "3b153daa4d841d606a71fe3334ea28e1ec416efd71e90e149f5a75c2cb2e9d44",
+    "vvp/schedule.cc": "06a3f5ffa3aa411e5c07473c206a86783a8a18fdea2f666f256efd38bebb23d8"
+  },
+  "evidence": {
+    "functorBaseHasNoInstanceFields": {
+      "file": "vvp/vvp_net.h",
+      "firstLine": 1217,
+      "excerpt": "class vvp_net_fun_t {\n\n    public:\n      vvp_net_fun_t();\n      virtual ~vvp_net_fun_t();\n\n      virtual void recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n                             vvp_context_t context);\n      virtual void recv_vec8(vvp_net_ptr_t port, const vvp_vector8_t&bit);\n      virtual void recv_real(vvp_net_ptr_t port, double bit,\n                             vvp_context_t context);\n      virtual void recv_string(vvp_net_ptr_t port, const std::string&bit,\n\t\t\t       vvp_context_t context);\n      virtual void recv_object(vvp_net_ptr_t port, vvp_object_t bit,\n\t\t\t       vvp_context_t context);\n\n\t// Part select variants of above\n      virtual void recv_vec4_pv(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n\t\t\t\tunsigned base, unsigned vwid, vvp_context_t context);\n      virtual void recv_vec8_pv(vvp_net_ptr_t p, const vvp_vector8_t&bit,\n\t\t\t\tunsigned base, unsigned vwid);\n\n\t// This method is called when the net is forced or\n\t// released. This is very rarely needed; island ports use it\n\t// to know that the net is being forced and that it needs to\n\t// do something about it.\n      virtual void force_flag(bool run_now);\n\n   protected:\n      void recv_vec4_pv_(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n\t\t\t unsigned base, unsigned vwid, vvp_context_t context);\n      void recv_vec8_pv_(vvp_net_ptr_t p, const vvp_vector8_t&bit,\n\t\t\t unsigned base, unsigned vwid);\n\n    public: // These objects are only permallocated.\n      static void* operator new(std::size_t size) { return heap_.alloc(size); }\n      static void operator delete(void*); // not implemented\n\n      static std::size_t heap_total() { return heap_.heap_total(); }\n\n    protected:\n      static permaheap heap_;\n\n    private: // not implemented\n      vvp_net_fun_t(const vvp_net_fun_t&);\n      vvp_net_fun_t& operator= (const vvp_net_fun_t&);\n      static void* operator new[](std::size_t size);\n      static void operator delete[](void*);\n};\n\n"
+    },
+    "booleanCacheFields": {
+      "file": "vvp/logic.h",
+      "firstLine": 29,
+      "excerpt": "class vvp_fun_boolean_ : public vvp_net_fun_t, protected vvp_gen_event_s {\n\n    public:\n      explicit vvp_fun_boolean_(unsigned wid);\n      ~vvp_fun_boolean_() override;\n\n      void recv_vec4(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n                     vvp_context_t) override;\n      void recv_vec4_pv(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n\t\t\tunsigned base, unsigned vwid, vvp_context_t) override;\n      void recv_real(vvp_net_ptr_t p, double real,\n                     vvp_context_t) override;\n\n    protected:\n      vvp_vector4_t input_[4];\n      vvp_net_t*net_;\n};\n\nclass vvp_fun_and  : public vvp_fun_boolean_ {\n\n    public:\n      explicit vvp_fun_and(unsigned wid, bool invert);\n      ~vvp_fun_and() override;\n\n    private:\n      void run_run() override;\n      bool invert_;\n};\n\n"
+    },
+    "unaryCacheFields": {
+      "file": "vvp/logic.h",
+      "firstLine": 81,
+      "excerpt": "class vvp_fun_buf_not_ : public vvp_net_fun_t, protected vvp_gen_event_s {\n\n    public:\n      explicit vvp_fun_buf_not_(unsigned wid);\n      ~vvp_fun_buf_not_() override;\n\n      void recv_vec4(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n                     vvp_context_t) override;\n      void recv_vec4_pv(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n\t\t\tunsigned base, unsigned vwid, vvp_context_t) override;\n      void recv_real(vvp_net_ptr_t p, double real,\n                     vvp_context_t ctx) override;\n\n    protected:\n      vvp_vector4_t input_;\n      vvp_net_t*net_;\n};\n\n/*\n * The buffer functor is a very primitive functor that takes the input\n * from port-0 (and only port-0) and retransmits it as a vvp_vector4_t.\n * The retransmitted vector has all Z values changed to X, just like\n * the buf(Q,D) gate in Verilog.\n */\nclass vvp_fun_buf: public vvp_fun_buf_not_ {\n\n    public:\n      explicit vvp_fun_buf(unsigned wid);\n      virtual ~vvp_fun_buf() override;\n\n    private:\n      void run_run() override;\n};\n\n"
+    },
+    "forwarderAndMuxFields": {
+      "file": "vvp/logic.h",
+      "firstLine": 119,
+      "excerpt": "class vvp_fun_bufz: public vvp_net_fun_t {\n\n    public:\n      explicit vvp_fun_bufz();\n      virtual ~vvp_fun_bufz() override;\n\n      void recv_vec4(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n                     vvp_context_t) override;\n      void recv_vec4_pv(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n\t\t\tunsigned base, unsigned vwid, vvp_context_t) override;\n\t//void recv_vec8(vvp_net_ptr_t port, const vvp_vector8_t&bit);\n      void recv_real(vvp_net_ptr_t p, double bit,\n                     vvp_context_t) override;\n\n    private:\n};\n\n/*\n * The vp_fun_buft is like the vvp_fun_bufz, but is completely\n * transparent to strengths.\n */\nclass vvp_fun_buft: public vvp_fun_bufz {\n\n    public:\n      void recv_vec8(vvp_net_ptr_t port, const vvp_vector8_t&bit) override;\n    private:\n};\n\nenum sel_type {SEL_PORT0, SEL_PORT1, SEL_BOTH};\n\n/*\n * The muxz functor is an A-B mux device, with the data inputs on\n * ports 0 and 1. port 2 is the select input.\n *\n * The select input must be 1 bit wide. If it is 0, then the port-0\n * vector is passed out. If select is 1, then port-1 is passed\n * out. Otherwise, a vector is passed out that reflects x?: behavior\n * in Verilog. The width of the blended output is the width of the largest\n * input (port-0 or port-1) to enter the device. The narrow vector is\n * padded with X values.\n */\nclass vvp_fun_muxz : public vvp_net_fun_t, private vvp_gen_event_s {\n\n    public:\n      explicit vvp_fun_muxz(unsigned width);\n      virtual ~vvp_fun_muxz() override;\n\n      void recv_vec4(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n                     vvp_context_t) override;\n      void recv_vec4_pv(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n\t\t\tunsigned base, unsigned vwid, vvp_context_t) override;\n\n    private:\n      void run_run() override;\n\n    private:\n      vvp_vector4_t a_;\n      vvp_vector4_t b_;\n      vvp_net_t*net_;\n      sel_type select_;\n      bool has_run_;\n};\n\n"
+    },
+    "inversionFields": {
+      "file": "vvp/logic.h",
+      "firstLine": 203,
+      "excerpt": "class vvp_fun_not: public vvp_fun_buf_not_ {\n\n    public:\n      explicit vvp_fun_not(unsigned wid);\n      virtual ~vvp_fun_not() override;\n\n    private:\n      void run_run() override;\n};\n\nclass vvp_fun_or  : public vvp_fun_boolean_ {\n\n    public:\n      explicit vvp_fun_or(unsigned wid, bool invert);\n      ~vvp_fun_or() override;\n\n    private:\n      void run_run() override;\n      bool invert_;\n};\n\nclass vvp_fun_xor  : public vvp_fun_boolean_ {\n\n    public:\n      explicit vvp_fun_xor(unsigned wid, bool invert);\n      ~vvp_fun_xor() override;\n\n    private:\n      void run_run() override;\n      bool invert_;\n};\n\n"
+    },
+    "booleanInitializationAndScheduling": {
+      "file": "vvp/logic.cc",
+      "firstLine": 32,
+      "excerpt": "vvp_fun_boolean_::vvp_fun_boolean_(unsigned wid)\n{\n      net_ = 0;\n      for (unsigned idx = 0 ;  idx < 4 ;  idx += 1)\n\t    input_[idx] = vvp_vector4_t(wid, BIT4_Z);\n}\n\nvvp_fun_boolean_::~vvp_fun_boolean_()\n{\n}\n\nvoid vvp_fun_boolean_::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                                 vvp_context_t)\n{\n      unsigned port = ptr.port();\n      if (input_[port] .eeq( bit )) return;\n\n      input_[port] = bit;\n      if (net_ == 0) {\n\t    net_ = ptr.ptr();\n\t    schedule_functor(this);\n      }\n}\n\nvoid vvp_fun_boolean_::recv_vec4_pv(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n\t\t\t\t    unsigned base, unsigned vwid, vvp_context_t)\n{\n      unsigned port = ptr.port();\n\n      assert(base + bit.size() <= vwid);\n\n\t// Set the part for the input. If nothing changes, then break.\n      bool flag = input_[port] .set_vec(base, bit);\n      if (flag == false)\n\t    return;\n\n      if (net_ == 0) {\n\t    net_ = ptr.ptr();\n\t    schedule_functor(this);\n      }\n}\n\nvoid vvp_fun_boolean_::recv_real(vvp_net_ptr_t ptr, double real,\n                                 vvp_context_t ctx)\n{\n      recv_vec4(ptr, double_to_vector4_LSB(real), ctx);\n}\n\n"
+    },
+    "unaryInitializationAndScheduling": {
+      "file": "vvp/logic.cc",
+      "firstLine": 164,
+      "excerpt": "vvp_fun_buf_not_::vvp_fun_buf_not_(unsigned wid)\n: input_(wid, BIT4_Z)\n{\n      net_ = 0;\n}\n\nvvp_fun_buf_not_::~vvp_fun_buf_not_()\n{\n}\n\nvoid vvp_fun_buf_not_::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                                 vvp_context_t)\n{\n      if (ptr.port() != 0) return;\n\n      if (input_ .eeq( bit )) return;\n\n      input_ = bit;\n      if (net_ == 0) {\n\t    net_ = ptr.ptr();\n\t    schedule_functor(this);\n      }\n}\n\nvoid vvp_fun_buf_not_::recv_vec4_pv(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                                    unsigned base, unsigned vwid, vvp_context_t)\n{\n      if (ptr.port() != 0) return;\n\n      assert(base + bit.size() <= vwid);\n\n\t// Set the input part. If nothing changes, then break.\n      bool flag = input_.set_vec(base, bit);\n      if (flag == false) return;\n\n      if (net_ == 0) {\n\t    net_ = ptr.ptr();\n\t    schedule_functor(this);\n      }\n}\n\nvoid vvp_fun_buf_not_::recv_real(vvp_net_ptr_t ptr, double real,\n                                 vvp_context_t ctx)\n{\n      if (ptr.port() != 0) return;\n\n      recv_vec4(ptr, double_to_vector4_LSB(real), ctx);\n}\n\n"
+    },
+    "forwardersDoNotRetainOperands": {
+      "file": "vvp/logic.cc",
+      "firstLine": 237,
+      "excerpt": "vvp_fun_bufz::vvp_fun_bufz()\n{\n      count_functors_logic += 1;\n}\n\nvvp_fun_bufz::~vvp_fun_bufz()\n{\n}\n\n/*\n * The bufz is similar to the buf device, except that it does not\n * bother translating z bits to x.\n */\nvoid vvp_fun_bufz::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                             vvp_context_t)\n{\n      if (ptr.port() != 0)\n\t    return;\n\n      ptr.ptr()->send_vec4(bit, 0);\n}\n\nvoid vvp_fun_bufz::recv_vec4_pv(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                                unsigned base, unsigned vwid, vvp_context_t)\n{\n      if (ptr.port() != 0)\n\t    return;\n\n      ptr.ptr()->send_vec4_pv(bit, base, vwid, 0);\n}\n\nvoid vvp_fun_bufz::recv_real(vvp_net_ptr_t ptr, double bit,\n                             vvp_context_t)\n{\n      if (ptr.port() != 0)\n\t    return;\n\n      ptr.ptr()->send_real(bit, 0);\n}\n\nvoid vvp_fun_buft::recv_vec8(vvp_net_ptr_t ptr, const vvp_vector8_t&bit)\n{\n      if (ptr.port() != 0)\n\t    return;\n\n      ptr.ptr()->send_vec8(bit);\n}\n\n"
+    },
+    "muxInitializationCacheAndDispatch": {
+      "file": "vvp/logic.cc",
+      "firstLine": 376,
+      "excerpt": "vvp_fun_muxz::vvp_fun_muxz(unsigned wid)\n: a_(wid, BIT4_Z), b_(wid, BIT4_Z)\n{\n      net_ = 0;\n      count_functors_logic += 1;\n      select_ = SEL_BOTH;\n      has_run_ = false;\n}\n\nvvp_fun_muxz::~vvp_fun_muxz()\n{\n}\n\nvoid vvp_fun_muxz::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                             vvp_context_t)\n{\n      switch (ptr.port()) {\n\t  case 0:\n\t    if (a_ .eeq(bit) && has_run_) return;\n\t    a_ = bit;\n\t    if (select_ == SEL_PORT1) return; // The other port is selected.\n\t    break;\n\t  case 1:\n\t    if (b_ .eeq(bit) && has_run_) return;\n\t    b_ = bit;\n\t    if (select_ == SEL_PORT0) return; // The other port is selected.\n\t    break;\n\t  case 2:\n\t    assert(bit.size() == 1);\n\t    switch (bit.value(0)) {\n\t\tcase BIT4_0:\n\t\t  if (select_ == SEL_PORT0) return;\n\t\t  select_ = SEL_PORT0;\n\t\t  break;\n\t\tcase BIT4_1:\n\t\t  if (select_ == SEL_PORT1) return;\n\t\t  select_ = SEL_PORT1;\n\t\t  break;\n\t\tdefault:\n\t\t  if (select_ == SEL_BOTH && has_run_) return;\n\t\t  select_ = SEL_BOTH;\n\t    }\n\t    break;\n\t  default:\n\t    return;\n      }\n\n      if (net_ == 0) {\n\t    net_ = ptr.ptr();\n\t    schedule_functor(this);\n      }\n}\n\nvoid vvp_fun_muxz::recv_vec4_pv(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n\t\t\t\tunsigned base, unsigned vwid, vvp_context_t)\n{\n      assert(base + bit.size() <= vwid);\n      bool flag;\n\n      switch (ptr.port()) {\n\t  case 0:\n\t    flag = a_.set_vec(base, bit);\n\t    if (flag == false && has_run_) return;\n\t    if (select_ == SEL_PORT1) return; // The other port is selected.\n\t    break;\n\t  case 1:\n\t    flag = b_.set_vec(base, bit);\n\t    if (flag == false && has_run_) return;\n\t    if (select_ == SEL_PORT0) return; // The other port is selected.\n\t    break;\n\t  case 2:\n\t    assert((base == 0) && (bit.size() == 1));\n\t    recv_vec4(ptr, bit, 0);\n\t  default:\n\t    return;\n      }\n      if (net_ == 0) {\n\t    net_ = ptr.ptr();\n\t    schedule_functor(this);\n      }\n}\n\nvoid vvp_fun_muxz::run_run()\n{\n      has_run_ = true;\n      vvp_net_t*ptr = net_;\n      net_ = 0;\n\n      switch (select_) {\n\t  case SEL_PORT0:\n\t    ptr->send_vec4(a_, 0);\n\t    break;\n\t  case SEL_PORT1:\n\t    ptr->send_vec4(b_, 0);\n\t    break;\n\t  default:\n\t      {\n\t\t    unsigned min_size = a_.size();\n\t\t    unsigned max_size = min_size;\n\t\t    if (b_.size() < min_size)\n\t\t\t  min_size = b_.size();\n\t\t    if (b_.size() > max_size)\n\t\t\t  max_size = b_.size();\n\n\t\t    vvp_vector4_t res (max_size);\n\n\t\t    for (unsigned idx = 0 ;  idx < min_size ;  idx += 1) {\n\t\t\t  if (a_.value(idx) == b_.value(idx))\n\t\t\t\tres.set_bit(idx, a_.value(idx));\n\t\t\t  else\n\t\t\t\tres.set_bit(idx, BIT4_X);\n\t\t    }\n\n\t\t    for (unsigned idx = min_size ;  idx < max_size ;  idx += 1)\n\t\t\t  res.set_bit(idx, BIT4_X);\n\n\t\t    ptr->send_vec4(res, 0);\n\t      }\n\t    break;\n      }\n}\n\n"
+    },
+    "andDispatch": {
+      "file": "vvp/logic.cc",
+      "firstLine": 80,
+      "excerpt": "vvp_fun_and::vvp_fun_and(unsigned wid, bool invert)\n: vvp_fun_boolean_(wid), invert_(invert)\n{\n      count_functors_logic += 1;\n}\n\nvvp_fun_and::~vvp_fun_and()\n{\n}\n\nvoid vvp_fun_and::run_run()\n{\n      vvp_net_t*ptr = net_;\n      net_ = 0;\n\n      vvp_vector4_t result (input_[0]);\n\n      for (unsigned idx = 0 ;  idx < result.size() ;  idx += 1) {\n\t    vvp_bit4_t bitbit = result.value(idx);\n\t    for (unsigned pdx = 1 ;  pdx < 4 ;  pdx += 1) {\n\t\t  if (input_[pdx].size() < idx) {\n\t\t\tbitbit = BIT4_X;\n\t\t\tbreak;\n\t\t  }\n\n\t\t  bitbit = bitbit & input_[pdx].value(idx);\n\t    }\n\n\t    if (invert_)\n\t\t  bitbit = ~bitbit;\n\t    result.set_bit(idx, bitbit);\n      }\n\n      ptr->send_vec4(result, 0);\n}\n\n"
+    },
+    "orXorDispatch": {
+      "file": "vvp/logic.cc",
+      "firstLine": 521,
+      "excerpt": "vvp_fun_or::vvp_fun_or(unsigned wid, bool invert)\n: vvp_fun_boolean_(wid), invert_(invert)\n{\n      count_functors_logic += 1;\n}\n\nvvp_fun_or::~vvp_fun_or()\n{\n}\n\nvoid vvp_fun_or::run_run()\n{\n      vvp_net_t*ptr = net_;\n      net_ = 0;\n\n      vvp_vector4_t result (input_[0]);\n\n      for (unsigned idx = 0 ;  idx < result.size() ;  idx += 1) {\n\t    vvp_bit4_t bitbit = result.value(idx);\n\t    for (unsigned pdx = 1 ;  pdx < 4 ;  pdx += 1) {\n\t\t  if (input_[pdx].size() < idx) {\n\t\t\tbitbit = BIT4_X;\n\t\t\tbreak;\n\t\t  }\n\n\t\t  bitbit = bitbit | input_[pdx].value(idx);\n\t    }\n\n\t    if (invert_)\n\t\t  bitbit = ~bitbit;\n\t    result.set_bit(idx, bitbit);\n      }\n\n      ptr->send_vec4(result, 0);\n}\n\nvvp_fun_xor::vvp_fun_xor(unsigned wid, bool invert)\n: vvp_fun_boolean_(wid), invert_(invert)\n{\n      count_functors_logic += 1;\n}\n\nvvp_fun_xor::~vvp_fun_xor()\n{\n}\n\nvoid vvp_fun_xor::run_run()\n{\n      vvp_net_t*ptr = net_;\n      net_ = 0;\n\n      vvp_vector4_t result (input_[0]);\n\n      for (unsigned idx = 0 ;  idx < result.size() ;  idx += 1) {\n\t    vvp_bit4_t bitbit = result.value(idx);\n\t    for (unsigned pdx = 1 ;  pdx < 4 ;  pdx += 1) {\n\t\t  if (input_[pdx].size() < idx) {\n\t\t\tbitbit = BIT4_X;\n\t\t\tbreak;\n\t\t  }\n\n\t\t  bitbit = bitbit ^ input_[pdx].value(idx);\n\t    }\n\n\t    if (invert_)\n\t\t  bitbit = ~bitbit;\n\t    result.set_bit(idx, bitbit);\n      }\n\n      ptr->send_vec4(result, 0);\n}\n\n/*\n * The parser calls this function to create a logic functor. I allocate a\n * functor, and map the name to the vvp_ipoint_t address for the\n * functor. Also resolve the inputs to the functor.\n */\n\nvoid compile_functor(char*label, char*type, unsigned width,\n\t\t     unsigned ostr0, unsigned ostr1,\n\t\t     unsigned argc, struct symb_s*argv)\n{\n      vvp_net_fun_t* obj = 0;\n      bool strength_aware = false;\n\n      if (strcmp(type, \"OR\") == 0) {\n\t    obj = new vvp_fun_or(width, false);\n\n      } else if (strcmp(type, \"AND\") == 0) {\n\t    obj = new vvp_fun_and(width, false);\n\n      } else if (strcmp(type, \"BUF\") == 0) {\n\t    obj = new vvp_fun_buf(width);\n\n      } else if (strcmp(type, \"BUFIF0\") == 0) {\n\t    obj = new vvp_fun_bufif(true,false, ostr0, ostr1);\n\t    strength_aware = true;\n\n      } else if (strcmp(type, \"BUFIF1\") == 0) {\n\t    obj = new vvp_fun_bufif(false,false, ostr0, ostr1);\n\t    strength_aware = true;\n\n      } else if (strcmp(type, \"EQUIV\") == 0) {\n\t    obj = new vvp_fun_equiv();\n\n      } else if (strcmp(type, \"IMPL\") == 0) {\n\t    obj = new vvp_fun_impl();\n\n      } else if (strcmp(type, \"NAND\") == 0) {\n\t    obj = new vvp_fun_and(width, true);\n\n      } else if (strcmp(type, \"NOR\") == 0) {\n\t    obj = new vvp_fun_or(width, true);\n\n      } else if (strcmp(type, \"NOTIF0\") == 0) {\n\t    obj = new vvp_fun_bufif(true,true, ostr0, ostr1);\n\t    strength_aware = true;\n\n      } else if (strcmp(type, \"NOTIF1\") == 0) {\n\t    obj = new vvp_fun_bufif(false,true, ostr0, ostr1);\n\t    strength_aware = true;\n\n      } else if (strcmp(type, \"BUFT\") == 0) {\n\t    obj = new vvp_fun_buft();\n\n      } else if (strcmp(type, \"BUFZ\") == 0) {\n\t    obj = new vvp_fun_bufz();\n\n      } else if (strcmp(type, \"MUXR\") == 0) {\n\t    obj = new vvp_fun_muxr;\n\n      } else if (strcmp(type, \"MUXZ\") == 0) {\n\t    obj = new vvp_fun_muxz(width);\n\n      } else if (strcmp(type, \"CMOS\") == 0) {\n\t    obj = new vvp_fun_cmos();\n\n      } else if (strcmp(type, \"NMOS\") == 0) {\n\t    obj = new vvp_fun_pmos(true);\n\n      } else if (strcmp(type, \"PMOS\") == 0) {\n\t    obj = new vvp_fun_pmos(false);\n\n      } else if (strcmp(type, \"RCMOS\") == 0) {\n\t    obj = new vvp_fun_rcmos();\n\n      } else if (strcmp(type, \"RNMOS\") == 0) {\n\t    obj = new vvp_fun_rpmos(true);\n\n      } else if (strcmp(type, \"RPMOS\") == 0) {\n\t    obj = new vvp_fun_rpmos(false);\n\n      } else if (strcmp(type, \"NOT\") == 0) {\n\t    obj = new vvp_fun_not(width);\n\n      } else if (strcmp(type, \"XNOR\") == 0) {\n\t    obj = new vvp_fun_xor(width, true);\n\n      } else if (strcmp(type, \"XOR\") == 0) {\n\t    obj = new vvp_fun_xor(width, false);\n\n      } else {\n\t    yyerror(\"invalid functor type.\");\n\t    free(type);\n\t    free(argv);\n\t    free(label);\n\t    return;\n      }\n\n      free(type);\n\n      assert(argc <= 4);\n      vvp_net_t*net = new vvp_net_t;\n      net->fun = obj;\n\n      inputs_connect(net, argc, argv);\n      free(argv);\n\n\t/* If both the strengths are the default strong drive, then\n\t   there is no need for a specialized driver. Attach the label\n\t   to this node and we are finished. */\n      if (strength_aware || (ostr0 == 6 && ostr1 == 6)) {\n\t    define_functor_symbol(label, net);\n\t    free(label);\n\t    return;\n      }\n\n      vvp_net_t*net_drv = new vvp_net_t;\n      vvp_net_fun_t*obj_drv = new vvp_fun_drive(ostr0, ostr1);\n      net_drv->fun = obj_drv;\n\n\t/* Point the gate to the drive node. */\n      net->link(vvp_net_ptr_t(net_drv, 0));\n\n      define_functor_symbol(label, net_drv);\n      free(label);\n}\n"
+    },
+    "genericEventInterface": {
+      "file": "vvp/schedule.h",
+      "firstLine": 162,
+      "excerpt": "struct vvp_gen_event_s\n{\n      virtual ~vvp_gen_event_s() =0;\n      virtual void run_run() =0;\n      virtual void single_step_display(void);\n};\n\n"
+    },
+    "genericWrapperOwnership": {
+      "file": "vvp/schedule.cc",
+      "firstLine": 497,
+      "excerpt": "struct generic_event_s : public event_s {\n      vvp_gen_event_t obj;\n      bool delete_obj_when_done;\n      void run_run(void) override;\n      void single_step_display(void) override;\n\n      static void* operator new(size_t);\n      static void operator delete(void*);\n};\n\nvoid generic_event_s::run_run(void)\n{\n      count_gen_events += 1;\n      if (obj) {\n\t    obj->run_run();\n\t    if (delete_obj_when_done)\n\t\t  delete obj;\n      }\n}\n\nvoid generic_event_s::single_step_display(void)\n{\n      obj->single_step_display();\n}\n\n"
+    },
+    "queuedFunctorScheduling": {
+      "file": "vvp/schedule.cc",
+      "firstLine": 1041,
+      "excerpt": "void schedule_functor(vvp_gen_event_t obj)\n{\n      struct generic_event_s*cur = new generic_event_s;\n\n      cur->obj = obj;\n      cur->delete_obj_when_done = false;\n      if (!sim_started) {\n            schedule_init_event(cur);\n      } else {\n            schedule_event_(cur, 0, SEQ_ACTIVE);\n      }\n}\n\n"
+    }
+  },
+  "requirements": [
+    "BUFZ/BUFT and their common vvp_net_fun_t base have no mutable per-instance data fields beyond runtime type/binding. Preserve exact native-class and graph bindings; do not invent operand caches for those forwarding classes. This does not remove downstream filter, fanout, callback or allocator obligations.",
+    "Mux caches a_, b_, select_ and has_run_ initialize to Z/Z, SEL_BOTH and false. Observe all cached inputs, including the currently unselected one: its update can be non-propagating and still change a later selected output.",
+    "Boolean gates retain four initialized input vectors and a nullable pending destination. Unary BUF/NOT retain one input vector and that destination. AND/OR/XOR also retain the initialized inversion flag; do not infer inversion solely from class identity.",
+    "Observe cached inputs while idle as well as queued. The stored net_ is a pending dispatch destination, not permanent ownership: receive schedules only when it is null, and run_run clears it before sending output.",
+    "Bind allocated graph functor identity to the properly cast vvp_gen_event_s identity and its actual scheduler wrapper. Multiple inheritance may adjust pointers; do not reinterpret one pointer as the other. Include queued and executing wrappers and scheduling region/order.",
+    "Preserve independent allocation identities and initialized fields. Generic-event base has no payload fields, but scheduler wrappers separately own target, deletion flag and queue links; a net_ value alone cannot prove wrapper coverage.",
+    "Read logical 0/1/X/Z bits only. Cover partial vector receives and wide vectors; do not serialize padding, temporary run_run output vectors or uninitialized storage.",
+    "Native controls must exercise unselected-input changes followed by selection, X/Z selection blending, partial and repeated inputs, inverted gates, and queued/idle transitions. Restore cache/select/run-flag/destination/inversion faults before execution without propagation setters.",
+    "Preserve existing NOT controls while extending all-node coverage; queued NOT coverage does not establish idle NOT or other logic family coverage. Unknown subclasses and real mux storage require separate admission.",
+    "Measure board output/runtime and retain exact full-versus-compact reconstruction before integration. This source audit does not establish native observation, fault detection, continuation or general rollback."
+  ]
+}
