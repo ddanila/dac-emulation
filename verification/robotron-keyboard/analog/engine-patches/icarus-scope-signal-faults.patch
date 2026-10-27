@@ -1,0 +1,44 @@
+--- a/vvp/vpi_signal.cc
++++ b/vvp/vpi_signal.cc
+@@ -1902,3 +1902,41 @@
+     return fprintf(out,"VSA_END %zu\n",ordered.size())<0 || ferror(out)?-1:0;
+ }
+ 
++
++// Paired diagnostic faults select the first initialized non-bridge vector handle.
++extern "C" int robotron_vvp_scope_signal_toggle(unsigned field)
++{
++    static __vpiSignal*saved=0;static unsigned saved_field;
++    static unsigned sign;static int msb;static vvp_net_t*node;
++    static const char*name;static __vpiBit*bits;static __vpiScope*scope;
++    if(field>5 || (saved && saved_field!=field))return -1;
++    if(saved){
++        switch(field){
++            case 0:saved->signed_flag=sign;break;
++            case 1:saved->msb.set_value(msb);break;
++            case 2:saved->node=node;break;
++            case 3:saved->id.name=name;break;
++            case 4:saved->bits=bits;break;
++            case 5:saved->within.scope=scope;break;
++        }
++        saved=0;return 1;
++    }
++    char*text=0;size_t size=0;FILE*out=open_memstream(&text,&size);if(!out)return -1;
++    int rc=robotron_vvp_scope_signal_inventory(out);int close_rc=fclose(out);free(text);
++    if(rc || close_rc)return -1;
++    __vpiSignal*target=0;unsigned long long first=~0ULL;
++    for(auto entry:robotron_handles())if(!entry.second.admitted && entry.second.id<first){
++        first=entry.second.id;target=entry.first;
++    }
++    if(!target)return -1;
++    saved=target;saved_field=field;
++    switch(field){
++        case 0:sign=target->signed_flag;target->signed_flag=!sign;break;
++        case 1:msb=target->msb.get_value();target->msb.set_value(msb^1);break;
++        case 2:node=target->node;target->node=(vvp_net_t*)1;break;
++        case 3:name=target->id.name;target->id.name=(const char*)1;break;
++        case 4:bits=target->bits;target->bits=(__vpiBit*)1;break;
++        case 5:scope=target->within.scope;target->within.scope=(__vpiScope*)1;break;
++    }
++    return 1;
++}

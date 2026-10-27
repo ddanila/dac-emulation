@@ -1,0 +1,3247 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "negativeControls": {
+    "callback-list-user-corrupt": {
+      "typedSignalObservations": 1,
+      "boundTypedPortHandles": 18,
+      "callbackSignalLinkObservations": 9,
+      "typedBitCacheObservations": 0,
+      "callbackListObservations": 1,
+      "boundOutputCallbacks": 9,
+      "uniqueCallbackOwners": 1573,
+      "maximumCallbackOwners": 1573,
+      "retiredCallbackOwners": 0,
+      "rawAssignmentObservations": 1,
+      "pendingRawAssignments": 26,
+      "executingRawAssignments": 0,
+      "uniqueRawAssignmentLifetimes": 26,
+      "maximumRawAssignmentBytes": 26,
+      "rawIslandObservations": 1,
+      "rawIslandCount": 2,
+      "maximumRawIslandCacheBytes": 2,
+      "resolverObservations": 1,
+      "maximumResolverFunctors": 18,
+      "maximumResolverCacheBytes": 36,
+      "concatObservations": 1,
+      "maximumConcatFunctors": 60,
+      "queuedConcatWrappers": 0,
+      "executingConcatWrappers": 0,
+      "uniqueConcatWrappers": 0,
+      "rawWireObservations": 1,
+      "maximumRawWireFilters": 29,
+      "reductionObservations": 1,
+      "maximumReductionFunctors": 38,
+      "arithmeticObservations": 1,
+      "maximumArithmeticFunctors": 217,
+      "gateObservations": 1,
+      "maximumGateFunctors": 81,
+      "queuedGateWrappers": 1,
+      "executingGateWrappers": 0,
+      "uniqueGateWrappers": 1,
+      "sharedInverterObservations": 1,
+      "muxObservations": 1,
+      "maximumMuxFunctors": 251,
+      "queuedMuxWrappers": 0,
+      "executingMuxWrappers": 0,
+      "uniqueMuxWrappers": 0,
+      "signalObservations": 1,
+      "maximumSignalFunctors": 196,
+      "linkedSignalObservations": 0,
+      "maskedSignalObservations": 0,
+      "wireObservations": 1,
+      "maximumWireFilters": 1573,
+      "wireKinds": [
+        4,
+        8
+      ],
+      "graphObservations": 1,
+      "maximumAllocatedNodes": 1820,
+      "uniqueCodeNetTargets": 258,
+      "arrayNetReferenceObservations": 23,
+      "assignmentNetReferenceObservations": 2527,
+      "primitiveNetReferenceObservations": 17,
+      "arrayObservations": 1,
+      "arrays": 3,
+      "arrayReadPorts": 23,
+      "loadedArrayStateObserved": false,
+      "wordHandleCacheObserved": false,
+      "readPortsWithAddressChanges": 0,
+      "allocatedOperandInstructions": 20442,
+      "completeOperandObservations": 1,
+      "unchangedCodeImage": true,
+      "scopeCount": 32,
+      "scopeObservations": 1,
+      "emptyScopeObservations": 21,
+      "scopeMemberObservations": 44,
+      "liveThreadsOutsideScopeSets": 0,
+      "threadCodeObservations": 44,
+      "threadsWithCodeBindings": 44,
+      "uniqueObservedCodeSlots": 44,
+      "waitEventKinds": {
+        "2": 35,
+        "1": 9,
+        "3": 12
+      },
+      "uniqueWaitEvents": 56,
+      "waitEventObservations": 56,
+      "nonemptyWaitHeads": 0,
+      "emptyWaitHeads": 56,
+      "absentCacheObservations": 43,
+      "initializedCacheObservations": 97,
+      "liveThreadObservations": 44,
+      "uniqueThreads": 44,
+      "uniqueThreadEvents": 44,
+      "queuedThreadObservations": 44,
+      "eventWaitingObservations": 0,
+      "initializedWordObservations": 0,
+      "initializedExtendedFlagObservations": 0,
+      "unwrittenRegisterObservations": 22880,
+      "emptyThreadQueueBoundaries": 0,
+      "delayedDeletionObservations": 0,
+      "filterObservations": 4,
+      "uniqueIslandFilters": 4,
+      "initializingFilterObservations": 4,
+      "initializedFilterObservations": 0,
+      "forcedFilterObservations": 0,
+      "linkedForceObservations": 0,
+      "islandObservations": 2,
+      "queuedIslandObservations": 2,
+      "idleIslandObservations": 0,
+      "uniqueIslands": 2,
+      "uniqueIslandWrappers": 2,
+      "primitiveObservations": {
+        "1": 1,
+        "2": 16
+      },
+      "uniquePrimitives": 17,
+      "uniquePrimitiveWrappers": 17,
+      "emptyPrimitiveBoundaries": 0,
+      "maximumUncoveredPrimitiveEvents": 2573,
+      "assignmentObservations": {
+        "4": 2501,
+        "8": 26
+      },
+      "uniqueAssignments": 2527,
+      "emptyAssignmentBoundaries": 0,
+      "maximumUncoveredEvents": 63,
+      "startupLifetimeId": 1,
+      "activeStartupObservations": 1,
+      "destroyedStartupObservations": 0,
+      "boundaries": 1,
+      "executingWrapperObservations": 0,
+      "emptyFrameObservations": 1,
+      "uniqueExecutingEvents": 0,
+      "associatedDisplayObservations": 0,
+      "releasedDisplayObservations": 0,
+      "savedStopObservations": 0,
+      "clearedStopObservations": 1,
+      "portObservations": 18,
+      "ports": [
+        {
+          "index": 0,
+          "direction": 1,
+          "bits": 1,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.fixture_clk"
+        },
+        {
+          "index": 1,
+          "direction": 1,
+          "bits": 1,
+          "position": 1,
+          "name": "firmware_io_electrical_bus.fixture_reset_n"
+        },
+        {
+          "index": 2,
+          "direction": 1,
+          "bits": 8,
+          "position": 2,
+          "name": "firmware_io_electrical_bus.sense"
+        },
+        {
+          "index": 3,
+          "direction": 1,
+          "bits": 1,
+          "position": 10,
+          "name": "firmware_io_electrical_bus.receiver_data"
+        },
+        {
+          "index": 4,
+          "direction": 1,
+          "bits": 1,
+          "position": 11,
+          "name": "firmware_io_electrical_bus.receiver_clock"
+        },
+        {
+          "index": 5,
+          "direction": 1,
+          "bits": 3,
+          "position": 12,
+          "name": "firmware_io_electrical_bus.logic_control"
+        },
+        {
+          "index": 6,
+          "direction": 1,
+          "bits": 1,
+          "position": 15,
+          "name": "firmware_io_electrical_bus.cpu_pullup_n"
+        },
+        {
+          "index": 7,
+          "direction": 1,
+          "bits": 1,
+          "position": 16,
+          "name": "firmware_io_electrical_bus.bus_request_n"
+        },
+        {
+          "index": 8,
+          "direction": 1,
+          "bits": 8,
+          "position": 17,
+          "name": "firmware_io_electrical_bus.bus_sense"
+        },
+        {
+          "index": 9,
+          "direction": 2,
+          "bits": 24,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.bus_low"
+        },
+        {
+          "index": 10,
+          "direction": 2,
+          "bits": 24,
+          "position": 24,
+          "name": "firmware_io_electrical_bus.bus_high"
+        },
+        {
+          "index": 11,
+          "direction": 2,
+          "bits": 1,
+          "position": 48,
+          "name": "firmware_io_electrical_bus.wr_low"
+        },
+        {
+          "index": 12,
+          "direction": 2,
+          "bits": 1,
+          "position": 49,
+          "name": "firmware_io_electrical_bus.wr_high"
+        },
+        {
+          "index": 13,
+          "direction": 2,
+          "bits": 2,
+          "position": 50,
+          "name": "firmware_io_electrical_bus.logic_sink"
+        },
+        {
+          "index": 14,
+          "direction": 2,
+          "bits": 1,
+          "position": 52,
+          "name": "firmware_io_electrical_bus.data_sink"
+        },
+        {
+          "index": 15,
+          "direction": 2,
+          "bits": 1,
+          "position": 53,
+          "name": "firmware_io_electrical_bus.clock_sink"
+        },
+        {
+          "index": 16,
+          "direction": 2,
+          "bits": 2,
+          "position": 54,
+          "name": "firmware_io_electrical_bus.leds"
+        },
+        {
+          "index": 17,
+          "direction": 2,
+          "bits": 13,
+          "position": 56,
+          "name": "firmware_io_electrical_bus.column_sink"
+        }
+      ],
+      "outputCallbackObservations": 9,
+      "outputCallbacks": [
+        {
+          "port": 9,
+          "callbackId": 1
+        },
+        {
+          "port": 10,
+          "callbackId": 2
+        },
+        {
+          "port": 11,
+          "callbackId": 3
+        },
+        {
+          "port": 12,
+          "callbackId": 4
+        },
+        {
+          "port": 13,
+          "callbackId": 5
+        },
+        {
+          "port": 14,
+          "callbackId": 6
+        },
+        {
+          "port": 15,
+          "callbackId": 7
+        },
+        {
+          "port": 16,
+          "callbackId": 8
+        },
+        {
+          "port": 17,
+          "callbackId": 9
+        }
+      ],
+      "fault": {
+        "index": 0,
+        "phase": "before-step",
+        "targetSeconds": 0.0
+      },
+      "scopeMetadata": {
+        "snapshots": 2,
+        "scopes": 32,
+        "boundSignals": 18,
+        "ports": 317,
+        "portBits": 875,
+        "allSignals": 651,
+        "metadataFull": 1,
+        "metadataReused": 1,
+        "referenceFull": 1,
+        "referenceReused": 1,
+        "portFull": 1,
+        "portReused": 1,
+        "allSignalFull": 1,
+        "allSignalReused": 1
+      }
+    },
+    "callback-list-object-corrupt": {
+      "typedSignalObservations": 1,
+      "boundTypedPortHandles": 18,
+      "callbackSignalLinkObservations": 9,
+      "typedBitCacheObservations": 0,
+      "callbackListObservations": 1,
+      "boundOutputCallbacks": 9,
+      "uniqueCallbackOwners": 1573,
+      "maximumCallbackOwners": 1573,
+      "retiredCallbackOwners": 0,
+      "rawAssignmentObservations": 1,
+      "pendingRawAssignments": 26,
+      "executingRawAssignments": 0,
+      "uniqueRawAssignmentLifetimes": 26,
+      "maximumRawAssignmentBytes": 26,
+      "rawIslandObservations": 1,
+      "rawIslandCount": 2,
+      "maximumRawIslandCacheBytes": 2,
+      "resolverObservations": 1,
+      "maximumResolverFunctors": 18,
+      "maximumResolverCacheBytes": 36,
+      "concatObservations": 1,
+      "maximumConcatFunctors": 60,
+      "queuedConcatWrappers": 0,
+      "executingConcatWrappers": 0,
+      "uniqueConcatWrappers": 0,
+      "rawWireObservations": 1,
+      "maximumRawWireFilters": 29,
+      "reductionObservations": 1,
+      "maximumReductionFunctors": 38,
+      "arithmeticObservations": 1,
+      "maximumArithmeticFunctors": 217,
+      "gateObservations": 1,
+      "maximumGateFunctors": 81,
+      "queuedGateWrappers": 1,
+      "executingGateWrappers": 0,
+      "uniqueGateWrappers": 1,
+      "sharedInverterObservations": 1,
+      "muxObservations": 1,
+      "maximumMuxFunctors": 251,
+      "queuedMuxWrappers": 0,
+      "executingMuxWrappers": 0,
+      "uniqueMuxWrappers": 0,
+      "signalObservations": 1,
+      "maximumSignalFunctors": 196,
+      "linkedSignalObservations": 0,
+      "maskedSignalObservations": 0,
+      "wireObservations": 1,
+      "maximumWireFilters": 1573,
+      "wireKinds": [
+        4,
+        8
+      ],
+      "graphObservations": 1,
+      "maximumAllocatedNodes": 1820,
+      "uniqueCodeNetTargets": 258,
+      "arrayNetReferenceObservations": 23,
+      "assignmentNetReferenceObservations": 2527,
+      "primitiveNetReferenceObservations": 17,
+      "arrayObservations": 1,
+      "arrays": 3,
+      "arrayReadPorts": 23,
+      "loadedArrayStateObserved": false,
+      "wordHandleCacheObserved": false,
+      "readPortsWithAddressChanges": 0,
+      "allocatedOperandInstructions": 20442,
+      "completeOperandObservations": 1,
+      "unchangedCodeImage": true,
+      "scopeCount": 32,
+      "scopeObservations": 1,
+      "emptyScopeObservations": 21,
+      "scopeMemberObservations": 44,
+      "liveThreadsOutsideScopeSets": 0,
+      "threadCodeObservations": 44,
+      "threadsWithCodeBindings": 44,
+      "uniqueObservedCodeSlots": 44,
+      "waitEventKinds": {
+        "2": 35,
+        "1": 9,
+        "3": 12
+      },
+      "uniqueWaitEvents": 56,
+      "waitEventObservations": 56,
+      "nonemptyWaitHeads": 0,
+      "emptyWaitHeads": 56,
+      "absentCacheObservations": 43,
+      "initializedCacheObservations": 97,
+      "liveThreadObservations": 44,
+      "uniqueThreads": 44,
+      "uniqueThreadEvents": 44,
+      "queuedThreadObservations": 44,
+      "eventWaitingObservations": 0,
+      "initializedWordObservations": 0,
+      "initializedExtendedFlagObservations": 0,
+      "unwrittenRegisterObservations": 22880,
+      "emptyThreadQueueBoundaries": 0,
+      "delayedDeletionObservations": 0,
+      "filterObservations": 4,
+      "uniqueIslandFilters": 4,
+      "initializingFilterObservations": 4,
+      "initializedFilterObservations": 0,
+      "forcedFilterObservations": 0,
+      "linkedForceObservations": 0,
+      "islandObservations": 2,
+      "queuedIslandObservations": 2,
+      "idleIslandObservations": 0,
+      "uniqueIslands": 2,
+      "uniqueIslandWrappers": 2,
+      "primitiveObservations": {
+        "1": 1,
+        "2": 16
+      },
+      "uniquePrimitives": 17,
+      "uniquePrimitiveWrappers": 17,
+      "emptyPrimitiveBoundaries": 0,
+      "maximumUncoveredPrimitiveEvents": 2573,
+      "assignmentObservations": {
+        "4": 2501,
+        "8": 26
+      },
+      "uniqueAssignments": 2527,
+      "emptyAssignmentBoundaries": 0,
+      "maximumUncoveredEvents": 63,
+      "startupLifetimeId": 1,
+      "activeStartupObservations": 1,
+      "destroyedStartupObservations": 0,
+      "boundaries": 1,
+      "executingWrapperObservations": 0,
+      "emptyFrameObservations": 1,
+      "uniqueExecutingEvents": 0,
+      "associatedDisplayObservations": 0,
+      "releasedDisplayObservations": 0,
+      "savedStopObservations": 0,
+      "clearedStopObservations": 1,
+      "portObservations": 18,
+      "ports": [
+        {
+          "index": 0,
+          "direction": 1,
+          "bits": 1,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.fixture_clk"
+        },
+        {
+          "index": 1,
+          "direction": 1,
+          "bits": 1,
+          "position": 1,
+          "name": "firmware_io_electrical_bus.fixture_reset_n"
+        },
+        {
+          "index": 2,
+          "direction": 1,
+          "bits": 8,
+          "position": 2,
+          "name": "firmware_io_electrical_bus.sense"
+        },
+        {
+          "index": 3,
+          "direction": 1,
+          "bits": 1,
+          "position": 10,
+          "name": "firmware_io_electrical_bus.receiver_data"
+        },
+        {
+          "index": 4,
+          "direction": 1,
+          "bits": 1,
+          "position": 11,
+          "name": "firmware_io_electrical_bus.receiver_clock"
+        },
+        {
+          "index": 5,
+          "direction": 1,
+          "bits": 3,
+          "position": 12,
+          "name": "firmware_io_electrical_bus.logic_control"
+        },
+        {
+          "index": 6,
+          "direction": 1,
+          "bits": 1,
+          "position": 15,
+          "name": "firmware_io_electrical_bus.cpu_pullup_n"
+        },
+        {
+          "index": 7,
+          "direction": 1,
+          "bits": 1,
+          "position": 16,
+          "name": "firmware_io_electrical_bus.bus_request_n"
+        },
+        {
+          "index": 8,
+          "direction": 1,
+          "bits": 8,
+          "position": 17,
+          "name": "firmware_io_electrical_bus.bus_sense"
+        },
+        {
+          "index": 9,
+          "direction": 2,
+          "bits": 24,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.bus_low"
+        },
+        {
+          "index": 10,
+          "direction": 2,
+          "bits": 24,
+          "position": 24,
+          "name": "firmware_io_electrical_bus.bus_high"
+        },
+        {
+          "index": 11,
+          "direction": 2,
+          "bits": 1,
+          "position": 48,
+          "name": "firmware_io_electrical_bus.wr_low"
+        },
+        {
+          "index": 12,
+          "direction": 2,
+          "bits": 1,
+          "position": 49,
+          "name": "firmware_io_electrical_bus.wr_high"
+        },
+        {
+          "index": 13,
+          "direction": 2,
+          "bits": 2,
+          "position": 50,
+          "name": "firmware_io_electrical_bus.logic_sink"
+        },
+        {
+          "index": 14,
+          "direction": 2,
+          "bits": 1,
+          "position": 52,
+          "name": "firmware_io_electrical_bus.data_sink"
+        },
+        {
+          "index": 15,
+          "direction": 2,
+          "bits": 1,
+          "position": 53,
+          "name": "firmware_io_electrical_bus.clock_sink"
+        },
+        {
+          "index": 16,
+          "direction": 2,
+          "bits": 2,
+          "position": 54,
+          "name": "firmware_io_electrical_bus.leds"
+        },
+        {
+          "index": 17,
+          "direction": 2,
+          "bits": 13,
+          "position": 56,
+          "name": "firmware_io_electrical_bus.column_sink"
+        }
+      ],
+      "outputCallbackObservations": 9,
+      "outputCallbacks": [
+        {
+          "port": 9,
+          "callbackId": 1
+        },
+        {
+          "port": 10,
+          "callbackId": 2
+        },
+        {
+          "port": 11,
+          "callbackId": 3
+        },
+        {
+          "port": 12,
+          "callbackId": 4
+        },
+        {
+          "port": 13,
+          "callbackId": 5
+        },
+        {
+          "port": 14,
+          "callbackId": 6
+        },
+        {
+          "port": 15,
+          "callbackId": 7
+        },
+        {
+          "port": 16,
+          "callbackId": 8
+        },
+        {
+          "port": 17,
+          "callbackId": 9
+        }
+      ],
+      "fault": {
+        "index": 0,
+        "phase": "before-step",
+        "targetSeconds": 0.0
+      },
+      "scopeMetadata": {
+        "snapshots": 2,
+        "scopes": 32,
+        "boundSignals": 18,
+        "ports": 317,
+        "portBits": 875,
+        "allSignals": 651,
+        "metadataFull": 1,
+        "metadataReused": 1,
+        "referenceFull": 1,
+        "referenceReused": 1,
+        "portFull": 1,
+        "portReused": 1,
+        "allSignalFull": 1,
+        "allSignalReused": 1
+      }
+    },
+    "callback-list-function-corrupt": {
+      "typedSignalObservations": 1,
+      "boundTypedPortHandles": 18,
+      "callbackSignalLinkObservations": 9,
+      "typedBitCacheObservations": 0,
+      "callbackListObservations": 1,
+      "boundOutputCallbacks": 9,
+      "uniqueCallbackOwners": 1573,
+      "maximumCallbackOwners": 1573,
+      "retiredCallbackOwners": 0,
+      "rawAssignmentObservations": 1,
+      "pendingRawAssignments": 26,
+      "executingRawAssignments": 0,
+      "uniqueRawAssignmentLifetimes": 26,
+      "maximumRawAssignmentBytes": 26,
+      "rawIslandObservations": 1,
+      "rawIslandCount": 2,
+      "maximumRawIslandCacheBytes": 2,
+      "resolverObservations": 1,
+      "maximumResolverFunctors": 18,
+      "maximumResolverCacheBytes": 36,
+      "concatObservations": 1,
+      "maximumConcatFunctors": 60,
+      "queuedConcatWrappers": 0,
+      "executingConcatWrappers": 0,
+      "uniqueConcatWrappers": 0,
+      "rawWireObservations": 1,
+      "maximumRawWireFilters": 29,
+      "reductionObservations": 1,
+      "maximumReductionFunctors": 38,
+      "arithmeticObservations": 1,
+      "maximumArithmeticFunctors": 217,
+      "gateObservations": 1,
+      "maximumGateFunctors": 81,
+      "queuedGateWrappers": 1,
+      "executingGateWrappers": 0,
+      "uniqueGateWrappers": 1,
+      "sharedInverterObservations": 1,
+      "muxObservations": 1,
+      "maximumMuxFunctors": 251,
+      "queuedMuxWrappers": 0,
+      "executingMuxWrappers": 0,
+      "uniqueMuxWrappers": 0,
+      "signalObservations": 1,
+      "maximumSignalFunctors": 196,
+      "linkedSignalObservations": 0,
+      "maskedSignalObservations": 0,
+      "wireObservations": 1,
+      "maximumWireFilters": 1573,
+      "wireKinds": [
+        4,
+        8
+      ],
+      "graphObservations": 1,
+      "maximumAllocatedNodes": 1820,
+      "uniqueCodeNetTargets": 258,
+      "arrayNetReferenceObservations": 23,
+      "assignmentNetReferenceObservations": 2527,
+      "primitiveNetReferenceObservations": 17,
+      "arrayObservations": 1,
+      "arrays": 3,
+      "arrayReadPorts": 23,
+      "loadedArrayStateObserved": false,
+      "wordHandleCacheObserved": false,
+      "readPortsWithAddressChanges": 0,
+      "allocatedOperandInstructions": 20442,
+      "completeOperandObservations": 1,
+      "unchangedCodeImage": true,
+      "scopeCount": 32,
+      "scopeObservations": 1,
+      "emptyScopeObservations": 21,
+      "scopeMemberObservations": 44,
+      "liveThreadsOutsideScopeSets": 0,
+      "threadCodeObservations": 44,
+      "threadsWithCodeBindings": 44,
+      "uniqueObservedCodeSlots": 44,
+      "waitEventKinds": {
+        "2": 35,
+        "1": 9,
+        "3": 12
+      },
+      "uniqueWaitEvents": 56,
+      "waitEventObservations": 56,
+      "nonemptyWaitHeads": 0,
+      "emptyWaitHeads": 56,
+      "absentCacheObservations": 43,
+      "initializedCacheObservations": 97,
+      "liveThreadObservations": 44,
+      "uniqueThreads": 44,
+      "uniqueThreadEvents": 44,
+      "queuedThreadObservations": 44,
+      "eventWaitingObservations": 0,
+      "initializedWordObservations": 0,
+      "initializedExtendedFlagObservations": 0,
+      "unwrittenRegisterObservations": 22880,
+      "emptyThreadQueueBoundaries": 0,
+      "delayedDeletionObservations": 0,
+      "filterObservations": 4,
+      "uniqueIslandFilters": 4,
+      "initializingFilterObservations": 4,
+      "initializedFilterObservations": 0,
+      "forcedFilterObservations": 0,
+      "linkedForceObservations": 0,
+      "islandObservations": 2,
+      "queuedIslandObservations": 2,
+      "idleIslandObservations": 0,
+      "uniqueIslands": 2,
+      "uniqueIslandWrappers": 2,
+      "primitiveObservations": {
+        "1": 1,
+        "2": 16
+      },
+      "uniquePrimitives": 17,
+      "uniquePrimitiveWrappers": 17,
+      "emptyPrimitiveBoundaries": 0,
+      "maximumUncoveredPrimitiveEvents": 2573,
+      "assignmentObservations": {
+        "4": 2501,
+        "8": 26
+      },
+      "uniqueAssignments": 2527,
+      "emptyAssignmentBoundaries": 0,
+      "maximumUncoveredEvents": 63,
+      "startupLifetimeId": 1,
+      "activeStartupObservations": 1,
+      "destroyedStartupObservations": 0,
+      "boundaries": 1,
+      "executingWrapperObservations": 0,
+      "emptyFrameObservations": 1,
+      "uniqueExecutingEvents": 0,
+      "associatedDisplayObservations": 0,
+      "releasedDisplayObservations": 0,
+      "savedStopObservations": 0,
+      "clearedStopObservations": 1,
+      "portObservations": 18,
+      "ports": [
+        {
+          "index": 0,
+          "direction": 1,
+          "bits": 1,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.fixture_clk"
+        },
+        {
+          "index": 1,
+          "direction": 1,
+          "bits": 1,
+          "position": 1,
+          "name": "firmware_io_electrical_bus.fixture_reset_n"
+        },
+        {
+          "index": 2,
+          "direction": 1,
+          "bits": 8,
+          "position": 2,
+          "name": "firmware_io_electrical_bus.sense"
+        },
+        {
+          "index": 3,
+          "direction": 1,
+          "bits": 1,
+          "position": 10,
+          "name": "firmware_io_electrical_bus.receiver_data"
+        },
+        {
+          "index": 4,
+          "direction": 1,
+          "bits": 1,
+          "position": 11,
+          "name": "firmware_io_electrical_bus.receiver_clock"
+        },
+        {
+          "index": 5,
+          "direction": 1,
+          "bits": 3,
+          "position": 12,
+          "name": "firmware_io_electrical_bus.logic_control"
+        },
+        {
+          "index": 6,
+          "direction": 1,
+          "bits": 1,
+          "position": 15,
+          "name": "firmware_io_electrical_bus.cpu_pullup_n"
+        },
+        {
+          "index": 7,
+          "direction": 1,
+          "bits": 1,
+          "position": 16,
+          "name": "firmware_io_electrical_bus.bus_request_n"
+        },
+        {
+          "index": 8,
+          "direction": 1,
+          "bits": 8,
+          "position": 17,
+          "name": "firmware_io_electrical_bus.bus_sense"
+        },
+        {
+          "index": 9,
+          "direction": 2,
+          "bits": 24,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.bus_low"
+        },
+        {
+          "index": 10,
+          "direction": 2,
+          "bits": 24,
+          "position": 24,
+          "name": "firmware_io_electrical_bus.bus_high"
+        },
+        {
+          "index": 11,
+          "direction": 2,
+          "bits": 1,
+          "position": 48,
+          "name": "firmware_io_electrical_bus.wr_low"
+        },
+        {
+          "index": 12,
+          "direction": 2,
+          "bits": 1,
+          "position": 49,
+          "name": "firmware_io_electrical_bus.wr_high"
+        },
+        {
+          "index": 13,
+          "direction": 2,
+          "bits": 2,
+          "position": 50,
+          "name": "firmware_io_electrical_bus.logic_sink"
+        },
+        {
+          "index": 14,
+          "direction": 2,
+          "bits": 1,
+          "position": 52,
+          "name": "firmware_io_electrical_bus.data_sink"
+        },
+        {
+          "index": 15,
+          "direction": 2,
+          "bits": 1,
+          "position": 53,
+          "name": "firmware_io_electrical_bus.clock_sink"
+        },
+        {
+          "index": 16,
+          "direction": 2,
+          "bits": 2,
+          "position": 54,
+          "name": "firmware_io_electrical_bus.leds"
+        },
+        {
+          "index": 17,
+          "direction": 2,
+          "bits": 13,
+          "position": 56,
+          "name": "firmware_io_electrical_bus.column_sink"
+        }
+      ],
+      "outputCallbackObservations": 9,
+      "outputCallbacks": [
+        {
+          "port": 9,
+          "callbackId": 1
+        },
+        {
+          "port": 10,
+          "callbackId": 2
+        },
+        {
+          "port": 11,
+          "callbackId": 3
+        },
+        {
+          "port": 12,
+          "callbackId": 4
+        },
+        {
+          "port": 13,
+          "callbackId": 5
+        },
+        {
+          "port": 14,
+          "callbackId": 6
+        },
+        {
+          "port": 15,
+          "callbackId": 7
+        },
+        {
+          "port": 16,
+          "callbackId": 8
+        },
+        {
+          "port": 17,
+          "callbackId": 9
+        }
+      ],
+      "fault": {
+        "index": 0,
+        "phase": "before-step",
+        "targetSeconds": 0.0
+      },
+      "scopeMetadata": {
+        "snapshots": 2,
+        "scopes": 32,
+        "boundSignals": 18,
+        "ports": 317,
+        "portBits": 875,
+        "allSignals": 651,
+        "metadataFull": 1,
+        "metadataReused": 1,
+        "referenceFull": 1,
+        "referenceReused": 1,
+        "portFull": 1,
+        "portReused": 1,
+        "allSignalFull": 1,
+        "allSignalReused": 1
+      }
+    },
+    "callback-list-link-corrupt": {
+      "typedSignalObservations": 1,
+      "boundTypedPortHandles": 18,
+      "callbackSignalLinkObservations": 9,
+      "typedBitCacheObservations": 0,
+      "callbackListObservations": 1,
+      "boundOutputCallbacks": 9,
+      "uniqueCallbackOwners": 1573,
+      "maximumCallbackOwners": 1573,
+      "retiredCallbackOwners": 0,
+      "rawAssignmentObservations": 1,
+      "pendingRawAssignments": 26,
+      "executingRawAssignments": 0,
+      "uniqueRawAssignmentLifetimes": 26,
+      "maximumRawAssignmentBytes": 26,
+      "rawIslandObservations": 1,
+      "rawIslandCount": 2,
+      "maximumRawIslandCacheBytes": 2,
+      "resolverObservations": 1,
+      "maximumResolverFunctors": 18,
+      "maximumResolverCacheBytes": 36,
+      "concatObservations": 1,
+      "maximumConcatFunctors": 60,
+      "queuedConcatWrappers": 0,
+      "executingConcatWrappers": 0,
+      "uniqueConcatWrappers": 0,
+      "rawWireObservations": 1,
+      "maximumRawWireFilters": 29,
+      "reductionObservations": 1,
+      "maximumReductionFunctors": 38,
+      "arithmeticObservations": 1,
+      "maximumArithmeticFunctors": 217,
+      "gateObservations": 1,
+      "maximumGateFunctors": 81,
+      "queuedGateWrappers": 1,
+      "executingGateWrappers": 0,
+      "uniqueGateWrappers": 1,
+      "sharedInverterObservations": 1,
+      "muxObservations": 1,
+      "maximumMuxFunctors": 251,
+      "queuedMuxWrappers": 0,
+      "executingMuxWrappers": 0,
+      "uniqueMuxWrappers": 0,
+      "signalObservations": 1,
+      "maximumSignalFunctors": 196,
+      "linkedSignalObservations": 0,
+      "maskedSignalObservations": 0,
+      "wireObservations": 1,
+      "maximumWireFilters": 1573,
+      "wireKinds": [
+        4,
+        8
+      ],
+      "graphObservations": 1,
+      "maximumAllocatedNodes": 1820,
+      "uniqueCodeNetTargets": 258,
+      "arrayNetReferenceObservations": 23,
+      "assignmentNetReferenceObservations": 2527,
+      "primitiveNetReferenceObservations": 17,
+      "arrayObservations": 1,
+      "arrays": 3,
+      "arrayReadPorts": 23,
+      "loadedArrayStateObserved": false,
+      "wordHandleCacheObserved": false,
+      "readPortsWithAddressChanges": 0,
+      "allocatedOperandInstructions": 20442,
+      "completeOperandObservations": 1,
+      "unchangedCodeImage": true,
+      "scopeCount": 32,
+      "scopeObservations": 1,
+      "emptyScopeObservations": 21,
+      "scopeMemberObservations": 44,
+      "liveThreadsOutsideScopeSets": 0,
+      "threadCodeObservations": 44,
+      "threadsWithCodeBindings": 44,
+      "uniqueObservedCodeSlots": 44,
+      "waitEventKinds": {
+        "2": 35,
+        "1": 9,
+        "3": 12
+      },
+      "uniqueWaitEvents": 56,
+      "waitEventObservations": 56,
+      "nonemptyWaitHeads": 0,
+      "emptyWaitHeads": 56,
+      "absentCacheObservations": 43,
+      "initializedCacheObservations": 97,
+      "liveThreadObservations": 44,
+      "uniqueThreads": 44,
+      "uniqueThreadEvents": 44,
+      "queuedThreadObservations": 44,
+      "eventWaitingObservations": 0,
+      "initializedWordObservations": 0,
+      "initializedExtendedFlagObservations": 0,
+      "unwrittenRegisterObservations": 22880,
+      "emptyThreadQueueBoundaries": 0,
+      "delayedDeletionObservations": 0,
+      "filterObservations": 4,
+      "uniqueIslandFilters": 4,
+      "initializingFilterObservations": 4,
+      "initializedFilterObservations": 0,
+      "forcedFilterObservations": 0,
+      "linkedForceObservations": 0,
+      "islandObservations": 2,
+      "queuedIslandObservations": 2,
+      "idleIslandObservations": 0,
+      "uniqueIslands": 2,
+      "uniqueIslandWrappers": 2,
+      "primitiveObservations": {
+        "1": 1,
+        "2": 16
+      },
+      "uniquePrimitives": 17,
+      "uniquePrimitiveWrappers": 17,
+      "emptyPrimitiveBoundaries": 0,
+      "maximumUncoveredPrimitiveEvents": 2573,
+      "assignmentObservations": {
+        "4": 2501,
+        "8": 26
+      },
+      "uniqueAssignments": 2527,
+      "emptyAssignmentBoundaries": 0,
+      "maximumUncoveredEvents": 63,
+      "startupLifetimeId": 1,
+      "activeStartupObservations": 1,
+      "destroyedStartupObservations": 0,
+      "boundaries": 1,
+      "executingWrapperObservations": 0,
+      "emptyFrameObservations": 1,
+      "uniqueExecutingEvents": 0,
+      "associatedDisplayObservations": 0,
+      "releasedDisplayObservations": 0,
+      "savedStopObservations": 0,
+      "clearedStopObservations": 1,
+      "portObservations": 18,
+      "ports": [
+        {
+          "index": 0,
+          "direction": 1,
+          "bits": 1,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.fixture_clk"
+        },
+        {
+          "index": 1,
+          "direction": 1,
+          "bits": 1,
+          "position": 1,
+          "name": "firmware_io_electrical_bus.fixture_reset_n"
+        },
+        {
+          "index": 2,
+          "direction": 1,
+          "bits": 8,
+          "position": 2,
+          "name": "firmware_io_electrical_bus.sense"
+        },
+        {
+          "index": 3,
+          "direction": 1,
+          "bits": 1,
+          "position": 10,
+          "name": "firmware_io_electrical_bus.receiver_data"
+        },
+        {
+          "index": 4,
+          "direction": 1,
+          "bits": 1,
+          "position": 11,
+          "name": "firmware_io_electrical_bus.receiver_clock"
+        },
+        {
+          "index": 5,
+          "direction": 1,
+          "bits": 3,
+          "position": 12,
+          "name": "firmware_io_electrical_bus.logic_control"
+        },
+        {
+          "index": 6,
+          "direction": 1,
+          "bits": 1,
+          "position": 15,
+          "name": "firmware_io_electrical_bus.cpu_pullup_n"
+        },
+        {
+          "index": 7,
+          "direction": 1,
+          "bits": 1,
+          "position": 16,
+          "name": "firmware_io_electrical_bus.bus_request_n"
+        },
+        {
+          "index": 8,
+          "direction": 1,
+          "bits": 8,
+          "position": 17,
+          "name": "firmware_io_electrical_bus.bus_sense"
+        },
+        {
+          "index": 9,
+          "direction": 2,
+          "bits": 24,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.bus_low"
+        },
+        {
+          "index": 10,
+          "direction": 2,
+          "bits": 24,
+          "position": 24,
+          "name": "firmware_io_electrical_bus.bus_high"
+        },
+        {
+          "index": 11,
+          "direction": 2,
+          "bits": 1,
+          "position": 48,
+          "name": "firmware_io_electrical_bus.wr_low"
+        },
+        {
+          "index": 12,
+          "direction": 2,
+          "bits": 1,
+          "position": 49,
+          "name": "firmware_io_electrical_bus.wr_high"
+        },
+        {
+          "index": 13,
+          "direction": 2,
+          "bits": 2,
+          "position": 50,
+          "name": "firmware_io_electrical_bus.logic_sink"
+        },
+        {
+          "index": 14,
+          "direction": 2,
+          "bits": 1,
+          "position": 52,
+          "name": "firmware_io_electrical_bus.data_sink"
+        },
+        {
+          "index": 15,
+          "direction": 2,
+          "bits": 1,
+          "position": 53,
+          "name": "firmware_io_electrical_bus.clock_sink"
+        },
+        {
+          "index": 16,
+          "direction": 2,
+          "bits": 2,
+          "position": 54,
+          "name": "firmware_io_electrical_bus.leds"
+        },
+        {
+          "index": 17,
+          "direction": 2,
+          "bits": 13,
+          "position": 56,
+          "name": "firmware_io_electrical_bus.column_sink"
+        }
+      ],
+      "outputCallbackObservations": 9,
+      "outputCallbacks": [
+        {
+          "port": 9,
+          "callbackId": 1
+        },
+        {
+          "port": 10,
+          "callbackId": 2
+        },
+        {
+          "port": 11,
+          "callbackId": 3
+        },
+        {
+          "port": 12,
+          "callbackId": 4
+        },
+        {
+          "port": 13,
+          "callbackId": 5
+        },
+        {
+          "port": 14,
+          "callbackId": 6
+        },
+        {
+          "port": 15,
+          "callbackId": 7
+        },
+        {
+          "port": 16,
+          "callbackId": 8
+        },
+        {
+          "port": 17,
+          "callbackId": 9
+        }
+      ],
+      "fault": {
+        "index": 0,
+        "phase": "before-step",
+        "targetSeconds": 0.0
+      },
+      "scopeMetadata": {
+        "snapshots": 2,
+        "scopes": 32,
+        "boundSignals": 18,
+        "ports": 317,
+        "portBits": 875,
+        "allSignals": 651,
+        "metadataFull": 1,
+        "metadataReused": 1,
+        "referenceFull": 1,
+        "referenceReused": 1,
+        "portFull": 1,
+        "portReused": 1,
+        "allSignalFull": 1,
+        "allSignalReused": 1
+      }
+    },
+    "scope-signal-signed-corrupt": {
+      "typedSignalObservations": 1,
+      "boundTypedPortHandles": 18,
+      "callbackSignalLinkObservations": 9,
+      "typedBitCacheObservations": 0,
+      "callbackListObservations": 1,
+      "boundOutputCallbacks": 9,
+      "uniqueCallbackOwners": 1573,
+      "maximumCallbackOwners": 1573,
+      "retiredCallbackOwners": 0,
+      "rawAssignmentObservations": 1,
+      "pendingRawAssignments": 26,
+      "executingRawAssignments": 0,
+      "uniqueRawAssignmentLifetimes": 26,
+      "maximumRawAssignmentBytes": 26,
+      "rawIslandObservations": 1,
+      "rawIslandCount": 2,
+      "maximumRawIslandCacheBytes": 2,
+      "resolverObservations": 1,
+      "maximumResolverFunctors": 18,
+      "maximumResolverCacheBytes": 36,
+      "concatObservations": 1,
+      "maximumConcatFunctors": 60,
+      "queuedConcatWrappers": 0,
+      "executingConcatWrappers": 0,
+      "uniqueConcatWrappers": 0,
+      "rawWireObservations": 1,
+      "maximumRawWireFilters": 29,
+      "reductionObservations": 1,
+      "maximumReductionFunctors": 38,
+      "arithmeticObservations": 1,
+      "maximumArithmeticFunctors": 217,
+      "gateObservations": 1,
+      "maximumGateFunctors": 81,
+      "queuedGateWrappers": 1,
+      "executingGateWrappers": 0,
+      "uniqueGateWrappers": 1,
+      "sharedInverterObservations": 1,
+      "muxObservations": 1,
+      "maximumMuxFunctors": 251,
+      "queuedMuxWrappers": 0,
+      "executingMuxWrappers": 0,
+      "uniqueMuxWrappers": 0,
+      "signalObservations": 1,
+      "maximumSignalFunctors": 196,
+      "linkedSignalObservations": 0,
+      "maskedSignalObservations": 0,
+      "wireObservations": 1,
+      "maximumWireFilters": 1573,
+      "wireKinds": [
+        4,
+        8
+      ],
+      "graphObservations": 1,
+      "maximumAllocatedNodes": 1820,
+      "uniqueCodeNetTargets": 258,
+      "arrayNetReferenceObservations": 23,
+      "assignmentNetReferenceObservations": 2527,
+      "primitiveNetReferenceObservations": 17,
+      "arrayObservations": 1,
+      "arrays": 3,
+      "arrayReadPorts": 23,
+      "loadedArrayStateObserved": false,
+      "wordHandleCacheObserved": false,
+      "readPortsWithAddressChanges": 0,
+      "allocatedOperandInstructions": 20442,
+      "completeOperandObservations": 1,
+      "unchangedCodeImage": true,
+      "scopeCount": 32,
+      "scopeObservations": 1,
+      "emptyScopeObservations": 21,
+      "scopeMemberObservations": 44,
+      "liveThreadsOutsideScopeSets": 0,
+      "threadCodeObservations": 44,
+      "threadsWithCodeBindings": 44,
+      "uniqueObservedCodeSlots": 44,
+      "waitEventKinds": {
+        "2": 35,
+        "1": 9,
+        "3": 12
+      },
+      "uniqueWaitEvents": 56,
+      "waitEventObservations": 56,
+      "nonemptyWaitHeads": 0,
+      "emptyWaitHeads": 56,
+      "absentCacheObservations": 43,
+      "initializedCacheObservations": 97,
+      "liveThreadObservations": 44,
+      "uniqueThreads": 44,
+      "uniqueThreadEvents": 44,
+      "queuedThreadObservations": 44,
+      "eventWaitingObservations": 0,
+      "initializedWordObservations": 0,
+      "initializedExtendedFlagObservations": 0,
+      "unwrittenRegisterObservations": 22880,
+      "emptyThreadQueueBoundaries": 0,
+      "delayedDeletionObservations": 0,
+      "filterObservations": 4,
+      "uniqueIslandFilters": 4,
+      "initializingFilterObservations": 4,
+      "initializedFilterObservations": 0,
+      "forcedFilterObservations": 0,
+      "linkedForceObservations": 0,
+      "islandObservations": 2,
+      "queuedIslandObservations": 2,
+      "idleIslandObservations": 0,
+      "uniqueIslands": 2,
+      "uniqueIslandWrappers": 2,
+      "primitiveObservations": {
+        "1": 1,
+        "2": 16
+      },
+      "uniquePrimitives": 17,
+      "uniquePrimitiveWrappers": 17,
+      "emptyPrimitiveBoundaries": 0,
+      "maximumUncoveredPrimitiveEvents": 2573,
+      "assignmentObservations": {
+        "4": 2501,
+        "8": 26
+      },
+      "uniqueAssignments": 2527,
+      "emptyAssignmentBoundaries": 0,
+      "maximumUncoveredEvents": 63,
+      "startupLifetimeId": 1,
+      "activeStartupObservations": 1,
+      "destroyedStartupObservations": 0,
+      "boundaries": 1,
+      "executingWrapperObservations": 0,
+      "emptyFrameObservations": 1,
+      "uniqueExecutingEvents": 0,
+      "associatedDisplayObservations": 0,
+      "releasedDisplayObservations": 0,
+      "savedStopObservations": 0,
+      "clearedStopObservations": 1,
+      "portObservations": 18,
+      "ports": [
+        {
+          "index": 0,
+          "direction": 1,
+          "bits": 1,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.fixture_clk"
+        },
+        {
+          "index": 1,
+          "direction": 1,
+          "bits": 1,
+          "position": 1,
+          "name": "firmware_io_electrical_bus.fixture_reset_n"
+        },
+        {
+          "index": 2,
+          "direction": 1,
+          "bits": 8,
+          "position": 2,
+          "name": "firmware_io_electrical_bus.sense"
+        },
+        {
+          "index": 3,
+          "direction": 1,
+          "bits": 1,
+          "position": 10,
+          "name": "firmware_io_electrical_bus.receiver_data"
+        },
+        {
+          "index": 4,
+          "direction": 1,
+          "bits": 1,
+          "position": 11,
+          "name": "firmware_io_electrical_bus.receiver_clock"
+        },
+        {
+          "index": 5,
+          "direction": 1,
+          "bits": 3,
+          "position": 12,
+          "name": "firmware_io_electrical_bus.logic_control"
+        },
+        {
+          "index": 6,
+          "direction": 1,
+          "bits": 1,
+          "position": 15,
+          "name": "firmware_io_electrical_bus.cpu_pullup_n"
+        },
+        {
+          "index": 7,
+          "direction": 1,
+          "bits": 1,
+          "position": 16,
+          "name": "firmware_io_electrical_bus.bus_request_n"
+        },
+        {
+          "index": 8,
+          "direction": 1,
+          "bits": 8,
+          "position": 17,
+          "name": "firmware_io_electrical_bus.bus_sense"
+        },
+        {
+          "index": 9,
+          "direction": 2,
+          "bits": 24,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.bus_low"
+        },
+        {
+          "index": 10,
+          "direction": 2,
+          "bits": 24,
+          "position": 24,
+          "name": "firmware_io_electrical_bus.bus_high"
+        },
+        {
+          "index": 11,
+          "direction": 2,
+          "bits": 1,
+          "position": 48,
+          "name": "firmware_io_electrical_bus.wr_low"
+        },
+        {
+          "index": 12,
+          "direction": 2,
+          "bits": 1,
+          "position": 49,
+          "name": "firmware_io_electrical_bus.wr_high"
+        },
+        {
+          "index": 13,
+          "direction": 2,
+          "bits": 2,
+          "position": 50,
+          "name": "firmware_io_electrical_bus.logic_sink"
+        },
+        {
+          "index": 14,
+          "direction": 2,
+          "bits": 1,
+          "position": 52,
+          "name": "firmware_io_electrical_bus.data_sink"
+        },
+        {
+          "index": 15,
+          "direction": 2,
+          "bits": 1,
+          "position": 53,
+          "name": "firmware_io_electrical_bus.clock_sink"
+        },
+        {
+          "index": 16,
+          "direction": 2,
+          "bits": 2,
+          "position": 54,
+          "name": "firmware_io_electrical_bus.leds"
+        },
+        {
+          "index": 17,
+          "direction": 2,
+          "bits": 13,
+          "position": 56,
+          "name": "firmware_io_electrical_bus.column_sink"
+        }
+      ],
+      "outputCallbackObservations": 9,
+      "outputCallbacks": [
+        {
+          "port": 9,
+          "callbackId": 1
+        },
+        {
+          "port": 10,
+          "callbackId": 2
+        },
+        {
+          "port": 11,
+          "callbackId": 3
+        },
+        {
+          "port": 12,
+          "callbackId": 4
+        },
+        {
+          "port": 13,
+          "callbackId": 5
+        },
+        {
+          "port": 14,
+          "callbackId": 6
+        },
+        {
+          "port": 15,
+          "callbackId": 7
+        },
+        {
+          "port": 16,
+          "callbackId": 8
+        },
+        {
+          "port": 17,
+          "callbackId": 9
+        }
+      ],
+      "fault": {
+        "index": 0,
+        "phase": "before-step",
+        "targetSeconds": 0.0
+      },
+      "scopeMetadata": {
+        "snapshots": 3,
+        "scopes": 32,
+        "boundSignals": 18,
+        "ports": 317,
+        "portBits": 875,
+        "allSignals": 651,
+        "metadataFull": 1,
+        "metadataReused": 2,
+        "referenceFull": 1,
+        "referenceReused": 2,
+        "portFull": 1,
+        "portReused": 2,
+        "allSignalFull": 3,
+        "allSignalReused": 0
+      }
+    },
+    "scope-signal-range-corrupt": {
+      "typedSignalObservations": 1,
+      "boundTypedPortHandles": 18,
+      "callbackSignalLinkObservations": 9,
+      "typedBitCacheObservations": 0,
+      "callbackListObservations": 1,
+      "boundOutputCallbacks": 9,
+      "uniqueCallbackOwners": 1573,
+      "maximumCallbackOwners": 1573,
+      "retiredCallbackOwners": 0,
+      "rawAssignmentObservations": 1,
+      "pendingRawAssignments": 26,
+      "executingRawAssignments": 0,
+      "uniqueRawAssignmentLifetimes": 26,
+      "maximumRawAssignmentBytes": 26,
+      "rawIslandObservations": 1,
+      "rawIslandCount": 2,
+      "maximumRawIslandCacheBytes": 2,
+      "resolverObservations": 1,
+      "maximumResolverFunctors": 18,
+      "maximumResolverCacheBytes": 36,
+      "concatObservations": 1,
+      "maximumConcatFunctors": 60,
+      "queuedConcatWrappers": 0,
+      "executingConcatWrappers": 0,
+      "uniqueConcatWrappers": 0,
+      "rawWireObservations": 1,
+      "maximumRawWireFilters": 29,
+      "reductionObservations": 1,
+      "maximumReductionFunctors": 38,
+      "arithmeticObservations": 1,
+      "maximumArithmeticFunctors": 217,
+      "gateObservations": 1,
+      "maximumGateFunctors": 81,
+      "queuedGateWrappers": 1,
+      "executingGateWrappers": 0,
+      "uniqueGateWrappers": 1,
+      "sharedInverterObservations": 1,
+      "muxObservations": 1,
+      "maximumMuxFunctors": 251,
+      "queuedMuxWrappers": 0,
+      "executingMuxWrappers": 0,
+      "uniqueMuxWrappers": 0,
+      "signalObservations": 1,
+      "maximumSignalFunctors": 196,
+      "linkedSignalObservations": 0,
+      "maskedSignalObservations": 0,
+      "wireObservations": 1,
+      "maximumWireFilters": 1573,
+      "wireKinds": [
+        4,
+        8
+      ],
+      "graphObservations": 1,
+      "maximumAllocatedNodes": 1820,
+      "uniqueCodeNetTargets": 258,
+      "arrayNetReferenceObservations": 23,
+      "assignmentNetReferenceObservations": 2527,
+      "primitiveNetReferenceObservations": 17,
+      "arrayObservations": 1,
+      "arrays": 3,
+      "arrayReadPorts": 23,
+      "loadedArrayStateObserved": false,
+      "wordHandleCacheObserved": false,
+      "readPortsWithAddressChanges": 0,
+      "allocatedOperandInstructions": 20442,
+      "completeOperandObservations": 1,
+      "unchangedCodeImage": true,
+      "scopeCount": 32,
+      "scopeObservations": 1,
+      "emptyScopeObservations": 21,
+      "scopeMemberObservations": 44,
+      "liveThreadsOutsideScopeSets": 0,
+      "threadCodeObservations": 44,
+      "threadsWithCodeBindings": 44,
+      "uniqueObservedCodeSlots": 44,
+      "waitEventKinds": {
+        "2": 35,
+        "1": 9,
+        "3": 12
+      },
+      "uniqueWaitEvents": 56,
+      "waitEventObservations": 56,
+      "nonemptyWaitHeads": 0,
+      "emptyWaitHeads": 56,
+      "absentCacheObservations": 43,
+      "initializedCacheObservations": 97,
+      "liveThreadObservations": 44,
+      "uniqueThreads": 44,
+      "uniqueThreadEvents": 44,
+      "queuedThreadObservations": 44,
+      "eventWaitingObservations": 0,
+      "initializedWordObservations": 0,
+      "initializedExtendedFlagObservations": 0,
+      "unwrittenRegisterObservations": 22880,
+      "emptyThreadQueueBoundaries": 0,
+      "delayedDeletionObservations": 0,
+      "filterObservations": 4,
+      "uniqueIslandFilters": 4,
+      "initializingFilterObservations": 4,
+      "initializedFilterObservations": 0,
+      "forcedFilterObservations": 0,
+      "linkedForceObservations": 0,
+      "islandObservations": 2,
+      "queuedIslandObservations": 2,
+      "idleIslandObservations": 0,
+      "uniqueIslands": 2,
+      "uniqueIslandWrappers": 2,
+      "primitiveObservations": {
+        "1": 1,
+        "2": 16
+      },
+      "uniquePrimitives": 17,
+      "uniquePrimitiveWrappers": 17,
+      "emptyPrimitiveBoundaries": 0,
+      "maximumUncoveredPrimitiveEvents": 2573,
+      "assignmentObservations": {
+        "4": 2501,
+        "8": 26
+      },
+      "uniqueAssignments": 2527,
+      "emptyAssignmentBoundaries": 0,
+      "maximumUncoveredEvents": 63,
+      "startupLifetimeId": 1,
+      "activeStartupObservations": 1,
+      "destroyedStartupObservations": 0,
+      "boundaries": 1,
+      "executingWrapperObservations": 0,
+      "emptyFrameObservations": 1,
+      "uniqueExecutingEvents": 0,
+      "associatedDisplayObservations": 0,
+      "releasedDisplayObservations": 0,
+      "savedStopObservations": 0,
+      "clearedStopObservations": 1,
+      "portObservations": 18,
+      "ports": [
+        {
+          "index": 0,
+          "direction": 1,
+          "bits": 1,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.fixture_clk"
+        },
+        {
+          "index": 1,
+          "direction": 1,
+          "bits": 1,
+          "position": 1,
+          "name": "firmware_io_electrical_bus.fixture_reset_n"
+        },
+        {
+          "index": 2,
+          "direction": 1,
+          "bits": 8,
+          "position": 2,
+          "name": "firmware_io_electrical_bus.sense"
+        },
+        {
+          "index": 3,
+          "direction": 1,
+          "bits": 1,
+          "position": 10,
+          "name": "firmware_io_electrical_bus.receiver_data"
+        },
+        {
+          "index": 4,
+          "direction": 1,
+          "bits": 1,
+          "position": 11,
+          "name": "firmware_io_electrical_bus.receiver_clock"
+        },
+        {
+          "index": 5,
+          "direction": 1,
+          "bits": 3,
+          "position": 12,
+          "name": "firmware_io_electrical_bus.logic_control"
+        },
+        {
+          "index": 6,
+          "direction": 1,
+          "bits": 1,
+          "position": 15,
+          "name": "firmware_io_electrical_bus.cpu_pullup_n"
+        },
+        {
+          "index": 7,
+          "direction": 1,
+          "bits": 1,
+          "position": 16,
+          "name": "firmware_io_electrical_bus.bus_request_n"
+        },
+        {
+          "index": 8,
+          "direction": 1,
+          "bits": 8,
+          "position": 17,
+          "name": "firmware_io_electrical_bus.bus_sense"
+        },
+        {
+          "index": 9,
+          "direction": 2,
+          "bits": 24,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.bus_low"
+        },
+        {
+          "index": 10,
+          "direction": 2,
+          "bits": 24,
+          "position": 24,
+          "name": "firmware_io_electrical_bus.bus_high"
+        },
+        {
+          "index": 11,
+          "direction": 2,
+          "bits": 1,
+          "position": 48,
+          "name": "firmware_io_electrical_bus.wr_low"
+        },
+        {
+          "index": 12,
+          "direction": 2,
+          "bits": 1,
+          "position": 49,
+          "name": "firmware_io_electrical_bus.wr_high"
+        },
+        {
+          "index": 13,
+          "direction": 2,
+          "bits": 2,
+          "position": 50,
+          "name": "firmware_io_electrical_bus.logic_sink"
+        },
+        {
+          "index": 14,
+          "direction": 2,
+          "bits": 1,
+          "position": 52,
+          "name": "firmware_io_electrical_bus.data_sink"
+        },
+        {
+          "index": 15,
+          "direction": 2,
+          "bits": 1,
+          "position": 53,
+          "name": "firmware_io_electrical_bus.clock_sink"
+        },
+        {
+          "index": 16,
+          "direction": 2,
+          "bits": 2,
+          "position": 54,
+          "name": "firmware_io_electrical_bus.leds"
+        },
+        {
+          "index": 17,
+          "direction": 2,
+          "bits": 13,
+          "position": 56,
+          "name": "firmware_io_electrical_bus.column_sink"
+        }
+      ],
+      "outputCallbackObservations": 9,
+      "outputCallbacks": [
+        {
+          "port": 9,
+          "callbackId": 1
+        },
+        {
+          "port": 10,
+          "callbackId": 2
+        },
+        {
+          "port": 11,
+          "callbackId": 3
+        },
+        {
+          "port": 12,
+          "callbackId": 4
+        },
+        {
+          "port": 13,
+          "callbackId": 5
+        },
+        {
+          "port": 14,
+          "callbackId": 6
+        },
+        {
+          "port": 15,
+          "callbackId": 7
+        },
+        {
+          "port": 16,
+          "callbackId": 8
+        },
+        {
+          "port": 17,
+          "callbackId": 9
+        }
+      ],
+      "fault": {
+        "index": 0,
+        "phase": "before-step",
+        "targetSeconds": 0.0
+      },
+      "scopeMetadata": {
+        "snapshots": 3,
+        "scopes": 32,
+        "boundSignals": 18,
+        "ports": 317,
+        "portBits": 875,
+        "allSignals": 651,
+        "metadataFull": 1,
+        "metadataReused": 2,
+        "referenceFull": 1,
+        "referenceReused": 2,
+        "portFull": 1,
+        "portReused": 2,
+        "allSignalFull": 3,
+        "allSignalReused": 0
+      }
+    },
+    "scope-signal-node-corrupt": {
+      "typedSignalObservations": 1,
+      "boundTypedPortHandles": 18,
+      "callbackSignalLinkObservations": 9,
+      "typedBitCacheObservations": 0,
+      "callbackListObservations": 1,
+      "boundOutputCallbacks": 9,
+      "uniqueCallbackOwners": 1573,
+      "maximumCallbackOwners": 1573,
+      "retiredCallbackOwners": 0,
+      "rawAssignmentObservations": 1,
+      "pendingRawAssignments": 26,
+      "executingRawAssignments": 0,
+      "uniqueRawAssignmentLifetimes": 26,
+      "maximumRawAssignmentBytes": 26,
+      "rawIslandObservations": 1,
+      "rawIslandCount": 2,
+      "maximumRawIslandCacheBytes": 2,
+      "resolverObservations": 1,
+      "maximumResolverFunctors": 18,
+      "maximumResolverCacheBytes": 36,
+      "concatObservations": 1,
+      "maximumConcatFunctors": 60,
+      "queuedConcatWrappers": 0,
+      "executingConcatWrappers": 0,
+      "uniqueConcatWrappers": 0,
+      "rawWireObservations": 1,
+      "maximumRawWireFilters": 29,
+      "reductionObservations": 1,
+      "maximumReductionFunctors": 38,
+      "arithmeticObservations": 1,
+      "maximumArithmeticFunctors": 217,
+      "gateObservations": 1,
+      "maximumGateFunctors": 81,
+      "queuedGateWrappers": 1,
+      "executingGateWrappers": 0,
+      "uniqueGateWrappers": 1,
+      "sharedInverterObservations": 1,
+      "muxObservations": 1,
+      "maximumMuxFunctors": 251,
+      "queuedMuxWrappers": 0,
+      "executingMuxWrappers": 0,
+      "uniqueMuxWrappers": 0,
+      "signalObservations": 1,
+      "maximumSignalFunctors": 196,
+      "linkedSignalObservations": 0,
+      "maskedSignalObservations": 0,
+      "wireObservations": 1,
+      "maximumWireFilters": 1573,
+      "wireKinds": [
+        4,
+        8
+      ],
+      "graphObservations": 1,
+      "maximumAllocatedNodes": 1820,
+      "uniqueCodeNetTargets": 258,
+      "arrayNetReferenceObservations": 23,
+      "assignmentNetReferenceObservations": 2527,
+      "primitiveNetReferenceObservations": 17,
+      "arrayObservations": 1,
+      "arrays": 3,
+      "arrayReadPorts": 23,
+      "loadedArrayStateObserved": false,
+      "wordHandleCacheObserved": false,
+      "readPortsWithAddressChanges": 0,
+      "allocatedOperandInstructions": 20442,
+      "completeOperandObservations": 1,
+      "unchangedCodeImage": true,
+      "scopeCount": 32,
+      "scopeObservations": 1,
+      "emptyScopeObservations": 21,
+      "scopeMemberObservations": 44,
+      "liveThreadsOutsideScopeSets": 0,
+      "threadCodeObservations": 44,
+      "threadsWithCodeBindings": 44,
+      "uniqueObservedCodeSlots": 44,
+      "waitEventKinds": {
+        "2": 35,
+        "1": 9,
+        "3": 12
+      },
+      "uniqueWaitEvents": 56,
+      "waitEventObservations": 56,
+      "nonemptyWaitHeads": 0,
+      "emptyWaitHeads": 56,
+      "absentCacheObservations": 43,
+      "initializedCacheObservations": 97,
+      "liveThreadObservations": 44,
+      "uniqueThreads": 44,
+      "uniqueThreadEvents": 44,
+      "queuedThreadObservations": 44,
+      "eventWaitingObservations": 0,
+      "initializedWordObservations": 0,
+      "initializedExtendedFlagObservations": 0,
+      "unwrittenRegisterObservations": 22880,
+      "emptyThreadQueueBoundaries": 0,
+      "delayedDeletionObservations": 0,
+      "filterObservations": 4,
+      "uniqueIslandFilters": 4,
+      "initializingFilterObservations": 4,
+      "initializedFilterObservations": 0,
+      "forcedFilterObservations": 0,
+      "linkedForceObservations": 0,
+      "islandObservations": 2,
+      "queuedIslandObservations": 2,
+      "idleIslandObservations": 0,
+      "uniqueIslands": 2,
+      "uniqueIslandWrappers": 2,
+      "primitiveObservations": {
+        "1": 1,
+        "2": 16
+      },
+      "uniquePrimitives": 17,
+      "uniquePrimitiveWrappers": 17,
+      "emptyPrimitiveBoundaries": 0,
+      "maximumUncoveredPrimitiveEvents": 2573,
+      "assignmentObservations": {
+        "4": 2501,
+        "8": 26
+      },
+      "uniqueAssignments": 2527,
+      "emptyAssignmentBoundaries": 0,
+      "maximumUncoveredEvents": 63,
+      "startupLifetimeId": 1,
+      "activeStartupObservations": 1,
+      "destroyedStartupObservations": 0,
+      "boundaries": 1,
+      "executingWrapperObservations": 0,
+      "emptyFrameObservations": 1,
+      "uniqueExecutingEvents": 0,
+      "associatedDisplayObservations": 0,
+      "releasedDisplayObservations": 0,
+      "savedStopObservations": 0,
+      "clearedStopObservations": 1,
+      "portObservations": 18,
+      "ports": [
+        {
+          "index": 0,
+          "direction": 1,
+          "bits": 1,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.fixture_clk"
+        },
+        {
+          "index": 1,
+          "direction": 1,
+          "bits": 1,
+          "position": 1,
+          "name": "firmware_io_electrical_bus.fixture_reset_n"
+        },
+        {
+          "index": 2,
+          "direction": 1,
+          "bits": 8,
+          "position": 2,
+          "name": "firmware_io_electrical_bus.sense"
+        },
+        {
+          "index": 3,
+          "direction": 1,
+          "bits": 1,
+          "position": 10,
+          "name": "firmware_io_electrical_bus.receiver_data"
+        },
+        {
+          "index": 4,
+          "direction": 1,
+          "bits": 1,
+          "position": 11,
+          "name": "firmware_io_electrical_bus.receiver_clock"
+        },
+        {
+          "index": 5,
+          "direction": 1,
+          "bits": 3,
+          "position": 12,
+          "name": "firmware_io_electrical_bus.logic_control"
+        },
+        {
+          "index": 6,
+          "direction": 1,
+          "bits": 1,
+          "position": 15,
+          "name": "firmware_io_electrical_bus.cpu_pullup_n"
+        },
+        {
+          "index": 7,
+          "direction": 1,
+          "bits": 1,
+          "position": 16,
+          "name": "firmware_io_electrical_bus.bus_request_n"
+        },
+        {
+          "index": 8,
+          "direction": 1,
+          "bits": 8,
+          "position": 17,
+          "name": "firmware_io_electrical_bus.bus_sense"
+        },
+        {
+          "index": 9,
+          "direction": 2,
+          "bits": 24,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.bus_low"
+        },
+        {
+          "index": 10,
+          "direction": 2,
+          "bits": 24,
+          "position": 24,
+          "name": "firmware_io_electrical_bus.bus_high"
+        },
+        {
+          "index": 11,
+          "direction": 2,
+          "bits": 1,
+          "position": 48,
+          "name": "firmware_io_electrical_bus.wr_low"
+        },
+        {
+          "index": 12,
+          "direction": 2,
+          "bits": 1,
+          "position": 49,
+          "name": "firmware_io_electrical_bus.wr_high"
+        },
+        {
+          "index": 13,
+          "direction": 2,
+          "bits": 2,
+          "position": 50,
+          "name": "firmware_io_electrical_bus.logic_sink"
+        },
+        {
+          "index": 14,
+          "direction": 2,
+          "bits": 1,
+          "position": 52,
+          "name": "firmware_io_electrical_bus.data_sink"
+        },
+        {
+          "index": 15,
+          "direction": 2,
+          "bits": 1,
+          "position": 53,
+          "name": "firmware_io_electrical_bus.clock_sink"
+        },
+        {
+          "index": 16,
+          "direction": 2,
+          "bits": 2,
+          "position": 54,
+          "name": "firmware_io_electrical_bus.leds"
+        },
+        {
+          "index": 17,
+          "direction": 2,
+          "bits": 13,
+          "position": 56,
+          "name": "firmware_io_electrical_bus.column_sink"
+        }
+      ],
+      "outputCallbackObservations": 9,
+      "outputCallbacks": [
+        {
+          "port": 9,
+          "callbackId": 1
+        },
+        {
+          "port": 10,
+          "callbackId": 2
+        },
+        {
+          "port": 11,
+          "callbackId": 3
+        },
+        {
+          "port": 12,
+          "callbackId": 4
+        },
+        {
+          "port": 13,
+          "callbackId": 5
+        },
+        {
+          "port": 14,
+          "callbackId": 6
+        },
+        {
+          "port": 15,
+          "callbackId": 7
+        },
+        {
+          "port": 16,
+          "callbackId": 8
+        },
+        {
+          "port": 17,
+          "callbackId": 9
+        }
+      ],
+      "fault": {
+        "index": 0,
+        "phase": "before-step",
+        "targetSeconds": 0.0
+      },
+      "scopeMetadata": {
+        "snapshots": 2,
+        "scopes": 32,
+        "boundSignals": 18,
+        "ports": 317,
+        "portBits": 875,
+        "allSignals": 651,
+        "metadataFull": 1,
+        "metadataReused": 1,
+        "referenceFull": 1,
+        "referenceReused": 1,
+        "portFull": 1,
+        "portReused": 1,
+        "allSignalFull": 1,
+        "allSignalReused": 1
+      }
+    },
+    "scope-signal-name-corrupt": {
+      "typedSignalObservations": 1,
+      "boundTypedPortHandles": 18,
+      "callbackSignalLinkObservations": 9,
+      "typedBitCacheObservations": 0,
+      "callbackListObservations": 1,
+      "boundOutputCallbacks": 9,
+      "uniqueCallbackOwners": 1573,
+      "maximumCallbackOwners": 1573,
+      "retiredCallbackOwners": 0,
+      "rawAssignmentObservations": 1,
+      "pendingRawAssignments": 26,
+      "executingRawAssignments": 0,
+      "uniqueRawAssignmentLifetimes": 26,
+      "maximumRawAssignmentBytes": 26,
+      "rawIslandObservations": 1,
+      "rawIslandCount": 2,
+      "maximumRawIslandCacheBytes": 2,
+      "resolverObservations": 1,
+      "maximumResolverFunctors": 18,
+      "maximumResolverCacheBytes": 36,
+      "concatObservations": 1,
+      "maximumConcatFunctors": 60,
+      "queuedConcatWrappers": 0,
+      "executingConcatWrappers": 0,
+      "uniqueConcatWrappers": 0,
+      "rawWireObservations": 1,
+      "maximumRawWireFilters": 29,
+      "reductionObservations": 1,
+      "maximumReductionFunctors": 38,
+      "arithmeticObservations": 1,
+      "maximumArithmeticFunctors": 217,
+      "gateObservations": 1,
+      "maximumGateFunctors": 81,
+      "queuedGateWrappers": 1,
+      "executingGateWrappers": 0,
+      "uniqueGateWrappers": 1,
+      "sharedInverterObservations": 1,
+      "muxObservations": 1,
+      "maximumMuxFunctors": 251,
+      "queuedMuxWrappers": 0,
+      "executingMuxWrappers": 0,
+      "uniqueMuxWrappers": 0,
+      "signalObservations": 1,
+      "maximumSignalFunctors": 196,
+      "linkedSignalObservations": 0,
+      "maskedSignalObservations": 0,
+      "wireObservations": 1,
+      "maximumWireFilters": 1573,
+      "wireKinds": [
+        4,
+        8
+      ],
+      "graphObservations": 1,
+      "maximumAllocatedNodes": 1820,
+      "uniqueCodeNetTargets": 258,
+      "arrayNetReferenceObservations": 23,
+      "assignmentNetReferenceObservations": 2527,
+      "primitiveNetReferenceObservations": 17,
+      "arrayObservations": 1,
+      "arrays": 3,
+      "arrayReadPorts": 23,
+      "loadedArrayStateObserved": false,
+      "wordHandleCacheObserved": false,
+      "readPortsWithAddressChanges": 0,
+      "allocatedOperandInstructions": 20442,
+      "completeOperandObservations": 1,
+      "unchangedCodeImage": true,
+      "scopeCount": 32,
+      "scopeObservations": 1,
+      "emptyScopeObservations": 21,
+      "scopeMemberObservations": 44,
+      "liveThreadsOutsideScopeSets": 0,
+      "threadCodeObservations": 44,
+      "threadsWithCodeBindings": 44,
+      "uniqueObservedCodeSlots": 44,
+      "waitEventKinds": {
+        "2": 35,
+        "1": 9,
+        "3": 12
+      },
+      "uniqueWaitEvents": 56,
+      "waitEventObservations": 56,
+      "nonemptyWaitHeads": 0,
+      "emptyWaitHeads": 56,
+      "absentCacheObservations": 43,
+      "initializedCacheObservations": 97,
+      "liveThreadObservations": 44,
+      "uniqueThreads": 44,
+      "uniqueThreadEvents": 44,
+      "queuedThreadObservations": 44,
+      "eventWaitingObservations": 0,
+      "initializedWordObservations": 0,
+      "initializedExtendedFlagObservations": 0,
+      "unwrittenRegisterObservations": 22880,
+      "emptyThreadQueueBoundaries": 0,
+      "delayedDeletionObservations": 0,
+      "filterObservations": 4,
+      "uniqueIslandFilters": 4,
+      "initializingFilterObservations": 4,
+      "initializedFilterObservations": 0,
+      "forcedFilterObservations": 0,
+      "linkedForceObservations": 0,
+      "islandObservations": 2,
+      "queuedIslandObservations": 2,
+      "idleIslandObservations": 0,
+      "uniqueIslands": 2,
+      "uniqueIslandWrappers": 2,
+      "primitiveObservations": {
+        "1": 1,
+        "2": 16
+      },
+      "uniquePrimitives": 17,
+      "uniquePrimitiveWrappers": 17,
+      "emptyPrimitiveBoundaries": 0,
+      "maximumUncoveredPrimitiveEvents": 2573,
+      "assignmentObservations": {
+        "4": 2501,
+        "8": 26
+      },
+      "uniqueAssignments": 2527,
+      "emptyAssignmentBoundaries": 0,
+      "maximumUncoveredEvents": 63,
+      "startupLifetimeId": 1,
+      "activeStartupObservations": 1,
+      "destroyedStartupObservations": 0,
+      "boundaries": 1,
+      "executingWrapperObservations": 0,
+      "emptyFrameObservations": 1,
+      "uniqueExecutingEvents": 0,
+      "associatedDisplayObservations": 0,
+      "releasedDisplayObservations": 0,
+      "savedStopObservations": 0,
+      "clearedStopObservations": 1,
+      "portObservations": 18,
+      "ports": [
+        {
+          "index": 0,
+          "direction": 1,
+          "bits": 1,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.fixture_clk"
+        },
+        {
+          "index": 1,
+          "direction": 1,
+          "bits": 1,
+          "position": 1,
+          "name": "firmware_io_electrical_bus.fixture_reset_n"
+        },
+        {
+          "index": 2,
+          "direction": 1,
+          "bits": 8,
+          "position": 2,
+          "name": "firmware_io_electrical_bus.sense"
+        },
+        {
+          "index": 3,
+          "direction": 1,
+          "bits": 1,
+          "position": 10,
+          "name": "firmware_io_electrical_bus.receiver_data"
+        },
+        {
+          "index": 4,
+          "direction": 1,
+          "bits": 1,
+          "position": 11,
+          "name": "firmware_io_electrical_bus.receiver_clock"
+        },
+        {
+          "index": 5,
+          "direction": 1,
+          "bits": 3,
+          "position": 12,
+          "name": "firmware_io_electrical_bus.logic_control"
+        },
+        {
+          "index": 6,
+          "direction": 1,
+          "bits": 1,
+          "position": 15,
+          "name": "firmware_io_electrical_bus.cpu_pullup_n"
+        },
+        {
+          "index": 7,
+          "direction": 1,
+          "bits": 1,
+          "position": 16,
+          "name": "firmware_io_electrical_bus.bus_request_n"
+        },
+        {
+          "index": 8,
+          "direction": 1,
+          "bits": 8,
+          "position": 17,
+          "name": "firmware_io_electrical_bus.bus_sense"
+        },
+        {
+          "index": 9,
+          "direction": 2,
+          "bits": 24,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.bus_low"
+        },
+        {
+          "index": 10,
+          "direction": 2,
+          "bits": 24,
+          "position": 24,
+          "name": "firmware_io_electrical_bus.bus_high"
+        },
+        {
+          "index": 11,
+          "direction": 2,
+          "bits": 1,
+          "position": 48,
+          "name": "firmware_io_electrical_bus.wr_low"
+        },
+        {
+          "index": 12,
+          "direction": 2,
+          "bits": 1,
+          "position": 49,
+          "name": "firmware_io_electrical_bus.wr_high"
+        },
+        {
+          "index": 13,
+          "direction": 2,
+          "bits": 2,
+          "position": 50,
+          "name": "firmware_io_electrical_bus.logic_sink"
+        },
+        {
+          "index": 14,
+          "direction": 2,
+          "bits": 1,
+          "position": 52,
+          "name": "firmware_io_electrical_bus.data_sink"
+        },
+        {
+          "index": 15,
+          "direction": 2,
+          "bits": 1,
+          "position": 53,
+          "name": "firmware_io_electrical_bus.clock_sink"
+        },
+        {
+          "index": 16,
+          "direction": 2,
+          "bits": 2,
+          "position": 54,
+          "name": "firmware_io_electrical_bus.leds"
+        },
+        {
+          "index": 17,
+          "direction": 2,
+          "bits": 13,
+          "position": 56,
+          "name": "firmware_io_electrical_bus.column_sink"
+        }
+      ],
+      "outputCallbackObservations": 9,
+      "outputCallbacks": [
+        {
+          "port": 9,
+          "callbackId": 1
+        },
+        {
+          "port": 10,
+          "callbackId": 2
+        },
+        {
+          "port": 11,
+          "callbackId": 3
+        },
+        {
+          "port": 12,
+          "callbackId": 4
+        },
+        {
+          "port": 13,
+          "callbackId": 5
+        },
+        {
+          "port": 14,
+          "callbackId": 6
+        },
+        {
+          "port": 15,
+          "callbackId": 7
+        },
+        {
+          "port": 16,
+          "callbackId": 8
+        },
+        {
+          "port": 17,
+          "callbackId": 9
+        }
+      ],
+      "fault": {
+        "index": 0,
+        "phase": "before-step",
+        "targetSeconds": 0.0
+      },
+      "scopeMetadata": {
+        "snapshots": 2,
+        "scopes": 32,
+        "boundSignals": 18,
+        "ports": 317,
+        "portBits": 875,
+        "allSignals": 651,
+        "metadataFull": 1,
+        "metadataReused": 1,
+        "referenceFull": 1,
+        "referenceReused": 1,
+        "portFull": 1,
+        "portReused": 1,
+        "allSignalFull": 1,
+        "allSignalReused": 1
+      }
+    },
+    "scope-signal-cache-corrupt": {
+      "typedSignalObservations": 1,
+      "boundTypedPortHandles": 18,
+      "callbackSignalLinkObservations": 9,
+      "typedBitCacheObservations": 0,
+      "callbackListObservations": 1,
+      "boundOutputCallbacks": 9,
+      "uniqueCallbackOwners": 1573,
+      "maximumCallbackOwners": 1573,
+      "retiredCallbackOwners": 0,
+      "rawAssignmentObservations": 1,
+      "pendingRawAssignments": 26,
+      "executingRawAssignments": 0,
+      "uniqueRawAssignmentLifetimes": 26,
+      "maximumRawAssignmentBytes": 26,
+      "rawIslandObservations": 1,
+      "rawIslandCount": 2,
+      "maximumRawIslandCacheBytes": 2,
+      "resolverObservations": 1,
+      "maximumResolverFunctors": 18,
+      "maximumResolverCacheBytes": 36,
+      "concatObservations": 1,
+      "maximumConcatFunctors": 60,
+      "queuedConcatWrappers": 0,
+      "executingConcatWrappers": 0,
+      "uniqueConcatWrappers": 0,
+      "rawWireObservations": 1,
+      "maximumRawWireFilters": 29,
+      "reductionObservations": 1,
+      "maximumReductionFunctors": 38,
+      "arithmeticObservations": 1,
+      "maximumArithmeticFunctors": 217,
+      "gateObservations": 1,
+      "maximumGateFunctors": 81,
+      "queuedGateWrappers": 1,
+      "executingGateWrappers": 0,
+      "uniqueGateWrappers": 1,
+      "sharedInverterObservations": 1,
+      "muxObservations": 1,
+      "maximumMuxFunctors": 251,
+      "queuedMuxWrappers": 0,
+      "executingMuxWrappers": 0,
+      "uniqueMuxWrappers": 0,
+      "signalObservations": 1,
+      "maximumSignalFunctors": 196,
+      "linkedSignalObservations": 0,
+      "maskedSignalObservations": 0,
+      "wireObservations": 1,
+      "maximumWireFilters": 1573,
+      "wireKinds": [
+        4,
+        8
+      ],
+      "graphObservations": 1,
+      "maximumAllocatedNodes": 1820,
+      "uniqueCodeNetTargets": 258,
+      "arrayNetReferenceObservations": 23,
+      "assignmentNetReferenceObservations": 2527,
+      "primitiveNetReferenceObservations": 17,
+      "arrayObservations": 1,
+      "arrays": 3,
+      "arrayReadPorts": 23,
+      "loadedArrayStateObserved": false,
+      "wordHandleCacheObserved": false,
+      "readPortsWithAddressChanges": 0,
+      "allocatedOperandInstructions": 20442,
+      "completeOperandObservations": 1,
+      "unchangedCodeImage": true,
+      "scopeCount": 32,
+      "scopeObservations": 1,
+      "emptyScopeObservations": 21,
+      "scopeMemberObservations": 44,
+      "liveThreadsOutsideScopeSets": 0,
+      "threadCodeObservations": 44,
+      "threadsWithCodeBindings": 44,
+      "uniqueObservedCodeSlots": 44,
+      "waitEventKinds": {
+        "2": 35,
+        "1": 9,
+        "3": 12
+      },
+      "uniqueWaitEvents": 56,
+      "waitEventObservations": 56,
+      "nonemptyWaitHeads": 0,
+      "emptyWaitHeads": 56,
+      "absentCacheObservations": 43,
+      "initializedCacheObservations": 97,
+      "liveThreadObservations": 44,
+      "uniqueThreads": 44,
+      "uniqueThreadEvents": 44,
+      "queuedThreadObservations": 44,
+      "eventWaitingObservations": 0,
+      "initializedWordObservations": 0,
+      "initializedExtendedFlagObservations": 0,
+      "unwrittenRegisterObservations": 22880,
+      "emptyThreadQueueBoundaries": 0,
+      "delayedDeletionObservations": 0,
+      "filterObservations": 4,
+      "uniqueIslandFilters": 4,
+      "initializingFilterObservations": 4,
+      "initializedFilterObservations": 0,
+      "forcedFilterObservations": 0,
+      "linkedForceObservations": 0,
+      "islandObservations": 2,
+      "queuedIslandObservations": 2,
+      "idleIslandObservations": 0,
+      "uniqueIslands": 2,
+      "uniqueIslandWrappers": 2,
+      "primitiveObservations": {
+        "1": 1,
+        "2": 16
+      },
+      "uniquePrimitives": 17,
+      "uniquePrimitiveWrappers": 17,
+      "emptyPrimitiveBoundaries": 0,
+      "maximumUncoveredPrimitiveEvents": 2573,
+      "assignmentObservations": {
+        "4": 2501,
+        "8": 26
+      },
+      "uniqueAssignments": 2527,
+      "emptyAssignmentBoundaries": 0,
+      "maximumUncoveredEvents": 63,
+      "startupLifetimeId": 1,
+      "activeStartupObservations": 1,
+      "destroyedStartupObservations": 0,
+      "boundaries": 1,
+      "executingWrapperObservations": 0,
+      "emptyFrameObservations": 1,
+      "uniqueExecutingEvents": 0,
+      "associatedDisplayObservations": 0,
+      "releasedDisplayObservations": 0,
+      "savedStopObservations": 0,
+      "clearedStopObservations": 1,
+      "portObservations": 18,
+      "ports": [
+        {
+          "index": 0,
+          "direction": 1,
+          "bits": 1,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.fixture_clk"
+        },
+        {
+          "index": 1,
+          "direction": 1,
+          "bits": 1,
+          "position": 1,
+          "name": "firmware_io_electrical_bus.fixture_reset_n"
+        },
+        {
+          "index": 2,
+          "direction": 1,
+          "bits": 8,
+          "position": 2,
+          "name": "firmware_io_electrical_bus.sense"
+        },
+        {
+          "index": 3,
+          "direction": 1,
+          "bits": 1,
+          "position": 10,
+          "name": "firmware_io_electrical_bus.receiver_data"
+        },
+        {
+          "index": 4,
+          "direction": 1,
+          "bits": 1,
+          "position": 11,
+          "name": "firmware_io_electrical_bus.receiver_clock"
+        },
+        {
+          "index": 5,
+          "direction": 1,
+          "bits": 3,
+          "position": 12,
+          "name": "firmware_io_electrical_bus.logic_control"
+        },
+        {
+          "index": 6,
+          "direction": 1,
+          "bits": 1,
+          "position": 15,
+          "name": "firmware_io_electrical_bus.cpu_pullup_n"
+        },
+        {
+          "index": 7,
+          "direction": 1,
+          "bits": 1,
+          "position": 16,
+          "name": "firmware_io_electrical_bus.bus_request_n"
+        },
+        {
+          "index": 8,
+          "direction": 1,
+          "bits": 8,
+          "position": 17,
+          "name": "firmware_io_electrical_bus.bus_sense"
+        },
+        {
+          "index": 9,
+          "direction": 2,
+          "bits": 24,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.bus_low"
+        },
+        {
+          "index": 10,
+          "direction": 2,
+          "bits": 24,
+          "position": 24,
+          "name": "firmware_io_electrical_bus.bus_high"
+        },
+        {
+          "index": 11,
+          "direction": 2,
+          "bits": 1,
+          "position": 48,
+          "name": "firmware_io_electrical_bus.wr_low"
+        },
+        {
+          "index": 12,
+          "direction": 2,
+          "bits": 1,
+          "position": 49,
+          "name": "firmware_io_electrical_bus.wr_high"
+        },
+        {
+          "index": 13,
+          "direction": 2,
+          "bits": 2,
+          "position": 50,
+          "name": "firmware_io_electrical_bus.logic_sink"
+        },
+        {
+          "index": 14,
+          "direction": 2,
+          "bits": 1,
+          "position": 52,
+          "name": "firmware_io_electrical_bus.data_sink"
+        },
+        {
+          "index": 15,
+          "direction": 2,
+          "bits": 1,
+          "position": 53,
+          "name": "firmware_io_electrical_bus.clock_sink"
+        },
+        {
+          "index": 16,
+          "direction": 2,
+          "bits": 2,
+          "position": 54,
+          "name": "firmware_io_electrical_bus.leds"
+        },
+        {
+          "index": 17,
+          "direction": 2,
+          "bits": 13,
+          "position": 56,
+          "name": "firmware_io_electrical_bus.column_sink"
+        }
+      ],
+      "outputCallbackObservations": 9,
+      "outputCallbacks": [
+        {
+          "port": 9,
+          "callbackId": 1
+        },
+        {
+          "port": 10,
+          "callbackId": 2
+        },
+        {
+          "port": 11,
+          "callbackId": 3
+        },
+        {
+          "port": 12,
+          "callbackId": 4
+        },
+        {
+          "port": 13,
+          "callbackId": 5
+        },
+        {
+          "port": 14,
+          "callbackId": 6
+        },
+        {
+          "port": 15,
+          "callbackId": 7
+        },
+        {
+          "port": 16,
+          "callbackId": 8
+        },
+        {
+          "port": 17,
+          "callbackId": 9
+        }
+      ],
+      "fault": {
+        "index": 0,
+        "phase": "before-step",
+        "targetSeconds": 0.0
+      },
+      "scopeMetadata": {
+        "snapshots": 2,
+        "scopes": 32,
+        "boundSignals": 18,
+        "ports": 317,
+        "portBits": 875,
+        "allSignals": 651,
+        "metadataFull": 1,
+        "metadataReused": 1,
+        "referenceFull": 1,
+        "referenceReused": 1,
+        "portFull": 1,
+        "portReused": 1,
+        "allSignalFull": 1,
+        "allSignalReused": 1
+      }
+    },
+    "scope-signal-scope-corrupt": {
+      "typedSignalObservations": 1,
+      "boundTypedPortHandles": 18,
+      "callbackSignalLinkObservations": 9,
+      "typedBitCacheObservations": 0,
+      "callbackListObservations": 1,
+      "boundOutputCallbacks": 9,
+      "uniqueCallbackOwners": 1573,
+      "maximumCallbackOwners": 1573,
+      "retiredCallbackOwners": 0,
+      "rawAssignmentObservations": 1,
+      "pendingRawAssignments": 26,
+      "executingRawAssignments": 0,
+      "uniqueRawAssignmentLifetimes": 26,
+      "maximumRawAssignmentBytes": 26,
+      "rawIslandObservations": 1,
+      "rawIslandCount": 2,
+      "maximumRawIslandCacheBytes": 2,
+      "resolverObservations": 1,
+      "maximumResolverFunctors": 18,
+      "maximumResolverCacheBytes": 36,
+      "concatObservations": 1,
+      "maximumConcatFunctors": 60,
+      "queuedConcatWrappers": 0,
+      "executingConcatWrappers": 0,
+      "uniqueConcatWrappers": 0,
+      "rawWireObservations": 1,
+      "maximumRawWireFilters": 29,
+      "reductionObservations": 1,
+      "maximumReductionFunctors": 38,
+      "arithmeticObservations": 1,
+      "maximumArithmeticFunctors": 217,
+      "gateObservations": 1,
+      "maximumGateFunctors": 81,
+      "queuedGateWrappers": 1,
+      "executingGateWrappers": 0,
+      "uniqueGateWrappers": 1,
+      "sharedInverterObservations": 1,
+      "muxObservations": 1,
+      "maximumMuxFunctors": 251,
+      "queuedMuxWrappers": 0,
+      "executingMuxWrappers": 0,
+      "uniqueMuxWrappers": 0,
+      "signalObservations": 1,
+      "maximumSignalFunctors": 196,
+      "linkedSignalObservations": 0,
+      "maskedSignalObservations": 0,
+      "wireObservations": 1,
+      "maximumWireFilters": 1573,
+      "wireKinds": [
+        4,
+        8
+      ],
+      "graphObservations": 1,
+      "maximumAllocatedNodes": 1820,
+      "uniqueCodeNetTargets": 258,
+      "arrayNetReferenceObservations": 23,
+      "assignmentNetReferenceObservations": 2527,
+      "primitiveNetReferenceObservations": 17,
+      "arrayObservations": 1,
+      "arrays": 3,
+      "arrayReadPorts": 23,
+      "loadedArrayStateObserved": false,
+      "wordHandleCacheObserved": false,
+      "readPortsWithAddressChanges": 0,
+      "allocatedOperandInstructions": 20442,
+      "completeOperandObservations": 1,
+      "unchangedCodeImage": true,
+      "scopeCount": 32,
+      "scopeObservations": 1,
+      "emptyScopeObservations": 21,
+      "scopeMemberObservations": 44,
+      "liveThreadsOutsideScopeSets": 0,
+      "threadCodeObservations": 44,
+      "threadsWithCodeBindings": 44,
+      "uniqueObservedCodeSlots": 44,
+      "waitEventKinds": {
+        "2": 35,
+        "1": 9,
+        "3": 12
+      },
+      "uniqueWaitEvents": 56,
+      "waitEventObservations": 56,
+      "nonemptyWaitHeads": 0,
+      "emptyWaitHeads": 56,
+      "absentCacheObservations": 43,
+      "initializedCacheObservations": 97,
+      "liveThreadObservations": 44,
+      "uniqueThreads": 44,
+      "uniqueThreadEvents": 44,
+      "queuedThreadObservations": 44,
+      "eventWaitingObservations": 0,
+      "initializedWordObservations": 0,
+      "initializedExtendedFlagObservations": 0,
+      "unwrittenRegisterObservations": 22880,
+      "emptyThreadQueueBoundaries": 0,
+      "delayedDeletionObservations": 0,
+      "filterObservations": 4,
+      "uniqueIslandFilters": 4,
+      "initializingFilterObservations": 4,
+      "initializedFilterObservations": 0,
+      "forcedFilterObservations": 0,
+      "linkedForceObservations": 0,
+      "islandObservations": 2,
+      "queuedIslandObservations": 2,
+      "idleIslandObservations": 0,
+      "uniqueIslands": 2,
+      "uniqueIslandWrappers": 2,
+      "primitiveObservations": {
+        "1": 1,
+        "2": 16
+      },
+      "uniquePrimitives": 17,
+      "uniquePrimitiveWrappers": 17,
+      "emptyPrimitiveBoundaries": 0,
+      "maximumUncoveredPrimitiveEvents": 2573,
+      "assignmentObservations": {
+        "4": 2501,
+        "8": 26
+      },
+      "uniqueAssignments": 2527,
+      "emptyAssignmentBoundaries": 0,
+      "maximumUncoveredEvents": 63,
+      "startupLifetimeId": 1,
+      "activeStartupObservations": 1,
+      "destroyedStartupObservations": 0,
+      "boundaries": 1,
+      "executingWrapperObservations": 0,
+      "emptyFrameObservations": 1,
+      "uniqueExecutingEvents": 0,
+      "associatedDisplayObservations": 0,
+      "releasedDisplayObservations": 0,
+      "savedStopObservations": 0,
+      "clearedStopObservations": 1,
+      "portObservations": 18,
+      "ports": [
+        {
+          "index": 0,
+          "direction": 1,
+          "bits": 1,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.fixture_clk"
+        },
+        {
+          "index": 1,
+          "direction": 1,
+          "bits": 1,
+          "position": 1,
+          "name": "firmware_io_electrical_bus.fixture_reset_n"
+        },
+        {
+          "index": 2,
+          "direction": 1,
+          "bits": 8,
+          "position": 2,
+          "name": "firmware_io_electrical_bus.sense"
+        },
+        {
+          "index": 3,
+          "direction": 1,
+          "bits": 1,
+          "position": 10,
+          "name": "firmware_io_electrical_bus.receiver_data"
+        },
+        {
+          "index": 4,
+          "direction": 1,
+          "bits": 1,
+          "position": 11,
+          "name": "firmware_io_electrical_bus.receiver_clock"
+        },
+        {
+          "index": 5,
+          "direction": 1,
+          "bits": 3,
+          "position": 12,
+          "name": "firmware_io_electrical_bus.logic_control"
+        },
+        {
+          "index": 6,
+          "direction": 1,
+          "bits": 1,
+          "position": 15,
+          "name": "firmware_io_electrical_bus.cpu_pullup_n"
+        },
+        {
+          "index": 7,
+          "direction": 1,
+          "bits": 1,
+          "position": 16,
+          "name": "firmware_io_electrical_bus.bus_request_n"
+        },
+        {
+          "index": 8,
+          "direction": 1,
+          "bits": 8,
+          "position": 17,
+          "name": "firmware_io_electrical_bus.bus_sense"
+        },
+        {
+          "index": 9,
+          "direction": 2,
+          "bits": 24,
+          "position": 0,
+          "name": "firmware_io_electrical_bus.bus_low"
+        },
+        {
+          "index": 10,
+          "direction": 2,
+          "bits": 24,
+          "position": 24,
+          "name": "firmware_io_electrical_bus.bus_high"
+        },
+        {
+          "index": 11,
+          "direction": 2,
+          "bits": 1,
+          "position": 48,
+          "name": "firmware_io_electrical_bus.wr_low"
+        },
+        {
+          "index": 12,
+          "direction": 2,
+          "bits": 1,
+          "position": 49,
+          "name": "firmware_io_electrical_bus.wr_high"
+        },
+        {
+          "index": 13,
+          "direction": 2,
+          "bits": 2,
+          "position": 50,
+          "name": "firmware_io_electrical_bus.logic_sink"
+        },
+        {
+          "index": 14,
+          "direction": 2,
+          "bits": 1,
+          "position": 52,
+          "name": "firmware_io_electrical_bus.data_sink"
+        },
+        {
+          "index": 15,
+          "direction": 2,
+          "bits": 1,
+          "position": 53,
+          "name": "firmware_io_electrical_bus.clock_sink"
+        },
+        {
+          "index": 16,
+          "direction": 2,
+          "bits": 2,
+          "position": 54,
+          "name": "firmware_io_electrical_bus.leds"
+        },
+        {
+          "index": 17,
+          "direction": 2,
+          "bits": 13,
+          "position": 56,
+          "name": "firmware_io_electrical_bus.column_sink"
+        }
+      ],
+      "outputCallbackObservations": 9,
+      "outputCallbacks": [
+        {
+          "port": 9,
+          "callbackId": 1
+        },
+        {
+          "port": 10,
+          "callbackId": 2
+        },
+        {
+          "port": 11,
+          "callbackId": 3
+        },
+        {
+          "port": 12,
+          "callbackId": 4
+        },
+        {
+          "port": 13,
+          "callbackId": 5
+        },
+        {
+          "port": 14,
+          "callbackId": 6
+        },
+        {
+          "port": 15,
+          "callbackId": 7
+        },
+        {
+          "port": 16,
+          "callbackId": 8
+        },
+        {
+          "port": 17,
+          "callbackId": 9
+        }
+      ],
+      "fault": {
+        "index": 0,
+        "phase": "before-step",
+        "targetSeconds": 0.0
+      },
+      "scopeMetadata": {
+        "snapshots": 2,
+        "scopes": 32,
+        "boundSignals": 18,
+        "ports": 317,
+        "portBits": 875,
+        "allSignals": 651,
+        "metadataFull": 1,
+        "metadataReused": 1,
+        "referenceFull": 1,
+        "referenceReused": 1,
+        "portFull": 1,
+        "portReused": 1,
+        "allSignalFull": 1,
+        "allSignalReused": 1
+      }
+    }
+  },
+  "scope": "Startup-only combined full scope signal and port payload reconstruction and compiled scope/bit/net binding at every snapshot, preserving all prior layers and non-bridge signal/callback faults. Native comparisons remain dense and all restored payloads match exactly. Every registered vector signal binds to scope ownership, native net allocation and compiled name/class/signedness/range at every snapshot. Non-bridge signedness/range changes and node/name/cache/scope refusals restore exactly; bridge-admitted payloads remain unchanged. No later-boundary/lifecycle or normal transient qualification."
+}
