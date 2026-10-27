@@ -1,0 +1,12 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "observations": 9,
+  "originalContinuationExactlyEqual": true,
+  "scope": "Observe an empty owner list before registration, add an exact-base callback during active native dispatch, and refuse inventory both during traversal and after return until explicit caller handoff. New callbacks run on the next native value change. Preserve ordered growth, cancellation before deletion, empty-list recovery and fresh lifetime IDs after re-registration, with exact original callback values/order.",
+  "notEstablished": [
+    "Reentrant nested value dispatch and suspended traversal capture",
+    "Array-association allocation/removal, typed referents and operational integration",
+    "Compact encoding and general rollback"
+  ]
+}
