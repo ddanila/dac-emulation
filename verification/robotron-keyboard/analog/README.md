@@ -1145,3 +1145,13 @@ every node. Head/foreign-target faults run at startup and link/tag/binding fault
 after initialization, restoring before execution. The capture timeout adds a
 rounded allowance for twice the measured graph scan cost; actual cost and bridge
 handle/payload coverage remain separate obligations.
+
+The [native class controls](reports/net-types/assessment.json) bind RTTI class names
+to allocated node/functor/filter identities through graph faults and force-helper
+lifecycles. The [compiled-board inventory](reports/net-types-board/assessment.json)
+identifies the payload families that need coverage; existing island-filter controls
+do not cover every ordinary wire filter. Class identity establishes reachability,
+not initialized field contents or callback equivalence. Build with
+`build_net_types_runtime.py`, then run `net_types_probe.py` with the native-probe
+arguments or `net_types_board.py` with the board-budget arguments. Replay with
+`--check reports/net-types` or `--check reports/net-types-board`, respectively.
