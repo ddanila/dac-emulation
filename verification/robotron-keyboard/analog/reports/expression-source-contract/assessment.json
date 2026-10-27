@@ -1,0 +1,100 @@
+{
+  "qualified": false,
+  "scope": "Pinned expression payload ownership; no native state, fault, continuation or operational qualification.",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "boardManifestSha256": "2a519da822656095940dc581f8176527342c2280ad359b3c277e42190a1e5de1",
+  "observed": {
+    "arithmetic": {
+      "vvp_arith_sub": 2,
+      "vvp_arith_sum": 4,
+      "vvp_cmp_eeq": 207,
+      "vvp_cmp_eq": 2,
+      "vvp_cmp_nee": 2
+    },
+    "reduction": {
+      "vvp_reduce_nor": 38
+    },
+    "concatenation": {
+      "vvp_fun_concat": 17,
+      "vvp_fun_concat8": 43
+    },
+    "otherFamilies": {
+      "resolv_tri": 18,
+      "vvp_fun_and": 44,
+      "vvp_fun_anyedge_sa": 35,
+      "vvp_fun_arrayport_sa": 23,
+      "vvp_fun_buft": 482,
+      "vvp_fun_bufz": 167,
+      "vvp_fun_edge_sa": 9,
+      "vvp_fun_event_or_sa": 12,
+      "vvp_fun_muxz": 251,
+      "vvp_fun_not": 15,
+      "vvp_fun_or": 21,
+      "vvp_fun_part_sa": 225,
+      "vvp_fun_signal4_sa": 196,
+      "vvp_fun_xor": 1,
+      "vvp_island_port": 6
+    }
+  },
+  "sources": {
+    "vvp/arith.h": "21a1cbbfd4c9a27bf02a32d7ab79606176bf26a38f834ef1588b1d212cebe53e",
+    "vvp/arith.cc": "8e2625b9816f41838663dca3deb5131bbafd1667bfb8a9701fe31e1ccd7a5df6",
+    "vvp/reduce.cc": "d4ac2b3c1ab97df710162b97f2f8b625b33cb467afe26fc0a0fe9d670c27ccba",
+    "vvp/concat.h": "1fd54fa2c0393445d6f7edb945547ddb0b76135e945fe3eee3366b73e8b5344e",
+    "vvp/concat.cc": "cb01a3423e4c508221f4e1e6846d86570bac2fe396af580c3333606cf511bacd",
+    "vvp/vvp_net.cc": "d2a0a9c9dad7e4405d35d7c92df1062ed17d1f2ef4808443eeb9305cfc7e3c04"
+  },
+  "evidence": {
+    "arithmeticFields": {
+      "file": "vvp/arith.h",
+      "firstLine": 35,
+      "excerpt": "class vvp_arith_  : public vvp_net_fun_t {\n\n    public:\n      explicit vvp_arith_(unsigned wid);\n\n      void recv_vec4_pv(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n\t\t\tunsigned base, unsigned vwid, vvp_context_t ctx) override;\n\n    protected:\n      void dispatch_operand_(vvp_net_ptr_t ptr, const vvp_vector4_t&bit);\n\n    protected:\n      unsigned wid_;\n\n      vvp_vector4_t op_a_;\n      vvp_vector4_t op_b_;\n\t// Precalculated X result for propagation.\n      vvp_vector4_t x_val_;\n};\n\n"
+    },
+    "arithmeticInitializationAndPartialDispatch": {
+      "file": "vvp/arith.cc",
+      "firstLine": 30,
+      "excerpt": "vvp_arith_::vvp_arith_(unsigned wid)\n: wid_(wid), op_a_(wid), op_b_(wid), x_val_(wid)\n{\n      for (unsigned idx = 0 ;  idx < wid ;  idx += 1) {\n\t    op_a_ .set_bit(idx, BIT4_Z);\n\t    op_b_ .set_bit(idx, BIT4_Z);\n\t    x_val_.set_bit(idx, BIT4_X);\n      }\n}\n\nvoid vvp_arith_::dispatch_operand_(vvp_net_ptr_t ptr, const vvp_vector4_t&bit)\n{\n      unsigned port = ptr.port();\n      switch (port) {\n\t  case 0:\n\t    op_a_ = bit;\n\t    break;\n\t  case 1:\n\t    op_b_ = bit;\n\t    break;\n\t  default:\n\t    fprintf(stderr, \"Unsupported port type %u.\\n\", port);\n\t    assert(0);\n      }\n}\n\nvoid vvp_arith_::recv_vec4_pv(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n\t\t\t      unsigned base, unsigned vwid, vvp_context_t ctx)\n{\n      recv_vec4_pv_(ptr, bit, base, vwid, ctx);\n}\n\n"
+    },
+    "arithmeticAndEqualityDispatch": {
+      "file": "vvp/arith.cc",
+      "firstLine": 518,
+      "excerpt": "vvp_arith_sum::vvp_arith_sum(unsigned wid)\n: vvp_arith_(wid)\n{\n}\n\nvvp_arith_sum::~vvp_arith_sum()\n{\n}\n\nvoid vvp_arith_sum::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                              vvp_context_t)\n{\n      dispatch_operand_(ptr, bit);\n\n      vvp_net_t*net = ptr.ptr();\n\n      vvp_vector4_t value (wid_);\n\n\t/* Pad input vectors with this value to widen to the desired\n\t   output width. */\n      const vvp_bit4_t pad = BIT4_0;\n\n      vvp_bit4_t carry = BIT4_0;\n      for (unsigned idx = 0 ;  idx < wid_ ;  idx += 1) {\n\t    vvp_bit4_t a = (idx >= op_a_.size())? pad : op_a_.value(idx);\n\t    vvp_bit4_t b = (idx >= op_b_.size())? pad : op_b_.value(idx);\n\t    vvp_bit4_t cur = add_with_carry(a, b, carry);\n\n\t    if (cur == BIT4_X) {\n\t\t  net->send_vec4(x_val_, 0);\n\t\t  return;\n\t    }\n\n\t    value.set_bit(idx, cur);\n      }\n\n      net->send_vec4(value, 0);\n}\n\nvvp_arith_sub::vvp_arith_sub(unsigned wid)\n: vvp_arith_(wid)\n{\n}\n\nvvp_arith_sub::~vvp_arith_sub()\n{\n}\n\n/*\n * Subtraction works by adding the 2s complement of the B input from\n * the A input. The 2s complement is the 1s complement plus one, so we\n * further reduce the operation to adding in the inverted value and\n * adding a correction.\n */\nvoid vvp_arith_sub::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                              vvp_context_t)\n{\n      dispatch_operand_(ptr, bit);\n\n      vvp_net_t*net = ptr.ptr();\n\n      vvp_vector4_t value (wid_);\n\n\t/* Pad input vectors with this value to widen to the desired\n\t   output width. */\n      const vvp_bit4_t pad = BIT4_1;\n\n      vvp_bit4_t carry = BIT4_1;\n      for (unsigned idx = 0 ;  idx < wid_ ;  idx += 1) {\n\t    vvp_bit4_t a = (idx >= op_a_.size())? pad : op_a_.value(idx);\n\t    vvp_bit4_t b = (idx >= op_b_.size())? pad : ~op_b_.value(idx);\n\t    vvp_bit4_t cur = add_with_carry(a, b, carry);\n\n\t    if (cur == BIT4_X) {\n\t\t  net->send_vec4(x_val_, 0);\n\t\t  return;\n\t    }\n\n\t    value.set_bit(idx, cur);\n      }\n\n      net->send_vec4(value, 0);\n}\n\nvvp_cmp_eeq::vvp_cmp_eeq(unsigned wid)\n: vvp_arith_(wid)\n{\n}\n\nvoid vvp_cmp_eeq::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                            vvp_context_t)\n{\n      dispatch_operand_(ptr, bit);\n\n      vvp_vector4_t eeq (1);\n      eeq.set_bit(0, BIT4_1);\n\n      assert(op_a_.size() == op_b_.size());\n      for (unsigned idx = 0 ;  idx < op_a_.size() ;  idx += 1)\n\t    if (op_a_.value(idx) != op_b_.value(idx)) {\n\t\t  eeq.set_bit(0, BIT4_0);\n\t\t  break;\n\t    }\n\n\n      vvp_net_t*net = ptr.ptr();\n      net->send_vec4(eeq, 0);\n}\n\nvvp_cmp_nee::vvp_cmp_nee(unsigned wid)\n: vvp_arith_(wid)\n{\n}\n\nvoid vvp_cmp_nee::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                            vvp_context_t)\n{\n      dispatch_operand_(ptr, bit);\n\n      vvp_vector4_t eeq (1);\n      eeq.set_bit(0, BIT4_0);\n\n      assert(op_a_.size() == op_b_.size());\n      for (unsigned idx = 0 ;  idx < op_a_.size() ;  idx += 1)\n\t    if (op_a_.value(idx) != op_b_.value(idx)) {\n\t\t  eeq.set_bit(0, BIT4_1);\n\t\t  break;\n\t    }\n\n\n      vvp_net_t*net = ptr.ptr();\n      net->send_vec4(eeq, 0);\n}\n\nvvp_cmp_eq::vvp_cmp_eq(unsigned wid)\n: vvp_arith_(wid)\n{\n}\n\n/*\n * Compare Vector a and Vector b. If in any bit position the a and b\n * bits are known and different, then the result is 0. Otherwise, if\n * there are X/Z bits anywhere in A or B, the result is X. Finally,\n * the result is 1.\n */\nvoid vvp_cmp_eq::recv_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n                           vvp_context_t)\n{\n      dispatch_operand_(ptr, bit);\n\n      if (op_a_.size() != op_b_.size()) {\n\t    cerr << \"COMPARISON size mismatch. \"\n\t\t << \"a=\" << op_a_ << \", b=\" << op_b_ << endl;\n\t    assert(0);\n      }\n\n      vvp_vector4_t res (1);\n      res.set_bit(0, BIT4_1);\n\n      for (unsigned idx = 0 ;  idx < op_a_.size() ;  idx += 1) {\n\t    vvp_bit4_t a = op_a_.value(idx);\n\t    vvp_bit4_t b = op_b_.value(idx);\n\n\t    if (a == BIT4_X)\n\t\t  res.set_bit(0, BIT4_X);\n\t    else if (a == BIT4_Z)\n\t\t  res.set_bit(0, BIT4_X);\n\t    else if (b == BIT4_X)\n\t\t  res.set_bit(0, BIT4_X);\n\t    else if (b == BIT4_Z)\n\t\t  res.set_bit(0, BIT4_X);\n            else if (a != b) {\n\t\t  res.set_bit(0, BIT4_0);\n\t\t  break;\n\t    }\n      }\n\n      vvp_net_t*net = ptr.ptr();\n      net->send_vec4(res, 0);\n}\n\n"
+    },
+    "partialOperandExpansion": {
+      "file": "vvp/vvp_net.cc",
+      "firstLine": 3287,
+      "excerpt": "void vvp_net_fun_t::recv_vec4_pv_(vvp_net_ptr_t p, const vvp_vector4_t&bit,\n                                  unsigned base, unsigned vwid, vvp_context_t)\n{\n\t// The majority of functors don't normally expect to receive part\n\t// values, because the primary operands of an expression will be\n\t// extended to the expression width. But in the case that a primary\n\t// operand is a wire that is only partly driven by a single driver,\n\t// the part value driven onto the wire propagates directly to the\n\t// inputs of any functors connected to that wire. In this case we\n\t// know that the remaining bits are undriven, so can simply build\n\t// the full width value from the part we have received.\n\t//\n\t// Note that this case is almost certainly a bug in the user's\n\t// code, but we still need to handle it correctly. See GitHub\n\t// issue #99 and br_gh99*.v in the test suite for examples.\n\n      assert(base + bit.size() <= vwid);\n\n      vvp_vector4_t tmp(vwid, BIT4_Z);\n      tmp.set_vec(base, bit);\n      recv_vec4(p, tmp, 0);\n}\n\n"
+    },
+    "reductionCacheAndPartialReuse": {
+      "file": "vvp/reduce.cc",
+      "firstLine": 34,
+      "excerpt": "class vvp_reduce_base : public vvp_net_fun_t {\n\n    public:\n      vvp_reduce_base();\n      virtual ~vvp_reduce_base() override;\n\n      void recv_vec4(vvp_net_ptr_t prt, const vvp_vector4_t&bit,\n                     vvp_context_t context) override;\n      void recv_vec4_pv(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,\n\t\t\tunsigned base, unsigned vwid, vvp_context_t context) override;\n\n      virtual vvp_bit4_t calculate_result() const =0;\n\n    protected:\n      vvp_vector4_t bits_;\n};\n\nvvp_reduce_base::vvp_reduce_base()\n{\n}\n\nvvp_reduce_base::~vvp_reduce_base()\n{\n}\n\nvoid vvp_reduce_base::recv_vec4(vvp_net_ptr_t prt, const vvp_vector4_t&bit,\n                                vvp_context_t context)\n{\n      bits_ = bit;\n      vvp_bit4_t res =  calculate_result();\n      vvp_vector4_t rv (1, res);\n      prt.ptr()->send_vec4(rv, context);\n}\n\nvoid vvp_reduce_base::recv_vec4_pv(vvp_net_ptr_t prt, const vvp_vector4_t&bit,\n\t\t\t\t   unsigned base, unsigned vwid, vvp_context_t context)\n{\n      if (bits_.size() == 0) {\n\t    bits_ = vvp_vector4_t(vwid);\n      }\n      assert(bits_.size() == vwid);\n\n      bits_.set_vec(base, bit);\n      vvp_bit4_t res = calculate_result();\n      vvp_vector4_t rv (1, res);\n      prt.ptr()->send_vec4(rv, context);\n}\n\n"
+    },
+    "reductionNor": {
+      "file": "vvp/reduce.cc",
+      "firstLine": 186,
+      "excerpt": "class vvp_reduce_nor  : public vvp_reduce_base {\n\n    public:\n      vvp_reduce_nor();\n      ~vvp_reduce_nor() override;\n      vvp_bit4_t calculate_result() const override;\n};\n\nvvp_reduce_nor::vvp_reduce_nor()\n{\n}\n\nvvp_reduce_nor::~vvp_reduce_nor()\n{\n}\n\nvvp_bit4_t vvp_reduce_nor::calculate_result() const\n{\n      vvp_bit4_t res =  BIT4_0;\n\n      for (unsigned idx = 0 ;  idx < bits_.size() ;  idx += 1)\n\t    res = res | bits_.value(idx);\n\n      return ~res;\n}\n\n"
+    },
+    "concatFields": {
+      "file": "vvp/concat.h",
+      "firstLine": 35,
+      "excerpt": "class vvp_fun_concat  : public vvp_net_fun_t, protected vvp_gen_event_s  {\n\n    public:\n      vvp_fun_concat(unsigned w0, unsigned w1,\n\t\t     unsigned w2, unsigned w3);\n      ~vvp_fun_concat() override;\n\n      void recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n                     vvp_context_t context) final;\n\n      void recv_vec4_pv(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n\t\t\tunsigned base, unsigned vwid, vvp_context_t) final;\n    private:\n      void run_run() final;\n\n      unsigned wid_[4];\n      vvp_vector4_t val_;\n      vvp_net_t *net_ = nullptr;\n};\n\nclass vvp_fun_concat8  : public vvp_net_fun_t, protected vvp_gen_event_s {\n\n    public:\n      vvp_fun_concat8(unsigned w0, unsigned w1,\n\t\t     unsigned w2, unsigned w3);\n      ~vvp_fun_concat8() override;\n\n      void recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n                     vvp_context_t context) final;\n      void recv_vec8(vvp_net_ptr_t port, const vvp_vector8_t&bit) final;\n\n      void recv_vec4_pv(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n\t\t\tunsigned base, unsigned vwid, vvp_context_t) final;\n      void recv_vec8_pv(vvp_net_ptr_t p, const vvp_vector8_t&bit,\n\t\t\tunsigned base, unsigned vwid) final;\n\n    private:\n      void run_run() final;\n\n      unsigned wid_[4];\n      vvp_vector8_t val_;\n      vvp_net_t *net_ = nullptr;\n};\n\n"
+    },
+    "concatDispatch": {
+      "file": "vvp/concat.cc",
+      "firstLine": 28,
+      "excerpt": "vvp_fun_concat::vvp_fun_concat(unsigned w0, unsigned w1,\n\t\t\t       unsigned w2, unsigned w3)\n: val_(w0+w1+w2+w3, BIT4_Z)\n{\n      wid_[0] = w0;\n      wid_[1] = w1;\n      wid_[2] = w2;\n      wid_[3] = w3;\n}\n\nvvp_fun_concat::~vvp_fun_concat()\n{\n}\n\nvoid vvp_fun_concat::recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n                               vvp_context_t context)\n{\n      recv_vec4_pv(port, bit, 0, bit.size(), context);\n}\n\nvoid vvp_fun_concat::recv_vec4_pv(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n                                  unsigned base, unsigned vwid, vvp_context_t)\n{\n      unsigned pdx = port.port();\n\n      if (vwid != wid_[pdx]) {\n\t    cerr << \"internal error: port \" << pdx\n\t\t << \" expects wid=\" << wid_[pdx]\n\t\t << \", got wid=\" << vwid << endl;\n\t    assert(0);\n      }\n\n      unsigned off = base;\n      for (unsigned idx = 0 ;  idx < pdx ;  idx += 1)\n\t    off += wid_[idx];\n\n      if (!val_.set_vec(off, bit))\n\t    return;\n\n      if (net_)\n\t    return;\n\n      net_ = port.ptr();\n      schedule_functor(this);\n}\n\nvoid vvp_fun_concat::run_run()\n{\n      vvp_net_t *ptr = net_;\n      net_ = nullptr;\n      ptr->send_vec4(val_, 0);\n}\n\nvoid compile_concat(char*label, unsigned w0, unsigned w1,\n\t\t    unsigned w2, unsigned w3,\n\t\t    unsigned argc, struct symb_s*argv)\n{\n      vvp_fun_concat*fun = new vvp_fun_concat(w0, w1, w2, w3);\n\n      vvp_net_t*net = new vvp_net_t;\n      net->fun = fun;\n\n      define_functor_symbol(label, net);\n      free(label);\n\n      inputs_connect(net, argc, argv);\n      free(argv);\n}\n\n\nvvp_fun_concat8::vvp_fun_concat8(unsigned w0, unsigned w1,\n\t\t\t       unsigned w2, unsigned w3)\n: val_(w0+w1+w2+w3)\n{\n      wid_[0] = w0;\n      wid_[1] = w1;\n      wid_[2] = w2;\n      wid_[3] = w3;\n}\n\nvvp_fun_concat8::~vvp_fun_concat8()\n{\n}\n\nvoid vvp_fun_concat8::recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n\t\t\t\tvvp_context_t)\n{\n      vvp_vector8_t bit8 (bit, 6, 6);\n      recv_vec8_pv(port, bit8, 0, bit8.size());\n}\n\nvoid vvp_fun_concat8::recv_vec4_pv(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n\t\t\t\t   unsigned base, unsigned vwid, vvp_context_t)\n{\n      vvp_vector8_t bit8 (bit, 6, 6);\n      recv_vec8_pv(port, bit8, base, vwid);\n}\n\nvoid vvp_fun_concat8::recv_vec8(vvp_net_ptr_t port, const vvp_vector8_t&bit)\n{\n      recv_vec8_pv(port, bit, 0, bit.size());\n}\n\nvoid vvp_fun_concat8::recv_vec8_pv(vvp_net_ptr_t port, const vvp_vector8_t&bit,\n\t\t\t\t   unsigned base, unsigned vwid)\n{\n      unsigned pdx = port.port();\n\n      if (vwid != wid_[pdx]) {\n\t    cerr << \"internal error: port \" << pdx\n\t\t << \" expects wid=\" << wid_[pdx]\n\t\t << \", got wid=\" << vwid << endl;\n\t    assert(0);\n      }\n\n      unsigned off = base;\n      for (unsigned idx = 0 ;  idx < pdx ;  idx += 1)\n\t    off += wid_[idx];\n\n      val_.set_vec(off, bit);\n\n      if (net_)\n\t    return;\n\n      net_ = port.ptr();\n      schedule_functor(this);\n}\n\nvoid vvp_fun_concat8::run_run()\n{\n      vvp_net_t *ptr = net_;\n      net_ = nullptr;\n      ptr->send_vec8(val_);\n}\n\nvoid compile_concat8(char*label, unsigned w0, unsigned w1,\n\t\t     unsigned w2, unsigned w3,\n\t\t     unsigned argc, struct symb_s*argv)\n{\n      vvp_fun_concat8*fun = new vvp_fun_concat8(w0, w1, w2, w3);\n\n      vvp_net_t*net = new vvp_net_t;\n      net->fun = fun;\n\n      define_functor_symbol(label, net);\n      free(label);\n\n      inputs_connect(net, argc, argv);\n      free(argv);\n}\n\n"
+    }
+  },
+  "requirements": [
+    "Admit exact native classes, not name prefixes or base-class casts alone. Unlisted arithmetic/comparison, reduction and concat subclasses need their own field audit and refusal controls.",
+    "Arithmetic retains wid_, both logical operand vectors with their actual widths, and x_val_. Constructor code initializes operands to Z despite the header comment describing X; x_val_ is X. Keep output-width configuration and initialized fallback payload under observation.",
+    "Arithmetic partial receives expand a fresh full-width Z vector before dispatch; they do not merge into the previous operand. Sum/subtraction and equality receive paths dispatch synchronously, without a private pending scheduler destination.",
+    "Exact/case equality compares X/Z as values; logical equality propagates unknown unless a known mismatch decides the result. Comparisons require equal input widths. Sum and subtraction have distinct short-input padding; qualify actual native behavior rather than silently normalizing it.",
+    "Reduction bits_ cannot be discarded as temporary solely from its source comment: full receives overwrite it, but recv_vec4_pv preserves untouched bits and uses prior width. Observe initialized empty storage and subsequent full/partial contents; exercise partial-first, repeated and full-after-partial inputs.",
+    "Concat retains four configured widths, the assembled value and a nullable pending destination. A partial write preserves other slices. Bind the adjusted generic-event identity to queued/executing wrappers; run_run clears net_ before downstream dispatch.",
+    "Concat4 suppresses unchanged writes; concat8 schedules them when idle. Concat8 retains strengths, and four-state receives convert to strength 6/6. Logical bits alone cannot establish concat8 equivalence; qualify constructor storage before reading it.",
+    "Native controls must cover wide vectors, X/Z, both operand ports, partial receives, unchanged-output cache changes, idle/queued/executing concat states and restored faults in each retained field. Refuse unsupported families without partial inventory.",
+    "Measure full-scan board cost and exact dense/compact reconstruction before operational integration. Resolver, callback/list contents, storage lifetime and bridge referents remain separate obligations."
+  ]
+}
