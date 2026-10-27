@@ -1,0 +1,31 @@
+{
+  "qualified": false,
+  "command": [
+    "cc",
+    "-fPIC",
+    "-I/private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include",
+    "-I/private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/xspice/verilog",
+    "-I/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog",
+    "-dynamiclib",
+    "-undefined",
+    "dynamic_lookup",
+    "/private/tmp/k7658-delivery-audit-vpi/vpi.c",
+    "-o",
+    "/private/tmp/k7658-delivery-audit-vpi/ivlng.vpi"
+  ],
+  "sources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_delivery_audit_vpi.py": "fd1ef29d9b11f7467c5ebd7d41519af496d362771eb021282ac839eec5db50ee",
+    "/private/tmp/k7658-output-drain-vpi/build.json": "82bc9905b0a83def8b9146186d823e609198d7434607060761ebfc4aafe357df",
+    "/private/tmp/k7658-output-drain-vpi/vpi.c": "1c76d06af8ddba25051c1326bf86c31354e320e9873c21901e0e614abb7db06c",
+    "/private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/xspice/verilog/icarus_shim.h": "cb3a43a781157f1477b9ba4ed5ca6669c60b76e3f1c6d9674153f703b6395912",
+    "/private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/xspice/verilog/coroutine_cosim.h": "78de72acfb12c09155f46b53821d8ecab2b596423ce93c995384dd971550716e",
+    "/private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/cmtypes.h": "268ca5c099d9d2e19bef436abc81261195c4ac5e237a5489786331de8d22b371",
+    "/private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/cosim.h": "1fdf5e534cdc4a6f77b5d8177152107722f192a2b9e3e7a7fa007d093e13a425",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog/vpi_user.h": "109e905f31b6b25dcd3ad784784177baf1bab342a3c1634a82a20abf00516256"
+  },
+  "outputs": {
+    "vpi.c": "432c46f173120183d939a266e602352d064bae0db46b5f8b792b745f2451f0a0",
+    "ivlng.vpi": "67b281ca126bd7b3257472f4224ed0b43274da43c894667f212a352848447313"
+  },
+  "scope": "Adds input-application and before/after output-callback logging only. Values are the first aval/bval word used by the existing bridge. Input threshold detection is upstream and remains unobserved. Full capture equivalence and convergence remain required."
+}
