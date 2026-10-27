@@ -1,0 +1,77 @@
+--- a/vvp/array.cc
++++ b/vvp/array.cc
+@@ -793,6 +793,15 @@
+       return "";
+ }
+ 
++#include <typeinfo>
++struct robotron_memory_record { __vpiArray* array; const char* name; size_t bytes; };
++static std::map<vpiHandle,robotron_memory_record> robotron_memories;
++static void robotron_memory_register(__vpiArray*array) {
++    assert(array && array->name);
++    robotron_memory_record r={array,array->name,strlen(array->name)+1};
++    if(!robotron_memories.insert({static_cast<vpiHandle>(array),r}).second)abort();
++}
++
+ vpiHandle vpip_make_array(const char*label, const char*name,
+                           int first_addr, int last_addr,
+                           bool signed_flag)
+@@ -846,6 +855,7 @@
+       compile_vpi_symbol(label, obj);
+ 
+ 	/* Blindly attach to the scope as an object. */
++      robotron_memory_register(obj);
+       vpip_attach_to_current_scope(obj);
+ 
+       return obj;
+@@ -1599,6 +1609,7 @@
+       array_table->sym_set_value(label, obj);
+ 
+       compile_vpi_symbol(label, obj);
++      robotron_memory_register(obj);
+       vpip_attach_to_current_scope(obj);
+ 
+       free(label);
+@@ -1880,3 +1891,26 @@
+ extern "C" int robotron_vvp_array_toggle(int field){return robotron_array_access::toggle(field);}
+ 
+ extern "C" int robotron_vvp_array_compact_inventory(FILE* out){return robotron_array_access::inventory(out,true);}
++
++extern "C" int robotron_vvp_memory_owners(std::map<const void*,std::pair<unsigned long long,const void*>>*);
++extern "C" int robotron_vvp_memory_metadata_inventory(FILE*out)
++{
++    std::map<const void*,std::pair<unsigned long long,const void*>> owners;
++    if(!out || robotron_vvp_memory_owners(&owners) || owners.size()!=robotron_memories.size())return -1;
++    std::map<unsigned long long,vpiHandle> ordered;
++    for(auto item:robotron_memories){
++        auto owner=owners.find(item.first);auto r=item.second;
++        if(owner==owners.end() || typeid(*r.array)!=typeid(__vpiArray) ||
++           r.array->get_scope()!=owner->second.second || r.array->name!=r.name || !r.bytes)return -1;
++        if(!ordered.insert({owner->second.first,item.first}).second)return -1;
++    }
++    if(fprintf(out,"VMM_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:ordered){
++        auto r=robotron_memories.at(item.second);auto owner=owners.at(item.second);
++        if(fprintf(out,"VMM_MEMORY %llu %p %p %p %p %zu\n",item.first,(void*)item.second,(void*)r.array,(void*)owner.second,(void*)r.name,r.bytes)<0)return -1;
++        if(fprintf(out,"VMM_NAME ")<0)return -1;
++        for(size_t i=0;i<r.bytes;++i)if(fprintf(out,"%02x",(unsigned char)r.name[i])<0)return -1;
++        if(fputc('\n',out)==EOF)return -1;
++    }
++    return fprintf(out,"VMM_END %zu\n",ordered.size())<0?-1:0;
++}
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -1166,3 +1166,13 @@
+         if(!result.insert({item,{robotron_object_ids.at(item),scope}}).second)return -1;
+     owners->swap(result);return 0;
+ }
++
++extern "C" int robotron_vvp_memory_owners(std::map<const void*,std::pair<unsigned long long,const void*>>*owners)
++{
++    vector<__vpiScope*> scopes;
++    if(!owners||robotron_scope_metadata_validate(scopes))return -1;
++    std::map<const void*,std::pair<unsigned long long,const void*>> result;
++    for(auto scope:scopes)for(auto item:scope->intern)if(robotron_object_types.at(item)==vpiMemory)
++        if(!result.insert({item,{robotron_object_ids.at(item),scope}}).second)return -1;
++    owners->swap(result);return 0;
++}
