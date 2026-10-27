@@ -1,0 +1,62 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "denseReconstructionExactlyEqual": true,
+  "nativeControls": {
+    "qualified": false,
+    "controlsPassed": true,
+    "originalContinuationExactlyEqual": true,
+    "automaticScopeZeroOutputRefusal": true,
+    "changedFields": [
+      "units",
+      "precision",
+      "file",
+      "line",
+      "deffile",
+      "defline",
+      "cell",
+      "name",
+      "definition",
+      "omit",
+      "order",
+      "time",
+      "stime",
+      "realtime"
+    ],
+    "zeroOutputRefusals": [
+      "time",
+      "stime",
+      "realtime",
+      "classes",
+      "root",
+      "intern",
+      "parent",
+      "missing-child"
+    ],
+    "rounds": 2,
+    "scope": "Static native scope metadata and ordered internal-object identities/types. Fourteen mutations and eight zero-output refusals per round, exact restoration and original HDL continuation. Function metadata is observed, not mutated. No intern payload coverage, deletion/address reuse, unsupported scope family or operational board qualification."
+  },
+  "encoding": {
+    "enabled": {
+      "images": 74,
+      "zeroOutputRefusals": 16,
+      "metadataFull": 57,
+      "metadataReused": 17,
+      "referenceFull": 1,
+      "referenceReused": 73,
+      "denseBytes": 64944,
+      "compactBytes": 38585
+    },
+    "unsupported-enabled": {
+      "images": 0,
+      "zeroOutputRefusals": 1,
+      "metadataFull": 0,
+      "metadataReused": 0,
+      "referenceFull": 0,
+      "referenceReused": 0,
+      "denseBytes": 0,
+      "compactBytes": 0
+    }
+  },
+  "scope": "Complete native dense scans compared byte-for-byte with compact reconstruction through fourteen mutations per round, restoration, tick changes and early/late zero-output refusals. Exact previous-body equality only; changed bodies emit in full. No operational storage, state-growth or scan-cost qualification."
+}
