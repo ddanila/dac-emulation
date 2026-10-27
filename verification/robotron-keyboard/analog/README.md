@@ -1807,3 +1807,12 @@ before using that consumer. Ownership/class guards, payload scans and operationa
 integration remain open. Run `port_referents.py` with the retained runtime paths;
 replay the source extraction with `port_payload_contract.py --archive PINNED_ARCHIVE
 --out reports/port-referents/source-contract.json --check`. Two tests pass.
+
+The first complete cached net-board review reached its final comparison and
+failed without retaining its candidate assessment. Inspection identified a
+representation bug: native integer dictionary keys were compared directly with
+string keys loaded from JSON. `cached_net_board_review.py` now compares canonical
+JSON values and retains a failed candidate as `*.mismatch.json` on a real
+comparison failure. Four cache/comparison tests pass, including key conversion
+and retained mismatch evidence. The failed run does not qualify the cache; a new
+complete review is required to establish equality beyond this comparison fix.

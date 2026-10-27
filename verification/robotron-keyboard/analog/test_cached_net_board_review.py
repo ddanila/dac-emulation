@@ -1,4 +1,8 @@
 import unittest
+import json,tempfile
+from pathlib import Path
+from unittest.mock import patch
+import cached_net_board_review as reviewer
 from cached_net_board_review import ExactBundleCache
 
 
@@ -26,5 +30,26 @@ class ExactCacheTests(unittest.TestCase):
             with self.assertRaises(ValueError):cached(['invalid'],{})
         self.assertEqual(cached(['valid'],{}),{'accepted':True})
         self.assertEqual((cached.hits,cached.misses),(1,1))
+
+class AssessmentComparisonTests(unittest.TestCase):
+    def test_json_key_conversion_matches_retained_representation(self):
+        actual={'waitEventKinds':{1:3,2:9},'controlsPassed':True}
+        with tempfile.TemporaryDirectory() as tmp:
+            reference=Path(tmp)/'reference.json';reference.write_text(json.dumps(actual))
+            original=reviewer.original.bundle
+            with patch.object(reviewer.original,'assess',return_value=actual):
+                result=reviewer.run(Path(tmp),Path(tmp)/'producer.py',reference)
+            self.assertTrue(result['completeAssessmentExactlyEqual'])
+            self.assertIs(reviewer.original.bundle,original)
+    def test_real_difference_retains_failed_candidate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            reference=Path(tmp)/'reference.json';reference.write_text('{"count": 1}')
+            diagnostic=Path(tmp)/'mismatch.json'
+            with patch.object(reviewer.original,'assess',return_value={'count':2}):
+                with self.assertRaises(ValueError):reviewer.run(Path(tmp),Path(tmp)/'producer.py',reference,diagnostic)
+            result=json.loads(diagnostic.read_text())
+            self.assertFalse(result['completed']);self.assertFalse(result['completeAssessmentExactlyEqual'])
+            self.assertEqual(result['assessment'],{'count':2})
+
 
 if __name__=='__main__':unittest.main()
