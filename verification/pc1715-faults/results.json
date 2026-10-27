@@ -1,0 +1,976 @@
+{
+  "rom_sha256": "51cb80639b5667f2611da71ce7305061566cf3474bda7db6fc82709d08e46d01",
+  "hardware_sha256": "958f43957c66c68b80a3769724670cf8d760d1f4ad45ae533f649370d8befc87",
+  "source_sha256": {
+    "verification/pc1715-faults/probe.c": "98fcf3534cb10513e423dcb5b33ca6c90649d51b70a42dd2e8b18d80ac9798fa",
+    "verification/pc1715-faults/campaign.py": "409639315b9a6cb43e14cf2c6bbc70e810c24446c20c15a4d4306a36fe2221f3",
+    "verification/pc1715-faults/extract.py": "9e202d641cf643f0e2278ae678a30d531c64f3c111c0ee12731dbe41cab77275",
+    "machines/robotron1715/pc1715.c": "d5b8669447be0c818145accf0011cc9d3267afee55421e0dd715d71fee49c55d",
+    "common/cpu/z80.c": "d7329a9a116f49441b9ed4f23c0c2fdbb8cb338f74e327cc3344442a355461cf",
+    "third_party/cpu/chips/z80.h": "6ca70ffd91b1bdbaf00f7a41e7092b326145fd1c95dcdd7bb01183370de734f3"
+  },
+  "scope": "Bounded fault hypotheses, not analog validation; no hardware byte replay. At most 128 first fetches per capture; controls constrain only the final capture.",
+  "cases": 2466,
+  "families": {
+    "healthy": 1,
+    "rom-oe-high": 602,
+    "rd-buffer-high": 602,
+    "rom-ce-high": 6,
+    "data-buffer-open": 3,
+    "address-mask": 304,
+    "data-mask": 17,
+    "rom-data-mask": 17,
+    "ram-contention": 18,
+    "decoder-ram-alias": 448,
+    "decoder-ram-alias-d3-high": 448
+  },
+  "matches": [],
+  "best": [
+    {
+      "run": "20261027-reset-release",
+      "top_cases": [
+        {
+          "case": 1898,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1905,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1926,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1933,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1954,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65504,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-reset-release-repeat",
+      "top_cases": [
+        {
+          "case": 1898,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-repeat",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1905,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-repeat",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1926,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-repeat",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1933,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-repeat",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1954,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65504,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-repeat",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-reset-release-third",
+      "top_cases": [
+        {
+          "case": 1898,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-third",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1905,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-third",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1926,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-third",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1933,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-third",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1954,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65504,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-third",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 10,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-reset-release-fourth",
+      "top_cases": [
+        {
+          "case": 1898,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-fourth",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 11,
+            "timing_read_prefix": 11,
+            "combined_prefix": 11,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1905,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-fourth",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 11,
+            "timing_read_prefix": 11,
+            "combined_prefix": 11,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1926,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-fourth",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 11,
+            "timing_read_prefix": 11,
+            "combined_prefix": 11,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1933,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-fourth",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 11,
+            "timing_read_prefix": 11,
+            "combined_prefix": 11,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1954,
+          "parameters": {
+            "fault": "decoder-ram-alias-d3-high",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65504,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-fourth",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 11,
+            "timing_read_prefix": 11,
+            "combined_prefix": 11,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-reset-release-fifth-valid",
+      "top_cases": [
+        {
+          "case": 1457,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-fifth-valid",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 9,
+            "timing_read_prefix": 9,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1485,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-fifth-valid",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 9,
+            "timing_read_prefix": 9,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1513,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65504,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-fifth-valid",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 9,
+            "timing_read_prefix": 9,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1541,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65472,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-fifth-valid",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 9,
+            "timing_read_prefix": 9,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 2334,
+          "parameters": {
+            "fault": "address-mask",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 65528,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-release-fifth-valid",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 9,
+            "timing_read_prefix": 9,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-reset-restored",
+      "top_cases": [
+        {
+          "case": 1457,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-restored",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 5,
+            "timing_read_prefix": 7,
+            "combined_prefix": 5,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1485,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-restored",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 5,
+            "timing_read_prefix": 7,
+            "combined_prefix": 5,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1513,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65504,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-restored",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 5,
+            "timing_read_prefix": 7,
+            "combined_prefix": 5,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1541,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65472,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-restored",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 5,
+            "timing_read_prefix": 7,
+            "combined_prefix": 5,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1569,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65408,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-reset-restored",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 5,
+            "timing_read_prefix": 9,
+            "combined_prefix": 5,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-rom-controls",
+      "top_cases": [
+        {
+          "case": 1457,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-rom-controls",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 5,
+            "timing_read_prefix": 7,
+            "combined_prefix": 5,
+            "control_mismatches": 0,
+            "controls_measured": true,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1485,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65520,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-rom-controls",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 5,
+            "timing_read_prefix": 7,
+            "combined_prefix": 5,
+            "control_mismatches": 0,
+            "controls_measured": true,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1513,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65504,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-rom-controls",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 5,
+            "timing_read_prefix": 7,
+            "combined_prefix": 5,
+            "control_mismatches": 0,
+            "controls_measured": true,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1541,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65472,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-rom-controls",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 5,
+            "timing_read_prefix": 7,
+            "combined_prefix": 5,
+            "control_mismatches": 0,
+            "controls_measured": true,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "case": 1569,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65408,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 4096,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255"
+          },
+          "score": {
+            "run": "20261027-rom-controls",
+            "observed_count": 128,
+            "compared_count": 128,
+            "byte_prefix": 5,
+            "timing_read_prefix": 9,
+            "combined_prefix": 5,
+            "control_mismatches": 0,
+            "controls_measured": true,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    }
+  ],
+  "full_report_sha256": "d858a7ab4e0de5c9ed661f7543bdaf4321bef443587328ff66e0e150f102341d"
+}

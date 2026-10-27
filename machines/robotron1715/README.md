@@ -32,6 +32,12 @@ No video or misleading screen is returned: runtime dimensions are zero and
 input is unsupported. Existing W/M snapshot layouts and runtime kind 2 are
 unchanged. This profile is not yet exposed as a museum UI exhibit.
 
+For MB001 hardware diagnosis, [component-fault experiments](../../verification/pc1715-faults/README.md)
+wrap this model with explicit ROM, address, RAM and data-path failures and compare
+against recorded analyzer traces. They provide partial startup matches, not a
+complete electrical reproduction or an identified faulty component. Normal
+machine behavior and its public API are unchanged.
+
 ## Run
 
 ```sh
