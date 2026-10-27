@@ -1,0 +1,77 @@
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -820,3 +820,74 @@
+ 	    vpip_attach_to_current_scope(obj_bit);
+       }
+ }
++
++// Scope membership is independent of registered live-thread lifetime.
++#include "schedule.h"
++extern "C" unsigned long long robotron_vvp_thread_identity(vthread_t);
++static int robotron_static_scopes(vector<__vpiScope*>& scopes)
++{
++    set<__vpiScope*> seen;
++    for(auto root:vpip_root_table){
++        auto scope=dynamic_cast<__vpiScope*>(root);
++        if(!scope || scope->scope)return -1;
++        scopes.push_back(scope);
++    }
++    for(size_t i=0;i<scopes.size();++i){
++        auto scope=scopes[i];
++        if(!seen.insert(scope).second || scope->is_automatic() || scope->nitem ||
++           scope->item || scope->live_contexts || scope->free_contexts)return -1;
++        for(auto item:scope->intern){
++            auto child=dynamic_cast<__vpiScope*>(item);
++            if(!child)continue;
++            if(child->scope!=scope)return -1;
++            scopes.push_back(child);
++        }
++    }
++    return scopes.empty()?-1:0;
++}
++extern "C" int robotron_vvp_scope_inventory(FILE* out)
++{
++    vector<__vpiScope*> scopes;
++    if(!out || robotron_static_scopes(scopes))return -1;
++    map<__vpiScope*,unsigned long long> ids;
++    for(size_t i=0;i<scopes.size();++i)ids[scopes[i]]=i+1;
++    if(fprintf(out,"VSC_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto scope:scopes){
++        map<unsigned long long,vthread_t> members;
++        for(auto thread:scope->threads){
++            auto id=robotron_vvp_thread_identity(thread);
++            if(!id || !members.insert({id,thread}).second)return -1;
++        }
++        if(fprintf(out,"VSC_SCOPE %llu %p %llu %d %zu\n",ids[scope],(void*)scope,
++                   scope->scope?ids.at(scope->scope):0,scope->get_type_code(),members.size())<0)return -1;
++        for(auto member:members)if(fprintf(out,"VSC_MEMBER %llu\n",member.first)<0)return -1;
++    }
++    return fprintf(out,"VSC_END %zu\n",scopes.size())<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_scope_toggle(void)
++{
++    static __vpiScope* saved_scope=0;
++    static vthread_t saved_thread=0;
++    static unsigned long long saved_id=0;
++    vector<__vpiScope*> scopes;
++    if(robotron_static_scopes(scopes))return -1;
++    if(saved_scope){
++        bool found=false;for(auto scope:scopes)if(scope==saved_scope)found=true;
++        if(!found || robotron_vvp_thread_identity(saved_thread)!=saved_id ||
++           saved_scope->threads.count(saved_thread))return -1;
++        saved_scope->threads.insert(saved_thread);
++        saved_scope=0;saved_thread=0;saved_id=0;return 1;
++    }
++    for(auto scope:scopes){
++        map<unsigned long long,vthread_t> members;
++        for(auto thread:scope->threads){
++            auto id=robotron_vvp_thread_identity(thread);
++            if(!id)return -1;
++            members[id]=thread;
++        }
++        if(members.empty())continue;
++        saved_scope=scope;saved_id=members.begin()->first;saved_thread=members.begin()->second;
++        scope->threads.erase(saved_thread);return 1;
++    }
++    return 0;
++}

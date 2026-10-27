@@ -991,5 +991,12 @@ cover mutable scope membership, net/array contents or other compiled profiles.
 
 The [scope source contract](reports/scope-source-contract/assessment.json) defines
 independent scope-membership observation: reaped threads may remain live after
-leaving their scope set. Native membership controls remain required. Regenerate
+leaving their scope set. Regenerate
 with `scope_source_contract.py --archive PINNED_ARCHIVE --vvp COMPILED_BOARD --out REPORT`.
+
+The [native scope controls](reports/scope-membership/assessment.json) cover static
+hierarchy and membership through deferred deletion and disabled queued threads,
+with restored faults and explicit automatic-scope refusal. Board integration and
+scope-owned net/array contents remain open. Build with `build_scope_runtime.py`;
+run `scope_probe.py --candidate RUNTIME --baseline ORIGINAL_LIB --modules MODULES --out NEW_DIR`
+or replay with `scope_probe.py --check reports/scope-membership` from this directory.
