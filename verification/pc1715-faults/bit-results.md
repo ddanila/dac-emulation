@@ -179,3 +179,58 @@ A useful next experiment is to track RAM reads and writes at the first divergenc
 and test whether one static bit-cell value can satisfy all earlier observations.
 That would distinguish an insufficient startup-state hypothesis from a fault
 requiring time-dependent reads, without another arbitrary opcode fit.
+
+## RAM-cell history: a static-state contradiction
+
+`cell_history.py` instruments a temporary copy of the native probe to record RAM
+read addresses and attempted writes. The production probe is unchanged. Before
+interpreting any trace, it requires the full forward simulation to equal the
+archived stage-2 model exactly. It also flips the initial D3 bit of each of the
+32 aliased RAM cells, one at a time, as a sensitivity test. These arbitrary
+single-cell changes are **not component-fault models or a new reproduction**.
+
+The 3003 memory events and all 32 sensitivity results are archived in
+[bit-results/cell-history.json.gz](bit-results/cell-history.json.gz), with source,
+fixture, reference-model and ROM hashes. Write records are CPU write attempts;
+D3 remains unchanged under this candidate's disabled-write fault.
+
+Only changing initial D3 at cell `17h` extends run4's strict prefix, from 82 to
+83 intervals. It changes fetch83 from `4A` to observed `42`. The next failure is
+still fetch84: `08` instead of `00`. This demonstrates a stronger limitation
+than the original regular startup-pattern choice:
+
+| Fetch window | Inferred CPU address | Aliased D3 cell | Required observed D3 |
+| --- | --- | --- | --- |
+| 3 | `0038` | `18` | 1 (`08`) |
+| 84 | `0058` | `18` | 0 (`00`) |
+
+The one-cell sensitivity run verifies all first83 intervals, including operands
+and clocks, before reaching the latter address. With D3 writes disabled, no
+static initial value at cell `18h` can satisfy both reads. Clearing that cell at
+startup fails at fetch3, as independently confirmed by its sensitivity run.
+This rules out fixing the **shared 32-byte alias plus disabled-D3-write model**
+solely by choosing a different static D3 startup pattern. It does not rule out
+other address mappings, CPU-side bytes different from connector samples, or
+faults that change stored/read data over time. The inferred addresses are model
+outputs, not physically measured address lines.
+
+The trace also shows a write of `00` to aliased cell `18h` at model cycle95,
+followed by eight observed-high fetch reads through cycle486 (eleven including
+the three reads before that write). The model's
+D3 write fault suppresses that attempted write. The final two relevant reads
+occur at callback cycles485 and589 (fetch cycles486 and590); earlier loop reads
+were 55 clocks apart. A retention or refresh hypothesis therefore needs an
+explicit DRAM row/refresh model before interpreting these intervals electrically.
+An invented cell timeout would not establish a physical explanation.
+
+Reproduce (native build required):
+
+```sh
+make build/pc1715-fault-probe
+python3 verification/pc1715-faults/cell_history.py --rom /path/to/ROM \
+  --output verification/pc1715-faults/bit-results/cell-history.json.gz
+```
+
+The experiment verifies its invariant and contradiction with assertions, and
+the twenty fault tests plus plain-PC1715 suite still pass. Full reproduction
+remains unresolved; the original best component-model prefix remains 82.
