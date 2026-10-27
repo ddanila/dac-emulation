@@ -1,0 +1,73 @@
+{
+  "runs": {
+    "baseline": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-array-port-class-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "disabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-array-port-class-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-array-port-class-runtime/vvp/libvvp.so"
+    },
+    "enabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-array-port-class-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-array-port-class-runtime/vvp/libvvp.so"
+    }
+  },
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-ginterconnect",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-port-class-memory-regression/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-port-class-memory-regression/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-array-port-class-runtime",
+      "-I/private/tmp/k7658-array-port-class-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-port-class-memory-regression/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-port-class-memory-regression/probe.cc"
+    ]
+  ],
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-array-port-class-runtime/vvp/libvvp.so": "4e4c9fa64a40c53f8eec6c376d77abdd6937e3deaaa952c6b464e1b901183824",
+    "/private/tmp/k7658-array-port-class-runtime/vvp/vvp": "fddb4123f786bcdc47129ae194ca379ff5175eaf83de25641ce477624cf37670",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-port-class-memory-regression/probe.vpi": "b457d634c02cb4efe1e89ee46a287cb25a93bbe045f1ff3f5abbe574e3d7d513",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/array-port-class-memory-regression/probe.vvp": "ea6a16bfc609dc516d8da682c84deef6a2d2974350c4b87d1ef7a42b463057fb",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  }
+}

@@ -1,0 +1,60 @@
+--- a/vvp/array.cc
++++ b/vvp/array.cc
+@@ -1777,8 +1777,41 @@
+ extern "C" int robotron_vvp_memory_owners(std::map<const void*,std::pair<unsigned long long,const void*>>*);
+ extern "C" int robotron_vvp_array_storage_validate(const void*);
+ extern "C" int robotron_vvp_array_cache_validate(const __vpiArrayBase*,unsigned);
++// Diagnostic subclass carries state outside the admitted base payload.
++class robotron_arrayport_extra : public vvp_fun_arrayport_sa {
++public:
++    unsigned hidden;
++    robotron_arrayport_extra(vvp_array_t arr,vvp_net_t*net,long addr)
++      :vvp_fun_arrayport_sa(arr,net,addr),hidden(0x7658) {}
++};
+ // Static four-state arrays: logical storage and independently registered read ports.
+ struct robotron_array_access {
++    static int replace_port(unsigned kind) {
++        static vvp_fun_arrayport*original=0;static vvp_fun_arrayport*replacement=0;
++        static unsigned active=0;static unsigned long long identity=0;
++        if(kind>1 || (original && kind!=active))return -1;
++        if(original){
++            original->arr_->ports_=original;
++            if(active)static_cast<robotron_arrayport_extra*>(replacement)->~robotron_arrayport_extra();
++            else static_cast<vvp_fun_arrayport_sa*>(replacement)->~vvp_fun_arrayport_sa();
++            // Native functors use an arena whose operator delete intentionally aborts.
++            // End the diagnostic object lifetime; retain its arena allocation.
++            robotron_array_ports()[original]=identity;
++            original=0;replacement=0;return 1;
++        }
++        // Only replace a head in an otherwise admitted snapshot, while paused.
++        char*bytes=0;size_t size=0;FILE*f=open_memstream(&bytes,&size);if(!f)return -1;
++        int rc=inventory(f);if(fclose(f))rc=-1;free(bytes);if(rc)return -1;
++        for(auto item:robotron_array_ports())if(item.first->arr_->ports_==item.first){
++            if(!original || item.second<identity){original=item.first;identity=item.second;}}
++        if(!original)return -1;active=kind;
++        replacement=kind?static_cast<vvp_fun_arrayport*>(new robotron_arrayport_extra(original->arr_,original->net_,original->addr_)):
++                         static_cast<vvp_fun_arrayport*>(new vvp_fun_arrayport_sa(original->arr_,original->net_,original->addr_));
++        replacement->next_=original->next_;
++        robotron_array_ports().erase(original);robotron_array_ports()[replacement]=identity;
++        original->arr_->ports_=replacement;
++        return 1;
++    }
+     static bool collect(std::vector<__vpiArray*>& arrays) {
+         std::map<const void*,std::pair<unsigned long long,const void*>> owners;
+         if(robotron_vvp_memory_owners(&owners) || owners.size()!=robotron_memories.size())return false;
+@@ -1817,7 +1850,7 @@
+         std::map<unsigned long long,vvp_fun_arrayport*> ports;
+         for(auto item:robotron_array_ports()){
+             auto port=item.first;
+-            if(!dynamic_cast<vvp_fun_arrayport_sa*>(port) || !ids.count(port->arr_) || !port->net_ ||
++            if(typeid(*port)!=typeid(vvp_fun_arrayport_sa) || !ids.count(port->arr_) || !port->net_ ||
+                (port->next_ && !port_id(port->next_)))return -1;
+             ports[item.second]=port;
+         }
+@@ -1952,3 +1985,6 @@
+     if(active==99)target=0;
+     return 1;
+ }
++
++extern "C" int robotron_vvp_array_port_class_toggle(unsigned kind)
++{ return robotron_array_access::replace_port(kind); }
