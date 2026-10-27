@@ -1816,3 +1816,18 @@ JSON values and retains a failed candidate as `*.mismatch.json` on a real
 comparison failure. Four cache/comparison tests pass, including key conversion
 and retained mismatch evidence. The failed run does not qualify the cache; a new
 complete review is required to establish equality beyond this comparison fix.
+
+The [guarded native port payload controls](reports/port-payload/assessment.json)
+add constructor ownership records, bounded names, explicit net-reference readiness
+at the native resolver handoff, and complete port/ordered-bit inventory. Scans
+check registered pointers and exact classes before following bits, require vector
+size/ownership consistency, and bind nonnull resolved nets to registered graph
+identities. Two rounds distinguish bit-order/name changes and refuse foreign,
+duplicate, missing and oversized bit vectors with zero output. Two nonnull port
+references are exercised using `-ginterconnect`; every fault restores before the
+original/disabled/observed HDL continuations agree. The older scope-only
+counterexamples still replay, confirming this new payload inventory is necessary.
+Three tests pass. Exhaustive early-resolution, subclass/lifecycle, field-fault and
+actual board integration/cost qualification remain open. Build with
+`build_port_payload_runtime.py`; reproduce with `port_payload.py` and the retained
+runtime paths. Existing queued campaigns retain their pinned runtimes.

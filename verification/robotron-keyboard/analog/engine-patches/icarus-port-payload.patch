@@ -1,0 +1,114 @@
+--- a/vvp/vpi_priv.h
++++ b/vvp/vpi_priv.h
+@@ -463,6 +463,8 @@
+       char* vpi_get_str(int code) override;
+       vpiHandle vpi_handle(int code) override;
+       vvp_net_t* get_port(void) const { return ref_; }
++      const char* robotron_name(void) const { return name_; }
++      __vpiScope* robotron_parent(void) const { return parent_; }
+       vpiHandle vpi_iterate(int code) override;
+ 
+       std::vector<vpiPortBitInfo*> port_bits_;
+--- a/vvp/compile.cc
++++ b/vvp/compile.cc
+@@ -549,12 +549,15 @@
+       virtual bool resolve(bool mes) override;
+ };
+ 
++extern "C" void robotron_vvp_port_reference_resolved(vvp_net_t**);
++
+ bool functor_gen_resolv_list_s::resolve(bool mes)
+ {
+       vvp_net_t*tmp = vvp_net_lookup(label());
+ 
+       if (tmp) {
+ 	    *ref = tmp;
++            robotron_vvp_port_reference_resolved(ref);
+ 	    return true;
+       }
+ 
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -47,6 +47,15 @@
+ static map<__vpiScope*,robotron_scope_metadata_registration> robotron_scope_metadata;
+ static map<vpiHandle,unsigned long long> robotron_object_ids;
+ static map<vpiHandle,int> robotron_object_types;
++struct robotron_port_registration {const char*name;size_t bytes;bool ready;};
++static map<vpiPortInfo*,robotron_port_registration> robotron_ports;
++static map<vvp_net_t**,vpiPortInfo*> robotron_port_slots;
++static set<vpiPortBitInfo*> robotron_port_bits;
++extern "C" void robotron_vvp_port_reference_resolved(vvp_net_t**slot)
++{
++    auto found=robotron_port_slots.find(slot);
++    if(found!=robotron_port_slots.end())robotron_ports.at(found->second).ready=true;
++}
+ 
+ static vpiHandle make_subset_iterator_(int type_code, const vector<vpiHandle>&table);
+ 
+@@ -695,6 +704,8 @@
+       width_(width),
+       name_(name)
+ {
++      robotron_ports[this]={name,name?strlen(name)+1:0,buffer==nullptr};
++      robotron_port_slots[&ref_]=this;
+       if (buffer != nullptr) functor_ref_lookup(&ref_, buffer);
+       else ref_ = nullptr;
+ }
+@@ -787,6 +798,7 @@
+       parent_(parent),
+       bit_(bit)
+ {
++      robotron_port_bits.insert(this);
+ }
+ 
+ vpiPortBitInfo::~vpiPortBitInfo()
+@@ -1062,3 +1074,49 @@
+     if(restoring){saved=0;saved_item=0;}else{saved=scope;saved_field=field;}
+     return 1;
+ }
++
++extern "C" unsigned long long robotron_vvp_net_handle_id(const void*);
++extern "C" int robotron_vvp_port_payload_inventory(FILE*out)
++{
++    vector<__vpiScope*> scopes;
++    if(!out || robotron_scope_metadata_validate(scopes))return -1;
++    map<vpiHandle,__vpiScope*> owners;
++    for(auto scope:scopes)for(auto item:scope->intern)
++        if(!owners.insert({item,scope}).second)return -1;
++    map<unsigned long long,vpiPortInfo*> ports;
++    set<vpiPortBitInfo*> seen;
++    for(auto entry:robotron_ports){
++        auto port=entry.first;const auto&reg=entry.second;
++        auto owner=owners.find(port);auto id=robotron_object_ids.find(port);
++        if(typeid(*port)!=typeid(vpiPortInfo) || !reg.ready ||
++           owner==owners.end() || id==robotron_object_ids.end() ||
++           port->robotron_parent()!=owner->second || port->robotron_name()!=reg.name ||
++           !reg.name || !reg.bytes || port->get_width()<0 ||
++           size_t(port->get_width())!=port->port_bits_.size())return -1;
++        if(port->get_port() && !robotron_vvp_net_handle_id(port->get_port()))return -1;
++        for(auto bit:port->port_bits_){
++            // Registry membership is checked before any cast, virtual call or dereference.
++            if(!robotron_port_bits.count(bit) || !seen.insert(bit).second)return -1;
++            auto bit_owner=owners.find(bit);
++            if(typeid(*bit)!=typeid(vpiPortBitInfo) || bit_owner==owners.end() ||
++               bit_owner->second!=owner->second || !robotron_object_ids.count(bit) ||
++               bit->vpi_handle(vpiParent)!=port)return -1;
++        }
++        ports[id->second]=port;
++    }
++    if(seen.size()!=robotron_port_bits.size())return -1;
++    if(fprintf(out,"VPP_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto entry:ports){
++        auto port=entry.second;const auto&reg=robotron_ports.at(port);
++        if(fprintf(out,"VPP_PORT %llu %p %llu %u %d %d %p %llu %zu\n",entry.first,(void*)port,
++            robotron_scope_metadata.at(port->robotron_parent()).id,port->get_index(),port->get_direction(),
++            port->get_width(),(void*)port->get_port(),port->get_port()?robotron_vvp_net_handle_id(port->get_port()):0,
++            reg.bytes)<0)return -1;
++        if(fputs("VPP_NAME ",out)==EOF)return -1;
++        for(size_t i=0;i<reg.bytes;++i)if(fprintf(out,"%02x",(unsigned char)reg.name[i])<0)return -1;
++        if(fputc('\n',out)==EOF)return -1;
++        for(auto bit:port->port_bits_)if(fprintf(out,"VPP_BIT %llu %p %u\n",
++            robotron_object_ids.at(bit),(void*)bit,bit->get_bit())<0)return -1;
++    }
++    return fprintf(out,"VPP_END %zu %zu\n",ports.size(),seen.size())<0 || ferror(out)?-1:0;
++}

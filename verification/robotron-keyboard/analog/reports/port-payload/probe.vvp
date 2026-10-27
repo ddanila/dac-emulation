@@ -1,0 +1,51 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x104de98c0 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x104de9a40 .scope module, "test" "test" 3 3;
+ .timescale -9 -12;
+v0x104ded0a0_0 .net "result", 3 0, L_0x104ded360;  1 drivers
+v0x104ded140_0 .var "value", 3 0;
+S_0x104de8cb0 .scope module, "child" "leaf" 3 6, 3 2 0, S_0x104de9a40;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 4 "a" L_0x104ded2a0;
+    .port_info 1 /OUTPUT 4 "b" L_0x104ded360;
+L_0x104ded1e0 .functor BUFZ 4, L_0x104ded2a0, C4<0000>, C4<0000>, C4<0000>;
+L_0x104ded2a0 .functor BUFT 4, v0x104ded140_0, C4<0000>, C4<0000>, C4<0000>;
+L_0x104ded360 .functor BUFT 4, L_0x104ded1e0, C4<0000>, C4<0000>, C4<0000>;
+v0x104dec140_0 .net "a", 3 0, L_0x104ded2a0;  1 drivers
+v0x104decff0_0 .net "b", 3 0, L_0x104ded1e0;  1 drivers
+    .scope S_0x104de9a40;
+T_0 ;
+    %pushi/vec4 3, 0, 4;
+    %store/vec4 v0x104ded140_0, 0, 4;
+    %end;
+    .thread T_0, $init;
+    .scope S_0x104de9a40;
+T_1 ;
+    %delay 1000, 0;
+    %vpi_call/w 3 8 "$port_payload" {0 0 0};
+    %delay 1000, 0;
+    %pushi/vec4 5, 0, 4;
+    %store/vec4 v0x104ded140_0, 0, 4;
+    %delay 0, 0;
+    %vpi_call/w 3 9 "$port_payload" {0 0 0};
+    %delay 1000, 0;
+    %vpi_call/w 3 10 "$display", "CONTINUE %0d %0d", v0x104ded140_0, v0x104ded0a0_0 {0 0 0};
+    %vpi_call/w 3 10 "$finish" {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/port-payload/probe.v";
