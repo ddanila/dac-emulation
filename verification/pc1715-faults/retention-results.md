@@ -98,3 +98,6 @@ The next physically constrained alternative is the address multiplexer itself:
 a stuck WS select repeats one address half in both row and column, rather than
 simply clamping a contiguous set of CPU address bits. That mapping has not yet
 been tested by the existing alias sweeps.
+
+The follow-up [multiplexer experiment](mux-results.md) tests these select faults,
+including A28.2's effect on /CAS; it does not improve the prefix.
