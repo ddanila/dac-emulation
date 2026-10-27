@@ -934,7 +934,7 @@ history. Use `wait_probe.py` with the standard runtime arguments; replay the
 [retained controls](reports/wait-event/assessment.json) with `wait_probe.py --check
 verification/robotron-keyboard/analog/reports/wait-event`. Static and automatic
 contexts are observed alongside live threads; nonempty event-controlled
-assignment lists fail closed. Board integration, context reuse, deep referents
+assignment lists fail closed, as exercised by the [native refusal control](reports/wait-unsupported/assessment.json). Replay it with `wait_unsupported_probe.py --check verification/robotron-keyboard/analog/reports/wait-unsupported`. Board integration, context reuse, deep referents
 and general rollback require separate evidence.
 
 `build_wait_bridge.py`, `wait_board_capture.py` and `wait_board_review.py` add
