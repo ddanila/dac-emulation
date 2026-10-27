@@ -1773,3 +1773,19 @@ capture using `scope_metadata_fault_capture.py --startup-only` and review with
 `scope_metadata_fault_review.py`. The separate core walker and compact adapter
 preserve existing state checks; tests reject wrong function fields and missing
 restoration/direct detection. Keep ongoing campaigns pinned.
+
+The full scope metadata campaign is prepared in `scope_metadata_board_capture.py`
+and `scope_metadata_board_review.py`. Entry requires a completed typed-signal
+predecessor with both normal waveform comparisons, firmware equivalence and all
+six typed-signal faults. The reviewer rejects startup-only evidence, checks every
+prior state layer plus reconstructed metadata at all normal boundaries, compares
+every normal waveform sample and firmware record, and reviews all ten new-stage
+fault controls. Two prerequisite tests pass; this is preparation, not a passing
+transient assessment. The local `scope-metadata-board-job.py` waits for the pinned
+`signal-scope-board-job.py` process, requires its passed assessment, retains its
+already reviewed artifacts with exact file-copy checks, then captures and reviews
+the new stage. The existing campaign runtimes remain pinned. Reproduce after the
+predecessor passes with `scope_metadata_board_capture.py --source PRIOR_CONTROLS
+--assessment PRIOR_ASSESSMENT --bridge FAULT_BRIDGE --icarus FAULT_RUNTIME --out
+NEW_CONTROLS`, followed by `scope_metadata_board_review.py --root NEW_CONTROLS
+--producer scope_metadata_fault_capture.py --out NEW_ASSESSMENT.json`.
