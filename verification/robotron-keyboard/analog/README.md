@@ -1578,3 +1578,15 @@ disconnect dynamics or enable behavior. Preserve the separate release constraint
 and unresolved Intel enable convention before any device admission. Run
 `i8282_slew_probe.py --out NEW_DIRECTORY`, or verify retained results with
 `i8282_slew_probe.py --out reports/i8282-slew-candidates --verify`.
+
+
+`cached_net_board_review.py` is a separate candidate for reducing repeated pure
+snapshot parsing. It keeps one exact record-sequence/module-identity key and
+returns a deep copy of the parsed tree. State lifetime checks, input scans,
+raw comparisons and firmware acceptance still run in the original reviewer.
+The candidate refuses unless its complete assessment equals the original
+review's retained assessment. Its complete operational comparison is pending;
+small timing probes and startup controls do not qualify the whole campaign.
+Run it with `--root CAPTURES --producer net_board_capture.py --reference
+ORIGINAL_ASSESSMENT.json --out NEW_RESULT.json`. Source hashes and cache counts
+are recorded separately; pinned captures and the original reviewer are unchanged.
