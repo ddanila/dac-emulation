@@ -1164,3 +1164,12 @@ force/release are exercised. List contents, other filter families and signal-fun
 payloads are separate obligations; unsupported filter families are rejected.
 Build with `build_wire_runtime.py`, run `wire_probe.py` with the native-probe
 arguments, or replay with `wire_probe.py --check reports/wire-state`.
+
+The [board wire budget](reports/wire-board-budget/assessment.json) binds every
+allocated filter to its graph identity and native class before execution. It
+measures full wire serialization and verifies repeated observations leave the
+observed state unchanged. Initial-state output projections exclude later vector,
+force and callback changes; callback/array-word list contents and combined
+operational capture cost remain open. Reproduce with `wire_board.py` using the
+reviewed wait-board source and wire runtime, or replay with
+`wire_board.py --check reports/wire-board-budget`.
