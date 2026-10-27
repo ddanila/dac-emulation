@@ -1268,3 +1268,12 @@ inversion. Pending destinations must be tied to scheduler wrappers using the
 properly adjusted event-base pointer. The report pins source initialization and
 required controls, not native payload coverage. Reproduce with
 `logic_source_contract.py --archive PINNED_ARCHIVE --board reports/net-types-board --out NEW_REPORT`.
+
+The [native mux controls](reports/mux-state/assessment.json) enumerate allocated
+MUXZ caches and their properly cast scheduler-event identities, including idle,
+queued and executing states. Unselected-input updates, later selection, X/Z
+blending, wide vectors and partial source writes preserve exact output while
+cache/select/run/pending-destination faults restore before execution. Direct
+`recv_vec4_pv` dispatch, other logic families, board admission and capture budgets
+remain open. Build with `build_mux_runtime.py`, run `mux_probe.py` with the native
+candidate/baseline/module paths, or replay `mux_probe.py --check reports/mux-state`.
