@@ -31,7 +31,8 @@
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
     ],
-    "retention": "Complete lossless waveforms remain local, identified by producer hashes; no ROM or compiled HDL retained."
+    "retention": "Bulk local waveforms pruned; producer hashes, inputs, logs and diagnostic reviews retained. Full waveform reanalysis requires regeneration. Newer paired service-fixture traces are retained separately under repeat/refined-strict-time; they do not replace the historical host/driver waveform evidence.",
+    "availableLocally": false
   },
   "retainedFilesSha256": {
     "clock-widths.json": "2c256ea62b2be55eab05710ea5e23598b37a4b487ea78567d500bfe049bbcca3",
