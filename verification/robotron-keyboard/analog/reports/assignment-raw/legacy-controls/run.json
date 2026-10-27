@@ -1,0 +1,91 @@
+{
+  "qualified": false,
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/assignment-raw-legacy-controls/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/assignment-raw-legacy-controls/probe.v"
+    ],
+    [
+      "cc",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-assignment-raw-runtime",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/assignment-raw-legacy-controls/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/assignment-raw-legacy-controls/probe.c"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-assignment-raw-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-assignment-raw-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-assignment-raw-runtime/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-assignment-raw-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-assignment-raw-runtime/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-assignment-raw-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-assignment-raw-runtime/vvp/libvvp.so",
+      "mode": "corrupt"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-assignment-raw-runtime/vvp/libvvp.so": "c49f1561055b5646f4e3cd2e95dd381c2de31a120c4c5ff0dd7c6445ebd190e4",
+    "/private/tmp/k7658-assignment-raw-runtime/vvp/vvp": "d7d78bb7f7beacc8d8784aa1f1527bcedf864d8ad384c833eccfe80b783e9fec",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/assignment-raw-legacy-controls/probe.vpi": "10b9f285e96db09dc5beb57fb45f400437193a665f0f64ecf0d5993202b55c2d",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "candidateBuildSha256": "26030aa3f9f4fae7f98f011239e2b40585e372dd7448626971e077de1d8d74de",
+  "sources": {
+    "assignment_probe.py": "bc2b23b78cb497fd200fc8c027d535e3cdca5ce6b37c56dcb303326f6b67bf1e",
+    "fixtures/assignment_probe.c": "b1d88808eb102da7be722b5fe1e0c0d5564d301df6a50c35f56b88212173985c",
+    "fixtures/assignment_probe.v": "c4375c861f3e42a6fe2731dbd8f20080be4f4197a7ba00a8aa01ac54a30a7df8"
+  }
+}
