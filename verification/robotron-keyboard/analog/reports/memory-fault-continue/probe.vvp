@@ -1,0 +1,71 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x102c2cd90 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x102c31bf0 .scope module, "test" "test" 3 2;
+ .timescale -9 -12;
+L_0x102c32420 .functor BUFZ 4, L_0x102c32200, C4<0000>, C4<0000>, C4<0000>;
+v0x102c2cf10_0 .net *"_ivl_0", 3 0, L_0x102c32200;  1 drivers
+v0x102c31e90_0 .net *"_ivl_2", 2 0, L_0x102c322e0;  1 drivers
+L_0x78f454010 .functor BUFT 1, C4<00>, C4<0>, C4<0>, C4<0>;
+v0x102c31f40_0 .net *"_ivl_5", 1 0, L_0x78f454010;  1 drivers
+v0x102c31fe0 .array "memory", 1 0, 3 0;
+v0x102c32080_0 .net "observed", 3 0, L_0x102c32420;  1 drivers
+v0x102c32160_0 .var "select", 0 0;
+L_0x102c32200 .array/port v0x102c31fe0, L_0x102c322e0;
+L_0x102c322e0 .concat [ 1 2 0 0], v0x102c32160_0, L_0x78f454010;
+    .scope S_0x102c31bf0;
+T_0 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x102c32160_0, 0, 1;
+    %pushi/vec4 3, 0, 4;
+    %ix/load 4, 0, 0;
+    %flag_set/imm 4, 0;
+    %store/vec4a v0x102c31fe0, 4, 0;
+    %pushi/vec4 10, 0, 4;
+    %ix/load 4, 1, 0;
+    %flag_set/imm 4, 0;
+    %store/vec4a v0x102c31fe0, 4, 0;
+    %delay 1000, 0;
+    %vpi_call/w 3 8 "$memory_fault_continue" {0 0 0};
+    %pushi/vec4 12, 0, 4;
+    %ix/load 4, 0, 0;
+    %flag_set/imm 4, 0;
+    %store/vec4a v0x102c31fe0, 4, 0;
+    %pushi/vec4 5, 0, 4;
+    %ix/load 4, 1, 0;
+    %flag_set/imm 4, 0;
+    %store/vec4a v0x102c31fe0, 4, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x102c32160_0, 0, 1;
+    %delay 1000, 0;
+    %vpi_call/w 3 10 "$index_memory" {0 0 0};
+    %vpi_call/w 3 10 "$memory_fault_continue" {0 0 0};
+    %ix/load 4, 1, 0;
+    %flag_set/imm 4, 0;
+    %load/vec4a v0x102c31fe0, 4;
+    %addi 2, 0, 4;
+    %ix/load 4, 0, 0;
+    %flag_set/imm 4, 0;
+    %store/vec4a v0x102c31fe0, 4, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x102c32160_0, 0, 1;
+    %delay 1000, 0;
+    %vpi_call/w 3 12 "$display", "CONTINUE %0d %0d %0d", &A<v0x102c31fe0, 0>, &A<v0x102c31fe0, 1>, v0x102c32080_0 {0 0 0};
+    %vpi_call/w 3 12 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/memory-fault-continue/probe.v";
