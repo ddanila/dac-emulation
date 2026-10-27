@@ -1,0 +1,86 @@
+--- a/vvp/vpi_const.cc
++++ b/vvp/vpi_const.cc
+@@ -31,6 +31,13 @@
+ # include  "ivl_alloc.h"
+ 
+ static void robotron_parameter_register(vpiHandle);
++static unsigned robotron_parameter_unsupported=0;
++// Diagnostic factory selection; normal construction remains the exact native class.
++static bool robotron_parameter_subclass(const char*kind){
++    const char*mode=getenv("ROBOTRON_PARAMETER_CLASS");return mode&&!strcmp(mode,kind);
++}
++extern "C" unsigned robotron_vvp_parameter_unsupported_count(){return robotron_parameter_unsupported;}
++
+ 
+ class __vpiStringConst : public __vpiHandle {
+       friend struct robotron_parameter_access;
+@@ -351,10 +358,16 @@
+       }
+ }
+ 
++struct robotron_string_param_extra : public __vpiStringParam {
++    using __vpiStringParam::__vpiStringParam;
++    unsigned hidden=0x7658;
++};
++
+ vpiHandle vpip_make_string_param(const char*name, char*text,
+                                  bool local_flag, long file_idx, long lineno)
+ {
+-      __vpiStringParam*obj = new __vpiStringParam(vpip_peek_current_scope(), text, name,
++      __vpiStringParam*obj = robotron_parameter_subclass("string")? new robotron_string_param_extra(vpip_peek_current_scope(), text, name,
++                                                  local_flag, file_idx, lineno) : new __vpiStringParam(vpip_peek_current_scope(), text, name,
+                                                   local_flag, file_idx, lineno);
+ 
+       robotron_parameter_register(obj);
+@@ -554,11 +567,18 @@
+ }
+ 
+ 
++struct robotron_binary_param_extra : public __vpiBinaryParam {
++    using __vpiBinaryParam::__vpiBinaryParam;
++    unsigned hidden=0x7658;
++};
++
+ vpiHandle vpip_make_binary_param(const char*name, const vvp_vector4_t&bits,
+ 				 bool signed_flag, bool local_flag,
+ 				 long file_idx, long lineno)
+ {
+-      struct __vpiBinaryParam*obj = new __vpiBinaryParam(vpip_peek_current_scope(),
++      struct __vpiBinaryParam*obj = robotron_parameter_subclass("binary")? new robotron_binary_param_extra(vpip_peek_current_scope(),
++                                                         bits, signed_flag, name,
++                                                         local_flag, file_idx, lineno) : new __vpiBinaryParam(vpip_peek_current_scope(),
+                                                          bits, signed_flag, name,
+                                                          local_flag, file_idx, lineno);
+ 
+@@ -787,10 +807,17 @@
+ }
+ 
+ 
++struct robotron_real_param_extra : public __vpiRealParam {
++    using __vpiRealParam::__vpiRealParam;
++    unsigned hidden=0x7658;
++};
++
+ vpiHandle vpip_make_real_param(const char*name, double value,
+                                bool local_flag, long file_idx, long lineno)
+ {
+-      struct __vpiRealParam*obj = new __vpiRealParam(vpip_peek_current_scope(),
++      struct __vpiRealParam*obj = robotron_parameter_subclass("real")? new robotron_real_param_extra(vpip_peek_current_scope(),
++                                                     value, name, local_flag,
++                                                     file_idx, lineno) : new __vpiRealParam(vpip_peek_current_scope(),
+                                                      value, name, local_flag,
+                                                      file_idx, lineno);
+       robotron_parameter_register(obj);
+@@ -958,6 +985,12 @@
+         return meta(static_cast<__vpiRealParam*>(p));
+     }
+     static void attach(vpiHandle p){
++        // Refuse unknown concrete classes before any class-specific metadata read.
++        // Scope ownership still records the object; inventory population checks
++        // will reject the unadmitted parameter before writing a header.
++        if(typeid(*p)!=typeid(__vpiBinaryParam) && typeid(*p)!=typeid(__vpiStringParam) && typeid(*p)!=typeid(__vpiRealParam)){
++            ++robotron_parameter_unsupported;return;
++        }
+         robotron_parameter_record r={};auto m=fields(p);r.name=m.name;r.name_bytes=strlen(m.name)+1;
+         if(typeid(*p)==typeid(__vpiBinaryParam)){
+             auto&v=static_cast<__vpiBinaryParam*>(p)->bits;r.width=v.size_;
