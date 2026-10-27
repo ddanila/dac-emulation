@@ -1321,3 +1321,14 @@ faults after firmware starts. Pending-target faults remain covered by the native
 fixtures. All preceding state checks and exact waveform/firmware comparisons stay
 enabled. Log caps remain unchanged; the scan-time allowance comes from the mux
 budget. Integration remains unqualified until capture and retained replay pass.
+
+The [native gate controls](reports/gate-state/assessment.json) cover exact
+AND/NAND, OR/NOR, XOR/XNOR and BUF/NOT cache classes. They enumerate every
+allocated input vector, inversion flag and pending destination, binding queued
+and executing wrappers through the adjusted event-base pointer. Full and direct
+partial writes, X/Z values and unchanged writes preserve original-runtime output;
+actual input/inversion/pending faults restore before execution. Other subclasses
+of these cache bases refuse inventory; native refusal fixtures, real conversion,
+unequal-width inputs, allocation lifecycle and board integration remain open.
+Build with `build_gate_runtime.py`, then run `gate_probe.py` with candidate,
+baseline and module paths. Replay with `gate_probe.py --check reports/gate-state`.
