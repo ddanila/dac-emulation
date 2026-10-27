@@ -1,0 +1,15 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "rounds": 2,
+  "parameters": 4,
+  "families": [
+    "binary",
+    "string",
+    "real"
+  ],
+  "embeddedNullStringPreserved": true,
+  "originalContinuationExactlyEqual": true,
+  "zeroOutputRefusalsPerRound": 3,
+  "scope": "Binary raw words, signed/sized flags, string bytes including embedded null and terminator, real representation bytes, and parameter metadata are retained. Five isolated value/flag mutations per round restore exactly; width and missing/duplicate owner faults refuse with negative status and zero output. Native static fixture only; remaining pointer/family/lifecycle and operational board qualification remain open."
+}
