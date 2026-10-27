@@ -1,0 +1,155 @@
+--- a/vvp/resolv.h
++++ b/vvp/resolv.h
+@@ -73,6 +73,8 @@
+     public:
+       resolv_extend(resolv_core*core, unsigned port_base);
+       ~resolv_extend() override;
++      int robotron_resolver_inventory(FILE*) const;
++      int robotron_resolver_toggle(int,unsigned);
+ 
+       void recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,
+                      vvp_context_t) override
+@@ -114,6 +116,8 @@
+       explicit resolv_tri(unsigned nports, vvp_net_t*net,
+                           vvp_scalar_t hiz_value);
+       ~resolv_tri() override;
++      int robotron_resolver_inventory(FILE*) const;
++      int robotron_resolver_toggle(int,unsigned);
+ 
+       void count_drivers(unsigned bit_idx, unsigned counts[3]) override;
+ 
+--- a/vvp/resolv.cc
++++ b/vvp/resolv.cc
+@@ -26,6 +26,15 @@
+ # include  <cassert>
+ 
+ using namespace std;
++#include <map>
++#include <cstring>
++// Capture allocation bounds at construction, independent of mutable nports_/val_.
++static std::map<const resolv_tri*,std::pair<vvp_vector8_t*,unsigned> >& robotron_resolver_storage()
++{
++    static std::map<const resolv_tri*,std::pair<vvp_vector8_t*,unsigned> > storage;
++    return storage;
++}
++
+ 
+ /*
+  * The core functor for a resolver node stores all the input values
+@@ -115,10 +124,12 @@
+             nnodes += 1;
+ 
+       val_ = new vvp_vector8_t [nnodes];
++      robotron_resolver_storage()[this]=std::make_pair(val_,nnodes);
+ }
+ 
+ resolv_tri::~resolv_tri()
+ {
++      robotron_resolver_storage().erase(this);
+       delete[] val_;
+ }
+ 
+@@ -343,3 +354,61 @@
+ 
+       return out;
+ }
++
++static unsigned robotron_resolver_byte(vvp_scalar_t value)
++{
++    static_assert(sizeof(value)==1,"Raw scalar padding");unsigned char byte;memcpy(&byte,&value,1);return byte;
++}
++int resolv_tri::robotron_resolver_inventory(FILE* out) const
++{
++    auto found=robotron_resolver_storage().find(this);if(found==robotron_resolver_storage().end())return -1;
++    auto storage=found->second;
++    if(fprintf(out,"%u %p %p %p %u %02x\n",nports_,(void*)net_,(void*)val_,(void*)storage.first,storage.second,robotron_resolver_byte(hiz_value_))<0)return -1;
++    for(unsigned i=0;i<storage.second;i++){
++        auto& value=storage.first[i];if(fprintf(out,"VRS_SLOT %u %u ",i,value.size())<0)return -1;
++        if(!value.size() && fputc('-',out)==EOF)return -1;
++        for(unsigned j=0;j<value.size();j++)if(fprintf(out,"%02x",robotron_resolver_byte(value.value(j)))<0)return -1;
++        if(fputc('\n',out)==EOF)return -1;
++    }
++    return ferror(out)?-1:0;
++}
++int resolv_tri::robotron_resolver_toggle(int field,unsigned index)
++{
++    static resolv_tri* saved=0;static int saved_field;static unsigned saved_index,ports;
++    static vvp_vector8_t old;static vvp_net_t* output;static vvp_scalar_t pull;static vvp_vector8_t* values;
++    auto found=robotron_resolver_storage().find(this);if(found==robotron_resolver_storage().end() || field<0 || field>6)return -1;
++    auto storage=found->second;
++    if((field==0 || field==1 || field==6) && index>=storage.second)return -1;
++    if(saved){
++        if(saved!=this || field!=saved_field || index!=saved_index)return -1;
++        if(field==0 || field==1 || field==6)storage.first[index]=old;
++        else if(field==2)nports_=ports;else if(field==3)net_=output;else if(field==4)hiz_value_=pull;else val_=values;
++        saved=0;return 1;
++    }
++    if(field==0 || field==1 || field==6){
++        auto& value=storage.first[index];
++        if(field==0){if(!value.size())return 0;old=value;value.set_bit(0,robotron_resolver_byte(value.value(0))==0xee?vvp_scalar_t(BIT4_0,6,6):vvp_scalar_t(BIT4_1,6,6));}
++        else if(field==1){old=value;value=vvp_vector8_t(value.size()+1);}
++        else{
++            unsigned i=0;while(i<value.size() && robotron_resolver_byte(value.value(i))!=0 && robotron_resolver_byte(value.value(i))!=136)i++;
++            if(i==value.size())return 0;
++            old=value;value.set_bit(i,robotron_resolver_byte(value.value(i))==0?vvp_scalar_t(BIT4_1,1,0):vvp_scalar_t());
++        }
++    }else if(field==2){ports=nports_;nports_^=1;}
++    else if(field==3){if(!net_)return 0;output=net_;net_=nullptr;}
++    else if(field==4){pull=hiz_value_;hiz_value_=robotron_resolver_byte(hiz_value_)==0?vvp_scalar_t(BIT4_1,5,5):vvp_scalar_t();}
++    else{values=val_;val_=nullptr;}
++    saved=this;saved_field=field;saved_index=index;return 1;
++}
++int resolv_extend::robotron_resolver_inventory(FILE* out) const
++{
++    return fprintf(out,"%p %u\n",(void*)core_,port_base_)<0 || ferror(out)?-1:0;
++}
++int resolv_extend::robotron_resolver_toggle(int field,unsigned index)
++{
++    static resolv_extend* saved=0;static int saved_field;static resolv_core* core;static unsigned base;
++    if(index || field<0 || field>1)return -1;
++    if(saved){if(saved!=this || saved_field!=field)return -1;if(field==0)core_=core;else port_base_=base;saved=0;return 1;}
++    if(field==0){if(!core_)return 0;core=core_;core_=nullptr;}else{base=port_base_;port_base_^=1;}
++    saved=this;saved_field=field;return 1;
++}
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -4746,3 +4746,39 @@
+     for(const auto& event:events)if(fprintf(out,"%s\n",event.c_str())<0)return -1;
+     return fprintf(out,"VCD_END %zu %zu\n",changed,events.size())<0 || ferror(out)?-1:0;
+ }
++
++#include "resolv.h"
++static int robotron_resolver_kind(vvp_net_fun_t* fun)
++{
++    if(!fun)return 0;
++    if(typeid(*fun)==typeid(resolv_tri))return 1;
++    if(typeid(*fun)==typeid(resolv_extend))return 2;
++    return dynamic_cast<resolv_core*>(fun) || dynamic_cast<resolv_extend*>(fun)?-1:0;
++}
++extern "C" int robotron_vvp_resolver_inventory(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations()){
++        int kind=robotron_resolver_kind(item.first->fun);if(kind<0)return -1;
++        if(kind)nodes[item.second]=item.first;
++    }
++    if(fprintf(out,"VRS_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:nodes){
++        auto fun=item.second->fun;int kind=robotron_resolver_kind(fun);
++        if(fprintf(out,"VRS_NODE %llu %p %p %d ",item.first,(void*)item.second,(void*)fun,kind)<0)return -1;
++        int result=kind==1?static_cast<resolv_tri*>(fun)->robotron_resolver_inventory(out):static_cast<resolv_extend*>(fun)->robotron_resolver_inventory(out);
++        if(result)return -1;
++    }
++    return fprintf(out,"VRS_END %zu\n",nodes.size())<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_resolver_toggle(unsigned long long id,int field,unsigned index)
++{
++    for(auto item:robotron_net_allocations())if(item.second==id){
++        auto fun=item.first->fun;int kind=robotron_resolver_kind(fun);
++        if(kind==1)return static_cast<resolv_tri*>(fun)->robotron_resolver_toggle(field,index);
++        if(kind==2)return static_cast<resolv_extend*>(fun)->robotron_resolver_toggle(field,index);
++        return -1;
++    }
++    return -1;
++}
