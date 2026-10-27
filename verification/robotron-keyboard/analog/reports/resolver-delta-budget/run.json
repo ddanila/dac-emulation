@@ -1,0 +1,58 @@
+{
+  "exitCode": 0,
+  "compileCommand": [
+    "cc",
+    "-bundle",
+    "-undefined",
+    "dynamic_lookup",
+    "-I/private/tmp/k7658-resolver-delta-runtime",
+    "-o",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-delta-budget/probe.vpi",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-delta-budget/probe.c"
+  ],
+  "command": [
+    "/private/tmp/k7658-resolver-delta-runtime/vvp/vvp",
+    "-M.",
+    "-mprobe",
+    "board.vvp"
+  ],
+  "dependencies": {
+    "/private/tmp/k7658-resolver-delta-runtime/vvp/libvvp.so": "f8fecdd87eb790e34f035d2adc84f844ecb4deedf21691aae7ca10f0bbd11df5",
+    "/private/tmp/k7658-resolver-delta-runtime/vvp/vvp": "84ffecb08b48b21ec3dff789f3e609405fe5c9a5d5a9808268f578762ef5ff69",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-delta-budget/probe.vpi": "a61cc26e4593157dfd8fd02ca1bc14a83394c6c550e4427678294af91950c720",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-delta-budget/board.vvp": "9005dc175eb559a501a129b4e257834b673e665f3432af6ddbb6dd3ce7dc5272",
+    "/private/tmp/k7658-resolver-delta-runtime/vpi/system.vpi": "346052882e94f8937328ea117c6b4bb29e147c1f972e643ab30d2d52a28f177e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+  },
+  "originalCompiledSha256": "9968a2b1c21d2478a4ed0eb682c05b7c2209635249d47864b5e3d6910bb6a36d",
+  "baselineReceiptSha256": "708dac20aa5e7aed59d020d8a79c234bd33ee6193aa3758ec473eff3deef95b7",
+  "assessmentSha256": "e82f27d613ed9692a11588d78304853c5b4704a6a3a079f64a00f67b6362394d",
+  "reviewedBoundaries": 55156,
+  "endSeconds": 2e-05,
+  "priorObserverProducerSeconds": 868.1616365,
+  "sourceManifestSha256": "7e27e897516f61ba5a2860db92be380c331e103cfc8f3bd52de6c9101daf02ee",
+  "rssUnitBytes": 1,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "sources": {
+    "resolver_delta_board.py": "fcaa4ff5fbf96138ae0c204642ae44aaf82c2370f11eaf31af873c8d2581110a",
+    "resolver_board.py": "3d6bd880284b755ccac0c5c34653fe83cba49d6d682e3290cd2f3bd5a3c2e96a",
+    "resolver_delta_probe.py": "676ef8d99bec27c837ff4503a32c12068cb42614e459046022e1abef2b6da2c7",
+    "resolver_probe.py": "b7dde95cfd465361c18d041887f9f4db9fb1625b01794dc3c26f504a32a5005d",
+    "resolver_source_contract.py": "a7f2292f870c2b83705fbc02efa695452944f92b25a6367e4ebad01fd8499a56",
+    "net_budget.py": "053e0f1d08e5f4b2e5476cb8d92b5b44481305a222a3cb70547951a3e68001dc",
+    "net_types_probe.py": "825f050da7ac1e208ba29b1e1ce3a5e5bc4bb5ec813b99805261bbe6017736ba",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "net_source_contract.py": "921325d6e7cb3e0dd8c1206e3c2ce9927b44e1daf80dcbe53556c088db0240fc",
+    "array_probe.py": "bd09dcb086d9b27667fd13d4d35147b6b1bdb92cdaa8c14c426ade4fe9880371",
+    "array_source_contract.py": "0e1abc5999a95c00a1b5cb7e90a34c8752c341d0c8d787c9c490c99967808d1a",
+    "code_operand_board_review.py": "387c52775ed868055316671c115d330393ff0593e5509a2ecf02f63a6bd51860",
+    "code_operand_probe.py": "743f03bd671171258eaba6b11eefc88b395641a701a47b41a51e81dabf9d3ae3",
+    "compiled_scope_profile.py": "4acc4b6a1aeb13cbc48823b633889804ca530be2b639be5f2e49e4df0a3e9de4",
+    "thread_board_reachability.py": "976ec28674d1d936255364c9cb42235aed8cf6ba3c15400e6661b6ebb5ea1440",
+    "fixtures/resolver_delta_board.c": "83ae4c84132841499a2da3e2ceb1a220b3e119487578a13e3bcd8917013268b3"
+  }
+}
