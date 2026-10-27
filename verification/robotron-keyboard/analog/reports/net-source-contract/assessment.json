@@ -1,0 +1,114 @@
+{
+  "qualified": false,
+  "scope": "Compiled declaration admission and pinned allocation/fanout semantics; not native graph-state coverage.",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "compiledSha256": "5d21c3e9522252ed94dfa7623aed549551365673f30fff11e23c2e9a762315f1",
+  "compiled": {
+    "declarations": {
+      ".arith/sub": 2,
+      ".arith/sum": 4,
+      ".array": 3,
+      ".array/port": 23,
+      ".cmp/eeq": 207,
+      ".cmp/eq": 2,
+      ".cmp/nee": 2,
+      ".concat": 17,
+      ".concat8": 43,
+      ".event": 44,
+      ".event/or": 12,
+      ".functor": 981,
+      ".import": 2,
+      ".island": 2,
+      ".net": 1196,
+      ".net/2u": 393,
+      ".net8": 58,
+      ".param/l": 56,
+      ".part": 225,
+      ".port": 4,
+      ".reduce/nor": 38,
+      ".resolv": 18,
+      ".scope": 32,
+      ".var": 191,
+      ".var/i": 5
+    },
+    "functorFamilies": {
+      "AND": 44,
+      "BUFT": 482,
+      "BUFZ": 167,
+      "MUXZ": 251,
+      "NOT": 15,
+      "OR": 21,
+      "XOR": 1
+    },
+    "networkDeclarationCount": 3405,
+    "declarationCountsAreNotNativeAllocationCounts": true,
+    "reasons": [
+      "Net handles may share existing driver nodes.",
+      "Wide-input cores allocate intermediate nodes without labels.",
+      "Pool construction includes unused capacity; register handed-out allocations, not constructor calls."
+    ]
+  },
+  "sources": {
+    "vvp/vvp_net.cc": "d2a0a9c9dad7e4405d35d7c92df1062ed17d1f2ef4808443eeb9305cfc7e3c04",
+    "vvp/vvp_net.h": "fa9accac57b68e5716eec675bd970b5a63717b8c34bc099fc92f730724094e1b",
+    "vvp/compile.cc": "8de46477b431d978a237f7b7af01c0d1fd219f75bc3c7e7c3f10d350e094d611",
+    "vvp/words.cc": "b900af8cfb17449158ec529970245287fa1bd4fd99ab230342a003f595984a6a"
+  },
+  "evidence": {
+    "taggedLinkInitialization": {
+      "file": "vvp/vvp_net.h",
+      "firstLine": 1053,
+      "excerpt": "template <class T> class vvp_sub_pointer_t {\n\n    public:\n      vvp_sub_pointer_t() : bits_(0) { }\n\n      vvp_sub_pointer_t(T*ptr__, unsigned port__)\n      {\n\t    bits_ = reinterpret_cast<uintptr_t> (ptr__);\n\t    assert( (bits_  &  UINTPTR_C(3)) == 0 );\n\t    assert( (port__ & ~UINTPTR_C(3)) == 0 );\n\t    bits_ |= port__;\n      }\n\n      ~vvp_sub_pointer_t() = default;\n\n      T* ptr()\n      { return reinterpret_cast<T*> (bits_ & ~UINTPTR_C(3)); }\n\n      const T* ptr() const\n      { return reinterpret_cast<const T*> (bits_ & ~UINTPTR_C(3)); }\n\n      unsigned  port() const { return bits_ & UINTPTR_C(3); }\n\n      bool nil() const { return bits_ == 0; }\n\n      bool operator == (vvp_sub_pointer_t that) const { return bits_ == that.bits_; }\n      bool operator != (vvp_sub_pointer_t that) const { return bits_ != that.bits_; }\n\n    private:\n      uintptr_t bits_;\n};\n\n"
+    },
+    "nodeFields": {
+      "file": "vvp/vvp_net.h",
+      "firstLine": 1127,
+      "excerpt": "class vvp_net_t {\n    public:\n      vvp_net_t();\n\n#ifdef CHECK_WITH_VALGRIND\n      vvp_net_t *pool;\n#endif\n      vvp_net_ptr_t port[4];\n      vvp_net_fun_t*fun;\n      vvp_net_fil_t*fil;\n\n    public:\n\t// Connect the port to the output from this net.\n      void link(vvp_net_ptr_t port);\n\t// Disconnect the port from the output of this net.\n      void unlink(vvp_net_ptr_t port);\n\n    public: // Methods to propagate output from this node.\n      void send_vec4(const vvp_vector4_t&val, vvp_context_t context);\n      void send_vec8(const vvp_vector8_t&val);\n      void send_real(double val, vvp_context_t context);\n      void send_string(const std::string&val, vvp_context_t context);\n      void send_object(vvp_object_t val, vvp_context_t context);\n\n      void send_vec4_pv(const vvp_vector4_t&val,\n\t\t\tunsigned base, unsigned vwid, vvp_context_t context);\n      void send_vec8_pv(const vvp_vector8_t&val,\n\t\t\tunsigned base, unsigned vwid);\n\n\n    public: // Methods to arrange for the output of this net to be forced.\n\n\t// The intent is that all efforts at force are directed to\n\t// operate only on the vvp_net_t whose output is to be\n\t// forced. These methods then communicate the force to the\n\t// attached filter to set up the actual force.\n      void force_vec4(const vvp_vector4_t&val, const vvp_vector2_t&mask);\n      void force_vec8(const vvp_vector8_t&val, const vvp_vector2_t&mask);\n      void force_real(double val, const vvp_vector2_t&mask);\n\n    public: // Method to support $countdrivers\n      void count_drivers(unsigned idx, unsigned counts[4]);\n\n    // This needs to be public so that SDF interconnects can be inserted\n    public:\n      vvp_net_ptr_t out_;\n\n    public: // Need a better new for these objects.\n      static void* operator new(std::size_t size);\n      static void operator delete(void*); // not implemented\n    private: // not implemented\n      static void* operator new[](std::size_t size);\n#if defined(__GNUC__)\n      static void operator delete[](void*);\n#endif\n};\n\n"
+    },
+    "poolHandout": {
+      "file": "vvp/vvp_net.cc",
+      "firstLine": 55,
+      "excerpt": "static const size_t VVP_NET_CHUNK = 1024*1024/sizeof(vvp_net_t);\nstatic vvp_net_t*vvp_net_alloc_table = NULL;\n#ifdef CHECK_WITH_VALGRIND\nstatic vvp_net_t **vvp_net_pool = NULL;\nstatic unsigned vvp_net_pool_count = 0;\n#endif\nstatic size_t vvp_net_alloc_remaining = 0;\n// For statistics, count the vvp_nets allocated and the bytes of alloc\n// chunks allocated.\nunsigned long count_vvp_nets = 0;\nsize_t size_vvp_nets = 0;\n\nvoid* vvp_net_t::operator new (size_t size)\n{\n      assert(size == sizeof(vvp_net_t));\n      if (vvp_net_alloc_remaining == 0) {\n\t    vvp_net_alloc_table = ::new vvp_net_t[VVP_NET_CHUNK];\n\t    vvp_net_alloc_remaining = VVP_NET_CHUNK;\n\t    size_vvp_nets += size*VVP_NET_CHUNK;\n#ifdef CHECK_WITH_VALGRIND\n\t    VALGRIND_MAKE_MEM_NOACCESS(vvp_net_alloc_table, size*VVP_NET_CHUNK);\n\t    VALGRIND_CREATE_MEMPOOL(vvp_net_alloc_table, 0, 0);\n\t    vvp_net_pool_count += 1;\n\t    vvp_net_pool = static_cast<vvp_net_t **>(realloc(vvp_net_pool,\n\t                   vvp_net_pool_count*sizeof(vvp_net_t **)));\n\t    vvp_net_pool[vvp_net_pool_count-1] = vvp_net_alloc_table;\n#endif\n      }\n\n      vvp_net_t*return_this = vvp_net_alloc_table;\n#ifdef CHECK_WITH_VALGRIND\n      VALGRIND_MEMPOOL_ALLOC(vvp_net_pool[vvp_net_pool_count-1],\n                             return_this, size);\n      return_this->pool = vvp_net_pool[vvp_net_pool_count-1];\n#endif\n      vvp_net_alloc_table += 1;\n      vvp_net_alloc_remaining -= 1;\n      count_vvp_nets += 1;\n      return return_this;\n}\n"
+    },
+    "constructorAndLinkChanges": {
+      "file": "vvp/vvp_net.cc",
+      "firstLine": 192,
+      "excerpt": "vvp_net_t::vvp_net_t()\n: out_(vvp_net_ptr_t(0,0))\n{\n      fun = 0;\n      fil = 0;\n}\n\nvoid vvp_net_t::link(vvp_net_ptr_t port_to_link)\n{\n      vvp_net_t*net = port_to_link.ptr();\n\n\t// Connect nodes with vvp_fun_modpath_src to the head of the\n\t// linked list, so that vvp_fun_modpath_src are always evaluated\n\t// before their respective vvp_fun_modpath\n      if (dynamic_cast<vvp_fun_modpath_src*>(net->fun)) {\n\t    net->port[port_to_link.port()] = out_;\n\t    out_ = port_to_link;\n\t// All other nodes connect after the last vvp_fun_modpath_src\n      } else {\n\t      // List is empty or first node has no vvp_fun_modpath_src\n\t      // then just insert the node into the head of linked list\n\t    if (out_.ptr() == nullptr || ! dynamic_cast<vvp_fun_modpath_src*>(out_.ptr()->fun)) {\n\t\t  net->port[port_to_link.port()] = out_;\n\t\t  out_ = port_to_link;\n\t\t  return;\n\t    }\n\n\t    vvp_net_ptr_t cur = out_;\n\t    vvp_net_ptr_t prev = vvp_net_ptr_t(nullptr,0);\n\n\t      // Traverse through linked list\n\t    while (dynamic_cast<vvp_fun_modpath_src*>(cur.ptr()->fun)) {\n\t\t  prev = cur;\n\t\t  cur = cur.ptr()->port[cur.port()];\n\t\t  if (! cur.ptr()) break; // End of list\n\t    }\n\n\t    assert(prev.ptr());\n\n\t      // Insert after last vvp_fun_modpath_src (or end of list)\n\t    net->port[port_to_link.port()] = cur;\n\t    prev.ptr()->port[prev.port()] = port_to_link;\n      }\n}\n\n/*\n * Unlink a ptr object from the driver. The input is the driver in the\n * form of a vvp_net_t pointer. The .out member of that object is the\n * driver. The dst_ptr argument is the receiver pin to be located and\n * removed from the fan-out list.\n */\nvoid vvp_net_t::unlink(vvp_net_ptr_t dst_ptr)\n{\n      vvp_net_t*net = dst_ptr.ptr();\n      unsigned net_port = dst_ptr.port();\n\n      if (out_ == dst_ptr) {\n\t      /* If the drive fan-out list starts with this pointer,\n\t\t then the unlink is easy. Pull the list forward. */\n\t    out_ = net->port[net_port];\n      } else if (! out_.nil()) {\n\t      /* Scan the linked list, looking for the net_ptr_t\n\t\t pointer *before* the one we wish to remove. */\n\t    vvp_net_ptr_t cur = out_;\n\t    assert(!cur.nil());\n\t    vvp_net_t*cur_net = cur.ptr();\n\t    unsigned cur_port = cur.port();\n\t    while (cur_net && cur_net->port[cur_port] != dst_ptr) {\n\t\t  cur = cur_net->port[cur_port];\n\t\t  cur_net = cur.ptr();\n\t\t  cur_port = cur.port();\n\t    }\n\t      /* Unlink. */\n\t    if (cur_net) cur_net->port[cur_port] = net->port[net_port];\n      }\n\n      net->port[net_port] = vvp_net_ptr_t(0,0);\n}\n\n"
+    },
+    "sendTraversesDestinationPorts": {
+      "file": "vvp/vvp_net.h",
+      "firstLine": 1532,
+      "excerpt": "inline void vvp_send_vec4(vvp_net_ptr_t ptr, const vvp_vector4_t&val, vvp_context_t context)\n{\n      while (class vvp_net_t*cur = ptr.ptr()) {\n\t    vvp_net_ptr_t next_val = cur->port[ptr.port()];\n\n\t    if (cur->fun)\n\t\t  cur->fun->recv_vec4(ptr, val, context);\n\n\t    ptr = next_val;\n      }\n}\n\n"
+    },
+    "constantInputsAndUnlabelledNodes": {
+      "file": "vvp/compile.cc",
+      "firstLine": 963,
+      "excerpt": "void input_connect(vvp_net_t*fdx, unsigned port, char*label)\n{\n      vvp_net_ptr_t ifdx = vvp_net_ptr_t(fdx, port);\n\n\t/* Is this a vvp_vector4_t constant value? */\n      if (c4string_test(label)) {\n\n\t    vvp_vector4_t tmp = c4string_to_vector4(label);\n\n\t      // Inputs that are constants are scheduled to execute as\n\t      // soon at the simulation starts. In Verilog, constants\n\t      // start propagating when the simulation starts, just\n\t      // like any other signal value. But letting the\n\t      // scheduler distribute the constant value has the\n\t      // additional advantage that the constant is not\n\t      // propagated until the network is fully linked.\n\t      // For constants that initialise an undriven net, we\n\t      // schedule execution before time 0, to make sure it\n\t      // occurs before any sensitive processes are started\n\t      // or VPI callbacks are executed.\n\t    if (label[0] == 'c')\n\t\t  schedule_init_vector(ifdx, tmp);\n\t    else\n\t\t  schedule_set_vector(ifdx, tmp);\n\n\t    free(label);\n\t    return;\n      }\n\n\t/* Is this a vvp_vector8_t constant value? */\n      if (c8string_test(label)) {\n\n\t    vvp_vector8_t tmp = c8string_to_vector8(label);\n\t    if (label[0] == 'c')\n\t\t  schedule_init_vector(ifdx, tmp);\n\t    else\n\t\t  schedule_set_vector(ifdx, tmp);\n\n\t    free(label);\n\t    return;\n      }\n\n\t/* Handle the Cr<> constant driver, which is a real-value\n\t   driver. */\n      if (crstring_test(label)) {\n\n\t    double tmp = crstring_to_double(label);\n\n\t    if (label[0] == 'c')\n\t\t  schedule_init_vector(ifdx, tmp);\n\t    else\n\t\t  schedule_set_vector(ifdx, tmp);\n\t    free(label);\n\t    return;\n      }\n\n\t/* Handle the general case that this is a label for a node in\n\t   the vvp net. This arranges for the label to be preserved in\n\t   a linker list, and linked when the symbol table is\n\t   complete. */\n      postpone_functor_input(ifdx, label);\n}\n\nvoid inputs_connect(vvp_net_t*fdx, unsigned argc, struct symb_s*argv)\n{\n      if (argc > 4) {\n\t    std::cerr << \"XXXX argv[0] = \" << argv[0].text << std::endl;\n      }\n      assert(argc <= 4);\n\n      for (unsigned idx = 0;  idx < argc;  idx += 1) {\n\n\t    input_connect(fdx, idx, argv[idx].text);\n      }\n}\n\nvoid wide_inputs_connect(vvp_wide_fun_core*core,\n\t\t\t unsigned argc, struct symb_s*argv)\n{\n\t/* Create input functors to receive values from the\n\t   network. These functors pass the data to the core. */\n      unsigned input_functors = (argc+3) / 4;\n      for (unsigned idx = 0 ;  idx < input_functors ;  idx += 1) {\n\t    unsigned base = idx*4;\n\t    unsigned trans = 4;\n\t    if (base+trans > argc)\n\t\t  trans = argc - base;\n\n\t    vvp_wide_fun_t*cur = new vvp_wide_fun_t(core, base);\n\t    vvp_net_t*ptr = new vvp_net_t;\n\t    ptr->fun = cur;\n\n\t    inputs_connect(ptr, trans, argv+base);\n      }\n}\n\n"
+    },
+    "temporarySymbolTable": {
+      "file": "vvp/compile.cc",
+      "firstLine": 769,
+      "excerpt": "void compile_cleanup(void)\n{\n      int lnerrs = -1;\n      int nerrs = 0;\n      int last;\n\n      if (verbose_flag) {\n\t    fprintf(stderr, \" ... Linking\\n\");\n\t    fflush(stderr);\n      }\n\n      do {\n\t    resolv_list_s *res = resolv_list;\n\t    resolv_list = 0x0;\n\t    last = nerrs == lnerrs;\n\t    lnerrs = nerrs;\n\t    nerrs = 0;\n\t    while (res) {\n\t\t  resolv_list_s *cur = res;\n\t\t  res = res->next;\n\t\t  if (cur->resolve(last))\n\t\t\tdelete cur;\n\t\t  else {\n\t\t\tnerrs++;\n\t\t\tcur->next = resolv_list;\n\t\t\tresolv_list = cur;\n\t\t  }\n\t    }\n\t    if (nerrs && last)\n\t\t  fprintf(stderr,\n\t\t\t  \"compile_cleanup: %d unresolved items\\n\",\n\t\t\t  nerrs);\n      } while (nerrs && !last);\n\n      compile_errors += nerrs;\n\n      if (verbose_flag) {\n\t    fprintf(stderr, \" ... Removing symbol tables\\n\");\n\t    fflush(stderr);\n      }\n\n\t/* After compile is complete, the vpi symbol table is no\n\t   longer needed. VPI objects are located by following\n\t   scopes. */\n      delete_symbol_table(sym_vpi);\n      sym_vpi = 0;\n\n\t/* Don't need the code labels. The instructions have numeric\n\t   pointers in them, the symbol table is no longer needed. */\n      delete_symbol_table(sym_codespace);\n      sym_codespace = 0;\n\n      delete_symbol_table(sym_functors);\n      sym_functors = 0;\n\n"
+    },
+    "netHandlesShareDrivers": {
+      "file": "vvp/words.cc",
+      "firstLine": 320,
+      "excerpt": "static void do_compile_net(vvp_net_t*node, vvp_array_t array,\n\t\t\t   __vpiScope*scope,\n\t\t\t   char*my_label, char*name,\n\t\t\t   int msb, int lsb, unsigned array_addr,\n\t\t\t   int vpi_type_code, bool signed_flag, bool local_flag)\n{\n      unsigned wid = ((msb > lsb)? msb-lsb : lsb-msb) + 1;\n      assert(node);\n\n      vvp_wire_base*vsig = dynamic_cast<vvp_wire_base*>(node->fil);\n\n      if (vsig == 0) {\n\t    switch (vpi_type_code) {\n\t\tcase vpiIntVar:\n\t\t  vsig = new vvp_wire_vec4(wid,BIT4_0);\n\t\t  break;\n\t\tcase vpiLogicVar:\n\t\t  vsig = new vvp_wire_vec4(wid,BIT4_Z);\n\t\t  break;\n\t\tcase -vpiLogicVar:\n\t\t  vsig = new vvp_wire_vec8(wid);\n\t\t  break;\n\t    }\n\t    assert(vsig);\n\t    node->fil = vsig;\n      }\n\n      vpiHandle obj = 0;\n      if (! local_flag) {\n\t      /* Make the vpiHandle for the reg. */\n\t    obj = vpip_make_net4(scope, name, msb, lsb, signed_flag, node);\n\t      /* This attaches the label to the vpiHandle */\n\t    compile_vpi_symbol(my_label, obj);\n      }\n#ifdef CHECK_WITH_VALGRIND\n      else pool_local_net(node);\n#endif\n\n\t// REMOVE ME! Giving the net a label is a legacy of the times\n\t// when the .net was a functor of its own. In the long run, we\n\t// must fix the code generator to not rely on the label of the\n\t// .net, then we will remove that label.\n      define_functor_symbol(my_label, node);\n\n      if (array)\n\t    array->attach_word(array_addr, obj);\n      else if (obj)\n\t    vpip_attach_to_scope(scope,obj);\n\n      free(my_label);\n      delete[] name;\n}\n\nstatic void __compile_net(char*label,\n\t\t\t  char*name, char*array_label, unsigned long array_addr,\n\t\t\t  int msb, int lsb,\n\t\t\t  int vpi_type_code, bool signed_flag, bool local_flag,\n\t\t\t  unsigned argc, struct symb_s*argv)\n{\n      vvp_array_t array = array_label? array_find(array_label) : NULL;\n      assert(array_label ? array!=0 : true);\n\n      free(array_label);\n\n      assert(argc == 1);\n      vvp_net_t*node = vvp_net_lookup(argv[0].text);\n#if 1\n      if (node == 0) {\n\t      /* No existing net, but the string value may be a\n\t\t constant. In that case, we will wind up generating a\n\t\t bufz node that can carry the constant value.\n\n\t         NOTE: This is a hack! The code generator should be\n\t         fixed so that this is no longer needed. */\n\t    node = create_constant_node(argv[0].text);\n      }\n#endif\n      if (node == 0) {\n\t    __vpiScope*scope = vpip_peek_current_scope();\n\t    __compile_net_resolv*res\n\t\t  = new __compile_net_resolv(argv[0].text,\n\t\t\t\t\t     array, scope, label, name,\n\t\t\t\t\t     msb, lsb, array_addr,\n\t\t\t\t\t     vpi_type_code, signed_flag, local_flag);\n\t    resolv_submit(res);\n\t    free(argv);\n\t    return;\n      }\n      assert(node);\n\n      __vpiScope*scope = vpip_peek_current_scope();\n      do_compile_net(node, array, scope, label, name, msb, lsb, array_addr,\n\t\t     vpi_type_code, signed_flag, local_flag);\n\n      free(argv[0].text);\n      free(argv);\n}\n\nbool __compile_net_resolv::resolve(bool msg_flag)\n{\n      vvp_net_t*node = vvp_net_lookup(label());\n      if (node == 0) {\n\t    if (msg_flag)\n\t\t  cerr << \"Unable to resolve label \" << label() << endl;\n\t    return false;\n      }\n\n      do_compile_net(node, array_, scope_, my_label_, name_, msb_, lsb_, array_addr_, vpi_type_code_, signed_flag_, local_flag_);\n      return true;\n}\n\nvoid compile_net(char*label, char*name, int msb, int lsb,\n\t\t int vpi_type_code, bool signed_flag, bool local_flag,\n\t\t unsigned argc, struct symb_s*argv)\n{\n      __compile_net(label, name, 0, 0, msb, lsb,\n\t\t    vpi_type_code, signed_flag, local_flag,\n\t\t    argc, argv);\n}\n\n"
+    },
+    "dynamicForceLinks": {
+      "file": "vvp/vvp_net.cc",
+      "firstLine": 393,
+      "excerpt": "void vvp_net_fil_t::force_link(vvp_net_t*dst, vvp_net_t*src)\n{\n      assert(dst->fil == this);\n\n      if (force_link_ == 0) {\n\t    force_link_ = new vvp_net_t;\n\t      // Use port[3] to hold the force destination.\n\t    force_link_->port[3] = vvp_net_ptr_t(dst, 0);\n\t    force_link_->port[2] = vvp_net_ptr_t(0,0);\n\t    force_link_->fun = new vvp_fun_force;\n      }\n\n      force_unlink();\n      assert(force_link_->port[2] == vvp_net_ptr_t(0,0));\n\n\t// Use port[2] to hold the force source.\n      force_link_->port[2] = vvp_net_ptr_t(src,0);\n\n      vvp_net_ptr_t dst_ptr(force_link_, 0);\n      src->link(dst_ptr);\n}\n\nvoid vvp_net_fil_t::operator delete(void*)\n{\n      assert(0);\n}\n\nvoid vvp_net_fil_t::force_unlink(void)\n{\n      if (force_link_ == 0) return;\n      vvp_net_t*src = force_link_->port[2].ptr();\n      if (src == 0) return;\n\n      src->unlink(vvp_net_ptr_t(force_link_,0));\n      force_link_->port[2] = vvp_net_ptr_t(0,0);\n}\n\n"
+    }
+  },
+  "requirements": [
+    "Register every handed-out native net allocation with stable identity; exclude unallocated pool capacity and include unlabelled intermediate nodes. The compile-time symbol table is removed before execution.",
+    "Serialize initialized functor/filter bindings, output head and all four tagged port links. Port links initialize through vvp_sub_pointer_t, and functor/filter pointers initialize to null. Do not read arbitrary pointed-to payloads.",
+    "Validate target allocation identity before dereferencing; preserve destination input numbers and exact fanout order. Ordinary fanout traversal uses destination ports as next links; force-link helper port 2 instead stores a source back-reference. Preserve typed uses rather than treating all ports as graph edges.",
+    "Record every node independently of graph traversal so removed heads/links remain detectable. Detect foreign targets and cycles without walking corrupted storage.",
+    "Net declaration counts and constructor calls cannot prove allocation coverage. Cross-check handed-out allocations independently and bind queued event, code operand and array destination references to registered nodes.",
+    "Exercise actual head, interior link, input-number and functor/filter-binding mutations; restore before resuming. Include unconnected nodes, multi-destination outputs, constant inputs and force-link insertion/removal.",
+    "Logical graph/binding coverage is separate from functor/filter payload contents, callback contents, freed storage and rollback. Audit reachable payload families after graph coverage; do not infer coverage from shared net identity.",
+    "Measure complete graph snapshot and review costs before board integration; compact representations must reconstruct complete normal and corrupted images exactly."
+  ]
+}
