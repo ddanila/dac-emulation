@@ -17,6 +17,6 @@ class LateRefusalReview(unittest.TestCase):
     def test_complete_capture_replay(self):
         root=Path(os.environ.get('ROBOTRON_PARAMETER_LATE_REFUSAL_REPORT',HERE/'reports/parameter-late-refusal-controls'))
         if not (root/'assessment.json').exists():self.skipTest('Complete retained campaign not available yet')
-        self.assertEqual(review(root),json.loads((root/'assessment.json').read_text()))
+        self.assertEqual(json.loads(json.dumps(review(root))),json.loads((root/'assessment.json').read_text()))
 
 if __name__=='__main__':unittest.main()
