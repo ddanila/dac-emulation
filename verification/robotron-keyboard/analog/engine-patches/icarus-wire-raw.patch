@@ -1,0 +1,76 @@
+--- a/vvp/vvp_net_sig.h
++++ b/vvp/vvp_net_sig.h
+@@ -460,6 +460,8 @@
+ 
+     public:
+       explicit vvp_wire_vec8(unsigned wid);
++      int robotron_wire_raw_inventory(FILE*) const;
++      int robotron_wire_raw_toggle(int);
+       int robotron_wire_inventory(FILE*) const;
+       int robotron_wire_toggle(int);
+ 
+--- a/vvp/vvp_net_sig.cc
++++ b/vvp/vvp_net_sig.cc
+@@ -1518,3 +1518,31 @@
+     else{active=continuous_assign_active_;continuous_assign_active_=!continuous_assign_active_;}
+     return 1;
+ }
++
++static unsigned robotron_strength_byte(vvp_scalar_t value)
++{
++    static_assert(sizeof(vvp_scalar_t)==1,"Scalar representation must have no padding");
++    unsigned char raw;memcpy(&raw,&value,1);return raw;
++}
++int vvp_wire_vec8::robotron_wire_raw_inventory(FILE* out) const
++{
++    for(auto value : {&bits8_,&force8_}){
++        if(fprintf(out," %u ",value->size())<0)return -1;
++        if(!value->size() && fputc('-',out)==EOF)return -1;
++        for(unsigned i=0;i<value->size();i++)if(fprintf(out,"%02x",robotron_strength_byte(value->value(i)))<0)return -1;
++    }
++    return fputc('\n',out)==EOF || ferror(out)?-1:0;
++}
++int vvp_wire_vec8::robotron_wire_raw_toggle(int field)
++{
++    static vvp_wire_vec8* saved=0;static int saved_field;static vvp_vector8_t old;
++    if(field<0 || field>1)return -1;
++    auto& value=field==0?bits8_:force8_;
++    if(saved){if(saved!=this || field!=saved_field)return -1;value=old;saved=0;return 1;}
++    for(unsigned i=0;i<value.size();i++){
++        unsigned raw=robotron_strength_byte(value.value(i));if(raw!=0 && raw!=136)continue;
++        old=value;value.set_bit(i,raw==0?vvp_scalar_t(BIT4_1,1,0):vvp_scalar_t());
++        saved=this;saved_field=field;return 1;
++    }
++    return 0;
++}
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -4551,3 +4551,28 @@
+     }
+     return fprintf(out,"VRE_END %zu\n",changed)<0 || ferror(out)?-1:0;
+ }
++
++extern "C" int robotron_vvp_wire_raw_inventory(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations()){
++        auto fil=item.first->fil;
++        if(fil && typeid(*fil)!=typeid(vvp_wire_vec4) && typeid(*fil)!=typeid(vvp_wire_vec8))return -1;
++        if(fil && typeid(*fil)==typeid(vvp_wire_vec8))nodes[item.second]=item.first;
++    }
++    if(fprintf(out,"VWB_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:nodes){auto node=item.second;
++        if(fprintf(out,"VWB_FILTER %llu %p %p",item.first,(void*)node,(void*)node->fil)<0)return -1;
++        if(static_cast<vvp_wire_vec8*>(node->fil)->robotron_wire_raw_inventory(out))return -1;
++    }
++    return fprintf(out,"VWB_END %zu\n",nodes.size())<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_wire_raw_toggle(unsigned long long id,int field)
++{
++    for(auto item:robotron_net_allocations())if(item.second==id){
++        auto fil=item.first->fil;
++        return fil && typeid(*fil)==typeid(vvp_wire_vec8)?static_cast<vvp_wire_vec8*>(fil)->robotron_wire_raw_toggle(field):-1;
++    }
++    return -1;
++}
