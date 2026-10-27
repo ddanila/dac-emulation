@@ -1,0 +1,986 @@
+{
+  "qualified": false,
+  "scope": "Source-backed requirements for wait-event referents. No runtime observation or full state coverage is established by this audit.",
+  "icarusRevision": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "sources": {
+    "vvp/event.h": "c3a34f023656a7df8812421ce79c1dee0eec0a0318673f869e0cc346002bdbc9",
+    "vvp/event.cc": "8341e279484e915d23128c5990f41f3919f73ecc0cdb8ab7b2437204436a153f",
+    "vvp/vthread.cc": "95e83a73511df6999864528f827c8b3fedd11c68f3ee3e64fc826811568869c5",
+    "vvp/parse.y": "fdd6cbd67dedb39922e3d7b090cdc8c2dd0ea23277d5620f4419f6789dd0f065"
+  },
+  "board": {
+    "path": "verification/robotron-keyboard/analog/reports/island-filter-board/off/io.vvp",
+    "sha256": "3d215bba28e65d6abaa51e6fdc32a33a1798f45c6f012fb040cec2007c76c468",
+    "eventKinds": {
+      "anyedge": 35,
+      "posedge": 5,
+      "negedge": 4,
+      "or": 12
+    },
+    "events": [
+      {
+        "line": 222,
+        "scope": "S_0x103149b80",
+        "declaration": "E_0xb0b38afc0 .event anyedge, v0xb0af58000_0;",
+        "label": "E_0xb0b38afc0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 223,
+        "scope": "S_0x103149b80",
+        "declaration": "E_0xb0b38b000 .event anyedge, v0xb0aef1e00_0;",
+        "label": "E_0xb0b38b000",
+        "kind": "anyedge"
+      },
+      {
+        "line": 224,
+        "scope": "S_0x103149b80",
+        "declaration": "E_0xb0b38b040 .event posedge, v0xb0af57700_0;",
+        "label": "E_0xb0b38b040",
+        "kind": "posedge"
+      },
+      {
+        "line": 225,
+        "scope": "S_0x103149b80",
+        "declaration": "E_0xb0b38b080 .event posedge, v0xb0af57f20_0;",
+        "label": "E_0xb0b38b080",
+        "kind": "posedge"
+      },
+      {
+        "line": 226,
+        "scope": "S_0x103149b80",
+        "declaration": "E_0xb0b38b0c0 .event anyedge, v0xb0af2d720_0;",
+        "label": "E_0xb0b38b0c0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 227,
+        "scope": "S_0x103149b80",
+        "declaration": "E_0xb0b38b100 .event anyedge, v0xb0aef0e60_0, v0xb0aef1360_0;",
+        "label": "E_0xb0b38b100",
+        "kind": "anyedge"
+      },
+      {
+        "line": 503,
+        "scope": "S_0x103145030",
+        "declaration": "E_0xb0b38b140 .event negedge, v0xb0aef1e00_0, v0xb0aeea800_0;",
+        "label": "E_0xb0b38b140",
+        "kind": "negedge"
+      },
+      {
+        "line": 575,
+        "scope": "S_0x103148a90",
+        "declaration": "E_0xb0b38b180/0 .event negedge, v0xb0aeea800_0;",
+        "label": "E_0xb0b38b180/0",
+        "kind": "negedge"
+      },
+      {
+        "line": 576,
+        "scope": "S_0x103148a90",
+        "declaration": "E_0xb0b38b180/1 .event posedge, v0xb0aeea800_0;",
+        "label": "E_0xb0b38b180/1",
+        "kind": "posedge"
+      },
+      {
+        "line": 577,
+        "scope": "S_0x103148a90",
+        "declaration": "E_0xb0b38b180 .event/or E_0xb0b38b180/0, E_0xb0b38b180/1;",
+        "label": "E_0xb0b38b180",
+        "kind": "or"
+      },
+      {
+        "line": 578,
+        "scope": "S_0x103148a90",
+        "declaration": "E_0xb0b38b1c0 .event negedge, v0xb0aeea800_0;",
+        "label": "E_0xb0b38b1c0",
+        "kind": "negedge"
+      },
+      {
+        "line": 579,
+        "scope": "S_0x103148a90",
+        "declaration": "E_0xb0b38b200/0 .event anyedge, v0xb0aef17c0_0, v0xb0aef1fe0_0, v0xb0aef1400_0, v0xb0aee8000_0;",
+        "label": "E_0xb0b38b200/0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 580,
+        "scope": "S_0x103148a90",
+        "declaration": "E_0xb0b38b200/1 .event anyedge, v0xb0aee8960_0, v0xb0aef14a0_0;",
+        "label": "E_0xb0b38b200/1",
+        "kind": "anyedge"
+      },
+      {
+        "line": 581,
+        "scope": "S_0x103148a90",
+        "declaration": "E_0xb0b38b200 .event/or E_0xb0b38b200/0, E_0xb0b38b200/1;",
+        "label": "E_0xb0b38b200",
+        "kind": "or"
+      },
+      {
+        "line": 840,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b240 .event anyedge, v0xb0acea9e0_0, v0xb0acebde0_0, v0xb0adffde0_0;",
+        "label": "E_0xb0b38b240",
+        "kind": "anyedge"
+      },
+      {
+        "line": 841,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b280/0 .event anyedge, v0xb0aef2080_0, v0xb0aeee4e0_0, v0xb0aeee120_0, v0xb0aeedf40_0;",
+        "label": "E_0xb0b38b280/0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 842,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b280/1 .event anyedge, v0xb0aeed540_0, v0xb0adfff20_0, v0xb0adffc00_0, v0xb0aeeb700_0;",
+        "label": "E_0xb0b38b280/1",
+        "kind": "anyedge"
+      },
+      {
+        "line": 843,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b280/2 .event anyedge, v0xb0aeeb2a0_0;",
+        "label": "E_0xb0b38b280/2",
+        "kind": "anyedge"
+      },
+      {
+        "line": 844,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b280 .event/or E_0xb0b38b280/0, E_0xb0b38b280/1, E_0xb0b38b280/2;",
+        "label": "E_0xb0b38b280",
+        "kind": "or"
+      },
+      {
+        "line": 845,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b2c0/0 .event negedge, v0xb0aef1e00_0;",
+        "label": "E_0xb0b38b2c0/0",
+        "kind": "negedge"
+      },
+      {
+        "line": 846,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b2c0/1 .event posedge, v0xb0aeea800_0;",
+        "label": "E_0xb0b38b2c0/1",
+        "kind": "posedge"
+      },
+      {
+        "line": 847,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b2c0 .event/or E_0xb0b38b2c0/0, E_0xb0b38b2c0/1;",
+        "label": "E_0xb0b38b2c0",
+        "kind": "or"
+      },
+      {
+        "line": 848,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b300/0 .event anyedge, v0xb0aef2080_0, v0xb0acea9e0_0, v0xb0adff340_0, v0xb0aef10e0_0;",
+        "label": "E_0xb0b38b300/0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 849,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b300/1 .event anyedge, v0xb0aeecd20_0, v0xb0adffde0_0, v0xb0adff840_0, v0xb0aeebca0_0;",
+        "label": "E_0xb0b38b300/1",
+        "kind": "anyedge"
+      },
+      {
+        "line": 850,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b300/2 .event anyedge, v0xb0aeeb3e0_0;",
+        "label": "E_0xb0b38b300/2",
+        "kind": "anyedge"
+      },
+      {
+        "line": 851,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b300 .event/or E_0xb0b38b300/0, E_0xb0b38b300/1, E_0xb0b38b300/2;",
+        "label": "E_0xb0b38b300",
+        "kind": "or"
+      },
+      {
+        "line": 852,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b340/0 .event anyedge, v0xb0aef2080_0, v0xb0acea9e0_0, v0xb0aeee8a0_0, v0xb0aeee080_0;",
+        "label": "E_0xb0b38b340/0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 853,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b340/1 .event anyedge, v0xb0aeedfe0_0, v0xb0adffc00_0, v0xb0aeebde0_0, v0xb0adfef80_0;",
+        "label": "E_0xb0b38b340/1",
+        "kind": "anyedge"
+      },
+      {
+        "line": 854,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b340 .event/or E_0xb0b38b340/0, E_0xb0b38b340/1;",
+        "label": "E_0xb0b38b340",
+        "kind": "or"
+      },
+      {
+        "line": 855,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b380/0 .event anyedge, v0xb0aef21c0_0, v0xb0aef2080_0, v0xb0acea9e0_0, v0xb0aeee800_0;",
+        "label": "E_0xb0b38b380/0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 856,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b380/1 .event anyedge, v0xb0aeedb80_0, v0xb0adffc00_0, v0xb0adfef80_0, v0xb0aeeb160_0;",
+        "label": "E_0xb0b38b380/1",
+        "kind": "anyedge"
+      },
+      {
+        "line": 857,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b380/2 .event anyedge, v0xb0adfdc20_0;",
+        "label": "E_0xb0b38b380/2",
+        "kind": "anyedge"
+      },
+      {
+        "line": 858,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b380 .event/or E_0xb0b38b380/0, E_0xb0b38b380/1, E_0xb0b38b380/2;",
+        "label": "E_0xb0b38b380",
+        "kind": "or"
+      },
+      {
+        "line": 859,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b3c0/0 .event anyedge, v0xb0aef2080_0, v0xb0acea9e0_0, v0xb0aeeeee0_0, v0xb0aeede00_0;",
+        "label": "E_0xb0b38b3c0/0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 860,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b3c0/1 .event anyedge, v0xb0aeedcc0_0, v0xb0adffc00_0, v0xb0adfef80_0, v0xb0aeeae40_0;",
+        "label": "E_0xb0b38b3c0/1",
+        "kind": "anyedge"
+      },
+      {
+        "line": 861,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b3c0 .event/or E_0xb0b38b3c0/0, E_0xb0b38b3c0/1;",
+        "label": "E_0xb0b38b3c0",
+        "kind": "or"
+      },
+      {
+        "line": 862,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b400/0 .event anyedge, v0xb0acea9e0_0, v0xb0aef1680_0, v0xb0aef0f00_0, v0xb0aeeeee0_0;",
+        "label": "E_0xb0b38b400/0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 863,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b400/1 .event anyedge, v0xb0aeeee40_0, v0xb0aee8640_0, v0xb0aeee800_0, v0xb0adff3e0_0;",
+        "label": "E_0xb0b38b400/1",
+        "kind": "anyedge"
+      },
+      {
+        "line": 864,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b400/2 .event anyedge, v0xb0adff0c0_0, v0xb0aeeb700_0, v0xb0adfdea0_0, v0xb0aeeb3e0_0;",
+        "label": "E_0xb0b38b400/2",
+        "kind": "anyedge"
+      },
+      {
+        "line": 865,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b400/3 .event anyedge, v0xb0adfe4e0_0;",
+        "label": "E_0xb0b38b400/3",
+        "kind": "anyedge"
+      },
+      {
+        "line": 866,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b400 .event/or E_0xb0b38b400/0, E_0xb0b38b400/1, E_0xb0b38b400/2, E_0xb0b38b400/3;",
+        "label": "E_0xb0b38b400",
+        "kind": "or"
+      },
+      {
+        "line": 867,
+        "scope": "S_0x103148c10",
+        "declaration": "E_0xb0b38b440 .event anyedge, v0xb0aee88c0_0, v0xb0aef2080_0, v0xb0aef1900_0, v0xb0acea9e0_0;",
+        "label": "E_0xb0b38b440",
+        "kind": "anyedge"
+      },
+      {
+        "line": 946,
+        "scope": "S_0x103145f80",
+        "declaration": "E_0xb0b38b480/0 .event anyedge, v0xb0adfe760_0, v0xb0adfe620_0, v0xb0adfe440_0, v0xb0adfe3a0_0;",
+        "label": "E_0xb0b38b480/0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 947,
+        "scope": "S_0x103145f80",
+        "declaration": "E_0xb0b38b480/1 .event anyedge, v0xb0adfe300_0, v0xb0adfe260_0, v0xb0adfe120_0, v0xb0adfdfe0_0;",
+        "label": "E_0xb0b38b480/1",
+        "kind": "anyedge"
+      },
+      {
+        "line": 948,
+        "scope": "S_0x103145f80",
+        "declaration": "E_0xb0b38b480/2 .event anyedge, v0xb0adfdea0_0, v0xb0adfde00_0, v0xb0adfdd60_0, v0xb0adfdcc0_0;",
+        "label": "E_0xb0b38b480/2",
+        "kind": "anyedge"
+      },
+      {
+        "line": 949,
+        "scope": "S_0x103145f80",
+        "declaration": "E_0xb0b38b480/3 .event anyedge, v0xb0adfdc20_0;",
+        "label": "E_0xb0b38b480/3",
+        "kind": "anyedge"
+      },
+      {
+        "line": 950,
+        "scope": "S_0x103145f80",
+        "declaration": "E_0xb0b38b480 .event/or E_0xb0b38b480/0, E_0xb0b38b480/1, E_0xb0b38b480/2, E_0xb0b38b480/3;",
+        "label": "E_0xb0b38b480",
+        "kind": "or"
+      },
+      {
+        "line": 951,
+        "scope": "S_0x103145f80",
+        "declaration": "E_0xb0b38b4c0/0 .event anyedge, v0xb0adfe300_0, v0xb0adfe120_0, v0xb0adfdea0_0, v0xb0adfde00_0;",
+        "label": "E_0xb0b38b4c0/0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 952,
+        "scope": "S_0x103145f80",
+        "declaration": "E_0xb0b38b4c0/1 .event anyedge, v0xb0adfdc20_0;",
+        "label": "E_0xb0b38b4c0/1",
+        "kind": "anyedge"
+      },
+      {
+        "line": 953,
+        "scope": "S_0x103145f80",
+        "declaration": "E_0xb0b38b4c0 .event/or E_0xb0b38b4c0/0, E_0xb0b38b4c0/1;",
+        "label": "E_0xb0b38b4c0",
+        "kind": "or"
+      },
+      {
+        "line": 1175,
+        "scope": "S_0xb0aee4300",
+        "declaration": "E_0xb0b38b500/0 .event anyedge, v0xb0acebde0_0, v0xb0acea9e0_0, v0xb0adffde0_0, v0xb0adfe3a0_0;",
+        "label": "E_0xb0b38b500/0",
+        "kind": "anyedge"
+      },
+      {
+        "line": 1176,
+        "scope": "S_0xb0aee4300",
+        "declaration": "E_0xb0b38b500/1 .event anyedge, v0xb0adff3e0_0, v0xb0adfe120_0;",
+        "label": "E_0xb0b38b500/1",
+        "kind": "anyedge"
+      },
+      {
+        "line": 1177,
+        "scope": "S_0xb0aee4300",
+        "declaration": "E_0xb0b38b500 .event/or E_0xb0b38b500/0, E_0xb0b38b500/1;",
+        "label": "E_0xb0b38b500",
+        "kind": "or"
+      },
+      {
+        "line": 1389,
+        "scope": "S_0xb0aee4780",
+        "declaration": "E_0xb0b38b540 .event posedge, v0xb0aeea800_0;",
+        "label": "E_0xb0b38b540",
+        "kind": "posedge"
+      },
+      {
+        "line": 4155,
+        "scope": "S_0xb0aee5680",
+        "declaration": "E_0xb0b38b600 .event anyedge, v0xb0af014a0_0, v0xb0af01220_0, v0xb0af012c0_0;",
+        "label": "E_0xb0b38b600",
+        "kind": "anyedge"
+      },
+      {
+        "line": 4269,
+        "scope": "S_0xb0aee5980",
+        "declaration": "E_0xb0b38b640 .event anyedge, v0xb0af014a0_0, v0xb0af01fe0_0;",
+        "label": "E_0xb0b38b640",
+        "kind": "anyedge"
+      }
+    ],
+    "waitInstructions": [
+      {
+        "line": 4335,
+        "event": "E_0xb0b38b600"
+      },
+      {
+        "line": 4356,
+        "event": "E_0xb0b38b640"
+      },
+      {
+        "line": 4455,
+        "event": "E_0xb0b38b640"
+      },
+      {
+        "line": 4554,
+        "event": "E_0xb0b38b500"
+      },
+      {
+        "line": 19604,
+        "event": "E_0xb0b38b4c0"
+      },
+      {
+        "line": 19754,
+        "event": "E_0xb0b38b480"
+      },
+      {
+        "line": 22731,
+        "event": "E_0xb0b38b540"
+      },
+      {
+        "line": 22760,
+        "event": "E_0xb0b38b2c0"
+      },
+      {
+        "line": 22803,
+        "event": "E_0xb0b38b2c0"
+      },
+      {
+        "line": 22863,
+        "event": "E_0xb0b38b440"
+      },
+      {
+        "line": 23006,
+        "event": "E_0xb0b38b400"
+      },
+      {
+        "line": 23107,
+        "event": "E_0xb0b38b2c0"
+      },
+      {
+        "line": 24454,
+        "event": "E_0xb0b38b540"
+      },
+      {
+        "line": 24637,
+        "event": "E_0xb0b38b3c0"
+      },
+      {
+        "line": 24782,
+        "event": "E_0xb0b38b380"
+      },
+      {
+        "line": 25003,
+        "event": "E_0xb0b38b340"
+      },
+      {
+        "line": 25090,
+        "event": "E_0xb0b38b540"
+      },
+      {
+        "line": 25457,
+        "event": "E_0xb0b38b2c0"
+      },
+      {
+        "line": 25508,
+        "event": "E_0xb0b38b300"
+      },
+      {
+        "line": 25534,
+        "event": "E_0xb0b38b2c0"
+      },
+      {
+        "line": 25596,
+        "event": "E_0xb0b38b2c0"
+      },
+      {
+        "line": 26099,
+        "event": "E_0xb0b38b280"
+      },
+      {
+        "line": 26177,
+        "event": "E_0xb0b38b240"
+      },
+      {
+        "line": 26201,
+        "event": "E_0xb0b38b200"
+      },
+      {
+        "line": 26290,
+        "event": "E_0xb0b38b1c0"
+      },
+      {
+        "line": 26318,
+        "event": "E_0xb0b38b540"
+      },
+      {
+        "line": 26363,
+        "event": "E_0xb0b38b180"
+      },
+      {
+        "line": 26427,
+        "event": "E_0xb0b38b140"
+      },
+      {
+        "line": 26443,
+        "event": "E_0xb0b38b140"
+      },
+      {
+        "line": 26494,
+        "event": "E_0xb0b38b2c0"
+      },
+      {
+        "line": 26542,
+        "event": "E_0xb0b38b2c0"
+      },
+      {
+        "line": 26573,
+        "event": "E_0xb0b38b140"
+      },
+      {
+        "line": 26615,
+        "event": "E_0xb0b38b140"
+      },
+      {
+        "line": 26756,
+        "event": "E_0xb0b38b100"
+      },
+      {
+        "line": 26761,
+        "event": "E_0xb0b38b0c0"
+      },
+      {
+        "line": 26766,
+        "event": "E_0xb0b38b080"
+      },
+      {
+        "line": 26785,
+        "event": "E_0xb0b38b040"
+      },
+      {
+        "line": 26804,
+        "event": "E_0xb0b38b000"
+      },
+      {
+        "line": 26823,
+        "event": "E_0xb0b38b540"
+      },
+      {
+        "line": 26848,
+        "event": "E_0xb0b38b540"
+      },
+      {
+        "line": 26924,
+        "event": "E_0xb0b38b180"
+      },
+      {
+        "line": 27016,
+        "event": "E_0xb0b38afc0"
+      }
+    ],
+    "eventControlInstructions": [],
+    "scopeDeclarations": [
+      {
+        "line": 11,
+        "declaration": "S_0x103156020 .scope package, \"$unit\" \"$unit\" 2 1;"
+      },
+      {
+        "line": 13,
+        "declaration": "S_0x1031561a0 .scope module, \"firmware_io_electrical_bus\" \"firmware_io_electrical_bus\" 3 401;"
+      },
+      {
+        "line": 65,
+        "declaration": "S_0x103149b80 .scope module, \"board\" \"boot_electrical_bus\" 3 413, 3 288 0, S_0x1031561a0;"
+      },
+      {
+        "line": 252,
+        "declaration": "S_0x103144eb0 .scope module, \"cpu\" \"cpu_bus_candidate\" 3 313, 4 4 0, S_0x103149b80;"
+      },
+      {
+        "line": 409,
+        "declaration": "S_0x103145030 .scope module, \"qualified\" \"tv80_io_candidate\" 4 10, 5 4 0, S_0x103144eb0;"
+      },
+      {
+        "line": 522,
+        "declaration": "S_0x103148a90 .scope module, \"base\" \"tv80n\" 5 15, 6 30 0, S_0x103145030;"
+      },
+      {
+        "line": 591,
+        "declaration": "S_0x103148c10 .scope module, \"i_tv80_core\" \"tv80_core\" 6 80, 7 27 0, S_0x103148a90;"
+      },
+      {
+        "line": 903,
+        "declaration": "S_0x103145f80 .scope module, \"i_alu\" \"tv80_alu\" 7 305, 8 25 0, S_0x103148c10;"
+      },
+      {
+        "line": 954,
+        "declaration": "S_0x103146100 .scope function.vec4.s2, \"AddSub1\" \"AddSub1\" 8 75, 8 75 0, S_0x103145f80;"
+      },
+      {
+        "line": 986,
+        "declaration": "S_0xb0aee4000 .scope function.vec4.s4, \"AddSub3\" \"AddSub3\" 8 65, 8 65 0, S_0x103145f80;"
+      },
+      {
+        "line": 1018,
+        "declaration": "S_0xb0aee4180 .scope function.vec4.s5, \"AddSub4\" \"AddSub4\" 8 55, 8 55 0, S_0x103145f80;"
+      },
+      {
+        "line": 1050,
+        "declaration": "S_0xb0aee4300 .scope module, \"i_mcode\" \"tv80_mcode\" 7 249, 9 25 0, S_0x103148c10;"
+      },
+      {
+        "line": 1178,
+        "declaration": "S_0xb0aee4480 .scope begin, \"default_ed_block\" \"default_ed_block\" 9 1946, 9 1946 0, S_0xb0aee4300;"
+      },
+      {
+        "line": 1180,
+        "declaration": "S_0xb0aee4600 .scope function.vec4.s1, \"is_cc_true\" \"is_cc_true\" 9 164, 9 164 0, S_0xb0aee4300;"
+      },
+      {
+        "line": 1287,
+        "declaration": "S_0xb0aee4780 .scope module, \"i_reg\" \"tv80_reg\" 7 1067, 10 25 0, S_0x103148c10;"
+      },
+      {
+        "line": 1408,
+        "declaration": "S_0xb0aee4900 .scope function.vec4.s3, \"mcyc_to_number\" \"mcyc_to_number\" 7 335, 7 335 0, S_0x103148c10;"
+      },
+      {
+        "line": 1476,
+        "declaration": "S_0xb0aee4a80 .scope function.vec4.s7, \"number_to_bitvec\" \"number_to_bitvec\" 7 319, 7 319 0, S_0x103148c10;"
+      },
+      {
+        "line": 1544,
+        "declaration": "S_0xb0aee4c00 .scope begin, \"sync_inputs\" \"sync_inputs\" 7 1210, 7 1210 0, S_0x103148c10;"
+      },
+      {
+        "line": 1546,
+        "declaration": "S_0xb0aee4d80 .scope generate, \"electrical\" \"electrical\" 3 322, 3 322 0, S_0x103149b80;"
+      },
+      {
+        "line": 1553,
+        "declaration": "S_0xb0aee4f00 .scope module, \"board\" \"controller_electrical_bus\" 3 323, 3 2 0, S_0xb0aee4d80;"
+      },
+      {
+        "line": 3869,
+        "declaration": "S_0xb0aee5080 .scope module, \"A1\" \"chip_7406\" 3 187, 11 4 0, S_0xb0aee4f00;"
+      },
+      {
+        "line": 3930,
+        "declaration": "S_0xb0aee5200 .scope module, \"A2_1\" \"chip_DL003\" 3 188, 11 9 0, S_0xb0aee4f00;"
+      },
+      {
+        "line": 3988,
+        "declaration": "S_0xb0aee5380 .scope module, \"A2_2\" \"chip_DL003\" 3 191, 11 9 0, S_0xb0aee4f00;"
+      },
+      {
+        "line": 4046,
+        "declaration": "S_0xb0aee5500 .scope module, \"A2_3\" \"chip_DL003\" 3 192, 11 9 0, S_0xb0aee4f00;"
+      },
+      {
+        "line": 4104,
+        "declaration": "S_0xb0aee5680 .scope module, \"A4\" \"chip_I8282\" 3 193, 11 45 0, S_0xb0aee4f00;"
+      },
+      {
+        "line": 4168,
+        "declaration": "S_0xb0aee5800 .scope module, \"A6\" \"chip_DL074\" 3 194, 11 35 0, S_0xb0aee4f00;"
+      },
+      {
+        "line": 4256,
+        "declaration": "S_0xb0aee5980 .scope module, \"first\" \"dl074_state\" 11 38, 11 17 0, S_0xb0aee5800;"
+      },
+      {
+        "line": 4270,
+        "declaration": "S_0xb0aee5b00 .scope module, \"second\" \"dl074_state\" 11 39, 11 17 0, S_0xb0aee5800;"
+      },
+      {
+        "line": 4283,
+        "declaration": "S_0xb0aee5c80 .scope generate, \"pullup_flipFlopRelease\" \"pullup_flipFlopRelease\" 3 160, 3 160 0, S_0xb0aee4f00;"
+      },
+      {
+        "line": 4285,
+        "declaration": "S_0xb0aee5e00 .scope generate, \"pullup_ioActive\" \"pullup_ioActive\" 3 163, 3 163 0, S_0xb0aee4f00;"
+      },
+      {
+        "line": 4287,
+        "declaration": "S_0xb0aee5f80 .scope generate, \"pullup_latchEnable\" \"pullup_latchEnable\" 3 155, 3 155 0, S_0xb0aee4f00;"
+      },
+      {
+        "line": 4289,
+        "declaration": "S_0xb0aee6100 .scope module, \"service_boundary\" \"controller_service\" 3 408, 12 191 0, S_0x1031561a0;"
+      },
+      {
+        "line": 4333,
+        "declaration": "    .scope S_0xb0aee5680;"
+      },
+      {
+        "line": 4354,
+        "declaration": "    .scope S_0xb0aee5980;"
+      },
+      {
+        "line": 4453,
+        "declaration": "    .scope S_0xb0aee5b00;"
+      },
+      {
+        "line": 4552,
+        "declaration": "    .scope S_0xb0aee4300;"
+      },
+      {
+        "line": 4679,
+        "declaration": "    .scope S_0xb0aee4480;"
+      },
+      {
+        "line": 9442,
+        "declaration": "    .scope S_0xb0aee4300;"
+      },
+      {
+        "line": 19602,
+        "declaration": "    .scope S_0x103145f80;"
+      },
+      {
+        "line": 19752,
+        "declaration": "    .scope S_0x103145f80;"
+      },
+      {
+        "line": 22729,
+        "declaration": "    .scope S_0xb0aee4780;"
+      },
+      {
+        "line": 22758,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 22801,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 22861,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 23004,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 23105,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 24452,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 24635,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 24780,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 25001,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 25088,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 25455,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 25506,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 25532,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 25537,
+        "declaration": "    .scope S_0xb0aee4c00;"
+      },
+      {
+        "line": 25590,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 25594,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 26097,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 26175,
+        "declaration": "    .scope S_0x103148c10;"
+      },
+      {
+        "line": 26193,
+        "declaration": "    .scope S_0x103148a90;"
+      },
+      {
+        "line": 26199,
+        "declaration": "    .scope S_0x103148a90;"
+      },
+      {
+        "line": 26288,
+        "declaration": "    .scope S_0x103148a90;"
+      },
+      {
+        "line": 26316,
+        "declaration": "    .scope S_0x103148a90;"
+      },
+      {
+        "line": 26361,
+        "declaration": "    .scope S_0x103148a90;"
+      },
+      {
+        "line": 26413,
+        "declaration": "    .scope S_0x103145030;"
+      },
+      {
+        "line": 26425,
+        "declaration": "    .scope S_0x103145030;"
+      },
+      {
+        "line": 26441,
+        "declaration": "    .scope S_0x103145030;"
+      },
+      {
+        "line": 26492,
+        "declaration": "    .scope S_0x103145030;"
+      },
+      {
+        "line": 26522,
+        "declaration": "    .scope S_0x103144eb0;"
+      },
+      {
+        "line": 26540,
+        "declaration": "    .scope S_0x103144eb0;"
+      },
+      {
+        "line": 26571,
+        "declaration": "    .scope S_0x103144eb0;"
+      },
+      {
+        "line": 26613,
+        "declaration": "    .scope S_0x103144eb0;"
+      },
+      {
+        "line": 26729,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 26745,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 26749,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 26754,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 26759,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 26764,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 26783,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 26802,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 26821,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 26846,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 26922,
+        "declaration": "    .scope S_0x103149b80;"
+      },
+      {
+        "line": 27014,
+        "declaration": "    .scope S_0x103149b80;"
+      }
+    ]
+  },
+  "evidence": {
+    "waitDoesNotSetThreadEvent": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 6519,
+      "excerpt": "bool of_WAIT(vthread_t thr, vvp_code_t cp)\n{\n      assert(! thr->i_am_in_function);\n      assert(! thr->waiting_for_event);\n      thr->waiting_for_event = 1;\n\n\t/* Add this thread to the list in the event. */\n      waitable_hooks_s*ep = dynamic_cast<waitable_hooks_s*> (cp->net->fun);\n      assert(ep);\n      thr->wait_next = ep->add_waiting_thread(thr);\n\n\t/* Return false to suspend this thread. */\n      return false;\n}\n\n"
+    },
+    "eventControlledAssignmentRegister": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3135,
+      "excerpt": "bool of_EVCTL(vthread_t thr, vvp_code_t cp)\n{\n      assert(thr->event == 0 && thr->ecount == 0);\n      thr->event = cp->net;\n      thr->ecount = thr->words[cp->bit_idx[0]].w_uint;\n      return true;\n}\nbool of_EVCTLC(vthread_t thr, vvp_code_t)\n{\n      thr->event = 0;\n      thr->ecount = 0;\n      return true;\n}\n\nbool of_EVCTLI(vthread_t thr, vvp_code_t cp)\n{\n      assert(thr->event == 0 && thr->ecount == 0);\n      thr->event = cp->net;\n      thr->ecount = cp->bit_idx[0];\n      return true;\n}\n\nbool of_EVCTLS(vthread_t thr, vvp_code_t cp)\n{\n      assert(thr->event == 0 && thr->ecount == 0);\n      thr->event = cp->net;\n      int64_t val = thr->words[cp->bit_idx[0]].w_int;\n      if (val < 0) val = 0;\n      thr->ecount = val;\n      return true;\n}\n\n"
+    },
+    "waitingToScheduled": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 904,
+      "excerpt": "void vthread_schedule_list(vthread_t thr)\n{\n      for (vthread_t cur = thr ;  cur ;  cur = cur->wait_next) {\n\t    assert(cur->waiting_for_event);\n\t    cur->waiting_for_event = 0;\n      }\n\n      schedule_vthread(thr, 0);\n}\n\n"
+    },
+    "eventListInitialization": {
+      "file": "vvp/event.h",
+      "firstLine": 121,
+      "excerpt": "struct waitable_hooks_s {\n\n    public:\n      waitable_hooks_s() : event_ctls(0) { last = &event_ctls; }\n      virtual ~waitable_hooks_s() {}\n\n      virtual vthread_t add_waiting_thread(vthread_t thread) = 0;\n\n      evctl*event_ctls;\n      evctl**last;\n\n    protected:\n      void run_waiting_threads_(vthread_t&threads);\n};\n\n/*\n * This is the base object for storing state information for each instance\n * of an automatically allocated event. In the general case, all that is\n * needed is the list of threads waiting on that instance.\n */\nstruct waitable_state_s {\n      waitable_state_s() : threads(0) {}\n\n      vthread_t threads;\n};\n\n"
+    },
+    "wakeAndEventControls": {
+      "file": "vvp/event.cc",
+      "firstLine": 32,
+      "excerpt": "void waitable_hooks_s::run_waiting_threads_(vthread_t&threads)\n{\n\t// Run the non-blocking event controls.\n      last = &event_ctls;\n      for (evctl*cur = event_ctls; cur != 0;) {\n\t    if (cur->dec_and_run()) {\n\t\t  evctl*nxt = cur->next;\n\t\t  delete cur;\n\t\t  cur = nxt;\n\t\t  *last = cur;\n\t    } else {\n\t\t  last = &(cur->next);\n\t\t  cur = cur->next;\n\t    }\n      }\n\n      vthread_t tmp = threads;\n      if (tmp == 0) return;\n      threads = 0;\n\n      vthread_schedule_list(tmp);\n}\n\nevctl::evctl(unsigned long ecount)\n{\n      ecount_ = ecount;\n      next = 0;\n}\n\nbool evctl::dec_and_run()\n{\n      assert(ecount_ != 0);\n\n      ecount_ -= 1;\n      if (ecount_ == 0) run_run();\n\n      return ecount_ == 0;\n}\n\n"
+    },
+    "edgeHistoryInitializationAndTrigger": {
+      "file": "vvp/event.cc",
+      "firstLine": 217,
+      "excerpt": "struct vvp_fun_edge_state_s : public waitable_state_s {\n      vvp_fun_edge_state_s()\n      {\n            for (unsigned idx = 0 ;  idx < 4 ;  idx += 1)\n                  bits[idx] = BIT4_X;\n      }\n\n      vvp_bit4_t bits[4];\n};\n\nvvp_fun_edge::vvp_fun_edge(edge_t e)\n: edge_(e)\n{\n      for (unsigned idx = 0 ;  idx < 4 ;  idx += 1)\n            bits_[idx] = BIT4_X;\n}\n\nvvp_fun_edge::~vvp_fun_edge()\n{\n}\n\nbool vvp_fun_edge::recv_vec4_(const vvp_vector4_t&bit,\n                              vvp_bit4_t&old_bit, vthread_t&threads)\n{\n\t/* See what kind of edge this represents. */\n      edge_t mask = VVP_EDGE(old_bit, bit.value(0));\n\n\t/* Save the current input for the next time around. */\n      old_bit = bit.value(0);\n\n      if ((edge_ == vvp_edge_none) || (edge_ & mask)) {\n\t    run_waiting_threads_(threads);\n            return true;\n      }\n      return false;\n}\n\n"
+    },
+    "staticWaitHead": {
+      "file": "vvp/event.cc",
+      "firstLine": 254,
+      "excerpt": "vvp_fun_edge_sa::vvp_fun_edge_sa(edge_t e)\n: vvp_fun_edge(e), threads_(0)\n{\n}\n\nvvp_fun_edge_sa::~vvp_fun_edge_sa()\n{\n}\n\nvthread_t vvp_fun_edge_sa::add_waiting_thread(vthread_t thread)\n{\n      vthread_t tmp = threads_;\n      threads_ = thread;\n\n      return tmp;\n}\n\n"
+    },
+    "automaticWaitHeadAndReset": {
+      "file": "vvp/event.cc",
+      "firstLine": 290,
+      "excerpt": "vvp_fun_edge_aa::vvp_fun_edge_aa(edge_t e)\n: vvp_fun_edge(e)\n{\n      context_scope_ = vpip_peek_context_scope();\n      context_idx_ = vpip_add_item_to_context(this, context_scope_);\n}\n\nvvp_fun_edge_aa::~vvp_fun_edge_aa()\n{\n}\n\nvoid vvp_fun_edge_aa::alloc_instance(vvp_context_t context)\n{\n      vvp_set_context_item(context, context_idx_, new vvp_fun_edge_state_s);\n      reset_instance(context);\n}\n\nvoid vvp_fun_edge_aa::reset_instance(vvp_context_t context)\n{\n      vvp_fun_edge_state_s*state = static_cast<vvp_fun_edge_state_s*>\n            (vvp_get_context_item(context, context_idx_));\n\n      state->threads = 0;\n      for (unsigned idx = 0 ;  idx < 4 ;  idx += 1)\n            state->bits[idx] = bits_[idx];\n}\n\n#ifdef CHECK_WITH_VALGRIND\nvoid vvp_fun_edge_aa::free_instance(vvp_context_t context)\n{\n      vvp_fun_edge_state_s*state = static_cast<vvp_fun_edge_state_s*>\n            (vvp_get_context_item(context, context_idx_));\n      delete state;\n}\n#endif\n\nvthread_t vvp_fun_edge_aa::add_waiting_thread(vthread_t thread)\n{\n      vvp_fun_edge_state_s*state = static_cast<vvp_fun_edge_state_s*>\n            (vthread_get_wt_context_item(context_idx_));\n\n      vthread_t tmp = state->threads;\n      state->threads = thread;\n\n      return tmp;\n}\n\n"
+    },
+    "typedAnyedgeCaches": {
+      "file": "vvp/event.cc",
+      "firstLine": 358,
+      "excerpt": "class anyedge_value {\n\n    public:\n      anyedge_value() {};\n      virtual ~anyedge_value() {};\n\n      virtual void reset() = 0;\n\n      virtual void duplicate(anyedge_value*&dup) = 0;\n};\n\nclass anyedge_vec4_value : public anyedge_value {\n\n    public:\n      anyedge_vec4_value() {};\n      virtual ~anyedge_vec4_value() override {};\n\n      void reset() override { old_bits.set_to_x(); }\n\n      void set(const vvp_vector4_t&bit) { old_bits = bit; };\n\n      void duplicate(anyedge_value*&dup) override;\n\n      bool recv_vec4(const vvp_vector4_t&bit);\n\n      bool recv_vec4_pv(const vvp_vector4_t&bit, unsigned base,\n\t\t\tunsigned vwid);\n\n    private:\n      vvp_vector4_t old_bits;\n};\n\nstatic anyedge_vec4_value*get_vec4_value(anyedge_value*&value)\n{\n      anyedge_vec4_value*vec4_value = dynamic_cast<anyedge_vec4_value*>(value);\n      if (!value) {\n\t    vec4_value = new anyedge_vec4_value();\n\t    delete value;\n\t    value = vec4_value;\n      }\n      return vec4_value;\n}\n\nclass anyedge_real_value : public anyedge_value {\n\n    public:\n      anyedge_real_value() : old_bits(0.0) {};\n      virtual ~anyedge_real_value() override {};\n\n      void reset() override { old_bits = 0.0; }\n\n      void set(double bit) { old_bits = bit; };\n\n      void duplicate(anyedge_value*&dup) override;\n\n      bool recv_real(double bit);\n\n    private:\n      double old_bits;\n};\n\nstatic anyedge_real_value*get_real_value(anyedge_value*&value)\n{\n      anyedge_real_value*real_value = dynamic_cast<anyedge_real_value*>(value);\n      if (!value) {\n\t    real_value = new anyedge_real_value();\n\t    delete value;\n\t    value = real_value;\n      }\n      return real_value;\n}\n\nclass anyedge_string_value : public anyedge_value {\n\n    public:\n      anyedge_string_value() {};\n      virtual ~anyedge_string_value() override {};\n\n      void reset() override { old_bits.clear(); }\n\n      void set(const std::string&bit) { old_bits = bit; };\n\n      void duplicate(anyedge_value*&dup) override;\n\n      bool recv_string(const std::string&bit);\n\n    private:\n      std::string old_bits;\n};\n\nstatic anyedge_string_value*get_string_value(anyedge_value*&value)\n{\n      anyedge_string_value*string_value = dynamic_cast<anyedge_string_value*>(value);\n      if (!value) {\n\t    string_value = new anyedge_string_value();\n\t    delete value;\n\t    value = string_value;\n      }\n      return string_value;\n}\n\nstruct vvp_fun_anyedge_state_s : public waitable_state_s {\n      vvp_fun_anyedge_state_s()\n      {\n            for (unsigned idx = 0 ;  idx < 4 ;  idx += 1)\n                  last_value_[idx] = 0;\n      }\n\n      ~vvp_fun_anyedge_state_s()\n      {\n            for (unsigned idx = 0 ;  idx < 4 ;  idx += 1)\n                  delete last_value_[idx];\n      }\n\n      anyedge_value *last_value_[4];\n};\n\nvvp_fun_anyedge::vvp_fun_anyedge()\n{\n      for (unsigned idx = 0 ;  idx < 4 ;  idx += 1)\n\t    last_value_[idx] = 0;\n}\n\nvvp_fun_anyedge::~vvp_fun_anyedge()\n{\n      for (unsigned idx = 0 ;  idx < 4 ;  idx += 1)\n\t    delete last_value_[idx];\n}\n\nvoid anyedge_vec4_value::duplicate(anyedge_value*&dup)\n{\n      anyedge_vec4_value*dup_vec4 = get_vec4_value(dup);\n      assert(dup_vec4);\n      dup_vec4->set(old_bits);\n}\n\n"
+    },
+    "eventCompilationAndSharedOrFunctor": {
+      "file": "vvp/event.cc",
+      "firstLine": 979,
+      "excerpt": "void compile_event(char*label, char*type, unsigned argc, struct symb_s*argv)\n{\n      vvp_net_fun_t*fun = 0;\n\n      if (type == 0) {\n\t    compile_event_or(label, argc, argv);\n\t    return;\n      }\n\n      if (strcmp(type,\"anyedge\") == 0) {\n\n\t    free(type);\n\n            if (vpip_peek_current_scope()->is_automatic()) {\n                  fun = new vvp_fun_anyedge_aa;\n            } else {\n                  fun = new vvp_fun_anyedge_sa;\n            }\n\n      } else {\n\n\t    vvp_fun_edge::edge_t edge_type = vvp_edge_none;\n\n\t    if (strcmp(type,\"posedge\") == 0)\n\t\t  edge_type = vvp_edge_posedge;\n\t    else if (strcmp(type,\"negedge\") == 0)\n\t\t  edge_type = vvp_edge_negedge;\n\t    else if (strcmp(type,\"edge\") == 0)\n\t\t  edge_type = vvp_edge_edge;\n\n\t    assert(argc <= 4);\n\t    free(type);\n\n            if (vpip_peek_current_scope()->is_automatic()) {\n                  fun = new vvp_fun_edge_aa(edge_type);\n            } else {\n                  fun = new vvp_fun_edge_sa(edge_type);\n            }\n\n      }\n\n      vvp_net_t* ptr = new vvp_net_t;\n      ptr->fun = fun;\n\n      define_functor_symbol(label, ptr);\n      free(label);\n\n      inputs_connect(ptr, argc, argv);\n      free(argv);\n}\n\nstatic void compile_event_or(char*label, unsigned argc, struct symb_s*argv)\n{\n      vvp_net_t*base_net = new vvp_net_t;\n      if (vpip_peek_current_scope()->is_automatic()) {\n            base_net->fun = new vvp_fun_event_or_aa(base_net);\n      } else {\n            base_net->fun = new vvp_fun_event_or_sa(base_net);\n      }\n      define_functor_symbol(label, base_net);\n      free(label);\n\n\t/* This is a simplified version of a wide functor. We don't\n\t   care about the data values or what port they arrived on,\n\t   so we can use a single shared functor. */\n      vvp_net_t*curr_net = base_net;\n      for (unsigned idx = 0 ;  idx < argc ;  idx += 1) {\n\t    if (idx > 0 && (idx % 4) == 0) {\n\t\t  curr_net = new vvp_net_t;\n\t\t  curr_net->fun = base_net->fun;\n\t    }\n\t    input_connect(curr_net, idx % 4, argv[idx].text);\n      }\n      free(argv);\n}\n\n"
+    }
+  },
+  "requirements": [
+    "Register every fully constructed waitable functor, including those with no current waiters. Track stable lifetimes and unregister before destruction; do not infer event identity from thread.event, which belongs to event-controlled assignment instructions.",
+    "Expose actual static threads_ heads and automatic per-context heads. Bind each reachable wait_next chain to live thread identities, reject cycles/duplicates/unknown objects, and compare the union to waiting_for_event flags at quiescent boundaries. Scheduled and event-wait lists have distinct owners despite sharing wait_next.",
+    "Observe initialized edge_ masks and all four bits_ histories, plus typed anyedge cache values and absent cache slots. Do not call get_*_value helpers during observation: they allocate missing caches. Use logical vector/string lengths and exact real bits, not object padding/capacity.",
+    "Cover automatic context allocation/reset/reuse/destruction explicitly when reachable; never reinterpret base template caches as per-context state. State addresses alone do not establish lifetime identity.",
+    "An event/or can share one functor across several input nets; preserve base_net_ and distinguish shared ownership from duplicate objects. Net connectivity and downstream fanout remain separate referents.",
+    "Observe event_ctls and last consistently. If controls are present, register and traverse their initialized typed payload, next, remaining count and destination referents; absence in this compiled fixture does not prove language-wide absence.",
+    "Mutate and restore real head pointers, edge histories/masks and initialized anyedge values before continuation. Require original/disabled/observed/restored complete output agreement and explicit wake/resuspend/empty-list coverage.",
+    "At each board boundary retain preceding thread/queue/filter/island/assignment/callback controls. Do not claim wait-event completion from pointer identity or successful serial output alone."
+  ]
+}
