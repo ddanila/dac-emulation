@@ -1,0 +1,33 @@
+{
+  "qualified": false,
+  "compiledBoardArrayImageComplete": true,
+  "observationExactlyRepeatable": true,
+  "arrays": 3,
+  "readPorts": 23,
+  "logicalBits": 16512,
+  "timings": {
+    "iterations": 64,
+    "totalSeconds": 0.03029,
+    "meanSeconds": 0.00047328125,
+    "minSeconds": 0.000469,
+    "maxSeconds": 0.000492
+  },
+  "peakResidentBytes": 7733248,
+  "logicalImageBytes": 47531,
+  "projection": {
+    "boundaries": 55156,
+    "normalSnapshotCalls": 110312,
+    "uncachedImageLogBytes": 5244011856,
+    "meanScanSeconds": 52.20860125,
+    "maxSampleScanSeconds": 54.273504,
+    "excludesLaterWordHandleAllocation": true,
+    "excludesOtherObserversAndCompression": true
+  },
+  "scope": "Complete compiled board array/read-port inventory before firmware execution. Unwritten X words and absent word handles remain unchanged. Host measurements are not runtime guarantees.",
+  "notEstablished": [
+    "Loaded ROM/register and read-address behavior at operational boundaries",
+    "Combined campaign runtime, compression and review cost",
+    "Later word-handle cache growth; projection is not a capture cap",
+    "General rollback or destination net/fanout contents"
+  ]
+}

@@ -1060,3 +1060,12 @@ board integration/budgets and destination net/fanout contents remain open.
 Build with `build_array_runtime.py`; run
 `array_probe.py --candidate RUNTIME --baseline ORIGINAL_LIB --modules MODULES --out NEW_DIR`
 or replay with `array_probe.py --check reports/array-state`.
+
+The [board array budget](reports/array-budget/assessment.json) measures complete
+pre-execution memory/read-port scans. Dense output exceeds the current campaign
+log cap even before later word-handle allocation. Integrate lossless compact
+snapshots with full-image equivalence checks before a combined campaign; keep
+scanning every word and port. This probe does not measure loaded firmware,
+compression or operational review cost. Run
+`array_budget.py --source REVIEWED_BOARD --candidate RUNTIME --out NEW_DIR`
+or replay with `array_budget.py --check reports/array-budget`.
