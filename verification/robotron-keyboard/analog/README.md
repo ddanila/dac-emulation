@@ -1634,3 +1634,19 @@ runtime nonmutation invariant across admitted modules. Native ownership,
 foreign-pointer refusal, subtype/lifecycle controls and operational integration
 remain required. Regenerate with `scope_metadata_contract.py --archive
 PINNED_ARCHIVE --out NEW_REPORT.json`; `--check` verifies the retained report.
+
+
+The [native scope admission controls](reports/scope-admission/assessment.json)
+qualify a separate runtime revision that records completed scope declarations
+and native internal-object attachment handoffs. The scope walker rejects foreign
+root/intern pointers before casting and requires every initialized scope in the
+reachable hierarchy. Foreign parents and omitted children refuse before output.
+Two rounds exercise all four faults with negative status and zero bytes, followed
+by exact restoration and original-runtime HDL continuation. Retained membership
+controls preserve empty scopes, zombie/deferred-deletion paths and automatic
+refusal; signal-scope controls preserve metadata/link comparisons and their
+existing family refusals. The registry assumes the static native ownership
+lifetime: deletion/address reuse, new runtime scope families, metadata payloads
+and operational board cost remain unqualified. Existing campaigns keep their
+pinned runtime. Build with `build_scope_admission_runtime.py`; reproduce native
+controls with `scope_admission.py` and paths recorded in `run.json`.

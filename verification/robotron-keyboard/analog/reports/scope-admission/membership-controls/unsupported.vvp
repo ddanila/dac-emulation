@@ -1,0 +1,32 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x105197fe0 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x105198160 .scope module, "unsupported_scope" "unsupported_scope" 3 2;
+ .timescale -9 -12;
+S_0x1051982e0 .scope autotask, "unused" "unused" 3 3, 3 3 0, S_0x105198160;
+ .timescale -9 -12;
+TD_unsupported_scope.unused ;
+    %end;
+    .scope S_0x105198160;
+T_1 ;
+    %delay 1000, 0;
+    %vpi_call/w 3 7 "$thread_observe" {0 0 0};
+    %vpi_call/w 3 8 "$display", "CONTINUED %0t", $time {0 0 0};
+    %vpi_call/w 3 9 "$finish" {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/scope-admission-membership-controls/unsupported.v";
