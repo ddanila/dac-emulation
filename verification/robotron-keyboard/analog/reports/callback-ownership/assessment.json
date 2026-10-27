@@ -1,0 +1,21 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "completeWireAndHeadImagesExactlyEqual": true,
+  "cancelledMiddleCallbackChangesContinuation": true,
+  "originalAndCandidateContinuationExactlyEqual": true,
+  "sourceContractSha256": "345677ce2fcf08d26b43bf526a47684087622314cff0bc7d71b933a4d35dd63c",
+  "scope": "Native middle-callback cancellation leaves complete wire/filter payloads and callback/array-word heads identical, but removes one subsequent invocation. All three callbacks share a native owner and execute in reverse registration order. This is a counterexample to head-only state sufficiency, not complete callback-list observation.",
+  "nextRequirements": [
+    "Enumerate all live owners, including empty lists, and bind adjusted owner pointers to native graph/filter classes.",
+    "Validate every list link against registered live allocations before dereferencing; reject cycles, foreign owners and aliases. Preserve order and deferred-cancellation nodes until native unlink/destruction.",
+    "Exact base-class callback admission does not admit part-select or array subclasses. Refuse unknown families before any output until their additional history is observed.",
+    "Observe array-word association nodes independently from procedural-array word-handle caches. Bind each association to array identity and valid word address without allocating VPI handles.",
+    "Follow admitted bridge object handles to typed native signal/node/scope identities; handle pointer equality alone is not referent coverage. Select scope/name versus array-parent/index union arms by native flags.",
+    "Constructor initialization only proves time type/value format and self-pointers. Establish caller initialization before reading optional index, time words, value union or user_data; never serialize padding.",
+    "The bridge watch caller registers before pp metadata initialization. Delay referent validation until registration handoff and port initialization complete.",
+    "Value delivery refreshes the temporary union before invocation. The known output callback copies it without an explicit coroutine yield; preserve this scoped continuation argument instead of claiming arbitrary callback scratch is irrelevant.",
+    "During invocation, local next/prev/array-word cursors can outlive list mutation. Either observe executing traversal frames or enforce the non-yielding admitted-callback boundary; idle list enumeration alone does not cover suspended traversal.",
+    "Require native tail/middle/head cancellation, callback insertion during dispatch, reentrant callbacks, alias associations and subclass refusals. Restore faults before native continuation; preserve all preceding combined state checks."
+  ]
+}

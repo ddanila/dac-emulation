@@ -224,6 +224,7 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_resolver*.py'
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_island_raw*.py'
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_assignment_raw*.py'
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_callback_ownership.py
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-source-contract
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-families
