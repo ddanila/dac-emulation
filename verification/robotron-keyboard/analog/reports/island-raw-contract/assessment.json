@@ -1,0 +1,127 @@
+{
+  "qualified": false,
+  "scope": "Pinned source ownership and compiled membership audit. No new native raw-state coverage or operational qualification.",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "boardManifestSha256": "74aff8dc11925b25bfbe5fe511d8f46df2cf234451095d28a58a30ea9787dcfe",
+  "compiledProfile": {
+    "islands": {
+      "I0xb0acfc9a0": "tran",
+      "I0xb0acfc940": "tran"
+    },
+    "ports": [
+      {
+        "label": "p0xb0b45b350",
+        "kind": "port",
+        "island": "I0xb0acfc9a0",
+        "source": "RS_0xb0b45b350"
+      },
+      {
+        "label": "p0xb0b45b3b0",
+        "kind": "port",
+        "island": "I0xb0acfc940",
+        "source": "L_0xb0ac899d0"
+      },
+      {
+        "label": "p0xb0b45b290",
+        "kind": "import",
+        "island": "I0xb0acfc9a0",
+        "source": "L_0xb0b4780a0"
+      },
+      {
+        "label": "p0xb0b45b2c0",
+        "kind": "import",
+        "island": "I0xb0acfc940",
+        "source": "L_0xb0b4780e8"
+      },
+      {
+        "label": "p0xb0b45b380",
+        "kind": "port",
+        "island": "I0xb0acfc9a0",
+        "source": "L_0xb0ac896c0"
+      },
+      {
+        "label": "p0xb0b45b3e0",
+        "kind": "port",
+        "island": "I0xb0acfc940",
+        "source": "L_0xb0ac89340"
+      }
+    ],
+    "branches": [
+      {
+        "kind": "tranif1",
+        "island": "I0xb0acfc9a0",
+        "a": "p0xb0b45b380",
+        "b": "p0xb0b45b350",
+        "enable": "p0xb0b45b290"
+      },
+      {
+        "kind": "tranif1",
+        "island": "I0xb0acfc940",
+        "a": "p0xb0b45b3e0",
+        "b": "p0xb0b45b3b0",
+        "enable": "p0xb0b45b2c0"
+      }
+    ],
+    "bindingLimit": "Compiled membership only; native graph/class and operational bindings remain required."
+  },
+  "sources": {
+    "vvp_island.h": "f9034cedbff9dabfeb738eabd78f57d89849a0e8bdc3dd12a6d22df8b50db30f",
+    "vvp_island.cc": "fe48ecc2f1162e3c581f3eed7ca8ff31ee8b8b58732d168e4d62406927999a7a",
+    "island_tran.cc": "36c2dd9348e0a713d03add663ee34477cff52ccfafe845396b1912af64dae271",
+    "schedule.cc": "06a3f5ffa3aa411e5c07473c206a86783a8a18fdea2f666f256efd38bebb23d8"
+  },
+  "evidence": {
+    "portStorage": {
+      "file": "vvp_island.h",
+      "firstLine": 125,
+      "excerpt": "class vvp_island_port  : public vvp_net_fun_t {\n\n    public:\n      explicit vvp_island_port(vvp_island*ip);\n      ~vvp_island_port() override;\n\n    public: // Implement vvp_net_fun_t methods\n      virtual void recv_vec4(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n                             vvp_context_t) override;\n      virtual void recv_vec4_pv(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n\t\t\t\tunsigned base, unsigned vwid, vvp_context_t) override;\n      virtual void recv_vec8(vvp_net_ptr_t port, const vvp_vector8_t&bit) override;\n      virtual void recv_vec8_pv(vvp_net_ptr_t p, const vvp_vector8_t&bit,\n\t\t\t\tunsigned base, unsigned vwid) override;\n\n\t// This is painful, but necessary. If the island is connected\n\t// to a forced net, we need to rerun the calculations whenever\n\t// a force/release happens to the net. If run_now is true, we\n\t// rerun immediately, otherwise we schedule it for the end of\n\t// the current time slot.\n      virtual void force_flag(bool run_now) override;\n\n    public:\n      vvp_vector8_t invalue;\n      vvp_vector8_t outvalue;\n      vvp_vector8_t value;\n\n    private:\n      vvp_island*island_;\n\n    public: // Support for $countdrivers.\n      inline void count_drivers(unsigned bit_idx, unsigned counts[3])\n      {\n            island_->count_drivers(this, bit_idx, counts);\n      }\n\n    private: // not implemented\n      vvp_island_port(const vvp_island_port&);\n      vvp_island_port& operator = (const vvp_island_port&);\n};\n\n"
+    },
+    "inputEqualityAndPartialWrites": {
+      "file": "vvp_island.cc",
+      "firstLine": 179,
+      "excerpt": "void vvp_island_port::recv_vec4(vvp_net_ptr_t, const vvp_vector4_t&bit,\n                                vvp_context_t)\n{\n      vvp_vector8_t tmp (bit, 6, 6);\n      if (invalue .eeq(tmp))\n\t    return;\n\n      invalue = tmp;\n      island_->flag_island();\n}\n\nvoid vvp_island_port::recv_vec4_pv(vvp_net_ptr_t port, const vvp_vector4_t&bit,\n\t\t\t\t   unsigned base, unsigned vwid, vvp_context_t)\n{\n      vvp_vector8_t tmp(bit, 6, 6);\n      recv_vec8_pv(port, tmp, base, vwid);\n}\n\n\nvoid vvp_island_port::recv_vec8(vvp_net_ptr_t, const vvp_vector8_t&bit)\n{\n      if (invalue .eeq(bit))\n\t    return;\n\n      invalue = bit;\n      island_->flag_island();\n}\n\nvoid vvp_island_port::recv_vec8_pv(vvp_net_ptr_t, const vvp_vector8_t&bit,\n                                   unsigned base, unsigned vwid)\n{\n      if (invalue.size() == 0) {\n\t    invalue = part_expand(bit, vwid, base);\n      } else {\n\t    unsigned wid = bit.size();\n\t    assert(invalue.size() == vwid);\n\t    for (unsigned idx = 0; idx < wid ; idx += 1) {\n\t\t  if ((base+idx) >= vwid)\n\t\t\tbreak;\n\t\t  invalue.set_bit(base+idx, bit.value(idx));\n\t    }\n      }\n\n      island_->flag_island();\n}\n\n"
+    },
+    "outputFilteringAndEquality": {
+      "file": "vvp_island.cc",
+      "firstLine": 41,
+      "excerpt": "void island_send_value(vvp_net_t*net, const vvp_vector8_t&val)\n{\n      vvp_island_port*fun = dynamic_cast<vvp_island_port*>(net->fun);\n      if (fun->outvalue .eeq(val))\n\t    return;\n\n      fun->outvalue = val;\n      net->send_vec8(fun->outvalue);\n}\n\n/*\n * Implementations...\n */\n"
+    },
+    "runAndTemporaryResolution": {
+      "file": "island_tran.cc",
+      "firstLine": 84,
+      "excerpt": "void vvp_island_tran::run_island()\n{\n\t// Test to see if any of the branches are enabled. This loop\n\t// tests the enabled inputs for all the branches and caches\n\t// the results in the state for each branch.\n      for (vvp_island_branch*cur = branches_ ; cur ; cur = cur->next_branch) {\n\t    vvp_island_branch_tran*tmp = dynamic_cast<vvp_island_branch_tran*>(cur);\n\t    assert(tmp);\n\t    tmp->run_test_enabled();\n      }\n\nrerun:\n\t// Now resolve all the branches in the island.\n      for (vvp_island_branch*cur = branches_ ; cur ; cur = cur->next_branch) {\n\t    vvp_island_branch_tran*tmp = dynamic_cast<vvp_island_branch_tran*>(cur);\n\t    assert(tmp);\n\t    tmp->run_resolution();\n      }\n\n\t// Now output the resolved values.\n      for (vvp_island_branch*cur = branches_ ; cur ; cur = cur->next_branch) {\n\t    vvp_island_branch_tran*tmp = dynamic_cast<vvp_island_branch_tran*>(cur);\n\t    assert(tmp);\n\t    tmp->run_output();\n      }\n\n\t// Now check if the enable inputs have been affected by the resolution.\n      bool enable_changed = false;\n      for (vvp_island_branch*cur = branches_ ; cur ; cur = cur->next_branch) {\n\t    vvp_island_branch_tran*tmp = dynamic_cast<vvp_island_branch_tran*>(cur);\n\t    assert(tmp);\n\t    enable_changed |= tmp->rerun_test_enabled();\n      }\n      if (enable_changed) goto rerun;\n}\n\nstatic void count_drivers_(vvp_branch_ptr_t cur, bool other_side_visited,\n                           unsigned bit_idx, unsigned counts[3])\n{\n        // First count any value driven into the port associated with\n        // the current endpoint.\n      vvp_net_t*net = cur.port() ? cur.ptr()->b : cur.ptr()->a;\n      vvp_scalar_t bit = island_get_value(net).value(bit_idx);\n      update_driver_counts(bit.value(), counts);\n\n        // Now handle all the branches attached to that port.\n      vvp_branch_ptr_t idx = cur;\n      do {\n            vvp_island_branch_tran*tmp = BRANCH_TRAN(idx.ptr());\n\n              // If this branch represents a tran gate, we count the\n              // value on the other side of the tran (providing it is\n              // enabled) as a single driver.\n            if (tmp->width == 0) {\n                  if (tmp->state == tran_enabled) {\n                        net = idx.port() ? idx.ptr()->a : idx.ptr()->b;\n                        bit = island_get_sent_value(net).value(bit_idx);\n                        update_driver_counts(bit.value(), counts);\n                  }\n                  continue;\n            }\n\n              // If we get here, this branch is a part select. If we've\n              // just come from the other end of the branch, we're done.\n            if ((idx == cur) && other_side_visited)\n                  continue;\n\n              // If this is the narrow end of the part select, the other\n              // end must include the bit we are interested in. Follow\n              // the branch to collect any drivers on the other side.\n            if (idx.port() == 1) {\n                  vvp_branch_ptr_t a_side(tmp, 0);\n                  count_drivers_(a_side, true, tmp->offset + bit_idx, counts);\n                  continue;\n            }\n\n              // If we get here, this branch is the wide end of a part\n              // select. If the bit we are interested in is within the\n              // selected part, follow the branch to collect any drivers\n              // on the other side.\n            if ((bit_idx >= tmp->offset) && (bit_idx < tmp->offset+tmp->part)) {\n                  vvp_branch_ptr_t b_side(tmp, 1);\n                  count_drivers_(b_side, true, bit_idx - tmp->offset, counts);\n                  continue;\n            }\n      } while ((idx = next(idx)) != cur);\n}\n\n"
+    },
+    "outputThenScratchClear": {
+      "file": "island_tran.cc",
+      "firstLine": 419,
+      "excerpt": "void vvp_island_branch_tran::run_output()\n{\n      vvp_island_port*port;\n\n\t// If the A side port hasn't already been updated, send the\n        // resolved value to the output.\n      port = dynamic_cast<vvp_island_port*>(a->fun);\n      if (port->value.size() != 0) {\n\t    island_send_value(a, port->value);\n\t    port->value = vvp_vector8_t::nil;\n      }\n\n\t// Do the same for the B side port.\n      port = dynamic_cast<vvp_island_port*>(b->fun);\n      if (port->value.size() != 0) {\n\t    island_send_value(b, port->value);\n\t    port->value = vvp_vector8_t::nil;\n      }\n}\n\n"
+    },
+    "assignmentPayloadAndDispatch": {
+      "file": "schedule.cc",
+      "firstLine": 226,
+      "excerpt": "struct assign_vector8_event_s  : public event_s {\n      vvp_net_ptr_t ptr;\n      vvp_vector8_t val;\n      void run_run(void) override;\n      void single_step_display(void) override;\n\n      static void* operator new(size_t);\n      static void operator delete(void*);\n};\n\nvoid assign_vector8_event_s::run_run(void)\n{\n      count_assign_events += 1;\n      vvp_send_vec8(ptr, val);\n}\n\nvoid assign_vector8_event_s::single_step_display(void)\n{\n      cerr << \"assign_vector8_event: Propagate val=\" << val << endl;\n}\n\nstatic const size_t ASSIGN8_CHUNK_COUNT = 8192 / sizeof(struct assign_vector8_event_s);\nstatic slab_t<sizeof(assign_vector8_event_s),ASSIGN8_CHUNK_COUNT> assign8_heap;\n\ninline void* assign_vector8_event_s::operator new(size_t size)\n{\n      assert(size == sizeof(assign_vector8_event_s));\n      return assign8_heap.alloc_slab();\n}\n\nvoid assign_vector8_event_s::operator delete(void*dptr)\n{\n      assign8_heap.free_slab(dptr);\n}\n\nunsigned long count_assign8_pool() { return assign8_heap.pool; }\n\n"
+    },
+    "genericWrapper": {
+      "file": "schedule.cc",
+      "firstLine": 497,
+      "excerpt": "struct generic_event_s : public event_s {\n      vvp_gen_event_t obj;\n      bool delete_obj_when_done;\n      void run_run(void) override;\n      void single_step_display(void) override;\n\n      static void* operator new(size_t);\n      static void operator delete(void*);\n};\n\nvoid generic_event_s::run_run(void)\n{\n      count_gen_events += 1;\n      if (obj) {\n\t    obj->run_run();\n\t    if (delete_obj_when_done)\n\t\t  delete obj;\n      }\n}\n\nvoid generic_event_s::single_step_display(void)\n{\n      obj->single_step_display();\n}\n\n"
+    }
+  },
+  "requiredRawStorage": [
+    "vvp_island_port.invalue",
+    "vvp_island_port.outvalue",
+    "vvp_island_port.value",
+    "assign_vector8_event_s.val"
+  ],
+  "requirements": [
+    "Preserve raw bytes and actual lengths for all three port vectors, including empty constructor/scratch storage. Keep the legacy triplet view as a cross-check, not an exact encoding.",
+    "Full input writes use raw equality to suppress scheduling. Partial-first input expands the vector; later partial writes merge with existing input, unlike resolver fresh-Z replacement. Cover clipping and untouched bits.",
+    "Observe synchronous output callbacks while temporary resolution vectors remain live. run_output sends before clearing scratch; idle snapshots alone cannot qualify scratch payloads.",
+    "Keep island flag, mesh order, branch enable state, direction, resistance and partial-width configuration together with raw port caches. Bind each port to native graph/class and filter ownership.",
+    "Generic island wrappers contain event identity/ownership, not a separate strength vector. Preserve queued/executing wrapper-to-island bindings while covering the port payload itself.",
+    "Scheduled vector-8 assignments own separate raw payload vectors and tagged destinations. Cover pending and executing assignments, allocation/lifetime identity, raw collision faults and restored continuation.",
+    "Require exact native family admission, early/late unsupported-family refusal, allocation growth and original-runtime continuation controls before compact/combined integration.",
+    "Exercise real raw-strength inputs and 0x00/0x88 collisions in input/output/scratch and scheduled payloads. The scalar/switch helper oracle does not establish complete island dispatch coverage.",
+    "Add a subsequent runtime revision without changing pinned active campaigns; preserve all preceding graph/filter/queue checks and measure actual full-scan and changing-state cost."
+  ]
+}
