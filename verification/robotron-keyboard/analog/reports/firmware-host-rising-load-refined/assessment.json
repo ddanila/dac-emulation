@@ -25,13 +25,14 @@
     "voltage-integrals.json": "35e5f57e7dbfc62ed602b396e6ae3025082d09047861c836b252efb486c4512f"
   },
   "waveforms": {
-    "retention": "Full waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL included.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-load-refined",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "interpretation": "Reference bits, explicit scenario coverage and sampled stability pass. Serial-edge differences remain within the declared numerical budget, but maximum absolute-time voltage differences do not decrease consistently relative to the preceding pair: buffer data improves slightly while clock worsens. Maximum locations differ. This does not establish whole-waveform convergence or device accuracy.",
   "nextAction": "Investigate event/transition scheduling and the separate release-boundary solver failures before treating finer timesteps alone as a solution. Retain absolute phase and existing acceptance criteria.",

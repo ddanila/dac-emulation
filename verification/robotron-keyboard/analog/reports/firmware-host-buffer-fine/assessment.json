@@ -25,13 +25,14 @@
     "voltage-comparison.json": "b59f4a6f46019625afed59bdb362414047e5f28388dfffaa41767714ce311021"
   },
   "waveforms": {
-    "retention": "Full waveforms remain local, not included in this repository receipt. Reports retain hashes; independent waveform review requires the captures or reproduction.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-buffer-fine",
     "files": [
       "driver-trace.txt.xz",
       "host-trace.txt.xz",
       "trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "reproduce": "python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom /path/to/s600.bin --host-buffer --serial-driver 7406-dc --step-ns 25 --compress-traces --ngspice /path/to/runtime/ngspice --out build/keyboard-controller-analog/firmware-host-buffer-fine",
   "interpretation": "Serial edges converge within the numerical budget; sampled stability and D104 input envelopes pass. Absolute-time voltage comparison nevertheless exposes substantial transition differences, especially at buffer outputs. Full waveform convergence and device/loading qualification are not established.",

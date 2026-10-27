@@ -42,13 +42,14 @@
     "basis": "Both complete host waveforms are byte-identical to the original pair. Reuse only the absolute-time voltage comparison, not the old falling-edge serial comparison."
   },
   "waveforms": {
-    "retention": "Full waveforms remain local; reports retain their uncompressed hashes. No ROM or compiled HDL included.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-load-fine",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "interpretation": "Corrected rising-edge logical comparison, scenario coverage, sampled data stability and serial-edge timestep refinement pass. Exact waveform identity preserves the earlier substantial absolute-time voltage differences; whole-waveform convergence and semiconductor applicability remain unqualified.",
   "nextAction": "Complete remaining corrected firmware scenarios and investigate voltage transition differences without phase alignment; keep closed-board startup and device qualification independent."

@@ -42,12 +42,16 @@
   "interpretation": "The final Newton call returns success, but the inductor error estimator requests a step below delmin when the current step is already at delmin. L1.2 is the final limiting winding; other L1 windings also constrain that trial. Its charge/flux history contains a sharp trial-state jump at this extremely small step. These are rejected numerical states, not accepted physical voltages/currents or identification of a defective winding. The instrumentation leaves all partial waveform bytes unchanged.",
   "nextAction": "Trace the onset of timestep collapse and distinguish integration-history sensitivity from circuit/model stiffness, retaining the sourced filter topology and explicit winding assumptions. Test numerical integration controls independently rather than replacing winding values to obtain a pass.",
   "waveforms": {
-    "retention": "Incomplete local captures; producer hashes retained.",
+    "retention": "Complete local waveform set no longer available; listed remaining files, input decks and completed review results retained. Full-waveform replay requires regeneration.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-load-truncation-audit",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
+    ],
+    "available": false,
+    "remainingFiles": [
+      "host-trace.txt.xz"
     ]
   }
 }

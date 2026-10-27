@@ -24,13 +24,14 @@
     "voltage-comparison-relocated.json": "93fcb94ef46ae060631f2c1ccd7aec454dbadc87d3aa5f61d2d0e2c1e9b1a72c"
   },
   "waveforms": {
-    "retention": "Full waveforms remain local; producer hashes identify their bytes. No ROM or compiled HDL is included.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-load-50pf-sink-fine",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "interpretation": "The unchanged circuit, model sources and runtime differ only in timestep. Serial-edge refinement passes for the old observer, but absolute-time buffer voltages retain substantial transition differences. This is neither full-waveform convergence nor U856 receive qualification: the original observer samples the wrong edge.",
   "comparisonProvenance": "The first review rejected identical C source hashes because checkout roots differed. The corrected reviewer compares complete source roles and digests under one consistent root, without editing producer reports.",

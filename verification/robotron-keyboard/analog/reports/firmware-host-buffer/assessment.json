@@ -22,13 +22,14 @@
     "input-review.json": "b59a897b2e7ccf96c70a9c7681021ba30e11d6c98629bc33ec0c4ec42de16c68"
   },
   "waveforms": {
-    "retention": "Local build output only; full waveforms are not included in this repository receipt. Reports retain producer and compressed-container hashes. Reproduction or the original local captures are required for independent waveform review.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-buffer",
     "files": [
       "driver-trace.txt.xz",
       "host-trace.txt.xz",
       "trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "reproduce": "python3 verification/robotron-keyboard/analog/firmware_io_cosim.py --rom /path/to/s600.bin --host-buffer --serial-driver 7406-dc --step-ns 50 --compress-traces --ngspice /path/to/runtime/ngspice --out build/keyboard-controller-analog/firmware-host-buffer",
   "remaining": [

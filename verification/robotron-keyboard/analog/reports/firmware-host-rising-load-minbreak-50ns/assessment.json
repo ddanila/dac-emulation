@@ -40,13 +40,14 @@
     }
   },
   "waveforms": {
-    "retention": "Complete waveforms remain local; uncompressed producer hashes match the baseline exactly. No ROM or compiled HDL included.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-load-minbreak-50ns",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   },
   "interpretation": "Logical agreement and sampled stability pass. Every retained voltage waveform is byte-identical to the corresponding default-spacing baseline. Explicit spacing therefore does not alter the single-press voltage-refinement differences, despite resolving the separate release-boundary failure. This does not establish whole-waveform convergence or device accuracy.",
   "nextAction": "Investigate transition integration and event scheduling independently of minimum breakpoint spacing; preserve absolute phase and peak differences."

@@ -37,12 +37,13 @@
   "interpretation": "The same failure and byte-identical partial waveforms are consistent with the source-defined iteration floor. This is a default-equivalent control, not evidence that additional effective iterations fail to help. No physical component fault is inferred.",
   "nextAction": "Test an explicit limit above the NIiter floor with unchanged circuit, tolerances, timestep and stimulus.",
   "waveforms": {
-    "retention": "Incomplete local captures; producer compressedWaveforms and failureArtifacts retain hashes.",
+    "retention": "Local waveforms pruned; input decks and completed review results retained. Full-waveform replay requires regeneration. Historical hashes do not imply current availability.",
     "directory": "build/keyboard-controller-analog/firmware-host-rising-load-strict-iterations",
     "files": [
       "trace.txt.xz",
       "host-trace.txt.xz",
       "driver-trace.txt.xz"
-    ]
+    ],
+    "available": false
   }
 }
