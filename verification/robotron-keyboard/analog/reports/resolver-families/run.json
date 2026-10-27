@@ -1,0 +1,359 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/derived-tri-early.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/derived-tri-late.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/derived-extend-early.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/derived-extend-late.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/triand-early.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/triand-late.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/trior-early.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/trior-late.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-resolver-runtime",
+      "-I/private/tmp/k7658-resolver-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.cc"
+    ]
+  ],
+  "runs": {
+    "derived-tri-early-baseline": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-tri-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived-tri-early-disabled": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-tri-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "derived-tri-early-observe": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-tri-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "derived-tri-late-baseline": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-tri-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived-tri-late-disabled": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-tri-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "derived-tri-late-observe": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-tri-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "derived-extend-early-baseline": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-extend-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived-extend-early-disabled": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-extend-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "derived-extend-early-observe": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-extend-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "derived-extend-late-baseline": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-extend-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived-extend-late-disabled": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-extend-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "derived-extend-late-observe": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-extend-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "triand-early-baseline": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "triand-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "triand-early-disabled": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "triand-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "triand-early-observe": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "triand-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "triand-late-baseline": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "triand-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "triand-late-disabled": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "triand-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "triand-late-observe": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "triand-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "trior-early-baseline": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "trior-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "trior-early-disabled": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "trior-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "trior-early-observe": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "trior-early.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "trior-late-baseline": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "trior-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "trior-late-disabled": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "trior-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    },
+    "trior-late-observe": {
+      "command": [
+        "/private/tmp/k7658-resolver-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "trior-late.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-resolver-runtime/vvp/libvvp.so": "a7fc0dd55561df775d38ab8585b9f562052fab85753c0a224d2dff9a268a7b0f",
+    "/private/tmp/k7658-resolver-runtime/vvp/vvp": "2c0307841a4491efe9007c88502686a4641d13f4f32eb7d61d428cf4351af8ba",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-families/probe.vpi": "bf00961c6494b5f9c1985b175018ad755e50d1b460f6776ab0f672ea4a7ea172",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "resolver_family_probe.py": "da401865ba69bd488c6d09ddf96d5d830211358b7591f5ba286a61baeb1b2a8c",
+    "resolver_probe.py": "b7dde95cfd465361c18d041887f9f4db9fb1625b01794dc3c26f504a32a5005d",
+    "net_types_probe.py": "825f050da7ac1e208ba29b1e1ce3a5e5bc4bb5ec813b99805261bbe6017736ba",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "fixtures/resolver_family.cc": "7d2530586a8704276aeb06938dda20d67b0c6d2e794953526c4494786902220c",
+    "fixtures/resolver_family.v": "4a8179b35670b6bb6d65872724930311ed5835e7a8c5f7aa7e8e4e6151da4d81"
+  }
+}
