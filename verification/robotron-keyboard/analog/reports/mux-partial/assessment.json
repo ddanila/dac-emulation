@@ -1,0 +1,26 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "directPartialPorts": [
+    0,
+    1,
+    2
+  ],
+  "vectorWidth": 80,
+  "outputMatchesIndependentOracle": true,
+  "normalTrajectoryExactlyEqual": true,
+  "observationsPerRun": 18,
+  "restoredFaults": 78,
+  "faultsByField": {
+    "0": 18,
+    "1": 18,
+    "2": 18,
+    "3": 18,
+    "4": 6
+  },
+  "scope": "Direct native recv_vec4_pv calls in original and observed runtimes; selected/unselected and unchanged partial writes, high-word X/Z data, 0/1/X/Z selection, queued/executing wrappers and exact restored faults.",
+  "notEstablished": [
+    "Board integration and operational budgets",
+    "Other logic families or general rollback"
+  ]
+}

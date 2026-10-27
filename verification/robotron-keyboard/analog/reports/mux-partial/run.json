@@ -1,0 +1,88 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/mux-partial-native/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/mux-partial-native/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-mux-runtime-v2",
+      "-I/private/tmp/k7658-mux-runtime-v2/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/mux-partial-native/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/mux-partial-native/probe.cc"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-mux-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-mux-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-mux-runtime-v2/vvp/libvvp.so"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-mux-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-mux-runtime-v2/vvp/libvvp.so"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-mux-runtime-v2/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-mux-runtime-v2/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-mux-runtime-v2/vvp/libvvp.so": "f1c1c67e862321633cd43736760bcfc03e759cfbd39c9db055b41d9de921ee63",
+    "/private/tmp/k7658-mux-runtime-v2/vvp/vvp": "050f95b493e14ae4857347f5b37fd5a1be5bc5437dffb71670d83d1c1c8f3a9d",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/mux-partial-native/probe.vpi": "1731cf0671edb6c9cb39f5f96b9d0922214fafc3d7918f9d9405b0751561ea12",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "mux_partial_probe.py": "06cf66540f70057b3e19b009bdd22edddaab04ae661772cb96d97a2f31636a76",
+    "mux_probe.py": "5e221f38435b483785cce5efaf24338491ff3306cc03c803f2cc268ae7a3c2b0",
+    "fixtures/mux_partial_probe.cc": "10998c405de4cc661194dbb086640f35ec84b562759f81b0b779b6301b2d2cf6",
+    "fixtures/mux_partial_probe.v": "9e9f9b6ee12ad4836a5e339aa0450a68472ad2d710eab693546c1e71bba4e3e6"
+  }
+}
