@@ -1,0 +1,46 @@
+{
+  "commit": "dfeee909ed9f20b4870dd93423156c0170c0e1ff",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "sources": {
+    "fixtures/assignment_raw_native.inc": "f3786f5279e27f51b8fbffa326732f84b61d781a4ab0859364f93ae121e9d6f9",
+    "build_assignment_raw_dispatch_native.py": "8f4e5f1ba64ec09eb7b30742a7dd35ec9852631f6ea568816d621e831c98087b"
+  },
+  "outputs": {
+    "vvp/vvp": "7de01ca501ccebb2217b787e60e3ecde601ed2c94c535849d740328bc77b08db",
+    "vvp/libvvp.so": "08177d0bd45eca75e17133174a67bd99a2b090dd2bf6c85243fe58e991be4a81",
+    "vvp/schedule.cc": "2811fd136f6c7a31c5ecf8976618af2f236112a68a9f0b843701da3816f9b4cf"
+  },
+  "qualified": false,
+  "adapterOnly": true,
+  "unadaptedScheduleSha256": "06a3f5ffa3aa411e5c07473c206a86783a8a18fdea2f666f256efd38bebb23d8",
+  "adapterCommands": [
+    [
+      "tar",
+      "-xzf",
+      "/private/tmp/k7658-icarus-pinned.tar.gz",
+      "--strip-components=1"
+    ],
+    [
+      "sh",
+      "autoconf.sh"
+    ],
+    [
+      "./configure",
+      "--enable-libvvp",
+      "--prefix=/private/tmp/k7658-assignment-raw-dispatch-native/original/install",
+      "YACC=/opt/homebrew/Cellar/bison/3.8.2/bin/bison"
+    ],
+    [
+      "make",
+      "version_tag.h",
+      "version.exe"
+    ],
+    [
+      "make",
+      "-C",
+      "vvp",
+      "-j2"
+    ]
+  ],
+  "scope": "Shared test-only event factory appended to original or candidate schedule.cc; exact classes, subclasses, native queue insertion, synchronous dispatch and deletion. These adapted libraries are not operational board runtimes."
+}
