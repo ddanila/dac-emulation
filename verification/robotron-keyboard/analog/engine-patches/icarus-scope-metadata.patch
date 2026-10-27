@@ -1,0 +1,94 @@
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -39,6 +39,14 @@
+ // not populated by observer-supplied or arbitrary VPI object pointers.
+ static set<vpiHandle> robotron_initialized_scopes;
+ static set<vpiHandle> robotron_attached_objects;
++struct robotron_scope_metadata_registration {
++    unsigned long long id;
++    const char *name, *definition;
++    size_t name_bytes, definition_bytes;
++};
++static map<__vpiScope*,robotron_scope_metadata_registration> robotron_scope_metadata;
++static map<vpiHandle,unsigned long long> robotron_object_ids;
++static map<vpiHandle,int> robotron_object_types;
+ 
+ static vpiHandle make_subset_iterator_(int type_code, const vector<vpiHandle>&table);
+ 
+@@ -464,6 +472,10 @@
+       assert(scope);
+       scope->intern.push_back(obj);
+       robotron_attached_objects.insert(obj);
++      if(!robotron_object_ids.count(obj)) {
++          robotron_object_ids[obj]=robotron_object_ids.size()+1;
++          robotron_object_types[obj]=obj->get_type_code();
++      }
+ }
+ 
+ /*
+@@ -600,6 +612,9 @@
+ 	    scope->time_precision = vpip_get_time_precision();
+       }
+       robotron_initialized_scopes.insert(scope);
++      robotron_scope_metadata[scope]={robotron_scope_metadata.size()+1,
++          scope->scope_name(),scope->scope_def_name(),
++          strlen(scope->scope_name())+1,strlen(scope->scope_def_name())+1};
+ }
+ 
+ void compile_scope_recall(char*symbol)
+@@ -916,3 +931,55 @@
+     ids->clear();for(size_t i=0;i<scopes.size();++i)(*ids)[scopes[i]]=i+1;
+     return 0;
+ }
++
++// Static native lifetime only. Validate the complete graph before writing.
++// Names are read only through their registered allocation and byte bounds.
++#include <typeinfo>
++extern "C" int robotron_vvp_scope_metadata_inventory(FILE* out)
++{
++    vector<__vpiScope*> scopes;
++    if(!out || robotron_static_scopes(scopes))return -1;
++    for(auto scope:scopes) {
++        auto found=robotron_scope_metadata.find(scope);
++        if(found==robotron_scope_metadata.end() || !scope->classes.empty())return -1;
++        const auto& r=found->second;
++        if(scope->scope_name()!=r.name || scope->scope_def_name()!=r.definition)return -1;
++        const auto& t=typeid(*scope);
++        if(t!=typeid(vpiScopeModule) && t!=typeid(vpiScopePackage) &&
++           t!=typeid(vpiScopeTask) && t!=typeid(vpiScopeBegin) &&
++           t!=typeid(vpiScopeGenerate) && t!=typeid(vpiScopeFork) &&
++           t!=typeid(vpiScopeFunction))return -1;
++        if((scope->scoped_time.scope && scope->scoped_time.scope!=scope) ||
++           (scope->scoped_stime.scope && scope->scoped_stime.scope!=scope) ||
++           (scope->scoped_realtime.scope && scope->scoped_realtime.scope!=scope))return -1;
++        for(auto item:scope->intern) {
++            auto id=robotron_object_ids.find(item);
++            auto type=robotron_object_types.find(item);
++            if(id==robotron_object_ids.end() || type==robotron_object_types.end() ||
++               item->get_type_code()!=type->second)return -1;
++        }
++    }
++    if(fprintf(out,"VSM_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto scope:scopes) {
++        const auto& r=robotron_scope_metadata.at(scope);
++        auto parent=scope->scope?robotron_scope_metadata.at(scope->scope).id:0;
++        if(fprintf(out,"VSM_SCOPE %llu %llu %d %u %u %u %u %u %d %d\n",
++            r.id,parent,scope->get_type_code(),scope->file_idx,scope->lineno,
++            scope->def_file_idx,scope->def_lineno,unsigned(scope->is_cell),
++            int(scope->time_units),int(scope->time_precision))<0)return -1;
++        if(fprintf(out,"VSM_NAME %zu ",r.name_bytes)<0)return -1;
++        for(size_t i=0;i<r.name_bytes;++i)if(fprintf(out,"%02x",(unsigned char)r.name[i])<0)return -1;
++        if(fprintf(out,"\nVSM_DEFINITION %zu ",r.definition_bytes)<0)return -1;
++        for(size_t i=0;i<r.definition_bytes;++i)if(fprintf(out,"%02x",(unsigned char)r.definition[i])<0)return -1;
++        if(fprintf(out,"\nVSM_TIME %llu %llu %llu\n",
++            scope->scoped_time.scope?r.id:0,scope->scoped_stime.scope?r.id:0,
++            scope->scoped_realtime.scope?r.id:0)<0)return -1;
++        auto fun=dynamic_cast<vpiScopeFunction*>(scope);
++        if(fun && fprintf(out,"VSM_FUNCTION %d %u %u\n",fun->vpi_get(vpiFuncType),
++            fun->get_func_width(),unsigned(fun->get_func_init_val()))<0)return -1;
++        if(fprintf(out,"VSM_INTERN %zu\n",scope->intern.size())<0)return -1;
++        for(auto item:scope->intern)if(fprintf(out,"VSM_OBJECT %llu %d\n",
++            robotron_object_ids.at(item),robotron_object_types.at(item))<0)return -1;
++    }
++    return fprintf(out,"VSM_END %zu\n",scopes.size())<0 || ferror(out)?-1:0;
++}

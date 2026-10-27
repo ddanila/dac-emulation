@@ -1650,3 +1650,18 @@ lifetime: deletion/address reuse, new runtime scope families, metadata payloads
 and operational board cost remain unqualified. Existing campaigns keep their
 pinned runtime. Build with `build_scope_admission_runtime.py`; reproduce native
 controls with `scope_admission.py` and paths recorded in `run.json`.
+
+The [native scope metadata controls](reports/scope-metadata/assessment.json)
+add a separate observer for source locations, cell/timescale fields, bounded name
+and definition bytes, function subtype/width/initial value, lazy scoped-time
+backreferences and ordered internal-object identities/types. Native declaration
+and attachment handoffs register pointer ownership before observation; the whole
+static graph is checked before output. Two rounds distinguish fourteen metadata
+mutations, refuse eight invalid states with zero bytes, and restore the exact
+image before continuing identically to the original runtime. Automatic scopes
+also refuse without output. Existing admission, membership/lifecycle and signal
+controls pass with this runtime. Function fields are observed but not faulted;
+internal-object payloads, deletion/address reuse, exhaustive initialization-only
+proof and operational board integration/cost remain open. Running campaigns retain
+their earlier pinned runtime. Build with `build_scope_metadata_runtime.py` and
+reproduce with `scope_metadata.py` using the paths in the retained receipts.
