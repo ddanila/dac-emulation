@@ -1,7 +1,7 @@
 """Native gate inventories must preserve every cache and wrapper association."""
 import copy,json,unittest
 from pathlib import Path
-import gate_probe as gate
+import native_gate_probe as gate
 ROOT=Path(__file__).resolve().parent/'reports/gate-state'
 
 class GateProbe(unittest.TestCase):

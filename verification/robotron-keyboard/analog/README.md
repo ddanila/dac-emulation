@@ -1330,5 +1330,5 @@ partial writes, X/Z values and unchanged writes preserve original-runtime output
 actual input/inversion/pending faults restore before execution. Other subclasses
 of these cache bases refuse inventory; native refusal fixtures, real conversion,
 unequal-width inputs, allocation lifecycle and board integration remain open.
-Build with `build_gate_runtime.py`, then run `gate_probe.py` with candidate,
-baseline and module paths. Replay with `gate_probe.py --check reports/gate-state`.
+Build with `build_gate_runtime.py`, then run `native_gate_probe.py` with candidate,
+baseline and module paths. Replay with `native_gate_probe.py --check reports/gate-state`.
