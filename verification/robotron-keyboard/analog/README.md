@@ -951,3 +951,9 @@ with `thread_lifecycle_probe.py --check verification/robotron-keyboard/analog/re
 The fixture covers cancellation, deferred deletion and fresh identities after
 storage reuse. This does not establish freed-storage equivalence; board
 reachability and integration remain separate checks.
+
+Scope board lifecycle controls using the [compiled reachability inventory](reports/thread-board-reachability/assessment.json).
+Regenerate it with `thread_board_reachability.py --vvp <compiled-board> --archive
+<pinned-icarus-archive> --out <fresh-assessment>`. Labelled opcodes and VPI calls
+are included; absent detach opcodes do not exclude callback-driven deferred
+deletion. Recheck this inventory when the compiled board changes.
