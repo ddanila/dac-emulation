@@ -1,0 +1,27 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "outputMatchesIndependentOracle": true,
+  "observations": 44,
+  "executingObservations": 24,
+  "faultsByField": {
+    "0": 28,
+    "1": 28,
+    "2": 28,
+    "3": 28,
+    "4": 28,
+    "5": 12,
+    "6": 19
+  },
+  "scope": "Supported concat allocations grow from a persistent sentinel to additional concat4/concat8 objects at 1 ns. New constructor state precedes writes; original-runtime continuation, unchanged sentinel and stable identities persist. Concat4/concat8 constructor, four input ports, partial writes, unchanged-write scheduling, raw strength collisions and queued/executing wrapper bindings. Native faults restore caches, each port width and pending output nodes before continuation.",
+  "notEstablished": [
+    "Freed allocation/storage behavior",
+    "Compact reconstruction of new rows and operational board integration",
+    "General rollback and freed storage"
+  ],
+  "denseAndDeltaExactlyEqual": true,
+  "matchedSnapshots": 430,
+  "denseBytes": 242210,
+  "deltaBytes": 410334,
+  "referenceBytes": 358
+}
