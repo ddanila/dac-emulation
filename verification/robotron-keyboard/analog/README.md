@@ -957,3 +957,11 @@ Regenerate it with `thread_board_reachability.py --vvp <compiled-board> --archiv
 <pinned-icarus-archive> --out <fresh-assessment>`. Labelled opcodes and VPI calls
 are included; absent detach opcodes do not exclude callback-driven deferred
 deletion. Recheck this inventory when the compiled board changes.
+
+`fast_audit_log.py` preserves the original scan checks while prefiltering diagnostic
+candidates under pinned source identities. Non-ASCII text and changed diagnostic
+sources use the original parser. [Full retained-log equivalence and host timing](reports/audit-scan/assessment.json)
+are recorded separately from numerical qualification. Reproduce with
+`audit_scan_benchmark.py --root <retained-controls> --mode observe --out <fresh-assessment>`;
+the benchmark verifies the retained manifest and compares the full scan with its
+original receipt. Keep native captures and large replays out of CI.
