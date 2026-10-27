@@ -1,0 +1,28 @@
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -1501,3 +1501,25 @@
+ };
+ extern "C" int robotron_vvp_callback_list_inventory(FILE* out)
+ {return robotron_callback_lists::inventory(out);}
++
++/* Test actual association fields without following corrupted referents.
++ * Every paired fault must restore before any native value dispatch. */
++extern "C" int robotron_vvp_callback_word_toggle(unsigned long long id,int field)
++{
++    static __vpi_array_word* saved=0;static unsigned long long saved_id;
++    static int saved_field;static __vpi_array_word* saved_next;
++    static __vpiArray* saved_array;static unsigned long saved_word;
++    if(robotron_callback_dispatch_depth || field<0 || field>2)return -1;
++    __vpi_array_word* target=0;
++    for(auto item:robotron_callback_words())if(item.second.id==id)target=item.first;
++    if(saved) {
++        if(target!=saved || id!=saved_id || field!=saved_field)return -1;
++        saved->next=saved_next;saved->array=saved_array;saved->word=saved_word;saved=0;return 1;
++    }
++    if(!target)return 0;
++    saved=target;saved_id=id;saved_field=field;saved_next=target->next;saved_array=target->array;saved_word=target->word;
++    if(field==0)target->word^=1;
++    else if(field==1)target->array=reinterpret_cast<__vpiArray*>(uintptr_t(1));
++    else target->next=reinterpret_cast<__vpi_array_word*>(uintptr_t(1));
++    return 1;
++}

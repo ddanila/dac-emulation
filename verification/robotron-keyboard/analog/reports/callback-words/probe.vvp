@@ -1,0 +1,102 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x103508590 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x103508710 .scope module, "probe" "probe" 3 2;
+ .timescale -9 -12;
+L_0x10350ef20 .functor BUFZ 4, v0x972c340a0_0, C4<0000>, C4<0000>, C4<0000>;
+L_0x1035107d0 .functor BUFZ 4, v0x972c341e0_0, C4<0000>, C4<0000>, C4<0000>;
+L_0x1035111d0 .functor BUFZ 4, v0x972c340a0_0, C4<0000>, C4<0000>, C4<0000>;
+L_0x10350f290 .functor BUFZ 4, v0x972c340a0_0, C4<0000>, C4<0000>, C4<0000>;
+L_0x10350f5b0 .functor BUFZ 4, v0x972c341e0_0, C4<0000>, C4<0000>, C4<0000>;
+L_0x10350f8d0 .functor BUFZ 4, L_0x10350f830, C4<0000>, C4<0000>, C4<0000>;
+L_0x103508890 .functor BUFZ 4, L_0x1035128d0, C4<0000>, C4<0000>, C4<0000>;
+v0x10350f510_0 .net *"_ivl_15", 3 0, L_0x10350f830;  1 drivers
+v0x10350f1f0_0 .net *"_ivl_18", 0 0, L_0x103512790;  1 drivers
+v0x103511130_0 .net *"_ivl_19", 2 0, L_0x103512830;  1 drivers
+L_0x973454010 .functor BUFT 1, C4<00>, C4<0>, C4<0>, C4<0>;
+v0x103510730_0 .net *"_ivl_22", 1 0, L_0x973454010;  1 drivers
+v0x10350ee80_0 .net *"_ivl_25", 3 0, L_0x1035128d0;  1 drivers
+v0x10350fb50_0 .net *"_ivl_27", 3 0, L_0x103512970;  1 drivers
+L_0x973454058 .functor BUFT 1, C4<00>, C4<0>, C4<0>, C4<0>;
+v0x972c34000_0 .net *"_ivl_30", 1 0, L_0x973454058;  1 drivers
+v0x972c340a0_0 .var "a", 3 0;
+v0x972c34140 .array "aliases", 2 0;
+v0x972c34140_0 .net v0x972c34140 0, 3 0, L_0x1035111d0; 1 drivers
+v0x972c34140_1 .net v0x972c34140 1, 3 0, L_0x10350f290; 1 drivers
+v0x972c34140_2 .net v0x972c34140 2, 3 0, L_0x10350f5b0; 1 drivers
+v0x972c341e0_0 .var "b", 3 0;
+v0x972c34280_0 .var "select", 1 0;
+v0x972c34320_0 .net "selected_alias", 3 0, L_0x103508890;  1 drivers
+v0x972c343c0_0 .net "selected_word", 3 0, L_0x10350f8d0;  1 drivers
+v0x972c34460 .array "words", 1 0;
+v0x972c34460_0 .net v0x972c34460 0, 3 0, L_0x10350ef20; 1 drivers
+v0x972c34460_1 .net v0x972c34460 1, 3 0, L_0x1035107d0; 1 drivers
+L_0x10350f830 .array/port v0x972c34460, L_0x103512830;
+L_0x103512790 .part v0x972c34280_0, 0, 1;
+L_0x103512830 .concat [ 1 2 0 0], L_0x103512790, L_0x973454010;
+L_0x1035128d0 .array/port v0x972c34140, L_0x103512970;
+L_0x103512970 .concat [ 2 2 0 0], v0x972c34280_0, L_0x973454058;
+    .scope S_0x103508710;
+T_0 ;
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v0x972c340a0_0, 0, 4;
+    %pushi/vec4 15, 0, 4;
+    %store/vec4 v0x972c341e0_0, 0, 4;
+    %pushi/vec4 0, 0, 2;
+    %store/vec4 v0x972c34280_0, 0, 2;
+    %end;
+    .thread T_0, $init;
+    .scope S_0x103508710;
+T_1 ;
+    %delay 1000, 0;
+    %vpi_call/w 3 10 "$word_inspect" {0 0 0};
+    %vpi_call/w 3 10 "$display", "VALUE %0t %b %b", $time, v0x972c343c0_0, v0x972c34320_0 {0 0 0};
+    %delay 1000, 0;
+    %pushi/vec4 3, 0, 4;
+    %store/vec4 v0x972c340a0_0, 0, 4;
+    %pushi/vec4 12, 0, 4;
+    %store/vec4 v0x972c341e0_0, 0, 4;
+    %pushi/vec4 1, 0, 2;
+    %store/vec4 v0x972c34280_0, 0, 2;
+    %delay 1000, 0;
+    %vpi_call/w 3 12 "$word_inspect" {0 0 0};
+    %vpi_call/w 3 12 "$display", "VALUE %0t %b %b", $time, v0x972c343c0_0, v0x972c34320_0 {0 0 0};
+    %delay 1000, 0;
+    %pushi/vec4 5, 0, 4;
+    %store/vec4 v0x972c340a0_0, 0, 4;
+    %pushi/vec4 10, 0, 4;
+    %store/vec4 v0x972c341e0_0, 0, 4;
+    %pushi/vec4 2, 0, 2;
+    %store/vec4 v0x972c34280_0, 0, 2;
+    %delay 1000, 0;
+    %vpi_call/w 3 14 "$word_inspect" {0 0 0};
+    %vpi_call/w 3 14 "$display", "VALUE %0t %b %b", $time, v0x972c343c0_0, v0x972c34320_0 {0 0 0};
+    %delay 1000, 0;
+    %pushi/vec4 10, 3, 4;
+    %store/vec4 v0x972c340a0_0, 0, 4;
+    %pushi/vec4 3, 9, 4;
+    %store/vec4 v0x972c341e0_0, 0, 4;
+    %pushi/vec4 0, 0, 2;
+    %store/vec4 v0x972c34280_0, 0, 2;
+    %delay 1000, 0;
+    %vpi_call/w 3 16 "$word_inspect" {0 0 0};
+    %vpi_call/w 3 16 "$display", "VALUE %0t %b %b", $time, v0x972c343c0_0, v0x972c34320_0 {0 0 0};
+    %delay 1000, 0;
+    %vpi_call/w 3 17 "$finish" {0 0 0};
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/callback-word-controls-v2/probe.v";
