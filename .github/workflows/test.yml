@@ -222,7 +222,7 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_raw_wire_board_integration.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_concat*.py'
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_resolver*.py'
-          python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_island_raw_contract.py'
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_island_raw*.py'
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-source-contract
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-families
@@ -239,6 +239,7 @@ jobs:
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-asymmetric-inputs
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/resolver-asymmetric-delta
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-contract
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/island-raw-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-families
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-board-budget
