@@ -43,15 +43,18 @@ static uint8_t drive(experiment *x, uint8_t data) {
   x->held=data; x->last_drive=x->board.cpu.cycles;
   return data;
 }
-static uint16_t bit_address(experiment *x,uint16_t a,int write) {
-  if ((x->bit_address_mode==1 && write) || (x->bit_address_mode==2 && !write)) return a;
+static uint16_t bit_address(experiment *x,uint16_t a,uint16_t external,int write) {
+  unsigned mode=x->bit_address_mode%3;
+  if ((mode==1 && write) || (mode==2 && !write)) return a;
+  /* Independent chip path starts after upstream bus faults, before RAM alias. */
+  if (x->bit_address_mode>=3) a=external;
   return (a & ~x->bit_address_mask) | x->bit_address_value;
 }
-static uint8_t ram_read(experiment *x,uint16_t a) {
+static uint8_t ram_read(experiment *x,uint16_t a,uint16_t external) {
   uint8_t d=x->board.ram[a];
   if (x->bit_enabled) {
     uint8_t bit=1u<<x->bit_index;
-    uint8_t value=x->board.ram[bit_address(x,a,0)] ^ (x->bit_read_xor ? bit : 0);
+    uint8_t value=x->board.ram[bit_address(x,a,external,0)] ^ (x->bit_read_xor ? bit : 0);
     d=(d & ~bit) | (value & bit);
   }
   return d;
@@ -60,6 +63,7 @@ static uint8_t read_memory(void *p, uint16_t address) {
   experiment *x=p;
   pc1715 *m=&x->board;
   uint16_t a=x->fault==ADDRESS ? (address & ~x->mask) | x->value : address;
+  uint16_t external=a;
   int selected=m->rom_enabled && a<2048;
   int decoder_fault=x->fault==DECODER_ALIAS || x->fault==DECODER_ALIAS_D3;
   x->ce= !m->rom_enabled || x->fault==ROM_CE;
@@ -72,9 +76,9 @@ static uint8_t read_memory(void *p, uint16_t address) {
     a=(a & ~x->mask) | x->value;
   }
   if (x->fault==RAM_CONTENTION) ram_drives=1;
-  uint8_t data=rom_drives ? m->rom[a] : ram_drives ? ram_read(x,a) : undriven(x);
+  uint8_t data=rom_drives ? m->rom[a] : ram_drives ? ram_read(x,a,external) : undriven(x);
   /* Low-dominant resolution is a hypothesis, not measured contention voltage. */
-  if (rom_drives && ram_drives) data &= ram_read(x,a);
+  if (rom_drives && ram_drives) data &= ram_read(x,a,external);
   if (x->fault==DATA || (x->fault==ROM_DATA && rom_drives))
     data=(data & ~x->mask) | x->value;
   if (x->fault==DECODER_ALIAS_D3) data |= 8;
@@ -88,14 +92,16 @@ static void write_memory(void *p, uint16_t a, uint8_t d) {
   experiment *x=p;
   drive(x,d);
   if (x->fault==DATA_BUFFER) return; /* CPU writes cannot cross an open buffer. */
-  if (x->fault==ADDRESS || x->fault==DECODER_ALIAS || x->fault==DECODER_ALIAS_D3)
+  if (x->fault==ADDRESS) a=(a & ~x->mask) | x->value;
+  uint16_t external=a;
+  if (x->fault==DECODER_ALIAS || x->fault==DECODER_ALIAS_D3)
     a=(a & ~x->mask) | x->value;
   if (!x->bit_enabled) x->original.write(x->original.user,a,d);
   else {
     uint8_t bit=1u<<x->bit_index;
     /* Other seven DRAM bit planes retain the ordinary write address/data. */
     x->original.write(x->original.user,a,(d & ~bit) | (x->board.ram[a] & bit));
-    uint16_t ba=bit_address(x,a,1);
+    uint16_t ba=bit_address(x,a,external,1);
     unsigned v=(d>>x->bit_index)&1;
     unsigned mode=x->bit_timed && x->board.cpu.cycles>=x->bit_change_cycle ? x->bit_next_write : x->bit_write;
     switch (mode) {
@@ -130,7 +136,7 @@ int main(int argc,char **argv) {
       "floating: fixed|hold|decay; seed=0: zero RAM, 1: FF RAM, >=2: xorshift32\n"
       "optional after ram-pattern: bit-index bit-address-mask bit-address-value bit-write-mode bit-read-xor\n"
       "write modes: 0 normal, 1 disabled, 2 low, 3 high, 4 inverted\n"
-      "optional final bit-address-mode: 0 read+write, 1 read only, 2 write only\n"
+      "optional final bit-address-mode: 0 read+write, 1 read only, 2 write only; add 3 for independent RAM address path\n"
       "optional after that: change-cycle next-write-mode (one timed fault transition)\n",argv[0]);
     return 2;
   }
@@ -148,7 +154,7 @@ int main(int argc,char **argv) {
   const char *pattern=argc>=12 ? argv[11] : "seed";
   unsigned long bit_config[5]={0};
   unsigned long address_mode=0;
-  if (argc>=18 && (!number(argv[17],&address_mode) || address_mode>2)) return 2;
+  if (argc>=18 && (!number(argv[17],&address_mode) || address_mode>5)) return 2;
   unsigned long change_cycle=0,next_write=0;
   if (argc==20 && (!number(argv[18],&change_cycle) || change_cycle>1000000 ||
                   !number(argv[19],&next_write) || next_write>4)) return 2;

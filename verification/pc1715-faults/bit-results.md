@@ -40,9 +40,9 @@ These are functional abstractions of per-chip address/data/write-path failure,
 not claims that a particular real IC has those faults. Read-only and write-only
 address transformations stand for asymmetric address capture; they do not
 describe a simple physical pin short that would necessarily affect both.
-The current per-bit address transform follows the common RAM alias transform.
-It cannot yet represent one RAM chip retaining address bits already lost by
-the other seven; this is an explicit modeling limitation.
+The stage-2 per-bit address transform followed the common RAM alias transform.
+It could not represent one RAM chip retaining address bits already lost by
+the other seven. The follow-up below tests that limitation explicitly.
 
 The new regular startup pattern is:
 
@@ -136,3 +136,46 @@ the common alias loses information, and then constrain those paths using the
 actual DRAM address-multiplexer wiring. Repeating the same mask sweep cannot
 resolve that missing behavior. Hardware address observations would also reduce
 the number of plausible but unverified fault combinations.
+
+
+## Independent RAM address paths (stage 3)
+
+The probe now accepts address modes 3/4/5: independent transforms for both
+reads and writes, reads only, or writes only. Unlike modes 0/1/2, their source
+is the external address before the common RAM alias. A genuine upstream
+`address-mask` fault still affects every chip; this extension cannot bypass it.
+For asymmetric modes, the unaffected operation retains the common RAM address.
+This is a functional hypothesis, not a schematic-derived failure of a named IC.
+
+`independent_campaign.py` tested **5040 configurations**: common RAM retaining
+3–8 low address bits, D3 retaining 3–16, all five write modes, both read
+polarities, all three independent address modes, and the E7/EF regular startup
+patterns. Masks clamp omitted address bits low. The 256-clock screen promoted
+348 cases matching at least 16 complete intervals to 12000 clocks.
+
+Strict best prefixes for the seven captures were **10, 10, 10, 82, 7, 5, 5**.
+No complete capture was reproduced. The best run-4 candidate again produces
+`4A` at logical address `0057`, cycle 586 (fetch 83), instead of observed `42`.
+Consequently, simply allowing independent retained address bits did not resolve
+that divergence. This bounded negative result does not exclude other address
+wiring, startup states, read settling, or analog faults.
+
+The archive [independent.json.gz](bit-results/independent.json.gz) contains
+all parameters/scores, the best forward simulation for each capture, and source,
+fixture and ROM hashes. Stage-2 archives remain associated with commit
+`3a848e66`; replaying their qualified best model with the extended probe produced
+an identical complete JSON simulation. Twenty fault tests and the plain-PC1715
+suite pass, including independent bit-plane writes and upstream-fault isolation.
+
+Reproduce:
+
+```sh
+make test-pc1715-faults test-pc1715
+python3 verification/pc1715-faults/independent_campaign.py --rom /path/to/ROM \
+  --output verification/pc1715-faults/bit-results/independent.json.gz
+```
+
+A useful next experiment is to track RAM reads and writes at the first divergence
+and test whether one static bit-cell value can satisfy all earlier observations.
+That would distinguish an insufficient startup-state hypothesis from a fault
+requiring time-dependent reads, without another arbitrary opcode fit.
