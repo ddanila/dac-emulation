@@ -1,0 +1,85 @@
+--- a/vvp/arith.h
++++ b/vvp/arith.h
+@@ -36,6 +36,8 @@
+ 
+     public:
+       explicit vvp_arith_(unsigned wid);
++      int robotron_arithmetic_inventory(FILE*) const;
++      int robotron_arithmetic_toggle(int);
+ 
+       void recv_vec4_pv(vvp_net_ptr_t ptr, const vvp_vector4_t&bit,
+ 			unsigned base, unsigned vwid, vvp_context_t ctx) override;
+--- a/vvp/arith.cc
++++ b/vvp/arith.cc
+@@ -1210,3 +1210,28 @@
+ 
+       ptr.ptr()->send_vec4(res, 0);
+ }
++
++int vvp_arith_::robotron_arithmetic_inventory(FILE* out) const
++{
++    if(fprintf(out,"%u",wid_)<0)return -1;
++    for(auto bits : {&op_a_,&op_b_,&x_val_}){
++        if(fprintf(out," %u ",bits->size())<0)return -1;
++        if(!bits->size() && fputc('-',out)==EOF)return -1;
++        for(unsigned j=0;j<bits->size();j++)if(fputc('0'+(unsigned)bits->value(j),out)==EOF)return -1;
++    }
++    return fputc('\n',out)==EOF || ferror(out)?-1:0;
++}
++int vvp_arith_::robotron_arithmetic_toggle(int field)
++{
++    static vvp_arith_* saved=0;static int saved_field;static vvp_vector4_t bits;static unsigned width;
++    if(field<0 || field>3)return -1;
++    vvp_vector4_t* value=field==0?&op_a_:field==1?&op_b_:&x_val_;
++    if(saved){
++        if(saved!=this || field!=saved_field)return -1;
++        if(field==3)wid_=width;else *value=bits;
++        saved=0;return 1;
++    }
++    if(field==3){width=wid_;wid_^=1;}
++    else {if(!value->size())return 0;bits=*value;value->set_bit(0,value->value(0)==BIT4_1?BIT4_0:BIT4_1);}
++    saved=this;saved_field=field;return 1;
++}
+--- a/vvp/vvp_net.cc
++++ b/vvp/vvp_net.cc
+@@ -4361,3 +4361,40 @@
+     for(const auto& event:events)if(fprintf(out,"%s\n",event.c_str())<0)return -1;
+     return fprintf(out,"VGD_END %zu %zu\n",changed,events.size())<0 || ferror(out)?-1:0;
+ }
++
++#include "arith.h"
++static int robotron_arithmetic_kind(vvp_net_fun_t* fun)
++{
++    if(!fun)return 0;
++    if(typeid(*fun)==typeid(vvp_arith_sum))return 1;
++    if(typeid(*fun)==typeid(vvp_arith_sub))return 2;
++    if(typeid(*fun)==typeid(vvp_cmp_eq))return 3;
++    if(typeid(*fun)==typeid(vvp_cmp_eeq))return 4;
++    if(typeid(*fun)==typeid(vvp_cmp_nee))return 5;
++    return dynamic_cast<vvp_arith_*>(fun) || dynamic_cast<vvp_arith_real_*>(fun) ? -1:0;
++}
++extern "C" int robotron_vvp_arithmetic_inventory(FILE* out)
++{
++    if(!out || robotron_net_allocations().size()!=count_vvp_nets)return -1;
++    std::map<unsigned long long,vvp_net_t*> nodes;
++    for(auto item:robotron_net_allocations()){
++        int kind=robotron_arithmetic_kind(item.first->fun);if(kind<0)return -1;
++        if(kind)nodes[item.second]=item.first;
++    }
++    if(fprintf(out,"VAR_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:nodes){
++        auto fun=item.second->fun;
++        if(fprintf(out,"VAR_NODE %llu %p %p %d ",item.first,(void*)item.second,(void*)fun,robotron_arithmetic_kind(fun))<0)return -1;
++        if(static_cast<vvp_arith_*>(fun)->robotron_arithmetic_inventory(out))return -1;
++    }
++    return fprintf(out,"VAR_END %zu\n",nodes.size())<0 || ferror(out)?-1:0;
++}
++extern "C" int robotron_vvp_arithmetic_toggle(unsigned long long id,int field)
++{
++    for(auto item:robotron_net_allocations())if(item.second==id){
++        auto fun=item.first->fun;
++        if(robotron_arithmetic_kind(fun)<=0)return -1;
++        return static_cast<vvp_arith_*>(fun)->robotron_arithmetic_toggle(field);
++    }
++    return -1;
++}
