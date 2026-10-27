@@ -1758,3 +1758,18 @@ transient/firmware equivalence, peak memory and operational qualification remain
 open. The native compact API remains a separate tested transport; the combined
 bridge compacts serialized dense snapshots instead of calling that API inside
 native equality comparisons.
+
+The [scope-specific board startup faults](reports/scope-metadata-fault-preflight/assessment.json)
+exercise native time units, source line, function type, function width and function
+initial value, plus an invalid intern pointer. Direct metadata and complete dense
+snapshots detect each change/refusal; the reviewer requires the exact selected
+field change and no unrelated change, followed by full restoration before exit.
+The ten earlier callback/typed-signal controls also pass with this runtime and
+bridge, retained under `regression/`. The three function fields are now faulted on
+the real compiled board at paused startup. This does not prove later execution,
+firmware continuation, lifecycle or normal transient equivalence. Build with
+`build_scope_metadata_fault_runtime.py` and `build_scope_metadata_fault_bridge.py`;
+capture using `scope_metadata_fault_capture.py --startup-only` and review with
+`scope_metadata_fault_review.py`. The separate core walker and compact adapter
+preserve existing state checks; tests reject wrong function fields and missing
+restoration/direct detection. Keep ongoing campaigns pinned.
