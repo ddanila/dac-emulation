@@ -1,0 +1,40 @@
+--- a/vvp/vthread.cc
++++ b/vvp/vthread.cc
+@@ -6841,7 +6841,7 @@
+ int vthread_s::robotron_toggle(int field)
+ {
+     static vthread_s* saved=0;static int saved_field;static unsigned index;
+-    static unsigned scheduled;static vvp_bit4_t flag;static uint64_t word;static vvp_code_t code;static vthread_t next;
++    static unsigned scheduled,lifecycle;static vvp_bit4_t flag;static uint64_t word;static vvp_code_t code;static vthread_t next;
+     static vvp_vector4_t vector;static uint64_t real_bits;static string text;
+     if(saved){
+         if(saved!=this || saved_field!=field)return -1;
+@@ -6852,10 +6852,14 @@
+         else if(field==4)wait_next=next;
+         else if(field==5)stack_vec4_[0]=vector;
+         else if(field==6)memcpy(&stack_real_[0],&real_bits,sizeof(real_bits));
+-        else stack_str_[0]=text;
++        else if(field==7)stack_str_[0]=text;
++        else if(field==8)i_am_detached=lifecycle;
++        else if(field==9)delay_delete=lifecycle;
++        else if(field==10)i_am_waiting=lifecycle;
+         saved=0;return 1;
+     }
+-    if(field<0 || field>7)return -1;
++    if(field<0 || field>10)return -1;
++    if((field==8 && !i_am_detached) || (field==9 && (!delay_delete || !i_have_ended)) || (field==10 && !i_am_waiting))return 0;
+     if((field==5 && (stack_vec4_.empty() || !stack_vec4_[0].size())) || (field==6 && stack_real_.empty()) || (field==7 && stack_str_.empty()))return 0;
+     if(field==1){for(index=0;index<FLAGS_COUNT && !robotron_flags_valid[index];++index){}if(index==FLAGS_COUNT)return 0;}
+     if(field==2){for(index=0;index<WORDS_COUNT && !robotron_words_valid[index];++index){}if(index==WORDS_COUNT)return 0;}
+@@ -6867,7 +6871,10 @@
+     else if(field==4){next=wait_next;wait_next=wait_next?0:this;}
+     else if(field==5){vector=stack_vec4_[0];stack_vec4_[0].set_bit(0,vector.value(0)==BIT4_1?BIT4_0:BIT4_1);}
+     else if(field==6){memcpy(&real_bits,&stack_real_[0],sizeof(real_bits));uint64_t changed=real_bits^1;memcpy(&stack_real_[0],&changed,sizeof(changed));}
+-    else{text=stack_str_[0];stack_str_[0]+="A";}
++    else if(field==7){text=stack_str_[0];stack_str_[0]+="A";}
++    else if(field==8){lifecycle=i_am_detached;i_am_detached=0;}
++    else if(field==9){lifecycle=delay_delete;delay_delete=0;}
++    else if(field==10){lifecycle=i_am_waiting;i_am_waiting=0;}
+     return 1;
+ }
+ extern "C" int robotron_vvp_thread_toggle(int field)
