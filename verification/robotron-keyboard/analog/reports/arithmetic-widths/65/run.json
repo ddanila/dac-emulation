@@ -1,0 +1,91 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-width-controls-v2/65/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-width-controls-v2/65/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-DARITHMETIC_WIDTH=65",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-arithmetic-delta-runtime",
+      "-I/private/tmp/k7658-arithmetic-delta-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-width-controls-v2/65/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-width-controls-v2/65/probe.cc"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-arithmetic-delta-runtime/vvp/libvvp.so"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-arithmetic-delta-runtime/vvp/libvvp.so"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-arithmetic-delta-runtime/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-arithmetic-delta-runtime/vvp/libvvp.so": "d75d728b006c3d74d4c75afc56611ece996dcef02b270c52953a4f11579ec1bd",
+    "/private/tmp/k7658-arithmetic-delta-runtime/vvp/vvp": "3017ddec049752b35487159b4fd706e8e03a845130115a303f1410ffc23e9211",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-width-controls-v2/65/probe.vpi": "749496d9c688ad8a130c232d0ef9a73709edcb3c437bdc8540749578e5370e26",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "arithmetic_width_probe.py": "efb7579b4507bdc6e60806facec91163d69a1d06a5fb418b47daebfb6b83cb95",
+    "arithmetic_probe.py": "2ea5bb6fdc58d920ca073ebf76d1dc4b558694e2274d55cb5792152e61b86c3f",
+    "arithmetic_delta_probe.py": "efa892146f9360c61f144057e47f17ac4a3d77398473c4f2a3951ce988591499",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "fixtures/arithmetic_width_probe.cc": "5241ad210bbec24adff69a785d170d9f184ebd18ee8f12d27ecc4260b1d620af",
+    "fixtures/arithmetic_probe.v": "77aa8ee074a46f48cf600ba292d4ca894dffdab1f122f1d81eedabb3f8d9d78e"
+  }
+}
