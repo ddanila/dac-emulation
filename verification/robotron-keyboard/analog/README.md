@@ -1213,6 +1213,11 @@ measures full-scan encoding cost; changing-state output can exceed dense logs.
 Use `build_wire_raw_delta_runtime.py`, `wire_raw_delta_probe.py` and
 `wire_raw_delta_board.py` with the same native-probe and board-budget arguments.
 Both reviewers support `--check` on their respective retained report directories.
+[Compact admission controls](reports/wire-raw-delta-families/assessment.json)
+reject unsupported filters after a valid reference without partial output, while
+preserving native continuation after refusal. Reproduce with
+`wire_raw_delta_family.py` using native-probe arguments, or replay with
+`--check reports/wire-raw-delta-families`.
 
 The [board wire budget](reports/wire-board-budget/assessment.json) binds every
 allocated filter to its graph identity and native class before execution. It
