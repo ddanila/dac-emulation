@@ -1098,3 +1098,11 @@ Original and observer-disabled continuation agree. These controls establish
 refusal, not support for those families. Reproduce with `array_family_probe.py`
 using the native array-probe arguments, or replay with
 `array_family_probe.py --check reports/array-families`.
+
+The [net allocation/fanout contract](reports/net-source-contract/assessment.json)
+separates compiled labels, handed-out native nodes and unused pool capacity.
+Net handles may share drivers, intermediate nodes may lack labels, and force-link
+helper ports have distinct back-reference semantics. Register allocations rather
+than constructor calls, preserve all initialized links/bindings, and keep payload
+coverage separate. Native graph controls remain required. Regenerate with
+`net_source_contract.py --archive PINNED_ARCHIVE --vvp COMPILED_BOARD --out REPORT`.
