@@ -1,0 +1,62 @@
+--- a/vvp/vpi_signal.cc
++++ b/vvp/vpi_signal.cc
+@@ -1749,3 +1749,14 @@
+     }
+     return fprintf(out,"VSH_END %zu\n",ordered.size())<0 || ferror(out)?-1:0;
+ }
++
++// Resolve only explicit handoffs. No supplied object pointer is dereferenced.
++extern "C" unsigned long long robotron_vvp_signal_handle_node(vpiHandle handle,void**node)
++{
++    if(!node)return 0;
++    for(auto item:robotron_handles())if(static_cast<vpiHandle>(item.first)==handle){
++        if(!item.second.admitted || !robotron_vvp_net_handle_id(item.first->node))return 0;
++        *node=item.first->node;return item.second.id;
++    }
++    return 0;
++}
+--- a/vvp/vpi_callback.cc
++++ b/vvp/vpi_callback.cc
+@@ -1593,3 +1593,42 @@
+     for(auto row:robotron_callback_delta_reference_rows)if(!rows.count(row.first))if(fprintf(out,"VLD_DROP %llu\n",row.first)<0)return -1;
+     return fprintf(out,"VLD_END %zu %zu\n",changed,removed)<0 || ferror(out)?-1:0;
+ }
++
++extern "C" int robotron_vvp_signal_handle_inventory(FILE*);
++extern "C" unsigned long long robotron_vvp_signal_handle_node(vpiHandle,void**);
++extern "C" unsigned long long robotron_vvp_net_handle_id(const void*);
++static int robotron_link_preflight(int(*api)(FILE*))
++{
++    char*text=0;size_t size=0;FILE*f=open_memstream(&text,&size);if(!f)return -1;
++    int result=api(f);if(fclose(f))result=-1;free(text);return result;
++}
++extern "C" int robotron_vvp_callback_signal_inventory(FILE*out)
++{
++    if(!out || robotron_link_preflight(robotron_vvp_callback_list_inventory) ||
++       robotron_link_preflight(robotron_vvp_signal_handle_inventory))return -1;
++    struct row_t {
++        unsigned long long callback_id,handle_id,owner_id,node_id;
++        value_callback*callback;vpiHandle handle;vvp_vpi_callback*owner;
++        vvp_net_fil_t*filter;vvp_net_t*node;
++    };
++    std::map<unsigned long long,row_t> rows;
++    for(auto item:robotron_value_live){
++        auto entry=item.second;auto owner=robotron_callback_owners().find(entry.owner);
++        if(owner==robotron_callback_owners().end())return -1;
++        // List preflight established the exact registered owner class.
++        auto filter=dynamic_cast<vvp_net_fil_t*>(entry.owner);
++        void*address=0;auto handle=entry.callback->cb_data.obj;
++        auto id=robotron_vvp_signal_handle_node(handle,&address);
++        auto node=static_cast<vvp_net_t*>(address);auto node_id=robotron_vvp_net_handle_id(node);
++        // Never cast/dereference an unregistered filter pointer read from a node.
++        if(!id || !node_id || !filter || node->fil!=filter)return -1;
++        rows[entry.id]={entry.id,id,owner->second,node_id,entry.callback,handle,entry.owner,filter,node};
++    }
++    if(fprintf(out,"VSL_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(auto item:rows){auto&r=item.second;
++        if(fprintf(out,"VSL_LINK %llu %p %llu %p %llu %p %p %llu %p\n",
++            r.callback_id,(void*)r.callback,r.handle_id,(void*)r.handle,r.owner_id,
++            (void*)r.owner,(void*)r.filter,r.node_id,(void*)r.node)<0)return -1;
++    }
++    return fprintf(out,"VSL_END %zu\n",rows.size())<0 || ferror(out)?-1:0;
++}
