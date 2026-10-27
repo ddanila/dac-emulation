@@ -1,0 +1,47 @@
+{
+  "qualified": false,
+  "compiledBoardOperandImageComplete": true,
+  "denseAndDeltaExactlyEqual": true,
+  "allocatedInstructions": 20442,
+  "timings": {
+    "0": {
+      "iterations": 64,
+      "totalSeconds": 0.43952,
+      "meanSeconds": 0.0068675,
+      "minSeconds": 0.006809999,
+      "maxSeconds": 0.006953
+    },
+    "1": {
+      "iterations": 64,
+      "totalSeconds": 0.375319001,
+      "meanSeconds": 0.005864359390625,
+      "minSeconds": 0.005830999,
+      "maxSeconds": 0.005960001
+    }
+  },
+  "peakResidentBytes": 13926400,
+  "logicalImageBytes": {
+    "reference": 1057100,
+    "full": 1057100,
+    "delta": 32
+  },
+  "projection": {
+    "boundaries": 55156,
+    "normalSnapshotCalls": 110312,
+    "fullLogBytes": 116610815200,
+    "unchangedCodeDeltaLogBytesUpperEstimate": 5359268,
+    "deltaMeanScanSeconds": 646.909213098625,
+    "deltaMaxSampleScanSeconds": 657.4596303120001,
+    "priorObserverProducerSeconds": 193.58691933400002,
+    "estimatedCombinedProducerSeconds": 851.0465496460001,
+    "recommendedCaptureTimeoutSeconds": 1800,
+    "unchangedCodeAssumption": true,
+    "doesNotBoundFutureChangesOrHostContention": true
+  },
+  "scope": "Actual compiled board at start-of-simulation, before firmware execution. Every allocated instruction is scanned; full and fixed-reference images agree. Timings and projections are observations on this host, not runtime guarantees.",
+  "notEstablished": [
+    "Board execution or faults at operational boundaries",
+    "Complete campaign runtime, compression and review cost",
+    "Referenced object contents or rollback qualification"
+  ]
+}

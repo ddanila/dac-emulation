@@ -1028,3 +1028,10 @@ the encoded output. Referenced objects and board cost/acceptance remain open.
 Build with `build_code_operand_runtime.py`; run `code_operand_probe.py` with the
 same runtime arguments as the scope probe, or replay with
 `code_operand_probe.py --check reports/code-operands`. Retained stdout is compressed.
+
+The [board operand budget](reports/code-operand-budget/assessment.json) checks the
+actual compiled instruction families and full/delta image equivalence before HDL
+execution, then measures scan cost. Its campaign projection assumes unchanged
+code and excludes later scope/PC overhead and review time; it is not a timing guarantee.
+Run `code_operand_budget.py --source REVIEWED_BOARD --candidate RUNTIME --out NEW_DIR`
+or replay with `code_operand_budget.py --check reports/code-operand-budget`.
