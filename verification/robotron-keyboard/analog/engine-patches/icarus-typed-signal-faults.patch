@@ -1,0 +1,48 @@
+--- a/vvp/vpi_signal.cc
++++ b/vvp/vpi_signal.cc
+@@ -1760,3 +1760,45 @@
+     }
+     return 0;
+ }
++
++extern "C" int robotron_vvp_callback_signal_inventory(FILE*);
++extern "C" int robotron_vvp_signal_handle_toggle(unsigned long long id,int field)
++{
++    static __vpiSignal*saved=0;static unsigned long long saved_id;static int saved_field;
++    static unsigned sign;static int msb;static vvp_net_t*node;
++    static const char*name;static __vpiBit*bits;static __vpiScope*scope;
++    if(field<0 || field>5)return -1;
++    __vpiSignal*target=0;
++    for(auto item:robotron_handles())if(item.second.id==id && item.second.admitted)target=item.first;
++    if(saved){
++        if(target!=saved || id!=saved_id || field!=saved_field)return -1;
++        switch(field){
++            case 0:saved->signed_flag=sign;break;
++            case 1:saved->msb.set_value(msb);break;
++            case 2:saved->node=node;break;
++            case 3:saved->id.name=name;break;
++            case 4:saved->bits=bits;break;
++            case 5:saved->within.scope=scope;break;
++        }
++        saved=0;return 1;
++    }
++    if(!target)return -1;
++    char*text=0;size_t size=0;FILE*f=open_memstream(&text,&size);if(!f)return -1;
++    int result=robotron_vvp_callback_signal_inventory(f);if(fclose(f))result=-1;free(text);
++    if(result)return -1;
++    vvp_net_t*other=0;
++    if(field==2){
++        for(auto item:robotron_handles())if(item.second.admitted && item.first->node!=target->node){other=item.first->node;break;}
++        if(!other)return 0;
++    }
++    saved=target;saved_id=id;saved_field=field;
++    switch(field){
++        case 0:sign=target->signed_flag;target->signed_flag=!sign;break;
++        case 1:msb=target->msb.get_value();target->msb.set_value(msb^1);break;
++        case 2:node=target->node;target->node=other;break;
++        case 3:name=target->id.name;target->id.name=(const char*)1;break;
++        case 4:bits=target->bits;target->bits=(__vpiBit*)1;break;
++        case 5:scope=target->within.scope;target->within.scope=(__vpiScope*)1;break;
++    }
++    return 1;
++}
