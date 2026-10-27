@@ -1187,3 +1187,13 @@ still require combined capture/review measurements. Callback-list contents and
 other functor payloads remain separate. Build with `build_wire_delta_runtime.py`,
 run `wire_delta_probe.py` and `wire_delta_board.py`, and replay either producer
 with `--check` and its retained report directory.
+
+`build_wire_bridge.py`, `wire_board_capture.py` and `wire_board_review.py`
+integrate lossless wire observations after reviewed graph controls. Every boundary
+binds wire identities to allocated graph nodes and checks shared island-filter
+payloads. Vec4/vec8 initialization faults run at paused startup; driven-value and
+propagation faults run after firmware starts. All preceding layers, exact normal
+waveforms and firmware records remain required. The capture retains the bounded
+log limits and adds a measured wire-scan allowance to its timeout. Native force,
+mask, link and strength controls remain necessary for paths absent from this
+board fixture. Integration is unqualified until capture and retained replay pass.
