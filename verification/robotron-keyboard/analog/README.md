@@ -1709,3 +1709,18 @@ reject changed images, cross-observer address mismatches, truncation and nonfini
 cost. Build with `build_scope_metadata_board_budget.py`, then run
 `scope_metadata_board_budget.py` against the reviewed `reports/array-board` source
 and the metadata-bindings runtime, using the paths in the retained build receipts.
+
+The [native compact metadata controls](reports/scope-metadata-compact/assessment.json)
+retain a complete native scan on every call and compare the entire body with the
+previous image. Only exact byte equality permits reuse; a changed body is emitted
+in full, with explicit timestamp, sequence and byte count. The decoder reconstructs
+all 74 dense metadata/reference image pairs byte-for-byte across the existing
+mutations, restorations and tick changes. Sixteen invalid-state calls and the
+initial automatic-scope control refuse without output or advancing the reference.
+This fixture emits 38,585 compact versus 64,944 dense bytes; repeated changing
+bodies may increase size. Five tests check native replay, missing/reordered/
+truncated references, decoder state preservation on failure, illicit cached-body
+payload and corrupt evidence. Board savings, native buffering overhead, scan cost
+and operational integration still require measurement. Build with
+`build_scope_metadata_compact_runtime.py`; replay with `scope_metadata_compact.py`
+using the retained runtime paths. The running campaigns keep their pinned revisions.

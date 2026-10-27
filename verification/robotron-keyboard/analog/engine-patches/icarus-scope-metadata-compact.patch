@@ -1,0 +1,38 @@
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -1006,3 +1006,35 @@
+         (void*)entry.second,robotron_object_types.at(entry.second))<0)return -1;
+     return fprintf(out,"VSMR_END %zu %zu\n",scopes.size(),objects.size())<0 || ferror(out)?-1:0;
+ }
++
++// Exact previous-image reuse: every call still runs the complete native scan.
++// Only the timestamp header is separated; every remaining byte is compared.
++#include <string>
++static int robotron_scope_compact(FILE*out,int(*inventory)(FILE*),const char*tag,
++                                  std::string& previous,unsigned long long& sequence)
++{
++    if(!out || sequence==~0ULL)return -1;
++    char*data=0;size_t size=0;FILE*stream=open_memstream(&data,&size);
++    if(!stream)return -1;
++    int rc=inventory(stream);int close_rc=fclose(stream);
++    if(rc || close_rc){free(data);return -1;}
++    const char*end=(const char*)memchr(data,'\n',size);
++    if(!end){free(data);return -1;}
++    std::string body(end+1,size-(end+1-data));free(data);
++    bool full=!sequence || body!=previous;
++    if(fprintf(out,"%s_BEGIN 1 %llu %llu %u %zu\n",tag,
++        (unsigned long long)schedule_simtime(),sequence+1,unsigned(full),body.size())<0)return -1;
++    if(full && fwrite(body.data(),1,body.size(),out)!=body.size())return -1;
++    if(fprintf(out,"%s_END\n",tag)<0 || ferror(out))return -1;
++    previous.swap(body);++sequence;return 0;
++}
++extern "C" int robotron_vvp_scope_metadata_compact_inventory(FILE*out)
++{
++    static std::string previous;static unsigned long long sequence=0;
++    return robotron_scope_compact(out,robotron_vvp_scope_metadata_inventory,"VSMD",previous,sequence);
++}
++extern "C" int robotron_vvp_scope_metadata_reference_compact_inventory(FILE*out)
++{
++    static std::string previous;static unsigned long long sequence=0;
++    return robotron_scope_compact(out,robotron_vvp_scope_metadata_reference_inventory,"VSMRD",previous,sequence);
++}
