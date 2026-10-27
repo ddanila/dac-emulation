@@ -1,0 +1,43 @@
+{
+  "qualified": false,
+  "completed": true,
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "nativeSources": {
+    "vvp/parse.y": "fdd6cbd67dedb39922e3d7b090cdc8c2dd0ea23277d5620f4419f6789dd0f065",
+    "vvp/words.cc": "b900af8cfb17449158ec529970245287fa1bd4fd99ab230342a003f595984a6a",
+    "vvp/vpi_signal.cc": "98fb5b23da2d3d594fe29bb58a04f7f03c801b1861b2b248fa7b5a46ad2bd25e"
+  },
+  "evidence": {
+    "localFlag": {
+      "file": "vvp/parse.y",
+      "firstLine": 985,
+      "excerpt": "\nlocal_flag\n  : '*' { $$ = true; }\n  |     { $$ = false; }\n  ;\n\n  /* There are a few places where the label is optional. This rule\n     returns the label value if present, or 0 if not. */\n"
+    },
+    "grammar": {
+      "file": "vvp/parse.y",
+      "firstLine": 751,
+      "excerpt": "  | T_LABEL K_VAR local_flag T_STRING ',' signed_t_number signed_t_number ';'\n      { compile_variable($1, $4, $6, $7, vpiLogicVar, false, $3); }\n\n  | T_LABEL K_VAR_S local_flag T_STRING ',' signed_t_number signed_t_number ';'\n      { compile_variable($1, $4, $6, $7, vpiLogicVar, true, $3); }\n\n  | T_LABEL K_VAR_I local_flag T_STRING ',' T_NUMBER T_NUMBER ';'\n      { compile_variable($1, $4, $6, $7, vpiIntegerVar, true, $3); }\n\n  | T_LABEL K_VAR_2S local_flag T_STRING ',' signed_t_number signed_t_number ';'\n      { compile_variable($1, $4, $6, $7, vpiIntVar, true, $3); }\n\n  | T_LABEL K_VAR_2U local_flag T_STRING ',' signed_t_number signed_t_number ';'\n      { compile_variable($1, $4, $6, $7, vpiIntVar, false, $3); }\n\n  | T_LABEL K_VAR_R T_STRING ',' signed_t_number signed_t_number ';'\n      { compile_var_real($1, $3); }\n\n  | T_LABEL K_VAR_STR T_STRING ';'\n      { compile_var_string($1, $3); }\n\n  | T_LABEL K_VAR_DARRAY T_STRING ',' T_NUMBER ';'\n      { compile_var_darray($1, $3, $5); }\n\n  | T_LABEL K_VAR_QUEUE T_STRING  ',' T_NUMBER';'\n      { compile_var_queue($1, $3, $5); }\n\n  | T_LABEL K_VAR_COBJECT T_STRING ';'\n      { compile_var_cobject($1, $3); }\n\n  /* Net statements are similar to .var statements, except that they\n     declare nets, and they have an input list. */\n\n  | T_LABEL K_NET local_flag T_STRING ',' signed_t_number signed_t_number\n    ',' symbols_net ';'\n      { compile_net($1, $4, $6, $7, vpiLogicVar, false, $3, $9.cnt, $9.vect); }\n\n  | T_LABEL K_NET_S local_flag T_STRING ',' signed_t_number signed_t_number\n    ',' symbols_net ';'\n      { compile_net($1, $4, $6, $7, vpiLogicVar, true, $3, $9.cnt, $9.vect); }\n\n  | T_LABEL K_NET_2U local_flag T_STRING ',' signed_t_number signed_t_number\n    ',' symbols_net ';'\n      { compile_net($1, $4, $6, $7, vpiIntVar, false, $3, $9.cnt, $9.vect); }\n\n  | T_LABEL K_NET_2S local_flag T_STRING ',' signed_t_number signed_t_number\n    ',' symbols_net ';'\n      { compile_net($1, $4, $6, $7, vpiIntVar, true, $3, $9.cnt, $9.vect); }\n\n  | T_LABEL K_NET8 local_flag T_STRING ',' signed_t_number signed_t_number\n    ',' symbols_net ';'\n      { compile_net($1, $4, $6, $7, -vpiLogicVar, false, $3, $9.cnt, $9.vect); }\n\n  | T_LABEL K_NET8_2U local_flag T_STRING ',' signed_t_number signed_t_number\n    ',' symbols_net ';'\n      { compile_net($1, $4, $6, $7, -vpiLogicVar, false, $3, $9.cnt, $9.vect); }\n\n  | T_LABEL K_NET8_S local_flag T_STRING ',' signed_t_number signed_t_number\n    ',' symbols_net ';'\n      { compile_net($1, $4, $6, $7, -vpiLogicVar, true, $3, $9.cnt, $9.vect); }\n\n  | T_LABEL K_NET8_2S local_flag T_STRING ',' signed_t_number signed_t_number\n    ',' symbols_net ';'\n      { compile_net($1, $4, $6, $7, -vpiLogicVar, true, $3, $9.cnt, $9.vect); }\n\n"
+    },
+    "variableCreation": {
+      "file": "vvp/words.cc",
+      "firstLine": 171,
+      "excerpt": "void compile_variable(char*label, char*name,\n\t\t      int msb, int lsb, int vpi_type_code,\n\t\t      bool signed_flag, bool local_flag)\n{\n      unsigned wid = ((msb > lsb)? msb-lsb : lsb-msb) + 1;\n\n      vvp_net_t*net = new vvp_net_t;\n\n      vvp_bit4_t init;\n      if (vpi_type_code == vpiIntVar)\n\t    init = BIT4_0;\n      else\n\t    init = BIT4_X;\n\n      if (vpip_peek_current_scope()->is_automatic()) {\n\t    vvp_fun_signal4_aa*tmp = new vvp_fun_signal4_aa(wid, init);\n\t    net->fil = tmp;\n            net->fun = tmp;\n      } else {\n\t    net->fil = new vvp_wire_vec4(wid, init);\n            net->fun = new vvp_fun_signal4_sa(wid);\n      }\n      const vvp_signal_value*vfil = dynamic_cast<vvp_signal_value*>(net->fil);\n\n      define_functor_symbol(label, net);\n\n      vpiHandle obj = 0;\n      if (! local_flag) {\n\t      /* Make the vpiHandle for the reg. */\n\t    switch (vpi_type_code) {\n\t\tcase vpiLogicVar:\n\t\t  obj = vpip_make_var4(name, msb, lsb, signed_flag, net);\n\t\t  break;\n\t\tcase vpiIntegerVar:\n\t\t  obj = vpip_make_int4(name, msb, lsb, net);\n\t\t  break;\n\t\tcase vpiIntVar: // This handles all the atom2 int types\n\t\t  obj = vpip_make_int2(name, msb, lsb, signed_flag, net);\n\t\t  break;\n\t\tdefault:\n\t\t  fprintf(stderr, \"internal error: %s: vpi_type_code=%d\\n\", name, vpi_type_code);\n\t\t  break;\n\t    }\n\t    assert(obj);\n\t    compile_vpi_symbol(label, obj);\n      }\n\t// If the signal has a name, then it goes into the current\n\t// scope as a signal.\n      if (name) {\n\t    if (obj) vpip_attach_to_current_scope(obj);\n            if (!vpip_peek_current_scope()->is_automatic()) {\n\t\t  vvp_vector4_t tmp;\n\t\t  vfil->vec4_value(tmp);\n\t          schedule_init_vector(vvp_net_ptr_t(net,0), tmp);\n\t    }\n      }\n\n      free(label);\n      delete[] name;\n}\n\n\n"
+    },
+    "netCreation": {
+      "file": "vvp/words.cc",
+      "firstLine": 320,
+      "excerpt": "static void do_compile_net(vvp_net_t*node, vvp_array_t array,\n\t\t\t   __vpiScope*scope,\n\t\t\t   char*my_label, char*name,\n\t\t\t   int msb, int lsb, unsigned array_addr,\n\t\t\t   int vpi_type_code, bool signed_flag, bool local_flag)\n{\n      unsigned wid = ((msb > lsb)? msb-lsb : lsb-msb) + 1;\n      assert(node);\n\n      vvp_wire_base*vsig = dynamic_cast<vvp_wire_base*>(node->fil);\n\n      if (vsig == 0) {\n\t    switch (vpi_type_code) {\n\t\tcase vpiIntVar:\n\t\t  vsig = new vvp_wire_vec4(wid,BIT4_0);\n\t\t  break;\n\t\tcase vpiLogicVar:\n\t\t  vsig = new vvp_wire_vec4(wid,BIT4_Z);\n\t\t  break;\n\t\tcase -vpiLogicVar:\n\t\t  vsig = new vvp_wire_vec8(wid);\n\t\t  break;\n\t    }\n\t    assert(vsig);\n\t    node->fil = vsig;\n      }\n\n      vpiHandle obj = 0;\n      if (! local_flag) {\n\t      /* Make the vpiHandle for the reg. */\n\t    obj = vpip_make_net4(scope, name, msb, lsb, signed_flag, node);\n\t      /* This attaches the label to the vpiHandle */\n\t    compile_vpi_symbol(my_label, obj);\n      }\n#ifdef CHECK_WITH_VALGRIND\n      else pool_local_net(node);\n#endif\n\n\t// REMOVE ME! Giving the net a label is a legacy of the times\n\t// when the .net was a functor of its own. In the long run, we\n\t// must fix the code generator to not rely on the label of the\n\t// .net, then we will remove that label.\n      define_functor_symbol(my_label, node);\n\n      if (array)\n\t    array->attach_word(array_addr, obj);\n      else if (obj)\n\t    vpip_attach_to_scope(scope,obj);\n\n      free(my_label);\n      delete[] name;\n}\n\n"
+    },
+    "nativeClasses": {
+      "file": "vvp/vpi_signal.cc",
+      "firstLine": 1089,
+      "excerpt": "struct signal_reg : public __vpiSignal {\n      inline signal_reg() { }\n      int get_type_code(void) const override { return vpiReg; }\n};\n\nstruct signal_integer : public __vpiSignal {\n      inline signal_integer() { }\n      int get_type_code(void) const override { return vpiIntegerVar; }\n};\n\nstruct signal_net : public __vpiSignal {\n      inline signal_net() { }\n      int get_type_code(void) const override { return vpiNet; }\n};\n\n"
+    }
+  },
+  "findings": [
+    "The grammar passes signedness and declaration ranges into vector constructors; .var/i selects a signed integer handle.",
+    "compile_variable and do_compile_net construct and attach VPI handles only when local_flag is false. The net functor can still exist independently of a VPI handle.",
+    "signal_reg, signal_integer and signal_net return distinct VPI type codes. The metadata join must preserve their exact native family."
+  ],
+  "scope": "Selected compiler-source evidence for visible vector declaration matching. This is not a general grammar admission proof or exclusion of later writes."
+}
