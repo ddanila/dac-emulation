@@ -1,0 +1,51 @@
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -935,10 +935,9 @@
+ // Static native lifetime only. Validate the complete graph before writing.
+ // Names are read only through their registered allocation and byte bounds.
+ #include <typeinfo>
+-extern "C" int robotron_vvp_scope_metadata_inventory(FILE* out)
+-{
+-    vector<__vpiScope*> scopes;
+-    if(!out || robotron_static_scopes(scopes))return -1;
++static int robotron_scope_metadata_validate(vector<__vpiScope*>& scopes)
++{
++    if(robotron_static_scopes(scopes))return -1;
+     for(auto scope:scopes) {
+         auto found=robotron_scope_metadata.find(scope);
+         if(found==robotron_scope_metadata.end() || !scope->classes.empty())return -1;
+@@ -959,6 +958,12 @@
+                item->get_type_code()!=type->second)return -1;
+         }
+     }
++    return 0;
++}
++extern "C" int robotron_vvp_scope_metadata_inventory(FILE* out)
++{
++    vector<__vpiScope*> scopes;
++    if(!out || robotron_scope_metadata_validate(scopes))return -1;
+     if(fprintf(out,"VSM_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
+     for(auto scope:scopes) {
+         const auto& r=robotron_scope_metadata.at(scope);
+@@ -983,3 +988,21 @@
+     }
+     return fprintf(out,"VSM_END %zu\n",scopes.size())<0 || ferror(out)?-1:0;
+ }
++
++// Allocation identity bridge, distinct from current ordered intern membership.
++// Includes registered objects omitted by a fault; never dereferences those objects.
++extern "C" int robotron_vvp_scope_metadata_reference_inventory(FILE* out)
++{
++    vector<__vpiScope*> scopes;
++    if(!out || robotron_scope_metadata_validate(scopes))return -1;
++    map<unsigned long long,vpiHandle> objects;
++    for(auto entry:robotron_object_ids)objects[entry.second]=entry.first;
++    if(fprintf(out,"VSMR_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++    for(size_t i=0;i<scopes.size();++i) {
++        auto scope=scopes[i];const auto& r=robotron_scope_metadata.at(scope);
++        if(fprintf(out,"VSMR_SCOPE %llu %p %zu\n",r.id,(void*)scope,i+1)<0)return -1;
++    }
++    for(auto entry:objects)if(fprintf(out,"VSMR_OBJECT %llu %p %d\n",entry.first,
++        (void*)entry.second,robotron_object_types.at(entry.second))<0)return -1;
++    return fprintf(out,"VSMR_END %zu %zu\n",scopes.size(),objects.size())<0 || ferror(out)?-1:0;
++}
