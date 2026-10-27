@@ -1,0 +1,20 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "normalTrajectoryExactlyEqual": true,
+  "outputMatchesIndependentOracle": true,
+  "restoredFaults": 240,
+  "faultsByField": {
+    "0": 60,
+    "1": 60,
+    "2": 60,
+    "3": 60
+  },
+  "observationsPerRun": 12,
+  "scope": "Allocated 80-bit sum/subtraction/logical equality/case equality/case inequality operands, configured width and X fallback payload. Full and partial inputs, X/Z, unchanged-output cache writes and restored native faults preserve original-runtime output.",
+  "notEstablished": [
+    "Unsupported-family refusal fixtures and allocation lifecycle",
+    "Other widths, empty operands and non-vector input paths",
+    "Board binding, budgets, integration and general rollback"
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-family-controls/division.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-family-controls/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-family-controls/real.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-family-controls/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-family-controls/derived.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-family-controls/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-arithmetic-runtime",
+      "-I/private/tmp/k7658-arithmetic-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-family-controls/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-family-controls/probe.cc"
+    ]
+  ],
+  "runs": {
+    "division-baseline": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "division.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "division-disabled": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "division.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-arithmetic-runtime/vvp/libvvp.so"
+    },
+    "division-observe": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "division.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-arithmetic-runtime/vvp/libvvp.so"
+    },
+    "real-baseline": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "real.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "real-disabled": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "real.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-arithmetic-runtime/vvp/libvvp.so"
+    },
+    "real-observe": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "real.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-arithmetic-runtime/vvp/libvvp.so"
+    },
+    "derived-baseline": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived-disabled": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-arithmetic-runtime/vvp/libvvp.so"
+    },
+    "derived-observe": {
+      "command": [
+        "/private/tmp/k7658-arithmetic-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-arithmetic-runtime/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-arithmetic-runtime/vvp/libvvp.so": "b3c24b07d5bb2604371eb6d2dfd5cbd2b81fe207349fe6b180e2c754a1c6b61d",
+    "/private/tmp/k7658-arithmetic-runtime/vvp/vvp": "c684dcb2f528d40394c4494bbc685abd77f5916876b71b5c3f7ca6b018ac93bb",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/arithmetic-family-controls/probe.vpi": "deaf5614ba7a1a55d1c6c20c2e4ed1a0b86275a9c56a6c11eaf40bb6bf853e8c",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "arithmetic_family_probe.py": "4ce9be9c1ea9662a0aded2d4d420d4afc70f1a1c1642581353e77999b8574e20",
+    "net_types_probe.py": "825f050da7ac1e208ba29b1e1ce3a5e5bc4bb5ec813b99805261bbe6017736ba",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "fixtures/arithmetic_family.cc": "4a5a6eb585bb764ea2dac0b1377176abc0d2bb0d7d564009ed032db041e2e644",
+    "fixtures/arithmetic_family.v": "2892bf0b974fd1c6000f6d3daa8d7a6c4fcaa1f90cf03c558318b1e94e8bd560"
+  }
+}

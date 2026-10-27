@@ -1,0 +1,34 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "unsupportedProfilesRefused": [
+    "division",
+    "real",
+    "derived"
+  ],
+  "noPartialInventory": true,
+  "disabledContinuationExactlyEqual": true,
+  "nativeClasses": {
+    "division": [
+      "Sink",
+      "vvp_arith_div",
+      "vvp_arith_sum"
+    ],
+    "real": [
+      "Sink",
+      "vvp_arith_sum",
+      "vvp_arith_sum_real"
+    ],
+    "derived": [
+      "ExtraSum",
+      "Sink",
+      "vvp_arith_sum"
+    ]
+  },
+  "scope": "Native division, real arithmetic and a sum subclass with a behavior-changing private field are rejected alongside an admitted sum, before any inventory output.",
+  "notEstablished": [
+    "Payload support for rejected classes",
+    "Every possible plugin-defined subclass",
+    "Board integration and full qualification"
+  ]
+}
