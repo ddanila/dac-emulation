@@ -1,0 +1,15 @@
+I8282 finite drive ramp with final-state resistance
+Vdrive drive 0 PWL(0 5 2.9999999999999997e-08 0)
+Rdriver drive out 22.5
+Vbias bias 0 2.0099999999999998
+Rload bias out 78
+Cload out 0 3.1200000000000001e-10 IC=3.1588669950738919
+.options reltol=1e-8 abstol=1e-12
+.control
+tran 0.02n 300n 0 0.02n uic
+meas tran from_time WHEN v(out)=2 FALL=1
+meas tran to_time WHEN v(out)=0.80000000000000004 FALL=1
+meas tran propagation_time WHEN v(out)=1.5 FALL=1
+quit
+.endc
+.end
