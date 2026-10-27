@@ -1,0 +1,169 @@
+--- a/vvp/vpi_const.cc
++++ b/vvp/vpi_const.cc
+@@ -30,7 +30,10 @@
+ # include  <cassert>
+ # include  "ivl_alloc.h"
+ 
++static void robotron_parameter_register(vpiHandle);
++
+ class __vpiStringConst : public __vpiHandle {
++      friend struct robotron_parameter_access;
+     public:
+       explicit __vpiStringConst(char*val);
+       ~__vpiStringConst() override;
+@@ -270,6 +273,7 @@
+ 
+ 
+ class __vpiStringParam  : public __vpiStringConst {
++      friend struct robotron_parameter_access;
+     public:
+       __vpiStringParam(__vpiScope* scope, char*txt, const char*name,
+                        bool local_flag, long file_idx, long lineno);
+@@ -353,6 +357,7 @@
+       __vpiStringParam*obj = new __vpiStringParam(vpip_peek_current_scope(), text, name,
+                                                   local_flag, file_idx, lineno);
+ 
++      robotron_parameter_register(obj);
+       return obj;
+ }
+ 
+@@ -470,6 +475,7 @@
+ }
+ 
+ struct __vpiBinaryParam  : public __vpiBinaryConst {
++      friend struct robotron_parameter_access;
+       __vpiBinaryParam(__vpiScope*scope, const vvp_vector4_t&b, bool is_signed,
+                        const char*name, bool local_flag, long file_idx, long lineno);
+       ~__vpiBinaryParam() override;
+@@ -556,6 +562,7 @@
+                                                          bits, signed_flag, name,
+                                                          local_flag, file_idx, lineno);
+ 
++      robotron_parameter_register(obj);
+       return obj;
+ }
+ 
+@@ -703,6 +710,7 @@
+ }
+ 
+ struct __vpiRealParam  : public __vpiRealConst {
++      friend struct robotron_parameter_access;
+       __vpiRealParam(__vpiScope* scope, double val, const char*name,
+                      bool local_flag, long file_idx, long lineno);
+       ~__vpiRealParam() override;
+@@ -785,6 +793,7 @@
+       struct __vpiRealParam*obj = new __vpiRealParam(vpip_peek_current_scope(),
+                                                      value, name, local_flag,
+                                                      file_idx, lineno);
++      robotron_parameter_register(obj);
+       return obj;
+ }
+ 
+@@ -928,3 +937,81 @@
+       }
+ }
+ #endif
++
++#include <map>
++#include <typeinfo>
++#include "schedule.h"
++struct robotron_parameter_record {
++    const char*name;size_t name_bytes;
++    const char*string_value;size_t string_bytes;
++    unsigned width;const unsigned long*a;const unsigned long*b;
++};
++static std::map<vpiHandle,robotron_parameter_record>&robotron_parameters()
++{static std::map<vpiHandle,robotron_parameter_record> registry;return registry;}
++extern "C" int robotron_vvp_parameter_owners(std::map<const void*,std::pair<unsigned long long,const void*>>*);
++struct robotron_parameter_access {
++    struct metadata {__vpiScope*scope;const char*name;bool local;unsigned file,line;};
++    template<class T>static metadata meta(T*p){return {p->scope_,p->basename_,p->local_flag_,p->file_idx_,p->lineno_};}
++    static metadata fields(vpiHandle p){
++        if(typeid(*p)==typeid(__vpiBinaryParam))return meta(static_cast<__vpiBinaryParam*>(p));
++        if(typeid(*p)==typeid(__vpiStringParam))return meta(static_cast<__vpiStringParam*>(p));
++        return meta(static_cast<__vpiRealParam*>(p));
++    }
++    static void attach(vpiHandle p){
++        robotron_parameter_record r={};auto m=fields(p);r.name=m.name;r.name_bytes=strlen(m.name)+1;
++        if(typeid(*p)==typeid(__vpiBinaryParam)){
++            auto&v=static_cast<__vpiBinaryParam*>(p)->bits;r.width=v.size_;
++            if(v.size_>vvp_vector4_t::BITS_PER_WORD){r.a=v.abits_ptr_;r.b=v.bbits_ptr_;}
++        }else if(typeid(*p)==typeid(__vpiStringParam)){
++            auto s=static_cast<__vpiStringParam*>(p);r.string_value=s->value_;r.string_bytes=s->value_len_+1;
++        }
++        robotron_parameters()[p]=r;
++    }
++    static int hex(FILE*out,const char*tag,const void*address,size_t bytes){
++        if(fprintf(out,"%s ",tag)<0)return -1;
++        auto data=static_cast<const unsigned char*>(address);
++        for(size_t i=0;i<bytes;++i)if(fprintf(out,"%02x",data[i])<0)return -1;
++        return fputc('\n',out)==EOF?-1:0;
++    }
++    static int inventory(FILE*out){
++        std::map<const void*,std::pair<unsigned long long,const void*>> owners;
++        if(!out||robotron_vvp_parameter_owners(&owners)||owners.size()!=robotron_parameters().size())return -1;
++        std::map<unsigned long long,vpiHandle> ordered;
++        for(auto entry:robotron_parameters()){
++            auto p=entry.first;auto&r=entry.second;auto owner=owners.find(p);
++            if(owner==owners.end() || (typeid(*p)!=typeid(__vpiBinaryParam)&&typeid(*p)!=typeid(__vpiStringParam)&&typeid(*p)!=typeid(__vpiRealParam)))return -1;
++            auto m=fields(p);
++            if(m.scope!=owner->second.second||m.name!=r.name||!r.name||!r.name_bytes)return -1;
++            if(typeid(*p)==typeid(__vpiBinaryParam)){
++                auto&v=static_cast<__vpiBinaryParam*>(p)->bits;
++                if(v.size_!=r.width)return -1;
++                if(v.size_>vvp_vector4_t::BITS_PER_WORD && (v.abits_ptr_!=r.a||v.bbits_ptr_!=r.b||!r.a||!r.b))return -1;
++            }else if(typeid(*p)==typeid(__vpiStringParam)){
++                auto s=static_cast<__vpiStringParam*>(p);
++                if(s->value_!=r.string_value||s->value_len_+1!=r.string_bytes||!r.string_value||!r.string_bytes)return -1;
++            }
++            ordered[owner->second.first]=p;
++        }
++        if(fprintf(out,"VPM_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++        for(auto item:ordered){
++            auto p=item.second;auto&r=robotron_parameters().at(p);auto m=fields(p);
++            const char*kind=typeid(*p)==typeid(__vpiBinaryParam)?"binary":typeid(*p)==typeid(__vpiStringParam)?"string":"real";
++            if(fprintf(out,"VPM_PARAM %llu %p %s %p %u %u %u %zu\n",item.first,(void*)p,kind,(void*)m.scope,unsigned(m.local),m.file,m.line,r.name_bytes)<0||hex(out,"VPM_NAME",r.name,r.name_bytes))return -1;
++            if(typeid(*p)==typeid(__vpiBinaryParam)){
++                auto b=static_cast<__vpiBinaryParam*>(p);auto&v=b->bits;unsigned words=v.size_>vvp_vector4_t::BITS_PER_WORD?(v.size_+vvp_vector4_t::BITS_PER_WORD-1)/vvp_vector4_t::BITS_PER_WORD:1;
++                if(fprintf(out,"VPM_BINARY %u %u %u %u %u %p %p\n",v.size_,unsigned(b->signed_flag),unsigned(b->sized_flag),unsigned(vvp_vector4_t::BITS_PER_WORD),words,(void*)r.a,(void*)r.b)<0)return -1;
++                for(unsigned i=0;i<words;++i){auto a=v.size_>vvp_vector4_t::BITS_PER_WORD?r.a[i]:v.abits_val_;auto b=v.size_>vvp_vector4_t::BITS_PER_WORD?r.b[i]:v.bbits_val_;
++                    if(fprintf(out,"VPM_WORD %u %lx %lx\n",i,a,b)<0)return -1;
++                }
++            }else if(typeid(*p)==typeid(__vpiStringParam)){
++                if(fprintf(out,"VPM_STRING %p %zu\n",(void*)r.string_value,r.string_bytes)<0||hex(out,"VPM_BYTES",r.string_value,r.string_bytes))return -1;
++            }else{
++                auto real=static_cast<__vpiRealParam*>(p);
++                if(fprintf(out,"VPM_REAL %zu\n",sizeof(real->value))<0||hex(out,"VPM_BYTES",&real->value,sizeof(real->value)))return -1;
++            }
++        }
++        return fprintf(out,"VPM_END %zu\n",ordered.size())<0||ferror(out)?-1:0;
++    }
++};
++static void robotron_parameter_register(vpiHandle p){robotron_parameter_access::attach(p);}
++extern "C" int robotron_vvp_parameter_inventory(FILE*out){return robotron_parameter_access::inventory(out);}
+--- a/vvp/vvp_net.h
++++ b/vvp/vvp_net.h
+@@ -238,6 +238,7 @@
+  * collection of vvp_scalar_t objects instead.
+  */
+ class vvp_vector4_t {
++      friend struct robotron_parameter_access;
+ 
+       friend vvp_vector4_t operator ~(const vvp_vector4_t&that);
+       friend class vvp_vector4array_t;
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -1156,3 +1156,13 @@
+         if(!result.insert({item,scope}).second)return -1;
+     owners->swap(result);return 0;
+ }
++
++extern "C" int robotron_vvp_parameter_owners(std::map<const void*,std::pair<unsigned long long,const void*>>*owners)
++{
++    vector<__vpiScope*> scopes;
++    if(!owners||robotron_scope_metadata_validate(scopes))return -1;
++    std::map<const void*,std::pair<unsigned long long,const void*>> result;
++    for(auto scope:scopes)for(auto item:scope->intern)if(robotron_object_types.at(item)==vpiParameter)
++        if(!result.insert({item,{robotron_object_ids.at(item),scope}}).second)return -1;
++    owners->swap(result);return 0;
++}

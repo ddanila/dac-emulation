@@ -1,0 +1,73 @@
+{
+  "runs": {
+    "baseline": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-payload-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "disabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-payload-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-parameter-payload-runtime/vvp/libvvp.so"
+    },
+    "enabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-payload-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-parameter-payload-runtime/vvp/libvvp.so"
+    }
+  },
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-ginterconnect",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-payload/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-payload/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-parameter-payload-runtime",
+      "-I/private/tmp/k7658-parameter-payload-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-payload/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-payload/probe.cc"
+    ]
+  ],
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-parameter-payload-runtime/vvp/libvvp.so": "87d1d6c929983bcb01b1b929941c0f05ba917be8aa9f3eab00c11e17e73e5f67",
+    "/private/tmp/k7658-parameter-payload-runtime/vvp/vvp": "38c1e386278ca1b4075adbdfdf1123c665b21a80a7605401e8d70dfe93fb78f2",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-payload/probe.vpi": "2d8000502f8b43df41169b6890c2ab95d6e05bc564cb5ab6bec31b3478cffb2b",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-payload/probe.vvp": "25dd6d6160c727d060b0361478fbd6e3279b9fdc53122eb8b16fef40d95ba996",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  }
+}
