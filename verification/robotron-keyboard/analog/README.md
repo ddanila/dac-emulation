@@ -996,17 +996,23 @@ with `scope_source_contract.py --archive PINNED_ARCHIVE --vvp COMPILED_BOARD --o
 
 The [native scope controls](reports/scope-membership/assessment.json) cover static
 hierarchy and membership through deferred deletion and disabled queued threads,
-with restored faults and explicit automatic-scope refusal. Board integration and
-scope-owned net/array contents remain open. Build with `build_scope_runtime.py`;
+with restored faults and explicit automatic-scope refusal. Scope-owned net/array
+contents remain separate obligations. Build with `build_scope_runtime.py`;
 run `scope_probe.py --candidate RUNTIME --baseline ORIGINAL_LIB --modules MODULES --out NEW_DIR`
 or replay with `scope_probe.py --check reports/scope-membership` from this directory.
 
-For combined board validation, build `build_scope_bridge.py`, then run
+The [combined scope-board controls](reports/scope-board/assessment.json) preserve
+exact normal waveforms and firmware while detecting restored membership removals
+at startup and after firmware execution. They retain complete hierarchy and empty
+scopes alongside preceding observer layers. This bounded service fixture does not
+qualify full startup, repeat, recovery or general rollback. Reproduce by building
+`build_scope_bridge.py`, then running
 `scope_board_capture.py --source REVIEWED_PC_BOARD --assessment PC_ASSESSMENT --bridge BRIDGE --icarus RUNTIME --out NEW_DIR`
 and `scope_board_review.py --root NEW_DIR --producer scope_board_capture.py --out REPORT`.
 The reviewer retains preceding state checks and requires exact waveform/firmware
-agreement plus restored membership faults at startup and after 5 us. Native
-fixtures alone do not establish this board acceptance.
+agreement plus restored membership faults at startup and after 5 us. For retained
+replay use `--root reports/scope-board --producer reports/scope-board/producer.py`
+and a fresh `--out` path.
 
 The [instruction operand schema](reports/code-operand-contract/assessment.json)
 derives initialized fields from the pinned compiler, including VPI-call handles
