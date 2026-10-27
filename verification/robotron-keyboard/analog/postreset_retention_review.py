@@ -1,13 +1,29 @@
 #!/usr/bin/env python3
 """Audit full-window retention budgets; optionally repeat every sample comparison."""
 import argparse
+import hashlib
 import json
+import lzma
 import math
 from pathlib import Path
 from retained_stream_review import replay
 from ttl7406_probe import sha
 
 HERE=Path(__file__).resolve().parent
+
+
+def verify_archive(path, expected):
+    """Bind archived contents to the capture receipt without parsing samples."""
+    digest=hashlib.sha256();size=0
+    with lzma.open(path,'rb') as stream:
+        while True:
+            data=stream.read(min(65536,expected['bytes']-size+1))
+            if not data:break
+            size+=len(data)
+            if size>expected['bytes']:raise ValueError('Archive exceeds declared size')
+            digest.update(data)
+    if size!=expected['bytes'] or digest.hexdigest()!=expected['sha256']:
+        raise ValueError('Changed archived contents')
 
 
 def assess(root,full=False):
@@ -38,6 +54,9 @@ def assess(root,full=False):
         usage['logicalRawBytes']+=raw['bytes'];usage['logicalLogBytes']+=original['log']['bytes']
         for suffix,key in (('raw','compressedRawBytes'),('log','compressedLogBytes')):
             p=root/f'capture/{i}.{suffix}.xz'
+            verify_archive(p,raw if suffix=='raw' else original['log'])
+            if suffix=='raw' and p.stat().st_size!=transport['rawArchives'][i]['compressedBytes']:
+                raise ValueError('Changed compressed raw size')
             usage[key]+=p.stat().st_size
             source_compressed[str(p.relative_to(root))]={'bytes':p.stat().st_size,'sha256':sha(p)}
     mapping={'logicalRawBytes':'max_raw_bytes','compressedRawBytes':'max_compressed_raw_bytes',
@@ -62,7 +81,7 @@ def assess(root,full=False):
         sampledMaximumTreeRssKiB=report['sampledMaximumTreeRssKiB'],maximumSampleGapSeconds=max(b-a for a,b in zip(times,times[1:])),
         compressedArtifacts=source_compressed,receipts={n:sha(root/n) for n in ('assessment.json','preflight.json','resource-samples.json','capture/transport.json')},
         reviewerSha256=sha(Path(__file__)),
-        scope='Complete 1.16-ms archived exact-tick refinements. Resource sampling excludes preflight hashing, includes retention and subsequent replay, and cannot establish an exact peak. No new simulation, full repeat or numerical admission. --full repeats every waveform comparison; otherwise this review verifies receipts, budget accounting and compressed archive hashes.')
+        scope='Complete 1.16-ms archived exact-tick refinements. Resource sampling excludes preflight hashing, includes retention and subsequent replay, and cannot establish an exact peak. No new simulation, full repeat or numerical admission. Every archive is decompressed and matched to its logical receipt. --full additionally repeats every waveform comparison; otherwise sample comparisons are not rerun. Compressed hashes identify the reviewed archives.')
 
 
 if __name__=='__main__':
