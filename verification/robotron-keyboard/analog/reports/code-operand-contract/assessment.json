@@ -1,0 +1,1124 @@
+{
+  "qualified": false,
+  "scope": "Typed compiler-field schema for the pinned compiled board and native handler excerpts. This is not operand observation, a transitive read/write audit or a code-immutability proof.",
+  "archiveSha256": "c3a18398dd25073845550af2f35926193f4d3aa7cd7080122bdc501f59717c00",
+  "compiledSha256": "221b1519eb9e9eed71be9c85a2e8e35ec613660463bd88f786c9c0933b5c5ce5",
+  "instructions": {
+    "%add": {
+      "handler": "of_ADD",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 9,
+      "construction": "compile_code"
+    },
+    "%addi": {
+      "handler": "of_ADDI",
+      "operandTypes": [
+        "OA_BIT1",
+        "OA_BIT2",
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        },
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 11,
+      "construction": "compile_code"
+    },
+    "%and": {
+      "handler": "of_AND",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 161,
+      "construction": "compile_code"
+    },
+    "%assign/vec4": {
+      "handler": "of_ASSIGN_VEC4",
+      "operandTypes": [
+        "OA_FUNC_PTR",
+        "OA_BIT1"
+      ],
+      "fields": [
+        {
+          "field": "net",
+          "kind": "net-reference"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 258,
+      "construction": "compile_code"
+    },
+    "%assign/vec4/a/d": {
+      "handler": "of_ASSIGN_VEC4_A_D",
+      "operandTypes": [
+        "OA_ARR_PTR",
+        "OA_BIT1",
+        "OA_BIT2"
+      ],
+      "fields": [
+        {
+          "field": "array",
+          "kind": "array-reference"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 2,
+      "construction": "compile_code"
+    },
+    "%assign/vec4/off/d": {
+      "handler": "of_ASSIGN_VEC4_OFF_D",
+      "operandTypes": [
+        "OA_FUNC_PTR",
+        "OA_BIT1",
+        "OA_BIT2"
+      ],
+      "fields": [
+        {
+          "field": "net",
+          "kind": "net-reference"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 73,
+      "construction": "compile_code"
+    },
+    "%blend": {
+      "handler": "of_BLEND",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 14,
+      "construction": "compile_code"
+    },
+    "%callf/vec4": {
+      "handler": "of_CALLF_VEC4",
+      "operandTypes": [
+        "OA_CODE_PTR2",
+        "OA_VPI_PTR"
+      ],
+      "fields": [
+        {
+          "field": "cptr2",
+          "kind": "allocated-code-reference"
+        },
+        {
+          "field": "handle",
+          "kind": "vpi-reference"
+        }
+      ],
+      "compiledInstructions": 15,
+      "construction": "compile_code"
+    },
+    "%cmp/e": {
+      "handler": "of_CMPE",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 68,
+      "construction": "compile_code"
+    },
+    "%cmp/ne": {
+      "handler": "of_CMPNE",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 8,
+      "construction": "compile_code"
+    },
+    "%cmp/u": {
+      "handler": "of_CMPU",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 786,
+      "construction": "compile_code"
+    },
+    "%cmp/z": {
+      "handler": "of_CMPZ",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 404,
+      "construction": "compile_code"
+    },
+    "%cmpi/e": {
+      "handler": "of_CMPIE",
+      "operandTypes": [
+        "OA_BIT1",
+        "OA_BIT2",
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        },
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 248,
+      "construction": "compile_code"
+    },
+    "%cmpi/ne": {
+      "handler": "of_CMPINE",
+      "operandTypes": [
+        "OA_BIT1",
+        "OA_BIT2",
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        },
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 17,
+      "construction": "compile_code"
+    },
+    "%cmpi/u": {
+      "handler": "of_CMPIU",
+      "operandTypes": [
+        "OA_BIT1",
+        "OA_BIT2",
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        },
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 6,
+      "construction": "compile_code"
+    },
+    "%concat/vec4": {
+      "handler": "of_CONCAT_VEC4",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 32,
+      "construction": "compile_code"
+    },
+    "%concati/vec4": {
+      "handler": "of_CONCATI_VEC4",
+      "operandTypes": [
+        "OA_BIT1",
+        "OA_BIT2",
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        },
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 9,
+      "construction": "compile_code"
+    },
+    "%dup/vec4": {
+      "handler": "of_DUP_VEC4",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 1189,
+      "construction": "compile_code"
+    },
+    "%end": {
+      "handler": "of_END",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 14,
+      "construction": "compile_code"
+    },
+    "%flag_get/vec4": {
+      "handler": "of_FLAG_GET_VEC4",
+      "operandTypes": [
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 245,
+      "construction": "compile_code"
+    },
+    "%flag_inv": {
+      "handler": "of_FLAG_INV",
+      "operandTypes": [
+        "OA_BIT1"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 6,
+      "construction": "compile_code"
+    },
+    "%flag_mov": {
+      "handler": "of_FLAG_MOV",
+      "operandTypes": [
+        "OA_BIT1",
+        "OA_BIT2"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 26,
+      "construction": "compile_code"
+    },
+    "%flag_or": {
+      "handler": "of_FLAG_OR",
+      "operandTypes": [
+        "OA_BIT1",
+        "OA_BIT2"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 40,
+      "construction": "compile_code"
+    },
+    "%flag_set/imm": {
+      "handler": "of_FLAG_SET_IMM",
+      "operandTypes": [
+        "OA_NUMBER",
+        "OA_BIT1"
+      ],
+      "fields": [
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 755,
+      "construction": "compile_code"
+    },
+    "%flag_set/vec4": {
+      "handler": "of_FLAG_SET_VEC4",
+      "operandTypes": [
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 517,
+      "construction": "compile_code"
+    },
+    "%fork": {
+      "handler": "of_FORK",
+      "operandTypes": [
+        "OA_CODE_PTR2",
+        "OA_VPI_PTR"
+      ],
+      "fields": [
+        {
+          "field": "cptr2",
+          "kind": "allocated-code-reference"
+        },
+        {
+          "field": "handle",
+          "kind": "vpi-reference"
+        }
+      ],
+      "compiledInstructions": 2,
+      "construction": "compile_code"
+    },
+    "%inv": {
+      "handler": "of_INV",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 103,
+      "construction": "compile_code"
+    },
+    "%ix/load": {
+      "handler": "of_IX_LOAD",
+      "operandTypes": [
+        "OA_NUMBER",
+        "OA_BIT1",
+        "OA_BIT2"
+      ],
+      "fields": [
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 830,
+      "construction": "compile_code"
+    },
+    "%ix/vec4": {
+      "handler": "of_IX_VEC4",
+      "operandTypes": [
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 2,
+      "construction": "compile_code"
+    },
+    "%jmp": {
+      "handler": "of_JMP",
+      "operandTypes": [
+        "OA_CODE_PTR"
+      ],
+      "fields": [
+        {
+          "field": "cptr",
+          "kind": "allocated-code-reference"
+        }
+      ],
+      "compiledInstructions": 1643,
+      "construction": "compile_code"
+    },
+    "%jmp/0": {
+      "handler": "of_JMP0",
+      "operandTypes": [
+        "OA_CODE_PTR",
+        "OA_BIT1"
+      ],
+      "fields": [
+        {
+          "field": "cptr",
+          "kind": "allocated-code-reference"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 177,
+      "construction": "compile_code"
+    },
+    "%jmp/0xz": {
+      "handler": "of_JMP0XZ",
+      "operandTypes": [
+        "OA_CODE_PTR",
+        "OA_BIT1"
+      ],
+      "fields": [
+        {
+          "field": "cptr",
+          "kind": "allocated-code-reference"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 573,
+      "construction": "compile_code"
+    },
+    "%jmp/1": {
+      "handler": "of_JMP1",
+      "operandTypes": [
+        "OA_CODE_PTR",
+        "OA_BIT1"
+      ],
+      "fields": [
+        {
+          "field": "cptr",
+          "kind": "allocated-code-reference"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 1255,
+      "construction": "compile_code"
+    },
+    "%join": {
+      "handler": "of_JOIN",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 2,
+      "construction": "compile_code"
+    },
+    "%load/vec4": {
+      "handler": "of_LOAD_VEC4",
+      "operandTypes": [
+        "OA_FUNC_PTR"
+      ],
+      "fields": [
+        {
+          "field": "net",
+          "kind": "net-reference"
+        }
+      ],
+      "compiledInstructions": 2189,
+      "construction": "compile_code"
+    },
+    "%mod/s": {
+      "handler": "of_MOD_S",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 2,
+      "construction": "compile_code"
+    },
+    "%mul/wr": {
+      "handler": "of_MUL_WR",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 1,
+      "construction": "compile_code"
+    },
+    "%nor/r": {
+      "handler": "of_NORR",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 36,
+      "construction": "compile_code"
+    },
+    "%or": {
+      "handler": "of_OR",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 30,
+      "construction": "compile_code"
+    },
+    "%pad/u": {
+      "handler": "of_PAD_U",
+      "operandTypes": [
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 16,
+      "construction": "compile_code"
+    },
+    "%parti/s": {
+      "handler": "of_PARTI_S",
+      "operandTypes": [
+        "OA_NUMBER",
+        "OA_BIT1",
+        "OA_BIT2"
+      ],
+      "fields": [
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 1424,
+      "construction": "compile_code"
+    },
+    "%pop/vec4": {
+      "handler": "of_POP_VEC4",
+      "operandTypes": [
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 226,
+      "construction": "compile_code"
+    },
+    "%pushi/real": {
+      "handler": "of_PUSHI_REAL",
+      "operandTypes": [
+        "OA_BIT1",
+        "OA_BIT2"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 1,
+      "construction": "compile_code"
+    },
+    "%pushi/vec4": {
+      "handler": "of_PUSHI_VEC4",
+      "operandTypes": [
+        "OA_BIT1",
+        "OA_BIT2",
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        },
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 3704,
+      "construction": "compile_code"
+    },
+    "%replicate": {
+      "handler": "of_REPLICATE",
+      "operandTypes": [
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 2,
+      "construction": "compile_code"
+    },
+    "%ret/vec4": {
+      "handler": "of_RET_VEC4",
+      "operandTypes": [
+        "OA_NUMBER",
+        "OA_BIT1",
+        "OA_BIT2"
+      ],
+      "fields": [
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 27,
+      "construction": "compile_code"
+    },
+    "%store/vec4": {
+      "handler": "of_STORE_VEC4",
+      "operandTypes": [
+        "OA_FUNC_PTR",
+        "OA_BIT1",
+        "OA_BIT2"
+      ],
+      "fields": [
+        {
+          "field": "net",
+          "kind": "net-reference"
+        },
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        }
+      ],
+      "compiledInstructions": 3175,
+      "construction": "compile_code"
+    },
+    "%subi": {
+      "handler": "of_SUBI",
+      "operandTypes": [
+        "OA_BIT1",
+        "OA_BIT2",
+        "OA_NUMBER"
+      ],
+      "fields": [
+        {
+          "field": "bit_idx[0]",
+          "kind": "uint32"
+        },
+        {
+          "field": "bit_idx[1]",
+          "kind": "uint32"
+        },
+        {
+          "field": "number",
+          "kind": "unsigned-long"
+        }
+      ],
+      "compiledInstructions": 3,
+      "construction": "compile_code"
+    },
+    "%vpi_call/w": {
+      "handler": "of_VPI_CALL",
+      "compiledInstructions": 16,
+      "construction": "compile_vpi_call",
+      "operandTypes": [
+        "special-vpi-call"
+      ],
+      "fields": [
+        {
+          "field": "handle",
+          "kind": "vpi-call-reference"
+        }
+      ]
+    },
+    "%vpi_func/r": {
+      "handler": "of_VPI_CALL",
+      "compiledInstructions": 1,
+      "construction": "compile_vpi_func_call",
+      "operandTypes": [
+        "special-vpi-call"
+      ],
+      "fields": [
+        {
+          "field": "handle",
+          "kind": "vpi-call-reference"
+        }
+      ]
+    },
+    "%wait": {
+      "handler": "of_WAIT",
+      "operandTypes": [
+        "OA_FUNC_PTR"
+      ],
+      "fields": [
+        {
+          "field": "net",
+          "kind": "net-reference"
+        }
+      ],
+      "compiledInstructions": 42,
+      "construction": "compile_code"
+    },
+    "%xor": {
+      "handler": "of_XOR",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 11,
+      "construction": "compile_code"
+    },
+    "%xor/r": {
+      "handler": "of_XORR",
+      "operandTypes": [],
+      "fields": [],
+      "compiledInstructions": 15,
+      "construction": "compile_code"
+    }
+  },
+  "implicitInstructions": {
+    "of_ZOMBIE": [],
+    "of_CHUNK_LINK": [
+      {
+        "field": "cptr",
+        "kind": "nullable-allocated-code-reference"
+      }
+    ]
+  },
+  "sources": {
+    "vvp/compile.cc": "8de46477b431d978a237f7b7af01c0d1fd219f75bc3c7e7c3f10d350e094d611",
+    "vvp/codes.cc": "5e9e68738b1b9295ec971b5d1c97ea8be407b1d3cb03eea44caac6034036be9c",
+    "vvp/codes.h": "f428ccb51822e8f73aac4edb9ebf156cbbf2b3a1db58b3cb5ceca37875e5b799",
+    "vvp/vthread.cc": "95e83a73511df6999864528f827c8b3fedd11c68f3ee3e64fc826811568869c5",
+    "vvp/parse.y": "fdd6cbd67dedb39922e3d7b090cdc8c2dd0ea23277d5620f4419f6789dd0f065"
+  },
+  "evidence": {
+    "typedUnions": {
+      "file": "vvp/codes.h",
+      "firstLine": 281,
+      "excerpt": "struct vvp_code_s {\n      vvp_code_fun opcode;\n\n      union {\n\t    unsigned long number;\n\t    vvp_net_t    *net;\n\t    vvp_code_t   cptr;\n\t    vvp_array_t array;\n\t    class __vpiHandle*handle;\n\t    __vpiScope*scope;\n\t    const char*text;\n      };\n\n      union {\n\t    uint32_t    bit_idx[2];\n\t    vvp_net_t   *net2;\n\t    vvp_code_t   cptr2;\n\t    class ufunc_core*ufunc_core_ptr;\n      };\n};\n\n"
+    },
+    "compilerOperandAssignments": {
+      "file": "vvp/compile.cc",
+      "firstLine": 1778,
+      "excerpt": "void compile_code(char*label, char*mnem, comp_operands_t opa)\n{\n\t/* First, I can give the label a value that is the current\n\t   codespace pointer. Don't need the text of the label after\n\t   this is done. */\n      if (label)\n\t    compile_codelabel(label);\n\n\t/* Lookup the opcode in the opcode table. */\n      struct opcode_table_s*op = static_cast<struct opcode_table_s*>\n                                            (bsearch(mnem, opcode_table, opcode_count,\n                                                     sizeof(struct opcode_table_s),\n                                                     &opcode_compare));\n      if (op == 0) {\n\t    yyerror(\"Invalid opcode\");\n\t    compile_errors += 1;\n\t    return;\n      }\n\n      assert(op);\n\n\t/* Build up the code from the information about the opcode and\n\t   the information from the compiler. */\n      vvp_code_t code = codespace_allocate();\n      code->opcode = op->opcode;\n\n      if (op->argc != (opa? opa->argc : 0)) {\n\t    yyerror(\"operand count\");\n\t    compile_errors += 1;\n\t    return;\n      }\n\n\t/* Pull the operands that the instruction expects from the\n\t   list that the parser supplied. */\n\n      for (unsigned idx = 0 ;  idx < op->argc ;  idx += 1) {\n\n\t    switch (op->argt[idx]) {\n\t\tcase OA_NONE:\n\t\t  break;\n\n\t\tcase OA_ARR_PTR:\n\t\t  if (opa->argv[idx].ltype != L_SYMB) {\n\t\t\tyyerror(\"operand format\");\n\t\t\tbreak;\n\t\t  }\n\n\t\t  compile_array_lookup(code, opa->argv[idx].symb.text);\n\t\t  break;\n\n\t\tcase OA_BIT1:\n\t\t  if (opa->argv[idx].ltype != L_NUMB) {\n\t\t\tyyerror(\"operand format\");\n\t\t\tbreak;\n\t\t  }\n\t\t  code->bit_idx[0] = opa->argv[idx].numb;\n\t\t  break;\n\n\t\tcase OA_BIT2:\n\t\t  if (opa->argv[idx].ltype != L_NUMB) {\n\t\t\tyyerror(\"operand format\");\n\t\t\tbreak;\n\t\t  }\n\t\t  code->bit_idx[1] = opa->argv[idx].numb;\n\t\t  break;\n\n\t\tcase OA_CODE_PTR:\n\t\tcase OA_CODE_PTR2:\n\t\t  if (opa->argv[idx].ltype != L_SYMB) {\n\t\t\tyyerror(\"operand format\");\n\t\t\tbreak;\n\t\t  }\n\n\t\t  assert(opa->argv[idx].symb.idx == 0);\n\t\t  code_label_lookup(code, opa->argv[idx].symb.text,\n\t\t\t\t    op->argt[idx]==OA_CODE_PTR2);\n\t\t  break;\n\n\t\tcase OA_FUNC_PTR:\n\t\t    /* The operand is a functor. Resolve the label to\n\t\t       a functor pointer, or postpone the resolution\n\t\t       if it is not defined yet. */\n\t\t  if (opa->argv[idx].ltype != L_SYMB) {\n\t\t\tyyerror(\"operand format\");\n\t\t\tbreak;\n\t\t  }\n\n\t\t  functor_ref_lookup(&code->net, opa->argv[idx].symb.text);\n\t\t  break;\n\n\t\tcase OA_FUNC_PTR2:\n\t\t    /* The operand is a functor. Resolve the label to\n\t\t       a functor pointer, or postpone the resolution\n\t\t       if it is not defined yet. */\n\t\t  if (opa->argv[idx].ltype != L_SYMB) {\n\t\t\tyyerror(\"operand format\");\n\t\t\tbreak;\n\t\t  }\n\n\t\t  functor_ref_lookup(&code->net2, opa->argv[idx].symb.text);\n\t\t  break;\n\n\t\tcase OA_NUMBER:\n\t\t  if (opa->argv[idx].ltype != L_NUMB) {\n\t\t\tyyerror(\"operand format\");\n\t\t\tbreak;\n\t\t  }\n\n\t\t  code->number = opa->argv[idx].numb;\n\t\t  break;\n\n\t\tcase OA_VPI_PTR:\n\t\t    /* The operand is a functor. Resolve the label to\n\t\t       a functor pointer, or postpone the resolution\n\t\t       if it is not defined yet. */\n\t\t  if (opa->argv[idx].ltype != L_SYMB) {\n\t\t\tyyerror(\"operand format\");\n\t\t\tbreak;\n\t\t  }\n\n\t\t  compile_vpi_lookup(&code->handle, opa->argv[idx].symb.text);\n\t\t  break;\n\n\t\tcase OA_STRING:\n\t\t  if (opa->argv[idx].ltype != L_STRING) {\n\t\t\tyyerror(\"operand format\");\n\t\t\tbreak;\n\t\t  }\n\n\t\t  code->text = opa->argv[idx].text;\n\t\t  break;\n\t    }\n      }\n\n      free(opa);\n\n      free(mnem);\n}\n\n"
+    },
+    "specialVpiConstruction": {
+      "file": "vvp/compile.cc",
+      "firstLine": 1945,
+      "excerpt": "void compile_vpi_call(char*label, char*name,\n                      bool func_as_task_err, bool func_as_task_warn,\n                      long file_idx, long lineno,\n                      unsigned argc, vpiHandle*argv,\n\t\t      unsigned vec4_stack, unsigned real_stack, unsigned string_stack)\n{\n      if (label)\n\t    compile_codelabel(label);\n\n\t/* Create an instruction in the code space. */\n      vvp_code_t code = codespace_allocate();\n      code->opcode = &of_VPI_CALL;\n\n\t/* Create a vpiHandle that bundles the call information, and\n\t   store that handle in the instruction. */\n      code->handle = vpip_build_vpi_call(name, 0, 0,\n\t\t\t\t\t 0, func_as_task_err, func_as_task_warn,\n                                         argc, argv, vec4_stack, real_stack, string_stack,\n\t\t\t\t\t file_idx, lineno);\n      if (code->handle == 0)\n\t    compile_errors += 1;\n\n\t/* Done with the lexor-allocated name string. */\n      delete[] name;\n}\n\nvoid compile_vpi_func_call(char*label, char*name,\n\t\t\t   int val_type, unsigned val_wid,\n\t\t\t   long file_idx, long lineno,\n\t\t\t   unsigned argc, vpiHandle*argv,\n\t\t\t   unsigned vec4_stack,\n\t\t\t   unsigned real_stack,\n\t\t\t   unsigned string_stack)\n{\n      if (label)\n\t    compile_codelabel(label);\n\n\t/* Create an instruction in the code space. */\n      vvp_code_t code = codespace_allocate();\n      code->opcode = &of_VPI_CALL;\n\n\t/* Create a vpiHandle that bundles the call information, and\n\t   store that handle in the instruction. */\n      code->handle = vpip_build_vpi_call(name, val_type, val_wid,\n\t\t\t\t\t 0, true, false,\n                                         argc, argv, vec4_stack, real_stack, string_stack,\n\t\t\t\t\t file_idx, lineno);\n      if (code->handle == 0)\n\t    compile_errors += 1;\n\n\t/* Done with the lexor-allocated name string. */\n      delete[] name;\n}\n\n"
+    },
+    "allocatorAndImplicitInstructions": {
+      "file": "vvp/codes.cc",
+      "firstLine": 46,
+      "excerpt": "void codespace_init(void)\n{\n      assert(current_chunk == 0);\n      first_chunk = new struct vvp_code_s [code_chunk_size];\n      current_chunk = first_chunk;\n\n      current_chunk[0].opcode = &of_ZOMBIE;\n\n      current_chunk[code_chunk_size-1].opcode = &of_CHUNK_LINK;\n      current_chunk[code_chunk_size-1].cptr = 0;\n\n      current_within_chunk = 1;\n\n      count_opcodes = 0;\n      size_opcodes += code_chunk_size * sizeof (struct vvp_code_s);\n}\n\nvvp_code_t codespace_next(void)\n{\n      if (current_within_chunk == (code_chunk_size-1)) {\n\t    current_chunk[code_chunk_size-1].cptr\n\t\t  = new struct vvp_code_s [code_chunk_size];\n\t    current_chunk = current_chunk[code_chunk_size-1].cptr;\n\n\t      /* Put a link opcode on the end of the chunk. */\n\t    current_chunk[code_chunk_size-1].opcode = &of_CHUNK_LINK;\n\t    current_chunk[code_chunk_size-1].cptr   = 0;\n\n\t    current_within_chunk = 0;\n\n\t    size_opcodes += code_chunk_size * sizeof (struct vvp_code_s);\n      }\n\n      vvp_code_t res = current_chunk + current_within_chunk;\n      return res;\n}\n\nvvp_code_t codespace_allocate(void)\n{\n      vvp_code_t res = codespace_next();\n      current_within_chunk += 1;\n      count_opcodes += 1;\n\n      memset(res, 0, sizeof(*res));\n\n      return res;\n}\n\nvvp_code_t codespace_null(void)\n{\n      return first_chunk + 0;\n}\n\n"
+    }
+  },
+  "handlers": {
+    "of_ADD": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1032,
+      "excerpt": "bool of_ADD(vthread_t thr, vvp_code_t)\n{\n      vvp_vector4_t r = thr->pop_vec4();\n\t// Rather then pop l, use it directly from the stack. When we\n\t// assign to 'l', that will edit the top of the stack, which\n\t// replaces a pop and a pull.\n      vvp_vector4_t&l = thr->peek_vec4();\n\n      l.add(r);\n\n      return true;\n}"
+    },
+    "of_ADDI": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1051,
+      "excerpt": "bool of_ADDI(vthread_t thr, vvp_code_t cp)\n{\n      unsigned wid = cp->number;\n\n      vvp_vector4_t&l = thr->peek_vec4();\n\n\t// I expect that most of the bits of an immediate value are\n\t// going to be zero, so start the result vector with all zero\n\t// bits. Then we only need to replace the bits that are different.\n      vvp_vector4_t r (wid, BIT4_0);\n      get_immediate_rval (cp, r);\n\n      l.add(r);\n\n      return true;\n}"
+    },
+    "of_AND": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 963,
+      "excerpt": "bool of_AND(vthread_t thr, vvp_code_t)\n{\n      vvp_vector4_t valb = thr->pop_vec4();\n      vvp_vector4_t&vala = thr->peek_vec4();\n      assert(vala.size() == valb.size());\n      vala &= valb;\n      return true;\n}"
+    },
+    "of_ASSIGN_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1143,
+      "excerpt": "bool of_ASSIGN_VEC4(vthread_t thr, vvp_code_t cp)\n{\n      vvp_net_ptr_t ptr (cp->net, 0);\n      unsigned delay = cp->bit_idx[0];\n      const vvp_vector4_t&val = thr->peek_vec4();\n\n      schedule_assign_vector(ptr, 0, 0, val, delay);\n      thr->pop_vec4(1);\n      return true;\n}"
+    },
+    "of_ASSIGN_VEC4_A_D": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1201,
+      "excerpt": "bool of_ASSIGN_VEC4_A_D(vthread_t thr, vvp_code_t cp)\n{\n      int off_idx = cp->bit_idx[0];\n      int del_idx = cp->bit_idx[1];\n      int adr_idx = 3;\n\n      int64_t  off = off_idx ? thr->words[off_idx].w_int : 0;\n      vvp_time64_t del = del_idx? thr->words[del_idx].w_uint : 0;\n      long     adr = thr->words[adr_idx].w_int;\n\n      vvp_vector4_t val = thr->pop_vec4();\n\n\t// Abort if flags[4] is set. This can happen if the calculation\n\t// into an index register failed.\n      if (thr->flags[4] == BIT4_1)\n\t    return true;\n\n      if (!resize_rval_vec(val, off, cp->array->get_word_size()))\n\t    return true;\n\n      schedule_assign_array_word(cp->array, adr, off, val, del);\n\n      return true;\n}"
+    },
+    "of_ASSIGN_VEC4_OFF_D": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1259,
+      "excerpt": "bool of_ASSIGN_VEC4_OFF_D(vthread_t thr, vvp_code_t cp)\n{\n      vvp_net_ptr_t ptr (cp->net, 0);\n      unsigned off_index = cp->bit_idx[0];\n      unsigned del_index = cp->bit_idx[1];\n      vvp_vector4_t val = thr->pop_vec4();\n\n      int64_t off = thr->words[off_index].w_int;\n      vvp_time64_t del = thr->words[del_index].w_uint;\n\n\t// Abort if flags[4] is set. This can happen if the calculation\n\t// into an index register failed.\n      if (thr->flags[4] == BIT4_1)\n\t    return true;\n\n      vvp_signal_value*sig = dynamic_cast<vvp_signal_value*> (cp->net->fil);\n      assert(sig);\n\n      if (!resize_rval_vec(val, off, sig->value_size()))\n\t    return true;\n\n      schedule_assign_vector(ptr, off, sig->value_size(), val, del);\n      return true;\n}"
+    },
+    "of_BLEND": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1422,
+      "excerpt": "bool of_BLEND(vthread_t thr, vvp_code_t)\n{\n      vvp_vector4_t vala = thr->pop_vec4();\n      vvp_vector4_t valb = thr->pop_vec4();\n      assert(vala.size() == valb.size());\n\n      for (unsigned idx = 0 ; idx < vala.size() ; idx += 1) {\n\t    if (vala.value(idx) == valb.value(idx))\n\t\t  continue;\n\n\t    vala.set_bit(idx, BIT4_X);\n      }\n\n      thr->push_vec4(vala);\n      return true;\n}"
+    },
+    "of_CALLF_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1519,
+      "excerpt": "bool of_CALLF_VEC4(vthread_t thr, vvp_code_t cp)\n{\n      vthread_t child = vthread_new(cp->cptr2, cp->scope);\n\n      vpiScopeFunction*scope_func = dynamic_cast<vpiScopeFunction*>(cp->scope);\n      assert(scope_func);\n\n\t// This is the return value. Push a place-holder value. The function\n\t// will replace this with the actual value using a %ret/real instruction.\n      thr->push_vec4(vvp_vector4_t(scope_func->get_func_width(), scope_func->get_func_init_val()));\n      child->args_vec4.push_back(0);\n\n      return do_callf_void(thr, child);\n}"
+    },
+    "of_CHUNK_LINK": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 892,
+      "excerpt": "bool of_CHUNK_LINK(vthread_t thr, vvp_code_t code)\n{\n      assert(code->cptr);\n      thr->pc = code->cptr;\n      return true;\n}"
+    },
+    "of_CMPE": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1815,
+      "excerpt": "bool of_CMPE(vthread_t thr, vvp_code_t)\n{\n\t// We are going to pop these and push nothing in their\n\t// place, but for now it is more efficient to use a constant\n\t// reference. When we finish, pop the stack without copies.\n      const vvp_vector4_t&rval = thr->peek_vec4(0);\n      const vvp_vector4_t&lval = thr->peek_vec4(1);\n\n      do_CMPE(thr, lval, rval);\n\n      thr->pop_vec4(2);\n      return true;\n}"
+    },
+    "of_CMPIE": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1851,
+      "excerpt": "bool of_CMPIE(vthread_t thr, vvp_code_t cp)\n{\n      unsigned wid = cp->number;\n\n      const vvp_vector4_t&lval = thr->peek_vec4();\n\n\t// I expect that most of the bits of an immediate value are\n\t// going to be zero, so start the result vector with all zero\n\t// bits. Then we only need to replace the bits that are different.\n      vvp_vector4_t rval (wid, BIT4_0);\n      get_immediate_rval (cp, rval);\n\n      do_CMPE(thr, lval, rval);\n\n      thr->pop_vec4(1);\n      return true;\n}"
+    },
+    "of_CMPINE": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1869,
+      "excerpt": "bool of_CMPINE(vthread_t thr, vvp_code_t cp)\n{\n      unsigned wid = cp->number;\n\n      const vvp_vector4_t&lval = thr->peek_vec4();\n\n\t// I expect that most of the bits of an immediate value are\n\t// going to be zero, so start the result vector with all zero\n\t// bits. Then we only need to replace the bits that are different.\n      vvp_vector4_t rval (wid, BIT4_0);\n      get_immediate_rval (cp, rval);\n\n      do_CMPE(thr, lval, rval);\n\n      thr->flags[4] =  ~thr->flags[4];\n      thr->flags[6] =  ~thr->flags[6];\n\n      thr->pop_vec4(1);\n      return true;\n}"
+    },
+    "of_CMPIU": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 2122,
+      "excerpt": "bool of_CMPIU(vthread_t thr, vvp_code_t cp)\n{\n      unsigned wid = cp->number;\n\n      const vvp_vector4_t&lval = thr->peek_vec4();\n\n\t// I expect that most of the bits of an immediate value are\n\t// going to be zero, so start the result vector with all zero\n\t// bits. Then we only need to replace the bits that are different.\n      vvp_vector4_t rval (wid, BIT4_0);\n      get_immediate_rval (cp, rval);\n\n      do_CMPU(thr, lval, rval);\n\n      thr->pop_vec4(1);\n      return true;\n}"
+    },
+    "of_CMPNE": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 1829,
+      "excerpt": "bool of_CMPNE(vthread_t thr, vvp_code_t)\n{\n\t// We are going to pop these and push nothing in their\n\t// place, but for now it is more efficient to use a constant\n\t// reference. When we finish, pop the stack without copies.\n      const vvp_vector4_t&rval = thr->peek_vec4(0);\n      const vvp_vector4_t&lval = thr->peek_vec4(1);\n\n      do_CMPE(thr, lval, rval);\n\n      thr->flags[4] =  ~thr->flags[4];\n      thr->flags[6] =  ~thr->flags[6];\n\n      thr->pop_vec4(2);\n      return true;\n}"
+    },
+    "of_CMPU": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 2105,
+      "excerpt": "bool of_CMPU(vthread_t thr, vvp_code_t)\n{\n\n      const vvp_vector4_t&rval = thr->peek_vec4(0);\n      const vvp_vector4_t&lval = thr->peek_vec4(1);\n\n      do_CMPU(thr, lval, rval);\n\n      thr->pop_vec4(2);\n      return true;\n}"
+    },
+    "of_CMPZ": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 2248,
+      "excerpt": "bool of_CMPZ(vthread_t thr, vvp_code_t)\n{\n      vvp_bit4_t eq = BIT4_1;\n      vvp_vector4_t rval = thr->pop_vec4();\n      vvp_vector4_t lval = thr->pop_vec4();\n\n      assert(rval.size() == lval.size());\n      unsigned wid = lval.size();\n\n      for (unsigned idx = 0 ; idx < wid ; idx += 1) {\n\t    vvp_bit4_t lv = lval.value(idx);\n\t    vvp_bit4_t rv = rval.value(idx);\n\t    if ((lv != rv) && (rv != BIT4_Z) && (lv != BIT4_Z)) {\n\t\t  eq = BIT4_0;\n\t\t  break;\n\t    }\n      }\n\n      thr->flags[4] = eq;\n      return true;\n}"
+    },
+    "of_CONCATI_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 2320,
+      "excerpt": "bool of_CONCATI_VEC4(vthread_t thr, vvp_code_t cp)\n{\n      unsigned wid  = cp->number;\n\n      vvp_vector4_t&msb = thr->peek_vec4();\n\n\t// I expect that most of the bits of an immediate value are\n\t// going to be zero, so start the result vector with all zero\n\t// bits. Then we only need to replace the bits that are different.\n      vvp_vector4_t lsb (wid, BIT4_0);\n      get_immediate_rval (cp, lsb);\n\n      vvp_vector4_t res (msb.size()+lsb.size(), BIT4_X);\n      res.set_vec(0, lsb);\n      res.set_vec(lsb.size(), msb);\n\n      msb = res;\n      return true;\n}"
+    },
+    "of_CONCAT_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 2293,
+      "excerpt": "bool of_CONCAT_VEC4(vthread_t thr, vvp_code_t)\n{\n      const vvp_vector4_t&lsb = thr->peek_vec4(0);\n      const vvp_vector4_t&msb = thr->peek_vec4(1);\n\n\t// The result is the size of the top two vectors in the stack.\n      vvp_vector4_t res (msb.size() + lsb.size(), BIT4_X);\n\n\t// Build up the result.\n      res.set_vec(0, lsb);\n      res.set_vec(lsb.size(), msb);\n\n\t// Rearrange the stack to pop the inputs and push the\n\t// result. Do that by actually popping only 1 stack position\n\t// and replacing the new top with the new value.\n      thr->pop_vec4(1);\n      thr->peek_vec4() = res;\n\n      return true;\n}"
+    },
+    "of_DUP_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3034,
+      "excerpt": "bool of_DUP_VEC4(vthread_t thr, vvp_code_t)\n{\n      thr->push_vec4(thr->peek_vec4(0));\n      return true;\n}"
+    },
+    "of_END": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3045,
+      "excerpt": "bool of_END(vthread_t thr, vvp_code_t)\n{\n      assert(! thr->waiting_for_event);\n      thr->i_have_ended = 1;\n      thr->pc = codespace_null();\n\n\t/* Fully detach any detached children. */\n      while (! thr->detached_children.empty()) {\n\t    vthread_t child = *(thr->detached_children.begin());\n\t    assert(child);\n\t    assert(child->parent == thr);\n\t    assert(child->i_am_detached);\n\t    child->parent = 0;\n\t    child->i_am_detached = 0;\n\t    thr->detached_children.erase(thr->detached_children.begin());\n      }\n\n\t/* It is an error to still have active children running at this\n\t * point in time. They should have all been detached or joined. */\n      assert(thr->children.empty());\n\n\t/* If I have a parent who is waiting for me, then mark that I\n\t   have ended, and schedule that parent. Also, finish the\n\t   %join for the parent. */\n      if (!thr->i_am_detached && thr->parent && thr->parent->i_am_joining) {\n\t    vthread_t tmp = thr->parent;\n\t    assert(! thr->i_am_detached);\n\n\t    tmp->i_am_joining = 0;\n\t    schedule_vthread(tmp, 0, true);\n\t    do_join(tmp, thr);\n\t    return false;\n      }\n\n\t/* If this thread is not fully detached then remove it from the\n\t * parents detached_children set and reap it. */\n      if (thr->i_am_detached) {\n\t    vthread_t tmp = thr->parent;\n\t    assert(tmp);\n\t    size_t res = tmp->detached_children.erase(thr);\n\t    assert(res == 1);\n\t      /* If the parent is waiting for the detached children to\n\t       * finish then the last detached child needs to tell the\n\t       * parent to wake up when it is finished. */\n\t    if (tmp->i_am_waiting && tmp->detached_children.empty()) {\n\t\t  tmp->i_am_waiting = 0;\n\t\t  schedule_vthread(tmp, 0, true);\n\t    }\n\t      /* Fully detach this thread so it will be reaped below. */\n\t    thr->i_am_detached = 0;\n\t    thr->parent = 0;\n      }\n\n\t/* If I have no parent, then no one can %join me and there is\n\t * no reason to stick around. This can happen, for example if\n\t * I am an ``initial'' thread. */\n      if (thr->parent == 0) {\n\t    vthread_reap(thr);\n\t    return false;\n      }\n\n\t/* If I make it this far, then I have a parent who may wish\n\t   to %join me. Remain a zombie so that it can. */\n\n      return false;\n}"
+    },
+    "of_FLAG_GET_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3167,
+      "excerpt": "bool of_FLAG_GET_VEC4(vthread_t thr, vvp_code_t cp)\n{\n      int flag = cp->number;\n      assert(flag < vthread_s::FLAGS_COUNT);\n\n      vvp_vector4_t val (1, thr->flags[flag]);\n      thr->push_vec4(val);\n\n      return true;\n}"
+    },
+    "of_FLAG_INV": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3181,
+      "excerpt": "bool of_FLAG_INV(vthread_t thr, vvp_code_t cp)\n{\n      int flag1 = cp->bit_idx[0];\n\n      thr->flags[flag1] = ~ thr->flags[flag1];\n      return true;\n}"
+    },
+    "of_FLAG_MOV": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3192,
+      "excerpt": "bool of_FLAG_MOV(vthread_t thr, vvp_code_t cp)\n{\n      int flag1 = cp->bit_idx[0];\n      int flag2 = cp->bit_idx[1];\n\n      thr->flags[flag1] = thr->flags[flag2];\n      return true;\n}"
+    },
+    "of_FLAG_OR": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3204,
+      "excerpt": "bool of_FLAG_OR(vthread_t thr, vvp_code_t cp)\n{\n      int flag1 = cp->bit_idx[0];\n      int flag2 = cp->bit_idx[1];\n\n      thr->flags[flag1] = thr->flags[flag1] | thr->flags[flag2];\n      return true;\n}"
+    },
+    "of_FLAG_SET_IMM": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3213,
+      "excerpt": "bool of_FLAG_SET_IMM(vthread_t thr, vvp_code_t cp)\n{\n      int flag = cp->number;\n      int vali = cp->bit_idx[0];\n\n      assert(flag < vthread_s::FLAGS_COUNT);\n      assert(vali >= 0 && vali < 4);\n\n      static const vvp_bit4_t map_bit[4] = {BIT4_0, BIT4_1, BIT4_Z, BIT4_X};\n      thr->flags[flag] = map_bit[vali];\n      return true;\n}"
+    },
+    "of_FLAG_SET_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3226,
+      "excerpt": "bool of_FLAG_SET_VEC4(vthread_t thr, vvp_code_t cp)\n{\n      int flag = cp->number;\n      assert(flag < vthread_s::FLAGS_COUNT);\n\n      const vvp_vector4_t&val = thr->peek_vec4();\n      thr->flags[flag] = val.value(0);\n      thr->pop_vec4(1);\n\n      return true;\n}"
+    },
+    "of_FORK": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3381,
+      "excerpt": "bool of_FORK(vthread_t thr, vvp_code_t cp)\n{\n      vthread_t child = vthread_new(cp->cptr2, cp->scope);\n\n      if (cp->scope->is_automatic()) {\n              /* The context allocated for this child is the top entry\n                 on the write context stack. */\n            child->wt_context = thr->wt_context;\n            child->rd_context = thr->wt_context;\n      }\n\n      child->parent = thr;\n      thr->children.insert(child);\n\n      if (thr->i_am_in_function) {\n\t    child->is_scheduled = 1;\n\t    child->i_am_in_function = 1;\n\t    vthread_run(child);\n\t    running_thread = thr;\n      } else {\n\t    schedule_vthread(child, 0, true);\n      }\n      return true;\n}"
+    },
+    "of_INV": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3425,
+      "excerpt": "bool of_INV(vthread_t thr, vvp_code_t)\n{\n      vvp_vector4_t&val = thr->peek_vec4();\n      val.invert();\n      return true;\n}"
+    },
+    "of_IX_LOAD": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3468,
+      "excerpt": "bool of_IX_LOAD(vthread_t thr, vvp_code_t cp)\n{\n      thr->words[cp->number].w_int = get_as_64_bit(cp->bit_idx[0],\n                                                   cp->bit_idx[1]);\n      return true;\n}"
+    },
+    "of_IX_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3600,
+      "excerpt": "bool of_IX_VEC4(vthread_t thr, vvp_code_t cp)\n{\n      unsigned use_idx = cp->number;\n      thr->words[use_idx].w_uint = vec4_to_index(thr, false);\n      return true;\n}"
+    },
+    "of_JMP": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3622,
+      "excerpt": "bool of_JMP(vthread_t thr, vvp_code_t cp)\n{\n      thr->pc = cp->cptr;\n\n\t/* Normally, this returns true so that the processor just\n\t   keeps going to the next instruction. However, if there was\n\t   a $stop or vpiStop, returning false here can break the\n\t   simulation out of a hung loop. */\n      if (schedule_stopped()) {\n\t    schedule_vthread(thr, 0, false);\n\t    return false;\n      }\n\n      return true;\n}"
+    },
+    "of_JMP0": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3641,
+      "excerpt": "bool of_JMP0(vthread_t thr, vvp_code_t cp)\n{\n      if (thr->flags[cp->bit_idx[0]] == BIT4_0)\n\t    thr->pc = cp->cptr;\n\n\t/* Normally, this returns true so that the processor just\n\t   keeps going to the next instruction. However, if there was\n\t   a $stop or vpiStop, returning false here can break the\n\t   simulation out of a hung loop. */\n      if (schedule_stopped()) {\n\t    schedule_vthread(thr, 0, false);\n\t    return false;\n      }\n\n      return true;\n}"
+    },
+    "of_JMP0XZ": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3661,
+      "excerpt": "bool of_JMP0XZ(vthread_t thr, vvp_code_t cp)\n{\n      if (thr->flags[cp->bit_idx[0]] != BIT4_1)\n\t    thr->pc = cp->cptr;\n\n\t/* Normally, this returns true so that the processor just\n\t   keeps going to the next instruction. However, if there was\n\t   a $stop or vpiStop, returning false here can break the\n\t   simulation out of a hung loop. */\n      if (schedule_stopped()) {\n\t    schedule_vthread(thr, 0, false);\n\t    return false;\n      }\n\n      return true;\n}"
+    },
+    "of_JMP1": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3681,
+      "excerpt": "bool of_JMP1(vthread_t thr, vvp_code_t cp)\n{\n      if (thr->flags[cp->bit_idx[0]] == BIT4_1)\n\t    thr->pc = cp->cptr;\n\n\t/* Normally, this returns true so that the processor just\n\t   keeps going to the next instruction. However, if there was\n\t   a $stop or vpiStop, returning false here can break the\n\t   simulation out of a hung loop. */\n      if (schedule_stopped()) {\n\t    schedule_vthread(thr, 0, false);\n\t    return false;\n      }\n\n      return true;\n}"
+    },
+    "of_JOIN": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3770,
+      "excerpt": "bool of_JOIN(vthread_t thr, vvp_code_t)\n{\n      return do_join_opcode(thr);\n}"
+    },
+    "of_LOAD_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 3967,
+      "excerpt": "bool of_LOAD_VEC4(vthread_t thr, vvp_code_t cp)\n{\n\t// Push a placeholder onto the stack in order to reserve the\n\t// stack space. Use a reference for the stack top as a target\n\t// for the load.\n      thr->push_vec4(vvp_vector4_t());\n      vvp_vector4_t&sig_value = thr->peek_vec4();\n\n      vvp_net_t*net = cp->net;\n\n\t// For the %load to work, the functor must actually be a\n\t// signal functor. Only signals save their vector value.\n      vvp_signal_value*sig = dynamic_cast<vvp_signal_value*> (net->fil);\n      if (sig == 0) {\n\t    cerr << thr->get_fileline()\n\t         << \"%load/v error: Net arg not a signal? \"\n\t\t << (net->fil ? typeid(*net->fil).name() :\n\t                        typeid(*net->fun).name())\n\t         << endl;\n\t    assert(sig);\n\t    return true;\n      }\n\n\t// Extract the value from the signal and directly into the\n\t// target stack position.\n      sig->vec4_value(sig_value);\n\n      return true;\n}"
+    },
+    "of_MOD_S": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 4213,
+      "excerpt": "bool of_MOD_S(vthread_t thr, vvp_code_t)\n{\n      vvp_vector4_t valb = thr->pop_vec4();\n      vvp_vector4_t&vala = thr->peek_vec4();\n\n      assert(vala.size()==valb.size());\n      unsigned wid = vala.size();\n\n\t/* Handle the case that we can fit the bits into a long-long\n\t   variable. We cause use native % to do the work. */\n      if(wid <= 8*sizeof(long long)) {\n\t    long long lv = 0, rv = 0;\n\n\t    for (unsigned idx = 0 ;  idx < wid ;  idx += 1) {\n\t\t  long long lb = vala.value(idx);\n\t\t  long long rb = valb.value(idx);\n\n\t\t  if ((lb | rb) & 2)\n\t\t\tgoto x_out;\n\n\t\t  lv |= (long long) lb << idx;\n\t\t  rv |= (long long) rb << idx;\n\t    }\n\n\t    if (rv == 0)\n\t\t  goto x_out;\n\n\t    if ((lv == LLONG_MIN) && (rv == -1))\n\t\t  goto zero_out;\n\n\t      /* Sign extend the signed operands when needed. */\n\t    if (wid < 8*sizeof(long long)) {\n\t\t  if (lv & (1LL << (wid-1)))\n\t\t\tlv |= -1ULL << wid;\n\t\t  if (rv & (1LL << (wid-1)))\n\t\t\trv |= -1ULL << wid;\n\t    }\n\n\t    lv %= rv;\n\n\t    for (unsigned idx = 0 ;  idx < wid ;  idx += 1) {\n\t\t  vala.set_bit(idx, (lv&1)? BIT4_1 : BIT4_0);\n\t\t  lv >>= 1;\n\t    }\n\n\t      // vala is the top of the stack, edited in place, so we\n\t      // do not need to push the result.\n\n\t    return true;\n\n      } else {\n\n\t    bool left_is_neg  = vala.value(vala.size()-1) == BIT4_1;\n\t    bool right_is_neg = valb.value(valb.size()-1) == BIT4_1;\n\t    do_verylong_mod(vala, valb, left_is_neg, right_is_neg);\n\t    return true;\n      }\n\n x_out:\n      vala = vvp_vector4_t(wid, BIT4_X);\n      return true;\n zero_out:\n      vala = vvp_vector4_t(wid, BIT4_0);\n      return true;\n}"
+    },
+    "of_MUL_WR": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 4480,
+      "excerpt": "bool of_MUL_WR(vthread_t thr, vvp_code_t)\n{\n      double r = thr->pop_real();\n      double l = thr->pop_real();\n      thr->push_real(l * r);\n\n      return true;\n}"
+    },
+    "of_NORR": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 4581,
+      "excerpt": "bool of_NORR(vthread_t thr, vvp_code_t)\n{\n      vvp_vector4_t val = thr->pop_vec4();\n\n      vvp_bit4_t lb = BIT4_1;\n\n      for (unsigned idx = 0 ;  idx < val.size() ;  idx += 1) {\n\n\t    vvp_bit4_t rb = val.value(idx);\n\t    if (rb == BIT4_1) {\n\t\t  lb = BIT4_0;\n\t\t  break;\n\t    }\n\n\t    if (rb != BIT4_0)\n\t\t  lb = BIT4_X;\n      }\n\n      vvp_vector4_t res (1, lb);\n      thr->push_vec4(res);\n\n      return true;\n}"
+    },
+    "of_OR": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 4742,
+      "excerpt": "bool of_OR(vthread_t thr, vvp_code_t)\n{\n      vvp_vector4_t valb = thr->pop_vec4();\n      vvp_vector4_t&vala = thr->peek_vec4();\n      vala |= valb;\n      return true;\n}"
+    },
+    "of_PAD_U": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 4313,
+      "excerpt": "bool of_PAD_U(vthread_t thr, vvp_code_t cp)\n{\n      unsigned wid = cp->number;\n\n      vvp_vector4_t&val = thr->peek_vec4();\n      val.resize(wid, BIT4_0);\n\n      return true;\n}"
+    },
+    "of_PARTI_S": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 4433,
+      "excerpt": "bool of_PARTI_S(vthread_t thr, vvp_code_t cp)\n{\n      return of_PARTI_base(thr, cp, true);\n}"
+    },
+    "of_POP_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 4804,
+      "excerpt": "bool of_POP_VEC4(vthread_t thr, vvp_code_t cp)\n{\n      unsigned cnt = cp->number;\n      thr->pop_vec4(cnt);\n      return true;\n}"
+    },
+    "of_PUSHI_REAL": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 4983,
+      "excerpt": "bool of_PUSHI_REAL(vthread_t thr, vvp_code_t cp)\n{\n      double mant = cp->bit_idx[0];\n      uint32_t imant = cp->bit_idx[0];\n      int exp = cp->bit_idx[1];\n\n\t// Detect +infinity\n      if (exp==0x3fff && imant==0) {\n\t    thr->push_real(INFINITY);\n\t    return true;\n      }\n\t// Detect -infinity\n      if (exp==0x7fff && imant==0) {\n\t    thr->push_real(-INFINITY);\n\t    return true;\n      }\n\t// Detect NaN\n      if (exp==0x3fff) {\n\t    thr->push_real(nan(\"\"));\n\t    return true;\n      }\n\n      double sign = (exp & 0x4000)? -1.0 : 1.0;\n\n      exp &= 0x1fff;\n\n      mant = sign * ldexp(mant, exp - 0x1000);\n      thr->push_real(mant);\n      return true;\n}"
+    },
+    "of_PUSHI_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 5024,
+      "excerpt": "bool of_PUSHI_VEC4(vthread_t thr, vvp_code_t cp)\n{\n      unsigned wid  = cp->number;\n\n\t// I expect that most of the bits of an immediate value are\n\t// going to be zero, so start the result vector with all zero\n\t// bits. Then we only need to replace the bits that are different.\n      vvp_vector4_t val (wid, BIT4_0);\n      get_immediate_rval (cp, val);\n\n      thr->push_vec4(val);\n\n      return true;\n}"
+    },
+    "of_REPLICATE": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 5355,
+      "excerpt": "bool of_REPLICATE(vthread_t thr, vvp_code_t cp)\n{\n      int rept = cp->number;\n      vvp_vector4_t val = thr->pop_vec4();\n      vvp_vector4_t res (val.size() * rept, BIT4_X);\n\n      for (int idx = 0 ; idx < rept ; idx += 1) {\n\t    res.set_vec(idx * val.size(), val);\n      }\n\n      thr->push_vec4(res);\n\n      return true;\n}"
+    },
+    "of_RET_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 5458,
+      "excerpt": "bool of_RET_VEC4(vthread_t thr, vvp_code_t cp)\n{\n      size_t index = cp->number;\n      unsigned off_index = cp->bit_idx[0];\n      unsigned int wid = cp->bit_idx[1];\n      vvp_vector4_t&val = thr->peek_vec4();\n\n      vthread_t fun_thr = get_func(thr);\n      assert(index < get_max(fun_thr, val));\n      assert(val.size() == wid);\n      unsigned depth = get_depth(fun_thr, index, val);\n\n      int64_t off = off_index ? thr->words[off_index].w_int : 0;\n      unsigned int sig_value_size = fun_thr->parent->peek_vec4(depth).size();\n\n      if (off_index!=0 && thr->flags[4] == BIT4_1) {\n\t    thr->pop_vec4(1);\n\t    return true;\n      }\n\n      if (!resize_rval_vec(val, off, sig_value_size)) {\n\t    thr->pop_vec4(1);\n\t    return true;\n      }\n\n      if (off == 0 && val.size() == sig_value_size) {\n\t    fun_thr->parent->poke_vec4(depth, val);\n      } else {\n\t    vvp_vector4_t tmp_dst = fun_thr->parent->peek_vec4(depth);\n\t    tmp_dst.set_vec(off, val);\n\t    fun_thr->parent->poke_vec4(depth, tmp_dst);\n      }\n\n      thr->pop_vec4(1);\n      return true;\n}"
+    },
+    "of_STORE_VEC4": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 6232,
+      "excerpt": "bool of_STORE_VEC4(vthread_t thr, vvp_code_t cp)\n{\n      vvp_net_ptr_t ptr(cp->net, 0);\n      vvp_signal_value*sig = dynamic_cast<vvp_signal_value*> (cp->net->fil);\n      unsigned off_index = cp->bit_idx[0];\n      unsigned int wid = cp->bit_idx[1];\n\n      int64_t off = off_index ? thr->words[off_index].w_int : 0;\n      unsigned int sig_value_size = sig->value_size();\n\n      vvp_vector4_t&val = thr->peek_vec4();\n      unsigned val_size = val.size();\n\n      if (val_size < wid) {\n\t    cerr << thr->get_fileline()\n\t         << \"XXXX Internal error: val.size()=\" << val_size\n\t\t << \", expecting >= \" << wid << endl;\n      }\n      assert(val_size >= wid);\n      if (val_size > wid) {\n\t    val.resize(wid);\n      }\n\n\t// If there is a problem loading the index register, flags-4\n\t// will be set to 1, and we know here to skip the actual assignment.\n      if (off_index!=0 && thr->flags[4] == BIT4_1) {\n\t    thr->pop_vec4(1);\n\t    return true;\n      }\n\n      if (!resize_rval_vec(val, off, sig_value_size)) {\n\t    thr->pop_vec4(1);\n\t    return true;\n      }\n\n      if (off == 0 && val.size() == sig_value_size)\n\t    vvp_send_vec4(ptr, val, thr->wt_context);\n      else\n\t    vvp_send_vec4_pv(ptr, val, off, sig_value_size, thr->wt_context);\n\n      thr->pop_vec4(1);\n      return true;\n}"
+    },
+    "of_SUBI": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 6327,
+      "excerpt": "bool of_SUBI(vthread_t thr, vvp_code_t cp)\n{\n      unsigned wid = cp->number;\n\n      vvp_vector4_t&l = thr->peek_vec4();\n\n\t// I expect that most of the bits of an immediate value are\n\t// going to be zero, so start the result vector with all zero\n\t// bits. Then we only need to replace the bits that are different.\n      vvp_vector4_t r (wid, BIT4_0);\n      get_immediate_rval (cp, r);\n\n      l.sub(r);\n\n      return true;\n\n}"
+    },
+    "of_VPI_CALL": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 6499,
+      "excerpt": "bool of_VPI_CALL(vthread_t thr, vvp_code_t cp)\n{\n      vpip_execute_vpi_call(thr, cp->handle);\n\n      if (schedule_stopped()) {\n\t    if (! schedule_finished())\n\t\t  schedule_vthread(thr, 0, false);\n\n\t    return false;\n      }\n\n      return schedule_finished()? false : true;\n}"
+    },
+    "of_WAIT": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 6519,
+      "excerpt": "bool of_WAIT(vthread_t thr, vvp_code_t cp)\n{\n      assert(! thr->i_am_in_function);\n      assert(! thr->waiting_for_event);\n      thr->waiting_for_event = 1;\n\n\t/* Add this thread to the list in the event. */\n      waitable_hooks_s*ep = dynamic_cast<waitable_hooks_s*> (cp->net->fun);\n      assert(ep);\n      thr->wait_next = ep->add_waiting_thread(thr);\n\n\t/* Return false to suspend this thread. */\n      return false;\n}"
+    },
+    "of_XOR": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 6582,
+      "excerpt": "bool of_XOR(vthread_t thr, vvp_code_t)\n{\n      vvp_vector4_t valr = thr->pop_vec4();\n      vvp_vector4_t&vall = thr->peek_vec4();\n      assert(vall.size() == valr.size());\n      unsigned wid = vall.size();\n\n      for (unsigned idx = 0 ;  idx < wid ;  idx += 1) {\n\n\t    vvp_bit4_t lb = vall.value(idx);\n\t    vvp_bit4_t rb = valr.value(idx);\n\t    vall.set_bit(idx, lb ^ rb);\n      }\n\n      return true;\n}"
+    },
+    "of_XORR": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 4694,
+      "excerpt": "bool of_XORR(vthread_t thr, vvp_code_t)\n{\n      vvp_vector4_t val = thr->pop_vec4();\n\n      vvp_bit4_t lb = BIT4_0;\n      for (unsigned idx = 0 ; idx < val.size() ; idx += 1) {\n\n\t    vvp_bit4_t rb = val.value(idx);\n\t    if (rb == BIT4_1)\n\t\t  lb = ~lb;\n\t    else if (rb != BIT4_0) {\n\t\t  lb = BIT4_X;\n\t\t  break;\n\t    }\n      }\n\n      vvp_vector4_t res (1, lb);\n      thr->push_vec4(res);\n      return true;\n}"
+    },
+    "of_ZOMBIE": {
+      "file": "vvp/vthread.cc",
+      "firstLine": 6600,
+      "excerpt": "bool of_ZOMBIE(vthread_t thr, vvp_code_t)\n{\n      thr->pc = codespace_null();\n      if ((thr->parent == 0) && (thr->children.empty())) {\n\t    if (thr->delay_delete)\n\t\t  schedule_del_thr(thr);\n\t    else\n\t\t  vthread_delete(thr);\n      }\n      return false;\n}"
+    }
+  },
+  "requirements": [
+    "Cover every allocated instruction, including currently inactive code and initialized chunk links; exclude unused capacity.",
+    "Serialize only the fields selected by the native opcode schema. ZOMBIE has no operands; chunk links have only the initialized cptr operand. Do not read both union alternatives or padding.",
+    "Validate code targets against allocated-slot identity before dereferencing. Distinguish an allowed null final chunk link from an invalid branch target.",
+    "Scope/function operands are stored through handle by the compiler; validate subtype/ownership separately. VPI task/function forms both use of_VPI_CALL and require referenced call-object coverage.",
+    "Reject unknown native opcode families, including synthesized ufunc instructions, instead of treating their payload as empty.",
+    "Test restored immediate, code-target and object-reference faults plus unknown-family refusal, retaining previous PC/lifecycle controls and unchanged continuation.",
+    "Audit helper calls and aliases before claiming code immutability. Neither this schema nor absence of direct cp assignments proves immutable operands or referents.",
+    "Budget complete board operand evidence before long captures; do not replace required state coverage with only the currently executing PC."
+  ]
+}
