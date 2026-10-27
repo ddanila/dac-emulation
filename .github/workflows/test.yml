@@ -192,6 +192,7 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_probe.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_admission.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_delta.py
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_board_integration.py
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/signal-delta
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/signal-delta-budget
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/signal-families
