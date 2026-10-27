@@ -1,0 +1,30 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "denseControls": {
+    "qualified": false,
+    "controlsPassed": true,
+    "refusals": 63,
+    "admissions": 17,
+    "originalContinuationExactlyEqual": true,
+    "scope": "Native VPI part-select, array-word, whole-array and array-part callbacks plus a native wire-filter subclass, introduced before or after admitted observation. Stateful callbacks refuse caller handoff and complete-list inventory until deferred deletion. Unknown owners refuse even with empty lists, then disappear on destruction. A known callback survives all transitions. Independent output expectations exercise part-select comparison history with full-parent callback values, whole-array indices and subclass behavior.",
+    "notEstablished": [
+      "Native array-word association-list contents and alias bindings",
+      "Registration during active callbacks and reentrant dispatch",
+      "Typed referents, compact encoding, operational integration and general rollback"
+    ]
+  },
+  "compact": {
+    "images": 17,
+    "denseBytes": 4080,
+    "deltaBytes": 595,
+    "referenceBytes": 4830,
+    "refusals": 63
+  },
+  "scope": "Native stateful callback and unknown-owner subclasses introduced before or after compact reference admission. Both reference initialization and later differences refuse before output until native deletion/destruction. Admitted frames reconstruct complete dense lists exactly and original callback continuation remains unchanged.",
+  "notEstablished": [
+    "Native admitted-owner allocation/removal through compact APIs",
+    "Deep typed referents and combined operational integration",
+    "Suspended traversal and general rollback"
+  ]
+}
