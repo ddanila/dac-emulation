@@ -225,6 +225,9 @@ jobs:
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-families
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-board-budget
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-growth
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-delta
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-delta-growth
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-delta-budget
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_families.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_families.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_families.py
