@@ -1,0 +1,21 @@
+{
+  "qualified": false,
+  "localOutputs": {
+    "tick": {
+      "directory": "build/keyboard-controller-analog/postreset-drain-tick",
+      "waveform": {
+        "bytes": 204372508,
+        "sha256": "572d322e553adbcf6ce7b421bc141b26a6b16c72ea684fa14655e78c06ced272"
+      }
+    },
+    "drain": {
+      "directory": "build/keyboard-controller-analog/postreset-drain-coarse",
+      "waveform": {
+        "bytes": 204372508,
+        "sha256": "7fb0440ff0bf03d2d81d15ce282e89de074f3c12f750c8c5d484d0637252bbe6"
+      }
+    }
+  },
+  "scope": "Matched inputs, receipts and exact every-sample assessment retained. Full waveforms remain at the recorded local paths for replay; hashes do not replace those files.",
+  "reviewCommand": "python3 verification/robotron-keyboard/analog/postreset_drain_coarse_review.py --source build/keyboard-controller-analog/postreset-adc-on-25 --tick build/keyboard-controller-analog/postreset-drain-tick --drain build/keyboard-controller-analog/postreset-drain-coarse --out NEW_REPORT"
+}
