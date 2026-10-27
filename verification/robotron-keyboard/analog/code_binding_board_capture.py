@@ -8,6 +8,8 @@ from eval_cache_benchmark import external_dependencies,verify_dependencies
 from bounded_log_process import run as producer
 from compressed_output import capture
 from fast_audit_log import complete
+from board_thread_contract import compiled_contract
+import board_thread_contract
 from private_sync_family_board_review import function_symbols
 
 
@@ -23,6 +25,7 @@ def runtime_environment(base):
 def run(source,assessment,bridge,icarus,out):
     source=source.resolve();assessment=assessment.resolve();bridge=bridge.resolve();icarus=icarus.resolve();out=out.resolve()
     prior=json.loads(assessment.read_text());baseline=source/'off';base=json.loads((baseline/'run.json').read_text())
+    profile=compiled_contract((baseline/'io.vvp').read_text());contract_sha=sha(Path(board_thread_contract.__file__))
     if not prior.get('controlsPassed') or prior['receipts']['off']!=sha(baseline/'run.json') or not base['completed'] or base.get('error'):
         raise ValueError('Need completed, reviewed display-board controls')
     build=json.loads((bridge/'build.json').read_text())
@@ -69,7 +72,7 @@ def run(source,assessment,bridge,icarus,out):
         shutil.copyfile(baseline/'s600.hex',folder/'s600.hex');(folder/'io.vvp').write_text(vvp)
         env=base_env.copy();env.update(ROBOTRON_DISPLAY_MODULE=str(module),ROBOTRON_PRIVATE_DISPLAY='code-'+mode if negative else mode)
         deps=external_dependencies(folder,{'deck':'io.cir','inputs':['io.vvp','s600.hex']})
-        record={'qualified':False,'completed':False,'mode':mode,'runtime':base['runtime'],
+        record={'compiledThreadProfile':profile,'threadContractSourceSha256':contract_sha,'qualified':False,'completed':False,'mode':mode,'runtime':base['runtime'],
                 'environment':{k:v for k,v in env.items() if k.startswith('ROBOTRON_')},
                 'runtimeEnvironment':{'SPICE_SCRIPTS':env['SPICE_SCRIPTS']},'externalDependencies':deps,
                 'inputs':{n:sha(folder/n) for n in ('io.cir','io.vvp','s600.hex')},
@@ -83,6 +86,7 @@ def run(source,assessment,bridge,icarus,out):
                              logical_limit=4*1024**3,compressed_limit=256*1024**2,min_free_bytes=512*1024**2)
             record.update(storage=storage,log=log,exitCode=log['exitCode'])
             verify(base['runtime']);verify_dependencies(deps)
+            if sha(Path(board_thread_contract.__file__))!=contract_sha:raise ValueError('Changed compiled thread contract')
             if any(sha(folder/n)!=h for n,h in record['inputs'].items()):raise ValueError('Changed capture inputs')
             if record['exitCode']!=record['expectedExitCode']:raise ValueError('Unexpected capture exit')
             if not negative:record['summary']=complete(folder/'ngspice.log')

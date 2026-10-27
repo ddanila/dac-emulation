@@ -14,6 +14,8 @@ from island_filter_board_review import FilterLifetimes
 from thread_board_review import ThreadLifetimes
 from wait_board_review import bundle as wait_bundle,WaitLifetimes
 from code_binding_probe import parse_snapshot,validate,changed_snapshot
+from board_thread_contract import compiled_contract,validate_snapshot as validate_board_threads
+import board_thread_contract
 from port_board_review import port_contract
 from stop_board_review import startup_identity
 
@@ -41,6 +43,7 @@ class CodeBindings:
     def __init__(self):self.codes={};self.pcs={};self.threads=set();self.observations=0
     def observe(self,state):
         validate(dict(threads=state['threads'],code=state['threadCode']))
+        validate_board_threads(state['threads'])
         for c in state['threadCode']:
             binding=(c['pc'],c['opcode'])
             if c['code'] in self.codes and self.codes[c['code']]!=binding:raise ValueError('Changed code slot or opcode binding')
@@ -142,6 +145,7 @@ def inventory(path,identities,*,fault_type=None,contract=None):
 def assess(root,producer):
     names=('baseline','off','observe','null-corrupt','foreign-corrupt')
     runs={n:json.loads((root/n/'run.json').read_text()) for n in names}
+    profile=compiled_contract((root/'baseline/io.vvp').read_text())
     base=runs['baseline'];prior=json.loads((root/'baseline-assessment.json').read_text())
     if not prior.get('controlsPassed') or prior['receipts']['off']!=sha(root/'baseline/run.json'):raise ValueError('Unreviewed baseline')
     if base['mode']!='off' or base['endSeconds']!=20e-6:raise ValueError('Changed baseline scope')
@@ -171,6 +175,7 @@ def assess(root,producer):
         if not r['completed'] or r.get('error') or r['exitCode']!=(2 if negative else 0) or r['log']['exitCode']!=r['exitCode'] or r['expectedExitCode']!=r['exitCode']:raise ValueError('Incomplete or wrong termination')
         if r['runtime']!=base['runtime'] or r['endSeconds']!=base['endSeconds']:raise ValueError('Changed runtime/window')
         if mode!='baseline':
+            if r.get('compiledThreadProfile')!=profile or r.get('threadContractSourceSha256')!=sha(Path(board_thread_contract.__file__)):raise ValueError('Changed compiled thread contract')
             if r['mode']!=mode or r['producerSha256']!=sha(producer):raise ValueError('Changed producer/mode')
             for key,path in [('baselineReceiptSha256','baseline/run.json'),('baselineAssessmentSha256','baseline-assessment.json'),('bridgeBuildSha256','bridge-build.json'),('icarusBuildSha256','icarus-build.json'),('symbolReceiptSha256','symbols.json')]:
                 if r[key]!=sha(root/path):raise ValueError('Changed '+key)
@@ -211,7 +216,7 @@ def assess(root,producer):
     for label,left,right in [('disabledBaseline','baseline','off'),('enabledObserver','off','observe')]:
         comparisons[label]=compare_raw(root/left/'waveform.raw',root/right/'waveform.raw',[scans[n]['count'] for n in (left,right)],20e-6,exact=True)
         if not equal(root/left/'ngspice.log',root/right/'ngspice.log',FIRMWARE):raise ValueError('Changed firmware continuation')
-    return {'reviewCompleted':True,'qualified':False,'controlsPassed':True,'comparisons':comparisons,'firmwareRecordsExactlyEqual':True,
+    return {'compiledThreadProfile':profile,'reviewCompleted':True,'qualified':False,'controlsPassed':True,'comparisons':comparisons,'firmwareRecordsExactlyEqual':True,
             'observedState':observed,'negativeControls':negatives,'receipts':receipts,
             'scope':'Complete 20-us service fixture, reset at 1 us. Native PC allocation/opcode bindings observed with all preceding board layers. Null and foreign PC faults restore before scheduling. Normal controls preserve exact waveform samples and firmware continuation.',
             'notEstablished':['Full instruction operands, nonempty event-control payloads and deep scope/context/object/callback/fanout referents','Reachable detached/deferred-deletion paths, freed-storage equivalence or general rollback','Full post-reset/startup/repeat/supply recovery qualification']}

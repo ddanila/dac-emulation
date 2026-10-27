@@ -1,0 +1,30 @@
+{
+  "qualified": false,
+  "compiledProfile": {
+    "compiledProfileAccepted": true,
+    "automaticScopes": false,
+    "eventControls": false,
+    "detachedThreads": false,
+    "waitFork": false,
+    "objectProducingInstructions": false
+  },
+  "allReviewedThreadRecordsSatisfyContract": true,
+  "counts": {
+    "threads": 4633116,
+    "stacks": 4633116,
+    "states": 4633116,
+    "detachedSets": 4633116,
+    "begins": 110312,
+    "ends": 110312
+  },
+  "retainedRoot": "verification/robotron-keyboard/analog/reports/thread-board",
+  "manifestSha256": "b14dfde907a71eebcfb1fb696fb3ef56082969afc0d1ee3b4d42affc8d9c1fa9",
+  "assessmentSha256": "8817ede750539d7d9407976048e3678b1873f5f7e992f382aed655f4d6acd786",
+  "receiptSha256": "9b9262c4fbff3df22571ac9c300a30fe319a57730c4d90475f2cd009578ddbb9",
+  "scope": "Absence of automatic contexts, thread object-stack entries, event-control registers and detached/wait-fork state in every reviewed normal thread snapshot, guarded by an explicit compiled opcode/VPI profile.",
+  "notEstablished": [
+    "Mutable scope membership, net/fanout/array contents and instruction operands",
+    "Other compiled profiles or unobserved operating windows",
+    "Freed-storage equivalence or general rollback"
+  ]
+}

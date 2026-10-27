@@ -26,6 +26,11 @@ class CodeBindingBoard(unittest.TestCase):
             bad['threadQueue']['events'][0]['key']+=1
             with self.assertRaises(ValueError):changed_code(before,bad,name)
 
+    def test_board_profile_referents_enforced_during_code_review(self):
+        for field in ('readContext','event','objects'):
+            bad=state();bad['threads']['threads'][0][field]=[123] if field=='objects' else 123
+            with self.assertRaises(ValueError):CodeBindings().observe(bad)
+
     def test_missing_thread_binding_rejected(self):
         bad=state();bad['threadCode'].pop()
         with self.assertRaises(ValueError):CodeBindings().observe(bad)
