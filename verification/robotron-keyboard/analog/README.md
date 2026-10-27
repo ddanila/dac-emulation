@@ -936,3 +936,11 @@ verification/robotron-keyboard/analog/reports/wait-event`. Static and automatic
 contexts are observed alongside live threads; nonempty event-controlled
 assignment lists fail closed. Board integration, context reuse, deep referents
 and general rollback require separate evidence.
+
+`build_wait_bridge.py`, `wait_board_capture.py` and `wait_board_review.py` add
+wait-event ownership and history to the combined board controls. Supply reviewed
+thread-board controls as `--source` and `--assessment`, the built `--bridge` and
+`--icarus`, and a fresh capture `--out`. Review with `--root`, the capture script
+as `--producer`, and a fresh assessment `--out`. The reviewer checks the event
+inventory against compiled declarations and preserves all preceding state and
+waveform checks; capture completion alone does not qualify the board.
