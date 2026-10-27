@@ -1740,3 +1740,21 @@ changed dense state, payload mismatch and invalid cost. Build with
 `build_scope_metadata_compact_budget.py`, then use `scope_metadata_compact_budget.py`
 with `reports/array-board` and the compact runtime. Changing-state cost, peak
 memory and operational integration remain open.
+
+The [combined metadata startup preflight](reports/scope-metadata-combined-preflight/assessment.json)
+adds scope metadata and reference images to the complete typed-signal/prior-layer
+snapshot. Native before/repeat/restoration comparisons remain dense. Only the log
+writer applies exact previous-body reuse; the reviewer reconstructs records and
+checks scope/signal ownership before delegating to every preceding state review.
+This placement avoids making observer sequence numbers look like native state
+changes. All ten existing callback/typed-signal startup faults pass, with 22
+snapshots binding 32 scopes and 18 admitted signals. Full restoration is checked
+for both the dense old layers and reconstructed metadata. Build with
+`build_scope_metadata_bridge.py`, capture using `typed_signal_fault_capture.py
+--startup-only`, and review with `scope_metadata_combined_review.py`. The retained
+source is reviewed `reports/array-board`; this startup preflight is independent of
+the ongoing ordered transient campaigns. Scope-specific board faults, normal
+transient/firmware equivalence, peak memory and operational qualification remain
+open. The native compact API remains a separate tested transport; the combined
+bridge compacts serialized dense snapshots instead of calling that API inside
+native equality comparisons.
