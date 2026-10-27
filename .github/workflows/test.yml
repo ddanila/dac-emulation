@@ -155,6 +155,9 @@ jobs:
           python3 verification/robotron-keyboard/analog/test_island_probe.py
           python3 verification/robotron-keyboard/analog/test_island_filter_probe.py
           python3 verification/robotron-keyboard/analog/test_thread_probe.py
+          python3 verification/robotron-keyboard/analog/test_code_binding_probe.py
+          python3 verification/robotron-keyboard/analog/code_binding_probe.py --check verification/robotron-keyboard/analog/reports/code-binding
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/code-binding
           python3 verification/robotron-keyboard/analog/test_thread_lifecycle_probe.py
           python3 verification/robotron-keyboard/analog/test_thread_board_reachability.py
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/thread-board-reachability

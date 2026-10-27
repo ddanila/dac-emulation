@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+"""Build safe thread-PC to allocated-code binding and a restored foreign-PC fault."""
+import argparse
+import json
+from pathlib import Path
+import subprocess
+import build_display_association as base
+from ttl7406_probe import sha
+
+
+def build(archive,out,bison,jobs):
+    runtime,display=base.RUNTIME_PATCHES,base.DISPLAY_PATCHES
+    try:
+        base.RUNTIME_PATCHES=runtime+('icarus-single-display-runtime.patch','icarus-executing-wrapper-link.patch',
+                                     'icarus-executing-event.patch','icarus-value-callback-observer.patch','icarus-startup-callback-observer.patch','icarus-assignment-observer.patch','icarus-primitive-observer.patch','icarus-island-observer.patch','icarus-island-queue.patch','icarus-island-filter.patch','icarus-thread-observer.patch','icarus-thread-queue.patch','icarus-wait-observer.patch','icarus-thread-lifecycle.patch','icarus-code-binding.patch')
+        base.DISPLAY_PATCHES=display+('icarus-single-display-module.patch',)
+        base.build(archive,out,bison,jobs)
+    finally:
+        base.RUNTIME_PATCHES,base.DISPLAY_PATCHES=runtime,display
+    exports=subprocess.check_output(['nm','-g',str(out/'vvp/libvvp.so')],text=True)
+    for symbol in ('robotron_vvp_island_inventory','robotron_vvp_island_toggle','robotron_vvp_island_queue_inventory','robotron_vvp_island_queue_toggle','robotron_vvp_island_filter_inventory','robotron_vvp_island_filter_toggle','robotron_vvp_thread_inventory','robotron_vvp_thread_toggle','robotron_vvp_thread_compact_inventory','robotron_vvp_thread_queue_inventory','robotron_vvp_thread_queue_toggle','robotron_vvp_wait_inventory','robotron_vvp_wait_toggle','robotron_vvp_thread_code_inventory','robotron_vvp_code_identity'):
+        if symbol not in exports:raise ValueError('Missing primitive API')
+    path=out/'build.json';r=json.loads(path.read_text())
+    r['sources'][Path(__file__).name]=sha(Path(__file__))
+    r['outputs'].update({n:sha(out/n) for n in ('vvp/vpi_priv.h','vvp/vvp_vpi_callback.h')})
+    for name in ('schedule.cc','schedule.h','logic.cc','logic.h','part.cc','part.h','vvp_island.cc','vvp_island.h','island_tran.cc','vvp_net.h','vvp_net_sig.h','vvp_net_sig.cc','vthread.cc','event.h','event.cc','codes.cc','codes.h'):r['outputs']['vvp/'+name]=sha(out/'vvp'/name)
+    r['scope']='Adds PC allocated-slot/opcode identity without reading unused capacity or operands. Unknown PCs serialize zero identity without dereference. Requires native controls. Adds targeted faults for observed detached, delayed-delete and wait-fork flags. Requires native lifecycle controls. Wait-event heads and initialized caches include static and automatic-context instances; nonempty event-control payloads fail closed. Native fixture/board controls and deeper referents remain required. Live transmission-gate islands including idle state, linked port caches/strengths, branch topology and enable state. Restored faults require runtime controls. Includes queued wrapper identity and restored payload-pointer fault API. Includes island vec8 filter initialization/drive/force/mask/propagation state and meaningful force-link fields. Thread flags/registers use initialized-write tracking; stacks and lifecycle relationships are observed without raw-storage reads. Includes lossless sparse initialized-flag encoding and thread/deletion event identities. Requires board controls. Wait-event/code/context/object referents and general rollback remain open.'
+    path.write_text(json.dumps(r,indent=2)+'\n')
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser(description=__doc__)
+    for n in ('archive','out','bison'):p.add_argument('--'+n,type=Path,required=True)
+    p.add_argument('--jobs',type=int,default=2)
+    a=p.parse_args();build(a.archive,a.out,a.bison,a.jobs)

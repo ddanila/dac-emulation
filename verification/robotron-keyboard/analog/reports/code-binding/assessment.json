@@ -1,0 +1,19 @@
+{
+  "completed": true,
+  "qualified": false,
+  "simulationOutputExactlyEqual": true,
+  "normalStateTrajectoryExactlyEqual": true,
+  "restoredFaults": 8,
+  "faultsByField": {
+    "3": 4,
+    "11": 4
+  },
+  "addressProbeBoundaries": 8,
+  "scope": "Thread PCs bound to allocated code-slot and opcode identities across code chunks; null/foreign/misaligned addresses rejected without dereference and PC faults restored before continuation.",
+  "notEstablished": [
+    "Board integration",
+    "Complete code operands and mutable referenced objects",
+    "Static-code immutability proof or arbitrary code writes",
+    "Freed-code storage and general rollback"
+  ]
+}
