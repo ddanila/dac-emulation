@@ -1328,7 +1328,12 @@ allocated input vector, inversion flag and pending destination, binding queued
 and executing wrappers through the adjusted event-base pointer. Full and direct
 partial writes, X/Z values and unchanged writes preserve original-runtime output;
 actual input/inversion/pending faults restore before execution. Other subclasses
-of these cache bases refuse inventory; native refusal fixtures, real conversion,
+of these cache bases refuse inventory. The [native family controls](reports/gate-families/assessment.json)
+check equivalence/implication and Boolean/unary subclasses with behavior-changing
+private state alongside an admitted AND, requiring refusal before any inventory
+output. Disabled controls preserve original-runtime behavior. Run
+`gate_family_probe.py` with the native paths, or replay with
+`gate_family_probe.py --check reports/gate-families`. Real conversion,
 unequal-width inputs, allocation lifecycle and board integration remain open.
 Build with `build_gate_runtime.py`, then run `native_gate_probe.py` with candidate,
 baseline and module paths. Replay with `native_gate_probe.py --check reports/gate-state`.
