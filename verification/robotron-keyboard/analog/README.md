@@ -919,7 +919,7 @@ paused points must match exactly.
 combine live-thread observations with the preceding board layers. The capture
 uses the reviewed filter-board controls as `--source` and `--assessment`, plus
 `--bridge`, `--icarus` and a fresh `--out`. Review with `--root`, the capture
-script as `--producer`, and a fresh assessment `--out`. A capture alone does not
+script as `--producer`, and a fresh assessment `--out`. The [retained board controls](reports/thread-board/assessment.json) preserve exact waveforms and firmware under the bounded fixture. A capture alone does not
 establish qualification. Wait-event and deeper object referents, additional
 lifecycle paths and broader operating windows remain separate requirements.
 
