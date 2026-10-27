@@ -1724,3 +1724,19 @@ payload and corrupt evidence. Board savings, native buffering overhead, scan cos
 and operational integration still require measurement. Build with
 `build_scope_metadata_compact_runtime.py`; replay with `scope_metadata_compact.py`
 using the retained runtime paths. The running campaigns keep their pinned revisions.
+
+The [initialized compact board budget](reports/scope-metadata-compact-board-budget/assessment.json)
+retains and decodes all 64 metadata plus 64 reference records from the actual
+initialized keyboard bridge. Every reconstructed image equals its dense source;
+post-scan dense images remain unchanged. The records total 106,546 compact bytes
+versus 6,527,040 dense bytes. Repeated complete scans average about 0.428/0.507 ms
+for metadata/references locally, including serialization and file flush; this is
+not a demonstrated runtime optimization. With unchanged bodies, 110,312 snapshot
+calls project to at most 12,896,524 bytes with maximum-width future timestamps,
+versus the dense 11.25-GB initial-state projection. Changed bodies still emit in
+full. Retained cache content totals 101,956 bytes, excluding allocation capacity,
+transient buffers and peak RSS. Five tests cover retained replay, lost records,
+changed dense state, payload mismatch and invalid cost. Build with
+`build_scope_metadata_compact_budget.py`, then use `scope_metadata_compact_budget.py`
+with `reports/array-board` and the compact runtime. Changing-state cost, peak
+memory and operational integration remain open.
