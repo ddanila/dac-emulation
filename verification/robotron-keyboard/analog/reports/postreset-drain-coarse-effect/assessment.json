@@ -1,0 +1,71 @@
+{
+  "completed": true,
+  "qualified": false,
+  "coarseSamplesExactlyEqual": true,
+  "comparison": {
+    "allSamplesExactlyEqual": true,
+    "samples": 1427676,
+    "endSeconds": 0.00116,
+    "signals": [
+      "v(receiver_data)",
+      "v(receiver_clock)",
+      "v(n_d0)",
+      "v(n_d1)",
+      "v(n_d2)",
+      "v(n_d3)",
+      "v(n_d4)",
+      "v(n_d5)",
+      "v(n_d6)",
+      "v(n_d7)",
+      "v(n_p5v)",
+      "i(vdriver_supply)",
+      "v(n_wr_n)",
+      "v(wr_low)",
+      "v(wr_high)",
+      "v(n_ta_takt)",
+      "v(n_ta_daten)",
+      "v(l1_1_series)",
+      "v(l1_2_series)",
+      "v(l1_3_series)",
+      "v(l1_4_series)",
+      "v(n_cable_takt)",
+      "v(n_cable_gnd)",
+      "v(n_cable_5v)",
+      "v(n_cable_daten)",
+      "i(l1.1)",
+      "i(l1.2)",
+      "i(l1.3)",
+      "i(l1.4)",
+      "@bwr_low[i]",
+      "@bwr_high[i]"
+    ]
+  },
+  "streams": [
+    {
+      "sha256": "d9b6909557ba72fbb30a2619f6421401538f6411c9711d62777a9df7bcf3e0a6",
+      "bytes": 365486001,
+      "samples": 1427676,
+      "endSeconds": 0.00116
+    },
+    {
+      "sha256": "140cd111c57731646a167000cd06b649ee7f6610ffb85a9d8898a81da75925ef",
+      "bytes": 365486001,
+      "samples": 1427676,
+      "endSeconds": 0.00116
+    }
+  ],
+  "receipts": {
+    "baseline": "1a443c1e442ee1b95ab1eac5a8eb4b41350b1a5ec6455ff9e5f67c7a0fa919a9",
+    "tick": "9657496cf06da195f975882e5baa67ce5f2c4b25ee8e7dd50b907fb237ceaa7a",
+    "drain": "b12134724e2d95db67944f4ac6edc8c69da760ed2e415a10558cae2c23888c0c"
+  },
+  "candidateBuildSha256": "82bc9905b0a83def8b9146186d823e609198d7434607060761ebfc4aafe357df",
+  "boundedAssessmentSha256": "493f1f5ddea941ec462b8c7854b42fdd6a502dfca02bf92f50ae25e71d0a80b7",
+  "sources": {
+    "postreset_drain_coarse_review.py": "775e612f7e68c686bbd450e19bf24b5b68889b7afff82b14a0a22003c647a5d9",
+    "postreset_drain_capture.py": "bd91293a66777fa580711226e0418a14c8145089165862262ada8d38aba94bea",
+    "postreset_drain_review.py": "c0e21c35a932e0e6982677183c6a892ec8b59863a02ee33e2ed4ce8c38ee1655",
+    "raw_stream_review.py": "27bdc65f39d2f19eb3ba70bded049bdf189494e2a80dcade4f50e8d703f9dadb"
+  },
+  "scope": "Matched 25-ns exact-tick-only and drain-enabled runs across the complete 1.16-ms ADC-enabled window. Every saved electrical sample is identical. This cannot establish internal scheduler-state identity, finer-level convergence, firmware equivalence or full campaign acceptance; those remain with the complete campaign reviewer."
+}

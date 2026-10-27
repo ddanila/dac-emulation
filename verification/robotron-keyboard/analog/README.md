@@ -1531,3 +1531,12 @@ the enable measurement convention unresolved. Its commercial/EXPRESS profiles,
 plastic-package load exception and switching load remain separate from the
 industrial I8282 contract. The source hash and exact pages allow independent
 inspection; no existing model parameter or retained experiment is changed.
+
+
+The [full coarse drain comparison](reports/postreset-drain-coarse-effect/assessment.json)
+binds the completed 25-ns exact-tick-only and drain-enabled captures to the same
+inputs and candidate build. All 1,427,676 electrical samples across 1.16 ms are
+exactly equal. Draining does not change this coarse electrical trajectory;
+finer-level convergence, internal scheduler state and complete campaign review
+remain separate. Reproduce with `postreset_drain_coarse_review.py` using the
+local capture paths in the report's `retention.json`. Full waveforms remain local.
