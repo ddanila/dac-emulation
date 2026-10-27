@@ -922,3 +922,9 @@ uses the reviewed filter-board controls as `--source` and `--assessment`, plus
 script as `--producer`, and a fresh assessment `--out`. A capture alone does not
 establish qualification. Wait-event and deeper object referents, additional
 lifecycle paths and broader operating windows remain separate requirements.
+
+The [wait-event source contract](reports/wait-event-source-contract/assessment.json)
+binds the next observer to the pinned event implementation and compiled board.
+`thread.event` belongs to event-controlled assignments; ordinary wait lists live
+on event functors. Include idle edge-history caches and per-context wait heads,
+and keep observer reads separate from helpers that allocate missing caches.
