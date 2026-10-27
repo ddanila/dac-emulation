@@ -1,0 +1,1182 @@
+{
+  "cases": 22260,
+  "promoted": 0,
+  "screen_ticks": 256,
+  "promotion_prefix": 16,
+  "startup_xor_mask": null,
+  "target_fetches": [
+    1716,
+    1862,
+    1716,
+    2029,
+    1278,
+    2251,
+    2250
+  ],
+  "rom_sha256": "51cb80639b5667f2611da71ce7305061566cf3474bda7db6fc82709d08e46d01",
+  "fixture_sha256": "3f70633b4b8287a908def36f9ca10593693372ba7d13bcbf0869f41bf2ac1a60",
+  "source_sha256": {
+    "probe.c": "c9d4ec0231790e608b892ce57b4a9272a25947e91ecdee400c437cd0911f89b9",
+    "bit_campaign.py": "7741b5e9c7feb48e3485347828c5aa2fc9a20526d96314941ced22f76d4a7171",
+    "campaign.py": "24744cc080c48ea90424216cf08aab58aca629941f80a1012d301a5e3a29723f"
+  },
+  "best": [
+    {
+      "run": "20261027-reset-release",
+      "top_cases": [
+        {
+          "id": 2,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 1,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release",
+            "observed_count": 1716,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 3,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 1,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release",
+            "observed_count": 1716,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 5,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 2,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release",
+            "observed_count": 1716,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 6,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 3,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release",
+            "observed_count": 1716,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 14,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 1,
+            "bit_address_value": 0,
+            "bit_write": 0,
+            "bit_read_xor": 1,
+            "bit_address_mode": 1
+          },
+          "score": {
+            "run": "20261027-reset-release",
+            "observed_count": 1716,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-reset-release-repeat",
+      "top_cases": [
+        {
+          "id": 2,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 1,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-repeat",
+            "observed_count": 1862,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 3,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 1,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-repeat",
+            "observed_count": 1862,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 5,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 2,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-repeat",
+            "observed_count": 1862,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 6,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 3,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-repeat",
+            "observed_count": 1862,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 14,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 1,
+            "bit_address_value": 0,
+            "bit_write": 0,
+            "bit_read_xor": 1,
+            "bit_address_mode": 1
+          },
+          "score": {
+            "run": "20261027-reset-release-repeat",
+            "observed_count": 1862,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-reset-release-third",
+      "top_cases": [
+        {
+          "id": 2,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 1,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-third",
+            "observed_count": 1716,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 3,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 1,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-third",
+            "observed_count": 1716,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 5,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 2,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-third",
+            "observed_count": 1716,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 6,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 3,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-third",
+            "observed_count": 1716,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 14,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 1,
+            "bit_address_value": 0,
+            "bit_write": 0,
+            "bit_read_xor": 1,
+            "bit_address_mode": 1
+          },
+          "score": {
+            "run": "20261027-reset-release-third",
+            "observed_count": 1716,
+            "compared_count": 39,
+            "byte_prefix": 10,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-reset-release-fourth",
+      "top_cases": [
+        {
+          "id": 2,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 1,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-fourth",
+            "observed_count": 2029,
+            "compared_count": 39,
+            "byte_prefix": 11,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 3,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 1,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-fourth",
+            "observed_count": 2029,
+            "compared_count": 39,
+            "byte_prefix": 11,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 5,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 2,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-fourth",
+            "observed_count": 2029,
+            "compared_count": 39,
+            "byte_prefix": 11,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 6,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 3,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-fourth",
+            "observed_count": 2029,
+            "compared_count": 39,
+            "byte_prefix": 11,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 14,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 1,
+            "bit_address_value": 0,
+            "bit_write": 0,
+            "bit_read_xor": 1,
+            "bit_address_mode": 1
+          },
+          "score": {
+            "run": "20261027-reset-release-fourth",
+            "observed_count": 2029,
+            "compared_count": 39,
+            "byte_prefix": 11,
+            "timing_read_prefix": 11,
+            "combined_prefix": 9,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-reset-release-fifth-valid",
+      "top_cases": [
+        {
+          "id": 0,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 0,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-fifth-valid",
+            "observed_count": 1278,
+            "compared_count": 40,
+            "byte_prefix": 9,
+            "timing_read_prefix": 9,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 1,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 0,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-fifth-valid",
+            "observed_count": 1278,
+            "compared_count": 35,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 2,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 1,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-fifth-valid",
+            "observed_count": 1278,
+            "compared_count": 39,
+            "byte_prefix": 8,
+            "timing_read_prefix": 11,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 3,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 1,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-fifth-valid",
+            "observed_count": 1278,
+            "compared_count": 39,
+            "byte_prefix": 8,
+            "timing_read_prefix": 11,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 4,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 0,
+            "bit_address_value": 0,
+            "bit_write": 2,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-release-fifth-valid",
+            "observed_count": 1278,
+            "compared_count": 34,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-reset-restored",
+      "top_cases": [
+        {
+          "id": 82,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 2,
+            "bit_address_value": 0,
+            "bit_write": 2,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-restored",
+            "observed_count": 2251,
+            "compared_count": 34,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 84,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 2,
+            "bit_address_value": 0,
+            "bit_write": 2,
+            "bit_read_xor": 0,
+            "bit_address_mode": 2
+          },
+          "score": {
+            "run": "20261027-reset-restored",
+            "observed_count": 2251,
+            "compared_count": 35,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 91,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 2,
+            "bit_address_value": 0,
+            "bit_write": 3,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-restored",
+            "observed_count": 2251,
+            "compared_count": 34,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 93,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 2,
+            "bit_address_value": 0,
+            "bit_write": 3,
+            "bit_read_xor": 1,
+            "bit_address_mode": 2
+          },
+          "score": {
+            "run": "20261027-reset-restored",
+            "observed_count": 2251,
+            "compared_count": 35,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 112,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 2,
+            "bit_address_value": 2,
+            "bit_write": 2,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-reset-restored",
+            "observed_count": 2251,
+            "compared_count": 34,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": false,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "20261027-rom-controls",
+      "top_cases": [
+        {
+          "id": 82,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 2,
+            "bit_address_value": 0,
+            "bit_write": 2,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-rom-controls",
+            "observed_count": 2250,
+            "compared_count": 34,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": true,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 84,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 2,
+            "bit_address_value": 0,
+            "bit_write": 2,
+            "bit_read_xor": 0,
+            "bit_address_mode": 2
+          },
+          "score": {
+            "run": "20261027-rom-controls",
+            "observed_count": 2250,
+            "compared_count": 35,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": true,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 91,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 2,
+            "bit_address_value": 0,
+            "bit_write": 3,
+            "bit_read_xor": 1,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-rom-controls",
+            "observed_count": 2250,
+            "compared_count": 34,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": true,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 93,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:0:247",
+            "bit_index": 3,
+            "bit_address_mask": 2,
+            "bit_address_value": 0,
+            "bit_write": 3,
+            "bit_read_xor": 1,
+            "bit_address_mode": 2
+          },
+          "score": {
+            "run": "20261027-rom-controls",
+            "observed_count": 2250,
+            "compared_count": 35,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": true,
+            "reproduces_bounded_observation": false
+          }
+        },
+        {
+          "id": 112,
+          "parameters": {
+            "fault": "decoder-ram-alias",
+            "floating": "fixed",
+            "bias": 255,
+            "decay": 0,
+            "mask": 65528,
+            "value": 0,
+            "ram_seed": 0,
+            "ticks": 256,
+            "initial_bus": 255,
+            "ram_pattern": "stripe:0:8:255",
+            "bit_index": 3,
+            "bit_address_mask": 2,
+            "bit_address_value": 2,
+            "bit_write": 2,
+            "bit_read_xor": 0,
+            "bit_address_mode": 0
+          },
+          "score": {
+            "run": "20261027-rom-controls",
+            "observed_count": 2250,
+            "compared_count": 34,
+            "byte_prefix": 7,
+            "timing_read_prefix": 7,
+            "combined_prefix": 7,
+            "control_mismatches": 0,
+            "controls_measured": true,
+            "reproduces_bounded_observation": false
+          }
+        }
+      ]
+    }
+  ],
+  "matches": [],
+  "full_report_sha256": "7d766be551681ed6e779a5b82f5032186317147aba6e9369a7d18f80c96fdffb"
+}
