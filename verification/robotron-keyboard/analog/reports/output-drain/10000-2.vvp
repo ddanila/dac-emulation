@@ -1,0 +1,50 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x10194d6a0 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x10194d820 .scope module, "output_time_probe" "output_time_probe" 3 2;
+ .timescale -12 -12;
+    .port_info 0 /INPUT 1 "signal_in";
+    .port_info 1 /OUTPUT 1 "echo";
+P_0x1019490b0 .param/l "EVENT_TICK" 0 3 2, +C4<00000000000000000010011100010000>;
+P_0x1019490f0 .param/l "KIND" 0 3 2, +C4<00000000000000000000000000000010>;
+v0x10194db20_0 .var "echo", 0 0;
+o0xad1420040 .functor BUFZ 1, c4<z>; HiZ drive
+v0x10194e070_0 .net "signal_in", 0 0, o0xad1420040;  0 drivers
+E_0x101949490 .event posedge, v0x10194db20_0;
+S_0x10194d9a0 .scope generate, "genblk3" "genblk3" 3 7, 3 7 0, S_0x10194d820;
+ .timescale -12 -12;
+E_0x101949180 .event anyedge, v0x10194e070_0;
+    .scope S_0x10194d9a0;
+T_0 ;
+    %wait E_0x101949180;
+    %load/vec4 v0x10194e070_0;
+    %store/vec4 v0x10194db20_0, 0, 1;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_0x10194d820;
+T_1 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x10194db20_0, 0, 1;
+    %end;
+    .thread T_1, $init;
+    .scope S_0x10194d820;
+T_2 ;
+    %wait E_0x101949490;
+    %vpi_call/w 3 10 "$display", "OUTPUT_TICK %0t", $time {0 0 0};
+    %jmp T_2;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/output_time_probe.v";

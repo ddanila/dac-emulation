@@ -775,12 +775,22 @@ disabled control but still fails non-growing voltage differences. Its
 changed baseline edge times from preserved payloads and refinement/retry records.
 [Peak excerpts](reports/postreset-tick/peak-localization/assessment.json) and
 [output events](reports/postreset-tick/event-localization/assessment.json) point to
-fractional output-time shifts consistent with the VPI entry-time clamp. This is
-a hypothesis to test, not permission to remove the no-time-reversal constraint.
+fractional output-time shifts consistent with the VPI entry-time clamp.
+[Native output-time controls](reports/output-drain/assessment.json) reproduce
+autonomous events left pending when a timed callback returns to SPICE. The
+opt-in same-tick drain defers that return to read/write synchronization, preserving
+the entry-time clamp for input-driven events. These native controls do not
+establish board convergence or full scheduler quiescence.
 Re-extract with `postreset_tick_peaks.py` or `postreset_tick_events.py` using
 `--assessment REPORT --coarse ON_25 --fine ON_12_5 --finest ON_6_25 --out FRESH`;
 both support `--check` on their retained excerpt directories. Full replay still
 requires the local waveforms/logs listed in `reports/postreset-tick/retention.json`.
+Build the candidate with `build_output_drain_vpi.py --source NGSPICE_SOURCE
+--candidate ABSOLUTE_TICK_BUILD --vpi-header VPI_HEADER --out FRESH`.
+`output_time_probe.py` uses the same arguments as `input_tick_probe.py`; replay
+with `--check reports/output-drain`. Use `output_drain_board_capture.py` and
+`output_drain_board_review.py` with the bounded-board arguments above; they
+isolate exact-tick-only behavior from `ROBOTRON_DRAIN_TICK=1` and forced retry.
 
 `build_value_callback_runtime.py` accepts the pinned archive/build arguments above.
 Run `value_callback_probe.py --candidate BUILD --baseline ORIGINAL_LIBVVP --modules
