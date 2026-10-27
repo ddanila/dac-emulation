@@ -980,3 +980,11 @@ then supply `--bridge`, `--icarus` and a fresh capture `--out`. Review with
 `--root`, the capture script as `--producer`, and a fresh assessment `--out`.
 Allocated-code identity is checked for every observed thread; this does not
 replace validation of instruction operands or their mutable referents.
+
+The [board thread contract](reports/board-thread-contract/assessment.json) combines
+an explicit compiled opcode/VPI profile with empty context, object-stack and
+event-control checks on every reviewed thread. PC-board capture/review enforce
+this contract and reject new instruction families or unexpected referents.
+Reproduce the retained audit with `board_thread_contract.py --root <retained-thread-board>
+--out <fresh-assessment>`. This scopes out absent thread referents; it does not
+cover mutable scope membership, net/array contents or other compiled profiles.
