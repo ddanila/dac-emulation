@@ -211,6 +211,8 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_board_integration.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_probe.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_board.py
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_delta.py
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_delta_family.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_families.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_families.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_families.py
@@ -236,6 +238,9 @@ jobs:
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-widths
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-state
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-board-budget
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-delta
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-delta-budget
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-delta-families
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/reduction-families
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/arithmetic-families
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-state

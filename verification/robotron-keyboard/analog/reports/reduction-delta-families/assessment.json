@@ -1,0 +1,34 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "unsupportedProfilesRefused": [
+    "derived-nor",
+    "derived-base"
+  ],
+  "noPartialInventory": true,
+  "disabledContinuationExactlyEqual": true,
+  "nativeClasses": {
+    "derived-nor": [
+      "ExtraNor",
+      "Sink",
+      "vvp_reduce_nor"
+    ],
+    "derived-base": [
+      "ExtraReduction",
+      "Sink",
+      "vvp_reduce_nor"
+    ]
+  },
+  "scope": "A valid NOR-only reference precedes unsupported behavior-changing subclass allocation. Dense inventory and delta refuse before output. Repeated reference creation also refuses, preserving its one-reference lifecycle rule. Original and disabled continuations remain equal.",
+  "notEstablished": [
+    "Payload support for rejected classes",
+    "Every possible plugin-defined subclass",
+    "Board integration and full qualification"
+  ],
+  "referenceCreatedBeforeUnsupportedAllocation": true,
+  "refusedAPIs": [
+    "dense",
+    "reference-reset",
+    "delta"
+  ]
+}
