@@ -1460,3 +1460,21 @@ remain open. Reproduce or replay with
 `i8282_joint_constraints.py --out reports/i8282-joint-constraints/assessment.json`
 (add `--check` for replay). This uses retained SPICE measurements rather than
 running a new simulation or changing the live board campaigns.
+
+
+The [U880 output screen](reports/u880-output-candidates/assessment.json) applies
+an independent data-valid constraint from the manufacturer's delay table (printed
+pages 58–60). At 4.75 V with 100 pF, both endpoint-only CPU hypotheses require
+about 340 ns even to rise from 0.8 V to 2 V, exceeding the 260-ns data-output
+budget before internal delay. They cannot serve as complete output models under
+this test condition. The screen uses 2 V as the declared high-valid level; it
+does not reconstruct an instrument comparator or internal clock response.
+Explicit 3-kohm and 4-kohm high-side alternatives satisfy the retained DC and RC
+screens. With 10 pF added and a zero-volt initial output, their remaining delay
+budgets are about 79.64 and 19.52 ns. The extra 10 pF is a sensitivity assumption:
+the source capacitance limit is at 25 C, whereas the delay condition is at 70 C.
+These alternatives remain unqualified for nonlinear I/V, release, supply law,
+and board integration. ROM qualification remains separate. Run
+`u880_output_probe.py --out NEW_REPORT`, or replay the retained decks and
+measurements with
+`u880_output_probe.py --out reports/u880-output-candidates --verify`.

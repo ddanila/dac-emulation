@@ -1,0 +1,15 @@
+{
+  "source": "bus_limits.json:sources.u880d",
+  "pages": "PDF pages 59-61, printed pages 58-60; delay table and figure 27",
+  "supplyVolts": 4.75,
+  "temperatureCelsius": 70,
+  "externalCapacitanceFarads": 1e-10,
+  "ordinaryInputLowVolts": 0.8,
+  "ordinaryInputHighVolts": 2.0,
+  "clockLowVolts": 0.45,
+  "clockHighVolts": 4.55,
+  "dataOutputMaximumSeconds": 2.6e-7,
+  "scope": "Data-output delay tD(D), not address or control output timing. A rising output must reach the declared high level within the delay budget. The RC screen assumes drive begins at the reference event, no favorable external active drive, and no negative internal delay.",
+  "measurementBoundary": "Use 2 V as the high-valid endpoint under the published ordinary logic levels. This is a necessary high-valid screen, not a reconstruction of the manufacturer's instrument comparator, internal clock response or complete timing test.",
+  "notEstablished": ["Output I/V away from DC endpoints", "Temperature-dependent transistor behavior", "Release timing", "Internal delay", "Complete device admission"]
+}
