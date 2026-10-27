@@ -2,7 +2,8 @@
 """Inventory compiled static memories and pin their native ownership semantics."""
 import argparse, hashlib, json, re, tarfile
 from pathlib import Path
-from thread_board_reachability import analyze, ARCHIVE_SHA
+from thread_board_reachability import ARCHIVE_SHA
+from compiled_scope_profile import analyze
 from ttl7406_probe import sha
 
 

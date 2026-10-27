@@ -1,0 +1,145 @@
+--- a/vvp/array.cc
++++ b/vvp/array.cc
+@@ -48,6 +48,12 @@
+ static symbol_map_s<struct __vpiArray>* array_table =0;
+ 
+ class vvp_fun_arrayport;
++#include <map>
++#include <set>
++static std::map<vvp_fun_arrayport*,unsigned long long>& robotron_array_ports()
++{static std::map<vvp_fun_arrayport*,unsigned long long> ports;return ports;}
++static unsigned long long robotron_array_port_serial;
++
+ static void array_attach_port(vvp_array_t, vvp_fun_arrayport*);
+ 
+ vvp_array_t array_find(const char*label)
+@@ -1024,6 +1030,7 @@
+ }
+ 
+ class vvp_fun_arrayport  : public vvp_net_fun_t {
++      friend struct robotron_array_access;
+ 
+     public:
+       explicit vvp_fun_arrayport(vvp_array_t mem, vvp_net_t*net);
+@@ -1046,16 +1053,19 @@
+ : arr_(mem), net_(net), addr_(0)
+ {
+       next_ = 0;
++      robotron_array_ports()[this]=++robotron_array_port_serial;
+ }
+ 
+ vvp_fun_arrayport::vvp_fun_arrayport(vvp_array_t mem, vvp_net_t*net, long addr)
+ : arr_(mem), net_(net), addr_(addr)
+ {
+       next_ = 0;
++      robotron_array_ports()[this]=++robotron_array_port_serial;
+ }
+ 
+ vvp_fun_arrayport::~vvp_fun_arrayport()
+ {
++      robotron_array_ports().erase(this);
+ }
+ 
+ class vvp_fun_arrayport_sa  : public vvp_fun_arrayport {
+@@ -1752,3 +1762,101 @@
+       delete obj;
+ }
+ #endif
++
++// Static four-state arrays: logical storage and independently registered read ports.
++struct robotron_array_access {
++    static bool collect(std::vector<__vpiArray*>& arrays) {
++        __vpiHandle** roots=0;unsigned count=0;vpip_make_root_iterator(roots,count);
++        std::vector<__vpiScope*> scopes;std::set<__vpiScope*> seen;std::set<vvp_vector4array_t*> storage;
++        for(unsigned i=0;i<count;++i){auto scope=dynamic_cast<__vpiScope*>(roots[i]);if(!scope)return false;scopes.push_back(scope);}
++        for(size_t i=0;i<scopes.size();++i){
++            auto scope=scopes[i];if(!seen.insert(scope).second || scope->is_automatic())return false;
++            for(auto item:scope->intern){
++                if(auto child=dynamic_cast<__vpiScope*>(item)){if(child->scope!=scope)return false;scopes.push_back(child);}
++                if(dynamic_cast<__vpiArrayBase*>(item)){
++                    auto arr=dynamic_cast<__vpiArray*>(item);
++                    if(!arr || arr->get_scope()!=scope || arr->nets || arr->vals || arr->vpi_callbacks ||
++                       !dynamic_cast<vvp_vector4array_sa*>(arr->vals4) || !storage.insert(arr->vals4).second ||
++                       arr->vals4->width()!=arr->vals_width || arr->vals4->words()!=arr->get_size())return false;
++                    arrays.push_back(arr);
++                }
++            }
++        }
++        return !arrays.empty();
++    }
++    static unsigned long long port_id(vvp_fun_arrayport* port) {
++        if(!port)return 0;auto found=robotron_array_ports().find(port);
++        return found==robotron_array_ports().end()?0:found->second;
++    }
++    static int inventory(FILE* out) {
++        std::vector<__vpiArray*> arrays;if(!out || !collect(arrays))return -1;
++        std::map<__vpiArray*,unsigned long long> ids;
++        for(size_t i=0;i<arrays.size();++i)ids[arrays[i]]=i+1;
++        std::map<unsigned long long,vvp_fun_arrayport*> ports;
++        for(auto item:robotron_array_ports()){
++            auto port=item.first;
++            if(!dynamic_cast<vvp_fun_arrayport_sa*>(port) || !ids.count(port->arr_) || !port->net_ ||
++               (port->next_ && !port_id(port->next_)))return -1;
++            ports[item.second]=port;
++        }
++        if(fprintf(out,"VAR_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++        for(auto arr:arrays){
++            if(arr->ports_ && !port_id(arr->ports_))return -1;
++            if(fprintf(out,"VAR_ARRAY %llu %p %p %p %d %d %d %d %u %u %u %u %llu %p\n",
++                ids[arr],(void*)arr,(void*)arr->get_scope(),(void*)arr->vals4,
++                arr->first_addr.get_value(),arr->last_addr.get_value(),arr->msb.get_value(),arr->lsb.get_value(),
++                arr->get_size(),arr->vals_width,(unsigned)arr->signed_flag,(unsigned)arr->swap_addr,port_id(arr->ports_),(void*)arr->vals_words)<0)return -1;
++            for(unsigned index=0;index<arr->get_size();++index){
++                auto value=arr->vals4->get_word(index);
++                if(value.size()!=arr->vals_width || fprintf(out,"VAR_WORD %u ",index)<0)return -1;
++                for(unsigned bit=0;bit<value.size();++bit)if(fputc('0'+(unsigned)value.value(bit),out)==EOF)return -1;
++                if(fputc('\n',out)==EOF)return -1;
++            }
++            if(arr->vals_words){
++                if(fprintf(out,"VAR_CACHE %p\n",(void*)arr->vals_words[-1].parent)<0)return -1;
++                for(unsigned index=0;index<arr->get_size();++index)
++                    if(fprintf(out,"VAR_CACHE_WORD %u %p\n",index,(void*)arr->vals_words[index].word0)<0)return -1;
++            }
++        }
++        for(auto item:ports){auto port=item.second;
++            if(fprintf(out,"VAR_PORT %llu %p %llu %p %lu %llu\n",item.first,(void*)port,ids[port->arr_],(void*)port->net_,port->addr_,port_id(port->next_))<0)return -1;
++        }
++        return fprintf(out,"VAR_END %zu %zu\n",arrays.size(),ports.size())<0 || ferror(out)?-1:0;
++    }
++    static int toggle(int field) {
++        static __vpiArray* array=0;static vvp_fun_arrayport* port=0;static unsigned long long port_identity=0;
++        static vvp_vector4_t word;static unsigned long address=0;static vvp_fun_arrayport* next=0;
++        static __vpiArrayWord* word0=0;static int saved_field=-1;
++        std::vector<__vpiArray*> arrays;if(!collect(arrays))return -1;
++        if(saved_field>=0){
++            if(field!=saved_field)return -1;
++            bool found=false;for(auto a:arrays)if(a==array)found=true;
++            if(array && !found)return -1;
++            if(port && port_id(port)!=port_identity)return -1;
++            if(field==0)array->vals4->set_word(0,word);
++            else if(field==1)port->addr_=address;
++            else if(field==2)port->next_=next;
++            else if(field==3)array->vals_words[0].word0=word0;
++            array=0;port=0;saved_field=-1;return 1;
++        }
++        if(field<0 || field>3)return -1;
++        if(field==0){
++            for(auto a:arrays)if(a->vals_width<=sizeof(unsigned long)*CHAR_BIT){array=a;break;}
++            if(!array)return 0;word=array->vals4->get_word(0);if(!word.size())return -1;
++            auto changed=word;changed.set_bit(0,word.value(0)==BIT4_1?BIT4_0:BIT4_1);array->vals4->set_word(0,changed);
++        } else if(field==3){
++            for(auto a:arrays)if(a->vals_words){array=a;break;}
++            if(!array)return 0;word0=array->vals_words[0].word0;array->vals_words[0].word0=0;
++        } else {
++            std::map<unsigned long long,vvp_fun_arrayport*> ordered;
++            for(auto item:robotron_array_ports())ordered[item.second]=item.first;
++            for(auto item:ordered)if(dynamic_cast<vvp_fun_arrayport_sa*>(item.second) && (field==1 || item.second->next_)){port=item.second;port_identity=item.first;break;}
++            if(!port)return 0;
++            if(field==1){address=port->addr_;port->addr_=address==port->arr_->get_size()?0:port->arr_->get_size();}
++            else {next=port->next_;port->next_=0;}
++        }
++        saved_field=field;return 1;
++    }
++};
++extern "C" int robotron_vvp_array_inventory(FILE* out){return robotron_array_access::inventory(out);}
++extern "C" int robotron_vvp_array_toggle(int field){return robotron_array_access::toggle(field);}
