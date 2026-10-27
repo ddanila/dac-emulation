@@ -1,0 +1,12 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "originalContinuationExactlyEqual": true,
+  "uncoveredReferents": [
+    "signal node pointer",
+    "signed flag",
+    "range constants",
+    "lazy bit-handle cache"
+  ],
+  "scope": "Native signal referents change VPI behavior or allocate persistent bit handles while the admitted callback list image stays identical. Mutated fields restore before HDL continuation; original, disabled and observed runs agree. This demonstrates missing referent coverage, not a completed observer or board qualification."
+}

@@ -1,0 +1,19 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "compact": {
+    "images": 28,
+    "denseBytes": 3884,
+    "deltaBytes": 3924,
+    "referenceBytes": 427,
+    "refusals": 0
+  },
+  "nativeOwnerLifetimes": 6,
+  "originalContinuationExactlyEqual": true,
+  "scope": "Exact native vvp_wire_vec4 owners constructed before or after compact reference, destroyed, and reconstructed at the same storage address with fresh lifetime IDs. Complete dense/compact images preserve persistent owners, additions and explicit reference-owner removal. Native constructor values and a filter write agree with original execution. Test-owned storage uses placement construction/destruction; no board allocation behavior is inferred.",
+  "notEstablished": [
+    "Array-word association allocation/removal on live owners",
+    "Deep typed referents and combined operational integration",
+    "Suspended traversal and general rollback"
+  ]
+}
