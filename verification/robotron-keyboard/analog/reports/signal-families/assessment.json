@@ -1,0 +1,36 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "unsupportedProfilesRefused": [
+    "automatic",
+    "real",
+    "string",
+    "object"
+  ],
+  "noPartialInventory": true,
+  "disabledContinuationExactlyEqual": true,
+  "nativeClasses": {
+    "automatic": [
+      "vvp_fun_signal4_aa",
+      "vvp_fun_signal4_sa"
+    ],
+    "real": [
+      "vvp_fun_signal4_sa",
+      "vvp_fun_signal_real_sa"
+    ],
+    "string": [
+      "vvp_fun_signal4_sa",
+      "vvp_fun_signal_string_sa"
+    ],
+    "object": [
+      "vvp_fun_signal4_sa",
+      "vvp_fun_signal_object_sa"
+    ]
+  },
+  "scope": "Native automatic four-state, real, string and object-storage signals are rejected alongside an admitted static signal. Object storage is exercised by a dynamic integer array; automatic storage is observed inside its active task.",
+  "notEstablished": [
+    "Support or rollback for these storage families",
+    "Every class/object representation or automatic nesting pattern",
+    "Board integration and full qualification"
+  ]
+}

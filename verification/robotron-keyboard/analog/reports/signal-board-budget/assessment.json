@@ -1,0 +1,118 @@
+{
+  "qualified": false,
+  "completeAllocatedGraphObserved": true,
+  "observationExactlyRepeatable": true,
+  "allocatedNodes": 1820,
+  "compiledProfile": {
+    "declarations": {
+      ".arith/sub": 2,
+      ".arith/sum": 4,
+      ".array": 3,
+      ".array/port": 23,
+      ".cmp/eeq": 207,
+      ".cmp/eq": 2,
+      ".cmp/nee": 2,
+      ".concat": 17,
+      ".concat8": 43,
+      ".event": 44,
+      ".event/or": 12,
+      ".functor": 981,
+      ".import": 2,
+      ".island": 2,
+      ".net": 1196,
+      ".net/2u": 393,
+      ".net8": 58,
+      ".param/l": 56,
+      ".part": 225,
+      ".port": 4,
+      ".reduce/nor": 38,
+      ".resolv": 18,
+      ".scope": 32,
+      ".var": 191,
+      ".var/i": 5
+    },
+    "functorFamilies": {
+      "AND": 44,
+      "BUFT": 482,
+      "BUFZ": 167,
+      "MUXZ": 251,
+      "NOT": 15,
+      "OR": 21,
+      "XOR": 1
+    },
+    "networkDeclarationCount": 3405,
+    "declarationCountsAreNotNativeAllocationCounts": true,
+    "reasons": [
+      "Net handles may share existing driver nodes.",
+      "Wide-input cores allocate intermediate nodes without labels.",
+      "Pool construction includes unused capacity; register handed-out allocations, not constructor calls."
+    ]
+  },
+  "crossReferences": {
+    "arrayReadPortDestinations": 23,
+    "codeNetOperands": 5737,
+    "uniqueCodeNetTargets": 258
+  },
+  "graph": {
+    "active": 0,
+    "inactive": 0,
+    "maxFanout": 48
+  },
+  "peakResidentBytes": 11517952,
+  "logicalImageBytes": 186049,
+  "projection": {
+    "boundaries": 55156,
+    "normalSnapshotCalls": 110312,
+    "signalLogBytesAtInitialState": 1266271448,
+    "meanSignalScanSeconds": 16.974259,
+    "maxSampleSignalScanSeconds": 34.968904,
+    "excludesLaterStateGrowthAndOtherObservers": true
+  },
+  "scope": "Actual compiled board before time advances: all allocated static signal functors bound to graph and native class. Compiled width totals are an independent aggregate check, not named-variable identity. Timings measure full signal serialization; initial-state output is not an operational bound.",
+  "notEstablished": [
+    "Operational assignment links and signal transitions",
+    "Combined capture/review cost and full-board integration",
+    "Other payload families, full coupled qualification or general rollback"
+  ],
+  "nativeClassBindingsMatchGraph": true,
+  "nativeClasses": {
+    "fun": {
+      "resolv_tri": 18,
+      "vvp_arith_sub": 2,
+      "vvp_arith_sum": 4,
+      "vvp_cmp_eeq": 207,
+      "vvp_cmp_eq": 2,
+      "vvp_cmp_nee": 2,
+      "vvp_fun_and": 44,
+      "vvp_fun_anyedge_sa": 35,
+      "vvp_fun_arrayport_sa": 23,
+      "vvp_fun_buft": 482,
+      "vvp_fun_bufz": 167,
+      "vvp_fun_concat": 17,
+      "vvp_fun_concat8": 43,
+      "vvp_fun_edge_sa": 9,
+      "vvp_fun_event_or_sa": 12,
+      "vvp_fun_muxz": 251,
+      "vvp_fun_not": 15,
+      "vvp_fun_or": 21,
+      "vvp_fun_part_sa": 225,
+      "vvp_fun_signal4_sa": 196,
+      "vvp_fun_xor": 1,
+      "vvp_island_port": 6,
+      "vvp_reduce_nor": 38
+    },
+    "filter": {
+      "vvp_wire_vec4": 1544,
+      "vvp_wire_vec8": 29
+    }
+  },
+  "signalFunctors": 196,
+  "signalTimings": {
+    "iterations": 64,
+    "totalSeconds": 0.009848,
+    "meanSeconds": 0.000153875,
+    "minSeconds": 0.000142,
+    "maxSeconds": 0.000317
+  },
+  "signalImageBytes": 11479
+}
