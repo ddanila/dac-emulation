@@ -1,0 +1,22 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "outputMatchesIndependentOracle": true,
+  "observations": 42,
+  "executingObservations": 24,
+  "faultsByField": {
+    "0": 18,
+    "1": 18,
+    "2": 18,
+    "3": 18,
+    "4": 18,
+    "5": 12,
+    "6": 9
+  },
+  "scope": "Concat4/concat8 constructor, four input ports, partial writes, unchanged-write scheduling, raw strength collisions and queued/executing wrapper bindings. Native faults restore caches, each port width and pending output nodes before continuation.",
+  "notEstablished": [
+    "Unsupported subclass refusal controls and allocation growth",
+    "Board bindings, compact encoding, budget and integration",
+    "General rollback and freed storage"
+  ]
+}

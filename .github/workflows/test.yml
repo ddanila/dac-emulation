@@ -220,6 +220,8 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_strength_switch.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p 'test_wire_raw*.py'
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_raw_wire_board_integration.py
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_concat_probe.py
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/concat-state
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_reduction_families.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_arithmetic_families.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_families.py
