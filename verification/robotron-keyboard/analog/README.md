@@ -1478,3 +1478,18 @@ and board integration. ROM qualification remains separate. Run
 `u880_output_probe.py --out NEW_REPORT`, or replay the retained decks and
 measurements with
 `u880_output_probe.py --out reports/u880-output-candidates --verify`.
+
+
+The [finite-slew CPU controls](reports/u880-slew-candidates/assessment.json)
+extend those alternatives with linear internal drive ramps of 0, 10, 30 and
+60 ns, both output polarities, and zero/10-pF added capacitance. Every retained
+SPICE crossing agrees with the independent first-order ramp solution. The
+zero-ramp rising controls reproduce the earlier instantaneous-drive calculation.
+Joint pure-delay intervals use the slower polarity; a null interval rejects the
+combination even without internal transport delay. In particular, the
+4-kohm/10-pF combination fails with a 60-ns ramp although its instantaneous
+control passes. Falling edges pass this screen with the DC-derived low-side
+resistance. Ramp times are assumptions, not measured device properties; these
+controls do not qualify actual switching topology, enable/release or nonlinear
+I/V. Run `u880_slew_probe.py --out NEW_REPORT`, or replay with
+`u880_slew_probe.py --out reports/u880-slew-candidates --verify`.
