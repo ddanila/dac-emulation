@@ -1,0 +1,28 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "rounds": 2,
+  "exactRestorations": 32,
+  "originalContinuationExactlyEqual": true,
+  "changedFields": [
+    "binaryWord",
+    "signed",
+    "sized",
+    "local",
+    "file",
+    "line",
+    "nameBytes",
+    "realBytes",
+    "stringBytes"
+  ],
+  "refusedFields": [
+    "binaryWidth",
+    "scopePointer",
+    "namePointer",
+    "wideAPointer",
+    "wideBPointer",
+    "stringPointer",
+    "stringLength"
+  ],
+  "scope": "Sixteen native diagnostic fields per round either produce exactly the selected raw value/metadata change or refuse with negative status and zero bytes. All restore before original/disabled/enabled HDL continuation. Wide storage and embedded-null strings are included. Unsupported subclasses, lifecycle changes and operational board fault qualification remain open."
+}

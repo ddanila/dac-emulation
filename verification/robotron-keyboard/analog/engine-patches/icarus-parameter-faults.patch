@@ -1,0 +1,58 @@
+--- a/vvp/vpi_const.cc
++++ b/vvp/vpi_const.cc
+@@ -972,6 +972,49 @@
+         auto data=static_cast<const unsigned char*>(address);
+         for(size_t i=0;i<bytes;++i)if(fprintf(out,"%02x",data[i])<0)return -1;
+         return fputc('\n',out)==EOF?-1:0;
++    }
++    template<class T>static void metadata_fault(T*p,unsigned field){
++        if(field==3)p->local_flag_=!p->local_flag_;
++        else if(field==4)p->file_idx_^=1;
++        else if(field==5)p->lineno_^=1;
++        else if(field==6)const_cast<char*>(p->basename_)[0]^=1;
++        else if(field==10)p->scope_=reinterpret_cast<__vpiScope*>(reinterpret_cast<uintptr_t>(p->scope_)^1);
++        else if(field==11)p->basename_=reinterpret_cast<const char*>(reinterpret_cast<uintptr_t>(p->basename_)^1);
++    }
++    static int toggle(unsigned field){
++        static vpiHandle saved=0;static unsigned saved_field=0;
++        if(field>15 || (saved&&field!=saved_field))return -1;
++        bool restoring=saved!=0;auto p=saved;
++        if(!restoring){
++            char*text=0;size_t size=0;FILE*out=open_memstream(&text,&size);if(!out)return -1;
++            int rc=inventory(out);int close_rc=fclose(out);free(text);if(rc||close_rc)return -1;
++            std::map<const void*,std::pair<unsigned long long,const void*>> owners;
++            if(robotron_vvp_parameter_owners(&owners))return -1;
++            unsigned long long first=~0ULL;
++            for(auto entry:robotron_parameters()){
++                auto item=entry.first;bool eligible=false;
++                if(field==7)eligible=typeid(*item)==typeid(__vpiRealParam);
++                else if(field==8||field==14||field==15)eligible=typeid(*item)==typeid(__vpiStringParam)&&entry.second.string_bytes>1;
++                else if(typeid(*item)==typeid(__vpiBinaryParam))eligible=entry.second.width>0&&((field!=12&&field!=13)||entry.second.width>vvp_vector4_t::BITS_PER_WORD);
++                if(eligible && owners.at(item).first<first){first=owners.at(item).first;p=item;}
++            }
++            if(!p)return -1;
++        }
++        if(field==7)reinterpret_cast<unsigned char*>(&static_cast<__vpiRealParam*>(p)->value)[0]^=1;
++        else if(field==8)static_cast<__vpiStringParam*>(p)->value_[0]^=1;
++        else if(field==14){auto s=static_cast<__vpiStringParam*>(p);s->value_=reinterpret_cast<char*>(reinterpret_cast<uintptr_t>(s->value_)^1);}
++        else if(field==15)static_cast<__vpiStringParam*>(p)->value_len_^=1;
++        else{
++            auto b=static_cast<__vpiBinaryParam*>(p);auto&v=b->bits;
++            if(field==0){if(v.size_>vvp_vector4_t::BITS_PER_WORD)v.abits_ptr_[0]^=1;else v.abits_val_^=1;}
++            else if(field==1)b->signed_flag=!b->signed_flag;
++            else if(field==2)b->sized_flag=!b->sized_flag;
++            else if(field==9)v.size_^=1;
++            else if(field==12)v.abits_ptr_=reinterpret_cast<unsigned long*>(reinterpret_cast<uintptr_t>(v.abits_ptr_)^1);
++            else if(field==13)v.bbits_ptr_=reinterpret_cast<unsigned long*>(reinterpret_cast<uintptr_t>(v.bbits_ptr_)^1);
++            else metadata_fault(b,field);
++        }
++        if(restoring)saved=0;else{saved=p;saved_field=field;}return 1;
+     }
+     static int inventory(FILE*out){
+         std::map<const void*,std::pair<unsigned long long,const void*>> owners;
+@@ -1015,3 +1058,5 @@
+ };
+ static void robotron_parameter_register(vpiHandle p){robotron_parameter_access::attach(p);}
+ extern "C" int robotron_vvp_parameter_inventory(FILE*out){return robotron_parameter_access::inventory(out);}
++
++extern "C" int robotron_vvp_parameter_toggle(unsigned field){return robotron_parameter_access::toggle(field);}

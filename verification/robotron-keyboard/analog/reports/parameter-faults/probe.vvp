@@ -1,0 +1,35 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x1027a0e30 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x1027a4980 .scope module, "test" "test" 3 2;
+ .timescale -9 -12;
+P_0x1027a0fb0 .param/l "P" 0 3 3, C4<0011>;
+P_0x1027a0ff0 .param/real "R" 0 3 5, Cr<m6000000000000000gfc2>; value=1.50000
+P_0x1027a1030 .param/str "S" 0 3 6, "A\000B";
+P_0x1027a1070 .param/l "W" 0 3 4, C4<00010010001101000101011001111000100110101011110011011110111100000001001000110100>;
+    .scope S_0x1027a4980;
+T_0 ;
+    %delay 1000, 0;
+    %vpi_call/w 3 8 "$parameter_faults" {0 0 0};
+    %delay 1000, 0;
+    %vpi_call/w 3 9 "$parameter_faults" {0 0 0};
+    %delay 1000, 0;
+    %vpi_call/w 3 10 "$display", "CONTINUE %0d %h %0.1f", P_0x1027a0fb0, P_0x1027a1070, P_0x1027a0ff0 {0 0 0};
+    %vpi_call/w 3 10 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-faults/probe.v";
