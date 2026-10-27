@@ -1,0 +1,37 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x104c8a510 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x104c8a690 .scope module, "probe" "probe" 3 2;
+ .timescale -9 -12;
+    .scope S_0x104c8a690;
+T_0 ;
+    %pushi/vec4 5, 0, 32;
+T_0.0 %dup/vec4;
+    %cmpi/s 0, 0, 32;
+    %jmp/1xz T_0.1, 5;
+    %jmp/1 T_0.1, 4;
+    %subi 1, 0, 32;
+    %delay 1000, 0;
+    %vpi_call/w 3 4 "$resolver_drive" {0 0 0};
+    %jmp T_0.0;
+T_0.1 ;
+    %pop/vec4 1;
+    %delay 1000, 0;
+    %vpi_call/w 3 5 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "-";
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/resolver-widths-v2/width-80/probe.v";
