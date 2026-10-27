@@ -1,0 +1,12 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "rounds": 2,
+  "zeroOutputRefusals": 16,
+  "restoredFaults": 8,
+  "lazyAllocationPreserved": true,
+  "observerDoesNotAllocateCache": true,
+  "exactDenseCompactReconstruction": true,
+  "originalContinuationExactlyEqual": true,
+  "scope": "Registered word-cache allocation and length checked before reading cached entries. Foreign/shifted/missing cache bases and foreign read-port heads refuse both dense and compact output before headers, then restore exactly. Explicit VPI indexing creates the cache once; observing it does not allocate. Existing raw cache-parent/word links remain observable. Cache-owner lifecycle, aliases/subclasses and operational integration remain unqualified."
+}

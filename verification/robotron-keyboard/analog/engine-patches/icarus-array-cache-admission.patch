@@ -1,0 +1,66 @@
+--- a/vvp/vpi_priv.h
++++ b/vvp/vpi_priv.h
+@@ -749,7 +749,7 @@
+ 
+ struct __vpiArrayBase {
+       __vpiArrayBase() : vals_words(NULL) {}
+-      virtual ~__vpiArrayBase() {}
++      virtual ~__vpiArrayBase();
+ 
+       virtual unsigned get_size(void) const = 0;
+       virtual vpiHandle get_left_range() = 0;
+--- a/vvp/array_common.cc
++++ b/vvp/array_common.cc
+@@ -20,6 +20,19 @@
+  */
+ 
+ #include "array_common.h"
++#include <map>
++struct robotron_cache_record { __vpiArrayWord*words; unsigned count; };
++static std::map<const __vpiArrayBase*,robotron_cache_record>& robotron_array_caches(){
++    static std::map<const __vpiArrayBase*,robotron_cache_record> rows;return rows;
++}
++__vpiArrayBase::~__vpiArrayBase(){robotron_array_caches().erase(this);}
++extern "C" int robotron_vvp_array_cache_validate(const __vpiArrayBase*a,unsigned count){
++    if(!a)return -1;
++    auto it=robotron_array_caches().find(a);
++    if(it==robotron_array_caches().end())return a->vals_words?-1:0;
++    return a->vals_words==it->second.words && count==it->second.count?0:-1;
++}
++
+ 
+ vpiHandle __vpiArrayBase::vpi_array_base_iterate(int code)
+ {
+@@ -51,6 +64,8 @@
+     for (unsigned idx = 0 ; idx < get_size() ; idx += 1) {
+             words[idx].word0 = words;
+     }
++    robotron_cache_record record={vals_words,get_size()};
++    if(!robotron_array_caches().insert({this,record}).second)abort();
+ }
+ 
+ vpiHandle __vpiArrayIterator::vpi_index(int)
+--- a/vvp/array.cc
++++ b/vvp/array.cc
+@@ -1776,6 +1776,7 @@
+ 
+ extern "C" int robotron_vvp_memory_owners(std::map<const void*,std::pair<unsigned long long,const void*>>*);
+ extern "C" int robotron_vvp_array_storage_validate(const void*);
++extern "C" int robotron_vvp_array_cache_validate(const __vpiArrayBase*,unsigned);
+ // Static four-state arrays: logical storage and independently registered read ports.
+ struct robotron_array_access {
+     static bool collect(std::vector<__vpiArray*>& arrays) {
+@@ -1820,9 +1821,12 @@
+                (port->next_ && !port_id(port->next_)))return -1;
+             ports[item.second]=port;
+         }
++        for(auto arr:arrays){
++            if(robotron_vvp_array_cache_validate(arr,arr->get_size()) || (arr->ports_ && !port_id(arr->ports_)))return -1;
++        }
+         if(fprintf(out,compact?"VAC_BEGIN 1 %llu\n":"VAR_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
+         for(auto arr:arrays){
+-            if(arr->ports_ && !port_id(arr->ports_))return -1;
++
+             if(fprintf(out,"VAR_ARRAY %llu %p %p %p %d %d %d %d %u %u %u %u %llu %p\n",
+                 ids[arr],(void*)arr,(void*)arr->get_scope(),(void*)arr->vals4,
+                 arr->first_addr.get_value(),arr->last_addr.get_value(),arr->msb.get_value(),arr->lsb.get_value(),
