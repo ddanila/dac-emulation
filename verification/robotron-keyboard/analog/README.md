@@ -1211,3 +1211,14 @@ filter output and force helpers. The report identifies initialized fields and
 required native fault/continuation controls; it does not establish payload
 coverage. Reproduce with `signal_source_contract.py --archive PINNED_ARCHIVE
 --vvp reports/net-types-board/board.vvp --out FRESH_REPORT`.
+
+The [native signal controls](reports/signal-state/assessment.json) cover static
+four-state unfiltered values, partial assignment masks, source relinking and
+initialized flags. End-of-compilation observations check constructor state before
+initial propagation; start-of-simulation callbacks are too late for that claim.
+Assign/deassign, partial writes, wide X/Z values and force/release preserve exact
+continuation while actual field faults restore without propagation. Visible forced
+output is checked separately from underlying storage. Unsupported-family refusal
+qualification, board bindings and capture budgets remain open. Build with
+`build_signal_runtime.py`, run `signal_probe.py` with candidate/baseline/module
+paths, or replay `signal_probe.py --check reports/signal-state`.
