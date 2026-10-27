@@ -1442,3 +1442,21 @@ after firmware starts. Unary/pending-target faults remain in native controls.
 All preceding state and exact waveform/firmware comparisons remain required.
 The capture keeps existing log caps and adds a measured scan-time allowance;
 integration is unqualified until capture and independent retained replay pass.
+
+
+The [joint I8282 constraints](reports/i8282-joint-constraints/assessment.json)
+intersect the retained enabled-output, capacitance, propagation and release
+experiments. The reviewer replays each source experiment before forming the
+intersection. Each surviving resistance/capacitance pair has nonnegative internal
+data, strobe and disconnect delay intervals limited by its worst retained supply,
+polarity and leakage case; the report records the limiting case indices. These
+intervals assume a constant pure transport delay followed by instantaneous drive
+switching. They do not cover finite internal slew or untested capacitances.
+The 250-ohm candidate with 12 or 30 pF remains rejected even at zero internal
+delay. `check_delays` refuses those combinations, untested capacitances, missing
+fields and out-of-budget delays. Passing that partial check does not admit a
+device: Intel enable measurement, nonlinear behavior and operational integration
+remain open. Reproduce or replay with
+`i8282_joint_constraints.py --out reports/i8282-joint-constraints/assessment.json`
+(add `--check` for replay). This uses retained SPICE measurements rather than
+running a new simulation or changing the live board campaigns.
