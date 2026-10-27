@@ -232,6 +232,15 @@ test-pc1715: build/pc1715-test
 
 test: test-pc1715
 
+build/pc1715-fault-probe: verification/pc1715-faults/probe.c $(PC1715_OBJECTS) build/common/cpu/z80.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
+.PHONY: test-pc1715-faults
+test-pc1715-faults: build/pc1715-fault-probe
+	python3 -m unittest discover -s verification/pc1715-faults -p 'test_*.py'
+
+test: test-pc1715-faults
+
 build/pc1715-sanitize: tests/integration/pc1715_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
 	@mkdir -p build
 	$(CC) $(CPPFLAGS) -std=c11 -O1 -g -fsanitize=address,undefined tests/integration/pc1715_test.c $(RUNTIME_SOURCES) -o $@
