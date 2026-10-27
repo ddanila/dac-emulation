@@ -203,6 +203,11 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_probe.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_families.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_inputs.py
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_gate_delta.py
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-delta
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-input-delta
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-delta-budget
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-delta-families
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-inputs
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_native_gate_board.py
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/gate-board-budget

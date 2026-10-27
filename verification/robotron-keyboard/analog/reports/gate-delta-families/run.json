@@ -1,0 +1,201 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/equiv.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/impl.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/derived-boolean.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/probe.v"
+    ],
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/derived-unary.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-gate-delta-runtime",
+      "-I/private/tmp/k7658-gate-delta-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/probe.cc"
+    ]
+  ],
+  "runs": {
+    "equiv-baseline": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "equiv.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "equiv-disabled": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "equiv.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    },
+    "equiv-observe": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "equiv.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    },
+    "impl-baseline": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "impl.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "impl-disabled": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "impl.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    },
+    "impl-observe": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "impl.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    },
+    "derived-boolean-baseline": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-boolean.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived-boolean-disabled": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-boolean.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    },
+    "derived-boolean-observe": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-boolean.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    },
+    "derived-unary-baseline": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-unary.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so"
+    },
+    "derived-unary-disabled": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-unary.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    },
+    "derived-unary-observe": {
+      "command": [
+        "/private/tmp/k7658-gate-delta-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "derived-unary.vvp"
+      ],
+      "exitCode": 2,
+      "library": "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-gate-delta-runtime/vvp/libvvp.so": "6c7e91e2d301db5ba7d7cc52f8852a39fbaae3db55ca533e25b936503a1ec94d",
+    "/private/tmp/k7658-gate-delta-runtime/vvp/vvp": "08fa9f048eaea40a05ebd08ba550df97283a838b71f83941adebb56e10cd5e7f",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/gate-delta-families/probe.vpi": "5464d5c67e64add738923742ec52b10b2bf544e664a3496ad2065252ba7b073f",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "sources": {
+    "gate_delta_family.py": "6cefc70565007e3350ba829abefbb32cbc9a684532f15e7d2612a896fdcc61d4",
+    "gate_family_probe.py": "638b760c42d01f39a222b1605f12e823abe8ac228742bc5ef71abf509d83ad16",
+    "gate_delta_probe.py": "c86e2ab9c735b0e84068a3040d8af50315445c1557c0b1e962d2c47364c3efbd",
+    "native_gate_probe.py": "c9e5eac6ec52719e08ed505e5ecfdb366d63b61474f43e8818bdcff9efd447db",
+    "net_types_probe.py": "825f050da7ac1e208ba29b1e1ce3a5e5bc4bb5ec813b99805261bbe6017736ba",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "fixtures/gate_delta_family.cc": "1076a14ec59b43fb2d48658eb6bf50cf10512dc727118ebc4cf57763748c316e",
+    "fixtures/gate_family.v": "fa5f92bbb4b5b323c6018c99c02fe03ae1efb249ca5aac6e263003c88ed8f52c"
+  }
+}
