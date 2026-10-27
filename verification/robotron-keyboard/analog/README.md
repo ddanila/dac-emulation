@@ -1218,7 +1218,22 @@ initialized flags. End-of-compilation observations check constructor state befor
 initial propagation; start-of-simulation callbacks are too late for that claim.
 Assign/deassign, partial writes, wide X/Z values and force/release preserve exact
 continuation while actual field faults restore without propagation. Visible forced
-output is checked separately from underlying storage. Unsupported-family refusal
-qualification, board bindings and capture budgets remain open. Build with
+output is checked separately from underlying storage. Operational board integration
+and combined capture/review budgets remain open. Build with
 `build_signal_runtime.py`, run `signal_probe.py` with candidate/baseline/module
 paths, or replay `signal_probe.py --check reports/signal-state`.
+
+The [signal-family controls](reports/signal-families/assessment.json) exercise
+active automatic storage, real/string variables and object storage through a
+dynamic integer array. Native class inventories verify the intended families;
+observation refuses without partial output, while disabled runs preserve
+continuation. This does not qualify support for those families. Reproduce with
+`signal_family_probe.py`, or replay its report using `--check`.
+
+The [signal board budget](reports/signal-board-budget/assessment.json) binds all
+static signal functors to allocated graph nodes and native classes before time
+advances, with a compiled width cross-check. It measures dense serialization,
+not operational state changes or combined cost. Budget or losslessly reduce this
+output before integration; later masks/links can grow. Reproduce using
+`signal_board.py --source REVIEWED_WAIT_BOARD --candidate SIGNAL_RUNTIME --out NEW_DIR`
+or replay `signal_board.py --check reports/signal-board-budget`.
