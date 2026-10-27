@@ -1,0 +1,151 @@
+{
+  "captureTimeoutSeconds": 3300,
+  "startupOnly": true,
+  "compiledThreadProfile": {
+    "compiledProfileAccepted": true,
+    "automaticScopes": false,
+    "eventControls": false,
+    "detachedThreads": false,
+    "waitFork": false,
+    "objectProducingInstructions": false
+  },
+  "threadContractSourceSha256": "5dd1acbfe9dd59f960f5bf5398ce07b45b634a71f38e52c072bec35947a4c2b0",
+  "qualified": false,
+  "completed": true,
+  "mode": "callback-list-link-corrupt",
+  "runtime": {
+    "executable": {
+      "path": "/private/tmp/k7658-selectable-retry-runtime",
+      "sha256": "58105ffa723ed272de4572d8f812af9c26beb9b551f1aec9b1913753fd221904"
+    },
+    "spinit": {
+      "path": "/private/tmp/k7658-startup-fixes-v1/spinit",
+      "sha256": "806519c1096a4b2868661ff9e282c82ad970afe9de6d0be94149786f8a232b04"
+    },
+    "codeModels": [
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm",
+        "sha256": "b18a4a0d9201e4428c116280a0d8f3ae7cb07654cda426238ba6be8301a79be3",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/spice2poly.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm",
+        "sha256": "990855338b77e3b2b1a438e8fee45fde0c1538db7f6bbc12a8048efdec87dc4c",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/analog.cm"
+      },
+      {
+        "path": "/private/tmp/k7658-startup-fixes-v1/digital.cm",
+        "sha256": "08198ba37c439da78d3cfbee957fa1f0dfc65a5b61c375d51151447ebc54d573",
+        "loadPath": "/private/tmp/k7658-startup-fixes-v1/digital.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm",
+        "sha256": "c37c62b35cc6139148398ecd4472aa620939aa6e7b048a5b248d235627591dbb",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtradev.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm",
+        "sha256": "b0b7fd736bff26a6980528a030c1a021e9fff1093db34d3d7000553f14a7cbfc",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/xtraevt.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm",
+        "sha256": "1c0eac1b58c5a1afc806fce2f6753df086a691ba71c293f8a357269e7ab2e7c0",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/table.cm"
+      },
+      {
+        "path": "/private/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm",
+        "sha256": "0c10f93cf41389cd8613e5ea4d0fd57bf776ef8aeca0770b0f9d87337c521746",
+        "loadPath": "/tmp/robotron-ngspice-switch/install/lib/ngspice/tlines.cm"
+      }
+    ]
+  },
+  "environment": {
+    "ROBOTRON_EVAL_CACHE": "off",
+    "ROBOTRON_DAC_ANCHORED": "1",
+    "ROBOTRON_DAC_BREAKPOINTS": "1",
+    "ROBOTRON_MPFR_BITS": "256",
+    "ROBOTRON_MPFR_TRANSITION_ONLY": "1",
+    "ROBOTRON_MPFR_START": "0",
+    "ROBOTRON_CAP_ASSEMBLY": "exact",
+    "ROBOTRON_POSTCAP_ASSEMBLY": "exact",
+    "ROBOTRON_ROLLBACK_AUDIT": "1",
+    "ROBOTRON_HISTORY_INIT": "on",
+    "ROBOTRON_STAGED_OUTPUT": "on",
+    "ROBOTRON_HISTORY_STATE": "off",
+    "ROBOTRON_PRIVATE_SYNC": "off",
+    "ROBOTRON_PRIVATE_DISPLAY": "callback-list-link-corrupt",
+    "ROBOTRON_DISPLAY_MODULE": "/private/tmp/k7658-memory-fault-runtime/vpi/system.vpi"
+  },
+  "runtimeEnvironment": {
+    "SPICE_SCRIPTS": "/private/tmp/k7658-startup-fixes-v1"
+  },
+  "externalDependencies": [
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi",
+      "sha256": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi",
+      "sha256": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi",
+      "sha256": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi",
+      "sha256": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5"
+    },
+    {
+      "path": "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi",
+      "sha256": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e"
+    },
+    {
+      "path": "/private/tmp/k7658-memory-fault-bridge/ivlng.so",
+      "sha256": "8fad06631f642dfc23cb41e66f963a436c8812a5e4b574ce480ac3496f278e4a"
+    },
+    {
+      "path": "/private/tmp/k7658-memory-fault-bridge/ivlng.vpi",
+      "sha256": "165e5a966214240a3da02fc2a45e9b5c4c1c463c6eb463a8bc32df042df13dba"
+    },
+    {
+      "path": "/private/tmp/k7658-memory-fault-runtime/vpi/system.vpi",
+      "sha256": "f34af4b6b8f57d682f14420bafa78161d2dc221aeed96a51e7bbffee03235e60"
+    },
+    {
+      "path": "/private/tmp/k7658-memory-fault-runtime/vvp/libvvp.so",
+      "sha256": "4d8fed407b1d2b87bdcd34a8d01cd79d657fb0db0ae005fac92c41a828ceff36"
+    }
+  ],
+  "inputs": {
+    "io.cir": "8e1fe5cbbc0c29cd85d4601cfaf4e8b70ff4a7f05faf0ef5ac9013621760927d",
+    "io.vvp": "bfc9a594148453ed25ee22d7298678aa9fc7506542a7cfa6b5b7dbc769c3b8dc",
+    "s600.hex": "11de663d84c848533ece1432b541c3a1ca3a95da47098e7aef79daeb9bc28966"
+  },
+  "baselineReceiptSha256": "54aa820f4b850ed285af71a70c0180edf7250fd795a18ca1f14192e73dd781ca",
+  "baselineAssessmentSha256": "2234e0b8d1f785b1b56f4c58022cfc6708a5441077969e8b76d522a74778f1b6",
+  "bridgeBuildSha256": "3ce69cc7800668388787752240a3b871168b259fde1e1e5ec83574018d97462c",
+  "icarusBuildSha256": "47803a63459a1ab1e72879727682af439f1fb7db56c47b93708268f5ccd37303",
+  "producerSha256": "f6d6569726016c4d9174432d7ea44f571400e921c35854fef816248ce8f9e001",
+  "symbolReceiptSha256": "1345165ade7d67a51bb6754c3dac8906cb0a9c0bd8674a9d012ffc9ed3cbd07b",
+  "endSeconds": 2e-05,
+  "expectedExitCode": 2,
+  "storage": {
+    "waveform.raw": {
+      "sha256": "6c7fbbc0570e8dda8c55375211c5abe523b880e80885f941438e1b0df10a2379",
+      "bytes": 1457
+    }
+  },
+  "log": {
+    "bytes": 2785776,
+    "compressedBytes": 200248,
+    "sha256": "394e1699ed472a8160ebd51f8639c12bec53458a4a686a488da97654d0494dd0",
+    "exitCode": 2,
+    "elapsedSeconds": 0.5106847909999999,
+    "logicalLimitBytes": 4294967296,
+    "compressedLimitBytes": 268435456
+  },
+  "exitCode": 2,
+  "elapsedSeconds": 0.5186445840000002
+}
