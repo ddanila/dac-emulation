@@ -988,3 +988,8 @@ this contract and reject new instruction families or unexpected referents.
 Reproduce the retained audit with `board_thread_contract.py --root <retained-thread-board>
 --out <fresh-assessment>`. This scopes out absent thread referents; it does not
 cover mutable scope membership, net/array contents or other compiled profiles.
+
+The [scope source contract](reports/scope-source-contract/assessment.json) defines
+independent scope-membership observation: reaped threads may remain live after
+leaving their scope set. Native membership controls remain required. Regenerate
+with `scope_source_contract.py --archive PINNED_ARCHIVE --vvp COMPILED_BOARD --out REPORT`.
