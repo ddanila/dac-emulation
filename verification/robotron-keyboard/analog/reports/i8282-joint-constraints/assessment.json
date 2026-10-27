@@ -1,0 +1,311 @@
+{
+  "completed": true,
+  "qualified": false,
+  "deviceAdmitted": false,
+  "scope": "Intersection for the retained constant-resistance hypotheses at the three tested supplies, both edge polarities and all retained release leakage cases. No interpolation to untested capacitances or temperatures.",
+  "delayConvention": "Nonnegative constant pure transport delay before an instantaneous drive transition or disconnect. Upper endpoints are analytic pin-limit remainders, not measured internal delays. Finite internal slew requires a new joint test.",
+  "notEstablished": [
+    "Intel enable measurement convention and enable dynamics",
+    "Nonlinear I/V, temperature behavior and internal slew",
+    "CPU/ROM alternatives, operational bus integration and specimen applicability"
+  ],
+  "sourceReports": {
+    "i8282-enabled-candidates": "390c80349e7a33206cdca2defdca7b54b8161267da54b8ca98adeb74caf16ecc",
+    "i8282-capacitance-candidates": "1aabcba6a01a63b42b24b4a7d5c854f0ba03006df63777508cea136c580c91b3",
+    "i8282-propagation-candidates": "c13639225286e59f984dcb1738bc2d5afa2e79a06e5d28f7556ac6d9dbe89bb8",
+    "i8282-release-candidates": "25d954d70f4a0260aa029a587fc6765213d7b45fcb8aa5ecd4cbee6d83baf757"
+  },
+  "sources": {
+    "bus_cosim.py": "d5d8eba9ab45ee0753c013c66f1f56882077d30c48074c113f3d4f99773baa23",
+    "bus_device_contract.json": "2ec7297942027de6507fe06b7ee0ee28380affd73d7aa15af47f6c73fa3d6c03",
+    "bus_endpoint_candidates.py": "6437f6e81fcb100065df54ac21f1f7a87c13fb68482567c85410dbd27e3e5fb0",
+    "bus_limits.json": "29df94667fea95595840fd457e0ed1b957534f077ad75a2a0ddff1beea65a5ab",
+    "bus_switching_limits.json": "669da702f6aed3654862bc8730eea51c267d30d5921ea3316f43b85145510ec3",
+    "bus_switching_probe.py": "d122f1e6f8bb4d8f44660f835c9a980eb394698ef23c911c0caca31cbcee2f23",
+    "failure_evidence.py": "d138491e9c32d452d6fbd498c06f131b4c23c53c84b6d6bc0b78c47e42d8cef8",
+    "i8282_capacitance_probe.py": "dbba9facc8947247892c062de94a7ba52885049a6e66853734370d9388dd562c",
+    "i8282_delay_contract.json": "736d83d7b61f4b132c2862a537912666f7939a3da2bda6825f465c3ead5a9894",
+    "i8282_enable_comparison.json": "901433a54206c8d8b735e46bb781de19278e512b0198fdd71e377036345cb7ad",
+    "i8282_enabled_candidates.py": "1219d0f07705e1241b5349c494121f3a20e05dcd03915a561ca90c155070913d",
+    "i8282_joint_constraints.py": "292342ffe0e67433140d94a9a9966d71029337b88516cc49c3db19f3713a0823",
+    "i8282_propagation_probe.py": "daa839bc150f17b411d46a62afcc962442cafeb9cb5d73bc29e4864f5eda9a08",
+    "i8282_release_contract.json": "23d7f77f855e34f05f69c8c340345f762e2ac0e549e65f167191f37456c81001",
+    "i8282_release_probe.py": "928aa42e3ce82863c5d81eca776bd78d893b7a7df96a8467b1eaca00f37ef380",
+    "i8282_timing.v": "be5f2923e2b3bcc95fcc0e63b7aefd438585a5cfd6e54601a87b243106363bf4",
+    "ttl7406_probe.py": "8726f6dc39c717b65abccc85792859aad3d8537dc02ac7eb85d2bd72d3e8021b"
+  },
+  "alternatives": [
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 0.0,
+      "edgeConstraintsPassed": true,
+      "failedCapacitanceCaseIndices": [],
+      "internalDelayIntervals": {
+        "data": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.722036931430331e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 0
+        },
+        "strobe": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 4.722036931430331e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 0
+        },
+        "disconnect": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.184395973719663e-08,
+          "report": "i8282-release-candidates",
+          "caseIndex": 0
+        }
+      },
+      "delayBudgetsBeforeEdgeRejection": {
+        "data": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.722036931430331e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 0
+        },
+        "strobe": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 4.722036931430331e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 0
+        },
+        "disconnect": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.184395973719663e-08,
+          "report": "i8282-release-candidates",
+          "caseIndex": 0
+        }
+      },
+      "caseCounts": {
+        "capacitance": 6,
+        "propagation": 6,
+        "release": 18
+      }
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 12.0,
+      "edgeConstraintsPassed": true,
+      "failedCapacitanceCaseIndices": [],
+      "internalDelayIntervals": {
+        "data": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.6909184086875443e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 1
+        },
+        "strobe": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 4.6909184086875444e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 1
+        },
+        "disconnect": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.1717718126684497e-08,
+          "report": "i8282-release-candidates",
+          "caseIndex": 6
+        }
+      },
+      "delayBudgetsBeforeEdgeRejection": {
+        "data": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.6909184086875443e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 1
+        },
+        "strobe": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 4.6909184086875444e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 1
+        },
+        "disconnect": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.1717718126684497e-08,
+          "report": "i8282-release-candidates",
+          "caseIndex": 6
+        }
+      },
+      "caseCounts": {
+        "capacitance": 6,
+        "propagation": 6,
+        "release": 18
+      }
+    },
+    {
+      "highOhms": 125.0,
+      "extraCapacitancePf": 30.0,
+      "edgeConstraintsPassed": true,
+      "failedCapacitanceCaseIndices": [],
+      "internalDelayIntervals": {
+        "data": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.644240624573364e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 2
+        },
+        "strobe": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 4.6442406245733645e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 2
+        },
+        "disconnect": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.1528355710916294e-08,
+          "report": "i8282-release-candidates",
+          "caseIndex": 12
+        }
+      },
+      "delayBudgetsBeforeEdgeRejection": {
+        "data": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.644240624573364e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 2
+        },
+        "strobe": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 4.6442406245733645e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 2
+        },
+        "disconnect": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.1528355710916294e-08,
+          "report": "i8282-release-candidates",
+          "caseIndex": 12
+        }
+      },
+      "caseCounts": {
+        "capacitance": 6,
+        "propagation": 6,
+        "release": 18
+      }
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 0.0,
+      "edgeConstraintsPassed": true,
+      "failedCapacitanceCaseIndices": [],
+      "internalDelayIntervals": {
+        "data": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.306436730062423e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 18
+        },
+        "strobe": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 4.306436730062423e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 18
+        },
+        "disconnect": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.0485392747400767e-08,
+          "report": "i8282-release-candidates",
+          "caseIndex": 54
+        }
+      },
+      "delayBudgetsBeforeEdgeRejection": {
+        "data": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.306436730062423e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 18
+        },
+        "strobe": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 4.306436730062423e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 18
+        },
+        "disconnect": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.0485392747400767e-08,
+          "report": "i8282-release-candidates",
+          "caseIndex": 54
+        }
+      },
+      "caseCounts": {
+        "capacitance": 6,
+        "propagation": 6,
+        "release": 18
+      }
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 12.0,
+      "edgeConstraintsPassed": false,
+      "failedCapacitanceCaseIndices": [
+        19
+      ],
+      "internalDelayIntervals": null,
+      "delayBudgetsBeforeEdgeRejection": {
+        "data": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.25869419926492e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 19
+        },
+        "strobe": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 4.25869419926492e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 19
+        },
+        "disconnect": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.0304808457296797e-08,
+          "report": "i8282-release-candidates",
+          "caseIndex": 60
+        }
+      },
+      "caseCounts": {
+        "capacitance": 6,
+        "propagation": 6,
+        "release": 18
+      }
+    },
+    {
+      "highOhms": 250.0,
+      "extraCapacitancePf": 30.0,
+      "edgeConstraintsPassed": false,
+      "failedCapacitanceCaseIndices": [
+        20
+      ],
+      "internalDelayIntervals": null,
+      "delayBudgetsBeforeEdgeRejection": {
+        "data": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.1870804030686655e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 20
+        },
+        "strobe": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 4.1870804030686656e-08,
+          "report": "i8282-propagation-candidates",
+          "caseIndex": 20
+        },
+        "disconnect": {
+          "minimumSeconds": 0.0,
+          "maximumSeconds": 2.0033932022140843e-08,
+          "report": "i8282-release-candidates",
+          "caseIndex": 66
+        }
+      },
+      "caseCounts": {
+        "capacitance": 6,
+        "propagation": 6,
+        "release": 18
+      }
+    }
+  ]
+}
