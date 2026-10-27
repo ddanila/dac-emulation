@@ -1,0 +1,31 @@
+{
+  "qualified": false,
+  "command": [
+    "cc",
+    "-fPIC",
+    "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/include",
+    "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog",
+    "-I/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog",
+    "-dynamiclib",
+    "-undefined",
+    "dynamic_lookup",
+    "/private/tmp/k7658-absolute-tick-vpi/vpi.c",
+    "-o",
+    "/private/tmp/k7658-absolute-tick-vpi/ivlng.vpi"
+  ],
+  "sources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_absolute_tick_vpi.py": "17735e3e8029519a1988071816e1a40f7933849d1bea53b1dc8be898dde47c23",
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/fixtures/absolute_ticks.h": "f5379613285b1589160d1b802a6ac4ed114adb7a7911a2bd332115812e2875ab",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/rollback-time-bridge-postreset/vpi.c": "54419fef0ac32cba3dc8e13790baabcede9e2bc9c26f55424d7ff8686f08215e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog/vpi_user.h": "109e905f31b6b25dcd3ad784784177baf1bab342a3c1634a82a20abf00516256",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.h": "cb3a43a781157f1477b9ba4ed5ca6669c60b76e3f1c6d9674153f703b6395912",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/coroutine_cosim.h": "78de72acfb12c09155f46b53821d8ecab2b596423ce93c995384dd971550716e",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cmtypes.h": "268ca5c099d9d2e19bef436abc81261195c4ac5e237a5489786331de8d22b371",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cosim.h": "1fdf5e534cdc4a6f77b5d8177152107722f192a2b9e3e7a7fa007d093e13a425"
+  },
+  "outputs": {
+    "vpi.c": "604b429aeba23e4ab8158df4c4fb468a8351c1ac998df712fba82db7c7c7c268",
+    "ivlng.vpi": "f66a6588a0dc9e70d2c5a2472a1e056a5e1abb1d61a880e9a540c9cf5f65873c"
+  },
+  "scope": "Default-off exact absolute binary64 target/tick quotient. Does not change input thresholds, tick length, input application order or backward-time handling. Board rollback and numerical controls required."
+}

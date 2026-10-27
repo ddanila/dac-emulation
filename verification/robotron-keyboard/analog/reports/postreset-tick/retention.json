@@ -1,0 +1,93 @@
+{
+  "qualified": false,
+  "scope": "Assessment, inputs, producer receipts and all selected firmware records retained. Full logs and waveforms remain local for full numerical replay; hashes and peak excerpts do not replace replay.",
+  "captures": {
+    "off": {
+      "directory": "build/keyboard-controller-analog/postreset-tick-off-25",
+      "outputs": {
+        "ngspice.log.xz": {
+          "bytes": 38684468,
+          "sha256": "f3985123d928c1e721a3489fb5f84ed6942a34f31156280efd4a317fff149203"
+        },
+        "waveform.raw.xz": {
+          "bytes": 204269416,
+          "sha256": "24d929bb9008413b05f13dc36da67552300ede266fc3ad51ea27a4f3a6baf30d"
+        }
+      }
+    },
+    "coarse": {
+      "directory": "build/keyboard-controller-analog/postreset-tick-on-25",
+      "outputs": {
+        "ngspice.log.xz": {
+          "bytes": 38680052,
+          "sha256": "43a5c62c6037dc4b18e072c9af6fc94e1676c7c444632092e086566170d51616"
+        },
+        "waveform.raw.xz": {
+          "bytes": 204372508,
+          "sha256": "fc64315488a5973f10641f0d21bb74d716820b4c869244091027f58943d7e02d"
+        }
+      }
+    },
+    "fine": {
+      "directory": "build/keyboard-controller-analog/postreset-tick-on-12.5",
+      "outputs": {
+        "ngspice.log.xz": {
+          "bytes": 39645784,
+          "sha256": "91c6dae0fe0149c72aef083af80c2a960b2e0e2be8f47e77daa539c344010075"
+        },
+        "waveform.raw.xz": {
+          "bytes": 208051832,
+          "sha256": "d156f2fc44937080b04913ee5749e82e252abd4c45bdb563199bc7c8609fe210"
+        }
+      }
+    },
+    "finest": {
+      "directory": "build/keyboard-controller-analog/postreset-tick-on-6.25",
+      "outputs": {
+        "ngspice.log.xz": {
+          "bytes": 41634980,
+          "sha256": "3ef84d5f643b5465b9c0811777d2232a18e9c57b175285458b2557f6bd7c8d7e"
+        },
+        "waveform.raw.xz": {
+          "bytes": 216122064,
+          "sha256": "9f3f5adbaa469041764fe1bc392b6f15512f9a10a099cc03c2f8c9c38fe38472"
+        }
+      }
+    },
+    "retry": {
+      "directory": "build/keyboard-controller-analog/postreset-tick-retry-25",
+      "outputs": {
+        "ngspice.log.xz": {
+          "bytes": 38685664,
+          "sha256": "f484e93a4c2b7d938838905b9b2b7b2ef77f9980c179db4f89d542c344e151d1"
+        },
+        "waveform.raw.xz": {
+          "bytes": 204344848,
+          "sha256": "1ee4456e4379b1b352b900dbc0dd67fede6673e484af8d3af7cb42bf08b6af3d"
+        }
+      }
+    }
+  },
+  "baseline": {
+    "directory": "build/keyboard-controller-analog/postreset-adc-on-25",
+    "receiptSha256": "1a443c1e442ee1b95ab1eac5a8eb4b41350b1a5ec6455ff9e5f67c7a0fa919a9"
+  },
+  "reviewCommand": [
+    "python3",
+    "verification/robotron-keyboard/analog/postreset_tick_review.py",
+    "--source",
+    "build/keyboard-controller-analog/postreset-adc-on-25",
+    "--off",
+    "build/keyboard-controller-analog/postreset-tick-off-25",
+    "--coarse",
+    "build/keyboard-controller-analog/postreset-tick-on-25",
+    "--fine",
+    "build/keyboard-controller-analog/postreset-tick-on-12.5",
+    "--finest",
+    "build/keyboard-controller-analog/postreset-tick-on-6.25",
+    "--retry",
+    "build/keyboard-controller-analog/postreset-tick-retry-25",
+    "--out",
+    "build/keyboard-controller-analog/postreset-tick-assessment.json"
+  ]
+}

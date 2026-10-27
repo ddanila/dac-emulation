@@ -769,6 +769,18 @@ Passing refinement alone does not accept changed baseline behavior or establish
 private-HDL rollback. These are post-reset captures, not the deferred full-repeat
 campaign.
 
+The [full exact-tick review](reports/postreset-tick/assessment.json) passes the
+disabled control but still fails non-growing voltage differences. Its
+[firmware comparison](reports/postreset-tick/firmware-comparison.json) separates
+changed baseline edge times from preserved payloads and refinement/retry records.
+[Peak excerpts](reports/postreset-tick/peak-localization/assessment.json) and
+[output events](reports/postreset-tick/event-localization/assessment.json) point to
+fractional output-time shifts consistent with the VPI entry-time clamp. This is
+a hypothesis to test, not permission to remove the no-time-reversal constraint.
+Re-extract with `postreset_tick_peaks.py` or `postreset_tick_events.py` using
+`--assessment REPORT --coarse ON_25 --fine ON_12_5 --finest ON_6_25 --out FRESH`;
+both support `--check` on their retained excerpt directories. Full replay still
+requires the local waveforms/logs listed in `reports/postreset-tick/retention.json`.
 
 `build_value_callback_runtime.py` accepts the pinned archive/build arguments above.
 Run `value_callback_probe.py --candidate BUILD --baseline ORIGINAL_LIBVVP --modules
