@@ -1,0 +1,27 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "normalTrajectoryExactlyEqual": true,
+  "outputMatchesIndependentOracle": true,
+  "restoredFaults": 145,
+  "faultsByField": {
+    "0": 60,
+    "1": 85
+  },
+  "observationsPerRun": 13,
+  "allocationGrowth": [
+    1,
+    7
+  ],
+  "scope": "Six objects allocated after a one-object reference: AND/OR/XOR/NAND/NOR/XNOR reduction operands. Empty constructor storage, partial-first initialization, full/partial updates, repeated input, resizing and empty-to-partial reuse are checked with restored native bit/vector faults and independent output agreement.",
+  "notEstablished": [
+    "Deletion and freed-storage equivalence",
+    "Board binding, budget and integration",
+    "General rollback and freed-storage equivalence"
+  ],
+  "denseAndDeltaExactlyEqual": true,
+  "matchedSnapshots": 342,
+  "denseBytes": 222594,
+  "deltaBytes": 440446,
+  "referenceBytes": 250
+}
