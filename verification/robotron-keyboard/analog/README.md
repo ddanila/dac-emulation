@@ -1286,7 +1286,23 @@ candidate/baseline/module paths. Replay with `--check reports/mux-state` and
 The [mux board budget](reports/mux-board-budget/assessment.json) binds every native
 MUXZ to its allocated graph node and checks compiled width totals. Initial-state
 scans include scheduler-wrapper lookup; their size and timing projections exclude
-later queue/cache growth and other observers. Use lossless differences before
+later queue/cache growth and other observers. Use the lossless differences below for
 combined integration, preserving full native scans and wrapper identities.
 Reproduce with `mux_board.py --source REVIEWED_BOARD --candidate MUX_RUNTIME --out NEW_REPORT`;
 replay with `mux_board.py --check reports/mux-board-budget`.
+
+The [mux difference controls](reports/mux-delta/assessment.json) and
+[direct partial controls](reports/mux-partial-delta/assessment.json) reconstruct
+complete native snapshots from immutable per-mux references and byte splices.
+Every frame includes complete queued/executing wrapper records; removed wrappers
+are not inherited. Native scans still visit every cache and queue. Missing or
+reset references are refused; new mux records require full data, and disappearing
+reference muxes are refused. Decoder tests cover newly introduced identities;
+operational allocation growth still needs native board validation.
+The [initial-state budget](reports/mux-delta-budget/assessment.json) measures
+full-scan encoding and exact graph/class-bound reconstruction. Changed fixture
+states can encode larger than dense snapshots, so unchanged-state savings are
+not an operational bound. Measure actual combined cost before raising log caps.
+Build with `build_mux_delta_runtime.py`, run `mux_delta_probe.py` both with and
+without `--partial`, and run `mux_delta_board.py` with a reviewed board source.
+Replay each report with its producer's `--check` option.
