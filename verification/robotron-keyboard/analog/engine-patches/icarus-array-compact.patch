@@ -1,0 +1,72 @@
+--- a/vvp/array.cc
++++ b/vvp/array.cc
+@@ -1788,7 +1788,7 @@
+         if(!port)return 0;auto found=robotron_array_ports().find(port);
+         return found==robotron_array_ports().end()?0:found->second;
+     }
+-    static int inventory(FILE* out) {
++    static int inventory(FILE* out, bool compact=false) {
+         std::vector<__vpiArray*> arrays;if(!out || !collect(arrays))return -1;
+         std::map<__vpiArray*,unsigned long long> ids;
+         for(size_t i=0;i<arrays.size();++i)ids[arrays[i]]=i+1;
+@@ -1799,29 +1799,47 @@
+                (port->next_ && !port_id(port->next_)))return -1;
+             ports[item.second]=port;
+         }
+-        if(fprintf(out,"VAR_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
++        if(fprintf(out,compact?"VAC_BEGIN 1 %llu\n":"VAR_BEGIN 1 %llu\n",(unsigned long long)schedule_simtime())<0)return -1;
+         for(auto arr:arrays){
+             if(arr->ports_ && !port_id(arr->ports_))return -1;
+             if(fprintf(out,"VAR_ARRAY %llu %p %p %p %d %d %d %d %u %u %u %u %llu %p\n",
+                 ids[arr],(void*)arr,(void*)arr->get_scope(),(void*)arr->vals4,
+                 arr->first_addr.get_value(),arr->last_addr.get_value(),arr->msb.get_value(),arr->lsb.get_value(),
+                 arr->get_size(),arr->vals_width,(unsigned)arr->signed_flag,(unsigned)arr->swap_addr,port_id(arr->ports_),(void*)arr->vals_words)<0)return -1;
++            if(compact && fprintf(out,"VAC_WORDS ")<0)return -1;
+             for(unsigned index=0;index<arr->get_size();++index){
+                 auto value=arr->vals4->get_word(index);
+-                if(value.size()!=arr->vals_width || fprintf(out,"VAR_WORD %u ",index)<0)return -1;
+-                for(unsigned bit=0;bit<value.size();++bit)if(fputc('0'+(unsigned)value.value(bit),out)==EOF)return -1;
+-                if(fputc('\n',out)==EOF)return -1;
++                if(value.size()!=arr->vals_width)return -1;
++                if(compact){
++                    for(unsigned bit=0;bit<value.size();bit+=2){
++                        unsigned pair=(unsigned)value.value(bit);
++                        if(bit+1<value.size())pair|=(unsigned)value.value(bit+1)<<2;
++                        if(fputc("0123456789abcdef"[pair],out)==EOF)return -1;
++                    }
++                }else{
++                    if(fprintf(out,"VAR_WORD %u ",index)<0)return -1;
++                    for(unsigned bit=0;bit<value.size();++bit)if(fputc('0'+(unsigned)value.value(bit),out)==EOF)return -1;
++                    if(fputc('\n',out)==EOF)return -1;
++                }
+             }
++            if(compact && fputc('\n',out)==EOF)return -1;
+             if(arr->vals_words){
+                 if(fprintf(out,"VAR_CACHE %p\n",(void*)arr->vals_words[-1].parent)<0)return -1;
+-                for(unsigned index=0;index<arr->get_size();++index)
+-                    if(fprintf(out,"VAR_CACHE_WORD %u %p\n",index,(void*)arr->vals_words[index].word0)<0)return -1;
++                for(unsigned index=0;index<arr->get_size();){
++                    auto word0=arr->vals_words[index].word0;
++                    unsigned end=index+1;
++                    if(compact){
++                        while(end<arr->get_size() && arr->vals_words[end].word0==word0)++end;
++                        if(fprintf(out,"VAC_CACHE_RUN %u %p\n",end-index,(void*)word0)<0)return -1;
++                    }else if(fprintf(out,"VAR_CACHE_WORD %u %p\n",index,(void*)word0)<0)return -1;
++                    index=end;
++                }
+             }
+         }
+         for(auto item:ports){auto port=item.second;
+             if(fprintf(out,"VAR_PORT %llu %p %llu %p %lu %llu\n",item.first,(void*)port,ids[port->arr_],(void*)port->net_,port->addr_,port_id(port->next_))<0)return -1;
+         }
+-        return fprintf(out,"VAR_END %zu %zu\n",arrays.size(),ports.size())<0 || ferror(out)?-1:0;
++        return fprintf(out,compact?"VAC_END %zu %zu\n":"VAR_END %zu %zu\n",arrays.size(),ports.size())<0 || ferror(out)?-1:0;
+     }
+     static int toggle(int field) {
+         static __vpiArray* array=0;static vvp_fun_arrayport* port=0;static unsigned long long port_identity=0;
+@@ -1860,3 +1878,5 @@
+ };
+ extern "C" int robotron_vvp_array_inventory(FILE* out){return robotron_array_access::inventory(out);}
+ extern "C" int robotron_vvp_array_toggle(int field){return robotron_array_access::toggle(field);}
++
++extern "C" int robotron_vvp_array_compact_inventory(FILE* out){return robotron_array_access::inventory(out,true);}

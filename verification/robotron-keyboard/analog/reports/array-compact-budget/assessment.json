@@ -1,0 +1,36 @@
+{
+  "qualified": false,
+  "compiledBoardArrayImageComplete": true,
+  "observationExactlyRepeatable": true,
+  "arrays": 3,
+  "readPorts": 23,
+  "logicalBits": 16512,
+  "timings": {
+    "iterations": 64,
+    "totalSeconds": 0.013334,
+    "meanSeconds": 0.00020834375,
+    "minSeconds": 0.000206999,
+    "maxSeconds": 0.000216
+  },
+  "peakResidentBytes": 7766016,
+  "logicalImageBytes": 9506,
+  "projection": {
+    "boundaries": 55156,
+    "normalSnapshotCalls": 110312,
+    "uncachedImageLogBytes": 1049398056,
+    "meanScanSeconds": 22.98281575,
+    "maxSampleScanSeconds": 23.827392,
+    "excludesLaterWordHandleAllocation": true,
+    "excludesOtherObserversAndCompression": true,
+    "denseUncachedImageLogBytes": 5244011856
+  },
+  "scope": "Complete compiled board at pre-execution: compact snapshots exactly reconstruct full images. Timings measure compact scans; later cache growth and combined operational cost remain open.",
+  "notEstablished": [
+    "Loaded ROM/register and read-address behavior at operational boundaries",
+    "Combined campaign runtime, compression and review cost",
+    "Later word-handle cache growth; projection is not a capture cap",
+    "General rollback or destination net/fanout contents"
+  ],
+  "denseLogicalImageBytes": 47531,
+  "denseAndCompactExactlyEqual": true
+}

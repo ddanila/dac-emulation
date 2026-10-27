@@ -175,6 +175,9 @@ jobs:
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_compiled_scope_profile.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_array_probe.py
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_array_budget.py
+          python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_array_compact.py
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-compact
+          python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-compact-budget
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-budget
           python3 verification/robotron-keyboard/analog/retained_evidence.py verification/robotron-keyboard/analog/reports/array-state
           python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_code_operand_probe.py
