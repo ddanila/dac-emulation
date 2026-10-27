@@ -1,0 +1,100 @@
+{
+  "qualified": false,
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/island-raw-competing/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/island-raw-competing/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-island-raw-runtime",
+      "-I/private/tmp/k7658-island-raw-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/island-raw-competing/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/island-raw-competing/probe.cc"
+    ]
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-island-raw-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-island-raw-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-island-raw-runtime/vvp/libvvp.so",
+      "mode": "off"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-island-raw-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-island-raw-runtime/vvp/libvvp.so",
+      "mode": "on"
+    },
+    "corrupt": {
+      "command": [
+        "/private/tmp/k7658-island-raw-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "exitCode": 0,
+      "library": "/private/tmp/k7658-island-raw-runtime/vvp/libvvp.so",
+      "mode": "corrupt"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-island-raw-runtime/vvp/libvvp.so": "6d66947820f8728da263f27e79131eaf599ee4681f8c061c854ada1754273298",
+    "/private/tmp/k7658-island-raw-runtime/vvp/vvp": "5744fca405dbbd42c3c442bb9c792aab9eb554d766761aa2200247363473e8f1",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/island-raw-competing/probe.vpi": "59b201bc08d7f7601c19d04acee1db5f53196aaad71b25d8b2cd540bba930c2f",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/island-raw-competing/island_fixture.h": "d6d51d43dc242a30cef010f14299bd14c15e9f903918f9eb486b5d597454c90d",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  },
+  "candidateBuildSha256": "273d15b2db43fdc6994a78eed12f1464deed2dca698f8a7b78c591c5643b9015",
+  "sources": {
+    "island_raw_competing.py": "d7e61531da10dca13c14a98e2bdadbd6f19677710e868d77e42674befefcd010",
+    "resolver_strength_oracle.py": "1e914501eb38023763e23cb0e91e80b6e59bdcc28c4fe1caa469b5a2fc47ea71",
+    "strength_switch_probe.py": "653a1590e82cf45653429e428ee4373d41119f5a5e748fee0708912c7db6b291",
+    "island_raw_probe.py": "749f2fbb8012b8d7b785364d4e12c44bdae2c11479523366e028266b35e42aeb",
+    "island_probe.py": "677891af4ee20e64bcca43f418c1b0f1b716aacf2db40667c3aa0e6766928d14",
+    "wire_raw_probe.py": "0d14b507c4d5e71c6bd5e2cffd3b24b4ab1daa69f3b0a427dfd254c69a66a62b",
+    "net_probe.py": "bb5a5b8705df4292328818f5c0a669f833fd1755f3ee18297b59eb97f934802c",
+    "fixtures/island_raw_competing.cc": "bea44c2dc9a9902641957d66f87500d8ef15b2803c723f78bad15d1d800b10fd",
+    "fixtures/island_raw_competing.v": "2249f03d767b89d8a042ca384ed4cf13b49b8503fbdaef9179514fc6c24a0728"
+  }
+}
