@@ -90,3 +90,12 @@ accesses, rather than add arbitrary per-cell state or time parameters:
 These signals are absent from the present observations. The notes describe
 measurement objectives, not verified clip locations or a rewiring instruction.
 Hardware remains off. No complete reproduction or physical diagnosis is claimed.
+
+The earlier October22 four-address-line capture was subsequently located and
+archived in the inventory's
+[unattributed evidence](https://github.com/ddanila/vintage-computer-inventory/tree/main/evidence/unattributed-pc1715/20261022-address-low).
+It has1159 complete M1 intervals, but lacks simultaneous data and strobes,
+has no verified reset-start anchor, and cannot be reliably assigned to the
+current MB001 board/ROM/CPU configuration. It is excluded from this model's
+comparison fixture. Checking the historical archive did not close the evidence
+gap; further model discrimination needs a new measurement under the known setup.
