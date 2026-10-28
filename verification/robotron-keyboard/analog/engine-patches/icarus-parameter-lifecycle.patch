@@ -1,0 +1,88 @@
+--- a/vvp/vpi_const.cc
++++ b/vvp/vpi_const.cc
+@@ -31,6 +31,7 @@
+ # include  "ivl_alloc.h"
+ 
+ static void robotron_parameter_register(vpiHandle);
++static void robotron_parameter_unregister(vpiHandle);
+ static unsigned robotron_parameter_unsupported=0;
+ // Diagnostic factory selection; normal construction remains the exact native class.
+ static bool robotron_parameter_subclass(const char*kind){
+@@ -313,6 +314,7 @@
+ 
+ __vpiStringParam::~__vpiStringParam()
+ {
++      robotron_parameter_unregister(this);
+       delete[]basename_;
+ }
+ 
+@@ -523,6 +525,7 @@
+ 
+ __vpiBinaryParam::~__vpiBinaryParam()
+ {
++      robotron_parameter_unregister(this);
+       delete[]basename_;
+ }
+ 
+@@ -763,6 +766,7 @@
+ 
+ __vpiRealParam::~__vpiRealParam()
+ {
++      robotron_parameter_unregister(this);
+       delete[]basename_;
+ }
+ 
+@@ -1090,6 +1094,13 @@
+     }
+ };
+ static void robotron_parameter_register(vpiHandle p){robotron_parameter_access::attach(p);}
++extern "C" void robotron_vvp_memory_forget(vpiHandle);
++static void robotron_parameter_unregister(vpiHandle p){
++    robotron_parameters().erase(p);
++    // Existing scope-registration invalidation is independent of object type.
++    robotron_vvp_memory_forget(p);
++}
++
+ extern "C" int robotron_vvp_parameter_inventory(FILE*out){return robotron_parameter_access::inventory(out);}
+ 
+ extern "C" int robotron_vvp_parameter_toggle(unsigned field){return robotron_parameter_access::toggle(field);}
+@@ -1127,3 +1138,39 @@
+     else{const char*encoded="G\\000R";char*value=new char[strlen(encoded)+1];strcpy(value,encoded);parameter=new robotron_string_param_extra(scope,value,name,false,0,0);}
+     robotron_parameter_register(parameter);vpip_attach_to_scope(scope,parameter);return 1;
+ }
++
++#include <new>
++extern "C" int robotron_vvp_parameter_lifecycle(unsigned operation,unsigned kind)
++{
++    static void*storage=0;static vpiHandle live=0,stale=0;static __vpiScope*scope=0;
++    static unsigned live_kind=0,serial=0;
++    if(kind>2)return -1;
++    if(operation==0){
++        if(live||stale)return -1;
++        std::map<const void*,std::pair<unsigned long long,const void*>> owners;
++        if(robotron_vvp_parameter_owners(&owners)||owners.empty())return -1;
++        scope=static_cast<__vpiScope*>(const_cast<void*>(owners.begin()->second.second));
++        if(!storage){size_t n=sizeof(__vpiBinaryParam);if(n<sizeof(__vpiRealParam))n=sizeof(__vpiRealParam);if(n<sizeof(__vpiStringParam))n=sizeof(__vpiStringParam);storage=::operator new(n);}
++        char buffer[80];snprintf(buffer,sizeof(buffer),"__parameter_lifecycle_%u_%u",kind,++serial);
++        char*name=new char[strlen(buffer)+1];strcpy(name,buffer);
++        if(kind==0){vvp_vector4_t value(80,BIT4_X);value.set_bit(0,BIT4_1);live=new(storage)__vpiBinaryParam(scope,value,false,name,false,0,0);}
++        else if(kind==1)live=new(storage)__vpiRealParam(scope,2.5,name,false,0,0);
++        else{const char*encoded="G\\000R";char*value=new char[strlen(encoded)+1];strcpy(value,encoded);live=new(storage)__vpiStringParam(scope,value,name,false,0,0);}
++        robotron_parameter_register(live);vpip_attach_to_scope(scope,live);live_kind=kind;return 1;
++    }
++    if(operation==1){
++        if(!live||stale||kind!=live_kind)return -1;
++        stale=live;
++        if(kind==0)static_cast<__vpiBinaryParam*>(live)->~__vpiBinaryParam();
++        else if(kind==1)static_cast<__vpiRealParam*>(live)->~__vpiRealParam();
++        else static_cast<__vpiStringParam*>(live)->~__vpiStringParam();
++        live=0;return 1;
++    }
++    if(operation==2){
++        if(live||!stale||kind!=live_kind)return -1;
++        auto found=std::find(scope->intern.begin(),scope->intern.end(),stale);
++        if(found==scope->intern.end())return -1;
++        scope->intern.erase(found);stale=0;return 1;
++    }
++    return -1;
++}

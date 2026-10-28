@@ -1,0 +1,18 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "nativeDestructions": 6,
+  "sameAddressConstructions": 6,
+  "freshObjectIds": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "zeroOutputRefusals": 18,
+  "exactDetachedRestorations": 6,
+  "originalHdlContinuationExactlyEqual": true,
+  "scope": "Exact binary/real/string native destructors invalidate observer and scope ownership. Three inventories refuse stale scope entries after each destruction. Detachment restores all original inventories exactly; six placements at one reserved address receive fresh IDs and preserve wide X, real and embedded-null string payloads. Test-owned parameters have no compiled references. Full graph teardown, allocator-dependent reuse, external dangling handles and operational deletion remain unqualified."
+}
