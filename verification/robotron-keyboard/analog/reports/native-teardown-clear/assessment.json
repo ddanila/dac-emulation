@@ -1,0 +1,68 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "nativeParameterDestructions": 6,
+  "nativeMemoryDestructions": 2,
+  "registrySizes": {
+    "before": {
+      "roots": 2,
+      "initializedScopes": 4,
+      "scopeMetadata": 4,
+      "attachedObjects": 41,
+      "objectIds": 41,
+      "objectTypes": 41,
+      "ports": 4,
+      "portSlots": 4,
+      "portBits": 18
+    },
+    "after": {
+      "roots": 0,
+      "initializedScopes": 0,
+      "scopeMetadata": 0,
+      "attachedObjects": 0,
+      "objectIds": 0,
+      "objectTypes": 0,
+      "ports": 0,
+      "portSlots": 0,
+      "portBits": 0
+    }
+  },
+  "postCleanupZeroOutputRefusals": 7,
+  "regressions": {
+    "parameter": {
+      "qualified": false,
+      "controlsPassed": true,
+      "families": [
+        "binary",
+        "real",
+        "string"
+      ],
+      "unsupportedDestructions": 6,
+      "supportedDestructions": 6,
+      "unsupportedInventoryRefusals": 6,
+      "staleEntryZeroOutputRefusals": 36,
+      "exactRecoveryRestorations": 12,
+      "supportedAllocationsAfterRefusal": 6,
+      "originalHdlContinuationExactlyEqual": true,
+      "scope": "Diagnostic unsupported subclasses are deleted through their native virtual destructors and the object allocation is freed. Stale scope entries refuse before dereference; detachment restores all three original inventories. Subsequent exact-class allocation succeeds with full payloads and fresh IDs, then deletion/restoration repeats. Nine original/disabled/enabled runs preserve HDL continuation. No guarantee of allocator address reuse, dangling-handle safety, compiled-reference deletion or full graph teardown."
+    },
+    "memory": {
+      "qualified": false,
+      "controlsPassed": true,
+      "nativeDestructions": 4,
+      "sameAddressConstructions": 4,
+      "freshObjectIds": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "zeroOutputRefusals": 20,
+      "exactDetachedRestorations": 4,
+      "pairedArrayImages": 10,
+      "originalHdlContinuationExactlyEqual": true,
+      "scope": "Diagnostic scope-registered static memories use the native destructor and placement reconstruction at one address in four cycles. Destruction invalidates memory/scope observer ownership; five inventories refuse stale intern entries before output. Removing the stale entry restores every baseline inventory byte. Reconstructed objects have fresh monotonic IDs and valid payload/cache ownership. Test-owned memories have no HDL references, read ports or callbacks; full graph teardown, dangling external VPI handles, and operational deletion remain unqualified."
+    }
+  },
+  "scope": "Eight non-owning scope observer registries clear after native root traversal. A termination flag preserves fail-closed observation; monotonic IDs are not reset. Exact before/after source comparison permits only this change. Original/disabled/enabled continuation and same-build parameter-recovery/memory-lifecycle regressions pass. Coverage is this fixture and these registries, not every runtime registry, board teardown, custom-pool safety, leaks or dangling handles. Existing ASAN loader-table exclusion applies."
+}
