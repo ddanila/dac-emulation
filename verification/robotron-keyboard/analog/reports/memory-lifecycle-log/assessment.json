@@ -1,0 +1,223 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "nativeLifecycle": {
+    "qualified": false,
+    "controlsPassed": true,
+    "nativeDestructions": 4,
+    "sameAddressConstructions": 4,
+    "freshObjectIds": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "zeroOutputRefusals": 20,
+    "exactDetachedRestorations": 4,
+    "pairedArrayImages": 10,
+    "originalHdlContinuationExactlyEqual": true,
+    "scope": "Diagnostic scope-registered static memories use the native destructor and placement reconstruction at one address in four cycles. Destruction invalidates memory/scope observer ownership; five inventories refuse stale intern entries before output. Removing the stale entry restores every baseline inventory byte. Reconstructed objects have fresh monotonic IDs and valid payload/cache ownership. Test-owned memories have no HDL references, read ports or callbacks; full graph teardown, dangling external VPI handles, and operational deletion remain unqualified."
+  },
+  "streams": {
+    "VMMD": {
+      "images": 10,
+      "full": 9,
+      "reused": 1
+    },
+    "VSMD": {
+      "images": 10,
+      "full": 9,
+      "reused": 1
+    },
+    "VSMRD": {
+      "images": 10,
+      "full": 9,
+      "reused": 1
+    }
+  },
+  "frames": [
+    {
+      "stream": "VMMD",
+      "full": 1,
+      "denseBytes": 114,
+      "compactBytes": 131
+    },
+    {
+      "stream": "VSMD",
+      "full": 1,
+      "denseBytes": 269,
+      "compactBytes": 287
+    },
+    {
+      "stream": "VSMRD",
+      "full": 1,
+      "denseBytes": 114,
+      "compactBytes": 132
+    },
+    {
+      "stream": "VMMD",
+      "full": 1,
+      "denseBytes": 216,
+      "compactBytes": 234
+    },
+    {
+      "stream": "VSMD",
+      "full": 1,
+      "denseBytes": 285,
+      "compactBytes": 303
+    },
+    {
+      "stream": "VSMRD",
+      "full": 1,
+      "denseBytes": 143,
+      "compactBytes": 162
+    },
+    {
+      "stream": "VMMD",
+      "full": 1,
+      "denseBytes": 114,
+      "compactBytes": 131
+    },
+    {
+      "stream": "VSMD",
+      "full": 1,
+      "denseBytes": 269,
+      "compactBytes": 287
+    },
+    {
+      "stream": "VSMRD",
+      "full": 1,
+      "denseBytes": 114,
+      "compactBytes": 132
+    },
+    {
+      "stream": "VMMD",
+      "full": 1,
+      "denseBytes": 216,
+      "compactBytes": 234
+    },
+    {
+      "stream": "VSMD",
+      "full": 1,
+      "denseBytes": 285,
+      "compactBytes": 303
+    },
+    {
+      "stream": "VSMRD",
+      "full": 1,
+      "denseBytes": 143,
+      "compactBytes": 162
+    },
+    {
+      "stream": "VMMD",
+      "full": 1,
+      "denseBytes": 114,
+      "compactBytes": 131
+    },
+    {
+      "stream": "VSMD",
+      "full": 1,
+      "denseBytes": 269,
+      "compactBytes": 287
+    },
+    {
+      "stream": "VSMRD",
+      "full": 1,
+      "denseBytes": 114,
+      "compactBytes": 132
+    },
+    {
+      "stream": "VMMD",
+      "full": 0,
+      "denseBytes": 114,
+      "compactBytes": 34
+    },
+    {
+      "stream": "VSMD",
+      "full": 0,
+      "denseBytes": 269,
+      "compactBytes": 35
+    },
+    {
+      "stream": "VSMRD",
+      "full": 0,
+      "denseBytes": 114,
+      "compactBytes": 36
+    },
+    {
+      "stream": "VMMD",
+      "full": 1,
+      "denseBytes": 216,
+      "compactBytes": 234
+    },
+    {
+      "stream": "VSMD",
+      "full": 1,
+      "denseBytes": 285,
+      "compactBytes": 303
+    },
+    {
+      "stream": "VSMRD",
+      "full": 1,
+      "denseBytes": 143,
+      "compactBytes": 162
+    },
+    {
+      "stream": "VMMD",
+      "full": 1,
+      "denseBytes": 114,
+      "compactBytes": 131
+    },
+    {
+      "stream": "VSMD",
+      "full": 1,
+      "denseBytes": 269,
+      "compactBytes": 287
+    },
+    {
+      "stream": "VSMRD",
+      "full": 1,
+      "denseBytes": 114,
+      "compactBytes": 132
+    },
+    {
+      "stream": "VMMD",
+      "full": 1,
+      "denseBytes": 216,
+      "compactBytes": 234
+    },
+    {
+      "stream": "VSMD",
+      "full": 1,
+      "denseBytes": 285,
+      "compactBytes": 303
+    },
+    {
+      "stream": "VSMRD",
+      "full": 1,
+      "denseBytes": 143,
+      "compactBytes": 162
+    },
+    {
+      "stream": "VMMD",
+      "full": 1,
+      "denseBytes": 114,
+      "compactBytes": 132
+    },
+    {
+      "stream": "VSMD",
+      "full": 1,
+      "denseBytes": 269,
+      "compactBytes": 288
+    },
+    {
+      "stream": "VSMRD",
+      "full": 1,
+      "denseBytes": 114,
+      "compactBytes": 133
+    }
+  ],
+  "denseBytes": 5558,
+  "compactBytes": 5654,
+  "scope": "The unchanged generated C logger replays retained scope metadata, object references and memory metadata through four native destruction/reconstruction cycles at one address. All 30 frames reconstruct exactly, including removal and fresh monotonic identities. This is serialized evidence replay, not a new HDL execution, complete graph teardown or operational board qualification."
+}
