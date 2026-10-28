@@ -1,0 +1,33 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "nativeParameterDestructions": 6,
+  "nativeMemoryDestructions": 2,
+  "registrySizes": {
+    "before": {
+      "roots": 2,
+      "initializedScopes": 4,
+      "scopeMetadata": 4,
+      "attachedObjects": 41,
+      "objectIds": 41,
+      "objectTypes": 41,
+      "ports": 4,
+      "portSlots": 4,
+      "portBits": 18
+    },
+    "after": {
+      "roots": 0,
+      "initializedScopes": 4,
+      "scopeMetadata": 4,
+      "attachedObjects": 33,
+      "objectIds": 33,
+      "objectTypes": 33,
+      "ports": 4,
+      "portSlots": 4,
+      "portBits": 18
+    }
+  },
+  "allTrackedRegistriesEmpty": false,
+  "postCleanupZeroOutputRefusals": 7,
+  "scope": "Diagnostic-only instrumentation proves six parameter and two memory destructor entries, corresponding registry drainage, and native root cleanup. Remaining registry counts are reported without a teardown acceptance waiver. ASAN limitations and loader-table exclusion remain those of the post-cleanup fixture; full board and dangling-handle safety remain unqualified."
+}

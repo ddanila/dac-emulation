@@ -1,0 +1,9 @@
+# Native scope observer teardown cleanup
+
+The matched diagnostic control found stale scope, object and port registrations after native roots were deleted. This candidate marks scope observation terminated at the start of root cleanup, then clears eight non-owning observer containers only after the native scope traversal has finished. Native IDs are not reset. Post-cleanup observation remains a zero-output refusal rather than returning an apparently valid empty graph.
+
+Both native roots and all eight measured registration containers end empty. Six parameter destructor entries and two memory destructor entries match final observed addresses; their native registries drain to zero. All seven post-cleanup APIs return -1 with zero output. Fourteen pre-cleanup inventory images validate, and original-library, disabled and enabled HDL output matches with clean exits and empty stderr. Nine same-build unsupported-parameter recovery runs and three memory-lifecycle runs pass their full existing reviewers. The explicit ASAN environment for both regression producers is retained.
+
+The reviewer applies the cleanup transformation to the retained diagnostic source and requires byte-identical results; other instrumented source files must remain identical. Five replay/rejection tests reject stale registrations, an unrelated ID reset, runtime-mismatched regression evidence and lost post-cleanup refusal.
+
+These results cover the fixture, eight scope-related registries, parameters and memories. They do not qualify every runtime registry, native runtime reuse, board teardown, arbitrary dangling handles, custom-pool memory safety or leaks. The fixed fixture loader table remains excluded from ASAN global instrumentation; runtime allocations remain instrumented. Existing selected/continuous campaigns keep their pinned runtimes.
