@@ -1,0 +1,66 @@
+{
+  "compileCommand": [
+    "iverilog",
+    "-g2012",
+    "-o",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native/baseline.vvp",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native/probe.v"
+  ],
+  "observerCompileCommand": [
+    "c++",
+    "-std=c++11",
+    "-fsanitize=address",
+    "-bundle",
+    "-undefined",
+    "dynamic_lookup",
+    "-I/private/tmp/k7658-native-observer-shutdown-runtime",
+    "-o",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native/probe.vpi",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native/probe.cc"
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-native-observer-shutdown-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native/baseline.vvp"
+      ],
+      "exitCode": 0,
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-native-observer-shutdown-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native/teardown.vvp"
+      ],
+      "exitCode": 0,
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-native-observer-shutdown-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native/teardown.vvp"
+      ],
+      "exitCode": 0,
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-native-observer-shutdown-runtime/vvp/vvp": "6f1a404e4e4bcb2bae13392c9743bd8ee0f6550c7316b6521070fb34663616fa",
+    "/private/tmp/k7658-native-observer-shutdown-runtime/vvp/libvvp.so": "50f09ef2cdc6bc5eb1ce8fd2b2ec498a1af024394cedcdccae5155b382c67915",
+    "/private/tmp/k7658-native-observer-shutdown-runtime/vpi/system.vpi": "1717a5f22bac8d8255b755ef4031619231a70a9662b4b450ae75d79483845d62",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-board-native/probe.vpi": "12f69a8db113ce630aee8c33caa58e2236ad28b7b953e2fe9bda009d8275f6c6",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+  }
+}

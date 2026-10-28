@@ -1,0 +1,17 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "nativeDestructions": 4,
+  "sameAddressConstructions": 4,
+  "freshObjectIds": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "zeroOutputRefusals": 20,
+  "exactDetachedRestorations": 4,
+  "pairedArrayImages": 10,
+  "originalHdlContinuationExactlyEqual": true,
+  "scope": "Diagnostic scope-registered static memories use the native destructor and placement reconstruction at one address in four cycles. Destruction invalidates memory/scope observer ownership; five inventories refuse stale intern entries before output. Removing the stale entry restores every baseline inventory byte. Reconstructed objects have fresh monotonic IDs and valid payload/cache ownership. Test-owned memories have no HDL references, read ports or callbacks; full graph teardown, dangling external VPI handles, and operational deletion remain unqualified."
+}
