@@ -1,0 +1,103 @@
+--- a/vvp/vpi_priv.h
++++ b/vvp/vpi_priv.h
+@@ -800,6 +800,8 @@
+ */
+ struct __vpiArray : public __vpiArrayBase, public __vpiHandle {
+       friend struct robotron_memory_growth;
++      friend struct robotron_memory_lifecycle;
++      ~__vpiArray() override;
+       int get_type_code(void) const override { return vpiMemory; }
+       unsigned get_size() const override { return array_count; }
+       vpiHandle get_left_range() override { assert(nets == 0); return &msb; }
+--- a/vvp/array.cc
++++ b/vvp/array.cc
+@@ -796,6 +796,12 @@
+ #include <typeinfo>
+ struct robotron_memory_record { __vpiArray* array; const char* name; size_t bytes; };
+ static std::map<vpiHandle,robotron_memory_record> robotron_memories;
++extern "C" void robotron_vvp_memory_forget(vpiHandle);
++__vpiArray::~__vpiArray(){
++    robotron_memories.erase(static_cast<vpiHandle>(this));
++    robotron_vvp_memory_forget(static_cast<vpiHandle>(this));
++}
++
+ static void robotron_memory_register(__vpiArray*array) {
+     assert(array && array->name);
+     robotron_memory_record r={array,array->name,strlen(array->name)+1};
+@@ -2011,3 +2017,43 @@
+  }
+ };
+ extern "C" int robotron_vvp_memory_add(unsigned kind){return robotron_memory_growth::add(kind);}
++
++#include <new>
++struct robotron_memory_lifecycle {
++ static int control(unsigned operation) {
++    static void*storage=0;static __vpiArray*live=0;static __vpiScope*scope=0;
++    static vpiHandle stale=0;static unsigned serial=0;
++    if(operation==0){
++        if(live||stale)return -1;
++        std::map<const void*,std::pair<unsigned long long,const void*>> owners;
++        if(robotron_vvp_memory_owners(&owners)||owners.empty())return -1;
++        scope=static_cast<__vpiScope*>(const_cast<void*>(owners.begin()->second.second));
++        if(!storage)storage=::operator new(sizeof(__vpiArray));
++        auto obj=new(storage)__vpiArray;
++        char name[80];snprintf(name,sizeof(name),"__lifecycle_%u",++serial);
++        obj->scope=scope;obj->name=vpip_name_string(name);obj->array_count=2;
++        obj->signed_flag=false;obj->swap_addr=false;
++        obj->first_addr.set_value(0);obj->last_addr.set_value(1);
++        obj->msb.set_value(7);obj->lsb.set_value(0);obj->vals_width=8;
++        obj->nets=0;obj->vals=0;obj->vals_words=0;obj->ports_=0;obj->vpi_callbacks=0;
++        obj->vals4=new vvp_vector4array_sa(8,2);
++        obj->vals4->set_word(0,vvp_vector4_t(8,BIT4_1));obj->vals4->set_word(1,vvp_vector4_t(8,BIT4_X));
++        robotron_memory_register(obj);vpip_attach_to_scope(scope,obj);live=obj;return 1;
++    }
++    if(operation==1){
++        if(!live||stale||live->ports_||live->vpi_callbacks)return -1;
++        stale=static_cast<vpiHandle>(live);
++        if(live->vals_words)delete[](live->vals_words-1);
++        delete live->vals4;
++        live->~__vpiArray();live=0;return 1;
++    }
++    if(operation==2){
++        if(live||!stale||!scope)return -1;
++        auto found=std::find(scope->intern.begin(),scope->intern.end(),stale);
++        if(found==scope->intern.end())return -1;
++        scope->intern.erase(found);stale=0;return 1;
++    }
++    return -1;
++ }
++};
++extern "C" int robotron_vvp_memory_lifecycle(unsigned operation){return robotron_memory_lifecycle::control(operation);}
+--- a/vvp/vpi_scope.cc
++++ b/vvp/vpi_scope.cc
+@@ -46,6 +46,7 @@
+ };
+ static map<__vpiScope*,robotron_scope_metadata_registration> robotron_scope_metadata;
+ static map<vpiHandle,unsigned long long> robotron_object_ids;
++static unsigned long long robotron_next_object_id=0;
+ static map<vpiHandle,int> robotron_object_types;
+ struct robotron_port_registration {const char*name;size_t bytes;bool ready;};
+ static map<vpiPortInfo*,robotron_port_registration> robotron_ports;
+@@ -482,7 +483,8 @@
+       scope->intern.push_back(obj);
+       robotron_attached_objects.insert(obj);
+       if(!robotron_object_ids.count(obj)) {
+-          robotron_object_ids[obj]=robotron_object_ids.size()+1;
++          if(robotron_next_object_id==~0ULL)abort();
++          robotron_object_ids[obj]=++robotron_next_object_id;
+           robotron_object_types[obj]=obj->get_type_code();
+       }
+ }
+@@ -1176,3 +1178,12 @@
+         if(!result.insert({item,{robotron_object_ids.at(item),scope}}).second)return -1;
+     owners->swap(result);return 0;
+ }
++
++extern "C" void robotron_vvp_memory_forget(vpiHandle object)
++{
++    // Erase identities before a stale intern entry can be traversed. Do not
++    // mutate the native scope vector during its own teardown iteration.
++    robotron_attached_objects.erase(object);
++    robotron_object_ids.erase(object);
++    robotron_object_types.erase(object);
++}
