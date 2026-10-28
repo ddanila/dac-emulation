@@ -1,0 +1,31 @@
+/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/adc-decision-source-v3/cfunc.o: \
+  /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/adc-decision-source-v3/cfunc.c \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/cm.h \
+  /private/tmp/k7658-cache-qualified-recipe/build/src/include/ngspice/config.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/cmtypes.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/miftypes.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/cmconstants.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/cmproto.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/cktdefs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/typedefs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/evttypes.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/enhtypes.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/smpdefs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/complex.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/ifsim.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/acdefs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/jobdefs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/gendefs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/trcvdefs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/tskdefs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/optdefs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/sen2defs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/pzdefs.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/noisedef.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/hash.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/bool.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/../maths/dense/dense.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/cpextern.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/wordlist.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/mifcmdat.h \
+  /private/tmp/k7658-cache-qualified-recipe/ngspice-47/src/include/ngspice/const.h
