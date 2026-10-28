@@ -1,0 +1,8 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "nativeInventories": 7,
+  "inventoryImages": 14,
+  "stdoutExactlyEqual": true,
+  "scope": "Seven inventories execute at start and end of simulation, followed by native final cleanup in the ASAN candidate. Baseline, disabled and enabled HDL output is identical and all exit cleanly. The fixed VPI loader table alone is excluded from ASAN global instrumentation to avoid intentional duplicate-symbol diagnostics. No leak detection, Valgrind annotations, custom-pool safety, destructor-by-destructor proof or board teardown qualification."
+}

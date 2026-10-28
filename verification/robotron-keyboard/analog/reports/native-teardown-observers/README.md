@@ -1,0 +1,9 @@
+# Populated observer shutdown controls
+
+Seven native inventories execute at the start and end of a hierarchical fixture: scope metadata, scope references, parameters, memory metadata, dense arrays, compact arrays, and port payloads. Strict parsers validate all 14 images, four scopes, six parameters, two memories, two read ports and four ports; parameter/memory ownership binds to scope IDs and pointers, and compact memory images reconstruct the dense images exactly. Observation times are zero and 5 ns.
+
+Original-library, candidate-disabled and candidate-enabled runs have identical HDL output, empty stderr and successful exits. The candidate enables actual native final cleanup under AddressSanitizer. Five full replay/rejection tests pass. The original library is uninstrumented; all modes use the instrumented executable. The earlier teardown report retains the exact build configuration and cleanup source.
+
+Both VPI modules intentionally export vlog_startup_routines. Instrumenting both tables caused an ASAN ODR diagnostic before simulation (retained failed v2). A separate build with ODR indicators failed to load system.vpi on this platform (retained failed v4); it is not an accepted candidate. The accepted fixture excludes only its fixed loader table from ASAN global instrumentation using no_sanitize("address"). Callback code and runtime allocations remain instrumented, and no ODR runtime check is disabled. ASAN global instrumentation does not cover that table. The failed attempts remain rejected.
+
+Leak detection and Valgrind annotations remain disabled. This establishes populated-observer execution followed by clean shutdown for this fixture, not destructor-by-destructor proof, registry emptiness after shutdown, custom-pool access safety, dangling-handle safety, or board teardown. Native final cleanup is selected by the verified build configuration; no new destruction trace is claimed.
