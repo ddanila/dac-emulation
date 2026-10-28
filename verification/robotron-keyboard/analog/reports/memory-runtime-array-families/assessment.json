@@ -1,0 +1,21 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "unsupportedProfilesRefused": [
+    "alias",
+    "net",
+    "real",
+    "string"
+  ],
+  "denseAndCompactRefuseWithoutPartialInventory": true,
+  "disabledContinuationExactlyEqual": true,
+  "aliasStorageSharingExercised": true,
+  "scope": "Pinned native runtime; alias fixture adds the audited compiled alias declaration, verifies shared writes/readback and restores before observation. Other families are compiled from HDL. VPI setup deliberately materializes handles before observation. Repeated on the exact runtime selected for continuous memory observation, including parameter, storage and read-port class guards. This tests whole-array dense/compact refusal; it does not claim complete memory lifecycle, native subclass allocation or continuous-board acceptance.",
+  "notEstablished": [
+    "Support for these storage families or their rollback",
+    "Dynamic/class/object array controls",
+    "Full-board qualification"
+  ],
+  "memoryRuntimeBuildSha256": "f4cb7fd760e88d180e1c5e895dfb3d3ece7100c76918a2db03123a7962434fe5",
+  "sameRuntimeNativeLayoutBuildSha256": "f4cb7fd760e88d180e1c5e895dfb3d3ece7100c76918a2db03123a7962434fe5"
+}
