@@ -1,0 +1,96 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "images": 10,
+  "fullImages": 5,
+  "reusedImages": 5,
+  "denseBytes": 3648,
+  "compactBytes": 1975,
+  "scope": "The unchanged C logger extracted from the pinned built bridge encodes ten retained native memory metadata inventories growing from one to five objects. Five complete frames and five unchanged-body reuse frames reconstruct every metadata byte, including new identities and bounded names. Array payload/cache compactness is separately tested by memory_growth_compact.py. This replay does not claim a new HDL execution, destruction/reuse, or operational board cost.",
+  "nativeGrowth": {
+    "qualified": false,
+    "controlsPassed": true,
+    "initialMemories": 1,
+    "finalMemories": 5,
+    "newMemories": 4,
+    "lazyCaches": 4,
+    "rounds": 2,
+    "unknownKindRefusals": 2,
+    "originalHdlContinuationExactlyEqual": true,
+    "scope": "Native opt-in allocation after initial inventory adds static 8-bit and signed 80-bit memories with ascending/descending declared ranges. Fresh identities, complete X-bearing payloads, unchanged prior state and lazy word caches are checked across continuation. Destruction, address reuse, compact logging and operational board qualification remain separate."
+  },
+  "memoryCounts": [
+    1,
+    2,
+    2,
+    3,
+    3,
+    3,
+    4,
+    4,
+    5,
+    5
+  ],
+  "frames": [
+    {
+      "memories": 1,
+      "full": true,
+      "denseBytes": 114,
+      "compactBytes": 131
+    },
+    {
+      "memories": 2,
+      "full": true,
+      "denseBytes": 228,
+      "compactBytes": 246
+    },
+    {
+      "memories": 2,
+      "full": false,
+      "denseBytes": 228,
+      "compactBytes": 35
+    },
+    {
+      "memories": 3,
+      "full": true,
+      "denseBytes": 342,
+      "compactBytes": 360
+    },
+    {
+      "memories": 3,
+      "full": false,
+      "denseBytes": 342,
+      "compactBytes": 35
+    },
+    {
+      "memories": 3,
+      "full": false,
+      "denseBytes": 342,
+      "compactBytes": 35
+    },
+    {
+      "memories": 4,
+      "full": true,
+      "denseBytes": 456,
+      "compactBytes": 474
+    },
+    {
+      "memories": 4,
+      "full": false,
+      "denseBytes": 456,
+      "compactBytes": 35
+    },
+    {
+      "memories": 5,
+      "full": true,
+      "denseBytes": 570,
+      "compactBytes": 588
+    },
+    {
+      "memories": 5,
+      "full": false,
+      "denseBytes": 570,
+      "compactBytes": 36
+    }
+  ]
+}

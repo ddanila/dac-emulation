@@ -1,0 +1,20 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "nativeGrowth": {
+    "qualified": false,
+    "controlsPassed": true,
+    "initialMemories": 1,
+    "finalMemories": 5,
+    "newMemories": 4,
+    "lazyCaches": 4,
+    "rounds": 2,
+    "unknownKindRefusals": 2,
+    "originalHdlContinuationExactlyEqual": true,
+    "scope": "Native opt-in allocation after initial inventory adds static 8-bit and signed 80-bit memories with ascending/descending declared ranges. Fresh identities, complete X-bearing payloads, unchanged prior state and lazy word caches are checked across continuation. Destruction, address reuse, compact logging and operational board qualification remain separate."
+  },
+  "matchedSnapshots": 10,
+  "denseBytes": 8619,
+  "compactBytes": 5788,
+  "scope": "Ten newly executed native dense/compact pairs reconstruct every array byte while four memories and their lazy caches are allocated. Includes high X bits, declared ranges, complete word-cache parent/word ownership and original/disabled continuation. Does not qualify destruction, reuse, metadata delta logging or continuous board observation."
+}
