@@ -1,0 +1,39 @@
+--- a/vvp/array.cc
++++ b/vvp/array.cc
+@@ -1988,3 +1988,26 @@
+ 
+ extern "C" int robotron_vvp_array_port_class_toggle(unsigned kind)
+ { return robotron_array_access::replace_port(kind); }
++
++struct robotron_memory_growth {
++ static int add(unsigned kind) {
++    if(kind>1)return -1;
++    char*text=0;size_t size=0;FILE*out=open_memstream(&text,&size);if(!out)return -1;
++    int rc=robotron_vvp_memory_metadata_inventory(out);int closed=fclose(out);free(text);
++    if(rc||closed)return -1;
++    std::map<const void*,std::pair<unsigned long long,const void*>> owners;
++    if(robotron_vvp_memory_owners(&owners)||owners.empty())return -1;
++    auto scope=static_cast<__vpiScope*>(const_cast<void*>(owners.begin()->second.second));
++    static unsigned serial;char buffer[80];snprintf(buffer,sizeof(buffer),"__memory_growth_%u_%u",kind,++serial);
++    auto obj=new __vpiArray;
++    obj->scope=scope;obj->name=vpip_name_string(buffer);
++    obj->array_count=kind?3:2;obj->signed_flag=kind;obj->swap_addr=kind;
++    obj->first_addr.set_value(kind?1:0);obj->last_addr.set_value(kind?3:1);
++    obj->msb.set_value(kind?79:7);obj->lsb.set_value(0);obj->vals_width=kind?80:8;
++    obj->nets=0;obj->vals=0;obj->vals_words=0;obj->ports_=0;obj->vpi_callbacks=0;
++    obj->vals4=new vvp_vector4array_sa(obj->vals_width,obj->array_count);
++    for(unsigned i=0;i<obj->array_count;++i){vvp_vector4_t value(obj->vals_width,BIT4_X);value.set_bit(0,i%2?BIT4_0:BIT4_1);obj->vals4->set_word(i,value);}
++    robotron_memory_register(obj);vpip_attach_to_scope(scope,obj);return 1;
++ }
++};
++extern "C" int robotron_vvp_memory_add(unsigned kind){return robotron_memory_growth::add(kind);}
+--- a/vvp/vpi_priv.h
++++ b/vvp/vpi_priv.h
+@@ -799,6 +799,7 @@
+ * vector4 array works.
+ */
+ struct __vpiArray : public __vpiArrayBase, public __vpiHandle {
++      friend struct robotron_memory_growth;
+       int get_type_code(void) const override { return vpiMemory; }
+       unsigned get_size() const override { return array_count; }
+       vpiHandle get_left_range() override { assert(nets == 0); return &msb; }
