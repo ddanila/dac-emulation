@@ -1,0 +1,5 @@
+# Native regressions for the board teardown runtime
+
+The system VPI startup table alone is excluded from ASAN global instrumentation to avoid poisoning neighboring bridge globals through the required duplicate VPI export. The complete before/after sys_table.c files differ only by that attribute. The four native scope-cleanup and trace source hashes match the preceding scope cleanup candidate exactly. Other runtime code and allocations remain instrumented; loader-table accesses are outside that coverage.
+
+On this exact build, native teardown clears all eight tracked observer registries and both roots, destroys all six fixture parameters and two memories, and preserves seven zero-output post-cleanup refusals. Nine parameter-recovery runs, three memory-lifecycle runs, and three native-layout runs pass their unchanged reviewers. Every child report has a verified manifest and matching build receipt. These native regressions support the isolated runtime candidate; full board waveform/firmware and teardown review is still pending. Leak and custom-pool checks remain excluded.
