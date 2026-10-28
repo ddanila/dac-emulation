@@ -1,0 +1,9 @@
+# Selected integrated parameter lifecycle controls
+
+Binary, real and string diagnostic modes each perform complete allocation/destruction/restoration cycles at 5 and 6 microseconds. Native destruction invalidates observer/scope ownership; direct parameter and complete snapshot construction refuse the stale entry without changes to logger cache pointer identities or sequence counters. Detachment restores every complete state byte. Reconstructed parameters have fresh IDs at the same reserved native address.
+
+Each mode has eight snapshots and all existing observer checks: 32 scopes, 18 bridge signals, 317 ports, 875 port bits, 651 complete signals, 56 compiled parameters, and three compiled memories with 23 read ports. Created-state review validates the extra parameter's exact family, native identity, owner, metadata and full payload. Only that checked addition is removed from a comparison copy; all other state must match the before-state. Restored state is compared without removal.
+
+All 27,578 waveform samples across 31 signals through 20 microseconds match the original reference in each mode. Initialized-model diagnostics and all firmware records match. Four matching bus edges follow each second restoration, from 7.50128 to 19.50128 microseconds. Seven focused state/source-preservation tests, two bridge/producer checks and four full replay/rejection tests pass. The complete test output, native layout witness, generated shim and receipts are retained.
+
+The bridge's boundary ordinal pauses between selected cycles and is not a count of every simulator hook. Test-owned parameters have no compiled references. This evidence does not qualify continuous observation, full graph teardown, unsupported-class recovery in the board, or dangling external handles. Existing queued continuous campaigns and full-repeat deferral are unchanged.
