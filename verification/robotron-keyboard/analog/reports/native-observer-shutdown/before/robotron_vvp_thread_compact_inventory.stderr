@@ -1,0 +1,72 @@
+=================================================================
+==67142==ERROR: AddressSanitizer: heap-use-after-free on address 0x61f0000028e0 at pc 0x000102d4734c bp 0x00016dab19b0 sp 0x00016dab19a8
+READ of size 8 at 0x61f0000028e0 thread T0
+    #0 0x000102d47348 in vthread_s::robotron_inventory(__sFILE*, bool) const vthread.cc:6783
+    #1 0x000102d4951c in robotron_vvp_thread_compact_inventory vthread.cc:6904
+    #2 0x0001028a0f74 in inspect(char const*)+0x268 (probe.vpi:arm64+0xf74)
+    #3 0x0001028a0cfc in unload()+0x20 (probe.vpi:arm64+0xcfc)
+    #4 0x0001820487d8 in __cxa_finalize_ranges+0x19c (libsystem_c.dylib:arm64e+0x277d8)
+    #5 0x000181dd6f34 in dyld4::Reaper::finalizeDeadImages()+0x174 (dyld:arm64e+0x2ef34)
+    #6 0x000181dd73cc in dyld4::RuntimeState::garbageCollectInner()+0x118 (dyld:arm64e+0x2f3cc)
+    #7 0x000181dde84c in invocation function for block in void lsl::MemoryManager::withProtectedStack<void dyld4::RuntimeLocks::withLoadersWriteLockAndProtectedStack<dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)::$_0>(dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)::$_0)::'lambda'()::operator()() const::'lambda'()>(dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)::$_0)+0xec (dyld:arm64e+0x3684c)
+    #8 0x000181dde624 in void dyld4::RuntimeLocks::withLoadersWriteLockAndProtectedStack<dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)::$_0>(dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)::$_0)::'lambda'()::operator()() const+0xb4 (dyld:arm64e+0x36624)
+    #9 0x000181dd69cc in dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)+0x2d8 (dyld:arm64e+0x2e9cc)
+    #10 0x000181db41a0 in dyld4::APIs::dlclose(void*)+0xdc (dyld:arm64e+0xc1a0)
+    #11 0x00010389bd74 in dlclose+0x1c (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x8bd74)
+    #12 0x000102e2d020 in load_module_delete() vpi_modules.cc:138
+    #13 0x000102c79f8c in final_cleanup() lib_main.cc:254
+    #14 0x000102c79c18 in vvp_run lib_main.cc:432
+    #15 0x000181dc84e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+0x61f0000028e0 is located 3168 bytes inside of 3240-byte region [0x61f000001c80,0x61f000002928)
+freed by thread T0 here:
+    #0 0x000103860358 in _ZdlPv+0x74 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x50358)
+    #1 0x000102cfe714 in vthreads_delete(__vpiScope*) vthread.cc:809
+    #2 0x000102e56710 in delete_sub_scopes(__vpiScope*) vpi_scope.cc:99
+    #3 0x000102e55c9c in root_table_delete() vpi_scope.cc:179
+    #4 0x000102c79f28 in final_cleanup() lib_main.cc:234
+    #5 0x000102c79c18 in vvp_run lib_main.cc:432
+    #6 0x000181dc84e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+previously allocated by thread T0 here:
+    #0 0x00010385ff50 in _Znwm+0x74 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x4ff50)
+    #1 0x000102cfdee4 in vthread_new(vvp_code_s*, __vpiScope*) vthread.cc:744
+    #2 0x000102cc818c in compile_thread(char*, char*) compile.cc:2021
+    #3 0x000102c7edb0 in yyparse() parse.y:742
+    #4 0x000102c84548 in compile_design(char const*) parse.y:1263
+    #5 0x000102c793f8 in vvp_run lib_main.cc:349
+    #6 0x000181dc84e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+SUMMARY: AddressSanitizer: heap-use-after-free vthread.cc:6783 in vthread_s::robotron_inventory(__sFILE*, bool) const
+Shadow bytes around the buggy address:
+  0x61f000002600: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x61f000002680: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x61f000002700: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x61f000002780: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x61f000002800: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+=>0x61f000002880: fd fd fd fd fd fd fd fd fd fd fd fd[fd]fd fd fd
+  0x61f000002900: fd fd fd fd fd fa fa fa fa fa fa fa fa fa fa fa
+  0x61f000002980: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x61f000002a00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x61f000002a80: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x61f000002b00: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==67142==ABORTING

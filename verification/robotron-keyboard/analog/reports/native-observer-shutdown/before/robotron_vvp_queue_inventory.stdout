@@ -1,0 +1,80 @@
+SWEEP_ADMITTED 3
+SWEEP_ENTER start
+SWEEP_RESULT start 0 1214
+VQ_BEGIN 1 0 1 0
+VQ_COUNT -1 init 0
+VQ_COUNT -1 final 0
+VQ_TIME 0 0 0
+VQ_COUNT 0 start 0
+VQ_EVENT 0 active 0 22assign_vector4_event_s -
+VQ_EVENT 0 active 1 22assign_vector4_event_s -
+VQ_EVENT 0 active 2 22assign_vector4_event_s -
+VQ_EVENT 0 active 3 22assign_vector4_event_s -
+VQ_EVENT 0 active 4 22assign_vector4_event_s -
+VQ_EVENT 0 active 5 22assign_vector4_event_s -
+VQ_EVENT 0 active 6 22assign_vector4_event_s -
+VQ_EVENT 0 active 7 22assign_vector4_event_s -
+VQ_EVENT 0 active 8 22assign_vector4_event_s -
+VQ_EVENT 0 active 9 22assign_vector4_event_s -
+VQ_EVENT 0 active 10 22assign_vector4_event_s -
+VQ_EVENT 0 active 11 22assign_vector4_event_s -
+VQ_EVENT 0 active 12 22assign_vector4_event_s -
+VQ_EVENT 0 active 13 22assign_vector4_event_s -
+VQ_EVENT 0 active 14 15vthread_event_s -
+VQ_EVENT 0 active 15 15vthread_event_s -
+VQ_EVENT 0 active 16 15vthread_event_s -
+VQ_EVENT 0 active 17 15vthread_event_s -
+VQ_EVENT 0 active 18 15vthread_event_s -
+VQ_EVENT 0 active 19 15vthread_event_s -
+VQ_EVENT 0 active 20 15vthread_event_s -
+VQ_EVENT 0 active 21 15vthread_event_s -
+VQ_COUNT 0 active 22
+VQ_COUNT 0 inactive 0
+VQ_COUNT 0 nbassign 0
+VQ_COUNT 0 rwsync 0
+VQ_COUNT 0 rosync 0
+VQ_COUNT 0 del_thr 0
+VQ_END 1
+SWEEP_END start
+MONITOR 0 17 17
+MONITOR 1000 34 34
+MONITOR 2000 51 51
+MONITOR 3000 68 68
+MONITOR 4000 17 17
+LEAF test.left 123456789abcdef01234 2.5 470052 17
+LEAF test.right 123456789abcdef01234 3.5 470052 17
+MONITOR 5000 34 34
+CONTINUE 34 34
+/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/probe.v:16: $finish called at 5000 (1ps)
+SWEEP_ENTER end
+SWEEP_RESULT end 0 271
+VQ_BEGIN 1 5000 1 0
+VQ_COUNT -1 init 0
+VQ_COUNT -1 final 0
+VQ_TIME 0 500 5500
+VQ_COUNT 0 start 0
+VQ_EVENT 0 active 0 15vthread_event_s -
+VQ_COUNT 0 active 1
+VQ_COUNT 0 inactive 0
+VQ_COUNT 0 nbassign 0
+VQ_COUNT 0 rwsync 0
+VQ_COUNT 0 rosync 0
+VQ_COUNT 0 del_thr 0
+VQ_END 1
+SWEEP_END end
+SWEEP_ENTER post
+SWEEP_RESULT post 0 271
+VQ_BEGIN 1 5000 1 0
+VQ_COUNT -1 init 0
+VQ_COUNT -1 final 0
+VQ_TIME 0 500 5500
+VQ_COUNT 0 start 0
+VQ_EVENT 0 active 0 15vthread_event_s -
+VQ_COUNT 0 active 1
+VQ_COUNT 0 inactive 0
+VQ_COUNT 0 nbassign 0
+VQ_COUNT 0 rwsync 0
+VQ_COUNT 0 rosync 0
+VQ_COUNT 0 del_thr 0
+VQ_END 1
+SWEEP_END post
