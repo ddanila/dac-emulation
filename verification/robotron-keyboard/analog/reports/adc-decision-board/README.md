@@ -1,0 +1,7 @@
+# Bounded ADC decision and input delivery controls
+
+Existing ADC trace logging is enabled alongside the previously qualified bridge delivery logger in four complete 20-us controls: disabled, exact-tick, drain-enabled and forced retry. Every waveform sample across 31 signals and every firmware record matches the corresponding retained delivery-audit control exactly. Initialized-model and original drain/retry checks remain in place. Five full replay/rejection tests pass.
+
+The selected ADC source regenerates and recompiles to its original linked object byte-for-byte. Each logged sampled decision is checked against the declared non-hysteretic model thresholds and equal-width converter mapping. All 45 scalar HDL input applications per mode bind by exact event-base time to ADC decision time plus declared propagation delay, and their values match. The vector logic_control application is outside this scalar binding. ADC messages and bridge messages use differently buffered streams; matching uses timestamps, not textual order.
+
+This evidence records sampled decisions, not exact analog crossings or complete rejected-step history. It reveals input event base times and later analog entry targets without changing scheduling. It does not establish full post-reset equivalence, a safe clamp correction, numerical non-growth, or physical model applicability. Full-repeat execution remains deferred.
