@@ -1,0 +1,7 @@
+# Complete post-reset delivery diagnostic
+
+The unchanged full reviewer verifies exact equality of all 1,427,676 samples across 31 signals through 1.16 ms against the drain-enabled control, plus every firmware record. Capture took 8,128 seconds. The diagnostic changes bridge logging only; its 2,708 input applications and 649 output-before/output-after pairs satisfy the source clamp rule. There are 221 clamped output groups. Maximum input target minus HDL actual time is about 2.001 ns; this is an observation, not a causal correction.
+
+Every delivery and firmware record is retained after streaming the complete source log and verifying its logical hash and size. Replaying the delivery records reproduces the original full audit exactly; firmware matches the retained complete drain control. Five replay/rejection tests pass, covering omitted input records, changed callback state, changed firmware and a shortened receipt. Inputs, receipts, original reviewer job and its final source pins are retained.
+
+Full compressed logs and waveform archives remain local at the paths and identities in retention.json. This record replay is not a new full waveform replay, and archive hashes do not reconstruct waveforms. Upstream ADC decisions are absent from this diagnostic; a separately gated full trace adds them without changing scheduling. The failed numerical non-growth gate remains unchanged. Full-repeat captures remain deferred.
