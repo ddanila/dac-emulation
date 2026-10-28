@@ -1,0 +1,10 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "guardedEntryPoints": 55,
+  "postCleanupZeroOutputRefusals": 55,
+  "priorSanitizerFailures": 15,
+  "unchangedPreCleanupReturnCodes": true,
+  "sourceTransformationExactlyMatched": true,
+  "scope": "The lifecycle flag closes all 55 exported native inventory entry points before final cleanup touches storage. All 55 isolated processes return -1 with zero output after cleanup; previous 15 ASAN failures and 13 post-cleanup acceptances are eliminated. Before/end admission return codes and HDL continuation remain unchanged in this fixture. Source changes match only the shared flag and guards. This is not registry emptiness, arbitrary getter/mutator safety, concurrent observation, all-family payload coverage, runtime reuse, or integrated-board qualification of this revision. ASAN loader-table exclusions and disabled leak/custom-pool checks remain."
+}

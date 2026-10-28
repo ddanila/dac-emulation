@@ -1,0 +1,69 @@
+=================================================================
+==67089==ERROR: AddressSanitizer: heap-use-after-free on address 0x000103c04828 at pc 0x000103361248 bp 0x00016d439ad0 sp 0x00016d439ac8
+READ of size 8 at 0x000103c04828 thread T0
+    #0 0x000103361244 in robotron_vvp_concat_inventory vvp_net.cc:4705
+    #1 0x000102ae0f74 in inspect(char const*)+0x268 (probe.vpi:arm64+0xf74)
+    #2 0x000102ae0cfc in unload()+0x20 (probe.vpi:arm64+0xcfc)
+    #3 0x0001820487d8 in __cxa_finalize_ranges+0x19c (libsystem_c.dylib:arm64e+0x277d8)
+    #4 0x000181dd6f34 in dyld4::Reaper::finalizeDeadImages()+0x174 (dyld:arm64e+0x2ef34)
+    #5 0x000181dd73cc in dyld4::RuntimeState::garbageCollectInner()+0x118 (dyld:arm64e+0x2f3cc)
+    #6 0x000181dde84c in invocation function for block in void lsl::MemoryManager::withProtectedStack<void dyld4::RuntimeLocks::withLoadersWriteLockAndProtectedStack<dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)::$_0>(dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)::$_0)::'lambda'()::operator()() const::'lambda'()>(dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)::$_0)+0xec (dyld:arm64e+0x3684c)
+    #7 0x000181dde624 in void dyld4::RuntimeLocks::withLoadersWriteLockAndProtectedStack<dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)::$_0>(dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)::$_0)::'lambda'()::operator()() const+0xb4 (dyld:arm64e+0x36624)
+    #8 0x000181dd69cc in dyld4::RuntimeState::decDlRefCount(dyld4::Loader const*)+0x2d8 (dyld:arm64e+0x2e9cc)
+    #9 0x000181db41a0 in dyld4::APIs::dlclose(void*)+0xdc (dyld:arm64e+0xc1a0)
+    #10 0x000103e43d74 in dlclose+0x1c (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x8bd74)
+    #11 0x0001033d5020 in load_module_delete() vpi_modules.cc:138
+    #12 0x000103221f8c in final_cleanup() lib_main.cc:254
+    #13 0x000103221c18 in vvp_run lib_main.cc:432
+    #14 0x000181dc84e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+0x000103c04828 is located 40 bytes inside of 1048576-byte region [0x000103c04800,0x000103d04800)
+freed by thread T0 here:
+    #0 0x000103e08444 in _ZdaPv+0x74 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x50444)
+    #1 0x00010332bcbc in vvp_net_pool_delete() vvp_net.cc:184
+    #2 0x000103221f50 in final_cleanup() lib_main.cc:244
+    #3 0x000103221c18 in vvp_run lib_main.cc:432
+    #4 0x000181dc84e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+previously allocated by thread T0 here:
+    #0 0x000103e08068 in _Znam+0x74 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x50068)
+    #1 0x00010332a818 in vvp_net_t::operator new(unsigned long) vvp_net.cc:75
+    #2 0x0001033cf1ac in compile_variable(char*, char*, int, int, int, bool, bool) words.cc:177
+    #3 0x000103224be8 in yyparse() parse.y:752
+    #4 0x00010322c548 in compile_design(char const*) parse.y:1263
+    #5 0x0001032213f8 in vvp_run lib_main.cc:349
+    #6 0x000181dc84e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+SUMMARY: AddressSanitizer: heap-use-after-free vvp_net.cc:4705 in robotron_vvp_concat_inventory
+Shadow bytes around the buggy address:
+  0x000103c04580: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x000103c04600: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x000103c04680: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x000103c04700: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x000103c04780: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+=>0x000103c04800: fd fd fd fd fd[fd]fd fd fd fd fd fd fd fd fd fd
+  0x000103c04880: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x000103c04900: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x000103c04980: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x000103c04a00: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x000103c04a80: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==67089==ABORTING

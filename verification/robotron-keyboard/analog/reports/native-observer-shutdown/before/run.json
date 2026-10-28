@@ -1,0 +1,735 @@
+{
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/baseline.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-fsanitize=address",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-native-teardown-board-runtime",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/probe.cc"
+    ]
+  ],
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp": "e2e419cb8b7fd9598b7fc05216cf2aa04117c1b4e96859068d7dfdb3f2da6bb0",
+    "/private/tmp/k7658-native-teardown-board-runtime/vvp/libvvp.so": "c2abe178e9ab6c49af2985960408e66599afdc3d5bf551edcf2c245f62965cbe",
+    "/private/tmp/k7658-native-teardown-board-runtime/vpi/system.vpi": "ee0b885845c2167a2ea0f6fc18bbe32e5b208b09c9695d676dc3aa033c5eeb10",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/probe.vpi": "9e01e85282ba561dee2fbe7d9b4ce979eca4b794ce884ea8bad227a9e7b456a7",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+  },
+  "inventorySources": {
+    "vvp/array.cc": "66b44c54290183a9922500f1a5dfc374028e48642f1f8c4795ee54b3ca8784e9",
+    "vvp/event.cc": "ac6722d240eb441e195e4d062dd950bc87755a3ef5ecf4808dbf2dd445887d43",
+    "vvp/schedule.cc": "a900b16dd48a69b719adc5d137e35d50c4bc856a87a0adc6156add65ffddee5e",
+    "vvp/vpi_callback.cc": "96881f6eb7b19c6c5a2352ee127e01ca91e8fab6883f9115d350c4711b11bb69",
+    "vvp/vpi_const.cc": "dd713e04cf46ae7fbcb39e9469cdd2e2651d9d25605f771849cb595c655416a6",
+    "vvp/vpi_scope.cc": "cc5e8437f717458c40c734121b9c9f1539746c0bb8b434da53215f04f445eede",
+    "vvp/vpi_signal.cc": "c74f26b71562b0510d5457271b9165a79d0ce4916a7e5802de6f179551edffb8",
+    "vvp/vthread.cc": "43c8b9bfe5d305d82ad004167b298eb23647f3768ce74e9910f27f9441cdb5f5",
+    "vvp/vvp_island.cc": "2bee48a87f9e6efe996af3137d090fcdc733bdb91b14af9dbb7372f5e4c660a3",
+    "vvp/vvp_net.cc": "0f112d45ded76f2156865718d2f4c5e1da96c92a6cd6bc1c2ff212507ce85fa9",
+    "vvp/codes.cc": "f6efcc2a5d94c4c0869009e4dba5f5f7e5641fc9969e3725ead2a3624a6991a2"
+  },
+  "inventories": [
+    "robotron_vvp_arithmetic_delta_inventory",
+    "robotron_vvp_arithmetic_inventory",
+    "robotron_vvp_array_compact_inventory",
+    "robotron_vvp_array_inventory",
+    "robotron_vvp_assignment_inventory",
+    "robotron_vvp_assignment_raw_inventory",
+    "robotron_vvp_callback_list_delta_inventory",
+    "robotron_vvp_callback_list_inventory",
+    "robotron_vvp_callback_signal_inventory",
+    "robotron_vvp_callback_signal_reference_inventory",
+    "robotron_vvp_code_operand_inventory",
+    "robotron_vvp_concat_delta_inventory",
+    "robotron_vvp_concat_inventory",
+    "robotron_vvp_executing_inventory",
+    "robotron_vvp_gate_delta_inventory",
+    "robotron_vvp_gate_inventory",
+    "robotron_vvp_island_filter_inventory",
+    "robotron_vvp_island_inventory",
+    "robotron_vvp_island_queue_inventory",
+    "robotron_vvp_island_raw_delta_inventory",
+    "robotron_vvp_island_raw_inventory",
+    "robotron_vvp_memory_metadata_inventory",
+    "robotron_vvp_mux_delta_inventory",
+    "robotron_vvp_mux_inventory",
+    "robotron_vvp_net_delta_inventory",
+    "robotron_vvp_net_inventory",
+    "robotron_vvp_parameter_inventory",
+    "robotron_vvp_port_payload_inventory",
+    "robotron_vvp_primitive_inventory",
+    "robotron_vvp_queue_inventory",
+    "robotron_vvp_reduction_delta_inventory",
+    "robotron_vvp_reduction_inventory",
+    "robotron_vvp_resolver_delta_inventory",
+    "robotron_vvp_resolver_inventory",
+    "robotron_vvp_scope_inventory",
+    "robotron_vvp_scope_metadata_compact_inventory",
+    "robotron_vvp_scope_metadata_inventory",
+    "robotron_vvp_scope_metadata_reference_compact_inventory",
+    "robotron_vvp_scope_metadata_reference_inventory",
+    "robotron_vvp_scope_signal_inventory",
+    "robotron_vvp_signal_delta_inventory",
+    "robotron_vvp_signal_handle_inventory",
+    "robotron_vvp_signal_handle_reference_inventory",
+    "robotron_vvp_signal_inventory",
+    "robotron_vvp_sync_family_inventory",
+    "robotron_vvp_sync_inventory",
+    "robotron_vvp_thread_code_inventory",
+    "robotron_vvp_thread_compact_inventory",
+    "robotron_vvp_thread_inventory",
+    "robotron_vvp_thread_queue_inventory",
+    "robotron_vvp_wait_inventory",
+    "robotron_vvp_wire_delta_inventory",
+    "robotron_vvp_wire_inventory",
+    "robotron_vvp_wire_raw_delta_inventory",
+    "robotron_vvp_wire_raw_inventory"
+  ],
+  "runs": {
+    "baseline": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/baseline.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "off"
+    },
+    "disabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "off"
+    },
+    "robotron_vvp_arithmetic_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_arithmetic_delta_inventory"
+    },
+    "robotron_vvp_arithmetic_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_arithmetic_inventory"
+    },
+    "robotron_vvp_array_compact_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_array_compact_inventory"
+    },
+    "robotron_vvp_array_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_array_inventory"
+    },
+    "robotron_vvp_assignment_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_assignment_inventory"
+    },
+    "robotron_vvp_assignment_raw_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_assignment_raw_inventory"
+    },
+    "robotron_vvp_callback_list_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_callback_list_delta_inventory"
+    },
+    "robotron_vvp_callback_list_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_callback_list_inventory"
+    },
+    "robotron_vvp_callback_signal_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_callback_signal_inventory"
+    },
+    "robotron_vvp_callback_signal_reference_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_callback_signal_reference_inventory"
+    },
+    "robotron_vvp_code_operand_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_code_operand_inventory"
+    },
+    "robotron_vvp_concat_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_concat_delta_inventory"
+    },
+    "robotron_vvp_concat_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_concat_inventory"
+    },
+    "robotron_vvp_executing_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_executing_inventory"
+    },
+    "robotron_vvp_gate_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_gate_delta_inventory"
+    },
+    "robotron_vvp_gate_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_gate_inventory"
+    },
+    "robotron_vvp_island_filter_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_island_filter_inventory"
+    },
+    "robotron_vvp_island_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_island_inventory"
+    },
+    "robotron_vvp_island_queue_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_island_queue_inventory"
+    },
+    "robotron_vvp_island_raw_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_island_raw_delta_inventory"
+    },
+    "robotron_vvp_island_raw_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_island_raw_inventory"
+    },
+    "robotron_vvp_memory_metadata_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_memory_metadata_inventory"
+    },
+    "robotron_vvp_mux_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_mux_delta_inventory"
+    },
+    "robotron_vvp_mux_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_mux_inventory"
+    },
+    "robotron_vvp_net_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_net_delta_inventory"
+    },
+    "robotron_vvp_net_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_net_inventory"
+    },
+    "robotron_vvp_parameter_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_parameter_inventory"
+    },
+    "robotron_vvp_port_payload_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_port_payload_inventory"
+    },
+    "robotron_vvp_primitive_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_primitive_inventory"
+    },
+    "robotron_vvp_queue_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_queue_inventory"
+    },
+    "robotron_vvp_reduction_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_reduction_delta_inventory"
+    },
+    "robotron_vvp_reduction_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_reduction_inventory"
+    },
+    "robotron_vvp_resolver_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_resolver_delta_inventory"
+    },
+    "robotron_vvp_resolver_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_resolver_inventory"
+    },
+    "robotron_vvp_scope_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_scope_inventory"
+    },
+    "robotron_vvp_scope_metadata_compact_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_scope_metadata_compact_inventory"
+    },
+    "robotron_vvp_scope_metadata_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_scope_metadata_inventory"
+    },
+    "robotron_vvp_scope_metadata_reference_compact_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_scope_metadata_reference_compact_inventory"
+    },
+    "robotron_vvp_scope_metadata_reference_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_scope_metadata_reference_inventory"
+    },
+    "robotron_vvp_scope_signal_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_scope_signal_inventory"
+    },
+    "robotron_vvp_signal_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_signal_delta_inventory"
+    },
+    "robotron_vvp_signal_handle_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_signal_handle_inventory"
+    },
+    "robotron_vvp_signal_handle_reference_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_signal_handle_reference_inventory"
+    },
+    "robotron_vvp_signal_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_signal_inventory"
+    },
+    "robotron_vvp_sync_family_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_sync_family_inventory"
+    },
+    "robotron_vvp_sync_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_sync_inventory"
+    },
+    "robotron_vvp_thread_code_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_thread_code_inventory"
+    },
+    "robotron_vvp_thread_compact_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_thread_compact_inventory"
+    },
+    "robotron_vvp_thread_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_thread_inventory"
+    },
+    "robotron_vvp_thread_queue_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_thread_queue_inventory"
+    },
+    "robotron_vvp_wait_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_wait_inventory"
+    },
+    "robotron_vvp_wire_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_wire_delta_inventory"
+    },
+    "robotron_vvp_wire_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_wire_inventory"
+    },
+    "robotron_vvp_wire_raw_delta_inventory": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_wire_raw_delta_inventory"
+    },
+    "robotron_vvp_wire_raw_inventory": {
+      "exitCode": 1,
+      "command": [
+        "/private/tmp/k7658-native-teardown-board-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-observer-shutdown-before/candidate.vvp"
+      ],
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0",
+      "inventory": "robotron_vvp_wire_raw_inventory"
+    }
+  }
+}
