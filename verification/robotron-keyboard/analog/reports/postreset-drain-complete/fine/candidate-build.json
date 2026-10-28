@@ -1,0 +1,31 @@
+{
+  "qualified": false,
+  "command": [
+    "cc",
+    "-fPIC",
+    "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/include",
+    "-I/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog",
+    "-I/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog",
+    "-dynamiclib",
+    "-undefined",
+    "dynamic_lookup",
+    "/private/tmp/k7658-output-drain-vpi/vpi.c",
+    "-o",
+    "/private/tmp/k7658-output-drain-vpi/ivlng.vpi"
+  ],
+  "sources": {
+    "/Users/ddanila/fun/dac-emulation/verification/robotron-keyboard/analog/build_output_drain_vpi.py": "6279c293d9c3396143163567a4c9a222ed381b35970731ba4383302f3d241551",
+    "/private/tmp/k7658-absolute-tick-vpi/build.json": "dbc9f8511ce71eba8bb4c13ba0bb5be0b9acb350f155c2332bd321ea1096f3bf",
+    "/private/tmp/k7658-absolute-tick-vpi/vpi.c": "604b429aeba23e4ab8158df4c4fb468a8351c1ac998df712fba82db7c7c7c268",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/include/iverilog/vpi_user.h": "109e905f31b6b25dcd3ad784784177baf1bab342a3c1634a82a20abf00516256",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/icarus_shim.h": "cb3a43a781157f1477b9ba4ed5ca6669c60b76e3f1c6d9674153f703b6395912",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/xspice/verilog/coroutine_cosim.h": "78de72acfb12c09155f46b53821d8ecab2b596423ce93c995384dd971550716e",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cmtypes.h": "268ca5c099d9d2e19bef436abc81261195c4ac5e237a5489786331de8d22b371",
+    "/private/tmp/k7658-ngspice-performance/ngspice-47/src/include/ngspice/cosim.h": "1fdf5e534cdc4a6f77b5d8177152107722f192a2b9e3e7a7fa007d093e13a425"
+  },
+  "outputs": {
+    "vpi.c": "1c76d06af8ddba25051c1326bf86c31354e320e9873c21901e0e614abb7db06c",
+    "ivlng.vpi": "d1d6487b4dbb2a2ba694466a333b701c66df5467b9c37493929468d19f093087"
+  },
+  "scope": "Default-off timed-stop deferral to cbReadWriteSynch. Original output-time entry clamp and input application order preserved. Native and board controls required; does not establish full scheduler quiescence or general rollback."
+}
