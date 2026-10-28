@@ -1,0 +1,19 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "unsupportedProfilesRefused": [
+    "alias",
+    "net",
+    "real",
+    "string"
+  ],
+  "denseAndCompactRefuseWithoutPartialInventory": true,
+  "disabledContinuationExactlyEqual": true,
+  "aliasStorageSharingExercised": true,
+  "scope": "Pinned native runtime; alias fixture adds the audited compiled alias declaration, verifies shared writes/readback and restores before observation. Other families are compiled from HDL. VPI setup deliberately materializes handles before observation.",
+  "notEstablished": [
+    "Support for these storage families or their rollback",
+    "Dynamic/class/object array controls",
+    "Full-board qualification"
+  ]
+}
