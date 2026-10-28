@@ -1,0 +1,17 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "families": [
+    "binary",
+    "real",
+    "string"
+  ],
+  "unsupportedDestructions": 6,
+  "supportedDestructions": 6,
+  "unsupportedInventoryRefusals": 6,
+  "staleEntryZeroOutputRefusals": 36,
+  "exactRecoveryRestorations": 12,
+  "supportedAllocationsAfterRefusal": 6,
+  "originalHdlContinuationExactlyEqual": true,
+  "scope": "Diagnostic unsupported subclasses are deleted through their native virtual destructors and the object allocation is freed. Stale scope entries refuse before dereference; detachment restores all three original inventories. Subsequent exact-class allocation succeeds with full payloads and fresh IDs, then deletion/restoration repeats. Nine original/disabled/enabled runs preserve HDL continuation. No guarantee of allocator address reuse, dangling-handle safety, compiled-reference deletion or full graph teardown."
+}

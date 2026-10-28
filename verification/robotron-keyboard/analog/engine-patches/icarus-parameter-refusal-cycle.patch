@@ -1,0 +1,38 @@
+--- a/vvp/vpi_const.cc
++++ b/vvp/vpi_const.cc
+@@ -1174,3 +1174,35 @@
+     }
+     return -1;
+ }
++
++extern "C" int robotron_vvp_parameter_refusal_cycle(unsigned operation,unsigned kind)
++{
++    static vpiHandle live=0,stale=0;static __vpiScope*scope=0;static unsigned live_kind=0;
++    if(kind>2)return -1;
++    if(operation==0){
++        if(live||stale)return -1;
++        std::map<const void*,std::pair<unsigned long long,const void*>> before,after;
++        if(robotron_vvp_parameter_owners(&before)||before.empty())return -1;
++        if(robotron_vvp_parameter_add_unsupported(kind)!=1)return -1;
++        if(robotron_vvp_parameter_owners(&after)||after.size()!=before.size()+1)abort();
++        for(auto item:after)if(!before.count(item.first)){
++            if(live)abort();live=static_cast<vpiHandle>(const_cast<void*>(item.first));
++            scope=static_cast<__vpiScope*>(const_cast<void*>(item.second.second));
++        }
++        if(!live || (kind==0 && typeid(*live)!=typeid(robotron_binary_param_extra)) ||
++           (kind==1 && typeid(*live)!=typeid(robotron_real_param_extra)) ||
++           (kind==2 && typeid(*live)!=typeid(robotron_string_param_extra)))abort();
++        live_kind=kind;return 1;
++    }
++    if(operation==1){
++        if(!live||stale||kind!=live_kind)return -1;
++        stale=live;delete live;live=0;return 1;
++    }
++    if(operation==2){
++        if(live||!stale||kind!=live_kind)return -1;
++        auto found=std::find(scope->intern.begin(),scope->intern.end(),stale);
++        if(found==scope->intern.end())return -1;
++        scope->intern.erase(found);stale=0;return 1;
++    }
++    return -1;
++}

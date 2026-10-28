@@ -1,0 +1,157 @@
+{
+  "runs": {
+    "binary-baseline": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "family": "binary",
+      "observer": "baseline"
+    },
+    "binary-disabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/libvvp.so",
+      "family": "binary",
+      "observer": "disabled"
+    },
+    "binary-enabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/libvvp.so",
+      "family": "binary",
+      "observer": "enabled"
+    },
+    "real-baseline": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "family": "real",
+      "observer": "baseline"
+    },
+    "real-disabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/libvvp.so",
+      "family": "real",
+      "observer": "disabled"
+    },
+    "real-enabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/libvvp.so",
+      "family": "real",
+      "observer": "enabled"
+    },
+    "string-baseline": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/robotron-icarus-src/vvp/libvvp.so",
+      "family": "string",
+      "observer": "baseline"
+    },
+    "string-disabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/libvvp.so",
+      "family": "string",
+      "observer": "disabled"
+    },
+    "string-enabled": {
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/vvp",
+        "-M/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl",
+        "-M.",
+        "-mprobe",
+        "probe.vvp"
+      ],
+      "library": "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/libvvp.so",
+      "family": "string",
+      "observer": "enabled"
+    }
+  },
+  "commands": [
+    [
+      "iverilog",
+      "-g2012",
+      "-ginterconnect",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-refusal-api/probe.vvp",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-refusal-api/probe.v"
+    ],
+    [
+      "c++",
+      "-std=c++11",
+      "-bundle",
+      "-undefined",
+      "dynamic_lookup",
+      "-I/private/tmp/k7658-parameter-refusal-cycle-runtime",
+      "-I/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp",
+      "-o",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-refusal-api/probe.vpi",
+      "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-refusal-api/probe.cc"
+    ]
+  ],
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/libvvp.so": "1f0c13182922300e885bd84c46440470b38f7d6cd0725a1692542110937e8869",
+    "/private/tmp/k7658-parameter-refusal-cycle-runtime/vvp/vvp": "56595ffddd95b346461c5dcff60448d76251c76d5a3e476e0555a0e3bdd33706",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-refusal-api/probe.vpi": "8a03dfcbea7d0872e5faf60037244d8971910eb8c98e1ec3df513f4ca6c45442",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/parameter-refusal-api/probe.vvp": "2893f5cbd1977ada5e96f3f58b5cf2842ae6e17945010e2dc6c9b228438feb82",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vpi_debug.vpi": "9591cd362de9a03a2c7c255dee448a1d13b325888c2455db7a56e628b28e89ea",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160"
+  }
+}
