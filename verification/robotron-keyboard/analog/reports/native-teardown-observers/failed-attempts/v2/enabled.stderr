@@ -1,0 +1,59 @@
+=================================================================
+==46465==ERROR: AddressSanitizer: odr-violation (0x00010448c0c0):
+  [1] size=160 'vlog_startup_routines' sys_table.c in probe.vpi
+  [2] size=16 'vlog_startup_routines' /Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v2/probe.cc in probe.vpi
+These globals were registered at these points:
+  [1]:
+    #0 0x000105743cb4 in __asan_register_globals+0xa0 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x13cb4)
+    #1 0x00010576f640 in __asan::AsanApplyToGlobals(void (*)(__asan_global*, unsigned long), void const*)+0x7c (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x3f640)
+    #2 0x000105743bf8 in __asan_register_image_globals+0x34 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x13bf8)
+    #3 0x00010c41cfb8 in asan.module_ctor+0x18 (system.vpi:arm64+0xfb8)
+    #4 0x000181df6a24 in invocation function for block in dyld4::Loader::findAndRunAllInitializers(dyld4::RuntimeState&) const::$_0::operator()() const+0xb0 (dyld:arm64e+0x4ea24)
+    #5 0x000181e01a88 in invocation function for block in dyld3::MachOAnalyzer::forEachInitializer(Diagnostics&, dyld3::MachOAnalyzer::VMAddrConverter const&, void (unsigned int) block_pointer, void const*) const+0x13c (dyld:arm64e+0x59a88)
+    #6 0x000181e41fa8 in invocation function for block in mach_o::UnsafeHeader::forEachSection(void (mach_o::UnsafeHeader::SectionInfo const&, bool&) block_pointer) const+0x134 (dyld:arm64e+0x99fa8)
+    #7 0x000181e3e9a0 in mach_o::UnsafeHeader::forEachLoadCommand(void (load_command const*, bool&) block_pointer) const+0xcc (dyld:arm64e+0x969a0)
+    #8 0x000181e40248 in mach_o::UnsafeHeader::forEachSection(void (mach_o::UnsafeHeader::SectionInfo const&, bool&) block_pointer) const+0x78 (dyld:arm64e+0x98248)
+    #9 0x000181e0157c in dyld3::MachOAnalyzer::forEachInitializer(Diagnostics&, dyld3::MachOAnalyzer::VMAddrConverter const&, void (unsigned int) block_pointer, void const*) const+0x200 (dyld:arm64e+0x5957c)
+    #10 0x000181df1390 in dyld4::Loader::findAndRunAllInitializers(dyld4::RuntimeState&) const+0x20c (dyld:arm64e+0x49390)
+    #11 0x000181de9ccc in dyld4::JustInTimeLoader::runInitializers(dyld4::RuntimeState&) const+0x20 (dyld:arm64e+0x41ccc)
+    #12 0x000181df1aac in dyld4::Loader::runInitializersBottomUp(dyld4::RuntimeState&, lsl::Vector<AuthenticatedValue<dyld4::Loader const*>>&, lsl::Vector<AuthenticatedValue<dyld4::Loader const*>>&) const+0x234 (dyld:arm64e+0x49aac)
+    #13 0x000181df6abc in dyld4::Loader::runInitializersBottomUpPlusUpwardLinks(dyld4::RuntimeState&) const::$_0::operator()() const+0x70 (dyld:arm64e+0x4eabc)
+    #14 0x000181df1d94 in dyld4::Loader::runInitializersBottomUpPlusUpwardLinks(dyld4::RuntimeState&) const+0x2c8 (dyld:arm64e+0x49d94)
+    #15 0x000181dc02c8 in dyld4::APIs::dlopen_from(char const*, int, void*)::$_0::operator()() const+0x90c (dyld:arm64e+0x182c8)
+    #16 0x000181db4000 in dyld4::APIs::dlopen_from(char const*, int, void*)+0x458 (dyld:arm64e+0xc000)
+    #17 0x000181db3b00 in dyld4::APIs::dlopen(char const*, int)+0x74 (dyld:arm64e+0xbb00)
+    #18 0x000105760f24 in dlopen+0x188 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x30f24)
+    #19 0x000104d4d274 in vpip_load_module vpi_modules.cc:223
+    #20 0x000104be2e64 in compile_load_vpi_module(char*) compile.cc:874
+    #21 0x000104b9bec0 in yyparse() parse.y:157
+    #22 0x000104ba44b0 in compile_design(char const*) parse.y:1263
+    #23 0x000104b993f8 in vvp_run lib_main.cc:347
+    #24 0x000181dc84e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+  [2]:
+    #0 0x000105743cb4 in __asan_register_globals+0xa0 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x13cb4)
+    #1 0x00010576f640 in __asan::AsanApplyToGlobals(void (*)(__asan_global*, unsigned long), void const*)+0x7c (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x3f640)
+    #2 0x000105743bf8 in __asan_register_image_globals+0x34 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x13bf8)
+    #3 0x0001044851e4 in asan.module_ctor+0x24 (probe.vpi:arm64+0x11e4)
+    #4 0x000181df6a24 in invocation function for block in dyld4::Loader::findAndRunAllInitializers(dyld4::RuntimeState&) const::$_0::operator()() const+0xb0 (dyld:arm64e+0x4ea24)
+    #5 0x000181e01a88 in invocation function for block in dyld3::MachOAnalyzer::forEachInitializer(Diagnostics&, dyld3::MachOAnalyzer::VMAddrConverter const&, void (unsigned int) block_pointer, void const*) const+0x13c (dyld:arm64e+0x59a88)
+    #6 0x000181e41fa8 in invocation function for block in mach_o::UnsafeHeader::forEachSection(void (mach_o::UnsafeHeader::SectionInfo const&, bool&) block_pointer) const+0x134 (dyld:arm64e+0x99fa8)
+    #7 0x000181e3e9a0 in mach_o::UnsafeHeader::forEachLoadCommand(void (load_command const*, bool&) block_pointer) const+0xcc (dyld:arm64e+0x969a0)
+    #8 0x000181e40248 in mach_o::UnsafeHeader::forEachSection(void (mach_o::UnsafeHeader::SectionInfo const&, bool&) block_pointer) const+0x78 (dyld:arm64e+0x98248)
+    #9 0x000181e0157c in dyld3::MachOAnalyzer::forEachInitializer(Diagnostics&, dyld3::MachOAnalyzer::VMAddrConverter const&, void (unsigned int) block_pointer, void const*) const+0x200 (dyld:arm64e+0x5957c)
+    #10 0x000181df1390 in dyld4::Loader::findAndRunAllInitializers(dyld4::RuntimeState&) const+0x20c (dyld:arm64e+0x49390)
+    #11 0x000181de9ccc in dyld4::JustInTimeLoader::runInitializers(dyld4::RuntimeState&) const+0x20 (dyld:arm64e+0x41ccc)
+    #12 0x000181df1aac in dyld4::Loader::runInitializersBottomUp(dyld4::RuntimeState&, lsl::Vector<AuthenticatedValue<dyld4::Loader const*>>&, lsl::Vector<AuthenticatedValue<dyld4::Loader const*>>&) const+0x234 (dyld:arm64e+0x49aac)
+    #13 0x000181df6abc in dyld4::Loader::runInitializersBottomUpPlusUpwardLinks(dyld4::RuntimeState&) const::$_0::operator()() const+0x70 (dyld:arm64e+0x4eabc)
+    #14 0x000181df1d94 in dyld4::Loader::runInitializersBottomUpPlusUpwardLinks(dyld4::RuntimeState&) const+0x2c8 (dyld:arm64e+0x49d94)
+    #15 0x000181dc02c8 in dyld4::APIs::dlopen_from(char const*, int, void*)::$_0::operator()() const+0x90c (dyld:arm64e+0x182c8)
+    #16 0x000181db4000 in dyld4::APIs::dlopen_from(char const*, int, void*)+0x458 (dyld:arm64e+0xc000)
+    #17 0x000181db3b00 in dyld4::APIs::dlopen(char const*, int)+0x74 (dyld:arm64e+0xbb00)
+    #18 0x000105760f24 in dlopen+0x188 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x30f24)
+    #19 0x000104d4d274 in vpip_load_module vpi_modules.cc:223
+    #20 0x000104368c20 in main main.cc:145
+    #21 0x000181dc84e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+==46465==HINT: if you don't care about these errors you may set ASAN_OPTIONS=detect_odr_violation=0
+SUMMARY: AddressSanitizer: odr-violation: global 'vlog_startup_routines' at sys_table.c in probe.vpi
+==46465==ABORTING

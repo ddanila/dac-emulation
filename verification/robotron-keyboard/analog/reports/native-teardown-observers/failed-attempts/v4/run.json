@@ -1,0 +1,67 @@
+{
+  "compileCommand": [
+    "iverilog",
+    "-g2012",
+    "-o",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4/baseline.vvp",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4/probe.v"
+  ],
+  "observerCompileCommand": [
+    "c++",
+    "-std=c++11",
+    "-fsanitize=address",
+    "-fsanitize-address-use-odr-indicator",
+    "-bundle",
+    "-undefined",
+    "dynamic_lookup",
+    "-I/private/tmp/k7658-native-teardown-odr-runtime",
+    "-o",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4/probe.vpi",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4/probe.cc"
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-native-teardown-odr-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4/baseline.vvp"
+      ],
+      "exitCode": 0,
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-native-teardown-odr-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4/teardown.vvp"
+      ],
+      "exitCode": 1,
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-native-teardown-odr-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4/teardown.vvp"
+      ],
+      "exitCode": 1,
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-native-teardown-odr-runtime/vvp/vvp": "e2c3526fe7c0822fcefa17eb3dd9a56b3dcb8e99674e15e39150b741f3c99a17",
+    "/private/tmp/k7658-native-teardown-odr-runtime/vvp/libvvp.so": "b68a53f25e00547bbd900d99a3c86f123229f96a81f96943166291668736d4fc",
+    "/private/tmp/k7658-native-teardown-odr-runtime/vpi/system.vpi": "a3b4c31d8d87872ff2000b296ca0638d50bfdff3f52eab000bcf8bac4b61ecfc",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/native-teardown-observers-v4/probe.vpi": "162b861f74f1fecda435776aff70d0178cd2b98a17d6d48bfee92b33422bd746",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+  }
+}

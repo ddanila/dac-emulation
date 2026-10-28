@@ -1,0 +1,27 @@
+/private/tmp/k7658-native-teardown-odr-runtime/vpi/system.vpi:`/private/tmp/k7658-native-teardown-odr-runtime/vpi/system.vpi' failed to open using dlopen() because:
+    dlopen(/private/tmp/k7658-native-teardown-odr-runtime/vpi/system.vpi, 0x0001): symbol not found in flat namespace 'l___unnamed_1'.
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==49980==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0001014e56f0 bp 0x00016f3a0c10 sp 0x00016f3a0bd0 T0)
+==49980==The signal is caused by a READ memory access.
+==49980==Hint: address points to the zero page.
+    #0 0x0001014e56f0 in vpi_call_delete(__vpiHandle*) vpi_tasks.cc:894
+    #1 0x0001014e477c in vpip_build_vpi_call(char const*, int, unsigned int, vvp_net_t*, bool, bool, unsigned int, __vpiHandle**, unsigned int, unsigned int, unsigned int, long, long) vpi_tasks.cc
+    #2 0x00010132fe28 in compile_vpi_call(char*, char*, bool, bool, long, long, unsigned int, __vpiHandle**, unsigned int, unsigned int, unsigned int) compile.cc:1963
+    #3 0x0001012e53e0 in yyparse() parse.y:664
+    #4 0x0001012ec4b0 in compile_design(char const*) parse.y:1263
+    #5 0x0001012e13f8 in vvp_run lib_main.cc:347
+    #6 0x000181dc84e0 in start+0x1b4c (dyld:arm64e+0x204e0)
+
+==49980==Register values:
+ x[0] = 0x0000000000000000   x[1] = 0x0000000100b100d0   x[2] = 0x000000016f3a0390   x[3] = 0x0000603000003390  
+ x[4] = 0x0000000000000018   x[5] = 0x0000000000000018   x[6] = 0x000000016eba8000   x[7] = 0x0000000000000001  
+ x[8] = 0x0000000000000000   x[9] = 0x0000000000000000  x[10] = 0x0000624000000018  x[11] = 0x0000000000000243  
+x[12] = 0x0000000000000000  x[13] = 0xffffffffffffffff  x[14] = 0x0000000000000000  x[15] = 0x00007fffffffffff  
+x[16] = 0x000000018219d090  x[17] = 0x0000000101a80558  x[18] = 0x0000000000000000  x[19] = 0x0000608000000e20  
+x[20] = 0x0000608000000e40  x[21] = 0x0000608000000e38  x[22] = 0x0000007000020000  x[23] = 0x00000c10000001c7  
+x[24] = 0x0000000000000010  x[25] = 0x0000000000000002  x[26] = 0x00000c10000001c8  x[27] = 0x0000000000000000  
+x[28] = 0x0000007000020000     fp = 0x000000016f3a0c10     lr = 0x00000001014e570c     sp = 0x000000016f3a0bd0  
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV vpi_tasks.cc:894 in vpi_call_delete(__vpiHandle*)
+==49980==ABORTING
