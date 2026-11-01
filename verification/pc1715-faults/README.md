@@ -4,7 +4,14 @@ This uses the existing `machines/robotron1715` motherboard, shared Z80 CPU,
 normal instruction execution and actual modeled RAM writes. A verification-only
 bus wrapper injects explicit faults. Normal emulation is unchanged.
 
-**Status: partial behavioral reproduction, not a diagnosed physical fault.**
+**Status: selected bounded captures reproduced, not a diagnosed physical fault.**
+The [November1 comparison](hypothesis-results-20261101.md) tests438 configurations
+against18 recordings with disputed address/control probes excluded. It reproduces
+two later short capture windows (261 and358 complete intervals), but no fixed
+configuration explains all runs. It reports relative model support rather than
+uncalibrated hardware-failure percentages.
+
+The results below describe the earlier campaigns.
 The [second pass](bit-results.md) reaches **82 consecutive fetch intervals** in
 one run, including operand/read bytes and timing, but no complete startup.
 The first campaign described below is preserved as historical evidence.
