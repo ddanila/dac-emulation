@@ -15,3 +15,23 @@ For create/read/copy/reboot/delete and native/WASM disk parity, use the optional
 `--file-operations` flag on `robotron_boot.py` / `wasm_parity.mjs` with a raw disk
 decoded from the original TeleDisk image. See the
 [Robotron media instructions](../../machines/robotron1715m/README.md).
+
+## Custom 1715W ROM peer
+
+`make build/robotron-rom-monitor` builds an offline process peer for Ravi's W1
+ROM qualification. Invoke it with a 2048-byte ROM, a 256-byte CAS PROM and an
+optional `no-ram,no-display` mode. It executes the actual Z80 instructions with
+the modeled CTC/SIO and an independent 9600 8N1 serial peer; no guest-PC traps
+or host execution shortcuts are used.
+
+Each stdin command produces one stdout line of received hexadecimal bytes:
+`T hex` sends bytes, `S ticks` advances time, `F physical mask value` injects a
+read fault (hex arguments), `A mask` aliases CPU address bits, `U 1/0` stalls or
+releases TX, `P format` changes peer framing, `V path` writes a PPM display,
+`D` reports access counters to stderr, and `Q` exits. Startup also emits one
+line. Main-RAM accesses in `no-ram` mode make the process fail. Display writes
+are discarded in `no-display` mode.
+
+Ravi's `tools/qualify_robotron1715w.py` pins this emulator and drives firmware
+fault/recovery tests. This fixture does not qualify physical clock routing,
+DRAM retention, specimen PROM contents, or recovery from an arbitrary CPU hang.

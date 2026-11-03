@@ -1602,6 +1602,27 @@ static void v24_independent_peer(void) {
   assert(!m.v24.bits);
 }
 
+/* Independent fixed-baud decoder must see the start bit for a full x1
+ * clock cell; advancing before presenting it shifts every transmitted byte. */
+static void serial_x1_fixed_peer(void) {
+  init();
+  robotron_output(&m, 9, 7);
+  robotron_output(&m, 9, 26);
+  const uint8_t setup[] = {4, 4, 3, 0xc1, 5, 0xea};
+  send(15, setup, sizeof(setup));
+  m.v24.signals = 3;
+  m.v24.peer_baud = 9600;
+  m.v24.peer_format = 0x208;
+  const uint8_t bytes[] = {0x00, 0xff, 0x55, 0xaa, 0x5a, 0xa5};
+  for (unsigned i=0; i<sizeof(bytes); i++) {
+    robotron_output(&m, 13, bytes[i]);
+    robotron_run(&m, 10000);
+  }
+  assert(m.v24.decoded_size == sizeof(bytes));
+  assert(!memcmp(m.v24.decoded, bytes, sizeof(bytes)));
+  assert(!m.v24.decoder.errors);
+}
+
 static void dma_modes_restart(void) {
   init();
   m.ram[0x4000] = 0x5a;
@@ -1877,6 +1898,7 @@ int main(void) {
   serial_peer_decoder();
   v24();
   v24_independent_peer();
+  serial_x1_fixed_peer();
   drive_door();
   floppy_mechanics_and_deadlines();
   floppy_dsk();

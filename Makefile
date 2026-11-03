@@ -244,3 +244,7 @@ test: test-pc1715-faults
 build/pc1715-sanitize: tests/integration/pc1715_test.c $(RUNTIME_SOURCES) $(RUNTIME_HEADERS)
 	@mkdir -p build
 	$(CC) $(CPPFLAGS) -std=c11 -O1 -g -fsanitize=address,undefined tests/integration/pc1715_test.c $(RUNTIME_SOURCES) -o $@
+
+# Caller-supplied custom ROM/CAS; clocked serial peer and fault injection.
+build/robotron-rom-monitor: tests/integration/robotron_rom_monitor.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@

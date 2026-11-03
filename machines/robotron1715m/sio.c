@@ -333,11 +333,16 @@ static void peer_receive(robotron *m, unsigned div) {
   unsigned width = m->v24.peer_baud ? (format & 15) : widths[(r[5] >> 5) & 3];
   unsigned parity = m->v24.peer_baud ? ((format >> 4) & 3)
                                      : ((r[4] & 1) ? ((r[4] & 2) ? 2 : 1) : 0);
+  /* Fixed peer ticks between falling TX edges: tx_elapsed counts the edge
+   * that just began the current cell. Adaptive peers sample before that edge.
+   */
   unsigned level =
       (r[5] & 16) ? 0
       : m->v24.tx_clocks
           ? ((m->v24.tx_frame >>
-              (m->v24.tx_elapsed / (m->v24.tx_div ? m->v24.tx_div : 1))) &
+              ((m->v24.peer_baud && m->v24.tx_elapsed ? m->v24.tx_elapsed - 1
+                                                      : m->v24.tx_elapsed) /
+               (m->v24.tx_div ? m->v24.tx_div : 1))) &
              1)
           : 1;
   if (!s->phase) {
