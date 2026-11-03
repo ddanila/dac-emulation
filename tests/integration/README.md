@@ -38,3 +38,8 @@ DRAM retention, specimen PROM contents, or recovery from an arbitrary CPU hang.
 
 `Z` resets CPU/devices while retaining RAM and ROM/PROM, then runs startup.
 It is a controlled reset injection, not a power-cycle or analog reset model.
+
+The W2 fixture allows two million startup ticks for the ROM CRC sweep. `F`
+accepts an optional decimal read count; omitting it keeps a permanent fault.
+`first_tx_display_writes` records how many display writes preceded the first
+serial byte, allowing independent validation of serial-first startup.
