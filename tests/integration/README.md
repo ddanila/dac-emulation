@@ -35,3 +35,6 @@ are discarded in `no-display` mode.
 Ravi's `tools/qualify_robotron1715w.py` pins this emulator and drives firmware
 fault/recovery tests. This fixture does not qualify physical clock routing,
 DRAM retention, specimen PROM contents, or recovery from an arbitrary CPU hang.
+
+`Z` resets CPU/devices while retaining RAM and ROM/PROM, then runs startup.
+It is a controlled reset injection, not a power-cycle or analog reset model.
