@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 static robotron m;
+static uint8_t saved_ram[sizeof(m.ram)], saved_rom[2048], saved_prom[256];
 static unsigned fault_at = ~0u, fault_mask, fault_value, no_ram, bad_display;
 static unsigned reads, writes, violations, alias_mask, stall_tx;
 static uint32_t pixels[640 * 384];
@@ -100,7 +101,24 @@ int main(int argc, char **argv) {
       robotron_run(&m, 1000000);
     } else if (line[0] == 'S')
       robotron_run(&m, (unsigned)strtoul(line + 1, 0, 0));
-    else if (line[0] == 'F')
+    else if (line[0] == 'Z') {
+      /* Model reset of CPU/devices while retaining DRAM and reference images.
+       * This is a controlled fixture event, not a claim about power-on RAM. */
+      memcpy(saved_ram, m.ram, sizeof(m.ram));
+      memcpy(saved_rom, m.rom, sizeof(m.rom));
+      memcpy(saved_prom, m.prom, sizeof(m.prom));
+      robotron_init(&m);
+      memcpy(m.ram, saved_ram, sizeof(m.ram));
+      memcpy(m.rom, saved_rom, sizeof(m.rom));
+      memcpy(m.prom, saved_prom, sizeof(m.prom));
+      m.cpu.bus.read = read_bus;
+      m.cpu.bus.write = write_bus;
+      m.cpu.bus.output = output_bus;
+      m.v24.peer_baud = 9600;
+      m.v24.peer_format = 0x208;
+      m.v24.signals = 3;
+      robotron_run(&m, 800000);
+    } else if (line[0] == 'F')
       sscanf(line + 1, "%x %x %x", &fault_at, &fault_mask, &fault_value);
     else if (line[0] == 'A')
       alias_mask = (unsigned)strtoul(line + 1, 0, 0);
