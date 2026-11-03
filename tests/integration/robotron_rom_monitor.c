@@ -9,7 +9,8 @@
 static robotron m;
 static uint8_t saved_ram[sizeof(m.ram)], saved_rom[2048], saved_prom[256];
 static unsigned fault_at = ~0u, fault_mask, fault_value, no_ram, bad_display;
-static unsigned reads, writes, violations, alias_mask, stall_tx;
+static unsigned reads, writes, violations, alias_mask, stall_tx, fault_reads;
+static unsigned display_writes, first_tx_display_writes = ~0u;
 static uint32_t pixels[640 * 384];
 static uint8_t read_bus(void *p, uint16_t a) {
   unsigned mapped = robotron_mapping(p, a, 0), physical = mapped & 0xffffff;
@@ -20,8 +21,11 @@ static uint8_t read_bus(void *p, uint16_t a) {
       return 0xa5;
     }
     uint8_t v = robotron_read(p, a & ~alias_mask);
-    if (physical == fault_at)
+    if (physical == fault_at) {
       v = (v & ~fault_mask) | (fault_value & fault_mask);
+      if (fault_reads && !--fault_reads)
+        fault_at = ~0u;
+    }
     return v;
   }
   return robotron_read(p, a);
@@ -36,12 +40,16 @@ static void write_bus(void *p, uint16_t a, uint8_t v) {
     }
     a &= ~alias_mask;
   }
+  if ((mapped >> 24) == DAC_SPACE_VIDEO || (mapped >> 24) == DAC_SPACE_GLYPHS)
+    display_writes++;
   if (bad_display &&
       ((mapped >> 24) == DAC_SPACE_VIDEO || (mapped >> 24) == DAC_SPACE_GLYPHS))
     return;
   robotron_write(p, a, v);
 }
 static void output_bus(void *p, uint16_t a, uint8_t v) {
+  if ((a & 255) == 13 && first_tx_display_writes == ~0u)
+    first_tx_display_writes = display_writes;
   if (stall_tx && (a & 255) == 13) {
     m.v24.full = 1;
     return;
@@ -72,6 +80,7 @@ int main(int argc, char **argv) {
   load(argv[2], m.prom, 256);
   no_ram = argc > 3 && strstr(argv[3], "no-ram");
   bad_display = argc > 3 && strstr(argv[3], "no-display");
+  stall_tx = argc > 3 && strstr(argv[3], "no-tx");
   memset(m.ram, 0xa7, sizeof(m.ram));
   memset(m.vram, 0x9b, sizeof(m.vram));
   memset(m.chargen, 0xde, sizeof(m.chargen));
@@ -81,7 +90,7 @@ int main(int argc, char **argv) {
   m.v24.peer_baud = 9600;
   m.v24.peer_format = 0x208;
   m.v24.signals = 3;
-  robotron_run(&m, 800000);
+  robotron_run(&m, 2000000);
   output();
   char line[8192];
   while (fgets(line, sizeof(line), stdin)) {
@@ -117,10 +126,12 @@ int main(int argc, char **argv) {
       m.v24.peer_baud = 9600;
       m.v24.peer_format = 0x208;
       m.v24.signals = 3;
-      robotron_run(&m, 800000);
-    } else if (line[0] == 'F')
-      sscanf(line + 1, "%x %x %x", &fault_at, &fault_mask, &fault_value);
-    else if (line[0] == 'A')
+      robotron_run(&m, 2000000);
+    } else if (line[0] == 'F') {
+      fault_reads = 0;
+      sscanf(line + 1, "%x %x %x %u", &fault_at, &fault_mask, &fault_value,
+             &fault_reads);
+    } else if (line[0] == 'A')
       alias_mask = (unsigned)strtoul(line + 1, 0, 0);
     else if (line[0] == 'U') {
       stall_tx = (unsigned)strtoul(line + 1, 0, 0);
@@ -151,10 +162,11 @@ int main(int argc, char **argv) {
         if (pixels[i] != 0xff101812)
           lit++;
       fprintf(stderr,
-              "{\"lit_pixels\":%u,\"pc\":%u,\"ram_reads\":%u,\"ram_writes\":%u,"
+              "{\"first_tx_display_writes\":%u,\"lit_pixels\":%u,\"pc\":%u,"
+              "\"ram_reads\":%u,\"ram_writes\":%u,"
               "\"violations\":%u,\"display\":%u,\"font0\":%u,\"title\":[",
-              lit, m.cpu.cpu.pc, reads, writes, violations, m.display_on,
-              m.chargen[128]);
+              first_tx_display_writes, lit, m.cpu.cpu.pc, reads, writes,
+              violations, m.display_on, m.chargen[128]);
       for (unsigned i = 0; i < 12; i++)
         fprintf(stderr, "%s%u", i ? "," : "", m.vram[i]);
       fprintf(stderr, "]}\n");
