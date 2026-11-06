@@ -126,4 +126,20 @@ unsigned dac_keyboard_reg(dac_session *, unsigned field);
 int dac_keyboard_byte(dac_session *, unsigned address);
 unsigned dac_keyboard_disassemble(dac_session *, unsigned address);
 unsigned dac_keyboard_step(dac_session *);
+
+/* Journey ABI 1: 96 uint32 words/event; mask bits instructions=1, buses=2,
+ * selected-cell scanlines=4. Overview aggregates polling and DMA samples.
+ * Borrowed pages must be copied before execution. Faults require private runs. */
+unsigned dac_journey_capabilities(dac_session *);
+unsigned dac_journey_words(void);
+int dac_journey_capture(dac_session *,unsigned);
+void dac_journey_stop(dac_session *);
+unsigned dac_journey_count(dac_session *);
+unsigned dac_journey_status(dac_session *);
+const uint32_t *dac_journey_data(dac_session *,unsigned);
+int dac_journey_select(dac_session *,unsigned);
+int dac_journey_arm(dac_session *,unsigned,unsigned,unsigned,unsigned);
+unsigned dac_journey_trigger(dac_session *);
+int dac_journey_fault(dac_session *,unsigned,unsigned,unsigned);
+unsigned dac_journey_peek(dac_session *,unsigned,unsigned);
 #endif

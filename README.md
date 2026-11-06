@@ -7,6 +7,8 @@ Portable emulation cores for [Danila’s Archive of Computing](https://github.co
 
 The goal is to run the same machine implementation in native verification tools and in browser museum exhibits. The first extracted core is the Juku E5104 from [8080-cosim](https://github.com/ddanila/8080-cosim). VJUGA and Robotron 1715M share a Z80 CPU dependency with separate machine implementations.
 
+The additive [Journey observation ABI](common/runtime/journeys.md) exposes synchronized CPU, bus, floppy, interrupt and sampled display state for the museum workbench. Controlled faults belong to isolated experimental sessions. Run `make test-journey` and `make test-journey-wasm` for native state-neutrality and native/WASM parity checks.
+
 ## Status
 
 The ordinary [PC 1715](machines/robotron1715/README.md) now has a separate

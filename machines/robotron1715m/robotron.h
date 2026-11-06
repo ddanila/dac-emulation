@@ -87,7 +87,7 @@ typedef struct {
   dac_z80 cpu;
   dac_trace_sink trace;
   void *dive_user;
-  void (*dive)(void *, unsigned, unsigned, unsigned);
+  unsigned (*dive)(void *, unsigned, unsigned, unsigned); /* observational, except explicit experiment inhibition */
   unsigned
       trace_master; /* transient CPU/DMA attribution, zero outside run DMA */
   robotron_keyboard keyboard;
@@ -178,4 +178,5 @@ void robotron_write(void *, uint16_t, uint8_t);
 uint8_t robotron_input(void *, uint16_t);
 void robotron_output(void *, uint16_t, uint8_t);
 void robotron_rebind(robotron *);
+unsigned robotron_journey_probe(robotron *, unsigned);
 #endif
