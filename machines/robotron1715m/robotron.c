@@ -1379,6 +1379,8 @@ static void video_latch_row(robotron *m) {
   out->field = r->field;
   out->end_screen = r->end_screen;
   video_decode_scanout(m, r->row, out, 0);
+  if (m->dive) for (unsigned col=0; col<out->columns; col++)
+    m->dive(m->dive_user, 10, r->row*80+col, out->code[col]);
   r->pending_valid = 0;
   r->valid_rows |= 1u << r->row;
   for (unsigned col = 0; col < video_columns(m); col++) {
@@ -1625,6 +1627,7 @@ void robotron_run(robotron *m, unsigned ticks) {
     }
     mechanics_tick(m);
     video_clock(m);
+    if (m->dive) m->dive(m->dive_user, 0, 0, 0);
   }
 }
 
@@ -1730,6 +1733,7 @@ void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
 }
 
 void robotron_rebind(robotron *m) {
+  m->dive = NULL; m->dive_user = NULL;
   m->cpu.bus = (dac_z80_bus){
       m, robotron_read, robotron_write, robotron_input, robotron_output, ack};
   robotron_keyboard_rebind(&m->keyboard, m, robotron_serial_clock);

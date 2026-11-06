@@ -13,6 +13,8 @@ typedef struct {
   uint64_t strobes;
   uint8_t taps[64], tap_mods[64], synthetic[13];
   unsigned tap_read, tap_count, tap_phase, tap_ticks;
+  void *observe_user;
+  void (*observe)(void *, unsigned, unsigned, unsigned);
   void *serial_user;
   void (*serial)(void *, unsigned);
 } robotron_keyboard;

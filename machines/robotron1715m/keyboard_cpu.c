@@ -7,6 +7,7 @@ void k7658_cpu_reset(k7658_cpu *c) {
   c->cpu=c->controller.core.core.cpu;c->pins=c->controller.pins;
 }
 void k7658_cpu_init(k7658_cpu *c,dac_z80_bus bus) {
+  c->observe=NULL;c->observe_user=NULL;
   c->bus=bus;c->cycles=0;c->bus_request=c->wait=0;
   k7658_cpu_reset(c);
 }
@@ -31,7 +32,9 @@ uint64_t k7658_cpu_edge(k7658_cpu *c,int falling,int irq,int nmi) {
     else if(p&Z80_RD){d=c->bus.input?c->bus.input(c->bus.user,a):0xff;Z80_SET_DATA(p,d);}
     else if((p&Z80_WR)&&c->bus.output)c->bus.output(c->bus.user,a,Z80_GET_DATA(p));
   }
+  uint64_t changed=c->pins^p;
   c->pins=p;c->cpu=c->controller.core.core.cpu;
+  if(c->observe && (changed&Z80_WR)) c->observe(c->observe_user,11,(uint32_t)p,(uint32_t)(p>>32));
   if(falling)c->cycles++;
   return p;
 }

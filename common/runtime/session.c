@@ -18,6 +18,13 @@ struct dac_session {
   uint32_t timeline[512][13];
   unsigned debug_break, debug_hit, debug_exec, debug_address;
   char debug_text[128];
+  uint32_t *dive_rows;
+  unsigned dive_on, dive_count, dive_full, dive_kdone, dive_hdone;
+  unsigned dive_kpc, dive_hpc, dive_scan[1920];
+  unsigned dive_detailed, dive_initial[13], dive_contacts[13];
+  uint64_t dive_contact_clock;
+  unsigned dive_trigger_kind, dive_trigger_address, dive_pre, dive_waiting, dive_trigger_index, dive_stop;
+
   uint8_t firmware[16384], prom[256], glyphs[4096], keyboard[2048];
   size_t firmware_size, prom_size, glyph_size, disk_size, keyboard_size;
   int writable, writable_b;
@@ -36,6 +43,7 @@ struct dac_session {
 const char *dac_runtime_build_id(void) { return DAC_BUILD_ID; }
 unsigned dac_verification_abi(void) { return 1; }
 static void bind_observer(dac_session *s);
+static void dive_event(void *, unsigned, unsigned, unsigned);
 static void forward_trace(void *user, const dac_trace_event *event) {
   dac_session *s = user;
   dac_trace_emit_event(&s->observer, event);
@@ -43,6 +51,10 @@ static void forward_trace(void *user, const dac_trace_event *event) {
                   : event->kind[1] == 'R' ? 2
                   : event->kind[1] == 'W' ? 3
                                           : 4;
+  if (s->dive_on && s->r) {
+    if (kind==2 && (event->address&255)==0x0c) dive_event(s,7,event->address,event->data);
+    if (kind==1 && event->space==DAC_SPACE_VIDEO) dive_event(s,9,event->offset,event->data);
+  }
   int match = s->timeline_mode == 0 ||
               (s->timeline_mode == 1 && kind == 3 &&
                (event->address & 255) == s->timeline_address) ||
@@ -100,11 +112,18 @@ static void forward_trace(void *user, const dac_trace_event *event) {
 }
 static void bind_observer(dac_session *s) {
   dac_trace_sink sink = {
-      (s->observer.emit || s->timeline_on) ? forward_trace : NULL, s, 0, 0};
+      (s->observer.emit || s->timeline_on || s->dive_on) ? forward_trace : NULL, s, 0, 0};
   if (s->j)
     s->j->bus_trace = sink;
-  if (s->r)
+  if (s->r) {
     s->r->trace = sink;
+    s->r->dive = s->dive_on ? dive_event : NULL;
+    s->r->dive_user = s;
+    s->r->keyboard.observe = s->dive_on ? dive_event : NULL;
+    s->r->keyboard.observe_user = s;
+    s->r->keyboard.cpu.observe = s->dive_on ? dive_event : NULL;
+    s->r->keyboard.cpu.observe_user = s;
+  }
   if (s->plain)
     s->plain->trace = sink;
 }
@@ -238,6 +257,7 @@ void dac_destroy(dac_session *s) {
   free(s->plain);
   free(s->disk);
   free(s->disk_b);
+  free(s->dive_rows);
   free(s);
 }
 int dac_load(dac_session *s, unsigned slot, const void *p, size_t n) {
@@ -316,6 +336,8 @@ int dac_power(dac_session *s, int on) {
   if (!s)
     return -EINVAL;
   if (!on) {
+    s->dive_on=s->dive_count=s->dive_waiting=0;
+    bind_observer(s);
     if (s->on && s->r)
       robotron_flush_interrupted_write(s->r);
     s->on = 0;
@@ -457,11 +479,13 @@ unsigned dac_debug_map(dac_session *s, unsigned address, unsigned write) {
 typedef struct {
   dac_session *s;
   uint16_t pc;
-  unsigned length, read;
+  unsigned length, read, keyboard, packed;
 } debug_dasm;
 static uint8_t debug_input(void *user) {
   debug_dasm *d = user;
-  return d->read++ < 16 ? robotron_peek(d->s->r, d->pc++) : 0;
+  if (d->read++ >= 16) return 0;
+  if(d->keyboard==2)return d->read<=4 ? (d->packed>>(8*(d->read-1)))&255 : 0;
+  return d->keyboard ? d->s->r->keyboard.rom[d->pc++ & 2047] : robotron_peek(d->s->r, d->pc++);
 }
 static void debug_output(char c, void *user) {
   debug_dasm *d = user;
@@ -471,7 +495,7 @@ static void debug_output(char c, void *user) {
 unsigned dac_debug_disassemble(dac_session *s, unsigned address) {
   if (!s || !s->r || !s->on || address > 65535)
     return 0;
-  debug_dasm d = {s, (uint16_t)address, 0, 0};
+  debug_dasm d = {s, (uint16_t)address, 0, 0, 0, 0};
   unsigned next = z80dasm_op((uint16_t)address, debug_input, debug_output, &d);
   s->debug_text[d.length] = 0;
   return next;
@@ -508,7 +532,7 @@ unsigned dac_debug_hit(dac_session *s) { return s ? s->debug_hit : 0; }
 unsigned dac_debug_run(dac_session *s, unsigned ticks) {
   if (!s || !s->r || !s->on)
     return 0;
-  if (!s->debug_break && !s->debug_exec)
+  if (!s->debug_break && !s->debug_exec && !s->dive_waiting)
     return dac_run(s, ticks);
   if (ticks > 100000)
     ticks = 100000;
@@ -980,6 +1004,9 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
   memset(&copy->keyboard.cpu.bus, 0, sizeof(copy->keyboard.cpu.bus));
   copy->keyboard.serial = NULL;
   copy->keyboard.serial_user = NULL;
+  copy->keyboard.cpu.observe = NULL; copy->keyboard.cpu.observe_user = NULL;
+  copy->keyboard.observe = NULL; copy->keyboard.observe_user = NULL;
+  copy->dive = NULL; copy->dive_user = NULL;
   memset(&copy->trace, 0, sizeof(copy->trace));
   memset(&copy->disk, 0, sizeof(copy->disk));
   memset(&copy->disk_b, 0, sizeof(copy->disk_b));
@@ -1155,6 +1182,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     free(r);
     return -EINVAL;
   }
+  s->dive_on=s->dive_count=s->dive_waiting=0;
   /* Repair all host callbacks from code, never from serialized addresses. */
   robotron_rebind(r);
   r->trace_master = DAC_MASTER_CPU;
@@ -1332,3 +1360,5 @@ int dac_pc1715_attach(dac_session *s, const pc1715_card *card) {
   s->plain->card = card ? *card : (pc1715_card){0};
   return 0;
 }
+
+#include "keyboard_dive.inc"

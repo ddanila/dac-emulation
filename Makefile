@@ -248,3 +248,14 @@ build/pc1715-sanitize: tests/integration/pc1715_test.c $(RUNTIME_SOURCES) $(RUNT
 # Caller-supplied custom ROM/CAS; clocked serial peer and fault injection.
 build/robotron-rom-monitor: tests/integration/robotron_rom_monitor.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+build/keyboard-dive-test: tests/integration/keyboard_dive_test.c common/runtime/session.c common/runtime/keyboard_dive.inc build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS) $(PC1715_OBJECTS)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $(filter-out %.inc,$^) -o $@
+.PHONY: test-keyboard-dive
+test-keyboard-dive: build/keyboard-dive-test
+	./build/keyboard-dive-test
+test: test-keyboard-dive
+.PHONY: test-keyboard-dive-wasm
+test-keyboard-dive-wasm: wasm build/keyboard-dive-test
+	"$(NODE)" tests/integration/keyboard_dive_wasm.mjs
+# Direct session.c links do not emit compiler dependency files for its include.
+build/browser-reference build/dac-replay build/runtime-test build/pc1715-test build/libdac-runtime.so: .EXTRA_PREREQS = common/runtime/keyboard_dive.inc
