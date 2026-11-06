@@ -86,6 +86,8 @@ typedef struct {
 typedef struct {
   dac_z80 cpu;
   dac_trace_sink trace;
+  void *dive_user;
+  void (*dive)(void *, unsigned, unsigned, unsigned);
   unsigned
       trace_master; /* transient CPU/DMA attribution, zero outside run DMA */
   robotron_keyboard keyboard;

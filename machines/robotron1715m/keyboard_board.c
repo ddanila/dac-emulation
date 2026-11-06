@@ -32,6 +32,7 @@ static uint8_t input(void *p, uint16_t a) {
     for (unsigned i = 0; i < 13; i++)
       if (a & (1u << i))
         v |= k->matrix[i] | k->synthetic[i];
+  if (k->observe && !(k->cpu.pins & Z80_IORQ)) k->observe(k->observe_user, 3, a, v);
   return k->last_read = v;
 }
 static uint8_t acknowledge(void *p) {
@@ -100,6 +101,7 @@ int robotron_keyboard_key(robotron_keyboard *k, unsigned col, unsigned bit,
                           int down) {
   if (col >= 13 || bit >= 8)
     return -EINVAL;
+  if (k->observe) k->observe(k->observe_user, 1, col*8+bit, !!down);
   if (down)
     k->matrix[col] |= 1u << bit;
   else
@@ -126,6 +128,8 @@ void robotron_keyboard_release(robotron_keyboard *k) {
 
 void robotron_keyboard_rebind(robotron_keyboard *k, void *user,
                               void (*serial)(void *, unsigned)) {
+  k->observe = NULL; k->observe_user = NULL;
+  k->cpu.observe = NULL; k->cpu.observe_user = NULL;
   k->cpu.bus = (dac_z80_bus){k, read_rom, write_memory, input, output, acknowledge};
   k->serial_user = user;
   k->serial = serial;

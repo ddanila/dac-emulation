@@ -8,6 +8,8 @@ typedef struct {
   dac_z80_bus bus;
   cpu_bus_pins controller;
   unsigned bus_request, wait;
+  void *observe_user;
+  void (*observe)(void *, unsigned, unsigned, unsigned);
 } k7658_cpu;
 void k7658_cpu_init(k7658_cpu *, dac_z80_bus);
 void k7658_cpu_reset(k7658_cpu *);

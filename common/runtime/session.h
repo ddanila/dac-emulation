@@ -109,4 +109,21 @@ unsigned dac_debug_hit(dac_session *);
 unsigned dac_debug_run(dac_session *, unsigned);
 unsigned dac_circuit_activity(dac_session *, unsigned field);
 
+/* Keyboard dive-in ABI 1: 54 uint32 words per record, 131072 records maximum.
+ * Returned pointers are borrowed; copy before advancing or destroying session. */
+unsigned dac_dive_matrix(dac_session *, unsigned column, unsigned initial);
+void dac_dive_detail(dac_session *, unsigned enabled);
+int dac_dive_arm(dac_session *, unsigned kind, unsigned address, unsigned pre, unsigned stop);
+unsigned dac_dive_trigger(dac_session *);
+unsigned dac_dive_instruction(dac_session *, unsigned address, unsigned packed);
+unsigned dac_dive_screen(dac_session *, unsigned cell);
+unsigned dac_dive_capabilities(dac_session *);
+int dac_dive_capture(dac_session *, unsigned enabled);
+unsigned dac_dive_status(dac_session *);
+unsigned dac_dive_count(dac_session *);
+const uint32_t *dac_dive_data(dac_session *, unsigned first);
+unsigned dac_keyboard_reg(dac_session *, unsigned field);
+int dac_keyboard_byte(dac_session *, unsigned address);
+unsigned dac_keyboard_disassemble(dac_session *, unsigned address);
+unsigned dac_keyboard_step(dac_session *);
 #endif
