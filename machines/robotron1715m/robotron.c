@@ -1171,12 +1171,15 @@ static uint8_t ack_value(void *p) {
 }
 static uint8_t ack(void *p) {
   robotron *m = p;
+  int source = interrupt_source(m);
   uint8_t v = ack_value(p);
+  if (m->dive) m->dive(m->dive_user, 20, (unsigned)(source+1), v);
   dac_trace_access(&m->trace, "IA", 0, v, m->cpu.cycles, 2, DAC_MASTER_CPU,
                    DAC_SPACE_UNKNOWN, 0);
   return v;
 }
 static void reti(robotron *m) {
+  if (m->dive) m->dive(m->dive_user, 21, 0, 0);
   if (m->dma.in_service) {
     m->dma.in_service = 0;
     return;
@@ -1617,7 +1620,9 @@ void robotron_run(robotron *m, unsigned ticks) {
       /* CPU bus ownership is paused throughout both DMA bus cycles. */
       m->cpu.cycles++;
     } else {
-      dac_z80_tick(&m->cpu, interrupt_source(m) >= 0, 0);
+      int irq=interrupt_source(m);
+      unsigned inhibit=m->dive?m->dive(m->dive_user,30,(unsigned)(irq+1),0):0;
+      dac_z80_tick(&m->cpu, irq >= 0 && !inhibit, 0);
       if (d->release == 1 && (m->cpu.pins & (Z80_RD | Z80_WR | Z80_IORQ)))
         d->release = 2;
       else if (d->release == 2 && !(m->cpu.pins & (Z80_RD | Z80_WR | Z80_IORQ)))
@@ -1671,8 +1676,8 @@ static void video_decode_scanout(const robotron *m, unsigned row,
       attr = (field & 0x1c) | (ch & 3);
     {
       unsigned gy = (m->crtc[3] & 128) ? (y + lines - 1) % lines : y;
-      uint8_t bits =
-          m->chargen[((attr & 4) ? 2048 : 0) + gy * 128 + (ch & 127)];
+      unsigned glyph=((attr & 4) ? 2048 : 0) + gy * 128 + (ch & 127);
+      uint8_t raw=m->chargen[glyph],bits=raw;
       if (character_attr) {
         /* Intel 8275 CA truth table, cross-checked against MAME i8275
          * (Curt Coder/AJR, BSD-3-Clause; see NOTICE). Robotron does not
@@ -1704,6 +1709,7 @@ static void video_decode_scanout(const robotron *m, unsigned row,
       }
       if (blank)
         bits = 0;
+      if (m->dive) m->dive(m->dive_user,22,(row*80+col)|(y<<16),bits|(raw<<8)|(glyph<<16));
       out->pixels[col][y] = bits;
       out->highlight[col][y] = attr & 1;
     }
@@ -1738,4 +1744,19 @@ void robotron_rebind(robotron *m) {
       m, robotron_read, robotron_write, robotron_input, robotron_output, ack};
   robotron_keyboard_rebind(&m->keyboard, m, robotron_serial_clock);
   memset(&m->trace, 0, sizeof(m->trace));
+}
+
+/* Derived digital pin state at the scheduler boundary; not analog timing. */
+unsigned robotron_journey_probe(robotron *m,unsigned field) {
+  if(field==0)return ready(m)|(dma_ready(m)<<1)|(m->dma.bus_owned<<2)|((interrupt_source(m)>=0)<<3)|(m->fdc.tc<<4);
+  unsigned pending=m->dma.irq,service=m->dma.in_service;
+  for(unsigned i=0;i<4;i++){pending|=m->ctc[i].pending<<(i+1);service|=m->ctc[i].in_service<<(i+1);}
+  pending|=m->rx.pending<<5;service|=m->rx.in_service<<5;
+  pending|=m->tx_pending<<6;service|=m->tx_in_service<<6;
+  pending|=m->rx_b.pending<<7;service|=m->rx_b.in_service<<7;
+  pending|=m->v24.pending<<8;service|=m->v24.in_service<<8;
+  pending|=m->v24.ext_pending<<9;service|=m->v24.ext_service<<9;
+  pending|=m->printer_ext_pending<<10;service|=m->printer_ext_service<<10;
+  if(field==1)return pending|(service<<16);
+  return (unsigned)(interrupt_source(m)+1);
 }

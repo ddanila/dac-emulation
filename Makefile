@@ -259,3 +259,14 @@ test-keyboard-dive-wasm: wasm build/keyboard-dive-test
 	"$(NODE)" tests/integration/keyboard_dive_wasm.mjs
 # Direct session.c links do not emit compiler dependency files for its include.
 build/browser-reference build/dac-replay build/runtime-test build/pc1715-test build/libdac-runtime.so: .EXTRA_PREREQS = common/runtime/keyboard_dive.inc
+
+build/browser-reference build/dac-replay build/runtime-test build/pc1715-test build/libdac-runtime.so build/keyboard-dive-test: .EXTRA_PREREQS += common/runtime/journey.inc
+
+build/journey-test: tests/integration/journey_test.c common/runtime/session.c common/runtime/journey.inc common/runtime/keyboard_dive.inc build/libdac-juku.a $(Z80_OBJECTS) $(ROBOTRON_OBJECTS) $(PC1715_OBJECTS)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $(filter-out %.inc,$^) -o $@
+.PHONY: test-journey test-journey-wasm
+test-journey: build/journey-test
+	./build/journey-test
+test: test-journey
+test-journey-wasm: wasm build/journey-test
+	"$(NODE)" tests/integration/journey_wasm.mjs

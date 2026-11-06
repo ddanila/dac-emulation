@@ -18,6 +18,11 @@ struct dac_session {
   uint32_t timeline[512][13];
   unsigned debug_break, debug_hit, debug_exec, debug_address;
   char debug_text[128];
+  uint32_t *journey_rows;
+  unsigned journey_on,journey_count,journey_full,journey_mask,journey_kdone,journey_hdone;
+  unsigned journey_poll[4096],journey_seen[16],journey_last[12],journey_scan[1920],journey_pixel,journey_trigger_kind,journey_trigger_address,journey_trigger_index,journey_stop;
+  unsigned journey_fault,journey_fault_address,journey_fault_value,journey_fault_seen;
+  uint64_t journey_fault_until;
   uint32_t *dive_rows;
   unsigned dive_on, dive_count, dive_full, dive_kdone, dive_hdone;
   unsigned dive_kpc, dive_hpc, dive_scan[1920];
@@ -44,9 +49,13 @@ const char *dac_runtime_build_id(void) { return DAC_BUILD_ID; }
 unsigned dac_verification_abi(void) { return 1; }
 static void bind_observer(dac_session *s);
 static void dive_event(void *, unsigned, unsigned, unsigned);
+static unsigned machine_event(void *,unsigned,unsigned,unsigned);
+static void keyboard_event(void *p,unsigned k,unsigned a,unsigned v){(void)machine_event(p,k,a,v);}
+static void journey_bus(dac_session *,const dac_trace_event *);
 static void forward_trace(void *user, const dac_trace_event *event) {
   dac_session *s = user;
   dac_trace_emit_event(&s->observer, event);
+  if(s->journey_on)journey_bus(s,event);
   unsigned kind = event->kind[0] == 'M'   ? (event->kind[1] == 'R' ? 0 : 1)
                   : event->kind[1] == 'R' ? 2
                   : event->kind[1] == 'W' ? 3
@@ -112,16 +121,16 @@ static void forward_trace(void *user, const dac_trace_event *event) {
 }
 static void bind_observer(dac_session *s) {
   dac_trace_sink sink = {
-      (s->observer.emit || s->timeline_on || s->dive_on) ? forward_trace : NULL, s, 0, 0};
+      (s->observer.emit || s->timeline_on || s->dive_on || s->journey_on) ? forward_trace : NULL, s, 0, 0};
   if (s->j)
     s->j->bus_trace = sink;
   if (s->r) {
     s->r->trace = sink;
-    s->r->dive = s->dive_on ? dive_event : NULL;
+    s->r->dive = (s->dive_on || s->journey_on || s->journey_fault) ? machine_event : NULL;
     s->r->dive_user = s;
-    s->r->keyboard.observe = s->dive_on ? dive_event : NULL;
+    s->r->keyboard.observe = (s->dive_on || s->journey_on) ? keyboard_event : NULL;
     s->r->keyboard.observe_user = s;
-    s->r->keyboard.cpu.observe = s->dive_on ? dive_event : NULL;
+    s->r->keyboard.cpu.observe = (s->dive_on || s->journey_on) ? keyboard_event : NULL;
     s->r->keyboard.cpu.observe_user = s;
   }
   if (s->plain)
@@ -258,6 +267,7 @@ void dac_destroy(dac_session *s) {
   free(s->disk);
   free(s->disk_b);
   free(s->dive_rows);
+  free(s->journey_rows);
   free(s);
 }
 int dac_load(dac_session *s, unsigned slot, const void *p, size_t n) {
@@ -337,6 +347,7 @@ int dac_power(dac_session *s, int on) {
     return -EINVAL;
   if (!on) {
     s->dive_on=s->dive_count=s->dive_waiting=0;
+    s->journey_on=s->journey_count=s->journey_fault=0;
     bind_observer(s);
     if (s->on && s->r)
       robotron_flush_interrupted_write(s->r);
@@ -1183,6 +1194,7 @@ int dac_state_load(dac_session *s, const void *p, size_t n) {
     return -EINVAL;
   }
   s->dive_on=s->dive_count=s->dive_waiting=0;
+    s->journey_on=s->journey_count=s->journey_fault=0;
   /* Repair all host callbacks from code, never from serialized addresses. */
   robotron_rebind(r);
   r->trace_master = DAC_MASTER_CPU;
@@ -1362,3 +1374,5 @@ int dac_pc1715_attach(dac_session *s, const pc1715_card *card) {
 }
 
 #include "keyboard_dive.inc"
+
+#include "journey.inc"

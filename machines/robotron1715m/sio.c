@@ -120,8 +120,8 @@ static void receive_clock(robotron *m, unsigned ch, unsigned level) {
 void robotron_serial_clock(void *p, unsigned level) {
   robotron *m=p;
   unsigned phase=m->rx.phase, bits=m->rx.bits, count=m->serial_events;
-  if (m->dive) m->dive(m->dive_user, 4, Z80_GET_ADDR(m->keyboard.cpu.pins), level);
-  receive_clock(m, 0, level);
+  unsigned suppressed=m->dive?m->dive(m->dive_user,4,Z80_GET_ADDR(m->keyboard.cpu.pins),level):0;
+  if (!suppressed) receive_clock(m, 0, level);
   if (m->dive && (bits!=m->rx.bits || phase!=m->rx.phase))
     m->dive(m->dive_user, 5, (phase<<8)|bits, level);
   if (m->dive && count!=m->serial_events)
