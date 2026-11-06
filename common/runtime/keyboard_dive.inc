@@ -1,7 +1,7 @@
 /* Included by session.c: observation state is owned by the host session, never
  * the emulated machine. Record layout is documented in keyboard-dive.md. */
 #define DIVE_WORDS 54u
-#define DIVE_CAPACITY 131072u
+#define DIVE_CAPACITY 262144u
 #define DIVE_REGS(reg) (reg)->pc,(reg)->sp,(reg)->af,(reg)->bc,(reg)->de,(reg)->hl,(reg)->ix,(reg)->iy,(reg)->af2,(reg)->bc2,(reg)->de2,(reg)->hl2,(reg)->im,(reg)->iff1,(reg)->iff2,(reg)->i,(reg)->r
 static unsigned keyboard_boundary(dac_session *s) {
   k7658_z80_t *r=&s->r->keyboard.cpu.cpu;
