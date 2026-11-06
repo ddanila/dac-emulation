@@ -34,7 +34,7 @@ uint64_t k7658_cpu_edge(k7658_cpu *c,int falling,int irq,int nmi) {
   }
   uint64_t changed=c->pins^p;
   c->pins=p;c->cpu=c->controller.core.core.cpu;
-  if(c->observe && (changed&Z80_WR)) c->observe(c->observe_user,11,(uint32_t)p,(uint32_t)(p>>32));
+  if(c->observe && (changed&(Z80_WR|(1ULL<<16)))) c->observe(c->observe_user,11,(uint32_t)p,(uint32_t)(p>>32));
   if(falling)c->cycles++;
   return p;
 }

@@ -12,7 +12,7 @@ a new instruction boundary while advancing the entire machine.
 stops without deleting it. `dac_dive_status` returns 1 recording, 2 stopped,
 3 full, or 4 waiting for trigger (0 for null). `dac_dive_count` returns record
 count; `dac_dive_data(s,first)` returns borrowed storage or NULL out of range.
-Copy before advancing, rearming or destroying. Maximum: 131072 records.
+Copy before advancing, rearming or destroying. Maximum: 262144 records.
 `dac_dive_detail(s,0)` suppresses standalone instruction-boundary records while
 retaining CPU snapshots at hardware events; the caller must identify this filter.
 
@@ -47,7 +47,7 @@ strobe (bus address, normalized D0); 5 receiver advance (previous phase<<8 | bit
 level); 6 completed receiver byte (frame errors, byte); 7 SIO A data read (port,
 byte); 8 mainboard boundary (address, opcode); 9 video-memory write (physical
 video offset, byte); 10 changed scanout cell (row*80+column, character code);
-11 external WR transition (pin mask low/high). Boundary snapshots are before the
+11 external WR or D0 transition (pin mask low/high). Boundary snapshots are before the
 selected instruction executes. Other event snapshots can be in-flight.
 Initial instruction addresses are the current PCs until a boundary is observed.
 Initial display cells establish a baseline and are not emitted as changes.

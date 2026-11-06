@@ -28,13 +28,15 @@ int main(int argc,char **argv) {
     dac_destroy(a);dac_destroy(b);return 0;
   }
   unsigned count=dac_dive_count(a);assert(count>10);
-  const uint32_t *rows=dac_dive_data(a,0);unsigned kinds=0;
+  const uint32_t *rows=dac_dive_data(a,0);unsigned kinds=0, idle_data_edges=0, previous_pins=0;
   for(unsigned i=0;i<count;i++) {
     const uint32_t *r=rows+i*54;kinds|=1u<<r[2];
     if(i)assert(r[0]>=r[-54]);
+    if(r[2]==11){if(((r[3]^previous_pins)&(1u<<16))&&!(r[3]&(1u<<28)))idle_data_edges++;previous_pins=r[3];}
     assert(r[6]<65536&&r[7]<65536);
   }
   assert((kinds&(1<<1))&&(kinds&(1<<2))&&(kinds&(1<<3)));
+  assert(idle_data_edges); /* The physical data lane must retain activity between writes. */
   size_t size=dac_state_size(a);assert(size==dac_state_size(b));
   void *sa=malloc(size),*sb=malloc(size);assert(sa&&sb);
   assert(!dac_state_save(a,sa,size)&&!dac_state_save(b,sb,size));

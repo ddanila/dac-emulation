@@ -109,7 +109,7 @@ unsigned dac_debug_hit(dac_session *);
 unsigned dac_debug_run(dac_session *, unsigned);
 unsigned dac_circuit_activity(dac_session *, unsigned field);
 
-/* Keyboard dive-in ABI 1: 54 uint32 words per record, 131072 records maximum.
+/* Keyboard dive-in ABI 1: 54 uint32 words per record, 262144 records maximum.
  * Returned pointers are borrowed; copy before advancing or destroying session. */
 unsigned dac_dive_matrix(dac_session *, unsigned column, unsigned initial);
 void dac_dive_detail(dac_session *, unsigned enabled);

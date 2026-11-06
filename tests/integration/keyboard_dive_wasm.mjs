@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import create from '../../dist/dac.js';
-const native=execFileSync('build/keyboard-dive-test',['--synthetic','--trace'],{maxBuffer:32*1024*1024});
+const native=execFileSync('build/keyboard-dive-test',['--synthetic','--trace'],{maxBuffer:64*1024*1024});
 const m=await create(),h=m._dac_create(2);
 function load(slot,bytes){const p=m._malloc(bytes.length);m.HEAPU8.set(bytes,p);assert.equal(m._dac_load(h,slot,p,bytes.length),0);m._free(p);}
 const rom=new Uint8Array(2048);rom[0]=0x76;load(0,rom);load(1,new Uint8Array(256));
