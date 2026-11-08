@@ -45,6 +45,9 @@ typedef struct {
   uint8_t ctc_vector;
   pc1715_ctc ctc[4];
   pc1715_sio sio[2];
+  /* Optional byte-timed serial link. Zero ticks preserves legacy fixtures. */
+  struct { unsigned ticks; uint64_t due; uint8_t data, holding;
+           void *user; void (*transmit)(void *, uint8_t); } serial[2];
   uint8_t ram[65536], rom[2048];
   unsigned rom_enabled, io_active, io_waiting;
   uint8_t io_value;
@@ -62,6 +65,8 @@ int pc1715_onboard_read(pc1715 *,uint16_t,uint8_t *);
 int pc1715_onboard_write(pc1715 *,uint16_t,uint8_t);
 void pc1715_ctc_input(pc1715 *,unsigned channel,int level);
 int pc1715_sio_receive(pc1715 *,unsigned channel,uint8_t); /* completed byte seam */
+int pc1715_sio_link(pc1715 *, unsigned channel, unsigned character_ticks,
+                    void *user, void (*transmit)(void *, uint8_t));
 void pc1715_sio_external(pc1715 *,unsigned channel); /* external/status transition */
 int pc1715_irq_pending(pc1715 *);
 uint8_t pc1715_irq_ack(pc1715 *);

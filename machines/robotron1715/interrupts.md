@@ -72,3 +72,19 @@ Receive injection returns ENOSPC at FIFO capacity (and latches RR1 overrun); thi
 is fixture backpressure, not exact silicon overrun behavior. Serial TX completion
 in one T-state is a scheduling seam, not baud-rate timing. Do not use these tests
 to certify electrical priority timing or keyboard/serial compatibility.
+
+## Optional timed serial byte link
+
+`pc1715_sio_link` attaches a completed-byte transmitter and a character duration
+in CPU ticks to either channel. It models a shift register plus one holding
+register, receiver FIFO capacity remains three bytes, and channel/board reset
+cancels pending transmission. With no link configured, the prior one-tick
+transmitter behavior is retained. The external harness schedules received bytes;
+this is not a bit-level baud, parity, modem-line or electrical model.
+
+Channel reset clears the register pointer, including when WR0's pointer bits
+are nonzero (the reference Robotron ROM writes 1Ch). This follows Zilog's
+[Z80 SIO product specification](https://www.bitsavers.org/components/zilog/z80/Z80_SIO_Product_Specification_Feb80.pdf),
+which states that internal/external reset initializes the pointer to WR0.
+The tests cover this sequence, two consecutive transmitted bytes, completion
+latency, reset cancellation and finite receive capacity.

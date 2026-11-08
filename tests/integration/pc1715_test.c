@@ -270,7 +270,35 @@ static void motherboard_cpu(void){
   edge(m,0);pc1715_run(m,300);assert(m->ram[0xa000]==2);
   assert(!pc1715_irq_pending(m));free(m);
 }
+static void serial_capture(void *p,uint8_t data) {
+  unsigned *v=p;*v=(*v<<8)|data;
+}
+static void serial_timing(void) {
+  pc1715 *m=calloc(1,sizeof(*m));assert(m);pc1715_init(m);
+  assert(!pc1715_onboard_enable(m));unsigned captured=0;
+  assert(!pc1715_sio_link(m,1,100,&captured,serial_capture));
+  m->rom[0]=0x76; /* HALT; device time continues. */
+  pc1715_onboard_write(m,15,5);pc1715_onboard_write(m,15,0x68);
+  pc1715_onboard_write(m,13,0x41);
+  uint8_t rr;pc1715_onboard_read(m,15,&rr);assert(rr&4);
+  pc1715_onboard_write(m,13,0x42);
+  pc1715_onboard_read(m,15,&rr);assert(!(rr&4));
+  pc1715_run(m,100);assert(!captured);
+  pc1715_run(m,1);assert(captured==0x41);
+  pc1715_onboard_read(m,15,&rr);assert(rr&4);
+  pc1715_run(m,100);assert(captured==0x4142);
+  pc1715_onboard_write(m,13,0x43);
+  pc1715_onboard_write(m,15,0x1c); /* ROM reset also clears register pointer bits. */
+  assert(m->sio[1].pointer==0);
+  pc1715_run(m,200);assert(captured==0x4142);
+  pc1715_onboard_write(m,15,3);pc1715_onboard_write(m,15,0xc1);
+  for(unsigned n=0;n<3;n++)assert(!pc1715_sio_receive(m,1,(uint8_t)n));
+  assert(pc1715_sio_receive(m,1,3)==-ENOSPC);
+  for(unsigned n=0;n<3;n++){pc1715_onboard_read(m,13,&rr);assert(rr==n);}
+  free(m);
+}
 int main(void) {
+  serial_timing();
   board();
   interrupts();
   runtime();

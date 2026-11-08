@@ -71,6 +71,7 @@ static uint8_t acknowledge(void *p) {
 void pc1715_reset(pc1715 *m) {
   m->card_service=m->card_offline=0;
   m->ctc_vector=0;memset(m->ctc,0,sizeof(m->ctc));memset(m->sio,0,sizeof(m->sio));
+  for(unsigned n=0;n<2;n++)m->serial[n].due=0;
   m->rom_enabled = 1;
   m->io_active = 0;
   m->io_waiting = 0;
