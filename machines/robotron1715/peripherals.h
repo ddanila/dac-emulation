@@ -23,8 +23,22 @@ static void peripheral_tick(pc1715 *m) {
   }
   for(unsigned n=0;n<2;n++) {
     pc1715_sio *s=&m->sio[n];
-    if(s->tx_busy){s->tx_busy=0;if(s->wr[1]&2)s->pending[1]=1;}
+    if(m->serial[n].ticks) {
+      if(m->serial[n].due && m->cpu.cycles>=m->serial[n].due) {
+        if(m->serial[n].transmit)m->serial[n].transmit(m->serial[n].user,m->serial[n].data);
+        if(s->tx_busy){m->serial[n].data=m->serial[n].holding;m->serial[n].due+=m->serial[n].ticks;}
+        else m->serial[n].due=0;
+        s->tx_busy=0;if(s->wr[1]&2)s->pending[1]=1;
+      }
+    } else if(s->tx_busy){s->tx_busy=0;if(s->wr[1]&2)s->pending[1]=1;}
   }
+}
+int pc1715_sio_link(pc1715 *m,unsigned n,unsigned ticks,void *user,
+                    void (*transmit)(void *,uint8_t)) {
+  if(!m || n>=2 || !ticks)return -EINVAL;
+  if(m->cpu.cycles)return -EBUSY;
+  m->serial[n].ticks=ticks;m->serial[n].user=user;m->serial[n].transmit=transmit;
+  return 0;
 }
 int pc1715_onboard_enable(pc1715 *m) {
   if(!m)return -EINVAL;
@@ -121,11 +135,21 @@ int pc1715_onboard_write(pc1715 *m,uint16_t address,uint8_t data) {
     return 1;
   }
   pc1715_sio *s=&m->sio[a&1];
-  if(!(a&2)){s->pending[1]=0;if(s->wr[5]&8)s->tx_busy=1;return 1;}
+  if(!(a&2)){
+    s->pending[1]=0;
+    if((s->wr[5]&8) && !s->tx_busy){
+      unsigned n=(unsigned)(s-m->sio);
+      if(m->serial[n].ticks && !m->serial[n].due){
+        m->serial[n].data=data;
+        m->serial[n].due=m->cpu.cycles+m->serial[n].ticks;
+      }else {m->serial[n].holding=data;s->tx_busy=1;}
+    }
+    return 1;
+  }
   if(s->pointer){unsigned reg=s->pointer;s->pointer=0;s->wr[reg]=data;if(reg==1)s->first=1;return 1;}
   switch((data>>3)&7){
     case 2:s->pending[2]=0;break;
-    case 3:memset(s,0,sizeof(*s));break;
+    case 3:memset(s,0,sizeof(*s));m->serial[a&1].due=0;return 1;
     case 4:s->first=1;break;
     case 5:s->pending[1]=0;break;
     case 6:s->errors=0;break;
