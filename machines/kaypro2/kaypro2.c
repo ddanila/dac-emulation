@@ -12,14 +12,14 @@ static void trace(kaypro2 *m,const char *kind,uint16_t a,uint8_t v,unsigned spac
 uint8_t kaypro2_read(void *p,uint16_t a){
     kaypro2 *m=p;uint8_t v;unsigned space=DAC_SPACE_RAM;
     if((m->system&128)&&a<0x3000){v=a<4096?m->rom[a]:0xff;space=DAC_SPACE_ROM;}
-    else if((m->system&128)&&a<0x4000){v=m->video[a-0x3000];space=DAC_SPACE_RAM;}
+    else if((m->system&128)&&a<0x4000){v=m->video[kaypro2_video_index(a)];space=DAC_SPACE_RAM;}
     else v=m->ram[a];
     trace(m,"MR",a,v,space);return v;
 }
 void kaypro2_write(void *p,uint16_t a,uint8_t v){
     kaypro2 *m=p;
     if((m->system&128)&&a<0x3000)return; /* no underlying RAM write */
-    if((m->system&128)&&a<0x4000)m->video[a-0x3000]=v;
+    if((m->system&128)&&a<0x4000)m->video[kaypro2_video_index(a)]=v;
     else m->ram[a]=v;
     trace(m,"MW",a,v,DAC_SPACE_RAM);
 }
@@ -111,4 +111,28 @@ void kaypro2_run(kaypro2 *m,unsigned ticks){
         dac_z80_tick(&m->cpu,0,0);
         if(!(m->cpu.pins&Z80_IORQ))m->io_active=0;
     }
+}
+
+/* 81-241 sheet 2C: U16 selected by CPU A6 (column 64).
+ * U16 A inputs: A4,A5,A10,A11; B inputs: A10,A11,1,1.
+ * U16 outputs: SRAM A4,A5,A9 and byte-pair select; A7..A9 -> A6..A8.
+ */
+unsigned kaypro2_video_index(uint16_t a){
+ return (a&0x40)?0x600|(a&15)|((a>>6)&0x30)|((a>>1)&0x1c0):
+     (a&0x3f)|((a>>1)&0x7c0);
+}
+int kaypro2_load_chargen(kaypro2 *m,const void *p,size_t n){
+ if(!p||n!=sizeof m->chargen)return -EINVAL;
+ memcpy(m->chargen,p,n);return 0;
+}
+void kaypro2_render(const kaypro2 *m,uint8_t *pixels,unsigned blink_off){
+ for(unsigned y=0;y<24;y++)for(unsigned x=0;x<80;x++){
+  unsigned c=m->video[kaypro2_video_index(0x3000+y*128+x)]^0x80;
+  if(c<128&&blink_off)c|=128;
+  for(unsigned line=0;line<10;line++){
+   unsigned bits=line<8?m->chargen[c*8+line]:0;
+   for(unsigned dot=0;dot<7;dot++)
+    pixels[(y*10+line)*560+x*7+dot]=(dot>0&&dot<6)?(bits>>(5-dot))&1:0;
+  }
+ }
 }
