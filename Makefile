@@ -270,3 +270,13 @@ test-journey: build/journey-test
 test: test-journey
 test-journey-wasm: wasm build/journey-test
 	"$(NODE)" tests/integration/journey_wasm.mjs
+
+# Headless 81-240A bring-up, independent of stock firmware/media.
+.PHONY: test-kaypro2
+test-kaypro2: build/test-kaypro2
+	./build/test-kaypro2
+build/test-kaypro2: tests/kaypro2_test.c machines/kaypro2/kaypro2.c machines/kaypro2/kaypro2.h common/cpu/z80.c common/trace/trace.c
+	mkdir -p build
+	$(CC) -std=c11 -O2 -Wall -Wextra -Werror -I. tests/kaypro2_test.c machines/kaypro2/kaypro2.c common/cpu/z80.c common/trace/trace.c -o $@
+
+test: test-kaypro2
