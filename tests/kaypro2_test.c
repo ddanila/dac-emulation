@@ -33,5 +33,20 @@ int main(void){
  out(m,6,0x18);out(m,6,4);out(m,6,0x45);assert(m->sio[0].wr[4]==0x45);
  out(m,6,5);out(m,6,0xea);assert(kaypro2_character_ticks(m,0)==1433);
  kaypro2_reset(m);assert(m->system==0x80&&!m->sio[0].count&&m->ram[0x100]==0x42);
+ /* All 1920 visible cells must be distinct; high-column aliases are physical. */
+ unsigned used[2048]={0};
+ for(unsigned y=0;y<24;y++)for(unsigned x=0;x<80;x++){
+  unsigned i=kaypro2_video_index(0x3000+y*128+x);assert(i<2048&&!used[i]);used[i]=1;
+ }
+ assert(kaypro2_video_index(0x3040)==kaypro2_video_index(0x3050));
+ assert(kaypro2_video_index(0x3040)==0x600);
+ assert(kaypro2_video_index(0x3800)==0x400);
+ assert(kaypro2_video_index(0x3440)==0x610);
+ uint8_t font[2048]={0},*pixels=calloc(560*240,1);assert(pixels);
+ font[(65+128)*8]=0x15;assert(!kaypro2_load_chargen(m,font,sizeof font));
+ m->video[0]=65;kaypro2_render(m,pixels,0);
+ assert(!pixels[0]&&pixels[1]&&!pixels[2]&&pixels[3]&&!pixels[4]&&pixels[5]&&!pixels[6]);
+ m->video[0]=65|128;kaypro2_render(m,pixels,0);assert(!pixels[1]);
+ kaypro2_render(m,pixels,1);assert(pixels[1]);free(pixels);
  free(m);puts("Kaypro memory, aliases, SIO FIFO/timing and reset PASS");return 0;
 }

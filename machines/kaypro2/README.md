@@ -5,7 +5,7 @@ reported PC81-240A, 4 KiB 81-232 boot EPROM and MK3884N SIO. It is not the
 1984 universal-board Kaypro 2. No historical ROM is distributed.
 
 Implemented: shared tick-driven Z80, 64 KiB RAM, switchable lower 16 KiB,
-4 KiB ROM at 0000–0FFF, video window at 3000–3FFF, system PIO bank latch,
+4 KiB ROM at 0000–0FFF, 2 KiB physical video RAM behind the window at 3000–3FFF, system PIO bank latch,
 8116 baud selectors, two polling SIO channels with three-byte receive FIFO,
 error reset, two-stage timed transmission, and mapped memory/I/O tracing.
 The serial receive API represents a completed byte. Its caller must pace
@@ -19,9 +19,10 @@ copied beneath itself as on the ordinary Robotron.
 The timing and SIO register model is adapted from the existing Robotron
 `peripherals.h` implementation; the Z80 and tracing code are shared directly.
 SIO interrupts, modem transitions, bit-level framing/error injection, floppy
-controller, keyboard firmware, CRT raster, PIO handshakes and snapshots are
-not implemented. Video currently exposes the logical 4 KiB aperture, not a
-qualified model of physical 2114 multiplexing/aliases. Unmapped ROM-space
+controller, keyboard MCU firmware, CRT sync waveforms and PIO handshakes are
+not implemented. The deterministic renderer produces 560×240 monochrome pixels
+from a caller-supplied 2048-byte character ROM and explicit blink phase.
+This is a schematic-derived display model, not physical qualification. Unmapped ROM-space
 reads return FF as an explicit open-bus approximation. No browser/runtime
 kind is registered yet; use the native C API and the CP/M integration probe.
 Do not treat this as a complete stock-ROM/floppy emulator.
@@ -57,3 +58,27 @@ FIFO/timing and reset; cpm-plus-kaypro exercises real guest instructions with
 production host-disk services. Its optional MAME test independently executes
 the same replacement ROM through relocation, PIO banking and the RX wait.
 Neither test is physical acceptance of PC003.
+
+## Physical video packing
+
+Sheet 2C, U16 selects on CPU A6 (column 64). Its A inputs are A4, A5,
+A10, A11; its B inputs are A10, A11, 1, 1. Outputs drive SRAM A4, A5,
+A9 and the complementary byte-pair enables. CPU A7–A9 feed SRAM A6–A8.
+Consequently, with `a` the offset in the logical aperture:
+
+```
+A6 clear: (a & 0x3f) | ((a >> 1) & 0x7c0)
+A6 set:   0x600 | (a & 0x0f) | ((a >> 6) & 0x30) | ((a >> 1) & 0x1c0)
+```
+
+The visible 24×80 cells are all distinct. Columns 80–127 alias columns
+64–79 within a row. Rows outside the visible region can overlap visible
+cells. Tests cover the 1920 distinct cells and representative aliases.
+MAME's flat window is consulted for visible layout, not these aliases.
+
+The renderer follows U43's five connected pixel outputs, seven-pixel cell
+width, ten scanlines per cell and blink selection. Synthetic test glyphs
+are explicitly identified; no stock or PC003 character-ROM image is included.
+Channel B uses the same three-byte FIFO API as A. The CP/M qualification probe
+injects completed keyboard bytes on an independent 300-baud 8N1 schedule;
+its report distinguishes receiver rejection from software queue overflow.
