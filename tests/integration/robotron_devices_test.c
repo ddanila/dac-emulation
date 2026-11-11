@@ -1887,6 +1887,23 @@ static void serial_explicit_edges(void) {
   robotron_sio_control(&m, 0, 0x18);
   assert(!m.tx_halves && !m.serial_levels[1]);
 }
+/* TAHA is CPU/2 at both candidate A5 serial clock inputs. */
+static void serial_counter_clock(void) {
+  const unsigned constants[] = {2, 3, 13};
+  for (unsigned n = 0; n < 3; n++) {
+    init();
+    robotron_output(&m, 9, 0x47);
+    robotron_output(&m, 9, constants[n]);
+    robotron_output(&m, 10, 0x47);
+    robotron_output(&m, 10, constants[n]);
+    robotron_run(&m, 2);
+    assert(m.ctc[5].counter == constants[n] - 1);
+    assert(m.ctc[6].counter == constants[n] - 1);
+    robotron_run(&m, 2 * (constants[n] - 1));
+    assert(m.ctc[5].counter == constants[n]);
+    assert(m.ctc[6].counter == constants[n]);
+  }
+}
 int main(void) {
   serial_error_recovery();
   serial_error_fifo();
@@ -1918,6 +1935,7 @@ int main(void) {
   floppy_completion();
   interrupt_chain();
   timer_cascade();
+  serial_counter_clock();
   display();
   display_fifo();
   display_schedule();

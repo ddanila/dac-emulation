@@ -1495,7 +1495,10 @@ void robotron_run(robotron *m, unsigned ticks) {
       if (!(t->control & 2) && !t->waiting && t->counter) {
         unsigned clock = 0;
         if (t->control & 0x40)
-          clock = (i == 2 && cascade);
+          /* W/M A5 channels 1/2 receive TAHA, half the CPU clock.
+           * A4 channel 2 retains its independent channel-1 cascade. */
+          clock = (i == 2 && cascade) ||
+                  ((i == 5 || i == 6) && !(m->cpu.cycles & 1));
         else if (++t->prescaler >= ((t->control & 0x20) ? 256u : 16u)) {
           t->prescaler = 0;
           clock = 1;

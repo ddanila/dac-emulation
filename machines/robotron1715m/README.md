@@ -299,3 +299,9 @@ native/WASM historical framebuffer parity.
 under four modifier states (416 cases). Normal mode also checks overlapping-key
 release and observes held A for two seconds. The emitted report is a ROM behavior
 record, not an independent oracle or identification of the specimen EPROM.
+
+W/M A5 CTC channels 1 and 2 now receive TAHA (CPU/2) in counter mode,
+independently of the existing A4 cascade. With x16 SIO framing, constants
+2/3/13 produce nominal 62400/41600/9600 baud. This drives the timed V.24
+receiver and transmitter, not just register readback. Firmware tests still
+require physical qualification of a newly burned ROM.
