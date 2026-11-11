@@ -24,14 +24,14 @@ int main(void){
  kaypro2_write(m,0x3000,0x99);assert(m->ram[0x3000]==0x99&&m->video[0]==0x31);
  out(m,0x9c,0x80);assert(m->system==0x40); /* A7 inhibits decode */
  out(m,6,4);out(m,6,0x44);out(m,6,3);out(m,6,0xc1);out(m,6,5);out(m,6,0xea);out(m,0,15);
- assert(kaypro2_baud(m,0)==19200&&kaypro2_character_ticks(m,0)==1303);
+ assert(kaypro2_baud(m,0)==19800&&kaypro2_character_ticks(m,0)==1263);
  assert(!kaypro2_receive(m,0,1));assert(!kaypro2_receive(m,0,2));assert(!kaypro2_receive(m,0,3));
  assert(kaypro2_receive(m,0,4)==-ENOSPC);assert(m->sio[0].errors&0x20);
  out(m,6,0x30);assert(!m->sio[0].errors&&m->sio[0].count==3);
  m->transmit=tx;out(m,4,0x11);out(m,4,0x22);assert(sent==0&&m->sio[0].holding);
  kaypro2_run(m,3000);assert(sent==2&&bytes[0]==0x11&&bytes[1]==0x22);
  out(m,6,0x18);out(m,6,4);out(m,6,0x45);assert(m->sio[0].wr[4]==0x45);
- out(m,6,5);out(m,6,0xea);assert(kaypro2_character_ticks(m,0)==1433);
+ out(m,6,5);out(m,6,0xea);assert(kaypro2_character_ticks(m,0)==1389);
  kaypro2_reset(m);assert(m->system==0x80&&!m->sio[0].count&&m->ram[0x100]==0x42);
  /* All 1920 visible cells must be distinct; high-column aliases are physical. */
  unsigned used[2048]={0};

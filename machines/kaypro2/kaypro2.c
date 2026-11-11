@@ -24,10 +24,11 @@ void kaypro2_write(void *p,uint16_t a,uint8_t v){
     trace(m,"MW",a,v,DAC_SPACE_RAM);
 }
 unsigned kaypro2_baud(const kaypro2 *m,unsigned n){
-    static const unsigned rates10[16]={500,750,1100,1345,1500,3000,6000,12000,18000,20000,24000,36000,48000,72000,96000,192000};
+    static const unsigned divisors[16]={6336,4224,2880,2355,2112,1056,528,264,176,158,132,88,66,44,33,16};
     static const unsigned div[4]={1,16,32,64};
     if(n>1)return 0;
-    return rates10[m->baud[n]&15]*16/(10*div[m->sio[n].wr[4]>>6]);
+    /* BRG divides by divisor; SIO independently divides its clock. */
+    return 5068800u/(divisors[m->baud[n]&15]*div[m->sio[n].wr[4]>>6]);
 }
 unsigned kaypro2_character_ticks(const kaypro2 *m,unsigned n){
     static const unsigned bits[4]={5,7,6,8};
@@ -48,7 +49,7 @@ static uint8_t sio_read(kaypro2 *m,unsigned port){
     kaypro2_sio *s=&m->sio[port&1];uint8_t v;
     if(!(port&2)){v=s->count?s->fifo[0]:0;if(s->count){--s->count;memmove(s->fifo,s->fifo+1,s->count);}return v;}
     unsigned reg=s->pointer;s->pointer=0;
-    return reg==0?(s->count?1:0)|(s->holding?0:4)|0x28:reg==1?s->errors|(!s->shifting?1:0):0;
+    return reg==0?(s->count?1:0)|(s->holding?0:4)|m->modem[port&1]:reg==1?s->errors|(!s->shifting?1:0):0;
 }
 static void sio_write(kaypro2 *m,unsigned port,uint8_t v){
     unsigned n=port&1;kaypro2_sio *s=&m->sio[n];
@@ -92,7 +93,7 @@ void kaypro2_reset(kaypro2 *m){
     memset(m->sio,0,sizeof m->sio);
     dac_z80_init(&m->cpu,(dac_z80_bus){m,kaypro2_read,kaypro2_write,input,output,NULL});
 }
-void kaypro2_init(kaypro2 *m){memset(m,0,sizeof(*m));kaypro2_reset(m);}
+void kaypro2_init(kaypro2 *m){memset(m,0,sizeof(*m));m->modem[0]=m->modem[1]=0x28;kaypro2_reset(m);}
 int kaypro2_load(kaypro2 *m,const void *p,size_t n){
     if(!p||n!=sizeof m->rom)return -EINVAL;
     if(m->cpu.cycles)return -EBUSY;
@@ -136,3 +137,10 @@ void kaypro2_render(const kaypro2 *m,uint8_t *pixels,unsigned blink_off){
   }
  }
 }
+
+int kaypro2_receive_status(kaypro2 *m,unsigned n,uint8_t v,uint8_t errors){
+    int rc=kaypro2_receive(m,n,v);
+    if(!rc)m->sio[n].errors|=errors&0x70;
+    return rc;
+}
+void kaypro2_modem(kaypro2 *m,unsigned n,uint8_t bits){if(n<2)m->modem[n]=bits&0xa8;}
