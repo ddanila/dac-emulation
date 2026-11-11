@@ -15,7 +15,7 @@ typedef struct {
     dac_trace_sink trace;
     uint8_t ram[65536], rom[4096], video[2048], chargen[2048];
     uint8_t system, pio_mode, pio_mask, pio_expect_mask, baud[2];
-    uint8_t io_active, io_value;
+    uint8_t io_active, io_value, modem[2];
     kaypro2_sio sio[2];
     void *serial_user;
     void (*transmit)(void *, unsigned channel, uint8_t);
@@ -36,4 +36,6 @@ unsigned kaypro2_baud(const kaypro2 *,unsigned channel);
 unsigned kaypro2_character_ticks(const kaypro2 *,unsigned channel);
 /* Completed-byte seam. Caller must pace independently; no magical queue. */
 int kaypro2_receive(kaypro2 *,unsigned channel,uint8_t);
+int kaypro2_receive_status(kaypro2 *,unsigned channel,uint8_t,uint8_t errors);
+void kaypro2_modem(kaypro2 *,unsigned channel,uint8_t rr0_bits);
 #endif
