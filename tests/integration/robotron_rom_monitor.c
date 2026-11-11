@@ -11,6 +11,7 @@ static uint8_t saved_ram[sizeof(m.ram)], saved_rom[2048], saved_prom[256];
 static unsigned fault_at = ~0u, fault_mask, fault_value, no_ram, bad_display;
 static unsigned reads, writes, violations, alias_mask, stall_tx, fault_reads;
 static unsigned display_writes, first_tx_display_writes = ~0u;
+static unsigned peer_baud = 9600;
 static uint32_t pixels[640 * 384];
 static uint8_t read_bus(void *p, uint16_t a) {
   unsigned mapped = robotron_mapping(p, a, 0), physical = mapped & 0xffffff;
@@ -75,6 +76,7 @@ static void output(void) {
 int main(int argc, char **argv) {
   if (argc < 3)
     return 2;
+  if (argc > 4) peer_baud = (unsigned)strtoul(argv[4], 0, 0);
   robotron_init(&m);
   load(argv[1], m.rom, 2048);
   load(argv[2], m.prom, 256);
@@ -87,10 +89,10 @@ int main(int argc, char **argv) {
   m.cpu.bus.read = read_bus;
   m.cpu.bus.write = write_bus;
   m.cpu.bus.output = output_bus;
-  m.v24.peer_baud = 9600;
+  m.v24.peer_baud = peer_baud;
   m.v24.peer_format = 0x208;
   m.v24.signals = 3;
-  robotron_run(&m, 2000000);
+  robotron_run(&m, peer_baud == 1200 ? 4000000 : 2000000);
   output();
   char line[8192];
   while (fgets(line, sizeof(line), stdin)) {
@@ -123,10 +125,10 @@ int main(int argc, char **argv) {
       m.cpu.bus.read = read_bus;
       m.cpu.bus.write = write_bus;
       m.cpu.bus.output = output_bus;
-      m.v24.peer_baud = 9600;
+      m.v24.peer_baud = peer_baud;
       m.v24.peer_format = 0x208;
       m.v24.signals = 3;
-      robotron_run(&m, 2000000);
+      robotron_run(&m, peer_baud == 1200 ? 4000000 : 2000000);
     } else if (line[0] == 'F') {
       fault_reads = 0;
       sscanf(line + 1, "%x %x %x %u", &fault_at, &fault_mask, &fault_value,
@@ -137,7 +139,9 @@ int main(int argc, char **argv) {
       stall_tx = (unsigned)strtoul(line + 1, 0, 0);
       if (!stall_tx)
         m.v24.full = 0;
-    } else if (line[0] == 'P')
+    } else if (line[0] == 'B')
+      m.v24.peer_baud = (unsigned)strtoul(line + 1, 0, 0);
+    else if (line[0] == 'P')
       m.v24.peer_format = (unsigned)strtoul(line + 1, 0, 0);
     else if (line[0] == 'V') {
       unsigned w, h;

@@ -280,3 +280,6 @@ build/test-kaypro2: tests/kaypro2_test.c machines/kaypro2/kaypro2.c machines/kay
 	$(CC) -std=c11 -O2 -Wall -Wextra -Werror -I. tests/kaypro2_test.c machines/kaypro2/kaypro2.c common/cpu/z80.c common/trace/trace.c -o $@
 
 test: test-kaypro2
+
+build/robotron-receive-phase: tests/integration/robotron_receive_phase.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
