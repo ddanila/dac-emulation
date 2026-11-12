@@ -85,6 +85,7 @@ typedef struct {
 } robotron_sio_rx;
 typedef struct {
   dac_z80 cpu;
+  uint8_t bank_cycle_active, bank_cycle_destination, bank_next_destination;
   dac_trace_sink trace;
   void *dive_user;
   unsigned (*dive)(void *, unsigned, unsigned, unsigned); /* observational, except explicit experiment inhibition */

@@ -5,7 +5,7 @@ See [Robotron status](../../docs/robotron-status.md) for current behavior and qu
 
 A portable C machine with a shared main-CPU adapter and a dedicated keyboard CPU backend. The tested profile is the S550 boot ROM, 287 CAS PROM and TOS/M 1.0 disk decoded from `A92V010A.TD0`. It cold-boots to `A>`, accepts keyboard packets, creates/reads/copies/deletes files and reboots from an exported session disk. No guest ROM patches or guest-PC traps are used. Matching Danila's exact physical machine is still pending.
 
-Implemented: 256 KB RAM with independent read/write banks selected through the supplied CAS PROM; boot ROM/gap/character/video windows; CTC timer cascade and DMA/CTC interrupt priority with in-service/RETI handling; optional S600 keyboard CPU/matrix with clocked SIO reception, or a legacy byte adapter; DMA addressing, ready polarity, end-of-block interrupt control and board-gated terminal count; raw 80×2×5×1024 media; floppy specify/sense/recalibrate/seek/read-ID/read/write/deleted-data/read-track/format/scan commands. Storage uses `common/media`. Native I/O events use `common/trace`.
+Implemented: 256 KB RAM with source/destination banks sequenced by CPU memory cycles and selected through the supplied CAS PROM; boot ROM/gap/character/video windows; CTC timer cascade and DMA/CTC interrupt priority with in-service/RETI handling; optional S600 keyboard CPU/matrix with clocked SIO reception, or a legacy byte adapter; DMA addressing, ready polarity, end-of-block interrupt control and board-gated terminal count; raw 80×2×5×1024 media; floppy specify/sense/recalibrate/seek/read-ID/read/write/deleted-data/read-track/format/scan commands. Storage uses `common/media`. Native I/O events use `common/trace`.
 
 The bounded 8275 renderer honors display start/stop, programmed geometry (up to 80×24 cells and 16 scanlines), cursor position/style, field attributes, alternate glyph page, and end-of-row/screen controls. TOS/M programs 80×24×12, producing 640×288 pixels. The row scheduler produces status independently of rendering; local fetch response remains idealized.
 
@@ -305,3 +305,5 @@ independently of the existing A4 cascade. With x16 SIO framing, constants
 2/3/13 produce nominal 62400/41600/9600 baud. This drives the timed V.24
 receiver and transmitter, not just register readback. Firmware tests still
 require physical qualification of a newly burned ROM.
+
+[Physical bank-bus measurements and regression coverage](../../docs/robotron-bank-bus.md) explain scalar versus block transfers and the limits of the model.
