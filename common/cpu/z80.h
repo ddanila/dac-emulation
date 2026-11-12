@@ -15,6 +15,8 @@ typedef struct {
   z80_t cpu;
   uint64_t pins, cycles;
   dac_z80_bus bus;
+  /* Optional board bus logic, called each T-state before memory/I/O access. */
+  void (*observe_pins)(void *, uint64_t);
 } dac_z80;
 void dac_z80_init(dac_z80 *, dac_z80_bus);
 void dac_z80_tick(dac_z80 *, int irq, int nmi);

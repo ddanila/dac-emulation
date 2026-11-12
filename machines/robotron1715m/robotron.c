@@ -4,6 +4,28 @@
 #include "robotron.h"
 #include <errno.h>
 #include <string.h>
+/* PC001 measurements: M1 restarts the bank sequence; subsequent memory
+ * machine cycles alternate source/destination, regardless of RD versus WR.
+ * Count bus edges, not T-states or opcodes. Refresh is not a data access.
+ * See docs/robotron-bank-bus.md for measured scope and remaining uncertainty. */
+static void bank_bus(void *p, uint64_t pins) {
+  robotron *m = p;
+  unsigned active = (pins & Z80_MREQ) && !(pins & Z80_RFSH) &&
+                    (pins & (Z80_RD | Z80_WR));
+  if (pins & Z80_M1)
+    m->bank_next_destination = 0;
+  if (active && !m->bank_cycle_active) {
+    m->bank_cycle_destination = (pins & Z80_M1) ? 0 : m->bank_next_destination;
+    if (!(pins & Z80_M1))
+      m->bank_next_destination ^= 1;
+  }
+  m->bank_cycle_active = active;
+}
+static unsigned bank_selector(const robotron *m, unsigned write) {
+  if (m->trace_master != DAC_MASTER_DMA && m->bank_cycle_active)
+    write = m->bank_cycle_destination;
+  return (m->bank >> (write ? 4 : 0)) & 7;
+}
 static int bank(robotron *m, unsigned b, uint16_t a) {
   if (!b)
     return a < 0x4000 ? 4 + (a >> 12) : 0;
@@ -21,9 +43,7 @@ static int bank(robotron *m, unsigned b, uint16_t a) {
     return 5;
   }
 }
-uint8_t robotron_peek(void *p, uint16_t a) {
-  robotron *m = p;
-  int b = bank(m, m->bank & 7, a);
+static uint8_t bank_read(robotron *m, uint16_t a, int b) {
   if (b < 4)
     return m->ram[b * 65536 + a];
   if (b == 4)
@@ -34,8 +54,12 @@ uint8_t robotron_peek(void *p, uint16_t a) {
     return m->vram[a & 4095];
   return 0;
 }
+uint8_t robotron_peek(void *p, uint16_t a) {
+  robotron *m = p;
+  return bank_read(m, a, bank(m, bank_selector(m, 0), a));
+}
 unsigned robotron_mapping(robotron *m, uint16_t a, unsigned write) {
-  int b = bank(m, write ? ((m->bank >> 4) & 7) : (m->bank & 7), a);
+  int b = bank(m, bank_selector(m, write), a);
   unsigned space = b < 4    ? DAC_SPACE_RAM
                    : b == 4 ? DAC_SPACE_ROM
                    : b == 6 ? DAC_SPACE_GLYPHS
@@ -63,14 +87,15 @@ static void memory_trace(robotron *m, const char *kind, uint16_t a, uint8_t v,
 }
 uint8_t robotron_read(void *p, uint16_t a) {
   robotron *m = p;
-  uint8_t v = robotron_peek(m, a);
+  int b = bank(m, bank_selector(m, 0), a);
+  uint8_t v = bank_read(m, a, b);
   if (m->trace.emit)
-    memory_trace(m, "MR", a, v, bank(m, m->bank & 7, a));
+    memory_trace(m, "MR", a, v, b);
   return v;
 }
 void robotron_write(void *p, uint16_t a, uint8_t v) {
   robotron *m = p;
-  int b = bank(m, (m->bank >> 4) & 7, a);
+  int b = bank(m, bank_selector(m, 1), a);
   memory_trace(m, "MW", a, v, b);
   if (b < 4)
     m->ram[b * 65536 + a] = v;
@@ -1216,6 +1241,7 @@ void robotron_init(robotron *m) {
   m->cursor[0] = m->cursor[1] = 255;
   dac_z80_init(&m->cpu, (dac_z80_bus){m, robotron_read, robotron_write,
                                       robotron_input, robotron_output, ack});
+  m->cpu.observe_pins = bank_bus;
 }
 int robotron_load(robotron *m, const void *r, size_t nr, const void *p,
                   size_t np) {
@@ -1742,6 +1768,7 @@ void robotron_video(robotron *m, uint32_t *pixels, unsigned *width,
 }
 
 void robotron_rebind(robotron *m) {
+  m->cpu.observe_pins = bank_bus;
   m->dive = NULL; m->dive_user = NULL;
   m->cpu.bus = (dac_z80_bus){
       m, robotron_read, robotron_write, robotron_input, robotron_output, ack};

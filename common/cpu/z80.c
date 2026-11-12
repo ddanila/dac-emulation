@@ -2,6 +2,7 @@
 #include "z80.h"
 void dac_z80_init(dac_z80 *c, dac_z80_bus bus) {
   c->bus = bus;
+  c->observe_pins = NULL;
   c->cycles = 0;
   c->pins = z80_init(&c->cpu);
 }
@@ -9,6 +10,8 @@ void dac_z80_tick(dac_z80 *c, int irq, int nmi) {
   uint64_t p = (c->pins & ~(Z80_INT | Z80_NMI)) | (irq ? Z80_INT : 0) |
                (nmi ? Z80_NMI : 0);
   p = z80_tick(&c->cpu, p);
+  if (c->observe_pins)
+    c->observe_pins(c->bus.user, p);
   uint16_t a = Z80_GET_ADDR(p);
   uint8_t d = 0xff;
   if (p & Z80_MREQ) {

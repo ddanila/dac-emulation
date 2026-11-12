@@ -283,3 +283,10 @@ test: test-kaypro2
 
 build/robotron-receive-phase: tests/integration/robotron_receive_phase.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+
+build/robotron-bank-bus: tests/integration/robotron_bank_bus.c $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+	$(CC) $(CFLAGS) $(WARN) $^ -o $@
+.PHONY: test-robotron-bank-bus
+test-robotron-bank-bus: build/robotron-bank-bus
+	./build/robotron-bank-bus
+test: test-robotron-bank-bus

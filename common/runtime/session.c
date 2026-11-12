@@ -1012,6 +1012,7 @@ int dac_state_save(dac_session *s, void *p, size_t n) {
     return -ENOMEM;
   memcpy(copy, s->r, sizeof(*copy));
   memset(&copy->cpu.bus, 0, sizeof(copy->cpu.bus));
+  copy->cpu.observe_pins = NULL;
   memset(&copy->keyboard.cpu.bus, 0, sizeof(copy->keyboard.cpu.bus));
   copy->keyboard.serial = NULL;
   copy->keyboard.serial_user = NULL;
@@ -1246,8 +1247,10 @@ static int other_state_save(dac_session *s, void *p, size_t n) {
     j->disk.fp = j->disk.deleted_marks_fp = NULL;
     memset(&j->disk.media.storage, 0, sizeof(j->disk.media.storage));
     memset(&j->disk.marks, 0, sizeof(j->disk.marks));
-  } else
+  } else {
     memset(&((vjuga *)copy)->cpu.bus, 0, sizeof(dac_z80_bus));
+    ((vjuga *)copy)->cpu.observe_pins = NULL;
+  }
   uint8_t *payload = (uint8_t *)p + sizeof(state_header);
   memcpy(payload, copy, size);
   free(copy);
