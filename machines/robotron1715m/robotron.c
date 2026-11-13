@@ -107,9 +107,12 @@ void robotron_write(void *p, uint16_t a, uint8_t v) {
     m->video_writes++;
   }
 }
+/* A120 (DL175), motherboard 1.93.310411.8/04 sheet 1: low-nibble
+ * latches drive the active-low motor outputs through inversion. S550 uses
+ * 11h/22h for units 0/1 and 00h to stop; upper nibble is not latched. */
 unsigned robotron_drive_ready(const robotron *m, unsigned u) {
   return u < 2 && !m->drive[u].door_open && !m->drive[u].ejected &&
-         !(m->motor & (u ? 8 : 128)) && m->drive[u].ready &&
+         (m->motor & (1u << u)) && m->drive[u].ready &&
          (u ? m->disk_b.storage.read != NULL : m->disk.storage.read != NULL);
 }
 unsigned robotron_head_position(const robotron *m, unsigned u) {
@@ -127,7 +130,7 @@ unsigned robotron_head_position(const robotron *m, unsigned u) {
 static void mechanics_tick(robotron *m) {
   for (unsigned u = 0; u < 2; u++) {
     robotron_drive *d = &m->drive[u];
-    unsigned on = !(m->motor & (u ? 8 : 128));
+    unsigned on = (m->motor & (1u << u));
     if (on && d->speed < ROBOTRON_SPINUP_TICKS)
       d->speed++;
     if (!on && d->speed)
@@ -585,6 +588,7 @@ static void command(robotron *m, uint8_t v) {
   f->scan_mode = 0;
   f->formatting = f->read_id = f->search = f->error2 = 0;
   if (op == 3) {
+    f->non_dma = c[2] & 1;
     f->step_ticks = ((16 - (c[1] >> 4)) * 39936 + 9) / 10;
     unsigned hlt = c[2] >> 1, hut = c[1] & 15;
     f->head_load_ticks = ((hlt ? hlt : 128) * 79872 + 9) / 10;
@@ -964,6 +968,7 @@ static uint8_t input_value(void *p, uint16_t a) {
     return m->fdc.seeking |
            (m->fdc.reset ? 0 : (m->fdc.phase == 2 && !ready(m) ? 0 : 0x80)) |
            (m->fdc.phase || m->fdc.cmd_pos ? 16 : 0) |
+           (m->fdc.phase == 2 && m->fdc.non_dma ? 32 : 0) |
            ((m->fdc.phase == 1 || (ready(m) && !m->fdc.write)) ? 64 : 0);
   if (a == 0x1d || a == 0x41)
     return fdc_read(m);
