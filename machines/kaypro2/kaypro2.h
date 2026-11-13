@@ -4,6 +4,7 @@
 #include "../../common/cpu/z80.h"
 #include "../../common/trace/trace.h"
 #include <stddef.h>
+#include "../../common/fdc/wd179x.h"
 #define KAYPRO2_CLOCK_HZ 2500000u
 typedef struct {
     uint8_t wr[8], pointer, fifo[3], count, errors;
@@ -17,10 +18,16 @@ typedef struct {
     uint8_t system, pio_mode, pio_mask, pio_expect_mask, baud[2];
     uint8_t io_active, io_value, modem[2];
     kaypro2_sio sio[2];
+    wd179x fdc; wd_disk disks[2];
+    unsigned fdc_fraction, selected_drive, drive_track[2];
+    uint64_t motor_started;
+    uint8_t floppy_fault[2];
     void *serial_user;
     void (*transmit)(void *, unsigned channel, uint8_t);
     uint64_t unclaimed_io;
 } kaypro2;
+int kaypro2_mount(kaypro2 *, unsigned drive, dac_storage, int writable);
+void kaypro2_eject(kaypro2 *, unsigned drive);
 void kaypro2_init(kaypro2 *);
 void kaypro2_reset(kaypro2 *); /* retains RAM, ROM, callback */
 int kaypro2_load(kaypro2 *,const void *,size_t);

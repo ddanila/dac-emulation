@@ -25,7 +25,7 @@ from a caller-supplied 2048-byte character ROM and explicit blink phase.
 This is a schematic-derived display model, not physical qualification. Unmapped ROM-space
 reads return FF as an explicit open-bus approximation. No browser/runtime
 kind is registered yet; use the native C API and the CP/M integration probe.
-Do not treat this as a complete stock-ROM/floppy emulator.
+Do not treat this as a complete stock-ROM/floppy emulator; see the floppy candidate limits below.
 
 ## Source cross-check (2026-11-10)
 
@@ -82,3 +82,23 @@ are explicitly identified; no stock or PC003 character-ROM image is included.
 Channel B uses the same three-byte FIFO API as A. The CP/M qualification probe
 injects completed keyboard bytes on an independent 300-baud 8N1 schedule;
 its report distinguishes receiver rejection from software queue overflow.
+
+## Floppy candidate
+
+The PC81-240A profile now maps WD1793 registers at 10–13h and system-PIO drive,
+active-low motor/density and HALT-conditioned DRQ/INTRQ NMI wiring. Two borrowed
+204800-byte single-sided media backends can be mounted independently. Per-drive
+head positions survive selection; controller reset preserves mounted media.
+
+The controller and 512-byte media adapter were extracted from the established
+Juku model into `common/fdc`. The historical Juku include/API/build entrypoints
+remain compatibility wrappers. Kaypro enables timed DRQ deassertion between
+bytes at 250 kbit/s; missing a byte deadline produces lost data. Juku retains
+its previously qualified handshake behavior. `test-kaypro2-fdc` checks board
+wiring, pacing, lost data, protection, missing media and missing sector IDs.
+
+This is a sector model, not a flux or electrical model. It does not model exact
+angular sector placement, malformed address marks, analog readiness or partially
+overwritten magnetic tracks. Raw Kaypro track formatting is explicitly rejected.
+Physical-drive qualification is maintained in cpm-plus-kaypro, separately from
+emulator acceptance.
