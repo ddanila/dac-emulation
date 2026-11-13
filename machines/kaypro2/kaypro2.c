@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: MIT
  * Kaypro II/4 81-240A headless profile. SIO polling/FIFO and timed TX adapted
  * from machines/robotron1715/peripherals.h; source references in README.md.
- * No floppy, interrupts, synchronous SIO, or electrical waveform claim.
+ * WD1793 uses the shared Juku-qualified core; no flux/electrical claim.
  */
 #include "kaypro2.h"
 #include <errno.h>
@@ -64,11 +64,36 @@ static void sio_write(kaypro2 *m,unsigned port,uint8_t v){
     if(((v>>3)&7)==6)s->errors=0;
     s->pointer=v&7;
 }
+static void floppy_select(kaypro2 *m, uint8_t v) {
+    unsigned next=(v&1)?0:(v&2)?1:2;
+    if(m->selected_drive<2)m->drive_track[m->selected_drive]=m->fdc.physical_track;
+    if(next!=m->selected_drive && next<2)m->fdc.physical_track=m->drive_track[next];
+    if((m->system&64) && !(v&64))m->motor_started=m->cpu.cycles;
+    m->selected_drive=next;
+    m->fdc.disk=next<2?&m->disks[next]:NULL;
+    m->fdc.motor_on=!(v&64); m->fdc.head=0; m->fdc.drive=(int)next;
+    m->fdc.clock_2mhz=0;
+    wd179x_ready(&m->fdc,next<2 && m->disks[next].media.storage.read && !(v&32));
+}
+int kaypro2_mount(kaypro2 *m,unsigned drive,dac_storage storage,int writable) {
+    if(drive>1)return -EINVAL;
+    int rc=wd_disk_bind_geometry(&m->disks[drive],storage,(dac_geometry){40,1,10,512,0},writable);
+    if(!rc)floppy_select(m,m->system);
+    return rc;
+}
+void kaypro2_eject(kaypro2 *m,unsigned drive) {
+    if(drive>1)return;
+    memset(&m->disks[drive],0,sizeof m->disks[drive]);floppy_select(m,m->system);
+}
 static uint8_t input(void *p,uint16_t address){
     kaypro2 *m=p;unsigned a=address&0x9f;
     if(!m->io_active){
         m->io_active=1;m->io_value=0xff;
         if(a>=4&&a<=7)m->io_value=sio_read(m,a);
+        else if(a>=0x10&&a<=0x13){
+            if(a==0x10 && m->selected_drive<2 && m->floppy_fault[m->selected_drive] && !(m->fdc.status&1))m->fdc.status|=m->floppy_fault[m->selected_drive];
+            m->io_value=wd179x_read(&m->fdc,a&3);
+        }
         else if(a==0x1c)m->io_value=(m->system&~8u)|0x80;
         else m->unclaimed_io++;
         trace(m,"IR",address,m->io_value,DAC_SPACE_IO);
@@ -80,14 +105,16 @@ static void output(void *p,uint16_t address,uint8_t v){
     if(a<4)m->baud[0]=v&15;
     else if(a<8)sio_write(m,a,v);
     else if(a>=12&&a<=15)m->baud[1]=v&15;
+    else if(a>=0x10&&a<=0x13)wd179x_write(&m->fdc,a&3,v);
     else if(a==0x1d){
         if(m->pio_expect_mask){m->pio_mask=v;m->pio_expect_mask=0;}
         else if((v&15)==15){m->pio_mode=v>>6;m->pio_expect_mask=m->pio_mode==3;}
     }
-    else if(a==0x1c)m->system=v;
+    else if(a==0x1c){floppy_select(m,v);m->system=v;}
     else m->unclaimed_io++;
 }
 void kaypro2_reset(kaypro2 *m){
+    wd179x_init(&m->fdc,NULL);m->fdc.paced_data=1;m->selected_drive=2;m->fdc_fraction=0;
     m->system=0x80;m->pio_mode=1;m->pio_mask=255;m->pio_expect_mask=0;
     m->baud[0]=m->baud[1]=5;m->io_active=0;m->unclaimed_io=0;
     memset(m->sio,0,sizeof m->sio);
@@ -109,7 +136,12 @@ void kaypro2_run(kaypro2 *m,unsigned ticks){
                 else s->shifting=0;
             }
         }
-        dac_z80_tick(&m->cpu,0,0);
+        wd179x_tr00(&m->fdc,m->fdc.physical_track!=0);
+        wd179x_hlt(&m->fdc,m->cpu.cycles-m->motor_started>=KAYPRO2_CLOCK_HZ/2);
+        wd179x_index(&m->fdc,m->fdc.motor_on && m->fdc.ready_line && m->cpu.cycles%(KAYPRO2_CLOCK_HZ/5)<KAYPRO2_CLOCK_HZ/500);
+        m->fdc_fraction+=4;
+        if(m->fdc_fraction>=5){m->fdc_fraction-=5;wd179x_tick(&m->fdc,1);}
+        dac_z80_tick(&m->cpu,0,(m->cpu.pins&Z80_HALT) && ((m->fdc.status&2)||m->fdc.intrq));
         if(!(m->cpu.pins&Z80_IORQ))m->io_active=0;
     }
 }

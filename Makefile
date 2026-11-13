@@ -275,9 +275,9 @@ test-journey-wasm: wasm build/journey-test
 .PHONY: test-kaypro2
 test-kaypro2: build/test-kaypro2
 	./build/test-kaypro2
-build/test-kaypro2: tests/kaypro2_test.c machines/kaypro2/kaypro2.c machines/kaypro2/kaypro2.h common/cpu/z80.c common/trace/trace.c
+build/test-kaypro2: tests/kaypro2_test.c machines/kaypro2/kaypro2.c machines/kaypro2/kaypro2.h $(wildcard common/fdc/*) common/cpu/z80.c common/trace/trace.c
 	mkdir -p build
-	$(CC) -std=c11 -O2 -Wall -Wextra -Werror -I. tests/kaypro2_test.c machines/kaypro2/kaypro2.c common/cpu/z80.c common/trace/trace.c -o $@
+	$(CC) -std=c11 -O2 -Wall -Wextra -Werror -I. tests/kaypro2_test.c machines/kaypro2/kaypro2.c machines/juku/juku_fdc.c machines/juku/juk_disk.c common/media/media.c common/cpu/z80.c common/trace/trace.c -o $@
 
 test: test-kaypro2
 
@@ -290,3 +290,10 @@ build/robotron-bank-bus: tests/integration/robotron_bank_bus.c $(ROBOTRON_OBJECT
 test-robotron-bank-bus: build/robotron-bank-bus
 	./build/robotron-bank-bus
 test: test-robotron-bank-bus
+
+build/test-kaypro2-fdc: tests/kaypro2_fdc_test.c machines/kaypro2/kaypro2.c machines/kaypro2/kaypro2.h $(wildcard common/fdc/*)
+	mkdir -p build
+	$(CC) -std=c11 -O2 -Wall -Wextra -Werror -I. tests/kaypro2_fdc_test.c machines/kaypro2/kaypro2.c machines/juku/juku_fdc.c machines/juku/juk_disk.c common/media/media.c common/cpu/z80.c common/trace/trace.c -o $@
+test-kaypro2-fdc: build/test-kaypro2-fdc
+	./build/test-kaypro2-fdc
+test: test-kaypro2-fdc
