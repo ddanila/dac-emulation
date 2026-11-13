@@ -50,8 +50,9 @@ static uint8_t bank_read(robotron *m, uint16_t a, int b) {
     return m->rom[a & 2047];
   if (b == 6)
     return m->chargen[a & 4095];
+  /* CRT D03 is a single U6516: A11 aliases the same 2 KiB. */
   if (b == 7)
-    return m->vram[a & 4095];
+    return m->vram[a & 2047];
   return 0;
 }
 uint8_t robotron_peek(void *p, uint16_t a) {
@@ -102,7 +103,7 @@ void robotron_write(void *p, uint16_t a, uint8_t v) {
   else if (b == 6)
     m->chargen[a & 4095] = v;
   else if (b == 7) {
-    m->vram[a & 4095] = v;
+    m->vram[a & 2047] = v;
     m->video_writes++;
   }
 }

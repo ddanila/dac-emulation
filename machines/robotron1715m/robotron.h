@@ -112,6 +112,7 @@ typedef struct {
   } v24;
   unsigned disconnected; /* bit0 keyboard power/data; bit1 monitor video */
   unsigned keyboard_enabled;
+  /* Only vram[0..2047] is physical; retain allocation for snapshot layout. */
   uint8_t rom[2048], chargen[4096], vram[4096], ram[262144], prom[256], bank,
       krfd, motor;
   robotron_fdc fdc;
