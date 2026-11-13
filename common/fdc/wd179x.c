@@ -108,7 +108,7 @@ static void clear_transfer(wd179x* fdc) {
   fdc->write_track_output_pos = 0;
   fdc->write_track_state = WT_SCAN;
   fdc->write_track_field_pos = 0;
-  fdc->write_track_pending_sector = 0;
+  fdc->write_track_pending_sector = -1;
   fdc->write_track_pending_deleted = 0;
   fdc->write_track_seen = 0;
   fdc->write_track_format_error = 0;
@@ -535,8 +535,8 @@ static uint8_t write_track_decoded_byte(uint8_t data) {
 
 
 static void finish_write_track_sector(wd179x* fdc) {
-  if (fdc->write_track_pending_sector < 1 ||
-      fdc->write_track_pending_sector > JUK_SECTORS_PER_TRACK) {
+  if (fdc->write_track_pending_sector < (int)fdc->disk->media.geometry.first_sector ||
+      fdc->write_track_pending_sector >= (int)(fdc->disk->media.geometry.first_sector + fdc->disk->media.geometry.sectors)) {
     fdc->write_track_format_error = 1;
     return;
   }
@@ -554,10 +554,10 @@ static void finish_write_track_sector(wd179x* fdc) {
     fdc->write_track_format_error = 1;
     return;
   }
-  const uint16_t sector_bit = (uint16_t)1u << (fdc->write_track_pending_sector - 1);
+  const uint16_t sector_bit = (uint16_t)1u << (fdc->write_track_pending_sector - fdc->disk->media.geometry.first_sector);
   if (fdc->write_track_seen & sector_bit) fdc->write_track_format_error = 1;
   fdc->write_track_seen |= sector_bit;
-  fdc->write_track_pending_sector = 0;
+  fdc->write_track_pending_sector = -1;
   fdc->write_track_pending_deleted = 0;
 }
 
@@ -600,14 +600,14 @@ static void accept_write_track_byte(wd179x* fdc, uint8_t data) {
       if (data == 0xF7 &&
           fdc->write_track_id[0] == fdc->physical_track &&
           fdc->write_track_id[1] == (uint8_t)fdc->head &&
-          fdc->write_track_id[2] >= 1 &&
-          fdc->write_track_id[2] <= JUK_SECTORS_PER_TRACK &&
+          fdc->write_track_id[2] >= fdc->disk->media.geometry.first_sector &&
+          fdc->write_track_id[2] < fdc->disk->media.geometry.first_sector + fdc->disk->media.geometry.sectors &&
           fdc->write_track_id[3] == 2) {
         fdc->write_track_pending_sector = fdc->write_track_id[2];
         fdc->write_track_pending_deleted = 0;
       } else {
         fdc->write_track_format_error = 1;
-        fdc->write_track_pending_sector = 0;
+        fdc->write_track_pending_sector = -1;
         fdc->write_track_pending_deleted = 0;
       }
       fdc->write_track_state = WT_SCAN;
@@ -643,7 +643,7 @@ static void accept_write_track_byte(wd179x* fdc, uint8_t data) {
         if (sync_count >= 3 && data == 0xFE) {
           fdc->write_track_state = WT_ID;
         } else if (sync_count >= 3 && (data == 0xFB || data == 0xF8) &&
-                   fdc->write_track_pending_sector != 0) {
+                   fdc->write_track_pending_sector >= 0) {
           fdc->write_track_pending_deleted = data == 0xF8;
           fdc->write_track_state = WT_DATA;
         }
@@ -688,7 +688,7 @@ static void begin_write_track(wd179x* fdc) {
   fdc->track_waiting_index = 1;
   fdc->write_first_byte_pending = 1;
   fdc->write_track_state = WT_SCAN;
-  fdc->write_track_pending_sector = 0;
+  fdc->write_track_pending_sector = -1;
   fdc->write_track_pending_deleted = 0;
   fdc->status |= ST_BUSY | ST_DRQ;
   fdc->drq_ticks = 0;
@@ -1018,9 +1018,6 @@ void wd179x_write(wd179x* fdc, uint8_t reg, uint8_t data) {
         if (!was_busy) fdc->status_type_i = 1;
         fdc->force_interrupt_mask = data & 0x0F;
         fdc->intrq = (data & 0x08) != 0;
-      }
-      else if (is_write_track(data) && fdc->disk && !fdc->disk->media.geometry.first_sector) {
-        fdc->status_type_i=0; fdc->status=ST_RNF; fdc->intrq=1;
       }
       else if (is_type_ii_iii(data)) begin_type_ii_iii(fdc, data);
       else {
