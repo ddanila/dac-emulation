@@ -24,6 +24,22 @@ static void init(void) {
     m.drive[u].unload_at = UINT64_MAX;
   }
 }
+/* PC001 2026-11-13, confirmed against CRT schematic 1.93.310412.6/04:
+ * D03 is one U6516 (A0..A10). CPU video A11 is not decoded. */
+static void display_ram_alias(void) {
+  init();
+  for (unsigned i = 0; i < 2048; i++) {
+    robotron_write(&m, 0x3000 + i, (uint8_t)(i ^ (i >> 8)));
+    assert(robotron_peek(&m, 0x3800 + i) == (uint8_t)(i ^ (i >> 8)));
+    robotron_write(&m, 0x3800 + i, (uint8_t)~(i ^ (i >> 8)));
+    assert(robotron_peek(&m, 0x3000 + i) == (uint8_t)~(i ^ (i >> 8)));
+  }
+  /* Character storage really is 4 KiB: A11 selects a second U6516. */
+  robotron_write(&m, 0x2000, 0x55);
+  robotron_write(&m, 0x2800, 0xaa);
+  assert(robotron_peek(&m, 0x2000) == 0x55);
+  assert(robotron_peek(&m, 0x2800) == 0xaa);
+}
 static void dma(unsigned a, unsigned b, unsigned n, unsigned bmode,
                 unsigned ctrl) {
   const uint8_t p[] = {0xc3, 0x7d,  a,    a >> 8, n - 1,  (n - 1) >> 8,
@@ -1936,6 +1952,7 @@ int main(void) {
   interrupt_chain();
   timer_cascade();
   serial_counter_clock();
+  display_ram_alias();
   display();
   display_fifo();
   display_schedule();

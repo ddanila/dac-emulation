@@ -307,3 +307,27 @@ receiver and transmitter, not just register readback. Firmware tests still
 require physical qualification of a newly burned ROM.
 
 [Physical bank-bus measurements and regression coverage](../../docs/robotron-bank-bus.md) explain scalar versus block transfers and the limits of the model.
+
+### PC001 video RAM decode measured (2026-11-13)
+
+The CPU video window `3000–3fff` contains **2 KiB mirrored at `3800`**, not
+4 KiB of independent storage. PC001's RAM-loaded `VIDTEST.COM` saved both display
+windows, wrote address-dependent patterns and their inverses, checked all 4096
+video-window addresses in both alias directions, and restored/verified the
+original contents. Character RAM at `2000–2fff` passed as independent 4 KiB.
+8275 status was `04 → 00 → 04` across stop/start with interrupts disabled.
+
+This agrees with original CRT schematic **1.93.310412.6/04**, sheets A/B in
+[1715w.zip](https://xepb.org/robotron/docs/1715w.zip): screen RAM D03 is one U6516,
+with A0–A10; character RAM uses two U6516s (D08/D09). MAME's `rt1715.cpp` currently
+indexes screen RAM with `0xfff`; that is not evidence of the physical decode.
+The corrected CPU read/write mask is `0x7ff`. The existing 4096-byte array is
+retained for snapshot layout compatibility; its upper half is unused. Existing
+raster fetches stay below 1920, so this finding alone does not change raster timing.
+
+`test-robotron-devices` checks both aliases and character-RAM independence;
+the new test fails against the old mapping. The CP/M repository's `test-video`
+runs the actual diagnostic instructions, including interbank LDIR and restoration
+on an injected mismatch. [Physical transcript and diagnostic source](https://github.com/ddanila/cpm-plus-1715/tree/main/reports/rom41-pc001-20261113/video).
+This qualifies CPU-side memory and controller status, not visible pixels,
+analogue levels, sync timing, or local CP/M console support.
