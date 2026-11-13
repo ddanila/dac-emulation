@@ -52,6 +52,7 @@ typedef struct {
   unsigned cylinder[4], unit, head, sector, n, eot, pending, st0, write;
   int scan_compare;
   unsigned scan_mode, tc, reset, reset_queue, formatting;
+  unsigned non_dma; /* Specify ND; MSR bit5 during execution only. */
   uint64_t ready_at, seek_at[4];
   unsigned seek_target[4], seeking, seek_done, step_ticks;
   unsigned seek_interval[4], steps[4], physical[4], recalibrate[4], pulses[4],

@@ -12,6 +12,7 @@ static void send(unsigned port, const uint8_t *p, unsigned n) {
 }
 static void init(void) {
   robotron_init(&m);
+  m.motor = 3;
   m.rom[0] = 0x76; /* HALT */
   memset(disk, 0x5a, sizeof(disk));
   assert(!robotron_disk(&m, dac_memory_storage(disk, sizeof(disk), 1), 1));
@@ -814,6 +815,24 @@ static void keyboard_serial(void) {
   robotron_keyboard_release(&k);
   assert(!k.matrix[7] && !k.synthetic[7] && !k.tap_count);
 }
+/* Intel 8272 Specify ND appears in MSR bit5 only during execution. */
+static void floppy_non_dma_status(void) {
+  for(unsigned nd=0;nd<2;nd++) {
+    init();
+    const uint8_t specify[]={3,0xdf,(uint8_t)(2|nd)};
+    send(0x1d,specify,3);
+    assert(!(robotron_input(&m,0x1c)&32));
+    fdc(6);
+    assert(m.fdc.phase==2);
+    assert(!!(robotron_input(&m,0x1c)&32)==nd);
+    robotron_drive_door(&m,0,1);
+    assert(m.fdc.phase==1);
+    assert(!(robotron_input(&m,0x1c)&32));
+    robotron_output(&m,0x20,0);
+    robotron_output(&m,0x20,0x40);
+    assert(!m.fdc.non_dma);
+  }
+}
 static void floppy_seek(void) {
   init();
   const uint8_t specify[] = {3, 0xf0, 0}, seek[] = {15, 0, 3};
@@ -850,7 +869,7 @@ static void floppy_rotation(void) {
   uint64_t expected = m.fdc.ready_at;
   assert(expected >
          m.cpu.cycles); /* Physical ID/data positions, not global CPU modulo. */
-  m.motor = 128;
+  m.motor = 2;
   robotron_run(&m, 1);
   assert(m.fdc.phase == 1 && (m.fdc.result[0] & 0x48) == 0x48);
   assert(m.drive[0].speed < ROBOTRON_SPINUP_TICKS); /* coast-down */
@@ -1008,6 +1027,19 @@ static void transmitter_interrupt(void) {
   robotron_sio_control(&m, 0, 0x28);
   assert(!m.tx_pending && m.cpu.bus.ack(&m) == 0xff);
 }
+/* S550 motor values, confirmed by the DL175 low-nibble wiring. */
+static void floppy_motor_latch(void) {
+  init();
+  assert(!robotron_disk_unit(&m, 1, dac_memory_storage(disk, sizeof(disk), 1), 1));
+  robotron_output(&m, 0x28, 0x11);
+  assert(robotron_drive_ready(&m, 0) && !robotron_drive_ready(&m, 1));
+  robotron_output(&m, 0x28, 0x22);
+  assert(!robotron_drive_ready(&m, 0) && robotron_drive_ready(&m, 1));
+  robotron_output(&m, 0x28, 0x00);
+  assert(!robotron_drive_ready(&m, 0) && !robotron_drive_ready(&m, 1));
+  robotron_output(&m, 0x28, 0xf0);
+  assert(!robotron_drive_ready(&m, 0) && !robotron_drive_ready(&m, 1));
+}
 static void floppy_mechanics_and_deadlines(void) {
   init();
   robotron_run(&m, ROBOTRON_REVOLUTION_TICKS + 1);
@@ -1015,6 +1047,7 @@ static void floppy_mechanics_and_deadlines(void) {
   assert(m.rotation[0] ==
          m.rotation[1]); /* empty motor turns without optical index */
   robotron_init(&m);
+  m.motor = 3;
   m.rom[0] = 0x76;
   assert(!robotron_disk(&m, dac_memory_storage(disk, sizeof(disk), 1), 1));
   fdc(0x46);
@@ -1026,7 +1059,7 @@ static void floppy_mechanics_and_deadlines(void) {
   robotron_run(&m, ROBOTRON_REVOLUTION_TICKS + 2);
   assert(robotron_drive_ready(&m, 0) && m.drive[0].index_count >= 2);
   unsigned phase = m.rotation[0];
-  m.motor = 128;
+  m.motor = 2;
   robotron_run(&m, 100);
   assert(!robotron_drive_ready(&m, 0) && m.rotation[0] != phase);
   robotron_run(&m, ROBOTRON_SPINUP_TICKS);
@@ -1356,7 +1389,7 @@ static void floppy_layout_commands(void) {
   data_command(0x45, 7, 1, 7);
   wait_data();
   robotron_output(&m, 0x1d, 0x19);
-  m.motor |= 128;
+  m.motor &= ~1u;
   robotron_run(&m, 1);
   assert(m.fdc.phase == 1 && (m.fdc.result[0] & 0x48) == 0x48);
   assert(b[512] == 0x19 && b[513] == 0xa7 && b[256 + 0x1c] == 0x20 &&
@@ -1403,7 +1436,7 @@ static void write_interruptions(void) {
         if(m.fdc.ready_at>m.cpu.cycles)robotron_run(&m,(unsigned)(m.fdc.ready_at-m.cpu.cycles));
         robotron_output(&m,0x1d,0xa6);
       }
-      if(action==0)m.motor|=128;
+      if(action==0)m.motor&=~1u;
       else if(action==1)robotron_output(&m,0x20,0);
       else robotron_drive_door(&m,0,1);
       robotron_run(&m,1);
@@ -1442,7 +1475,7 @@ static void format_interruptions(void) {
       if (completed)
         wait_data();
       if (action == 0)
-        m.motor |= 128;
+        m.motor &= ~1u;
       else if (action == 1)
         robotron_output(&m, 0x20, 0);
       else
@@ -1479,7 +1512,7 @@ static void drive_door(void) {
   uint8_t *bytes = calloc(1, 819200);
   assert(bytes);
   assert(!robotron_disk(&m, dac_memory_storage(bytes, 819200, 1), 1));
-  m.motor = 0;
+  m.motor = 3;
   m.drive[0].ready = m.drive[0].loaded = 1;
   assert(robotron_drive_ready(&m, 0));
   robotron_drive_door(&m, 0, 1);
@@ -1933,6 +1966,7 @@ int main(void) {
   v24_independent_peer();
   serial_x1_fixed_peer();
   drive_door();
+  floppy_motor_latch();
   floppy_mechanics_and_deadlines();
   floppy_dsk();
   floppy_layout_commands();
@@ -1943,6 +1977,7 @@ int main(void) {
   printer();
   printer_readiness();
   keyboard_serial();
+  floppy_non_dma_status();
   floppy_seek();
   floppy_rotation();
   dma_memory();
