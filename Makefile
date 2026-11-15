@@ -43,6 +43,14 @@ build/vjuga-boot: build/runners/native/vjuga_boot.o $(Z80_OBJECTS)
 -include $(Z80_OBJECTS:.o=.d) build/runners/native/vjuga_boot.d
 
 all: build/robotron-boot
+build/robotron-monitor-capture: build/runners/native/robotron_monitor_capture.o $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+	$(CC) $(CFLAGS) $^ -o $@
+-include build/runners/native/robotron_monitor_capture.d
+
+.PHONY: test-monitor
+test-monitor:
+	python3 -m unittest discover -s verification/robotron-monitor/tests -v
+
 build/robotron-boot: build/runners/native/robotron_boot.o $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CFLAGS) $^ -o $@
 -include build/runners/native/robotron_boot.d build/machines/robotron1715m/robotron.d
