@@ -16,6 +16,60 @@ sensitivity runs, and named-probe replay. The 260-entry inventory accounts for
 the three board lists, but the other two boards are not yet connected or modeled.
 The assembly drawing identifies B31G22 / AE9VT 6802.01 for this reference.
 
+## Fault atlas development bench
+
+```sh
+python3 verification/robotron-monitor/atlas.py \
+  --output build/monitor/atlas --members 16 --held-out 8
+```
+
+The generator creates a versioned, checksummed `public/` package for the museum's
+`fault-atlas.html`. Keep the complete native output directory for individual
+solver logs, snapshots, decks and ensemble samples. Output directories are never
+overwritten. `--scenario rail-low` and `--scenario rail-high` exercise the external
+neck supply; they do not simulate the monitor's 12 V converter. `--fault ID`
+selects a subset for development. The catalogue is in `atlas/catalogue.json`.
+
+Faults address original board/component identities and leave the authored sheet
+unchanged. Supported discrete mutations include resistance/capacitance scaling,
+additional ESR, resistive leakage, terminal opens/shorts, and per-device BJT gain
+degradation. Derived resistors retain their source target and purpose. Healthy
+parameter variation and injected faults are separate records. Documented passive
+tolerances and assumed device bounds are explored jointly using seeded Latin
+hypercube samples; these are parameter exploration, not probability distributions.
+
+Every published prediction requires a complete nominal/training/held-out ensemble,
+a half-timestep check, and (for opens/shorts) a tenfold change in both directions
+to the numerical resistance approximation. Checks compare time-weighted window
+features at 1% relative tolerance with numerical floors of 1 mV / 0.1 µA; these
+floors are not instrument accuracy or service limits. Predictions from failed or
+indeterminate cases are withheld. Unsupported converter, connector and flyback
+faults remain visible with reasons. These checks cover settled feature windows,
+not every transient excursion. Transition-only faults can be indistinguishable.
+
+Sampled feature intervals report mean, RMS, extrema and peak-to-peak variation.
+Pairwise overlap and independent held-out combinations explicitly retain ambiguity
+and samples outside their own training envelope. There are no diagnostic scores,
+probabilities or automatically recommended live measurements. No real-monitor
+faults have validated these predictions. The browser distinguishes source probes
+from simulation-only quantities and retains source pages and reference points.
+
+The diagnostic neck bench adds finite external supply/wiring impedance and a
+separate healthy C1 ESR. It still uses external supplies and a constant tube load.
+**This package does not meet the planned first-release gate:** the complete
+power-input → horizontal drive → flyback → loaded-rail circuit is not connected.
+`publication_gate.first_release_eligible` remains false independently of numerical
+success. Detailed beam modeling and guided diagnosis remain deferred.
+
+`magnetics.py` provides a separately tested shared-core transformer building block
+using ngspice's `lcouple`/`core` models ([manual, §§8.2.21–22](https://ngspice.sourceforge.io/docs/ngspice-45-manual.pdf)).
+Windings share one magnetic loop with explicit resistance, leakage inductance and
+terminal capacitance. A shorted turn is an additional closed electrical winding.
+The monotone, odd B(H) curve models reversible saturation, with an aggregate
+loss resistance. Tests check energy, polarity, saturation, a shorted-turn response
+and numerical refinement. This is not yet wired into historical T1/T3; their
+parameters remain unresolved. Hysteresis and distributed resonances are excluded.
+
 ## Reference stage workflow
 
 ```sh
@@ -197,7 +251,9 @@ seconds; column counts are declared, not inferred from a fixture. Metadata
 includes effective parameters, their declared ranges and source coverage.
 Electrical-only stages have no phosphor frames. The viewer explicitly shows
 that absence and disables fixture-specific line/frame stepping. Comparisons
-match probe name **and** unit, using absolute time. Version 1 remains supported.
+match model/source identity and unit, using absolute time. New atlas probes have
+stable IDs; older v2 recordings fall back to source ID and name within one model.
+Version 1 remains supported within its separate fixture contract.
 V2 limits are 128 fields, 250001 rows, 120 seconds absolute end time, and the
 same 64 MiB file / 1 MiB header budgets. Trajectory JSON is a separate prototype
 format; v2 does not yet carry trajectories or a schematic picking map.
