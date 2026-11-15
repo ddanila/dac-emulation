@@ -1,0 +1,7 @@
+* Engineering fixture parameters, NOT device-qualified SU165/SSY20A models.
+.model HOT NPN(IS=1e-12 BF=30 VAF=50 CJC=200p CJE=1n TF=100n TR=500n)
+.model VIDEO NPN(IS=1e-14 BF=100 VAF=80 CJC=3p CJE=8p TF=1n)
+.model FAST D(IS=1e-9 RS=.2 CJO=30p TT=50n)
+.model HV D(IS=1e-12 RS=100 CJO=1p TT=100n BV=25000 IBV=1u)
+* Linear magnetics only. Core saturation is NOT qualified or implemented here.
+Kflyback L1 L2 .97
