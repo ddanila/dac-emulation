@@ -1,0 +1,247 @@
+{
+  "format": "dac-monitor-service-observations-v1",
+  "reference": "k7222-11",
+  "specifications": [
+    {
+      "quantity": "supply_voltage",
+      "nominal": 12,
+      "unit": "V",
+      "tolerance_percent": 3
+    },
+    {
+      "quantity": "supply_ripple_50_100_hz",
+      "maximum": 0.025,
+      "unit": "Vpp"
+    },
+    {
+      "quantity": "input_low_maximum",
+      "maximum": 0.5,
+      "unit": "V"
+    },
+    {
+      "quantity": "input_high_minimum",
+      "minimum": 2.8,
+      "unit": "V"
+    },
+    {
+      "quantity": "input_transition_maximum",
+      "maximum": 3e-08,
+      "unit": "s"
+    },
+    {
+      "quantity": "horizontal_linearity_error",
+      "maximum": 0.1,
+      "unit": "ratio",
+      "definition": "(largest interval-smallest interval)/(largest interval+smallest interval)"
+    },
+    {
+      "quantity": "vertical_linearity_error",
+      "maximum": 0.1,
+      "unit": "ratio",
+      "definition": "(largest interval-smallest interval)/(largest interval+smallest interval)"
+    }
+  ],
+  "specification_source": {
+    "file": "older-operation.pdf",
+    "page": 6
+  },
+  "waveforms": [
+    {
+      "test_point": 1,
+      "node": "012-6931:X3:6",
+      "approximate_swing_v": 10,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 20
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 2,
+      "node": "012-6931:C1/C2/R3",
+      "approximate_swing_v": 5,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 20
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 3,
+      "node": "012-6931:V5:C",
+      "approximate_swing_v": 4.5,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 20
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 4,
+      "node": "012-6931:V11:B",
+      "approximate_swing_v": 4.5,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 20
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 5,
+      "node": "012-6931:V11:C",
+      "approximate_swing_v": 10,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 20
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 6,
+      "node": "012-6931:R43/R44",
+      "approximate_swing_v": 2.5,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 20
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 7,
+      "node": "012-6931:X2:4",
+      "approximate_swing_v": 2.5,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 20
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 8,
+      "node": "012-6931:X2:3",
+      "approximate_swing_v": 17,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 20
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 9,
+      "node": "012-6921:V8/V9:K",
+      "approximate_swing_v": 9,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 21
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 10,
+      "node": "012-6921:X12:1",
+      "approximate_swing_v": 5.8,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 21
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 11,
+      "node": "012-6921:V12:B",
+      "approximate_swing_v": 3.5,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 21
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 12,
+      "node": "012-6921:X13:1",
+      "approximate_swing_v": 1,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 21
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 13,
+      "node": "012-6921:V12:C",
+      "approximate_swing_v": 6.4,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 21
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 14,
+      "node": "012-6921:X12:2",
+      "approximate_swing_v": 70,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 21
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 15,
+      "node": "012-6921:V13:C",
+      "approximate_swing_v": 45,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 21
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    },
+    {
+      "test_point": 17,
+      "node": "012-6921:V14:K",
+      "approximate_swing_v": 90,
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 21
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": null,
+      "status": "not-yet-evaluated"
+    }
+  ],
+  "limitations": [
+    "Waveform amplitudes are manual Richtwerte (approximate guide values), not numerical acceptance tolerances.",
+    "Map original test points to the implemented topology before evaluating; do not tune against all observations and reuse them as held-out validation.",
+    "Source sharpness check is visual under specified conditions and is not converted to an invented numeric spot tolerance."
+  ]
+}

@@ -10,6 +10,53 @@ set**, plus its matching operating manual. See [reference evidence](reference-ev
 for page locations and revision boundaries. These findings do not change the
 experimental fixture into a historical circuit.
 
+The reference implementation now includes the **012-6891 neck-board circuit**,
+its 19 source-designated entries, bounded device assumptions, parameter-endpoint
+sensitivity runs, and named-probe replay. The 260-entry inventory accounts for
+the three board lists, but the other two boards are not yet connected or modeled.
+The assembly drawing identifies B31G22 / AE9VT 6802.01 for this reference.
+
+## Reference stage workflow
+
+```sh
+python3 verification/robotron-monitor/reference.py --output build/monitor/neck
+python3 verification/robotron-monitor/reference.py --output build/monitor/neck-window \
+  --start .0001 --stop .0004 --parameter q_bf=18
+python3 verification/robotron-monitor/sensitivity.py --output build/monitor/neck-sensitivity
+python3 verification/robotron-monitor/trajectory.py --output build/monitor/rays.json
+```
+
+`profiles/k7222-11-neck.json` selects the editable KiCad sheet, external bench,
+model cards, named probes and finite parameter ranges. The circuit is read from
+KiCad on every run. `SourceId` retains original board/designator identity even
+when KiCad/SPICE references differ. Duplicate, missing and foreign identities
+fail. The bench supplies voltage at the neck connector; these sources are not a
+substitute for the missing power and deflection boards. The cathode load is a
+constant 20 µA test load, not a modeled tube or heater.
+
+Runs snapshot source files, profile, inventory, code and generated deck with
+hashes. Recording windows retain absolute times and integrate from zero; they
+do not restart the circuit at the recording boundary. The runner bounds both
+saved samples and estimated integration steps. It is not yet a multirate
+thermal/lifecycle solver. Parameters outside the declared ranges are rejected.
+`sensitivity.py` runs each endpoint separately and reports time-weighted mean,
+RMS and extrema. These are neither confidence intervals nor joint worst cases.
+
+Coverage is reported independently of successful simulation. The neck board
+accounts for 19 entries; 241 other board entries remain unconnected. Assembly
+interconnects and spark gaps also remain outside this bench. A successful neck
+run always has `bounded-stage`, never full-monitor qualification.
+
+`trajectory.py` is a separate field-solver prototype: relativistic Lorentz
+integration through a parameterized gun/lens potential and a smooth finite yoke
+field, nine launch rays, curved-screen intersection, clipping and energy-error
+diagnostics. Its JSON output retains the actual paths and assumptions. Tests
+cover conservation, polarity, voltage dependence and spatial-step refinement.
+It is **not yet coupled** to either electrical runner or phosphor replay. Its
+electrode geometry, field shape and beam distribution remain assumed; they have
+not been bounded/calibrated as a B31G22 model. Existing fixture playback still
+uses `optics.py`.
+
 ## Local workflow
 
 Requires Python 3.10+, ngspice (tested with 45.2) and KiCad CLI (tested with 10.0.6).
@@ -120,12 +167,13 @@ does not integrate phosphor again at browser frame rate.
 
 ## Historical reconstruction still required
 
-- Review the newly located .11/.21 parts lists and matching operating manual.
+- Independently review the transcribed .11/.21 parts lists and matching operating manual.
   Its 012-6921/012-6931/012-6891 boards must remain separate from the
   .13/.23 012-6922/012-6934/012-6952 boards and the unrelated MON 3 drawings.
   The .13 scans still omit most values; the two-page redraw is incomplete.
-- Transcribe and independently review the full reference topology as KiCad sheets,
-  retaining historical designators and explicitly unresolved values.
+- Transcribe 012-6921 and 012-6931 and the assembly interconnect as hierarchical
+  KiCad sheets; independently review the neck sheet and protection gaps.
+  Retain historical designators and explicitly unresolved values.
 - Establish transformer winding polarity and taps, inductances, losses, core
   saturation, distributed capacitance and yoke characteristics. Do not tune them
   merely until the screen looks plausible.
@@ -139,3 +187,17 @@ does not integrate phosphor again at browser frame rate.
   specimen geometry only once that board/tube identity is established.
 
 Numerical tests establish fixture behavior, not historical or specimen accuracy.
+
+### Replay version 2
+
+The stage runner writes `DACCRT2\n`, the same header/chunk framing as v1, with
+`start_time`, `end_time` and elapsed `duration`. Trace fields are named and carry
+units plus original source identifiers. The first field is always time in
+seconds; column counts are declared, not inferred from a fixture. Metadata
+includes effective parameters, their declared ranges and source coverage.
+Electrical-only stages have no phosphor frames. The viewer explicitly shows
+that absence and disables fixture-specific line/frame stepping. Comparisons
+match probe name **and** unit, using absolute time. Version 1 remains supported.
+V2 limits are 128 fields, 250001 rows, 120 seconds absolute end time, and the
+same 64 MiB file / 1 MiB header budgets. Trajectory JSON is a separate prototype
+format; v2 does not yet carry trajectories or a schematic picking map.

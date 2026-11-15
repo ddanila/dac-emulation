@@ -48,7 +48,35 @@ with an established board revision. Keep it as a lead. No owner has been contact
 
 ## What this unblocks
 
-The earlier reference now has enough published information to begin a traceable
+The printed assembly drawing (schematic-set PDF page 18, drawing
+1.11.017260.0/17) identifies **B31G22** and **AE9VT 6802.01, TGL 200-7102**.
+These are the reference identities; a later B31G1 or museum specimen must not be
+silently substituted. The drawing does not provide a calibrated yoke field,
+electron-gun geometry, phosphor decay or transformer equivalent circuit.
+
+The [board inventory](reference/k7222-11/inventory.json) now records 260 entries,
+including individually designated diode/capacitor sections and known
+schematic-only parts. Descriptions are normalized transcriptions, not verbatim
+quotes. Its values and inferred designators still need independent review.
+[Assembly identities, neck connector pins and annotations](reference/k7222-11/assembly.json)
+are separate. In particular, handwritten voltage/current/control notes are not
+promoted to manufacturer specifications. The duplicated-looking SP3 C5 entry is
+assigned C6 with `inferred` evidence. Unknown capacitances and transformer
+properties remain unknown in the inventory.
+
+The 19-entry neck board now has an editable KiCad transcription and a bounded
+electrical bench. Its six-diode network retains both the Baker clamp and the
+oppositely directed intensity paths. The generic device-family parameters are
+assumptions, **not** fitted SSY20A or 1AD50 datasheet models. The newly archived
+DDR semiconductor compilation is a research lead, not the provenance of those
+assumed values. Board inventory coverage is separate from model qualification.
+
+The [service observation register](reference/k7222-11/service-observations.json)
+separates specified input/supply limits from approximate waveform amplitudes.
+The manual labels the latter *Richtwerte*. They are not yet evaluated against a
+complete circuit, and no numerical acceptance tolerance is invented for them.
+
+The earlier reference has enough published information to continue a traceable
 component/topology transcription and compare simulated nodes to the matching
 manual's service waveforms. [Selected parts](reference-parts.csv) preserve a small
 set of directly read values, grouped exactly by board and source page. They are

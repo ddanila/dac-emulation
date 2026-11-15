@@ -56,14 +56,21 @@
       "sha256": "5521edf6815b04c008ec9f8a048a6979f55c08841e4e512d74cd7c99eebc9a5e",
       "bytes": 43167,
       "scope": "2026 forum-posted K7222 semiconductor BOM excerpt only, revision not established. Lead to fuller documentation, not a source of values for the .11 circuit."
+    },
+    {
+      "file": "ddr-semiconductors.pdf",
+      "url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
+      "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43",
+      "bytes": 11146265,
+      "scope": "213-page compiled semiconductor scan. Index includes SSY20 and B260D; individual datasheet pages have not yet been transcribed or fitted. Research lead only; not evidence for the bounded neck-model parameter values."
     }
   ],
   "redistribution": "Source PDFs not bundled; retain hashes and original attribution.",
   "blockers": [
-    "Transcribe and review .11/.21 topology against its own parts lists; establish omitted assembly-level parts and resolve scan annotations. Later .13/.23 full BOM remains unlocated.",
+    "012-6891 neck topology transcribed and bench tested; 012-6921/012-6931 full topology and assembly interconnect still pending. Review transcription and scan annotations. Later .13/.23 full BOM remains unlocated.",
     "T1/T2/T3 winding inductance, polarity, resistance, leakage, capacitance and core properties",
-    "Installed tube/yoke identity and electron-optical/phosphor calibration",
+    "Reference drawing names B31G22 and AE9VT 6802.01; tube/yoke model parameters and installed specimen identity remain unverified.",
     "Monitor connector polarity and timing verified against M/W display-board circuitry"
   ],
-  "qualification": "Historical full-component monitor not implemented or qualified; fixture is a separate experimental circuit."
+  "qualification": "Bounded neck-board stage implemented; historical full-component monitor not implemented or qualified. Driven flyback fixture remains a separate experimental circuit."
 }
