@@ -1,0 +1,192 @@
+{
+  "format": "dac-monitor-capacitor-check-v1",
+  "model_id": "k7222-11-neck-diagnostic",
+  "scope": "Neck C1 only; power/horizontal capacitors are unmodeled.",
+  "conditions": "0\u2013400 us, nominal external bench supplies and constant tube load. Not thermal warm-up.",
+  "can_predict": {
+    "eht": false,
+    "width": false,
+    "height": false,
+    "screen_brightness": false,
+    "thermal_warmup": false
+  },
+  "model_revision": "126bcf0b8ffbe5c14713be35cd897782c2a3e516",
+  "reproduction": "python3 verification/robotron-monitor/investigations/check_capacitors.py --output build/monitor/capacitor-check-new",
+  "solver_runs": 6,
+  "output_steps_s": [
+    2e-08,
+    1e-08
+  ],
+  "scenario_duration_s": 0.0004,
+  "observed_symptom": "Pale image, enlarged horizontally and vertically, expanding during warm-up.",
+  "conclusion": "Inconclusive for the observed symptom: EHT, deflection, light output and thermal dynamics are absent. Neck C1 degradation changes electrical switching excursions; this neither establishes nor excludes a capacitor fault elsewhere in the monitor.",
+  "scope_notes": [
+    "Capacitance loss and increased ESR were tested separately, not together.",
+    "Nominal assumed parameters only in this rerun; the earlier 16-training/8-held-out atlas cases overlap nominal signatures.",
+    "Peak-to-peak rail excursion includes video/intensity switching, not a measured mains-ripple prediction.",
+    "The 150 pF video speed-up capacitor was not treated as a drying electrolytic.",
+    "The experimental flyback fixture is not the historical monitor and was not substituted for it."
+  ],
+  "cases": {
+    "nominal": {
+      "fault": null,
+      "settled_refinement": {
+        "passed": true,
+        "relative_tolerance": 0.01,
+        "numerical_floors": {
+          "V": 0.001,
+          "A": 1e-07
+        },
+        "failures": []
+      },
+      "transition_inclusive_refinement": {
+        "passed": true,
+        "relative_tolerance": 0.01,
+        "numerical_floors": {
+          "V": 0.001,
+          "A": 1e-07
+        },
+        "failures": []
+      },
+      "model_hashes": {
+        "schematic": "2c0daaa5226c9f450a963e5ee8ddb6533dc4b242373a97187f72db8912b6b5b7",
+        "models": "4169f23c43b01fdfedb41b0b97c7099fcd9f770244dea456b2c8a0cb31ff7357",
+        "bench": "106c7ce995443a0269f53d629863ce688ef3bffc7b493b854ba9db47fdc21a6e",
+        "inventory": "7dcc786b4da0939e1abd42956719d400a68f9025e13d184f59e29336cae48cf8",
+        "profile": "1922dda77dfa1246063ad6b05078e8a895f2ee803b50f6c3b36f9d331eb70e57",
+        "runner": "4824bf98bfe327996a2ac24a2a718c9036cf76770645a60a277c30f91882e776",
+        "lab": "351c5db22eec76d9d171068d5d451732077bb38d5e5801c35aaea51933bb2e1f",
+        "optics": "afb3e7d70a50a907bb243e8c67097ddd04013c47dd3510f9ed24aaca08bd6580",
+        "sources": "bc53d06ee96409228cacfeca19125a4f24b3bc9ca10228f7fd880995cd18ab61",
+        "faults": "448f88df95ceebf7f10f734eb437b688eac49757a1bd7bfe26eb3377402ab864",
+        "scenario": "d8efc6e3509c03cf056491bd55a1b68e7c5fac4df0c14fa9bbc916a951364a5c",
+        "deck": "19536b47e8f6540ddf8f1322d5c7068bf0dca1a20bec9bbc175e6c8d4192cf17"
+      },
+      "metrics": {
+        "neck_rail": {
+          "maximum_absolute_settled_mean_change_v": 0.0,
+          "including_transitions_peak_to_peak_v": 0.04299122897781871
+        },
+        "cathode": {
+          "maximum_absolute_settled_mean_change_v": 0.0,
+          "including_transitions_peak_to_peak_v": 33.405833878308954
+        }
+      }
+    },
+    "bypass-loss": {
+      "fault": {
+        "id": "bypass-loss",
+        "target": "012-6891:C1",
+        "operation": "capacitance_scale",
+        "name": "Supply bypass capacitance at 10%",
+        "stage": "Neck/video",
+        "symptoms": [
+          "rail-disturbance"
+        ],
+        "expected_screen_symptom": null,
+        "factor": 0.1
+      },
+      "settled_refinement": {
+        "passed": true,
+        "relative_tolerance": 0.01,
+        "numerical_floors": {
+          "V": 0.001,
+          "A": 1e-07
+        },
+        "failures": []
+      },
+      "transition_inclusive_refinement": {
+        "passed": true,
+        "relative_tolerance": 0.01,
+        "numerical_floors": {
+          "V": 0.001,
+          "A": 1e-07
+        },
+        "failures": []
+      },
+      "model_hashes": {
+        "schematic": "2c0daaa5226c9f450a963e5ee8ddb6533dc4b242373a97187f72db8912b6b5b7",
+        "models": "4169f23c43b01fdfedb41b0b97c7099fcd9f770244dea456b2c8a0cb31ff7357",
+        "bench": "106c7ce995443a0269f53d629863ce688ef3bffc7b493b854ba9db47fdc21a6e",
+        "inventory": "7dcc786b4da0939e1abd42956719d400a68f9025e13d184f59e29336cae48cf8",
+        "profile": "1922dda77dfa1246063ad6b05078e8a895f2ee803b50f6c3b36f9d331eb70e57",
+        "runner": "4824bf98bfe327996a2ac24a2a718c9036cf76770645a60a277c30f91882e776",
+        "lab": "351c5db22eec76d9d171068d5d451732077bb38d5e5801c35aaea51933bb2e1f",
+        "optics": "afb3e7d70a50a907bb243e8c67097ddd04013c47dd3510f9ed24aaca08bd6580",
+        "sources": "bc53d06ee96409228cacfeca19125a4f24b3bc9ca10228f7fd880995cd18ab61",
+        "faults": "448f88df95ceebf7f10f734eb437b688eac49757a1bd7bfe26eb3377402ab864",
+        "scenario": "d8efc6e3509c03cf056491bd55a1b68e7c5fac4df0c14fa9bbc916a951364a5c",
+        "fault": "4aadffc5b603267f8789c60eba9cce50406e417577fd89b7610c93b469eed5ca",
+        "deck": "774930d41dcf3360cd6bb8c0efe5178f11f3c58d87430391cab486693a13117d"
+      },
+      "metrics": {
+        "neck_rail": {
+          "maximum_absolute_settled_mean_change_v": 0.0016367792135127956,
+          "including_transitions_peak_to_peak_v": 0.07229072322286356
+        },
+        "cathode": {
+          "maximum_absolute_settled_mean_change_v": 0.0013656936026151811,
+          "including_transitions_peak_to_peak_v": 33.41806612926907
+        }
+      }
+    },
+    "bypass-esr": {
+      "fault": {
+        "id": "bypass-esr",
+        "target": "012-6891:C1",
+        "operation": "esr",
+        "name": "Supply bypass additional 10 ohm ESR",
+        "stage": "Neck/video",
+        "symptoms": [
+          "rail-disturbance"
+        ],
+        "expected_screen_symptom": null,
+        "resistance_ohm": 10
+      },
+      "settled_refinement": {
+        "passed": true,
+        "relative_tolerance": 0.01,
+        "numerical_floors": {
+          "V": 0.001,
+          "A": 1e-07
+        },
+        "failures": []
+      },
+      "transition_inclusive_refinement": {
+        "passed": true,
+        "relative_tolerance": 0.01,
+        "numerical_floors": {
+          "V": 0.001,
+          "A": 1e-07
+        },
+        "failures": []
+      },
+      "model_hashes": {
+        "schematic": "2c0daaa5226c9f450a963e5ee8ddb6533dc4b242373a97187f72db8912b6b5b7",
+        "models": "4169f23c43b01fdfedb41b0b97c7099fcd9f770244dea456b2c8a0cb31ff7357",
+        "bench": "106c7ce995443a0269f53d629863ce688ef3bffc7b493b854ba9db47fdc21a6e",
+        "inventory": "7dcc786b4da0939e1abd42956719d400a68f9025e13d184f59e29336cae48cf8",
+        "profile": "1922dda77dfa1246063ad6b05078e8a895f2ee803b50f6c3b36f9d331eb70e57",
+        "runner": "4824bf98bfe327996a2ac24a2a718c9036cf76770645a60a277c30f91882e776",
+        "lab": "351c5db22eec76d9d171068d5d451732077bb38d5e5801c35aaea51933bb2e1f",
+        "optics": "afb3e7d70a50a907bb243e8c67097ddd04013c47dd3510f9ed24aaca08bd6580",
+        "sources": "bc53d06ee96409228cacfeca19125a4f24b3bc9ca10228f7fd880995cd18ab61",
+        "faults": "448f88df95ceebf7f10f734eb437b688eac49757a1bd7bfe26eb3377402ab864",
+        "scenario": "d8efc6e3509c03cf056491bd55a1b68e7c5fac4df0c14fa9bbc916a951364a5c",
+        "fault": "060a369753ce68e9827c67c904ab49e95220145490138294b09d460d2174a2a4",
+        "deck": "00e13a678646cb15304aed5106d790969c956f6dbd1c80ac859772a8df10f164"
+      },
+      "metrics": {
+        "neck_rail": {
+          "maximum_absolute_settled_mean_change_v": 0.0010894673105070751,
+          "including_transitions_peak_to_peak_v": 0.4058889131354988
+        },
+        "cathode": {
+          "maximum_absolute_settled_mean_change_v": 0.0009094302112373498,
+          "including_transitions_peak_to_peak_v": 33.55789287585813
+        }
+      }
+    }
+  },
+  "reproduction_script_sha256": "62e1029c5edd4f0a4925b93b134dcc3d2bc0c90e748e40efcd1f41d0156ac6a2"
+}
