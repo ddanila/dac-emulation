@@ -1,0 +1,11 @@
+* External connector excitation ONLY. This is not a monitor oscillator.
+Vrail p41 0 41
+Vg1 ug1 0 -25
+Vg2 ug2 0 350
+Vg4 ug4 0 175
+* Four states per 400 us: VIDEO low/high, then repeat with INTENS high.
+Vvideo vid 0 PULSE(0 5 100u 20n 20n 100u 200u)
+Vintensity intens 0 PULSE(0 5 200u 20n 20n 200u 400u)
+* Small constant beam-current test load and socket/tube capacitance.
+Ibeam 0 cathode 20u
+Csocket cathode 0 {tube_cathode_c}

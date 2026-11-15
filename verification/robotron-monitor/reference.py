@@ -1,0 +1,238 @@
+#!/usr/bin/env python3
+"""Source-accounted stage simulation. A stage bench cannot qualify a monitor.
+
+The editable KiCad sheet is the sole connectivity input at run time. Profiles
+select files, named probes and explicit finite uncertainty ranges; they contain
+no substitute circuit topology. Reported times are absolute simulation times.
+"""
+import argparse
+import array
+from collections import Counter
+import json
+import math
+from pathlib import Path
+import re
+import struct
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+
+import lab
+
+ROOT = Path(__file__).resolve().parent
+IDENTIFIER = re.compile(r'[a-zA-Z_][a-zA-Z_0-9]*\Z')
+
+
+def read_profile(path):
+    profile = json.loads(Path(path).read_text())
+    if profile.get('format') != 'dac-monitor-profile-v1' or profile.get('qualification') != 'bounded-stage':
+        raise ValueError('unsupported profile or qualification')
+    for key in ('schematic', 'models', 'bench', 'inventory'):
+        resolved = (ROOT/profile[key]).resolve()
+        if not resolved.is_relative_to(ROOT) or not resolved.is_file():
+            raise ValueError('profile file outside laboratory or missing: '+key)
+    for name, p in profile['parameters'].items():
+        values = [p[k] for k in ('minimum', 'nominal', 'maximum')]
+        if (not IDENTIFIER.fullmatch(name) or any(type(v) not in (int, float) or not math.isfinite(v) for v in values)
+                or not 0 < values[0] <= values[1] <= values[2] or not p.get('rationale')
+                or p.get('evidence') not in ('assumed-bound', 'documented-bound')):
+            raise ValueError('invalid parameter bound: '+name)
+    names = set()
+    if not 1 <= len(profile['probes']) <= 127:
+        raise ValueError('probe budget exceeded')
+    for p in profile['probes']:
+        if (not IDENTIFIER.fullmatch(p['name']) or len(p['name'])>64 or p['name'] in names or p['name'] == 'time'
+                or not re.fullmatch(r'[vi]\([A-Za-z_][A-Za-z_0-9]*\)', p['expression'])
+                or not p.get('unit') or len(p['unit'])>=20 or not p.get('source_id')):
+            raise ValueError('invalid or duplicate probe')
+        names.add(p['name'])
+    if not names:
+        raise ValueError('no probes')
+    return profile
+
+
+def source_connectivity(path, inventory, board):
+    parts = {p['id']: p for p in inventory['parts']}
+    components = lab.connectivity(path)
+    tree = ET.parse(path).getroot()
+    source_ids = {}
+    for c in tree.findall('./components/comp'):
+        fields = {f.attrib['name']: f.text for f in c.findall('./fields/field')}
+        source_ids[c.attrib['ref']] = fields.get('SourceId')
+    seen = set()
+    for c in components:
+        sid = source_ids[c['reference']]
+        if sid not in parts or sid in seen or parts[sid]['board'] != board:
+            raise ValueError('missing, duplicate or foreign SourceId: '+str(sid))
+        if c['reference'][0] in 'VBI':
+            raise ValueError('independent/behavioral sources must be outside the reference board')
+        seen.add(sid)
+        c['source_id'] = sid
+    return components
+
+
+def inventory_check(inventory):
+    if inventory.get('format') != 'dac-monitor-inventory-v1':
+        raise ValueError('invalid inventory format')
+    ids = set()
+    for p in inventory['parts']:
+        if p['id'] != p['board']+':'+p['reference'] or p['id'] in ids:
+            raise ValueError('duplicate or malformed inventory identity')
+        ids.add(p['id'])
+        if p['evidence'] not in ('documented', 'inferred', 'unresolved'):
+            raise ValueError('invalid inventory evidence')
+        if p['value'] is not None and (not math.isfinite(p['value']) or p['value'] <= 0):
+            raise ValueError('invalid passive value')
+        if p['source']['file'] != 'older.pdf' or not 1 <= p['source']['page'] <= 19:
+            raise ValueError('invalid inventory source page')
+    return ids
+
+
+def coverage(inventory, components):
+    ids = inventory_check(inventory)
+    connected = [c['source_id'] for c in components]
+    if len(set(connected)) != len(connected) or not set(connected) <= ids:
+        raise ValueError('invalid source coverage')
+    # Completeness is deliberately independent of component-count assertions.
+    # Connectivity alone cannot establish models, assembly coverage or physics.
+    return dict(inventoried=len(ids), boards=dict(Counter(p['board'] for p in inventory['parts'])),
+                connected=len(connected), missing=sorted(ids-set(connected)),
+                unresolved=[p['id'] for p in inventory['parts'] if p['evidence'] != 'documented'],
+                full_monitor_qualified=False,
+                remaining_gates=['complete assembly connectivity', 'all device and magnetic models',
+                                 'free-running oscillation and sync lock', 'loaded supplies and thermal lifecycle',
+                                 'electron optics convergence', 'service observations and held-out scenarios'])
+
+
+def parameter_values(profile, changes):
+    values = {name: p['nominal'] for name, p in profile['parameters'].items()}
+    for name, value in changes.items():
+        if name not in values or not math.isfinite(value):
+            raise ValueError('unknown/nonfinite parameter: '+name)
+        p = profile['parameters'][name]
+        if not p['minimum'] <= value <= p['maximum']:
+            raise ValueError('parameter outside declared range: '+name)
+        values[name] = value
+    return values
+
+
+def deck(profile, components, parameters, start, stop, step, models, bench):
+    if (not all(math.isfinite(x) for x in (start, stop, step)) or not 0 <= start < stop <= 120
+            or not 1e-9 <= step <= 1e-4 or (stop-start)/step > 250_000 or stop/(step/10)>20_000_000):
+        raise ValueError('invalid window/sample budget')
+    probes = ' '.join(p['expression'] for p in profile['probes'])
+    lines = [profile['name']+' - external stage bench, not a complete monitor']
+    lines += [f'.param {k}={v:.15g}' for k, v in parameters.items()]
+    lines += [' '.join([c['reference'], *c['nodes'], c['value']]) for c in components]
+    # Both files are trusted local engineering source, snapshotted before use.
+    lines += [models, bench, '.options reltol=0.0001 abstol=1e-12 vntol=1e-8 method=gear',
+              '.control', 'set noaskquit', 'set wr_singlescale', 'set wr_vecnames', 'set numdgt=15',
+              f'tran {step:.15g} {stop:.15g} {start:.15g} {step/10:.15g}',
+              f'linearize {probes}', f'wrdata samples.txt {probes}', 'quit', '.endc', '.end']
+    return '\n'.join(lines)+'\n'
+
+
+def read_samples(path, probes, start, stop, step):
+    rows = []
+    with path.open() as stream:
+        header = next(stream, '').split()
+        if len(header) != len(probes)+1:
+            raise ValueError('unexpected solver columns')
+        for line in stream:
+            row = [float(v) for v in line.split()]
+            if (len(row) != len(probes)+1 or not all(math.isfinite(v) for v in row)
+                    or rows and row[0] <= rows[-1][0]):
+                raise ValueError('invalid solver samples')
+            rows.append(row)
+            if len(rows) > 250_001:
+                raise ValueError('sample budget exceeded')
+    tolerance = max(1e-12, step*1e-5)
+    if (len(rows) < 2 or abs(rows[0][0]-start) > tolerance
+            or abs(rows[-1][0]-stop) > tolerance):
+        raise ValueError('incomplete recording window')
+    return rows
+
+
+def package(rows, metadata, path):
+    fields = [dict(name='time', unit='s')]+metadata['probes']
+    if len(rows)*len(fields)*8 > 64*1024*1024-12:
+        raise ValueError('replay payload budget exceeded')
+    values = array.array('d', (v for row in rows for v in row))
+    if sys.byteorder != 'little':
+        values.byteswap()
+    payload = values.tobytes()
+    report = metadata | dict(format='dac-crt-replay', version=2,
+                             start_time=rows[0][0], duration=rows[-1][0]-rows[0][0],
+                             end_time=rows[-1][0], chunks=[dict(kind='trace', offset=0,
+                             bytes=len(payload), sha256=lab.digest(payload), rows=len(rows), fields=fields)])
+    header = json.dumps(report, separators=(',', ':'), allow_nan=False).encode()
+    if len(header)>1024*1024 or len(header)+len(payload)+12>64*1024*1024:
+        raise ValueError('replay header/file budget exceeded')
+    path.write_bytes(b'DACCRT2\n'+struct.pack('<I', len(header))+header+payload)
+    return report
+
+
+def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None):
+    profile = read_profile(profile_path)
+    parameters = parameter_values(profile, changes or {})
+    output = Path(output).resolve()
+    output.mkdir(parents=True, exist_ok=False)
+    try:
+        files = {key: (ROOT/profile[key]).read_bytes() for key in ('schematic', 'models', 'bench', 'inventory')}
+        files |= {'profile': Path(profile_path).read_bytes(), 'runner': Path(__file__).read_bytes(),
+                  'lab': (ROOT/'lab.py').read_bytes(), 'optics': (ROOT/'optics.py').read_bytes(),
+                  'sources': (ROOT/'sources.json').read_bytes()}
+        names = dict(schematic='input.kicad_sch', models='models.cir', bench='bench.cir',
+                     inventory='inventory.json', profile='profile.json', runner='reference.py',
+                     lab='lab.py', optics='optics.py', sources='sources.json')
+        for key, content in files.items():
+            (output/names[key]).write_bytes(content)
+        inventory = json.loads(files['inventory'])
+        inventory_check(inventory)
+        lab.run_command(['kicad-cli', 'sch', 'export', 'netlist', '--format', 'kicadxml', '-o',
+                         str(output/'circuit.xml'), str(output/'input.kicad_sch')], output, output/'kicad.log')
+        components = source_connectivity(output/'circuit.xml', inventory, profile['board'])
+        text = deck(profile, components, parameters, start, stop, step, files['models'].decode(), files['bench'].decode())
+        (output/'run.cir').write_text(text)
+        log = lab.run_command(['ngspice', '-b', 'run.cir'], output, output/'ngspice.log')
+        if re.search(r'(?im)^\s*(?:error|fatal|warning)|timestep too small|singular matrix|simulation interrupted', log):
+            raise ValueError('solver diagnostics rejected')
+        rows = read_samples(output/'samples.txt', profile['probes'], start, stop, step)
+        report = package(rows, dict(name=profile['name'], qualification=profile['qualification'],
+                         model_id=profile['id'], probes=profile['probes'], components=components,
+                         parameters=parameters, uncertainty=profile['parameters'], limitations=profile['limitations'],
+                         coverage=coverage(inventory, components), source_pages=profile['source_pages'],
+                         hashes={key: lab.digest(value) for key, value in files.items()} | {'deck': lab.digest(text.encode())},
+                         solver=dict(tool='ngspice', version=subprocess.check_output(['ngspice','--version'],text=True).strip(),
+                                     step_s=step, max_step_s=step/10, simulated_from_s=0, log_sha256=lab.digest(log.encode()))), output/'replay.mcrt')
+        (output/'report.json').write_text(json.dumps(report, indent=2)+'\n')
+        return report
+    except (ValueError, OSError, subprocess.SubprocessError) as error:
+        (output/'FAILED.txt').write_text(str(error)+'\n')
+        raise
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--profile', type=Path, default=ROOT/'profiles/k7222-11-neck.json')
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--start', type=float, default=0)
+    parser.add_argument('--stop', type=float, default=.0004)
+    parser.add_argument('--step', type=float, default=1e-7)
+    parser.add_argument('--parameter', action='append', default=[], metavar='NAME=VALUE')
+    args = parser.parse_args()
+    try:
+        changes = {}
+        for entry in args.parameter:
+            name, value = entry.split('=', 1)
+            if name in changes:
+                raise ValueError('duplicate parameter '+name)
+            changes[name] = float(value)
+        run(args.profile, args.output, args.start, args.stop, args.step, changes)
+        print(args.output/'replay.mcrt')
+    except (ValueError, OSError, subprocess.SubprocessError) as error:
+        parser.exit(1, str(error)+'\n')
+
+
+if __name__ == '__main__':
+    main()
