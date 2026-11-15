@@ -1,0 +1,13 @@
+* EXTERNAL BENCH ONLY: the historical converter is not implemented here.
+* The series impedance allows bypass/load faults to disturb the rail.
+Vrail external41 0 {rail_v}
+Rfeed external41 wire {rail_r}
+Lwire wire p41 {wire_l}
+Rc1esr p41 c1_feed {c1_esr}
+Vg1 ug1 0 -25
+Vg2 ug2 0 350
+Vg4 ug4 0 175
+Vvideo vid 0 PULSE(0 5 100u 20n 20n 100u 200u)
+Vintensity intens 0 PULSE(0 5 200u 20n 20n 200u 400u)
+Ibeam 0 cathode {beam_load}
+Csocket cathode 0 {tube_cathode_c}

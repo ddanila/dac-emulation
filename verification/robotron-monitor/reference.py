@@ -18,6 +18,7 @@ import sys
 import xml.etree.ElementTree as ET
 
 import lab
+import faults
 
 ROOT = Path(__file__).resolve().parent
 IDENTIFIER = re.compile(r'[a-zA-Z_][a-zA-Z_0-9]*\Z')
@@ -172,19 +173,26 @@ def package(rows, metadata, path):
     return report
 
 
-def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None):
+def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
+        *, fault=None, scenario=None, component_factors=None, regularization=1.):
     profile = read_profile(profile_path)
-    parameters = parameter_values(profile, changes or {})
+    scenario_parameters=(scenario or {}).get('parameters',{})
+    if scenario and (scenario.get('format')!='dac-monitor-scenario-v1' or scenario.get('model_id')!=profile['id']):
+        raise ValueError('scenario/model mismatch')
+    parameters = parameter_values(profile, scenario_parameters | (changes or {}))
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=False)
     try:
         files = {key: (ROOT/profile[key]).read_bytes() for key in ('schematic', 'models', 'bench', 'inventory')}
         files |= {'profile': Path(profile_path).read_bytes(), 'runner': Path(__file__).read_bytes(),
                   'lab': (ROOT/'lab.py').read_bytes(), 'optics': (ROOT/'optics.py').read_bytes(),
-                  'sources': (ROOT/'sources.json').read_bytes()}
+                  'sources': (ROOT/'sources.json').read_bytes(), 'faults': (ROOT/'faults.py').read_bytes()}
         names = dict(schematic='input.kicad_sch', models='models.cir', bench='bench.cir',
                      inventory='inventory.json', profile='profile.json', runner='reference.py',
-                     lab='lab.py', optics='optics.py', sources='sources.json')
+                     lab='lab.py', optics='optics.py', sources='sources.json', faults='faults.py')
+        for key,value in (('scenario',scenario),('fault',fault),('component_factors',component_factors)):
+            if value is not None:
+                files[key]=json.dumps(value,sort_keys=True,allow_nan=False).encode();names[key]=key+'.json'
         for key, content in files.items():
             (output/names[key]).write_bytes(content)
         inventory = json.loads(files['inventory'])
@@ -192,7 +200,19 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None):
         lab.run_command(['kicad-cli', 'sch', 'export', 'netlist', '--format', 'kicadxml', '-o',
                          str(output/'circuit.xml'), str(output/'input.kicad_sch')], output, output/'kicad.log')
         components = source_connectivity(output/'circuit.xml', inventory, profile['board'])
-        text = deck(profile, components, parameters, start, stop, step, files['models'].decode(), files['bench'].decode())
+        original_components=components
+        if component_factors:
+            parts={p['id']:p for p in inventory['parts']}
+            by_id={c['source_id']:c for c in components}
+            for sid,factor in component_factors.items():
+                if sid not in by_id or by_id[sid]['reference'][0] not in 'RCL':
+                    raise ValueError('unknown/nonpassive tolerance target')
+                tolerance=(parts[sid].get('tolerance_percent') or 0)/100
+                if not math.isfinite(factor) or not 1-tolerance<=factor<=1+tolerance:
+                    raise ValueError('healthy passive tolerance exceeded')
+                by_id[sid]['value']=f"{faults.number(by_id[sid]['value'])*factor:.15g}"
+        components,models,mutation=faults.apply(components,files['models'].decode(),fault,regularization=regularization)
+        text = deck(profile, components, parameters, start, stop, step, models, files['bench'].decode())
         (output/'run.cir').write_text(text)
         log = lab.run_command(['ngspice', '-b', 'run.cir'], output, output/'ngspice.log')
         if re.search(r'(?im)^\s*(?:error|fatal|warning)|timestep too small|singular matrix|simulation interrupted', log):
@@ -201,7 +221,8 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None):
         report = package(rows, dict(name=profile['name'], qualification=profile['qualification'],
                          model_id=profile['id'], probes=profile['probes'], components=components,
                          parameters=parameters, uncertainty=profile['parameters'], limitations=profile['limitations'],
-                         coverage=coverage(inventory, components), source_pages=profile['source_pages'],
+                         coverage=coverage(inventory, original_components), source_pages=profile['source_pages'],
+                         scenario=scenario, fault=mutation, component_factors=component_factors or {},
                          hashes={key: lab.digest(value) for key, value in files.items()} | {'deck': lab.digest(text.encode())},
                          solver=dict(tool='ngspice', version=subprocess.check_output(['ngspice','--version'],text=True).strip(),
                                      step_s=step, max_step_s=step/10, simulated_from_s=0, log_sha256=lab.digest(log.encode()))), output/'replay.mcrt')

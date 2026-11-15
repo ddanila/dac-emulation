@@ -1,0 +1,308 @@
+{
+  "format": "dac-monitor-profile-v1",
+  "id": "k7222-11-neck-diagnostic",
+  "name": "K7222.11/.21 neck diagnostic bench",
+  "qualification": "bounded-stage",
+  "schematic": "circuits/k7222-11-neck-diagnostic.kicad_sch",
+  "models": "circuits/k7222-11-neck-models.cir",
+  "bench": "circuits/k7222-11-neck-diagnostic-bench.cir",
+  "inventory": "reference/k7222-11/inventory.json",
+  "board": "012-6891",
+  "parameters": {
+    "neck_c2": {
+      "nominal": 1e-07,
+      "minimum": 1e-08,
+      "maximum": 1e-06,
+      "unit": "F",
+      "evidence": "assumed-bound",
+      "rationale": "Unknown part SDVU 3312.4-6829.84; explore supply bypass sensitivity, not a decoded value."
+    },
+    "q_is": {
+      "nominal": 1e-14,
+      "minimum": 1e-16,
+      "maximum": 1e-12,
+      "unit": "A",
+      "evidence": "assumed-bound",
+      "rationale": "Broad silicon switching BJT saturation-current family."
+    },
+    "q_bf": {
+      "nominal": 60,
+      "minimum": 18,
+      "maximum": 150,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Uncalibrated gain; broad range, not a certified SSY20A tolerance."
+    },
+    "q_vaf": {
+      "nominal": 60,
+      "minimum": 20,
+      "maximum": 150,
+      "unit": "V",
+      "evidence": "assumed-bound",
+      "rationale": "Finite Early effect; no original curve fitted."
+    },
+    "q_tf": {
+      "nominal": 2e-09,
+      "minimum": 2e-10,
+      "maximum": 2e-08,
+      "unit": "s",
+      "evidence": "assumed-bound",
+      "rationale": "Switching transit time uncertainty."
+    },
+    "q_tr": {
+      "nominal": 1e-08,
+      "minimum": 1e-09,
+      "maximum": 1e-07,
+      "unit": "s",
+      "evidence": "assumed-bound",
+      "rationale": "Storage/reverse transit uncertainty."
+    },
+    "q_cje": {
+      "nominal": 2e-11,
+      "minimum": 5e-12,
+      "maximum": 6e-11,
+      "unit": "F",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured base junction capacitance."
+    },
+    "q_cjc": {
+      "nominal": 8e-12,
+      "minimum": 2e-12,
+      "maximum": 3e-11,
+      "unit": "F",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured collector junction capacitance."
+    },
+    "d_is": {
+      "nominal": 1e-09,
+      "minimum": 1e-12,
+      "maximum": 1e-07,
+      "unit": "A",
+      "evidence": "assumed-bound",
+      "rationale": "Broad rectifying diode family; not a fitted 1AD50 model."
+    },
+    "d_n": {
+      "nominal": 1.5,
+      "minimum": 1,
+      "maximum": 2,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Unknown diode ideality."
+    },
+    "d_rs": {
+      "nominal": 1,
+      "minimum": 0.1,
+      "maximum": 10,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Finite diode series resistance."
+    },
+    "d_cjo": {
+      "nominal": 3e-12,
+      "minimum": 5e-13,
+      "maximum": 2e-11,
+      "unit": "F",
+      "evidence": "assumed-bound",
+      "rationale": "Unknown diode capacitance."
+    },
+    "d_tt": {
+      "nominal": 4e-09,
+      "minimum": 5e-10,
+      "maximum": 4e-08,
+      "unit": "s",
+      "evidence": "assumed-bound",
+      "rationale": "Unknown diode recovery."
+    },
+    "tube_cathode_c": {
+      "nominal": 2e-11,
+      "minimum": 5e-12,
+      "maximum": 6e-11,
+      "unit": "F",
+      "evidence": "assumed-bound",
+      "rationale": "Bench tube/socket capacitive load, not B31G22 measurement."
+    },
+    "rail_v": {
+      "nominal": 41,
+      "minimum": 39,
+      "maximum": 43,
+      "unit": "V",
+      "evidence": "assumed-bound",
+      "rationale": "External neck-stage supply sweep; not a simulation of the 12 V converter."
+    },
+    "rail_r": {
+      "nominal": 0.5,
+      "minimum": 0.1,
+      "maximum": 2,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "External supply and connection impedance, assumed for bench sensitivity."
+    },
+    "wire_l": {
+      "nominal": 1e-06,
+      "minimum": 2e-07,
+      "maximum": 5e-06,
+      "unit": "H",
+      "evidence": "assumed-bound",
+      "rationale": "Assumed bench wiring inductance."
+    },
+    "c1_esr": {
+      "nominal": 0.3,
+      "minimum": 0.05,
+      "maximum": 2,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured healthy C1 ESR; separate from injected additional ESR."
+    },
+    "beam_load": {
+      "nominal": 2e-05,
+      "minimum": 5e-06,
+      "maximum": 5e-05,
+      "unit": "A",
+      "evidence": "assumed-bound",
+      "rationale": "Constant external tube-load approximation; no emission or thermal law."
+    }
+  },
+  "probes": [
+    {
+      "name": "rail",
+      "unit": "V",
+      "expression": "v(p41)",
+      "source_id": "012-6891:X1:9",
+      "id": "k7222-11:012-6891:X1:9:V",
+      "reference_point": "012-6891:X1:8 (00)",
+      "access": "connector",
+      "measurement_requirements": "Instrument/probe capability and physical access have not been qualified; not a live probing instruction.",
+      "source": {
+        "file": "older.pdf",
+        "page": 16
+      }
+    },
+    {
+      "name": "video",
+      "unit": "V",
+      "expression": "v(vid)",
+      "source_id": "012-6891:X1:5",
+      "id": "k7222-11:012-6891:X1:5:V",
+      "reference_point": "012-6891:X1:8 (00)",
+      "access": "connector",
+      "measurement_requirements": "Instrument/probe capability and physical access have not been qualified; not a live probing instruction.",
+      "source": {
+        "file": "older.pdf",
+        "page": 16
+      }
+    },
+    {
+      "name": "intensity",
+      "unit": "V",
+      "expression": "v(intens)",
+      "source_id": "012-6891:X1:7",
+      "id": "k7222-11:012-6891:X1:7:V",
+      "reference_point": "012-6891:X1:8 (00)",
+      "access": "connector",
+      "measurement_requirements": "Instrument/probe capability and physical access have not been qualified; not a live probing instruction.",
+      "source": {
+        "file": "older.pdf",
+        "page": 16
+      }
+    },
+    {
+      "name": "collector",
+      "unit": "V",
+      "expression": "v(collector)",
+      "source_id": "012-6891:V1",
+      "id": "k7222-11:012-6891:V1:V",
+      "reference_point": "012-6891:X1:8 (00)",
+      "access": "component terminal",
+      "measurement_requirements": "Instrument/probe capability and physical access have not been qualified; not a live probing instruction.",
+      "source": {
+        "file": "older.pdf",
+        "page": 16
+      }
+    },
+    {
+      "name": "cathode",
+      "unit": "V",
+      "expression": "v(cathode)",
+      "source_id": "012-6891:X2:2",
+      "id": "k7222-11:012-6891:X2:2:V",
+      "reference_point": "012-6891:X1:8 (00)",
+      "access": "connector",
+      "measurement_requirements": "Instrument/probe capability and physical access have not been qualified; not a live probing instruction.",
+      "source": {
+        "file": "older.pdf",
+        "page": 16
+      }
+    },
+    {
+      "name": "grid1",
+      "unit": "V",
+      "expression": "v(g1)",
+      "source_id": "012-6891:X2:5",
+      "id": "k7222-11:012-6891:X2:5:V",
+      "reference_point": "012-6891:X1:8 (00)",
+      "access": "connector",
+      "measurement_requirements": "Instrument/probe capability and physical access have not been qualified; not a live probing instruction.",
+      "source": {
+        "file": "older.pdf",
+        "page": 16
+      }
+    },
+    {
+      "name": "grid2",
+      "unit": "V",
+      "expression": "v(g2)",
+      "source_id": "012-6891:X2:6",
+      "id": "k7222-11:012-6891:X2:6:V",
+      "reference_point": "012-6891:X1:8 (00)",
+      "access": "connector",
+      "measurement_requirements": "Instrument/probe capability and physical access have not been qualified; not a live probing instruction.",
+      "source": {
+        "file": "older.pdf",
+        "page": 16
+      }
+    },
+    {
+      "name": "focus",
+      "unit": "V",
+      "expression": "v(g4)",
+      "source_id": "012-6891:X2:7",
+      "id": "k7222-11:012-6891:X2:7:V",
+      "reference_point": "012-6891:X1:8 (00)",
+      "access": "connector",
+      "measurement_requirements": "Instrument/probe capability and physical access have not been qualified; not a live probing instruction.",
+      "source": {
+        "file": "older.pdf",
+        "page": 16
+      }
+    },
+    {
+      "name": "input_current",
+      "unit": "A",
+      "expression": "i(Vrail)",
+      "source_id": "bench:Vrail",
+      "id": "k7222-11:bench:Vrail:A",
+      "reference_point": "positive current into external voltage source",
+      "access": "simulation-only",
+      "measurement_requirements": "Instrument/probe capability and physical access have not been qualified; not a live probing instruction.",
+      "source": null
+    }
+  ],
+  "limitations": [
+    "Only the 012-6891 neck board is connected; horizontal, vertical and power stages remain unimplemented.",
+    "External ideal bench supplies exercise a stage, not the complete monitor.",
+    "Device and C2 bounds are engineering assumptions, not measured confidence intervals.",
+    "No electron emission, heater dynamics or spark-gap discharge is included in this electrical stage.",
+    "External supply impedance and constant tube load are assumptions; no complete power/horizontal model.",
+    "Fault predictions have not been validated against a real monitor."
+  ],
+  "source_pages": [
+    {
+      "file": "older.pdf",
+      "page": 16
+    },
+    {
+      "file": "older.pdf",
+      "page": 17
+    }
+  ]
+}

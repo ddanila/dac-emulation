@@ -1,0 +1,234 @@
+{
+  "format": "dac-monitor-fault-catalogue-v1",
+  "revision": "k7222-11",
+  "profile": "profiles/k7222-11-neck-diagnostic.json",
+  "faults": [
+    {
+      "id": "pullup-drift",
+      "target": "012-6891:R7",
+      "operation": "resistance_scale",
+      "name": "Video pull-up resistance doubled",
+      "stage": "Neck/video",
+      "symptoms": [
+        "cathode-level-change"
+      ],
+      "expected_screen_symptom": null,
+      "factor": 2
+    },
+    {
+      "id": "pullup-open",
+      "target": "012-6891:R7",
+      "operation": "open",
+      "name": "Video pull-up open",
+      "stage": "Neck/video",
+      "symptoms": [
+        "cathode-level-change"
+      ],
+      "expected_screen_symptom": null,
+      "terminal": 1
+    },
+    {
+      "id": "bypass-loss",
+      "target": "012-6891:C1",
+      "operation": "capacitance_scale",
+      "name": "Supply bypass capacitance at 10%",
+      "stage": "Neck/video",
+      "symptoms": [
+        "rail-disturbance"
+      ],
+      "expected_screen_symptom": null,
+      "factor": 0.1
+    },
+    {
+      "id": "bypass-esr",
+      "target": "012-6891:C1",
+      "operation": "esr",
+      "name": "Supply bypass additional 10 ohm ESR",
+      "stage": "Neck/video",
+      "symptoms": [
+        "rail-disturbance"
+      ],
+      "expected_screen_symptom": null,
+      "resistance_ohm": 10
+    },
+    {
+      "id": "bypass-leak",
+      "target": "012-6891:C2",
+      "operation": "leakage",
+      "name": "Supply bypass 100 ohm leakage path",
+      "stage": "Neck/video",
+      "symptoms": [
+        "rail-disturbance"
+      ],
+      "expected_screen_symptom": null,
+      "resistance_ohm": 100
+    },
+    {
+      "id": "speedup-loss",
+      "target": "012-6891:C4",
+      "operation": "capacitance_scale",
+      "name": "Video speed-up capacitance at 10%",
+      "stage": "Neck/video",
+      "symptoms": [
+        "video-transition-change"
+      ],
+      "expected_screen_symptom": null,
+      "factor": 0.1
+    },
+    {
+      "id": "speedup-esr",
+      "target": "012-6891:C4",
+      "operation": "esr",
+      "name": "Video speed-up additional 100 ohm ESR",
+      "stage": "Neck/video",
+      "symptoms": [
+        "video-transition-change"
+      ],
+      "expected_screen_symptom": null,
+      "resistance_ohm": 100
+    },
+    {
+      "id": "video-gain",
+      "target": "012-6891:V1",
+      "operation": "gain_scale",
+      "name": "Video transistor gain at 10%",
+      "stage": "Neck/video",
+      "symptoms": [
+        "cathode-level-change"
+      ],
+      "expected_screen_symptom": null,
+      "factor": 0.1
+    },
+    {
+      "id": "video-short",
+      "target": "012-6891:V1",
+      "operation": "short",
+      "name": "Video transistor collector\u2013emitter short",
+      "stage": "Neck/video",
+      "symptoms": [
+        "cathode-level-change"
+      ],
+      "expected_screen_symptom": null,
+      "terminals": [
+        1,
+        3
+      ]
+    },
+    {
+      "id": "video-base-open",
+      "target": "012-6891:V1",
+      "operation": "open",
+      "name": "Video transistor base lead open",
+      "stage": "Neck/video",
+      "symptoms": [
+        "cathode-level-change"
+      ],
+      "expected_screen_symptom": null,
+      "terminal": 2
+    },
+    {
+      "id": "intensity-open",
+      "target": "012-6891:V2:4",
+      "operation": "open",
+      "name": "Intensity diode open",
+      "stage": "Neck/video",
+      "symptoms": [
+        "intensity-level-change"
+      ],
+      "expected_screen_symptom": null,
+      "terminal": 1
+    },
+    {
+      "id": "intensity-short",
+      "target": "012-6891:V2:4",
+      "operation": "short",
+      "name": "Intensity diode short",
+      "stage": "Neck/video",
+      "symptoms": [
+        "intensity-level-change"
+      ],
+      "expected_screen_symptom": null
+    },
+    {
+      "id": "clamp-short",
+      "target": "012-6891:V2:2",
+      "operation": "short",
+      "name": "Baker-clamp diode short",
+      "stage": "Neck/video",
+      "symptoms": [
+        "cathode-level-change"
+      ],
+      "expected_screen_symptom": null
+    },
+    {
+      "id": "tail-drift",
+      "target": "012-6891:R8",
+      "operation": "resistance_scale",
+      "name": "Intensity return resistance doubled",
+      "stage": "Neck/video",
+      "symptoms": [
+        "intensity-level-change"
+      ],
+      "expected_screen_symptom": null,
+      "factor": 2
+    },
+    {
+      "id": "converter-fuse-open",
+      "target": "012-6931:F1",
+      "operation": "open",
+      "name": "Input fuse open",
+      "stage": "Power/horizontal",
+      "symptoms": [],
+      "expected_screen_symptom": null,
+      "status": "unsupported",
+      "reason": "The source-accounted power/horizontal path is not implemented or qualified. No waveform or symptom prediction is published."
+    },
+    {
+      "id": "converter-winding-open",
+      "target": "012-6931:T1",
+      "operation": "winding_open",
+      "name": "Converter winding open",
+      "stage": "Power/horizontal",
+      "symptoms": [],
+      "expected_screen_symptom": null,
+      "status": "unsupported",
+      "reason": "The source-accounted power/horizontal path is not implemented or qualified. No waveform or symptom prediction is published."
+    },
+    {
+      "id": "flyback-turn-short",
+      "target": "012-6921:T3",
+      "operation": "shorted_turns",
+      "name": "Flyback shorted turns",
+      "stage": "Power/horizontal",
+      "symptoms": [],
+      "expected_screen_symptom": null,
+      "status": "unsupported",
+      "reason": "The source-accounted power/horizontal path is not implemented or qualified. No waveform or symptom prediction is published."
+    },
+    {
+      "id": "output-transistor-short",
+      "target": "012-6921:V18",
+      "operation": "short",
+      "name": "Horizontal output transistor short",
+      "stage": "Power/horizontal",
+      "symptoms": [],
+      "expected_screen_symptom": null,
+      "status": "unsupported",
+      "reason": "The source-accounted power/horizontal path is not implemented or qualified. No waveform or symptom prediction is published."
+    },
+    {
+      "id": "input-connection-open",
+      "target": "assembly:input",
+      "operation": "open",
+      "name": "Input connector open",
+      "stage": "Power/horizontal",
+      "symptoms": [],
+      "expected_screen_symptom": null,
+      "status": "unsupported",
+      "reason": "The source-accounted power/horizontal path is not implemented or qualified. No waveform or symptom prediction is published."
+    }
+  ],
+  "scope": "Development atlas for the modeled neck stage; planned power/horizontal first-release gate remains unmet.",
+  "hardware_validation": "none",
+  "multiple_faults": false
+}
