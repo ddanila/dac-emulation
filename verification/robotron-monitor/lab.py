@@ -42,7 +42,20 @@ def run_command(argv, directory, log):
     return result.stdout
 
 
-def connectivity(xml_path):
+def subcircuit_contracts(subcircuits):
+    if subcircuits is None:
+        return {}
+    if not isinstance(subcircuits, dict) or any(
+        not isinstance(name, str) or not re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]*', name)
+        or type(count) is not int or not 2 <= count <= 32
+        for name, count in subcircuits.items()
+    ) or len({name.lower() for name in subcircuits}) != len(subcircuits):
+        raise ValueError('invalid subcircuit pin contracts')
+    return subcircuits
+
+
+def connectivity(xml_path, subcircuits=None):
+    subcircuits = subcircuit_contracts(subcircuits)
     root = ET.parse(xml_path).getroot()
     pins, names = {}, set()
     for net in root.findall('./nets/net'):
@@ -62,11 +75,14 @@ def connectivity(xml_path):
     components = []
     for comp in root.findall('./components/comp'):
         ref = comp.attrib['ref']
-        if not re.fullmatch(r'[RCLDQVBI]\d+', ref):
-            raise ValueError(f'{ref}: unsupported primitive; use R,C,L,D,Q,V,B,I with numbered references')
-        count = 3 if ref[0] == 'Q' else 2
-        nets = [pins.get((ref, str(i))) for i in range(1, count+1)]
         value = comp.findtext('value', '')
+        if re.fullmatch(r'X\d+',ref) and subcircuits and value in subcircuits:
+            count=subcircuits[value]
+        elif not re.fullmatch(r'[RCLDQVBI]\d+', ref):
+            raise ValueError(f'{ref}: unsupported primitive; use numbered R,C,L,D,Q,V,B,I or an explicitly declared X subcircuit')
+        else:
+            count = 3 if ref[0] == 'Q' else 2
+        nets = [pins.get((ref, str(i))) for i in range(1, count+1)]
         if None in nets or not value or any(c in value for c in '\r\n'):
             raise ValueError(f'{ref}: missing pins/value or multiline value')
         # Do not silently discard extra pins or four-terminal devices.
