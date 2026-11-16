@@ -70,6 +70,23 @@ loss resistance. Tests check energy, polarity, saturation, a shorted-turn respon
 and numerical refinement. This is not yet wired into historical T1/T3; their
 parameters remain unresolved. Hysteresis and distributed resonances are excluded.
 
+## Power-controller implementation status
+
+The provisional [TDA1060 functional model](devices/README.md) now includes a
+self-running timing-capacitor oscillator, feedback PWM, finite output drive,
+undervoltage hysteresis and input inhibits. Manufacturer evidence, calibrated
+constants, assumed constants and unsupported behavior are listed separately.
+Explicit subcircuit pin contracts allow its 16 terminals through the KiCad
+exporter without silently dropping pins. It is not yet used in a historical
+converter profile or published as a diagnostic prediction.
+
+The pale/expanding-raster implementation remains incomplete: the original
+converter, horizontal and vertical stages are not connected; heater/emission
+loading and a state-preserving 300-second lifecycle are not integrated. Thus
+there is still no model result distinguishing internal electrolytic degradation
+from flyback faults for the reported symptom. Passing controller tests does not
+satisfy the full-monitor release gate described above.
+
 ## Reference stage workflow
 
 ```sh

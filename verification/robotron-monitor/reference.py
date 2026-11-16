@@ -28,6 +28,7 @@ def read_profile(path):
     profile = json.loads(Path(path).read_text())
     if profile.get('format') != 'dac-monitor-profile-v1' or profile.get('qualification') != 'bounded-stage':
         raise ValueError('unsupported profile or qualification')
+    lab.subcircuit_contracts(profile.get('subcircuits'))
     for key in ('schematic', 'models', 'bench', 'inventory'):
         resolved = (ROOT/profile[key]).resolve()
         if not resolved.is_relative_to(ROOT) or not resolved.is_file():
@@ -52,9 +53,9 @@ def read_profile(path):
     return profile
 
 
-def source_connectivity(path, inventory, board):
+def source_connectivity(path, inventory, board, subcircuits=None):
     parts = {p['id']: p for p in inventory['parts']}
-    components = lab.connectivity(path)
+    components = lab.connectivity(path,subcircuits)
     tree = ET.parse(path).getroot()
     source_ids = {}
     for c in tree.findall('./components/comp'):
@@ -122,6 +123,10 @@ def deck(profile, components, parameters, start, stop, step, models, bench):
             or not 1e-9 <= step <= 1e-4 or (stop-start)/step > 250_000 or stop/(step/10)>20_000_000):
         raise ValueError('invalid window/sample budget')
     probes = ' '.join(p['expression'] for p in profile['probes'])
+    for name,count in lab.subcircuit_contracts(profile.get('subcircuits')).items():
+        declarations=re.findall(r'(?im)^\.subckt\s+'+re.escape(name)+r'\s+([^\n]+)',models)
+        if len(declarations)!=1 or len(declarations[0].split())!=count:
+            raise ValueError('subcircuit declaration does not match pin contract: '+name)
     lines = [profile['name']+' - external stage bench, not a complete monitor']
     lines += [f'.param {k}={v:.15g}' for k, v in parameters.items()]
     lines += [' '.join([c['reference'], *c['nodes'], c['value']]) for c in components]
@@ -199,7 +204,7 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
         inventory_check(inventory)
         lab.run_command(['kicad-cli', 'sch', 'export', 'netlist', '--format', 'kicadxml', '-o',
                          str(output/'circuit.xml'), str(output/'input.kicad_sch')], output, output/'kicad.log')
-        components = source_connectivity(output/'circuit.xml', inventory, profile['board'])
+        components = source_connectivity(output/'circuit.xml', inventory, profile['board'],profile.get('subcircuits'))
         original_components=components
         if component_factors:
             parts={p['id']:p for p in inventory['parts']}

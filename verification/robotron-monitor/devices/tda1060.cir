@@ -1,0 +1,47 @@
+* TDA1060 functional engineering model, not a qualified B260D replacement.
+* Philips manufacturer datasheet: tda1060.pdf, PDF pp 3-6, 9-10.
+* Pin order follows pinning table, not the prose typo naming QC as pin 13.
+* Unsupported: latch/dead-time fault recovery, feed-forward transfer, temperature
+* coefficients, output storage and synchronization during sawtooth reset.
+* Saturation/overcurrent inputs inhibit pulses but do not implement latched trips.
+.subckt TDA1060_FUNCTIONAL vcc vz fb ga mod dfm rx cx syn en cm vss sat qe qc fw
+Breg nz vss V={min(max(v(vcc,vss)-.2,0),8.4)}
+Rreg nz vz 5
+Brx nrx vss V={min(max(v(vz,vss),0),6.83)}
+Vrx nrx rx 0
+* Sawtooth charge follows current in the external timing resistor.
+Bcharge vz cx I={v(syn,vss)>1.4 && v(ready,vss)>.5 ? max(i(Vrx),0)*(1-v(reset,vss)) : 0}
+Vlogic logic vss 1
+* 9.8 V nominal is assumed within the documented 8.85..10.8 V range.
+* 0.5 V hysteresis is the documented typical value.
+Suv logic ready vcc vss UVLO
+.model UVLO SW(Ron=.001 Roff=1e12 Vt=9.55 Vh=.25)
+Rready ready vss 1000
+Sreset logic reset cx vss RESET
+.model RESET SW(Ron=.001 Roff=1e12 Vt=3.5 Vh=2.2)
+Rreset reset vss 1000
+Bdischarge cx vss I={.0044*v(reset,vss)}
+Rcx cx vss 1e12
+* The external GA capacitor and FB/GA resistor close the control loop.
+Berr vz ga I={v(ready,vss)*min(max(.01*(min(v(vz,vss),3.72)-v(fb,vss)),0),.003)}
+Bsink ga vss I={v(ready,vss)*min(max(.01*(v(fb,vss)-min(v(vz,vss),3.72)),0),.003)}
+Rga ga vss 12k
+Dga0 vss ga CLAMP
+Dgaz ga vz CLAMP
+.model CLAMP D(IS=1e-12 RS=1)
+Rfb vz fb 15meg
+Bsoft dfm vss I={v(ready,vss)<.5 || v(en,vss)<1.4 ? max(v(dfm,vss),0)/100 : v(fb,vss)<.6 ? max(v(dfm,vss)-1.3,0)/1000 : 0}
+* Finite controlled current between actual QC/QE ports, not an ideal drive rail.
+Bcommand command vss V={v(ready,vss)
++ *(.5+.5*tanh((v(en,vss)-1.4)/.05))
++ *(.5+.5*tanh((v(syn,vss)-1.4)/.05))
++ *(.5-.5*tanh((v(cm,vss)-.48)/.01))
++ *(.5-.5*tanh((v(sat,vss)-.6)/.01))
++ *(1-v(reset,vss))
++ *(.5+.5*tanh((min(v(ga,vss),min(v(mod,vss),v(dfm,vss)))-v(cx,vss))/.02))}
+Rtransition command pwm 1000
+Ctransition pwm vss 20p
+Bout qc qe I={.04*tanh(max(v(qc,qe)-.2,0)/.8)*v(pwm,vss)}
+Rqe qe vss 1meg
+Bicc vcc vss I={max(-i(Breg),0)+max(i(Vrx),0)+.005*v(ready,vss)}
+.ends TDA1060_FUNCTIONAL
