@@ -54,6 +54,9 @@ def read_profile(path):
 
 
 def source_connectivity(path, inventory, board, subcircuits=None):
+    boards = [board] if isinstance(board,str) else board
+    if not isinstance(boards,list) or not boards or any(not isinstance(b,str) for b in boards):
+        raise ValueError('invalid source board scope')
     parts = {p['id']: p for p in inventory['parts']}
     components = lab.connectivity(path,subcircuits)
     tree = ET.parse(path).getroot()
@@ -64,7 +67,7 @@ def source_connectivity(path, inventory, board, subcircuits=None):
     seen = set()
     for c in components:
         sid = source_ids[c['reference']]
-        if sid not in parts or sid in seen or parts[sid]['board'] != board:
+        if sid not in parts or sid in seen or parts[sid]['board'] not in boards:
             raise ValueError('missing, duplicate or foreign SourceId: '+str(sid))
         if c['reference'][0] in 'VBI':
             raise ValueError('independent/behavioral sources must be outside the reference board')
@@ -216,6 +219,7 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
                 if not math.isfinite(factor) or not 1-tolerance<=factor<=1+tolerance:
                     raise ValueError('healthy passive tolerance exceeded')
                 by_id[sid]['value']=f"{faults.number(by_id[sid]['value'])*factor:.15g}"
+        components=faults.parasitics(components,profile.get('parasitics',[]),parameters)
         components,models,mutation=faults.apply(components,files['models'].decode(),fault,regularization=regularization)
         text = deck(profile, components, parameters, start, stop, step, models, files['bench'].decode())
         (output/'run.cir').write_text(text)

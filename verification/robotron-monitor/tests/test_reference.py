@@ -31,6 +31,16 @@ class InventoryTests(unittest.TestCase):
             with self.assertRaises(ValueError): reference.parameter_values(self.profile,{name:value})
         self.assertEqual(reference.parameter_values(self.profile,{'q_bf':18})['q_bf'],18)
 
+    def test_reconciled_power_parts_do_not_invent_missing_values(self):
+        parts={p['id']:p for p in self.inventory['parts']}
+        self.assertEqual(len(parts),260)
+        self.assertEqual(parts['012-6931:V22']['kind'],'bjt')
+        self.assertNotIn('assembly:V22',parts)
+        self.assertIsNone(parts['012-6931:C15']['value'])
+        for ref,nf in [('C6',10),('C10',2.2),('C18',33),('C25',33)]:
+            self.assertAlmostEqual(parts['012-6931:'+ref]['value']/1e-9,nf)
+            self.assertEqual(parts['012-6931:'+ref]['evidence'],'inferred')
+
     def test_window_budget_and_truncated_samples(self):
         for start,stop,step in [(1,0,1e-6),(0,1,1e-9),(-1,.001,1e-7),(0,float('inf'),1e-6)]:
             with self.assertRaises(ValueError): reference.deck(self.profile,[],{},start,stop,step,'','')

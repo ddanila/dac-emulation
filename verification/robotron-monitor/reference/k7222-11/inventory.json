@@ -1832,12 +1832,12 @@
         "file": "older.pdf",
         "page": 12
       },
-      "value": 1e-11,
+      "value": 1e-08,
       "unit": "F",
       "tolerance_percent": 50.0,
       "evidence": "inferred",
-      "note": "Second entry appears C5 in scan; assigned C6 by ordered list and schematic. Requires independent confirmation.",
-      "description": "10e-12 F +/-50%"
+      "note": "Second entry appears C5 in scan; assigned C6 by ordered list and schematic. Requires independent confirmation. EDVU-Z values interpreted in nF, not pF, corroborated by AFE12 manual transcription PDF page 22 (10/50-63 = 10 nF; 22 = 22 nF; 100 = 100 nF). This is a 2023 edited transcription, not an original TGL specification.",
+      "description": "10 nF +/-50% (EDVU-Z notation)"
     },
     {
       "id": "012-6931:C7",
@@ -1893,11 +1893,12 @@
         "file": "older.pdf",
         "page": 12
       },
-      "value": 2.2e-12,
+      "value": 2.2e-09,
       "unit": "F",
       "tolerance_percent": 50.0,
-      "evidence": "documented",
-      "description": "2.2e-12 F +/-50%"
+      "evidence": "inferred",
+      "description": "2.2 nF +/-50% (EDVU-Z notation)",
+      "note": "EDVU-Z values interpreted in nF, not pF, corroborated by AFE12 manual transcription PDF page 22 (10/50-63 = 10 nF; 22 = 22 nF; 100 = 100 nF). This is a 2023 edited transcription, not an original TGL specification."
     },
     {
       "id": "012-6931:C11",
@@ -1983,11 +1984,12 @@
         "file": "older.pdf",
         "page": 12
       },
-      "value": 5e-12,
+      "value": null,
       "unit": "F",
       "tolerance_percent": null,
-      "evidence": "documented",
-      "description": "5e-12 F"
+      "evidence": "unresolved",
+      "description": "EDVU-N150/5-63 TGL 35780",
+      "note": "Printed code is incomplete/ambiguous: N150 may be a temperature coefficient; /5 is not evidence for 5 pF. No capacitance assigned pending original part identification."
     },
     {
       "id": "012-6931:C16",
@@ -2028,11 +2030,12 @@
         "file": "older.pdf",
         "page": 12
       },
-      "value": 3.3e-11,
+      "value": 3.3e-08,
       "unit": "F",
       "tolerance_percent": 50.0,
-      "evidence": "documented",
-      "description": "33e-12 F +/-50%"
+      "evidence": "inferred",
+      "description": "33 nF +/-50% (EDVU-Z notation)",
+      "note": "EDVU-Z values interpreted in nF, not pF, corroborated by AFE12 manual transcription PDF page 22 (10/50-63 = 10 nF; 22 = 22 nF; 100 = 100 nF). This is a 2023 edited transcription, not an original TGL specification."
     },
     {
       "id": "012-6931:C25",
@@ -2043,11 +2046,12 @@
         "file": "older.pdf",
         "page": 12
       },
-      "value": 3.3e-11,
+      "value": 3.3e-08,
       "unit": "F",
       "tolerance_percent": 50.0,
-      "evidence": "documented",
-      "description": "33e-12 F +/-50%"
+      "evidence": "inferred",
+      "description": "33 nF +/-50% (EDVU-Z notation)",
+      "note": "EDVU-Z values interpreted in nF, not pF, corroborated by AFE12 manual transcription PDF page 22 (10/50-63 = 10 nF; 22 = 22 nF; 100 = 100 nF). This is a 2023 edited transcription, not an original TGL specification."
     },
     {
       "id": "012-6931:C19",
@@ -3377,17 +3381,17 @@
       "id": "012-6931:V22",
       "board": "012-6931",
       "reference": "V22",
-      "kind": "diode",
+      "kind": "bjt",
       "source": {
         "file": "older.pdf",
-        "page": 15
+        "page": 10
       },
       "value": null,
       "unit": null,
       "tolerance_percent": null,
       "evidence": "unresolved",
-      "note": "Type/part identity documented; electrical model parameters require separate evidence.",
-      "description": "1AE15"
+      "note": "Schematic PDF page 10, PCB layout page 11 (three-terminal heatsink-mounted V22), and matching operating manual PDF page 9 identify converter V10/V22. Supersedes erroneous expansion of the diode BOM range on PDF page 15; retain the existing board identity, no duplicate assembly V22.",
+      "description": "Converter power transistor; device type unresolved"
     },
     {
       "id": "012-6931:V23",
@@ -3673,7 +3677,7 @@
       "unit": null,
       "tolerance_percent": null,
       "evidence": "unresolved",
-      "note": "Assembly output transistor shown in schematic; absent from board BOM. Handwritten substitutions are not the printed design.",
+      "note": "External vertical output transistor drawn on SP3 schematic; matching operating manual PDF page 14 names V18/V27 and V26/V28. Not the converter V22. Device type unresolved; handwritten substitutions are not factory specifications.",
       "description": "None"
     },
     {
@@ -3689,7 +3693,7 @@
       "unit": null,
       "tolerance_percent": null,
       "evidence": "unresolved",
-      "note": "Assembly output transistor shown in schematic; absent from board BOM. Handwritten substitutions are not the printed design.",
+      "note": "External vertical output transistor drawn on SP3 schematic; matching operating manual PDF page 14 names V18/V27 and V26/V28. Not the converter V22. Device type unresolved; handwritten substitutions are not factory specifications.",
       "description": "None"
     },
     {

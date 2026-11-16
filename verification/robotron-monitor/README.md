@@ -81,11 +81,72 @@ exporter without silently dropping pins. It is not yet used in a historical
 converter profile or published as a diagnostic prediction.
 
 The pale/expanding-raster implementation remains incomplete: the original
-converter, horizontal and vertical stages are not connected; heater/emission
-loading and a state-preserving 300-second lifecycle are not integrated. Thus
+converter, horizontal and vertical stages are not connected. The thermal bench
+below integrates heater/emission loading with the neck board, but does not
+integrate the monitor's power or scanning circuits. Thus
 there is still no model result distinguishing internal electrolytic degradation
 from flyback faults for the reported symptom. Passing controller tests does not
 satisfy the full-monitor release gate described above.
+
+## Continuous neck/heater lifecycle
+
+```sh
+python3 verification/robotron-monitor/lifecycle.py --output build/monitor/neck-warmup
+python3 verification/robotron-monitor/lifecycle.py --output build/monitor/neck-warmup-refined --step .025
+```
+
+This separate bench solves the exported 19-entry neck circuit and a coupled
+heater/cathode model continuously from cold to 300 seconds. Heater electrical
+power heats two thermal masses; conduction and radiation remove heat. Emission
+depends on cathode temperature and electrode voltages. Anode and grid currents
+return to the electrical cathode and load the neck circuit. The old constant
+beam-current and socket-capacitance loads are replaced, not counted twice.
+All tube parameters in `electrothermal.py` are bounded engineering assumptions.
+The external 10.7 V heater and 11 kV anode supplies are bench stimuli, not solved
+monitor outputs or proof of the installed tube's operating conditions.
+
+`lifecycle.json` records elapsed checkpoints at 1, 2, 5, 10, 20, 30, 60, 120,
+180 and 300 seconds, named fields, parameter bounds, fault mutation, coverage,
+source/deck/sample hashes and solver settings. Checkpoints read one continuous
+trajectory; they do not restart the circuit. The manifest remains `incomplete`
+on solver failure or timeout. A completed **bench run** is explicitly distinct
+from full-monitor qualification. Checkpoints are observations, not restartable
+solver state files. No multirate approximation is used.
+
+DC video/intensity permits a slow thermal characterization; this is not a raster
+simulation or an averaged scan. Capacitor ESR is constant, and the supplies are
+external. Width, height, focus, phosphor brightness and flyback behavior are not
+predicted. Raw samples and this versioned manifest remain separate from replay
+v1/v2; their existing contracts and browser limits are unchanged.
+
+The tests cover warm-up, blanking, cooldown, electrode-current balance, thermal
+energy balance, the connected neck lifecycle, and 1% timestep refinement.
+These are numerical/component checks, not validation against a real monitor.
+
+Fault operation `capacitor_degradation` accepts `capacitance_factor` (at most 1)
+and `esr_factor` (at least 1) on the same source-addressed capacitor. It requires
+an explicit healthy ESR and adds only the excess resistance. For example:
+
+```json
+{"target":"012-6891:C1","operation":"capacitor_degradation","capacitance_factor":0.1,"esr_factor":10}
+```
+
+Supply this JSON with `lifecycle.py --fault FILE`, or through the existing
+`reference.run(..., fault=...)` API for switching-window checks. Healthy ESR
+assumptions are now inserted from the profile's `parasitics` list, preserving
+their source target and parameter. An unmodeled capacitor is rejected; it does
+not become a negative diagnosis. Leakage remains a separate fault operation.
+
+Run the 15-case C1 matrix (C ×0.5/0.1/0.01, ESR ×3/10/30, separately and
+jointly on the same capacitor), plus nominal and numerical refinement:
+
+```sh
+python3 verification/robotron-monitor/investigations/check_capacitors.py \
+  --matrix --output build/monitor/capacitor-matrix
+```
+
+This matrix holds other parameters nominal. It is not the planned 64-training /
+32-held-out full-monitor ensemble. Leakage is not combined into this matrix.
 
 ## Reference stage workflow
 

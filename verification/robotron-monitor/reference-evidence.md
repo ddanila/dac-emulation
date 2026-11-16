@@ -64,6 +64,36 @@ promoted to manufacturer specifications. The duplicated-looking SP3 C5 entry is
 assigned C6 with `inferred` evidence. Unknown capacitances and transformer
 properties remain unknown in the inventory.
 
+### Power-board transcription corrections
+
+Review against the matching schematic, layout and operating manual corrected
+these entries before connecting the power stage:
+
+- **012-6931:V22 is a power transistor**, not a diode. Schematic PDF page 10,
+  the three-terminal heatsink-mounted part on layout page 11, and operating
+  manual PDF page 9 (converter V10/V22) contradict the earlier diode-BOM range
+  expansion. Its semiconductor type remains unresolved. It retains its board
+  identity; there is no second assembly V22.
+- V27/V28 belong to the vertical output stage (operating manual PDF page 14),
+  not the converter. Their device types remain unresolved.
+- The EDVU-Z entries C6, C10, C18 and C25 are interpreted as **10 nF, 2.2 nF,
+  33 nF and 33 nF**, replacing the earlier pF normalization. The printed codes
+  are on schematic-set PDF page 12. Corroboration is the
+  [AFE12 instructions transcription](https://www.dl0bn.de/dc7xj/Anleitungen/RFT_AFE12-Anleitung.pdf),
+  PDF page 22: EDVU-Z-10/50-63 is explicitly expanded as 10 nF, with 22 and 100
+  likewise in nF. This is DC7XJ's edited 2023 transcription, not an original
+  TGL specification. These corrections therefore retain **inferred** evidence;
+  C6 also retains its designator uncertainty.
+- C15's printed `EDVU-N150/5-63` does not establish 5 pF. That earlier value
+  has been removed. N150 may denote temperature coefficient and the code lacks
+  an unambiguous capacitance. Its value is explicitly unresolved.
+
+The source manifest preserves the new document's hash and provenance. Existing
+published experiment artifacts retain their historical input snapshots; these
+corrections do not retroactively validate those experiments. Converter timing
+designators/values, winding polarities and device types still require review;
+the model must not tune them to force a desired rail voltage.
+
 The 19-entry neck board now has an editable KiCad transcription and a bounded
 electrical bench. Its six-diode network retains both the Baker clamp and the
 oppositely directed intensity paths. The generic device-family parameters are
