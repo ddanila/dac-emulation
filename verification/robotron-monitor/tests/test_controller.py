@@ -87,6 +87,12 @@ class SubcircuitContractTests(unittest.TestCase):
                 '012-6931',{'TDA1060_FUNCTIONAL':16})
             self.assertEqual(result[0]['nodes'],nodes)
             self.assertEqual(result[0]['source_id'],'012-6931:A1')
+            self.assertEqual(reference.source_connectivity(directory/'circuit.xml',inventory,
+                ['012-6931','012-6891'],{'TDA1060_FUNCTIONAL':16}),result)
+            for scope in ([],None,['012-6891']):
+                with self.assertRaises(ValueError):
+                    reference.source_connectivity(directory/'circuit.xml',inventory,
+                        scope,{'TDA1060_FUNCTIONAL':16})
 
     def test_opt_in_pin_order_and_rejected_extra_pins(self):
         with tempfile.TemporaryDirectory() as directory:

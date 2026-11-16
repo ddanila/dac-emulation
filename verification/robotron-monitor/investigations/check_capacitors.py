@@ -2,9 +2,10 @@
 import argparse,json,sys
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-import reference,atlas_features
+import reference,atlas_features,faults
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output',type=Path,required=True)
+parser.add_argument('--matrix',action='store_true',help='Check all 15 separate/joint C-loss and ESR-increase cases for neck C1')
 args=parser.parse_args()
 root=args.output
 root.mkdir(exist_ok=False)
@@ -13,6 +14,8 @@ profile=reference.read_profile(profile_path)
 cat=json.loads((reference.ROOT/'atlas/catalogue.json').read_text())
 scenario=json.loads((reference.ROOT/'atlas/scenarios.json').read_text())['scenarios'][0]
 cases={'nominal':None}|{f['id']:f for f in cat['faults'] if f['id'] in ['bypass-loss','bypass-esr']}
+if args.matrix:
+    cases={'nominal':None}|{f['id']:f for f in faults.capacitor_matrix('012-6891:C1')}
 results={}
 for name,fault in cases.items():
     variants=[]

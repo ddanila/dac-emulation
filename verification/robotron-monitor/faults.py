@@ -13,6 +13,17 @@ class UnsupportedFault(ValueError):
     pass
 
 
+def capacitor_matrix(target):
+    """Separate C loss, ESR increase and their nine same-capacitor combinations.
+
+    Generating a definition does not establish that its target is modeled.
+    Application still requires exported connectivity and an explicit healthy ESR.
+    """
+    return [dict(id=f'c-{c:g}-esr-{r:g}', target=target,
+                 operation='capacitor_degradation', capacitance_factor=c, esr_factor=r)
+            for c in (1, .5, .1, .01) for r in (1, 3, 10, 30) if (c,r)!=(1,1)]
+
+
 def number(value):
     """Parse a single SPICE passive value (M is milli, MEG is mega)."""
     if isinstance(value,(float,int)) and not isinstance(value,bool):
@@ -49,7 +60,20 @@ def apply(components,models,fault,*,regularization=1.):
         if any(new in item['nodes'] for item in result):raise ValueError('fault net collision')
         c['nodes'][index]=new;resistor(old,new,resistance,role)
 
-    if op in ('resistance_scale','capacitance_scale'):
+    if op=='capacitor_degradation':
+        if kind!='C':raise UnsupportedFault('capacitor degradation requires a capacitor')
+        capacitance_factor=number(fault.get('capacitance_factor',1))
+        esr_factor=number(fault.get('esr_factor',1))
+        if capacitance_factor>1 or esr_factor<1:
+            raise ValueError('degradation cannot improve capacitance or ESR')
+        healthy=[item for item in result if item.get('derived_from')==fault['target']
+                 and item.get('role')=='healthy series resistance']
+        if len(healthy)!=1:raise UnsupportedFault('degradation requires an explicit healthy ESR')
+        c['value']=f"{number(c['value'])*capacitance_factor:.15g}"
+        if esr_factor>1:
+            terminal(0,number(healthy[0]['value'])*(esr_factor-1),'additional capacitor ESR')
+        notes.append('Capacitance loss and ESR increase apply to the same capacitor; healthy ESR is retained.')
+    elif op in ('resistance_scale','capacitance_scale'):
         if kind!= {'resistance_scale':'R','capacitance_scale':'C'}[op]:raise UnsupportedFault('wrong passive type')
         c['value']=f"{number(c['value'])*number(fault['factor']):.15g}"
     elif op=='open':
@@ -89,3 +113,23 @@ def apply(components,models,fault,*,regularization=1.):
     return result,models,dict(definition=copy.deepcopy(fault),original=original,
                               effective=copy.deepcopy(c),inserted=additions,
                               regularization=regularization,notes=notes)
+
+
+def parasitics(components,definitions,parameters):
+    """Attach source-accounted healthy series losses before fault injection."""
+    result=copy.deepcopy(components)
+    seen=set()
+    for definition in definitions:
+        target=definition['target'];parameter=definition['parameter']
+        matches=[c for c in result if c.get('source_id')==target]
+        if target in seen or len(matches)!=1 or matches[0]['reference'][0] not in 'CL':
+            raise ValueError('invalid or duplicate parasitic target: '+target)
+        seen.add(target)
+        if parameter not in parameters:raise ValueError('missing parasitic parameter: '+parameter)
+        c=matches[0];ref='Rparasitic'+str(len(seen));node='parasitic_'+c['reference'].lower()
+        if any(item['reference'].lower()==ref.lower() or node in item['nodes'] for item in result):
+            raise ValueError('parasitic identity collision')
+        old=c['nodes'][0];c['nodes'][0]=node
+        result.append(dict(reference=ref,nodes=[old,node],value=f'{number(parameters[parameter]):.15g}',
+                           derived_from=target,role='healthy series resistance',parameter=parameter))
+    return result

@@ -51,6 +51,26 @@ class MutationTests(unittest.TestCase):
         self.assertEqual(faults.number('1M'),.001)
         self.assertEqual(faults.number('1meg'),1e6)
 
+    def test_same_capacitor_joint_degradation_retains_healthy_esr(self):
+        parts=faults.parasitics(self.parts,[dict(target='board:C1',parameter='esr')],{'esr':.3})
+        self.assertEqual(self.parts[0]['nodes'],['rail','0'])
+        matrix=faults.capacitor_matrix('board:C1')
+        self.assertEqual(len(matrix),15)
+        self.assertEqual(len({f['id'] for f in matrix}),15)
+        for fault in matrix:
+            c_factor,esr_factor=fault['capacitance_factor'],fault['esr_factor']
+            changed,_,record=faults.apply(parts,self.models,fault)
+            self.assertAlmostEqual(float(changed[0]['value']),22e-6*c_factor)
+            losses=[c for c in changed if c.get('derived_from')=='board:C1']
+            self.assertAlmostEqual(sum(float(c['value']) for c in losses),.3*esr_factor)
+            self.assertEqual(record['original']['source_id'],'board:C1')
+            self.assertEqual(float(parts[-1]['value']),.3)
+        with self.assertRaises(faults.UnsupportedFault):
+            faults.apply(self.parts,self.models,dict(target='board:C1',operation='capacitor_degradation',esr_factor=3))
+        for target in ('missing','board:V1'):
+            with self.assertRaises(ValueError):
+                faults.parasitics(self.parts,[dict(target=target,parameter='esr')],{'esr':.3})
+
 
 class FeatureTests(unittest.TestCase):
     def test_time_weighted_metrics_and_ambiguity(self):
