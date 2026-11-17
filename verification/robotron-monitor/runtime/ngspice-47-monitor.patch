@@ -1,0 +1,139 @@
+--- a/src/spicelib/analysis/dctran.c
++++ b/src/spicelib/analysis/dctran.c
+@@ -1,3 +1,9 @@
++#include <stdlib.h>
++#include <stdio.h>
++static int crt_audit(double t) {
++    const char *a=getenv("CRT_AUDIT_FROM"),*b=getenv("CRT_AUDIT_TO");
++    return a && b && t>=atof(a) && t<=atof(b);
++}
+ /**********
+ Copyright 1990 Regents of the University of California.  All rights reserved.
+ Author: 1985 Thomas L. Quarles
+@@ -240,6 +246,7 @@
+                 ckt->CKTdcMaxIter);
+ 
+         if(converged != 0) {
++            if(crt_audit(ckt->CKTtime))fprintf(stderr,"CRT_STEP op_failure t=%a dt=%a code=%d\n",ckt->CKTtime,ckt->CKTdelta,converged);
+             fprintf(stderr,"\nError: Finding the operating point for transient simulation failed \n");
+             CKTncDump(ckt);
+             fprintf(stderr,"\n");
+@@ -353,6 +360,7 @@
+     }
+ 
+     nextTime:
++    if(crt_audit(ckt->CKTtime))fprintf(stderr,"CRT_STEP accept t=%a next_dt=%a\n",ckt->CKTtime,ckt->CKTdelta);
+ 
+     /* begin LTRA code addition */
+     if (ckt->CKTtimePoints) {
+@@ -723,6 +731,7 @@
+ 
+         /* If no convergence in Central solver step */
+         if(converged != 0) {
++            if(crt_audit(ckt->CKTtime))fprintf(stderr,"CRT_STEP reject_newton t=%a dt=%a code=%d\n",ckt->CKTtime,ckt->CKTdelta,converged);
+ 
+ #ifndef SHARED_MODULE
+             ckt->CKTtime = ckt->CKTtime -ckt->CKTdelta;
+@@ -749,6 +758,7 @@
+                - new delta by difference between by retracted time and breakpoint */
+ 
+         past_breakpoint:
++            if(crt_audit(ckt->CKTtime))fprintf(stderr,"CRT_STEP reject_breakpoint t=%a dt=%a target=%a\n",ckt->CKTtime,ckt->CKTdelta,g_mif_info.breakpoint.current);
+             ckt->CKTsaveDelta = ckt->CKTdelta;
+             ckt->CKTtime -= ckt->CKTdelta;
+             ckt->CKTdelta = g_mif_info.breakpoint.current - ckt->CKTtime;
+@@ -880,6 +890,7 @@
+                 /* not (newdelta > .9 * ckt->CKTdelta): reject the step
+                 - redo the time
+                 - apply the new (reduced) delta */
++                if(crt_audit(ckt->CKTtime))fprintf(stderr,"CRT_STEP reject_lte t=%a dt=%a target=%a\n",ckt->CKTtime,ckt->CKTdelta,newdelta);
+ #ifndef SHARED_MODULE
+                 ckt->CKTtime = ckt->CKTtime -ckt->CKTdelta;
+                 ckt->CKTstat->STATrejected ++;
+--- a/src/spicelib/devices/cap/captrunc.c
++++ b/src/spicelib/devices/cap/captrunc.c
+@@ -1,3 +1,9 @@
++#include <stdlib.h>
++#include <stdio.h>
++static int crt_audit(double t) {
++    const char *a=getenv("CRT_AUDIT_FROM"),*b=getenv("CRT_AUDIT_TO");
++    return a && b && t>=atof(a) && t<=atof(b);
++}
+ /**********
+ Copyright 1990 Regents of the University of California.  All rights reserved.
+ Author: 1985 Thomas L. Quarles
+@@ -23,7 +29,7 @@
+         for(here = CAPinstances(model); here != NULL ;
+                 here = CAPnextInstance(here)) {
+ 
+-            CKTterr(here->CAPqcap,ckt,timeStep);
++            { double previous=*timeStep; CKTterr(here->CAPqcap,ckt,timeStep); if(crt_audit(ckt->CKTtime) && *timeStep<previous)fprintf(stderr,"CRT_TRUNC CAP name=%s t=%a from=%a to=%a\n",here->CAPname,ckt->CKTtime,previous,*timeStep); }
+         }
+     }
+     return(OK);
+--- a/src/spicelib/devices/bjt/bjttrunc.c
++++ b/src/spicelib/devices/bjt/bjttrunc.c
+@@ -1,3 +1,9 @@
++#include <stdlib.h>
++#include <stdio.h>
++static int crt_audit(double t) {
++    const char *a=getenv("CRT_AUDIT_FROM"),*b=getenv("CRT_AUDIT_TO");
++    return a && b && t>=atof(a) && t<=atof(b);
++}
+ /**********
+ Copyright 1990 Regents of the University of California.  All rights reserved.
+ Author: 1985 Thomas L. Quarles
+@@ -27,11 +33,11 @@
+     for( ; model != NULL; model = BJTnextModel(model)) {
+         for(here=BJTinstances(model);here!=NULL;here = BJTnextInstance(here)){
+ 
+-            CKTterr(here->BJTqbe,ckt,timeStep);
+-            CKTterr(here->BJTqbc,ckt,timeStep);
+-            CKTterr(here->BJTqsub,ckt,timeStep);
++            { double previous=*timeStep; CKTterr(here->BJTqbe,ckt,timeStep); if(crt_audit(ckt->CKTtime) && *timeStep<previous)fprintf(stderr,"CRT_TRUNC BJT name=%s t=%a from=%a to=%a\n",here->BJTname,ckt->CKTtime,previous,*timeStep); }
++            { double previous=*timeStep; CKTterr(here->BJTqbc,ckt,timeStep); if(crt_audit(ckt->CKTtime) && *timeStep<previous)fprintf(stderr,"CRT_TRUNC BJT name=%s t=%a from=%a to=%a\n",here->BJTname,ckt->CKTtime,previous,*timeStep); }
++            { double previous=*timeStep; CKTterr(here->BJTqsub,ckt,timeStep); if(crt_audit(ckt->CKTtime) && *timeStep<previous)fprintf(stderr,"CRT_TRUNC BJT name=%s t=%a from=%a to=%a\n",here->BJTname,ckt->CKTtime,previous,*timeStep); }
+             if (model->BJTintCollResistGiven) {
+-                CKTterr(here->BJTqbcx,ckt,timeStep);
++                { double previous=*timeStep; CKTterr(here->BJTqbcx,ckt,timeStep); if(crt_audit(ckt->CKTtime) && *timeStep<previous)fprintf(stderr,"CRT_TRUNC BJT name=%s t=%a from=%a to=%a\n",here->BJTname,ckt->CKTtime,previous,*timeStep); }
+             }
+         }
+     }
+--- a/src/spicelib/devices/ind/indtrunc.c
++++ b/src/spicelib/devices/ind/indtrunc.c
+@@ -1,3 +1,9 @@
++#include <stdlib.h>
++#include <stdio.h>
++static int crt_audit(double t) {
++    const char *a=getenv("CRT_AUDIT_FROM"),*b=getenv("CRT_AUDIT_TO");
++    return a && b && t>=atof(a) && t<=atof(b);
++}
+ /**********
+ Copyright 1990 Regents of the University of California.  All rights reserved.
+ Author: 1985 Thomas L. Quarles
+@@ -21,7 +27,7 @@
+         for(here = INDinstances(model); here != NULL ;
+                 here = INDnextInstance(here)) {
+ 
+-            CKTterr(here->INDflux,ckt,timeStep);
++            { double previous=*timeStep; CKTterr(here->INDflux,ckt,timeStep); if(crt_audit(ckt->CKTtime) && *timeStep<previous)fprintf(stderr,"CRT_TRUNC IND name=%s t=%a from=%a to=%a\n",here->INDname,ckt->CKTtime,previous,*timeStep); }
+         }
+     }
+     return(OK);
+--- a/src/frontend/outitf.c
++++ b/src/frontend/outitf.c
+@@ -1117,10 +1117,11 @@
+ {
+     if (run->fp != stdout) {
+         long place = ftell(run->fp);
+-        fseek(run->fp, run->pointPos, SEEK_SET);
+-        fprintf(run->fp, "%d", run->pointCount);
++        if (place >= 0 && fseek(run->fp, run->pointPos, SEEK_SET) == 0) {
++            fprintf(run->fp, "%d", run->pointCount);
++            fseek(run->fp, place, SEEK_SET);
++        }
+         fprintf(stdout, "\nNo. of Data Rows : %d\n", run->pointCount);
+-        fseek(run->fp, place, SEEK_SET);
+     } else {
+         /* Yet another hack-around */
+         fprintf(stderr, "@@@ %ld %d\n", run->pointPos, run->pointCount);

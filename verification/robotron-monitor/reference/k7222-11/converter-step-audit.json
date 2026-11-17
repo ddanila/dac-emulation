@@ -1,0 +1,582 @@
+{
+  "format": "dac-monitor-converter-step-evidence-v1",
+  "qualification": "diagnostic-only",
+  "full_monitor_qualified": false,
+  "converter_regulation_validated": false,
+  "runtime": {
+    "format": "dac-monitor-runtime-v1",
+    "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+    "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+    "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-pinned/install",
+    "inputs": {
+      "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+      "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+      "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+      "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+    },
+    "configure_flags": [
+      "--enable-xspice",
+      "--with-x=no",
+      "--with-readline=no",
+      "CFLAGS=-O2 -fno-fast-math"
+    ],
+    "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:35:07 UTC 2026\n******\n",
+    "files": {
+      "install/bin/ngspice": "b2704f9f2c330e810def1ec9da348e8965c09fa67dfa191a4dfcfcb332e080aa",
+      "install/share/ngspice/scripts/spinit": "7e36b7e395a030b6d2b20f0b769e655fc7d5e02cc9969736d2dc0a431e91f7ac",
+      "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+      "install/lib/ngspice/digital.cm": "3cbc84b0224c32342cb7753b840afec2d1070743c71981cf6b37c484ff7da26c",
+      "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+      "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+      "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+      "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+      "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+    },
+    "qualification": "experimental-instrumented-runtime",
+    "full_monitor_qualified": false
+  },
+  "experiments": [
+    {
+      "completed_endpoint": true,
+      "accepted_rows": 204866,
+      "declared_rows": 204866,
+      "expected_end_s": 0.039,
+      "last_sample": {
+        "time": 0.039,
+        "v(x816.cycle_stop)": 0.9999999989989998,
+        "v(x816.pwm)": 9.36097196716125e-121,
+        "v(x816.reset)": 1.61304200701148e-116,
+        "v(x816.ready)": 0.9999999989999998,
+        "v(x816.command)": 0.0,
+        "v(x822.xcore.flux_b)": 0.013881493798569027,
+        "v(p41)": 11.29640161064474,
+        "v(p22)": 11.30930586230602,
+        "v(n16)": -0.3742772249775931,
+        "v(switch_collector)": 11.923745000110511,
+        "v(converter_cx)": 5.58319982242394,
+        "v(converter_soft)": 1.3397615318913456,
+        "v(converter_qe)": 6.703941662911106e-07,
+        "i(vsupply)": -0.12012357979990895
+      },
+      "raw_sha256": "fcae4392a61fe3367f8b4194ee35dfc158e373f49bb1609a6d38ecdc0c14c623",
+      "log_sha256": "47dd56b6d438c23bec53adcfdee55f6e3a8a41ef2f910f08fa043b28bcf40703",
+      "smallest_step": {
+        "dt_s": 3.0347738211311537e-12,
+        "before": {
+          "time": 0.03819971361172999,
+          "v(x816.cycle_stop)": 0.9999446781503497,
+          "v(x816.pwm)": 2.4700702532e-313,
+          "v(x816.reset)": 0.0007704879559541911,
+          "v(x816.ready)": 0.9999999990000004,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.013715129829174713,
+          "v(p41)": 11.296215248595967,
+          "v(p22)": 11.308973245364148,
+          "v(n16)": -0.3772400660386996,
+          "v(switch_collector)": 11.923474167217512,
+          "v(converter_cx)": 5.696336397065109,
+          "v(converter_soft)": 1.3166311889037323,
+          "v(converter_qe)": 0.0013418233887893438,
+          "i(vsupply)": -0.11909204332047807
+        },
+        "after": {
+          "time": 0.03819971361476476,
+          "v(x816.cycle_stop)": 0.9999444494602147,
+          "v(x816.pwm)": 2.47007812246e-313,
+          "v(x816.reset)": 0.0008389884214410892,
+          "v(x816.ready)": 0.9999999990000004,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.013715129829205041,
+          "v(p41)": 11.29621524859598,
+          "v(p22)": 11.308973245364157,
+          "v(n16)": -0.37724006379170233,
+          "v(switch_collector)": 11.923474167619851,
+          "v(converter_cx)": 5.696336812190552,
+          "v(converter_soft)": 1.3166311889917799,
+          "v(converter_qe)": 0.0013418229196709539,
+          "i(vsupply)": -0.11909202314747347
+        }
+      },
+      "name": "minimum-audit",
+      "budget_s": 180,
+      "deck_sha256": "507aa12780503cc3eae8ed4d07dceaa1efaf28f07b6d978b0b15788880e1e417",
+      "accepted_model_change": false,
+      "audit": {
+        "format": "dac-monitor-step-audit-v1",
+        "window_s": [
+          0.0381997,
+          0.03819973
+        ],
+        "observed_time_bounds_s": [
+          0.03819970245596634,
+          0.038199729560253734
+        ],
+        "counts": {
+          "accept": 54,
+          "reject_newton": 3,
+          "reject_breakpoint": 0,
+          "reject_lte": 29,
+          "op_failure": 0
+        },
+        "device_truncation_proposals": {
+          "BJT:q.x816.qoutput": {
+            "proposals": 87,
+            "min_proposed_step_s": 4.072173156412266e-08
+          },
+          "BJT:q821": {
+            "proposals": 78,
+            "min_proposed_step_s": 1.1484497295258863e-09
+          },
+          "CAP:c.x822.xcore.cw3": {
+            "proposals": 51,
+            "min_proposed_step_s": 5.817141691815333e-09
+          },
+          "CAP:c.x816.creset_delay": {
+            "proposals": 81,
+            "min_proposed_step_s": 3.034775729872253e-12
+          },
+          "IND:l.x822.xcore.ll3": {
+            "proposals": 6,
+            "min_proposed_step_s": 2.7391615592023235e-09
+          },
+          "BJT:q820": {
+            "proposals": 5,
+            "min_proposed_step_s": 2.049788909743214e-07
+          },
+          "BJT:q802": {
+            "proposals": 14,
+            "min_proposed_step_s": 1.6887010764840335e-08
+          },
+          "CAP:c.x816.ccycle": {
+            "proposals": 26,
+            "min_proposed_step_s": 2.320709163440582e-09
+          },
+          "CAP:c.x822.xcore.cw2": {
+            "proposals": 1,
+            "min_proposed_step_s": 1.928822589867491e-08
+          }
+        },
+        "lte_last_instrumented_device": {
+          "IND:l.x822.xcore.ll3": 2,
+          "CAP:c.x816.creset_delay": 27
+        },
+        "log_sha256": "47dd56b6d438c23bec53adcfdee55f6e3a8a41ef2f910f08fa043b28bcf40703",
+        "full_monitor_qualified": false,
+        "coverage": "Declared time window only; device instrumentation covers CAP, BJT and IND."
+      },
+      "electrical_payload_sha256": "f8e5bafd9be3305447a9673b7e1a727e1072ad87c8e121212a5d75390ffd8e19",
+      "deck_snapshot": "converter-step-audit-decks/states.cir"
+    },
+    {
+      "completed_endpoint": true,
+      "accepted_rows": 204866,
+      "declared_rows": 204866,
+      "expected_end_s": 0.039,
+      "last_sample": {
+        "time": 0.039,
+        "v(x816.cycle_stop)": 0.9999999989989998,
+        "v(x816.pwm)": 9.36097196716125e-121,
+        "v(x816.reset)": 1.61304200701148e-116,
+        "v(x816.ready)": 0.9999999989999998,
+        "v(x816.command)": 0.0,
+        "v(x822.xcore.flux_b)": 0.013881493798569027,
+        "v(p41)": 11.29640161064474,
+        "v(p22)": 11.30930586230602,
+        "v(n16)": -0.3742772249775931,
+        "v(switch_collector)": 11.923745000110511,
+        "v(converter_cx)": 5.58319982242394,
+        "v(converter_soft)": 1.3397615318913456,
+        "v(converter_qe)": 6.703941662911106e-07,
+        "i(vsupply)": -0.12012357979990895
+      },
+      "raw_sha256": "83579dc18d25a83a1f1c72ef6d71f5b4b9d713ff3899ba0a9cfe59d016d11d42",
+      "log_sha256": "50a0e9838dc987a494ab315983f022e2f897899b52ebce995765115c8a93213f",
+      "smallest_step": {
+        "dt_s": 3.0347738211311537e-12,
+        "before": {
+          "time": 0.03819971361172999,
+          "v(x816.cycle_stop)": 0.9999446781503497,
+          "v(x816.pwm)": 2.4700702532e-313,
+          "v(x816.reset)": 0.0007704879559541911,
+          "v(x816.ready)": 0.9999999990000004,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.013715129829174713,
+          "v(p41)": 11.296215248595967,
+          "v(p22)": 11.308973245364148,
+          "v(n16)": -0.3772400660386996,
+          "v(switch_collector)": 11.923474167217512,
+          "v(converter_cx)": 5.696336397065109,
+          "v(converter_soft)": 1.3166311889037323,
+          "v(converter_qe)": 0.0013418233887893438,
+          "i(vsupply)": -0.11909204332047807
+        },
+        "after": {
+          "time": 0.03819971361476476,
+          "v(x816.cycle_stop)": 0.9999444494602147,
+          "v(x816.pwm)": 2.47007812246e-313,
+          "v(x816.reset)": 0.0008389884214410892,
+          "v(x816.ready)": 0.9999999990000004,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.013715129829205041,
+          "v(p41)": 11.29621524859598,
+          "v(p22)": 11.308973245364157,
+          "v(n16)": -0.37724006379170233,
+          "v(switch_collector)": 11.923474167619851,
+          "v(converter_cx)": 5.696336812190552,
+          "v(converter_soft)": 1.3166311889917799,
+          "v(converter_qe)": 0.0013418229196709539,
+          "i(vsupply)": -0.11909202314747347
+        }
+      },
+      "name": "reset-audit",
+      "budget_s": 180,
+      "deck_sha256": "507aa12780503cc3eae8ed4d07dceaa1efaf28f07b6d978b0b15788880e1e417",
+      "accepted_model_change": false,
+      "audit": {
+        "format": "dac-monitor-step-audit-v1",
+        "window_s": [
+          0.03841525,
+          0.03841528
+        ],
+        "observed_time_bounds_s": [
+          0.03841525025394331,
+          0.03841527698470178
+        ],
+        "counts": {
+          "accept": 11,
+          "reject_newton": 0,
+          "reject_breakpoint": 0,
+          "reject_lte": 3,
+          "op_failure": 0
+        },
+        "device_truncation_proposals": {
+          "BJT:q.x816.qoutput": {
+            "proposals": 14,
+            "min_proposed_step_s": 5.753989323453973e-08
+          },
+          "BJT:q821": {
+            "proposals": 16,
+            "min_proposed_step_s": 4.330684631305815e-08
+          },
+          "CAP:c.x822.xcore.cw3": {
+            "proposals": 13,
+            "min_proposed_step_s": 7.543362653593495e-09
+          },
+          "CAP:c.x822.xcore.cw1": {
+            "proposals": 14,
+            "min_proposed_step_s": 2.4748405638701756e-09
+          },
+          "IND:l.x822.xcore.ll3": {
+            "proposals": 5,
+            "min_proposed_step_s": 2.403229022677025e-09
+          },
+          "BJT:q820": {
+            "proposals": 12,
+            "min_proposed_step_s": 4.1701293655087885e-08
+          },
+          "CAP:c.x822.xcore.cw2": {
+            "proposals": 3,
+            "min_proposed_step_s": 2.3913373334467305e-08
+          }
+        },
+        "lte_last_instrumented_device": {
+          "IND:l.x822.xcore.ll3": 2,
+          "CAP:c.x822.xcore.cw1": 1
+        },
+        "log_sha256": "50a0e9838dc987a494ab315983f022e2f897899b52ebce995765115c8a93213f",
+        "full_monitor_qualified": false,
+        "coverage": "Declared time window only; device instrumentation covers CAP, BJT and IND."
+      },
+      "electrical_payload_sha256": "f8e5bafd9be3305447a9673b7e1a727e1072ad87c8e121212a5d75390ffd8e19",
+      "deck_snapshot": "converter-step-audit-decks/states.cir"
+    },
+    {
+      "completed_endpoint": false,
+      "accepted_rows": 2948983,
+      "declared_rows": 0,
+      "expected_end_s": 0.12,
+      "last_sample": {
+        "time": 0.05022944609245884,
+        "v(x816.cycle_stop)": 0.9999999989989988,
+        "v(x816.pwm)": -1.0358937466488578e-128,
+        "v(x816.reset)": -1.1591484766512253e-178,
+        "v(x816.ready)": 0.9999999989999991,
+        "v(x816.command)": 0.0,
+        "v(x822.xcore.flux_b)": 0.021557872886694508,
+        "v(p41)": 12.471144804891015,
+        "v(p22)": 11.762826752068449,
+        "v(n16)": -1.7965097229963043,
+        "v(switch_collector)": 11.569096390702784,
+        "v(converter_cx)": 2.465122636300839,
+        "v(converter_soft)": 1.646448108484835,
+        "v(converter_qe)": 0.1874546666892799,
+        "i(vsupply)": -0.2572962639572296
+      },
+      "raw_sha256": "ddb3c0c87002483c0fd008813444468fe614011e4f16b5483133fd160772e063",
+      "log_sha256": "313c4e9ff60b89fd4327bbc17a857fc630548c4dc611cfcf660f952fbe61d6c8",
+      "smallest_step": {
+        "dt_s": 1.7281315267680952e-13,
+        "before": {
+          "time": 0.04214382543888267,
+          "v(x816.cycle_stop)": 0.999952686196917,
+          "v(x816.pwm)": 4.92788631333e-313,
+          "v(x816.reset)": 0.0003157925502747516,
+          "v(x816.ready)": 0.9999999989999978,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.04522177394373216,
+          "v(p41)": 11.494877707018727,
+          "v(p22)": 11.365470306098691,
+          "v(n16)": -0.4623987502640201,
+          "v(switch_collector)": 12.027054485753245,
+          "v(converter_cx)": 5.696305024139306,
+          "v(converter_soft)": 1.4289484114443458,
+          "v(converter_qe)": 0.0016448483167633768,
+          "i(vsupply)": -0.2471277295519485
+        },
+        "after": {
+          "time": 0.04214382543905548,
+          "v(x816.cycle_stop)": 0.9999526815559743,
+          "v(x816.pwm)": 4.940613769e-313,
+          "v(x816.reset)": 0.00031587494508972626,
+          "v(x816.ready)": 0.9999999989999979,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.04522177392176242,
+          "v(p41)": 11.494877707055508,
+          "v(p22)": 11.365470306087468,
+          "v(n16)": -0.4623987274043199,
+          "v(switch_collector)": 12.02705448257485,
+          "v(converter_cx)": 5.696305047903285,
+          "v(converter_soft)": 1.4289484114491755,
+          "v(converter_qe)": 0.001644848025378318,
+          "i(vsupply)": -0.24712772953594708
+        }
+      },
+      "name": "original-long",
+      "budget_s": 600,
+      "deck_sha256": "4f2b0653598c69c309e7460d1f7154f915fc867a88c2bfa9a6f6bc076e8a3ef2",
+      "accepted_model_change": false,
+      "termination": "timeout (exit 124)",
+      "electrical_payload_sha256": "022c2920fd0f2a039ae2ed8087fce26dfa792cdace0bdbd280ffcfb5768fb42f",
+      "deck_snapshot": "converter-step-audit-decks/original-long.cir"
+    },
+    {
+      "completed_endpoint": false,
+      "accepted_rows": 2947925,
+      "declared_rows": 0,
+      "expected_end_s": 0.12,
+      "last_sample": {
+        "time": 0.041023831645276704,
+        "v(x816.cycle_stop)": 0.9999999989990018,
+        "v(x816.pwm)": 2.5794702470135676e-112,
+        "v(x816.reset)": 0.0,
+        "v(x816.ready)": 0.9999999990000011,
+        "v(x816.command)": 0.0,
+        "v(x822.xcore.flux_b)": 0.03820803499400983,
+        "v(p41)": 11.50659285814898,
+        "v(p22)": 11.381677025041567,
+        "v(n16)": -0.45781511488023957,
+        "v(switch_collector)": 12.30515744011661,
+        "v(converter_cx)": 2.103697236681828,
+        "v(converter_soft)": 1.3974736117528324,
+        "v(converter_qe)": 0.33541509850234746,
+        "i(vsupply)": -0.26218716279998944
+      },
+      "raw_sha256": "2fb8919f7959df25f947e3116e1aae1c89bdd9afd4bdfc54e533f6a18b29a255",
+      "log_sha256": "6da16476019cb64ee72220c31cd5137480998fb72f2e24ffa85c161ab575600b",
+      "smallest_step": {
+        "dt_s": 4.538036613155327e-15,
+        "before": {
+          "time": 0.018351197035414376,
+          "v(x816.cycle_stop)": 0.0,
+          "v(x816.pwm)": 0.0,
+          "v(x816.reset)": 1.0,
+          "v(x816.ready)": 0.9999999989999999,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.013787171691516876,
+          "v(p41)": 11.295395831202569,
+          "v(p22)": 11.30765289682313,
+          "v(n16)": -0.4471671200072409,
+          "v(switch_collector)": 11.922810605501947,
+          "v(converter_cx)": 1.2999999999979175,
+          "v(converter_soft)": 0.6830769655981326,
+          "v(converter_qe)": 1.1973024613162828e-06,
+          "i(vsupply)": -0.11993925693865037
+        },
+        "after": {
+          "time": 0.018351197035418914,
+          "v(x816.cycle_stop)": 1.0297388269245348e-13,
+          "v(x816.pwm)": 0.0,
+          "v(x816.reset)": 0.9999997730981693,
+          "v(x816.ready)": 0.9999999989999998,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.013787171691516718,
+          "v(p41)": 11.29539583120257,
+          "v(p22)": 11.307652896823138,
+          "v(n16)": -0.44716783242765445,
+          "v(switch_collector)": 11.922810606238304,
+          "v(converter_cx)": 1.299999993946907,
+          "v(converter_soft)": 0.6830769655982915,
+          "v(converter_qe)": 1.1973662024641736e-06,
+          "i(vsupply)": -0.11993925698710939
+        }
+      },
+      "name": "history-long",
+      "budget_s": 600,
+      "deck_sha256": "46c23e7f1233bce94a1923122c8daf2117b6288fd600856fc3a5a64bdbd13fa2",
+      "accepted_model_change": false,
+      "termination": "timeout (exit 124)",
+      "electrical_payload_sha256": "59a6b428c3612b74c3bf7441af9bbfd0f185259f63cb4b7c897d6e22d0ed8ca2",
+      "deck_snapshot": "converter-step-audit-decks/history-long.cir"
+    },
+    {
+      "completed_endpoint": false,
+      "accepted_rows": 578321,
+      "declared_rows": 0,
+      "expected_end_s": 0.12,
+      "last_sample": {
+        "time": 0.044595431025962674,
+        "v(x816.cycle_stop)": 0.9999999989989997,
+        "v(x816.pwm)": -4.3376483758905203e-48,
+        "v(x816.reset)": -2.0077606565082898e-46,
+        "v(x816.ready)": 0.9999999989999997,
+        "v(x816.command)": 0.0,
+        "v(x822.xcore.flux_b)": 0.03039165205565926,
+        "v(p41)": 11.700792379778166,
+        "v(p22)": 11.430564283423521,
+        "v(n16)": -0.6421616939634344,
+        "v(switch_collector)": 12.10973499052819,
+        "v(converter_cx)": 2.837563784814075,
+        "v(converter_soft)": 1.4966764707242142,
+        "v(converter_qe)": 9.06316408402219e-05,
+        "i(vsupply)": -0.26753778597486644
+      },
+      "raw_sha256": "41489f6ca6aea13d1de4f9e022180e7a25fdd2ce7c0992051c309d8810d8f0d0",
+      "log_sha256": "0a5559b4b0ff8f5f53f7a8916635e607d498ba55c45ece55082ba84064d6ed79",
+      "smallest_step": {
+        "dt_s": 1.3594195213961768e-12,
+        "before": {
+          "time": 0.043116947187589134,
+          "v(x816.cycle_stop)": 0.9999515354263626,
+          "v(x816.pwm)": 0.0,
+          "v(x816.reset)": 0.000356912044493507,
+          "v(x816.ready)": 0.9999999990000005,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.027696332499334876,
+          "v(p41)": 11.514183432332969,
+          "v(p22)": 11.370006228787625,
+          "v(n16)": -0.48863306317336314,
+          "v(switch_collector)": 12.029008102094187,
+          "v(converter_cx)": 5.696319142888095,
+          "v(converter_soft)": 1.4560218595909666,
+          "v(converter_qe)": 0.0017726653112534341,
+          "i(vsupply)": -0.20702700769797389
+        },
+        "after": {
+          "time": 0.043116947188948554,
+          "v(x816.cycle_stop)": 0.9999514933693796,
+          "v(x816.pwm)": 0.0,
+          "v(x816.reset)": 0.0003578801233792804,
+          "v(x816.ready)": 0.9999999990000006,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.02769633235997718,
+          "v(p41)": 11.514183432396885,
+          "v(p22)": 11.370006228746284,
+          "v(n16)": -0.4886330574190462,
+          "v(switch_collector)": 12.029008101062724,
+          "v(converter_cx)": 5.69631932974476,
+          "v(converter_soft)": 1.4560218596286132,
+          "v(converter_qe)": 0.001772664750181606,
+          "i(vsupply)": -0.20702700734965163
+        }
+      },
+      "name": "cap-loss-screen",
+      "budget_s": 120,
+      "deck_sha256": "695afd76589a28de57a237e45d05b49345efd0240a14caa05fd2bab37f5ea763",
+      "accepted_model_change": false,
+      "termination": "timeout (exit 124)",
+      "electrical_payload_sha256": "07d256072e252589f97f41a37a71d4efcc9e5587110c083b8f31cd2cfa4420f1",
+      "deck_snapshot": "converter-step-audit-decks/cap-loss-screen.cir"
+    },
+    {
+      "completed_endpoint": false,
+      "accepted_rows": 441412,
+      "declared_rows": 0,
+      "expected_end_s": 0.12,
+      "last_sample": {
+        "time": 0.037490146045554645,
+        "v(x816.cycle_stop)": 0.9999999989989994,
+        "v(x816.pwm)": 4.681719641594286e-62,
+        "v(x816.reset)": 0.0,
+        "v(x816.ready)": 0.9999999989999984,
+        "v(x816.command)": 0.0,
+        "v(x822.xcore.flux_b)": 0.013714801333481103,
+        "v(p41)": 11.296216498217985,
+        "v(p22)": 11.308973266079711,
+        "v(n16)": -0.3795386586403833,
+        "v(switch_collector)": 11.92347636444473,
+        "v(converter_cx)": 1.6833354275954717,
+        "v(converter_soft)": 1.2959746007694484,
+        "v(converter_qe)": 0.016191802913165465,
+        "i(vsupply)": -0.11909673866682624
+      },
+      "raw_sha256": "52c7ae8750326c3b5a892792901e8b4aa22c3cd758fbeb59c51658db88066559",
+      "log_sha256": "6381efeedff808ae5cccb4f47afeea77d9a113980ff711bffbb995ecf419f992",
+      "smallest_step": {
+        "dt_s": 3.819514149405734e-14,
+        "before": {
+          "time": 0.019904678327922937,
+          "v(x816.cycle_stop)": 0.0,
+          "v(x816.pwm)": 0.0,
+          "v(x816.reset)": 1.0,
+          "v(x816.ready)": 0.9999999989999999,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.013749160239881958,
+          "v(p41)": 11.295817643280541,
+          "v(p22)": 11.308335679704072,
+          "v(n16)": -0.44125490198027123,
+          "v(switch_collector)": 11.92315542408645,
+          "v(converter_cx)": 1.3000000000016576,
+          "v(converter_soft)": 0.737070666939774,
+          "v(converter_qe)": 1.1382893888682577e-06,
+          "i(vsupply)": -0.11932119587632428
+        },
+        "after": {
+          "time": 0.019904678327961133,
+          "v(x816.cycle_stop)": 7.29458021371698e-12,
+          "v(x816.pwm)": 0.0,
+          "v(x816.reset)": 0.9999980902429253,
+          "v(x816.ready)": 0.9999999989999996,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.013749160239881335,
+          "v(p41)": 11.295817643280548,
+          "v(p22)": 11.308335679704086,
+          "v(n16)": -0.44125487848891376,
+          "v(switch_collector)": 11.92315542408646,
+          "v(converter_cx)": 1.2999999490730667,
+          "v(converter_soft)": 0.7370706669410924,
+          "v(converter_qe)": 1.138308901822722e-06,
+          "i(vsupply)": -0.11932119633685545
+        }
+      },
+      "name": "combined-screen",
+      "budget_s": 120,
+      "deck_sha256": "8ddf97dabd1b94a4d98cc06f6a4dee0b0107e92a432b96a4136aa0e74d9e4928",
+      "accepted_model_change": false,
+      "termination": "timeout (exit 124)",
+      "electrical_payload_sha256": "5b71fe8dd9739f14f5470e126c3d4aff89ea09e5dad9bcfdc97617adde5259d8",
+      "deck_snapshot": "converter-step-audit-decks/combined-screen.cir"
+    }
+  ],
+  "notes": [
+    "Concurrent diagnostic jobs were running; elapsed budgets are not isolated performance benchmarks.",
+    "All winding-capacitance loss values in the screening runs are unmeasured numerical hypotheses, not adopted model changes.",
+    "Local raw files and decks are under build/monitor/converter-sustained-profile."
+  ],
+  "findings": [
+    "The two completed 39 ms runs have identical electrical payloads despite different audit windows.",
+    "At the minimum-step window, 27 of 29 LTE rejections end with Creset_delay as the final instrumented limiter; there are also three Newton rejections.",
+    "The second sampled window has three LTE rejections limited by transformer leakage/capacitance; neither window estimates whole-run cause shares.",
+    "Neither the history comparator nor added winding-capacitance loss has demonstrated sustained regulated operation; no replacement is adopted."
+  ]
+}

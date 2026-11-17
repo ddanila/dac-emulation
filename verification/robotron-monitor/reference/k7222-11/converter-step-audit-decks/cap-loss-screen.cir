@@ -1,0 +1,210 @@
+K7222.11 connected switching converter - external stage bench, not a complete monitor
+.param converter_position=0.63
+.param converter_bf=60
+.param power_bf=40
+.param negative_bleed=1000
+.param load41=200
+.param load22=220
+.param load16=330
+.param input_voltage=12
+.param filter_esr=0.2
+.param filter_dcr=0.1
+.param fuse_resistance=0.05
+.param input_choke=0.0001
+.param input_choke_dcr=0.5
+C808 converter_soft 0 47u
+C810 converter_cx 0 3.3n
+C815 converter_gain 0 10n
+C823 p12_filtered snubber 2.2n
+C826 rect41 0 33n
+C828 parasitic_c828 0 470u
+C830 parasitic_c830 0 470u
+C832 parasitic_c832 0 470u
+C834 0 rect16 33n
+C836 parasitic_c836 n16 470u
+D801 0 sync_base CONV_D
+D825 t1_8 rect41 CONV_RECT
+D829 t1_7 rect22 CONV_RECT
+D833 rect16 t1_5 CONV_RECT
+L827 parasitic_l827 p41 20u
+L831 parasitic_l831 p22 20u
+L835 parasitic_l835 n16 20u
+Q802 converter_sync sync_base 0 CONV_N
+Q820 switch_collector switch_base power_base CONV_N
+Q821 switch_collector power_base 0 CONV_POWER
+R800 horizontal_sync sync_base 100k
+R803 p12 converter_sync 2.2k
+R804 converter_sync 0 2.7k
+R805 p12 converter_qc 620
+R806 converter_ref converter_soft 4.3k
+R807 converter_soft 0 4.7k
+R809 converter_rx 0 15k
+R811 p41 fb_top 30k
+R813 fb_bottom 0 2.4k
+R814 converter_fb converter_gain 200k
+R817 converter_qe switch_base 560
+R818 switch_base 0 100k
+R819 power_base 0 10
+R824 snubber t1_8 560
+R837 0 n16 {negative_bleed}
+X812 fb_top converter_fb fb_bottom CONVERTER_TRIM
+X816 p12 converter_ref converter_fb converter_gain converter_ref converter_soft converter_rx converter_cx converter_sync converter_ref 0 0 0 converter_qe converter_qc 0 TDA1060_FUNCTIONAL
+X822 p12_filtered switch_collector t1_8 t1_7 0 t1_5 T1_BOUND
+C852 parasitic_c852 0 1000u
+L851 parasitic_l851 p12_filtered {input_choke}
+R850 input12 p12 {fuse_resistance}
+Rparasitic1 p41 parasitic_c828 0.2
+Rparasitic2 p22 parasitic_c832 0.2
+Rparasitic3 rect22 parasitic_c830 0.2
+Rparasitic4 0 parasitic_c836 0.2
+Rparasitic5 rect41 parasitic_l827 0.1
+Rparasitic6 rect22 parasitic_l831 0.1
+Rparasitic7 rect16 parasitic_l835 0.1
+Rparasitic8 p12 parasitic_l851 0.5
+Rparasitic9 p12_filtered parasitic_c852 0.2
+* Generic device families; no fitted historical curves or thermal/SOA claims.
+.model CONV_N NPN(IS=1e-14 BF={converter_bf} VAF=60 CJE=30p CJC=10p TF=5n TR=50n)
+.model CONV_POWER NPN(IS=1e-11 BF={power_bf} VAF=60 CJE=500p CJC=200p TF=100n TR=500n)
+.model CONV_D D(IS=2n N=1.7 RS=2 CJO=2p TT=5n)
+.model CONV_RECT D(IS=10n N=1.5 RS=.2 CJO=30p TT=100n)
+.subckt CONVERTER_TRIM top wiper bottom
+Ra top wiper {1000*(1-converter_position)}
+Rb wiper bottom {1000*converter_position}
+.ends CONVERTER_TRIM
+
+* TDA1060 functional engineering model, not a qualified B260D replacement.
+* Philips manufacturer datasheet: tda1060.pdf, PDF pp 3-6, 9-10.
+* Pin order follows pinning table, not the prose typo naming QC as pin 13.
+* Unsupported: feed-forward transfer, temperature coefficients, output storage
+* and synchronization during sawtooth reset. Dead-time duration is assumed.
+.subckt TDA1060_FUNCTIONAL vcc vz fb ga mod dfm rx cx syn en cm vss sat qe qc fw
+.param tda_regularization=1
+* Finite reference pass element draws directly from VCC. Avoid an ideal
+* generated rail followed by recursive current accounting through its source.
+* 5 ohm incremental impedance and 10 mA soft limit are assumed, not ratings.
+Breg vcc vz I={.01*tanh(max(.2*(min(max(v(vcc,vss)-.2,0),8.4)-v(vz,vss)),0)/.01)}
+Rreg vz vss 100k
+Brx nrx vss V={min(max(v(vz,vss),0),6.83)}
+Vrx nrx rx 0
+* Sawtooth charge follows current in the external timing resistor.
+Bcharge vz cx I={(.5+.5*tanh((v(syn,vss)-1.4)/.05))*v(ready,vss)*max(i(Vrx),0)*(1-v(reset,vss))}
+Vlogic logic vss 1
+* 9.8 V nominal is assumed within the documented 8.85..10.8 V range.
+* 0.5 V hysteresis is the documented typical value.
+* Continuous Schmitt states: finite edge prevents load discontinuities from
+* switching the comparator repeatedly inside a Newton iteration.
+Buv ready_switch vss V={.5+.5*tanh((v(vcc,vss)-9.8+.5*v(ready,vss))/(.001*tda_regularization))}
+Rready_delay ready_switch ready 1000
+Cready_delay ready vss {20p*tda_regularization}
+Rready ready vss 1e12
+Breset reset_switch vss V={.5+.5*tanh((v(cx,vss)-5.7+4.4*v(reset,vss))/(.001*tda_regularization))}
+Rreset_delay reset_switch reset 1000
+Creset_delay reset vss {20p*tda_regularization}
+Rreset reset vss 1e12
+Bdischarge cx vss I={.0044*v(reset,vss)}
+* Disabled oscillator is discharged, not a floating ideal capacitor. The
+* assumed 1 kohm path also avoids magnifying switch leakage into negative volts.
+Bcxoff cx vss I={(1-v(ready,vss))*v(cx,vss)/1000}
+Rcx cx vss 1e12
+* Cycle-by-cycle termination: CM > .48 V ends this pulse until ramp reset.
+* The 10 ns regularization is numerical, not a measured propagation delay.
+Ccycle cycle_stop vss {10n*tda_regularization} IC=0
+Bcycle cycle_stop vss I={(1-v(ready,vss)*(1-v(reset,vss)))*v(cycle_stop,vss)
++ +v(ready,vss)*(1-v(reset,vss))*(v(cycle_stop,vss)-1)
++ *max(.5+.5*tanh((v(cm,vss)-.48)/(.001*tda_regularization)),
++ .5+.5*tanh((v(cx,vss)-min(v(ga,vss),min(v(mod,vss),v(dfm,vss))))/(.001*tda_regularization)))}
+Rcycle cycle_stop vss 1e12
+* Severe CM trip discharges soft-start and holds off after the last trip.
+* 1 ms is an explicit engineering assumption; not a manufacturer timing value.
+Cdead dead vss 1n IC=0
+Bdead dead vss I={v(cm,vss)>.6 ? v(dead,vss)-1 : min(max(v(dead,vss),0),1e-6)}
+Rdead dead vss 1e12
+* The external GA capacitor and FB/GA resistor close the control loop.
+Berr vz ga I={v(ready,vss)*min(max(.01*(min(v(vz,vss),3.72)-v(fb,vss)),0),.003)}
+Bsink ga vss I={v(ready,vss)*min(max(.01*(v(fb,vss)-min(v(vz,vss),3.72)),0),.003)}
+Rga ga vss 12k
+Dga0 vss ga CLAMP
+Dgaz ga vz CLAMP
+* Assumed finite junction dynamics; ideal zero-charge clamps caused solver
+* rejection at undervoltage turn-on in the connected converter.
+.model CLAMP D(IS=1e-12 RS=10 CJO=5p TT=5n)
+Rfb vz fb 15meg
+Bsoft dfm vss I={(1-v(ready,vss)*(.5+.5*tanh((v(en,vss)-1.4)/.05))
++ *(.5-.5*tanh((v(dead,vss)-.01)/(.001*tda_regularization))))*max(v(dfm,vss),0)/100
++ +v(ready,vss)*(.5+.5*tanh((v(en,vss)-1.4)/.05))
++ *(.5-.5*tanh((v(dead,vss)-.01)/(.001*tda_regularization)))
++ *(.5-.5*tanh((v(fb,vss)-.6)/.005))*max(v(dfm,vss)-1.3,0)/1000}
+* PWM logic drives a finite transistor output supplied through QC and VZ.
+Bcommand command vss V={v(ready,vss)
++ *(.5+.5*tanh((v(en,vss)-1.4)/.05))
++ *(.5+.5*tanh((v(syn,vss)-1.4)/.05))
++ *(.5-.5*tanh((v(cm,vss)-.48)/.01))
++ *(.5-.5*tanh((v(cycle_stop,vss)-.5)/.01))*(.5-.5*tanh((v(dead,vss)-.01)/(.001*tda_regularization)))
++ *(.5-.5*tanh((v(sat,vss)-.6)/.01))
++ *(1-v(reset,vss))
++ *(.5+.5*tanh((min(v(ga,vss),min(v(mod,vss),v(dfm,vss)))-v(cx,vss))/.02))}
+Rtransition command pwm 1000
+Ctransition pwm vss {20p*tda_regularization}
+* Passive-conductance predriver: assumed 680/1000 ohm divider when on,
+* additional 100 ohm pull-down when off. No active ideal base-voltage servo.
+* These values, gain and storage parameters are not B260D characterization.
+Bdrive vz qb I={v(vz,qb)*min(max(v(pwm,vss),0),1)/680}
+Bpull qb vss I={v(qb,vss)*(1/1000+(1-min(max(v(pwm,vss),0),1))/100)}
+Qoutput qc qb qe OUTPUT_BOUND
+.model OUTPUT_BOUND NPN(IS=1e-14 BF=100 VAF=60 CJE=20p CJC=10p TF=20n TR=100n)
+Rqb qb vss 1meg
+Rqe qe vss 1meg
+Bicc vcc vss I={max(i(Vrx),0)+.005*v(ready,vss)}
+.ends TDA1060_FUNCTIONAL
+
+* Hypothetical T1; generated by converter_magnetics.py. No factory numerical data.
+.subckt T1_CORE w0p w0n w1p w1n w2p w2n w3p w3n
+Rw0 w0p r0 0.08
+Ll0 r0 l0 1e-06
+* Experimental 10 ohm winding-capacitance loss; not measured.
+Rcw0 w0p cw0 10
+Cw0 cw0 w0n 1e-10
+Rw1 w1p r1 0.12
+Ll1 r1 l1 2e-06
+* Experimental 10 ohm winding-capacitance loss; not measured.
+Rcw1 w1p cw1 10
+Cw1 cw1 w1n 1e-10
+Rw2 w2p r2 0.08
+Ll2 r2 l2 1e-06
+* Experimental 10 ohm winding-capacitance loss; not measured.
+Rcw2 w2p cw2 10
+Cw2 cw2 w2n 1e-10
+Rw3 w3p r3 0.2
+Ll3 r3 l3 2e-06
+* Experimental 10 ohm winding-capacitance loss; not measured.
+Rcw3 w3p cw3 10
+Cw3 cw3 w3n 1e-10
+Ew1 l1 w1n l0 w0n 1
+Fw1 l0 w0n Ew1 -1
+Ew2 l2 w2n l0 w0n 0.7
+Fw2 l0 w0n Ew2 -0.7
+Ew3 l3 w3n l0 w0n 1.4
+Fw3 l0 w0n Ew3 -1.4
+Cflux flux_b 0 1 IC=0
+Rflux flux_b 0 1e12
+Bflux 0 flux_b I={625*v(l0,w0n)}
+Bprimary l0 w0n I={(0.003)*(3636.36363636364*v(flux_b)+(234.604105571848)*(v(flux_b)+.5*(sqrt((v(flux_b)-0.165)^2+1e-10)-sqrt((v(flux_b)+0.165)^2+1e-10)))+(31129.0322580645)*(v(flux_b)+.5*(sqrt((v(flux_b)-0.32)^2+1e-10)-sqrt((v(flux_b)+0.32)^2+1e-10))))}
+Rloss l0 w0n 5000
+.ends T1_CORE
+.subckt T1_BOUND p12 collector t8 t7 ground t5
+Xcore p12 collector collector t8 p12 t7 ground t5 T1_CORE
+.ends T1_BOUND
+
+Vsupply external12 0 PWL(0 0 1m {input_voltage})
+Rsource external12 input12 .1
+* V2 is off: characterized free running; no horizontal circuit yet.
+Vhorizontal horizontal_sync 0 0
+Rload41 p41 0 {load41}
+Rload22 p22 0 {load22}
+Rload16 0 n16 {load16}
+
+.options reltol=0.0001 abstol=1e-12 vntol=1e-8 method=gear
+
+.save v(x816.cycle_stop) v(x816.pwm) v(x816.reset) v(x816.ready) v(x816.command) v(x822.xcore.flux_b) v(p41) v(p22) v(n16) v(switch_collector) v(converter_cx) v(converter_soft) v(converter_qe) i(Vsupply)
+.tran 10u 120m 0 1u
+.end

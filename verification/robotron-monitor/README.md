@@ -783,5 +783,78 @@ Still required before the first sustained full-path image: a performant,
 validated switching converter; connected horizontal/T3/yoke circuitry and actual
 electrode supplies; coupled thermal trials and interception-current feedback;
 continuous electrical/optical settling; and full-run refinement/energy/image
-acceptance. The pinned ngspice-47 raw-pipe runtime has not been ported to this
-monitor runner. Source coverage remains 171/260 across nine separate sheets.
+acceptance. Source coverage remains 171/260 across nine separate sheets.
+
+
+### Pinned monitor solver and controller experiment
+
+`monitor_runtime.py` builds ngspice 47 into an isolated workspace directory. It
+requires the exact source archive SHA-256, applies a zero-fuzz instrumentation
+patch, and records the compiler, flags, source inputs, binary, startup file and
+code-model hashes. `reference.py --runtime DIRECTORY` verifies the receipt before
+running a stage and copies it into the stage archive. Builds cannot be moved:
+the ngspice startup file contains absolute code-model paths. The installed system
+solver and the default TDA1060 device model are unchanged.
+
+```
+curl -L --fail https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz -o /tmp/ngspice-47.tar.gz
+python3 verification/robotron-monitor/monitor_runtime.py \
+  --archive /tmp/ngspice-47.tar.gz --output build/monitor/runtime-new --jobs 4
+python3 verification/robotron-monitor/reference.py \
+  --profile verification/robotron-monitor/profiles/k7222-11-neck.json \
+  --runtime build/monitor/runtime-new --output build/monitor/pinned-neck
+MONITOR_RUNTIME=build/monitor/runtime-new python3 -m unittest discover \
+  -s verification/robotron-monitor/tests -p test_monitor_runtime.py -v
+```
+
+Set `CRT_AUDIT_FROM` and `CRT_AUDIT_TO` to log a bounded time window. The patch
+records accepted points, Newton/LTE/breakpoint rejection and CAP/BJT/IND timestep
+reductions. It does not change those devices' equations or the solver's acceptance
+rules. `solver_profile.audit_profile` distinguishes truncation proposals from
+rejections, reports the last instrumented limiting device for LTE rejection,
+and retains the window and log hash. Counts do not cover time outside that window
+or uninstrumented device classes. An accepted point's `next_dt` is a proposed
+future step; accepted durations still come from successive raw timestamps.
+
+```
+CRT_AUDIT_FROM=.03835 CRT_AUDIT_TO=.03836 \
+  build/monitor/runtime-new/install/bin/ngspice -n -b -r trace.raw run.cir
+python3 verification/robotron-monitor/solver_profile.py \
+  --raw trace.raw --log solver.log --end .039 --audit-start .03835 \
+  --audit-end .03836 --output inspection.json
+```
+
+Redirect the solver's stdout and stderr to `solver.log` when collecting an audit.
+The binary raw writer also supports non-seekable output; a truncated stream still
+cannot pass the endpoint gate.
+
+`controller_history.experimental_model` is an opt-in reset-comparator experiment.
+It uses analog timestep history for all state, interpolates threshold crossings,
+and has a finite 20 ns transition. A crossing tolerance of 0.01% of that transition
+prevents repeated backtracking to the same floating-point crossing; both scale
+with `tda_regularization`. The tolerance and transition are numerical assumptions,
+not measured B260D delays. The initial experiment failed at 8.07373 ms because of
+repeated crossing backtracking; the corrected version must still pass connected
+converter regulation, load, energy and refinement checks before adoption. Its
+presence in the runtime does not qualify it for full-monitor use.
+
+
+The ngspice-47 37–39 ms diagnostic run reaches its endpoint. Its minimum
+accepted interval is 3.035 ps. In the 38.19970–38.19973 ms window there are 54
+accepted points, 3 Newton rejections and 29 LTE rejections; the reset-delay
+capacitor is the last instrumented limiter for 27 of those LTE rejections.
+A separate 38.41525–38.41528 ms window has three LTE rejections limited by T1
+leakage/capacitance elements. These are local observations, not whole-run shares.
+Both runs produce identical raw electrical payload hashes despite different
+logging windows. The step-audit evidence preserves the runtime, deck, raw and
+log hashes. Neither run reaches settled converter regulation.
+
+The self-contained decks in `reference/k7222-11/converter-step-audit-decks/`
+are immutable experiment snapshots, not replacement source schematics. Their
+hashes are checked against `converter-step-audit.json`. They make the rejected
+hypotheses reproducible without keeping multi-million-row raw files in Git.
+The ten-minute trials ended at 50.229 ms (original) and 41.024 ms (history reset),
+both short of the requested 120 ms. Added 10 ohm winding-capacitance loss was
+screened separately and together with the history reset, but neither 120-second
+screen reached the requested endpoint. These runs establish no regulation or
+performance acceptance; no magnetic-loss change is adopted.

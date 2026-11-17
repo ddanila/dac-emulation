@@ -210,7 +210,13 @@ def package(rows, metadata, path):
 
 
 def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
-        *, fault=None, scenario=None, component_factors=None, regularization=1.):
+        *, fault=None, scenario=None, component_factors=None, regularization=1., runtime=None):
+    solver='ngspice';runtime_receipt=None;solver_prefix=[]
+    if runtime is not None:
+        import monitor_runtime
+        solver,runtime_receipt=monitor_runtime.verify(runtime)
+        solver=str(solver)
+        solver_prefix=['env','SPICE_SCRIPTS='+str(Path(runtime).resolve()/'install/share/ngspice/scripts')]
     profile = read_profile(profile_path)
     scenario_parameters=(scenario or {}).get('parameters',{})
     if scenario and (scenario.get('format')!='dac-monitor-scenario-v1' or scenario.get('model_id')!=profile['id']):
@@ -241,6 +247,8 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
                 files[key]=json.dumps(value,sort_keys=True,allow_nan=False).encode();names[key]=key+'.json'
         for key, content in files.items():
             (output/names[key]).write_bytes(content)
+        if runtime_receipt is not None:
+            (output/'runtime.json').write_text(json.dumps(runtime_receipt,indent=2)+'\n')
         inventory = json.loads(files['inventory'])
         inventory_check(inventory)
         lab.run_command(['kicad-cli', 'sch', 'export', 'netlist', '--format', 'kicadxml', '-o',
@@ -270,9 +278,11 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
         components,models,mutation=faults.apply(components,models,fault,regularization=regularization)
         text = deck(profile, components, parameters, start, stop, step, models, files['bench'].decode())
         (output/'run.cir').write_text(text)
-        log = lab.run_command(['ngspice', '-b', 'run.cir'], output, output/'ngspice.log')
+        log = lab.run_command([*solver_prefix,solver, '-n', '-b', 'run.cir'], output, output/'ngspice.log')
         if re.search(r'(?im)^\s*(?:error|fatal|warning)|timestep too small|singular matrix|simulation interrupted', log):
             raise ValueError('solver diagnostics rejected')
+        if runtime is not None and monitor_runtime.verify(runtime)[1]!=runtime_receipt:
+            raise ValueError('runtime changed during simulation')
         rows = read_samples(output/'samples.txt', profile['probes'], start, stop, step)
         report = package(rows, dict(name=profile['name'], qualification=profile['qualification'],
                          model_id=profile['id'], probes=profile['probes'], components=components,
@@ -280,7 +290,8 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
                          coverage=coverage(inventory, original_components), source_pages=profile['source_pages'],
                          scenario=scenario, fault=mutation, component_factors=component_factors or {},
                          hashes={key: lab.digest(value) for key, value in files.items()} | {'deck': lab.digest(text.encode())},
-                         solver=dict(tool='ngspice', version=subprocess.check_output(['ngspice','--version'],text=True).strip(),
+                         solver=dict(tool='ngspice', version=subprocess.check_output([solver,'--version'],text=True).strip(),
+                                     runtime_receipt_sha256=None if runtime_receipt is None else lab.digest((output/'runtime.json').read_bytes()),
                                      step_s=step, max_step_s=step/10, simulated_from_s=0, log_sha256=lab.digest(log.encode()))), output/'replay.mcrt')
         (output/'report.json').write_text(json.dumps(report, indent=2)+'\n')
         return report
@@ -293,6 +304,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--profile', type=Path, default=ROOT/'profiles/k7222-11-neck.json')
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--runtime', type=Path, help='Verified monitor_runtime.py build directory')
     parser.add_argument('--start', type=float, default=0)
     parser.add_argument('--stop', type=float, default=.0004)
     parser.add_argument('--step', type=float, default=1e-7)
@@ -305,7 +317,7 @@ def main():
             if name in changes:
                 raise ValueError('duplicate parameter '+name)
             changes[name] = float(value)
-        run(args.profile, args.output, args.start, args.stop, args.step, changes)
+        run(args.profile, args.output, args.start, args.stop, args.step, changes, runtime=args.runtime)
         print(args.output/'replay.mcrt')
     except (ValueError, OSError, subprocess.SubprocessError) as error:
         parser.exit(1, str(error)+'\n')

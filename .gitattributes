@@ -1,2 +1,5 @@
 # Preserve the original TV80 sources byte-for-byte, including upstream whitespace.
 third_party/cpu/tv80/*.v -whitespace
+
+# Unified diffs require space-prefixed empty context lines.
+verification/robotron-monitor/runtime/ngspice-47-monitor.patch whitespace=-blank-at-eol
