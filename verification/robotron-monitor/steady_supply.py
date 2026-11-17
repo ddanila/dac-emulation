@@ -22,6 +22,7 @@ import monitor_runtime
 import reference
 import signal_path
 import transformer_candidates
+import yoke_profile
 
 ROOT = Path(__file__).resolve().parent
 OUTPUT_CONTRACTS = dict(HORIZONTAL_CHOKE=2, HORIZONTAL_LINEARITY=2,
@@ -41,6 +42,7 @@ ASSEMBLY_BOUNDS = {
     'yoke_horizontal_l': (.004, .0004, .016, 'H'),
     'tube_anode_c': (1e-9, .25e-9, 4e-9, 'F'),
     'tube_hv_leakage': (200e6, 50e6, 800e6, 'ohm'),
+    'l4_coupling': (0., 0., .999, '1'),
     'isolated_cap_leakage': (1e9, .25e9, 4e9, 'ohm'),
 }
 
@@ -146,6 +148,9 @@ def assemble(output):
         params.update(reference.parameter_values(profile,{}))
         for model in [profile['models'],*profile.get('additional_models',[])]:
             if model not in models:models.append(model)
+    archive('profiles/k7222-11-yoke.json')
+    yoke=yoke_profile.read(out/'profiles/k7222-11-yoke.json')
+    params.update(yoke['electrical'])
     models.append('circuits/signal-path-models.cir')
     texts=[archive(name) for name in models]
     # The neck's parameterized 1AD50 family also serves the sync filter; do not
@@ -156,29 +161,66 @@ def assemble(output):
                  'reference/k7222-11/t3-initial-parameters.json',
                  'reference/k7222-11/horizontal-output-transcription.json',
                  'reference/k7222-11/assembly.json', 'steady_supply.py',
-                 'magnetics.py','transformer_candidates.py','electrothermal.py'):
+                 'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py',
+                 'steady_acceptance.py','steady_trace.py','scan_diagnostics.py'):
         archive(name)
-    return dict(components=components,parameters=params,models=texts,hashes=hashes,
+    return dict(components=components,parameters=params,models=texts,hashes=hashes,yoke=yoke,
                 magnetic_graph=json.loads((out/'reference/k7222-11/t3-winding-hypothesis.json').read_text()),
                 magnetic_parameters=json.loads((out/'reference/k7222-11/t3-initial-parameters.json').read_text()),
                 coverage=reference.coverage(inv,[c for c in components if not c['source_id'].startswith('1715w:')]))
 
 
+INITIAL_VOLTAGE_BOUNDS = {'eht': (0.,25000.), 'h_boost': (0.,150.),
+    'h_g2raw': (0.,1000.), 'h_divtop': (0.,1000.), 'h_g1raw': (-200.,0.)}
+
+
+def compensation_network(components, coupling):
+    """One passive three-winding L4 hypothesis; zero reproduces uncoupled branches.
+
+    Source terminal ordering defines an explicit same-polarity hypothesis.
+    The third section remains physically shorted by the selected assembly strap.
+    No factory polarity or coupling is asserted.
+    """
+    parts={c['source_id']:c for c in components if c['source_id'].startswith('012-6921:L4:')}
+    if not parts:return [],set()
+    if set(parts)!={f'012-6921:L4:{i}' for i in (1,2,3)}:raise ValueError('incomplete L4 winding assembly')
+    if not math.isfinite(coupling) or not 0<=coupling<1:raise ValueError('nonpassive L4 coupling')
+    lines=[]
+    for i in (1,2,3):
+        part=parts[f'012-6921:L4:{i}'];a,b=part['nodes']
+        lines += [f'* {part["source_id"]} same-terminal-polarity hypothesis',
+                  f'RL4_{i} {a} l4_internal_{i} {{horizontal_compensation_r}}',
+                  f'LL4_{i} l4_internal_{i} {b} {{horizontal_compensation_l}}']
+    if coupling:
+        lines += [f'KL4_{a}{b} LL4_{a} LL4_{b} {coupling:.15g}' for a,b in ((1,2),(1,3),(2,3))]
+    return lines,{p['reference'] for p in parts.values()}
+
+
 def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=.005,
-         linear_solver='sparse', abstol=1e-6):
+         linear_solver='sparse', abstol=1e-6, initial_voltages=None):
     if type(fields) is not int or not 4<=fields<=64:raise ValueError('expected 4..64 continuous settling fields')
     if not 1e-9<=max_step_s<=200e-9 or not 1e-5<=reltol<=.005:raise ValueError('invalid integration resolution')
     if linear_solver not in ('sparse','klu') or not math.isfinite(abstol) or not 1e-12<=abstol<=1e-6:
         raise ValueError('invalid linear solver/current tolerance')
+    initial_voltages=dict(initial_voltages or {})
+    for node,value in initial_voltages.items():
+        if node not in INITIAL_VOLTAGE_BOUNDS or type(value) not in (int,float) or not math.isfinite(value) or not INITIAL_VOLTAGE_BOUNDS[node][0]<=value<=INITIAL_VOLTAGE_BOUNDS[node][1]:
+            raise ValueError('invalid warm voltage guess: '+node)
     if selection['status']!='complete':raise ValueError('no static source field')
     graph=assembly.get('magnetic_graph') or json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
     parameters=assembly.get('magnetic_parameters') or json.loads((ROOT/'reference/k7222-11/t3-initial-parameters.json').read_text())
     magnetic,meta=transformer_candidates.compile_model(graph,candidate,parameters,backend='flux')
     thermal=heater_equilibrium(); period=selection['period_ticks']/selection['clock_hz']
     p={k:v[0] for k,v in ASSEMBLY_BOUNDS.items()} | assembly['parameters']
+    yoke=assembly.get('yoke')
+    if yoke is not None:
+        yoke=dict(yoke,electrical={k:p[k] for k in yoke['electrical']})
+        yoke['effective_energy_volume_m3']={a:4*math.pi*1e-7*p[f'yoke_{a}_l']/yoke['field'][f'{a}_tesla_per_amp']**2 for a in ('horizontal','vertical')}
     lines=['Experimental steady-supply K7222 native capture; unqualified hypothesis']
     lines += [f'.param {k}={v:.15g}' for k,v in p.items()]
-    lines += [' '.join([c['reference'],*c['nodes'],c['value']]) for c in assembly['components']]
+    l4,expanded=compensation_network(assembly['components'],p['l4_coupling'])
+    lines += [' '.join([c['reference'],*c['nodes'],c['value']]) for c in assembly['components'] if c['reference'] not in expanded]
+    lines += l4
     lines += assembly['models']+[magnetic,electrothermal.model(initial_rise_k=thermal['temperature_rise_k'],hold_temperature=True)]
     events=selection['events']+[[selection['period_ticks'],*selection['events'][0][1:]]]
     for i,signal in enumerate(('video','bsyn','intens'),1):
@@ -205,15 +247,17 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         'Rcapmid h_rectmid 0 {isolated_cap_leakage}','Ryokeleak hy1 0 {isolated_cap_leakage}',
         f'.options {linear_solver} reltol={reltol} abstol={abstol} vntol=1e-6 method=gear',
         '.save time '+' '.join(PROBES),
+        *(['.ic '+' '.join(f'v({n})={v:.15g}' for n,v in sorted(initial_voltages.items()))] if initial_voltages else []),
         f'.tran {max_step_s} {period*fields:.17g} {period*(fields-4):.17g} {max_step_s}', '.end']
     assumptions=['Ideal 12/22/41/-16 V converter rails; actual 5 V regulator retained.',
         'Periodic repetition of a captured static field initializes the circuit; no cold thermal timeline.',
         'Unmeasured horizontal yoke R/L, tube capacitance and leakage; explicit assembly bounds. Yoke inductance and optical field-per-ampere are not jointly calibrated.',
         'Finite 1 Gohm DC leakage at isolated C19 midpoint and horizontal yoke; not a source component.',
-        'L4 branches use separate lumped inductance; their mutual coupling is unresolved.',
+        'L4 uses a passive three-winding same-terminal-polarity hypothesis; coupling defaults to zero. Factory coupling/polarity remain unresolved.',
         'Exploratory solver tolerances require independent refinement; completion is not acceptance.']
     return '\n'.join(lines)+'\n',dict(candidate=meta,thermal=thermal,period_s=period,
         simulated_fields=fields,retained_fields=4,assumptions=assumptions,
+        yoke=yoke,initial_voltage_guesses=initial_voltages,initialization='DC operating point with optional voltage guesses; not a periodic-state checkpoint',
         max_step_s=max_step_s,reltol=reltol,linear_solver=linear_solver,abstol=abstol,vntol=1e-6,parameters=p,assembly_bounds=ASSEMBLY_BOUNDS)
 
 
@@ -323,6 +367,9 @@ def assess(path, metadata, selection):
         for j in (4,5):
             if max(max(map(abs,field[j::columns])) for field in sampled)>10:
                 failures.append('yoke current outside exploratory +/-10 A screen')
+    periods=sorted(b-a for a,b in zip(hot_edges,hot_edges[1:]))
+    timing=(dict(min_s=periods[0],median_s=periods[len(periods)//2],max_s=periods[-1],
+                 sub_half_line_intervals=sum(v<line/2 for v in periods)) if periods else None)
     phase=None
     expected=3*period/line
     if not expected-2<=len(hot_edges)<=expected+2:
@@ -341,7 +388,7 @@ def assess(path, metadata, selection):
     return dict(format='dac-steady-supply-settling-v1',accepted=not failures,
         failures=failures,complete=complete,phase_samples_per_field=bins,rows=count,simulated_until_s=last['time'] if last else None,
         waveform_relative_rms_error=variation,horizontal_phase_variation_lines=phase,
-        horizontal_edges=len(hot_edges),vertical_edges=len(vertical_edges),
+        horizontal_edges=len(hot_edges),vertical_edges=len(vertical_edges),horizontal_interval_summary=timing,
         heater_power_w=power,thermal_power_relative_error=thermal_error,
         full_monitor_qualified=False,numerical_refinement_verified=False)
 
@@ -387,6 +434,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         if candidate!='auto':
             candidates=[c for c in candidates if c['id']==candidate]
             if not candidates:raise ValueError('unknown transformer candidate')
+        completed=[]
         for c in candidates:
             remaining=deadline-time.monotonic()
             if remaining<=0:report['blockers'].append('whole-run wall budget exhausted');break
@@ -405,6 +453,10 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
                 entry['attempts'].append(attempt)
                 if result['status']=='complete':
                     attempt['settling']=assess(trial/'trace.raw',metadata,selection)
+                    completed.append((c,metadata,trial,attempt))
+                    if attempt['settling']['complete']:
+                        import steady_acceptance
+                        attempt['diagnostics']=steady_acceptance.diagnose(trial,metadata,out/'input.json',assembly['yoke']['field'],deadline)
                 else:
                     attempt['settling']=dict(accepted=False,failures=['solver failed or exceeded the trial wall budget'])
                 entry['settling']=attempt['settling'];save()
@@ -418,9 +470,16 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         if not report['surviving_candidates']:
             report['blockers'].append('No tested connected candidate passed lock and three-field settling.')
         report['selected_candidate']=report['surviving_candidates'][0] if report['surviving_candidates'] else None
+        if completed:
+            import steady_acceptance,steady_trace
+            c,metadata,trial,attempt=next((v for v in completed if v[3]['settling']['accepted']),completed[-1])
+            report['diagnostics']=attempt.get('diagnostics')
+            if attempt['settling']['accepted'] and time.monotonic()<deadline:
+                report['acceptance']=steady_acceptance.finish(assembly,selection,c,metadata,trial,out/'acceptance',runtime,solver or {},deadline)
+                report['blockers'] += report['acceptance']['blockers']
         report['blockers'] += [
-            'Electrical timestep refinement, complete energy closure and trajectory-current load feedback remain unimplemented in this assembly runner.',
-            'Accepted electrical trace export, numerical/spatial image acceptance and reusable frame cache are not connected to this runner.']
+            'Complete circuit energy closure and trajectory-current load feedback remain unresolved.',
+            'Yoke inductance and optical field strength remain independently assumed; no healthy reference is qualified.']
         report['status']='blocked';save();return report
     except Exception as error:
         report.update(status='failed',failure=str(error));save();raise

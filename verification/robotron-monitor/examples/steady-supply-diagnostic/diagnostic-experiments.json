@@ -1,0 +1,388 @@
+{
+  "format": "dac-healthy-reference-investigation-v1",
+  "accepted_warmed_frame": false,
+  "experiments": [
+    {
+      "name": "eight-fields-warm-guesses",
+      "solve": {
+        "status": "complete",
+        "timeout": false,
+        "returncode": 0,
+        "elapsed_s": 350.98245051084086,
+        "runtime": {
+          "format": "dac-monitor-runtime-v1",
+          "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+          "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+          "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-clean/install",
+          "inputs": {
+            "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+            "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+            "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+            "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+          },
+          "configure_flags": [
+            "--enable-xspice",
+            "--with-x=no",
+            "--with-readline=no",
+            "CFLAGS=-O2 -fno-fast-math"
+          ],
+          "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+          "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:48:50 UTC 2026\n******\n",
+          "files": {
+            "install/bin/ngspice": "93f5bd3e105c0e3b70435b7a0b6be6645a3a9fa94e1bdfca778a280406ce76c0",
+            "install/share/ngspice/scripts/spinit": "bcab932f5174d8094b8ec6325b95ddef37ab1a41f746ebcd038c88d856358190",
+            "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+            "install/lib/ngspice/digital.cm": "14da052e3ae197e1893df7d2c561f9c660f2d7bf51e55f7ddb750b77211204fc",
+            "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+            "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+            "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+            "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+            "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+          },
+          "qualification": "experimental-instrumented-runtime",
+          "full_monitor_qualified": false
+        },
+        "deck_sha256": "ed0fcad24312ec90d6533578b04b96b98f7b300b548e4a77cab761998263e4bd",
+        "solver_log_sha256": "7926cef7551e27bf84e5cecccf761526cababa2d94f207d2428be168e4b885de",
+        "full_monitor_qualified": false
+      },
+      "settling": {
+        "format": "dac-steady-supply-settling-v1",
+        "accepted": false,
+        "failures": [
+          "nonperiodic v(eht)",
+          "nonperiodic v(g2)",
+          "nonperiodic v(g4)",
+          "nonperiodic i(lhorizontal)",
+          "nonperiodic v(x1136.xshared.flux_b)",
+          "horizontal flyback count does not match native line timing",
+          "horizontal phase drift exceeds 0.01 line"
+        ],
+        "complete": true,
+        "phase_samples_per_field": 539136,
+        "rows": 623753,
+        "simulated_until_s": 0.156,
+        "waveform_relative_rms_error": {
+          "v(eht)": 0.06133903975738705,
+          "v(g2)": 0.050946930236078186,
+          "v(g4)": 0.0509459776421493,
+          "v(cathode)": 0.00020208267376453943,
+          "i(lhorizontal)": 1.367823623484094,
+          "i(lvertical)": 0.00023502977770816565,
+          "v(x1136.xshared.flux_b)": 1.3695738580907308
+        },
+        "horizontal_phase_variation_lines": 37.12691566295143,
+        "horizontal_edges": 974,
+        "vertical_edges": 3,
+        "heater_power_w": 0.7406776655683603,
+        "thermal_power_relative_error": 1.3810064203312322e-12,
+        "full_monitor_qualified": false,
+        "numerical_refinement_verified": false
+      },
+      "deck_sha256": "ed0fcad24312ec90d6533578b04b96b98f7b300b548e4a77cab761998263e4bd",
+      "horizontal_interval_summary": {
+        "min_s": 5.934430029533311e-05,
+        "median_s": 6.003148360639309e-05,
+        "max_s": 6.271463586067505e-05,
+        "sub_half_line_intervals": 0
+      }
+    },
+    {
+      "name": "tank-1.57-mH-four-fields",
+      "solve": {
+        "status": "complete",
+        "timeout": false,
+        "returncode": 0,
+        "elapsed_s": 177.38399464916438,
+        "runtime": {
+          "format": "dac-monitor-runtime-v1",
+          "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+          "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+          "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-clean/install",
+          "inputs": {
+            "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+            "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+            "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+            "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+          },
+          "configure_flags": [
+            "--enable-xspice",
+            "--with-x=no",
+            "--with-readline=no",
+            "CFLAGS=-O2 -fno-fast-math"
+          ],
+          "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+          "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:48:50 UTC 2026\n******\n",
+          "files": {
+            "install/bin/ngspice": "93f5bd3e105c0e3b70435b7a0b6be6645a3a9fa94e1bdfca778a280406ce76c0",
+            "install/share/ngspice/scripts/spinit": "bcab932f5174d8094b8ec6325b95ddef37ab1a41f746ebcd038c88d856358190",
+            "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+            "install/lib/ngspice/digital.cm": "14da052e3ae197e1893df7d2c561f9c660f2d7bf51e55f7ddb750b77211204fc",
+            "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+            "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+            "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+            "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+            "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+          },
+          "qualification": "experimental-instrumented-runtime",
+          "full_monitor_qualified": false
+        },
+        "deck_sha256": "04fe93204e4e35bbcd1c95a587e8f35360453352efba4392b91da901f646ac38",
+        "solver_log_sha256": "5b659a1d765d857a79b4cc089e70cc0ad9a0475f920d77997326a677c9314086",
+        "full_monitor_qualified": false
+      },
+      "settling": {
+        "format": "dac-steady-supply-settling-v1",
+        "accepted": false,
+        "failures": [
+          "nonperiodic v(eht)",
+          "nonperiodic v(g2)",
+          "nonperiodic v(g4)",
+          "nonperiodic i(lhorizontal)",
+          "nonperiodic v(x1136.xshared.flux_b)",
+          "horizontal flyback count does not match native line timing",
+          "horizontal phase drift exceeds 0.01 line"
+        ],
+        "complete": true,
+        "phase_samples_per_field": 539136,
+        "rows": 620595,
+        "simulated_until_s": 0.078,
+        "waveform_relative_rms_error": {
+          "v(eht)": 0.013987368301591311,
+          "v(g2)": 0.027880865916830345,
+          "v(g4)": 0.027880369942495816,
+          "v(cathode)": 0.00024944657203927674,
+          "i(lhorizontal)": 1.448812703330621,
+          "i(lvertical)": 0.008144746839881057,
+          "v(x1136.xshared.flux_b)": 1.4467208178333324
+        },
+        "horizontal_phase_variation_lines": 12.146982430052162,
+        "horizontal_edges": 924,
+        "vertical_edges": 3,
+        "horizontal_interval_summary": {
+          "min_s": 6.257045386628968e-05,
+          "median_s": 6.327695016974944e-05,
+          "max_s": 6.413567116012736e-05,
+          "sub_half_line_intervals": 0
+        },
+        "heater_power_w": 0.7406776655706431,
+        "thermal_power_relative_error": 1.7010837183306649e-12,
+        "full_monitor_qualified": false,
+        "numerical_refinement_verified": false
+      },
+      "deck_sha256": "04fe93204e4e35bbcd1c95a587e8f35360453352efba4392b91da901f646ac38",
+      "changed_parameter": {
+        "horizontal_tank_l": 0.00157
+      }
+    },
+    {
+      "name": "coupled-l4-production-command",
+      "status": "blocked",
+      "elapsed_s": 612.1067543919198,
+      "wall_budget_s": 612,
+      "blockers": [
+        "No tested connected candidate passed lock and three-field settling.",
+        "Complete circuit energy closure and trajectory-current load feedback remain unresolved.",
+        "Yoke inductance and optical field strength remain independently assumed; no healthy reference is qualified."
+      ],
+      "attempts": [
+        {
+          "fields": 4,
+          "solve": {
+            "status": "complete",
+            "timeout": false,
+            "elapsed_s": 174.17091675382107
+          },
+          "settling": {
+            "format": "dac-steady-supply-settling-v1",
+            "accepted": false,
+            "failures": [
+              "nonperiodic v(eht)",
+              "nonperiodic v(g2)",
+              "nonperiodic v(g4)",
+              "nonperiodic i(lhorizontal)",
+              "nonperiodic v(x1136.xshared.flux_b)",
+              "horizontal phase drift exceeds 0.01 line"
+            ],
+            "complete": true,
+            "phase_samples_per_field": 539136,
+            "rows": 611838,
+            "simulated_until_s": 0.078,
+            "waveform_relative_rms_error": {
+              "v(eht)": 0.03954514425513297,
+              "v(g2)": 0.02662628849624271,
+              "v(g4)": 0.026625803182656983,
+              "v(cathode)": 0.00029856736430122804,
+              "i(lhorizontal)": 0.7411312929857153,
+              "i(lvertical)": 0.008190913516242758,
+              "v(x1136.xshared.flux_b)": 0.7663932628151138
+            },
+            "horizontal_phase_variation_lines": 0.2438468896296797,
+            "horizontal_edges": 936,
+            "vertical_edges": 3,
+            "heater_power_w": 0.7406776655707231,
+            "thermal_power_relative_error": 1.80899739632423e-12,
+            "full_monitor_qualified": false,
+            "numerical_refinement_verified": false
+          },
+          "diagnostics_status": "complete"
+        },
+        {
+          "fields": 8,
+          "solve": {
+            "status": "complete",
+            "timeout": false,
+            "elapsed_s": 347.2212841180153
+          },
+          "settling": {
+            "format": "dac-steady-supply-settling-v1",
+            "accepted": false,
+            "failures": [
+              "nonperiodic v(eht)",
+              "nonperiodic v(g2)",
+              "nonperiodic v(g4)",
+              "nonperiodic i(lhorizontal)",
+              "nonperiodic v(x1136.xshared.flux_b)",
+              "horizontal flyback count does not match native line timing",
+              "horizontal phase drift exceeds 0.01 line"
+            ],
+            "complete": true,
+            "phase_samples_per_field": 539136,
+            "rows": 613126,
+            "simulated_until_s": 0.156,
+            "waveform_relative_rms_error": {
+              "v(eht)": 0.0925016708093575,
+              "v(g2)": 0.10831837349804557,
+              "v(g4)": 0.10871594139414087,
+              "v(cathode)": 0.00020525246132255647,
+              "i(lhorizontal)": 1.45792911664137,
+              "i(lvertical)": 0.0002356258430011167,
+              "v(x1136.xshared.flux_b)": 1.45712350712412
+            },
+            "horizontal_phase_variation_lines": 29.682359944485484,
+            "horizontal_edges": 966,
+            "vertical_edges": 3,
+            "heater_power_w": 0.7406776655683013,
+            "thermal_power_relative_error": 1.4607204334993185e-12,
+            "full_monitor_qualified": false,
+            "numerical_refinement_verified": false
+          },
+          "diagnostics_status": "complete"
+        },
+        {
+          "fields": 16,
+          "solve": {
+            "status": "failed",
+            "timeout": true,
+            "elapsed_s": 43.63586947694421
+          },
+          "settling": {
+            "accepted": false,
+            "failures": [
+              "solver failed or exceeded the trial wall budget"
+            ]
+          },
+          "diagnostics_status": null
+        }
+      ],
+      "changed_parameter": {
+        "l4_coupling": 0.95
+      },
+      "deck": "coupled-l4.cir"
+    },
+    {
+      "name": "tank-1.532-mH-four-fields",
+      "solve": {
+        "status": "complete",
+        "timeout": false,
+        "returncode": 0,
+        "elapsed_s": 175.46854526083916,
+        "runtime": {
+          "format": "dac-monitor-runtime-v1",
+          "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+          "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+          "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-clean/install",
+          "inputs": {
+            "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+            "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+            "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+            "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+          },
+          "configure_flags": [
+            "--enable-xspice",
+            "--with-x=no",
+            "--with-readline=no",
+            "CFLAGS=-O2 -fno-fast-math"
+          ],
+          "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+          "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:48:50 UTC 2026\n******\n",
+          "files": {
+            "install/bin/ngspice": "93f5bd3e105c0e3b70435b7a0b6be6645a3a9fa94e1bdfca778a280406ce76c0",
+            "install/share/ngspice/scripts/spinit": "bcab932f5174d8094b8ec6325b95ddef37ab1a41f746ebcd038c88d856358190",
+            "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+            "install/lib/ngspice/digital.cm": "14da052e3ae197e1893df7d2c561f9c660f2d7bf51e55f7ddb750b77211204fc",
+            "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+            "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+            "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+            "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+            "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+          },
+          "qualification": "experimental-instrumented-runtime",
+          "full_monitor_qualified": false
+        },
+        "deck_sha256": "33d69e787bb13db6cc64894a93c6c1e30e76dc26d2c368eb9395317542941a07",
+        "solver_log_sha256": "258e450f3f0f0521d44dca61f4b190574536e50a80f4af52c906df3fc12811fc",
+        "full_monitor_qualified": false
+      },
+      "settling": {
+        "format": "dac-steady-supply-settling-v1",
+        "accepted": false,
+        "failures": [
+          "nonperiodic v(eht)",
+          "nonperiodic v(g2)",
+          "nonperiodic v(g4)",
+          "nonperiodic i(lhorizontal)",
+          "nonperiodic v(x1136.xshared.flux_b)",
+          "horizontal flyback count does not match native line timing",
+          "horizontal phase drift exceeds 0.01 line"
+        ],
+        "complete": true,
+        "phase_samples_per_field": 539136,
+        "rows": 618654,
+        "simulated_until_s": 0.078,
+        "waveform_relative_rms_error": {
+          "v(eht)": 0.018206794810598136,
+          "v(g2)": 0.05077107055306769,
+          "v(g4)": 0.05077735859864862,
+          "v(cathode)": 0.00022431363373563628,
+          "i(lhorizontal)": 1.5215451793029797,
+          "i(lvertical)": 0.008191293780305678,
+          "v(x1136.xshared.flux_b)": 1.5169962050216834
+        },
+        "horizontal_phase_variation_lines": 3.3355076208706578,
+        "horizontal_edges": 933,
+        "vertical_edges": 3,
+        "horizontal_interval_summary": {
+          "min_s": 6.163792472728413e-05,
+          "median_s": 6.267875046302163e-05,
+          "max_s": 6.339360444218567e-05,
+          "sub_half_line_intervals": 0
+        },
+        "heater_power_w": 0.7406776655706435,
+        "thermal_power_relative_error": 1.701527807540515e-12,
+        "full_monitor_qualified": false,
+        "numerical_refinement_verified": false
+      },
+      "deck_sha256": "33d69e787bb13db6cc64894a93c6c1e30e76dc26d2c368eb9395317542941a07",
+      "changed_parameter": {
+        "horizontal_tank_l": 0.001532
+      }
+    }
+  ],
+  "artifacts": {
+    "diagnostics.json": "32c42a17e247bab79facdfa736fb95f387ebff83c83f54ce4daa00f9cfe26626",
+    "logical-reference.png": "bb20aa83ff4a766d50f8b53c57e6003bfac85f661b74e2e9cd2822fed4ba7141",
+    "scan.svg": "dfe5d4af25381a0a67512d5df0cba1dd20a05f79ce0121f8ec93f981e6f14fd8",
+    "coupled-l4.cir": "b49e61d9f895fdf84ae1eaf275df039881843824f4d583dd549e5698226f536f"
+  }
+}
