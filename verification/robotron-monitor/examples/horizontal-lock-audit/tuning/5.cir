@@ -1,0 +1,116 @@
+Forced control isolation bench; NOT a connected monitor
+.param horizontal_trim_fraction=0.5
+.param horizontal_tank_l=0.001532
+.param horizontal_tank_r=1
+.param horizontal_coupling=0.995
+.param horizontal_driver_l=0.005
+.param horizontal_driver_r=2
+.param horizontal_driver_ratio=3
+.param horizontal_secondary_r=0.3
+.param horizontal_choke_r=0.5
+.param horizontal_choke_l=0.0001
+.param horizontal_linearity_r=0.1
+.param horizontal_linearity_l=2e-05
+.param horizontal_compensation_r=0.1
+.param horizontal_compensation_l=5e-06
+.param horizontal_brightness_fraction=0.5
+.param horizontal_focus_fraction=0.5
+R1000 p12 h_supply 150.0
+C1001 h_supply 0 0.001
+R1002 h_supply h_trimtop 5600.0
+R1003 h_trimbottom h_therm 680.0
+R1004 h_therm 0 470.0
+C1005 h_trim 0 0.0001
+R1006 h_trim h_pd 15000.0
+R1007 h_pd h_control 15000.0
+C1008 h_pd sync_c 6.8e-09
+C1009 h_pd h_control 6.8e-10
+R1010 h_control h_pdreturn 3900.0
+C1011 h_control h_pdreturn 1e-08
+C1012 h_pdreturn h_feedback 1e-07
+C1013 h_control 0 2.2e-08
+R1014 h_control h_reactbase 5600.0
+C1015 h_reactbase h_r19 3.3e-07
+R1016 h_r19 0 180.0
+C1017 h_reactbase h_reactemit 4.7e-06
+R1018 h_reactemit 0 330.0
+C1019 h_reactemit h_r21 1e-05
+R1020 h_r21 0 27.0
+C1021 h_tank h_r21 1e-07
+R1022 h_tankright h_col 120.0
+C1023 h_tank h_base 3.3e-08
+R1024 h_col h_base 2200.0
+C1025 h_col h_base 1e-09
+R1026 h_drivebase 0 27.0
+R1027 p22 h_drivetop 62.0
+C1028 h_drivetop h_drivecol 2.2e-07
+R1029 h_drivetop h_snub 180.0
+C1030 h_snub h_drivecol 4.7e-08
+X1031 h_trimtop h_trim h_trimbottom HORIZONTAL_TRIM
+D1032 h_trim h_pd HOR_D
+D1033 h_control h_pd HOR_D
+Q1034 h_tank h_reactbase h_reactemit HOR_N
+Q1035 h_col h_base h_drivebase HOR_N
+Q1036 h_drivecol h_drivebase 0 HOR_DRIVER_N
+X1037 h_tank h_supply h_tankright HORIZONTAL_TANK
+X1038 h_drivetop h_drivecol h_outputbase 0 HORIZONTAL_DRIVER
+* Bounded engineering families, NOT measured SC237E/SF1260/SF1280 curves.
+.model HOR_D D(IS=1n N=1.5 RS=2 CJO=2p TT=5n)
+.model HOR_N NPN(IS=1e-14 BF=100 VAF=80 CJE=20p CJC=8p TF=2n TR=10n)
+.model HOR_DRIVER_N NPN(IS=1e-12 BF=60 VAF=80 CJE=150p CJC=80p TF=20n TR=100n)
+.subckt HORIZONTAL_TRIM top wiper bottom
+Ra top wiper {1000*(1-horizontal_trim_fraction)}
+Rb wiper bottom {1000*horizontal_trim_fraction}
+.ends HORIZONTAL_TRIM
+* Tapped, phase-inverting tank. Inductance is PER HALF winding.
+.subckt HORIZONTAL_TANK left middle right
+Ra left a {horizontal_tank_r}
+Rb right b {horizontal_tank_r}
+La a middle {horizontal_tank_l}
+Lb middle b {horizontal_tank_l}
+Kcore La Lb {horizontal_coupling}
+.ends HORIZONTAL_TANK
+* Opposite polarity secondary for turn-off transformer drive.
+.subckt HORIZONTAL_DRIVER top collector base ground
+Rp top p {horizontal_driver_r}
+Lp p collector {horizontal_driver_l}
+Rs s base {horizontal_secondary_r}
+Ls ground s {horizontal_driver_l/horizontal_driver_ratio^2}
+Kcore Lp Ls {horizontal_coupling}
+.ends HORIZONTAL_DRIVER
+* Output families and normal-operation ancillary components; no SOA claim.
+.model HOR_Z6 D(IS=1n N=1.5 RS=2 BV=6.2 IBV=1m)
+.model HOR_RECT D(IS=10n N=1.5 RS=.2 CJO=20p TT=100n)
+.model HOR_HV_RECT D(IS=1n N=2 RS=100 CJO=1p TT=100n)
+.model HOR_OUTPUT_N NPN(IS=1e-10 BF=20 VAF=100 CJE=1n CJC=200p TF=100n TR=500n)
+.subckt HORIZONTAL_CHOKE a b
+Rloss a n {horizontal_choke_r}
+Lcore n b {horizontal_choke_l}
+.ends HORIZONTAL_CHOKE
+.subckt HORIZONTAL_LINEARITY a b
+Rloss a n {horizontal_linearity_r}
+Lcore n b {horizontal_linearity_l}
+.ends HORIZONTAL_LINEARITY
+.subckt HORIZONTAL_COMPENSATION a b
+Rloss a n {horizontal_compensation_r}
+Lcore n b {horizontal_compensation_l}
+.ends HORIZONTAL_COMPENSATION
+.subckt HORIZONTAL_BRIGHTNESS low wiper high
+Ra low wiper {1meg*horizontal_brightness_fraction}
+Rb wiper high {1meg*(1-horizontal_brightness_fraction)}
+.ends HORIZONTAL_BRIGHTNESS
+.subckt HORIZONTAL_FOCUS high wiper low
+Ra high wiper {1meg*(1-horizontal_focus_fraction)}
+Rb wiper low {1meg*horizontal_focus_fraction}
+.ends HORIZONTAL_FOCUS
+
+V12 p12 0 12
+V22 p22 0 22
+Vsync sync_c 0 0
+Vfeedback h_feedback 0 0
+Rsecondary h_outputbase 0 1000
+Vcontrol h_control 0 18
+.options reltol=.0001 abstol=1e-12 vntol=1e-8 method=gear
+.save time v(h_drivecol) v(h_control) i(Vcontrol)
+.tran 100n 5m 3m 100n
+.end
