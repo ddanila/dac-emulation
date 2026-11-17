@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+"""Render electrode/yoke solutions through trajectories and phosphor.
+
+This optical backend is not a full-monitor circuit solver. A trace must supply
+beam current entering the modeled gun (after any separately modeled grid capture),
+not an already screen-clipped current. No framebuffer or raster coordinates enter.
+Unqualified inputs remain explicitly optical-bench recordings.
+"""
+import argparse,array,csv,functools,hashlib,heapq,json,math,struct,sys
+from pathlib import Path
+import phosphor,trajectory
+
+FIELDS=('time','anode_v','grid2_v','focus_v','cathode_v','horizontal_a','vertical_a','beam_a')
+UNITS=('s','V','V','V','V','A','A','A')
+LIMITATIONS=[
+ 'Optical backend only: electrical trace provenance does not establish complete monitor circuitry.',
+ 'Reduced parameterized gun/yoke fields and nine-ray source quadrature; not a measured B31G22 field solution.',
+ 'Phosphor efficiency, decay, geometry and exposure are engineering assumptions; optical power is not calibrated luminance.',
+ 'Piecewise-linear electrical input must resolve video/switching events; rendering cannot recover missing bandwidth.',
+ 'Current is defined at the modeled gun entrance, after separately modeled grid capture; no framebuffer pixels or prescribed raster positions.',
+ 'No full-monitor warm-up, flyback or capacitor diagnosis is qualified by this backend.']
+
+
+def digest(data):return hashlib.sha256(data).hexdigest()
+
+
+def read_trace(path):
+    """Strict SI CSV import for local engineering traces, never inferred columns."""
+    if Path(path).stat().st_size>256*1024*1024:raise ValueError('trace file budget exceeded')
+    with Path(path).open(newline='') as stream:
+        reader=csv.reader(stream)
+        if tuple(next(reader,()))!=FIELDS:raise ValueError('unexpected electrical trace fields')
+        rows=[]
+        for fields in reader:
+            row=tuple(float(v) for v in fields)
+            if len(row)!=len(FIELDS) or not all(math.isfinite(v) and abs(v)<=1e12 for v in row):raise ValueError('invalid electrical sample')
+            if row[0]<0 or row[0]>3600 or row[-1]<0 or rows and row[0]<=rows[-1][0]:raise ValueError('invalid electrical time/current')
+            rows.append(row)
+            if len(rows)>1000000:raise ValueError('trace row budget exceeded')
+    if len(rows)<2 or rows[-1][0]-rows[0][0]>1:raise ValueError('expected a trace window of at most one second')
+    return rows
+
+
+class Renderer:
+    def __init__(self,*,surface=None,field=None,step_m=.0002,max_dt_s=1/27648000,
+                 movement_pixels=.25,bundle_budget=2000000):
+        self.surface=phosphor.Surface(surface);self.field=trajectory.parameters(field)
+        for key in ('screen_width_m','screen_height_m','screen_radius_m'):
+            if self.surface.p[key]!=self.field[key]:raise ValueError('electrical/optical screen geometry mismatch')
+        if not 1e-6<=step_m<=.001 or not 1e-10<=max_dt_s<=.001 or not 0<movement_pixels<=.5:
+            raise ValueError('invalid optical resolution')
+        if type(bundle_budget) is not int or not 1<=bundle_budget<=2000000:raise ValueError('invalid ray budget')
+        self.step_m=step_m;self.max_dt=max_dt_s;self.movement=movement_pixels;self.budget=bundle_budget
+        self.bundles=0;self.events=[];self.serial=0;self.frames=[];self.rays=[]
+        self.started=False
+        self.incident_j=0.;self.intercepted_j=0.;self.max_energy_error_ev=0.;self.samples=0
+        self._bundle=functools.lru_cache(maxsize=512)(self._solve)
+
+    def _solve(self,anode,g2,focus,ih,iv):
+        self.bundles+=1
+        if self.bundles>self.budget:raise ValueError('trajectory budget exceeded; no accepted render')
+        result=trajectory.bundle(anode,g2,focus,ih,iv,step_m=self.step_m,overrides=self.field)
+        for ray in result['rays']:
+            if ray['reason']=='integration budget':raise ValueError('trajectory did not finish')
+            if ray['energy_error_ev']>max(1.,.01*ray['impact_energy_ev']):raise ValueError('trajectory energy error exceeded')
+            self.max_energy_error_ev=max(self.max_energy_error_ev,ray['energy_error_ev'])
+        return result
+
+    def bundle(self,row):
+        # All electrode potentials share one electrical reference. The trajectory
+        # model begins at cathode potential zero; subtract it exactly once.
+        return self._bundle(row[1]-row[4],row[2]-row[4],row[3]-row[4],row[5],row[6])
+
+    def _drain(self,time):
+        while self.events and self.events[0][0]<=time:
+            when,_,x,y,joules=heapq.heappop(self.events)
+            self.surface.deposit(when,x,y,joules)
+
+    def _segment(self,a,b,depth=0):
+        dt=b[0]-a[0];mid=tuple((x+y)/2 for x,y in zip(a,b))
+        if max(a[-1],b[-1])==0:return
+        if depth>32:raise ValueError('optical subdivision did not converge')
+        if dt>self.max_dt:
+            self._segment(a,mid,depth+1);self._segment(mid,b,depth+1);return
+        left,center,right=(self.bundle(r) for r in (a,mid,b))
+        scale=(self.surface.scale,self.surface.scale)
+        displacement=0.;changed=False
+        for ra,rm,rb in zip(left['rays'],center['rays'],right['rays']):
+            changed |= len({r['landed'] for r in (ra,rm,rb)})>1
+            if all(r['landed'] for r in (ra,rm,rb)):
+                displacement=max(displacement,math.hypot((ra['x_m']-rb['x_m'])*scale[0],(ra['y_m']-rb['y_m'])*scale[1]),
+                                 2*math.hypot((rm['x_m']-(ra['x_m']+rb['x_m'])/2)*scale[0],(rm['y_m']-(ra['y_m']+rb['y_m'])/2)*scale[1]))
+        if (changed or displacement>self.movement) and dt>1e-12:
+            self._segment(a,mid,depth+1);self._segment(mid,b,depth+1);return
+        self.samples+=1
+        for ray in center['rays']:
+            joules=mid[-1]*dt*max(ray['impact_energy_ev'],0)/len(center['rays'])
+            self.incident_j+=joules
+            if ray['landed']:
+                self.serial+=1
+                heapq.heappush(self.events,(mid[0]+ray['flight_s'],self.serial,ray['x_m'],ray['y_m'],joules))
+            else:self.intercepted_j+=joules
+        # Ordered arrivals account for flight time without shifting the input clock.
+        self._drain(a[0])
+
+    def render(self,rows,frame_times):
+        if self.started:raise ValueError('renderer already used; continuation is not implemented')
+        self.started=True
+        if not 2<=len(rows)<=1000000:raise ValueError('invalid electrical row count')
+        if any(len(r)!=len(FIELDS) or not all(math.isfinite(v) and abs(v)<=1e12 for v in r) or r[-1]<0 for r in rows) or any(b[0]<=a[0] for a,b in zip(rows,rows[1:])):
+            raise ValueError('invalid electrical samples')
+        start,end=rows[0][0],rows[-1][0]
+        if not 0<=start<end<=3600 or end-start>1:raise ValueError('invalid electrical window')
+        if len(frame_times)<2 or not all(math.isfinite(t) and start<=t<=end for t in frame_times) or frame_times[0]!=start or frame_times[-1]!=end or any(b<=a for a,b in zip(frame_times,frame_times[1:])):
+            raise ValueError('frame times must span the electrical window')
+        if len(frame_times)>120 or len(frame_times)*self.surface.p['width']*self.surface.p['height']*5>64*1024*1024:
+            raise ValueError('frame budget exceeded')
+        self.surface=phosphor.Surface(self.surface.p,start_s=start)
+        cursor=0
+        for ft in frame_times:
+            while cursor<len(rows)-1 and rows[cursor][0]<ft:
+                a,b=rows[cursor:cursor+2]
+                stop=min(b[0],ft)
+                fraction=(stop-a[0])/(b[0]-a[0]);cut=tuple(x+fraction*(y-x) for x,y in zip(a,b))
+                self._segment(a,cut)
+                if stop==b[0]:cursor+=1
+                else:rows=rows[:cursor]+[cut]+rows[cursor+1:]
+            self._drain(ft)
+            linear,display=self.surface.snapshot(ft)
+            self.frames.append(dict(time=ft,linear=linear,display=display))
+            row=rows[min(cursor,len(rows)-1)];bundle=self.bundle(row)
+            if len(self.rays)<32:
+                ray=bundle['rays'][0]
+                self.rays.append(dict(time=ft,landed=ray['landed'],reason=ray['reason'],points=ray['points']))
+        return self.frames
+
+    def report(self):
+        return dict(parameters=self.surface.p,field_parameters=self.field,trajectory_step_m=self.step_m,
+                    max_interval_s=self.max_dt,movement_limit_pixels=self.movement,bundles=self.bundles,
+                    emission_intervals=self.samples,energy=self.surface.balance()|dict(
+                        terminal_kinetic_j=self.incident_j,intercepted_kinetic_j=self.intercepted_j,
+                        in_flight_kinetic_j=sum(e[-1] for e in self.events)),max_trajectory_energy_error_ev=self.max_energy_error_ev)
+
+
+def package(path,rows,renderer,metadata):
+    """V3 optical-bench replay. This API cannot assert full-monitor qualification."""
+    chunks=[];payload=bytearray()
+    def append(data,description):
+        chunks.append(description|dict(offset=len(payload),bytes=len(data),sha256=digest(data)));payload.extend(data)
+    for frame in renderer.frames:
+        append(frame['display'],dict(kind='frame',width=renderer.surface.p['width'],height=renderer.surface.p['height'],time=frame['time']))
+    # Trace reduction affects viewer probes only, never optical integration.
+    stride=max(1,math.ceil((len(rows)-1)/250000));preview=rows[::stride]
+    if preview[-1]!=rows[-1]:preview.append(rows[-1])
+    values=array.array('d',(v for row in preview for v in row))
+    if sys.byteorder!='little':values.byteswap()
+    append(values.tobytes(),dict(kind='trace',rows=len(preview),fields=[dict(name=n,unit=u,source_id='electrical-trace:'+n) for n,u in zip(FIELDS,UNITS)]))
+    report=metadata|dict(format='dac-crt-replay',version=3,name='Electrical trace → electron optics → phosphor',
+        qualification='experimental-optical-bench',model_id='crt-electrical-optical-backend',
+        full_monitor_qualified=False,start_time=rows[0][0],end_time=rows[-1][0],duration=rows[-1][0]-rows[0][0],
+        components=[],limitations=LIMITATIONS,render=renderer.report(),rays=renderer.rays,chunks=chunks,
+        display=dict(transfer='srgb',exposure_m2_per_w=renderer.surface.p['exposure_m2_per_w'],
+                     screen_width_m=renderer.surface.p['screen_width_m'],screen_height_m=renderer.surface.p['screen_height_m'],
+                     pixel_aspect=1,screen_scale_pixels_per_m=renderer.surface.scale,
+                     comparison_key=digest(json.dumps(renderer.surface.p,sort_keys=True).encode())))
+    header=json.dumps(report,separators=(',',':'),allow_nan=False).encode()
+    if len(header)>1024*1024 or 12+len(header)+len(payload)>64*1024*1024:raise ValueError('replay budget exceeded')
+    with Path(path).open('xb') as stream:stream.write(b'DACCRT3\n'+struct.pack('<I',len(header))+header+payload)
+    return report
+
+
+def run(trace,output,*,frame_count=2,step_m=.0002,max_dt_s=1/27648000,surface=None):
+    output=Path(output);output.mkdir(parents=True,exist_ok=False)
+    result=dict(status='incomplete',qualification='experimental-optical-bench',full_monitor_qualified=False)
+    def save():(output/'render.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
+    save()
+    try:
+        if type(frame_count) is not int or not 2<=frame_count<=120:raise ValueError('invalid frame count')
+        rows=read_trace(trace);source=Path(trace).read_bytes();(output/'input.csv').write_bytes(source)
+        inputs={name:(Path(__file__).parent/name).read_bytes() for name in ('beam_render.py','trajectory.py','phosphor.py','optics.py')}
+        for name,data in inputs.items():(output/name).write_bytes(data)
+        renderer=Renderer(surface=surface,step_m=step_m,max_dt_s=max_dt_s)
+        start,end=rows[0][0],rows[-1][0]
+        times=[start+(end-start)*i/(frame_count-1) for i in range(frame_count)];times[-1]=end
+        renderer.render(rows,times)
+        hashes={name:digest(data) for name,data in inputs.items()}|{'input.csv':digest(source)}
+        for i,frame in enumerate(renderer.frames):
+            phosphor.png(output/f'frame-{i:03d}.png',renderer.surface.p['width'],renderer.surface.p['height'],frame['display'])
+            linear=frame['linear']
+            if sys.byteorder!='little':linear.byteswap()
+            with (output/f'frame-{i:03d}.f32').open('xb') as stream:stream.write(linear.tobytes())
+        report=package(output/'replay.pending',rows,renderer,dict(hashes=hashes))
+        result.update(status='complete',hashes=hashes,render=renderer.report(),limitations=LIMITATIONS,
+                      linear_format=dict(dtype='little-endian float32',unit='W/m^2',order='row-major',width=renderer.surface.p['width'],height=renderer.surface.p['height']))
+        save()
+        (output/'replay.pending').rename(output/'replay.mcrt')
+        return report
+    except (ValueError,OSError,ArithmeticError) as error:
+        result.update(status='incomplete',failure=str(error));save();raise
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--trace',type=Path,required=True);parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--frames',type=int,default=2);parser.add_argument('--trajectory-step',type=float,default=.0002)
+    parser.add_argument('--max-interval',type=float,default=1/27648000)
+    args=parser.parse_args();run(args.trace,args.output,frame_count=args.frames,step_m=args.trajectory_step,max_dt_s=args.max_interval)

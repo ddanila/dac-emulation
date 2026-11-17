@@ -86,6 +86,8 @@ class SignalElectricalTests(unittest.TestCase):
             report=json.loads((root/'base/report.json').read_text())
             self.assertFalse(report['coverage']['full_monitor_qualified'])
             self.assertIn('012-6931:C12',{c.get('source_id') for c in report['components']})
+            diode=next(c for c in report['components'] if c.get('source_id')=='012-6931:V6')
+            self.assertEqual(diode['nodes'],['vertical_trigger','vf_diode'])
             self.assertEqual(report['input']['qualification'],'synthetic-test-pattern')
             self.assertTrue((root/'base/replay.mcrt').read_bytes().startswith(b'DACCRT2\n'))
             for args in [dict(sections=3),dict(step=1e-12),dict(changes={'driver_high':99}),dict(case='flyback')]:

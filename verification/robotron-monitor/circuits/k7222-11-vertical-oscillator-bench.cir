@@ -1,0 +1,5 @@
+* Separate DC bench: actual converter, sync and integrator are not connected.
+Vsupply p12 0 PWL(0 0 1u 12)
+Ctrigger vertical_trigger 0 1n
+* Ctrigger stands for C12 from the separate sync-filter sheet in this unit bench.
+* No active source at either timing node; startup and periods arise from circuit.

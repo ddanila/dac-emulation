@@ -67,7 +67,7 @@ def ray(anode,grid2,focus,ih,iv,*,origin=(0.,0.),slope=(0.,0.),step_m=.0002,over
     p=parameters(overrides)
     if not all(math.isfinite(v) for v in (anode,grid2,focus,ih,iv,*origin,*slope)) or not 1e-6<=step_m<=.001:
         raise ValueError('invalid ray inputs or step')
-    result=dict(landed=False,reason='low acceleration',points=[],flight_s=0.,energy_error_ev=0.)
+    result=dict(landed=False,reason='low acceleration',points=[],flight_s=0.,energy_error_ev=0.,impact_energy_ev=0.)
     if anode<=100: return result
     gamma=1+p['initial_energy_ev']/REST_EV
     u=math.sqrt((gamma-1)*(gamma+1))
@@ -140,7 +140,8 @@ def ray(anode,grid2,focus,ih,iv,*,origin=(0.,0.),slope=(0.,0.),step_m=.0002,over
         if index%5==0:points.append([z,state[0],state[1]])
     else:result['reason']='integration budget'
     points.append([z,state[0],state[1]])
-    result.update(points=points,flight_s=state[5],energy_error_ev=max_error)
+    result.update(points=points,flight_s=state[5],energy_error_ev=max_error,
+                  impact_energy_ev=REST_EV*(math.sqrt(1+sum(v*v for v in state[2:5]))-1))
     return result
 
 

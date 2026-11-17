@@ -1,0 +1,77 @@
+{
+  "format": "dac-monitor-profile-v1",
+  "id": "k7222-11-vertical-oscillator",
+  "name": "012-6931 V5/V11 vertical oscillator bench",
+  "qualification": "bounded-stage",
+  "schematic": "circuits/k7222-11-vertical-oscillator.kicad_sch",
+  "models": "circuits/k7222-11-vertical-oscillator-models.cir",
+  "bench": "circuits/k7222-11-vertical-oscillator-bench.cir",
+  "inventory": "reference/k7222-11/inventory.json",
+  "board": "012-6931",
+  "parameters": {
+    "vertical_trim": {
+      "nominal": 50000,
+      "minimum": 1000,
+      "maximum": 100000,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "R22 original 100 kohm rheostat; initial midpoint setting, not a frequency calibration."
+    },
+    "vertical_bf": {
+      "nominal": 60,
+      "minimum": 18,
+      "maximum": 150,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Uncalibrated silicon NPN family gain, not measured 1SA20C curves."
+    }
+  },
+  "probes": [
+    {
+      "name": "supply",
+      "expression": "v(vertical_supply)",
+      "unit": "V",
+      "source_id": "012-6931:C16"
+    },
+    {
+      "name": "timing",
+      "expression": "v(vertical_timing)",
+      "unit": "V",
+      "source_id": "012-6931:V5:C"
+    },
+    {
+      "name": "base",
+      "expression": "v(vertical_base)",
+      "unit": "V",
+      "source_id": "012-6931:V11:B"
+    },
+    {
+      "name": "pulse",
+      "expression": "v(vertical_pulse)",
+      "unit": "V",
+      "source_id": "012-6931:V11:C"
+    },
+    {
+      "name": "trigger",
+      "expression": "v(vertical_trigger)",
+      "unit": "V",
+      "source_id": "012-6931:V5:B"
+    }
+  ],
+  "limitations": [
+    "Isolated vertical generator bench; no complete monitor or rendered picture.",
+    "External 12 V rail; no converter, sync filter, MAA723 integrator, output stage or yoke connected.",
+    "1SA20C represented by a generic bounded NPN; rheostat at assumed setting.",
+    "C12 is represented by an explicit 1 nF external load in this unit bench; do not duplicate when assembling the filter."
+  ],
+  "source_pages": [
+    {
+      "file": "older.pdf",
+      "page": 9
+    },
+    {
+      "file": "older-operation.pdf",
+      "page": 13
+    }
+  ]
+}
