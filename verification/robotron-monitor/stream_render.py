@@ -35,10 +35,10 @@ def run(trace,output,frame_times,*,surface=None,backend='compiled',row_budget=10
         before=file_digest(trace);shutil.copyfile(trace,output/'input.csv')
         if file_digest(output/'input.csv')!=before:raise ValueError('electrical trace changed during import')
         hashes={'input.csv':before}
-        for name,digest in beam.model_hashes().items():
+        for name,digest in (beam.model_hashes()|{'stream_render.py':file_digest(__file__)}).items():
             shutil.copyfile(Path(beam.__file__).parent/name,output/name);hashes[name]=digest
         renderer=beam.Renderer(surface=surface,backend=backend,bundle_budget=bundle_budget)
-        chunks=[];payload_bytes=0;frame_count=0;preview=[];stride=1;row_count=0;last=None
+        chunks=[];payload_bytes=0;frame_count=0;preview=[];stride=1;row_count=0;last=None;linear_frames=[]
         with (output/'payload.pending').open('xb') as payload:
             def append(data,description):
                 nonlocal payload_bytes
@@ -52,6 +52,8 @@ def run(trace,output,frame_times,*,surface=None,backend='compiled',row_budget=10
                 linear=array.array('f',frame['linear'])
                 if sys.byteorder!='little':linear.byteswap()
                 with (output/f'frame-{frame_count:03d}.f32').open('xb') as stream:stream.write(linear.tobytes())
+                linear_frames.append(dict(path=f'frame-{frame_count:03d}.f32',time_s=frame['time'],
+                    sha256=file_digest(output/f'frame-{frame_count:03d}.f32')))
                 append(frame['display'],dict(kind='frame',width=w,height=h,time=frame['time']))
                 frame_count+=1
             def rows():
@@ -87,6 +89,7 @@ def run(trace,output,frame_times,*,surface=None,backend='compiled',row_budget=10
         with (output/'optical-state.json').open('x') as stream:json.dump(state,stream,separators=(',',':'),allow_nan=False)
         result.update(status='complete',frames=frame_count,electrical_rows=row_count,preview_rows=len(preview),
                       hashes=hashes,render=renderer.report(),limitations=beam.LIMITATIONS,
+                      linear_frames=linear_frames,surface_parameters=p.copy(),
                       linear_format=dict(dtype='little-endian float32',unit='W/m^2',order='row-major',width=p['width'],height=p['height']))
         save();(output/'replay.pending').rename(output/'replay.mcrt')
         (output/'payload.pending').unlink()

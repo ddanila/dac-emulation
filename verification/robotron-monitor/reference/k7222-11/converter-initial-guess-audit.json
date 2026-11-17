@@ -1,0 +1,188 @@
+{
+  "qualification": "initial-guess-release-experiment",
+  "full_monitor_qualified": false,
+  "complete_state_restart": false,
+  "source_sha256": "507aa12780503cc3eae8ed4d07dceaa1efaf28f07b6d978b0b15788880e1e417",
+  "deck_sha256": "eaab66a0b948ad8fe6ee3ba68f3a8af8a0c20c20c3e9c658a5183220ac52818a",
+  "runtime_sha256": "b4f7189711a7a148b17cc3f9e42fcb5279ea015554bc5aa96ea8d5459bab7c8e",
+  "timeout_s": 60,
+  "target_end_s": 0.005,
+  "exit_code": 124,
+  "elapsed_s": 60.00132615072653,
+  "format": "dac-monitor-initial-guess-audit-v1",
+  "deck": "converter-step-audit-decks/initial-guess-release.cir",
+  "profile": {
+    "format": "dac-monitor-solver-profile-v1",
+    "completed_endpoint": false,
+    "full_monitor_qualified": false,
+    "accepted_rows": 294331,
+    "declared_rows": 0,
+    "expected_end_s": 0.005,
+    "last_sample": {
+      "time": 0.0007413576620230097,
+      "v(x816.cycle_stop)": 7.820640055322227e-76,
+      "v(x816.pwm)": 1.0000009452286582e-09,
+      "v(x816.reset)": 0.9999999989999997,
+      "v(x816.ready)": 0.9999999989999997,
+      "v(x816.command)": 1.000000301723821e-09,
+      "v(x822.xcore.flux_b)": 0.18746561873736892,
+      "v(p41)": 38.46791393703902,
+      "v(p22)": 22.052311800900736,
+      "v(n16)": -15.887281745729336,
+      "v(switch_collector)": 23.45345752024634,
+      "v(converter_cx)": 2.4430363099642767,
+      "v(converter_soft)": 4.399781420698419,
+      "v(converter_qe)": -0.06905153773536477,
+      "i(vsupply)": -2.2021010627877615
+    },
+    "trailing_bytes": 88,
+    "raw_sha256": "7eb6269e2c1ec48f2c06a8b6789d4bf3d437e7dec822bf081f250cd9f2d50f8b",
+    "smallest_step": {
+      "dt_s": 1.150918038173368e-12,
+      "before": {
+        "time": 0.00013794573300187344,
+        "v(x816.cycle_stop)": 0.9999745992758688,
+        "v(x816.pwm)": 4.545815792146691e-208,
+        "v(x816.reset)": 0.00011592344921323994,
+        "v(x816.ready)": 0.9999999989999999,
+        "v(x816.command)": 0.0,
+        "v(x822.xcore.flux_b)": 0.26641165179983295,
+        "v(p41)": 38.311447049773044,
+        "v(p22)": 22.005136020145247,
+        "v(n16)": -15.967498950519683,
+        "v(switch_collector)": 24.987066661344247,
+        "v(converter_cx)": 5.696120797876598,
+        "v(converter_soft)": 4.3999560085652805,
+        "v(converter_qe)": -0.05873811139995977,
+        "i(vsupply)": -1.777056245416901
+      },
+      "after": {
+        "time": 0.00013794573415279148,
+        "v(x816.cycle_stop)": 0.9999745888514541,
+        "v(x816.pwm)": 4.545554214129677e-208,
+        "v(x816.reset)": 0.00011598492628008049,
+        "v(x816.ready)": 0.9999999989999999,
+        "v(x816.command)": 0.0,
+        "v(x822.xcore.flux_b)": 0.26641164121485894,
+        "v(p41)": 38.31144707710894,
+        "v(p22)": 22.0051360198942,
+        "v(n16)": -15.967498815855484,
+        "v(switch_collector)": 24.987013793056374,
+        "v(converter_cx)": 5.696120956483628,
+        "v(converter_soft)": 4.399956008565072,
+        "v(converter_qe)": -0.05874180314411648,
+        "i(vsupply)": -1.777056243437471
+      }
+    },
+    "millisecond_bins": {
+      "0": {
+        "steps": 294330,
+        "min_dt_s": 1.150918038173368e-12,
+        "max_dt_s": 3.821394458009018e-07,
+        "subnanosecond_steps": 22257
+      }
+    },
+    "rejected_steps": null,
+    "rejected_steps_note": "Requires instrumented solver counters; not inferable from accepted raw samples.",
+    "log_sha256": "1fcf3a642d49179cbfe6ac81e318a4b9ccc18b820af359f3257ec3e564e170d3"
+  },
+  "interpretation": "Incomplete transient release of guessed node voltages, not a physical-state restart or periodic solution. No regulation, cold-start equivalence, or performance acceptance established. The history reset trial also times out before the requested endpoint; neither implementation is qualified by these runs.",
+  "changes": [
+    "Supply starts at its final DC value instead of a one millisecond ramp.",
+    "Initial node constraints seed external reservoir, soft-start and controller voltages; all device equations and numeric parameters remain unchanged."
+  ],
+  "limitations": [
+    "A single bounded trial, not a comparative performance benchmark.",
+    "The complete physical and solver state was not initialized to a periodic orbit.",
+    "No connected horizontal or CRT load."
+  ],
+  "history_reset_trial": {
+    "qualification": "initial-guess-release-experiment",
+    "full_monitor_qualified": false,
+    "complete_state_restart": false,
+    "source_sha256": "eaab66a0b948ad8fe6ee3ba68f3a8af8a0c20c20c3e9c658a5183220ac52818a",
+    "deck_sha256": "707b9f588391ead42d4d422dae3da91906b1e0c34bcd76e0f1a4675675b7dba4",
+    "runtime_sha256": "b4f7189711a7a148b17cc3f9e42fcb5279ea015554bc5aa96ea8d5459bab7c8e",
+    "timeout_s": 60,
+    "target_end_s": 0.005,
+    "exit_code": 124,
+    "elapsed_s": 60.001442646142095,
+    "deck": "converter-step-audit-decks/history-initial-guess-release.cir",
+    "profile": {
+      "format": "dac-monitor-solver-profile-v1",
+      "completed_endpoint": false,
+      "full_monitor_qualified": false,
+      "accepted_rows": 310408,
+      "declared_rows": 0,
+      "expected_end_s": 0.005,
+      "last_sample": {
+        "time": 0.0003703129272422249,
+        "v(x816.cycle_stop)": 0.0,
+        "v(x816.pwm)": 0.9999999969388461,
+        "v(x816.reset)": 0.0,
+        "v(x816.ready)": 0.9999999990000008,
+        "v(x816.command)": 0.9999999969388464,
+        "v(x822.xcore.flux_b)": 0.29785510097724105,
+        "v(p41)": 38.07100855421878,
+        "v(p22)": 22.010524735446115,
+        "v(n16)": -15.936916504552213,
+        "v(switch_collector)": 0.7937073890125791,
+        "v(converter_cx)": 3.6800132939190275,
+        "v(converter_soft)": 4.3998879577704315,
+        "v(converter_qe)": 4.256797325980861,
+        "i(vsupply)": -2.0796542413094983
+      },
+      "trailing_bytes": 64,
+      "raw_sha256": "cdf71e27a912a1f7773904bc7deee61756443f8d5f5abf0eb9f5e4b6346b60ef",
+      "smallest_step": {
+        "dt_s": 1.367426679700634e-13,
+        "before": {
+          "time": 0.00017642533105056656,
+          "v(x816.cycle_stop)": 0.0,
+          "v(x816.pwm)": -3.9560743698945303e-19,
+          "v(x816.reset)": 1.0,
+          "v(x816.ready)": 0.9999999990000005,
+          "v(x816.command)": -3.5128150388530344e-17,
+          "v(x822.xcore.flux_b)": 0.23186066846796777,
+          "v(p41)": 38.29485649439486,
+          "v(p22)": 22.006938221680976,
+          "v(n16)": -15.96224078263598,
+          "v(switch_collector)": 23.558697080580938,
+          "v(converter_cx)": 1.2999999999999992,
+          "v(converter_soft)": 4.399945260351382,
+          "v(converter_qe)": -0.08931611865680929,
+          "i(vsupply)": -1.844382720603889
+        },
+        "after": {
+          "time": 0.00017642533118730923,
+          "v(x816.cycle_stop)": 0.0,
+          "v(x816.pwm)": 4.674607375619756e-11,
+          "v(x816.reset)": 0.9999931628666014,
+          "v(x816.ready)": 0.9999999990000006,
+          "v(x816.command)": 6.837133377592813e-06,
+          "v(x822.xcore.flux_b)": 0.2318606673901783,
+          "v(p41)": 38.29485649100286,
+          "v(p22)": 22.006938221649055,
+          "v(n16)": -15.962240209860639,
+          "v(switch_collector)": 23.558693046138167,
+          "v(converter_cx)": 1.2999998176778145,
+          "v(converter_soft)": 4.399945260351358,
+          "v(converter_qe)": -0.0893165181621754,
+          "i(vsupply)": -1.8443827237241806
+        }
+      },
+      "millisecond_bins": {
+        "0": {
+          "steps": 310407,
+          "min_dt_s": 1.367426679700634e-13,
+          "max_dt_s": 2.2660129210994202e-07,
+          "subnanosecond_steps": 143046
+        }
+      },
+      "rejected_steps": null,
+      "rejected_steps_note": "Requires instrumented solver counters; not inferable from accepted raw samples.",
+      "log_sha256": "6cf16a3f90bd1884ccb882259da8834c6a8e4a6600f069974b74dfb818d23134"
+    },
+    "change": "Only the reset-comparator implementation is replaced by controller_history.experimental_model; all other conditions match initial-guess-release.cir."
+  }
+}

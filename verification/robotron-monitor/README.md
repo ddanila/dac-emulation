@@ -858,3 +858,65 @@ both short of the requested 120 ms. Added 10 ohm winding-capacitance loss was
 screened separately and together with the history reset, but neither 120-second
 screen reached the requested endpoint. These runs establish no regulation or
 performance acceptance; no magnetic-loss change is adopted.
+
+### Linear-image acceptance
+
+`stream_render.py` now archives each linear frame's filename, absolute time and
+SHA-256, together with the complete phosphor surface parameters and exporter
+source. `image_acceptance.py` consumes these archives directly. Old archives
+without this metadata must be regenerated; PNGs cannot substitute for linear
+irradiance.
+
+```
+python3 verification/robotron-monitor/image_acceptance.py \
+  --render build/monitor/render-base --refined build/monitor/render-fine \
+  --first-frame 10 --output build/monitor/image-acceptance.json
+```
+
+Select the first of the sixteen output frames explicitly, after pre-roll. The
+gate checks all 120 field pairs in both runs, so gradual drift cannot pass merely
+because neighboring fields look similar. Its error is the spherical-cell-area
+weighted L2 difference divided by the smaller image norm, with a strict 2% limit.
+There is no translation, cropping, brightness fitting or display-space comparison.
+Zero, negative and nonfinite images, truncated files, altered input/model/frame
+hashes, missing frames and irregular times fail closed. Processing retains only a
+bounded number of images, rather than loading a whole recording.
+
+The finer run must use the identical archived electrical trace, optical model,
+physical screen, phosphor parameters and frame times, with a uniform integer
+resolution multiplier of at least two. Fine cells are aggregated onto coarse
+cells by conserved emitted optical power using their curved surface areas. Every
+corresponding frame must meet the same 2% error limit. Both temporal and spatial
+checks must pass; omitting the finer run leaves acceptance false.
+
+This is an optical-image gate only. It cannot establish original firmware
+provenance, electrical or trajectory timestep refinement, thermal equilibrium,
+eight stable settling fields, sufficient original pre-roll, or a connected
+monitor. Those remain separate requirements. `full_monitor_qualified` and
+`specimen_validated` stay false even when image checks pass. Tests exercise an
+actual renderer export with accumulating phosphor energy and confirm rejection,
+as well as brightness drift, constant-average image motion and refinement errors.
+
+The steady-state initialization implementation is still outstanding. Inspection
+of the pinned ngspice-47 `dcpss.c` shows convergence tests on node/branch solution
+differences and period adjustment; that is not evidence of complete physical
+state restart or the proposed Newton–Krylov solve. `CKTstates`, integration and
+solution histories, time/source phase, breakpoints, device-private state and
+XSPICE state need an explicit coverage audit and uninterrupted-versus-restored
+tests before an accelerated initialization can be accepted. No PSS or node-only
+restart is enabled by these image changes.
+
+An additional bounded converter experiment starts the supply at DC and seeds
+reservoir, soft-start and controller voltages near an assumed operating point,
+then releases them into the unchanged transient equations. It times out after
+60 seconds at 0.741358 ms of a requested 5 ms, with 294,331 accepted samples.
+`reference/k7222-11/converter-initial-guess-audit.json` records the deck, pinned
+runtime, log and raw hashes and endpoint profile; the self-contained deck is in
+`converter-step-audit-decks/initial-guess-release.cir`. This is a failed bounded
+initial-guess trial, not a state restart, regulation result or comparative
+performance benchmark. It does not establish that precharging guessed rails
+solves the converter bottleneck. No default circuit/model parameters change.
+Repeating the same guess with only the experimental history reset substituted
+also times out at 60 seconds, reaching 0.370313 ms with 310,408 accepted samples.
+That trial and its separate deck are included in the same evidence record.
+Neither controller reaches the requested endpoint or establishes regulation.
