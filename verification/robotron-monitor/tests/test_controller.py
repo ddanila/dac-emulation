@@ -15,6 +15,43 @@ import author_schematic
 
 
 class ControllerTests(unittest.TestCase):
+    def test_transient_current_trip_latches_and_hard_trip_recovers(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            def solve(name,sense,stop=.0008):
+                out=root/name;out.mkdir()
+                circuit=f'''Vinput supply 0 PWL(0 0 50u 12)
+Rqc supply qc 100
+Rload qe 0 100
+Vfeedback fb 0 3.69
+Vdfm_level dfm_level 0 4
+Rsoft dfm_level dfm 10000
+Csoft dfm 0 10n
+Ven en 0 8.4
+Vmod modulation 0 8.4
+Vcm cm 0 {sense}
+Rtim rx 0 6400
+Ctim cx 0 6.4n
+Cga ga 0 22n
+Xcontrol supply vz fb ga modulation dfm rx cx vz en cm 0 0 qe qc 0 TDA1060_FUNCTIONAL
+'''
+                profile=dict(name='Protection transient bench',probes=[dict(expression=e) for e in ('v(cx)','v(qe)','v(cm)','v(dfm)')])
+                (out/'run.cir').write_text(reference.deck(profile,[],{},0,stop,1e-7,(ROOT/'devices/tda1060.cir').read_text(),circuit))
+                log=lab.run_command(['ngspice','-b','run.cir'],out,out/'solver.log')
+                self.assertIsNone(re.search(r'error|timestep too small|run simulation.*aborted',log,re.I),log)
+                return reference.read_samples(out/'samples.txt',profile['probes'],0,stop,1e-7)
+            base=solve('base','0')
+            onset=next(b[0] for a,b in zip(base,base[1:]) if a[0]>.0005 and a[2]<2<=b[2])+1e-6
+            def pulse(level):return f'PWL(0 0 {onset} 0 {onset+1e-8} {level} {onset+2e-6} {level} {onset+2.01e-6} 0)'
+            limited=solve('limited',pulse(.53))
+            reset=next(r[0] for r in base if r[0]>onset+2.1e-6 and r[1]>5.5)
+            self.assertLess(max(r[2] for r in limited if onset+2.2e-6<r[0]<reset),.1)
+            self.assertGreater(max(r[2] for r in limited if r[0]>reset+10e-6),3)
+            hard=solve('hard',pulse(.7),.002)
+            self.assertLess(max(r[2] for r in hard if onset+5e-6<r[0]<onset+.0009),.1)
+            self.assertLess(min(r[4] for r in hard if onset+5e-6<r[0]<onset+.0009),.1)
+            self.assertGreater(max(r[2] for r in hard if r[0]>onset+.0013),3)
+
     def solve(self, *, timing_c=6.4e-9, feedback=3.69, enable=8.4,
               modulation=8.4, current_sense=0, supply=12, step=1e-7):
         with tempfile.TemporaryDirectory() as directory:

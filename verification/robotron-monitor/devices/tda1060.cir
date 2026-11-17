@@ -1,9 +1,8 @@
 * TDA1060 functional engineering model, not a qualified B260D replacement.
 * Philips manufacturer datasheet: tda1060.pdf, PDF pp 3-6, 9-10.
 * Pin order follows pinning table, not the prose typo naming QC as pin 13.
-* Unsupported: latch/dead-time fault recovery, feed-forward transfer, temperature
-* coefficients, output storage and synchronization during sawtooth reset.
-* Saturation/overcurrent inputs inhibit pulses but do not implement latched trips.
+* Unsupported: feed-forward transfer, temperature coefficients, output storage
+* and synchronization during sawtooth reset. Dead-time duration is assumed.
 .subckt TDA1060_FUNCTIONAL vcc vz fb ga mod dfm rx cx syn en cm vss sat qe qc fw
 Breg nz vss V={min(max(v(vcc,vss)-.2,0),8.4)}
 Rreg nz vz 5
@@ -22,6 +21,17 @@ Sreset logic reset cx vss RESET
 Rreset reset vss 1000
 Bdischarge cx vss I={.0044*v(reset,vss)}
 Rcx cx vss 1e12
+* Cycle-by-cycle termination: CM > .48 V ends this pulse until ramp reset.
+* The 1 ns regularization is numerical, not a measured propagation delay.
+Ccycle cycle_stop vss 1n IC=0
+Bcycle cycle_stop vss I={v(reset,vss)>.5 || v(ready,vss)<.5 ? v(cycle_stop,vss) :
++ (v(cm,vss)>.48 || v(cx,vss)>min(v(ga,vss),min(v(mod,vss),v(dfm,vss)))) ? v(cycle_stop,vss)-1 : 0}
+Rcycle cycle_stop vss 1e12
+* Severe CM trip discharges soft-start and holds off after the last trip.
+* 1 ms is an explicit engineering assumption; not a manufacturer timing value.
+Cdead dead vss 1n IC=0
+Bdead dead vss I={v(cm,vss)>.6 ? v(dead,vss)-1 : min(max(v(dead,vss),0),1e-6)}
+Rdead dead vss 1e12
 * The external GA capacitor and FB/GA resistor close the control loop.
 Berr vz ga I={v(ready,vss)*min(max(.01*(min(v(vz,vss),3.72)-v(fb,vss)),0),.003)}
 Bsink ga vss I={v(ready,vss)*min(max(.01*(v(fb,vss)-min(v(vz,vss),3.72)),0),.003)}
@@ -30,12 +40,13 @@ Dga0 vss ga CLAMP
 Dgaz ga vz CLAMP
 .model CLAMP D(IS=1e-12 RS=1)
 Rfb vz fb 15meg
-Bsoft dfm vss I={v(ready,vss)<.5 || v(en,vss)<1.4 ? max(v(dfm,vss),0)/100 : v(fb,vss)<.6 ? max(v(dfm,vss)-1.3,0)/1000 : 0}
+Bsoft dfm vss I={v(ready,vss)<.5 || v(en,vss)<1.4 || v(dead,vss)>.01 ? max(v(dfm,vss),0)/100 : v(fb,vss)<.6 ? max(v(dfm,vss)-1.3,0)/1000 : 0}
 * Finite controlled current between actual QC/QE ports, not an ideal drive rail.
 Bcommand command vss V={v(ready,vss)
 + *(.5+.5*tanh((v(en,vss)-1.4)/.05))
 + *(.5+.5*tanh((v(syn,vss)-1.4)/.05))
 + *(.5-.5*tanh((v(cm,vss)-.48)/.01))
++ *(v(cycle_stop,vss)<.5 ? 1 : 0)*(v(dead,vss)<.01 ? 1 : 0)
 + *(.5-.5*tanh((v(sat,vss)-.6)/.01))
 + *(1-v(reset,vss))
 + *(.5+.5*tanh((min(v(ga,vss),min(v(mod,vss),v(dfm,vss)))-v(cx,vss))/.02))}

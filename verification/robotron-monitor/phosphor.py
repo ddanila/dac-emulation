@@ -73,7 +73,7 @@ class Surface:
                 if (0<=xx<w and 0<=yy<h and abs((xx+.5-w/2)/self.scale)<=self.p['screen_width_m']/2
                     and abs((h/2-yy-.5)/self.scale)<=self.p['screen_height_m']/2):
                     i=yy*w+xx;self._decay(i,time);self.energy[i]+=part;retained+=part
-        self.deposited_j+=retained;self.clipped_j+=optical-retained
+        self.deposited_j+=retained;self.clipped_j+=max(0.,optical-retained)
         return retained
 
     def snapshot(self,time):
@@ -90,6 +90,29 @@ class Surface:
     def balance(self):
         return dict(deposited_optical_j=self.deposited_j,clipped_optical_j=self.clipped_j,
                     emitted_optical_j=self.emitted_j,stored_optical_j=sum(self.energy))
+
+    def checkpoint(self):
+        # Materialize decay at the checkpoint, so every cell has the same epoch.
+        self.snapshot(self.time)
+        return dict(format='dac-phosphor-state-v1',parameters=self.p.copy(),time=self.time,
+                    energy_j=list(self.energy),balance=self.balance())
+
+    @classmethod
+    def restore(cls,state):
+        if state.get('format')!='dac-phosphor-state-v1':raise ValueError('invalid phosphor state format')
+        surface=cls(state['parameters'],start_s=state['time'])
+        energy=state['energy_j'];balance=state['balance']
+        if len(energy)!=len(surface.energy) or any(type(v) not in (int,float) or not math.isfinite(v) or v<0 for v in energy):
+            raise ValueError('invalid stored phosphor energy')
+        keys=('deposited_optical_j','clipped_optical_j','emitted_optical_j','stored_optical_j')
+        if set(balance)!=set(keys) or any(type(v) not in (int,float) or not math.isfinite(v) or v<0 for v in balance.values()):
+            raise ValueError('invalid phosphor energy ledger')
+        stored=sum(energy);scale=max(balance['deposited_optical_j'],1e-30)
+        if abs(stored-balance['stored_optical_j'])>scale*1e-9 or abs(stored+balance['emitted_optical_j']-balance['deposited_optical_j'])>scale*1e-9:
+            raise ValueError('inconsistent phosphor energy ledger')
+        surface.energy=array.array('d',energy)
+        surface.deposited_j=balance['deposited_optical_j'];surface.clipped_j=balance['clipped_optical_j'];surface.emitted_j=balance['emitted_optical_j']
+        return surface
 
     def export(self,path,time):
         path=Path(path);linear,display=self.snapshot(time)

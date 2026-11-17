@@ -1,0 +1,4 @@
+* Explicit external source and load; not complete converter or monitor.
+Vsupply external12 0 PWL(0 0 1m {reg5_input})
+Rsource external12 p12 .2
+Iload p5 0 PWL(0 0 1m .02 20m .02 20.01m .08 40m .08 40.01m .02)

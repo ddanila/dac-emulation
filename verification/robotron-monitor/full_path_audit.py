@@ -2,12 +2,30 @@
 """Audit actual historical connectivity; this is not a full-monitor simulator."""
 import argparse,json,subprocess
 from pathlib import Path
-import lab,reference
+import lab,reference,transformer_candidates
 ROOT=Path(__file__).resolve().parent
 SHEETS=(('k7222-11-input.kicad_sch','012-6921',{'T200_BOUND':14}),
         ('k7222-11-sync-filter.kicad_sch','012-6931',None),
         ('k7222-11-vertical-oscillator.kicad_sch','012-6931',None),
+        ('k7222-11-regulator5.kicad_sch','012-6931',{'REG5_POT':3}),
         ('k7222-11-neck.kicad_sch','012-6891',None))
+
+
+def dispositions(inventory,components):
+    """Every inventory entry has a disposition; modeled does not mean qualified."""
+    reference.coverage(inventory,components)
+    connected={c['source_id']:c for c in components}
+    result=[]
+    for part in inventory['parts']:
+        component=connected.get(part['id'])
+        result.append(dict(source_id=part['id'],source=part['source'],
+            disposition='modeled' if component else 'unresolved',
+            reason=('Connected source-addressed component; device assumptions and assembly validation remain separate gates.'
+                    if component else 'No connected implementation in the audited assembly.'),
+            source_evidence=part['evidence'],value=part['value'],
+            model=component['value'] if component else None,
+            nodes=component['nodes'] if component else [],qualified=False))
+    return result
 
 
 def audit(output):
@@ -28,6 +46,17 @@ def audit(output):
             lab.run_command(['kicad-cli','sch','export','netlist','--format','kicadxml','-o',str(xml),str(dest)],output,output/(source.stem+'.log'))
             components+=reference.source_connectivity(xml,inventory,board,contracts)
         result['coverage']=reference.coverage(inventory,components)
+        result['dispositions']=dispositions(inventory,components)
+        result['assembly']={'source':'reference/k7222-11/assembly.json',
+                           'complete_interconnect':False,'specimen_identity':'unverified'}
+        assembly=ROOT/'reference/k7222-11/assembly.json'
+        result['hashes']['assembly']=lab.digest(assembly.read_bytes())
+        graph=ROOT/'reference/k7222-11/t3-winding-hypothesis.json'
+        candidates=transformer_candidates.enumerate_candidates(json.loads(graph.read_text()))
+        result['transformer_candidates']=dict(count=len(candidates),ids=[c['id'] for c in candidates],
+            status='polarity-hypotheses-only',external_assembly_connected=False,
+            historical_topology_verified=False,numerically_evaluated=False)
+        result['hashes']['winding_hypothesis']=lab.digest(graph.read_bytes())
         result['blockers']=json.loads(requirements.read_text())['blockers']
         result['hashes']['requirements']=lab.digest(requirements.read_bytes())
         result['hashes']['inventory']=lab.digest((ROOT/'reference/k7222-11/inventory.json').read_bytes())

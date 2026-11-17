@@ -1,0 +1,83 @@
+{
+  "format": "dac-monitor-profile-v1",
+  "id": "k7222-11-regulator5",
+  "name": "012-6931 V4 five-volt regulator",
+  "qualification": "bounded-stage",
+  "schematic": "circuits/k7222-11-regulator5.kicad_sch",
+  "models": "circuits/k7222-11-regulator5-models.cir",
+  "bench": "circuits/k7222-11-regulator5-bench.cir",
+  "inventory": "reference/k7222-11/inventory.json",
+  "board": "012-6931",
+  "subcircuits": {
+    "REG5_POT": 3
+  },
+  "parameters": {
+    "reg5_position": {
+      "nominal": 0.5,
+      "minimum": 0.01,
+      "maximum": 0.99,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Assumed R9 wiper position; original total resistance is 100 ohms."
+    },
+    "reg5_bf": {
+      "nominal": 60,
+      "minimum": 18,
+      "maximum": 150,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Generic bounded silicon transistor gain, not SF1260 characterization."
+    },
+    "reg5_input": {
+      "nominal": 12,
+      "minimum": 6,
+      "maximum": 14,
+      "unit": "V",
+      "evidence": "assumed-bound",
+      "rationale": "External bench input voltage; no upstream power-source model."
+    }
+  },
+  "probes": [
+    {
+      "name": "supply",
+      "expression": "v(p12)",
+      "unit": "V",
+      "source_id": "012-6931:R10"
+    },
+    {
+      "name": "reference",
+      "expression": "v(reg5_zener)",
+      "unit": "V",
+      "source_id": "012-6931:V3"
+    },
+    {
+      "name": "base",
+      "expression": "v(reg5_base)",
+      "unit": "V",
+      "source_id": "012-6931:V4:B"
+    },
+    {
+      "name": "output",
+      "expression": "v(p5)",
+      "unit": "V",
+      "source_id": "012-6931:V4:E"
+    },
+    {
+      "name": "input_current",
+      "expression": "i(Vsupply)",
+      "unit": "A",
+      "source_id": "bench:input"
+    }
+  ],
+  "limitations": [
+    "Seven-component historical regulator topology with generic bounded transistor/zener models.",
+    "External source and load-step bench, not full monitor or thermally qualified regulator.",
+    "No transistor self-heating, SOA or short-circuit protection model."
+  ],
+  "source_pages": [
+    {
+      "file": "older.pdf",
+      "page": 9
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+* Generic bounded silicon NPN; not a fitted 1SA20C device.
+.model VERTICAL_NPN_BOUND NPN(IS=1e-14 BF={vertical_bf} VAF=60 CJE=20p CJC=8p TF=2n TR=20n)
+
+.model 1AD50_BOUND D(IS=2n RS=2 N=1.7 CJO=2p TT=5n)

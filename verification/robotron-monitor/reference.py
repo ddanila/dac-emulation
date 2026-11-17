@@ -33,6 +33,13 @@ def read_profile(path):
         resolved = (ROOT/profile[key]).resolve()
         if not resolved.is_relative_to(ROOT) or not resolved.is_file():
             raise ValueError('profile file outside laboratory or missing: '+key)
+    extra=profile.get('additional_schematics',[])
+    if not isinstance(extra,list) or len(extra)>16 or any(not isinstance(s,str) for s in extra) or len(set(extra))!=len(extra) or profile['schematic'] in extra:
+        raise ValueError('invalid additional schematics')
+    for name in extra:
+        resolved=(ROOT/name).resolve()
+        if not resolved.is_relative_to(ROOT) or not resolved.is_file() or resolved.suffix!='.kicad_sch':
+            raise ValueError('additional schematic outside laboratory or missing')
     for name, p in profile['parameters'].items():
         values = [p[k] for k in ('minimum', 'nominal', 'maximum')]
         if (not IDENTIFIER.fullmatch(name) or any(type(v) not in (int, float) or not math.isfinite(v) for v in values)
@@ -198,6 +205,8 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
         names = dict(schematic='input.kicad_sch', models='models.cir', bench='bench.cir',
                      inventory='inventory.json', profile='profile.json', runner='reference.py',
                      lab='lab.py', optics='optics.py', sources='sources.json', faults='faults.py')
+        for i,name in enumerate(profile.get('additional_schematics',[])):
+            key=f'schematic_{i}';files[key]=(ROOT/name).read_bytes();names[key]=f'input-{i}.kicad_sch'
         for key,value in (('scenario',scenario),('fault',fault),('component_factors',component_factors)):
             if value is not None:
                 files[key]=json.dumps(value,sort_keys=True,allow_nan=False).encode();names[key]=key+'.json'
@@ -208,6 +217,13 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
         lab.run_command(['kicad-cli', 'sch', 'export', 'netlist', '--format', 'kicadxml', '-o',
                          str(output/'circuit.xml'), str(output/'input.kicad_sch')], output, output/'kicad.log')
         components = source_connectivity(output/'circuit.xml', inventory, profile['board'],profile.get('subcircuits'))
+        for i,_ in enumerate(profile.get('additional_schematics',[])):
+            xml=output/f'circuit-{i}.xml'
+            lab.run_command(['kicad-cli','sch','export','netlist','--format','kicadxml','-o',str(xml),str(output/f'input-{i}.kicad_sch')],output,output/f'kicad-{i}.log')
+            components+=source_connectivity(xml,inventory,profile['board'],profile.get('subcircuits'))
+        coverage(inventory,components)
+        if len({c['reference'] for c in components})!=len(components):
+            raise ValueError('duplicate exported reference across sheets')
         original_components=components
         if component_factors:
             parts={p['id']:p for p in inventory['parts']}

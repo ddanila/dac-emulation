@@ -1,4 +1,4 @@
-import csv,json,math,struct,sys,tempfile,unittest
+import copy,csv,json,math,struct,sys,tempfile,unittest
 from unittest.mock import patch
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
@@ -43,6 +43,27 @@ class PhosphorTests(unittest.TestCase):
 
 
 class BeamRenderTests(unittest.TestCase):
+    def test_continuation_preserves_phosphor_arrivals_and_energy(self):
+        args=dict(surface=dict(width=32,height=24),max_dt_s=2e-8)
+        rows=[row(0),row(2e-7),row(4e-7,beam=0)]
+        continuous=beam_render.Renderer(**args);continuous.render(rows,[0,2e-7,4e-7])
+        first=beam_render.Renderer(**args);first.render(rows[:2],[0,2e-7])
+        state=json.loads(json.dumps(first.checkpoint()))
+        self.assertTrue(state['arrivals'])
+        resumed=beam_render.Renderer(**args,continuation=state)
+        resumed.render(rows[1:],[2e-7,4e-7])
+        self.assertEqual(continuous.frames[-1]['display'],resumed.frames[-1]['display'])
+        self.assertEqual(continuous.frames[-1]['linear'],resumed.frames[-1]['linear'])
+        for key,value in continuous.report()['energy'].items():
+            self.assertAlmostEqual(value,resumed.report()['energy'][key],delta=max(abs(value)*1e-10,1e-25))
+        bad=copy.deepcopy(state);bad['surface']['energy_j'][0]+=1
+        with self.assertRaises(ValueError):beam_render.Renderer(**args,continuation=bad)
+        bad=copy.deepcopy(state);bad['kinetic_energy']['terminal_j']+=1
+        with self.assertRaises(ValueError):beam_render.Renderer(**args,continuation=bad)
+        bad=copy.deepcopy(state);bad['model_hashes']['trajectory.py']='0'*64
+        with self.assertRaises(ValueError):beam_render.Renderer(**args,continuation=bad)
+        with self.assertRaises(ValueError):beam_render.Renderer(**args,continuation=state).render([row(2e-7,beam=0),row(4e-7)],[2e-7,4e-7])
+
     def test_fail_closed_limits_and_single_use(self):
         for rows,times in (([],[]),([row(-1),row(0)],[-1,0]),
                            ([row(0),row(2)],[0,2]),([row(0),row(.1)],[0,float('nan'),.1])):
