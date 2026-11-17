@@ -34,10 +34,12 @@ class VerticalOscillatorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             report=full_path_audit.audit(Path(tmp)/'audit')
             self.assertEqual(report['status'],'blocked')
-            self.assertEqual(report['coverage']['connected'],171)
+            self.assertEqual(report['coverage']['connected'],247)
             self.assertEqual(len(report['dispositions']),260)
-            self.assertEqual(sum(p['disposition']=='modeled' for p in report['dispositions']),171)
-            self.assertIn('012-6921:T3',report['coverage']['missing'])
+            self.assertEqual(sum(p['disposition']=='modeled' for p in report['dispositions']),247)
+            self.assertNotIn('012-6921:T1',report['coverage']['missing'])
+            self.assertNotIn('012-6921:T2',report['coverage']['missing'])
+            self.assertNotIn('012-6921:T3',report['coverage']['missing'])
             self.assertFalse(report['full_path_render_eligible'])
             self.assertFalse(report['full_monitor_qualified'])
 

@@ -1,0 +1,301 @@
+{
+  "format": "dac-connected-crt-diagnostic-example-v1",
+  "artifact_kind": "summary-and-example-not-a-qualified-replay",
+  "qualification": "unsettled-connected-circuit-diagnostic",
+  "full_monitor_qualified": false,
+  "specimen_validated": false,
+  "accepted_warmed_frame": false,
+  "description": "Captured S550 VIDEO/BSYN/INTENS through driver/cable, input, scan circuits, shared-core T3 hypothesis, neck, held-temperature CRT load, compiled electron trajectories and periodic phosphor. No prescribed raster or framebuffer rendering.",
+  "limitations": [
+    "The electrical run fails lock/settling. This is NOT the requested accepted sustained warmed image.",
+    "The final 19.5 ms electrical field is assumed to repeat only for analytic phosphor initialization; the actual preceding electrical fields differ.",
+    "The narrow, distorted output is an observed model result; no registration, geometry fit or auto-exposure was applied.",
+    "Unmeasured transformer/device/yoke/gun parameters; L4 mutual coupling and interception feedback remain unresolved."
+  ],
+  "capture": {
+    "sha256": "7d4bf944145900f020e25d8f6e1e6588c7b2b30b261ddb3d829e03067a820a15",
+    "input_sha256": {
+      "rom": "37e58472a049e1785c3521ec6b23c2d269d93fa5fede696dc7bd72eabb4af031",
+      "prom": "8a085e4b8988c47de9ca05bdd65cfa7657d45b87efb72e3ee6a0bbcbf6bab23b",
+      "disk": "f724763d5e48c0f15341e95d7b85f645533dd7dfa270cbce4e44d3025e62b23b",
+      "executable": "d0af6140f98746df8649cb4af1410a59da65dbe21a30531bdcc4a8cce1f6b1cd"
+    },
+    "time_origin": {
+      "boot_cpu_ticks": 32000000,
+      "character_phase_ticks": 58
+    },
+    "selection": {
+      "format": "dac-monitor-fields-v1",
+      "status": "complete",
+      "clock_hz": 179712000,
+      "capture_end_tick": 179712000,
+      "fields_requested": 1,
+      "pre_roll_fields_requested": 0,
+      "selection": {
+        "render_start_tick": 2641230,
+        "render_end_tick": 6145614,
+        "verification_end_tick": 9649998
+      },
+      "monitor_lock_verified": false,
+      "input_repeated": false,
+      "line_period_ticks": 11232,
+      "field_period_ticks": 3504384.0,
+      "source_content_verified": true,
+      "initialization_history": "assumed periodic repetition of selected original field",
+      "reason": null,
+      "source_content_sha256": "71e3106dfb1e2bb8fd546ab3186f366292493a910c393e65c72da0b0c7a1ecc8",
+      "period_ticks": 3504384
+    }
+  },
+  "candidate": {
+    "id": "t3-44fb6052dcdfdb29",
+    "topology_sha256": "44fb6052dcdfdb29bb2b5316ffce1fc3352d61f10f3219d2e4660e99023184db",
+    "polarity": {
+      "drive": 1,
+      "auxiliary": 1,
+      "high_voltage": 1,
+      "lower_taps": 1,
+      "upper_taps": 1
+    },
+    "qualification": "experimental-winding-candidate",
+    "historical_topology_verified": false
+  },
+  "solver": {
+    "runtime": {
+      "format": "dac-monitor-runtime-v1",
+      "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+      "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+      "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-clean/install",
+      "inputs": {
+        "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+        "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+        "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+        "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+      },
+      "configure_flags": [
+        "--enable-xspice",
+        "--with-x=no",
+        "--with-readline=no",
+        "CFLAGS=-O2 -fno-fast-math"
+      ],
+      "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:48:50 UTC 2026\n******\n",
+      "files": {
+        "install/bin/ngspice": "93f5bd3e105c0e3b70435b7a0b6be6645a3a9fa94e1bdfca778a280406ce76c0",
+        "install/share/ngspice/scripts/spinit": "bcab932f5174d8094b8ec6325b95ddef37ab1a41f746ebcd038c88d856358190",
+        "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+        "install/lib/ngspice/digital.cm": "14da052e3ae197e1893df7d2c561f9c660f2d7bf51e55f7ddb750b77211204fc",
+        "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+        "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+        "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+        "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+        "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+      },
+      "qualification": "experimental-instrumented-runtime",
+      "full_monitor_qualified": false
+    },
+    "elapsed_s": 212.63601045217365,
+    "deck_sha256": "a990715c7904ed5cdd0630699be6d55e74b65389a13d95ecc23c5b15efa18fc5",
+    "simulated_s": 0.078
+  },
+  "settings": {
+    "horizontal_tank_h": 0.00145,
+    "vertical_trim_ohm": 22000,
+    "horizontal_yoke_h": 0.004,
+    "horizontal_yoke_ohm": 2
+  },
+  "thermal": {
+    "temperature_rise_k": [
+      893.9780984698904,
+      669.1359489252557
+    ],
+    "heater_power_w": 0.7406776655693832,
+    "method": "steady ideal-supply series-heater branch",
+    "electrical_replay_verified": false
+  },
+  "settling": {
+    "format": "dac-steady-supply-settling-v1",
+    "accepted": false,
+    "failures": [
+      "nonperiodic v(eht)",
+      "nonperiodic v(g2)",
+      "nonperiodic v(g4)",
+      "nonperiodic i(lhorizontal)",
+      "nonperiodic v(x1136.xshared.flux_b)",
+      "EHT outside exploratory 5..25 kV screen",
+      "horizontal phase drift exceeds 0.01 line"
+    ],
+    "complete": true,
+    "phase_samples_per_field": 539136,
+    "rows": 699896,
+    "simulated_until_s": 0.078,
+    "waveform_relative_rms_error": {
+      "v(eht)": 0.2790048364563646,
+      "v(g2)": 0.07891528468243617,
+      "v(g4)": 0.07891390271659562,
+      "v(cathode)": 0.000456342356633727,
+      "i(lhorizontal)": 1.1234022229776486,
+      "i(lvertical)": 0.008911256119443406,
+      "v(x1136.xshared.flux_b)": 1.0777294383733318
+    },
+    "horizontal_phase_variation_lines": 0.6830379627043612,
+    "horizontal_edges": 936,
+    "vertical_edges": 3,
+    "heater_power_w": 0.7406776655705799,
+    "thermal_power_relative_error": 1.6155965454345278e-12,
+    "full_monitor_qualified": false,
+    "numerical_refinement_verified": false
+  },
+  "trace": {
+    "format": "dac-steady-field-trace-v1",
+    "status": "complete",
+    "qualification": "diagnostic-connected-circuit-field",
+    "raw_sha256": "4404f5e853519e8246128cda0deaf04995ba33133120f10feb51971bc8ad5d36",
+    "trace_sha256": "f71f78e3aab06aeea1cbf69c69fe26e79c026b45716cd32c8cb9cbab29d431b0",
+    "original_start_s": 0.0585,
+    "original_end_s": 0.078,
+    "trace_start_s": 0,
+    "trace_end_s": 0.019499999999999997,
+    "rows": 167991,
+    "electrical_settling_verified": false,
+    "full_monitor_qualified": false,
+    "specimen_validated": false,
+    "probe_mapping": {
+      "anode_v": "v(eht)",
+      "grid2_v": "v(g2)",
+      "focus_v": "v(g4)",
+      "cathode_v": "v(cathode)",
+      "horizontal_a": "i(lhorizontal)",
+      "vertical_a": "i(lvertical)",
+      "beam_a": "i(@b.xcrt.bbeam[i])"
+    },
+    "limitations": [
+      "B31G22 gun entrance current follows the bounded electrothermal load; trajectory interception is not fed back to each electrode.",
+      "This exporter does not establish source provenance, synchronization, numerical refinement or periodic state."
+    ]
+  },
+  "optical": {
+    "elapsed_s": 362.2392993126996,
+    "energy": {
+      "initial_stored_optical_j": 2.429197374034025e-06,
+      "final_stored_optical_j": 2.429197374034025e-06,
+      "deposited_optical_j": 1.3934978796168586e-06,
+      "emitted_optical_j": 1.3934978796168586e-06,
+      "clipped_optical_j": 0.0,
+      "terminal_kinetic_j": 1.7418723495208657e-05,
+      "intercepted_kinetic_j": 0.0,
+      "kinetic_balance_relative_error": 1.192351889183407e-13
+    },
+    "render": {
+      "parameters": {
+        "width": 480,
+        "height": 360,
+        "screen_width_m": 0.21,
+        "screen_height_m": 0.145,
+        "screen_radius_m": 0.45,
+        "tau_s": 0.025,
+        "efficiency": 0.08,
+        "exposure_m2_per_w": 0.02
+      },
+      "field_parameters": {
+        "screen_z_m": 0.28,
+        "screen_radius_m": 0.45,
+        "screen_width_m": 0.21,
+        "screen_height_m": 0.145,
+        "gun_radius_m": 0.002,
+        "neck_radius_m": 0.01,
+        "yoke_start_m": 0.075,
+        "yoke_length_m": 0.04,
+        "horizontal_tesla_per_amp": 0.0012,
+        "vertical_tesla_per_amp": 0.0012,
+        "initial_energy_ev": 20.0,
+        "source_radius_m": 5e-06,
+        "divergence_rad": 0.001,
+        "grid2_length_m": 0.012,
+        "focus_start_m": 0.015,
+        "focus_length_m": 0.015,
+        "anode_start_m": 0.04,
+        "anode_length_m": 0.03
+      },
+      "trajectory_step_m": 0.0002,
+      "backend": "compiled",
+      "backend_build": {
+        "build_key": "1abcf95b76cc3e24d66ae06df62e17a943f73d3ca394f9a3196ff1a82bf5777c",
+        "compiler": "c++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+        "flags": [
+          "-std=c++17",
+          "-O3",
+          "-fno-fast-math",
+          "-ffp-contract=off",
+          "-shared",
+          "-fPIC"
+        ],
+        "source_sha256": "f3aeaa1e78e8d830c1c0b615a79d04f2cb82ee509bc86f0529f4e753855832ad",
+        "library_sha256": "555d3a88b09e2ed6c5e64c187f8a62a7c1a5fd368b622f980133679b48811948"
+      },
+      "max_interval_s": 3.616898148148148e-08,
+      "movement_limit_pixels": 0.25,
+      "bundles": 82644,
+      "optical_continuation": false,
+      "emission_intervals": 41072,
+      "energy": {
+        "deposited_optical_j": 1.3934978796168586e-06,
+        "clipped_optical_j": 0.0,
+        "emitted_optical_j": 7.785918448686034e-08,
+        "stored_optical_j": 1.315638695129964e-06,
+        "terminal_kinetic_j": 1.7418723495208657e-05,
+        "intercepted_kinetic_j": 0.0,
+        "in_flight_kinetic_j": 0
+      },
+      "max_trajectory_energy_error_ev": 0.00011972183165198658
+    },
+    "hashes": {
+      "input.csv": "f71f78e3aab06aeea1cbf69c69fe26e79c026b45716cd32c8cb9cbab29d431b0",
+      "beam_render.py": "0dbaaf3a627b2a848cf005988411cc72b40802615e24c3459ca8679a0069c970",
+      "trajectory.py": "4255c4521666ccb27026b0bbd80597dc112a30c9203244ee1bca12c9d510c7e9",
+      "trajectory_native.py": "ada9abb3e3ebc9f373ad21d90ca89fa503b775e666cc5679ba44bd15ae0bfaa5",
+      "trajectory_native.cpp": "f3aeaa1e78e8d830c1c0b615a79d04f2cb82ee509bc86f0529f4e753855832ad",
+      "phosphor.py": "94ae0c41adf7321aa9f4ba2a4025c98e7c660e9fe65613894a25da4cac1e9391",
+      "optics.py": "afb3e7d70a50a907bb243e8c67097ddd04013c47dd3510f9ed24aaca08bd6580",
+      "periodic_frame.py": "ee859d23a6dabab8750f62ff14c614d0e1d2efd27ed60206d6e346cb12e0d18f"
+    },
+    "linear_format": {
+      "dtype": "little-endian float32",
+      "unit": "W/m^2",
+      "order": "row-major",
+      "width": 480,
+      "height": 360
+    }
+  },
+  "outputs": {
+    "run.cir": "a990715c7904ed5cdd0630699be6d55e74b65389a13d95ecc23c5b15efa18fc5",
+    "frame.png": "2855e2787f73a87d76d31545953d159f2a743ff8cc609ab7432c6f52e3672d48",
+    "frame.f32": "10328ddfa5e34800827f8bd2c3ef738f839c9b60d99bb56a2b48765b0f4d702e"
+  },
+  "optical_refinement": {
+    "fine": {
+      "format": "dac-periodic-frame-comparison-v1",
+      "accepted": true,
+      "scope": "optical-integration-refinement",
+      "relative_l2_error": 2.792638039648358e-07,
+      "maximum_energy_residual": 1.3090584491329336e-13,
+      "base_manifest_sha256": "156f333d7f45d9393faf0b89367a7dbac5eb7962191388f8ed1289815a7bb87d",
+      "refined_manifest_sha256": "69621881c0221e84e65a59ddc1318eae556afb616b48093be2d02fe323bf446f",
+      "electrical_settling_verified": false,
+      "full_monitor_qualified": false,
+      "specimen_validated": false
+    },
+    "spatial": {
+      "format": "dac-periodic-frame-comparison-v1",
+      "accepted": true,
+      "scope": "spatial-refinement",
+      "relative_l2_error": 1.3732670003139506e-07,
+      "maximum_energy_residual": 1.4860631892642697e-13,
+      "base_manifest_sha256": "156f333d7f45d9393faf0b89367a7dbac5eb7962191388f8ed1289815a7bb87d",
+      "refined_manifest_sha256": "9367725ed3bed0bf9c184a5fb0a7d499750fe3a7692c14a2279fc1aa91bfda50",
+      "electrical_settling_verified": false,
+      "full_monitor_qualified": false,
+      "specimen_validated": false
+    }
+  }
+}

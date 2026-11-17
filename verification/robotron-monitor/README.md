@@ -17,6 +17,115 @@ the three board lists. Input conditioning, sync filtering and a standalone verti
 oscillator are also connected; the full boards and their interconnect are incomplete.
 The assembly drawing identifies B31G22 / AE9VT 6802.01 for this reference.
 
+## Steady-supply single-field work (experimental, acceptance still blocked)
+
+The new `steady_supply.py` connects captured VIDEO/BSYN/INTENS through the
+1715W output drivers and cable, input/neck circuits, horizontal oscillator and
+output stage, vertical timing/output, actual 5 V regulator, and a held-temperature
+CRT load. Only converter switching is replaced by ideal 12/22/41/-16 V rails.
+Horizontal and vertical winding currents, flyback feedback and electrode voltages
+are solved by the circuit. There is no prescribed scan current or framebuffer.
+
+The source audit now includes 247 of 260 entries; this count is **not** a complete
+or validated monitor. The steady-supply assembly uses 206 historical entries,
+excluding the converter/input supply network. Nine unimplemented input-board
+entries and other assembly details remain outside this experimental path. T3,
+T1/T2, L4 mutual coupling, yoke parameters and semiconductor families still need
+work. The new output transcription explicitly distinguishes R29 (2.7 kohm feed)
+from R28 (1 Mohm brightness potentiometer) in the selected older BOM variant.
+
+The one-field selector requires adjacent identical complete fields with active
+VIDEO. Initialization may repeat that captured field, and the report explicitly
+calls the preceding history an assumption. It does not require a cold heater
+simulation or sixteen output fields. The earlier long local capture accidentally
+used S600 keyboard firmware as its boot ROM and contained no active VIDEO. The
+replacement capture uses S550: its observed field is 19.5 ms (about 51.28 Hz),
+with 312 lines at 16 kHz. Always derive timing from the selected capture.
+
+```sh
+python3 verification/robotron-monitor/capture.py \
+  --rom /path/to/s550.bin --prom /path/to/cas.bin --disk /path/to/tosm10.img \
+  --output build/monitor/native-s550.json
+python3 verification/robotron-monitor/full_path.py \
+  --mode steady-supply-frame --runtime build/monitor/runtime-clean \
+  --capture build/monitor/native-s550.json --candidate auto \
+  --output build/monitor/steady-screen --wall-budget-hours 12
+```
+
+**This entry point currently screens circuits; it is not a finished accepted-frame
+command.** It exits 2 with a report of measured failures and unfinished acceptance
+work. Each candidate can run 4, 8, 16, 32 and 64 continuous fields, retaining the
+last four for examination. Attempts restart from their DC operating point, not a
+purported electrical checkpoint. Runtime/inputs/decks and parameter assumptions
+are archived. Trial timeouts and the whole-run wall budget are enforced. Starting
+LC/RC tuning estimates follow native timing; `--parameter NAME=VALUE` supplies
+explicit bounded overrides. No candidate becomes a historical transformer winner.
+`--linear-solver klu`, `--reltol`, `--abstol` and `--max-step-ns` expose numerical
+experiments without changing physical component values. `--magnetic-parameters`
+archives an explicit alternative winding parameter document.
+
+The optional `reference/k7222-11/t3-ac-loss-parameters.json` uses a passive
+one-pole R/L winding-loss network. It preserves DC resistance and total
+low-frequency leakage while allowing higher AC copper loss. Analytic impedance
+tests verify that behavior; its numerical values are unmeasured hypotheses,
+and it is not the default or a validated transformer model.
+
+The heater equilibrium is solved from the actual simplified branch (12 V, R22,
+temperature-dependent heater resistance and the passive two-node heat model).
+The assembled simulation independently measures heater power. Field checks
+compare three phase-aligned waveforms, core flux, scan/reset counts, phase drift,
+EHT/current bounds and heater heat balance. Electrical timestep refinement,
+trajectory-interception feedback into electrode loads, integrated optical
+acceptance, and reusable frame caching are still unfinished in this runner.
+
+### Actual connected diagnostic image
+
+[Example image](examples/steady-supply-diagnostic/frame.png) and
+[its evidence report](examples/steady-supply-diagnostic/example.json) are from the
+connected circuit, not the driven flyback fixture. The image is a narrow, dim band:
+it exposes unresolved scan/field scaling and settling rather than demonstrating
+a faithful monitor picture. The report records the rejected warm-state checks.
+
+The archived [ngspice deck](examples/steady-supply-diagnostic/run.cir) embeds the
+native captured signal edges. Four fields (78 ms) took about 213 seconds; rendering
+the last field through compiled trajectories took about 362 seconds with pixel-area integration on this run.
+These are measured times for this hypothesis, not a real-time performance claim.
+The 4 mH horizontal yoke hypothesis avoids the severe supply loading seen with
+0.4 mH; neither is a measured AE9VT value. Electrical inductance and optical
+field-per-ampere are not jointly calibrated.
+
+`steady_trace.export()` preserves the solved final-field samples with interpolated
+exact endpoints. Its output remains diagnostic. `periodic_frame.run()` computes
+periodic phosphor excitation analytically, including electrons arriving across
+the field boundary. It writes one PNG, linear float32 irradiance, periodic optical
+state and energy/provenance reports. This state is not an electrical checkpoint.
+The example assumes this **unsettled** electrical field repeats for phosphor
+initialization; it is not an accepted sustained warmed frame. `periodic_frame.compare()`
+compares intact single-frame archives in linear irradiance without registration
+or exposure fitting, including power-conserving 2x spatial projection. Pixel areas integrate arriving
+energy directly; midpoint ray intervals are subdivided at pixel crossings. This
+removes the old resolution-dependent bilinear footprint. On this diagnostic field,
+halving the trajectory step and time interval gives a relative image error of
+2.79e-7; doubling both image dimensions gives 1.37e-7 after area projection.
+Both pass the 2% optical threshold, with energy residual below 1.5e-13. These
+checks do not establish electrical accuracy. A tighter electrical timestep fails
+in the default sparse solver; KLU and a bounded AC-loss winding hypothesis have
+not yet produced an accepted refined, settled trace. A 16-field run stopped at
+234 ms with a shared-core timestep failure. An exploratory KLU/AC-loss run with
+warm electrode-voltage guesses completed four fields in 175 seconds, but still
+showed 0.254 line of phase drift (limit 0.01) and nonperiodic EHT/yoke waveforms.
+These voltage guesses are not a saved periodic electrical state.
+
+```sh
+python3 verification/robotron-monitor/steady_trace.py --raw trace.raw \
+  --start .0585 --end .078 --output diagnostic-field.csv
+python3 verification/robotron-monitor/periodic_frame.py \
+  --trace diagnostic-field.csv --output diagnostic-optical --assume-periodic
+```
+
+These commands deliberately produce a diagnostic optical replay, without
+asserting electrical settling or a specimen diagnosis.
+
 ## Fault atlas development bench
 
 ```sh

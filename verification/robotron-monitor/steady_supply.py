@@ -1,0 +1,426 @@
+"""Experimental steady-supply assembly. Circuit completion is not acceptance.
+
+Converter switching is explicitly excluded. Source-addressed scan, video and
+neck circuitry remain connected; no raster current or electrode voltage source
+is supplied by this adapter. T3 and device families remain bounded hypotheses.
+"""
+import array
+import bisect
+import hashlib
+import json
+import math
+import re
+import struct
+import subprocess
+import time
+from pathlib import Path
+import electrothermal
+import frames
+import full_path_audit
+import lab
+import monitor_runtime
+import reference
+import signal_path
+import transformer_candidates
+
+ROOT = Path(__file__).resolve().parent
+OUTPUT_CONTRACTS = dict(HORIZONTAL_CHOKE=2, HORIZONTAL_LINEARITY=2,
+    HORIZONTAL_COMPENSATION=2, HORIZONTAL_BRIGHTNESS=3, HORIZONTAL_FOCUS=3,
+    T3_CANDIDATE=20)
+PROBES = ('v(eht)', 'v(g2)', 'v(g4)', 'v(cathode)', 'i(Lhorizontal)',
+          'i(Lvertical)', '@b.xcrt.bbeam[i]', 'v(p10_7)', 'i(v.xcrt.vheater)',
+          'v(h_hot)', 'v(h_feedback)', 'v(vertical_trigger)', 'v(vertical_pulse)',
+          'v(x1136.xshared.flux_b)', 'v(p5)', 'v(h_boost)', 'v(g1)',
+          'v(h_control)', 'i(Vp41)')
+
+# Engineering ranges, not measured AE9VT/B31G22 parameters. The 0.4 mH
+# exploratory yoke overloaded the 41 V network; 4 mH is a separate hypothesis,
+# selected by electrical loading, without fitting rendered picture geometry.
+ASSEMBLY_BOUNDS = {
+    'yoke_horizontal_r': (2., .5, 8., 'ohm'),
+    'yoke_horizontal_l': (.004, .0004, .016, 'H'),
+    'tube_anode_c': (1e-9, .25e-9, 4e-9, 'F'),
+    'tube_hv_leakage': (200e6, 50e6, 800e6, 'ohm'),
+    'isolated_cap_leakage': (1e9, .25e9, 4e9, 'ohm'),
+}
+
+
+def tune(assembly, selection, changes=None):
+    """Bounded starting guesses from source timing, never a lock assertion."""
+    line=selection['line_period_ticks']/selection['clock_hz']
+    period=selection['period_ticks']/selection['clock_hz']
+    guesses={'horizontal_tank_l':.00145*(line/62.5e-6)**2,
+             'vertical_trim':122000*(period/.0195)-100000}
+    bounds={k:(v[1],v[2]) for k,v in ASSEMBLY_BOUNDS.items()}
+    for name in ('horizontal-oscillator','vertical-output','regulator5','neck'):
+        profile=reference.read_profile(ROOT/'profiles'/('k7222-11-'+name+'.json'))
+        bounds.update({k:(v['minimum'],v['maximum']) for k,v in profile['parameters'].items()})
+    for k,v in (guesses | (changes or {})).items():
+        if k not in bounds or type(v) not in (int,float) or not math.isfinite(v) or not bounds[k][0]<=v<=bounds[k][1]:
+            raise ValueError('assembly parameter outside declared bounds: '+k)
+        assembly['parameters'][k]=v
+    return dict(starting_guesses=guesses,explicit_changes=changes or {},
+        rationale='LC/RC timing estimates referenced to the 16 kHz/19.5 ms S550 capture; connected lock must be measured.',
+        lock_verified=False)
+
+
+def select(capture, *, require_video=True):
+    """One original field with an identical following field, in integer ticks."""
+    result = frames.analyze(capture, fields=1, pre_roll_fields=0)
+    result.update(status='incomplete', selection=None, source_content_verified=False,
+                  initialization_history='assumed periodic repetition of selected original field')
+    events = capture['events']; ticks = [e[0] for e in events]
+    normalized = []
+    for field in result['complete_fields']:
+        start, end = field['start_tick'], field['end_tick']
+        i = bisect.bisect_right(ticks, start)-1
+        rows = [[0, *events[i][1:]]]
+        for e in events[i+1:bisect.bisect_left(ticks, end)]:
+            if e[1:] != rows[-1][1:]: rows.append([e[0]-start, *e[1:]])
+        key = hashlib.sha256(json.dumps([end-start, rows], separators=(',', ':')).encode()).hexdigest()
+        field['content_sha256'] = key
+        normalized.append(rows)
+    for i, (a, b) in enumerate(zip(result['complete_fields'], result['complete_fields'][1:])):
+        if (a['usable'] and b['usable'] and a['content_sha256'] == b['content_sha256']
+                and (not require_video or any(e[1] for e in normalized[i]))):
+            result.update(status='complete', reason=None, source_content_verified=True,
+                source_content_sha256=a['content_sha256'],
+                selection=dict(render_start_tick=a['start_tick'], render_end_tick=a['end_tick'],
+                               verification_end_tick=b['end_tick']),
+                period_ticks=a['duration_ticks'], events=normalized[i])
+            return result
+    result['reason'] = 'No pair of adjacent identical complete fields with active VIDEO; check boot ROM and character-generator provenance.'
+    return result
+
+
+def heater_equilibrium():
+    """Exact DC heater branch: ideal 12 V, historical R22=15 ohm, held heater R.
+
+    No scan/beam result is inferred here. This supply simplification decouples
+    heater power from flyback load; the assembled run measures it independently.
+    """
+    p = electrothermal.parameters()
+    lo, hi = 0., 12**2/(4*15)
+    for _ in range(80):
+        power = (lo+hi)/2
+        h, c = electrothermal.steady_temperatures(power)
+        r = p['heater_cold_ohm']*(1+p['heater_alpha']*h)
+        actual = (12/(15+r))**2*r
+        if actual > power: lo = power
+        else: hi = power
+    power = (lo+hi)/2
+    return dict(temperature_rise_k=list(electrothermal.steady_temperatures(power)),
+                heater_power_w=power, method='steady ideal-supply series-heater branch',
+                electrical_replay_verified=False)
+
+
+def assemble(output):
+    """Export and archive sheets once. No independent stage benches are included."""
+    out = Path(output); out.mkdir(parents=True, exist_ok=False)
+    inv = json.loads((ROOT/'reference/k7222-11/inventory.json').read_text())
+    cpu = json.loads((ROOT/'reference/1715w/output.json').read_text())
+    sheets = [(s,b,c) for s,b,c in full_path_audit.SHEETS
+              if s not in ('k7222-11-converter.kicad_sch','k7222-11-power-input.kicad_sch','k7222-11-horizontal-output.kicad_sch')]
+    sheets += [('k7222-11-horizontal-output.kicad_sch','012-6921',OUTPUT_CONTRACTS),
+               ('1715w-output.kicad_sch','1715w',{'S37_DRIVER':3})]
+    components=[]; hashes={}
+    def archive(name):
+        raw=(ROOT/name).read_bytes(); dest=out/name
+        dest.parent.mkdir(parents=True,exist_ok=True); dest.write_bytes(raw)
+        hashes[name]=lab.digest(raw)
+        return raw.decode()
+    for name,board,contracts in sheets:
+        archive('circuits/'+name); xml=out/(Path(name).stem+'.xml')
+        lab.run_command(['kicad-cli','sch','export','netlist','--format','kicadxml','-o',str(xml),
+                         str(out/'circuits'/name)],out,out/(Path(name).stem+'.log'))
+        parts=reference.source_connectivity(xml,cpu if board=='1715w' else inv,board,contracts)
+        if board=='1715w':
+            for part in parts:part['nodes']=['computer_return' if n=='0' else n for n in part['nodes']]
+        components += parts
+    if len({c['reference'] for c in components})!=len(components):raise ValueError('duplicate assembly reference')
+    params={k:v[0] for k,v in signal_path.BOUNDS.items()}
+    params.update({k:v[0] for k,v in ASSEMBLY_BOUNDS.items()});models=[]
+    for name in ('horizontal-oscillator','vertical-output','regulator5','neck'):
+        path='profiles/k7222-11-'+name+'.json'; archive(path)
+        profile=reference.read_profile(out/path)
+        params.update(reference.parameter_values(profile,{}))
+        for model in [profile['models'],*profile.get('additional_models',[])]:
+            if model not in models:models.append(model)
+    models.append('circuits/signal-path-models.cir')
+    texts=[archive(name) for name in models]
+    # The neck's parameterized 1AD50 family also serves the sync filter; do not
+    # let a duplicate fixed .model silently shadow its explicit parameters.
+    texts=[re.sub(r'^\.model 1AD50_BOUND D\(IS=2n[^\n]*\n','',s,flags=re.M) for s in texts]
+    for name in ('reference/k7222-11/inventory.json','reference/1715w/output.json',
+                 'reference/k7222-11/t3-winding-hypothesis.json',
+                 'reference/k7222-11/t3-initial-parameters.json',
+                 'reference/k7222-11/horizontal-output-transcription.json',
+                 'reference/k7222-11/assembly.json', 'steady_supply.py',
+                 'magnetics.py','transformer_candidates.py','electrothermal.py'):
+        archive(name)
+    return dict(components=components,parameters=params,models=texts,hashes=hashes,
+                magnetic_graph=json.loads((out/'reference/k7222-11/t3-winding-hypothesis.json').read_text()),
+                magnetic_parameters=json.loads((out/'reference/k7222-11/t3-initial-parameters.json').read_text()),
+                coverage=reference.coverage(inv,[c for c in components if not c['source_id'].startswith('1715w:')]))
+
+
+def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=.005,
+         linear_solver='sparse', abstol=1e-6):
+    if type(fields) is not int or not 4<=fields<=64:raise ValueError('expected 4..64 continuous settling fields')
+    if not 1e-9<=max_step_s<=200e-9 or not 1e-5<=reltol<=.005:raise ValueError('invalid integration resolution')
+    if linear_solver not in ('sparse','klu') or not math.isfinite(abstol) or not 1e-12<=abstol<=1e-6:
+        raise ValueError('invalid linear solver/current tolerance')
+    if selection['status']!='complete':raise ValueError('no static source field')
+    graph=assembly.get('magnetic_graph') or json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
+    parameters=assembly.get('magnetic_parameters') or json.loads((ROOT/'reference/k7222-11/t3-initial-parameters.json').read_text())
+    magnetic,meta=transformer_candidates.compile_model(graph,candidate,parameters,backend='flux')
+    thermal=heater_equilibrium(); period=selection['period_ticks']/selection['clock_hz']
+    p={k:v[0] for k,v in ASSEMBLY_BOUNDS.items()} | assembly['parameters']
+    lines=['Experimental steady-supply K7222 native capture; unqualified hypothesis']
+    lines += [f'.param {k}={v:.15g}' for k,v in p.items()]
+    lines += [' '.join([c['reference'],*c['nodes'],c['value']]) for c in assembly['components']]
+    lines += assembly['models']+[magnetic,electrothermal.model(initial_rise_k=thermal['temperature_rise_k'],hold_temperature=True)]
+    events=selection['events']+[[selection['period_ticks'],*selection['events'][0][1:]]]
+    for i,signal in enumerate(('video','bsyn','intens'),1):
+        # Repeat only this captured waveform. The final period is byte-for-byte
+        # the selected original field; the preceding history is an assumption.
+        wave=signal_path.pwl(events,i,selection['clock_hz'],period)
+        endpoint=f'{period:.15g} {events[0][i]})'
+        if not wave.endswith(endpoint):wave=wave[:-1]+' '+endpoint
+        lines.append(f'Vlogic_{signal} logic_{signal} computer_return '+wave+' r=0')
+        previous='tx_'+signal
+        for j in range(4):
+            node='rx_'+signal if j==3 else f'cable_{signal}_{j}'
+            lines += [f'Rwire_{signal}_{j} {previous} {node} {p["cable_r"]/4}',
+                      f'Cwire_{signal}_{j} {node} 0 {p["cable_c"]/4}']
+            previous=node
+    lines += [f'Rreturn computer_return 0 {p["return_r"]}',
+        'Vp12 p12 0 12','Vp22 p22 0 22','Vp41 p41 0 41','Vn16 n16 0 -16',
+        'Rcontrast_top contrast_adjust intens {contrast_r*contrast_position}',
+        'Rcontrast_bottom intens contrast_low {contrast_r*(1-contrast_position)}',
+        'Xcrt p10_7 0 cathode g1 g2 eht heater_rise cathode_rise CRT_THERMAL',
+        'Ctube eht 0 {tube_anode_c}', 'Rhvleak eht 0 {tube_hv_leakage}',
+        'Rhorizontal hy1 h_winding {yoke_horizontal_r}','Lhorizontal h_winding hy2 {yoke_horizontal_l}',
+        'Rvertical y1 v_winding {yoke_vertical_r}','Lvertical v_winding y2 {yoke_vertical_l}',
+        'Rcapmid h_rectmid 0 {isolated_cap_leakage}','Ryokeleak hy1 0 {isolated_cap_leakage}',
+        f'.options {linear_solver} reltol={reltol} abstol={abstol} vntol=1e-6 method=gear',
+        '.save time '+' '.join(PROBES),
+        f'.tran {max_step_s} {period*fields:.17g} {period*(fields-4):.17g} {max_step_s}', '.end']
+    assumptions=['Ideal 12/22/41/-16 V converter rails; actual 5 V regulator retained.',
+        'Periodic repetition of a captured static field initializes the circuit; no cold thermal timeline.',
+        'Unmeasured horizontal yoke R/L, tube capacitance and leakage; explicit assembly bounds. Yoke inductance and optical field-per-ampere are not jointly calibrated.',
+        'Finite 1 Gohm DC leakage at isolated C19 midpoint and horizontal yoke; not a source component.',
+        'L4 branches use separate lumped inductance; their mutual coupling is unresolved.',
+        'Exploratory solver tolerances require independent refinement; completion is not acceptance.']
+    return '\n'.join(lines)+'\n',dict(candidate=meta,thermal=thermal,period_s=period,
+        simulated_fields=fields,retained_fields=4,assumptions=assumptions,
+        max_step_s=max_step_s,reltol=reltol,linear_solver=linear_solver,abstol=abstol,vntol=1e-6,parameters=p,assembly_bounds=ASSEMBLY_BOUNDS)
+
+
+def raw_rows(path):
+    """Stream native ngspice real binary rows, rejecting truncation/nonfinite data."""
+    with Path(path).open('rb') as stream:
+        header=b''
+        while not header.endswith(b'Binary:\n'):
+            line=stream.readline()
+            if not line or len(header)>100000:raise ValueError('missing raw binary header')
+            header+=line
+        text=header.decode(); n=int(re.search(r'No. Variables:\s+(\d+)',text)[1])
+        if not 2<=n<=256 or 'Flags: real' not in text:raise ValueError('unsupported raw vectors')
+        names=re.findall(r'^\s*\d+\s+(\S+)\s+\S+\s*$',text.split('Variables:\n')[1].split('Binary:')[0],re.M)
+        if len(names)!=n or names[0]!='time':raise ValueError('unexpected raw variable table')
+        declared=int(re.search(r'No. Points:\s+(\d+)',text)[1])
+        unpack=struct.Struct('='+str(n)+'d'); previous=-1; count=0
+        while True:
+            data=stream.read(unpack.size)
+            if not data:break
+            if len(data)!=unpack.size:raise ValueError('truncated raw row')
+            row=unpack.unpack(data)
+            if not all(math.isfinite(v) for v in row) or row[0]<0 or row[0]<=previous:raise ValueError('invalid raw sample')
+            previous=row[0];count+=1
+            yield dict(zip(names,row))
+        if count!=declared or count<2:raise ValueError('raw point count does not establish solver completion')
+
+
+def solve(text, output, runtime, *, timeout_s):
+    out=Path(output);out.mkdir(parents=True,exist_ok=False)
+    if not math.isfinite(timeout_s) or timeout_s<=0:raise ValueError('wall budget exhausted')
+    binary,receipt=monitor_runtime.verify(runtime)
+    (out/'run.cir').write_text(text); begin=time.monotonic(); timed_out=False
+    try:
+        with (out/'process.log').open('w') as log:
+            process=subprocess.run([str(binary),'-n','-b','-r','trace.raw','-o','solver.log','run.cir'],
+                cwd=out,stdout=log,stderr=subprocess.STDOUT,timeout=timeout_s)
+            code=process.returncode
+    except subprocess.TimeoutExpired:code=None;timed_out=True
+    log=(out/'solver.log').read_text() if (out/'solver.log').exists() else ''
+    failure=bool(re.search(r'(?i)timestep too small|aborted|fatal|error',log))
+    result=dict(status='failed' if failure or timed_out or code!=0 else 'complete',
+        timeout=timed_out,returncode=code,elapsed_s=time.monotonic()-begin,
+        runtime=receipt,deck_sha256=lab.digest(text.encode()),
+        solver_log_sha256=lab.digest(log.encode()),full_monitor_qualified=False)
+    (out/'solve.json').write_text(json.dumps(result,indent=2)+'\n')
+    return result
+
+
+def assess(path, metadata, selection):
+    """Reject incomplete, unlocked, nonperiodic or electrically implausible trials.
+
+    The last three fields are compared on a common phase grid. This is a
+    settling screen, not the tighter time-step or optical acceptance test.
+    """
+    period=metadata['period_s']; end=period*metadata['simulated_fields']
+    start=end-3*period; line=selection['line_period_ticks']/selection['clock_hz']
+    names=('v(eht)','v(g2)','v(g4)','v(cathode)','i(lhorizontal)',
+           'i(lvertical)','v(x1136.xshared.flux_b)')
+    sampled=[array.array('d') for _ in range(3)]
+    bins=max(4096,math.ceil(period*27648000));next_tick=0;columns=len(names)
+    hot_edges=[]; vertical_edges=[]; armed_h=True; armed_v=True
+    previous=None; count=0; heater_j=0.; span=0.; last=None
+    for row in raw_rows(path):
+        count+=1; last=row
+        if set(names)-set(row):raise ValueError('missing acceptance probe')
+        if row['v(h_hot)']<50:armed_h=True
+        if armed_h and row['v(h_hot)']>150:
+            if row['time']>=start and (not hot_edges or row['time']-hot_edges[-1]>.5*line):
+                hot_edges.append(row['time'])
+            armed_h=False
+        if row['v(vertical_pulse)']<2:armed_v=True
+        if armed_v and row['v(vertical_pulse)']>5:
+            if row['time']>=start:vertical_edges.append(row['time'])
+            armed_v=False
+        if previous is not None:
+            a,b=previous['time'],row['time']
+            if a>=start:
+                pa=previous['v(p10_7)']*previous['i(v.xcrt.vheater)']
+                pb=row['v(p10_7)']*row['i(v.xcrt.vheater)']
+                heater_j+=(pa+pb)*.5*(b-a);span+=b-a
+            while next_tick<3*bins:
+                target=start+(next_tick+.5)*period/bins
+                if target>b:break
+                if target<a:raise ValueError('trace does not cover settling comparison window')
+                fraction=(target-a)/(b-a)
+                sampled[next_tick//bins].extend(previous[n]+fraction*(row[n]-previous[n]) for n in names)
+                next_tick+=1
+        previous=row
+    failures=[]
+    complete=last is not None and abs(last['time']-end)<=max(1e-12,end*1e-10) and next_tick==3*bins
+    if not complete:failures.append('electrical trace does not reach the requested endpoint')
+    variation={}
+    if complete:
+        for j,n in enumerate(names):
+            waves=[field[j::columns] for field in sampled]
+            scale=max(math.sqrt(sum(x*x for x in w)/bins) for w in waves)
+            error=max(math.sqrt(sum((x-y)**2 for x,y in zip(waves[a],waves[b]))/bins)
+                      for a,b in ((0,1),(0,2),(1,2)))/max(scale,1e-12)
+            variation[n]=error
+            if error>=.01:failures.append('nonperiodic '+n)
+        if max(max(map(abs,field[6::columns])) for field in sampled)>=.5:
+            failures.append('core flux outside declared B(H) screen')
+        if (min(min(field[0::columns]) for field in sampled)<5000 or
+                max(max(field[0::columns]) for field in sampled)>25000):
+            failures.append('EHT outside exploratory 5..25 kV screen')
+        for j in (4,5):
+            if max(max(map(abs,field[j::columns])) for field in sampled)>10:
+                failures.append('yoke current outside exploratory +/-10 A screen')
+    phase=None
+    expected=3*period/line
+    if not expected-2<=len(hot_edges)<=expected+2:
+        failures.append('horizontal flyback count does not match native line timing')
+    if len(hot_edges)>1:
+        residual=[(t-hot_edges[0])/line-i for i,t in enumerate(hot_edges)]
+        phase=max(residual)-min(residual)
+        if phase>=.01:failures.append('horizontal phase drift exceeds 0.01 line')
+    else:failures.append('no horizontal flyback train')
+    if len(vertical_edges)!=3:failures.append('vertical reset count does not match three fields')
+    elif max(abs(b-a-period) for a,b in zip(vertical_edges,vertical_edges[1:]))>=.01*line:
+        failures.append('vertical reset phase drift exceeds 0.01 line')
+    power=heater_j/span if span else None
+    thermal_error=abs(power/metadata['thermal']['heater_power_w']-1) if power is not None else None
+    if thermal_error is None or thermal_error>=.001:failures.append('measured heater power does not close held-temperature heat balance')
+    return dict(format='dac-steady-supply-settling-v1',accepted=not failures,
+        failures=failures,complete=complete,phase_samples_per_field=bins,rows=count,simulated_until_s=last['time'] if last else None,
+        waveform_relative_rms_error=variation,horizontal_phase_variation_lines=phase,
+        horizontal_edges=len(hot_edges),vertical_edges=len(vertical_edges),
+        heater_power_w=power,thermal_power_relative_error=thermal_error,
+        full_monitor_qualified=False,numerical_refinement_verified=False)
+
+
+def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None):
+    """Archive and screen the assembled hypotheses under a single wall budget.
+
+    No successful solve or plausible picture is promoted to a verified frame.
+    Remaining acceptance requirements are reported alongside measured failures.
+    """
+    if not math.isfinite(wall_budget_hours) or not 0<wall_budget_hours<=12:
+        raise ValueError('wall budget must be positive and at most 12 hours')
+    out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
+    begin=time.monotonic();deadline=begin+wall_budget_hours*3600
+    report=dict(format='dac-steady-supply-frame-run-v1',status='incomplete',
+        qualification='experimental-connected-electrical-screen',full_monitor_qualified=False,
+        specimen_validated=False,mode='steady-supply-frame',outputs={},candidates=[],blockers=[])
+    def save():
+        report['elapsed_s']=time.monotonic()-begin
+        (out/'run.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
+    save()
+    try:
+        raw=Path(capture).read_bytes();(out/'input.json').write_bytes(raw)
+        data=lab.parse_capture(out/'input.json');selection=select(data)
+        report['capture_sha256']=lab.digest(raw)
+        (out/'selection.json').write_text(json.dumps(selection,indent=2)+'\n')
+        report['outputs']['selection']='selection.json'
+        if data['qualification']!='schematic-derived-logical':raise ValueError('native firmware capture required')
+        if selection['status']!='complete':raise ValueError(selection['reason'])
+        if not any(e[1] for e in selection['events']):
+            raise ValueError('selected capture has no active VIDEO; check boot ROM and character generator provenance')
+        assembly=assemble(out/'assembly')
+        if magnetic_parameters is not None:
+            raw_parameters=Path(magnetic_parameters).read_bytes()
+            (out/'assembly/magnetic-override.json').write_bytes(raw_parameters)
+            assembly['magnetic_parameters']=json.loads(raw_parameters)
+            assembly['hashes']['magnetic-override.json']=lab.digest(raw_parameters)
+        report['hashes']=assembly['hashes'];report['coverage']=assembly['coverage']
+        report['outputs']['assembly']='assembly'
+        report['tuning']=tune(assembly,selection,changes)
+        graph=json.loads((out/'assembly/reference/k7222-11/t3-winding-hypothesis.json').read_text())
+        candidates=sorted(transformer_candidates.enumerate_candidates(graph),key=lambda c:c['id'])
+        if candidate!='auto':
+            candidates=[c for c in candidates if c['id']==candidate]
+            if not candidates:raise ValueError('unknown transformer candidate')
+        for c in candidates:
+            remaining=deadline-time.monotonic()
+            if remaining<=0:report['blockers'].append('whole-run wall budget exhausted');break
+            entry=dict(id=c['id'],polarity=c['polarity'],attempts=[],settling={'accepted':False})
+            report['candidates'].append(entry)
+            for field_count in (4,8,16,32,64):
+                remaining=deadline-time.monotonic()
+                if remaining<=0:
+                    report['blockers'].append('whole-run wall budget exhausted');break
+                text,metadata=deck(assembly,selection,c,fields=field_count,**(solver or {}))
+                trial=out/c['id']/str(field_count)
+                result=solve(text,trial,runtime,timeout_s=min(remaining,1800*field_count/4))
+                (trial/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
+                attempt=dict(fields=field_count,solve=result,
+                    outputs=dict(deck=str(trial.relative_to(out)/'run.cir'),metadata=str(trial.relative_to(out)/'metadata.json')))
+                entry['attempts'].append(attempt)
+                if result['status']=='complete':
+                    attempt['settling']=assess(trial/'trace.raw',metadata,selection)
+                else:
+                    attempt['settling']=dict(accepted=False,failures=['solver failed or exceeded the trial wall budget'])
+                entry['settling']=attempt['settling'];save()
+                if result['status']!='complete' or entry['settling']['accepted']:break
+                hard=('core flux outside declared B(H) screen','yoke current outside exploratory +/-10 A screen',
+                      'no horizontal flyback train')
+                if any(f in entry['settling']['failures'] for f in hard):break
+                expected=3*selection['period_ticks']/selection['line_period_ticks']
+                if abs(entry['settling']['horizontal_edges']/expected-1)>.1:break
+        report['surviving_candidates']=[c['id'] for c in report['candidates'] if c['settling']['accepted']]
+        if not report['surviving_candidates']:
+            report['blockers'].append('No tested connected candidate passed lock and three-field settling.')
+        report['selected_candidate']=report['surviving_candidates'][0] if report['surviving_candidates'] else None
+        report['blockers'] += [
+            'Electrical timestep refinement, complete energy closure and trajectory-current load feedback remain unimplemented in this assembly runner.',
+            'Accepted electrical trace export, numerical/spatial image acceptance and reusable frame cache are not connected to this runner.']
+        report['status']='blocked';save();return report
+    except Exception as error:
+        report.update(status='failed',failure=str(error));save();raise

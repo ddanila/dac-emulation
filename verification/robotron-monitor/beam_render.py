@@ -79,7 +79,7 @@ class Renderer:
         if type(bundle_budget) is not int or not 1<=bundle_budget<=100000000:raise ValueError('invalid ray budget')
         self.step_m=step_m;self.max_dt=max_dt_s;self.movement=movement_pixels;self.budget=bundle_budget
         self.bundles=0;self.events=[];self.serial=0;self.frames=[];self.rays=[]
-        self.started=False;self.completed=False
+        self.started=False;self.completed=False;self.window_start_s=None
         self.incident_j=0.;self.intercepted_j=0.;self.max_energy_error_ev=0.;self.samples=0
         self._bundle=functools.lru_cache(maxsize=512)(self._solve)
         self.continuation=continuation is not None;self.last_row=None
@@ -150,7 +150,13 @@ class Renderer:
             if all(r['landed'] for r in (ra,rm,rb)):
                 displacement=max(displacement,math.hypot((ra['x_m']-rb['x_m'])*scale[0],(ra['y_m']-rb['y_m'])*scale[1]),
                                  2*math.hypot((rm['x_m']-(ra['x_m']+rb['x_m'])/2)*scale[0],(rm['y_m']-(ra['y_m']+rb['y_m'])/2)*scale[1]))
-        if (changed or displacement>self.movement) and dt>1e-12:
+        # Resolve physical pixel crossings before depositing a midpoint ray.
+        # Pixel area integration must not acquire a resolution-dependent blur.
+        crossed=any(self.surface.cell(ra['x_m'],ra['y_m'])!=self.surface.cell(rb['x_m'],rb['y_m'])
+                    or self.surface.cell(ra['x_m'],ra['y_m'])!=self.surface.cell(rm['x_m'],rm['y_m'])
+                    for ra,rm,rb in zip(left['rays'],center['rays'],right['rays'])
+                    if all(r['landed'] for r in (ra,rm,rb)))
+        if (changed or crossed or displacement>self.movement) and dt>1e-12:
             self._segment(a,mid,depth+1);self._segment(mid,b,depth+1);return
         self.samples+=1
         for ray in center['rays']:
@@ -185,6 +191,7 @@ class Renderer:
             raise ValueError('frame budget exceeded')
         source=iter(validated_rows(rows,row_budget=row_budget,duration_budget_s=duration_budget_s))
         a=next(source);b=next(source)
+        self.window_start_s=a[0]
         if times[0]!=a[0]:raise ValueError('frame times must span the electrical window')
         if self.continuation:
             if a!=self.last_row:raise ValueError('electrical continuation boundary mismatch')

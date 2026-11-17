@@ -1,0 +1,199 @@
+{
+  "format": "dac-monitor-profile-v1",
+  "id": "k7222-11-horizontal-oscillator",
+  "name": "K7222 horizontal phase detector oscillator driver",
+  "qualification": "bounded-stage",
+  "schematic": "circuits/k7222-11-horizontal-oscillator.kicad_sch",
+  "models": "circuits/k7222-11-horizontal-models.cir",
+  "bench": "circuits/k7222-11-horizontal-oscillator-bench.cir",
+  "inventory": "reference/k7222-11/inventory.json",
+  "board": "012-6921",
+  "parameters": {
+    "horizontal_trim_fraction": {
+      "nominal": 0.5,
+      "minimum": 0.01,
+      "maximum": 0.99,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "R24 wiper setting."
+    },
+    "horizontal_tank_l": {
+      "nominal": 0.0009,
+      "minimum": 0.0001,
+      "maximum": 0.004,
+      "unit": "H",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured inductance per half of adjustable T1 winding."
+    },
+    "horizontal_tank_r": {
+      "nominal": 1,
+      "minimum": 0.1,
+      "maximum": 10,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured winding resistance."
+    },
+    "horizontal_coupling": {
+      "nominal": 0.995,
+      "minimum": 0.95,
+      "maximum": 0.9999,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured magnetic coupling."
+    },
+    "horizontal_driver_l": {
+      "nominal": 0.005,
+      "minimum": 0.001,
+      "maximum": 0.02,
+      "unit": "H",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured T2 primary inductance."
+    },
+    "horizontal_driver_r": {
+      "nominal": 2,
+      "minimum": 0.1,
+      "maximum": 10,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured T2 primary resistance."
+    },
+    "horizontal_driver_ratio": {
+      "nominal": 3,
+      "minimum": 1,
+      "maximum": 10,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured T2 primary/secondary turns ratio."
+    },
+    "horizontal_secondary_r": {
+      "nominal": 0.3,
+      "minimum": 0.01,
+      "maximum": 3,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured T2 secondary resistance."
+    },
+    "horizontal_choke_r": {
+      "nominal": 0.5,
+      "minimum": 0.05,
+      "maximum": 5,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+    },
+    "horizontal_choke_l": {
+      "nominal": 0.0001,
+      "minimum": 1e-05,
+      "maximum": 0.001,
+      "unit": "H",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+    },
+    "horizontal_linearity_r": {
+      "nominal": 0.1,
+      "minimum": 0.01,
+      "maximum": 1,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+    },
+    "horizontal_linearity_l": {
+      "nominal": 2e-05,
+      "minimum": 1e-06,
+      "maximum": 0.0001,
+      "unit": "H",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+    },
+    "horizontal_compensation_r": {
+      "nominal": 0.1,
+      "minimum": 0.01,
+      "maximum": 1,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+    },
+    "horizontal_compensation_l": {
+      "nominal": 5e-06,
+      "minimum": 1e-07,
+      "maximum": 5e-05,
+      "unit": "H",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+    },
+    "horizontal_brightness_fraction": {
+      "nominal": 0.5,
+      "minimum": 0.01,
+      "maximum": 0.99,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+    },
+    "horizontal_focus_fraction": {
+      "nominal": 0.5,
+      "minimum": 0.01,
+      "maximum": 0.99,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+    }
+  },
+  "subcircuits": {
+    "HORIZONTAL_TRIM": 3,
+    "HORIZONTAL_TANK": 3,
+    "HORIZONTAL_DRIVER": 4
+  },
+  "probes": [
+    {
+      "name": "tank",
+      "expression": "v(h_tank)",
+      "unit": "V",
+      "source_id": "012-6921:T1"
+    },
+    {
+      "name": "drive",
+      "expression": "v(h_drivebase)",
+      "unit": "V",
+      "source_id": "012-6921:V13"
+    },
+    {
+      "name": "collector",
+      "expression": "v(h_drivecol)",
+      "unit": "V",
+      "source_id": "012-6921:V13"
+    },
+    {
+      "name": "control",
+      "expression": "v(h_control)",
+      "unit": "V",
+      "source_id": "012-6921:R18"
+    },
+    {
+      "name": "reactance",
+      "expression": "v(h_reactbase)",
+      "unit": "V",
+      "source_id": "012-6921:V10"
+    },
+    {
+      "name": "secondary",
+      "expression": "v(h_outputbase)",
+      "unit": "V",
+      "source_id": "012-6921:T2"
+    }
+  ],
+  "limitations": [
+    "Isolated oscillator/driver bench; no output transistor, flyback, sync acquisition or complete monitor claim.",
+    "T1/T2 and semiconductor models are uncalibrated.",
+    "BOM-based R14/R24/R25 variant differs from annotated R43/R44 drawing labels; see horizontal-transcription.json."
+  ],
+  "source_pages": [
+    {
+      "file": "older.pdf",
+      "page": 3
+    },
+    {
+      "file": "older-operation.pdf",
+      "page": 18
+    }
+  ]
+}
