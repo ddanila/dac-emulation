@@ -118,3 +118,19 @@ transformer polarity/taps/inductance/leakage/capacitance/core characteristics,
 yoke parameters and tube/phosphor calibration. An oscillator driven by an ideal
 source or a guessed transformer can demonstrate the pipeline but cannot satisfy
 that qualification.
+
+
+### Vertical amplifier and regulator review
+
+The A3 reconstruction uses operating-manual PDF p15 Fig.12 to disambiguate the
+feedback chain: V23 connects the lower threshold to the upper threshold; V24/V25
+connect the upper threshold to the amplifier input. C23 decouples the 7.15 V
+reference. Source-set p10 identifies C21 on the negative rail and R29 across the
+yoke. The BOM sets C26 to 220 pF. These are circuit connections, independent of
+whether the assumed LM709-family and power-transistor models match the specimen.
+
+The 5 V regulator output capacitor is **C5, 1000 µF**, not C8, 47 µF. Enlarged
+source-set p9 and operating-manual p9 (printed p7) resolve the designator: the
+latter explicitly assigns C8 to the converter soft-start network with R18/R12.
+The earlier regulator sheet and recordings used the wrong source identity/value;
+they are superseded. C8 remains unimplemented until the converter is connected.

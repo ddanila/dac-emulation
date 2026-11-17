@@ -1,0 +1,9 @@
+* Engineering bounds, not fitted factory transistor curves.
+.model VERT_Z16 D(IS=1n N=1.5 RS=2 BV=16 IBV=1m)
+.model VERT_POWER_N NPN(IS=1e-12 BF={output_bf} VAF=80 CJE=200p CJC=80p TF=20n TR=200n)
+.model VERT_POWER_P PNP(IS=1e-12 BF={output_bf} VAF=80 CJE=200p CJC=80p TF=20n TR=200n)
+* Source R58 remains one inventoried device; no duplicate source identities.
+.subckt VERT_POT top wiper bottom
+Ra top wiper {470*symmetry_fraction}
+Rb wiper bottom {470*(1-symmetry_fraction)}
+.ends VERT_POT

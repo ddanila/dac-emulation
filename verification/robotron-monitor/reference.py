@@ -40,6 +40,15 @@ def read_profile(path):
         resolved=(ROOT/name).resolve()
         if not resolved.is_relative_to(ROOT) or not resolved.is_file() or resolved.suffix!='.kicad_sch':
             raise ValueError('additional schematic outside laboratory or missing')
+    extra_models = profile.get('additional_models', [])
+    if (not isinstance(extra_models, list) or len(extra_models) > 16
+            or any(not isinstance(s, str) for s in extra_models)
+            or len(set(extra_models)) != len(extra_models) or profile['models'] in extra_models):
+        raise ValueError('invalid additional models')
+    for name in extra_models:
+        resolved = (ROOT/name).resolve()
+        if not resolved.is_relative_to(ROOT) or not resolved.is_file() or resolved.suffix != '.cir':
+            raise ValueError('additional model outside laboratory or missing')
     for name, p in profile['parameters'].items():
         values = [p[k] for k in ('minimum', 'nominal', 'maximum')]
         if (not IDENTIFIER.fullmatch(name) or any(type(v) not in (int, float) or not math.isfinite(v) for v in values)
@@ -207,6 +216,8 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
                      lab='lab.py', optics='optics.py', sources='sources.json', faults='faults.py')
         for i,name in enumerate(profile.get('additional_schematics',[])):
             key=f'schematic_{i}';files[key]=(ROOT/name).read_bytes();names[key]=f'input-{i}.kicad_sch'
+        for i,name in enumerate(profile.get('additional_models', [])):
+            key=f'model_{i}'; files[key]=(ROOT/name).read_bytes(); names[key]=f'models-{i}.cir'
         for key,value in (('scenario',scenario),('fault',fault),('component_factors',component_factors)):
             if value is not None:
                 files[key]=json.dumps(value,sort_keys=True,allow_nan=False).encode();names[key]=key+'.json'
@@ -236,7 +247,9 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
                     raise ValueError('healthy passive tolerance exceeded')
                 by_id[sid]['value']=f"{faults.number(by_id[sid]['value'])*factor:.15g}"
         components=faults.parasitics(components,profile.get('parasitics',[]),parameters)
-        components,models,mutation=faults.apply(components,files['models'].decode(),fault,regularization=regularization)
+        models = '\n'.join(files[key].decode() for key in ['models'] +
+                           [f'model_{i}' for i in range(len(profile.get('additional_models', [])))])
+        components,models,mutation=faults.apply(components,models,fault,regularization=regularization)
         text = deck(profile, components, parameters, start, stop, step, models, files['bench'].decode())
         (output/'run.cir').write_text(text)
         log = lab.run_command(['ngspice', '-b', 'run.cir'], output, output/'ngspice.log')

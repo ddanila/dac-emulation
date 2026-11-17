@@ -1,0 +1,40 @@
+* Provisional P09A substitute: LM709 manufacturer internal circuit.
+* TI/National SNOS659A, PDF page 4 (printed 3), metal-can pin order.
+* Port order: compensation A, inverting, noninverting, V-, output
+* compensation, output, V+, compensation B. Board DIP pins: 3,4,5,6,9,10,11,12.
+* Resistors/topology transcribed; transistor parameters are engineering
+* assumptions, NOT characterized P09A/LM709 silicon. No SOA/thermal model.
+.subckt LM709_FAMILY ca inv noninv vm co out vp cb
+Q1 n1 noninv tail N709
+Q2 ca inv tail N709
+Q3 n3 n1 e3 N709
+Q4 n3 e3 bias N709
+Q5 cb ca e5 N709
+Q6 cb e5 bias N709
+Q7 vp n3 e7 N709
+Q8 vp cb e8 N709
+Q9 co bias n9e P709
+Q10 tailbase tailbase vm N709
+Q11 tail tailbase tail_e N709
+Q12 c12 co e12 N709
+Q13 vm c12 out P709
+Q14 vp c12 out N709
+Q15 bias_top bias_top bias N709
+R1 e7 n1 25k
+R2 e7 ca 25k
+R3 e3 bias_top 3k
+R4 e5 bias_top 3k
+R5 vp n3 10k
+R6 vp cb 10k
+R7 e8 n9e 1k
+R8 bias tap 3.6k
+R9 n9e tap 10k
+R10 tap tailbase 10k
+R11 tail_e vm 2.4k
+R12 co e12 10k
+R13 e12 vm 75
+R14 vp c12 20k
+R15 n9e out 30k
+.model N709 NPN(IS=1e-14 BF=100 VAF=100 CJE=4p CJC=2p TF=.2n TR=20n)
+.model P709 PNP(IS=1e-14 BF=50 VAF=50 CJE=4p CJC=2p TF=20n TR=100n)
+.ends LM709_FAMILY
