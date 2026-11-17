@@ -414,8 +414,8 @@ a final replay. A run starts with an empty phosphor surface unless an explicit o
 restored. An absolute 300 s timestamp does **not** establish a 300 s warm-up
 simulation or electrical/thermal continuation.
 
-The audit exits 2 while blocked. It currently exports five KiCad sheets and
-counts **72 of 260** historical entries connected. This is coverage, not
+The audit exits 2 while blocked. It currently exports six KiCad sheets and
+counts **88 of 260** historical entries connected. This is coverage, not
 qualification. See `reference/k7222-11/full-path-requirements.json` for the
 remaining power, horizontal, vertical-output, tube-loading, continuation and
 validation gates. **No complete-monitor picture or warm-up sequence is claimed.**
@@ -465,7 +465,7 @@ turns and modified cold-end wiring are not silently substituted for it.
 ## Connected-stage and candidate work
 
 The source audit now gives all 260 inventory entries an explicit disposition:
-72 connected/modeled entries and 188 unresolved implementations. “Modeled” means
+88 connected/modeled entries and 172 unresolved implementations. “Modeled” means
 connected in an audited source sheet, not validated as part of a complete assembly.
 Assembly completeness, candidate topology and historical qualification remain
 separate gates. No missing component is marked assembly-only just to improve a
@@ -535,3 +535,71 @@ electrons in flight across the boundary. Images, linear power and energy ledgers
 agree. This is **optical state only**: no electrical solver history, magnetic
 state or thermal continuation is implied. Verified multirate full-monitor warm-up
 and fault-family diagnosis are still unimplemented.
+
+## Full-field firmware preparation (full-circuit rendering still blocked)
+
+`capture.py` now defaults to 1,382,400 dot ticks (100 ms). It still captures native
+VIDEO/BSYN/INTENS edges, not RGB pixels, and archives the input/executable hashes.
+`--dot-ticks` remains available for an explicit length. Longer capture alone does
+not extend the separate 2 ms `signal_path.py` electrical bench.
+
+```sh
+python3 verification/robotron-monitor/capture.py --rom ROM2048 --prom CAS256 \
+  --disk DISK --output firmware.json
+python3 verification/robotron-monitor/frames.py --capture firmware.json \
+  --output build/monitor/firmware-fields
+python3 verification/robotron-monitor/full_path.py --capture firmware.json \
+  --profile k7222-11 --output build/monitor/firmware-preflight
+```
+
+The field selector recognizes groups of broad active-low BSYN pulses in the
+1715W connector contract and requires ordinary line sync around each group.
+Initial/final partial sync groups do not establish boundaries. Selection defaults
+to one complete field after one complete pre-roll field; it retains the entire
+input and integer timestamps, including video, intensity and blanking events.
+Stopped raster, short captures, missing line sync and detected changes in field
+period produce an incomplete selection. This is input analysis, not proof that
+the monitor has locked. No frames are repeated or rescaled.
+
+`full_path.py` is currently a **preflight entry point only**, not a working
+full-monitor renderer. It archives the capture, selected window, circuit audit,
+source hashes, requested transformer candidate and actionable blockers. An
+optional `--candidate ID` must match the enumerated hypothesis set; it never picks
+one by picture appearance. Successful preflight analysis still exits 2 with
+`status: blocked`: the connected electrical/thermal solver is absent. It exports
+no PNG or replay and cannot promote an optical trace into a firmware rendering.
+Assembly completeness, numerical acceptance and specimen validation remain
+separate false fields. Failures after output creation leave an incomplete run manifest; invalid profile or
+candidate identifiers are rejected before creating the output directory.
+
+### Connected vertical ramp
+
+The `k7222-11-vertical-integrator` profile extends the connected sync/oscillator
+bench with 16 source-addressed components from older.pdf p9, including A2, C22,
+the height control, V12 and the PNP V13 reset path. The operating manual p14
+(Fig. 10) independently explains charging, rapid reset and the height adjustment.
+There are 34 components in this connected bench; the full-path inventory audit
+now accounts for 88/260 entries across separate sheets, **not one complete monitor**.
+
+A2 uses a provisional LM723-family equivalent with the metal-can pin contract
+from TI SNVS765C p2. The reference, differential amplifier, external compensation,
+series pass transistor and current-limit transistor are connected; driver source
+current comes from V+ and sink current returns to V-. The 7.15 V reference and
+1.7 mA quiescent current are family values, not Tesla measurements. Transconductance,
+internal pole, gain, output-transistor characteristics and reference resistance
+are explicit engineering assumptions in the model. It has no calibrated startup,
+thermal, SOA or fault-protection qualification.
+
+C15's original capacitance is still unreadable: the inventory remains unresolved.
+The profile exposes an assumed 10–1000 pF range (100 pF nominal), not a claimed
+factory value. R35 defaults to 11 kohm within its 22 kohm rheostat range. The bench
+still supplies ideal 12 V, synthetic sync and a 100 kohm downstream ramp load.
+Tests check a rising ramp, short reset, lock to the imposed field period, height
+adjustment, timestep refinement and compensation sensitivity. These checks do
+not establish yoke current, screen height or a pale-image diagnosis.
+
+Remaining implementation: converter and horizontal/flyback circuitry, A3/power
+deflection and yoke coupling, bounded numerical transformer candidates in that
+assembly, solved tube supplies/loading, continuous electrical state, settled
+operating-point iteration, and full-frame electrical/optical verification. No new
+complete-circuit museum screenshot is published by this increment.

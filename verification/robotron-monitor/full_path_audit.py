@@ -7,6 +7,7 @@ ROOT=Path(__file__).resolve().parent
 SHEETS=(('k7222-11-input.kicad_sch','012-6921',{'T200_BOUND':14}),
         ('k7222-11-sync-filter.kicad_sch','012-6931',None),
         ('k7222-11-vertical-oscillator.kicad_sch','012-6931',None),
+        ('k7222-11-vertical-integrator.kicad_sch','012-6931',{'MAA723_BOUND':10}),
         ('k7222-11-regulator5.kicad_sch','012-6931',{'REG5_POT':3}),
         ('k7222-11-neck.kicad_sch','012-6891',None))
 
