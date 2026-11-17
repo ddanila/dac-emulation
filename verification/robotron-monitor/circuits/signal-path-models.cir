@@ -1,0 +1,27 @@
+* Bounded functional models, NOT fitted 74S37/T200 device curves.
+* Source E03 NAND logic is evaluated by the digital adapter upstream.
+.subckt S37_DRIVER logic output ground params: resistance=1 slew=1
+Btarget target ground V={driver_low+(driver_high-driver_low)*v(logic,ground)}
+Redge target edge 1k
+Cedge edge ground {driver_tau*slew/1000}
+Boutput output ground I={(v(output,ground)-v(edge,ground))/(resistance*(driver_r_low+(driver_r_high-driver_r_low)*min(1,max(0,(v(edge,ground)-driver_low)/(driver_high-driver_low)))))}
+.ends S37_DRIVER
+* Input current is an explicit assumed TTL loading law; no implied logic input
+* at 0.5 VCC. Threshold and transition span have independent bounded parameters.
+.subckt GATE a b y ground supply
+Ba a ground I={20u-220u/(1+exp((v(a,ground)-gate_threshold)/gate_span))}
+Bb b ground I={20u-220u/(1+exp((v(b,ground)-gate_threshold)/gate_span))}
+Ca a ground {gate_input_c}
+Cb b ground {gate_input_c}
+Btruth truth ground V={1-1/(1+exp(-(v(a,ground)-gate_threshold)/gate_span))/(1+exp(-(v(b,ground)-gate_threshold)/gate_span))}
+Rdelay truth smooth 1k
+Cdelay smooth ground {gate_tau/1000}
+Boutput y ground I={(v(y,ground)-(.15+max(v(supply,ground)-.95,0)*v(smooth,ground)))/(10+70*v(smooth,ground))}
+.ends GATE
+.subckt T200_BOUND a1 b1 y1 a2 b2 y2 ground y3 a3 b3 y4 a4 b4 supply
+Xg1 a1 b1 y1 ground supply GATE
+Xg2 a2 b2 y2 ground supply GATE
+Xg3 a3 b3 y3 ground supply GATE
+Xg4 a4 b4 y4 ground supply GATE
+.ends T200_BOUND
+.model Z9_BOUND D(IS=1n N=1.5 RS=5 BV=9.1 IBV=1m CJO=30p)

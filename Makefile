@@ -43,7 +43,7 @@ build/vjuga-boot: build/runners/native/vjuga_boot.o $(Z80_OBJECTS)
 -include $(Z80_OBJECTS:.o=.d) build/runners/native/vjuga_boot.d
 
 all: build/robotron-boot
-build/robotron-monitor-capture: build/runners/native/robotron_monitor_capture.o $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+build/robotron-monitor-capture: build/machines/robotron1715m/video_output.o build/runners/native/robotron_monitor_capture.o $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
 	$(CC) $(CFLAGS) $^ -o $@
 -include build/runners/native/robotron_monitor_capture.d
 
@@ -305,3 +305,15 @@ build/test-kaypro2-fdc: tests/kaypro2_fdc_test.c machines/kaypro2/kaypro2.c mach
 test-kaypro2-fdc: build/test-kaypro2-fdc
 	./build/test-kaypro2-fdc
 test: test-kaypro2-fdc
+
+# Optional video observer; does not alter the machine snapshot ABI.
+build/robotron-video-output-test: tests/integration/robotron_video_output_test.c build/machines/robotron1715m/video_output.o $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@
+.PHONY: test-robotron-video-output
+test: test-robotron-video-output
+test-robotron-video-output: build/robotron-video-output-test
+	./build/robotron-video-output-test
+-include build/machines/robotron1715m/video_output.d
+
+build/robotron-signal-pattern: runners/native/robotron_signal_pattern.c build/machines/robotron1715m/video_output.o $(ROBOTRON_OBJECTS) build/common/cpu/z80.o build/common/media/media.o build/common/trace/trace.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(WARN) $^ -o $@

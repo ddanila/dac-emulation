@@ -266,18 +266,67 @@ python3 verification/robotron-monitor/lab.py --capture capture.json \
 Omitting `--chargen` retains the initial character generator, which firmware may
 subsequently populate; alternatively supply exactly 4096 bytes. The wrapper
 records ROM/PROM/disk/optional-font and native executable hashes. The runner mounts the disk
-read-only. Boot ticks are CPU ticks; capture ticks use the declared 13.824 MHz
-dot clock. It serializes the emulated row-latched glyphs and intensity, without
-using host RGB frames. Its active-low BSYN during modeled horizontal/vertical
-retrace is an **unverified adapter assumption**. Rational character timing comes
-from the existing core, not reconstructed M/W connector gates. Stopped scanout
-fails rather than hanging or publishing a complete-looking capture.
+read-only. Boot ticks are CPU ticks. New captures use `dac-monitor-input-v2`
+and a 179.712 MHz integer timebase: 45 ticks per CPU cycle and 13 per dot.
+The observational adapter serializes the core's row-latched glyphs without host
+RGB frames or changes to machine state. E03 connector INTENS is inverted HGLT.
+BSYN follows the transcribed E05 one-shots, E07 four-line shift register and E04
+latch, rather than treating blanking as sync. Nominal one-shot duration is 1060
+ticks (approximately 5.9 µs); this is schematic-derived logic, not measured
+propagation or temperature behavior. A stopped raster produces a valid static capture.
 
-The JSON format `dac-monitor-input-v1` contains integer `clock_hz` and ordered
-`events`: `[dot_tick, VIDEO, BSYN, INTENS]`, starting at zero and ending with a
-duration sentinel. The current fixture consumes VIDEO only. BSYN/INTENS are
-retained for a future historical receiver model and must not be claimed as
-electrically simulated. No emulator state layout or browser core ABI is changed.
+Events are `[tick, VIDEO, BSYN, INTENS]`, with initial state at zero and a final
+duration sentinel. Revision, qualification, assumptions and time origin are
+mandatory in v2. Capture observes up to the last 40 ms of boot to initialize
+sync state. Pixel content still inherits the core's row-latched rendering; reset
+and register-write observation retain CPU-cycle resolution. No emulator state
+layout or browser core ABI changes. Legacy v1 remains readable by the original
+VIDEO-only fixture; it cannot qualify the new three-signal path.
+
+## Loaded computer-to-monitor signal path
+
+See [source audit and model boundaries](reference/1715w/README.md).
+The separate bench connects source-addressed KiCad output, 012-6921 receiver,
+012-6931 vertical input filter and 012-6891 neck sheets. It uses finite output
+impedance and slew, distributed cable R/C, a shared return resistance, T200
+input loading, input clamps, sync buffering and intensity/contrast conditioning.
+The horizontal phase-control and vertical oscillator are outside this bench;
+their loads are explicit bounded resistors. Supplies remain external.
+
+```sh
+make build/robotron-signal-pattern test-robotron-video-output
+build/robotron-signal-pattern highlight > build/monitor/signal-highlight.json
+python3 verification/robotron-monitor/signal_path.py \
+  --capture build/monitor/signal-highlight.json --output build/monitor/signal-one
+python3 verification/robotron-monitor/verify_signal_path.py \
+  --capture build/monitor/signal-highlight.json --output build/monitor/signal-checks
+python3 verification/robotron-monitor/export_signal_path.py \
+  --verification build/monitor/signal-checks/verification.json \
+  --case nominal --output build/monitor/qualified-video-path.mcrt
+```
+
+Patterns: black, white, alternating dots, bars, checkerboard, synthetic text and
+highlight. Each uses the shared output logic. They are declared synthetic, not
+firmware captures. Fault cases independently change driver strength/slew, cable
+capacitance, return resistance, sync presence/width, intensity state, input clamp
+leakage or sync bias. Exact interventions are recorded in the generated deck and
+input snapshot; they are exploratory severities, not diagnosed component values.
+
+Every run archives source inputs, effective stimulus, exported netlists, solver
+logs, hashes and metrics. A failed solve stays incomplete and has no usable
+replay. The verifier compares 0.5 ns and 0.25 ns sampling, and four versus eight
+cable sections, over 60 µs. Acceptance requires 1% agreement with 1 mV/100 ps
+absolute floors, identical edge counts and no disappearing measured features.
+The exporter requires both nominal and selected-case acceptance and binds that
+result to the recording's hashes. Numerical convergence does not establish
+physical accuracy. A single run is explicitly unqualified numerically.
+
+Metrics include extrema, mean, threshold edge counts, median rising-edge
+interval (`period_s`), median high width and 10–90% rise time. These characterize
+the recorded waveform; an interval is not necessarily a clock period or sync
+lock. The browser overlays computer connector, monitor connector and receiver
+output on common timestamps, with each voltage's return reference identified.
+There are no inferred screen dimensions, brightness or flyback diagnoses.
 
 ## Replay contract
 
@@ -313,8 +362,8 @@ does not integrate phosphor again at browser frame rate.
   supply coupling, and qualify startup, shutdown, sync loss and component faults.
 - Establish device, tube and phosphor models from datasheets/measurements; compare
   documented service waveforms and numerical refinement independently.
-- Qualify connector signals against the computer's display-board circuit before
-  calling functional captures accurate monitor-pin captures.
+- Calibrate the schematic-derived output/receiver models against service data and
+  specimen measurements before claiming accurate physical connector voltages.
 - Add historically qualified recordings and map their nodes to the museum's
   specimen geometry only once that board/tube identity is established.
 
