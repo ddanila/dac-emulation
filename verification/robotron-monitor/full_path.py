@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+"""Prepare a firmware-to-CRT run and enforce the assembly publication gate.
+
+This entry point currently stops at preflight: no connected full-monitor solver
+exists. It intentionally cannot promote an arbitrary electrical trace, stage
+bench or plausible-looking optical replay into a full-circuit firmware image.
+"""
+import argparse,json,subprocess
+from pathlib import Path
+import frames,full_path_audit,lab,transformer_candidates
+ROOT=Path(__file__).resolve().parent
+
+
+def run(capture,output,*,profile='k7222-11',candidate=None,fields=1,pre_roll_fields=1):
+    if profile!='k7222-11':raise ValueError('unsupported full-path monitor profile')
+    graph=ROOT/'reference/k7222-11/t3-winding-hypothesis.json'
+    candidates=transformer_candidates.enumerate_candidates(json.loads(graph.read_text()))
+    ids=[c['id'] for c in candidates]
+    if candidate is not None and candidate not in ids:raise ValueError('unknown transformer candidate')
+    out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
+    report=dict(format='dac-monitor-full-path-run-v1',status='incomplete',profile=profile,
+        qualification='preflight-only',full_monitor_qualified=False,
+        assembly_complete=False,numerical_acceptance=False,specimen_validated=False,
+        transformer_candidate=candidate,available_candidates=ids,
+        outputs={},blockers=[],hashes={})
+    def save():(out/'run.json').write_text(json.dumps(report,indent=2)+'\n')
+    save()
+    try:
+        selected=frames.prepare(capture,out/'capture',fields=fields,pre_roll_fields=pre_roll_fields)
+        audit=full_path_audit.audit(out/'assembly')
+        report['outputs']={'field_selection':'capture/fields.json','assembly_audit':'assembly/audit.json'}
+        report['hashes']={'capture':selected['capture_sha256'],
+            'audit':lab.digest((out/'assembly/audit.json').read_bytes()),
+            'winding_hypothesis':lab.digest(graph.read_bytes())}
+        for name in ('full_path.py','frames.py','full_path_audit.py'):
+            raw=(ROOT/name).read_bytes();(out/name).write_bytes(raw);report['hashes'][name]=lab.digest(raw)
+        report['selection']=selected['selection']
+        report['blockers']=audit['blockers'].copy()
+        if selected['status']!='complete':report['blockers'].append(dict(id='capture-fields',required=selected['reason']))
+        if selected['qualification']!='schematic-derived-logical':report['blockers'].append(dict(id='firmware-provenance',required='A native firmware capture is required; synthetic patterns remain bench inputs.'))
+        if candidate is None:report['blockers'].append(dict(id='candidate-selection',required='An explicit bounded transformer candidate is required; none is selected automatically.'))
+        # Assembly eligibility alone can never imply that a solver has run.
+        report['blockers'].append(dict(id='connected-solver',required='Implement the assembled electrical/thermal solver and numerical acceptance before rendering.'))
+        report['status']='blocked';save();return report
+    except (ValueError,OSError,RuntimeError,subprocess.SubprocessError) as error:
+        report['failure']=str(error);save();raise
+
+
+if __name__=='__main__':
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--capture',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--profile',default='k7222-11');p.add_argument('--candidate')
+    p.add_argument('--fields',type=int,default=1);p.add_argument('--pre-roll-fields',type=int,default=1)
+    a=p.parse_args();r=run(a.capture,a.output,profile=a.profile,candidate=a.candidate,fields=a.fields,pre_roll_fields=a.pre_roll_fields)
+    print(json.dumps(dict(status=r['status'],blockers=r['blockers']),indent=2));raise SystemExit(2)
