@@ -89,6 +89,24 @@ class PeriodicFrameTests(unittest.TestCase):
             (root/'fine/frame.f32').write_bytes(raw[:-1]+bytes([raw[-1]^1]))
             with self.assertRaises(ValueError):periodic_frame.compare(root/'base',root/'fine')
 
+    def test_optical_cache_keys_settings_and_refuses_corruption(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);trace=root/'trace.csv'
+            with trace.open('w') as stream:
+                writer=csv.writer(stream);writer.writerow(beam_render.FIELDS)
+                writer.writerows([row(0),row(2e-7)])
+            options=dict(surface=dict(width=32,height=24,tau_s=1e-6))
+            a=periodic_frame.cached_run(trace,root/'a',root/'cache',**options)
+            b=periodic_frame.cached_run(trace,root/'b',root/'cache',**options)
+            self.assertFalse(a['cache']['hit']);self.assertTrue(b['cache']['hit'])
+            self.assertFalse(b['electrical_settling_verified'])
+            c=periodic_frame.cached_run(trace,root/'c',root/'cache',step_m=.0001,**options)
+            self.assertNotEqual(a['cache']['key'],c['cache']['key'])
+            artifact=root/'cache'/a['cache']['key']/'frame.f32'
+            artifact.write_bytes(b'corrupt')
+            with self.assertRaises(ValueError):periodic_frame.cached_run(trace,root/'bad',root/'cache',**options)
+            self.assertFalse((root/'bad').exists())
+
     def test_zero_emission_and_unfinished_window(self):
         renderer=beam_render.Renderer(surface=dict(width=32,height=24),backend='compiled')
         with self.assertRaises(ValueError):periodic_frame.equilibrium(renderer,0,1e-7)

@@ -1,0 +1,15 @@
+{
+  "format": "dac-reduced-yoke-v1",
+  "qualification": "unmeasured-effective-model",
+  "horizontal": {"resistance_ohm": 2.0, "inductance_h": 0.004, "tesla_per_amp": 0.0012},
+  "vertical": {"resistance_ohm": 10.0, "inductance_h": 0.02, "tesla_per_amp": 0.0012},
+  "field_start_m": 0.075,
+  "field_length_m": 0.04,
+  "field_envelope": "2*sin(pi*z/length)^2",
+  "inductance_field_relationship_verified": false,
+  "limitations": [
+    "Resistance and inductance use existing electrical engineering bounds, not specimen measurements.",
+    "Field conversion and active geometry are inherited reduced trajectory assumptions; no image-size fitting.",
+    "Magnetic energy includes an unknown external/core field volume. Inductance alone cannot determine field-per-ampere."
+  ]
+}

@@ -65,6 +65,7 @@ if __name__=='__main__':
     p.add_argument('--reltol',type=float,default=.005)
     p.add_argument('--abstol',type=float,default=1e-6)
     p.add_argument('--max-step-ns',type=float,default=100)
+    p.add_argument('--initial-voltage',action='append',default=[],metavar='NODE=VOLTS',help='Bounded warm starting guesses, not restored circuit state')
     p.add_argument('--magnetic-parameters',type=Path,help='Explicit bounded T3 parameter hypothesis')
     p.add_argument('--wall-budget-hours',type=float,default=12)
     p.add_argument('--parameter',action='append',default=[],metavar='NAME=VALUE',help='Bounded steady-supply parameter override')
@@ -78,7 +79,8 @@ if __name__=='__main__':
         for item in a.parameter:
             key,value=item.split('=',1);changes[key]=float(value)
         r=steady_supply.run(a.capture,a.output,a.runtime,candidate=a.candidate or 'auto',wall_budget_hours=a.wall_budget_hours,changes=changes,magnetic_parameters=a.magnetic_parameters,
-            solver=dict(linear_solver=a.linear_solver,reltol=a.reltol,abstol=a.abstol,max_step_s=a.max_step_ns/1e9))
+            solver=dict(linear_solver=a.linear_solver,reltol=a.reltol,abstol=a.abstol,max_step_s=a.max_step_ns/1e9,
+                initial_voltages={k:float(v) for k,v in (item.split('=',1) for item in a.initial_voltage)}))
         print(json.dumps(dict(status=r['status'],blockers=r['blockers']),indent=2));raise SystemExit(2)
     r=run(a.capture,a.output,profile=a.profile,candidate=a.candidate,fields=a.fields,pre_roll_fields=a.pre_roll_fields,sustained=a.sustained)
     print(json.dumps(dict(status=r['status'],blockers=r['blockers']),indent=2));raise SystemExit(2)

@@ -96,6 +96,11 @@ class SteadySupplyTests(unittest.TestCase):
         text,meta=steady.deck(assembly,selection,candidate,linear_solver='klu',reltol=.001,abstol=1e-8)
         self.assertIn('.options klu reltol=0.001 abstol=1e-08',text)
         self.assertEqual(meta['linear_solver'],'klu')
+        warm,meta=steady.deck(assembly,selection,candidate,initial_voltages={'eht':8000})
+        self.assertIn('.ic v(eht)=8000',warm)
+        self.assertEqual(meta['initial_voltage_guesses'],{'eht':8000})
+        for guess in ({'unknown':1},{'eht':30000},{'eht':float('nan')}):
+            with self.assertRaises(ValueError):steady.deck(assembly,selection,candidate,initial_voltages=guess)
         with self.assertRaises(ValueError):steady.deck(assembly,selection,candidate,linear_solver='unknown')
         with self.assertRaises(ValueError):steady.deck(assembly,selection,candidate,abstol=1.)
 

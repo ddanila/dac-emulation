@@ -130,6 +130,53 @@ def run(trace, output, *, surface=None, field=None, step_m=.0002,
 
 
 
+def cached_run(trace, output, cache, **options):
+    """Reuse a hash-verified optical artifact, never an electrical checkpoint."""
+    import tempfile
+    import trajectory_native
+    resolved=dict(surface=phosphor.Surface(options.get('surface')).p,
+                  field=beam_render.trajectory.parameters(options.get('field')),
+                  step_m=options.get('step_m',.0002),max_dt_s=options.get('max_dt_s',1/27648000),
+                  row_budget=options.get('row_budget',100000000),bundle_budget=options.get('bundle_budget',100000000))
+    inputs=dict(trace_sha256=digest(trace),models=beam_render.model_hashes(),
+                periodic_source=digest(__file__),settings=resolved,backend=trajectory_native.build()[1])
+    key=hashlib.sha256(json.dumps(inputs,sort_keys=True,allow_nan=False).encode()).hexdigest()
+    cache=Path(cache).resolve();cache.mkdir(parents=True,exist_ok=True)
+    entry=cache/key;hit=entry.exists()
+    if not hit:
+        with tempfile.TemporaryDirectory(prefix='pending-',dir=cache) as temp:
+            staging=Path(temp)/'artifact'
+            run(trace,staging,**options)
+            (staging/'cache-key.json').write_text(json.dumps(inputs,sort_keys=True)+'\n')
+            staging.rename(entry)
+    if json.loads((entry/'cache-key.json').read_text())!=inputs:raise ValueError('optical cache key mismatch')
+    report=json.loads((entry/'frame.json').read_text())
+    if report.get('status')!='complete' or report.get('electrical_settling_verified') is not False:
+        raise ValueError('invalid cached optical qualification')
+    expected_hashes={'input.csv':inputs['trace_sha256'],**inputs['models'],'periodic_frame.py':inputs['periodic_source']}
+    if report['hashes']!=expected_hashes:raise ValueError('optical cache model mismatch')
+    render=report['render']
+    if (render['parameters']!=resolved['surface'] or render['field_parameters']!=resolved['field'] or
+        render['trajectory_step_m']!=resolved['step_m'] or render['max_interval_s']!=resolved['max_dt_s'] or
+        render['backend_build']!=inputs['backend']):raise ValueError('optical cache settings mismatch')
+    for name,value in report['hashes'].items():
+        path=(entry/name).resolve()
+        if not path.is_relative_to(entry) or digest(path)!=value:raise ValueError('corrupt optical cache input')
+    for item in report['outputs'].values():
+        path=(entry/item['path']).resolve()
+        if not path.is_relative_to(entry) or digest(path)!=item['sha256']:raise ValueError('corrupt optical cache output')
+    if report['hashes']['input.csv']!=inputs['trace_sha256']:raise ValueError('optical cache trace mismatch')
+    out=Path(output).resolve()
+    if out.exists():raise FileExistsError(out)
+    out.parent.mkdir(parents=True,exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='optical-copy-',dir=out.parent) as temp:
+        staging=Path(temp)/'artifact';shutil.copytree(entry,staging)
+        report['cache']=dict(key=key,hit=hit,scope='optical-artifact-only')
+        (staging/'frame.json').write_text(json.dumps(report,indent=2)+'\n')
+        staging.rename(out)
+    return report
+
+
 def compare(base, refined, *, spatial=False):
     """Compare single periodic linear frames, with intact input/model archives.
 
@@ -190,10 +237,14 @@ if __name__ == '__main__':
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--assume-periodic', action='store_true', required=True,
                    help='Explicitly assume preceding identical electrical periods; no circuit qualification')
+    p.add_argument('--cache',type=Path,help='Hash-verified optical artifact cache; not electrical state')
+    p.add_argument('--field-parameters',type=Path,help='Explicit reduced field parameters, archived in render metadata')
     p.add_argument('--width',type=int,default=480)
     p.add_argument('--height',type=int,default=360)
     p.add_argument('--trajectory-step-m',type=float,default=.0002)
     p.add_argument('--max-interval-s',type=float,default=1/27648000)
     a = p.parse_args()
-    run(a.trace, a.output,surface=dict(width=a.width,height=a.height),
-        step_m=a.trajectory_step_m,max_dt_s=a.max_interval_s)
+    operation=run if a.cache is None else lambda trace,out,**kw: cached_run(trace,out,a.cache,**kw)
+    operation(a.trace, a.output,surface=dict(width=a.width,height=a.height),
+        step_m=a.trajectory_step_m,max_dt_s=a.max_interval_s,
+        field=json.loads(a.field_parameters.read_text()) if a.field_parameters else None)

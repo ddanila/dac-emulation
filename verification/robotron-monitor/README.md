@@ -52,8 +52,8 @@ python3 verification/robotron-monitor/full_path.py \
   --output build/monitor/steady-screen --wall-budget-hours 12
 ```
 
-**This entry point currently screens circuits; it is not a finished accepted-frame
-command.** It exits 2 with a report of measured failures and unfinished acceptance
+**This entry point produces circuit diagnostics and runs refinement after a
+settling pass; physical acceptance remains blocked.** It exits 2 with a report of measured failures and unfinished acceptance
 work. Each candidate can run 4, 8, 16, 32 and 64 continuous fields, retaining the
 last four for examination. Attempts restart from their DC operating point, not a
 purported electrical checkpoint. Runtime/inputs/decks and parameter assumptions
@@ -74,9 +74,12 @@ The heater equilibrium is solved from the actual simplified branch (12 V, R22,
 temperature-dependent heater resistance and the passive two-node heat model).
 The assembled simulation independently measures heater power. Field checks
 compare three phase-aligned waveforms, core flux, scan/reset counts, phase drift,
-EHT/current bounds and heater heat balance. Electrical timestep refinement,
-trajectory-interception feedback into electrode loads, integrated optical
-acceptance, and reusable frame caching are still unfinished in this runner.
+EHT/current bounds and heater heat balance. A settling survivor now triggers
+a half-timestep/tighter-tolerance solve and a second initialization, with
+same-phase waveform comparisons below 1%. Only those survivors proceed to
+trace export and optical integration/spatial refinement. Complete electrical
+energy closure, trajectory-interception feedback into electrode loads, and
+physical yoke calibration still block accepted healthy-reference status.
 
 ### Actual connected diagnostic image
 
@@ -125,6 +128,87 @@ python3 verification/robotron-monitor/periodic_frame.py \
 
 These commands deliberately produce a diagnostic optical replay, without
 asserting electrical settling or a specimen diagnosis.
+
+## Healthy-reference diagnosis and acceptance
+
+The narrow image has two distinct causes in the saved experiment. The native
+S550 field contains only the two-line loader banner near the bottom; VIDEO is
+active in the final 15% of the field. Uniform-phase ray sampling finds a roughly
+51 x 14 mm raster on the assumed 210 x 145 mm screen, while illuminated samples
+occupy only 34 x 1.7 mm. Sparse source content therefore explains part of the
+thin band, but the assumed yoke conversion also produces an undersized raster.
+These are sampled extents, including retrace, not precise full-bandwidth maxima.
+
+[Logical timing reference](examples/steady-supply-diagnostic/logical-reference.png),
+[scan plots](examples/steady-supply-diagnostic/scan.svg), and
+[diagnostic report](examples/steady-supply-diagnostic/diagnostics.json) preserve
+that distinction. The logical reference is never used as CRT render input.
+The cathode reference is already subtracted exactly once. Independent tests
+verify common-mode voltage invariance and small-angle Lorentz deflection,
+including both axes and accelerating-voltage dependence.
+
+```sh
+python3 verification/robotron-monitor/scan_diagnostics.py \
+  --trace diagnostic-field.csv --capture build/monitor/native-s550.json \
+  --output build/monitor/scan-diagnostics
+```
+
+A longer eight-field warm-guess run completed 156 ms in 351 seconds. Vertical
+waveform variation fell to 0.024%, but horizontal phase drift reached 37.13
+lines over the last three fields, with 974 flybacks instead of 936. The measured
+intervals were 59.34–62.71 microseconds (median 60.03); there were no sub-half-line
+intervals, so this count is not explained by immediate retriggering on ringing.
+Waiting longer alone does not fix this horizontal hypothesis. Bounded tank trials
+at 1.57 and 1.532 mH moved the median period to 63.28 and 62.68 microseconds,
+respectively. The latter is near the 62.5-microsecond native period but still
+drifted 3.34 lines in three fields. Matching average frequency is not phase lock.
+
+`--initial-voltage NODE=VOLTS` exposes bounded warm starting guesses, explicitly
+not an electrical checkpoint. L4 is expanded into three source-addressed R/L
+branches with its third winding still shorted by the assembly strap.
+`--parameter l4_coupling=.95` enables an exploratory same-terminal-polarity
+mutual model; zero retains the old uncoupled hypothesis. The equal-mutual matrix
+is positive definite for the allowed 0 <= k < 1 range. An ngspice AC test matches
+independent three-winding impedance equations, including the shorted section.
+Factory polarity and coupling remain unknown; this is not a historical fix. The
+connected k=0.95 production run completed four and eight fields, but drift grew
+from 0.244 to 29.68 lines; its 16-field attempt exhausted the configured 612-second
+whole-run budget. The command correctly retained diagnostic artifacts and exited
+blocked. See [experiment results](examples/steady-supply-diagnostic/diagnostic-experiments.json)
+and the [coupled deck](examples/steady-supply-diagnostic/coupled-l4.cir).
+
+The shared `profiles/k7222-11-yoke.json` carries both electrical and optical
+assumptions into circuit metadata and optical workers. Its effective magnetic
+energy volumes expose that inductance and field-per-ampere are still independently
+assumed. No image-size fitting or automatic gain adjustment is applied.
+
+`lock_scan.py` provides a separate bounded connected trim search: nine settings
+across the declared R24 range, eight fields per setting, and a fresh solve at the
+midpoint of the widest adjacent passing bracket. A singleton or points separated
+by a failure cannot establish a lock interval. A passing midpoint remains only
+a lock candidate and must go through the main command's refinement and physical
+gates. The full sweep has not yet established a healthy candidate.
+
+```sh
+python3 verification/robotron-monitor/lock_scan.py \
+  --capture build/monitor/native-s550.json --runtime build/monitor/runtime-clean \
+  --candidate t3-44fb6052dcdfdb29 --output build/monitor/lock-scan \
+  --wall-budget-hours 12
+```
+
+Every completed production attempt retains its last-field trace and bounded
+scan diagnostics before trying a longer run. Accepted electrical candidates
+must pass independent refinement and initialization checks before expensive
+optical work. Optical workers obey the remaining wall deadline. They cache
+hash-verified optical artifacts by input, model source, compiled backend and
+render settings; cached artifacts never establish electrical settling. The
+standalone renderer exposes this as `--cache PATH` and accepts explicit reduced
+field parameters through `--field-parameters JSON`.
+
+Even if all numerical stages pass, the runner continues to report the remaining
+physical gates: collection/interception load feedback, complete circuit energy
+closure, and the unresolved yoke relationship. It does not publish a healthy
+reference merely because an image looks readable.
 
 ## Fault atlas development bench
 
