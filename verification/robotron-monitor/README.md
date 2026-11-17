@@ -13,7 +13,8 @@ experimental fixture into a historical circuit.
 The reference implementation now includes the **012-6891 neck-board circuit**,
 its 19 source-designated entries, bounded device assumptions, parameter-endpoint
 sensitivity runs, and named-probe replay. The 260-entry inventory accounts for
-the three board lists, but the other two boards are not yet connected or modeled.
+the three board lists. Input conditioning, sync filtering and a standalone vertical
+oscillator are also connected; the full boards and their interconnect are incomplete.
 The assembly drawing identifies B31G22 / AE9VT 6802.01 for this reference.
 
 ## Fault atlas development bench
@@ -384,3 +385,77 @@ Version 1 remains supported within its separate fixture contract.
 V2 limits are 128 fields, 250001 rows, 120 seconds absolute end time, and the
 same 64 MiB file / 1 MiB header budgets. Trajectory JSON is a separate prototype
 format; v2 does not yet carry trajectories or a schematic picking map.
+
+## Electrical-trace optical backend (partial full-path implementation)
+
+`beam_render.py` takes SI electrical samples through the existing nine-ray
+relativistic trajectory integrator and an energy-accounted phosphor surface.
+Input columns, in order, are `time,anode_v,grid2_v,focus_v,cathode_v,horizontal_a,vertical_a,beam_a`.
+Beam current is current entering the modeled gun after separately modeled grid
+capture, before trajectory interception. Electrode voltages share a reference;
+the cathode voltage is subtracted once. There are no framebuffer pixels or
+prescribed beam coordinates in this interface.
+
+```sh
+python3 verification/robotron-monitor/beam_render.py \
+  --trace electrical.csv --output build/monitor/optical-run --frames 3
+python3 verification/robotron-monitor/full_path_audit.py \
+  --output build/monitor/full-path-audit-new
+```
+
+The first command produces PNG, linear little-endian float32 optical power
+(W/m²), provenance/energy reports and a v3 replay. Exposure is fixed, never
+normalized per frame. Optical efficiency, decay and tube fields are explicit
+assumptions, not measured luminance or calibrated B31G22 behavior. The solver
+subdivides electrical intervals for temporal resolution, beam displacement and
+clipping transitions, includes electron flight time, and accounts for retained,
+emitted, clipped, intercepted and in-flight energy. Failed exports never publish
+a final replay. Every run starts with an empty phosphor surface: an absolute
+300 s timestamp does **not** establish a 300 s warm-up simulation or continuation.
+
+The audit exits 2 while blocked. It currently exports four KiCad sheets and
+counts **65 of 260** historical entries connected. This is coverage, not
+qualification. See `reference/k7222-11/full-path-requirements.json` for the
+remaining power, horizontal, vertical-output, tube-loading, continuation and
+validation gates. **No complete-monitor picture or warm-up sequence is claimed.**
+
+### Vertical oscillator and source correction
+
+`profiles/k7222-11-vertical-oscillator.json` runs the 11-component V5/V11
+oscillator from the original schematic and operating manual p13, figure 8.
+Its external 12 V source and C12 stand-in are explicit bench fixtures; the
+sync filter, MAA723/output and yoke are not attached. The assumed 50 kΩ R22
+setting and generic transistor model produce about 24.33 ms free-running period
+and 10.5 V swing. Tests check startup, trim direction and timestep refinement;
+this is not a calibrated field rate or a demonstration of synchronization.
+
+That same manufacturer explanation confirms V6's cathode faces R28 and its
+anode faces V5 base. The sync-filter sheet now follows that direction. The
+signal-path matrix was rerun after the correction: nine cases accepted,
+stuck-intensity withheld. Earlier recordings with reversed V6 are superseded.
+
+### Replay version 3
+
+`DACCRT3\n` retains checksummed framing, with variable 8–2048 pixel dimensions
+(up to 1,048,576 pixels), square pixels, fixed display exposure and named traces.
+It supports a window up to one second at absolute times up to 3600 s, sparse
+recorded ray paths and at most 120 generated frames, within bounded memory/file
+budgets. Linear exports are separate artifacts. The viewer consumes recorded
+images and paths, and rejects comparisons with mismatched display parameters.
+
+The only accepted v3 qualification is `experimental-optical-bench`, with
+`full_monitor_qualified: false`. This version is a backend test contract, not a
+way to promote an arbitrary electrical trace to historical monitor accuracy.
+The renderer is single-use; electrical/thermal/phosphor continuation remains
+unfinished. No synthetic v3 recording is installed as the museum default.
+
+### Additional transformer search, 2026-11-17
+
+The [annotated K7222 horizontal-stage drawing](https://www.robotrontechnik.de/ablage/forum/K7222_HK.jpg)
+corroborates external X1/X2 connections in the existing .11/.21 scan. Its colored
+annotations obscure details and do not establish every internal winding section
+or relative polarity. The [combi-vision 310 scan](https://www.tiffe.de/Robotron/misc/combivision-310.pdf)
+was inspected and rejected as a replacement winding map: page 8 identifies
+**ÜHA75**, not ÜHA78. Both downloads are hash-indexed in `sources.json`.
+The original T3 winding/polarity specification remains unresolved; repair-coil
+turns and modified cold-end wiring are not silently substituted for it.

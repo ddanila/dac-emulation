@@ -1,0 +1,109 @@
+{
+  "format": "dac-monitor-full-path-requirements-v1",
+  "reference": "K7222.11/.21 only; specimen unverified",
+  "policy": "Numerical parameter bounds are allowed; missing topology is not silently substituted.",
+  "blockers": [
+    {
+      "id": "power-circuit",
+      "kind": "implementation",
+      "source": {
+        "file": "older.pdf",
+        "pages": [
+          9,
+          10
+        ]
+      },
+      "required": "Connect the complete 012-6931 converter/regulators and external 12 V input; replace ideal internal rails."
+    },
+    {
+      "id": "horizontal-circuit",
+      "kind": "implementation",
+      "source": {
+        "file": "older.pdf",
+        "pages": [
+          3,
+          4
+        ]
+      },
+      "required": "Connect phase detector, reactance-controlled oscillator, driver, booster, output and recovery networks; no prescribed scan waveform."
+    },
+    {
+      "id": "vertical-circuit",
+      "kind": "implementation",
+      "source": {
+        "file": "older.pdf",
+        "pages": [
+          9,
+          10
+        ]
+      },
+      "required": "Connect self-running vertical generator, integrator, output and yoke feedback; replace bounded oscillator input loads."
+    },
+    {
+      "id": "assembly-and-taps",
+      "kind": "evidence-and-implementation",
+      "source": {
+        "file": "older.pdf",
+        "pages": [
+          4,
+          18
+        ]
+      },
+      "required": "Review assembly interconnect and T3 internal winding/tap map including polarity; the connector block alone does not establish all internal sections. Resolve printed design separately from handwritten alterations."
+    },
+    {
+      "id": "device-validity",
+      "kind": "implementation",
+      "source": {
+        "file": "tda1060.pdf",
+        "pages": [
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "required": "Implement and bound controller protection/recovery and loaded-output validity, plus MAA723/P09A models and magnetic/yoke models before circuit-level publication."
+    },
+    {
+      "id": "tube-loading",
+      "kind": "integration",
+      "required": "Connect the electrothermal CRT current model to actual solved heater/electrode rails, remove duplicate constant loads, and audit grid/interception/beam current accounting."
+    },
+    {
+      "id": "continuation",
+      "kind": "implementation",
+      "required": "Implement electrical/thermal state continuation and demonstrate equivalence to uninterrupted runs before warm-up checkpoints; no DC restart at checkpoints."
+    },
+    {
+      "id": "full-path-validation",
+      "kind": "validation",
+      "required": "Pass connected startup/lock, electrical/optical/thermal refinement, service-waveform comparison and actual firmware-frame rendering. Independent optical traces cannot pass this gate."
+    }
+  ],
+  "transformer_evidence": [
+    {
+      "file": "older-operation.pdf",
+      "page": 19,
+      "finding": "Manufacturer description identifies U52/54 core, HV terminals 1 and 16, booster operation and third-harmonic tuning. This constrains the model but does not specify all winding sections/taps and polarity."
+    },
+    {
+      "file": "uha78.pdf",
+      "pages": [
+        1,
+        2,
+        3
+      ],
+      "finding": "Repair is for a K7222.25 and changes the HV cold-end connection. Replacement turns/resistance and winding placement are not a factory map for the .11 transformer."
+    },
+    {
+      "file": "k7222-horizontal-annotated.jpg",
+      "finding": "External tap/interconnect corroboration only; no complete original winding/polarity specification. Colored reconstruction must not replace the factory drawing."
+    },
+    {
+      "file": "combivision-310.pdf",
+      "page": 8,
+      "finding": "Rejected for K7222 T3 mapping: this article identifies UHA75, not UHA78."
+    }
+  ]
+}
