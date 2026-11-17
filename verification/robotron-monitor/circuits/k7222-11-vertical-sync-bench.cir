@@ -1,0 +1,5 @@
+* Characterization source only; actual C12 belongs to the filter sheet.
+Vsupply p12 0 PWL(0 0 1u 12)
+Vsync_pulse pulse_drive 0 PULSE(5 0 40m 1u 1u 1m {sync_period})
+Bsync sync_drive 0 V={5-sync_enabled*(5-v(pulse_drive))*(time<sync_loss_start || time>=sync_loss_end)}
+Rsync_source sync_drive sync_gate 100

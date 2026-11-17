@@ -1,0 +1,7 @@
+* Generic bounded models; not specimen-calibrated SF1260/ZC5.1.
+.model REG5_NPN NPN(IS=1e-14 BF={reg5_bf} VAF=60 CJE=40p CJC=15p TF=20n TR=100n)
+.model REG5_ZENER D(IS=1n RS=5 N=1.5 BV=5.1 IBV=.005 CJO=100p)
+.subckt REG5_POT top wiper bottom
+Rtop top wiper {100*reg5_position}
+Rbottom wiper bottom {100*(1-reg5_position)}
+.ends REG5_POT

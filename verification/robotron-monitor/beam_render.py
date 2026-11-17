@@ -24,6 +24,11 @@ LIMITATIONS=[
 def digest(data):return hashlib.sha256(data).hexdigest()
 
 
+def model_hashes():
+    return {name:digest((Path(__file__).parent/name).read_bytes())
+            for name in ('beam_render.py','trajectory.py','phosphor.py','optics.py')}
+
+
 def read_trace(path):
     """Strict SI CSV import for local engineering traces, never inferred columns."""
     if Path(path).stat().st_size>256*1024*1024:raise ValueError('trace file budget exceeded')
@@ -43,7 +48,7 @@ def read_trace(path):
 
 class Renderer:
     def __init__(self,*,surface=None,field=None,step_m=.0002,max_dt_s=1/27648000,
-                 movement_pixels=.25,bundle_budget=2000000):
+                 movement_pixels=.25,bundle_budget=2000000,continuation=None):
         self.surface=phosphor.Surface(surface);self.field=trajectory.parameters(field)
         for key in ('screen_width_m','screen_height_m','screen_radius_m'):
             if self.surface.p[key]!=self.field[key]:raise ValueError('electrical/optical screen geometry mismatch')
@@ -55,6 +60,38 @@ class Renderer:
         self.started=False
         self.incident_j=0.;self.intercepted_j=0.;self.max_energy_error_ev=0.;self.samples=0
         self._bundle=functools.lru_cache(maxsize=512)(self._solve)
+        self.continuation=continuation is not None;self.last_row=None
+        if continuation is not None:self._restore(continuation)
+
+    def _restore(self,state):
+        settings=dict(field=self.field,step_m=self.step_m,max_dt_s=self.max_dt,movement_pixels=self.movement)
+        if state.get('format')!='dac-optical-state-v1' or state.get('settings')!=settings or state.get('model_hashes')!=model_hashes():
+            raise ValueError('incompatible optical continuation')
+        restored=phosphor.Surface.restore(state['surface'])
+        if restored.p!=self.surface.p:raise ValueError('incompatible phosphor continuation')
+        row=state['last_electrical_row']
+        if len(row)!=len(FIELDS) or not all(math.isfinite(v) and abs(v)<=1e12 for v in row) or row[0]!=restored.time or row[-1]<0:
+            raise ValueError('invalid continuation boundary')
+        events=state['arrivals']
+        if len(events)>1000000:raise ValueError('arrival budget exceeded')
+        for event in events:
+            if len(event)!=4 or not all(math.isfinite(v) for v in event) or event[0]<restored.time or event[-1]<0:
+                raise ValueError('invalid continuation arrival')
+            self.serial+=1;heapq.heappush(self.events,(event[0],self.serial,*event[1:]))
+        ledger=state['kinetic_energy']
+        if set(ledger)!={'terminal_j','intercepted_j'} or any(not math.isfinite(v) or v<0 for v in ledger.values()):
+            raise ValueError('invalid kinetic energy ledger')
+        self.incident_j=ledger['terminal_j'];self.intercepted_j=ledger['intercepted_j']
+        accounted=self.intercepted_j+sum(e[-1] for e in self.events)+(restored.deposited_j+restored.clipped_j)/restored.p['efficiency']
+        if abs(accounted-self.incident_j)>max(self.incident_j,1e-30)*1e-8:raise ValueError('inconsistent kinetic energy ledger')
+        self.surface=restored;self.last_row=tuple(row)
+
+    def checkpoint(self):
+        if not self.frames or self.last_row is None:raise ValueError('no completed optical window')
+        return dict(format='dac-optical-state-v1',model_hashes=model_hashes(),settings=dict(field=self.field.copy(),step_m=self.step_m,max_dt_s=self.max_dt,movement_pixels=self.movement),
+                    surface=self.surface.checkpoint(),last_electrical_row=list(self.last_row),
+                    arrivals=[[e[0],*e[2:]] for e in sorted(self.events)],
+                    kinetic_energy=dict(terminal_j=self.incident_j,intercepted_j=self.intercepted_j))
 
     def _solve(self,anode,g2,focus,ih,iv):
         self.bundles+=1
@@ -99,6 +136,7 @@ class Renderer:
             if ray['landed']:
                 self.serial+=1
                 heapq.heappush(self.events,(mid[0]+ray['flight_s'],self.serial,ray['x_m'],ray['y_m'],joules))
+                if len(self.events)>1000000:raise ValueError('arrival budget exceeded')
             else:self.intercepted_j+=joules
         # Ordered arrivals account for flight time without shifting the input clock.
         self._drain(a[0])
@@ -115,7 +153,9 @@ class Renderer:
             raise ValueError('frame times must span the electrical window')
         if len(frame_times)>120 or len(frame_times)*self.surface.p['width']*self.surface.p['height']*5>64*1024*1024:
             raise ValueError('frame budget exceeded')
-        self.surface=phosphor.Surface(self.surface.p,start_s=start)
+        if self.continuation:
+            if tuple(rows[0])!=self.last_row:raise ValueError('electrical continuation boundary mismatch')
+        else:self.surface=phosphor.Surface(self.surface.p,start_s=start)
         cursor=0
         for ft in frame_times:
             while cursor<len(rows)-1 and rows[cursor][0]<ft:
@@ -132,12 +172,13 @@ class Renderer:
             if len(self.rays)<32:
                 ray=bundle['rays'][0]
                 self.rays.append(dict(time=ft,landed=ray['landed'],reason=ray['reason'],points=ray['points']))
+        self.last_row=tuple(rows[-1])
         return self.frames
 
     def report(self):
         return dict(parameters=self.surface.p,field_parameters=self.field,trajectory_step_m=self.step_m,
                     max_interval_s=self.max_dt,movement_limit_pixels=self.movement,bundles=self.bundles,
-                    emission_intervals=self.samples,energy=self.surface.balance()|dict(
+                    optical_continuation=self.continuation,emission_intervals=self.samples,energy=self.surface.balance()|dict(
                         terminal_kinetic_j=self.incident_j,intercepted_kinetic_j=self.intercepted_j,
                         in_flight_kinetic_j=sum(e[-1] for e in self.events)),max_trajectory_energy_error_ev=self.max_energy_error_ev)
 
@@ -169,7 +210,7 @@ def package(path,rows,renderer,metadata):
     return report
 
 
-def run(trace,output,*,frame_count=2,step_m=.0002,max_dt_s=1/27648000,surface=None):
+def run(trace,output,*,frame_count=2,step_m=.0002,max_dt_s=1/27648000,surface=None,state_path=None):
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     result=dict(status='incomplete',qualification='experimental-optical-bench',full_monitor_qualified=False)
     def save():(output/'render.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
@@ -179,10 +220,18 @@ def run(trace,output,*,frame_count=2,step_m=.0002,max_dt_s=1/27648000,surface=No
         rows=read_trace(trace);source=Path(trace).read_bytes();(output/'input.csv').write_bytes(source)
         inputs={name:(Path(__file__).parent/name).read_bytes() for name in ('beam_render.py','trajectory.py','phosphor.py','optics.py')}
         for name,data in inputs.items():(output/name).write_bytes(data)
-        renderer=Renderer(surface=surface,step_m=step_m,max_dt_s=max_dt_s)
+        continuation=None
+        if state_path is not None:
+            if Path(state_path).stat().st_size>64*1024*1024:raise ValueError('state file budget exceeded')
+            raw=Path(state_path).read_bytes();continuation=json.loads(raw)
+            (output/'input-state.json').write_bytes(raw);inputs['input-state.json']=raw
+        renderer=Renderer(surface=surface,step_m=step_m,max_dt_s=max_dt_s,continuation=continuation)
         start,end=rows[0][0],rows[-1][0]
         times=[start+(end-start)*i/(frame_count-1) for i in range(frame_count)];times[-1]=end
         renderer.render(rows,times)
+        state=json.dumps(renderer.checkpoint(),separators=(',',':'),allow_nan=False).encode()
+        if len(state)>64*1024*1024:raise ValueError('state file budget exceeded')
+        (output/'optical-state.json').write_bytes(state)
         hashes={name:digest(data) for name,data in inputs.items()}|{'input.csv':digest(source)}
         for i,frame in enumerate(renderer.frames):
             phosphor.png(output/f'frame-{i:03d}.png',renderer.surface.p['width'],renderer.surface.p['height'],frame['display'])
@@ -195,7 +244,7 @@ def run(trace,output,*,frame_count=2,step_m=.0002,max_dt_s=1/27648000,surface=No
         save()
         (output/'replay.pending').rename(output/'replay.mcrt')
         return report
-    except (ValueError,OSError,ArithmeticError) as error:
+    except (ValueError,OSError,ArithmeticError,KeyError,TypeError) as error:
         result.update(status='incomplete',failure=str(error));save();raise
 
 
@@ -204,4 +253,5 @@ if __name__=='__main__':
     parser.add_argument('--trace',type=Path,required=True);parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--frames',type=int,default=2);parser.add_argument('--trajectory-step',type=float,default=.0002)
     parser.add_argument('--max-interval',type=float,default=1/27648000)
-    args=parser.parse_args();run(args.trace,args.output,frame_count=args.frames,step_m=args.trajectory_step,max_dt_s=args.max_interval)
+    parser.add_argument('--state',type=Path,help='Optical continuation only; not electrical/thermal solver state')
+    args=parser.parse_args();run(args.trace,args.output,frame_count=args.frames,step_m=args.trajectory_step,max_dt_s=args.max_interval,state_path=args.state)

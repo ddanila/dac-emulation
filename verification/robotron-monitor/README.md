@@ -410,11 +410,12 @@ assumptions, not measured luminance or calibrated B31G22 behavior. The solver
 subdivides electrical intervals for temporal resolution, beam displacement and
 clipping transitions, includes electron flight time, and accounts for retained,
 emitted, clipped, intercepted and in-flight energy. Failed exports never publish
-a final replay. Every run starts with an empty phosphor surface: an absolute
-300 s timestamp does **not** establish a 300 s warm-up simulation or continuation.
+a final replay. A run starts with an empty phosphor surface unless an explicit optical state is
+restored. An absolute 300 s timestamp does **not** establish a 300 s warm-up
+simulation or electrical/thermal continuation.
 
-The audit exits 2 while blocked. It currently exports four KiCad sheets and
-counts **65 of 260** historical entries connected. This is coverage, not
+The audit exits 2 while blocked. It currently exports five KiCad sheets and
+counts **72 of 260** historical entries connected. This is coverage, not
 qualification. See `reference/k7222-11/full-path-requirements.json` for the
 remaining power, horizontal, vertical-output, tube-loading, continuation and
 validation gates. **No complete-monitor picture or warm-up sequence is claimed.**
@@ -446,8 +447,8 @@ images and paths, and rejects comparisons with mismatched display parameters.
 The only accepted v3 qualification is `experimental-optical-bench`, with
 `full_monitor_qualified: false`. This version is a backend test contract, not a
 way to promote an arbitrary electrical trace to historical monitor accuracy.
-The renderer is single-use; electrical/thermal/phosphor continuation remains
-unfinished. No synthetic v3 recording is installed as the museum default.
+Each renderer instance is single-use. Optical continuation is implemented below;
+electrical/thermal continuation and multirate warm-up remain unfinished. No synthetic v3 recording is installed as the museum default.
 
 ### Additional transformer search, 2026-11-17
 
@@ -459,3 +460,78 @@ was inspected and rejected as a replacement winding map: page 8 identifies
 **ÜHA75**, not ÜHA78. Both downloads are hash-indexed in `sources.json`.
 The original T3 winding/polarity specification remains unresolved; repair-coil
 turns and modified cold-end wiring are not silently substituted for it.
+
+
+## Connected-stage and candidate work
+
+The source audit now gives all 260 inventory entries an explicit disposition:
+72 connected/modeled entries and 188 unresolved implementations. “Modeled” means
+connected in an audited source sheet, not validated as part of a complete assembly.
+Assembly completeness, candidate topology and historical qualification remain
+separate gates. No missing component is marked assembly-only just to improve a
+coverage count.
+
+The stage runner accepts `additional_schematics` in a profile. Every sheet is
+archived and exported through KiCad; net labels join the exported circuits.
+Repeated source identities or SPICE references fail before simulation. This
+allows assembly of existing sheets without copying their components or retaining
+duplicate bench loads.
+
+```sh
+python3 verification/robotron-monitor/reference.py \
+  --profile verification/robotron-monitor/profiles/k7222-11-vertical-sync.json \
+  --output build/monitor/vertical-sync-new --stop .30 --step 2e-6
+python3 verification/robotron-monitor/reference.py \
+  --profile verification/robotron-monitor/profiles/k7222-11-regulator5.json \
+  --output build/monitor/regulator5-new --stop .06 --step 2e-6
+```
+
+The vertical profile connects the original sync filter to V5/V11, with exactly
+one C12 and no dummy oscillator-input resistor. Synthetic finite-impedance field
+sync begins at 40 ms. The current model locks to a 20.8 ms period; removing sync
+from 90 to 150 ms permits approximately 24.68 ms free-running intervals before
+reacquisition around 248 ms. Recovery is not instantaneous. The actual receiver,
+vertical integrator, output stage and yoke are still absent from this profile.
+
+The seven-component V4 regulator profile transcribes R9/R10/R11, V3/V4 and C7/C8.
+R9 is a three-terminal potentiometer with the original 100-ohm total resistance.
+With assumed midpoint trim and generic transistor/zener models, the load-step
+bench produces approximately 5.10 V at 20 mA and 5.01 V at 80 mA, then recovers.
+Tests also cover lower input voltage and timestep refinement. The complete
+switching converter, transistor heating and device SOA remain outside this bench.
+
+### Explicit T3 hypotheses
+
+```sh
+python3 verification/robotron-monitor/transformer_candidates.py \
+  --output build/monitor/t3-candidates-new
+```
+
+This emits 16 relative-polarity candidates for one explicitly hypothetical
+five-group winding/tap graph. A global magnetic polarity reversal is canonicalized
+away. **This is not an exhaustive enumeration of internal topologies**: the scan
+order/continuity hypothesis itself remains unverified. The factory drawing is
+still missing, and external bridges must be separately transcribed/reviewed.
+
+`compile_model(graph, candidate, parameters)` generates a shared-core SPICE
+subcircuit with individual tapped sections. Each numerical turns/resistance/
+leakage/capacitance value requires bounds and a rationale; the function does not
+invent T3 values or choose a candidate. Synthetic ngspice tests verify tapped
+voltage ratios, polarity reversal and reflected load. These are tests of the
+compiler and magnetic model, not simulations of the real transformer. The audit
+records candidates as unevaluated, and no full-path candidate replay is published.
+
+### Optical continuation
+
+`beam_render.py --state PREVIOUS/optical-state.json` resumes the previous optical
+window. Every successful render now saves phosphor excitation, cumulative energy
+ledgers, pending electron arrivals, geometry/resolution settings and the final
+electrical row. The new trace must start with that same row; incompatible settings,
+corrupt energy accounting or a time discontinuity are rejected. Checkpoint JSON
+is data only and is bounded to 64 MiB.
+
+Continuation tests compare a split trace with an uninterrupted trace, including
+electrons in flight across the boundary. Images, linear power and energy ledgers
+agree. This is **optical state only**: no electrical solver history, magnetic
+state or thermal continuation is implied. Verified multirate full-monitor warm-up
+and fault-family diagnosis are still unimplemented.

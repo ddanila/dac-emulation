@@ -1,0 +1,84 @@
+{
+  "format": "dac-monitor-winding-graph-v1",
+  "id": "k7222-11-t3-scan-order-hypothesis",
+  "historical_topology_verified": false,
+  "anchor": "drive",
+  "groups": [
+    {
+      "id": "drive",
+      "taps": [
+        "X2_7",
+        "X2_10",
+        "X2_11",
+        "X2_12",
+        "X2_13",
+        "X2_4"
+      ],
+      "evidence": {
+        "file": "older.pdf",
+        "page": 4
+      },
+      "assumption": "Candidate continuous section order from top-to-bottom scan positions; winding continuity and relative polarity are not established by a factory winding drawing."
+    },
+    {
+      "id": "auxiliary",
+      "taps": [
+        "X2_5",
+        "X2_6",
+        "X2_3"
+      ],
+      "evidence": {
+        "file": "older.pdf",
+        "page": 4
+      },
+      "assumption": "Candidate continuous section order from top-to-bottom scan positions; winding continuity and relative polarity are not established by a factory winding drawing."
+    },
+    {
+      "id": "high_voltage",
+      "taps": [
+        "X1_16",
+        "X1_1"
+      ],
+      "evidence": {
+        "file": "older.pdf",
+        "page": 4
+      },
+      "assumption": "Candidate continuous section order from top-to-bottom scan positions; winding continuity and relative polarity are not established by a factory winding drawing."
+    },
+    {
+      "id": "upper_taps",
+      "taps": [
+        "X1_2",
+        "X1_3",
+        "X1_5",
+        "X1_7"
+      ],
+      "evidence": {
+        "file": "older.pdf",
+        "page": 4
+      },
+      "assumption": "Candidate continuous section order from top-to-bottom scan positions; winding continuity and relative polarity are not established by a factory winding drawing."
+    },
+    {
+      "id": "lower_taps",
+      "taps": [
+        "X1_9",
+        "X1_12",
+        "X1_13",
+        "X1_10",
+        "X1_15"
+      ],
+      "evidence": {
+        "file": "older.pdf",
+        "page": 4
+      },
+      "assumption": "Candidate continuous section order from top-to-bottom scan positions; winding continuity and relative polarity are not established by a factory winding drawing."
+    }
+  ],
+  "limitations": [
+    "Only relative group polarity is enumerated. This is not an exhaustive set of possible internal winding graphs.",
+    "Terminal order is an explicit hypothesis, not established factory winding data.",
+    "External bridges are omitted here and must come from the separately reviewed assembly.",
+    "HV terminal identity 16/1 is corroborated by older-operation.pdf page 19."
+  ]
+}

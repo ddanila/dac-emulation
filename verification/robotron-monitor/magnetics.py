@@ -11,7 +11,7 @@ import re
 
 def transformer(name,windings,core,shorted_turns=None):
     if not re.fullmatch('[A-Za-z][A-Za-z0-9_]*',name):raise ValueError('invalid transformer name')
-    if not 2<=len(windings)<=12:raise ValueError('transformer needs 2–12 windings')
+    if not 2<=len(windings)<=63:raise ValueError('transformer needs 2–63 winding sections')
     for key in ('area_m2','length_m','loss_ohm'):
         if not math.isfinite(core[key]) or core[key]<=0:raise ValueError('invalid core parameter')
     h,b=core['h_a_per_m'],core['b_t']

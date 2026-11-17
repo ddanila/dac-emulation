@@ -25,7 +25,10 @@ declaration must agree with the contract.
 | Undervoltage | enable 9.8 V, disable 9.3 V | Assumed threshold within documented 8.85–10.8 V range; typical 0.5 V hysteresis |
 | Logic transition | 1.4 V | Assumed within logic low/high limits |
 | DFM discharge | 100 ohms disabled; 1 kilohm to lower ramp level when FB < 0.6 V | Manufacturer block diagram |
-| CM / SAT thresholds | 0.48 / 0.6 V | Manufacturer typical values; latch behavior not implemented |
+| CM thresholds | 0.48 V cycle termination; 0.6 V severe trip | Manufacturer typical values |
+| SAT threshold | 0.6 V pulse inhibit | Manufacturer typical value |
+| Pulse termination | latch until sawtooth reset, including PWM termination | Manufacturer functional description; 1 ns state regularization is numerical |
+| Severe-trip holdoff | about 1 ms after last severe trip, with DFM discharge | Recovery mechanism documented; duration is an uncalibrated engineering assumption |
 | QC → QE current | smooth 40 mA plateau | Assumed drive approximation, not a manufacturer maximum-current claim |
 | PWM transition | 20 ns RC | Numerical regularization, not measured device switching time |
 | Internal supply current | 5 mA plus modeled reference/timing draw | Assumed, not an energy-qualified transistor implementation |
@@ -35,7 +38,7 @@ this current-output approximation **does not clamp QE to its 5 V rating**. The
 test load keeps it below that rating; arbitrary converter loads can exceed the
 model's valid domain. No historical converter result is qualified by this file.
 
-Unsupported mechanisms include latched overcurrent recovery/dead time,
+Unsupported mechanisms include calibrated recovery/dead-time behavior,
 feed-forward, temperature drift, output storage and synchronization during ramp
 reset. The supply draw is approximate. Those omissions preclude using this
 model to classify regulation, thermal or short-circuit faults in the monitor.
@@ -50,6 +53,9 @@ python3 -m unittest discover -s verification/robotron-monitor/tests -p test_cont
 Checks cover the calibrated frequency point, doubled timing capacitance,
 half-timestep agreement, sawtooth range, output rating under the test load,
 feedback shutoff, modulation shutoff, enable shutoff, overcurrent inhibition,
-and undervoltage inhibition. Solver-error logs are rejected even if ngspice
+and undervoltage inhibition. Transient checks also verify that removing a mild
+overcurrent pulse does not restart the same output pulse, and that a severe trip
+discharges DFM, holds off output, and subsequently permits soft-start recovery.
+The 1 ms recovery duration is not a B260D timing prediction. Solver-error logs are rejected even if ngspice
 returns exit status zero and produces a padded `linearize` output. All tests
 remain component tests; none establish a cause for a pale, expanding raster.
