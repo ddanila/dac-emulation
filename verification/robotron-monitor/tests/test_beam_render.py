@@ -41,6 +41,21 @@ class PhosphorTests(unittest.TestCase):
         narrow.deposit(0,0,0,1e-6)
         self.assertAlmostEqual(sum(narrow.energy),8e-8)
 
+    def test_pixel_area_integration_is_conservative_under_refinement(self):
+        import image_acceptance
+        coarse=phosphor.Surface(dict(width=64,height=48))
+        fine=phosphor.Surface(dict(width=128,height=96))
+        events=[(0,-.104999,0,1e-6),(1e-7,.00123,.00456,2e-6),
+                (2e-7,.104999,.07,3e-6),(3e-7,.105001,0,4e-6)]
+        for event in events:
+            coarse.deposit(*event);fine.deposit(*event)
+        a,_=coarse.snapshot(1e-6);b,_=fine.snapshot(1e-6)
+        projected=image_acceptance.project(b,fine,coarse)
+        self.assertLess(image_acceptance.error(a,projected,coarse.areas),1e-7)
+        self.assertAlmostEqual(coarse.deposited_j,6e-6*.08)
+        self.assertAlmostEqual(coarse.clipped_j,4e-6*.08)
+        self.assertAlmostEqual(fine.deposited_j,coarse.deposited_j)
+
 
 class BeamRenderTests(unittest.TestCase):
     def test_continuation_preserves_phosphor_arrivals_and_energy(self):

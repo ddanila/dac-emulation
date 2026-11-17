@@ -57,24 +57,30 @@ class Surface:
         old=self.energy[index];new=old*math.exp(-(time-self.last[index])/self.p['tau_s'])
         self.emitted_j+=old-new;self.energy[index]=new;self.last[index]=time
 
+    def cell(self,x,y):
+        """Physical projected pixel containing an impact; outside is clipped.
+
+        Pixels integrate energy over their area. A resolution-dependent bilinear
+        footprint would add an artificial blur and lose energy at screen edges.
+        The electron source/ray quadrature determines the physical beam extent.
+        """
+        if abs(x)>self.p['screen_width_m']/2 or abs(y)>self.p['screen_height_m']/2:
+            return None
+        w,h=self.p['width'],self.p['height']
+        xx=min(w-1,max(0,math.floor(x*self.scale+w/2)))
+        yy=min(h-1,max(0,math.floor(h/2-y*self.scale)))
+        return yy*w+xx
+
     def deposit(self,time,x,y,impact_j):
         if not all(math.isfinite(v) for v in (time,x,y,impact_j)) or time<self.time or impact_j<0:
             raise ValueError('invalid deposition event')
         self.time=time
-        optical=impact_j*self.p['efficiency']
-        w,h=self.p['width'],self.p['height']
-        # Bilinear area assignment preserves energy, including edge losses.
-        px=x*self.scale+w/2-.5;py=h/2-y*self.scale-.5
-        ix,iy=math.floor(px),math.floor(py);fx,fy=px-ix,py-iy
-        retained=0.
-        for xx,wx in ((ix,1-fx),(ix+1,fx)):
-            for yy,wy in ((iy,1-fy),(iy+1,fy)):
-                part=optical*wx*wy
-                if (0<=xx<w and 0<=yy<h and abs((xx+.5-w/2)/self.scale)<=self.p['screen_width_m']/2
-                    and abs((h/2-yy-.5)/self.scale)<=self.p['screen_height_m']/2):
-                    i=yy*w+xx;self._decay(i,time);self.energy[i]+=part;retained+=part
-        self.deposited_j+=retained;self.clipped_j+=max(0.,optical-retained)
-        return retained
+        optical=impact_j*self.p['efficiency'];index=self.cell(x,y)
+        if index is None:
+            self.clipped_j+=optical;return 0.
+        self._decay(index,time);self.energy[index]+=optical
+        self.deposited_j+=optical
+        return optical
 
     def snapshot(self,time):
         if not math.isfinite(time) or time<self.time:raise ValueError('nonmonotonic phosphor time')

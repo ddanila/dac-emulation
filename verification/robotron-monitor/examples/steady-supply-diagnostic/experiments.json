@@ -1,0 +1,277 @@
+{
+  "format": "dac-steady-supply-experiments-v1",
+  "accepted_warmed_frame": false,
+  "experiments": [
+    {
+      "name": "sixteen-fields",
+      "deck_sha256": "f913d8adc5c2b29d33a0b36fd9f8978962f66b335976ac9781b13907409d2a57",
+      "solve": {
+        "status": "failed",
+        "timeout": false,
+        "returncode": 1,
+        "elapsed_s": 627.927560470067,
+        "runtime": {
+          "format": "dac-monitor-runtime-v1",
+          "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+          "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+          "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-clean/install",
+          "inputs": {
+            "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+            "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+            "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+            "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+          },
+          "configure_flags": [
+            "--enable-xspice",
+            "--with-x=no",
+            "--with-readline=no",
+            "CFLAGS=-O2 -fno-fast-math"
+          ],
+          "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+          "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:48:50 UTC 2026\n******\n",
+          "files": {
+            "install/bin/ngspice": "93f5bd3e105c0e3b70435b7a0b6be6645a3a9fa94e1bdfca778a280406ce76c0",
+            "install/share/ngspice/scripts/spinit": "bcab932f5174d8094b8ec6325b95ddef37ab1a41f746ebcd038c88d856358190",
+            "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+            "install/lib/ngspice/digital.cm": "14da052e3ae197e1893df7d2c561f9c660f2d7bf51e55f7ddb750b77211204fc",
+            "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+            "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+            "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+            "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+            "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+          },
+          "qualification": "experimental-instrumented-runtime",
+          "full_monitor_qualified": false
+        },
+        "deck_sha256": "f913d8adc5c2b29d33a0b36fd9f8978962f66b335976ac9781b13907409d2a57",
+        "solver_log_sha256": "172a41b19e5fe78b3160d287156d693cd968a5f3de14a6f47b0e2786b0ff82ef",
+        "full_monitor_qualified": false
+      }
+    },
+    {
+      "name": "klu-four-fields",
+      "deck_sha256": "ba919512d54b2fb6694d117a0b743d4cbc76705b0cee7a0df20b5df99704f63e",
+      "solve": {
+        "status": "failed",
+        "timeout": true,
+        "returncode": null,
+        "elapsed_s": 600.002365634311,
+        "runtime": {
+          "format": "dac-monitor-runtime-v1",
+          "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+          "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+          "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-clean/install",
+          "inputs": {
+            "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+            "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+            "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+            "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+          },
+          "configure_flags": [
+            "--enable-xspice",
+            "--with-x=no",
+            "--with-readline=no",
+            "CFLAGS=-O2 -fno-fast-math"
+          ],
+          "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+          "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:48:50 UTC 2026\n******\n",
+          "files": {
+            "install/bin/ngspice": "93f5bd3e105c0e3b70435b7a0b6be6645a3a9fa94e1bdfca778a280406ce76c0",
+            "install/share/ngspice/scripts/spinit": "bcab932f5174d8094b8ec6325b95ddef37ab1a41f746ebcd038c88d856358190",
+            "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+            "install/lib/ngspice/digital.cm": "14da052e3ae197e1893df7d2c561f9c660f2d7bf51e55f7ddb750b77211204fc",
+            "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+            "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+            "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+            "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+            "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+          },
+          "qualification": "experimental-instrumented-runtime",
+          "full_monitor_qualified": false
+        },
+        "deck_sha256": "ba919512d54b2fb6694d117a0b743d4cbc76705b0cee7a0df20b5df99704f63e",
+        "solver_log_sha256": "134c5f925c44f0b5557b7ec6a39d82666a7baeaf58989257379b94f8d9e836aa",
+        "full_monitor_qualified": false
+      }
+    },
+    {
+      "name": "skin-four-fields",
+      "deck_sha256": "802169f65f966877bcc85ef00827a7802684b81d28f33842225e25ba93fac982",
+      "solve": {
+        "status": "failed",
+        "timeout": true,
+        "returncode": null,
+        "elapsed_s": 600.002145613078,
+        "runtime": {
+          "format": "dac-monitor-runtime-v1",
+          "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+          "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+          "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-clean/install",
+          "inputs": {
+            "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+            "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+            "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+            "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+          },
+          "configure_flags": [
+            "--enable-xspice",
+            "--with-x=no",
+            "--with-readline=no",
+            "CFLAGS=-O2 -fno-fast-math"
+          ],
+          "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+          "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:48:50 UTC 2026\n******\n",
+          "files": {
+            "install/bin/ngspice": "93f5bd3e105c0e3b70435b7a0b6be6645a3a9fa94e1bdfca778a280406ce76c0",
+            "install/share/ngspice/scripts/spinit": "bcab932f5174d8094b8ec6325b95ddef37ab1a41f746ebcd038c88d856358190",
+            "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+            "install/lib/ngspice/digital.cm": "14da052e3ae197e1893df7d2c561f9c660f2d7bf51e55f7ddb750b77211204fc",
+            "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+            "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+            "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+            "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+            "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+          },
+          "qualification": "experimental-instrumented-runtime",
+          "full_monitor_qualified": false
+        },
+        "deck_sha256": "802169f65f966877bcc85ef00827a7802684b81d28f33842225e25ba93fac982",
+        "solver_log_sha256": "50584ae86dbcddc23d0dabf881da534309564098f5da08e8425fb923028a1633",
+        "full_monitor_qualified": false
+      }
+    },
+    {
+      "name": "balanced-four-fields",
+      "deck_sha256": "e06da018cb16ae0172ca7a4d82586f274ad3dae6a809f4af64226dd08f3de2a7",
+      "solve": {
+        "status": "failed",
+        "timeout": true,
+        "returncode": null,
+        "elapsed_s": 600.002326566726,
+        "runtime": {
+          "format": "dac-monitor-runtime-v1",
+          "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+          "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+          "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-clean/install",
+          "inputs": {
+            "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+            "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+            "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+            "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+          },
+          "configure_flags": [
+            "--enable-xspice",
+            "--with-x=no",
+            "--with-readline=no",
+            "CFLAGS=-O2 -fno-fast-math"
+          ],
+          "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+          "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:48:50 UTC 2026\n******\n",
+          "files": {
+            "install/bin/ngspice": "93f5bd3e105c0e3b70435b7a0b6be6645a3a9fa94e1bdfca778a280406ce76c0",
+            "install/share/ngspice/scripts/spinit": "bcab932f5174d8094b8ec6325b95ddef37ab1a41f746ebcd038c88d856358190",
+            "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+            "install/lib/ngspice/digital.cm": "14da052e3ae197e1893df7d2c561f9c660f2d7bf51e55f7ddb750b77211204fc",
+            "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+            "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+            "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+            "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+            "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+          },
+          "qualification": "experimental-instrumented-runtime",
+          "full_monitor_qualified": false
+        },
+        "deck_sha256": "e06da018cb16ae0172ca7a4d82586f274ad3dae6a809f4af64226dd08f3de2a7",
+        "solver_log_sha256": "f2bdfe4dbb838d69a936f3d39aa228b355168220d0108a8653e11e9cabc99adb",
+        "full_monitor_qualified": false
+      }
+    },
+    {
+      "name": "warm-guesses-four-fields",
+      "deck_sha256": "baab4c3d4f73d394ae87b9e7c58f16b7a8991b0a8c76e9c5f19af39edd4b8236",
+      "solve": {
+        "status": "complete",
+        "timeout": false,
+        "returncode": 0,
+        "elapsed_s": 175.47327734110877,
+        "runtime": {
+          "format": "dac-monitor-runtime-v1",
+          "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+          "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+          "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-clean/install",
+          "inputs": {
+            "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+            "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+            "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+            "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+          },
+          "configure_flags": [
+            "--enable-xspice",
+            "--with-x=no",
+            "--with-readline=no",
+            "CFLAGS=-O2 -fno-fast-math"
+          ],
+          "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+          "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:48:50 UTC 2026\n******\n",
+          "files": {
+            "install/bin/ngspice": "93f5bd3e105c0e3b70435b7a0b6be6645a3a9fa94e1bdfca778a280406ce76c0",
+            "install/share/ngspice/scripts/spinit": "bcab932f5174d8094b8ec6325b95ddef37ab1a41f746ebcd038c88d856358190",
+            "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+            "install/lib/ngspice/digital.cm": "14da052e3ae197e1893df7d2c561f9c660f2d7bf51e55f7ddb750b77211204fc",
+            "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+            "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+            "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+            "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+            "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+          },
+          "qualification": "experimental-instrumented-runtime",
+          "full_monitor_qualified": false
+        },
+        "deck_sha256": "baab4c3d4f73d394ae87b9e7c58f16b7a8991b0a8c76e9c5f19af39edd4b8236",
+        "solver_log_sha256": "736a8f91ac4cf0bf1ed014332949cf93f50b4d27ae9059461b4b505fae5575ed",
+        "full_monitor_qualified": false
+      },
+      "settling": {
+        "format": "dac-steady-supply-settling-v1",
+        "accepted": false,
+        "failures": [
+          "nonperiodic v(eht)",
+          "nonperiodic v(g2)",
+          "nonperiodic v(g4)",
+          "nonperiodic i(lhorizontal)",
+          "nonperiodic v(x1136.xshared.flux_b)",
+          "horizontal phase drift exceeds 0.01 line"
+        ],
+        "complete": true,
+        "phase_samples_per_field": 539136,
+        "rows": 613149,
+        "simulated_until_s": 0.078,
+        "waveform_relative_rms_error": {
+          "v(eht)": 0.17239887976809914,
+          "v(g2)": 0.031104001892518288,
+          "v(g4)": 0.031103427156849293,
+          "v(cathode)": 0.00018845884438727992,
+          "i(lhorizontal)": 0.7475414580066996,
+          "i(lvertical)": 0.008187960733628964,
+          "v(x1136.xshared.flux_b)": 0.7724203020756606
+        },
+        "horizontal_phase_variation_lines": 0.2543523319448866,
+        "horizontal_edges": 936,
+        "vertical_edges": 3,
+        "heater_power_w": 0.74067766557069,
+        "thermal_power_relative_error": 1.7643664307342988e-12,
+        "full_monitor_qualified": false,
+        "numerical_refinement_verified": false
+      },
+      "initial_voltage_guesses": {
+        "eht": 8000,
+        "h_boost": 60,
+        "h_g2raw": 420,
+        "h_divtop": 420,
+        "h_g1raw": -20
+      },
+      "initialization": "Explicit exploratory voltage guesses, not a restored periodic state.",
+      "deck": "warm-start.cir"
+    }
+  ]
+}

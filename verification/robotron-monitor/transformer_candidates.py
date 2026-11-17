@@ -70,7 +70,7 @@ def bounded(parameter):
     return value
 
 
-def compile_model(graph,candidate,parameters,name='T3_CANDIDATE',shorted_turns=None):
+def compile_model(graph,candidate,parameters,name='T3_CANDIDATE',shorted_turns=None,*,backend='xspice'):
     """Compile a tapped wrapper; caller supplies every numerical section bound.
 
     Core B(H) data retain magnetics.py's validation and are explicitly separate
@@ -90,17 +90,22 @@ def compile_model(graph,candidate,parameters,name='T3_CANDIDATE',shorted_turns=N
         ports+=taps
         for i,(a,b) in enumerate(zip(taps,taps[1:])):
             keys={'turns','resistance_ohm','leakage_h','capacitance_f'}
-            if set(values[i])!=keys:raise ValueError('invalid magnetic section parameters')
-            section={k:bounded(values[i][k]) for k in keys}
+            skin={'skin_resistance_ohm','skin_fraction'}
+            if set(values[i]) not in (keys,keys|skin):raise ValueError('invalid magnetic section parameters')
+            section={k:bounded(v) for k,v in values[i].items()}
+            if 'skin_fraction' in section and values[i]['skin_fraction']['maximum']>=1:
+                raise ValueError('skin leakage fraction bound must stay below one')
             section['polarity']=candidate['polarity'][gid]
             windings.append(section);pins += [a,b]
             descriptions.append(dict(group=gid,terminals=[a,b],parameters=copy.deepcopy(values[i]),polarity=section['polarity']))
     core=copy.deepcopy(parameters['core'])
     for key in ('area_m2','length_m','loss_ohm'):core[key]=bounded(core[key])
-    model=magnetics.transformer(name+'_CORE',windings,core,shorted_turns)
+    if backend not in ('xspice','flux'):raise ValueError('unknown magnetic backend')
+    build=magnetics.transformer if backend=='xspice' else magnetics.transformer_flux
+    model=build(name+'_CORE',windings,core,shorted_turns)
     model+='\n'.join(['.subckt '+name+' '+' '.join(ports),
                      'Xshared '+' '.join(pins)+' '+name+'_CORE','.ends '+name])+'\n'
-    return model,dict(candidate=candidate,ports=ports,sections=descriptions,
+    return model,dict(candidate=candidate,ports=ports,sections=descriptions,backend=backend,
                      topology=graph,numerical_parameters=parameters,
                      limitations=['Candidate topology; no factory polarity claim.',
                                   'Shared reversible core with lumped section parasitics; no hysteresis or measured distributed field.',

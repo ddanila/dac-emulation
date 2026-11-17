@@ -9,6 +9,25 @@ import math
 import re
 
 
+def winding_network(i,w,a,z):
+    """Optional passive one-pole AC copper-loss approximation.
+
+    R || L adds frequency-dependent resistance while preserving declared DC R
+    and low-frequency total leakage. It never adds a damping power source.
+    The AC resistance and leakage fraction require explicit caller provenance.
+    """
+    lines=[f'Rw{i} {a} r{i} {w["resistance_ohm"]:.15g}']
+    node=f'r{i}';leak=w['leakage_h']
+    if 'skin_resistance_ohm' in w:
+        fraction=w['skin_fraction'];node=f'skin{i}'
+        lines += [f'Rskin{i} r{i} {node} {w["skin_resistance_ohm"]:.15g}',
+                  f'Lskin{i} r{i} {node} {leak*fraction:.15g}']
+        leak*=1-fraction
+    lines += [f'Ll{i} {node} l{i} {leak:.15g}',
+              f'Cw{i} {a} {z} {w["capacitance_f"]:.15g}']
+    return lines
+
+
 def transformer_flux(name, windings, core, shorted_turns=None, *, smoothing_t=1e-5):
     """Shared B-state equivalent of the reversible core, using native devices.
 
@@ -29,9 +48,7 @@ def transformer_flux(name, windings, core, shorted_turns=None, *, smoothing_t=1e
     for i,w in enumerate(ws):
         a,z=(f'w{i}p',f'w{i}n') if i<len(windings) else ('shorted','shorted')
         if i<len(windings): ports += [a,z]
-        lines += [f'Rw{i} {a} r{i} {w["resistance_ohm"]:.15g}',
-                  f'Ll{i} r{i} l{i} {w["leakage_h"]:.15g}',
-                  f'Cw{i} {a} {z} {w["capacitance_f"]:.15g}']
+        lines += winding_network(i,w,a,z)
     n0=ws[0]['turns']; sign0=ws[0].get('polarity',1)
     h=core['h_a_per_m']; b=core['b_t']; center=h.index(0)
     h=h[center:]; b=b[center:]
@@ -78,12 +95,15 @@ def transformer(name,windings,core,shorted_turns=None):
         for key in ('turns','resistance_ohm','leakage_h','capacitance_f'):
             if not math.isfinite(w[key]) or w[key]<=0:raise ValueError('invalid winding parameter: '+key)
         if w.get('polarity',1) not in (-1,1):raise ValueError('winding polarity must be +1 or -1')
+        skin={'skin_resistance_ohm','skin_fraction'} & w.keys()
+        if skin and (len(skin)!=2 or not math.isfinite(w['skin_resistance_ohm'])
+                     or w['skin_resistance_ohm']<=0 or not math.isfinite(w['skin_fraction'])
+                     or not 0<w['skin_fraction']<1):
+            raise ValueError('invalid passive winding AC loss')
         a,z=(f'w{i}p',f'w{i}n') if i<len(windings) else ('shorted','shorted')
         if i<len(windings):ports += [a,z]
         # Explicit resistance, leakage and terminal capacitance for every winding.
-        lines += [f'Rw{i} {a} r{i} {w["resistance_ohm"]:.15g}',
-                  f'Ll{i} r{i} l{i} {w["leakage_h"]:.15g}',
-                  f'Cw{i} {a} {z} {w["capacitance_f"]:.15g}']
+        lines += winding_network(i,w,a,z)
         electrical=f'l{i} {z}' if w.get('polarity',1)==1 else f'{z} l{i}'
         lines += [f'Aw{i} ({electrical}) (m{i} m{i+1}) winding{i}',
                   f'.model winding{i} lcouple(num_turns={w["turns"]:.15g})']
