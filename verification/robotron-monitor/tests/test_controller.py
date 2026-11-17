@@ -22,7 +22,7 @@ class ControllerTests(unittest.TestCase):
                 out=root/name;out.mkdir()
                 circuit=f'''Vinput supply 0 PWL(0 0 50u 12)
 Rqc supply qc 100
-Rload qe 0 100
+Rload qe 0 150
 Vfeedback fb 0 3.69
 Vdfm_level dfm_level 0 4
 Rsoft dfm_level dfm 10000
@@ -53,13 +53,13 @@ Xcontrol supply vz fb ga modulation dfm rx cx vz en cm 0 0 qe qc 0 TDA1060_FUNCT
             self.assertGreater(max(r[2] for r in hard if r[0]>onset+.0013),3)
 
     def solve(self, *, timing_c=6.4e-9, feedback=3.69, enable=8.4,
-              modulation=8.4, current_sense=0, supply=12, step=1e-7):
+              modulation=8.4, current_sense=0, supply=12, step=1e-7, regularization=1):
         with tempfile.TemporaryDirectory() as directory:
             directory = Path(directory)
             circuit = f'''TDA1060 characterization; not a historical converter
 Vinput supply 0 PWL(0 0 50u {supply})
 Rqc supply qc 100
-Rload qe 0 100
+Rload qe 0 150
 Vfeedback fb 0 {feedback}
 Vdfm dfm_level 0 4
 Ven en 0 {enable}
@@ -74,7 +74,8 @@ Xcontrol supply vz fb ga modulation dfm_level rx cx vz en cm 0 0 qe qc 0 TDA1060
                            probes=[dict(expression='v(cx)'), dict(expression='v(qe)'), dict(expression='v(ga)')])
             # reference.deck includes a title; keep circuit's title as a comment.
             deck = reference.deck(profile, [], {}, 0, .0008, step,
-                                  (ROOT/'devices/tda1060.cir').read_text(), '* '+circuit)
+                                  (ROOT/'devices/tda1060.cir').read_text().replace(
+                                      '.param tda_regularization=1', f'.param tda_regularization={regularization}'), '* '+circuit)
             (directory/'run.cir').write_text(deck)
             log = lab.run_command(['ngspice','-b','run.cir'], directory, directory/'solver.log')
             self.assertIsNone(re.search(r'error|timestep too small|run simulation.*aborted',log,re.I),log)
@@ -99,6 +100,15 @@ Xcontrol supply vz fb ga modulation dfm_level rx cx vz en cm 0 0 qe qc 0 TDA1060
         self.assertAlmostEqual(nominal['high'],5.7,delta=.03)
         self.assertTrue(.1<nominal['duty']<.8)
         self.assertTrue(3.8<nominal['peak']<5)
+        self.assertLess(nominal['peak']/150, .04)
+
+    def test_controller_numerical_state_refinement(self):
+        nominal = self.solve()
+        for factor in (.5, .25):
+            refined = self.solve(regularization=factor)
+            self.assertAlmostEqual(refined['frequency'], nominal['frequency'], delta=nominal['frequency']*.01)
+            self.assertAlmostEqual(refined['duty'], nominal['duty'], delta=.005)
+            self.assertAlmostEqual(refined['peak'], nominal['peak'], delta=nominal['peak']*.01)
 
     def test_feedback_modulation_enable_and_inhibit(self):
         for changes in [dict(feedback=3.8),dict(enable=0),dict(modulation=0),

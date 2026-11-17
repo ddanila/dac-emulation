@@ -1,0 +1,202 @@
+{
+  "qualification": "hypothetical-numerical-model",
+  "topology": "Primary p12(1/2)-collector(3/4), series extension collector-8, auxiliary p12-7, negative winding 6(ground)-5. Relative polarities inferred from forward/flyback operation.",
+  "source_pages": [
+    {
+      "file": "older.pdf",
+      "page": 10
+    },
+    {
+      "file": "older-operation.pdf",
+      "page": 10
+    }
+  ],
+  "windings": [
+    {
+      "turns": {
+        "value": 20,
+        "minimum": 10.0,
+        "maximum": 40,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "resistance_ohm": {
+        "value": 0.08,
+        "minimum": 0.02,
+        "maximum": 0.32,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "leakage_h": {
+        "value": 1e-06,
+        "minimum": 2.5e-07,
+        "maximum": 4e-06,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "capacitance_f": {
+        "value": 1e-10,
+        "minimum": 2.5e-11,
+        "maximum": 4e-10,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "polarity": 1
+    },
+    {
+      "turns": {
+        "value": 20,
+        "minimum": 10.0,
+        "maximum": 40,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "resistance_ohm": {
+        "value": 0.12,
+        "minimum": 0.03,
+        "maximum": 0.48,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "leakage_h": {
+        "value": 2e-06,
+        "minimum": 5e-07,
+        "maximum": 8e-06,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "capacitance_f": {
+        "value": 1e-10,
+        "minimum": 2.5e-11,
+        "maximum": 4e-10,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "polarity": 1
+    },
+    {
+      "turns": {
+        "value": 14,
+        "minimum": 7.0,
+        "maximum": 28,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "resistance_ohm": {
+        "value": 0.08,
+        "minimum": 0.02,
+        "maximum": 0.32,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "leakage_h": {
+        "value": 1e-06,
+        "minimum": 2.5e-07,
+        "maximum": 4e-06,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "capacitance_f": {
+        "value": 1e-10,
+        "minimum": 2.5e-11,
+        "maximum": 4e-10,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "polarity": 1
+    },
+    {
+      "turns": {
+        "value": 28,
+        "minimum": 14.0,
+        "maximum": 56,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "resistance_ohm": {
+        "value": 0.2,
+        "minimum": 0.05,
+        "maximum": 0.8,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "leakage_h": {
+        "value": 2e-06,
+        "minimum": 5e-07,
+        "maximum": 8e-06,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "capacitance_f": {
+        "value": 1e-10,
+        "minimum": 2.5e-11,
+        "maximum": 4e-10,
+        "evidence": "assumed-bound",
+        "rationale": "Unmeasured T1 engineering range; no factory or specimen value."
+      },
+      "polarity": 1
+    }
+  ],
+  "core": {
+    "area_m2": {
+      "value": 8e-05,
+      "minimum": 4e-05,
+      "maximum": 0.00016,
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured core geometry/loss engineering range."
+    },
+    "length_m": {
+      "value": 0.06,
+      "minimum": 0.03,
+      "maximum": 0.12,
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured core geometry/loss engineering range."
+    },
+    "loss_ohm": {
+      "value": 5000,
+      "minimum": 2500.0,
+      "maximum": 10000,
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured core geometry/loss engineering range."
+    },
+    "h_a_per_m": [
+      -4000,
+      -1200,
+      -600,
+      0,
+      600,
+      1200,
+      4000
+    ],
+    "b_t": [
+      -0.4,
+      -0.32,
+      -0.165,
+      0,
+      0.165,
+      0.32,
+      0.4
+    ],
+    "h_scale": {
+      "value": 1,
+      "minimum": 0.5,
+      "maximum": 2,
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured reversible B(H) curve scale; no material identification."
+    },
+    "b_scale": {
+      "value": 1,
+      "minimum": 0.5,
+      "maximum": 2,
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured reversible B(H) curve scale; no material identification."
+    }
+  },
+  "rationale": "Engineering initialization: approximately 147 uH primary incremental inductance. Ratios use nominal output voltages and forward/flyback operation, not a repaired T3 winding or picture fit.",
+  "limitations": [
+    "No factory turns, core geometry, B(H), parasitics or polarity measurement.",
+    "Reversible saturation only; hysteresis and temperature absent."
+  ],
+  "format": "dac-monitor-t1-parameters-v1",
+  "historical_topology_verified": false
+}

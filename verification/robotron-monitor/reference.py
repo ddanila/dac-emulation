@@ -49,6 +49,18 @@ def read_profile(path):
         resolved = (ROOT/name).resolve()
         if not resolved.is_relative_to(ROOT) or not resolved.is_file() or resolved.suffix != '.cir':
             raise ValueError('additional model outside laboratory or missing')
+    generated = profile.get('generated_models', {})
+    if not isinstance(generated, dict) or not set(generated).issubset({profile['models'], *extra_models}):
+        raise ValueError('generated model must be an included model')
+    for model, document in generated.items():
+        import converter_magnetics
+        if not isinstance(document, str):
+            raise ValueError('invalid generated model document')
+        resolved = (ROOT/document).resolve()
+        if not resolved.is_relative_to(ROOT) or not resolved.is_file() or resolved.suffix != '.json':
+            raise ValueError('generated model document outside laboratory or missing')
+        if converter_magnetics.compile_model(json.loads(resolved.read_text())) != (ROOT/model).read_text():
+            raise ValueError('generated magnetic model does not match bounded parameters')
     for name, p in profile['parameters'].items():
         values = [p[k] for k in ('minimum', 'nominal', 'maximum')]
         if (not IDENTIFIER.fullmatch(name) or any(type(v) not in (int, float) or not math.isfinite(v) for v in values)
@@ -218,6 +230,12 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
             key=f'schematic_{i}';files[key]=(ROOT/name).read_bytes();names[key]=f'input-{i}.kicad_sch'
         for i,name in enumerate(profile.get('additional_models', [])):
             key=f'model_{i}'; files[key]=(ROOT/name).read_bytes(); names[key]=f'models-{i}.cir'
+        if profile.get('generated_models'):
+            for name in ('converter_magnetics.py', 'magnetics.py', 'transformer_candidates.py'):
+                files[name] = (ROOT/name).read_bytes(); names[name] = name
+            for i, document in enumerate(profile['generated_models'].values()):
+                key = f'model_parameters_{i}'
+                files[key] = (ROOT/document).read_bytes(); names[key] = key+'.json'
         for key,value in (('scenario',scenario),('fault',fault),('component_factors',component_factors)):
             if value is not None:
                 files[key]=json.dumps(value,sort_keys=True,allow_nan=False).encode();names[key]=key+'.json'

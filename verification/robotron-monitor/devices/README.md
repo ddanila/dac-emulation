@@ -19,7 +19,7 @@ declaration must agree with the contract.
 | CX sawtooth thresholds | 1.3 / 5.7 V | Manufacturer typical values |
 | Oscillator timing | external RX current and CX charge/discharge | Functional description |
 | Timing calibration | RX equivalent 6.83 V, discharge 4.4 mA | Calibrated to 30.5 kHz at 6.4 kilohms / 6.4 nF and approximately 1 microsecond reset per nF; not an independent validation point |
-| Regulated reference | 8.4 V, 5 ohms output impedance | Typical voltage; assumed impedance |
+| Regulated reference | 8.4 V pass element, 5 ohms small-signal impedance, 10 mA soft current limit | Typical voltage; impedance and limit assumed |
 | Feedback reference | 3.72 V | Manufacturer typical value |
 | Error amplifier | 10 mS, 3 mA limit, 12 kilohms output resistance | Assumed functional approximation; not a fitted transistor circuit |
 | Undervoltage | enable 9.8 V, disable 9.3 V | Assumed threshold within documented 8.85–10.8 V range; typical 0.5 V hysteresis |
@@ -27,16 +27,23 @@ declaration must agree with the contract.
 | DFM discharge | 100 ohms disabled; 1 kilohm to lower ramp level when FB < 0.6 V | Manufacturer block diagram |
 | CM thresholds | 0.48 V cycle termination; 0.6 V severe trip | Manufacturer typical values |
 | SAT threshold | 0.6 V pulse inhibit | Manufacturer typical value |
-| Pulse termination | latch until sawtooth reset, including PWM termination | Manufacturer functional description; 1 ns state regularization is numerical |
+| Pulse termination | latch until sawtooth reset, including PWM termination | Manufacturer functional description; 10 ns state regularization is numerical |
 | Severe-trip holdoff | about 1 ms after last severe trip, with DFM discharge | Recovery mechanism documented; duration is an uncalibrated engineering assumption |
-| QC → QE current | smooth 40 mA plateau | Assumed drive approximation, not a manufacturer maximum-current claim |
-| PWM transition | 20 ns RC | Numerical regularization, not measured device switching time |
+| QC → QE output | NPN with passive 680/1000 ohm on-divider and 100 ohm off pull-down | All internal drive/device values assumed; not B260D transistor characterization |
+| PWM and Schmitt transitions | 20 ns RC; 1 mV Schmitt smoothing | Numerical regularization, checked by two halvings; not measured device switching time |
 | Internal supply current | 5 mA plus modeled reference/timing draw | Assumed, not an energy-qualified transistor implementation |
 
-Use is restricted to component characterization within ratings. In particular,
-this current-output approximation **does not clamp QE to its 5 V rating**. The
-test load keeps it below that rating; arbitrary converter loads can exceed the
-model's valid domain. No historical converter result is qualified by this file.
+Use is restricted to component characterization within ratings. QC supplies the
+output transistor and VZ supplies its base drive; QE is no longer an ideal current
+source which can raise an arbitrary load above its rating. This is still not an
+output protection or SOA model: the connected load must be checked against the
+manufacturer's QE voltage and output-current limits. A disabled oscillator has
+an assumed 1 kohm discharge path, avoiding an unphysical negative DC ramp caused
+by leakage into a floating timing capacitor. Internal clamp diodes have assumed
+10 ohm series resistance, 5 pF junction capacitance and 5 ns transit time; zero-charge
+clamps caused rejected solver runs at undervoltage turn-on. These are engineering
+parameters, not recovered B260D data. The reference pass element draws its current
+from VCC rather than an ideal generated rail with recursive current accounting.
 
 Unsupported mechanisms include calibrated recovery/dead-time behavior,
 feed-forward, temperature drift, output storage and synchronization during ramp

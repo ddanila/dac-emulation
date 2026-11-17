@@ -78,8 +78,8 @@ self-running timing-capacitor oscillator, feedback PWM, finite output drive,
 undervoltage hysteresis and input inhibits. Manufacturer evidence, calibrated
 constants, assumed constants and unsupported behavior are listed separately.
 Explicit subcircuit pin contracts allow its 16 terminals through the KiCad
-exporter without silently dropping pins. It is not yet used in a historical
-converter profile or published as a diagnostic prediction.
+exporter without silently dropping pins. It is used in the provisional
+converter bench below, but is not published as a diagnostic prediction.
 
 The pale/expanding-raster implementation remains incomplete: the original
 converter, horizontal and vertical stages are not connected. The thermal bench
@@ -414,10 +414,10 @@ a final replay. A run starts with an empty phosphor surface unless an explicit o
 restored. An absolute 300 s timestamp does **not** establish a 300 s warm-up
 simulation or electrical/thermal continuation.
 
-The audit exits 2 while blocked. It currently exports seven KiCad sheets and
-counts **130 of 260** historical entries connected. This is coverage, not
+The audit exits 2 while blocked. It currently exports nine KiCad sheets and
+counts **171 of 260** historical entries connected. This is coverage, not
 qualification. See `reference/k7222-11/full-path-requirements.json` for the
-remaining power, horizontal, vertical-output, tube-loading, continuation and
+remaining power, horizontal, vertical assembly, tube-loading, settled initialization and
 validation gates. **No complete-monitor picture or warm-up sequence is claimed.**
 
 ### Vertical oscillator and source correction
@@ -465,7 +465,7 @@ turns and modified cold-end wiring are not silently substituted for it.
 ## Connected-stage and candidate work
 
 The source audit now gives all 260 inventory entries an explicit disposition:
-130 connected/modeled entries and 130 unresolved implementations. “Modeled” means
+171 connected/modeled entries and 89 unresolved implementations. “Modeled” means
 connected in an audited source sheet, not validated as part of a complete assembly.
 Assembly completeness, candidate topology and historical qualification remain
 separate gates. No missing component is marked assembly-only just to improve a
@@ -581,7 +581,7 @@ bench with 16 source-addressed components from older.pdf p9, including A2, C22,
 the height control, V12 and the PNP V13 reset path. The operating manual p14
 (Fig. 10) independently explains charging, rapid reset and the height adjustment.
 There are 34 components in this connected bench; the full-path inventory audit
-now accounts for 130/260 entries across separate sheets, **not one complete monitor**.
+now accounts for 171/260 entries across separate sheets, **not one complete monitor**.
 
 A2 uses a provisional LM723-family equivalent with the metal-can pin contract
 from TI SNVS765C p2. The reference, differential amplifier, external compensation,
@@ -642,7 +642,56 @@ current-loop tracking, the winding differential equation, height/centering
 controls and halved timestep. These currents must not be interpreted as measured
 raster size, and this stage cannot diagnose the museum monitor by itself.
 
-The audit now covers 130/260 source entries across seven sheets, while the
+The audit now covers 171/260 source entries across nine sheets, while the
 full-path entry point remains blocked. Converter/horizontal assembly, numerical
 T1/T3 candidates, loaded tube rails, settled thermal/electrical iteration and
 firmware-frame rendering are still outstanding. No full-path PNG is published.
+
+
+### Input filter and switching converter
+
+The converter profile connects 38 source-addressed parts on 012-6931, plus
+F1/L3/C11 on a separate three-part input sheet. Older.pdf pp9–10 and the operating
+manual pp9–10 distinguish raw 12P (controller and R17 supply) from the L3/C11
+filtered rail feeding T1 and C10. V2 supplies synchronization, C9/R15 set the
+free-running timing, R18/R12/C8 provide soft-start, and R7/R5/R6 close the 41P
+feedback loop. V10/V22, snubber, rectifiers and output filters are connected.
+The external bench still uses resistive loads and leaves horizontal sync inactive.
+
+T1 is explicitly hypothetical: its four section connections and relative signs
+are inferred from the drawing and forward/flyback descriptions, with no original
+winding measurements. `devices/t1-bound.json` records assumed bounds for turns,
+resistance, leakage, capacitance, geometry, core loss and B(H) scales. The
+`converter_magnetics.py` generator produces `devices/t1-bound.cir`; the runner
+rejects a stale generated model and archives/hashes its parameters and generator.
+This is independent of the unresolved T3 candidates; the two transformers must
+not be conflated.
+
+The native shared-flux backend integrates Faraday's law and uses Ampère's law
+for magnetizing current. Native E/F sources reflect secondary voltage/current;
+all sections share saturation. Synthetic tests compare the unsaturated result
+with the existing XSPICE backend, reverse polarity, change load, add a shorted
+turn, check terminal power, and refine timestep and saturation-knee smoothing.
+The XSPICE backend aborts in the strongly saturated comparison fixture, so it
+is not treated as an independent saturated reference. Neither model implements
+hysteresis or measured winding resonances.
+
+The converter's automated acceptance currently covers **early startup only**:
+source identities/pin order, input filtering, reference startup, nonnegative CX,
+output voltage limits in that interval, archive provenance and refinement.
+It does not establish settled 41P/22P/16N regulation or synchronization. Long
+switching startup remains a numerical/performance gate; aborted or timed-out
+runs publish no replay. Logs are preserved incrementally, including on timeout.
+
+```
+python3 verification/robotron-monitor/reference.py \
+  --profile verification/robotron-monitor/profiles/k7222-11-converter.json \
+  --output build/monitor/converter-early-startup --stop .002 --step .000002
+```
+
+The full audit counts **171/260 entries across nine sheets**, not a joined
+monitor. The first full-path milestone uses thermal-equilibrium iteration followed
+by one continuous electrical settle/replay run. Persisted state checkpoints and
+fault warm-up sequences are deferred; this does not waive settled initialization,
+horizontal/T3/tube assembly, load accounting or full-frame acceptance. The
+full-path entry point remains blocked and no new full-monitor PNG is claimed.

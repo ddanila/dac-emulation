@@ -1,0 +1,274 @@
+{
+  "format": "dac-monitor-profile-v1",
+  "id": "k7222-11-converter",
+  "name": "K7222.11 connected switching converter",
+  "qualification": "bounded-stage",
+  "schematic": "circuits/k7222-11-converter.kicad_sch",
+  "models": "circuits/k7222-11-converter-models.cir",
+  "additional_models": [
+    "devices/tda1060.cir",
+    "devices/t1-bound.cir"
+  ],
+  "bench": "circuits/k7222-11-converter-bench.cir",
+  "inventory": "reference/k7222-11/inventory.json",
+  "board": "012-6931",
+  "subcircuits": {
+    "TDA1060_FUNCTIONAL": 16,
+    "T1_BOUND": 6,
+    "CONVERTER_TRIM": 3
+  },
+  "parameters": {
+    "converter_position": {
+      "nominal": 0.63,
+      "minimum": 0.01,
+      "maximum": 0.99,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "R5 1 kohm potentiometer, selected from documented 41 V target and resistor divider; not a measured setting."
+    },
+    "converter_bf": {
+      "nominal": 60,
+      "minimum": 18,
+      "maximum": 150,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Generic SF127C/1SA20C family gain."
+    },
+    "power_bf": {
+      "nominal": 40,
+      "minimum": 10,
+      "maximum": 100,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "V22 identity unresolved; generic power NPN."
+    },
+    "negative_bleed": {
+      "nominal": 1000,
+      "minimum": 100,
+      "maximum": 2000,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "R55 2 kohm adjustable load, unknown specimen setting."
+    },
+    "load41": {
+      "nominal": 200,
+      "minimum": 100,
+      "maximum": 1000,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "External characterization load."
+    },
+    "load22": {
+      "nominal": 220,
+      "minimum": 100,
+      "maximum": 1000,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "External characterization load."
+    },
+    "load16": {
+      "nominal": 330,
+      "minimum": 100,
+      "maximum": 1000,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "External characterization load."
+    },
+    "input_voltage": {
+      "nominal": 12,
+      "minimum": 10,
+      "maximum": 14,
+      "unit": "V",
+      "evidence": "assumed-bound",
+      "rationale": "External supply characterization."
+    },
+    "filter_esr": {
+      "nominal": 0.2,
+      "minimum": 0.02,
+      "maximum": 2,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured healthy series loss, explicit sensitivity range; not a fitted numerical stabilizer."
+    },
+    "filter_dcr": {
+      "nominal": 0.1,
+      "minimum": 0.01,
+      "maximum": 1,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured healthy series loss, explicit sensitivity range; not a fitted numerical stabilizer."
+    },
+    "fuse_resistance": {
+      "nominal": 0.05,
+      "minimum": 0.01,
+      "maximum": 0.2,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured F1 cold resistance. Does not model fuse opening or certify overload operation."
+    },
+    "input_choke": {
+      "nominal": 0.0001,
+      "minimum": 1e-05,
+      "maximum": 0.01,
+      "unit": "H",
+      "evidence": "assumed-bound",
+      "rationale": "L3 value unresolved; engineering range, not factory data."
+    },
+    "input_choke_dcr": {
+      "nominal": 0.5,
+      "minimum": 0.05,
+      "maximum": 3,
+      "unit": "ohm",
+      "evidence": "assumed-bound",
+      "rationale": "L3 winding resistance unmeasured; explicit assumption."
+    }
+  },
+  "probes": [
+    {
+      "name": "p41",
+      "expression": "v(p41)",
+      "unit": "V",
+      "source_id": "012-6931:C3"
+    },
+    {
+      "name": "p22",
+      "expression": "v(p22)",
+      "unit": "V",
+      "source_id": "012-6931:C4"
+    },
+    {
+      "name": "n16",
+      "expression": "v(n16)",
+      "unit": "V",
+      "source_id": "012-6931:C28"
+    },
+    {
+      "name": "collector",
+      "expression": "v(switch_collector)",
+      "unit": "V",
+      "source_id": "012-6931:V22:C"
+    },
+    {
+      "name": "ramp",
+      "expression": "v(converter_cx)",
+      "unit": "V",
+      "source_id": "012-6931:C9"
+    },
+    {
+      "name": "soft",
+      "expression": "v(converter_soft)",
+      "unit": "V",
+      "source_id": "012-6931:C8"
+    },
+    {
+      "name": "feedback",
+      "expression": "v(converter_fb)",
+      "unit": "V",
+      "source_id": "012-6931:A1:3"
+    },
+    {
+      "name": "qe",
+      "expression": "v(converter_qe)",
+      "unit": "V",
+      "source_id": "012-6931:A1:14"
+    },
+    {
+      "name": "qc",
+      "expression": "v(converter_qc)",
+      "unit": "V",
+      "source_id": "012-6931:A1:15"
+    },
+    {
+      "name": "input",
+      "expression": "i(Vsupply)",
+      "unit": "A",
+      "source_id": "bench:supply"
+    },
+    {
+      "name": "ref",
+      "expression": "v(converter_ref)",
+      "unit": "V",
+      "source_id": "012-6931:A1:2"
+    },
+    {
+      "name": "filtered_input",
+      "expression": "v(p12_filtered)",
+      "unit": "V",
+      "source_id": "012-6931:C11"
+    },
+    {
+      "name": "input_choke_current",
+      "expression": "i(L851)",
+      "unit": "A",
+      "source_id": "012-6931:L3"
+    }
+  ],
+  "limitations": [
+    "External 12 V and resistive loads; horizontal synchronization not attached.",
+    "T1 section connectivity inferred from schematic and forward/flyback description, with explicitly hypothetical numerical parameters; no factory winding claim.",
+    "Generic transistor/rectifier models and provisional controller; no SOA, thermal or diagnostic qualification.",
+    "Only early startup has passed the converter tests. Settled regulation, switching-startup performance and horizontal synchronization remain unvalidated."
+  ],
+  "source_pages": [
+    {
+      "file": "older.pdf",
+      "page": 10
+    },
+    {
+      "file": "older-operation.pdf",
+      "page": 9
+    },
+    {
+      "file": "older-operation.pdf",
+      "page": 10
+    },
+    {
+      "file": "older.pdf",
+      "page": 9
+    }
+  ],
+  "parasitics": [
+    {
+      "target": "012-6931:C3",
+      "parameter": "filter_esr"
+    },
+    {
+      "target": "012-6931:C4",
+      "parameter": "filter_esr"
+    },
+    {
+      "target": "012-6931:C20",
+      "parameter": "filter_esr"
+    },
+    {
+      "target": "012-6931:C28",
+      "parameter": "filter_esr"
+    },
+    {
+      "target": "012-6931:L4",
+      "parameter": "filter_dcr"
+    },
+    {
+      "target": "012-6931:L5",
+      "parameter": "filter_dcr"
+    },
+    {
+      "target": "012-6931:L6",
+      "parameter": "filter_dcr"
+    },
+    {
+      "target": "012-6931:L3",
+      "parameter": "input_choke_dcr"
+    },
+    {
+      "target": "012-6931:C11",
+      "parameter": "filter_esr"
+    }
+  ],
+  "additional_schematics": [
+    "circuits/k7222-11-power-input.kicad_sch"
+  ],
+  "generated_models": {
+    "devices/t1-bound.cir": "devices/t1-bound.json"
+  }
+}

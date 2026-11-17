@@ -4,28 +4,41 @@
 * Unsupported: feed-forward transfer, temperature coefficients, output storage
 * and synchronization during sawtooth reset. Dead-time duration is assumed.
 .subckt TDA1060_FUNCTIONAL vcc vz fb ga mod dfm rx cx syn en cm vss sat qe qc fw
-Breg nz vss V={min(max(v(vcc,vss)-.2,0),8.4)}
-Rreg nz vz 5
+.param tda_regularization=1
+* Finite reference pass element draws directly from VCC. Avoid an ideal
+* generated rail followed by recursive current accounting through its source.
+* 5 ohm incremental impedance and 10 mA soft limit are assumed, not ratings.
+Breg vcc vz I={.01*tanh(max(.2*(min(max(v(vcc,vss)-.2,0),8.4)-v(vz,vss)),0)/.01)}
+Rreg vz vss 100k
 Brx nrx vss V={min(max(v(vz,vss),0),6.83)}
 Vrx nrx rx 0
 * Sawtooth charge follows current in the external timing resistor.
-Bcharge vz cx I={v(syn,vss)>1.4 && v(ready,vss)>.5 ? max(i(Vrx),0)*(1-v(reset,vss)) : 0}
+Bcharge vz cx I={(.5+.5*tanh((v(syn,vss)-1.4)/.05))*v(ready,vss)*max(i(Vrx),0)*(1-v(reset,vss))}
 Vlogic logic vss 1
 * 9.8 V nominal is assumed within the documented 8.85..10.8 V range.
 * 0.5 V hysteresis is the documented typical value.
-Suv logic ready vcc vss UVLO
-.model UVLO SW(Ron=.001 Roff=1e12 Vt=9.55 Vh=.25)
-Rready ready vss 1000
-Sreset logic reset cx vss RESET
-.model RESET SW(Ron=.001 Roff=1e12 Vt=3.5 Vh=2.2)
-Rreset reset vss 1000
+* Continuous Schmitt states: finite edge prevents load discontinuities from
+* switching the comparator repeatedly inside a Newton iteration.
+Buv ready_switch vss V={.5+.5*tanh((v(vcc,vss)-9.8+.5*v(ready,vss))/(.001*tda_regularization))}
+Rready_delay ready_switch ready 1000
+Cready_delay ready vss {20p*tda_regularization}
+Rready ready vss 1e12
+Breset reset_switch vss V={.5+.5*tanh((v(cx,vss)-5.7+4.4*v(reset,vss))/(.001*tda_regularization))}
+Rreset_delay reset_switch reset 1000
+Creset_delay reset vss {20p*tda_regularization}
+Rreset reset vss 1e12
 Bdischarge cx vss I={.0044*v(reset,vss)}
+* Disabled oscillator is discharged, not a floating ideal capacitor. The
+* assumed 1 kohm path also avoids magnifying switch leakage into negative volts.
+Bcxoff cx vss I={(1-v(ready,vss))*v(cx,vss)/1000}
 Rcx cx vss 1e12
 * Cycle-by-cycle termination: CM > .48 V ends this pulse until ramp reset.
-* The 1 ns regularization is numerical, not a measured propagation delay.
-Ccycle cycle_stop vss 1n IC=0
-Bcycle cycle_stop vss I={v(reset,vss)>.5 || v(ready,vss)<.5 ? v(cycle_stop,vss) :
-+ (v(cm,vss)>.48 || v(cx,vss)>min(v(ga,vss),min(v(mod,vss),v(dfm,vss)))) ? v(cycle_stop,vss)-1 : 0}
+* The 10 ns regularization is numerical, not a measured propagation delay.
+Ccycle cycle_stop vss {10n*tda_regularization} IC=0
+Bcycle cycle_stop vss I={(1-v(ready,vss)*(1-v(reset,vss)))*v(cycle_stop,vss)
++ +v(ready,vss)*(1-v(reset,vss))*(v(cycle_stop,vss)-1)
++ *max(.5+.5*tanh((v(cm,vss)-.48)/(.001*tda_regularization)),
++ .5+.5*tanh((v(cx,vss)-min(v(ga,vss),min(v(mod,vss),v(dfm,vss))))/(.001*tda_regularization)))}
 Rcycle cycle_stop vss 1e12
 * Severe CM trip discharges soft-start and holds off after the last trip.
 * 1 ms is an explicit engineering assumption; not a manufacturer timing value.
@@ -38,21 +51,34 @@ Bsink ga vss I={v(ready,vss)*min(max(.01*(v(fb,vss)-min(v(vz,vss),3.72)),0),.003
 Rga ga vss 12k
 Dga0 vss ga CLAMP
 Dgaz ga vz CLAMP
-.model CLAMP D(IS=1e-12 RS=1)
+* Assumed finite junction dynamics; ideal zero-charge clamps caused solver
+* rejection at undervoltage turn-on in the connected converter.
+.model CLAMP D(IS=1e-12 RS=10 CJO=5p TT=5n)
 Rfb vz fb 15meg
-Bsoft dfm vss I={v(ready,vss)<.5 || v(en,vss)<1.4 || v(dead,vss)>.01 ? max(v(dfm,vss),0)/100 : v(fb,vss)<.6 ? max(v(dfm,vss)-1.3,0)/1000 : 0}
-* Finite controlled current between actual QC/QE ports, not an ideal drive rail.
+Bsoft dfm vss I={(1-v(ready,vss)*(.5+.5*tanh((v(en,vss)-1.4)/.05))
++ *(.5-.5*tanh((v(dead,vss)-.01)/(.001*tda_regularization))))*max(v(dfm,vss),0)/100
++ +v(ready,vss)*(.5+.5*tanh((v(en,vss)-1.4)/.05))
++ *(.5-.5*tanh((v(dead,vss)-.01)/(.001*tda_regularization)))
++ *(.5-.5*tanh((v(fb,vss)-.6)/.005))*max(v(dfm,vss)-1.3,0)/1000}
+* PWM logic drives a finite transistor output supplied through QC and VZ.
 Bcommand command vss V={v(ready,vss)
 + *(.5+.5*tanh((v(en,vss)-1.4)/.05))
 + *(.5+.5*tanh((v(syn,vss)-1.4)/.05))
 + *(.5-.5*tanh((v(cm,vss)-.48)/.01))
-+ *(v(cycle_stop,vss)<.5 ? 1 : 0)*(v(dead,vss)<.01 ? 1 : 0)
++ *(.5-.5*tanh((v(cycle_stop,vss)-.5)/.01))*(.5-.5*tanh((v(dead,vss)-.01)/(.001*tda_regularization)))
 + *(.5-.5*tanh((v(sat,vss)-.6)/.01))
 + *(1-v(reset,vss))
 + *(.5+.5*tanh((min(v(ga,vss),min(v(mod,vss),v(dfm,vss)))-v(cx,vss))/.02))}
 Rtransition command pwm 1000
-Ctransition pwm vss 20p
-Bout qc qe I={.04*tanh(max(v(qc,qe)-.2,0)/.8)*v(pwm,vss)}
+Ctransition pwm vss {20p*tda_regularization}
+* Passive-conductance predriver: assumed 680/1000 ohm divider when on,
+* additional 100 ohm pull-down when off. No active ideal base-voltage servo.
+* These values, gain and storage parameters are not B260D characterization.
+Bdrive vz qb I={v(vz,qb)*min(max(v(pwm,vss),0),1)/680}
+Bpull qb vss I={v(qb,vss)*(1/1000+(1-min(max(v(pwm,vss),0),1))/100)}
+Qoutput qc qb qe OUTPUT_BOUND
+.model OUTPUT_BOUND NPN(IS=1e-14 BF=100 VAF=60 CJE=20p CJC=10p TF=20n TR=100n)
+Rqb qb vss 1meg
 Rqe qe vss 1meg
-Bicc vcc vss I={max(-i(Breg),0)+max(i(Vrx),0)+.005*v(ready,vss)}
+Bicc vcc vss I={max(i(Vrx),0)+.005*v(ready,vss)}
 .ends TDA1060_FUNCTIONAL

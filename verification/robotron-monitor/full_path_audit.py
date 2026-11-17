@@ -10,6 +10,8 @@ SHEETS=(('k7222-11-input.kicad_sch','012-6921',{'T200_BOUND':14}),
         ('k7222-11-vertical-integrator.kicad_sch','012-6931',{'MAA723_BOUND':10}),
         ('k7222-11-vertical-output.kicad_sch','012-6931',{'LM709_FAMILY':8,'VERT_POT':3}),
         ('k7222-11-regulator5.kicad_sch','012-6931',{'REG5_POT':3}),
+        ('k7222-11-power-input.kicad_sch','012-6931',None),
+        ('k7222-11-converter.kicad_sch','012-6931',{'CONVERTER_TRIM':3,'TDA1060_FUNCTIONAL':16,'T1_BOUND':6}),
         ('k7222-11-neck.kicad_sch','012-6891',None))
 
 
@@ -63,7 +65,7 @@ def audit(output):
         result['hashes']['requirements']=lab.digest(requirements.read_bytes())
         result['hashes']['inventory']=lab.digest((ROOT/'reference/k7222-11/inventory.json').read_bytes())
         result['status']='blocked'
-        result['reason']='Complete historical circuit and validated electrical/thermal continuation are not implemented; optical backend tests cannot satisfy these gates.'
+        result['reason']='Complete historical circuit, settled electrothermal initialization and continuous electrical replay are not implemented; optical backend tests cannot satisfy these gates.'
         save();return result
     except (ValueError,OSError,subprocess.SubprocessError) as error:
         result['failure']=str(error);save();raise

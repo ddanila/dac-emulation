@@ -1,0 +1,9 @@
+* Generic device families; no fitted historical curves or thermal/SOA claims.
+.model CONV_N NPN(IS=1e-14 BF={converter_bf} VAF=60 CJE=30p CJC=10p TF=5n TR=50n)
+.model CONV_POWER NPN(IS=1e-11 BF={power_bf} VAF=60 CJE=500p CJC=200p TF=100n TR=500n)
+.model CONV_D D(IS=2n N=1.7 RS=2 CJO=2p TT=5n)
+.model CONV_RECT D(IS=10n N=1.5 RS=.2 CJO=30p TT=100n)
+.subckt CONVERTER_TRIM top wiper bottom
+Ra top wiper {1000*(1-converter_position)}
+Rb wiper bottom {1000*converter_position}
+.ends CONVERTER_TRIM

@@ -9,6 +9,55 @@ import math
 import re
 
 
+def transformer_flux(name, windings, core, shorted_turns=None, *, smoothing_t=1e-5):
+    """Shared B-state equivalent of the reversible core, using native devices.
+
+    Faraday's law integrates winding voltage; Ampere's law sets magnetizing
+    current. Secondary source currents reflect into the primary, conserving
+    terminal power. No prescribed switching waveform or independent power rail.
+    The odd piecewise-linear inverse B(H) is smoothed over 10 uT at its knees.
+    This backend avoids XSPICE core state in stiff switched networks.
+    """
+    transformer(name, windings, core, shorted_turns)  # same physical validation
+    if not math.isfinite(smoothing_t) or not 0 < smoothing_t <= 1e-3:
+        raise ValueError('invalid B(H) knee regularization')
+    ws = list(windings)
+    if shorted_turns:
+        ws.append(dict(turns=shorted_turns['turns'], resistance_ohm=shorted_turns['resistance_ohm'],
+                       leakage_h=shorted_turns['leakage_h'], capacitance_f=1e-15, polarity=1))
+    ports=[]; lines=[]
+    for i,w in enumerate(ws):
+        a,z=(f'w{i}p',f'w{i}n') if i<len(windings) else ('shorted','shorted')
+        if i<len(windings): ports += [a,z]
+        lines += [f'Rw{i} {a} r{i} {w["resistance_ohm"]:.15g}',
+                  f'Ll{i} r{i} l{i} {w["leakage_h"]:.15g}',
+                  f'Cw{i} {a} {z} {w["capacitance_f"]:.15g}']
+    n0=ws[0]['turns']; sign0=ws[0].get('polarity',1)
+    h=core['h_a_per_m']; b=core['b_t']; center=h.index(0)
+    h=h[center:]; b=b[center:]
+    slopes=[(y-x)/(by-bx) for x,y,bx,by in zip(h,h[1:],b,b[1:])]
+    expression=f'{slopes[0]:.15g}*v(flux_b)'
+    for i in range(1,len(slopes)):
+        knee=b[i]; delta=slopes[i]-slopes[i-1]
+        expression += (f'+({delta:.15g})*(v(flux_b)+.5*'
+                       f'(sqrt((v(flux_b)-{knee:.15g})^2+{smoothing_t**2:.15g})'
+                       f'-sqrt((v(flux_b)+{knee:.15g})^2+{smoothing_t**2:.15g})))')
+    current=f'({sign0*core["length_m"]/n0:.15g})*({expression})'
+    for i,w in enumerate(ws[1:],1):
+        z=f'w{i}n' if i<len(windings) else 'shorted'
+        ratio=sign0*w.get('polarity',1)*w['turns']/n0
+        lines.append(f'Ew{i} l{i} {z} l0 w0n {ratio:.15g}')
+        # Native CCCS stamps current reflection directly into the matrix. A
+        # behavioral i(Ew) feedback loop can force tiny steps in switching loads.
+        lines.append(f'Fw{i} l0 w0n Ew{i} {-ratio:.15g}')
+    lines += ['Cflux flux_b 0 1 IC=0', 'Rflux flux_b 0 1e12',
+              f'Bflux 0 flux_b I={{{sign0/(n0*core["area_m2"]):.15g}*v(l0,w0n)}}',
+              f'Bprimary l0 w0n I={{{current}}}',
+              f'Rloss l0 w0n {core["loss_ohm"]:.15g}']
+    if shorted_turns: lines.append('Rshortref shorted 0 1e12')
+    return '\n'.join([f'.subckt {name} '+' '.join(ports),*lines,'.ends '+name])+'\n'
+
+
 def transformer(name,windings,core,shorted_turns=None):
     if not re.fullmatch('[A-Za-z][A-Za-z0-9_]*',name):raise ValueError('invalid transformer name')
     if not 2<=len(windings)<=63:raise ValueError('transformer needs 2–63 winding sections')
