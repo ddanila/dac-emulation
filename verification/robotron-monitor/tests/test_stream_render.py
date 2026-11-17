@@ -9,6 +9,7 @@ from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 import beam_render
 import stream_render
+import image_acceptance
 from test_beam_render import row
 
 
@@ -23,6 +24,11 @@ class StreamExportTests(unittest.TestCase):
             report=stream_render.run(trace,root/'stream',[0,2e-7,4e-7],surface=surface)
             self.assertEqual(report['status'],'complete');self.assertEqual(report['electrical_rows'],3)
             self.assertFalse(report['full_monitor_qualified'])
+            self.assertEqual(report['surface_parameters']['width'],32)
+            self.assertEqual(len(report['linear_frames']),3)
+            for index,frame in enumerate(report['linear_frames']):
+                self.assertEqual(frame['time_s'],[0,2e-7,4e-7][index])
+                self.assertEqual(frame['sha256'],stream_render.file_digest(root/'stream'/frame['path']))
             normal=beam_render.Renderer(surface=surface,backend='compiled');normal.render(rows,[0,2e-7,4e-7])
             raw=(root/'stream/replay.mcrt').read_bytes();size=struct.unpack_from('<I',raw,8)[0]
             meta=json.loads(raw[12:12+size]);payload=raw[12+size:]
@@ -39,6 +45,19 @@ class StreamExportTests(unittest.TestCase):
             with patch.object(stream_render.phosphor,'png',side_effect=OSError('disk full')):
                 with self.assertRaises(OSError):stream_render.run(trace,root/'failed',[0,4e-7],surface=surface)
             self.assertFalse((root/'failed/replay.mcrt').exists())
+
+    def test_image_gate_consumes_export_and_rejects_unsettled_phosphor(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);trace=root/'trace.csv'
+            times=[i*2e-7 for i in range(17)]
+            with trace.open('w') as stream:
+                writer=csv.writer(stream);writer.writerow(beam_render.FIELDS)
+                writer.writerows([row(0),row(times[-1])])
+            stream_render.run(trace,root/'stream',times,surface=dict(width=32,height=24))
+            result=image_acceptance.assess(root/'stream',first_frame=1)
+            self.assertFalse(result['accepted'])
+            self.assertFalse(result['temporal_stability'])
+            self.assertGreater(result['temporal_worst']['error'],.02)
 
 
 if __name__=='__main__':unittest.main()
