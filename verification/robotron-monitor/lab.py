@@ -95,12 +95,30 @@ def connectivity(xml_path, subcircuits=None):
 
 
 def parse_capture(path):
+    if path.stat().st_size > 64*1024*1024:
+        raise ValueError('capture file budget exceeded')
     data = json.loads(path.read_text())
-    if data.get('format') != 'dac-monitor-input-v1':
+    if not isinstance(data,dict) or data.get('format') not in ('dac-monitor-input-v1','dac-monitor-input-v2'):
         raise ValueError('unsupported input capture')
+    if data['format']=='dac-monitor-input-v2':
+        if (data.get('clock_hz')!=179712000 or data.get('signals')!=['VIDEO','BSYN','INTENS']
+            or data.get('board_revision')!='1.93.310412.6/04'
+            or data.get('qualification') not in ('schematic-derived-logical','synthetic-test-pattern')
+            or not isinstance(data.get('time_origin'),dict)
+            or not isinstance(data.get('assumptions'),list)
+            or len(data['assumptions'])>20
+            or any(not isinstance(s,str) or len(s)>1000 for s in data['assumptions'])):
+            raise ValueError('unsupported v2 signal contract')
+        origin=data['time_origin']
+        if data['qualification']=='schematic-derived-logical':
+            if (type(origin.get('boot_cpu_ticks')) is not int or not 0<=origin['boot_cpu_ticks']<=200000000
+                or type(origin.get('character_phase_ticks')) is not int or not 0<=origin['character_phase_ticks']<104):
+                raise ValueError('invalid capture time origin')
+        elif origin.get('dot_tick')!=0 or type(origin.get('dot_tick')) is not int:
+            raise ValueError('invalid pattern time origin')
     hz = data.get('clock_hz')
     events = data.get('events')
-    if type(hz) is not int or not 1 <= hz <= 100_000_000 or not isinstance(events, list) or not 2 <= len(events) <= 2_000_000:
+    if type(hz) is not int or not 1 <= hz <= (100_000_000 if data['format']=='dac-monitor-input-v1' else 200_000_000) or not isinstance(events, list) or not 2 <= len(events) <= 2_000_000:
         raise ValueError('invalid capture clock/event count')
     previous = -1
     for event in events:
@@ -128,8 +146,9 @@ def build_deck(components, models, stop, step, changes, capture=None):
             raise ValueError('capture does not cover the simulation interval')
         # Fixture has only video input. BSYN/INTENS are retained in the capture,
         # not falsely interpreted as a simulation of the missing receiver stages.
-        points, last = ['0 0'], 0
-        for ticks, video, _, _ in capture['events']:
+        last = capture['events'][0][1]
+        points = [f'0 {last*5}']
+        for ticks, video, _, _ in capture['events'][1:]:
             t = ticks/hz
             if video != last:
                 if t > 0:

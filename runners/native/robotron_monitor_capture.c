@@ -1,9 +1,6 @@
-/* Optional functional scanout capture. Does not change serialized machine state.
- * This derives connector stimulus from the core's row-latched scanout, not RGB
- * screenshots. BSYN phase/polarity is a declared adapter assumption, not a
- * reconstructed display-board gate-level output. See the monitor lab README.
- */
-#include "../../machines/robotron1715m/robotron.h"
+/* Source-traceable logical connector capture. Electrical driver/cable models
+ * are downstream; this is not a measured connector waveform. */
+#include "../../machines/robotron1715m/video_output.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -20,6 +17,18 @@ static unsigned number(const char *s, unsigned limit) {
   if(errno || !*s || *end || value>limit) {fprintf(stderr,"Invalid tick budget\n");exit(2);}
   return (unsigned)value;
 }
+typedef struct { FILE *out; uint64_t origin,end,pending; unsigned levels; int have,first; } recording;
+static void flush(recording *r) {
+  if(r->have) {fprintf(r->out,"%s[%llu,%u,%u,%u]",r->first?"":",",
+      (unsigned long long)r->pending,r->levels&1,(r->levels>>1)&1,(r->levels>>2)&1);r->first=0;}
+}
+static void event(void *user,uint64_t t,unsigned video,unsigned sync,unsigned intensity) {
+  recording *r=user;
+  if(t<r->origin || t>r->end)return;
+  t-=r->origin;
+  if(r->have && t!=r->pending)flush(r);
+  r->pending=t;r->levels=video|(sync<<1)|(intensity<<2);r->have=1;
+}
 int main(int argc,char **argv) {
   if(argc!=8){fprintf(stderr,"usage: %s ROM2048 PROM256 CHARGEN4096-or-- DISK boot_cpu_ticks capture_dot_ticks OUTPUT.json\n",argv[0]);return 2;}
   unsigned boot=number(argv[5],200000000),end=number(argv[6],13824000);
@@ -32,33 +41,32 @@ int main(int argc,char **argv) {
   uint8_t *disk=malloc((size_t)n);if(!disk){fclose(df);free(m);return 2;}
   int ok=fread(disk,1,(size_t)n,df)==(size_t)n;fclose(df);
   if(!ok||robotron_disk(m,dac_memory_storage(disk,(size_t)n,0),0)){free(disk);free(m);return 2;}
-  robotron_run(m,boot);
+  /* Observe the last 40 ms of boot to establish the line-clocked sync state.
+   * The elapsed boot CPU budget remains exactly the requested value. */
+  unsigned warm=boot<159744?boot:159744;
+  robotron_run(m,boot-warm);
+  robotron_video_output observer;robotron_video_output_init(&observer,m,NULL,NULL);
+  robotron_video_output_run(m,&observer,warm);
   FILE *out=fopen(argv[7],"wx");if(!out){perror(argv[7]);free(disk);free(m);return 2;}
-  fprintf(out,"{\"format\":\"dac-monitor-input-v1\",\"clock_hz\":13824000,\"provenance\":\"Functional M/W scanout; 8 dots per 1.728 MHz character. Active-low BSYN during modeled retrace is an unverified adapter assumption. No analog receiver or gate-delay qualification.\",\"boot_cpu_ticks\":%u,\"events\":[",boot);
-  unsigned dots=0,last=99,elapsed=0;int first=1;
-  /* Bound lack of scanout (e.g. stopped controller); never hang on bad media. */
-  while(dots<end && elapsed++<3993600u*2u) {
-    unsigned before=m->raster.fraction;robotron_run(m,1);
-    if(m->raster.fraction>=before || m->raster.stopped==2)continue;
-    unsigned cols=(m->crtc[0]&127)+1;if(cols>80)cols=80;
-    unsigned rows=(m->crtc[1]&63)+1;if(rows>24)rows=24;
-    unsigned line_clocks=cols+2*((m->crtc[3]&15)+1);
-    unsigned col=m->raster.character%line_clocks;
-    unsigned line=m->raster.character/line_clocks;
-    if(m->crtc[0]&128)line/=2;
-    unsigned row=m->raster.row;
-    unsigned blank=row>=rows||col>=cols||line>=16;
-    unsigned sync=blank?0:1, bits=0, intens=0;
-    if(!blank&&m->display_on&&!(m->disconnected&2)&&(m->raster.valid_rows&(1u<<row))) {
-      const robotron_video_row *r=&m->raster.scanout[row];
-      if(col<r->columns&&line<r->lines){bits=r->pixels[col][line];intens=r->highlight[col][line]?1:0;}
-    }
-    for(unsigned i=0;i<8&&dots<end;i++,dots++) {
-      unsigned video=(bits>>(7-i))&1,value=video|(sync<<1)|(intens<<2);
-      if(value!=last){fprintf(out,"%s[%u,%u,%u,%u]",first?"":",",dots,video,sync,intens);first=0;last=value;}
-    }
-  }
-  if(dots!=end){fprintf(stderr,"Controller did not produce the requested scanout; capture rejected\n");fclose(out);free(disk);free(m);return 1;}
-  fprintf(out,",[%u,%u,%u,%u]]}\n",dots,last&1,(last>>1)&1,(last>>2)&1);
+  fprintf(out,"{\"format\":\"dac-monitor-input-v2\",\"clock_hz\":%u,"
+      "\"board_revision\":\"1.93.310412.6/04\",\"signals\":[\"VIDEO\",\"BSYN\",\"INTENS\"],"
+      "\"qualification\":\"schematic-derived-logical\","
+      "\"time_origin\":{\"boot_cpu_ticks\":%u,\"character_phase_ticks\":%u},"
+      "\"assumptions\":[\"8275 functional core, decoded row-latched pixels; not gate-level memory timing\","
+      "\"E05 pulse widths nominal 5.9 us, rounded to 1060 master ticks\","
+      "\"VRTC edge pulse treated as instantaneous; electrical delays modeled downstream\","
+      "\"Programmed reset/start known only at CPU-tick resolution\","
+      "\"Sync state initialized idle before observation pre-roll; specimen not verified\"],"
+      "\"pre_roll_cpu_ticks\":%u,\"events\":[",ROBOTRON_VIDEO_HZ,boot,m->raster.fraction,warm);
+  recording r={out,observer.time,observer.time+(uint64_t)end*13,0,0,0,1};
+  observer.sink=event;observer.user=&r;
+  event(&r,r.origin,observer.levels&1,(observer.levels>>1)&1,(observer.levels>>2)&1);
+  unsigned cpu_ticks=(unsigned)(((uint64_t)end*13+44)/45);
+  robotron_video_output_run(m,&observer,cpu_ticks);
+  /* Events beyond the requested boundary were discarded; retain the last
+   * in-window state, not the observer state from the enclosing CPU tick. */
+  unsigned levels=r.levels;
+  event(&r,r.end,levels&1,(levels>>1)&1,(levels>>2)&1);flush(&r);
+  fprintf(out,"]}\n");
   ok=!ferror(out);if(fclose(out))ok=0;free(disk);free(m);return ok?0:1;
 }

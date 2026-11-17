@@ -77,6 +77,13 @@
       "sha256": "f31c0b4c45c7757cfa9cad7adb422a83ebe9b7a6684cd446bcbeae7441dc8a90",
       "bytes": 391568,
       "scope": "DC7XJ September 2023 edited transcription of VEB Messelektronik Berlin AFE12 instructions (February 1985). PDF page 22 explicitly expands EDVU-Z capacitor notation in nF. Corroborating notation evidence, not the original TGL standard or K7222 parts list."
+    },
+    {
+      "file": "1715w.zip",
+      "url": "https://xepb.org/robotron/docs/1715w.zip",
+      "sha256": "71672a593674645db5cf4cb3882c5523c944e7186a4308b64c156f74e5405bff",
+      "bytes": 36946909,
+      "scope": "Original CRT control drawing 1.93.310412.6/04, sheets A/B, in teil_b. B identifies E03 output gates, E04 latch, E05 nominal 5.9 us one-shots and HRTC-clocked E07 four-stage VRTC delay. W reference; M/specimen equivalence not established by this drawing."
     }
   ],
   "redistribution": "Source PDFs not bundled; retain hashes and original attribution.",
@@ -84,7 +91,7 @@
     "012-6891 neck topology transcribed and bench tested; 012-6921/012-6931 full topology and assembly interconnect still pending. Review transcription and scan annotations. Later .13/.23 full BOM remains unlocated.",
     "T1/T2/T3 winding inductance, polarity, resistance, leakage, capacitance and core properties",
     "Reference drawing names B31G22 and AE9VT 6802.01; tube/yoke model parameters and installed specimen identity remain unverified.",
-    "Monitor connector polarity and timing verified against M/W display-board circuitry"
+    "Calibrate schematic-derived connector logic and bounded semiconductor/cable models against hardware"
   ],
-  "qualification": "Bounded neck-board stage implemented; historical full-component monitor not implemented or qualified. Driven flyback fixture remains a separate experimental circuit."
+  "qualification": "Bounded output/receiver/filter/neck stages implemented; historical full-component monitor not implemented or qualified. Driven flyback fixture remains separate."
 }
