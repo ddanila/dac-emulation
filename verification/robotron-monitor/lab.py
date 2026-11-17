@@ -33,13 +33,15 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def run_command(argv, directory, log):
-    result = subprocess.run(argv, cwd=directory, stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT, text=True, timeout=600)
-    log.write_text(result.stdout)
+def run_command(argv, directory, log, *, timeout=600):
+    # Preserve diagnostics even on timeout and allow progress inspection without
+    # keeping a long solver's output in the parent process throughout the run.
+    with log.open('w') as stream:
+        result = subprocess.run(argv, cwd=directory, stdout=stream,
+                                stderr=subprocess.STDOUT, text=True, timeout=timeout)
     if result.returncode:
         raise ValueError(f'{argv[0]} failed; see {log}')
-    return result.stdout
+    return log.read_text()
 
 
 def subcircuit_contracts(subcircuits):

@@ -13,7 +13,7 @@
           10
         ]
       },
-      "required": "Connect the complete 012-6931 converter/regulators and external 12 V input; replace ideal internal rails."
+      "required": "The 41-part input/converter bench is transcribed with a bounded hypothetical T1. Complete switching startup, regulation/load/refinement validation and replace ideal rails in the assembled monitor; early startup alone does not clear this gate."
     },
     {
       "id": "horizontal-circuit",
@@ -71,9 +71,9 @@
       "required": "Connect the electrothermal CRT current model to actual solved heater/electrode rails, remove duplicate constant loads, and audit grid/interception/beam current accounting."
     },
     {
-      "id": "continuation",
+      "id": "settled-electrothermal-initialization",
       "kind": "implementation",
-      "required": "Implement electrical/thermal state continuation and demonstrate equivalence to uninterrupted runs before warm-up checkpoints; no DC restart at checkpoints."
+      "required": "Iterate solved heater power, temperatures, emission, rails and raster to thermal equilibrium, then run electrical settling and original firmware replay continuously. Persisted electrical/thermal checkpoints and warm-up equivalence are deferred beyond the first settled full-path image."
     },
     {
       "id": "full-path-validation",
