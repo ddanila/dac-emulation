@@ -6,7 +6,7 @@ beam current entering the modeled gun (after any separately modeled grid capture
 not an already screen-clipped current. No framebuffer or raster coordinates enter.
 Unqualified inputs remain explicitly optical-bench recordings.
 """
-import argparse,array,csv,functools,hashlib,heapq,json,math,struct,sys
+import argparse,array,csv,functools,hashlib,heapq,json,math,struct,subprocess,sys
 from pathlib import Path
 import phosphor,trajectory
 
@@ -26,45 +26,67 @@ def digest(data):return hashlib.sha256(data).hexdigest()
 
 def model_hashes():
     return {name:digest((Path(__file__).parent/name).read_bytes())
-            for name in ('beam_render.py','trajectory.py','phosphor.py','optics.py')}
+            for name in ('beam_render.py','trajectory.py','trajectory_native.py','trajectory_native.cpp','phosphor.py','optics.py')}
 
 
-def read_trace(path):
-    """Strict SI CSV import for local engineering traces, never inferred columns."""
-    if Path(path).stat().st_size>256*1024*1024:raise ValueError('trace file budget exceeded')
+def iter_trace(path, *, byte_budget=256*1024*1024, row_budget=1000000, duration_budget_s=1.):
+    """Validate SI samples incrementally. Explicit budgets also cover streamed files."""
+    if Path(path).stat().st_size>byte_budget:raise ValueError('trace file budget exceeded')
     with Path(path).open(newline='') as stream:
         reader=csv.reader(stream)
         if tuple(next(reader,()))!=FIELDS:raise ValueError('unexpected electrical trace fields')
-        rows=[]
-        for fields in reader:
-            row=tuple(float(v) for v in fields)
-            if len(row)!=len(FIELDS) or not all(math.isfinite(v) and abs(v)<=1e12 for v in row):raise ValueError('invalid electrical sample')
-            if row[0]<0 or row[0]>3600 or row[-1]<0 or rows and row[0]<=rows[-1][0]:raise ValueError('invalid electrical time/current')
-            rows.append(row)
-            if len(rows)>1000000:raise ValueError('trace row budget exceeded')
-    if len(rows)<2 or rows[-1][0]-rows[0][0]>1:raise ValueError('expected a trace window of at most one second')
-    return rows
+        yield from validated_rows((tuple(float(v) for v in fields) for fields in reader),
+                                  row_budget=row_budget,duration_budget_s=duration_budget_s)
+
+
+def validated_rows(rows, *, row_budget, duration_budget_s):
+    if type(row_budget) is not int or not 2<=row_budget<=100000000:
+        raise ValueError('invalid electrical row budget')
+    if not math.isfinite(duration_budget_s) or not 0<duration_budget_s<=3600:
+        raise ValueError('invalid electrical duration budget')
+    first=previous=None;count=0
+    for raw in rows:
+        row=tuple(raw);count+=1
+        if count>row_budget:raise ValueError('trace row budget exceeded')
+        if len(row)!=len(FIELDS) or not all(math.isfinite(v) and abs(v)<=1e12 for v in row):
+            raise ValueError('invalid electrical sample')
+        if not 0<=row[0]<=3600 or row[-1]<0 or previous is not None and row[0]<=previous:
+            raise ValueError('invalid electrical time/current')
+        if first is None:first=row[0]
+        if row[0]-first>duration_budget_s:raise ValueError('electrical duration budget exceeded')
+        previous=row[0]
+        yield row
+    if count<2:raise ValueError('expected at least two electrical samples')
+
+
+def read_trace(path):
+    return list(iter_trace(path))
 
 
 class Renderer:
     def __init__(self,*,surface=None,field=None,step_m=.0002,max_dt_s=1/27648000,
-                 movement_pixels=.25,bundle_budget=2000000,continuation=None):
+                 movement_pixels=.25,bundle_budget=2000000,continuation=None,backend="python"):
+        if backend not in ('python','compiled'):raise ValueError('unknown trajectory backend')
+        self.backend=backend;self.native=None
+        if backend=='compiled':
+            import trajectory_native
+            self.native=trajectory_native.Backend()
         self.surface=phosphor.Surface(surface);self.field=trajectory.parameters(field)
         for key in ('screen_width_m','screen_height_m','screen_radius_m'):
             if self.surface.p[key]!=self.field[key]:raise ValueError('electrical/optical screen geometry mismatch')
         if not 1e-6<=step_m<=.001 or not 1e-10<=max_dt_s<=.001 or not 0<movement_pixels<=.5:
             raise ValueError('invalid optical resolution')
-        if type(bundle_budget) is not int or not 1<=bundle_budget<=2000000:raise ValueError('invalid ray budget')
+        if type(bundle_budget) is not int or not 1<=bundle_budget<=100000000:raise ValueError('invalid ray budget')
         self.step_m=step_m;self.max_dt=max_dt_s;self.movement=movement_pixels;self.budget=bundle_budget
         self.bundles=0;self.events=[];self.serial=0;self.frames=[];self.rays=[]
-        self.started=False
+        self.started=False;self.completed=False
         self.incident_j=0.;self.intercepted_j=0.;self.max_energy_error_ev=0.;self.samples=0
         self._bundle=functools.lru_cache(maxsize=512)(self._solve)
         self.continuation=continuation is not None;self.last_row=None
         if continuation is not None:self._restore(continuation)
 
     def _restore(self,state):
-        settings=dict(field=self.field,step_m=self.step_m,max_dt_s=self.max_dt,movement_pixels=self.movement)
+        settings=dict(field=self.field,step_m=self.step_m,max_dt_s=self.max_dt,movement_pixels=self.movement,backend=self.backend)
         if state.get('format')!='dac-optical-state-v1' or state.get('settings')!=settings or state.get('model_hashes')!=model_hashes():
             raise ValueError('incompatible optical continuation')
         restored=phosphor.Surface.restore(state['surface'])
@@ -87,8 +109,8 @@ class Renderer:
         self.surface=restored;self.last_row=tuple(row)
 
     def checkpoint(self):
-        if not self.frames or self.last_row is None:raise ValueError('no completed optical window')
-        return dict(format='dac-optical-state-v1',model_hashes=model_hashes(),settings=dict(field=self.field.copy(),step_m=self.step_m,max_dt_s=self.max_dt,movement_pixels=self.movement),
+        if not self.completed or self.last_row is None:raise ValueError('no completed optical window')
+        return dict(format='dac-optical-state-v1',model_hashes=model_hashes(),settings=dict(field=self.field.copy(),step_m=self.step_m,max_dt_s=self.max_dt,movement_pixels=self.movement,backend=self.backend),
                     surface=self.surface.checkpoint(),last_electrical_row=list(self.last_row),
                     arrivals=[[e[0],*e[2:]] for e in sorted(self.events)],
                     kinetic_energy=dict(terminal_j=self.incident_j,intercepted_j=self.intercepted_j))
@@ -96,7 +118,8 @@ class Renderer:
     def _solve(self,anode,g2,focus,ih,iv):
         self.bundles+=1
         if self.bundles>self.budget:raise ValueError('trajectory budget exceeded; no accepted render')
-        result=trajectory.bundle(anode,g2,focus,ih,iv,step_m=self.step_m,overrides=self.field)
+        solve=trajectory.bundle if self.native is None else self.native.bundle
+        result=solve(anode,g2,focus,ih,iv,step_m=self.step_m,overrides=self.field)
         for ray in result['rays']:
             if ray['reason']=='integration budget':raise ValueError('trajectory did not finish')
             if ray['energy_error_ev']>max(1.,.01*ray['impact_energy_ev']):raise ValueError('trajectory energy error exceeded')
@@ -142,41 +165,55 @@ class Renderer:
         self._drain(a[0])
 
     def render(self,rows,frame_times):
-        if self.started:raise ValueError('renderer already used; continuation is not implemented')
-        self.started=True
         if not 2<=len(rows)<=1000000:raise ValueError('invalid electrical row count')
-        if any(len(r)!=len(FIELDS) or not all(math.isfinite(v) and abs(v)<=1e12 for v in r) or r[-1]<0 for r in rows) or any(b[0]<=a[0] for a,b in zip(rows,rows[1:])):
-            raise ValueError('invalid electrical samples')
-        start,end=rows[0][0],rows[-1][0]
-        if not 0<=start<end<=3600 or end-start>1:raise ValueError('invalid electrical window')
-        if len(frame_times)<2 or not all(math.isfinite(t) and start<=t<=end for t in frame_times) or frame_times[0]!=start or frame_times[-1]!=end or any(b<=a for a,b in zip(frame_times,frame_times[1:])):
-            raise ValueError('frame times must span the electrical window')
-        if len(frame_times)>120 or len(frame_times)*self.surface.p['width']*self.surface.p['height']*5>64*1024*1024:
+        return self.render_stream(iter(rows),frame_times)
+
+    def render_stream(self,rows,frame_times,*,on_frame=None,row_budget=1000000,duration_budget_s=1.):
+        """Consume accepted samples once, retaining two rows and pending arrivals.
+
+        With on_frame, frames are delivered synchronously and are not retained.
+        Completion is recorded only after EOF and the requested endpoint agree.
+        A consumer must not publish frames from an incomplete run as accepted.
+        """
+        if self.started:raise ValueError('renderer already used')
+        self.started=True
+        times=tuple(frame_times)
+        if len(times)<2 or len(times)>120 or not all(math.isfinite(t) for t in times) or any(b<=a for a,b in zip(times,times[1:])):
+            raise ValueError('invalid frame times')
+        frame_bytes=self.surface.p['width']*self.surface.p['height']*5
+        if (len(times) if on_frame is None else 1)*frame_bytes>64*1024*1024:
             raise ValueError('frame budget exceeded')
+        source=iter(validated_rows(rows,row_budget=row_budget,duration_budget_s=duration_budget_s))
+        a=next(source);b=next(source)
+        if times[0]!=a[0]:raise ValueError('frame times must span the electrical window')
         if self.continuation:
-            if tuple(rows[0])!=self.last_row:raise ValueError('electrical continuation boundary mismatch')
-        else:self.surface=phosphor.Surface(self.surface.p,start_s=start)
-        cursor=0
-        for ft in frame_times:
-            while cursor<len(rows)-1 and rows[cursor][0]<ft:
-                a,b=rows[cursor:cursor+2]
+            if a!=self.last_row:raise ValueError('electrical continuation boundary mismatch')
+        else:self.surface=phosphor.Surface(self.surface.p,start_s=a[0])
+        for ft in times:
+            while a[0]<ft:
+                if b is None:raise ValueError('electrical trace ended before requested frame')
                 stop=min(b[0],ft)
-                fraction=(stop-a[0])/(b[0]-a[0]);cut=tuple(x+fraction*(y-x) for x,y in zip(a,b))
-                self._segment(a,cut)
-                if stop==b[0]:cursor+=1
-                else:rows=rows[:cursor]+[cut]+rows[cursor+1:]
+                if stop==b[0]:cut=b
+                else:
+                    fraction=(stop-a[0])/(b[0]-a[0])
+                    cut=(stop,*(x+fraction*(y-x) for x,y in zip(a[1:],b[1:])))
+                self._segment(a,cut);a=cut
+                if stop==b[0]:b=next(source,None)
             self._drain(ft)
             linear,display=self.surface.snapshot(ft)
-            self.frames.append(dict(time=ft,linear=linear,display=display))
-            row=rows[min(cursor,len(rows)-1)];bundle=self.bundle(row)
+            frame=dict(time=ft,linear=linear,display=display)
+            if on_frame is None:self.frames.append(frame)
+            else:on_frame(frame)
             if len(self.rays)<32:
-                ray=bundle['rays'][0]
+                ray=self.bundle(a)['rays'][0]
                 self.rays.append(dict(time=ft,landed=ray['landed'],reason=ray['reason'],points=ray['points']))
-        self.last_row=tuple(rows[-1])
+        if b is not None:raise ValueError('electrical trace extends beyond requested frames')
+        self.last_row=a;self.completed=True
         return self.frames
 
     def report(self):
         return dict(parameters=self.surface.p,field_parameters=self.field,trajectory_step_m=self.step_m,
+                    backend=self.backend,backend_build=None if self.native is None else self.native.receipt,
                     max_interval_s=self.max_dt,movement_limit_pixels=self.movement,bundles=self.bundles,
                     optical_continuation=self.continuation,emission_intervals=self.samples,energy=self.surface.balance()|dict(
                         terminal_kinetic_j=self.incident_j,intercepted_kinetic_j=self.intercepted_j,
@@ -210,7 +247,7 @@ def package(path,rows,renderer,metadata):
     return report
 
 
-def run(trace,output,*,frame_count=2,step_m=.0002,max_dt_s=1/27648000,surface=None,state_path=None):
+def run(trace,output,*,frame_count=2,step_m=.0002,max_dt_s=1/27648000,surface=None,state_path=None,backend="python"):
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     result=dict(status='incomplete',qualification='experimental-optical-bench',full_monitor_qualified=False)
     def save():(output/'render.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
@@ -218,14 +255,14 @@ def run(trace,output,*,frame_count=2,step_m=.0002,max_dt_s=1/27648000,surface=No
     try:
         if type(frame_count) is not int or not 2<=frame_count<=120:raise ValueError('invalid frame count')
         rows=read_trace(trace);source=Path(trace).read_bytes();(output/'input.csv').write_bytes(source)
-        inputs={name:(Path(__file__).parent/name).read_bytes() for name in ('beam_render.py','trajectory.py','phosphor.py','optics.py')}
+        inputs={name:(Path(__file__).parent/name).read_bytes() for name in ('beam_render.py','trajectory.py','trajectory_native.py','trajectory_native.cpp','phosphor.py','optics.py')}
         for name,data in inputs.items():(output/name).write_bytes(data)
         continuation=None
         if state_path is not None:
             if Path(state_path).stat().st_size>64*1024*1024:raise ValueError('state file budget exceeded')
             raw=Path(state_path).read_bytes();continuation=json.loads(raw)
             (output/'input-state.json').write_bytes(raw);inputs['input-state.json']=raw
-        renderer=Renderer(surface=surface,step_m=step_m,max_dt_s=max_dt_s,continuation=continuation)
+        renderer=Renderer(surface=surface,step_m=step_m,max_dt_s=max_dt_s,continuation=continuation,backend=backend)
         start,end=rows[0][0],rows[-1][0]
         times=[start+(end-start)*i/(frame_count-1) for i in range(frame_count)];times[-1]=end
         renderer.render(rows,times)
@@ -244,7 +281,7 @@ def run(trace,output,*,frame_count=2,step_m=.0002,max_dt_s=1/27648000,surface=No
         save()
         (output/'replay.pending').rename(output/'replay.mcrt')
         return report
-    except (ValueError,OSError,ArithmeticError,KeyError,TypeError) as error:
+    except (ValueError,OSError,ArithmeticError,KeyError,TypeError,subprocess.SubprocessError) as error:
         result.update(status='incomplete',failure=str(error));save();raise
 
 
@@ -254,4 +291,5 @@ if __name__=='__main__':
     parser.add_argument('--frames',type=int,default=2);parser.add_argument('--trajectory-step',type=float,default=.0002)
     parser.add_argument('--max-interval',type=float,default=1/27648000)
     parser.add_argument('--state',type=Path,help='Optical continuation only; not electrical/thermal solver state')
-    args=parser.parse_args();run(args.trace,args.output,frame_count=args.frames,step_m=args.trajectory_step,max_dt_s=args.max_interval,state_path=args.state)
+    parser.add_argument('--backend',choices=('python','compiled'),default='python')
+    args=parser.parse_args();run(args.trace,args.output,frame_count=args.frames,step_m=args.trajectory_step,max_dt_s=args.max_interval,state_path=args.state,backend=args.backend)

@@ -73,12 +73,12 @@
     {
       "id": "settled-electrothermal-initialization",
       "kind": "implementation",
-      "required": "Iterate solved heater power, temperatures, emission, rails and raster to thermal equilibrium, then run electrical settling and original firmware replay continuously. Persisted electrical/thermal checkpoints and warm-up equivalence are deferred beyond the first settled full-path image."
+      "required": "The passive thermal equilibrium solver, electrical-trial iteration contract and initialized continuous thermal release are tested. Connect the trial callback to solved monitor heater power, emission, rails and raster, then run electrical settling and original firmware replay continuously. Persisted electrical checkpoints and cold warm-up equivalence remain deferred."
     },
     {
       "id": "full-path-validation",
       "kind": "validation",
-      "required": "Pass connected startup/lock, electrical/optical/thermal refinement, service-waveform comparison and actual firmware-frame rendering. Independent optical traces cannot pass this gate."
+      "required": "The sustained preset selects 16 unchanged native fields after at least eight fields and seven phosphor decay constants of original pre-roll. Streaming optics, compiled RK4, and stability checks are tested independently. Pass connected startup/lock, electrical/optical/thermal refinement, service-waveform comparison and actual firmware-frame rendering; independent optical traces cannot pass this gate."
     }
   ],
   "transformer_evidence": [
