@@ -414,8 +414,8 @@ a final replay. A run starts with an empty phosphor surface unless an explicit o
 restored. An absolute 300 s timestamp does **not** establish a 300 s warm-up
 simulation or electrical/thermal continuation.
 
-The audit exits 2 while blocked. It currently exports six KiCad sheets and
-counts **88 of 260** historical entries connected. This is coverage, not
+The audit exits 2 while blocked. It currently exports seven KiCad sheets and
+counts **130 of 260** historical entries connected. This is coverage, not
 qualification. See `reference/k7222-11/full-path-requirements.json` for the
 remaining power, horizontal, vertical-output, tube-loading, continuation and
 validation gates. **No complete-monitor picture or warm-up sequence is claimed.**
@@ -465,7 +465,7 @@ turns and modified cold-end wiring are not silently substituted for it.
 ## Connected-stage and candidate work
 
 The source audit now gives all 260 inventory entries an explicit disposition:
-88 connected/modeled entries and 172 unresolved implementations. “Modeled” means
+130 connected/modeled entries and 130 unresolved implementations. “Modeled” means
 connected in an audited source sheet, not validated as part of a complete assembly.
 Assembly completeness, candidate topology and historical qualification remain
 separate gates. No missing component is marked assembly-only just to improve a
@@ -493,11 +493,13 @@ from 90 to 150 ms permits approximately 24.68 ms free-running intervals before
 reacquisition around 248 ms. Recovery is not instantaneous. The actual receiver,
 vertical integrator, output stage and yoke are still absent from this profile.
 
-The seven-component V4 regulator profile transcribes R9/R10/R11, V3/V4 and C7/C8.
+The seven-component V4 regulator profile transcribes R9/R10/R11, V3/V4 and C7/C5.
 R9 is a three-terminal potentiometer with the original 100-ohm total resistance.
 With assumed midpoint trim and generic transistor/zener models, the load-step
 bench produces approximately 5.10 V at 20 mA and 5.01 V at 80 mA, then recovers.
-Tests also cover lower input voltage and timestep refinement. The complete
+C5 is 1000 µF; the earlier C8/47 µF assignment is superseded (C8 belongs to
+converter soft-start). The load steps now occur at 100/200 ms to allow startup
+settling. Tests also cover lower input voltage and timestep refinement. The complete
 switching converter, transistor heating and device SOA remain outside this bench.
 
 ### Explicit T3 hypotheses
@@ -579,7 +581,7 @@ bench with 16 source-addressed components from older.pdf p9, including A2, C22,
 the height control, V12 and the PNP V13 reset path. The operating manual p14
 (Fig. 10) independently explains charging, rapid reset and the height adjustment.
 There are 34 components in this connected bench; the full-path inventory audit
-now accounts for 88/260 entries across separate sheets, **not one complete monitor**.
+now accounts for 130/260 entries across separate sheets, **not one complete monitor**.
 
 A2 uses a provisional LM723-family equivalent with the metal-can pin contract
 from TI SNVS765C p2. The reference, differential amplifier, external compensation,
@@ -598,8 +600,49 @@ Tests check a rising ramp, short reset, lock to the imposed field period, height
 adjustment, timestep refinement and compensation sensitivity. These checks do
 not establish yoke current, screen height or a pale-image diagnosis.
 
-Remaining implementation: converter and horizontal/flyback circuitry, A3/power
-deflection and yoke coupling, bounded numerical transformer candidates in that
+Remaining implementation: converter and horizontal/flyback circuitry, assembly
+deflection/yoke coupling, bounded numerical transformer candidates in that
 assembly, solved tube supplies/loading, continuous electrical state, settled
 operating-point iteration, and full-frame electrical/optical verification. No new
 complete-circuit museum screenshot is published by this increment.
+
+
+### Connected vertical current amplifier
+
+`k7222-11-vertical-output` joins the 34-part timing/ramp bench to 42 additional
+source-addressed parts from older.pdf pp9–10. It replaces the dummy ramp load
+with A3, compensation C26/C27/R54, the bias diodes, complementary output pairs,
+current-sense R27, yoke shunt R29, and nonlinear feedback. Manufacturer operating
+manual p15 Fig.12 resolves the chained V23/V24/V25 thresholds and reference
+capacitor C23; the other lower-rail decoupler is C21. C26 is **220 pF** per BOM,
+not 200 pF from a generic amplifier application circuit. R58 remains a single
+source-identified potentiometer with two internal resistances.
+
+A3 uses the LM709 manufacturer internal transistor circuit (SNOS659A PDF p4)
+with its external compensation pins, **not a verified P09A model**. Its resistor
+values and connections are transcribed; semiconductor gain, capacitance, transit
+time and Early voltage are explicitly assumed. Standalone checks cover follower
+polarity, settling, load current from the supply pins, compensation sensitivity
+and timestep refinement. This does not establish P09A bandwidth or thermal drift.
+`additional_models` files are confined to the laboratory, snapshotted and hashed
+individually, then concatenated for simulation; no working-directory includes
+are needed to reproduce a run.
+
+```
+python3 verification/robotron-monitor/reference.py \
+  --profile verification/robotron-monitor/profiles/k7222-11-vertical-output.json \
+  --output build/monitor/vertical-output --stop .16 --step .00001
+```
+
+The external winding defaults to **assumed** 10 ohm / 20 mH, bounded to 2–40 ohm /
+2–80 mH. V27/V28 use generic complementary transistor models; the handwritten
+replacement types are not promoted to factory identities. The bench still has
+ideal +12/+22/-16 V supplies and synthetic sync. Tests check reversing current,
+current-loop tracking, the winding differential equation, height/centering
+controls and halved timestep. These currents must not be interpreted as measured
+raster size, and this stage cannot diagnose the museum monitor by itself.
+
+The audit now covers 130/260 source entries across seven sheets, while the
+full-path entry point remains blocked. Converter/horizontal assembly, numerical
+T1/T3 candidates, loaded tube rails, settled thermal/electrical iteration and
+firmware-frame rendering are still outstanding. No full-path PNG is published.

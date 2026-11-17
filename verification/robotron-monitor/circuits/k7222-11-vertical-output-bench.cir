@@ -1,0 +1,10 @@
+* Stage bench, not converter rails or firmware capture.
+Vsupply p12 0 PWL(0 0 1u 12)
+Vpositive p22 0 PWL(0 0 1u 22)
+Vnegative n16 0 PWL(0 0 1u -16)
+Vsync_pulse pulse_drive 0 PULSE(5 0 40m 1u 1u 1m {sync_period})
+Bsync sync_drive 0 V={5-sync_enabled*(5-v(pulse_drive))*(time<sync_loss_start || time>=sync_loss_end)}
+Rsync_source sync_drive sync_gate 100
+* External hypothetical winding; current is solved, not prescribed.
+Rvertical y1 winding {yoke_vertical_r}
+Lvertical winding y2 {yoke_vertical_l}

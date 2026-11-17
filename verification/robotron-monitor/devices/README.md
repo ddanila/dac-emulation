@@ -59,3 +59,28 @@ discharges DFM, holds off output, and subsequently permits soft-start recovery.
 The 1 ms recovery duration is not a B260D timing prediction. Solver-error logs are rejected even if ngspice
 returns exit status zero and produces a padded `linearize` output. All tests
 remain component tests; none establish a cause for a pale, expanding raster.
+
+
+## Provisional P09A amplifier family
+
+`lm709-family.cir` transcribes the LM709 manufacturer internal circuit in
+TI/National SNOS659A PDF p4 (printed p3); PDF p2 gives the package pin mapping.
+The model has 15 transistors and 15 resistors, with external input/output
+compensation ports. There is no ideal voltage-source output amplifier.
+The board wrapper uses DIP pins 3/4/5/6/9/10/11/12 as compensation-A, inverting,
+noninverting, negative rail, output compensation, output, positive rail and
+compensation-B respectively. The manufacturer circuit labels metal-can pins;
+these are explicitly mapped, not treated as board DIP numbers.
+
+Only the topology and resistor values come from that diagram. NPN/PNP gains
+100/50, Early voltages 100/50 V, IS 1e-14 A, junction capacitances 4/2 pF,
+forward transit times .2/20 ns and reverse times 20/100 ns are engineering
+assumptions stated in the file. No P09A equivalence, production spread, thermal
+drift, breakdown, output short-circuit protection or SOA qualification is claimed.
+
+`test_lm709.py` exercises the manufacturer's compensated voltage-follower
+arrangement with its 51 ohm isolating resistor. It checks both polarities,
+settled supply/load KCL, a heavier load, timestep refinement and slower response
+with increased input compensation. The connected vertical bench uses its own
+source C26 (220 pF), C27 (18 pF), R54 (1.5 kohm), current feedback and power stage.
+Passing the follower test does not establish the historical amplifier's bandwidth.
