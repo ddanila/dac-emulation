@@ -121,7 +121,8 @@ class SteadySupplyTests(unittest.TestCase):
                'v(h_hot)','v(vertical_pulse)','v(p10_7)','i(v.xcrt.vheater)')
         thermal=steady.heater_equilibrium();period=.02;line=50e-6
         metadata=dict(period_s=period,simulated_fields=4,thermal=thermal)
-        selection=dict(line_period_ticks=50,clock_hz=1000000)
+        selection=dict(line_period_ticks=50,clock_hz=1000000,period_ticks=20000,
+            events=[[t,0,level,0] for i in range(400) for t,level in ((i*50,0),(i*50+5,1))])
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp)/'trace.raw'
             def solve(line_ticks):

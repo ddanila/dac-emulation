@@ -28,14 +28,41 @@ def midpoint(trials):
                 qualification='adjacent-sampled-lock-bracket')
 
 
+def refine_bracket(trials, trial, deadline, *, iterations=5):
+    """Bisect each observed pass/fail boundary, never infer an untested pass."""
+    bracket=midpoint(trials)
+    if bracket is None:return None
+    for side in ('lower','upper'):
+        passed=bracket[side]
+        failed=[t['trim'] for t in trials if not t['accepted'] and
+                (t['trim']<passed if side=='lower' else t['trim']>passed)]
+        if not failed:continue
+        outside=max(failed) if side=='lower' else min(failed)
+        for i in range(iterations):
+            if time.monotonic()>=deadline:break
+            value=(outside+passed)/2
+            result=trial(value,f'boundary-{side}-{i}')
+            trials.append(result)
+            if result['accepted']:passed=value
+            else:outside=value
+        bracket[side]=passed
+        bracket[side+'_outside']=outside
+    bracket['midpoint']=(bracket['lower']+bracket['upper'])/2
+    bracket['qualification']='refined-sampled-lock-bracket'
+    return bracket
+
+
 def run(capture,output,runtime,candidate,*,hours=12,settings=None):
     if not 0<hours<=12:raise ValueError('wall budget must be in (0,12] hours')
     settings=settings or {};unknown=set(settings)-{'parameters','solver','magnetic_parameters'}
     if unknown:raise ValueError('unknown lock scan settings')
     out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
-    deadline=time.monotonic()+hours*3600
+    begin=time.monotonic();deadline=begin+hours*3600
+    search_deadline=begin+hours*2400
     data=Path(capture).read_bytes();(out/'input.json').write_bytes(data)
-    selection=steady_supply.select(lab.parse_capture(out/'input.json'))
+    capture_data=lab.parse_capture(out/'input.json')
+    if capture_data['qualification']!='schematic-derived-logical':raise ValueError('native firmware capture required')
+    selection=steady_supply.select(capture_data)
     if selection['status']!='complete':raise ValueError(selection['reason'])
     assembly=steady_supply.assemble(out/'assembly')
     steady_supply.tune(assembly,selection,settings.get('parameters'))
@@ -46,15 +73,17 @@ def run(capture,output,runtime,candidate,*,hours=12,settings=None):
     candidates=[c for c in transformer_candidates.enumerate_candidates(assembly['magnetic_graph']) if c['id']==candidate]
     if len(candidates)!=1:raise ValueError('explicit known candidate required')
     report=dict(format='dac-connected-lock-scan-v1',status='incomplete',trials=[],candidate=candidate,
-        settings=settings,capture_sha256=lab.digest(data),selected_trim=None,full_monitor_qualified=False)
+        settings=settings,capture_sha256=lab.digest(data),selected_trim=None,full_monitor_qualified=False,validation_reserved_s=hours*1200)
     def save():(out/'scan.json').write_text(json.dumps(report,indent=2)+'\n')
-    def trial(trim,name):
+    def trial(trim,name,*,initial=None,limit=None):
         steady_supply.tune(assembly,selection,{'horizontal_trim_fraction':trim})
-        deck,meta=steady_supply.deck(assembly,selection,candidates[0],fields=8,**settings.get('solver',{}))
+        options=dict(settings.get('solver',{}))
+        if initial is not None:options['initial_voltages']=initial
+        deck,meta=steady_supply.deck(assembly,selection,candidates[0],fields=8,**options)
         path=out/name
-        solved=steady_supply.solve(deck,path,runtime,timeout_s=max(.001,deadline-time.monotonic()))
+        solved=steady_supply.solve(deck,path,runtime,timeout_s=max(.001,(limit or search_deadline)-time.monotonic()))
         (path/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n')
-        entry=dict(trim=trim,solve=solved,accepted=False)
+        entry=dict(trim=trim,solve=solved,accepted=False,parameters=meta['parameters'],initial_voltages=options.get('initial_voltages',{}))
         if solved['status']=='complete':
             entry['settling']=steady_supply.assess(path/'trace.raw',meta,selection)
             entry['accepted']=entry['settling']['accepted']
@@ -64,14 +93,23 @@ def run(capture,output,runtime,candidate,*,hours=12,settings=None):
         # Low-to-high order is deterministic; an interrupted scan never bridges
         # an untested point or promotes a single passing setting to an interval.
         for i in range(9):
-            if time.monotonic()>=deadline:break
+            if time.monotonic()>=search_deadline:break
             report['trials'].append(trial(.01+.98*i/8,f'trim-{i}'));save()
-        bracket=midpoint(report['trials']);report['sampled_interval']=bracket
+            if midpoint(report['trials']) is not None:break
+        bracket=refine_bracket(report['trials'],trial,search_deadline);report['sampled_interval']=bracket;save()
         if bracket and time.monotonic()<deadline:
-            report['midpoint_validation']=trial(bracket['midpoint'],'midpoint')
-            if report['midpoint_validation']['accepted']:report['selected_trim']=bracket['midpoint']
+            report['midpoint_validation']=trial(bracket['midpoint'],'midpoint',limit=deadline)
+            if report['midpoint_validation']['accepted'] and time.monotonic()<deadline:
+                initial={k:(lo+hi)/2 for k,(lo,hi) in steady_supply.INITIAL_VOLTAGE_BOUNDS.items()}
+                if initial==settings.get('solver',{}).get('initial_voltages',{}):initial={}
+                report['independent_initialization']=trial(bracket['midpoint'],'midpoint-independent',initial=initial,limit=deadline)
+                if report['independent_initialization']['accepted']:
+                    import steady_acceptance
+                    meta=json.loads((out/'midpoint/metadata.json').read_text())
+                    report['initialization_comparison']=steady_acceptance.compare(out/'midpoint/trace.raw',out/'midpoint-independent/trace.raw',meta)
+                    if report['initialization_comparison']['accepted']:report['selected_trim']=bracket['midpoint']
         report['status']='lock-candidate' if report['selected_trim'] is not None else 'blocked'
-        report['reason']='A lock candidate still requires independent initialization and numerical/physical acceptance.' if report['selected_trim'] is not None else 'No validated adjacent-sample lock interval within the tested settings and wall budget.'
+        report['reason']='A lock candidate passed two initializations; numerical/physical acceptance remains required.' if report['selected_trim'] is not None else 'No validated adjacent-sample lock interval within the tested settings and wall budget.'
         save();return report
     except Exception as error:
         report.update(status='failed',reason=str(error));save();raise

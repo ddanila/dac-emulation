@@ -182,12 +182,43 @@ assumptions into circuit metadata and optical workers. Its effective magnetic
 energy volumes expose that inductance and field-per-ampere are still independently
 assumed. No image-size fitting or automatic gain adjustment is applied.
 
-`lock_scan.py` provides a separate bounded connected trim search: nine settings
-across the declared R24 range, eight fields per setting, and a fresh solve at the
-midpoint of the widest adjacent passing bracket. A singleton or points separated
-by a failure cannot establish a lock interval. A passing midpoint remains only
-a lock candidate and must go through the main command's refinement and physical
-gates. The full sweep has not yet established a healthy candidate.
+`lock_scan.py` provides a bounded connected trim search with up to nine settings
+across the declared R24 range, eight fields per setting. It stops at the first
+adjacent passing bracket, bisects observed pass/fail boundaries up to five times,
+and checks the midpoint from two independent initial voltage guesses. Their
+same-phase electrical waveforms must agree within 1%. Explicit tank inductance
+and vertical trim overrides survive every trial. A singleton or points separated
+by a failure cannot establish an interval. The last third of the wall budget is
+reserved for validation in both the lock scanner and production frame runner.
+No connected lock candidate has yet passed these checks.
+
+Flyback detection now interpolates threshold crossings and retains closely spaced
+pulses instead of filtering them out. In addition to count and cumulative phase
+checks, `sync_lock.py` compares against the actual captured ordinary BSYN edges.
+Broad vertical-sync pulses are excluded from this comparison. The detector allows
+a fixed phase offset but rejects missing/reused edges or phase variation of 0.01
+line or more. Production traces also save conditioned sync, detector diode currents,
+control voltage, tank voltage and reactance-transistor base voltage.
+
+`horizontal_isolation.py` forces only the control voltage in a separately labelled
+39-component stage bench. It measures tuning direction and range with exact decks,
+solver receipts and source hashes; it cannot establish connected lock. Run it with:
+
+```sh
+python3 verification/robotron-monitor/horizontal_isolation.py \
+  --output build/monitor/control-isolation --runtime build/monitor/runtime-clean \
+  --tank-h .001532
+```
+
+At 1.532 mH, the measured periods at control voltages 0, 4, 8, 12 and 18 V were
+63.757, 67.207, 63.775, 59.575 and 48.685 microseconds. The non-monotonic tuning
+curve means a single correction-sign assumption cannot be applied over the entire
+control range. This is an isolation result with a dummy secondary load, not a
+measurement of the loaded monitor's loop gain.
+
+The [archived lock audit](examples/horizontal-lock-audit/README.md) includes exact
+decks, measured results and hashes for the connected replay, forced-control
+sweep and 16-point phase-detector sweep. The connected replay remains blocked.
 
 ```sh
 python3 verification/robotron-monitor/lock_scan.py \

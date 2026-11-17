@@ -23,6 +23,7 @@ import reference
 import signal_path
 import transformer_candidates
 import yoke_profile
+import sync_lock
 
 ROOT = Path(__file__).resolve().parent
 OUTPUT_CONTRACTS = dict(HORIZONTAL_CHOKE=2, HORIZONTAL_LINEARITY=2,
@@ -32,7 +33,8 @@ PROBES = ('v(eht)', 'v(g2)', 'v(g4)', 'v(cathode)', 'i(Lhorizontal)',
           'i(Lvertical)', '@b.xcrt.bbeam[i]', 'v(p10_7)', 'i(v.xcrt.vheater)',
           'v(h_hot)', 'v(h_feedback)', 'v(vertical_trigger)', 'v(vertical_pulse)',
           'v(x1136.xshared.flux_b)', 'v(p5)', 'v(h_boost)', 'v(g1)',
-          'v(h_control)', 'i(Vp41)')
+          'v(h_control)', 'i(Vp41)', 'v(sync_c)', 'v(h_pd)',
+          'v(h_tank)', 'v(h_reactbase)', '@d1032[id]', '@d1033[id]')
 
 # Engineering ranges, not measured AE9VT/B31G22 parameters. The 0.4 mH
 # exploratory yoke overloaded the 41 V network; 4 mH is a separate hypothesis,
@@ -57,10 +59,14 @@ def tune(assembly, selection, changes=None):
     for name in ('horizontal-oscillator','vertical-output','regulator5','neck'):
         profile=reference.read_profile(ROOT/'profiles'/('k7222-11-'+name+'.json'))
         bounds.update({k:(v['minimum'],v['maximum']) for k,v in profile['parameters'].items()})
-    for k,v in (guesses | (changes or {})).items():
+    # Initialize timing once; subsequent trim trials must preserve the chosen
+    # tank inductance and vertical setting, including explicit overrides.
+    updates = ({} if assembly.get('timing_initialized') else guesses) | (changes or {})
+    for k,v in updates.items():
         if k not in bounds or type(v) not in (int,float) or not math.isfinite(v) or not bounds[k][0]<=v<=bounds[k][1]:
             raise ValueError('assembly parameter outside declared bounds: '+k)
-        assembly['parameters'][k]=v
+    assembly['parameters'].update(updates)
+    assembly['timing_initialized']=True
     return dict(starting_guesses=guesses,explicit_changes=changes or {},
         rationale='LC/RC timing estimates referenced to the 16 kHz/19.5 ms S550 capture; connected lock must be measured.',
         lock_verified=False)
@@ -162,7 +168,7 @@ def assemble(output):
                  'reference/k7222-11/horizontal-output-transcription.json',
                  'reference/k7222-11/assembly.json', 'steady_supply.py',
                  'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py',
-                 'steady_acceptance.py','steady_trace.py','scan_diagnostics.py'):
+                 'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py'):
         archive(name)
     return dict(components=components,parameters=params,models=texts,hashes=hashes,yoke=yoke,
                 magnetic_graph=json.loads((out/'reference/k7222-11/t3-winding-hypothesis.json').read_text()),
@@ -326,8 +332,10 @@ def assess(path, metadata, selection):
         if set(names)-set(row):raise ValueError('missing acceptance probe')
         if row['v(h_hot)']<50:armed_h=True
         if armed_h and row['v(h_hot)']>150:
-            if row['time']>=start and (not hot_edges or row['time']-hot_edges[-1]>.5*line):
-                hot_edges.append(row['time'])
+            crossing=row['time']
+            if previous is not None:
+                crossing=previous['time']+(row['time']-previous['time'])*(150-previous['v(h_hot)'])/(row['v(h_hot)']-previous['v(h_hot)'])
+            if crossing>=start:hot_edges.append(crossing)
             armed_h=False
         if row['v(vertical_pulse)']<2:armed_v=True
         if armed_v and row['v(vertical_pulse)']>5:
@@ -382,12 +390,15 @@ def assess(path, metadata, selection):
     if len(vertical_edges)!=3:failures.append('vertical reset count does not match three fields')
     elif max(abs(b-a-period) for a,b in zip(vertical_edges,vertical_edges[1:]))>=.01*line:
         failures.append('vertical reset phase drift exceeds 0.01 line')
+    native_lock=sync_lock.compare(hot_edges,selection,start,end)
+    if not native_lock['accepted']:failures.append('flyback does not track captured native sync edges')
     power=heater_j/span if span else None
     thermal_error=abs(power/metadata['thermal']['heater_power_w']-1) if power is not None else None
     if thermal_error is None or thermal_error>=.001:failures.append('measured heater power does not close held-temperature heat balance')
     return dict(format='dac-steady-supply-settling-v1',accepted=not failures,
         failures=failures,complete=complete,phase_samples_per_field=bins,rows=count,simulated_until_s=last['time'] if last else None,
         waveform_relative_rms_error=variation,horizontal_phase_variation_lines=phase,
+        native_sync_lock=native_lock,
         horizontal_edges=len(hot_edges),vertical_edges=len(vertical_edges),horizontal_interval_summary=timing,
         heater_power_w=power,thermal_power_relative_error=thermal_error,
         full_monitor_qualified=False,numerical_refinement_verified=False)
@@ -403,9 +414,10 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         raise ValueError('wall budget must be positive and at most 12 hours')
     out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     begin=time.monotonic();deadline=begin+wall_budget_hours*3600
+    search_deadline=begin+wall_budget_hours*3600*2/3
     report=dict(format='dac-steady-supply-frame-run-v1',status='incomplete',
         qualification='experimental-connected-electrical-screen',full_monitor_qualified=False,
-        specimen_validated=False,mode='steady-supply-frame',outputs={},candidates=[],blockers=[])
+        specimen_validated=False,validation_reserved_s=wall_budget_hours*1200,mode='steady-supply-frame',outputs={},candidates=[],blockers=[])
     def save():
         report['elapsed_s']=time.monotonic()-begin
         (out/'run.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
@@ -436,14 +448,14 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
             if not candidates:raise ValueError('unknown transformer candidate')
         completed=[]
         for c in candidates:
-            remaining=deadline-time.monotonic()
-            if remaining<=0:report['blockers'].append('whole-run wall budget exhausted');break
+            remaining=search_deadline-time.monotonic()
+            if remaining<=0:report['blockers'].append('candidate search budget exhausted; final third reserved for validation');break
             entry=dict(id=c['id'],polarity=c['polarity'],attempts=[],settling={'accepted':False})
             report['candidates'].append(entry)
             for field_count in (4,8,16,32,64):
-                remaining=deadline-time.monotonic()
+                remaining=search_deadline-time.monotonic()
                 if remaining<=0:
-                    report['blockers'].append('whole-run wall budget exhausted');break
+                    report['blockers'].append('candidate search budget exhausted; final third reserved for validation');break
                 text,metadata=deck(assembly,selection,c,fields=field_count,**(solver or {}))
                 trial=out/c['id']/str(field_count)
                 result=solve(text,trial,runtime,timeout_s=min(remaining,1800*field_count/4))
@@ -456,7 +468,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
                     completed.append((c,metadata,trial,attempt))
                     if attempt['settling']['complete']:
                         import steady_acceptance
-                        attempt['diagnostics']=steady_acceptance.diagnose(trial,metadata,out/'input.json',assembly['yoke']['field'],deadline)
+                        attempt['diagnostics']=steady_acceptance.diagnose(trial,metadata,out/'input.json',assembly['yoke']['field'],search_deadline)
                 else:
                     attempt['settling']=dict(accepted=False,failures=['solver failed or exceeded the trial wall budget'])
                 entry['settling']=attempt['settling'];save()
@@ -466,6 +478,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
                 if any(f in entry['settling']['failures'] for f in hard):break
                 expected=3*selection['period_ticks']/selection['line_period_ticks']
                 if abs(entry['settling']['horizontal_edges']/expected-1)>.1:break
+            if entry['settling']['accepted']:break
         report['surviving_candidates']=[c['id'] for c in report['candidates'] if c['settling']['accepted']]
         if not report['surviving_candidates']:
             report['blockers'].append('No tested connected candidate passed lock and three-field settling.')
