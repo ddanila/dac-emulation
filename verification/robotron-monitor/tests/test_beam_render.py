@@ -64,6 +64,23 @@ class BeamRenderTests(unittest.TestCase):
         with self.assertRaises(ValueError):beam_render.Renderer(**args,continuation=bad)
         with self.assertRaises(ValueError):beam_render.Renderer(**args,continuation=state).render([row(2e-7,beam=0),row(4e-7)],[2e-7,4e-7])
 
+    def test_stream_matches_frames_and_does_not_retain_callback_output(self):
+        args=dict(surface=dict(width=32,height=24),max_dt_s=2e-8)
+        rows=[row(0),row(2e-7),row(4e-7,beam=0)]
+        times=[0,1e-7,3e-7,4e-7]
+        normal=beam_render.Renderer(**args);normal.render(rows,times)
+        streamed=beam_render.Renderer(**args);frames=[]
+        streamed.render_stream((r for r in rows),times,on_frame=frames.append)
+        self.assertEqual(frames,normal.frames)
+        self.assertEqual(streamed.frames,[])
+        self.assertEqual(streamed.checkpoint(),normal.checkpoint())
+        for bad in (rows[:-1],rows+[row(5e-7)],rows+[row(float('nan'))]):
+            renderer=beam_render.Renderer(**args)
+            with self.assertRaises(ValueError):renderer.render_stream(iter(bad),times,on_frame=lambda f:None)
+            with self.assertRaises(ValueError):renderer.checkpoint()
+        with self.assertRaisesRegex(ValueError,'row budget'):
+            beam_render.Renderer(**args).render_stream(iter(rows),times,row_budget=2)
+
     def test_fail_closed_limits_and_single_use(self):
         for rows,times in (([],[]),([row(-1),row(0)],[-1,0]),
                            ([row(0),row(2)],[0,2]),([row(0),row(.1)],[0,float('nan'),.1])):

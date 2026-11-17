@@ -695,3 +695,93 @@ by one continuous electrical settle/replay run. Persisted state checkpoints and
 fault warm-up sequences are deferred; this does not waive settled initialization,
 horizontal/T3/tube assembly, load accounting or full-frame acceptance. The
 full-path entry point remains blocked and no new full-monitor PNG is claimed.
+
+### Sustained warmed-up rendering infrastructure
+
+`full_path.py --sustained` requests **16 unchanged native firmware fields**, after
+at least eight complete pre-roll fields and seven configured phosphor decay
+constants. It fingerprints original VIDEO/BSYN/INTENS transitions; no repeated
+or synthesized fields are inserted. `capture.py` now defaults to one second.
+The retained one-second native capture selects 16 fields from ticks 36914004 to
+91493204 (about 304 ms), after ten pre-roll fields. This establishes source
+availability, **not monitor lock or a rendered image**.
+
+```
+python3 verification/robotron-monitor/full_path.py \
+  --capture build/monitor/firmware-sustained-one-second.json \
+  --output build/monitor/sustained-preflight --sustained
+```
+
+This still exits 2 with explicit blockers. `sustained.assess` separately checks
+24 continuous field summaries (eight settling, sixteen output), positive rail,
+EHT, raster and brightness metrics, <1% variation, phase error, unchanged source
+content and sufficient phosphor pre-roll. It cannot certify provenance or replace
+numerical refinement and image comparison.
+
+`electrothermal.equilibrate` couples settled electrical trial callbacks to the
+existing passive two-node thermal network. It records every trial, requires
+<0.1% power residual and <1% thermal/electrical changes, and returns temperature
+rises without inventing elapsed warm-up time. The model accepts explicit initial
+temperatures and a thermal hold mode for trial solves. Tests compare equilibrium
+against an independent long transient and release warm initial conditions into
+350 ms of continuous thermal dynamics. The **assembled monitor callback is still
+missing**; the synthetic heater trial is not a monitor qualification.
+
+`Renderer.render_stream` consumes samples once and delivers frames through a
+callback without retaining them. It preserves interpolation, pending electron
+arrivals, phosphor excitation and energy accounting; EOF must match the requested
+endpoint before a completed optical state can be exported. Explicit resource
+budgets remain enforced. `stream_render.py` archives the CSV, writes PNG and
+little-endian float32 W/m² frames immediately, spools the replay payload to disk,
+and bounds the viewer-only trace preview. Failed/truncated runs leave an
+incomplete manifest and never publish `replay.mcrt`.
+
+```
+python3 verification/robotron-monitor/stream_render.py \
+  --trace electrical.csv --frame-times field-times.json \
+  --output build/monitor/streamed-optics --backend compiled
+```
+
+`field-times.json` is an ordered JSON array of absolute seconds spanning the
+entire electrical trace; the replay window is at most one second. This entry
+point remains **experimental-optical-bench**. It does not supply electrical
+signals, infer equilibrium, or promote an imported trace to a full-path result.
+
+The optional compiled backend implements the same double-precision RK4 equations,
+nine-ray launches, clipping and curved-screen intersection as `trajectory.py`.
+It builds with `c++`, without fast-math or floating-point contraction, into ignored
+`build/monitor/trajectory-native/`, keyed by source/compiler/flags. Replay reports
+include the source and executable hashes. Python remains the independent oracle;
+comparisons cover acceleration, reversal, deflection, interception, two spatial
+steps, flight time, images and energy. A representative bundle took 190 ms in
+Python versus 3.6 ms compiled on this machine; this is not a sustained-render
+throughput guarantee.
+
+### Converter performance findings and remaining work
+
+`solver_profile.py` streams native binary raw files and reports accepted-step
+density, minimum timesteps, last values, endpoint completeness and available
+resource counters. Truncated files remain diagnostic-only; rejected-step counts
+are explicitly unknown without instrumented solver counters.
+
+```
+python3 verification/robotron-monitor/solver_profile.py \
+  --raw build/monitor/converter-sustained-profile/trace.raw \
+  --log build/monitor/converter-sustained-profile/solver.log --end .05 \
+  --output build/monitor/converter-sustained-profile/inspection.json
+```
+
+`reference/k7222-11/converter-performance.json` records the experiment hashes and
+results. Original Gear integration reached only 40.067 ms in a 90-second budget;
+its 38 ms bin contains 186,336 accepted steps, with a minimum around 1.87 ps.
+State probes associate the smallest steps with reset transitions. Trapezoidal
+integration and a native-switch substitution did not fix the bottleneck. A
+smooth-hysteresis substitute ran faster **by stalling the oscillator**, and was
+rejected. No experimental controller replacement is retained in the device model.
+
+Still required before the first sustained full-path image: a performant,
+validated switching converter; connected horizontal/T3/yoke circuitry and actual
+electrode supplies; coupled thermal trials and interception-current feedback;
+continuous electrical/optical settling; and full-run refinement/energy/image
+acceptance. The pinned ngspice-47 raw-pipe runtime has not been ported to this
+monitor runner. Source coverage remains 171/260 across nine separate sheets.

@@ -77,6 +77,70 @@ quit
         stored=et.thermal_energy(fine[-1][1],fine[-1][2])
         self.assertAlmostEqual(energy,stored,delta=max(.05,stored*.01))
 
+    def test_equilibrium_matches_passive_balance_and_coupled_power(self):
+        p=et.parameters()
+        for power in (0.,.1,1.,5.):
+            h,c=et.steady_temperatures(power)
+            loss=et.heat_losses(h,c)
+            self.assertAlmostEqual(loss[0],power,places=10)
+            self.assertAlmostEqual(loss[1],0,places=10)
+        def trial(temperatures):
+            h,c=temperatures
+            power=10.7**2/(p['heater_cold_ohm']*(1+p['heater_alpha']*h))
+            return dict(settled=True,heater_power_w=power,metrics=dict(rail=11000.,heater=power))
+        equilibrium=et.equilibrate(trial)
+        h,c=equilibrium['temperature_rise_k']
+        self.assertGreater(h,c);self.assertGreater(c,0)
+        self.assertLess(equilibrium['iterations'][-1]['thermal_residual'],.001)
+        self.assertIsNone(equilibrium['elapsed_warmup_s'])
+        with tempfile.TemporaryDirectory() as tmp:
+            rows=self.solve(Path(tmp)/'cold')
+        # Independent 190-second transient, before heater shutdown.
+        warm=min(rows,key=lambda row:abs(row[0]-190))
+        self.assertAlmostEqual(h,warm[1],delta=h*.01)
+        self.assertAlmostEqual(c,warm[2],delta=c*.01)
+        model=et.model(initial_rise_k=(h,c))
+        self.assertIn('.ic v(th)=',model);self.assertNotIn('Vholdh',model)
+        self.assertIn('Vholdh',et.model(initial_rise_k=(h,c),hold_temperature=True))
+        for temp in ((-1,0),(float('nan'),0),(10001,0)):
+            with self.assertRaises(ValueError):et.model(initial_rise_k=temp)
+        with self.assertRaisesRegex(ValueError,'did not settle'):
+            et.equilibrate(lambda t:dict(settled=False))
+        with self.assertRaisesRegex(ValueError,'did not converge'):
+            et.equilibrate(trial,max_iterations=2)
+
+    def test_equilibrium_initialization_releases_into_continuous_thermal_state(self):
+        p=et.parameters()
+        def trial(temperatures):
+            power=10.7**2/(p['heater_cold_ohm']*(1+p['heater_alpha']*temperatures[0]))
+            return dict(settled=True,heater_power_w=power,metrics=dict(heater=power))
+        temperatures=et.equilibrate(trial)['temperature_rise_k']
+        with tempfile.TemporaryDirectory() as tmp:
+            out=Path(tmp)
+            deck=f'''Warm equilibrium release bench; not a full monitor
+Vheater hp 0 10.7
+Vcathode cath 0 0
+Vg1 g1 0 -25
+Vg2 g2 0 350
+Vanode anode 0 11000
+Xcrt hp 0 cath g1 g2 anode th tc CRT_THERMAL
+{et.model(initial_rise_k=temperatures)}
+.control
+set wr_singlescale
+tran .001 .35
+wrdata temperatures.txt v(th) v(tc)
+quit
+.endc
+.end
+'''
+            (out/'run.cir').write_text(deck)
+            lab.run_command(['ngspice','-b','run.cir'],out,out/'solver.log')
+            rows=[list(map(float,line.split())) for line in (out/'temperatures.txt').read_text().splitlines()]
+            self.assertAlmostEqual(rows[-1][0],.35,places=8)
+            for row in rows:
+                for measured,expected in zip(row[1:],temperatures):
+                    self.assertAlmostEqual(measured,expected,delta=.001*expected)
+
     def test_bounds_and_unpowered_tube(self):
         for change in [{'work_function_ev':float('nan')},{'perveance':0},{'unknown':1}]:
             with self.assertRaises(ValueError):et.model(change)

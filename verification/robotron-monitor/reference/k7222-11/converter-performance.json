@@ -1,0 +1,272 @@
+{
+  "format": "dac-monitor-converter-performance-v1",
+  "qualification": "diagnostic-only",
+  "full_monitor_qualified": false,
+  "converter_regulation_validated": false,
+  "runtime": "ngspice-45.2",
+  "source_controller_sha256": "6376f02c42dc525686ddbc58c7fef2f4facf88091aa3a8733078b86d33938460",
+  "local_artifact_directory": "build/monitor/converter-sustained-profile",
+  "experiments": [
+    {
+      "completed_endpoint": false,
+      "accepted_rows": 494193,
+      "expected_end_s": 0.05,
+      "last_sample": {
+        "time": 0.04006707854478716,
+        "v(p41)": 11.329886674511284,
+        "v(p22)": 11.318551789994515,
+        "v(n16)": -0.37943857143001114,
+        "v(switch_collector)": 11.939576210504658,
+        "v(converter_cx)": 2.758283756063181,
+        "v(converter_soft)": 1.3703317995727022,
+        "v(converter_qe)": 0.11768614228944652,
+        "i(vsupply)": -0.14580830781869736
+      },
+      "raw_sha256": "91dc8652cdc12482c2220cf165131ad3ac618bff5df125b0eb4be655b241628c",
+      "log_sha256": "7c15e9046b014e508cbe4ea69e00d9eb60098c6b840c9afe836c2ea267993c09",
+      "peak_rss_kib": 13300.0,
+      "user_cpu_s": 75.6,
+      "system_cpu_s": 14.36,
+      "name": "Original gear integration",
+      "accepted_model_change": false,
+      "deck_sha256": "98cef6d23766489a759ac2f90c163e44f10c70de459621bf80e2343c6036f4c8",
+      "millisecond_bins_30_to_40": {
+        "30": {
+          "steps": 4184,
+          "min_dt_s": 1.402225013186209e-09,
+          "max_dt_s": 1.000000000001e-06,
+          "subnanosecond_steps": 0
+        },
+        "31": {
+          "steps": 4135,
+          "min_dt_s": 1.4022249333889292e-09,
+          "max_dt_s": 1.000000000001e-06,
+          "subnanosecond_steps": 0
+        },
+        "32": {
+          "steps": 4144,
+          "min_dt_s": 1.4022202843300136e-09,
+          "max_dt_s": 1.000000000001e-06,
+          "subnanosecond_steps": 0
+        },
+        "33": {
+          "steps": 4412,
+          "min_dt_s": 1.7085065306954306e-10,
+          "max_dt_s": 1.000000000001e-06,
+          "subnanosecond_steps": 3
+        },
+        "34": {
+          "steps": 4378,
+          "min_dt_s": 1.3668494877605575e-09,
+          "max_dt_s": 1.000000000001e-06,
+          "subnanosecond_steps": 0
+        },
+        "35": {
+          "steps": 4556,
+          "min_dt_s": 1.3670340484606136e-09,
+          "max_dt_s": 1.000000000001e-06,
+          "subnanosecond_steps": 0
+        },
+        "36": {
+          "steps": 4504,
+          "min_dt_s": 1.3672225088190437e-09,
+          "max_dt_s": 1.000000000001e-06,
+          "subnanosecond_steps": 0
+        },
+        "37": {
+          "steps": 27828,
+          "min_dt_s": 2.82664794348797e-11,
+          "max_dt_s": 1.000000000001e-06,
+          "subnanosecond_steps": 131
+        },
+        "38": {
+          "steps": 186336,
+          "min_dt_s": 1.8694698566967816e-12,
+          "max_dt_s": 1.000000000001e-06,
+          "subnanosecond_steps": 1420
+        },
+        "39": {
+          "steps": 112890,
+          "min_dt_s": 3.0638824810580445e-12,
+          "max_dt_s": 4.1042097699561797e-07,
+          "subnanosecond_steps": 5350
+        },
+        "40": {
+          "steps": 6591,
+          "min_dt_s": 4.842487105749527e-10,
+          "max_dt_s": 2.4866443858184706e-07,
+          "subnanosecond_steps": 9
+        }
+      }
+    },
+    {
+      "completed_endpoint": false,
+      "accepted_rows": 492885,
+      "expected_end_s": 0.05,
+      "last_sample": {
+        "time": 0.03840854832388097,
+        "v(p41)": 11.296302941587113,
+        "v(p22)": 11.308929245450445,
+        "v(n16)": -0.3765598683405572,
+        "v(switch_collector)": 11.929353675652028,
+        "v(converter_cx)": 1.6766024949022458,
+        "v(converter_soft)": 1.3226828389034198,
+        "v(converter_qe)": 0.5475119379425085,
+        "i(vsupply)": -0.11934710034762475
+      },
+      "raw_sha256": "95b82df613ff325c01c0b33c25cd075df1a8aaef7136b6ead434069c7ad02488",
+      "log_sha256": "ea6250678fb00c648e6efff0543371afe96658a47d04f136cfd5797725830de9",
+      "peak_rss_kib": 13392.0,
+      "user_cpu_s": 75.57,
+      "system_cpu_s": 14.23,
+      "name": "Trapezoidal integration diagnostic",
+      "accepted_model_change": false,
+      "deck_sha256": "c43351d946c683994c116824c5680ab5bb4d733f5e7031785a57d6911ef5b2f3"
+    },
+    {
+      "completed_endpoint": true,
+      "accepted_rows": 214165,
+      "expected_end_s": 0.039,
+      "last_sample": {
+        "time": 0.039,
+        "v(x816.cycle_stop)": 0.999999998999,
+        "v(x816.pwm)": 1.8577261273747865e-111,
+        "v(x816.reset)": 1.0841628239984916e-105,
+        "v(x816.ready)": 0.9999999989999999,
+        "v(x816.command)": 0.0,
+        "v(x822.xcore.flux_b)": 0.01391180958833911,
+        "v(p41)": 11.296446117325555,
+        "v(p22)": 11.309278158410423,
+        "v(n16)": -0.37454120371812333,
+        "v(switch_collector)": 11.923814446706043,
+        "v(converter_cx)": 5.227856931079926,
+        "v(converter_soft)": 1.3397615209869933,
+        "v(converter_qe)": -2.310238869096537e-07,
+        "i(vsupply)": -0.12007266446065046
+      },
+      "raw_sha256": "66809056a9370744262cffd2b18ff158487d59b7ad37cc35121a8beec3b23fd8",
+      "log_sha256": "7f700f8decf37b51e2f0704a18a47de91128602dbc8ec4831e9b976a9235984b",
+      "peak_rss_kib": 13728.0,
+      "user_cpu_s": 56.84,
+      "system_cpu_s": 10.47,
+      "name": "Original controller: instrumented 37\u201339 ms window",
+      "accepted_model_change": false,
+      "deck_sha256": "507aa12780503cc3eae8ed4d07dceaa1efaf28f07b6d978b0b15788880e1e417",
+      "smallest_step": {
+        "dt_s": 1.8694698566967816e-12,
+        "before": {
+          "time": 0.038415256387297786,
+          "v(x816.cycle_stop)": 0.9999593079519461,
+          "v(x816.pwm)": 2.45828765164e-313,
+          "v(x816.reset)": 0.00023367147825253953,
+          "v(x816.ready)": 0.9999999989999989,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.01374491714650637,
+          "v(p41)": 11.296073827656397,
+          "v(p22)": 11.308975518089103,
+          "v(n16)": -0.3765452437914254,
+          "v(switch_collector)": 11.923458008568824,
+          "v(converter_cx)": 5.696275552930711,
+          "v(converter_soft)": 1.3228778782262436,
+          "v(converter_qe)": 0.001560968247876049,
+          "i(vsupply)": -0.11928454714714576
+        },
+        "after": {
+          "time": 0.038415256389167256,
+          "v(x816.cycle_stop)": 0.9999592718062713,
+          "v(x816.pwm)": 2.47009734097e-313,
+          "v(x816.reset)": 0.00023407470904000978,
+          "v(x816.ready)": 0.9999999989999988,
+          "v(x816.command)": 0.0,
+          "v(x822.xcore.flux_b)": 0.013744917146386221,
+          "v(p41)": 11.296073827656963,
+          "v(p22)": 11.308975518088895,
+          "v(n16)": -0.376545248353614,
+          "v(switch_collector)": 11.92345800879075,
+          "v(converter_cx)": 5.696275810235506,
+          "v(converter_soft)": 1.3228778782803714,
+          "v(converter_qe)": 0.0015609676760361838,
+          "i(vsupply)": -0.11928454702157865
+        }
+      }
+    },
+    {
+      "completed_endpoint": false,
+      "accepted_rows": 517518,
+      "expected_end_s": 0.08,
+      "last_sample": {
+        "time": 0.03720901022626122,
+        "v(p41)": 11.29614276096042,
+        "v(p22)": 11.308956383812161,
+        "v(n16)": -0.38045418214186927,
+        "v(switch_collector)": 11.92336823999392,
+        "v(converter_cx)": 4.4068441986211795,
+        "v(converter_soft)": 1.2877507304536202,
+        "v(converter_qe)": 0.009865542185247156,
+        "i(vsupply)": -0.11918362209706856
+      },
+      "raw_sha256": "fe3281de7160002f7e7291785782f3d0314a95def616b1eb3c0f2e5748ca053b",
+      "log_sha256": "99b6f68fa295ffa2d8c2084586832e6e2407cd552072f10c74cedfa8051b6b50",
+      "peak_rss_kib": 13300.0,
+      "user_cpu_s": 74.69,
+      "system_cpu_s": 15.11,
+      "name": "Native switch replacement diagnostic",
+      "accepted_model_change": false,
+      "deck_sha256": "a52f1e32896be4b567596a05163e2504ac4efd313e33f2eab2e914cc1e47cfb7"
+    },
+    {
+      "completed_endpoint": true,
+      "accepted_rows": 105524,
+      "expected_end_s": 0.08,
+      "last_sample": {
+        "time": 0.08,
+        "v(p41)": 11.296252492069492,
+        "v(p22)": 11.309009530894027,
+        "v(n16)": -0.2636826206937754,
+        "v(switch_collector)": 11.92352106703498,
+        "v(converter_cx)": 5.6995936801935825,
+        "v(converter_soft)": 2.318177785583742,
+        "v(converter_qe)": 1.0856545790138838e-06,
+        "i(vsupply)": -0.11881717137264047
+      },
+      "raw_sha256": "7ff9bc57d8df27ba13571e62537e383a42a8c3eb55278fb651f10553d028bab3",
+      "log_sha256": "6ce9bd8bbf90cbc31c1f190d5708148ba639ca612c45964df04e8f62cc5f40fb",
+      "peak_rss_kib": 13868.0,
+      "user_cpu_s": 17.58,
+      "system_cpu_s": 3.53,
+      "name": "Smooth XSPICE hysteresis diagnostic: oscillator stalls",
+      "accepted_model_change": false,
+      "deck_sha256": "26e2b97791b7fcaf273edeceb27f57be051ecf76fa6a6ae0cb0cfd1931b6f632"
+    },
+    {
+      "completed_endpoint": false,
+      "accepted_rows": 317326,
+      "expected_end_s": 0.08,
+      "last_sample": {
+        "time": 0.0012922050324286774,
+        "v(p41)": 2.919942809645907,
+        "v(p22)": 2.999625799074727,
+        "v(n16)": -0.5176123188964002,
+        "v(switch_collector)": 4.9299099728793845,
+        "v(converter_cx)": 5.699791092186258,
+        "v(converter_soft)": 0.0348497105064149,
+        "v(converter_qe)": 0.0020880401493651446,
+        "i(vsupply)": -10.962286863023877
+      },
+      "raw_sha256": "b32b2a52b1aa172c37c8d9b07e0e2cb40d8bf0100b8be40d678dcf33543c82bb",
+      "log_sha256": "19cd52f08fdca7db5042e4f97bfea6277e7aeeba6a03a6816a93a9b72a8e52af",
+      "peak_rss_kib": null,
+      "user_cpu_s": null,
+      "system_cpu_s": null,
+      "name": "XSPICE plus finite regeneration diagnostic",
+      "accepted_model_change": false,
+      "deck_sha256": "fd415de3fcc1f88404fc6aae1eaea4869c4ad0e8afd88f1a3c621e184dfb93ef"
+    }
+  ],
+  "conclusions": [
+    "Original solver timestep collapse is concentrated near switching startup, with picosecond steps observed at reset transitions.",
+    "No tested alternative is accepted. The fast smooth-hysteresis run suppresses oscillation; completed time alone does not establish correctness.",
+    "Raw accepted-step transport held resident memory near 13\u201314 MiB, but does not address solver convergence or CPU cost.",
+    "Rejected-step counts and device-level truncation attribution require further solver instrumentation."
+  ]
+}

@@ -17,8 +17,8 @@ def main():
         parser.add_argument('--'+name,type=Path,required=True)
     parser.add_argument('--chargen',type=Path)
     parser.add_argument('--boot-ticks',type=int,default=32_000_000)
-    parser.add_argument('--dot-ticks',type=int,default=1_382_400,
-                        help='capture length in 13.824 MHz dot ticks (default 100 ms)')
+    parser.add_argument('--dot-ticks',type=int,default=13_824_000,
+                        help='capture length in 13.824 MHz dot ticks (default one second, for settled 16-field rendering)')
     args=parser.parse_args()
     executable=ROOT/'build/robotron-monitor-capture'
     files={'rom':args.rom,'prom':args.prom,'disk':args.disk,'executable':executable}

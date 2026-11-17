@@ -145,7 +145,7 @@ def ray(anode,grid2,focus,ih,iv,*,origin=(0.,0.),slope=(0.,0.),step_m=.0002,over
     return result
 
 
-def bundle(anode,grid2,focus,ih,iv,*,step_m=.0002,overrides=None):
+def bundle(anode,grid2,focus,ih,iv,*,step_m=.0002,overrides=None,_ray=None):
     """Symmetric nine-ray quadrature of finite source radius and divergence.
 
     Separate position and angle rays avoid inventing source-angle correlation.
@@ -156,7 +156,8 @@ def bundle(anode,grid2,focus,ih,iv,*,step_m=.0002,overrides=None):
     for dx,dy in ((1,0),(-1,0),(0,1),(0,-1)):
         launches.append(((dx*p['source_radius_m'],dy*p['source_radius_m']),(0.,0.)))
         launches.append(((0.,0.),(dx*p['divergence_rad'],dy*p['divergence_rad'])))
-    rays=[ray(anode,grid2,focus,ih,iv,origin=o,slope=s,step_m=step_m,overrides=p) for o,s in launches]
+    solve=ray if _ray is None else _ray
+    rays=[solve(anode,grid2,focus,ih,iv,origin=o,slope=s,step_m=step_m,overrides=p) for o,s in launches]
     landed=[r for r in rays if r['landed']]
     if not landed:return dict(rays=rays,landed_fraction=0.,x_m=0.,y_m=0.,sigma_m=0.)
     x=sum(r['x_m'] for r in landed)/len(landed);y=sum(r['y_m'] for r in landed)/len(landed)
