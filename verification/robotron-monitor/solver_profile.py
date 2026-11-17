@@ -13,6 +13,54 @@ import re
 import struct
 
 
+def audit_profile(log_path, *, start_s, end_s):
+    """Summarize a bounded diagnostic window, never extrapolate rejection counts.
+
+    Truncation counts are individual device proposals (including retries and
+    order trials), not counts of rejected steps. The last proposal at an LTE
+    rejection identifies the final limiting instrumented device, when present.
+    Accepted durations come from raw samples; next_dt is a solver proposal.
+    """
+    if not all(math.isfinite(t) for t in (start_s,end_s)) or not 0<=start_s<end_s:
+        raise ValueError('invalid audit window')
+    counts={k:0 for k in ('accept','reject_newton','reject_breakpoint','reject_lte','op_failure')}
+    devices={}; limiting={}; last=None; first=None; final=None; digest=hashlib.sha256()
+    with Path(log_path).open('rb') as stream:
+        for raw in stream:
+            digest.update(raw)
+            line=raw.decode(errors='replace')
+            match=re.search(r'CRT_(STEP|TRUNC) (.*)',line)
+            if not match:continue
+            kind,body=match.groups();parts=body.split();event=parts[0]
+            try:
+                fields=dict(p.split('=',1) for p in parts[1:]);t=float.fromhex(fields['t'])
+            except (ValueError,KeyError) as error:raise ValueError('malformed solver audit') from error
+            if not math.isfinite(t) or not start_s<=t<=end_s:
+                raise ValueError('audit record outside declared window')
+            first=t if first is None else min(first,t);final=t if final is None else max(final,t)
+            if kind=='TRUNC':
+                if event not in ('CAP','BJT','IND') or not fields.get('name'):raise ValueError('invalid device audit')
+                try:before=float.fromhex(fields['from']);after=float.fromhex(fields['to'])
+                except (ValueError,KeyError) as error:raise ValueError('invalid truncation values') from error
+                if not math.isfinite(after) or not 0<after<before:raise ValueError('invalid truncation reduction')
+                key=event+':'+fields['name']
+                if len(devices)>100000:raise ValueError('audit device budget exceeded')
+                entry=devices.setdefault(key,dict(proposals=0,min_proposed_step_s=after))
+                entry['proposals']+=1;entry['min_proposed_step_s']=min(entry['min_proposed_step_s'],after)
+                last=(t,key)
+            else:
+                if event not in counts:raise ValueError('unknown step audit event')
+                counts[event]+=1
+                if event=='reject_lte' and last is not None and last[0]==t:
+                    limiting[last[1]]=limiting.get(last[1],0)+1
+                last=None
+    return dict(format='dac-monitor-step-audit-v1',window_s=[start_s,end_s],
+        observed_time_bounds_s=None if first is None else [first,final],
+        counts=counts,device_truncation_proposals=devices,lte_last_instrumented_device=limiting,
+        log_sha256=digest.hexdigest(),full_monitor_qualified=False,
+        coverage='Declared time window only; device instrumentation covers CAP, BJT and IND.')
+
+
 def profile(raw_path, *, expected_end_s, log_path=None):
     if not math.isfinite(expected_end_s) or expected_end_s<=0:raise ValueError('invalid endpoint')
     digest=hashlib.sha256();header=bytearray()
@@ -74,6 +122,11 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--raw',type=Path,required=True);p.add_argument('--log',type=Path)
     p.add_argument('--end',type=float,required=True);p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--audit-start',type=float);p.add_argument('--audit-end',type=float)
     a=p.parse_args();result=profile(a.raw,expected_end_s=a.end,log_path=a.log)
+    if a.audit_start is not None or a.audit_end is not None:
+        if a.log is None or a.audit_start is None or a.audit_end is None:
+            p.error('audit summary requires --log, --audit-start and --audit-end')
+        result['step_audit']=audit_profile(a.log,start_s=a.audit_start,end_s=a.audit_end)
     with a.output.open('x') as stream:json.dump(result,stream,indent=2,allow_nan=False);stream.write('\n')
     print(json.dumps({k:result[k] for k in ('completed_endpoint','accepted_rows','last_sample')}))

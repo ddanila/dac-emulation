@@ -1,0 +1,22 @@
+NAME_TABLE:
+C_Function_Name: cm_crt_schmitt
+Spice_Model_Name: crt_schmitt
+Description: "Experimental solver-history Schmitt comparator"
+PORT_TABLE:
+Port_Name: in out
+Description: "input" "output"
+Direction: in out
+Default_Type: v v
+Allowed_Types: [v,vd] [v,vd]
+Vector: no no
+Vector_Bounds: - -
+Null_Allowed: no no
+PARAMETER_TABLE:
+Parameter_Name: low high edge_s
+Description: "falling threshold" "rising threshold" "finite output transition seconds"
+Data_Type: real real real
+Default_Value: 1.3 5.7 2e-8
+Limits: - - [1e-12 -]
+Vector: no no no
+Vector_Bounds: - - -
+Null_Allowed: yes yes yes

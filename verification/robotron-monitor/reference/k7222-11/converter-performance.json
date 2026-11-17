@@ -267,6 +267,6 @@
     "Original solver timestep collapse is concentrated near switching startup, with picosecond steps observed at reset transitions.",
     "No tested alternative is accepted. The fast smooth-hysteresis run suppresses oscillation; completed time alone does not establish correctness.",
     "Raw accepted-step transport held resident memory near 13\u201314 MiB, but does not address solver convergence or CPU cost.",
-    "Rejected-step counts and device-level truncation attribution require further solver instrumentation."
+    "Instrumented ngspice-47 now provides windowed rejection/truncation attribution; see converter-step-audit.json. Connected regulation and sustained rendering remain unvalidated."
   ]
 }
