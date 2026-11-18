@@ -19,8 +19,11 @@ CALIBRATION_POINTS=frozenset((14,15,17))
 HELD_OUT_POINTS=frozenset(range(1,18))-CALIBRATION_POINTS
 ASSUMPTION_KEYS=frozenset(('t3_candidate','t3_winding_parameters','yoke_profile',
                            'l4_coupling','horizontal_tank_l'))
-TRIM_KEYS=frozenset(('horizontal_hold_r24','height_r35','linearity_lower_r60',
-                     'linearity_upper_r59','centering_horizontal_r4',
+TRIM_KEYS=frozenset(('regulated_5v_r9','vertical_sync_r22','oscillator_t1',
+                     'horizontal_hold_r24','dark_raster_r28',
+                     'max_beam_r4_0126921','horizontal_linearity_l3',
+                     'picture_width_r5','centering_horizontal_r4_0126931',
+                     'height_r35','linearity_r60','linearity_r59',
                      'centering_vertical_r58','focus','brightness','contrast'))
 
 
