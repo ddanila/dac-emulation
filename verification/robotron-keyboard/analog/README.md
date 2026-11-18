@@ -1861,3 +1861,53 @@ scope and typed startup suites with their existing producers and review with
 `port_payload_combined_review.py` and `port_payload_typed_review.py`, respectively.
 Port-specific changed/refused fields, changing-state storage/cost, lifecycle and
 normal transient qualification remain open. Running campaigns remain pinned.
+
+
+The retained board campaigns now include complete reviewed captures for
+[wire](reports/wire-board-reviewed/assessment.json),
+[signal](reports/signal-board-reviewed/assessment.json),
+[mux](reports/mux-board-reviewed/assessment.json),
+[gate](reports/gate-board-reviewed/assessment.json),
+[arithmetic](reports/arithmetic-board-reviewed/assessment.json), and
+[reduction](reports/reduction-board-reviewed/assessment.json) state. Each archived
+assessment records passing controls, exact disabled/baseline and enabled/observer
+waveform comparisons (27,578 samples over 20 us), and equal firmware records.
+These remain `qualified: false`. Each directory retains its producer, build and
+symbol receipts, inputs, compressed logs/waveforms, and an exact-file manifest.
+From this directory, run `python3 retained_evidence.py reports/wire-board-reviewed`
+(and likewise for the other five families) to verify retained file and source
+identity. This integrity check is separate from a full numerical/state replay;
+`retention.json` explicitly records that distinction.
+
+The [signal teardown trace](reports/signal-teardown-trace/assessment.json) binds
+all nine native fixture signals and 39 bit/index entries to native release before
+one pool is freed. It exposes nine remaining non-owning registrations. The
+[clear candidate](reports/signal-teardown-clear/assessment.json) removes each
+registration at `signal_delete` entry, leaving zero before pool free. Both retain
+exact original/disabled/observed HDL continuation and two zero-output inventory
+refusals after cleanup. Observation is closed throughout destruction. The clear
+candidate also retains the native handle-family regression under `native-families/`.
+
+Build these diagnostic runtimes with `build_signal_teardown_trace_runtime.py` or
+`build_signal_teardown_clear_runtime.py` (`--archive`, `--out`, `--bison`, and optional
+`--jobs`), then capture with `signal_teardown_trace.py --candidate CANDIDATE
+--baseline BASELINE --out NEW_REPORT`. The capture writes the basic trace review;
+the retained reports additionally contain `before-source.cc`, `after-source.cc`,
+`parent-build.json`, and `source-chain.json` for exact patch reconstruction by
+`signal_teardown_complete_review.review(Path(REPORT))`. Replay both retained
+assessments and corruption controls from the repository root with:
+
+```sh
+python3 -m unittest discover -s verification/robotron-keyboard/analog -p test_signal_teardown.py -v
+```
+
+These fixture results do not establish board teardown, arbitrary handle deletion,
+dangling-handle safety, pool reuse, or custom-pool memory safety. ASAN leak checks
+and Valgrind pool annotations are disabled. `signal_teardown_board_capture.py`
+and the associated preflight, combined-state, shutdown, and signal reviewers
+prepare a macOS ASAN board campaign with restored parameter faults, full waveform
+and firmware comparisons, native destruction checks, and post-cleanup refusals.
+No corresponding signal-teardown board report is retained here; those scripts
+are preparation, not evidence that the board campaign passed. The board reviewer
+also requires native recovery evidence and layout receipts in its report tree,
+beyond the files produced by the capture script alone.

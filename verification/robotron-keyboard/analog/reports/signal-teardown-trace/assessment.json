@@ -1,0 +1,15 @@
+{
+  "qualified": false,
+  "controlsPassed": true,
+  "nativeSignalsReleased": 9,
+  "nativeBitIndexesReleased": 39,
+  "nativePoolsFreed": 1,
+  "remainingSignalRegistrations": 9,
+  "allSignalRegistrationsCleared": false,
+  "observationClosedBeforeSignalRelease": true,
+  "postCleanupZeroOutputRefusals": 2,
+  "originalContinuationExactlyEqual": true,
+  "scope": "Complete nine-signal native fixture population, allocated bit/index caches and graph nodes traverse native signal_delete before pool free; observation is closed throughout teardown. Remaining non-owning registrations are reported without dereferencing freed storage. ASAN leak detection and Valgrind pool annotations are disabled. No board teardown, arbitrary handle deletion, dangling-handle access, pool reuse or custom-pool memory safety claim.",
+  "sourceChangeExactlyReconstructed": true,
+  "candidateKind": "trace"
+}
