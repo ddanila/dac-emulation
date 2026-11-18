@@ -203,6 +203,14 @@ and manual geometry procedure. Their connections and control effects need
 schematic review before a B6 trim setting can be claimed as applied to the
 simulated monitor. The other trim settings are recorded, but a future grid
 calibration must verify their actual physical-to-model application.
+Manual PDF page 31 explicitly places width R5 on BP3 (012-6931) and calls for
+adjusting it to 210 mm. Source schematic PDF page 10 draws that R5 wiper into
+the A1/TDA1060 operating-voltage circuit, with 41P and 22P outputs. The
+current connected run supplies fixed ideal 41 V and 22 V rails and excludes
+this circuit. Thus R5 cannot change width in the present model. An ideal-rail
+value labeled `R5` would not reproduce the source adjustment path; the
+conflict between the manual trim requirement and the ideal-rail simplification
+needs an explicit circuit-scope decision before calibration can be frozen.
 
 The isolated ngspice 47 runtime was built from the exact archived source hash
 under ignored `build/monitor/runtime-phase-a-gcc16/`. On this machine the
@@ -252,6 +260,29 @@ the observed high-frequency crossings, but the source does not establish a
 missing damping resistor. The connector, diode direction and winding polarity
 remain explicit human schematic-review questions; no damping element is
 silently added to the calibration circuit.
+`partial_trace_diagnostic.py` streams all 5,967,737 complete rows of this
+unfinalized raw file, refuses malformed samples, and labels its output
+diagnostic-only. It integrates EHT over elapsed time because adaptive solver
+samples are unevenly spaced. The input SHA-256 is
+`a048fbe2de8c8996bb5cabb14a68c5e2538648d0138f8d6aa508a30d902741ad`;
+the ignored report is `grid-long-diagnostic-20261118/partial-evolution.json`.
+In successive 1 ms
+windows, upward `h_sync` crossings through 100 V climb from 193 at 3–4 ms to
+8,635 at 7–8 ms and 13,897 at 9–10 ms. The 9–10 ms window's mean EHT is
+about 1.70 kV and its peak modeled launch current is 3.71 µA; at 11–12 ms,
+the time-mean EHT is about 1.53 kV and modeled launch current is zero throughout.
+These counts cover an incomplete first field and do not establish a waveform
+period or final TP17 amplitude. They do establish that the long run was moving
+away from the 11–12 kV target while fast crossings consumed solver steps, so
+it must not be used as a calibration freeze or a settled grid result.
+The diagnostic can be regenerated with:
+
+```sh
+python3.14 verification/robotron-monitor/partial_trace_diagnostic.py \
+  build/monitor/phase-a/grid-long-diagnostic-20261118/trace.raw \
+  --output build/monitor/phase-a/grid-long-diagnostic-20261118/partial-evolution.json
+```
+
 Synthetic deck titles and experiment metadata now state the source kind, and
 the freeze verifies that it is synthetic.
 
