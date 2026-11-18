@@ -23,7 +23,7 @@ import test_controller
 class RuntimeProvenanceTests(unittest.TestCase):
     def test_hashes_configuration_and_required_files(self):
         with tempfile.TemporaryDirectory() as tmp:
-            root=Path(tmp);files={}
+            root=Path(tmp).resolve();files={}
             for name in ('bin/ngspice','lib/ngspice/analog.cm','share/ngspice/scripts/spinit'):
                 p=root/'install'/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'fixture')
                 files['install/'+name]=runtime.digest(p)
