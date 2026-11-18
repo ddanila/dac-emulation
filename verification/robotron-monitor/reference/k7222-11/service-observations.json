@@ -29,6 +29,19 @@
       "unit": "s"
     },
     {
+      "quantity": "converter_free_running_switching_frequency",
+      "minimum": 20000,
+      "maximum": 25000,
+      "unit": "Hz",
+      "evidence": "documented-approximate",
+      "condition": "Free-running converter, before forced SYNC synchronization; depends on C9 and R15.",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 10
+      },
+      "note": "The manual says SYNC drives V2 pin 9 to avoid interference with its approximately 15 kHz horizontal deflection frequency. This range is not the native S550 line-frequency target."
+    },
+    {
       "quantity": "horizontal_linearity_error",
       "maximum": 0.1,
       "unit": "ratio",
