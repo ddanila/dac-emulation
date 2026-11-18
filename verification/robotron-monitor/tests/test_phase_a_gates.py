@@ -46,9 +46,11 @@ class PhaseAGateTests(unittest.TestCase):
                                               'method':'source-grid-markers-through-connected-electrodes-yoke-and-central-ray'}},
                      'candidate_id':'t3-test',
                      'assumptions':{key:('t3-test' if key=='t3_candidate' else {}) for key in contract.ASSUMPTION_KEYS},
-                     'trims':{key:{'setting':.5,'procedure_step':'manual'} for key in contract.TRIM_KEYS},
+                     'trims':contract.trim_record_template(),
                      'targets':{'eht_v':11500,'horizontal_retrace_us':16,
                                 'picture_width_mm':210,'picture_height_mm':145}}
+        for item in self.freeze['trims'].values():
+            item.update(setting=.5,observation='Observed on the calibration grid.')
         self.freeze['freeze_sha256']=contract.digest(self.freeze)
         self.score={'format':'dac-monitor-service-score-v1',
                     'input_sha256':'c'*64,

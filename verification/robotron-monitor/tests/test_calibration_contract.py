@@ -60,10 +60,11 @@ class CalibrationContractTests(unittest.TestCase):
             profile=contract.reference.read_profile(ROOT/'profiles'/('k7222-11-'+profile_name+'.json'))
             parameters.update({name:entry['nominal'] for name,entry in profile['parameters'].items()})
         parameters.update({name:values[0] for name,values in contract.steady_supply.signal_path.BOUNDS.items()})
-        trims={key:{'setting':parameters[parameter],'procedure_step':'manual'}
-               for key,parameter in contract.TRIM_PARAMETERS.items()}
-        trims.update({key:{'setting':.5,'procedure_step':'manual'}
-                      for key in contract.TRIM_KEYS-set(trims)})
+        trims=contract.trim_record_template()
+        for key,item in trims.items():
+            item.update(setting=parameters[contract.TRIM_PARAMETERS[key]]
+                        if key in contract.TRIM_PARAMETERS else .5,
+                        observation='Applied and observed on the calibration pattern.')
         deck='\n'.join(f'.param {name}={value:.15g}' for name,value in parameters.items())+'\n'
         with self.assertRaisesRegex(ValueError,'manual trims lack connected model binding') as error:
             contract._validate_trim_bindings(trims,parameters,deck)
@@ -134,9 +135,11 @@ class CalibrationContractTests(unittest.TestCase):
                                      't3_winding_parameters':identified(ROOT/'reference/k7222-11/t3-initial-parameters.json'),
                                      'yoke_profile':identified(ROOT/'profiles/k7222-11-yoke-geometry.json'),
                                      'l4_coupling':.5,'horizontal_tank_l':.0015},
-                      'trims':{key:{'setting':.5,'procedure_step':'manual'} for key in contract.TRIM_KEYS},
+                      'trims':contract.trim_record_template(),
                       'targets':{'eht_v':11500,'horizontal_retrace_us':16,
                                  'picture_width_mm':210,'picture_height_mm':145}}
+            for item in proposal['trims'].values():
+                item.update(setting=.5,observation='Observed on the calibration grid.')
             frozen=contract.freeze(proposal,score)
             self.assertTrue(contract.verify(frozen))
             self.assertEqual(frozen['source_pattern'],'grid')
@@ -185,6 +188,20 @@ class CalibrationContractTests(unittest.TestCase):
             del incomplete['trims']['max_beam_r4_0126921']
             with self.assertRaisesRegex(ValueError,'missing or extra recorded trim'):
                 contract.freeze(incomplete,score)
+            wrong_steps=json.loads(json.dumps(proposal))
+            wrong_steps['trims']['picture_width_r5']['procedure_steps']=[5]
+            with self.assertRaisesRegex(ValueError,'printed steps or observation'):
+                contract.freeze(wrong_steps,score)
+            altered_freeze=json.loads(json.dumps(frozen))
+            altered_freeze['trims']['picture_width_r5']['procedure_steps']=[5]
+            altered_freeze['freeze_sha256']=contract.digest({k:v for k,v in altered_freeze.items()
+                                                              if k!='freeze_sha256'})
+            with self.assertRaisesRegex(ValueError,'printed steps or observation'):
+                contract.verify(altered_freeze)
+            unobserved=json.loads(json.dumps(proposal))
+            unobserved['trims']['horizontal_hold_r24']['observation']=''
+            with self.assertRaisesRegex(ValueError,'printed steps or observation'):
+                contract.freeze(unobserved,score)
             for change in ({'candidate_id':'different'}, {'magnetic_sha256':'0'*64},
                            {'yoke_sha256':'0'*64},
                            {'parameters':{'l4_coupling':.4,'horizontal_tank_l':.0015}},
