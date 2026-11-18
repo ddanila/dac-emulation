@@ -17,7 +17,7 @@ INVENTORY = ROOT / 'reference/k7222-11/inventory.json'
 PAGES = (6, 7, 8, 12, 13, 14, 15, 17)
 TAGS = ('primary', 'r300', 'alt', 'alt2', 'cropL', 'cropR', 'struct')
 REF = re.compile(r'(?<![A-Za-z0-9])([ACFLRTV]\d+(?::\d+)?)(?![A-Za-z0-9])', re.I)
-ARTICLE = re.compile(r'^\d\.\d{2,}')
+ARTICLE = re.compile(r'^(?:\d\.\d{2,}|\d{5,6}\s+\d{3,4}\.\d+/\d{2})')
 
 
 def _readings(path):
@@ -150,16 +150,37 @@ def audit(inventory, ocr_root):
                 elif len(candidates) > 1:
                     matches[tag] = dict(ambiguous_lines=[r['line'] for r in candidates])
             groups = collections.defaultdict(list)
+            descriptions = collections.defaultdict(list)
+            articles = collections.defaultdict(list)
+            blank_articles = []
             for tag, reading in matches.items():
                 if 'description' in reading:
                     groups[_key(reading['description']+' '+_primary_article(reading['article']))].append(tag)
+                    descriptions[_key(reading['description'])].append(tag)
+                    if reading['article']:
+                        articles[_key(_primary_article(reading['article']))].append(tag)
+                    elif tag in ('primary', 'r300', 'alt', 'alt2', 'struct'):
+                        blank_articles.append(tag)
             largest = max(groups.values(), key=len, default=[])
-            comparison = (_printed_value_matches(part, matches[largest[0]])
-                          if len(largest) >= 3 else None)
+            description_passes = max(descriptions.values(), key=len, default=[])
+            article_passes = max(articles.values(), key=len, default=[])
+            article_suspect = bool(article_passes and not re.match(
+                r'^\d\.\d{2,}', matches[article_passes[0]]['article']))
+            article_agrees = ((len(article_passes) >= 3 and not article_suspect)
+                              or (not articles and len(blank_articles) >= 3))
+            cell_agreement = len(description_passes) >= 3 and article_agrees
+            voted_reading = (dict(description=matches[description_passes[0]]['description'],
+                                  article=matches[article_passes[0]]['article'] if article_passes else None)
+                             if cell_agreement else None)
+            comparison = _printed_value_matches(part, voted_reading) if voted_reading else None
             result.append(dict(id=part['id'], source_page=page,
                                inventory_description=part['description'],
                                inventory_evidence=part['evidence'], readings=matches,
                                exact_agreement_passes=largest,
+                               description_agreement_passes=description_passes,
+                               article_agreement_passes=article_passes,
+                               article_format_suspect=article_suspect,
+                               blank_article_agreement_passes=blank_articles if not articles else [],
                                inventory_value_or_type_matches=comparison,
                                status=('needs-schematic-review' if page not in PAGES else
                                        'confirmed-by-3-passes' if comparison is True else

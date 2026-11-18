@@ -85,6 +85,34 @@ class InventoryAuditTests(unittest.TestCase):
         self.assertEqual(inventory_audit._primary_article('0.7470 0808.0/90'),
                          '0.7470 0808.0/90')
 
+    def test_three_full_page_passes_can_confirm_a_printed_blank_article(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            inventory = json.loads(inventory_audit.INVENTORY.read_text())
+            for tag in ('', '.r300', '.alt'):
+                (root / f'page_006{tag}.csv').write_text(
+                    'Kurzzeichen,Stückzahl,Benennung,Sachnummer\n'
+                    'C30,1,MKP-Kondensator 1000/10/1500,\n')
+            report = inventory_audit.audit(inventory, root)
+            point = next(e for e in report['entries'] if e['id'] == '012-6921:C30')
+            self.assertEqual(point['blank_article_agreement_passes'],
+                             ['primary', 'r300', 'alt'])
+            self.assertEqual(point['status'], 'confirmed-by-3-passes')
+
+    def test_malformed_article_is_not_a_blank_vote(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            inventory = json.loads(inventory_audit.INVENTORY.read_text())
+            for tag in ('', '.r300', '.alt'):
+                (root / f'page_014{tag}.csv').write_text(
+                    'Kurzzeichen,Stückzahl,Benennung,Sachnummer\n'
+                    'R26,1,Schichtwiderstand SWF 130 Ohm 2 %,077862 3535.0/90\n')
+            report = inventory_audit.audit(inventory, root)
+            point = next(e for e in report['entries'] if e['id'] == '012-6931:R26')
+            self.assertTrue(point['article_format_suspect'])
+            self.assertEqual(point['blank_article_agreement_passes'], [])
+            self.assertEqual(point['status'], 'needs-source-review')
+
     def test_agreed_wrong_value_stays_for_review(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
