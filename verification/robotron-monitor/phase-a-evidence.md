@@ -54,6 +54,20 @@ The point-8 figure additionally labels R48/V20 and approximately 10 Vpp below
 zero; its relationship to X2:3 is left for schematic review.
 The point-7 figure marks a 1 ms rise interval; it is retained as a rise-time
 annotation rather than misclassified as pulse width.
+The fourth text pass reads point 13 as 6.4 Vpp but moves decimal points on
+page 21: it reports 7.0, 4.5 and 8.0 Vpp for points 14, 15 and 17 where the
+source image prints 70, 45 and 80 Vpp. It also collapses point 16's 8–25 Vpp
+range into 8.25 Vpp, misreads point 5's 19 ms period as 15 ms, and reads the
+handwritten auxiliary 22 Vpp as 2.2 Vpp. Direct image review retains the
+source values; these OCR disagreements are not averaged into new targets.
+The same pass invents a beam-current procedure on page 30 involving 7.5–7.9
+J/kg and a 2.4 V 1 kByte T1 setting. Neither appears on the source page: it
+prints the 0.1 mV and 3.6 mV meter sequence and a 2.2 ± 0.2 V 1 kByte T1
+setting. The fabricated text is not used to revise the register or settle a
+source-review mark; the raw OCR output remains available for audit.
+On page 32 the pass also reads both vertical-linearity controls as R59;
+the source image and the other text passes distinguish R60 and R59. This
+remains a source conflict about their screen regions, not about their labels.
 
 The first text pass of manual pages 17 and 30–32 added two setup constraints
 that the earlier register missed: page 17 prints a horizontal-generator control
