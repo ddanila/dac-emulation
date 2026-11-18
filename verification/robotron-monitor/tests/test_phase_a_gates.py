@@ -53,6 +53,11 @@ class PhaseAGateTests(unittest.TestCase):
                     'input_sha256':'c'*64,
                     'register_sha256':hashlib.sha256(service_scoring.REGISTER.read_bytes()).hexdigest(),
                     'points':[{'test_point':n,'status':'pass-numeric'} for n in range(1,18)]}
+        reviews=phase_a_gates.waveform_review_template(self.score)
+        for review in reviews['points'].values():
+            review.update(shape='agrees',operating_conditions='agrees',
+                          notes='Compared the waveform with the manual under the stated conditions.',
+                          reviewer='Test reviewer',reviewed_at='2026-11-18')
         self.evidence={'format':'dac-monitor-phase-a-gate-evidence-v1',
                        'electrical_trace_sha256':'c'*64,'native_capture_sha256':'d'*64,
                        'source_review':{
@@ -65,8 +70,7 @@ class PhaseAGateTests(unittest.TestCase):
                                inventory_audit.INVENTORY.read_bytes()).hexdigest(),
                            'kicad_tree_sha256':phase_a_review.kicad_tree_hash(),
                            'ocr_audit_sha256':'0'*64,'marks_sha256':'1'*64},
-                       'waveform_reviews':{str(n):{'shape':'agrees','operating_conditions':'agrees',
-                                                   'reviewer':'test fixture'} for n in range(1,18)},
+                       'waveform_reviews':reviews,
                        'horizontal_lock':{'reference_edges':936,'flybacks_in_window':936,'matched_edges':936,
                                           'missing_edges':0,'reused_flybacks':0,'unmatched_flybacks':0,
                                           'phase_variation_lines':.005,'fields':3,'maximum_adjacent_jitter_s':30e-9},
@@ -130,11 +134,26 @@ class PhaseAGateTests(unittest.TestCase):
 
     def test_numeric_match_without_waveform_review_cannot_pass(self):
         evidence=copy.deepcopy(self.evidence)
-        del evidence['waveform_reviews']['14']
-        del evidence['waveform_reviews']['1']
+        del evidence['waveform_reviews']['points']['14']
+        del evidence['waveform_reviews']['points']['1']
         result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
         self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G3'))
         self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G4'))
+
+    def test_waveform_review_is_bound_to_exact_trace_register_and_score_window(self):
+        for key,value in (('electrical_trace_sha256','0'*64),
+                          ('register_sha256','0'*64),
+                          ('service_score_sha256','0'*64)):
+            with self.subTest(key=key):
+                evidence=copy.deepcopy(self.evidence)
+                evidence['waveform_reviews'][key]=value
+                result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
+                self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G3'))
+                self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G4'))
+        evidence=copy.deepcopy(self.evidence)
+        evidence['waveform_reviews']['points']['14']['reviewed_at']='2026-99-99'
+        self.assertFalse(next(g['passed'] for g in phase_a_gates.evaluate(
+            evidence,self.score,self.freeze)['blocking'] if g['gate']=='G3'))
 
     def test_frozen_targets_cannot_replace_measured_calibration(self):
         for change in ({'calibration_measurements':{}},
