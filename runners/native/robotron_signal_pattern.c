@@ -3,6 +3,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
+static unsigned bounded_number(const char *s,unsigned low,unsigned high) {
+ char *end;errno=0;unsigned long n=strtoul(s,&end,10);
+ if(errno||!*s||*end||n<low||n>high){fputs("invalid pattern timing\n",stderr);exit(2);}return (unsigned)n;
+}
 static uint64_t pending;
 static unsigned levels;
 static int have,first=1;
@@ -15,18 +20,25 @@ static void event(void *user,uint64_t t,unsigned v,unsigned s,unsigned i) {
 int main(int argc,char **argv) {
  const char *names[]={"black","white","alternating","bars","checkerboard","text","highlight"};
  unsigned pattern=7;
- if(argc==2)for(unsigned i=0;i<7;i++)if(!strcmp(argv[1],names[i]))pattern=i;
- if(pattern==7){fputs("usage: robotron-signal-pattern black|white|alternating|bars|checkerboard|text|highlight\n",stderr);return 2;}
+ unsigned fields=1,line_characters=112;
+ if(argc>=2)for(unsigned i=0;i<7;i++)if(!strcmp(argv[1],names[i]))pattern=i;
+ for(int i=2;i<argc;i+=2) {
+  if(i+1>=argc){fputs("missing pattern option value\n",stderr);return 2;}
+  if(!strcmp(argv[i],"--fields"))fields=bounded_number(argv[i+1],1,8);
+  else if(!strcmp(argv[i],"--line-characters"))line_characters=bounded_number(argv[i+1],96,160);
+  else {fputs("unknown pattern option\n",stderr);return 2;}
+ }
+ if(pattern==7){fputs("usage: robotron-signal-pattern black|white|alternating|bars|checkerboard|text|highlight [--fields 1..8] [--line-characters 96..160]\n",stderr);return 2;}
  printf("{\"format\":\"dac-monitor-input-v2\",\"clock_hz\":%u,\"signals\":[\"VIDEO\",\"BSYN\",\"INTENS\"],"
  "\"qualification\":\"synthetic-test-pattern\",\"board_revision\":\"1.93.310412.6/04\","
  "\"time_origin\":{\"dot_tick\":0},\"pattern\":\"%s\","
- "\"assumptions\":[\"Synthetic 80 columns, 32 retrace characters, 24 rows, 12 lines/row, 2 retrace rows\","
+ "\"assumptions\":[\"Synthetic 80 columns, %u retrace characters, 24 rows, 12 lines/row, 2 retrace rows\","
  "\"Text pattern uses a synthetic glyph, not a firmware character generator\","
- "\"Nominal E05 5.9 us pulses; no specimen calibration\"],\"events\":[",ROBOTRON_VIDEO_HZ,names[pattern]);
+ "\"Nominal E05 5.9 us pulses; no specimen calibration\"],\"events\":[",ROBOTRON_VIDEO_HZ,names[pattern],line_characters-80);
  robotron_video_output o={0};o.uv1_end=o.uv2_end=UINT64_MAX;o.sink=event;
- const unsigned dots=112*8*26*12;
+ const unsigned dots=line_characters*8*26*12*fields;
  for(unsigned d=0;d<dots;d++) {
-   unsigned x=d%(112*8),line=d/(112*8),blank=x>=640||line>=288;
+   unsigned x=d%(line_characters*8),line=(d/(line_characters*8))%(26*12),blank=x>=640||line>=288;
    unsigned v=0,h=0;
    if(!blank)switch(pattern) {
     case 0:break;

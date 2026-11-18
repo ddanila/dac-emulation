@@ -9,6 +9,11 @@ DEFAULT=Path(__file__).parent/'profiles/k7222-11-yoke.json'
 
 def read(path=DEFAULT):
     p=json.loads(Path(path).read_text())
+    if p.get('format')=='dac-cosine-sheet-yoke-v1':
+        import yoke_geometry
+        result=yoke_geometry.derive(p)
+        trajectory.parameters(result['field'])
+        return result
     if p.get('format')!='dac-reduced-yoke-v1' or p.get('inductance_field_relationship_verified') is not False:
         raise ValueError('expected explicitly unverified reduced yoke profile')
     electrical={};field={}

@@ -13,6 +13,20 @@ class NativeTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):cls.backend=trajectory_native.Backend()
 
+    def test_neck_exit_cannot_be_skipped_by_a_coarse_step(self):
+        # Captured connected-trial ray: the old 200 um step escaped the neck
+        # while the 100 um step hit its wall. Both must stop at the exit face.
+        inputs=(7114.868355183569,356.7248954417458,196.43932689136605,
+                -.3945296617559861,-.08486650447587567)
+        field=dict(horizontal_tesla_per_amp=.007979477182945251,
+                   vertical_tesla_per_amp=.012196125520739134)
+        for solve in (trajectory.ray,self.backend.ray):
+            for step in (.0004,.0002,.0001,.00005):
+                r=solve(*inputs,step_m=step,overrides=field)
+                self.assertEqual(r['reason'],'neck aperture')
+                self.assertFalse(r['landed'])
+                self.assertLessEqual(r['points'][-1][0],.115)
+
     def test_python_oracle_across_fields_steps_and_interceptions(self):
         for inputs in ((11000,350,175,0,0),(11000,350,175,.2,-.1),
                        (8000,280,90,-.7,.5),(11000,350,175,30,0),

@@ -54,7 +54,7 @@ def refine_bracket(trials, trial, deadline, *, iterations=5):
 
 def run(capture,output,runtime,candidate,*,hours=12,settings=None):
     if not 0<hours<=12:raise ValueError('wall budget must be in (0,12] hours')
-    settings=settings or {};unknown=set(settings)-{'parameters','solver','magnetic_parameters'}
+    settings=settings or {};unknown=set(settings)-{'parameters','solver','magnetic_parameters','yoke_profile'}
     if unknown:raise ValueError('unknown lock scan settings')
     out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
     begin=time.monotonic();deadline=begin+hours*3600
@@ -64,7 +64,7 @@ def run(capture,output,runtime,candidate,*,hours=12,settings=None):
     if capture_data['qualification']!='schematic-derived-logical':raise ValueError('native firmware capture required')
     selection=steady_supply.select(capture_data)
     if selection['status']!='complete':raise ValueError(selection['reason'])
-    assembly=steady_supply.assemble(out/'assembly')
+    assembly=steady_supply.assemble(out/'assembly',yoke_path=settings.get('yoke_profile'))
     steady_supply.tune(assembly,selection,settings.get('parameters'))
     if 'magnetic_parameters' in settings:
         raw=Path(settings['magnetic_parameters']).read_bytes()

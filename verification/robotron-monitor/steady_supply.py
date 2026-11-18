@@ -122,9 +122,9 @@ def heater_equilibrium():
                 electrical_replay_verified=False)
 
 
-def assemble(output):
+def assemble(output, *, yoke_path=None):
     """Export and archive sheets once. No independent stage benches are included."""
-    out = Path(output); out.mkdir(parents=True, exist_ok=False)
+    out = Path(output).resolve(); out.mkdir(parents=True, exist_ok=False)
     inv = json.loads((ROOT/'reference/k7222-11/inventory.json').read_text())
     cpu = json.loads((ROOT/'reference/1715w/output.json').read_text())
     sheets = [(s,b,c) for s,b,c in full_path_audit.SHEETS
@@ -154,8 +154,12 @@ def assemble(output):
         params.update(reference.parameter_values(profile,{}))
         for model in [profile['models'],*profile.get('additional_models',[])]:
             if model not in models:models.append(model)
-    archive('profiles/k7222-11-yoke.json')
-    yoke=yoke_profile.read(out/'profiles/k7222-11-yoke.json')
+    import yoke_geometry
+    source=Path(yoke_path) if yoke_path is not None else yoke_geometry.DEFAULT
+    raw_yoke=source.read_bytes();destination=out/'profiles/yoke.json'
+    destination.parent.mkdir(parents=True,exist_ok=True);destination.write_bytes(raw_yoke)
+    hashes['profiles/yoke.json']=lab.digest(raw_yoke)
+    yoke=yoke_profile.read(destination)
     params.update(yoke['electrical'])
     models.append('circuits/signal-path-models.cir')
     texts=[archive(name) for name in models]
@@ -167,8 +171,8 @@ def assemble(output):
                  'reference/k7222-11/t3-initial-parameters.json',
                  'reference/k7222-11/horizontal-output-transcription.json',
                  'reference/k7222-11/assembly.json', 'steady_supply.py',
-                 'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py',
-                 'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py'):
+                 'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py','yoke_geometry.py',
+                 'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py'):
         archive(name)
     return dict(components=components,parameters=params,models=texts,hashes=hashes,yoke=yoke,
                 magnetic_graph=json.loads((out/'reference/k7222-11/t3-winding-hypothesis.json').read_text()),
@@ -219,7 +223,10 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     thermal=heater_equilibrium(); period=selection['period_ticks']/selection['clock_hz']
     p={k:v[0] for k,v in ASSEMBLY_BOUNDS.items()} | assembly['parameters']
     yoke=assembly.get('yoke')
-    if yoke is not None:
+    if yoke is not None and yoke['inductance_field_relationship_verified']:
+        if any(p[k]!=v for k,v in yoke['electrical'].items()):
+            raise ValueError('geometry-derived yoke R/L cannot be overridden independently; change the frozen yoke profile')
+    if yoke is not None and not yoke['inductance_field_relationship_verified']:
         yoke=dict(yoke,electrical={k:p[k] for k in yoke['electrical']})
         yoke['effective_energy_volume_m3']={a:4*math.pi*1e-7*p[f'yoke_{a}_l']/yoke['field'][f'{a}_tesla_per_amp']**2 for a in ('horizontal','vertical')}
     lines=['Experimental steady-supply K7222 native capture; unqualified hypothesis']
@@ -257,14 +264,22 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         f'.tran {max_step_s} {period*fields:.17g} {period*(fields-4):.17g} {max_step_s}', '.end']
     assumptions=['Ideal 12/22/41/-16 V converter rails; actual 5 V regulator retained.',
         'Periodic repetition of a captured static field initializes the circuit; no cold thermal timeline.',
-        'Unmeasured horizontal yoke R/L, tube capacitance and leakage; explicit assembly bounds. Yoke inductance and optical field-per-ampere are not jointly calibrated.',
+        'Unmeasured yoke geometry and tube capacitance/leakage. The selected yoke profile declares whether R/L and field are jointly derived or independent.',
         'Finite 1 Gohm DC leakage at isolated C19 midpoint and horizontal yoke; not a source component.',
         'L4 uses a passive three-winding same-terminal-polarity hypothesis; coupling defaults to zero. Factory coupling/polarity remain unresolved.',
         'Exploratory solver tolerances require independent refinement; completion is not acceptance.']
-    return '\n'.join(lines)+'\n',dict(candidate=meta,thermal=thermal,period_s=period,
+    text='\n'.join(lines)+'\n'
+    metadata=dict(candidate=meta,thermal=thermal,period_s=period,
         simulated_fields=fields,retained_fields=4,assumptions=assumptions,
         yoke=yoke,initial_voltage_guesses=initial_voltages,initialization='DC operating point with optional voltage guesses; not a periodic-state checkpoint',
         max_step_s=max_step_s,reltol=reltol,linear_solver=linear_solver,abstol=abstol,vntol=1e-6,parameters=p,assembly_bounds=ASSEMBLY_BOUNDS)
+    inputs=dict(deck_sha256=lab.digest(text.encode()),source_content_sha256=selection.get('source_content_sha256'),
+                capture_sha256=assembly.get('capture_sha256'),assembly_hashes=assembly.get('hashes',{}),resolved=metadata)
+    fingerprint=lab.digest(json.dumps(inputs,sort_keys=True,allow_nan=False).encode())
+    metadata['experiment']=dict(format='dac-frozen-frame-experiment-v1',sha256=fingerprint,
+        deck_sha256=inputs['deck_sha256'],source_content_sha256=inputs['source_content_sha256'],
+        capture_sha256=inputs['capture_sha256'],assembly_hashes=inputs['assembly_hashes'])
+    return text,metadata
 
 
 def raw_rows(path):
@@ -404,7 +419,7 @@ def assess(path, metadata, selection):
         full_monitor_qualified=False,numerical_refinement_verified=False)
 
 
-def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None):
+def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None):
     """Archive and screen the assembled hypotheses under a single wall budget.
 
     No successful solve or plausible picture is promoted to a verified frame.
@@ -432,7 +447,8 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         if selection['status']!='complete':raise ValueError(selection['reason'])
         if not any(e[1] for e in selection['events']):
             raise ValueError('selected capture has no active VIDEO; check boot ROM and character generator provenance')
-        assembly=assemble(out/'assembly')
+        assembly=assemble(out/'assembly',yoke_path=yoke_path)
+        assembly['capture_sha256']=report['capture_sha256']
         if magnetic_parameters is not None:
             raw_parameters=Path(magnetic_parameters).read_bytes()
             (out/'assembly/magnetic-override.json').write_bytes(raw_parameters)
@@ -458,7 +474,8 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
                     report['blockers'].append('candidate search budget exhausted; final third reserved for validation');break
                 text,metadata=deck(assembly,selection,c,fields=field_count,**(solver or {}))
                 trial=out/c['id']/str(field_count)
-                result=solve(text,trial,runtime,timeout_s=min(remaining,1800*field_count/4))
+                import electrical_cache as trace_cache
+                result=trace_cache.solve(text,trial,runtime,timeout_s=min(remaining,1800*field_count/4),cache=electrical_cache)
                 (trial/'metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
                 attempt=dict(fields=field_count,solve=result,
                     outputs=dict(deck=str(trial.relative_to(out)/'run.cir'),metadata=str(trial.relative_to(out)/'metadata.json')))
@@ -488,11 +505,25 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
             c,metadata,trial,attempt=next((v for v in completed if v[3]['settling']['accepted']),completed[-1])
             report['diagnostics']=attempt.get('diagnostics')
             if attempt['settling']['accepted'] and time.monotonic()<deadline:
-                report['acceptance']=steady_acceptance.finish(assembly,selection,c,metadata,trial,out/'acceptance',runtime,solver or {},deadline)
+                report['acceptance']=steady_acceptance.finish(assembly,selection,c,metadata,trial,out/'acceptance',runtime,solver or {},deadline,electrical_cache=electrical_cache)
                 report['blockers'] += report['acceptance']['blockers']
-        report['blockers'] += [
-            'Complete circuit energy closure and trajectory-current load feedback remain unresolved.',
-            'Yoke inductance and optical field strength remain independently assumed; no healthy reference is qualified.']
+            optical=report.get('acceptance',{}).get('checks',{}).get('optical',{})
+            if optical.get('status')=='complete':
+                report['outputs']['image']='acceptance/optical/frame.png'
+            else:
+                # A completed failed validation solve is newer evidence than its
+                # search candidate. Never show the older candidate as that trial.
+                diagnostic_trial,diagnostic_meta,diagnostic_settling=trial,metadata,attempt['settling']
+                for check in report.get('acceptance',{}).get('checks',{}).values():
+                    if check.get('solve',{}).get('status')=='complete' and 'settling' in check:
+                        diagnostic_trial=Path(check['trial'])
+                        diagnostic_meta=check['metadata'];diagnostic_settling=check['settling']
+                report['diagnostic_frame']=steady_acceptance.diagnostic_frame(diagnostic_trial,diagnostic_meta,out/'diagnostic-frame',diagnostic_settling,deadline)
+                report['outputs']['diagnostic_frame']='diagnostic-frame/diagnostic.json'
+                if report['diagnostic_frame']['status']=='diagnostic-only':report['outputs']['image']='diagnostic-frame/optical/frame.png'
+        report['blockers'].append('Complete circuit energy closure and trajectory-current load feedback remain unresolved.')
+        if not assembly['yoke']['inductance_field_relationship_verified']:
+            report['blockers'].append('Yoke inductance and optical field strength remain independently assumed.')
         report['status']='blocked';save();return report
     except Exception as error:
         report.update(status='failed',failure=str(error));save();raise

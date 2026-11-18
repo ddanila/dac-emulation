@@ -1,0 +1,1843 @@
+{
+  "candidate": {
+    "candidate": {
+      "id": "t3-44fb6052dcdfdb29",
+      "topology_sha256": "44fb6052dcdfdb29bb2b5316ffce1fc3352d61f10f3219d2e4660e99023184db",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": 1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "qualification": "experimental-winding-candidate",
+      "historical_topology_verified": false
+    },
+    "ports": [
+      "X2_7",
+      "X2_10",
+      "X2_11",
+      "X2_12",
+      "X2_13",
+      "X2_4",
+      "X2_5",
+      "X2_6",
+      "X2_3",
+      "X1_16",
+      "X1_1",
+      "X1_2",
+      "X1_3",
+      "X1_5",
+      "X1_7",
+      "X1_9",
+      "X1_12",
+      "X1_13",
+      "X1_10",
+      "X1_15"
+    ],
+    "sections": [
+      {
+        "group": "drive",
+        "terminals": [
+          "X2_7",
+          "X2_10"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 36,
+            "minimum": 9.0,
+            "maximum": 144,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "drive",
+        "terminals": [
+          "X2_10",
+          "X2_11"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 7,
+            "minimum": 1.75,
+            "maximum": 28,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "drive",
+        "terminals": [
+          "X2_11",
+          "X2_12"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 7,
+            "minimum": 1.75,
+            "maximum": 28,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "drive",
+        "terminals": [
+          "X2_12",
+          "X2_13"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 7,
+            "minimum": 1.75,
+            "maximum": 28,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "drive",
+        "terminals": [
+          "X2_13",
+          "X2_4"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 7,
+            "minimum": 1.75,
+            "maximum": 28,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "auxiliary",
+        "terminals": [
+          "X2_5",
+          "X2_6"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 2.5,
+            "minimum": 0.625,
+            "maximum": 10.0,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "auxiliary",
+        "terminals": [
+          "X2_6",
+          "X2_3"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 2.5,
+            "minimum": 0.625,
+            "maximum": 10.0,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "high_voltage",
+        "terminals": [
+          "X1_16",
+          "X1_1"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 1000,
+            "minimum": 250.0,
+            "maximum": 4000,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 1000,
+            "minimum": 250.0,
+            "maximum": 4000,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 0.003,
+            "minimum": 0.00075,
+            "maximum": 0.012,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1.5e-11,
+            "minimum": 3.75e-12,
+            "maximum": 6e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 5000,
+            "minimum": 1250.0,
+            "maximum": 20000,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "upper_taps",
+        "terminals": [
+          "X1_2",
+          "X1_3"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 3,
+            "minimum": 0.75,
+            "maximum": 12,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "upper_taps",
+        "terminals": [
+          "X1_3",
+          "X1_5"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 3,
+            "minimum": 0.75,
+            "maximum": 12,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "upper_taps",
+        "terminals": [
+          "X1_5",
+          "X1_7"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 30,
+            "minimum": 7.5,
+            "maximum": 120,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "lower_taps",
+        "terminals": [
+          "X1_9",
+          "X1_12"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 7,
+            "minimum": 1.75,
+            "maximum": 28,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "lower_taps",
+        "terminals": [
+          "X1_12",
+          "X1_13"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 7,
+            "minimum": 1.75,
+            "maximum": 28,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "lower_taps",
+        "terminals": [
+          "X1_13",
+          "X1_10"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 7,
+            "minimum": 1.75,
+            "maximum": 28,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      },
+      {
+        "group": "lower_taps",
+        "terminals": [
+          "X1_10",
+          "X1_15"
+        ],
+        "parameters": {
+          "turns": {
+            "value": 7,
+            "minimum": 1.75,
+            "maximum": 28,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "resistance_ohm": {
+            "value": 0.2,
+            "minimum": 0.05,
+            "maximum": 0.8,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "leakage_h": {
+            "value": 2e-06,
+            "minimum": 5e-07,
+            "maximum": 8e-06,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "capacitance_f": {
+            "value": 1e-11,
+            "minimum": 2.5e-12,
+            "maximum": 4e-11,
+            "evidence": "assumed-bound",
+            "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+          },
+          "skin_resistance_ohm": {
+            "value": 10,
+            "minimum": 2.5,
+            "maximum": 40,
+            "evidence": "assumed-bound",
+            "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+          },
+          "skin_fraction": {
+            "value": 0.9,
+            "minimum": 0.25,
+            "maximum": 0.95,
+            "evidence": "assumed-bound",
+            "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+          }
+        },
+        "polarity": 1
+      }
+    ],
+    "backend": "flux",
+    "topology": {
+      "format": "dac-monitor-winding-graph-v1",
+      "id": "k7222-11-t3-scan-order-hypothesis",
+      "historical_topology_verified": false,
+      "anchor": "drive",
+      "groups": [
+        {
+          "id": "drive",
+          "taps": [
+            "X2_7",
+            "X2_10",
+            "X2_11",
+            "X2_12",
+            "X2_13",
+            "X2_4"
+          ],
+          "evidence": {
+            "file": "older.pdf",
+            "page": 4
+          },
+          "assumption": "Candidate continuous section order from top-to-bottom scan positions; winding continuity and relative polarity are not established by a factory winding drawing."
+        },
+        {
+          "id": "auxiliary",
+          "taps": [
+            "X2_5",
+            "X2_6",
+            "X2_3"
+          ],
+          "evidence": {
+            "file": "older.pdf",
+            "page": 4
+          },
+          "assumption": "Candidate continuous section order from top-to-bottom scan positions; winding continuity and relative polarity are not established by a factory winding drawing."
+        },
+        {
+          "id": "high_voltage",
+          "taps": [
+            "X1_16",
+            "X1_1"
+          ],
+          "evidence": {
+            "file": "older.pdf",
+            "page": 4
+          },
+          "assumption": "Candidate continuous section order from top-to-bottom scan positions; winding continuity and relative polarity are not established by a factory winding drawing."
+        },
+        {
+          "id": "upper_taps",
+          "taps": [
+            "X1_2",
+            "X1_3",
+            "X1_5",
+            "X1_7"
+          ],
+          "evidence": {
+            "file": "older.pdf",
+            "page": 4
+          },
+          "assumption": "Candidate continuous section order from top-to-bottom scan positions; winding continuity and relative polarity are not established by a factory winding drawing."
+        },
+        {
+          "id": "lower_taps",
+          "taps": [
+            "X1_9",
+            "X1_12",
+            "X1_13",
+            "X1_10",
+            "X1_15"
+          ],
+          "evidence": {
+            "file": "older.pdf",
+            "page": 4
+          },
+          "assumption": "Candidate continuous section order from top-to-bottom scan positions; winding continuity and relative polarity are not established by a factory winding drawing."
+        }
+      ],
+      "limitations": [
+        "Only relative group polarity is enumerated. This is not an exhaustive set of possible internal winding graphs.",
+        "Terminal order is an explicit hypothesis, not established factory winding data.",
+        "External bridges are omitted here and must come from the separately reviewed assembly.",
+        "HV terminal identity 16/1 is corroborated by older-operation.pdf page 19."
+      ]
+    },
+    "numerical_parameters": {
+      "format": "dac-monitor-magnetic-parameters-v1",
+      "rationale": "Alternative unmeasured reversible-core hypothesis with passive one-pole AC winding loss; not a calibrated transformer or a validated steady monitor. Explicit opt-in for impedance/solver investigation.",
+      "groups": {
+        "drive": [
+          {
+            "turns": {
+              "value": 36,
+              "minimum": 9.0,
+              "maximum": 144,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          },
+          {
+            "turns": {
+              "value": 7,
+              "minimum": 1.75,
+              "maximum": 28,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          },
+          {
+            "turns": {
+              "value": 7,
+              "minimum": 1.75,
+              "maximum": 28,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          },
+          {
+            "turns": {
+              "value": 7,
+              "minimum": 1.75,
+              "maximum": 28,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          },
+          {
+            "turns": {
+              "value": 7,
+              "minimum": 1.75,
+              "maximum": 28,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          }
+        ],
+        "auxiliary": [
+          {
+            "turns": {
+              "value": 2.5,
+              "minimum": 0.625,
+              "maximum": 10.0,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          },
+          {
+            "turns": {
+              "value": 2.5,
+              "minimum": 0.625,
+              "maximum": 10.0,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          }
+        ],
+        "high_voltage": [
+          {
+            "turns": {
+              "value": 1000,
+              "minimum": 250.0,
+              "maximum": 4000,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 1000,
+              "minimum": 250.0,
+              "maximum": 4000,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 0.003,
+              "minimum": 0.00075,
+              "maximum": 0.012,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1.5e-11,
+              "minimum": 3.75e-12,
+              "maximum": 6e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 5000,
+              "minimum": 1250.0,
+              "maximum": 20000,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          }
+        ],
+        "upper_taps": [
+          {
+            "turns": {
+              "value": 3,
+              "minimum": 0.75,
+              "maximum": 12,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          },
+          {
+            "turns": {
+              "value": 3,
+              "minimum": 0.75,
+              "maximum": 12,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          },
+          {
+            "turns": {
+              "value": 30,
+              "minimum": 7.5,
+              "maximum": 120,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          }
+        ],
+        "lower_taps": [
+          {
+            "turns": {
+              "value": 7,
+              "minimum": 1.75,
+              "maximum": 28,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          },
+          {
+            "turns": {
+              "value": 7,
+              "minimum": 1.75,
+              "maximum": 28,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          },
+          {
+            "turns": {
+              "value": 7,
+              "minimum": 1.75,
+              "maximum": 28,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          },
+          {
+            "turns": {
+              "value": 7,
+              "minimum": 1.75,
+              "maximum": 28,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "resistance_ohm": {
+              "value": 0.2,
+              "minimum": 0.05,
+              "maximum": 0.8,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "leakage_h": {
+              "value": 2e-06,
+              "minimum": 5e-07,
+              "maximum": 8e-06,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "capacitance_f": {
+              "value": 1e-11,
+              "minimum": 2.5e-12,
+              "maximum": 4e-11,
+              "evidence": "assumed-bound",
+              "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+            },
+            "skin_resistance_ohm": {
+              "value": 10,
+              "minimum": 2.5,
+              "maximum": 40,
+              "evidence": "assumed-bound",
+              "rationale": "Passive one-pole AC copper loss, not measured winding impedance."
+            },
+            "skin_fraction": {
+              "value": 0.9,
+              "minimum": 0.25,
+              "maximum": 0.95,
+              "evidence": "assumed-bound",
+              "rationale": "Share of total low-frequency leakage in passive skin-loss branch."
+            }
+          }
+        ]
+      },
+      "core": {
+        "area_m2": {
+          "value": 0.00015,
+          "minimum": 3.75e-05,
+          "maximum": 0.0006,
+          "evidence": "assumed-bound",
+          "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+        },
+        "length_m": {
+          "value": 0.08,
+          "minimum": 0.02,
+          "maximum": 0.32,
+          "evidence": "assumed-bound",
+          "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+        },
+        "loss_ohm": {
+          "value": 10000,
+          "minimum": 2500.0,
+          "maximum": 40000,
+          "evidence": "assumed-bound",
+          "rationale": "Unmeasured engineering hypothesis; not original UHA78 winding data."
+        },
+        "h_a_per_m": [
+          -100000,
+          -4000,
+          -1000,
+          0,
+          1000,
+          4000,
+          100000
+        ],
+        "b_t": [
+          -0.5,
+          -0.32,
+          -0.2,
+          0,
+          0.2,
+          0.32,
+          0.5
+        ]
+      }
+    },
+    "limitations": [
+      "Candidate topology; no factory polarity claim.",
+      "Shared reversible core with lumped section parasitics; no hysteresis or measured distributed field.",
+      "External wiring and monitor validation are not provided by this model."
+    ],
+    "full_monitor_qualified": false
+  },
+  "thermal": {
+    "temperature_rise_k": [
+      893.9780984698904,
+      669.1359489252557
+    ],
+    "heater_power_w": 0.7406776655693832,
+    "method": "steady ideal-supply series-heater branch",
+    "electrical_replay_verified": false
+  },
+  "period_s": 0.0195,
+  "simulated_fields": 4,
+  "retained_fields": 4,
+  "assumptions": [
+    "Ideal 12/22/41/-16 V converter rails; actual 5 V regulator retained.",
+    "Periodic repetition of a captured static field initializes the circuit; no cold thermal timeline.",
+    "Unmeasured yoke geometry and tube capacitance/leakage. The selected yoke profile declares whether R/L and field are jointly derived or independent.",
+    "Finite 1 Gohm DC leakage at isolated C19 midpoint and horizontal yoke; not a source component.",
+    "L4 uses a passive three-winding same-terminal-polarity hypothesis; coupling defaults to zero. Factory coupling/polarity remain unresolved.",
+    "Exploratory solver tolerances require independent refinement; completion is not acceptance."
+  ],
+  "yoke": {
+    "electrical": {
+      "yoke_horizontal_l": 0.004006911780884919,
+      "yoke_horizontal_r": 2,
+      "yoke_vertical_l": 0.019986771359545453,
+      "yoke_vertical_r": 10
+    },
+    "field": {
+      "yoke_start_m": 0.075,
+      "yoke_length_m": 0.04,
+      "neck_radius_m": 0.01,
+      "horizontal_tesla_per_amp": 0.007979477182945251,
+      "vertical_tesla_per_amp": 0.012196125520739134
+    },
+    "axes": {
+      "horizontal": {
+        "turns": 333,
+        "wire_length_m": 60.116811316652836,
+        "wire_area_m2": 5.182069135495475e-07,
+        "wire_diameter_m": 0.0008122816843228953,
+        "fill_fraction": 0.5991767437916643,
+        "inductance_flux_h": 0.004006911780884919,
+        "inductance_energy_h": [
+          0.004006902768643491,
+          0.004006909526362866,
+          0.004006909527691443
+        ],
+        "energy_flux_relative_error": 2.249173907675761e-06,
+        "dimensionless_radial_coefficients": [
+          0.6101973510893591,
+          0.11019735108935917,
+          0.5,
+          -0.4188305119127909,
+          2.888891443869084,
+          0.0028874477200090793
+        ]
+      },
+      "vertical": {
+        "turns": 644,
+        "wire_length_m": 160.77202612123864,
+        "wire_area_m2": 2.7717097303301546e-07,
+        "wire_diameter_m": 0.0005940581145968454,
+        "fill_fraction": 0.33055204932085547,
+        "inductance_flux_h": 0.019986771359545453,
+        "inductance_energy_h": [
+          0.019986769315488373,
+          0.01998677083303607,
+          0.01998677084718606
+        ],
+        "energy_flux_relative_error": 1.0227049895839002e-07,
+        "dimensionless_radial_coefficients": [
+          0.813804175563058,
+          0.3138041755630579,
+          0.5,
+          -1.1926853249391582,
+          2.888891443869084,
+          0.0028874477200090797
+        ]
+      }
+    },
+    "qualification": "assumed-geometry-reduced-magnetostatic-model",
+    "inductance_field_relationship_verified": true,
+    "specimen_validated": false,
+    "limitations": [
+      "Finite packing regions represented magnetically by ideal thin cosine sheets; linear ferrite; no saturation, hysteresis or frequency-dependent core loss.",
+      "Separable axial field/end-return approximation; not a solved 3D fringe field.",
+      "Wire resistance uses declared copper resistivity and idealized saddle return length.",
+      "Geometry and electrical target constraints are unmeasured hypotheses, not fitted to an image."
+    ]
+  },
+  "initial_voltage_guesses": {
+    "eht": 8000,
+    "h_boost": 60,
+    "h_g2raw": 420,
+    "h_divtop": 420,
+    "h_g1raw": -20
+  },
+  "initialization": "DC operating point with optional voltage guesses; not a periodic-state checkpoint",
+  "max_step_s": 2e-07,
+  "reltol": 0.005,
+  "linear_solver": "klu",
+  "abstol": 1e-06,
+  "vntol": 1e-06,
+  "parameters": {
+    "yoke_horizontal_r": 2,
+    "yoke_horizontal_l": 0.004006911780884919,
+    "tube_anode_c": 1e-09,
+    "tube_hv_leakage": 200000000.0,
+    "l4_coupling": 0.0,
+    "isolated_cap_leakage": 1000000000.0,
+    "driver_low": 0.15,
+    "driver_high": 4.2,
+    "driver_r_low": 8.0,
+    "driver_r_high": 35.0,
+    "driver_tau": 4e-09,
+    "gate_threshold": 1.4,
+    "gate_span": 0.08,
+    "gate_tau": 5e-09,
+    "gate_input_c": 4e-12,
+    "cable_r": 0.3,
+    "cable_c": 1.5e-10,
+    "return_r": 0.2,
+    "contrast_trim": 1100.0,
+    "contrast_r": 10000.0,
+    "contrast_position": 0.5,
+    "vertical_load": 100000.0,
+    "sync_load": 100000.0,
+    "horizontal_trim_fraction": 0.5,
+    "horizontal_tank_l": 0.00145,
+    "horizontal_tank_r": 1,
+    "horizontal_coupling": 0.995,
+    "horizontal_driver_l": 0.005,
+    "horizontal_driver_r": 2,
+    "horizontal_driver_ratio": 3,
+    "horizontal_secondary_r": 0.3,
+    "horizontal_choke_r": 0.5,
+    "horizontal_choke_l": 0.0001,
+    "horizontal_linearity_r": 0.1,
+    "horizontal_linearity_l": 2e-05,
+    "horizontal_compensation_r": 0.1,
+    "horizontal_compensation_l": 5e-06,
+    "horizontal_brightness_fraction": 0.5,
+    "horizontal_focus_fraction": 0.5,
+    "vertical_trim": 22000.0,
+    "vertical_bf": 60,
+    "sync_enabled": 1,
+    "sync_period": 0.0208,
+    "sync_loss_start": 0.3,
+    "sync_loss_end": 0.4,
+    "height_trim": 11000,
+    "vertical_compensation": 1e-10,
+    "retrace_bf": 100,
+    "symmetry_fraction": 0.5,
+    "linearity_lower": 23500,
+    "linearity_upper": 23500,
+    "yoke_vertical_r": 10,
+    "yoke_vertical_l": 0.019986771359545453,
+    "output_bf": 60,
+    "reg5_position": 0.5,
+    "reg5_bf": 60,
+    "reg5_input": 12,
+    "neck_c2": 1e-07,
+    "q_is": 1e-14,
+    "q_bf": 60,
+    "q_vaf": 60,
+    "q_tf": 2e-09,
+    "q_tr": 1e-08,
+    "q_cje": 2e-11,
+    "q_cjc": 8e-12,
+    "d_is": 1e-09,
+    "d_n": 1.5,
+    "d_rs": 1,
+    "d_cjo": 3e-12,
+    "d_tt": 4e-09,
+    "tube_cathode_c": 2e-11
+  },
+  "assembly_bounds": {
+    "yoke_horizontal_r": [
+      2.0,
+      0.5,
+      8.0,
+      "ohm"
+    ],
+    "yoke_horizontal_l": [
+      0.004,
+      0.0004,
+      0.016,
+      "H"
+    ],
+    "tube_anode_c": [
+      1e-09,
+      2.5e-10,
+      4e-09,
+      "F"
+    ],
+    "tube_hv_leakage": [
+      200000000.0,
+      50000000.0,
+      800000000.0,
+      "ohm"
+    ],
+    "l4_coupling": [
+      0.0,
+      0.0,
+      0.999,
+      "1"
+    ],
+    "isolated_cap_leakage": [
+      1000000000.0,
+      250000000.0,
+      4000000000.0,
+      "ohm"
+    ]
+  }
+}

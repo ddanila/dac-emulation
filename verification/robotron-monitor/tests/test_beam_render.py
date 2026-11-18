@@ -58,6 +58,37 @@ class PhosphorTests(unittest.TestCase):
 
 
 class BeamRenderTests(unittest.TestCase):
+    def test_chord_integrates_changing_current_and_energy_by_pixel_area(self):
+        renderer=beam_render.Renderer(surface=dict(width=8,height=8))
+        a=row(0,beam=2e-6);b=row(1e-6,beam=5e-6)
+        left=dict(x_m=-.1,y_m=.001,flight_s=0,impact_energy_ev=100)
+        right=dict(x_m=.1,y_m=.001,flight_s=0,impact_energy_ev=200)
+        renderer._chord(a,b,left,right,1)
+        self.assertAlmostEqual(renderer.incident_j,5.5e-10,delta=1e-24)
+        actual={}
+        for event in renderer.events:
+            index=renderer.surface.cell(event[2],event[3])
+            actual[index]=actual.get(index,0)+event[-1]
+        def integral(f):return 1e-6*(200e-6*f+250e-6*f*f+100e-6*f**3)
+        for index,energy in actual.items():
+            column=index%8;scale=renderer.surface.scale
+            lo=max(0,((column-4)/scale+.1)/.2)
+            hi=min(1,((column+1-4)/scale+.1)/.2)
+            self.assertAlmostEqual(energy,integral(hi)-integral(lo),delta=1e-24)
+
+    def test_chord_matches_bisection_reference_for_a_moving_beam(self):
+        import image_acceptance,periodic_frame
+        renderers=[];images=[]
+        for mode in ('chord','bisect'):
+            renderer=beam_render.Renderer(surface=dict(width=64,height=48),backend='compiled',
+                max_dt_s=1e-6,pixel_mode=mode)
+            renderer.render([row(0,ih=-.1),row(10e-6,beam=30e-6,ih=.1)],[0,10e-6])
+            _,linear,_=periodic_frame.equilibrium(renderer,0,10e-6)
+            renderers.append(renderer);images.append(linear)
+        self.assertLess(image_acceptance.error(*images,renderers[0].surface.areas),.01)
+        self.assertLess(renderers[0].bundles,renderers[1].bundles)
+        self.assertAlmostEqual(renderers[0].incident_j/renderers[1].incident_j,1,delta=.001)
+
     def test_continuation_preserves_phosphor_arrivals_and_energy(self):
         args=dict(surface=dict(width=32,height=24),max_dt_s=2e-8)
         rows=[row(0),row(2e-7),row(4e-7,beam=0)]

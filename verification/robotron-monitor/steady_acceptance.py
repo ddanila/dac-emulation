@@ -45,13 +45,14 @@ def compare(base, other, metadata, *, sample_hz=27648000):
         full_monitor_qualified=False,scope='same-phase-electrical-waveforms')
 
 
-def optical_worker(trace, output, deadline, *, spatial=False, fine=False, field_path=None):
+def optical_worker(trace, output, deadline, *, spatial=False, fine=False, field_path=None, diagnostic=False):
     remaining=deadline-time.monotonic()
     if remaining<=0:return dict(status='blocked',reason='whole-run wall budget exhausted')
     root=Path(__file__).parent
     cmd=[sys.executable,str(root/'periodic_frame.py'),'--trace',str(trace),'--output',str(output),'--assume-periodic']
     cmd+=['--cache',str(output.parent.parent.parent/'optical-cache')]
     if field_path is not None:cmd+=['--field-parameters',str(field_path)]
+    if diagnostic:cmd+=['--width','240','--height','180','--max-interval-s',str(200e-9)]
     if spatial:cmd+=['--width','960','--height','720']
     if fine:cmd+=['--trajectory-step-m','.0001','--max-interval-s',str(1/55296000)]
     try:
@@ -78,7 +79,38 @@ def diagnose(trial, metadata, capture, field, deadline):
                 report=str(trial/'diagnostics/diagnostics.json'),log=str(trial/'diagnostics.log'))
 
 
-def finish(assembly, selection, candidate, metadata, trial, output, runtime, solver, deadline):
+def diagnostic_frame(trial,metadata,output,settling,deadline):
+    """Render this completed trial only, preserving its failed electrical checks."""
+    out=Path(output);out.mkdir(parents=True,exist_ok=False)
+    report=dict(format='dac-connected-diagnostic-frame-v1',status='blocked',
+        qualification='unaccepted-connected-trial',accepted_warmed_frame=False,
+        full_monitor_qualified=False,specimen_validated=False,
+        source_trial=str(Path(trial).resolve()),settling=settling,experiment=metadata.get('experiment'),outputs={})
+    def save():
+        (out/'diagnostic.json').write_text(json.dumps(report,indent=2)+'\n')
+        return report
+    save()
+    if time.monotonic()>=deadline:
+        report['reason']='render budget exhausted; no older image substituted';return save()
+    import hashlib
+    deck=Path(trial)/'run.cir'
+    report['deck_sha256']=hashlib.sha256(deck.read_bytes()).hexdigest()
+    report['run_id']=report['deck_sha256'][:16]
+    end=metadata['period_s']*metadata['simulated_fields']
+    trace=out/'field.csv'
+    report['trace']=steady_trace.export(Path(trial)/'trace.raw',trace,start_s=end-metadata['period_s'],end_s=end)
+    field=metadata.get('yoke',{}).get('field',{})
+    path=out/'field-parameters.json';path.write_text(json.dumps(field,indent=2)+'\n')
+    report['preview_settings']=dict(width=240,height=180,max_interval_s=200e-9,trajectory_step_m=.0002,refinement_verified=False)
+    report['render']=optical_worker(trace,out/'optical',deadline,field_path=path,diagnostic=True)
+    if report['render']['status']=='complete':
+        report['status']='diagnostic-only'
+        report['outputs']={name:str(Path('optical')/name) for name in ('frame.png','frame.f32','frame.json')}
+    else:report['reason']=report['render'].get('reason','render did not complete')
+    return save()
+
+
+def finish(assembly, selection, candidate, metadata, trial, output, runtime, solver, deadline, *, electrical_cache=None):
     """Only called after settling; every independent failure stops promotion."""
     out=Path(output);out.mkdir(parents=True,exist_ok=False)
     report=dict(format='dac-steady-reference-acceptance-v1',status='blocked',checks={},blockers=[],
@@ -98,9 +130,10 @@ def finish(assembly, selection, candidate, metadata, trial, output, runtime, sol
         if remaining<=0:report['blockers'].append('whole-run wall budget exhausted');return save()
         deck,meta=steady_supply.deck(assembly,selection,candidate,fields=metadata['simulated_fields'],**options)
         destination=out/name
-        solved=steady_supply.solve(deck,destination,runtime,timeout_s=remaining)
+        import electrical_cache as trace_cache
+        solved=trace_cache.solve(deck,destination,runtime,timeout_s=remaining,cache=electrical_cache)
         (destination/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n')
-        check=dict(solve=solved);report['checks'][name]=check;save()
+        check=dict(solve=solved,trial=str(destination.resolve()),metadata=meta);report['checks'][name]=check;save()
         if solved['status']!='complete':report['blockers'].append(name+' solver failed');return save()
         check['settling']=steady_supply.assess(destination/'trace.raw',meta,selection)
         check['comparison']=compare(Path(trial)/'trace.raw',destination/'trace.raw',metadata)
@@ -123,6 +156,7 @@ def finish(assembly, selection, candidate, metadata, trial, output, runtime, sol
     # gates explicit until electrode interception and the circuit energy ledger
     # exist; never silently equate optical energy closure with electrical closure.
     report['blockers'] += ['Trajectory interception is not coupled back to electrode loads.',
-                          'Complete circuit power/storage/loss energy closure is not implemented.',
-                          'Yoke inductance and magnetic deflection remain independently assumed.']
+                          'Complete circuit power/storage/loss energy closure is not implemented.']
+    if not assembly['yoke']['inductance_field_relationship_verified']:
+        report['blockers'].append('Yoke inductance and magnetic deflection remain independently assumed.')
     return save()

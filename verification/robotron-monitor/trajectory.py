@@ -99,9 +99,15 @@ def ray(anode,grid2,focus,ih,iv,*,origin=(0.,0.),slope=(0.,0.),step_m=.0002,over
     z=0.
     points=[[z,state[0],state[1]]]
     max_error=0.
-    for index in range(math.ceil(p['screen_z_m']/step_m)+2):
+    gun_end=p['anode_start_m']+p['anode_length_m']
+    neck_end=p['yoke_start_m']+p['yoke_length_m']
+    boundaries=sorted({p['grid2_length_m'],p['focus_start_m'],
+        p['focus_start_m']+p['focus_length_m'],p['anode_start_m'],
+        gun_end,p['yoke_start_m'],neck_end,p['screen_z_m']})
+    for index in range(math.ceil(p['screen_z_m']/step_m)+len(boundaries)+2):
         old=state; previous_z=z
-        h=min(step_m,p['screen_z_m']-z)
+        end=min(z+step_m,next(b for b in boundaries if b>z))
+        h=end-z
         try:
             a=rhs(z,old)
             b=rhs(z+h/2,[s+h*v/2 for s,v in zip(old,a)])
@@ -110,7 +116,7 @@ def ray(anode,grid2,focus,ih,iv,*,origin=(0.,0.),slope=(0.,0.),step_m=.0002,over
         except ArithmeticError:
             result['reason']='electron reversed'; break
         state=[s+h*(v+2*w+2*t+r)/6 for s,v,w,t,r in zip(old,a,b,c,d)]
-        z+=h
+        z=end
         if not all(math.isfinite(v) for v in state):
             raise ValueError('nonfinite trajectory')
         k=REST_EV*(math.sqrt(1+sum(v*v for v in state[2:5]))-1)
@@ -118,10 +124,11 @@ def ray(anode,grid2,focus,ih,iv,*,origin=(0.,0.),slope=(0.,0.),step_m=.0002,over
         max_error=max(max_error,abs(k-phi-energy0))
         if state[4]<=0:
             result['reason']='electron reversed';break
-        gun_end=p['anode_start_m']+p['anode_length_m']
-        if z<gun_end and math.hypot(*state[:2])>p['gun_radius_m']:
+        # Test the closed exit face of the aperture we just traversed. Testing
+        # only z < end can let a coarse step escape through the cylindrical wall.
+        if previous_z<gun_end and math.hypot(*state[:2])>p['gun_radius_m']:
             result['reason']='gun aperture';break
-        if gun_end<=z<p['yoke_start_m']+p['yoke_length_m'] and math.hypot(*state[:2])>p['neck_radius_m']:
+        if gun_end<=previous_z<neck_end and math.hypot(*state[:2])>p['neck_radius_m']:
             result['reason']='neck aperture';break
         if z>=surface(state):
             # Bisect the final integration segment against the curved screen.

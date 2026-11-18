@@ -65,8 +65,10 @@ def read_trace(path):
 
 class Renderer:
     def __init__(self,*,surface=None,field=None,step_m=.0002,max_dt_s=1/27648000,
-                 movement_pixels=.25,bundle_budget=2000000,continuation=None,backend="python"):
+                 movement_pixels=.25,bundle_budget=2000000,continuation=None,backend="python",pixel_mode="chord"):
         if backend not in ('python','compiled'):raise ValueError('unknown trajectory backend')
+        if pixel_mode not in ('chord','bisect'):raise ValueError('unknown pixel integration mode')
+        self.pixel_mode=pixel_mode
         self.backend=backend;self.native=None
         if backend=='compiled':
             import trajectory_native
@@ -86,7 +88,7 @@ class Renderer:
         if continuation is not None:self._restore(continuation)
 
     def _restore(self,state):
-        settings=dict(field=self.field,step_m=self.step_m,max_dt_s=self.max_dt,movement_pixels=self.movement,backend=self.backend)
+        settings=dict(field=self.field,step_m=self.step_m,max_dt_s=self.max_dt,movement_pixels=self.movement,backend=self.backend,pixel_mode=self.pixel_mode)
         if state.get('format')!='dac-optical-state-v1' or state.get('settings')!=settings or state.get('model_hashes')!=model_hashes():
             raise ValueError('incompatible optical continuation')
         restored=phosphor.Surface.restore(state['surface'])
@@ -110,7 +112,7 @@ class Renderer:
 
     def checkpoint(self):
         if not self.completed or self.last_row is None:raise ValueError('no completed optical window')
-        return dict(format='dac-optical-state-v1',model_hashes=model_hashes(),settings=dict(field=self.field.copy(),step_m=self.step_m,max_dt_s=self.max_dt,movement_pixels=self.movement,backend=self.backend),
+        return dict(format='dac-optical-state-v1',model_hashes=model_hashes(),settings=dict(field=self.field.copy(),step_m=self.step_m,max_dt_s=self.max_dt,movement_pixels=self.movement,backend=self.backend,pixel_mode=self.pixel_mode),
                     surface=self.surface.checkpoint(),last_electrical_row=list(self.last_row),
                     arrivals=[[e[0],*e[2:]] for e in sorted(self.events)],
                     kinetic_energy=dict(terminal_j=self.incident_j,intercepted_j=self.intercepted_j))
@@ -144,10 +146,11 @@ class Renderer:
             self._segment(a,mid,depth+1);self._segment(mid,b,depth+1);return
         left,center,right=(self.bundle(r) for r in (a,mid,b))
         scale=(self.surface.scale,self.surface.scale)
-        displacement=0.;changed=False
+        displacement=0.;curvature=0.;changed=False
         for ra,rm,rb in zip(left['rays'],center['rays'],right['rays']):
             changed |= len({r['landed'] for r in (ra,rm,rb)})>1
             if all(r['landed'] for r in (ra,rm,rb)):
+                curvature=max(curvature,math.hypot((rm['x_m']-(ra['x_m']+rb['x_m'])/2)*scale[0],(rm['y_m']-(ra['y_m']+rb['y_m'])/2)*scale[1]))
                 displacement=max(displacement,math.hypot((ra['x_m']-rb['x_m'])*scale[0],(ra['y_m']-rb['y_m'])*scale[1]),
                                  2*math.hypot((rm['x_m']-(ra['x_m']+rb['x_m'])/2)*scale[0],(rm['y_m']-(ra['y_m']+rb['y_m'])/2)*scale[1]))
         # Resolve physical pixel crossings before depositing a midpoint ray.
@@ -156,10 +159,15 @@ class Renderer:
                     or self.surface.cell(ra['x_m'],ra['y_m'])!=self.surface.cell(rm['x_m'],rm['y_m'])
                     for ra,rm,rb in zip(left['rays'],center['rays'],right['rays'])
                     if all(r['landed'] for r in (ra,rm,rb)))
-        if (changed or crossed or displacement>self.movement) and dt>1e-12:
+        if (changed or (crossed and self.pixel_mode=='bisect') or displacement>self.movement or
+                (self.pixel_mode=='chord' and curvature>min(.001,self.movement/8))) and dt>1e-12:
             self._segment(a,mid,depth+1);self._segment(mid,b,depth+1);return
         self.samples+=1
-        for ray in center['rays']:
+        for ra,ray,rb in zip(left['rays'],center['rays'],right['rays']):
+            if self.pixel_mode=='chord' and all(r['landed'] for r in (ra,ray,rb)):
+                self._chord(a,mid,ra,ray,len(center['rays']))
+                self._chord(mid,b,ray,rb,len(center['rays']))
+                continue
             joules=mid[-1]*dt*max(ray['impact_energy_ev'],0)/len(center['rays'])
             self.incident_j+=joules
             if ray['landed']:
@@ -169,6 +177,35 @@ class Renderer:
             else:self.intercepted_j+=joules
         # Ordered arrivals account for flight time without shifting the input clock.
         self._drain(a[0])
+
+    def _chord(self,a,b,left,right,ray_count):
+        """Integrate a short linear ray chord exactly over projected pixel cells.
+
+        Positions and arrival times are interpolated only after midpoint curvature
+        has passed the adaptive tolerance. I(t)*impact_energy(t) is quadratic;
+        Simpson's rule on each cell interval integrates that polynomial exactly.
+        No charge is dropped, and there is no spatial blur or image registration.
+        """
+        cuts={0.,1.};w,h=self.surface.p['width'],self.surface.p['height']
+        for x0,x1 in ((left['x_m']*self.surface.scale+w/2,right['x_m']*self.surface.scale+w/2),
+                      (h/2-left['y_m']*self.surface.scale,h/2-right['y_m']*self.surface.scale)):
+            if x0==x1:continue
+            for boundary in range(math.floor(min(x0,x1))+1,math.ceil(max(x0,x1))):
+                f=(boundary-x0)/(x1-x0)
+                if 0<f<1:cuts.add(f)
+        cuts=sorted(cuts);dt=b[0]-a[0]
+        def power(f):
+            current=a[-1]+f*(b[-1]-a[-1])
+            energy=left['impact_energy_ev']+f*(right['impact_energy_ev']-left['impact_energy_ev'])
+            return max(0,current)*max(0,energy)
+        for lo,hi in zip(cuts,cuts[1:]):
+            f=(lo+hi)/2
+            joules=dt*(hi-lo)*(power(lo)+4*power(f)+power(hi))/(6*ray_count)
+            self.incident_j+=joules;self.serial+=1
+            when=a[0]+f*dt+left['flight_s']+f*(right['flight_s']-left['flight_s'])
+            x=left['x_m']+f*(right['x_m']-left['x_m']);y=left['y_m']+f*(right['y_m']-left['y_m'])
+            heapq.heappush(self.events,(when,self.serial,x,y,joules))
+            if len(self.events)>1000000:raise ValueError('arrival budget exceeded')
 
     def render(self,rows,frame_times):
         if not 2<=len(rows)<=1000000:raise ValueError('invalid electrical row count')
@@ -219,7 +256,7 @@ class Renderer:
         return self.frames
 
     def report(self):
-        return dict(parameters=self.surface.p,field_parameters=self.field,trajectory_step_m=self.step_m,
+        return dict(parameters=self.surface.p,field_parameters=self.field,trajectory_step_m=self.step_m,pixel_integration=self.pixel_mode,
                     backend=self.backend,backend_build=None if self.native is None else self.native.receipt,
                     max_interval_s=self.max_dt,movement_limit_pixels=self.movement,bundles=self.bundles,
                     optical_continuation=self.continuation,emission_intervals=self.samples,energy=self.surface.balance()|dict(

@@ -114,6 +114,17 @@ class ReferenceTests(unittest.TestCase):
         self.assertFalse(meta['full_monitor_qualified'])
         with self.assertRaises(ValueError):horizontal_isolation.make_deck({},30)
 
+    def test_expired_diagnostic_budget_does_not_substitute_old_image(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            with mock.patch.object(steady_acceptance,'optical_worker') as worker:
+                r=steady_acceptance.diagnostic_frame(root/'new-trial',{},root/'diagnostic',
+                    dict(accepted=False,failures=['unlocked']),time.monotonic()-1)
+            self.assertEqual(r['status'],'blocked')
+            self.assertEqual(r['outputs'],{})
+            self.assertFalse(r['accepted_warmed_frame'])
+            worker.assert_not_called()
+
     def test_sparse_source_is_not_a_collapsed_raster(self):
         selection=dict(period_ticks=400,line_period_ticks=100,clock_hz=10000,
                        events=[[0,0,1,0],[310,1,1,0],[320,0,1,0]])
