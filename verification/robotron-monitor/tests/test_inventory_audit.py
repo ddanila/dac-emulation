@@ -63,6 +63,28 @@ class InventoryAuditTests(unittest.TestCase):
             self.assertEqual(row['description'], 'KT-Kondensator 100/10/630')
             self.assertEqual(row['article'], '0.7745 3400.0/90')
 
+    def test_raw_multiline_table_is_preferred_over_broken_csv(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            inventory = json.loads(inventory_audit.INVENTORY.read_text())
+            (root / 'page_007.alt.csv').write_text('broken,output\n')
+            (root / 'page_007.alt.raw.txt').write_text(
+                '<<<TABLE name="parts">>>\n'
+                'Kurzzeichen;Stückzahl;Benennung;Sachnummer\n'
+                '"R1, R3, R29";3;"Schichtwiderstand\n'
+                '2,7 kOhm 5 %";"0.7121 3400.0/90"\n'
+                '<<<END>>>\n')
+            report = inventory_audit.audit(inventory, root)
+            point = next(e for e in report['entries'] if e['id'] == '012-6921:R1')
+            self.assertIn('alt', point['readings'])
+            self.assertIn('2,7 kOhm', point['readings']['alt']['description'])
+
+    def test_secondary_stock_cross_reference_can_be_a_separate_column(self):
+        self.assertEqual(inventory_audit._primary_article(
+            '0.7470 0808.0/90 005-0-509-861'), '0.7470 0808.0/90')
+        self.assertEqual(inventory_audit._primary_article('0.7470 0808.0/90'),
+                         '0.7470 0808.0/90')
+
     def test_agreed_wrong_value_stays_for_review(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

@@ -7,6 +7,7 @@ approval: even three identical readings need comparison with the inventory.
 import argparse
 import collections
 import csv
+import io
 import json
 import re
 from pathlib import Path
@@ -20,7 +21,12 @@ ARTICLE = re.compile(r'^\d\.\d{2,}')
 
 
 def _readings(path):
-    with path.open(newline='') as stream:
+    with path.open(newline='') as source:
+        raw = source.read()
+        if path.name.endswith('.raw.txt'):
+            raw = ''.join(line for line in raw.splitlines(keepends=True)
+                          if not line.startswith('<<<'))
+        stream = io.StringIO(raw)
         header = stream.readline()
         stream.seek(0)
         delimiter = ';' if 'Kurzzeichen;' in header else ','
@@ -70,6 +76,10 @@ def _readings(path):
 
 def _key(description):
     return re.sub(r'[^a-z0-9]+', '', description.lower())
+
+
+def _primary_article(article):
+    return re.sub(r'\s+\d{3}-\d-\d{3}-\d{3}.*$', '', article or '')
 
 
 def _number_forms(number):
@@ -124,6 +134,8 @@ def audit(inventory, ocr_root):
             for tag in TAGS:
                 name = f'page_{page:03d}' + ('' if tag == 'primary' else f'.{tag}') + '.csv'
                 path = ocr_root / name
+                if tag == 'alt' and (ocr_root / f'page_{page:03d}.alt.raw.txt').is_file():
+                    path = ocr_root / f'page_{page:03d}.alt.raw.txt'
                 if path.is_file():
                     sources[tag] = list(_readings(path))
         for part in entries:
@@ -140,7 +152,7 @@ def audit(inventory, ocr_root):
             groups = collections.defaultdict(list)
             for tag, reading in matches.items():
                 if 'description' in reading:
-                    groups[_key(reading['description']+' '+(reading['article'] or ''))].append(tag)
+                    groups[_key(reading['description']+' '+_primary_article(reading['article']))].append(tag)
             largest = max(groups.values(), key=len, default=[])
             comparison = (_printed_value_matches(part, matches[largest[0]])
                           if len(largest) >= 3 else None)

@@ -111,9 +111,9 @@ python3.14 verification/robotron-monitor/inventory_audit.py \
   --output build/monitor/phase-a/inventory-audit.json
 ```
 
-After the third full-page vision pass available on 2026-11-18, 161 entries had
+After the third full-page vision pass available on 2026-11-18, 223 entries had
 three identical machine descriptions and stock numbers that also matched the
-inventory's value or type; 92 parts-list entries still needed more source
+inventory's value or type; 30 parts-list entries still needed more source
 evidence or review, and seven schematic-only entries needed schematic review.
 These counts are interim and will change as the crop passes finish.
 
