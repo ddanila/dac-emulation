@@ -26,6 +26,8 @@ class PhaseAGateTests(unittest.TestCase):
                     'points':[{'test_point':n,'status':'pass-numeric'} for n in range(1,18)]}
         self.evidence={'format':'dac-monitor-phase-a-gate-evidence-v1',
                        'electrical_trace_sha256':'c'*64,'native_capture_sha256':'d'*64,
+                       'waveform_reviews':{str(n):{'shape':'agrees','operating_conditions':'agrees',
+                                                   'reviewer':'test fixture'} for n in range(1,18)},
                        'horizontal_lock':{'reference_edges':936,'flybacks_in_window':936,'matched_edges':936,
                                           'missing_edges':0,'reused_flybacks':0,'unmatched_flybacks':0,
                                           'phase_variation_lines':.005,'fields':3,'maximum_adjacent_jitter_s':30e-9},
@@ -60,6 +62,14 @@ class PhaseAGateTests(unittest.TestCase):
         evidence['held_out_explanations']={'1':'review device model against schematic'}
         result=phase_a_gates.evaluate(evidence,score,self.freeze)
         self.assertFalse(result['accepted'])
+        self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G4'))
+
+    def test_numeric_match_without_waveform_review_cannot_pass(self):
+        evidence=copy.deepcopy(self.evidence)
+        del evidence['waveform_reviews']['14']
+        del evidence['waveform_reviews']['1']
+        result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
+        self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G3'))
         self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G4'))
 
 
