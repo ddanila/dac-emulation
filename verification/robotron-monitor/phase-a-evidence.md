@@ -246,7 +246,7 @@ completed field. The partial raw file holds 5,967,737 complete 42-vector rows
 but has no finalized point count. In its last 250,000 rows (13.375–13.964 ms),
 `h_sync` ranges from −36 to 636 V and crosses upward through 100 V 2,864
 times with a 0.075 µs median separation. Mean EHT over that incomplete tail is
-about 1.72 kV, while modeled launch, emission and beam currents are all zero
+about 1.63 kV when integrated over time, while modeled launch, emission and beam currents are all zero
 in the same sampled tail. These are unsteady diagnostic values, not a service score or a
 calibration result. The extended run confirms that fast ringing persists and
 that completing four fields with this candidate/deck is not a useful next
@@ -275,6 +275,36 @@ These counts cover an incomplete first field and do not establish a waveform
 period or final TP17 amplitude. They do establish that the long run was moving
 away from the 11–12 kV target while fast crossings consumed solver steps, so
 it must not be used as a calibration freeze or a settled grid result.
+In the 9–10 ms window, the horizontal drive collector and yoke current each
+cross their own midrange about 16 times (near line rate), while `h_sync`
+crosses 100 V upward 13,897 times. The `h_feedback` midrange has 530 upward
+crossings. This localizes the excess high-frequency activity to flyback-derived
+nodes rather than the drive collector, but does not distinguish a wrong
+winding, diode direction, parasitic assumption or load.
+
+Two controlled 1 ms experiments changed only one T3 winding-group polarity
+at a time in the archived KLU/Gear deck; all numerical magnetic parameters,
+external connections, 50 ns maximum step and input grid were retained. The
+compiled original T3 subcircuit was checked byte-for-byte against the deck
+before replacement. The alternate solver receipts both report complete runs
+in ignored directories `t3-aux-reverse-1ms-20261118-run/` and
+`t3-hv-reverse-1ms-20261118-run/`. The baseline values below use only the
+first millisecond of the stopped original trace. EHT values are integrated
+over elapsed time; TP17 counts are upward 100 V crossings.
+
+| T3 polarity hypothesis | Mean EHT, first 1 ms | TP17 crossings | TP14 swing | TP15 swing | TP17 swing |
+|---|---:|---:|---:|---:|---:|
+| All positive, `t3-44fb6052dcdfdb29` | 2.85 kV | 8 | 48.2 V | 29.1 V | 191.6 V |
+| Auxiliary reversed, `t3-22e62e4df5229e36` | 2.77 kV | 455 | 49.9 V | 29.1 V | 215.4 V |
+| High-voltage reversed, `t3-cdfa114cc8dc83f4` | 1.15 kV | 1 | 68.2 V | 29.1 V | 120.2 V |
+
+The manual's approximate calibration swings are 70, 45 and 80 V for TP14,
+TP15 and TP17. Auxiliary reversal increases early TP17 crossing activity;
+high-voltage reversal moves TP14 closer to its guide while reducing EHT even
+further. All three have zero modeled beam launch during this first millisecond.
+These startup results cannot prune a T3 candidate or establish G3: the manual
+comparisons require a settled, complete field after source connectivity and
+polarity review.
 The diagnostic can be regenerated with:
 
 ```sh
