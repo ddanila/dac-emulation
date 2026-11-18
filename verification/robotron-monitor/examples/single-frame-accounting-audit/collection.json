@@ -1,0 +1,75 @@
+{
+  "format": "dac-collection-summary-v1",
+  "profile": {
+    "format": "dac-reduced-collectors-v1",
+    "id": "anode-sleeve-v1",
+    "qualification": "engineering-surrogate",
+    "specimen_validated": false,
+    "surfaces": {
+      "screen": "anode",
+      "screen clipping": "anode",
+      "neck aperture": "anode"
+    },
+    "assumptions": [
+      "The post-gun neck/funnel is an absorbing anode-connected sleeve, not a model of real glass.",
+      "Grid-2 interception is accounted before trajectory launch.",
+      "Gun-wall, reversed and incomplete trajectories have no supported collector."
+    ]
+  },
+  "period_s": 0.019500000000000003,
+  "bins": 539136,
+  "emitted_charge_c": 1.8583891406740551e-09,
+  "integrated_launch_charge_c": 1.8583891406734625e-09,
+  "collected_charge_c": {
+    "anode": 1.8583891406740593e-09,
+    "unresolved": 0.0
+  },
+  "surface_charge_c": {
+    "phosphor": 9.321706393646503e-10,
+    "anode-sleeve": 9.262185013092559e-10
+  },
+  "late_arrival_charge_c": 0.0,
+  "periodic_in_flight_charge_change_c": 0.0,
+  "charge_relative_error": 2.225531226073032e-15,
+  "unresolved_fraction": 0.0,
+  "charge_accepted": true,
+  "terminal_kinetic_j": 1.446565081134591e-05,
+  "launch_energy_j": 3.716778281346925e-08,
+  "trajectory_electric_work_j": 1.4428483028532643e-05,
+  "electrical_energy_verified": false,
+  "full_monitor_qualified": false,
+  "hashes": {
+    "beam_render.py": "56cbc193abf1567f0ee035f2ace53ca183519f5ed6f31f1cfad507162ca1fff8",
+    "trajectory.py": "713713d2d4ecee9c82a702deda7c362d63b2b3c55d3c91e7a685ed4153c36c4c",
+    "trajectory_native.py": "fac9ce2e244bc78c8ccdcdc33c9d5519f412020963624dda7882f4e4677f16f7",
+    "trajectory_native.cpp": "c08b804788204fadfe765eee671afe24bfff5ffa9b7b791e6727ab76a3151d68",
+    "phosphor.py": "94ae0c41adf7321aa9f4ba2a4025c98e7c660e9fe65613894a25da4cac1e9391",
+    "optics.py": "afb3e7d70a50a907bb243e8c67097ddd04013c47dd3510f9ed24aaca08bd6580",
+    "collection.py": "f871fedcea3838475a505fc7d99f8910330f4384847d1076c11e57a06d710905",
+    "input.csv": "77c00ac60683b205494d225e2a6306e1972253ba32629749dc9177ed5ffffc2d"
+  },
+  "field_parameters": {
+    "screen_z_m": 0.28,
+    "screen_radius_m": 0.45,
+    "screen_width_m": 0.21,
+    "screen_height_m": 0.145,
+    "gun_radius_m": 0.002,
+    "neck_radius_m": 0.01,
+    "yoke_start_m": 0.075,
+    "yoke_length_m": 0.04,
+    "horizontal_tesla_per_amp": 0.007979477182945251,
+    "vertical_tesla_per_amp": 0.012196125520739134,
+    "initial_energy_ev": 20.0,
+    "source_radius_m": 5e-06,
+    "divergence_rad": 0.001,
+    "grid2_length_m": 0.012,
+    "focus_start_m": 0.015,
+    "focus_length_m": 0.015,
+    "anode_start_m": 0.04,
+    "anode_length_m": 0.03
+  },
+  "trajectory_step_m": 0.0002,
+  "max_interval_s": 3.616898148148148e-08,
+  "original_sha256": "778fe84af3fbfef669b7db72001b7e12347d7ca3a676ba2eb7b73861f5e610b3",
+  "qualification": "uncoupled-initial-collection; current arrays retained only in build archive"
+}

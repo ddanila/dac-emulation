@@ -34,8 +34,10 @@ It therefore does not justify rejecting transformer polarities or selecting a
 connected-loop winner. The earlier `loop-response/` archive records the preceding
 trace and older phase-resampling method; it is superseded for screening.
 
-Two further implementation gaps remain: interception-dependent electrode-current
-feedback and a complete electrical power/storage/loss ledger. Optical kinetic
+At the time of this archive, interception-dependent electrode-current feedback
+and a complete electrical power/storage/loss ledger were implementation gaps.
+The later [accounting audit](../single-frame-accounting-audit/README.md) implements
+these checks and records the current blockers. Optical kinetic
 energy closure does not satisfy either requirement. No accepted experiment can
 be issued from this archive.
 

@@ -26,7 +26,7 @@ def digest(data):return hashlib.sha256(data).hexdigest()
 
 def model_hashes():
     return {name:digest((Path(__file__).parent/name).read_bytes())
-            for name in ('beam_render.py','trajectory.py','trajectory_native.py','trajectory_native.cpp','phosphor.py','optics.py')}
+            for name in ('beam_render.py','trajectory.py','trajectory_native.py','trajectory_native.cpp','phosphor.py','optics.py','collection.py')}
 
 
 def iter_trace(path, *, byte_budget=256*1024*1024, row_budget=1000000, duration_budget_s=1.):
@@ -65,7 +65,9 @@ def read_trace(path):
 
 class Renderer:
     def __init__(self,*,surface=None,field=None,step_m=.0002,max_dt_s=1/27648000,
-                 movement_pixels=.25,bundle_budget=2000000,continuation=None,backend="python",pixel_mode="chord"):
+                 movement_pixels=.25,bundle_budget=2000000,continuation=None,backend="python",pixel_mode="chord",on_collection=None):
+        if continuation is not None and on_collection is not None:raise ValueError('collection requires a complete periodic field')
+        self.on_collection=on_collection
         if backend not in ('python','compiled'):raise ValueError('unknown trajectory backend')
         if pixel_mode not in ('chord','bisect'):raise ValueError('unknown pixel integration mode')
         self.pixel_mode=pixel_mode
@@ -148,7 +150,7 @@ class Renderer:
         scale=(self.surface.scale,self.surface.scale)
         displacement=0.;curvature=0.;changed=False
         for ra,rm,rb in zip(left['rays'],center['rays'],right['rays']):
-            changed |= len({r['landed'] for r in (ra,rm,rb)})>1
+            changed |= len({(r['landed'],r.get('collector'),r.get('collection_surface')) for r in (ra,rm,rb)})>1
             if all(r['landed'] for r in (ra,rm,rb)):
                 curvature=max(curvature,math.hypot((rm['x_m']-(ra['x_m']+rb['x_m'])/2)*scale[0],(rm['y_m']-(ra['y_m']+rb['y_m'])/2)*scale[1]))
                 displacement=max(displacement,math.hypot((ra['x_m']-rb['x_m'])*scale[0],(ra['y_m']-rb['y_m'])*scale[1]),
@@ -169,6 +171,8 @@ class Renderer:
                 self._chord(mid,b,ray,rb,len(center['rays']))
                 continue
             joules=mid[-1]*dt*max(ray['impact_energy_ev'],0)/len(center['rays'])
+            if self.on_collection is not None:
+                self.on_collection(mid[0],mid[0]+ray['flight_s'],mid[-1]*dt/len(center['rays']),joules,ray['collector'],ray['collection_surface'])
             self.incident_j+=joules
             if ray['landed']:
                 self.serial+=1
@@ -203,6 +207,9 @@ class Renderer:
             joules=dt*(hi-lo)*(power(lo)+4*power(f)+power(hi))/(6*ray_count)
             self.incident_j+=joules;self.serial+=1
             when=a[0]+f*dt+left['flight_s']+f*(right['flight_s']-left['flight_s'])
+            if self.on_collection is not None:
+                charge=dt*(hi-lo)*(a[-1]+f*(b[-1]-a[-1]))/ray_count
+                self.on_collection(a[0]+f*dt,when,charge,joules,left['collector'],left['collection_surface'])
             x=left['x_m']+f*(right['x_m']-left['x_m']);y=left['y_m']+f*(right['y_m']-left['y_m'])
             heapq.heappush(self.events,(when,self.serial,x,y,joules))
             if len(self.events)>1000000:raise ValueError('arrival budget exceeded')

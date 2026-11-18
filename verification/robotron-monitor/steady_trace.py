@@ -20,7 +20,7 @@ def export(raw, output, *, start_s, end_s):
         raise ValueError('invalid requested field')
     raw=Path(raw);out=Path(output)
     with raw.open('rb') as stream:before=hashlib.file_digest(stream,'sha256').hexdigest()
-    previous=None;count=0;first=last=None
+    previous=None;count=0;first=last=None;probes=None
     with out.open('x',newline='') as stream:
         writer=csv.writer(stream);writer.writerow(beam_render.FIELDS)
         def write(t,values):
@@ -32,7 +32,12 @@ def export(raw, output, *, start_s, end_s):
             if first is None:first=t
             last=t
         for row in steady_supply.raw_rows(raw):
-            t=row['time'];v=tuple(row[p] for p in PROBES)
+            if probes is None:
+                probes=next(((*PROBES[:-1],name) for name in ('v(xcrt.launch_current_ua)','v(xcrt.launch_current)') if name in row),PROBES)
+            t=row['time'];v=tuple(row[p] for p in probes)
+            for boundary in (start_s,end_s):
+                if abs(t-boundary)<=4*math.ulp(boundary):t=boundary
+            if probes[-1]=='v(xcrt.launch_current_ua)':v=(*v[:-1],v[-1]*1e-6)
             if previous is not None:
                 pt,pv=previous
                 for boundary in (start_s,end_s):
@@ -50,8 +55,10 @@ def export(raw, output, *, start_s, end_s):
         trace_sha256=result_hash,original_start_s=start_s,original_end_s=end_s,
         trace_start_s=0,trace_end_s=end_s-start_s,rows=count,
         electrical_settling_verified=False,full_monitor_qualified=False,specimen_validated=False,
-        probe_mapping=dict(zip(beam_render.FIELDS[1:],PROBES)),
-        limitations=['B31G22 gun entrance current follows the bounded electrothermal load; trajectory interception is not fed back to each electrode.',
+        probe_mapping=dict(zip(beam_render.FIELDS[1:],probes)),
+        current_probe_scale=1e-6 if probes[-1]=='v(xcrt.launch_current_ua)' else 1.,
+        current_definition='post-grid2-launch' if probes[-1] in ('v(xcrt.launch_current)','v(xcrt.launch_current_ua)') else 'legacy-assumed-anode-load',
+        limitations=['Collection feedback and charge accounting must be independently verified; a launch-current probe alone does not establish coupling.',
                      'This exporter does not establish source provenance, synchronization, numerical refinement or periodic state.'])
     out.with_suffix('.json').write_text(json.dumps(report,indent=2)+'\n')
     return report

@@ -1,0 +1,30 @@
+{
+  "format": "dac-steady-field-trace-v1",
+  "status": "complete",
+  "qualification": "diagnostic-connected-circuit-field",
+  "raw_sha256": "8251df6e613b435048ebca3f080a1f654008e5fd2cea49be931e8e9ca386d6cd",
+  "trace_sha256": "77c00ac60683b205494d225e2a6306e1972253ba32629749dc9177ed5ffffc2d",
+  "original_start_s": 0.058499999999999996,
+  "original_end_s": 0.078,
+  "trace_start_s": 0,
+  "trace_end_s": 0.019500000000000003,
+  "rows": 155986,
+  "electrical_settling_verified": false,
+  "full_monitor_qualified": false,
+  "specimen_validated": false,
+  "probe_mapping": {
+    "anode_v": "v(eht)",
+    "grid2_v": "v(g2)",
+    "focus_v": "v(g4)",
+    "cathode_v": "v(cathode)",
+    "horizontal_a": "i(lhorizontal)",
+    "vertical_a": "i(lvertical)",
+    "beam_a": "v(xcrt.launch_current_ua)"
+  },
+  "current_probe_scale": 1e-06,
+  "current_definition": "post-grid2-launch",
+  "limitations": [
+    "Collection feedback and charge accounting must be independently verified; a launch-current probe alone does not establish coupling.",
+    "This exporter does not establish source provenance, synchronization, numerical refinement or periodic state."
+  ]
+}

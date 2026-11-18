@@ -1,0 +1,51 @@
+{
+  "format": "dac-steady-supply-settling-v1",
+  "accepted": false,
+  "failures": [
+    "nonperiodic v(eht)",
+    "nonperiodic v(g2)",
+    "nonperiodic v(g4)",
+    "nonperiodic i(lhorizontal)",
+    "nonperiodic v(x1136.xshared.flux_b)",
+    "horizontal phase drift exceeds 0.01 line",
+    "flyback does not track captured native sync edges"
+  ],
+  "complete": true,
+  "phase_samples_per_field": 539136,
+  "rows": 618184,
+  "simulated_until_s": 0.078,
+  "waveform_relative_rms_error": {
+    "v(eht)": 0.05806367824353542,
+    "v(g2)": 0.044929400845170504,
+    "v(g4)": 0.04493057549240578,
+    "v(cathode)": 0.00026700305456157876,
+    "i(lhorizontal)": 0.7891805875823632,
+    "i(lvertical)": 0.008189675080379915,
+    "v(x1136.xshared.flux_b)": 0.810194859549517
+  },
+  "horizontal_phase_variation_lines": 0.269838253455319,
+  "native_sync_lock": {
+    "accepted": false,
+    "reference": "captured ordinary active-low BSYN edges",
+    "reference_edges": 926,
+    "matched_edges": 926,
+    "missing_edges": 0,
+    "reused_flybacks": 0,
+    "constant_phase_offset_lines": 0.308494125212777,
+    "phase_variation_lines": 0.26983825345533446,
+    "threshold_lines": 0.01,
+    "vertical_sync_edges_excluded": true
+  },
+  "horizontal_edges": 936,
+  "vertical_edges": 3,
+  "horizontal_interval_summary": {
+    "min_s": 6.138967945584772e-05,
+    "median_s": 6.249763935375907e-05,
+    "max_s": 6.323062990061523e-05,
+    "sub_half_line_intervals": 0
+  },
+  "heater_power_w": 0.7406776655706274,
+  "thermal_power_relative_error": 1.6797674362578618e-12,
+  "full_monitor_qualified": false,
+  "numerical_refinement_verified": false
+}

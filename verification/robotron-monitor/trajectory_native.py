@@ -67,7 +67,7 @@ class Backend:
                     points=[list(points[3*i:3*i+3]) for i in range(count.value)],
                     flight_s=out[0],energy_error_ev=out[1],impact_energy_ev=out[2])
         if reason in (4,5):result.update(x_m=out[3],y_m=out[4])
-        return result
+        return trajectory.collection.annotate(result)
 
     def bundle(self,*args,**kwargs):
         return trajectory.bundle(*args,**kwargs,_ray=self.ray)

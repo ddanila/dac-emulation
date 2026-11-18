@@ -35,6 +35,7 @@ PROBES = ('v(eht)', 'v(g2)', 'v(g4)', 'v(cathode)', 'i(Lhorizontal)',
           'v(x1136.xshared.flux_b)', 'v(p5)', 'v(h_boost)', 'v(g1)',
           'v(h_control)', 'i(Vp41)', 'v(sync_c)', 'v(h_pd)',
           'v(h_tank)', 'v(h_reactbase)', '@d1032[id]', '@d1033[id]')
+PROBES += ('v(xcrt.launch_current_ua)','v(xcrt.emitted_current_ua)','@b.xcrt.bg2[i]')
 
 # Engineering ranges, not measured AE9VT/B31G22 parameters. The 0.4 mH
 # exploratory yoke overloaded the 41 V network; 4 mH is a separate hypothesis,
@@ -172,7 +173,7 @@ def assemble(output, *, yoke_path=None):
                  'reference/k7222-11/horizontal-output-transcription.json',
                  'reference/k7222-11/assembly.json', 'steady_supply.py',
                  'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py','yoke_geometry.py',
-                 'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py'):
+                 'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py','collection.py','beam_feedback.py','energy_ledger.py','energy_validation.py'):
         archive(name)
     return dict(components=components,parameters=params,models=texts,hashes=hashes,yoke=yoke,
                 magnetic_graph=json.loads((out/'reference/k7222-11/t3-winding-hypothesis.json').read_text()),
@@ -234,7 +235,10 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     l4,expanded=compensation_network(assembly['components'],p['l4_coupling'])
     lines += [' '.join([c['reference'],*c['nodes'],c['value']]) for c in assembly['components'] if c['reference'] not in expanded]
     lines += l4
-    lines += assembly['models']+[magnetic,electrothermal.model(initial_rise_k=thermal['temperature_rise_k'],hold_temperature=True)]
+    collection_report=assembly.get('collection_report')
+    if collection_report is not None and abs(collection_report['period_s']-period)>1e-12:
+        raise ValueError('collection period differs from native field')
+    lines += assembly['models']+[magnetic,electrothermal.model(initial_rise_k=thermal['temperature_rise_k'],hold_temperature=True,collection_report=collection_report)]
     events=selection['events']+[[selection['period_ticks'],*selection['events'][0][1:]]]
     for i,signal in enumerate(('video','bsyn','intens'),1):
         # Repeat only this captured waveform. The final period is byte-for-byte
@@ -273,6 +277,10 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         simulated_fields=fields,retained_fields=4,assumptions=assumptions,
         yoke=yoke,initial_voltage_guesses=initial_voltages,initialization='DC operating point with optional voltage guesses; not a periodic-state checkpoint',
         max_step_s=max_step_s,reltol=reltol,linear_solver=linear_solver,abstol=abstol,vntol=1e-6,parameters=p,assembly_bounds=ASSEMBLY_BOUNDS)
+    import collection
+    metadata['collection']=dict(profile=collection.PROFILE,feedback_enabled=collection_report is not None,
+        load_sha256=None if collection_report is None else lab.digest(json.dumps(collection_report,sort_keys=True,allow_nan=False).encode()),
+        probe_amperes_per_volt=1e-6,launch_probe='v(xcrt.launch_current_ua)',emission_probe='v(xcrt.emitted_current_ua)',anode_probe='i(@b.xcrt.bbeam[i])')
     inputs=dict(deck_sha256=lab.digest(text.encode()),source_content_sha256=selection.get('source_content_sha256'),
                 capture_sha256=assembly.get('capture_sha256'),assembly_hashes=assembly.get('hashes',{}),resolved=metadata)
     fingerprint=lab.digest(json.dumps(inputs,sort_keys=True,allow_nan=False).encode())
@@ -288,10 +296,10 @@ def raw_rows(path):
         header=b''
         while not header.endswith(b'Binary:\n'):
             line=stream.readline()
-            if not line or len(header)>100000:raise ValueError('missing raw binary header')
+            if not line or len(header)>1000000:raise ValueError('missing raw binary header')
             header+=line
         text=header.decode(); n=int(re.search(r'No. Variables:\s+(\d+)',text)[1])
-        if not 2<=n<=256 or 'Flags: real' not in text:raise ValueError('unsupported raw vectors')
+        if not 2<=n<=4096 or 'Flags: real' not in text:raise ValueError('unsupported raw vectors')
         names=re.findall(r'^\s*\d+\s+(\S+)\s+\S+\s*$',text.split('Variables:\n')[1].split('Binary:')[0],re.M)
         if len(names)!=n or names[0]!='time':raise ValueError('unexpected raw variable table')
         declared=int(re.search(r'No. Points:\s+(\d+)',text)[1])
@@ -521,7 +529,10 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
                 report['diagnostic_frame']=steady_acceptance.diagnostic_frame(diagnostic_trial,diagnostic_meta,out/'diagnostic-frame',diagnostic_settling,deadline)
                 report['outputs']['diagnostic_frame']='diagnostic-frame/diagnostic.json'
                 if report['diagnostic_frame']['status']=='diagnostic-only':report['outputs']['image']='diagnostic-frame/optical/frame.png'
-        report['blockers'].append('Complete circuit energy closure and trajectory-current load feedback remain unresolved.')
+        if report.get('acceptance',{}).get('status')=='accepted-experiment':
+            report.update(status='accepted-experiment',accepted_warmed_frame=True);save();return report
+        if 'acceptance' not in report:
+            report['blockers'].append('No synchronized candidate reached collection and energy validation.')
         if not assembly['yoke']['inductance_field_relationship_verified']:
             report['blockers'].append('Yoke inductance and optical field strength remain independently assumed.')
         report['status']='blocked';save();return report

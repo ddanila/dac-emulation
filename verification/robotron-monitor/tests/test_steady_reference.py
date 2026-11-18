@@ -87,7 +87,7 @@ class ReferenceTests(unittest.TestCase):
                  mock.patch.object(steady_supply,'assess',side_effect=assess), \
                  mock.patch.object(steady_acceptance,'compare',return_value=dict(accepted=False)) as comparison:
                 report=lock_scan.run(capture,root/'scan',root/'runtime','fixture',hours=.01,
-                    settings=dict(parameters=dict(horizontal_tank_l=.001532)))
+                    settings=dict(parameters=dict(horizontal_tank_l=.001532)),workers=3)
             self.assertEqual(report['status'],'blocked')
             self.assertIsNone(report['selected_trim'])
             comparison.assert_called_once()
@@ -223,14 +223,40 @@ quit
                 Path(out).mkdir(parents=True)
                 return dict(status='failed',timeout=False)
             metadata=dict(max_step_s=2e-7,reltol=.005,abstol=1e-6,simulated_fields=4)
+            coupling=dict(converged=True,accepted=True,load={},trial=str(root/'trial'),metadata=metadata,settling={'accepted':True})
             with mock.patch.object(steady_supply,'deck',return_value=('test',{})), \
                  mock.patch.object(steady_supply,'solve',side_effect=failed), \
+                 mock.patch('beam_feedback.run',return_value=coupling), \
+                 mock.patch('energy_validation.run',return_value={'accepted':True}), \
                  mock.patch.object(steady_acceptance,'optical_worker') as optical:
                 result=steady_acceptance.finish({}, {}, {},metadata,root/'trial',root/'acceptance',root/'runtime',{},time.monotonic()+60)
             self.assertFalse(result['accepted_warmed_frame'])
             self.assertIn('refinement solver failed',result['blockers'])
             optical.assert_not_called()
             self.assertFalse(list((root/'acceptance').rglob('*.png')))
+
+    def test_acceptance_status_requires_every_gate(self):
+        # Orchestration only: these fixtures are never physical acceptance evidence.
+        metadata=dict(max_step_s=2e-7,reltol=.005,abstol=1e-6,simulated_fields=4,period_s=.02)
+        assembly=dict(yoke={'field':{},'inductance_field_relationship_verified':True})
+        for failed_gate in (None,'coupling','energy','optical'):
+            with self.subTest(failed_gate=failed_gate),tempfile.TemporaryDirectory() as tmp:
+                root=Path(tmp)
+                coupling=dict(converged=True,accepted=failed_gate!='coupling',load={},trial=str(root/'trial'),metadata=metadata,settling={'accepted':True})
+                def solve(text,path,*args,**kwargs):
+                    Path(path).mkdir();return {'status':'complete'}
+                with mock.patch('beam_feedback.run',return_value=coupling), \
+                     mock.patch('energy_validation.run',return_value={'accepted':failed_gate!='energy'}), \
+                     mock.patch.object(steady_supply,'deck',return_value=('fixture',metadata)), \
+                     mock.patch('electrical_cache.solve',side_effect=solve), \
+                     mock.patch.object(steady_acceptance,'compare',return_value={'accepted':True}), \
+                     mock.patch.object(steady_acceptance.steady_trace,'export',return_value={}), \
+                     mock.patch.object(steady_acceptance,'optical_worker',return_value={'status':'complete'}), \
+                     mock.patch('periodic_frame.compare',return_value={'accepted':failed_gate!='optical'}):
+                    result=steady_acceptance.finish(assembly, {}, {}, metadata,root/'trial',root/'acceptance',root/'runtime',{},time.monotonic()+60)
+                self.assertEqual(result['accepted_warmed_frame'],failed_gate is None)
+                self.assertEqual(result['status'],'accepted-experiment' if failed_gate is None else 'blocked')
+                self.assertFalse(result['full_monitor_qualified']);self.assertFalse(result['specimen_validated'])
 
     def test_waveform_comparison_rejects_scaling_and_truncation(self):
         names=('time',*steady_acceptance.NAMES)

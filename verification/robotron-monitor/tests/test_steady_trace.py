@@ -42,4 +42,16 @@ class SteadyTraceTests(unittest.TestCase):
             with self.assertRaises(ValueError):steady_trace.export(root/'trace.raw',root/'short.csv',start_s=0,end_s=.03)
             with self.assertRaises(ValueError):steady_trace.export(root/'trace.raw',root/'nan.csv',start_s=0,end_s=math.nan)
 
+    def test_scaled_launch_probe_wins_over_collected_current(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);names=('time',*steady_trace.PROBES,'v(xcrt.launch_current_ua)')
+            rows=[(t,10000,350,200,10,.1,.2,5e-6,20.) for t in (0,.01,.02)]
+            header='Title: scaled emission fixture\nFlags: real\nNo. Variables: 9\nNo. Points: 3\nVariables:\n'
+            header+=''.join(f'{i} {n} voltage\n' for i,n in enumerate(names))+'Binary:\n'
+            (root/'trace.raw').write_bytes(header.encode()+b''.join(struct.pack('=9d',*r) for r in rows))
+            result=steady_trace.export(root/'trace.raw',root/'field.csv',start_s=0,end_s=.02)
+            self.assertEqual(result['current_definition'],'post-grid2-launch')
+            self.assertEqual(result['current_probe_scale'],1e-6)
+            self.assertAlmostEqual(beam_render.read_trace(root/'field.csv')[0][-1],20e-6)
+
 if __name__=='__main__':unittest.main()
