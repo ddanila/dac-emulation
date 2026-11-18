@@ -3,7 +3,9 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
+import shlex
 import shutil
 import subprocess
 import tarfile
@@ -28,8 +30,16 @@ def receipt(directory):
     directory=Path(directory).resolve();install=directory/'install'
     files=[install/'bin/ngspice',install/'share/ngspice/scripts/spinit',*sorted((install/'lib/ngspice').glob('*.cm'))]
     if len(files)<3 or any(not p.is_file() for p in files):raise ValueError('incomplete installed runtime')
+    compiler_command=shlex.split(os.environ.get('CC','cc'))
+    cxx_command=shlex.split(os.environ.get('CXX','c++'))
+    if not compiler_command or not cxx_command:
+        raise ValueError('empty configured compiler command')
     result=dict(format='dac-monitor-runtime-v1',source_url=SOURCE_URL,archive_sha256=ARCHIVE_SHA256,
-                install_prefix=str(install),inputs=inputs(),configure_flags=FLAGS,compiler=subprocess.check_output(['cc','--version'],text=True),
+                install_prefix=str(install),inputs=inputs(),configure_flags=FLAGS,
+                compiler_command=compiler_command,
+                compiler=subprocess.check_output([*compiler_command,'--version'],text=True),
+                cxx_command=cxx_command,
+                cxx_compiler=subprocess.check_output([*cxx_command,'--version'],text=True),
                 version=subprocess.check_output([str(install/'bin/ngspice'),'--version'],text=True),
                 files={str(p.relative_to(directory)):digest(p) for p in files},
                 qualification='experimental-instrumented-runtime',full_monitor_qualified=False)

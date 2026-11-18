@@ -160,6 +160,14 @@ schematic review before a B6 trim setting can be claimed as applied to the
 simulated monitor. The other trim settings are recorded, but a future grid
 calibration must verify their actual physical-to-model application.
 
+The isolated ngspice 47 runtime was built from the exact archived source hash
+under ignored `build/monitor/runtime-phase-a-gcc16/`. On this machine the
+build uses Homebrew GCC 16 for C and G++ 16 for C++; the runtime receipt now
+records both actual compilers. `monitor_runtime.verify()` checked the installed
+binary and code-model hashes, and all ten runtime provenance and native
+code-model tests passed against that installed runtime. This validates the
+solver build, not the monitor circuit or calibration.
+
 `phase_a_gates.py` implements the ordered G1–G8 frame gate policy and fails
 closed on absent evidence. Its G1/G1b input can come from the connected
 `native_sync_lock` report, which now counts extra flybacks and adjacent-line

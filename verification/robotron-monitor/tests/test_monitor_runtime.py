@@ -21,6 +21,26 @@ import test_controller
 
 
 class RuntimeProvenanceTests(unittest.TestCase):
+    def test_receipt_names_the_configured_compiler(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            for name in ('bin/ngspice','lib/ngspice/analog.cm',
+                         'share/ngspice/scripts/spinit'):
+                path=root/'install'/name;path.parent.mkdir(parents=True,exist_ok=True)
+                path.write_bytes(b'fixture')
+            with patch.dict(os.environ,{'CC':'/opt/homebrew/bin/gcc-16',
+                                       'CXX':'/opt/homebrew/bin/g++-16'}),\
+                 patch.object(runtime.subprocess,'check_output',side_effect=[
+                     'gcc (GCC) 16.2.0\n','g++ (GCC) 16.2.0\n',
+                     'ngspice-47\n']) as checked:
+                record=runtime.receipt(root)
+            self.assertEqual(record['compiler_command'],['/opt/homebrew/bin/gcc-16'])
+            self.assertEqual(record['cxx_command'],['/opt/homebrew/bin/g++-16'])
+            self.assertIn('gcc (GCC)',record['compiler'])
+            self.assertIn('g++ (GCC)',record['cxx_compiler'])
+            self.assertEqual(checked.call_args_list[0].args[0],
+                             ['/opt/homebrew/bin/gcc-16','--version'])
+
     def test_hashes_configuration_and_required_files(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp).resolve();files={}
