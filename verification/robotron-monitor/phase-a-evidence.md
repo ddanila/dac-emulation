@@ -124,11 +124,16 @@ python3.14 verification/robotron-monitor/inventory_audit.py \
   --output build/monitor/phase-a/inventory-audit.json
 ```
 
-After the third full-page vision pass available on 2026-11-18, 227 entries had
-three agreeing readings per applicable table cell and matched the inventory's
-value or type; 26 parts-list entries still needed more source
-evidence or review, and seven schematic-only entries needed schematic review.
-These counts are interim and will change as the crop passes finish.
+After the third full-page vision pass and both crop passes on 2026-11-18, 227
+entries had three agreeing readings per applicable table cell and matched the
+inventory's value or type. The other 33 remain open: page 6 C11/C18, page 8
+T1, page 12 L4/L5/L6, page 14 R26, 19 grouped device/fuse entries on page 15,
+and seven entries found only on schematics. The local
+`build/monitor/phase-a/inventory-audit.json` names every open entry and its
+individual OCR readings; the completed parts-list crop passes are included in
+`build/monitor/phase-a/ocr-workflow/review.zip`. These are review aids, not
+human review marks. The manual text passes and high-zoom schematic vision scan
+are still pending.
 
 The first direct source correction is V14 on board 012-6921: the printed
 page-8 type is `1 YL1/2`, correcting the inventory's earlier `1YL/2` spelling.
