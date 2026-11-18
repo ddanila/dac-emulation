@@ -35,7 +35,8 @@ class GridGeometryTests(unittest.TestCase):
                     yield {'time':t,'v(eht)':11500.,'v(g2)':400.,'v(g4)':200.,
                            'v(cathode)':20.,
                            'i(lhorizontal)':-.105+.21*phase/active_s,
-                           'i(lvertical)':-.0725+.145*(n-24)/287}
+                           'i(lvertical)':-.0725+.145*(n-24)/287,
+                           'v(xcrt.launch_current_ua)':1.}
             def ray(anode,grid2,focus,ih,iv,*,overrides):
                 self.assertAlmostEqual(anode,11480.)
                 self.assertEqual(overrides,{})
@@ -48,6 +49,26 @@ class GridGeometryTests(unittest.TestCase):
             self.assertLess(result['horizontal_linearity'],.1)
             self.assertLess(result['vertical_linearity'],.1)
             self.assertEqual(result['horizontal_marker_rows'],9)
+            self.assertGreater(result['beam_launch_emitting_fraction'],.99)
+            self.assertEqual(result['beam_launch_marker_fraction'],1.)
+
+    def test_dark_grid_cannot_establish_picture_geometry(self):
+        probes={'v(eht)':11500.,'v(g2)':400.,'v(g4)':200.,'v(cathode)':20.,
+                'i(lhorizontal)':0.,'i(lvertical)':0.,
+                'v(xcrt.launch_current_ua)':0.}
+        rows=({'time':t,**probes} for t in (0.,.01,.02))
+        with mock.patch.object(grid_geometry.steady_supply,'raw_rows',return_value=rows):
+            with self.assertRaisesRegex(ValueError,'no sustained modeled beam launch'):
+                grid_geometry._interpolate('unused',[(.015,('stripe',0,0))],0.,.02)
+
+    def test_beam_between_markers_cannot_establish_picture_geometry(self):
+        probes={'v(eht)':11500.,'v(g2)':400.,'v(g4)':200.,'v(cathode)':20.,
+                'i(lhorizontal)':0.,'i(lvertical)':0.}
+        rows=({'time':t,**probes,'v(xcrt.launch_current_ua)':1. if .004<=t<=.008 else 0.}
+              for t in (0.,.004,.008,.012,.016,.02))
+        with mock.patch.object(grid_geometry.steady_supply,'raw_rows',return_value=rows):
+            with self.assertRaisesRegex(ValueError,'no sustained modeled beam launch'):
+                grid_geometry._interpolate('unused',[(.018,('stripe',0,0))],0.,.02)
 
 
 if __name__=='__main__':unittest.main()
