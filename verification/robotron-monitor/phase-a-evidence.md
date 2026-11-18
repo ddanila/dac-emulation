@@ -174,13 +174,17 @@ The trim audit found a sharper gap in the current ideal-rail assembly:
 012-6921:R4 has a parameterized `contrast_trim` branch, and the horizontal
 hold, vertical sync, height, linearity, shift, brightness and focus controls
 have model parameters. But 012-6931:R4 (horizontal centring) and R5 (picture
-width) are absent from the assembled sheets; R5 lives in the excluded
-converter path. Recording their nominal settings cannot apply the manual's
-step 8. The separate brightness control is likewise not bound to a model
-parameter; R28 is the dark-raster preset and is not a substitute. The freeze
-now refuses these three unbound controls rather than recording their proposed
-settings as applied. The vertical linearity model and trim bindings now use
-the printed R59/R60 designators (`linearity_r59`/`linearity_r60`) rather than
+width) are absent from the assembled sheets. Source schematic page 9 draws R4
+in the L1/L2, R2 and E1–E4 horizontal-centring bridge, separate from the
+page-10 R5 converter feedback branch. The R4 bridge might be added while
+retaining ideal rails, but its X1 connector links and bridge position require
+the A1 schematic review. Recording nominal settings for either absent control
+cannot apply the manual's step 8. The separate brightness control is likewise
+not bound to a model parameter; R28 is the dark-raster preset and is not a
+substitute. The freeze refuses these three unbound controls rather than
+recording their proposed settings as applied. The vertical linearity model
+and trim bindings now use the printed R59/R60 designators
+(`linearity_r59`/`linearity_r60`) rather than
 assigning either to an upper or lower screen region. A fresh KiCad export
 confirms R59 and R60 remain on separate `lin_r59` and `lin_r60` branches at
 their original 47 kΩ values. Manual pages 15 and 32 still disagree about the
@@ -202,12 +206,13 @@ disagree about those roles. The physical setting can be applied by designator;
 the conflicting screen-region interpretation still needs source review.
 
 A fresh `steady_supply.assemble()` export shows neither 012-6931:R4 nor
-012-6931:R5 in the connected assembly; the latter is currently confined to
-the converter sheet, which this path excludes. Both appear in the inventory
-and manual geometry procedure. Their connections and control effects need
-schematic review before a B6 trim setting can be claimed as applied to the
-simulated monitor. The other trim settings are recorded, but a future grid
-calibration must verify their actual physical-to-model application.
+012-6931:R5 in the connected assembly. The former is the unmodeled centring
+bridge on source page 9; the latter is confined to the excluded converter
+sheet on page 10. Both appear in the inventory and manual geometry procedure.
+Their connections and control effects need schematic review before a B6 trim
+setting can be claimed as applied to the simulated monitor. The other trim
+settings are recorded, but a future grid calibration must verify their actual
+physical-to-model application.
 Manual PDF page 31 explicitly places width R5 on BP3 (012-6931) and calls for
 adjusting it to 210 mm. Source schematic PDF page 10 draws that R5 wiper into
 the A1/TDA1060 operating-voltage circuit, with 41P and 22P outputs. The
@@ -482,6 +487,9 @@ python3.14 verification/robotron-monitor/source_review_guide.py \
 The current guide covers 33 open inventory entries on eight source pages and
 all six schematic pages. Its local image and PDF links refer to files under
 `build/monitor/phase-a/`; the source artifacts remain uncommitted review inputs.
+The schematic sections now call out the A3-critical T3/SYNCH path, R4
+centring bridge, R5 converter feedback and external brightness wiring as
+focused review questions; these prompts are not review marks.
 
 Each blank part mark includes the current inventory value and independent OCR
 readings as review context, with any excluded pass flagged as review-only.
