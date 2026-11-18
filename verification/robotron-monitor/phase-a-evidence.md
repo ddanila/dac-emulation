@@ -178,6 +178,14 @@ after 324 seconds and was stopped. Its recent median accepted step was about
 `build/monitor/phase-a/grid-connected-20261118/`,
 `grid-connected-fine-20261118/` and `trap-diagnostic-20261118/` are diagnostic
 only: no complete final field, service score or calibration freeze resulted.
+The last 0.204 ms of the incomplete KLU trace has three `h_hot` rising
+crossings near line rate, but 235 `h_sync` crossings above 100 V. Their median
+separation is about 0.19 µs, and `h_sync` ranges from roughly −18 to 382 V
+in that window. This points to fast ringing in the TP17/T3 path as the reason
+for very small solver steps; it is a diagnostic inference from an unsteady,
+truncated trace, not a calibrated TP17 result. The next circuit investigation
+should inspect T3 winding parasitics, rectifier loading and the source
+polarity review before changing bounded magnetic assumptions.
 Synthetic deck titles and experiment metadata now state the source kind, and
 the freeze verifies that it is synthetic.
 
