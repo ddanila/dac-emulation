@@ -111,9 +111,9 @@ python3.14 verification/robotron-monitor/inventory_audit.py \
   --output build/monitor/phase-a/inventory-audit.json
 ```
 
-After the third full-page vision pass available on 2026-11-18, 223 entries had
-three identical machine descriptions and stock numbers that also matched the
-inventory's value or type; 30 parts-list entries still needed more source
+After the third full-page vision pass available on 2026-11-18, 227 entries had
+three agreeing readings per applicable table cell and matched the inventory's
+value or type; 26 parts-list entries still needed more source
 evidence or review, and seven schematic-only entries needed schematic review.
 These counts are interim and will change as the crop passes finish.
 
@@ -130,3 +130,6 @@ with 10 Ω, not current reference-model results; they require a new converter
 run before their numerical behavior is reused. Page-12 L4/L5/L6 remain in the
 source-review queue because the scanned microhenry glyph is consistently read
 as `M` by OCR; machine agreement does not settle the unit.
+The C30 stock-number cell on page 6 is genuinely blank and is counted as a
+three-pass blank-cell agreement. The malformed R26 stock number on page 14 is
+kept in source review despite three matching OCR strings.
