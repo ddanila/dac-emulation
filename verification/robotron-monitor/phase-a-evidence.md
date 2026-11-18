@@ -60,6 +60,10 @@ instructions and carries a handwritten correction mark. That conflict is
 explicitly left for schematic and control review. The printed upper frequency
 bound is about 2.1% above 16 kHz, narrower than Phase B's proposed +3% margin;
 the B2 criterion needs reconciliation with the source, not an invented pass.
+Page 10 also states approximate cathode levels of 35 V for VID=0 (dark) and
+15 V for VID=1 (normally bright), with INTENS able to lower the bright level.
+These are operating levels in the text, not DC means supplied for the 17
+waveform figures; the register keeps that distinction.
 
 Stage runs on the vertical and horizontal profiles write `service-score.json`
 automatically. Every completed connected candidate now writes the same score
