@@ -18,17 +18,17 @@ static void event(void *user,uint64_t t,unsigned v,unsigned s,unsigned i) {
  (void)user;if(have && t!=pending)flush();pending=t;levels=v|s<<1|i<<2;have=1;
 }
 int main(int argc,char **argv) {
- const char *names[]={"black","white","alternating","bars","checkerboard","text","highlight"};
- unsigned pattern=7;
+ const char *names[]={"black","white","alternating","bars","checkerboard","text","highlight","grid","crosshatch"};
+ unsigned pattern=9;
  unsigned fields=1,line_characters=112;
- if(argc>=2)for(unsigned i=0;i<7;i++)if(!strcmp(argv[1],names[i]))pattern=i;
+ if(argc>=2)for(unsigned i=0;i<9;i++)if(!strcmp(argv[1],names[i]))pattern=i;
  for(int i=2;i<argc;i+=2) {
   if(i+1>=argc){fputs("missing pattern option value\n",stderr);return 2;}
   if(!strcmp(argv[i],"--fields"))fields=bounded_number(argv[i+1],1,8);
   else if(!strcmp(argv[i],"--line-characters"))line_characters=bounded_number(argv[i+1],96,160);
   else {fputs("unknown pattern option\n",stderr);return 2;}
  }
- if(pattern==7){fputs("usage: robotron-signal-pattern black|white|alternating|bars|checkerboard|text|highlight [--fields 1..8] [--line-characters 96..160]\n",stderr);return 2;}
+ if(pattern==9){fputs("usage: robotron-signal-pattern black|white|alternating|bars|checkerboard|text|highlight|grid|crosshatch [--fields 1..8] [--line-characters 96..160]\n",stderr);return 2;}
  printf("{\"format\":\"dac-monitor-input-v2\",\"clock_hz\":%u,\"signals\":[\"VIDEO\",\"BSYN\",\"INTENS\"],"
  "\"qualification\":\"synthetic-test-pattern\",\"board_revision\":\"1.93.310412.6/04\","
  "\"time_origin\":{\"dot_tick\":0},\"pattern\":\"%s\","
@@ -48,6 +48,8 @@ int main(int argc,char **argv) {
     case 4:v=((x/8)^(line/12))&1;break;
     case 5:{const unsigned glyph[8]={0x7c,0x42,0x42,0x7c,0x48,0x44,0x42,0};v=line%12<8?(glyph[line%12]>>(7-x%8))&1:0;break;}
     case 6:v=1;h=(x/80)&1;break;
+    case 7:v=(x%80<2)||(line%36<2)||(x>=638)||(line>=286);break;
+    case 8:v=(x%40<2)||(line%24<2)||(x>=638)||(line>=286);break;
    }
    robotron_video_output_logic(&o,(uint64_t)d*13,v,h,x>=640,line>=288);
  }

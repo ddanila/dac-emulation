@@ -237,7 +237,7 @@ for firmware acceptance:
 
 ```sh
 make build/robotron-signal-pattern
-build/robotron-signal-pattern checkerboard --fields 4 --line-characters 108 > build/monitor/native-timing-grid.json
+build/robotron-signal-pattern grid --fields 4 --line-characters 108 > build/monitor/native-timing-grid.json
 ```
 
 This runs the native connector output logic with synthetic pixel data at 16 kHz
@@ -594,8 +594,9 @@ python3 verification/robotron-monitor/export_signal_path.py \
   --case nominal --output build/monitor/qualified-video-path.mcrt
 ```
 
-Patterns: black, white, alternating dots, bars, checkerboard, synthetic text and
-highlight. Each uses the shared output logic. They are declared synthetic, not
+Patterns: black, white, alternating dots, bars, checkerboard, synthetic text,
+highlight, full-screen grid and dense cross-hatch. Each uses the shared output
+logic. They are declared synthetic, not
 firmware captures. Fault cases independently change driver strength/slew, cable
 capacitance, return resistance, sync presence/width, intensity state, input clamp
 leakage or sync bias. Exact interventions are recorded in the generated deck and
