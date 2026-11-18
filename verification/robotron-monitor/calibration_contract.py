@@ -15,6 +15,7 @@ import steady_supply
 import transformer_candidates
 import yoke_geometry
 import lab
+import calibration_measurements
 
 CALIBRATION_POINTS=frozenset((14,15,17))
 HELD_OUT_POINTS=frozenset(range(1,18))-CALIBRATION_POINTS
@@ -63,6 +64,7 @@ def _validate_synthetic_capture(proposal):
     if not active or len(active)<.9*height or min(active)>.1*height or max(active)<.95*height:
         raise ValueError('synthetic calibration capture does not cover the full screen')
     return dict(pattern=capture['pattern'], period_s=period/capture['clock_hz'],
+                line_s=line/capture['clock_hz'],
                 source_content_sha256=selected['source_content_sha256'])
 
 
@@ -114,28 +116,12 @@ def _validate_calibration_trial(proposal, score, source):
             or not math.isclose(window[0],(fields-1)*period,rel_tol=0,abs_tol=1e-9)
             or not math.isclose(window[1],fields*period,rel_tol=0,abs_tol=1e-9)):
         raise ValueError('calibration score must cover the final complete grid field')
-    first=last=None;previous=None;eht_integral=0.
-    for row in steady_supply.raw_rows(trace):
-        if first is None:first=row['time']
-        last=row['time']
-        if 'v(eht)' not in row:raise ValueError('calibration trace lacks EHT probe')
-        if previous is not None:
-            a=max(previous['time'],window[0]);b=min(row['time'],window[1])
-            if b>a:
-                span=row['time']-previous['time']
-                va=previous['v(eht)']+(row['v(eht)']-previous['v(eht)'])*(a-previous['time'])/span
-                vb=previous['v(eht)']+(row['v(eht)']-previous['v(eht)'])*(b-previous['time'])/span
-                eht_integral+=(va+vb)*.5*(b-a)
-        previous=row
-    if not (first is not None and abs(first)<1e-12
-            and math.isclose(last,fields*period,rel_tol=0,abs_tol=1e-9)):
-        raise ValueError('calibration trace does not span the completed grid solve')
-    eht_mean=eht_integral/(window[1]-window[0])
-    if not math.isfinite(eht_mean):raise ValueError('calibration EHT measurement is invalid')
+    measurements=calibration_measurements.measure(trace,start_s=window[0],
+        end_s=window[1],line_s=source['line_s'])
     return dict(trace_sha256=score['input_sha256'],deck_sha256=deck_hash,
                 metadata_sha256=hashlib.sha256(metadata_path.read_bytes()).hexdigest(),
                 solver_receipt_sha256=hashlib.sha256(solve_path.read_bytes()).hexdigest(),
-                eht_mean_v=eht_mean)
+                **measurements)
 
 
 def freeze(proposal, score):
@@ -193,6 +179,10 @@ def freeze(proposal, score):
     if not math.isclose(targets['eht_v'],trial_evidence['eht_mean_v'],rel_tol=.01,abs_tol=0):
         raise ValueError('proposed EHT differs from connected trace measurement')
     if not 16*.8<=targets['horizontal_retrace_us']<=16*1.2:raise ValueError('retrace outside manual ±20%')
+    if not 12.8<=trial_evidence['horizontal_retrace_us']<=19.2:
+        raise ValueError('measured retrace outside manual ±20%')
+    if not math.isclose(targets['horizontal_retrace_us'],trial_evidence['horizontal_retrace_us'],rel_tol=.05,abs_tol=1.):
+        raise ValueError('proposed retrace differs from connected trace measurement')
     if not 210*.8<=targets['picture_width_mm']<=210*1.2:raise ValueError('width outside manual ±20%')
     if not 145*.8<=targets['picture_height_mm']<=145*1.2:raise ValueError('height outside manual ±20%')
     record=dict(format='dac-monitor-calibration-freeze-v1',source_kind='synthetic-test-pattern',
@@ -226,10 +216,18 @@ def verify(record):
         raise ValueError('missing frozen evidence identity')
     trial=check.get('calibration_trial',{})
     hashes=('trace_sha256','deck_sha256','metadata_sha256','solver_receipt_sha256')
-    if (set(trial)!=set((*hashes,'eht_mean_v'))
+    if (set(trial)!=set((*hashes,'eht_mean_v','horizontal_retrace_us',
+                        'horizontal_yoke_swing_a','retrace_method','line_count','phase_bins'))
             or any(not isinstance(trial.get(key),str) or len(trial[key])!=64 for key in hashes)
             or type(trial.get('eht_mean_v')) not in (int,float)
-            or not math.isfinite(trial['eht_mean_v'])):
+            or not math.isfinite(trial['eht_mean_v'])
+            or type(trial.get('horizontal_retrace_us')) not in (int,float)
+            or not math.isfinite(trial['horizontal_retrace_us'])
+            or type(trial.get('horizontal_yoke_swing_a')) not in (int,float)
+            or not math.isfinite(trial['horizontal_yoke_swing_a'])
+            or trial.get('retrace_method')!='shorter-extrema-arc-of-line-averaged-yoke-current'
+            or type(trial.get('line_count')) is not int or trial['line_count']<32
+            or type(trial.get('phase_bins')) is not int or not 64<=trial['phase_bins']<=4096):
         raise ValueError('missing completed calibration trial identity')
     targets=check.get('targets',{})
     if (set(targets)!=set(('eht_v','horizontal_retrace_us','picture_width_mm','picture_height_mm'))
@@ -240,8 +238,10 @@ def verify(record):
         or not 116<=targets['picture_height_mm']<=174):
         raise ValueError('invalid frozen calibration target')
     if (not 11000<=trial['eht_mean_v']<=12000
-            or not math.isclose(targets['eht_v'],trial['eht_mean_v'],rel_tol=.01,abs_tol=0)):
-        raise ValueError('frozen EHT differs from measured calibration trial')
+            or not math.isclose(targets['eht_v'],trial['eht_mean_v'],rel_tol=.01,abs_tol=0)
+            or not 12.8<=trial['horizontal_retrace_us']<=19.2
+            or not math.isclose(targets['horizontal_retrace_us'],trial['horizontal_retrace_us'],rel_tol=.05,abs_tol=1.)):
+        raise ValueError('frozen EHT or retrace differs from measured calibration trial')
     return True
 
 
