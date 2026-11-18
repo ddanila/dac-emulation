@@ -204,6 +204,11 @@ individual OCR readings; the completed parts-list crop passes are included in
 `build/monitor/phase-a/ocr-workflow/review.zip`. These are review aids, not
 human review marks. The manual text passes and high-zoom schematic vision scan
 are still pending.
+On page 15, the source spans the 1 AE 15 diode designator list over four lines
+and leaves its quantity cell blank; the vision passes split and reassign parts
+of that group differently. They also disagree around V3/V15 and the following
+transistor rows. Those entries need direct source inspection rather than a
+parser rule that would convert an OCR grouping guess into agreement.
 
 The first direct source correction is V14 on board 012-6921: the printed
 page-8 type is `1 YL1/2`, correcting the inventory's earlier `1YL/2` spelling.
