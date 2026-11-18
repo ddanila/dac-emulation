@@ -61,8 +61,13 @@ must come from a labelled synthetic grid, with no rendered image used for
 selection; all other service points remain held out. No valid calibration
 freeze exists yet, because the horizontal output has not passed those targets.
 The connected-run path accepts a verified `--calibration-freeze` record and
-archives its hash; without one it can continue electrical screening but stops
-before rendering a native image.
+archives its hash. Before a frozen run starts solving, it checks that the
+selected T3 candidate, magnetic-parameter file, yoke profile, L4 coupling and
+horizontal tank value match the frozen assumptions. With `candidate=auto`, the
+frozen candidate is selected. Without a freeze it can continue electrical
+screening but stops before rendering a native image. Manual trim settings are
+recorded in the freeze; their physical-to-model application still needs the
+synthetic-grid calibration run.
 
 `phase_a_gates.py` implements the ordered G1–G8 frame gate policy and fails
 closed on absent evidence. Its G1/G1b input can come from the connected

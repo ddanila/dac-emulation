@@ -42,6 +42,17 @@ class CalibrationContractTests(unittest.TestCase):
                                  'picture_width_mm':210,'picture_height_mm':145}}
             frozen=contract.freeze(proposal,score)
             self.assertTrue(contract.verify(frozen))
+            binding=dict(candidate_id=candidate,
+                         parameters={'l4_coupling':.5,'horizontal_tank_l':.0015},
+                         magnetic_sha256=proposal['assumptions']['t3_winding_parameters']['sha256'],
+                         yoke_sha256=proposal['assumptions']['yoke_profile']['sha256'])
+            self.assertTrue(contract.verify_run(frozen,**binding))
+            for change in ({'candidate_id':'different'}, {'magnetic_sha256':'0'*64},
+                           {'yoke_sha256':'0'*64},
+                           {'parameters':{'l4_coupling':.4,'horizontal_tank_l':.0015}},
+                           {'parameters':{'l4_coupling':.5,'horizontal_tank_l':.0014}}):
+                with self.subTest(change=change),self.assertRaisesRegex(ValueError,'differs from calibration freeze'):
+                    contract.verify_run(frozen,**(binding|change))
             proposal['fit_points']=[9,14,15,17]
             with self.assertRaisesRegex(ValueError,'fit points'):
                 contract.freeze(proposal,score)
