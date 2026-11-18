@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 
 import service_score
@@ -28,6 +29,50 @@ TRIM_KEYS=frozenset(('regulated_5v_r9','vertical_sync_r22','oscillator_t1',
                      'picture_width_r5','centering_horizontal_r4_0126931',
                      'height_r35','linearity_r60','linearity_r59',
                      'centering_vertical_r58','focus','brightness','contrast'))
+# These bindings follow source IDs in the assembled KiCad sheets. The
+# remaining controls must not be invented from an ideal-rail parameter.
+TRIM_PARAMETERS={
+    'regulated_5v_r9':'reg5_position',
+    'vertical_sync_r22':'vertical_trim',
+    'oscillator_t1':'horizontal_tank_l',
+    'horizontal_hold_r24':'horizontal_trim_fraction',
+    'dark_raster_r28':'horizontal_brightness_fraction',
+    'max_beam_r4_0126921':'contrast_trim',
+    'horizontal_linearity_l3':'horizontal_linearity_l',
+    'height_r35':'height_trim',
+    'linearity_r59':'linearity_lower',
+    'linearity_r60':'linearity_upper',
+    'centering_vertical_r58':'symmetry_fraction',
+    'focus':'horizontal_focus_fraction',
+    'contrast':'contrast_position',
+}
+
+
+def _validate_trim_bindings(trims, parameters, deck=None):
+    """Reject recorded positions that were not applied to the connected deck."""
+    bounds={name:(values[1],values[2]) for name,values in steady_supply.signal_path.BOUNDS.items()}
+    for profile_name in ('horizontal-oscillator','vertical-output','regulator5'):
+        profile=reference.read_profile(steady_supply.ROOT/'profiles'/('k7222-11-'+profile_name+'.json'))
+        bounds.update({name:(entry['minimum'],entry['maximum'])
+                       for name,entry in profile['parameters'].items()})
+    declared=None
+    if deck is not None:
+        declared={name:float(value) for name,value in re.findall(
+            r'^\.param\s+(\w+)=([^\s]+)\s*$',deck,re.M)}
+    for control,parameter in TRIM_PARAMETERS.items():
+        setting=trims.get(control,{}).get('setting')
+        actual=parameters.get(parameter)
+        if (type(setting) not in (int,float) or not math.isfinite(setting)
+                or type(actual) not in (int,float) or not math.isfinite(actual)
+                or parameter not in bounds or not bounds[parameter][0]<=setting<=bounds[parameter][1]
+                or not math.isclose(setting,actual,rel_tol=1e-12,abs_tol=0)):
+            raise ValueError('manual trim was not applied to connected model: '+control)
+        if declared is not None and (parameter not in declared
+                or not math.isclose(setting,declared[parameter],rel_tol=1e-12,abs_tol=0)):
+            raise ValueError('manual trim was not applied to connected deck: '+control)
+    unbound=sorted(TRIM_KEYS-set(TRIM_PARAMETERS))
+    if unbound:raise ValueError('manual trims lack connected model binding: '+', '.join(unbound))
+    return True
 
 
 def digest(data):
@@ -96,6 +141,7 @@ def _validate_calibration_trial(proposal, score, source):
     if actual_candidate!=proposal['candidate_id']:
         raise ValueError('calibration trial used a different T3 candidate')
     actual_parameters=metadata.get('parameters',{})
+    _validate_trim_bindings(proposal['trims'],actual_parameters,deck.read_text())
     for key in ('l4_coupling','horizontal_tank_l'):
         value=actual_parameters.get(key)
         if (type(value) not in (int,float) or not math.isfinite(value)
@@ -271,6 +317,7 @@ def verify(record):
 def verify_run(record, *, candidate_id, parameters, magnetic_sha256, yoke_sha256):
     """Bind a connected solve to the assumptions chosen on the synthetic grid."""
     verify(record)
+    _validate_trim_bindings(record['trims'],parameters)
     assumptions=record['assumptions']
     if candidate_id!=record['candidate_id']:
         raise ValueError('connected T3 candidate differs from calibration freeze')
