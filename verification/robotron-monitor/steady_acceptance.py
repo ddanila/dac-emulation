@@ -110,7 +110,7 @@ def diagnostic_frame(trial,metadata,output,settling,deadline):
     return save()
 
 
-def finish(assembly, selection, candidate, metadata, trial, output, runtime, solver, deadline, *, electrical_cache=None, calibration_freeze=None):
+def finish(assembly, selection, candidate, metadata, trial, output, runtime, solver, deadline, *, electrical_cache=None, calibration_freeze=None, synthetic_calibration=False):
     """Only called after settling; every independent failure stops promotion."""
     out=Path(output);out.mkdir(parents=True,exist_ok=False)
     report=dict(format='dac-steady-reference-acceptance-v1',status='blocked',checks={},blockers=[],
@@ -169,11 +169,16 @@ def finish(assembly, selection, candidate, metadata, trial, output, runtime, sol
         save()
     # The native image is downstream of a frozen synthetic-grid calibration.
     # Electrical screening may continue without it, but optical rendering may not.
-    if calibration_freeze is None:
+    if calibration_freeze is None and not synthetic_calibration:
         report['blockers'].append('Calibration freeze required before rendering the native frame.');return save()
-    import calibration_contract
-    calibration_contract.verify(json.loads(Path(calibration_freeze).read_text()))
-    report['calibration_freeze']=str(Path(calibration_freeze).resolve());save()
+    if synthetic_calibration:
+        if calibration_freeze is not None:raise ValueError('synthetic calibration cannot use a native-frame freeze')
+        report['source_kind']='synthetic-test-pattern'
+    else:
+        import calibration_contract
+        calibration_contract.verify(json.loads(Path(calibration_freeze).read_text()))
+        report['calibration_freeze']=str(Path(calibration_freeze).resolve())
+    save()
     trace=out/'field.csv';end=metadata['period_s']*metadata['simulated_fields']
     report['trace']=steady_trace.export(Path(trial)/'trace.raw',trace,start_s=end-metadata['period_s'],end_s=end);save()
     field_path=out/'field-parameters.json'
@@ -190,6 +195,8 @@ def finish(assembly, selection, candidate, metadata, trial, output, runtime, sol
         report['blockers'].append('Yoke inductance and magnetic deflection remain independently assumed.')
     if not report['blockers']:
         report.update(status='screen-passed',accepted_warmed_frame=False,
-            qualification='electrical-optical-screen-only; Phase A gates pending')
+            qualification=('synthetic-calibration-screen-only; Phase A gates pending'
+                           if synthetic_calibration else
+                           'electrical-optical-screen-only; Phase A gates pending'))
         report['blockers'].append('Phase A G1-G8 report required before documented-reference acceptance.')
     return save()

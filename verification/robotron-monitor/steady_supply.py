@@ -469,8 +469,17 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         raw=Path(capture).read_bytes();(out/'input.json').write_bytes(raw)
         data=lab.parse_capture(out/'input.json');selection=select(data)
         report['capture_sha256']=lab.digest(raw)
+        source_kind=data['qualification']
+        synthetic_calibration=(source_kind=='synthetic-test-pattern'
+                               and data.get('pattern') in ('grid','crosshatch'))
+        if source_kind!='schematic-derived-logical' and not synthetic_calibration:
+            raise ValueError('native firmware or labelled synthetic calibration capture required')
+        report['source_kind']=source_kind
+        if synthetic_calibration:report['source_pattern']=data['pattern']
         frozen_path=None;frozen=None
         if calibration_freeze is not None:
+            if synthetic_calibration:
+                raise ValueError('synthetic calibration must precede the native-frame freeze')
             import calibration_contract
             frozen_bytes=Path(calibration_freeze).read_bytes()
             frozen=json.loads(frozen_bytes)
@@ -479,11 +488,10 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
             frozen_path.write_bytes(frozen_bytes)
             report['calibration_freeze_sha256']=lab.digest(frozen_bytes)
             report['outputs']['calibration_freeze']='calibration-freeze.json'
-        else:
+        elif not synthetic_calibration:
             report['blockers'].append('Calibration freeze required before rendering the native frame.')
         (out/'selection.json').write_text(json.dumps(selection,indent=2)+'\n')
         report['outputs']['selection']='selection.json'
-        if data['qualification']!='schematic-derived-logical':raise ValueError('native firmware capture required')
         if selection['status']!='complete':raise ValueError(selection['reason'])
         if not any(e[1] for e in selection['events']):
             raise ValueError('selected capture has no active VIDEO; check boot ROM and character generator provenance')
@@ -560,7 +568,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
             c,metadata,trial,attempt=next((v for v in completed if v[3]['settling']['accepted']),completed[-1])
             report['diagnostics']=attempt.get('diagnostics')
             if attempt['settling']['accepted'] and time.monotonic()<deadline:
-                report['acceptance']=steady_acceptance.finish(assembly,selection,c,metadata,trial,out/'acceptance',runtime,solver or {},deadline,electrical_cache=electrical_cache,calibration_freeze=frozen_path)
+                report['acceptance']=steady_acceptance.finish(assembly,selection,c,metadata,trial,out/'acceptance',runtime,solver or {},deadline,electrical_cache=electrical_cache,calibration_freeze=frozen_path,synthetic_calibration=synthetic_calibration)
                 report['blockers'] += report['acceptance']['blockers']
             optical=report.get('acceptance',{}).get('checks',{}).get('optical',{})
             if optical.get('status')=='complete':

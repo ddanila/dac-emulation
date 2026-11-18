@@ -19,6 +19,8 @@ class PhaseAGateTests(unittest.TestCase):
                      'source_kind':'synthetic-test-pattern','image_used_for_selection':False,
                      'source_capture_sha256':'a'*64,'source_pattern':'grid',
                      'calibration_score_sha256':'b'*64,
+                     'calibration_trial':{'trace_sha256':'c'*64,'deck_sha256':'e'*64,
+                                          'metadata_sha256':'f'*64,'solver_receipt_sha256':'1'*64},
                      'candidate_id':'t3-test',
                      'assumptions':{key:('t3-test' if key=='t3_candidate' else {}) for key in contract.ASSUMPTION_KEYS},
                      'trims':{key:{'setting':.5,'procedure_step':'manual'} for key in contract.TRIM_KEYS},

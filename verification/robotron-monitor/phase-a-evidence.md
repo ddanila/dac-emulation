@@ -125,6 +125,16 @@ freeze checks its repeated complete fields, full-screen VIDEO coverage and
 image may select settings; all other service points remain held out. No valid
 calibration freeze exists yet, because the horizontal output has not passed
 those targets.
+The connected-run path now accepts a labelled synthetic grid or crosshatch
+without a freeze. A synchronized, settled synthetic run may proceed through
+electrical and optical screening while remaining a calibration diagnostic;
+native rendering still requires the freeze. A calibration score may be frozen
+only from that run's final complete field in `trace.raw`: the archived deck,
+metadata and successful solver receipt must agree with one another, with the
+exact hashed synthetic capture, and with the proposed T3, magnetic, yoke, L4
+and tank assumptions. A hand-written CSV cannot establish a
+calibration freeze. This is a provenance gate, not evidence that the connected
+monitor currently meets the calibration targets.
 The connected-run path accepts a verified `--calibration-freeze` record and
 archives its hash. Before a frozen run starts solving, it checks that the
 selected T3 candidate, magnetic-parameter file, yoke profile, L4 coupling and

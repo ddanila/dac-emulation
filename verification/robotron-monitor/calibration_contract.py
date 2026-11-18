@@ -62,7 +62,66 @@ def _validate_synthetic_capture(proposal):
         if a[1] and b[0]>a[0]:active.update(range(a[0]//line,(b[0]-1)//line+1))
     if not active or len(active)<.9*height or min(active)>.1*height or max(active)<.95*height:
         raise ValueError('synthetic calibration capture does not cover the full screen')
-    return capture['pattern']
+    return dict(pattern=capture['pattern'], period_s=period/capture['clock_hz'],
+                source_content_sha256=selected['source_content_sha256'])
+
+
+def _validate_calibration_trial(proposal, score, source):
+    """Require a completed connected solve of this exact synthetic capture."""
+    trace=Path(score.get('input','')).resolve()
+    if trace.name!='trace.raw' or not trace.is_file():
+        raise ValueError('calibration score must use a connected trace.raw')
+    trial=trace.parent
+    deck=trial/'run.cir';metadata_path=trial/'metadata.json';solve_path=trial/'solve.json'
+    if not all(path.is_file() for path in (deck,metadata_path,solve_path)):
+        raise ValueError('calibration trial lacks deck, metadata or solver receipt')
+    metadata=json.loads(metadata_path.read_text())
+    solved=json.loads(solve_path.read_text())
+    deck_hash=hashlib.sha256(deck.read_bytes()).hexdigest()
+    experiment=metadata.get('experiment',{})
+    if (experiment.get('capture_sha256')!=proposal['source_capture_sha256']
+            or experiment.get('source_content_sha256')!=source['source_content_sha256']):
+        raise ValueError('calibration trial did not use the selected synthetic capture')
+    if (experiment.get('deck_sha256')!=deck_hash or solved.get('deck_sha256')!=deck_hash
+            or solved.get('status')!='complete' or solved.get('returncode')!=0
+            or solved.get('timeout') is not False):
+        raise ValueError('calibration trial deck or solver receipt is not complete')
+    actual_candidate=metadata.get('candidate',{}).get('candidate',{}).get('id')
+    if actual_candidate!=proposal['candidate_id']:
+        raise ValueError('calibration trial used a different T3 candidate')
+    actual_parameters=metadata.get('parameters',{})
+    for key in ('l4_coupling','horizontal_tank_l'):
+        value=actual_parameters.get(key)
+        if (type(value) not in (int,float) or not math.isfinite(value)
+                or not math.isclose(value,proposal['assumptions'][key],rel_tol=1e-12,abs_tol=0)):
+            raise ValueError('calibration trial used different '+key)
+    hashes=experiment.get('assembly_hashes',{})
+    magnetic_hash=(hashes.get('magnetic-override.json') or
+                   hashes.get('reference/k7222-11/t3-initial-parameters.json'))
+    if (magnetic_hash!=proposal['assumptions']['t3_winding_parameters']['sha256']
+            or hashes.get('profiles/yoke.json')!=proposal['assumptions']['yoke_profile']['sha256']):
+        raise ValueError('calibration trial used different magnetic or yoke parameters')
+    period=source['period_s'];fields=metadata.get('simulated_fields')
+    if (type(fields) is not int or fields<4 or fields>64
+            or type(metadata.get('period_s')) not in (int,float)
+            or not math.isclose(metadata['period_s'],period,rel_tol=0,abs_tol=1e-9)):
+        raise ValueError('calibration trial timing differs from synthetic capture')
+    window=score.get('requested_window_s')
+    if (not isinstance(window,list) or len(window)!=2
+            or not all(type(t) in (int,float) and math.isfinite(t) for t in window)
+            or not math.isclose(window[0],(fields-1)*period,rel_tol=0,abs_tol=1e-9)
+            or not math.isclose(window[1],fields*period,rel_tol=0,abs_tol=1e-9)):
+        raise ValueError('calibration score must cover the final complete grid field')
+    first=last=None
+    for row in steady_supply.raw_rows(trace):
+        if first is None:first=row['time']
+        last=row['time']
+    if not (first is not None and abs(first)<1e-12
+            and math.isclose(last,fields*period,rel_tol=0,abs_tol=1e-9)):
+        raise ValueError('calibration trace does not span the completed grid solve')
+    return dict(trace_sha256=score['input_sha256'],deck_sha256=deck_hash,
+                metadata_sha256=hashlib.sha256(metadata_path.read_bytes()).hexdigest(),
+                solver_receipt_sha256=hashlib.sha256(solve_path.read_bytes()).hexdigest())
 
 
 def freeze(proposal, score):
@@ -76,7 +135,7 @@ def freeze(proposal, score):
                for item in proposal['trims'].values()):raise ValueError('each trim needs a setting and manual step')
     if not isinstance(proposal.get('source_capture_sha256'),str) or len(proposal['source_capture_sha256'])!=64:
         raise ValueError('missing capture identity')
-    source_pattern=_validate_synthetic_capture(proposal)
+    source=_validate_synthetic_capture(proposal)
     if not isinstance(proposal.get('candidate_id'),str) or not proposal['candidate_id']:
         raise ValueError('missing T3 candidate identity')
     if proposal['assumptions']['t3_candidate']!=proposal['candidate_id']:
@@ -99,6 +158,7 @@ def freeze(proposal, score):
     yoke_geometry.derive(yoke)
     if score.get('format')!='dac-monitor-service-score-v1' or score.get('register_sha256')!=hashlib.sha256(service_score.REGISTER.read_bytes()).hexdigest():
         raise ValueError('service score does not match current reference register')
+    trial_evidence=_validate_calibration_trial(proposal,score,source)
     input_path=Path(score.get('input',''))
     if not input_path.is_file():raise ValueError('calibration score input is missing')
     window=score.get('requested_window_s')
@@ -118,9 +178,10 @@ def freeze(proposal, score):
     if not 210*.8<=targets['picture_width_mm']<=210*1.2:raise ValueError('width outside manual ±20%')
     if not 145*.8<=targets['picture_height_mm']<=145*1.2:raise ValueError('height outside manual ±20%')
     record=dict(format='dac-monitor-calibration-freeze-v1',source_kind='synthetic-test-pattern',
-                source_capture_sha256=proposal['source_capture_sha256'],source_pattern=source_pattern,
+                source_capture_sha256=proposal['source_capture_sha256'],source_pattern=source['pattern'],
                 candidate_id=proposal['candidate_id'],
                 assumptions=proposal['assumptions'],trims=proposal['trims'],targets=targets,
+                calibration_trial=trial_evidence,
                 fit_points=sorted(CALIBRATION_POINTS),held_out_points=sorted(HELD_OUT_POINTS),
                 calibration_score_sha256=digest(score),image_used_for_selection=False,
                 full_monitor_qualified=False,specimen_validated=False)
@@ -145,6 +206,10 @@ def verify(record):
     if any(not isinstance(check.get(key),str) or len(check[key])!=64
            for key in ('source_capture_sha256','calibration_score_sha256')):
         raise ValueError('missing frozen evidence identity')
+    trial=check.get('calibration_trial',{})
+    if (set(trial)!=set(('trace_sha256','deck_sha256','metadata_sha256','solver_receipt_sha256'))
+            or any(not isinstance(value,str) or len(value)!=64 for value in trial.values())):
+        raise ValueError('missing completed calibration trial identity')
     targets=check.get('targets',{})
     if (set(targets)!=set(('eht_v','horizontal_retrace_us','picture_width_mm','picture_height_mm'))
         or not all(type(value) in (int,float) and math.isfinite(value) for value in targets.values())
