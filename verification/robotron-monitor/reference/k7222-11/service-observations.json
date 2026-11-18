@@ -262,6 +262,7 @@
       "status": "reference-transcribed-not-measured",
       "model_node": "y1",
       "model_expression": "v(y1)",
+      "additional_source_annotation": "The same figure also labels R48/V20 and a second approximately 10 Vpp excursion below the zero line; its exact probe relationship to X2:3 awaits schematic review.",
       "mapping_source": {
         "file": "older.pdf",
         "page": 10
@@ -517,7 +518,7 @@
     {
       "test_point": 17,
       "node": "012-6921:V14:K",
-      "approximate_swing_v": 90,
+      "approximate_swing_v": 80,
       "source": {
         "file": "older-operation.pdf",
         "page": 21
@@ -542,6 +543,30 @@
       "condition_id": "service-eo2",
       "calibration_role": "calibration",
       "period_evidence": "inferred"
+    }
+  ],
+  "auxiliary_waveforms": [
+    {
+      "label": "9a",
+      "node": "012-6931:V22:C",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 20
+      },
+      "source_status": "handwritten addition below the printed vertical-channel waveforms",
+      "annotations_peak_to_peak_v": [22, 10],
+      "period_s": 6.25e-05,
+      "dc_level_v": null,
+      "pulse_width_s": null,
+      "shape_class": "two annotated switching pulses; exact measurement conditions unspecified",
+      "model_node": "switch_collector",
+      "model_expression": "v(switch_collector)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 10
+      },
+      "stage_status": "not scored in the ideal-rail Phase B stages because the power converter is excluded",
+      "mapping_review": "V22 collector and switching polarity require the A1 human KiCad review"
     }
   ],
   "limitations": [
@@ -672,6 +697,18 @@
       "evidence": "documented"
     },
     {
+      "quantity": "horizontal_generator_control_range",
+      "minimum": 14.338,
+      "maximum": 16.338,
+      "unit": "kHz",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 17
+      },
+      "evidence": "printed range; 15.338 kHz midpoint handwritten on this copy",
+      "note": "The printed upper bound is only about 2.1% above the 16 kHz line rate. Phase B's proposed ±3% tuning margin must be checked against this source constraint."
+    },
+    {
       "quantity": "regulated_5v",
       "value": 5,
       "tolerance": 0.015,
@@ -683,8 +720,18 @@
       "evidence": "documented"
     },
     {
-      "quantity": "brightness_threshold",
+      "quantity": "maximum_beam_meter_reading",
       "value": 3.6,
+      "unit": "mV",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "just_visible_beam_meter_rise_above_dark",
+      "maximum": 0.1,
       "unit": "mV",
       "source": {
         "file": "older-operation.pdf",
@@ -805,7 +852,7 @@
         "file": "older-operation.pdf",
         "page": 30
       },
-      "action": "Use the full-bright test picture; set brightness and contrast initially minimum, R28 to just-visible raster, then maximum controls and R4 to a 3.6 mV instrument reading."
+      "action": "Connect the digital voltmeter to neck-board connector X3 with cable 1.11.017154.0 and display the full-bright Figure 7 pattern. Set brightness and contrast to minimum, turn R28 to complete darkness, then raise it until traces are just visible while the meter rises no more than 0.1 mV above its dark reading. Set both controls to maximum and adjust R4 on board 012-6921 to a 3.6 mV meter reading."
     },
     {
       "step": 7,
@@ -847,6 +894,7 @@
   "adjustment_limitations": [
     "The manual gives a focus visibility criterion but pages 29–32 do not prescribe a separate electrical focus trim setting.",
     "The 3.6 mV beam-current setup is a reading in the manual procedure, not a conversion to model beam current without the specified meter/load.",
+    "Page 15's circuit prose assigns R59 to middle/lower and R60 to upper vertical linearity, while the adjustment instructions on page 32 call R60 lower and R59 upper. The page-15 copy carries a handwritten correction mark; inspect the schematic and physical controls before applying either assignment.",
     "The real setup uses iterative trims; a future calibration freeze must record actual chosen positions and observations."
   ]
 }

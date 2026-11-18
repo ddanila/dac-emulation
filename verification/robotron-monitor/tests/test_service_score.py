@@ -20,6 +20,9 @@ class ServiceScoreTests(unittest.TestCase):
         self.assertEqual([w['test_point'] for w in register['waveforms']],list(range(1,18)))
         self.assertFalse([(w['test_point'],w['model_node']) for w in register['waveforms']
                           if w['model_node'] not in nodes])
+        self.assertEqual(register['waveforms'][16]['approximate_swing_v'],80)
+        self.assertEqual(register['auxiliary_waveforms'][0]['label'],'9a')
+        self.assertIn('converter is excluded',register['auxiliary_waveforms'][0]['stage_status'])
 
     def test_manual_pulse_and_missing_required_probe(self):
         with tempfile.TemporaryDirectory() as directory:
