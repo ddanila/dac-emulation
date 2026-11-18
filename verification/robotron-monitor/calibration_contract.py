@@ -124,6 +124,26 @@ def verify(record):
     return True
 
 
+def verify_run(record, *, candidate_id, parameters, magnetic_sha256, yoke_sha256):
+    """Bind a connected solve to the assumptions chosen on the synthetic grid."""
+    verify(record)
+    assumptions=record['assumptions']
+    if candidate_id!=record['candidate_id']:
+        raise ValueError('connected T3 candidate differs from calibration freeze')
+    for name, actual in (('t3_winding_parameters',magnetic_sha256),
+                         ('yoke_profile',yoke_sha256)):
+        source=assumptions[name]
+        if not isinstance(source,dict) or source.get('sha256')!=actual:
+            raise ValueError('connected '+name+' differs from calibration freeze')
+    for name in ('l4_coupling','horizontal_tank_l'):
+        expected=assumptions[name]
+        actual=parameters.get(name)
+        if not (type(actual) in (int,float) and math.isfinite(actual)
+                and math.isclose(actual,expected,rel_tol=1e-12,abs_tol=0)):
+            raise ValueError('connected '+name+' differs from calibration freeze')
+    return True
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--proposal',type=Path,required=True)

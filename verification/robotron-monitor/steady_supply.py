@@ -469,14 +469,15 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         raw=Path(capture).read_bytes();(out/'input.json').write_bytes(raw)
         data=lab.parse_capture(out/'input.json');selection=select(data)
         report['capture_sha256']=lab.digest(raw)
-        frozen_path=None
+        frozen_path=None;frozen=None
         if calibration_freeze is not None:
             import calibration_contract
-            frozen=Path(calibration_freeze).read_bytes()
-            calibration_contract.verify(json.loads(frozen))
+            frozen_bytes=Path(calibration_freeze).read_bytes()
+            frozen=json.loads(frozen_bytes)
+            calibration_contract.verify(frozen)
             frozen_path=out/'calibration-freeze.json'
-            frozen_path.write_bytes(frozen)
-            report['calibration_freeze_sha256']=lab.digest(frozen)
+            frozen_path.write_bytes(frozen_bytes)
+            report['calibration_freeze_sha256']=lab.digest(frozen_bytes)
             report['outputs']['calibration_freeze']='calibration-freeze.json'
         else:
             report['blockers'].append('Calibration freeze required before rendering the native frame.')
@@ -496,6 +497,19 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         report['hashes']=assembly['hashes'];report['coverage']=assembly['coverage']
         report['outputs']['assembly']='assembly'
         report['tuning']=tune(assembly,selection,changes)
+        if frozen is not None:
+            import calibration_contract
+            selected_candidate=frozen['candidate_id'] if candidate=='auto' else candidate
+            magnetic_key='magnetic-override.json' if magnetic_parameters is not None else 'reference/k7222-11/t3-initial-parameters.json'
+            calibration_contract.verify_run(frozen,candidate_id=selected_candidate,
+                parameters=assembly['parameters'],magnetic_sha256=assembly['hashes'][magnetic_key],
+                yoke_sha256=assembly['hashes']['profiles/yoke.json'])
+            report['calibration_binding']=dict(candidate_id=selected_candidate,
+                magnetic_sha256=assembly['hashes'][magnetic_key],
+                yoke_sha256=assembly['hashes']['profiles/yoke.json'],
+                l4_coupling=assembly['parameters']['l4_coupling'],
+                horizontal_tank_l=assembly['parameters']['horizontal_tank_l'])
+            candidate=selected_candidate
         graph=json.loads((out/'assembly/reference/k7222-11/t3-winding-hypothesis.json').read_text())
         candidates=sorted(transformer_candidates.enumerate_candidates(graph),key=lambda c:c['id'])
         if candidate!='auto':
