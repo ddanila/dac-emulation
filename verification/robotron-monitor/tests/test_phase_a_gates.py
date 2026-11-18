@@ -25,6 +25,7 @@ class PhaseAGateTests(unittest.TestCase):
                      'calibration_score_sha256':'b'*64,
                      'calibration_trial':{'trace_sha256':'c'*64,'deck_sha256':'e'*64,
                                           'metadata_sha256':'f'*64,'solver_receipt_sha256':'1'*64,
+                                          'circuit_hashes':contract._current_circuit_hashes(),
                                           'settling':{
                                               'format':'dac-steady-supply-settling-v1',
                                               'complete':True,'accepted':True,'failures':[],
