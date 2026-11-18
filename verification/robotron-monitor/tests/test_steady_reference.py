@@ -47,10 +47,24 @@ class ReferenceTests(unittest.TestCase):
         selection=dict(events=events,period_ticks=1000,line_period_ticks=100,clock_hz=100000)
         source=[k*.01+t/100000 for k in range(3) for t in edges]
         self.assertTrue(sync_lock.compare([t+.0001 for t in source],selection,0,.03)['accepted'])
+        self.assertIsNone(sync_lock.compare([t+.0001 for t in source],selection,0,.03)['maximum_adjacent_jitter_s'])
         free=[i*.001+.0001 for i in range(30)]
         self.assertFalse(sync_lock.compare(free,selection,0,.03)['accepted'])
         self.assertFalse(sync_lock.compare(source[:10]+source[11:],selection,0,.03)['accepted'])
         self.assertFalse(sync_lock.compare([],selection,0,.03)['accepted'])
+        extra=sorted([t+.0001 for t in source]+[source[15]+.0005])
+        self.assertGreater(sync_lock.compare(extra,selection,0,.03)['unmatched_flybacks'],0)
+
+    def test_adjacent_line_jitter_is_separate_from_phase_lock(self):
+        events=[[0,0,1,0]]
+        for edge in range(100,1000,100):events.extend([[edge,0,0,0],[edge+10,0,1,0]])
+        selection=dict(events=events,period_ticks=1000,line_period_ticks=100,clock_hz=1000000)
+        source=[k*.001+t for k in range(3) for t in sync_lock.ordinary_edges(selection)]
+        flybacks=[t+10e-6+(40e-9 if i%2 else 0) for i,t in enumerate(source)]
+        report=sync_lock.compare(flybacks,selection,0,.003)
+        self.assertTrue(report['accepted'])
+        self.assertFalse(report['adjacent_jitter_accepted'])
+        self.assertGreater(report['maximum_adjacent_jitter_s'],36e-9)
 
     def test_boundary_refinement_only_extends_with_measured_passes(self):
         trials=[dict(trim=x,accepted=.21<=x<=.69) for x in (.1,.3,.5,.7)]

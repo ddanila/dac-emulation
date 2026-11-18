@@ -1,5 +1,15 @@
 # Robotron monitor circuit lab
 
+The current [single-frame plan](PLAN.md) defines the .11/.21 Phase A reference
+method and supersedes older acceptance blocker lists where they disagree.
+[Phase A evidence and current work](phase-a-evidence.md) records the verified
+manual sources, all 17 service points, the native full-text capture and the
+remaining source audit. `service_score.py` measures the named points in any
+stage `samples.txt` or connected `trace.raw`; `calibration_contract.py` freezes
+the calibration set independently of held-out points; `phase_a_gates.py`
+evaluates the ordered blocking frame gates. None of these tools promotes the
+present experimental pipeline to a qualified monitor.
+
 **Status: working experimental pipeline; historical K7222 reconstruction is not
 complete.** The included 30-component circuit is a driven flyback fixture. It is
 not the K7222 SP2/SP3 circuit and must not be presented as the museum specimen.

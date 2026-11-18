@@ -36,6 +36,11 @@ PROBES = ('v(eht)', 'v(g2)', 'v(g4)', 'v(cathode)', 'i(Lhorizontal)',
           'v(h_control)', 'i(Vp41)', 'v(sync_c)', 'v(h_pd)',
           'v(h_tank)', 'v(h_reactbase)', '@d1032[id]', '@d1033[id]')
 PROBES += ('v(xcrt.launch_current_ua)','v(xcrt.emitted_current_ua)','@b.xcrt.bg2[i]')
+# Manual service points 1–17. Keep these in the connected trace so the same
+# register/scorer can assess isolated benches and every assembled candidate.
+PROBES += ('v(sync_gate)', 'v(vf1)', 'v(vertical_timing)', 'v(vertical_base)',
+           'v(vertical_ramp)', 'v(y2)', 'v(y1)', 'v(h_base)', 'v(h_drivebase)',
+           'v(h_col)', 'v(h_drivecol)', 'v(h_outputbase)', 'v(h_sync)')
 
 # Engineering ranges, not measured AE9VT/B31G22 parameters. The 0.4 mH
 # exploratory yoke overloaded the 41 V network; 4 mH is a separate hypothesis,
@@ -167,13 +172,15 @@ def assemble(output, *, yoke_path=None):
     # The neck's parameterized 1AD50 family also serves the sync filter; do not
     # let a duplicate fixed .model silently shadow its explicit parameters.
     texts=[re.sub(r'^\.model 1AD50_BOUND D\(IS=2n[^\n]*\n','',s,flags=re.M) for s in texts]
-    for name in ('reference/k7222-11/inventory.json','reference/1715w/output.json',
+    for name in ('reference/k7222-11/inventory.json','reference/k7222-11/service-observations.json',
+                 'reference/1715w/output.json',
                  'reference/k7222-11/t3-winding-hypothesis.json',
                  'reference/k7222-11/t3-initial-parameters.json',
                  'reference/k7222-11/horizontal-output-transcription.json',
                  'reference/k7222-11/assembly.json', 'steady_supply.py',
                  'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py','yoke_geometry.py',
-                 'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py','collection.py','beam_feedback.py','energy_ledger.py','energy_validation.py'):
+                 'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py','collection.py','beam_feedback.py','energy_ledger.py','energy_validation.py',
+                 'service_score.py','calibration_contract.py','phase_a_gates.py'):
         archive(name)
     return dict(components=components,parameters=params,models=texts,hashes=hashes,yoke=yoke,
                 magnetic_graph=json.loads((out/'reference/k7222-11/t3-winding-hypothesis.json').read_text()),

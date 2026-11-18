@@ -1,0 +1,139 @@
+"""Freeze bounded K7222 calibration before using a native frame.
+
+The calibration observations are deliberately disjoint from the held-out
+service points. This module records evidence; it never searches parameters.
+"""
+import argparse
+import hashlib
+import json
+import math
+from pathlib import Path
+
+import service_score
+import reference
+import steady_supply
+import transformer_candidates
+import yoke_geometry
+
+CALIBRATION_POINTS=frozenset((14,15,17))
+HELD_OUT_POINTS=frozenset(range(1,18))-CALIBRATION_POINTS
+ASSUMPTION_KEYS=frozenset(('t3_candidate','t3_winding_parameters','yoke_profile',
+                           'l4_coupling','horizontal_tank_l'))
+TRIM_KEYS=frozenset(('horizontal_hold_r24','height_r35','linearity_lower_r60',
+                     'linearity_upper_r59','centering_horizontal_r4',
+                     'centering_vertical_r58','focus','brightness','contrast'))
+
+
+def digest(data):
+    return hashlib.sha256(json.dumps(data,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+
+
+def _identified_json(item, label):
+    if not isinstance(item,dict) or set(item)!=set(('path','sha256')):
+        raise ValueError('missing frozen '+label+' path and hash')
+    path=Path(item['path'])
+    if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=item['sha256']:
+        raise ValueError(label+' file or hash mismatch')
+    return json.loads(path.read_text())
+
+
+def freeze(proposal, score):
+    if proposal.get('format')!='dac-monitor-calibration-proposal-v1':raise ValueError('invalid proposal format')
+    if proposal.get('source_kind')!='synthetic-test-pattern':raise ValueError('calibration requires labelled synthetic grid')
+    if proposal.get('fit_points')!=sorted(CALIBRATION_POINTS):raise ValueError('fit points must be exactly 14, 15 and 17')
+    if proposal.get('image_used_for_selection') is not False:raise ValueError('rendered image must not select calibration values')
+    if set(proposal.get('assumptions',{}))!=ASSUMPTION_KEYS:raise ValueError('missing or extra assumed parameter')
+    if set(proposal.get('trims',{}))!=TRIM_KEYS:raise ValueError('missing or extra recorded trim')
+    if not all(isinstance(item,dict) and item.get('setting') is not None and item.get('procedure_step')
+               for item in proposal['trims'].values()):raise ValueError('each trim needs a setting and manual step')
+    if not isinstance(proposal.get('source_capture_sha256'),str) or len(proposal['source_capture_sha256'])!=64:
+        raise ValueError('missing capture identity')
+    if not isinstance(proposal.get('candidate_id'),str) or not proposal['candidate_id']:
+        raise ValueError('missing T3 candidate identity')
+    if proposal['assumptions']['t3_candidate']!=proposal['candidate_id']:
+        raise ValueError('T3 candidate mismatch')
+    for key in ('l4_coupling','horizontal_tank_l'):
+        value=proposal['assumptions'][key]
+        if type(value) not in (int,float) or not math.isfinite(value):raise ValueError('invalid '+key)
+    l4=steady_supply.ASSEMBLY_BOUNDS['l4_coupling']
+    if not l4[1]<=proposal['assumptions']['l4_coupling']<=l4[2]:raise ValueError('L4 coupling outside declared bound')
+    profile=reference.read_profile(steady_supply.ROOT/'profiles/k7222-11-horizontal-oscillator.json')
+    tank=profile['parameters']['horizontal_tank_l']
+    if not tank['minimum']<=proposal['assumptions']['horizontal_tank_l']<=tank['maximum']:
+        raise ValueError('tank outside declared bound')
+    magnetic=_identified_json(proposal['assumptions']['t3_winding_parameters'],'T3 parameters')
+    yoke=_identified_json(proposal['assumptions']['yoke_profile'],'yoke profile')
+    graph=json.loads((steady_supply.ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
+    candidate=next((c for c in transformer_candidates.enumerate_candidates(graph) if c['id']==proposal['candidate_id']),None)
+    if candidate is None:raise ValueError('unknown T3 candidate')
+    transformer_candidates.compile_model(graph,candidate,magnetic,backend='flux')
+    yoke_geometry.derive(yoke)
+    if score.get('format')!='dac-monitor-service-score-v1' or score.get('register_sha256')!=hashlib.sha256(service_score.REGISTER.read_bytes()).hexdigest():
+        raise ValueError('service score does not match current reference register')
+    input_path=Path(score.get('input',''))
+    if not input_path.is_file():raise ValueError('calibration score input is missing')
+    window=score.get('requested_window_s')
+    if not isinstance(window,list) or len(window)!=2:raise ValueError('calibration score window is missing')
+    reproduced=service_score.score(input_path,start=window[0],end=window[1],required=score.get('required_points',[]))
+    if digest(reproduced)!=digest(score):raise ValueError('calibration score is not reproducible')
+    points={p['test_point']:p for p in score.get('points',[])}
+    if any(points.get(n,{}).get('status')!='pass-numeric' for n in CALIBRATION_POINTS):
+        raise ValueError('calibration service points do not pass')
+    targets=proposal.get('targets',{})
+    if set(targets)!=set(('eht_v','horizontal_retrace_us','picture_width_mm','picture_height_mm')):
+        raise ValueError('incomplete calibration targets')
+    if not all(type(x) in (int,float) and math.isfinite(x) for x in targets.values()):
+        raise ValueError('nonfinite calibration target')
+    if not 11000<=targets['eht_v']<=12000:raise ValueError('high voltage outside 11–12 kV')
+    if not 16*.8<=targets['horizontal_retrace_us']<=16*1.2:raise ValueError('retrace outside manual ±20%')
+    if not 210*.8<=targets['picture_width_mm']<=210*1.2:raise ValueError('width outside manual ±20%')
+    if not 145*.8<=targets['picture_height_mm']<=145*1.2:raise ValueError('height outside manual ±20%')
+    record=dict(format='dac-monitor-calibration-freeze-v1',source_kind='synthetic-test-pattern',
+                source_capture_sha256=proposal['source_capture_sha256'],candidate_id=proposal['candidate_id'],
+                assumptions=proposal['assumptions'],trims=proposal['trims'],targets=targets,
+                fit_points=sorted(CALIBRATION_POINTS),held_out_points=sorted(HELD_OUT_POINTS),
+                calibration_score_sha256=digest(score),image_used_for_selection=False,
+                full_monitor_qualified=False,specimen_validated=False)
+    record['freeze_sha256']=digest(record)
+    return record
+
+
+def verify(record):
+    if record.get('format')!='dac-monitor-calibration-freeze-v1':raise ValueError('invalid freeze format')
+    check=dict(record);sha=check.pop('freeze_sha256',None)
+    if sha!=digest(check):raise ValueError('calibration freeze changed')
+    if check.get('fit_points')!=sorted(CALIBRATION_POINTS) or check.get('held_out_points')!=sorted(HELD_OUT_POINTS):
+        raise ValueError('calibration and validation sets overlap or changed')
+    if check.get('source_kind')!='synthetic-test-pattern' or check.get('image_used_for_selection') is not False:
+        raise ValueError('invalid calibration source or image selection')
+    if set(check.get('assumptions',{}))!=ASSUMPTION_KEYS or set(check.get('trims',{}))!=TRIM_KEYS:
+        raise ValueError('incomplete frozen assumptions or trims')
+    if check['assumptions']['t3_candidate']!=check.get('candidate_id'):
+        raise ValueError('frozen candidate mismatch')
+    if any(not isinstance(check.get(key),str) or len(check[key])!=64
+           for key in ('source_capture_sha256','calibration_score_sha256')):
+        raise ValueError('missing frozen evidence identity')
+    targets=check.get('targets',{})
+    if (set(targets)!=set(('eht_v','horizontal_retrace_us','picture_width_mm','picture_height_mm'))
+        or not all(type(value) in (int,float) and math.isfinite(value) for value in targets.values())
+        or not 11000<=targets['eht_v']<=12000
+        or not 12.8<=targets['horizontal_retrace_us']<=19.2
+        or not 168<=targets['picture_width_mm']<=252
+        or not 116<=targets['picture_height_mm']<=174):
+        raise ValueError('invalid frozen calibration target')
+    return True
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--proposal',type=Path,required=True)
+    parser.add_argument('--service-score',type=Path,required=True)
+    parser.add_argument('--output',type=Path,required=True)
+    args=parser.parse_args()
+    record=freeze(json.loads(args.proposal.read_text()),json.loads(args.service_score.read_text()))
+    verify(record)
+    with args.output.open('x') as stream:stream.write(json.dumps(record,indent=2)+'\n')
+    print(record['freeze_sha256'])
+
+
+if __name__=='__main__':main()

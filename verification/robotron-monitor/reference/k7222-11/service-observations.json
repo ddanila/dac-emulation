@@ -1,5 +1,5 @@
 {
-  "format": "dac-monitor-service-observations-v1",
+  "format": "dac-monitor-service-observations-v2",
   "reference": "k7222-11",
   "specifications": [
     {
@@ -55,8 +55,25 @@
         "page": 20
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "sync_gate",
+      "model_expression": "v(sync_gate)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 9
+      },
+      "shape_class": "negative sync pulse train",
+      "polarity": "negative",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": null,
+      "period_note": "Mixed line and field sync content; no single cycle period is valid.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 2,
@@ -67,8 +84,25 @@
         "page": 20
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "vf1",
+      "model_expression": "v(vf1)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 9
+      },
+      "shape_class": "integrated negative sync pulse train",
+      "polarity": "negative",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": null,
+      "period_note": "Mixed line and field sync content; no single cycle period is valid.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 3,
@@ -79,8 +113,25 @@
         "page": 20
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "vertical_timing",
+      "model_expression": "v(vertical_timing)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 9
+      },
+      "shape_class": "short positive trigger pulses",
+      "polarity": "positive",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 0.0195,
+      "period_note": "2 kByte field period inferred from 18.0 ms display plus 1.5 ms retrace in manual PDF page 5; page 20 rounds the pulse interval to 19 ms.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 4,
@@ -91,8 +142,25 @@
         "page": 20
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "vertical_base",
+      "model_expression": "v(vertical_base)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 9
+      },
+      "shape_class": "rising curved ramp with sharp reset",
+      "polarity": "rising-ramp",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 0.0195,
+      "period_note": "2 kByte field period inferred from 18.0 ms display plus 1.5 ms retrace in manual PDF page 5; page 20 rounds the pulse interval to 19 ms.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 5,
@@ -103,8 +171,25 @@
         "page": 20
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "vertical_pulse",
+      "model_expression": "v(vertical_pulse)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 9
+      },
+      "shape_class": "short active-low pulse",
+      "polarity": "negative",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 0.0195,
+      "period_note": "2 kByte field period inferred from 18.0 ms display plus 1.5 ms retrace in manual PDF page 5; page 20 rounds the pulse interval to 19 ms.",
+      "pulse_width_s": 0.0005,
+      "pulse_width_note": "0.5 ms drawn at the active-low pulse",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 6,
@@ -115,8 +200,25 @@
         "page": 20
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "vertical_ramp",
+      "model_expression": "v(vertical_ramp)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 9
+      },
+      "shape_class": "rising sawtooth with sharp reset",
+      "polarity": "rising-ramp",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 0.0195,
+      "period_note": "2 kByte field period inferred from 18.0 ms display plus 1.5 ms retrace in manual PDF page 5; page 20 rounds the pulse interval to 19 ms.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 7,
@@ -127,8 +229,25 @@
         "page": 20
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "y2",
+      "model_expression": "v(y2)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 10
+      },
+      "shape_class": "rounded bipolar ramp with reset",
+      "polarity": "bipolar",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 0.0195,
+      "period_note": "2 kByte field period inferred from 18.0 ms display plus 1.5 ms retrace in manual PDF page 5; page 20 rounds the pulse interval to 19 ms.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 8,
@@ -139,8 +258,25 @@
         "page": 20
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "y1",
+      "model_expression": "v(y1)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 10
+      },
+      "shape_class": "stepped falling ramp with reset",
+      "polarity": "falling-ramp",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 0.0195,
+      "period_note": "2 kByte field period inferred from 18.0 ms display plus 1.5 ms retrace in manual PDF page 5; page 20 rounds the pulse interval to 19 ms.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 9,
@@ -151,8 +287,25 @@
         "page": 21
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "h_pd",
+      "model_expression": "v(h_pd)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 3
+      },
+      "shape_class": "positive flyback spike with falling decay",
+      "polarity": "positive",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 6.25e-05,
+      "period_note": "2 kByte line period inferred from 46.5 us write plus 16.0 us retrace in manual PDF page 5.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 10,
@@ -163,8 +316,25 @@
         "page": 21
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "h_control",
+      "model_expression": "v(h_control)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 3
+      },
+      "shape_class": "rising flyback spike followed by falling ramp",
+      "polarity": "positive",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 6.25e-05,
+      "period_note": "2 kByte line period inferred from 46.5 us write plus 16.0 us retrace in manual PDF page 5.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 11,
@@ -175,8 +345,25 @@
         "page": 21
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "h_base",
+      "model_expression": "v(h_base)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 3
+      },
+      "shape_class": "rounded active-low pulse",
+      "polarity": "negative",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 6.25e-05,
+      "period_note": "2 kByte line period inferred from 46.5 us write plus 16.0 us retrace in manual PDF page 5.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 12,
@@ -187,8 +374,25 @@
         "page": 21
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "h_drivebase",
+      "model_expression": "v(h_drivebase)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 3
+      },
+      "shape_class": "active-low rectangular pulse",
+      "polarity": "negative",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 6.25e-05,
+      "period_note": "2 kByte line period inferred from 46.5 us write plus 16.0 us retrace in manual PDF page 5.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 13,
@@ -199,8 +403,25 @@
         "page": 21
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "h_col",
+      "model_expression": "v(h_col)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 3
+      },
+      "shape_class": "rounded active-low pulse",
+      "polarity": "negative",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 6.25e-05,
+      "period_note": "2 kByte line period inferred from 46.5 us write plus 16.0 us retrace in manual PDF page 5.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 14,
@@ -211,8 +432,25 @@
         "page": 21
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.2,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "h_feedback",
+      "model_expression": "v(h_feedback)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 4
+      },
+      "shape_class": "positive flyback pulse with undershoot",
+      "polarity": "positive",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 6.25e-05,
+      "period_note": "2 kByte line period inferred from 46.5 us write plus 16.0 us retrace in manual PDF page 5.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "calibration",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 15,
@@ -223,8 +461,58 @@
         "page": 21
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.2,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "h_drivecol",
+      "model_expression": "v(h_drivecol)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 4
+      },
+      "shape_class": "positive flyback pulse with falling top",
+      "polarity": "positive",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 6.25e-05,
+      "period_note": "2 kByte line period inferred from 46.5 us write plus 16.0 us retrace in manual PDF page 5.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "calibration",
+      "period_evidence": "inferred"
+    },
+    {
+      "test_point": 16,
+      "node": "012-6921:X13:4",
+      "approximate_swing_v": null,
+      "approximate_swing_range_v": [
+        8,
+        25
+      ],
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 21
+      },
+      "evidence": "documented-guideline",
+      "acceptance_tolerance": 0.25,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "h_outputbase",
+      "model_expression": "v(h_outputbase)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 3
+      },
+      "shape_class": "negative flyback pulse with overshoot",
+      "polarity": "negative",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure.",
+      "period_s": 6.25e-05,
+      "period_note": "2 kByte line period inferred from 46.5 us write plus 16.0 us retrace in manual PDF page 5.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "held-out",
+      "period_evidence": "inferred"
     },
     {
       "test_point": 17,
@@ -235,13 +523,330 @@
         "page": 21
       },
       "evidence": "documented-guideline",
-      "acceptance_tolerance": null,
-      "status": "not-yet-evaluated"
+      "acceptance_tolerance": 0.2,
+      "status": "reference-transcribed-not-measured",
+      "model_node": "h_sync",
+      "model_expression": "v(h_sync)",
+      "mapping_source": {
+        "file": "older.pdf",
+        "page": 4
+      },
+      "shape_class": "active-low flyback pulse",
+      "polarity": "negative",
+      "dc_level_v": null,
+      "dc_level_note": "No numeric DC level printed in the waveform figure; drawn zero marks do not establish the mean.",
+      "period_s": 6.25e-05,
+      "period_note": "2 kByte line period inferred from 46.5 us write plus 16.0 us retrace in manual PDF page 5.",
+      "pulse_width_s": null,
+      "pulse_width_note": "No numeric pulse width printed beside this test point.",
+      "condition_id": "service-eo2",
+      "calibration_role": "calibration",
+      "period_evidence": "inferred"
     }
   ],
   "limitations": [
-    "Waveform amplitudes are manual Richtwerte (approximate guide values), not numerical acceptance tolerances.",
     "Map original test points to the implemented topology before evaluating; do not tune against all observations and reuse them as held-out validation.",
-    "Source sharpness check is visual under specified conditions and is not converted to an invented numeric spot tolerance."
+    "Source sharpness check is visual under specified conditions and is not converted to an invented numeric spot tolerance.",
+    "The waveform figures specify amplitude guidelines but generally do not print DC level, period or pulse width; null fields record those omissions, not zero.",
+    "The point-16 amplitude is an 8–25 Vpp range and must not be collapsed to a nominal target.",
+    "Model-node mapping is based on the .11/.21 schematic and its existing KiCad transcription; connector and diode orientation remain subject to the A1 human schematic review."
+  ],
+  "waveform_conditions": [
+    {
+      "id": "service-eo2",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 20
+      },
+      "instrument": "service oscilloscope EO2",
+      "manual_note": "Waveform shapes and voltage values are Richtwerte (guidelines). The figures do not specify a stimulus pattern or control setting.",
+      "model_condition": "use the same native or synthetic sync timing and an explicitly recorded trim configuration"
+    }
+  ],
+  "manual_targets": [
+    {
+      "quantity": "picture_width",
+      "value": 210,
+      "unit": "mm",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 31
+      },
+      "evidence": "documented",
+      "tolerance": 20,
+      "specification_source": {
+        "file": "older-operation.pdf",
+        "page": 5
+      }
+    },
+    {
+      "quantity": "picture_height",
+      "value": 145,
+      "unit": "mm",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 32
+      },
+      "evidence": "documented",
+      "tolerance": 15,
+      "specification_source": {
+        "file": "older-operation.pdf",
+        "page": 5
+      }
+    },
+    {
+      "quantity": "horizontal_grid_spacing",
+      "minimum": 23,
+      "maximum": 28,
+      "unit": "mm",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 32
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "vertical_grid_spacing_1k",
+      "minimum": 25,
+      "maximum": 30,
+      "unit": "mm",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 32
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "vertical_grid_spacing_2k_lower",
+      "minimum": 25,
+      "maximum": 30,
+      "unit": "mm",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 32
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "vertical_grid_spacing_2k_upper",
+      "minimum": 28,
+      "maximum": 33.5,
+      "unit": "mm",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 32
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "horizontal_hold_edge_distance",
+      "minimum": 5,
+      "maximum": 10,
+      "unit": "mm",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "t1_alignment_voltage",
+      "value": 2,
+      "tolerance": 0.2,
+      "unit": "V",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "t1_alignment_voltage_1k",
+      "value": 2.2,
+      "tolerance": 0.2,
+      "unit": "V",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "regulated_5v",
+      "value": 5,
+      "tolerance": 0.015,
+      "unit": "V",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "brightness_threshold",
+      "value": 3.6,
+      "unit": "mV",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "horizontal_retrace_1k",
+      "value": 17.2,
+      "unit": "us",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 5
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "horizontal_retrace_2k",
+      "value": 16,
+      "unit": "us",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 5
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "vertical_retrace_1k",
+      "value": 2.08,
+      "unit": "ms",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 5
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "vertical_retrace_2k",
+      "value": 1.5,
+      "unit": "ms",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 5
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "picture_centering",
+      "target": "centered on screen with minimum centering-ring effect; holes diametrically opposite",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 31
+      },
+      "evidence": "documented"
+    },
+    {
+      "quantity": "focus",
+      "target": "At 20 uA unblanked beam, 40 cm viewing distance and 500 lx ambient, a dark area two raster points wide and one raster point high remains visible inside any glyph in a 7 by 10 character grid; no numeric spot diameter is specified.",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 6
+      },
+      "evidence": "documented"
+    }
+  ],
+  "test_point_16_resolution": "Present on operating-manual PDF page 21: X13:4, variable 8–25 Vpp. The earlier 16-point register omitted it; there are 17 printed points numbered 1–17.",
+  "adjustment_procedure": [
+    {
+      "step": 1,
+      "name": "regulated 5 V",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "action": "With 12.0 ± 0.3 V supply, set R9 on 012-6931 to 5.000 ± 0.015 V at X3:3."
+    },
+    {
+      "step": 2,
+      "name": "synchronization pattern",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "action": "Place H at the first and last character positions of a line; turn brightness to the right stop, then R28 until the base raster is visible."
+    },
+    {
+      "step": 3,
+      "name": "vertical synchronization",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "action": "Set R22 near the center of the range that remains vertically synchronized."
+    },
+    {
+      "step": 4,
+      "name": "T1 alignment",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "action": "Adjust oscillator coil T1 to 2.0 ± 0.2 V DC at X12:1, or 2.2 ± 0.2 V in 1 kByte mode."
+    },
+    {
+      "step": 5,
+      "name": "horizontal hold",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "action": "Set R24 so the picture is nearly symmetrical about the raster and 5–10 mm from the right raster edge; if impossible, remove C9 or use 680 pF for 1 kByte mode."
+    },
+    {
+      "step": 6,
+      "name": "maximum beam current",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 30
+      },
+      "action": "Use the full-bright test picture; set brightness and contrast initially minimum, R28 to just-visible raster, then maximum controls and R4 to a 3.6 mV instrument reading."
+    },
+    {
+      "step": 7,
+      "name": "geometry preparation",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 31
+      },
+      "action": "Use the Figure 7 grid and ruler, center-row baseline horizontal, yoke seated at tube neck, centering rings at minimum effect, maximum brightness."
+    },
+    {
+      "step": 8,
+      "name": "horizontal geometry",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 31
+      },
+      "action": "Equalize grid widths with L3; set 210 mm picture width with R5; center with R4, and if its range is insufficient change bridge E1–E4 as described, then repeat. Verify Rx=23–28 mm."
+    },
+    {
+      "step": 9,
+      "name": "vertical geometry",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 32
+      },
+      "action": "Iterate R35 height, R60 lower linearity, R59 upper linearity and R58 vertical shift; set 145 mm height and verify Ry ranges for 1/2 kByte modes."
+    },
+    {
+      "step": 10,
+      "name": "edge geometry",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 32
+      },
+      "action": "Use yoke correction magnets when outside grid borders show barrel or pincushion distortion; repeat interacting geometry adjustments."
+    }
+  ],
+  "adjustment_limitations": [
+    "The manual gives a focus visibility criterion but pages 29–32 do not prescribe a separate electrical focus trim setting.",
+    "The 3.6 mV beam-current setup is a reading in the manual procedure, not a conversion to model beam current without the specified meter/load.",
+    "The real setup uses iterative trims; a future calibration freeze must record actual chosen positions and observations."
   ]
 }
