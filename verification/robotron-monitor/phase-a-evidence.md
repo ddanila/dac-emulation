@@ -39,9 +39,12 @@ parameters.
 
 The first operating-manual vision pass exposed a TP17 transcription error:
 page 21 shows **80 Vpp** at V14's cathode, not the earlier register's 90 Vpp.
-Direct inspection of the page image and an independent classic OCR crop both
-read 80 Vpp; the first vision pass read 60 Vpp, so the multi-pass review remains
-open. Page 20 also has a handwritten `9a` waveform below the printed 1–8 set,
+Direct inspection of the page image, an independent classic OCR crop and the
+second vision pass all read 80 Vpp; the first vision pass read 60 Vpp. The
+second pass read point 13 as 5.4 Vpp, but the source crop, first vision pass
+and classic OCR read 6.4 Vpp, matching the register. Additional model passes
+remain in progress. Page 20 also has a handwritten `9a` waveform below the
+printed 1–8 set,
 annotated 22 and 10 Vpp at V22's collector. The register preserves it as an
 auxiliary observation. Its converter node is excluded from Phase B's ideal-rail
 stages, so it is not silently treated as one of the numbered 1–17 score points.
