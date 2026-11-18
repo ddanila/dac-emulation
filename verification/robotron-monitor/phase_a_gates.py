@@ -24,6 +24,12 @@ def point_status(score,n):
     return next((p.get('status') for p in score.get('points',[]) if p.get('test_point')==n),None)
 
 
+def waveform_reviewed(evidence, n):
+    review=evidence.get('waveform_reviews',{}).get(str(n),{})
+    return (review.get('shape')=='agrees' and review.get('operating_conditions')=='agrees'
+            and isinstance(review.get('reviewer'),str) and bool(review['reviewer'].strip()))
+
+
 def evaluate(evidence,service_score,freeze):
     if evidence.get('format')!='dac-monitor-phase-a-gate-evidence-v1':raise ValueError('invalid evidence format')
     if service_score.get('format')!='dac-monitor-service-score-v1':raise ValueError('invalid service score')
@@ -55,16 +61,21 @@ def evaluate(evidence,service_score,freeze):
     calibrated=freeze.get('targets',{})
     add('G3',score_is_for_trace
         and all(point_status(service_score,n)=='pass-numeric' for n in calibration_contract.CALIBRATION_POINTS)
+        and all(waveform_reviewed(evidence,n) for n in calibration_contract.CALIBRATION_POINTS)
         and all(finite(calibrated.get(k)) for k in ('eht_v','horizontal_retrace_us','picture_width_mm','picture_height_mm'))
         and 11000<=calibrated['eht_v']<=12000
         and 12.8<=calibrated['horizontal_retrace_us']<=19.2
         and 168<=calibrated['picture_width_mm']<=252
         and 116<=calibrated['picture_height_mm']<=174,
         {'calibration_points':sorted(calibration_contract.CALIBRATION_POINTS),'targets':calibrated,
+         'unreviewed_waveforms':[n for n in sorted(calibration_contract.CALIBRATION_POINTS)
+                                 if not waveform_reviewed(evidence,n)],
          'service_score_matches_trace':score_is_for_trace})
     misses={n:point_status(service_score,n) for n in sorted(HELD_OUT) if point_status(service_score,n)!='pass-numeric'}
     explanations=evidence.get('held_out_explanations',{})
-    add('G4',score_is_for_trace and not misses,{'misses':misses,'explanations':explanations,
+    unreviewed=[n for n in sorted(HELD_OUT) if not waveform_reviewed(evidence,n)]
+    add('G4',score_is_for_trace and not misses and not unreviewed,
+        {'misses':misses,'unreviewed_waveforms':unreviewed,'explanations':explanations,
                          'unexplained':[n for n in misses if str(n) not in explanations]})
     geometry=evidence.get('grid_geometry',{})
     add('G5',geometry.get('source_kind')=='synthetic-test-pattern'
