@@ -21,7 +21,10 @@ ARTICLE = re.compile(r'^\d\.\d{2,}')
 
 def _readings(path):
     with path.open(newline='') as stream:
-        for number, row in enumerate(csv.reader(stream), 1):
+        header = stream.readline()
+        stream.seek(0)
+        delimiter = ';' if 'Kurzzeichen;' in header else ','
+        for number, row in enumerate(csv.reader(stream, delimiter=delimiter), 1):
             quantity = next((i for i, cell in enumerate(row[:5])
                              if re.fullmatch(r'\s*[1-9]\d?\s*', cell)), None)
             if quantity is None or quantity == 0:
@@ -69,6 +72,44 @@ def _key(description):
     return re.sub(r'[^a-z0-9]+', '', description.lower())
 
 
+def _number_forms(number):
+    value = format(number, '.12g')
+    return (value, value.replace('.', ',')) if '.' in value else (value,)
+
+
+def _printed_value_matches(part, reading):
+    description = reading['description']
+    expected = part['description']
+    kind = part['kind']
+    if kind in ('resistor', 'potentiometer', 'thermistor') and part['value'] is not None:
+        value = part['value']
+        scales = ((1e6, 'MOhm'), (1e3, 'kOhm'), (1, 'Ohm'))
+        matches = any(re.search(r'(?<!\d)' + re.escape(form) + r'\s*' + unit + r'\b',
+                                description, re.I)
+                      for scale, unit in scales if value >= scale
+                      for form in _number_forms(value / scale))
+    elif kind == 'capacitor':
+        match = re.match(r'^(\d+(?:\.\d+)?)(?:e-\d+ F| nF)', expected)
+        if match:
+            matches = any(re.search(r'(?<!\d)' + re.escape(form) + r'(?=[/\-\s]|$)',
+                                    description, re.I)
+                          for form in _number_forms(float(match[1])))
+        else:
+            matches = _key(expected) in _key(description + ' ' + (reading['article'] or ''))
+    else:
+        matches = (expected != 'None' and
+                   _key(expected) in _key(description + ' ' + (reading['article'] or '')))
+    tolerance = part.get('tolerance_percent')
+    if matches and tolerance is not None:
+        number = format(tolerance, '.12g')
+        if kind == 'capacitor':
+            matches = bool(re.search(r'/' + re.escape(number) + r'(?=[/\-\s]|$)', description)
+                           or re.search(r'\b' + re.escape(number) + r'\s*%', description))
+        else:
+            matches = bool(re.search(r'\b' + re.escape(number) + r'\s*%', description))
+    return bool(matches)
+
+
 def audit(inventory, ocr_root):
     parts = inventory['parts']
     if len(parts) != 260 or len({p['id'] for p in parts}) != 260:
@@ -101,13 +142,16 @@ def audit(inventory, ocr_root):
                 if 'description' in reading:
                     groups[_key(reading['description']+' '+(reading['article'] or ''))].append(tag)
             largest = max(groups.values(), key=len, default=[])
+            comparison = (_printed_value_matches(part, matches[largest[0]])
+                          if len(largest) >= 3 else None)
             result.append(dict(id=part['id'], source_page=page,
                                inventory_description=part['description'],
                                inventory_evidence=part['evidence'], readings=matches,
                                exact_agreement_passes=largest,
-                               # Machine agreement alone is not human review.
+                               inventory_value_or_type_matches=comparison,
                                status=('needs-schematic-review' if page not in PAGES else
-                                       'needs-inventory-comparison' if len(largest) >= 3 else
+                                       'confirmed-by-3-passes' if comparison is True else
+                                       'needs-inventory-comparison' if comparison is False else
                                        'needs-source-review')))
     return dict(format='dac-monitor-inventory-ocr-audit-v1',
                 inventory_entries=len(parts),
