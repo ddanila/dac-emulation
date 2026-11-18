@@ -134,6 +134,24 @@ class InventoryAuditTests(unittest.TestCase):
         reading['description'] = 'Schichtwiderstand SWF 10 Ohm 5 %'
         self.assertFalse(inventory_audit._printed_value_matches(part, reading))
 
+    def test_conflicting_printed_designator_requires_source_review_despite_votes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            inventory = json.loads(inventory_audit.INVENTORY.read_text())
+            for tag in ('', '.r300', '.alt'):
+                (root / f'page_015{tag}.csv').write_text(
+                    'Kurzzeichen,Stückzahl,Benennung,Sachnummer\n'
+                    '"V13, V26",2,Transistor KFY 18,0.7838 4452.0/90\n')
+            report = inventory_audit.audit(inventory, root)
+            point = next(e for e in report['entries'] if e['id'] == '012-6931:V13')
+            self.assertTrue(point['inventory_value_or_type_matches'])
+            self.assertEqual(len(point['description_agreement_passes']), 3)
+            self.assertEqual(point['status'], 'needs-source-review')
+            self.assertIn('diode group', point['source_conflict'])
+            converter = next(e for e in report['entries'] if e['id'] == '012-6931:V22')
+            self.assertEqual(converter['status'], 'needs-schematic-review')
+            self.assertIn('V19 through V25', converter['source_conflict'])
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -209,7 +209,8 @@ python3.14 verification/robotron-monitor/inventory_audit.py \
 
 `phase_a_review.py` turns the remaining entries into a blank human-review
 template and evaluates the A1 source gate against fresh OCR and the current
-inventory. The template is created once and cannot overwrite existing marks:
+inventory. The template is created once and cannot overwrite existing marks;
+choose a new output filename after each audit refresh:
 
 ```sh
 python3.14 verification/robotron-monitor/phase_a_review.py \
@@ -230,14 +231,17 @@ An `unresolved` mark is valid only after the inventory entry itself is marked
 unresolved. Schematic marks cover pages 3–4, 9–10, 16 and 18 and must record
 KiCad connectivity, diode direction and winding polarity review. Marks bind to
 the inventory entry, source PDF and current KiCad tree hashes; edits invalidate
-stale marks. The blank template currently fails the gate with 33 open parts and
-six open schematic pages, as intended. No human marks have been entered.
+stale marks. A provisional template from the current four parts-list passes
+fails the gate with 34 open parts and six open schematic pages, as intended.
+It is `build/monitor/phase-a/source-review-template-226.json`; a fresh
+template will be needed after the queued fifth parts-list pass. No human marks
+have been entered.
 
-After the third full-page vision pass and both crop passes on 2026-11-18, 227
-entries had three agreeing readings per applicable table cell and matched the
-inventory's value or type. The other 33 remain open: page 6 C11/C18, page 8
-T1, page 12 L4/L5/L6, page 14 R26, 19 grouped device/fuse entries on page 15,
-and seven entries found only on schematics. The local
+After the third full-page vision pass and both crop passes on 2026-11-18, 226
+entries had three agreeing readings per applicable table cell, matched the
+inventory's value or type and had no identified source conflict. The other 34
+remain open: page 6 C11/C18, page 8 T1, page 12 L4/L5/L6, page 14 R26,
+20 device/fuse entries on page 15, and seven entries found only on schematics. The local
 `build/monitor/phase-a/inventory-audit.json` names every open entry and its
 individual OCR readings; the completed parts-list crop passes are included in
 `build/monitor/phase-a/ocr-workflow/review.zip`. These are review aids, not
@@ -248,6 +252,13 @@ and leaves its quantity cell blank; the vision passes split and reassign parts
 of that group differently. They also disagree around V3/V15 and the following
 transistor rows. Those entries need direct source inspection rather than a
 parser rule that would convert an OCR grouping guess into agreement.
+Direct magnification reveals an inconsistency in the printed list itself:
+the 1 AE 15 diode group includes a bare `13` after V12, while a later row
+explicitly lists V13 with V26 as KFY 18 transistors. The same diode group's
+V19–V25 range includes V22, which appears as a converter power device in the
+schematic and page-20 auxiliary waveform. The review must resolve these
+duplicate designators against the schematic; neither OCR nor the inventory
+can adjudicate them on its own.
 
 The first direct source correction is V14 on board 012-6921: the printed
 page-8 type is `1 YL1/2`, correcting the inventory's earlier `1YL/2` spelling.
