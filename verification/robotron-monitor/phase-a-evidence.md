@@ -234,17 +234,19 @@ python3.14 verification/robotron-monitor/phase_a_review.py \
 ```
 
 Each blank part mark includes the current inventory value and independent OCR
-readings as review context. Each human mark needs a source reading, disposition,
+readings as review context, with any excluded pass flagged as review-only.
+Each human mark needs a source reading, disposition,
 reason, reviewer and date.
 An `unresolved` mark is valid only after the inventory entry itself is marked
 unresolved. Schematic marks cover pages 3–4, 9–10, 16 and 18 and must record
 KiCad connectivity, diode direction and winding polarity review. Marks bind to
 the inventory entry, source PDF and current KiCad tree hashes; edits invalidate
-stale marks. A provisional template from the current four parts-list passes
+stale marks. The current template from five voting vision passes
 fails the gate with 34 open parts and six open schematic pages, as intended.
-It is `build/monitor/phase-a/source-review-template-226.json`; a fresh
-template will be needed after the queued fifth parts-list pass. No human marks
-have been entered.
+It is `build/monitor/phase-a/source-review-template-five-voting-20261118.json`;
+the matching gate report is
+`build/monitor/phase-a/source-review-gate-five-voting-20261118.json`. No human
+marks have been entered.
 
 After the third full-page vision pass and both crop passes on 2026-11-18, 226
 entries had three agreeing readings per applicable table cell, matched the
@@ -254,8 +256,17 @@ remain open: page 6 C11/C18, page 8 T1, page 12 L4/L5/L6, page 14 R26,
 `build/monitor/phase-a/inventory-audit.json` names every open entry and its
 individual OCR readings; the completed parts-list crop passes are included in
 `build/monitor/phase-a/ocr-workflow/review.zip`. These are review aids, not
-human review marks. The five manual text passes are complete; the queued fifth
-parts-list pass and high-zoom schematic vision scan are still pending.
+human review marks. The five manual text passes are complete. An extra
+full-page parts-list pass was stopped after five of eight pages because it
+fabricated values and the planned five voting vision passes were already
+complete. The high-zoom schematic vision scan is running separately.
+The extra `alt2` full-page parts-list run is retained as review-only evidence,
+not a machine vote. Its page-12 output repeats values from neighboring
+capacitor rows and stops before the printed L4/L5/L6 row; page 8 also calls
+the T1 coil a transistor. Direct page-image inspection confirms those are OCR
+fabrications. The audit records any `alt2` reading under `review_only_passes`
+without letting it create a third agreeing pass. The primary, 300 DPI,
+alternate-model and two crop vision runs remain the five voting vision passes.
 On page 15, the source spans the 1 AE 15 diode designator list over four lines
 and leaves its quantity cell blank; the vision passes split and reassign parts
 of that group differently. They also disagree around V3/V15 and the following

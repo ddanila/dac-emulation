@@ -16,6 +16,10 @@ ROOT = Path(__file__).resolve().parent
 INVENTORY = ROOT / 'reference/k7222-11/inventory.json'
 PAGES = (6, 7, 8, 12, 13, 14, 15, 17)
 TAGS = ('primary', 'r300', 'alt', 'alt2', 'cropL', 'cropR', 'struct')
+# The extra gemma3 full-page run repeated unrelated capacitor rows on page 12
+# and truncated before the inductors. Keep it visible to reviewers, but never
+# let its agreement promote an entry through the machine gate.
+REVIEW_ONLY_TAGS = frozenset(('alt2',))
 REF = re.compile(r'(?<![A-Za-z0-9])([ACFLRTV]\d+(?::\d+)?)(?![A-Za-z0-9])', re.I)
 ARTICLE = re.compile(r'^(?:\d\.\d{2,}|\d{5,6}\s+\d{3,4}\.\d+/\d{2})')
 SOURCE_CONFLICTS = {
@@ -160,6 +164,8 @@ def audit(inventory, ocr_root):
             articles = collections.defaultdict(list)
             blank_articles = []
             for tag, reading in matches.items():
+                if tag in REVIEW_ONLY_TAGS:
+                    continue
                 if 'description' in reading:
                     groups[_key(reading['description']+' '+_primary_article(reading['article']))].append(tag)
                     descriptions[_key(reading['description'])].append(tag)
@@ -183,6 +189,7 @@ def audit(inventory, ocr_root):
             result.append(dict(id=part['id'], source_page=page,
                                inventory_description=part['description'],
                                inventory_evidence=part['evidence'], readings=matches,
+                               review_only_passes=sorted(set(matches) & REVIEW_ONLY_TAGS),
                                source_conflict=source_conflict,
                                exact_agreement_passes=largest,
                                description_agreement_passes=description_passes,

@@ -53,6 +53,21 @@ class InventoryAuditTests(unittest.TestCase):
             self.assertEqual(len(point['exact_agreement_passes']), 2)
             self.assertEqual(point['status'], 'needs-source-review')
 
+    def test_rejected_full_page_pass_is_visible_but_cannot_supply_third_vote(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            inventory = json.loads(inventory_audit.INVENTORY.read_text())
+            for tag in ('', '.r300', '.alt2'):
+                (root / f'page_006{tag}.csv').write_text(
+                    'Kurzzeichen,Stückzahl,Benennung,Sachnummer\n'
+                    'A1,1,Integrierter Schaltkreis T 200,1.15.951651.0/90\n')
+            report = inventory_audit.audit(inventory, root)
+            point = next(e for e in report['entries'] if e['id'] == '012-6921:A1')
+            self.assertIn('alt2', point['readings'])
+            self.assertEqual(point['review_only_passes'], ['alt2'])
+            self.assertEqual(point['exact_agreement_passes'], ['primary', 'r300'])
+            self.assertEqual(point['status'], 'needs-source-review')
+
     def test_semicolon_delimited_vision_pass_is_parsed(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / 'page_006.alt.csv'
