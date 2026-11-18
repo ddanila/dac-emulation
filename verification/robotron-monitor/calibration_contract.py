@@ -14,6 +14,7 @@ import reference
 import steady_supply
 import transformer_candidates
 import yoke_geometry
+import lab
 
 CALIBRATION_POINTS=frozenset((14,15,17))
 HELD_OUT_POINTS=frozenset(range(1,18))-CALIBRATION_POINTS
@@ -40,6 +41,30 @@ def _identified_json(item, label):
     return json.loads(path.read_text())
 
 
+def _validate_synthetic_capture(proposal):
+    path=Path(proposal.get('source_capture_path',''))
+    if not path.is_file():raise ValueError('synthetic calibration capture is missing')
+    actual=hashlib.sha256(path.read_bytes()).hexdigest()
+    if actual!=proposal.get('source_capture_sha256'):
+        raise ValueError('synthetic calibration capture hash mismatch')
+    capture=lab.parse_capture(path)
+    if capture.get('qualification')!='synthetic-test-pattern' or capture.get('pattern') not in ('grid','crosshatch'):
+        raise ValueError('calibration requires a labelled grid or crosshatch capture')
+    selected=steady_supply.select(capture)
+    if selected['status']!='complete':raise ValueError('synthetic calibration capture lacks repeated complete fields')
+    period=selected['period_ticks'];line=selected['line_period_ticks']
+    if period%line:raise ValueError('synthetic calibration capture has incomplete lines')
+    if (not math.isclose(line/capture['clock_hz'],62.5e-6,rel_tol=0,abs_tol=1e-9)
+            or not math.isclose(period/capture['clock_hz'],.0195,rel_tol=0,abs_tol=1e-9)):
+        raise ValueError('synthetic calibration timing differs from native S550 mode')
+    height=period//line;active=set()
+    for a,b in zip(selected['events'],selected['events'][1:]+[[period,0,0,0]]):
+        if a[1] and b[0]>a[0]:active.update(range(a[0]//line,(b[0]-1)//line+1))
+    if not active or len(active)<.9*height or min(active)>.1*height or max(active)<.95*height:
+        raise ValueError('synthetic calibration capture does not cover the full screen')
+    return capture['pattern']
+
+
 def freeze(proposal, score):
     if proposal.get('format')!='dac-monitor-calibration-proposal-v1':raise ValueError('invalid proposal format')
     if proposal.get('source_kind')!='synthetic-test-pattern':raise ValueError('calibration requires labelled synthetic grid')
@@ -51,6 +76,7 @@ def freeze(proposal, score):
                for item in proposal['trims'].values()):raise ValueError('each trim needs a setting and manual step')
     if not isinstance(proposal.get('source_capture_sha256'),str) or len(proposal['source_capture_sha256'])!=64:
         raise ValueError('missing capture identity')
+    source_pattern=_validate_synthetic_capture(proposal)
     if not isinstance(proposal.get('candidate_id'),str) or not proposal['candidate_id']:
         raise ValueError('missing T3 candidate identity')
     if proposal['assumptions']['t3_candidate']!=proposal['candidate_id']:
@@ -92,7 +118,8 @@ def freeze(proposal, score):
     if not 210*.8<=targets['picture_width_mm']<=210*1.2:raise ValueError('width outside manual ±20%')
     if not 145*.8<=targets['picture_height_mm']<=145*1.2:raise ValueError('height outside manual ±20%')
     record=dict(format='dac-monitor-calibration-freeze-v1',source_kind='synthetic-test-pattern',
-                source_capture_sha256=proposal['source_capture_sha256'],candidate_id=proposal['candidate_id'],
+                source_capture_sha256=proposal['source_capture_sha256'],source_pattern=source_pattern,
+                candidate_id=proposal['candidate_id'],
                 assumptions=proposal['assumptions'],trims=proposal['trims'],targets=targets,
                 fit_points=sorted(CALIBRATION_POINTS),held_out_points=sorted(HELD_OUT_POINTS),
                 calibration_score_sha256=digest(score),image_used_for_selection=False,
@@ -107,7 +134,9 @@ def verify(record):
     if sha!=digest(check):raise ValueError('calibration freeze changed')
     if check.get('fit_points')!=sorted(CALIBRATION_POINTS) or check.get('held_out_points')!=sorted(HELD_OUT_POINTS):
         raise ValueError('calibration and validation sets overlap or changed')
-    if check.get('source_kind')!='synthetic-test-pattern' or check.get('image_used_for_selection') is not False:
+    if (check.get('source_kind')!='synthetic-test-pattern'
+            or check.get('source_pattern') not in ('grid','crosshatch')
+            or check.get('image_used_for_selection') is not False):
         raise ValueError('invalid calibration source or image selection')
     if set(check.get('assumptions',{}))!=ASSUMPTION_KEYS or set(check.get('trims',{}))!=TRIM_KEYS:
         raise ValueError('incomplete frozen assumptions or trims')

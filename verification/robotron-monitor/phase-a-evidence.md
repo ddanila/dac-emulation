@@ -110,9 +110,12 @@ python3.14 verification/robotron-monitor/service_score.py \
 `calibration_contract.py` freezes only points 14, 15 and 17, the documented
 11–12 kV target, retrace and picture size. It checks bounded T3, yoke, L4 and
 tank assumptions and records every manual trim setting. The proposed settings
-must come from a labelled synthetic grid, with no rendered image used for
-selection; all other service points remain held out. No valid calibration
-freeze exists yet, because the horizontal output has not passed those targets.
+must name an actual hash-matched synthetic grid or crosshatch capture. The
+freeze checks its repeated complete fields, full-screen VIDEO coverage and
+16 kHz/19.5 ms S550 timing before recording the pattern identity. No rendered
+image may select settings; all other service points remain held out. No valid
+calibration freeze exists yet, because the horizontal output has not passed
+those targets.
 The connected-run path accepts a verified `--calibration-freeze` record and
 archives its hash. Before a frozen run starts solving, it checks that the
 selected T3 candidate, magnetic-parameter file, yoke profile, L4 coupling and

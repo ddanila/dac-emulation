@@ -1,6 +1,7 @@
 import csv
 import hashlib
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -16,6 +17,12 @@ import transformer_candidates
 class CalibrationContractTests(unittest.TestCase):
     def test_only_manual_calibration_set_can_be_frozen(self):
         with tempfile.TemporaryDirectory() as directory:
+            subprocess.run(['make','build/robotron-signal-pattern'],cwd=ROOT.parents[1],
+                           check=True,capture_output=True)
+            capture=Path(directory)/'grid.json'
+            capture.write_bytes(subprocess.check_output(
+                [str(ROOT.parents[1]/'build/robotron-signal-pattern'),'grid',
+                 '--fields','4','--line-characters','108']))
             path=Path(directory)/'grid.csv'
             with path.open('w',newline='') as stream:
                 writer=csv.writer(stream)
@@ -31,7 +38,9 @@ class CalibrationContractTests(unittest.TestCase):
             candidate=transformer_candidates.enumerate_candidates(graph)[0]['id']
             def identified(p):return {'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
             proposal={'format':'dac-monitor-calibration-proposal-v1','source_kind':'synthetic-test-pattern',
-                      'source_capture_sha256':'a'*64,'fit_points':[14,15,17],
+                      'source_capture_path':str(capture),
+                      'source_capture_sha256':hashlib.sha256(capture.read_bytes()).hexdigest(),
+                      'fit_points':[14,15,17],
                       'image_used_for_selection':False,'candidate_id':candidate,
                       'assumptions':{'t3_candidate':candidate,
                                      't3_winding_parameters':identified(ROOT/'reference/k7222-11/t3-initial-parameters.json'),
@@ -42,6 +51,7 @@ class CalibrationContractTests(unittest.TestCase):
                                  'picture_width_mm':210,'picture_height_mm':145}}
             frozen=contract.freeze(proposal,score)
             self.assertTrue(contract.verify(frozen))
+            self.assertEqual(frozen['source_pattern'],'grid')
             binding=dict(candidate_id=candidate,
                          parameters={'l4_coupling':.5,'horizontal_tank_l':.0015},
                          magnetic_sha256=proposal['assumptions']['t3_winding_parameters']['sha256'],
@@ -63,6 +73,26 @@ class CalibrationContractTests(unittest.TestCase):
                     contract.verify_run(frozen,**(binding|change))
             proposal['fit_points']=[9,14,15,17]
             with self.assertRaisesRegex(ValueError,'fit points'):
+                contract.freeze(proposal,score)
+            proposal['fit_points']=[14,15,17]
+            proposal['source_capture_sha256']='0'*64
+            with self.assertRaisesRegex(ValueError,'capture hash mismatch'):
+                contract.freeze(proposal,score)
+            proposal['source_capture_sha256']=hashlib.sha256(capture.read_bytes()).hexdigest()
+            sparse=Path(directory)/'text.json'
+            sparse.write_bytes(subprocess.check_output(
+                [str(ROOT.parents[1]/'build/robotron-signal-pattern'),'text']))
+            proposal['source_capture_path']=str(sparse)
+            proposal['source_capture_sha256']=hashlib.sha256(sparse.read_bytes()).hexdigest()
+            with self.assertRaisesRegex(ValueError,'labelled grid or crosshatch'):
+                contract.freeze(proposal,score)
+            mistimed=Path(directory)/'mistimed-grid.json'
+            mistimed.write_bytes(subprocess.check_output(
+                [str(ROOT.parents[1]/'build/robotron-signal-pattern'),'grid',
+                 '--fields','4','--line-characters','112']))
+            proposal['source_capture_path']=str(mistimed)
+            proposal['source_capture_sha256']=hashlib.sha256(mistimed.read_bytes()).hexdigest()
+            with self.assertRaisesRegex(ValueError,'timing differs'):
                 contract.freeze(proposal,score)
             frozen['targets']['eht_v']=12500
             with self.assertRaisesRegex(ValueError,'changed'):
