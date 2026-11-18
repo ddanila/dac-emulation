@@ -16,8 +16,10 @@ SCHEMATIC_QUESTIONS = {
         ' corrections to the horizontal and neck-board nodes. Keep this control'
         ' distinct from the R28 dark-raster preset.'),
     4: ('Trace every T3 tap through the X1/X2 connectors, especially the auxiliary'
-        ' SYNCH output and V14 cathode at TP17. Check the winding continuity and'
-        ' polarity hypothesis before selecting a T3 candidate.'),
+        ' SYNCH output and V14 cathode at TP17. Determine whether X1:2 at V21 is'
+        ' the rectified EHT output rather than a winding tap; the current graph'
+        ' puts X1_2 in upper_taps. Check winding continuity and polarity before'
+        ' selecting a T3 candidate.'),
     9: ('Trace horizontal centring R4, L1/L2, R2 and bridge E1–E4 from X1:5/6'
         ' to the rails and deflection circuit. Determine the bridge position and'
         ' whether this branch can be represented with ideal converter rails.'),

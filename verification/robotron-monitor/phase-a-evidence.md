@@ -343,6 +343,26 @@ further. All three have zero modeled beam launch during this first millisecond.
 These startup results cannot prune a T3 candidate or establish G3: the manual
 comparisons require a settled, complete field after source connectivity and
 polarity review.
+Manual PDF page 19 identifies T3's high-voltage winding terminals as 1 and
+16. On source schematic page 4, V21 appears between X1:1 and the X1:2 EHT
+output, whereas the current unverified winding graph places `X1_2` in its
+`upper_taps` magnetic group and the KiCad transcription connects an external
+V21 model to `X1_16`. This is a specific A1 connector, diode and return-path
+question, not a corrected topology: the scan does not establish every winding
+connection or the physical polarity.
+
+An isolated topology diagnostic removed `X1_2` from that magnetic group and
+its matching X1136 port while retaining the original all-positive candidate's
+remaining sections, parameters and external circuit. The ignored deck is
+`build/monitor/phase-a/t3-x1-2-no-winding-1ms-20261118-run/run.cir` (SHA-256
+`3c028dedb22648701ed1fb329eebf2099a8d153bf2819a79d07ba4808bfb7cc5`).
+It was stopped after 0.934 ms and 423,984 complete rows; the solver receipt
+marks the run failed, and the raw file ends with a partial row. EHT remained
+effectively zero. Removing this port also disconnected the model's existing
+return through the upper-tap group, so the trial is an open-circuit diagnostic,
+not a valid alternative winding model or a candidate comparison. The review
+must determine X1:1, X1:2 and X1:16 roles and preserve the real return path
+before another connected calibration attempt.
 The diagnostic can be regenerated with:
 
 ```sh
