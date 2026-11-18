@@ -167,6 +167,19 @@ records both actual compilers. `monitor_runtime.verify()` checked the installed
 binary and code-model hashes, and all ten runtime provenance and native
 code-model tests passed against that installed runtime. This validates the
 solver build, not the monitor circuit or calibration.
+The first connected synthetic-grid attempt, using the default sparse/Gear
+settings and T3 candidate `t3-44fb6052dcdfdb29`, failed at 0.115 ms with a
+Q203 timestep collapse. A second attempt on the same candidate with KLU,
+50 ns maximum step, 0.001 relative tolerance and 1e-8 current tolerance
+advanced beyond that point, but reached only 5.20 ms of the required 78 ms
+after 324 seconds and was stopped. Its recent median accepted step was about
+1.5 ns. A separate one-millisecond trapezoidal diagnostic completed in about
+68 seconds, giving no useful speedup. The archived trial directories under
+`build/monitor/phase-a/grid-connected-20261118/`,
+`grid-connected-fine-20261118/` and `trap-diagnostic-20261118/` are diagnostic
+only: no complete final field, service score or calibration freeze resulted.
+Synthetic deck titles and experiment metadata now state the source kind, and
+the freeze verifies that it is synthetic.
 
 `phase_a_gates.py` implements the ordered G1–G8 frame gate policy and fails
 closed on absent evidence. Its G1/G1b input can come from the connected
