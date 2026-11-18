@@ -4,11 +4,13 @@ Every gate needs explicit measured evidence. A missing report fails closed; the
 nonblocking accounting observations cannot compensate for a failed gate.
 """
 import argparse
+import hashlib
 import json
 import math
 from pathlib import Path
 
 import calibration_contract
+import service_score as service_scoring
 
 PERIODIC=('eht','horizontal_yoke_current','vertical_yoke_current','g2','g4','core_flux')
 PERIODIC_PROBES={'eht':'v(eht)','horizontal_yoke_current':'i(lhorizontal)',
@@ -33,6 +35,12 @@ def waveform_reviewed(evidence, n):
 def evaluate(evidence,service_score,freeze):
     if evidence.get('format')!='dac-monitor-phase-a-gate-evidence-v1':raise ValueError('invalid evidence format')
     if service_score.get('format')!='dac-monitor-service-score-v1':raise ValueError('invalid service score')
+    register_hash=hashlib.sha256(service_scoring.REGISTER.read_bytes()).hexdigest()
+    if service_score.get('register_sha256')!=register_hash:
+        raise ValueError('service score does not use the current manual register')
+    point_numbers=[p.get('test_point') for p in service_score.get('points',[])]
+    if len(point_numbers)!=17 or set(point_numbers)!=set(range(1,18)):
+        raise ValueError('service score must contain each manual test point exactly once')
     calibration_contract.verify(freeze)
     trace_hash=evidence.get('electrical_trace_sha256')
     score_is_for_trace=(isinstance(trace_hash,str) and len(trace_hash)==64

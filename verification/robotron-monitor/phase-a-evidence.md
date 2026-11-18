@@ -64,7 +64,8 @@ closed on absent evidence. Its G1/G1b input can come from the connected
 `native_sync_lock` report, which now counts extra flybacks and adjacent-line
 jitter. Its G2 input can come from the existing three-field settling report.
 The gate report checks that the service score belongs to the final electrical
-trace and that readability uses the selected native capture. G3/G4 also require
+trace, uses the current service register, contains each of the 17 points once,
+and that readability uses the selected native capture. G3/G4 also require
 an identified reviewer to check each drawn waveform shape and the manual's
 operating conditions; numeric agreement alone cannot pass them. These gates do
 not imply that Phase B measurements already pass.
