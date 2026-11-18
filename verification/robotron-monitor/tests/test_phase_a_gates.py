@@ -267,5 +267,19 @@ class PhaseAGateTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'optical input differs'):
                     phase_a_gates.verify_optical_refinement(evidence,score,metadata)
 
+    def test_g8_recomputes_claimed_correlation(self):
+        evidence=copy.deepcopy(self.evidence)
+        evidence['optical_refinement']['base_archive']='render/archive'
+        computed={'source_kind':'native-firmware-logical-timing-reference',
+                  'source_content_sha256':'e'*64,'one_global_affine_fit':True,
+                  'fit_applied_to_render':False,'correlation':.64}
+        with mock.patch.object(phase_a_gates.readability_score,'score',return_value=computed):
+            with self.assertRaisesRegex(ValueError,'reported G8 readability differs'):
+                phase_a_gates.verify_readability(evidence,'selection')
+            evidence['readability'].pop('correlation')
+            phase_a_gates.verify_readability(evidence,'selection')
+            self.assertFalse(next(g['passed'] for g in phase_a_gates.evaluate(evidence,self.score,self.freeze)['blocking']
+                                  if g['gate']=='G8'))
+
 
 if __name__=='__main__':unittest.main()
