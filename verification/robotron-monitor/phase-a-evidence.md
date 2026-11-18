@@ -206,7 +206,9 @@ python3.14 verification/robotron-monitor/phase_a_review.py \
   --output build/monitor/phase-a/source-review-gate.json
 ```
 
-Each human mark needs a source reading, disposition, reason, reviewer and date.
+Each blank part mark includes the current inventory value and independent OCR
+readings as review context. Each human mark needs a source reading, disposition,
+reason, reviewer and date.
 An `unresolved` mark is valid only after the inventory entry itself is marked
 unresolved. Schematic marks cover pages 3–4, 9–10, 16 and 18 and must record
 KiCad connectivity, diode direction and winding polarity review. Marks bind to
