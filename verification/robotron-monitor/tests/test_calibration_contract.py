@@ -47,6 +47,14 @@ class CalibrationContractTests(unittest.TestCase):
                          magnetic_sha256=proposal['assumptions']['t3_winding_parameters']['sha256'],
                          yoke_sha256=proposal['assumptions']['yoke_profile']['sha256'])
             self.assertTrue(contract.verify_run(frozen,**binding))
+            self.assertIn('dark_raster_r28',frozen['trims'])
+            self.assertIn('max_beam_r4_0126921',frozen['trims'])
+            self.assertIn('centering_horizontal_r4_0126931',frozen['trims'])
+            self.assertIn('picture_width_r5',frozen['trims'])
+            incomplete=json.loads(json.dumps(proposal))
+            del incomplete['trims']['max_beam_r4_0126921']
+            with self.assertRaisesRegex(ValueError,'missing or extra recorded trim'):
+                contract.freeze(incomplete,score)
             for change in ({'candidate_id':'different'}, {'magnetic_sha256':'0'*64},
                            {'yoke_sha256':'0'*64},
                            {'parameters':{'l4_coupling':.4,'horizontal_tank_l':.0015}},

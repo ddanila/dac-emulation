@@ -40,10 +40,12 @@ parameters.
 The first operating-manual vision pass exposed a TP17 transcription error:
 page 21 shows **80 Vpp** at V14's cathode, not the earlier register's 90 Vpp.
 Direct inspection of the page image, an independent classic OCR crop and the
-second vision pass all read 80 Vpp; the first vision pass read 60 Vpp. The
-second pass read point 13 as 5.4 Vpp, but the source crop, first vision pass
-and classic OCR read 6.4 Vpp, matching the register. Additional model passes
-remain in progress. Page 20 also has a handwritten `9a` waveform below the
+second and third vision passes all read 80 Vpp; the first vision pass read
+60 Vpp. The second pass read point 13 as 5.4 Vpp, but the source crop, first
+and third vision passes and classic OCR read 6.4 Vpp, matching the register.
+The third pass omits most numeric amplitudes on page 20, illustrating why a
+text-only pass is insufficient for waveform figures. Further passes remain
+in progress. Page 20 also has a handwritten `9a` waveform below the
 printed 1–8 set,
 annotated 22 and 10 Vpp at V22's collector. The register preserves it as an
 auxiliary observation. Its converter node is excluded from Phase B's ideal-rail
@@ -63,6 +65,9 @@ instructions and carries a handwritten correction mark. That conflict is
 explicitly left for schematic and control review. The printed upper frequency
 bound is about 2.1% above 16 kHz, narrower than Phase B's proposed +3% margin;
 the B2 criterion needs reconciliation with the source, not an invented pass.
+The third manual text pass confirms the 14.338–16.338 kHz range and page 32's
+R60/R59 adjustment labels; it also confirms the page 30 meter sequence and
+page 31's separate R4 and R5 geometry controls.
 Page 10 also states approximate cathode levels of 35 V for VID=0 (dark) and
 15 V for VID=1 (normally bright), with INTENS able to lower the bright level.
 These are operating levels in the text, not DC means supplied for the 17
@@ -102,11 +107,22 @@ frozen candidate is selected. Without a freeze it can continue electrical
 screening but stops before rendering a native image. Manual trim settings are
 recorded in the freeze; their physical-to-model application still needs the
 synthetic-grid calibration run.
-One concrete trim-mapping gap is horizontal centring R4 on board 012-6931:
-the part is in the inventory and manual procedure, but no assembled KiCad
-sheet currently carries that `SourceId`. Its connection and control effect
-need the A1 schematic review before a B6 trim setting can be claimed as
-applied to the simulated monitor.
+The freeze requires records for the full manual setup sequence: 5 V R9,
+vertical sync R22, T1, horizontal hold R24, dark-raster R28, maximum-beam R4
+on 012-6921, horizontal linearity L3, width R5, horizontal centring R4 on
+012-6931, height R35, linearity R59/R60, vertical shift R58, and the focus,
+brightness and contrast controls. The two R4 keys identify their boards.
+The linearity keys identify R59 and R60 by part number without assigning upper
+or lower screen regions: manual pages 15 and 32 disagree about those roles.
+The conflict must be resolved before model application is claimed.
+
+A fresh `steady_supply.assemble()` export shows neither 012-6931:R4 nor
+012-6931:R5 in the connected assembly; the latter is currently confined to
+the converter sheet, which this path excludes. Both appear in the inventory
+and manual geometry procedure. Their connections and control effects need
+schematic review before a B6 trim setting can be claimed as applied to the
+simulated monitor. The other trim settings are recorded, but a future grid
+calibration must verify their actual physical-to-model application.
 
 `phase_a_gates.py` implements the ordered G1–G8 frame gate policy and fails
 closed on absent evidence. Its G1/G1b input can come from the connected
