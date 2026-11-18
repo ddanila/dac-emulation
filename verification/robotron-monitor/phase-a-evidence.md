@@ -409,6 +409,25 @@ python3.14 verification/robotron-monitor/phase_a_review.py \
   --output build/monitor/phase-a/source-review-gate.json
 ```
 
+`source_review_guide.py` builds a local visual guide from the current audit.
+It groups all open entries by source page, shows the independent OCR readings,
+and links to the original parts-list and schematic page images. It checks the
+source PDF hash and refuses missing page images. The guide contains no review
+decisions or approval marks:
+
+```sh
+python3.14 verification/robotron-monitor/source_review_guide.py \
+  --audit build/monitor/phase-a/inventory-audit-after-page15-correction-v2.json \
+  --source-pdf build/monitor/phase-a/sources/older.pdf \
+  --parts-images build/monitor/phase-a/ocr-workflow/review/pages/k7222-list \
+  --schematic-images build/monitor/phase-a/schematic-pages \
+  --output build/monitor/phase-a/source-review-guide-20261118.html
+```
+
+The current guide covers 33 open inventory entries on eight source pages and
+all six schematic pages. Its local image and PDF links refer to files under
+`build/monitor/phase-a/`; the source artifacts remain uncommitted review inputs.
+
 Each blank part mark includes the current inventory value and independent OCR
 readings as review context, with any excluded pass flagged as review-only.
 Each human mark needs a source reading, disposition,
