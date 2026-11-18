@@ -25,6 +25,19 @@ class SignalCaptureTests(unittest.TestCase):
                 bad=copy.deepcopy(original);bad[key]=value;path.write_text(json.dumps(bad))
                 with self.assertRaises(ValueError):lab.parse_capture(path)
 
+    def test_full_screen_fixture_matches_native_s550_timing(self):
+        import steady_supply
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'grid.json'
+            path.write_bytes(subprocess.check_output([str(ROOT.parents[1]/'build/robotron-signal-pattern'),
+                'checkerboard','--fields','4','--line-characters','108']))
+            data=lab.parse_capture(path);selection=steady_supply.select(data)
+            self.assertEqual(data['qualification'],'synthetic-test-pattern')
+            self.assertEqual(selection['status'],'complete')
+            self.assertAlmostEqual(selection['period_ticks']/selection['clock_hz'],.0195)
+            self.assertAlmostEqual(selection['line_period_ticks']/selection['clock_hz'],62.5e-6)
+            self.assertGreater(sum(e[1] for e in selection['events']),1000)
+
     def test_stopped_machine_capture_is_complete_and_initial_state_is_retained(self):
         with tempfile.TemporaryDirectory() as tmp:
             d=Path(tmp)

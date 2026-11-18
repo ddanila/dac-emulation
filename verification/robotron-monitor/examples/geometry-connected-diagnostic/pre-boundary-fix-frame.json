@@ -1,0 +1,118 @@
+{
+  "format": "dac-periodic-frame-v1",
+  "status": "complete",
+  "qualification": "experimental-periodic-optical-bench",
+  "full_monitor_qualified": false,
+  "specimen_validated": false,
+  "electrical_settling_verified": false,
+  "thermal_equilibrium_verified": false,
+  "assumed_periodic_electrical_history": true,
+  "outputs": {
+    "frame.png": {
+      "path": "frame.png",
+      "sha256": "6323acff17ee6f243a8f931751d8bcbff9a41e2c6d4f085ad7b77fa3cd26b6fd"
+    },
+    "frame.f32": {
+      "path": "frame.f32",
+      "sha256": "eccc51c9205cebcaedca0d844ff56ec5b4953b2230831d2c044c1dcdc461b9a5"
+    },
+    "periodic-state.json": {
+      "path": "periodic-state.json",
+      "sha256": "9dde5633393ee13bc23eb073290969001a78ae2c53ef360be7bbd2eb106a198a"
+    }
+  },
+  "electrical_rows": 156289,
+  "hashes": {
+    "input.csv": "c4cc1362b336ad905f7688c4aa33627b7d2bc7229197931fe76978015de943fe",
+    "beam_render.py": "bde74e1b1782f21988fa46a143261f86aa4a74a5b4b0a83262d138e89011f321",
+    "trajectory.py": "4255c4521666ccb27026b0bbd80597dc112a30c9203244ee1bca12c9d510c7e9",
+    "trajectory_native.py": "ada9abb3e3ebc9f373ad21d90ca89fa503b775e666cc5679ba44bd15ae0bfaa5",
+    "trajectory_native.cpp": "f3aeaa1e78e8d830c1c0b615a79d04f2cb82ee509bc86f0529f4e753855832ad",
+    "phosphor.py": "94ae0c41adf7321aa9f4ba2a4025c98e7c660e9fe65613894a25da4cac1e9391",
+    "optics.py": "afb3e7d70a50a907bb243e8c67097ddd04013c47dd3510f9ed24aaca08bd6580",
+    "periodic_frame.py": "930df9a8527e42c52bfcf29e45b4d053a8141d9935e5aefd29dca4727e18bdac"
+  },
+  "render": {
+    "parameters": {
+      "width": 480,
+      "height": 360,
+      "screen_width_m": 0.21,
+      "screen_height_m": 0.145,
+      "screen_radius_m": 0.45,
+      "tau_s": 0.025,
+      "efficiency": 0.08,
+      "exposure_m2_per_w": 0.02
+    },
+    "field_parameters": {
+      "screen_z_m": 0.28,
+      "screen_radius_m": 0.45,
+      "screen_width_m": 0.21,
+      "screen_height_m": 0.145,
+      "gun_radius_m": 0.002,
+      "neck_radius_m": 0.01,
+      "yoke_start_m": 0.075,
+      "yoke_length_m": 0.04,
+      "horizontal_tesla_per_amp": 0.007979477182945251,
+      "vertical_tesla_per_amp": 0.012196125520739134,
+      "initial_energy_ev": 20.0,
+      "source_radius_m": 5e-06,
+      "divergence_rad": 0.001,
+      "grid2_length_m": 0.012,
+      "focus_start_m": 0.015,
+      "focus_length_m": 0.015,
+      "anode_start_m": 0.04,
+      "anode_length_m": 0.03
+    },
+    "trajectory_step_m": 0.0002,
+    "pixel_integration": "chord",
+    "backend": "compiled",
+    "backend_build": {
+      "build_key": "1abcf95b76cc3e24d66ae06df62e17a943f73d3ca394f9a3196ff1a82bf5777c",
+      "compiler": "c++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "flags": [
+        "-std=c++17",
+        "-O3",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-shared",
+        "-fPIC"
+      ],
+      "source_sha256": "f3aeaa1e78e8d830c1c0b615a79d04f2cb82ee509bc86f0529f4e753855832ad",
+      "library_sha256": "555d3a88b09e2ed6c5e64c187f8a62a7c1a5fd368b622f980133679b48811948"
+    },
+    "max_interval_s": 3.616898148148148e-08,
+    "movement_limit_pixels": 0.25,
+    "bundles": 48144,
+    "optical_continuation": false,
+    "emission_intervals": 23822,
+    "energy": {
+      "deposited_optical_j": 4.2541872699782826e-07,
+      "clipped_optical_j": 0.0,
+      "emitted_optical_j": 2.678082064426214e-08,
+      "stored_optical_j": 3.986379063535842e-07,
+      "terminal_kinetic_j": 1.3471276128816834e-05,
+      "intercepted_kinetic_j": 8.153542041343594e-06,
+      "in_flight_kinetic_j": 0
+    },
+    "max_trajectory_energy_error_ev": 8.997572422231315e-05
+  },
+  "energy": {
+    "initial_stored_optical_j": 7.360456627561327e-07,
+    "final_stored_optical_j": 7.360456627561327e-07,
+    "deposited_optical_j": 4.2541872699782826e-07,
+    "emitted_optical_j": 4.2541872699782826e-07,
+    "clipped_optical_j": 0.0,
+    "terminal_kinetic_j": 1.3471276128816834e-05,
+    "intercepted_kinetic_j": 8.153542041343594e-06,
+    "kinetic_balance_relative_error": 2.867189568787234e-14
+  },
+  "elapsed_s": 137.37278544018045,
+  "late_arrivals_folded": 0,
+  "linear_format": {
+    "dtype": "little-endian float32",
+    "unit": "W/m^2",
+    "order": "row-major",
+    "width": 480,
+    "height": 360
+  }
+}

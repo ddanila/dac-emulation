@@ -57,22 +57,26 @@ extern "C" int crt_ray(const double* e,const double* p,double* out,double* point
     State s={e[5],e[6],e[7]*uz,e[8]*uz,uz,0};
     double energy0=p[INITIAL_EV]-potential(e[5],e[6],0,e,p)[0];
     double z=0,maxerr=0;int reason=6;
+    double gun_end=p[ANODE_START]+p[ANODE_LENGTH],neck_end=p[YOKE_START]+p[YOKE_LENGTH];
+    std::array<double,8> boundaries={p[G2_LENGTH],p[FOCUS_START],p[FOCUS_START]+p[FOCUS_LENGTH],
+        p[ANODE_START],gun_end,p[YOKE_START],neck_end,p[SCREEN_Z]};
     auto point=[&]() {if(*count>=capacity)return false;int i=3*(*count)++;points[i]=z;points[i+1]=s[0];points[i+2]=s[1];return true;};
     if(!point())return -1;
-    for(int index=0;index<int(std::ceil(p[SCREEN_Z]/e[9]))+2;++index) {
-        State old=s;double previous=z,h=std::min(e[9],p[SCREEN_Z]-z);
+    for(int index=0;index<int(std::ceil(p[SCREEN_Z]/e[9]))+10;++index) {
+        State old=s;double previous=z,end=std::min(z+e[9],p[SCREEN_Z]);
+        for(double boundary:boundaries)if(boundary>z)end=std::min(end,boundary);
+        double h=end-z;
         try {
             auto a=rhs(z,old,e,p);auto b=rhs(z+h/2,add(old,a,h/2),e,p);
             auto c=rhs(z+h/2,add(old,b,h/2),e,p);auto d=rhs(z+h,add(old,c,h),e,p);
             for(int i=0;i<6;++i)s[i]=old[i]+h*(a[i]+2*b[i]+2*c[i]+d[i])/6;
         } catch(const std::runtime_error&) {reason=1;break;}
-        z+=h;for(double v:s)if(!std::isfinite(v))return -2;
+        z=end;for(double v:s)if(!std::isfinite(v))return -2;
         double k=REST*(std::sqrt(1+s[2]*s[2]+s[3]*s[3]+s[4]*s[4])-1);
         maxerr=std::max(maxerr,std::abs(k-potential(s[0],s[1],z,e,p)[0]-energy0));
         if(s[4]<=0){reason=1;break;}
-        double gun_end=p[ANODE_START]+p[ANODE_LENGTH];
-        if(z<gun_end&&std::hypot(s[0],s[1])>p[GUN]){reason=2;break;}
-        if(gun_end<=z&&z<p[YOKE_START]+p[YOKE_LENGTH]&&std::hypot(s[0],s[1])>p[NECK]){reason=3;break;}
+        if(previous<gun_end&&std::hypot(s[0],s[1])>p[GUN]){reason=2;break;}
+        if(gun_end<=previous&&previous<neck_end&&std::hypot(s[0],s[1])>p[NECK]){reason=3;break;}
         if(z>=surface(s,p)) {
             double lo=0,hi=1;
             for(int n=0;n<32;++n){double t=(lo+hi)/2;State test;for(int i=0;i<6;++i)test[i]=old[i]+t*(s[i]-old[i]);

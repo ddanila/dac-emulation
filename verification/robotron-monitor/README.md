@@ -83,6 +83,14 @@ physical yoke calibration still block accepted healthy-reference status.
 
 ### Actual connected diagnostic image
 
+The latest [geometry-derived diagnostic and evidence](examples/geometry-connected-diagnostic/README.md)
+shows faint, distorted native loader text at 480×360. Its electrical solve took
+179 seconds and optical rendering 135 seconds. It remains blocked by 0.254-line
+native phase variation, nonperiodic electrical waveforms, and missing electrode
+load feedback/full electrical energy closure. The geometry is a frozen reduced
+hypothesis, not a specimen calibration. The older example below documents the
+previous independent R/L/field hypothesis.
+
 [Example image](examples/steady-supply-diagnostic/frame.png) and
 [its evidence report](examples/steady-supply-diagnostic/example.json) are from the
 connected circuit, not the driven flyback fixture. The image is a narrow, dim band:
@@ -106,8 +114,12 @@ The example assumes this **unsettled** electrical field repeats for phosphor
 initialization; it is not an accepted sustained warmed frame. `periodic_frame.compare()`
 compares intact single-frame archives in linear irradiance without registration
 or exposure fitting, including power-conserving 2x spatial projection. Pixel areas integrate arriving
-energy directly; midpoint ray intervals are subdivided at pixel crossings. This
-removes the old resolution-dependent bilinear footprint. On this diagnostic field,
+energy directly. Short, curvature-checked trajectory chords are split analytically
+at pixel boundaries, integrating changing beam current and impact energy over
+each cell. The earlier picosecond-bisection mode remains a test oracle. This
+removes the old resolution-dependent bilinear footprint. Trajectories stop exactly
+at electrode/yoke boundaries and test the closed aperture exit face; a coarse
+step can no longer skip the final neck-wall segment. On the archived older diagnostic field with the earlier integration method,
 halving the trajectory step and time interval gives a relative image error of
 2.79e-7; doubling both image dimensions gives 1.37e-7 after area projection.
 Both pass the 2% optical threshold, with energy residual below 1.5e-13. These
@@ -177,10 +189,28 @@ whole-run budget. The command correctly retained diagnostic artifacts and exited
 blocked. See [experiment results](examples/steady-supply-diagnostic/diagnostic-experiments.json)
 and the [coupled deck](examples/steady-supply-diagnostic/coupled-l4.cir).
 
-The shared `profiles/k7222-11-yoke.json` carries both electrical and optical
-assumptions into circuit metadata and optical workers. Its effective magnetic
-energy volumes expose that inductance and field-per-ampere are still independently
-assumed. No image-size fitting or automatic gain adjustment is applied.
+Steady-supply runs now default to a [geometry-derived reduced yoke](YOKE-GEOMETRY.md).
+It derives winding resistance, inductance and bore field together, checks packing
+and clearance, and compares flux-linkage inductance with independently integrated
+field energy. It uses an exact transverse harmonic solution with an explicit
+separable axial approximation, not a historical 3D field reconstruction. The old
+`profiles/k7222-11-yoke.json` is retained only as an explicit legacy hypothesis.
+Use `--yoke-profile PATH` to select a frozen hypothesis. Independent yoke R/L
+changes are refused for geometry-derived profiles.
+
+Completed electrical solves can be reused through `--electrical-cache PATH`
+(default `build/monitor/electrical-cache`). Exact deck and verified runtime identify
+the cache; every file hash and the complete binary trace endpoint are checked.
+Acceptance is rerun on retrieval. These are traces, not ngspice checkpoints.
+Each newly generated deck also carries a frozen experiment fingerprint linking
+resolved settings, source content, capture and archived assembly hashes.
+
+A failed latest trial now gets its own diagnostic image when time remains, linked
+by deck hash/run identifier and accompanied by the actual failed settling checks.
+Diagnostic previews are 240×180, with a maximum 200 ns integration interval;
+physical screen dimensions and exposure are unchanged. Accepted-path optical
+refinement still uses the full-resolution settings. A timeout never substitutes
+an older image or publishes an unfinished render.
 
 `lock_scan.py` provides a bounded connected trim search with up to nine settings
 across the declared R24 range, eight fields per setting. It stops at the first
@@ -191,6 +221,19 @@ and vertical trim overrides survive every trial. A singleton or points separated
 by a failure cannot establish an interval. The last third of the wall budget is
 reserved for validation in both the lock scanner and production frame runner.
 No connected lock candidate has yet passed these checks.
+
+A separate full-screen source fixture can use S550 timing without substituting
+for firmware acceptance:
+
+```sh
+make build/robotron-signal-pattern
+build/robotron-signal-pattern checkerboard --fields 4 --line-characters 108 > build/monitor/native-timing-grid.json
+```
+
+This runs the native connector output logic with synthetic pixel data at 16 kHz
+and 19.5 ms per field. It is labelled `synthetic-test-pattern`; the production
+firmware-frame command rejects it as an acceptance source.
+
 
 Flyback detection now interpolates threshold crossings and retains closely spaced
 pulses instead of filtering them out. In addition to count and cumulative phase
@@ -215,6 +258,14 @@ At 1.532 mH, the measured periods at control voltages 0, 4, 8, 12 and 18 V were
 curve means a single correction-sign assumption cannot be applied over the entire
 control range. This is an isolation result with a dummy secondary load, not a
 measurement of the loaded monitor's loop gain.
+
+`loop_response.py` retains recorded control ripple while applying ±50 mV,
+one-line control pulses and ±0.005-line feedback phase perturbations. It repeats
+with half the perturbation and timestep. Correction signs are usable for local
+screening only when relative change is below 1%; the bench cannot establish
+connected lock. The measured oscillator response refined by 0.55%, but detector
+slopes changed by 2.35–3.99%, so all four tested phase regions remain unqualified
+for screening. No polarity hypothesis is rejected on those unresolved signs.
 
 The [archived lock audit](examples/horizontal-lock-audit/README.md) includes exact
 decks, measured results and hashes for the connected replay, forced-control
