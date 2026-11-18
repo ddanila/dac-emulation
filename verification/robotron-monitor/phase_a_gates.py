@@ -79,15 +79,22 @@ def evaluate(evidence,service_score,freeze):
     add('G2',periodic.get('fields')==3 and all(finite(values.get(k)) and 0<=values[k]<=.01 for k in PERIODIC),
         {'fields':periodic.get('fields'),'relative_errors':values,'required':PERIODIC})
     calibrated=freeze.get('targets',{})
+    measured=evidence.get('calibration_measurements',{})
+    geometry=evidence.get('grid_geometry',{})
+    calibration_sources_match=(score_is_for_trace
+        and measured.get('electrical_trace_sha256')==trace_hash
+        and geometry.get('source_capture_sha256')==freeze.get('source_capture_sha256'))
     add('G3',score_is_for_trace
         and all(point_status(service_score,n)=='pass-numeric' for n in calibration_contract.CALIBRATION_POINTS)
         and all(waveform_reviewed(evidence,n) for n in calibration_contract.CALIBRATION_POINTS)
-        and all(finite(calibrated.get(k)) for k in ('eht_v','horizontal_retrace_us','picture_width_mm','picture_height_mm'))
-        and 11000<=calibrated['eht_v']<=12000
-        and 12.8<=calibrated['horizontal_retrace_us']<=19.2
-        and 168<=calibrated['picture_width_mm']<=252
-        and 116<=calibrated['picture_height_mm']<=174,
+        and calibration_sources_match
+        and finite(measured.get('eht_v')) and 11000<=measured['eht_v']<=12000
+        and finite(measured.get('horizontal_retrace_us')) and 12.8<=measured['horizontal_retrace_us']<=19.2
+        and finite(geometry.get('picture_width_mm')) and 168<=geometry['picture_width_mm']<=252
+        and finite(geometry.get('picture_height_mm')) and 116<=geometry['picture_height_mm']<=174,
         {'calibration_points':sorted(calibration_contract.CALIBRATION_POINTS),'targets':calibrated,
+         'measured':measured,'grid_geometry':geometry,
+         'measurement_sources_match':calibration_sources_match,
          'unreviewed_waveforms':[n for n in sorted(calibration_contract.CALIBRATION_POINTS)
                                  if not waveform_reviewed(evidence,n)],
          'service_score_matches_trace':score_is_for_trace})
@@ -97,8 +104,8 @@ def evaluate(evidence,service_score,freeze):
     add('G4',score_is_for_trace and not misses and not unreviewed,
         {'misses':misses,'unreviewed_waveforms':unreviewed,'explanations':explanations,
                          'unexplained':[n for n in misses if str(n) not in explanations]})
-    geometry=evidence.get('grid_geometry',{})
     add('G5',geometry.get('source_kind')=='synthetic-test-pattern'
+        and geometry.get('source_capture_sha256')==freeze.get('source_capture_sha256')
         and all(finite(geometry.get(k)) for k in ('picture_width_mm','picture_height_mm','horizontal_linearity','vertical_linearity'))
         and .9<=geometry['picture_width_mm']/210<=1.05
         and .9<=geometry['picture_height_mm']/145<=1.05
