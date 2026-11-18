@@ -32,6 +32,18 @@ def waveform_reviewed(evidence, n):
             and isinstance(review.get('reviewer'),str) and bool(review['reviewer'].strip()))
 
 
+def verify_service_score(score):
+    source=Path(score.get('input',''))
+    window=score.get('requested_window_s')
+    required=score.get('required_points')
+    if not source.is_file() or not isinstance(window,list) or len(window)!=2 or not isinstance(required,list):
+        raise ValueError('service score source or measurement window is missing')
+    reproduced=service_scoring.score(source,start=window[0],end=window[1],required=required)
+    if calibration_contract.digest(reproduced)!=calibration_contract.digest(score):
+        raise ValueError('service score differs from the electrical trace')
+    return True
+
+
 def evaluate(evidence,service_score,freeze):
     if evidence.get('format')!='dac-monitor-phase-a-gate-evidence-v1':raise ValueError('invalid evidence format')
     if service_score.get('format')!='dac-monitor-service-score-v1':raise ValueError('invalid service score')
@@ -119,7 +131,9 @@ def main():
     parser.add_argument('--calibration-freeze',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
-    result=evaluate(json.loads(args.evidence.read_text()),json.loads(args.service_score.read_text()),
+    score=json.loads(args.service_score.read_text())
+    verify_service_score(score)
+    result=evaluate(json.loads(args.evidence.read_text()),score,
                     json.loads(args.calibration_freeze.read_text()))
     args.output.write_text(json.dumps(result,indent=2)+'\n')
     for gate in result['blocking']:print(gate['gate'],'PASS' if gate['passed'] else 'FAIL')
