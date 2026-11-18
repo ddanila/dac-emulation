@@ -363,7 +363,26 @@ return through the upper-tap group, so the trial is an open-circuit diagnostic,
 not a valid alternative winding model or a candidate comparison. The review
 must determine X1:1, X1:2 and X1:16 roles and preserve the real return path
 before another connected calibration attempt.
-The diagnostic can be regenerated with:
+An additional controlled startup diagnostic retains the `X1_2` removal but
+connects `X1_3` to the existing `h_upper2`/`X2_3` node, preserving the
+upper-tap return to `X1_7`. Only the X1136 port assignment changed relative
+to the failed diagnostic above. The complete 1 ms run is under ignored
+`build/monitor/phase-a/t3-x1-2-return-x1-3-1ms-20261118-run/`, with the
+single-line change in `hypothesis.json` and checked hashes in
+`diagnostic-receipt.json`. The deck SHA-256 is
+`e0aea308bfff7d67b4827352aa33fd23349aa6f51506742d81b0266a1db45713`;
+the trace SHA-256 is
+`9d5ace7bdc8cd82507db2d9f0a65428ec5646cabe5dd99fdf2ab80afb082ba35`.
+Its 182,115 complete samples end at 1 ms. Time-averaged EHT is 2.75 kV,
+versus 2.85 kV for the original candidate's first millisecond; TP17 has 12
+upward 100 V crossings and 152 V peak-to-peak, versus 8 crossings and 192 V
+in that original startup window. The recovered EHT confirms that the prior
+zero-EHT result was an open-return artifact. Neither startup run meets the
+11–12 kV target or establishes periodic operation, and this hypothesized
+`X1_3` connection is not a reviewed source correction. The source review must
+still resolve the T3 pin map and diode direction before a candidate is frozen.
+
+The original incomplete run's partial-trace summary can be regenerated with:
 
 ```sh
 python3.14 verification/robotron-monitor/partial_trace_diagnostic.py \
