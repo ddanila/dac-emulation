@@ -130,7 +130,9 @@ def finish(assembly, selection, candidate, metadata, trial, output, runtime, sol
         report['blockers'].append('Electrode feedback failed convergence, charge balance or synchronization.');return save()
     assembly=dict(assembly,collection_report=coupling['load'])
     trial=Path(coupling['trial']);metadata=coupling['metadata']
-    report['checks']['coupled-state']=dict(solve={'status':'complete'},trial=str(trial),metadata=metadata,settling=coupling['settling']);save()
+    report['checks']['coupled-state']=dict(solve={'status':'complete'},trial=str(trial),metadata=metadata,
+                                          settling=coupling['settling'],
+                                          service_score=steady_supply.score_trial(trial,metadata));save()
     variants={
         'refinement':dict(solver,max_step_s=metadata['max_step_s']/2,
                           reltol=max(1e-5,metadata['reltol']/5),abstol=max(1e-12,metadata['abstol']/10)),
@@ -156,6 +158,7 @@ def finish(assembly, selection, candidate, metadata, trial, output, runtime, sol
         if not refined['converged'] or not refined['accepted']:
             report['blockers'].append(name+' failed coupled convergence or synchronization');return save()
         check.update(trial=refined['trial'],metadata=refined['metadata'],settling=refined['settling'])
+        check['service_score']=steady_supply.score_trial(refined['trial'],refined['metadata'])
         check['comparison']=compare(Path(trial)/'trace.raw',Path(refined['trial'])/'trace.raw',metadata)
         if not check['comparison']['accepted']:
             report['blockers'].append(name+' failed waveform agreement');return save()

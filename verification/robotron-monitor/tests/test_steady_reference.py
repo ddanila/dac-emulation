@@ -240,6 +240,7 @@ quit
             coupling=dict(converged=True,accepted=True,load={},trial=str(root/'trial'),metadata=metadata,settling={'accepted':True})
             with mock.patch.object(steady_supply,'deck',return_value=('test',{})), \
                  mock.patch.object(steady_supply,'solve',side_effect=failed), \
+                 mock.patch.object(steady_supply,'score_trial',return_value={'numeric_status':'fail'}), \
                  mock.patch('beam_feedback.run',return_value=coupling), \
                  mock.patch('energy_validation.run',return_value={'accepted':True}), \
                  mock.patch.object(steady_acceptance,'optical_worker') as optical:
@@ -261,6 +262,7 @@ quit
                 def solve(text,path,*args,**kwargs):
                     Path(path).mkdir();return {'status':'complete'}
                 with mock.patch('beam_feedback.run',return_value=coupling), \
+                     mock.patch.object(steady_supply,'score_trial',return_value={'numeric_status':'fail'}), \
                      mock.patch('energy_validation.run',return_value={'accepted':failed_gate!='energy'}), \
                      mock.patch.object(steady_supply,'deck',return_value=('fixture',metadata)), \
                      mock.patch('electrical_cache.solve',side_effect=solve), \
