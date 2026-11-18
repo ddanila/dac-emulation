@@ -96,6 +96,11 @@ frozen candidate is selected. Without a freeze it can continue electrical
 screening but stops before rendering a native image. Manual trim settings are
 recorded in the freeze; their physical-to-model application still needs the
 synthetic-grid calibration run.
+One concrete trim-mapping gap is horizontal centring R4 on board 012-6931:
+the part is in the inventory and manual procedure, but no assembled KiCad
+sheet currently carries that `SourceId`. Its connection and control effect
+need the A1 schematic review before a B6 trim setting can be claimed as
+applied to the simulated monitor.
 
 `phase_a_gates.py` implements the ordered G1–G8 frame gate policy and fails
 closed on absent evidence. Its G1/G1b input can come from the connected
