@@ -88,3 +88,21 @@ The multi-pass BOM and manual OCR, per-entry inventory reconciliation and human
 schematic review are in progress. The gate contract exists, but the stage and
 full-frame evidence producers for geometry, refinement and readability belong
 to Phase B. This document does not assert Phase A completion or a qualified frame.
+
+`inventory_audit.py` prepares a 260-entry review report from the independent
+parts-list CSV passes. It checks grouped reference quantities, records the
+reading from each pass and distinguishes exact machine agreement from source
+review. It does not declare a part confirmed merely because three OCR passes
+agree: the printed value must also be compared with the inventory. For example:
+
+```sh
+python3.14 verification/robotron-monitor/inventory_audit.py \
+  --ocr-root build/monitor/phase-a/ocr-workflow/outputs/k7222-list \
+  --output build/monitor/phase-a/inventory-audit.json
+```
+
+After the two full-page vision passes and the classic table pass available on
+2026-11-18, 28 entries had three identical machine descriptions awaiting
+inventory comparison; 225 parts-list entries still needed more source evidence
+or review, and seven schematic-only entries needed schematic review. These
+counts are interim and will change as the remaining vision passes finish.

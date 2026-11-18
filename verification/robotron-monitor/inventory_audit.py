@@ -1,0 +1,129 @@
+"""Prepare a per-part review of independent K7222 parts-list OCR passes.
+
+The inventory locates the expected page and reference, but never supplies a
+missing OCR value. This report is evidence for review, not a transcription
+approval: even three identical readings need comparison with the inventory.
+"""
+import argparse
+import collections
+import csv
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+INVENTORY = ROOT / 'reference/k7222-11/inventory.json'
+PAGES = (6, 7, 8, 12, 13, 14, 15, 17)
+TAGS = ('primary', 'r300', 'alt', 'alt2', 'cropL', 'cropR', 'struct')
+REF = re.compile(r'(?<![A-Za-z0-9])([ACFLRTV]\d+(?::\d+)?)(?![A-Za-z0-9])', re.I)
+ARTICLE = re.compile(r'^\d\.\d{2,}')
+
+
+def _readings(path):
+    with path.open(newline='') as stream:
+        for number, row in enumerate(csv.reader(stream), 1):
+            quantity = next((i for i, cell in enumerate(row[:5])
+                             if re.fullmatch(r'\s*[1-9]\d?\s*', cell)), None)
+            if quantity is None or quantity == 0:
+                continue
+            label = ','.join(row[:quantity])
+            references = list(dict.fromkeys(x.upper() for x in REF.findall(label)))
+            if not references:
+                continue
+            count = int(row[quantity].strip())
+            if len(references) == 1 and count > 1 and '...' in label:
+                start = re.fullmatch(r'([A-Z]+\d+):(\d+)', references[0])
+                if start:
+                    references = [f'{start[1]}:{n}' for n in
+                                  range(int(start[2]), int(start[2]) + count)]
+                else:
+                    start = re.fullmatch(r'([A-Z]+)(\d+)', references[0])
+                    end = re.search(r'\.\.\.\s*(\d+)\b', label)
+                    if start and end and int(end[1]) - int(start[2]) + 1 == count:
+                        references = [f'{start[1]}{n}' for n in
+                                      range(int(start[2]), int(end[1]) + 1)]
+            if len(references) == 2 and count > 2:
+                a, b = references
+                a_match = re.fullmatch(r'([A-Z]+\d+):(\d+)', a)
+                b_match = re.fullmatch(r'([A-Z]+\d+):(\d+)', b)
+                if (a_match and b_match and a_match[1] == b_match[1]
+                        and int(b_match[2]) - int(a_match[2]) + 1 == count):
+                    references = [f'{a_match[1]}:{n}' for n in
+                                  range(int(a_match[2]), int(b_match[2]) + 1)]
+            # A comma in a German decimal may have been emitted as a CSV
+            # separator. Rejoin description fragments until the article code.
+            description = []
+            for cell in row[quantity + 1:]:
+                if ARTICLE.match(cell.strip()):
+                    break
+                if cell.strip():
+                    description.append(cell.strip())
+            yield dict(line=number, references=references, quantity=count,
+                       quantity_consistent=len(references) == count,
+                       description=','.join(description))
+
+
+def _key(description):
+    return re.sub(r'[^a-z0-9]+', '', description.lower())
+
+
+def audit(inventory, ocr_root):
+    parts = inventory['parts']
+    if len(parts) != 260 or len({p['id'] for p in parts}) != 260:
+        raise ValueError('inventory no longer contains 260 unique entries')
+    by_page = collections.defaultdict(list)
+    for part in parts:
+        by_page[part['source']['page']].append(part)
+    result = []
+    for page, entries in sorted(by_page.items()):
+        sources = {}
+        if page in PAGES:
+            for tag in TAGS:
+                name = f'page_{page:03d}' + ('' if tag == 'primary' else f'.{tag}') + '.csv'
+                path = ocr_root / name
+                if path.is_file():
+                    sources[tag] = list(_readings(path))
+        for part in entries:
+            matches = {}
+            for tag, rows in sources.items():
+                candidates = [r for r in rows if part['reference'] in r['references']
+                              and r['quantity_consistent']]
+                if len(candidates) == 1 and candidates[0]['description']:
+                    row = candidates[0]
+                    matches[tag] = dict(line=row['line'], description=row['description'])
+                elif len(candidates) > 1:
+                    matches[tag] = dict(ambiguous_lines=[r['line'] for r in candidates])
+            groups = collections.defaultdict(list)
+            for tag, reading in matches.items():
+                if 'description' in reading:
+                    groups[_key(reading['description'])].append(tag)
+            largest = max(groups.values(), key=len, default=[])
+            result.append(dict(id=part['id'], source_page=page,
+                               inventory_description=part['description'],
+                               inventory_evidence=part['evidence'], readings=matches,
+                               exact_agreement_passes=largest,
+                               # Machine agreement alone is not human review.
+                               status=('needs-schematic-review' if page not in PAGES else
+                                       'needs-inventory-comparison' if len(largest) >= 3 else
+                                       'needs-source-review')))
+    return dict(format='dac-monitor-inventory-ocr-audit-v1',
+                inventory_entries=len(parts),
+                source_pages=list(PAGES),
+                entries=result,
+                counts=dict(collections.Counter(entry['status'] for entry in result)))
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--ocr-root', type=Path, required=True,
+                        help='directory containing page_NNN[.tag].csv files')
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    result = audit(json.loads(INVENTORY.read_text()), args.ocr_root)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + '\n')
+    print(json.dumps(result['counts'], sort_keys=True))
+
+
+if __name__ == '__main__':
+    main()
