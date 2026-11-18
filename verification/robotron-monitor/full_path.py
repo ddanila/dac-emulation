@@ -69,6 +69,7 @@ if __name__=='__main__':
     p.add_argument('--electrical-cache',type=Path,default=Path('build/monitor/electrical-cache'),help='Verified completed traces, never simulator checkpoints')
     p.add_argument('--yoke-profile',type=Path,help='Frozen yoke hypothesis; defaults to the geometry-derived cosine-sheet model')
     p.add_argument('--magnetic-parameters',type=Path,help='Explicit bounded T3 parameter hypothesis')
+    p.add_argument('--calibration-freeze',type=Path,help='Verified synthetic-grid calibration record; required before native rendering')
     p.add_argument('--wall-budget-hours',type=float,default=12)
     p.add_argument('--parameter',action='append',default=[],metavar='NAME=VALUE',help='Bounded steady-supply parameter override')
     p.add_argument('--sustained',action='store_true',help='Require 16 unchanged fields and at least 7 decay constants of original pre-roll')
@@ -80,9 +81,9 @@ if __name__=='__main__':
         changes={}
         for item in a.parameter:
             key,value=item.split('=',1);changes[key]=float(value)
-        r=steady_supply.run(a.capture,a.output,a.runtime,candidate=a.candidate or 'auto',wall_budget_hours=a.wall_budget_hours,changes=changes,magnetic_parameters=a.magnetic_parameters,yoke_path=a.yoke_profile,electrical_cache=a.electrical_cache,
+        r=steady_supply.run(a.capture,a.output,a.runtime,candidate=a.candidate or 'auto',wall_budget_hours=a.wall_budget_hours,changes=changes,magnetic_parameters=a.magnetic_parameters,yoke_path=a.yoke_profile,electrical_cache=a.electrical_cache,calibration_freeze=a.calibration_freeze,
             solver=dict(linear_solver=a.linear_solver,reltol=a.reltol,abstol=a.abstol,max_step_s=a.max_step_ns/1e9,
                 initial_voltages={k:float(v) for k,v in (item.split('=',1) for item in a.initial_voltage)}))
-        print(json.dumps(dict(status=r['status'],blockers=r['blockers']),indent=2));raise SystemExit(0 if r['status']=='accepted-experiment' else 2)
+        print(json.dumps(dict(status=r['status'],blockers=r['blockers']),indent=2));raise SystemExit(2)
     r=run(a.capture,a.output,profile=a.profile,candidate=a.candidate,fields=a.fields,pre_roll_fields=a.pre_roll_fields,sustained=a.sustained)
     print(json.dumps(dict(status=r['status'],blockers=r['blockers']),indent=2));raise SystemExit(2)
