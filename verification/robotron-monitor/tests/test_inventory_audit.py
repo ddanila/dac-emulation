@@ -37,6 +37,21 @@ class InventoryAuditTests(unittest.TestCase):
             self.assertEqual(point['status'], 'needs-inventory-comparison')
             self.assertEqual(report['inventory_entries'], 260)
 
+    def test_different_stock_number_breaks_agreement(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            inventory = json.loads(inventory_audit.INVENTORY.read_text())
+            for tag, article in (('', '1.15.951651.0/90'),
+                                 ('.r300', '1.15.951651.0/90'),
+                                 ('.alt', '1.15.951652.0/90')):
+                (root / f'page_006{tag}.csv').write_text(
+                    'Kurzzeichen,Stückzahl,Benennung,Sachnummer\n'
+                    f'A1,1,Integrierter Schaltkreis T 200,{article}\n')
+            report = inventory_audit.audit(inventory, root)
+            point = next(e for e in report['entries'] if e['id'] == '012-6921:A1')
+            self.assertEqual(len(point['exact_agreement_passes']), 2)
+            self.assertEqual(point['status'], 'needs-source-review')
+
 
 if __name__ == '__main__':
     unittest.main()
