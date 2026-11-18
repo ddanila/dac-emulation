@@ -253,9 +253,10 @@ quit
         # Orchestration only: these fixtures are never physical acceptance evidence.
         metadata=dict(max_step_s=2e-7,reltol=.005,abstol=1e-6,simulated_fields=4,period_s=.02)
         assembly=dict(yoke={'field':{},'inductance_field_relationship_verified':True})
-        for failed_gate in (None,'coupling','energy','optical'):
+        for failed_gate in (None,'coupling','energy','freeze','optical'):
             with self.subTest(failed_gate=failed_gate),tempfile.TemporaryDirectory() as tmp:
                 root=Path(tmp)
+                freeze=root/'calibration-freeze.json';freeze.write_text('{}')
                 coupling=dict(converged=True,accepted=failed_gate!='coupling',load={},trial=str(root/'trial'),metadata=metadata,settling={'accepted':True})
                 def solve(text,path,*args,**kwargs):
                     Path(path).mkdir();return {'status':'complete'}
@@ -265,11 +266,17 @@ quit
                      mock.patch('electrical_cache.solve',side_effect=solve), \
                      mock.patch.object(steady_acceptance,'compare',return_value={'accepted':True}), \
                      mock.patch.object(steady_acceptance.steady_trace,'export',return_value={}), \
-                     mock.patch.object(steady_acceptance,'optical_worker',return_value={'status':'complete'}), \
-                     mock.patch('periodic_frame.compare',return_value={'accepted':failed_gate!='optical'}):
-                    result=steady_acceptance.finish(assembly, {}, {}, metadata,root/'trial',root/'acceptance',root/'runtime',{},time.monotonic()+60)
-                self.assertEqual(result['accepted_warmed_frame'],failed_gate is None)
-                self.assertEqual(result['status'],'accepted-experiment' if failed_gate is None else 'blocked')
+                     mock.patch.object(steady_acceptance,'optical_worker',return_value={'status':'complete'}) as optical, \
+                     mock.patch('periodic_frame.compare',return_value={'accepted':failed_gate!='optical'}), \
+                     mock.patch('calibration_contract.verify',return_value=True):
+                    result=steady_acceptance.finish(assembly, {}, {}, metadata,root/'trial',root/'acceptance',root/'runtime',{},time.monotonic()+60,calibration_freeze=None if failed_gate=='freeze' else freeze)
+                self.assertFalse(result['accepted_warmed_frame'])
+                self.assertEqual(result['status'],'screen-passed' if failed_gate is None else 'blocked')
+                if failed_gate is None:
+                    self.assertIn('Phase A G1-G8 report required before documented-reference acceptance.',result['blockers'])
+                if failed_gate=='freeze':
+                    self.assertIn('Calibration freeze required before rendering the native frame.',result['blockers'])
+                    optical.assert_not_called()
                 self.assertFalse(result['full_monitor_qualified']);self.assertFalse(result['specimen_validated'])
 
     def test_waveform_comparison_rejects_scaling_and_truncation(self):

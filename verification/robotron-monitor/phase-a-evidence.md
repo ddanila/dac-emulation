@@ -55,6 +55,9 @@ tank assumptions and records every manual trim setting. The proposed settings
 must come from a labelled synthetic grid, with no rendered image used for
 selection; all other service points remain held out. No valid calibration
 freeze exists yet, because the horizontal output has not passed those targets.
+The connected-run path accepts a verified `--calibration-freeze` record and
+archives its hash; without one it can continue electrical screening but stops
+before rendering a native image.
 
 `phase_a_gates.py` implements the ordered G1–G8 frame gate policy and fails
 closed on absent evidence. Its G1/G1b input can come from the connected
@@ -65,6 +68,11 @@ trace and that readability uses the selected native capture. G3/G4 also require
 an identified reviewer to check each drawn waveform shape and the manual's
 operating conditions; numeric agreement alone cannot pass them. These gates do
 not imply that Phase B measurements already pass.
+
+The older connected-run electrical/optical checks now stop at `screen-passed`.
+They cannot publish `accepted-experiment` or an accepted warmed frame on their
+own; `phase_a_gates.py` is the documented-reference acceptance decision. This
+prevents a lower-tier diagnostic image from bypassing G1–G8.
 
 ## B31G22 search
 

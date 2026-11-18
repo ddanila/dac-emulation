@@ -434,7 +434,7 @@ def assess(path, metadata, selection):
         full_monitor_qualified=False,numerical_refinement_verified=False)
 
 
-def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None):
+def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None, calibration_freeze=None):
     """Archive and screen the assembled hypotheses under a single wall budget.
 
     No successful solve or plausible picture is promoted to a verified frame.
@@ -456,6 +456,17 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
         raw=Path(capture).read_bytes();(out/'input.json').write_bytes(raw)
         data=lab.parse_capture(out/'input.json');selection=select(data)
         report['capture_sha256']=lab.digest(raw)
+        frozen_path=None
+        if calibration_freeze is not None:
+            import calibration_contract
+            frozen=Path(calibration_freeze).read_bytes()
+            calibration_contract.verify(json.loads(frozen))
+            frozen_path=out/'calibration-freeze.json'
+            frozen_path.write_bytes(frozen)
+            report['calibration_freeze_sha256']=lab.digest(frozen)
+            report['outputs']['calibration_freeze']='calibration-freeze.json'
+        else:
+            report['blockers'].append('Calibration freeze required before rendering the native frame.')
         (out/'selection.json').write_text(json.dumps(selection,indent=2)+'\n')
         report['outputs']['selection']='selection.json'
         if data['qualification']!='schematic-derived-logical':raise ValueError('native firmware capture required')
@@ -520,7 +531,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
             c,metadata,trial,attempt=next((v for v in completed if v[3]['settling']['accepted']),completed[-1])
             report['diagnostics']=attempt.get('diagnostics')
             if attempt['settling']['accepted'] and time.monotonic()<deadline:
-                report['acceptance']=steady_acceptance.finish(assembly,selection,c,metadata,trial,out/'acceptance',runtime,solver or {},deadline,electrical_cache=electrical_cache)
+                report['acceptance']=steady_acceptance.finish(assembly,selection,c,metadata,trial,out/'acceptance',runtime,solver or {},deadline,electrical_cache=electrical_cache,calibration_freeze=frozen_path)
                 report['blockers'] += report['acceptance']['blockers']
             optical=report.get('acceptance',{}).get('checks',{}).get('optical',{})
             if optical.get('status')=='complete':
@@ -533,11 +544,10 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
                     if check.get('solve',{}).get('status')=='complete' and 'settling' in check:
                         diagnostic_trial=Path(check['trial'])
                         diagnostic_meta=check['metadata'];diagnostic_settling=check['settling']
-                report['diagnostic_frame']=steady_acceptance.diagnostic_frame(diagnostic_trial,diagnostic_meta,out/'diagnostic-frame',diagnostic_settling,deadline)
-                report['outputs']['diagnostic_frame']='diagnostic-frame/diagnostic.json'
-                if report['diagnostic_frame']['status']=='diagnostic-only':report['outputs']['image']='diagnostic-frame/optical/frame.png'
-        if report.get('acceptance',{}).get('status')=='accepted-experiment':
-            report.update(status='accepted-experiment',accepted_warmed_frame=True);save();return report
+                if frozen_path is not None:
+                    report['diagnostic_frame']=steady_acceptance.diagnostic_frame(diagnostic_trial,diagnostic_meta,out/'diagnostic-frame',diagnostic_settling,deadline)
+                    report['outputs']['diagnostic_frame']='diagnostic-frame/diagnostic.json'
+                    if report['diagnostic_frame']['status']=='diagnostic-only':report['outputs']['image']='diagnostic-frame/optical/frame.png'
         if 'acceptance' not in report:
             report['blockers'].append('No synchronized candidate reached collection and energy validation.')
         if not assembly['yoke']['inductance_field_relationship_verified']:
