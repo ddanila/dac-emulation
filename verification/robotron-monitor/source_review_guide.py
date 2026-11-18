@@ -18,8 +18,9 @@ SCHEMATIC_QUESTIONS = {
     4: ('Trace every T3 tap through the X1/X2 connectors, especially the auxiliary'
         ' SYNCH output and V14 cathode at TP17. Determine whether X1:2 at V21 is'
         ' the rectified EHT output rather than a winding tap; the current graph'
-        ' puts X1_2 in upper_taps. Check winding continuity and polarity before'
-        ' selecting a T3 candidate.'),
+        ' puts X1_2 in upper_taps. If X1:2 is the EHT output, identify the real'
+        ' upper-tap return (a startup-only X1:3 return hypothesis is documented)'
+        ' and check winding continuity and polarity before selecting T3.'),
     9: ('Trace horizontal centring R4, L1/L2, R2 and bridge E1–E4 from X1:5/6'
         ' to the rails and deflection circuit. Determine the bridge position and'
         ' whether this branch can be represented with ideal converter rails.'),
