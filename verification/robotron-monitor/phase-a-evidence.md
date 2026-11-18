@@ -44,8 +44,8 @@ second and third vision passes all read 80 Vpp; the first vision pass read
 60 Vpp. The second pass read point 13 as 5.4 Vpp, but the source crop, first
 and third vision passes and classic OCR read 6.4 Vpp, matching the register.
 The third pass omits most numeric amplitudes on page 20, illustrating why a
-text-only pass is insufficient for waveform figures. Further passes remain
-in progress. Page 20 also has a handwritten `9a` waveform below the
+text-only pass is insufficient for waveform figures. All five manual vision
+passes are now complete. Page 20 also has a handwritten `9a` waveform below the
 printed 1–8 set,
 annotated 22 and 10 Vpp at V22's collector. The register preserves it as an
 auxiliary observation. Its converter node is excluded from Phase B's ideal-rail
@@ -68,6 +68,11 @@ source-review mark; the raw OCR output remains available for audit.
 On page 32 the pass also reads both vertical-linearity controls as R59;
 the source image and the other text passes distinguish R60 and R59. This
 remains a source conflict about their screen regions, not about their labels.
+The fifth, high-resolution pass reads points 13–17 as 6.4, 70, 45, 8–25 and
+80 Vpp, and point 5's period as 19 ms, confirming the source-based register.
+It omits the point-7 1 ms rise annotation and shifts the second 2 kByte
+grid-spacing range into the 1 kByte column on page 32. The original page image
+and the other passes support the register's printed-order 2 kByte ranges.
 
 The first text pass of manual pages 17 and 30–32 added two setup constraints
 that the earlier register missed: page 17 prints a horizontal-generator control
@@ -86,6 +91,10 @@ Page 10 also states approximate cathode levels of 35 V for VID=0 (dark) and
 15 V for VID=1 (normally bright), with INTENS able to lower the bright level.
 These are operating levels in the text, not DC means supplied for the 17
 waveform figures; the register keeps that distinction.
+The same page gives the converter's free-running frequency as approximately
+20–25 kHz, dependent on C9/R15, and says it is forced by SYNC through V2 pin 9.
+The register stores that as a converter condition, distinct from the native
+S550 line frequency and from a measured converter result.
 Page 32 prints two 2 kByte vertical grid-spacing ranges, 25–30 mm and
 28–33.5 mm, without labelling them as upper or lower screen positions. The
 register preserves their printed order and leaves that spatial mapping open.
@@ -245,8 +254,8 @@ remain open: page 6 C11/C18, page 8 T1, page 12 L4/L5/L6, page 14 R26,
 `build/monitor/phase-a/inventory-audit.json` names every open entry and its
 individual OCR readings; the completed parts-list crop passes are included in
 `build/monitor/phase-a/ocr-workflow/review.zip`. These are review aids, not
-human review marks. The manual text passes and high-zoom schematic vision scan
-are still pending.
+human review marks. The five manual text passes are complete; the queued fifth
+parts-list pass and high-zoom schematic vision scan are still pending.
 On page 15, the source spans the 1 AE 15 diode designator list over four lines
 and leaves its quantity cell blank; the vision passes split and reassign parts
 of that group differently. They also disagree around V3/V15 and the following
