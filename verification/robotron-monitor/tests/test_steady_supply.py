@@ -97,6 +97,10 @@ class SteadySupplyTests(unittest.TestCase):
         text,meta=steady.deck(assembly,selection,candidate,linear_solver='klu',reltol=.001,abstol=1e-8)
         self.assertIn('.options klu reltol=0.001 abstol=1e-08',text)
         self.assertEqual(meta['linear_solver'],'klu')
+        grid_deck,grid_meta=steady.deck(dict(assembly,source_kind='synthetic-test-pattern'),
+                                       selection,candidate)
+        self.assertTrue(grid_deck.startswith('Experimental steady-supply K7222 synthetic calibration pattern'))
+        self.assertEqual(grid_meta['experiment']['source_kind'],'synthetic-test-pattern')
         warm,meta=steady.deck(assembly,selection,candidate,initial_voltages={'eht':8000})
         self.assertIn('.ic v(eht)=8000',warm)
         self.assertEqual(meta['initial_voltage_guesses'],{'eht':8000})

@@ -79,7 +79,9 @@ def _validate_calibration_trial(proposal, score, source):
     solved=json.loads(solve_path.read_text())
     deck_hash=hashlib.sha256(deck.read_bytes()).hexdigest()
     experiment=metadata.get('experiment',{})
-    if (experiment.get('capture_sha256')!=proposal['source_capture_sha256']
+    if (experiment.get('source_kind')!='synthetic-test-pattern'
+            or metadata.get('source_kind')!='synthetic-test-pattern'
+            or experiment.get('capture_sha256')!=proposal['source_capture_sha256']
             or experiment.get('source_content_sha256')!=source['source_content_sha256']):
         raise ValueError('calibration trial did not use the selected synthetic capture')
     if (experiment.get('deck_sha256')!=deck_hash or solved.get('deck_sha256')!=deck_hash

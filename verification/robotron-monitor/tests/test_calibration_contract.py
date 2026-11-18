@@ -51,9 +51,11 @@ class CalibrationContractTests(unittest.TestCase):
             magnetic_path=ROOT/'reference/k7222-11/t3-initial-parameters.json'
             yoke_path=ROOT/'profiles/k7222-11-yoke-geometry.json'
             metadata={'period_s':.0195,'simulated_fields':4,
+                      'source_kind':'synthetic-test-pattern',
                       'candidate':{'candidate':{'id':candidate}},
                       'parameters':{'l4_coupling':.5,'horizontal_tank_l':.0015},
-                      'experiment':{'capture_sha256':hashlib.sha256(capture.read_bytes()).hexdigest(),
+                      'experiment':{'source_kind':'synthetic-test-pattern',
+                                    'capture_sha256':hashlib.sha256(capture.read_bytes()).hexdigest(),
                                     'source_content_sha256':selected['source_content_sha256'],
                                     'deck_sha256':deck_hash,
                                     'assembly_hashes':{

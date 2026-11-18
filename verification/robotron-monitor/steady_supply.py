@@ -237,7 +237,10 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     if yoke is not None and not yoke['inductance_field_relationship_verified']:
         yoke=dict(yoke,electrical={k:p[k] for k in yoke['electrical']})
         yoke['effective_energy_volume_m3']={a:4*math.pi*1e-7*p[f'yoke_{a}_l']/yoke['field'][f'{a}_tesla_per_amp']**2 for a in ('horizontal','vertical')}
-    lines=['Experimental steady-supply K7222 native capture; unqualified hypothesis']
+    source_kind=assembly.get('source_kind','schematic-derived-logical')
+    label=('synthetic calibration pattern' if source_kind=='synthetic-test-pattern'
+           else 'native capture')
+    lines=[f'Experimental steady-supply K7222 {label}; unqualified hypothesis']
     lines += [f'.param {k}={v:.15g}' for k,v in p.items()]
     l4,expanded=compensation_network(assembly['components'],p['l4_coupling'])
     lines += [' '.join([c['reference'],*c['nodes'],c['value']]) for c in assembly['components'] if c['reference'] not in expanded]
@@ -280,7 +283,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         'L4 uses a passive three-winding same-terminal-polarity hypothesis; coupling defaults to zero. Factory coupling/polarity remain unresolved.',
         'Exploratory solver tolerances require independent refinement; completion is not acceptance.']
     text='\n'.join(lines)+'\n'
-    metadata=dict(candidate=meta,thermal=thermal,period_s=period,
+    metadata=dict(candidate=meta,thermal=thermal,period_s=period,source_kind=source_kind,
         simulated_fields=fields,retained_fields=4,assumptions=assumptions,
         yoke=yoke,initial_voltage_guesses=initial_voltages,initialization='DC operating point with optional voltage guesses; not a periodic-state checkpoint',
         max_step_s=max_step_s,reltol=reltol,linear_solver=linear_solver,abstol=abstol,vntol=1e-6,parameters=p,assembly_bounds=ASSEMBLY_BOUNDS)
@@ -293,7 +296,8 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     fingerprint=lab.digest(json.dumps(inputs,sort_keys=True,allow_nan=False).encode())
     metadata['experiment']=dict(format='dac-frozen-frame-experiment-v1',sha256=fingerprint,
         deck_sha256=inputs['deck_sha256'],source_content_sha256=inputs['source_content_sha256'],
-        capture_sha256=inputs['capture_sha256'],assembly_hashes=inputs['assembly_hashes'])
+        capture_sha256=inputs['capture_sha256'],source_kind=source_kind,
+        assembly_hashes=inputs['assembly_hashes'])
     return text,metadata
 
 
@@ -497,6 +501,7 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
             raise ValueError('selected capture has no active VIDEO; check boot ROM and character generator provenance')
         assembly=assemble(out/'assembly',yoke_path=yoke_path)
         assembly['capture_sha256']=report['capture_sha256']
+        assembly['source_kind']=source_kind
         if magnetic_parameters is not None:
             raw_parameters=Path(magnetic_parameters).read_bytes()
             (out/'assembly/magnetic-override.json').write_bytes(raw_parameters)
