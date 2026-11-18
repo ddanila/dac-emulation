@@ -331,6 +331,11 @@ and checks that the electrical trial metadata names that capture and field.
 This closes the route by which a reported G8 hash could refer to a different
 source; the G8 correlation still needs a measured image-comparison producer in
 Phase B.
+The gate command now reruns the connected-run settling analyzer on that same
+final `trace.raw`. G1/G1b lock and adjacent-line jitter and G2 three-field
+periodicity come from the recomputed trace, and any separately reported values
+must match it. A persuasive JSON report cannot substitute for measured sync
+edges or repeating electrical waveforms.
 G3 now requires measured high voltage and retrace time tied to that electrical
 trace, plus picture dimensions from the frozen synthetic-grid capture. G3 and
 G5 require the supplied grid geometry to match the values computed and frozen

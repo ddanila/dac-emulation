@@ -87,7 +87,26 @@ def verify_native_capture(evidence, score):
             or experiment.get('source_content_sha256')!=selected['source_content_sha256']
             or experiment.get('source_kind')!='schematic-derived-logical'):
         raise ValueError('electrical trial uses a different native source')
-    return True
+    return selected,metadata
+
+
+def verify_settling_evidence(evidence,score,selection,metadata):
+    """Recompute G1, G1b and G2 from the final connected electrical trace."""
+    actual=steady_supply.assess(Path(score['input']),metadata,selection)
+    if 'settling' in evidence and evidence['settling']!=actual:
+        raise ValueError('reported settling differs from the electrical trace')
+    lock=actual['native_sync_lock']
+    if 'horizontal_lock' in evidence and evidence['horizontal_lock']!=lock:
+        raise ValueError('reported horizontal lock differs from the electrical trace')
+    periodic=dict(fields=3 if actual['complete'] else None,
+                  relative_errors={name:actual['waveform_relative_rms_error'].get(probe)
+                                   for name,probe in PERIODIC_PROBES.items()})
+    if 'periodicity' in evidence and evidence['periodicity']!=periodic:
+        raise ValueError('reported periodicity differs from the electrical trace')
+    evidence['settling']=actual
+    evidence['horizontal_lock']=lock
+    evidence['periodicity']=periodic
+    return actual
 
 
 def verify_calibration_measurements(evidence, score):
@@ -213,7 +232,8 @@ def main():
     score=json.loads(args.service_score.read_text())
     verify_service_score(score)
     evidence=json.loads(args.evidence.read_text())
-    verify_native_capture(evidence,score)
+    selection,metadata=verify_native_capture(evidence,score)
+    verify_settling_evidence(evidence,score,selection,metadata)
     verify_calibration_measurements(evidence,score)
     result=evaluate(evidence,score,
                     json.loads(args.calibration_freeze.read_text()))

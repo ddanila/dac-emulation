@@ -177,5 +177,23 @@ class PhaseAGateTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'different native source'):
                 phase_a_gates.verify_native_capture(evidence,score)
 
+    def test_final_trace_overrides_claimed_lock_and_periodicity(self):
+        evidence=copy.deepcopy(self.evidence)
+        evidence.pop('horizontal_lock')
+        evidence.pop('periodicity')
+        lock=copy.deepcopy(self.evidence['horizontal_lock'])
+        lock['maximum_adjacent_jitter_s']=50e-9
+        actual={'complete':True,'native_sync_lock':lock,
+                'waveform_relative_rms_error':{probe:.005 for probe in phase_a_gates.PERIODIC_PROBES.values()}}
+        with mock.patch.object(phase_a_gates.steady_supply,'assess',return_value=actual):
+            phase_a_gates.verify_settling_evidence(evidence,{'input':'trace.raw'},'selection','metadata')
+            self.assertEqual(evidence['horizontal_lock']['maximum_adjacent_jitter_s'],50e-9)
+            self.assertFalse(next(g['passed'] for g in phase_a_gates.evaluate(evidence,self.score,self.freeze)['blocking']
+                                  if g['gate']=='G1b'))
+            claimed=copy.deepcopy(evidence)
+            claimed['periodicity']['relative_errors']['eht']=0.
+            with self.assertRaisesRegex(ValueError,'reported periodicity differs'):
+                phase_a_gates.verify_settling_evidence(claimed,{'input':'trace.raw'},'selection','metadata')
+
 
 if __name__=='__main__':unittest.main()
