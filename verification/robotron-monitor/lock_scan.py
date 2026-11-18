@@ -8,6 +8,8 @@ import argparse
 import json
 from pathlib import Path
 import time
+import copy
+from concurrent.futures import ThreadPoolExecutor
 import lab
 import steady_supply
 import transformer_candidates
@@ -52,8 +54,9 @@ def refine_bracket(trials, trial, deadline, *, iterations=5):
     return bracket
 
 
-def run(capture,output,runtime,candidate,*,hours=12,settings=None):
+def run(capture,output,runtime,candidate,*,hours=12,settings=None,workers=1):
     if not 0<hours<=12:raise ValueError('wall budget must be in (0,12] hours')
+    if type(workers) is not int or not 1<=workers<=3:raise ValueError('expected 1..3 solver workers')
     settings=settings or {};unknown=set(settings)-{'parameters','solver','magnetic_parameters','yoke_profile'}
     if unknown:raise ValueError('unknown lock scan settings')
     out=Path(output).resolve();out.mkdir(parents=True,exist_ok=False)
@@ -76,10 +79,11 @@ def run(capture,output,runtime,candidate,*,hours=12,settings=None):
         settings=settings,capture_sha256=lab.digest(data),selected_trim=None,full_monitor_qualified=False,validation_reserved_s=hours*1200)
     def save():(out/'scan.json').write_text(json.dumps(report,indent=2)+'\n')
     def trial(trim,name,*,initial=None,limit=None):
-        steady_supply.tune(assembly,selection,{'horizontal_trim_fraction':trim})
+        local_assembly=copy.deepcopy(assembly)
+        steady_supply.tune(local_assembly,selection,{'horizontal_trim_fraction':trim})
         options=dict(settings.get('solver',{}))
         if initial is not None:options['initial_voltages']=initial
-        deck,meta=steady_supply.deck(assembly,selection,candidates[0],fields=8,**options)
+        deck,meta=steady_supply.deck(local_assembly,selection,candidates[0],fields=8,**options)
         path=out/name
         solved=steady_supply.solve(deck,path,runtime,timeout_s=max(.001,(limit or search_deadline)-time.monotonic()))
         (path/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n')
@@ -92,10 +96,13 @@ def run(capture,output,runtime,candidate,*,hours=12,settings=None):
     try:
         # Low-to-high order is deterministic; an interrupted scan never bridges
         # an untested point or promotes a single passing setting to an interval.
-        for i in range(9):
-            if time.monotonic()>=search_deadline:break
-            report['trials'].append(trial(.01+.98*i/8,f'trim-{i}'));save()
-            if midpoint(report['trials']) is not None:break
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            for first in range(0,9,workers):
+                if time.monotonic()>=search_deadline:break
+                pending=[pool.submit(trial,.01+.98*i/8,f'trim-{i}') for i in range(first,min(9,first+workers))]
+                for future in pending:
+                    report['trials'].append(future.result());save()
+                if midpoint(report['trials']) is not None:break
         bracket=refine_bracket(report['trials'],trial,search_deadline);report['sampled_interval']=bracket;save()
         if bracket and time.monotonic()<deadline:
             report['midpoint_validation']=trial(bracket['midpoint'],'midpoint',limit=deadline)
@@ -119,7 +126,8 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for n in ('capture','output','runtime'):p.add_argument('--'+n,type=Path,required=True)
     p.add_argument('--candidate',required=True);p.add_argument('--wall-budget-hours',type=float,default=12)
+    p.add_argument('--workers',type=int,default=1,help='1..3 independent coarse-scan solvers; shared wall budget')
     p.add_argument('--settings',type=Path,help='Explicit parameters, solver options, and optional magnetic_parameters file')
-    a=p.parse_args();result=run(a.capture,a.output,a.runtime,a.candidate,hours=a.wall_budget_hours,
+    a=p.parse_args();result=run(a.capture,a.output,a.runtime,a.candidate,hours=a.wall_budget_hours,workers=a.workers,
         settings=json.loads(a.settings.read_text()) if a.settings else None)
     print(json.dumps(result,indent=2));raise SystemExit(0 if result['status']=='lock-candidate' else 2)

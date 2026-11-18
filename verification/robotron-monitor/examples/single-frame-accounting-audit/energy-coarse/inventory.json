@@ -1,0 +1,6256 @@
+{
+  "format": "dac-circuit-energy-inventory-v1",
+  "parts": [
+    {
+      "name": "c201",
+      "kind": "c",
+      "nodes": [
+        "intensity_gate",
+        "base_i"
+      ],
+      "value": 1e-10
+    },
+    {
+      "name": "c202",
+      "kind": "c",
+      "nodes": [
+        "sync_gate",
+        "sync_base"
+      ],
+      "value": 1e-10
+    },
+    {
+      "name": "d201",
+      "kind": "d",
+      "nodes": [
+        "d201_energy_a",
+        "rx_video"
+      ],
+      "terminal_meter": "vd201_energy_a"
+    },
+    {
+      "name": "vd201_energy_a",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "d201_energy_a"
+      ]
+    },
+    {
+      "name": "d202",
+      "kind": "d",
+      "nodes": [
+        "d202_energy_a",
+        "rx_bsyn"
+      ],
+      "terminal_meter": "vd202_energy_a"
+    },
+    {
+      "name": "vd202_energy_a",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "d202_energy_a"
+      ]
+    },
+    {
+      "name": "d203",
+      "kind": "d",
+      "nodes": [
+        "d203_energy_a",
+        "rx_intens"
+      ],
+      "terminal_meter": "vd203_energy_a"
+    },
+    {
+      "name": "vd203_energy_a",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "d203_energy_a"
+      ]
+    },
+    {
+      "name": "d204",
+      "kind": "d",
+      "nodes": [
+        "d204_energy_a",
+        "base_i"
+      ],
+      "terminal_meter": "vd204_energy_a"
+    },
+    {
+      "name": "vd204_energy_a",
+      "kind": "v",
+      "nodes": [
+        "clamp_i",
+        "d204_energy_a"
+      ]
+    },
+    {
+      "name": "d205",
+      "kind": "d",
+      "nodes": [
+        "d205_energy_a",
+        "collector_i"
+      ],
+      "terminal_meter": "vd205_energy_a"
+    },
+    {
+      "name": "vd205_energy_a",
+      "kind": "v",
+      "nodes": [
+        "clamp_i",
+        "d205_energy_a"
+      ]
+    },
+    {
+      "name": "d206",
+      "kind": "d",
+      "nodes": [
+        "d206_energy_a",
+        "reference9"
+      ],
+      "terminal_meter": "vd206_energy_a"
+    },
+    {
+      "name": "vd206_energy_a",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "d206_energy_a"
+      ]
+    },
+    {
+      "name": "q201",
+      "kind": "q",
+      "nodes": [
+        "q201_energy_c",
+        "q201_energy_b",
+        "q201_energy_e"
+      ],
+      "terminal_meters": [
+        "vq201_energy_c",
+        "vq201_energy_b",
+        "vq201_energy_e"
+      ]
+    },
+    {
+      "name": "vq201_energy_c",
+      "kind": "v",
+      "nodes": [
+        "collector_i",
+        "q201_energy_c"
+      ]
+    },
+    {
+      "name": "vq201_energy_b",
+      "kind": "v",
+      "nodes": [
+        "base_i",
+        "q201_energy_b"
+      ]
+    },
+    {
+      "name": "vq201_energy_e",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "q201_energy_e"
+      ]
+    },
+    {
+      "name": "q202",
+      "kind": "q",
+      "nodes": [
+        "q202_energy_c",
+        "q202_energy_b",
+        "q202_energy_e"
+      ],
+      "terminal_meters": [
+        "vq202_energy_c",
+        "vq202_energy_b",
+        "vq202_energy_e"
+      ]
+    },
+    {
+      "name": "vq202_energy_c",
+      "kind": "v",
+      "nodes": [
+        "p12",
+        "q202_energy_c"
+      ]
+    },
+    {
+      "name": "vq202_energy_b",
+      "kind": "v",
+      "nodes": [
+        "collector_i",
+        "q202_energy_b"
+      ]
+    },
+    {
+      "name": "vq202_energy_e",
+      "kind": "v",
+      "nodes": [
+        "contrast_low",
+        "q202_energy_e"
+      ]
+    },
+    {
+      "name": "q203",
+      "kind": "q",
+      "nodes": [
+        "q203_energy_c",
+        "q203_energy_b",
+        "q203_energy_e"
+      ],
+      "terminal_meters": [
+        "vq203_energy_c",
+        "vq203_energy_b",
+        "vq203_energy_e"
+      ]
+    },
+    {
+      "name": "vq203_energy_c",
+      "kind": "v",
+      "nodes": [
+        "sync_c",
+        "q203_energy_c"
+      ]
+    },
+    {
+      "name": "vq203_energy_b",
+      "kind": "v",
+      "nodes": [
+        "sync_base",
+        "q203_energy_b"
+      ]
+    },
+    {
+      "name": "vq203_energy_e",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "q203_energy_e"
+      ]
+    },
+    {
+      "name": "r201",
+      "kind": "r",
+      "nodes": [
+        "0",
+        "rx_video"
+      ],
+      "value": 160.0
+    },
+    {
+      "name": "r202",
+      "kind": "r",
+      "nodes": [
+        "rx_video",
+        "p5"
+      ],
+      "value": 270.0
+    },
+    {
+      "name": "r203",
+      "kind": "r",
+      "nodes": [
+        "0",
+        "rx_bsyn"
+      ],
+      "value": 160.0
+    },
+    {
+      "name": "r204",
+      "kind": "r",
+      "nodes": [
+        "rx_bsyn",
+        "p5"
+      ],
+      "value": 270.0
+    },
+    {
+      "name": "r205",
+      "kind": "r",
+      "nodes": [
+        "0",
+        "rx_intens"
+      ],
+      "value": 160.0
+    },
+    {
+      "name": "r206",
+      "kind": "r",
+      "nodes": [
+        "rx_intens",
+        "p5"
+      ],
+      "value": 270.0
+    },
+    {
+      "name": "r207",
+      "kind": "r",
+      "nodes": [
+        "p5",
+        "vid"
+      ],
+      "value": 330.0
+    },
+    {
+      "name": "r208",
+      "kind": "r",
+      "nodes": [
+        "p5",
+        "intensity_gate"
+      ],
+      "value": 330.0
+    },
+    {
+      "name": "r209",
+      "kind": "r",
+      "nodes": [
+        "intensity_gate",
+        "clamp_i"
+      ],
+      "value": 390.0
+    },
+    {
+      "name": "r210",
+      "kind": "r",
+      "nodes": [
+        "p12",
+        "collector_i"
+      ],
+      "value": 2700.0
+    },
+    {
+      "name": "r211",
+      "kind": "r",
+      "nodes": [
+        "contrast_adjust",
+        "collector_i"
+      ],
+      "value": 2700.0
+    },
+    {
+      "name": "r212",
+      "kind": "r",
+      "nodes": [
+        "reference9",
+        "contrast_adjust"
+      ],
+      "value": 1100.0
+    },
+    {
+      "name": "r213",
+      "kind": "r",
+      "nodes": [
+        "contrast_low",
+        "0"
+      ],
+      "value": 5100.0
+    },
+    {
+      "name": "r214",
+      "kind": "r",
+      "nodes": [
+        "sync_gate",
+        "sync_base"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "r215",
+      "kind": "r",
+      "nodes": [
+        "p12",
+        "sync_feed"
+      ],
+      "value": 390.0
+    },
+    {
+      "name": "r216",
+      "kind": "r",
+      "nodes": [
+        "sync_feed",
+        "sync_c"
+      ],
+      "value": 390.0
+    },
+    {
+      "name": "b.x201.xg1.ba",
+      "kind": "b",
+      "nodes": [
+        "rx_video",
+        "0"
+      ],
+      "behavior": "i=   2.0000000000e-05 -   2.2000000000e-04 / (   1.0000000000e+00 + exp ( ( v(rx_video,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "b.x201.xg1.bb",
+      "kind": "b",
+      "nodes": [
+        "rx_video",
+        "0"
+      ],
+      "behavior": "i=   2.0000000000e-05 -   2.2000000000e-04 / (   1.0000000000e+00 + exp ( ( v(rx_video,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "c.x201.xg1.ca",
+      "kind": "c",
+      "nodes": [
+        "rx_video",
+        "0"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "c.x201.xg1.cb",
+      "kind": "c",
+      "nodes": [
+        "rx_video",
+        "0"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "b.x201.xg1.btruth",
+      "kind": "b",
+      "nodes": [
+        "x201.xg1.truth",
+        "0"
+      ],
+      "behavior": "v=   1.0000000000e+00 -   1.0000000000e+00 / (   1.0000000000e+00 + exp ( - ( v(rx_video,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) ) / (   1.0000000000e+00 + exp ( - ( v(rx_video,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "r.x201.xg1.rdelay",
+      "kind": "r",
+      "nodes": [
+        "x201.xg1.truth",
+        "x201.xg1.smooth"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "c.x201.xg1.cdelay",
+      "kind": "c",
+      "nodes": [
+        "x201.xg1.smooth",
+        "0"
+      ],
+      "value": 5.000000000000001e-12
+    },
+    {
+      "name": "b.x201.xg1.boutput",
+      "kind": "b",
+      "nodes": [
+        "video_inv",
+        "0"
+      ],
+      "behavior": "i= ( v(video_inv,0) - (   1.5000000000e-01 + max ( v(p5,0) -   9.5000000000e-01 ,   0.0000000000e+00 ) * v(x201.xg1.smooth,0) ) ) / (   1.0000000000e+01 +   7.0000000000e+01 * v(x201.xg1.smooth,0) )"
+    },
+    {
+      "name": "b.x201.xg2.ba",
+      "kind": "b",
+      "nodes": [
+        "rx_bsyn",
+        "0"
+      ],
+      "behavior": "i=   2.0000000000e-05 -   2.2000000000e-04 / (   1.0000000000e+00 + exp ( ( v(rx_bsyn,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "b.x201.xg2.bb",
+      "kind": "b",
+      "nodes": [
+        "rx_bsyn",
+        "0"
+      ],
+      "behavior": "i=   2.0000000000e-05 -   2.2000000000e-04 / (   1.0000000000e+00 + exp ( ( v(rx_bsyn,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "c.x201.xg2.ca",
+      "kind": "c",
+      "nodes": [
+        "rx_bsyn",
+        "0"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "c.x201.xg2.cb",
+      "kind": "c",
+      "nodes": [
+        "rx_bsyn",
+        "0"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "b.x201.xg2.btruth",
+      "kind": "b",
+      "nodes": [
+        "x201.xg2.truth",
+        "0"
+      ],
+      "behavior": "v=   1.0000000000e+00 -   1.0000000000e+00 / (   1.0000000000e+00 + exp ( - ( v(rx_bsyn,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) ) / (   1.0000000000e+00 + exp ( - ( v(rx_bsyn,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "r.x201.xg2.rdelay",
+      "kind": "r",
+      "nodes": [
+        "x201.xg2.truth",
+        "x201.xg2.smooth"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "c.x201.xg2.cdelay",
+      "kind": "c",
+      "nodes": [
+        "x201.xg2.smooth",
+        "0"
+      ],
+      "value": 5.000000000000001e-12
+    },
+    {
+      "name": "b.x201.xg2.boutput",
+      "kind": "b",
+      "nodes": [
+        "sync_gate",
+        "0"
+      ],
+      "behavior": "i= ( v(sync_gate,0) - (   1.5000000000e-01 + max ( v(p5,0) -   9.5000000000e-01 ,   0.0000000000e+00 ) * v(x201.xg2.smooth,0) ) ) / (   1.0000000000e+01 +   7.0000000000e+01 * v(x201.xg2.smooth,0) )"
+    },
+    {
+      "name": "b.x201.xg3.ba",
+      "kind": "b",
+      "nodes": [
+        "rx_intens",
+        "0"
+      ],
+      "behavior": "i=   2.0000000000e-05 -   2.2000000000e-04 / (   1.0000000000e+00 + exp ( ( v(rx_intens,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "b.x201.xg3.bb",
+      "kind": "b",
+      "nodes": [
+        "rx_intens",
+        "0"
+      ],
+      "behavior": "i=   2.0000000000e-05 -   2.2000000000e-04 / (   1.0000000000e+00 + exp ( ( v(rx_intens,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "c.x201.xg3.ca",
+      "kind": "c",
+      "nodes": [
+        "rx_intens",
+        "0"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "c.x201.xg3.cb",
+      "kind": "c",
+      "nodes": [
+        "rx_intens",
+        "0"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "b.x201.xg3.btruth",
+      "kind": "b",
+      "nodes": [
+        "x201.xg3.truth",
+        "0"
+      ],
+      "behavior": "v=   1.0000000000e+00 -   1.0000000000e+00 / (   1.0000000000e+00 + exp ( - ( v(rx_intens,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) ) / (   1.0000000000e+00 + exp ( - ( v(rx_intens,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "r.x201.xg3.rdelay",
+      "kind": "r",
+      "nodes": [
+        "x201.xg3.truth",
+        "x201.xg3.smooth"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "c.x201.xg3.cdelay",
+      "kind": "c",
+      "nodes": [
+        "x201.xg3.smooth",
+        "0"
+      ],
+      "value": 5.000000000000001e-12
+    },
+    {
+      "name": "b.x201.xg3.boutput",
+      "kind": "b",
+      "nodes": [
+        "intensity_gate",
+        "0"
+      ],
+      "behavior": "i= ( v(intensity_gate,0) - (   1.5000000000e-01 + max ( v(p5,0) -   9.5000000000e-01 ,   0.0000000000e+00 ) * v(x201.xg3.smooth,0) ) ) / (   1.0000000000e+01 +   7.0000000000e+01 * v(x201.xg3.smooth,0) )"
+    },
+    {
+      "name": "b.x201.xg4.ba",
+      "kind": "b",
+      "nodes": [
+        "video_inv",
+        "0"
+      ],
+      "behavior": "i=   2.0000000000e-05 -   2.2000000000e-04 / (   1.0000000000e+00 + exp ( ( v(video_inv,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "b.x201.xg4.bb",
+      "kind": "b",
+      "nodes": [
+        "video_inv",
+        "0"
+      ],
+      "behavior": "i=   2.0000000000e-05 -   2.2000000000e-04 / (   1.0000000000e+00 + exp ( ( v(video_inv,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "c.x201.xg4.ca",
+      "kind": "c",
+      "nodes": [
+        "video_inv",
+        "0"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "c.x201.xg4.cb",
+      "kind": "c",
+      "nodes": [
+        "video_inv",
+        "0"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "b.x201.xg4.btruth",
+      "kind": "b",
+      "nodes": [
+        "x201.xg4.truth",
+        "0"
+      ],
+      "behavior": "v=   1.0000000000e+00 -   1.0000000000e+00 / (   1.0000000000e+00 + exp ( - ( v(video_inv,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) ) / (   1.0000000000e+00 + exp ( - ( v(video_inv,0) - (    1.400000000000000e+00    ) ) / (    8.000000000000000e-02    ) ) )"
+    },
+    {
+      "name": "r.x201.xg4.rdelay",
+      "kind": "r",
+      "nodes": [
+        "x201.xg4.truth",
+        "x201.xg4.smooth"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "c.x201.xg4.cdelay",
+      "kind": "c",
+      "nodes": [
+        "x201.xg4.smooth",
+        "0"
+      ],
+      "value": 5.000000000000001e-12
+    },
+    {
+      "name": "b.x201.xg4.boutput",
+      "kind": "b",
+      "nodes": [
+        "vid",
+        "0"
+      ],
+      "behavior": "i= ( v(vid,0) - (   1.5000000000e-01 + max ( v(p5,0) -   9.5000000000e-01 ,   0.0000000000e+00 ) * v(x201.xg4.smooth,0) ) ) / (   1.0000000000e+01 +   7.0000000000e+01 * v(x201.xg4.smooth,0) )"
+    },
+    {
+      "name": "c301",
+      "kind": "c",
+      "nodes": [
+        "vf1",
+        "0"
+      ],
+      "value": 2.2e-09
+    },
+    {
+      "name": "c302",
+      "kind": "c",
+      "nodes": [
+        "vf1",
+        "vf2"
+      ],
+      "value": 1e-08
+    },
+    {
+      "name": "c306",
+      "kind": "c",
+      "nodes": [
+        "vertical_trigger",
+        "0"
+      ],
+      "value": 1e-09
+    },
+    {
+      "name": "d305",
+      "kind": "d",
+      "nodes": [
+        "d305_energy_a",
+        "vf_diode"
+      ],
+      "terminal_meter": "vd305_energy_a"
+    },
+    {
+      "name": "vd305_energy_a",
+      "kind": "v",
+      "nodes": [
+        "vertical_trigger",
+        "d305_energy_a"
+      ]
+    },
+    {
+      "name": "r300",
+      "kind": "r",
+      "nodes": [
+        "sync_gate",
+        "vf1"
+      ],
+      "value": 15000.0
+    },
+    {
+      "name": "r303",
+      "kind": "r",
+      "nodes": [
+        "vf2",
+        "0"
+      ],
+      "value": 82000.0
+    },
+    {
+      "name": "r304",
+      "kind": "r",
+      "nodes": [
+        "vf2",
+        "vf_diode"
+      ],
+      "value": 1500.0
+    },
+    {
+      "name": "c401",
+      "kind": "c",
+      "nodes": [
+        "vertical_supply",
+        "0"
+      ],
+      "value": 4.7e-05
+    },
+    {
+      "name": "c408",
+      "kind": "c",
+      "nodes": [
+        "vertical_timing",
+        "vertical_base"
+      ],
+      "value": 2.2e-07
+    },
+    {
+      "name": "q409",
+      "kind": "q",
+      "nodes": [
+        "q409_energy_c",
+        "q409_energy_b",
+        "q409_energy_e"
+      ],
+      "terminal_meters": [
+        "vq409_energy_c",
+        "vq409_energy_b",
+        "vq409_energy_e"
+      ]
+    },
+    {
+      "name": "vq409_energy_c",
+      "kind": "v",
+      "nodes": [
+        "vertical_timing",
+        "q409_energy_c"
+      ]
+    },
+    {
+      "name": "vq409_energy_b",
+      "kind": "v",
+      "nodes": [
+        "vertical_trigger",
+        "q409_energy_b"
+      ]
+    },
+    {
+      "name": "vq409_energy_e",
+      "kind": "v",
+      "nodes": [
+        "vertical_emitter",
+        "q409_energy_e"
+      ]
+    },
+    {
+      "name": "q410",
+      "kind": "q",
+      "nodes": [
+        "q410_energy_c",
+        "q410_energy_b",
+        "q410_energy_e"
+      ],
+      "terminal_meters": [
+        "vq410_energy_c",
+        "vq410_energy_b",
+        "vq410_energy_e"
+      ]
+    },
+    {
+      "name": "vq410_energy_c",
+      "kind": "v",
+      "nodes": [
+        "vertical_pulse",
+        "q410_energy_c"
+      ]
+    },
+    {
+      "name": "vq410_energy_b",
+      "kind": "v",
+      "nodes": [
+        "vertical_base",
+        "q410_energy_b"
+      ]
+    },
+    {
+      "name": "vq410_energy_e",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "q410_energy_e"
+      ]
+    },
+    {
+      "name": "r400",
+      "kind": "r",
+      "nodes": [
+        "p12",
+        "vertical_supply"
+      ],
+      "value": 130.0
+    },
+    {
+      "name": "r402",
+      "kind": "r",
+      "nodes": [
+        "vertical_supply",
+        "vertical_timing"
+      ],
+      "value": 470.0
+    },
+    {
+      "name": "r403",
+      "kind": "r",
+      "nodes": [
+        "vertical_supply",
+        "vertical_pulse"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "r404",
+      "kind": "r",
+      "nodes": [
+        "vertical_pulse",
+        "vertical_trigger"
+      ],
+      "value": 33000.0
+    },
+    {
+      "name": "r405",
+      "kind": "r",
+      "nodes": [
+        "vertical_emitter",
+        "0"
+      ],
+      "value": 470.0
+    },
+    {
+      "name": "r406",
+      "kind": "r",
+      "nodes": [
+        "vertical_emitter",
+        "vertical_trim"
+      ],
+      "value": 22000.0
+    },
+    {
+      "name": "r407",
+      "kind": "r",
+      "nodes": [
+        "vertical_trim",
+        "vertical_base"
+      ],
+      "value": 100000.0
+    },
+    {
+      "name": "c602",
+      "kind": "c",
+      "nodes": [
+        "ramp_inv",
+        "vertical_ramp"
+      ],
+      "value": 2.2e-07
+    },
+    {
+      "name": "c603",
+      "kind": "c",
+      "nodes": [
+        "ramp_inv",
+        "ramp_comp"
+      ],
+      "value": 1e-10
+    },
+    {
+      "name": "c610",
+      "kind": "c",
+      "nodes": [
+        "ramp_bias",
+        "0"
+      ],
+      "value": 9.999999999999999e-05
+    },
+    {
+      "name": "d604",
+      "kind": "d",
+      "nodes": [
+        "d604_energy_a",
+        "vertical_pulse"
+      ],
+      "terminal_meter": "vd604_energy_a"
+    },
+    {
+      "name": "vd604_energy_a",
+      "kind": "v",
+      "nodes": [
+        "ramp_noninv",
+        "d604_energy_a"
+      ]
+    },
+    {
+      "name": "d611",
+      "kind": "d",
+      "nodes": [
+        "d611_energy_a",
+        "ramp_diode"
+      ],
+      "terminal_meter": "vd611_energy_a"
+    },
+    {
+      "name": "vd611_energy_a",
+      "kind": "v",
+      "nodes": [
+        "ramp_raw",
+        "d611_energy_a"
+      ]
+    },
+    {
+      "name": "d612",
+      "kind": "d",
+      "nodes": [
+        "d612_energy_a",
+        "vertical_ramp"
+      ],
+      "terminal_meter": "vd612_energy_a"
+    },
+    {
+      "name": "vd612_energy_a",
+      "kind": "v",
+      "nodes": [
+        "ramp_diode",
+        "d612_energy_a"
+      ]
+    },
+    {
+      "name": "q606",
+      "kind": "q",
+      "nodes": [
+        "q606_energy_c",
+        "q606_energy_b",
+        "q606_energy_e"
+      ],
+      "terminal_meters": [
+        "vq606_energy_c",
+        "vq606_energy_b",
+        "vq606_energy_e"
+      ]
+    },
+    {
+      "name": "vq606_energy_c",
+      "kind": "v",
+      "nodes": [
+        "ramp_inv",
+        "q606_energy_c"
+      ]
+    },
+    {
+      "name": "vq606_energy_b",
+      "kind": "v",
+      "nodes": [
+        "retrace_base",
+        "q606_energy_b"
+      ]
+    },
+    {
+      "name": "vq606_energy_e",
+      "kind": "v",
+      "nodes": [
+        "ramp_bias",
+        "q606_energy_e"
+      ]
+    },
+    {
+      "name": "r600",
+      "kind": "r",
+      "nodes": [
+        "ramp_inv",
+        "height_trim"
+      ],
+      "value": 75000.0
+    },
+    {
+      "name": "r601",
+      "kind": "r",
+      "nodes": [
+        "height_trim",
+        "0"
+      ],
+      "value": 11000.0
+    },
+    {
+      "name": "r605",
+      "kind": "r",
+      "nodes": [
+        "ramp_noninv",
+        "retrace_base"
+      ],
+      "value": 4700.0
+    },
+    {
+      "name": "r607",
+      "kind": "r",
+      "nodes": [
+        "ramp_noninv",
+        "ramp_bias"
+      ],
+      "value": 10000.0
+    },
+    {
+      "name": "r608",
+      "kind": "r",
+      "nodes": [
+        "vertical_reference",
+        "ramp_bias"
+      ],
+      "value": 1800.0
+    },
+    {
+      "name": "r609",
+      "kind": "r",
+      "nodes": [
+        "ramp_bias",
+        "0"
+      ],
+      "value": 750.0
+    },
+    {
+      "name": "r613",
+      "kind": "r",
+      "nodes": [
+        "vertical_ramp",
+        "ramp_limit"
+      ],
+      "value": 160.0
+    },
+    {
+      "name": "r614",
+      "kind": "r",
+      "nodes": [
+        "ramp_limit",
+        "0"
+      ],
+      "value": 33.0
+    },
+    {
+      "name": "b.x615.breference",
+      "kind": "b",
+      "nodes": [
+        "x615.ref_i_vmeas_0",
+        "0"
+      ],
+      "behavior": "v= min (   7.1500000000e+00 , max ( v(p12,0) -   2.3500000000e+00 ,   0.0000000000e+00 ) )"
+    },
+    {
+      "name": "v.x615.v_breference",
+      "kind": "v",
+      "nodes": [
+        "x615.ref_i",
+        "x615.ref_i_vmeas_0"
+      ]
+    },
+    {
+      "name": "r.x615.rreference",
+      "kind": "r",
+      "nodes": [
+        "x615.ref_i",
+        "vertical_reference"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "b.x615.breference_draw",
+      "kind": "b",
+      "nodes": [
+        "p12",
+        "0"
+      ],
+      "behavior": "i= max ( i(v.x615.v_breference) *  -1.0000000000e+00 ,   0.0000000000e+00 )"
+    },
+    {
+      "name": "b.x615.bquiescent",
+      "kind": "b",
+      "nodes": [
+        "p12",
+        "0"
+      ],
+      "behavior": "i=   1.7000000000e-03 * min ( max ( v(p12,0) /   9.5000000000e+00 ,   0.0000000000e+00 ) ,   1.0000000000e+00 )"
+    },
+    {
+      "name": "r.x615.rinput",
+      "kind": "r",
+      "nodes": [
+        "ramp_inv",
+        "ramp_noninv"
+      ],
+      "value": 10000000.0
+    },
+    {
+      "name": "b.x615.bdrive_up",
+      "kind": "b",
+      "nodes": [
+        "p12",
+        "ramp_comp"
+      ],
+      "behavior": "i= max ( min (   1.0000000000e-03 * v(ramp_noninv,ramp_inv) ,   2.0000000000e-04 ) ,   0.0000000000e+00 ) * min ( max ( v(p12,0) /   9.5000000000e+00 ,   0.0000000000e+00 ) ,   1.0000000000e+00 )"
+    },
+    {
+      "name": "b.x615.bdrive_down",
+      "kind": "b",
+      "nodes": [
+        "ramp_comp",
+        "0"
+      ],
+      "behavior": "i= max ( min (  -1.0000000000e-03 * v(ramp_noninv,ramp_inv) ,   2.0000000000e-04 ) ,   0.0000000000e+00 ) * min ( max ( v(p12,0) /   9.5000000000e+00 ,   0.0000000000e+00 ) ,   1.0000000000e+00 )"
+    },
+    {
+      "name": "r.x615.rgain",
+      "kind": "r",
+      "nodes": [
+        "ramp_comp",
+        "0"
+      ],
+      "value": 10000000.0
+    },
+    {
+      "name": "c.x615.cinternal",
+      "kind": "c",
+      "nodes": [
+        "ramp_comp",
+        "0"
+      ],
+      "value": 3e-11
+    },
+    {
+      "name": "d.x615.dupper",
+      "kind": "d",
+      "nodes": [
+        "x615.dupper_energy_a",
+        "p12"
+      ],
+      "terminal_meter": "v.x615.vdupper_energy_a"
+    },
+    {
+      "name": "v.x615.vdupper_energy_a",
+      "kind": "v",
+      "nodes": [
+        "ramp_comp",
+        "x615.dupper_energy_a"
+      ]
+    },
+    {
+      "name": "d.x615.dlower",
+      "kind": "d",
+      "nodes": [
+        "x615.dlower_energy_a",
+        "ramp_comp"
+      ],
+      "terminal_meter": "v.x615.vdlower_energy_a"
+    },
+    {
+      "name": "v.x615.vdlower_energy_a",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "x615.dlower_energy_a"
+      ]
+    },
+    {
+      "name": "q.x615.qpass",
+      "kind": "q",
+      "nodes": [
+        "x615.qpass_energy_c",
+        "x615.qpass_energy_b",
+        "x615.qpass_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x615.vqpass_energy_c",
+        "v.x615.vqpass_energy_b",
+        "v.x615.vqpass_energy_e"
+      ]
+    },
+    {
+      "name": "v.x615.vqpass_energy_c",
+      "kind": "v",
+      "nodes": [
+        "p12",
+        "x615.qpass_energy_c"
+      ]
+    },
+    {
+      "name": "v.x615.vqpass_energy_b",
+      "kind": "v",
+      "nodes": [
+        "ramp_comp",
+        "x615.qpass_energy_b"
+      ]
+    },
+    {
+      "name": "v.x615.vqpass_energy_e",
+      "kind": "v",
+      "nodes": [
+        "ramp_raw",
+        "x615.qpass_energy_e"
+      ]
+    },
+    {
+      "name": "q.x615.qlimit",
+      "kind": "q",
+      "nodes": [
+        "x615.qlimit_energy_c",
+        "x615.qlimit_energy_b",
+        "x615.qlimit_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x615.vqlimit_energy_c",
+        "v.x615.vqlimit_energy_b",
+        "v.x615.vqlimit_energy_e"
+      ]
+    },
+    {
+      "name": "v.x615.vqlimit_energy_c",
+      "kind": "v",
+      "nodes": [
+        "ramp_comp",
+        "x615.qlimit_energy_c"
+      ]
+    },
+    {
+      "name": "v.x615.vqlimit_energy_b",
+      "kind": "v",
+      "nodes": [
+        "ramp_limit",
+        "x615.qlimit_energy_b"
+      ]
+    },
+    {
+      "name": "v.x615.vqlimit_energy_e",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "x615.qlimit_energy_e"
+      ]
+    },
+    {
+      "name": "r.x615.rout",
+      "kind": "r",
+      "nodes": [
+        "ramp_raw",
+        "0"
+      ],
+      "value": 1000000.0
+    },
+    {
+      "name": "c703",
+      "kind": "c",
+      "nodes": [
+        "amp_vp",
+        "0"
+      ],
+      "value": 2.2e-05
+    },
+    {
+      "name": "c704",
+      "kind": "c",
+      "nodes": [
+        "p22",
+        "0"
+      ],
+      "value": 9.999999999999999e-05
+    },
+    {
+      "name": "c705",
+      "kind": "c",
+      "nodes": [
+        "0",
+        "n16"
+      ],
+      "value": 4.7e-05
+    },
+    {
+      "name": "c706",
+      "kind": "c",
+      "nodes": [
+        "vertical_reference",
+        "0"
+      ],
+      "value": 2.2e-06
+    },
+    {
+      "name": "c707",
+      "kind": "c",
+      "nodes": [
+        "symmetry",
+        "0"
+      ],
+      "value": 2.2e-06
+    },
+    {
+      "name": "c714",
+      "kind": "c",
+      "nodes": [
+        "amp_co",
+        "amp_out"
+      ],
+      "value": 1.8e-11
+    },
+    {
+      "name": "c715",
+      "kind": "c",
+      "nodes": [
+        "amp_cb",
+        "comp_series"
+      ],
+      "value": 2.2e-10
+    },
+    {
+      "name": "d701",
+      "kind": "d",
+      "nodes": [
+        "d701_energy_a",
+        "amp_vp"
+      ],
+      "terminal_meter": "vd701_energy_a"
+    },
+    {
+      "name": "vd701_energy_a",
+      "kind": "v",
+      "nodes": [
+        "zener_join",
+        "d701_energy_a"
+      ]
+    },
+    {
+      "name": "d702",
+      "kind": "d",
+      "nodes": [
+        "d702_energy_a",
+        "0"
+      ],
+      "terminal_meter": "vd702_energy_a"
+    },
+    {
+      "name": "vd702_energy_a",
+      "kind": "v",
+      "nodes": [
+        "zener_join",
+        "d702_energy_a"
+      ]
+    },
+    {
+      "name": "d720",
+      "kind": "d",
+      "nodes": [
+        "d720_energy_a",
+        "bias_diode"
+      ],
+      "terminal_meter": "vd720_energy_a"
+    },
+    {
+      "name": "vd720_energy_a",
+      "kind": "v",
+      "nodes": [
+        "upper_base",
+        "d720_energy_a"
+      ]
+    },
+    {
+      "name": "d721",
+      "kind": "d",
+      "nodes": [
+        "d721_energy_a",
+        "bias_middle"
+      ],
+      "terminal_meter": "vd721_energy_a"
+    },
+    {
+      "name": "vd721_energy_a",
+      "kind": "v",
+      "nodes": [
+        "bias_diode",
+        "d721_energy_a"
+      ]
+    },
+    {
+      "name": "d722",
+      "kind": "d",
+      "nodes": [
+        "d722_energy_a",
+        "lower_base"
+      ],
+      "terminal_meter": "vd722_energy_a"
+    },
+    {
+      "name": "vd722_energy_a",
+      "kind": "v",
+      "nodes": [
+        "bias_middle",
+        "d722_energy_a"
+      ]
+    },
+    {
+      "name": "d735",
+      "kind": "d",
+      "nodes": [
+        "d735_energy_a",
+        "threshold_upper"
+      ],
+      "terminal_meter": "vd735_energy_a"
+    },
+    {
+      "name": "vd735_energy_a",
+      "kind": "v",
+      "nodes": [
+        "threshold_lower",
+        "d735_energy_a"
+      ]
+    },
+    {
+      "name": "d736",
+      "kind": "d",
+      "nodes": [
+        "d736_energy_a",
+        "amp_inv"
+      ],
+      "terminal_meter": "vd736_energy_a"
+    },
+    {
+      "name": "vd736_energy_a",
+      "kind": "v",
+      "nodes": [
+        "threshold_upper",
+        "d736_energy_a"
+      ]
+    },
+    {
+      "name": "d737",
+      "kind": "d",
+      "nodes": [
+        "d737_energy_a",
+        "threshold_upper"
+      ],
+      "terminal_meter": "vd737_energy_a"
+    },
+    {
+      "name": "vd737_energy_a",
+      "kind": "v",
+      "nodes": [
+        "amp_inv",
+        "d737_energy_a"
+      ]
+    },
+    {
+      "name": "q723",
+      "kind": "q",
+      "nodes": [
+        "q723_energy_c",
+        "q723_energy_b",
+        "q723_energy_e"
+      ],
+      "terminal_meters": [
+        "vq723_energy_c",
+        "vq723_energy_b",
+        "vq723_energy_e"
+      ]
+    },
+    {
+      "name": "vq723_energy_c",
+      "kind": "v",
+      "nodes": [
+        "p22",
+        "q723_energy_c"
+      ]
+    },
+    {
+      "name": "vq723_energy_b",
+      "kind": "v",
+      "nodes": [
+        "upper_base",
+        "q723_energy_b"
+      ]
+    },
+    {
+      "name": "vq723_energy_e",
+      "kind": "v",
+      "nodes": [
+        "upper_emitter",
+        "q723_energy_e"
+      ]
+    },
+    {
+      "name": "q724",
+      "kind": "q",
+      "nodes": [
+        "q724_energy_c",
+        "q724_energy_b",
+        "q724_energy_e"
+      ],
+      "terminal_meters": [
+        "vq724_energy_c",
+        "vq724_energy_b",
+        "vq724_energy_e"
+      ]
+    },
+    {
+      "name": "vq724_energy_c",
+      "kind": "v",
+      "nodes": [
+        "p22",
+        "q724_energy_c"
+      ]
+    },
+    {
+      "name": "vq724_energy_b",
+      "kind": "v",
+      "nodes": [
+        "upper_emitter",
+        "q724_energy_b"
+      ]
+    },
+    {
+      "name": "vq724_energy_e",
+      "kind": "v",
+      "nodes": [
+        "y1",
+        "q724_energy_e"
+      ]
+    },
+    {
+      "name": "q725",
+      "kind": "q",
+      "nodes": [
+        "q725_energy_c",
+        "q725_energy_b",
+        "q725_energy_e"
+      ],
+      "terminal_meters": [
+        "vq725_energy_c",
+        "vq725_energy_b",
+        "vq725_energy_e"
+      ]
+    },
+    {
+      "name": "vq725_energy_c",
+      "kind": "v",
+      "nodes": [
+        "n16",
+        "q725_energy_c"
+      ]
+    },
+    {
+      "name": "vq725_energy_b",
+      "kind": "v",
+      "nodes": [
+        "lower_base",
+        "q725_energy_b"
+      ]
+    },
+    {
+      "name": "vq725_energy_e",
+      "kind": "v",
+      "nodes": [
+        "lower_emitter",
+        "q725_energy_e"
+      ]
+    },
+    {
+      "name": "q726",
+      "kind": "q",
+      "nodes": [
+        "q726_energy_c",
+        "q726_energy_b",
+        "q726_energy_e"
+      ],
+      "terminal_meters": [
+        "vq726_energy_c",
+        "vq726_energy_b",
+        "vq726_energy_e"
+      ]
+    },
+    {
+      "name": "vq726_energy_c",
+      "kind": "v",
+      "nodes": [
+        "n16",
+        "q726_energy_c"
+      ]
+    },
+    {
+      "name": "vq726_energy_b",
+      "kind": "v",
+      "nodes": [
+        "lower_emitter",
+        "q726_energy_b"
+      ]
+    },
+    {
+      "name": "vq726_energy_e",
+      "kind": "v",
+      "nodes": [
+        "y1",
+        "q726_energy_e"
+      ]
+    },
+    {
+      "name": "r700",
+      "kind": "r",
+      "nodes": [
+        "p22",
+        "amp_vp"
+      ],
+      "value": 750.0
+    },
+    {
+      "name": "r708",
+      "kind": "r",
+      "nodes": [
+        "0",
+        "sym_top"
+      ],
+      "value": 910.0
+    },
+    {
+      "name": "r710",
+      "kind": "r",
+      "nodes": [
+        "sym_bottom",
+        "vertical_reference"
+      ],
+      "value": 10000.0
+    },
+    {
+      "name": "r711",
+      "kind": "r",
+      "nodes": [
+        "symmetry",
+        "amp_noninv"
+      ],
+      "value": 750.0
+    },
+    {
+      "name": "r712",
+      "kind": "r",
+      "nodes": [
+        "vertical_ramp",
+        "amp_inv"
+      ],
+      "value": 1500.0
+    },
+    {
+      "name": "r716",
+      "kind": "r",
+      "nodes": [
+        "comp_series",
+        "amp_ca"
+      ],
+      "value": 1500.0
+    },
+    {
+      "name": "r717",
+      "kind": "r",
+      "nodes": [
+        "amp_out",
+        "bias_middle"
+      ],
+      "value": 47.0
+    },
+    {
+      "name": "r718",
+      "kind": "r",
+      "nodes": [
+        "p22",
+        "upper_base"
+      ],
+      "value": 7500.0
+    },
+    {
+      "name": "r719",
+      "kind": "r",
+      "nodes": [
+        "lower_base",
+        "n16"
+      ],
+      "value": 7500.0
+    },
+    {
+      "name": "r727",
+      "kind": "r",
+      "nodes": [
+        "upper_emitter",
+        "y1"
+      ],
+      "value": 160.0
+    },
+    {
+      "name": "r728",
+      "kind": "r",
+      "nodes": [
+        "y1",
+        "lower_emitter"
+      ],
+      "value": 160.0
+    },
+    {
+      "name": "r729",
+      "kind": "r",
+      "nodes": [
+        "y1",
+        "y2"
+      ],
+      "value": 430.0
+    },
+    {
+      "name": "r730",
+      "kind": "r",
+      "nodes": [
+        "y2",
+        "0"
+      ],
+      "value": 3.9
+    },
+    {
+      "name": "r731",
+      "kind": "r",
+      "nodes": [
+        "amp_inv",
+        "y2"
+      ],
+      "value": 1500.0
+    },
+    {
+      "name": "r732",
+      "kind": "r",
+      "nodes": [
+        "threshold_lower",
+        "y2"
+      ],
+      "value": 5600.0
+    },
+    {
+      "name": "r733",
+      "kind": "r",
+      "nodes": [
+        "threshold_upper",
+        "y2"
+      ],
+      "value": 5600.0
+    },
+    {
+      "name": "r734",
+      "kind": "r",
+      "nodes": [
+        "threshold_lower",
+        "0"
+      ],
+      "value": 12000.0
+    },
+    {
+      "name": "r738",
+      "kind": "r",
+      "nodes": [
+        "lin_lower",
+        "threshold_lower"
+      ],
+      "value": 22000.0
+    },
+    {
+      "name": "r739",
+      "kind": "r",
+      "nodes": [
+        "vertical_reference",
+        "lin_lower"
+      ],
+      "value": 23500.0
+    },
+    {
+      "name": "r740",
+      "kind": "r",
+      "nodes": [
+        "lin_upper",
+        "threshold_upper"
+      ],
+      "value": 15000.0
+    },
+    {
+      "name": "r741",
+      "kind": "r",
+      "nodes": [
+        "vertical_reference",
+        "lin_upper"
+      ],
+      "value": 23500.0
+    },
+    {
+      "name": "r.x709.ra",
+      "kind": "r",
+      "nodes": [
+        "sym_top",
+        "symmetry"
+      ],
+      "value": 235.0
+    },
+    {
+      "name": "r.x709.rb",
+      "kind": "r",
+      "nodes": [
+        "symmetry",
+        "sym_bottom"
+      ],
+      "value": 235.0
+    },
+    {
+      "name": "q.x713.q1",
+      "kind": "q",
+      "nodes": [
+        "x713.q1_energy_c",
+        "x713.q1_energy_b",
+        "x713.q1_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq1_energy_c",
+        "v.x713.vq1_energy_b",
+        "v.x713.vq1_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq1_energy_c",
+      "kind": "v",
+      "nodes": [
+        "x713.n1",
+        "x713.q1_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq1_energy_b",
+      "kind": "v",
+      "nodes": [
+        "amp_noninv",
+        "x713.q1_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq1_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.tail",
+        "x713.q1_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q2",
+      "kind": "q",
+      "nodes": [
+        "x713.q2_energy_c",
+        "x713.q2_energy_b",
+        "x713.q2_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq2_energy_c",
+        "v.x713.vq2_energy_b",
+        "v.x713.vq2_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq2_energy_c",
+      "kind": "v",
+      "nodes": [
+        "amp_ca",
+        "x713.q2_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq2_energy_b",
+      "kind": "v",
+      "nodes": [
+        "amp_inv",
+        "x713.q2_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq2_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.tail",
+        "x713.q2_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q3",
+      "kind": "q",
+      "nodes": [
+        "x713.q3_energy_c",
+        "x713.q3_energy_b",
+        "x713.q3_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq3_energy_c",
+        "v.x713.vq3_energy_b",
+        "v.x713.vq3_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq3_energy_c",
+      "kind": "v",
+      "nodes": [
+        "x713.n3",
+        "x713.q3_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq3_energy_b",
+      "kind": "v",
+      "nodes": [
+        "x713.n1",
+        "x713.q3_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq3_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.e3",
+        "x713.q3_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q4",
+      "kind": "q",
+      "nodes": [
+        "x713.q4_energy_c",
+        "x713.q4_energy_b",
+        "x713.q4_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq4_energy_c",
+        "v.x713.vq4_energy_b",
+        "v.x713.vq4_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq4_energy_c",
+      "kind": "v",
+      "nodes": [
+        "x713.n3",
+        "x713.q4_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq4_energy_b",
+      "kind": "v",
+      "nodes": [
+        "x713.e3",
+        "x713.q4_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq4_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.bias",
+        "x713.q4_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q5",
+      "kind": "q",
+      "nodes": [
+        "x713.q5_energy_c",
+        "x713.q5_energy_b",
+        "x713.q5_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq5_energy_c",
+        "v.x713.vq5_energy_b",
+        "v.x713.vq5_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq5_energy_c",
+      "kind": "v",
+      "nodes": [
+        "amp_cb",
+        "x713.q5_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq5_energy_b",
+      "kind": "v",
+      "nodes": [
+        "amp_ca",
+        "x713.q5_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq5_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.e5",
+        "x713.q5_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q6",
+      "kind": "q",
+      "nodes": [
+        "x713.q6_energy_c",
+        "x713.q6_energy_b",
+        "x713.q6_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq6_energy_c",
+        "v.x713.vq6_energy_b",
+        "v.x713.vq6_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq6_energy_c",
+      "kind": "v",
+      "nodes": [
+        "amp_cb",
+        "x713.q6_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq6_energy_b",
+      "kind": "v",
+      "nodes": [
+        "x713.e5",
+        "x713.q6_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq6_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.bias",
+        "x713.q6_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q7",
+      "kind": "q",
+      "nodes": [
+        "x713.q7_energy_c",
+        "x713.q7_energy_b",
+        "x713.q7_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq7_energy_c",
+        "v.x713.vq7_energy_b",
+        "v.x713.vq7_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq7_energy_c",
+      "kind": "v",
+      "nodes": [
+        "amp_vp",
+        "x713.q7_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq7_energy_b",
+      "kind": "v",
+      "nodes": [
+        "x713.n3",
+        "x713.q7_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq7_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.e7",
+        "x713.q7_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q8",
+      "kind": "q",
+      "nodes": [
+        "x713.q8_energy_c",
+        "x713.q8_energy_b",
+        "x713.q8_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq8_energy_c",
+        "v.x713.vq8_energy_b",
+        "v.x713.vq8_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq8_energy_c",
+      "kind": "v",
+      "nodes": [
+        "amp_vp",
+        "x713.q8_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq8_energy_b",
+      "kind": "v",
+      "nodes": [
+        "amp_cb",
+        "x713.q8_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq8_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.e8",
+        "x713.q8_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q9",
+      "kind": "q",
+      "nodes": [
+        "x713.q9_energy_c",
+        "x713.q9_energy_b",
+        "x713.q9_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq9_energy_c",
+        "v.x713.vq9_energy_b",
+        "v.x713.vq9_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq9_energy_c",
+      "kind": "v",
+      "nodes": [
+        "amp_co",
+        "x713.q9_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq9_energy_b",
+      "kind": "v",
+      "nodes": [
+        "x713.bias",
+        "x713.q9_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq9_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.n9e",
+        "x713.q9_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q10",
+      "kind": "q",
+      "nodes": [
+        "x713.q10_energy_c",
+        "x713.q10_energy_b",
+        "x713.q10_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq10_energy_c",
+        "v.x713.vq10_energy_b",
+        "v.x713.vq10_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq10_energy_c",
+      "kind": "v",
+      "nodes": [
+        "x713.tailbase",
+        "x713.q10_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq10_energy_b",
+      "kind": "v",
+      "nodes": [
+        "x713.tailbase",
+        "x713.q10_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq10_energy_e",
+      "kind": "v",
+      "nodes": [
+        "n16",
+        "x713.q10_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q11",
+      "kind": "q",
+      "nodes": [
+        "x713.q11_energy_c",
+        "x713.q11_energy_b",
+        "x713.q11_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq11_energy_c",
+        "v.x713.vq11_energy_b",
+        "v.x713.vq11_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq11_energy_c",
+      "kind": "v",
+      "nodes": [
+        "x713.tail",
+        "x713.q11_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq11_energy_b",
+      "kind": "v",
+      "nodes": [
+        "x713.tailbase",
+        "x713.q11_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq11_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.tail_e",
+        "x713.q11_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q12",
+      "kind": "q",
+      "nodes": [
+        "x713.q12_energy_c",
+        "x713.q12_energy_b",
+        "x713.q12_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq12_energy_c",
+        "v.x713.vq12_energy_b",
+        "v.x713.vq12_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq12_energy_c",
+      "kind": "v",
+      "nodes": [
+        "x713.c12",
+        "x713.q12_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq12_energy_b",
+      "kind": "v",
+      "nodes": [
+        "amp_co",
+        "x713.q12_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq12_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.e12",
+        "x713.q12_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q13",
+      "kind": "q",
+      "nodes": [
+        "x713.q13_energy_c",
+        "x713.q13_energy_b",
+        "x713.q13_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq13_energy_c",
+        "v.x713.vq13_energy_b",
+        "v.x713.vq13_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq13_energy_c",
+      "kind": "v",
+      "nodes": [
+        "n16",
+        "x713.q13_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq13_energy_b",
+      "kind": "v",
+      "nodes": [
+        "x713.c12",
+        "x713.q13_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq13_energy_e",
+      "kind": "v",
+      "nodes": [
+        "amp_out",
+        "x713.q13_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q14",
+      "kind": "q",
+      "nodes": [
+        "x713.q14_energy_c",
+        "x713.q14_energy_b",
+        "x713.q14_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq14_energy_c",
+        "v.x713.vq14_energy_b",
+        "v.x713.vq14_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq14_energy_c",
+      "kind": "v",
+      "nodes": [
+        "amp_vp",
+        "x713.q14_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq14_energy_b",
+      "kind": "v",
+      "nodes": [
+        "x713.c12",
+        "x713.q14_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq14_energy_e",
+      "kind": "v",
+      "nodes": [
+        "amp_out",
+        "x713.q14_energy_e"
+      ]
+    },
+    {
+      "name": "q.x713.q15",
+      "kind": "q",
+      "nodes": [
+        "x713.q15_energy_c",
+        "x713.q15_energy_b",
+        "x713.q15_energy_e"
+      ],
+      "terminal_meters": [
+        "v.x713.vq15_energy_c",
+        "v.x713.vq15_energy_b",
+        "v.x713.vq15_energy_e"
+      ]
+    },
+    {
+      "name": "v.x713.vq15_energy_c",
+      "kind": "v",
+      "nodes": [
+        "x713.bias_top",
+        "x713.q15_energy_c"
+      ]
+    },
+    {
+      "name": "v.x713.vq15_energy_b",
+      "kind": "v",
+      "nodes": [
+        "x713.bias_top",
+        "x713.q15_energy_b"
+      ]
+    },
+    {
+      "name": "v.x713.vq15_energy_e",
+      "kind": "v",
+      "nodes": [
+        "x713.bias",
+        "x713.q15_energy_e"
+      ]
+    },
+    {
+      "name": "r.x713.r1",
+      "kind": "r",
+      "nodes": [
+        "x713.e7",
+        "x713.n1"
+      ],
+      "value": 25000.0
+    },
+    {
+      "name": "r.x713.r2",
+      "kind": "r",
+      "nodes": [
+        "x713.e7",
+        "amp_ca"
+      ],
+      "value": 25000.0
+    },
+    {
+      "name": "r.x713.r3",
+      "kind": "r",
+      "nodes": [
+        "x713.e3",
+        "x713.bias_top"
+      ],
+      "value": 3000.0
+    },
+    {
+      "name": "r.x713.r4",
+      "kind": "r",
+      "nodes": [
+        "x713.e5",
+        "x713.bias_top"
+      ],
+      "value": 3000.0
+    },
+    {
+      "name": "r.x713.r5",
+      "kind": "r",
+      "nodes": [
+        "amp_vp",
+        "x713.n3"
+      ],
+      "value": 10000.0
+    },
+    {
+      "name": "r.x713.r6",
+      "kind": "r",
+      "nodes": [
+        "amp_vp",
+        "amp_cb"
+      ],
+      "value": 10000.0
+    },
+    {
+      "name": "r.x713.r7",
+      "kind": "r",
+      "nodes": [
+        "x713.e8",
+        "x713.n9e"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "r.x713.r8",
+      "kind": "r",
+      "nodes": [
+        "x713.bias",
+        "x713.tap"
+      ],
+      "value": 3600.0
+    },
+    {
+      "name": "r.x713.r9",
+      "kind": "r",
+      "nodes": [
+        "x713.n9e",
+        "x713.tap"
+      ],
+      "value": 10000.0
+    },
+    {
+      "name": "r.x713.r10",
+      "kind": "r",
+      "nodes": [
+        "x713.tap",
+        "x713.tailbase"
+      ],
+      "value": 10000.0
+    },
+    {
+      "name": "r.x713.r11",
+      "kind": "r",
+      "nodes": [
+        "x713.tail_e",
+        "n16"
+      ],
+      "value": 2400.0
+    },
+    {
+      "name": "r.x713.r12",
+      "kind": "r",
+      "nodes": [
+        "amp_co",
+        "x713.e12"
+      ],
+      "value": 10000.0
+    },
+    {
+      "name": "r.x713.r13",
+      "kind": "r",
+      "nodes": [
+        "x713.e12",
+        "n16"
+      ],
+      "value": 75.0
+    },
+    {
+      "name": "r.x713.r14",
+      "kind": "r",
+      "nodes": [
+        "amp_vp",
+        "x713.c12"
+      ],
+      "value": 20000.0
+    },
+    {
+      "name": "r.x713.r15",
+      "kind": "r",
+      "nodes": [
+        "x713.n9e",
+        "amp_out"
+      ],
+      "value": 30000.0
+    },
+    {
+      "name": "c505",
+      "kind": "c",
+      "nodes": [
+        "reg5_base",
+        "0"
+      ],
+      "value": 2.2e-05
+    },
+    {
+      "name": "c506",
+      "kind": "c",
+      "nodes": [
+        "p5",
+        "0"
+      ],
+      "value": 0.001
+    },
+    {
+      "name": "d503",
+      "kind": "d",
+      "nodes": [
+        "d503_energy_a",
+        "reg5_zener"
+      ],
+      "terminal_meter": "vd503_energy_a"
+    },
+    {
+      "name": "vd503_energy_a",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "d503_energy_a"
+      ]
+    },
+    {
+      "name": "q504",
+      "kind": "q",
+      "nodes": [
+        "q504_energy_c",
+        "q504_energy_b",
+        "q504_energy_e"
+      ],
+      "terminal_meters": [
+        "vq504_energy_c",
+        "vq504_energy_b",
+        "vq504_energy_e"
+      ]
+    },
+    {
+      "name": "vq504_energy_c",
+      "kind": "v",
+      "nodes": [
+        "reg5_collector",
+        "q504_energy_c"
+      ]
+    },
+    {
+      "name": "vq504_energy_b",
+      "kind": "v",
+      "nodes": [
+        "reg5_base",
+        "q504_energy_b"
+      ]
+    },
+    {
+      "name": "vq504_energy_e",
+      "kind": "v",
+      "nodes": [
+        "p5",
+        "q504_energy_e"
+      ]
+    },
+    {
+      "name": "r500",
+      "kind": "r",
+      "nodes": [
+        "p12",
+        "reg5_top"
+      ],
+      "value": 430.0
+    },
+    {
+      "name": "r502",
+      "kind": "r",
+      "nodes": [
+        "p12",
+        "reg5_collector"
+      ],
+      "value": 47.0
+    },
+    {
+      "name": "r.x501.rtop",
+      "kind": "r",
+      "nodes": [
+        "reg5_top",
+        "reg5_base"
+      ],
+      "value": 50.0
+    },
+    {
+      "name": "r.x501.rbottom",
+      "kind": "r",
+      "nodes": [
+        "reg5_base",
+        "reg5_zener"
+      ],
+      "value": 50.0
+    },
+    {
+      "name": "c1001",
+      "kind": "c",
+      "nodes": [
+        "h_supply",
+        "0"
+      ],
+      "value": 0.001
+    },
+    {
+      "name": "c1005",
+      "kind": "c",
+      "nodes": [
+        "h_trim",
+        "0"
+      ],
+      "value": 0.0001
+    },
+    {
+      "name": "c1008",
+      "kind": "c",
+      "nodes": [
+        "h_pd",
+        "sync_c"
+      ],
+      "value": 6.8e-09
+    },
+    {
+      "name": "c1009",
+      "kind": "c",
+      "nodes": [
+        "h_pd",
+        "h_control"
+      ],
+      "value": 6.8e-10
+    },
+    {
+      "name": "c1011",
+      "kind": "c",
+      "nodes": [
+        "h_control",
+        "h_pdreturn"
+      ],
+      "value": 1e-08
+    },
+    {
+      "name": "c1012",
+      "kind": "c",
+      "nodes": [
+        "h_pdreturn",
+        "h_feedback"
+      ],
+      "value": 1e-07
+    },
+    {
+      "name": "c1013",
+      "kind": "c",
+      "nodes": [
+        "h_control",
+        "0"
+      ],
+      "value": 2.2e-08
+    },
+    {
+      "name": "c1015",
+      "kind": "c",
+      "nodes": [
+        "h_reactbase",
+        "h_r19"
+      ],
+      "value": 3.3e-07
+    },
+    {
+      "name": "c1017",
+      "kind": "c",
+      "nodes": [
+        "h_reactbase",
+        "h_reactemit"
+      ],
+      "value": 4.7e-06
+    },
+    {
+      "name": "c1019",
+      "kind": "c",
+      "nodes": [
+        "h_reactemit",
+        "h_r21"
+      ],
+      "value": 1e-05
+    },
+    {
+      "name": "c1021",
+      "kind": "c",
+      "nodes": [
+        "h_tank",
+        "h_r21"
+      ],
+      "value": 1e-07
+    },
+    {
+      "name": "c1023",
+      "kind": "c",
+      "nodes": [
+        "h_tank",
+        "h_base"
+      ],
+      "value": 3.3e-08
+    },
+    {
+      "name": "c1025",
+      "kind": "c",
+      "nodes": [
+        "h_col",
+        "h_base"
+      ],
+      "value": 1e-09
+    },
+    {
+      "name": "c1028",
+      "kind": "c",
+      "nodes": [
+        "h_drivetop",
+        "h_drivecol"
+      ],
+      "value": 2.2e-07
+    },
+    {
+      "name": "c1030",
+      "kind": "c",
+      "nodes": [
+        "h_snub",
+        "h_drivecol"
+      ],
+      "value": 4.7e-08
+    },
+    {
+      "name": "d1032",
+      "kind": "d",
+      "nodes": [
+        "d1032_energy_a",
+        "h_pd"
+      ],
+      "terminal_meter": "vd1032_energy_a"
+    },
+    {
+      "name": "vd1032_energy_a",
+      "kind": "v",
+      "nodes": [
+        "h_trim",
+        "d1032_energy_a"
+      ]
+    },
+    {
+      "name": "d1033",
+      "kind": "d",
+      "nodes": [
+        "d1033_energy_a",
+        "h_pd"
+      ],
+      "terminal_meter": "vd1033_energy_a"
+    },
+    {
+      "name": "vd1033_energy_a",
+      "kind": "v",
+      "nodes": [
+        "h_control",
+        "d1033_energy_a"
+      ]
+    },
+    {
+      "name": "q1034",
+      "kind": "q",
+      "nodes": [
+        "q1034_energy_c",
+        "q1034_energy_b",
+        "q1034_energy_e"
+      ],
+      "terminal_meters": [
+        "vq1034_energy_c",
+        "vq1034_energy_b",
+        "vq1034_energy_e"
+      ]
+    },
+    {
+      "name": "vq1034_energy_c",
+      "kind": "v",
+      "nodes": [
+        "h_tank",
+        "q1034_energy_c"
+      ]
+    },
+    {
+      "name": "vq1034_energy_b",
+      "kind": "v",
+      "nodes": [
+        "h_reactbase",
+        "q1034_energy_b"
+      ]
+    },
+    {
+      "name": "vq1034_energy_e",
+      "kind": "v",
+      "nodes": [
+        "h_reactemit",
+        "q1034_energy_e"
+      ]
+    },
+    {
+      "name": "q1035",
+      "kind": "q",
+      "nodes": [
+        "q1035_energy_c",
+        "q1035_energy_b",
+        "q1035_energy_e"
+      ],
+      "terminal_meters": [
+        "vq1035_energy_c",
+        "vq1035_energy_b",
+        "vq1035_energy_e"
+      ]
+    },
+    {
+      "name": "vq1035_energy_c",
+      "kind": "v",
+      "nodes": [
+        "h_col",
+        "q1035_energy_c"
+      ]
+    },
+    {
+      "name": "vq1035_energy_b",
+      "kind": "v",
+      "nodes": [
+        "h_base",
+        "q1035_energy_b"
+      ]
+    },
+    {
+      "name": "vq1035_energy_e",
+      "kind": "v",
+      "nodes": [
+        "h_drivebase",
+        "q1035_energy_e"
+      ]
+    },
+    {
+      "name": "q1036",
+      "kind": "q",
+      "nodes": [
+        "q1036_energy_c",
+        "q1036_energy_b",
+        "q1036_energy_e"
+      ],
+      "terminal_meters": [
+        "vq1036_energy_c",
+        "vq1036_energy_b",
+        "vq1036_energy_e"
+      ]
+    },
+    {
+      "name": "vq1036_energy_c",
+      "kind": "v",
+      "nodes": [
+        "h_drivecol",
+        "q1036_energy_c"
+      ]
+    },
+    {
+      "name": "vq1036_energy_b",
+      "kind": "v",
+      "nodes": [
+        "h_drivebase",
+        "q1036_energy_b"
+      ]
+    },
+    {
+      "name": "vq1036_energy_e",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "q1036_energy_e"
+      ]
+    },
+    {
+      "name": "r1000",
+      "kind": "r",
+      "nodes": [
+        "p12",
+        "h_supply"
+      ],
+      "value": 150.0
+    },
+    {
+      "name": "r1002",
+      "kind": "r",
+      "nodes": [
+        "h_supply",
+        "h_trimtop"
+      ],
+      "value": 5600.0
+    },
+    {
+      "name": "r1003",
+      "kind": "r",
+      "nodes": [
+        "h_trimbottom",
+        "h_therm"
+      ],
+      "value": 680.0
+    },
+    {
+      "name": "r1004",
+      "kind": "r",
+      "nodes": [
+        "h_therm",
+        "0"
+      ],
+      "value": 470.0
+    },
+    {
+      "name": "r1006",
+      "kind": "r",
+      "nodes": [
+        "h_trim",
+        "h_pd"
+      ],
+      "value": 15000.0
+    },
+    {
+      "name": "r1007",
+      "kind": "r",
+      "nodes": [
+        "h_pd",
+        "h_control"
+      ],
+      "value": 15000.0
+    },
+    {
+      "name": "r1010",
+      "kind": "r",
+      "nodes": [
+        "h_control",
+        "h_pdreturn"
+      ],
+      "value": 3900.0
+    },
+    {
+      "name": "r1014",
+      "kind": "r",
+      "nodes": [
+        "h_control",
+        "h_reactbase"
+      ],
+      "value": 5600.0
+    },
+    {
+      "name": "r1016",
+      "kind": "r",
+      "nodes": [
+        "h_r19",
+        "0"
+      ],
+      "value": 180.0
+    },
+    {
+      "name": "r1018",
+      "kind": "r",
+      "nodes": [
+        "h_reactemit",
+        "0"
+      ],
+      "value": 330.0
+    },
+    {
+      "name": "r1020",
+      "kind": "r",
+      "nodes": [
+        "h_r21",
+        "0"
+      ],
+      "value": 27.0
+    },
+    {
+      "name": "r1022",
+      "kind": "r",
+      "nodes": [
+        "h_tankright",
+        "h_col"
+      ],
+      "value": 120.0
+    },
+    {
+      "name": "r1024",
+      "kind": "r",
+      "nodes": [
+        "h_col",
+        "h_base"
+      ],
+      "value": 2200.0
+    },
+    {
+      "name": "r1026",
+      "kind": "r",
+      "nodes": [
+        "h_drivebase",
+        "0"
+      ],
+      "value": 27.0
+    },
+    {
+      "name": "r1027",
+      "kind": "r",
+      "nodes": [
+        "p22",
+        "h_drivetop"
+      ],
+      "value": 62.0
+    },
+    {
+      "name": "r1029",
+      "kind": "r",
+      "nodes": [
+        "h_drivetop",
+        "h_snub"
+      ],
+      "value": 180.0
+    },
+    {
+      "name": "r.x1031.ra",
+      "kind": "r",
+      "nodes": [
+        "h_trimtop",
+        "h_trim"
+      ],
+      "value": 500.0
+    },
+    {
+      "name": "r.x1031.rb",
+      "kind": "r",
+      "nodes": [
+        "h_trim",
+        "h_trimbottom"
+      ],
+      "value": 500.0
+    },
+    {
+      "name": "r.x1037.ra",
+      "kind": "r",
+      "nodes": [
+        "h_tank",
+        "x1037.a"
+      ],
+      "value": 1.0
+    },
+    {
+      "name": "r.x1037.rb",
+      "kind": "r",
+      "nodes": [
+        "h_tankright",
+        "x1037.b"
+      ],
+      "value": 1.0
+    },
+    {
+      "name": "l.x1037.la",
+      "kind": "l",
+      "nodes": [
+        "x1037.a",
+        "h_supply"
+      ],
+      "value": 0.00145
+    },
+    {
+      "name": "l.x1037.lb",
+      "kind": "l",
+      "nodes": [
+        "h_supply",
+        "x1037.b"
+      ],
+      "value": 0.00145
+    },
+    {
+      "name": "k.x1037.kcore",
+      "kind": "k",
+      "nodes": [],
+      "inductors": [
+        "l.x1037.la",
+        "l.x1037.lb"
+      ],
+      "coupling": 0.995
+    },
+    {
+      "name": "r.x1038.rp",
+      "kind": "r",
+      "nodes": [
+        "h_drivetop",
+        "x1038.p"
+      ],
+      "value": 2.0
+    },
+    {
+      "name": "l.x1038.lp",
+      "kind": "l",
+      "nodes": [
+        "x1038.p",
+        "h_drivecol"
+      ],
+      "value": 0.005
+    },
+    {
+      "name": "r.x1038.rs",
+      "kind": "r",
+      "nodes": [
+        "x1038.s",
+        "h_outputbase"
+      ],
+      "value": 0.3
+    },
+    {
+      "name": "l.x1038.ls",
+      "kind": "l",
+      "nodes": [
+        "0",
+        "x1038.s"
+      ],
+      "value": 0.0005555555555555556
+    },
+    {
+      "name": "k.x1038.kcore",
+      "kind": "k",
+      "nodes": [],
+      "inductors": [
+        "l.x1038.lp",
+        "l.x1038.ls"
+      ],
+      "coupling": 0.995
+    },
+    {
+      "name": "c1",
+      "kind": "c",
+      "nodes": [
+        "p41",
+        "0"
+      ],
+      "value": 2.2e-05
+    },
+    {
+      "name": "c2",
+      "kind": "c",
+      "nodes": [
+        "p41",
+        "0"
+      ],
+      "value": 1e-07
+    },
+    {
+      "name": "c3",
+      "kind": "c",
+      "nodes": [
+        "0",
+        "g1"
+      ],
+      "value": 6.8e-10
+    },
+    {
+      "name": "c4",
+      "kind": "c",
+      "nodes": [
+        "vid",
+        "base"
+      ],
+      "value": 1.5e-10
+    },
+    {
+      "name": "d1",
+      "kind": "d",
+      "nodes": [
+        "d1_energy_a",
+        "base"
+      ],
+      "terminal_meter": "vd1_energy_a"
+    },
+    {
+      "name": "vd1_energy_a",
+      "kind": "v",
+      "nodes": [
+        "clamp",
+        "d1_energy_a"
+      ]
+    },
+    {
+      "name": "d2",
+      "kind": "d",
+      "nodes": [
+        "d2_energy_a",
+        "collector"
+      ],
+      "terminal_meter": "vd2_energy_a"
+    },
+    {
+      "name": "vd2_energy_a",
+      "kind": "v",
+      "nodes": [
+        "clamp",
+        "d2_energy_a"
+      ]
+    },
+    {
+      "name": "d3",
+      "kind": "d",
+      "nodes": [
+        "d3_energy_a",
+        "p41"
+      ],
+      "terminal_meter": "vd3_energy_a"
+    },
+    {
+      "name": "vd3_energy_a",
+      "kind": "v",
+      "nodes": [
+        "collector",
+        "d3_energy_a"
+      ]
+    },
+    {
+      "name": "d4",
+      "kind": "d",
+      "nodes": [
+        "d4_energy_a",
+        "brightness"
+      ],
+      "terminal_meter": "vd4_energy_a"
+    },
+    {
+      "name": "vd4_energy_a",
+      "kind": "v",
+      "nodes": [
+        "intens",
+        "d4_energy_a"
+      ]
+    },
+    {
+      "name": "d5",
+      "kind": "d",
+      "nodes": [
+        "d5_energy_a",
+        "brightness"
+      ],
+      "terminal_meter": "vd5_energy_a"
+    },
+    {
+      "name": "vd5_energy_a",
+      "kind": "v",
+      "nodes": [
+        "collector",
+        "d5_energy_a"
+      ]
+    },
+    {
+      "name": "d6",
+      "kind": "d",
+      "nodes": [
+        "d6_energy_a",
+        "collector"
+      ],
+      "terminal_meter": "vd6_energy_a"
+    },
+    {
+      "name": "vd6_energy_a",
+      "kind": "v",
+      "nodes": [
+        "tail",
+        "d6_energy_a"
+      ]
+    },
+    {
+      "name": "q1",
+      "kind": "q",
+      "nodes": [
+        "q1_energy_c",
+        "q1_energy_b",
+        "q1_energy_e"
+      ],
+      "terminal_meters": [
+        "vq1_energy_c",
+        "vq1_energy_b",
+        "vq1_energy_e"
+      ]
+    },
+    {
+      "name": "vq1_energy_c",
+      "kind": "v",
+      "nodes": [
+        "collector",
+        "q1_energy_c"
+      ]
+    },
+    {
+      "name": "vq1_energy_b",
+      "kind": "v",
+      "nodes": [
+        "base",
+        "q1_energy_b"
+      ]
+    },
+    {
+      "name": "vq1_energy_e",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "q1_energy_e"
+      ]
+    },
+    {
+      "name": "r1",
+      "kind": "r",
+      "nodes": [
+        "ug1",
+        "g1"
+      ],
+      "value": 100000.0
+    },
+    {
+      "name": "r2",
+      "kind": "r",
+      "nodes": [
+        "ug2",
+        "g2"
+      ],
+      "value": 2200000.0
+    },
+    {
+      "name": "r3",
+      "kind": "r",
+      "nodes": [
+        "ug4",
+        "g4"
+      ],
+      "value": 100000.0
+    },
+    {
+      "name": "r4",
+      "kind": "r",
+      "nodes": [
+        "brightness",
+        "cathode"
+      ],
+      "value": 390.0
+    },
+    {
+      "name": "r5",
+      "kind": "r",
+      "nodes": [
+        "brightness",
+        "tail"
+      ],
+      "value": 470.0
+    },
+    {
+      "name": "r6",
+      "kind": "r",
+      "nodes": [
+        "vid",
+        "clamp"
+      ],
+      "value": 390.0
+    },
+    {
+      "name": "r7",
+      "kind": "r",
+      "nodes": [
+        "p41",
+        "collector"
+      ],
+      "value": 390.0
+    },
+    {
+      "name": "r8",
+      "kind": "r",
+      "nodes": [
+        "tail",
+        "0"
+      ],
+      "value": 1500.0
+    },
+    {
+      "name": "c1101",
+      "kind": "c",
+      "nodes": [
+        "p5",
+        "0"
+      ],
+      "value": 4.7e-11
+    },
+    {
+      "name": "c1102",
+      "kind": "c",
+      "nodes": [
+        "p12",
+        "0"
+      ],
+      "value": 4.7e-11
+    },
+    {
+      "name": "c1103",
+      "kind": "c",
+      "nodes": [
+        "p12",
+        "0"
+      ],
+      "value": 2.2e-05
+    },
+    {
+      "name": "c1105",
+      "kind": "c",
+      "nodes": [
+        "h_feed",
+        "0"
+      ],
+      "value": 0.00022
+    },
+    {
+      "name": "c1106",
+      "kind": "c",
+      "nodes": [
+        "h_feed",
+        "h_boosttap"
+      ],
+      "value": 4.7e-12
+    },
+    {
+      "name": "c1107",
+      "kind": "c",
+      "nodes": [
+        "h_feed",
+        "h_boost"
+      ],
+      "value": 0.00022
+    },
+    {
+      "name": "c1108",
+      "kind": "c",
+      "nodes": [
+        "h_hot",
+        "0"
+      ],
+      "value": 1e-08
+    },
+    {
+      "name": "c1109",
+      "kind": "c",
+      "nodes": [
+        "h_hot",
+        "0"
+      ],
+      "value": 1e-09
+    },
+    {
+      "name": "c1111",
+      "kind": "c",
+      "nodes": [
+        "h_linout",
+        "hy1"
+      ],
+      "value": 4.7e-07
+    },
+    {
+      "name": "c1112",
+      "kind": "c",
+      "nodes": [
+        "hy2",
+        "h_return"
+      ],
+      "value": 1e-07
+    },
+    {
+      "name": "c1113",
+      "kind": "c",
+      "nodes": [
+        "hy2",
+        "h_return"
+      ],
+      "value": 3.3e-07
+    },
+    {
+      "name": "c1115",
+      "kind": "c",
+      "nodes": [
+        "h_hot",
+        "h_rectmid"
+      ],
+      "value": 1.5e-10
+    },
+    {
+      "name": "c1116",
+      "kind": "c",
+      "nodes": [
+        "h_rectmid",
+        "h_g2raw"
+      ],
+      "value": 1.5e-10
+    },
+    {
+      "name": "c1120",
+      "kind": "c",
+      "nodes": [
+        "h_divtop",
+        "0"
+      ],
+      "value": 1e-08
+    },
+    {
+      "name": "c1121",
+      "kind": "c",
+      "nodes": [
+        "h_g1raw",
+        "0"
+      ],
+      "value": 1e-05
+    },
+    {
+      "name": "d1127",
+      "kind": "d",
+      "nodes": [
+        "d1127_energy_a",
+        "p41"
+      ],
+      "terminal_meter": "vd1127_energy_a"
+    },
+    {
+      "name": "vd1127_energy_a",
+      "kind": "v",
+      "nodes": [
+        "p35",
+        "d1127_energy_a"
+      ]
+    },
+    {
+      "name": "d1128",
+      "kind": "d",
+      "nodes": [
+        "d1128_energy_a",
+        "h_boosttap"
+      ],
+      "terminal_meter": "vd1128_energy_a"
+    },
+    {
+      "name": "vd1128_energy_a",
+      "kind": "v",
+      "nodes": [
+        "h_feed",
+        "d1128_energy_a"
+      ]
+    },
+    {
+      "name": "d1129",
+      "kind": "d",
+      "nodes": [
+        "d1129_energy_a",
+        "h_hot"
+      ],
+      "terminal_meter": "vd1129_energy_a"
+    },
+    {
+      "name": "vd1129_energy_a",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "d1129_energy_a"
+      ]
+    },
+    {
+      "name": "d1130",
+      "kind": "d",
+      "nodes": [
+        "d1130_energy_a",
+        "h_g2raw"
+      ],
+      "terminal_meter": "vd1130_energy_a"
+    },
+    {
+      "name": "vd1130_energy_a",
+      "kind": "v",
+      "nodes": [
+        "h_hot",
+        "d1130_energy_a"
+      ]
+    },
+    {
+      "name": "d1131",
+      "kind": "d",
+      "nodes": [
+        "d1131_energy_a",
+        "h_sync"
+      ],
+      "terminal_meter": "vd1131_energy_a"
+    },
+    {
+      "name": "vd1131_energy_a",
+      "kind": "v",
+      "nodes": [
+        "h_g1raw",
+        "d1131_energy_a"
+      ]
+    },
+    {
+      "name": "d1132",
+      "kind": "d",
+      "nodes": [
+        "d1132_energy_a",
+        "eht"
+      ],
+      "terminal_meter": "vd1132_energy_a"
+    },
+    {
+      "name": "vd1132_energy_a",
+      "kind": "v",
+      "nodes": [
+        "h_hvac",
+        "d1132_energy_a"
+      ]
+    },
+    {
+      "name": "q1133",
+      "kind": "q",
+      "nodes": [
+        "q1133_energy_c",
+        "q1133_energy_b",
+        "q1133_energy_e"
+      ],
+      "terminal_meters": [
+        "vq1133_energy_c",
+        "vq1133_energy_b",
+        "vq1133_energy_e"
+      ]
+    },
+    {
+      "name": "vq1133_energy_c",
+      "kind": "v",
+      "nodes": [
+        "h_hot",
+        "q1133_energy_c"
+      ]
+    },
+    {
+      "name": "vq1133_energy_b",
+      "kind": "v",
+      "nodes": [
+        "h_outbase",
+        "q1133_energy_b"
+      ]
+    },
+    {
+      "name": "vq1133_energy_e",
+      "kind": "v",
+      "nodes": [
+        "0",
+        "q1133_energy_e"
+      ]
+    },
+    {
+      "name": "r1100",
+      "kind": "r",
+      "nodes": [
+        "p12",
+        "p10_7"
+      ],
+      "value": 15.0
+    },
+    {
+      "name": "r1104",
+      "kind": "r",
+      "nodes": [
+        "p41",
+        "h_chokein"
+      ],
+      "value": 6.8
+    },
+    {
+      "name": "r1110",
+      "kind": "r",
+      "nodes": [
+        "h_hot",
+        "h_linout"
+      ],
+      "value": 82.0
+    },
+    {
+      "name": "r1114",
+      "kind": "r",
+      "nodes": [
+        "h_outbase",
+        "0"
+      ],
+      "value": 1800.0
+    },
+    {
+      "name": "r1117",
+      "kind": "r",
+      "nodes": [
+        "h_g2raw",
+        "h_divtop"
+      ],
+      "value": 2700.0
+    },
+    {
+      "name": "r1118",
+      "kind": "r",
+      "nodes": [
+        "h_divtop",
+        "ug2"
+      ],
+      "value": 150000.0
+    },
+    {
+      "name": "r1119",
+      "kind": "r",
+      "nodes": [
+        "ug2",
+        "0"
+      ],
+      "value": 1000000.0
+    },
+    {
+      "name": "r.x1122.rloss",
+      "kind": "r",
+      "nodes": [
+        "h_chokein",
+        "x1122.n"
+      ],
+      "value": 0.5
+    },
+    {
+      "name": "l.x1122.lcore",
+      "kind": "l",
+      "nodes": [
+        "x1122.n",
+        "h_feed"
+      ],
+      "value": 0.0001
+    },
+    {
+      "name": "r.x1123.rloss",
+      "kind": "r",
+      "nodes": [
+        "h_hot",
+        "x1123.n"
+      ],
+      "value": 0.1
+    },
+    {
+      "name": "l.x1123.lcore",
+      "kind": "l",
+      "nodes": [
+        "x1123.n",
+        "h_linout"
+      ],
+      "value": 2e-05
+    },
+    {
+      "name": "r.x1134.ra",
+      "kind": "r",
+      "nodes": [
+        "h_g1raw",
+        "ug1"
+      ],
+      "value": 500000.0
+    },
+    {
+      "name": "r.x1134.rb",
+      "kind": "r",
+      "nodes": [
+        "ug1",
+        "0"
+      ],
+      "value": 500000.0
+    },
+    {
+      "name": "r.x1135.ra",
+      "kind": "r",
+      "nodes": [
+        "h_divtop",
+        "ug4"
+      ],
+      "value": 500000.0
+    },
+    {
+      "name": "r.x1135.rb",
+      "kind": "r",
+      "nodes": [
+        "ug4",
+        "0"
+      ],
+      "value": 500000.0
+    },
+    {
+      "name": "r.x1136.xshared.rw0",
+      "kind": "r",
+      "nodes": [
+        "h_hot",
+        "x1136.xshared.r0"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin0",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r0",
+        "x1136.xshared.skin0"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin0",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r0",
+        "x1136.xshared.skin0"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll0",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin0",
+        "x1136.xshared.l0"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw0",
+      "kind": "c",
+      "nodes": [
+        "h_hot",
+        "h_boosttap"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw1",
+      "kind": "r",
+      "nodes": [
+        "h_boosttap",
+        "x1136.xshared.r1"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin1",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r1",
+        "x1136.xshared.skin1"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin1",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r1",
+        "x1136.xshared.skin1"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll1",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin1",
+        "x1136.xshared.l1"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw1",
+      "kind": "c",
+      "nodes": [
+        "h_boosttap",
+        "h_lower13"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw2",
+      "kind": "r",
+      "nodes": [
+        "h_lower13",
+        "x1136.xshared.r2"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin2",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r2",
+        "x1136.xshared.skin2"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin2",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r2",
+        "x1136.xshared.skin2"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll2",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin2",
+        "x1136.xshared.l2"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw2",
+      "kind": "c",
+      "nodes": [
+        "h_lower13",
+        "h_feedback"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw3",
+      "kind": "r",
+      "nodes": [
+        "h_feedback",
+        "x1136.xshared.r3"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin3",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r3",
+        "x1136.xshared.skin3"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin3",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r3",
+        "x1136.xshared.skin3"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll3",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin3",
+        "x1136.xshared.l3"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw3",
+      "kind": "c",
+      "nodes": [
+        "h_feedback",
+        "h_boost"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw4",
+      "kind": "r",
+      "nodes": [
+        "h_boost",
+        "x1136.xshared.r4"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin4",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r4",
+        "x1136.xshared.skin4"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin4",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r4",
+        "x1136.xshared.skin4"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll4",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin4",
+        "x1136.xshared.l4"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw4",
+      "kind": "c",
+      "nodes": [
+        "h_boost",
+        "h_return"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw5",
+      "kind": "r",
+      "nodes": [
+        "0",
+        "x1136.xshared.r5"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin5",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r5",
+        "x1136.xshared.skin5"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin5",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r5",
+        "x1136.xshared.skin5"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll5",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin5",
+        "x1136.xshared.l5"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw5",
+      "kind": "c",
+      "nodes": [
+        "0",
+        "h_sync"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw6",
+      "kind": "r",
+      "nodes": [
+        "h_sync",
+        "x1136.xshared.r6"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin6",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r6",
+        "x1136.xshared.skin6"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin6",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r6",
+        "x1136.xshared.skin6"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll6",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin6",
+        "x1136.xshared.l6"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw6",
+      "kind": "c",
+      "nodes": [
+        "h_sync",
+        "h_upper2"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw7",
+      "kind": "r",
+      "nodes": [
+        "h_hvac",
+        "x1136.xshared.r7"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "r.x1136.xshared.rskin7",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r7",
+        "x1136.xshared.skin7"
+      ],
+      "value": 5000.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin7",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r7",
+        "x1136.xshared.skin7"
+      ],
+      "value": 0.0027
+    },
+    {
+      "name": "l.x1136.xshared.ll7",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin7",
+        "x1136.xshared.l7"
+      ],
+      "value": 0.0003
+    },
+    {
+      "name": "c.x1136.xshared.cw7",
+      "kind": "c",
+      "nodes": [
+        "h_hvac",
+        "h_hvcold"
+      ],
+      "value": 1.5e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw8",
+      "kind": "r",
+      "nodes": [
+        "h_upper2",
+        "x1136.xshared.r8"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin8",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r8",
+        "x1136.xshared.skin8"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin8",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r8",
+        "x1136.xshared.skin8"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll8",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin8",
+        "x1136.xshared.l8"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw8",
+      "kind": "c",
+      "nodes": [
+        "h_upper2",
+        "t3_x1_3"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw9",
+      "kind": "r",
+      "nodes": [
+        "t3_x1_3",
+        "x1136.xshared.r9"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin9",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r9",
+        "x1136.xshared.skin9"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin9",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r9",
+        "x1136.xshared.skin9"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll9",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin9",
+        "x1136.xshared.l9"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw9",
+      "kind": "c",
+      "nodes": [
+        "t3_x1_3",
+        "t3_x1_5"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw10",
+      "kind": "r",
+      "nodes": [
+        "t3_x1_5",
+        "x1136.xshared.r10"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin10",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r10",
+        "x1136.xshared.skin10"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin10",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r10",
+        "x1136.xshared.skin10"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll10",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin10",
+        "x1136.xshared.l10"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw10",
+      "kind": "c",
+      "nodes": [
+        "t3_x1_5",
+        "h_hvcold"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw11",
+      "kind": "r",
+      "nodes": [
+        "t3_x1_9",
+        "x1136.xshared.r11"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin11",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r11",
+        "x1136.xshared.skin11"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin11",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r11",
+        "x1136.xshared.skin11"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll11",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin11",
+        "x1136.xshared.l11"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw11",
+      "kind": "c",
+      "nodes": [
+        "t3_x1_9",
+        "t3_x1_12"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw12",
+      "kind": "r",
+      "nodes": [
+        "t3_x1_12",
+        "x1136.xshared.r12"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin12",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r12",
+        "x1136.xshared.skin12"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin12",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r12",
+        "x1136.xshared.skin12"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll12",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin12",
+        "x1136.xshared.l12"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw12",
+      "kind": "c",
+      "nodes": [
+        "t3_x1_12",
+        "h_lower13"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw13",
+      "kind": "r",
+      "nodes": [
+        "h_lower13",
+        "x1136.xshared.r13"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin13",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r13",
+        "x1136.xshared.skin13"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin13",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r13",
+        "x1136.xshared.skin13"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll13",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin13",
+        "x1136.xshared.l13"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw13",
+      "kind": "c",
+      "nodes": [
+        "h_lower13",
+        "t3_x1_10"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "r.x1136.xshared.rw14",
+      "kind": "r",
+      "nodes": [
+        "t3_x1_10",
+        "x1136.xshared.r14"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "r.x1136.xshared.rskin14",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.r14",
+        "x1136.xshared.skin14"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "l.x1136.xshared.lskin14",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.r14",
+        "x1136.xshared.skin14"
+      ],
+      "value": 1.8e-06
+    },
+    {
+      "name": "l.x1136.xshared.ll14",
+      "kind": "l",
+      "nodes": [
+        "x1136.xshared.skin14",
+        "x1136.xshared.l14"
+      ],
+      "value": 2e-07
+    },
+    {
+      "name": "c.x1136.xshared.cw14",
+      "kind": "c",
+      "nodes": [
+        "t3_x1_10",
+        "h_boost"
+      ],
+      "value": 1e-11
+    },
+    {
+      "name": "e.x1136.xshared.ew1",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l1",
+        "h_lower13"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw1",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew1",
+      "gain": -0.194444444444444
+    },
+    {
+      "name": "e.x1136.xshared.ew2",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l2",
+        "h_feedback"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw2",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew2",
+      "gain": -0.194444444444444
+    },
+    {
+      "name": "e.x1136.xshared.ew3",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l3",
+        "h_boost"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw3",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew3",
+      "gain": -0.194444444444444
+    },
+    {
+      "name": "e.x1136.xshared.ew4",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l4",
+        "h_return"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw4",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew4",
+      "gain": -0.194444444444444
+    },
+    {
+      "name": "e.x1136.xshared.ew5",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l5",
+        "h_sync"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw5",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew5",
+      "gain": -0.0694444444444444
+    },
+    {
+      "name": "e.x1136.xshared.ew6",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l6",
+        "h_upper2"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw6",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew6",
+      "gain": -0.0694444444444444
+    },
+    {
+      "name": "e.x1136.xshared.ew7",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l7",
+        "h_hvcold"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw7",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew7",
+      "gain": -27.7777777777778
+    },
+    {
+      "name": "e.x1136.xshared.ew8",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l8",
+        "t3_x1_3"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw8",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew8",
+      "gain": -0.0833333333333333
+    },
+    {
+      "name": "e.x1136.xshared.ew9",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l9",
+        "t3_x1_5"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw9",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew9",
+      "gain": -0.0833333333333333
+    },
+    {
+      "name": "e.x1136.xshared.ew10",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l10",
+        "h_hvcold"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw10",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew10",
+      "gain": -0.833333333333333
+    },
+    {
+      "name": "e.x1136.xshared.ew11",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l11",
+        "t3_x1_12"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw11",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew11",
+      "gain": -0.194444444444444
+    },
+    {
+      "name": "e.x1136.xshared.ew12",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l12",
+        "h_lower13"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw12",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew12",
+      "gain": -0.194444444444444
+    },
+    {
+      "name": "e.x1136.xshared.ew13",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l13",
+        "t3_x1_10"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw13",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew13",
+      "gain": -0.194444444444444
+    },
+    {
+      "name": "e.x1136.xshared.ew14",
+      "kind": "e",
+      "nodes": [
+        "x1136.xshared.l14",
+        "h_boost"
+      ]
+    },
+    {
+      "name": "f.x1136.xshared.fw14",
+      "kind": "f",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "control": "e.x1136.xshared.ew14",
+      "gain": -0.194444444444444
+    },
+    {
+      "name": "c.x1136.xshared.cflux",
+      "kind": "c",
+      "nodes": [
+        "x1136.xshared.flux_b",
+        "0"
+      ],
+      "excluded": "magnetic B-state, not physical capacitance"
+    },
+    {
+      "name": "r.x1136.xshared.rflux",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.flux_b",
+        "0"
+      ],
+      "excluded": "numerical flux-state leakage"
+    },
+    {
+      "name": "b.x1136.xshared.bflux",
+      "kind": "b",
+      "nodes": [
+        "0",
+        "x1136.xshared.flux_b"
+      ],
+      "excluded": "Faraday B-state integrator"
+    },
+    {
+      "name": "b.x1136.xshared.bprimary",
+      "kind": "b",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "behavior": "i= (   2.2222222222e-03 ) * (   5.0000000000e+03 * v(x1136.xshared.flux_b) + (   2.0000000000e+04 ) * ( v(x1136.xshared.flux_b) +   5.0000000000e-01 * ( sqrt ( ( v(x1136.xshared.flux_b) -   2.0000000000e-01 ) ^   2.0000000000e+00 +   1.0000000000e-10 ) - sqrt ( ( v(x1136.xshared.flux_b) +   2.0000000000e-01 ) ^   2.0000000000e+00 +   1.0000000000e-10 ) ) ) + (   5.0833333333e+05 ) * ( v(x1136.xshared.flux_b) +   5.0000000000e-01 * ( sqrt ( ( v(x1136.xshared.flux_b) -   3.2000000000e-01 ) ^   2.0000000000e+00 +   1.0000000000e-10 ) - sqrt ( ( v(x1136.xshared.flux_b) +   3.2000000000e-01 ) ^   2.0000000000e+00 +   1.0000000000e-10 ) ) ) )"
+    },
+    {
+      "name": "r.x1136.xshared.rloss",
+      "kind": "r",
+      "nodes": [
+        "x1136.xshared.l0",
+        "h_boosttap"
+      ],
+      "value": 10000.0
+    },
+    {
+      "name": "b.x101.btarget",
+      "kind": "b",
+      "nodes": [
+        "x101.target",
+        "computer_return"
+      ],
+      "behavior": "v= (    1.500000000000000e-01    ) + ( (    4.200000000000000e+00    ) - (    1.500000000000000e-01    ) ) * v(logic_video,computer_return)"
+    },
+    {
+      "name": "r.x101.redge",
+      "kind": "r",
+      "nodes": [
+        "x101.target",
+        "x101.edge"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "c.x101.cedge",
+      "kind": "c",
+      "nodes": [
+        "x101.edge",
+        "computer_return"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "b.x101.boutput",
+      "kind": "b",
+      "nodes": [
+        "tx_video",
+        "computer_return"
+      ],
+      "behavior": "i= ( v(tx_video,computer_return) - v(x101.edge,computer_return) ) / ( (    1.000000000000000e+00    ) * ( (    8.000000000000000e+00    ) + ( (    3.500000000000000e+01    ) - (    8.000000000000000e+00    ) ) * min (   1.0000000000e+00 , max (   0.0000000000e+00 , ( v(x101.edge,computer_return) - (    1.500000000000000e-01    ) ) / ( (    4.200000000000000e+00    ) - (    1.500000000000000e-01    ) ) ) ) ) )"
+    },
+    {
+      "name": "b.x102.btarget",
+      "kind": "b",
+      "nodes": [
+        "x102.target",
+        "computer_return"
+      ],
+      "behavior": "v= (    1.500000000000000e-01    ) + ( (    4.200000000000000e+00    ) - (    1.500000000000000e-01    ) ) * v(logic_bsyn,computer_return)"
+    },
+    {
+      "name": "r.x102.redge",
+      "kind": "r",
+      "nodes": [
+        "x102.target",
+        "x102.edge"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "c.x102.cedge",
+      "kind": "c",
+      "nodes": [
+        "x102.edge",
+        "computer_return"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "b.x102.boutput",
+      "kind": "b",
+      "nodes": [
+        "tx_bsyn",
+        "computer_return"
+      ],
+      "behavior": "i= ( v(tx_bsyn,computer_return) - v(x102.edge,computer_return) ) / ( (    1.000000000000000e+00    ) * ( (    8.000000000000000e+00    ) + ( (    3.500000000000000e+01    ) - (    8.000000000000000e+00    ) ) * min (   1.0000000000e+00 , max (   0.0000000000e+00 , ( v(x102.edge,computer_return) - (    1.500000000000000e-01    ) ) / ( (    4.200000000000000e+00    ) - (    1.500000000000000e-01    ) ) ) ) ) )"
+    },
+    {
+      "name": "b.x103.btarget",
+      "kind": "b",
+      "nodes": [
+        "x103.target",
+        "computer_return"
+      ],
+      "behavior": "v= (    1.500000000000000e-01    ) + ( (    4.200000000000000e+00    ) - (    1.500000000000000e-01    ) ) * v(logic_intens,computer_return)"
+    },
+    {
+      "name": "r.x103.redge",
+      "kind": "r",
+      "nodes": [
+        "x103.target",
+        "x103.edge"
+      ],
+      "value": 1000.0
+    },
+    {
+      "name": "c.x103.cedge",
+      "kind": "c",
+      "nodes": [
+        "x103.edge",
+        "computer_return"
+      ],
+      "value": 4e-12
+    },
+    {
+      "name": "b.x103.boutput",
+      "kind": "b",
+      "nodes": [
+        "tx_intens",
+        "computer_return"
+      ],
+      "behavior": "i= ( v(tx_intens,computer_return) - v(x103.edge,computer_return) ) / ( (    1.000000000000000e+00    ) * ( (    8.000000000000000e+00    ) + ( (    3.500000000000000e+01    ) - (    8.000000000000000e+00    ) ) * min (   1.0000000000e+00 , max (   0.0000000000e+00 , ( v(x103.edge,computer_return) - (    1.500000000000000e-01    ) ) / ( (    4.200000000000000e+00    ) - (    1.500000000000000e-01    ) ) ) ) ) )"
+    },
+    {
+      "name": "rl4_1",
+      "kind": "r",
+      "nodes": [
+        "h_outputbase",
+        "l4_internal_1"
+      ],
+      "value": 0.1
+    },
+    {
+      "name": "ll4_1",
+      "kind": "l",
+      "nodes": [
+        "l4_internal_1",
+        "h_outbase"
+      ],
+      "value": 5e-06
+    },
+    {
+      "name": "rl4_2",
+      "kind": "r",
+      "nodes": [
+        "h_outputbase",
+        "l4_internal_2"
+      ],
+      "value": 0.1
+    },
+    {
+      "name": "ll4_2",
+      "kind": "l",
+      "nodes": [
+        "l4_internal_2",
+        "h_outbase"
+      ],
+      "value": 5e-06
+    },
+    {
+      "name": "rl4_3",
+      "kind": "r",
+      "nodes": [
+        "h_outbase",
+        "l4_internal_3"
+      ],
+      "value": 0.1
+    },
+    {
+      "name": "ll4_3",
+      "kind": "l",
+      "nodes": [
+        "l4_internal_3",
+        "h_outbase"
+      ],
+      "value": 5e-06
+    },
+    {
+      "name": "vlogic_video",
+      "kind": "v",
+      "nodes": [
+        "logic_video",
+        "computer_return"
+      ]
+    },
+    {
+      "name": "rwire_video_0",
+      "kind": "r",
+      "nodes": [
+        "tx_video",
+        "cable_video_0"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_video_0",
+      "kind": "c",
+      "nodes": [
+        "cable_video_0",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "rwire_video_1",
+      "kind": "r",
+      "nodes": [
+        "cable_video_0",
+        "cable_video_1"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_video_1",
+      "kind": "c",
+      "nodes": [
+        "cable_video_1",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "rwire_video_2",
+      "kind": "r",
+      "nodes": [
+        "cable_video_1",
+        "cable_video_2"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_video_2",
+      "kind": "c",
+      "nodes": [
+        "cable_video_2",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "rwire_video_3",
+      "kind": "r",
+      "nodes": [
+        "cable_video_2",
+        "rx_video"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_video_3",
+      "kind": "c",
+      "nodes": [
+        "rx_video",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "vlogic_bsyn",
+      "kind": "v",
+      "nodes": [
+        "logic_bsyn",
+        "computer_return"
+      ]
+    },
+    {
+      "name": "rwire_bsyn_0",
+      "kind": "r",
+      "nodes": [
+        "tx_bsyn",
+        "cable_bsyn_0"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_bsyn_0",
+      "kind": "c",
+      "nodes": [
+        "cable_bsyn_0",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "rwire_bsyn_1",
+      "kind": "r",
+      "nodes": [
+        "cable_bsyn_0",
+        "cable_bsyn_1"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_bsyn_1",
+      "kind": "c",
+      "nodes": [
+        "cable_bsyn_1",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "rwire_bsyn_2",
+      "kind": "r",
+      "nodes": [
+        "cable_bsyn_1",
+        "cable_bsyn_2"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_bsyn_2",
+      "kind": "c",
+      "nodes": [
+        "cable_bsyn_2",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "rwire_bsyn_3",
+      "kind": "r",
+      "nodes": [
+        "cable_bsyn_2",
+        "rx_bsyn"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_bsyn_3",
+      "kind": "c",
+      "nodes": [
+        "rx_bsyn",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "vlogic_intens",
+      "kind": "v",
+      "nodes": [
+        "logic_intens",
+        "computer_return"
+      ]
+    },
+    {
+      "name": "rwire_intens_0",
+      "kind": "r",
+      "nodes": [
+        "tx_intens",
+        "cable_intens_0"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_intens_0",
+      "kind": "c",
+      "nodes": [
+        "cable_intens_0",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "rwire_intens_1",
+      "kind": "r",
+      "nodes": [
+        "cable_intens_0",
+        "cable_intens_1"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_intens_1",
+      "kind": "c",
+      "nodes": [
+        "cable_intens_1",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "rwire_intens_2",
+      "kind": "r",
+      "nodes": [
+        "cable_intens_1",
+        "cable_intens_2"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_intens_2",
+      "kind": "c",
+      "nodes": [
+        "cable_intens_2",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "rwire_intens_3",
+      "kind": "r",
+      "nodes": [
+        "cable_intens_2",
+        "rx_intens"
+      ],
+      "value": 0.075
+    },
+    {
+      "name": "cwire_intens_3",
+      "kind": "c",
+      "nodes": [
+        "rx_intens",
+        "0"
+      ],
+      "value": 3.75e-11
+    },
+    {
+      "name": "rreturn",
+      "kind": "r",
+      "nodes": [
+        "computer_return",
+        "0"
+      ],
+      "value": 0.2
+    },
+    {
+      "name": "vp12",
+      "kind": "v",
+      "nodes": [
+        "p12",
+        "0"
+      ]
+    },
+    {
+      "name": "vp22",
+      "kind": "v",
+      "nodes": [
+        "p22",
+        "0"
+      ]
+    },
+    {
+      "name": "vp41",
+      "kind": "v",
+      "nodes": [
+        "p41",
+        "0"
+      ]
+    },
+    {
+      "name": "vn16",
+      "kind": "v",
+      "nodes": [
+        "n16",
+        "0"
+      ]
+    },
+    {
+      "name": "rcontrast_top",
+      "kind": "r",
+      "nodes": [
+        "contrast_adjust",
+        "intens"
+      ],
+      "value": 5000.0
+    },
+    {
+      "name": "rcontrast_bottom",
+      "kind": "r",
+      "nodes": [
+        "intens",
+        "contrast_low"
+      ],
+      "value": 5000.0
+    },
+    {
+      "name": "v.xcrt.vheater",
+      "kind": "v",
+      "nodes": [
+        "p10_7",
+        "xcrt.heater_i"
+      ]
+    },
+    {
+      "name": "b.xcrt.bheater",
+      "kind": "b",
+      "nodes": [
+        "xcrt.heater_i",
+        "0"
+      ],
+      "behavior": "i= v(xcrt.heater_i,0) / (   2.0000000000e+01 * max (   1.0000000000e+00 +   8.0000000000e-03 * v(heater_rise) ,   1.0000000000e-01 ) )"
+    },
+    {
+      "name": "b.xcrt.bheat",
+      "kind": "b",
+      "nodes": [
+        "0",
+        "heater_rise"
+      ],
+      "excluded": "duplicate electrical-to-thermal transfer"
+    },
+    {
+      "name": "c.xcrt.ch",
+      "kind": "c",
+      "nodes": [
+        "heater_rise",
+        "0"
+      ],
+      "excluded": "thermal state"
+    },
+    {
+      "name": "c.xcrt.cc",
+      "kind": "c",
+      "nodes": [
+        "cathode_rise",
+        "0"
+      ],
+      "excluded": "thermal state"
+    },
+    {
+      "name": "v.xcrt.vholdh",
+      "kind": "v",
+      "nodes": [
+        "heater_rise",
+        "0"
+      ],
+      "excluded": "held temperature"
+    },
+    {
+      "name": "v.xcrt.vholdc",
+      "kind": "v",
+      "nodes": [
+        "cathode_rise",
+        "0"
+      ],
+      "excluded": "held temperature"
+    },
+    {
+      "name": "r.xcrt.rhc",
+      "kind": "r",
+      "nodes": [
+        "heater_rise",
+        "cathode_rise"
+      ],
+      "excluded": "thermal conductance"
+    },
+    {
+      "name": "r.xcrt.rha",
+      "kind": "r",
+      "nodes": [
+        "heater_rise",
+        "0"
+      ],
+      "excluded": "thermal conductance"
+    },
+    {
+      "name": "r.xcrt.rca",
+      "kind": "r",
+      "nodes": [
+        "cathode_rise",
+        "0"
+      ],
+      "excluded": "thermal conductance"
+    },
+    {
+      "name": "b.xcrt.bhrad",
+      "kind": "b",
+      "nodes": [
+        "heater_rise",
+        "0"
+      ],
+      "excluded": "thermal loss"
+    },
+    {
+      "name": "b.xcrt.bcrad",
+      "kind": "b",
+      "nodes": [
+        "cathode_rise",
+        "0"
+      ],
+      "excluded": "thermal loss"
+    },
+    {
+      "name": "b.xcrt.blaunch",
+      "kind": "b",
+      "nodes": [
+        "xcrt.launch_current_ua",
+        "0"
+      ],
+      "excluded": "current monitor"
+    },
+    {
+      "name": "b.xcrt.bemitted",
+      "kind": "b",
+      "nodes": [
+        "xcrt.emitted_current_ua",
+        "0"
+      ],
+      "excluded": "current monitor"
+    },
+    {
+      "name": "b.xcrt.bbeam",
+      "kind": "b",
+      "nodes": [
+        "eht",
+        "cathode"
+      ],
+      "behavior": "i= v(xcrt.launch_current_ua) *   1.0000000000e-06"
+    },
+    {
+      "name": "b.xcrt.bg2",
+      "kind": "b",
+      "nodes": [
+        "g2",
+        "cathode"
+      ],
+      "behavior": "i= min (   6.0000000000e-05 * ( max ( v(cathode_rise) +   2.9315000000e+02 ,   1.0000000000e+00 ) /   1.0000000000e+03 ) ^   2.0000000000e+00 * exp ( min (   6.0000000000e+01 ,   1.1000000000e+00 /   8.6173332620e-05 * (   1.0000000000e+00 /   1.0000000000e+03 -   1.0000000000e+00 / ( max ( v(cathode_rise) +   2.9315000000e+02 ,   1.0000000000e+00 ) ) ) ) ) ,   1.0000000000e-06 * max ( v(g1,cathode) + v(g2,cathode) /   1.0000000000e+01 ,   0.0000000000e+00 ) ^   1.5000000000e+00 ) *   3.0000000000e-02 * min ( max ( v(g2,cathode) ,   0.0000000000e+00 ) ,   1.0000000000e+00 )"
+    },
+    {
+      "name": "c.xcrt.csocket",
+      "kind": "c",
+      "nodes": [
+        "cathode",
+        "0"
+      ],
+      "value": 2e-11
+    },
+    {
+      "name": "ctube",
+      "kind": "c",
+      "nodes": [
+        "eht",
+        "0"
+      ],
+      "value": 1e-09
+    },
+    {
+      "name": "rhvleak",
+      "kind": "r",
+      "nodes": [
+        "eht",
+        "0"
+      ],
+      "value": 200000000.0
+    },
+    {
+      "name": "rhorizontal",
+      "kind": "r",
+      "nodes": [
+        "hy1",
+        "h_winding"
+      ],
+      "value": 2.0
+    },
+    {
+      "name": "lhorizontal",
+      "kind": "l",
+      "nodes": [
+        "h_winding",
+        "hy2"
+      ],
+      "value": 0.00400691178088492
+    },
+    {
+      "name": "rvertical",
+      "kind": "r",
+      "nodes": [
+        "y1",
+        "v_winding"
+      ],
+      "value": 10.0
+    },
+    {
+      "name": "lvertical",
+      "kind": "l",
+      "nodes": [
+        "v_winding",
+        "y2"
+      ],
+      "value": 0.0199867713595455
+    },
+    {
+      "name": "rcapmid",
+      "kind": "r",
+      "nodes": [
+        "h_rectmid",
+        "0"
+      ],
+      "value": 1000000000.0
+    },
+    {
+      "name": "ryokeleak",
+      "kind": "r",
+      "nodes": [
+        "hy1",
+        "0"
+      ],
+      "value": 1000000000.0
+    }
+  ],
+  "runtime": {
+    "format": "dac-monitor-runtime-v1",
+    "source_url": "https://downloads.sourceforge.net/project/ngspice/ng-spice-rework/47/ngspice-47.tar.gz",
+    "archive_sha256": "894e649651f1838a14095e5a5439e7d3aa63e87ede14d283173fda4fcdef675f",
+    "install_prefix": "/home/ddanila/fun/dac-emulation/build/monitor/runtime-clean/install",
+    "inputs": {
+      "monitor_runtime.py": "775fc92b80c3ef88d6f2eba7d64e69ed8ee2bbecf975611a42830486be8d264c",
+      "runtime/ngspice-47-monitor.patch": "eaeba872873be5f74429f810382deb5111bf2151bb5dd7f0d6bd7553ff475a17",
+      "runtime/crt_schmitt/cfunc.mod": "56fee2b016611dce9552da6b124907d303b0f32a1709d15300127462e1eb9989",
+      "runtime/crt_schmitt/ifspec.ifs": "3f631c3b1ff2c18d38dec19813b26bbc42c8da107bdc71ece51b2aab562d76a7"
+    },
+    "configure_flags": [
+      "--enable-xspice",
+      "--with-x=no",
+      "--with-readline=no",
+      "CFLAGS=-O2 -fno-fast-math"
+    ],
+    "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "version": "******\n** ngspice-47 : Circuit level simulation program\n** Compiled with KLU Direct Linear Solver\n** The U. C. Berkeley CAD Group\n** Copyright 1985-1994, Regents of the University of California.\n** Copyright 2001-2026, The ngspice team.\n** Please get your ngspice manual from https://ngspice.sourceforge.io/docs.html\n** Please file your bug-reports at http://ngspice.sourceforge.net/bugrep.html\n** Creation Date: Tue Nov 17 16:48:50 UTC 2026\n******\n",
+    "files": {
+      "install/bin/ngspice": "93f5bd3e105c0e3b70435b7a0b6be6645a3a9fa94e1bdfca778a280406ce76c0",
+      "install/share/ngspice/scripts/spinit": "bcab932f5174d8094b8ec6325b95ddef37ab1a41f746ebcd038c88d856358190",
+      "install/lib/ngspice/analog.cm": "97409b0ec02c828f1d31e2f24685ddf9112acede5bc467f04aec819d907f28ef",
+      "install/lib/ngspice/digital.cm": "14da052e3ae197e1893df7d2c561f9c660f2d7bf51e55f7ddb750b77211204fc",
+      "install/lib/ngspice/spice2poly.cm": "9b22ad1ee354acc316990f8cca66c898489709e728b71ec42862c47cf78268e6",
+      "install/lib/ngspice/table.cm": "037badb6a29b512cc37e2dc8bdd7e50383dd28c7fc3ea86d076dc34b6d67e37d",
+      "install/lib/ngspice/tlines.cm": "e790fc9fdd19a23c5d8e7dd6ef8e961b7b3d4998edb168bd15be1bfb4015cd5f",
+      "install/lib/ngspice/xtradev.cm": "4783f1949c64739e4b0e2c6be1c23b7185ccd9448c6bb6232172482b3a384a6c",
+      "install/lib/ngspice/xtraevt.cm": "63b5cbcede7b52b5166f1c4ac9e45497d3b53f490c6215592d06ad6eaac59355"
+    },
+    "qualification": "experimental-instrumented-runtime",
+    "full_monitor_qualified": false
+  },
+  "original_deck_sha256": "21bed5020369023d69827f1915c81475727109c466b69e5bcff291df27ba0b5b",
+  "instrumented_deck_sha256": "4e9bb6ac6ef60957fa9c9cef4f987970ec2df111e579a85d8536656fbfd5bc5c",
+  "coverage_complete": true,
+  "parts_sha256": "03105d57401e490e50aa86adf64914acfd40dc977724f24b57d38b8a2979ef25",
+  "probes": [
+    "@b.x101.boutput[i]",
+    "@b.x101.btarget[i]",
+    "@b.x102.boutput[i]",
+    "@b.x102.btarget[i]",
+    "@b.x103.boutput[i]",
+    "@b.x103.btarget[i]",
+    "@b.x1136.xshared.bprimary[i]",
+    "@b.x201.xg1.ba[i]",
+    "@b.x201.xg1.bb[i]",
+    "@b.x201.xg1.boutput[i]",
+    "@b.x201.xg1.btruth[i]",
+    "@b.x201.xg2.ba[i]",
+    "@b.x201.xg2.bb[i]",
+    "@b.x201.xg2.boutput[i]",
+    "@b.x201.xg2.btruth[i]",
+    "@b.x201.xg3.ba[i]",
+    "@b.x201.xg3.bb[i]",
+    "@b.x201.xg3.boutput[i]",
+    "@b.x201.xg3.btruth[i]",
+    "@b.x201.xg4.ba[i]",
+    "@b.x201.xg4.bb[i]",
+    "@b.x201.xg4.boutput[i]",
+    "@b.x201.xg4.btruth[i]",
+    "@b.x615.bdrive_down[i]",
+    "@b.x615.bdrive_up[i]",
+    "@b.x615.bquiescent[i]",
+    "@b.x615.breference[i]",
+    "@b.x615.breference_draw[i]",
+    "@b.xcrt.bbeam[i]",
+    "@b.xcrt.bg2[i]",
+    "@b.xcrt.bheater[i]",
+    "@c.x101.cedge[i]",
+    "@c.x102.cedge[i]",
+    "@c.x103.cedge[i]",
+    "@c.x1136.xshared.cw0[i]",
+    "@c.x1136.xshared.cw10[i]",
+    "@c.x1136.xshared.cw11[i]",
+    "@c.x1136.xshared.cw12[i]",
+    "@c.x1136.xshared.cw13[i]",
+    "@c.x1136.xshared.cw14[i]",
+    "@c.x1136.xshared.cw1[i]",
+    "@c.x1136.xshared.cw2[i]",
+    "@c.x1136.xshared.cw3[i]",
+    "@c.x1136.xshared.cw4[i]",
+    "@c.x1136.xshared.cw5[i]",
+    "@c.x1136.xshared.cw6[i]",
+    "@c.x1136.xshared.cw7[i]",
+    "@c.x1136.xshared.cw8[i]",
+    "@c.x1136.xshared.cw9[i]",
+    "@c.x201.xg1.ca[i]",
+    "@c.x201.xg1.cb[i]",
+    "@c.x201.xg1.cdelay[i]",
+    "@c.x201.xg2.ca[i]",
+    "@c.x201.xg2.cb[i]",
+    "@c.x201.xg2.cdelay[i]",
+    "@c.x201.xg3.ca[i]",
+    "@c.x201.xg3.cb[i]",
+    "@c.x201.xg3.cdelay[i]",
+    "@c.x201.xg4.ca[i]",
+    "@c.x201.xg4.cb[i]",
+    "@c.x201.xg4.cdelay[i]",
+    "@c.x615.cinternal[i]",
+    "@c.xcrt.csocket[i]",
+    "@c1001[i]",
+    "@c1005[i]",
+    "@c1008[i]",
+    "@c1009[i]",
+    "@c1011[i]",
+    "@c1012[i]",
+    "@c1013[i]",
+    "@c1015[i]",
+    "@c1017[i]",
+    "@c1019[i]",
+    "@c1021[i]",
+    "@c1023[i]",
+    "@c1025[i]",
+    "@c1028[i]",
+    "@c1030[i]",
+    "@c1101[i]",
+    "@c1102[i]",
+    "@c1103[i]",
+    "@c1105[i]",
+    "@c1106[i]",
+    "@c1107[i]",
+    "@c1108[i]",
+    "@c1109[i]",
+    "@c1111[i]",
+    "@c1112[i]",
+    "@c1113[i]",
+    "@c1115[i]",
+    "@c1116[i]",
+    "@c1120[i]",
+    "@c1121[i]",
+    "@c1[i]",
+    "@c201[i]",
+    "@c202[i]",
+    "@c2[i]",
+    "@c301[i]",
+    "@c302[i]",
+    "@c306[i]",
+    "@c3[i]",
+    "@c401[i]",
+    "@c408[i]",
+    "@c4[i]",
+    "@c505[i]",
+    "@c506[i]",
+    "@c602[i]",
+    "@c603[i]",
+    "@c610[i]",
+    "@c703[i]",
+    "@c704[i]",
+    "@c705[i]",
+    "@c706[i]",
+    "@c707[i]",
+    "@c714[i]",
+    "@c715[i]",
+    "@ctube[i]",
+    "@cwire_bsyn_0[i]",
+    "@cwire_bsyn_1[i]",
+    "@cwire_bsyn_2[i]",
+    "@cwire_bsyn_3[i]",
+    "@cwire_intens_0[i]",
+    "@cwire_intens_1[i]",
+    "@cwire_intens_2[i]",
+    "@cwire_intens_3[i]",
+    "@cwire_video_0[i]",
+    "@cwire_video_1[i]",
+    "@cwire_video_2[i]",
+    "@cwire_video_3[i]",
+    "i(e.x1136.xshared.ew1)",
+    "i(e.x1136.xshared.ew10)",
+    "i(e.x1136.xshared.ew11)",
+    "i(e.x1136.xshared.ew12)",
+    "i(e.x1136.xshared.ew13)",
+    "i(e.x1136.xshared.ew14)",
+    "i(e.x1136.xshared.ew2)",
+    "i(e.x1136.xshared.ew3)",
+    "i(e.x1136.xshared.ew4)",
+    "i(e.x1136.xshared.ew5)",
+    "i(e.x1136.xshared.ew6)",
+    "i(e.x1136.xshared.ew7)",
+    "i(e.x1136.xshared.ew8)",
+    "i(e.x1136.xshared.ew9)",
+    "i(l.x1037.la)",
+    "i(l.x1037.lb)",
+    "i(l.x1038.lp)",
+    "i(l.x1038.ls)",
+    "i(l.x1122.lcore)",
+    "i(l.x1123.lcore)",
+    "i(l.x1136.xshared.ll0)",
+    "i(l.x1136.xshared.ll1)",
+    "i(l.x1136.xshared.ll10)",
+    "i(l.x1136.xshared.ll11)",
+    "i(l.x1136.xshared.ll12)",
+    "i(l.x1136.xshared.ll13)",
+    "i(l.x1136.xshared.ll14)",
+    "i(l.x1136.xshared.ll2)",
+    "i(l.x1136.xshared.ll3)",
+    "i(l.x1136.xshared.ll4)",
+    "i(l.x1136.xshared.ll5)",
+    "i(l.x1136.xshared.ll6)",
+    "i(l.x1136.xshared.ll7)",
+    "i(l.x1136.xshared.ll8)",
+    "i(l.x1136.xshared.ll9)",
+    "i(l.x1136.xshared.lskin0)",
+    "i(l.x1136.xshared.lskin1)",
+    "i(l.x1136.xshared.lskin10)",
+    "i(l.x1136.xshared.lskin11)",
+    "i(l.x1136.xshared.lskin12)",
+    "i(l.x1136.xshared.lskin13)",
+    "i(l.x1136.xshared.lskin14)",
+    "i(l.x1136.xshared.lskin2)",
+    "i(l.x1136.xshared.lskin3)",
+    "i(l.x1136.xshared.lskin4)",
+    "i(l.x1136.xshared.lskin5)",
+    "i(l.x1136.xshared.lskin6)",
+    "i(l.x1136.xshared.lskin7)",
+    "i(l.x1136.xshared.lskin8)",
+    "i(l.x1136.xshared.lskin9)",
+    "i(lhorizontal)",
+    "i(ll4_1)",
+    "i(ll4_2)",
+    "i(ll4_3)",
+    "i(lvertical)",
+    "i(v.x615.v_breference)",
+    "i(v.x615.vdlower_energy_a)",
+    "i(v.x615.vdupper_energy_a)",
+    "i(v.x615.vqlimit_energy_b)",
+    "i(v.x615.vqlimit_energy_c)",
+    "i(v.x615.vqlimit_energy_e)",
+    "i(v.x615.vqpass_energy_b)",
+    "i(v.x615.vqpass_energy_c)",
+    "i(v.x615.vqpass_energy_e)",
+    "i(v.x713.vq10_energy_b)",
+    "i(v.x713.vq10_energy_c)",
+    "i(v.x713.vq10_energy_e)",
+    "i(v.x713.vq11_energy_b)",
+    "i(v.x713.vq11_energy_c)",
+    "i(v.x713.vq11_energy_e)",
+    "i(v.x713.vq12_energy_b)",
+    "i(v.x713.vq12_energy_c)",
+    "i(v.x713.vq12_energy_e)",
+    "i(v.x713.vq13_energy_b)",
+    "i(v.x713.vq13_energy_c)",
+    "i(v.x713.vq13_energy_e)",
+    "i(v.x713.vq14_energy_b)",
+    "i(v.x713.vq14_energy_c)",
+    "i(v.x713.vq14_energy_e)",
+    "i(v.x713.vq15_energy_b)",
+    "i(v.x713.vq15_energy_c)",
+    "i(v.x713.vq15_energy_e)",
+    "i(v.x713.vq1_energy_b)",
+    "i(v.x713.vq1_energy_c)",
+    "i(v.x713.vq1_energy_e)",
+    "i(v.x713.vq2_energy_b)",
+    "i(v.x713.vq2_energy_c)",
+    "i(v.x713.vq2_energy_e)",
+    "i(v.x713.vq3_energy_b)",
+    "i(v.x713.vq3_energy_c)",
+    "i(v.x713.vq3_energy_e)",
+    "i(v.x713.vq4_energy_b)",
+    "i(v.x713.vq4_energy_c)",
+    "i(v.x713.vq4_energy_e)",
+    "i(v.x713.vq5_energy_b)",
+    "i(v.x713.vq5_energy_c)",
+    "i(v.x713.vq5_energy_e)",
+    "i(v.x713.vq6_energy_b)",
+    "i(v.x713.vq6_energy_c)",
+    "i(v.x713.vq6_energy_e)",
+    "i(v.x713.vq7_energy_b)",
+    "i(v.x713.vq7_energy_c)",
+    "i(v.x713.vq7_energy_e)",
+    "i(v.x713.vq8_energy_b)",
+    "i(v.x713.vq8_energy_c)",
+    "i(v.x713.vq8_energy_e)",
+    "i(v.x713.vq9_energy_b)",
+    "i(v.x713.vq9_energy_c)",
+    "i(v.x713.vq9_energy_e)",
+    "i(v.xcrt.vheater)",
+    "i(vd1032_energy_a)",
+    "i(vd1033_energy_a)",
+    "i(vd1127_energy_a)",
+    "i(vd1128_energy_a)",
+    "i(vd1129_energy_a)",
+    "i(vd1130_energy_a)",
+    "i(vd1131_energy_a)",
+    "i(vd1132_energy_a)",
+    "i(vd1_energy_a)",
+    "i(vd201_energy_a)",
+    "i(vd202_energy_a)",
+    "i(vd203_energy_a)",
+    "i(vd204_energy_a)",
+    "i(vd205_energy_a)",
+    "i(vd206_energy_a)",
+    "i(vd2_energy_a)",
+    "i(vd305_energy_a)",
+    "i(vd3_energy_a)",
+    "i(vd4_energy_a)",
+    "i(vd503_energy_a)",
+    "i(vd5_energy_a)",
+    "i(vd604_energy_a)",
+    "i(vd611_energy_a)",
+    "i(vd612_energy_a)",
+    "i(vd6_energy_a)",
+    "i(vd701_energy_a)",
+    "i(vd702_energy_a)",
+    "i(vd720_energy_a)",
+    "i(vd721_energy_a)",
+    "i(vd722_energy_a)",
+    "i(vd735_energy_a)",
+    "i(vd736_energy_a)",
+    "i(vd737_energy_a)",
+    "i(vlogic_bsyn)",
+    "i(vlogic_intens)",
+    "i(vlogic_video)",
+    "i(vn16)",
+    "i(vp12)",
+    "i(vp22)",
+    "i(vp41)",
+    "i(vq1034_energy_b)",
+    "i(vq1034_energy_c)",
+    "i(vq1034_energy_e)",
+    "i(vq1035_energy_b)",
+    "i(vq1035_energy_c)",
+    "i(vq1035_energy_e)",
+    "i(vq1036_energy_b)",
+    "i(vq1036_energy_c)",
+    "i(vq1036_energy_e)",
+    "i(vq1133_energy_b)",
+    "i(vq1133_energy_c)",
+    "i(vq1133_energy_e)",
+    "i(vq1_energy_b)",
+    "i(vq1_energy_c)",
+    "i(vq1_energy_e)",
+    "i(vq201_energy_b)",
+    "i(vq201_energy_c)",
+    "i(vq201_energy_e)",
+    "i(vq202_energy_b)",
+    "i(vq202_energy_c)",
+    "i(vq202_energy_e)",
+    "i(vq203_energy_b)",
+    "i(vq203_energy_c)",
+    "i(vq203_energy_e)",
+    "i(vq409_energy_b)",
+    "i(vq409_energy_c)",
+    "i(vq409_energy_e)",
+    "i(vq410_energy_b)",
+    "i(vq410_energy_c)",
+    "i(vq410_energy_e)",
+    "i(vq504_energy_b)",
+    "i(vq504_energy_c)",
+    "i(vq504_energy_e)",
+    "i(vq606_energy_b)",
+    "i(vq606_energy_c)",
+    "i(vq606_energy_e)",
+    "i(vq723_energy_b)",
+    "i(vq723_energy_c)",
+    "i(vq723_energy_e)",
+    "i(vq724_energy_b)",
+    "i(vq724_energy_c)",
+    "i(vq724_energy_e)",
+    "i(vq725_energy_b)",
+    "i(vq725_energy_c)",
+    "i(vq725_energy_e)",
+    "i(vq726_energy_b)",
+    "i(vq726_energy_c)",
+    "i(vq726_energy_e)",
+    "v(amp_ca)",
+    "v(amp_cb)",
+    "v(amp_co)",
+    "v(amp_inv)",
+    "v(amp_noninv)",
+    "v(amp_out)",
+    "v(amp_vp)",
+    "v(base)",
+    "v(base_i)",
+    "v(bias_diode)",
+    "v(bias_middle)",
+    "v(brightness)",
+    "v(cable_bsyn_0)",
+    "v(cable_bsyn_1)",
+    "v(cable_bsyn_2)",
+    "v(cable_intens_0)",
+    "v(cable_intens_1)",
+    "v(cable_intens_2)",
+    "v(cable_video_0)",
+    "v(cable_video_1)",
+    "v(cable_video_2)",
+    "v(cathode)",
+    "v(clamp)",
+    "v(clamp_i)",
+    "v(collector)",
+    "v(collector_i)",
+    "v(comp_series)",
+    "v(computer_return)",
+    "v(contrast_adjust)",
+    "v(contrast_low)",
+    "v(d1032_energy_a)",
+    "v(d1033_energy_a)",
+    "v(d1127_energy_a)",
+    "v(d1128_energy_a)",
+    "v(d1129_energy_a)",
+    "v(d1130_energy_a)",
+    "v(d1131_energy_a)",
+    "v(d1132_energy_a)",
+    "v(d1_energy_a)",
+    "v(d201_energy_a)",
+    "v(d202_energy_a)",
+    "v(d203_energy_a)",
+    "v(d204_energy_a)",
+    "v(d205_energy_a)",
+    "v(d206_energy_a)",
+    "v(d2_energy_a)",
+    "v(d305_energy_a)",
+    "v(d3_energy_a)",
+    "v(d4_energy_a)",
+    "v(d503_energy_a)",
+    "v(d5_energy_a)",
+    "v(d604_energy_a)",
+    "v(d611_energy_a)",
+    "v(d612_energy_a)",
+    "v(d6_energy_a)",
+    "v(d701_energy_a)",
+    "v(d702_energy_a)",
+    "v(d720_energy_a)",
+    "v(d721_energy_a)",
+    "v(d722_energy_a)",
+    "v(d735_energy_a)",
+    "v(d736_energy_a)",
+    "v(d737_energy_a)",
+    "v(eht)",
+    "v(g1)",
+    "v(g2)",
+    "v(g4)",
+    "v(h_base)",
+    "v(h_boost)",
+    "v(h_boosttap)",
+    "v(h_chokein)",
+    "v(h_col)",
+    "v(h_control)",
+    "v(h_divtop)",
+    "v(h_drivebase)",
+    "v(h_drivecol)",
+    "v(h_drivetop)",
+    "v(h_feed)",
+    "v(h_feedback)",
+    "v(h_g1raw)",
+    "v(h_g2raw)",
+    "v(h_hot)",
+    "v(h_hvac)",
+    "v(h_hvcold)",
+    "v(h_linout)",
+    "v(h_lower13)",
+    "v(h_outbase)",
+    "v(h_outputbase)",
+    "v(h_pd)",
+    "v(h_pdreturn)",
+    "v(h_r19)",
+    "v(h_r21)",
+    "v(h_reactbase)",
+    "v(h_reactemit)",
+    "v(h_rectmid)",
+    "v(h_return)",
+    "v(h_snub)",
+    "v(h_supply)",
+    "v(h_sync)",
+    "v(h_tank)",
+    "v(h_tankright)",
+    "v(h_therm)",
+    "v(h_trim)",
+    "v(h_trimbottom)",
+    "v(h_trimtop)",
+    "v(h_upper2)",
+    "v(h_winding)",
+    "v(height_trim)",
+    "v(hy1)",
+    "v(hy2)",
+    "v(intens)",
+    "v(intensity_gate)",
+    "v(l4_internal_1)",
+    "v(l4_internal_2)",
+    "v(l4_internal_3)",
+    "v(lin_lower)",
+    "v(lin_upper)",
+    "v(logic_bsyn)",
+    "v(logic_intens)",
+    "v(logic_video)",
+    "v(lower_base)",
+    "v(lower_emitter)",
+    "v(n16)",
+    "v(p10_7)",
+    "v(p12)",
+    "v(p22)",
+    "v(p35)",
+    "v(p41)",
+    "v(p5)",
+    "v(q1034_energy_b)",
+    "v(q1034_energy_c)",
+    "v(q1034_energy_e)",
+    "v(q1035_energy_b)",
+    "v(q1035_energy_c)",
+    "v(q1035_energy_e)",
+    "v(q1036_energy_b)",
+    "v(q1036_energy_c)",
+    "v(q1036_energy_e)",
+    "v(q1133_energy_b)",
+    "v(q1133_energy_c)",
+    "v(q1133_energy_e)",
+    "v(q1_energy_b)",
+    "v(q1_energy_c)",
+    "v(q1_energy_e)",
+    "v(q201_energy_b)",
+    "v(q201_energy_c)",
+    "v(q201_energy_e)",
+    "v(q202_energy_b)",
+    "v(q202_energy_c)",
+    "v(q202_energy_e)",
+    "v(q203_energy_b)",
+    "v(q203_energy_c)",
+    "v(q203_energy_e)",
+    "v(q409_energy_b)",
+    "v(q409_energy_c)",
+    "v(q409_energy_e)",
+    "v(q410_energy_b)",
+    "v(q410_energy_c)",
+    "v(q410_energy_e)",
+    "v(q504_energy_b)",
+    "v(q504_energy_c)",
+    "v(q504_energy_e)",
+    "v(q606_energy_b)",
+    "v(q606_energy_c)",
+    "v(q606_energy_e)",
+    "v(q723_energy_b)",
+    "v(q723_energy_c)",
+    "v(q723_energy_e)",
+    "v(q724_energy_b)",
+    "v(q724_energy_c)",
+    "v(q724_energy_e)",
+    "v(q725_energy_b)",
+    "v(q725_energy_c)",
+    "v(q725_energy_e)",
+    "v(q726_energy_b)",
+    "v(q726_energy_c)",
+    "v(q726_energy_e)",
+    "v(ramp_bias)",
+    "v(ramp_comp)",
+    "v(ramp_diode)",
+    "v(ramp_inv)",
+    "v(ramp_limit)",
+    "v(ramp_noninv)",
+    "v(ramp_raw)",
+    "v(reference9)",
+    "v(reg5_base)",
+    "v(reg5_collector)",
+    "v(reg5_top)",
+    "v(reg5_zener)",
+    "v(retrace_base)",
+    "v(rx_bsyn)",
+    "v(rx_intens)",
+    "v(rx_video)",
+    "v(sym_bottom)",
+    "v(sym_top)",
+    "v(symmetry)",
+    "v(sync_base)",
+    "v(sync_c)",
+    "v(sync_feed)",
+    "v(sync_gate)",
+    "v(t3_x1_10)",
+    "v(t3_x1_12)",
+    "v(t3_x1_3)",
+    "v(t3_x1_5)",
+    "v(t3_x1_9)",
+    "v(tail)",
+    "v(threshold_lower)",
+    "v(threshold_upper)",
+    "v(tx_bsyn)",
+    "v(tx_intens)",
+    "v(tx_video)",
+    "v(ug1)",
+    "v(ug2)",
+    "v(ug4)",
+    "v(upper_base)",
+    "v(upper_emitter)",
+    "v(v_winding)",
+    "v(vertical_base)",
+    "v(vertical_emitter)",
+    "v(vertical_pulse)",
+    "v(vertical_ramp)",
+    "v(vertical_reference)",
+    "v(vertical_supply)",
+    "v(vertical_timing)",
+    "v(vertical_trigger)",
+    "v(vertical_trim)",
+    "v(vf1)",
+    "v(vf2)",
+    "v(vf_diode)",
+    "v(vid)",
+    "v(video_inv)",
+    "v(x101.edge)",
+    "v(x101.target)",
+    "v(x102.edge)",
+    "v(x102.target)",
+    "v(x103.edge)",
+    "v(x103.target)",
+    "v(x1037.a)",
+    "v(x1037.b)",
+    "v(x1038.p)",
+    "v(x1038.s)",
+    "v(x1122.n)",
+    "v(x1123.n)",
+    "v(x1136.xshared.flux_b)",
+    "v(x1136.xshared.l0)",
+    "v(x1136.xshared.l1)",
+    "v(x1136.xshared.l10)",
+    "v(x1136.xshared.l11)",
+    "v(x1136.xshared.l12)",
+    "v(x1136.xshared.l13)",
+    "v(x1136.xshared.l14)",
+    "v(x1136.xshared.l2)",
+    "v(x1136.xshared.l3)",
+    "v(x1136.xshared.l4)",
+    "v(x1136.xshared.l5)",
+    "v(x1136.xshared.l6)",
+    "v(x1136.xshared.l7)",
+    "v(x1136.xshared.l8)",
+    "v(x1136.xshared.l9)",
+    "v(x1136.xshared.r0)",
+    "v(x1136.xshared.r1)",
+    "v(x1136.xshared.r10)",
+    "v(x1136.xshared.r11)",
+    "v(x1136.xshared.r12)",
+    "v(x1136.xshared.r13)",
+    "v(x1136.xshared.r14)",
+    "v(x1136.xshared.r2)",
+    "v(x1136.xshared.r3)",
+    "v(x1136.xshared.r4)",
+    "v(x1136.xshared.r5)",
+    "v(x1136.xshared.r6)",
+    "v(x1136.xshared.r7)",
+    "v(x1136.xshared.r8)",
+    "v(x1136.xshared.r9)",
+    "v(x1136.xshared.skin0)",
+    "v(x1136.xshared.skin1)",
+    "v(x1136.xshared.skin10)",
+    "v(x1136.xshared.skin11)",
+    "v(x1136.xshared.skin12)",
+    "v(x1136.xshared.skin13)",
+    "v(x1136.xshared.skin14)",
+    "v(x1136.xshared.skin2)",
+    "v(x1136.xshared.skin3)",
+    "v(x1136.xshared.skin4)",
+    "v(x1136.xshared.skin5)",
+    "v(x1136.xshared.skin6)",
+    "v(x1136.xshared.skin7)",
+    "v(x1136.xshared.skin8)",
+    "v(x1136.xshared.skin9)",
+    "v(x201.xg1.smooth)",
+    "v(x201.xg1.truth)",
+    "v(x201.xg2.smooth)",
+    "v(x201.xg2.truth)",
+    "v(x201.xg3.smooth)",
+    "v(x201.xg3.truth)",
+    "v(x201.xg4.smooth)",
+    "v(x201.xg4.truth)",
+    "v(x615.dlower_energy_a)",
+    "v(x615.dupper_energy_a)",
+    "v(x615.qlimit_energy_b)",
+    "v(x615.qlimit_energy_c)",
+    "v(x615.qlimit_energy_e)",
+    "v(x615.qpass_energy_b)",
+    "v(x615.qpass_energy_c)",
+    "v(x615.qpass_energy_e)",
+    "v(x615.ref_i)",
+    "v(x615.ref_i_vmeas_0)",
+    "v(x713.bias)",
+    "v(x713.bias_top)",
+    "v(x713.c12)",
+    "v(x713.e12)",
+    "v(x713.e3)",
+    "v(x713.e5)",
+    "v(x713.e7)",
+    "v(x713.e8)",
+    "v(x713.n1)",
+    "v(x713.n3)",
+    "v(x713.n9e)",
+    "v(x713.q10_energy_b)",
+    "v(x713.q10_energy_c)",
+    "v(x713.q10_energy_e)",
+    "v(x713.q11_energy_b)",
+    "v(x713.q11_energy_c)",
+    "v(x713.q11_energy_e)",
+    "v(x713.q12_energy_b)",
+    "v(x713.q12_energy_c)",
+    "v(x713.q12_energy_e)",
+    "v(x713.q13_energy_b)",
+    "v(x713.q13_energy_c)",
+    "v(x713.q13_energy_e)",
+    "v(x713.q14_energy_b)",
+    "v(x713.q14_energy_c)",
+    "v(x713.q14_energy_e)",
+    "v(x713.q15_energy_b)",
+    "v(x713.q15_energy_c)",
+    "v(x713.q15_energy_e)",
+    "v(x713.q1_energy_b)",
+    "v(x713.q1_energy_c)",
+    "v(x713.q1_energy_e)",
+    "v(x713.q2_energy_b)",
+    "v(x713.q2_energy_c)",
+    "v(x713.q2_energy_e)",
+    "v(x713.q3_energy_b)",
+    "v(x713.q3_energy_c)",
+    "v(x713.q3_energy_e)",
+    "v(x713.q4_energy_b)",
+    "v(x713.q4_energy_c)",
+    "v(x713.q4_energy_e)",
+    "v(x713.q5_energy_b)",
+    "v(x713.q5_energy_c)",
+    "v(x713.q5_energy_e)",
+    "v(x713.q6_energy_b)",
+    "v(x713.q6_energy_c)",
+    "v(x713.q6_energy_e)",
+    "v(x713.q7_energy_b)",
+    "v(x713.q7_energy_c)",
+    "v(x713.q7_energy_e)",
+    "v(x713.q8_energy_b)",
+    "v(x713.q8_energy_c)",
+    "v(x713.q8_energy_e)",
+    "v(x713.q9_energy_b)",
+    "v(x713.q9_energy_c)",
+    "v(x713.q9_energy_e)",
+    "v(x713.tail)",
+    "v(x713.tail_e)",
+    "v(x713.tailbase)",
+    "v(x713.tap)",
+    "v(xcrt.heater_i)",
+    "v(y1)",
+    "v(y2)",
+    "v(zener_join)"
+  ]
+}

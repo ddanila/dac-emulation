@@ -40,7 +40,7 @@ def parameters(overrides=None):
     return values
 
 
-def model(overrides=None, *, initial_rise_k=(0., 0.), hold_temperature=False):
+def model(overrides=None, *, initial_rise_k=(0., 0.), hold_temperature=False, collection_report=None):
     p=parameters(overrides)
     h0,c0=initial_rise_k
     if any(not math.isfinite(t) or not 0<=t<=10000 for t in (h0,c0)):
@@ -57,6 +57,20 @@ def model(overrides=None, *, initial_rise_k=(0., 0.), hold_temperature=False):
     demand=f'{p["perveance"]}*max(v(g1,cathode)+v(g2,cathode)/{p["grid2_mu"]},0)^1.5'
     collected=f'min(max(v(anode,cathode)/{p["anode_collection_v"]},0),1)'
     current=f'min({emission},{demand})'
+    launch=f'{current}*{collected}*(1-{p["grid2_capture"]})'
+    grid=f'{current}*{p["grid2_capture"]}*min(max(v(g2,cathode),0),1)'
+    collection_source=''
+    anode_current='v(launch_current_ua)*1e-6'
+    beam_return='cathode'
+    if collection_report is not None:
+        import collection
+        collection_source='Vcollection collection_current_ua 0 '+collection.pwl(collection_report,scale=1e6)
+        # Separate emission and arrival terminal currents. Their difference is
+        # in-flight charge, accounted by the periodic collection ledger; there
+        # is no invented physical capacitance or delayed cathode emission.
+        collection_source+='\nBlaunchload 0 cathode I={v(launch_current_ua)*1e-6}'
+        beam_return='0'
+        anode_current='v(collection_current_ua)*1e-6'
     r=f'{p["heater_cold_ohm"]}*max(1+{p["heater_alpha"]}*v(th),.1)'
     return f'''* Uncalibrated coupled CRT load; th/tc are temperature rise, not exposed electrical nodes.
 .subckt CRT_THERMAL heater_p heater_n cathode g1 g2 anode th tc
@@ -71,8 +85,13 @@ Rha th 0 {1/p['heater_ambient_g']}
 Rca tc 0 {1/p['cathode_ambient_g']}
 Bhrad th 0 I={{5.670374419e-8*{p['heater_radiation_area']}*((v(th)+{a})^4-{a}^4)}}
 Bcrad tc 0 I={{5.670374419e-8*{p['cathode_radiation_area']}*((v(tc)+{a})^4-{a}^4)}}
-Bbeam anode cathode I={{{current}*{collected}*(1-{p['grid2_capture']})}}
-Bg2 g2 cathode I={{{current}*{p['grid2_capture']}*min(max(v(g2,cathode),0),1)}}
+* Diagnostic voltages use 1 V/uA to resolve emission above voltage tolerance.
+* They are not physical energy-storage nodes.
+Blaunch launch_current_ua 0 V={{1e6*({launch})}}
+Bemitted emitted_current_ua 0 V={{v(launch_current_ua)+1e6*({grid})}}
+{collection_source}
+Bbeam anode {beam_return} I={{{anode_current}}}
+Bg2 g2 cathode I={{{grid}}}
 Csocket cathode 0 {p['cathode_socket_f']}
 .ends CRT_THERMAL
 '''

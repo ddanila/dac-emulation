@@ -287,10 +287,13 @@ render settings; cached artifacts never establish electrical settling. The
 standalone renderer exposes this as `--cache PATH` and accepts explicit reduced
 field parameters through `--field-parameters JSON`.
 
-Even if all numerical stages pass, the runner continues to report the remaining
-physical gates: collection/interception load feedback, complete circuit energy
-closure, and the unresolved yoke relationship. It does not publish a healthy
-reference merely because an image looks readable.
+The runner now measures electrode-load convergence, circuit and beam energy
+closure, numerical refinement and the joint yoke relationship before accepting a
+reduced experiment. See [single-frame acceptance](single-frame-acceptance.md) for
+collector assumptions, thresholds and the current blockers, and the
+[charge/energy/lock audit](examples/single-frame-accounting-audit/README.md) for
+actual runs. A passing reduced-model
+experiment has not yet been established; a readable image is insufficient.
 
 ## Fault atlas development bench
 

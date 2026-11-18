@@ -119,12 +119,27 @@ def finish(assembly, selection, candidate, metadata, trial, output, runtime, sol
         (out/'acceptance.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
         return report
     save()
+    import beam_feedback,energy_validation
+    if time.monotonic()>=deadline:
+        report['blockers'].append('whole-run wall budget exhausted');return save()
+    coupling=beam_feedback.run(assembly,selection,candidate,metadata,trial,out/'coupling',runtime,solver,deadline,cache=electrical_cache)
+    # Do not embed the large PWL predictor in the acceptance summary.
+    report['checks']['coupling']={k:v for k,v in coupling.items() if k!='load'};save()
+    if 'latest_completed' in coupling:report['checks']['coupled-state']=coupling['latest_completed'];save()
+    if not coupling['converged'] or not coupling['accepted']:
+        report['blockers'].append('Electrode feedback failed convergence, charge balance or synchronization.');return save()
+    assembly=dict(assembly,collection_report=coupling['load'])
+    trial=Path(coupling['trial']);metadata=coupling['metadata']
+    report['checks']['coupled-state']=dict(solve={'status':'complete'},trial=str(trial),metadata=metadata,settling=coupling['settling']);save()
     variants={
         'refinement':dict(solver,max_step_s=metadata['max_step_s']/2,
                           reltol=max(1e-5,metadata['reltol']/5),abstol=max(1e-12,metadata['abstol']/10)),
         'initialization':dict(solver,initial_voltages={n:(lo+hi)/2 for n,(lo,hi) in steady_supply.INITIAL_VOLTAGE_BOUNDS.items()})}
     if variants['initialization']['initial_voltages']==metadata.get('initial_voltage_guesses'):
         variants['initialization']['initial_voltages']={}
+    energy=energy_validation.run(assembly,selection,candidate,metadata,trial,out/'energy',runtime,solver,deadline,cache=electrical_cache)
+    report['checks']['energy']=energy;save()
+    if not energy['accepted']:report['blockers'].append('Circuit or beam energy accounting failed.');return save()
     for name,options in variants.items():
         remaining=deadline-time.monotonic()
         if remaining<=0:report['blockers'].append('whole-run wall budget exhausted');return save()
@@ -135,10 +150,19 @@ def finish(assembly, selection, candidate, metadata, trial, output, runtime, sol
         (destination/'metadata.json').write_text(json.dumps(meta,indent=2)+'\n')
         check=dict(solve=solved,trial=str(destination.resolve()),metadata=meta);report['checks'][name]=check;save()
         if solved['status']!='complete':report['blockers'].append(name+' solver failed');return save()
-        check['settling']=steady_supply.assess(destination/'trace.raw',meta,selection)
-        check['comparison']=compare(Path(trial)/'trace.raw',destination/'trace.raw',metadata)
-        if not check['settling']['accepted'] or not check['comparison']['accepted']:
-            report['blockers'].append(name+' failed settling or waveform agreement');return save()
+        refined=beam_feedback.run(assembly,selection,candidate,meta,destination,out/(name+'-coupling'),runtime,options,deadline,cache=electrical_cache,fine=name=='refinement')
+        check['coupling']={k:v for k,v in refined.items() if k!='load'}
+        if 'latest_completed' in refined:check.update(refined['latest_completed'])
+        if not refined['converged'] or not refined['accepted']:
+            report['blockers'].append(name+' failed coupled convergence or synchronization');return save()
+        check.update(trial=refined['trial'],metadata=refined['metadata'],settling=refined['settling'])
+        check['comparison']=compare(Path(trial)/'trace.raw',Path(refined['trial'])/'trace.raw',metadata)
+        if not check['comparison']['accepted']:
+            report['blockers'].append(name+' failed waveform agreement');return save()
+        if name=='refinement':
+            check['energy']=energy_validation.run(dict(assembly,collection_report=refined['load']),selection,candidate,
+                refined['metadata'],refined['trial'],out/'energy-fine',runtime,options,deadline,cache=electrical_cache,fine=True)
+            if not check['energy']['accepted']:report['blockers'].append('Refined energy accounting failed.');return save()
         save()
     trace=out/'field.csv';end=metadata['period_s']*metadata['simulated_fields']
     report['trace']=steady_trace.export(Path(trial)/'trace.raw',trace,start_s=end-metadata['period_s'],end_s=end);save()
@@ -152,11 +176,9 @@ def finish(assembly, selection, candidate, metadata, trial, output, runtime, sol
     report['checks']['optical-spatial-refinement']=periodic_frame.compare(out/'optical',out/'optical-spatial',spatial=True)
     for name in ('optical-integration','optical-spatial-refinement'):
         if not report['checks'][name]['accepted']:report['blockers'].append(name+' failed')
-    # A stable numerical image is necessary but insufficient. Keep these physical
-    # gates explicit until electrode interception and the circuit energy ledger
-    # exist; never silently equate optical energy closure with electrical closure.
-    report['blockers'] += ['Trajectory interception is not coupled back to electrode loads.',
-                          'Complete circuit power/storage/loss energy closure is not implemented.']
     if not assembly['yoke']['inductance_field_relationship_verified']:
         report['blockers'].append('Yoke inductance and magnetic deflection remain independently assumed.')
+    if not report['blockers']:
+        report.update(status='accepted-experiment',accepted_warmed_frame=True,
+            qualification='reduced-model-native-frame; not specimen validated')
     return save()
