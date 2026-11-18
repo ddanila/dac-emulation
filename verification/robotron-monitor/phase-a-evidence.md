@@ -135,6 +135,13 @@ exact hashed synthetic capture, and with the proposed T3, magnetic, yoke, L4
 and tank assumptions. A hand-written CSV cannot establish a
 calibration freeze. This is a provenance gate, not evidence that the connected
 monitor currently meets the calibration targets.
+Before a grid trial can freeze, `calibration_contract.py` now reruns
+`steady_supply.assess()` on its complete electrical trace and the selected
+synthetic source. The last three fields must pass the existing flyback/sync
+lock, waveform periodicity, core-flux, current, EHT and held-heater checks.
+The settling report is included in the hashed freeze and checked again when
+the freeze is read. A completed solver run that briefly matches TP14/15/17 or
+11–12 kV during startup cannot be frozen as a sustained calibration.
 The freeze now integrates `v(eht)` over that final complete field and stores
 the measured mean alongside the trace identity. It requires 11–12 kV and
 rejects a proposed EHT value more than 1% away from the measured mean. It also
