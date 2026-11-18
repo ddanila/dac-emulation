@@ -18,6 +18,12 @@ PAGES = (6, 7, 8, 12, 13, 14, 15, 17)
 TAGS = ('primary', 'r300', 'alt', 'alt2', 'cropL', 'cropR', 'struct')
 REF = re.compile(r'(?<![A-Za-z0-9])([ACFLRTV]\d+(?::\d+)?)(?![A-Za-z0-9])', re.I)
 ARTICLE = re.compile(r'^(?:\d\.\d{2,}|\d{5,6}\s+\d{3,4}\.\d+/\d{2})')
+SOURCE_CONFLICTS = {
+    '012-6931:V13': ('Page 15 appears to include V13 in the 1 AE 15 diode group '
+                     'and explicitly lists V13 with V26 as KFY 18 transistors.'),
+    '012-6931:V22': ('Page 15 groups V19 through V25 as 1 AE 15 diodes, including V22; '
+                     'the page-10 schematic and waveform annotation use V22 in the converter.'),
+}
 
 
 def _readings(path):
@@ -173,9 +179,11 @@ def audit(inventory, ocr_root):
                                   article=matches[article_passes[0]]['article'] if article_passes else None)
                              if cell_agreement else None)
             comparison = _printed_value_matches(part, voted_reading) if voted_reading else None
+            source_conflict = SOURCE_CONFLICTS.get(part['id'])
             result.append(dict(id=part['id'], source_page=page,
                                inventory_description=part['description'],
                                inventory_evidence=part['evidence'], readings=matches,
+                               source_conflict=source_conflict,
                                exact_agreement_passes=largest,
                                description_agreement_passes=description_passes,
                                article_agreement_passes=article_passes,
@@ -183,6 +191,7 @@ def audit(inventory, ocr_root):
                                blank_article_agreement_passes=blank_articles if not articles else [],
                                inventory_value_or_type_matches=comparison,
                                status=('needs-schematic-review' if page not in PAGES else
+                                       'needs-source-review' if source_conflict else
                                        'confirmed-by-3-passes' if comparison is True else
                                        'needs-inventory-comparison' if comparison is False else
                                        'needs-source-review')))
