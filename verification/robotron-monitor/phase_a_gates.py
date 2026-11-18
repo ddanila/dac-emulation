@@ -9,13 +9,16 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import tempfile
 
 import calibration_contract
 import calibration_measurements
+import periodic_frame
 import scan_diagnostics
 import service_score as service_scoring
 import steady_acceptance
 import steady_supply
+import steady_trace
 
 PERIODIC=('eht','horizontal_yoke_current','vertical_yoke_current','g2','g4','core_flux')
 PERIODIC_PROBES={'eht':'v(eht)','horizontal_yoke_current':'i(lhorizontal)',
@@ -178,6 +181,53 @@ def verify_electrical_refinement(evidence,score,base_metadata):
     return computed
 
 
+def verify_optical_refinement(evidence,score,metadata):
+    """Bind both G7 optical comparisons to a field exported from the scored trial."""
+    claimed=evidence.get('optical_refinement',{})
+    names=('base_archive','integration_archive','spatial_archive')
+    if any(not isinstance(claimed.get(name),str) or not claimed[name] for name in names):
+        raise ValueError('G7 requires the base and both refined optical archives')
+    directories={name:Path(claimed[name]) for name in names}
+    if len({path.resolve() for path in directories.values()})!=3:
+        raise ValueError('G7 requires distinct optical archives')
+    period=metadata.get('period_s');fields=metadata.get('simulated_fields')
+    if not finite(period) or period<=0 or type(fields) is not int or fields<4:
+        raise ValueError('G7 electrical field window is invalid')
+    end=period*fields
+    with tempfile.TemporaryDirectory(prefix='phase-a-optical-source-') as temporary:
+        field=Path(temporary)/'field.csv'
+        export=steady_trace.export(score['input'],field,start_s=end-period,end_s=end)
+        with field.open('rb') as stream:
+            field_sha=hashlib.file_digest(stream,'sha256').hexdigest()
+        if (export.get('raw_sha256')!=score.get('input_sha256')
+                or export.get('trace_sha256')!=field_sha):
+            raise ValueError('G7 field export does not match the scored electrical trace')
+        base=json.loads((directories['base_archive']/'frame.json').read_text())
+        if base.get('hashes',{}).get('input.csv')!=field_sha:
+            raise ValueError('G7 optical input differs from the scored electrical field')
+    integration=periodic_frame.compare(directories['base_archive'],directories['integration_archive'])
+    spatial=periodic_frame.compare(directories['base_archive'],directories['spatial_archive'],spatial=True)
+    if (integration.get('scope')!='optical-integration-refinement'
+            or spatial.get('scope')!='spatial-refinement'):
+        raise ValueError('G7 optical comparison scope mismatch')
+    errors=(integration.get('relative_l2_error'),spatial.get('relative_l2_error'))
+    if not all(finite(value) and value>=0 for value in errors):
+        raise ValueError('G7 optical comparison error is invalid')
+    computed=dict(integration_verified=integration.get('accepted') is True,
+                  spatial_verified=spatial.get('accepted') is True,
+                  integration_relative_error=errors[0],spatial_relative_error=errors[1],
+                  relative_error=max(errors))
+    for key,value in computed.items():
+        if key in claimed:
+            reported=claimed[key]
+            agrees=(reported is value if isinstance(value,bool) else
+                    finite(reported) and math.isclose(reported,value,rel_tol=1e-9,abs_tol=1e-12))
+            if not agrees:
+                raise ValueError('reported G7 refinement differs from optical archives')
+    evidence['optical_refinement']=claimed|computed
+    return computed
+
+
 def verify_calibration_measurements(evidence, score):
     """Recompute native-frame G3 electrical quantities before gate evaluation."""
     reported=evidence.get('calibration_measurements',{})
@@ -276,7 +326,8 @@ def evaluate(evidence,service_score,freeze):
         and all(finite(refinement.get(k)) and 0<=refinement[k]<=.01
                 for k in ('half_timestep_relative_error','second_initialization_relative_error')),refinement)
     optical=evidence.get('optical_refinement',{})
-    add('G7',finite(optical.get('relative_error')) and 0<=optical['relative_error']<=.02,optical)
+    add('G7',optical.get('integration_verified') is True and optical.get('spatial_verified') is True
+        and finite(optical.get('relative_error')) and 0<=optical['relative_error']<=.02,optical)
     readability=evidence.get('readability',{})
     add('G8',readability.get('source_kind')=='native-firmware-logical-timing-reference'
         and isinstance(evidence.get('native_capture_sha256'),str)
@@ -305,6 +356,7 @@ def main():
     verify_settling_evidence(evidence,score,selection,metadata)
     verify_calibration_measurements(evidence,score)
     verify_electrical_refinement(evidence,score,metadata)
+    verify_optical_refinement(evidence,score,metadata)
     result=evaluate(evidence,score,
                     json.loads(args.calibration_freeze.read_text()))
     args.output.write_text(json.dumps(result,indent=2)+'\n')

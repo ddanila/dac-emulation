@@ -344,6 +344,13 @@ then recomputes the last-field waveform comparison against the scored native
 trial. The largest relative RMS error across the monitored electrical probes
 must be at most 1% for each variant. Reported G6 errors cannot override these
 recomputed values. The variant runs themselves remain Phase B work.
+For G7, `optical_refinement.base_archive`, `integration_archive` and
+`spatial_archive` name the three `periodic_frame.py` output directories. The
+gate re-exports the final field from the scored electrical `trace.raw`, checks
+that its hash is the optical archive's electrical input, then reruns both
+optical integration and 2× spatial comparisons. Both comparisons must pass;
+the worse relative L2 error is the blocking G7 value. The native full-resolution
+render and its refinement archives remain Phase B work.
 G3 now requires measured high voltage and retrace time tied to that electrical
 trace, plus picture dimensions from the frozen synthetic-grid capture. G3 and
 G5 require the supplied grid geometry to match the values computed and frozen
