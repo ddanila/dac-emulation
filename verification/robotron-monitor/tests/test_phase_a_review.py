@@ -25,6 +25,10 @@ class PhaseAReviewTests(unittest.TestCase):
         marks = phase_a_review.template(self.inventory, self.audit)
         self.assertEqual(len(marks['parts']), 1)
         self.assertEqual(len(marks['schematics']), 6)
+        self.assertEqual(marks['parts'][0]['inventory_description'],
+                         self.audit['entries'][0]['inventory_description'])
+        self.assertEqual(marks['parts'][0]['ocr_status'], 'needs-source-review')
+        self.assertEqual(marks['parts'][0]['ocr_readings'], {})
         pending = phase_a_review.evaluate(self.inventory, self.audit, marks)
         self.assertFalse(pending['passed'])
         self.assertEqual(pending['open_parts'], [self.audit['entries'][0]['id']])
