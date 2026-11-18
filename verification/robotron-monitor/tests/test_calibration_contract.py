@@ -64,17 +64,17 @@ class CalibrationContractTests(unittest.TestCase):
             (trial/'metadata.json').write_text(json.dumps(metadata))
             (trial/'solve.json').write_text(json.dumps(
                 {'status':'complete','deck_sha256':deck_hash,'returncode':0,'timeout':False}))
-            names=('time','v(h_feedback)','v(h_drivecol)','v(h_sync)')
-            rows=[(0.,0.,0.,80.)]
+            names=('time','v(h_feedback)','v(h_drivecol)','v(h_sync)','v(eht)')
+            rows=[(0.,0.,0.,80.,11500.)]
             for i in range(58500,78001):
                 t=i*1e-6;phase=t%62.5e-6;on=phase<6e-6
-                rows.append((t,70. if on else 0.,45. if on else 0.,0. if on else 80.))
-            header=('Title: connected grid fixture\nFlags: real\nNo. Variables: 4\n'
+                rows.append((t,70. if on else 0.,45. if on else 0.,0. if on else 80.,11500.))
+            header=('Title: connected grid fixture\nFlags: real\nNo. Variables: 5\n'
                     f'No. Points: {len(rows)}\nVariables:\n'
                     +''.join(f'{i} {name} voltage\n' for i,name in enumerate(names))
                     +'Binary:\n')
             path=trial/'trace.raw'
-            path.write_bytes(header.encode()+b''.join(struct.pack('=4d',*row) for row in rows))
+            path.write_bytes(header.encode()+b''.join(struct.pack('=5d',*row) for row in rows))
             score=service_score.score(path,start=.0585,end=.078,required={14,15,17})
             self.assertEqual(score['required_failures'],[])
             def identified(p):return {'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
@@ -94,6 +94,7 @@ class CalibrationContractTests(unittest.TestCase):
             self.assertTrue(contract.verify(frozen))
             self.assertEqual(frozen['source_pattern'],'grid')
             self.assertEqual(frozen['calibration_trial']['deck_sha256'],deck_hash)
+            self.assertAlmostEqual(frozen['calibration_trial']['eht_mean_v'],11500.)
             binding=dict(candidate_id=candidate,
                          parameters={'l4_coupling':.5,'horizontal_tank_l':.0015},
                          magnetic_sha256=proposal['assumptions']['t3_winding_parameters']['sha256'],
@@ -134,6 +135,10 @@ class CalibrationContractTests(unittest.TestCase):
                 contract.freeze(proposal,score)
             metadata['parameters']['horizontal_tank_l']=.0015
             (trial/'metadata.json').write_text(json.dumps(metadata))
+            proposal['targets']['eht_v']=11800
+            with self.assertRaisesRegex(ValueError,'differs from connected trace measurement'):
+                contract.freeze(proposal,score)
+            proposal['targets']['eht_v']=11500
             wrong_score=service_score.score(path,start=.0585,end=.077,required={14,15,17})
             with self.assertRaisesRegex(ValueError,'final complete grid field'):
                 contract.freeze(proposal,wrong_score)

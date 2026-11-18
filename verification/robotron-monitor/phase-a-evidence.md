@@ -135,6 +135,11 @@ exact hashed synthetic capture, and with the proposed T3, magnetic, yoke, L4
 and tank assumptions. A hand-written CSV cannot establish a
 calibration freeze. This is a provenance gate, not evidence that the connected
 monitor currently meets the calibration targets.
+The freeze now integrates `v(eht)` over that final complete field and stores
+the measured mean alongside the trace identity. It requires 11–12 kV and
+rejects a proposed EHT value more than 1% away from the measured mean. The
+retrace and picture-size proposal fields still need measurement producers;
+they are not established by a passed service-point score alone.
 The connected-run path accepts a verified `--calibration-freeze` record and
 archives its hash. Before a frozen run starts solving, it checks that the
 selected T3 candidate, magnetic-parameter file, yoke profile, L4 coupling and
@@ -143,6 +148,15 @@ frozen candidate is selected. Without a freeze it can continue electrical
 screening but stops before rendering a native image. Manual trim settings are
 recorded in the freeze; their physical-to-model application still needs the
 synthetic-grid calibration run.
+The trim audit found a sharper gap in the current ideal-rail assembly:
+012-6921:R4 has a parameterized `contrast_trim` branch, and the horizontal
+hold, vertical sync, height, linearity, shift, brightness and focus controls
+have model parameters. But 012-6931:R4 (horizontal centring) and R5 (picture
+width) are absent from the assembled sheets; R5 lives in the excluded
+converter path. Recording their nominal settings cannot apply the manual's
+step 8. The vertical linearity profile also labels R59 lower and R60 upper,
+while manual page 32 says R60 lower and R59 upper. The schematic/source review
+must resolve that reversal before binding either setting to a frozen run.
 The freeze requires records for the full manual setup sequence: 5 V R9,
 vertical sync R22, T1, horizontal hold R24, dark-raster R28, maximum-beam R4
 on 012-6921, horizontal linearity L3, width R5, horizontal centring R4 on
