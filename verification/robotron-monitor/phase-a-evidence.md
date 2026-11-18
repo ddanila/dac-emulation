@@ -484,6 +484,25 @@ python3.14 verification/robotron-monitor/waveform_review_template.py \
 
 The completed `waveform_reviews` object belongs in the final gate evidence.
 These gates do not imply that Phase B measurements already pass.
+`waveform_review_guide.py` builds a local visual aid from a reproducible,
+bounded score. It plots all 17 mapped probes with min/max bins that retain
+narrow flyback excursions, and links the hash-checked manual PDF pages 20–21.
+The page images are previews; reviewers must use the original PDF and record
+their own observations in the bound review bundle. For a diagnostic trace:
+
+```sh
+python3.14 verification/robotron-monitor/waveform_review_guide.py \
+  --service-score build/monitor/example/service-score.json \
+  --manual-pdf build/monitor/phase-a/sources/older-operation.pdf \
+  --page-20-image build/monitor/phase-a/manual-text/page-20.png \
+  --page-21-image build/monitor/phase-a/manual-text/page-21.png \
+  --output build/monitor/example/waveform-review-guide.html
+```
+
+The first generated guide uses the completed but unsteady 1 ms T3-return
+diagnostic and is stored under ignored
+`build/monitor/phase-a/t3-x1-2-return-x1-3-1ms-20261118-run/`. It has no
+review marks and cannot establish G3 or G4.
 
 The older connected-run electrical/optical checks now stop at `screen-passed`.
 They cannot publish `accepted-experiment` or an accepted warmed frame on their
