@@ -84,6 +84,7 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
     if start is not None and end is not None and not start < end:raise ValueError('invalid window')
     source=json.loads(register.read_text())
     if source.get('format')!='dac-monitor-service-observations-v2':raise ValueError('unsupported register')
+    conditions={item['id']:item for item in source['waveform_conditions']}
     wanted={w['model_expression'].lower() for w in source['waveforms']}
     series={name:([],[]) for name in wanted}
     prior=None;rows=0
@@ -100,12 +101,15 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
     points=[];required=set(required)
     for w in source['waveforms']:
         n=w['test_point'];expression=w['model_expression'].lower()
+        condition=conditions[w['condition_id']]
         ts,vs=series[expression]
         entry=dict(test_point=n,source_node=w['node'],model_expression=expression,
                    role=w['calibration_role'],reference=dict(peak_to_peak_v=w['approximate_swing_v'],
                        peak_to_peak_range_v=w.get('approximate_swing_range_v'),period_s=w['period_s'],
                        pulse_width_s=w['pulse_width_s'],rise_time_s=w.get('rise_time_s'),dc_level_v=w['dc_level_v'],
-                       shape_class=w['shape_class'],polarity=w['polarity']),
+                       shape_class=w['shape_class'],polarity=w['polarity'],
+                       condition_id=w['condition_id'],instrument=condition['instrument'],
+                       operating_conditions=condition['manual_note']),
                    tolerance_fraction=w['acceptance_tolerance'])
         if len(ts)<3:
             entry.update(status='missing-probe',reason='mapped node was not recorded in this run')

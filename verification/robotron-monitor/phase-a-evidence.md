@@ -439,8 +439,21 @@ pass G3. The native-frame measurement report still needs a Phase B producer;
 the contract does not turn absent measurements into a pass.
 G3/G4 also require
 an identified reviewer to check each drawn waveform shape and the manual's
-operating conditions; numeric agreement alone cannot pass them. These gates do
-not imply that Phase B measurements already pass.
+operating conditions; numeric agreement alone cannot pass them. Reviews now
+bind to the exact service-score hash, its electrical trace and the current
+manual register. Each point needs a dated reviewer and an observation note;
+an old review cannot follow a changed trace, measurement window or register.
+`waveform_review_template.py` makes blank, bound entries from a reproducible
+score, without declaring any review complete:
+
+```sh
+python3.14 verification/robotron-monitor/waveform_review_template.py \
+  --service-score build/monitor/example/service-score.json \
+  --output build/monitor/example/waveform-review-template.json
+```
+
+The completed `waveform_reviews` object belongs in the final gate evidence.
+These gates do not imply that Phase B measurements already pass.
 
 The older connected-run electrical/optical checks now stop at `screen-passed`.
 They cannot publish `accepted-experiment` or an accepted warmed frame on their
