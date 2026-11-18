@@ -62,7 +62,8 @@ class PhaseAGateTests(unittest.TestCase):
                        'electrical_refinement':{'half_timestep':True,'second_initialization':True,
                                                 'half_timestep_relative_error':.005,
                                                 'second_initialization_relative_error':.005},
-                       'optical_refinement':{'relative_error':.01},
+                       'optical_refinement':{'integration_verified':True,'spatial_verified':True,
+                                             'relative_error':.01},
                        'readability':{'source_kind':'native-firmware-logical-timing-reference',
                                       'logical_capture_sha256':'d'*64,
                                       'one_global_affine_fit':True,'fit_applied_to_render':False,
@@ -79,6 +80,10 @@ class PhaseAGateTests(unittest.TestCase):
         result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
         self.assertFalse(result['accepted'])
         self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G1b'))
+        evidence=copy.deepcopy(self.evidence)
+        evidence['optical_refinement']['spatial_verified']=False
+        result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
+        self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G7'))
 
     def test_explained_held_out_miss_still_blocks(self):
         score=copy.deepcopy(self.score)
@@ -233,6 +238,34 @@ class PhaseAGateTests(unittest.TestCase):
                 (second.parent/'metadata.json').write_text(json.dumps(second_meta))
                 with self.assertRaisesRegex(ValueError,'changes the source or circuit'):
                     phase_a_gates.verify_electrical_refinement(evidence,score,base_meta)
+
+    def test_g7_requires_optical_input_from_scored_electrical_field(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            directories={name:root/name for name in ('base','fine','spatial')}
+            for path in directories.values():path.mkdir()
+            field=b'time,anode\n0,11000\n.0195,11000\n'
+            field_sha=hashlib.sha256(field).hexdigest()
+            (directories['base']/'frame.json').write_text(json.dumps({'hashes':{'input.csv':field_sha}}))
+            evidence={'optical_refinement':{'base_archive':str(directories['base']),
+                                            'integration_archive':str(directories['fine']),
+                                            'spatial_archive':str(directories['spatial'])}}
+            score={'input':'base/trace.raw','input_sha256':'a'*64}
+            metadata={'period_s':.0195,'simulated_fields':4}
+            def export(_source,output,**_kwargs):
+                output.write_bytes(field)
+                return {'raw_sha256':score['input_sha256'],'trace_sha256':field_sha}
+            comparisons=[{'scope':'optical-integration-refinement','accepted':True,'relative_l2_error':.01},
+                         {'scope':'spatial-refinement','accepted':True,'relative_l2_error':.015}]
+            with mock.patch.object(phase_a_gates.steady_trace,'export',side_effect=export), \
+                 mock.patch.object(phase_a_gates.periodic_frame,'compare',side_effect=comparisons) as compare:
+                phase_a_gates.verify_optical_refinement(evidence,score,metadata)
+                self.assertEqual(compare.call_count,2)
+                self.assertEqual(evidence['optical_refinement']['relative_error'],.015)
+            (directories['base']/'frame.json').write_text(json.dumps({'hashes':{'input.csv':'0'*64}}))
+            with mock.patch.object(phase_a_gates.steady_trace,'export',side_effect=export):
+                with self.assertRaisesRegex(ValueError,'optical input differs'):
+                    phase_a_gates.verify_optical_refinement(evidence,score,metadata)
 
 
 if __name__=='__main__':unittest.main()
