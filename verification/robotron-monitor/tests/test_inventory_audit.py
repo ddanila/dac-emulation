@@ -149,7 +149,7 @@ class InventoryAuditTests(unittest.TestCase):
         reading['description'] = 'Schichtwiderstand SWF 10 Ohm 5 %'
         self.assertFalse(inventory_audit._printed_value_matches(part, reading))
 
-    def test_conflicting_printed_designator_requires_source_review_despite_votes(self):
+    def test_page_15_quantity_is_not_a_v13_diode_and_v22_stays_for_review(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             inventory = json.loads(inventory_audit.INVENTORY.read_text())
@@ -161,11 +161,26 @@ class InventoryAuditTests(unittest.TestCase):
             point = next(e for e in report['entries'] if e['id'] == '012-6931:V13')
             self.assertTrue(point['inventory_value_or_type_matches'])
             self.assertEqual(len(point['description_agreement_passes']), 3)
-            self.assertEqual(point['status'], 'needs-source-review')
-            self.assertIn('diode group', point['source_conflict'])
+            self.assertEqual(point['status'], 'confirmed-by-3-passes')
+            self.assertIsNone(point['source_conflict'])
             converter = next(e for e in report['entries'] if e['id'] == '012-6931:V22')
             self.assertEqual(converter['status'], 'needs-schematic-review')
             self.assertIn('V19 through V25', converter['source_conflict'])
+
+    def test_p_fuse_designator_remains_visible_when_stock_votes_are_missing(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            inventory = json.loads(inventory_audit.INVENTORY.read_text())
+            for tag in ('', '.r300', '.alt'):
+                article = '' if tag == '.alt' else '0.6137 6014.0/90'
+                (root / f'page_015{tag}.csv').write_text(
+                    'Kurzzeichen,Stückzahl,Benennung,Sachnummer\n'
+                    f'P1,1,"G-Schmelzeinsatz T 4,0 A",{article}\n')
+            report = inventory_audit.audit(inventory, root)
+            fuse = next(e for e in report['entries'] if e['id'] == '012-6931:P1')
+            self.assertEqual(len(fuse['description_agreement_passes']), 3)
+            self.assertEqual(len(fuse['article_agreement_passes']), 2)
+            self.assertEqual(fuse['status'], 'needs-source-review')
 
 
 if __name__ == '__main__':

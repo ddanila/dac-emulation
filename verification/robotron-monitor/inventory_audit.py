@@ -20,11 +20,9 @@ TAGS = ('primary', 'r300', 'alt', 'alt2', 'cropL', 'cropR', 'struct')
 # and truncated before the inductors. Keep it visible to reviewers, but never
 # let its agreement promote an entry through the machine gate.
 REVIEW_ONLY_TAGS = frozenset(('alt2',))
-REF = re.compile(r'(?<![A-Za-z0-9])([ACFLRTV]\d+(?::\d+)?)(?![A-Za-z0-9])', re.I)
+REF = re.compile(r'(?<![A-Za-z0-9])([ACFLPRTV]\d+(?::\d+)?)(?![A-Za-z0-9])', re.I)
 ARTICLE = re.compile(r'^(?:\d\.\d{2,}|\d{5,6}\s+\d{3,4}\.\d+/\d{2})')
 SOURCE_CONFLICTS = {
-    '012-6931:V13': ('Page 15 appears to include V13 in the 1 AE 15 diode group '
-                     'and explicitly lists V13 with V26 as KFY 18 transistors.'),
     '012-6931:V22': ('Page 15 groups V19 through V25 as 1 AE 15 diodes, including V22; '
                      'the page-10 schematic and waveform annotation use V22 in the converter.'),
 }
