@@ -10,6 +10,8 @@ from unittest import mock
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 import calibration_contract as contract
+import inventory_audit
+import phase_a_review
 import phase_a_gates
 import service_score as service_scoring
 
@@ -53,6 +55,16 @@ class PhaseAGateTests(unittest.TestCase):
                     'points':[{'test_point':n,'status':'pass-numeric'} for n in range(1,18)]}
         self.evidence={'format':'dac-monitor-phase-a-gate-evidence-v1',
                        'electrical_trace_sha256':'c'*64,'native_capture_sha256':'d'*64,
+                       'source_review':{
+                           'format':'dac-monitor-phase-a-source-review-gate-v1',
+                           'passed':True,'inventory_entries':260,
+                           'machine_confirmed':260,'human_marked':0,
+                           'open_parts':[],'open_schematics':[],
+                           'source_pdf_sha256':phase_a_review.source_hash(),
+                           'inventory_sha256':hashlib.sha256(
+                               inventory_audit.INVENTORY.read_bytes()).hexdigest(),
+                           'kicad_tree_sha256':phase_a_review.kicad_tree_hash(),
+                           'ocr_audit_sha256':'0'*64,'marks_sha256':'1'*64},
                        'waveform_reviews':{str(n):{'shape':'agrees','operating_conditions':'agrees',
                                                    'reviewer':'test fixture'} for n in range(1,18)},
                        'horizontal_lock':{'reference_edges':936,'flybacks_in_window':936,'matched_edges':936,
@@ -78,6 +90,7 @@ class PhaseAGateTests(unittest.TestCase):
     def test_all_eight_gates_are_blocking(self):
         result=phase_a_gates.evaluate(self.evidence,self.score,self.freeze)
         self.assertTrue(result['accepted'])
+        self.assertTrue(result['prerequisite_a1']['passed'])
         self.assertEqual([g['gate'] for g in result['blocking']],
                          ['G1','G1b','G2','G3','G4','G5','G6','G7','G8'])
         evidence=copy.deepcopy(self.evidence)
@@ -90,6 +103,21 @@ class PhaseAGateTests(unittest.TestCase):
         evidence['optical_refinement']['spatial_verified']=False
         result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
         self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G7'))
+
+    def test_a1_review_is_required_even_if_g1_through_g8_pass(self):
+        for change in ({'passed':False,'open_parts':['012-6931:R4']},
+                       {'kicad_tree_sha256':'0'*64},
+                       {'machine_confirmed':259}):
+            with self.subTest(change=change):
+                evidence=copy.deepcopy(self.evidence)
+                evidence['source_review'].update(change)
+                result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
+                self.assertFalse(result['accepted'])
+                self.assertFalse(result['prerequisite_a1']['passed'])
+                self.assertTrue(all(g['passed'] for g in result['blocking']))
+        evidence=copy.deepcopy(self.evidence)
+        del evidence['source_review']
+        self.assertFalse(phase_a_gates.evaluate(evidence,self.score,self.freeze)['accepted'])
 
     def test_explained_held_out_miss_still_blocks(self):
         score=copy.deepcopy(self.score)
@@ -173,9 +201,14 @@ class PhaseAGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             trace=Path(temp)/'trace.raw';trace.write_bytes(b'fixture')
             metadata_path=trace.with_name('metadata.json')
+            names={name for name,_,_ in phase_a_gates.steady_supply.assembly_sheets()}
+            self.assertEqual(len(names),10)
+            archived={'circuits/'+name:hashlib.sha256(
+                (ROOT/'circuits'/name).read_bytes()).hexdigest() for name in names}
             experiment={'capture_sha256':manifest['capture_sha256'],
                         'source_content_sha256':manifest['source_content_sha256'],
-                        'source_kind':'schematic-derived-logical'}
+                        'source_kind':'schematic-derived-logical',
+                        'assembly_hashes':archived}
             metadata_path.write_text(json.dumps({'experiment':experiment}))
             score=self.score|{'input':str(trace)}
             evidence=self.evidence|{'native_capture_sha256':manifest['capture_sha256']}
@@ -183,6 +216,12 @@ class PhaseAGateTests(unittest.TestCase):
             changed=evidence|{'native_capture_sha256':'0'*64}
             with self.assertRaisesRegex(ValueError,'capture or logical reference mismatch'):
                 phase_a_gates.verify_native_capture(changed,score)
+            experiment['assembly_hashes']=archived|{
+                'circuits/k7222-11-horizontal-output.kicad_sch':'0'*64}
+            metadata_path.write_text(json.dumps({'experiment':experiment}))
+            with self.assertRaisesRegex(ValueError,'stale or missing assembled schematic'):
+                phase_a_gates.verify_native_capture(evidence,score)
+            experiment['assembly_hashes']=archived
             experiment['source_content_sha256']='0'*64
             metadata_path.write_text(json.dumps({'experiment':experiment}))
             with self.assertRaisesRegex(ValueError,'different native source'):

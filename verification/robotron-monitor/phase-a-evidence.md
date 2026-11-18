@@ -358,6 +358,15 @@ the freeze verifies that it is synthetic.
 closed on absent evidence. Its G1/G1b input can come from the connected
 `native_sync_lock` report, which now counts extra flybacks and adjacent-line
 jitter. Its G2 input can come from the existing three-field settling report.
+The final acceptance command now also requires the A1 source review as a
+separate prerequisite. Its `--source-review-ocr-root`, `--source-review-pdf`
+and `--source-review-marks` inputs are checked against all five voting parts-list
+passes, the classic table source, the current inventory, `sources.json` and
+the current KiCad tree. It reruns the 260-entry audit and human-mark evaluator;
+the resulting source-review certificate is included in the gate report.
+Even if G1–G8 all pass, `accepted` remains false until A1 passes. The current
+blank marks reproduce 227 machine-confirmed entries, 33 open entries and six
+open schematic pages; this is not an accepted A1 review.
 The gate report checks that the service score belongs to the final electrical
 trace, uses the current service register, contains each of the 17 points once,
 and that readability names the selected native capture. The gate command
@@ -368,6 +377,10 @@ logical preview against their manifest, reselects the repeated native field,
 and checks that the electrical trial metadata names that capture and field.
 This closes the route by which a reported G8 hash could refer to a different
 source.
+The final trial must also archive hashes of every ideal-rail assembly schematic
+that match the current KiCad files. This binds its electrical circuit to the
+same schematic tree evaluated by the A1 review gate; a source review of newer
+KiCad files cannot qualify an older electrical trial.
 The gate command now reruns the connected-run settling analyzer on that same
 final `trace.raw`. G1/G1b lock and adjacent-line jitter and G2 three-field
 periodicity come from the recomputed trace, and any separately reported values

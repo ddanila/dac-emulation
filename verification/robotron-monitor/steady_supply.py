@@ -128,15 +128,21 @@ def heater_equilibrium():
                 electrical_replay_verified=False)
 
 
+def assembly_sheets():
+    """The schematic set actually solved with ideal converter rails."""
+    sheets = [(s,b,c) for s,b,c in full_path_audit.SHEETS
+              if s not in ('k7222-11-converter.kicad_sch','k7222-11-power-input.kicad_sch','k7222-11-horizontal-output.kicad_sch')]
+    sheets += [('k7222-11-horizontal-output.kicad_sch','012-6921',OUTPUT_CONTRACTS),
+               ('1715w-output.kicad_sch','1715w',{'S37_DRIVER':3})]
+    return sheets
+
+
 def assemble(output, *, yoke_path=None):
     """Export and archive sheets once. No independent stage benches are included."""
     out = Path(output).resolve(); out.mkdir(parents=True, exist_ok=False)
     inv = json.loads((ROOT/'reference/k7222-11/inventory.json').read_text())
     cpu = json.loads((ROOT/'reference/1715w/output.json').read_text())
-    sheets = [(s,b,c) for s,b,c in full_path_audit.SHEETS
-              if s not in ('k7222-11-converter.kicad_sch','k7222-11-power-input.kicad_sch','k7222-11-horizontal-output.kicad_sch')]
-    sheets += [('k7222-11-horizontal-output.kicad_sch','012-6921',OUTPUT_CONTRACTS),
-               ('1715w-output.kicad_sch','1715w',{'S37_DRIVER':3})]
+    sheets=assembly_sheets()
     components=[]; hashes={}
     def archive(name):
         raw=(ROOT/name).read_bytes(); dest=out/name
