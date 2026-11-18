@@ -16,6 +16,7 @@ import transformer_candidates
 import yoke_geometry
 import lab
 import calibration_measurements
+import grid_geometry
 
 CALIBRATION_POINTS=frozenset((14,15,17))
 HELD_OUT_POINTS=frozenset(range(1,18))-CALIBRATION_POINTS
@@ -65,6 +66,7 @@ def _validate_synthetic_capture(proposal):
         raise ValueError('synthetic calibration capture does not cover the full screen')
     return dict(pattern=capture['pattern'], period_s=period/capture['clock_hz'],
                 line_s=line/capture['clock_hz'],
+                clock_hz=capture['clock_hz'],selection=selected,
                 source_content_sha256=selected['source_content_sha256'])
 
 
@@ -155,10 +157,13 @@ def freeze(proposal, score):
     candidate=next((c for c in transformer_candidates.enumerate_candidates(graph) if c['id']==proposal['candidate_id']),None)
     if candidate is None:raise ValueError('unknown T3 candidate')
     transformer_candidates.compile_model(graph,candidate,magnetic,backend='flux')
-    yoke_geometry.derive(yoke)
+    yoke_model=yoke_geometry.derive(yoke)
     if score.get('format')!='dac-monitor-service-score-v1' or score.get('register_sha256')!=hashlib.sha256(service_score.REGISTER.read_bytes()).hexdigest():
         raise ValueError('service score does not match current reference register')
     trial_evidence=_validate_calibration_trial(proposal,score,source)
+    trial_evidence['grid_geometry']=grid_geometry.measure(Path(score['input']),
+        source['selection'],source['clock_hz'],start_s=score['requested_window_s'][0],
+        end_s=score['requested_window_s'][1],field=yoke_model['field'])
     input_path=Path(score.get('input',''))
     if not input_path.is_file():raise ValueError('calibration score input is missing')
     window=score.get('requested_window_s')
@@ -185,6 +190,11 @@ def freeze(proposal, score):
         raise ValueError('proposed retrace differs from connected trace measurement')
     if not 210*.8<=targets['picture_width_mm']<=210*1.2:raise ValueError('width outside manual ±20%')
     if not 145*.8<=targets['picture_height_mm']<=145*1.2:raise ValueError('height outside manual ±20%')
+    geometry=trial_evidence['grid_geometry']
+    for key,nominal in (('picture_width_mm',210),('picture_height_mm',145)):
+        if (not nominal*.8<=geometry[key]<=nominal*1.2
+                or not math.isclose(targets[key],geometry[key],rel_tol=.05,abs_tol=5.)):
+            raise ValueError('proposed '+key+' differs from connected grid geometry')
     record=dict(format='dac-monitor-calibration-freeze-v1',source_kind='synthetic-test-pattern',
                 source_capture_sha256=proposal['source_capture_sha256'],source_pattern=source['pattern'],
                 candidate_id=proposal['candidate_id'],
@@ -217,7 +227,7 @@ def verify(record):
     trial=check.get('calibration_trial',{})
     hashes=('trace_sha256','deck_sha256','metadata_sha256','solver_receipt_sha256')
     if (set(trial)!=set((*hashes,'eht_mean_v','horizontal_retrace_us',
-                        'horizontal_yoke_swing_a','retrace_method','line_count','phase_bins'))
+                        'horizontal_yoke_swing_a','retrace_method','line_count','phase_bins','grid_geometry'))
             or any(not isinstance(trial.get(key),str) or len(trial[key])!=64 for key in hashes)
             or type(trial.get('eht_mean_v')) not in (int,float)
             or not math.isfinite(trial['eht_mean_v'])
@@ -229,6 +239,15 @@ def verify(record):
             or type(trial.get('line_count')) is not int or trial['line_count']<32
             or type(trial.get('phase_bins')) is not int or not 64<=trial['phase_bins']<=4096):
         raise ValueError('missing completed calibration trial identity')
+    geometry=trial.get('grid_geometry',{})
+    if (not isinstance(geometry,dict)
+            or geometry.get('method')!='source-grid-markers-through-connected-electrodes-yoke-and-central-ray'
+            or any(type(geometry.get(k)) not in (int,float) or not math.isfinite(geometry[k])
+                   for k in ('picture_width_mm','picture_height_mm','horizontal_linearity',
+                             'vertical_linearity','horizontal_center_mm','vertical_center_mm'))
+            or any(type(geometry.get(k)) is not int or geometry[k]<5
+                   for k in ('stripe_rows','horizontal_marker_rows','marker_count'))):
+        raise ValueError('missing measured grid geometry')
     targets=check.get('targets',{})
     if (set(targets)!=set(('eht_v','horizontal_retrace_us','picture_width_mm','picture_height_mm'))
         or not all(type(value) in (int,float) and math.isfinite(value) for value in targets.values())
@@ -242,6 +261,10 @@ def verify(record):
             or not 12.8<=trial['horizontal_retrace_us']<=19.2
             or not math.isclose(targets['horizontal_retrace_us'],trial['horizontal_retrace_us'],rel_tol=.05,abs_tol=1.)):
         raise ValueError('frozen EHT or retrace differs from measured calibration trial')
+    if any(not nominal*.8<=geometry[key]<=nominal*1.2
+           or not math.isclose(targets[key],geometry[key],rel_tol=.05,abs_tol=5.)
+           for key,nominal in (('picture_width_mm',210),('picture_height_mm',145))):
+        raise ValueError('frozen picture size differs from measured calibration trial')
     return True
 
 
