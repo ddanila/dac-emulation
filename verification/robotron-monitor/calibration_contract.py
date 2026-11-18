@@ -46,6 +46,23 @@ TRIM_PARAMETERS={
     'focus':'horizontal_focus_fraction',
     'contrast':'contrast_position',
 }
+SETTLING_PROBES=('v(eht)','v(g2)','v(g4)','v(cathode)',
+                 'i(lhorizontal)','i(lvertical)','v(x1136.xshared.flux_b)')
+
+
+def _settled(report):
+    if not isinstance(report,dict):return False
+    errors=report.get('waveform_relative_rms_error',{})
+    return (report.get('format')=='dac-steady-supply-settling-v1'
+            and report.get('complete') is True
+            and report.get('accepted') is True
+            and report.get('failures')==[]
+            and isinstance(report.get('native_sync_lock'),dict)
+            and report['native_sync_lock'].get('accepted') is True
+            and isinstance(errors,dict)
+            and all(type(errors.get(name)) in (int,float)
+                    and math.isfinite(errors[name]) and 0<=errors[name]<.01
+                    for name in SETTLING_PROBES))
 
 
 def _validate_trim_bindings(trims, parameters, deck=None):
@@ -164,11 +181,15 @@ def _validate_calibration_trial(proposal, score, source):
             or not math.isclose(window[0],(fields-1)*period,rel_tol=0,abs_tol=1e-9)
             or not math.isclose(window[1],fields*period,rel_tol=0,abs_tol=1e-9)):
         raise ValueError('calibration score must cover the final complete grid field')
+    settling=steady_supply.assess(trace,metadata,source['selection'])
+    if not _settled(settling):
+        raise ValueError('calibration grid trial is not locked and periodic')
     measurements=calibration_measurements.measure(trace,start_s=window[0],
         end_s=window[1],line_s=source['line_s'])
     return dict(trace_sha256=score['input_sha256'],deck_sha256=deck_hash,
                 metadata_sha256=hashlib.sha256(metadata_path.read_bytes()).hexdigest(),
                 solver_receipt_sha256=hashlib.sha256(solve_path.read_bytes()).hexdigest(),
+                settling=settling,
                 **measurements)
 
 
@@ -272,7 +293,7 @@ def verify(record):
         raise ValueError('missing frozen evidence identity')
     trial=check.get('calibration_trial',{})
     hashes=('trace_sha256','deck_sha256','metadata_sha256','solver_receipt_sha256')
-    if (set(trial)!=set((*hashes,'eht_mean_v','horizontal_retrace_us',
+    if (set(trial)!=set((*hashes,'settling','eht_mean_v','horizontal_retrace_us',
                         'horizontal_yoke_swing_a','retrace_method','line_count','phase_bins','grid_geometry'))
             or any(not isinstance(trial.get(key),str) or len(trial[key])!=64 for key in hashes)
             or type(trial.get('eht_mean_v')) not in (int,float)
@@ -285,6 +306,9 @@ def verify(record):
             or type(trial.get('line_count')) is not int or trial['line_count']<32
             or type(trial.get('phase_bins')) is not int or not 64<=trial['phase_bins']<=4096):
         raise ValueError('missing completed calibration trial identity')
+    settling=trial['settling']
+    if not _settled(settling):
+        raise ValueError('frozen calibration grid is not locked and periodic')
     geometry=trial.get('grid_geometry',{})
     if (not isinstance(geometry,dict)
             or geometry.get('method')!='source-grid-markers-through-connected-electrodes-yoke-and-central-ray'

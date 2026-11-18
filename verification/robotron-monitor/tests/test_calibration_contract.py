@@ -44,9 +44,15 @@ class CalibrationContractTests(unittest.TestCase):
                       'beam_launch_threshold_ua':.01,
                       'stripe_rows':5,'horizontal_marker_rows':9,'marker_count':54,
                       'method':'source-grid-markers-through-connected-electrodes-yoke-and-central-ray'}
+            settling={'format':'dac-steady-supply-settling-v1','complete':True,
+                      'accepted':True,'failures':[],
+                      'native_sync_lock':{'accepted':True},
+                      'waveform_relative_rms_error':{
+                          name:.001 for name in contract.SETTLING_PROBES}}
             with (mock.patch.object(contract.grid_geometry,'measure',return_value=geometry),
-                  mock.patch.object(contract,'_validate_trim_bindings',return_value=True)):
-                self._check_calibration_fixture(Path(directory),geometry)
+                  mock.patch.object(contract,'_validate_trim_bindings',return_value=True),
+                  mock.patch.object(contract.steady_supply,'assess',return_value=settling)):
+                self._check_calibration_fixture(Path(directory),geometry,settling)
 
     def test_trim_record_must_match_model_and_unbound_controls_block_freeze(self):
         parameters={}
@@ -73,7 +79,7 @@ class CalibrationContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'manual trim was not applied to connected deck: horizontal_hold_r24'):
             contract._validate_trim_bindings(trims,parameters,wrong_deck)
 
-    def _check_calibration_fixture(self,directory,geometry):
+    def _check_calibration_fixture(self,directory,geometry,settling):
             subprocess.run(['make','build/robotron-signal-pattern'],cwd=ROOT.parents[1],
                            check=True,capture_output=True)
             capture=Path(directory)/'grid.json'
@@ -134,6 +140,7 @@ class CalibrationContractTests(unittest.TestCase):
             self.assertTrue(contract.verify(frozen))
             self.assertEqual(frozen['source_pattern'],'grid')
             self.assertEqual(frozen['calibration_trial']['deck_sha256'],deck_hash)
+            self.assertEqual(frozen['calibration_trial']['settling'],settling)
             self.assertAlmostEqual(frozen['calibration_trial']['eht_mean_v'],11500.)
             self.assertAlmostEqual(frozen['calibration_trial']['horizontal_retrace_us'],16.,delta=1.)
             self.assertEqual(frozen['calibration_trial']['grid_geometry'],geometry)
@@ -146,6 +153,16 @@ class CalibrationContractTests(unittest.TestCase):
             self.assertIn('max_beam_r4_0126921',frozen['trims'])
             self.assertIn('centering_horizontal_r4_0126931',frozen['trims'])
             self.assertIn('picture_width_r5',frozen['trims'])
+            with mock.patch.object(contract.steady_supply,'assess',return_value={
+                    **settling,'accepted':False,'failures':['nonperiodic v(eht)']}):
+                with self.assertRaisesRegex(ValueError,'not locked and periodic'):
+                    contract.freeze(proposal,score)
+            unsteady=json.loads(json.dumps(frozen))
+            unsteady['calibration_trial']['settling']['accepted']=False
+            unsteady['freeze_sha256']=contract.digest({k:v for k,v in unsteady.items()
+                                                      if k!='freeze_sha256'})
+            with self.assertRaisesRegex(ValueError,'frozen calibration grid is not locked and periodic'):
+                contract.verify(unsteady)
             incomplete=json.loads(json.dumps(proposal))
             del incomplete['trims']['max_beam_r4_0126921']
             with self.assertRaisesRegex(ValueError,'missing or extra recorded trim'):
