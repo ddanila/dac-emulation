@@ -4,6 +4,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
@@ -135,6 +136,22 @@ class PhaseAGateTests(unittest.TestCase):
             score['points'][0]['status']='fail-numeric'
             with self.assertRaisesRegex(ValueError,'differs from the electrical trace'):
                 phase_a_gates.verify_service_score(score)
+
+    def test_g3_electrical_measurements_must_reproduce_from_native_trace(self):
+        with tempfile.TemporaryDirectory() as temp:
+            trace=Path(temp)/'trace.raw';trace.write_bytes(b'fixture')
+            score=self.score|{'input':str(trace),'requested_window_s':[.0585,.078]}
+            actual={'eht_mean_v':11500.,'horizontal_retrace_us':16.}
+            with mock.patch.object(phase_a_gates.calibration_measurements,'measure',return_value=actual) as measure:
+                self.assertTrue(phase_a_gates.verify_calibration_measurements(self.evidence,score))
+                measure.assert_called_once_with(trace,start_s=.0585,end_s=.078,line_s=62.5e-6)
+                changed=copy.deepcopy(self.evidence)
+                changed['calibration_measurements']['eht_v']=11700
+                with self.assertRaisesRegex(ValueError,'differ from the electrical trace'):
+                    phase_a_gates.verify_calibration_measurements(changed,score)
+                changed['calibration_measurements']['electrical_trace_sha256']='0'*64
+                with self.assertRaisesRegex(ValueError,'different electrical trace'):
+                    phase_a_gates.verify_calibration_measurements(changed,score)
 
 
 if __name__=='__main__':unittest.main()

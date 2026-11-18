@@ -41,8 +41,34 @@ class CalibrationContractTests(unittest.TestCase):
                       'horizontal_center_mm':0.,'vertical_center_mm':0.,
                       'stripe_rows':5,'horizontal_marker_rows':9,'marker_count':54,
                       'method':'source-grid-markers-through-connected-electrodes-yoke-and-central-ray'}
-            with mock.patch.object(contract.grid_geometry,'measure',return_value=geometry):
+            with (mock.patch.object(contract.grid_geometry,'measure',return_value=geometry),
+                  mock.patch.object(contract,'_validate_trim_bindings',return_value=True)):
                 self._check_calibration_fixture(Path(directory),geometry)
+
+    def test_trim_record_must_match_model_and_unbound_controls_block_freeze(self):
+        parameters={}
+        for profile_name in ('horizontal-oscillator','vertical-output','regulator5'):
+            profile=contract.reference.read_profile(ROOT/'profiles'/('k7222-11-'+profile_name+'.json'))
+            parameters.update({name:entry['nominal'] for name,entry in profile['parameters'].items()})
+        parameters.update({name:values[0] for name,values in contract.steady_supply.signal_path.BOUNDS.items()})
+        trims={key:{'setting':parameters[parameter],'procedure_step':'manual'}
+               for key,parameter in contract.TRIM_PARAMETERS.items()}
+        trims.update({key:{'setting':.5,'procedure_step':'manual'}
+                      for key in contract.TRIM_KEYS-set(trims)})
+        deck='\n'.join(f'.param {name}={value:.15g}' for name,value in parameters.items())+'\n'
+        with self.assertRaisesRegex(ValueError,'manual trims lack connected model binding') as error:
+            contract._validate_trim_bindings(trims,parameters,deck)
+        self.assertIn('picture_width_r5',str(error.exception))
+        self.assertIn('centering_horizontal_r4_0126931',str(error.exception))
+        self.assertIn('brightness',str(error.exception))
+        trims['horizontal_hold_r24']['setting']=.4
+        with self.assertRaisesRegex(ValueError,'manual trim was not applied to connected model: horizontal_hold_r24'):
+            contract._validate_trim_bindings(trims,parameters,deck)
+        trims['horizontal_hold_r24']['setting']=parameters['horizontal_trim_fraction']
+        wrong_deck=deck.replace('.param horizontal_trim_fraction=0.5',
+                                '.param horizontal_trim_fraction=0.4')
+        with self.assertRaisesRegex(ValueError,'manual trim was not applied to connected deck: horizontal_hold_r24'):
+            contract._validate_trim_bindings(trims,parameters,wrong_deck)
 
     def _check_calibration_fixture(self,directory,geometry):
             subprocess.run(['make','build/robotron-signal-pattern'],cwd=ROOT.parents[1],

@@ -10,6 +10,7 @@ import math
 from pathlib import Path
 
 import calibration_contract
+import calibration_measurements
 import service_score as service_scoring
 
 PERIODIC=('eht','horizontal_yoke_current','vertical_yoke_current','g2','g4','core_flux')
@@ -41,6 +42,25 @@ def verify_service_score(score):
     reproduced=service_scoring.score(source,start=window[0],end=window[1],required=required)
     if calibration_contract.digest(reproduced)!=calibration_contract.digest(score):
         raise ValueError('service score differs from the electrical trace')
+    return True
+
+
+def verify_calibration_measurements(evidence, score):
+    """Recompute native-frame G3 electrical quantities before gate evaluation."""
+    reported=evidence.get('calibration_measurements',{})
+    if not isinstance(reported,dict) or not all(finite(reported.get(k)) for k in ('eht_v','horizontal_retrace_us')):
+        return False
+    if reported.get('electrical_trace_sha256')!=score.get('input_sha256'):
+        raise ValueError('calibration measurements belong to a different electrical trace')
+    path=Path(score.get('input',''))
+    window=score.get('requested_window_s')
+    if path.name!='trace.raw' or not path.is_file() or not isinstance(window,list) or len(window)!=2:
+        raise ValueError('G3 calibration measurements require a connected final-field trace')
+    actual=calibration_measurements.measure(path,start_s=window[0],end_s=window[1],line_s=62.5e-6)
+    if (not math.isclose(reported['eht_v'],actual['eht_mean_v'],rel_tol=.001,abs_tol=1.)
+            or not math.isclose(reported['horizontal_retrace_us'],actual['horizontal_retrace_us'],
+                                rel_tol=.01,abs_tol=.5)):
+        raise ValueError('G3 calibration measurements differ from the electrical trace')
     return True
 
 
@@ -147,7 +167,9 @@ def main():
     args=parser.parse_args()
     score=json.loads(args.service_score.read_text())
     verify_service_score(score)
-    result=evaluate(json.loads(args.evidence.read_text()),score,
+    evidence=json.loads(args.evidence.read_text())
+    verify_calibration_measurements(evidence,score)
+    result=evaluate(evidence,score,
                     json.loads(args.calibration_freeze.read_text()))
     args.output.write_text(json.dumps(result,indent=2)+'\n')
     for gate in result['blocking']:print(gate['gate'],'PASS' if gate['passed'] else 'FAIL')

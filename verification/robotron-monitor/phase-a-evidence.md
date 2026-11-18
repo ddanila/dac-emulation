@@ -123,8 +123,8 @@ must name an actual hash-matched synthetic grid or crosshatch capture. The
 freeze checks its repeated complete fields, full-screen VIDEO coverage and
 16 kHz/19.5 ms S550 timing before recording the pattern identity. No rendered
 image may select settings; all other service points remain held out. No valid
-calibration freeze exists yet, because the horizontal output has not passed
-those targets.
+calibration freeze exists yet: the connected output has not passed those
+targets, and three manual controls lack model bindings.
 The connected-run path now accepts a labelled synthetic grid or crosshatch
 without a freeze. A synchronized, settled synthetic run may proceed through
 electrical and optical screening while remaining a calibration diagnostic;
@@ -159,16 +159,22 @@ archives its hash. Before a frozen run starts solving, it checks that the
 selected T3 candidate, magnetic-parameter file, yoke profile, L4 coupling and
 horizontal tank value match the frozen assumptions. With `candidate=auto`, the
 frozen candidate is selected. Without a freeze it can continue electrical
-screening but stops before rendering a native image. Manual trim settings are
-recorded in the freeze; their physical-to-model application still needs the
-synthetic-grid calibration run.
+screening but stops before rendering a native image. The freeze now checks
+thirteen trim settings mapped by the current KiCad transcription against both
+the trial's parameter record and the deck's actual `.param` declarations. The
+native run must keep those settings. It rejects settings outside model bounds.
+This checks that a setting reached the circuit; it does not establish that the
+manual's 5 V, beam-current, focus or geometry adjustment criteria were met.
 The trim audit found a sharper gap in the current ideal-rail assembly:
 012-6921:R4 has a parameterized `contrast_trim` branch, and the horizontal
 hold, vertical sync, height, linearity, shift, brightness and focus controls
 have model parameters. But 012-6931:R4 (horizontal centring) and R5 (picture
 width) are absent from the assembled sheets; R5 lives in the excluded
 converter path. Recording their nominal settings cannot apply the manual's
-step 8. The vertical linearity profile also labels R59 lower and R60 upper,
+step 8. The separate brightness control is likewise not bound to a model
+parameter; R28 is the dark-raster preset and is not a substitute. The freeze
+now refuses these three unbound controls rather than recording their proposed
+settings as applied. The vertical linearity profile also labels R59 lower and R60 upper,
 while manual page 32 says R60 lower and R59 upper. The schematic/source review
 must resolve that reversal before binding either setting to a frozen run.
 The freeze requires records for the full manual setup sequence: 5 V R9,
@@ -214,6 +220,18 @@ for very small solver steps; it is a diagnostic inference from an unsteady,
 truncated trace, not a calibrated TP17 result. The next circuit investigation
 should inspect T3 winding parasitics, rectifier loading and the source
 polarity review before changing bounded magnetic assumptions.
+A longer single-candidate diagnostic reused the same KLU/Gear grid deck under
+`build/monitor/phase-a/grid-long-diagnostic-20261118/`. It was ended after
+13.964 ms of the required 78 ms; `solve.json` records a failed, manually
+terminated process (`returncode=-15`), 1,523 s of solver elapsed time and no
+completed field. The partial raw file holds 5,967,737 complete 42-vector rows
+but has no finalized point count. In its last 250,000 rows (13.375–13.964 ms),
+`h_sync` ranges from −36 to 636 V and crosses upward through 100 V 2,864
+times with a 0.075 µs median separation. Mean EHT over that incomplete tail is
+about 1.72 kV. These are unsteady diagnostic values, not a service score or a
+calibration result. The extended run confirms that fast ringing persists and
+that completing four fields with this candidate/deck is not a useful next
+calibration step before the T3/TP17 source and loading investigation.
 Synthetic deck titles and experiment metadata now state the source kind, and
 the freeze verifies that it is synthetic.
 
@@ -224,13 +242,14 @@ jitter. Its G2 input can come from the existing three-field settling report.
 The gate report checks that the service score belongs to the final electrical
 trace, uses the current service register, contains each of the 17 points once,
 and that readability uses the selected native capture. The gate command
-recomputes the saved score from the electrical trace before evaluating it.
+recomputes the saved score and reported native-frame EHT/retrace measurements
+from the electrical trace before evaluating it.
 G3 now requires measured high voltage and retrace time tied to that electrical
 trace, plus picture dimensions from the frozen synthetic-grid capture. G3 and
 G5 require the supplied grid geometry to match the values computed and frozen
 from that grid trial's electrical trace. Frozen target values alone cannot
-pass G3. The native-frame electrical measurements still need a Phase B
-producer; the contract does not turn absent measurements into a pass.
+pass G3. The native-frame measurement report still needs a Phase B producer;
+the contract does not turn absent measurements into a pass.
 G3/G4 also require
 an identified reviewer to check each drawn waveform shape and the manual's
 operating conditions; numeric agreement alone cannot pass them. These gates do
