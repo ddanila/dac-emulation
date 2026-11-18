@@ -67,6 +67,9 @@ Page 10 also states approximate cathode levels of 35 V for VID=0 (dark) and
 15 V for VID=1 (normally bright), with INTENS able to lower the bright level.
 These are operating levels in the text, not DC means supplied for the 17
 waveform figures; the register keeps that distinction.
+Page 32 prints two 2 kByte vertical grid-spacing ranges, 25–30 mm and
+28–33.5 mm, without labelling them as upper or lower screen positions. The
+register preserves their printed order and leaves that spatial mapping open.
 
 Stage runs on the vertical and horizontal profiles write `service-score.json`
 automatically. Every completed connected candidate now writes the same score
