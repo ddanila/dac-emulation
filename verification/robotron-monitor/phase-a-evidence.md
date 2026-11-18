@@ -152,7 +152,12 @@ measurement. The freeze requires width and height to meet Phase A's ±20%
 calibration band around the manual nominals and to agree with the proposed
 numbers within 5% or 5 mm. This is a
 grid trajectory measurement, not a claim that a rendered image, spot size or
-focus criterion has passed. G5 still applies its tighter 90–105% and ≤10%
+focus criterion has passed. The geometry producer now also requires modeled
+post-grid beam launch above 0.01 µA for at least 0.5% of the final field, with
+a peak above 0.05 µA and launch at at least 10% of grid marker centers; a dark
+grid cannot establish picture size. These are
+engineering visibility witnesses, not manual beam-current calibration or
+proof that every grid stroke is illuminated. G5 still applies its tighter 90–105% and ≤10%
 geometry limits after the full grid stage.
 The connected-run path accepts a verified `--calibration-freeze` record and
 archives its hash. Before a frozen run starts solving, it checks that the
@@ -177,6 +182,11 @@ now refuses these three unbound controls rather than recording their proposed
 settings as applied. The vertical linearity profile also labels R59 lower and R60 upper,
 while manual page 32 says R60 lower and R59 upper. The schematic/source review
 must resolve that reversal before binding either setting to a frozen run.
+Schematic PDF page 3 explicitly draws separate external `R1 Helligkeit` and
+`R2 Kontrast` panel controls. Page 18 has a handwritten 10 kΩ/5 kΩ note, not
+a factory value. Page 3's connector numbers have handwritten corrections, so
+the external brightness-pot terminal map needs source review before it is
+transcribed into the connected circuit.
 The freeze requires records for the full manual setup sequence: 5 V R9,
 vertical sync R22, T1, horizontal hold R24, dark-raster R28, maximum-beam R4
 on 012-6921, horizontal linearity L3, width R5, horizontal centring R4 on
@@ -228,10 +238,20 @@ completed field. The partial raw file holds 5,967,737 complete 42-vector rows
 but has no finalized point count. In its last 250,000 rows (13.375–13.964 ms),
 `h_sync` ranges from −36 to 636 V and crosses upward through 100 V 2,864
 times with a 0.075 µs median separation. Mean EHT over that incomplete tail is
-about 1.72 kV. These are unsteady diagnostic values, not a service score or a
+about 1.72 kV, while modeled launch, emission and beam currents are all zero
+in the same sampled tail. These are unsteady diagnostic values, not a service score or a
 calibration result. The extended run confirms that fast ringing persists and
 that completing four fields with this candidate/deck is not a useful next
 calibration step before the T3/TP17 source and loading investigation.
+The archived deck connects the T3 auxiliary `h_sync` node to rectifier
+`D1131` (source V14) and has no explicit resistive shunt on that node. Source
+PDF page 4 shows V14 at the auxiliary winding and carries a handwritten
+warning that the newer 012-6922 connector arrangement is incompatible. A
+lightly loaded winding resonance is therefore a plausible explanation for
+the observed high-frequency crossings, but the source does not establish a
+missing damping resistor. The connector, diode direction and winding polarity
+remain explicit human schematic-review questions; no damping element is
+silently added to the calibration circuit.
 Synthetic deck titles and experiment metadata now state the source kind, and
 the freeze verifies that it is synthetic.
 

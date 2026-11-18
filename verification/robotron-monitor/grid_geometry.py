@@ -44,9 +44,11 @@ def marker_times(selection, clock_hz, start_s):
     return sorted(targets),sorted(chosen),len(groups)
 
 
-def _interpolate(trace, targets, end_s):
+def _interpolate(trace, targets, start_s, end_s):
     previous=None;index=0;result={};first=last=None
-    probes=('v(eht)','v(g2)','v(g4)','v(cathode)','i(lhorizontal)','i(lvertical)')
+    probes=('v(eht)','v(g2)','v(g4)','v(cathode)','i(lhorizontal)','i(lvertical)',
+            'v(xcrt.launch_current_ua)')
+    threshold_ua=.01;peak_ua=0.;emitting_s=0.
     for row in steady_supply.raw_rows(trace):
         t=row['time']
         if first is None:first=t
@@ -54,6 +56,15 @@ def _interpolate(trace, targets, end_s):
         if any(name not in row for name in probes):
             raise ValueError('grid geometry trace lacks an electrode or yoke probe')
         if previous is not None:
+            a=max(previous['time'],start_s);b=min(t,end_s)
+            if b>a:
+                va=previous['v(xcrt.launch_current_ua)']+(row['v(xcrt.launch_current_ua)']-previous['v(xcrt.launch_current_ua)'])*(a-previous['time'])/(t-previous['time'])
+                vb=previous['v(xcrt.launch_current_ua)']+(row['v(xcrt.launch_current_ua)']-previous['v(xcrt.launch_current_ua)'])*(b-previous['time'])/(t-previous['time'])
+                peak_ua=max(peak_ua,va,vb)
+                if va>threshold_ua and vb>threshold_ua:emitting_s+=b-a
+                elif (va>threshold_ua)!=(vb>threshold_ua):
+                    crossing=a+(b-a)*(threshold_ua-va)/(vb-va)
+                    emitting_s+=(crossing-a if va>threshold_ua else b-crossing)
             while index<len(targets) and targets[index][0]<=t:
                 target,key=targets[index]
                 if target<previous['time']:raise ValueError('grid marker is outside electrical trace')
@@ -63,7 +74,15 @@ def _interpolate(trace, targets, end_s):
         previous=row
     if first is None or abs(first)>1e-12 or not math.isclose(last,end_s,rel_tol=0,abs_tol=1e-9) or index!=len(targets):
         raise ValueError('grid geometry trace does not span the completed field')
-    return result
+    fraction=emitting_s/(end_s-start_s)
+    lit_markers=sum(row['v(xcrt.launch_current_ua)']>threshold_ua for row in result.values())
+    marker_fraction=lit_markers/len(targets)
+    if peak_ua<.05 or fraction<.005 or marker_fraction<.1:
+        raise ValueError('grid geometry has no sustained modeled beam launch')
+    return result,dict(beam_launch_peak_ua=peak_ua,
+                       beam_launch_emitting_fraction=fraction,
+                       beam_launch_marker_fraction=marker_fraction,
+                       beam_launch_threshold_ua=threshold_ua)
 
 
 def _spacing_error(values):
@@ -81,7 +100,7 @@ def measure(trace, selection, clock_hz, *, start_s, end_s, field, ray_solver=Non
     if not math.isclose(end_s-start_s,period,rel_tol=0,abs_tol=1e-9):
         raise ValueError('geometry measurement must cover one full grid field')
     targets,stripe_rows,horizontal_count=marker_times(selection,clock_hz,start_s)
-    samples=_interpolate(trace,targets,end_s)
+    samples,emission=_interpolate(trace,targets,start_s,end_s)
     if ray_solver is None:ray_solver=trajectory_native.Backend().ray
     positions={}
     for _,key in targets:
@@ -107,4 +126,5 @@ def measure(trace, selection, clock_hz, *, start_s, end_s, field, ray_solver=Non
                 vertical_center_mm=(ys[0]+ys[-1])*500,
                 stripe_rows=len(stripe_rows),horizontal_marker_rows=horizontal_count,
                 marker_count=len(targets),
+                **emission,
                 method='source-grid-markers-through-connected-electrodes-yoke-and-central-ray')

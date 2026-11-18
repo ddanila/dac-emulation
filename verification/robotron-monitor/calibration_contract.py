@@ -290,7 +290,13 @@ def verify(record):
             or geometry.get('method')!='source-grid-markers-through-connected-electrodes-yoke-and-central-ray'
             or any(type(geometry.get(k)) not in (int,float) or not math.isfinite(geometry[k])
                    for k in ('picture_width_mm','picture_height_mm','horizontal_linearity',
-                             'vertical_linearity','horizontal_center_mm','vertical_center_mm'))
+                             'vertical_linearity','horizontal_center_mm','vertical_center_mm',
+                             'beam_launch_peak_ua','beam_launch_emitting_fraction','beam_launch_marker_fraction',
+                             'beam_launch_threshold_ua'))
+            or geometry['beam_launch_threshold_ua']!=.01
+            or geometry['beam_launch_peak_ua']<.05
+            or not .005<=geometry['beam_launch_emitting_fraction']<=1.
+            or not .1<=geometry['beam_launch_marker_fraction']<=1.
             or any(type(geometry.get(k)) is not int or geometry[k]<5
                    for k in ('stripe_rows','horizontal_marker_rows','marker_count'))):
         raise ValueError('missing measured grid geometry')
