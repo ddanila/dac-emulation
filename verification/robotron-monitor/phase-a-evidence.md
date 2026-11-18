@@ -265,6 +265,27 @@ the observed high-frequency crossings, but the source does not establish a
 missing damping resistor. The connector, diode direction and winding polarity
 remain explicit human schematic-review questions; no damping element is
 silently added to the calibration circuit.
+
+The same source page carries the auxiliary `SYNCH` output to BP3, whose
+page-10 input uses R1 (100 kΩ), V1's clamp and V2's transistor stage. The
+ideal-rail assembly omits that converter sync input. A controlled diagnostic
+restored only the input branch as transcribed in
+`k7222-11-converter.kicad_sch`: R800, D801, Q802, R803 and R804, using the
+converter profile's nominal bounded device models and the assembly's ideal
+12 V rail. The complete 4 ms run is archived outside version control at
+`build/monitor/phase-a/converter-sync-load-4ms-20261118-run/` with deck hash
+`f6997c61bcabe3e0d5e0a1b10aa675eb1f89ceb05ae03e035ec5fa4492330464`.
+It differs from the stopped original deck only in this input branch and its
+4 ms stop time. The source input limits the 3–4 ms TP17 peak from 611 to
+339 V, but upward TP17 crossings through 100 V increase from 193 to 406,
+and time-mean EHT falls from 3.36 to 2.85 kV. The preceding 0–1, 1–2 and
+2–3 ms crossing counts are 12, 18 and 56 with the input, versus 8, 28 and
+42 without it. The completed trial is still only a startup diagnostic; it
+does not demonstrate periodic operation or the manual's 11–12 kV target.
+The missing input load is not a sufficient explanation for the connected
+run's failure, so it was not promoted into the calibration model. T3
+connectivity, polarity and loading remain the priority for the A1 review.
+
 `partial_trace_diagnostic.py` streams all 5,967,737 complete rows of this
 unfinalized raw file, refuses malformed samples, and labels its output
 diagnostic-only. It integrates EHT over elapsed time because adaptive solver
