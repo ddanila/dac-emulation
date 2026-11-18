@@ -13,6 +13,8 @@ import tempfile
 
 import calibration_contract
 import calibration_measurements
+import inventory_audit
+import phase_a_review
 import periodic_frame
 import readability_score
 import scan_diagnostics
@@ -54,6 +56,65 @@ def verify_service_score(score):
     return True
 
 
+def verify_source_review(evidence, *, ocr_root, source_pdf, marks_path):
+    """Recompute the A1 prerequisite from the current source and human marks."""
+    ocr_root=Path(ocr_root);source_pdf=Path(source_pdf);marks_path=Path(marks_path)
+    if not ocr_root.is_dir() or not marks_path.is_file() or not source_pdf.is_file():
+        raise ValueError('A1 source review inputs are missing')
+    for page in inventory_audit.PAGES:
+        for tag in ('primary','r300','alt','cropL','cropR','struct'):
+            suffix='' if tag=='primary' else '.'+tag
+            if not (ocr_root/f'page_{page:03d}{suffix}.csv').is_file():
+                raise ValueError('A1 OCR pass or table source is missing')
+    source_sha=hashlib.sha256(source_pdf.read_bytes()).hexdigest()
+    if source_sha!=phase_a_review.source_hash():
+        raise ValueError('A1 source PDF differs from sources.json')
+    inventory_raw=inventory_audit.INVENTORY.read_bytes()
+    inventory=json.loads(inventory_raw)
+    audit=inventory_audit.audit(inventory,ocr_root)
+    marks_raw=marks_path.read_bytes()
+    actual=phase_a_review.evaluate(inventory,audit,json.loads(marks_raw))
+    actual.update(source_pdf_sha256=source_sha,
+                  inventory_sha256=hashlib.sha256(inventory_raw).hexdigest(),
+                  kicad_tree_sha256=phase_a_review.kicad_tree_hash(),
+                  ocr_audit_sha256=phase_a_review.digest(audit),
+                  marks_sha256=hashlib.sha256(marks_raw).hexdigest())
+    if 'source_review' in evidence and evidence['source_review']!=actual:
+        raise ValueError('reported A1 review differs from the current sources and marks')
+    evidence['source_review']=actual
+    return actual
+
+
+def source_review_passes(review):
+    if not isinstance(review,dict):return False
+    count=review.get('machine_confirmed');marked=review.get('human_marked')
+    return (review.get('format')=='dac-monitor-phase-a-source-review-gate-v1'
+            and review.get('passed') is True
+            and review.get('inventory_entries')==260
+            and type(count) is int and type(marked) is int
+            and count>=0 and marked>=0 and count+marked==260
+            and review.get('open_parts')==[] and review.get('open_schematics')==[]
+            and review.get('source_pdf_sha256')==phase_a_review.source_hash()
+            and review.get('kicad_tree_sha256')==phase_a_review.kicad_tree_hash()
+            and review.get('inventory_sha256')==hashlib.sha256(
+                inventory_audit.INVENTORY.read_bytes()).hexdigest()
+            and all(isinstance(review.get(key),str) and len(review[key])==64
+                    for key in ('ocr_audit_sha256','marks_sha256')))
+
+
+def verify_current_assembly_schematics(metadata):
+    """Bind the reviewed KiCad tree to the actual ideal-rail circuit trial."""
+    archived=metadata.get('experiment',{}).get('assembly_hashes',{})
+    if not isinstance(archived,dict):
+        raise ValueError('electrical trial lacks archived schematic hashes')
+    for name,_,_ in steady_supply.assembly_sheets():
+        path=steady_supply.ROOT/'circuits'/name
+        key='circuits/'+name
+        if not path.is_file() or archived.get(key)!=hashlib.sha256(path.read_bytes()).hexdigest():
+            raise ValueError('electrical trial uses a stale or missing assembled schematic: '+name)
+    return True
+
+
 def verify_native_capture(evidence, score):
     """Bind the final electrical trial to the archived full-text native source."""
     manifest=json.loads((NATIVE_ARCHIVE/'manifest.json').read_text())
@@ -92,6 +153,7 @@ def verify_native_capture(evidence, score):
             or experiment.get('source_content_sha256')!=selected['source_content_sha256']
             or experiment.get('source_kind')!='schematic-derived-logical'):
         raise ValueError('electrical trial uses a different native source')
+    verify_current_assembly_schematics(metadata)
     return selected,metadata
 
 
@@ -277,6 +339,8 @@ def evaluate(evidence,service_score,freeze):
     if len(point_numbers)!=17 or set(point_numbers)!=set(range(1,18)):
         raise ValueError('service score must contain each manual test point exactly once')
     calibration_contract.verify(freeze)
+    review=evidence.get('source_review',{})
+    reviewed=source_review_passes(review)
     trace_hash=evidence.get('electrical_trace_sha256')
     score_is_for_trace=(isinstance(trace_hash,str) and len(trace_hash)==64
                         and trace_hash==service_score.get('input_sha256'))
@@ -357,7 +421,8 @@ def evaluate(evidence,service_score,freeze):
         and finite(readability.get('correlation')) and .7<=readability['correlation']<=1.,readability)
     reported={k:evidence.get(k) for k in ('signed_energy_ledger','interception_feedback',
                                           'heater_heat_balance','solver_step_audit')}
-    return dict(format='dac-monitor-phase-a-gates-v1',accepted=all(g['passed'] for g in results),
+    return dict(format='dac-monitor-phase-a-gates-v1',accepted=reviewed and all(g['passed'] for g in results),
+                prerequisite_a1=dict(passed=reviewed,review=review),
                 blocking=results,reported_nonblocking=reported,
                 full_monitor_qualified=False,specimen_validated=False)
 
@@ -367,11 +432,17 @@ def main():
     parser.add_argument('--evidence',type=Path,required=True)
     parser.add_argument('--service-score',type=Path,required=True)
     parser.add_argument('--calibration-freeze',type=Path,required=True)
+    parser.add_argument('--source-review-ocr-root',type=Path,required=True)
+    parser.add_argument('--source-review-pdf',type=Path,required=True)
+    parser.add_argument('--source-review-marks',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
     score=json.loads(args.service_score.read_text())
     verify_service_score(score)
     evidence=json.loads(args.evidence.read_text())
+    verify_source_review(evidence,ocr_root=args.source_review_ocr_root,
+                         source_pdf=args.source_review_pdf,
+                         marks_path=args.source_review_marks)
     selection,metadata=verify_native_capture(evidence,score)
     verify_settling_evidence(evidence,score,selection,metadata)
     verify_calibration_measurements(evidence,score)
@@ -381,6 +452,7 @@ def main():
     result=evaluate(evidence,score,
                     json.loads(args.calibration_freeze.read_text()))
     args.output.write_text(json.dumps(result,indent=2)+'\n')
+    print('A1','PASS' if result['prerequisite_a1']['passed'] else 'FAIL')
     for gate in result['blocking']:print(gate['gate'],'PASS' if gate['passed'] else 'FAIL')
     return 0 if result['accepted'] else 2
 

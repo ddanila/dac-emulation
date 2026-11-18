@@ -7,8 +7,9 @@ manual sources, all 17 service points, the native full-text capture and the
 remaining source audit. `service_score.py` measures the named points in any
 stage `samples.txt` or connected `trace.raw`; `calibration_contract.py` freezes
 the calibration set independently of held-out points; `phase_a_gates.py`
-evaluates the ordered blocking frame gates. None of these tools promotes the
-present experimental pipeline to a qualified monitor.
+rechecks the A1 source review and evaluates the ordered blocking frame gates.
+None of these tools promotes the present experimental pipeline to a qualified
+monitor.
 
 **Status: working experimental pipeline; historical K7222 reconstruction is not
 complete.** The included 30-component circuit is a driven flyback fixture. It is
