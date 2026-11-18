@@ -329,8 +329,7 @@ Before evaluating the gates, it also verifies the archived full-text capture and
 logical preview against their manifest, reselects the repeated native field,
 and checks that the electrical trial metadata names that capture and field.
 This closes the route by which a reported G8 hash could refer to a different
-source; the G8 correlation still needs a measured image-comparison producer in
-Phase B.
+source.
 The gate command now reruns the connected-run settling analyzer on that same
 final `trace.raw`. G1/G1b lock and adjacent-line jitter and G2 three-field
 periodicity come from the recomputed trace, and any separately reported values
@@ -351,6 +350,16 @@ that its hash is the optical archive's electrical input, then reruns both
 optical integration and 2× spatial comparisons. Both comparisons must pass;
 the worse relative L2 error is the blocking G7 value. The native full-resolution
 render and its refinement archives remain Phase B work.
+G8 now regenerates the logical VIDEO bitmap from that verified native capture
+and reads the unchanged base `frame.f32` archive used by G7. `readability_score.py`
+fits one global, orientation-preserving affine transform from the two images'
+intensity centroids and covariances, then computes Pearson correlation on a
+216×156 area-sampled comparison grid. The fit is used only to sample pixels for
+the score; it never alters the render or chooses a circuit parameter. The gate
+recomputes the correlation and rejects a conflicting reported value. A shifted,
+scaled synthetic copy of the archived full-text bitmap scores about 0.96 in the
+regression test; a mirrored copy scores about 0.14. The actual connected native
+frame and its G8 score remain to be produced in Phase B.
 G3 now requires measured high voltage and retrace time tied to that electrical
 trace, plus picture dimensions from the frozen synthetic-grid capture. G3 and
 G5 require the supplied grid geometry to match the values computed and frozen

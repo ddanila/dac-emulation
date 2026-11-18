@@ -14,6 +14,7 @@ import tempfile
 import calibration_contract
 import calibration_measurements
 import periodic_frame
+import readability_score
 import scan_diagnostics
 import service_score as service_scoring
 import steady_acceptance
@@ -228,6 +229,25 @@ def verify_optical_refinement(evidence,score,metadata):
     return computed
 
 
+def verify_readability(evidence,selection):
+    """Recompute G8 from the same unmodified optical archive used for G7."""
+    archive=evidence.get('optical_refinement',{}).get('base_archive')
+    if not isinstance(archive,str) or not archive:
+        raise ValueError('G8 requires the G7 base optical archive')
+    claimed=evidence.get('readability',{})
+    computed=readability_score.score(selection,archive)
+    computed['logical_capture_sha256']=evidence.get('native_capture_sha256')
+    for key in ('source_kind','source_content_sha256','logical_capture_sha256',
+                'one_global_affine_fit','fit_applied_to_render','correlation'):
+        if key in claimed:
+            expected=computed[key];reported=claimed[key]
+            agrees=(math.isclose(reported,expected,rel_tol=1e-9,abs_tol=1e-12)
+                    if key=='correlation' and finite(reported) else reported==expected)
+            if not agrees:raise ValueError('reported G8 readability differs from the optical frame')
+    evidence['readability']=claimed|computed
+    return computed
+
+
 def verify_calibration_measurements(evidence, score):
     """Recompute native-frame G3 electrical quantities before gate evaluation."""
     reported=evidence.get('calibration_measurements',{})
@@ -357,6 +377,7 @@ def main():
     verify_calibration_measurements(evidence,score)
     verify_electrical_refinement(evidence,score,metadata)
     verify_optical_refinement(evidence,score,metadata)
+    verify_readability(evidence,selection)
     result=evaluate(evidence,score,
                     json.loads(args.calibration_freeze.read_text()))
     args.output.write_text(json.dumps(result,indent=2)+'\n')
