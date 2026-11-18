@@ -294,6 +294,10 @@ def run(profile_path, output, start=0, stop=.0004, step=1e-7, changes=None,
                                      runtime_receipt_sha256=None if runtime_receipt is None else lab.digest((output/'runtime.json').read_bytes()),
                                      step_s=step, max_step_s=step/10, simulated_from_s=0, log_sha256=lab.digest(log.encode()))), output/'replay.mcrt')
         (output/'report.json').write_text(json.dumps(report, indent=2)+'\n')
+        if profile['id'].startswith(('k7222-11-vertical','k7222-11-horizontal')):
+            import service_score
+            score=service_score.score(output/'samples.txt',start=start,end=stop)
+            (output/'service-score.json').write_text(json.dumps(score,indent=2)+'\n')
         return report
     except (ValueError, OSError, subprocess.SubprocessError) as error:
         (output/'FAILED.txt').write_text(str(error)+'\n')

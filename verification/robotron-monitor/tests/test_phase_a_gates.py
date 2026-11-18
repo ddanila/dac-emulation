@@ -1,0 +1,66 @@
+import copy
+import sys
+import unittest
+from pathlib import Path
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
+import calibration_contract as contract
+import phase_a_gates
+
+
+class PhaseAGateTests(unittest.TestCase):
+    def setUp(self):
+        self.freeze={'format':'dac-monitor-calibration-freeze-v1',
+                     'fit_points':[14,15,17],'held_out_points':sorted(contract.HELD_OUT_POINTS),
+                     'source_kind':'synthetic-test-pattern','image_used_for_selection':False,
+                     'source_capture_sha256':'a'*64,'calibration_score_sha256':'b'*64,
+                     'candidate_id':'t3-test',
+                     'assumptions':{key:('t3-test' if key=='t3_candidate' else {}) for key in contract.ASSUMPTION_KEYS},
+                     'trims':{key:{'setting':.5,'procedure_step':'manual'} for key in contract.TRIM_KEYS},
+                     'targets':{'eht_v':11500,'horizontal_retrace_us':16,
+                                'picture_width_mm':210,'picture_height_mm':145}}
+        self.freeze['freeze_sha256']=contract.digest(self.freeze)
+        self.score={'format':'dac-monitor-service-score-v1',
+                    'input_sha256':'c'*64,
+                    'points':[{'test_point':n,'status':'pass-numeric'} for n in range(1,18)]}
+        self.evidence={'format':'dac-monitor-phase-a-gate-evidence-v1',
+                       'electrical_trace_sha256':'c'*64,'native_capture_sha256':'d'*64,
+                       'horizontal_lock':{'reference_edges':936,'flybacks_in_window':936,'matched_edges':936,
+                                          'missing_edges':0,'reused_flybacks':0,'unmatched_flybacks':0,
+                                          'phase_variation_lines':.005,'fields':3,'maximum_adjacent_jitter_s':30e-9},
+                       'periodicity':{'fields':3,'relative_errors':{name:.005 for name in phase_a_gates.PERIODIC}},
+                       'grid_geometry':{'source_kind':'synthetic-test-pattern','picture_width_mm':210,
+                                        'picture_height_mm':145,'horizontal_linearity':.05,'vertical_linearity':.05},
+                       'electrical_refinement':{'half_timestep':True,'second_initialization':True,
+                                                'half_timestep_relative_error':.005,
+                                                'second_initialization_relative_error':.005},
+                       'optical_refinement':{'relative_error':.01},
+                       'readability':{'source_kind':'native-firmware-logical-timing-reference',
+                                      'logical_capture_sha256':'d'*64,
+                                      'one_global_affine_fit':True,'fit_applied_to_render':False,
+                                      'correlation':.8}}
+
+    def test_all_eight_gates_are_blocking(self):
+        result=phase_a_gates.evaluate(self.evidence,self.score,self.freeze)
+        self.assertTrue(result['accepted'])
+        self.assertEqual([g['gate'] for g in result['blocking']],
+                         ['G1','G1b','G2','G3','G4','G5','G6','G7','G8'])
+        evidence=copy.deepcopy(self.evidence)
+        evidence['horizontal_lock']['maximum_adjacent_jitter_s']=40e-9
+        evidence['signed_energy_ledger']={'status':'pass'}
+        result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
+        self.assertFalse(result['accepted'])
+        self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G1b'))
+
+    def test_explained_held_out_miss_still_blocks(self):
+        score=copy.deepcopy(self.score)
+        score['points'][0]['status']='fail-numeric'
+        evidence=copy.deepcopy(self.evidence)
+        evidence['held_out_explanations']={'1':'review device model against schematic'}
+        result=phase_a_gates.evaluate(evidence,score,self.freeze)
+        self.assertFalse(result['accepted'])
+        self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G4'))
+
+
+if __name__=='__main__':unittest.main()
