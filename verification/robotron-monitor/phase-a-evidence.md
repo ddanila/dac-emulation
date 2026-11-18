@@ -47,6 +47,8 @@ auxiliary observation. Its converter node is excluded from Phase B's ideal-rail
 stages, so it is not silently treated as one of the numbered 1–17 score points.
 The point-8 figure additionally labels R48/V20 and approximately 10 Vpp below
 zero; its relationship to X2:3 is left for schematic review.
+The point-7 figure marks a 1 ms rise interval; it is retained as a rise-time
+annotation rather than misclassified as pulse width.
 
 The first text pass of manual pages 17 and 30–32 added two setup constraints
 that the earlier register missed: page 17 prints a horizontal-generator control

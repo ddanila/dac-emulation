@@ -40,6 +40,7 @@ class ServiceScoreTests(unittest.TestCase):
             self.assertEqual(points[5]['status'],'pass-numeric')
             self.assertEqual(points[14]['status'],'pass-numeric')
             self.assertEqual(points[16]['status'],'missing-probe')
+            self.assertEqual(points[7]['reference']['rise_time_s'],.001)
             self.assertEqual(result['required_failures'],[])
             result=service_score.score(path,required={5,16})
             self.assertEqual(result['required_failures'],[16])

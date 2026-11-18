@@ -104,7 +104,7 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
         entry=dict(test_point=n,source_node=w['node'],model_expression=expression,
                    role=w['calibration_role'],reference=dict(peak_to_peak_v=w['approximate_swing_v'],
                        peak_to_peak_range_v=w.get('approximate_swing_range_v'),period_s=w['period_s'],
-                       pulse_width_s=w['pulse_width_s'],dc_level_v=w['dc_level_v'],
+                       pulse_width_s=w['pulse_width_s'],rise_time_s=w.get('rise_time_s'),dc_level_v=w['dc_level_v'],
                        shape_class=w['shape_class'],polarity=w['polarity']),
                    tolerance_fraction=w['acceptance_tolerance'])
         if len(ts)<3:
