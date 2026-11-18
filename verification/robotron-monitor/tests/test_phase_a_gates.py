@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import sys
 import unittest
 from pathlib import Path
@@ -7,6 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 import calibration_contract as contract
 import phase_a_gates
+import service_score as service_scoring
 
 
 class PhaseAGateTests(unittest.TestCase):
@@ -23,6 +25,7 @@ class PhaseAGateTests(unittest.TestCase):
         self.freeze['freeze_sha256']=contract.digest(self.freeze)
         self.score={'format':'dac-monitor-service-score-v1',
                     'input_sha256':'c'*64,
+                    'register_sha256':hashlib.sha256(service_scoring.REGISTER.read_bytes()).hexdigest(),
                     'points':[{'test_point':n,'status':'pass-numeric'} for n in range(1,18)]}
         self.evidence={'format':'dac-monitor-phase-a-gate-evidence-v1',
                        'electrical_trace_sha256':'c'*64,'native_capture_sha256':'d'*64,
@@ -71,6 +74,16 @@ class PhaseAGateTests(unittest.TestCase):
         result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
         self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G3'))
         self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G4'))
+
+    def test_stale_or_duplicate_service_score_is_rejected(self):
+        score=copy.deepcopy(self.score)
+        score['register_sha256']='0'*64
+        with self.assertRaisesRegex(ValueError,'current manual register'):
+            phase_a_gates.evaluate(self.evidence,score,self.freeze)
+        score=copy.deepcopy(self.score)
+        score['points'][1]['test_point']=1
+        with self.assertRaisesRegex(ValueError,'exactly once'):
+            phase_a_gates.evaluate(self.evidence,score,self.freeze)
 
 
 if __name__=='__main__':unittest.main()
