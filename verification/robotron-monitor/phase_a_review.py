@@ -48,6 +48,7 @@ def template(inventory, audit):
                             inventory_unit=by_id[entry['id']].get('unit'),
                             inventory_description=entry['inventory_description'],
                             ocr_status=entry['status'],
+                            review_only_passes=entry.get('review_only_passes', []),
                             source_conflict=entry.get('source_conflict'),
                             ocr_readings=entry.get('readings', {}),
                             inventory_entry_sha256=digest(by_id[entry['id']]),
