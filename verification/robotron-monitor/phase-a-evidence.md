@@ -137,9 +137,15 @@ calibration freeze. This is a provenance gate, not evidence that the connected
 monitor currently meets the calibration targets.
 The freeze now integrates `v(eht)` over that final complete field and stores
 the measured mean alongside the trace identity. It requires 11–12 kV and
-rejects a proposed EHT value more than 1% away from the measured mean. The
-retrace and picture-size proposal fields still need measurement producers;
-they are not established by a passed service-point score alone.
+rejects a proposed EHT value more than 1% away from the measured mean. It also
+averages horizontal yoke current by line phase across the final field. The
+shorter monotone excursion between its extrema measures electrical retrace;
+flat, sinusoidal or strongly nonmonotone waveforms cannot establish it. The
+freeze requires 12.8–19.2 µs and agreement with the proposed value within
+5% or 1 µs, whichever is larger. This is a current-based electrical measure,
+not an optical trace of beam position. Picture-size proposal fields still need
+a measured grid-geometry producer; they are not established by a passed
+service-point score alone.
 The connected-run path accepts a verified `--calibration-freeze` record and
 archives its hash. Before a frozen run starts solving, it checks that the
 selected T3 candidate, magnetic-parameter file, yoke profile, L4 coupling and

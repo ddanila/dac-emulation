@@ -64,17 +64,19 @@ class CalibrationContractTests(unittest.TestCase):
             (trial/'metadata.json').write_text(json.dumps(metadata))
             (trial/'solve.json').write_text(json.dumps(
                 {'status':'complete','deck_sha256':deck_hash,'returncode':0,'timeout':False}))
-            names=('time','v(h_feedback)','v(h_drivecol)','v(h_sync)','v(eht)')
-            rows=[(0.,0.,0.,80.,11500.)]
+            names=('time','v(h_feedback)','v(h_drivecol)','v(h_sync)','v(eht)','i(lhorizontal)')
+            rows=[(0.,0.,0.,80.,11500.,1.)]
             for i in range(58500,78001):
                 t=i*1e-6;phase=t%62.5e-6;on=phase<6e-6
-                rows.append((t,70. if on else 0.,45. if on else 0.,0. if on else 80.,11500.))
-            header=('Title: connected grid fixture\nFlags: real\nNo. Variables: 5\n'
+                current=(1.-2*phase/16e-6 if phase<16e-6
+                         else -1.+2*(phase-16e-6)/46.5e-6)
+                rows.append((t,70. if on else 0.,45. if on else 0.,0. if on else 80.,11500.,current))
+            header=('Title: connected grid fixture\nFlags: real\nNo. Variables: 6\n'
                     f'No. Points: {len(rows)}\nVariables:\n'
                     +''.join(f'{i} {name} voltage\n' for i,name in enumerate(names))
                     +'Binary:\n')
             path=trial/'trace.raw'
-            path.write_bytes(header.encode()+b''.join(struct.pack('=5d',*row) for row in rows))
+            path.write_bytes(header.encode()+b''.join(struct.pack('=6d',*row) for row in rows))
             score=service_score.score(path,start=.0585,end=.078,required={14,15,17})
             self.assertEqual(score['required_failures'],[])
             def identified(p):return {'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
@@ -95,6 +97,7 @@ class CalibrationContractTests(unittest.TestCase):
             self.assertEqual(frozen['source_pattern'],'grid')
             self.assertEqual(frozen['calibration_trial']['deck_sha256'],deck_hash)
             self.assertAlmostEqual(frozen['calibration_trial']['eht_mean_v'],11500.)
+            self.assertAlmostEqual(frozen['calibration_trial']['horizontal_retrace_us'],16.,delta=1.)
             binding=dict(candidate_id=candidate,
                          parameters={'l4_coupling':.5,'horizontal_tank_l':.0015},
                          magnetic_sha256=proposal['assumptions']['t3_winding_parameters']['sha256'],
@@ -139,6 +142,10 @@ class CalibrationContractTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'differs from connected trace measurement'):
                 contract.freeze(proposal,score)
             proposal['targets']['eht_v']=11500
+            proposal['targets']['horizontal_retrace_us']=19
+            with self.assertRaisesRegex(ValueError,'differs from connected trace measurement'):
+                contract.freeze(proposal,score)
+            proposal['targets']['horizontal_retrace_us']=16
             wrong_score=service_score.score(path,start=.0585,end=.077,required={14,15,17})
             with self.assertRaisesRegex(ValueError,'final complete grid field'):
                 contract.freeze(proposal,wrong_score)
@@ -166,6 +173,12 @@ class CalibrationContractTests(unittest.TestCase):
             proposal['source_capture_sha256']=hashlib.sha256(mistimed.read_bytes()).hexdigest()
             with self.assertRaisesRegex(ValueError,'timing differs'):
                 contract.freeze(proposal,score)
+            inconsistent=json.loads(json.dumps(frozen))
+            inconsistent['targets']['horizontal_retrace_us']=19
+            inconsistent['freeze_sha256']=contract.digest({k:v for k,v in inconsistent.items()
+                                                           if k!='freeze_sha256'})
+            with self.assertRaisesRegex(ValueError,'frozen EHT or retrace differs'):
+                contract.verify(inconsistent)
             frozen['targets']['eht_v']=12500
             with self.assertRaisesRegex(ValueError,'changed'):
                 contract.verify(frozen)
