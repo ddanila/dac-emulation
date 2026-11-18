@@ -167,6 +167,30 @@ python3.14 verification/robotron-monitor/inventory_audit.py \
   --output build/monitor/phase-a/inventory-audit.json
 ```
 
+`phase_a_review.py` turns the remaining entries into a blank human-review
+template and evaluates the A1 source gate against fresh OCR and the current
+inventory. The template is created once and cannot overwrite existing marks:
+
+```sh
+python3.14 verification/robotron-monitor/phase_a_review.py \
+  --ocr-root build/monitor/phase-a/ocr-workflow/outputs/k7222-list \
+  --source-pdf build/monitor/phase-a/sources/older.pdf \
+  --template build/monitor/phase-a/source-review-template.json
+python3.14 verification/robotron-monitor/phase_a_review.py \
+  --ocr-root build/monitor/phase-a/ocr-workflow/outputs/k7222-list \
+  --source-pdf build/monitor/phase-a/sources/older.pdf \
+  --marks build/monitor/phase-a/source-review-template.json \
+  --output build/monitor/phase-a/source-review-gate.json
+```
+
+Each human mark needs a source reading, disposition, reason, reviewer and date.
+An `unresolved` mark is valid only after the inventory entry itself is marked
+unresolved. Schematic marks cover pages 3–4, 9–10, 16 and 18 and must record
+KiCad connectivity, diode direction and winding polarity review. Marks bind to
+the inventory entry, source PDF and current KiCad tree hashes; edits invalidate
+stale marks. The blank template currently fails the gate with 33 open parts and
+six open schematic pages, as intended. No human marks have been entered.
+
 After the third full-page vision pass and both crop passes on 2026-11-18, 227
 entries had three agreeing readings per applicable table cell and matched the
 inventory's value or type. The other 33 remain open: page 6 C11/C18, page 8
