@@ -213,6 +213,15 @@ vertical sync R22, T1, horizontal hold R24, dark-raster R28, maximum-beam R4
 on 012-6921, horizontal linearity L3, width R5, horizontal centring R4 on
 012-6931, height R35, linearity R59/R60, vertical shift R58, and the focus,
 brightness and contrast controls. The two R4 keys identify their boards.
+Each trim record now names its actual numbered manual steps and includes an
+observation, as well as the setting. The blank `trim_record_template()` supplies
+the step numbers; arbitrary labels such as `"manual"` cannot pass the freeze.
+R28 records steps 2 and 6, and the external brightness control records steps
+2, 6 and 7 because the procedure revisits them. Focus has no numbered
+adjustment step in pages 29–32, so its record cites the page-6 visibility
+criterion. These fields document the operator's basis for a setting; they do
+not verify a claimed physical meter reading or make an unbound control work.
+
 The linearity keys and connected model parameters identify R59 and R60 by part
 number without assigning upper or lower screen regions: manual pages 15 and 32
 disagree about those roles. The physical setting can be applied by designator;

@@ -29,6 +29,16 @@ TRIM_KEYS=frozenset(('regulated_5v_r9','vertical_sync_r22','oscillator_t1',
                      'picture_width_r5','centering_horizontal_r4_0126931',
                      'height_r35','linearity_r60','linearity_r59',
                      'centering_vertical_r58','focus','brightness','contrast'))
+TRIM_PROCEDURE_STEPS={
+    'regulated_5v_r9':(1,), 'vertical_sync_r22':(3,),
+    'oscillator_t1':(4,), 'horizontal_hold_r24':(5,),
+    'dark_raster_r28':(2,6), 'max_beam_r4_0126921':(6,),
+    'horizontal_linearity_l3':(8,), 'picture_width_r5':(8,),
+    'centering_horizontal_r4_0126931':(8,), 'height_r35':(9,),
+    'linearity_r60':(9,), 'linearity_r59':(9,),
+    'centering_vertical_r58':(9,), 'focus':(),
+    'brightness':(2,6,7), 'contrast':(6,),
+}
 # These bindings follow source IDs in the assembled KiCad sheets. The
 # remaining controls must not be invented from an ideal-rail parameter.
 TRIM_PARAMETERS={
@@ -71,6 +81,37 @@ def _settled(report):
             and all(type(errors.get(name)) in (int,float)
                     and math.isfinite(errors[name]) and 0<=errors[name]<.01
                     for name in SETTLING_PROBES))
+
+
+def trim_record_template():
+    """Blank control positions with the printed steps already identified."""
+    result={control:dict(setting=None,procedure_steps=list(steps),observation=None)
+            for control,steps in TRIM_PROCEDURE_STEPS.items()}
+    result['focus']['criterion_source']={'file':'older-operation.pdf','page':6}
+    return result
+
+
+def _validate_trim_record(trims):
+    """Identify the printed adjustment steps and observed basis for each trim."""
+    if not isinstance(trims,dict) or set(trims)!=TRIM_KEYS or set(TRIM_PROCEDURE_STEPS)!=TRIM_KEYS:
+        raise ValueError('missing or extra recorded trim')
+    manual=json.loads(service_score.REGISTER.read_text())
+    printed={item['step'] for item in manual['adjustment_procedure']}
+    if printed!=set(range(1,11)):
+        raise ValueError('manual adjustment procedure changed')
+    for control,steps in TRIM_PROCEDURE_STEPS.items():
+        item=trims[control]
+        if (not isinstance(item,dict)
+                or type(item.get('setting')) not in (int,float)
+                or not math.isfinite(item['setting'])
+                or item.get('procedure_steps')!=list(steps)
+                or not set(steps)<=printed
+                or not isinstance(item.get('observation'),str)
+                or not item['observation'].strip()):
+            raise ValueError('trim lacks setting, printed steps or observation: '+control)
+        if control=='focus' and item.get('criterion_source')!={'file':'older-operation.pdf','page':6}:
+            raise ValueError('focus trim lacks the manual page-6 criterion source')
+    return True
 
 
 def _validate_trim_bindings(trims, parameters, deck=None):
@@ -212,9 +253,7 @@ def freeze(proposal, score):
     if proposal.get('fit_points')!=sorted(CALIBRATION_POINTS):raise ValueError('fit points must be exactly 14, 15 and 17')
     if proposal.get('image_used_for_selection') is not False:raise ValueError('rendered image must not select calibration values')
     if set(proposal.get('assumptions',{}))!=ASSUMPTION_KEYS:raise ValueError('missing or extra assumed parameter')
-    if set(proposal.get('trims',{}))!=TRIM_KEYS:raise ValueError('missing or extra recorded trim')
-    if not all(isinstance(item,dict) and item.get('setting') is not None and item.get('procedure_step')
-               for item in proposal['trims'].values()):raise ValueError('each trim needs a setting and manual step')
+    _validate_trim_record(proposal.get('trims'))
     if not isinstance(proposal.get('source_capture_sha256'),str) or len(proposal['source_capture_sha256'])!=64:
         raise ValueError('missing capture identity')
     source=_validate_synthetic_capture(proposal)
@@ -299,6 +338,7 @@ def verify(record):
         raise ValueError('invalid calibration source or image selection')
     if set(check.get('assumptions',{}))!=ASSUMPTION_KEYS or set(check.get('trims',{}))!=TRIM_KEYS:
         raise ValueError('incomplete frozen assumptions or trims')
+    _validate_trim_record(check['trims'])
     if check['assumptions']['t3_candidate']!=check.get('candidate_id'):
         raise ValueError('frozen candidate mismatch')
     if any(not isinstance(check.get(key),str) or len(check[key])!=64
