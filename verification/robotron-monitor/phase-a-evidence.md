@@ -104,7 +104,13 @@ python3.14 verification/robotron-monitor/inventory_audit.py \
 ```
 
 After the two full-page vision passes and the classic table pass available on
-2026-11-18, 28 entries had three identical machine descriptions awaiting
-inventory comparison; 225 parts-list entries still needed more source evidence
+2026-11-18, 11 entries had three identical machine descriptions and stock
+numbers awaiting inventory comparison; 242 parts-list entries still needed more source evidence
 or review, and seven schematic-only entries needed schematic review. These
 counts are interim and will change as the remaining vision passes finish.
+
+The first direct source correction is V14 on board 012-6921: the printed
+page-8 type is `1 YL1/2`, correcting the inventory's earlier `1YL/2` spelling.
+The page-12 C26 label `EDVU-N470-220/10-63` has also been checked against its
+source image; `N470` is part of the printed type code, so the 220 pF inventory
+value is not treated as an OCR disagreement.

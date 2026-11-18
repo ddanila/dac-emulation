@@ -53,14 +53,16 @@ def _readings(path):
             # A comma in a German decimal may have been emitted as a CSV
             # separator. Rejoin description fragments until the article code.
             description = []
+            article = None
             for cell in row[quantity + 1:]:
                 if ARTICLE.match(cell.strip()):
+                    article = cell.strip()
                     break
                 if cell.strip():
                     description.append(cell.strip())
             yield dict(line=number, references=references, quantity=count,
                        quantity_consistent=len(references) == count,
-                       description=','.join(description))
+                       description=','.join(description), article=article)
 
 
 def _key(description):
@@ -90,13 +92,14 @@ def audit(inventory, ocr_root):
                               and r['quantity_consistent']]
                 if len(candidates) == 1 and candidates[0]['description']:
                     row = candidates[0]
-                    matches[tag] = dict(line=row['line'], description=row['description'])
+                    matches[tag] = dict(line=row['line'], description=row['description'],
+                                        article=row['article'])
                 elif len(candidates) > 1:
                     matches[tag] = dict(ambiguous_lines=[r['line'] for r in candidates])
             groups = collections.defaultdict(list)
             for tag, reading in matches.items():
                 if 'description' in reading:
-                    groups[_key(reading['description'])].append(tag)
+                    groups[_key(reading['description']+' '+(reading['article'] or ''))].append(tag)
             largest = max(groups.values(), key=len, default=[])
             result.append(dict(id=part['id'], source_page=page,
                                inventory_description=part['description'],
