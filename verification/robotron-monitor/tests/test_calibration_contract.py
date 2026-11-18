@@ -36,6 +36,15 @@ class CalibrationContractTests(unittest.TestCase):
 
     def test_only_manual_calibration_set_can_be_frozen(self):
         with tempfile.TemporaryDirectory() as directory:
+            geometry={'picture_width_mm':210.,'picture_height_mm':145.,
+                      'horizontal_linearity':.04,'vertical_linearity':.04,
+                      'horizontal_center_mm':0.,'vertical_center_mm':0.,
+                      'stripe_rows':5,'horizontal_marker_rows':9,'marker_count':54,
+                      'method':'source-grid-markers-through-connected-electrodes-yoke-and-central-ray'}
+            with mock.patch.object(contract.grid_geometry,'measure',return_value=geometry):
+                self._check_calibration_fixture(Path(directory),geometry)
+
+    def _check_calibration_fixture(self,directory,geometry):
             subprocess.run(['make','build/robotron-signal-pattern'],cwd=ROOT.parents[1],
                            check=True,capture_output=True)
             capture=Path(directory)/'grid.json'
@@ -98,6 +107,7 @@ class CalibrationContractTests(unittest.TestCase):
             self.assertEqual(frozen['calibration_trial']['deck_sha256'],deck_hash)
             self.assertAlmostEqual(frozen['calibration_trial']['eht_mean_v'],11500.)
             self.assertAlmostEqual(frozen['calibration_trial']['horizontal_retrace_us'],16.,delta=1.)
+            self.assertEqual(frozen['calibration_trial']['grid_geometry'],geometry)
             binding=dict(candidate_id=candidate,
                          parameters={'l4_coupling':.5,'horizontal_tank_l':.0015},
                          magnetic_sha256=proposal['assumptions']['t3_winding_parameters']['sha256'],
@@ -146,6 +156,10 @@ class CalibrationContractTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'differs from connected trace measurement'):
                 contract.freeze(proposal,score)
             proposal['targets']['horizontal_retrace_us']=16
+            proposal['targets']['picture_width_mm']=230
+            with self.assertRaisesRegex(ValueError,'differs from connected grid geometry'):
+                contract.freeze(proposal,score)
+            proposal['targets']['picture_width_mm']=210
             wrong_score=service_score.score(path,start=.0585,end=.077,required={14,15,17})
             with self.assertRaisesRegex(ValueError,'final complete grid field'):
                 contract.freeze(proposal,wrong_score)
@@ -178,6 +192,12 @@ class CalibrationContractTests(unittest.TestCase):
             inconsistent['freeze_sha256']=contract.digest({k:v for k,v in inconsistent.items()
                                                            if k!='freeze_sha256'})
             with self.assertRaisesRegex(ValueError,'frozen EHT or retrace differs'):
+                contract.verify(inconsistent)
+            inconsistent=json.loads(json.dumps(frozen))
+            inconsistent['targets']['picture_width_mm']=230
+            inconsistent['freeze_sha256']=contract.digest({k:v for k,v in inconsistent.items()
+                                                           if k!='freeze_sha256'})
+            with self.assertRaisesRegex(ValueError,'frozen picture size differs'):
                 contract.verify(inconsistent)
             frozen['targets']['eht_v']=12500
             with self.assertRaisesRegex(ValueError,'changed'):

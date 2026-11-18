@@ -143,9 +143,17 @@ shorter monotone excursion between its extrema measures electrical retrace;
 flat, sinusoidal or strongly nonmonotone waveforms cannot establish it. The
 freeze requires 12.8–19.2 µs and agreement with the proposed value within
 5% or 1 µs, whichever is larger. This is a current-based electrical measure,
-not an optical trace of beam position. Picture-size proposal fields still need
-a measured grid-geometry producer; they are not established by a passed
-service-point score alone.
+not an optical trace of beam position. `grid_geometry.py` now interpolates the
+connected final-field electrode voltages and both yoke currents at the grid's
+printed VIDEO marker times, then traces central rays through the bound yoke
+field model. It measures the outer stripe width, top-to-bottom grid height,
+and spacing error on both axes. A border ray that misses the screen fails the
+measurement. The freeze requires width and height to meet Phase A's ±20%
+calibration band around the manual nominals and to agree with the proposed
+numbers within 5% or 5 mm. This is a
+grid trajectory measurement, not a claim that a rendered image, spot size or
+focus criterion has passed. G5 still applies its tighter 90–105% and ≤10%
+geometry limits after the full grid stage.
 The connected-run path accepts a verified `--calibration-freeze` record and
 archives its hash. Before a frozen run starts solving, it checks that the
 selected T3 candidate, magnetic-parameter file, yoke profile, L4 coupling and
@@ -218,9 +226,11 @@ trace, uses the current service register, contains each of the 17 points once,
 and that readability uses the selected native capture. The gate command
 recomputes the saved score from the electrical trace before evaluating it.
 G3 now requires measured high voltage and retrace time tied to that electrical
-trace, plus picture dimensions from the frozen synthetic-grid capture. Frozen
-target values alone cannot pass G3. Those measured evidence fields still need
-Phase B producers; the contract does not turn absent measurements into a pass.
+trace, plus picture dimensions from the frozen synthetic-grid capture. G3 and
+G5 require the supplied grid geometry to match the values computed and frozen
+from that grid trial's electrical trace. Frozen target values alone cannot
+pass G3. The native-frame electrical measurements still need a Phase B
+producer; the contract does not turn absent measurements into a pass.
 G3/G4 also require
 an identified reviewer to check each drawn waveform shape and the manual's
 operating conditions; numeric agreement alone cannot pass them. These gates do

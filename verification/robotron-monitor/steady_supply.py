@@ -180,7 +180,7 @@ def assemble(output, *, yoke_path=None):
                  'reference/k7222-11/assembly.json', 'steady_supply.py',
                  'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py','yoke_geometry.py',
                  'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py','collection.py','beam_feedback.py','energy_ledger.py','energy_validation.py',
-                 'service_score.py','calibration_contract.py','calibration_measurements.py','phase_a_gates.py'):
+                 'service_score.py','calibration_contract.py','calibration_measurements.py','grid_geometry.py','phase_a_gates.py'):
         archive(name)
     return dict(components=components,parameters=params,models=texts,hashes=hashes,yoke=yoke,
                 magnetic_graph=json.loads((out/'reference/k7222-11/t3-winding-hypothesis.json').read_text()),

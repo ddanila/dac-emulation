@@ -24,7 +24,12 @@ class PhaseAGateTests(unittest.TestCase):
                                           'eht_mean_v':11500,'horizontal_retrace_us':16,
                                           'horizontal_yoke_swing_a':2.,
                                           'retrace_method':'shorter-extrema-arc-of-line-averaged-yoke-current',
-                                          'line_count':312,'phase_bins':256},
+                                          'line_count':312,'phase_bins':256,
+                                          'grid_geometry':{'picture_width_mm':210.,'picture_height_mm':145.,
+                                              'horizontal_linearity':.04,'vertical_linearity':.04,
+                                              'horizontal_center_mm':0.,'vertical_center_mm':0.,
+                                              'stripe_rows':5,'horizontal_marker_rows':9,'marker_count':54,
+                                              'method':'source-grid-markers-through-connected-electrodes-yoke-and-central-ray'}},
                      'candidate_id':'t3-test',
                      'assumptions':{key:('t3-test' if key=='t3_candidate' else {}) for key in contract.ASSUMPTION_KEYS},
                      'trims':{key:{'setting':.5,'procedure_step':'manual'} for key in contract.TRIM_KEYS},
@@ -47,7 +52,8 @@ class PhaseAGateTests(unittest.TestCase):
                                                    'eht_v':11500,'horizontal_retrace_us':16},
                        'grid_geometry':{'source_kind':'synthetic-test-pattern','picture_width_mm':210,
                                         'source_capture_sha256':'a'*64,'picture_height_mm':145,
-                                        'horizontal_linearity':.05,'vertical_linearity':.05},
+                                        'electrical_trace_sha256':'c'*64,
+                                        'horizontal_linearity':.04,'vertical_linearity':.04},
                        'electrical_refinement':{'half_timestep':True,'second_initialization':True,
                                                 'half_timestep_relative_error':.005,
                                                 'second_initialization_relative_error':.005},
@@ -100,6 +106,15 @@ class PhaseAGateTests(unittest.TestCase):
                 evidence.update(change)
                 result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
                 self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G3'))
+        changed=copy.deepcopy(self.evidence)
+        changed['grid_geometry']['picture_width_mm']=215
+        result=phase_a_gates.evaluate(changed,self.score,self.freeze)
+        self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G3'))
+        self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G5'))
+        changed=copy.deepcopy(self.evidence)
+        changed['grid_geometry']['electrical_trace_sha256']='0'*64
+        result=phase_a_gates.evaluate(changed,self.score,self.freeze)
+        self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G5'))
 
     def test_stale_or_duplicate_service_score_is_rejected(self):
         score=copy.deepcopy(self.score)

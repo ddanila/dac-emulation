@@ -81,9 +81,15 @@ def evaluate(evidence,service_score,freeze):
     calibrated=freeze.get('targets',{})
     measured=evidence.get('calibration_measurements',{})
     geometry=evidence.get('grid_geometry',{})
+    frozen_geometry=freeze.get('calibration_trial',{}).get('grid_geometry',{})
+    geometry_matches_freeze=(geometry.get('electrical_trace_sha256')==freeze['calibration_trial']['trace_sha256']
+        and all(finite(geometry.get(k)) and finite(frozen_geometry.get(k))
+                and math.isclose(geometry[k],frozen_geometry[k],rel_tol=1e-9,abs_tol=1e-9)
+                for k in ('picture_width_mm','picture_height_mm','horizontal_linearity','vertical_linearity')))
     calibration_sources_match=(score_is_for_trace
         and measured.get('electrical_trace_sha256')==trace_hash
-        and geometry.get('source_capture_sha256')==freeze.get('source_capture_sha256'))
+        and geometry.get('source_capture_sha256')==freeze.get('source_capture_sha256')
+        and geometry_matches_freeze)
     add('G3',score_is_for_trace
         and all(point_status(service_score,n)=='pass-numeric' for n in calibration_contract.CALIBRATION_POINTS)
         and all(waveform_reviewed(evidence,n) for n in calibration_contract.CALIBRATION_POINTS)
@@ -104,7 +110,8 @@ def evaluate(evidence,service_score,freeze):
     add('G4',score_is_for_trace and not misses and not unreviewed,
         {'misses':misses,'unreviewed_waveforms':unreviewed,'explanations':explanations,
                          'unexplained':[n for n in misses if str(n) not in explanations]})
-    add('G5',geometry.get('source_kind')=='synthetic-test-pattern'
+    add('G5',geometry_matches_freeze
+        and geometry.get('source_kind')=='synthetic-test-pattern'
         and geometry.get('source_capture_sha256')==freeze.get('source_capture_sha256')
         and all(finite(geometry.get(k)) for k in ('picture_width_mm','picture_height_mm','horizontal_linearity','vertical_linearity'))
         and .9<=geometry['picture_width_mm']/210<=1.05
