@@ -179,9 +179,13 @@ converter path. Recording their nominal settings cannot apply the manual's
 step 8. The separate brightness control is likewise not bound to a model
 parameter; R28 is the dark-raster preset and is not a substitute. The freeze
 now refuses these three unbound controls rather than recording their proposed
-settings as applied. The vertical linearity profile also labels R59 lower and R60 upper,
-while manual page 32 says R60 lower and R59 upper. The schematic/source review
-must resolve that reversal before binding either setting to a frozen run.
+settings as applied. The vertical linearity model and trim bindings now use
+the printed R59/R60 designators (`linearity_r59`/`linearity_r60`) rather than
+assigning either to an upper or lower screen region. A fresh KiCad export
+confirms R59 and R60 remain on separate `lin_r59` and `lin_r60` branches at
+their original 47 kΩ values. Manual pages 15 and 32 still disagree about the
+screen-region roles; schematic/source review must resolve that claim before
+it is used in calibration.
 Schematic PDF page 3 explicitly draws separate external `R1 Helligkeit` and
 `R2 Kontrast` panel controls. Page 18 has a handwritten 10 kΩ/5 kΩ note, not
 a factory value. Page 3's connector numbers have handwritten corrections, so
@@ -192,9 +196,10 @@ vertical sync R22, T1, horizontal hold R24, dark-raster R28, maximum-beam R4
 on 012-6921, horizontal linearity L3, width R5, horizontal centring R4 on
 012-6931, height R35, linearity R59/R60, vertical shift R58, and the focus,
 brightness and contrast controls. The two R4 keys identify their boards.
-The linearity keys identify R59 and R60 by part number without assigning upper
-or lower screen regions: manual pages 15 and 32 disagree about those roles.
-The conflict must be resolved before model application is claimed.
+The linearity keys and connected model parameters identify R59 and R60 by part
+number without assigning upper or lower screen regions: manual pages 15 and 32
+disagree about those roles. The physical setting can be applied by designator;
+the conflicting screen-region interpretation still needs source review.
 
 A fresh `steady_supply.assemble()` export shows neither 012-6931:R4 nor
 012-6931:R5 in the connected assembly; the latter is currently confined to
@@ -465,12 +470,12 @@ An `unresolved` mark is valid only after the inventory entry itself is marked
 unresolved. Schematic marks cover pages 3–4, 9–10, 16 and 18 and must record
 KiCad connectivity, diode direction and winding polarity review. Marks bind to
 the inventory entry, source PDF and current KiCad tree hashes; edits invalidate
-stale marks. The current template from five voting vision passes and the
-page-15 source correction fails the gate with 33 open parts and six open
-schematic pages, as intended.
-It is `build/monitor/phase-a/source-review-template-page15-corrected-v2-20261118.json`;
+stale marks. The current template from five voting vision passes, the page-15
+source correction and the R59/R60 designator binding fails the gate with 33
+open parts and six open schematic pages, as intended.
+It is `build/monitor/phase-a/source-review-template-r59-r60-designators-20261118.json`;
 the matching gate report is
-`build/monitor/phase-a/source-review-gate-page15-corrected-v2-20261118.json`. No human
+`build/monitor/phase-a/source-review-gate-r59-r60-designators-20261118.json`. No human
 marks have been entered.
 
 After the third full-page vision pass and both crop passes on 2026-11-18, 227
