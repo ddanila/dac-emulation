@@ -1,6 +1,7 @@
 import copy
 import hashlib
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -84,6 +85,16 @@ class PhaseAGateTests(unittest.TestCase):
         score['points'][1]['test_point']=1
         with self.assertRaisesRegex(ValueError,'exactly once'):
             phase_a_gates.evaluate(self.evidence,score,self.freeze)
+
+    def test_saved_score_must_reproduce_from_trace(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp)/'samples.csv'
+            path.write_text('time,v(sync_gate)\n0,0\n0.00001,-10\n0.00002,0\n')
+            score=service_scoring.score(path)
+            self.assertTrue(phase_a_gates.verify_service_score(score))
+            score['points'][0]['status']='fail-numeric'
+            with self.assertRaisesRegex(ValueError,'differs from the electrical trace'):
+                phase_a_gates.verify_service_score(score)
 
 
 if __name__=='__main__':unittest.main()
