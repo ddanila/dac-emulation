@@ -105,6 +105,7 @@ class CalibrationContractTests(unittest.TestCase):
                                     'assembly_hashes':{
                                         'reference/k7222-11/t3-initial-parameters.json':hashlib.sha256(magnetic_path.read_bytes()).hexdigest(),
                                         'profiles/yoke.json':hashlib.sha256(yoke_path.read_bytes()).hexdigest()}}}
+            metadata['experiment']['assembly_hashes'].update(contract._current_circuit_hashes())
             (trial/'metadata.json').write_text(json.dumps(metadata))
             (trial/'solve.json').write_text(json.dumps(
                 {'status':'complete','deck_sha256':deck_hash,'returncode':0,'timeout':False}))
@@ -144,6 +145,23 @@ class CalibrationContractTests(unittest.TestCase):
             self.assertAlmostEqual(frozen['calibration_trial']['eht_mean_v'],11500.)
             self.assertAlmostEqual(frozen['calibration_trial']['horizontal_retrace_us'],16.,delta=1.)
             self.assertEqual(frozen['calibration_trial']['grid_geometry'],geometry)
+            self.assertEqual(frozen['calibration_trial']['circuit_hashes'],
+                             contract._current_circuit_hashes())
+            changed_sources=contract._current_circuit_hashes()
+            changed_sources[contract.T3_GRAPH]='0'*64
+            with mock.patch.object(contract,'_current_circuit_hashes',return_value=changed_sources):
+                with self.assertRaisesRegex(ValueError,'stale T3 graph or assembled schematic'):
+                    contract.verify(frozen)
+            for name in (contract.T3_GRAPH,
+                         next(name for name in frozen['calibration_trial']['circuit_hashes']
+                              if name.startswith('circuits/'))):
+                with self.subTest(stale_circuit=name):
+                    stale=json.loads(json.dumps(frozen))
+                    stale['calibration_trial']['circuit_hashes'][name]='0'*64
+                    stale['freeze_sha256']=contract.digest({k:v for k,v in stale.items()
+                                                             if k!='freeze_sha256'})
+                    with self.assertRaisesRegex(ValueError,'stale T3 graph or assembled schematic'):
+                        contract.verify(stale)
             binding=dict(candidate_id=candidate,
                          parameters={'l4_coupling':.5,'horizontal_tank_l':.0015},
                          magnetic_sha256=proposal['assumptions']['t3_winding_parameters']['sha256'],
@@ -182,6 +200,12 @@ class CalibrationContractTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'selected synthetic capture'):
                 contract.freeze(proposal,score)
             metadata['experiment']['capture_sha256']=proposal['source_capture_sha256']
+            (trial/'metadata.json').write_text(json.dumps(metadata))
+            metadata['experiment']['assembly_hashes'][contract.T3_GRAPH]='0'*64
+            (trial/'metadata.json').write_text(json.dumps(metadata))
+            with self.assertRaisesRegex(ValueError,'stale T3 graph or assembled schematic'):
+                contract.freeze(proposal,score)
+            metadata['experiment']['assembly_hashes'].update(contract._current_circuit_hashes())
             (trial/'metadata.json').write_text(json.dumps(metadata))
             metadata['candidate']['candidate']['id']='other-t3'
             (trial/'metadata.json').write_text(json.dumps(metadata))

@@ -48,6 +48,14 @@ TRIM_PARAMETERS={
 }
 SETTLING_PROBES=('v(eht)','v(g2)','v(g4)','v(cathode)',
                  'i(lhorizontal)','i(lvertical)','v(x1136.xshared.flux_b)')
+T3_GRAPH='reference/k7222-11/t3-winding-hypothesis.json'
+
+
+def _current_circuit_hashes():
+    """Circuit sources whose changes invalidate an earlier grid calibration."""
+    names=[T3_GRAPH]+['circuits/'+name for name,_,_ in steady_supply.assembly_sheets()]
+    return {name:hashlib.sha256((steady_supply.ROOT/name).read_bytes()).hexdigest()
+            for name in names}
 
 
 def _settled(report):
@@ -165,6 +173,10 @@ def _validate_calibration_trial(proposal, score, source):
                 or not math.isclose(value,proposal['assumptions'][key],rel_tol=1e-12,abs_tol=0)):
             raise ValueError('calibration trial used different '+key)
     hashes=experiment.get('assembly_hashes',{})
+    circuit_hashes=_current_circuit_hashes()
+    if not isinstance(hashes,dict) or any(hashes.get(name)!=sha
+                                           for name,sha in circuit_hashes.items()):
+        raise ValueError('calibration trial uses a stale T3 graph or assembled schematic')
     magnetic_hash=(hashes.get('magnetic-override.json') or
                    hashes.get('reference/k7222-11/t3-initial-parameters.json'))
     if (magnetic_hash!=proposal['assumptions']['t3_winding_parameters']['sha256']
@@ -189,6 +201,7 @@ def _validate_calibration_trial(proposal, score, source):
     return dict(trace_sha256=score['input_sha256'],deck_sha256=deck_hash,
                 metadata_sha256=hashlib.sha256(metadata_path.read_bytes()).hexdigest(),
                 solver_receipt_sha256=hashlib.sha256(solve_path.read_bytes()).hexdigest(),
+                circuit_hashes=circuit_hashes,
                 settling=settling,
                 **measurements)
 
@@ -220,7 +233,7 @@ def freeze(proposal, score):
         raise ValueError('tank outside declared bound')
     magnetic=_identified_json(proposal['assumptions']['t3_winding_parameters'],'T3 parameters')
     yoke=_identified_json(proposal['assumptions']['yoke_profile'],'yoke profile')
-    graph=json.loads((steady_supply.ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
+    graph=json.loads((steady_supply.ROOT/T3_GRAPH).read_text())
     candidate=next((c for c in transformer_candidates.enumerate_candidates(graph) if c['id']==proposal['candidate_id']),None)
     if candidate is None:raise ValueError('unknown T3 candidate')
     transformer_candidates.compile_model(graph,candidate,magnetic,backend='flux')
@@ -293,7 +306,7 @@ def verify(record):
         raise ValueError('missing frozen evidence identity')
     trial=check.get('calibration_trial',{})
     hashes=('trace_sha256','deck_sha256','metadata_sha256','solver_receipt_sha256')
-    if (set(trial)!=set((*hashes,'settling','eht_mean_v','horizontal_retrace_us',
+    if (set(trial)!=set((*hashes,'circuit_hashes','settling','eht_mean_v','horizontal_retrace_us',
                         'horizontal_yoke_swing_a','retrace_method','line_count','phase_bins','grid_geometry'))
             or any(not isinstance(trial.get(key),str) or len(trial[key])!=64 for key in hashes)
             or type(trial.get('eht_mean_v')) not in (int,float)
@@ -306,6 +319,8 @@ def verify(record):
             or type(trial.get('line_count')) is not int or trial['line_count']<32
             or type(trial.get('phase_bins')) is not int or not 64<=trial['phase_bins']<=4096):
         raise ValueError('missing completed calibration trial identity')
+    if trial['circuit_hashes']!=_current_circuit_hashes():
+        raise ValueError('frozen calibration uses a stale T3 graph or assembled schematic')
     settling=trial['settling']
     if not _settled(settling):
         raise ValueError('frozen calibration grid is not locked and periodic')

@@ -135,6 +135,12 @@ exact hashed synthetic capture, and with the proposed T3, magnetic, yoke, L4
 and tank assumptions. A hand-written CSV cannot establish a
 calibration freeze. This is a provenance gate, not evidence that the connected
 monitor currently meets the calibration targets.
+The freeze also records the exact T3 winding-graph hash and every KiCad sheet
+assembled into its synthetic-grid trial. Freeze creation checks these hashes
+against the trial archive; subsequent verification checks them against the
+current files. An A1 correction to the winding map or assembled schematics
+therefore invalidates the old calibration before native rendering.
+
 Before a grid trial can freeze, `calibration_contract.py` now reruns
 `steady_supply.assess()` on its complete electrical trace and the selected
 synthetic source. The last three fields must pass the existing flyback/sync
@@ -350,6 +356,11 @@ output, whereas the current unverified winding graph places `X1_2` in its
 V21 model to `X1_16`. This is a specific A1 connector, diode and return-path
 question, not a corrected topology: the scan does not establish every winding
 connection or the physical polarity.
+
+An [independent ÜHA78 repair account](https://www.sax.de/~zander/zubehoer/k7222/uha78rep.pdf)
+describes a separate selenium rectifier rod and a two-lead high-voltage coil
+in a K7222.25. It is firsthand evidence about that later repair, not a pinout
+for the .11/.21 source design; no .11 T3 connection is inferred from it.
 
 An isolated topology diagnostic removed `X1_2` from that magnetic group and
 its matching X1136 port while retaining the original all-positive candidate's
