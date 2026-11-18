@@ -336,6 +336,14 @@ final `trace.raw`. G1/G1b lock and adjacent-line jitter and G2 three-field
 periodicity come from the recomputed trace, and any separately reported values
 must match it. A persuasive JSON report cannot substitute for measured sync
 edges or repeating electrical waveforms.
+For G6, `electrical_refinement.half_timestep_trace` and
+`electrical_refinement.second_initialization_trace` point to the two completed
+variant `trace.raw` files. The gate checks each variant's deck and solve
+receipt, source identity, circuit parameters, timestep and initialization,
+then recomputes the last-field waveform comparison against the scored native
+trial. The largest relative RMS error across the monitored electrical probes
+must be at most 1% for each variant. Reported G6 errors cannot override these
+recomputed values. The variant runs themselves remain Phase B work.
 G3 now requires measured high voltage and retrace time tied to that electrical
 trace, plus picture dimensions from the frozen synthetic-grid capture. G3 and
 G5 require the supplied grid geometry to match the values computed and frozen

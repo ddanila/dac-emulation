@@ -14,6 +14,7 @@ import calibration_contract
 import calibration_measurements
 import scan_diagnostics
 import service_score as service_scoring
+import steady_acceptance
 import steady_supply
 
 PERIODIC=('eht','horizontal_yoke_current','vertical_yoke_current','g2','g4','core_flux')
@@ -107,6 +108,74 @@ def verify_settling_evidence(evidence,score,selection,metadata):
     evidence['horizontal_lock']=lock
     evidence['periodicity']=periodic
     return actual
+
+
+def _completed_variant(path):
+    path=Path(path)
+    if path.name!='trace.raw' or not path.is_file():
+        raise ValueError('G6 variant requires a completed trace.raw')
+    directory=path.parent
+    metadata=json.loads((directory/'metadata.json').read_text())
+    solved=json.loads((directory/'solve.json').read_text())
+    with (directory/'run.cir').open('rb') as stream:
+        deck_sha=hashlib.file_digest(stream,'sha256').hexdigest()
+    if (solved.get('status')!='complete' or solved.get('deck_sha256')!=deck_sha
+            or metadata.get('experiment',{}).get('deck_sha256')!=deck_sha):
+        raise ValueError('G6 variant deck or solve receipt mismatch')
+    return metadata
+
+
+def verify_electrical_refinement(evidence,score,base_metadata):
+    """Recompute both G6 comparisons from separate completed solver trials."""
+    claimed=evidence.get('electrical_refinement',{})
+    paths={name:claimed.get(name+'_trace') for name in ('half_timestep','second_initialization')}
+    if any(not isinstance(path,str) or not path for path in paths.values()):
+        raise ValueError('G6 requires both variant trace paths')
+    base_path=Path(score['input'])
+    if not base_path.is_file() or base_path.name!='trace.raw':
+        raise ValueError('G6 requires the scored connected trial trace')
+    base_step=base_metadata.get('max_step_s')
+    if not finite(base_step) or base_step<=0:
+        raise ValueError('G6 base timestep is invalid')
+    result={}
+    for name,path in paths.items():
+        variant_path=Path(path)
+        if variant_path.resolve()==base_path.resolve() or any(
+                variant_path.resolve()==Path(other).resolve() for other_name,other in paths.items()
+                if other_name!=name):
+            raise ValueError('G6 requires distinct completed trials')
+        metadata=_completed_variant(variant_path)
+        if (metadata.get('period_s')!=base_metadata.get('period_s')
+                or metadata.get('simulated_fields')!=base_metadata.get('simulated_fields')
+                or metadata.get('source_kind')!=base_metadata.get('source_kind')
+                or metadata.get('candidate')!=base_metadata.get('candidate')
+                or metadata.get('parameters')!=base_metadata.get('parameters')
+                or metadata.get('yoke')!=base_metadata.get('yoke')
+                or any(metadata.get('experiment',{}).get(key)!=base_metadata.get('experiment',{}).get(key)
+                       for key in ('capture_sha256','source_content_sha256','assembly_hashes'))):
+            raise ValueError('G6 variant changes the source or circuit parameters')
+        step=metadata.get('max_step_s')
+        if not finite(step) or step<=0 or (name=='half_timestep' and step>base_step/2*(1+1e-9)) or (name=='second_initialization' and step>base_step):
+            raise ValueError('G6 variant has the wrong timestep')
+        if name=='second_initialization' and metadata.get('initial_voltage_guesses')==base_metadata.get('initial_voltage_guesses'):
+            raise ValueError('G6 second trial repeats the same initialization')
+        comparison=steady_acceptance.compare(base_path,variant_path,base_metadata)
+        errors=comparison.get('relative_rms_error',{})
+        if set(errors)!=set(steady_acceptance.NAMES) or not all(finite(value) and value>=0 for value in errors.values()):
+            raise ValueError('G6 waveform comparison is incomplete')
+        result[name+'_relative_error']=max(errors.values())
+    computed=dict(half_timestep=True,second_initialization=True,
+                  half_timestep_relative_error=result['half_timestep_relative_error'],
+                  second_initialization_relative_error=result['second_initialization_relative_error'])
+    for key,value in computed.items():
+        if key in claimed:
+            reported=claimed[key]
+            agrees=(reported is value if isinstance(value,bool) else
+                    finite(reported) and math.isclose(reported,value,rel_tol=1e-9,abs_tol=1e-12))
+            if not agrees:
+                raise ValueError('reported G6 refinement differs from completed trials')
+    evidence['electrical_refinement']=claimed|computed
+    return computed
 
 
 def verify_calibration_measurements(evidence, score):
@@ -235,6 +304,7 @@ def main():
     selection,metadata=verify_native_capture(evidence,score)
     verify_settling_evidence(evidence,score,selection,metadata)
     verify_calibration_measurements(evidence,score)
+    verify_electrical_refinement(evidence,score,metadata)
     result=evaluate(evidence,score,
                     json.loads(args.calibration_freeze.read_text()))
     args.output.write_text(json.dumps(result,indent=2)+'\n')
