@@ -11,6 +11,25 @@ from pathlib import Path
 
 from phase_a_review import SCHEMATIC_PAGES, source_hash
 
+SCHEMATIC_QUESTIONS = {
+    3: ('Trace the external brightness R1 terminals and the handwritten X1 pin'
+        ' corrections to the horizontal and neck-board nodes. Keep this control'
+        ' distinct from the R28 dark-raster preset.'),
+    4: ('Trace every T3 tap through the X1/X2 connectors, especially the auxiliary'
+        ' SYNCH output and V14 cathode at TP17. Check the winding continuity and'
+        ' polarity hypothesis before selecting a T3 candidate.'),
+    9: ('Trace horizontal centring R4, L1/L2, R2 and bridge E1–E4 from X1:5/6'
+        ' to the rails and deflection circuit. Determine the bridge position and'
+        ' whether this branch can be represented with ideal converter rails.'),
+    10: ('Trace width R5 through the A1 converter feedback and 41P/22P outputs.'
+         ' Record which control effect would disappear with fixed ideal rails.'),
+    16: ('Check the neck-board connector pin map and each diode direction before'
+         ' accepting the mapped electrode test points.'),
+    18: ('Check the assembly and external-control connector wiring, including'
+         ' brightness and contrast. Treat handwritten component values as notes'
+         ' until their applicability is established.'),
+}
+
 
 def build(audit, *, parts_images, schematic_images, source_pdf):
     if audit.get('format')!='dac-monitor-inventory-ocr-audit-v1' or len(audit.get('entries',[]))!=260:
@@ -54,6 +73,7 @@ def build(audit, *, parts_images, schematic_images, source_pdf):
         path=schematic_images/f'page-{page}.png'
         schematic.append(f'<section id="schematic-{page}"><h2>Schematic page {page}</h2>'
             +'<p>Check KiCad connectivity, diode direction and winding polarity against this source page.</p>'
+            +f'<p><strong>Focused question:</strong> {esc(SCHEMATIC_QUESTIONS[page])}</p>'
             +image_link(path)+'</section>')
     style='body{font:16px system-ui,sans-serif;max-width:1300px;margin:auto;padding:1rem;color:#222}section{border-top:2px solid #555;padding:1rem 0}table{border-collapse:collapse;width:100%}th,td{border:1px solid #aaa;padding:.5rem;text-align:left;vertical-align:top}td ul{margin:0;padding-left:1.3rem}img{max-width:100%;height:auto}details{margin:.5rem 0}p{line-height:1.4}'
     return ('<!doctype html><html lang="en"><meta charset="utf-8"><title>Phase A source review guide</title>'
