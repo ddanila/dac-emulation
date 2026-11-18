@@ -36,8 +36,11 @@ class PhaseAGateTests(unittest.TestCase):
                                           'missing_edges':0,'reused_flybacks':0,'unmatched_flybacks':0,
                                           'phase_variation_lines':.005,'fields':3,'maximum_adjacent_jitter_s':30e-9},
                        'periodicity':{'fields':3,'relative_errors':{name:.005 for name in phase_a_gates.PERIODIC}},
+                       'calibration_measurements':{'electrical_trace_sha256':'c'*64,
+                                                   'eht_v':11500,'horizontal_retrace_us':16},
                        'grid_geometry':{'source_kind':'synthetic-test-pattern','picture_width_mm':210,
-                                        'picture_height_mm':145,'horizontal_linearity':.05,'vertical_linearity':.05},
+                                        'source_capture_sha256':'a'*64,'picture_height_mm':145,
+                                        'horizontal_linearity':.05,'vertical_linearity':.05},
                        'electrical_refinement':{'half_timestep':True,'second_initialization':True,
                                                 'half_timestep_relative_error':.005,
                                                 'second_initialization_relative_error':.005},
@@ -75,6 +78,21 @@ class PhaseAGateTests(unittest.TestCase):
         result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
         self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G3'))
         self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G4'))
+
+    def test_frozen_targets_cannot_replace_measured_calibration(self):
+        for change in ({'calibration_measurements':{}},
+                       {'calibration_measurements':{'electrical_trace_sha256':'c'*64,
+                                                    'eht_v':10500,'horizontal_retrace_us':16}},
+                       {'calibration_measurements':{'electrical_trace_sha256':'c'*64,
+                                                    'eht_v':11500,'horizontal_retrace_us':21}},
+                       {'calibration_measurements':{'electrical_trace_sha256':'0'*64,
+                                                    'eht_v':11500,'horizontal_retrace_us':16}},
+                       {'grid_geometry':self.evidence['grid_geometry'] | {'source_capture_sha256':'0'*64}}):
+            with self.subTest(change=change):
+                evidence=copy.deepcopy(self.evidence)
+                evidence.update(change)
+                result=phase_a_gates.evaluate(evidence,self.score,self.freeze)
+                self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G3'))
 
     def test_stale_or_duplicate_service_score_is_rejected(self):
         score=copy.deepcopy(self.score)

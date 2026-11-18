@@ -116,6 +116,10 @@ The gate report checks that the service score belongs to the final electrical
 trace, uses the current service register, contains each of the 17 points once,
 and that readability uses the selected native capture. The gate command
 recomputes the saved score from the electrical trace before evaluating it.
+G3 now requires measured high voltage and retrace time tied to that electrical
+trace, plus picture dimensions from the frozen synthetic-grid capture. Frozen
+target values alone cannot pass G3. Those measured evidence fields still need
+Phase B producers; the contract does not turn absent measurements into a pass.
 G3/G4 also require
 an identified reviewer to check each drawn waveform shape and the manual's
 operating conditions; numeric agreement alone cannot pass them. These gates do
