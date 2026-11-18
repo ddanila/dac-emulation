@@ -1,0 +1,66 @@
+{
+  "compileCommand": [
+    "iverilog",
+    "-g2012",
+    "-o",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace/baseline.vvp",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace/probe.v"
+  ],
+  "observerCompileCommand": [
+    "c++",
+    "-std=c++11",
+    "-fsanitize=address",
+    "-bundle",
+    "-undefined",
+    "dynamic_lookup",
+    "-I/private/tmp/k7658-signal-teardown-trace-runtime",
+    "-o",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace/probe.vpi",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace/probe.cc"
+  ],
+  "runs": {
+    "baseline": {
+      "command": [
+        "/private/tmp/k7658-signal-teardown-trace-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace/baseline.vvp"
+      ],
+      "exitCode": 0,
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0"
+    },
+    "disabled": {
+      "command": [
+        "/private/tmp/k7658-signal-teardown-trace-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace/teardown.vvp"
+      ],
+      "exitCode": 0,
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0"
+    },
+    "enabled": {
+      "command": [
+        "/private/tmp/k7658-signal-teardown-trace-runtime/vvp/vvp",
+        "-M/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace",
+        "-mprobe",
+        "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace/teardown.vvp"
+      ],
+      "exitCode": 0,
+      "asanOptions": "halt_on_error=1:abort_on_error=0:detect_leaks=0"
+    }
+  },
+  "dependencies": {
+    "/private/tmp/robotron-icarus-src/vvp/libvvp.so": "39b959c78d46ca0b5e7aa3a8728ac0d4f1a47f0cc5109dc08564909226acbc69",
+    "/private/tmp/k7658-signal-teardown-trace-runtime/vvp/vvp": "41f761eeacbcfc0d617d8115884263e19d8dce7095d2fa7283bbfae6a4bd9f83",
+    "/private/tmp/k7658-signal-teardown-trace-runtime/vvp/libvvp.so": "161b30ac9c4cae3ce79f9f6b851db4e2b85553483d914f1981f404a2aad5d999",
+    "/private/tmp/k7658-signal-teardown-trace-runtime/vpi/system.vpi": "c5ac404788de769898338601df4222fdf996ac5e3a0a245ea4f98183ead92bb0",
+    "/Users/ddanila/fun/dac-emulation/build/keyboard-controller-analog/signal-teardown-trace/probe.vpi": "6a71dd4be41eed48b5e9d9f528ee6a1201d2e1988bbea8d2dd2ed86d310c0481",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi": "6ceba4d79aa7eba3e6b148ac49b5b435b378afdd3c06dd545e8e412872a939f0",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi": "2a600a5d384ccda0fa81370e6148b75de2e9e4a502177a9fd315f00680963da5",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi": "954572319d3c0058cff01a5c51d32f218b18f30ca8492e1cf5b9722022b4bd0e",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi": "0f7f0cfbd3ffa75fe03af9498ae67f0ba1073d961cffb5345110ed46ad44d160",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi": "b27c11346a79ca9cc1d4e7ec09087c38f60e8aa5fe032aaca64da64c522d0767",
+    "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi": "c3ab7cc82604fc34ba0b108ff3c838f69e4b2fcfaf787dbfa5bb34ed53aa1f97"
+  }
+}
