@@ -798,6 +798,28 @@
         "page": 6
       },
       "evidence": "documented"
+    },
+    {
+      "quantity": "cathode_dark_level",
+      "approximate": 35,
+      "unit": "V",
+      "operating_condition": "VID=0, video transistor V1 blocked; beam dark",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 10
+      },
+      "evidence": "documented approximate operating level; not a test-point waveform DC mean"
+    },
+    {
+      "quantity": "cathode_normal_bright_level",
+      "approximate": 15,
+      "unit": "V",
+      "operating_condition": "VID=1, video transistor V1 conducting; normal bright point",
+      "source": {
+        "file": "older-operation.pdf",
+        "page": 10
+      },
+      "evidence": "documented approximate operating level; INTENS may drive the low level lower"
     }
   ],
   "test_point_16_resolution": "Present on operating-manual PDF page 21: X13:4, variable 8–25 Vpp. The earlier 16-point register omitted it; there are 17 printed points numbered 1–17.",
