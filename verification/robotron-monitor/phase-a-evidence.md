@@ -199,8 +199,9 @@ and the cross-hatch 38,345 (SHA-256
 
 ## Open Phase A work
 
-The multi-pass BOM and manual OCR, per-entry inventory reconciliation and human
-schematic review are in progress. The gate contract exists, but the stage and
+The five voting BOM and five manual text passes are complete. Per-entry
+reconciliation has 34 open parts, and human schematic review has six open
+pages. The gate contract exists, but the stage and
 full-frame evidence producers for geometry, refinement and readability belong
 to Phase B. This document does not assert Phase A completion or a qualified frame.
 
@@ -259,7 +260,12 @@ individual OCR readings; the completed parts-list crop passes are included in
 human review marks. The five manual text passes are complete. An extra
 full-page parts-list pass was stopped after five of eight pages because it
 fabricated values and the planned five voting vision passes were already
-complete. The high-zoom schematic vision scan is running separately.
+complete. All 36 high-zoom schematic tiles on pages 3–4, 9–10, 16 and 18
+have independent RapidOCR readings under
+`build/monitor/phase-a/ocr-workflow/outputs/k7222-schematic/tiled/`. A separate
+vision-model trial was stopped after six tiles because it repeated connector
+designators until the response limit and invented references such as `R0.3`.
+Those trial readings remain raw review aids, never schematic confirmation.
 The extra `alt2` full-page parts-list run is retained as review-only evidence,
 not a machine vote. Its page-12 output repeats values from neighboring
 capacitor rows and stops before the printed L4/L5/L6 row; page 8 also calls
