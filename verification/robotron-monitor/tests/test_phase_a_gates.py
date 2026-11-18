@@ -1,5 +1,6 @@
 import copy
 import hashlib
+import json
 import sys
 import tempfile
 import unittest
@@ -155,6 +156,26 @@ class PhaseAGateTests(unittest.TestCase):
                 changed['calibration_measurements']['electrical_trace_sha256']='0'*64
                 with self.assertRaisesRegex(ValueError,'different electrical trace'):
                     phase_a_gates.verify_calibration_measurements(changed,score)
+
+    def test_native_frame_trace_must_use_archived_full_text_capture(self):
+        manifest=json.loads((phase_a_gates.NATIVE_ARCHIVE/'manifest.json').read_text())
+        with tempfile.TemporaryDirectory() as temp:
+            trace=Path(temp)/'trace.raw';trace.write_bytes(b'fixture')
+            metadata_path=trace.with_name('metadata.json')
+            experiment={'capture_sha256':manifest['capture_sha256'],
+                        'source_content_sha256':manifest['source_content_sha256'],
+                        'source_kind':'schematic-derived-logical'}
+            metadata_path.write_text(json.dumps({'experiment':experiment}))
+            score=self.score|{'input':str(trace)}
+            evidence=self.evidence|{'native_capture_sha256':manifest['capture_sha256']}
+            self.assertTrue(phase_a_gates.verify_native_capture(evidence,score))
+            changed=evidence|{'native_capture_sha256':'0'*64}
+            with self.assertRaisesRegex(ValueError,'capture or logical reference mismatch'):
+                phase_a_gates.verify_native_capture(changed,score)
+            experiment['source_content_sha256']='0'*64
+            metadata_path.write_text(json.dumps({'experiment':experiment}))
+            with self.assertRaisesRegex(ValueError,'different native source'):
+                phase_a_gates.verify_native_capture(evidence,score)
 
 
 if __name__=='__main__':unittest.main()

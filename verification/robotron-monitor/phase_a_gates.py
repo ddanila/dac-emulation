@@ -4,6 +4,7 @@ Every gate needs explicit measured evidence. A missing report fails closed; the
 nonblocking accounting observations cannot compensate for a failed gate.
 """
 import argparse
+import gzip
 import hashlib
 import json
 import math
@@ -11,13 +12,16 @@ from pathlib import Path
 
 import calibration_contract
 import calibration_measurements
+import scan_diagnostics
 import service_score as service_scoring
+import steady_supply
 
 PERIODIC=('eht','horizontal_yoke_current','vertical_yoke_current','g2','g4','core_flux')
 PERIODIC_PROBES={'eht':'v(eht)','horizontal_yoke_current':'i(lhorizontal)',
                  'vertical_yoke_current':'i(lvertical)','g2':'v(g2)','g4':'v(g4)',
                  'core_flux':'v(x1136.xshared.flux_b)'}
 HELD_OUT=calibration_contract.HELD_OUT_POINTS
+NATIVE_ARCHIVE=Path(__file__).resolve().parent/'examples/phase-a-native-full-text'
 
 
 def finite(value):return type(value) in (int,float) and math.isfinite(value)
@@ -42,6 +46,47 @@ def verify_service_score(score):
     reproduced=service_scoring.score(source,start=window[0],end=window[1],required=required)
     if calibration_contract.digest(reproduced)!=calibration_contract.digest(score):
         raise ValueError('service score differs from the electrical trace')
+    return True
+
+
+def verify_native_capture(evidence, score):
+    """Bind the final electrical trial to the archived full-text native source."""
+    manifest=json.loads((NATIVE_ARCHIVE/'manifest.json').read_text())
+    compressed=(NATIVE_ARCHIVE/'capture.json.gz').read_bytes()
+    if hashlib.sha256(compressed).hexdigest()!=manifest['compressed_sha256']:
+        raise ValueError('native full-text archive changed')
+    raw=gzip.decompress(compressed)
+    capture_hash=hashlib.sha256(raw).hexdigest()
+    if (capture_hash!=manifest['capture_sha256']
+            or capture_hash!=evidence.get('native_capture_sha256')
+            or hashlib.sha256((NATIVE_ARCHIVE/'logical-reference.png').read_bytes()).hexdigest()
+               !=manifest['logical_reference_sha256']):
+        raise ValueError('native full-text capture or logical reference mismatch')
+    capture=json.loads(raw)
+    if (capture.get('qualification')!='schematic-derived-logical'
+            or capture.get('input_sha256')!=manifest['input_sha256']):
+        raise ValueError('native full-text capture provenance mismatch')
+    selected=steady_supply.select(capture)
+    if (selected['status']!='complete'
+            or selected['source_content_sha256']!=manifest['source_content_sha256']
+            or selected['period_ticks']!=manifest['period_ticks']
+            or selected['line_period_ticks']!=manifest['line_period_ticks']):
+        raise ValueError('native full-text selected field mismatch')
+    source,_=scan_diagnostics.source_summary(selected)
+    if len(source['active_lines'])!=manifest.get('active_lines') or len(source['active_lines'])<100:
+        raise ValueError('native full-text screen coverage mismatch')
+    trace=Path(score.get('input',''))
+    if trace.name!='trace.raw' or not trace.is_file():
+        raise ValueError('native frame requires a connected trial trace')
+    metadata_path=trace.with_name('metadata.json')
+    if not metadata_path.is_file():
+        raise ValueError('native frame trial metadata is missing')
+    metadata=json.loads(metadata_path.read_text())
+    experiment=metadata.get('experiment',{})
+    if (experiment.get('capture_sha256')!=capture_hash
+            or experiment.get('source_content_sha256')!=selected['source_content_sha256']
+            or experiment.get('source_kind')!='schematic-derived-logical'):
+        raise ValueError('electrical trial uses a different native source')
     return True
 
 
@@ -168,6 +213,7 @@ def main():
     score=json.loads(args.service_score.read_text())
     verify_service_score(score)
     evidence=json.loads(args.evidence.read_text())
+    verify_native_capture(evidence,score)
     verify_calibration_measurements(evidence,score)
     result=evaluate(evidence,score,
                     json.loads(args.calibration_freeze.read_text()))

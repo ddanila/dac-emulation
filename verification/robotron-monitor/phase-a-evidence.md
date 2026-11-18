@@ -322,9 +322,15 @@ closed on absent evidence. Its G1/G1b input can come from the connected
 jitter. Its G2 input can come from the existing three-field settling report.
 The gate report checks that the service score belongs to the final electrical
 trace, uses the current service register, contains each of the 17 points once,
-and that readability uses the selected native capture. The gate command
+and that readability names the selected native capture. The gate command
 recomputes the saved score and reported native-frame EHT/retrace measurements
 from the electrical trace before evaluating it.
+Before evaluating the gates, it also verifies the archived full-text capture and
+logical preview against their manifest, reselects the repeated native field,
+and checks that the electrical trial metadata names that capture and field.
+This closes the route by which a reported G8 hash could refer to a different
+source; the G8 correlation still needs a measured image-comparison producer in
+Phase B.
 G3 now requires measured high voltage and retrace time tied to that electrical
 trace, plus picture dimensions from the frozen synthetic-grid capture. G3 and
 G5 require the supplied grid geometry to match the values computed and frozen
