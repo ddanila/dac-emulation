@@ -434,6 +434,19 @@ def assess(path, metadata, selection):
         full_monitor_qualified=False,numerical_refinement_verified=False)
 
 
+def score_trial(trial, metadata):
+    """Persist the manual comparison for the final field of a completed solve."""
+    import service_score
+    trial = Path(trial)
+    end = metadata['period_s'] * metadata['simulated_fields']
+    result = service_score.score(trial/'trace.raw', start=end-metadata['period_s'], end=end)
+    destination = trial/'service-score.json'
+    destination.write_text(json.dumps(result, indent=2)+'\n')
+    return dict(path=str(destination), input_sha256=result['input_sha256'],
+                numeric_status=result['numeric_status'],
+                point_statuses={str(point['test_point']):point['status'] for point in result['points']})
+
+
 def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, changes=None, magnetic_parameters=None, solver=None, yoke_path=None, electrical_cache=None, calibration_freeze=None):
     """Archive and screen the assembled hypotheses under a single wall budget.
 
@@ -507,6 +520,8 @@ def run(capture, output, runtime, *, candidate='auto', wall_budget_hours=12, cha
                     outputs=dict(deck=str(trial.relative_to(out)/'run.cir'),metadata=str(trial.relative_to(out)/'metadata.json')))
                 entry['attempts'].append(attempt)
                 if result['status']=='complete':
+                    attempt['service_score']=score_trial(trial,metadata)
+                    attempt['outputs']['service_score']=str(trial.relative_to(out)/'service-score.json')
                     attempt['settling']=assess(trial/'trace.raw',metadata,selection)
                     completed.append((c,metadata,trial,attempt))
                     if attempt['settling']['complete']:

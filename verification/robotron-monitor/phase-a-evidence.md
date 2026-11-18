@@ -37,8 +37,13 @@ period, numeric pulse width where printed, measured DC and a polarity hint;
 drawn waveform shape still requires visual review. The scorer never fits model
 parameters.
 
-Stage runs on the vertical and horizontal profiles now write `service-score.json`
-automatically. For an archived connected trace or a specific Phase B stage:
+Stage runs on the vertical and horizontal profiles write `service-score.json`
+automatically. Every completed connected candidate now writes the same score
+for its final simulated field; the coupled and refinement/initialisation
+validation traces do so as well. Each connected-run report links to its trial's
+score and records the 17 point statuses. A missing probe stays `missing-probe`,
+so this output is a stage diagnostic, not an automatic acceptance. For an
+archived connected trace or a specific Phase B stage:
 
 ```sh
 python3.14 verification/robotron-monitor/service_score.py \

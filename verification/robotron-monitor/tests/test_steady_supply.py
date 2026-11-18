@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -114,6 +115,25 @@ class SteadySupplyTests(unittest.TestCase):
             for raw in (h+data[:-1],h.replace(b'Points: 2',b'Points: 0')+data,h+struct.pack('=4d',0,1,.01,math.nan)):
                 p.write_bytes(raw)
                 with self.assertRaises(ValueError):list(steady.raw_rows(p))
+
+    def test_completed_trial_writes_final_field_service_score(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            trial=Path(tmp)
+            names=('time','v(sync_gate)')
+            rows=[(i*.25,float(i)) for i in range(5)]
+            header=('Title: score fixture\nFlags: real\nNo. Variables: 2\n'
+                    'No. Points: 5\nVariables:\n'
+                    +''.join(f'{i} {name} voltage\n' for i,name in enumerate(names))
+                    +'Binary:\n')
+            raw=header.encode()+b''.join(struct.pack('=2d',*row) for row in rows)
+            (trial/'trace.raw').write_bytes(raw)
+            summary=steady.score_trial(trial,dict(period_s=.5,simulated_fields=2))
+            score=json.loads((trial/'service-score.json').read_text())
+            self.assertEqual(score['requested_window_s'],[.5,1.])
+            self.assertEqual(score['samples_in_window'],3)
+            self.assertEqual(score['input_sha256'],hashlib.sha256(raw).hexdigest())
+            self.assertEqual(summary['point_statuses']['1'],score['points'][0]['status'])
+            self.assertEqual(score['points'][0]['measured']['min_v'],2.)
 
     def test_settling_requires_phase_lock_not_just_stable_averages(self):
         names=('time','v(eht)','v(g2)','v(g4)','v(cathode)',
