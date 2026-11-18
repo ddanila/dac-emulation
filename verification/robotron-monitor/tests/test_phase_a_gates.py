@@ -195,5 +195,44 @@ class PhaseAGateTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'reported periodicity differs'):
                 phase_a_gates.verify_settling_evidence(claimed,{'input':'trace.raw'},'selection','metadata')
 
+    def test_g6_requires_independent_unchanged_circuit_trials(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            base=root/'base'/'trace.raw';base.parent.mkdir();base.write_bytes(b'base')
+            base_meta={'period_s':.0195,'simulated_fields':4,'source_kind':'schematic-derived-logical',
+                       'candidate':{'id':'t3-test'},'parameters':{'yoke_horizontal_l':.004},
+                       'yoke':{'profile':'test'},'max_step_s':100e-9,'initial_voltage_guesses':{},
+                       'experiment':{'capture_sha256':'a'*64,'source_content_sha256':'b'*64,
+                                     'assembly_hashes':{'sheet':'c'*64}}}
+            def variant(name,step,initial):
+                path=root/name/'trace.raw';path.parent.mkdir();path.write_bytes(name.encode())
+                metadata=copy.deepcopy(base_meta)
+                metadata['max_step_s']=step;metadata['initial_voltage_guesses']=initial
+                deck=b'completed test deck';(path.parent/'run.cir').write_bytes(deck)
+                sha=hashlib.sha256(deck).hexdigest()
+                metadata['experiment']['deck_sha256']=sha
+                (path.parent/'metadata.json').write_text(json.dumps(metadata))
+                (path.parent/'solve.json').write_text(json.dumps({'status':'complete','deck_sha256':sha}))
+                return path,metadata
+            half,_=variant('half',50e-9,{})
+            second,second_meta=variant('second',100e-9,{'h_hot':100.})
+            evidence={'electrical_refinement':{'half_timestep_trace':str(half),
+                                               'second_initialization_trace':str(second)}}
+            score={'input':str(base)}
+            comparison={'relative_rms_error':{name:.005 for name in phase_a_gates.steady_acceptance.NAMES}}
+            with mock.patch.object(phase_a_gates.steady_acceptance,'compare',return_value=comparison) as compare:
+                phase_a_gates.verify_electrical_refinement(evidence,score,base_meta)
+                self.assertEqual(compare.call_count,2)
+                self.assertEqual(evidence['electrical_refinement']['half_timestep_relative_error'],.005)
+                second_meta['initial_voltage_guesses']={}
+                (second.parent/'metadata.json').write_text(json.dumps(second_meta))
+                with self.assertRaisesRegex(ValueError,'repeats the same initialization'):
+                    phase_a_gates.verify_electrical_refinement(evidence,score,base_meta)
+                second_meta['initial_voltage_guesses']={'h_hot':100.}
+                second_meta['parameters']['yoke_horizontal_l']=.008
+                (second.parent/'metadata.json').write_text(json.dumps(second_meta))
+                with self.assertRaisesRegex(ValueError,'changes the source or circuit'):
+                    phase_a_gates.verify_electrical_refinement(evidence,score,base_meta)
+
 
 if __name__=='__main__':unittest.main()
