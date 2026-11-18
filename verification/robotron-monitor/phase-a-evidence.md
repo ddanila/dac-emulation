@@ -369,7 +369,7 @@ and the cross-hatch 38,345 (SHA-256
 ## Open Phase A work
 
 The five voting BOM and five manual text passes are complete. Per-entry
-reconciliation has 34 open parts, and human schematic review has six open
+reconciliation has 33 open parts, and human schematic review has six open
 pages. The gate contract exists, but the stage and
 full-frame evidence producers for geometry, refinement and readability belong
 to Phase B. This document does not assert Phase A completion or a qualified frame.
@@ -411,19 +411,20 @@ An `unresolved` mark is valid only after the inventory entry itself is marked
 unresolved. Schematic marks cover pages 3–4, 9–10, 16 and 18 and must record
 KiCad connectivity, diode direction and winding polarity review. Marks bind to
 the inventory entry, source PDF and current KiCad tree hashes; edits invalidate
-stale marks. The current template from five voting vision passes
-fails the gate with 34 open parts and six open schematic pages, as intended.
-It is `build/monitor/phase-a/source-review-template-five-voting-20261118.json`;
+stale marks. The current template from five voting vision passes and the
+page-15 source correction fails the gate with 33 open parts and six open
+schematic pages, as intended.
+It is `build/monitor/phase-a/source-review-template-page15-corrected-v2-20261118.json`;
 the matching gate report is
-`build/monitor/phase-a/source-review-gate-five-voting-20261118.json`. No human
+`build/monitor/phase-a/source-review-gate-page15-corrected-v2-20261118.json`. No human
 marks have been entered.
 
-After the third full-page vision pass and both crop passes on 2026-11-18, 226
+After the third full-page vision pass and both crop passes on 2026-11-18, 227
 entries had three agreeing readings per applicable table cell, matched the
-inventory's value or type and had no identified source conflict. The other 34
+inventory's value or type and had no identified source conflict. The other 33
 remain open: page 6 C11/C18, page 8 T1, page 12 L4/L5/L6, page 14 R26,
-20 device/fuse entries on page 15, and seven entries found only on schematics. The local
-`build/monitor/phase-a/inventory-audit.json` names every open entry and its
+19 device/fuse entries on page 15, and seven entries found only on schematics. The local
+`build/monitor/phase-a/inventory-audit-after-page15-correction-v2.json` names every open entry and its
 individual OCR readings; the completed parts-list crop passes are included in
 `build/monitor/phase-a/ocr-workflow/review.zip`. These are review aids, not
 human review marks. The five manual text passes are complete. An extra
@@ -443,17 +444,26 @@ fabrications. The audit records any `alt2` reading under `review_only_passes`
 without letting it create a third agreeing pass. The primary, 300 DPI,
 alternate-model and two crop vision runs remain the five voting vision passes.
 On page 15, the source spans the 1 AE 15 diode designator list over four lines
-and leaves its quantity cell blank; the vision passes split and reassign parts
+and prints `13` in its quantity column after V12. The vision passes split and reassign parts
 of that group differently. They also disagree around V3/V15 and the following
 transistor rows. Those entries need direct source inspection rather than a
 parser rule that would convert an OCR grouping guess into agreement.
-Direct magnification reveals an inconsistency in the printed list itself:
-the 1 AE 15 diode group includes a bare `13` after V12, while a later row
-explicitly lists V13 with V26 as KFY 18 transistors. The same diode group's
+Direct magnification resolves the supposed V13 conflict: `13` is the diode
+group quantity, not a designator. A separate row lists V13 with V26 as KFY 18
+transistors, and the three agreeing OCR passes can now confirm V13. The diode group's
 V19–V25 range includes V22, which appears as a converter power device in the
 schematic and page-20 auxiliary waveform. The review must resolve these
-duplicate designators against the schematic; neither OCR nor the inventory
-can adjudicate them on its own.
+V22 readings against the schematic; neither OCR nor the inventory can
+adjudicate them on its own.
+The same source page prints the fuse designator `P1`, also visible at the
+series input fuse on schematic PDF page 9 and read by the 300 DPI vision pass,
+the left-crop pass and classic table OCR. The inventory, KiCad
+`SourceId` and unsupported atlas target previously called it `F1`; they now
+use `012-6931:P1`. Two vision passes read `F1`, so P1 remains in source review
+rather than being promoted by a simple majority. The audit's designator
+matcher now includes `P`, exposing the 300 DPI, left-crop and classic OCR P1
+readings to reviewers; their descriptions and stock numbers still lack three
+complete agreeing votes.
 
 The first direct source correction is V14 on board 012-6921: the printed
 page-8 type is `1 YL1/2`, correcting the inventory's earlier `1YL/2` spelling.
