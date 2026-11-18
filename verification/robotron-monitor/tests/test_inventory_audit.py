@@ -23,7 +23,7 @@ class InventoryAuditTests(unittest.TestCase):
             self.assertEqual(rows[1]['references'], ['V7', 'V8', 'V9'])
             self.assertFalse(rows[2]['quantity_consistent'])
 
-    def test_machine_agreement_still_requires_inventory_comparison(self):
+    def test_machine_agreement_is_checked_against_inventory(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             inventory = json.loads(inventory_audit.INVENTORY.read_text())
@@ -34,7 +34,8 @@ class InventoryAuditTests(unittest.TestCase):
             report = inventory_audit.audit(inventory, root)
             point = next(e for e in report['entries'] if e['id'] == '012-6921:A1')
             self.assertEqual(point['exact_agreement_passes'], ['primary', 'r300', 'alt'])
-            self.assertEqual(point['status'], 'needs-inventory-comparison')
+            self.assertTrue(point['inventory_value_or_type_matches'])
+            self.assertEqual(point['status'], 'confirmed-by-3-passes')
             self.assertEqual(report['inventory_entries'], 260)
 
     def test_different_stock_number_breaks_agreement(self):
@@ -51,6 +52,37 @@ class InventoryAuditTests(unittest.TestCase):
             point = next(e for e in report['entries'] if e['id'] == '012-6921:A1')
             self.assertEqual(len(point['exact_agreement_passes']), 2)
             self.assertEqual(point['status'], 'needs-source-review')
+
+    def test_semicolon_delimited_vision_pass_is_parsed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'page_006.alt.csv'
+            path.write_text('Kurzzeichen;Stückzahl;Benennung;Sachnummer\n'
+                            'C1, C3;2;KT-Kondensator 100/10/630;0.7745 3400.0/90\n')
+            row = list(inventory_audit._readings(path))[0]
+            self.assertEqual(row['references'], ['C1', 'C3'])
+            self.assertEqual(row['description'], 'KT-Kondensator 100/10/630')
+            self.assertEqual(row['article'], '0.7745 3400.0/90')
+
+    def test_agreed_wrong_value_stays_for_review(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            inventory = json.loads(inventory_audit.INVENTORY.read_text())
+            for tag in ('', '.r300', '.alt'):
+                (root / f'page_006{tag}.csv').write_text(
+                    'Kurzzeichen,Stückzahl,Benennung,Sachnummer\n'
+                    'C1,1,KT-Kondensator 220/10/630,0.7745 3400.0/90\n')
+            report = inventory_audit.audit(inventory, root)
+            point = next(e for e in report['entries'] if e['id'] == '012-6921:C1')
+            self.assertFalse(point['inventory_value_or_type_matches'])
+            self.assertEqual(point['status'], 'needs-inventory-comparison')
+
+    def test_resistor_match_requires_the_printed_ohms(self):
+        part = next(p for p in json.loads(inventory_audit.INVENTORY.read_text())['parts']
+                    if p['id'] == '012-6931:R30')
+        reading = {'description': 'Schichtwiderstand SWF 100 Ohm 5 %', 'article': None}
+        self.assertTrue(inventory_audit._printed_value_matches(part, reading))
+        reading['description'] = 'Schichtwiderstand SWF 10 Ohm 5 %'
+        self.assertFalse(inventory_audit._printed_value_matches(part, reading))
 
 
 if __name__ == '__main__':

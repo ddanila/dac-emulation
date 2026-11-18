@@ -111,14 +111,22 @@ python3.14 verification/robotron-monitor/inventory_audit.py \
   --output build/monitor/phase-a/inventory-audit.json
 ```
 
-After the two full-page vision passes and the classic table pass available on
-2026-11-18, 11 entries had three identical machine descriptions and stock
-numbers awaiting inventory comparison; 242 parts-list entries still needed more source evidence
-or review, and seven schematic-only entries needed schematic review. These
-counts are interim and will change as the remaining vision passes finish.
+After the third full-page vision pass available on 2026-11-18, 161 entries had
+three identical machine descriptions and stock numbers that also matched the
+inventory's value or type; 92 parts-list entries still needed more source
+evidence or review, and seven schematic-only entries needed schematic review.
+These counts are interim and will change as the crop passes finish.
 
 The first direct source correction is V14 on board 012-6921: the printed
 page-8 type is `1 YL1/2`, correcting the inventory's earlier `1YL/2` spelling.
 The page-12 C26 label `EDVU-N470-220/10-63` has also been checked against its
 source image; `N470` is part of the printed type code, so the 220 pF inventory
 value is not treated as an OCR disagreement.
+
+The audit found a material board-value error on page 14: R30 on 012-6931 is
+100 Ω, not the inventory's 10 Ω. The inventory and KiCad converter part R819
+now use 100 Ω. The old `converter-step-audit-decks` are archived experiments
+with 10 Ω, not current reference-model results; they require a new converter
+run before their numerical behavior is reused. Page-12 L4/L5/L6 remain in the
+source-review queue because the scanned microhenry glyph is consistently read
+as `M` by OCR; machine agreement does not settle the unit.

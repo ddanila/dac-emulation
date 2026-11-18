@@ -25,6 +25,7 @@ class ConverterTests(unittest.TestCase):
             self.assertFalse(report['coverage']['full_monitor_qualified'])
             self.assertEqual(parts['012-6931:C8']['value'], '47u')
             self.assertEqual(parts['012-6931:C9']['value'], '3.3n')
+            self.assertEqual(parts['012-6931:R30']['value'], '100')
             self.assertEqual(parts['012-6931:T1']['nodes'],
                              ['p12_filtered','switch_collector','t1_8','t1_7','0','t1_5'])
             self.assertEqual(parts['012-6931:A1']['nodes'],
