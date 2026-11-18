@@ -24,7 +24,7 @@ class CalibrationContractTests(unittest.TestCase):
                     t=i*1e-6;phase=t%62.5e-6
                     writer.writerow((t,70. if phase<6e-6 else 0.,
                                      45. if phase<6e-6 else 0.,
-                                     0. if phase<6e-6 else 90.))
+                                     0. if phase<6e-6 else 80.))
             score=service_score.score(path,required={14,15,17})
             self.assertEqual(score['required_failures'],[])
             graph=json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())

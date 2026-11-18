@@ -37,6 +37,28 @@ period, numeric pulse width where printed, measured DC and a polarity hint;
 drawn waveform shape still requires visual review. The scorer never fits model
 parameters.
 
+The first operating-manual vision pass exposed a TP17 transcription error:
+page 21 shows **80 Vpp** at V14's cathode, not the earlier register's 90 Vpp.
+Direct inspection of the page image and an independent classic OCR crop both
+read 80 Vpp; the first vision pass read 60 Vpp, so the multi-pass review remains
+open. Page 20 also has a handwritten `9a` waveform below the printed 1–8 set,
+annotated 22 and 10 Vpp at V22's collector. The register preserves it as an
+auxiliary observation. Its converter node is excluded from Phase B's ideal-rail
+stages, so it is not silently treated as one of the numbered 1–17 score points.
+The point-8 figure additionally labels R48/V20 and approximately 10 Vpp below
+zero; its relationship to X2:3 is left for schematic review.
+
+The first text pass of manual pages 17 and 30–32 added two setup constraints
+that the earlier register missed: page 17 prints a horizontal-generator control
+range of 14.338–16.338 kHz, and page 30 limits the just-visible raster meter
+rise to 0.1 mV above darkness before the 3.6 mV maximum-beam setting. The
+register now records both and the full meter sequence. Page 15's explanation
+swaps the upper/lower roles of R59 and R60 relative to page 32's adjustment
+instructions and carries a handwritten correction mark. That conflict is
+explicitly left for schematic and control review. The printed upper frequency
+bound is about 2.1% above 16 kHz, narrower than Phase B's proposed +3% margin;
+the B2 criterion needs reconciliation with the source, not an invented pass.
+
 Stage runs on the vertical and horizontal profiles write `service-score.json`
 automatically. Every completed connected candidate now writes the same score
 for its final simulated field; the coupled and refinement/initialisation
