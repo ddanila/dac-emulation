@@ -26,7 +26,7 @@ class HorizontalOscillatorTests(unittest.TestCase):
                 self.assertGreater(len(times),20)
                 period=statistics.median(b-a for a,b in zip(times,times[1:]))
                 self.assertGreater(max(v[3] for v in selected)-min(v[3] for v in selected),10)
-                self.assertEqual(r['coverage']['connected'],39)
+                self.assertEqual(r['coverage']['connected'],40)
                 self.assertFalse(r['coverage']['full_monitor_qualified'])
                 self.assertNotIn('PULSE(', (out/'run.cir').read_text())
                 self.assertNotIn('SIN(', (out/'run.cir').read_text())

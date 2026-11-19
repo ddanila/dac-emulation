@@ -68,6 +68,43 @@
       "argument": "Both independent page views show the C18 row as 10/20/100. The 10 µF nominal value and 20% tolerance match the inventory; 100 is the printed voltage rating."
     },
     {
+      "id": "012-6921:R41",
+      "source_page": 3,
+      "frame_path": true,
+      "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "inventory_entry_sha256": "1af3d5d80cd96713a209173b1c369b28bd5be2a90dd87f7d054883093f578436",
+      "decision": "class-typical",
+      "reading": "Annotated R43 thermistor between R25 and R24; no value printed",
+      "independent_reads": [
+        {
+          "reading": "Annotated R43 thermistor between R25 and R24; no value printed",
+          "method": "agent visual read of 300-dpi source crop",
+          "image_path": "build/monitor/phase-a/page3-r41-300.png",
+          "crop_sha256": "437d44806cf08a830ab5b55629c732e8248f65d9fa1679c173b54b50c9b01402",
+          "resolution_px": [750, 1050]
+        },
+        {
+          "reading": "Annotated R43 thermistor between R25 and R24; no value printed",
+          "method": "agent visual read of independently cropped 600-dpi source image",
+          "image_path": "build/monitor/phase-a/page3-r41-focus600.png",
+          "crop_sha256": "b957fea1a56ddc31b6bbc3c39af06f556f31363ea58c2d9f0b418b8b4b807931",
+          "resolution_px": [1300, 1600]
+        },
+        {
+          "reading": "Annotated R43 thermistor between R25 and R24; no value printed",
+          "method": "agent visual read of direct 900-dpi PDF render crop",
+          "image_path": "build/monitor/phase-a/page3-r43-label900.png",
+          "crop_sha256": "ac4591dfba2b300b0b29e384ee9ef5eefc3bb9fdc2b185d543408eb29f538845",
+          "resolution_px": [500, 800]
+        }
+      ],
+      "crop_sha256": "437d44806cf08a830ab5b55629c732e8248f65d9fa1679c173b54b50c9b01402",
+      "typical_value": 470,
+      "typical_bounds": [100, 2000],
+      "typical_source": "older.pdf page 3 annotated R43 series topology; older-operation.pdf page 17 R41 temperature-compensation role; documented 012-6921:R13 470-ohm thermistor in the same bias chain (older.pdf page 7)",
+      "argument": "Both page-3 crops show an upper thermistor labelled R43 between R25 and R24, with no numeric value. Manual page 17 calls the temperature-compensation part R41, while the page-8 BOM skips R41. Model their correspondence as a provisional class-typical hypothesis, not a confirmed factory designator map. Use a fixed-temperature 470-ohm equivalent, bounded 100..2000 ohms, from same-chain documented R13. The isolated stage bench moves control/reactance by 3.4% and secondary by 11.7% at 100 ohms versus nominal, and control/reactance by about 11% at 2000 ohms; bounds stay exposed. The page-3 schematic connection review remains open."
+    },
+    {
       "id": "012-6921:T1",
       "source_page": 8,
       "frame_path": true,
