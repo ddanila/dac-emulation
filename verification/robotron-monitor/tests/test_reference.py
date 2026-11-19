@@ -100,7 +100,7 @@ class NeckBenchTests(unittest.TestCase):
         rows=reference.read_samples(self.directory/'low-gain/samples.txt',self.profile['probes'],0,.0004,2e-7)
         self.assertLess(self.at(rows,150e-6)[4],self.at(rows,50e-6)[4]-20)
         self.assertEqual(report['parameters']['q_bf'],18)
-        self.assertEqual(report['uncertainty']['q_bf']['nominal'],60)
+        self.assertEqual(report['uncertainty']['q_bf']['nominal'],26)
         with self.assertRaises(FileExistsError): reference.run(self.profile_path,self.directory/'low-gain')
 
 

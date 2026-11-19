@@ -1,8 +1,18 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; V18/V21 and V27/V28 candidate model bounds recorded",
+  "status": "partial; V18/V21, V27/V28 and neck V1 candidate model bounds recorded",
   "sources": {
+    "ddr_ssy20_bsy34": {
+      "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
+      "sections": ["SSY 20", "BSY 34"],
+      "use": "SSY20 group-A h21E 18..35 at IC=500 mA/VCE=1.3 V, VCEsat <=1 V at IC=500 mA/IB=50 mA, ton <=50 ns and toff <=100 ns with 80-ohm load; BSY34 comparison has fT >=250 MHz at IC=30 mA/VCE=10 V"
+    },
+    "ddr_si_transistor_list": {
+      "url": "https://www.alphacron.de/download/hardware/ddr_si_transistoren.pdf",
+      "section": "SSY 20",
+      "use": "Period transistor comparison list names BSY34 as the SSY20 counterpart; fT is not stated for SSY20 itself"
+    },
     "st_bu508af": {
       "url": "https://www.st.com/resource/en/datasheet/bu508af.pdf",
       "revision": "August 2007 Rev 2",
@@ -40,6 +50,25 @@
     }
   },
   "devices": [
+    {
+      "id": "012-6891:V1",
+      "candidate_class": "printed SSY20A silicon NPN switching transistor; group A inferred from suffix",
+      "identity_tier": "documented printed type; group-to-suffix mapping inferred",
+      "model": "SSY20A_BOUND",
+      "model_file": "circuits/k7222-11-neck-models.cir",
+      "profile": "profiles/k7222-11-neck.json",
+      "parameters": {
+        "BF": {"profile_key": "q_bf", "nominal": 26, "bounds": [18, 34.7], "basis": "Low-injection BF proxy mapped against SSY20 group-A h21E 18..35 at IC=500 mA/VCE=1.3 V with neck_transistor_check.py; suffix mapping and other model parameters remain provisional"}
+      },
+      "comparison_targets": {
+        "h21E": {"range": [18, 35], "conditions": "IC=500 mA, VCE=1.3 V; SSY20 group A", "source": "DDR-Halbleiter SSY20 section"},
+        "VCEsat_v": {"maximum": 1, "conditions": "IC=500 mA, IB=50 mA", "source": "DDR-Halbleiter SSY20 section"},
+        "turn_on_s": {"maximum": 5e-8, "conditions": "IC=500 mA, IB(on)=50 mA, reverse IB(off)=25 mA, RL=80 ohm", "source": "DDR-Halbleiter SSY20 section"},
+        "turn_off_s": {"maximum": 1e-7, "conditions": "same resistive switching test", "source": "DDR-Halbleiter SSY20 section"},
+        "fT_hz": {"minimum": 2.5e8, "conditions": "BSY34 comparison, IC=30 mA, VCE=10 V, f=100 MHz; not a direct SSY20 specification", "source": "DDR-Halbleiter BSY34 section and DDR silicon transistor comparison list"}
+      },
+      "remaining": ["Measure switching under the data-sheet 80-ohm/500-mA conditions", "Measure model fT and bound TF/CJE/CJC against the BSY34 comparison", "Source or explicitly class-bound IS, VAF and TR; sweep neck-stage sensitivity"]
+    },
     {
       "id": "012-6921:V18",
       "candidate_class": "NPN CRT horizontal-deflection output transistor",

@@ -1109,9 +1109,10 @@ T3 open as a part entry. A2 remains partial for these devices.
 
 ### Partial class-typical register (2026-11-19)
 
-`reference/k7222-11/class-typical-register.json` consolidates 15 currently
-cited bounded entries: the V18/V21/V27/V28 semiconductor candidates, comparable
-service-scope values, a B31-G family neck outside diameter, the provisional
+`reference/k7222-11/class-typical-register.json` consolidates 16 currently
+cited bounded entries: the V18/V21/V27/V28 and neck V1 semiconductor
+candidates, comparable service-scope values, a B31-G family neck outside
+diameter, the provisional
 R41 value and the external brightness-pot range. Each entry identifies its
 stage, source, bounds and model location. The file stays `partial`: fixed SPICE
 parameters, tube emission/heater properties, T3 parasitics, yoke sensitivity
@@ -1119,3 +1120,29 @@ and other assembly assumptions still lack appropriate class sources or
 design-derived bounds. Its proxy transit-time rows do not establish measured
 recovery or transistor switching times. A6 is therefore not closed, and B8
 cannot treat the register as a complete sensitivity basis.
+
+### Neck SSY20A data-sheet DC comparison (2026-11-19)
+
+The page-16 inventory prints `SSY20A` for neck-board V1. The
+[SSY20 data sheet archived in DDR-Halbleiter](https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf)
+gives group-A h21E 18–35 at 500 mA/1.3 V, VCEsat at most 1 V at 500 mA/50 mA
+base current, and 50 ns turn-on and 100 ns turn-off maxima under a specified
+80-ohm switching test. Mapping the printed `A` suffix to group A is an
+inference. A [period DDR transistor list](https://www.alphacron.de/download/hardware/ddr_si_transistoren.pdf)
+names BSY34 as the SSY20 comparison type; the archived BSY34 data sheet gives
+fT at least 250 MHz at 30 mA/10 V. That fT value is a comparison target, not
+a direct SSY20 specification.
+
+`neck_transistor_check.py` solves the live neck-model transistor with ngspice
+at the SSY20 gain and saturation biases. Its saved
+`reference/k7222-11/ssy20-model-dc-check.json` records h21E 18.14, 26.21 and
+34.98 for the lower, nominal and upper BF candidates (18, 26 and 34.7),
+respectively. At 50 mA base drive with a 40 V/80-ohm load, the same cases carry
+about 499 mA collector current and 0.085, 0.077 and 0.073 V collector voltage.
+The upper BF was reduced from the data-sheet h21E upper endpoint of 35 because
+BF is a low-injection model parameter: BF=35 produced h21E 35.28 at the stated
+bias. These DC checks justify only the bounded BF proxy and saturation response
+of this model; switching times, fT and the other assumed transistor parameters
+still need A2 review. The page-16 isolated stage check was regenerated with
+BF=26 and still passes; bright-video collector voltage changes from about
+0.72 V to 0.77 V. The CRT emission and C15 observation gap remains open in A1.
