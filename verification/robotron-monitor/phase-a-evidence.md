@@ -927,6 +927,17 @@ interconnect file. Page 18 still needs a KiCad-export comparison and
 functional settlement of any differences before the A1 netlist gate can
 close. This transcription also cannot settle T3's internal winding order.
 
+`page18_frame_compare.py` now compares the two frame-path neck cables against
+freshly exported ideal-rail KiCad components and the neck pin map. The saved
+`reference/k7222-11/page18-frame-comparison.json` records all eight pin pairs:
+six signal nets occur on both board sheets. `INTENS` is absent on the main-board
+KiCad sheet because its contrast path is assembled outside that sheet;
+`10.7P` is absent on the neck sheet because the held heater branch is assembled
+outside it. This is a semantic comparison, not the independent pin-to-pin
+KiCad diff required by A1: the authored sheets do not export physical connector
+pin symbols. The other ten cable pairs, panel controls and yoke connections
+also remain to be compared. The page-18 gate therefore stays open.
+
 ### Vertical output transistor model bounds (2026-11-19)
 
 The printed page-10 vertical output is provisionally modeled as upper NPN
