@@ -191,8 +191,11 @@ simulation, and write `design-point.json`:
 - rail voltage and the trace/retrace ratio give the collector flyback peak;
 - that peak and 11–12 kV give the high-voltage ratio, through the rectifier
   arrangement drawn;
-- test points 14, 15 and 17 give the auxiliary winding ratios;
-- picture size, tube geometry and high voltage give the peak yoke currents;
+- test points 14 and 17 constrain the feedback and rectified flyback paths
+  after their source connections are settled; test point 15 is the V13 driver
+  collector and checks drive, not a winding ratio;
+- picture size, tube/yoke geometry, field per ampere and high voltage give
+  the peak yoke currents;
 - the vertical yoke values follow the same way from test points 1–8.
 
 Replace the placeholder T3 values and fourfold bounds with these values and
