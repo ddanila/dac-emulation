@@ -16,8 +16,14 @@ of a real monitor. The only inputs are:
 
 Every reading, connection and decision is made by an agent and recorded with
 its evidence. No gate may require a human mark, a named reviewer or a bench
-reading. Every decision point below has a default, so the work always ends in
-a frame with an honest label.
+reading.
+
+**The work never stops to ask.** Every decision point below has a default.
+When a stage cannot be made to pass, it is replaced by a labelled equivalent
+and the work moves on (see "Fallbacks"). The outcome is always a frame with an
+honest label. This rule was confirmed by the project owner on 2026-11-19 and
+applies to anything this plan did not foresee: take the option that keeps the
+frame closest to the documented circuit, record it, and continue.
 
 ## Goal
 
@@ -237,8 +243,14 @@ stage's transcription against the page images and (b) a sweep of its
 - **After A1, more than about 10% of frame-path entries changed:** re-run the
   existing stage benches before B1.
 
-Every equivalent stage is named in the result label and in the B8 report. The
-work continues; it does not stop to ask.
+- **Anything else:** a blocker with no entry here gets the same treatment.
+  Record what failed and what was tried, substitute the smallest equivalent
+  that reproduces the documented behaviour at that stage's boundary, and
+  continue.
+
+Every equivalent stage is named in the result label and in the B8 report. An
+equivalent stage is not final: if a later re-read or stage result explains the
+failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-19)
 

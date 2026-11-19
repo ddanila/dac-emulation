@@ -1,7 +1,13 @@
 # Robotron monitor circuit lab
 
-The current [single-frame plan](PLAN.md) defines the .11/.21 Phase A reference
-method and supersedes older acceptance blocker lists where they disagree.
+The current [single-frame plan](PLAN.md) defines the .11/.21 reference method
+and supersedes older acceptance blocker lists where they disagree. It was
+revised on 2026-11-19: the emulator is built with no human in the loop and no
+measurement of a real monitor, using only the documents and general CRT
+engineering knowledge. Statements below and in the linked files that a step
+waits for human review, or that work must stop for a decision, are superseded;
+the tool changes that remove those requirements are the plan's step A3 and
+are not yet made.
 [Phase A evidence and current work](phase-a-evidence.md) records the verified
 manual sources, all 17 service points, the native full-text capture and the
 remaining source audit. `service_score.py` measures the named points in any
