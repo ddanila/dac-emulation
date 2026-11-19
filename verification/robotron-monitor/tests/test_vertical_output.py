@@ -50,7 +50,7 @@ class VerticalOutputTests(unittest.TestCase):
         p=json.loads((ROOT/'profiles/k7222-11-vertical-output.json').read_text())
         with tempfile.TemporaryDirectory() as tmp:
             f=Path(tmp)/'profile.json'
-            for bad in [['/etc/passwd'],['../outside.cir'],['devices/lm709-family.cir']*2,
+            for bad in [['/etc/passwd'],['../outside.cir'],['devices/p09a-equivalent.cir']*2,
                         [p['models']],['circuits/k7222-11-neck.kicad_sch'],None,[3]]:
                 p['additional_models']=bad;f.write_text(json.dumps(p))
                 with self.assertRaises(ValueError):reference.read_profile(f)

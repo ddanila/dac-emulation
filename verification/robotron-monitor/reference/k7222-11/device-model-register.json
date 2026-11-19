@@ -1,8 +1,9 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; fifteen individual devices, six horizontal diode instances, fourteen 1AE15 instances, eight 1AD50 instances and two KFY18 instances have provisional bounds",
+  "status": "partial; sixteen individual devices, six horizontal diode instances, fourteen 1AE15 instances, eight 1AD50 instances and two KFY18 instances have provisional bounds",
   "sources": {
+    "ti_lm709c": {"url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf", "revision": "National Semiconductor / TI SNOS659A", "pages": [2, 3, 4], "use": "LM709C class comparator at +/-15 V: minimum 15 V/mV large-signal gain, +/-10 V minimum output swing into 2 kohm, 2.6 mA typical/6.6 mA maximum supply current, 300 nA typical/1.5 uA maximum bias, 50 kohm minimum/250 kohm typical input resistance, 150 ohm typical output resistance and 0.25 V/us typical slew. The K7222.11 printed P09A is not identified as LM709."},
     "robotron_pc1715_ic_crossref": {"file": "reference/k7222-11/pc1715-ic-crossref.json", "use": "A separate Robotron PC 1715 service-manual table pairs MAA723H with uA723. K7222.11 prints MAA723 without the H suffix; family comparison only."},
     "ti_ua723": {"url": "https://www.ti.com/lit/ds/symlink/ua723.pdf", "revision": "SLVS057D, July 1999", "pages": [1, 3], "use": "uA723C comparator: 6.8–7.5 V reference at 25 C, 2.3 mA typical/4 mA maximum standby at 30 V, 9.5–40 V input range, and 150 mA output capability. Behavioral error-amplifier parameters are fitted proxies, not internal specifications."},
     "ti_lm723": {"url": "https://www.ti.com/lit/ds/symlink/lm723.pdf", "revision": "SNVS765C, April 2013", "pages": [2, 3, 4], "use": "10-pin metal-can functional pin contract; 1.7 mA typical standby and 0.2% maximum 1–50 mA load regulation for LM723C at the stated 5 V test fixture. Comparable 723 family, not an MAA723 identification."},
@@ -744,6 +745,41 @@
         "TT_s": {"spice_parameter": "TT", "nominal": 1e-7, "bounds": [1e-7, 2.5e-6], "basis": "provisional transit-time proxy bracketed by Rectron 0.1 us and Semtech 2.5 us reverse-recovery specifications under different test currents; model recovery must be measured, because SPICE TT is not t_rr"}
       },
       "remaining": ["Resolve the remaining T3 tap/return map against an independent page-4 netlist", "Measure reverse recovery of the SPICE candidate at both data-sheet test conditions", "Bound unexamined IS, N and RS and sweep diode capacitance/recovery sensitivity"]
+    },
+    {
+      "id": "012-6931:A3",
+      "printed_type": "P09A",
+      "candidate_class": "labelled functional equivalent bounded against the National/TI LM709C operational-amplifier class",
+      "identity_tier": "class-typical comparator; printed P09A electrical identity unverified",
+      "model": "P09A_EQUIV",
+      "model_file": "devices/p09a-equivalent.cir",
+      "profile": "profiles/k7222-11-vertical-output.json",
+      "sources": ["ti_lm709c"],
+      "source_connection": "older.pdf page 10 active physical pins and C26/R54/C27 compensation agree with the 15-terminal page10-a3-comparison.json; this verifies connections, not IC identity",
+      "parameters": {
+        "error_gm": {"nominal": 0.5, "bounds": [0.1, 1], "unit": "S", "basis": "equivalent transconductance; with RDOM gives 45,000 V/V nominal internal gain, not a factory gm"},
+        "error_current_limit": {"nominal": 0.00125, "bounds": [0.0005, 0.002], "unit": "A", "basis": "equivalent charging-current limit selected with CINT to reproduce the LM709C-class 0.25 V/us typical step slew"},
+        "dominant_resistance": {"nominal": 90000, "bounds": [30000, 150000], "unit": "ohm", "basis": "equivalent gain-setting resistance; no internal resistance specification"},
+        "dominant_capacitance": {"nominal": 5e-9, "bounds": [2e-9, 10e-9], "unit": "F", "basis": "equivalent dominant capacitor required to bound step slew while preserving the source external compensation; not die capacitance"},
+        "comp_port_resistance": {"nominal": 1, "bounds": [0.1, 100], "unit": "ohm", "basis": "numerical near-short between functional compensation ports and equivalent internal nodes; not an IC pin resistance"},
+        "output_headroom": {"nominal": 2, "bounds": [1, 5], "unit": "V", "basis": "rail-headroom proxy spanning LM709C minimum +/-10 V and typical +/-13 V output swing at +/-15 V with 2 kohm load"},
+        "output_resistance": {"nominal": 150, "bounds": [75, 300], "unit": "ohm", "basis": "LM709C typical 150-ohm output resistance, represented by rail-powered current-drive slope"},
+        "output_current_limit": {"nominal": 0.02, "bounds": [0.005, 0.05], "unit": "A", "basis": "bounded equivalent output-drive ceiling; at least 5 mA follows from the minimum 10 V/2 kohm swing, but no short-circuit limit is established"},
+        "quiescent_current": {"nominal": 0.0026, "bounds": [0.001, 0.0066], "unit": "A", "basis": "LM709C 2.6 mA typical and 6.6 mA maximum supply current at +/-15 V, with an unsourced lower class bound"},
+        "input_bias_current": {"nominal": 3e-7, "bounds": [0, 1.5e-6], "unit": "A", "basis": "LM709C 300 nA typical and 1.5 uA maximum input bias at 25 C"},
+        "input_resistance": {"nominal": 250000, "bounds": [50000, 1000000], "unit": "ohm", "basis": "LM709C 50 kohm minimum and 250 kohm typical differential input resistance; upper bound is class uncertainty"},
+        "smooth_current": {"nominal": 1e-6, "bounds": [1e-8, 1e-5], "unit": "A", "basis": "equivalent output-driver differentiability scale; numerical smoothing only, not a physical current"}
+      },
+      "comparison_targets": {
+        "large_signal_gain": {"minimum": 15000, "conditions": "+/-15 V rails, 2 kohm load, +/-10 V output; isolated check uses a +/-1 uV small-signal gain proxy and does not reproduce the large-signal test"},
+        "output_swing_v": {"minimum_magnitude": 10, "conditions": "+/-15 V rails, 2 kohm load, 25 C"},
+        "supply_current_a": {"typical": 0.0026, "maximum": 0.0066, "conditions": "+/-15 V rails, 25 C"},
+        "input_bias_a": {"typical": 3e-7, "maximum": 1.5e-6, "conditions": "25 C"},
+        "slew_v_per_s": {"typical": 250000, "conditions": "LM709C unity-gain compensation; isolated abrupt-step proxy"}
+      },
+      "model_response_report": "reference/k7222-11/p09a-equivalent-class-check.json",
+      "stage_diagnostic_report": "reference/k7222-11/vertical-a3-loaded-stage-diagnostic-p09a-equivalent.json",
+      "remaining": ["P09A factory identity and electrical spread remain unknown", "The model is a labelled equivalent, not the LM709 15-transistor die or a thermal/SOA model", "Connected vertical stage presently misses TP8 and periodic Y1 reset; inspect source and record a qualified boundary-stage result", "Run joint parameter-bound sensitivity, check output current under the page-10 bias load, and account for the equivalent internal ground-referenced control node"]
     },
     {
       "id": "012-6931:V3",

@@ -290,7 +290,7 @@
   ],
   "limitations": [
     "Connected vertical stage only; external ideal 12/+22/-16 V supplies and synthetic sync.",
-    "A3 uses manufacturer LM709 topology with assumed generic transistor parameters; not a verified P09A equivalent.",
+    "A3 uses a labelled LM709C-class functional equivalent; P09A identity and connected-stage waveform qualification remain unverified.",
     "V27/V28 factory identities and yoke R/L unresolved. Handwritten page-10 BD140 by upper V27 and BD139 by lower V28 conflict with the modeled NPN/PNP polarity from the printed output stage; class-typical gains and transit times do not settle that conflict.",
     "No converter, horizontal/flyback, heater, CRT load, thermal or SOA qualification."
   ],
@@ -327,11 +327,11 @@
   ],
   "subcircuits": {
     "MAA723_BOUND": 10,
-    "LM709_FAMILY": 8,
+    "P09A_EQUIV": 8,
     "VERT_POT": 3
   },
   "additional_models": [
-    "devices/lm709-family.cir",
+    "devices/p09a-equivalent.cir",
     "circuits/k7222-11-vertical-output-models.cir"
   ]
 }

@@ -1,0 +1,132 @@
+{
+  "format": "dac-monitor-p09a-equivalent-class-check-v1",
+  "qualification": "isolated LM709C-class comparison of a labelled functional equivalent; not P09A identification or connected-stage qualification",
+  "source": {
+    "url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf",
+    "manufacturer": "National Semiconductor / Texas Instruments",
+    "document": "LM709 Operational Amplifier, SNOS659A",
+    "limits": "LM709C: 15 V/mV minimum gain, +/-10 V minimum output swing at 2 kohm, 6.6 mA maximum standby, 1.5 uA maximum input bias; 0.25 V/us typical slew and 150 ohm typical output resistance"
+  },
+  "model_sha256": "b3283dcda3155ecf232888a82cd999fe8ae1019eb35e5ca51074a21ddf4d6c9e",
+  "setup": {
+    "rails_v": [
+      -15,
+      15
+    ],
+    "load_ohm": 2000,
+    "input_compensation_f": 5e-09,
+    "input_compensation_ohm": 1500,
+    "output_compensation_f": 2e-10,
+    "output_series_ohm": 51
+  },
+  "follower": [
+    {
+      "input_v": -10,
+      "output_v": -9.99964,
+      "positive_supply_current_a": 0.0026,
+      "negative_supply_current_a": 0.007600117,
+      "positive_input_bias_a": 2.98548e-07
+    },
+    {
+      "input_v": -8,
+      "output_v": -7.99976,
+      "positive_supply_current_a": 0.0026,
+      "negative_supply_current_a": 0.00660018,
+      "positive_input_bias_a": 2.99044e-07
+    },
+    {
+      "input_v": -1,
+      "output_v": -0.999975,
+      "positive_supply_current_a": 0.0026,
+      "negative_supply_current_a": 0.003100288,
+      "positive_input_bias_a": 2.99902e-07
+    },
+    {
+      "input_v": 0,
+      "output_v": -1.33997e-09,
+      "positive_supply_current_a": 0.00260067,
+      "negative_supply_current_a": 0.002600972,
+      "positive_input_bias_a": 3e-07
+    },
+    {
+      "input_v": 1,
+      "output_v": 0.9999755,
+      "positive_supply_current_a": 0.00310029,
+      "negative_supply_current_a": 0.0026006,
+      "positive_input_bias_a": 3.00098e-07
+    },
+    {
+      "input_v": 8,
+      "output_v": 7.999761,
+      "positive_supply_current_a": 0.00660018,
+      "negative_supply_current_a": 0.0026006,
+      "positive_input_bias_a": 3.00956e-07
+    },
+    {
+      "input_v": 10,
+      "output_v": 9.999637,
+      "positive_supply_current_a": 0.00760012,
+      "negative_supply_current_a": 0.0026006,
+      "positive_input_bias_a": 3.01452e-07
+    }
+  ],
+  "open_loop": {
+    "-0.01": {
+      "input_v": -0.01,
+      "output_v": -11.7883,
+      "positive_supply_current_a": 0.0026,
+      "negative_supply_current_a": 0.00849473,
+      "positive_input_bias_a": 2.6e-07
+    },
+    "-1e-06": {
+      "input_v": -1e-06,
+      "output_v": -0.0408903,
+      "positive_supply_current_a": 0.00260001,
+      "negative_supply_current_a": 0.002621057,
+      "positive_input_bias_a": 2.99996e-07
+    },
+    "0": {
+      "input_v": 0,
+      "output_v": 0.0,
+      "positive_supply_current_a": 0.0026005,
+      "negative_supply_current_a": 0.0026011,
+      "positive_input_bias_a": 3e-07
+    },
+    "1e-06": {
+      "input_v": 1e-06,
+      "output_v": 0.04089034,
+      "positive_supply_current_a": 0.00262046,
+      "negative_supply_current_a": 0.002600612,
+      "positive_input_bias_a": 3.00004e-07
+    },
+    "0.01": {
+      "input_v": 0.01,
+      "output_v": 11.78826,
+      "positive_supply_current_a": 0.00849413,
+      "negative_supply_current_a": 0.0026006,
+      "positive_input_bias_a": 3.4e-07
+    }
+  },
+  "open_loop_small_signal_gain": 40890.31999999999,
+  "transient_nominal": {
+    "input_compensation_f": 5e-09,
+    "output_0p8v_crossing_s": 2.231000000000099e-05,
+    "maximum_post_step_slew_v_per_s": 250344.19260241653
+  },
+  "transient_heavier_compensation": {
+    "input_compensation_f": 2e-08,
+    "output_0p8v_crossing_s": 2.721000000000177e-05,
+    "maximum_post_step_slew_v_per_s": 250343.17404762047
+  },
+  "checks": {
+    "follower_tracks": true,
+    "output_swing": true,
+    "gain": true,
+    "quiescent_current": true,
+    "input_bias": true,
+    "slew": true,
+    "compensation_slows": true,
+    "rail_current_balance": true
+  },
+  "passed": true
+}

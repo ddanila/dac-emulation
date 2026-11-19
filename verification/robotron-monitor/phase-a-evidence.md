@@ -1742,10 +1742,12 @@ functional symbol renumbers physical 3, 4, 5, 6, 9, 10, 11, 12 as model pins
 1 through 8. A [fresh export comparison](reference/k7222-11/page10-a3-comparison.json)
 matches all 15 scoped terminals, and a reversed R54 compensation connection
 fails the comparison. This closes the local A3 pin and compensation connection
-check. It does not establish P09A's electrical identity or qualify the
-`LM709_FAMILY` substitute: the [isolated DC follower check](reference/k7222-11/lm709-dc-follower-check.json)
+check. It does not establish P09A's electrical identity. The former
+`LM709_FAMILY` substitute fails an
+[isolated DC follower check](reference/k7222-11/lm709-dc-follower-check.json): it
 produces 12.54258 V at the output for a +1 V input under ±15 V rails and a
-2 kΩ load, while −1 V and 0 V inputs track. The remaining
+2 kΩ load, while −1 V and 0 V inputs track. It was removed from the live
+assembly in favour of a labelled equivalent described below. The remaining
 page-10 feedback and supply paths, connected-stage function, and A2 model
 qualification still need work.
 
@@ -1780,7 +1782,7 @@ nominal trims were recorded, not fitted to the manual values.
 After the MAA723 proxy revision, the same 19.5 ms synthetic field period and
 nominal trims were solved again through 0.2535 s. The new
 [loaded diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-maa723.json)
-records the current model parameters and hashes of its stage deck, raw trace,
+records the then-current model parameters and hashes of its stage deck, raw trace,
 independent TP7/TP8 probe solves and score. In the final field, TP7 is
 1.8718 Vpp after probe loading. It misses the 1.875 Vpp lower bound of the
 2.5 V ±25% guideline by 0.0032 V; TP8 passes at 18.7763 Vpp against its
@@ -1790,6 +1792,31 @@ yoke current by 0.39%, but Y1 differs by 2.61 V (13.9% of its swing) near
 reset. The stage is still not proved periodic, and the stimulus remains a
 synthetic field pulse rather than native grid input. No A3 completion claim
 follows from this narrower result.
+
+### A2/A3: labelled P09A equivalent and connected-stage result
+
+After checking the LM709 transistor-topology proxy and sweeping its broad
+generic NPN/PNP gain and Early-voltage choices without finding a valid DC
+follower, A3 now uses the explicitly labelled `P09A_EQUIV` functional stage.
+The [isolated class check](reference/k7222-11/p09a-equivalent-class-check.json)
+passes eight nominal LM709C-class checks: ±10 V follower tracking into 2 kΩ,
+an 11.79 V open-loop output swing in either direction, about 40,890 V/V
+small-signal gain, 2.60 mA quiescent current, 300 nA input bias, a 0.250 V/µs
+post-step slew proxy, slower response with fourfold external input
+compensation, and rail-current accounting. This is not a P09A identity or
+large-signal manufacturer test. Twelve equivalent parameters have explicit
+provisional bounds in the A2/A6 registers; their joint bounds and the
+page-10 loaded output current remain unchecked.
+
+The live-source [native-period diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-p09a-equivalent.json)
+uses the same nominal trims, 19.5 ms synthetic field pulse and separate
+EO 203-equivalent probe solves. Loaded TP7 now passes at 2.1594 Vpp against
+its 2.5 V ±25% guideline, but loaded TP8 fails at 25.7674 Vpp against
+17 V ±25%; both shape checks pass. The late-field Y1 maximum difference is
+0.5972 V, or 2.32% of its 25.768 V swing, concentrated near reset. This is
+still not periodic steady state, and the bench does not use the native grid
+input. The TP8 failure calls for source-first review of the remaining page-10
+feedback/output path before model parameters are changed to match it.
 
 ### A1/A5: page-10 Y2 sense return and TP7 current constraint
 

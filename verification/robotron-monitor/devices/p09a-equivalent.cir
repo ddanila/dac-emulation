@@ -1,0 +1,25 @@
+* Labelled P09A functional equivalent, NOT a P09A or LM709 die model.
+* National/TI LM709C SNOS659A is a class comparator, not an identification.
+* Physical active pins 3,4,5,6,9,10,11,12 map to these functional ports.
+* The external C26/R54 and C27 networks remain in the board schematic.
+* Finite gain, input bias/resistance, compensation, rail headroom, quiescent
+* current and rail-fed limited output current are retained. CINT, BERR and
+* the smooth output drive are equivalent-stage parameters, not internal data.
+.subckt P09A_EQUIV ca inv noninv vm co out vp cb
+.param error_gm=0.5 error_current_limit=0.00125 dominant_resistance=90000
++ dominant_capacitance=5e-9 comp_port_resistance=1 output_headroom=2
++ output_resistance=150 output_current_limit=0.02 quiescent_current=0.0026
++ input_bias_current=3e-7 input_resistance=250000 smooth_current=1e-6
+BERR 0 ca I={error_current_limit}*tanh(({error_gm}/{error_current_limit})*(v(noninv)-v(inv)))
+RDOM ca 0 {dominant_resistance}
+CINT ca 0 {dominant_capacitance}
+RCO co ca {comp_port_resistance}
+RCB cb 0 {comp_port_resistance}
+BSET target 0 V=(v(vp)+v(vm))/2+((v(vp)-v(vm))/2-{output_headroom})*tanh(v(ca)/((v(vp)-v(vm))/2-{output_headroom}))
+BUP vp out I={output_current_limit}*tanh((0.5*((v(target)-v(out))/{output_resistance}+sqrt(((v(target)-v(out))/{output_resistance})^2+{smooth_current}^2)))/{output_current_limit})
+BDN out vm I={output_current_limit}*tanh((0.5*(-(v(target)-v(out))/{output_resistance}+sqrt(((v(target)-v(out))/{output_resistance})^2+{smooth_current}^2)))/{output_current_limit})
+IQ vp vm {quiescent_current}
+IBP noninv vm {input_bias_current}
+IBM inv vm {input_bias_current}
+RDIFF inv noninv {input_resistance}
+.ends P09A_EQUIV

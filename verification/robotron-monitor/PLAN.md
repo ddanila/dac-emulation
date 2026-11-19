@@ -420,10 +420,10 @@ candidates. The other remaining done-condition gaps are:
 | Item | Evidence still needed for completion |
 | --- | --- |
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons, record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
-| A2 | Model and bound every frame-path device. Only 45 of 64 instances have provisional register coverage; 15 assembled instances have none and four are absent from the ideal-rail assembly. None of the 45 closes every parameter check. |
+| A2 | Model and bound every frame-path device. Only 46 of 64 instances have provisional register coverage; 14 assembled instances have none and four are absent from the ideal-rail assembly. None of the 46 closes every qualification check. |
 | A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
-| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 144 partial entries. |
+| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 156 partial entries. |
 
 The A2 gap includes all five printed `1SA20C` instances and both `1SC60A`
 instances. Five are assembled under generic transistor aliases without device
@@ -443,21 +443,19 @@ unblock the A5 calculation, but it would not by itself close A2, A3 or A6.
 The tracked goal can be marked complete only after each row above has its
 required evidence and the final results are documented, committed and pushed.
 
-The active P09A amplifier is a concrete A2 failure, not merely an unregistered
-instance. Its current `LM709_FAMILY` substitute has a matching provisional
-pin-function pattern, but no established P09A electrical equivalence. In an
-isolated DC follower with the manufacturer's LM709 compensation network, ±15 V
-rails and a 2 kΩ load, the
-[reproducible check](reference/k7222-11/lm709-dc-follower-check.json) gives
-−1.00006 V for a −1 V input and 12.54258 V for a +1 V input. That
-positive-input result fails the basic
-closed-loop function even though the existing transient test passes. The
-substitute therefore cannot be promoted to a bounded, qualified P09A model
-or used to claim the connected A3 waveform is validated. Repair and check its
-large-signal response against cited class limits, or use the plan's labelled,
-bounded equivalent-stage fallback, then rerun the loaded vertical-stage
-checks. This finding does not replace the other A1, A2, A3, A5 and A6 work
-listed above.
+The former `LM709_FAMILY` P09A substitute failed a basic isolated DC follower:
+the [reproducible check](reference/k7222-11/lm709-dc-follower-check.json) gives
+12.54258 V output for a +1 V input at ±15 V and 2 kΩ load. It has been
+replaced in the live assembly by the labelled `P09A_EQUIV` fallback, keeping
+the source compensation connections. The
+[isolated class check](reference/k7222-11/p09a-equivalent-class-check.json)
+passes eight nominal LM709C-class response and rail-current checks, with
+provisional parameter bounds in A2/A6. The printed P09A identity is still
+unknown. The [connected diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-p09a-equivalent.json)
+passes loaded TP7 at 2.159 Vpp, but TP8 is 25.767 Vpp against the manual's
+17 V ±25% guideline, and Y1 is still not field-periodic. A3 and the remaining
+A2 qualification therefore stay open; the failed transistor proxy is kept
+only as historical evidence.
 
 This blocks declaring the tracked goal complete; it does not require human
 review, hardware or permission. Another independent source read may resolve
@@ -551,13 +549,13 @@ Seven converter-only entries are
 outside the A1 gate.
 
 Other required close-out work is also missing. The A2 coverage report counts
-64 frame-path device instances in 30 printed-type families. Forty-five have
-provisional device-model register coverage (fifteen individual devices, fourteen
+64 frame-path device instances in 30 printed-type families. Forty-six have
+provisional device-model register coverage (sixteen individual devices, fourteen
 1AE15 diodes across two active model aliases, eight 1AD50 clamp diodes, six
 horizontal diodes and two KFY18 transistors);
-15 assembled instances
+14 assembled instances
 have no entry. V19/V20 on 012-6921 and L1/L2 on 012-6931 are absent from the
-current ideal-rail assembly. None of the forty-five instances yet closes all
+current ideal-rail assembly. None of the forty-six instances yet closes all
 A2 parameter checks. The V18 horizontal-output model now passes a BU508AF-class
 DC gain and saturation proxy; its inductive switching, parameter bounds and
 connected-stage stress remain unchecked. A separate current-fed turn-off
@@ -625,8 +623,15 @@ bound of the manual's ±25% guideline; TP8 passes at 18.7763 Vpp. Both shapes
 pass. Adjacent late fields still differ by 2.61 V at Y1 reset (13.9% of its
 swing), so periodic steady state is not established. These are conditional
 stage diagnostics, not a native-grid A3 score.
+That diagnostic still used the failed `LM709_FAMILY` P09A proxy. With the
+labelled `P09A_EQUIV` fallback, the latest
+[loaded diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-p09a-equivalent.json)
+at the native 19.5 ms period gives TP7 2.1594 Vpp (pass) and TP8 25.7674 Vpp
+(fail against 17 V ±25%); both shapes pass. Y1's late-field reset differs by
+0.5972 V, or 2.32% of its 25.768 V swing. This remains synthetic-sync and
+nonperiodic, not the complete connected grid-stimulus A3 comparison.
 The class-typical register collects
-144 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
+156 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
 All three A4 controls are now bound in the ideal-rail
 assembly: R4 and R5 use declared equivalents, and external R1 uses the
