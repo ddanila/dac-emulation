@@ -1264,3 +1264,24 @@ nominal checks pass the comparator limits; original part ratings, per-device
 stress and connected native-mode bound sensitivity are still open.
 Regenerated A2 coverage is 23 of 64 provisionally registered frame-path
 instances, 37 assembled but unregistered, and four absent from the assembly.
+
+### Independent page-9 vertical sync input read (2026-11-19)
+
+The source-side `reference/k7222-11/page9-sync-input-source-netlist.json` was
+written from `older.pdf` page 9 at 300 dpi and a separate 600 dpi crop before
+opening the KiCad sync-filter sheet. It covers R3, C2, C1 and R20. The first
+read incorrectly joined the incoming SYNC line to the vertical 0 V return
+bus, which made C2 and R20 appear to connect to SYNC. The exported netlist
+exposed the discrepancy. A tighter 600 dpi crossing view shows no junction
+dot where those lines cross, while C2 and R20 visibly join the bus that
+continues to 0 V. The saved source file records the view hashes and the
+corrected graph: R3 is SYNC-to-TP2, C2 is TP2-to-0, C1 is TP2-to-the second
+integration node, and R20 is that node-to-0.
+
+`page9_sync_input_compare.py` exports a fresh KiCad netlist and compares the
+two endpoint nets of each unpolarized passive. The scan does not number
+their leads, so the check does not invent a physical pin orientation. The
+saved `reference/k7222-11/page9-sync-input-comparison.json` matches all eight
+endpoints; the regression test fails if C2 is moved back to the mistaken
+SYNC net. This is a separate partial A1 comparison from the 5.1 V branch.
+The oscillator remainder and the page-9 whole-sheet mark stay open.

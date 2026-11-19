@@ -411,10 +411,11 @@ be closed.** The immediate blocker is missing A1 source evidence for T3's
 winding connections: its part identity is resolved, but the proposed
 X1:3-to-X2:3 return, other taps and winding polarity have no independent
 pin-to-pin source comparison. A5 cannot freeze the winding graph, ratios,
-candidate list or design point on that basis. The latest source-first page-9
-comparison confirms all 16 pins of the 5.1 V reference branch only; it does
-not establish the remaining page-9 circuit or T3. Other A1 sheet checks, A2
-device-model coverage, A3 waveform/scorer validation and A6 bounded values
+candidate list or design point on that basis. The source-first page-9
+comparisons confirm the 16-pin 5.1 V reference branch and eight endpoints of
+the four-part sync input; neither establishes the whole page or T3. Other A1
+sheet checks, A2 device-model coverage, A3 waveform/scorer validation and A6
+bounded values
 remain unfinished. The partial results below are committed evidence of
 progress, not evidence that the goal's implementation condition has passed.
 This is an unresolved technical review, not a dependency on a human reviewer
@@ -442,7 +443,10 @@ documents cannot settle a parameter, the A1/A5 bounded `class-typical` route
 applies; the plan does not require a human or a physical measurement.
 A source-first page-9 read now matches all 16 pins in the seven-part 5.1 V
 reference branch, including the zener, transistor and capacitor polarities.
-The remaining page-9 circuit and page 10 still lack a complete second netlist.
+A separate source-first read matches all eight endpoints of R3/C2/C1/R20 in
+the vertical sync input. Its enlarged crossing review confirms that SYNC does
+not join the 0 V return bus. The remaining page-9 circuit and page 10 still
+lack a complete second netlist.
 The page-18 source transcription has an eight-pair semantic comparison against
 the ideal-rail KiCad assembly, but the main-board sheet still lacks physical
 connector pins and the other cables remain unchecked; that partial comparison

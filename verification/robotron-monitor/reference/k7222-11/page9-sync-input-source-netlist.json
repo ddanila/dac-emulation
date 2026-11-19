@@ -1,0 +1,42 @@
+{
+  "format": "dac-monitor-independent-source-netlist-v1",
+  "qualification": "partial page-9 source-side pin transcription; four-part vertical sync input network only",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 9,
+    "views": [
+      {
+        "description": "300 dpi full-page read",
+        "sha256": "76a5fd4139d7f75b3692e2c1f1574fdadff6373b96bec88487b946d121f60496"
+      },
+      {
+        "description": "600 dpi left vertical-sync crop, 1550x1750 pixels from +1100+3600",
+        "sha256": "7fbfb0c3ee11a6ca26c6c742f04039780f9bbc690b883bf51dc70973996ea327"
+      },
+      {
+        "description": "tight 700x650 crossing review from the 600 dpi crop, after first comparison",
+        "sha256": "5462ed7d9031a999467af41139cb90b3a65c1d57e8ec761a1b3d64d5abd54387"
+      }
+    ]
+  },
+  "scope": {
+    "board": "012-6931",
+    "parts": ["R3", "C2", "C1", "R20"],
+    "omitted_neighbours": "V6, V5, R21, C9, the rest of the oscillator and all of page 10 are outside this partial read"
+  },
+  "reading_notes": [
+    "The incoming SYN/SYNC line enters R3 from the left. It crosses the vertical 0 V return bus without a junction dot.",
+    "R3 exits to the upper node labelled test point 2. C2 connects that upper node to the 0 V bus.",
+    "C1 crosses from test point 2 to the lower integration node; R20 connects that lower node to the 0 V bus.",
+    "The lower node continues to the oscillator circuitry, which is deliberately outside this four-part scope.",
+    "The first read wrongly joined the crossing SYNC and 0 V lines. A comparison with the exported model prompted this source-image re-read; the absence of a junction dot and the bottom 0 V return settle the crossing.",
+    "The scan does not number the leads of these four unpolarized passive parts. Terminal labels L/R/T/B describe drawing orientation only; comparison uses each component's unordered pair of endpoint nets."
+  ],
+  "nets": {
+    "SYNC_IN": ["R3:L"],
+    "TP2": ["R3:R", "C2:R", "C1:T"],
+    "INTEGRATOR_2": ["C1:B", "R20:R"],
+    "0": ["C2:L", "R20:L"]
+  }
+}
