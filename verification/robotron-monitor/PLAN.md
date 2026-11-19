@@ -407,14 +407,14 @@ Phase C (speed) waits for B8.
 ## Phase A goal completion blocker (2026-11-19)
 
 The goal "Phase A of the PLAN is fully implemented; intermediate results
-documented, committed and pushed" is blocked at its completion check: A1 has
-no complete independent pin-to-pin comparison for the frame-path sheets.
-The T3 inventory identity is now resolved, but its source connectivity is not.
-Consequently the T3
-winding graph cannot be accepted as source-verified, and A5 cannot freeze its
-winding ratios, polarity, candidate list or design point. A2, A3 and A6 also
-have unfinished acceptance criteria described below. The committed partial
-results are evidence of progress, not evidence that Phase A is complete.
+documented, committed and pushed" cannot be marked complete. The immediate
+technical blocker is A1's unverified T3 connectivity on the frame-path
+schematics: the part identity is resolved, but the winding returns, taps and
+polarity have no independent pin-to-pin source comparison. A5 therefore cannot
+freeze the winding graph, ratios, candidate list or design point. The A1
+review of the other frame-path sheets and the A2 device models, A3 loaded
+stage scores and A6 bounded-value register also remain unfinished. The
+committed partial results establish progress, not Phase A completion.
 
 The decisive technical uncertainty within A1 is the T3 winding topology.
 Manual page 19 names
@@ -428,9 +428,11 @@ trials in `phase-a-evidence.md` neither resolve the remaining pin map nor
 demonstrate the documented 11–12 kV sustained EHT.
 
 The immediate route to resolution is A1's independent pin-to-pin transcription
-of schematic pages 3–4, 9–10, 16 and 18, diffed against the KiCad exports and
-re-read where they differ. The source readings must settle the remaining T3
-connector and return paths before the A5 design point is calculated. Where the
+of schematic pages 3–4 and 9–10, plus the remaining physical connector checks
+on page 18, diffed against the KiCad exports and re-read where they differ.
+Page 16 already has a complete pin comparison; its source-observation check
+remains open. The source readings must settle the remaining T3 connector and
+return paths before the A5 design point is calculated. Where the
 documents cannot settle a parameter, the A1/A5 bounded `class-typical` route
 applies; the plan does not require a human or a physical measurement.
 The page-18 source transcription has an eight-pair semantic comparison against
@@ -472,10 +474,10 @@ but the inner tube clearance and yoke extent remain unverified. These are
 recorded in `phase-a-evidence.md`; the connected grid startup traces do not
 establish a sustained-state solution.
 
-To clear the completion blocker, commit an independent pin-to-pin transcription
-of schematic pages 3–4, 9–10, 16 and 18, compare it with the KiCad exports,
-resolve the T3 terminal and return-path differences from source evidence, and
-record bounded assumptions where the scan cannot settle winding parameters.
+To clear the completion blocker, finish the independent pin-to-pin comparison
+of pages 3–4, 9–10 and 18, close page 16's source-observation check, resolve
+the T3 terminal and return-path differences from source evidence, and record
+bounded assumptions where the scan cannot settle winding parameters.
 Then complete and verify the A2 device
 models, A3 probe/stimulus scoring, A5 design point, and A6 bounded register
 against their done conditions above. This requires more implementation and
