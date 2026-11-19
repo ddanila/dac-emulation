@@ -801,6 +801,12 @@ bins, but the R48/V20 value falls to 7.41 V with 256 bins, crossing the 7.5 V
 lower guideline. The short reset undershoot makes this feature definition
 resolution-sensitive; these numbers neither settle the annotation's node nor
 qualify its 10 V comparison.
+An independent [long-line fit sensitivity check](reference/k7222-11/tp8-ramp-feature-sensitivity.json)
+now excludes that spike reproducibly: synthetic reset-spike tests recover a
+known 10 V ramp across 64–256 bins. In the loaded stage, R48/V20's fitted
+excursion is 7.59–7.74 V with a 2% fit-error allowance, but only 6.80–7.11 V
+or undefined with 1%. The manual does not prescribe this fit threshold, so
+the result remains diagnostic and TP8 stays `reference-incomplete`.
 The class-typical register collects
 201 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).

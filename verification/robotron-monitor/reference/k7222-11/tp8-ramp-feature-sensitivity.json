@@ -1,0 +1,32 @@
+{
+  "format": "dac-monitor-tp8-ramp-feature-sensitivity-v1",
+  "qualification": "diagnostic feature definition only; neither source-node attribution nor a TP8 numeric gate is settled",
+  "prior_loaded_traces": "tp8-dual-node-loaded-diagnostic.json",
+  "method": {
+    "file": "tp8_ramp_feature.py",
+    "sha256": "0ef1b58a540e68b995cae15aed1379a6066f7d404ee9037fef972afd82ca02b0",
+    "description": "Fit the longest falling line covering at least 65 percent of a circular field phase profile. Reject candidate fits whose root-mean-square residual exceeds a chosen fraction of that profile's full range. The fit excludes the brief reset spike without relying on its exact phase.",
+    "bandwidth_hz": 10000000,
+    "field_period_s": 0.0195,
+    "reference_10_v_range_with_25_percent_tolerance_v": [7.5, 12.5]
+  },
+  "results": {
+    "previous_field_s": [0.2145, 0.234],
+    "latest_field_s": [0.234, 0.2535],
+    "bins": [64, 128, 256],
+    "max_rms_2_percent": {
+      "x2_3_previous_v": [6.498452, 6.423603, 6.378339],
+      "x2_3_latest_v": [6.566504, 6.446572, 6.387882],
+      "r48_v20_previous_v": [7.672487, 7.615644, 7.57422],
+      "r48_v20_latest_v": [7.742952, 7.641805, 7.586473]
+    },
+    "max_rms_1_percent": {
+      "x2_3_previous_v": [6.498452, 6.423603, 6.378339],
+      "x2_3_latest_v": [6.319232, 6.446572, 6.387882],
+      "r48_v20_previous_v": [null, 6.823234, 7.043053],
+      "r48_v20_latest_v": [null, 6.799387, 7.107458],
+      "null_meaning": "No falling line longer than 65 percent of the field met the 1 percent residual limit."
+    }
+  },
+  "interpretation": "At a 2 percent fit limit, the R48/V20 estimate is fairly stable across 64–256 bins and sits just inside the 10 V ±25 percent lower bound. At a 1 percent fit limit, its result falls outside that bound or cannot be found. The source sketch does not specify a line-fit residual threshold, so selecting 2 percent as a gate after seeing the trace would be parameter fitting. X2:3 is below the lower bound at either threshold. TP8 remains reference-incomplete; use the feature only to locate the reset/ramp discrepancy while resolving source attribution and stage behavior."
+}
