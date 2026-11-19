@@ -406,21 +406,19 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (2026-11-19)
 
-**Completion decision: Phase A is not yet complete, so the tracked goal cannot
-be closed.** The immediate blocker is missing A1 source evidence for T3's
-winding connections: its part identity is resolved, but the proposed
-X1:3-to-X2:3 return, other taps and winding polarity have no independent
-pin-to-pin source comparison. A5 cannot freeze the winding graph, ratios,
-candidate list or design point on that basis. The source-first page-9
-comparisons confirm the 16-pin 5.1 V reference branch and eight endpoints of
-the four-part sync input; neither establishes the whole page or T3. Other A1
-sheet checks, A2 device-model coverage, A3 waveform/scorer validation and A6
-bounded values
-remain unfinished. The partial results below are committed evidence of
-progress, not evidence that the goal's implementation condition has passed.
-This is an unresolved technical review, not a dependency on a human reviewer
-or a physical measurement; Phase A work can continue under the bounded
-fallbacks above.
+**Tracked-goal blocked reason:** Phase A cannot be marked complete because A1's
+independent source-to-KiCad pin comparison has not established T3's winding
+connections and polarity. Its X1:3-to-X2:3 return and other taps remain
+provisional, so A5 cannot freeze the winding graph, ratios, candidate list or
+design point as source-verified. The latest page-18 check compares 18 semantic
+cable pairs, but it does not verify physical connector pins; six pairs still
+have model-scope gaps. The source-first page-9 checks cover only the 16-pin
+5.1 V reference branch and eight endpoints of the four-part sync input.
+Other A1 sheet checks, A2 device-model coverage, A3 waveform/scorer validation
+and A6 bounded values are also unfinished. The partial results below are
+committed progress, while the completion gates remain open. Phase A work can
+continue using the bounded source-review and fallback rules above; no human
+reviewer or physical measurement is needed to resolve this blocker.
 
 The decisive technical uncertainty within A1 is the T3 winding topology.
 Manual page 19 names
