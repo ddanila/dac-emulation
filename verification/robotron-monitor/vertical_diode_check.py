@@ -1,7 +1,7 @@
-"""Check the live vertical 1AE15-class diode against 1N4148 class DC data.
+"""Check the live vertical 1AE15-class diode against 1N4148 class data.
 
 The 1N4148 is a comparator selected from circuit role, not an original 1AE15
-identification. Reverse recovery and stage sensitivity remain open.
+identification. Original ratings and native connected-frame sensitivity remain open.
 """
 import argparse
 import hashlib
@@ -21,13 +21,16 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def solve(source, analysis, expressions):
+def model_deck(source, analysis):
     profile = json.loads(PROFILE.read_text())
     parameters = ''.join(f'.param {key}={spec["nominal"]}\n'
                          for key, spec in profile['parameters'].items())
-    deck = ('VERTICAL_DIODE live model check\n.temp 25\n' + parameters
-            + MODEL.read_text() + '\n' + source + '\n.control\n' + analysis
-            + '\nprint ' + ' '.join(expressions) + '\n.endc\n.end\n')
+    return ('VERTICAL_DIODE live model check\n.temp 25\n' + parameters
+            + MODEL.read_text() + '\n' + source + '\n.control\n' + analysis)
+
+
+def solve(source, analysis, expressions):
+    deck = model_deck(source, analysis) + '\nprint ' + ' '.join(expressions) + '\n.endc\n.end\n'
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory)/'diode.cir'
         path.write_text(deck)
@@ -41,6 +44,51 @@ def solve(source, analysis, expressions):
     return values
 
 
+def crossing(rows, level, direction, start):
+    for before, after in zip(rows[start:], rows[start+1:]):
+        a, b = before[1], after[1]
+        if (a > level >= b if direction == 'falling' else a <= level < b):
+            return before[0] + (level-a)*(after[0]-before[0])/(b-a)
+    raise RuntimeError('reverse-recovery threshold not crossed: '+str(level))
+
+
+def recovery():
+    # The 100 ohm series load and step from approximately 10 mA forward to
+    # 60 mA reverse follow the comparator's specified test. The source is
+    # tuned to these currents for this model; it is not a 1AE15 rating.
+    source = ('VIN src 0 PWL(0 1.7015 10n 1.7015 10.05n -5.45 30n -5.45)\n'
+              'RLOAD src a 100\nVSENSE a b 0\nD1 b 0 VERTICAL_DIODE')
+    with tempfile.TemporaryDirectory() as directory:
+        trace = Path(directory)/'recovery.txt'
+        deck = Path(directory)/'recovery.cir'
+        deck.write_text(model_deck(source, 'tran 0.01n 20n\nset wr_singlescale\n'
+                                   + 'wrdata '+str(trace)+' i(vsense)')
+                        + '\n.endc\n.end\n')
+        result = subprocess.run(['ngspice', '-n', '-b', str(deck)],
+                                capture_output=True, text=True)
+        if result.returncode:
+            raise RuntimeError('ngspice recovery check failed: '
+                               +result.stdout[-500:]+result.stderr[-500:])
+        rows = [tuple(map(float, line.split())) for line in trace.read_text().splitlines()]
+    if not rows or any(len(row) != 2 for row in rows):
+        raise RuntimeError('missing or malformed reverse-recovery trace')
+    step_start = next(i for i, (time, _) in enumerate(rows) if time >= 10e-9)
+    if step_start < 2:
+        raise RuntimeError('reverse-recovery forward interval missing')
+    forward_current = rows[step_start-2][1]
+    reverse_peak = min(row[1] for row in rows[step_start:])
+    zero = crossing(rows, 0, 'falling', step_start-2)
+    return_1ma = crossing(rows, -1e-3, 'rising', step_start)
+    return dict(forward_current_a=forward_current,
+                peak_reverse_current_a=reverse_peak,
+                zero_crossing_s=zero,
+                return_to_1ma_s=return_1ma,
+                reverse_recovery_s=return_1ma-zero,
+                series_load_ohm=100,
+                source_transition_s=5e-11,
+                sample_step_s=1e-11)
+
+
 def run():
     forward = solve('IF 0 a 10m\nD1 a 0 VERTICAL_DIODE', 'op', ('v(a)',))['v(a)']
     reverse = solve('VR a 0 -20\nD1 a 0 VERTICAL_DIODE',
@@ -48,8 +96,12 @@ def run():
     capacitance = solve('VAC a 0 0 AC 1\nD1 a 0 VERTICAL_DIODE',
                         'ac lin 1 1meg 1meg\nlet cap=-imag(i(vac))/(2*pi*frequency)',
                         ('cap',))['cap']
-    return dict(format='dac-monitor-1ae15-class-dc-check-v1',
-                qualification='provisional 1N4148-class comparison; 1AE15 identity, reverse recovery and stage sensitivity remain open',
+    recovery_result = recovery()
+    recovery_conditions_met = (abs(recovery_result['forward_current_a']-0.01) <= 0.0005
+                               and abs(recovery_result['peak_reverse_current_a']+0.06) <= 0.003
+                               and recovery_result['series_load_ohm'] == 100)
+    return dict(format='dac-monitor-1ae15-class-model-check-v2',
+                qualification='provisional 1N4148-class comparison; original 1AE15 identity and native connected-frame sensitivity remain open',
                 comparator='https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf',
                 model_sha256=sha(MODEL), profile_sha256=sha(PROFILE),
                 measured=dict(forward_voltage_v_at_10ma=forward,
@@ -61,10 +113,12 @@ def run():
                                        reverse_recovery_s_at_specified_test=4e-9),
                 checked=dict(forward_voltage=0<forward<=1,
                              reverse_current=0<=reverse<=2.5e-8,
-                             zero_bias_capacitance=0<capacitance<=4e-12),
-                unchecked=['reverse recovery at data-sheet IF/IR/RL',
-                           'original 1AE15 identity and operating ratings',
-                           'stage response across registered parameter bounds'])
+                             zero_bias_capacitance=0<capacitance<=4e-12,
+                             reverse_recovery=(recovery_conditions_met and
+                                               0<recovery_result['reverse_recovery_s']<=4e-9)),
+                recovery_test=recovery_result,
+                unchecked=['original 1AE15 identity and operating ratings',
+                           'joint-bound and native connected-frame response'])
 
 
 def main():
@@ -73,7 +127,7 @@ def main():
     args = parser.parse_args()
     report = run()
     args.output.write_text(json.dumps(report, indent=2)+'\n')
-    print('forward/reverse/capacitance comparator checks:',
+    print('forward/reverse/capacitance/recovery comparator checks:',
           'pass' if all(report['checked'].values()) else 'fail')
     return 0 if all(report['checked'].values()) else 2
 

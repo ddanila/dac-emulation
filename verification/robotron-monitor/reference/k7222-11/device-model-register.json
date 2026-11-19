@@ -80,7 +80,9 @@
         "Cd_f": {"maximum": 4e-12, "conditions": "VR=0 V, f=1 MHz"},
         "trr_s": {"maximum": 4e-9, "conditions": "IF=10 mA to IR=60 mA, RL=100 ohm; measured at IR=1 mA"}
       },
-      "remaining": ["Verify the original 1AE15 class and per-device current/voltage stress", "Measure reverse recovery of this SPICE model under the comparator test, then revise TT if needed", "Sweep the seven proxy bounds through vertical stages before A2/A6 qualification"]
+      "model_response_report": "reference/k7222-11/vertical-diode-model-check.json",
+      "stage_sensitivity_report": "reference/k7222-11/vertical-diode-stage-sensitivity.json",
+      "remaining": ["Verify the original 1AE15 class and per-device current/voltage stress", "Run joint-bound and native-mode connected sensitivity; the saved stage sweep varies one parameter at a time in the 20.8 ms bench"]
     }
   ],
   "devices": [
