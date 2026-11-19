@@ -143,11 +143,14 @@
         "BF": {"spice_parameter": "BF", "nominal": 20, "bounds": [5, 30], "basis": "ST BU508AF hFE at 0.1 A and 4.5 A, both at VCE=5 V"}
       },
       "comparison_targets": {
+        "hFE_0p1a": {"minimum": 10, "maximum": 30, "conditions": "IC=0.1 A, VCE=5 V, Tcase=25 C", "source": "ST BU508AF page 4"},
+        "hFE_4p5a": {"minimum": 5, "conditions": "IC=4.5 A, VCE=5 V, Tcase=25 C", "source": "ST BU508AF page 4"},
         "VCEsat_v": {"maximum": 1, "conditions": "IC=4.5 A, IB=1.6 A", "source": "ST BU508AF page 4"},
         "storage_time_s": {"typical": 2.5e-6, "conditions": "inductive 4.5 A, IB(on)=0.5 A, VBE(off)=-2.7 V, 16 kHz", "source": "ST BU508AF page 4"},
         "fall_time_s": {"typical": 2e-7, "conditions": "same inductive switching test", "source": "ST BU508AF page 4"}
       },
-      "remaining": ["Measure the SPICE model at the BU508AF bias and inductive switching conditions", "Bound fixed IS, VAF, CJE, CJC, TF and TR and sweep stage sensitivity", "Check collector voltage/current and safe operating region after T3 topology correction"]
+      "model_response_report": "reference/k7222-11/horizontal-output-transistor-dc-check.json",
+      "remaining": ["Measure storage and fall time at the BU508AF inductive switching conditions; the DC comparison does not establish them", "Bound fixed IS, VAF, CJE, CJC, TF and TR and sweep stage sensitivity", "Check collector voltage/current and safe operating region after T3 topology correction"]
     },
     {
       "id": "012-6921:V21",

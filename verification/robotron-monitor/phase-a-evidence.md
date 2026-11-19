@@ -1122,6 +1122,16 @@ Those are recorded as A2 comparison targets, not claimed properties of the
 current SPICE model. Its fixed IS, VAF, junction capacitances and transit
 times remain unbounded, and the T3 stage still lacks a verified topology.
 
+`horizontal_output_transistor_check.py` now exports the live V18 KiCad symbol
+and solves its selected `HOR_OUTPUT_N` model at the BU508AF comparison biases.
+The saved `reference/k7222-11/horizontal-output-transistor-dc-check.json`
+records hFE 20.89 at 0.1 A/5 V and 20.87 at 4.5 A/5 V, within the data-sheet
+10–30 and at-least-5 limits. A current-fed 4.5 A/1.6 A base DC proxy gives
+0.044 V collector-emitter saturation, below the data-sheet 1 V maximum. A
+low-gain model mutation fails the check. The proxy is a steady-state solve,
+so it does not establish the data-sheet's pulsed saturation, 2.5 µs storage
+time, 0.2 µs fall time or safe operating area. A2 remains open.
+
 ### Vertical output part-identity decisions (2026-11-19)
 
 The A1 part entries for V27 and V28 now use the bounded `class-typical`
