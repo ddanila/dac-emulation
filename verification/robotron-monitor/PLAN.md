@@ -434,12 +434,14 @@ connector and return paths before the A5 design point is calculated. Where the
 documents cannot settle a parameter, the A1/A5 bounded `class-typical` route
 applies; the plan does not require a human or a physical measurement.
 The page-18 source transcription has an eight-pair semantic comparison against
-the ideal-rail KiCad assembly, but the current sheets lack physical connector
-pin symbols; that partial comparison does not close its pin-to-pin A1 check.
+the ideal-rail KiCad assembly, but the main-board sheet still lacks physical
+connector pins and the other cables remain unchecked; that partial comparison
+does not close its pin-to-pin A1 check.
 An independent page-16 neck-board read now matches all 39 component pins and
-six diode directions in a fresh KiCad export, and its 17 connector pins match
-the assembly map. That sheet also lacks physical connector symbols, so its A1
-pin-to-pin check remains open rather than being counted as a closed page.
+six diode directions in a fresh KiCad export. Three audit-only connector
+symbols now expose all 17 physical pins in that export, and every pin matches
+the source read. The page-16 A1 mark remains open pending the remaining static
+and stage-function checks.
 The current audit flags 26 frame-path part entries; all 26 now have agent
 readings or bounded class-typical decisions. T3's two page-4 reads establish
 its line-transformer identity, not its turns, internal winding connections or
