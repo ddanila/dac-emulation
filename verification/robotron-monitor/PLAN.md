@@ -424,11 +424,11 @@ re-read where they differ. The source readings must settle the T3 connector,
 diode and return path before the A5 design point is calculated. Where the
 documents cannot settle a parameter, the A1/A5 bounded `class-typical` route
 applies; the plan does not require a human or a physical measurement.
-The saved audit flags 26 frame-path part entries; 23 now have agent readings
-or bounded class-typical decisions. The three still open are `012-6921:T3`
-and `012-6931:V27`, `V28`. V18 and V21 part entries now have bounded
-`class-typical` candidates, while their connections remain part of the open
-page-4 netlist review. Seven converter-only entries are
+The saved audit flags 26 frame-path part entries; 25 now have agent readings
+or bounded class-typical decisions. Only `012-6921:T3` remains open as a part
+entry. V18, V21, V27 and V28 now have bounded `class-typical` candidates,
+while their connections remain in the open page-4 and page-10 netlist reviews.
+Seven converter-only entries are
 outside the A1 gate.
 
 Other required close-out work is also missing. The bounded device-model

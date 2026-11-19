@@ -2,6 +2,36 @@
   "format": "dac-monitor-phase-a-source-review-v2",
   "parts": [
     {
+      "id": "012-6931:V27",
+      "source_page": 10,
+      "frame_path": true,
+      "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "inventory_entry_sha256": "e897fce2e8da35f2887d78315a60104a100030c08ac48a93ac836f485f3755b9",
+      "decision": "class-typical",
+      "reading": "V27 is an external vertical output transistor; printed factory type absent",
+      "independent_reads": [],
+      "crop_sha256": null,
+      "argument": "Page 10 and manual page 14 identify the upper vertical output transistor role, but no printed factory type. The existing upper NPN candidate is provisionally a BD139-class device. Its handwritten BD140 annotation would imply PNP and conflicts with that stage interpretation; page-10 pin/arrow connectivity remains open. The ST BD139/BD140 data sheet supplies a 25–250 class hFE envelope, with BF=60 as the bounded candidate rather than a historical identity.",
+      "typical_value": 60,
+      "typical_bounds": [25, 250],
+      "typical_source": "ST BD139/BD140 Rev 5, page 4, https://www.st.com/resource/en/datasheet/bd139.pdf; hFE 40–250 at IC=150 mA and minimum 25 at IC=5 mA and 500 mA"
+    },
+    {
+      "id": "012-6931:V28",
+      "source_page": 10,
+      "frame_path": true,
+      "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "inventory_entry_sha256": "5685395605a902c132c8764ce9ef48112a6c2c82ab2b2350a4e737bfe16174be",
+      "decision": "class-typical",
+      "reading": "V28 is an external vertical output transistor; printed factory type absent",
+      "independent_reads": [],
+      "crop_sha256": null,
+      "argument": "Page 10 and manual page 14 identify the lower vertical output transistor role, but no printed factory type. The existing lower PNP candidate is provisionally a BD140-class device. Its handwritten BD139 annotation would imply NPN and conflicts with that stage interpretation; page-10 pin/arrow connectivity remains open. The ST BD139/BD140 data sheet supplies a 25–250 class hFE envelope, with BF=60 as the bounded candidate rather than a historical identity.",
+      "typical_value": 60,
+      "typical_bounds": [25, 250],
+      "typical_source": "ST BD139/BD140 Rev 5, page 4, https://www.st.com/resource/en/datasheet/bd139.pdf; hFE 40–250 at IC=150 mA and minimum 25 at IC=5 mA and 500 mA"
+    },
+    {
       "id": "012-6921:V18",
       "source_page": 4,
       "frame_path": true,

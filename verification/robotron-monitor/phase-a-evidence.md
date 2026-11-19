@@ -959,8 +959,8 @@ operating-manual page 19 says it charges the tube to 11–12 kV. The A1 part
 review now assigns only a bounded `class-typical` 12–16 kV reverse-voltage
 class, nominal 15 kV. This resolves the missing *part identity decision* by
 the plan's fallback without claiming a historical type or closing page-4
-connectivity. The audit now reports 22 agent-resolved frame-path entries and
-four open parts: V18, T3, V27 and V28.
+connectivity. At that review point the audit reported 22 agent-resolved
+frame-path entries and four open parts: V18, T3, V27 and V28.
 
 The [Rectron R12000H data sheet](https://www.rectron.com/public/product_datasheets/r12000h.pdf)
 describes a 12 kV fast CRT/FBT rectifier with maximum 100 ns reverse recovery
@@ -983,11 +983,21 @@ schematic and operating-manual page 19 place it at the 16 kHz T3 output stage;
 provides a comparable CRT horizontal-output NPN class, not a historical part
 identification. It gives hFE 10–30 at 0.1 A and a minimum 5 at 4.5 A, both at
 5 V collector-emitter bias. The existing `HOR_OUTPUT_N` BF=20 lies in that
-5–30 class bound, so the A1 part entry is closed as `class-typical`. The audit
-now has 23 resolved frame-path entries and three open: T3, V27 and V28.
+5–30 class bound, so the A1 part entry is closed as `class-typical`. At that
+review point the audit had 23 resolved frame-path entries and three open:
+T3, V27 and V28.
 
 ST also specifies at most 1 V saturation at 4.5 A/1.6 A base drive and
 typical 2.5 µs storage plus 0.2 µs fall time in an inductive 16 kHz test.
 Those are recorded as A2 comparison targets, not claimed properties of the
 current SPICE model. Its fixed IS, VAF, junction capacitances and transit
 times remain unbounded, and the T3 stage still lacks a verified topology.
+
+### Vertical output part-identity decisions (2026-11-19)
+
+The A1 part entries for V27 and V28 now use the bounded `class-typical`
+hFE=60 candidate with 25–250 bounds described above. The contradictory
+handwritten labels are not treated as factory types. The page-10 independent
+netlist and transistor-arrow check still must settle the actual upper/lower
+connection. The current A1 audit has 25 resolved frame-path entries and only
+T3 open as a part entry. A2 remains partial for these devices.
