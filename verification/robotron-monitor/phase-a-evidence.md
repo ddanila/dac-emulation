@@ -1323,7 +1323,20 @@ R40/C34 left. R38/R39 upper are on `p12`, not `0`, and page-4 V1 is
 `[p35, collector_i, contrast_low]` with R3 from `p35` to its base node.
 R2 still shunts the KRS/`contrast_low` line to `0`. All five printed
 `1SA20C` and both `1SC60A` instances are assembled, but their C/E
-assignment, generic aliases and connected stress remain provisional.
+assignment, generic aliases and connected stress remain provisional. An
+[isolated DC polarity comparison](reference/k7222-11/page3-4-transistor-polarity-functional-check.json)
+now tests the corrected V6/V19/V20 branch and the separate V1 contrast
+branch against upper-emitter NPN and PNP alternatives. At BF=26, the
+assembled lower-emitter NPN sync chain swings `h_feedback` from 12.0 V to
+0.044 V as V6 base drive changes from 0 to 3 V; the reversed NPN and PNP
+alternatives swing only 0.261 V and 0.569 V. This remains true across the
+generic BF 18–34.7 range. V1's assembled NPN orientation moves KRS from
+21.19 to 24.80 V across the R4 trim range, while the PNP interpretation
+pins KRS near 35 V. The reversed NPN places V1's base roughly 13–15 V below
+its emitter, a reverse-bias condition that the fixture does not qualify
+because it omits breakdown. These functional results support the current
+V1/V6/V19/V20 orientation, but do not read every printed arrow, qualify the
+original 1SC60A/1SA20C devices, or settle V5 and the vertical-board peers.
 The local stage, assembly, signal-path and connected-stage tests pass;
 the native connected manual score and complete page-3/4 pin comparison remain
 open, so A1, A2 and A3 cannot be claimed complete.

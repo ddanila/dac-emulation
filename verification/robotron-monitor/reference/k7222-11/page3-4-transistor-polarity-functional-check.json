@@ -1,0 +1,55 @@
+{
+  "format": "dac-monitor-page3-4-transistor-polarity-functional-check-v1",
+  "qualification": "Isolated DC functional comparison supports the current V1/V6/V19/V20 NPN C/E assignment; it does not qualify 1SC60A or 1SA20C electrical parameters or finish the independent source netlist",
+  "source": {
+    "pdf": "older.pdf",
+    "sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "schematic_pages": [3, 4],
+    "parts_pages": [7, 8],
+    "source_reads": [
+      "page3-r11-r37-source-read.json",
+      "page4-v20-source-read.json"
+    ],
+    "branch": "V6, V19 and V20 have lower-right leads on 00, while R37, R39 and R38 pull their respective upper-right leads toward 12P. R40 couples V19 upper-right to V20 base. Separately V1 upper-right meets 35P, its lower-right drives KRS, R2 returns KRS to 00, and R1/R3/R4 set its base from 35P and the 9 V reference."
+  },
+  "fixture": {
+    "path": "circuits/phase-a-v6-v19-v20-polarity-dc.cir",
+    "sha256": "5a8e89ed8153be2564f46661198b8c1359c0caca15684141a0cac4bbe27c7c76",
+    "simulator": "ngspice-47",
+    "run": "ngspice -b circuits/phase-a-v6-v19-v20-polarity-dc.cir",
+    "assumptions": "Ideal 12, 35 and 9 V rails; 0 and 3 V V6 base drive through 1 kohm; V1 R4 trim 22, 1100 or 2200 ohm. Generic silicon BJT IS=1e-14 A, VAF=60 V and BF=18, 26 or 34.7. The BF range is borrowed from the provisional SSY20A neck profile only to test polarity sensitivity, not asserted for either printed type. No dynamic loading or reverse base-emitter breakdown is modeled."
+  },
+  "results_v6_v19_v20": {
+    "nominal_bf": 26,
+    "drive_v": [0, 3],
+    "upper_collector_lower_emitter_npn": {
+      "sync_c_v": [0.73033, 0.04060],
+      "v19_out_v": [0.10470, 7.69904],
+      "h_feedback_v": [12.0, 0.04366],
+      "h_feedback_swing_v": 11.95634
+    },
+    "upper_emitter_lower_collector_npn": {
+      "h_feedback_v": [7.99596, 7.73482],
+      "h_feedback_swing_v": 0.26114
+    },
+    "upper_emitter_lower_collector_pnp": {
+      "h_feedback_v": [2.71181, 3.28081],
+      "h_feedback_swing_v": 0.56900
+    },
+    "gain_sweep": {
+      "bf": [18, 26, 34.7],
+      "assembled_npn_h_feedback_low_drive_v": [12.0, 12.0, 12.0],
+      "assembled_npn_h_feedback_high_drive_v": [0.04509, 0.04366, 0.04289]
+    }
+  },
+  "results_v1": {
+    "bf": 26,
+    "trim_ohm": [22, 1100, 2200],
+    "upper_collector_lower_emitter_npn_krs_v": [21.19436, 23.28402, 24.79978],
+    "upper_emitter_lower_collector_npn_krs_v": [18.86104, 20.35858, 21.41351],
+    "upper_emitter_lower_collector_pnp_krs_v": [34.97276, 34.96964, 34.96667],
+    "reversed_npn_caveat": "The reversed NPN places its emitter at 35 V while its base is about 19.5-22.1 V, reverse-biasing the base-emitter junction by roughly 13-15 V; the generic SPICE model omits reverse base-emitter breakdown. Its reported KRS voltage is not a qualified operating point.",
+    "interpretation": "The assembled NPN orientation yields an adjustable KRS emitter-follower voltage with the printed 35P/KRS/9 V connections. The PNP orientation leaves KRS pinned near 35 V across the trim range; the reversed NPN result is outside this fixture's validated model domain."
+  },
+  "status": "A1 functional DC polarity check passed for V1/V6/V19/V20 under the recorded ideal-rail assumptions. Printed arrow reading, remaining page-3/4 independent netlist, V5 and vertical-board 1SA20C instances, model identity and connected stress remain open. The isolated result is not an A2 device-model qualification or an A3 waveform score."
+}
