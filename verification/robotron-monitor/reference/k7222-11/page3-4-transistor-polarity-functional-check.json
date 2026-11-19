@@ -14,10 +14,10 @@
   },
   "fixture": {
     "path": "circuits/phase-a-v6-v19-v20-polarity-dc.cir",
-    "sha256": "5a8e89ed8153be2564f46661198b8c1359c0caca15684141a0cac4bbe27c7c76",
+    "sha256": "9f31fb4fd5c15ce0d33b584223a4a0fdeb85b653f8311ca4dec9c2cc2826f837",
     "simulator": "ngspice-47",
     "run": "ngspice -b circuits/phase-a-v6-v19-v20-polarity-dc.cir",
-    "assumptions": "Ideal 12, 35 and 9 V rails; 0 and 3 V V6 base drive through 1 kohm; V1 R4 trim 22, 1100 or 2200 ohm. Generic silicon BJT IS=1e-14 A, VAF=60 V and BF=18, 26 or 34.7. The BF range is borrowed from the provisional SSY20A neck profile only to test polarity sensitivity, not asserted for either printed type. No dynamic loading or reverse base-emitter breakdown is modeled."
+    "assumptions": "Ideal 12, 35 and 9 V rails; 0 and 3 V V6 base drive through 1 kohm; V1 R4 trim 22, 1100 or 2200 ohm. Generic silicon BJT IS=1e-14 A, VAF=60 V and BF=18, 26 or 34.7. The BF range was borrowed from the former provisional SSY20A neck profile only to test polarity sensitivity, not asserted for either printed type or the later BC546B-class proxy. No dynamic loading or reverse base-emitter breakdown is modeled."
   },
   "results_v6_v19_v20": {
     "nominal_bf": 26,

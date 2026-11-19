@@ -1289,11 +1289,12 @@ instances in the source inventory with the current ideal-rail assembly and
 device-model register. The saved
 `reference/k7222-11/device-model-coverage.json` accounts for 64 frame-path
 instances in 30 printed-type families; 13 instances are converter-only under
-the existing A1 scope rule. Forty-seven frame-path instances have provisional
-A2 register coverage, 15 have active model names but no register entry, and two
-appear in the source inventory but not in the current assembled model:
-012-6931 L1/L2. The page-3 V19 is now present in the assembly. Assembly presence and a model name do
-not establish sourced parameter bounds.
+the existing A1 scope rule. Fifty-four frame-path instances have provisional
+A2 register coverage, eight assembled magnetics have active model names but
+no register entry, and two appear in the source inventory but not in the
+current assembled model: 012-6931 L1/L2. The page-3 V19 is now present in
+the assembly. Assembly presence and a model name do not establish sourced
+parameter bounds.
 
 A 600 dpi reread corrected the initial R38/R39 terminal attribution in the
 [page-4 V20 branch read](reference/k7222-11/page4-v20-source-read.json).
@@ -1322,8 +1323,8 @@ The fresh ideal-rail export now has V19 provisionally on
 R40/C34 left. R38/R39 upper are on `p12`, not `0`, and page-4 V1 is
 `[p35, collector_i, contrast_low]` with R3 from `p35` to its base node.
 R2 still shunts the KRS/`contrast_low` line to `0`. All five printed
-`1SA20C` and both `1SC60A` instances are assembled, but their C/E
-assignment, generic aliases and connected stress remain provisional. An
+`1SA20C` and both `1SC60A` instances are assembled; their C/E
+assignment and connected stress remain provisional. An
 [isolated DC polarity comparison](reference/k7222-11/page3-4-transistor-polarity-functional-check.json)
 now tests the corrected V6/V19/V20 branch and the separate V1 contrast
 branch against upper-emitter NPN and PNP alternatives. At BF=26, the
@@ -1341,9 +1342,25 @@ The local stage, assembly, signal-path and connected-stage tests pass;
 the native connected manual score and complete page-3/4 pin comparison remain
 open, so A1, A2 and A3 cannot be claimed complete.
 
+The seven printed `1SA20C`/`1SC60A` instances now select separate live
+[BC546B-class NPN proxies](circuits/k7222-11-small-transistor-models.cir).
+The [onsemi BC546B data sheet](https://www.onsemi.com/download/data-sheet/pdf/bc546-d.pdf)
+gives 200–450 gain at 2 mA/5 V, at most 0.25 V saturation at 10 mA/0.5 mA
+base drive, and at least 150 MHz transition frequency at 10 mA/5 V.
+The [isolated model check](reference/k7222-11/small-transistor-class-check.json)
+reports hFE 274, 0.094 V saturation and a 187 MHz transition-frequency
+proxy for each alias. The A2 register bounds all nine explicit SPICE
+parameters for both printed families, and A6 records 18 corresponding
+class-typical values. This comparator does not identify either historical
+part; connected current/voltage/thermal stress, joint bounds, switching
+storage, implicit BJT defaults and the outstanding source-arrow reads remain
+open. The affected input, vertical-sync, oscillator, integrator, output and
+assembly tests pass at the new nominal models. The earlier BF=26 polarity
+fixture is a functional orientation comparison under its recorded prior
+generic model, not a class-model qualification.
+
 The report also makes shared-family decisions visible. Fourteen frame-path
-`1AE15` diode instances currently use two different model names, and five
-`1SA20C` transistor instances use two unqualified model names.
+`1AE15` diode instances currently use two different model names.
 Ten vertical 1AE15 instances have one provisional family entry. The other four
 input/sync instances now have a separate entry for the shared `1AD50_BOUND`
 model alias. The [Nexperia 1N4148/1N4448 data sheet](https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf)
@@ -1870,15 +1887,17 @@ large-signal manufacturer test. Twelve equivalent parameters have explicit
 provisional bounds in the A2/A6 registers; their joint bounds and the
 page-10 loaded output current remain unchecked.
 
-The live-source [native-period diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-p09a-equivalent.json)
+The archived [native-period diagnostic](reference/k7222-11/vertical-a3-loaded-stage-diagnostic-p09a-equivalent.json)
 uses the same nominal trims, 19.5 ms synthetic field pulse and separate
 EO 203-equivalent probe solves. Loaded TP7 now passes at 2.1594 Vpp against
 its 2.5 V ±25% guideline, but loaded TP8 fails at 25.7674 Vpp against
 17 V ±25%; both shape checks pass. The late-field Y1 maximum difference is
 0.5972 V, or 2.32% of its 25.768 V swing, concentrated near reset. This is
 still not periodic steady state, and the bench does not use the native grid
-input. The TP8 failure calls for source-first review of the remaining page-10
-feedback/output path before model parameters are changed to match it.
+input. This run predates the new BC546B-class transistor proxies, so its TP8
+failure is historical evidence, not a current connected-stage score. A fresh
+loaded diagnostic and source-first review of the remaining page-10
+feedback/output path are needed before parameters are changed to match TP8.
 
 ### A1: page-10 feedback branch and cross-page R44 identity
 

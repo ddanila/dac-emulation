@@ -1,0 +1,6 @@
+* BC546B-class NPN proxies for the unidentified printed 1SA20C and 1SC60A.
+* onsemi BC546/D Rev. 8 (2021): 65 V VCEO, 200..450 hFE at 2 mA/5 V,
+* 0.25 V max VCEsat at 10 mA/0.5 mA, 150 MHz min fT at 10 mA/5 V.
+* Separate aliases preserve provenance; parameters are not original-device fits.
+.model SA20C_CLASS_N NPN(IS=1e-14 BF=260 VAF=80 RC=1 RE=0.25 CJE=10p CJC=4p TF=0.8n TR=10n)
+.model SC60A_CLASS_N NPN(IS=1e-14 BF=260 VAF=80 RC=1 RE=0.25 CJE=10p CJC=4p TF=0.8n TR=10n)
