@@ -406,6 +406,15 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (2026-11-19)
 
+**Current disposition:** Phase A cannot be reported complete from the pushed
+evidence. This is a missing-evidence and model-coverage block, not a wait for
+human approval or a hardware measurement. Work can continue under the
+fallback rule above, but that rule does not make an unverified winding
+connection, an unmodeled frame-path device, or an unscored connected waveform
+count as a completed Phase A item. The tracked goal remains open until the
+specific A1, A2, A3, A5 and A6 gaps below are closed and their evidence is
+committed and pushed.
+
 **Tracked-goal blocked reason:** The goal requires all six Phase A done
 conditions, with the results documented, committed and pushed. The partial
 results are pushed, but only A4 is complete. A1, A2, A3, A5 and A6 still fail
