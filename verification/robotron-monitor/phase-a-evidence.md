@@ -978,9 +978,9 @@ pair carries the same printed signal label at both ends. The X9 external
 input labels and all eight page-18-labelled neck X1 pins agree with
 `assembly.json`; neck X1:4 is unlabelled on page 18 and retains its separate
 page-16 reading. The current assembly reference now points to the new
-interconnect file. Page 18 still needs a KiCad-export comparison and
-functional settlement of any differences before the A1 netlist gate can
-close. This transcription also cannot settle T3's internal winding order.
+interconnect file. Page 18 still needs complete KiCad-export and functional
+checks before the A1 netlist gate can close. This transcription cannot settle
+T3's internal winding order.
 
 `page18_frame_compare.py` now compares all four board-to-board cables against
 freshly exported ideal-rail KiCad components and the neck pin map. The saved
@@ -993,10 +993,20 @@ the held heater branch is assembled outside it. On the vertical cables,
 first two belong to the excluded supply/converter path; the latter two are
 horizontal-yoke pass-through labels on page 18, while the ideal-rail model
 connects the horizontal yoke directly. These are model-scope explanations,
-not verified physical pin connections. The comparison remains semantic:
-main-board and vertical-board KiCad sheets lack physical connector pins, and
-panel controls and yoke wiring still need pin-level comparison. The A1
-page-18 gate stays open.
+not verified physical pin connections. The comparison remains semantic for
+three cables; panel controls and yoke wiring also need pin-level comparison.
+The A1 page-18 gate stays open.
+
+The main-board X4 and vertical-board X3 sheets now expose audit-only six-pin
+connector symbols. `page18_vertical_cable_compare.py` checks their fresh
+KiCad XML exports against the source-first page-18 pin map and cable
+1.11.017308.0 pairing. The saved
+`reference/k7222-11/page18-vertical-cable-comparison.json` matches all 12
+physical connector pins and all six 1-to-1 cable pairs: two 00 returns, 5P,
+12P, 22P and SYN. The audit symbols are excluded from circuit assembly, and
+`reference.py` rejects a changed pin map before assembling either sheet.
+This check verifies the physical pin labels represented in the model; it does
+not validate the three other cables, panel/yoke paths or T3 windings.
 
 ### Independent page-16 neck-board pin transcription (2026-11-19)
 
