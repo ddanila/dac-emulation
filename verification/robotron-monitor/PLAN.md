@@ -406,8 +406,9 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (updated 2026-11-20)
 
-**Goal completion blocked reason:** The independent page-3/4 and 9/10 source
-netlists are still partial. The page-3/4 V19/V1 correction and local L1 feed
+**Goal completion blocked reason (as of 2026-11-20):** The independent
+page-3/4 and 9/10 source netlists are still partial. The page-3/4 V19/V1
+correction and local L1 feed
 comparison do not settle transistor C/E assignments or T3's return and tap
 order; the L1-to-flyback crossing is a conditional functional choice. The 300
 and 600 dpi T3 reads cannot establish the proposed X1:3-to-X2:3 return, so
@@ -415,9 +416,14 @@ the eight surviving flyback-sign candidates still depend on an unverified
 winding graph. A5 therefore cannot freeze the winding ratios, polarities or
 complete design point. A2 has one assembled horizontal-board magnetic
 instance without a register entry, and the 63 registered instances remain
-provisional. The latest loaded A3 diagnostic uses synthetic sync, fails the
-TP8 manual range (25.767 Vpp versus 17 V ±25%) and has not established
-field-to-field periodicity; the isolated, unloaded driver also misses TP15
+provisional. A fresh loaded A3 vertical-stage run with the current device
+models passes TP7 at 2.1599 Vpp but scores TP8 at 25.7855 Vpp against the
+current 17 V ±25% register target. It uses synthetic sync, and adjacent late
+fields still differ by about 0.59 V at the Y1 reset. Manual page 20 also
+annotates a separate approximately 10 V excursion at TP8, so the register's
+interpretation of 17 V as total peak-to-peak needs source review before this
+numeric mismatch can be treated as a settled calibration target. The isolated,
+unloaded driver also misses TP15
 (30.02 Vpp versus 45 Vpp ±20%). No connected native-grid A3 score exists. A6
 still lacks bounded frame-path values. The isolated L3/R35 branch check now
 bounds a provisional L3 inductance ceiling, including R35 tolerance, but
@@ -769,6 +775,14 @@ at the native 19.5 ms period gives TP7 2.1594 Vpp (pass) and TP8 25.7674 Vpp
 (fail against 17 V ±25%); both shapes pass. Y1's late-field reset differs by
 0.5972 V, or 2.32% of its 25.768 V swing. This remains synthetic-sync and
 nonperiodic, not the complete connected grid-stimulus A3 comparison.
+A fresh rerun with the current small-transistor models and nominal 11 kΩ
+height trim, scored over 0.234–0.2535 s with separate EO 203-equivalent
+circuit-loaded probes, reproduces the gap: TP7 passes at 2.1599 Vpp, TP8
+scores 25.7855 Vpp and fails the present 17 V ±25% target; both registered
+shape checks pass. The adjacent Y1 reset differs by about 0.59 V, and the
+stimulus is still synthetic. The manual's additional approximately 10 V TP8
+annotation and its relationship to the 17 V annotation remain unresolved;
+do not freeze the amplitude target from this diagnostic alone.
 The class-typical register collects
 201 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
