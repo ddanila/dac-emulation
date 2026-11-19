@@ -1,0 +1,57 @@
+{
+  "format": "dac-monitor-horizontal-l4-design-v1",
+  "qualification": "conditional isolated base-path operating budget; no source-validated E2 setting, actual T2 drive, original L4 values or A3/A5 score",
+  "source_transcription_sha256": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+  "sheet_sha256": "54a21db8a705d33cebea7c00aa6605a8e27a77557696804132323f1d19f2ae9b",
+  "profile_sha256": "20288f82c68b3b626c84c45713d3a88f281ec01aa8d2e5c8f4dc8f2142943d96",
+  "model_sha256": "5334ce01029e7f78f252f899d142af06e1010853711a65a8439b421b47501723",
+  "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
+  "documented": {
+    "horizontal_trace_s": 4.65e-05,
+    "timing_source": {
+      "file": "older-operation.pdf",
+      "page": 5
+    },
+    "printed_type": "A10/2.5 TGL34992",
+    "stock_source": {
+      "file": "older.pdf",
+      "page": 7
+    }
+  },
+  "model_nodes": {
+    "012-6921:L4:1": [
+      "h_outputbase",
+      "h_outbase"
+    ],
+    "012-6921:L4:2": [
+      "h_outputbase",
+      "h_outbase"
+    ],
+    "012-6921:L4:3": [
+      "h_outbase",
+      "h_outbase"
+    ]
+  },
+  "design_rule": {
+    "base_current_target_a": 0.5,
+    "branch_voltage_headroom_v": 1.0,
+    "turn_on_budget_fraction_of_trace": 0.3333333333333333,
+    "turn_on_budget_s": 1.55e-05,
+    "maximum_l_h_per_coil_at_r_max": 5.3878922200124216e-05,
+    "maximum_r_ohm_per_coil_for_quarter_volt_drop_at_target": 1.0,
+    "current_equation": "I_pair(t) = 2*V/R*(1-exp(-R*t/L))",
+    "limitation": "0.5 A target is a BU508AF-class inductive switching comparator, not a measured V18 requirement; 1 V at L4 is a conditional drive-headroom budget, not an observed T2 output."
+  },
+  "worst_case_pulse": {
+    "ngspice_current_a": 0.533092,
+    "calculated_current_a": 0.5331060875514214,
+    "absolute_error_a": 1.4087551421404498e-05
+  },
+  "open_checks": [
+    "E2 jumper setting and page-4 L4 connectivity require independent source comparison",
+    "Actual T2 secondary voltage and source resistance under V18 loading are unknown",
+    "Original L4 inductance, winding loss, magnetic coupling, current rating and thermal limits are unknown",
+    "L4:3 is bridged in this selected configuration, so its electrical effect is unobservable here"
+  ],
+  "passed": true
+}

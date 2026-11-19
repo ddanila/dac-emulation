@@ -126,16 +126,16 @@
       "minimum": 0.01,
       "maximum": 1,
       "unit": "ohm",
-      "evidence": "assumed-bound",
-      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+      "evidence": "design-derived",
+      "rationale": "In the selected parallel L4:1/L4:2 base path, 1 ohm per coil drops at most 0.25 V at a conditional 0.5 A total branch current. The 1 V available-headroom and 0.5 A current budgets are not measurements of T2 or original L4."
     },
     "horizontal_compensation_l": {
       "nominal": 5e-06,
       "minimum": 1e-07,
       "maximum": 5e-05,
       "unit": "H",
-      "evidence": "assumed-bound",
-      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+      "evidence": "design-derived",
+      "rationale": "Two uncoupled 50 uH maximum chokes in parallel pass 0.5 A total within one third of the documented 46.5 us trace with a conditional 1 V branch headroom; the analytic limit is 53.9 uH per coil at 1 ohm. The one-third turn-on budget is an engineering choice; nominal and lower bound are exploratory, and L4:3 is bridged in this configuration."
     },
     "horizontal_brightness_fraction": {
       "nominal": 0.5,

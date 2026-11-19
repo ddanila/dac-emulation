@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; 60 of 64 frame-path instances have provisional register coverage, including conditional T1, T2 primary, L1 feed and L3 output-branch checks; four assembled horizontal-board magnetics remain uncovered",
+  "status": "partial; 63 of 64 frame-path instances have provisional register coverage, including conditional T1, T2 primary, L1 feed, L3 output and L4 base-path checks; T3 remains uncovered",
   "sources": {
     "ti_sn74h00_1985": {"url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf", "edition": "Texas Instruments The TTL Data Book, 1985, printed pages 3-3 and 3-6", "use": "SN74H00 4x 2-input NAND class: 4.75-5.25 V supply, VIH >=2 V, VIL <=0.8 V, VOH >=2.4 V at -0.5 mA, VOL <=0.4 V at 20 mA, IIH <=50 uA, IIL >=-2 mA, ICCH <=16.8 mA, ICCL <=40 mA, and tPLH/tPHL <=10 ns at 280 ohm/25 pF. A Robotron table maps T200 to this family; not a T200 specimen test."},
     "ti_lm709c": {"url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf", "revision": "National Semiconductor / TI SNOS659A", "pages": [2, 3, 4], "use": "LM709C class comparator at +/-15 V: minimum 15 V/mV large-signal gain, +/-10 V minimum output swing into 2 kohm, 2.6 mA typical/6.6 mA maximum supply current, 300 nA typical/1.5 uA maximum bias, 50 kohm minimum/250 kohm typical input resistance, 150 ohm typical output resistance and 0.25 V/us typical slew. The K7222.11 printed P09A is not identified as LM709."},
@@ -93,6 +93,10 @@
       "file": "reference/k7222-11/horizontal-l3-design.json",
       "use": "Documented parallel R35=82 ohm +/-5% and 16 us retrace set an isolated upper L3 inductance budget: R35 branch current no more than 25% of L3 branch current at the retrace half-cycle frequency, including the low R35 tolerance endpoint. The source branch and original choke values remain unqualified."
     },
+    "horizontal_l4_design": {
+      "file": "reference/k7222-11/horizontal-l4-design.json",
+      "use": "The selected, unverified E2 configuration puts L4:1/L4:2 in parallel in the V18 base path and bypasses L4:3. A conditional 1 V branch voltage for one third of the documented 46.5 us trace reaches the BU508AF-class 0.5 A switching comparator with 50 uH/1 ohm per coil. Actual T2 delivery and original choke values remain unknown."
+    },
     "philips_bd139_bd140": {
       "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1986_S04a_Philips_Low-Frequency_Power_Transistors_and_Hybrid_Modules.pdf",
       "edition": "October 1985 data pages 60 and 70",
@@ -100,6 +104,23 @@
     }
   },
   "families": [
+    {
+      "id": "horizontal-output-l4-chokes",
+      "printed_type": "A10/2.5 TGL34992",
+      "candidate_class": "three stock-matched RL chokes; L4:1 and L4:2 are parallel in the selected base path, while L4:3 is bridged",
+      "identity_tier": "printed stock identity with conditional design-derived operating bounds; no original electrical specification",
+      "model": "HORIZONTAL_COMPENSATION",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "profile": "profiles/k7222-11-horizontal-oscillator.json",
+      "member_ids": ["012-6921:L4:1", "012-6921:L4:2", "012-6921:L4:3"],
+      "sources": ["horizontal_l4_design", "st_bu508af"],
+      "parameters": {
+        "L": {"profile_key": "horizontal_compensation_l", "nominal": 0.000005, "bounds": [0.0000001, 0.00005], "unit": "H", "tier": "conditional design-derived upper operating budget", "basis": "At 1 V directly across the two parallel chokes for one third of the 46.5 us trace, 50 uH per coil and 1 ohm winding resistance give 0.533 A total; the 0.5 A comparator is from BU508AF inductive switching conditions, not an original L4 rating."},
+        "RDC": {"profile_key": "horizontal_compensation_r", "nominal": 0.1, "bounds": [0.01, 1], "unit": "ohm", "tier": "conditional design-derived upper operating budget", "basis": "At 0.5 A total, two equal 1 ohm chokes in parallel drop 0.25 V, one quarter of the assumed 1 V branch headroom."}
+      },
+      "model_response_report": "reference/k7222-11/horizontal-l4-design.json",
+      "remaining": ["Independent source comparison must settle E2 and all L4 branch connections", "Actual loaded T2 secondary drive, original L4 winding/core/coupling and thermal limits are unknown", "L4:3 is bypassed in this selected configuration and has no observable electrical effect"]
+    },
     {
       "id": "page9-horizontal-centering-chokes",
       "printed_type": "1.11.017324.0/01",

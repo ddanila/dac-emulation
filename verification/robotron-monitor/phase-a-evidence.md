@@ -2110,3 +2110,22 @@ nor connected T3/yoke response has been established. The page-4 branch still
 needs independent whole-page source comparison. Coverage is now 60/64,
 leaving three L4 sections and T3; A6 has 199 partial entries. The
 [PLAN blocker](PLAN.md) therefore remains in effect.
+
+### A2/A6: conditional L4 base-path bound (2026-11-20)
+
+The [L4 branch check](reference/k7222-11/horizontal-l4-design.json)
+exports the current page-4 KiCad sheet and confirms that L4:1 and L4:2
+are parallel between the T2 secondary and V18 base in the selected E2
+configuration. L4:3 is bridged. With 1 V imposed directly across the two
+equal chokes for one third of the documented 46.5 µs trace (15.5 µs),
+the active 50 µH/1 Ω per-coil worst case reaches 0.533 A. This exceeds the
+0.5 A base-drive condition in the BU508AF-class inductive switching test; the analytic
+ceiling is 53.9 µH per coil. Two 1 Ω coils in parallel drop 0.25 V at
+0.5 A total. These are conditional engineering budgets: the loaded T2
+secondary has not been shown to supply the assumed 1 V. The one-third-trace
+turn-on budget is an engineering choice, the E2 setting has not been
+independently read, and the original A10/2.5 TGL34992
+electrical values remain unknown. The stock-matched but bypassed L4:3
+inherits the provisional bounds without a measured branch response.
+The A2 register now covers 63/64 frame-path instances, leaving T3;
+A6 has 201 partial entries. A1, A3, A5 and A6 remain open.
