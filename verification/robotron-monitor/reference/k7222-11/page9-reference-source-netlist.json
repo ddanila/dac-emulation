@@ -1,0 +1,57 @@
+{
+  "format": "dac-monitor-independent-source-netlist-v1",
+  "qualification": "partial page-9 source-side pin transcription; 5.1 V reference branch only",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 9,
+    "views": [
+      {
+        "description": "300 dpi full-page read",
+        "sha256": "76a5fd4139d7f75b3692e2c1f1574fdadff6373b96bec88487b946d121f60496"
+      },
+      {
+        "description": "600 dpi upper reference-branch crop read",
+        "sha256": "f18556f92bdc9f0c26a62947daf528ed4cbc3702042a8471e07034dec67f0b7d"
+      },
+      {
+        "description": "enlarged base-capacitor label crop, after source-ID comparison flagged the first reading",
+        "sha256": "70e94a49096c034d40cc7dc5d84e2ac1b35885b453041210532e3679914eb81b"
+      },
+      {
+        "description": "enlarged output-capacitor label crop",
+        "sha256": "dc78cad2302871248fc54246dd1c821f11e69bc122b6986e657878da85bd54ee"
+      }
+    ]
+  },
+  "scope": {
+    "board": "012-6931",
+    "parts": ["R10", "R9", "V3", "R11", "V4", "C7", "C5"],
+    "omitted_neighbours": "P1, R1 and the rest of the page-9/10 circuit are outside this partial comparison"
+  },
+  "reading_notes": [
+    "The SYNC line crosses the R10 and R11 vertical leads without junction dots; it does not join this DC reference branch.",
+    "R9 is a three-terminal trim: upper end from R10, wiper to V4 base/C7 positive, lower end to V3 cathode.",
+    "V3 is a 5.1 V zener with cathode at the R9 lower end and anode at 0 V.",
+    "C7 and C5 have their positive plates at the base and emitter nodes respectively.",
+    "The first 600 dpi read called the capacitors C3/C4. Separate enlarged labels and the board parts list resolve them as C7/C5; neither C3 nor C4 is in this branch.",
+    "The source feed is labelled 12P on the enlarged left-hand view, not 41P."
+  ],
+  "nets": {
+    "12P_FUSED": ["R10:1", "R11:1"],
+    "R10_TO_R9": ["R10:2", "R9:1"],
+    "ZENER_REF": ["R9:3", "V3:K"],
+    "BASE_REF": ["R9:2", "V4:B", "C7:+"],
+    "V4_COLLECTOR": ["R11:2", "V4:C"],
+    "REF_OUTPUT": ["V4:E", "C5:+"],
+    "0": ["V3:A", "C7:-", "C5:-"]
+  },
+  "diode_directions": [
+    {"part": "V3", "anode_net": "0", "cathode_net": "ZENER_REF"}
+  ],
+  "transistor": {"part": "V4", "collector_net": "V4_COLLECTOR", "base_net": "BASE_REF", "emitter_net": "REF_OUTPUT"},
+  "capacitor_polarity": [
+    {"part": "C7", "positive_net": "BASE_REF", "negative_net": "0"},
+    {"part": "C5", "positive_net": "REF_OUTPUT", "negative_net": "0"}
+  ]
+}
