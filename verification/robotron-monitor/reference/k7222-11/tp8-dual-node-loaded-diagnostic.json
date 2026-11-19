@@ -1,0 +1,55 @@
+{
+  "format": "dac-monitor-tp8-dual-node-loaded-diagnostic-v1",
+  "qualification": "conditional functional comparison; synthetic sync, nominal trims, and no unique source attribution of the 10 V arrow",
+  "source_read": "tp8-waveform-source-read.json",
+  "source_netlist": "page10-output-pair-source-netlist.json",
+  "source_netlist_sha256": "e4a8404cfcd31c9d2501313efaf69d16d12604cac4834dec930df8fafb9b812d",
+  "stage": {
+    "profile": "profiles/k7222-11-vertical-output.json",
+    "profile_sha256": "4af447b79a9d09ecf8e6484398ba43b42d425ae635693a688c6d5dcd3cf7d75c",
+    "stop_s": 0.2535,
+    "step_s": 0.000002,
+    "sync_period_override_s": 0.0195,
+    "height_trim_ohm": 11000,
+    "report_sha256": "11a2a490dc26c6e16371ff35f31e3ec0a79ded17ee114d5f48bc14869cc72a21",
+    "base_deck_sha256": "4dc04d8b153afd9b8e1e475c6fa28a52c858df2fe24d992b5e8d77e97416555e",
+    "base_trace_sha256": "ac6ca21367338b1d6a23a02bf875db0edcffaa62dcb712477d822d30c228d275"
+  },
+  "instrument": {
+    "model": "independent 1 Mohm / 48 pF circuit-loaded solves, followed by 10 MHz one-pole response",
+    "x2_3_loaded_deck_sha256": "b420e0a1114a620c5d668ea19363e36aa848a6ac0be0bc5a78bf0218bb035701",
+    "x2_3_loaded_trace_sha256": "37387d59e422be11787295f4349f05e276669f997edb1a0397b4dda2d9604cb8",
+    "r48_v20_loaded_deck_sha256": "ad8953b0cd2a186ca24323c24d1e0c264df465d7b1440f6d55f92178fcdf0106",
+    "r48_v20_loaded_trace_sha256": "e40f2fa6279100442baf1f06371424a0b8a448b51983b14ef11b0f95fa89bff1"
+  },
+  "final_field": {
+    "window_s": [0.234, 0.2535],
+    "samples": 9750,
+    "x2_3": {
+      "node": "y1",
+      "full_swing_vpp": 25.785470273195045,
+      "positive_crest_above_zero_v": 14.580295938549376,
+      "service_score_status": "reference-incomplete"
+    },
+    "r48_v20": {
+      "node": "bias_middle",
+      "full_swing_vpp": 25.202204144205403,
+      "positive_crest_above_zero_v": 14.068017818243524
+    },
+    "largest_raw_node_difference_v": 0.7680313762678281,
+    "largest_raw_node_difference_time_after_field_start_ms": 1.014
+  },
+  "secondary_arrow_exploration": {
+    "manual_target_v": 10,
+    "manual_target_with_25_percent_range_v": [7.5, 12.5],
+    "method": "Fold each loaded, bandwidth-limited field into the stated number of phase bins. Identify the longest circular run whose bin-to-bin rise is less than 0.2 percent of the profile range, then subtract its endpoint from its starting level. This exploratory feature includes the post-step shoulder and pre-reset trough but is not stable enough to gate.",
+    "previous_field_s": [0.2145, 0.234],
+    "latest_field_s": [0.234, 0.2535],
+    "x2_3_previous_field_v": {"bins_128": 6.76681, "bins_256": 6.72491},
+    "r48_v20_previous_field_v": {"bins_128": 7.68801, "bins_256": 7.60756},
+    "x2_3_latest_field_v": {"bins_64": 16.69282, "bins_128": 6.83198, "bins_256": 6.49244},
+    "r48_v20_latest_field_v": {"bins_64": 17.6562, "bins_128": 7.75427, "bins_256": 7.40948},
+    "resolution_effect": "At 64 bins the brief reset is merged into the falling run. At 128 versus 256 bins the R48/V20 estimate crosses the 7.5 V lower guideline. Neither value is a qualified measurement of the printed 10 V arrow."
+  },
+  "conclusion": "The model's two candidate nodes have similar full traces. The corrected 17 V crest check at X2:3 remains within tolerance, but this functional comparison cannot assign or qualify the 10 V annotation. Preserve TP8 as reference-incomplete; resolve the source-node relationship and a reset-excluding feature definition before tuning the stage."
+}

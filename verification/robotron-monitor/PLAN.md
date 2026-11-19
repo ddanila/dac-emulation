@@ -453,7 +453,7 @@ labelled as such. The remaining done-condition gaps are:
 | --- | --- |
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed local branches and page-9 centring bridge, including transistor C/E polarity, L1's ambiguous hot-line crossing and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. The installed E1–E4 pair is not identified. |
 | A2 | Model and bound every frame-path device. Sixty-three of 64 instances have provisional register coverage; T3 has none. Both page-9 centring chokes, T1, T2's primary, horizontal-feed L1, output L3 and three L4 chokes have conditional checks, but original values and connected sensitivity remain unqualified. None of the 63 closes every qualification check. |
-| A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check now passes in the synthetic-sync loaded bench, but its separate 10 V arrow still needs node attribution. Score connected stages with the required loaded probes, native grid stimulus and recorded trims. |
+| A3 | All 17 manual waveform shape descriptors are registered. TP8's 17 V crest-to-zero check passes in the synthetic-sync loaded bench; a dual-node probe shows the separate 10 V arrow remains sensitive to reset masking and node attribution. Score connected stages with stable feature definitions, the required loaded probes, native grid stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
 | A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 201 partial entries. |
 
@@ -793,6 +793,14 @@ that 17 V is crest-to-zero, not full peak-to-peak. The
 measures a 14.5803 V crest, inside the 17 V ±25% guideline. The 10 V
 shoulder-to-trough arrow has unresolved node attribution, so TP8 remains
 `reference-incomplete` rather than a full-swing pass or failure.
+The [dual-node loaded diagnostic](reference/k7222-11/tp8-dual-node-loaded-diagnostic.json)
+now records X2:3 and the distinct R48/V20 junction in separate probe solves.
+Their full traces differ by at most 0.768 V in the final field. An exploratory
+long-descent feature gives 6.83 V at X2:3 and 7.75 V at R48/V20 with 128 phase
+bins, but the R48/V20 value falls to 7.41 V with 256 bins, crossing the 7.5 V
+lower guideline. The short reset undershoot makes this feature definition
+resolution-sensitive; these numbers neither settle the annotation's node nor
+qualify its 10 V comparison.
 The class-typical register collects
 201 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
