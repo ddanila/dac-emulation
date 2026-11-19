@@ -1,0 +1,42 @@
+{
+  "format": "dac-monitor-page10-output-pair-source-netlist-v1",
+  "qualification": "partial page-10 source-side read of the complementary vertical output pair; the rest of page 10 remains open",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 10,
+    "views": [
+      {
+        "description": "300 dpi full page, output pair and Y1 connection",
+        "sha256": "1e0998b2ec8568e3ccff1ab9a55d11d10bf0a729770d12d0d28edcf7ebff344e"
+      },
+      {
+        "description": "600 dpi upper output-pair crop, V18/V27 and their common rail",
+        "sha256": "62b88b2c27e57b4538ab85d2b3ea082b99ded9e7ab1a24099f3123364af42a85"
+      },
+      {
+        "description": "600 dpi lower output-pair crop, V28 and lower rail",
+        "sha256": "54f76f6d4f2bc597929a5c22c1c712ef0ce461c2a1a4d3ced55ca540941fce6e"
+      }
+    ]
+  },
+  "scope": {
+    "board": "012-6931",
+    "parts": ["V18", "V26", "V27", "V28"],
+    "omitted_neighbours": "Driver bases, emitter resistors, diode bias chain, feedback and other page-10 connections are outside this partial read"
+  },
+  "reading_notes": [
+    "V27's printed collector branch reaches the positive vertical supply rail also serving V18's collector; its base meets V18's emitter; its emitter reaches the Y1 output line.",
+    "V28's printed collector branch reaches the lower vertical rail also serving V26's collector; its base meets V26's emitter; its emitter reaches the same Y1 output line.",
+    "The printed emitter arrows identify V27 as NPN and V28 as PNP. Handwritten BD140/BD139 labels beside the parts reverse those polarities and do not establish factory identities.",
+    "Y1 is the output to the vertical deflection coil; this read does not establish the other coil terminal or a complete page-10 netlist."
+  ],
+  "nets": {
+    "UPPER_RAIL": ["V18:C", "V27:C"],
+    "UPPER_DRIVER": ["V18:E", "V27:B"],
+    "Y1_OUTPUT": ["V27:E", "V28:E"],
+    "LOWER_DRIVER": ["V26:E", "V28:B"],
+    "LOWER_RAIL": ["V26:C", "V28:C"]
+  },
+  "printed_polarity": {"V27": "NPN", "V28": "PNP"}
+}
