@@ -26,12 +26,12 @@
       "rationale": "Broad silicon switching BJT saturation-current family."
     },
     "q_bf": {
-      "nominal": 60,
+      "nominal": 26,
       "minimum": 18,
-      "maximum": 150,
+      "maximum": 34.7,
       "unit": "1",
       "evidence": "assumed-bound",
-      "rationale": "Uncalibrated gain; broad range, not a certified SSY20A tolerance."
+      "rationale": "SPICE low-injection BF proxy for the SSY20A group-A h21E range 18..35 at IC=500 mA and VCE=1.3 V in the DDR-Halbleiter SSY20 data sheet. The 34.7 upper BF maps to approximately 34.98 h21E at that bias in neck_transistor_check.py. The group-A suffix mapping is inferred; this is not a full fitted model."
     },
     "q_vaf": {
       "nominal": 60,
