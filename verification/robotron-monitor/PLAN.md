@@ -418,7 +418,7 @@ committed and pushed.
 **Tracked-goal blocked reason:** The goal requires all six Phase A done
 conditions, with the results documented, committed and pushed. The partial
 results are pushed, but only A4 is complete. A1, A2, A3, A5 and A6 still fail
-their done conditions. The immediate A1 uncertainty is T3: the page-4 scan
+their done conditions. One immediate A1 uncertainty is T3: the page-4 scan
 supports its external drive and high-voltage connections, but the 300 and
 600 dpi reviews do not distinguish the proposed X1:3-to-X2:3 return or the
 internal tap order. The current winding graph is therefore a hypothesis, and
@@ -428,7 +428,7 @@ candidates. The other remaining done-condition gaps are:
 
 | Item | Evidence still needed for completion |
 | --- | --- |
-| A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed R11/R37/V20 local branches; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
+| A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed R11/R37/V20 local branches, including V10's lower return; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
 | A2 | Model and bound every frame-path device. Only 47 of 64 instances have provisional register coverage; 14 assembled instances have none and three are absent from the ideal-rail assembly. None of the 47 closes every qualification check. |
 | A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
@@ -452,6 +452,17 @@ former `p12–sync_feed–sync_c` arrangement to the printed
 the same printed `1SA20C` peer V6 symbol and live NPN alias provisionally.
 Original device parameters, connected stress, the full page-3/4 pin comparison
 and a connected contrast score remain open.
+
+The latest page-3 enlarged read raises a second specific A1 mismatch. V10's
+lower symbol lead appears to meet the lower return line shared with V6 and
+V20; the earlier page-3 source read traces that line to `00`. The current
+`horizontal-transcription.json` instead gives V10 (`Q1034`) a separate
+`h_reactemit` terminal, also used by C12, R20 and C13. This is a visual
+candidate, not a settled correction: an independent pin-to-pin read must
+confirm the junction and transistor terminal, then compare the result with a
+fresh KiCad export. Until that comparison is recorded, the V10 stage and
+the newly assembled horizontal/contrast branch remain provisional. Neither
+the T3 nor V10 issue calls for a human reading or a physical measurement.
 
 These are independent completion failures, not just one T3 issue. The
 [device-model coverage report](reference/k7222-11/device-model-coverage.json)
