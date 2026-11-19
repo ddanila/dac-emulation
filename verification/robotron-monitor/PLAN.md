@@ -476,7 +476,9 @@ provisional device-model register coverage (five individual devices, ten
 vertical 1AE15 diodes and eight 1AD50 clamp diodes); 37 assembled instances
 have no entry. V19/V20 on 012-6921 and L1/L2 on 012-6931 are absent from the
 current ideal-rail assembly. None of the twenty-three instances yet closes all
-A2 parameter checks.
+A2 parameter checks. The V18 horizontal-output model now passes a BU508AF-class
+DC gain and saturation proxy; its inductive switching, parameter bounds and
+connected-stage stress remain unchecked.
 The waveform scorer now supports separately loaded SPICE solves for the bounded
 EO 203 probe equivalent and records an explicit grid stimulus choice. No
 connected stage score yet has all required loaded probes or recorded trims (A3).

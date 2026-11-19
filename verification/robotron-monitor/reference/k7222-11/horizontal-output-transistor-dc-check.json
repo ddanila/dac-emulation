@@ -1,0 +1,64 @@
+{
+  "format": "dac-monitor-v18-model-dc-check-v1",
+  "qualification": "BU508AF-class DC proxy only; inductive switching and connected-stage SOA remain open",
+  "source": "https://www.st.com/resource/en/datasheet/bu508af.pdf",
+  "model_file_sha256": "bf946b77dd0e2a560f2273a7a458dd049d6af75d0e6df1094ecc5fa56e68f8d6",
+  "register_sha256": "75f75c638e8a4b088af1fc898f0eb2140cd2d869e378c66ae9070ced1a14b3aa",
+  "sheet_sha256": "7b95a1ff30d726d9abdd6366880b7d38729773d8705d3a08beaa7d57426f5c6e",
+  "assembly_source_id": "012-6921:V18",
+  "assembly_reference": "Q1133",
+  "data_sheet_targets": {
+    "hFE_0p1a": {
+      "minimum": 10,
+      "maximum": 30,
+      "conditions": "IC=0.1 A, VCE=5 V, Tcase=25 C",
+      "source": "ST BU508AF page 4"
+    },
+    "hFE_4p5a": {
+      "minimum": 5,
+      "conditions": "IC=4.5 A, VCE=5 V, Tcase=25 C",
+      "source": "ST BU508AF page 4"
+    },
+    "VCEsat_v": {
+      "maximum": 1,
+      "conditions": "IC=4.5 A, IB=1.6 A",
+      "source": "ST BU508AF page 4"
+    },
+    "storage_time_s": {
+      "typical": 2.5e-06,
+      "conditions": "inductive 4.5 A, IB(on)=0.5 A, VBE(off)=-2.7 V, 16 kHz",
+      "source": "ST BU508AF page 4"
+    },
+    "fall_time_s": {
+      "typical": 2e-07,
+      "conditions": "same inductive switching test",
+      "source": "ST BU508AF page 4"
+    }
+  },
+  "low_current_gain": {
+    "collector_current_a": 0.1,
+    "base_current_a": 0.004786503131896257,
+    "collector_emitter_voltage_v": 5,
+    "base_emitter_voltage_v": 0.5392247,
+    "hFE": 20.892078672971277
+  },
+  "operating_current_gain": {
+    "collector_current_a": 4.5,
+    "base_current_a": 0.21559397340789438,
+    "collector_emitter_voltage_v": 5,
+    "base_emitter_voltage_v": 0.6370515,
+    "hFE": 20.87256860137828
+  },
+  "saturation_dc_proxy": {
+    "collector_current_a": 4.5,
+    "base_current_a": 1.6,
+    "collector_emitter_voltage_v": 0.04441156,
+    "base_emitter_voltage_v": 0.6496169
+  },
+  "checks": {
+    "hFE_0p1a": true,
+    "hFE_4p5a": true,
+    "VCEsat_dc_proxy": true
+  },
+  "passed": true
+}
