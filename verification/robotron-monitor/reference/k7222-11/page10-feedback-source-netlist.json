@@ -1,0 +1,29 @@
+{
+  "format": "dac-monitor-page10-feedback-source-netlist-v1",
+  "qualification": "partial page-10 source read of the A3 inverting-feedback and Y2 sense path; whole page remains open",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "schematic_page": 10,
+    "parts_list_page": 14,
+    "views": [
+      {"description": "300 dpi full page 10, including the inverting input and Y2 return", "sha256": "1e0998b2ec8568e3ccff1ab9a55d11d10bf0a729770d12d0d28edcf7ebff344e"},
+      {"description": "600 dpi enlarged page-10 R43/R45/R46/R47 feedback crop", "sha256": "f538b436e615c6603414efd07f58553ef1108cf0c46a87694c252b53da5cf2df"},
+      {"description": "300 dpi page-14 printed resistor parts list", "sha256": "5dfd346d9ead1c2ea6b979088e69171ad211bf61d2953fb2459074561a3adb90"},
+      {"description": "300 dpi page-9 R44/R40 ramp-output divider", "sha256": "76a5fd4139d7f75b3692e2c1f1574fdadff6373b96bec88487b946d121f60496"}
+    ]
+  },
+  "scope": ["012-6931:A3", "012-6931:R43", "012-6931:R45", "012-6931:R46", "012-6931:R47", "012-6931:R27", "012-6931:X2"],
+  "reading_notes": [
+    "R47 spans the A3 physical pin 4 inverting-input line after R43 and the Y2 return. R45 and R46 join their respective lower and upper threshold nodes to Y2.",
+    "The page-14 parts list gives R45 and R46 as 5.6 kilohms each and R47 as 1.5 kilohms. R44 is a different 160-ohm resistor on page 9 in the A2 ramp-output divider, already assembled there as R613; no second R44 is drawn here.",
+    "R27 connects Y2 to the 0 V return and X2:4 carries Y2, as established by the earlier output-pair read."
+  ],
+  "nets": {
+    "AMP_INV": ["A3:4", "R43:2", "R47:1"],
+    "THRESHOLD_LOWER": ["R45:1"],
+    "THRESHOLD_UPPER": ["R46:1"],
+    "Y2_RETURN": ["R45:2", "R46:2", "R47:2", "R27:1", "X2:4"]
+  },
+  "resistor_values_ohm": {"R45": 5600, "R46": 5600, "R47": 1500}
+}
