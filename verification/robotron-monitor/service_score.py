@@ -4,6 +4,7 @@ This reports the manual's approximate values independently of parameter fitting.
 Absent probes and unspecified manual values remain explicit; neither is a pass.
 """
 import argparse
+import bisect
 import csv
 import hashlib
 import json
@@ -79,6 +80,99 @@ def measure(times, values, waveform):
                 observed_edges=len(edges),window_s=times[-1]-times[0],samples=len(times))
 
 
+def _time_above(times, values, threshold):
+    """Fraction above threshold, interpolating crossings on irregular samples."""
+    above = 0.
+    for a, b, ta, tb in zip(values, values[1:], times, times[1:]):
+        duration = tb-ta
+        if a >= threshold and b >= threshold:
+            above += duration
+        elif a < threshold and b < threshold:
+            continue
+        else:
+            crossing = (threshold-a)/(b-a)
+            above += duration*(crossing if a >= threshold else 1-crossing)
+    return above/(times[-1]-times[0])
+
+
+def _phase_profile(times, values, period, bins=64):
+    """Average complete cycles before testing ramp direction or reset."""
+    if not period or period <= 0:
+        return None
+    if any(b-a > period/16 for a,b in zip(times,times[1:])):
+        return None
+    cycles = int((times[-1]-times[0])/period)
+    if cycles < 2:
+        return None
+    cycles = min(cycles, 1000)
+    sums = [0.]*bins
+    for cycle in range(cycles):
+        origin = times[0]+cycle*period
+        for slot in range(bins):
+            target = origin+(slot+.5)*period/bins
+            right = bisect.bisect_left(times, target)
+            if right == 0 or right == len(times):
+                return None
+            left = right-1
+            fraction = (target-times[left])/(times[right]-times[left])
+            sums[slot] += values[left]+fraction*(values[right]-values[left])
+    return [value/cycles for value in sums]
+
+
+def shape_checks(times, values, waveform, measured):
+    """Check only features legible in the service-manual sketches."""
+    descriptor = waveform['shape_descriptor']
+    span = measured['peak_to_peak_v']
+    if span <= 0:
+        return {'nonflat':False}, {}
+    family = descriptor['family']
+    checks = {}
+    if family == 'pulse':
+        polarity = descriptor['pulse_polarity']
+        above = _time_above(times, values, (measured['min_v']+measured['max_v'])/2)
+        duty = above if polarity == 'positive' else 1-above
+        checks['pulse_polarity'] = polarity in ('positive','negative') and 0 < duty <= .55
+        checks['repeated_pulse'] = measured['observed_edges'] >= 2
+        sampling_period = descriptor.get('sampling_period_s', waveform['period_s'])
+        checks['sample_resolution'] = (sampling_period is not None
+            and max(b-a for a,b in zip(times,times[1:])) <= sampling_period/16)
+        if waveform['period_s'] is not None:
+            period = measured['period_s']
+            checks['period_match'] = (period is not None
+                and abs(period-waveform['period_s']) <= .1*waveform['period_s'])
+        if 'duty_fraction_range' in descriptor:
+            lo, hi = descriptor['duty_fraction_range']
+            checks['duty_fraction'] = lo <= duty <= hi
+        return checks, {'active_fraction':duty,'positive_fraction':above}
+    if family in ('rising-sawtooth','falling-sawtooth'):
+        profile = _phase_profile(times, values, waveform['period_s'])
+        if profile is None:
+            return {'complete_cycles':False}, {}
+        differences = [b-a for a,b in zip(profile,profile[1:]+profile[:1])]
+        threshold = .002*span
+        increasing = sum(d > threshold for d in differences)
+        decreasing = sum(d < -threshold for d in differences)
+        total = increasing+decreasing
+        rising = family == 'rising-sawtooth'
+        direction = increasing if rising else decreasing
+        reset = -min(differences) if rising else max(differences)
+        checks['ramp_direction'] = total > 0 and direction/total >= .65
+        checks['sharp_reset'] = reset >= .15*span
+        return checks, {'direction_fraction':direction/total if total else None,
+                        'reset_fraction':reset/span}
+    if family == 'bipolar-ramp':
+        baseline = descriptor['baseline_v']
+        checks['crosses_baseline'] = (measured['min_v'] < baseline-.15*span
+                                     and measured['max_v'] > baseline+.15*span)
+        profile = _phase_profile(times, values, waveform['period_s'])
+        checks['complete_cycles'] = profile is not None
+        if profile is not None:
+            differences = [b-a for a,b in zip(profile,profile[1:]+profile[:1])]
+            checks['steep_rise'] = max(differences) >= .1*span
+        return checks, {'baseline_v':baseline}
+    raise ValueError('unknown manual shape family: '+str(family))
+
+
 def score(path, *, start=None, end=None, required=(), register=REGISTER):
     path=Path(path);register=Path(register)
     if start is not None and end is not None and not start < end:raise ValueError('invalid window')
@@ -108,6 +202,7 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
                        peak_to_peak_range_v=w.get('approximate_swing_range_v'),period_s=w['period_s'],
                        pulse_width_s=w['pulse_width_s'],rise_time_s=w.get('rise_time_s'),dc_level_v=w['dc_level_v'],
                        shape_class=w['shape_class'],polarity=w['polarity'],
+                       shape_descriptor=w['shape_descriptor'],
                        condition_id=w['condition_id'],instrument=condition['instrument'],
                        operating_conditions=condition['manual_note']),
                    tolerance_fraction=w['acceptance_tolerance'])
@@ -134,21 +229,30 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
             # Excursion relative to the median is a diagnostic, not proof of
             # pulse direction for a mixed or asymmetric waveform.
             entry['polarity_match_hint']=(measured['dominant_excursion']==w['polarity'])
-            entry['checks']=checks;entry['shape_review']='required'
+            shape,features=shape_checks(ts,vs,w,measured)
+            entry['shape_checks']=shape;entry['shape_features']=features
+            entry['shape_status']='pass' if all(shape.values()) else 'fail'
+            entry['checks']=checks
             entry['status']='pass-numeric' if all(checks.values()) else 'fail-numeric'
         points.append(entry)
     missing=required-{p['test_point'] for p in points}
     if missing:raise ValueError('unknown required test points: '+str(sorted(missing)))
-    required_failures=[p['test_point'] for p in points if p['test_point'] in required and p['status']!='pass-numeric']
+    required_failures=[p['test_point'] for p in points if p['test_point'] in required
+                       and (p['status']!='pass-numeric' or p.get('shape_status')!='pass')]
     digest=hashlib.sha256()
     with path.open('rb') as stream:
         for block in iter(lambda:stream.read(1024*1024),b''):digest.update(block)
     input_hash=digest.hexdigest()
+    numeric_failures=[p['test_point'] for p in points if p['test_point'] in required
+                      and p['status']!='pass-numeric']
+    shape_failures=[p['test_point'] for p in points if p['test_point'] in required
+                    and p.get('shape_status')!='pass']
     return dict(format='dac-monitor-service-score-v1',input=str(path),input_sha256=input_hash,
                 register_sha256=hashlib.sha256(register.read_bytes()).hexdigest(),requested_window_s=[start,end],
                 samples_in_window=rows,required_points=sorted(required),required_failures=required_failures,
-                numeric_status='pass' if not required_failures else 'fail',
-                qualification='diagnostic-only; shape and source conditions require review',points=points)
+                numeric_status='pass' if not numeric_failures else 'fail',
+                shape_status='pass' if not shape_failures else 'fail',
+                qualification='diagnostic-only; shape checked from samples; source conditions must match',points=points)
 
 
 def main():

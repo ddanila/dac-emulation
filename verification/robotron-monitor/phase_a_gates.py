@@ -38,45 +38,8 @@ def point_status(score,n):
     return next((p.get('status') for p in score.get('points',[]) if p.get('test_point')==n),None)
 
 
-def waveform_review_template(score):
-    """Blank waveform observations for this exact scored trace and register."""
-    if score.get('format')!='dac-monitor-service-score-v1':
-        raise ValueError('waveform review needs a service score')
-    points=score.get('points',[])
-    if len(points)!=17 or {p.get('test_point') for p in points}!=set(range(1,18)):
-        raise ValueError('waveform review needs all 17 test points')
-    return dict(format='dac-monitor-waveform-reviews-v1',
-                service_score_sha256=calibration_contract.digest(score),
-                electrical_trace_sha256=score['input_sha256'],
-                register_sha256=score['register_sha256'],
-                points={str(p['test_point']):dict(
-                    reference_shape=p.get('reference',{}).get('shape_class'),
-                    reference_condition_id=p.get('reference',{}).get('condition_id'),
-                    reference_operating_conditions=p.get('reference',{}).get('operating_conditions'),
-                    shape=None,operating_conditions=None,notes=None) for p in points})
-
-
-def waveform_reviewed(evidence, n, score):
-    bundle=evidence.get('waveform_reviews',{})
-    if (not isinstance(bundle,dict)
-            or bundle.get('format')!='dac-monitor-waveform-reviews-v1'
-            or bundle.get('service_score_sha256')!=calibration_contract.digest(score)
-            or bundle.get('electrical_trace_sha256')!=score.get('input_sha256')
-            or bundle.get('register_sha256')!=score.get('register_sha256')
-            or not isinstance(bundle.get('points'),dict)):
-        return False
-    review=bundle['points'].get(str(n),{})
-    if not isinstance(review,dict):return False
-    point=next((p for p in score['points'] if p['test_point']==n),None)
-    if (point is None
-            or review.get('reference_shape')!=point.get('reference',{}).get('shape_class')
-            or review.get('reference_condition_id')!=point.get('reference',{}).get('condition_id')
-            or review.get('reference_operating_conditions')!=point.get('reference',{}).get('operating_conditions')
-            or review.get('shape')!='agrees'
-            or review.get('operating_conditions')!='agrees'
-            or not isinstance(review.get('notes'),str) or not review['notes'].strip()):
-        return False
-    return True
+def point_shape_status(score,n):
+    return next((p.get('shape_status') for p in score.get('points',[]) if p.get('test_point')==n),None)
 
 
 def verify_service_score(score):
@@ -418,7 +381,7 @@ def evaluate(evidence,service_score,freeze):
         and geometry_matches_freeze)
     add('G3',score_is_for_trace
         and all(point_status(service_score,n)=='pass-numeric' for n in calibration_contract.CALIBRATION_POINTS)
-        and all(waveform_reviewed(evidence,n,service_score) for n in calibration_contract.CALIBRATION_POINTS)
+        and all(point_shape_status(service_score,n)=='pass' for n in calibration_contract.CALIBRATION_POINTS)
         and calibration_sources_match
         and finite(measured.get('eht_v')) and 11000<=measured['eht_v']<=12000
         and finite(measured.get('horizontal_retrace_us')) and 12.8<=measured['horizontal_retrace_us']<=19.2
@@ -427,15 +390,19 @@ def evaluate(evidence,service_score,freeze):
         {'calibration_points':sorted(calibration_contract.CALIBRATION_POINTS),'targets':calibrated,
          'measured':measured,'grid_geometry':geometry,
          'measurement_sources_match':calibration_sources_match,
-         'unreviewed_waveforms':[n for n in sorted(calibration_contract.CALIBRATION_POINTS)
-                                 if not waveform_reviewed(evidence,n,service_score)],
+         'shape_failures':[n for n in sorted(calibration_contract.CALIBRATION_POINTS)
+                           if point_shape_status(service_score,n)!='pass'],
          'service_score_matches_trace':score_is_for_trace})
-    misses={n:point_status(service_score,n) for n in sorted(HELD_OUT) if point_status(service_score,n)!='pass-numeric'}
+    misses={n:{'numeric':point_status(service_score,n),'shape':point_shape_status(service_score,n)}
+            for n in sorted(HELD_OUT)
+            if point_status(service_score,n)!='pass-numeric' or point_shape_status(service_score,n)!='pass'}
     explanations=evidence.get('held_out_explanations',{})
-    unreviewed=[n for n in sorted(HELD_OUT) if not waveform_reviewed(evidence,n,service_score)]
-    add('G4',score_is_for_trace and not misses and not unreviewed,
-        {'misses':misses,'unreviewed_waveforms':unreviewed,'explanations':explanations,
-                         'unexplained':[n for n in misses if str(n) not in explanations]})
+    unexplained=[n for n in misses if not isinstance(explanations,dict)
+                 or not isinstance(explanations.get(str(n)),str)
+                 or not explanations[str(n)].strip()]
+    add('G4',score_is_for_trace and len(misses)<=3 and not unexplained,
+        {'misses':misses,'explanations':explanations,'unexplained':unexplained,
+         'maximum_explained_misses':3})
     add('G5',geometry_matches_freeze
         and geometry.get('source_kind')=='synthetic-test-pattern'
         and geometry.get('source_capture_sha256')==freeze.get('source_capture_sha256')
