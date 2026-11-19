@@ -1,8 +1,9 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; thirteen individual devices, six horizontal diode instances, fourteen 1AE15 instances and eight 1AD50 instances have provisional bounds",
+  "status": "partial; thirteen individual devices, six horizontal diode instances, fourteen 1AE15 instances, eight 1AD50 instances and two KFY18 instances have provisional bounds",
   "sources": {
+    "tesla_kfy18_1987": {"url": "https://teslakatalog.cz/download/tesla_katalog_2_1987_bw.pdf", "sha256": "fa340fb7a38b8a21091882d4fb3968297e669005c5601f1606fe17960accdc4b", "edition": "TESLA Katalog 2, 1987, printed pages 221-223", "use": "Original KFY18 PNP: h21e 50..250 at IC=1 mA/VCE=5 V, h21E 90..300 at IC=10 mA/VCE=10 V, |VCEsat| typical 0.6 V/max 1 V at IC=150 mA/IB=15 mA, fT typical 100/min 60 MHz at IC=50 mA/VCE=10 V/f=30 MHz, Ccbo typical 19/max 30 pF at VCB=10 V and Cebo typical 55/max 80 pF at VEB=0.5 V. No unique SPICE parameter fit."},
     "ddr_sc237": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SC 236 · SC 237 · SC 238 · SC 239", "use": "Historical SC237 group-E h21e 224–560 at VCE=6 V/IC=2 mA/1 kHz, typical fT 170 MHz at VCE=6 V/IC=10 mA/f=20 MHz, typical pulsed VCEsat 210 mV at IC=100 mA/IB=5 mA, and C11b/C22b 7.7/3.8 pF at stated biases. Not a fitted SC237E transistor curve."},
     "ddr_sf126_129": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SF 126 · SF 127 · SF 128 · SF 129", "use": "Historical SF128 base-family h21E groups A–F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."},
     "vishay_uf4007": {"url": "https://www.vishay.com/docs/88755/uf4001.pdf", "revision": "6 April 2020, document 88755", "pages": [1, 2, 3], "use": "Comparable 1000 V ultrafast 1 A rectifier: VF <=1.7 V at 1 A, IR <=10 uA at 1000 V/25 C, trr <=75 ns at IF=0.5 A/IR=1 A/Irr=0.25 A and typical 17 pF at 4 V/1 MHz. Not an identity for 1YL1 variants."},
@@ -651,6 +652,39 @@
         "Measure per-device stress and connected flyback-stage sensitivity",
         "Resolve whether the three printed suffix variants need distinct models"
       ]
+    },
+    {
+      "id": "KFY18-vertical-pnp",
+      "printed_type": "KFY18",
+      "candidate_class": "original TESLA KFY18 silicon PNP, represented by a bounded class proxy",
+      "identity_tier": "printed type and historical factory data; SPICE curve is provisional",
+      "model": "VERTICAL_PNP_BOUND",
+      "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
+      "profile": "profiles/k7222-11-vertical-integrator.json",
+      "other_live_profile": "profiles/k7222-11-vertical-output.json",
+      "member_ids": ["012-6931:V13", "012-6931:V26"],
+      "sources": ["tesla_kfy18_1987"],
+      "parameters": {
+        "IS": {"nominal": 1e-14, "bounds": [1e-16, 1e-12], "unit": "A", "basis": "bounded silicon saturation-current proxy; catalog leakage and gain do not uniquely fit IS"},
+        "BF": {"profile_key": "retrace_bf", "nominal": 100, "bounds": [50, 300], "unit": "1", "basis": "bounded BF proxy spanning historical 50..250 h21e at 1 mA and 90..300 h21E at 10 mA; effective gain checked at both biases"},
+        "VAF": {"nominal": 60, "bounds": [30, 150], "unit": "V", "basis": "bounded Early-voltage proxy; catalog gain tests do not uniquely fit VAF"},
+        "RC": {"nominal": 3, "bounds": [0.5, 6], "unit": "ohm", "basis": "collector-resistance proxy chosen with RE to approach historical 0.6 V typical saturation at 150 mA/15 mA"},
+        "RE": {"nominal": 0.25, "bounds": [0.05, 0.5], "unit": "ohm", "basis": "emitter-resistance proxy; historical saturation test constrains combined behavior, not individual RE"},
+        "CJE": {"nominal": 6.5e-11, "bounds": [4e-11, 1e-10], "unit": "F", "basis": "zero-bias proxy chosen for historical Cebo 55 pF typical and <=80 pF at 0.5 V reverse bias"},
+        "CJC": {"nominal": 4.5e-11, "bounds": [2.5e-11, 7e-11], "unit": "F", "basis": "zero-bias proxy chosen for historical Ccbo 19 pF typical and <=30 pF at 10 V reverse bias"},
+        "TF": {"nominal": 1.5e-9, "bounds": [8e-10, 3e-9], "unit": "s", "basis": "transit-time proxy chosen with junction capacitances to pass historical fT >=60 MHz at 50 mA/10 V/f=30 MHz; TF itself is not specified"},
+        "TR": {"nominal": 5e-8, "bounds": [5e-9, 5e-7], "unit": "s", "basis": "bounded reverse transit-time proxy; catalog gives no storage/fall-time test"}
+      },
+      "comparison_targets": {
+        "hFE_1ma": {"range": [50, 250], "conditions": "IC=1 mA, VCE=5 V, f=1 kHz, 25 C; model check uses a DC low-frequency proxy"},
+        "hFE_10ma": {"range": [90, 300], "conditions": "IC=10 mA, VCE=10 V, 25 C"},
+        "VCEsat_v": {"typical": 0.6, "maximum": 1, "conditions": "IC=150 mA, IB=15 mA, 25 C; model check uses a DC saturation proxy"},
+        "fT_hz": {"typical": 1e8, "minimum": 6e7, "conditions": "IC=50 mA, VCE=10 V, f=30 MHz, 25 C"},
+        "Ccbo_f": {"typical": 1.9e-11, "maximum": 3e-11, "conditions": "VCB=10 V, IC=0, f=2 MHz, 25 C"},
+        "Cebo_f": {"typical": 5.5e-11, "maximum": 8e-11, "conditions": "VEB=0.5 V, IC=0, f=2 MHz, 25 C"}
+      },
+      "model_response_report": "reference/k7222-11/kfy18-model-check.json",
+      "remaining": ["Measure V13 and V26 connected-stage current, voltage and thermal stress against 45 V/600 mA/0.8 W ratings", "Qualify joint parameter bounds and implicit simulator defaults; no original switching-time curve is available"]
     }
   ],
   "devices": [
