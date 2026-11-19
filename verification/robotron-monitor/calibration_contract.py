@@ -40,7 +40,8 @@ TRIM_PROCEDURE_STEPS={
     'brightness':(2,6,7), 'contrast':(6,),
 }
 # Most bindings follow source IDs in the assembled KiCad sheets. R5 and R4
-# use the explicitly declared ideal-rail equivalents in steady_supply.py.
+# use declared ideal-rail equivalents; external brightness is assembled from
+# the page-3/page-18 pot connections in steady_supply.py.
 TRIM_PARAMETERS={
     'regulated_5v_r9':'reg5_position',
     'vertical_sync_r22':'vertical_trim',
@@ -56,6 +57,7 @@ TRIM_PARAMETERS={
     'linearity_r60':'linearity_r60',
     'centering_vertical_r58':'symmetry_fraction',
     'focus':'horizontal_focus_fraction',
+    'brightness':'brightness_position',
     'contrast':'contrast_position',
 }
 SETTLING_PROBES=('v(eht)','v(g2)','v(g4)','v(cathode)',

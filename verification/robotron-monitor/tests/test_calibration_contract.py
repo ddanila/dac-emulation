@@ -54,7 +54,7 @@ class CalibrationContractTests(unittest.TestCase):
                   mock.patch.object(contract.steady_supply,'assess',return_value=settling)):
                 self._check_calibration_fixture(Path(directory),geometry,settling)
 
-    def test_trim_record_must_match_model_and_unbound_controls_block_freeze(self):
+    def test_trim_record_must_match_connected_model_and_deck(self):
         parameters={}
         for profile_name in ('horizontal-oscillator','vertical-output','regulator5'):
             profile=contract.reference.read_profile(ROOT/'profiles'/('k7222-11-'+profile_name+'.json'))
@@ -63,15 +63,14 @@ class CalibrationContractTests(unittest.TestCase):
         parameters.update({name:values[0] for name,values in contract.steady_supply.ASSEMBLY_BOUNDS.items()})
         trims=contract.trim_record_template()
         for key,item in trims.items():
-            item.update(setting=parameters[contract.TRIM_PARAMETERS[key]]
-                        if key in contract.TRIM_PARAMETERS else .5,
+            item.update(setting=parameters[contract.TRIM_PARAMETERS[key]],
                         observation='Applied and observed on the calibration pattern.')
         deck='\n'.join(f'.param {name}={value:.15g}' for name,value in parameters.items())+'\n'
-        with self.assertRaisesRegex(ValueError,'manual trims lack connected model binding') as error:
+        self.assertTrue(contract._validate_trim_bindings(trims,parameters,deck))
+        trims['brightness']['setting']=0.
+        with self.assertRaisesRegex(ValueError,'manual trim was not applied to connected model: brightness'):
             contract._validate_trim_bindings(trims,parameters,deck)
-        self.assertNotIn('picture_width_r5',str(error.exception))
-        self.assertNotIn('centering_horizontal_r4_0126931',str(error.exception))
-        self.assertIn('brightness',str(error.exception))
+        trims['brightness']['setting']=parameters['brightness_position']
         trims['centering_horizontal_r4_0126931']['setting']=0.
         with self.assertRaisesRegex(ValueError,'manual trim was not applied to connected model: centering_horizontal_r4_0126931'):
             contract._validate_trim_bindings(trims,parameters,deck)
