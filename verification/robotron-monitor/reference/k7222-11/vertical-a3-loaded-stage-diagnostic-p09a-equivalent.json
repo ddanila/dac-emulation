@@ -1,0 +1,158 @@
+{
+  "format": "dac-monitor-vertical-a3-p09a-equivalent-diagnostic-v1",
+  "qualification": "connected vertical-stage diagnostic with labelled P09A equivalent and synthetic native-period sync; not grid stimulus or sustained-state qualification",
+  "stage": "k7222-11-vertical-output",
+  "active_amplifier_model": "P09A_EQUIV",
+  "source_artifacts": {
+    "stage_report": {
+      "path": "build/monitor/phase-a/vertical-a3-p09a-live-native-20261119/report.json",
+      "sha256": "0034f2b01433f74811f09222e676a6d2081c85d2a3fdc3394455438e5f618723"
+    },
+    "stage_deck": {
+      "path": "build/monitor/phase-a/vertical-a3-p09a-live-native-20261119/run.cir",
+      "sha256": "73c99c0aa2746f8c322e1c27874b49c8a8dd119471df748b0bab093370c73815"
+    },
+    "unprobed_trace": {
+      "path": "build/monitor/phase-a/vertical-a3-p09a-live-native-20261119/samples.txt",
+      "sha256": "fc6ec6599b4394ac4a5c4de5c456991dd4589b5fc26c1b4f34cfb0df039af9c1"
+    },
+    "probe_manifest": {
+      "path": "build/monitor/phase-a/vertical-a3-p09a-live-native-20261119/loaded-probes/manifest.json",
+      "sha256": "4265587761c37dd32229ef6b04055329baa315ffcd59321a27926fd0bfc0b950"
+    },
+    "loaded_service_score": {
+      "path": "build/monitor/phase-a/vertical-a3-p09a-live-native-20261119/service-score-loaded-final-field.json",
+      "sha256": "3aa9d235402daf96b9b098d3d13ce9b8f171eefb75b9c71db0121a6f8b17387d"
+    },
+    "class_check": {
+      "path": "verification/robotron-monitor/reference/k7222-11/p09a-equivalent-class-check.json",
+      "sha256": "74c0633d87f1484053d1aecdbdbe355a5f0349313021393a2cca2bd4c712c8a1"
+    }
+  },
+  "parameter_settings": {
+    "vertical_trim": 50000,
+    "vertical_bf": 60,
+    "m723_ref_v": 7.15,
+    "m723_iq": 0.0023,
+    "m723_error_gm": 0.25,
+    "m723_drive_limit": 0.002,
+    "sync_enabled": 1,
+    "sync_period": 0.0195,
+    "sync_loss_start": 0.3,
+    "sync_loss_end": 0.4,
+    "height_trim": 11000,
+    "vertical_compensation": 1e-10,
+    "retrace_bf": 100,
+    "symmetry_fraction": 0.5,
+    "linearity_r59": 23500,
+    "linearity_r60": 23500,
+    "yoke_vertical_r": 10,
+    "yoke_vertical_l": 0.02,
+    "output_bf": 60,
+    "output_n_tf": 7e-10,
+    "output_p_tf": 2e-09
+  },
+  "field_repeat": {
+    "first_window_s": [
+      0.2145,
+      0.234
+    ],
+    "second_window_s": [
+      0.234,
+      0.2535
+    ],
+    "period_s": 0.0195,
+    "sample_step_s": 2e-06,
+    "paired_samples": 9750,
+    "comparisons": {
+      "v(sync_gate)": {
+        "unit": "V",
+        "span": 4.999140757215593,
+        "max_absolute_difference": 9.70403389643831e-07,
+        "rms_difference": 3.858577495653631e-08,
+        "max_difference_fraction_of_span": 1.9411403614574826e-07
+      },
+      "v(vertical_ramp)": {
+        "unit": "V",
+        "span": 2.1134648343383606,
+        "max_absolute_difference": 0.007891999159533203,
+        "rms_difference": 0.00341955041697628,
+        "max_difference_fraction_of_span": 0.0037341521047847786
+      },
+      "v(y1)": {
+        "unit": "V",
+        "span": 25.76813523675193,
+        "max_absolute_difference": 0.5972160270684981,
+        "rms_difference": 0.04845529652969547,
+        "max_difference_fraction_of_span": 0.02317653262765851
+      },
+      "v(y2)": {
+        "unit": "V",
+        "span": 2.1593703112592975,
+        "max_absolute_difference": 0.008920007599158009,
+        "rms_difference": 0.003476841302994016,
+        "max_difference_fraction_of_span": 0.004130837380067551
+      },
+      "i(Lvertical)": {
+        "unit": "A",
+        "span": 0.5343849085632031,
+        "max_absolute_difference": 0.0019296743498954938,
+        "rms_difference": 0.0008695516479441648,
+        "max_difference_fraction_of_span": 0.0036110195459744467
+      }
+    }
+  },
+  "service_score": {
+    "window_s": [
+      0.234,
+      0.2535
+    ],
+    "required_points": [
+      7,
+      8
+    ],
+    "loaded_points": [
+      7,
+      8
+    ],
+    "instrument_loading_status": "required points circuit-loaded",
+    "stimulus": null,
+    "qualification": "diagnostic-only; grid stimulus not established",
+    "required_failures": [
+      8
+    ],
+    "points": {
+      "7": {
+        "manual_guideline_vpp": 2.5,
+        "tolerance_fraction": 0.25,
+        "raw_vpp": 2.1593703112592975,
+        "loaded_bandwidth_limited_vpp": 2.1593683750576638,
+        "numeric_status": "pass-numeric",
+        "shape_status": "pass",
+        "shape_checks": {
+          "crosses_baseline": true,
+          "complete_cycles": true,
+          "steep_rise": true
+        }
+      },
+      "8": {
+        "manual_guideline_vpp": 17,
+        "tolerance_fraction": 0.25,
+        "raw_vpp": 25.76813523675193,
+        "loaded_bandwidth_limited_vpp": 25.767408482501736,
+        "numeric_status": "fail-numeric",
+        "shape_status": "pass",
+        "shape_checks": {
+          "ramp_direction": true,
+          "sharp_reset": true
+        }
+      }
+    }
+  },
+  "remaining_work": [
+    "P09A identity and equivalent joint parameter bounds remain unqualified",
+    "TP8 exceeds the manual 17 V +/-25% guideline despite TP7 and both shape checks passing",
+    "Y1 reset still differs by 0.60 V between adjacent late fields; periodic steady state not proven",
+    "native grid stimulus and remaining manual test points are not scored"
+  ]
+}

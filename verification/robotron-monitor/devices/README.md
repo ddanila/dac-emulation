@@ -68,26 +68,28 @@ returns exit status zero and produces a padded `linearize` output. All tests
 remain component tests; none establish a cause for a pale, expanding raster.
 
 
-## Provisional P09A amplifier family
+## Labelled P09A amplifier equivalent
 
-`lm709-family.cir` transcribes the LM709 manufacturer internal circuit in
-TI/National SNOS659A PDF p4 (printed p3); PDF p2 gives the package pin mapping.
-The model has 15 transistors and 15 resistors, with external input/output
-compensation ports. There is no ideal voltage-source output amplifier.
-The board wrapper uses DIP pins 3/4/5/6/9/10/11/12 as compensation-A, inverting,
-noninverting, negative rail, output compensation, output, positive rail and
-compensation-B respectively. The manufacturer circuit labels metal-can pins;
-these are explicitly mapped, not treated as board DIP numbers.
+The page-10 A3 source read maps physical pins 3/4/5/6/9/10/11/12 to the
+functional compensation-A, inverting, noninverting, negative rail, output
+compensation, output, positive rail and compensation-B ports. The old
+`lm709-family.cir` transcribes the National/TI LM709 internal diagram with
+generic transistor parameters. Its [isolated DC check](../reference/k7222-11/lm709-dc-follower-check.json)
+shows a +1 V follower input driving the output to +12.54 V. That transistor
+proxy remains as a failed candidate and is no longer assembled as A3.
 
-Only the topology and resistor values come from that diagram. NPN/PNP gains
-100/50, Early voltages 100/50 V, IS 1e-14 A, junction capacitances 4/2 pF,
-forward transit times .2/20 ns and reverse times 20/100 ns are engineering
-assumptions stated in the file. No P09A equivalence, production spread, thermal
-drift, breakdown, output short-circuit protection or SOA qualification is claimed.
+The live `p09a-equivalent.cir` is explicitly a functional equivalent, using
+the LM709C data sheet as a class comparator rather than identifying P09A.
+It keeps the source external C26/R54 and C27 compensation networks, finite
+input resistance and bias, gain, slew, output headroom, 2.6 mA quiescent draw,
+and rail-fed limited output current. Its local parameters have provisional
+bounds in the A2 and A6 registers. The [isolated class check](../reference/k7222-11/p09a-equivalent-class-check.json)
+passes eight nominal DC, transient and rail-current checks. It does not prove
+the original P09A silicon, thermal limits or joint parameter bounds.
 
-`test_lm709.py` exercises the manufacturer's compensated voltage-follower
-arrangement with its 51 ohm isolating resistor. It checks both polarities,
-settled supply/load KCL, a heavier load, timestep refinement and slower response
-with increased input compensation. The connected vertical bench uses its own
-source C26 (220 pF), C27 (18 pF), R54 (1.5 kohm), current feedback and power stage.
-Passing the follower test does not establish the historical amplifier's bandwidth.
+The [connected native-period diagnostic](../reference/k7222-11/vertical-a3-loaded-stage-diagnostic-p09a-equivalent.json)
+passes loaded TP7 at 2.159 Vpp but fails loaded TP8 at 25.767 Vpp against its
+17 V ±25% guideline. Y1 also differs by 0.597 V between adjacent late fields.
+This is a synthetic-sync stage result, not a periodic or grid-stimulus A3
+qualification. The other page-10 feedback and output-stage connections still
+need source review before interpreting the TP8 failure as a device parameter.
