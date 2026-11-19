@@ -428,7 +428,7 @@ candidates. The other remaining done-condition gaps are:
 
 | Item | Evidence still needed for completion |
 | --- | --- |
-| A1 | Finish the independent page 3–4 and 9–10 pin comparisons, record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
+| A1 | Finish the independent page 3–4 and 9–10 pin comparisons, including the missing page-4 V20 branch; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
 | A2 | Model and bound every frame-path device. Only 47 of 64 instances have provisional register coverage; 13 assembled instances have none and four are absent from the ideal-rail assembly. None of the 47 closes every qualification check. |
 | A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
@@ -441,6 +441,15 @@ assembly. Sharing an alias does not establish an electrical equivalence for
 either printed type. These instances need a sourced, bounded class model and
 their missing assembly paths resolved before A2 can pass; the existing generic
 aliases cannot be counted as qualified coverage.
+
+The [page-4 V20 source read](reference/k7222-11/page4-v20-source-read.json)
+now identifies a local R38/R39/R40/C34 transistor branch in the contrast and
+brightness-control area. All five source-addressed parts are absent from the
+ideal-rail input sheet, so V20's absence is a real frame-path transcription
+gap rather than a converter exclusion. Its three external net destinations
+and collector/emitter assignment still need an independent read before the
+branch can be safely connected; the existing `1SA20C` NPN aliases do not
+establish V20's electrical class.
 
 These are independent completion failures, not just one T3 issue. The
 [device-model coverage report](reference/k7222-11/device-model-coverage.json)

@@ -1295,6 +1295,18 @@ appear in the source inventory but not in the current assembled model:
 012-6921 V19/V20 and 012-6931 L1/L2. Assembly presence and a model name do
 not establish sourced parameter bounds.
 
+A fresh 300 dpi page-4 view and a separate enlarged crop agree on the local
+[V20 branch read](reference/k7222-11/page4-v20-source-read.json): R38 feeds
+the left side of a parallel R40/C34 pair, their right side feeds V20's base,
+and R39 reaches its upper-right symbol terminal. Page 8 lists V20 as
+`1 SA 20 C`; R38/R39 are 680 Ω and R40 is 1.1 kΩ, while page 6 lists C34
+as 470 pF. A fresh ideal-rail assembly check finds all five source IDs
+missing from the input sheet. The crop does not settle the three outer net
+destinations or the transistor's collector/emitter orientation, so no branch
+was connected on this evidence alone. V19's page-8 listing is separate and
+its schematic location remains unresolved. This is an A1 transcription gap
+and an A2 model gap, not a converter-only omission.
+
 The report also makes shared-family decisions visible. Fourteen frame-path
 `1AE15` diode instances currently use two different model names, and five
 `1SA20C` transistor instances use two names or are absent from the assembly.
