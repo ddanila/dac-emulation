@@ -66,6 +66,15 @@ trough. Neither is a full-trace peak-to-peak value. Page 10 places R48/V20 on
 a distinct bias net from X2:3; the figure does not settle which node owns the
 second arrow. The [source reread](reference/k7222-11/tp8-waveform-source-read.json)
 records the image hashes and keeps that attribution open.
+The [dual-node loaded diagnostic](reference/k7222-11/tp8-dual-node-loaded-diagnostic.json)
+adds R48/V20 as a recorded stage probe and compares independent EO 203-equivalent
+loads on it and X2:3. Their final-field waveforms differ by at most 0.768 V.
+The exploratory post-step descent estimates span 6.49–6.83 V at X2:3 and
+7.41–7.75 V at R48/V20 over 128/256 phase bins. The R48/V20 estimate crosses
+the ±25% lower bound of the 10 V annotation as resolution changes; 64 bins
+also merge the reset into the descent. This does not identify the annotation
+or justify a numeric pass. A reset-excluding feature and source attribution
+remain A3 work.
 The point-7 figure marks a 1 ms rise interval; it is retained as a rise-time
 annotation rather than misclassified as pulse width.
 The fourth text pass reads point 13 as 6.4 Vpp but moves decimal points on
