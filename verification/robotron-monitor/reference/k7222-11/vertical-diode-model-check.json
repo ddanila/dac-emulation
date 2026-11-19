@@ -1,6 +1,6 @@
 {
-  "format": "dac-monitor-1ae15-class-dc-check-v1",
-  "qualification": "provisional 1N4148-class comparison; 1AE15 identity, reverse recovery and stage sensitivity remain open",
+  "format": "dac-monitor-1ae15-class-model-check-v2",
+  "qualification": "provisional 1N4148-class comparison; original 1AE15 identity and native connected-frame sensitivity remain open",
   "comparator": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
   "model_sha256": "aa751df04a6313d383bbc3b76d3f93ed363e0d2799703dff59545003ff75c6b4",
   "profile_sha256": "030eedadf05d526988cfa850a678bd240221da7396c70dd59b5f9ad77a8360f9",
@@ -18,11 +18,21 @@
   "checked": {
     "forward_voltage": true,
     "reverse_current": true,
-    "zero_bias_capacitance": true
+    "zero_bias_capacitance": true,
+    "reverse_recovery": true
+  },
+  "recovery_test": {
+    "forward_current_a": 0.00999875124,
+    "peak_reverse_current_a": -0.0600988143,
+    "zero_crossing_s": 1.0007130706230151e-08,
+    "return_to_1ma_s": 1.1206853332490167e-08,
+    "reverse_recovery_s": 1.1997226262600166e-09,
+    "series_load_ohm": 100,
+    "source_transition_s": 5e-11,
+    "sample_step_s": 1e-11
   },
   "unchecked": [
-    "reverse recovery at data-sheet IF/IR/RL",
     "original 1AE15 identity and operating ratings",
-    "stage response across registered parameter bounds"
+    "joint-bound and native connected-frame response"
   ]
 }

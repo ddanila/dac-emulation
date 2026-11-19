@@ -1188,15 +1188,29 @@ register and A6 class-typical register give bounds for all seven explicit
 were previously left at simulator defaults.
 
 `vertical_diode_check.py` measures the live model at the comparator DC and
-capacitance biases. The saved
-`reference/k7222-11/vertical-diode-dc-check.json` records 0.702 V at 10 mA,
-1.69 nA at 20 V reverse bias and 2.00 pF at zero bias/1 MHz. These are
-model-response checks, not recovered measurements of the original part. The
-4 ns reverse-recovery comparison, original 1AE15 ratings, and stage sensitivity
-across the provisional bounds remain open. Four other 1AE15 instances still
+capacitance biases and in a 100-ohm reverse-recovery test. The saved
+`reference/k7222-11/vertical-diode-model-check.json` records 0.702 V at 10 mA,
+1.69 nA at 20 V reverse bias, 2.00 pF at zero bias/1 MHz, and about 1.2 ns
+from the current zero crossing to its return to 1 mA reverse current. The test
+uses approximately 10 mA forward current and 60 mA peak reverse current,
+matching the comparator's stated conditions within 5%; it meets that data
+sheet's 4 ns limit. These are model-response checks, not measurements of the
+original 1AE15 part. Original 1AE15 ratings and native connected-frame
+sensitivity remain open. Four other 1AE15 instances still
 use `1AD50_BOUND` and have no A2 family entry. The regenerated A2 coverage
 report now records 15 provisionally covered frame-path instances, 45 assembled
 but unregistered, and four absent from the ideal-rail assembly.
+
+`vertical_diode_sensitivity.py` also varies each of the seven registered
+parameters to its minimum and maximum in the connected vertical output stage.
+The saved `reference/k7222-11/vertical-diode-stage-sensitivity.json` contains
+all 14 runs, model/profile/register hashes and final-field metrics for the
+20.8 ms bench stimulus. The largest one-at-a-time yoke-current span change is
+0.0203 A, or 4.68% of its 0.4335 A baseline, with `IS` at its minimum. The
+largest mean-yoke-current change is 0.00865 A, or 11.6% of its 0.0747 A
+baseline. Ramp and trigger-pulse spans move by at most 0.048% and 0.0012%,
+respectively. The 20.8 ms bench is not the native 19.5 ms mode, and this sweep
+does not cover simultaneous extremes or establish the original 1AE15 ratings.
 
 A separately scanned [Robotron PC 1715 service manual](https://magentacloud.de/s/iNaPeeaM2m5TbHS)
 has a comparison table on PDF page 119 (printed page 117) that pairs `MAA723H`
