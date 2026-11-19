@@ -1,10 +1,11 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; sixteen individual devices, six horizontal diode instances, fourteen 1AE15 instances, eight 1AD50 instances and two KFY18 instances have provisional bounds",
+  "status": "partial; seventeen individual devices, six horizontal diode instances, fourteen 1AE15 instances, eight 1AD50 instances and two KFY18 instances have provisional bounds",
   "sources": {
+    "ti_sn74h00_1985": {"url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf", "edition": "Texas Instruments The TTL Data Book, 1985, printed pages 3-3 and 3-6", "use": "SN74H00 4x 2-input NAND class: 4.75-5.25 V supply, VIH >=2 V, VIL <=0.8 V, VOH >=2.4 V at -0.5 mA, VOL <=0.4 V at 20 mA, IIH <=50 uA, IIL >=-2 mA, ICCH <=16.8 mA, ICCL <=40 mA, and tPLH/tPHL <=10 ns at 280 ohm/25 pF. A Robotron table maps T200 to this family; not a T200 specimen test."},
     "ti_lm709c": {"url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf", "revision": "National Semiconductor / TI SNOS659A", "pages": [2, 3, 4], "use": "LM709C class comparator at +/-15 V: minimum 15 V/mV large-signal gain, +/-10 V minimum output swing into 2 kohm, 2.6 mA typical/6.6 mA maximum supply current, 300 nA typical/1.5 uA maximum bias, 50 kohm minimum/250 kohm typical input resistance, 150 ohm typical output resistance and 0.25 V/us typical slew. The K7222.11 printed P09A is not identified as LM709."},
-    "robotron_pc1715_ic_crossref": {"file": "reference/k7222-11/pc1715-ic-crossref.json", "use": "A separate Robotron PC 1715 service-manual table pairs MAA723H with uA723. K7222.11 prints MAA723 without the H suffix; family comparison only."},
+    "robotron_pc1715_ic_crossref": {"file": "reference/k7222-11/pc1715-ic-crossref.json", "use": "A separate Robotron PC 1715 service-manual table maps T200/D2000 to SN74H00 and MAA723H to uA723. T200 has matching printed identity in K7222.11, while K7222.11 MAA723 lacks the H suffix; family comparison only."},
     "ti_ua723": {"url": "https://www.ti.com/lit/ds/symlink/ua723.pdf", "revision": "SLVS057D, July 1999", "pages": [1, 3], "use": "uA723C comparator: 6.8–7.5 V reference at 25 C, 2.3 mA typical/4 mA maximum standby at 30 V, 9.5–40 V input range, and 150 mA output capability. Behavioral error-amplifier parameters are fitted proxies, not internal specifications."},
     "ti_lm723": {"url": "https://www.ti.com/lit/ds/symlink/lm723.pdf", "revision": "SNVS765C, April 2013", "pages": [2, 3, 4], "use": "10-pin metal-can functional pin contract; 1.7 mA typical standby and 0.2% maximum 1–50 mA load regulation for LM723C at the stated 5 V test fixture. Comparable 723 family, not an MAA723 identification."},
     "tesla_kfy18_1987": {"url": "https://teslakatalog.cz/download/tesla_katalog_2_1987_bw.pdf", "sha256": "fa340fb7a38b8a21091882d4fb3968297e669005c5601f1606fe17960accdc4b", "edition": "TESLA Katalog 2, 1987, printed pages 221-223", "use": "Original KFY18 PNP: h21e 50..250 at IC=1 mA/VCE=5 V, h21E 90..300 at IC=10 mA/VCE=10 V, |VCEsat| typical 0.6 V/max 1 V at IC=150 mA/IB=15 mA, fT typical 100/min 60 MHz at IC=50 mA/VCE=10 V/f=30 MHz, Ccbo typical 19/max 30 pF at VCB=10 V and Cebo typical 55/max 80 pF at VEB=0.5 V. No unique SPICE parameter fit."},
@@ -692,6 +693,186 @@
     }
   ],
   "devices": [
+    {
+      "id": "012-6921:A1",
+      "printed_type": "T200",
+      "candidate_class": "SN74H00-class quad 2-input NAND, from Robotron T200/D2000 comparison table",
+      "identity_tier": "documented printed type with separate Robotron class cross-reference; production T200 spread unverified",
+      "model": "T200_BOUND",
+      "model_file": "circuits/signal-path-models.cir",
+      "parameter_source": "signal_path.py#BOUNDS",
+      "sources": [
+        "robotron_pc1715_ic_crossref",
+        "ti_sn74h00_1985"
+      ],
+      "parameters": {
+        "gate_threshold": {
+          "nominal": 1.4,
+          "bounds": [
+            0.8,
+            2
+          ],
+          "unit": "V",
+          "basis": "logic threshold proxy between VIL <=0.8 V and VIH >=2 V; no switching threshold specified"
+        },
+        "gate_span": {
+          "nominal": 0.08,
+          "bounds": [
+            0.04,
+            0.2
+          ],
+          "unit": "V",
+          "basis": "smooth NAND input transition proxy; numerical law, not an SN74H00 transfer-curve measurement"
+        },
+        "gate_tau": {
+          "nominal": 5e-9,
+          "bounds": [
+            1e-9,
+            3e-8
+          ],
+          "unit": "s",
+          "basis": "RC delay proxy; nominal fixture checks 10 ns maximum propagation at 280 ohm/25 pF, while full bounds are unqualified"
+        },
+        "gate_input_c": {
+          "nominal": 4e-12,
+          "bounds": [
+            1e-12,
+            1.5e-11
+          ],
+          "unit": "F",
+          "basis": "input capacitance proxy; 1985 SN74H00 limits cited here do not specify this capacitance"
+        },
+        "gate_input_high_a": {
+          "nominal": 0.00002,
+          "bounds": [
+            0,
+            0.00005
+          ],
+          "unit": "A",
+          "basis": "high-input current law bounded by SN74H00 IIH <=50 uA at VI=2.4 V"
+        },
+        "gate_input_low_a": {
+          "nominal": -0.0002,
+          "bounds": [
+            -0.002,
+            -0.00005
+          ],
+          "unit": "A",
+          "basis": "low-input source-current law bounded by SN74H00 IIL >=-2 mA at VI=0.4 V"
+        },
+        "gate_low_v": {
+          "nominal": 0.15,
+          "bounds": [
+            0.05,
+            0.2
+          ],
+          "unit": "V",
+          "basis": "unloaded low-output target; with gate_r_low nominal gives VOL <=0.4 V at IOL=20 mA"
+        },
+        "gate_high_headroom": {
+          "nominal": 0.8,
+          "bounds": [
+            0.5,
+            2.2
+          ],
+          "unit": "V",
+          "basis": "unloaded high-output headroom; with gate_r_high nominal gives VOH >=2.4 V at IOH=-0.5 mA"
+        },
+        "gate_r_low": {
+          "nominal": 10,
+          "bounds": [
+            2,
+            10
+          ],
+          "unit": "ohm",
+          "basis": "low-output resistance proxy constrained with gate_low_v by 20 mA VOL comparison"
+        },
+        "gate_r_high": {
+          "nominal": 80,
+          "bounds": [
+            20,
+            150
+          ],
+          "unit": "ohm",
+          "basis": "high-output resistance proxy constrained with gate_high_headroom by -0.5 mA VOH comparison"
+        },
+        "gate_smooth_current": {
+          "nominal": 0.000001,
+          "bounds": [
+            1e-8,
+            0.00001
+          ],
+          "unit": "A",
+          "basis": "numerical source/sink split smoothing; no physical device-current claim"
+        },
+        "gate_iq_high": {
+          "nominal": 0.0025,
+          "bounds": [
+            0.001,
+            0.0042
+          ],
+          "unit": "A",
+          "basis": "per-gate high-output quiescent current proxy; four gates nominal 10 mA versus ICCH 16.8 mA maximum"
+        },
+        "gate_iq_low": {
+          "nominal": 0.0065,
+          "bounds": [
+            0.003,
+            0.01
+          ],
+          "unit": "A",
+          "basis": "per-gate low-output quiescent current proxy; four gates nominal 26 mA versus ICCL 40 mA maximum"
+        }
+      },
+      "comparison_targets": {
+        "VCC_v": {
+          "range": [
+            4.75,
+            5.25
+          ]
+        },
+        "VIH_v": {
+          "minimum": 2
+        },
+        "VIL_v": {
+          "maximum": 0.8
+        },
+        "VOH_v": {
+          "minimum": 2.4,
+          "conditions": "IOH=-0.5 mA, VCC=4.75 V"
+        },
+        "VOL_v": {
+          "maximum": 0.4,
+          "conditions": "IOL=20 mA, VCC=4.75 V"
+        },
+        "IIH_a": {
+          "maximum": 0.00005,
+          "conditions": "VI=2.4 V"
+        },
+        "IIL_a": {
+          "minimum": -0.002,
+          "conditions": "VI=0.4 V"
+        },
+        "ICCH_a": {
+          "maximum": 0.0168,
+          "conditions": "all four outputs high, no output load"
+        },
+        "ICCL_a": {
+          "maximum": 0.04,
+          "conditions": "all four outputs low, no output load"
+        },
+        "propagation_delay_s": {
+          "maximum": 1e-8,
+          "conditions": "VCC=5 V, RL=280 ohm, CL=25 pF, 25 C"
+        }
+      },
+      "model_response_report": "reference/k7222-11/t200-class-check.json",
+      "remaining": [
+        "Only nominal isolated truth, DC load/current and delay comparisons pass; joint parameter bounds are not qualified",
+        "Check actual connected input/output loading and switching stress at X201, including drive toward the horizontal sync and video paths",
+        "The rail-powered behavioral source/sink and quiescent current law are functional proxies, not a T200 production curve"
+      ]
+    },
     {
       "id": "012-6891:V1",
       "candidate_class": "printed SSY20A silicon NPN switching transistor; group A inferred from suffix",

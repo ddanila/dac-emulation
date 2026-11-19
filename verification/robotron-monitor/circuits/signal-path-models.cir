@@ -9,14 +9,19 @@ Boutput output ground I={(v(output,ground)-v(edge,ground))/(resistance*(driver_r
 * Input current is an explicit assumed TTL loading law; no implied logic input
 * at 0.5 VCC. Threshold and transition span have independent bounded parameters.
 .subckt GATE a b y ground supply
-Ba a ground I={20u-220u/(1+exp((v(a,ground)-gate_threshold)/gate_span))}
-Bb b ground I={20u-220u/(1+exp((v(b,ground)-gate_threshold)/gate_span))}
+Ba a ground I={gate_input_high_a+(gate_input_low_a-gate_input_high_a)/(1+exp((v(a,ground)-gate_threshold)/gate_span))}
+Bb b ground I={gate_input_high_a+(gate_input_low_a-gate_input_high_a)/(1+exp((v(b,ground)-gate_threshold)/gate_span))}
 Ca a ground {gate_input_c}
 Cb b ground {gate_input_c}
 Btruth truth ground V={1-1/(1+exp(-(v(a,ground)-gate_threshold)/gate_span))/(1+exp(-(v(b,ground)-gate_threshold)/gate_span))}
 Rdelay truth smooth 1k
 Cdelay smooth ground {gate_tau/1000}
-Boutput y ground I={(v(y,ground)-(.15+max(v(supply,ground)-.95,0)*v(smooth,ground)))/(10+70*v(smooth,ground))}
+* Smooth rail-fed source/sink currents keep the logic output finite-resistance;
+* per-gate quiescent current is an SN74H00-class proxy, not a T200 die model.
+Bdrive drive ground V={(min(gate_low_v,max(v(supply,ground),0))+(max(v(supply,ground)-gate_high_headroom,0)-min(gate_low_v,max(v(supply,ground),0)))*v(smooth,ground)-v(y,ground))/(gate_r_low+(gate_r_high-gate_r_low)*v(smooth,ground))}
+Bsource supply y I={0.5*(v(drive,ground)+sqrt(v(drive,ground)^2+gate_smooth_current^2))}
+Bsink y ground I={0.5*(-v(drive,ground)+sqrt(v(drive,ground)^2+gate_smooth_current^2))}
+Bquiescent supply ground I={min(1,max(v(supply,ground)/5,0))*(gate_iq_high+(gate_iq_low-gate_iq_high)*(1-v(smooth,ground)))}
 .ends GATE
 .subckt T200_BOUND a1 b1 y1 a2 b2 y2 ground y3 a3 b3 y4 a4 b4 supply
 Xg1 a1 b1 y1 ground supply GATE
