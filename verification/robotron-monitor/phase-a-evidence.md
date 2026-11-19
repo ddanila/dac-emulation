@@ -732,3 +732,33 @@ lists 10 MHz bandwidth and 1 MΩ/48 pF direct input, with a separate 10 MΩ/20 p
 accessory figure; it is a candidate range, not proof of the exact EO2 setup.
 The source figure also leaves stimulus and trim settings unspecified, so the
 grid choice must be recorded with each stage score.
+
+### Initial design-point constraints (2026-11-19)
+
+`reference/k7222-11/design-point.json` records a partial A5 derivation from
+the 2 kByte timing, the C27/C30 values and the current source connectivity
+candidate. Treating the 16 µs horizontal retrace as half an LC cycle gives
+2.36 mH effective resonant inductance (2.14–2.62 mH from the printed capacitor
+tolerances). An ideal lossless pulse formula gives about 228 V from 41 V alone,
+or 334–390 V if the handwritten 60–70 V boost annotation is the trace supply.
+The 11–12 kV anode target would require an effective high-voltage pulse ratio
+of 28–36 in the boost case. These are design bounds, not a selected T3 winding
+or a calibrated result; the original rectifier path and supply still need
+source review. The pulse equation is consistent with the
+[published horizontal-output derivation](https://patents.google.com/patent/JP2001313845A/en).
+
+The page-21 service figure labels TP15 as the **V13 collector**, so its 45 Vpp
+is a driver-stage check and cannot directly determine a T3 auxiliary winding
+ratio. TP14's feedback path and TP17's rectified pulse likewise need their
+source connections resolved before a turns ratio is claimed. This corrects
+the overly broad inference suggested by the current A5 wording.
+
+The existing assumed tube/yoke geometry also fails a design target before any
+electrical calibration: with the current 10 mm neck radius, 11.5 kV anode and
+the geometry-derived field-per-ampere, the trajectory reaches only 90.87 mm
+half-width before neck clipping, against the manual's 105 mm half-width.
+Halving the trajectory integration step twice did not change that result.
+A 12 mm assumed neck radius can reach the target, but would overlap the
+current winding's 11.5 mm inner radius. Tube clearance and yoke geometry must
+be revised together, with a bounded class-typical source, before the peak
+yoke current can be frozen.
