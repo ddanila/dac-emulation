@@ -832,12 +832,24 @@ amplitudes alongside the filtered ones. A 10 MHz sine test checks the expected
 approximately 3 dB response. The instrument file is copied into assembly
 provenance.
 
-This closes only the bandwidth portion of A3. Loading a high-impedance test
-point requires its circuit source impedance or a dedicated SPICE solve with a
-probe attached. The scorer states that probe loading remains pending; the
-current waveform comparison is therefore diagnostic rather than a completed
-EO2-equivalent measurement. Stimulus and trim settings also remain to be
-recorded with each stage score.
+`service_probe.py` now performs the dedicated circuit solves: it generates one
+deck per selected test point with only that point shunted by the bounded
+1 MΩ/48 pF direct-input equivalent, runs ngspice, and records hashes of the
+base deck, base trace, loaded decks, loaded traces, logs and instrument model.
+`service_score.py --probe-manifest` checks those artifacts before using each
+loaded trace for amplitude and shape scoring. It retains the unprobed raw
+measurement, reports the loaded unfiltered measurement, then applies the 10 MHz
+bandwidth model. A high-impedance pulse-circuit test confirms the loaded solve
+changes the amplitude and that a modified deck is rejected. Missing loaded
+points remain explicitly diagnostic.
+
+The manual figures do not identify an input picture or control settings. The
+service register now records that omission and names the synthetic grid as the
+comparison input; the scorer records `--stimulus grid` explicitly. Connected
+stage scores still need actual per-point loaded solves and a recorded trim
+configuration before the A3 comparison can be claimed for the frame. The EO
+203 direct input remains a bounded `class-typical` stand-in for the unspecified
+EO2 arrangement, so probe sensitivity must accompany a final comparison.
 
 ### R5 width-control equivalent (2026-11-19)
 

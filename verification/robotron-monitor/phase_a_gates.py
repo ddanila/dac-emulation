@@ -48,7 +48,8 @@ def verify_service_score(score):
     required=score.get('required_points')
     if not source.is_file() or not isinstance(window,list) or len(window)!=2 or not isinstance(required,list):
         raise ValueError('service score source or measurement window is missing')
-    reproduced=service_scoring.score(source,start=window[0],end=window[1],required=required)
+    reproduced=service_scoring.score(source,start=window[0],end=window[1],
+        required=required,probe_manifest=score.get('probe_manifest'),stimulus=score.get('stimulus'))
     if calibration_contract.digest(reproduced)!=calibration_contract.digest(score):
         raise ValueError('service score differs from the electrical trace')
     return True

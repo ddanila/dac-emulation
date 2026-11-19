@@ -769,7 +769,7 @@
     "Source sharpness check is visual under specified conditions and is not converted to an invented numeric spot tolerance.",
     "The waveform figures specify amplitude guidelines but generally do not print DC level, period or pulse width; null fields record those omissions, not zero.",
     "The point-16 amplitude is an 8–25 Vpp range and must not be collapsed to a nominal target.",
-    "Model-node mapping is based on the .11/.21 schematic and its existing KiCad transcription; connector and diode orientation remain subject to the A1 human schematic review."
+    "Model-node mapping is based on the .11/.21 schematic and its existing KiCad transcription; connector and diode orientation remain subject to the A1 independent source review."
   ],
   "waveform_conditions": [
     {
@@ -780,7 +780,9 @@
       },
       "instrument": "service oscilloscope EO2",
       "manual_note": "Waveform shapes and voltage values are Richtwerte (guidelines). The figures do not specify a stimulus pattern or control setting.",
-      "model_condition": "use the same native or synthetic sync timing and an explicitly recorded trim configuration"
+      "manual_stimulus": null,
+      "scoring_stimulus": "grid",
+      "model_condition": "use a synthetic grid at native 2 kByte sync timing with an explicitly recorded trim configuration"
     }
   ],
   "manual_targets": [
