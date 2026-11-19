@@ -1681,19 +1681,22 @@ connected V18 voltage/current/thermal stress against the historical
 30 V/500 mA/600 mW ratings, joint parameter bounds and implicit simulator
 defaults remain open. A2 and A6 are not complete.
 
-### A1: page-10 complementary output pair source check
+### A1: page-10 vertical driver, bias and output source check
 
 The [source-side page-10 read](reference/k7222-11/page10-output-pair-source-netlist.json)
 records the V18/V27 upper and V26/V28 lower rail and driver connections from
-300 dpi full-page and separate 600 dpi crops of `older.pdf`. The printed arrows
+300 dpi full-page and separate 600 dpi views of `older.pdf`. The printed arrows
 show upper V27 as NPN and lower V28 as PNP; both emitters join the Y1 output.
-The handwritten `BD140`/`BD139` labels conflict with those polarities and
-remain unverified replacement notes, not factory part identities.
+V19/V20/V21 point down the series bias chain between the driver bases, while
+R48 feeds its V20/V21 junction from A3. The handwritten `BD140`/`BD139`
+labels conflict with the printed transistor polarities and remain unverified
+replacement notes, not factory part identities.
 
 The [fresh KiCad-export comparison](reference/k7222-11/page10-output-pair-comparison.json)
-matches all ten transcribed C/B/E terminals, including all six output-pair
-terminals, and the authored model aliases have the same NPN/PNP assignment.
-This closes the output-pair polarity and these ten local pin comparisons only.
-Driver bases, bias diodes, emitter resistors, feedback, the other page-10
-connections and the connected-stage function check remain in A1. The A2
-output-device parameter and stress checks also remain open.
+matches all 20 transcribed transistor, diode and R48 terminals, including all
+six output-pair terminals and three diode directions. The authored model
+aliases have the same NPN/PNP assignment. A regression check reverses V20 and
+confirms that the comparison fails. This closes these local pin and polarity
+comparisons only. Driver collector-feed and emitter resistors, A3's other
+pins, feedback, the remaining page-10 connections and the connected-stage
+function check remain in A1. The A2 parameter and stress checks remain open.

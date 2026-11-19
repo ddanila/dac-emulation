@@ -488,11 +488,12 @@ A separate source-first read matches all eight endpoints of R3/C2/C1/R20 in
 the vertical sync input. Its enlarged crossing review confirms that SYNC does
 not join the 0 V return bus. The remaining page-9 circuit and page 10 still
 lack a complete second netlist.
-A page-10 output-pair read now matches ten V18/V26/V27/V28 transistor terminals
-in a fresh KiCad export, including all six V27/V28 terminals. Printed arrows
-confirm the modeled upper NPN/lower PNP assignment; the contradictory
-handwritten BD labels remain unverified. The rest of page 10 and its connected
-stage function check are still open.
+A page-10 driver-and-output read now matches all 20 terminals of
+V18/V19/V20/V21/V26/V27/V28/R48 in a fresh KiCad export. It checks all six
+V27/V28 terminals, all three bias-diode directions and R48's feed to the
+V20/V21 junction. Printed arrows confirm the modeled upper NPN/lower PNP
+assignment; the contradictory handwritten BD labels remain unverified. The
+rest of page 10 and its connected-stage function check are still open.
 The page-18 source transcription now has all 18 labelled board-cable pairs
 compared at both physical connector pins in fresh KiCad exports. Twelve signal
 nets occur on both corresponding functional board models; six have model-scope
@@ -515,7 +516,7 @@ readings or bounded class-typical decisions. T3's two page-4 reads establish
 its line-transformer identity, not its turns, internal winding connections or
 polarity. V18, V21, V27 and V28 now have bounded `class-typical` candidates,
 while their full connection reviews remain open on pages 4 and 10; the local
-V27/V28 output-pair pin and arrow check above is complete.
+driver, bias-diode and output-pair pin check above is complete.
 Seven converter-only entries are
 outside the A1 gate.
 

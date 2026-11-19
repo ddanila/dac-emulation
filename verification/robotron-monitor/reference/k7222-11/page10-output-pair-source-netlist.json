@@ -1,6 +1,6 @@
 {
-  "format": "dac-monitor-page10-output-pair-source-netlist-v1",
-  "qualification": "partial page-10 source-side read of the complementary vertical output pair; the rest of page 10 remains open",
+  "format": "dac-monitor-page10-output-pair-source-netlist-v2",
+  "qualification": "partial page-10 source-side read of the vertical driver, bias diodes and output pair; the rest of page 10 remains open",
   "source": {
     "file": "older.pdf",
     "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
@@ -17,26 +17,42 @@
       {
         "description": "600 dpi lower output-pair crop, V28 and lower rail",
         "sha256": "54f76f6d4f2bc597929a5c22c1c712ef0ce461c2a1a4d3ced55ca540941fce6e"
+      },
+      {
+        "description": "600 dpi full page, V19/V20/V21 bias chain and R48 feed",
+        "sha256": "a814242d70edd17898f6eaa7352bf3550dbc175a065e29d024cc209259b7d854"
       }
     ]
   },
   "scope": {
     "board": "012-6931",
-    "parts": ["V18", "V26", "V27", "V28"],
-    "omitted_neighbours": "Driver bases, emitter resistors, diode bias chain, feedback and other page-10 connections are outside this partial read"
+    "parts": ["V18", "V19", "V20", "V21", "V26", "V27", "V28", "R48"],
+    "omitted_neighbours": "Driver collector-feed resistors, emitter resistors, A3's internal pins, feedback and other page-10 connections are outside this partial read"
   },
   "reading_notes": [
     "V27's printed collector branch reaches the positive vertical supply rail also serving V18's collector; its base meets V18's emitter; its emitter reaches the Y1 output line.",
     "V28's printed collector branch reaches the lower vertical rail also serving V26's collector; its base meets V26's emitter; its emitter reaches the same Y1 output line.",
+    "V19, V20 and V21 point down the series bias chain: each anode is above its cathode. V19's anode joins V18's base; V21's cathode joins V26's base.",
+    "R48 runs from A3's output to the junction of V20's cathode and V21's anode. That junction does not meet either output emitter directly.",
     "The printed emitter arrows identify V27 as NPN and V28 as PNP. Handwritten BD140/BD139 labels beside the parts reverse those polarities and do not establish factory identities.",
     "Y1 is the output to the vertical deflection coil; this read does not establish the other coil terminal or a complete page-10 netlist."
   ],
   "nets": {
     "UPPER_RAIL": ["V18:C", "V27:C"],
+    "UPPER_BASE": ["V18:B", "V19:A"],
+    "DIODE_19_20": ["V19:K", "V20:A"],
+    "MID_BIAS": ["V20:K", "V21:A", "R48:2"],
+    "AMP_OUTPUT": ["R48:1"],
     "UPPER_DRIVER": ["V18:E", "V27:B"],
     "Y1_OUTPUT": ["V27:E", "V28:E"],
     "LOWER_DRIVER": ["V26:E", "V28:B"],
+    "LOWER_BASE": ["V21:K", "V26:B"],
     "LOWER_RAIL": ["V26:C", "V28:C"]
   },
+  "diode_directions": [
+    {"part": "V19", "anode_net": "UPPER_BASE", "cathode_net": "DIODE_19_20"},
+    {"part": "V20", "anode_net": "DIODE_19_20", "cathode_net": "MID_BIAS"},
+    {"part": "V21", "anode_net": "MID_BIAS", "cathode_net": "LOWER_BASE"}
+  ],
   "printed_polarity": {"V27": "NPN", "V28": "PNP"}
 }
