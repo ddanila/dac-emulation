@@ -1727,3 +1727,30 @@ The stage bench uses synthetic sync and has no native grid input, so it cannot
 close A3. TP7's amplitude, the residual Y1 reset difference, the remaining
 test points and a connected grid-stimulus score remain to be resolved; the
 nominal trims were recorded, not fitted to the manual values.
+
+### A1/A5: page-10 Y2 sense return and TP7 current constraint
+
+The enlarged page-10 schematic shows R29 between Y1 and Y2 and R27 from Y2
+to 0 V. X2:3 and X2:4 carry Y1 and Y2 respectively. The source label for the
+small shunt resistor is supported by the page-14 parts list, which gives R29
+as 430 Ω ±5% and R27 as 3.9 Ω ±2%. The extended
+[page-10 source read](reference/k7222-11/page10-output-pair-source-netlist.json)
+and [fresh KiCad comparison](reference/k7222-11/page10-output-pair-comparison.json)
+now match 26/26 local terminals. A regression check moving R27's ground end
+onto Y2 fails the comparison. The other page-10 feedback connections remain
+outside this partial A1 read.
+
+The regenerated [vertical design point](reference/k7222-11/vertical-design-point.json)
+uses Ohm's law only for R27's *total* sense current. TP7's 2.5 Vpp guideline
+implies 0.641 App nominal, or 0.471–0.818 App with its ±25% guideline tolerance
+and R27's ±2% part tolerance. The reduced-geometry yoke estimate is 0.561 App,
+which lies inside this broad range; if it were the only R27 current, it would
+give 2.188 Vpp. R29 and other feedback branches also carry current into Y2,
+so the TP7 value does not by itself fix the yoke current or its waveform.
+
+The connected stage's loaded TP7 result of 1.740 Vpp corresponds to about
+0.446 App through R27 at nominal resistance; the same run's yoke-current
+swing is about 0.423 App. This is consistent with other Y2 branches carrying
+some current, but the stage still misses the manual TP7 guideline. A5 remains
+conditional on the tube/yoke geometry, circuit model and full connection
+review; this calculation does not freeze a trim or an operating point.
