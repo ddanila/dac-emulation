@@ -463,17 +463,17 @@ Seven converter-only entries are
 outside the A1 gate.
 
 Other required close-out work is also missing. The A2 coverage report counts
-64 frame-path device instances in 30 printed-type families. Fifteen have
-provisional device-model register coverage (five individual devices and ten
-vertical 1AE15 diodes); 45 assembled instances have no entry, and V19/V20 on
-012-6921 plus L1/L2 on 012-6931 are absent from the current ideal-rail
-assembly. None of the fifteen instances yet closes all A2
-parameter checks.
+64 frame-path device instances in 30 printed-type families. Twenty-three have
+provisional device-model register coverage (five individual devices, ten
+vertical 1AE15 diodes and eight 1AD50 clamp diodes); 37 assembled instances
+have no entry. V19/V20 on 012-6921 and L1/L2 on 012-6931 are absent from the
+current ideal-rail assembly. None of the twenty-three instances yet closes all
+A2 parameter checks.
 The waveform scorer now supports separately loaded SPICE solves for the bounded
 EO 203 probe equivalent and records an explicit grid stimulus choice. No
 connected stage score yet has all required loaded probes or recorded trims (A3).
-The new class-typical register collects
-23 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
+The class-typical register collects
+30 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
 All three A4 controls are now bound in the ideal-rail
 assembly: R4 and R5 use declared equivalents, and external R1 uses the

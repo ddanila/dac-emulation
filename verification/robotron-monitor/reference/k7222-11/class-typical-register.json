@@ -7,7 +7,7 @@
       "url": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
       "revision": "2004 August 10; NXP/Philips high-speed diode data sheet",
       "pages": [2, 3, 5, 6],
-      "use": "Comparable 1N4148 signal-diode limits; not a factory identity for 1AE15"
+      "use": "Comparable 1N4148 signal-diode limits; not a factory identity for 1AE15 or 1AD50"
     },
     "ddr_ssy20_bsy34": {
       "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
@@ -81,6 +81,118 @@
     }
   },
   "entries": [
+    {
+      "id": "1AD50-signal-clamp-diode.IS",
+      "stage": "neck-video/horizontal-input",
+      "value": 1e-9,
+      "bounds": [
+        1e-12,
+        1e-7
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_is",
+      "basis": "Broad reverse-current proxy; 1N4148 IR <=25 nA at 20 V does not directly bound the original 1AD50 or SPICE IS",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AD50-signal-clamp-diode.N",
+      "stage": "neck-video/horizontal-input",
+      "value": 1.5,
+      "bounds": [
+        1,
+        2
+      ],
+      "unit": "1",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_n",
+      "basis": "Bounded ideality proxy; comparator forward curve cannot uniquely determine N",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AD50-signal-clamp-diode.RS",
+      "stage": "neck-video/horizontal-input",
+      "value": 1,
+      "bounds": [
+        0.1,
+        10
+      ],
+      "unit": "ohm",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_rs",
+      "basis": "Bounded series-resistance proxy; comparator VF <=1 V at 10 mA cannot uniquely determine RS",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AD50-signal-clamp-diode.CJO",
+      "stage": "neck-video/horizontal-input",
+      "value": 3e-12,
+      "bounds": [
+        5e-13,
+        2e-11
+      ],
+      "unit": "F",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_cjo",
+      "basis": "Comparator Cd <=4 pF at 0 V/1 MHz; wider bound retains original 1AD50 uncertainty",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AD50-signal-clamp-diode.TT",
+      "stage": "neck-video/horizontal-input",
+      "value": 4e-9,
+      "bounds": [
+        5e-10,
+        4e-8
+      ],
+      "unit": "s",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_tt",
+      "basis": "Transit-time proxy; comparator trr <=4 ns, but original recovery is unknown and TT is not trr",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AD50-signal-clamp-diode.BV",
+      "stage": "neck-video/horizontal-input",
+      "value": 100,
+      "bounds": [
+        100,
+        150
+      ],
+      "unit": "V",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_bv",
+      "basis": "Explicit breakdown proxy from comparator 100 V reverse rating, with unverified upper margin",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "1AD50-signal-clamp-diode.IBV",
+      "stage": "neck-video/horizontal-input",
+      "value": 0.0001,
+      "bounds": [
+        0.000001,
+        0.001
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_ibv",
+      "basis": "Explicit assumed breakdown knee; comparator does not specify SPICE IBV",
+      "qualification": "provisional-model-proxy"
+    },
     {
       "id": "1AE15-vertical-signal-diode.IS",
       "stage": "vertical-sync-integrator-output",

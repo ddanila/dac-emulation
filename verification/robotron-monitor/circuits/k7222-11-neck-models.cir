@@ -2,4 +2,5 @@
 * Every free parameter and its exploratory bounds is declared in the profile.
 .model SSY20A_BOUND NPN(IS={q_is} BF={q_bf} VAF={q_vaf}
 + TF={q_tf} TR={q_tr} CJE={q_cje} CJC={q_cjc})
-.model 1AD50_BOUND D(IS={d_is} N={d_n} RS={d_rs} CJO={d_cjo} TT={d_tt})
+.model 1AD50_BOUND D(IS={d_is} N={d_n} RS={d_rs} CJO={d_cjo} TT={d_tt}
++ BV={d_bv} IBV={d_ibv})
