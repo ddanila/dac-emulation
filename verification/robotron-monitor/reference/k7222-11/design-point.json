@@ -45,6 +45,25 @@
     "source": {"file": "older-operation.pdf", "page": 6},
     "limitation": "Not yet a T3 turns ratio. The V21 terminal roles are source-read, but the remaining winding return, polarity and actual collector pulse are unverified."
   },
+  "conditional_t3_polarity_screen": {
+    "status": "8 of 16 relative-polarity candidates remain within the current unverified tap graph; no winding freeze",
+    "report": "reference/k7222-11/t3-flyback-sign-filter.json",
+    "source_path": "Page 4 places T3 X2:7 on V18 collector with V17 anode at 0 V and cathode at X2:7; the separate source read puts V21 anode at X1:1 and cathode at positive EHT.",
+    "functional_rule": "A positive X2:7-to-X2:4 collector flyback pulse must make X1:1 positive relative to X1:16 for V21 to conduct during retrace.",
+    "accepted_high_voltage_relative_polarity": -1,
+    "accepted_candidate_ids": [
+      "t3-fc941ad61c50ce31",
+      "t3-21efe89f625e0b51",
+      "t3-38c71242ffd040b3",
+      "t3-5727c601bf8a59ed",
+      "t3-6913b1596c2ffb91",
+      "t3-32b662942545b363",
+      "t3-261c9dcc23bf007c",
+      "t3-af505506129d6f57"
+    ],
+    "rejection_reason": "The other eight reverse the high-voltage winding voltage for the positive collector pulse and would charge V21 on the wrong primary phase.",
+    "limitation": "The isolated 1 V pulse checks sign, not EHT amplitude or a settled field. Tap order and X1:3-to-X2:3 continuity remain hypotheses; the accepted list must be recalculated if either changes."
+  },
   "manual_test_points": {
     "14": {"node": "X12:2", "swing_vpp": 70, "role": "feedback waveform; path to T3 needs source review"},
     "15": {"node": "V13 collector", "swing_vpp": 45, "role": "driver collector; cannot directly specify an auxiliary winding ratio"},
@@ -65,7 +84,7 @@
     "conclusion": "The default 40 mm yoke field clips before the 210 mm documented width. A 12 mm internal neck radius is excluded by the family outline drawing. Shortening the assumed active field to 34.7 mm reaches 105 mm half-width in the reduced model, but does not establish the real tube inner aperture, yoke extent or installed geometry; no peak current is frozen."
   },
   "remaining_design_work": [
-    "Resolve the remaining T3 tap/return map and boost supply from the source before fixing winding polarity or turns; V21 terminal roles are now source-read.",
+    "Resolve the remaining T3 tap/return map and boost supply from the source before fixing turns or the other winding polarities; only the HV relative sign is conditionally screened within the current graph.",
     "Bound the actual inner neck aperture and yoke axial extent before selecting the narrow 34.7 mm trial; the default geometry clips before 210 mm and a 12 mm internal aperture exceeds the family outside-neck diameter.",
     "Derive the vertical operating point from test points 1–8 and the vertical yoke model.",
     "Check each derived quantity against the source and replace placeholder T3 parameters only after the constraints are mutually consistent."

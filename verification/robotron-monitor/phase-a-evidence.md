@@ -433,11 +433,33 @@ distinct winding terminal, X1:2 is absent from the magnetic ports, and the
 pins are complete. A reversed V21 pin assignment fails the test. This is a
 machine-checked partial page-4 comparison, not an internal winding read.
 
+`reference/k7222-11/t3-drive-polarity-source-read.json` records a further
+page-4 re-read at 300 dpi and a separate 600 dpi primary-stage crop. It places
+T3 X2:7 on V18's collector and V17's cathode, with V17's anode at 0 V. The
+fresh KiCad export matches those edges. This re-read followed model inspection,
+so it is a functional source check, not the independent whole-page A1 netlist.
+The source HV read puts V21's anode at X1:1 and EHT at its cathode. During a
+positive collector flyback pulse, that rectifier needs X1:1 above X1:16.
+
+`t3_flyback_sign.py` applies an isolated 1 V positive pulse from X2:7 to
+X2:4, shunts each other T3 terminal by 1 GΩ, and samples
+`V(X1:1)-V(X1:16)` near 80 ns for all sixteen existing relative-polarity
+candidates. The XSPICE and flux backends agree on sign for all sixteen; the
+eight with negative relative HV winding polarity yield a positive secondary
+pulse. The eight with positive polarity, including the all-positive startup
+candidate, yield a negative one and are rejected by this conditional
+flyback-phase rule. `design-point.json` lists the eight retained IDs and
+`reference/k7222-11/t3-flyback-sign-filter.json` records the source pins,
+both backend results and rejection reason. This test establishes neither EHT
+amplitude nor sustained operation. If the assumed tap order or X1:3-to-X2:3
+return changes, the filter must be recalculated.
+
 To keep the remaining upper-tap group connected, the candidate ties X1:3 to
 the X2:3 `h_upper2` node. This is the earlier startup-tested return hypothesis,
 not a confirmed source read. The rest of page 4 still needs an independent
-pin-to-pin transcription; winding continuity and relative polarity remain
-unverified, and the A1 page-4 check and A5 design point remain open.
+pin-to-pin transcription; winding continuity and historical polarity remain
+unverified despite the conditional HV-sign filter, and the A1 page-4 check and
+A5 design point remain open.
 
 The T3 inventory entry itself is now closed separately: two differently
 resolved page-4 views label the part `T3 Zeilentrafo`, confirming its
