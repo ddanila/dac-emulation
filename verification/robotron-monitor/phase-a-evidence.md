@@ -689,3 +689,23 @@ as `M` by OCR; machine agreement does not settle the unit.
 The C30 stock-number cell on page 6 is genuinely blank and is counted as a
 three-pass blank-cell agreement. The malformed R26 stock number on page 14 is
 kept in source review despite three matching OCR strings.
+
+### Agent-review gate migration (2026-11-19)
+
+The revised PLAN removes the human-mark prerequisite. `phase_a_review.py` now
+emits v2 agent-reading templates and requires either two agreeing independent
+readings, each with a crop hash and method, or a bounded `class-typical` value
+with a source and argument. The source PDF, inventory entry, and KiCad tree
+hashes still bind decisions to the current artifacts. Its frame-path scope is
+derived from the converter and power-input sheets excluded by the ideal-rail
+assembly. On the saved audit, 227 entries are machine-confirmed, 26 open
+entries remain in the frame path, and seven unresolved entries are confined to
+the excluded supply sheets; all six schematic pages remain open. The latter
+counts are diagnostics, not new source decisions or a passing A1 gate.
+
+`phase_a_gates.py` accepts the v2 source report and no longer requires a named
+reviewer or date on waveform observations. The A3 scorer still needs the
+machine-checkable shape descriptors and instrument treatment required by the
+revised PLAN, so this change does not complete A3 or A4. The prior v1
+human-review template and report under ignored `build/` are historical inputs,
+not evidence that the v2 gate passes.

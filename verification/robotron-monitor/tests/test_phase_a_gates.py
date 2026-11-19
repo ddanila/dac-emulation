@@ -59,14 +59,15 @@ class PhaseAGateTests(unittest.TestCase):
         reviews=phase_a_gates.waveform_review_template(self.score)
         for review in reviews['points'].values():
             review.update(shape='agrees',operating_conditions='agrees',
-                          notes='Compared the waveform with the manual under the stated conditions.',
-                          reviewer='Test reviewer',reviewed_at='2026-11-18')
+                          notes='Compared the waveform with the manual under the stated conditions.')
         self.evidence={'format':'dac-monitor-phase-a-gate-evidence-v1',
                        'electrical_trace_sha256':'c'*64,'native_capture_sha256':'d'*64,
                        'source_review':{
-                           'format':'dac-monitor-phase-a-source-review-gate-v1',
+                           'format':'dac-monitor-phase-a-source-review-gate-v2',
                            'passed':True,'inventory_entries':260,
-                           'machine_confirmed':260,'human_marked':0,
+                           'machine_confirmed':260,'agent_resolved':0,
+                           'converter_only_unresolved':[],
+                           'frame_path_open_parts':[],
                            'open_parts':[],'open_schematics':[],
                            'source_pdf_sha256':phase_a_review.source_hash(),
                            'inventory_sha256':hashlib.sha256(
@@ -154,7 +155,7 @@ class PhaseAGateTests(unittest.TestCase):
                 self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G3'))
                 self.assertFalse(next(g['passed'] for g in result['blocking'] if g['gate']=='G4'))
         evidence=copy.deepcopy(self.evidence)
-        evidence['waveform_reviews']['points']['14']['reviewed_at']='2026-99-99'
+        evidence['waveform_reviews']['points']['14']['shape']='disagrees'
         self.assertFalse(next(g['passed'] for g in phase_a_gates.evaluate(
             evidence,self.score,self.freeze)['blocking'] if g['gate']=='G3'))
 

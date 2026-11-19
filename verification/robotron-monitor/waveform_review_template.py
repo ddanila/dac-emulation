@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare blank manual waveform reviews bound to one completed service score."""
+"""Prepare blank waveform observations bound to one completed service score."""
 import argparse
 import json
 from pathlib import Path

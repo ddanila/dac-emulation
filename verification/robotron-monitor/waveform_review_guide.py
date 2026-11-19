@@ -103,7 +103,7 @@ def make_guide(score, manual_pdf, page_images):
            'show its final four line periods. Each vertical line preserves the minimum and maximum '
            'sample in a time bin. The hash-checked PDF is authoritative; page images are local '
            'previews. Compare shape and conditions with the original manual before recording '
-           'any human review mark.</p>',
+           'a waveform observation.</p>',
            f'<p>Score SHA-256: <code>{calibration_contract.digest(score)}</code><br>'
            f'Trace SHA-256: <code>{escape(score["input_sha256"])}</code><br>'
            f'Register SHA-256: <code>{escape(score["register_sha256"])}</code></p>']
