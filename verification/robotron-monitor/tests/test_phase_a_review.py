@@ -48,6 +48,9 @@ class PhaseAReviewTests(unittest.TestCase):
         self.assertTrue(complete['passed'])
         self.assertEqual(complete['machine_confirmed'], 259)
         self.assertEqual(complete['agent_resolved'], 1)
+        marks['parts'][0]['independent_reads'][0]['resolution_px'] = [1200, 1800]
+        marks['parts'][0]['independent_reads'][1]['resolution_px'] = [600, 900]
+        self.assertTrue(phase_a_review.evaluate(self.inventory, self.audit, marks)['passed'])
         stale = copy.deepcopy(marks)
         stale['parts'][0]['inventory_entry_sha256'] = '0' * 64
         self.assertFalse(phase_a_review.evaluate(self.inventory, self.audit, stale)['passed'])

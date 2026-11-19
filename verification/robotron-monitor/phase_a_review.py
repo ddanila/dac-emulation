@@ -106,7 +106,7 @@ def _agent_read(mark):
             return False
         if read['reading'].strip() != mark['reading'].strip():
             return False
-        identities.add((crop, read['method'], read.get('resolution_px')))
+        identities.add((crop, read['method'], digest(read.get('resolution_px'))))
     return len(identities) >= 2 and mark['crop_sha256'] in {r['crop_sha256'] for r in reads}
 
 
