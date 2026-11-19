@@ -447,10 +447,11 @@ A separate source-first read matches all eight endpoints of R3/C2/C1/R20 in
 the vertical sync input. Its enlarged crossing review confirms that SYNC does
 not join the 0 V return bus. The remaining page-9 circuit and page 10 still
 lack a complete second netlist.
-The page-18 source transcription has an eight-pair semantic comparison against
-the ideal-rail KiCad assembly, but the main-board sheet still lacks physical
-connector pins and the other cables remain unchecked; that partial comparison
-does not close its pin-to-pin A1 check.
+The page-18 source transcription has an 18-pair semantic comparison against
+the ideal-rail KiCad assembly. Twelve signals occur on both corresponding
+board exports; six have model-scope gaps. Main-board and vertical-board sheets
+still lack physical connector pins, and panel/yoke wiring remains unchecked;
+this comparison does not close the pin-to-pin A1 check.
 An independent page-16 neck-board read now matches all 39 component pins and
 six diode directions in a fresh KiCad export. Three audit-only connector
 symbols now expose all 17 physical pins in that export, and every pin matches

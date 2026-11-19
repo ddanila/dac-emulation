@@ -19,19 +19,25 @@ class Page18FrameCompareTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             cls.components = steady_supply.assemble(Path(directory)/'assembly')['components']
 
-    def test_neck_cables_match_source_and_report_export_gaps(self):
+    def test_all_four_cables_match_source_and_report_export_gaps(self):
         report = compare.compare(self.source, self.assembly, self.components)
         saved = json.loads((ROOT/'reference/k7222-11/page18-frame-comparison.json').read_text())
         self.assertEqual(report, saved)
-        self.assertEqual(len(report['cable_pairs']), 8)
-        self.assertEqual(report['both_board_nets'], 6)
+        self.assertEqual(len(report['cable_pairs']), 18)
+        self.assertEqual(report['both_board_nets'], 12)
         self.assertEqual({row['source_signal'] for row in report['missing_board_nets']},
-                         {'INTENS', '10.7P'})
+                         {'41P', 'SYNCH', 'X2', 'X1', 'INTENS', '10.7P'})
+        self.assertEqual({row['destination_board'] for row in report['cable_pairs']},
+                         {'012-6931', '012-6891'})
         self.assertIn('pin-level gate remains open', report['qualification'])
 
     def test_changed_cable_signal_or_neck_pin_is_rejected(self):
         source = copy.deepcopy(self.source)
         source['connectors']['012-6921:X6']['2'] = 'UG1'
+        with self.assertRaisesRegex(ValueError, 'cable signal mismatch'):
+            compare.compare(source, self.assembly, self.components)
+        source = copy.deepcopy(self.source)
+        source['connectors']['012-6931:X3']['3'] = '41P'
         with self.assertRaisesRegex(ValueError, 'cable signal mismatch'):
             compare.compare(source, self.assembly, self.components)
         assembly = copy.deepcopy(self.assembly)
