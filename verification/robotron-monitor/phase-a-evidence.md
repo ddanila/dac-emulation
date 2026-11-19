@@ -2216,3 +2216,28 @@ Holding the isolated loaded T3 bench fixed and changing only HV turns gives
 now includes a provisional T3 row, bringing [coverage](reference/k7222-11/device-model-coverage.json)
 to 64/64 assembled frame-path devices. None of the 64 rows closes all
 parameter qualification checks, so the [Phase A blocker](PLAN.md) remains.
+
+### A1/A5: HV cold-end and upper-return interaction (2026-11-20)
+
+A [K7222 repair discussion](https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=6955)
+describes the original HV winding footpoint as grounded. A separate
+[firsthand board account](https://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=3903)
+reports three secondary-coil leads going to the primary assembly and the
+other secondary pins unused. The monitor revision and exact pin-to-pin paths
+are not identified in either account. They are cross-revision topology
+comparators, not a K7222.11 source netlist.
+
+The [cold-return matrix](reference/k7222-11/t3-cold-return-matrix.json)
+varies two independent assumptions in the same isolated flux-model bench:
+whether X1:3 joins X2:3, and whether the HV cold end X1:16 remains on the
+current floating node or is grounded. The current KiCad export joins X1:16
+and X1:7 on `h_hvcold`, and joins X1:3 and X2:3 on `h_upper2`. Across all
+eight sign-compatible candidates, the current tied/floating configuration
+reaches 20.30–21.90 V after five 1 V pulses. Opening X1:3/X2:3 with that
+floating cold node leaves 0.0044–0.0045 V, as previously reported. Grounding
+X1:16 instead lets the open-return variant reach about 21.10 V whether X1:7
+is also grounded or kept separate. Thus the earlier near-zero result does
+not independently select an X1:3/X2:3 tie: it depends on the unverified
+HV cold connection. This is a low-voltage, isolated diagnostic, not a
+connected 11–12 kV prediction or proof of factory wiring. A source-first
+pin comparison and connected stage sweep remain required for A1/A5.
