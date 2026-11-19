@@ -414,14 +414,15 @@ connections and polarity. Its X1:3-to-X2:3 return and other taps remain
 provisional, so A5 cannot freeze the winding graph, ratios, candidate list or
 design point as source-verified. The page-18 check now compares the physical
 pins of all 18 labelled board-cable pairs, but six signals have functional
-model-scope gaps and panel controls remain unchecked. A separate comparison
-now matches the yoke connector and four winding endpoints. The source-first
-page-9 checks cover only the 16-pin 5.1 V reference branch and eight endpoints
-of the four-part sync input. Other A1 sheet checks, A2 device-model coverage,
-A3 waveform/scorer validation and A6 bounded values are unfinished. These are
-completion gaps, not a reason to stop work: the bounded source-review and
-fallback rules above allow progress without a human reviewer or physical
-measurement.
+model-scope gaps. A separate comparison matches the yoke connector and four
+winding endpoints. The panel read matches R1's deck topology but finds that
+source R2 is a two-wire KRA/KRS rheostat while the deck has a three-node
+contrast divider; main-board X1 pins and KRA/KRS board-side nets remain open.
+The source-first page-9 checks cover only the 16-pin 5.1 V reference branch
+and eight endpoints of the four-part sync input. Other A1 sheet checks, A2
+device-model coverage, A3 waveform/scorer validation and A6 bounded values
+are unfinished. The bounded source-review and fallback rules above allow
+progress without a human reviewer or physical measurement.
 
 The decisive technical uncertainty within A1 is the T3 winding topology.
 Manual page 19 names
@@ -456,9 +457,11 @@ The page-18 source transcription now has all 18 labelled board-cable pairs
 compared at both physical connector pins in fresh KiCad exports. Twelve signal
 nets occur on both corresponding functional board models; six have model-scope
 gaps. Vertical-board X2's six pins, four yoke terminal labels and assembled
-winding endpoints now match a separate page-18 comparison. Panel controls
-remain unchecked at pin level, so these results do not close the A1 page-18
-check.
+winding endpoints match a separate page-18 comparison. A source-first panel
+read matches the represented R1 topology but finds an R2 mismatch: the source
+ties its wiper to one end and exposes only KRA/KRS, while the deck inserts
+`intens` between two contrast resistors. Main-board X1 pins and the KRA/KRS
+board-side mapping remain unchecked, so A1 page 18 stays open.
 An independent page-16 neck-board read now matches all 39 component pins and
 six diode directions in a fresh KiCad export. Three audit-only connector
 symbols now expose all 17 physical pins in that export, and every pin matches
