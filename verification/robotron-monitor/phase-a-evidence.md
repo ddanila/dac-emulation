@@ -874,3 +874,19 @@ V1 bias node. At the top endpoint the provisional 35P source falls to about
 20 V under load, a stage-model limitation to recheck in Phase B. Neither
 these DC trials nor the terminal reading close A1's independent page-3/4/18
 netlist review or demonstrate calibrated brightness on a sustained grid.
+
+### V4 source identity and R41 discrepancy (2026-11-19)
+
+Two page-15 views, the full parts-list image and a separate device crop,
+independently print `012-6931:V4` as **Transistor SF 1260 TGL
+200-8439**. `source-review-decisions.json` now records that identity with both
+image hashes. Re-evaluating the saved 260-entry audit accepts 20 agent source
+decisions and leaves six frame-path parts open; all six schematic pages still
+need independent netlists. V4's electrical model remains A2 work.
+
+Manual page 17 calls `R41` a thermistor that compensates the horizontal
+generator and output transistor, whereas the current inventory calls
+`012-6921:R41` an unvalued potentiometer. The page-8 board parts list skips
+R41 between R40 and R42. This is a source/inventory conflict, not evidence
+for a potentiometer value; R41 remains open pending a schematic connection
+read and a bounded thermistor equivalent if no factory value is recoverable.
