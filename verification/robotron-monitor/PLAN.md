@@ -428,42 +428,37 @@ candidates. The other remaining done-condition gaps are:
 
 | Item | Evidence still needed for completion |
 | --- | --- |
-| A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed R11/R37/C33/V20 local branches, including the remaining V1/V5/V6 terminal assignments; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
-| A2 | Model and bound every frame-path device. Only 47 of 64 instances have provisional register coverage; 14 assembled instances have none and three are absent from the ideal-rail assembly. None of the 47 closes every qualification check. |
+| A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed R11/R37/C33/V19/V1/V20 local branches, including transistor C/E polarity and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
+| A2 | Model and bound every frame-path device. Only 47 of 64 instances have provisional register coverage; 15 assembled instances have none and two are absent from the ideal-rail assembly. None of the 47 closes every qualification check. |
 | A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
 | A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 169 partial entries. |
 
 The A2 gap includes all five printed `1SA20C` instances and both `1SC60A`
-instances. Six are assembled under generic transistor aliases without device
-register entries; `012-6921:V19` is absent from the ideal-rail assembly.
-Sharing an alias does not establish an electrical equivalence for
-either printed type. These instances need a sourced, bounded class model and
-their missing assembly paths resolved before A2 can pass; the existing generic
-aliases cannot be counted as qualified coverage.
+instances. All seven are now assembled under generic transistor aliases
+without device-register entries. Sharing an alias does not establish an
+electrical equivalence or C/E polarity for either printed type. They need
+sourced, bounded class models and connected stress checks before A2 can pass.
 
 The [page-4 V20 source read](reference/k7222-11/page4-v20-source-read.json)
 and [page-3 R11/R37 read](reference/k7222-11/page3-r11-r37-source-read.json)
-now trace the missing contrast branch to C17's feedback line, V10's upper
-terminal and `00`. The ideal-rail assembly includes V20, R38/R39/R40/C34
-and the R37/C33 sync branch. A second 300/600 dpi read corrected the first
-R11/R37 attribution: R11.2 runs from `12P` to `sync_feed`, R11.1 from
-`sync_feed` to `sync_c`, C33 bridges `sync_feed` to `sync_c`, and R37 biases
-`sync_c` from `12P`. R37 belongs on the input sheet, not V10's base. The V20
-collector/emitter mapping follows the same printed `1SA20C` peer V6 symbol
-and live NPN alias provisionally.
-Original device parameters, connected stress, the full page-3/4 pin comparison
+now distinguish V19 on page 3 from V1 on page 4. The source routes `12P` to
+R38 left/R39 upper, V19's upper lead to R39 lower and parallel R40/C34 left,
+and the lower return to V6/V19/V20. The assembled branch includes V19 and
+V20, with its R38/R39/R40/C34 feeds corrected. Separately, page-4 V1 has its
+R3/upper lead on `35P`, base fed by R1/R3, and lower lead on the KRS contrast
+line. R11.2 runs from `12P` to `sync_feed`, R11.1 from `sync_feed` to
+`sync_c`, C33 bridges those nodes, and R37 biases `sync_c` from `12P`.
+The C/E assignments and generic transistor aliases remain provisional;
+original device parameters, connected stress, the full page-3/4 comparison
 and a connected contrast score remain open.
 
-The former V10 lower-return mismatch was a crop-identification error: the
-lower transistors are V5/V6/V1, while V10 is in the upper oscillator. V10's
-separate `h_reactemit` network remains consistent with the 300/600 dpi source
-read. The fresh export now matches the local R11/R37/C33 source edges, but
-the full page-3/4 graph and remaining transistor terminal assignments are
-still open. In particular, V1's lower-right source lead reaches `00`, while
-the current Q202 third terminal is `contrast_low`; the V1 C/E assignment and
-adjacent R2 branch need a full pin comparison before that terminal is changed.
-The T3 uncertainty needs source review, not a human reading or physical
+The former V10 lower-return and V1-to-`00` mismatches were cropped-label
+errors: the page-3 right transistor is V19; V10 is in the upper oscillator
+and V1 is on page 4. V10's separate `h_reactemit` network and V1's KRS lower
+lead match the source reads. The fresh export matches the corrected local
+branches, while the complete page-3/4 graph, transistor polarity and T3
+connections still need source review, not a human reading or physical
 measurement.
 
 These are independent completion failures, not just one T3 issue. The
@@ -594,9 +589,9 @@ Other required close-out work is also missing. The A2 coverage report counts
 provisional device-model register coverage (seventeen individual devices, fourteen
 1AE15 diodes across two active model aliases, eight 1AD50 clamp diodes, six
 horizontal diodes and two KFY18 transistors);
-14 assembled instances
-have no entry. V19 on 012-6921 and L1/L2 on 012-6931 are absent from the
-current ideal-rail assembly. None of the forty-seven instances yet closes all
+15 assembled instances
+have no entry. V19 on 012-6921 is now assembled; L1/L2 on 012-6931 remain
+absent from the current ideal-rail assembly. None of the forty-seven instances yet closes all
 A2 parameter checks. The V18 horizontal-output model now passes a BU508AF-class
 DC gain and saturation proxy; its inductive switching, parameter bounds and
 connected-stage stress remain unchecked. A separate current-fed turn-off

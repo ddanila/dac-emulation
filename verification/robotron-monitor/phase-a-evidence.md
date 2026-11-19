@@ -1290,9 +1290,9 @@ device-model register. The saved
 `reference/k7222-11/device-model-coverage.json` accounts for 64 frame-path
 instances in 30 printed-type families; 13 instances are converter-only under
 the existing A1 scope rule. Forty-seven frame-path instances have provisional
-A2 register coverage, 14 have active model names but no register entry, and three
+A2 register coverage, 15 have active model names but no register entry, and two
 appear in the source inventory but not in the current assembled model:
-012-6921 V19 and 012-6931 L1/L2. Assembly presence and a model name do
+012-6931 L1/L2. The page-3 V19 is now present in the assembly. Assembly presence and a model name do
 not establish sourced parameter bounds.
 
 A 600 dpi reread corrected the initial R38/R39 terminal attribution in the
@@ -1306,32 +1306,31 @@ lower terminal continuing to the same local return line as R2's lower end,
 correcting the interim open-terminal reading. The four distinct left-edge
 lines have page-3 trace matches in independent 300 and 600 dpi renders. The
 [page-3 R11/R37 source read](reference/k7222-11/page3-r11-r37-source-read.json)
-then follows them to C17's lower feedback trace, the R11.2 `12P` side,
-V10's upper oscillator terminal and the lower V6/V1 `00` return. The first
-cropped R11/R37 read was wrong: it mistook lower-branch V1 for V10 and missed
-the no-dot crossing where the R11.1 outer-right line passes R37's upper lead.
-Independent 300 and 600 dpi views now show R11.2 from `12P` to the tap,
-R11.1 from the tap to V6's upper-right/V1-base line, R37 from `12P` to that
-line, and C33 from the tap to that line. The input sheet now contains all five
-V20 branch parts plus R37 and C33; R37 was removed from the horizontal sheet.
-The exported ideal-rail assembly has R11.2 on `[p12, sync_feed]`, R11.1 on
-`[sync_feed, sync_c]`, R37 on `[p12, sync_c]`, C33 on `[sync_feed, sync_c]`,
-V1 base on `sync_c` and V20 provisionally on `[h_feedback, v20_base, 0]`
-with the same unqualified NPN proxy as printed
-peer V6. The horizontal stage, assembly, signal-path and connected-stage
-regression tests pass (23 tests). The actual upper-oscillator V10 retains its
-distinct emitter network, so the prior V10-to-`00` concern is withdrawn.
-The source V1 lower-right lead reaches `00`, while current Q202's third
-terminal remains `contrast_low`; its C/E assignment and adjacent R2 path
-need the full page-3 comparison before the model is changed. The rest of the
-V1/V5/V6 transistor pin map remains open. No native connected manual score
-or original 1SA20C qualification is claimed. V19's page-8 listing is separate
-and its schematic
-location remains unresolved, so A1 and A2 remain open.
+now follows them to C17's lower feedback trace, the R11.2 `12P` side,
+V19's upper-right symbol lead and the lower V6/V19 `00` return. The first
+cropped R11/R37 read missed the no-dot crossing where R11.1 passes R37's
+upper lead; a second read restored R11.2 on `[p12, sync_feed]`, R11.1 on
+`[sync_feed, sync_c]`, R37 on `[p12, sync_c]` and C33 on
+`[sync_feed, sync_c]`. A wider 600 dpi crop then exposed the right-hand
+page-3 label as V19. Page-4 V1 is a separate contrast-control transistor,
+confirmed by the earlier page-18 KRS/X1:5 read. The previous V10-to-`00`
+and V1-to-`00` claims were cropped-label errors; actual V10 remains in the
+upper oscillator with its distinct emitter network.
+
+The fresh ideal-rail export now has V19 provisionally on
+`[v19_out, sync_c, 0]`, with `v19_out` feeding R39 lower and parallel
+R40/C34 left. R38/R39 upper are on `p12`, not `0`, and page-4 V1 is
+`[p35, collector_i, contrast_low]` with R3 from `p35` to its base node.
+R2 still shunts the KRS/`contrast_low` line to `0`. All five printed
+`1SA20C` and both `1SC60A` instances are assembled, but their C/E
+assignment, generic aliases and connected stress remain provisional.
+The local stage, assembly, signal-path and connected-stage tests pass;
+the native connected manual score and complete page-3/4 pin comparison remain
+open, so A1, A2 and A3 cannot be claimed complete.
 
 The report also makes shared-family decisions visible. Fourteen frame-path
 `1AE15` diode instances currently use two different model names, and five
-`1SA20C` transistor instances use two names or are absent from the assembly.
+`1SA20C` transistor instances use two unqualified model names.
 Ten vertical 1AE15 instances have one provisional family entry. The other four
 input/sync instances now have a separate entry for the shared `1AD50_BOUND`
 model alias. The [Nexperia 1N4148/1N4448 data sheet](https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf)
