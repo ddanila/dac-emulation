@@ -1,7 +1,7 @@
 """Compare page-18 cable labels with the ideal-rail KiCad assembly.
 
 This is a semantic check of the four board-to-board cables, not a pin-level
-A1 approval: a separate receipt checks the X4-to-X3 physical pins only.
+A1 approval: a separate receipt checks all source-labelled physical pins.
 """
 import argparse
 import hashlib
@@ -80,7 +80,7 @@ def compare(source, assembly, components):
                                     (r['horizontal_board_net_present'] and r['destination_board_net_present'])],
                 mapping_limits=['X1/X2 to hy1/hy2 uses the current yoke-net naming; physical pin direction is not established here',
                                 'SYNCH to h_sync uses the horizontal-output label; the vertical-board converter path is outside the ideal-rail frame'],
-                open_checks=['the other three board cables lack a complete paired pin-level comparison',
+                open_checks=['six cable signals have functional model-scope gaps despite matching source-labelled physical pins',
                              'panel controls and yoke wiring need a full source-to-KiCad comparison'])
 
 
