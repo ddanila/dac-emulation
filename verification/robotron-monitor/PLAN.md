@@ -428,7 +428,7 @@ candidates. The other remaining done-condition gaps are:
 
 | Item | Evidence still needed for completion |
 | --- | --- |
-| A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed R11/R37/V20 local branches, including V10's lower return; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
+| A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed R11/R37/C33/V20 local branches, including the remaining V1/V5/V6 terminal assignments; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. |
 | A2 | Model and bound every frame-path device. Only 47 of 64 instances have provisional register coverage; 14 assembled instances have none and three are absent from the ideal-rail assembly. None of the 47 closes every qualification check. |
 | A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
@@ -446,23 +446,25 @@ The [page-4 V20 source read](reference/k7222-11/page4-v20-source-read.json)
 and [page-3 R11/R37 read](reference/k7222-11/page3-r11-r37-source-read.json)
 now trace the missing contrast branch to C17's feedback line, V10's upper
 terminal and `00`. The ideal-rail assembly includes V20, R38/R39/R40/C34
-and the missing R37 bias path; it also corrects the R11 divider from the
-former `p12–sync_feed–sync_c` arrangement to the printed
-`00–sync_feed–12P` arrangement. The V20 collector/emitter mapping follows
-the same printed `1SA20C` peer V6 symbol and live NPN alias provisionally.
+and the R37/C33 sync branch. A second 300/600 dpi read corrected the first
+R11/R37 attribution: R11.2 runs from `12P` to `sync_feed`, R11.1 from
+`sync_feed` to `sync_c`, C33 bridges `sync_feed` to `sync_c`, and R37 biases
+`sync_c` from `12P`. R37 belongs on the input sheet, not V10's base. The V20
+collector/emitter mapping follows the same printed `1SA20C` peer V6 symbol
+and live NPN alias provisionally.
 Original device parameters, connected stress, the full page-3/4 pin comparison
 and a connected contrast score remain open.
 
-The latest page-3 enlarged read raises a second specific A1 mismatch. V10's
-lower symbol lead appears to meet the lower return line shared with V6 and
-V20; the earlier page-3 source read traces that line to `00`. The current
-`horizontal-transcription.json` instead gives V10 (`Q1034`) a separate
-`h_reactemit` terminal, also used by C12, R20 and C13. This is a visual
-candidate, not a settled correction: an independent pin-to-pin read must
-confirm the junction and transistor terminal, then compare the result with a
-fresh KiCad export. Until that comparison is recorded, the V10 stage and
-the newly assembled horizontal/contrast branch remain provisional. Neither
-the T3 nor V10 issue calls for a human reading or a physical measurement.
+The former V10 lower-return mismatch was a crop-identification error: the
+lower transistors are V5/V6/V1, while V10 is in the upper oscillator. V10's
+separate `h_reactemit` network remains consistent with the 300/600 dpi source
+read. The fresh export now matches the local R11/R37/C33 source edges, but
+the full page-3/4 graph and remaining transistor terminal assignments are
+still open. In particular, V1's lower-right source lead reaches `00`, while
+the current Q202 third terminal is `contrast_low`; the V1 C/E assignment and
+adjacent R2 branch need a full pin comparison before that terminal is changed.
+The T3 uncertainty needs source review, not a human reading or physical
+measurement.
 
 These are independent completion failures, not just one T3 issue. The
 [device-model coverage report](reference/k7222-11/device-model-coverage.json)

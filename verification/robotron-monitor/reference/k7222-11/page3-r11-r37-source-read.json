@@ -1,6 +1,6 @@
 {
-  "format": "dac-monitor-page3-r11-r37-source-read-v1",
-  "qualification": "agent source read and assembled-net correction; connected manual score still open",
+  "format": "dac-monitor-page3-r11-r37-source-read-v2",
+  "qualification": "Corrected independent 300/600 dpi source read and fresh assembled-net comparison; connected manual score still open",
   "source": {
     "pdf": "older.pdf",
     "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
@@ -31,29 +31,44 @@
         "file": "build/monitor/phase-a/page3-lower-return-bus.png",
         "sha256": "891ca8df41c9d5fb2d1674af3ae3a5ba42fe801ca3199cbec952a7f7bce1276f",
         "method": "separate page-3 lower return and 00 connection crop"
+      },
+      {
+        "file": "build/monitor/phase-a/page3-r11-r37-context.png",
+        "sha256": "161698eef9322785d02eb0e94fb9d64f2cd02eef390b6c30d2e7b668ffda76b3",
+        "method": "independent 300 dpi R11/R37/V5/V6/V1 context crop"
+      },
+      {
+        "file": "build/monitor/phase-a/page3-r11-r37-600-context.png",
+        "sha256": "49588f99fb2f59776b39394aeecdaad2392a91c44125ae20caf7ade1b5d4f209",
+        "method": "600 dpi R11 outer-end bypass, R37 and C33 junction/crossing crop"
+      },
+      {
+        "file": "build/monitor/phase-a/page3-v10-300-independent.png",
+        "sha256": "d2b7ed6b75b02324dfa6ab7b44086a34e423707f60bc60cf42be731399d6d8f1",
+        "method": "separate 300 dpi true V10 oscillator crop; distinguishes V10 from lower V5/V6/V1 sync transistors"
       }
     ]
   },
   "source_nets": [
     {
       "name": "00",
-      "terminals": ["R11.2:outer_left", "R37:upper", "R38:left", "R39:upper", "V20:lower_right"],
-      "basis": "Page 3 marks the R11.2 outer-left line 00; the bypass reaches R37 upper and continues to page-4 R38/R39. The separate lower 00 line reaches V20's lower terminal through the page boundary."
+      "terminals": ["V6:lower_right", "V1:lower_right", "V20:lower_right"],
+      "basis": "The lower page-3 return line reaches the lower V6/V1 symbol leads and continues to V20 through the page boundary. It does not attach to either R11 outer end or R37. The V5 lower-right lead is instead on the 12P/R11.2/R37-upper line."
     },
     {
       "name": "SYNC_DIVIDER_MID",
-      "terminals": ["R11.2:inner_right", "R11.1:inner_left"],
-      "basis": "The two resistor sections meet at the centre tap."
+      "terminals": ["R11.2:inner_right", "R11.1:inner_left", "C33:left"],
+      "basis": "The two resistor sections meet at the centre tap, which drops to C33 left."
     },
     {
       "name": "12P",
-      "terminals": ["R11.1:outer_right"],
-      "basis": "The R11.1 outer-right wire meets the drawn 12P rail at a junction dot."
+      "terminals": ["R11.2:outer_left", "R37:upper", "V5:lower_right"],
+      "basis": "The printed 12P rail meets R11.2 outer-left and loops above the R11 sections to R37 upper. It crosses the R11.1 outer-right trace without a junction dot."
     },
     {
-      "name": "V10_BASE",
-      "terminals": ["R37:lower", "V10:base"],
-      "basis": "R37 lower continues to the left-facing V10 base. The C33-right connection on this net crosses the V6 upper-terminal wire without a junction dot."
+      "name": "SYNC_C",
+      "terminals": ["R11.1:outer_right", "C33:right", "R37:lower", "V6:upper_right", "V1:base"],
+      "basis": "R11.1 outer-right descends to V6's upper-right lead and C33 right; R37 lower and V1 base join that same line. The apparent V10 in the prior cropped read is V1 on the lower sync/contrast branch, while actual V10 is in the upper oscillator. Transistor C/E assignment outside this local comparison remains open."
     },
     {
       "name": "FLYBACK_FEEDBACK",
@@ -62,22 +77,27 @@
     }
   ],
   "parts_list": {
-    "R37": "11 kohm, 5 percent"
+    "R37": "11 kohm, 5 percent",
+    "C33": "1000 pF, 10 percent"
   },
-  "before": {
-    "R11.2_nodes": ["p12", "sync_feed"],
-    "R11.1_nodes": ["sync_feed", "sync_c"],
-    "R37": "absent from ideal-rail assembly",
-    "page4_V20_branch": "five source-addressed components absent from ideal-rail assembly"
-  },
-  "current_assembly": {
-    "input_sheet": "circuits/k7222-11-input.kicad_sch",
-    "input_sheet_sha256": "d9f55b7ed1e17359675980c9c3e49f21f4af770c1ac80f55b18dc4b0ee494cc8",
-    "horizontal_sheet": "circuits/k7222-11-horizontal-oscillator.kicad_sch",
-    "horizontal_sheet_sha256": "0ed2a3e210830a7840e964fa4a0342ef79b49141f873e63f30891b7a68e18d96",
+  "superseded_assembly": {
     "R11.2_nodes": ["0", "sync_feed"],
     "R11.1_nodes": ["sync_feed", "p12"],
     "R37_nodes": ["0", "h_reactbase"],
+    "C33": "absent from ideal-rail assembly"
+  },
+  "current_assembly": {
+    "input_sheet": "circuits/k7222-11-input.kicad_sch",
+    "input_sheet_sha256": "2e36dbe8abfe731b2ec5a79dfbb67eef25d4e93ca491c720f187417cd831d3c2",
+    "horizontal_sheet": "circuits/k7222-11-horizontal-oscillator.kicad_sch",
+    "horizontal_sheet_sha256": "f84a73d359edfbf7610b791a1d0dc99087fb3fcd8993d346ce670935e20aa6af",
+    "R11.2_nodes": ["p12", "sync_feed"],
+    "R11.1_nodes": ["sync_feed", "sync_c"],
+    "R37_nodes": ["p12", "sync_c"],
+    "C33_nodes": ["sync_feed", "sync_c"],
+    "V1_nodes": ["p12", "sync_c", "contrast_low"],
+    "V6_nodes": ["sync_c", "sync_base", "0"],
+    "V10_nodes": ["h_tank", "h_reactbase", "h_reactemit"],
     "page4_V20_branch_nodes": {
       "R38": ["0", "h_feedback"],
       "R39": ["0", "h_tank"],
@@ -87,8 +107,9 @@
     }
   },
   "model_status": "V20 uses the same provisional SSY20A_BOUND NPN alias as printed-type peer V6; original 1SA20C electrical parameters and connected stress are not qualified.",
+  "unresolved_terminal_comparison": "The source draws V1's lower-right lead to the 00 return, whereas the current Q202 third terminal is contrast_low. Resolve the V1 C/E symbol assignment and adjacent R2/contrast branch in the full page-3 comparison before changing that terminal.",
   "remaining": [
-    "Compare the page-3/4 source graph to the full exported netlist, including the nearby V6/V10 lower-return crossing and transistor arrow, beyond this local branch.",
+    "Compare the rest of the page-3/4 source graph to the full exported netlist, including the V1 lower-right/00 mismatch, all V1/V5/V6 terminal assignments and the other page-edge traces, beyond this local branch.",
     "Score the connected native-mode horizontal and contrast stages with required manual probe loading and stimulus.",
     "Qualify the 1SA20C family model, including gain, transition frequency, saturation, switching timing and connected stress."
   ],

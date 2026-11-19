@@ -1306,16 +1306,27 @@ lower terminal continuing to the same local return line as R2's lower end,
 correcting the interim open-terminal reading. The four distinct left-edge
 lines have page-3 trace matches in independent 300 and 600 dpi renders. The
 [page-3 R11/R37 source read](reference/k7222-11/page3-r11-r37-source-read.json)
-then follows them to C17's lower feedback trace, the R11.2 `00` side, V10's
-upper terminal and the V6/V10 `00` return. It also shows that R11.1's outer
-end joins `12P`, not V6's collector as the prior model said. The live input
-sheet now contains all five V20 branch parts and the horizontal sheet contains
-R37 = 11 kΩ from `00` to V10's base network. The exported ideal-rail assembly
-has R11.2 on `[0, sync_feed]`, R11.1 on `[sync_feed, p12]` and V20 provisionally
-on `[h_feedback, v20_base, 0]` with the same unqualified NPN proxy as printed
+then follows them to C17's lower feedback trace, the R11.2 `12P` side,
+V10's upper oscillator terminal and the lower V6/V1 `00` return. The first
+cropped R11/R37 read was wrong: it mistook lower-branch V1 for V10 and missed
+the no-dot crossing where the R11.1 outer-right line passes R37's upper lead.
+Independent 300 and 600 dpi views now show R11.2 from `12P` to the tap,
+R11.1 from the tap to V6's upper-right/V1-base line, R37 from `12P` to that
+line, and C33 from the tap to that line. The input sheet now contains all five
+V20 branch parts plus R37 and C33; R37 was removed from the horizontal sheet.
+The exported ideal-rail assembly has R11.2 on `[p12, sync_feed]`, R11.1 on
+`[sync_feed, sync_c]`, R37 on `[p12, sync_c]`, C33 on `[sync_feed, sync_c]`,
+V1 base on `sync_c` and V20 provisionally on `[h_feedback, v20_base, 0]`
+with the same unqualified NPN proxy as printed
 peer V6. The horizontal stage, assembly, signal-path and connected-stage
-regression tests pass. No native connected manual score or original 1SA20C
-qualification is claimed. V19's page-8 listing is separate and its schematic
+regression tests pass (23 tests). The actual upper-oscillator V10 retains its
+distinct emitter network, so the prior V10-to-`00` concern is withdrawn.
+The source V1 lower-right lead reaches `00`, while current Q202's third
+terminal remains `contrast_low`; its C/E assignment and adjacent R2 path
+need the full page-3 comparison before the model is changed. The rest of the
+V1/V5/V6 transistor pin map remains open. No native connected manual score
+or original 1SA20C qualification is claimed. V19's page-8 listing is separate
+and its schematic
 location remains unresolved, so A1 and A2 remain open.
 
 The report also makes shared-family decisions visible. Fourteen frame-path
