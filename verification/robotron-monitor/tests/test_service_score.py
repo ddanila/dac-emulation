@@ -80,6 +80,11 @@ class ServiceScoreTests(unittest.TestCase):
         measured=service_score.measure(times,falling,wave)
         checks,_=service_score.shape_checks(times,falling,wave,measured)
         self.assertFalse(checks['ramp_direction'])
+        one_cycle_times=[i*5e-7 for i in range(200)]
+        one_cycle_values=[(t%1e-4)/1e-4 for t in one_cycle_times]
+        measured=service_score.measure(one_cycle_times,one_cycle_values,wave)
+        checks,_=service_score.shape_checks(one_cycle_times,one_cycle_values,wave,measured)
+        self.assertTrue(all(checks.values()))
 
     def test_bad_amplitude_is_reported_without_fitting(self):
         with tempfile.TemporaryDirectory() as directory:

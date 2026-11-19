@@ -96,20 +96,24 @@ def _time_above(times, values, threshold):
 
 
 def _phase_profile(times, values, period, bins=64):
-    """Average complete cycles before testing ramp direction or reset."""
+    """Fold complete cycles; one final field is sufficient after settling."""
     if not period or period <= 0:
         return None
     if any(b-a > period/16 for a,b in zip(times,times[1:])):
         return None
-    cycles = int((times[-1]-times[0])/period)
-    if cycles < 2:
+    duration = times[-1]-times[0]
+    if duration < .98*period:
         return None
+    # The connected scorer selects exactly one final field. Its boundary may
+    # differ from the manual period by a small rounding error.
+    period_used = min(period,duration) if duration < period else period
+    cycles = max(1,int(duration/period_used))
     cycles = min(cycles, 1000)
     sums = [0.]*bins
     for cycle in range(cycles):
-        origin = times[0]+cycle*period
+        origin = times[0]+cycle*period_used
         for slot in range(bins):
-            target = origin+(slot+.5)*period/bins
+            target = origin+(slot+.5)*period_used/bins
             right = bisect.bisect_left(times, target)
             if right == 0 or right == len(times):
                 return None
