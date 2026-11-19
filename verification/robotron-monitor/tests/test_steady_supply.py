@@ -133,6 +133,21 @@ class SteadySupplyTests(unittest.TestCase):
         self.assertAlmostEqual(steady.r5_rail_scale(1.),3.03/3.4)
         with self.assertRaises(ValueError):steady.r5_rail_scale(1.1)
 
+    def test_r4_equivalent_biases_yoke_with_neutral_midpoint(self):
+        selection=steady.select(capture())
+        graph=json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
+        candidate=tc.enumerate_candidates(graph)[0]
+        base={k:v[0] for k,v in steady.signal_path.BOUNDS.items()}
+        for position,current in ((0.,-.08),(.5,0.),(1.,.08)):
+            deck,metadata=steady.deck(dict(parameters=base|{'centering_horizontal_r4_position':position},
+                                          components=[],models=[]),selection,candidate)
+            self.assertIn(f'.param centering_horizontal_r4_position={position:g}',deck)
+            self.assertIn(f'Icentering hy2 hy1 {current:g}',deck)
+            self.assertEqual(metadata['r4_equivalent']['current_a'],current)
+            self.assertEqual(metadata['r4_equivalent']['tier'],'class-typical')
+        for position in (-.01,1.01,float('nan')):
+            with self.assertRaises(ValueError):steady.r4_center_current(position)
+
     def test_raw_parser_rejects_partial_or_nonfinite_runs(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)/'raw'

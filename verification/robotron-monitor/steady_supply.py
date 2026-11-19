@@ -48,6 +48,7 @@ PROBES += ('v(sync_gate)', 'v(vf1)', 'v(vertical_timing)', 'v(vertical_base)',
 # selected by electrical loading, without fitting rendered picture geometry.
 ASSEMBLY_BOUNDS = {
     'width_r5_position': (.63, 0., 1., 'fraction'),
+    'centering_horizontal_r4_position': (.5, 0., 1., 'fraction'),
     'yoke_horizontal_r': (2., .5, 8., 'ohm'),
     'yoke_horizontal_l': (.004, .0004, .016, 'H'),
     'tube_anode_c': (1e-9, .25e-9, 4e-9, 'F'),
@@ -68,6 +69,18 @@ def r5_rail_scale(position):
     if type(position) not in (int,float) or not math.isfinite(position) or not 0<=position<=1:
         raise ValueError('R5 position outside physical travel')
     return (2400+1000*.63)/(2400+1000*position)
+
+
+def r4_center_current(position):
+    """Bounded DC yoke bias equivalent for the unresolved page-9 R4 bridge.
+
+    The 12 V bridge feed and documented 150 ohm R2 limit its nominal
+    short-circuit current to 80 mA. This is a model full-scale bound,
+    not a claim that the physical bridge reaches either endpoint.
+    """
+    if type(position) not in (int,float) or not math.isfinite(position) or not 0<=position<=1:
+        raise ValueError('R4 position outside physical travel')
+    return .08*(2*position-1)
 
 
 def tune(assembly, selection, changes=None):
@@ -253,6 +266,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     thermal=heater_equilibrium(); period=selection['period_ticks']/selection['clock_hz']
     p={k:v[0] for k,v in ASSEMBLY_BOUNDS.items()} | assembly['parameters']
     rail_scale=r5_rail_scale(p['width_r5_position'])
+    centering_current=r4_center_current(p['centering_horizontal_r4_position'])
     yoke=assembly.get('yoke')
     if yoke is not None and yoke['inductance_field_relationship_verified']:
         if any(p[k]!=v for k,v in yoke['electrical'].items()):
@@ -294,6 +308,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         'Xcrt p10_7 0 cathode g1 g2 eht heater_rise cathode_rise CRT_THERMAL',
         'Ctube eht 0 {tube_anode_c}', 'Rhvleak eht 0 {tube_hv_leakage}',
         'Rhorizontal hy1 h_winding {yoke_horizontal_r}','Lhorizontal h_winding hy2 {yoke_horizontal_l}',
+        f'Icentering hy2 hy1 {centering_current:.15g}',
         'Rvertical y1 v_winding {yoke_vertical_r}','Lvertical v_winding y2 {yoke_vertical_l}',
         'Rcapmid h_rectmid 0 {isolated_cap_leakage}','Ryokeleak hy1 0 {isolated_cap_leakage}',
         f'.options {linear_solver} reltol={reltol} abstol={abstol} vntol=1e-6 method=gear',
@@ -301,6 +316,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         *(['.ic '+' '.join(f'v({n})={v:.15g}' for n,v in sorted(initial_voltages.items()))] if initial_voltages else []),
         f'.tran {max_step_s} {period*fields:.17g} {period*(fields-4):.17g} {max_step_s}', '.end']
     assumptions=['Ideal 12 V converter input and R5-scaled 22/41/-16 V outputs; actual 5 V regulator retained.',
+        'R4 horizontal centring uses a bounded DC yoke-current equivalent while the page-9 bridge links remain unresolved.',
         'Periodic repetition of a captured static field initializes the circuit; no cold thermal timeline.',
         'Unmeasured yoke geometry and tube capacitance/leakage. The selected yoke profile declares whether R/L and field are jointly derived or independent.',
         'Finite 1 Gohm DC leakage at isolated C19 midpoint and horizontal yoke; not a source component.',
@@ -315,6 +331,11 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
             output_rails_v={'p41':41*rail_scale,'p22':22*rail_scale,'n16':-16*rail_scale},
             unchanged_input_rail_v={'p12':12},
             rule='(2400 + 1000*0.63)/(2400 + 1000*position)'),
+        r4_equivalent=dict(source_ids=['012-6931:R4','012-6931:R2','012-6931:L1','012-6931:L2'],
+            source_pdf_page=9,tier='class-typical',position=p['centering_horizontal_r4_position'],
+            current_a=centering_current,current_bound_a=.08,
+            bound_basis='12 V bridge feed / documented 150 ohm R2; nominal short-circuit limit',
+            rule='current_a = 0.08 * (2 * position - 1); positive flows hy1 to hy2 through yoke'),
         max_step_s=max_step_s,reltol=reltol,linear_solver=linear_solver,abstol=abstol,vntol=1e-6,parameters=p,assembly_bounds=ASSEMBLY_BOUNDS)
     import collection
     metadata['collection']=dict(profile=collection.PROFILE,feedback_enabled=collection_report is not None,

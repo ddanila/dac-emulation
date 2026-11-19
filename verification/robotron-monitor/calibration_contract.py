@@ -39,8 +39,8 @@ TRIM_PROCEDURE_STEPS={
     'centering_vertical_r58':(9,), 'focus':(),
     'brightness':(2,6,7), 'contrast':(6,),
 }
-# These bindings follow source IDs in the assembled KiCad sheets. The
-# remaining controls must not be invented from an ideal-rail parameter.
+# Most bindings follow source IDs in the assembled KiCad sheets. R5 and R4
+# use the explicitly declared ideal-rail equivalents in steady_supply.py.
 TRIM_PARAMETERS={
     'regulated_5v_r9':'reg5_position',
     'vertical_sync_r22':'vertical_trim',
@@ -50,6 +50,7 @@ TRIM_PARAMETERS={
     'max_beam_r4_0126921':'contrast_trim',
     'horizontal_linearity_l3':'horizontal_linearity_l',
     'picture_width_r5':'width_r5_position',
+    'centering_horizontal_r4_0126931':'centering_horizontal_r4_position',
     'height_r35':'height_trim',
     'linearity_r59':'linearity_r59',
     'linearity_r60':'linearity_r60',

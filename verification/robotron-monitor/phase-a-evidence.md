@@ -827,3 +827,26 @@ the nominal point, with all three outputs changing together. This is a
 design-derived equivalent based on the provisional page-10 topology, not a
 calibrated width result; the A1 independent netlist and B6 grid adjustment
 remain necessary.
+
+### R4 horizontal-centring equivalent (2026-11-19)
+
+Source schematic page 9 draws `012-6931:R4` (1 kΩ) in the L1/L2 centring
+bridge with `R2` (150 Ω) and selectable E1–E4 links. The bridge's X1 links
+still need the A1 independent netlist review, so the connected assembly uses
+the fallback prescribed by PLAN.md: a DC current source across the horizontal
+yoke, from `hy2` to `hy1`. The source's positive current returns through the
+yoke from `hy1` to `hy2`. Its `centering_horizontal_r4_position` is bounded
+to physical travel 0–1, with neutral 0.5. The source current is
+`0.08 × (2 × position − 1)` A. The ±80 mA ceiling is the nominal
+short-circuit limit from the page-9 12 V feed divided by the documented
+150 Ω R2; it is a broad bound, not a prediction of the bridge's usable range.
+Topology and neutral setting are labelled `class-typical` in deck metadata.
+
+The manual's `centering_horizontal_r4_0126931` trim is bound to that position.
+Full assembled decks at both endpoints and the midpoint show −80 mA, 0 and
++80 mA in the actual source. An ngspice DC operating-point solve of each deck
+reports the same three values for `i(Lhorizontal)`, in order, with no other
+trim changed. The logs are under ignored `build/monitor/phase-a/r4-check/`.
+This establishes a connected electrical control, not a calibrated
+picture-centre result. The A1 bridge review may replace this equivalent, and
+B6 must still measure the grid and select a setting.

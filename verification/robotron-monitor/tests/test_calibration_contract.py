@@ -70,8 +70,12 @@ class CalibrationContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'manual trims lack connected model binding') as error:
             contract._validate_trim_bindings(trims,parameters,deck)
         self.assertNotIn('picture_width_r5',str(error.exception))
-        self.assertIn('centering_horizontal_r4_0126931',str(error.exception))
+        self.assertNotIn('centering_horizontal_r4_0126931',str(error.exception))
         self.assertIn('brightness',str(error.exception))
+        trims['centering_horizontal_r4_0126931']['setting']=0.
+        with self.assertRaisesRegex(ValueError,'manual trim was not applied to connected model: centering_horizontal_r4_0126931'):
+            contract._validate_trim_bindings(trims,parameters,deck)
+        trims['centering_horizontal_r4_0126931']['setting']=parameters['centering_horizontal_r4_position']
         trims['picture_width_r5']['setting']=0.
         with self.assertRaisesRegex(ValueError,'manual trim was not applied to connected model: picture_width_r5'):
             contract._validate_trim_bindings(trims,parameters,deck)
