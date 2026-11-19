@@ -2,12 +2,12 @@
   "format": "dac-monitor-a2-device-coverage-v1",
   "qualification": "A2 gap inventory; registered rows are provisional, not completed model qualification",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
-  "register_sha256": "0aa875acccb0e9ff3d0a8c8fe4a514fc54fcd2fb8e76d26cef8ece2e8f0fa14f",
+  "register_sha256": "be4fa5127679cda3fb30f7b50c47feb6b06ee54b069ac4c7037be57b840a3571",
   "assembly_source_sha256": "0acaca8c1f8efa7bb05130b25a888db08b4e9bd0de8273cde21dc7f3e263d3a6",
   "inventory_device_instances": 77,
   "frame_path_device_instances": 64,
   "assembled_instances": 60,
-  "registered_instances": 41,
+  "registered_instances": 43,
   "absent_from_assembly": [
     "012-6921:V19",
     "012-6921:V20",
@@ -30,9 +30,7 @@
     "012-6931:A2",
     "012-6931:A3",
     "012-6931:V11",
-    "012-6931:V13",
     "012-6931:V18",
-    "012-6931:V26",
     "012-6931:V5"
   ],
   "families": [
@@ -79,7 +77,10 @@
       "active_models": [
         "VERTICAL_PNP_BOUND"
       ],
-      "registered_ids": [],
+      "registered_ids": [
+        "012-6931:V13",
+        "012-6931:V26"
+      ],
       "absent_from_assembly": []
     },
     {
@@ -1104,8 +1105,18 @@
       "printed_type": "KFY18",
       "assembled_reference": "Q606",
       "active_model": "VERTICAL_PNP_BOUND",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "VERTICAL_PNP_BOUND",
+      "registered_parameter_keys": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ]
     },
     {
       "id": "012-6931:V14",
@@ -1292,8 +1303,18 @@
       "printed_type": "KFY18",
       "assembled_reference": "Q725",
       "active_model": "VERTICAL_PNP_BOUND",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "VERTICAL_PNP_BOUND",
+      "registered_parameter_keys": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ]
     },
     {
       "id": "012-6931:V27",

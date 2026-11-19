@@ -3,7 +3,8 @@
 .model 1AD50_BOUND D(IS=2n RS=2 N=1.7 CJO=2p TT=5n BV=100 IBV=100u)
 * Provisional 1AE15 signal/bias-diode class; 1N4148 is a comparator, not an identified original.
 .model VERTICAL_DIODE D(IS=2n RS=2 N=1.7 CJO=2p TT=5n BV=100 IBV=100u)
-.model VERTICAL_PNP_BOUND PNP(IS=1e-14 BF={retrace_bf} VAF=60 CJE=30p CJC=10p TF=5n TR=50n)
+* KFY18-class PNP proxy: Tesla 1987 catalog, pages 221-223; not a fitted factory curve.
+.model VERTICAL_PNP_BOUND PNP(IS=1e-14 BF={retrace_bf} VAF=60 RC=3 RE=0.25 CJE=65p CJC=45p TF=1.5n TR=50n)
 * LM723-family functional equivalent: TI SNVS765C p2 metal-can pin contract.
 * cs inv noninv ref vminus out collector vplus compensation current-limit
 * NOT a transistor-level Tesla MAA723 model. No thermal/SOA qualification.

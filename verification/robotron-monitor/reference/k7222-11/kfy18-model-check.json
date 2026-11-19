@@ -1,0 +1,112 @@
+{
+  "format": "dac-monitor-kfy18-model-check-v1",
+  "qualification": "isolated original-type catalog response; connected stress, joint bounds and implicit SPICE defaults remain open",
+  "source": {
+    "url": "https://teslakatalog.cz/download/tesla_katalog_2_1987_bw.pdf",
+    "sha256": "fa340fb7a38b8a21091882d4fb3968297e669005c5601f1606fe17960accdc4b",
+    "edition": "TESLA Katalog 2, 1987, printed pages 221-223",
+    "use": "Original KFY18 PNP: h21e 50..250 at IC=1 mA/VCE=5 V, h21E 90..300 at IC=10 mA/VCE=10 V, |VCEsat| typical 0.6 V/max 1 V at IC=150 mA/IB=15 mA, fT typical 100/min 60 MHz at IC=50 mA/VCE=10 V/f=30 MHz, Ccbo typical 19/max 30 pF at VCB=10 V and Cebo typical 55/max 80 pF at VEB=0.5 V. No unique SPICE parameter fit."
+  },
+  "register_sha256": "be4fa5127679cda3fb30f7b50c47feb6b06ee54b069ac4c7037be57b840a3571",
+  "model_file_sha256": "f4e4a08404c8d6f8f0260375b15b921f71b46509a41c67d804ed4482cc2335cf",
+  "sheet_sha256": {
+    "012-6931:V13": "fcc4105a85343558459544a6a0e19538b2b82691860eb9517956c0992e9c65ea",
+    "012-6931:V26": "31fecc9b66b924c26b18c8524e8a8fdf16cfa0680d68b9b89576a6f70825040d"
+  },
+  "assembly_references": {
+    "012-6931:V13": "Q606",
+    "012-6931:V26": "Q725"
+  },
+  "explicit_model_parameters": {
+    "IS": "1e-14",
+    "BF": "{retrace_bf}",
+    "VAF": "60",
+    "RC": "3",
+    "RE": "0.25",
+    "CJE": "65p",
+    "CJC": "45p",
+    "TF": "1.5n",
+    "TR": "50n"
+  },
+  "catalog_targets": {
+    "hFE_1ma": {
+      "range": [
+        50,
+        250
+      ],
+      "conditions": "IC=1 mA, VCE=5 V, f=1 kHz, 25 C; model check uses a DC low-frequency proxy"
+    },
+    "hFE_10ma": {
+      "range": [
+        90,
+        300
+      ],
+      "conditions": "IC=10 mA, VCE=10 V, 25 C"
+    },
+    "VCEsat_v": {
+      "typical": 0.6,
+      "maximum": 1,
+      "conditions": "IC=150 mA, IB=15 mA, 25 C; model check uses a DC saturation proxy"
+    },
+    "fT_hz": {
+      "typical": 100000000.0,
+      "minimum": 60000000.0,
+      "conditions": "IC=50 mA, VCE=10 V, f=30 MHz, 25 C"
+    },
+    "Ccbo_f": {
+      "typical": 1.9e-11,
+      "maximum": 3e-11,
+      "conditions": "VCB=10 V, IC=0, f=2 MHz, 25 C"
+    },
+    "Cebo_f": {
+      "typical": 5.5e-11,
+      "maximum": 8e-11,
+      "conditions": "VEB=0.5 V, IC=0, f=2 MHz, 25 C"
+    }
+  },
+  "gain_at_1ma": {
+    "collector_current_a": 0.001,
+    "base_current_a": 9.325474755886896e-06,
+    "collector_emitter_voltage_v": -5,
+    "base_emitter_voltage_v": -0.657123,
+    "hFE": 107.23314642707382
+  },
+  "gain_at_10ma": {
+    "collector_current_a": 0.01,
+    "base_current_a": 8.663845382994985e-05,
+    "collector_emitter_voltage_v": -10,
+    "base_emitter_voltage_v": -0.71666,
+    "hFE": 115.4221890850864
+  },
+  "ac_bias_at_50ma": {
+    "collector_current_a": 0.05000001,
+    "base_current_a": 0.0004342675746523503,
+    "collector_emitter_voltage_v": -10,
+    "base_emitter_voltage_v": -0.768161,
+    "hFE": 115.13641109407521
+  },
+  "ac_current_gain_at_30mhz": 3.257176,
+  "transition_frequency_proxy_hz": 97715280.0,
+  "saturation": {
+    "collector_current_a": 0.15,
+    "base_current_a": 0.015,
+    "collector_emitter_voltage_v": -0.558122,
+    "base_emitter_voltage_v": -0.833109
+  },
+  "reverse_bias_capacitances": {
+    "vbe": -0.5,
+    "vbc": -10.0,
+    "cpi": 5.48514e-11,
+    "cmu": 1.86833e-11
+  },
+  "checks": {
+    "gain_1ma": true,
+    "gain_10ma": true,
+    "saturation": true,
+    "transition_frequency_proxy": true,
+    "collector_base_capacitance": true,
+    "emitter_base_capacitance": true,
+    "capacitance_biases": true
+  },
+  "passed": true
+}

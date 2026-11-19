@@ -3,6 +3,7 @@
   "status": "partial; contains currently cited bounded candidates, not a completed A6 freeze",
   "scope": "K7222.11 ideal-rail frame path and service comparison",
   "sources": {
+    "tesla_kfy18_1987": {"url": "https://teslakatalog.cz/download/tesla_katalog_2_1987_bw.pdf", "sha256": "fa340fb7a38b8a21091882d4fb3968297e669005c5601f1606fe17960accdc4b", "edition": "TESLA Katalog 2, 1987, printed pages 221-223", "use": "Original KFY18 PNP gain, saturation, fT and junction-capacitance ranges at stated test points; SPICE parameters remain bounded proxies."},
     "ddr_sc237": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SC 236 · SC 237 · SC 238 · SC 239", "use": "Historical SC237 group-E h21e 224–560 at VCE=6 V/IC=2 mA/1 kHz, typical fT 170 MHz at VCE=6 V/IC=10 mA/f=20 MHz, typical pulsed VCEsat 210 mV at IC=100 mA/IB=5 mA, and C11b/C22b 7.7/3.8 pF at stated biases. Not a fitted SC237E transistor curve."},
     "ddr_sf126_129": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SF 126 · SF 127 · SF 128 · SF 129", "use": "Historical SF128 base-family h21E groups A–F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."},
     "vishay_uf4007": {"url": "https://www.vishay.com/docs/88755/uf4001.pdf", "revision": "6 April 2020, document 88755", "pages": [1, 2, 3], "use": "Comparable 1000 V ultrafast 1 A rectifier: VF <=1.7 V at 1 A, IR <=10 uA at 1000 V/25 C, trr <=75 ns at IF=0.5 A/IR=1 A/Irr=0.25 A and typical 17 pF at 4 V/1 MHz. Not an identity for 1YL1 variants."},
@@ -2027,7 +2028,16 @@
       "model_ref": "circuits/k7222-11-regulator5-models.cir#REG5_NPN.TR",
       "basis": "reverse transit-time/storage proxy; family sheet has no storage/fall test, so range is unqualified",
       "qualification": "provisional-model-proxy"
-    }
+    },
+    {"id": "KFY18-vertical-pnp.IS", "stage": "vertical-ramp-and-output", "value": 1e-14, "bounds": [1e-16, 1e-12], "unit": "A", "sources": ["tesla_kfy18_1987"], "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_PNP_BOUND.IS", "basis": "bounded silicon saturation-current proxy; historical leakage and gain do not uniquely fit IS", "qualification": "provisional-model-proxy"},
+    {"id": "KFY18-vertical-pnp.BF", "stage": "vertical-ramp-and-output", "value": 100, "bounds": [50, 300], "unit": "1", "sources": ["tesla_kfy18_1987"], "model_ref": "profiles/k7222-11-vertical-integrator.json#parameters.retrace_bf", "basis": "profile BF proxy shared with the vertical-output profile; catalog gain spans 50..250 at 1 mA and 90..300 at 10 mA", "qualification": "provisional-model-proxy"},
+    {"id": "KFY18-vertical-pnp.VAF", "stage": "vertical-ramp-and-output", "value": 60, "bounds": [30, 150], "unit": "V", "sources": ["tesla_kfy18_1987"], "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_PNP_BOUND.VAF", "basis": "bounded Early-voltage proxy; no unique extraction from catalog gain tests", "qualification": "provisional-model-proxy"},
+    {"id": "KFY18-vertical-pnp.RC", "stage": "vertical-ramp-and-output", "value": 3, "bounds": [0.5, 6], "unit": "ohm", "sources": ["tesla_kfy18_1987"], "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_PNP_BOUND.RC", "basis": "collector resistance proxy contributing to 150 mA saturation result; not individually specified", "qualification": "provisional-model-proxy"},
+    {"id": "KFY18-vertical-pnp.RE", "stage": "vertical-ramp-and-output", "value": 0.25, "bounds": [0.05, 0.5], "unit": "ohm", "sources": ["tesla_kfy18_1987"], "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_PNP_BOUND.RE", "basis": "emitter resistance proxy contributing to 150 mA saturation result; not individually specified", "qualification": "provisional-model-proxy"},
+    {"id": "KFY18-vertical-pnp.CJE", "stage": "vertical-ramp-and-output", "value": 6.5e-11, "bounds": [4e-11, 1e-10], "unit": "F", "sources": ["tesla_kfy18_1987"], "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_PNP_BOUND.CJE", "basis": "zero-bias proxy; model Cebo is 54.9 pF at 0.5 V reverse versus catalog 55 pF typical, 80 pF maximum", "qualification": "provisional-model-proxy"},
+    {"id": "KFY18-vertical-pnp.CJC", "stage": "vertical-ramp-and-output", "value": 4.5e-11, "bounds": [2.5e-11, 7e-11], "unit": "F", "sources": ["tesla_kfy18_1987"], "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_PNP_BOUND.CJC", "basis": "zero-bias proxy; model Ccbo is 18.7 pF at 10 V reverse versus catalog 19 pF typical, 30 pF maximum", "qualification": "provisional-model-proxy"},
+    {"id": "KFY18-vertical-pnp.TF", "stage": "vertical-ramp-and-output", "value": 1.5e-9, "bounds": [8e-10, 3e-9], "unit": "s", "sources": ["tesla_kfy18_1987"], "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_PNP_BOUND.TF", "basis": "transit-time proxy with capacitances; 30 MHz AC gain gives 97.7 MHz fT proxy versus catalog 60 MHz minimum", "qualification": "provisional-model-proxy"},
+    {"id": "KFY18-vertical-pnp.TR", "stage": "vertical-ramp-and-output", "value": 5e-8, "bounds": [5e-9, 5e-7], "unit": "s", "sources": ["tesla_kfy18_1987"], "model_ref": "circuits/k7222-11-vertical-integrator-models.cir#VERTICAL_PNP_BOUND.TR", "basis": "bounded reverse transit-time proxy; catalog gives no storage or fall-time test", "qualification": "provisional-model-proxy"}
   ],
   "open_families": [
     {
@@ -2048,7 +2058,7 @@
     },
     {
       "file": "reference/k7222-11/device-model-register.json",
-      "reason": "thirteen individual provisional semiconductor models and six horizontal diode instances still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 instances have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
+      "reason": "thirteen individual provisional semiconductor models and six horizontal diode instances still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 and two KFY18 instances have bounded family entries, while other frame-path devices remain uncovered"
     }
   ],
   "use_for_sensitivity": "Only entries whose model_ref resolves to an active parameter and whose model response is validated may be swept as A6 class-typical bounds. Pending families are not qualified."

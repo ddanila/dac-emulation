@@ -1622,3 +1622,34 @@ provisional coverage, nineteen assembled instances remain unregistered,
 and four are absent from the current assembly. V4 still needs connected
 current/voltage stress, joint-bound sensitivity and examination of implicit
 BJT defaults. A2 and A6 remain open.
+
+### A2: two KFY18 vertical PNP instances
+
+The 012-6931 inventory prints KFY18 at V13 and V26, and the live vertical
+KiCad sheets select the same `VERTICAL_PNP_BOUND` alias for both. The original
+[1987 Tesla Katalog 2](https://teslakatalog.cz/download/tesla_katalog_2_1987_bw.pdf)
+(SHA-256 `fa340fb7a38b8a21091882d4fb3968297e669005c5601f1606fe17960accdc4b`,
+printed pages 221–223) identifies KFY18 as a silicon PNP. Its stated tests
+include h21e 50–250 at 1 mA/5 V and h21E 90–300 at 10 mA/10 V; saturation
+typically 0.6 V and at most 1 V at 150 mA/15 mA; fT typically 100 MHz and at
+least 60 MHz at 50 mA/10 V with a 30 MHz test frequency; collector-base
+capacitance typically 19 pF and at most 30 pF at 10 V reverse bias; and
+emitter-base capacitance typically 55 pF and at most 80 pF at 0.5 V reverse
+bias. Its 45 V collector-emitter, 600 mA collector-current and 0.8 W
+uncooled power ratings have not yet been checked against connected operation.
+
+The former live 5 ns forward transit time yielded only about 31 MHz in an
+isolated 50 mA gain-bandwidth proxy. The revised shared model uses 1.5 ns,
+65/45 pF zero-bias junction terms and explicit 3/0.25 Ω collector/emitter
+resistances. The [saved catalog comparison](reference/k7222-11/kfy18-model-check.json)
+checks both live KiCad selections and records hFE 107.2 at 1 mA, 115.4 at
+10 mA, 0.558 V saturation, a 97.7 MHz frequency proxy, and 54.9/18.7 pF
+reverse-bias emitter/collector capacitances. All seven nominal checks pass;
+the vertical-stage regression tests also pass. These are model responses at
+specified biases, not measured KFY18 curves.
+
+The family adds two provisional A2 instances and nine A6 bounded parameter
+rows: coverage is now 43/64, with 17 assembled instances unregistered and
+four absent from the ideal-rail assembly; the A6 register has 131 partial
+entries. Connected V13/V26 stress, joint parameter bounds, original switching
+time and implicit SPICE defaults remain open, so A2 and A6 are not complete.
