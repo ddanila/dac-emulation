@@ -97,7 +97,7 @@ def compare(source, assembly, exports, components, *, pdf_sha256):
                 functional_board_nets_both_present=semantic_report['both_board_nets'],
                 functional_model_scope_gaps=semantic_report['missing_board_nets'],
                 open_checks=['six cable signals have functional model-scope gaps',
-                             'panel R2 topology differs and X1 pin comparison remains open; yoke is checked separately',
+                             'panel topology and X1 physical pins are checked separately; connected contrast stage remains open',
                              'T3 internal winding order is outside this page-18 cable map'],
                 passed=not pin_misses and not extras and not pair_misses)
 

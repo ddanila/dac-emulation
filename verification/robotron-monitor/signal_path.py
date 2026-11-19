@@ -156,8 +156,7 @@ def run(capture_path,output,*,case='nominal',duration=.0002,step=2e-9,sections=4
         lines += [f'Rreturn 0 mreturn {params["return_r"]*(50 if case=="return-resistance" else 1)}',
             'Vp5 p5 mreturn 5','Vp12 p12 mreturn 12','Vrail p41 mreturn 41',
             'Vg1 ug1 mreturn -25','Vg2 ug2 mreturn 350','Vg4 ug4 mreturn 175',
-            'Rcontrast_top contrast_adjust intens {contrast_r*contrast_position}',
-            'Rcontrast_bottom intens contrast_low {contrast_r*(1-contrast_position)}',
+            'Rcontrast reference9 contrast_low {contrast_r*contrast_position}',
             'Rdownstream sync_c mreturn {sync_load}','Rvertical_load vertical_trigger mreturn {vertical_load}',
             'Ibeam mreturn cathode 20u','Csocket cathode mreturn {tube_cathode_c}']
         probes=[]

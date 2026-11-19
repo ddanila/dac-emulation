@@ -920,8 +920,8 @@ B6 must still measure the grid and select a setting.
 The page-18 interconnection drawing assigns panel R1 terminals E, S and A to
 35P, HRS and HRA on main-board connector X1; page 3 draws the same pot and
 page 4 continues HRS/HRA into the V1 bias network. The current deck maps them
-to `p35`, `collector_i` and `contrast_adjust`, respectively; physical X1 pins
-have not yet been compared with a KiCad export. The panel pot's
+to `p35`, `collector_i` and `contrast_adjust`, respectively; all six physical
+X1 pins now match a fresh KiCad export. The panel pot's
 bottom-to-wiper segment is in parallel with the board's R1 (2.7 kΩ). The
 handwritten page-18 10 kΩ value, with 5 kΩ alternative, is carried as a
 bounded `class-typical` `brightness_pot_r` rather than a factory specification.
@@ -1043,22 +1043,37 @@ terminal map and yoke topology; it does not establish the yoke's historical
 R/L values, field strength, or the omitted vertical-board horizontal pass-through.
 Panel controls and six cable functional gaps keep the A1 page-18 check open.
 
-`reference/k7222-11/page18-panel-source-read.json` records two differently
-cropped/resolved reads of schematic pages 3 and 18 from the hashed source PDF.
+`reference/k7222-11/page18-panel-source-read.json` records differently
+cropped/resolved reads of schematic pages 3, 4 and 18 from the hashed source PDF.
 Page 18 maps R1's E/S/A to 35P/HRS/HRA and R2's S/A to KRS/KRA through
 main-board X1. Page 3 draws R1 as a three-terminal potentiometer and R2 as a
 two-wire rheostat whose wiper joins its lower end. Handwritten control values
-are excluded from this topology read. `page18_panel_compare.py` checks those
-terminal labels against the page-18 interconnect transcription and compares
-the assembled deck's control elements. The saved
-`reference/k7222-11/page18-panel-topology-comparison.json` finds R1's three
-represented nodes in the expected order but finds an R2 difference: the deck
-uses two resistors and three nodes (`contrast_adjust`, `intens`,
-`contrast_low`) while the source exposes only KRA/KRS. This is an A1 mismatch,
-not an accepted equivalent. The KRA/KRS board-side component connections on
-pages 3–4 and physical main-board X1 pins must be independently transcribed
-before replacing the divider; guessing those nodes from the existing deck
-would carry the source error into the correction.
+are excluded from this topology read. The KRA trace on page 3 at approximately
+3783 px reaches the left, wiper-tied side of board R4 on page 4 at 3726 px;
+the −57 px offset is consistent with the neighbouring traces across the page
+split. Page 4 also labels V1's emitter path KRS. In the current KiCad export,
+R4's left node is `reference9` and V1's emitter is `contrast_low`. An audit-only
+X1 symbol now exposes the six main-board connector pins in a fresh KiCad export;
+all six match the page-18 labels and the board-side node map.
+
+The old assembled deck put `intens` between two contrast resistors, creating
+a third terminal that the source R2 does not have. `steady_supply.py` and the
+isolated `signal_path.py` bench now use one rheostat element between
+`reference9` (KRA) and `contrast_low` (KRS). The existing `contrast_r` and
+`contrast_position` bounds remain declared; the handwritten 5/10 kΩ note is
+not promoted to a factory value. `page18_panel_compare.py` checks the panel
+terminal labels, the two board-side component edges and the corrected deck
+topology. Its saved
+`reference/k7222-11/page18-panel-topology-comparison.json` matches R1 and R2
+and finds no X1 pin mismatch; changing R2's deck endpoint to `intens` fails the
+comparison.
+
+Three assembled ngspice DC operating-point checks at contrast positions 0.05,
+0.5 and 0.95 completed. `v(reference9)` was 9.207636, 9.132179 and
+9.124684 V; `v(contrast_low)` was 11.96441, 11.98190 and 11.98321 V.
+The control reaches V1's bias network, but this small DC shift is not a
+connected waveform score or evidence of a calibrated image. The full page-3/4
+second netlist remains open.
 
 ### Independent page-16 neck-board pin transcription (2026-11-19)
 
