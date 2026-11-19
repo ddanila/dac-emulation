@@ -1,0 +1,28 @@
+{
+  "format": "dac-monitor-1ae15-class-dc-check-v1",
+  "qualification": "provisional 1N4148-class comparison; 1AE15 identity, reverse recovery and stage sensitivity remain open",
+  "comparator": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
+  "model_sha256": "aa751df04a6313d383bbc3b76d3f93ed363e0d2799703dff59545003ff75c6b4",
+  "profile_sha256": "030eedadf05d526988cfa850a678bd240221da7396c70dd59b5f9ad77a8360f9",
+  "measured": {
+    "forward_voltage_v_at_10ma": 0.7016331,
+    "reverse_current_a_at_20v": 1.68864e-09,
+    "zero_bias_capacitance_f_at_1mhz": 1.997575e-12
+  },
+  "comparator_maxima": {
+    "forward_voltage_v_at_10ma": 1,
+    "reverse_current_a_at_20v": 2.5e-08,
+    "zero_bias_capacitance_f_at_1mhz": 4e-12,
+    "reverse_recovery_s_at_specified_test": 4e-09
+  },
+  "checked": {
+    "forward_voltage": true,
+    "reverse_current": true,
+    "zero_bias_capacitance": true
+  },
+  "unchecked": [
+    "reverse recovery at data-sheet IF/IR/RL",
+    "original 1AE15 identity and operating ratings",
+    "stage response across registered parameter bounds"
+  ]
+}

@@ -1,8 +1,14 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; V18/V21, V27/V28 and neck V1 candidate model bounds recorded",
+  "status": "partial; five individual devices and ten vertical 1AE15 instances have provisional bounds",
   "sources": {
+    "nexperia_1n4148": {
+      "url": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
+      "revision": "2004 August 10; NXP/Philips high-speed diode data sheet",
+      "pages": [2, 3, 5, 6],
+      "use": "Comparable silicon signal diode class: VR and VRRM 100 V, VF <=1 V at IF=10 mA, IR <=25 nA at VR=20 V, Cd <=4 pF at 0 V/1 MHz, trr <=4 ns at IF=10 mA/IR=60 mA/RL=100 ohm. Not an identification of 1AE15."
+    },
     "ddr_ssy20_bsy34": {
       "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
       "sections": ["SSY 20", "BSY 34"],
@@ -49,6 +55,34 @@
       "use": "typical fT 250 MHz NPN and 75 MHz PNP at 50 mA and 5 V"
     }
   },
+  "families": [
+    {
+      "id": "1AE15-vertical-signal-diode",
+      "printed_type": "1AE15",
+      "candidate_class": "1N4148-class silicon signal/bias diode, selected from the ten vertical-stage roles",
+      "identity_tier": "class-typical comparator; original 1AE15 electrical data not located",
+      "model": "VERTICAL_DIODE",
+      "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
+      "member_ids": ["012-6931:V12", "012-6931:V14", "012-6931:V16", "012-6931:V17", "012-6931:V19", "012-6931:V20", "012-6931:V21", "012-6931:V23", "012-6931:V24", "012-6931:V25"],
+      "sources": ["nexperia_1n4148"],
+      "parameters": {
+        "IS": {"nominal": 2e-9, "bounds": [1e-12, 2.5e-8], "unit": "A", "basis": "SPICE reverse-current proxy; comparator IR <=25 nA at VR=20 V/25 C, not a direct IS specification"},
+        "RS": {"nominal": 2, "bounds": [0.1, 10], "unit": "ohm", "basis": "bounded series-resistance proxy; comparator VF <=1 V at IF=10 mA, no unique RS fit"},
+        "N": {"nominal": 1.7, "bounds": [1, 2], "unit": "1", "basis": "bounded ideality proxy; comparator forward curve, no unique N fit"},
+        "CJO": {"nominal": 2e-12, "bounds": [5e-13, 4e-12], "unit": "F", "basis": "comparator zero-bias Cd <=4 pF; SPICE CJO is a zero-bias proxy"},
+        "TT": {"nominal": 5e-9, "bounds": [5e-10, 1e-8], "unit": "s", "basis": "provisional transit-time proxy around comparator trr <=4 ns; TT is not measured reverse recovery"},
+        "BV": {"nominal": 100, "bounds": [100, 150], "unit": "V", "basis": "explicit model breakdown from comparable 100 V reverse rating plus unverified breakdown margin"},
+        "IBV": {"nominal": 1e-4, "bounds": [1e-6, 1e-3], "unit": "A", "basis": "explicit assumed breakdown knee; comparator data sheet does not specify a SPICE IBV"}
+      },
+      "comparison_targets": {
+        "VF_v": {"maximum": 1, "conditions": "IF=10 mA, Tj=25 C"},
+        "IR_a": {"maximum": 2.5e-8, "conditions": "VR=20 V, Tj=25 C"},
+        "Cd_f": {"maximum": 4e-12, "conditions": "VR=0 V, f=1 MHz"},
+        "trr_s": {"maximum": 4e-9, "conditions": "IF=10 mA to IR=60 mA, RL=100 ohm; measured at IR=1 mA"}
+      },
+      "remaining": ["Verify the original 1AE15 class and per-device current/voltage stress", "Measure reverse recovery of this SPICE model under the comparator test, then revise TT if needed", "Sweep the seven proxy bounds through vertical stages before A2/A6 qualification"]
+    }
+  ],
   "devices": [
     {
       "id": "012-6891:V1",

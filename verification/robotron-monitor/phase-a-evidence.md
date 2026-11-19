@@ -1109,13 +1109,14 @@ T3 open as a part entry. A2 remains partial for these devices.
 
 ### Partial class-typical register (2026-11-19)
 
-`reference/k7222-11/class-typical-register.json` consolidates 16 currently
+`reference/k7222-11/class-typical-register.json` consolidates 23 currently
 cited bounded entries: the V18/V21/V27/V28 and neck V1 semiconductor
 candidates, comparable service-scope values, a B31-G family neck outside
-diameter, the provisional
-R41 value and the external brightness-pot range. Each entry identifies its
-stage, source, bounds and model location. The file stays `partial`: fixed SPICE
-parameters, tube emission/heater properties, T3 parasitics, yoke sensitivity
+diameter, the provisional R41 value, the external brightness-pot range, and
+seven parameters for the ten-member vertical 1AE15 diode family. Each entry
+identifies its stage, source, bounds and model location. The file stays
+`partial`: fixed SPICE parameters, tube emission/heater properties, T3
+parasitics, yoke sensitivity
 and other assembly assumptions still lack appropriate class sources or
 design-derived bounds. Its proxy transit-time rows do not establish measured
 recovery or transistor switching times. A6 is therefore not closed, and B8
@@ -1154,8 +1155,8 @@ instances in the source inventory with the current ideal-rail assembly and
 device-model register. The saved
 `reference/k7222-11/device-model-coverage.json` accounts for 64 frame-path
 instances in 30 printed-type families; 13 instances are converter-only under
-the existing A1 scope rule. Five frame-path instances have provisional A2
-register entries, 55 have active model names but no register entry, and four
+the existing A1 scope rule. Fifteen frame-path instances have provisional A2
+register coverage, 45 have active model names but no register entry, and four
 appear in the source inventory but not in the current assembled model:
 012-6921 V19/V20 and 012-6931 L1/L2. Assembly presence and a model name do
 not establish sourced parameter bounds.
@@ -1163,8 +1164,44 @@ not establish sourced parameter bounds.
 The report also makes shared-family decisions visible. Fourteen frame-path
 `1AE15` diode instances currently use two different model names, and five
 `1SA20C` transistor instances use two names or are absent from the assembly.
-The next A2 pass must check these assignments against source function and
-data-book bounds, then add one register row per frame-path device and validate
-the live model response. The page-4 T3 scan reviewed in this pass still does
-not independently establish the proposed X1:3-to-X2:3 winding return; its A1
+Ten vertical 1AE15 instances now have one provisional family entry; the other
+four remain unregistered. The next A2 pass must check the remaining assignments
+against source function and data-book bounds, then add coverage for each
+frame-path device and validate the live model response. The page-4 T3 scan
+still does not independently establish the proposed X1:3-to-X2:3 winding
+return; its A1
 and A5 status is unchanged.
+
+### Vertical 1AE15 class and period IC comparison (2026-11-19)
+
+The 14 frame-path `1AE15` instances serve input protection, trigger, ramp,
+bias and threshold roles. No original electrical data sheet for that printed
+code was found in this pass. Ten instances use the same `VERTICAL_DIODE` model
+in the vertical stages, so the device-model register now groups those ten
+explicit IDs under a provisional fast silicon signal-diode class. The
+[Nexperia 1N4148/1N4448 data sheet](https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf)
+is the comparator, not an identification of the installed 1AE15. It specifies
+at most 1 V at 10 mA forward current, 25 nA reverse current at 20 V, 4 pF at
+zero bias/1 MHz, and 4 ns recovery under its stated switching test. The
+register and A6 class-typical register give bounds for all seven explicit
+`VERTICAL_DIODE` SPICE parameters, including breakdown and knee values that
+were previously left at simulator defaults.
+
+`vertical_diode_check.py` measures the live model at the comparator DC and
+capacitance biases. The saved
+`reference/k7222-11/vertical-diode-dc-check.json` records 0.702 V at 10 mA,
+1.69 nA at 20 V reverse bias and 2.00 pF at zero bias/1 MHz. These are
+model-response checks, not recovered measurements of the original part. The
+4 ns reverse-recovery comparison, original 1AE15 ratings, and stage sensitivity
+across the provisional bounds remain open. Four other 1AE15 instances still
+use `1AD50_BOUND` and have no A2 family entry. The regenerated A2 coverage
+report now records 15 provisionally covered frame-path instances, 45 assembled
+but unregistered, and four absent from the ideal-rail assembly.
+
+A separately scanned [Robotron PC 1715 service manual](https://magentacloud.de/s/iNaPeeaM2m5TbHS)
+has a comparison table on PDF page 119 (printed page 117) that pairs `MAA723H`
+with `uA723` and `B260D` with `TDA1060`.
+`reference/k7222-11/pc1715-ic-crossref.json` records the source and page
+hashes. This independently supports the 723 functional family used for
+K7222.11 `MAA723`, while its missing H suffix and electrical parameters remain
+unverified. `B260D` is converter-only in the Phase A ideal-rail scope.
