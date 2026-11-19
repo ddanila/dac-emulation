@@ -108,6 +108,15 @@
     "source": {"file": "older-operation.pdf", "page": 6},
     "limitation": "Not yet a T3 turns ratio. The V21 terminal roles are source-read, but the remaining winding return, polarity and actual collector pulse are unverified."
   },
+  "conditional_t3_hv_turn_scale": {
+    "assumed_drive_total_turns": 64,
+    "current_hv_turns": 1000,
+    "current_ideal_open_circuit_ratio": 15.625,
+    "candidate_hv_turns_if_current_drive_scale_and_boost_case_hold": {"minimum": 1808, "nominal": 2035, "maximum": 2300},
+    "report": "reference/k7222-11/t3-hv-ratio-sweep.json",
+    "evidence": "conditional design-derived ratio sweep using the high_voltage_ratio calculation and an isolated 1 V pulse",
+    "limitation": "The 64 drive turns, boost voltage, T3 graph and loaded EHT are unverified. These candidate absolute turns do not replace the active 1000-turn hypothesis or freeze T3."
+  },
   "conditional_t3_polarity_screen": {
     "status": "8 of 16 relative-polarity candidates remain within the current unverified tap graph; no winding freeze",
     "report": "reference/k7222-11/t3-flyback-sign-filter.json",

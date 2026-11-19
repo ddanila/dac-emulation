@@ -424,7 +424,10 @@ bounds a provisional L3 inductance ceiling, including R35 tolerance, but
 does not establish the original choke value or connected output behavior.
 An isolated L4 base-path pulse check also gives conditional operating bounds
 for the three stock-matched chokes, but E2 setting and loaded T2 drive are
-unverified. Only A4 meets its done condition. Because the tracked goal requires all six
+unverified. A T3 ratio sweep also shows that the active 1000/64-turn ideal
+ratio of 15.625 falls below the conditional 28.2–35.9 EHT ratio; the latter
+depends on an unverified boost voltage and winding scale. Only A4 meets its
+done condition. Because the tracked goal requires all six
 Phase A items documented, committed and pushed, these partial results cannot
 complete it.
 
@@ -583,6 +586,18 @@ graph. The A5 winding ratios, remaining polarities and candidate list
 therefore cannot be frozen. The isolated startup
 trials in `phase-a-evidence.md` neither resolve the remaining pin map nor
 demonstrate the documented 11–12 kV sustained EHT.
+The [isolated HV-ratio sweep](reference/k7222-11/t3-hv-ratio-sweep.json)
+compares the active 1000-turn HV winding against the conditional A5 EHT
+ratio. With the present assumed 64 total drive turns, the ideal active
+ratio is 15.625, below the 28.2–35.9 ratio calculated from the candidate
+60–70 V boost and 11–12 kV target. Candidate HV counts of 1808–2300
+turns bracket that ideal ratio, but remain conditional on the unmeasured
+drive winding and boost case. A 1 V open-circuit pulse shows the current
+model's 5–15 µs mean HV ratio is 14.62, also below that target; the
+2035-turn candidate's corresponding mean is 29.97, below its 31.80 ideal
+ratio. No active T3
+parameter is changed by this diagnostic; loaded EHT and the return/tap
+graph must be established before a winding freeze.
 The page-4 HV source edges now have a fresh KiCad-export comparison: T3 X1:1
 meets V21's anode, V21's cathode reaches EHT, and X1:16 remains a separate
 winding terminal. This partial check leaves the return and winding questions
