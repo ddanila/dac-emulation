@@ -421,6 +421,9 @@ assumed-bound. Two cross-revision ÜHA78 winding reports give 1,768 replacement
 turns and 2,409 reported original turns, both above the active 1,000-turn
 hypothesis; neither establishes the K7222.11 factory winding or connection
 graph. The active T3 model therefore cannot be frozen from these reports.
+A prescribed-drive output-stage sweep adds a loaded T3/yoke comparison, but
+its ideal feed/base drive and unverified transformer topology do not give a
+connected native-grid A3 score or a qualified A5 design point.
 A fresh loaded A3 vertical-stage run with the current device
 models passes TP7 at 2.1599 Vpp and gives TP8 a 25.7855 Vpp full swing. The
 prior TP8 comparison to 17 Vpp was a source-reading error: the manual's 17 V
@@ -646,6 +649,19 @@ turns ratio, but rectifier loading and collector baseline prevent treating
 that effective voltage ratio as measured turns. It supplies a useful
 cross-revision operating comparator for the connected candidate sweep, not a
 factory winding specification.
+The [prescribed-drive output-stage sweep](reference/k7222-11/t3-output-stage-sweep.json)
+now connects the source-transcribed V18/T3, damper, boost, yoke and EHT-load
+branches while holding the 41 V feed and base pulse ideal. With the optional
+passive AC-loss transformer hypothesis, 30 of 32 runs finish over eight
+sign-compatible candidates and four HV turn counts; two hit timestep
+failures. None of the completed 4–5 ms windows jointly reaches the repairer
+collector and EHT ranges; none reaches even the manual's 11–12 kV EHT range.
+The active no-AC-loss baseline aborts. In the representative 1,768-turn case,
+the 1 nF load gives 383 V collector peak,
+9.62 kV EHT and a 15.59 µs flyback pulse; sweeping the declared 0.25–4 nF
+tube-capacitance range gives 8.46–9.86 kV EHT. This narrows the next parameter
+and topology search, but the ideal base/feed drive, 65 V initial boost,
+omitted loads and nonperiodic EHT prevent an A3/A5 score or a winding freeze.
 The [T3 winding comparator](reference/k7222-11/t3-hv-winding-comparator.json)
 adds two firsthand, cross-revision ÜHA78 reports: a K7222.25 repair uses a
 1,768-turn replacement winding with about 440 Ω measured resistance, while a
@@ -656,9 +672,9 @@ separate repair account reports 2,409 turns of 0.08 mm wire for an original
 materially across these turn counts. Neither report identifies the K7222.11
 factory winding map, and the K7222.25 repair changes the cold-end connection.
 The A2 row is therefore an explicit provisional gap record, not a qualified
-T3 model or evidence that A5 is complete. Compare the bounded candidates in
-the connected horizontal stage after the return and tap alternatives are
-resolved or retained explicitly.
+T3 model or evidence that A5 is complete. Extend the stage comparison to the
+source-connected drive and feedback loads, and retain explicit return/tap
+alternatives until the independent page-4 read settles them.
 The page-4 HV source edges now have a fresh KiCad-export comparison: T3 X1:1
 meets V21's anode, V21's cathode reaches EHT, and X1:16 remains a separate
 winding terminal. This partial check leaves the return and winding questions

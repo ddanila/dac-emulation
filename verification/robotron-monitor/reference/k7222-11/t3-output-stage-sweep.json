@@ -1,0 +1,1448 @@
+{
+  "format": "dac-monitor-t3-output-stage-sweep-v1",
+  "qualification": "prescribed-base-drive, ideal-feed, source-addressed output-stage sensitivity; not source-validated whole page, periodic monitor, A3 score or A5 winding freeze",
+  "source_hashes": {
+    "t3-winding-hypothesis.json": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+    "t3-initial-parameters.json": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+    "t3-ac-loss-parameters.json": "2ebb0fbd68134903504e58a99c2a0572d50bdec254cbf96ab74a5b6e6fa0f09e",
+    "horizontal-output-transcription.json": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+    "k7222-11-horizontal-oscillator.json": "20288f82c68b3b626c84c45713d3a88f281ec01aa8d2e5c8f4dc8f2142943d96",
+    "k7222-11-horizontal-models.cir": "5334ce01029e7f78f252f899d142af06e1010853711a65a8439b421b47501723",
+    "t3-flyback-sign-filter.json": "906116f65305c37f9f941183ff14e6863a81937badd0f0e412b2c273ce7824c4",
+    "t3-collector-eht-comparator.json": "f5a1a9bc4e25e47ce8daa37b266445e7f515e6c3ed473c7fe040716f6fe30426",
+    "t3-hv-winding-comparator.json": "18c4a5634b6180a235222f4a5db40dfcc594fb5d3659b0af8a22449e63b02499",
+    "design-point.json": "599ccaacb684e36e7dd9ad452011d97073e9f3be1ed7c56d675702d64bc6b531"
+  },
+  "source_parts": [
+    "012-6921:C21",
+    "012-6921:C22",
+    "012-6921:C25",
+    "012-6921:C26",
+    "012-6921:C27",
+    "012-6921:C30",
+    "012-6921:C31",
+    "012-6921:C32",
+    "012-6921:R35",
+    "012-6921:R36",
+    "012-6921:L3",
+    "012-6921:V16",
+    "012-6921:V17",
+    "012-6921:V18",
+    "012-6921:V21",
+    "012-6921:T3"
+  ],
+  "circuit_assumptions": [
+    "Horizontal-output KiCad transcription supplies selected T3, V18, V16, V17, V21, L3, R35/R36 and capacitor branches; full page-4 source comparison is open.",
+    "Ideal 41 V feed replaces source R42/L1/converter behavior, and a 1.3/-2.7 V, 46.5 us/16 us pulse through 1 ohm replaces T2/L4 and sync loop.",
+    "Horizontal yoke is an exploratory 4 mH/2 ohm series branch; EHT load is 1 nF/200 Mohm without tube beam current.",
+    "One-gigohm DC shunts and 1 Mohm feedback/sync loads stand in for omitted connections; the T3 X1:3/X2:3 tie and floating X1:16/X1:7 node remain the active unverified graph.",
+    "Boost starts at an assumed 65 V; the trace is observed only from 4 to 5 ms, not proved periodic.",
+    "Optional passive AC winding loss is an assumed-bound solver/impedance hypothesis, not a fitted transformer."
+  ],
+  "reported_collector_range_v": [
+    370,
+    420
+  ],
+  "reported_eht_range_v": [
+    11500.0,
+    12500.0
+  ],
+  "documented_eht_range_v": [
+    11000,
+    12000
+  ],
+  "manual_retrace_us": 16,
+  "active_no_ac_loss_baseline": {
+    "status": "aborted",
+    "timestep_failure": true
+  },
+  "candidate_results": [
+    {
+      "candidate_id": "t3-fc941ad61c50ce31",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 1000,
+      "result": {
+        "status": "complete",
+        "sample_count": 21274,
+        "sample_window_s": [
+          0.00400005306,
+          0.005
+        ],
+        "collector_peak_v": 501.582607,
+        "collector_min_v": -1.12659855,
+        "eht_peak_v": 7349.38608,
+        "eht_final_v": 7348.80738,
+        "eht_same_phase_drift_v_over_16_lines": 3.1902600000003076,
+        "feedback_swing_v": 61.7701708,
+        "sync_swing_v": 22.3918197,
+        "yoke_current_range_a": [
+          -0.4770587,
+          0.482357007
+        ],
+        "boost_range_v": [
+          64.0726205,
+          64.2166046
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.892924691718921
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-fc941ad61c50ce31",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 1768,
+      "result": {
+        "status": "complete",
+        "sample_count": 23870,
+        "sample_window_s": [
+          0.00400004221,
+          0.005
+        ],
+        "collector_peak_v": 382.926992,
+        "collector_min_v": -0.758394815,
+        "eht_peak_v": 9623.60742,
+        "eht_final_v": 9623.0462,
+        "eht_same_phase_drift_v_over_16_lines": 56.55767999999989,
+        "feedback_swing_v": 47.449436199999994,
+        "sync_swing_v": 17.68344141,
+        "yoke_current_range_a": [
+          -0.448584949,
+          0.454838255
+        ],
+        "boost_range_v": [
+          63.9816349,
+          64.1296571
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.59221293981946
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": true,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-fc941ad61c50ce31",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 2035,
+      "result": {
+        "status": "complete",
+        "sample_count": 22607,
+        "sample_window_s": [
+          0.00400007125,
+          0.005
+        ],
+        "collector_peak_v": 356.663157,
+        "collector_min_v": -0.785125013,
+        "eht_peak_v": 10194.7183,
+        "eht_final_v": 10194.2199,
+        "eht_same_phase_drift_v_over_16_lines": 73.17250000000058,
+        "feedback_swing_v": 44.439890500000004,
+        "sync_swing_v": 17.515399900000002,
+        "yoke_current_range_a": [
+          -0.43942647,
+          0.456681794
+        ],
+        "boost_range_v": [
+          63.9404047,
+          64.0737591
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 16.062409903660342
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-fc941ad61c50ce31",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 2409,
+      "result": {
+        "status": "complete",
+        "sample_count": 31131,
+        "sample_window_s": [
+          0.00400008852,
+          0.005
+        ],
+        "collector_peak_v": 322.631085,
+        "collector_min_v": -0.762722975,
+        "eht_peak_v": 10620.3559,
+        "eht_final_v": 10619.9709,
+        "eht_same_phase_drift_v_over_16_lines": 11.929900000000998,
+        "feedback_swing_v": 40.3595249,
+        "sync_swing_v": 20.16575874,
+        "yoke_current_range_a": [
+          -0.429755285,
+          0.453406042
+        ],
+        "boost_range_v": [
+          63.6190221,
+          63.717505
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 16.64877608098178
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-21efe89f625e0b51",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 1000,
+      "result": {
+        "status": "complete",
+        "sample_count": 20994,
+        "sample_window_s": [
+          0.00400005453,
+          0.005
+        ],
+        "collector_peak_v": 501.473154,
+        "collector_min_v": -1.1257535,
+        "eht_peak_v": 7848.95401,
+        "eht_final_v": 7848.34,
+        "eht_same_phase_drift_v_over_16_lines": 4.633280000000013,
+        "feedback_swing_v": 61.7640527,
+        "sync_swing_v": 22.380893630000003,
+        "yoke_current_range_a": [
+          -0.477003381,
+          0.48229576
+        ],
+        "boost_range_v": [
+          64.0624592,
+          64.2097896
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.893442117591903
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-21efe89f625e0b51",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 1768,
+      "result": {
+        "status": "complete",
+        "sample_count": 22022,
+        "sample_window_s": [
+          0.00400005367,
+          0.005
+        ],
+        "collector_peak_v": 382.483837,
+        "collector_min_v": -0.75513348,
+        "eht_peak_v": 9969.59332,
+        "eht_final_v": 9969.02429,
+        "eht_same_phase_drift_v_over_16_lines": 75.07159999999931,
+        "feedback_swing_v": 47.36317530000001,
+        "sync_swing_v": 17.65924961,
+        "yoke_current_range_a": [
+          -0.448532825,
+          0.454661961
+        ],
+        "boost_range_v": [
+          63.96641,
+          64.115524
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.59592621159546
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": true,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-21efe89f625e0b51",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 2035,
+      "result": {
+        "status": "complete",
+        "sample_count": 22221,
+        "sample_window_s": [
+          0.00400002021,
+          0.005
+        ],
+        "collector_peak_v": 356.164456,
+        "collector_min_v": -0.784048871,
+        "eht_peak_v": 10506.4896,
+        "eht_final_v": 10505.984,
+        "eht_same_phase_drift_v_over_16_lines": 89.07430000000022,
+        "feedback_swing_v": 44.424379800000004,
+        "sync_swing_v": 17.46723888,
+        "yoke_current_range_a": [
+          -0.439513484,
+          0.456548163
+        ],
+        "boost_range_v": [
+          63.9288862,
+          64.0638089
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 16.069059187188635
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-21efe89f625e0b51",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 2409,
+      "result": {
+        "status": "complete",
+        "sample_count": 27967,
+        "sample_window_s": [
+          0.0040000219,
+          0.005
+        ],
+        "collector_peak_v": 318.379437,
+        "collector_min_v": -0.715165485,
+        "eht_peak_v": 10721.9165,
+        "eht_final_v": 10721.5313,
+        "eht_same_phase_drift_v_over_16_lines": 8.474100000001272,
+        "feedback_swing_v": 39.8349608,
+        "sync_swing_v": 20.02005737,
+        "yoke_current_range_a": [
+          -0.429837452,
+          0.45178729
+        ],
+        "boost_range_v": [
+          63.5744519,
+          63.6706083
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 16.672226855194914
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-38c71242ffd040b3",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 1000,
+      "result": {
+        "status": "complete",
+        "sample_count": 21129,
+        "sample_window_s": [
+          0.00400002594,
+          0.005
+        ],
+        "collector_peak_v": 292.672999,
+        "collector_min_v": -1.34720838,
+        "eht_peak_v": 4574.9062,
+        "eht_final_v": 4573.37811,
+        "eht_same_phase_drift_v_over_16_lines": 82.57134999999926,
+        "feedback_swing_v": 13.861786600000002,
+        "sync_swing_v": 16.45519305,
+        "yoke_current_range_a": [
+          -0.095608916,
+          0.131901936
+        ],
+        "boost_range_v": [
+          38.7096375,
+          39.0882296
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 34.98641074627107
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-38c71242ffd040b3",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 1768,
+      "result": {
+        "status": "complete",
+        "sample_count": 20417,
+        "sample_window_s": [
+          0.00400003578,
+          0.005
+        ],
+        "collector_peak_v": 230.924077,
+        "collector_min_v": -1.22666301,
+        "eht_peak_v": 6450.26412,
+        "eht_final_v": 6448.49127,
+        "eht_same_phase_drift_v_over_16_lines": 228.1864400000004,
+        "feedback_swing_v": 11.406144399999995,
+        "sync_swing_v": 15.30690341,
+        "yoke_current_range_a": [
+          -0.0987384205,
+          0.134710491
+        ],
+        "boost_range_v": [
+          38.6319955,
+          38.9973133
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 40.57235015070618
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-38c71242ffd040b3",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 2035,
+      "result": {
+        "status": "complete",
+        "sample_count": 19479,
+        "sample_window_s": [
+          0.00400008043,
+          0.005
+        ],
+        "collector_peak_v": 213.513923,
+        "collector_min_v": -1.14872313,
+        "eht_peak_v": 6785.39154,
+        "eht_final_v": 6783.81463,
+        "eht_same_phase_drift_v_over_16_lines": 271.33781,
+        "feedback_swing_v": 10.410595799999996,
+        "sync_swing_v": 14.5632626,
+        "yoke_current_range_a": [
+          -0.0992181338,
+          0.133686826
+        ],
+        "boost_range_v": [
+          38.6085375,
+          38.9709715
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 41.01831794057261
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-38c71242ffd040b3",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 2409,
+      "result": {
+        "status": "complete",
+        "sample_count": 19071,
+        "sample_window_s": [
+          0.00400008478,
+          0.005
+        ],
+        "collector_peak_v": 194.111221,
+        "collector_min_v": -1.01330695,
+        "eht_peak_v": 7089.00993,
+        "eht_final_v": 7087.56293,
+        "eht_same_phase_drift_v_over_16_lines": 314.88227000000006,
+        "feedback_swing_v": 9.846089599999999,
+        "sync_swing_v": 13.5332191,
+        "yoke_current_range_a": [
+          -0.100734677,
+          0.138125435
+        ],
+        "boost_range_v": [
+          38.594169,
+          38.9511386
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 44.19799339301297
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-5727c601bf8a59ed",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 1000,
+      "result": {
+        "status": "complete",
+        "sample_count": 19523,
+        "sample_window_s": [
+          0.00400003975,
+          0.005
+        ],
+        "collector_peak_v": 292.513378,
+        "collector_min_v": -1.33981709,
+        "eht_peak_v": 4828.94897,
+        "eht_final_v": 4827.43472,
+        "eht_same_phase_drift_v_over_16_lines": 98.01586000000043,
+        "feedback_swing_v": 14.0232605,
+        "sync_swing_v": 16.39649351,
+        "yoke_current_range_a": [
+          -0.0959290538,
+          0.132177292
+        ],
+        "boost_range_v": [
+          38.7048833,
+          39.0839066
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 34.99490120976653
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-5727c601bf8a59ed",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 1768,
+      "result": {
+        "status": "complete",
+        "sample_count": 19270,
+        "sample_window_s": [
+          0.00400003274,
+          0.005
+        ],
+        "collector_peak_v": 230.84431,
+        "collector_min_v": -1.2081501,
+        "eht_peak_v": 6610.94862,
+        "eht_final_v": 6609.13333,
+        "eht_same_phase_drift_v_over_16_lines": 251.31764999999996,
+        "feedback_swing_v": 11.394877899999997,
+        "sync_swing_v": 15.08290629,
+        "yoke_current_range_a": [
+          -0.0988635537,
+          0.134822193
+        ],
+        "boost_range_v": [
+          38.6257427,
+          38.991146
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 40.58320851420445
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-5727c601bf8a59ed",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 2035,
+      "result": {
+        "status": "complete",
+        "sample_count": 18426,
+        "sample_window_s": [
+          0.00400007186,
+          0.005
+        ],
+        "collector_peak_v": 213.458379,
+        "collector_min_v": -1.12629962,
+        "eht_peak_v": 6923.4444,
+        "eht_final_v": 6921.97813,
+        "eht_same_phase_drift_v_over_16_lines": 294.8710800000008,
+        "feedback_swing_v": 10.386255899999995,
+        "sync_swing_v": 14.21618673,
+        "yoke_current_range_a": [
+          -0.0994076029,
+          0.133840142
+        ],
+        "boost_range_v": [
+          38.6025927,
+          38.9648296
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 41.0286670827955
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-5727c601bf8a59ed",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 2409,
+      "result": {
+        "status": "complete",
+        "sample_count": 17760,
+        "sample_window_s": [
+          0.00400004065,
+          0.005
+        ],
+        "collector_peak_v": 194.023483,
+        "collector_min_v": -0.991985603,
+        "eht_peak_v": 7203.49197,
+        "eht_final_v": 7202.13077,
+        "eht_same_phase_drift_v_over_16_lines": 336.4255199999998,
+        "feedback_swing_v": 9.817324999999997,
+        "sync_swing_v": 13.45529917,
+        "yoke_current_range_a": [
+          -0.100919176,
+          0.138306222
+        ],
+        "boost_range_v": [
+          38.5889662,
+          38.9456997
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 44.21295258234988
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-6913b1596c2ffb91",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 1000,
+      "result": {
+        "status": "complete",
+        "sample_count": 20507,
+        "sample_window_s": [
+          0.00400008568,
+          0.005
+        ],
+        "collector_peak_v": 501.576742,
+        "collector_min_v": -1.12698439,
+        "eht_peak_v": 7425.09727,
+        "eht_final_v": 7424.50632,
+        "eht_same_phase_drift_v_over_16_lines": 3.347990000000209,
+        "feedback_swing_v": 61.770849999999996,
+        "sync_swing_v": 22.32392931,
+        "yoke_current_range_a": [
+          -0.477035735,
+          0.482351545
+        ],
+        "boost_range_v": [
+          64.0714373,
+          64.2159454
+        ],
+        "flyback_pulse_count": 16,
+        "flyback_width_us_at_10pct_swing_median": 11.893007677501231
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-6913b1596c2ffb91",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 1768,
+      "result": {
+        "status": "complete",
+        "sample_count": 21772,
+        "sample_window_s": [
+          0.00400002077,
+          0.005
+        ],
+        "collector_peak_v": 382.871398,
+        "collector_min_v": -0.75783987,
+        "eht_peak_v": 9676.41097,
+        "eht_final_v": 9675.85483,
+        "eht_same_phase_drift_v_over_16_lines": 59.311209999999846,
+        "feedback_swing_v": 47.3869165,
+        "sync_swing_v": 17.54582922,
+        "yoke_current_range_a": [
+          -0.448562129,
+          0.454820366
+        ],
+        "boost_range_v": [
+          63.9793466,
+          64.1275848
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.59419101471865
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": true,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-6913b1596c2ffb91",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 2035,
+      "result": {
+        "status": "aborted",
+        "timestep_failure": true
+      }
+    },
+    {
+      "candidate_id": "t3-6913b1596c2ffb91",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 2409,
+      "result": {
+        "status": "complete",
+        "sample_count": 25354,
+        "sample_window_s": [
+          0.00400009319,
+          0.005
+        ],
+        "collector_peak_v": 321.949914,
+        "collector_min_v": -0.755883524,
+        "eht_peak_v": 10635.1819,
+        "eht_final_v": 10634.796,
+        "eht_same_phase_drift_v_over_16_lines": 11.247600000000602,
+        "feedback_swing_v": 40.1054501,
+        "sync_swing_v": 16.25664632,
+        "yoke_current_range_a": [
+          -0.429687994,
+          0.453074011
+        ],
+        "boost_range_v": [
+          63.6114925,
+          63.7095987
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 16.646780094232636
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-32b662942545b363",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 1000,
+      "result": {
+        "status": "aborted",
+        "timestep_failure": true
+      }
+    },
+    {
+      "candidate_id": "t3-32b662942545b363",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 1768,
+      "result": {
+        "status": "complete",
+        "sample_count": 18738,
+        "sample_window_s": [
+          0.00400003796,
+          0.005
+        ],
+        "collector_peak_v": 382.380916,
+        "collector_min_v": -0.754525803,
+        "eht_peak_v": 10021.6181,
+        "eht_final_v": 10021.0411,
+        "eht_same_phase_drift_v_over_16_lines": 78.00863000000027,
+        "feedback_swing_v": 47.33913739999999,
+        "sync_swing_v": 17.519501079999998,
+        "yoke_current_range_a": [
+          -0.44852291,
+          0.454651111
+        ],
+        "boost_range_v": [
+          63.9642768,
+          64.1135282
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 15.595497582908228
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": true,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-32b662942545b363",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 2035,
+      "result": {
+        "status": "complete",
+        "sample_count": 18814,
+        "sample_window_s": [
+          0.0040000595,
+          0.005
+        ],
+        "collector_peak_v": 356.105191,
+        "collector_min_v": -0.785674746,
+        "eht_peak_v": 10553.9433,
+        "eht_final_v": 10553.4402,
+        "eht_same_phase_drift_v_over_16_lines": 91.80379999999968,
+        "feedback_swing_v": 44.38198920000001,
+        "sync_swing_v": 17.32164742,
+        "yoke_current_range_a": [
+          -0.439387685,
+          0.456538135
+        ],
+        "boost_range_v": [
+          63.9278372,
+          64.0630227
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 16.066824005078924
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-32b662942545b363",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 2409,
+      "result": {
+        "status": "complete",
+        "sample_count": 23320,
+        "sample_window_s": [
+          0.00400002517,
+          0.005
+        ],
+        "collector_peak_v": 317.616568,
+        "collector_min_v": -0.709692527,
+        "eht_peak_v": 10730.3938,
+        "eht_final_v": 10730.0058,
+        "eht_same_phase_drift_v_over_16_lines": 7.7599000000009255,
+        "feedback_swing_v": 39.61237870000001,
+        "sync_swing_v": 16.00513686,
+        "yoke_current_range_a": [
+          -0.429867432,
+          0.451588897
+        ],
+        "boost_range_v": [
+          63.5662288,
+          63.662191
+        ],
+        "flyback_pulse_count": 15,
+        "flyback_width_us_at_10pct_swing_median": 16.670051270695033
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": true
+      }
+    },
+    {
+      "candidate_id": "t3-261c9dcc23bf007c",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 1000,
+      "result": {
+        "status": "complete",
+        "sample_count": 21115,
+        "sample_window_s": [
+          0.00400000265,
+          0.005
+        ],
+        "collector_peak_v": 292.640007,
+        "collector_min_v": -1.34373469,
+        "eht_peak_v": 4614.80918,
+        "eht_final_v": 4613.25724,
+        "eht_same_phase_drift_v_over_16_lines": 84.6248800000003,
+        "feedback_swing_v": 13.848182999999999,
+        "sync_swing_v": 14.76552843,
+        "yoke_current_range_a": [
+          -0.095725266,
+          0.132001515
+        ],
+        "boost_range_v": [
+          38.7089391,
+          39.0874874
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 34.986971340610246
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-261c9dcc23bf007c",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 1768,
+      "result": {
+        "status": "complete",
+        "sample_count": 19921,
+        "sample_window_s": [
+          0.00400007537,
+          0.005
+        ],
+        "collector_peak_v": 230.934964,
+        "collector_min_v": -1.2236039,
+        "eht_peak_v": 6474.38254,
+        "eht_final_v": 6472.55089,
+        "eht_same_phase_drift_v_over_16_lines": 231.35227000000032,
+        "feedback_swing_v": 11.398057899999998,
+        "sync_swing_v": 12.69013616,
+        "yoke_current_range_a": [
+          -0.0987274398,
+          0.134683762
+        ],
+        "boost_range_v": [
+          38.6310031,
+          38.9964808
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 40.57825319294609
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-261c9dcc23bf007c",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 2035,
+      "result": {
+        "status": "complete",
+        "sample_count": 18512,
+        "sample_window_s": [
+          0.00400006505,
+          0.005
+        ],
+        "collector_peak_v": 213.447181,
+        "collector_min_v": -1.14308738,
+        "eht_peak_v": 6804.47729,
+        "eht_final_v": 6803.02989,
+        "eht_same_phase_drift_v_over_16_lines": 275.2034599999997,
+        "feedback_swing_v": 10.417772499999998,
+        "sync_swing_v": 11.858310159999998,
+        "yoke_current_range_a": [
+          -0.0992445989,
+          0.133710778
+        ],
+        "boost_range_v": [
+          38.6073285,
+          38.9694864
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 41.02739318396012
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-261c9dcc23bf007c",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "high_voltage_turns": 2409,
+      "result": {
+        "status": "complete",
+        "sample_count": 18528,
+        "sample_window_s": [
+          0.00400003679,
+          0.005
+        ],
+        "collector_peak_v": 194.106107,
+        "collector_min_v": -1.01077808,
+        "eht_peak_v": 7103.726,
+        "eht_final_v": 7102.36619,
+        "eht_same_phase_drift_v_over_16_lines": 318.5870500000001,
+        "feedback_swing_v": 9.827774899999994,
+        "sync_swing_v": 10.71722458,
+        "yoke_current_range_a": [
+          -0.100755943,
+          0.138150901
+        ],
+        "boost_range_v": [
+          38.5929541,
+          38.9498173
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 44.200609359786036
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-af505506129d6f57",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 1000,
+      "result": {
+        "status": "complete",
+        "sample_count": 18006,
+        "sample_window_s": [
+          0.00400007534,
+          0.005
+        ],
+        "collector_peak_v": 292.442851,
+        "collector_min_v": -1.33890392,
+        "eht_peak_v": 4864.86734,
+        "eht_final_v": 4863.22982,
+        "eht_same_phase_drift_v_over_16_lines": 100.92873999999938,
+        "feedback_swing_v": 14.079351500000001,
+        "sync_swing_v": 14.808363069999999,
+        "yoke_current_range_a": [
+          -0.0960139211,
+          0.132265864
+        ],
+        "boost_range_v": [
+          38.7040436,
+          39.0829091
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 34.99927914823661
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-af505506129d6f57",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 1768,
+      "result": {
+        "status": "complete",
+        "sample_count": 17400,
+        "sample_window_s": [
+          0.00400006091,
+          0.005
+        ],
+        "collector_peak_v": 230.830558,
+        "collector_min_v": -1.20240118,
+        "eht_peak_v": 6634.56572,
+        "eht_final_v": 6632.92018,
+        "eht_same_phase_drift_v_over_16_lines": 255.5219900000002,
+        "feedback_swing_v": 11.366094099999998,
+        "sync_swing_v": 12.602734139999999,
+        "yoke_current_range_a": [
+          -0.0988959007,
+          0.134877031
+        ],
+        "boost_range_v": [
+          38.6247637,
+          38.9902625
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 40.58791324618519
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-af505506129d6f57",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 2035,
+      "result": {
+        "status": "complete",
+        "sample_count": 16735,
+        "sample_window_s": [
+          0.00400003153,
+          0.005
+        ],
+        "collector_peak_v": 213.402689,
+        "collector_min_v": -1.12404989,
+        "eht_peak_v": 6941.51622,
+        "eht_final_v": 6939.92051,
+        "eht_same_phase_drift_v_over_16_lines": 298.50684,
+        "feedback_swing_v": 10.399695099999995,
+        "sync_swing_v": 11.647540339999999,
+        "yoke_current_range_a": [
+          -0.0993996561,
+          0.13385086
+        ],
+        "boost_range_v": [
+          38.6012643,
+          38.9637214
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 41.036504331181355
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    },
+    {
+      "candidate_id": "t3-af505506129d6f57",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "high_voltage_turns": 2409,
+      "result": {
+        "status": "complete",
+        "sample_count": 17119,
+        "sample_window_s": [
+          0.00400003509,
+          0.005
+        ],
+        "collector_peak_v": 194.099847,
+        "collector_min_v": -0.989340676,
+        "eht_peak_v": 7218.08025,
+        "eht_final_v": 7216.66065,
+        "eht_same_phase_drift_v_over_16_lines": 340.2723500000002,
+        "feedback_swing_v": 9.820682400000003,
+        "sync_swing_v": 10.75383597,
+        "yoke_current_range_a": [
+          -0.100955847,
+          0.13837695
+        ],
+        "boost_range_v": [
+          38.5875033,
+          38.944424
+        ],
+        "flyback_pulse_count": 31,
+        "flyback_width_us_at_10pct_swing_median": 44.21927139960143
+      },
+      "cross_revision_comparator_checks": {
+        "collector_peak_in_reported_range": false,
+        "eht_final_in_reported_range": false,
+        "eht_final_in_documented_range": false,
+        "flyback_width_within_20pct_of_manual_16us": false
+      }
+    }
+  ],
+  "tube_capacitance_sensitivity": {
+    "candidate_id": "t3-fc941ad61c50ce31",
+    "high_voltage_turns": 1768,
+    "qualification": "isolated EHT-load capacitance endpoints from the assembly bounds; other stage assumptions fixed",
+    "cases": [
+      {
+        "tube_capacitance_f": 2.5e-10,
+        "result": {
+          "status": "complete",
+          "sample_count": 21730,
+          "sample_window_s": [
+            0.004000033,
+            0.005
+          ],
+          "collector_peak_v": 393.01927,
+          "collector_min_v": -0.789474911,
+          "eht_peak_v": 10040.6339,
+          "eht_final_v": 9859.59331,
+          "eht_same_phase_drift_v_over_16_lines": -181.04059000000052,
+          "feedback_swing_v": 48.564773599999995,
+          "sync_swing_v": 18.114769029999998,
+          "yoke_current_range_a": [
+            -0.483799906,
+            0.489400244
+          ],
+          "boost_range_v": [
+            64.1114586,
+            64.2284665
+          ],
+          "flyback_pulse_count": 15,
+          "flyback_width_us_at_10pct_swing_median": 15.563313335970573
+        }
+      },
+      {
+        "tube_capacitance_f": 1e-09,
+        "result": {
+          "status": "complete",
+          "sample_count": 23870,
+          "sample_window_s": [
+            0.00400004221,
+            0.005
+          ],
+          "collector_peak_v": 382.926992,
+          "collector_min_v": -0.758394815,
+          "eht_peak_v": 9623.60742,
+          "eht_final_v": 9623.0462,
+          "eht_same_phase_drift_v_over_16_lines": 56.55767999999989,
+          "feedback_swing_v": 47.449436199999994,
+          "sync_swing_v": 17.68344141,
+          "yoke_current_range_a": [
+            -0.448584949,
+            0.454838255
+          ],
+          "boost_range_v": [
+            63.9816349,
+            64.1296571
+          ],
+          "flyback_pulse_count": 15,
+          "flyback_width_us_at_10pct_swing_median": 15.59221293981946
+        }
+      },
+      {
+        "tube_capacitance_f": 4e-09,
+        "result": {
+          "status": "complete",
+          "sample_count": 22780,
+          "sample_window_s": [
+            0.00400000782,
+            0.005
+          ],
+          "collector_peak_v": 351.707795,
+          "collector_min_v": -0.50576346,
+          "eht_peak_v": 8459.37136,
+          "eht_final_v": 8459.25558,
+          "eht_same_phase_drift_v_over_16_lines": 323.28343999999925,
+          "feedback_swing_v": 43.882654499999994,
+          "sync_swing_v": 16.499274489999998,
+          "yoke_current_range_a": [
+            -0.447078892,
+            0.448011589
+          ],
+          "boost_range_v": [
+            63.6385962,
+            63.7986285
+          ],
+          "flyback_pulse_count": 15,
+          "flyback_width_us_at_10pct_swing_median": 15.892080327819906
+        }
+      }
+    ]
+  },
+  "completed_cases": 30,
+  "aborted_cases": 2,
+  "joint_collector_eht_comparator_matches": [],
+  "documented_eht_matches": [],
+  "status": "partial",
+  "analysis_valid": true
+}

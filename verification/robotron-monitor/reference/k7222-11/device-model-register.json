@@ -1146,7 +1146,8 @@
         "drive_total_turns": {"active_nominal": 64, "active_bounds": [16, 256], "active_tier": "assumed-bound", "conditional_range_if_2409_hv_turns_and_boost_case": [67.03195260408566, 85.31339422338175], "basis": "The conditional 28.24–35.94 EHT ratio and 2,409-turn comparator imply 67–85 drive turns; the boost premise and original winding map remain unverified."}
       },
       "model_response_report": "reference/k7222-11/t3-hv-winding-comparator.json",
-      "remaining": ["Independent page-4 T3 tap, return and polarity source closure", "Source-bounded drive, auxiliary and tap-section turns, resistance, leakage and capacitance", "Connected EHT/retrace/feedback comparison across the comparator turn scales", "Core loss, saturation, winding temperature and insulation bounds for the original .11 transformer"]
+      "stage_sensitivity_report": "reference/k7222-11/t3-output-stage-sweep.json",
+      "remaining": ["Independent page-4 T3 tap, return and polarity source closure", "Source-bounded drive, auxiliary and tap-section turns, resistance, leakage and capacitance", "Source-connected T2/L4 drive and feedback-load EHT/retrace comparison across the comparator turn scales", "Core loss, saturation, winding temperature and insulation bounds for the original .11 transformer"]
     },
     {
       "id": "012-6931:A3",
