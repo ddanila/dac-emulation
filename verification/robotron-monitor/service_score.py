@@ -306,6 +306,14 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER,
                          if p.get('instrument_model_status')=='circuit probe load and bandwidth applied')
     loading_complete=bool(required) and required<=set(loaded_points)
     modeled=loading_complete and stimulus=='grid'
+    if modeled:
+        qualification='probe-and-bandwidth-modeled grid comparison; manual values are guidelines'
+    elif loading_complete:
+        qualification='diagnostic-only; grid stimulus not established'
+    elif stimulus=='grid':
+        qualification='diagnostic-only; required probe loads incomplete'
+    else:
+        qualification='diagnostic-only; probe loading and grid stimulus not established'
     return dict(format='dac-monitor-service-score-v1',input=str(path),input_sha256=input_hash,
                 register_sha256=hashlib.sha256(register.read_bytes()).hexdigest(),requested_window_s=[start,end],
                 instrument_model_sha256=hashlib.sha256(INSTRUMENT.read_bytes()).hexdigest(),
@@ -318,8 +326,7 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER,
                 samples_in_window=rows,required_points=sorted(required),required_failures=required_failures,
                 numeric_status='pass' if not numeric_failures else 'fail',
                 shape_status='pass' if not shape_failures else 'fail',
-                qualification=('probe-and-bandwidth-modeled grid comparison; manual values are guidelines'
-                               if modeled else 'diagnostic-only; probe loading or grid stimulus not established'),
+                qualification=qualification,
                 points=points)
 
 
