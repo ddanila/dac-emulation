@@ -3,6 +3,7 @@
   "status": "partial; contains currently cited bounded candidates, not a completed A6 freeze",
   "scope": "K7222.11 ideal-rail frame path and service comparison",
   "sources": {
+    "nexperia_bzx84_series": {"url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", "revision": "Rev. 7, 1 January 2023", "pages": [5, 6], "use": "BZX84-C6V2, C9V1 and C16 comparable 5 mA zener voltage, differential resistance and capacitance limits; not historical identifications or SPICE transit-time data."},
     "nexperia_1n4148": {
       "url": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
       "revision": "2004 August 10; NXP/Philips high-speed diode data sheet",
@@ -745,6 +746,342 @@
       "model_ref": "circuits/k7222-11-regulator5-models.cir#REG5_ZENER.CJO",
       "basis": "zero-bias junction-capacitance proxy below the comparator 300 pF maximum",
       "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V4.IS",
+      "stage": "horizontal-input",
+      "value": 1e-09,
+      "bounds": [
+        1e-12,
+        1e-07
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/signal-path-models.cir#Z9_BOUND.IS",
+      "basis": "bounded SPICE saturation-current proxy; comparator VZ does not uniquely determine IS",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V4.N",
+      "stage": "horizontal-input",
+      "value": 1.5,
+      "bounds": [
+        1,
+        2
+      ],
+      "unit": "1",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/signal-path-models.cir#Z9_BOUND.N",
+      "basis": "bounded ideality proxy; comparator forward curve does not uniquely determine N",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V4.RS",
+      "stage": "horizontal-input",
+      "value": 5,
+      "bounds": [
+        0.5,
+        15
+      ],
+      "unit": "ohm",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/signal-path-models.cir#Z9_BOUND.RS",
+      "basis": "comparator differential resistance <= 15 ohm at 5 mA includes junction slope and is not a direct RS limit",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V4.BV",
+      "stage": "horizontal-input",
+      "value": 9.1,
+      "bounds": [
+        8.5,
+        9.6
+      ],
+      "unit": "V",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/signal-path-models.cir#Z9_BOUND.BV",
+      "basis": "breakdown proxy around comparator 5 mA working-voltage spread; model response is checked separately",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V4.IBV",
+      "stage": "horizontal-input",
+      "value": 0.001,
+      "bounds": [
+        0.0001,
+        0.01
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/signal-path-models.cir#Z9_BOUND.IBV",
+      "basis": "bounded breakdown-knee proxy; data sheet does not state SPICE IBV",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V4.CJO",
+      "stage": "horizontal-input",
+      "value": 7.5e-11,
+      "bounds": [
+        1e-12,
+        1.5e-10
+      ],
+      "unit": "F",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/signal-path-models.cir#Z9_BOUND.CJO",
+      "basis": "zero-bias proxy below comparator maximum 1.5e-10 F at 1 MHz; original part capacitance remains unknown",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V4.TT",
+      "stage": "horizontal-input",
+      "value": 1e-07,
+      "bounds": [
+        1e-08,
+        1e-06
+      ],
+      "unit": "s",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/signal-path-models.cir#Z9_BOUND.TT",
+      "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V11.IS",
+      "stage": "horizontal-output",
+      "value": 1e-09,
+      "bounds": [
+        1e-12,
+        1e-07
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_Z6.IS",
+      "basis": "bounded SPICE saturation-current proxy; comparator VZ does not uniquely determine IS",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V11.N",
+      "stage": "horizontal-output",
+      "value": 1.5,
+      "bounds": [
+        1,
+        2
+      ],
+      "unit": "1",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_Z6.N",
+      "basis": "bounded ideality proxy; comparator forward curve does not uniquely determine N",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V11.RS",
+      "stage": "horizontal-output",
+      "value": 2,
+      "bounds": [
+        0.5,
+        10
+      ],
+      "unit": "ohm",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_Z6.RS",
+      "basis": "comparator differential resistance <= 10 ohm at 5 mA includes junction slope and is not a direct RS limit",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V11.BV",
+      "stage": "horizontal-output",
+      "value": 6.2,
+      "bounds": [
+        5.8,
+        6.6
+      ],
+      "unit": "V",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_Z6.BV",
+      "basis": "breakdown proxy around comparator 5 mA working-voltage spread; model response is checked separately",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V11.IBV",
+      "stage": "horizontal-output",
+      "value": 0.001,
+      "bounds": [
+        0.0001,
+        0.01
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_Z6.IBV",
+      "basis": "bounded breakdown-knee proxy; data sheet does not state SPICE IBV",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V11.CJO",
+      "stage": "horizontal-output",
+      "value": 1e-10,
+      "bounds": [
+        1e-12,
+        2e-10
+      ],
+      "unit": "F",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_Z6.CJO",
+      "basis": "zero-bias proxy below comparator maximum 2e-10 F at 1 MHz; original part capacitance remains unknown",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V11.TT",
+      "stage": "horizontal-output",
+      "value": 1e-07,
+      "bounds": [
+        1e-08,
+        1e-06
+      ],
+      "unit": "s",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_Z6.TT",
+      "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V15.IS",
+      "stage": "vertical-output",
+      "value": 1e-09,
+      "bounds": [
+        1e-12,
+        1e-07
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_Z16.IS",
+      "basis": "bounded SPICE saturation-current proxy; comparator VZ does not uniquely determine IS",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V15.N",
+      "stage": "vertical-output",
+      "value": 1.5,
+      "bounds": [
+        1,
+        2
+      ],
+      "unit": "1",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_Z16.N",
+      "basis": "bounded ideality proxy; comparator forward curve does not uniquely determine N",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V15.RS",
+      "stage": "vertical-output",
+      "value": 2,
+      "bounds": [
+        0.5,
+        40
+      ],
+      "unit": "ohm",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_Z16.RS",
+      "basis": "comparator differential resistance <= 40 ohm at 5 mA includes junction slope and is not a direct RS limit",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V15.BV",
+      "stage": "vertical-output",
+      "value": 16,
+      "bounds": [
+        15.3,
+        17.1
+      ],
+      "unit": "V",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_Z16.BV",
+      "basis": "breakdown proxy around comparator 5 mA working-voltage spread; model response is checked separately",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V15.IBV",
+      "stage": "vertical-output",
+      "value": 0.001,
+      "bounds": [
+        0.0001,
+        0.01
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_Z16.IBV",
+      "basis": "bounded breakdown-knee proxy; data sheet does not state SPICE IBV",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V15.CJO",
+      "stage": "vertical-output",
+      "value": 4e-11,
+      "bounds": [
+        1e-12,
+        7.5e-11
+      ],
+      "unit": "F",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_Z16.CJO",
+      "basis": "zero-bias proxy below comparator maximum 7.5e-11 F at 1 MHz; original part capacitance remains unknown",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V15.TT",
+      "stage": "vertical-output",
+      "value": 1e-07,
+      "bounds": [
+        1e-08,
+        1e-06
+      ],
+      "unit": "s",
+      "sources": [
+        "nexperia_bzx84_series"
+      ],
+      "model_ref": "circuits/k7222-11-vertical-output-models.cir#VERT_Z16.TT",
+      "basis": "explicit unconstrained transit-time proxy; BZX84 sheet does not specify recovery or SPICE TT; connected sensitivity remains required",
+      "qualification": "provisional-model-proxy"
     }
   ],
   "open_families": [
@@ -766,7 +1103,7 @@
     },
     {
       "file": "reference/k7222-11/device-model-register.json",
-      "reason": "six individual provisional semiconductor models still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 instances have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
+      "reason": "nine individual provisional semiconductor models still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 instances have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
     }
   ],
   "use_for_sensitivity": "Only entries whose model_ref resolves to an active parameter and whose model response is validated may be swept as A6 class-typical bounds. Pending families are not qualified."

@@ -1,0 +1,111 @@
+{
+  "format": "dac-monitor-frame-zener-class-check-v1",
+  "qualification": "class comparison only; original identity, stage stress and bounded sensitivity remain open",
+  "source": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf",
+  "source_revision": "Rev. 7, 1 January 2023",
+  "rows": [
+    {
+      "id": "012-6921:V4",
+      "active_model": "Z9_BOUND",
+      "model_file": "circuits/signal-path-models.cir",
+      "model_sha256": "3757eec9ffbb93640a8713f8e57d959a4f9178eb651840b227803b1e8f8cd03a",
+      "comparator": "BZX84-C9V1",
+      "comparator_conditions": {
+        "temperature_c": 25,
+        "current_a": 0.005,
+        "voltage_range_v": [
+          8.5,
+          9.6
+        ],
+        "maximum_differential_resistance_ohm": 15
+      },
+      "measurement": {
+        "currents_a": [
+          0.0049,
+          0.005,
+          0.0051
+        ],
+        "reverse_voltages_v": [
+          9.186088,
+          9.187365,
+          9.188627
+        ],
+        "differential_resistance_ohm": 12.695000000002532,
+        "checks": {
+          "voltage_at_5ma": true,
+          "differential_resistance_near_5ma": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "id": "012-6921:V11",
+      "active_model": "HOR_Z6",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "model_sha256": "3934b104b4529e9824709fac6a275301903f4c756c9b07b338638eb2cca533e0",
+      "comparator": "BZX84-C6V2",
+      "comparator_conditions": {
+        "temperature_c": 25,
+        "current_a": 0.005,
+        "voltage_range_v": [
+          5.8,
+          6.6
+        ],
+        "maximum_differential_resistance_ohm": 10
+      },
+      "measurement": {
+        "currents_a": [
+          0.0049,
+          0.005,
+          0.0051
+        ],
+        "reverse_voltages_v": [
+          6.271383,
+          6.27244,
+          6.273149
+        ],
+        "differential_resistance_ohm": 8.829999999999648,
+        "checks": {
+          "voltage_at_5ma": true,
+          "differential_resistance_near_5ma": true
+        },
+        "passed": true
+      }
+    },
+    {
+      "id": "012-6931:V15",
+      "active_model": "VERT_Z16",
+      "model_file": "circuits/k7222-11-vertical-output-models.cir",
+      "model_sha256": "aeaa5490bc98cde0c088825fec00b7ae5958e45fb66cb02fd62fd4cd05c80eb1",
+      "comparator": "BZX84-C16",
+      "comparator_conditions": {
+        "temperature_c": 25,
+        "current_a": 0.005,
+        "voltage_range_v": [
+          15.3,
+          17.1
+        ],
+        "maximum_differential_resistance_ohm": 40
+      },
+      "measurement": {
+        "currents_a": [
+          0.0049,
+          0.005,
+          0.0051
+        ],
+        "reverse_voltages_v": [
+          16.0714,
+          16.07238,
+          16.07334
+        ],
+        "differential_resistance_ohm": 9.70000000000579,
+        "checks": {
+          "voltage_at_5ma": true,
+          "differential_resistance_near_5ma": true
+        },
+        "passed": true
+      }
+    }
+  ],
+  "passed": true
+}

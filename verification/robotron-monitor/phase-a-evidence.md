@@ -1438,3 +1438,34 @@ saved `reference/k7222-11/page9-sync-input-comparison.json` matches all eight
 endpoints; the regression test fails if C2 is moved back to the mistaken
 SYNC net. This is a separate partial A1 comparison from the 5.1 V branch.
 The oscillator remainder and the page-9 whole-sheet mark stay open.
+
+### Remaining active zener class checks (2026-11-19)
+
+The [Nexperia BZX84 series data sheet](https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf)
+gives 25 °C, 5 mA working-voltage ranges and maximum differential resistances
+for C6V2, C9V1 and C16. These are class comparators, not identifications of
+the three printed parts. In particular, the inventory OCR for horizontal V11
+reads `Z 86.2`; treating the active model as a 6.2 V zener remains provisional.
+The live `HOR_Z6`, `Z9_BOUND` and `VERT_Z16` models now explicitly set CJO and
+TT as well as IS, N, RS, BV and IBV. The source bounds capacitance but gives no
+SPICE transit-time or recovery limit, so TT is a declared proxy awaiting a
+connected-stage sensitivity check.
+
+| Inventory part | Comparator | Data-sheet VZ range / max rdif | Live model at 5 mA / near-5 mA rdif |
+| --- | --- | --- | --- |
+| 012-6921:V4 | C9V1 | 8.5–9.6 V / 15 Ω | 9.187 V / 12.70 Ω |
+| 012-6921:V11 | C6V2 | 5.8–6.6 V / 10 Ω | 6.272 V / 8.83 Ω |
+| 012-6931:V15 | C16 | 15.3–17.1 V / 40 Ω | 16.072 V / 9.70 Ω |
+
+`frame_zener_check.py` measures each live model at 4.9, 5 and 5.1 mA; its
+saved report is `reference/k7222-11/frame-zener-class-check.json`. A deliberately
+wrong 12 V breakdown value fails the C9V1 voltage check. The A2 register adds
+three provisional device rows and the A6 register adds 21 bounded parameter
+entries. Regenerated A2 coverage is 31 of 64 frame-path instances: 29 assembled
+instances remain unregistered and four remain absent from the ideal-rail
+assembly. Source-first direction checks, per-device stress and connected-stage
+bound sensitivity remain open, so none of these rows closes A2.
+
+The service register already has `agent-read` shape descriptors for all 17
+manual test points. A3 remains open because the descriptors have not yet been
+scored on connected stages with all required loaded probes and recorded trims.
