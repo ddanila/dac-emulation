@@ -2,12 +2,12 @@
   "format": "dac-monitor-a2-device-coverage-v1",
   "qualification": "A2 gap inventory; registered rows are provisional, not completed model qualification",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
-  "register_sha256": "6084193557c3432bb27e7fa52e4c6b79c1e846c120393aeb7621e5acd6857e30",
-  "assembly_source_sha256": "027e771c0f6a6e3d77f9a5173552ee94a5ccc904e71871b8527b92e6d8a267d9",
+  "register_sha256": "d29f77212db9a9ef4a61aad8fe2742506b07e11c5c436c7902b87f71cb75f11b",
+  "assembly_source_sha256": "0acaca8c1f8efa7bb05130b25a888db08b4e9bd0de8273cde21dc7f3e263d3a6",
   "inventory_device_instances": 77,
   "frame_path_device_instances": 64,
   "assembled_instances": 60,
-  "registered_instances": 38,
+  "registered_instances": 40,
   "absent_from_assembly": [
     "012-6921:V19",
     "012-6921:V20",
@@ -25,8 +25,6 @@
     "012-6921:T2",
     "012-6921:T3",
     "012-6921:V1",
-    "012-6921:V10",
-    "012-6921:V12",
     "012-6921:V5",
     "012-6921:V6",
     "012-6931:A2",
@@ -112,9 +110,11 @@
         "012-6921:V10"
       ],
       "active_models": [
-        "HOR_N"
+        "SC237E_N"
       ],
-      "registered_ids": [],
+      "registered_ids": [
+        "012-6921:V10"
+      ],
       "absent_from_assembly": []
     },
     {
@@ -128,7 +128,9 @@
         "HOR_N",
         "REG5_NPN"
       ],
-      "registered_ids": [],
+      "registered_ids": [
+        "012-6921:V12"
+      ],
       "absent_from_assembly": []
     },
     {
@@ -704,9 +706,19 @@
       "kind": "bjt",
       "printed_type": "SC237E",
       "assembled_reference": "Q1034",
-      "active_model": "HOR_N",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "active_model": "SC237E_N",
+      "register_model": "SC237E_N",
+      "registered_parameter_keys": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "RC",
+        "RE",
+        "TF",
+        "TR",
+        "VAF"
+      ]
     },
     {
       "id": "012-6921:V11",
@@ -731,8 +743,16 @@
       "printed_type": "SF1260",
       "assembled_reference": "Q1035",
       "active_model": "HOR_N",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "HOR_N",
+      "registered_parameter_keys": [
+        "BF",
+        "CJC",
+        "CJE",
+        "IS",
+        "TF",
+        "TR",
+        "VAF"
+      ]
     },
     {
       "id": "012-6921:V13",

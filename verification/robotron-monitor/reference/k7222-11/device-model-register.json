@@ -1,8 +1,9 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; ten individual devices, six horizontal diode instances, fourteen 1AE15 instances and eight 1AD50 instances have provisional bounds",
+  "status": "partial; twelve individual devices, six horizontal diode instances, fourteen 1AE15 instances and eight 1AD50 instances have provisional bounds",
   "sources": {
+    "ddr_sc237": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SC 236 · SC 237 · SC 238 · SC 239", "use": "Historical SC237 group-E h21e 224–560 at VCE=6 V/IC=2 mA/1 kHz, typical fT 170 MHz at VCE=6 V/IC=10 mA/f=20 MHz, typical pulsed VCEsat 210 mV at IC=100 mA/IB=5 mA, and C11b/C22b 7.7/3.8 pF at stated biases. Not a fitted SC237E transistor curve."},
     "ddr_sf126_129": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SF 126 · SF 127 · SF 128 · SF 129", "use": "Historical SF128 base-family h21E groups A–F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."},
     "vishay_uf4007": {"url": "https://www.vishay.com/docs/88755/uf4001.pdf", "revision": "6 April 2020, document 88755", "pages": [1, 2, 3], "use": "Comparable 1000 V ultrafast 1 A rectifier: VF <=1.7 V at 1 A, IR <=10 uA at 1000 V/25 C, trr <=75 ns at IF=0.5 A/IR=1 A/Irr=0.25 A and typical 17 pF at 4 V/1 MHz. Not an identity for 1YL1 variants."},
     "nexperia_bzx84_series": {"url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", "revision": "Rev. 7, 1 January 2023", "pages": [5, 6], "use": "BZX84-C6V2, C9V1 and C16 comparable 5 mA zener voltage, differential resistance and capacitance limits; not historical identifications or SPICE transit-time data."},
@@ -1135,6 +1136,221 @@
         "Measure inductive driver storage and fall with documented comparable test conditions",
         "Measure connected-stage current/voltage stress and joint-bound sensitivity",
         "Examine remaining implicit BJT simulator defaults"
+      ]
+    },
+    {
+      "id": "012-6921:V10",
+      "candidate_class": "SC237 group-E historical type",
+      "identity_tier": "class-typical; printed SC237E group matches historical E row",
+      "model": "SC237E_N",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "sources": [
+        "ddr_sc237"
+      ],
+      "parameters": {
+        "IS": {
+          "nominal": 1e-14,
+          "bounds": [
+            1e-16,
+            1e-12
+          ],
+          "unit": "A",
+          "basis": "SPICE saturation-current proxy; source leakage limit does not uniquely determine IS"
+        },
+        "BF": {
+          "nominal": 300,
+          "bounds": [
+            224,
+            560
+          ],
+          "unit": "1",
+          "basis": "selected inside the printed SC237 E gain group at 2 mA/6 V"
+        },
+        "VAF": {
+          "nominal": 80,
+          "bounds": [
+            20,
+            200
+          ],
+          "unit": "V",
+          "basis": "Early-voltage proxy; historical sheet has no extraction, assumed sensitivity range"
+        },
+        "RC": {
+          "nominal": 1,
+          "bounds": [
+            0.1,
+            5
+          ],
+          "unit": "ohm",
+          "basis": "collector series-resistance proxy chosen with RE to reproduce typical 210 mV saturation at documented bias; not a measured RC"
+        },
+        "RE": {
+          "nominal": 0.25,
+          "bounds": [
+            0.01,
+            1
+          ],
+          "unit": "ohm",
+          "basis": "emitter series-resistance proxy chosen with RC to reproduce typical 210 mV saturation at documented bias; not a measured RE"
+        },
+        "CJE": {
+          "nominal": 7.7e-12,
+          "bounds": [
+            3e-12,
+            2e-11
+          ],
+          "unit": "F",
+          "basis": "proxy around historical C11b 7.7 pF at UEB=0.5 V/1 MHz; CJE zero-bias parameter is not that measured capacitance"
+        },
+        "CJC": {
+          "nominal": 3.8e-12,
+          "bounds": [
+            1e-12,
+            1e-11
+          ],
+          "unit": "F",
+          "basis": "proxy around historical C22b 3.8 pF at UCB=6 V/1 MHz; CJC zero-bias parameter is not that measured capacitance"
+        },
+        "TF": {
+          "nominal": 9e-10,
+          "bounds": [
+            4e-10,
+            2e-09
+          ],
+          "unit": "s",
+          "basis": "forward transit-time proxy selected to reproduce group-E typical fT 170 MHz at 10 mA/6 V/20 MHz; not a measured TF"
+        },
+        "TR": {
+          "nominal": 1e-08,
+          "bounds": [
+            1e-09,
+            1e-07
+          ],
+          "unit": "s",
+          "basis": "reverse transit-time proxy; historical sheet has no storage/fall test, so range is unqualified"
+        }
+      },
+      "comparison_targets": {
+        "hFE": {
+          "range": [
+            224,
+            560
+          ],
+          "conditions": "VCE=6 V, IC=2 mA, f=1 kHz, T=20–25 C; SC237 group E"
+        },
+        "VCEsat_v": {
+          "typical": 0.21,
+          "conditions": "IC=100 mA, IB=5 mA, pulsed, T=20–25 C; proximity only, not a maximum"
+        },
+        "fT_hz": {
+          "typical": 170000000.0,
+          "conditions": "VCE=6 V, IC=10 mA, f=20 MHz, T=20–25 C; group E"
+        }
+      },
+      "model_response_report": "reference/k7222-11/horizontal-small-transistor-class-check.json",
+      "remaining": [
+        "Measure connected-stage current/voltage stress and joint-bound sensitivity",
+        "Examine remaining implicit BJT simulator defaults",
+        "Validate historical part-specific AC and switching response"
+      ]
+    },
+    {
+      "id": "012-6921:V12",
+      "candidate_class": "SF126 historical base-family comparator for printed SF1260",
+      "identity_tier": "class-typical; printed SF1260 suffix/group not identified in base-family table",
+      "model": "HOR_N",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "parameters": {
+        "IS": {
+          "nominal": 1e-14,
+          "bounds": [
+            1e-16,
+            1e-12
+          ],
+          "unit": "A",
+          "basis": "SPICE saturation-current proxy; family sheet has no IS extraction"
+        },
+        "BF": {
+          "nominal": 100,
+          "bounds": [
+            18,
+            1120
+          ],
+          "unit": "1",
+          "basis": "nominal broad SF126–129 family gain at 50 mA/2 V; printed SF1260 suffix/group unresolved"
+        },
+        "VAF": {
+          "nominal": 80,
+          "bounds": [
+            20,
+            200
+          ],
+          "unit": "V",
+          "basis": "Early-voltage proxy; family sheet has no extraction, assumed sensitivity range"
+        },
+        "CJE": {
+          "nominal": 2e-11,
+          "bounds": [
+            2e-12,
+            1e-10
+          ],
+          "unit": "F",
+          "basis": "base-emitter capacitance proxy; family sheet has no junction capacitance specification"
+        },
+        "CJC": {
+          "nominal": 8e-12,
+          "bounds": [
+            1e-12,
+            5e-11
+          ],
+          "unit": "F",
+          "basis": "base-collector capacitance proxy; family sheet has no junction capacitance specification"
+        },
+        "TF": {
+          "nominal": 2e-09,
+          "bounds": [
+            1e-10,
+            4e-09
+          ],
+          "unit": "s",
+          "basis": "forward transit-time proxy; live model passes family fT >=60 MHz under data-book bias, not a direct TF limit"
+        },
+        "TR": {
+          "nominal": 1e-08,
+          "bounds": [
+            1e-09,
+            1e-07
+          ],
+          "unit": "s",
+          "basis": "reverse transit-time proxy; family sheet has no storage/fall test, so range is unqualified"
+        }
+      },
+      "comparison_targets": {
+        "hFE": {
+          "range": [
+            18,
+            1120
+          ],
+          "conditions": "VCE=2 V, IC=50 mA, T=20–25 C; broad SF126–129 A–F range, suffix group unknown"
+        },
+        "VCEsat_v": {
+          "maximum": 0.5,
+          "conditions": "IC=150 mA, IB=15 mA, T=20–25 C"
+        },
+        "fT_hz": {
+          "minimum": 60000000.0,
+          "conditions": "VCE=10 V, IC=10 mA, f=15 MHz, T=20–25 C"
+        }
+      },
+      "model_response_report": "reference/k7222-11/horizontal-small-transistor-class-check.json",
+      "remaining": [
+        "Verify printed SF1260 suffix/group and original package/rating",
+        "Measure connected-stage current/voltage stress and joint-bound sensitivity",
+        "Examine remaining implicit BJT simulator defaults",
+        "Qualify the separate REG5_NPN alias used by the other SF1260 instance"
       ]
     }
   ]

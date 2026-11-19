@@ -1567,3 +1567,34 @@ instances remain uncovered, and four remain absent from the ideal-rail
 assembly. The class check does not identify the SF1280 gain group or validate
 inductive storage and fall, joint parameter bounds, connected-stage stress or
 the remaining implicit BJT simulator defaults. A2 and A6 remain open.
+
+### A2: V10/V12 horizontal small-transistor classes
+
+The 012-6921 parts list prints V10 as SC237E and V12 as SF1260. The
+[historical DDR semiconductor data book](https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf)
+gives SC237 group E h21e 224–560 at 6 V/2 mA, typical fT 170 MHz at
+6 V/10 mA/20 MHz, and typical pulsed VCEsat 210 mV at 100 mA collector with
+5 mA base drive. It lists 7.7 pF and 3.8 pF junction-capacitance readings
+at their stated biases; those are not direct zero-bias SPICE CJE/CJC values.
+The same book gives the SF126–129 family gain groups, a 0.5 V maximum
+saturation voltage at 150 mA/15 mA, and a 60 MHz minimum fT at
+10 V/10 mA/15 MHz. It does not resolve the printed `SF1260` suffix.
+
+The prior shared `HOR_N` BF=100 could not represent the SC237E group-E
+gain. The authored Q1034 now selects `SC237E_N` with BF=300 and charge terms
+chosen for the historical typical AC point; explicit RC=1 Ω and RE=0.25 Ω
+bring its current-fed saturation proxy near the documented typical value.
+The [live V10/V12 check](reference/k7222-11/horizontal-small-transistor-class-check.json)
+records V10 hFE 320.0, 0.208 V saturation and 169.3 MHz fT proxy, and V12
+hFE 101.6, 0.067 V saturation and 76.0 MHz fT proxy. The test rejects the
+old BF=100 for V10 group E and a 20 ns forward transit time for V12's
+family fT floor. Both authored horizontal-oscillator export and ideal-rail
+assembly tests still pass after the model split.
+
+This adds two provisional A2 instances and sixteen bounded A6 rows, bringing
+coverage to 40/64; twenty assembled instances remain unregistered and four
+are absent from the assembly. V12's `HOR_N` check does not qualify the
+separate `REG5_NPN` model used by the other SF1260 instance on page 9.
+The V10 typical-value comparison is not a manufacturer limit, and neither
+model is yet validated for part-specific switching, connected stress, joint
+bounds or every implicit simulator default. A2 and A6 remain open.

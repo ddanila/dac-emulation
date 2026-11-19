@@ -1,0 +1,137 @@
+{
+  "format": "dac-monitor-v10-v12-model-class-check-v1",
+  "qualification": "historical transistor-family DC/AC proxies; SF1260 suffix, connected stress and implicit SPICE defaults remain open",
+  "source": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
+  "model_file_sha256": "bf49c6f1aec67a38adf9b4d23200e954663db82b08932b26dcb2c99dc553fdcb",
+  "register_sha256": "d29f77212db9a9ef4a61aad8fe2742506b07e11c5c436c7902b87f71cb75f11b",
+  "sheet_sha256": "f84a73d359edfbf7610b791a1d0dc99087fb3fcd8993d346ce670935e20aa6af",
+  "devices": [
+    {
+      "source_id": "012-6921:V10",
+      "assembly_reference": "Q1034",
+      "active_model": "SC237E_N",
+      "explicit_model_parameters": {
+        "IS": "1e-14",
+        "BF": "300",
+        "VAF": "80",
+        "RC": "1",
+        "RE": "0.25",
+        "CJE": "7.7p",
+        "CJC": "3.8p",
+        "TF": "0.9n",
+        "TR": "10n"
+      },
+      "data_book_targets": {
+        "hFE": {
+          "range": [
+            224,
+            560
+          ],
+          "conditions": "VCE=6 V, IC=2 mA, f=1 kHz, T=20\u201325 C; SC237 group E"
+        },
+        "VCEsat_v": {
+          "typical": 0.21,
+          "conditions": "IC=100 mA, IB=5 mA, pulsed, T=20\u201325 C; proximity only, not a maximum"
+        },
+        "fT_hz": {
+          "typical": 170000000.0,
+          "conditions": "VCE=6 V, IC=10 mA, f=20 MHz, T=20\u201325 C; group E"
+        }
+      },
+      "gain_bias": {
+        "collector_current_a": 0.00200004,
+        "base_current_a": 6.25090121075511e-06,
+        "collector_emitter_voltage_v": 6,
+        "base_emitter_voltage_v": 0.6753221,
+        "hFE": 319.96026373905767
+      },
+      "saturation_dc_proxy": {
+        "collector_current_a": 0.1,
+        "base_current_a": 0.005,
+        "collector_emitter_voltage_v": 0.2076707,
+        "base_emitter_voltage_v": 0.8057253
+      },
+      "ac_bias": {
+        "collector_current_a": 0.0100001,
+        "base_current_a": 3.127291857644915e-05,
+        "collector_emitter_voltage_v": 6,
+        "base_emitter_voltage_v": 0.7186921,
+        "hFE": 319.76868342345324
+      },
+      "ac_test_frequency_hz": 20000000.0,
+      "ac_current_gain": 8.467142,
+      "transition_frequency_proxy_hz": 169342840.00000003,
+      "checks": {
+        "group_e_gain": true,
+        "typical_saturation_proximity": true,
+        "typical_transition_frequency_proximity": true,
+        "gain_bias_reached": true,
+        "ac_bias_reached": true
+      },
+      "passed": true
+    },
+    {
+      "source_id": "012-6921:V12",
+      "assembly_reference": "Q1035",
+      "active_model": "HOR_N",
+      "explicit_model_parameters": {
+        "IS": "1e-14",
+        "BF": "100",
+        "VAF": "80",
+        "CJE": "20p",
+        "CJC": "8p",
+        "TF": "2n",
+        "TR": "10n"
+      },
+      "data_book_targets": {
+        "hFE": {
+          "range": [
+            18,
+            1120
+          ],
+          "conditions": "VCE=2 V, IC=50 mA, T=20\u201325 C; broad SF126\u2013129 A\u2013F range, suffix group unknown"
+        },
+        "VCEsat_v": {
+          "maximum": 0.5,
+          "conditions": "IC=150 mA, IB=15 mA, T=20\u201325 C"
+        },
+        "fT_hz": {
+          "minimum": 60000000.0,
+          "conditions": "VCE=10 V, IC=10 mA, f=15 MHz, T=20\u201325 C"
+        }
+      },
+      "gain_bias": {
+        "collector_current_a": 0.05,
+        "base_current_a": 0.000492361106992811,
+        "collector_emitter_voltage_v": 2,
+        "base_emitter_voltage_v": 0.7587834,
+        "hFE": 101.55148180851349
+      },
+      "saturation_dc_proxy": {
+        "collector_current_a": 0.15,
+        "base_current_a": 0.015,
+        "collector_emitter_voltage_v": 0.06679123,
+        "base_emitter_voltage_v": 0.7917881
+      },
+      "ac_bias": {
+        "collector_current_a": 0.0100001,
+        "base_current_a": 8.960139874294399e-05,
+        "collector_emitter_voltage_v": 10,
+        "base_emitter_voltage_v": 0.7150025,
+        "hFE": 111.60651664254847
+      },
+      "ac_test_frequency_hz": 15000000.0,
+      "ac_current_gain": 5.065819,
+      "transition_frequency_proxy_hz": 75987285.0,
+      "checks": {
+        "broad_family_gain": true,
+        "saturation_dc_proxy": true,
+        "transition_frequency_proxy": true,
+        "gain_bias_reached": true,
+        "ac_bias_reached": true
+      },
+      "passed": true
+    }
+  ],
+  "passed": true
+}
