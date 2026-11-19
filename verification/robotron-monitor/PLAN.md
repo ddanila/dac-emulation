@@ -417,9 +417,9 @@ or bounded class-typical decisions. The five still open are `012-6921:V18`,
 `V21`, `T3`, and `012-6931:V27`, `V28`. Seven converter-only entries are
 outside the A1 gate.
 
-Other required close-out work is also missing. There is no complete bounded
-device-model register for the frame-path identity-only parts (A2), the waveform
-scorer has only a comparable bandwidth model, with no probe-load model or
+Other required close-out work is also missing. The bounded device-model
+register has only provisional V27/V28 entries, not the full frame path (A2).
+The waveform scorer has only a comparable bandwidth model, with no probe-load model or
 recorded stimulus for each stage (A3), and no consolidated class-typical
 register exists (A6). All three A4 controls are now bound in the ideal-rail
 assembly: R4 and R5 use declared equivalents, and external R1 uses the

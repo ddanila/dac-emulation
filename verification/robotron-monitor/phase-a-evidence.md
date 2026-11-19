@@ -926,3 +926,27 @@ page-16 reading. The current assembly reference now points to the new
 interconnect file. Page 18 still needs a KiCad-export comparison and
 functional settlement of any differences before the A1 netlist gate can
 close. This transcription also cannot settle T3's internal winding order.
+
+### Vertical output transistor model bounds (2026-11-19)
+
+The printed page-10 vertical output is provisionally modeled as upper NPN
+V27 and lower PNP V28. Handwritten notes put `BD140` beside V27 and `BD139`
+beside V28; the [ST BD139/BD140 data sheet](https://www.st.com/resource/en/datasheet/bd139.pdf)
+identifies BD139 as NPN and BD140 as PNP. Those annotations therefore conflict
+with the present printed-stage polarity interpretation and are not promoted to
+factory identities. Manual page 14 identifies the V18/V27 and V26/V28
+Darlington pairs but supplies no external output transistor type. The page-10
+A1 netlist and polarity check remains open.
+
+The new partial `reference/k7222-11/device-model-register.json` records a
+BD139-class NPN candidate for V27 and BD140-class PNP candidate for V28, with
+the conflict and remaining model work explicit. The shared `output_bf` bound
+is now 25–250 at nominal 60, following ST's 40–250 at 150 mA and minimum 25
+at 5 mA and 500 mA. Separate forward transit-time bounds are exposed for the
+two polarities. Their nominal 0.7 ns NPN and 2 ns PNP values come from a
+bounded `1/(2πfT)` estimate using the [Philips 1985 data book](https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1986_S04a_Philips_Low-Frequency_Power_Transistors_and_Hybrid_Modules.pdf),
+which lists typical 250 MHz and 75 MHz respectively at 50 mA and 5 V. Junction
+capacitance means these transit times are not by themselves a verified model
+fT. Saturation and the other fixed model parameters remain A2 work. The
+isolated vertical-output stage completes with the revised models; no sustained
+grid or factory transistor identification is inferred.

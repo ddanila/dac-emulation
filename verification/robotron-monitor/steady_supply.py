@@ -228,6 +228,7 @@ def assemble(output, *, yoke_path=None):
                  'reference/k7222-11/horizontal-output-transcription.json',
                  'reference/k7222-11/assembly.json',
                  'reference/k7222-11/page18-interconnect-transcription.json',
+                 'reference/k7222-11/device-model-register.json',
                  'steady_supply.py',
                  'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py','yoke_geometry.py',
                  'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py','collection.py','beam_feedback.py','energy_ledger.py','energy_validation.py',
