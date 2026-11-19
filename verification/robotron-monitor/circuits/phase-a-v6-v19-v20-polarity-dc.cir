@@ -1,0 +1,59 @@
+* Isolated DC polarity comparison for V6/V19/V20 and V1 branches.
+* Source: older.pdf pages 3-4 and parts list; see page3-r11-r37-source-read.json.
+* R37=11k, R38=R39=680, R40=1.1k; V1 R1=R3=2.7k, R2=5.1k.
+* BF=26 is the current generic SSY20A_BOUND nominal, not a 1SA20C/1SC60A fit.
+.param beta=26
+.param trim=1100
+VRAIL p12 0 12
+V35 p35 0 35
+V9 ref9 0 9
+VIN drive 0 0
+RIN drive base 1k
+.model N NPN(IS=1e-14 BF={beta} VAF=60)
+.model P PNP(IS=1e-14 BF={beta} VAF=60)
+* Present assembly: upper C, lower E, NPN.
+R37n p12 sync_n 11k
+R39n p12 v19_n 680
+R40n v19_n b20_n 1.1k
+R38n p12 out_n 680
+Q6n sync_n base 0 N
+Q19n v19_n sync_n 0 N
+Q20n out_n b20_n 0 N
+* Opposite C/E mapping, still NPN.
+R37r p12 sync_r 11k
+R39r p12 v19_r 680
+R40r v19_r b20_r 1.1k
+R38r p12 out_r 680
+Q6r 0 base sync_r N
+Q19r 0 sync_r v19_r N
+Q20r 0 b20_r out_r N
+* Upper E, lower C, PNP.
+R37p p12 sync_p 11k
+R39p p12 v19_p 680
+R40p v19_p b20_p 1.1k
+R38p p12 out_p 680
+Q6p 0 base sync_p P
+Q19p 0 sync_p v19_p P
+Q20p 0 b20_p out_p P
+* Separate page-4 V1 contrast follower, same three interpretations.
+R3n p35 b1_n 2.7k
+R1n b1_n adj_n 2.7k
+R4n adj_n ref9 {trim}
+R2n krs_n 0 5.1k
+Q1n p35 b1_n krs_n N
+R3r p35 b1_r 2.7k
+R1r b1_r adj_r 2.7k
+R4r adj_r ref9 {trim}
+R2r krs_r 0 5.1k
+Q1r krs_r b1_r p35 N
+R3p p35 b1_p 2.7k
+R1p b1_p adj_p 2.7k
+R4p adj_p ref9 {trim}
+R2p krs_p 0 5.1k
+Q1p krs_p b1_p p35 P
+.control
+dc VIN 0 3 3
+print v(sync_n) v(v19_n) v(out_n) v(sync_r) v(v19_r) v(out_r) v(sync_p) v(v19_p) v(out_p)
+print v(b1_n) v(krs_n) v(b1_r) v(krs_r) v(b1_p) v(krs_p)
+.endc
+.end

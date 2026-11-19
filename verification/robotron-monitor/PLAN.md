@@ -447,7 +447,15 @@ V20, with its R38/R39/R40/C34 feeds corrected. Separately, page-4 V1 has its
 R3/upper lead on `35P`, base fed by R1/R3, and lower lead on the KRS contrast
 line. R11.2 runs from `12P` to `sync_feed`, R11.1 from `sync_feed` to
 `sync_c`, C33 bridges those nodes, and R37 biases `sync_c` from `12P`.
-The C/E assignments and generic transistor aliases remain provisional;
+An [isolated DC polarity comparison](reference/k7222-11/page3-4-transistor-polarity-functional-check.json)
+supports the current lower-emitter NPN assignment for V6/V19/V20: its
+`h_feedback` output swings 12.0 to 0.044 V under two input states, whereas
+reversed NPN and PNP alternatives swing less than 0.6 V. The separate V1
+check gives a 21.19–24.80 V KRS adjustment over the R4 range; the PNP
+alternative stays near 35 V, and reversed NPN enters unqualified reverse
+base-emitter bias. This is functional support for four local C/E assignments,
+not a printed-arrow read or an original-device fit. The C/E assignments and
+generic transistor aliases remain provisional;
 original device parameters, connected stress, the full page-3/4 comparison
 and a connected contrast score remain open.
 
