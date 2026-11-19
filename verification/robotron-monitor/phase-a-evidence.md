@@ -973,3 +973,21 @@ the 15 kV breakdown and 2 µA knee current explicitly, alongside its existing
 1 pF capacitance and 100 ns transit-time proxy. SPICE `TT` is not the measured
 reverse-recovery time; IS, N and RS and the current T3/V21 terminal mapping
 still need review before this model can satisfy A2 or A5.
+
+### Horizontal output transistor class (2026-11-19)
+
+The `.11` board BOM does not print a type for assembly V18. The page-4
+schematic and operating-manual page 19 place it at the 16 kHz T3 output stage;
+`SU165` on the scan is handwritten and remains an annotation. The
+[ST BU508AF data sheet](https://www.st.com/resource/en/datasheet/bu508af.pdf)
+provides a comparable CRT horizontal-output NPN class, not a historical part
+identification. It gives hFE 10–30 at 0.1 A and a minimum 5 at 4.5 A, both at
+5 V collector-emitter bias. The existing `HOR_OUTPUT_N` BF=20 lies in that
+5–30 class bound, so the A1 part entry is closed as `class-typical`. The audit
+now has 23 resolved frame-path entries and three open: T3, V27 and V28.
+
+ST also specifies at most 1 V saturation at 4.5 A/1.6 A base drive and
+typical 2.5 µs storage plus 0.2 µs fall time in an inductive 16 kHz test.
+Those are recorded as A2 comparison targets, not claimed properties of the
+current SPICE model. Its fixed IS, VAF, junction capacitances and transit
+times remain unbounded, and the T3 stage still lacks a verified topology.

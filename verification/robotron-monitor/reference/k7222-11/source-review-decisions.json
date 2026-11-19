@@ -2,6 +2,21 @@
   "format": "dac-monitor-phase-a-source-review-v2",
   "parts": [
     {
+      "id": "012-6921:V18",
+      "source_page": 4,
+      "frame_path": true,
+      "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "inventory_entry_sha256": "0bd0c27e59eab7edf04ed22806456fce1441aa8c404034a44f6594fceeb0010e",
+      "decision": "class-typical",
+      "reading": "V18 is the horizontal output NPN transistor; SU165 is a handwritten annotation, not a factory board-BOM type",
+      "independent_reads": [],
+      "crop_sha256": null,
+      "argument": "Schematic page 4 and operating-manual page 19 place V18 as the transistor driving T3 at the 16 kHz line rate. No printed assembly type is identified. The ST BU508AF is an NPN CRT horizontal-deflection output device with a documented hFE range of 5–30 across its 0.1 A and 4.5 A test points; this bounds the existing BF=20 candidate without claiming it is the original V18. Switching time and safe operation remain A2 work.",
+      "typical_value": 20,
+      "typical_bounds": [5, 30],
+      "typical_source": "ST BU508AF Rev 2, pages 1 and 4, https://www.st.com/resource/en/datasheet/bu508af.pdf; hFE 10–30 at IC=0.1 A/VCE=5 V and minimum 5 at IC=4.5 A/VCE=5 V"
+    },
+    {
       "id": "012-6921:V21",
       "source_page": 4,
       "frame_path": true,
