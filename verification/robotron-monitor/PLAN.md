@@ -425,6 +425,14 @@ candidates. The other remaining done-condition gaps are:
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
 | A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 140 partial entries. |
 
+The A2 gap includes all five printed `1SA20C` instances and both `1SC60A`
+instances. Five are assembled under generic transistor aliases without device
+register entries; two `1SA20C` instances are absent from the ideal-rail
+assembly. Sharing an alias does not establish an electrical equivalence for
+either printed type. These instances need a sourced, bounded class model and
+their missing assembly paths resolved before A2 can pass; the existing generic
+aliases cannot be counted as qualified coverage.
+
 These are independent completion failures, not just one T3 issue. The
 [device-model coverage report](reference/k7222-11/device-model-coverage.json)
 records the A2 gap, and the [design point](reference/k7222-11/design-point.json)
