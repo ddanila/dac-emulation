@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; five individual devices, ten vertical 1AE15 instances and eight 1AD50 instances have provisional bounds",
+  "status": "partial; five individual devices, ten vertical 1AE15 instances, four input/sync 1AE15 instances and eight 1AD50 instances have provisional bounds",
   "sources": {
     "nexperia_1n4148": {
       "url": "https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf",
@@ -111,6 +111,120 @@
       "model_response_report": "reference/k7222-11/vertical-diode-model-check.json",
       "stage_sensitivity_report": "reference/k7222-11/vertical-diode-stage-sensitivity.json",
       "remaining": ["Verify the original 1AE15 class and per-device current/voltage stress", "Run joint-bound and native-mode connected sensitivity; the saved stage sweep varies one parameter at a time in the 20.8 ms bench"]
+    },
+    {
+      "id": "1AE15-input-and-sync-diode",
+      "printed_type": "1AE15",
+      "candidate_class": "1N4148-class signal/bias diode used as a provisional electrical proxy for the printed 1AE15 parts",
+      "identity_tier": "class-typical comparator; original 1AE15 electrical data not located",
+      "model": "1AD50_BOUND",
+      "model_file": "circuits/k7222-11-neck-models.cir",
+      "profile": "profiles/k7222-11-neck.json",
+      "member_ids": [
+        "012-6921:V7:1",
+        "012-6921:V7:2",
+        "012-6921:V7:3",
+        "012-6931:V6"
+      ],
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "parameters": {
+        "IS": {
+          "profile_key": "d_is",
+          "nominal": 1e-09,
+          "bounds": [
+            1e-12,
+            1e-07
+          ],
+          "unit": "A",
+          "basis": "broad SPICE reverse-current proxy; 1N4148 comparator IR <=25 nA at 20 V, not a direct 1AD50 or IS limit"
+        },
+        "N": {
+          "profile_key": "d_n",
+          "nominal": 1.5,
+          "bounds": [
+            1,
+            2
+          ],
+          "unit": "1",
+          "basis": "bounded ideality proxy; comparator forward curve does not uniquely fit N"
+        },
+        "RS": {
+          "profile_key": "d_rs",
+          "nominal": 1,
+          "bounds": [
+            0.1,
+            10
+          ],
+          "unit": "ohm",
+          "basis": "bounded series-resistance proxy; comparator VF <=1 V at 10 mA does not uniquely fit RS"
+        },
+        "CJO": {
+          "profile_key": "d_cjo",
+          "nominal": 3e-12,
+          "bounds": [
+            5e-13,
+            2e-11
+          ],
+          "unit": "F",
+          "basis": "comparator Cd <=4 pF at 0 V/1 MHz; wider upper bound retains uncertainty in the original 1AE15"
+        },
+        "TT": {
+          "profile_key": "d_tt",
+          "nominal": 4e-09,
+          "bounds": [
+            5e-10,
+            4e-08
+          ],
+          "unit": "s",
+          "basis": "transit-time proxy; comparator trr <=4 ns under its test, but original 1AE15 recovery is unknown and TT is not trr"
+        },
+        "BV": {
+          "profile_key": "d_bv",
+          "nominal": 100,
+          "bounds": [
+            100,
+            150
+          ],
+          "unit": "V",
+          "basis": "explicit breakdown proxy from comparator 100 V reverse rating, with unverified upper margin"
+        },
+        "IBV": {
+          "profile_key": "d_ibv",
+          "nominal": 0.0001,
+          "bounds": [
+            1e-06,
+            0.001
+          ],
+          "unit": "A",
+          "basis": "explicit assumed breakdown knee; comparator does not specify SPICE IBV"
+        }
+      },
+      "comparison_targets": {
+        "VF_v": {
+          "maximum": 1,
+          "conditions": "IF=10 mA, Tj=25 C"
+        },
+        "IR_a": {
+          "maximum": 2.5e-08,
+          "conditions": "VR=20 V, Tj=25 C"
+        },
+        "Cd_f": {
+          "maximum": 4e-12,
+          "conditions": "VR=0 V, f=1 MHz"
+        },
+        "trr_s": {
+          "maximum": 4e-09,
+          "conditions": "IF=10 mA to IR=60 mA, RL=100 ohm; measured at IR=1 mA"
+        }
+      },
+      "model_response_report": "reference/k7222-11/neck-diode-model-check.json",
+      "remaining": [
+        "Verify original 1AE15 rating and the four per-device voltage/current stresses",
+        "Run joint-bound and connected-stage sensitivity for the input and sync roles"
+      ],
+      "model_alias_note": "The active 1AD50_BOUND name is reused by the assembled input and sync boards; this register entry describes its electrical proxy for 1AE15 and does not identify the two printed types as equivalent."
     }
   ],
   "devices": [

@@ -2,12 +2,12 @@
   "format": "dac-monitor-a2-device-coverage-v1",
   "qualification": "A2 gap inventory; registered rows are provisional, not completed model qualification",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
-  "register_sha256": "2d65aaf9f5ca07c166b666d1e7f806901da3b785295d976ac28702c57aa44b66",
+  "register_sha256": "75ba8d98cdb59d75db5a2824d7b416710d2106351e8d62ce952e9ace0a7b225d",
   "assembly_source_sha256": "027e771c0f6a6e3d77f9a5173552ee94a5ccc904e71871b8527b92e6d8a267d9",
   "inventory_device_instances": 77,
   "frame_path_device_instances": 64,
   "assembled_instances": 60,
-  "registered_instances": 23,
+  "registered_instances": 27,
   "absent_from_assembly": [
     "012-6921:V19",
     "012-6921:V20",
@@ -36,9 +36,6 @@
     "012-6921:V4",
     "012-6921:V5",
     "012-6921:V6",
-    "012-6921:V7:1",
-    "012-6921:V7:2",
-    "012-6921:V7:3",
     "012-6921:V8",
     "012-6921:V9",
     "012-6931:A2",
@@ -50,8 +47,7 @@
     "012-6931:V26",
     "012-6931:V3",
     "012-6931:V4",
-    "012-6931:V5",
-    "012-6931:V6"
+    "012-6931:V5"
   ],
   "families": [
     {
@@ -236,6 +232,10 @@
         "VERTICAL_DIODE"
       ],
       "registered_ids": [
+        "012-6921:V7:1",
+        "012-6921:V7:2",
+        "012-6921:V7:3",
+        "012-6931:V6",
         "012-6931:V12",
         "012-6931:V14",
         "012-6931:V16",
@@ -872,8 +872,16 @@
       "printed_type": "1AE15",
       "assembled_reference": "D201",
       "active_model": "1AD50_BOUND",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "1AD50_BOUND",
+      "registered_parameter_keys": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ]
     },
     {
       "id": "012-6921:V7:2",
@@ -881,8 +889,16 @@
       "printed_type": "1AE15",
       "assembled_reference": "D202",
       "active_model": "1AD50_BOUND",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "1AD50_BOUND",
+      "registered_parameter_keys": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ]
     },
     {
       "id": "012-6921:V7:3",
@@ -890,8 +906,16 @@
       "printed_type": "1AE15",
       "assembled_reference": "D203",
       "active_model": "1AD50_BOUND",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "1AD50_BOUND",
+      "registered_parameter_keys": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ]
     },
     {
       "id": "012-6921:V8",
@@ -1219,8 +1243,16 @@
       "printed_type": "1AE15",
       "assembled_reference": "D305",
       "active_model": "1AD50_BOUND",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "1AD50_BOUND",
+      "registered_parameter_keys": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS",
+        "TT"
+      ]
     }
   ]
 }

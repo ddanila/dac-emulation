@@ -524,6 +524,125 @@
       "model_ref": "steady_supply.py#ASSEMBLY_BOUNDS.brightness_pot_r",
       "basis": "Page-18 handwritten 10 kOhm brightness and 5 kOhm contrast annotations set alternative class values; not factory BOM values.",
       "qualification": "annotation-bounded-candidate"
+    },
+    {
+      "id": "1AE15-input-and-sync-diode.IS",
+      "stage": "horizontal-input/vertical-sync",
+      "value": 1e-09,
+      "bounds": [
+        1e-12,
+        1e-07
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_is",
+      "basis": "Broad reverse-current proxy; 1N4148 IR <=25 nA at 20 V does not directly bound the original 1AE15 or SPICE IS; the live profile parameter is shared with the 1AD50 alias",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1AD50-signal-clamp-diode.IS"
+    },
+    {
+      "id": "1AE15-input-and-sync-diode.N",
+      "stage": "horizontal-input/vertical-sync",
+      "value": 1.5,
+      "bounds": [
+        1,
+        2
+      ],
+      "unit": "1",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_n",
+      "basis": "Bounded ideality proxy; comparator forward curve cannot uniquely determine N; the live profile parameter is shared with the 1AD50 alias",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1AD50-signal-clamp-diode.N"
+    },
+    {
+      "id": "1AE15-input-and-sync-diode.RS",
+      "stage": "horizontal-input/vertical-sync",
+      "value": 1,
+      "bounds": [
+        0.1,
+        10
+      ],
+      "unit": "ohm",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_rs",
+      "basis": "Bounded series-resistance proxy; comparator VF <=1 V at 10 mA cannot uniquely determine RS; the live profile parameter is shared with the 1AD50 alias",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1AD50-signal-clamp-diode.RS"
+    },
+    {
+      "id": "1AE15-input-and-sync-diode.CJO",
+      "stage": "horizontal-input/vertical-sync",
+      "value": 3e-12,
+      "bounds": [
+        5e-13,
+        2e-11
+      ],
+      "unit": "F",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_cjo",
+      "basis": "Comparator Cd <=4 pF at 0 V/1 MHz; wider bound retains original 1AE15 uncertainty; the live profile parameter is shared with the 1AD50 alias",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1AD50-signal-clamp-diode.CJO"
+    },
+    {
+      "id": "1AE15-input-and-sync-diode.TT",
+      "stage": "horizontal-input/vertical-sync",
+      "value": 4e-09,
+      "bounds": [
+        5e-10,
+        4e-08
+      ],
+      "unit": "s",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_tt",
+      "basis": "Transit-time proxy; comparator trr <=4 ns, but original recovery is unknown and TT is not trr; the live profile parameter is shared with the 1AD50 alias",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1AD50-signal-clamp-diode.TT"
+    },
+    {
+      "id": "1AE15-input-and-sync-diode.BV",
+      "stage": "horizontal-input/vertical-sync",
+      "value": 100,
+      "bounds": [
+        100,
+        150
+      ],
+      "unit": "V",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_bv",
+      "basis": "Explicit breakdown proxy from comparator 100 V reverse rating, with unverified upper margin; the live profile parameter is shared with the 1AD50 alias",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1AD50-signal-clamp-diode.BV"
+    },
+    {
+      "id": "1AE15-input-and-sync-diode.IBV",
+      "stage": "horizontal-input/vertical-sync",
+      "value": 0.0001,
+      "bounds": [
+        1e-06,
+        0.001
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_1n4148"
+      ],
+      "model_ref": "profiles/k7222-11-neck.json#parameters.d_ibv",
+      "basis": "Explicit assumed breakdown knee; comparator does not specify SPICE IBV; the live profile parameter is shared with the 1AD50 alias",
+      "qualification": "provisional-model-proxy",
+      "shared_model_parameter_with": "1AD50-signal-clamp-diode.IBV"
     }
   ],
   "open_families": [
@@ -545,7 +664,7 @@
     },
     {
       "file": "reference/k7222-11/device-model-register.json",
-      "reason": "five individual provisional semiconductor models still have fixed SPICE parameters without examined bounds; ten vertical 1AE15 instances now have a bounded family entry, while other frame-path devices remain uncovered"
+      "reason": "five individual provisional semiconductor models still have fixed SPICE parameters without examined bounds; fourteen 1AE15 instances now have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
     }
   ],
   "use_for_sensitivity": "Only entries whose model_ref resolves to an active parameter and whose model response is validated may be swept as A6 class-typical bounds. Pending families are not qualified."
