@@ -60,6 +60,7 @@ class CalibrationContractTests(unittest.TestCase):
             profile=contract.reference.read_profile(ROOT/'profiles'/('k7222-11-'+profile_name+'.json'))
             parameters.update({name:entry['nominal'] for name,entry in profile['parameters'].items()})
         parameters.update({name:values[0] for name,values in contract.steady_supply.signal_path.BOUNDS.items()})
+        parameters.update({name:values[0] for name,values in contract.steady_supply.ASSEMBLY_BOUNDS.items()})
         trims=contract.trim_record_template()
         for key,item in trims.items():
             item.update(setting=parameters[contract.TRIM_PARAMETERS[key]]
@@ -68,9 +69,13 @@ class CalibrationContractTests(unittest.TestCase):
         deck='\n'.join(f'.param {name}={value:.15g}' for name,value in parameters.items())+'\n'
         with self.assertRaisesRegex(ValueError,'manual trims lack connected model binding') as error:
             contract._validate_trim_bindings(trims,parameters,deck)
-        self.assertIn('picture_width_r5',str(error.exception))
+        self.assertNotIn('picture_width_r5',str(error.exception))
         self.assertIn('centering_horizontal_r4_0126931',str(error.exception))
         self.assertIn('brightness',str(error.exception))
+        trims['picture_width_r5']['setting']=0.
+        with self.assertRaisesRegex(ValueError,'manual trim was not applied to connected model: picture_width_r5'):
+            contract._validate_trim_bindings(trims,parameters,deck)
+        trims['picture_width_r5']['setting']=parameters['width_r5_position']
         trims['horizontal_hold_r24']['setting']=.4
         with self.assertRaisesRegex(ValueError,'manual trim was not applied to connected model: horizontal_hold_r24'):
             contract._validate_trim_bindings(trims,parameters,deck)

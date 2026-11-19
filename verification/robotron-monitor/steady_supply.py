@@ -33,7 +33,8 @@ PROBES = ('v(eht)', 'v(g2)', 'v(g4)', 'v(cathode)', 'i(Lhorizontal)',
           'i(Lvertical)', '@b.xcrt.bbeam[i]', 'v(p10_7)', 'i(v.xcrt.vheater)',
           'v(h_hot)', 'v(h_feedback)', 'v(vertical_trigger)', 'v(vertical_pulse)',
           'v(x1136.xshared.flux_b)', 'v(p5)', 'v(h_boost)', 'v(g1)',
-          'v(h_control)', 'i(Vp41)', 'v(sync_c)', 'v(h_pd)',
+          'v(h_control)', 'i(Vp41)', 'v(p41)', 'v(p22)', 'v(n16)',
+          'v(sync_c)', 'v(h_pd)',
           'v(h_tank)', 'v(h_reactbase)', '@d1032[id]', '@d1033[id]')
 PROBES += ('v(xcrt.launch_current_ua)','v(xcrt.emitted_current_ua)','@b.xcrt.bg2[i]')
 # Manual service points 1–17. Keep these in the connected trace so the same
@@ -46,6 +47,7 @@ PROBES += ('v(sync_gate)', 'v(vf1)', 'v(vertical_timing)', 'v(vertical_base)',
 # exploratory yoke overloaded the 41 V network; 4 mH is a separate hypothesis,
 # selected by electrical loading, without fitting rendered picture geometry.
 ASSEMBLY_BOUNDS = {
+    'width_r5_position': (.63, 0., 1., 'fraction'),
     'yoke_horizontal_r': (2., .5, 8., 'ohm'),
     'yoke_horizontal_l': (.004, .0004, .016, 'H'),
     'tube_anode_c': (1e-9, .25e-9, 4e-9, 'F'),
@@ -53,6 +55,19 @@ ASSEMBLY_BOUNDS = {
     'l4_coupling': (0., 0., .999, '1'),
     'isolated_cap_leakage': (1e9, .25e9, 4e9, 'ohm'),
 }
+
+
+def r5_rail_scale(position):
+    """R5's feedback-divider effect relative to the 41 V nominal setting.
+
+    PDF page 10 puts R5 (1 kΩ) above R6 (2.4 kΩ), below R7 (30 kΩ).
+    A fixed controller feedback voltage makes the output inversely
+    proportional to R6 plus the wiper-to-bottom part of R5. R7 and total
+    R5 resistance cancel in the ratio of two settings.
+    """
+    if type(position) not in (int,float) or not math.isfinite(position) or not 0<=position<=1:
+        raise ValueError('R5 position outside physical travel')
+    return (2400+1000*.63)/(2400+1000*position)
 
 
 def tune(assembly, selection, changes=None):
@@ -237,6 +252,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     magnetic,meta=transformer_candidates.compile_model(graph,candidate,parameters,backend='flux')
     thermal=heater_equilibrium(); period=selection['period_ticks']/selection['clock_hz']
     p={k:v[0] for k,v in ASSEMBLY_BOUNDS.items()} | assembly['parameters']
+    rail_scale=r5_rail_scale(p['width_r5_position'])
     yoke=assembly.get('yoke')
     if yoke is not None and yoke['inductance_field_relationship_verified']:
         if any(p[k]!=v for k,v in yoke['electrical'].items()):
@@ -271,7 +287,8 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
                       f'Cwire_{signal}_{j} {node} 0 {p["cable_c"]/4}']
             previous=node
     lines += [f'Rreturn computer_return 0 {p["return_r"]}',
-        'Vp12 p12 0 12','Vp22 p22 0 22','Vp41 p41 0 41','Vn16 n16 0 -16',
+        'Vp12 p12 0 12',f'Vp22 p22 0 {22*rail_scale:.15g}',
+        f'Vp41 p41 0 {41*rail_scale:.15g}',f'Vn16 n16 0 {-16*rail_scale:.15g}',
         'Rcontrast_top contrast_adjust intens {contrast_r*contrast_position}',
         'Rcontrast_bottom intens contrast_low {contrast_r*(1-contrast_position)}',
         'Xcrt p10_7 0 cathode g1 g2 eht heater_rise cathode_rise CRT_THERMAL',
@@ -283,7 +300,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         '.save time '+' '.join(PROBES),
         *(['.ic '+' '.join(f'v({n})={v:.15g}' for n,v in sorted(initial_voltages.items()))] if initial_voltages else []),
         f'.tran {max_step_s} {period*fields:.17g} {period*(fields-4):.17g} {max_step_s}', '.end']
-    assumptions=['Ideal 12/22/41/-16 V converter rails; actual 5 V regulator retained.',
+    assumptions=['Ideal 12 V converter input and R5-scaled 22/41/-16 V outputs; actual 5 V regulator retained.',
         'Periodic repetition of a captured static field initializes the circuit; no cold thermal timeline.',
         'Unmeasured yoke geometry and tube capacitance/leakage. The selected yoke profile declares whether R/L and field are jointly derived or independent.',
         'Finite 1 Gohm DC leakage at isolated C19 midpoint and horizontal yoke; not a source component.',
@@ -293,6 +310,11 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     metadata=dict(candidate=meta,thermal=thermal,period_s=period,source_kind=source_kind,
         simulated_fields=fields,retained_fields=4,assumptions=assumptions,
         yoke=yoke,initial_voltage_guesses=initial_voltages,initialization='DC operating point with optional voltage guesses; not a periodic-state checkpoint',
+        r5_equivalent=dict(source_ids=['012-6931:R5','012-6931:R6','012-6931:R7'],
+            source_pdf_page=10,position=p['width_r5_position'],rail_scale=rail_scale,
+            output_rails_v={'p41':41*rail_scale,'p22':22*rail_scale,'n16':-16*rail_scale},
+            unchanged_input_rail_v={'p12':12},
+            rule='(2400 + 1000*0.63)/(2400 + 1000*position)'),
         max_step_s=max_step_s,reltol=reltol,linear_solver=linear_solver,abstol=abstol,vntol=1e-6,parameters=p,assembly_bounds=ASSEMBLY_BOUNDS)
     import collection
     metadata['collection']=dict(profile=collection.PROFILE,feedback_enabled=collection_report is not None,

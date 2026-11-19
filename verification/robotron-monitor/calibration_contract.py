@@ -49,6 +49,7 @@ TRIM_PARAMETERS={
     'dark_raster_r28':'horizontal_brightness_fraction',
     'max_beam_r4_0126921':'contrast_trim',
     'horizontal_linearity_l3':'horizontal_linearity_l',
+    'picture_width_r5':'width_r5_position',
     'height_r35':'height_trim',
     'linearity_r59':'linearity_r59',
     'linearity_r60':'linearity_r60',
@@ -117,6 +118,7 @@ def _validate_trim_record(trims):
 def _validate_trim_bindings(trims, parameters, deck=None):
     """Reject recorded positions that were not applied to the connected deck."""
     bounds={name:(values[1],values[2]) for name,values in steady_supply.signal_path.BOUNDS.items()}
+    bounds.update({name:(values[1],values[2]) for name,values in steady_supply.ASSEMBLY_BOUNDS.items()})
     for profile_name in ('horizontal-oscillator','vertical-output','regulator5'):
         profile=reference.read_profile(steady_supply.ROOT/'profiles'/('k7222-11-'+profile_name+'.json'))
         bounds.update({name:(entry['minimum'],entry['maximum'])
