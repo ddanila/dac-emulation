@@ -1729,9 +1729,25 @@ matches all 20 transcribed transistor, diode and R48 terminals, including all
 six output-pair terminals and three diode directions. The authored model
 aliases have the same NPN/PNP assignment. A regression check reverses V20 and
 confirms that the comparison fails. This closes these local pin and polarity
-comparisons only. Driver collector-feed and emitter resistors, A3's other
-pins, feedback, the remaining page-10 connections and the connected-stage
-function check remain in A1. The A2 parameter and stress checks remain open.
+comparisons only. At this checkpoint, driver collector-feed and emitter
+resistors, A3's other pins, feedback, the remaining page-10 connections and
+the connected-stage function check remained in A1. The A2 parameter and stress
+checks remain open.
+
+The subsequent [A3 source-side read](reference/k7222-11/page10-a3-source-netlist.json)
+records all eight active physical amplifier pins, C26/R54's series input
+compensation path, C27's output compensation path and R48's amplifier end.
+Its 300 and 600 dpi crops agree on the physical pin functions; the KiCad
+functional symbol renumbers physical 3, 4, 5, 6, 9, 10, 11, 12 as model pins
+1 through 8. A [fresh export comparison](reference/k7222-11/page10-a3-comparison.json)
+matches all 15 scoped terminals, and a reversed R54 compensation connection
+fails the comparison. This closes the local A3 pin and compensation connection
+check. It does not establish P09A's electrical identity or qualify the
+`LM709_FAMILY` substitute: the [isolated DC follower check](reference/k7222-11/lm709-dc-follower-check.json)
+produces 12.54258 V at the output for a +1 V input under ±15 V rails and a
+2 kΩ load, while −1 V and 0 V inputs track. The remaining
+page-10 feedback and supply paths, connected-stage function, and A2 model
+qualification still need work.
 
 ### A3: loaded vertical-stage waveform diagnostic
 
