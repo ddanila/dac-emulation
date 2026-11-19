@@ -369,10 +369,10 @@ comparisons require a settled, complete field after source connectivity and
 polarity review.
 Manual PDF page 19 identifies T3's high-voltage winding terminals as 1 and
 16. On source schematic page 4, V21 appears between X1:1 and the X1:2 EHT
-output, whereas the current unverified winding graph places `X1_2` in its
-`upper_taps` magnetic group and the KiCad transcription connects an external
-V21 model to `X1_16`. This is a specific A1 connector, diode and return-path
-question, not a corrected topology: the scan does not establish every winding
+output, whereas the earlier unverified winding graph placed `X1_2` in its
+`upper_taps` magnetic group and the KiCad transcription connected an external
+V21 model to `X1_16`. This identified a specific A1 connector, diode and
+return-path question; the scan does not establish every winding
 connection or the physical polarity.
 
 An [independent ÜHA78 repair account](https://www.sax.de/~zander/zubehoer/k7222/uha78rep.pdf)
@@ -409,7 +409,26 @@ in that original startup window. The recovered EHT confirms that the prior
 zero-EHT result was an open-return artifact. Neither startup run meets the
 11–12 kV target or establishes periodic operation, and this hypothesized
 `X1_3` connection is not a reviewed source correction. The source review must
-still resolve the T3 pin map and diode direction before a candidate is frozen.
+still resolve the remaining T3 pin map and winding polarity before a candidate is frozen.
+
+The source-supported terminal correction is now in the live ideal-rail model.
+`reference/k7222-11/t3-hv-terminal-read.json` records the source PDF hashes,
+two differently cropped/resolved page-4 image hashes, the independent manual
+page-19 reading, and the three settled HV-path edges.
+Manual page 19 identifies the HV winding as X1:1–X1:16; independent views of
+schematic page 4 (the 600 dpi page and a terminal crop) put V21's anode at
+X1:1 and its cathode at X1:2, the EHT output. The magnetic graph now excludes
+X1:2. The external V21 model is connected from X1:1 to EHT, and X1:16 is the
+other HV winding terminal. The magnetic wrapper has 19 ports and 14 sections;
+both bounded parameter sets and the exported KiCad sheet agree with that
+decomposition. The old 20-port startup traces above remain historical
+diagnostics and must not be compared as if they used the corrected topology.
+
+To keep the remaining upper-tap group connected, the candidate ties X1:3 to
+the X2:3 `h_upper2` node. This is the earlier startup-tested return hypothesis,
+not a confirmed source read. The rest of page 4 still needs an independent
+pin-to-pin transcription; winding continuity and relative polarity remain
+unverified, and the A1 page-4 check and A5 design point remain open.
 
 The original incomplete run's partial-trace summary can be regenerated with:
 

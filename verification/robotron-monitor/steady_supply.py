@@ -28,7 +28,7 @@ import sync_lock
 ROOT = Path(__file__).resolve().parent
 OUTPUT_CONTRACTS = dict(HORIZONTAL_CHOKE=2, HORIZONTAL_LINEARITY=2,
     HORIZONTAL_COMPENSATION=2, HORIZONTAL_BRIGHTNESS=3, HORIZONTAL_FOCUS=3,
-    T3_CANDIDATE=20)
+    T3_CANDIDATE=19)
 PROBES = ('v(eht)', 'v(g2)', 'v(g4)', 'v(cathode)', 'i(Lhorizontal)',
           'i(Lvertical)', '@b.xcrt.bbeam[i]', 'v(p10_7)', 'i(v.xcrt.vheater)',
           'v(h_hot)', 'v(h_feedback)', 'v(vertical_trigger)', 'v(vertical_pulse)',
@@ -224,6 +224,7 @@ def assemble(output, *, yoke_path=None):
                  'reference/k7222-11/service-instrument.json',
                  'reference/1715w/output.json',
                  'reference/k7222-11/t3-winding-hypothesis.json',
+                 'reference/k7222-11/t3-hv-terminal-read.json',
                  'reference/k7222-11/t3-initial-parameters.json',
                  'reference/k7222-11/horizontal-output-transcription.json',
                  'reference/k7222-11/assembly.json',
