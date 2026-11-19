@@ -1,0 +1,84 @@
+{
+  "format": "dac-monitor-t3-hv-ratio-sweep-v1",
+  "qualification": "isolated conditional A5 mismatch diagnostic; no loaded EHT, source-validated winding graph or T3 parameter freeze",
+  "graph_sha256": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+  "parameters_sha256": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+  "design_point_sha256": "b43c7ee3d2980b70294409b6f350dc44c0392b23cb7c591c092c0ce2de0cce20",
+  "assumed_drive_total_turns": 64,
+  "conditional_ratio_from_design_point": {
+    "minimum": 28.237066663792028,
+    "maximum": 35.938084844826214,
+    "nominal_at_11500v_and_65v_supply": 31.79138274734627
+  },
+  "sample_window_s": [
+    5e-06,
+    1.5e-05
+  ],
+  "cases": {
+    "current": {
+      "turns": 1000,
+      "ideal_open_circuit_ratio": 15.625,
+      "isolated_window_mean_ratio": 14.620695124155844,
+      "isolated_window_min_ratio": 7.11729668,
+      "isolated_window_max_ratio": 22.9929249,
+      "representative_polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      }
+    },
+    "conditional_lower": {
+      "turns": 1808,
+      "ideal_open_circuit_ratio": 28.25,
+      "isolated_window_mean_ratio": 27.64876917792539,
+      "isolated_window_min_ratio": 9.53333233,
+      "isolated_window_max_ratio": 44.5546292,
+      "representative_polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      }
+    },
+    "conditional_nominal": {
+      "turns": 2035,
+      "ideal_open_circuit_ratio": 31.796875,
+      "isolated_window_mean_ratio": 29.969631587810028,
+      "isolated_window_min_ratio": 10.9169183,
+      "isolated_window_max_ratio": 49.9165337,
+      "representative_polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      }
+    },
+    "conditional_upper": {
+      "turns": 2300,
+      "ideal_open_circuit_ratio": 35.9375,
+      "isolated_window_mean_ratio": 34.97578220337703,
+      "isolated_window_min_ratio": 12.652717,
+      "isolated_window_max_ratio": 56.0344821,
+      "representative_polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      }
+    }
+  },
+  "pulse_setup": "1 V, 16 us pulse across X2:7 to X2:4; each other magnetic terminal shunted by 1 Gohm; isolated HV voltage sampled over 5-15 us",
+  "finding": "The active 1000/64-turn ideal ratio is below the conditional 28.2-35.9 EHT ratio; the candidate turns sweep only explores that conditional ideal scale.",
+  "open_checks": [
+    "The 64-turn drive winding is an unmeasured hypothesis",
+    "The 60-70 V boost premise, loaded collector pulse and rectified EHT have not been verified",
+    "The X1:3-to-X2:3 return and other T3 tap continuities are unverified",
+    "Open-circuit pulse ratios with 1 Gohm shunts do not establish loaded monitor high voltage"
+  ],
+  "passed": true
+}

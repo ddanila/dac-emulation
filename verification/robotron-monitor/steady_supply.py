@@ -242,6 +242,7 @@ def assemble(output, *, yoke_path=None):
                  'reference/k7222-11/t3-winding-hypothesis.json',
                  'reference/k7222-11/t3-hv-terminal-read.json',
                  'reference/k7222-11/t3-initial-parameters.json',
+                 'reference/k7222-11/t3-hv-ratio-sweep.json',
                  'reference/k7222-11/horizontal-output-transcription.json',
                  'reference/k7222-11/assembly.json',
                  'reference/k7222-11/page18-interconnect-transcription.json',
@@ -265,6 +266,7 @@ def assemble(output, *, yoke_path=None):
                  'page4_l1_compare.py','horizontal_l1_design.py',
                  'horizontal_l3_design.py',
                  'horizontal_l4_design.py',
+                 't3_hv_ratio_sweep.py',
                  'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py','yoke_geometry.py',
                  'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py','collection.py','beam_feedback.py','energy_ledger.py','energy_validation.py',
                  'service_score.py','calibration_contract.py','calibration_measurements.py','grid_geometry.py','phase_a_gates.py'):

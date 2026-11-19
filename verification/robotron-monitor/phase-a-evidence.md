@@ -2129,3 +2129,22 @@ electrical values remain unknown. The stock-matched but bypassed L4:3
 inherits the provisional bounds without a measured branch response.
 The A2 register now covers 63/64 frame-path instances, leaving T3;
 A6 has 201 partial entries. A1, A3, A5 and A6 remain open.
+
+### A5: T3 HV ratio mismatch under the current tap hypothesis (2026-11-20)
+
+The [isolated T3 ratio sweep](reference/k7222-11/t3-hv-ratio-sweep.json)
+compares the active 1000-turn HV section with the existing conditional
+[design point](reference/k7222-11/design-point.json). The unmeasured drive
+sections total 64 turns, giving an ideal 15.625 HV/drive ratio. This is
+below the 28.2–35.9 ratio implied by the candidate 60–70 V boost pulse
+and the manual's 11–12 kV EHT target. If the 64-turn scale and boost
+premise both hold, an ideal-ratio candidate has 1808–2300 HV turns,
+with 2035 at the nominal point. The isolated 1 V, 16 µs pulse also
+shows the current model's mean HV voltage from 5–15 µs remains below
+the conditional target ratio (14.62 versus at least 28.2). The 2035-turn
+candidate gives a 29.97 mean ratio versus its 31.80 ideal ratio; neither
+result predicts a loaded rectified EHT.
+The existing 80 ns sign test is still useful for polarity, but it is too
+early to infer a turns ratio from its amplitude. The T3 graph, actual
+collector pulse and loaded rectifier path remain unresolved, so the
+active 1000-turn hypothesis is retained pending A1/A5 work.
