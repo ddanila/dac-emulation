@@ -762,3 +762,25 @@ A 12 mm assumed neck radius can reach the target, but would overlap the
 current winding's 11.5 mm inner radius. Tube clearance and yoke geometry must
 be revised together, with a bounded class-typical source, before the peak
 yoke current can be frozen.
+
+### First agent source decisions (2026-11-19)
+
+`reference/k7222-11/source-review-decisions.json` records 19 A1 readings
+against the hashed `older.pdf` and inventory entries. Each decision has two
+image hashes from different crops or resolutions and an explicit argument.
+Direct reads of parts-list page 6 confirm C11 as 0.33 µF/20% and C18 as
+10 µF/20%; page 8 confirms T1's `Spule VST` identity and stock number; page 14
+confirms R26 as 130 Ω/2%. The R26 stock-number cell appears malformed, so the
+decision claims only its electrical value. Page 15 confirms the printed
+identities of eleven frame-path `1 AE 15` diodes, V3 and V15 zeners, and V5/V11
+transistors. The handwritten alternative over the V5/V11 row is not promoted
+to the printed type. None of these identity decisions supplies the A2 device
+parameters. The V22 parts-list/schematic conflict remains separate.
+
+A fresh audit and `phase_a_review.evaluate` accept all 19 decisions: 227 entries
+remain machine-confirmed, seven frame-path parts and all six schematic pages
+remain open. The seven are `012-6921:R41`, `V18`, `V21`, `T3`, and
+`012-6931:V27`, `V28`, `V4`. Seven converter-only entries remain outside the
+ideal-rail A1 gate. The source image paths in the decision file are local
+derivatives under ignored `build/`; their SHA-256 values and the source PDF
+hash identify the inspected evidence. The gate still fails, as it should.

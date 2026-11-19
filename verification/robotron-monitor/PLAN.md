@@ -411,8 +411,9 @@ documented, committed and pushed" cannot yet be marked complete. The immediate
 blocker is an unfinished source-to-model chain: the frame-path connectivity has
 not received its independent schematic netlist check (A1), so the T3 winding
 connections and rectifier paths needed to finish the design point (A5) remain
-provisional. The saved audit still has 26 open frame-path part entries and six
-open schematic pages; seven converter-only entries are outside the A1 gate.
+provisional. The saved audit flags 26 frame-path part entries; 19 now have
+agent readings, leaving seven open parts and six open schematic pages. Seven
+converter-only entries are outside the A1 gate.
 
 Other required close-out work is also missing. There is no complete bounded
 device-model register for the frame-path identity-only parts (A2), the waveform
