@@ -407,8 +407,16 @@ Phase C (speed) waits for B8.
 ## Phase A goal completion blocker (2026-11-19)
 
 The goal "Phase A of the PLAN is fully implemented; intermediate results
-documented, committed and pushed" cannot yet be marked complete. The decisive
-technical blocker is the unverified T3 winding topology. Manual page 19 names
+documented, committed and pushed" is blocked at its completion check: A1 has
+no independent pin-to-pin netlist for the remaining frame-path sheets, and
+`012-6921:T3` is still the open frame-path part entry. Consequently the T3
+winding graph cannot be accepted as source-verified, and A5 cannot freeze its
+winding ratios, polarity, candidate list or design point. A2, A3 and A6 also
+have unfinished acceptance criteria described below. The committed partial
+results are evidence of progress, not evidence that Phase A is complete.
+
+The decisive technical uncertainty within A1 is the T3 winding topology.
+Manual page 19 names
 X1:1 and X1:16 as the high-voltage winding terminals; schematic page 4 puts
 V21 between X1:1 and the X1:2 EHT output. The model now uses those terminal
 roles, with X1:2 outside the magnetic graph. The provisional X1:3-to-X2:3
@@ -452,10 +460,14 @@ but the inner tube clearance and yoke extent remain unverified. These are
 recorded in `phase-a-evidence.md`; the connected grid startup traces do not
 establish a sustained-state solution.
 
-This is a completion blocker, not an external dependency or a reason to pause
-implementation. Finish the A1 source review, then verify A2–A6 and commit and
-push the resulting evidence. The ground rule and fallbacks above still require
-the work to continue.
+To clear the completion blocker, commit an independent pin-to-pin transcription
+of schematic pages 3–4, 9–10, 16 and 18, compare it with the KiCad exports,
+resolve the T3 terminal and return-path differences from source evidence, and
+close the `012-6921:T3` audit entry. Then complete and verify the A2 device
+models, A3 probe/stimulus scoring, A5 design point, and A6 bounded register
+against their done conditions above. This requires more implementation and
+source review, not an external dependency or a human measurement; the ground
+rule and fallbacks above still apply.
 
 ## What the result may be called
 
