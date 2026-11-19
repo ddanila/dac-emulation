@@ -1,0 +1,68 @@
+{
+  "format": "dac-monitor-page18-vertical-cable-comparison-v1",
+  "qualification": "one six-wire cable compared pin-to-pin; other page-18 paths remain open",
+  "source_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "sheet_sha256": {
+    "012-6921:X4": "4384581be9d37dacd92f2dc9241813d55e4d7185fbae569a350f29949106a8d5",
+    "012-6931:X3": "92609193a43f2bff82bd7f8ab0d700922ad206ece4920464b13bb5c8a7c8b507"
+  },
+  "cable_part": "1.11.017308.0",
+  "connector_pins_checked": 12,
+  "cable_pairs_checked": 6,
+  "pin_pairs": [
+    {
+      "from_pin": "1",
+      "to_pin": "1",
+      "source_signal": "00",
+      "expected_model_net": "0",
+      "main_board_net": "0",
+      "vertical_board_net": "0"
+    },
+    {
+      "from_pin": "2",
+      "to_pin": "2",
+      "source_signal": "00",
+      "expected_model_net": "0",
+      "main_board_net": "0",
+      "vertical_board_net": "0"
+    },
+    {
+      "from_pin": "3",
+      "to_pin": "3",
+      "source_signal": "5P",
+      "expected_model_net": "p5",
+      "main_board_net": "p5",
+      "vertical_board_net": "p5"
+    },
+    {
+      "from_pin": "4",
+      "to_pin": "4",
+      "source_signal": "12P",
+      "expected_model_net": "p12",
+      "main_board_net": "p12",
+      "vertical_board_net": "p12"
+    },
+    {
+      "from_pin": "5",
+      "to_pin": "5",
+      "source_signal": "22P",
+      "expected_model_net": "p22",
+      "main_board_net": "p22",
+      "vertical_board_net": "p22"
+    },
+    {
+      "from_pin": "6",
+      "to_pin": "6",
+      "source_signal": "SYN",
+      "expected_model_net": "sync_gate",
+      "main_board_net": "sync_gate",
+      "vertical_board_net": "sync_gate"
+    }
+  ],
+  "extra_kicad_pins": {
+    "012-6921:X4": [],
+    "012-6931:X3": []
+  },
+  "passed": true
+}

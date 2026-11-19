@@ -89,29 +89,45 @@ def source_connectivity(path, inventory, board, subcircuits=None):
     tree = ET.parse(path).getroot()
     source_ids = {}
     audit_refs = {}
+    audit_expected = {
+        '012-6891': {'J1': '012-6891:X1', 'J2': '012-6891:X2', 'J3': '012-6891:X3'},
+        '012-6921': {'J940': '012-6921:X4'},
+        '012-6931': {'J931': '012-6931:X3'},
+    }
     for c in tree.findall('./components/comp'):
         fields = {f.attrib['name']: f.text for f in c.findall('./fields/field')}
         ref=c.attrib['ref'];source_ids[ref]=fields.get('SourceId')
         audit_only=fields.get('AuditOnly')
         if audit_only is not None:
-            expected={'J1':'012-6891:X1','J2':'012-6891:X2','J3':'012-6891:X3'}
-            if (boards!=['012-6891'] or audit_only!='source-connector'
-                    or expected.get(ref)!=source_ids[ref]):
+            expected = audit_expected.get(boards[0], {}) if len(boards) == 1 else {}
+            if audit_only != 'source-connector' or expected.get(ref) != source_ids[ref]:
                 raise ValueError('unrecognized audit-only schematic symbol')
             audit_refs[ref]=source_ids[ref].split(':')[-1]
     if audit_refs:
-        if set(audit_refs)!={'J1','J2','J3'}:
+        if boards == ['012-6891'] and set(audit_refs) != set(audit_expected['012-6891']):
             raise ValueError('neck source connector symbols are incomplete')
+        if boards in (['012-6921'], ['012-6931']) and set(audit_refs) != set(audit_expected[boards[0]]):
+            raise ValueError('page-18 source connector symbol is incomplete')
         physical={name:{} for name in audit_refs.values()}
         for net in tree.findall('./nets/net'):
             name=net.attrib['name'].removeprefix('/')
             for node in net.findall('node'):
                 ref=node.attrib['ref']
                 if ref in audit_refs:
-                    physical[audit_refs[ref]][node.attrib['pin']]=name
-        expected=json.loads((ROOT/'reference/k7222-11/assembly.json').read_text())['neck_connectors']
+                    connector = physical[audit_refs[ref]]
+                    if node.attrib['pin'] in connector:
+                        raise ValueError('duplicate source connector pin')
+                    connector[node.attrib['pin']] = name
+        if boards == ['012-6891']:
+            expected=json.loads((ROOT/'reference/k7222-11/assembly.json').read_text())['neck_connectors']
+        else:
+            source=json.loads((ROOT/'reference/k7222-11/page18-interconnect-transcription.json').read_text())
+            names={'00':'0','5P':'p5','12P':'p12','22P':'p22','SYN':'sync_gate'}
+            expected={connector:{pin:names[label] for pin,label in source['connectors'][source_id].items()}
+                      for source_id in audit_expected[boards[0]].values()
+                      for connector in [source_id.split(':')[-1]]}
         if physical!=expected:
-            raise ValueError('neck source connector pins differ from assembly map')
+            raise ValueError('source connector pins differ from source map')
     components = lab.connectivity(path,subcircuits,ignored_refs=audit_refs)
     seen = set()
     for c in components:

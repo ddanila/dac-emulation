@@ -410,9 +410,9 @@ Phase C (speed) waits for B8.
 independent source-to-KiCad pin comparison has not established T3's winding
 connections and polarity. Its X1:3-to-X2:3 return and other taps remain
 provisional, so A5 cannot freeze the winding graph, ratios, candidate list or
-design point as source-verified. The latest page-18 check compares 18 semantic
-cable pairs, but it does not verify physical connector pins; six pairs still
-have model-scope gaps. The source-first page-9 checks cover only the 16-pin
+design point as source-verified. The page-18 check compares 18 semantic cable
+pairs, with six model-scope gaps; physical pins are verified for only one of
+the four board cables. The source-first page-9 checks cover only the 16-pin
 5.1 V reference branch and eight endpoints of the four-part sync input.
 Other A1 sheet checks, A2 device-model coverage, A3 waveform/scorer validation
 and A6 bounded values are also unfinished. The partial results below are
@@ -447,9 +447,10 @@ not join the 0 V return bus. The remaining page-9 circuit and page 10 still
 lack a complete second netlist.
 The page-18 source transcription has an 18-pair semantic comparison against
 the ideal-rail KiCad assembly. Twelve signals occur on both corresponding
-board exports; six have model-scope gaps. Main-board and vertical-board sheets
-still lack physical connector pins, and panel/yoke wiring remains unchecked;
-this comparison does not close the pin-to-pin A1 check.
+board exports; six have model-scope gaps. One six-wire cable, main-board X4 to
+vertical-board X3, now has all 12 physical connector pins compared with fresh
+KiCad exports. The other three cables and panel/yoke wiring remain unchecked
+at pin level; these partial comparisons do not close the A1 page-18 check.
 An independent page-16 neck-board read now matches all 39 component pins and
 six diode directions in a fresh KiCad export. Three audit-only connector
 symbols now expose all 17 physical pins in that export, and every pin matches
