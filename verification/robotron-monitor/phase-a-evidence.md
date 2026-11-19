@@ -1289,8 +1289,8 @@ instances in the source inventory with the current ideal-rail assembly and
 device-model register. The saved
 `reference/k7222-11/device-model-coverage.json` accounts for 64 frame-path
 instances in 30 printed-type families; 13 instances are converter-only under
-the existing A1 scope rule. Forty-five frame-path instances have provisional
-A2 register coverage, 15 have active model names but no register entry, and four
+the existing A1 scope rule. Forty-seven frame-path instances have provisional
+A2 register coverage, 13 have active model names but no register entry, and four
 appear in the source inventory but not in the current assembled model:
 012-6921 V19/V20 and 012-6931 L1/L2. Assembly presence and a model name do
 not establish sourced parameter bounds.
@@ -1311,6 +1311,22 @@ frame-path device and validate the live model response. The page-4 T3 scan
 still does not independently establish the proposed X1:3-to-X2:3 winding
 return; its A1
 and A5 status is unchanged.
+
+The printed input-board A1 is T200. A separate Robotron PC1715 service-manual
+comparison table maps T200/D2000 to the SN74H00 quad two-input NAND family.
+The [Texas Instruments 1985 TTL Data Book](https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf)
+(printed pages 3-3 and 3-6) provides class limits for input and output levels,
+input and supply currents, and loaded propagation delay. The previous live
+behavioral NAND had zero supply current even while sourcing an output load.
+The revised [live model](circuits/signal-path-models.cir) draws explicit
+per-gate quiescent current and sources output current from the 5 V rail. The
+[isolated check](reference/k7222-11/t200-class-check.json) passes all ten
+nominal class and rail-accounting checks, including 3.91 V at a 0.5 mA high-output
+load, 0.350 V at a 20 mA low-output load, and 3.91/4.93 ns rising/falling
+propagation at 280 Ω/25 pF. Its 13 live gate parameters now have provisional
+bounds in the A2 and A6 registers. This is a functional class model, not a
+factory T200 curve; joint bounds and connected input/output loading remain
+unqualified, so A2 and A6 remain open.
 
 ### Vertical 1AE15 class and period IC comparison (2026-11-19)
 

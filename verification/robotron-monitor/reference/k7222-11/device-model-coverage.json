@@ -2,12 +2,12 @@
   "format": "dac-monitor-a2-device-coverage-v1",
   "qualification": "A2 gap inventory; registered rows are provisional, not completed model qualification",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
-  "register_sha256": "484efc5c01dfd3c13dbcfee9676381e173c5be0352c43d98b613a8b8a0c2e13a",
+  "register_sha256": "90e0c6d4c42bdb820a2ac272a5e94336f670a074128e1b4e285c2cff69760c19",
   "assembly_source_sha256": "c46fe3c3c443ccad7fe7a3978a4329b6ab5ba3768f9b76b368273b14808ab843",
   "inventory_device_instances": 77,
   "frame_path_device_instances": 64,
   "assembled_instances": 60,
-  "registered_instances": 46,
+  "registered_instances": 47,
   "absent_from_assembly": [
     "012-6921:V19",
     "012-6921:V20",
@@ -15,7 +15,6 @@
     "012-6931:L2"
   ],
   "unregistered_assembled": [
-    "012-6921:A1",
     "012-6921:L1",
     "012-6921:L3",
     "012-6921:L4:1",
@@ -353,7 +352,9 @@
       "active_models": [
         "T200_BOUND"
       ],
-      "registered_ids": [],
+      "registered_ids": [
+        "012-6921:A1"
+      ],
       "absent_from_assembly": []
     },
     {
@@ -621,8 +622,22 @@
       "printed_type": "T200",
       "assembled_reference": "X201",
       "active_model": "T200_BOUND",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "T200_BOUND",
+      "registered_parameter_keys": [
+        "gate_high_headroom",
+        "gate_input_c",
+        "gate_input_high_a",
+        "gate_input_low_a",
+        "gate_iq_high",
+        "gate_iq_low",
+        "gate_low_v",
+        "gate_r_high",
+        "gate_r_low",
+        "gate_smooth_current",
+        "gate_span",
+        "gate_tau",
+        "gate_threshold"
+      ]
     },
     {
       "id": "012-6921:L1",

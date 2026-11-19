@@ -3,6 +3,8 @@
   "status": "partial; contains currently cited bounded candidates, not a completed A6 freeze",
   "scope": "K7222.11 ideal-rail frame path and service comparison",
   "sources": {
+    "ti_sn74h00_1985": {"url":"https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf","edition":"Texas Instruments The TTL Data Book, 1985, printed pages 3-3 and 3-6","use":"SN74H00 NAND input/output, current and delay class limits; not a production T200 model fit."},
+    "robotron_pc1715_ic_crossref": {"file": "reference/k7222-11/pc1715-ic-crossref.json", "use": "Robotron PC1715 service-manual T200/D2000 to SN74H00 comparison table; class cross-reference only."},
     "ti_lm709c": {"url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf", "revision": "National Semiconductor / TI SNOS659A", "pages": [2, 3, 4], "use": "LM709C electrical class limits for a labelled P09A functional equivalent; no P09A identity or internal-parameter transfer is claimed."},
     "ti_ua723": {"url": "https://www.ti.com/lit/ds/symlink/ua723.pdf", "revision": "SLVS057D, July 1999", "pages": [1, 3], "use": "uA723C family reference voltage, standby current and 150 mA output capability; not an MAA723 internal parameter specification."},
     "ti_lm723": {"url": "https://www.ti.com/lit/ds/symlink/lm723.pdf", "revision": "SNVS765C, April 2013", "pages": [2, 3, 4], "use": "LM723C 1–50 mA load regulation and LM723 1.7 mA typical standby for comparable 723-family behavioral bounds."},
@@ -95,6 +97,19 @@
     }
   },
   "entries": [
+    {"id":"012-6921:A1.gate_threshold","stage":"video/sync-input-logic","value":1.4,"bounds":[0.8,2],"unit":"V","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_threshold","basis":"logic threshold proxy between VIL <=0.8 V and VIH >=2 V; no switching threshold specified","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_span","stage":"video/sync-input-logic","value":0.08,"bounds":[0.04,0.2],"unit":"V","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_span","basis":"smooth NAND input transition proxy; numerical law, not an SN74H00 transfer-curve measurement","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_tau","stage":"video/sync-input-logic","value":5e-9,"bounds":[1e-9,3e-8],"unit":"s","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_tau","basis":"RC delay proxy; nominal fixture checks 10 ns maximum propagation at 280 ohm/25 pF, while full bounds are unqualified","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_input_c","stage":"video/sync-input-logic","value":4e-12,"bounds":[1e-12,1.5e-11],"unit":"F","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_input_c","basis":"input capacitance proxy; 1985 SN74H00 limits cited here do not specify this capacitance","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_input_high_a","stage":"video/sync-input-logic","value":0.00002,"bounds":[0,0.00005],"unit":"A","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_input_high_a","basis":"high-input current law bounded by SN74H00 IIH <=50 uA at VI=2.4 V","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_input_low_a","stage":"video/sync-input-logic","value":-0.0002,"bounds":[-0.002,-0.00005],"unit":"A","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_input_low_a","basis":"low-input source-current law bounded by SN74H00 IIL >=-2 mA at VI=0.4 V","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_low_v","stage":"video/sync-input-logic","value":0.15,"bounds":[0.05,0.2],"unit":"V","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_low_v","basis":"unloaded low-output target; with gate_r_low nominal gives VOL <=0.4 V at IOL=20 mA","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_high_headroom","stage":"video/sync-input-logic","value":0.8,"bounds":[0.5,2.2],"unit":"V","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_high_headroom","basis":"unloaded high-output headroom; with gate_r_high nominal gives VOH >=2.4 V at IOH=-0.5 mA","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_r_low","stage":"video/sync-input-logic","value":10,"bounds":[2,10],"unit":"ohm","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_r_low","basis":"low-output resistance proxy constrained with gate_low_v by 20 mA VOL comparison","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_r_high","stage":"video/sync-input-logic","value":80,"bounds":[20,150],"unit":"ohm","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_r_high","basis":"high-output resistance proxy constrained with gate_high_headroom by -0.5 mA VOH comparison","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_smooth_current","stage":"video/sync-input-logic","value":0.000001,"bounds":[1e-8,0.00001],"unit":"A","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_smooth_current","basis":"numerical source/sink split smoothing; no physical device-current claim","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_iq_high","stage":"video/sync-input-logic","value":0.0025,"bounds":[0.001,0.0042],"unit":"A","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_iq_high","basis":"per-gate high-output quiescent current proxy; four gates nominal 10 mA versus ICCH 16.8 mA maximum","qualification":"provisional-model-proxy"},
+    {"id":"012-6921:A1.gate_iq_low","stage":"video/sync-input-logic","value":0.0065,"bounds":[0.003,0.01],"unit":"A","sources":["robotron_pc1715_ic_crossref","ti_sn74h00_1985"],"model_ref":"signal_path.py#BOUNDS.gate_iq_low","basis":"per-gate low-output quiescent current proxy; four gates nominal 26 mA versus ICCL 40 mA maximum","qualification":"provisional-model-proxy"},
     {
       "id": "1AD50-signal-clamp-diode.IS",
       "stage": "neck-video/horizontal-input",
@@ -2086,7 +2101,7 @@
     },
     {
       "file": "reference/k7222-11/device-model-register.json",
-      "reason": "sixteen individual provisional semiconductor and IC models and six horizontal diode instances still have incomplete qualification or joint bounds; fourteen 1AE15 and two KFY18 instances have bounded family entries, while other frame-path devices remain uncovered"
+      "reason": "seventeen individual provisional semiconductor and IC models and six horizontal diode instances still have incomplete qualification or joint bounds; fourteen 1AE15 and two KFY18 instances have bounded family entries, while other frame-path devices remain uncovered"
     }
   ],
   "use_for_sensitivity": "Only entries whose model_ref resolves to an active parameter and whose model response is validated may be swept as A6 class-typical bounds. Pending families are not qualified."

@@ -1,0 +1,141 @@
+{
+  "format": "dac-monitor-t200-class-check-v1",
+  "qualification": "isolated SN74H00-class test of live T200 functional model; cross-reference is type-family evidence, not a production T200 spread or native-stage qualification",
+  "sources": {
+    "robotron": "reference/k7222-11/pc1715-ic-crossref.json",
+    "ti": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf",
+    "ti_printed_pages": "3-3, 3-6"
+  },
+  "model_sha256": "3532cc2defe6e1bdbd83f5d728e61416f3384b313323e8aefacaf32ee2710b62",
+  "bounds_sha256": "609a21820e8271267f92cc97e7cd34a677d5548a0d03a0d010bbf2b08b78482f",
+  "dc_logic": {
+    "0,0": {
+      "input_a_v": 0,
+      "input_b_v": 0,
+      "supply_v": 5,
+      "output_v": 4.2,
+      "supply_current_a": 0.010002,
+      "input_a_current_a": -0.0002,
+      "input_a_pins_driven": 4
+    },
+    "0,4.5": {
+      "input_a_v": 0,
+      "input_b_v": 4.5,
+      "supply_v": 5,
+      "output_v": 4.2,
+      "supply_current_a": 0.010002,
+      "input_a_current_a": -0.0002,
+      "input_a_pins_driven": 4
+    },
+    "4.5,0": {
+      "input_a_v": 4.5,
+      "input_b_v": 0,
+      "supply_v": 5,
+      "output_v": 4.2,
+      "supply_current_a": 0.010002,
+      "input_a_current_a": 2e-05,
+      "input_a_pins_driven": 4
+    },
+    "4.5,4.5": {
+      "input_a_v": 4.5,
+      "input_b_v": 4.5,
+      "supply_v": 5,
+      "output_v": 0.15,
+      "supply_current_a": 0.026002,
+      "input_a_current_a": 2e-05,
+      "input_a_pins_driven": 4
+    }
+  },
+  "vil_limit": {
+    "input_a_v": 0.8,
+    "input_b_v": 4.5,
+    "supply_v": 4.75,
+    "output_v": 3.947899,
+    "supply_current_a": 0.0095104,
+    "input_a_current_a": -0.0001998784,
+    "input_a_pins_driven": 4
+  },
+  "vih_limit": {
+    "input_a_v": 2,
+    "input_b_v": 4.5,
+    "supply_v": 4.75,
+    "output_v": 0.1521006,
+    "supply_current_a": 0.0246936,
+    "input_a_current_a": 1.98784e-05,
+    "input_a_pins_driven": 4
+  },
+  "unloaded_high": {
+    "input_a_v": 0,
+    "input_b_v": 0,
+    "supply_v": 4.75,
+    "output_v": 3.95,
+    "supply_current_a": 0.009502,
+    "input_a_current_a": -0.0002,
+    "input_a_pins_driven": 4
+  },
+  "loaded_high": {
+    "input_a_v": 0,
+    "input_b_v": 0,
+    "supply_v": 4.75,
+    "output_v": 3.91,
+    "supply_current_a": 0.0100015,
+    "input_a_current_a": -0.0002,
+    "input_a_pins_driven": 4
+  },
+  "loaded_low": {
+    "input_a_v": 2.4,
+    "input_b_v": 2.4,
+    "supply_v": 4.75,
+    "output_v": 0.3500388,
+    "supply_current_a": 0.0447014,
+    "input_a_current_a": 1.9999175e-05,
+    "input_a_pins_driven": 4
+  },
+  "high_input_bias": {
+    "input_a_v": 2.4,
+    "input_b_v": 2.4,
+    "supply_v": 5,
+    "output_v": 0.1500302,
+    "supply_current_a": 0.0260019,
+    "input_a_current_a": 1.9999175e-05,
+    "input_a_pins_driven": 4
+  },
+  "low_input_bias": {
+    "input_a_v": 0.4,
+    "input_b_v": 0.4,
+    "supply_v": 5,
+    "output_v": 4.2,
+    "supply_current_a": 0.010002,
+    "input_a_current_a": -0.000199999175,
+    "input_a_pins_driven": 4
+  },
+  "switching_load": {
+    "resistance_ohm": 280,
+    "capacitance_f": 2.5e-11
+  },
+  "rising_output": {
+    "direction": "low-to-high output",
+    "input_crossing_s": 2.01e-08,
+    "output_crossing_s": 2.4014196714471572e-08,
+    "propagation_delay_s": 3.9141967144715705e-09
+  },
+  "falling_output": {
+    "direction": "high-to-low output",
+    "input_crossing_s": 2.01e-08,
+    "output_crossing_s": 2.502519363338532e-08,
+    "propagation_delay_s": 4.925193633385319e-09
+  },
+  "checks": {
+    "nand_truth": true,
+    "input_level_limits": true,
+    "high_output_load": true,
+    "low_output_load": true,
+    "high_input_current": true,
+    "low_input_current": true,
+    "supply_current_high": true,
+    "supply_current_low": true,
+    "output_current_from_supply": true,
+    "propagation_delay": true
+  },
+  "passed": true
+}
