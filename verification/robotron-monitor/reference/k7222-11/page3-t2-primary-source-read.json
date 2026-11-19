@@ -1,0 +1,21 @@
+{
+  "format": "dac-monitor-t2-primary-source-read-v1",
+  "qualification": "scoped page-3 primary-terminal read after model inspection; secondary and page-3/4 seam remain unverified",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 3,
+    "full_600_dpi_sha256": "60f0c5d16e278f2be9bae8bd93269b0d4ff6fd82fdb92eba1c223cb85bd8ac17",
+    "primary_600_dpi_crop_sha256": "a944e811de0f30ce85652849a889541cdb7ac47c3f58d388f83c355daf71e750"
+  },
+  "primary_edges": {
+    "T2:1": "R23 lower / C23 upper / T2 primary top",
+    "T2:4": "V13 collector / C24 lower / R33-C23 series return / T2 primary bottom"
+  },
+  "model_pin_nets": {"top": "h_drivetop", "collector": "h_drivecol"},
+  "open_checks": [
+    "T2 secondary terminal numbers, phase and page-3/4 seam connection need an independent source read.",
+    "The printed stock identity gives no primary inductance, turns ratio, winding resistance or coupling specification.",
+    "Connected V18 base loading and manual TP15 must be checked before treating the T2 model as qualified."
+  ]
+}

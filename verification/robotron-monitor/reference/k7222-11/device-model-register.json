@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; 58 of 64 frame-path instances have provisional register coverage, including conditional T1 and horizontal-feed L1 design checks; six assembled horizontal-board magnetics remain uncovered",
+  "status": "partial; 59 of 64 frame-path instances have provisional register coverage, including conditional T1, T2 primary and horizontal-feed L1 checks; five assembled horizontal-board magnetics remain uncovered",
   "sources": {
     "ti_sn74h00_1985": {"url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf", "edition": "Texas Instruments The TTL Data Book, 1985, printed pages 3-3 and 3-6", "use": "SN74H00 4x 2-input NAND class: 4.75-5.25 V supply, VIH >=2 V, VIL <=0.8 V, VOH >=2.4 V at -0.5 mA, VOL <=0.4 V at 20 mA, IIH <=50 uA, IIL >=-2 mA, ICCH <=16.8 mA, ICCL <=40 mA, and tPLH/tPHL <=10 ns at 280 ohm/25 pF. A Robotron table maps T200 to this family; not a T200 specimen test."},
     "ti_lm709c": {"url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf", "revision": "National Semiconductor / TI SNOS659A", "pages": [2, 3, 4], "use": "LM709C class comparator at +/-15 V: minimum 15 V/mV large-signal gain, +/-10 V minimum output swing into 2 kohm, 2.6 mA typical/6.6 mA maximum supply current, 300 nA typical/1.5 uA maximum bias, 50 kohm minimum/250 kohm typical input resistance, 150 ohm typical output resistance and 0.25 V/us typical slew. The K7222.11 printed P09A is not identified as LM709."},
@@ -77,12 +77,17 @@
     },
     "horizontal_t1_design": {
       "file": "reference/k7222-11/horizontal-t1-design.json",
-      "use": "Documented C16=100 nF +/-10% and 14.338-16.338 kHz generator range give a 0.989 mH ideal LC half-winding scale at 16 kHz. The source-connected autonomous stage with its provisional transistors requires about 1.45 mH per half for 15.89 kHz; winding resistance and shared T1/T2 coupling remain bounded candidates, not original measurements."
+      "use": "Documented C16=100 nF +/-10% and 14.338-16.338 kHz generator range give a 0.989 mH ideal LC half-winding scale at 16 kHz. The source-connected autonomous stage with its provisional transistors requires about 1.45 mH per half for 15.89 kHz; winding resistance and independent T1 coupling remain bounded candidates, not original measurements."
     },
     "horizontal_l1_design": {
       "file": "reference/k7222-11/horizontal-l1-design.json",
       "companion": "reference/k7222-11/page4-l1-source-read.json",
       "use": "Conditional R42/L1/C22 page-4 branch: documented R42=6.8 ohm and C22=220 uF with the native 16 kHz line give a 12 uH minimum for a filter corner below one fifth of line frequency and 0.68 ohm maximum winding resistance for <=10% extra DC drop relative to R42. The selected no-junction flyback crossing is functional, not visually settled."
+    },
+    "horizontal_t2_design": {
+      "file": "reference/k7222-11/horizontal-t2-design.json",
+      "companion": "reference/k7222-11/page3-t2-primary-source-read.json",
+      "use": "Documented R23=62 ohm and native 16 kHz line rate bound a provisional T2 primary inductance and series-resistance budget. The unloaded source-connected driver gives only 30.02 Vpp at TP15 versus the manual 45 Vpp +/-20%; this is a diagnostic mismatch, not an A3 score or qualified secondary model."
     },
     "philips_bd139_bd140": {
       "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1986_S04a_Philips_Low-Frequency_Power_Transistors_and_Hybrid_Modules.pdf",
@@ -789,6 +794,23 @@
   ],
   "devices": [
     {
+      "id": "012-6921:T2",
+      "printed_type": "1.11.017361.0/90",
+      "candidate_class": "two-winding horizontal driver transformer; only primary operating bounds are source-derived",
+      "identity_tier": "printed stock identity; primary operating bounds derived from R23 and line rate, with original magnetic data unknown",
+      "model": "HORIZONTAL_DRIVER",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "profile": "profiles/k7222-11-horizontal-oscillator.json",
+      "sources": ["horizontal_t2_design"],
+      "parameters": {
+        "LP": {"profile_key": "horizontal_driver_l", "nominal": 0.005, "bounds": [0.0031, 0.02], "unit": "H", "tier": "design-derived operating candidate", "basis": "At 16 kHz, primary reactance at least five times documented R23=62 ohm requires >=3.08 mH; the 5 mH nominal and 20 mH ceiling remain exploratory."},
+        "RP": {"profile_key": "horizontal_driver_r", "nominal": 2, "bounds": [0.1, 6.2], "unit": "ohm", "tier": "design-derived loss budget", "basis": "6.2 ohm maximum adds <=10% to the documented 62 ohm R23 series drop at equal primary current; original copper/core loss is unknown."}
+      },
+      "unqualified_active_parameters": ["horizontal_driver_ratio", "horizontal_secondary_r", "horizontal_driver_coupling"],
+      "model_response_report": "reference/k7222-11/horizontal-t2-design.json",
+      "remaining": ["The page-3/4 seam and T2 secondary terminal map/phase have no independent source comparison", "The 30.02 Vpp unloaded V13-collector swing misses TP15's 36-54 Vpp manual range; connected V18 loading and drive must be checked", "Turns ratio, secondary resistance, coupling, core loss, saturation and thermal limits lack qualified bounds"]
+    },
+    {
       "id": "012-6921:L1",
       "printed_type": "1.33.003830.0/01",
       "candidate_class": "series RL horizontal-feed choke between documented R42 and C22 in the conditional page-4 graph",
@@ -820,7 +842,7 @@
       "parameters": {
         "L_HALF": {"profile_key": "horizontal_tank_l", "nominal": 0.00145, "bounds": [0.0012, 0.0021], "unit": "H", "tier": "design-derived conditional", "basis": "C16=100 nF and 16 kHz give 0.989 mH ideal LC scale; the source-connected autonomous stage reaches 15.89 kHz at 1.45 mH with provisional loading. Bounds span documented C16 tolerance and unresolved network loading; not a measured T1 value."},
         "R_HALF": {"profile_key": "horizontal_tank_r", "nominal": 1, "bounds": [0.1, 5], "unit": "ohm", "tier": "design-derived operating budget", "basis": "At 16 kHz and 1.45 mH, half-winding reactance is 146 ohm. A 0.1-5 ohm series range gives an unloaded Q proxy of about 29-1458 and keeps the tested autonomous stage in the printed frequency range; original copper/core losses are unknown."},
-        "K": {"profile_key": "horizontal_coupling", "nominal": 0.995, "bounds": [0.95, 0.9999], "unit": "1", "tier": "class-typical provisional", "basis": "Strong coupling is needed for the phase-inverting center-tapped feedback function; this shared T1/T2 parameter has no original specification. Endpoint stage tests stay within the printed generator frequency range but do not isolate T1."}
+        "K": {"profile_key": "horizontal_tank_coupling", "nominal": 0.995, "bounds": [0.95, 0.9999], "unit": "1", "tier": "class-typical provisional", "basis": "Strong coupling is needed for the phase-inverting center-tapped feedback function; T1's independent coupling parameter has no original specification. Endpoint stage tests stay within the printed generator frequency range but do not identify the factory winding."}
       },
       "comparison_targets": {
         "autonomous_frequency_hz": {"range": [14338, 16338], "conditions": "manual page 17 generator range, native 2 kByte 16 kHz line mode; source-connected isolated oscillator, 3-5 ms late cycles"},

@@ -41,29 +41,37 @@
       "evidence": "design-derived",
       "rationale": "At 16 kHz and 1.45 mH, half-winding reactance is 146 ohm. A 0.1-5 ohm DC resistance budget gives an unloaded Q proxy of about 29-1458; the connected oscillator stage stays in the printed frequency range at the tested endpoints. Actual copper/core loss is unmeasured."
     },
-    "horizontal_coupling": {
+    "horizontal_tank_coupling": {
       "nominal": 0.995,
       "minimum": 0.95,
       "maximum": 0.9999,
       "unit": "1",
       "evidence": "assumed-bound",
-      "rationale": "Unmeasured magnetic coupling."
+      "rationale": "Unmeasured T1 half-winding coupling, independent of the separate T2 driver transformer."
+    },
+    "horizontal_driver_coupling": {
+      "nominal": 0.995,
+      "minimum": 0.95,
+      "maximum": 0.9999,
+      "unit": "1",
+      "evidence": "assumed-bound",
+      "rationale": "Unmeasured T2 primary-to-secondary coupling, independent of the separate T1 oscillator winding."
     },
     "horizontal_driver_l": {
       "nominal": 0.005,
-      "minimum": 0.001,
+      "minimum": 0.0031,
       "maximum": 0.02,
       "unit": "H",
-      "evidence": "assumed-bound",
-      "rationale": "Unmeasured T2 primary inductance."
+      "evidence": "design-derived",
+      "rationale": "At the documented 16 kHz line rate, primary reactance must exceed five times the documented R23=62 ohm feed resistance, giving L>=3.08 mH. The 3.1-20 mH range and 5 mH nominal are operating candidates, not original T2 measurements."
     },
     "horizontal_driver_r": {
       "nominal": 2,
       "minimum": 0.1,
-      "maximum": 10,
+      "maximum": 6.2,
       "unit": "ohm",
-      "evidence": "assumed-bound",
-      "rationale": "Unmeasured T2 primary resistance."
+      "evidence": "design-derived",
+      "rationale": "A 6.2 ohm upper bound adds at most 10% to documented R23=62 ohm series loss at equal primary current. Original T2 copper/core loss is unknown."
     },
     "horizontal_driver_ratio": {
       "nominal": 3,

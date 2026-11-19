@@ -2016,8 +2016,8 @@ printed generator range. The 1.45 mH starting value already used by the
 ideal-rail tune gives 15.890 kHz; a 0.5 µs output step changes the inferred
 period by less than 0.01%. At 1.4 and 1.8 mH, the stage gives 16.142 and
 14.478 kHz respectively. Its 0.1–5 Ω half-winding resistance endpoints give
-15.820–16.230 kHz. Coupling 0.95–0.9999 gives 15.438–15.957 kHz, but this
-last sweep changes T2 as well because the profile shares one coupling
+15.820–16.230 kHz. Coupling 0.95–0.9999 gives 15.438–15.957 kHz. The
+regenerated report changes T1's coupling alone; T2 now has an independent
 parameter. Those results support a **conditional** 1.45 mH nominal with
 1.2–2.1 mH exploratory bounds. They do not identify the factory winding or
 establish the R24 control range; near the nominal setting, R24 positions 0.1
@@ -2065,3 +2065,33 @@ The A2 register now covers 58/64 frame-path instances, leaving L3, three L4
 sections, T2 and T3 without rows. A6 has 195 partial bounded entries. The
 [PLAN blocker](PLAN.md) remains: these scoped results do not close A1, A2,
 A3, A5 or A6.
+
+### A2/A3: T2 primary bounds and unloaded TP15 discrepancy (2026-11-20)
+
+The [page-3 primary read](reference/k7222-11/page3-t2-primary-source-read.json)
+places T2's top primary terminal after R23 and its bottom terminal at V13's
+collector. The selected terminal nets match a fresh KiCad export in the
+[nine-case driver check](reference/k7222-11/horizontal-t2-design.json).
+The scan does not establish the T2 secondary terminal numbers or phase at
+the page-3/4 seam. The printed T2 stock number `1.11.017361.0/90` has no
+electrical specification in the inventory.
+
+At the documented 16 kHz line rate, demanding primary reactance at least
+five times the documented R23=62 Ω feed resistance gives L≥3.084 mH. Limiting
+additional series drop to 10% of R23 gives R≤6.2 Ω. The active 5 mH/2 Ω
+primary candidate is now bounded by 3.1–20 mH and 0.1–6.2 Ω. These are
+functional budgets, not factory measurements. T1's and T2's coupling
+parameters are now separate; the regenerated T1 timing sweep still passes
+at 15.890 kHz nominal.
+
+The source-connected but **unloaded** oscillator/driver stage gives 30.02
+Vpp at V13 collector, below manual TP15's 45 Vpp ±20% (36–54 Vpp). Across
+the nine primary inductance, resistance, ratio and coupling cases, its
+collector swing remains 29.56–30.21 Vpp; changing T2 alone does not close
+that gap. The secondary swing changes from 1.59 to 15.51 Vpp over the
+exploratory ratio bounds, so the unverified secondary and V18 base loading
+matter. A connected, probe-loaded TP15 solve is still needed for A3. The
+T2 A2 row therefore covers only primary operating bounds; its ratio,
+secondary resistance, coupling, core loss and thermal limits remain
+unqualified. Coverage is now 59/64, with L3, three L4 sections and T3
+unregistered; A6 has 197 partial entries.

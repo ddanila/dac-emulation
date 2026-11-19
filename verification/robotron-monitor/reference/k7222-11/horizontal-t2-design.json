@@ -1,0 +1,131 @@
+{
+  "format": "dac-monitor-horizontal-t2-design-v1",
+  "qualification": "conditional T2 primary operating bounds and isolated oscillator/driver sensitivity; no V18 loading, original transformer data or connected A3 score",
+  "source_read_sha256": "dbf02720f8b0d723e9ada1ac65e736ce64efbab14655f962bfdc0777da49c53d",
+  "profile_sha256": "97b25b966c480f4cf4e72a8b77b7ba7c415396ae9a87140e94f8e08d3472cd80",
+  "model_sha256": "5334ce01029e7f78f252f899d142af06e1010853711a65a8439b421b47501723",
+  "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
+  "observations_sha256": "4e8610f675cf22e13b91d82cda0146bf0a406ec9f284eb60fed0ea6760ad8f0e",
+  "documented": {
+    "r23_ohm": 62.0,
+    "r23_source": {
+      "file": "older.pdf",
+      "page": 7
+    },
+    "line_frequency_hz": 16000,
+    "tp15_v13_collector_guideline_vpp": 45,
+    "tp15_range_vpp": [
+      36.0,
+      54.0
+    ],
+    "tp15_source": {
+      "file": "older-operation.pdf",
+      "page": 21
+    }
+  },
+  "design_rules": {
+    "minimum_primary_l_h_for_reactance_five_times_r23": 0.0030836270224054723,
+    "maximum_primary_r_ohm_for_ten_percent_added_series_drop": 6.2,
+    "equations": [
+      "2*pi*f*L_primary >= 5*R23",
+      "R_primary <= 0.1*R23"
+    ]
+  },
+  "source_primary_model_nodes": [
+    "h_drivetop",
+    "h_drivecol"
+  ],
+  "source_primary_expected_nodes": [
+    "h_drivetop",
+    "h_drivecol"
+  ],
+  "cases": {
+    "nominal": {
+      "changes": {},
+      "collector_vpp": 30.01953440100339,
+      "unloaded_secondary_vpp": 5.287201845493589,
+      "primary_l_h": 0.005,
+      "primary_r_ohm": 2
+    },
+    "minimum_primary_l": {
+      "changes": {
+        "horizontal_driver_l": 0.0031
+      },
+      "collector_vpp": 30.209214754583567,
+      "unloaded_secondary_vpp": 5.4469074926680054,
+      "primary_l_h": 0.0031,
+      "primary_r_ohm": 2
+    },
+    "maximum_primary_l": {
+      "changes": {
+        "horizontal_driver_l": 0.02
+      },
+      "collector_vpp": 29.79201989571495,
+      "unloaded_secondary_vpp": 5.1052208808892665,
+      "primary_l_h": 0.02,
+      "primary_r_ohm": 2
+    },
+    "minimum_primary_r": {
+      "changes": {
+        "horizontal_driver_r": 0.1
+      },
+      "collector_vpp": 30.234298016912888,
+      "unloaded_secondary_vpp": 5.329070420238631,
+      "primary_l_h": 0.005,
+      "primary_r_ohm": 0.1
+    },
+    "maximum_primary_r": {
+      "changes": {
+        "horizontal_driver_r": 6.2
+      },
+      "collector_vpp": 29.557809395717026,
+      "unloaded_secondary_vpp": 5.198041951891126,
+      "primary_l_h": 0.005,
+      "primary_r_ohm": 6.2
+    },
+    "minimum_ratio": {
+      "changes": {
+        "horizontal_driver_ratio": 1
+      },
+      "collector_vpp": 29.719464378297104,
+      "unloaded_secondary_vpp": 15.50792056255959,
+      "primary_l_h": 0.005,
+      "primary_r_ohm": 2
+    },
+    "maximum_ratio": {
+      "changes": {
+        "horizontal_driver_ratio": 10
+      },
+      "collector_vpp": 30.053518637347466,
+      "unloaded_secondary_vpp": 1.590129443208999,
+      "primary_l_h": 0.005,
+      "primary_r_ohm": 2
+    },
+    "minimum_driver_coupling": {
+      "changes": {
+        "horizontal_driver_coupling": 0.95
+      },
+      "collector_vpp": 30.02318792358758,
+      "unloaded_secondary_vpp": 5.048988493053024,
+      "primary_l_h": 0.005,
+      "primary_r_ohm": 2
+    },
+    "maximum_driver_coupling": {
+      "changes": {
+        "horizontal_driver_coupling": 0.9999
+      },
+      "collector_vpp": 30.021977942184662,
+      "unloaded_secondary_vpp": 5.313433761738069,
+      "primary_l_h": 0.005,
+      "primary_r_ohm": 2
+    }
+  },
+  "nominal_isolated_tp15_in_manual_range": false,
+  "open_checks": [
+    "The nominal isolated driver collector swing misses the manual TP15 guideline; the bench omits V18 base/output loading and cannot score A3",
+    "T2 secondary ratio, resistance, coupling and polarity have no qualified source-derived bounds",
+    "The page-3/4 seam and secondary terminal numbers need an independent source comparison",
+    "The original T2 copper/core loss, saturation and thermal limits are unknown"
+  ],
+  "passed": true
+}
