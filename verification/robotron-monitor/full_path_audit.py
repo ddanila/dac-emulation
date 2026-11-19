@@ -9,6 +9,7 @@ SHEETS=(('k7222-11-input.kicad_sch','012-6921',{'T200_BOUND':14}),
         ('k7222-11-vertical-oscillator.kicad_sch','012-6931',None),
         ('k7222-11-vertical-integrator.kicad_sch','012-6931',{'MAA723_BOUND':10}),
         ('k7222-11-vertical-output.kicad_sch','012-6931',{'P09A_EQUIV':8,'VERT_POT':3}),
+        ('k7222-11-centering.kicad_sch','012-6931',{'CENTERING_CHOKE':2,'CENTERING_POT':3}),
         ('k7222-11-regulator5.kicad_sch','012-6931',{'REG5_POT':3}),
         ('k7222-11-power-input.kicad_sch','012-6931',None),
         ('k7222-11-converter.kicad_sch','012-6931',{'CONVERTER_TRIM':3,'TDA1060_FUNCTIONAL':16,'T1_BOUND':6}),
@@ -50,7 +51,8 @@ def audit(output):
             result['hashes'][filename]=lab.digest(dest.read_bytes())
             xml=output/(source.stem+'.xml')
             lab.run_command(['kicad-cli','sch','export','netlist','--format','kicadxml','-o',str(xml),str(dest)],output,output/(source.stem+'.log'))
-            components+=reference.source_connectivity(xml,inventory,board,contracts)
+            components+=reference.source_connectivity(xml,inventory,board,contracts,
+                allow_floating=filename=='k7222-11-centering.kicad_sch')
         result['coverage']=reference.coverage(inventory,components)
         result['dispositions']=dispositions(inventory,components)
         result['assembly']={'source':'reference/k7222-11/assembly.json',

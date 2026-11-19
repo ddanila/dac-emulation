@@ -1,0 +1,98 @@
+{
+  "format": "dac-monitor-page9-centering-bridge-check-v1",
+  "qualification": "isolated DC and 16 kHz source loading; not a connected horizontal-stage or installed-link validation",
+  "source_netlist_sha256": "b499fbeaee2b5682e22c4879577b8038ec6a4077785d88444b5af277be738230",
+  "sheet_sha256": "130641bcee2abb40d691465b34cc890f6ace85cd8f1fa4690df13ba14ac80e74",
+  "model_sha256": "b002db59e7ac0234ea3578c0598a9fc5d2c9f7985669ad401fa01b58df353282",
+  "nominal_parameters": {
+    "r2_ohm": 150.0,
+    "r4_total_ohm": 1000.0,
+    "coil_r_ohm": 5.0,
+    "yoke_r_ohm": 2.0,
+    "yoke_l_h": 0.004
+  },
+  "design_basis": "At 16 kHz, 80 mH has 8.04 kohm reactance versus 0.4 kohm for the nominal 4 mH yoke; the isolated AC check resolves the two-branch loading.",
+  "dc_error_limit_a": 2e-06,
+  "dc_error_note": "The Thevenin estimate omits the two 1 milliohm numerical link contacts and the 1 Gohm yoke ground leak.",
+  "dc_cases": [
+    {
+      "strap_pair": "E1+E2",
+      "r4_position": 0.0,
+      "ngspice_yoke_current_a": 0.0008020304,
+      "thevenin_estimate_a": 0.0008020318139286192,
+      "error_a": 1.4139286191525158e-09
+    },
+    {
+      "strap_pair": "E1+E2",
+      "r4_position": 0.5,
+      "ngspice_yoke_current_a": 0.01770951,
+      "thevenin_estimate_a": 0.017709563164108617,
+      "error_a": 5.3164108615444405e-08
+    },
+    {
+      "strap_pair": "E1+E2",
+      "r4_position": 1.0,
+      "ngspice_yoke_current_a": 0.07280934,
+      "thevenin_estimate_a": 0.07281023226464092,
+      "error_a": 8.922646409226243e-07
+    },
+    {
+      "strap_pair": "E3+E4",
+      "r4_position": 0.0,
+      "ngspice_yoke_current_a": -0.000802026,
+      "thevenin_estimate_a": -0.0008020318139286192,
+      "error_a": 5.813928619243479e-09
+    },
+    {
+      "strap_pair": "E3+E4",
+      "r4_position": 0.5,
+      "ngspice_yoke_current_a": -0.0177095,
+      "thevenin_estimate_a": -0.017709563164108617,
+      "error_a": 6.316410861711974e-08
+    },
+    {
+      "strap_pair": "E3+E4",
+      "r4_position": 1.0,
+      "ngspice_yoke_current_a": -0.0728093,
+      "thevenin_estimate_a": -0.07281023226464092,
+      "error_a": 9.322646409293256e-07
+    }
+  ],
+  "ac_baseline_yoke_source_current_a": [
+    -1.2368e-05,
+    0.002486734
+  ],
+  "ac_loading": [
+    {
+      "coil_inductance_h": 0.02,
+      "bridge_to_yoke_ac_current_ratio_at_16khz": 0.0997376394241346,
+      "full_source_current_a": [
+        -3.03683e-05,
+        0.002734104
+      ]
+    },
+    {
+      "coil_inductance_h": 0.08,
+      "bridge_to_yoke_ac_current_ratio_at_16khz": 0.0249964482020665,
+      "full_source_current_a": [
+        -1.34988e-05,
+        0.002548884
+      ]
+    },
+    {
+      "coil_inductance_h": 0.32,
+      "bridge_to_yoke_ac_current_ratio_at_16khz": 0.006250354668681628,
+      "full_source_current_a": [
+        -1.24389e-05,
+        0.002502277
+      ]
+    }
+  ],
+  "nominal_ac_loading_limit": 0.05,
+  "open_checks": [
+    "Coil construction and inductance/resistance are not printed",
+    "Installed E1-E4 jumper pair is not identified",
+    "The connected horizontal output and native-frame sensitivity remain unqualified"
+  ],
+  "passed": true
+}
