@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; thirteen individual devices, six horizontal diode instances, fourteen 1AE15 instances, eight 1AD50 instances and two KFY18 instances have provisional bounds",
+  "status": "partial; fourteen individual devices, six horizontal diode instances, fourteen 1AE15 instances, eight 1AD50 instances and two KFY18 instances have provisional bounds",
   "sources": {
     "tesla_kfy18_1987": {"url": "https://teslakatalog.cz/download/tesla_katalog_2_1987_bw.pdf", "sha256": "fa340fb7a38b8a21091882d4fb3968297e669005c5601f1606fe17960accdc4b", "edition": "TESLA Katalog 2, 1987, printed pages 221-223", "use": "Original KFY18 PNP: h21e 50..250 at IC=1 mA/VCE=5 V, h21E 90..300 at IC=10 mA/VCE=10 V, |VCEsat| typical 0.6 V/max 1 V at IC=150 mA/IB=15 mA, fT typical 100/min 60 MHz at IC=50 mA/VCE=10 V/f=30 MHz, Ccbo typical 19/max 30 pF at VCB=10 V and Cebo typical 55/max 80 pF at VEB=0.5 V. No unique SPICE parameter fit."},
     "ddr_sc237": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SC 236 · SC 237 · SC 238 · SC 239", "use": "Historical SC237 group-E h21e 224–560 at VCE=6 V/IC=2 mA/1 kHz, typical fT 170 MHz at VCE=6 V/IC=10 mA/f=20 MHz, typical pulsed VCEsat 210 mV at IC=100 mA/IB=5 mA, and C11b/C22b 7.7/3.8 pF at stated biases. Not a fitted SC237E transistor curve."},
@@ -1486,6 +1486,33 @@
         "Measure V4 current/voltage stress and joint-bound sensitivity in the connected reference stage",
         "Examine implicit BJT simulator defaults and part-specific thermal behavior"
       ]
+    },
+    {
+      "id": "012-6931:V18",
+      "printed_type": "SF127C",
+      "candidate_class": "original SF127 group-C silicon NPN represented by a separate bounded proxy",
+      "identity_tier": "printed type and historical group data; SPICE curve provisional",
+      "model": "SF127C_N",
+      "model_file": "circuits/k7222-11-vertical-integrator-models.cir",
+      "sources": ["ddr_sf126_129"],
+      "parameters": {
+        "IS": {"nominal": 1e-14, "bounds": [1e-16, 1e-12], "unit": "A", "basis": "silicon saturation-current proxy; historical gain and leakage do not uniquely fit IS"},
+        "BF": {"nominal": 90, "bounds": [56, 140], "unit": "1", "basis": "BF proxy around group-C h21E 56..140 at 50 mA/2 V; model effective gain checked there"},
+        "VAF": {"nominal": 60, "bounds": [30, 150], "unit": "V", "basis": "bounded Early-voltage proxy; no direct family value"},
+        "RC": {"nominal": 1, "bounds": [0.1, 3], "unit": "ohm", "basis": "collector-resistance proxy contributing to <=0.5 V saturation at 150 mA/15 mA; not individually specified"},
+        "RE": {"nominal": 0.25, "bounds": [0.05, 0.5], "unit": "ohm", "basis": "emitter-resistance proxy contributing to saturation; not individually specified"},
+        "CJE": {"nominal": 2e-11, "bounds": [5e-12, 6e-11], "unit": "F", "basis": "bounded depletion-capacitance proxy; family sheet does not specify CJE"},
+        "CJC": {"nominal": 8e-12, "bounds": [1e-12, 3e-11], "unit": "F", "basis": "bounded depletion-capacitance proxy; family sheet does not specify CJC"},
+        "TF": {"nominal": 2e-9, "bounds": [5e-10, 3e-9], "unit": "s", "basis": "transit-time proxy chosen with capacitances to pass family fT >=60 MHz at 10 mA/10 V/f=15 MHz"},
+        "TR": {"nominal": 2e-8, "bounds": [2e-9, 2e-7], "unit": "s", "basis": "bounded reverse transit-time proxy; family sheet has no switching-time test"}
+      },
+      "comparison_targets": {
+        "hFE_50ma": {"range": [56, 140], "conditions": "VCE=2 V, IC=50 mA, 20-25 C, SF127 group C"},
+        "VCEsat_v": {"maximum": 0.5, "conditions": "IC=150 mA, IB=15 mA, 20-25 C; isolated DC proxy"},
+        "fT_hz": {"minimum": 6e7, "conditions": "VCE=10 V, IC=10 mA, f=15 MHz, 20-25 C; gain-frequency product proxy"}
+      },
+      "model_response_report": "reference/k7222-11/sf127c-vertical-model-check.json",
+      "remaining": ["Confirm source pin and transistor arrow in page-10 independent netlist", "Measure connected V18 current, voltage and thermal stress against 30 V/500 mA/600 mW SF127 ratings", "Qualify joint parameter bounds and implicit simulator defaults"]
     }
   ]
 }

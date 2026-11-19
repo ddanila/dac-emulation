@@ -1,0 +1,71 @@
+{
+  "format": "dac-monitor-sf127c-vertical-class-check-v1",
+  "qualification": "original SF127 group-C class response at catalog points; connected stress, joint bounds and implicit defaults remain open",
+  "source": {
+    "url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
+    "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43",
+    "section": "SF 126 \u00b7 SF 127 \u00b7 SF 128 \u00b7 SF 129",
+    "use": "Historical SF128 base-family h21E groups A\u2013F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."
+  },
+  "register_sha256": "4ade9ccbdf88e873dff65e618ff5a1c258fab8670a6ad27e15c738dcdeb8c66a",
+  "model_file_sha256": "67018f1f622b0cc4036bcbf0167c81be923165d92326502f463eda36c0c514b4",
+  "sheet_sha256": "2ede9c1c8c2aaf783bc11d726045f4387f7d9bf43965a23b5117eaa312ae7c4c",
+  "assembly_source_id": "012-6931:V18",
+  "assembly_reference": "Q723",
+  "explicit_model_parameters": {
+    "IS": "1e-14",
+    "BF": "90",
+    "VAF": "60",
+    "RC": "1",
+    "RE": "0.25",
+    "CJE": "20p",
+    "CJC": "8p",
+    "TF": "2n",
+    "TR": "20n"
+  },
+  "data_book_targets": {
+    "hFE_50ma": {
+      "range": [
+        56,
+        140
+      ],
+      "conditions": "VCE=2 V, IC=50 mA, 20-25 C, SF127 group C"
+    },
+    "VCEsat_v": {
+      "maximum": 0.5,
+      "conditions": "IC=150 mA, IB=15 mA, 20-25 C; isolated DC proxy"
+    },
+    "fT_hz": {
+      "minimum": 60000000.0,
+      "conditions": "VCE=10 V, IC=10 mA, f=15 MHz, 20-25 C; gain-frequency product proxy"
+    }
+  },
+  "gain_at_50ma": {
+    "collector_current_a": 0.05,
+    "base_current_a": 0.0005448525072149934,
+    "collector_emitter_voltage_v": 2,
+    "base_emitter_voltage_v": 0.771315,
+    "hFE": 91.76795433240156
+  },
+  "saturation_dc_proxy": {
+    "collector_current_a": 0.15,
+    "base_current_a": 0.015,
+    "collector_emitter_voltage_v": 0.2584454,
+    "base_emitter_voltage_v": 0.8330528
+  },
+  "ac_bias_at_10ma": {
+    "collector_current_a": 0.0100001,
+    "base_current_a": 9.62377765740454e-05,
+    "collector_emitter_voltage_v": 10,
+    "base_emitter_voltage_v": 0.7166554,
+    "hFE": 103.91033912037562
+  },
+  "ac_current_gain_at_15mhz": 5.054902,
+  "transition_frequency_proxy_hz": 75823530.0,
+  "checks": {
+    "group_c_gain": true,
+    "saturation_dc_proxy": true,
+    "transition_frequency_proxy": true
+  },
+  "passed": true
+}
