@@ -443,13 +443,16 @@ their missing assembly paths resolved before A2 can pass; the existing generic
 aliases cannot be counted as qualified coverage.
 
 The [page-4 V20 source read](reference/k7222-11/page4-v20-source-read.json)
-now identifies a local R38/R39/R40/C34 transistor branch in the contrast and
-brightness-control area. All five source-addressed parts are absent from the
-ideal-rail input sheet, so V20's absence is a real frame-path transcription
-gap rather than a converter exclusion. Its three external net destinations
-and collector/emitter assignment still need an independent read before the
-branch can be safely connected; the existing `1SA20C` NPN aliases do not
-establish V20's electrical class.
+identifies a local R38/R39/R40/C34 transistor branch in the contrast and
+brightness-control area. A 600 dpi reread corrected the first record's
+interchanged R38/R39 terminal attributions: horizontal R38 reaches V20's
+upper terminal, while vertical R39 feeds the R40/C34 base network. All five
+source-addressed parts are absent from the ideal-rail input sheet, so V20's
+absence is a real frame-path transcription gap rather than a converter
+exclusion. The three distinct left-edge nets remain unnamed and V20's lower
+terminal appears to end without a wire in the source scan. Resolve that
+terminal and the collector/emitter assignment before connecting the branch;
+the existing `1SA20C` NPN aliases do not establish V20's electrical class.
 
 These are independent completion failures, not just one T3 issue. The
 [device-model coverage report](reference/k7222-11/device-model-coverage.json)
