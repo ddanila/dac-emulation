@@ -488,6 +488,11 @@ A separate source-first read matches all eight endpoints of R3/C2/C1/R20 in
 the vertical sync input. Its enlarged crossing review confirms that SYNC does
 not join the 0 V return bus. The remaining page-9 circuit and page 10 still
 lack a complete second netlist.
+A page-10 output-pair read now matches ten V18/V26/V27/V28 transistor terminals
+in a fresh KiCad export, including all six V27/V28 terminals. Printed arrows
+confirm the modeled upper NPN/lower PNP assignment; the contradictory
+handwritten BD labels remain unverified. The rest of page 10 and its connected
+stage function check are still open.
 The page-18 source transcription now has all 18 labelled board-cable pairs
 compared at both physical connector pins in fresh KiCad exports. Twelve signal
 nets occur on both corresponding functional board models; six have model-scope
@@ -509,7 +514,8 @@ The current audit flags 26 frame-path part entries; all 26 now have agent
 readings or bounded class-typical decisions. T3's two page-4 reads establish
 its line-transformer identity, not its turns, internal winding connections or
 polarity. V18, V21, V27 and V28 now have bounded `class-typical` candidates,
-while their connections remain in the open page-4 and page-10 netlist reviews.
+while their full connection reviews remain open on pages 4 and 10; the local
+V27/V28 output-pair pin and arrow check above is complete.
 Seven converter-only entries are
 outside the A1 gate.
 
@@ -559,8 +565,9 @@ connected-stage current, voltage and thermal stress, joint bounds and implicit
 SPICE defaults remain unqualified.
 Vertical V18 now has a separate `SF127C_N` model rather than sharing the
 unidentified `1SA20C` oscillator alias. Its isolated group-C gain, saturation
-and frequency proxies pass the historical SF127 family limits; the page-10
-pin review, connected stress, joint bounds and simulator defaults remain open.
+and frequency proxies pass the historical SF127 family limits; the rest of
+the page-10 pin review, connected stress, joint bounds and simulator defaults
+remain open.
 The waveform scorer now supports separately loaded SPICE solves for the bounded
 EO 203 probe equivalent and records an explicit grid stimulus choice. No
 connected stage score yet has all required loaded probes or recorded trims (A3).
