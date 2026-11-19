@@ -430,6 +430,10 @@ pin-to-pin source check. The A5 winding ratios, polarity and candidate list
 therefore cannot be frozen from the current model. The isolated startup
 trials in `phase-a-evidence.md` neither resolve the remaining pin map nor
 demonstrate the documented 11–12 kV sustained EHT.
+The page-4 HV source edges now have a fresh KiCad-export comparison: T3 X1:1
+meets V21's anode, V21's cathode reaches EHT, and X1:16 remains a separate
+winding terminal. This partial check leaves the return and winding questions
+above open.
 
 The immediate route to resolution is A1's independent pin-to-pin transcription
 of schematic pages 3–4 and 9–10, plus the remaining physical connector checks

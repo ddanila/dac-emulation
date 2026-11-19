@@ -424,6 +424,15 @@ both bounded parameter sets and the exported KiCad sheet agree with that
 decomposition. The old 20-port startup traces above remain historical
 diagnostics and must not be compared as if they used the corrected topology.
 
+`page4_t3_hv_compare.py` now exports the live horizontal-output KiCad sheet
+and checks these three source-read HV edges against its T3 and V21 pins and
+the winding-wrapper port list. The saved
+`reference/k7222-11/page4-t3-hv-comparison.json` passes seven structural
+checks: X1:1 meets V21's anode, its cathode is the EHT net, X1:16 remains a
+distinct winding terminal, X1:2 is absent from the magnetic ports, and the
+pins are complete. A reversed V21 pin assignment fails the test. This is a
+machine-checked partial page-4 comparison, not an internal winding read.
+
 To keep the remaining upper-tap group connected, the candidate ties X1:3 to
 the X2:3 `h_upper2` node. This is the earlier startup-tested return hypothesis,
 not a confirmed source read. The rest of page 4 still needs an independent
