@@ -454,8 +454,12 @@ while their connections remain in the open page-4 and page-10 netlist reviews.
 Seven converter-only entries are
 outside the A1 gate.
 
-Other required close-out work is also missing. The bounded device-model
-register has provisional V18/V21, V27/V28 and neck V1 entries, not the full frame path (A2).
+Other required close-out work is also missing. The A2 coverage report counts
+64 frame-path device instances in 30 printed-type families. Only five have
+provisional device-model register entries; 55 assembled instances have no
+entry, and V19/V20 on 012-6921 plus L1/L2 on 012-6931 are absent from the
+current ideal-rail assembly. None of the five entries yet closes all A2
+parameter checks.
 The waveform scorer now supports separately loaded SPICE solves for the bounded
 EO 203 probe equivalent and records an explicit grid stimulus choice. No
 connected stage score yet has all required loaded probes or recorded trims (A3).
