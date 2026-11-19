@@ -9,6 +9,12 @@
       "pages": [2, 3, 5, 6],
       "use": "Comparable 1N4148 signal-diode limits; not a factory identity for 1AE15 or 1AD50"
     },
+    "nexperia_bzx84_c5v1": {
+      "url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf",
+      "revision": "Rev. 7, 1 January 2023",
+      "page": 5,
+      "use": "BZX84-C5V1 class voltage, differential resistance and capacitance limits; not a factory identity for ZC5.1"
+    },
     "ddr_ssy20_bsy34": {
       "url": "https://www.tiffe.de/robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
       "sections": ["SSY 20", "BSY 34"],
@@ -643,6 +649,102 @@
       "basis": "Explicit assumed breakdown knee; comparator does not specify SPICE IBV; the live profile parameter is shared with the 1AD50 alias",
       "qualification": "provisional-model-proxy",
       "shared_model_parameter_with": "1AD50-signal-clamp-diode.IBV"
+    },
+    {
+      "id": "012-6931:V3.IS",
+      "stage": "regulator-5v-reference",
+      "value": 1e-09,
+      "bounds": [
+        1e-12,
+        1e-07
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_bzx84_c5v1"
+      ],
+      "model_ref": "circuits/k7222-11-regulator5-models.cir#REG5_ZENER.IS",
+      "basis": "broad saturation-current proxy; comparator VZ/rdif do not uniquely determine IS",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V3.RS",
+      "stage": "regulator-5v-reference",
+      "value": 5,
+      "bounds": [
+        1,
+        60
+      ],
+      "unit": "ohm",
+      "sources": [
+        "nexperia_bzx84_c5v1"
+      ],
+      "model_ref": "circuits/k7222-11-regulator5-models.cir#REG5_ZENER.RS",
+      "basis": "series-resistance proxy; comparator rdif <=60 ohm at 5 mA includes the junction slope and is not an RS specification",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V3.N",
+      "stage": "regulator-5v-reference",
+      "value": 1.5,
+      "bounds": [
+        1,
+        2
+      ],
+      "unit": "1",
+      "sources": [
+        "nexperia_bzx84_c5v1"
+      ],
+      "model_ref": "circuits/k7222-11-regulator5-models.cir#REG5_ZENER.N",
+      "basis": "bounded ideality proxy; comparator has no unique N fit",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V3.BV",
+      "stage": "regulator-5v-reference",
+      "value": 5.1,
+      "bounds": [
+        4.8,
+        5.4
+      ],
+      "unit": "V",
+      "sources": [
+        "nexperia_bzx84_c5v1"
+      ],
+      "model_ref": "circuits/k7222-11-regulator5-models.cir#REG5_ZENER.BV",
+      "basis": "SPICE breakdown proxy around comparator 4.8–5.4 V at 5 mA; model voltage is separately solved at that current",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V3.IBV",
+      "stage": "regulator-5v-reference",
+      "value": 0.005,
+      "bounds": [
+        0.001,
+        0.01
+      ],
+      "unit": "A",
+      "sources": [
+        "nexperia_bzx84_c5v1"
+      ],
+      "model_ref": "circuits/k7222-11-regulator5-models.cir#REG5_ZENER.IBV",
+      "basis": "breakdown knee proxy around the 5 mA comparator test point; not a specified IBV",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6931:V3.CJO",
+      "stage": "regulator-5v-reference",
+      "value": 1e-10,
+      "bounds": [
+        2e-11,
+        3e-10
+      ],
+      "unit": "F",
+      "sources": [
+        "nexperia_bzx84_c5v1"
+      ],
+      "model_ref": "circuits/k7222-11-regulator5-models.cir#REG5_ZENER.CJO",
+      "basis": "zero-bias junction-capacitance proxy below the comparator 300 pF maximum",
+      "qualification": "provisional-model-proxy"
     }
   ],
   "open_families": [
@@ -664,7 +766,7 @@
     },
     {
       "file": "reference/k7222-11/device-model-register.json",
-      "reason": "five individual provisional semiconductor models still have fixed SPICE parameters without examined bounds; fourteen 1AE15 instances now have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
+      "reason": "six individual provisional semiconductor models still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 instances have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
     }
   ],
   "use_for_sensitivity": "Only entries whose model_ref resolves to an active parameter and whose model response is validated may be swept as A6 class-typical bounds. Pending families are not qualified."

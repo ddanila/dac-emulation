@@ -1215,12 +1215,13 @@ T3 open as a part entry. A2 remains partial for these devices.
 
 ### Partial class-typical register (2026-11-19)
 
-`reference/k7222-11/class-typical-register.json` consolidates 37 currently
+`reference/k7222-11/class-typical-register.json` consolidates 43 currently
 cited bounded entries: the V18/V21/V27/V28 and neck V1 semiconductor
 candidates, comparable service-scope values, a B31-G family neck outside
 diameter, the provisional R41 value, the external brightness-pot range, and
 seven parameters each for the ten-member vertical 1AE15, four-member
-input/sync 1AE15 and eight-member 1AD50 diode families. The input/sync
+input/sync 1AE15 and eight-member 1AD50 diode families, plus six explicit
+parameters of the 5.1 V reference zener. The input/sync
 1AE15 rows identify that their active profile parameters are shared with the
 1AD50 model alias, so they are not independent sweep dimensions. Each entry
 identifies its stage, source, bounds and model location. The file stays
@@ -1264,8 +1265,8 @@ instances in the source inventory with the current ideal-rail assembly and
 device-model register. The saved
 `reference/k7222-11/device-model-coverage.json` accounts for 64 frame-path
 instances in 30 printed-type families; 13 instances are converter-only under
-the existing A1 scope rule. Twenty-seven frame-path instances have provisional
-A2 register coverage, 33 have active model names but no register entry, and four
+the existing A1 scope rule. Twenty-eight frame-path instances have provisional
+A2 register coverage, 32 have active model names but no register entry, and four
 appear in the source inventory but not in the current assembled model:
 012-6921 V19/V20 and 012-6931 L1/L2. Assembly presence and a model name do
 not establish sourced parameter bounds.
@@ -1354,6 +1355,22 @@ the regulator stage bench retains a 4.8–5.3 V output at its sampled load
 steps and after time-step refinement. This comparison covers only the page-9
 reference branch; the rest of pages 9–10 and the whole-page A1 gate remain open.
 
+### 5.1 V reference-zener model comparison (2026-11-19)
+
+The source-first page-9 read places V3's cathode at `ZENER_REF` and anode at
+0 V. The active `REG5_ZENER` model is now compared with the
+[Nexperia BZX84-C5V1 data sheet](https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf)
+as a 5.1 V class device, not as an identification of the printed `ZC5.1`.
+At 25 °C that comparator specifies 4.8–5.4 V and at most 60 Ω differential
+resistance at 5 mA. `regulator5_zener_check.py` solves the live model at
+4.9, 5 and 5.1 mA reverse current; the saved
+`reference/k7222-11/regulator5-zener-model-check.json` records 5.125 V at
+5 mA and 12.72 Ω across the 4.9–5.1 mA interval. Changing the model breakdown
+voltage to 6.2 V fails the comparison. The A2 and A6 registers now bound its
+six explicit SPICE parameters. The original part rating, connected-stage
+current/voltage stress, joint-bound response and omitted TT parameter remain
+open, so this is provisional A2 coverage.
+
 ### 1AD50 clamp-diode model comparison (2026-11-19)
 
 Eight frame-path instances printed `1AD50` use the shared `1AD50_BOUND`
@@ -1376,8 +1393,8 @@ and 1.24 ns recovery to 1 mA reverse current. Its switching stimulus reaches
 9.999 mA forward and 60.17 mA peak reverse current through 100 Ω. All four
 nominal checks pass the comparator limits; original part ratings, per-device
 stress and connected native-mode bound sensitivity are still open.
-Current regenerated A2 coverage is 27 of 64 provisionally registered frame-path
-instances, 33 assembled but unregistered, and four absent from the assembly.
+Current regenerated A2 coverage is 28 of 64 provisionally registered frame-path
+instances, 32 assembled but unregistered, and four absent from the assembly.
 
 ### Independent page-9 vertical sync input read (2026-11-19)
 

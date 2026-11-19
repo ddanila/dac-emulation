@@ -1,0 +1,33 @@
+{
+  "format": "dac-monitor-regulator5-zener-model-check-v1",
+  "qualification": "BZX84-C5V1 class comparison at 25 C; original ZC5.1 identity, stage stress and other model parameters remain open",
+  "source_read_sha256": "3660aea61f8daedb61d8d93d250ef4c3a5a39ab58b4acff69d04c2ec1f202f49",
+  "model_sha256": "cf80e4e80d0321e970ad2a47ee4e2c76996771e3272bc9f57d9bdc2b14d99436",
+  "comparator": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf",
+  "comparator_conditions": {
+    "test_current_a": 0.005,
+    "zener_voltage_range_v": [
+      4.8,
+      5.4
+    ],
+    "maximum_differential_resistance_ohm": 60
+  },
+  "measurement": {
+    "currents_a": [
+      0.0049,
+      0.005,
+      0.0051
+    ],
+    "reverse_voltages_v": [
+      5.123873,
+      5.125153,
+      5.126416
+    ],
+    "differential_resistance_ohm": 12.715000000000886,
+    "checks": {
+      "voltage_at_5ma": true,
+      "differential_resistance_near_5ma": true
+    },
+    "passed": true
+  }
+}

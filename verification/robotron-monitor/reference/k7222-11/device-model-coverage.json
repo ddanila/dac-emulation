@@ -2,12 +2,12 @@
   "format": "dac-monitor-a2-device-coverage-v1",
   "qualification": "A2 gap inventory; registered rows are provisional, not completed model qualification",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
-  "register_sha256": "75ba8d98cdb59d75db5a2824d7b416710d2106351e8d62ce952e9ace0a7b225d",
+  "register_sha256": "946b5120afeebf37fe4afaa43e5e7bb497416879a6672df0e38b7b82418617b6",
   "assembly_source_sha256": "027e771c0f6a6e3d77f9a5173552ee94a5ccc904e71871b8527b92e6d8a267d9",
   "inventory_device_instances": 77,
   "frame_path_device_instances": 64,
   "assembled_instances": 60,
-  "registered_instances": 27,
+  "registered_instances": 28,
   "absent_from_assembly": [
     "012-6921:V19",
     "012-6921:V20",
@@ -45,7 +45,6 @@
     "012-6931:V15",
     "012-6931:V18",
     "012-6931:V26",
-    "012-6931:V3",
     "012-6931:V4",
     "012-6931:V5"
   ],
@@ -482,7 +481,9 @@
       "active_models": [
         "REG5_ZENER"
       ],
-      "registered_ids": [],
+      "registered_ids": [
+        "012-6931:V3"
+      ],
       "absent_from_assembly": []
     }
   ],
@@ -1216,8 +1217,15 @@
       "printed_type": "ZC5.1",
       "assembled_reference": "D503",
       "active_model": "REG5_ZENER",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "REG5_ZENER",
+      "registered_parameter_keys": [
+        "BV",
+        "CJO",
+        "IBV",
+        "IS",
+        "N",
+        "RS"
+      ]
     },
     {
       "id": "012-6931:V4",
