@@ -1,7 +1,7 @@
 * Bounded engineering families, NOT measured SC237E/SF1260/SF1280 curves.
 .model HOR_D D(IS=1n N=1.5 RS=2 CJO=2p TT=5n BV=100 IBV=100u)
 .model HOR_N NPN(IS=1e-14 BF=100 VAF=80 CJE=20p CJC=8p TF=2n TR=10n)
-.model HOR_DRIVER_N NPN(IS=1e-12 BF=60 VAF=80 CJE=150p CJC=80p TF=20n TR=100n)
+.model HOR_DRIVER_N NPN(IS=1e-12 BF=60 VAF=80 CJE=20p CJC=8p TF=1n TR=100n)
 .subckt HORIZONTAL_TRIM top wiper bottom
 Ra top wiper {1000*(1-horizontal_trim_fraction)}
 Rb wiper bottom {1000*horizontal_trim_fraction}

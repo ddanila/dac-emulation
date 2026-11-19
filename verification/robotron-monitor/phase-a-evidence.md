@@ -1540,3 +1540,30 @@ waveforms rather than yoke current directly. A source-bounded inner neck
 aperture/yoke extent and connected TP7/TP8 differential waveform are still
 needed before the vertical operating point can be frozen. The T3 tap and
 return-path questions remain separate A1/A5 work.
+
+### A2: V13 horizontal-driver transistor class check
+
+The original 012-6921 parts-list scan on PDF page 8 prints V13 as `SF1280`.
+The historical [DDR semiconductor data book](https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf)
+has a common SF126–129 section: at 2 V/50 mA its h21E groups A–F span 18–1120;
+at 150 mA collector and 15 mA base drive it specifies VCEsat at most 0.5 V;
+at 10 V/10 mA and 15 MHz it specifies fT at least 60 MHz. The available
+section does not identify the `0` suffix, so the whole family range is only
+a class comparator for this printed part.
+
+The previously active `HOR_DRIVER_N` charge/capacitance terms gave about
+7.7 MHz at the unity-current-gain crossing in an isolated AC diagnostic,
+below the family's 60 MHz minimum. With `CJE=20p`, `CJC=8p` and `TF=1n`,
+the live model checked at the data-book biases gives hFE 61.0, a 0.069 V
+current-fed DC saturation proxy, and a 145.1 MHz 15 MHz gain-bandwidth
+proxy. The [saved model check](reference/k7222-11/horizontal-driver-transistor-class-check.json)
+records the KiCad-exported Q1036 identity, live model and register hashes,
+each bias and result. Its test also confirms the old slow model falls below
+the family fT floor.
+
+This adds one provisional A2 register instance and seven A6 bounded parameter
+rows: 38/64 frame-path instances now have register coverage, 22 assembled
+instances remain uncovered, and four remain absent from the ideal-rail
+assembly. The class check does not identify the SF1280 gain group or validate
+inductive storage and fall, joint parameter bounds, connected-stage stress or
+the remaining implicit BJT simulator defaults. A2 and A6 remain open.

@@ -1,8 +1,9 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; nine individual devices, six horizontal diode instances, fourteen 1AE15 instances and eight 1AD50 instances have provisional bounds",
+  "status": "partial; ten individual devices, six horizontal diode instances, fourteen 1AE15 instances and eight 1AD50 instances have provisional bounds",
   "sources": {
+    "ddr_sf126_129": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SF 126 · SF 127 · SF 128 · SF 129", "use": "Historical SF128 base-family h21E groups A–F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."},
     "vishay_uf4007": {"url": "https://www.vishay.com/docs/88755/uf4001.pdf", "revision": "6 April 2020, document 88755", "pages": [1, 2, 3], "use": "Comparable 1000 V ultrafast 1 A rectifier: VF <=1.7 V at 1 A, IR <=10 uA at 1000 V/25 C, trr <=75 ns at IF=0.5 A/IR=1 A/Irr=0.25 A and typical 17 pF at 4 V/1 MHz. Not an identity for 1YL1 variants."},
     "nexperia_bzx84_series": {"url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", "revision": "Rev. 7, 1 January 2023", "pages": [5, 6], "use": "BZX84-C6V2, C9V1 and C16 comparable 5 mA zener voltage, differential resistance and capacitance limits; not historical identifications or SPICE transit-time data."},
     "nexperia_1n4148": {
@@ -1035,6 +1036,105 @@
         "Confirm historical printed type and diode direction in the independent page netlist",
         "Measure per-device voltage/current stress and connected-stage sensitivity",
         "Source or separately justify the TT range; comparator has no recovery-time rating"
+      ]
+    },
+    {
+      "id": "012-6921:V13",
+      "candidate_class": "SF128 historical base-family comparator for the printed SF1280 horizontal driver",
+      "identity_tier": "class-typical; printed SF1280 suffix/group not identified in the available base-family data book",
+      "model": "HOR_DRIVER_N",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "parameters": {
+        "IS": {
+          "nominal": 1e-12,
+          "bounds": [
+            1e-15,
+            1e-09
+          ],
+          "unit": "A",
+          "basis": "SPICE saturation-current proxy; family sheet has no IS extraction"
+        },
+        "BF": {
+          "nominal": 60,
+          "bounds": [
+            18,
+            1120
+          ],
+          "unit": "1",
+          "basis": "nominal broad family current gain; historical A–F h21E groups span 18–1120 at 50 mA/2 V, but SF1280 suffix group is unresolved"
+        },
+        "VAF": {
+          "nominal": 80,
+          "bounds": [
+            20,
+            200
+          ],
+          "unit": "V",
+          "basis": "Early-voltage proxy; no family data-book extraction, so bounds are assumed for sensitivity"
+        },
+        "CJE": {
+          "nominal": 2e-11,
+          "bounds": [
+            2e-12,
+            1e-10
+          ],
+          "unit": "F",
+          "basis": "base-emitter depletion-capacitance proxy; family sheet gives no junction capacitance, bounded around period low-current transistor scale"
+        },
+        "CJC": {
+          "nominal": 8e-12,
+          "bounds": [
+            1e-12,
+            5e-11
+          ],
+          "unit": "F",
+          "basis": "base-collector depletion-capacitance proxy; family sheet gives no junction capacitance, bounded around period low-current transistor scale"
+        },
+        "TF": {
+          "nominal": 1e-09,
+          "bounds": [
+            1e-10,
+            3e-09
+          ],
+          "unit": "s",
+          "basis": "forward transit-time proxy selected with CJE/CJC to pass the family fT >=60 MHz test; data book does not specify TF"
+        },
+        "TR": {
+          "nominal": 1e-07,
+          "bounds": [
+            1e-08,
+            1e-06
+          ],
+          "unit": "s",
+          "basis": "reverse transit-time/storage proxy; historical family sheet has no inductive storage/fall test, so this range remains unqualified"
+        }
+      },
+      "comparison_targets": {
+        "hFE_50ma": {
+          "range": [
+            18,
+            1120
+          ],
+          "conditions": "VCE=2 V, IC=50 mA, T=20–25 C; whole SF126–129 family A–F range, suffix group unknown"
+        },
+        "VCEsat_v": {
+          "maximum": 0.5,
+          "conditions": "IC=150 mA, IB=15 mA, T=20–25 C; DC proxy for pulsed data-book limit"
+        },
+        "fT_hz": {
+          "minimum": 60000000.0,
+          "conditions": "VCE=10 V, IC=10 mA, f=15 MHz, T=20–25 C; 15 MHz current-gain product proxy"
+        }
+      },
+      "model_response_report": "reference/k7222-11/horizontal-driver-transistor-class-check.json",
+      "remaining": [
+        "Verify SF1280 suffix/group and original package/rating",
+        "Measure inductive driver storage and fall with documented comparable test conditions",
+        "Measure connected-stage current/voltage stress and joint-bound sensitivity",
+        "Examine remaining implicit BJT simulator defaults"
       ]
     }
   ]

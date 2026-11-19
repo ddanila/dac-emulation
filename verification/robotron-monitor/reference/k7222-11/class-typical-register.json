@@ -3,6 +3,7 @@
   "status": "partial; contains currently cited bounded candidates, not a completed A6 freeze",
   "scope": "K7222.11 ideal-rail frame path and service comparison",
   "sources": {
+    "ddr_sf126_129": {"url": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf", "sha256": "247cd6d8e45ef1ebb953ab0eeb77a7cc0f90f5e1d5ea4d45c72f8b8599926e43", "section": "SF 126 · SF 127 · SF 128 · SF 129", "use": "Historical SF128 base-family h21E groups A–F at VCE=2 V/IC=50 mA, VCEsat <=0.5 V at IC=150 mA/IB=15 mA, and fT >=60 MHz at VCE=10 V/IC=10 mA/f=15 MHz. The SF1280 suffix is not identified by this table; SPICE parameters are class proxies, not data-book limits."},
     "vishay_uf4007": {"url": "https://www.vishay.com/docs/88755/uf4001.pdf", "revision": "6 April 2020, document 88755", "pages": [1, 2, 3], "use": "Comparable 1000 V ultrafast 1 A rectifier: VF <=1.7 V at 1 A, IR <=10 uA at 1000 V/25 C, trr <=75 ns at IF=0.5 A/IR=1 A/Irr=0.25 A and typical 17 pF at 4 V/1 MHz. Not an identity for 1YL1 variants."},
     "nexperia_bzx84_series": {"url": "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", "revision": "Rev. 7, 1 January 2023", "pages": [5, 6], "use": "BZX84-C6V2, C9V1 and C16 comparable 5 mA zener voltage, differential resistance and capacitance limits; not historical identifications or SPICE transit-time data."},
     "nexperia_1n4148": {
@@ -1545,6 +1546,118 @@
       "basis": "bounded breakdown knee proxy; UF4007 IR <=10 uA at 1000 V/25 C is not a SPICE IBV specification",
       "qualification": "provisional-model-proxy",
       "shared_model_parameter_with": "1YL1-2-flyback-rectifier.IBV"
+    },
+    {
+      "id": "012-6921:V13.IS",
+      "stage": "horizontal-driver",
+      "value": 1e-12,
+      "bounds": [
+        1e-15,
+        1e-09
+      ],
+      "unit": "A",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_DRIVER_N.IS",
+      "basis": "SPICE saturation-current proxy; family sheet has no IS extraction",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V13.BF",
+      "stage": "horizontal-driver",
+      "value": 60,
+      "bounds": [
+        18,
+        1120
+      ],
+      "unit": "1",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_DRIVER_N.BF",
+      "basis": "nominal broad family current gain; historical A–F h21E groups span 18–1120 at 50 mA/2 V, but SF1280 suffix group is unresolved",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V13.VAF",
+      "stage": "horizontal-driver",
+      "value": 80,
+      "bounds": [
+        20,
+        200
+      ],
+      "unit": "V",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_DRIVER_N.VAF",
+      "basis": "Early-voltage proxy; no family data-book extraction, so bounds are assumed for sensitivity",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V13.CJE",
+      "stage": "horizontal-driver",
+      "value": 2e-11,
+      "bounds": [
+        2e-12,
+        1e-10
+      ],
+      "unit": "F",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_DRIVER_N.CJE",
+      "basis": "base-emitter depletion-capacitance proxy; family sheet gives no junction capacitance, bounded around period low-current transistor scale",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V13.CJC",
+      "stage": "horizontal-driver",
+      "value": 8e-12,
+      "bounds": [
+        1e-12,
+        5e-11
+      ],
+      "unit": "F",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_DRIVER_N.CJC",
+      "basis": "base-collector depletion-capacitance proxy; family sheet gives no junction capacitance, bounded around period low-current transistor scale",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V13.TF",
+      "stage": "horizontal-driver",
+      "value": 1e-09,
+      "bounds": [
+        1e-10,
+        3e-09
+      ],
+      "unit": "s",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_DRIVER_N.TF",
+      "basis": "forward transit-time proxy selected with CJE/CJC to pass the family fT >=60 MHz test; data book does not specify TF",
+      "qualification": "provisional-model-proxy"
+    },
+    {
+      "id": "012-6921:V13.TR",
+      "stage": "horizontal-driver",
+      "value": 1e-07,
+      "bounds": [
+        1e-08,
+        1e-06
+      ],
+      "unit": "s",
+      "sources": [
+        "ddr_sf126_129"
+      ],
+      "model_ref": "circuits/k7222-11-horizontal-models.cir#HOR_DRIVER_N.TR",
+      "basis": "reverse transit-time/storage proxy; historical family sheet has no inductive storage/fall test, so this range remains unqualified",
+      "qualification": "provisional-model-proxy"
     }
   ],
   "open_families": [
@@ -1566,7 +1679,7 @@
     },
     {
       "file": "reference/k7222-11/device-model-register.json",
-      "reason": "nine individual provisional semiconductor models and six horizontal diode instances still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 instances have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
+      "reason": "ten individual provisional semiconductor models and six horizontal diode instances still have incomplete SPICE parameter bounds or unexamined defaults; fourteen 1AE15 instances have bounded family entries across two shared model aliases, while other frame-path devices remain uncovered"
     }
   ],
   "use_for_sensitivity": "Only entries whose model_ref resolves to an active parameter and whose model response is validated may be swept as A6 class-typical bounds. Pending families are not qualified."

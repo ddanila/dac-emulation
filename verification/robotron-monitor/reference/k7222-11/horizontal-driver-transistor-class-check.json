@@ -1,0 +1,64 @@
+{
+  "format": "dac-monitor-v13-model-class-check-v1",
+  "qualification": "SF128 family DC and 15 MHz AC class proxy; SF1280 suffix, inductive storage/fall and connected stress remain open",
+  "source": "https://www.tiffe.de/Robotron/Bausteinuebersicht/DDR-Halbleiter.pdf",
+  "model_file_sha256": "e154557acd38a398a656e9db7e590be7d6d3d83884af6740e30c62bd0232bf71",
+  "register_sha256": "6084193557c3432bb27e7fa52e4c6b79c1e846c120393aeb7621e5acd6857e30",
+  "sheet_sha256": "b557567c4175b91098308c47265aebfb8de72f1cde83ddbc0fef4f0fd2dd3dee",
+  "assembly_source_id": "012-6921:V13",
+  "assembly_reference": "Q1036",
+  "explicit_model_parameters": {
+    "IS": "1e-12",
+    "BF": "60",
+    "VAF": "80",
+    "CJE": "20p",
+    "CJC": "8p",
+    "TF": "1n",
+    "TR": "100n"
+  },
+  "data_book_targets": {
+    "hFE_50ma": {
+      "range": [
+        18,
+        1120
+      ],
+      "conditions": "VCE=2 V, IC=50 mA, T=20\u201325 C; whole SF126\u2013129 family A\u2013F range, suffix group unknown"
+    },
+    "VCEsat_v": {
+      "maximum": 0.5,
+      "conditions": "IC=150 mA, IB=15 mA, T=20\u201325 C; DC proxy for pulsed data-book limit"
+    },
+    "fT_hz": {
+      "minimum": 60000000.0,
+      "conditions": "VCE=10 V, IC=10 mA, f=15 MHz, T=20\u201325 C; 15 MHz current-gain product proxy"
+    }
+  },
+  "gain_at_50ma": {
+    "collector_current_a": 0.0500001,
+    "base_current_a": 0.0008194086491192877,
+    "collector_emitter_voltage_v": 2,
+    "base_emitter_voltage_v": 0.6404272,
+    "hFE": 61.01973667685938
+  },
+  "saturation_dc_proxy": {
+    "collector_current_a": 0.15,
+    "base_current_a": 0.015,
+    "collector_emitter_voltage_v": 0.06874571,
+    "base_emitter_voltage_v": 0.6730991
+  },
+  "ac_bias_at_10ma": {
+    "collector_current_a": 0.01,
+    "base_current_a": 0.00014913746840879323,
+    "collector_emitter_voltage_v": 10,
+    "base_emitter_voltage_v": 0.5966498,
+    "hFE": 67.05223111733063
+  },
+  "ac_current_gain_at_15mhz": 9.671306,
+  "transition_frequency_proxy_hz": 145069590.0,
+  "checks": {
+    "broad_family_gain": true,
+    "saturation_dc_proxy": true,
+    "transition_frequency_proxy": true
+  },
+  "passed": true
+}
