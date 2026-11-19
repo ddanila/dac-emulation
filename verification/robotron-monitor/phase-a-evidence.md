@@ -850,3 +850,27 @@ trim changed. The logs are under ignored `build/monitor/phase-a/r4-check/`.
 This establishes a connected electrical control, not a calibrated
 picture-centre result. The A1 bridge review may replace this equivalent, and
 B6 must still measure the grid and select a setting.
+
+### External brightness R1 binding (2026-11-19)
+
+The page-18 interconnection drawing assigns panel R1 terminals E, S and A to
+35P, HRS and HRA on main-board connector X1; page 3 draws the same pot and
+page 4 continues HRS/HRA into the V1 bias network. Their KiCad assembly nodes
+are `p35`, `collector_i` and `contrast_adjust`, respectively. The panel pot's
+bottom-to-wiper segment is in parallel with the board's R1 (2.7 kΩ). The
+handwritten page-18 10 kΩ value, with 5 kΩ alternative, is carried as a
+bounded `class-typical` `brightness_pot_r` rather than a factory specification.
+The deck uses `brightness_position` from 0 at HRA to 1 at 35P and a 1 Ω
+contact floor at either stop. The calibration contract binds the external
+`brightness` trim to this position, separately from board R28's dark-raster
+preset.
+
+Neck-board X3:1 and X3:2 are the service-meter terminals across its 390 Ω
+cathode resistor, not the panel pot; page 16 and the manual's beam-current
+procedure confirm that role. Three DC operating-point trials of the assembled
+deck with the 10 kΩ pot at positions 0, 0.5 and 1 change `v(collector_i)`
+from 11.70 V to 12.68 V to 12.88 V. This proves the trim reaches the modeled
+V1 bias node. At the top endpoint the provisional 35P source falls to about
+20 V under load, a stage-model limitation to recheck in Phase B. Neither
+these DC trials nor the terminal reading close A1's independent page-3/4/18
+netlist review or demonstrate calibrated brightness on a sustained grid.

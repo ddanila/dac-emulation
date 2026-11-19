@@ -148,6 +148,23 @@ class SteadySupplyTests(unittest.TestCase):
         for position in (-.01,1.01,float('nan')):
             with self.assertRaises(ValueError):steady.r4_center_current(position)
 
+    def test_external_brightness_pot_reaches_video_bias_node(self):
+        selection=steady.select(capture())
+        graph=json.loads((ROOT/'reference/k7222-11/t3-winding-hypothesis.json').read_text())
+        candidate=tc.enumerate_candidates(graph)[0]
+        base={k:v[0] for k,v in steady.signal_path.BOUNDS.items()}
+        for position,top,bottom in ((0.,10000.,1.),(.5,5000.,5000.),(1.,1.,10000.)):
+            deck,metadata=steady.deck(dict(parameters=base|{'brightness_position':position},
+                                          components=[],models=[]),selection,candidate)
+            self.assertIn(f'.param brightness_position={position:g}',deck)
+            self.assertIn(f'Rbrightness_top p35 collector_i {top:g}',deck)
+            self.assertIn(f'Rbrightness_bottom collector_i contrast_adjust {bottom:g}',deck)
+            self.assertEqual(metadata['external_brightness']['total_r_ohm'],10000.)
+            self.assertEqual(metadata['external_brightness']['position'],position)
+        self.assertEqual(steady.brightness_resistances(.5,5000),(2500.,2500.))
+        for position,total_r in ((-.01,10000),(.5,4999),(.5,10001),(float('nan'),10000)):
+            with self.assertRaises(ValueError):steady.brightness_resistances(position,total_r)
+
     def test_raw_parser_rejects_partial_or_nonfinite_runs(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)/'raw'

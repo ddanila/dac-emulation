@@ -49,6 +49,8 @@ PROBES += ('v(sync_gate)', 'v(vf1)', 'v(vertical_timing)', 'v(vertical_base)',
 ASSEMBLY_BOUNDS = {
     'width_r5_position': (.63, 0., 1., 'fraction'),
     'centering_horizontal_r4_position': (.5, 0., 1., 'fraction'),
+    'brightness_position': (.5, 0., 1., 'fraction'),
+    'brightness_pot_r': (10000., 5000., 10000., 'ohm'),
     'yoke_horizontal_r': (2., .5, 8., 'ohm'),
     'yoke_horizontal_l': (.004, .0004, .016, 'H'),
     'tube_anode_c': (1e-9, .25e-9, 4e-9, 'F'),
@@ -81,6 +83,18 @@ def r4_center_current(position):
     if type(position) not in (int,float) or not math.isfinite(position) or not 0<=position<=1:
         raise ValueError('R4 position outside physical travel')
     return .08*(2*position-1)
+
+
+def brightness_resistances(position, total_r):
+    """Page-3 external R1 from 35P through HRS to HRA.
+
+    The 1 ohm contact floor avoids a zero-ohm SPICE element at either stop.
+    """
+    if (type(position) not in (int,float) or not math.isfinite(position) or not 0<=position<=1
+            or type(total_r) not in (int,float) or not math.isfinite(total_r)
+            or not 5000<=total_r<=10000):
+        raise ValueError('external brightness pot outside declared bounds')
+    return max(1.,total_r*(1-position)),max(1.,total_r*position)
 
 
 def tune(assembly, selection, changes=None):
@@ -267,6 +281,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
     p={k:v[0] for k,v in ASSEMBLY_BOUNDS.items()} | assembly['parameters']
     rail_scale=r5_rail_scale(p['width_r5_position'])
     centering_current=r4_center_current(p['centering_horizontal_r4_position'])
+    brightness_top,brightness_bottom=brightness_resistances(p['brightness_position'],p['brightness_pot_r'])
     yoke=assembly.get('yoke')
     if yoke is not None and yoke['inductance_field_relationship_verified']:
         if any(p[k]!=v for k,v in yoke['electrical'].items()):
@@ -305,6 +320,8 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         f'Vp41 p41 0 {41*rail_scale:.15g}',f'Vn16 n16 0 {-16*rail_scale:.15g}',
         'Rcontrast_top contrast_adjust intens {contrast_r*contrast_position}',
         'Rcontrast_bottom intens contrast_low {contrast_r*(1-contrast_position)}',
+        f'Rbrightness_top p35 collector_i {brightness_top:.15g}',
+        f'Rbrightness_bottom collector_i contrast_adjust {brightness_bottom:.15g}',
         'Xcrt p10_7 0 cathode g1 g2 eht heater_rise cathode_rise CRT_THERMAL',
         'Ctube eht 0 {tube_anode_c}', 'Rhvleak eht 0 {tube_hv_leakage}',
         'Rhorizontal hy1 h_winding {yoke_horizontal_r}','Lhorizontal h_winding hy2 {yoke_horizontal_l}',
@@ -317,6 +334,7 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
         f'.tran {max_step_s} {period*fields:.17g} {period*(fields-4):.17g} {max_step_s}', '.end']
     assumptions=['Ideal 12 V converter input and R5-scaled 22/41/-16 V outputs; actual 5 V regulator retained.',
         'R4 horizontal centring uses a bounded DC yoke-current equivalent while the page-9 bridge links remain unresolved.',
+        'External brightness R1 has page-3/page-18 terminal mapping and a handwritten 5–10 kohm class-typical value; A1 netlist comparison remains open.',
         'Periodic repetition of a captured static field initializes the circuit; no cold thermal timeline.',
         'Unmeasured yoke geometry and tube capacitance/leakage. The selected yoke profile declares whether R/L and field are jointly derived or independent.',
         'Finite 1 Gohm DC leakage at isolated C19 midpoint and horizontal yoke; not a source component.',
@@ -336,6 +354,11 @@ def deck(assembly, selection, candidate, *, fields=4, max_step_s=100e-9, reltol=
             current_a=centering_current,current_bound_a=.08,
             bound_basis='12 V bridge feed / documented 150 ohm R2; nominal short-circuit limit',
             rule='current_a = 0.08 * (2 * position - 1); positive flows hy1 to hy2 through yoke'),
+        external_brightness=dict(source_pdf_pages=[3,4,18],source_id='external:R1',tier='class-typical',
+            position=p['brightness_position'],total_r_ohm=p['brightness_pot_r'],
+            top_r_ohm=brightness_top,bottom_r_ohm=brightness_bottom,
+            terminal_nodes={'E_35P':'p35','S_HRS':'collector_i','A_HRA':'contrast_adjust'},
+            contact_floor_ohm=1.,source_value_note='handwritten 10 kohm with 5 kohm alternative'),
         max_step_s=max_step_s,reltol=reltol,linear_solver=linear_solver,abstol=abstol,vntol=1e-6,parameters=p,assembly_bounds=ASSEMBLY_BOUNDS)
     import collection
     metadata['collection']=dict(profile=collection.PROFILE,feedback_enabled=collection_report is not None,
