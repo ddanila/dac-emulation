@@ -424,15 +424,15 @@ re-read where they differ. The source readings must settle the T3 connector,
 diode and return path before the A5 design point is calculated. Where the
 documents cannot settle a parameter, the A1/A5 bounded `class-typical` route
 applies; the plan does not require a human or a physical measurement.
-The saved audit flags 26 frame-path part entries; 22 now have agent readings
-or bounded class-typical decisions. The four still open are `012-6921:V18`,
-`T3`, and `012-6931:V27`, `V28`. The V21 part entry is now closed at the
-`class-typical` tier for its candidate reverse-voltage class; its connection
-remains part of the open page-4 netlist review. Seven converter-only entries are
+The saved audit flags 26 frame-path part entries; 23 now have agent readings
+or bounded class-typical decisions. The three still open are `012-6921:T3`
+and `012-6931:V27`, `V28`. V18 and V21 part entries now have bounded
+`class-typical` candidates, while their connections remain part of the open
+page-4 netlist review. Seven converter-only entries are
 outside the A1 gate.
 
 Other required close-out work is also missing. The bounded device-model
-register has only provisional V21 and V27/V28 entries, not the full frame path (A2).
+register has only provisional V18/V21 and V27/V28 entries, not the full frame path (A2).
 The waveform scorer has only a comparable bandwidth model, with no probe-load model or
 recorded stimulus for each stage (A3), and no consolidated class-typical
 register exists (A6). All three A4 controls are now bound in the ideal-rail
