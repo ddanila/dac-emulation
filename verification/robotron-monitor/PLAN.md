@@ -443,6 +443,20 @@ unblock the A5 calculation, but it would not by itself close A2, A3 or A6.
 The tracked goal can be marked complete only after each row above has its
 required evidence and the final results are documented, committed and pushed.
 
+The active P09A amplifier is a concrete A2 failure, not merely an unregistered
+instance. Its current `LM709_FAMILY` substitute has a matching provisional
+pin-function pattern, but no established P09A electrical equivalence. In an
+isolated DC follower with the manufacturer's LM709 compensation network, ±15 V
+rails and a 2 kΩ load, the model gives −1.00006 V for a −1 V input and
+12.54258 V for a +1 V input. That positive-input result fails the basic
+closed-loop function even though the existing transient test passes. The
+substitute therefore cannot be promoted to a bounded, qualified P09A model
+or used to claim the connected A3 waveform is validated. Repair and check its
+large-signal response against cited class limits, or use the plan's labelled,
+bounded equivalent-stage fallback, then rerun the loaded vertical-stage
+checks. This finding does not replace the other A1, A2, A3, A5 and A6 work
+listed above.
+
 This blocks declaring the tracked goal complete; it does not require human
 review, hardware or permission. Another independent source read may resolve
 T3; otherwise its possible connection graphs must remain explicit, conditional
