@@ -1,0 +1,128 @@
+{
+  "format": "dac-monitor-horizontal-l1-design-v1",
+  "qualification": "conditional isolated passive filter and 1 A DC-drop check; not connected output-stage or original L1 qualification",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "source_read_sha256": "b1f37936ee69916e79d8d9ba0d7e07544428612aefc6d711d7421b1368b900d0",
+  "comparison_sha256": "c4346e51fc6466bab4db0d068810465ba92602ff4b79bf7eb68a04a3a910566d",
+  "profile_sha256": "eb2c0115999362f19d887a3696a597f6735d35be6c4516bb234dcce1df859cc1",
+  "model_sha256": "bf49c6f1aec67a38adf9b4d23200e954663db82b08932b26dcb2c99dc553fdcb",
+  "documented": {
+    "r42_ohm": 6.8,
+    "r42_source": {
+      "file": "older.pdf",
+      "page": 8
+    },
+    "c22_f": 0.00022,
+    "c22_source": {
+      "file": "older.pdf",
+      "page": 6
+    },
+    "line_frequency_hz": 16000.0,
+    "line_source": {
+      "file": "older-operation.pdf",
+      "page": 5
+    }
+  },
+  "design_rules": {
+    "minimum_l_h_for_corner_at_most_line_over_five": 1.1243916863718237e-05,
+    "maximum_coil_r_ohm_for_ten_percent_added_dc_drop": 0.68,
+    "ac_transfer_equation": "Zc / (R42 + Rcoil + j*omega*Lcoil + Zc)",
+    "dc_drop_equation": "1 A * (R42 + Rcoil)"
+  },
+  "cases": {
+    "minimum_inductance": {
+      "inductance_h": 1.2e-05,
+      "resistance_ohm": 0.5,
+      "lc_corner_hz": 3097.5488788781945,
+      "ngspice_dc_feed_v_at_1a": 33.7,
+      "design_dc_feed_v_at_1a": 33.7,
+      "ngspice_ac_feed_ratio_at_line": 0.006116863120066118,
+      "design_ac_feed_ratio_at_line": 0.006116865558317931,
+      "ac_complex": [
+        -0.000960885,
+        -0.00604092
+      ],
+      "dc_error_v": 0.0,
+      "ac_complex_error": 2.4790830365552965e-09
+    },
+    "nominal": {
+      "inductance_h": 0.0001,
+      "resistance_ohm": 0.5,
+      "lc_corner_hz": 1073.0224074290095,
+      "ngspice_dc_feed_v_at_1a": 33.7,
+      "design_dc_feed_v_at_1a": 33.7,
+      "ngspice_ac_feed_ratio_at_line": 0.0036500346891639264,
+      "design_ac_feed_ratio_at_line": 0.00365003705141814,
+      "ac_complex": [
+        -0.00294889,
+        -0.002151
+      ],
+      "dc_error_v": 0.0,
+      "ac_complex_error": 5.188402811221065e-09
+    },
+    "maximum_inductance": {
+      "inductance_h": 0.001,
+      "resistance_ohm": 0.5,
+      "lc_corner_hz": 339.319478787285,
+      "ngspice_dc_feed_v_at_1a": 33.7,
+      "design_dc_feed_v_at_1a": 33.7,
+      "ngspice_ac_feed_ratio_at_line": 0.00044877656320775036,
+      "design_ac_feed_ratio_at_line": 0.000448776373119678,
+      "ac_complex": [
+        -0.000447597,
+        -3.25166e-05
+      ],
+      "dc_error_v": 0.0,
+      "ac_complex_error": 1.9263757918570342e-10
+    },
+    "minimum_resistance": {
+      "inductance_h": 0.0001,
+      "resistance_ohm": 0.05,
+      "lc_corner_hz": 1073.0224074290095,
+      "ngspice_dc_feed_v_at_1a": 34.15,
+      "design_dc_feed_v_at_1a": 34.150000000000006,
+      "ngspice_ac_feed_ratio_at_line": 0.003728207456942277,
+      "design_ac_feed_ratio_at_line": 0.0037282099277268703,
+      "ac_complex": [
+        -0.00307656,
+        -0.00210578
+      ],
+      "dc_error_v": 7.105427357601002e-15,
+      "ac_complex_error": 4.003399504124182e-09
+    },
+    "maximum_resistance": {
+      "inductance_h": 0.0001,
+      "resistance_ohm": 0.68,
+      "lc_corner_hz": 1073.0224074290095,
+      "ngspice_dc_feed_v_at_1a": 33.52,
+      "design_dc_feed_v_at_1a": 33.52,
+      "ngspice_ac_feed_ratio_at_line": 0.003618798987302279,
+      "design_ac_feed_ratio_at_line": 0.0036188013670753654,
+      "ac_complex": [
+        -0.00289864,
+        -0.00216647
+      ],
+      "dc_error_v": 0.0,
+      "ac_complex_error": 4.72784142045353e-09
+    }
+  },
+  "selected_crossing_stress": {
+    "location": "R42-to-L1 vertical branch crossing the V18 collector to T3 X2:7 horizontal line",
+    "visual_status": "not settled by the two scans; ink thickening resembles a junction dot",
+    "selected": "no junction between R42_TO_L1 and FLYBACK_HOT",
+    "functional_argument": "The page-4 annotation gives about 400 V at the V18/T3 hot line. Joining it directly to the 41 V rail through documented R42=6.8 ohm would imply about (400-41)/6.8 = 52.8 A at the annotated peak, before any other branch, implausible for this source circuit. This excludes the joined alternative as the working model; it is not a waveform measurement or proof of a printed dot.",
+    "joined_alternative_peak_r42_current_a": 52.79411764705882,
+    "source_values": {
+      "r42_ohm": 6.8,
+      "r42_source_pdf_page": 8,
+      "p41_v": 41,
+      "hot_annotation_v": 400
+    }
+  },
+  "open_checks": [
+    "The crossing is selected by circuit stress rather than an unambiguous printed dot",
+    "Original L1 inductance, copper/core loss, saturation and thermal limits are unknown",
+    "C22 ESR and connected flyback supply loading are not included in this isolated check"
+  ],
+  "passed": true
+}
