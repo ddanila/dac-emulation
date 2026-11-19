@@ -406,25 +406,23 @@ Phase C (speed) waits for B8.
 
 ## Phase A goal completion blocker (2026-11-19)
 
-**Current disposition:** Phase A cannot be reported complete from the pushed
-evidence. This is a missing-evidence and model-coverage block, not a wait for
-human approval or a hardware measurement. Work can continue under the
-fallback rule above, but that rule does not make an unverified winding
-connection, an unmodeled frame-path device, or an unscored connected waveform
-count as a completed Phase A item. The tracked goal remains open until the
-specific A1, A2, A3, A5 and A6 gaps below are closed and their evidence is
-committed and pushed.
+**Goal completion blocked reason:** The latest page-3/4 source read corrected
+the V19/V1 mapping and local wiring, but it did not close the independent
+netlist or transistor C/E review. The 300 and 600 dpi T3 reads still cannot
+establish the proposed X1:3-to-X2:3 return or internal tap order. Its eight
+surviving flyback-sign candidates depend on that unverified winding graph, so
+A5 cannot freeze the ratios, polarities or complete design point. A2 still
+has 15 assembled frame-path devices without register entries and two absent
+from the ideal-rail assembly; the latest loaded A3 diagnostic fails TP8's
+manual voltage range and does not establish field-to-field periodicity. A6
+still lacks bounds for frame-path values. Only A4 meets its done condition.
+Because the tracked goal requires all six Phase A items documented, committed
+and pushed, the pushed partial results cannot complete it.
 
-**Tracked-goal blocked reason:** The goal requires all six Phase A done
-conditions, with the results documented, committed and pushed. The partial
-results are pushed, but only A4 is complete. A1, A2, A3, A5 and A6 still fail
-their done conditions. One immediate A1 uncertainty is T3: the page-4 scan
-supports its external drive and high-voltage connections, but the 300 and
-600 dpi reviews do not distinguish the proposed X1:3-to-X2:3 return or the
-internal tap order. The current winding graph is therefore a hypothesis, and
-the eight surviving flyback-sign candidates are conditional on it. A5 cannot
-freeze the winding ratios, polarities or complete design point from those
-candidates. The other remaining done-condition gaps are:
+This blocks **completion**, not further implementation: no human approval or
+hardware measurement is needed. Use the bounded fallbacks above, but keep
+unverified connections, generic device aliases and conditional stage results
+labelled as such. The remaining done-condition gaps are:
 
 | Item | Evidence still needed for completion |
 | --- | --- |
