@@ -1,0 +1,242 @@
+{
+  "format": "dac-monitor-t3-return-variants-v1",
+  "qualification": "conditional functional comparison of two unverified external return graphs; not an independent source confirmation, loaded EHT prediction or A1/A5 closure",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "source_read_sha256": "11304942f9d33817151733033946ff165d68eef0cf5815cb92ae9957e9bfb762",
+  "graph_sha256": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+  "parameters_sha256": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+  "sign_filter_sha256": "906116f65305c37f9f941183ff14e6863a81937badd0f0e412b2c273ce7824c4",
+  "sheet_sha256": "54a21db8a705d33cebea7c00aa6605a8e27a77557696804132323f1d19f2ae9b",
+  "transcription_sha256": "b152ff7dd2fdd3d0c0677698e68c625d4466e6539751b0843c2e47fdb0e0a15f",
+  "current_model_nodes": {
+    "X2_7": "h_hot",
+    "X2_5": "0",
+    "X2_3": "h_upper2",
+    "X1_3": "h_upper2",
+    "X1_7": "h_hvcold",
+    "X1_16": "h_hvcold"
+  },
+  "current_model_checks": {
+    "current_joined": true,
+    "hv_cold_shared": true,
+    "auxiliary_ground": true,
+    "drive_hot": true,
+    "port_count": true
+  },
+  "variants": [
+    {
+      "id": "tied",
+      "x1_3": "upper2",
+      "x2_3": "upper2",
+      "interpretation": "current KiCad hypothesis"
+    },
+    {
+      "id": "open",
+      "x1_3": "upper_return",
+      "x2_3": "upper2",
+      "interpretation": "source-ambiguous alternative"
+    }
+  ],
+  "pulse_setup": "1 V positive 16 us primary pulse every 62.5 us, five pulses; isolated V21-class diode, 1 nF EHT capacitance, 200 Mohm leakage and 1 Gohm auxiliary shunts; flux backend",
+  "candidate_results": [
+    {
+      "candidate_id": "t3-fc941ad61c50ce31",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "tied": {
+        "status": "complete",
+        "data_rows": 77583,
+        "eht_peak_v": 20.3007,
+        "peak_time_s": 0.000251118
+      },
+      "open": {
+        "status": "complete",
+        "data_rows": 19099,
+        "eht_peak_v": 0.00438864,
+        "peak_time_s": 0.000266447
+      },
+      "tied_to_open_peak_ratio": 4625.738269714536
+    },
+    {
+      "candidate_id": "t3-21efe89f625e0b51",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "tied": {
+        "status": "complete",
+        "data_rows": 82182,
+        "eht_peak_v": 21.6845,
+        "peak_time_s": 0.00025115
+      },
+      "open": {
+        "status": "complete",
+        "data_rows": 19071,
+        "eht_peak_v": 0.00453215,
+        "peak_time_s": 0.000266442
+      },
+      "tied_to_open_peak_ratio": 4784.594508125282
+    },
+    {
+      "candidate_id": "t3-38c71242ffd040b3",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "tied": {
+        "status": "complete",
+        "data_rows": 77583,
+        "eht_peak_v": 20.3007,
+        "peak_time_s": 0.000251118
+      },
+      "open": {
+        "status": "complete",
+        "data_rows": 19099,
+        "eht_peak_v": 0.00438864,
+        "peak_time_s": 0.000266447
+      },
+      "tied_to_open_peak_ratio": 4625.738269714536
+    },
+    {
+      "candidate_id": "t3-5727c601bf8a59ed",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": 1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "tied": {
+        "status": "complete",
+        "data_rows": 82182,
+        "eht_peak_v": 21.6845,
+        "peak_time_s": 0.00025115
+      },
+      "open": {
+        "status": "complete",
+        "data_rows": 19071,
+        "eht_peak_v": 0.00453215,
+        "peak_time_s": 0.000266442
+      },
+      "tied_to_open_peak_ratio": 4784.594508125282
+    },
+    {
+      "candidate_id": "t3-6913b1596c2ffb91",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": 1
+      },
+      "tied": {
+        "status": "complete",
+        "data_rows": 78551,
+        "eht_peak_v": 20.51,
+        "peak_time_s": 0.000251154
+      },
+      "open": {
+        "status": "complete",
+        "data_rows": 19099,
+        "eht_peak_v": 0.00438864,
+        "peak_time_s": 0.000266447
+      },
+      "tied_to_open_peak_ratio": 4673.429581829451
+    },
+    {
+      "candidate_id": "t3-32b662942545b363",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": 1,
+        "upper_taps": -1
+      },
+      "tied": {
+        "status": "complete",
+        "data_rows": 80716,
+        "eht_peak_v": 21.895,
+        "peak_time_s": 0.000251109
+      },
+      "open": {
+        "status": "complete",
+        "data_rows": 19071,
+        "eht_peak_v": 0.00453215,
+        "peak_time_s": 0.000266442
+      },
+      "tied_to_open_peak_ratio": 4831.040455412994
+    },
+    {
+      "candidate_id": "t3-261c9dcc23bf007c",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": 1
+      },
+      "tied": {
+        "status": "complete",
+        "data_rows": 78551,
+        "eht_peak_v": 20.51,
+        "peak_time_s": 0.000251154
+      },
+      "open": {
+        "status": "complete",
+        "data_rows": 19099,
+        "eht_peak_v": 0.00438864,
+        "peak_time_s": 0.000266447
+      },
+      "tied_to_open_peak_ratio": 4673.429581829451
+    },
+    {
+      "candidate_id": "t3-af505506129d6f57",
+      "polarity": {
+        "drive": 1,
+        "auxiliary": -1,
+        "high_voltage": -1,
+        "lower_taps": -1,
+        "upper_taps": -1
+      },
+      "tied": {
+        "status": "complete",
+        "data_rows": 80716,
+        "eht_peak_v": 21.895,
+        "peak_time_s": 0.000251109
+      },
+      "open": {
+        "status": "complete",
+        "data_rows": 19071,
+        "eht_peak_v": 0.00453215,
+        "peak_time_s": 0.000266442
+      },
+      "tied_to_open_peak_ratio": 4831.040455412994
+    }
+  ],
+  "xspice_tied_diagnostic": {
+    "candidate_id": "t3-fc941ad61c50ce31",
+    "result": {
+      "status": "aborted-or-no-complete-window",
+      "data_rows": 16641,
+      "timestep_failure": true
+    },
+    "limitation": "The xspice backend does not complete this tied-return rectifier bench at the present settings; only the flux backend supports the functional comparison."
+  },
+  "open_checks": [
+    "Source page 4 does not independently establish X1:3-to-X2:3 continuity",
+    "Tap order, winding parameters, collector drive and connected loading remain unverified",
+    "The isolated rectifier bench cannot prove 11-12 kV EHT or any historical winding return"
+  ],
+  "passed": true
+}

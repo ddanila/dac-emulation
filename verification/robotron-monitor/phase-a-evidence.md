@@ -2148,3 +2148,19 @@ The existing 80 ns sign test is still useful for polarity, but it is too
 early to infer a turns ratio from its amplitude. The T3 graph, actual
 collector pulse and loaded rectifier path remain unresolved, so the
 active 1000-turn hypothesis is retained pending A1/A5 work.
+
+### A1/A5: bounded T3 X1:3/X2:3 return alternatives (2026-11-20)
+
+The [return-variant report](reference/k7222-11/t3-return-variants.json)
+exports the current page-4 KiCad T3 ports, confirming that X1:3 and X2:3
+share `h_upper2` in the model, while X1:7 shares the HV cold node with
+X1:16. It then compares that tied-return hypothesis with an open X1:3
+return, without changing the source sheet. The same 1 V, 16 µs primary
+pulse drives a V21-class diode, 1 nF EHT capacitance and 200 MΩ leakage
+for five line periods. Across all eight HV-sign-compatible candidates,
+the flux model's tied variant reaches 20.30–21.90 V in the last pulse;
+the open variant reaches 0.0044–0.0045 V. This is a strong conditional
+functional discriminator, not evidence that the printed trace joins the
+two terminals. The xspice tied variant aborts from a timestep failure
+near 6 µs, so its sign result cannot confirm this loaded amplitude test.
+The source return, winding order and connected service scores remain open.
