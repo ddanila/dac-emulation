@@ -1,7 +1,7 @@
-"""Compare page-18 neck cable labels with the ideal-rail KiCad assembly.
+"""Compare page-18 cable labels with the ideal-rail KiCad assembly.
 
-This is a semantic check of the two frame-path cables, not a pin-level A1
-approval: the main-board KiCad sheet still lacks physical connector pins.
+This is a semantic check of the four board-to-board cables, not a pin-level
+A1 approval: the split board sheets still lack physical connector pins.
 """
 import argparse
 import hashlib
@@ -15,11 +15,14 @@ ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT/'reference/k7222-11/page18-interconnect-transcription.json'
 ASSEMBLY = ROOT/'reference/k7222-11/assembly.json'
 
-NECK_CABLES = {'1.11.017293.0', '1.11.017294.0'}
+FRAME_CABLES = {'1.11.017307.0', '1.11.017308.0',
+                '1.11.017293.0', '1.11.017294.0'}
 SIGNAL_NETS = {
     'UG1': 'ug1', 'UG2': 'ug2', 'UG4': 'ug4',
     'VID': 'vid', 'INTENS': 'intens', '10.7P': 'p10_7',
-    '41P': 'p41', '00': '0',
+    '41P': 'p41', '00': '0', '5P': 'p5', '12P': 'p12',
+    '22P': 'p22', 'SYN': 'sync_gate', 'SYNCH': 'h_sync',
+    'X1': 'hy1', 'X2': 'hy2',
 }
 
 
@@ -31,18 +34,20 @@ def compare(source, assembly, components):
     by_board = {
         board: {net for part in components if part['source_id'].startswith(board+':')
                 for net in part['nodes']}
-        for board in ('012-6921', '012-6891')
+        for board in ('012-6921', '012-6931', '012-6891')
     }
-    cable_rows = [c for c in source['cables'] if c['part'] in NECK_CABLES]
-    if {c['part'] for c in cable_rows} != NECK_CABLES:
-        raise ValueError('missing frame-path neck cable')
+    cable_rows = [c for c in source['cables'] if c['part'] in FRAME_CABLES]
+    if {c['part'] for c in cable_rows} != FRAME_CABLES:
+        raise ValueError('missing frame-path board cable')
     rows = []
     seen = set()
     for cable in cable_rows:
-        if cable['from'] != '012-6921:X6' and cable['from'] != '012-6921:X3':
+        if cable['from'] not in ('012-6921:X5', '012-6921:X4',
+                                 '012-6921:X6', '012-6921:X3'):
             raise ValueError('unexpected source connector')
-        if cable['to'] != '012-6891:X1':
-            raise ValueError('unexpected neck connector')
+        if cable['to'] not in ('012-6931:X1', '012-6931:X3', '012-6891:X1'):
+            raise ValueError('unexpected destination connector')
+        destination_board = cable['to'].split(':', 1)[0]
         for from_pin, to_pin in cable['pin_pairs']:
             key = (cable['from'], from_pin, cable['to'], to_pin)
             if key in seen:
@@ -53,27 +58,30 @@ def compare(source, assembly, components):
             if left != right or left not in SIGNAL_NETS:
                 raise ValueError(f'cable signal mismatch: {key}')
             model_net = SIGNAL_NETS[left]
-            if assembly['neck_connectors']['X1'][to_pin] != model_net:
+            if destination_board == '012-6891' and assembly['neck_connectors']['X1'][to_pin] != model_net:
                 raise ValueError(f'neck model pin differs from page 18: {key}')
             rows.append(dict(cable=cable['part'], from_connector=cable['from'],
                              from_pin=from_pin, to_connector=cable['to'],
                              to_pin=to_pin, source_signal=left,
                              model_net=model_net,
                              horizontal_board_net_present=model_net in by_board['012-6921'],
-                             neck_board_net_present=model_net in by_board['012-6891']))
-    if len(rows) != 8:
-        raise ValueError('expected eight frame-path neck cable pairs')
-    return dict(format='dac-monitor-page18-frame-comparison-v1',
+                             destination_board=destination_board,
+                             destination_board_net_present=model_net in by_board[destination_board]))
+    if len(rows) != 18:
+        raise ValueError('expected eighteen frame-path cable pairs')
+    return dict(format='dac-monitor-page18-frame-comparison-v2',
                 qualification='partial semantic comparison; A1 page-18 pin-level gate remains open',
                 source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
                 assembly_sha256=hashlib.sha256(ASSEMBLY.read_bytes()).hexdigest(),
                 cable_pairs=rows,
                 both_board_nets=sum(r['horizontal_board_net_present'] and
-                                    r['neck_board_net_present'] for r in rows),
+                                    r['destination_board_net_present'] for r in rows),
                 missing_board_nets=[r for r in rows if not
-                                    (r['horizontal_board_net_present'] and r['neck_board_net_present'])],
-                open_checks=['main-board physical connector pins are absent from its KiCad export',
-                             'the other two page-18 cables, panel controls and yoke wiring need a full source-to-KiCad comparison'])
+                                    (r['horizontal_board_net_present'] and r['destination_board_net_present'])],
+                mapping_limits=['X1/X2 to hy1/hy2 uses the current yoke-net naming; physical pin direction is not established here',
+                                'SYNCH to h_sync uses the horizontal-output label; the vertical-board converter path is outside the ideal-rail frame'],
+                open_checks=['main-board and vertical-board physical connector pins are absent from their KiCad exports',
+                             'panel controls and yoke wiring need a full source-to-KiCad comparison'])
 
 
 def main():

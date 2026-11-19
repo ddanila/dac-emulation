@@ -982,16 +982,21 @@ interconnect file. Page 18 still needs a KiCad-export comparison and
 functional settlement of any differences before the A1 netlist gate can
 close. This transcription also cannot settle T3's internal winding order.
 
-`page18_frame_compare.py` compares the two frame-path neck cables against
+`page18_frame_compare.py` now compares all four board-to-board cables against
 freshly exported ideal-rail KiCad components and the neck pin map. The saved
-`reference/k7222-11/page18-frame-comparison.json` records all eight pin pairs:
-six signal nets occur on both board sheets. `INTENS` is absent on the main-board
-KiCad sheet because its contrast path is assembled outside that sheet;
-`10.7P` is absent on the neck sheet because the held heater branch is assembled
-outside it. This is a semantic comparison, not the independent pin-to-pin
-KiCad diff required by A1: the main-board sheet still lacks physical connector
-pins. The other ten cable pairs, panel controls and yoke connections
-also remain to be compared. The page-18 gate therefore stays open.
+`reference/k7222-11/page18-frame-comparison.json` records all 18 printed pin
+pairs: 12 signal nets occur on both corresponding board exports. On the neck
+cables, `INTENS` is absent on the main-board export because its contrast path
+is assembled outside that sheet; `10.7P` is absent on the neck export because
+the held heater branch is assembled outside it. On the vertical cables,
+`41P`, `SYNCH`, `X1` and `X2` have no matching vertical-board export net. The
+first two belong to the excluded supply/converter path; the latter two are
+horizontal-yoke pass-through labels on page 18, while the ideal-rail model
+connects the horizontal yoke directly. These are model-scope explanations,
+not verified physical pin connections. The comparison remains semantic:
+main-board and vertical-board KiCad sheets lack physical connector pins, and
+panel controls and yoke wiring still need pin-level comparison. The A1
+page-18 gate stays open.
 
 ### Independent page-16 neck-board pin transcription (2026-11-19)
 
