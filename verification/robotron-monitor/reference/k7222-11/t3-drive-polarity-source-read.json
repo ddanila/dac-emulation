@@ -1,0 +1,31 @@
+{
+  "format": "dac-monitor-t3-drive-polarity-source-read-v1",
+  "qualification": "partial page-4 functional read after model inspection; not an independent whole-page second netlist",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "source_views": [
+    {
+      "file": "older.pdf",
+      "page": 4,
+      "render": "300 dpi full page",
+      "render_sha256": "02cf88c791480f842d7bf2549cbc6365c8282a778132185b02b59ca8a501b748"
+    },
+    {
+      "file": "older.pdf",
+      "page": 4,
+      "render": "600 dpi primary-stage context crop",
+      "full_page_render_sha256": "5dc33a1319ec1562b8c0486c7e1f808d52bdb73659657f735fd685e596dc054b",
+      "crop_px": [250, 1000, 1850, 3500],
+      "render_sha256": "841fedf38d67fc9122bbf57ddc7a5610a86c26b8d397868439ba44c9fe6eaace"
+    }
+  ],
+  "source_edges": {
+    "drive_winding_endpoints": ["X2:7", "X2:4"],
+    "output_transistor_collector": {"part": "V18", "terminal": "C", "t3_terminal": "X2:7"},
+    "damper": {"part": "V17", "anode_net": "0", "cathode_terminal": "X2:7"}
+  },
+  "functional_inference": "The grounded-emitter V18 output stage drives the X2:7 collector terminal above X2:4 on flyback. Positive EHT through V21 requires X1:1 above X1:16 in that interval. This determines relative sign only inside the current ordered winding graph; it does not establish the historical tap order or X1:3-to-X2:3 return.",
+  "unresolved": [
+    "Internal T3 tap order and X1:3-to-X2:3 return are not established by these page-4 external edges.",
+    "The relative-polarity filter is conditional on the current winding graph and an isolated positive collector pulse; no connected sustained-state score is claimed."
+  ]
+}

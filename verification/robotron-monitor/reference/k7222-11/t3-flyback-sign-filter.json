@@ -1,0 +1,180 @@
+{
+  "format": "dac-monitor-t3-flyback-sign-filter-v1",
+  "qualification": "conditional polarity filter within the unverified T3 tap graph; not an A1/A5 closure or settled monitor result",
+  "source_read_sha256": "11304942f9d33817151733033946ff165d68eef0cf5815cb92ae9957e9bfb762",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "hv_read_sha256": "16d3efcdd886f8f40dc72b87fd988767312c47969b5d2876c92d7e690373400d",
+  "graph_sha256": "fef1deb6ff223a824f351396ab5d3a4e04b9ef30d9aeb94785fa21f9a005c839",
+  "parameters_sha256": "52c457b2a82016552e545ce28d6325ad96e26b896642548e7409f3de022d9240",
+  "sheet_sha256": "54a21db8a705d33cebea7c00aa6605a8e27a77557696804132323f1d19f2ae9b",
+  "source_edges": {
+    "drive_winding_endpoints": [
+      "X2:7",
+      "X2:4"
+    ],
+    "output_transistor_collector": {
+      "part": "V18",
+      "terminal": "C",
+      "t3_terminal": "X2:7"
+    },
+    "damper": {
+      "part": "V17",
+      "anode_net": "0",
+      "cathode_terminal": "X2:7"
+    }
+  },
+  "path_comparison": {
+    "drive_pin_7_net": "h_hot",
+    "drive_pin_4_net": "h_return",
+    "v18_pins": {
+      "3": "0",
+      "1": "h_hot",
+      "2": "h_outbase"
+    },
+    "v17_pins": {
+      "1": "0",
+      "2": "h_hot"
+    },
+    "checks": {
+      "collector_shares_drive_pin_7": true,
+      "output_emitter_is_ground": true,
+      "damper_anode_is_ground": true,
+      "damper_cathode_shares_drive_pin_7": true,
+      "drive_endpoints_distinct": true
+    }
+  },
+  "hv_source_comparison_passed": true,
+  "pulse_setup": "1 V positive pulse from X2:7 to X2:4; other T3 pins each shunted by 1 Gohm; V(X1:1)-V(X1:16) sampled near 80 ns",
+  "candidate_results": [
+    {
+      "id": "t3-9e65096102893afd",
+      "high_voltage_relative_polarity": 1,
+      "xspice_hv_v_at_80ns": -0.329786058,
+      "flux_hv_v_at_80ns": -0.320653766,
+      "compatible": false
+    },
+    {
+      "id": "t3-0a43571eac7fbbe3",
+      "high_voltage_relative_polarity": 1,
+      "xspice_hv_v_at_80ns": -0.329786058,
+      "flux_hv_v_at_80ns": -0.320653766,
+      "compatible": false
+    },
+    {
+      "id": "t3-a7796c6d95d90d1d",
+      "high_voltage_relative_polarity": 1,
+      "xspice_hv_v_at_80ns": -0.329786058,
+      "flux_hv_v_at_80ns": -0.320653766,
+      "compatible": false
+    },
+    {
+      "id": "t3-ecaa2751045c68f9",
+      "high_voltage_relative_polarity": 1,
+      "xspice_hv_v_at_80ns": -0.329786058,
+      "flux_hv_v_at_80ns": -0.320653766,
+      "compatible": false
+    },
+    {
+      "id": "t3-fc941ad61c50ce31",
+      "high_voltage_relative_polarity": -1,
+      "xspice_hv_v_at_80ns": 0.329786058,
+      "flux_hv_v_at_80ns": 0.320653766,
+      "compatible": true
+    },
+    {
+      "id": "t3-21efe89f625e0b51",
+      "high_voltage_relative_polarity": -1,
+      "xspice_hv_v_at_80ns": 0.329786058,
+      "flux_hv_v_at_80ns": 0.320653766,
+      "compatible": true
+    },
+    {
+      "id": "t3-38c71242ffd040b3",
+      "high_voltage_relative_polarity": -1,
+      "xspice_hv_v_at_80ns": 0.329786058,
+      "flux_hv_v_at_80ns": 0.320653766,
+      "compatible": true
+    },
+    {
+      "id": "t3-5727c601bf8a59ed",
+      "high_voltage_relative_polarity": -1,
+      "xspice_hv_v_at_80ns": 0.329786058,
+      "flux_hv_v_at_80ns": 0.320653766,
+      "compatible": true
+    },
+    {
+      "id": "t3-ef4ea5226f51de39",
+      "high_voltage_relative_polarity": 1,
+      "xspice_hv_v_at_80ns": -0.329786058,
+      "flux_hv_v_at_80ns": -0.320653766,
+      "compatible": false
+    },
+    {
+      "id": "t3-739227b5da8131f5",
+      "high_voltage_relative_polarity": 1,
+      "xspice_hv_v_at_80ns": -0.329786058,
+      "flux_hv_v_at_80ns": -0.320653766,
+      "compatible": false
+    },
+    {
+      "id": "t3-4d6bd86ff945466c",
+      "high_voltage_relative_polarity": 1,
+      "xspice_hv_v_at_80ns": -0.329786058,
+      "flux_hv_v_at_80ns": -0.320653766,
+      "compatible": false
+    },
+    {
+      "id": "t3-8e289c713e4e1020",
+      "high_voltage_relative_polarity": 1,
+      "xspice_hv_v_at_80ns": -0.329786058,
+      "flux_hv_v_at_80ns": -0.320653766,
+      "compatible": false
+    },
+    {
+      "id": "t3-6913b1596c2ffb91",
+      "high_voltage_relative_polarity": -1,
+      "xspice_hv_v_at_80ns": 0.329786058,
+      "flux_hv_v_at_80ns": 0.320653766,
+      "compatible": true
+    },
+    {
+      "id": "t3-32b662942545b363",
+      "high_voltage_relative_polarity": -1,
+      "xspice_hv_v_at_80ns": 0.329786058,
+      "flux_hv_v_at_80ns": 0.320653766,
+      "compatible": true
+    },
+    {
+      "id": "t3-261c9dcc23bf007c",
+      "high_voltage_relative_polarity": -1,
+      "xspice_hv_v_at_80ns": 0.329786058,
+      "flux_hv_v_at_80ns": 0.320653766,
+      "compatible": true
+    },
+    {
+      "id": "t3-af505506129d6f57",
+      "high_voltage_relative_polarity": -1,
+      "xspice_hv_v_at_80ns": 0.329786058,
+      "flux_hv_v_at_80ns": 0.320653766,
+      "compatible": true
+    }
+  ],
+  "backend_signs_agree": true,
+  "accepted_candidate_ids": [
+    "t3-fc941ad61c50ce31",
+    "t3-21efe89f625e0b51",
+    "t3-38c71242ffd040b3",
+    "t3-5727c601bf8a59ed",
+    "t3-6913b1596c2ffb91",
+    "t3-32b662942545b363",
+    "t3-261c9dcc23bf007c",
+    "t3-af505506129d6f57"
+  ],
+  "rejected_candidate_count": 8,
+  "historical_polarity_verified": false,
+  "unresolved": [
+    "Internal T3 tap order and X1:3-to-X2:3 return are not established by these page-4 external edges.",
+    "The relative-polarity filter is conditional on the current winding graph and an isolated positive collector pulse; no connected sustained-state score is claimed."
+  ],
+  "passed": true
+}

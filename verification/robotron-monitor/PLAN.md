@@ -431,8 +431,12 @@ X1:1 and X1:16 as the high-voltage winding terminals; schematic page 4 puts
 V21 between X1:1 and the X1:2 EHT output. The model now uses those terminal
 roles, with X1:2 outside the magnetic graph. The provisional X1:3-to-X2:3
 return and other tap continuity and polarity still lack an independent
-pin-to-pin source check. The A5 winding ratios, polarity and candidate list
-therefore cannot be frozen from the current model. The isolated startup
+pin-to-pin source check. A page-4 functional read now matches T3 X2:7 to
+V18's collector and V17's cathode. An isolated positive collector pulse
+selects eight of sixteen relative-polarity candidates in both magnetic
+backends. This screens only the HV sign within the current unverified tap
+graph. The A5 winding ratios, remaining polarities and candidate list
+therefore cannot be frozen. The isolated startup
 trials in `phase-a-evidence.md` neither resolve the remaining pin map nor
 demonstrate the documented 11–12 kV sustained EHT.
 The page-4 HV source edges now have a fresh KiCad-export comparison: T3 X1:1
