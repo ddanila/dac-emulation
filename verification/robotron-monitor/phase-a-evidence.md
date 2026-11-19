@@ -1502,3 +1502,41 @@ Regenerated provisional A2 coverage is 37 of 64 frame-path instances, leaving
 Original ratings, individual diode directions, 1YL1 suffix differences,
 in-circuit voltage/current stress and joint-bound connected sensitivity remain
 open. The nominal comparator checks do not close A2 or A6.
+
+### Conditional vertical design point (2026-11-19)
+
+`vertical_design_point.py` solves the current needed to land the reduced-model
+beam at half the manual's 145 mm picture height. It uses the documented 2 kByte
+18 ms trace and 1.5 ms retrace, the documented 11–12 kV EHT range, and the
+existing assumed 40 mm cosine-sheet yoke and CRT trajectory. The yoke model
+derives 644 effective vertical turns, 19.987 mH, 10 Ω and 12.196 mT/A; the
+40 mm field, 10 mm internal neck aperture, winding target and gun geometry are
+not physical measurements of the installed tube or yoke. The saved
+`reference/k7222-11/vertical-design-point.json` records the source/profile
+hashes, all input conditions and the following conditional results:
+
+| Condition | Required peak vertical yoke current |
+| --- | ---: |
+| 145 mm height, 11.5 kV | 0.28055 A |
+| 130–160 mm documented height tolerance at 11.5 kV | 0.25353–0.30691 A |
+| 145 mm height across 11–12 kV | 0.27433–0.28665 A |
+
+For a linear -I-to-+I trace followed by a 1.5 ms retrace, `V=RI+L dI/dt`
+requires 31.17 A/s during trace and -374.07 A/s during retrace. The ideal
+terminal differential ranges from -10.28 to +3.43 V, a 13.71 Vpp swing.
+Manual test points 7 and 8 are **separate** yoke-terminal waveforms with 2.5
+and 17 Vpp guidelines. Without their relative phase and DC offsets they cannot
+yield a measured differential. Their nominal possible differential-swing
+interval is 14.5–19.5 Vpp, placing the ideal calculation 0.79 V below its
+nominal lower edge; with each point's recorded ±25% guideline tolerance, the
+possible interval widens to 9.625–24.375 Vpp and contains 13.71 Vpp. This is
+a consistency screen, not a connected-stage pass or a document contradiction.
+The nominal current is stable within 2 nA across 0.2, 0.1 and 0.05 mm
+trajectory steps.
+
+`design-point.json` now links and summarizes the calculation. Its geometry
+remains provisional, while test points 1–6 constrain upstream vertical-stage
+waveforms rather than yoke current directly. A source-bounded inner neck
+aperture/yoke extent and connected TP7/TP8 differential waveform are still
+needed before the vertical operating point can be frozen. The T3 tap and
+return-path questions remain separate A1/A5 work.

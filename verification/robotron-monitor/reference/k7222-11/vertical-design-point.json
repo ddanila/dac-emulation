@@ -1,0 +1,136 @@
+{
+  "format": "dac-monitor-vertical-design-point-v1",
+  "qualification": "conditional reduced-geometry design point; no physical tube/yoke measurement or connected voltage score",
+  "source_sha256": "4e8610f675cf22e13b91d82cda0146bf0a406ec9f284eb60fed0ea6760ad8f0e",
+  "geometry_sha256": "4553f3d817ed5d094cea2df8d49343bed890c1b70dc9911b998c6f10e5b98f78",
+  "source_target": {
+    "picture_height_mm": 145,
+    "tolerance_mm": 15,
+    "source": {
+      "file": "older-operation.pdf",
+      "page": 32
+    },
+    "native_2k_mode_source": {
+      "file": "older-operation.pdf",
+      "page": 5
+    }
+  },
+  "assumed_conditions": {
+    "grid2_v": 350,
+    "focus_v": 4000,
+    "nominal_anode_v": 11500.0,
+    "anode_bounds_v": [
+      11000,
+      12000
+    ],
+    "trace_s": 0.018,
+    "retrace_s": 0.0015,
+    "field_start_m": 0.075,
+    "field_length_m": 0.04,
+    "internal_neck_radius_m": 0.01,
+    "vertical_tesla_per_amp": 0.012196125520739134,
+    "vertical_inductance_h": 0.019986771359545453,
+    "vertical_resistance_ohm": 10
+  },
+  "nominal": {
+    "peak_current_a": 0.2805549940466882,
+    "observed_half_height_m": 0.07249999994800263,
+    "voltage_budget": {
+      "trace_slope_a_per_s": 31.172777116298693,
+      "retrace_slope_a_per_s": -374.0733253955843,
+      "trace_endpoints_v": [
+        -2.1825067716013495,
+        3.428593109332415
+      ],
+      "retrace_endpoints_v": [
+        -4.670968085919508,
+        -10.282067966853273
+      ],
+      "minimum_v": -10.282067966853273,
+      "maximum_v": 3.428593109332415,
+      "total_swing_v": 13.710661076185687
+    }
+  },
+  "height_cases": [
+    {
+      "picture_height_m": 0.13,
+      "anode_v": 11500.0,
+      "peak_current_a": 0.2535255852341652,
+      "observed_half_height_m": 0.06499999997266886
+    },
+    {
+      "picture_height_m": 0.145,
+      "anode_v": 11500.0,
+      "peak_current_a": 0.2805549940466882,
+      "observed_half_height_m": 0.07249999994800263
+    },
+    {
+      "picture_height_m": 0.16,
+      "anode_v": 11500.0,
+      "peak_current_a": 0.30691331833601004,
+      "observed_half_height_m": 0.08000000003122083
+    }
+  ],
+  "eht_cases": [
+    {
+      "picture_height_m": 0.145,
+      "anode_v": 11000,
+      "peak_current_a": 0.27433264046907435,
+      "observed_half_height_m": 0.07249999992958975
+    },
+    {
+      "picture_height_m": 0.145,
+      "anode_v": 11500.0,
+      "peak_current_a": 0.2805549940466882,
+      "observed_half_height_m": 0.07249999994800263
+    },
+    {
+      "picture_height_m": 0.145,
+      "anode_v": 12000,
+      "peak_current_a": 0.2866480723023415,
+      "observed_half_height_m": 0.07250000002465838
+    }
+  ],
+  "trajectory_refinement": [
+    {
+      "step_m": 0.0002,
+      "peak_current_a": 0.2805549940466882,
+      "observed_half_height_m": 0.07249999994800263
+    },
+    {
+      "step_m": 0.0001,
+      "peak_current_a": 0.2805549928545953,
+      "observed_half_height_m": 0.07250000003870924
+    },
+    {
+      "step_m": 5e-05,
+      "peak_current_a": 0.2805549928545953,
+      "observed_half_height_m": 0.07250000006485639
+    }
+  ],
+  "manual_yoke_terminal_guidelines": {
+    "tp7_swing_vpp": 2.5,
+    "tp8_swing_vpp": 17,
+    "possible_difference_swing_vpp": [
+      14.5,
+      19.5
+    ],
+    "accepted_tolerances": {
+      "7": 0.25,
+      "8": 0.25
+    },
+    "toleranced_possible_difference_swing_vpp": [
+      9.625,
+      24.375
+    ],
+    "required_ideal_ramp_swing_vpp": 13.710661076185687,
+    "inside_toleranced_possibility": true,
+    "interpretation": "separate terminal swings do not fix differential waveform phase or DC level; compare only as a consistency screen"
+  },
+  "limitations": [
+    "The 40 mm axial field, 10 mm inner neck radius, 20 mH and 10 ohm yoke are unmeasured reduced-model assumptions.",
+    "Test points 1-6 constrain upstream stage waveforms, not yoke current directly; points 7 and 8 are separate terminal voltages.",
+    "Linear current ramps and V=RI+L dI/dt omit driver loss, coupling and yoke saturation.",
+    "This calculation does not settle the horizontal T3 graph or constitute a sustained connected-stage score."
+  ]
+}
