@@ -1,10 +1,15 @@
 """Behavioral checks for a manufacturer-topology, uncalibrated family model."""
 from pathlib import Path
-import re,sys,tempfile,unittest
+import json,re,sys,tempfile,unittest
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
-import lab,reference
+import lab,lm709_dc_check,reference
 
 class LM709Tests(unittest.TestCase):
+    def test_saved_dc_follower_diagnostic(self):
+        saved=json.loads((ROOT/'reference/k7222-11/lm709-dc-follower-check.json').read_text())
+        self.assertEqual(lm709_dc_check.run(),saved)
+        self.assertEqual([row['input_v'] for row in saved['cases']],[-1,0,1])
+
     def solve(self,comp=5e-9,step=1e-7,load=10000):
         with tempfile.TemporaryDirectory() as tmp:
             out=Path(tmp)

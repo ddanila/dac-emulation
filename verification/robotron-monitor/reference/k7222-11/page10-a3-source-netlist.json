@@ -1,0 +1,51 @@
+{
+  "format": "dac-monitor-page10-a3-source-netlist-v1",
+  "qualification": "partial A1 page-10 source read of A3 and its two external compensation networks; this does not identify or qualify P09A electrically",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 10,
+    "views": [
+      {
+        "description": "300 dpi A3 and vertical-driver crop, page-image rectangle (100,1550)-(1150,2650)",
+        "sha256": "15b40ce6f81c3f542a1ba3eec99e5b76c35995362ed83a84702228239f149a2f"
+      },
+      {
+        "description": "600 dpi A3 and compensation-network crop",
+        "sha256": "7a4c5325900e18a0dc5c1437660ec58ba97358dca93517027151f690416b1e56"
+      }
+    ]
+  },
+  "scope": {
+    "board": "012-6931",
+    "parts": ["A3", "C26", "C27", "R54", "R48"],
+    "omitted_neighbours": "Input resistor and diode networks, supply decoupling, output bias chain after R48, and other page-10 parts remain outside this partial read"
+  },
+  "physical_to_model_pins": {
+    "3": "1",
+    "4": "2",
+    "5": "3",
+    "6": "4",
+    "9": "5",
+    "10": "6",
+    "11": "7",
+    "12": "8"
+  },
+  "reading_notes": [
+    "A3 uses eight active physical pins of a 14-pin outline: 3/12 for input compensation, 4/5 for inverting/noninverting input, 6/11 for negative/positive supply, and 9/10 for output compensation/output. The KiCad functional symbol renumbers these as 1 through 8; the translation above is explicit, not an electrical identification of P09A as LM709.",
+    "C26 joins physical pin 12 to the upper end of R54; R54 returns to physical pin 3. Neither compensation branch is tied directly to the negative rail in this crop.",
+    "C27 joins physical output-compensation pin 9 to output pin 10. R48 begins at pin 10 and feeds the separately checked output-bias chain.",
+    "The upper input line reaches physical pin 5 (+), the lower reaches pin 4 (-); the supply lines reach pins 11 and 6 respectively."
+  ],
+  "nets": {
+    "COMP_A": ["A3:3", "R54:2"],
+    "INVERTING_INPUT": ["A3:4"],
+    "NONINVERTING_INPUT": ["A3:5"],
+    "NEGATIVE_SUPPLY": ["A3:6"],
+    "OUTPUT_COMPENSATION": ["A3:9", "C27:1"],
+    "AMPLIFIER_OUTPUT": ["A3:10", "C27:2", "R48:1"],
+    "POSITIVE_SUPPLY": ["A3:11"],
+    "COMP_B": ["A3:12", "C26:1"],
+    "COMP_SERIES": ["C26:2", "R54:1"]
+  }
+}

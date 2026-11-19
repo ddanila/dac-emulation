@@ -447,8 +447,10 @@ The active P09A amplifier is a concrete A2 failure, not merely an unregistered
 instance. Its current `LM709_FAMILY` substitute has a matching provisional
 pin-function pattern, but no established P09A electrical equivalence. In an
 isolated DC follower with the manufacturer's LM709 compensation network, ±15 V
-rails and a 2 kΩ load, the model gives −1.00006 V for a −1 V input and
-12.54258 V for a +1 V input. That positive-input result fails the basic
+rails and a 2 kΩ load, the
+[reproducible check](reference/k7222-11/lm709-dc-follower-check.json) gives
+−1.00006 V for a −1 V input and 12.54258 V for a +1 V input. That
+positive-input result fails the basic
 closed-loop function even though the existing transient test passes. The
 substitute therefore cannot be promoted to a bounded, qualified P09A model
 or used to claim the connected A3 waveform is validated. Repair and check its
@@ -516,7 +518,12 @@ checks all six V27/V28 terminals, all three bias-diode directions, R48's feed
 to the V20/V21 junction, and the R29 shunt/R27 sense return between Y1, Y2
 and 0 V. Printed arrows confirm the modeled upper NPN/lower PNP assignment;
 the contradictory handwritten BD labels remain unverified. The rest of page
-10 and its connected-stage function check are still open.
+10 and its connected-stage function check are still open. A separate A3 read
+now matches all eight active physical amplifier pins and seven C26/C27/R54/R48
+compensation/output terminals in a fresh KiCad export. The functional symbol's
+1–8 pin numbering is explicitly mapped to physical 3, 4, 5, 6, 9, 10, 11,
+12. This closes that local connection check, not P09A model qualification or
+the remaining page-10 netlist.
 The page-18 source transcription now has all 18 labelled board-cable pairs
 compared at both physical connector pins in fresh KiCad exports. Twelve signal
 nets occur on both corresponding functional board models; six have model-scope
