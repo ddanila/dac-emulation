@@ -114,9 +114,15 @@
       "file": "reference/k7222-11/horizontal-t2-design.json",
       "companion": "reference/k7222-11/page3-t2-primary-source-read.json",
       "use": "Documented R23=62 ohm and 16 kHz line rate set provisional T2 primary reactance and added series-drop budgets; the secondary remains unqualified."
+    },
+    "horizontal_l3_design": {
+      "file": "reference/k7222-11/horizontal-l3-design.json",
+      "use": "Documented R35=82 ohm and 16 us retrace bound L3's isolated shunted output-branch reactance and resistance; not a factory choke specification."
     }
   },
   "entries": [
+    {"id":"012-6921:L3.L","stage":"horizontal-output-linearity","value":0.00002,"bounds":[0.000001,0.000095],"unit":"H","sources":["horizontal_l3_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_linearity_l","basis":"At the retrace half-cycle frequency, 95 uH maximum keeps current in parallel R35=82 ohm +/-5% below 25% of L3 branch current; nominal and lower bound remain exploratory","qualification":"provisional-design-derived"},
+    {"id":"012-6921:L3.RDC","stage":"horizontal-output-linearity","value":0.1,"bounds":[0.01,1],"unit":"ohm","sources":["horizontal_l3_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_linearity_r","basis":"1 ohm maximum is below 2% of documented R35=82 ohm even at -5% tolerance; original copper/core loss unknown","qualification":"provisional-design-derived"},
     {"id":"012-6921:T2.LP","stage":"horizontal-driver","value":0.005,"bounds":[0.0031,0.02],"unit":"H","sources":["horizontal_t2_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_driver_l","basis":"16 kHz primary reactance at least five times documented R23=62 ohm requires >=3.08 mH; upper bound remains exploratory","qualification":"provisional-design-derived"},
     {"id":"012-6921:T2.RP","stage":"horizontal-driver","value":2,"bounds":[0.1,6.2],"unit":"ohm","sources":["horizontal_t2_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_driver_r","basis":"6.2 ohm upper budget adds 10% to documented 62 ohm R23 series drop at equal current; original copper/core loss unknown","qualification":"provisional-design-derived"},
     {"id":"012-6921:L1.L","stage":"horizontal-output-feed","value":0.0001,"bounds":[0.000012,0.001],"unit":"H","sources":["horizontal_l1_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_choke_l","basis":"C22=220 uF and 16 kHz line rate require >=11.2 uH for an LC corner below one fifth of line frequency; 100 uH gives a 1.07 kHz nominal corner","qualification":"provisional-design-derived"},

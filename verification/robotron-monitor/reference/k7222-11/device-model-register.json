@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; 59 of 64 frame-path instances have provisional register coverage, including conditional T1, T2 primary and horizontal-feed L1 checks; five assembled horizontal-board magnetics remain uncovered",
+  "status": "partial; 60 of 64 frame-path instances have provisional register coverage, including conditional T1, T2 primary, L1 feed and L3 output-branch checks; four assembled horizontal-board magnetics remain uncovered",
   "sources": {
     "ti_sn74h00_1985": {"url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf", "edition": "Texas Instruments The TTL Data Book, 1985, printed pages 3-3 and 3-6", "use": "SN74H00 4x 2-input NAND class: 4.75-5.25 V supply, VIH >=2 V, VIL <=0.8 V, VOH >=2.4 V at -0.5 mA, VOL <=0.4 V at 20 mA, IIH <=50 uA, IIL >=-2 mA, ICCH <=16.8 mA, ICCL <=40 mA, and tPLH/tPHL <=10 ns at 280 ohm/25 pF. A Robotron table maps T200 to this family; not a T200 specimen test."},
     "ti_lm709c": {"url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf", "revision": "National Semiconductor / TI SNOS659A", "pages": [2, 3, 4], "use": "LM709C class comparator at +/-15 V: minimum 15 V/mV large-signal gain, +/-10 V minimum output swing into 2 kohm, 2.6 mA typical/6.6 mA maximum supply current, 300 nA typical/1.5 uA maximum bias, 50 kohm minimum/250 kohm typical input resistance, 150 ohm typical output resistance and 0.25 V/us typical slew. The K7222.11 printed P09A is not identified as LM709."},
@@ -88,6 +88,10 @@
       "file": "reference/k7222-11/horizontal-t2-design.json",
       "companion": "reference/k7222-11/page3-t2-primary-source-read.json",
       "use": "Documented R23=62 ohm and native 16 kHz line rate bound a provisional T2 primary inductance and series-resistance budget. The unloaded source-connected driver gives only 30.02 Vpp at TP15 versus the manual 45 Vpp +/-20%; this is a diagnostic mismatch, not an A3 score or qualified secondary model."
+    },
+    "horizontal_l3_design": {
+      "file": "reference/k7222-11/horizontal-l3-design.json",
+      "use": "Documented parallel R35=82 ohm +/-5% and 16 us retrace set an isolated upper L3 inductance budget: R35 branch current no more than 25% of L3 branch current at the retrace half-cycle frequency, including the low R35 tolerance endpoint. The source branch and original choke values remain unqualified."
     },
     "philips_bd139_bd140": {
       "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1986_S04a_Philips_Low-Frequency_Power_Transistors_and_Hybrid_Modules.pdf",
@@ -793,6 +797,22 @@
     }
   ],
   "devices": [
+    {
+      "id": "012-6921:L3",
+      "printed_type": "1007.01-27.00",
+      "candidate_class": "series RL horizontal-output linearity element shunted by documented R35 in the provisional page-4 graph",
+      "identity_tier": "printed stock identity; functional operating bounds, not original winding data",
+      "model": "HORIZONTAL_LINEARITY",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "profile": "profiles/k7222-11-horizontal-oscillator.json",
+      "sources": ["horizontal_l3_design"],
+      "parameters": {
+        "L": {"profile_key": "horizontal_linearity_l", "nominal": 0.00002, "bounds": [0.000001, 0.000095], "unit": "H", "tier": "design-derived upper operating budget", "basis": "At 31.25 kHz retrace half-cycle frequency, the 95 uH upper bound keeps current in parallel R35=82 ohm +/-5% below one quarter of L3 branch current. The lower bound and nominal are exploratory."},
+        "RDC": {"profile_key": "horizontal_linearity_r", "nominal": 0.1, "bounds": [0.01, 1], "unit": "ohm", "tier": "design-derived upper operating budget", "basis": "1 ohm maximum is below 2% of documented R35=82 ohm even at -5% tolerance; original copper/core loss is unknown."}
+      },
+      "model_response_report": "reference/k7222-11/horizontal-l3-design.json",
+      "remaining": ["The page-4 L3/R35/C25 branch has no independent whole-page A1 source comparison", "Original L3 inductance, DC/core loss, saturation, current and thermal limits are unknown", "Connected T3/yoke sensitivity and manual output waveforms remain unchecked"]
+    },
     {
       "id": "012-6921:T2",
       "printed_type": "1.11.017361.0/90",
