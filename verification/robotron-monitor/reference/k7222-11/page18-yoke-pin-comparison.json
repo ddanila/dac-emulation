@@ -1,0 +1,133 @@
+{
+  "format": "dac-monitor-page18-yoke-pin-comparison-v1",
+  "qualification": "six vertical-board connector pins and four yoke labels checked; external winding nodes checked in assembled deck",
+  "source_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "sheet_sha256": "31fecc9b66b924c26b18c8524e8a8fdf16cfa0680d68b9b89576a6f70825040d",
+  "board_connector_pins_checked": 6,
+  "yoke_terminals_checked": 4,
+  "board_connector": [
+    {
+      "pin": "1",
+      "source_signal": "41P",
+      "expected_model_net": "p41",
+      "export_net": "p41"
+    },
+    {
+      "pin": "2",
+      "source_signal": "41P",
+      "expected_model_net": "p41",
+      "export_net": "p41"
+    },
+    {
+      "pin": "3",
+      "source_signal": "Y1",
+      "expected_model_net": "y1",
+      "export_net": "y1"
+    },
+    {
+      "pin": "4",
+      "source_signal": "Y2",
+      "expected_model_net": "y2",
+      "export_net": "y2"
+    },
+    {
+      "pin": "5",
+      "source_signal": "X2",
+      "expected_model_net": "hy2",
+      "export_net": "hy2"
+    },
+    {
+      "pin": "6",
+      "source_signal": "X1",
+      "expected_model_net": "hy1",
+      "export_net": "hy1"
+    }
+  ],
+  "yoke_terminals": [
+    {
+      "yoke_pin": "1",
+      "board_pin": "6",
+      "source_signal": "X1",
+      "model_net": "hy1"
+    },
+    {
+      "yoke_pin": "3",
+      "board_pin": "5",
+      "source_signal": "X2",
+      "model_net": "hy2"
+    },
+    {
+      "yoke_pin": "4",
+      "board_pin": "4",
+      "source_signal": "Y2",
+      "model_net": "y2"
+    },
+    {
+      "yoke_pin": "6",
+      "board_pin": "3",
+      "source_signal": "Y1",
+      "model_net": "y1"
+    }
+  ],
+  "winding_elements": [
+    {
+      "element": "Rhorizontal",
+      "expected_nodes": [
+        "hy1",
+        "h_winding"
+      ],
+      "actual_nodes": [
+        "hy1",
+        "h_winding"
+      ],
+      "parameter": "{yoke_horizontal_r}"
+    },
+    {
+      "element": "Lhorizontal",
+      "expected_nodes": [
+        "h_winding",
+        "hy2"
+      ],
+      "actual_nodes": [
+        "h_winding",
+        "hy2"
+      ],
+      "parameter": "{yoke_horizontal_l}"
+    },
+    {
+      "element": "Rvertical",
+      "expected_nodes": [
+        "y1",
+        "v_winding"
+      ],
+      "actual_nodes": [
+        "y1",
+        "v_winding"
+      ],
+      "parameter": "{yoke_vertical_r}"
+    },
+    {
+      "element": "Lvertical",
+      "expected_nodes": [
+        "v_winding",
+        "y2"
+      ],
+      "actual_nodes": [
+        "v_winding",
+        "y2"
+      ],
+      "parameter": "{yoke_vertical_l}"
+    }
+  ],
+  "pin_misses": [],
+  "extra_kicad_connector_pins": [],
+  "winding_misses": [],
+  "open_checks": [
+    "panel controls need source-to-KiCad pin comparison",
+    "the horizontal-yoke pass-through is audit-only on the vertical board",
+    "yoke R/L and field strength remain bounded hypotheses",
+    "T3 internal winding topology is outside page 18"
+  ],
+  "passed": true
+}

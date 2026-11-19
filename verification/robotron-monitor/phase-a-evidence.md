@@ -1003,8 +1003,8 @@ first two belong to the excluded supply/converter path; the latter two are
 horizontal-yoke pass-through labels on page 18, while the ideal-rail model
 connects the horizontal yoke directly. These are model-scope explanations;
 the separate physical-pin comparison below checks the connector labels but
-does not fill the six functional gaps. Panel controls and yoke wiring also
-need pin-level comparison. The A1 page-18 gate stays open.
+does not fill the six functional gaps. Panel controls still need pin-level
+comparison; the yoke has a separate check below. The A1 page-18 gate stays open.
 
 The main-board X4 and vertical-board X3 sheets now expose audit-only six-pin
 connector symbols. `page18_vertical_cable_compare.py` checks their fresh
@@ -1026,7 +1026,21 @@ unlabelled on page 18 and is separately checked as 0 against the page-16
 assembly map. A changed X6 pin assignment fails both this comparison and
 `reference.py`'s audit-symbol check. The physical symbols add no assembled
 circuit elements. The receipt still exposes six functional board-net gaps;
-panel controls, yoke wiring and T3 windings remain outside this result.
+panel controls and T3 windings remain outside this result. The yoke is checked
+separately below.
+
+`page18_yoke_pin_compare.py` checks the six labelled pins on vertical-board X2
+against a fresh KiCad XML export and compares all four source yoke terminals
+with the corresponding X2 pins: yoke 1→X2:6 (X1), 3→X2:5 (X2), 4→X2:4 (Y2),
+and 6→X2:3 (Y1). An audit-only X2 symbol exposes the board pins without adding
+circuit elements. The saved
+`reference/k7222-11/page18-yoke-pin-comparison.json` also checks that the
+assembled deck connects a resistor and inductor in series between each pair of
+horizontal (`hy1`/`hy2`) and vertical (`y1`/`y2`) endpoints. Swapping X2:3/X2:4
+or moving one deck endpoint fails the comparison. This verifies the represented
+terminal map and yoke topology; it does not establish the yoke's historical
+R/L values, field strength, or the omitted vertical-board horizontal pass-through.
+Panel controls and six cable functional gaps keep the A1 page-18 check open.
 
 ### Independent page-16 neck-board pin transcription (2026-11-19)
 
