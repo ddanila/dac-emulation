@@ -1,0 +1,34 @@
+{
+  "format": "dac-monitor-independent-source-netlist-v1",
+  "qualification": "conditional page-4 L1 supply-feed branch read; the R42/L1 crossing with the hot flyback line is visually ambiguous and selected by a functional stress check",
+  "source": {
+    "file": "older.pdf",
+    "pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+    "page": 4,
+    "views": [
+      {"description": "600 dpi L1, R42, V18, and T3 context", "sha256": "b7683c1fd80526e5e76d2a59faf00f97ac8f0e35aa46fe6206e5a8a605d290bf"},
+      {"description": "1200 dpi R42/L1-to-flyback crossing", "sha256": "4d43dd5c3a8952661b5f821aabfbbde567e63eb1814a222674a99bfcb79b5ba2"}
+    ]
+  },
+  "scope": {"board": "012-6921", "parts": ["R42", "L1", "C22", "V18", "T3"], "omitted_neighbours": "C21, V16, the remaining T3 terminals and rest of page 4 are outside this local read"},
+  "selected_model_nets": {
+    "41P": ["R42:1"],
+    "R42_TO_L1": ["R42:2", "L1:1"],
+    "FILTER_FEED": ["L1:2", "C22:1"],
+    "00": ["C22:2"],
+    "FLYBACK_HOT": ["V18:C", "T3:X2_7"]
+  },
+  "crossing_decision": {
+    "location": "R42-to-L1 vertical branch crossing the V18 collector to T3 X2:7 horizontal line",
+    "visual_status": "not settled by the two scans; ink thickening resembles a junction dot",
+    "selected": "no junction between R42_TO_L1 and FLYBACK_HOT",
+    "functional_argument": "The page-4 annotation gives about 400 V at the V18/T3 hot line. Joining it directly to the 41 V rail through documented R42=6.8 ohm would imply about (400-41)/6.8 = 52.8 A at the annotated peak, before any other branch, implausible for this source circuit. This excludes the joined alternative as the working model; it is not a waveform measurement or proof of a printed dot.",
+    "joined_alternative_peak_r42_current_a": 52.79411764705882,
+    "source_values": {"r42_ohm": 6.8, "r42_source_pdf_page": 8, "p41_v": 41, "hot_annotation_v": 400}
+  },
+  "open_checks": [
+    "Finish the independent full page-3/4 netlist and function check.",
+    "Confirm C22 polarity and feed-branch return through the full source graph.",
+    "Resolve L1 factory inductance, resistance and core loss, and connected native-stage sensitivity."
+  ]
+}

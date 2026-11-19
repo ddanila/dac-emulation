@@ -2032,3 +2032,36 @@ bounded entries. These are an engineering starting point for the connected
 stage, not a Phase B calibration or a completed T1 qualification. A2 coverage
 is now 57/64 with seven unregistered horizontal-board magnetics; A6 has 193
 partial entries.
+
+### A1/A2: conditional page-4 L1 feed branch and operating bounds (2026-11-20)
+
+The [scoped source read](reference/k7222-11/page4-l1-source-read.json) uses
+600 and 1200 dpi page-4 views for R42, L1, C22, V18 and T3. Its
+[fresh KiCad comparison](reference/k7222-11/page4-l1-comparison.json) matches
+the six R42/L1/C22 terminals in the selected 41P-to-R42-to-L1-to-C22-to-00
+feed branch and checks that V18's collector and T3 X2:7 share a separate hot
+line. The crossing of that hot line with the R42/L1 branch is visually
+ambiguous; the scans do not settle whether an ink thickening is a junction
+dot. The page-4 approximately 400 V hot-line annotation would imply about
+52.8 A through the documented 6.8 Ω R42 if joined directly to the 41 V
+rail. This functional stress check selects the no-junction model, but it is
+not a visual proof or a measured waveform. C22 polarity, full page-3/4
+connectivity and the remaining T3 terminals still need review.
+
+The original L1 stock entry `1.33.003830.0/01` has no printed electrical
+value. The [isolated L1 design check](reference/k7222-11/horizontal-l1-design.json)
+uses documented R42=6.8 Ω, C22=220 µF and the native 16 kHz line rate. A
+first-order LC corner at no more than one fifth of line frequency gives a
+minimum 11.24 µH. A maximum 10% additional DC drop relative to R42 gives
+0.68 Ω as the candidate copper-resistance ceiling. The active provisional
+model is 100 µH/0.5 Ω, bounded by 12 µH–1 mH and 0.05–0.68 Ω. Five isolated
+ngspice DC/AC cases agree with the analytical filter to their report
+tolerances; the nominal 16 kHz feed ratio is 0.365%, and the nominal corner
+is 1.073 kHz. These are operating-design bounds, not factory specifications.
+C22 ESR, core loss and saturation, thermal limits and connected flyback
+loading remain untested.
+
+The A2 register now covers 58/64 frame-path instances, leaving L3, three L4
+sections, T2 and T3 without rows. A6 has 195 partial bounded entries. The
+[PLAN blocker](PLAN.md) remains: these scoped results do not close A1, A2,
+A3, A5 or A6.

@@ -84,18 +84,18 @@
     "horizontal_choke_r": {
       "nominal": 0.5,
       "minimum": 0.05,
-      "maximum": 5,
+      "maximum": 0.68,
       "unit": "ohm",
-      "evidence": "assumed-bound",
-      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+      "evidence": "design-derived",
+      "rationale": "L1 copper-resistance budget: its added DC drop is limited to 10% of documented series R42=6.8 ohm, giving 0.68 ohm maximum. The 0.05-0.68 ohm range and 0.5 ohm nominal are functional candidates, not original winding measurements."
     },
     "horizontal_choke_l": {
       "nominal": 0.0001,
-      "minimum": 1e-05,
+      "minimum": 1.2e-05,
       "maximum": 0.001,
       "unit": "H",
-      "evidence": "assumed-bound",
-      "rationale": "Unmeasured output-stage component/control setting; unused in isolated oscillator bench."
+      "evidence": "design-derived",
+      "rationale": "Documented C22=220 uF and 16 kHz line rate give 11.2 uH minimum for an LC corner no higher than one fifth of line frequency. The 100 uH nominal puts that corner at 1.07 kHz; 12 uH-1 mH bounds are exploratory and core loss remains unmodeled."
     },
     "horizontal_linearity_r": {
       "nominal": 0.1,

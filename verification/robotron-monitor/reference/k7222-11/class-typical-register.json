@@ -104,9 +104,16 @@
     "horizontal_t1_design": {
       "file": "reference/k7222-11/horizontal-t1-design.json",
       "use": "C16 and the manual generator range set an ideal LC scale; the autonomous source-connected oscillator brackets a conditional half-winding inductance and loss/coupling ranges."
+    },
+    "horizontal_l1_design": {
+      "file": "reference/k7222-11/horizontal-l1-design.json",
+      "companion": "reference/k7222-11/page4-l1-source-read.json",
+      "use": "Conditional page-4 R42/L1/C22 feed branch: documented R42/C22 and 16 kHz line rate set LC corner and added DC-drop budgets for otherwise unprinted L1 values."
     }
   },
   "entries": [
+    {"id":"012-6921:L1.L","stage":"horizontal-output-feed","value":0.0001,"bounds":[0.000012,0.001],"unit":"H","sources":["horizontal_l1_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_choke_l","basis":"C22=220 uF and 16 kHz line rate require >=11.2 uH for an LC corner below one fifth of line frequency; 100 uH gives a 1.07 kHz nominal corner","qualification":"provisional-design-derived"},
+    {"id":"012-6921:L1.RDC","stage":"horizontal-output-feed","value":0.5,"bounds":[0.05,0.68],"unit":"ohm","sources":["horizontal_l1_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_choke_r","basis":"0.68 ohm upper bound adds 10% to the documented 6.8 ohm R42 DC drop at equal current; original copper resistance is unknown","qualification":"provisional-design-derived"},
     {"id":"012-6921:T1.L_HALF","stage":"horizontal-oscillator","value":0.00145,"bounds":[0.0012,0.0021],"unit":"H","sources":["horizontal_t1_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_tank_l","basis":"C16=100 nF at 16 kHz gives 0.989 mH ideal scale; the source-connected autonomous stage reaches 15.89 kHz at 1.45 mH with provisional loading","qualification":"provisional-design-derived"},
     {"id":"012-6921:T1.R_HALF","stage":"horizontal-oscillator","value":1,"bounds":[0.1,5],"unit":"ohm","sources":["horizontal_t1_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_tank_r","basis":"At 16 kHz and 1.45 mH, 146 ohm reactance with 0.1-5 ohm series loss gives unloaded Q proxy 29-1458; original winding and core loss unknown","qualification":"provisional-design-derived"},
     {"id":"012-6921:T1.K","stage":"horizontal-oscillator","value":0.995,"bounds":[0.95,0.9999],"unit":"1","sources":["horizontal_t1_design"],"model_ref":"profiles/k7222-11-horizontal-oscillator.json#horizontal_coupling","basis":"Strong coupling for center-tapped feedback; shared T1/T2 proxy with no original measurement, endpoint stage tests within printed generator range","qualification":"provisional-class-typical"},

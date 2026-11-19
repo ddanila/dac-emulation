@@ -28,6 +28,19 @@
     "report": "reference/k7222-11/horizontal-t1-design.json",
     "limitation": "C16 is coupled through R21 and a provisional transistor network. The loaded 1.45 mH is not an original winding specification, a connected-sync result, or a Phase B calibration freeze."
   },
+  "horizontal_feed_l1": {
+    "source_id": "012-6921:L1",
+    "conditional_source_branch": "41P -> R42 (6.8 ohm) -> L1 -> C22 (220 uF) -> 00; the flyback-hot crossing is kept separate by a functional stress check",
+    "minimum_inductance_h_for_corner_at_most_line_over_five": 1.1243916863718237e-05,
+    "candidate_inductance_h": {"nominal": 0.0001, "bounds": [0.000012, 0.001]},
+    "candidate_resistance_ohm": {"nominal": 0.5, "bounds": [0.05, 0.68]},
+    "nominal_lc_corner_hz": 1073.0224074290095,
+    "nominal_16khz_isolated_feed_ratio": 0.0036500346891639264,
+    "equations": ["f_corner = 1 / (2*pi*sqrt(L1*C22))", "R_L1 <= 0.1 * R42 for no more than 10% added DC series drop"],
+    "evidence": "design-derived operating bounds from documented R42/C22 and native line rate, conditional on the page-4 no-junction crossing",
+    "report": "reference/k7222-11/horizontal-l1-design.json",
+    "limitation": "The original choke values, C22 ESR, core saturation and connected flyback loading remain unknown; this isolated passive-filter calculation is not an output-stage calibration."
+  },
   "horizontal_resonance": {
     "candidate_parallel_capacitors": [
       {"source_id": "012-6921:C27", "value_f": 1e-8, "tolerance_fraction": 0.1},

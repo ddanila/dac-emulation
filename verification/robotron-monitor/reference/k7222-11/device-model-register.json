@@ -1,7 +1,7 @@
 {
   "format": "dac-monitor-device-model-register-v1",
   "scope": "K7222.11 ideal-rail frame path",
-  "status": "partial; 57 of 64 frame-path instances have provisional register coverage, including a conditional T1 half-winding design check; seven assembled horizontal-board magnetics remain uncovered",
+  "status": "partial; 58 of 64 frame-path instances have provisional register coverage, including conditional T1 and horizontal-feed L1 design checks; six assembled horizontal-board magnetics remain uncovered",
   "sources": {
     "ti_sn74h00_1985": {"url": "https://ftpmirror.your.org/pub/misc/bitsavers/components/ti/_dataBooks/1985_TI_The_TTL_Data_Book_Vol_2.pdf", "edition": "Texas Instruments The TTL Data Book, 1985, printed pages 3-3 and 3-6", "use": "SN74H00 4x 2-input NAND class: 4.75-5.25 V supply, VIH >=2 V, VIL <=0.8 V, VOH >=2.4 V at -0.5 mA, VOL <=0.4 V at 20 mA, IIH <=50 uA, IIL >=-2 mA, ICCH <=16.8 mA, ICCL <=40 mA, and tPLH/tPHL <=10 ns at 280 ohm/25 pF. A Robotron table maps T200 to this family; not a T200 specimen test."},
     "ti_lm709c": {"url": "https://media.digikey.com/pdf/Data%20Sheets/Texas%20Instruments%20PDFs/LM709.pdf", "revision": "National Semiconductor / TI SNOS659A", "pages": [2, 3, 4], "use": "LM709C class comparator at +/-15 V: minimum 15 V/mV large-signal gain, +/-10 V minimum output swing into 2 kohm, 2.6 mA typical/6.6 mA maximum supply current, 300 nA typical/1.5 uA maximum bias, 50 kohm minimum/250 kohm typical input resistance, 150 ohm typical output resistance and 0.25 V/us typical slew. The K7222.11 printed P09A is not identified as LM709."},
@@ -78,6 +78,11 @@
     "horizontal_t1_design": {
       "file": "reference/k7222-11/horizontal-t1-design.json",
       "use": "Documented C16=100 nF +/-10% and 14.338-16.338 kHz generator range give a 0.989 mH ideal LC half-winding scale at 16 kHz. The source-connected autonomous stage with its provisional transistors requires about 1.45 mH per half for 15.89 kHz; winding resistance and shared T1/T2 coupling remain bounded candidates, not original measurements."
+    },
+    "horizontal_l1_design": {
+      "file": "reference/k7222-11/horizontal-l1-design.json",
+      "companion": "reference/k7222-11/page4-l1-source-read.json",
+      "use": "Conditional R42/L1/C22 page-4 branch: documented R42=6.8 ohm and C22=220 uF with the native 16 kHz line give a 12 uH minimum for a filter corner below one fifth of line frequency and 0.68 ohm maximum winding resistance for <=10% extra DC drop relative to R42. The selected no-junction flyback crossing is functional, not visually settled."
     },
     "philips_bd139_bd140": {
       "url": "https://bitsavers.trailing-edge.com/components/philips/_dataBooks/1986_S04a_Philips_Low-Frequency_Power_Transistors_and_Hybrid_Modules.pdf",
@@ -783,6 +788,26 @@
     }
   ],
   "devices": [
+    {
+      "id": "012-6921:L1",
+      "printed_type": "1.33.003830.0/01",
+      "candidate_class": "series RL horizontal-feed choke between documented R42 and C22 in the conditional page-4 graph",
+      "identity_tier": "printed stock identity; design-derived operating bounds without original electrical specification",
+      "model": "HORIZONTAL_CHOKE",
+      "model_file": "circuits/k7222-11-horizontal-models.cir",
+      "profile": "profiles/k7222-11-horizontal-oscillator.json",
+      "sources": ["horizontal_l1_design"],
+      "parameters": {
+        "L": {"profile_key": "horizontal_choke_l", "nominal": 0.0001, "bounds": [0.000012, 0.001], "unit": "H", "tier": "design-derived operating candidate", "basis": "C22=220 uF and 16 kHz line rate require at least 11.2 uH for an LC corner below one fifth of line frequency. Nominal 100 uH gives a 1.07 kHz corner; 12 uH-1 mH remains exploratory."},
+        "RDC": {"profile_key": "horizontal_choke_r", "nominal": 0.5, "bounds": [0.05, 0.68], "unit": "ohm", "tier": "design-derived DC-drop budget", "basis": "Maximum 0.68 ohm adds 10% to the printed 6.8 ohm R42 series drop at equal current. This bounds a functional budget, not original copper resistance."}
+      },
+      "comparison_targets": {
+        "nominal_16khz_feed_ratio": {"maximum": 0.005, "conditions": "isolated R42/L1/C22 filter, ideal C22, 1 V AC rail at 16 kHz"},
+        "maximum_added_dc_drop_fraction": {"maximum": 0.1, "conditions": "relative to R42 at 1 A isolated DC load"}
+      },
+      "model_response_report": "reference/k7222-11/horizontal-l1-design.json",
+      "remaining": ["Page-4 hot-line crossing is selected by functional stress but visually ambiguous", "Original L1 inductance, DC resistance, core loss, saturation and thermal limits are unknown", "C22 ESR and connected native-stage sensitivity remain unchecked"]
+    },
     {
       "id": "012-6921:T1",
       "printed_type": "1.11.017321.0/90",
