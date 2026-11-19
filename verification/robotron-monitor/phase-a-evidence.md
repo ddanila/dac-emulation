@@ -1302,13 +1302,14 @@ V20's upper terminal. Vertical R39 joins R38's left side at its top and the
 left side of parallel R40/C34 at its bottom; their right side feeds V20's
 base. Page 8 lists V20 as `1 SA 20 C`; R38/R39 are 680 Ω and R40 is 1.1 kΩ,
 while page 6 lists C34 as 470 pF. A fresh ideal-rail assembly check finds
-all five source IDs missing from the input sheet. Three distinct left-edge
-lines have no settled page-3/4 net names, and V20's lower terminal visibly
-ends without a wire in the crop. Its source intent and collector/emitter
-orientation remain unresolved, so no branch was connected on this evidence
-alone. V19's page-8 listing is separate and its schematic location remains
-unresolved. This is an A1 transcription gap and an A2 model gap, not a
-converter-only omission.
+all five source IDs missing from the input sheet. A separate page-edge view
+shows V20's lower terminal continuing to the same local return line as R2's
+lower end, correcting the interim open-terminal reading. The four distinct
+left-edge lines have no settled page-3/4 net names, and V20's
+collector/emitter orientation remains unresolved, so no branch was connected
+on this evidence alone. V19's page-8 listing is separate and its schematic
+location remains unresolved. This is an A1 transcription gap and an A2 model
+gap, not a converter-only omission.
 
 The report also makes shared-family decisions visible. Fourteen frame-path
 `1AE15` diode instances currently use two different model names, and five
