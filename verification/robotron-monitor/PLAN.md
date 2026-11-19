@@ -42,7 +42,8 @@ These are parked, not deleted. None of them blocks the goal.
 - Switching power converter. The frame uses ideal rails (see "Rails and R5").
 - Cold start, warm-up sequence, 16-field sustained recordings.
 - Diagnosis of the museum specimen, the fault atlas, any .13/.23/.25 revision.
-- Real-time or in-browser simulation.
+- Real-time or in-browser simulation. Phase C prepares for it but does not
+  deliver it.
 - New work on the trajectory/phosphor renderer beyond calibration.
 - New provenance or gate tooling. Enough exists. Add code of that kind only
   when a stage result cannot be checked without it.
@@ -291,6 +292,39 @@ pass, or take its fallback, before the next starts.
   capacitance. Fix the model with bounded `class-typical` parasitics. Do not
   wait for the run.
 
+- **Stage alone before connected.** The horizontal stage is brought to
+  periodic steady state on its own bench, over lines, not fields: stop when
+  two consecutive lines agree within 0.1% on yoke current, collector voltage
+  and core flux. Its end state initialises the connected run. Only B4 onward
+  simulates whole fields, and then at most four.
+- **Run independent solves in parallel.** T3 candidates, bound sweeps, trim
+  searches, the two G6 variants and B8's sensitivity runs are separate solver
+  processes. Run them side by side, one per CPU core, each in its own output
+  directory. Results must not depend on how many ran at once.
+- **Record the cost.** Every run writes wall time, simulated time, accepted
+  steps and median step to its receipt. Speed work is chosen from these
+  numbers, not from guesses.
+
+### Where the time goes
+
+The circuit solve is the cost. In the recorded runs the solver needed 324 s
+for 5.2 ms and 1,523 s for 14 ms of simulated time, at a median step near
+1.5 ns. The solver (ngspice) is already compiled code. Python only builds the
+deck and reads the trace, and the beam trajectory code already has a native
+C++ path. So, for the reference frame:
+
+- Do not port the Python tools to a compiled language. It would not shorten
+  a run.
+- Do not move the circuit solve to a GPU. Each time step depends on the last
+  and the matrix is small; there is nothing to run in parallel.
+- Get speed from the four rules above, in this order of payoff: solver budget
+  (remove the stiffness), start at the operating point, stage alone before
+  connected, parallel solves.
+
+**Target:** one connected field solves in under ten minutes on this machine.
+If B4 cannot reach that after the rules are applied, record the receipts and
+continue at the speed available; it does not block the frame.
+
 ### Steps
 
 | Step | Work | Pass when |
@@ -309,6 +343,22 @@ bench is treated in B2 as a suspected transcription or model error.
 
 If B4 fails while B1–B3 pass, debug in this order: output stage with ideal
 drive, closed loop with an ideal flyback reference pulse, full loop.
+
+## Phase C: speed, after the frame
+
+Phase C starts only when B8 is published. The accepted frame and its traces
+are then the reference that any faster implementation is checked against.
+Nothing here may change a result of Phase B.
+
+| Step | Work | Pass when |
+|---|---|---|
+| C1 | **Profile.** From the run receipts, split the time of one frame into circuit solve, trace export, trajectories and phosphor | A table of where the time goes, with the largest item named |
+| C2 | **Compiled circuit solver.** Generate C++ for this one fixed circuit: fixed topology, fixed time step, device curves as tables, matrix structure worked out once at build time. The netlist and device register stay the single source; the C++ is generated from them, not written by hand | Last-field waveforms agree with the ngspice reference within G6's 1% on every monitored probe; G1–G5 still pass on its output; speed-up over ngspice reported |
+| C3 | **GPU for the optical stage.** Electron trajectories and phosphor deposition are independent per sample, so they suit a GPU. Do this only if C1 shows the optical stage is a large share once C2 is in | Image agrees with the CPU render within G7's 2%; speed-up reported |
+| C4 | **Decide on real time.** With C2 and C3 measured, state how far one frame is from the 19.5 ms field time and whether real time is reachable with a reduced model | Written assessment |
+
+If C2 cannot meet the 1% agreement at a fixed step, keep it as a fast preview
+solver with its error stated, and keep ngspice as the reference.
 
 ## Fallbacks (decided in advance)
 
@@ -349,6 +399,7 @@ state; they are not to be extended.
 Next, in order: A4 tool change, A5 design point, A2 device models, A1 second
 netlist and open reads, A3 waveform descriptors, A6 register, then B1. A5 comes
 early because it is cheap and its result tells A1 and A2 which parts matter.
+Phase C (speed) waits for B8.
 
 ## What the result may be called
 
