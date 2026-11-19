@@ -1,0 +1,125 @@
+{
+  "format": "dac-monitor-page18-frame-comparison-v1",
+  "qualification": "partial semantic comparison; A1 page-18 pin-level gate remains open",
+  "source_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
+  "assembly_sha256": "e3883360002705d7a0c69a682768fe9f067940e2b9c016a8790de23defc6fc9d",
+  "cable_pairs": [
+    {
+      "cable": "1.11.017293.0",
+      "from_connector": "012-6921:X6",
+      "from_pin": "2",
+      "to_connector": "012-6891:X1",
+      "to_pin": "2",
+      "source_signal": "UG2",
+      "model_net": "ug2",
+      "horizontal_board_net_present": true,
+      "neck_board_net_present": true
+    },
+    {
+      "cable": "1.11.017293.0",
+      "from_connector": "012-6921:X6",
+      "from_pin": "3",
+      "to_connector": "012-6891:X1",
+      "to_pin": "3",
+      "source_signal": "UG4",
+      "model_net": "ug4",
+      "horizontal_board_net_present": true,
+      "neck_board_net_present": true
+    },
+    {
+      "cable": "1.11.017294.0",
+      "from_connector": "012-6921:X3",
+      "from_pin": "1",
+      "to_connector": "012-6891:X1",
+      "to_pin": "5",
+      "source_signal": "VID",
+      "model_net": "vid",
+      "horizontal_board_net_present": true,
+      "neck_board_net_present": true
+    },
+    {
+      "cable": "1.11.017294.0",
+      "from_connector": "012-6921:X3",
+      "from_pin": "2",
+      "to_connector": "012-6891:X1",
+      "to_pin": "7",
+      "source_signal": "INTENS",
+      "model_net": "intens",
+      "horizontal_board_net_present": false,
+      "neck_board_net_present": true
+    },
+    {
+      "cable": "1.11.017294.0",
+      "from_connector": "012-6921:X3",
+      "from_pin": "3",
+      "to_connector": "012-6891:X1",
+      "to_pin": "6",
+      "source_signal": "10.7P",
+      "model_net": "p10_7",
+      "horizontal_board_net_present": true,
+      "neck_board_net_present": false
+    },
+    {
+      "cable": "1.11.017294.0",
+      "from_connector": "012-6921:X3",
+      "from_pin": "4",
+      "to_connector": "012-6891:X1",
+      "to_pin": "9",
+      "source_signal": "41P",
+      "model_net": "p41",
+      "horizontal_board_net_present": true,
+      "neck_board_net_present": true
+    },
+    {
+      "cable": "1.11.017294.0",
+      "from_connector": "012-6921:X3",
+      "from_pin": "5",
+      "to_connector": "012-6891:X1",
+      "to_pin": "1",
+      "source_signal": "UG1",
+      "model_net": "ug1",
+      "horizontal_board_net_present": true,
+      "neck_board_net_present": true
+    },
+    {
+      "cable": "1.11.017294.0",
+      "from_connector": "012-6921:X3",
+      "from_pin": "6",
+      "to_connector": "012-6891:X1",
+      "to_pin": "8",
+      "source_signal": "00",
+      "model_net": "0",
+      "horizontal_board_net_present": true,
+      "neck_board_net_present": true
+    }
+  ],
+  "both_board_nets": 6,
+  "missing_board_nets": [
+    {
+      "cable": "1.11.017294.0",
+      "from_connector": "012-6921:X3",
+      "from_pin": "2",
+      "to_connector": "012-6891:X1",
+      "to_pin": "7",
+      "source_signal": "INTENS",
+      "model_net": "intens",
+      "horizontal_board_net_present": false,
+      "neck_board_net_present": true
+    },
+    {
+      "cable": "1.11.017294.0",
+      "from_connector": "012-6921:X3",
+      "from_pin": "3",
+      "to_connector": "012-6891:X1",
+      "to_pin": "6",
+      "source_signal": "10.7P",
+      "model_net": "p10_7",
+      "horizontal_board_net_present": true,
+      "neck_board_net_present": false
+    }
+  ],
+  "open_checks": [
+    "physical connector pins are absent from exported KiCad sheets",
+    "the other two page-18 cables, panel controls and yoke wiring need a full source-to-KiCad comparison"
+  ]
+}
