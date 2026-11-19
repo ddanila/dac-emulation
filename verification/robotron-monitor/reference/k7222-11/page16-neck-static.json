@@ -1,0 +1,125 @@
+{
+  "format": "dac-monitor-page16-neck-static-v1",
+  "qualification": "source topology, DC routes and isolated neck-stage function; no manual service-waveform claim",
+  "source_comparison_sha256": "76d2ea778d74a4cbedea4733189a2ace04685817c61e985b8eedf2ce932ec6f3",
+  "source_netlist_sha256": "0eada86bb7a38f418e966443682c34af1df15105593b326155ae4898426bc6a9",
+  "sheet_sha256": "b9370c0af89c3d8940875961b2dee1467ee0bd9fb834bc98226fddbaea6523fb",
+  "profile_sha256": "5b407860c02328cb44e0cb386521496adeab4f1f1bba96e533102077e828e831",
+  "models_sha256": "4169f23c43b01fdfedb41b0b97c7099fcd9f770244dea456b2c8a0cb31ff7357",
+  "bench_sha256": "c4077950400cd77a7259e8181eb8c50fef058006f12d0332dc8a8aa83f92bec6",
+  "deck_sha256": "e13059e4b0075bedeabb138ab8a1c7833a0051bd451269ee92c2e581b5b8784b",
+  "source_dc_paths": {
+    "external_source_or_pass_through_nets": [
+      "41P",
+      "HEATER_10_7P",
+      "IS",
+      "OO",
+      "UG1_INPUT",
+      "UG2_INPUT",
+      "UG4_INPUT",
+      "VID"
+    ],
+    "reachable_nets": [
+      "41P",
+      "FEEDBACK",
+      "HEATER_10_7P",
+      "IS",
+      "OO",
+      "SUG1",
+      "SUG2",
+      "SUG4",
+      "SUK",
+      "SUK_DRIVE",
+      "UG1_INPUT",
+      "UG2_INPUT",
+      "UG4_INPUT",
+      "V1_BASE",
+      "V1_COLLECTOR",
+      "VID",
+      "VID_AFTER_R6"
+    ],
+    "unreachable_nets": [],
+    "interpretation": "resistor paths plus possible diode conduction; the bench checks actual operating points"
+  },
+  "device_model_assumptions": "bounded neck profile; no fitted original silicon curves",
+  "state_voltages": {
+    "dark_video": {
+      "time_s": 4.999999999999991e-05,
+      "volts": {
+        "p41": 40.99999999999525,
+        "vid": 0.0,
+        "intens": 0.0,
+        "clamp": 4.167885670748084e-07,
+        "base": 0.001356397110402256,
+        "collector": 34.34067901923156,
+        "brightness": 33.67750584360453,
+        "tail": 25.64277130789399,
+        "cathode": 33.68530584360406,
+        "g1": -25.00000000000008,
+        "g2": 350.00000000003,
+        "g4": 175.000000000015
+      }
+    },
+    "bright_video": {
+      "time_s": 0.000150000000000002,
+      "volts": {
+        "p41": 40.99999999998103,
+        "vid": 5.000000000002711,
+        "intens": 0.0,
+        "clamp": 1.338550065590723,
+        "base": 0.7768896048352198,
+        "collector": 0.7166179105142657,
+        "brightness": 0.2646352760926238,
+        "tail": 0.2014992990341992,
+        "cathode": 0.2724352760925922,
+        "g1": -24.99999999999517,
+        "g2": 349.9999999998284,
+        "g4": 174.9999999999142
+      }
+    },
+    "intensity_only": {
+      "time_s": 0.0002500000000000044,
+      "volts": {
+        "p41": 41.0,
+        "vid": 0.0,
+        "intens": 5.0,
+        "clamp": -5.169786084661693e-05,
+        "base": -0.1909933486480049,
+        "collector": 34.34067959290517,
+        "brightness": 33.67750641642489,
+        "tail": 25.64277174401352,
+        "cathode": 33.68530641649769,
+        "g1": -24.99999999999166,
+        "g2": 349.9999999998099,
+        "g4": 174.9999999999049
+      }
+    },
+    "video_and_intensity": {
+      "time_s": 0.0003500000000000068,
+      "volts": {
+        "p41": 41.00000000002981,
+        "vid": 4.999999999997289,
+        "intens": 4.999999999997289,
+        "clamp": 1.341841409912699,
+        "base": 0.7781686860967334,
+        "collector": 0.7205401054033795,
+        "brightness": 4.384999755163465,
+        "tail": 1.329109757452704,
+        "cathode": 4.392799755171402,
+        "g1": -25.00000000000946,
+        "g2": 350.0000000000298,
+        "g4": 175.0000000000149
+      }
+    }
+  },
+  "checks": {
+    "positive_electrolytic_rail": true,
+    "dark_transistor_off": true,
+    "bright_transistor_on": true,
+    "video_moves_collector": true,
+    "intensity_moves_cathode": true,
+    "grid_rails_plausible": true,
+    "source_c1_polarity": true
+  },
+  "passed": true
+}

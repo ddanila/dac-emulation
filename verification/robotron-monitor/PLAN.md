@@ -440,8 +440,10 @@ does not close its pin-to-pin A1 check.
 An independent page-16 neck-board read now matches all 39 component pins and
 six diode directions in a fresh KiCad export. Three audit-only connector
 symbols now expose all 17 physical pins in that export, and every pin matches
-the source read. The page-16 A1 mark remains open pending the remaining static
-and stage-function checks.
+the source read. The page-16 source graph has DC routes and an isolated bench
+shows plausible transistor switching and cathode response. The A1 page mark
+still awaits a source-observation check: that bench has no CRT emission and
+cannot reproduce the page-16 C15 dark/bright measuring-cable note.
 The current audit flags 26 frame-path part entries; all 26 now have agent
 readings or bounded class-typical decisions. T3's two page-4 reads establish
 its line-transformer identity, not its turns, internal winding connections or

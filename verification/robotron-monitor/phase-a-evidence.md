@@ -1011,8 +1011,25 @@ pin-to-net map before omitting them. All 39 component pins and all 17 physical
 connector pins match the independent page-16 read, including six diode
 directions. A changed diode or connector pin is rejected in tests. The saved
 comparison contains source, sheet and assembly hashes. This closes the
-pin-representation gap on page 16; A1's page mark remains open until the
-remaining static and stage-function checks are recorded.
+pin-representation gap on page 16; the remaining function evidence is
+described below.
+
+`page16_neck_static.py` now recomputes the saved pin comparison, checks that
+all 17 source nets have a DC route through their external inputs, resistors or
+possible diode conduction, and solves the isolated neck bench at its four
+settled input states. The report records exact source/model/deck hashes and
+node voltages. With video low, V1 collector is 34.34 V and base is near zero;
+with video high, collector is 0.72 V and base is 0.78 V. Raising the intensity
+input while video is high moves the cathode output from 0.27 V to 4.39 V. C1's
+source polarity puts its positive terminal on 41P and negative terminal on OO.
+All declared static/function checks pass; a disconnected source net is caught
+by the path test.
+
+This isolated bench uses ideal external rails and a fixed 20 µA beam-current
+load. It has no CRT emission response and cannot reproduce page 16's C15
+measuring-cable dark/bright millivolt note. That missing source observation
+keeps the A1 page-16 function check open despite the complete pin comparison
+and plausible transistor operating points.
 
 ### Vertical output transistor model bounds (2026-11-19)
 
