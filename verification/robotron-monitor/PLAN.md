@@ -91,8 +91,10 @@ no document prints it is less correct than one with a bounded typical value.
 
 ## Phase A: method (close out, do not extend)
 
-Phase A is finished when the three items below are done. It contains no
-simulation result and no calibration.
+Phase A is finished when the six items below are done. It produces no gate
+result and no calibration. It is a closing exercise: an item that cannot be
+closed after one bounded attempt takes a `class-typical` value with bounds and
+the work moves on.
 
 ### A1. Close the source review without a human
 
@@ -101,8 +103,19 @@ simulation result and no calibration.
   and checks the reading against the part's role (standard value series,
   rating, what the circuit needs). Each entry ends as `agent-read` or as
   `class-typical` with bounds.
+- **Independent reads.** Two reads by the same model of the same image tend
+  to repeat one error. The two reads must differ in at least one of: crop,
+  resolution, model. A classic OCR reading counts as one of them.
 - **Triage.** Only parts in the ideal-rail frame path block. Converter-only
   parts (most of page 15, fuse P1) are recorded and do not block.
+- **Sensitivity before effort.** Where a stage bench exists, vary the open
+  part across the plausible readings first. If no test point of that stage
+  moves by more than 2%, take the most plausible reading and close the entry.
+- **Second netlist.** Part values were audited five times; the connections
+  were transcribed once. For schematic pages 3–4, 9–10, 16 and 18, an agent
+  extracts a pin-to-pin net list from the page images without seeing the KiCad
+  files. Diff it against the KiCad export. Every difference is re-read and
+  settled; agreement is recorded as `agent-read`.
 - **Connectivity.** A connection, diode direction or winding polarity is
   confirmed by function, not by a reviewer:
   - static checks on the netlist: every node has a DC path, electrolytic and
@@ -115,7 +128,30 @@ simulation result and no calibration.
   Example: pages 15 and 32 disagree on which of R59/R60 acts on the upper
   screen half; sweep each in B1 and record which half moves.
 
-### A2. Make waveform shape machine-checkable
+### A2. Give every device a model
+
+The inventory marks 77 parts as identity-only: 33 diodes, 21 transistors,
+4 zeners, 4 integrated circuits, 8 inductors, 4 transformers and 3 others.
+Their type is printed but their electrical behaviour is not, and the source
+audit never covered it. These parts decide oscillator frequency, switching
+times and rectifier behaviour, so they matter more than the 33 open values.
+
+- For each frame-path semiconductor, take parameters from public data-book
+  values for the printed type, or for the nearest documented equivalent type.
+  Tier `class-typical`, source cited, bounds from the data book's spread.
+- Parameters that must not be left at simulator defaults: current gain range,
+  transition frequency and saturation voltage for transistors; storage and
+  fall time for the horizontal output and driver transistors; recovery time
+  and capacitance for the damper, pulse and high-voltage rectifiers; zener
+  voltage and impedance.
+- Inductors and transformers other than T3 get values by the same
+  `design-derived` route as T3 (A5).
+- Record all of it in one device-model register next to the inventory.
+
+**Done when:** every frame-path device has a model with a source and bounds,
+and no frame-path device uses an unexamined simulator default.
+
+### A3. Make the manual's waveforms machine-checkable
 
 The register already holds amplitude, period and node for all 17 test points.
 Add shape descriptors read from the figures on manual pages 20–21 (tier
@@ -123,12 +159,62 @@ Add shape descriptors read from the figures on manual pages 20–21 (tier
 (sawtooth, pulse, parabola, composite), and duty where it can be read. The
 scorer checks them. This replaces the named waveform reviewer.
 
-### A3. Remove human requirements from the tools
+Also fix what the comparison means:
 
-`phase_a_review.py` and `phase_a_gates.py` take agent review records (reading,
-crop hash, argument) in place of reviewer marks. The A1 prerequisite counts
-frame-path entries only. `calibration_contract.py` stops refusing the three
-controls once they are bound as described below.
+- **Operating mode.** The manual gives two modes. The native S550 frame is the
+  2 kByte mode: 62.5 µs line with 16.0 µs retrace, 19.5 ms field with 1.5 ms
+  retrace. Every target, and the T1 setting, is taken for that mode. The
+  1 kByte values (17.2 µs, 2.08 ms) are recorded and not used.
+- **Instrument.** The manual's values were read on an EO2 service
+  oscilloscope. Peak-to-peak of a narrow pulse depends on bandwidth, and a
+  probe loads a high-impedance node. The scorer applies a `class-typical`
+  bandwidth limit and probe load for that instrument before it measures, and
+  reports the raw value beside it.
+- **Picture content.** State which input the manual's waveforms assume where
+  it says so; otherwise score on the grid pattern and record that choice.
+
+### A4. Remove human requirements from the tools
+
+Delete the requirements; do not build a replacement review system.
+`phase_a_review.py` and `phase_a_gates.py` drop the reviewer fields and accept
+the existing audit entry with a reading, crop hash and argument. The A1
+prerequisite counts frame-path entries only. `calibration_contract.py` stops
+refusing the three controls once they are bound as described below.
+
+### A5. Design point and document consistency
+
+Calculate the intended operating point from documented values, before any
+simulation, and write `design-point.json`:
+
+- retrace time and tuning capacitance give the effective inductance;
+- rail voltage and the trace/retrace ratio give the collector flyback peak;
+- that peak and 11–12 kV give the high-voltage ratio, through the rectifier
+  arrangement drawn;
+- test points 14, 15 and 17 give the auxiliary winding ratios;
+- picture size, tube geometry and high voltage give the peak yoke currents;
+- the vertical yoke values follow the same way from test points 1–8.
+
+Replace the placeholder T3 values and fourfold bounds with these values and
+tighter bounds. Fix each winding's polarity from its function: the
+high-voltage rectifier and every pulse rectifier must conduct in the phase
+their load needs. This prunes the 16 candidates before any simulation.
+
+The same calculation checks the documents against themselves. If two
+documented values cannot both hold (for example retrace time against the
+printed tuning capacitor and any plausible yoke), one of them was misread:
+re-read both before going on.
+
+**Done when:** every T3 ratio and yoke value carries a tier and an argument,
+the candidates left are listed with reasons, and no pair of documented values
+contradicts another.
+
+### A6. Class-typical register
+
+Collect every `class-typical` value in one file with its source, bounds and
+the stage it affects: tube data for a 31 cm monochrome tube (deflection
+angle, heater, cut-off tied to the documented 35 V dark and 15 V bright
+cathode levels), yoke sensitivity, T3 parasitics, instrument data. B8's
+sensitivity report runs over this file.
 
 ### Already done and kept
 
@@ -194,7 +280,7 @@ pass, or take its fallback, before the next starts.
 
 - **Start at the operating point, never from cold.** Initialise reservoir
   states (high-voltage capacitance, boost and G2/focus capacitors, coupling
-  capacitors) from the design point of B0. Then correct the slow states by
+  capacitors) from the design point of A5. Then correct the slow states by
   charge balance until their net change per field is under 1%. G6's second
   initialisation checks that the result does not depend on the start.
 - **Only the sustained state is evidence.** No candidate is pruned, and no
@@ -209,7 +295,6 @@ pass, or take its fallback, before the next starts.
 
 | Step | Work | Pass when |
 |---|---|---|
-| B0 | **Design point.** Calculate the intended operating point from documented values and write `design-point.json`: retrace time and tuning capacitance give the effective inductance; rail and trace/retrace ratio give the collector flyback peak; that peak and 11–12 kV give the high-voltage ratio (through the rectifier arrangement drawn); test points 14, 15 and 17 give the auxiliary ratios; picture size, tube geometry and high voltage give peak yoke currents. Replace the placeholder T3 values and fourfold bounds with these values and tighter bounds. Fix each winding's polarity from its function (the high-voltage rectifier and every pulse rectifier must conduct in the phase their load needs), which prunes the 16 candidates before any simulation | Every T3 ratio and yoke value carries a tier and an argument; the candidates left are listed with reasons |
 | B1 | Vertical chain (sync filter, oscillator, integrator, output, yoke) scored against test points 1–8. Settle the R59/R60 roles by sweep | All eight within ±25% with matching shape |
 | B2 | Horizontal oscillator and phase detector, open loop, test points 9–13 | Points within ±25%; 62.5 µs lies inside R24's range; that range is consistent with the documented 14.338–16.338 kHz; tuning is monotonic around the operating point |
 | B3 | Horizontal output, T3 and yoke on an ideal drive, started at the design point and run to periodic steady state. Prune the remaining T3 candidates by pulse polarity and amplitude, then calibrate | Solver budget met; test points 14, 15, 17, high voltage and retrace time within G3; at least one candidate survives |
@@ -231,10 +316,10 @@ A step has failed when its gate is still missed after (a) one re-read of the
 stage's transcription against the page images and (b) a sweep of its
 `design-derived` and `class-typical` parameters across their bounds. Then:
 
-- **B0/B3, no T3 candidate survives:** the hypothesised winding graph is
+- **A5/B3, no T3 candidate survives:** the hypothesised winding graph is
   wrong. Regenerate candidates from function alone (which terminal feeds which
   rectifier or load). If that also fails, use an equivalent T3: an ideal
-  multi-winding transformer with the B0 ratios and class-typical leakage,
+  multi-winding transformer with the A5 ratios and class-typical leakage,
   capacitance and loss.
 - **B1 or B2 fails:** replace only the failing sub-stage by an equivalent
   source that reproduces its documented test-point waveform.
@@ -254,14 +339,16 @@ failure, restore the component-level stage and re-run the gates from there.
 
 ## Status (2026-11-19)
 
-Phase A tooling exists but still demands human marks (A3 above). A1 stands at
-227 machine-confirmed and 33 open entries. No stage has been scored. The
+Phase A tooling exists but still demands human marks (A4 above). A1 stands at
+227 machine-confirmed and 33 open entries, with no second netlist. A2 has 77
+identity-only devices. No stage has been scored. The
 connected grid runs under `build/monitor/phase-a/` are startup diagnostics of
 an under-damped T3 placeholder and establish nothing about the sustained
 state; they are not to be extended.
 
-Next, in order: A3 tool change, A1 agent reads of frame-path entries, A2 shape
-descriptors, B0 design point, B1.
+Next, in order: A4 tool change, A5 design point, A2 device models, A1 second
+netlist and open reads, A3 waveform descriptors, A6 register, then B1. A5 comes
+early because it is cheap and its result tells A1 and A2 which parts matter.
 
 ## What the result may be called
 
