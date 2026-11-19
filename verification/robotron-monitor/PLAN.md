@@ -444,8 +444,10 @@ outside the A1 gate.
 
 Other required close-out work is also missing. The bounded device-model
 register has only provisional V18/V21 and V27/V28 entries, not the full frame path (A2).
-The waveform scorer has only a comparable bandwidth model, with no probe-load model or
-recorded stimulus for each stage (A3). The new class-typical register collects
+The waveform scorer now supports separately loaded SPICE solves for the bounded
+EO 203 probe equivalent and records an explicit grid stimulus choice. No
+connected stage score yet has all required loaded probes or recorded trims (A3).
+The new class-typical register collects
 15 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
 All three A4 controls are now bound in the ideal-rail

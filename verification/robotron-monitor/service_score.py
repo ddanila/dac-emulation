@@ -193,9 +193,13 @@ def shape_checks(times, values, waveform, measured):
     raise ValueError('unknown manual shape family: '+str(family))
 
 
-def score(path, *, start=None, end=None, required=(), register=REGISTER):
+def score(path, *, start=None, end=None, required=(), register=REGISTER,
+          probe_manifest=None, stimulus=None):
     path=Path(path);register=Path(register)
     if start is not None and end is not None and not start < end:raise ValueError('invalid window')
+    if stimulus not in (None,'grid'):raise ValueError('unknown service waveform stimulus')
+    if probe_manifest is not None and register.resolve()!=REGISTER.resolve():
+        raise ValueError('probe manifest requires the current service point register')
     source=json.loads(register.read_text())
     if source.get('format')!='dac-monitor-service-observations-v2':raise ValueError('unsupported register')
     instrument=json.loads(INSTRUMENT.read_text())
@@ -217,6 +221,10 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
             if name in row:ts.append(t);vs.append(row[name])
     if rows<3:raise ValueError('window has fewer than three samples')
     points=[];required=set(required)
+    loaded_traces={}
+    if probe_manifest is not None:
+        import service_probe
+        loaded_traces=service_probe.validate(probe_manifest,path)
     for w in source['waveforms']:
         n=w['test_point'];expression=w['model_expression'].lower()
         condition=conditions[w['condition_id']]
@@ -228,15 +236,35 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
                        shape_class=w['shape_class'],polarity=w['polarity'],
                        shape_descriptor=w['shape_descriptor'],
                        condition_id=w['condition_id'],instrument=condition['instrument'],
-                       operating_conditions=condition['manual_note']),
+                       operating_conditions=condition['manual_note'],
+                       manual_stimulus=condition['manual_stimulus'],
+                       scoring_stimulus=condition['scoring_stimulus']),
                    tolerance_fraction=w['acceptance_tolerance'])
         if len(ts)<3:
             entry.update(status='missing-probe',reason='mapped node was not recorded in this run')
         else:
             entry['raw_measured']=measure(ts,vs,w)
-            scope_values=bandwidth_response(ts,vs,bandwidth)
-            measured=measure(ts,scope_values,w);entry['measured']=measured
-            entry['instrument_model_status']='bandwidth-applied; probe loading pending'
+            observed_times,observed_values=ts,vs
+            if n in loaded_traces:
+                observed_times=[];observed_values=[];prior_loaded=None
+                for row in samples(loaded_traces[n]):
+                    t=row['time']
+                    if not math.isfinite(t) or prior_loaded is not None and t<=prior_loaded:
+                        raise ValueError(f'invalid loaded trace time order at point {n}')
+                    prior_loaded=t
+                    if start is not None and t<start:continue
+                    if end is not None and t>end:break
+                    if expression in row:
+                        observed_times.append(t);observed_values.append(row[expression])
+                if len(observed_times)<3 or observed_times[0]>ts[0]+2*max(b-a for a,b in zip(ts,ts[1:])) or observed_times[-1]<ts[-1]-2*max(b-a for a,b in zip(ts,ts[1:])):
+                    raise ValueError(f'loaded trace does not cover the scoring window at point {n}')
+                entry['loaded_unfiltered_measured']=measure(observed_times,observed_values,w)
+                entry['probe_trace']=str(loaded_traces[n])
+                entry['instrument_model_status']='circuit probe load and bandwidth applied'
+            else:
+                entry['instrument_model_status']='bandwidth-applied; probe loading pending'
+            scope_values=bandwidth_response(observed_times,observed_values,bandwidth)
+            measured=measure(observed_times,scope_values,w);entry['measured']=measured
             expected=w['approximate_swing_v'];bounds=w.get('approximate_swing_range_v')
             if expected is not None:
                 error=abs(measured['peak_to_peak_v']-expected)/expected
@@ -256,7 +284,7 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
             # Excursion relative to the median is a diagnostic, not proof of
             # pulse direction for a mixed or asymmetric waveform.
             entry['polarity_match_hint']=(measured['dominant_excursion']==w['polarity'])
-            shape,features=shape_checks(ts,scope_values,w,measured)
+            shape,features=shape_checks(observed_times,scope_values,w,measured)
             entry['shape_checks']=shape;entry['shape_features']=features
             entry['shape_status']='pass' if all(shape.values()) else 'fail'
             entry['checks']=checks
@@ -274,14 +302,25 @@ def score(path, *, start=None, end=None, required=(), register=REGISTER):
                       and p['status']!='pass-numeric']
     shape_failures=[p['test_point'] for p in points if p['test_point'] in required
                     and p.get('shape_status')!='pass']
+    loaded_points=sorted(p['test_point'] for p in points
+                         if p.get('instrument_model_status')=='circuit probe load and bandwidth applied')
+    loading_complete=bool(required) and required<=set(loaded_points)
+    modeled=loading_complete and stimulus=='grid'
     return dict(format='dac-monitor-service-score-v1',input=str(path),input_sha256=input_hash,
                 register_sha256=hashlib.sha256(register.read_bytes()).hexdigest(),requested_window_s=[start,end],
                 instrument_model_sha256=hashlib.sha256(INSTRUMENT.read_bytes()).hexdigest(),
-                instrument_loading_status=instrument['probe_loading_status'],
+                instrument_loading_status=('required points circuit-loaded' if loading_complete
+                                           else instrument['probe_loading_status']),
+                probe_manifest=str(Path(probe_manifest).resolve()) if probe_manifest is not None else None,
+                probe_manifest_sha256=(hashlib.sha256(Path(probe_manifest).read_bytes()).hexdigest()
+                                       if probe_manifest is not None else None),
+                probe_loaded_points=loaded_points,stimulus=stimulus,
                 samples_in_window=rows,required_points=sorted(required),required_failures=required_failures,
                 numeric_status='pass' if not numeric_failures else 'fail',
                 shape_status='pass' if not shape_failures else 'fail',
-                qualification='diagnostic-only; bandwidth applied, probe loading pending; source conditions must match',points=points)
+                qualification=('probe-and-bandwidth-modeled grid comparison; manual values are guidelines'
+                               if modeled else 'diagnostic-only; probe loading or grid stimulus not established'),
+                points=points)
 
 
 def main():
@@ -290,6 +329,8 @@ def main():
     parser.add_argument('--start',type=float)
     parser.add_argument('--end',type=float)
     parser.add_argument('--require',help='comma-separated points and inclusive ranges, e.g. 1-8,14')
+    parser.add_argument('--probe-manifest',type=Path,help='manifest from service_probe.py with separate loaded solves')
+    parser.add_argument('--stimulus',choices=('grid',),help='declare the scoring input when the manual does not')
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
     required=set()
@@ -298,7 +339,8 @@ def main():
             if '-' in item:
                 a,b=map(int,item.split('-',1));required.update(range(a,b+1))
             else:required.add(int(item))
-    result=score(args.input,start=args.start,end=args.end,required=required)
+    result=score(args.input,start=args.start,end=args.end,required=required,
+                 probe_manifest=args.probe_manifest,stimulus=args.stimulus)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(result,indent=2)+'\n')
     for point in result['points']:

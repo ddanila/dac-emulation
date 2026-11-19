@@ -292,7 +292,9 @@ def freeze(proposal, score):
     if not input_path.is_file():raise ValueError('calibration score input is missing')
     window=score.get('requested_window_s')
     if not isinstance(window,list) or len(window)!=2:raise ValueError('calibration score window is missing')
-    reproduced=service_score.score(input_path,start=window[0],end=window[1],required=score.get('required_points',[]))
+    reproduced=service_score.score(input_path,start=window[0],end=window[1],
+        required=score.get('required_points',[]),probe_manifest=score.get('probe_manifest'),
+        stimulus=score.get('stimulus'))
     if digest(reproduced)!=digest(score):raise ValueError('calibration score is not reproducible')
     points={p['test_point']:p for p in score.get('points',[])}
     if any(points.get(n,{}).get('status')!='pass-numeric' for n in CALIBRATION_POINTS):
