@@ -81,7 +81,7 @@ def compare(source, assembly, components):
                 mapping_limits=['X1/X2 to hy1/hy2 uses the current yoke-net naming; physical pin direction is not established here',
                                 'SYNCH to h_sync uses the horizontal-output label; the vertical-board converter path is outside the ideal-rail frame'],
                 open_checks=['six cable signals have functional model-scope gaps despite matching source-labelled physical pins',
-                             'panel controls need source-to-KiCad comparison; yoke is checked separately'])
+                             'panel R2 topology differs and X1 pin comparison remains open; yoke is checked separately'])
 
 
 def main():

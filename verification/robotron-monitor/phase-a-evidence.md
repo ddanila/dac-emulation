@@ -919,8 +919,9 @@ B6 must still measure the grid and select a setting.
 
 The page-18 interconnection drawing assigns panel R1 terminals E, S and A to
 35P, HRS and HRA on main-board connector X1; page 3 draws the same pot and
-page 4 continues HRS/HRA into the V1 bias network. Their KiCad assembly nodes
-are `p35`, `collector_i` and `contrast_adjust`, respectively. The panel pot's
+page 4 continues HRS/HRA into the V1 bias network. The current deck maps them
+to `p35`, `collector_i` and `contrast_adjust`, respectively; physical X1 pins
+have not yet been compared with a KiCad export. The panel pot's
 bottom-to-wiper segment is in parallel with the board's R1 (2.7 kΩ). The
 handwritten page-18 10 kΩ value, with 5 kΩ alternative, is carried as a
 bounded `class-typical` `brightness_pot_r` rather than a factory specification.
@@ -1041,6 +1042,23 @@ or moving one deck endpoint fails the comparison. This verifies the represented
 terminal map and yoke topology; it does not establish the yoke's historical
 R/L values, field strength, or the omitted vertical-board horizontal pass-through.
 Panel controls and six cable functional gaps keep the A1 page-18 check open.
+
+`reference/k7222-11/page18-panel-source-read.json` records two differently
+cropped/resolved reads of schematic pages 3 and 18 from the hashed source PDF.
+Page 18 maps R1's E/S/A to 35P/HRS/HRA and R2's S/A to KRS/KRA through
+main-board X1. Page 3 draws R1 as a three-terminal potentiometer and R2 as a
+two-wire rheostat whose wiper joins its lower end. Handwritten control values
+are excluded from this topology read. `page18_panel_compare.py` checks those
+terminal labels against the page-18 interconnect transcription and compares
+the assembled deck's control elements. The saved
+`reference/k7222-11/page18-panel-topology-comparison.json` finds R1's three
+represented nodes in the expected order but finds an R2 difference: the deck
+uses two resistors and three nodes (`contrast_adjust`, `intens`,
+`contrast_low`) while the source exposes only KRA/KRS. This is an A1 mismatch,
+not an accepted equivalent. The KRA/KRS board-side component connections on
+pages 3–4 and physical main-board X1 pins must be independently transcribed
+before replacing the divider; guessing those nodes from the existing deck
+would carry the source error into the correction.
 
 ### Independent page-16 neck-board pin transcription (2026-11-19)
 

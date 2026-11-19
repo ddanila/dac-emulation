@@ -1,0 +1,33 @@
+{
+  "format": "dac-monitor-page18-panel-source-read-v1",
+  "status": "source-first partial A1 read; board-side KRA/KRS netlist comparison remains open",
+  "source_pdf": "older.pdf",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "read_views": [
+    {"page": 3, "render": "build/monitor/phase-a/page3-600.png", "sha256": "60f0c5d16e278f2be9bae8bd93269b0d4ff6fd82fdb92eba1c223cb85bd8ac17"},
+    {"page": 3, "render": "build/monitor/phase-a/page3-brightness-crop.png", "sha256": "7f47f44b366b8e6c5e21d9cbdf41e5fc52a2085874755fa95cbc2a84613152a7"},
+    {"page": 18, "render": "build/monitor/phase-a/page18-300.png", "sha256": "714831c2ea6e78286efca9a9d2bd4d7bb7b637f213a1867c3f416a5890aae719"},
+    {"page": 18, "render": "build/monitor/phase-a/page18-panel-crop.png", "sha256": "d9ad09d1d2b75ccd7da88409630594d5a34a79927b89f6f5b5aeee07a0e936ce"}
+  ],
+  "controls": {
+    "R1": {
+      "page18_terminals": {"E": "35P", "S": "HRS", "A": "HRA"},
+      "page3_topology": "three-terminal potentiometer: E and A are resistor ends; S is the separate wiper",
+      "effective_external_terminals": 3,
+      "wiper_tied_to_end": false,
+      "main_board_pins": {"E": "3", "S": "2", "A": "1"}
+    },
+    "R2": {
+      "page18_terminals": {"S": "KRS", "A": "KRA"},
+      "page3_topology": "two-wire rheostat: wiper S is wired to the lower resistor end; A is the other end",
+      "effective_external_terminals": 2,
+      "wiper_tied_to_end": true,
+      "main_board_pins": {"S": "5", "A": "6"}
+    }
+  },
+  "read_limits": [
+    "Page 18 does not expose the board-side KRA and KRS component pins; those need the page 3/4 second netlist.",
+    "The handwritten 10 kohm and 5 kohm values are not treated as printed factory specifications.",
+    "This reading establishes external terminal topology, not the electrical range of either control."
+  ]
+}

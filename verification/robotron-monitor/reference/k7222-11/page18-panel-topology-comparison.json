@@ -1,0 +1,68 @@
+{
+  "format": "dac-monitor-page18-panel-topology-comparison-v1",
+  "qualification": "partial source-to-deck comparison; no physical X1 pin export or board-side KRA/KRS netlist yet",
+  "source_read_sha256": "7ae418221f5faf52da48bd38fe3c0571a7603cb84426602df41f1dd74f6adb27",
+  "interconnect_sha256": "5b03792e8a550d13de0ac707b51c02acb4a4812439a44154e79822dfb4e04cfa",
+  "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+  "model_sha256": "3113efe2a145067c1c16f2f1bb35c1e4efccdb3ee5518dc961b6c76df046ee35",
+  "source_r1_terminals": {
+    "E": "35P",
+    "S": "HRS",
+    "A": "HRA"
+  },
+  "source_r2_terminals": {
+    "S": "KRS",
+    "A": "KRA"
+  },
+  "source_r2_wiper_tied_to_end": true,
+  "brightness_model_elements": [
+    {
+      "element": "Rbrightness_top",
+      "from_node": "p35",
+      "to_node": "collector_i",
+      "resistance": "5000"
+    },
+    {
+      "element": "Rbrightness_bottom",
+      "from_node": "collector_i",
+      "to_node": "contrast_adjust",
+      "resistance": "5000"
+    }
+  ],
+  "brightness_terminal_nodes": {
+    "E_35P": "p35",
+    "S_HRS": "collector_i",
+    "A_HRA": "contrast_adjust"
+  },
+  "brightness_topology_matches": true,
+  "contrast_model_elements": [
+    {
+      "element": "Rcontrast_top",
+      "from_node": "contrast_adjust",
+      "to_node": "intens",
+      "resistance": "{contrast_r*contrast_position}"
+    },
+    {
+      "element": "Rcontrast_bottom",
+      "from_node": "intens",
+      "to_node": "contrast_low",
+      "resistance": "{contrast_r*(1-contrast_position)}"
+    }
+  ],
+  "contrast_model_nodes": [
+    "contrast_adjust",
+    "contrast_low",
+    "intens"
+  ],
+  "contrast_topology_matches": false,
+  "mismatches": [
+    "source R2 is a two-wire KRA/KRS rheostat, but the assembled contrast network has 2 elements and 3 distinct nodes"
+  ],
+  "open_checks": [
+    "trace KRA and KRS to board component pins on pages 3/4",
+    "compare main-board X1 physical pins with a fresh KiCad export",
+    "replace the three-node contrast divider with the source-connected rheostat",
+    "check the corrected contrast control in an assembled stage"
+  ],
+  "page18_gate_closed": false
+}
