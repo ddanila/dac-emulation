@@ -408,12 +408,14 @@ Phase C (speed) waits for B8.
 
 The goal "Phase A of the PLAN is fully implemented; intermediate results
 documented, committed and pushed" cannot yet be marked complete. The immediate
-blocker is an unfinished source-to-model chain: the frame-path connectivity has
-not received its independent schematic netlist check (A1), so the T3 winding
-connections and rectifier paths needed to finish the design point (A5) remain
-provisional. The saved audit flags 26 frame-path part entries; 19 now have
-agent readings, leaving seven open parts and six open schematic pages. Seven
-converter-only entries are outside the A1 gate.
+completion blocker is the unfinished A1 source-to-model chain: pages 3–4,
+9–10, 16 and 18 still need independent schematic netlists checked against the
+KiCad exports. Until their differences are settled, the T3 winding connections
+and rectifier paths needed to finish the A5 design point remain provisional.
+The saved audit flags 26 frame-path part entries; 19 now have agent readings.
+The seven still open are `012-6921:R41`, `V18`, `V21`, `T3`, and
+`012-6931:V27`, `V28`, `V4`. Seven converter-only entries are outside the A1
+gate.
 
 Other required close-out work is also missing. There is no complete bounded
 device-model register for the frame-path identity-only parts (A2), the waveform
@@ -428,12 +430,11 @@ simply enlarging it would overlap the assumed winding. These are recorded in
 `phase-a-evidence.md`; the connected grid startup traces do not establish a
 sustained-state solution.
 
-This is a current completion blocker, not a need for a human decision or a
-physical measurement. Resolve the source readings and netlist by the bounded
+This blocks declaring Phase A complete; it does not require a human decision or
+a physical measurement. Resolve the source readings and netlists by the bounded
 A1 process, use labelled `class-typical` values where a documented value cannot
 be settled, then finish and verify A2–A6. The ground rule and fallbacks above
-still require the work to continue and forbid treating an open item as a reason
-to stop.
+still require the work to continue.
 
 ## What the result may be called
 
