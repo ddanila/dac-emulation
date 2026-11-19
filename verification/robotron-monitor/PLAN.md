@@ -438,6 +438,17 @@ This is a completion blocker, not a wait for human review, hardware or
 permission. The source-review and bounded `class-typical` fallback rules above
 allow further work. The detailed evidence and route to completion follow.
 
+The latest page-4 review at 300 and 600 dpi confirms only the external T3
+drive path already checked by the
+[flyback-sign comparison](reference/k7222-11/t3-flyback-sign-filter.json):
+X2:7 meets V18's collector and V17's cathode, V18's emitter and V17's anode
+return to ground, and X2:4 is the other drive-winding endpoint. That comparison
+does not independently establish the internal tap order or the X1:3-to-X2:3
+return. The [winding graph](reference/k7222-11/t3-winding-hypothesis.json)
+therefore remains a hypothesis; its eight surviving sign candidates cannot
+serve as evidence that A1 or A5 is complete. The next source review must settle
+or explicitly bound those connections before the T3 design point can be frozen.
+
 The decisive technical uncertainty within A1 is the T3 winding topology.
 Manual page 19 names
 X1:1 and X1:16 as the high-voltage winding terminals; schematic page 4 puts
