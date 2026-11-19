@@ -38,10 +38,21 @@ class ClassTypicalRegisterTests(unittest.TestCase):
                 self.assertEqual(row['bounds'], parameter['bounds'])
         for family in devices.get('families', []):
             self.assertTrue(family['member_ids'])
+            profile = (json.loads((ROOT/family['profile']).read_text())
+                       if family.get('profile') else None)
             for key, parameter in family['parameters'].items():
                 row = self.by_id[family['id']+'.'+key]
                 self.assertEqual(row['value'], parameter['nominal'])
                 self.assertEqual(row['bounds'], parameter['bounds'])
+                if profile and 'profile_key' in parameter:
+                    live = profile['parameters'][parameter['profile_key']]
+                    self.assertEqual(row['value'], live['nominal'])
+                    self.assertEqual(row['bounds'], [live['minimum'], live['maximum']])
+                if 'shared_model_parameter_with' in row:
+                    shared = self.by_id[row['shared_model_parameter_with']]
+                    self.assertEqual(row['model_ref'], shared['model_ref'])
+                    self.assertEqual(row['value'], shared['value'])
+                    self.assertEqual(row['bounds'], shared['bounds'])
         instrument = json.loads((REF/'service-instrument.json').read_text())
         for key in ('vertical_bandwidth_hz', 'direct_input_resistance_ohm',
                     'direct_input_capacitance_f'):

@@ -1215,12 +1215,14 @@ T3 open as a part entry. A2 remains partial for these devices.
 
 ### Partial class-typical register (2026-11-19)
 
-`reference/k7222-11/class-typical-register.json` consolidates 30 currently
+`reference/k7222-11/class-typical-register.json` consolidates 37 currently
 cited bounded entries: the V18/V21/V27/V28 and neck V1 semiconductor
 candidates, comparable service-scope values, a B31-G family neck outside
 diameter, the provisional R41 value, the external brightness-pot range, and
-seven parameters each for the ten-member vertical 1AE15 and eight-member
-1AD50 diode families. Each entry
+seven parameters each for the ten-member vertical 1AE15, four-member
+input/sync 1AE15 and eight-member 1AD50 diode families. The input/sync
+1AE15 rows identify that their active profile parameters are shared with the
+1AD50 model alias, so they are not independent sweep dimensions. Each entry
 identifies its stage, source, bounds and model location. The file stays
 `partial`: fixed SPICE parameters, tube emission/heater properties, T3
 parasitics, yoke sensitivity
@@ -1262,8 +1264,8 @@ instances in the source inventory with the current ideal-rail assembly and
 device-model register. The saved
 `reference/k7222-11/device-model-coverage.json` accounts for 64 frame-path
 instances in 30 printed-type families; 13 instances are converter-only under
-the existing A1 scope rule. Fifteen frame-path instances have provisional A2
-register coverage, 45 have active model names but no register entry, and four
+the existing A1 scope rule. Twenty-seven frame-path instances have provisional
+A2 register coverage, 33 have active model names but no register entry, and four
 appear in the source inventory but not in the current assembled model:
 012-6921 V19/V20 and 012-6931 L1/L2. Assembly presence and a model name do
 not establish sourced parameter bounds.
@@ -1271,8 +1273,14 @@ not establish sourced parameter bounds.
 The report also makes shared-family decisions visible. Fourteen frame-path
 `1AE15` diode instances currently use two different model names, and five
 `1SA20C` transistor instances use two names or are absent from the assembly.
-Ten vertical 1AE15 instances now have one provisional family entry; the other
-four remain unregistered. The next A2 pass must check the remaining assignments
+Ten vertical 1AE15 instances have one provisional family entry. The other four
+input/sync instances now have a separate entry for the shared `1AD50_BOUND`
+model alias. The [Nexperia 1N4148/1N4448 data sheet](https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf)
+provides the same comparison limits for both entries: 1 V at 10 mA, 25 nA at
+20 V, 4 pF at zero bias and 4 ns under its specified recovery test. The saved
+`neck-diode-model-check.json` verifies this active model against those four
+limits; it does not establish the installed 1AE15 ratings or the four devices'
+in-circuit stress. The next A2 pass must check the remaining assignments
 against source function and data-book bounds, then add coverage for each
 frame-path device and validate the live model response. The page-4 T3 scan
 still does not independently establish the proposed X1:3-to-X2:3 winding
@@ -1368,8 +1376,8 @@ and 1.24 ns recovery to 1 mA reverse current. Its switching stimulus reaches
 9.999 mA forward and 60.17 mA peak reverse current through 100 Ω. All four
 nominal checks pass the comparator limits; original part ratings, per-device
 stress and connected native-mode bound sensitivity are still open.
-Regenerated A2 coverage is 23 of 64 provisionally registered frame-path
-instances, 37 assembled but unregistered, and four absent from the assembly.
+Current regenerated A2 coverage is 27 of 64 provisionally registered frame-path
+instances, 33 assembled but unregistered, and four absent from the assembly.
 
 ### Independent page-9 vertical sync input read (2026-11-19)
 
