@@ -408,8 +408,9 @@ Phase C (speed) waits for B8.
 
 The goal "Phase A of the PLAN is fully implemented; intermediate results
 documented, committed and pushed" is blocked at its completion check: A1 has
-no independent pin-to-pin netlist for the remaining frame-path sheets, and
-`012-6921:T3` is still the open frame-path part entry. Consequently the T3
+no complete independent pin-to-pin comparison for the frame-path sheets.
+The T3 inventory identity is now resolved, but its source connectivity is not.
+Consequently the T3
 winding graph cannot be accepted as source-verified, and A5 cannot freeze its
 winding ratios, polarity, candidate list or design point. A2, A3 and A6 also
 have unfinished acceptance criteria described below. The committed partial
@@ -439,9 +440,10 @@ An independent page-16 neck-board read now matches all 39 component pins and
 six diode directions in a fresh KiCad export, and its 17 connector pins match
 the assembly map. That sheet also lacks physical connector symbols, so its A1
 pin-to-pin check remains open rather than being counted as a closed page.
-The saved audit flags 26 frame-path part entries; 25 now have agent readings
-or bounded class-typical decisions. Only `012-6921:T3` remains open as a part
-entry. V18, V21, V27 and V28 now have bounded `class-typical` candidates,
+The current audit flags 26 frame-path part entries; all 26 now have agent
+readings or bounded class-typical decisions. T3's two page-4 reads establish
+its line-transformer identity, not its turns, internal winding connections or
+polarity. V18, V21, V27 and V28 now have bounded `class-typical` candidates,
 while their connections remain in the open page-4 and page-10 netlist reviews.
 Seven converter-only entries are
 outside the A1 gate.
@@ -469,7 +471,8 @@ establish a sustained-state solution.
 To clear the completion blocker, commit an independent pin-to-pin transcription
 of schematic pages 3–4, 9–10, 16 and 18, compare it with the KiCad exports,
 resolve the T3 terminal and return-path differences from source evidence, and
-close the `012-6921:T3` audit entry. Then complete and verify the A2 device
+record bounded assumptions where the scan cannot settle winding parameters.
+Then complete and verify the A2 device
 models, A3 probe/stimulus scoring, A5 design point, and A6 bounded register
 against their done conditions above. This requires more implementation and
 source review, not an external dependency or a human measurement; the ground

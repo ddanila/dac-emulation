@@ -2,6 +2,33 @@
   "format": "dac-monitor-phase-a-source-review-v2",
   "parts": [
     {
+      "id": "012-6921:T3",
+      "source_page": 4,
+      "frame_path": true,
+      "source_pdf_sha256": "3c435063815af483a0fa98823a8a95a4178359e64f759344ee03cc0300e292dd",
+      "inventory_entry_sha256": "d6cbcac951da062a6d0af36342ca568b281999bf2128956e5fa601b5a1c29822",
+      "decision": "inventory-correct",
+      "reading": "T3 Zeilentrafo",
+      "independent_reads": [
+        {
+          "reading": "T3 Zeilentrafo",
+          "method": "agent visual read of full source page at lower resolution",
+          "image_path": "build/monitor/phase-a/schematic-pages/page-4.png",
+          "crop_sha256": "6fbdc2db7b8ecd63184146caf94ca78057c3b71ecbb8dbaee18730b05e937da6",
+          "resolution_px": [1641, 2308]
+        },
+        {
+          "reading": "T3 Zeilentrafo",
+          "method": "agent visual read of T3 crop from 600 dpi source render",
+          "image_path": "build/monitor/phase-a/page4-t3-600-crop.png",
+          "crop_sha256": "8c1af83ec911cc119ac8ce4dc183ac4ee2712d59c80eb743d7fce0fa0e268505",
+          "resolution_px": [2250, 2400]
+        }
+      ],
+      "crop_sha256": "8c1af83ec911cc119ac8ce4dc183ac4ee2712d59c80eb743d7fce0fa0e268505",
+      "argument": "Both source views label T3 Zeilentrafo on the horizontal-output schematic, confirming the inventory's T3 transformer identity and line-output role despite its absence from the board BOM. Neither view states turns, winding continuity or relative polarity; those remain open in the independent page-4 netlist check and A5 design point."
+    },
+    {
       "id": "012-6931:V27",
       "source_page": 10,
       "frame_path": true,
