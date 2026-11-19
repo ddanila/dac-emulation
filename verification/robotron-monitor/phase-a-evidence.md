@@ -1996,3 +1996,39 @@ and eight unregistered horizontal-board magnetics. A6 has 190 partial bounded
 entries including the two shared choke parameters and conditional link
 selection. A1 still needs the rest of pages 9–10 and the installed link
 orientation; A2 still needs the eight magnetics and connected sensitivity.
+
+### A2/A5: T1 half-winding timing scale and profile correction (2026-11-20)
+
+T1 (`012-6921:T1`, stock `1.11.017321.0/90`) is the three-terminal coupled
+oscillator winding in the source-connected page-3 stage. C16 is documented
+as 100 nF ±10% and runs from the tank node through R21's 27 Ω return; C15
+also loads the tank through the transistor base. The native 2 kByte line
+period is 62.5 µs (16 kHz), and manual page 17 prints a 14.338–16.338 kHz
+horizontal-generator control range. `1/((2πf)²C16)` gives a 0.989 mH ideal
+half-winding **scale**, with 0.863–1.369 mH over the printed C16 and
+frequency ranges. The network is not an isolated LC resonator, so that
+calculation cannot be assigned directly to T1.
+
+The [reproducible autonomous-stage sweep](reference/k7222-11/horizontal-t1-design.json)
+uses the source-addressed oscillator sheet, not a prescribed scan waveform.
+The old profile default of 0.9 mH per half gives 19.911 kHz, above the
+printed generator range. The 1.45 mH starting value already used by the
+ideal-rail tune gives 15.890 kHz; a 0.5 µs output step changes the inferred
+period by less than 0.01%. At 1.4 and 1.8 mH, the stage gives 16.142 and
+14.478 kHz respectively. Its 0.1–5 Ω half-winding resistance endpoints give
+15.820–16.230 kHz. Coupling 0.95–0.9999 gives 15.438–15.957 kHz, but this
+last sweep changes T2 as well because the profile shares one coupling
+parameter. Those results support a **conditional** 1.45 mH nominal with
+1.2–2.1 mH exploratory bounds. They do not identify the factory winding or
+establish the R24 control range; near the nominal setting, R24 positions 0.1
+and 0.9 moved the isolated stage only from 15.960 to 15.825 kHz.
+
+The [horizontal oscillator profile](profiles/k7222-11-horizontal-oscillator.json)
+now uses 1.45 mH by default and limits the provisional half-winding DC
+resistance to 0.1–5 Ω. A2 now records T1's active model, source, bounds and
+remaining checks; the [design point](reference/k7222-11/design-point.json)
+keeps the ideal and loaded-stage values separate. A6 has three additional
+bounded entries. These are an engineering starting point for the connected
+stage, not a Phase B calibration or a completed T1 qualification. A2 coverage
+is now 57/64 with seven unregistered horizontal-board magnetics; A6 has 193
+partial entries.

@@ -65,7 +65,7 @@ def read_profile(path):
         values = [p[k] for k in ('minimum', 'nominal', 'maximum')]
         if (not IDENTIFIER.fullmatch(name) or any(type(v) not in (int, float) or not math.isfinite(v) for v in values)
                 or not 0 < values[0] <= values[1] <= values[2] or not p.get('rationale')
-                or p.get('evidence') not in ('assumed-bound', 'documented-bound')):
+                or p.get('evidence') not in ('assumed-bound', 'documented-bound', 'design-derived')):
             raise ValueError('invalid parameter bound: '+name)
     names = set()
     if not 1 <= len(profile['probes']) <= 127:

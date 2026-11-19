@@ -36,7 +36,7 @@ class HorizontalOscillatorTests(unittest.TestCase):
             slower,_=solve('slower',changes={'horizontal_tank_l':.0018})
             self.assertTrue(1/25000<base<1/15000)
             self.assertLess(abs(base/fine-1),.01)
-            self.assertGreater(slower/base,1.15)
+            self.assertGreater(slower/base,1.08)
             # R15/C8 return must reach feedback THROUGH C17, not through an
             # accidental grounded junction at the crossing on the scan.
             parts={p['source_id']:p for p in report['components']}

@@ -1,6 +1,6 @@
 # Plan: one sustained-state frame from the K7222 reference monitor
 
-Written 2026-11-18, revised 2026-11-19. This plan supersedes `README.md`,
+Written 2026-11-18, revised 2026-11-20. This plan supersedes `README.md`,
 `single-frame-acceptance.md`, `phase-a-evidence.md` and
 `reference/k7222-11/full-path-requirements.json` wherever they disagree. Those
 files stay as the record of what exists.
@@ -404,7 +404,7 @@ netlist and open reads, A3 connected waveform scoring, A6 register, then B1. A5 
 early because it is cheap and its result tells A1 and A2 which parts matter.
 Phase C (speed) waits for B8.
 
-## Phase A goal completion blocker (2026-11-19)
+## Phase A goal completion blocker (updated 2026-11-20)
 
 **Goal completion blocked reason:** The page-3/4 source read corrected
 the V19/V1 mapping and local wiring, but it did not close the independent
@@ -412,7 +412,7 @@ netlist or transistor C/E review. The 300 and 600 dpi T3 reads still cannot
 establish the proposed X1:3-to-X2:3 return or internal tap order. Its eight
 surviving flyback-sign candidates depend on that unverified winding graph, so
 A5 cannot freeze the ratios, polarities or complete design point. A2 still
-has eight assembled horizontal-board magnetic devices without register
+has seven assembled horizontal-board magnetic devices without register
 entries; both page-9 centring chokes now have provisional models in the
 ideal-rail assembly. The last archived loaded A3 diagnostic, run
 before the new transistor proxies, failed TP8's manual voltage range and did
@@ -429,10 +429,10 @@ labelled as such. The remaining done-condition gaps are:
 | Item | Evidence still needed for completion |
 | --- | --- |
 | A1 | Finish the independent page 3–4 and 9–10 pin comparisons beyond the now transcribed local branches and page-9 centring bridge, including transistor C/E polarity and remaining page-edge traces; record conditional alternatives for any T3 connections that the scan cannot settle, settle page 18's six functional model-scope gaps and connected contrast check, and close page 16's source-observation check. The installed E1–E4 pair is not identified. |
-| A2 | Model and bound every frame-path device. Fifty-six of 64 instances have provisional register coverage; eight assembled horizontal-board magnetic instances have none. Both page-9 centring chokes are now present, but their original values and connected sensitivity remain unqualified. None of the 56 closes every qualification check. |
+| A2 | Model and bound every frame-path device. Fifty-seven of 64 instances have provisional register coverage; seven assembled horizontal-board magnetic instances have none. Both page-9 centring chokes and T1 are present with conditional models, but original values and connected sensitivity remain unqualified. None of the 57 closes every qualification check. |
 | A3 | All 17 manual waveform shape descriptors are registered; score connected stages with the required loaded probes, stimulus and recorded trims. |
 | A5 | A conditional vertical current/voltage calculation exists. Resolve or explicitly bound the T3 tap/return graph, freeze the winding ratios and polarities, and qualify the complete tube/yoke design point. |
-| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 190 partial entries. |
+| A6 | Complete cited bounds for the remaining tube, T3, yoke and other frame-path model values; the current register has 193 partial entries. |
 
 All five printed `1SA20C` instances and both `1SC60A` instances now use
 separate [BC546B-class NPN model aliases](circuits/k7222-11-small-transistor-models.cir)
@@ -442,9 +442,9 @@ passes nominal gain, saturation and transition-frequency comparisons against
 the [onsemi BC546B data sheet](https://www.onsemi.com/download/data-sheet/pdf/bc546-d.pdf).
 This is a class comparator, not a claim that either printed type is a BC546B.
 Original ratings, every printed-arrow read, connected current/voltage/thermal
-stress, joint bounds and implicit BJT defaults remain unqualified. The eight
-assembled devices without register rows are L1, L3, three L4 sections, T1,
-T2 and T3 on board 012-6921. Both 012-6931 L1/L2 centring chokes now have
+stress, joint bounds and implicit BJT defaults remain unqualified. The seven
+assembled devices without register rows are L1, L3, three L4 sections, T2
+and T3 on board 012-6921. Both 012-6931 L1/L2 centring chokes now have
 bounded provisional RL models in the source-addressed
 [page-9 bridge sheet](circuits/k7222-11-centering.kicad_sch). The
 [independent source comparison](reference/k7222-11/page9-centering-comparison.json)
@@ -453,6 +453,17 @@ matches nine local component terminals; the
 passes both conditional link polarities. The installed E1–E4 pair, original
 choke construction and connected-stage effect remain open. The earlier
 midpoint-neutral current-source equivalent has been replaced by this branch.
+
+T1 now has a conditional
+[half-winding design check](reference/k7222-11/horizontal-t1-design.json).
+Documented C16 and the 16 kHz native line period give a 0.989 mH ideal LC
+scale; the source-connected autonomous oscillator gives 15.89 kHz at the
+1.45 mH per-half starting value already used by the ideal-rail tune. The
+former 0.9 mH profile default instead gives 19.91 kHz, outside the printed
+14.338–16.338 kHz generator range. The profile default and bounded T1
+register row now agree with the live starting value. This is conditional on
+the provisional oscillator transistor loading and is not a T1 measurement
+or Phase B calibration.
 
 The [page-4 V20 source read](reference/k7222-11/page4-v20-source-read.json)
 and [page-3 R11/R37 read](reference/k7222-11/page3-r11-r37-source-read.json)
@@ -607,13 +618,13 @@ Seven converter-only entries are
 outside the A1 gate.
 
 Other required close-out work is also missing. The A2 coverage report counts
-64 frame-path device instances in 30 printed-type families. Fifty-four have
-provisional device-model register coverage (seventeen individual devices, fourteen
+64 frame-path device instances in 30 printed-type families. Fifty-seven have
+provisional device-model register coverage (eighteen individual devices, fourteen
 1AE15 diodes across two active model aliases, eight 1AD50 clamp diodes, six
-horizontal diodes, two KFY18 transistors and seven BC546B-class proxies);
-eight assembled magnetic instances
-have no entry. V19 on 012-6921 is now assembled; L1/L2 on 012-6931 remain
-absent from the current ideal-rail assembly. None of the fifty-four instances yet closes all
+horizontal diodes, two KFY18 transistors, seven BC546B-class proxies and two
+page-9 centring chokes); seven assembled magnetic instances
+have no entry. V19 on 012-6921 and L1/L2 on 012-6931 are now assembled.
+None of the fifty-seven instances yet closes all
 A2 parameter checks. The V18 horizontal-output model now passes a BU508AF-class
 DC gain and saturation proxy; its inductive switching, parameter bounds and
 connected-stage stress remain unchecked. A separate current-fed turn-off
@@ -689,7 +700,7 @@ at the native 19.5 ms period gives TP7 2.1594 Vpp (pass) and TP8 25.7674 Vpp
 0.5972 V, or 2.32% of its 25.768 V swing. This remains synthetic-sync and
 nonperiodic, not the complete connected grid-stimulus A3 comparison.
 The class-typical register collects
-190 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
+193 cited bounded entries, but tube emission/heater, T3 parasitics, yoke
 sensitivity and other frame-path model values still lack sourced bounds (A6).
 All three A4 controls are now bound in the ideal-rail
 assembly: horizontal-centering R4 uses the conditional page-9 bridge,

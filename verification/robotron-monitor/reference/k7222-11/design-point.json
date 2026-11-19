@@ -16,6 +16,18 @@
     "source": {"file": "older-operation.pdf", "page": 5},
     "argument": "The manual gives 46.5 us write plus 16.0 us retrace per line, and 18.0 ms display plus 1.5 ms retrace per field for the 2 kByte mode."
   },
+  "horizontal_oscillator_t1": {
+    "source_id": "012-6921:T1",
+    "c16_f": {"nominal": 1e-7, "tolerance_percent": 10, "source_id": "012-6921:C16"},
+    "manual_generator_range_hz": [14338, 16338],
+    "native_line_frequency_hz": 16000,
+    "ideal_lc_half_winding_h": {"nominal": 0.000989464684007205, "range_from_c16_and_manual_frequency": [0.0008626801291537031, 0.0013690540733475047]},
+    "equation": "L_ideal = 1 / ((2*pi*f)^2 * C16)",
+    "source_connected_stage_half_winding_h": {"nominal": 0.00145, "bounds": [0.0012, 0.0021], "autonomous_frequency_hz_at_nominal": 15890.379585577804},
+    "evidence": "documented C16 and manual range set the ideal scale; the source-connected isolated oscillator gives a conditional loaded stage response",
+    "report": "reference/k7222-11/horizontal-t1-design.json",
+    "limitation": "C16 is coupled through R21 and a provisional transistor network. The loaded 1.45 mH is not an original winding specification, a connected-sync result, or a Phase B calibration freeze."
+  },
   "horizontal_resonance": {
     "candidate_parallel_capacitors": [
       {"source_id": "012-6921:C27", "value_f": 1e-8, "tolerance_fraction": 0.1},

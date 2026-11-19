@@ -249,10 +249,11 @@ def assemble(output, *, yoke_path=None):
                  'reference/k7222-11/page9-centering-source-netlist.json',
                  'reference/k7222-11/page9-centering-comparison.json',
                  'reference/k7222-11/centering-bridge-check.json',
+                 'reference/k7222-11/horizontal-t1-design.json',
                  'reference/k7222-11/device-model-register.json',
                  'reference/k7222-11/class-typical-register.json',
                  'steady_supply.py',
-                 'page9_centering_compare.py','centering_bridge_check.py',
+                 'page9_centering_compare.py','centering_bridge_check.py','horizontal_t1_design.py',
                  'magnetics.py','transformer_candidates.py','electrothermal.py','yoke_profile.py','yoke_geometry.py',
                  'steady_acceptance.py','steady_trace.py','scan_diagnostics.py','sync_lock.py','lock_scan.py','electrical_cache.py','collection.py','beam_feedback.py','energy_ledger.py','energy_validation.py',
                  'service_score.py','calibration_contract.py','calibration_measurements.py','grid_geometry.py','phase_a_gates.py'):

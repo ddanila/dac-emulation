@@ -2,12 +2,12 @@
   "format": "dac-monitor-a2-device-coverage-v1",
   "qualification": "A2 gap inventory; registered rows are provisional, not completed model qualification",
   "inventory_sha256": "d42fcb21dfe726be6c9a290dbf67bb33e9e9a0b13b19399a15a67c6b77b1433b",
-  "register_sha256": "9af48de1e162e2179a6f70679dec69ace5e1a27e5411e3476ed64174774977b0",
+  "register_sha256": "0b39b35a85cab5bf5424920a1a8dd0f0d72bb6ab0fa9dce0fbe2b387feb5992a",
   "assembly_source_sha256": "c8b19ed1ea49dd2b54f8524e30a5b0647db1c3c76ffe96e028da665f08919e4b",
   "inventory_device_instances": 77,
   "frame_path_device_instances": 64,
   "assembled_instances": 64,
-  "registered_instances": 56,
+  "registered_instances": 57,
   "absent_from_assembly": [],
   "unregistered_assembled": [
     "012-6921:L1",
@@ -15,7 +15,6 @@
     "012-6921:L4:1",
     "012-6921:L4:2",
     "012-6921:L4:3",
-    "012-6921:T1",
     "012-6921:T2",
     "012-6921:T3"
   ],
@@ -415,7 +414,9 @@
       "active_models": [
         "HORIZONTAL_TANK"
       ],
-      "registered_ids": [],
+      "registered_ids": [
+        "012-6921:T1"
+      ],
       "absent_from_assembly": []
     },
     {
@@ -687,8 +688,12 @@
       "printed_type": "1.11.017321.0/90",
       "assembled_reference": "X1037",
       "active_model": "HORIZONTAL_TANK",
-      "register_model": null,
-      "registered_parameter_keys": []
+      "register_model": "HORIZONTAL_TANK",
+      "registered_parameter_keys": [
+        "K",
+        "L_HALF",
+        "R_HALF"
+      ]
     },
     {
       "id": "012-6921:T2",
