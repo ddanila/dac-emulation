@@ -1,0 +1,26 @@
+{
+  "format": "dac-monitor-service-instrument-v1",
+  "manual_instrument": "EO2",
+  "comparable_instrument": "RFT EO 203",
+  "evidence_tier": "class-typical",
+  "source": "https://www.mikrocontroller.net/attachment/269865/RFT_EO_203_Spec.pdf",
+  "source_pages": [2, 4],
+  "vertical_bandwidth_hz": {
+    "value": 10000000,
+    "bounds": [5000000, 10000000],
+    "argument": "The EO 203 manual lists a 10 MHz vertical channel and 5 MHz for high-voltage attenuator settings. The exact EO2 and its setting are not documented."
+  },
+  "direct_input_resistance_ohm": {
+    "value": 1000000,
+    "bounds": [1000000, 10000000],
+    "argument": "EO 203 direct input is 1 MΩ; its 10:1 accessory is listed as 10 MΩ. The EO2 probe arrangement is unspecified."
+  },
+  "direct_input_capacitance_f": {
+    "value": 4.8e-11,
+    "bounds": [2e-11, 4.8e-11],
+    "argument": "EO 203 direct input is 48 pF; its 10:1 accessory is listed as 20 pF. The EO2 probe arrangement is unspecified."
+  },
+  "bandwidth_model": "single-pole -3 dB low-pass, piecewise-linear input",
+  "probe_loading_status": "pending per-test-point circuit source impedance or loaded SPICE trace",
+  "affected_stage": "service waveform scoring"
+}

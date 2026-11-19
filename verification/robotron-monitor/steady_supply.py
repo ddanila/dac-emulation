@@ -179,6 +179,7 @@ def assemble(output, *, yoke_path=None):
     # let a duplicate fixed .model silently shadow its explicit parameters.
     texts=[re.sub(r'^\.model 1AD50_BOUND D\(IS=2n[^\n]*\n','',s,flags=re.M) for s in texts]
     for name in ('reference/k7222-11/inventory.json','reference/k7222-11/service-observations.json',
+                 'reference/k7222-11/service-instrument.json',
                  'reference/1715w/output.json',
                  'reference/k7222-11/t3-winding-hypothesis.json',
                  'reference/k7222-11/t3-initial-parameters.json',

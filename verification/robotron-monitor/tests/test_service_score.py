@@ -1,4 +1,5 @@
 import csv
+import math
 import sys
 import tempfile
 import unittest
@@ -46,9 +47,19 @@ class ServiceScoreTests(unittest.TestCase):
             self.assertEqual(points[5]['reference']['condition_id'],'service-eo2')
             self.assertEqual(points[5]['reference']['instrument'],'service oscilloscope EO2')
             self.assertIn('Richtwerte',points[5]['reference']['operating_conditions'])
+            self.assertIn('raw_measured',points[5])
+            self.assertIn('probe loading pending',points[5]['instrument_model_status'])
             self.assertEqual(result['required_failures'],[])
             result=service_score.score(path,required={5,16})
             self.assertEqual(result['required_failures'],[16])
+
+    def test_comparable_scope_bandwidth_is_three_db_at_ten_megahertz(self):
+        times=[i*1e-9 for i in range(2001)]
+        values=[math.sin(2*math.pi*10e6*t) for t in times]
+        observed=service_score.bandwidth_response(times,values,10e6)
+        tail=observed[-500:]
+        gain=(max(tail)-min(tail))/2
+        self.assertAlmostEqual(gain,1/math.sqrt(2),delta=.015)
 
     def test_pulse_polarity_and_sampling_resolution_are_checked(self):
         register=json.loads(service_score.REGISTER.read_text())

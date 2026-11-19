@@ -784,3 +784,23 @@ remain open. The seven are `012-6921:R41`, `V18`, `V21`, `T3`, and
 ideal-rail A1 gate. The source image paths in the decision file are local
 derivatives under ignored `build/`; their SHA-256 values and the source PDF
 hash identify the inspected evidence. The gate still fails, as it should.
+
+### Comparable service-instrument bandwidth (2026-11-19)
+
+`reference/k7222-11/service-instrument.json` records a bounded
+`class-typical` observation model based on the
+[RFT EO 203 manufacturer manual](https://www.mikrocontroller.net/attachment/269865/RFT_EO_203_Spec.pdf),
+not an EO2 specification. The manual lists a 10 MHz vertical channel (5 MHz
+for high-voltage attenuator settings), 1 MΩ/48 pF direct input and a
+10 MΩ/20 pF accessory. `service_score.py` now applies a single-pole 10 MHz
+response to the trace before scoring amplitudes and shapes, and reports raw
+amplitudes alongside the filtered ones. A 10 MHz sine test checks the expected
+approximately 3 dB response. The instrument file is copied into assembly
+provenance.
+
+This closes only the bandwidth portion of A3. Loading a high-impedance test
+point requires its circuit source impedance or a dedicated SPICE solve with a
+probe attached. The scorer states that probe loading remains pending; the
+current waveform comparison is therefore diagnostic rather than a completed
+EO2-equivalent measurement. Stimulus and trim settings also remain to be
+recorded with each stage score.
